@@ -85,6 +85,10 @@ public class OpenHABWidgetListActivity extends ListActivity {
 	private AsyncHttpClient pageAsyncHttpClient;
 	// Sitemap pages stack for digging in and getting back
 	private ArrayList<String> pageUrlStack = new ArrayList<String>();
+	// openHAB base url
+	private String openHABBaseUrl = "http://demo.openhab.org:8080/";
+	// List of widgets to display
+	private ArrayList<OpenHABWidget> widgetList = new ArrayList<OpenHABWidget>();
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -93,10 +97,16 @@ public class OpenHABWidgetListActivity extends ListActivity {
 		requestWindowFeature(Window.FEATURE_PROGRESS);
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.openhabwidgetlist);
+		openHABWidgetDataSource = new OpenHABWidgetDataSource();
+		openHABWidgetAdapter = new OpenHABWidgetAdapter(OpenHABWidgetListActivity.this,
+				R.layout.openhabwidgetlist_genericitem, widgetList);
+		getListView().setAdapter(openHABWidgetAdapter);
 		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
 		// Check if we have openHAB base url in app preferences
 		if (settings.contains("default_openhab_url")) {
 			// Get the first sitemap and start with it
+			openHABBaseUrl = settings.getString("default_openhab_url", null);
+			openHABWidgetAdapter.setOpenHABBaseUrl(openHABBaseUrl);
 			startRootPage(settings.getString("default_openhab_url", null) + "rest/sitemaps/");
 		// If not, go to root page of first sitemap
 		} else {
@@ -179,11 +189,14 @@ public class OpenHABWidgetListActivity extends ListActivity {
 			Document document;
 			document = builder.parse(new ByteArrayInputStream(content.getBytes("UTF-8")));
 			Node rootNode = document.getFirstChild();
-			openHABWidgetDataSource = new OpenHABWidgetDataSource(rootNode);
+			openHABWidgetDataSource.setSourceNode(rootNode);
+			widgetList.clear();
+			for (OpenHABWidget w : openHABWidgetDataSource.getWidgets()) {
+				widgetList.add(w);
+			}
+			Log.i(TAG, "Number of widgets = " + widgetList.size());
+			openHABWidgetAdapter.notifyDataSetChanged();
 			setTitle(openHABWidgetDataSource.getTitle());
-			openHABWidgetAdapter = new OpenHABWidgetAdapter(OpenHABWidgetListActivity.this,
-					R.layout.openhabwidgetlist_genericitem, openHABWidgetDataSource.getWidgets());
-			getListView().setAdapter(openHABWidgetAdapter);
 			setProgressBarIndeterminateVisibility(false);
 			getListView().setOnItemClickListener(new OnItemClickListener() {
 				@Override

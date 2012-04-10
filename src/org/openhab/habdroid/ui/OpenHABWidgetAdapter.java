@@ -61,6 +61,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
 	public static final int TYPE_SWITCH = 3;
 	public static final int TYPE_TEXT = 4;
 	public static final int TYPES_COUNT = 5;
+	private String openHABBaseUrl = "http://demo.openhab.org:8080/";
 
 	public OpenHABWidgetAdapter(Context context, int resource,
 			List<OpenHABWidget> objects) {
@@ -111,7 +112,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     		if (labelTextView != null)
     			labelTextView.setText(openHABWidget.getLabel());
     		SmartImageView groupImage = (SmartImageView)widgetView.findViewById(R.id.groupimage);
-    		groupImage.setImageUrl("http://demo.openhab.org:8080/images/" +
+    		groupImage.setImageUrl(openHABBaseUrl + "images/" +
     				openHABWidget.getIcon() + ".png");
     		break;
     	case TYPE_SWITCH:
@@ -141,7 +142,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     			
     		});
     		SmartImageView switchImage = (SmartImageView)widgetView.findViewById(R.id.switchimage);
-    		switchImage.setImageUrl("http://demo.openhab.org:8080/images/" +
+    		switchImage.setImageUrl(openHABBaseUrl + "images/" +
     				openHABWidget.getIcon() + ".png");
     		break;
     	case TYPE_TEXT:
@@ -158,7 +159,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     				valueTextView.setText("");
     			}
     		SmartImageView textImage = (SmartImageView)widgetView.findViewById(R.id.textimage);
-    		textImage.setImageUrl("http://demo.openhab.org:8080/images/" +
+    		textImage.setImageUrl(openHABBaseUrl + "images/" +
     				openHABWidget.getIcon() + ".png");
     		break;
     	default:
@@ -166,7 +167,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     		if (labelTextView != null)
     			labelTextView.setText(openHABWidget.getLabel());
     		SmartImageView itemImage = (SmartImageView)widgetView.findViewById(R.id.itemimage);
-    		itemImage.setImageUrl("http://demo.openhab.org:8080/images/" +
+    		itemImage.setImageUrl(openHABBaseUrl + "images/" +
     				openHABWidget.getIcon() + ".png");
     		break;
     	}
@@ -194,4 +195,8 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     	}
     }
 	
+    public void setOpenHABBaseUrl(String baseUrl) {
+    	openHABBaseUrl = baseUrl;
+    }
+    
 }

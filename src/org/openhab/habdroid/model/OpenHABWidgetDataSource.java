@@ -45,15 +45,23 @@ import android.util.Log;
  */
 
 public class OpenHABWidgetDataSource {
-	private static final String TAG = "OpenHABWidgetListActivity";
+	private static final String TAG = "OpenHABWidgetDataSource";
 	private OpenHABWidget rootWidget;
 	private String title;
 	private String id;
 	private String icon;
 	private String link;
 
+	public OpenHABWidgetDataSource() {
+		
+	}
+	
 	public OpenHABWidgetDataSource(Node rootNode) {
-		Log.i(TAG, "Creating new datasource");
+		setSourceNode(rootNode);
+	}
+	
+	public void setSourceNode(Node rootNode) {
+		Log.i(TAG, "Loading new data");
 		rootWidget = new OpenHABWidget();
 		rootWidget.setType("root");
 		if (rootNode.hasChildNodes()) {
@@ -80,7 +88,9 @@ public class OpenHABWidgetDataSource {
 	}
 	
 	public ArrayList<OpenHABWidget> getWidgets() {
+    	Log.i(TAG, "getWidgets");
 		ArrayList<OpenHABWidget> result = new ArrayList<OpenHABWidget>();
+		if (rootWidget != null)
 		if (this.rootWidget.hasChildren()) {
 			for (int i = 0; i < rootWidget.getChildren().size(); i++) {
 				OpenHABWidget openHABWidget = this.rootWidget.getChildren().get(i);
