@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/mainmenu_openhab_preferences"
+          android:title="@string/mainmenu_openhab_preferences" 
+          />
+</menu>
