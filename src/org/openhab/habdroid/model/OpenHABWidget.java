@@ -30,8 +30,12 @@
 package org.openhab.habdroid.model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+
+import android.util.Log;
 
 /**
  * This is a class to hold basic information about openHAB widget.
@@ -44,18 +48,22 @@ public class OpenHABWidget {
 	private String label;
 	private String icon;
 	private String type;
+	private String url;
 	private OpenHABWidget parent;
 	private OpenHABItem item;
 	private OpenHABLinkedPage linkedPage;
 	private ArrayList<OpenHABWidget> children;
+	private ArrayList<OpenHABWidgetMapping> mappings;
 	
 	public OpenHABWidget() {
 		this.children = new ArrayList<OpenHABWidget>();
+		this.mappings = new ArrayList<OpenHABWidgetMapping>();
 	}
 	
 	public OpenHABWidget(OpenHABWidget parent, Node startNode) {
 		this.parent = parent;
 		this.children = new ArrayList<OpenHABWidget>();
+		this.mappings = new ArrayList<OpenHABWidgetMapping>();
 		if (startNode.hasChildNodes()) {
 			NodeList childNodes = startNode.getChildNodes();
 			for (int i = 0; i < childNodes.getLength(); i ++) {
@@ -73,6 +81,21 @@ public class OpenHABWidget {
 						this.setLabel(childNode.getTextContent());
 					} else if (childNode.getNodeName().equals("icon")) {
 						this.setIcon(childNode.getTextContent());
+					} else if (childNode.getNodeName().equals("url")) {
+						this.setUrl(childNode.getTextContent());
+					} else if (childNode.getNodeName().equals("mapping")) {
+						NodeList mappingChildNodes = childNode.getChildNodes();
+						String mappingCommand = "";
+						String mappingLabel = "";
+						for (int k = 0; k < mappingChildNodes.getLength(); k++) {
+							if (mappingChildNodes.item(k).getNodeName().equals("command"))
+								mappingCommand = mappingChildNodes.item(k).getTextContent();
+							if (mappingChildNodes.item(k).getNodeName().equals("label"))
+								mappingLabel = mappingChildNodes.item(k).getTextContent();
+						}
+						Log.i("OpenHABWidget", "New mapping k/l = " + mappingCommand + "/" + mappingLabel);
+						OpenHABWidgetMapping mapping = new OpenHABWidgetMapping(mappingCommand, mappingLabel);
+						mappings.add(mapping);
 					}
 				}
 			}
@@ -152,6 +175,29 @@ public class OpenHABWidget {
 
 	public void setLinkedPage(OpenHABLinkedPage linkedPage) {
 		this.linkedPage = linkedPage;
+	}
+
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
+	}
+	
+	public boolean hasMappings() {
+		if (mappings.size() > 0) {
+			return true;
+		}
+		return false;
+	}
+	
+	public OpenHABWidgetMapping getMapping(int index) {
+		return mappings.get(index);
+	}
+	
+	public ArrayList<OpenHABWidgetMapping> getMappings() {
+		return mappings;
 	}
 	
 }

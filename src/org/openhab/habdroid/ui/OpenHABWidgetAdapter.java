@@ -29,21 +29,32 @@
 
 package org.openhab.habdroid.ui;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.model.OpenHABItem;
 import org.openhab.habdroid.model.OpenHABWidget;
+import org.openhab.habdroid.model.OpenHABWidgetMapping;
 
 import com.loopj.android.image.SmartImageView;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.SeekBar;
+import android.widget.SeekBar.OnSeekBarChangeListener;
+import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
 
@@ -60,7 +71,11 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
 	public static final int TYPE_GROUP = 2;
 	public static final int TYPE_SWITCH = 3;
 	public static final int TYPE_TEXT = 4;
-	public static final int TYPES_COUNT = 5;
+	public static final int TYPE_SLIDER = 5;
+	public static final int TYPE_IMAGE = 6;
+	public static final int TYPE_SELECTION = 7;
+	public static final int TYPE_SECTIONSWITCH = 8;
+	public static final int TYPES_COUNT = 9;
 	private String openHABBaseUrl = "http://demo.openhab.org:8080/";
 
 	public OpenHABWidgetAdapter(Context context, int resource,
@@ -80,11 +95,23 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     	case TYPE_GROUP:
     		widgetLayout = R.layout.openhabwidgetlist_groupitem;
     		break;
+    	case TYPE_SECTIONSWITCH:
+    		widgetLayout = R.layout.openhabwidgetlist_sectionswitchitem;
+    		break;
     	case TYPE_SWITCH:
     		widgetLayout = R.layout.openhabwidgetlist_switchitem;
     		break;
     	case TYPE_TEXT:
     		widgetLayout = R.layout.openhabwidgetlist_textitem;
+    		break;
+    	case TYPE_SLIDER:
+    		widgetLayout = R.layout.openhabwidgetlist_slideritem;
+    		break;
+    	case TYPE_IMAGE:
+    		widgetLayout = R.layout.openhabwidgetlist_imageitem;
+    		break;
+    	case TYPE_SELECTION:
+    		widgetLayout = R.layout.openhabwidgetlist_selectionitem;
     		break;
     	default:
     		widgetLayout = R.layout.openhabwidgetlist_genericitem;
@@ -115,31 +142,38 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     		groupImage.setImageUrl(openHABBaseUrl + "images/" +
     				openHABWidget.getIcon() + ".png");
     		break;
+    	case TYPE_SECTIONSWITCH:
+    		labelTextView = (TextView)widgetView.findViewById(R.id.sectionswitchlabel);
+    		if (labelTextView != null)
+    		labelTextView.setText(openHABWidget.getLabel());
+    		SmartImageView sectionSwitchImage = (SmartImageView)widgetView.findViewById(R.id.sectionswitchimage);
+    		sectionSwitchImage.setImageUrl(openHABBaseUrl + "images/" +
+    				openHABWidget.getIcon() + ".png");
+    		break;
     	case TYPE_SWITCH:
     		labelTextView = (TextView)widgetView.findViewById(R.id.switchlabel);
     		if (labelTextView != null)
-    			labelTextView.setText(openHABWidget.getLabel());
+    		labelTextView.setText(openHABWidget.getLabel());
     		Switch switchSwitch = (Switch)widgetView.findViewById(R.id.switchswitch);
     		if (openHABWidget.hasItem()) {
     			if (openHABWidget.getItem().getState().equals("ON")) {
     				switchSwitch.setChecked(true);
     			} else {
-    				switchSwitch.setChecked(false);    				
+    				switchSwitch.setChecked(false);
     			}
     		}
     		switchSwitch.setTag(openHABWidget.getItem());
     		switchSwitch.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					Switch switchSwitch = (Switch)v;
-					OpenHABItem linkedItem = (OpenHABItem)switchSwitch.getTag();
-					if (switchSwitch.isChecked()) {
-						linkedItem.sendCommand("ON");
-					} else {
-						linkedItem.sendCommand("OFF");						
-					}
-				}
-    			
+    			@Override
+    			public void onClick(View v) {
+    				Switch switchSwitch = (Switch)v;
+    				OpenHABItem linkedItem = (OpenHABItem)switchSwitch.getTag();
+    				if (switchSwitch.isChecked()) {
+    					linkedItem.sendCommand("ON");
+    				} else {
+    					linkedItem.sendCommand("OFF");
+    				}
+    			}
     		});
     		SmartImageView switchImage = (SmartImageView)widgetView.findViewById(R.id.switchimage);
     		switchImage.setImageUrl(openHABBaseUrl + "images/" +
@@ -154,20 +188,101 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     		TextView valueTextView = (TextView)widgetView.findViewById(R.id.textvalue);
     		if (valueTextView != null) 
     			if (splitString.length > 1) {
+    				// If value is not empty, show TextView
+    				valueTextView.setVisibility(View.VISIBLE);
     				valueTextView.setText(splitString[1]);
     			} else {
+    				// If value is empty, hide TextView to fix vertical alignment of label
+    				valueTextView.setVisibility(View.GONE);
     				valueTextView.setText("");
     			}
     		SmartImageView textImage = (SmartImageView)widgetView.findViewById(R.id.textimage);
     		textImage.setImageUrl(openHABBaseUrl + "images/" +
     				openHABWidget.getIcon() + ".png");
     		break;
+    	case TYPE_SLIDER:
+    		labelTextView = (TextView)widgetView.findViewById(R.id.sliderlabel);
+    		splitString = openHABWidget.getLabel().split("\\[|\\]");
+    		if (labelTextView != null)
+    			labelTextView.setText(splitString[0]);
+    		SmartImageView itemImage = (SmartImageView)widgetView.findViewById(R.id.sliderimage);
+    		itemImage.setImageUrl(openHABBaseUrl + "images/" +
+    				openHABWidget.getIcon() + ".png");
+    		SeekBar sliderSeekBar = (SeekBar)widgetView.findViewById(R.id.sliderseekbar);
+    		if (openHABWidget.hasItem()) {
+    			sliderSeekBar.setTag(openHABWidget.getItem());
+    			int sliderState = (int)Float.parseFloat(openHABWidget.getItem().getState());
+    			sliderSeekBar.setProgress(sliderState);
+    			sliderSeekBar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
+						@Override
+						public void onProgressChanged(SeekBar seekBar,
+								int progress, boolean fromUser) {
+						}
+						@Override
+						public void onStartTrackingTouch(SeekBar seekBar) {
+							Log.i("OpenHABWidgetAdapter", "onStartTrackingTouch position = " + seekBar.getProgress());
+						}
+						@Override
+						public void onStopTrackingTouch(SeekBar seekBar) {
+							Log.i("OpenHABWidgetAdapter", "onStopTrackingTouch position = " + seekBar.getProgress());
+							OpenHABItem sliderItem = (OpenHABItem)seekBar.getTag();
+							sliderItem.sendCommand(String.valueOf(seekBar.getProgress()));
+						}
+    			});
+    		}
+    		break;
+    	case TYPE_IMAGE:
+    		SmartImageView imageImage = (SmartImageView)widgetView.findViewById(R.id.imageimage);
+    		imageImage.setImageUrl(openHABBaseUrl + openHABWidget.getUrl());
+   		break;
+    	case TYPE_SELECTION:
+    		labelTextView = (TextView)widgetView.findViewById(R.id.selectionlabel);
+    		if (labelTextView != null)
+    			labelTextView.setText(openHABWidget.getLabel());
+    		Spinner selectionSpinner = (Spinner)widgetView.findViewById(R.id.selectionspinner);
+    		ArrayList<String> spinnerArray = new ArrayList<String>();
+    		Iterator<OpenHABWidgetMapping> mappingIterator = openHABWidget.getMappings().iterator();
+    		while (mappingIterator.hasNext()) {
+    			spinnerArray.add(mappingIterator.next().getLabel());
+    		}
+    		ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(this.getContext() ,
+    				android.R.layout.simple_spinner_item, spinnerArray);
+    		spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+    		selectionSpinner.setAdapter(spinnerAdapter);
+    		selectionSpinner.setTag(openHABWidget);
+    		selectionSpinner.setSelection(Integer.parseInt(openHABWidget.getItem().getState()));
+    		selectionSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+
+    			@Override
+				public void onItemSelected(AdapterView<?> parent, View view,
+						int index, long id) {
+    				/* TODO: There is a known Spinner feature. onItemSelected is fired during
+    				 * Spinner creation with the value selected by setSelection. So HABDroid
+    				 * always send command with current selection when just opening page.
+    				 * This doesn't make any harm but sends a command which makes nothing.
+    				 * Need to create some check here to fix this.
+    				 */
+					Log.i("OpenHABWidgetAdapter", "Spinner item click on index " + index);
+					OpenHABWidget openHABWidget = (OpenHABWidget)parent.getTag();
+					if (openHABWidget != null)
+						Log.i("OpenHABWidgetAdapter", "Label selected = " + openHABWidget.getMapping(index).getLabel());
+					openHABWidget.getItem().sendCommand(openHABWidget.getMapping(index).getCommand());
+				}
+
+				@Override
+				public void onNothingSelected(AdapterView<?> arg0) {
+				}    			
+    		});
+    		SmartImageView selectionImage = (SmartImageView)widgetView.findViewById(R.id.selectionimage);
+    		selectionImage.setImageUrl(openHABBaseUrl + "images/" +
+    				openHABWidget.getIcon() + ".png");
+    		break;
     	default:
     		labelTextView = (TextView)widgetView.findViewById(R.id.itemlabel);
     		if (labelTextView != null)
     			labelTextView.setText(openHABWidget.getLabel());
-    		SmartImageView itemImage = (SmartImageView)widgetView.findViewById(R.id.itemimage);
-    		itemImage.setImageUrl(openHABBaseUrl + "images/" +
+    		SmartImageView sliderImage = (SmartImageView)widgetView.findViewById(R.id.itemimage);
+    		sliderImage.setImageUrl(openHABBaseUrl + "images/" +
     				openHABWidget.getIcon() + ".png");
     		break;
     	}
@@ -187,9 +302,19 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     	} else if (openHABWidget.getType().equals("Group")) {
     		return TYPE_GROUP;
     	} else if (openHABWidget.getType().equals("Switch")) {
-    		return TYPE_SWITCH;
+    		if (openHABWidget.hasMappings()) {
+    			return TYPE_SECTIONSWITCH;
+    		} else {
+    			return TYPE_SWITCH;
+    		}
     	} else if (openHABWidget.getType().equals("Text")) {
     		return TYPE_TEXT;
+    	} else if (openHABWidget.getType().equals("Slider")) {
+    		return TYPE_SLIDER;
+    	} else if (openHABWidget.getType().equals("Image")) {
+    		return TYPE_IMAGE;
+    	} else if (openHABWidget.getType().equals("Selection")) {
+    		return TYPE_SELECTION;
     	} else {
     		return TYPE_GENERICITEM;
     	}

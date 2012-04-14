@@ -63,8 +63,12 @@ public class OpenHABItem {
 					this.setType(childNode.getTextContent());
 				} else if (childNode.getNodeName().equals("name")) {
 					this.setName(childNode.getTextContent());
-				} else if (childNode.getNodeName().equals("state")) {					
-					this.setState(childNode.getTextContent());
+				} else if (childNode.getNodeName().equals("state")) {
+					if (childNode.getTextContent().equals("Uninitialized")) {
+						this.setState("0");
+					} else {
+						this.setState(childNode.getTextContent());
+					}
 				} else if (childNode.getNodeName().equals("link")) {					
 					this.setLink(childNode.getTextContent());
 				}

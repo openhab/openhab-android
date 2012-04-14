@@ -171,7 +171,9 @@ public class OpenHABWidgetListActivity extends ListActivity {
 			@Override
 		     public void onFailure(Throwable e) {
 				Log.i(TAG, "http request failed");
-				Log.e(TAG, e.getMessage());
+				if (e.getMessage() != null)
+					Log.e(TAG, e.getMessage());
+				showPage(displayPageUrl, false);
 		     }
 		});
 	}
@@ -324,7 +326,8 @@ public class OpenHABWidgetListActivity extends ListActivity {
 			@Override
 		    public void onFailure(Throwable e) {
 				Log.i(TAG, "http request failed");
-				Log.e(TAG, e.getMessage());
+				if (e.getMessage() != null)
+					Log.e(TAG, e.getMessage());
 		    }
 		});
     }
