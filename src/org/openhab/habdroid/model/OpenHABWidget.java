@@ -93,7 +93,6 @@ public class OpenHABWidget {
 							if (mappingChildNodes.item(k).getNodeName().equals("label"))
 								mappingLabel = mappingChildNodes.item(k).getTextContent();
 						}
-						Log.i("OpenHABWidget", "New mapping k/l = " + mappingCommand + "/" + mappingLabel);
 						OpenHABWidgetMapping mapping = new OpenHABWidgetMapping(mappingCommand, mappingLabel);
 						mappings.add(mapping);
 					}

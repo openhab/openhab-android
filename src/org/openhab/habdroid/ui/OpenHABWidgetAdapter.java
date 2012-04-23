@@ -29,6 +29,8 @@
 
 package org.openhab.habdroid.ui;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -51,12 +53,15 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
+import android.widget.RadioGroup;
+import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
+import at.bookworm.widget.segcontrol.SegmentedControlButton;
 
 /**
  * This class provides openHAB widgets adapter for list view.
@@ -85,6 +90,8 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+    	/* TODO: This definitely needs some huge refactoring
+    	 */
     	RelativeLayout widgetView;
     	int widgetLayout = 0;
     	OpenHABWidget openHABWidget = getItem(position);
@@ -146,6 +153,42 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     		labelTextView = (TextView)widgetView.findViewById(R.id.sectionswitchlabel);
     		if (labelTextView != null)
     		labelTextView.setText(openHABWidget.getLabel());
+    		RadioGroup sectionSwitchRadioGroup = (RadioGroup)widgetView.findViewById(R.id.sectionswitchradiogroup);
+    		// As we create buttons in this radio in runtime, we need to remove all
+    		// exiting buttons first
+    		sectionSwitchRadioGroup.removeAllViews();
+    		sectionSwitchRadioGroup.setTag(openHABWidget);
+    		Iterator<OpenHABWidgetMapping> sectionMappingIterator = openHABWidget.getMappings().iterator();
+    		while (sectionMappingIterator.hasNext()) {
+    			/* TODO: There is some problem here, because multiply buttons inside RadioGroup
+    			 * can be checked at the same time. I suspect there is some problem in parent
+    			 * child relationship or in inflater
+    			 */ 
+    			OpenHABWidgetMapping widgetMapping = sectionMappingIterator.next();
+    			SegmentedControlButton segmentedControlButton = 
+    					(SegmentedControlButton)LayoutInflater.from(sectionSwitchRadioGroup.getContext()).inflate(
+    							R.layout.openhabwidgetlist_sectionswitchitem_button, sectionSwitchRadioGroup, false);
+    			segmentedControlButton.setText(widgetMapping.getLabel());
+    			segmentedControlButton.setTag(widgetMapping.getCommand());
+    			if (widgetMapping.getCommand().equals(openHABWidget.getItem().getState())) {
+    				segmentedControlButton.setChecked(true);
+    			} else {
+    				segmentedControlButton.setChecked(false);
+    			}
+    			sectionSwitchRadioGroup.addView(segmentedControlButton);
+    		}
+    		sectionSwitchRadioGroup.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+				@Override
+				public void onCheckedChanged(RadioGroup group, int checkedId) {
+					OpenHABWidget radioWidget = (OpenHABWidget)group.getTag();
+					SegmentedControlButton selectedButton = (SegmentedControlButton)group.findViewById(checkedId);
+					if (selectedButton != null) {
+						Log.i("OpenHABWidgetAdapter", "Selected " + selectedButton.getText());
+						Log.i("OpenHABWidgetAdapter", "Command = " + (String)selectedButton.getTag());
+						radioWidget.getItem().sendCommand((String)selectedButton.getTag());
+					}
+				}
+    		});
     		SmartImageView sectionSwitchImage = (SmartImageView)widgetView.findViewById(R.id.sectionswitchimage);
     		sectionSwitchImage.setImageUrl(openHABBaseUrl + "images/" +
     				openHABWidget.getIcon() + ".png");
@@ -233,7 +276,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     		break;
     	case TYPE_IMAGE:
     		SmartImageView imageImage = (SmartImageView)widgetView.findViewById(R.id.imageimage);
-    		imageImage.setImageUrl(openHABBaseUrl + openHABWidget.getUrl());
+    		imageImage.setImageUrl(ensureAbsoluteURL(openHABBaseUrl, openHABWidget.getUrl()));
    		break;
     	case TYPE_SELECTION:
     		labelTextView = (TextView)widgetView.findViewById(R.id.selectionlabel);
@@ -324,4 +367,15 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     	openHABBaseUrl = baseUrl;
     }
     
+    private String ensureAbsoluteURL(String base, String maybeRelative) {
+        if (maybeRelative.startsWith("http")) {
+            return maybeRelative;
+        } else {
+            try {
+               return new URL(new URL(base), maybeRelative).toExternalForm();
+            } catch (MalformedURLException e) {
+               return "";
+            }
+        }
+    }
 }

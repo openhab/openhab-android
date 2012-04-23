@@ -88,7 +88,6 @@ public class OpenHABWidgetDataSource {
 	}
 	
 	public ArrayList<OpenHABWidget> getWidgets() {
-    	Log.i(TAG, "getWidgets");
 		ArrayList<OpenHABWidget> result = new ArrayList<OpenHABWidget>();
 		if (rootWidget != null)
 		if (this.rootWidget.hasChildren()) {

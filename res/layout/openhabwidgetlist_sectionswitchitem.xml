@@ -28,4 +28,24 @@
   			android:layout_gravity="center_vertical"
     	/>
 </LinearLayout>
+    <RadioGroup
+        xmlns:bd="http://schemas.android.com/apk/res/at.bookworm.widget.segcontrol"
+        android:id="@+id/sectionswitchradiogroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" 
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_margin="0px"
+            style="@style/buttonStyle2"
+        >
+
+<!--         <at.bookworm.widget.segcontrol.SegmentedControlButton
+            android:id="@+id/option1"
+            style="@style/buttonStyle2"
+            android:text="TV"
+            />
+ -->
+        
+    </RadioGroup>
 </RelativeLayout>

@@ -32,8 +32,14 @@ package org.openhab.habdroid.ui;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 
+import javax.jmdns.JmDNS;
+import javax.jmdns.ServiceEvent;
+import javax.jmdns.ServiceInfo;
+import javax.jmdns.ServiceListener;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -41,6 +47,8 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.model.OpenHABWidget;
 import org.openhab.habdroid.model.OpenHABWidgetDataSource;
+import org.openhab.habdroid.util.AsyncServiceResolver;
+import org.openhab.habdroid.util.AsyncServiceResolverListener;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -52,6 +60,8 @@ import com.loopj.android.http.AsyncHttpResponseHandler;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.wifi.WifiManager;
+import android.net.wifi.WifiManager.MulticastLock;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -63,9 +73,10 @@ import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Toast;
 
 /**
- * This class provides main app activity which displays list of openHAB
+ * This class provides app activity which displays list of openHAB
  * widgets from sitemap page
  * 
  * @author Victor Belov
@@ -80,7 +91,7 @@ public class OpenHABWidgetListActivity extends ListActivity {
 	// List adapter for list view of openHAB widgets
 	private OpenHABWidgetAdapter openHABWidgetAdapter;
 	// Url of current sitemap page displayed
-	private String displayPageUrl;
+	private String displayPageUrl ="";
 	// async http client
 	private AsyncHttpClient pageAsyncHttpClient;
 	// Sitemap pages stack for digging in and getting back
@@ -89,7 +100,7 @@ public class OpenHABWidgetListActivity extends ListActivity {
 	private String openHABBaseUrl = "http://demo.openhab.org:8080/";
 	// List of widgets to display
 	private ArrayList<OpenHABWidget> widgetList = new ArrayList<OpenHABWidget>();
-	
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		// TODO: Make progress indicator active every time we load the page
@@ -102,27 +113,44 @@ public class OpenHABWidgetListActivity extends ListActivity {
 				R.layout.openhabwidgetlist_genericitem, widgetList);
 		getListView().setAdapter(openHABWidgetAdapter);
 		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
-		// Check if we have openHAB base url in app preferences
-		if (settings.contains("default_openhab_url")) {
-			// Get the first sitemap and start with it
-			openHABBaseUrl = settings.getString("default_openhab_url", null);
-			openHABWidgetAdapter.setOpenHABBaseUrl(openHABBaseUrl);
-			startRootPage(settings.getString("default_openhab_url", null) + "rest/sitemaps/");
-		// If not, go to root page of first sitemap
-		} else {
-			Log.i(TAG, "No openHAB selected, go to preferences");
-			Intent myIntent = new Intent(this.getApplicationContext(), OpenHABPreferencesActivity.class);
-	        startActivityForResult(myIntent, 0);
+		// Check if we have openHAB page url in saved instance state?
+		if (savedInstanceState != null) {
+			displayPageUrl = savedInstanceState.getString("displayPageUrl");
+			pageUrlStack = savedInstanceState.getStringArrayList("pageUrlStack");
 		}
+		// If yes, then just show it
+		if (displayPageUrl.length() > 0) {
+			Log.i(TAG, "displayPageUrl = " + displayPageUrl);
+			showPage(displayPageUrl, false);
+		// Else check if we got openHAB base url through launch intent?
+		} else  {
+			openHABBaseUrl = getIntent().getExtras().getString("baseURL");
+			if (openHABBaseUrl != null) {
+				openHABWidgetAdapter.setOpenHABBaseUrl(openHABBaseUrl);
+				startRootPage(openHABBaseUrl + "rest/sitemaps/");
+			} else {
+				Log.i(TAG, "No base URL!");
+			}
+		}
+	}
+	
+	@Override
+	public void onSaveInstanceState(Bundle savedInstanceState) {
+	  // Save UI state changes to the savedInstanceState.
+	  // This bundle will be passed to onCreate if the process is
+	  // killed and restarted.
+	  savedInstanceState.putString("displayPageUrl", displayPageUrl);
+	  savedInstanceState.putStringArrayList("pageUrlStack", pageUrlStack);
+	  super.onSaveInstanceState(savedInstanceState);
 	}
 	
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
 		Log.i(TAG, "onDestroy() for " + this.displayPageUrl);
-		// Cancel ongoing http with openHAB
 		if (pageAsyncHttpClient != null)
 			pageAsyncHttpClient.cancelRequests(this, true);
+		// release multicast lock for mDNS
 	}
 	
 	@Override
@@ -196,7 +224,6 @@ public class OpenHABWidgetListActivity extends ListActivity {
 			for (OpenHABWidget w : openHABWidgetDataSource.getWidgets()) {
 				widgetList.add(w);
 			}
-			Log.i(TAG, "Number of widgets = " + widgetList.size());
 			openHABWidgetAdapter.notifyDataSetChanged();
 			setTitle(openHABWidgetDataSource.getTitle());
 			setProgressBarIndeterminateVisibility(false);
@@ -331,5 +358,4 @@ public class OpenHABWidgetListActivity extends ListActivity {
 		    }
 		});
     }
-
 }

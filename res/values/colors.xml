@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- NEW NEW DESIGN ;) -->
+    <color name="normal">#b0b0b0</color>
+    <color name="light">#ffffff</color>
+    <color name="dark">#191919</color>
+    <color name="highlight">#38c0f4</color>
+
+</resources>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<at.bookworm.widget.segcontrol.SegmentedControlButton
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:bd="http://schemas.android.com/apk/res/at.bookworm.widget.segcontrol"
+            style="@style/buttonStyle2"
+            android:text=""
+            />

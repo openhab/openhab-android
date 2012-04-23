@@ -6,5 +6,6 @@
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
 	<classpathentry kind="lib" path="libs/android-smart-image-view-1.0.0.jar"/>
 	<classpathentry kind="lib" path="libs/android-async-http.jar"/>
+	<classpathentry kind="lib" path="libs/jmdns-3.4.1.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>
