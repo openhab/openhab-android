@@ -32,14 +32,8 @@ package org.openhab.habdroid.ui;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 
-import javax.jmdns.JmDNS;
-import javax.jmdns.ServiceEvent;
-import javax.jmdns.ServiceInfo;
-import javax.jmdns.ServiceListener;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -47,8 +41,6 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.model.OpenHABWidget;
 import org.openhab.habdroid.model.OpenHABWidgetDataSource;
-import org.openhab.habdroid.util.AsyncServiceResolver;
-import org.openhab.habdroid.util.AsyncServiceResolverListener;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -60,8 +52,6 @@ import com.loopj.android.http.AsyncHttpResponseHandler;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.wifi.WifiManager;
-import android.net.wifi.WifiManager.MulticastLock;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -100,6 +90,9 @@ public class OpenHABWidgetListActivity extends ListActivity {
 	private String openHABBaseUrl = "http://demo.openhab.org:8080/";
 	// List of widgets to display
 	private ArrayList<OpenHABWidget> widgetList = new ArrayList<OpenHABWidget>();
+	// Username/password for authentication
+	private String openHABUsername;
+	private String openHABPassword;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -108,11 +101,15 @@ public class OpenHABWidgetListActivity extends ListActivity {
 		requestWindowFeature(Window.FEATURE_PROGRESS);
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.openhabwidgetlist);
+		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+		openHABUsername = settings.getString("default_openhab_username", null);
+		openHABPassword = settings.getString("default_openhab_password", null);
 		openHABWidgetDataSource = new OpenHABWidgetDataSource();
 		openHABWidgetAdapter = new OpenHABWidgetAdapter(OpenHABWidgetListActivity.this,
 				R.layout.openhabwidgetlist_genericitem, widgetList);
 		getListView().setAdapter(openHABWidgetAdapter);
-		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+		openHABWidgetAdapter.setOpenHABUsername(openHABUsername);
+		openHABWidgetAdapter.setOpenHABPassword(openHABPassword);
 		// Check if we have openHAB page url in saved instance state?
 		if (savedInstanceState != null) {
 			displayPageUrl = savedInstanceState.getString("displayPageUrl");
@@ -185,6 +182,8 @@ public class OpenHABWidgetListActivity extends ListActivity {
 			pageAsyncHttpClient.cancelRequests(this, true);
 		}
 		pageAsyncHttpClient = new AsyncHttpClient();
+		// If authentication is needed
+		pageAsyncHttpClient.setBasicAuthCredientidals(openHABUsername, openHABPassword);
 		// If long-polling is needed
 		if (longPolling) {
 			// Add corresponding fields to header to make openHAB know we need long-polling
@@ -199,9 +198,14 @@ public class OpenHABWidgetListActivity extends ListActivity {
 			@Override
 		     public void onFailure(Throwable e) {
 				Log.i(TAG, "http request failed");
-				if (e.getMessage() != null)
+				if (e.getMessage() != null) {
 					Log.e(TAG, e.getMessage());
-				showPage(displayPageUrl, false);
+					if (e.getMessage().equals("Unauthorized")) {
+					Toast.makeText(getApplicationContext(), "Authentication failed",
+							Toast.LENGTH_LONG).show();
+					}
+				}
+				stopProgressIndicator();
 		     }
 		});
 	}
@@ -314,6 +318,8 @@ public class OpenHABWidgetListActivity extends ListActivity {
     void startRootPage(String baseUrl) {
     	Log.i(TAG, "Starting root page for " + baseUrl);
     	AsyncHttpClient asyncHttpClient = new AsyncHttpClient();
+		// If authentication is needed
+    	asyncHttpClient.setBasicAuthCredientidals(openHABUsername, openHABPassword);
     	asyncHttpClient.get(baseUrl, new AsyncHttpResponseHandler() {
 			@Override
 			public void onSuccess(String content) {
@@ -353,9 +359,20 @@ public class OpenHABWidgetListActivity extends ListActivity {
 			@Override
 		    public void onFailure(Throwable e) {
 				Log.i(TAG, "http request failed");
-				if (e.getMessage() != null)
+				if (e.getMessage() != null) {
 					Log.e(TAG, e.getMessage());
+					if (e.getMessage().equals("Unauthorized")) {
+					Toast.makeText(getApplicationContext(), "Authentication failed",
+							Toast.LENGTH_LONG).show();
+					}
+				}
+				stopProgressIndicator();
 		    }
 		});
     }
+    
+	private void stopProgressIndicator() {
+		setProgressBarIndeterminateVisibility(false);
+	}
+
 }

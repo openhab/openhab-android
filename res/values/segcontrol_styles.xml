@@ -22,7 +22,7 @@
         <item name="textColorUnselected">@color/normal</item>
         <item name="android:minWidth">45dp</item>
         <item name="textColorSelected">@color/dark</item>
-        <item name="android:background">@color/dark</item>
+        <item name="android:background">#00000000</item>
         <item name="backgroundSelected">@color/highlight</item>
         <item name="lineColor">@color/highlight</item>
         <item name="lineHeightUnselected">2dp</item>

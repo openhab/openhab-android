@@ -29,16 +29,8 @@
 
 package org.openhab.habdroid.model;
 
-import java.io.UnsupportedEncodingException;
-
-import org.apache.http.entity.StringEntity;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-
-import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.AsyncHttpResponseHandler;
-
-import android.util.Log;
 
 /**
  * This is a class to hold basic information about openHAB Item.
@@ -52,7 +44,6 @@ public class OpenHABItem {
 	private String type;
 	private String state;
 	private String link;
-	private static final String TAG = "OpenHABItem";
 
 	public OpenHABItem(Node startNode) {
 		if (startNode.hasChildNodes()) {
@@ -76,18 +67,6 @@ public class OpenHABItem {
 		}
 	}
 	
-	public void sendCommand(String command) {
-		Log.i(TAG, "Sending command " + command + " to item url " + this.getLink());
-		AsyncHttpClient asyncHttpClient = new AsyncHttpClient();
-		try {
-			StringEntity se = new StringEntity(command);
-			asyncHttpClient.post(null, this.getLink(), se, "text/plain", new AsyncHttpResponseHandler());
-		} catch (UnsupportedEncodingException e) {
-			Log.e(TAG, e.getMessage());
-			Log.e(TAG, "Command was not sent");
-		}
-	}
-
 	public String getName() {
 		return name;
 	}

@@ -29,17 +29,21 @@
 
 package org.openhab.habdroid.ui;
 
+import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.http.entity.StringEntity;
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.model.OpenHABItem;
 import org.openhab.habdroid.model.OpenHABWidget;
 import org.openhab.habdroid.model.OpenHABWidgetMapping;
 
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.image.SmartImageView;
 
 import android.content.Context;
@@ -49,10 +53,9 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
-import android.widget.LinearLayout;
+import android.widget.Button;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.RelativeLayout;
@@ -80,8 +83,11 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
 	public static final int TYPE_IMAGE = 6;
 	public static final int TYPE_SELECTION = 7;
 	public static final int TYPE_SECTIONSWITCH = 8;
-	public static final int TYPES_COUNT = 9;
+	public static final int TYPE_ROLLERSHUTTER = 9;
+	public static final int TYPES_COUNT = 10;
 	private String openHABBaseUrl = "http://demo.openhab.org:8080/";
+	private String openHABUsername;
+	private String openHABPassword;
 
 	public OpenHABWidgetAdapter(Context context, int resource,
 			List<OpenHABWidget> objects) {
@@ -107,6 +113,9 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     		break;
     	case TYPE_SWITCH:
     		widgetLayout = R.layout.openhabwidgetlist_switchitem;
+    		break;
+    	case TYPE_ROLLERSHUTTER:
+    		widgetLayout = R.layout.openhabwidgetlist_rollershutteritem;
     		break;
     	case TYPE_TEXT:
     		widgetLayout = R.layout.openhabwidgetlist_textitem;
@@ -185,7 +194,8 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
 					if (selectedButton != null) {
 						Log.i("OpenHABWidgetAdapter", "Selected " + selectedButton.getText());
 						Log.i("OpenHABWidgetAdapter", "Command = " + (String)selectedButton.getTag());
-						radioWidget.getItem().sendCommand((String)selectedButton.getTag());
+//						radioWidget.getItem().sendCommand((String)selectedButton.getTag());
+						sendItemCommand(radioWidget.getItem(), (String)selectedButton.getTag());
 					}
 				}
     		});
@@ -196,7 +206,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     	case TYPE_SWITCH:
     		labelTextView = (TextView)widgetView.findViewById(R.id.switchlabel);
     		if (labelTextView != null)
-    		labelTextView.setText(openHABWidget.getLabel());
+    			labelTextView.setText(openHABWidget.getLabel());
     		Switch switchSwitch = (Switch)widgetView.findViewById(R.id.switchswitch);
     		if (openHABWidget.hasItem()) {
     			if (openHABWidget.getItem().getState().equals("ON")) {
@@ -212,14 +222,49 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     				Switch switchSwitch = (Switch)v;
     				OpenHABItem linkedItem = (OpenHABItem)switchSwitch.getTag();
     				if (switchSwitch.isChecked()) {
-    					linkedItem.sendCommand("ON");
+    					sendItemCommand(linkedItem, "ON");
     				} else {
-    					linkedItem.sendCommand("OFF");
+    					sendItemCommand(linkedItem, "OFF");
     				}
     			}
     		});
     		SmartImageView switchImage = (SmartImageView)widgetView.findViewById(R.id.switchimage);
     		switchImage.setImageUrl(openHABBaseUrl + "images/" +
+    				openHABWidget.getIcon() + ".png");
+    		break;
+    	case TYPE_ROLLERSHUTTER:
+    		labelTextView = (TextView)widgetView.findViewById(R.id.rollershutterlabel);
+    		if (labelTextView != null)
+    			labelTextView.setText(openHABWidget.getLabel());
+    		Button rollershutterUpButton = (Button)widgetView.findViewById(R.id.rollershutterbutton_up);
+    		Button rollershutterStopButton = (Button)widgetView.findViewById(R.id.rollershutterbutton_stop);
+    		Button rollershutterDownButton = (Button)widgetView.findViewById(R.id.rollershutterbutton_down);
+    		rollershutterUpButton.setTag(openHABWidget.getItem());
+    		rollershutterStopButton.setTag(openHABWidget.getItem());
+    		rollershutterDownButton.setTag(openHABWidget.getItem());
+    		rollershutterUpButton.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					OpenHABItem rollershutterItem = (OpenHABItem)v.getTag();
+					sendItemCommand(rollershutterItem, "UP");
+				}
+    		});
+    		rollershutterStopButton.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					OpenHABItem rollershutterItem = (OpenHABItem)v.getTag();
+					sendItemCommand(rollershutterItem, "STOP");
+				}
+    		});
+    		rollershutterDownButton.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					OpenHABItem rollershutterItem = (OpenHABItem)v.getTag();
+					sendItemCommand(rollershutterItem, "DOWN");
+				}
+    		});
+    		SmartImageView rollershutterImage = (SmartImageView)widgetView.findViewById(R.id.rollershutterimage);
+    		rollershutterImage.setImageUrl(openHABBaseUrl + "images/" +
     				openHABWidget.getIcon() + ".png");
     		break;
     	case TYPE_TEXT:
@@ -269,7 +314,8 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
 						public void onStopTrackingTouch(SeekBar seekBar) {
 							Log.i("OpenHABWidgetAdapter", "onStopTrackingTouch position = " + seekBar.getProgress());
 							OpenHABItem sliderItem = (OpenHABItem)seekBar.getTag();
-							sliderItem.sendCommand(String.valueOf(seekBar.getProgress()));
+//							sliderItem.sendCommand(String.valueOf(seekBar.getProgress()));
+							sendItemCommand(sliderItem, String.valueOf(seekBar.getProgress()));
 						}
     			});
     		}
@@ -309,7 +355,9 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
 					OpenHABWidget openHABWidget = (OpenHABWidget)parent.getTag();
 					if (openHABWidget != null)
 						Log.i("OpenHABWidgetAdapter", "Label selected = " + openHABWidget.getMapping(index).getLabel());
-					openHABWidget.getItem().sendCommand(openHABWidget.getMapping(index).getCommand());
+//					openHABWidget.getItem().sendCommand(openHABWidget.getMapping(index).getCommand());
+					sendItemCommand(openHABWidget.getItem(),
+							openHABWidget.getMapping(index).getCommand());
 				}
 
 				@Override
@@ -347,6 +395,8 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     	} else if (openHABWidget.getType().equals("Switch")) {
     		if (openHABWidget.hasMappings()) {
     			return TYPE_SECTIONSWITCH;
+    		} else if (openHABWidget.getItem().getType().equals("RollershutterItem")) {
+    			return TYPE_ROLLERSHUTTER;
     		} else {
     			return TYPE_SWITCH;
     		}
@@ -378,4 +428,30 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
             }
         }
     }
+    
+    private void sendItemCommand(OpenHABItem item, String command) {
+		AsyncHttpClient asyncHttpClient = new AsyncHttpClient();
+		asyncHttpClient.setBasicAuthCredientidals(openHABUsername, openHABPassword);
+		try {
+			StringEntity se = new StringEntity(command);
+			asyncHttpClient.post(null, item.getLink(), se, "text/plain", new AsyncHttpResponseHandler());
+		} catch (UnsupportedEncodingException e) {
+		}
+    }
+
+	public String getOpenHABUsername() {
+		return openHABUsername;
+	}
+
+	public void setOpenHABUsername(String openHABUsername) {
+		this.openHABUsername = openHABUsername;
+	}
+
+	public String getOpenHABPassword() {
+		return openHABPassword;
+	}
+
+	public void setOpenHABPassword(String openHABPassword) {
+		this.openHABPassword = openHABPassword;
+	}
 }

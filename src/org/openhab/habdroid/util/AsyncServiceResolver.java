@@ -22,7 +22,7 @@ public class AsyncServiceResolver extends Thread implements ServiceListener {
 	private JmDNS jmdns;
 	private String serviceType;
 	private ServiceInfo resolvedServiceInfo;
-	private Thread sleepingThread;
+	private static Thread sleepingThread;
 	private boolean isResolved = false;
 	
 	public AsyncServiceResolver(Context context, String serviceType) {
@@ -47,7 +47,7 @@ public class AsyncServiceResolver extends Thread implements ServiceListener {
 			Log.e(TAG, e.getMessage());
 		}
 		try {
-			sleepingThread.sleep(5000);
+			Thread.sleep(5000);
 			if (!isResolved) {
 				((Activity)context).runOnUiThread(new Runnable() {
 					@Override
