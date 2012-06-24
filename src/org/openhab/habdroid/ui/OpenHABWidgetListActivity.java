@@ -189,6 +189,7 @@ public class OpenHABWidgetListActivity extends ListActivity {
 			// Add corresponding fields to header to make openHAB know we need long-polling
 			pageAsyncHttpClient.addHeader("X-Atmosphere-Transport", "long-polling");
 			pageAsyncHttpClient.addHeader("Accept", "application/xml");
+			pageAsyncHttpClient.setTimeout(30000);
 		}
 		pageAsyncHttpClient.get(this, pageUrl, new AsyncHttpResponseHandler() {
 			@Override

@@ -45,6 +45,10 @@ public class OpenHABWidget {
 	private String icon;
 	private String type;
 	private String url;
+	private float minValue =0;
+	private float maxValue = 100;
+	private float step = 1;
+	private int refresh = 0;
 	private OpenHABWidget parent;
 	private OpenHABItem item;
 	private OpenHABLinkedPage linkedPage;
@@ -79,6 +83,14 @@ public class OpenHABWidget {
 						this.setIcon(childNode.getTextContent());
 					} else if (childNode.getNodeName().equals("url")) {
 						this.setUrl(childNode.getTextContent());
+					} else if (childNode.getNodeName().equals("minValue")) {
+						setMinValue(Float.valueOf(childNode.getTextContent()).floatValue());
+					} else if (childNode.getNodeName().equals("maxValue")) {
+						setMaxValue(Float.valueOf(childNode.getTextContent()).floatValue());
+					} else if (childNode.getNodeName().equals("step")) {
+						setStep(Float.valueOf(childNode.getTextContent()).floatValue());
+					} else if (childNode.getNodeName().equals("refresh")) {
+						setRefresh(Integer.valueOf(childNode.getTextContent()).intValue());
 					} else if (childNode.getNodeName().equals("mapping")) {
 						NodeList mappingChildNodes = childNode.getChildNodes();
 						String mappingCommand = "";
@@ -193,6 +205,38 @@ public class OpenHABWidget {
 	
 	public ArrayList<OpenHABWidgetMapping> getMappings() {
 		return mappings;
+	}
+
+	public float getMinValue() {
+		return minValue;
+	}
+
+	public void setMinValue(float minValue) {
+		this.minValue = minValue;
+	}
+
+	public float getMaxValue() {
+		return maxValue;
+	}
+
+	public void setMaxValue(float maxValue) {
+		this.maxValue = maxValue;
+	}
+
+	public float getStep() {
+		return step;
+	}
+
+	public void setStep(float step) {
+		this.step = step;
+	}
+
+	public int getRefresh() {
+		return refresh;
+	}
+
+	public void setRefresh(int refresh) {
+		this.refresh = refresh;
 	}
 	
 }

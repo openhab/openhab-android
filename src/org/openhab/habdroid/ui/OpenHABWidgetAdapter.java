@@ -84,7 +84,8 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
 	public static final int TYPE_SELECTION = 7;
 	public static final int TYPE_SECTIONSWITCH = 8;
 	public static final int TYPE_ROLLERSHUTTER = 9;
-	public static final int TYPES_COUNT = 10;
+	public static final int TYPE_SETPOINT = 10;
+	public static final int TYPES_COUNT = 11;
 	private String openHABBaseUrl = "http://demo.openhab.org:8080/";
 	private String openHABUsername;
 	private String openHABPassword;
@@ -100,6 +101,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     	 */
     	RelativeLayout widgetView;
     	int widgetLayout = 0;
+    	String[] splitString = {};
     	OpenHABWidget openHABWidget = getItem(position);
     	switch (this.getItemViewType(position)) {
     	case TYPE_FRAME:
@@ -128,6 +130,9 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     		break;
     	case TYPE_SELECTION:
     		widgetLayout = R.layout.openhabwidgetlist_selectionitem;
+    		break;
+    	case TYPE_SETPOINT:
+    		widgetLayout = R.layout.openhabwidgetlist_setpointitem;
     		break;
     	default:
     		widgetLayout = R.layout.openhabwidgetlist_genericitem;
@@ -269,7 +274,6 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     		break;
     	case TYPE_TEXT:
     		labelTextView = (TextView)widgetView.findViewById(R.id.textlabel);
-    		String[] splitString = {};
     		splitString = openHABWidget.getLabel().split("\\[|\\]");
     		if (labelTextView != null)
     			labelTextView.setText(splitString[0]);
@@ -355,9 +359,9 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
 					OpenHABWidget openHABWidget = (OpenHABWidget)parent.getTag();
 					if (openHABWidget != null)
 						Log.i("OpenHABWidgetAdapter", "Label selected = " + openHABWidget.getMapping(index).getLabel());
-//					openHABWidget.getItem().sendCommand(openHABWidget.getMapping(index).getCommand());
-					sendItemCommand(openHABWidget.getItem(),
-							openHABWidget.getMapping(index).getCommand());
+					if (!openHABWidget.getItem().getState().equals(openHABWidget.getMapping(index).getCommand()))
+						sendItemCommand(openHABWidget.getItem(),
+								openHABWidget.getMapping(index).getCommand());
 				}
 
 				@Override
@@ -367,6 +371,51 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     		SmartImageView selectionImage = (SmartImageView)widgetView.findViewById(R.id.selectionimage);
     		selectionImage.setImageUrl(openHABBaseUrl + "images/" +
     				openHABWidget.getIcon() + ".png");
+    		break;
+    	case TYPE_SETPOINT:
+    		labelTextView = (TextView)widgetView.findViewById(R.id.setpointlabel);
+    		splitString = openHABWidget.getLabel().split("\\[|\\]");
+    		if (labelTextView != null)
+    			labelTextView.setText(splitString[0]);
+    		SmartImageView setPointImage = (SmartImageView)widgetView.findViewById(R.id.setpointimage);
+    		setPointImage.setImageUrl(openHABBaseUrl + "images/" +
+    				openHABWidget.getIcon() + ".png");
+    		TextView setPointValueTextView = (TextView)widgetView.findViewById(R.id.setpointvaluelabel);
+    		if (setPointValueTextView != null) 
+    			if (splitString.length > 1) {
+    				// If value is not empty, show TextView
+    				setPointValueTextView.setVisibility(View.VISIBLE);
+    				setPointValueTextView.setText(splitString[1]);
+    			}
+    		Button setPointMinusButton = (Button)widgetView.findViewById(R.id.setpointbutton_minus);
+    		Button setPointPlusButton = (Button)widgetView.findViewById(R.id.setpointbutton_plus);
+    		setPointMinusButton.setTag(openHABWidget);
+    		setPointPlusButton.setTag(openHABWidget);
+    		setPointMinusButton.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					Log.i("OpenHABWidgetAdapter","Minus");
+					OpenHABWidget setPointWidget = (OpenHABWidget)v.getTag();
+					float currentValue = Float.valueOf(setPointWidget.getItem().getState()).floatValue();
+					currentValue = currentValue - setPointWidget.getStep();
+					if (currentValue < setPointWidget.getMinValue())
+						currentValue = setPointWidget.getMinValue();
+					sendItemCommand(setPointWidget.getItem(), String.valueOf(currentValue));
+
+				}
+    		});
+    		setPointPlusButton.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					Log.i("OpenHABWidgetAdapter","Plus");
+					OpenHABWidget setPointWidget = (OpenHABWidget)v.getTag();
+					float currentValue = Float.valueOf(setPointWidget.getItem().getState()).floatValue();
+					currentValue = currentValue + setPointWidget.getStep();
+					if (currentValue > setPointWidget.getMaxValue())
+						currentValue = setPointWidget.getMaxValue();
+					sendItemCommand(setPointWidget.getItem(), String.valueOf(currentValue));
+				}
+    		});
     		break;
     	default:
     		labelTextView = (TextView)widgetView.findViewById(R.id.itemlabel);
@@ -408,6 +457,8 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     		return TYPE_IMAGE;
     	} else if (openHABWidget.getType().equals("Selection")) {
     		return TYPE_SELECTION;
+    	} else if (openHABWidget.getType().equals("Setpoint")) {
+    		return TYPE_SETPOINT;
     	} else {
     		return TYPE_GENERICITEM;
     	}
