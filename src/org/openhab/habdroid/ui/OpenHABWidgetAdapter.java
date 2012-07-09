@@ -343,7 +343,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     		spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
     		selectionSpinner.setAdapter(spinnerAdapter);
     		selectionSpinner.setTag(openHABWidget);
-    		selectionSpinner.setSelection(Integer.parseInt(openHABWidget.getItem().getState()));
+    		selectionSpinner.setSelection((int)Float.parseFloat(openHABWidget.getItem().getState()));
     		selectionSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 
     			@Override
