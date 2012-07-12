@@ -222,6 +222,7 @@ public class OpenHABWidgetListActivity extends ListActivity {
 		try {
 			DocumentBuilder builder = factory.newDocumentBuilder();
 			Document document;
+			// TODO: fix crash with null content
 			document = builder.parse(new ByteArrayInputStream(content.getBytes("UTF-8")));
 			Node rootNode = document.getFirstChild();
 			openHABWidgetDataSource.setSourceNode(rootNode);

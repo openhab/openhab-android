@@ -4,13 +4,12 @@
   android:layout_width="fill_parent"
   android:layout_height="wrap_content"
   android:focusable="false"
-        android:background="#2f2f2f"
 	>
     <TextView android:id="@+id/framelabel"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="6dip"
         android:layout_centerVertical="true"
-        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textAppearance="?android:attr/textAppearanceMedium"
     />
 </RelativeLayout>

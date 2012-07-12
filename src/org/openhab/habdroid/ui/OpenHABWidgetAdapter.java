@@ -56,6 +56,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.RelativeLayout;
@@ -100,6 +101,8 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     	/* TODO: This definitely needs some huge refactoring
     	 */
     	RelativeLayout widgetView;
+		TextView labelTextView;
+		TextView valueTextView;
     	int widgetLayout = 0;
     	String[] splitString = {};
     	OpenHABWidget openHABWidget = getItem(position);
@@ -147,7 +150,6 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     	} else {
     		widgetView = (RelativeLayout) convertView;
     	}
-		TextView labelTextView;
     	switch (getItemViewType(position)) {
     	case TYPE_FRAME:
     		labelTextView = (TextView)widgetView.findViewById(R.id.framelabel);
@@ -157,8 +159,14 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     		break;
     	case TYPE_GROUP:
     		labelTextView = (TextView)widgetView.findViewById(R.id.grouplabel);
-    		if (labelTextView != null)
-    			labelTextView.setText(openHABWidget.getLabel());
+    		valueTextView = (TextView)widgetView.findViewById(R.id.groupvalue);
+    		if (labelTextView != null && valueTextView != null) {
+    			splitString = openHABWidget.getLabel().split("\\[|\\]");
+    			labelTextView.setText(splitString[0]);
+    			if (splitString.length > 1) {
+    				valueTextView.setText(splitString[1]);
+    			}
+    		}
     		SmartImageView groupImage = (SmartImageView)widgetView.findViewById(R.id.groupimage);
     		groupImage.setImageUrl(openHABBaseUrl + "images/" +
     				openHABWidget.getIcon() + ".png");
@@ -277,7 +285,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     		splitString = openHABWidget.getLabel().split("\\[|\\]");
     		if (labelTextView != null)
     			labelTextView.setText(splitString[0]);
-    		TextView valueTextView = (TextView)widgetView.findViewById(R.id.textvalue);
+    		valueTextView = (TextView)widgetView.findViewById(R.id.textvalue);
     		if (valueTextView != null) 
     			if (splitString.length > 1) {
     				// If value is not empty, show TextView
@@ -349,12 +357,6 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     			@Override
 				public void onItemSelected(AdapterView<?> parent, View view,
 						int index, long id) {
-    				/* TODO: There is a known Spinner feature. onItemSelected is fired during
-    				 * Spinner creation with the value selected by setSelection. So HABDroid
-    				 * always send command with current selection when just opening page.
-    				 * This doesn't make any harm but sends a command which makes nothing.
-    				 * Need to create some check here to fix this.
-    				 */
 					Log.i("OpenHABWidgetAdapter", "Spinner item click on index " + index);
 					OpenHABWidget openHABWidget = (OpenHABWidget)parent.getTag();
 					if (openHABWidget != null)

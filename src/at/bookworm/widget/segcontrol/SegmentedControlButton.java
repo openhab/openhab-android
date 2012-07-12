@@ -15,6 +15,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+// TODO: check if we can include this control into the project?
+
 package at.bookworm.widget.segcontrol;
 
 import android.content.Context;

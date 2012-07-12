@@ -114,7 +114,9 @@ public class OpenHABWidgetDataSource {
 	}
 
 	public String getTitle() {
-		return title;
+		String[] splitString = {};
+		splitString = title.split("\\[|\\]");
+		return splitString[0];
 	}
 
 	public void setTitle(String title) {
