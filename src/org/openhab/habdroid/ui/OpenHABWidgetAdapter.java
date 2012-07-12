@@ -165,6 +165,8 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     			labelTextView.setText(splitString[0]);
     			if (splitString.length > 1) {
     				valueTextView.setText(splitString[1]);
+    			} else {
+    				valueTextView.setText("");
     			}
     		}
     		SmartImageView groupImage = (SmartImageView)widgetView.findViewById(R.id.groupimage);
