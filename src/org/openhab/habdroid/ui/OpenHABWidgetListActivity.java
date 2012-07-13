@@ -110,6 +110,7 @@ public class OpenHABWidgetListActivity extends ListActivity {
 		getListView().setAdapter(openHABWidgetAdapter);
 		openHABWidgetAdapter.setOpenHABUsername(openHABUsername);
 		openHABWidgetAdapter.setOpenHABPassword(openHABPassword);
+		this.getActionBar().setDisplayHomeAsUpEnabled(true);
 		// Check if we have openHAB page url in saved instance state?
 		if (savedInstanceState != null) {
 			displayPageUrl = savedInstanceState.getString("displayPageUrl");
@@ -278,6 +279,10 @@ public class OpenHABWidgetListActivity extends ListActivity {
     	case R.id.mainmenu_openhab_preferences:
             Intent myIntent = new Intent(this.getApplicationContext(), OpenHABPreferencesActivity.class);
             startActivityForResult(myIntent, 0);
+    		return true;
+    	case android.R.id.home:
+    		startRootPage(openHABBaseUrl + "rest/sitemaps/");
+    		Log.i(TAG, "Home selected!");
     		return true;
     	default:
     		return super.onOptionsItemSelected(item);

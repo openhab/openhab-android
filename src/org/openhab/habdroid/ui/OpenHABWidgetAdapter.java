@@ -56,6 +56,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
@@ -267,9 +268,9 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     		labelTextView = (TextView)widgetView.findViewById(R.id.rollershutterlabel);
     		if (labelTextView != null)
     			labelTextView.setText(openHABWidget.getLabel());
-    		Button rollershutterUpButton = (Button)widgetView.findViewById(R.id.rollershutterbutton_up);
-    		Button rollershutterStopButton = (Button)widgetView.findViewById(R.id.rollershutterbutton_stop);
-    		Button rollershutterDownButton = (Button)widgetView.findViewById(R.id.rollershutterbutton_down);
+    		ImageButton rollershutterUpButton = (ImageButton)widgetView.findViewById(R.id.rollershutterbutton_up);
+    		ImageButton rollershutterStopButton = (ImageButton)widgetView.findViewById(R.id.rollershutterbutton_stop);
+    		ImageButton rollershutterDownButton = (ImageButton)widgetView.findViewById(R.id.rollershutterbutton_down);
     		rollershutterUpButton.setTag(openHABWidget.getItem());
     		rollershutterStopButton.setTag(openHABWidget.getItem());
     		rollershutterDownButton.setTag(openHABWidget.getItem());

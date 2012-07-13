@@ -35,21 +35,23 @@
         android:layout_height="wrap_content" 
 		android:layout_alignParentRight="true"
       >
-<Button
+<ImageButton
         android:id="@+id/rollershutterbutton_up"
         android:layout_width="40dip"
         android:layout_height="wrap_content"
-        android:text="U" />
-<Button
+        android:src="@drawable/ic_action_arrow_top" 
+        />
+<ImageButton
         android:id="@+id/rollershutterbutton_stop"
         android:layout_width="40dip"
         android:layout_height="wrap_content"
-        android:text="S" />
-<Button
+        android:src="@drawable/ic_action_cancel" 
+        />
+<ImageButton
         android:id="@+id/rollershutterbutton_down"
         android:layout_width="40dip"
         android:layout_height="wrap_content"
-        android:text="D" />
+        android:src="@drawable/ic_action_arrow_bottom" />
 </LinearLayout>
 <LinearLayout 
     	android:id="@+id/listdivider"
