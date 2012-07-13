@@ -110,7 +110,8 @@ public class OpenHABWidgetListActivity extends ListActivity {
 		getListView().setAdapter(openHABWidgetAdapter);
 		openHABWidgetAdapter.setOpenHABUsername(openHABUsername);
 		openHABWidgetAdapter.setOpenHABPassword(openHABPassword);
-		this.getActionBar().setDisplayHomeAsUpEnabled(true);
+//		this.getActionBar().setDisplayHomeAsUpEnabled(true);
+		this.getActionBar().setHomeButtonEnabled(true);
 		// Check if we have openHAB page url in saved instance state?
 		if (savedInstanceState != null) {
 			displayPageUrl = savedInstanceState.getString("displayPageUrl");
@@ -345,6 +346,7 @@ public class OpenHABWidgetListActivity extends ListActivity {
 								if (homepageUrl.length() > 0) {
 									displayPageUrl = homepageUrl;
 									showPage(homepageUrl, false);
+							    	OpenHABWidgetListActivity.this.getListView().setSelection(0);
 								}
 							}
 						}
