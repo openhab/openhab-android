@@ -183,8 +183,16 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     		break;
     	case TYPE_SECTIONSWITCH:
     		labelTextView = (TextView)widgetView.findViewById(R.id.sectionswitchlabel);
-    		if (labelTextView != null)
-    		labelTextView.setText(openHABWidget.getLabel());
+    		valueTextView = (TextView)widgetView.findViewById(R.id.sectionswitchvalue);
+			splitString = openHABWidget.getLabel().split("\\[|\\]");
+			if (labelTextView != null)
+				labelTextView.setText(splitString[0]);
+			if (splitString.length > 1 && valueTextView != null) { // We have some value
+				valueTextView.setText(splitString[1]);
+			} else {
+				// This is needed to clean up cached TextViews
+				valueTextView.setText("");
+			}
     		RadioGroup sectionSwitchRadioGroup = (RadioGroup)widgetView.findViewById(R.id.sectionswitchradiogroup);
     		// As we create buttons in this radio in runtime, we need to remove all
     		// exiting buttons first
