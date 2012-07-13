@@ -6,6 +6,7 @@
   android:orientation="horizontal">
   <LinearLayout
 	    xmlns:android="http://schemas.android.com/apk/res/android"
+	    android:id="@+id/switchleftlayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" 
 		android:layout_alignParentLeft="true"
@@ -34,4 +35,14 @@
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
     />
+<LinearLayout 
+    	android:id="@+id/listdivider"
+        android:layout_width="fill_parent"
+        android:layout_height="1dip"
+        android:background="?android:attr/listDivider"
+        android:orientation="horizontal"
+        android:layout_below="@+id/switchleftlayout"
+        android:layout_marginLeft="5dip"
+        android:layout_marginRight="5dip"
+       />
 </RelativeLayout>

@@ -10,6 +10,20 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="6dip"
         android:layout_centerVertical="true"
-        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textStyle="bold"
+        android:textAllCaps="true"
     />
+<LinearLayout 
+    	android:id="@+id/listdivider"
+        android:layout_width="fill_parent"
+        android:layout_height="2dip"
+        android:background="?android:attr/listDivider"
+        android:orientation="horizontal"
+        android:layout_below="@+id/framelabel"
+        android:layout_marginLeft="5dip"
+        android:layout_marginRight="5dip"
+        android:layout_marginTop="7dip"
+        android:layout_marginBottom="7dip"
+       />
 </RelativeLayout>

@@ -31,4 +31,14 @@
         android:textAppearance="?android:attr/textAppearanceSmall"
     />
 </LinearLayout>
+<LinearLayout 
+    	android:id="@+id/listdivider"
+        android:layout_width="fill_parent"
+        android:layout_height="1dip"
+        android:background="?android:attr/listDivider"
+        android:orientation="horizontal"
+        android:layout_below="@+id/itemimage"
+        android:layout_marginLeft="5dip"
+        android:layout_marginRight="5dip"
+       />
 </RelativeLayout>

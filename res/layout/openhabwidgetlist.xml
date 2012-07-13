@@ -8,5 +8,9 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:id="@+id/android:list"
+    android:footerDividersEnabled="false"
+    android:headerDividersEnabled="false"
+    android:divider="#00000000"
+    android:dividerHeight="0dip"
     />
 </LinearLayout>

@@ -56,7 +56,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ListView;
+import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.RelativeLayout;
@@ -156,6 +156,13 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     		if (labelTextView != null)
     			labelTextView.setText(openHABWidget.getLabel());
     		widgetView.setClickable(false);
+    		if (openHABWidget.getLabel().length() > 0) { // hide empty frames
+    			widgetView.setVisibility(View.VISIBLE);
+    			labelTextView.setVisibility(View.VISIBLE);
+    		} else {
+    			widgetView.setVisibility(View.GONE);
+    			labelTextView.setVisibility(View.GONE);
+    		}
     		break;
     	case TYPE_GROUP:
     		labelTextView = (TextView)widgetView.findViewById(R.id.grouplabel);
@@ -163,9 +170,10 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     		if (labelTextView != null && valueTextView != null) {
     			splitString = openHABWidget.getLabel().split("\\[|\\]");
     			labelTextView.setText(splitString[0]);
-    			if (splitString.length > 1) {
+    			if (splitString.length > 1) { // We have some value
     				valueTextView.setText(splitString[1]);
     			} else {
+    				// This is needed to clean up cached TextViews
     				valueTextView.setText("");
     			}
     		}
@@ -429,6 +437,18 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     		sliderImage.setImageUrl(openHABBaseUrl + "images/" +
     				openHABWidget.getIcon() + ".png");
     		break;
+    	}
+    	LinearLayout dividerLayout = (LinearLayout)widgetView.findViewById(R.id.listdivider);
+    	if (dividerLayout != null) {
+    		if (position < this.getCount()-1) {
+    			if (this.getItemViewType(position + 1) == TYPE_FRAME) {
+        			dividerLayout.setVisibility(View.GONE); // hide dividers before frame widgets
+    			} else {
+    				dividerLayout.setVisibility(View.VISIBLE); // show dividers for all others
+    			}
+    		} else { // last widget in the list, hide divider
+    			dividerLayout.setVisibility(View.GONE);
+    		}
     	}
     	return widgetView;
     }
