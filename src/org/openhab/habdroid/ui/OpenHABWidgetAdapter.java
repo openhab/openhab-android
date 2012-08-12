@@ -56,6 +56,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
@@ -248,9 +249,9 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     			}
     		}
     		switchSwitch.setTag(openHABWidget.getItem());
-    		switchSwitch.setOnClickListener(new OnClickListener() {
+    		switchSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
     			@Override
-    			public void onClick(View v) {
+    			public void onCheckedChanged(CompoundButton v, boolean isChecked) {
     				Switch switchSwitch = (Switch)v;
     				OpenHABItem linkedItem = (OpenHABItem)switchSwitch.getTag();
     				if (switchSwitch.isChecked()) {

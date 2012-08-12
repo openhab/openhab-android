@@ -32,6 +32,12 @@
 package org.openhab.habdroid.util;
 
 import java.io.IOException;
+import java.net.Inet4Address;
+import java.net.Inet6Address;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
+import java.util.Enumeration;
 
 import javax.jmdns.JmDNS;
 import javax.jmdns.ServiceEvent;
@@ -40,6 +46,7 @@ import javax.jmdns.ServiceListener;
 
 import android.app.Activity;
 import android.content.Context;
+import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.net.wifi.WifiManager.MulticastLock;
 import android.util.Log;
@@ -72,7 +79,12 @@ public class AsyncServiceResolver extends Thread implements ServiceListener {
 		sleepingThread = Thread.currentThread();
 		Log.i(TAG, "Discovering service " + serviceType);
 		try {
-			jmdns = JmDNS.create();
+			Log.i(TAG, "Local IP:"  + getLocalIpv4Address().getHostAddress().toString());
+			/* TODO: This is a dirty fix of some crazy ipv6 incompatibility
+			   This workaround makes jmdns work on local ipv4 address an thus
+			   discover openHAB on ipv4 address. This should be fixed to fully
+			   support ipv6 in future. */
+			jmdns = JmDNS.create(getLocalIpv4Address());
 			jmdns.addServiceListener(serviceType, this);
 		} catch (IOException e) {
 			Log.e(TAG, e.getMessage());
@@ -126,5 +138,24 @@ public class AsyncServiceResolver extends Thread implements ServiceListener {
 				Log.e(TAG, e.getMessage());
 			}
 		}
+	}
+	
+	private InetAddress getLocalIpv4Address() {
+	    try {
+	        for (Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces(); en.hasMoreElements();) {
+	            NetworkInterface intf = en.nextElement();
+	            for (Enumeration<InetAddress> enumIpAddr = intf.getInetAddresses(); enumIpAddr.hasMoreElements();) {
+	                InetAddress inetAddress = enumIpAddr.nextElement();
+//	                Log.i(TAG, "IP: " + inetAddress.getHostAddress().toString());
+//	                Log.i(TAG, "Is IPV4 = " + (inetAddress instanceof Inet4Address));
+	                if (!inetAddress.isLoopbackAddress() && (inetAddress instanceof Inet4Address)) {
+	                    return inetAddress;
+	                }
+	            }
+	        }
+	    } catch (SocketException ex) {
+	        Log.e(TAG, ex.toString());
+	    }
+	    return null;
 	}
 }
