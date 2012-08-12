@@ -49,8 +49,10 @@ import com.loopj.android.image.SmartImageView;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -249,17 +251,19 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     			}
     		}
     		switchSwitch.setTag(openHABWidget.getItem());
-    		switchSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-    			@Override
-    			public void onCheckedChanged(CompoundButton v, boolean isChecked) {
-    				Switch switchSwitch = (Switch)v;
-    				OpenHABItem linkedItem = (OpenHABItem)switchSwitch.getTag();
-    				if (switchSwitch.isChecked()) {
-    					sendItemCommand(linkedItem, "ON");
-    				} else {
-    					sendItemCommand(linkedItem, "OFF");
-    				}
-    			}
+    		switchSwitch.setOnTouchListener(new OnTouchListener() {
+				@Override
+				public boolean onTouch(View v, MotionEvent motionEvent) {
+					Switch switchSwitch = (Switch)v;
+					OpenHABItem linkedItem = (OpenHABItem)switchSwitch.getTag();
+					if (motionEvent.getActionMasked() == MotionEvent.ACTION_UP)
+						if (!switchSwitch.isChecked()) {
+							sendItemCommand(linkedItem, "ON");
+						} else {
+							sendItemCommand(linkedItem, "OFF");
+						}
+					return false;
+				}
     		});
     		SmartImageView switchImage = (SmartImageView)widgetView.findViewById(R.id.switchimage);
     		switchImage.setImageUrl(openHABBaseUrl + "images/" +
@@ -275,25 +279,34 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     		rollershutterUpButton.setTag(openHABWidget.getItem());
     		rollershutterStopButton.setTag(openHABWidget.getItem());
     		rollershutterDownButton.setTag(openHABWidget.getItem());
-    		rollershutterUpButton.setOnClickListener(new OnClickListener() {
+    		rollershutterUpButton.setOnTouchListener(new OnTouchListener() {
 				@Override
-				public void onClick(View v) {
-					OpenHABItem rollershutterItem = (OpenHABItem)v.getTag();
-					sendItemCommand(rollershutterItem, "UP");
+				public boolean onTouch(View v, MotionEvent motionEvent) {
+					ImageButton rollershutterButton = (ImageButton)v;
+					OpenHABItem rollershutterItem = (OpenHABItem)rollershutterButton.getTag();
+					if (motionEvent.getActionMasked() == MotionEvent.ACTION_UP)
+						sendItemCommand(rollershutterItem, "UP");
+					return false;
 				}
     		});
-    		rollershutterStopButton.setOnClickListener(new OnClickListener() {
+    		rollershutterStopButton.setOnTouchListener(new OnTouchListener() {
 				@Override
-				public void onClick(View v) {
-					OpenHABItem rollershutterItem = (OpenHABItem)v.getTag();
-					sendItemCommand(rollershutterItem, "STOP");
+				public boolean onTouch(View v, MotionEvent motionEvent) {
+					ImageButton rollershutterButton = (ImageButton)v;
+					OpenHABItem rollershutterItem = (OpenHABItem)rollershutterButton.getTag();
+					if (motionEvent.getActionMasked() == MotionEvent.ACTION_UP)
+						sendItemCommand(rollershutterItem, "STOP");
+					return false;
 				}
     		});
-    		rollershutterDownButton.setOnClickListener(new OnClickListener() {
+    		rollershutterDownButton.setOnTouchListener(new OnTouchListener() {
 				@Override
-				public void onClick(View v) {
-					OpenHABItem rollershutterItem = (OpenHABItem)v.getTag();
-					sendItemCommand(rollershutterItem, "DOWN");
+				public boolean onTouch(View v, MotionEvent motionEvent) {
+					ImageButton rollershutterButton = (ImageButton)v;
+					OpenHABItem rollershutterItem = (OpenHABItem)rollershutterButton.getTag();
+					if (motionEvent.getActionMasked() == MotionEvent.ACTION_UP)
+						sendItemCommand(rollershutterItem, "DOWN");
+					return false;
 				}
     		});
     		SmartImageView rollershutterImage = (SmartImageView)widgetView.findViewById(R.id.rollershutterimage);
