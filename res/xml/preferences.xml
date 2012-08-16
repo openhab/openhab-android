@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
     <PreferenceCategory android:title="HABDroid Settings">
-        <EditTextPreference android:key="default_openhab_name" android:title="openHAB name" android:summary="Name of your openHAB"/>
-        <EditTextPreference android:key="default_openhab_url" android:title="URL" android:summary="openHAB base URL"/>
-        <EditTextPreference android:key="default_openhab_alturl" android:title="Alt URL" android:summary="openHAB alternate base URL"/>
+        <EditTextPreference android:key="default_openhab_url" android:title="openHAB URL" android:summary="Manually configured openHAB URL"/>
+        <EditTextPreference android:key="default_openhab_alturl" android:title="openHAB Alt URL" android:summary="Alternate openHAB base URL" android:defaultValue="http://demo.openhab.org:8080/"/>
         <EditTextPreference android:key="default_openhab_username" android:title="Username" android:summary="openHAB username"/>
         <EditTextPreference android:key="default_openhab_password" android:title="Password" android:inputType="textPassword" android:summary="openHAB password"/>
     </PreferenceCategory>

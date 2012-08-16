@@ -33,12 +33,14 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.openhab.habdroid.R;
+import org.openhab.habdroid.model.OpenHABSitemap;
 import org.openhab.habdroid.model.OpenHABWidget;
 import org.openhab.habdroid.model.OpenHABWidgetDataSource;
 import org.w3c.dom.Document;
@@ -49,9 +51,12 @@ import org.xml.sax.SAXException;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
+import android.app.AlertDialog;
 import android.app.ListActivity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -82,6 +87,8 @@ public class OpenHABWidgetListActivity extends ListActivity {
 	private OpenHABWidgetAdapter openHABWidgetAdapter;
 	// Url of current sitemap page displayed
 	private String displayPageUrl ="";
+	// sitemap root url
+	private String sitemapRootUrl = "";
 	// async http client
 	private AsyncHttpClient pageAsyncHttpClient;
 	// Sitemap pages stack for digging in and getting back
@@ -126,7 +133,7 @@ public class OpenHABWidgetListActivity extends ListActivity {
 			openHABBaseUrl = getIntent().getExtras().getString("baseURL");
 			if (openHABBaseUrl != null) {
 				openHABWidgetAdapter.setOpenHABBaseUrl(openHABBaseUrl);
-				startRootPage(openHABBaseUrl + "rest/sitemaps/");
+				selectSitemap(openHABBaseUrl);
 			} else {
 				Log.i(TAG, "No base URL!");
 			}
@@ -281,11 +288,21 @@ public class OpenHABWidgetListActivity extends ListActivity {
             Intent myIntent = new Intent(this.getApplicationContext(), OpenHABPreferencesActivity.class);
             startActivityForResult(myIntent, 0);
     		return true;
-    	case android.R.id.home:
-    		startRootPage(openHABBaseUrl + "rest/sitemaps/");
-    		Log.i(TAG, "Home selected!");
-    		return true;
-    	default:
+    	case R.id.mainmenu_openhab_selectsitemap:
+			SharedPreferences settings = 
+			PreferenceManager.getDefaultSharedPreferences(OpenHABWidgetListActivity.this);
+			Editor preferencesEditor = settings.edit();
+			preferencesEditor.putString("default_openhab_sitemap", "");
+			preferencesEditor.commit();
+    		selectSitemap(openHABBaseUrl);
+        case android.R.id.home:
+        	displayPageUrl = sitemapRootUrl;
+        	// we are navigating to root page, so clear page stack to support regular 'back' behavior for root page
+        	pageUrlStack.clear();
+            showPage(sitemapRootUrl, false);
+            Log.i(TAG, "Home selected - " + sitemapRootUrl);
+            return true;
+        default:
     		return super.onOptionsItemSelected(item);
     	}
     }
@@ -315,71 +332,99 @@ public class OpenHABWidgetListActivity extends ListActivity {
     		return super.onKeyDown(keyCode, event);
     	}
     }
-    
+
     /**
-     * Get sitemaps from openHAB, select first sitemap and start
-     * viewing it 
+     * Get sitemaps from openHAB, if user already configured preffered sitemap
+     * just open it. If no preffered sitemap is configured - let user select one.
      *
      * @param  baseUrl  an absolute base URL of openHAB to open
      * @return      void
      */
-    void startRootPage(String baseUrl) {
-    	Log.i(TAG, "Starting root page for " + baseUrl);
-    	AsyncHttpClient asyncHttpClient = new AsyncHttpClient();
-		// If authentication is needed
-    	asyncHttpClient.setBasicAuthCredientidals(openHABUsername, openHABPassword);
-    	asyncHttpClient.get(baseUrl, new AsyncHttpResponseHandler() {
-			@Override
-			public void onSuccess(String content) {
-				DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-				DocumentBuilder builder;
-				try {
-					builder = factory.newDocumentBuilder();
-					Document document;
-					document = builder.parse(new ByteArrayInputStream(content.getBytes("UTF-8")));
-					NodeList homepageNodes = document.getElementsByTagName("homepage");
-					if (homepageNodes.getLength() > 0) {
-						NodeList homepageAttributeNodes = homepageNodes.item(0).getChildNodes();
-						for (int i=0; i < homepageAttributeNodes.getLength(); i++) {
-							if (homepageAttributeNodes.item(i).getNodeName().equals("link")) {
-								String homepageUrl = homepageAttributeNodes.item(i).getTextContent();
-								if (homepageUrl.length() > 0) {
-									displayPageUrl = homepageUrl;
-									showPage(homepageUrl, false);
-							    	OpenHABWidgetListActivity.this.getListView().setSelection(0);
-								}
+
+	private void selectSitemap(String baseURL) {
+		Log.i(TAG, "Trying to select sitemap for " + baseURL + "rest/sitemaps");
+			Log.i(TAG, "No sitemap configured, asking user to select one");
+	    	AsyncHttpClient asyncHttpClient = new AsyncHttpClient();
+			// If authentication is needed
+	    	asyncHttpClient.setBasicAuthCredientidals(openHABUsername, openHABPassword);
+	    	asyncHttpClient.get(baseURL + "rest/sitemaps", new AsyncHttpResponseHandler() {
+				@Override
+				public void onSuccess(String content) {
+//					Log.i(TAG, content);
+					final List<String> sitemapNameItems = new ArrayList<String>();
+					final List<OpenHABSitemap> sitemapItems = new ArrayList<OpenHABSitemap>();
+					DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+					DocumentBuilder builder;
+					try {
+						builder = factory.newDocumentBuilder();
+						Document document;
+						document = builder.parse(new ByteArrayInputStream(content.getBytes("UTF-8")));
+						NodeList sitemapNodes = document.getElementsByTagName("sitemap");
+						if (sitemapNodes.getLength() > 0) {
+							for (int i=0; i < sitemapNodes.getLength(); i++) {
+								Node sitemapNode = sitemapNodes.item(i);
+								OpenHABSitemap openhabSitemap = new OpenHABSitemap(sitemapNode);
+								Log.i(TAG, "Sitemap: " + openhabSitemap.getName() + " " + openhabSitemap.getLink()
+										+ " " + openhabSitemap.getHomepageLink());
+								sitemapNameItems.add(openhabSitemap.getName());
+								sitemapItems.add(openhabSitemap);
 							}
+							SharedPreferences settings = 
+									PreferenceManager.getDefaultSharedPreferences(OpenHABWidgetListActivity.this);
+							String selectedSitemap = settings.getString("default_openhab_sitemap", "");
+							if (selectedSitemap.length() > 0) {
+								Log.i(TAG, "Opening configured sitemap - " + selectedSitemap);
+								for (int i=0; i < sitemapNodes.getLength(); i++) {
+									if (sitemapItems.get(i).getName().equals(selectedSitemap)) {
+										displayPageUrl = sitemapItems.get(i).getHomepageLink();
+										sitemapRootUrl = sitemapItems.get(i).getHomepageLink();
+										showPage(displayPageUrl, false);
+									}
+								}
+							} else {
+								AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(OpenHABWidgetListActivity.this);
+								dialogBuilder.setTitle("Select sitemap");
+								dialogBuilder.setItems(sitemapNameItems.toArray(new CharSequence[sitemapNameItems.size()]),
+										new DialogInterface.OnClickListener() {
+											@Override
+											public void onClick(
+													DialogInterface dialog,
+													int item) {
+												Log.i(TAG, "Selected sitemap " + sitemapNameItems.get(item));
+												Log.i(TAG, "Opening " + sitemapItems.get(item).getHomepageLink());
+												displayPageUrl = sitemapItems.get(item).getHomepageLink();
+												sitemapRootUrl = sitemapItems.get(item).getHomepageLink();
+												SharedPreferences settings = 
+														PreferenceManager.getDefaultSharedPreferences(OpenHABWidgetListActivity.this);
+												Editor preferencesEditor = settings.edit();
+												preferencesEditor.putString("default_openhab_sitemap", sitemapItems.get(item).getName());
+												preferencesEditor.commit();
+												showPage(displayPageUrl, false);
+										    	OpenHABWidgetListActivity.this.getListView().setSelection(0);
+											}
+								}).show();
+							}
+						} else {
+							Toast.makeText(getApplicationContext(), "openHAB returned no sitemaps",
+									Toast.LENGTH_LONG).show();
 						}
+					} catch (ParserConfigurationException e) {
+						Log.e(TAG, e.getMessage());
+					} catch (UnsupportedEncodingException e) {
+						Log.e(TAG, e.getMessage());
+					} catch (SAXException e) {
+						Log.e(TAG, e.getMessage());
+					} catch (IOException e) {
+						Log.e(TAG, e.getMessage());
 					}
-				} catch (ParserConfigurationException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (UnsupportedEncodingException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (SAXException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
 			}
 			@Override
 		    public void onFailure(Throwable e) {
-				Log.i(TAG, "http request failed");
-				if (e.getMessage() != null) {
-					Log.e(TAG, e.getMessage());
-					if (e.getMessage().equals("Unauthorized")) {
-					Toast.makeText(getApplicationContext(), "Authentication failed",
-							Toast.LENGTH_LONG).show();
-					}
-				}
-				stopProgressIndicator();
-		    }
-		});
-    }
-    
+				Log.e(TAG, e.getMessage());
+			}
+    	});
+	}
+
 	private void stopProgressIndicator() {
 		setProgressBarIndeterminateVisibility(false);
 	}

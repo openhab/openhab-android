@@ -3,4 +3,7 @@
     <item android:id="@+id/mainmenu_openhab_preferences"
           android:title="@string/mainmenu_openhab_preferences" 
           />
+    <item android:id="@+id/mainmenu_openhab_selectsitemap"
+          android:title="@string/mainmenu_openhab_selectsitemap" 
+          />
 </menu>

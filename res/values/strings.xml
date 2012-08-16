@@ -3,4 +3,5 @@
     <string name="app_name">HABDroid</string>
     <string name="app_preferences_name">Settings</string>
     <string name="mainmenu_openhab_preferences">Settings</string>
+    <string name="mainmenu_openhab_selectsitemap">Select sitemap</string>
 </resources>

@@ -33,6 +33,6 @@
             <intent-filter>
             </intent-filter>
         </activity>
-    </application>
+        </application>
 
 </manifest>

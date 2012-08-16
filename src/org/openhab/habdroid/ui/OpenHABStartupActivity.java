@@ -74,26 +74,28 @@ public class OpenHABStartupActivity extends Activity implements AsyncServiceReso
 		requestWindowFeature(Window.FEATURE_PROGRESS);
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.openhabstartup);
-		ConnectivityManager connectivityManager = (ConnectivityManager)getSystemService(
-				Context.CONNECTIVITY_SERVICE);
-		NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-		if (activeNetworkInfo != null) {
-			Log.i(TAG, "Network is connected");
-			if (activeNetworkInfo.getType() == ConnectivityManager.TYPE_WIFI
-					|| activeNetworkInfo.getType() == ConnectivityManager.TYPE_ETHERNET) {
-				Log.i(TAG, "Network is WiFi or Ethernet");
-				AsyncServiceResolver serviceResolver = new AsyncServiceResolver(this, openHABServiceType);
-				serviceResolver.start();
-			} else if (activeNetworkInfo.getType() == ConnectivityManager.TYPE_MOBILE) {
-				Log.i(TAG, "Network is Mobile (" + activeNetworkInfo.getSubtypeName() + ")");
-				onAlternativeUrl();
+		if (!tryManualUrl()) {
+			ConnectivityManager connectivityManager = (ConnectivityManager)getSystemService(
+					Context.CONNECTIVITY_SERVICE);
+			NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+			if (activeNetworkInfo != null) {
+				Log.i(TAG, "Network is connected");
+				if (activeNetworkInfo.getType() == ConnectivityManager.TYPE_WIFI
+						|| activeNetworkInfo.getType() == ConnectivityManager.TYPE_ETHERNET) {
+					Log.i(TAG, "Network is WiFi or Ethernet");
+					AsyncServiceResolver serviceResolver = new AsyncServiceResolver(this, openHABServiceType);
+					serviceResolver.start();
+				} else if (activeNetworkInfo.getType() == ConnectivityManager.TYPE_MOBILE) {
+					Log.i(TAG, "Network is Mobile (" + activeNetworkInfo.getSubtypeName() + ")");
+					onAlternativeUrl();
+				} else {
+					Log.i(TAG, "Network type (" + activeNetworkInfo.getTypeName() + ") is unsupported");
+				}
 			} else {
-				Log.i(TAG, "Network type (" + activeNetworkInfo.getTypeName() + ") is unsupported");
+				Log.i(TAG, "Network is not available");
+				Toast.makeText(getApplicationContext(), "Network is not available",
+						Toast.LENGTH_LONG).show();
 			}
-		} else {
-			Log.i(TAG, "Network is not available");
-			Toast.makeText(getApplicationContext(), "Network is not available",
-					Toast.LENGTH_LONG).show();
 		}
 	}
 
@@ -128,6 +130,7 @@ public class OpenHABStartupActivity extends Activity implements AsyncServiceReso
 					Editor preferencesEditor = settings.edit();
 					preferencesEditor.putString("openhab_uuid", content);
 					preferencesEditor.commit();
+					startListActivity(openHABBaseUrl);
 				}
 			}
 			@Override
@@ -181,6 +184,21 @@ public class OpenHABStartupActivity extends Activity implements AsyncServiceReso
 		}
 	}
 
+	private boolean tryManualUrl() {
+		SharedPreferences settings = 
+				PreferenceManager.getDefaultSharedPreferences(this);
+		String manualUrl = settings.getString("default_openhab_url", "");
+		if (manualUrl.length() > 0) {
+			Toast.makeText(getApplicationContext(), "Connecting to configured URL",
+					Toast.LENGTH_SHORT).show();
+			Log.i(TAG, "Manual url configured, connecting to " + manualUrl);
+			openHABBaseUrl = manualUrl;
+			startListActivity(openHABBaseUrl);
+			return true;
+		}
+		Log.i(TAG, "No manual URL configured, switching back to normal process");
+		return false;
+	}
 	
 	private void onAlternativeUrl() {
 		SharedPreferences settings = 
@@ -193,7 +211,7 @@ public class OpenHABStartupActivity extends Activity implements AsyncServiceReso
 			openHABBaseUrl = altUrl;
 			startListActivity(openHABBaseUrl);
 		} else {
-			Toast.makeText(getApplicationContext(), "Please configure openHAB alternative URL to access it via Internet",
+			Toast.makeText(getApplicationContext(), "Please configure openHAB URL or alternative URL",
 					Toast.LENGTH_LONG).show();		
 			stopProgressIndicator();
 		}
