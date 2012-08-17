@@ -39,6 +39,7 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -67,6 +68,9 @@ public class OpenHABStartupActivity extends Activity implements AsyncServiceReso
 	private final static String TAG = "OpenHABStartupActivity";
 	private static final String openHABServiceType = "_openhab-server._tcp.local.";
 	private String openHABBaseUrl = "";
+	// Progress dialog
+	private ProgressDialog progressDialog;
+
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -84,6 +88,8 @@ public class OpenHABStartupActivity extends Activity implements AsyncServiceReso
 						|| activeNetworkInfo.getType() == ConnectivityManager.TYPE_ETHERNET) {
 					Log.i(TAG, "Network is WiFi or Ethernet");
 					AsyncServiceResolver serviceResolver = new AsyncServiceResolver(this, openHABServiceType);
+					progressDialog = ProgressDialog.show(OpenHABStartupActivity.this, "", 
+	                        "Discovering openHAB. Please wait...", true);
 					serviceResolver.start();
 				} else if (activeNetworkInfo.getType() == ConnectivityManager.TYPE_MOBILE) {
 					Log.i(TAG, "Network is Mobile (" + activeNetworkInfo.getSubtypeName() + ")");
@@ -106,6 +112,7 @@ public class OpenHABStartupActivity extends Activity implements AsyncServiceReso
                 + " port:" + serviceInfo.getPort());
 		openHABBaseUrl = "http://" + serviceInfo.getHostAddresses()[0] + ":" +
 				String.valueOf(serviceInfo.getPort()) + "/";
+		progressDialog.hide();
 		AsyncHttpClient asyncHttpClient = new AsyncHttpClient();
 		asyncHttpClient.get(openHABBaseUrl + "static/uuid", new AsyncHttpResponseHandler() {
 			@Override
@@ -143,6 +150,7 @@ public class OpenHABStartupActivity extends Activity implements AsyncServiceReso
 
 	@Override
 	public void onServiceResolveFailed() {
+		progressDialog.hide();
 		Log.i(TAG, "Service resolve failed, switching to alt URL");
 		onAlternativeUrl();
 	}

@@ -4,19 +4,20 @@
   android:layout_width="fill_parent"
   android:layout_height="wrap_content"
   >
-<com.loopj.android.image.SmartImageView 
+<com.loopj.android.image.SmartImageView
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content" 
-        android:id="@+id/imageimage"
+        android:layout_height="140dip" 
+        android:id="@+id/chartimage"
         android:adjustViewBounds="true"
-		/>
+        android:scaleType="fitCenter"
+ 		/>
 <LinearLayout 
     	android:id="@+id/listdivider"
         android:layout_width="fill_parent"
         android:layout_height="1dip"
         android:background="?android:attr/listDivider"
         android:orientation="horizontal"
-        android:layout_below="@+id/imageimage"
+        android:layout_below="@+id/chartimage"
         android:layout_marginLeft="5dip"
         android:layout_marginRight="5dip"
        />

@@ -29,12 +29,15 @@
 
 package org.openhab.habdroid.ui;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
 
 import org.apache.http.entity.StringEntity;
 import org.openhab.habdroid.R;
@@ -47,6 +50,8 @@ import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.image.SmartImageView;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -60,6 +65,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
@@ -90,7 +96,8 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
 	public static final int TYPE_SECTIONSWITCH = 8;
 	public static final int TYPE_ROLLERSHUTTER = 9;
 	public static final int TYPE_SETPOINT = 10;
-	public static final int TYPES_COUNT = 11;
+	public static final int TYPE_CHART = 11;
+	public static final int TYPES_COUNT = 12;
 	private String openHABBaseUrl = "http://demo.openhab.org:8080/";
 	private String openHABUsername;
 	private String openHABPassword;
@@ -140,6 +147,9 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     		break;
     	case TYPE_SETPOINT:
     		widgetLayout = R.layout.openhabwidgetlist_setpointitem;
+    		break;
+    	case TYPE_CHART:
+    		widgetLayout = R.layout.openhabwidgetlist_chartitem;
     		break;
     	default:
     		widgetLayout = R.layout.openhabwidgetlist_genericitem;
@@ -369,6 +379,21 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     		SmartImageView imageImage = (SmartImageView)widgetView.findViewById(R.id.imageimage);
     		imageImage.setImageUrl(ensureAbsoluteURL(openHABBaseUrl, openHABWidget.getUrl()));
    		break;
+    	case TYPE_CHART:
+    		SmartImageView chartImage = (SmartImageView)widgetView.findViewById(R.id.chartimage);
+    		OpenHABItem chartItem = openHABWidget.getItem();
+    		Random random = new Random();
+    		String chartUrl = "";
+    		if (chartItem.getType().equals("GroupItem")) {
+    			chartUrl = openHABBaseUrl + "rrdchart.png?groups=" + chartItem.getName() + 
+    					"&period=" + openHABWidget.getPeriod() + "&random=" +
+    					String.valueOf(random.nextInt());
+    		}
+    		Log.i("OpenHABWidgetAdapter", "Chart url = " + chartUrl);
+//    		chartImage.setImageUrl(ensureAbsoluteURL(openHABBaseUrl, "rrdchart.png?groups=Weather_Chart&period=h&random=1140"));
+//    		chartImage.setImageUrl("http://192.168.1.15:8080/images/rrdchart.png");
+    		chartImage.setImageUrl(chartUrl);
+    	break;
     	case TYPE_SELECTION:
     		labelTextView = (TextView)widgetView.findViewById(R.id.selectionlabel);
     		if (labelTextView != null)
@@ -506,6 +531,8 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     		return TYPE_SELECTION;
     	} else if (openHABWidget.getType().equals("Setpoint")) {
     		return TYPE_SETPOINT;
+    	} else if (openHABWidget.getType().equals("Chart")) {
+    		return TYPE_CHART;
     	} else {
     		return TYPE_GENERICITEM;
     	}
