@@ -411,7 +411,8 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     		VideoView videoVideo = (VideoView)widgetView.findViewById(R.id.videovideo);
     		Log.i("OpenHABWidgetAdapter", "Opening video at " + openHABWidget.getUrl());
     		videoVideo.setVideoURI(Uri.parse(openHABWidget.getUrl()));
-    		videoVideo.setMediaController(new MediaController(widgetView.getContext()));
+    		MediaController mediaController = new MediaController(widgetView.getContext());
+    		videoVideo.setMediaController(mediaController);
     		videoVideo.start();
     	break;
     	case TYPE_WEB:

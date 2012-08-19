@@ -104,6 +104,7 @@ public class OpenHABWidgetListActivity extends ListActivity {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
+		Log.i("OpenHABWidgetListActivity", "onCreate");
 		// TODO: Make progress indicator active every time we load the page
 		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 		requestWindowFeature(Window.FEATURE_PROGRESS);
@@ -126,6 +127,7 @@ public class OpenHABWidgetListActivity extends ListActivity {
 			pageUrlStack = savedInstanceState.getStringArrayList("pageUrlStack");
 			openHABBaseUrl = savedInstanceState.getString("openHABBaseUrl");
 			sitemapRootUrl = savedInstanceState.getString("sitemapRootUrl");
+			openHABWidgetAdapter.setOpenHABBaseUrl(openHABBaseUrl);
 		}
 		// If yes, then just show it
 		if (displayPageUrl.length() > 0) {
@@ -145,6 +147,8 @@ public class OpenHABWidgetListActivity extends ListActivity {
 	
 	@Override
 	public void onSaveInstanceState(Bundle savedInstanceState) {
+		Log.i("OpenHABWidgetListActivity", "onSaveInstanceState");
+
 	  // Save UI state changes to the savedInstanceState.
 	  // This bundle will be passed to onCreate if the process is
 	  // killed and restarted.
