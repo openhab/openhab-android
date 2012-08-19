@@ -10,7 +10,7 @@
         android:layout_height="wrap_content" 
         android:id="@+id/chartimage"
         android:adjustViewBounds="true"
-        android:scaleType="fitCenter"
+        android:scaleType="fitXY"
         android:layout_margin="5dip"
  		/>
 <LinearLayout 
