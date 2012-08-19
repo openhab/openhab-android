@@ -3,10 +3,11 @@
   xmlns:android="http://schemas.android.com/apk/res/android"
   android:layout_width="fill_parent"
   android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
   >
 <com.loopj.android.image.SmartImageView
         android:layout_width="fill_parent"
-        android:layout_height="160dip" 
+        android:layout_height="wrap_content" 
         android:id="@+id/chartimage"
         android:adjustViewBounds="true"
         android:scaleType="fitCenter"

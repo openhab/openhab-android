@@ -9,6 +9,7 @@
         android:layout_height="wrap_content" 
         android:id="@+id/imageimage"
         android:adjustViewBounds="true"
+        android:layout_margin="5dip"
 		/>
 <LinearLayout 
     	android:id="@+id/listdivider"

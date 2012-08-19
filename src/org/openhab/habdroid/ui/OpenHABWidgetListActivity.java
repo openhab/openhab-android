@@ -124,6 +124,8 @@ public class OpenHABWidgetListActivity extends ListActivity {
 		if (savedInstanceState != null) {
 			displayPageUrl = savedInstanceState.getString("displayPageUrl");
 			pageUrlStack = savedInstanceState.getStringArrayList("pageUrlStack");
+			openHABBaseUrl = savedInstanceState.getString("openHABBaseUrl");
+			sitemapRootUrl = savedInstanceState.getString("sitemapRootUrl");
 		}
 		// If yes, then just show it
 		if (displayPageUrl.length() > 0) {
@@ -148,6 +150,8 @@ public class OpenHABWidgetListActivity extends ListActivity {
 	  // killed and restarted.
 	  savedInstanceState.putString("displayPageUrl", displayPageUrl);
 	  savedInstanceState.putStringArrayList("pageUrlStack", pageUrlStack);
+	  savedInstanceState.putString("openHABBaseUrl", openHABBaseUrl);
+	  savedInstanceState.putString("sitemapRootUrl", sitemapRootUrl);
 	  super.onSaveInstanceState(savedInstanceState);
 	}
 	

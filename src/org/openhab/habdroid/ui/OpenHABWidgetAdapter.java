@@ -59,6 +59,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnFocusChangeListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.webkit.WebView;
@@ -70,6 +71,7 @@ import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.MediaController;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.RelativeLayout;
@@ -402,12 +404,13 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     					String.valueOf(random.nextInt());
     		}
     		Log.i("OpenHABWidgetAdapter", "Chart url = " + chartUrl);
-    		chartImage.setImageUrl(chartUrl);
+    		chartImage.setImageUrl(chartUrl, R.drawable.chart_image, R.drawable.chart_image);
     	break;
     	case TYPE_VIDEO:
     		VideoView videoVideo = (VideoView)widgetView.findViewById(R.id.videovideo);
     		Log.i("OpenHABWidgetAdapter", "Opening video at " + openHABWidget.getUrl());
     		videoVideo.setVideoURI(Uri.parse(openHABWidget.getUrl()));
+    		videoVideo.setMediaController(new MediaController(widgetView.getContext()));
     		videoVideo.start();
     	break;
     	case TYPE_WEB:
