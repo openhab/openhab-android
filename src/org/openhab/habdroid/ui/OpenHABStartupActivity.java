@@ -128,9 +128,10 @@ public class OpenHABStartupActivity extends Activity implements AsyncServiceReso
 					} else {
 						Log.i(TAG, "openHAB UUID doesn't match the saved one");
 						// TODO: need to add some user prompt here
-						Toast.makeText(getApplicationContext(), 
-								"openHAB UUID doesn't match the saved one, connection failed",
-								Toast.LENGTH_LONG).show();
+/*						Toast.makeText(getApplicationContext(), 
+								"openHAB UUID doesn't match the saved one!",
+								Toast.LENGTH_LONG).show();*/
+						startListActivity(openHABBaseUrl);
 					}
 				} else {
 					Log.i(TAG, "No recorded openHAB UUID, saving the new one");
@@ -151,7 +152,7 @@ public class OpenHABStartupActivity extends Activity implements AsyncServiceReso
 	@Override
 	public void onServiceResolveFailed() {
 		progressDialog.hide();
-		Log.i(TAG, "Service resolve failed, switching to alt URL");
+		Log.i(TAG, "Service resolve failed, switching to remote URL");
 		onAlternativeUrl();
 	}
 	
@@ -213,13 +214,13 @@ public class OpenHABStartupActivity extends Activity implements AsyncServiceReso
 				PreferenceManager.getDefaultSharedPreferences(this);
 		String altUrl = settings.getString("default_openhab_alturl", "");
 		if (altUrl.length() > 0) {
-			Toast.makeText(getApplicationContext(), "Connecting to alternative URL",
+			Toast.makeText(getApplicationContext(), "Connecting to remote URL",
 					Toast.LENGTH_SHORT).show();
-			Log.i(TAG, "Connecting to alternative URL " + altUrl);
+			Log.i(TAG, "Connecting to remote URL " + altUrl);
 			openHABBaseUrl = altUrl;
 			startListActivity(openHABBaseUrl);
 		} else {
-			Toast.makeText(getApplicationContext(), "Please configure openHAB URL or alternative URL",
+			Toast.makeText(getApplicationContext(), "Please configure openHAB URL or remote URL",
 					Toast.LENGTH_LONG).show();		
 			stopProgressIndicator();
 		}
