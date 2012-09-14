@@ -30,10 +30,10 @@
 package org.openhab.habdroid.ui;
 
 import javax.jmdns.ServiceInfo;
-
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.util.AsyncServiceResolver;
 import org.openhab.habdroid.util.AsyncServiceResolverListener;
+import org.openhab.habdroid.util.MyAsyncHttpClient;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -66,11 +66,10 @@ import android.widget.Toast;
 
 public class OpenHABStartupActivity extends Activity implements AsyncServiceResolverListener {
 	private final static String TAG = "OpenHABStartupActivity";
-	private static final String openHABServiceType = "_openhab-server._tcp.local.";
+	private static final String openHABServiceType = "_openhab-server-ssl._tcp.local.";
 	private String openHABBaseUrl = "";
 	// Progress dialog
 	private ProgressDialog progressDialog;
-
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -78,6 +77,7 @@ public class OpenHABStartupActivity extends Activity implements AsyncServiceReso
 		requestWindowFeature(Window.FEATURE_PROGRESS);
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.openhabstartup);
+
 		if (!tryManualUrl()) {
 			ConnectivityManager connectivityManager = (ConnectivityManager)getSystemService(
 					Context.CONNECTIVITY_SERVICE);
@@ -110,10 +110,10 @@ public class OpenHABStartupActivity extends Activity implements AsyncServiceReso
 		Log.i(TAG, "Service resolved: "
                 + serviceInfo.getHostAddresses()[0]
                 + " port:" + serviceInfo.getPort());
-		openHABBaseUrl = "http://" + serviceInfo.getHostAddresses()[0] + ":" +
+		openHABBaseUrl = "https://" + serviceInfo.getHostAddresses()[0] + ":" +
 				String.valueOf(serviceInfo.getPort()) + "/";
 		progressDialog.hide();
-		AsyncHttpClient asyncHttpClient = new AsyncHttpClient();
+		AsyncHttpClient asyncHttpClient = new MyAsyncHttpClient();
 		asyncHttpClient.get(openHABBaseUrl + "static/uuid", new AsyncHttpResponseHandler() {
 			@Override
 			public void onSuccess(String content) {

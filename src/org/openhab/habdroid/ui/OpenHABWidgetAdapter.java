@@ -29,11 +29,8 @@
 
 package org.openhab.habdroid.ui;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
-import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -45,32 +42,23 @@ import org.openhab.habdroid.R;
 import org.openhab.habdroid.model.OpenHABItem;
 import org.openhab.habdroid.model.OpenHABWidget;
 import org.openhab.habdroid.model.OpenHABWidgetMapping;
-
-import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.AsyncHttpResponseHandler;
-import com.loopj.android.image.SmartImageView;
+import org.openhab.habdroid.util.MyAsyncHttpClient;
+import org.openhab.habdroid.util.MySmartImageView;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnAttachStateChangeListener;
 import android.view.View.OnClickListener;
-import android.view.View.OnFocusChangeListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
-import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.MediaController;
 import android.widget.RadioGroup;
@@ -83,6 +71,8 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.VideoView;
 import at.bookworm.widget.segcontrol.SegmentedControlButton;
+
+import com.loopj.android.http.AsyncHttpResponseHandler;
 
 /**
  * This class provides openHAB widgets adapter for list view.
@@ -206,7 +196,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     				valueTextView.setText("");
     			}
     		}
-    		SmartImageView groupImage = (SmartImageView)widgetView.findViewById(R.id.groupimage);
+    		MySmartImageView groupImage = (MySmartImageView)widgetView.findViewById(R.id.groupimage);
     		groupImage.setImageUrl(openHABBaseUrl + "images/" +
     				openHABWidget.getIcon() + ".png");
     		break;
@@ -259,7 +249,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
 					}
 				}
     		});
-    		SmartImageView sectionSwitchImage = (SmartImageView)widgetView.findViewById(R.id.sectionswitchimage);
+    		MySmartImageView sectionSwitchImage = (MySmartImageView)widgetView.findViewById(R.id.sectionswitchimage);
     		sectionSwitchImage.setImageUrl(openHABBaseUrl + "images/" +
     				openHABWidget.getIcon() + ".png");
     		break;
@@ -290,7 +280,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
 					return false;
 				}
     		});
-    		SmartImageView switchImage = (SmartImageView)widgetView.findViewById(R.id.switchimage);
+    		MySmartImageView switchImage = (MySmartImageView)widgetView.findViewById(R.id.switchimage);
     		switchImage.setImageUrl(openHABBaseUrl + "images/" +
     				openHABWidget.getIcon() + ".png");
     		break;
@@ -334,7 +324,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
 					return false;
 				}
     		});
-    		SmartImageView rollershutterImage = (SmartImageView)widgetView.findViewById(R.id.rollershutterimage);
+    		MySmartImageView rollershutterImage = (MySmartImageView)widgetView.findViewById(R.id.rollershutterimage);
     		rollershutterImage.setImageUrl(openHABBaseUrl + "images/" +
     				openHABWidget.getIcon() + ".png");
     		break;
@@ -354,7 +344,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     				valueTextView.setVisibility(View.GONE);
     				valueTextView.setText("");
     			}
-    		SmartImageView textImage = (SmartImageView)widgetView.findViewById(R.id.textimage);
+    		MySmartImageView textImage = (MySmartImageView)widgetView.findViewById(R.id.textimage);
     		textImage.setImageUrl(openHABBaseUrl + "images/" +
     				openHABWidget.getIcon() + ".png");
     		break;
@@ -363,7 +353,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     		splitString = openHABWidget.getLabel().split("\\[|\\]");
     		if (labelTextView != null)
     			labelTextView.setText(splitString[0]);
-    		SmartImageView itemImage = (SmartImageView)widgetView.findViewById(R.id.sliderimage);
+    		MySmartImageView itemImage = (MySmartImageView)widgetView.findViewById(R.id.sliderimage);
     		itemImage.setImageUrl(openHABBaseUrl + "images/" +
     				openHABWidget.getIcon() + ".png");
     		SeekBar sliderSeekBar = (SeekBar)widgetView.findViewById(R.id.sliderseekbar);
@@ -391,11 +381,11 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     		}
     		break;
     	case TYPE_IMAGE:
-    		SmartImageView imageImage = (SmartImageView)widgetView.findViewById(R.id.imageimage);
+    		MySmartImageView imageImage = (MySmartImageView)widgetView.findViewById(R.id.imageimage);
     		imageImage.setImageUrl(ensureAbsoluteURL(openHABBaseUrl, openHABWidget.getUrl()));
    		break;
     	case TYPE_CHART:
-    		SmartImageView chartImage = (SmartImageView)widgetView.findViewById(R.id.chartimage);
+    		MySmartImageView chartImage = (MySmartImageView)widgetView.findViewById(R.id.chartimage);
     		OpenHABItem chartItem = openHABWidget.getItem();
     		Random random = new Random();
     		String chartUrl = "";
@@ -453,7 +443,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
 				public void onNothingSelected(AdapterView<?> arg0) {
 				}    			
     		});
-    		SmartImageView selectionImage = (SmartImageView)widgetView.findViewById(R.id.selectionimage);
+    		MySmartImageView selectionImage = (MySmartImageView)widgetView.findViewById(R.id.selectionimage);
     		selectionImage.setImageUrl(openHABBaseUrl + "images/" +
     				openHABWidget.getIcon() + ".png");
     		break;
@@ -462,7 +452,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     		splitString = openHABWidget.getLabel().split("\\[|\\]");
     		if (labelTextView != null)
     			labelTextView.setText(splitString[0]);
-    		SmartImageView setPointImage = (SmartImageView)widgetView.findViewById(R.id.setpointimage);
+    		MySmartImageView setPointImage = (MySmartImageView)widgetView.findViewById(R.id.setpointimage);
     		setPointImage.setImageUrl(openHABBaseUrl + "images/" +
     				openHABWidget.getIcon() + ".png");
     		TextView setPointValueTextView = (TextView)widgetView.findViewById(R.id.setpointvaluelabel);
@@ -506,7 +496,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     		labelTextView = (TextView)widgetView.findViewById(R.id.itemlabel);
     		if (labelTextView != null)
     			labelTextView.setText(openHABWidget.getLabel());
-    		SmartImageView sliderImage = (SmartImageView)widgetView.findViewById(R.id.itemimage);
+    		MySmartImageView sliderImage = (MySmartImageView)widgetView.findViewById(R.id.itemimage);
     		sliderImage.setImageUrl(openHABBaseUrl + "images/" +
     				openHABWidget.getIcon() + ".png");
     		break;
@@ -584,7 +574,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     }
     
     private void sendItemCommand(OpenHABItem item, String command) {
-		AsyncHttpClient asyncHttpClient = new AsyncHttpClient();
+		MyAsyncHttpClient asyncHttpClient = new MyAsyncHttpClient();
 		asyncHttpClient.setBasicAuthCredientidals(openHABUsername, openHABPassword);
 		try {
 			StringEntity se = new StringEntity(command);

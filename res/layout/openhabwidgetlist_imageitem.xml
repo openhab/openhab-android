@@ -4,7 +4,7 @@
   android:layout_width="fill_parent"
   android:layout_height="wrap_content"
   >
-<com.loopj.android.image.SmartImageView 
+<org.openhab.habdroid.util.MySmartImageView 
         android:layout_width="fill_parent"
         android:layout_height="wrap_content" 
         android:id="@+id/imageimage"

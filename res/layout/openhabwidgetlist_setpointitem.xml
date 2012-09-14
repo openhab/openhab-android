@@ -11,7 +11,7 @@
         android:layout_height="wrap_content" 
 		android:layout_alignParentLeft="true"
       >
-<com.loopj.android.image.SmartImageView 
+<org.openhab.habdroid.util.MySmartImageView 
         android:paddingTop="6dip" 
         android:paddingBottom="6dip" 
         android:layout_width="wrap_content"

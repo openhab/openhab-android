@@ -43,6 +43,7 @@ import org.openhab.habdroid.R;
 import org.openhab.habdroid.model.OpenHABSitemap;
 import org.openhab.habdroid.model.OpenHABWidget;
 import org.openhab.habdroid.model.OpenHABWidgetDataSource;
+import org.openhab.habdroid.util.MyAsyncHttpClient;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -95,7 +96,7 @@ public class OpenHABWidgetListActivity extends ListActivity {
 	// Sitemap pages stack for digging in and getting back
 	private ArrayList<String> pageUrlStack = new ArrayList<String>();
 	// openHAB base url
-	private String openHABBaseUrl = "http://demo.openhab.org:8080/";
+	private String openHABBaseUrl = "https://demo.openhab.org:8443/";
 	// List of widgets to display
 	private ArrayList<OpenHABWidget> widgetList = new ArrayList<OpenHABWidget>();
 	// Username/password for authentication
@@ -199,7 +200,7 @@ public class OpenHABWidgetListActivity extends ListActivity {
 		if (pageAsyncHttpClient != null) {
 			pageAsyncHttpClient.cancelRequests(this, true);
 		}
-		pageAsyncHttpClient = new AsyncHttpClient();
+		pageAsyncHttpClient = new MyAsyncHttpClient();
 		// If authentication is needed
 		pageAsyncHttpClient.setBasicAuthCredientidals(openHABUsername, openHABPassword);
 		// If long-polling is needed
@@ -353,7 +354,7 @@ public class OpenHABWidgetListActivity extends ListActivity {
 	private void selectSitemap(String baseURL) {
 		Log.i(TAG, "Trying to select sitemap for " + baseURL + "rest/sitemaps");
 			Log.i(TAG, "No sitemap configured, asking user to select one");
-	    	AsyncHttpClient asyncHttpClient = new AsyncHttpClient();
+	    	AsyncHttpClient asyncHttpClient = new MyAsyncHttpClient();
 			// If authentication is needed
 	    	asyncHttpClient.setBasicAuthCredientidals(openHABUsername, openHABPassword);
 	    	asyncHttpClient.get(baseURL + "rest/sitemaps", new AsyncHttpResponseHandler() {
