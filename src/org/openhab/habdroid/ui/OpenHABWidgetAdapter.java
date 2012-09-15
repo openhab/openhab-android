@@ -54,13 +54,13 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.MediaController;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.RelativeLayout;
@@ -396,14 +396,24 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     		}
     		Log.i("OpenHABWidgetAdapter", "Chart url = " + chartUrl);
     		chartImage.setImageUrl(chartUrl, R.drawable.chart_image, R.drawable.chart_image);
+    		// TODO: This is quite dirty fix to make charts look full screen width on all displays
+    		ViewGroup.LayoutParams chartLayoutParams = chartImage.getLayoutParams();
+    		int screenWidth = ((WindowManager)getContext().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getWidth();
+    		chartLayoutParams.height = (int) (screenWidth/1.88);
+    		chartImage.setLayoutParams(chartLayoutParams);
+    		Log.i("OpenHABWidgetAdapter", "chart size = " + chartLayoutParams.width + " " + chartLayoutParams.height);
     	break;
     	case TYPE_VIDEO:
     		VideoView videoVideo = (VideoView)widgetView.findViewById(R.id.videovideo);
     		Log.i("OpenHABWidgetAdapter", "Opening video at " + openHABWidget.getUrl());
     		videoVideo.setVideoURI(Uri.parse(openHABWidget.getUrl()));
-    		MediaController mediaController = new MediaController(widgetView.getContext());
-    		videoVideo.setMediaController(mediaController);
+    		// TODO: This is quite dirty fi to make video look maximum available size on all screens
+    		WindowManager wm = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
+    		ViewGroup.LayoutParams videoLayoutParams = videoVideo.getLayoutParams();
+    		videoLayoutParams.height = (int)(wm.getDefaultDisplay().getWidth()/1.77);
+    		videoVideo.setLayoutParams(videoLayoutParams);
     		videoVideo.start();
+    		Log.i("OpenHABWidgetAdapter", "Video height is " + videoVideo.getHeight());
     	break;
     	case TYPE_WEB:
 //    		WebView webWeb = (WebView)widgetView.findViewById(R.id.webweb);

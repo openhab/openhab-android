@@ -54,7 +54,6 @@ import com.loopj.android.http.AsyncHttpResponseHandler;
 
 import android.app.AlertDialog;
 import android.app.ListActivity;
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -351,7 +350,7 @@ public class OpenHABWidgetListActivity extends ListActivity {
      * @return      void
      */
 
-	private void selectSitemap(String baseURL) {
+	private void selectSitemap(final String baseURL) {
 		Log.i(TAG, "Trying to select sitemap for " + baseURL + "rest/sitemaps");
 			Log.i(TAG, "No sitemap configured, asking user to select one");
 	    	AsyncHttpClient asyncHttpClient = new MyAsyncHttpClient();
@@ -379,18 +378,32 @@ public class OpenHABWidgetListActivity extends ListActivity {
 								sitemapNameItems.add(openhabSitemap.getName());
 								sitemapItems.add(openhabSitemap);
 							}
+							Log.i("OpenHABWidgetListActivity", "Got " + sitemapItems.size() + " sitemaps");
+							// If we only got one sitemap from openHAB just go for it!
+							if (sitemapItems.size() == 1) {
+								displayPageUrl = sitemapItems.get(0).getHomepageLink();
+								sitemapRootUrl = sitemapItems.get(0).getHomepageLink();
+								showPage(displayPageUrl, false);
+								return;
+							}
 							SharedPreferences settings = 
 									PreferenceManager.getDefaultSharedPreferences(OpenHABWidgetListActivity.this);
 							String selectedSitemap = settings.getString("default_openhab_sitemap", "");
 							if (selectedSitemap.length() > 0) {
+								// Check if configured sitemap is existant on the openHAB?
 								Log.i(TAG, "Opening configured sitemap - " + selectedSitemap);
 								for (int i=0; i < sitemapNodes.getLength(); i++) {
+									// If we found it, open it
 									if (sitemapItems.get(i).getName().equals(selectedSitemap)) {
 										displayPageUrl = sitemapItems.get(i).getHomepageLink();
 										sitemapRootUrl = sitemapItems.get(i).getHomepageLink();
 										showPage(displayPageUrl, false);
 									}
 								}
+								// Else remove sitemap setting and let user select a sitemap
+								settings.edit().remove("default_openhab_sitemap");
+								selectSitemap(baseURL);
+								return;
 							} else {
 								AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(OpenHABWidgetListActivity.this);
 								dialogBuilder.setTitle("Select sitemap");

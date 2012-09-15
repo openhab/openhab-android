@@ -2,7 +2,6 @@ package org.openhab.habdroid.util;
 
 import java.io.InputStream;
 import java.net.URL;
-import java.net.URLConnection;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.security.cert.X509Certificate;
@@ -59,13 +58,11 @@ public class MyWebImage implements SmartImage {
         Bitmap bitmap = null;
 
         try {
-            URLConnection conn = new URL(url).openConnection();
+            HttpsURLConnection.setDefaultHostnameVerifier(getHostnameVerifier());
+            HttpsURLConnection conn = (HttpsURLConnection) new URL(url).openConnection();
+            conn.setSSLSocketFactory(getSSLSocketFactory());
             conn.setConnectTimeout(CONNECT_TIMEOUT);
             conn.setReadTimeout(READ_TIMEOUT);
-            if (url.startsWith("https")) {
-            	((HttpsURLConnection)conn).setSSLSocketFactory(getSSLSocketFactory());
-            	((HttpsURLConnection)conn).setDefaultHostnameVerifier(getHostnameVerifier());
-            }
             bitmap = BitmapFactory.decodeStream((InputStream) conn.getContent());
         } catch(Exception e) {
             e.printStackTrace();
