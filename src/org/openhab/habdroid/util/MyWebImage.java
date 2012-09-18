@@ -1,6 +1,9 @@
 package org.openhab.habdroid.util;
 
+import java.io.IOException;
 import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
@@ -56,18 +59,29 @@ public class MyWebImage implements SmartImage {
 
     private Bitmap getBitmapFromUrl(String url) {
         Bitmap bitmap = null;
-
-        try {
-            HttpsURLConnection.setDefaultHostnameVerifier(getHostnameVerifier());
-            HttpsURLConnection conn = (HttpsURLConnection) new URL(url).openConnection();
-            conn.setSSLSocketFactory(getSSLSocketFactory());
-            conn.setConnectTimeout(CONNECT_TIMEOUT);
-            conn.setReadTimeout(READ_TIMEOUT);
-            bitmap = BitmapFactory.decodeStream((InputStream) conn.getContent());
-        } catch(Exception e) {
-            e.printStackTrace();
+        if (url.startsWith("https")) {
+        	try {
+        		HttpsURLConnection.setDefaultHostnameVerifier(getHostnameVerifier());
+        		HttpsURLConnection conn = (HttpsURLConnection) new URL(url).openConnection();
+        		conn.setSSLSocketFactory(getSSLSocketFactory());
+        		conn.setConnectTimeout(CONNECT_TIMEOUT);
+        		conn.setReadTimeout(READ_TIMEOUT);
+        		bitmap = BitmapFactory.decodeStream((InputStream) conn.getContent());
+        	} catch(Exception e) {
+        		e.printStackTrace();
+        	}
+        } else {
+        	try {
+				HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
+        		conn.setConnectTimeout(CONNECT_TIMEOUT);
+        		conn.setReadTimeout(READ_TIMEOUT);
+        		bitmap = BitmapFactory.decodeStream((InputStream) conn.getContent());
+			} catch (MalformedURLException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
         }
-
         return bitmap;
     }
 

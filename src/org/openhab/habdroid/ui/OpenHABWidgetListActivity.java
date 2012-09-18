@@ -138,7 +138,7 @@ public class OpenHABWidgetListActivity extends ListActivity {
 			openHABBaseUrl = getIntent().getExtras().getString("baseURL");
 			if (openHABBaseUrl != null) {
 				openHABWidgetAdapter.setOpenHABBaseUrl(openHABBaseUrl);
-				selectSitemap(openHABBaseUrl);
+				selectSitemap(openHABBaseUrl, false);
 			} else {
 				Log.i(TAG, "No base URL!");
 			}
@@ -303,7 +303,7 @@ public class OpenHABWidgetListActivity extends ListActivity {
 			Editor preferencesEditor = settings.edit();
 			preferencesEditor.putString("default_openhab_sitemap", "");
 			preferencesEditor.commit();
-    		selectSitemap(openHABBaseUrl);
+    		selectSitemap(openHABBaseUrl, true);
         case android.R.id.home:
         	displayPageUrl = sitemapRootUrl;
         	// we are navigating to root page, so clear page stack to support regular 'back' behavior for root page
@@ -350,106 +350,168 @@ public class OpenHABWidgetListActivity extends ListActivity {
      * @return      void
      */
 
-	private void selectSitemap(final String baseURL) {
-		Log.i(TAG, "Trying to select sitemap for " + baseURL + "rest/sitemaps");
-			Log.i(TAG, "No sitemap configured, asking user to select one");
-	    	AsyncHttpClient asyncHttpClient = new MyAsyncHttpClient();
-			// If authentication is needed
-	    	asyncHttpClient.setBasicAuthCredientidals(openHABUsername, openHABPassword);
-	    	asyncHttpClient.get(baseURL + "rest/sitemaps", new AsyncHttpResponseHandler() {
-				@Override
-				public void onSuccess(String content) {
-//					Log.i(TAG, content);
-					final List<String> sitemapNameItems = new ArrayList<String>();
-					final List<OpenHABSitemap> sitemapItems = new ArrayList<OpenHABSitemap>();
-					DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-					DocumentBuilder builder;
-					try {
-						builder = factory.newDocumentBuilder();
-						Document document;
-						document = builder.parse(new ByteArrayInputStream(content.getBytes("UTF-8")));
-						NodeList sitemapNodes = document.getElementsByTagName("sitemap");
-						if (sitemapNodes.getLength() > 0) {
-							for (int i=0; i < sitemapNodes.getLength(); i++) {
-								Node sitemapNode = sitemapNodes.item(i);
-								OpenHABSitemap openhabSitemap = new OpenHABSitemap(sitemapNode);
-								Log.i(TAG, "Sitemap: " + openhabSitemap.getName() + " " + openhabSitemap.getLink()
-										+ " " + openhabSitemap.getHomepageLink());
-								sitemapNameItems.add(openhabSitemap.getName());
-								sitemapItems.add(openhabSitemap);
-							}
-							Log.i("OpenHABWidgetListActivity", "Got " + sitemapItems.size() + " sitemaps");
-							// If we only got one sitemap from openHAB just go for it!
-							if (sitemapItems.size() == 1) {
-								displayPageUrl = sitemapItems.get(0).getHomepageLink();
-								sitemapRootUrl = sitemapItems.get(0).getHomepageLink();
-								showPage(displayPageUrl, false);
-								return;
-							}
-							SharedPreferences settings = 
-									PreferenceManager.getDefaultSharedPreferences(OpenHABWidgetListActivity.this);
-							String selectedSitemap = settings.getString("default_openhab_sitemap", "");
-							if (selectedSitemap.length() > 0) {
-								// Check if configured sitemap is existant on the openHAB?
-								Log.i(TAG, "Opening configured sitemap - " + selectedSitemap);
-								for (int i=0; i < sitemapNodes.getLength(); i++) {
-									// If we found it, open it
-									if (sitemapItems.get(i).getName().equals(selectedSitemap)) {
-										displayPageUrl = sitemapItems.get(i).getHomepageLink();
-										sitemapRootUrl = sitemapItems.get(i).getHomepageLink();
-										showPage(displayPageUrl, false);
-									}
-								}
-								// Else remove sitemap setting and let user select a sitemap
-								settings.edit().remove("default_openhab_sitemap");
-								selectSitemap(baseURL);
-								return;
-							} else {
-								AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(OpenHABWidgetListActivity.this);
-								dialogBuilder.setTitle("Select sitemap");
-								dialogBuilder.setItems(sitemapNameItems.toArray(new CharSequence[sitemapNameItems.size()]),
-										new DialogInterface.OnClickListener() {
-											@Override
-											public void onClick(
-													DialogInterface dialog,
-													int item) {
-												Log.i(TAG, "Selected sitemap " + sitemapNameItems.get(item));
-												Log.i(TAG, "Opening " + sitemapItems.get(item).getHomepageLink());
-												displayPageUrl = sitemapItems.get(item).getHomepageLink();
-												sitemapRootUrl = sitemapItems.get(item).getHomepageLink();
-												SharedPreferences settings = 
-														PreferenceManager.getDefaultSharedPreferences(OpenHABWidgetListActivity.this);
-												Editor preferencesEditor = settings.edit();
-												preferencesEditor.putString("default_openhab_sitemap", sitemapItems.get(item).getName());
-												preferencesEditor.commit();
-												showPage(displayPageUrl, false);
-										    	OpenHABWidgetListActivity.this.getListView().setSelection(0);
-											}
-								}).show();
-							}
+	private void selectSitemap(final String baseURL, final boolean forceSelect) {
+		Log.i(TAG, "Loding sitemap list from " + baseURL + "rest/sitemaps");
+	    AsyncHttpClient asyncHttpClient = new MyAsyncHttpClient();
+		// If authentication is needed
+	    asyncHttpClient.setBasicAuthCredientidals(openHABUsername, openHABPassword);
+	    asyncHttpClient.get(baseURL + "rest/sitemaps", new AsyncHttpResponseHandler() {
+			@Override
+			public void onSuccess(String content) {
+				List<OpenHABSitemap> sitemapList = parseSitemapList(content);
+				if (sitemapList.size() == 0) {
+					// Got an empty sitemap list!
+					showAlertDialog("ERROR: openHAB returned empty sitemap list!");
+					return;
+				}
+				// If we are forced to do selection, just open selection dialog
+				if (forceSelect) {
+					showSitemapSelectionDialog(sitemapList);
+				} else {
+					// Check if we have a sitemap configured to use
+					SharedPreferences settings = 
+							PreferenceManager.getDefaultSharedPreferences(OpenHABWidgetListActivity.this);
+					String configuredSitemap = settings.getString("default_openhab_sitemap", "");
+					// If we have sitemap configured
+					if (configuredSitemap.length() > 0) {
+						// Configured sitemap is on the list we got, open it!
+						if (sitemapExists(sitemapList, configuredSitemap)) {
+							Log.i(TAG, "Configured sitemap is on the list");
+							OpenHABSitemap selectedSitemap = getSitemapByName(sitemapList, configuredSitemap);
+							openSitemap(selectedSitemap.getHomepageLink());
+						// Configured sitemap is not on the list we got!
 						} else {
-							Toast.makeText(getApplicationContext(), "openHAB returned no sitemaps",
-									Toast.LENGTH_LONG).show();
+							Log.i(TAG, "Configured sitemap is not on the list");
+							if (sitemapList.size() == 1) {
+								Log.i(TAG, "Got only one sitemap");
+								Editor preferencesEditor = settings.edit();
+								preferencesEditor.putString("default_openhab_sitemap", sitemapList.get(0).getName());
+									preferencesEditor.commit();
+								openSitemap(sitemapList.get(0).getHomepageLink());								
+							} else {
+								Log.i(TAG, "Got multiply sitemaps, user have to select one");
+								showSitemapSelectionDialog(sitemapList);
+							}
 						}
-					} catch (ParserConfigurationException e) {
-						Log.e(TAG, e.getMessage());
-					} catch (UnsupportedEncodingException e) {
-						Log.e(TAG, e.getMessage());
-					} catch (SAXException e) {
-						Log.e(TAG, e.getMessage());
-					} catch (IOException e) {
-						Log.e(TAG, e.getMessage());
+					// No sitemap is configured to use
+					} else {
+						// We got only one single sitemap from openHAB, use it
+						if (sitemapList.size() == 1) {
+							Log.i(TAG, "Got only one sitemap");
+							Editor preferencesEditor = settings.edit();
+							preferencesEditor.putString("default_openhab_sitemap", sitemapList.get(0).getName());
+								preferencesEditor.commit();
+							openSitemap(sitemapList.get(0).getHomepageLink());
+						} else {
+							Log.i(TAG, "Got multiply sitemaps, user have to select one");
+							showSitemapSelectionDialog(sitemapList);
+						}
 					}
+				}
 			}
 			@Override
-		    public void onFailure(Throwable e) {
-				Log.e(TAG, e.getMessage());
+	    	public void onFailure(Throwable e) {
+				if (e.getMessage() != null) {
+					if (e.getMessage().equals("Unauthorized")) {
+						showAlertDialog("ERROR: Authentication failed. Please check Username/Password settings!");
+					} else {
+						showAlertDialog("ERROR: " + e.getMessage());
+					}
+				} else {
+					showAlertDialog("ERROR: Http error, no details");
+				}
 			}
-    	});
+	    });
 	}
 
 	private void stopProgressIndicator() {
 		setProgressBarIndeterminateVisibility(false);
+	}
+	
+	private boolean sitemapExists(List<OpenHABSitemap> sitemapList, String sitemapName) {
+		for (int i=0; i<sitemapList.size(); i++) {
+			if (sitemapList.get(i).getName().equals(sitemapName))
+				return true;
+		}
+		return false;
+	}
+	
+	private OpenHABSitemap getSitemapByName(List<OpenHABSitemap> sitemapList, String sitemapName) {
+		for (int i=0; i<sitemapList.size(); i++) {
+			if (sitemapList.get(i).getName().equals(sitemapName))
+				return sitemapList.get(i);
+		}
+		return null;
+	}
+	
+	private List<OpenHABSitemap> parseSitemapList(String xmlContent) {
+		List<OpenHABSitemap> sitemapList = new ArrayList<OpenHABSitemap>();
+		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+		DocumentBuilder builder;
+		try {
+			builder = factory.newDocumentBuilder();
+			Document document;
+			document = builder.parse(new ByteArrayInputStream(xmlContent.getBytes("UTF-8")));
+			NodeList sitemapNodes = document.getElementsByTagName("sitemap");
+			if (sitemapNodes.getLength() > 0) {
+				for (int i=0; i < sitemapNodes.getLength(); i++) {
+					Node sitemapNode = sitemapNodes.item(i);
+					OpenHABSitemap openhabSitemap = new OpenHABSitemap(sitemapNode);
+					sitemapList.add(openhabSitemap);
+				}
+			}
+		} catch (ParserConfigurationException e) {
+			Log.e(TAG, e.getMessage());
+		} catch (UnsupportedEncodingException e) {
+			Log.e(TAG, e.getMessage());
+		} catch (SAXException e) {
+			Log.e(TAG, e.getMessage());
+		} catch (IOException e) {
+			Log.e(TAG, e.getMessage());
+		}
+		return sitemapList;
+	}
+	
+	private void showAlertDialog(String alertMessage) {
+		AlertDialog.Builder builder = new AlertDialog.Builder(OpenHABWidgetListActivity.this);
+		builder.setMessage(alertMessage)
+			.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int id) {
+				}
+		});
+		AlertDialog alert = builder.create();
+		alert.show();		
+	}
+	
+	private void showSitemapSelectionDialog(final List<OpenHABSitemap> sitemapList) {
+		Log.i(TAG, "Opening sitemap selection dialog");
+		final List<String> sitemapNameList = new ArrayList<String>();;
+		for (int i=0; i<sitemapList.size(); i++) {
+			sitemapNameList.add(sitemapList.get(i).getName());
+		}
+		AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(OpenHABWidgetListActivity.this);
+		dialogBuilder.setTitle("Select sitemap");
+		dialogBuilder.setItems(sitemapNameList.toArray(new CharSequence[sitemapNameList.size()]),
+			new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int item) {
+					Log.i(TAG, "Selected sitemap " + sitemapNameList.get(item));
+					SharedPreferences settings = 
+						PreferenceManager.getDefaultSharedPreferences(OpenHABWidgetListActivity.this);
+					Editor preferencesEditor = settings.edit();
+					preferencesEditor.putString("default_openhab_sitemap", sitemapList.get(item).getName());
+						preferencesEditor.commit();
+					openSitemap(sitemapList.get(item).getHomepageLink());
+				}
+			}).show();
+	}
+	
+	private void openSitemap(String sitemapUrl) {
+		Log.i(TAG, "Opening sitemap at " + sitemapUrl);
+		displayPageUrl = sitemapUrl;
+		sitemapRootUrl = sitemapUrl;
+		showPage(displayPageUrl, false);
+    	OpenHABWidgetListActivity.this.getListView().setSelection(0);		
 	}
 
 }
