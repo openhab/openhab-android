@@ -29,6 +29,9 @@
 
 package org.openhab.habdroid.ui;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+
 import javax.jmdns.ServiceInfo;
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.util.AsyncServiceResolver;
@@ -46,6 +49,7 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -196,10 +200,8 @@ public class OpenHABStartupActivity extends Activity implements AsyncServiceReso
 	private boolean tryManualUrl() {
 		SharedPreferences settings = 
 				PreferenceManager.getDefaultSharedPreferences(this);
-		String manualUrl = settings.getString("default_openhab_url", "");
+		String manualUrl = normalizeUrl(settings.getString("default_openhab_url", ""));
 		if (manualUrl.length() > 0) {
-			if (!manualUrl.endsWith("/"))
-				manualUrl = manualUrl + "/";
 			Toast.makeText(getApplicationContext(), "Connecting to configured URL",
 					Toast.LENGTH_SHORT).show();
 			Log.i(TAG, "Manual url configured, connecting to " + manualUrl);
@@ -214,10 +216,8 @@ public class OpenHABStartupActivity extends Activity implements AsyncServiceReso
 	private void onAlternativeUrl() {
 		SharedPreferences settings = 
 				PreferenceManager.getDefaultSharedPreferences(this);
-		String altUrl = settings.getString("default_openhab_alturl", "");
+		String altUrl = normalizeUrl(settings.getString("default_openhab_alturl", ""));
 		if (altUrl.length() > 0) {
-			if (!altUrl.endsWith("/"))
-				altUrl = altUrl + "/";
 			Toast.makeText(getApplicationContext(), "Connecting to remote URL",
 					Toast.LENGTH_SHORT).show();
 			Log.i(TAG, "Connecting to remote URL " + altUrl);
@@ -239,5 +239,18 @@ public class OpenHABStartupActivity extends Activity implements AsyncServiceReso
 	
 	private void stopProgressIndicator() {
 		setProgressBarIndeterminateVisibility(false);
+	}
+	
+	private String normalizeUrl(String sourceUrl) {
+		String normalizedUrl = "";
+		try {
+			URL url = new URL(sourceUrl);
+			normalizedUrl = url.toString();
+			if (!normalizedUrl.endsWith("/"))
+				normalizedUrl = normalizedUrl + "/";
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		}
+		return normalizedUrl;
 	}
 }

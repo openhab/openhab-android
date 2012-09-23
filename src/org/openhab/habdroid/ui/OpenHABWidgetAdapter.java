@@ -417,7 +417,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     		ViewGroup.LayoutParams videoLayoutParams = videoVideo.getLayoutParams();
     		videoLayoutParams.height = (int)(wm.getDefaultDisplay().getWidth()/1.77);
     		videoVideo.setLayoutParams(videoLayoutParams);
-    		videoVideo.start();
+    		//videoVideo.start();
     		Log.i("OpenHABWidgetAdapter", "Video height is " + videoVideo.getHeight());
     	break;
     	case TYPE_WEB:

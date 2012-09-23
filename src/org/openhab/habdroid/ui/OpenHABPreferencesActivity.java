@@ -29,6 +29,9 @@
 
 package org.openhab.habdroid.ui;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+
 import org.openhab.habdroid.R;
 
 import android.preference.Preference;
@@ -59,7 +62,7 @@ public class OpenHABPreferencesActivity extends PreferenceActivity {
 			@Override
 			public boolean onPreferenceChange(Preference preference, Object newValue) {
 				String newUrl = (String)newValue;
-				if (Patterns.WEB_URL.matcher(newUrl).matches()) {
+				if (urlIsValid(newUrl)) {
 					return true;
 				}
 				showAlertDialog("Please enter a valid URL in a 'protocol://host:port/' form!");
@@ -70,7 +73,7 @@ public class OpenHABPreferencesActivity extends PreferenceActivity {
 			@Override
 			public boolean onPreferenceChange(Preference preference, Object newValue) {
 				String newUrl = (String)newValue;
-				if (Patterns.WEB_URL.matcher(newUrl).matches()) {
+				if (urlIsValid(newUrl)) {
 					return true;
 				}
 				showAlertDialog("Please enter a valid URL in a 'protocol://host:port/' form!");
@@ -78,6 +81,15 @@ public class OpenHABPreferencesActivity extends PreferenceActivity {
 			}
 	    });
 	    setResult(RESULT_OK);
+	}
+	
+	private boolean urlIsValid(String url) {
+		try {
+			URL checkUrl = new URL(url);
+		} catch (MalformedURLException e) {
+			return false;
+		}
+		return true;
 	}
 	
 	private void showAlertDialog(String alertMessage) {
