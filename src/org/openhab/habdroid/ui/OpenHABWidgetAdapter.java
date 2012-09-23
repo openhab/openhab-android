@@ -382,7 +382,10 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     		break;
     	case TYPE_IMAGE:
     		MySmartImageView imageImage = (MySmartImageView)widgetView.findViewById(R.id.imageimage);
-    		imageImage.setImageUrl(ensureAbsoluteURL(openHABBaseUrl, openHABWidget.getUrl()));
+    		imageImage.setImageUrl(ensureAbsoluteURL(openHABBaseUrl, openHABWidget.getUrl()), false);
+    		if (openHABWidget.getRefresh() > 0) {
+    			imageImage.setRefreshRate(openHABWidget.getRefresh());
+    		}
    		break;
     	case TYPE_CHART:
     		MySmartImageView chartImage = (MySmartImageView)widgetView.findViewById(R.id.chartimage);
@@ -395,12 +398,14 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     					String.valueOf(random.nextInt());
     		}
     		Log.i("OpenHABWidgetAdapter", "Chart url = " + chartUrl);
-    		chartImage.setImageUrl(chartUrl, R.drawable.chart_image, R.drawable.chart_image);
+    		chartImage.setImageUrl(chartUrl, false);
     		// TODO: This is quite dirty fix to make charts look full screen width on all displays
     		ViewGroup.LayoutParams chartLayoutParams = chartImage.getLayoutParams();
     		int screenWidth = ((WindowManager)getContext().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getWidth();
     		chartLayoutParams.height = (int) (screenWidth/1.88);
     		chartImage.setLayoutParams(chartLayoutParams);
+    		if (openHABWidget.getRefresh() > 0)
+    			chartImage.setRefreshRate(openHABWidget.getRefresh());
     		Log.i("OpenHABWidgetAdapter", "chart size = " + chartLayoutParams.width + " " + chartLayoutParams.height);
     	break;
     	case TYPE_VIDEO:

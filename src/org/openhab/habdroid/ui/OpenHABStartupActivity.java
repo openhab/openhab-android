@@ -198,6 +198,8 @@ public class OpenHABStartupActivity extends Activity implements AsyncServiceReso
 				PreferenceManager.getDefaultSharedPreferences(this);
 		String manualUrl = settings.getString("default_openhab_url", "");
 		if (manualUrl.length() > 0) {
+			if (!manualUrl.endsWith("/"))
+				manualUrl = manualUrl + "/";
 			Toast.makeText(getApplicationContext(), "Connecting to configured URL",
 					Toast.LENGTH_SHORT).show();
 			Log.i(TAG, "Manual url configured, connecting to " + manualUrl);
@@ -214,6 +216,8 @@ public class OpenHABStartupActivity extends Activity implements AsyncServiceReso
 				PreferenceManager.getDefaultSharedPreferences(this);
 		String altUrl = settings.getString("default_openhab_alturl", "");
 		if (altUrl.length() > 0) {
+			if (!altUrl.endsWith("/"))
+				altUrl = altUrl + "/";
 			Toast.makeText(getApplicationContext(), "Connecting to remote URL",
 					Toast.LENGTH_SHORT).show();
 			Log.i(TAG, "Connecting to remote URL " + altUrl);

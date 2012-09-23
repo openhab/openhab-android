@@ -30,7 +30,15 @@
 package org.openhab.habdroid.ui;
 
 import org.openhab.habdroid.R;
+
+import android.preference.Preference;
+import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.PreferenceActivity;
+import android.util.Log;
+import android.util.Patterns;
+import android.webkit.URLUtil;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 
 /**
@@ -45,6 +53,41 @@ public class OpenHABPreferencesActivity extends PreferenceActivity {
 	public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
 	    addPreferencesFromResource(R.xml.preferences);
+	    Preference urlPreference = getPreferenceScreen().findPreference("default_openhab_url");
+	    Preference altUrlPreference = getPreferenceScreen().findPreference("default_openhab_alturl");
+	    urlPreference.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
+			@Override
+			public boolean onPreferenceChange(Preference preference, Object newValue) {
+				String newUrl = (String)newValue;
+				if (Patterns.WEB_URL.matcher(newUrl).matches()) {
+					return true;
+				}
+				showAlertDialog("Please enter a valid URL in a 'protocol://host:port/' form!");
+				return false;
+			}
+	    });
+	    altUrlPreference.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
+			@Override
+			public boolean onPreferenceChange(Preference preference, Object newValue) {
+				String newUrl = (String)newValue;
+				if (Patterns.WEB_URL.matcher(newUrl).matches()) {
+					return true;
+				}
+				showAlertDialog("Please enter a valid URL in a 'protocol://host:port/' form!");
+				return false;
+			}
+	    });
 	    setResult(RESULT_OK);
+	}
+	
+	private void showAlertDialog(String alertMessage) {
+		AlertDialog.Builder builder = new AlertDialog.Builder(OpenHABPreferencesActivity.this);
+		builder.setMessage(alertMessage)
+			.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int id) {
+				}
+		});
+		AlertDialog alert = builder.create();
+		alert.show();		
 	}
 }

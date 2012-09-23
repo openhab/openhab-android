@@ -23,6 +23,7 @@ import com.loopj.android.image.WebImageCache;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 
 public class MyWebImage implements SmartImage {
     private static final int CONNECT_TIMEOUT = 5000;
@@ -31,9 +32,16 @@ public class MyWebImage implements SmartImage {
     private static WebImageCache webImageCache;
 
     private String url;
+    private boolean useCache = true;
 
     public MyWebImage(String url) {
         this.url = url;
+        this.useCache = true;
+    }
+    
+    public MyWebImage(String url, boolean useCache) {
+    	this.url = url;
+    	this.useCache = useCache;
     }
 
     public Bitmap getBitmap(Context context) {
@@ -47,8 +55,9 @@ public class MyWebImage implements SmartImage {
         if(url != null) {
             bitmap = webImageCache.get(url);
             if(bitmap == null) {
+            	Log.i("MyWebImage", "Cache for " + url + " is empty, getting image");
                 bitmap = getBitmapFromUrl(url);
-                if(bitmap != null){
+                if(bitmap != null && this.useCache) {
                     webImageCache.put(url, bitmap);
                 }
             }
