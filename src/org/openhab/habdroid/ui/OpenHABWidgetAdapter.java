@@ -51,10 +51,15 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnAttachStateChangeListener;
 import android.view.View.OnClickListener;
+import android.view.View.OnFocusChangeListener;
+import android.view.View.OnHoverListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
@@ -100,10 +105,13 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
 	private String openHABBaseUrl = "http://demo.openhab.org:8080/";
 	private String openHABUsername;
 	private String openHABPassword;
+	private ArrayList<VideoView> videoWidgetList;
 
 	public OpenHABWidgetAdapter(Context context, int resource,
 			List<OpenHABWidget> objects) {
 		super(context, resource, objects);
+		// Initialize video view array
+		videoWidgetList = new ArrayList<VideoView>();
 	}
 
     @Override
@@ -412,17 +420,27 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     		VideoView videoVideo = (VideoView)widgetView.findViewById(R.id.videovideo);
     		Log.i("OpenHABWidgetAdapter", "Opening video at " + openHABWidget.getUrl());
     		videoVideo.setVideoURI(Uri.parse(openHABWidget.getUrl()));
-    		// TODO: This is quite dirty fi to make video look maximum available size on all screens
+    		// TODO: This is quite dirty fix to make video look maximum available size on all screens
     		WindowManager wm = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
     		ViewGroup.LayoutParams videoLayoutParams = videoVideo.getLayoutParams();
     		videoLayoutParams.height = (int)(wm.getDefaultDisplay().getWidth()/1.77);
     		videoVideo.setLayoutParams(videoLayoutParams);
-    		//videoVideo.start();
+    		// We don't have any event handler to know if the VideoView is on the screen
+    		// so we manage an array of all videos to stop them when user leaves the page
+    		videoWidgetList.add(videoVideo);
+    		// Start video
+    		videoVideo.start();
     		Log.i("OpenHABWidgetAdapter", "Video height is " + videoVideo.getHeight());
     	break;
     	case TYPE_WEB:
-//    		WebView webWeb = (WebView)widgetView.findViewById(R.id.webweb);
-//   		webWeb.loadUrl(openHABWidget.getUrl());
+    		WebView webWeb = (WebView)widgetView.findViewById(R.id.webweb);
+    		if (openHABWidget.getHeight() > 0) {
+    			ViewGroup.LayoutParams webLayoutParams = webWeb.getLayoutParams();
+    			webLayoutParams.height = openHABWidget.getHeight() * 80;
+    			webWeb.setLayoutParams(webLayoutParams);
+    		}
+    		webWeb.setWebViewClient(new WebViewClient());
+    		webWeb.loadUrl(openHABWidget.getUrl());
     	break;
     	case TYPE_SELECTION:
     		labelTextView = (TextView)widgetView.findViewById(R.id.selectionlabel);
@@ -612,5 +630,13 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
 
 	public void setOpenHABPassword(String openHABPassword) {
 		this.openHABPassword = openHABPassword;
+	}
+	
+	public void stopVideoWidgets() {
+		for (int i=0; i<videoWidgetList.size(); i++) {
+			if (videoWidgetList.get(i) != null)
+				videoWidgetList.get(i).stopPlayback();
+		}
+		videoWidgetList.clear();
 	}
 }

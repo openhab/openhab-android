@@ -50,6 +50,7 @@ public class OpenHABWidget {
 	private float maxValue = 100;
 	private float step = 1;
 	private int refresh = 0;
+	private int height = 0;
 	private OpenHABWidget parent;
 	private OpenHABItem item;
 	private OpenHABLinkedPage linkedPage;
@@ -94,6 +95,8 @@ public class OpenHABWidget {
 						setRefresh(Integer.valueOf(childNode.getTextContent()).intValue());
 					} else if (childNode.getNodeName().equals("period")) {
 						setPeriod(childNode.getTextContent());
+					} else if (childNode.getNodeName().equals("height")) {
+						setHeight(Integer.valueOf(childNode.getTextContent()));
 					} else if (childNode.getNodeName().equals("mapping")) {
 						NodeList mappingChildNodes = childNode.getChildNodes();
 						String mappingCommand = "";
@@ -251,6 +254,14 @@ public class OpenHABWidget {
 
 	public void setPeriod(String period) {
 		this.period = period;
+	}
+
+	public int getHeight() {
+		return height;
+	}
+
+	public void setHeight(int height) {
+		this.height = height;
 	}
 	
 }

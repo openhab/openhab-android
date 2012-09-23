@@ -5,13 +5,20 @@
   android:layout_height="wrap_content"
   android:adjustViewBounds="true"
   >
+<WebView 
+    android:id="@+id/webweb"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:adjustViewBounds="true"
+    android:layout_margin="5dip"
+    />
 <LinearLayout 
     	android:id="@+id/listdivider"
         android:layout_width="fill_parent"
         android:layout_height="1dip"
         android:background="?android:attr/listDivider"
         android:orientation="horizontal"
-        android:layout_below="@+id/imageimage"
+        android:layout_below="@+id/webweb"
         android:layout_marginLeft="5dip"
         android:layout_marginRight="5dip"
        />

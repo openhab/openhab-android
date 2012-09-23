@@ -40,6 +40,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.openhab.habdroid.R;
+import org.openhab.habdroid.model.OpenHABPage;
 import org.openhab.habdroid.model.OpenHABSitemap;
 import org.openhab.habdroid.model.OpenHABWidget;
 import org.openhab.habdroid.model.OpenHABWidgetDataSource;
@@ -93,7 +94,7 @@ public class OpenHABWidgetListActivity extends ListActivity {
 	// async http client
 	private AsyncHttpClient pageAsyncHttpClient;
 	// Sitemap pages stack for digging in and getting back
-	private ArrayList<String> pageUrlStack = new ArrayList<String>();
+	private ArrayList<OpenHABPage> pageStack = new ArrayList<OpenHABPage>();
 	// openHAB base url
 	private String openHABBaseUrl = "https://demo.openhab.org:8443/";
 	// List of widgets to display
@@ -124,7 +125,7 @@ public class OpenHABWidgetListActivity extends ListActivity {
 		// Check if we have openHAB page url in saved instance state?
 		if (savedInstanceState != null) {
 			displayPageUrl = savedInstanceState.getString("displayPageUrl");
-			pageUrlStack = savedInstanceState.getStringArrayList("pageUrlStack");
+			pageStack = savedInstanceState.getParcelableArrayList("pageStack");
 			openHABBaseUrl = savedInstanceState.getString("openHABBaseUrl");
 			sitemapRootUrl = savedInstanceState.getString("sitemapRootUrl");
 			openHABWidgetAdapter.setOpenHABBaseUrl(openHABBaseUrl);
@@ -153,7 +154,7 @@ public class OpenHABWidgetListActivity extends ListActivity {
 	  // This bundle will be passed to onCreate if the process is
 	  // killed and restarted.
 	  savedInstanceState.putString("displayPageUrl", displayPageUrl);
-	  savedInstanceState.putStringArrayList("pageUrlStack", pageUrlStack);
+	  savedInstanceState.putParcelableArrayList("pageStack", pageStack);
 	  savedInstanceState.putString("openHABBaseUrl", openHABBaseUrl);
 	  savedInstanceState.putString("sitemapRootUrl", sitemapRootUrl);
 	  super.onSaveInstanceState(savedInstanceState);
@@ -165,7 +166,6 @@ public class OpenHABWidgetListActivity extends ListActivity {
 		Log.i(TAG, "onDestroy() for " + this.displayPageUrl);
 		if (pageAsyncHttpClient != null)
 			pageAsyncHttpClient.cancelRequests(this, true);
-		// release multicast lock for mDNS
 	}
 	
 	@Override
@@ -245,12 +245,17 @@ public class OpenHABWidgetListActivity extends ListActivity {
 			Node rootNode = document.getFirstChild();
 			openHABWidgetDataSource.setSourceNode(rootNode);
 			widgetList.clear();
+			// As we change the page we need to stop all videos on current page
+			// before going to the new page. This is quite dirty, but is the only
+			// way to do that...
+			openHABWidgetAdapter.stopVideoWidgets();
 			for (OpenHABWidget w : openHABWidgetDataSource.getWidgets()) {
 				widgetList.add(w);
 			}
 			openHABWidgetAdapter.notifyDataSetChanged();
 			setTitle(openHABWidgetDataSource.getTitle());
 			setProgressBarIndeterminateVisibility(false);
+			getListView().setSelection(0);
 			getListView().setOnItemClickListener(new OnItemClickListener() {
 				@Override
 				public void onItemClick(AdapterView<?> parent, View view, int position,
@@ -260,7 +265,7 @@ public class OpenHABWidgetListActivity extends ListActivity {
 					if (openHABWidget.hasLinkedPage()) {
 						// Widget have a page linked to it
 						// Put current page into the stack and go to linked one
-						pageUrlStack.add(0, displayPageUrl);
+						pageStack.add(0, new OpenHABPage(displayPageUrl, OpenHABWidgetListActivity.this.getListView().getFirstVisiblePosition()));
 						displayPageUrl = openHABWidget.getLinkedPage().getLink();
 						showPage(openHABWidget.getLinkedPage().getLink(), false);
 					}
@@ -307,7 +312,7 @@ public class OpenHABWidgetListActivity extends ListActivity {
         case android.R.id.home:
         	displayPageUrl = sitemapRootUrl;
         	// we are navigating to root page, so clear page stack to support regular 'back' behavior for root page
-        	pageUrlStack.clear();
+        	pageStack.clear();
             showPage(sitemapRootUrl, false);
             Log.i(TAG, "Home selected - " + sitemapRootUrl);
             return true;
@@ -328,9 +333,10 @@ public class OpenHABWidgetListActivity extends ListActivity {
     	Log.i(TAG, "keyCode = " + keyCode);
     	if (keyCode == 4) {
     		Log.i(TAG, "This is 'back' key");
-    		if (pageUrlStack.size() > 0) {
-    			displayPageUrl = pageUrlStack.get(0);
-    			pageUrlStack.remove(0);
+    		if (pageStack.size() > 0) {
+    			displayPageUrl = pageStack.get(0).getPageUrl();
+//    			OpenHABWidgetListActivity.this.setSelection(pageStack.get(0).getWidgetListPosition());
+    			pageStack.remove(0);
     			showPage(displayPageUrl, false);
     		} else {
     			Log.i(TAG, "No more pages left in stack, exiting");
