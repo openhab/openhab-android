@@ -62,6 +62,8 @@ public class OpenHABPreferencesActivity extends PreferenceActivity {
 			@Override
 			public boolean onPreferenceChange(Preference preference, Object newValue) {
 				String newUrl = (String)newValue;
+				if (newUrl.length() == 0)
+					return true;
 				if (urlIsValid(newUrl)) {
 					return true;
 				}
@@ -73,6 +75,8 @@ public class OpenHABPreferencesActivity extends PreferenceActivity {
 			@Override
 			public boolean onPreferenceChange(Preference preference, Object newValue) {
 				String newUrl = (String)newValue;
+				if (newUrl.length() == 0)
+					return true;
 				if (urlIsValid(newUrl)) {
 					return true;
 				}
