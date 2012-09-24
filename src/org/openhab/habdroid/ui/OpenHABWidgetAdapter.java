@@ -106,12 +106,14 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
 	private String openHABUsername;
 	private String openHABPassword;
 	private ArrayList<VideoView> videoWidgetList;
+	private ArrayList<MySmartImageView> refreshImageList;
 
 	public OpenHABWidgetAdapter(Context context, int resource,
 			List<OpenHABWidget> objects) {
 		super(context, resource, objects);
 		// Initialize video view array
 		videoWidgetList = new ArrayList<VideoView>();
+		refreshImageList = new ArrayList<MySmartImageView>();
 	}
 
     @Override
@@ -393,6 +395,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     		imageImage.setImageUrl(ensureAbsoluteURL(openHABBaseUrl, openHABWidget.getUrl()), false);
     		if (openHABWidget.getRefresh() > 0) {
     			imageImage.setRefreshRate(openHABWidget.getRefresh());
+    			refreshImageList.add(imageImage);
     		}
    		break;
     	case TYPE_CHART:
@@ -412,14 +415,15 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     		int screenWidth = ((WindowManager)getContext().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getWidth();
     		chartLayoutParams.height = (int) (screenWidth/1.88);
     		chartImage.setLayoutParams(chartLayoutParams);
-    		if (openHABWidget.getRefresh() > 0)
+    		if (openHABWidget.getRefresh() > 0) {
     			chartImage.setRefreshRate(openHABWidget.getRefresh());
+    			refreshImageList.add(chartImage);
+    		}
     		Log.i("OpenHABWidgetAdapter", "chart size = " + chartLayoutParams.width + " " + chartLayoutParams.height);
     	break;
     	case TYPE_VIDEO:
     		VideoView videoVideo = (VideoView)widgetView.findViewById(R.id.videovideo);
     		Log.i("OpenHABWidgetAdapter", "Opening video at " + openHABWidget.getUrl());
-    		videoVideo.setVideoURI(Uri.parse(openHABWidget.getUrl()));
     		// TODO: This is quite dirty fix to make video look maximum available size on all screens
     		WindowManager wm = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
     		ViewGroup.LayoutParams videoLayoutParams = videoVideo.getLayoutParams();
@@ -427,9 +431,13 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     		videoVideo.setLayoutParams(videoLayoutParams);
     		// We don't have any event handler to know if the VideoView is on the screen
     		// so we manage an array of all videos to stop them when user leaves the page
-    		videoWidgetList.add(videoVideo);
+    		if (!videoWidgetList.contains(videoVideo))
+    			videoWidgetList.add(videoVideo);
     		// Start video
-    		videoVideo.start();
+    		if (!videoVideo.isPlaying()) {
+        		videoVideo.setVideoURI(Uri.parse(openHABWidget.getUrl()));
+    			videoVideo.start();
+    		}
     		Log.i("OpenHABWidgetAdapter", "Video height is " + videoVideo.getHeight());
     	break;
     	case TYPE_WEB:
@@ -638,5 +646,12 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
 				videoWidgetList.get(i).stopPlayback();
 		}
 		videoWidgetList.clear();
+	}
+	
+	public void stopImageRefresh() {
+		for (int i=0; i<refreshImageList.size(); i++) {
+			if (refreshImageList.get(i) != null)
+				refreshImageList.get(i).cancelRefresh();
+		}
 	}
 }

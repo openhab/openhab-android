@@ -249,6 +249,7 @@ public class OpenHABWidgetListActivity extends ListActivity {
 			// before going to the new page. This is quite dirty, but is the only
 			// way to do that...
 			openHABWidgetAdapter.stopVideoWidgets();
+			openHABWidgetAdapter.stopImageRefresh();
 			for (OpenHABWidget w : openHABWidgetDataSource.getWidgets()) {
 				widgetList.add(w);
 			}

@@ -68,5 +68,10 @@ public class MySmartImageView extends SmartImageView {
 			}
     	}, msec, msec);
     }
+    
+    public void cancelRefresh() {
+    	if (this.imageRefreshTimer != null)
+    		this.imageRefreshTimer.cancel();
+    }
 
 }
