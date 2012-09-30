@@ -256,7 +256,6 @@ public class OpenHABWidgetListActivity extends ListActivity {
 			openHABWidgetAdapter.notifyDataSetChanged();
 			setTitle(openHABWidgetDataSource.getTitle());
 			setProgressBarIndeterminateVisibility(false);
-			getListView().setSelection(0);
 			getListView().setOnItemClickListener(new OnItemClickListener() {
 				@Override
 				public void onItemClick(AdapterView<?> parent, View view, int position,
@@ -425,7 +424,8 @@ public class OpenHABWidgetListActivity extends ListActivity {
 						showAlertDialog("ERROR: " + e.getMessage());
 					}
 				} else {
-					showAlertDialog("ERROR: Http error, no details");
+					// TODO: carefully handle errors without message
+//					showAlertDialog("ERROR: Http error, no details");
 				}
 			}
 	    });
