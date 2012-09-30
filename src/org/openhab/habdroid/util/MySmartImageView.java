@@ -4,7 +4,6 @@ import java.util.Timer;
 import java.util.TimerTask;
 import android.content.Context;
 import android.os.Handler;
-import android.os.Looper;
 import android.os.Message;
 import android.util.AttributeSet;
 import android.util.Log;

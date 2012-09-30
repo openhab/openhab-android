@@ -70,7 +70,6 @@ import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.Toast;
 
 /**
  * This class provides app activity which displays list of openHAB
@@ -220,8 +219,7 @@ public class OpenHABWidgetListActivity extends ListActivity {
 				if (e.getMessage() != null) {
 					Log.e(TAG, e.getMessage());
 					if (e.getMessage().equals("Unauthorized")) {
-					Toast.makeText(getApplicationContext(), "Authentication failed",
-							Toast.LENGTH_LONG).show();
+						showAlertDialog("@string/error_authentication_failed");
 					}
 				}
 				stopProgressIndicator();
@@ -367,7 +365,7 @@ public class OpenHABWidgetListActivity extends ListActivity {
 				List<OpenHABSitemap> sitemapList = parseSitemapList(content);
 				if (sitemapList.size() == 0) {
 					// Got an empty sitemap list!
-					showAlertDialog("ERROR: openHAB returned empty sitemap list!");
+					showAlertDialog("@string/error_empty_sitemap_list");
 					return;
 				}
 				// If we are forced to do selection, just open selection dialog
@@ -419,7 +417,7 @@ public class OpenHABWidgetListActivity extends ListActivity {
 	    	public void onFailure(Throwable e) {
 				if (e.getMessage() != null) {
 					if (e.getMessage().equals("Unauthorized")) {
-						showAlertDialog("ERROR: Authentication failed. Please check Username/Password settings!");
+						showAlertDialog("@string/error_authentication_failed");
 					} else {
 						showAlertDialog("ERROR: " + e.getMessage());
 					}

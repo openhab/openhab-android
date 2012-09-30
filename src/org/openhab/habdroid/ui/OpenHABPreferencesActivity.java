@@ -37,9 +37,6 @@ import org.openhab.habdroid.R;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.PreferenceActivity;
-import android.util.Log;
-import android.util.Patterns;
-import android.webkit.URLUtil;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -67,7 +64,7 @@ public class OpenHABPreferencesActivity extends PreferenceActivity {
 				if (urlIsValid(newUrl)) {
 					return true;
 				}
-				showAlertDialog("Please enter a valid URL in a 'protocol://host:port/' form!");
+				showAlertDialog("@string/erorr_invalid_url");
 				return false;
 			}
 	    });
@@ -80,7 +77,7 @@ public class OpenHABPreferencesActivity extends PreferenceActivity {
 				if (urlIsValid(newUrl)) {
 					return true;
 				}
-				showAlertDialog("Please enter a valid URL in a 'protocol://host:port/' form!");
+				showAlertDialog("@string/erorr_invalid_url");
 				return false;
 			}
 	    });
