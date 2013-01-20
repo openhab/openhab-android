@@ -2,6 +2,7 @@ package org.openhab.habdroid.util;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -23,6 +24,7 @@ import com.loopj.android.image.WebImageCache;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Base64;
 import android.util.Log;
 
 public class MyWebImage implements SmartImage {
@@ -33,10 +35,20 @@ public class MyWebImage implements SmartImage {
 
     private String url;
     private boolean useCache = true;
+    
+    private String authUsername;
+    private String authPassword;
+    private boolean shouldAuth = false;
 
     public MyWebImage(String url) {
         this.url = url;
         this.useCache = true;
+    }
+    
+    public MyWebImage(String url, String username, String password) {
+        this.url = url;
+        this.useCache = true;
+        this.setAuthentication(username, password);
     }
     
     public MyWebImage(String url, boolean useCache) {
@@ -44,6 +56,12 @@ public class MyWebImage implements SmartImage {
     	this.useCache = useCache;
     }
 
+    public MyWebImage(String url, boolean useCache, String username, String password) {
+    	this.url = url;
+    	this.useCache = useCache;
+        this.setAuthentication(username, password);
+    }
+    
     public Bitmap getBitmap(Context context) {
         // Don't leak context
         if(webImageCache == null) {
@@ -53,7 +71,8 @@ public class MyWebImage implements SmartImage {
         // Try getting bitmap from cache first
         Bitmap bitmap = null;
         if(url != null) {
-            bitmap = webImageCache.get(url);
+            if (this.useCache)
+            	bitmap = webImageCache.get(url);
             if(bitmap == null) {
             	Log.i("MyWebImage", "Cache for " + url + " is empty, getting image");
                 bitmap = getBitmapFromUrl(url);
@@ -68,6 +87,15 @@ public class MyWebImage implements SmartImage {
 
     private Bitmap getBitmapFromUrl(String url) {
         Bitmap bitmap = null;
+        String encodedUserPassword = null;
+        if (shouldAuth)
+        	try {
+        		String userPassword = this.authUsername + ":" + this.authPassword;
+        		encodedUserPassword = Base64.encodeToString(userPassword.getBytes("UTF-8"), Base64.DEFAULT);
+        	} catch (UnsupportedEncodingException e1) {
+        		// TODO Auto-generated catch block
+        		e1.printStackTrace();
+        	}
         if (url.startsWith("https")) {
         	try {
         		HttpsURLConnection.setDefaultHostnameVerifier(getHostnameVerifier());
@@ -75,6 +103,8 @@ public class MyWebImage implements SmartImage {
         		conn.setSSLSocketFactory(getSSLSocketFactory());
         		conn.setConnectTimeout(CONNECT_TIMEOUT);
         		conn.setReadTimeout(READ_TIMEOUT);
+        		if (this.shouldAuth)
+        			conn.setRequestProperty("Authorization", "Basic " + encodedUserPassword);
         		bitmap = BitmapFactory.decodeStream((InputStream) conn.getContent());
         	} catch(Exception e) {
         		e.printStackTrace();
@@ -84,6 +114,8 @@ public class MyWebImage implements SmartImage {
 				HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
         		conn.setConnectTimeout(CONNECT_TIMEOUT);
         		conn.setReadTimeout(READ_TIMEOUT);
+        		if (this.shouldAuth)
+        			conn.setRequestProperty("Authorization", "Basic " + encodedUserPassword);
         		bitmap = BitmapFactory.decodeStream((InputStream) conn.getContent());
 			} catch (MalformedURLException e) {
 				e.printStackTrace();
@@ -141,5 +173,11 @@ public class MyWebImage implements SmartImage {
 			}
         };
         return allHostsValid;
+    }
+    
+    public void setAuthentication(String username, String password) {
+    	this.authUsername = username;
+    	this.authPassword = password;
+    	this.shouldAuth = true;
     }
 }

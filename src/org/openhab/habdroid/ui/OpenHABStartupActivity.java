@@ -102,7 +102,7 @@ public class OpenHABStartupActivity extends Activity implements AsyncServiceReso
 				}
 			} else {
 				Log.i(TAG, "Network is not available");
-				Toast.makeText(getApplicationContext(), "@string/error_network_not_available",
+				Toast.makeText(getApplicationContext(), getString(R.string.error_network_not_available),
 						Toast.LENGTH_LONG).show();
 			}
 		}
@@ -146,7 +146,7 @@ public class OpenHABStartupActivity extends Activity implements AsyncServiceReso
 			}
 			@Override
 		    public void onFailure(Throwable e) {
-				Toast.makeText(getApplicationContext(), "@string/error_no_uuid",
+				Toast.makeText(getApplicationContext(), getString(R.string.error_no_uuid),
 						Toast.LENGTH_LONG).show();
 			}
 		});
@@ -201,7 +201,7 @@ public class OpenHABStartupActivity extends Activity implements AsyncServiceReso
 				PreferenceManager.getDefaultSharedPreferences(this);
 		String manualUrl = normalizeUrl(settings.getString("default_openhab_url", ""));
 		if (manualUrl.length() > 0) {
-			Toast.makeText(getApplicationContext(), "@string/info_conn_url",
+			Toast.makeText(getApplicationContext(), getString(R.string.info_conn_url),
 					Toast.LENGTH_SHORT).show();
 			Log.i(TAG, "Manual url configured, connecting to " + manualUrl);
 			openHABBaseUrl = manualUrl;
@@ -217,13 +217,13 @@ public class OpenHABStartupActivity extends Activity implements AsyncServiceReso
 				PreferenceManager.getDefaultSharedPreferences(this);
 		String altUrl = normalizeUrl(settings.getString("default_openhab_alturl", ""));
 		if (altUrl.length() > 0) {
-			Toast.makeText(getApplicationContext(), "@string/info_conn_rem_url",
+			Toast.makeText(getApplicationContext(), getString(R.string.info_conn_rem_url),
 					Toast.LENGTH_SHORT).show();
 			Log.i(TAG, "Connecting to remote URL " + altUrl);
 			openHABBaseUrl = altUrl;
 			startListActivity(openHABBaseUrl);
 		} else {
-			Toast.makeText(getApplicationContext(), "@string/error_no_url",
+			Toast.makeText(getApplicationContext(), getString(R.string.error_no_url),
 					Toast.LENGTH_LONG).show();		
 			stopProgressIndicator();
 		}

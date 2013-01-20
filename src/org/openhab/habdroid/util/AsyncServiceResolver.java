@@ -88,8 +88,8 @@ public class AsyncServiceResolver extends Thread implements ServiceListener {
 			Log.e(TAG, e.getMessage());
 		}
 		try {
-			// Sleep for 1 second
-			Thread.sleep(1000);
+			// Sleep for 3 second
+			Thread.sleep(3000);
 			if (!isResolved) {
 				((Activity)context).runOnUiThread(new Runnable() {
 					@Override

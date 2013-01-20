@@ -219,7 +219,7 @@ public class OpenHABWidgetListActivity extends ListActivity {
 				if (e.getMessage() != null) {
 					Log.e(TAG, e.getMessage());
 					if (e.getMessage().equals("Unauthorized")) {
-						showAlertDialog("@string/error_authentication_failed");
+						showAlertDialog(getString(R.string.error_authentication_failed));
 					}
 				}
 				stopProgressIndicator();
@@ -238,6 +238,8 @@ public class OpenHABWidgetListActivity extends ListActivity {
 		try {
 			DocumentBuilder builder = factory.newDocumentBuilder();
 			Document document;
+			openHABWidgetAdapter.stopVideoWidgets();
+			openHABWidgetAdapter.stopImageRefresh();
 			// TODO: fix crash with null content
 			document = builder.parse(new ByteArrayInputStream(content.getBytes("UTF-8")));
 			Node rootNode = document.getFirstChild();
@@ -246,8 +248,6 @@ public class OpenHABWidgetListActivity extends ListActivity {
 			// As we change the page we need to stop all videos on current page
 			// before going to the new page. This is quite dirty, but is the only
 			// way to do that...
-			openHABWidgetAdapter.stopVideoWidgets();
-			openHABWidgetAdapter.stopImageRefresh();
 			for (OpenHABWidget w : openHABWidgetDataSource.getWidgets()) {
 				widgetList.add(w);
 			}
@@ -365,7 +365,7 @@ public class OpenHABWidgetListActivity extends ListActivity {
 				List<OpenHABSitemap> sitemapList = parseSitemapList(content);
 				if (sitemapList.size() == 0) {
 					// Got an empty sitemap list!
-					showAlertDialog("@string/error_empty_sitemap_list");
+					showAlertDialog(getString(R.string.error_empty_sitemap_list));
 					return;
 				}
 				// If we are forced to do selection, just open selection dialog
@@ -417,7 +417,7 @@ public class OpenHABWidgetListActivity extends ListActivity {
 	    	public void onFailure(Throwable e) {
 				if (e.getMessage() != null) {
 					if (e.getMessage().equals("Unauthorized")) {
-						showAlertDialog("@string/error_authentication_failed");
+						showAlertDialog(getString(R.string.error_authentication_failed));
 					} else {
 						showAlertDialog("ERROR: " + e.getMessage());
 					}

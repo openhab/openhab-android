@@ -33,20 +33,41 @@ public class MySmartImageView extends SmartImageView {
         setImage(new MyWebImage(url));
     }
 
+    public void setImageUrl(String url, String username, String password) {
+    	this.myImageUrl = url;
+        setImage(new MyWebImage(url, username, password));
+    }
+    
     public void setImageUrl(String url, final Integer fallbackResource) {
     	this.myImageUrl = url;
         setImage(new MyWebImage(url), fallbackResource);
     }
 
+    public void setImageUrl(String url, final Integer fallbackResource, String username, String password) {
+    	this.myImageUrl = url;
+        setImage(new MyWebImage(url, username, password), fallbackResource);
+    }
+    
     public void setImageUrl(String url, final Integer fallbackResource, final Integer loadingResource) {
     	this.myImageUrl = url;
         setImage(new MyWebImage(url), fallbackResource, loadingResource);
+    }
+
+    public void setImageUrl(String url, final Integer fallbackResource, final Integer loadingResource, String username, String password) {
+    	this.myImageUrl = url;
+        setImage(new MyWebImage(url, username, password), fallbackResource, loadingResource);
     }
     
     public void setImageUrl(String url, boolean useImageCache) {
     	this.myImageUrl = url;
     	this.useImageCache = useImageCache;
         setImage(new MyWebImage(url, useImageCache));
+    }
+
+    public void setImageUrl(String url, boolean useImageCache, String username, String password) {
+    	this.myImageUrl = url;
+    	this.useImageCache = useImageCache;
+        setImage(new MyWebImage(url, useImageCache, username, password));
     }
     
     public void setRefreshRate(int msec) {

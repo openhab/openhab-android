@@ -49,6 +49,7 @@ import android.os.Bundle;
  */
 
 public class OpenHABPreferencesActivity extends PreferenceActivity {
+	@SuppressWarnings("deprecation")
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
@@ -85,8 +86,11 @@ public class OpenHABPreferencesActivity extends PreferenceActivity {
 	}
 	
 	private boolean urlIsValid(String url) {
+		// As we accept an empty URL, which means it is not configured, length==0 is ok
+		if (url.length() == 0)
+			return true;
 		try {
-			URL checkUrl = new URL(url);
+			new URL(url);
 		} catch (MalformedURLException e) {
 			return false;
 		}
