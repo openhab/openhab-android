@@ -32,6 +32,9 @@ package org.openhab.habdroid.model;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import android.graphics.Color;
+import android.util.Log;
+
 /**
  * This is a class to hold basic information about openHAB Item.
  * 
@@ -89,6 +92,31 @@ public class OpenHABItem {
 
 	public void setState(String state) {
 		this.state = state;
+	}
+	
+	public boolean getStateAsBoolean() {
+		if (state.equals("ON")) {
+			return true;
+		}
+		return false;
+	}
+	
+	public Float getStateAsFloat() {
+		return Float.parseFloat(state);
+	}
+	
+	public float[] getStateAsHSV() {
+		String[] stateSplit = state.split(",");
+		if (stateSplit.length == 3) { // We need exactly 3 numbers to operate this
+			float[] result = {Float.parseFloat(stateSplit[0]), Float.parseFloat(stateSplit[1]), Float.parseFloat(stateSplit[2])};
+			return result;
+		} else {
+			return null;
+		}
+	}
+	
+	public int getStateAsColor() {
+		return Color.HSVToColor(getStateAsHSV());
 	}
 
 	public String getLink() {

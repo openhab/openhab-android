@@ -42,10 +42,12 @@ import org.openhab.habdroid.R;
 import org.openhab.habdroid.model.OpenHABItem;
 import org.openhab.habdroid.model.OpenHABWidget;
 import org.openhab.habdroid.model.OpenHABWidgetMapping;
+import org.openhab.habdroid.ui.ColorPickerDialog.OnColorChangedListener;
 import org.openhab.habdroid.util.MyAsyncHttpClient;
 import org.openhab.habdroid.util.MySmartImageView;
-
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -98,7 +100,8 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
 	public static final int TYPE_CHART = 11;
 	public static final int TYPE_VIDEO = 12;
 	public static final int TYPE_WEB = 13;
-	public static final int TYPES_COUNT = 14;
+	public static final int TYPE_COLOR = 14;
+	public static final int TYPES_COUNT = 15;
 	private String openHABBaseUrl = "http://demo.openhab.org:8080/";
 	private String openHABUsername;
 	private String openHABPassword;
@@ -118,7 +121,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     public View getView(int position, View convertView, ViewGroup parent) {
     	/* TODO: This definitely needs some huge refactoring
     	 */
-    	RelativeLayout widgetView;
+    	final RelativeLayout widgetView;
 		TextView labelTextView;
 		TextView valueTextView;
     	int widgetLayout = 0;
@@ -164,6 +167,9 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     		break;
     	case TYPE_WEB:
     		widgetLayout = R.layout.openhabwidgetlist_webitem;
+    		break;
+    	case TYPE_COLOR:
+    		widgetLayout = R.layout.openhabwidgetlist_coloritem;
     		break;
     	default:
     		widgetLayout = R.layout.openhabwidgetlist_genericitem;
@@ -293,6 +299,69 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     		switchImage.setImageUrl(openHABBaseUrl + "images/" +
     				openHABWidget.getIcon() + ".png");
     		break;
+    	case TYPE_COLOR:
+    		labelTextView = (TextView)widgetView.findViewById(R.id.colorlabel);
+    		if (labelTextView != null)
+    			labelTextView.setText(openHABWidget.getLabel());
+    		ImageButton colorUpButton = (ImageButton)widgetView.findViewById(R.id.colorbutton_up);
+    		ImageButton colorDownButton = (ImageButton)widgetView.findViewById(R.id.colorbutton_down);
+    		ImageButton colorColorButton = (ImageButton)widgetView.findViewById(R.id.colorbutton_color);
+    		colorUpButton.setTag(openHABWidget.getItem());
+    		colorDownButton.setTag(openHABWidget.getItem());
+    		colorColorButton.setTag(openHABWidget.getItem());
+    		colorUpButton.setOnTouchListener(new OnTouchListener() {
+				@Override
+				public boolean onTouch(View v, MotionEvent motionEvent) {
+					ImageButton colorButton = (ImageButton)v;
+					OpenHABItem colorItem = (OpenHABItem)colorButton.getTag();
+					if (motionEvent.getActionMasked() == MotionEvent.ACTION_UP)
+						sendItemCommand(colorItem, "ON");
+					return false;
+				}
+    		});
+    		colorDownButton.setOnTouchListener(new OnTouchListener() {
+				@Override
+				public boolean onTouch(View v, MotionEvent motionEvent) {
+					ImageButton colorButton = (ImageButton)v;
+					OpenHABItem colorItem = (OpenHABItem)colorButton.getTag();
+					if (motionEvent.getActionMasked() == MotionEvent.ACTION_UP)
+						sendItemCommand(colorItem, "OFF");
+					return false;
+				}
+    		});
+    		colorColorButton.setOnTouchListener(new OnTouchListener() {
+				@Override
+				public boolean onTouch(View v, MotionEvent motionEvent) {
+					ImageButton colorButton = (ImageButton)v;
+					OpenHABItem colorItem = (OpenHABItem)colorButton.getTag();
+					Log.i("OpenHABWidgetAdapter", "Colorpicker HSV = " + colorItem.getStateAsHSV()[0] + ", " +
+							colorItem.getStateAsHSV()[1] + ", " + colorItem.getStateAsHSV()[2]);
+					Log.i("OpenHABWidgetAdapter", "Colorpicker Color = " + colorItem.getStateAsColor());
+					if (motionEvent.getActionMasked() == MotionEvent.ACTION_UP) {
+						Log.i("OpenHABWidgetAdapter", "Time to launch color picker!");
+						ColorPickerDialog colorDialog = new ColorPickerDialog(widgetView.getContext(), new OnColorChangedListener() {
+							@Override
+							public void colorChanged(int color, View v) {
+								Log.i("ColorPickerDialog", "New color = " + color);
+								float[] HSVColor = {0, 0, 0};
+								Color.colorToHSV(color, HSVColor);
+								Log.i("ColorPickerDialog", "New color HSV = " + HSVColor[0] + ", " + HSVColor[1] + ", " +
+										HSVColor[2]);
+								String newColor = String.valueOf(HSVColor[0]) + "," + String.valueOf(HSVColor[1]) + "," + String.valueOf(HSVColor[2]);
+								OpenHABItem colorItem = (OpenHABItem) v.getTag();
+								sendItemCommand(colorItem, newColor);
+							}
+						}, colorItem.getStateAsColor());
+						colorDialog.setTag(colorItem);
+						colorDialog.show();
+					}
+					return false;
+				}
+    		});
+    		MySmartImageView colorImage = (MySmartImageView)widgetView.findViewById(R.id.colorimage);
+    		colorImage.setImageUrl(openHABBaseUrl + "images/" +
+    				openHABWidget.getIcon() + ".png");
+    		break;    		
     	case TYPE_ROLLERSHUTTER:
     		labelTextView = (TextView)widgetView.findViewById(R.id.rollershutterlabel);
     		if (labelTextView != null)
@@ -412,7 +481,9 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     					String.valueOf(random.nextInt());
     		}
     		Log.i("OpenHABWidgetAdapter", "Chart url = " + chartUrl);
-    		if (openHABUsername.length() > 0)
+    		if (chartImage == null)
+    			Log.e("OpenHABWidgetAdapter", "chartImage == null !!!");
+    		if (openHABUsername != null && openHABPassword != null)
     			chartImage.setImageUrl(chartUrl, false, openHABUsername, openHABPassword);
     		else
     			chartImage.setImageUrl(chartUrl, false);
@@ -598,6 +669,8 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     		return TYPE_VIDEO;
     	} else if (openHABWidget.getType().equals("Webview")) {
     		return TYPE_WEB;
+    	} else if (openHABWidget.getType().equals("Colorpicker")) {
+    		return TYPE_COLOR;
     	} else {
     		return TYPE_GENERICITEM;
     	}
