@@ -57,6 +57,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.Window;
 import android.widget.Toast;
+import com.crittercism.app.Crittercism;
 
 /**
  * This class provides main app activity which performes startup sequence for
@@ -78,6 +79,7 @@ public class OpenHABStartupActivity extends Activity implements AsyncServiceReso
 	public void onCreate(Bundle savedInstanceState) {
 		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 		requestWindowFeature(Window.FEATURE_PROGRESS);
+		Crittercism.init(getApplicationContext(), "5117659f59e1bd4ba9000004");
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.openhabstartup);
 
