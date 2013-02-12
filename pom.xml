@@ -10,12 +10,54 @@
 	<packaging>apk</packaging>
 	<name>HABDroid</name>
 
+	<organization>
+		<name>openHAB.org</name>
+		<url>http://www.openhab.org</url>
+	</organization>
+
 	<properties>
 		<platform.version>4.0.1.2</platform.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<major_version>1.2.5</major_version>
 	</properties>
 
+	<licenses>
+		<license>
+			<name>GNU General Public License</name>
+			<url>http://www.gnu.org/licenses/gpl.html</url>
+			<comments>
+        Additional permission under GNU GPL version 3 section 7
+        
+        If you modify this Program, or any covered work, by linking or 
+        combining it with Eclipse (or a modified version of that library),
+        containing parts covered by the terms of the Eclipse Public License
+        (EPL), the licensors of this Program grant you additional permission
+        to convey the resulting work.
+      </comments>
+		</license>
+	</licenses>
+
+	<scm>
+		<connection>scm:hg:https://code.google.com/p/openhab.android/</connection>
+		<url>http://code.google.com/p/openhab.android/source/browse/</url>
+	</scm>
+
+	<mailingLists>
+		<mailingList>
+			<name>openhab Mailing List</name>
+			<post>openhab@googlegroups.com</post>
+			<subscribe>http://groups.google.com/group/openhab</subscribe>
+			<unsubscribe>http://groups.google.com/group/openhab</unsubscribe>
+			<archive>http://groups.google.com/group/openhab</archive>
+		</mailingList>
+	</mailingLists>
+
+	<issueManagement>
+		<url>http://code.google.com/p/openhab/issues/list</url>
+		<system>Google Code</system>
+	</issueManagement>
+
+	<description>This is native Android UI for the open Home Automation Bus (openHAB)</description>
+	
 	<dependencies>
 		<dependency>
 			<groupId>com.google.android</groupId>
@@ -27,22 +69,16 @@
 			<groupId>com.crittercism</groupId>
 			<artifactId>crittercism-android</artifactId>
 			<version>3.0.3-sdkonly</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/libs/crittercism_v3_0_3_sdkonly.jar</systemPath>
 		</dependency>
 		<dependency>
 			<groupId>com.loopj</groupId>
 			<artifactId>android-async-http</artifactId>
 			<version>1.0-openhab</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/libs/android-async-http.jar</systemPath>
 		</dependency>
 		<dependency>
 			<groupId>com.loopj</groupId>
 			<artifactId>android-smart-image-view</artifactId>
 			<version>1.0.0</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/libs/android-smart-image-view-1.0.0.jar</systemPath>
 		</dependency>
 		<dependency>
 			<groupId>javax.jmdns</groupId>
@@ -63,11 +99,11 @@
 					<assetsDirectory>${project.basedir}/assets</assetsDirectory>
 					<resourceDirectory>${project.basedir}/res</resourceDirectory>
 					<sdk>
-						<platform>15</platform>
+						<platform>17</platform>
 					</sdk>
 					<undeployBeforeDeploy>true</undeployBeforeDeploy>
 					<zipalign>
-					    <skip>false</skip>
+						<skip>false</skip>
 						<verbose>true</verbose>
 						<inputApk>${project.build.directory}/${project.artifactId}-${project.version}.apk</inputApk>
 						<outputApk>${project.build.directory}/${project.name}-${project.version}.apk</outputApk>
@@ -93,6 +129,57 @@
 					<target>1.5</target>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>com.mycila.maven-license-plugin</groupId>
+				<artifactId>maven-license-plugin</artifactId>
+				<version>1.9.0</version>
+				<configuration>
+					<basedir>${basedir}</basedir>
+					<header>src/etc/header.txt</header>
+					<quiet>false</quiet>
+					<failIfMissing>true</failIfMissing>
+					<strictCheck>true</strictCheck>
+					<aggregate>true</aggregate>
+					<includes>
+						<include>**/*.java</include>
+						<include>**/feature.xml</include>
+					</includes>
+					<excludes>
+						<exclude>target/**</exclude>
+						<exclude>gen/**</exclude>
+						<exclude>src/at/**</exclude>
+						<exclude>**/pom.xml</exclude>
+					</excludes>
+					<useDefaultExcludes>true</useDefaultExcludes>
+					<properties>
+						<year>2012</year>
+					</properties>
+					<encoding>UTF-8</encoding>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>check</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
+		<extensions>
+			<extension>
+				<groupId>org.apache.maven.wagon</groupId>
+				<artifactId>wagon-webdav</artifactId>
+				<version>1.0-beta-2</version>
+			</extension>
+		</extensions>
 	</build>
+
+	<pluginRepositories>
+		<pluginRepository>
+			<id>openhab.repository</id>
+			<name>openHAB Cloudbees Repository</name>
+			<url>http://repository-openhab.forge.cloudbees.com/release/</url>
+		</pluginRepository>
+	</pluginRepositories>
+
 </project>
