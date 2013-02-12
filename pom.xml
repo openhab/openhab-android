@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.openhab</groupId>
+	<artifactId>org.openhab.habdroid</artifactId>
+
+	<version>1.2.0-SNAPSHOT</version>
+	<packaging>apk</packaging>
+	<name>HABDroid</name>
+
+	<properties>
+		<platform.version>4.0.1.2</platform.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<major_version>1.2.5</major_version>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.google.android</groupId>
+			<artifactId>android</artifactId>
+			<version>${platform.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.crittercism</groupId>
+			<artifactId>crittercism-android</artifactId>
+			<version>3.0.3-sdkonly</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/libs/crittercism_v3_0_3_sdkonly.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>com.loopj</groupId>
+			<artifactId>android-async-http</artifactId>
+			<version>1.0-openhab</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/libs/android-async-http.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>com.loopj</groupId>
+			<artifactId>android-smart-image-view</artifactId>
+			<version>1.0.0</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/libs/android-smart-image-view-1.0.0.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>javax.jmdns</groupId>
+			<artifactId>jmdns</artifactId>
+			<version>3.4.1</version>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<sourceDirectory>src</sourceDirectory>
+		<plugins>
+			<plugin>
+				<groupId>com.jayway.maven.plugins.android.generation2</groupId>
+				<artifactId>android-maven-plugin</artifactId>
+				<version>3.5.0</version>
+				<configuration>
+					<androidManifestFile>${project.basedir}/AndroidManifest.xml</androidManifestFile>
+					<assetsDirectory>${project.basedir}/assets</assetsDirectory>
+					<resourceDirectory>${project.basedir}/res</resourceDirectory>
+					<sdk>
+						<platform>15</platform>
+					</sdk>
+					<undeployBeforeDeploy>true</undeployBeforeDeploy>
+					<zipalign>
+					    <skip>false</skip>
+						<verbose>true</verbose>
+						<inputApk>${project.build.directory}/${project.artifactId}-${project.version}.apk</inputApk>
+						<outputApk>${project.build.directory}/${project.name}-${project.version}.apk</outputApk>
+					</zipalign>
+				</configuration>
+				<extensions>true</extensions>
+				<executions>
+					<execution>
+						<id>alignApk</id>
+						<phase>package</phase>
+						<goals>
+							<goal>zipalign</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.0</version>
+				<configuration>
+					<source>1.5</source>
+					<target>1.5</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>
