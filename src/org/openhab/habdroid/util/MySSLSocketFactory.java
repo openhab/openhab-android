@@ -39,10 +39,10 @@ public class MySSLSocketFactory extends SSLSocketFactory {
     }
 
     public MySSLSocketFactory(SSLContext context) throws KeyManagementException, NoSuchAlgorithmException, KeyStoreException, UnrecoverableKeyException {
-       super(null);
+    	super((KeyStore) null);
        sslContext = context;
     }
-
+    
     @Override
     public Socket createSocket(Socket socket, String host, int port, boolean autoClose) throws IOException, UnknownHostException {
         return sslContext.getSocketFactory().createSocket(socket, host, port, autoClose);
