@@ -57,35 +57,6 @@
 	</issueManagement>
 
 	<description>This is native Android UI for the open Home Automation Bus (openHAB)</description>
-	
-	<dependencies>
-		<dependency>
-			<groupId>com.google.android</groupId>
-			<artifactId>android</artifactId>
-			<version>${platform.version}</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.crittercism</groupId>
-			<artifactId>crittercism-android</artifactId>
-			<version>3.0.3-sdkonly</version>
-		</dependency>
-		<dependency>
-			<groupId>com.loopj</groupId>
-			<artifactId>android-async-http</artifactId>
-			<version>1.0-openhab</version>
-		</dependency>
-		<dependency>
-			<groupId>com.loopj</groupId>
-			<artifactId>android-smart-image-view</artifactId>
-			<version>1.0.0</version>
-		</dependency>
-		<dependency>
-			<groupId>javax.jmdns</groupId>
-			<artifactId>jmdns</artifactId>
-			<version>3.4.1</version>
-		</dependency>
-	</dependencies>
 
 	<build>
 		<sourceDirectory>src</sourceDirectory>
@@ -120,7 +91,6 @@
 					</execution>
 				</executions>
 			</plugin>
-
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.0</version>
@@ -173,13 +143,42 @@
 			</extension>
 		</extensions>
 	</build>
-
-	<pluginRepositories>
-		<pluginRepository>
+		
+	<dependencies>
+		<dependency>
+			<groupId>com.google.android</groupId>
+			<artifactId>android</artifactId>
+			<version>${platform.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.crittercism</groupId>
+			<artifactId>crittercism-android</artifactId>
+			<version>3.0.3</version>
+		</dependency>
+		<dependency>
+			<groupId>com.loopj</groupId>
+			<artifactId>android-async-http</artifactId>
+			<version>1.0-openhab</version>
+		</dependency>
+		<dependency>
+			<groupId>com.loopj</groupId>
+			<artifactId>android-smart-image-view</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.jmdns</groupId>
+			<artifactId>jmdns</artifactId>
+			<version>3.4.1</version>
+		</dependency>
+	</dependencies>
+	
+	<repositories>
+		<repository>
 			<id>openhab.repository</id>
 			<name>openHAB Cloudbees Repository</name>
 			<url>http://repository-openhab.forge.cloudbees.com/release/</url>
-		</pluginRepository>
-	</pluginRepositories>
+		</repository>
+	</repositories>
 
 </project>
