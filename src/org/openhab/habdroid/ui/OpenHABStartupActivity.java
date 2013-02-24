@@ -33,6 +33,9 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import javax.jmdns.ServiceInfo;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.util.AsyncServiceResolver;
 import org.openhab.habdroid.util.AsyncServiceResolverListener;
@@ -79,7 +82,12 @@ public class OpenHABStartupActivity extends Activity implements AsyncServiceReso
 	public void onCreate(Bundle savedInstanceState) {
 		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 		requestWindowFeature(Window.FEATURE_PROGRESS);
-		Crittercism.init(getApplicationContext(), "5117659f59e1bd4ba9000004");
+		JSONObject crittercismConfig = new JSONObject();
+		try {
+			crittercismConfig.put("shouldCollectLogcat", true);
+		} catch (JSONException e) {
+		}
+		Crittercism.init(getApplicationContext(), "5117659f59e1bd4ba9000004", crittercismConfig);
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.openhabstartup);
 
