@@ -101,6 +101,8 @@ public class OpenHABWidgetListActivity extends ListActivity {
 	// Username/password for authentication
 	private String openHABUsername;
 	private String openHABPassword;
+	// list position
+	private int widgetListPosition = 0;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -259,6 +261,8 @@ public class OpenHABWidgetListActivity extends ListActivity {
 			openHABWidgetAdapter.notifyDataSetChanged();
 			setTitle(openHABWidgetDataSource.getTitle());
 			setProgressBarIndeterminateVisibility(false);
+//			if (this.widgetListPosition > 0)
+				getListView().setSelection(this.widgetListPosition);
 			getListView().setOnItemClickListener(new OnItemClickListener() {
 				@Override
 				public void onItemClick(AdapterView<?> parent, View view, int position,
@@ -288,6 +292,7 @@ public class OpenHABWidgetListActivity extends ListActivity {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		this.widgetListPosition = 0;
 		showPage(displayPageUrl, true);
 	}
 	
@@ -339,6 +344,8 @@ public class OpenHABWidgetListActivity extends ListActivity {
     		if (pageStack.size() > 0) {
     			displayPageUrl = pageStack.get(0).getPageUrl();
 //    			OpenHABWidgetListActivity.this.setSelection(pageStack.get(0).getWidgetListPosition());
+    			Log.i(TAG, String.format("onKeyDown: list position from the stack = %d", pageStack.get(0).getWidgetListPosition()));
+    			widgetListPosition = pageStack.get(0).getWidgetListPosition();
     			pageStack.remove(0);
     			showPage(displayPageUrl, false);
     		} else {
