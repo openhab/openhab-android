@@ -334,9 +334,9 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
 				public boolean onTouch(View v, MotionEvent motionEvent) {
 					ImageButton colorButton = (ImageButton)v;
 					OpenHABItem colorItem = (OpenHABItem)colorButton.getTag();
-					Log.i("OpenHABWidgetAdapter", "Colorpicker HSV = " + colorItem.getStateAsHSV()[0] + ", " +
-							colorItem.getStateAsHSV()[1] + ", " + colorItem.getStateAsHSV()[2]);
-					Log.i("OpenHABWidgetAdapter", "Colorpicker Color = " + colorItem.getStateAsColor());
+//					Log.i("OpenHABWidgetAdapter", "Colorpicker HSV = " + colorItem.getStateAsHSV()[0] + ", " +
+//							colorItem.getStateAsHSV()[1] + ", " + colorItem.getStateAsHSV()[2]);
+//					Log.i("OpenHABWidgetAdapter", "Colorpicker Color = " + colorItem.getStateAsColor());
 					if (motionEvent.getActionMasked() == MotionEvent.ACTION_UP) {
 						Log.i("OpenHABWidgetAdapter", "Time to launch color picker!");
 						ColorPickerDialog colorDialog = new ColorPickerDialog(widgetView.getContext(), new OnColorChangedListener() {

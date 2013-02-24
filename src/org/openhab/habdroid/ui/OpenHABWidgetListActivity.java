@@ -241,7 +241,12 @@ public class OpenHABWidgetListActivity extends ListActivity {
 			openHABWidgetAdapter.stopVideoWidgets();
 			openHABWidgetAdapter.stopImageRefresh();
 			// TODO: fix crash with null content
-			document = builder.parse(new ByteArrayInputStream(content.getBytes("UTF-8")));
+			if (content != null) {
+				document = builder.parse(new ByteArrayInputStream(content.getBytes("UTF-8")));
+			} else {
+				Log.i(TAG, "processContent: content == null");
+				return;
+			}
 			Node rootNode = document.getFirstChild();
 			openHABWidgetDataSource.setSourceNode(rootNode);
 			widgetList.clear();
