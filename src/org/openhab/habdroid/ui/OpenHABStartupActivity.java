@@ -117,7 +117,8 @@ public class OpenHABStartupActivity extends Activity implements AsyncServiceReso
                 + " port:" + serviceInfo.getPort());
 		openHABBaseUrl = "https://" + serviceInfo.getHostAddresses()[0] + ":" +
 				String.valueOf(serviceInfo.getPort()) + "/";
-		progressDialog.hide();
+//		progressDialog.hide();
+		progressDialog.dismiss();
 		AsyncHttpClient asyncHttpClient = new MyAsyncHttpClient();
 		asyncHttpClient.get(openHABBaseUrl + "static/uuid", new AsyncHttpResponseHandler() {
 			@Override
@@ -156,7 +157,7 @@ public class OpenHABStartupActivity extends Activity implements AsyncServiceReso
 
 	@Override
 	public void onServiceResolveFailed() {
-		progressDialog.hide();
+		progressDialog.dismiss();
 		Log.i(TAG, "Service resolve failed, switching to remote URL");
 		onAlternativeUrl();
 	}
@@ -250,7 +251,7 @@ public class OpenHABStartupActivity extends Activity implements AsyncServiceReso
 			if (!normalizedUrl.endsWith("/"))
 				normalizedUrl = normalizedUrl + "/";
 		} catch (MalformedURLException e) {
-			e.printStackTrace();
+			Log.i(TAG, "normalizeUrl: invalid URL");
 		}
 		return normalizedUrl;
 	}
