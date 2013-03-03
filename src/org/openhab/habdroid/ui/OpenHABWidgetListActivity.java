@@ -68,6 +68,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 
@@ -101,7 +102,7 @@ public class OpenHABWidgetListActivity extends ListActivity {
 	// Username/password for authentication
 	private String openHABUsername;
 	private String openHABPassword;
-	// list position
+	// Wiget list position
 	private int widgetListPosition = 0;
 
 	@Override
@@ -113,6 +114,9 @@ public class OpenHABWidgetListActivity extends ListActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.openhabwidgetlist);
 		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+		if (settings.getBoolean("default_openhab_screentimeroff", false)) {
+			getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+		}
 		openHABUsername = settings.getString("default_openhab_username", null);
 		openHABPassword = settings.getString("default_openhab_password", null);
 		openHABWidgetDataSource = new OpenHABWidgetDataSource();
@@ -261,7 +265,8 @@ public class OpenHABWidgetListActivity extends ListActivity {
 			openHABWidgetAdapter.notifyDataSetChanged();
 			setTitle(openHABWidgetDataSource.getTitle());
 			setProgressBarIndeterminateVisibility(false);
-//			if (this.widgetListPosition > 0)
+			// Set widget list index to saved or zero position
+			if (this.widgetListPosition > 0)
 				getListView().setSelection(this.widgetListPosition);
 			getListView().setOnItemClickListener(new OnItemClickListener() {
 				@Override
@@ -271,7 +276,7 @@ public class OpenHABWidgetListActivity extends ListActivity {
 					OpenHABWidget openHABWidget = openHABWidgetAdapter.getItem(position);
 					if (openHABWidget.hasLinkedPage()) {
 						// Widget have a page linked to it
-						// Put current page into the stack and go to linked one
+						// Put current page and current widget list position into the stack and go to linked one
 						pageStack.add(0, new OpenHABPage(displayPageUrl, OpenHABWidgetListActivity.this.getListView().getFirstVisiblePosition()));
 						displayPageUrl = openHABWidget.getLinkedPage().getLink();
 						showPage(openHABWidget.getLinkedPage().getLink(), false);

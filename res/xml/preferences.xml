@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
     <PreferenceCategory android:title="@string/settings_title">
-        <EditTextPreference android:key="default_openhab_url" android:title="@string/settings_openhab_url" android:summary="@string/settings_openhab_url_summary"/>
-        <EditTextPreference android:key="default_openhab_alturl" android:title="@string/settings_openhab_alturl" android:summary="@string/settings_openhab_alturl_summary" android:defaultValue="http://demo.openhab.org:8080/"/>
-        <EditTextPreference android:key="default_openhab_username" android:title="@string/settings_openhab_username" android:summary="@string/settings_openhab_username_summary"/>
-        <EditTextPreference android:key="default_openhab_password" android:title="@string/settings_openhab_password" android:inputType="textPassword" android:summary="@string/settings_openhab_password_summary"/>
+        <EditTextPreference android:key="default_openhab_url" android:title="@string/settings_openhab_url" android:summary="@string/settings_openhab_url_summary" android:defaultValue="" />
+        <EditTextPreference android:key="default_openhab_alturl" android:title="@string/settings_openhab_alturl" android:summary="@string/settings_openhab_alturl_summary" android:defaultValue="" />
+        <EditTextPreference android:key="default_openhab_username" android:title="@string/settings_openhab_username" android:summary="@string/settings_openhab_username_summary" android:defaultValue="" />
+        <EditTextPreference android:key="default_openhab_password" android:title="@string/settings_openhab_password" android:inputType="textPassword" android:summary="@string/settings_openhab_password_summary" android:defaultValue="" />
+        <CheckBoxPreference android:key="default_openhab_screentimeroff" android:title="@string/settings_openhab_screentimeroff" android:summary="@string/settings_openhab_screentimeroff_summary" android:defaultValue="false" />
+        <CheckBoxPreference android:key="default_openhab_demomode" android:title="@string/settings_openhab_demomode" android:summary="@string/settings_openhab_demomode_summary" android:defaultValue="true" />
     </PreferenceCategory>
 </PreferenceScreen>

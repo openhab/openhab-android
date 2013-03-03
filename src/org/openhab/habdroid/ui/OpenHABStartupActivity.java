@@ -90,7 +90,7 @@ public class OpenHABStartupActivity extends Activity implements AsyncServiceReso
 		Crittercism.init(getApplicationContext(), "5117659f59e1bd4ba9000004", crittercismConfig);
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.openhabstartup);
-
+		PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
 		if (!tryManualUrl()) {
 			ConnectivityManager connectivityManager = (ConnectivityManager)getSystemService(
 					Context.CONNECTIVITY_SERVICE);
@@ -208,9 +208,17 @@ public class OpenHABStartupActivity extends Activity implements AsyncServiceReso
 	}
 
 	private boolean tryManualUrl() {
+		String manualUrl = "";
 		SharedPreferences settings = 
 				PreferenceManager.getDefaultSharedPreferences(this);
-		String manualUrl = normalizeUrl(settings.getString("default_openhab_url", ""));
+		if (settings.getBoolean("default_openhab_demomode", false)) {
+			manualUrl = normalizeUrl("https://demo.openhab.org:8443/");
+			Log.i(TAG, "Demo mode, connecting to " + manualUrl);
+			Toast.makeText(getApplicationContext(), getString(R.string.info_demo_mode),
+					Toast.LENGTH_LONG).show();
+		} else {
+			manualUrl = normalizeUrl(settings.getString("default_openhab_url", ""));
+		}
 		if (manualUrl.length() > 0) {
 			Toast.makeText(getApplicationContext(), getString(R.string.info_conn_url),
 					Toast.LENGTH_SHORT).show();
