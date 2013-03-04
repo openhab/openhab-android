@@ -103,7 +103,7 @@ public class OpenHABWidgetListActivity extends ListActivity {
 	private String openHABUsername;
 	private String openHABPassword;
 	// Wiget list position
-	private int widgetListPosition = 0;
+	private int widgetListPosition = -1;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -111,6 +111,7 @@ public class OpenHABWidgetListActivity extends ListActivity {
 		// TODO: Make progress indicator active every time we load the page
 		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 		requestWindowFeature(Window.FEATURE_PROGRESS);
+		setProgressBarIndeterminateVisibility(true);
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.openhabwidgetlist);
 		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
@@ -201,6 +202,10 @@ public class OpenHABWidgetListActivity extends ListActivity {
 	public void showPage(String pageUrl, boolean longPolling) {
 		Log.i(TAG, "showPage for " + pageUrl + " longPolling = " + longPolling);
 		// Cancel any existing http request to openHAB (typically ongoing long poll)
+		if (!longPolling)
+			setProgressBarIndeterminateVisibility(true);
+		if (longPolling)
+			widgetListPosition = -1;
 		if (pageAsyncHttpClient != null) {
 			pageAsyncHttpClient.cancelRequests(this, true);
 		}
@@ -266,7 +271,7 @@ public class OpenHABWidgetListActivity extends ListActivity {
 			setTitle(openHABWidgetDataSource.getTitle());
 			setProgressBarIndeterminateVisibility(false);
 			// Set widget list index to saved or zero position
-			if (this.widgetListPosition > 0)
+			if (this.widgetListPosition >= 0)
 				getListView().setSelection(this.widgetListPosition);
 			getListView().setOnItemClickListener(new OnItemClickListener() {
 				@Override
@@ -279,6 +284,7 @@ public class OpenHABWidgetListActivity extends ListActivity {
 						// Put current page and current widget list position into the stack and go to linked one
 						pageStack.add(0, new OpenHABPage(displayPageUrl, OpenHABWidgetListActivity.this.getListView().getFirstVisiblePosition()));
 						displayPageUrl = openHABWidget.getLinkedPage().getLink();
+						widgetListPosition = 0;
 						showPage(openHABWidget.getLinkedPage().getLink(), false);
 					}
 				}

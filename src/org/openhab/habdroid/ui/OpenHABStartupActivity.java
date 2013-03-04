@@ -215,13 +215,14 @@ public class OpenHABStartupActivity extends Activity implements AsyncServiceReso
 			manualUrl = normalizeUrl("https://demo.openhab.org:8443/");
 			Log.i(TAG, "Demo mode, connecting to " + manualUrl);
 			Toast.makeText(getApplicationContext(), getString(R.string.info_demo_mode),
-					Toast.LENGTH_LONG).show();
+				Toast.LENGTH_LONG).show();
 		} else {
 			manualUrl = normalizeUrl(settings.getString("default_openhab_url", ""));
+			if (manualUrl.length() > 0)
+				Toast.makeText(getApplicationContext(), getString(R.string.info_conn_url),
+					Toast.LENGTH_SHORT).show();
 		}
 		if (manualUrl.length() > 0) {
-			Toast.makeText(getApplicationContext(), getString(R.string.info_conn_url),
-					Toast.LENGTH_SHORT).show();
 			Log.i(TAG, "Manual url configured, connecting to " + manualUrl);
 			openHABBaseUrl = manualUrl;
 			startListActivity(openHABBaseUrl);
