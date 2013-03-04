@@ -43,6 +43,7 @@ import org.openhab.habdroid.util.MyAsyncHttpClient;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.image.WebImageCache;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -91,30 +92,36 @@ public class OpenHABStartupActivity extends Activity implements AsyncServiceReso
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.openhabstartup);
 		PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
-		if (!tryManualUrl()) {
-			ConnectivityManager connectivityManager = (ConnectivityManager)getSystemService(
-					Context.CONNECTIVITY_SERVICE);
-			NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-			if (activeNetworkInfo != null) {
-				Log.i(TAG, "Network is connected");
-				if (activeNetworkInfo.getType() == ConnectivityManager.TYPE_WIFI
-						|| activeNetworkInfo.getType() == ConnectivityManager.TYPE_ETHERNET) {
-					Log.i(TAG, "Network is WiFi or Ethernet");
-					AsyncServiceResolver serviceResolver = new AsyncServiceResolver(this, openHABServiceType);
-					progressDialog = ProgressDialog.show(OpenHABStartupActivity.this, "", 
-	                        "Discovering openHAB. Please wait...", true);
-					serviceResolver.start();
-				} else if (activeNetworkInfo.getType() == ConnectivityManager.TYPE_MOBILE) {
-					Log.i(TAG, "Network is Mobile (" + activeNetworkInfo.getSubtypeName() + ")");
-					onAlternativeUrl();
+		Log.i(TAG, "Intent action = " + getIntent().getAction());
+		if (getIntent().getAction().equals("android.intent.action.MAIN")) {
+			Log.i(TAG, "Intent indicates manual launch");
+			if (!tryManualUrl()) {
+				ConnectivityManager connectivityManager = (ConnectivityManager)getSystemService(
+						Context.CONNECTIVITY_SERVICE);
+				NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+				if (activeNetworkInfo != null) {
+					Log.i(TAG, "Network is connected");
+					if (activeNetworkInfo.getType() == ConnectivityManager.TYPE_WIFI
+							|| activeNetworkInfo.getType() == ConnectivityManager.TYPE_ETHERNET) {
+						Log.i(TAG, "Network is WiFi or Ethernet");
+						AsyncServiceResolver serviceResolver = new AsyncServiceResolver(this, openHABServiceType);
+						progressDialog = ProgressDialog.show(OpenHABStartupActivity.this, "", 
+		                        "Discovering openHAB. Please wait...", true);
+						serviceResolver.start();
+					} else if (activeNetworkInfo.getType() == ConnectivityManager.TYPE_MOBILE) {
+						Log.i(TAG, "Network is Mobile (" + activeNetworkInfo.getSubtypeName() + ")");
+						onAlternativeUrl();
+					} else {
+						Log.i(TAG, "Network type (" + activeNetworkInfo.getTypeName() + ") is unsupported");
+					}
 				} else {
-					Log.i(TAG, "Network type (" + activeNetworkInfo.getTypeName() + ") is unsupported");
+					Log.i(TAG, "Network is not available");
+					Toast.makeText(getApplicationContext(), getString(R.string.error_network_not_available),
+							Toast.LENGTH_LONG).show();
 				}
-			} else {
-				Log.i(TAG, "Network is not available");
-				Toast.makeText(getApplicationContext(), getString(R.string.error_network_not_available),
-						Toast.LENGTH_LONG).show();
 			}
+		} else if (getIntent().getAction().equals("android.nfc.action.NDEF_DISCOVERED")) {
+			Log.i(TAG, "Intent indicates NFC launch with data = " + getIntent().getDataString());
 		}
 	}
 
@@ -184,6 +191,18 @@ public class OpenHABStartupActivity extends Activity implements AsyncServiceReso
             Intent myIntent = new Intent(this.getApplicationContext(), OpenHABPreferencesActivity.class);
             startActivityForResult(myIntent, 0);
     		return true;
+        case R.id.mainmenu_openhab_clearcache:
+			Log.i(TAG, "Restarting");
+			// Get launch intent for application
+			Intent restartIntent = getBaseContext().getPackageManager()
+		             .getLaunchIntentForPackage( getBaseContext().getPackageName() );
+			restartIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			// Finish current activity
+			finish();
+        	WebImageCache cache = new WebImageCache(this);
+        	cache.clear();
+			// Start launch activity
+			startActivity(restartIntent);
     	default:
     		return super.onOptionsItemSelected(item);
     	}

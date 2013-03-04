@@ -52,6 +52,7 @@ import org.xml.sax.SAXException;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.image.WebImageCache;
 
 import android.app.AlertDialog;
 import android.app.ListActivity;
@@ -108,7 +109,6 @@ public class OpenHABWidgetListActivity extends ListActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		Log.i("OpenHABWidgetListActivity", "onCreate");
-		// TODO: Make progress indicator active every time we load the page
 		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 		requestWindowFeature(Window.FEATURE_PROGRESS);
 		setProgressBarIndeterminateVisibility(true);
@@ -141,7 +141,7 @@ public class OpenHABWidgetListActivity extends ListActivity {
 			Log.i(TAG, "displayPageUrl = " + displayPageUrl);
 			showPage(displayPageUrl, false);
 		// Else check if we got openHAB base url through launch intent?
-		} else  {
+		} else if (getIntent().hasExtra("baseURL")) {
 			openHABBaseUrl = getIntent().getExtras().getString("baseURL");
 			if (openHABBaseUrl != null) {
 				openHABWidgetAdapter.setOpenHABBaseUrl(openHABBaseUrl);
@@ -335,6 +335,19 @@ public class OpenHABWidgetListActivity extends ListActivity {
             showPage(sitemapRootUrl, false);
             Log.i(TAG, "Home selected - " + sitemapRootUrl);
             return true;
+        case R.id.mainmenu_openhab_clearcache:
+			Log.i(TAG, "Restarting");
+			// Get launch intent for application
+			Intent restartIntent = getBaseContext().getPackageManager()
+		             .getLaunchIntentForPackage( getBaseContext().getPackageName() );
+			restartIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			// Finish current activity
+			finish();
+        	WebImageCache cache = new WebImageCache(getBaseContext());
+        	cache.clear();
+			// Start launch activity
+			startActivity(restartIntent);
+			// Start launch activity
         default:
     		return super.onOptionsItemSelected(item);
     	}

@@ -4,6 +4,7 @@
     <string name="app_preferences_name">Settings</string>
     <string name="mainmenu_openhab_preferences">Settings</string>
     <string name="mainmenu_openhab_selectsitemap">Select sitemap</string>
+    <string name="mainmenu_openhab_clearcache">Clear images cache</string>
     <string name="settings_title">HABDroid Settings</string>
     <string name="settings_openhab_url">openHAB URL</string>
     <string name="settings_openhab_url_summary">Manually configured openHAB URL. Disables autodiscovery if configured.</string>
