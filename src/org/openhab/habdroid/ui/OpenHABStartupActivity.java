@@ -30,6 +30,8 @@
 package org.openhab.habdroid.ui;
 
 import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 
 import javax.jmdns.ServiceInfo;
@@ -78,6 +80,7 @@ public class OpenHABStartupActivity extends Activity implements AsyncServiceReso
 	private String openHABBaseUrl = "";
 	// Progress dialog
 	private ProgressDialog progressDialog;
+	private String initialData = "";
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -95,33 +98,34 @@ public class OpenHABStartupActivity extends Activity implements AsyncServiceReso
 		Log.i(TAG, "Intent action = " + getIntent().getAction());
 		if (getIntent().getAction().equals("android.intent.action.MAIN")) {
 			Log.i(TAG, "Intent indicates manual launch");
-			if (!tryManualUrl()) {
-				ConnectivityManager connectivityManager = (ConnectivityManager)getSystemService(
-						Context.CONNECTIVITY_SERVICE);
-				NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-				if (activeNetworkInfo != null) {
-					Log.i(TAG, "Network is connected");
-					if (activeNetworkInfo.getType() == ConnectivityManager.TYPE_WIFI
-							|| activeNetworkInfo.getType() == ConnectivityManager.TYPE_ETHERNET) {
-						Log.i(TAG, "Network is WiFi or Ethernet");
-						AsyncServiceResolver serviceResolver = new AsyncServiceResolver(this, openHABServiceType);
-						progressDialog = ProgressDialog.show(OpenHABStartupActivity.this, "", 
-		                        "Discovering openHAB. Please wait...", true);
-						serviceResolver.start();
-					} else if (activeNetworkInfo.getType() == ConnectivityManager.TYPE_MOBILE) {
-						Log.i(TAG, "Network is Mobile (" + activeNetworkInfo.getSubtypeName() + ")");
-						onAlternativeUrl();
-					} else {
-						Log.i(TAG, "Network type (" + activeNetworkInfo.getTypeName() + ") is unsupported");
-					}
-				} else {
-					Log.i(TAG, "Network is not available");
-					Toast.makeText(getApplicationContext(), getString(R.string.error_network_not_available),
-							Toast.LENGTH_LONG).show();
-				}
-			}
 		} else if (getIntent().getAction().equals("android.nfc.action.NDEF_DISCOVERED")) {
 			Log.i(TAG, "Intent indicates NFC launch with data = " + getIntent().getDataString());
+			initialData = getIntent().getDataString();
+		}
+		if (!tryManualUrl()) {
+			ConnectivityManager connectivityManager = (ConnectivityManager)getSystemService(
+					Context.CONNECTIVITY_SERVICE);
+			NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+			if (activeNetworkInfo != null) {
+				Log.i(TAG, "Network is connected");
+				if (activeNetworkInfo.getType() == ConnectivityManager.TYPE_WIFI
+						|| activeNetworkInfo.getType() == ConnectivityManager.TYPE_ETHERNET) {
+					Log.i(TAG, "Network is WiFi or Ethernet");
+					AsyncServiceResolver serviceResolver = new AsyncServiceResolver(this, openHABServiceType);
+					progressDialog = ProgressDialog.show(OpenHABStartupActivity.this, "", 
+	                        "Discovering openHAB. Please wait...", true);
+					serviceResolver.start();
+				} else if (activeNetworkInfo.getType() == ConnectivityManager.TYPE_MOBILE) {
+					Log.i(TAG, "Network is Mobile (" + activeNetworkInfo.getSubtypeName() + ")");
+					onAlternativeUrl();
+				} else {
+					Log.i(TAG, "Network type (" + activeNetworkInfo.getTypeName() + ") is unsupported");
+				}
+			} else {
+				Log.i(TAG, "Network is not available");
+				Toast.makeText(getApplicationContext(), getString(R.string.error_network_not_available),
+						Toast.LENGTH_LONG).show();
+			}
 		}
 	}
 
@@ -271,6 +275,7 @@ public class OpenHABStartupActivity extends Activity implements AsyncServiceReso
 	private void startListActivity(String baseURL) {
 		Intent listActivityIntent = new Intent(this.getApplicationContext(), OpenHABWidgetListActivity.class);
 		listActivityIntent.putExtra("baseURL", baseURL);
+		listActivityIntent.putExtra("initialData", initialData);
 		finish();
 		startActivity(listActivityIntent);
 	}

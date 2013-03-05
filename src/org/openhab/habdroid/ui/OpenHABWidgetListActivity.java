@@ -149,9 +149,29 @@ public class OpenHABWidgetListActivity extends ListActivity {
 		// Else check if we got openHAB base url through launch intent?
 		} else if (getIntent().hasExtra("baseURL")) {
 			openHABBaseUrl = getIntent().getExtras().getString("baseURL");
+			String initialData = getIntent().getExtras().getString("initialData");
 			if (openHABBaseUrl != null) {
 				openHABWidgetAdapter.setOpenHABBaseUrl(openHABBaseUrl);
-				selectSitemap(openHABBaseUrl, false);
+				if (initialData.length() > 0) {
+					Log.i(TAG, "We have initial data");
+					try {
+						URI openhabURI = new URI(initialData);
+						Log.i(TAG, openhabURI.getScheme());
+						Log.i(TAG, openhabURI.getHost());
+						Log.i(TAG, openhabURI.getPath());
+						if (openhabURI.getHost().equals("sitemaps")) {
+							Log.i(TAG, "Tag indicates a sitemap link");
+							String newPageUrl = this.openHABBaseUrl + "rest/sitemaps" + openhabURI.getPath();
+							Log.i(TAG, "Should go to " + newPageUrl);
+							openSitemap(newPageUrl);
+						}
+					} catch (URISyntaxException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				} else {
+					selectSitemap(openHABBaseUrl, false);
+				}
 			} else {
 				Log.i(TAG, "No base URL!");
 			}
