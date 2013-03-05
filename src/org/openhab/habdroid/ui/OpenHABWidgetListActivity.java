@@ -32,6 +32,10 @@ package org.openhab.habdroid.ui;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -107,7 +111,6 @@ public class OpenHABWidgetListActivity extends ListActivity {
 	private String openHABPassword;
 	// Wiget list position
 	private int widgetListPosition = -1;
-	private NfcAdapter nfcAdapter;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -118,7 +121,6 @@ public class OpenHABWidgetListActivity extends ListActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.openhabwidgetlist);
 		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
-		nfcAdapter = NfcAdapter.getDefaultAdapter(this);
 		if (settings.getBoolean("default_openhab_screentimeroff", false)) {
 			getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 		}
@@ -155,20 +157,42 @@ public class OpenHABWidgetListActivity extends ListActivity {
 			}
 		}
 	}
-	
+
 	@Override
 	public void onNewIntent(Intent newIntent) {
 		Log.i(TAG, "New intent received = " + newIntent.toString());
+		try {
+			URI openhabURI = new URI(newIntent.getDataString());
+			Log.i(TAG, openhabURI.getScheme());
+			Log.i(TAG, openhabURI.getHost());
+			Log.i(TAG, openhabURI.getPath());
+			if (openhabURI.getHost().equals("sitemaps")) {
+				Log.i(TAG, "Tag indicates a sitemap link");
+				String newPageUrl = this.openHABBaseUrl + "rest/sitemaps" + openhabURI.getPath();
+				Log.i(TAG, "Should go to " + newPageUrl);
+				navigateToPage(newPageUrl);
+			}
+		} catch (URISyntaxException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
-	
+
 	@Override
 	public void onResume() {
 		super.onResume();
 		PendingIntent pendingIntent = PendingIntent.getActivity(
 				  this, 0, new Intent(this, getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
-		nfcAdapter.enableForegroundDispatch(this, pendingIntent, null, null);
+		NfcAdapter.getDefaultAdapter(this).enableForegroundDispatch(this, pendingIntent, null, null);
 	}
-	
+
+	@Override
+	public void onPause() {
+		super.onPause();
+		if(NfcAdapter.getDefaultAdapter(this) != null)
+			NfcAdapter.getDefaultAdapter(this).disableForegroundDispatch(this);
+	}
+
 	@Override
 	public void onSaveInstanceState(Bundle savedInstanceState) {
 		Log.i("OpenHABWidgetListActivity", "onSaveInstanceState");
@@ -298,11 +322,7 @@ public class OpenHABWidgetListActivity extends ListActivity {
 					OpenHABWidget openHABWidget = openHABWidgetAdapter.getItem(position);
 					if (openHABWidget.hasLinkedPage()) {
 						// Widget have a page linked to it
-						// Put current page and current widget list position into the stack and go to linked one
-						pageStack.add(0, new OpenHABPage(displayPageUrl, OpenHABWidgetListActivity.this.getListView().getFirstVisiblePosition()));
-						displayPageUrl = openHABWidget.getLinkedPage().getLink();
-						widgetListPosition = 0;
-						showPage(openHABWidget.getLinkedPage().getLink(), false);
+						navigateToPage(openHABWidget.getLinkedPage().getLink());
 					}
 				}
 				
@@ -323,6 +343,16 @@ public class OpenHABWidgetListActivity extends ListActivity {
 		this.widgetListPosition = 0;
 		showPage(displayPageUrl, true);
 	}
+
+	/*
+	 * Put current page and current widget list position into the stack and go to new page
+	 */
+	private void navigateToPage(String pageLink) {
+		pageStack.add(0, new OpenHABPage(displayPageUrl, OpenHABWidgetListActivity.this.getListView().getFirstVisiblePosition()));
+		displayPageUrl = pageLink;
+		widgetListPosition = 0;
+		showPage(pageLink, false);
+	}
 	
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -335,8 +365,8 @@ public class OpenHABWidgetListActivity extends ListActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
     	switch (item.getItemId()) {
     	case R.id.mainmenu_openhab_preferences:
-            Intent myIntent = new Intent(this.getApplicationContext(), OpenHABPreferencesActivity.class);
-            startActivityForResult(myIntent, 0);
+            Intent settingsIntent = new Intent(this.getApplicationContext(), OpenHABPreferencesActivity.class);
+            startActivityForResult(settingsIntent, 0);
     		return true;
     	case R.id.mainmenu_openhab_selectsitemap:
 			SharedPreferences settings = 
@@ -365,6 +395,10 @@ public class OpenHABWidgetListActivity extends ListActivity {
 			// Start launch activity
 			startActivity(restartIntent);
 			// Start launch activity
+        case R.id.mainmenu_openhab_writetag:
+            Intent writeTagIntent = new Intent(this.getApplicationContext(), OpenHABWriteTagActivity.class);
+            startActivityForResult(writeTagIntent, 0);
+    		return true;
         default:
     		return super.onOptionsItemSelected(item);
     	}

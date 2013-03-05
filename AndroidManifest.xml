@@ -3,20 +3,23 @@
     package="org.openhab.habdroid"
     android:versionCode="1"
     android:versionName="1.2.0" >
-
-    <uses-sdk android:minSdkVersion="15" android:targetSdkVersion="17" />
+    <uses-sdk
+        android:minSdkVersion="15"
+        android:targetSdkVersion="17"
+    />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_MULTICAST_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.READ_LOGS"/>
-    <uses-permission android:name="android.permission.GET_TASKS"/>
-	<uses-permission android:name="android.permission.NFC" />
-	<uses-feature android:name="android.hardware.nfc" android:required="false" />
+    <uses-permission android:name="android.permission.READ_LOGS" />
+    <uses-permission android:name="android.permission.GET_TASKS" />
+    <uses-permission android:name="android.permission.NFC" />
+    <uses-feature
+        android:name="android.hardware.nfc"
+        android:required="false" />
     <application
-        android:icon="@drawable/openhabicon"
-        android:label="@string/app_name"
         android:allowBackup="true"
-        >
+        android:icon="@drawable/openhabicon"
+        android:label="@string/app_name" >
         <activity
             android:name="org.openhab.habdroid.ui.OpenHABStartupActivity"
             android:label="@string/app_name"
@@ -24,6 +27,11 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.nfc.action.NDEF_DISCOVERED" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:scheme="openhab" />
             </intent-filter>
         </activity>
         <activity
@@ -34,14 +42,13 @@
         </activity>
         <activity
             android:name="org.openhab.habdroid.ui.OpenHABWidgetListActivity"
-            android:label="@string/app_name" 
+            android:label="@string/app_name"
             android:launchMode="singleTop" >
-            <intent-filter>
-                <action android:name="android.nfc.action.NDEF_DISCOVERED"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-                <data android:scheme="openhab" />
-            </intent-filter>
         </activity>
-        <activity android:name="com.crittercism.NotificationActivity"/>
+        <activity
+            android:name="org.openhab.habdroid.ui.OpenHABWriteTagActivity"
+            android:label="@string/title_activity_open_habwrite_tag" >
+        </activity>
+        <activity android:name="com.crittercism.NotificationActivity" />
     </application>
 </manifest>
