@@ -56,10 +56,12 @@ import com.loopj.android.image.WebImageCache;
 
 import android.app.AlertDialog;
 import android.app.ListActivity;
+import android.app.PendingIntent;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.nfc.NfcAdapter;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -105,6 +107,7 @@ public class OpenHABWidgetListActivity extends ListActivity {
 	private String openHABPassword;
 	// Wiget list position
 	private int widgetListPosition = -1;
+	private NfcAdapter nfcAdapter;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -115,6 +118,7 @@ public class OpenHABWidgetListActivity extends ListActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.openhabwidgetlist);
 		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+		nfcAdapter = NfcAdapter.getDefaultAdapter(this);
 		if (settings.getBoolean("default_openhab_screentimeroff", false)) {
 			getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 		}
@@ -150,6 +154,19 @@ public class OpenHABWidgetListActivity extends ListActivity {
 				Log.i(TAG, "No base URL!");
 			}
 		}
+	}
+	
+	@Override
+	public void onNewIntent(Intent newIntent) {
+		Log.i(TAG, "New intent received = " + newIntent.toString());
+	}
+	
+	@Override
+	public void onResume() {
+		super.onResume();
+		PendingIntent pendingIntent = PendingIntent.getActivity(
+				  this, 0, new Intent(this, getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
+		nfcAdapter.enableForegroundDispatch(this, pendingIntent, null, null);
 	}
 	
 	@Override
