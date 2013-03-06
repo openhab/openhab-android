@@ -43,6 +43,7 @@ import android.nfc.NfcAdapter;
 import android.nfc.Tag;
 import android.nfc.tech.MifareUltralight;
 import android.nfc.tech.Ndef;
+import android.nfc.tech.NdefFormatable;
 import android.os.Bundle;
 import android.app.Activity;
 import android.app.PendingIntent;
@@ -79,7 +80,8 @@ public class OpenHABWriteTagActivity extends Activity {
 		super.onResume();
 		PendingIntent pendingIntent = PendingIntent.getActivity(
 				  this, 0, new Intent(this, getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
-		NfcAdapter.getDefaultAdapter(this).enableForegroundDispatch(this, pendingIntent, null, null);
+		if (NfcAdapter.getDefaultAdapter(this) != null)
+			NfcAdapter.getDefaultAdapter(this).enableForegroundDispatch(this, pendingIntent, null, null);
 	}
 
 	@Override
@@ -114,27 +116,44 @@ public class OpenHABWriteTagActivity extends Activity {
 
 	public void writeTag(Tag tag, String openhabUri) {
 		Log.i(TAG, "Creating tag object");
-		Ndef ndef = Ndef.get(tag);
-		if (ndef != null) {
+		NdefRecord[] ndefRecords;
+		ndefRecords = new NdefRecord[1];
+		ndefRecords[0] = NdefRecord.createUri(openhabUri);
+		NdefMessage message = new NdefMessage(ndefRecords);
+		NdefFormatable ndefFormatable = NdefFormatable.get(tag);
+		if (ndefFormatable != null) {
+			Log.i(TAG, "Tag is uninitialized, formating");
 			try {
-				NdefRecord[] ndefRecords;
-				ndefRecords = new NdefRecord[1];
-				ndefRecords[0] = NdefRecord.createUri(openhabUri);
-				NdefMessage message = new NdefMessage(ndefRecords);
-				Log.i(TAG, "Connecting");
-				ndef.connect();
-				Log.i(TAG, "Writing");
-				if (ndef.isWritable()) {
-					ndef.writeNdefMessage(message);
-				}
-				Log.i(TAG, "Closing");
-				ndef.close();
+				ndefFormatable.connect();
+				ndefFormatable.format(message);
+				ndefFormatable.close();				
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (FormatException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+			}
+		} else {
+			Log.i(TAG, "Tag is initialized, writing");
+			Ndef ndef = Ndef.get(tag);
+			if (ndef != null) {
+				try {
+					Log.i(TAG, "Connecting");
+					ndef.connect();
+					Log.i(TAG, "Writing");
+					if (ndef.isWritable()) {
+						ndef.writeNdefMessage(message);
+					}
+					Log.i(TAG, "Closing");
+					ndef.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (FormatException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		}
 	}

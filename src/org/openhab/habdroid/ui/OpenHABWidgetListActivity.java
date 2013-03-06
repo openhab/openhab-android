@@ -179,21 +179,22 @@ public class OpenHABWidgetListActivity extends ListActivity {
 	@Override
 	public void onNewIntent(Intent newIntent) {
 		Log.i(TAG, "New intent received = " + newIntent.toString());
-		try {
-			URI openhabURI = new URI(newIntent.getDataString());
-			Log.i(TAG, openhabURI.getScheme());
-			Log.i(TAG, openhabURI.getHost());
-			Log.i(TAG, openhabURI.getPath());
-			if (openhabURI.getHost().equals("sitemaps")) {
-				Log.i(TAG, "Tag indicates a sitemap link");
-				String newPageUrl = this.openHABBaseUrl + "rest/sitemaps" + openhabURI.getPath();
-				Log.i(TAG, "Should go to " + newPageUrl);
-				navigateToPage(newPageUrl);
+		if (newIntent.getDataString() != null)
+			try {
+				URI openhabURI = new URI(newIntent.getDataString());
+				Log.i(TAG, openhabURI.getScheme());
+				Log.i(TAG, openhabURI.getHost());
+				Log.i(TAG, openhabURI.getPath());
+				if (openhabURI.getHost().equals("sitemaps")) {
+					Log.i(TAG, "Tag indicates a sitemap link");
+					String newPageUrl = this.openHABBaseUrl + "rest/sitemaps" + openhabURI.getPath();
+					Log.i(TAG, "Should go to " + newPageUrl);
+					navigateToPage(newPageUrl);
+				}
+			} catch (URISyntaxException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-		} catch (URISyntaxException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 
 	@Override
@@ -202,7 +203,8 @@ public class OpenHABWidgetListActivity extends ListActivity {
 		super.onResume();
 		PendingIntent pendingIntent = PendingIntent.getActivity(
 				  this, 0, new Intent(this, getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
-		NfcAdapter.getDefaultAdapter(this).enableForegroundDispatch(this, pendingIntent, null, null);
+		if (NfcAdapter.getDefaultAdapter(this) != null)
+			NfcAdapter.getDefaultAdapter(this).enableForegroundDispatch(this, pendingIntent, null, null);
 	}
 
 	@Override
