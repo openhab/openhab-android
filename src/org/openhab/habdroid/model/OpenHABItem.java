@@ -33,7 +33,6 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import android.graphics.Color;
-import android.util.Log;
 
 /**
  * This is a class to hold basic information about openHAB Item.

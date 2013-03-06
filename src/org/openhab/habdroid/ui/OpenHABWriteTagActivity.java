@@ -29,20 +29,41 @@
 
 package org.openhab.habdroid.ui;
 
-import org.openhab.habdroid.R;
-import org.openhab.habdroid.R.layout;
-import org.openhab.habdroid.R.menu;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.nio.charset.Charset;
 
+import org.openhab.habdroid.R;
+
+import android.nfc.FormatException;
+import android.nfc.NdefMessage;
+import android.nfc.NdefRecord;
+import android.nfc.NfcAdapter;
+import android.nfc.Tag;
+import android.nfc.tech.MifareUltralight;
+import android.nfc.tech.Ndef;
 import android.os.Bundle;
 import android.app.Activity;
+import android.app.PendingIntent;
+import android.content.Intent;
+import android.util.Log;
 import android.view.Menu;
+import android.widget.TextView;
 
 public class OpenHABWriteTagActivity extends Activity {
+
+	// Logging TAG
+	private static final String TAG = "OpenHABWriteTagActivity";
+	private String sitemapPage = "";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.openhabwritetag);
+		if (getIntent().hasExtra("sitemapPage")) {
+			sitemapPage = getIntent().getExtras().getString("sitemapPage");
+		}
 	}
 
 	@Override
@@ -52,4 +73,69 @@ public class OpenHABWriteTagActivity extends Activity {
 		return true;
 	}
 
+	@Override
+	public void onResume() {
+		Log.i(TAG, "onResume()");
+		super.onResume();
+		PendingIntent pendingIntent = PendingIntent.getActivity(
+				  this, 0, new Intent(this, getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
+		NfcAdapter.getDefaultAdapter(this).enableForegroundDispatch(this, pendingIntent, null, null);
+	}
+
+	@Override
+	public void onPause() {
+		Log.i(TAG, "onPause()");
+		super.onPause();
+		if(NfcAdapter.getDefaultAdapter(this) != null)
+			NfcAdapter.getDefaultAdapter(this).disableForegroundDispatch(this);
+	}
+
+	public void onNewIntent(Intent intent) {
+	    Tag tagFromIntent = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
+	    String openhabURI = "";
+	    //do something with tagFromIntent
+	    Log.i(TAG, "TAG = " + tagFromIntent.toString());
+	    Log.i(TAG, "Writing page " + sitemapPage + " to TAG");
+	    TextView writeTagMessage = (TextView)findViewById(R.id.write_tag_message);
+	    try {
+			URI sitemapURI = new URI(sitemapPage);
+			if (sitemapURI.getPath().startsWith("/rest/sitemaps")) {
+				openhabURI = "openhab://sitemaps" + sitemapURI.getPath().substring(14, sitemapURI.getPath().length());
+			}
+			Log.i(TAG, "URI = " + openhabURI);
+		    writeTagMessage.setText(R.string.info_write_tag_progress);
+		    writeTag(tagFromIntent, openhabURI);
+		    writeTagMessage.setText(R.string.info_write_tag_finished);	    
+		} catch (URISyntaxException e) {
+			Log.e(TAG, e.getMessage());
+			writeTagMessage.setText(R.string.info_write_failed);
+		}
+	}
+
+	public void writeTag(Tag tag, String openhabUri) {
+		Log.i(TAG, "Creating tag object");
+		Ndef ndef = Ndef.get(tag);
+		if (ndef != null) {
+			try {
+				NdefRecord[] ndefRecords;
+				ndefRecords = new NdefRecord[1];
+				ndefRecords[0] = NdefRecord.createUri(openhabUri);
+				NdefMessage message = new NdefMessage(ndefRecords);
+				Log.i(TAG, "Connecting");
+				ndef.connect();
+				Log.i(TAG, "Writing");
+				if (ndef.isWritable()) {
+					ndef.writeNdefMessage(message);
+				}
+				Log.i(TAG, "Closing");
+				ndef.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (FormatException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
 }

@@ -28,8 +28,6 @@
  */
 package org.openhab.habdroid.ui;
 
-import org.openhab.habdroid.model.OpenHABItem;
-
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Canvas;

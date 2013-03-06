@@ -32,10 +32,8 @@ package org.openhab.habdroid.ui;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -419,6 +417,7 @@ public class OpenHABWidgetListActivity extends ListActivity {
 			// Start launch activity
         case R.id.mainmenu_openhab_writetag:
             Intent writeTagIntent = new Intent(this.getApplicationContext(), OpenHABWriteTagActivity.class);
+            writeTagIntent.putExtra("sitemapPage", this.displayPageUrl);
             startActivityForResult(writeTagIntent, 0);
     		return true;
         default:
