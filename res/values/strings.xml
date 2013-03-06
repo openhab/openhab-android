@@ -29,6 +29,7 @@
     <string name="error_network_not_available">Network is not available</string>
     <string name="error_no_uuid">Unable to get openHAB UUID, connection failed</string>
     <string name="erorr_invalid_url">Please enter a valid URL in a \'protocol://host:port/\' form</string>
-    <string name="title_activity_open_habwrite_tag">OpenHABWriteTagActivity</string>
+    <string name="title_activity_openhabwritetag">Write NFC tag</string>
+    <string name="info_write_tag">Touch the tag and keep it close until the confirmation message appear.</string>
     <string name="action_settings">Settings</string>
 </resources>

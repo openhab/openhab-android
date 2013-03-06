@@ -200,6 +200,7 @@ public class OpenHABWidgetListActivity extends ListActivity {
 
 	@Override
 	public void onResume() {
+		Log.i(TAG, "onResume()");
 		super.onResume();
 		PendingIntent pendingIntent = PendingIntent.getActivity(
 				  this, 0, new Intent(this, getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
@@ -208,6 +209,7 @@ public class OpenHABWidgetListActivity extends ListActivity {
 
 	@Override
 	public void onPause() {
+		Log.i(TAG, "onPause()");
 		super.onPause();
 		if(NfcAdapter.getDefaultAdapter(this) != null)
 			NfcAdapter.getDefaultAdapter(this).disableForegroundDispatch(this);
