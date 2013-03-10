@@ -31,6 +31,7 @@ package org.openhab.habdroid.ui;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 /*
@@ -51,10 +52,6 @@ import android.view.View;
 
 public class ColorPickerDialog extends Dialog {
  
-    public interface OnColorChangedListener {
-        void colorChanged(int color, View v);
-    }
- 
     private OnColorChangedListener mListener;
     private float[] mInitialColor;
     private ColorPicker colorPickerView;
@@ -73,13 +70,14 @@ public class ColorPickerDialog extends Dialog {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         OnColorChangedListener l = new OnColorChangedListener() {
-            public void colorChanged(int color, View v) {
+            public void colorChanged(float[] color, View v) {
                 mListener.colorChanged(color, v);
-                dismiss();
+                Log.i("ColorPickerDialog", String.format("New color = %f %f %f", color[0], color[1], color[2]));
+//                dismiss();
             }
         };
         // TODO: add initial color
-        this.colorPickerView = new ColorPicker(getContext());
+        this.colorPickerView = new ColorPicker(getContext(), l);
         this.colorPickerView.setHSVColor(mInitialColor);
         if (this.tag != null)
         	this.colorPickerView.setTag(this.tag);

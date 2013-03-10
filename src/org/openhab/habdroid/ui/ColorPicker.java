@@ -189,6 +189,11 @@ public class ColorPicker extends View {
 	 */
 
 	private int mBrightnessColor;
+
+	/**
+	 * The current HSV color selected by ColorPicker
+	 */
+	private float[] mHSVColor = {0,0,0};
 	
 	/**
 	 *  The Y position of currently selected brightness.
@@ -256,9 +261,20 @@ public class ColorPicker extends View {
 	 * 
 	 */
 	private float mSaturationSliderEndY;
+	
+	/**
+	 * Listener to send color change events to
+	 */
+    private OnColorChangedListener mListener;
 
 	public ColorPicker(Context context) {
 		super(context);
+		init(null, 0);
+	}
+
+	public ColorPicker(Context context, OnColorChangedListener l) {
+		super(context);
+		this.mListener = l;
 		init(null, 0);
 	}
 
@@ -692,6 +708,9 @@ public class ColorPicker extends View {
 			mUserIsMovingPointer = false;
 			mUserIsMovingBrightnessPointer = false;
 			mUserIsMovingSaturationPointer = false;
+			if (mListener != null) {
+				mListener.colorChanged(mHSVColor, this);
+			}
 			break;
 		}
 		return true;
@@ -745,6 +764,7 @@ public class ColorPicker extends View {
 		mSaturationY = mSaturationSliderStartY+(mSaturationSliderEndY-mSaturationSliderStartY)*mSaturation;
 		mSaturationColor = calculateSaturationColor(mPointerColor.getColor(), mSaturation);
 		mBrightnessColor = calculateFinalColor(mSaturationColor, mBrightness);
+		Color.colorToHSV(mBrightnessColor, mHSVColor);
 	}
 	
 	/**

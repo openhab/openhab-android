@@ -42,7 +42,6 @@ import org.openhab.habdroid.R;
 import org.openhab.habdroid.model.OpenHABItem;
 import org.openhab.habdroid.model.OpenHABWidget;
 import org.openhab.habdroid.model.OpenHABWidgetMapping;
-import org.openhab.habdroid.ui.ColorPickerDialog.OnColorChangedListener;
 import org.openhab.habdroid.util.MyAsyncHttpClient;
 import org.openhab.habdroid.util.MySmartImageView;
 import android.content.Context;
@@ -340,13 +339,10 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
 						Log.i("OpenHABWidgetAdapter", "Time to launch color picker!");
 						ColorPickerDialog colorDialog = new ColorPickerDialog(widgetView.getContext(), new OnColorChangedListener() {
 							@Override
-							public void colorChanged(int color, View v) {
-								Log.i("ColorPickerDialog", "New color = " + color);
-								float[] HSVColor = {0, 0, 0};
-								Color.colorToHSV(color, HSVColor);
-								Log.i("ColorPickerDialog", "New color HSV = " + HSVColor[0] + ", " + HSVColor[1] + ", " +
-										HSVColor[2]);
-								String newColor = String.valueOf(HSVColor[0]) + "," + String.valueOf(HSVColor[1]) + "," + String.valueOf(HSVColor[2]);
+							public void colorChanged(float[] hsv, View v) {
+								Log.i("ColorPickerDialog", "New color HSV = " + hsv[0] + ", " + hsv[1] + ", " +
+										hsv[2]);
+								String newColor = String.valueOf(hsv[0]) + "," + String.valueOf(hsv[1]*100) + "," + String.valueOf(hsv[2]*100);
 								OpenHABItem colorItem = (OpenHABItem) v.getTag();
 								sendItemCommand(colorItem, newColor);
 							}
