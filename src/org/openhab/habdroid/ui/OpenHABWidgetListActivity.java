@@ -112,7 +112,7 @@ public class OpenHABWidgetListActivity extends ListActivity {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		Log.i("OpenHABWidgetListActivity", "onCreate");
+		Log.d("OpenHABWidgetListActivity", "onCreate");
 		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 		requestWindowFeature(Window.FEATURE_PROGRESS);
 		setProgressBarIndeterminateVisibility(true);
@@ -142,7 +142,7 @@ public class OpenHABWidgetListActivity extends ListActivity {
 		}
 		// If yes, then just show it
 		if (displayPageUrl.length() > 0) {
-			Log.i(TAG, "displayPageUrl = " + displayPageUrl);
+			Log.d(TAG, "displayPageUrl = " + displayPageUrl);
 			showPage(displayPageUrl, false);
 		// Else check if we got openHAB base url through launch intent?
 		} else if (getIntent().hasExtra("baseURL")) {
@@ -151,16 +151,16 @@ public class OpenHABWidgetListActivity extends ListActivity {
 			if (openHABBaseUrl != null) {
 				openHABWidgetAdapter.setOpenHABBaseUrl(openHABBaseUrl);
 				if (initialData.length() > 0) {
-					Log.i(TAG, "We have initial data");
+					Log.d(TAG, "We have initial data");
 					try {
 						URI openhabURI = new URI(initialData);
-						Log.i(TAG, openhabURI.getScheme());
-						Log.i(TAG, openhabURI.getHost());
-						Log.i(TAG, openhabURI.getPath());
+						Log.d(TAG, openhabURI.getScheme());
+						Log.d(TAG, openhabURI.getHost());
+						Log.d(TAG, openhabURI.getPath());
 						if (openhabURI.getHost().equals("sitemaps")) {
-							Log.i(TAG, "Tag indicates a sitemap link");
+							Log.d(TAG, "Tag indicates a sitemap link");
 							String newPageUrl = this.openHABBaseUrl + "rest/sitemaps" + openhabURI.getPath();
-							Log.i(TAG, "Should go to " + newPageUrl);
+							Log.d(TAG, "Should go to " + newPageUrl);
 							openSitemap(newPageUrl);
 						}
 					} catch (URISyntaxException e) {
@@ -178,17 +178,17 @@ public class OpenHABWidgetListActivity extends ListActivity {
 
 	@Override
 	public void onNewIntent(Intent newIntent) {
-		Log.i(TAG, "New intent received = " + newIntent.toString());
+		Log.d(TAG, "New intent received = " + newIntent.toString());
 		if (newIntent.getDataString() != null)
 			try {
 				URI openhabURI = new URI(newIntent.getDataString());
-				Log.i(TAG, openhabURI.getScheme());
-				Log.i(TAG, openhabURI.getHost());
-				Log.i(TAG, openhabURI.getPath());
+				Log.d(TAG, openhabURI.getScheme());
+				Log.d(TAG, openhabURI.getHost());
+				Log.d(TAG, openhabURI.getPath());
 				if (openhabURI.getHost().equals("sitemaps")) {
-					Log.i(TAG, "Tag indicates a sitemap link");
+					Log.d(TAG, "Tag indicates a sitemap link");
 					String newPageUrl = this.openHABBaseUrl + "rest/sitemaps" + openhabURI.getPath();
-					Log.i(TAG, "Should go to " + newPageUrl);
+					Log.d(TAG, "Should go to " + newPageUrl);
 					navigateToPage(newPageUrl);
 				}
 			} catch (URISyntaxException e) {
@@ -199,7 +199,7 @@ public class OpenHABWidgetListActivity extends ListActivity {
 
 	@Override
 	public void onResume() {
-		Log.i(TAG, "onResume()");
+		Log.d(TAG, "onResume()");
 		super.onResume();
 		PendingIntent pendingIntent = PendingIntent.getActivity(
 				  this, 0, new Intent(this, getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
@@ -209,7 +209,7 @@ public class OpenHABWidgetListActivity extends ListActivity {
 
 	@Override
 	public void onPause() {
-		Log.i(TAG, "onPause()");
+		Log.d(TAG, "onPause()");
 		super.onPause();
 		if(NfcAdapter.getDefaultAdapter(this) != null)
 			NfcAdapter.getDefaultAdapter(this).disableForegroundDispatch(this);
@@ -217,7 +217,7 @@ public class OpenHABWidgetListActivity extends ListActivity {
 
 	@Override
 	public void onSaveInstanceState(Bundle savedInstanceState) {
-		Log.i("OpenHABWidgetListActivity", "onSaveInstanceState");
+		Log.d("OpenHABWidgetListActivity", "onSaveInstanceState");
 
 	  // Save UI state changes to the savedInstanceState.
 	  // This bundle will be passed to onCreate if the process is
@@ -232,18 +232,18 @@ public class OpenHABWidgetListActivity extends ListActivity {
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-		Log.i(TAG, "onDestroy() for " + this.displayPageUrl);
+		Log.d(TAG, "onDestroy() for " + this.displayPageUrl);
 		if (pageAsyncHttpClient != null)
 			pageAsyncHttpClient.cancelRequests(this, true);
 	}
 	
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		Log.i(TAG, "onActivityResult " + String.valueOf(requestCode) + " " + String.valueOf(resultCode));
+		Log.d(TAG, "onActivityResult " + String.valueOf(requestCode) + " " + String.valueOf(resultCode));
 		if (resultCode == -1) {
 			// Right now only PreferencesActivity returns -1
 			// Restart app after preferences
-			Log.i(TAG, "Restarting");
+			Log.d(TAG, "Restarting");
 			// Get launch intent for application
 			Intent restartIntent = getBaseContext().getPackageManager()
 		             .getLaunchIntentForPackage( getBaseContext().getPackageName() );
@@ -289,7 +289,7 @@ public class OpenHABWidgetListActivity extends ListActivity {
 			}
 			@Override
 		     public void onFailure(Throwable e) {
-				Log.i(TAG, "http request failed");
+				Log.e(TAG, "http request failed");
 				if (e.getMessage() != null) {
 					Log.e(TAG, e.getMessage());
 					if (e.getMessage().equals("Unauthorized")) {
@@ -318,7 +318,7 @@ public class OpenHABWidgetListActivity extends ListActivity {
 			if (content != null) {
 				document = builder.parse(new ByteArrayInputStream(content.getBytes("UTF-8")));
 			} else {
-				Log.i(TAG, "processContent: content == null");
+				Log.e(TAG, "processContent: content == null");
 				return;
 			}
 			Node rootNode = document.getFirstChild();
@@ -340,7 +340,7 @@ public class OpenHABWidgetListActivity extends ListActivity {
 				@Override
 				public void onItemClick(AdapterView<?> parent, View view, int position,
 						long id) {
-					Log.i(TAG, "Widget clicked " + String.valueOf(position));
+					Log.d(TAG, "Widget clicked " + String.valueOf(position));
 					OpenHABWidget openHABWidget = openHABWidgetAdapter.getItem(position);
 					if (openHABWidget.hasLinkedPage()) {
 						// Widget have a page linked to it
@@ -402,10 +402,10 @@ public class OpenHABWidgetListActivity extends ListActivity {
         	// we are navigating to root page, so clear page stack to support regular 'back' behavior for root page
         	pageStack.clear();
             showPage(sitemapRootUrl, false);
-            Log.i(TAG, "Home selected - " + sitemapRootUrl);
+            Log.d(TAG, "Home selected - " + sitemapRootUrl);
             return true;
         case R.id.mainmenu_openhab_clearcache:
-			Log.i(TAG, "Restarting");
+			Log.d(TAG, "Restarting");
 			// Get launch intent for application
 			Intent restartIntent = getBaseContext().getPackageManager()
 		             .getLaunchIntentForPackage( getBaseContext().getPackageName() );
@@ -436,18 +436,18 @@ public class OpenHABWidgetListActivity extends ListActivity {
      */
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-    	Log.i(TAG, "keyCode = " + keyCode);
+    	Log.d(TAG, "keyCode = " + keyCode);
     	if (keyCode == 4) {
-    		Log.i(TAG, "This is 'back' key");
+    		Log.d(TAG, "This is 'back' key");
     		if (pageStack.size() > 0) {
     			displayPageUrl = pageStack.get(0).getPageUrl();
 //    			OpenHABWidgetListActivity.this.setSelection(pageStack.get(0).getWidgetListPosition());
-    			Log.i(TAG, String.format("onKeyDown: list position from the stack = %d", pageStack.get(0).getWidgetListPosition()));
+    			Log.d(TAG, String.format("onKeyDown: list position from the stack = %d", pageStack.get(0).getWidgetListPosition()));
     			widgetListPosition = pageStack.get(0).getWidgetListPosition();
     			pageStack.remove(0);
     			showPage(displayPageUrl, false);
     		} else {
-    			Log.i(TAG, "No more pages left in stack, exiting");
+    			Log.d(TAG, "No more pages left in stack, exiting");
     			finish();
     		}
     		return true;
@@ -465,7 +465,7 @@ public class OpenHABWidgetListActivity extends ListActivity {
      */
 
 	private void selectSitemap(final String baseURL, final boolean forceSelect) {
-		Log.i(TAG, "Loding sitemap list from " + baseURL + "rest/sitemaps");
+		Log.d(TAG, "Loding sitemap list from " + baseURL + "rest/sitemaps");
 	    AsyncHttpClient asyncHttpClient = new MyAsyncHttpClient();
 		// If authentication is needed
 	    asyncHttpClient.setBasicAuthCredientidals(openHABUsername, openHABPassword);
@@ -490,20 +490,20 @@ public class OpenHABWidgetListActivity extends ListActivity {
 					if (configuredSitemap.length() > 0) {
 						// Configured sitemap is on the list we got, open it!
 						if (sitemapExists(sitemapList, configuredSitemap)) {
-							Log.i(TAG, "Configured sitemap is on the list");
+							Log.d(TAG, "Configured sitemap is on the list");
 							OpenHABSitemap selectedSitemap = getSitemapByName(sitemapList, configuredSitemap);
 							openSitemap(selectedSitemap.getHomepageLink());
 						// Configured sitemap is not on the list we got!
 						} else {
-							Log.i(TAG, "Configured sitemap is not on the list");
+							Log.d(TAG, "Configured sitemap is not on the list");
 							if (sitemapList.size() == 1) {
-								Log.i(TAG, "Got only one sitemap");
+								Log.d(TAG, "Got only one sitemap");
 								Editor preferencesEditor = settings.edit();
 								preferencesEditor.putString("default_openhab_sitemap", sitemapList.get(0).getName());
 									preferencesEditor.commit();
 								openSitemap(sitemapList.get(0).getHomepageLink());								
 							} else {
-								Log.i(TAG, "Got multiply sitemaps, user have to select one");
+								Log.d(TAG, "Got multiply sitemaps, user have to select one");
 								showSitemapSelectionDialog(sitemapList);
 							}
 						}
@@ -511,13 +511,13 @@ public class OpenHABWidgetListActivity extends ListActivity {
 					} else {
 						// We got only one single sitemap from openHAB, use it
 						if (sitemapList.size() == 1) {
-							Log.i(TAG, "Got only one sitemap");
+							Log.d(TAG, "Got only one sitemap");
 							Editor preferencesEditor = settings.edit();
 							preferencesEditor.putString("default_openhab_sitemap", sitemapList.get(0).getName());
 								preferencesEditor.commit();
 							openSitemap(sitemapList.get(0).getHomepageLink());
 						} else {
-							Log.i(TAG, "Got multiply sitemaps, user have to select one");
+							Log.d(TAG, "Got multiply sitemaps, user have to select one");
 							showSitemapSelectionDialog(sitemapList);
 						}
 					}
@@ -599,7 +599,7 @@ public class OpenHABWidgetListActivity extends ListActivity {
 	}
 	
 	private void showSitemapSelectionDialog(final List<OpenHABSitemap> sitemapList) {
-		Log.i(TAG, "Opening sitemap selection dialog");
+		Log.d(TAG, "Opening sitemap selection dialog");
 		final List<String> sitemapNameList = new ArrayList<String>();;
 		for (int i=0; i<sitemapList.size(); i++) {
 			sitemapNameList.add(sitemapList.get(i).getName());
@@ -610,7 +610,7 @@ public class OpenHABWidgetListActivity extends ListActivity {
 			new DialogInterface.OnClickListener() {
 				@Override
 				public void onClick(DialogInterface dialog, int item) {
-					Log.i(TAG, "Selected sitemap " + sitemapNameList.get(item));
+					Log.d(TAG, "Selected sitemap " + sitemapNameList.get(item));
 					SharedPreferences settings = 
 						PreferenceManager.getDefaultSharedPreferences(OpenHABWidgetListActivity.this);
 					Editor preferencesEditor = settings.edit();

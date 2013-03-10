@@ -56,6 +56,8 @@ import android.view.View;
  * </p>
  */
 public class ColorPicker extends View {
+
+	private static final String TAG = "ColorPicker";
 	/*
 	 * Constants used to save/restore the instance state.
 	 */
@@ -299,7 +301,7 @@ public class ColorPicker extends View {
 		mBrightnessSliderX = mPointerRadius*2;
 		mSaturationSliderX = -mPointerRadius*2;
 		
-		Log.i("ColorPicker", String.format("init %f %f %f %f", mBrightnessSliderStartY, mBrightnessSliderEndY, 
+		Log.d(TAG, String.format("init %f %f %f %f", mBrightnessSliderStartY, mBrightnessSliderEndY, 
 				mSaturationSliderStartY, mSaturationSliderEndY));
 
 		a.recycle();
@@ -352,7 +354,7 @@ public class ColorPicker extends View {
 
 	@Override
 	protected void onDraw(Canvas canvas) {
-		Log.i("ColorPicker", "onDraw");
+		Log.d(TAG, "onDraw");
 		// All of our positions are using our internal coordinate system. Instead of translating
 		// them we let Canvas do the work for us.
 		canvas.translate(mTranslationOffset, mTranslationOffset);
@@ -491,7 +493,7 @@ public class ColorPicker extends View {
 	}
 
 	public void setHSVColor(float[] hsv) {
-		Log.i("ColorPicker", String.format("Setting color to %f %f %f", hsv[0], hsv[1], hsv[2]));
+		Log.d(TAG, String.format("Setting color to %f %f %f", hsv[0], hsv[1], hsv[2]));
 		mAngle = this.colorToAngle(Color.HSVToColor(hsv));
 		mSaturation = hsv[1];
 		mBrightness = 1 - hsv[2];
@@ -689,7 +691,7 @@ public class ColorPicker extends View {
 //				Log.i("MotionEvent", String.format("move inside brightness x = %f,  y = %f", x, y));
 				mBrightness = calculateSliderValue(mBrightnessSliderEndY,
 						mBrightnessSliderStartY, y);
-				Log.i("MotionEvent", String.format("New brightness = %f", mBrightness));
+//				Log.d("MotionEvent", String.format("New brightness = %f", mBrightness));
 				invalidate();
 			} else if (mUserIsMovingSaturationPointer) {
 				if (y < mSaturationSliderStartY)
@@ -699,7 +701,7 @@ public class ColorPicker extends View {
 //				Log.i("MotionEvent", String.format("move inside saturation x = %f,  y = %f", x, y));
 				mSaturation = calculateSliderValue(mSaturationSliderEndY,
 						mSaturationSliderStartY, y);
-				Log.i("MotionEvent", String.format("New saturation = %f", mSaturation));
+//				Log.d("MotionEvent", String.format("New saturation = %f", mSaturation));
 				invalidate();
 			}
 			break;

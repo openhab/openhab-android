@@ -74,7 +74,7 @@ public class OpenHABWriteTagActivity extends Activity {
 
 	@Override
 	public void onResume() {
-		Log.i(TAG, "onResume()");
+		Log.d(TAG, "onResume()");
 		super.onResume();
 		PendingIntent pendingIntent = PendingIntent.getActivity(
 				  this, 0, new Intent(this, getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
@@ -84,7 +84,7 @@ public class OpenHABWriteTagActivity extends Activity {
 
 	@Override
 	public void onPause() {
-		Log.i(TAG, "onPause()");
+		Log.d(TAG, "onPause()");
 		super.onPause();
 		if(NfcAdapter.getDefaultAdapter(this) != null)
 			NfcAdapter.getDefaultAdapter(this).disableForegroundDispatch(this);
@@ -94,15 +94,15 @@ public class OpenHABWriteTagActivity extends Activity {
 	    Tag tagFromIntent = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
 	    String openhabURI = "";
 	    //do something with tagFromIntent
-	    Log.i(TAG, "TAG = " + tagFromIntent.toString());
-	    Log.i(TAG, "Writing page " + sitemapPage + " to TAG");
+	    Log.d(TAG, "NFC TAG = " + tagFromIntent.toString());
+	    Log.d(TAG, "Writing page " + sitemapPage + " to TAG");
 	    TextView writeTagMessage = (TextView)findViewById(R.id.write_tag_message);
 	    try {
 			URI sitemapURI = new URI(sitemapPage);
 			if (sitemapURI.getPath().startsWith("/rest/sitemaps")) {
 				openhabURI = "openhab://sitemaps" + sitemapURI.getPath().substring(14, sitemapURI.getPath().length());
 			}
-			Log.i(TAG, "URI = " + openhabURI);
+			Log.d(TAG, "URI = " + openhabURI);
 		    writeTagMessage.setText(R.string.info_write_tag_progress);
 		    writeTag(tagFromIntent, openhabURI);
 		} catch (URISyntaxException e) {
@@ -112,7 +112,7 @@ public class OpenHABWriteTagActivity extends Activity {
 	}
 
 	public void writeTag(Tag tag, String openhabUri) {
-		Log.i(TAG, "Creating tag object");
+		Log.d(TAG, "Creating tag object");
 	    TextView writeTagMessage = (TextView)findViewById(R.id.write_tag_message);
 		NdefRecord[] ndefRecords;
 		ndefRecords = new NdefRecord[1];
@@ -120,7 +120,7 @@ public class OpenHABWriteTagActivity extends Activity {
 		NdefMessage message = new NdefMessage(ndefRecords);
 		NdefFormatable ndefFormatable = NdefFormatable.get(tag);
 		if (ndefFormatable != null) {
-			Log.i(TAG, "Tag is uninitialized, formating");
+			Log.d(TAG, "Tag is uninitialized, formating");
 			try {
 				ndefFormatable.connect();
 				ndefFormatable.format(message);
@@ -136,17 +136,17 @@ public class OpenHABWriteTagActivity extends Activity {
 				writeTagMessage.setText(R.string.info_write_failed);
 			}
 		} else {
-			Log.i(TAG, "Tag is initialized, writing");
+			Log.d(TAG, "Tag is initialized, writing");
 			Ndef ndef = Ndef.get(tag);
 			if (ndef != null) {
 				try {
-					Log.i(TAG, "Connecting");
+					Log.d(TAG, "Connecting");
 					ndef.connect();
-					Log.i(TAG, "Writing");
+					Log.d(TAG, "Writing");
 					if (ndef.isWritable()) {
 						ndef.writeNdefMessage(message);
 					}
-					Log.i(TAG, "Closing");
+					Log.d(TAG, "Closing");
 					ndef.close();
 				    writeTagMessage.setText(R.string.info_write_tag_finished);
 				} catch (IOException e) {

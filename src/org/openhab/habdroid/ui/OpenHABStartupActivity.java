@@ -93,11 +93,11 @@ public class OpenHABStartupActivity extends Activity implements AsyncServiceReso
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.openhabstartup);
 		PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
-		Log.i(TAG, "Intent action = " + getIntent().getAction());
+		Log.d(TAG, "Intent action = " + getIntent().getAction());
 		if (getIntent().getAction().equals("android.intent.action.MAIN")) {
-			Log.i(TAG, "Intent indicates manual launch");
+			Log.d(TAG, "Intent indicates manual launch");
 		} else if (getIntent().getAction().equals("android.nfc.action.NDEF_DISCOVERED")) {
-			Log.i(TAG, "Intent indicates NFC launch with data = " + getIntent().getDataString());
+			Log.d(TAG, "Intent indicates NFC launch with data = " + getIntent().getDataString());
 			initialData = getIntent().getDataString();
 		}
 		if (!tryManualUrl()) {
@@ -194,7 +194,7 @@ public class OpenHABStartupActivity extends Activity implements AsyncServiceReso
             startActivityForResult(myIntent, 0);
     		return true;
         case R.id.mainmenu_openhab_clearcache:
-			Log.i(TAG, "Restarting");
+			Log.d(TAG, "Restarting");
 			// Get launch intent for application
 			Intent restartIntent = getBaseContext().getPackageManager()
 		             .getLaunchIntentForPackage( getBaseContext().getPackageName() );
@@ -212,11 +212,11 @@ public class OpenHABStartupActivity extends Activity implements AsyncServiceReso
     
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		Log.i(TAG, "onActivityResult " + String.valueOf(requestCode) + " " + String.valueOf(resultCode));
+		Log.d(TAG, "onActivityResult " + String.valueOf(requestCode) + " " + String.valueOf(resultCode));
 		if (resultCode == -1) {
 			// Right now only PreferencesActivity returns -1
 			// Restart app after preferences
-			Log.i(TAG, "Restarting");
+			Log.d(TAG, "Restarting");
 			// Get launch intent for application
 			Intent restartIntent = getBaseContext().getPackageManager()
 		             .getLaunchIntentForPackage( getBaseContext().getPackageName() );
@@ -290,7 +290,7 @@ public class OpenHABStartupActivity extends Activity implements AsyncServiceReso
 			if (!normalizedUrl.endsWith("/"))
 				normalizedUrl = normalizedUrl + "/";
 		} catch (MalformedURLException e) {
-			Log.i(TAG, "normalizeUrl: invalid URL");
+			Log.d(TAG, "normalizeUrl: invalid URL");
 		}
 		return normalizedUrl;
 	}

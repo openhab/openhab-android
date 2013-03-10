@@ -51,11 +51,13 @@ import android.view.View;
  */
 
 public class ColorPickerDialog extends Dialog {
- 
+
+	private static final String TAG = "ColorPickerDialog";
     private OnColorChangedListener mListener;
     private float[] mInitialColor;
     private ColorPicker colorPickerView;
     private Object tag;
+
 
     public ColorPickerDialog(Context context,
                              OnColorChangedListener listener,
@@ -72,7 +74,7 @@ public class ColorPickerDialog extends Dialog {
         OnColorChangedListener l = new OnColorChangedListener() {
             public void colorChanged(float[] color, View v) {
                 mListener.colorChanged(color, v);
-                Log.i("ColorPickerDialog", String.format("New color = %f %f %f", color[0], color[1], color[2]));
+                Log.d(TAG, String.format("New color = %f %f %f", color[0], color[1], color[2]));
 //                dismiss();
             }
         };

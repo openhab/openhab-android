@@ -45,7 +45,6 @@ import org.openhab.habdroid.model.OpenHABWidgetMapping;
 import org.openhab.habdroid.util.MyAsyncHttpClient;
 import org.openhab.habdroid.util.MySmartImageView;
 import android.content.Context;
-import android.graphics.Color;
 import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -100,6 +99,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
 	public static final int TYPE_WEB = 13;
 	public static final int TYPE_COLOR = 14;
 	public static final int TYPES_COUNT = 15;
+	private static final String TAG = "OpenHABWidgetAdapter";
 	private String openHABBaseUrl = "http://demo.openhab.org:8080/";
 	private String openHABUsername;
 	private String openHABPassword;
@@ -255,8 +255,8 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
 					OpenHABWidget radioWidget = (OpenHABWidget)group.getTag();
 					SegmentedControlButton selectedButton = (SegmentedControlButton)group.findViewById(checkedId);
 					if (selectedButton != null) {
-						Log.i("OpenHABWidgetAdapter", "Selected " + selectedButton.getText());
-						Log.i("OpenHABWidgetAdapter", "Command = " + (String)selectedButton.getTag());
+						Log.d(TAG, "Selected " + selectedButton.getText());
+						Log.d(TAG, "Command = " + (String)selectedButton.getTag());
 //						radioWidget.getItem().sendCommand((String)selectedButton.getTag());
 						sendItemCommand(radioWidget.getItem(), (String)selectedButton.getTag());
 					}
@@ -332,15 +332,12 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
 				public boolean onTouch(View v, MotionEvent motionEvent) {
 					ImageButton colorButton = (ImageButton)v;
 					OpenHABItem colorItem = (OpenHABItem)colorButton.getTag();
-//					Log.i("OpenHABWidgetAdapter", "Colorpicker HSV = " + colorItem.getStateAsHSV()[0] + ", " +
-//							colorItem.getStateAsHSV()[1] + ", " + colorItem.getStateAsHSV()[2]);
-//					Log.i("OpenHABWidgetAdapter", "Colorpicker Color = " + colorItem.getStateAsColor());
 					if (motionEvent.getActionMasked() == MotionEvent.ACTION_UP) {
-						Log.i("OpenHABWidgetAdapter", "Time to launch color picker!");
+						Log.d(TAG, "Time to launch color picker!");
 						ColorPickerDialog colorDialog = new ColorPickerDialog(widgetView.getContext(), new OnColorChangedListener() {
 							@Override
 							public void colorChanged(float[] hsv, View v) {
-								Log.i("ColorPickerDialog", "New color HSV = " + hsv[0] + ", " + hsv[1] + ", " +
+								Log.d(TAG, "New color HSV = " + hsv[0] + ", " + hsv[1] + ", " +
 										hsv[2]);
 								String newColor = String.valueOf(hsv[0]) + "," + String.valueOf(hsv[1]*100) + "," + String.valueOf(hsv[2]*100);
 								OpenHABItem colorItem = (OpenHABItem) v.getTag();
@@ -441,11 +438,11 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
 						}
 						@Override
 						public void onStartTrackingTouch(SeekBar seekBar) {
-							Log.i("OpenHABWidgetAdapter", "onStartTrackingTouch position = " + seekBar.getProgress());
+							Log.d(TAG, "onStartTrackingTouch position = " + seekBar.getProgress());
 						}
 						@Override
 						public void onStopTrackingTouch(SeekBar seekBar) {
-							Log.i("OpenHABWidgetAdapter", "onStopTrackingTouch position = " + seekBar.getProgress());
+							Log.d(TAG, "onStopTrackingTouch position = " + seekBar.getProgress());
 							OpenHABItem sliderItem = (OpenHABItem)seekBar.getTag();
 //							sliderItem.sendCommand(String.valueOf(seekBar.getProgress()));
 							sendItemCommand(sliderItem, String.valueOf(seekBar.getProgress()));
@@ -475,9 +472,9 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     					"&period=" + openHABWidget.getPeriod() + "&random=" +
     					String.valueOf(random.nextInt());
     		}
-    		Log.i("OpenHABWidgetAdapter", "Chart url = " + chartUrl);
+    		Log.d(TAG, "Chart url = " + chartUrl);
     		if (chartImage == null)
-    			Log.e("OpenHABWidgetAdapter", "chartImage == null !!!");
+    			Log.e(TAG, "chartImage == null !!!");
     		if (openHABUsername != null && openHABPassword != null)
     			chartImage.setImageUrl(chartUrl, false, openHABUsername, openHABPassword);
     		else
@@ -490,11 +487,11 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     			chartImage.setRefreshRate(openHABWidget.getRefresh());
     			refreshImageList.add(chartImage);
     		}
-    		Log.i("OpenHABWidgetAdapter", "chart size = " + chartLayoutParams.width + " " + chartLayoutParams.height);
+    		Log.d(TAG, "chart size = " + chartLayoutParams.width + " " + chartLayoutParams.height);
     	break;
     	case TYPE_VIDEO:
     		VideoView videoVideo = (VideoView)widgetView.findViewById(R.id.videovideo);
-    		Log.i("OpenHABWidgetAdapter", "Opening video at " + openHABWidget.getUrl());
+    		Log.d(TAG, "Opening video at " + openHABWidget.getUrl());
     		// TODO: This is quite dirty fix to make video look maximum available size on all screens
     		WindowManager wm = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
     		ViewGroup.LayoutParams videoLayoutParams = videoVideo.getLayoutParams();
@@ -509,7 +506,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
         		videoVideo.setVideoURI(Uri.parse(openHABWidget.getUrl()));
     			videoVideo.start();
     		}
-    		Log.i("OpenHABWidgetAdapter", "Video height is " + videoVideo.getHeight());
+    		Log.d(TAG, "Video height is " + videoVideo.getHeight());
     	break;
     	case TYPE_WEB:
     		WebView webWeb = (WebView)widgetView.findViewById(R.id.webweb);
@@ -522,6 +519,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     		webWeb.loadUrl(openHABWidget.getUrl());
     	break;
     	case TYPE_SELECTION:
+    		int spinnerSelectedIndex = -1;
     		labelTextView = (TextView)widgetView.findViewById(R.id.selectionlabel);
     		if (labelTextView != null)
     			labelTextView.setText(openHABWidget.getLabel());
@@ -529,26 +527,47 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     		ArrayList<String> spinnerArray = new ArrayList<String>();
     		Iterator<OpenHABWidgetMapping> mappingIterator = openHABWidget.getMappings().iterator();
     		while (mappingIterator.hasNext()) {
-    			spinnerArray.add(mappingIterator.next().getLabel());
+    			OpenHABWidgetMapping openHABWidgetMapping = mappingIterator.next();
+    			spinnerArray.add(openHABWidgetMapping.getLabel());
+    			if (openHABWidgetMapping.getCommand().equals(openHABWidget.getItem().getState())) {
+    				spinnerSelectedIndex = spinnerArray.size() - 1;
+    			}
     		}
     		ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(this.getContext() ,
     				android.R.layout.simple_spinner_item, spinnerArray);
     		spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
     		selectionSpinner.setAdapter(spinnerAdapter);
     		selectionSpinner.setTag(openHABWidget);
-    		selectionSpinner.setSelection((int)Float.parseFloat(openHABWidget.getItem().getState()));
+    		if (spinnerSelectedIndex >= 0)
+    			selectionSpinner.setSelection(spinnerSelectedIndex);
+    		
     		selectionSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 
     			@Override
 				public void onItemSelected(AdapterView<?> parent, View view,
 						int index, long id) {
-					Log.i("OpenHABWidgetAdapter", "Spinner item click on index " + index);
+					Log.d(TAG, "Spinner item click on index " + index);
+					Spinner spinner = (Spinner)parent;
+					String selectedLabel = (String)spinner.getAdapter().getItem(index);
+					Log.d(TAG, "Spinner onItemSelected selected label = " + selectedLabel);
 					OpenHABWidget openHABWidget = (OpenHABWidget)parent.getTag();
-					if (openHABWidget != null)
-						Log.i("OpenHABWidgetAdapter", "Label selected = " + openHABWidget.getMapping(index).getLabel());
-					if (!openHABWidget.getItem().getState().equals(openHABWidget.getMapping(index).getCommand()))
-						sendItemCommand(openHABWidget.getItem(),
-								openHABWidget.getMapping(index).getCommand());
+					if (openHABWidget != null) {
+						Log.d(TAG, "Label selected = " + openHABWidget.getMapping(index).getLabel());
+						Iterator<OpenHABWidgetMapping> mappingIterator = openHABWidget.getMappings().iterator();
+						while (mappingIterator.hasNext()) {
+							OpenHABWidgetMapping openHABWidgetMapping = mappingIterator.next();
+							if (openHABWidgetMapping.getLabel().equals(selectedLabel)) {
+								Log.d(TAG, "Spinner onItemSelected found match with " + openHABWidgetMapping.getCommand());
+								if (!openHABWidget.getItem().getState().equals(openHABWidgetMapping.getCommand())) {
+									Log.d(TAG, "Spinner onItemSelected selected label command != current item state");
+									sendItemCommand(openHABWidget.getItem(), openHABWidgetMapping.getCommand());
+								}
+							}
+						}
+					}
+//					if (!openHABWidget.getItem().getState().equals(openHABWidget.getMapping(index).getCommand()))
+//						sendItemCommand(openHABWidget.getItem(),
+//								openHABWidget.getMapping(index).getCommand());
 				}
 
 				@Override
@@ -581,7 +600,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     		setPointMinusButton.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					Log.i("OpenHABWidgetAdapter","Minus");
+					Log.d(TAG, "Minus");
 					OpenHABWidget setPointWidget = (OpenHABWidget)v.getTag();
 					float currentValue = Float.valueOf(setPointWidget.getItem().getState()).floatValue();
 					currentValue = currentValue - setPointWidget.getStep();
@@ -594,7 +613,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     		setPointPlusButton.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					Log.i("OpenHABWidgetAdapter","Plus");
+					Log.d(TAG,"Plus");
 					OpenHABWidget setPointWidget = (OpenHABWidget)v.getTag();
 					float currentValue = Float.valueOf(setPointWidget.getItem().getState()).floatValue();
 					currentValue = currentValue + setPointWidget.getStep();
@@ -714,7 +733,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
 	}
 	
 	public void stopVideoWidgets() {
-		Log.i("OpenHABWidgetAdapter", "Stopping video for " + videoWidgetList.size() + " widgets");
+		Log.d(TAG, "Stopping video for " + videoWidgetList.size() + " widgets");
 		for (int i=0; i<videoWidgetList.size(); i++) {
 			if (videoWidgetList.get(i) != null)
 				videoWidgetList.get(i).stopPlayback();
@@ -723,7 +742,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
 	}
 	
 	public void stopImageRefresh() {
-		Log.i("OpenHABWidgetAdapter", "Stopping image refresh for " + refreshImageList.size() + " widgets");
+		Log.d(TAG, "Stopping image refresh for " + refreshImageList.size() + " widgets");
 		for (int i=0; i<refreshImageList.size(); i++) {
 			if (refreshImageList.get(i) != null)
 				refreshImageList.get(i).cancelRefresh();
