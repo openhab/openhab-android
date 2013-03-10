@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
+    <declare-styleable name="ColorPicker">
+       <attr name="wheel_size" format="integer" />
+       <attr name="pointer_size" format="integer" />
+   </declare-styleable>
     <declare-styleable name="SegmentedControlButton">
         <attr name="textColorSelected" format="color" />
         <attr name="textColorUnselected" format="color" />
