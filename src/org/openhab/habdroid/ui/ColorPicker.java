@@ -201,11 +201,6 @@ public class ColorPicker extends View {
 	private int mSaturationColor;
 	
 	/**
-	 * The current saturation slider position
-	 */
-	private int mSaturationSlider;
-
-	/**
 	 * Number of pixels the origin of this view is moved in X- and Y-direction.
 	 *
 	 * <p>
@@ -480,6 +475,7 @@ public class ColorPicker extends View {
 	}
 
 	public void setHSVColor(float[] hsv) {
+		Log.i("ColorPicker", String.format("Setting color to %f %f %f", hsv[0], hsv[1], hsv[2]));
 		mAngle = this.colorToAngle(Color.HSVToColor(hsv));
 		mSaturation = hsv[1];
 		mBrightness = 1 - hsv[2];

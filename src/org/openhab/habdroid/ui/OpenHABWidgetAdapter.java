@@ -350,7 +350,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
 								OpenHABItem colorItem = (OpenHABItem) v.getTag();
 								sendItemCommand(colorItem, newColor);
 							}
-						}, colorItem.getStateAsColor());
+						}, colorItem.getStateAsHSV());
 						colorDialog.setTag(colorItem);
 						colorDialog.show();
 					}

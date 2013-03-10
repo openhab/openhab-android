@@ -107,7 +107,7 @@ public class OpenHABItem {
 	public float[] getStateAsHSV() {
 		String[] stateSplit = state.split(",");
 		if (stateSplit.length == 3) { // We need exactly 3 numbers to operate this
-			float[] result = {Float.parseFloat(stateSplit[0]), Float.parseFloat(stateSplit[1]), Float.parseFloat(stateSplit[2])};
+			float[] result = {Float.parseFloat(stateSplit[0]), Float.parseFloat(stateSplit[1])/100, Float.parseFloat(stateSplit[2])/100};
 			return result;
 		} else {
 			return null;

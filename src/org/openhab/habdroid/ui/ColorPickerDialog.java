@@ -30,15 +30,7 @@ package org.openhab.habdroid.ui;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.ColorMatrix;
-import android.graphics.Paint;
-import android.graphics.RectF;
-import android.graphics.Shader;
-import android.graphics.SweepGradient;
 import android.os.Bundle;
-import android.view.MotionEvent;
 import android.view.View;
 
 /*
@@ -64,13 +56,13 @@ public class ColorPickerDialog extends Dialog {
     }
  
     private OnColorChangedListener mListener;
-    private int mInitialColor;
+    private float[] mInitialColor;
     private ColorPicker colorPickerView;
     private Object tag;
 
     public ColorPickerDialog(Context context,
                              OnColorChangedListener listener,
-                             int initialColor) {
+                             float[] initialColor) {
         super(context);
  
         mListener = listener;
@@ -88,6 +80,7 @@ public class ColorPickerDialog extends Dialog {
         };
         // TODO: add initial color
         this.colorPickerView = new ColorPicker(getContext());
+        this.colorPickerView.setHSVColor(mInitialColor);
         if (this.tag != null)
         	this.colorPickerView.setTag(this.tag);
         setContentView(this.colorPickerView);
