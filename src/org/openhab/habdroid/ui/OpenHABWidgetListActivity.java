@@ -200,19 +200,30 @@ public class OpenHABWidgetListActivity extends ListActivity {
 	@Override
 	public void onResume() {
 		Log.d(TAG, "onResume()");
+		Log.d(TAG, "displayPageUrl = " + this.displayPageUrl);
+		Log.d(TAG, "openHABUsername = " + this.openHABUsername);
+		Log.d(TAG, "openHABPassword = " + this.openHABPassword);
 		super.onResume();
 		PendingIntent pendingIntent = PendingIntent.getActivity(
 				  this, 0, new Intent(this, getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
 		if (NfcAdapter.getDefaultAdapter(this) != null)
 			NfcAdapter.getDefaultAdapter(this).enableForegroundDispatch(this, pendingIntent, null, null);
+		if (this.displayPageUrl.length() > 0) {
+			Log.d(TAG, "displayPageUrl > 0, resuming");
+			showPage(displayPageUrl, false);
+		}
 	}
 
 	@Override
 	public void onPause() {
 		Log.d(TAG, "onPause()");
 		super.onPause();
+		openHABWidgetAdapter.stopVideoWidgets();
+		openHABWidgetAdapter.stopImageRefresh();
 		if(NfcAdapter.getDefaultAdapter(this) != null)
 			NfcAdapter.getDefaultAdapter(this).disableForegroundDispatch(this);
+		if (pageAsyncHttpClient != null)
+			pageAsyncHttpClient.cancelRequests(this, true);
 	}
 
 	@Override
