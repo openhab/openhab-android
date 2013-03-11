@@ -128,7 +128,8 @@ public class OpenHABWriteTagActivity extends Activity {
 			    writeTagMessage.setText(R.string.info_write_tag_finished);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
-				Log.e(TAG, e.getMessage());
+				if (e.getMessage() != null)
+					Log.e(TAG, e.getMessage());
 				writeTagMessage.setText(R.string.info_write_failed);
 			} catch (FormatException e) {
 				// TODO Auto-generated catch block

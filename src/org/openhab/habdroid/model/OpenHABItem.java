@@ -110,7 +110,8 @@ public class OpenHABItem {
 			float[] result = {Float.parseFloat(stateSplit[0]), Float.parseFloat(stateSplit[1])/100, Float.parseFloat(stateSplit[2])/100};
 			return result;
 		} else {
-			return null;
+			float[] result = {0, 0, 0};
+			return result;
 		}
 	}
 	

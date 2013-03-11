@@ -445,7 +445,8 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
 							Log.d(TAG, "onStopTrackingTouch position = " + seekBar.getProgress());
 							OpenHABItem sliderItem = (OpenHABItem)seekBar.getTag();
 //							sliderItem.sendCommand(String.valueOf(seekBar.getProgress()));
-							sendItemCommand(sliderItem, String.valueOf(seekBar.getProgress()));
+							if (sliderItem != null && seekBar != null)
+								sendItemCommand(sliderItem, String.valueOf(seekBar.getProgress()));
 						}
     			});
     		}
