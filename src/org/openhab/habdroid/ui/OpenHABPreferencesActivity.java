@@ -37,6 +37,7 @@ import org.openhab.habdroid.R;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.PreferenceActivity;
+import android.util.Log;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -59,13 +60,14 @@ public class OpenHABPreferencesActivity extends PreferenceActivity {
 	    urlPreference.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
 			@Override
 			public boolean onPreferenceChange(Preference preference, Object newValue) {
+				Log.d("OpenHABPreferencesActivity", "Validating new url = " + (String)newValue);
 				String newUrl = (String)newValue;
 				if (newUrl.length() == 0)
 					return true;
 				if (urlIsValid(newUrl)) {
 					return true;
 				}
-				showAlertDialog("@string/erorr_invalid_url");
+				showAlertDialog(getString(R.string.erorr_invalid_url));
 				return false;
 			}
 	    });
@@ -78,7 +80,7 @@ public class OpenHABPreferencesActivity extends PreferenceActivity {
 				if (urlIsValid(newUrl)) {
 					return true;
 				}
-				showAlertDialog("@string/erorr_invalid_url");
+				showAlertDialog(getString(R.string.erorr_invalid_url));
 				return false;
 			}
 	    });
@@ -96,7 +98,7 @@ public class OpenHABPreferencesActivity extends PreferenceActivity {
 		}
 		return true;
 	}
-	
+		
 	private void showAlertDialog(String alertMessage) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(OpenHABPreferencesActivity.this);
 		builder.setMessage(alertMessage)

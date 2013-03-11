@@ -287,6 +287,8 @@ public class OpenHABStartupActivity extends Activity implements AsyncServiceReso
 		try {
 			URL url = new URL(sourceUrl);
 			normalizedUrl = url.toString();
+			normalizedUrl = normalizedUrl.replace("\n", "");
+			normalizedUrl = normalizedUrl.replace(" ", "");
 			if (!normalizedUrl.endsWith("/"))
 				normalizedUrl = normalizedUrl + "/";
 		} catch (MalformedURLException e) {
