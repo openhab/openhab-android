@@ -60,6 +60,7 @@ public class OpenHABPreferencesActivity extends PreferenceActivity {
 	    Preference altUrlPreference = getPreferenceScreen().findPreference("default_openhab_alturl");
 	    Preference usernamePreference = getPreferenceScreen().findPreference("default_openhab_username");
 	    Preference passwordPreference = getPreferenceScreen().findPreference("default_openhab_password");
+	    Preference versionPreference = getPreferenceScreen().findPreference("default_openhab_appversion");
 	    urlPreference.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
 			@Override
 			public boolean onPreferenceChange(Preference preference, Object newValue) {
@@ -103,6 +104,7 @@ public class OpenHABPreferencesActivity extends PreferenceActivity {
 			}
 	    });
 	    updatePasswordPreferenceSummary(passwordPreference, null);
+	    updateTextPreferenceSummary(versionPreference, null);
 	    setResult(RESULT_OK);
 	}
 	

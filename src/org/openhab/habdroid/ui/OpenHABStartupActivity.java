@@ -84,10 +84,11 @@ public class OpenHABStartupActivity extends Activity implements AsyncServiceReso
 	public void onCreate(Bundle savedInstanceState) {
 		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 		requestWindowFeature(Window.FEATURE_PROGRESS);
+		PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
 		JSONObject crittercismConfig = new JSONObject();
 		try {
 			crittercismConfig.put("shouldCollectLogcat", true);
-			crittercismConfig.put("customVersionName", "1.2.0-12.03.2013");
+			crittercismConfig.put("customVersionName", PreferenceManager.getDefaultSharedPreferences(this).getString("default_openhab_appversion", "undefined"));
 		} catch (JSONException e) {
 			if (e.getMessage() != null)
 				Log.e(TAG, e.getMessage());
@@ -95,7 +96,6 @@ public class OpenHABStartupActivity extends Activity implements AsyncServiceReso
 		Crittercism.init(getApplicationContext(), "5117659f59e1bd4ba9000004", crittercismConfig);
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.openhabstartup);
-		PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
 		Log.d(TAG, "Intent action = " + getIntent().getAction());
 		if (getIntent().getAction().equals("android.intent.action.MAIN")) {
 			Log.d(TAG, "Intent indicates manual launch");

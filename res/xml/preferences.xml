@@ -7,5 +7,6 @@
         <EditTextPreference android:key="default_openhab_password" android:title="@string/settings_openhab_password" android:inputType="textPassword" android:summary="@string/settings_openhab_password_summary" android:defaultValue="" />
         <CheckBoxPreference android:key="default_openhab_screentimeroff" android:title="@string/settings_openhab_screentimeroff" android:summary="@string/settings_openhab_screentimeroff_summary" android:defaultValue="false" />
         <CheckBoxPreference android:key="default_openhab_demomode" android:title="@string/settings_openhab_demomode" android:summary="@string/settings_openhab_demomode_summary" android:defaultValue="true" />
+        <EditTextPreference android:key="default_openhab_appversion" android:title="@string/settings_openhab_appversion" android:defaultValue="1.2.0-13.03.2013" android:enabled="false" android:shouldDisableView="false"/>
     </PreferenceCategory>
 </PreferenceScreen>

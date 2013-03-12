@@ -19,6 +19,7 @@
     <string name="settings_openhab_screentimeroff_summary">Disable display switch off timer when HABDroid is running</string>
     <string name="settings_openhab_demomode">Demo mode</string>
     <string name="settings_openhab_demomode_summary">Run HABDroid in demo mode</string>
+    <string name="settings_openhab_appversion">HABDroid Version</string>
     <string name="info_demo_mode">HABDroid is running in demo mode. To connect to your openHAB please go to settings menu.</string>
     <string name="info_conn_url">Connecting to configured URL</string>
     <string name="info_conn_rem_url">Connecting to remote URL</string>
