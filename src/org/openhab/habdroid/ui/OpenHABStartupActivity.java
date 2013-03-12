@@ -87,7 +87,10 @@ public class OpenHABStartupActivity extends Activity implements AsyncServiceReso
 		JSONObject crittercismConfig = new JSONObject();
 		try {
 			crittercismConfig.put("shouldCollectLogcat", true);
+			crittercismConfig.put("customVersionName", "1.2.0-12.03.2013");
 		} catch (JSONException e) {
+			if (e.getMessage() != null)
+				Log.e(TAG, e.getMessage());
 		}
 		Crittercism.init(getApplicationContext(), "5117659f59e1bd4ba9000004", crittercismConfig);
 		super.onCreate(savedInstanceState);
