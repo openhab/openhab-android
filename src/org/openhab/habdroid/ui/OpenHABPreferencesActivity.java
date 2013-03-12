@@ -140,8 +140,10 @@ public class OpenHABPreferencesActivity extends PreferenceActivity {
 		// As we accept an empty URL, which means it is not configured, length==0 is ok
 		if (url.length() == 0)
 			return true;
+		if (url.contains("\n") || url.contains(" "))
+			return false;
 		try {
-			new URL(url);
+			URL testURL = new URL(url);
 		} catch (MalformedURLException e) {
 			return false;
 		}
