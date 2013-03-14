@@ -201,8 +201,6 @@ public class OpenHABWidgetListActivity extends ListActivity {
 	public void onResume() {
 		Log.d(TAG, "onResume()");
 		Log.d(TAG, "displayPageUrl = " + this.displayPageUrl);
-		Log.d(TAG, "openHABUsername = " + this.openHABUsername);
-		Log.d(TAG, "openHABPassword = " + this.openHABPassword);
 		super.onResume();
 		PendingIntent pendingIntent = PendingIntent.getActivity(
 				  this, 0, new Intent(this, getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);

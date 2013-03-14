@@ -51,6 +51,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -69,12 +70,12 @@ import com.crittercism.app.Crittercism;
  * OpenHABWidgetListActivity to display openHAB sitemap pages
  * 
  * @author Victor Belov
- *
+ * @build.version.tag@
  */
 
 public class OpenHABStartupActivity extends Activity implements AsyncServiceResolverListener {
 	private final static String TAG = "OpenHABStartupActivity";
-	private static final String openHABServiceType = "_openhab-server-ssl._tcp.local.";
+	private String openHABServiceType;
 	private String openHABBaseUrl = "";
 	// Progress dialog
 	private ProgressDialog progressDialog;
@@ -84,14 +85,21 @@ public class OpenHABStartupActivity extends Activity implements AsyncServiceReso
 	public void onCreate(Bundle savedInstanceState) {
 		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 		requestWindowFeature(Window.FEATURE_PROGRESS);
+		openHABServiceType = getString(R.string.openhab_service_type);
 		PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
+		try {
+			PreferenceManager.getDefaultSharedPreferences(this).edit().putString("default_openhab_appversion",
+					getPackageManager().getPackageInfo(getPackageName(), 0).versionName).commit();
+		} catch (NameNotFoundException e1) {
+		}
 		JSONObject crittercismConfig = new JSONObject();
 		try {
 			crittercismConfig.put("shouldCollectLogcat", true);
-			crittercismConfig.put("customVersionName", PreferenceManager.getDefaultSharedPreferences(this).getString("default_openhab_appversion", "undefined"));
 		} catch (JSONException e) {
 			if (e.getMessage() != null)
 				Log.e(TAG, e.getMessage());
+			else
+				Log.e(TAG, "Crittercism JSON exception");
 		}
 		Crittercism.init(getApplicationContext(), "5117659f59e1bd4ba9000004", crittercismConfig);
 		super.onCreate(savedInstanceState);

@@ -32,6 +32,8 @@ package org.openhab.habdroid.ui;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import org.openhab.habdroid.R;
 
@@ -126,6 +128,7 @@ public class OpenHABWriteTagActivity extends Activity {
 				ndefFormatable.format(message);
 				ndefFormatable.close();
 			    writeTagMessage.setText(R.string.info_write_tag_finished);
+			    autoCloseActivity();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				if (e.getMessage() != null)
@@ -150,6 +153,7 @@ public class OpenHABWriteTagActivity extends Activity {
 					Log.d(TAG, "Closing");
 					ndef.close();
 				    writeTagMessage.setText(R.string.info_write_tag_finished);
+				    autoCloseActivity();
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					Log.e(TAG, e.getMessage());
@@ -162,5 +166,17 @@ public class OpenHABWriteTagActivity extends Activity {
 				writeTagMessage.setText(R.string.info_write_failed);
 			}
 		}
+	}
+	
+	private void autoCloseActivity() {
+		Timer autoCloseTimer = new Timer();
+		autoCloseTimer.schedule(new TimerTask() {
+			@Override
+			public void run() {
+				finish();
+				Log.d(TAG, "Autoclosing tag write activity");
+			}
+			
+		}, 2000);
 	}
 }
