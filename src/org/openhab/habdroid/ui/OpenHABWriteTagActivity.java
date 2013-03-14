@@ -37,6 +37,8 @@ import java.util.TimerTask;
 
 import org.openhab.habdroid.R;
 
+import com.google.analytics.tracking.android.EasyTracker;
+
 import android.nfc.FormatException;
 import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
@@ -57,6 +59,18 @@ public class OpenHABWriteTagActivity extends Activity {
 	// Logging TAG
 	private static final String TAG = "OpenHABWriteTagActivity";
 	private String sitemapPage = "";
+
+	@Override
+	public void onStart() {
+		super.onStart();
+		EasyTracker.getInstance().activityStart(this);
+	}
+	
+	@Override
+	public void onStop() {
+		super.onStop();
+		EasyTracker.getInstance().activityStop(this);
+	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

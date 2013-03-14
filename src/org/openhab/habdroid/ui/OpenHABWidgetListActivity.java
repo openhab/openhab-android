@@ -52,6 +52,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import com.google.analytics.tracking.android.EasyTracker;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.image.WebImageCache;
@@ -109,6 +110,18 @@ public class OpenHABWidgetListActivity extends ListActivity {
 	private String openHABPassword;
 	// Wiget list position
 	private int widgetListPosition = -1;
+
+	@Override
+	public void onStart() {
+		super.onStart();
+		EasyTracker.getInstance().activityStart(this);
+	}
+	
+	@Override
+	public void onStop() {
+		super.onStop();
+		EasyTracker.getInstance().activityStop(this);
+	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {

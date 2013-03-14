@@ -209,8 +209,12 @@
 			<artifactId>jmdns</artifactId>
 			<version>3.4.1</version>
 		</dependency>
-	</dependencies>
-	
+		<dependency>
+			<groupId>com.google.android.analytics</groupId>
+			<artifactId>analytics</artifactId>
+			<version>2.0</version>
+		</dependency>
+			</dependencies>
 	<repositories>
 		<repository>
 			<id>openhab.repository</id>

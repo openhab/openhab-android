@@ -34,6 +34,8 @@ import java.net.URL;
 
 import org.openhab.habdroid.R;
 
+import com.google.analytics.tracking.android.EasyTracker;
+
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.PreferenceActivity;
@@ -51,6 +53,18 @@ import android.os.Bundle;
 
 public class OpenHABPreferencesActivity extends PreferenceActivity {
 	@SuppressWarnings("deprecation")
+
+	@Override
+	public void onStart() {
+		super.onStart();
+		EasyTracker.getInstance().activityStart(this);
+	}
+	
+	@Override
+	public void onStop() {
+		super.onStop();
+		EasyTracker.getInstance().activityStop(this);
+	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {

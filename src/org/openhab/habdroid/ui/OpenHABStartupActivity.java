@@ -63,6 +63,7 @@ import android.view.MenuItem;
 import android.view.Window;
 import android.widget.Toast;
 import com.crittercism.app.Crittercism;
+import com.google.analytics.tracking.android.EasyTracker;
 
 /**
  * This class provides main app activity which performes startup sequence for
@@ -70,7 +71,6 @@ import com.crittercism.app.Crittercism;
  * OpenHABWidgetListActivity to display openHAB sitemap pages
  * 
  * @author Victor Belov
- * @build.version.tag@
  */
 
 public class OpenHABStartupActivity extends Activity implements AsyncServiceResolverListener {
@@ -81,6 +81,18 @@ public class OpenHABStartupActivity extends Activity implements AsyncServiceReso
 	private ProgressDialog progressDialog;
 	private String initialData = "";
 
+	@Override
+	public void onStart() {
+		super.onStart();
+		EasyTracker.getInstance().activityStart(this);
+	}
+	
+	@Override
+	public void onStop() {
+		super.onStop();
+		EasyTracker.getInstance().activityStop(this);
+	}
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
