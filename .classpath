@@ -9,17 +9,12 @@
 	<classpathentry kind="src" path="gen"/>
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
-	<classpathentry exported="true" kind="lib" path="/Volumes/Macintosh HD/Users/belovictor/.m2/repository/com/crittercism/crittercism-android/3.0.3/crittercism-android-3.0.3.jar"/>
-	<classpathentry exported="true" kind="lib" path="/Volumes/Macintosh HD/Users/belovictor/.m2/repository/com/loopj/android-async-http/1.0-openhab/android-async-http-1.0-openhab.jar"/>
-	<classpathentry exported="true" kind="lib" path="/Volumes/Macintosh HD/Users/belovictor/.m2/repository/com/loopj/android-smart-image-view/1.0.0/android-smart-image-view-1.0.0.jar"/>
-	<classpathentry exported="true" kind="lib" path="/Volumes/Macintosh HD/Users/belovictor/.m2/repository/javax/jmdns/jmdns/3.4.1/jmdns-3.4.1.jar"/>
-	<classpathentry exported="true" kind="lib" path="/Volumes/Macintosh HD/Users/belovictor/.m2/repository/com/google/android/analytics/analytics/2.0/analytics-2.0.jar"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/J2SE-1.5">
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6">
 		<attributes>
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="con" path="org.eclipse.m2e.MAVEN2_CLASSPATH_CONTAINER">
+	<classpathentry exported="true" kind="con" path="org.eclipse.m2e.MAVEN2_CLASSPATH_CONTAINER">
 		<attributes>
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
