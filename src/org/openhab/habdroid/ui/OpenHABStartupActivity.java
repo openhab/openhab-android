@@ -117,12 +117,13 @@ public class OpenHABStartupActivity extends Activity implements AsyncServiceReso
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.openhabstartup);
 		Log.d(TAG, "Intent action = " + getIntent().getAction());
-		if (getIntent().getAction().equals("android.intent.action.MAIN")) {
-			Log.d(TAG, "Intent indicates manual launch");
-		} else if (getIntent().getAction().equals("android.nfc.action.NDEF_DISCOVERED")) {
-			Log.d(TAG, "Intent indicates NFC launch with data = " + getIntent().getDataString());
-			initialData = getIntent().getDataString();
-		}
+		if (getIntent() != null)
+			if (getIntent().getAction().equals("android.intent.action.MAIN")) {
+				Log.d(TAG, "Intent indicates manual launch");
+			} else if (getIntent().getAction().equals("android.nfc.action.NDEF_DISCOVERED")) {
+				Log.d(TAG, "Intent indicates NFC launch with data = " + getIntent().getDataString());
+				initialData = getIntent().getDataString();
+			}
 		if (!tryManualUrl()) {
 			ConnectivityManager connectivityManager = (ConnectivityManager)getSystemService(
 					Context.CONNECTIVITY_SERVICE);
