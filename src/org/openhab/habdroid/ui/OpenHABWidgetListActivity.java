@@ -294,7 +294,8 @@ public class OpenHABWidgetListActivity extends ListActivity {
 		if (pageAsyncHttpClient != null) {
 			pageAsyncHttpClient.cancelRequests(this, true);
 		}
-		pageAsyncHttpClient = new MyAsyncHttpClient();
+		if (pageAsyncHttpClient == null)
+			pageAsyncHttpClient = new MyAsyncHttpClient();
 		// If authentication is needed
 		pageAsyncHttpClient.setBasicAuthCredientidals(openHABUsername, openHABPassword);
 		// If long-polling is needed
