@@ -98,7 +98,7 @@ public class OpenHABWidgetListActivity extends ListActivity {
 	// sitemap root url
 	private String sitemapRootUrl = "";
 	// async http client
-	private AsyncHttpClient pageAsyncHttpClient;
+	private static AsyncHttpClient pageAsyncHttpClient;
 	// Sitemap pages stack for digging in and getting back
 	private ArrayList<OpenHABPage> pageStack = new ArrayList<OpenHABPage>();
 	// openHAB base url
@@ -294,8 +294,10 @@ public class OpenHABWidgetListActivity extends ListActivity {
 		if (pageAsyncHttpClient != null) {
 			pageAsyncHttpClient.cancelRequests(this, true);
 		}
-		if (pageAsyncHttpClient == null)
+		if (!longPolling) {
+			pageAsyncHttpClient = null;
 			pageAsyncHttpClient = new MyAsyncHttpClient();
+		}
 		// If authentication is needed
 		pageAsyncHttpClient.setBasicAuthCredientidals(openHABUsername, openHABPassword);
 		// If long-polling is needed
