@@ -40,6 +40,7 @@ import org.openhab.habdroid.R;
 import org.openhab.habdroid.util.AsyncServiceResolver;
 import org.openhab.habdroid.util.AsyncServiceResolverListener;
 import org.openhab.habdroid.util.MyAsyncHttpClient;
+import org.openhab.habdroid.util.Util;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -95,6 +96,8 @@ public class OpenHABStartupActivity extends Activity implements AsyncServiceReso
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
+		Log.d(TAG, "Selected app theme = " + PreferenceManager.getDefaultSharedPreferences(this).getString("default_openhab_theme", "dark"));
+		Util.setActivityTheme(this);
 		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 		requestWindowFeature(Window.FEATURE_PROGRESS);
 		openHABServiceType = getString(R.string.openhab_service_type);

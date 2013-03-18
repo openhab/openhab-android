@@ -47,6 +47,7 @@ import org.openhab.habdroid.model.OpenHABSitemap;
 import org.openhab.habdroid.model.OpenHABWidget;
 import org.openhab.habdroid.model.OpenHABWidgetDataSource;
 import org.openhab.habdroid.util.MyAsyncHttpClient;
+import org.openhab.habdroid.util.Util;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -126,6 +127,7 @@ public class OpenHABWidgetListActivity extends ListActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		Log.d("OpenHABWidgetListActivity", "onCreate");
+		Util.setActivityTheme(this);
 		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 		requestWindowFeature(Window.FEATURE_PROGRESS);
 		setProgressBarIndeterminateVisibility(true);

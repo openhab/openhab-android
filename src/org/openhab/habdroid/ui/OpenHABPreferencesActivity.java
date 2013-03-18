@@ -33,10 +33,12 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import org.openhab.habdroid.R;
+import org.openhab.habdroid.util.Util;
 
 import com.google.analytics.tracking.android.EasyTracker;
 
 import android.preference.Preference;
+import android.preference.PreferenceManager;
 import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.PreferenceActivity;
 import android.util.Log;
@@ -68,6 +70,7 @@ public class OpenHABPreferencesActivity extends PreferenceActivity {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
+		Util.setActivityTheme(this);
 	    super.onCreate(savedInstanceState);
 	    addPreferencesFromResource(R.xml.preferences);
 	    Preference urlPreference = getPreferenceScreen().findPreference("default_openhab_url");

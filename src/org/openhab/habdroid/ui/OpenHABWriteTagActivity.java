@@ -36,6 +36,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import org.openhab.habdroid.R;
+import org.openhab.habdroid.util.Util;
 
 import com.google.analytics.tracking.android.EasyTracker;
 
@@ -47,6 +48,7 @@ import android.nfc.Tag;
 import android.nfc.tech.Ndef;
 import android.nfc.tech.NdefFormatable;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.Intent;
@@ -74,6 +76,7 @@ public class OpenHABWriteTagActivity extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		Util.setActivityTheme(this);
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.openhabwritetag);
 		if (getIntent().hasExtra("sitemapPage")) {
