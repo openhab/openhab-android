@@ -37,6 +37,7 @@ import org.openhab.habdroid.util.Util;
 
 import com.google.analytics.tracking.android.EasyTracker;
 
+import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceManager;
 import android.preference.Preference.OnPreferenceChangeListener;
@@ -77,6 +78,7 @@ public class OpenHABPreferencesActivity extends PreferenceActivity {
 	    Preference altUrlPreference = getPreferenceScreen().findPreference("default_openhab_alturl");
 	    Preference usernamePreference = getPreferenceScreen().findPreference("default_openhab_username");
 	    Preference passwordPreference = getPreferenceScreen().findPreference("default_openhab_password");
+	    ListPreference themePreference = (ListPreference)getPreferenceScreen().findPreference("default_openhab_theme");
 	    Preference versionPreference = getPreferenceScreen().findPreference("default_openhab_appversion");
 	    urlPreference.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
 			@Override
@@ -121,6 +123,15 @@ public class OpenHABPreferencesActivity extends PreferenceActivity {
 			}
 	    });
 	    updatePasswordPreferenceSummary(passwordPreference, null);
+	    themePreference.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
+			@Override
+			public boolean onPreferenceChange(Preference preference, Object newValue) {
+				ListPreference listPreference = (ListPreference)preference;
+				listPreference.setSummary(listPreference.getEntries()[listPreference.findIndexOfValue((String)newValue)]);
+				return true;
+			}
+	    });
+	    themePreference.setSummary(themePreference.getEntry());
 	    updateTextPreferenceSummary(versionPreference, null);
 	    setResult(RESULT_OK);
 	}
