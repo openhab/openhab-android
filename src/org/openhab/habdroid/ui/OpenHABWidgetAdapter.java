@@ -73,6 +73,7 @@ import android.widget.TextView;
 import android.widget.VideoView;
 import at.bookworm.widget.segcontrol.SegmentedControlButton;
 
+import com.crittercism.app.Crittercism;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
 /**
@@ -429,7 +430,20 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     		SeekBar sliderSeekBar = (SeekBar)widgetView.findViewById(R.id.sliderseekbar);
     		if (openHABWidget.hasItem()) {
     			sliderSeekBar.setTag(openHABWidget.getItem());
-    			int sliderState = (int)Float.parseFloat(openHABWidget.getItem().getState());
+    			int sliderState = 0;
+    			try {
+    				sliderState = (int)Float.parseFloat(openHABWidget.getItem().getState());
+    			} catch (NumberFormatException e) {
+    				if (e != null) {
+    					Crittercism.logHandledException(e);
+    					Log.e(TAG, e.getMessage());
+    				}
+    				if (openHABWidget.getItem().getState().equals("OFF")) {
+    					sliderState = 0;
+    				} else if (openHABWidget.getItem().getState().equals("ON")) {
+    					sliderState = 100;
+    				}
+    			}
     			sliderSeekBar.setProgress(sliderState);
     			sliderSeekBar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
 						@Override
