@@ -23,7 +23,7 @@
         <activity
             android:name="org.openhab.habdroid.ui.OpenHABStartupActivity"
             android:label="@string/app_name"
-            android:launchMode="singleTop" android:theme="@android:style/Theme.NoDisplay">
+            android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
