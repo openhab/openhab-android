@@ -32,20 +32,27 @@ package org.openhab.habdroid.ui;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.jmdns.ServiceInfo;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.model.OpenHABPage;
 import org.openhab.habdroid.model.OpenHABSitemap;
 import org.openhab.habdroid.model.OpenHABWidget;
 import org.openhab.habdroid.model.OpenHABWidgetDataSource;
+import org.openhab.habdroid.util.AsyncServiceResolver;
+import org.openhab.habdroid.util.AsyncServiceResolverListener;
 import org.openhab.habdroid.util.MyAsyncHttpClient;
 import org.openhab.habdroid.util.Util;
 import org.w3c.dom.Document;
@@ -53,6 +60,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import com.crittercism.app.Crittercism;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -61,10 +69,15 @@ import com.loopj.android.image.WebImageCache;
 import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.app.PendingIntent;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.content.pm.PackageManager.NameNotFoundException;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.nfc.NfcAdapter;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -77,17 +90,18 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
+import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 
 /**
- * This class provides app activity which displays list of openHAB
- * widgets from sitemap page
+ * This class is apps' main activity which runs startup sequence and displays list of openHAB
+ * widgets from sitemap page with further navigation through sitemap and everything else!
  * 
  * @author Victor Belov
  *
  */
 
-public class OpenHABWidgetListActivity extends ListActivity {
+public class OpenHABWidgetListActivity extends ListActivity implements AsyncServiceResolverListener {
 	// Logging TAG
 	private static final String TAG = "OpenHABWidgetListActivity";
 	// Datasource, providing list of openHAB widgets
@@ -111,41 +125,77 @@ public class OpenHABWidgetListActivity extends ListActivity {
 	private String openHABPassword;
 	// Wiget list position
 	private int widgetListPosition = -1;
+	// openHAB Bonjour service name
+	private String openHABServiceType;
+	// openHAB page url from NFC tag
+	private String nfcTagData = "";
+	// Progress dialog
+	private ProgressDialog progressDialog;
 
 	@Override
 	public void onStart() {
 		super.onStart();
+		// Start activity tracking via Google Analytics
 		EasyTracker.getInstance().activityStart(this);
 	}
 	
 	@Override
 	public void onStop() {
 		super.onStop();
+		// Stop activity tracking via Google Analytics
 		EasyTracker.getInstance().activityStop(this);
 	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		Log.d("OpenHABWidgetListActivity", "onCreate");
+		// Set default values, false means do it one time during the very first launch
+		PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
+		// Set non-persistant HABDroid version preference to current version from application package
+		try {
+			PreferenceManager.getDefaultSharedPreferences(this).edit().putString("default_openhab_appversion",
+					getPackageManager().getPackageInfo(getPackageName(), 0).versionName).commit();
+		} catch (NameNotFoundException e1) {
+		}
+		// Set the theme to one from preferences
 		Util.setActivityTheme(this);
+		// Fetch openHAB service type name from strings.xml
+		openHABServiceType = getString(R.string.openhab_service_type);
+		// Enable progress ring bar
 		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 		requestWindowFeature(Window.FEATURE_PROGRESS);
 		setProgressBarIndeterminateVisibility(true);
+		// Initialize crittercism reporting
+		JSONObject crittercismConfig = new JSONObject();
+		try {
+			crittercismConfig.put("shouldCollectLogcat", true);
+		} catch (JSONException e) {
+			if (e.getMessage() != null)
+				Log.e(TAG, e.getMessage());
+			else
+				Log.e(TAG, "Crittercism JSON exception");
+		}
+		Crittercism.init(getApplicationContext(), "5117659f59e1bd4ba9000004", crittercismConfig);
+		// Initialize activity view
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.openhabwidgetlist);
+		// Disable screen timeout if set in preferences
 		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
 		if (settings.getBoolean("default_openhab_screentimeroff", false)) {
 			getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 		}
+		// Get username/password from preferences
 		openHABUsername = settings.getString("default_openhab_username", null);
 		openHABPassword = settings.getString("default_openhab_password", null);
+		// Create new data source and adapter and set it to list view
 		openHABWidgetDataSource = new OpenHABWidgetDataSource();
 		openHABWidgetAdapter = new OpenHABWidgetAdapter(OpenHABWidgetListActivity.this,
 				R.layout.openhabwidgetlist_genericitem, widgetList);
 		getListView().setAdapter(openHABWidgetAdapter);
+		// Set adapter parameters
 		openHABWidgetAdapter.setOpenHABUsername(openHABUsername);
 		openHABWidgetAdapter.setOpenHABPassword(openHABPassword);
-//		this.getActionBar().setDisplayHomeAsUpEnabled(true);
+		// Enable app logo as home button
 		this.getActionBar().setHomeButtonEnabled(true);
 		// Check if we have openHAB page url in saved instance state?
 		if (savedInstanceState != null) {
@@ -155,42 +205,171 @@ public class OpenHABWidgetListActivity extends ListActivity {
 			sitemapRootUrl = savedInstanceState.getString("sitemapRootUrl");
 			openHABWidgetAdapter.setOpenHABBaseUrl(openHABBaseUrl);
 		}
-		// If yes, then just show it
+		// If yes, then just go to it (means restore activity from it's saved state)
 		if (displayPageUrl.length() > 0) {
 			Log.d(TAG, "displayPageUrl = " + displayPageUrl);
 			showPage(displayPageUrl, false);
-		// Else check if we got openHAB base url through launch intent?
-		} else if (getIntent().hasExtra("baseURL")) {
-			openHABBaseUrl = getIntent().getExtras().getString("baseURL");
-			String initialData = getIntent().getExtras().getString("initialData");
-			if (openHABBaseUrl != null) {
-				openHABWidgetAdapter.setOpenHABBaseUrl(openHABBaseUrl);
-				if (initialData.length() > 0) {
-					Log.d(TAG, "We have initial data");
-					try {
-						URI openhabURI = new URI(initialData);
-						Log.d(TAG, openhabURI.getScheme());
-						Log.d(TAG, openhabURI.getHost());
-						Log.d(TAG, openhabURI.getPath());
-						if (openhabURI.getHost().equals("sitemaps")) {
-							Log.d(TAG, "Tag indicates a sitemap link");
-							String newPageUrl = this.openHABBaseUrl + "rest/sitemaps" + openhabURI.getPath();
-							Log.d(TAG, "Should go to " + newPageUrl);
-							openSitemap(newPageUrl);
-						}
-					} catch (URISyntaxException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				} else {
-					selectSitemap(openHABBaseUrl, false);
+		// If not means it is a clean start
+		} else {
+			if (getIntent() != null) {
+				// If this is a launch through NFC tag reading
+				if (getIntent().getAction().equals("android.nfc.action.NDEF_DISCOVERED")) {
+					// Save url which we got from NFC tag
+					nfcTagData = getIntent().getDataString();
 				}
+			}
+			// If we are in demo mode, ignore all settings and use demo url from strings
+			if (settings.getBoolean("default_openhab_demomode", false)) {
+				openHABBaseUrl = getString(R.string.openhab_demo_url);
+				Log.i(TAG, "Demo mode, connecting to " + openHABBaseUrl);
+				Toast.makeText(getApplicationContext(), getString(R.string.info_demo_mode),
+					Toast.LENGTH_LONG).show();
+				showTime();
 			} else {
-				Log.i(TAG, "No base URL!");
+				openHABBaseUrl = normalizeUrl(settings.getString("default_openhab_url", ""));
+				// Check if we have a direct URL in preferences, if yes - use it
+				if (openHABBaseUrl.length() > 0) {
+					Log.i(TAG, "Connecting to configured URL = " + openHABBaseUrl);
+					Toast.makeText(getApplicationContext(), getString(R.string.info_conn_url),
+							Toast.LENGTH_SHORT).show();
+					showTime();
+				} else {
+					// Get current network information
+					ConnectivityManager connectivityManager = (ConnectivityManager)getSystemService(
+							Context.CONNECTIVITY_SERVICE);
+					NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+					if (activeNetworkInfo != null) {
+						Log.i(TAG, "Network is connected");
+						// If network is mobile, try to use remote URL
+						if (activeNetworkInfo.getType() == ConnectivityManager.TYPE_MOBILE) {
+							Log.i(TAG, "Network is Mobile (" + activeNetworkInfo.getSubtypeName() + ")");
+							openHABBaseUrl = normalizeUrl(settings.getString("default_openhab_alturl", ""));
+							// If remote URL is configured
+							if (openHABBaseUrl.length() > 0) {
+								Toast.makeText(getApplicationContext(), getString(R.string.info_conn_rem_url),
+										Toast.LENGTH_SHORT).show();
+								Log.i(TAG, "Connecting to remote URL " + openHABBaseUrl);
+								showTime();
+							} else {
+								Toast.makeText(getApplicationContext(), getString(R.string.error_no_url),
+										Toast.LENGTH_LONG).show();		
+							}
+						// If network is WiFi or Ethernet
+						} if (activeNetworkInfo.getType() == ConnectivityManager.TYPE_WIFI
+								|| activeNetworkInfo.getType() == ConnectivityManager.TYPE_ETHERNET) {
+							Log.i(TAG, "Network is WiFi or Ethernet");
+							// Start service discovery
+							AsyncServiceResolver serviceResolver = new AsyncServiceResolver(this, openHABServiceType);
+							progressDialog = ProgressDialog.show(this, "", 
+			                        "Discovering openHAB. Please wait...", true);
+							serviceResolver.start();
+						// We don't know how to handle this network type
+						} else {
+							Log.i(TAG, "Network type (" + activeNetworkInfo.getTypeName() + ") is unsupported");
+						}
+					// Network is not available
+					} else {
+						Log.i(TAG, "Network is not available");
+						Toast.makeText(getApplicationContext(), getString(R.string.error_network_not_available),
+								Toast.LENGTH_LONG).show();						
+					}
+				}
 			}
 		}
 	}
+	
+	// Start openHAB browsing!
+	public void showTime() {
+		if (openHABBaseUrl != null) {
+			openHABWidgetAdapter.setOpenHABBaseUrl(openHABBaseUrl);
+			if (nfcTagData.length() > 0) {
+				Log.d(TAG, "We have NFC tag data");
+				try {
+					URI openhabURI = new URI(nfcTagData);
+					Log.d(TAG, openhabURI.getScheme());
+					Log.d(TAG, openhabURI.getHost());
+					Log.d(TAG, openhabURI.getPath());
+					if (openhabURI.getHost().equals("sitemaps")) {
+						Log.d(TAG, "Tag indicates a sitemap link");
+						String newPageUrl = this.openHABBaseUrl + "rest/sitemaps" + openhabURI.getPath();
+						Log.d(TAG, "Should go to " + newPageUrl);
+						openSitemap(newPageUrl);
+					}
+				} catch (URISyntaxException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			} else {
+				selectSitemap(openHABBaseUrl, false);
+			}
+		} else {
+			Log.e(TAG, "No base URL!");
+		}
+	}
 
+	@Override
+	public void onServiceResolved(ServiceInfo serviceInfo) {
+		Log.i(TAG, "Service resolved: "
+                + serviceInfo.getHostAddresses()[0]
+                + " port:" + serviceInfo.getPort());
+		openHABBaseUrl = "https://" + serviceInfo.getHostAddresses()[0] + ":" +
+				String.valueOf(serviceInfo.getPort()) + "/";
+//		progressDialog.hide();
+		progressDialog.dismiss();
+		AsyncHttpClient asyncHttpClient = new MyAsyncHttpClient();
+		asyncHttpClient.get(openHABBaseUrl + "static/uuid", new AsyncHttpResponseHandler() {
+			@Override
+			public void onSuccess(String content) {
+				Log.i(TAG, "Got openHAB UUID = " + content);
+				SharedPreferences settings = 
+						PreferenceManager.getDefaultSharedPreferences(OpenHABWidgetListActivity.this);
+				if (settings.contains("openhab_uuid")) {
+					String openHABUUID = settings.getString("openhab_uuid", "");
+					if (openHABUUID.equals(content)) {
+						Log.i(TAG, "openHAB UUID does match the saved one");
+						showTime();
+					} else {
+						Log.i(TAG, "openHAB UUID doesn't match the saved one");
+						// TODO: need to add some user prompt here
+/*						Toast.makeText(getApplicationContext(), 
+								"openHAB UUID doesn't match the saved one!",
+								Toast.LENGTH_LONG).show();*/
+						showTime();
+					}
+				} else {
+					Log.i(TAG, "No recorded openHAB UUID, saving the new one");
+					Editor preferencesEditor = settings.edit();
+					preferencesEditor.putString("openhab_uuid", content);
+					preferencesEditor.commit();
+					showTime();
+				}
+			}
+			@Override
+		    public void onFailure(Throwable e) {
+				Toast.makeText(getApplicationContext(), getString(R.string.error_no_uuid),
+						Toast.LENGTH_LONG).show();
+			}
+		});
+	}
+
+	@Override
+	public void onServiceResolveFailed() {
+		progressDialog.dismiss();
+		Log.i(TAG, "Service resolve failed, switching to remote URL");
+		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+		openHABBaseUrl = normalizeUrl(settings.getString("default_openhab_alturl", ""));
+		// If remote URL is configured
+		if (openHABBaseUrl.length() > 0) {
+			Toast.makeText(getApplicationContext(), getString(R.string.info_conn_rem_url),
+					Toast.LENGTH_SHORT).show();
+			Log.i(TAG, "Connecting to remote URL " + openHABBaseUrl);
+			showTime();
+		} else {
+			Toast.makeText(getApplicationContext(), getString(R.string.error_no_url),
+					Toast.LENGTH_LONG).show();		
+		}
+	}
+	
 	@Override
 	public void onNewIntent(Intent newIntent) {
 		Log.d(TAG, "New intent received = " + newIntent.toString());
@@ -654,6 +833,21 @@ public class OpenHABWidgetListActivity extends ListActivity {
 		sitemapRootUrl = sitemapUrl;
 		showPage(displayPageUrl, false);
     	OpenHABWidgetListActivity.this.getListView().setSelection(0);		
+	}
+
+	private String normalizeUrl(String sourceUrl) {
+		String normalizedUrl = "";
+		try {
+			URL url = new URL(sourceUrl);
+			normalizedUrl = url.toString();
+			normalizedUrl = normalizedUrl.replace("\n", "");
+			normalizedUrl = normalizedUrl.replace(" ", "");
+			if (!normalizedUrl.endsWith("/"))
+				normalizedUrl = normalizedUrl + "/";
+		} catch (MalformedURLException e) {
+			Log.d(TAG, "normalizeUrl: invalid URL");
+		}
+		return normalizedUrl;
 	}
 
 }
