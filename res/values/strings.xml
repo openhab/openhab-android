@@ -37,5 +37,7 @@
     <string name="info_write_tag_progress">Writing the tag</string>
     <string name="info_write_tag_finished">Successfully finished</string>
     <string name="info_write_failed">Tag write error</string>
+    <string name="info_write_tag_unsupported">This device doesn\'t have NFC support :-(</string>
+    <string name="info_write_tag_disabled">NFC is disabled. Please enable it in device settings menu.</string>
     <string name="action_settings">Settings</string>
 </resources>

@@ -54,6 +54,7 @@ import android.app.PendingIntent;
 import android.content.Intent;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.TextView;
 
 public class OpenHABWriteTagActivity extends Activity {
@@ -79,6 +80,14 @@ public class OpenHABWriteTagActivity extends Activity {
 		Util.setActivityTheme(this);
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.openhabwritetag);
+		TextView writeTagMessage = (TextView)findViewById(R.id.write_tag_message);
+    	if (!this.getPackageManager().hasSystemFeature("android.hardware.nfc")) {
+    		writeTagMessage.setText(R.string.info_write_tag_unsupported);
+    	} else if (NfcAdapter.getDefaultAdapter(this) != null) {
+    		if (!NfcAdapter.getDefaultAdapter(this).isEnabled()) {
+    			writeTagMessage.setText(R.string.info_write_tag_disabled);
+    		}
+    	}
 		if (getIntent().hasExtra("sitemapPage")) {
 			sitemapPage = getIntent().getExtras().getString("sitemapPage");
 		}
