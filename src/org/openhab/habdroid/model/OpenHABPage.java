@@ -40,6 +40,11 @@ public class OpenHABPage implements Parcelable {
 		this.widgetListPosition = widgetListPosition;
 	}
 	
+	public OpenHABPage (Parcel in) {
+		this.pageUrl = in.readString();
+		this.widgetListPosition = in.readInt();
+	}
+	
 	public String getPageUrl() {
 		return pageUrl;
 	}
@@ -64,4 +69,16 @@ public class OpenHABPage implements Parcelable {
 		out.writeString(this.pageUrl);
 		out.writeInt(this.widgetListPosition);
 	}
+	
+	public static final Parcelable.Creator<OpenHABPage> CREATOR
+			= new Parcelable.Creator<OpenHABPage>() {
+		public OpenHABPage createFromParcel(Parcel in) {
+			return new OpenHABPage(in);
+		}
+
+		@Override
+		public OpenHABPage[] newArray(int size) {
+			return new OpenHABPage[size];
+		}
+	};
 }
