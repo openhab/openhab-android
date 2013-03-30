@@ -724,7 +724,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
         }
     }
     
-    private void sendItemCommand(OpenHABItem item, String command) {
+    public void sendItemCommand(OpenHABItem item, String command) {
 		MyAsyncHttpClient asyncHttpClient = new MyAsyncHttpClient();
 		asyncHttpClient.setBasicAuthCredientidals(openHABUsername, openHABPassword);
 		try {

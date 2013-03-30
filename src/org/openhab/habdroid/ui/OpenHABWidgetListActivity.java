@@ -47,6 +47,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.openhab.habdroid.R;
+import org.openhab.habdroid.model.OpenHABItem;
 import org.openhab.habdroid.model.OpenHABPage;
 import org.openhab.habdroid.model.OpenHABSitemap;
 import org.openhab.habdroid.model.OpenHABWidget;
@@ -78,6 +79,7 @@ import android.content.SharedPreferences.Editor;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.nfc.NfcAdapter;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -134,6 +136,12 @@ public class OpenHABWidgetListActivity extends ListActivity implements AsyncServ
 	private ProgressDialog progressDialog;
 	// selected openhab widget
 	private OpenHABWidget selectedOpenHABWidget;
+	// widget Id which we got from nfc tag
+	private String nfcWidgetId;
+	// widget command which we got from nfc tag
+	private String nfcCommand;
+	// auto close app after nfc action is complete
+	private boolean nfcAutoClose = false;
 
 	@Override
 	public void onStart() {
@@ -287,21 +295,7 @@ public class OpenHABWidgetListActivity extends ListActivity implements AsyncServ
 			openHABWidgetAdapter.setOpenHABBaseUrl(openHABBaseUrl);
 			if (nfcTagData.length() > 0) {
 				Log.d(TAG, "We have NFC tag data");
-				try {
-					URI openhabURI = new URI(nfcTagData);
-					Log.d(TAG, openhabURI.getScheme());
-					Log.d(TAG, openhabURI.getHost());
-					Log.d(TAG, openhabURI.getPath());
-					if (openhabURI.getHost().equals("sitemaps")) {
-						Log.d(TAG, "Tag indicates a sitemap link");
-						String newPageUrl = this.openHABBaseUrl + "rest/sitemaps" + openhabURI.getPath();
-						Log.d(TAG, "Should go to " + newPageUrl);
-						openSitemap(newPageUrl);
-					}
-				} catch (URISyntaxException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				onNfcTag(nfcTagData, false);
 			} else {
 				selectSitemap(openHABBaseUrl, false);
 			}
@@ -376,22 +370,39 @@ public class OpenHABWidgetListActivity extends ListActivity implements AsyncServ
 	@Override
 	public void onNewIntent(Intent newIntent) {
 		Log.d(TAG, "New intent received = " + newIntent.toString());
-		if (newIntent.getDataString() != null)
-			try {
-				URI openhabURI = new URI(newIntent.getDataString());
-				Log.d(TAG, openhabURI.getScheme());
-				Log.d(TAG, openhabURI.getHost());
-				Log.d(TAG, openhabURI.getPath());
-				if (openhabURI.getHost().equals("sitemaps")) {
-					Log.d(TAG, "Tag indicates a sitemap link");
-					String newPageUrl = this.openHABBaseUrl + "rest/sitemaps" + openhabURI.getPath();
-					Log.d(TAG, "Should go to " + newPageUrl);
-					navigateToPage(newPageUrl);
-				}
-			} catch (URISyntaxException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+		if (newIntent.getDataString() != null) {
+			onNfcTag(newIntent.getDataString(), true);
+		}
+	}
+	
+	public void onNfcTag(String nfcData, boolean pushCurrentToStack) {
+		Uri openHABURI = Uri.parse(nfcData);
+		Log.d(TAG, openHABURI.getScheme());
+		Log.d(TAG, openHABURI.getHost());
+		Log.d(TAG, openHABURI.getPath());
+		if (openHABURI.getHost().equals("sitemaps")) {
+			Log.d(TAG, "Tag indicates a sitemap link");
+			String newPageUrl = this.openHABBaseUrl + "rest/sitemaps" + openHABURI.getPath();
+			String widgetId = openHABURI.getQueryParameter("widget");
+			String command = openHABURI.getQueryParameter("command");
+			Log.d(TAG, "widgetId = " + widgetId);
+			Log.d(TAG, "command = " + command);
+			if (widgetId != null && command != null) {
+				this.nfcWidgetId = widgetId;
+				this.nfcCommand = command;
+				// If we have widget+command and not pushing current page to stack
+				// this means we started through NFC read when HABDroid was not running
+				// so we need to put a flag to automatically close activity after we
+				// finish nfc action
+				if (!pushCurrentToStack)
+					this.nfcAutoClose = true;
 			}
+			Log.d(TAG, "Should go to " + newPageUrl);
+			if (pushCurrentToStack)
+				navigateToPage(newPageUrl);
+			else
+				openSitemap(newPageUrl);
+		}		
 	}
 
 	@Override
@@ -545,6 +556,31 @@ public class OpenHABWidgetListActivity extends ListActivity implements AsyncServ
 			// Set widget list index to saved or zero position
 			if (this.widgetListPosition >= 0)
 				getListView().setSelection(this.widgetListPosition);
+			// This would mean we got widget and command from nfc tag, so we need to do some automatic actions!
+			if (this.nfcWidgetId != null && this.nfcCommand != null) {
+				Log.d(TAG, "Have widget and command, NFC action!");
+				OpenHABWidget nfcWidget = this.openHABWidgetDataSource.getWidgetById(this.nfcWidgetId);
+				OpenHABItem nfcItem = nfcWidget.getItem();
+				// Found widget with id from nfc tag and it has an item
+				if (nfcWidget != null && nfcItem != null) {
+					// TODO: Perform nfc widget action here
+					if (this.nfcCommand.equals("On")) {
+						this.openHABWidgetAdapter.sendItemCommand(nfcItem, "ON");
+					} else if (this.nfcCommand.equals("Off")) {
+						this.openHABWidgetAdapter.sendItemCommand(nfcItem, "OFF");
+					} else if (this.nfcCommand.equals("Toggle")) {
+						if (nfcItem.getStateAsBoolean())
+							this.openHABWidgetAdapter.sendItemCommand(nfcItem, "OFF");
+						else
+							this.openHABWidgetAdapter.sendItemCommand(nfcItem, "ON");
+					}
+				}
+				this.nfcWidgetId = null;
+				this.nfcCommand = null;
+				if (this.nfcAutoClose) {
+					finish();
+				}
+			}
 			getListView().setOnItemClickListener(new OnItemClickListener() {
 				@Override
 				public void onItemClick(AdapterView<?> parent, View view, int position,
@@ -580,6 +616,7 @@ public class OpenHABWidgetListActivity extends ListActivity implements AsyncServ
 					            writeTagIntent.putExtra("widget", OpenHABWidgetListActivity.this.selectedOpenHABWidget.getId());
 					            writeTagIntent.putExtra("command", getResources().getStringArray(R.array.nfcActionValues)[which]);
 					            startActivityForResult(writeTagIntent, 0);
+					            OpenHABWidgetListActivity.this.selectedOpenHABWidget = null;
 							}
 						});
 						builder.show();
@@ -609,10 +646,13 @@ public class OpenHABWidgetListActivity extends ListActivity implements AsyncServ
 	 * Put current page and current widget list position into the stack and go to new page
 	 */
 	private void navigateToPage(String pageLink) {
-		pageStack.add(0, new OpenHABPage(displayPageUrl, OpenHABWidgetListActivity.this.getListView().getFirstVisiblePosition()));
-		displayPageUrl = pageLink;
-		widgetListPosition = 0;
-		showPage(pageLink, false);
+		// We don't want to put current page to stack if navigateToPage is trying to go to the same page
+		if (!pageLink.equals(displayPageUrl)) {
+			pageStack.add(0, new OpenHABPage(displayPageUrl, OpenHABWidgetListActivity.this.getListView().getFirstVisiblePosition()));
+			displayPageUrl = pageLink;
+			widgetListPosition = 0;
+			showPage(pageLink, false);
+		}
 	}
 	
     @Override

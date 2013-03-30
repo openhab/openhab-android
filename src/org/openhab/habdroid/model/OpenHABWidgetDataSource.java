@@ -86,6 +86,15 @@ public class OpenHABWidgetDataSource {
 	public OpenHABWidget getRootWidget() {
 		return this.rootWidget;
 	}
+
+	public OpenHABWidget getWidgetById(String widgetId) {
+		ArrayList<OpenHABWidget> widgets = this.getWidgets();
+		for (int i = 0; i < widgets.size(); i++) {
+			if (widgets.get(i).getId().equals(widgetId))
+				return widgets.get(i);
+		}
+		return null;
+	}
 	
 	public ArrayList<OpenHABWidget> getWidgets() {
 		ArrayList<OpenHABWidget> result = new ArrayList<OpenHABWidget>();
