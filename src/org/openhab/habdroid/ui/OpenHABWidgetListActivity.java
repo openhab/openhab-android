@@ -90,6 +90,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 
@@ -131,6 +132,8 @@ public class OpenHABWidgetListActivity extends ListActivity implements AsyncServ
 	private String nfcTagData = "";
 	// Progress dialog
 	private ProgressDialog progressDialog;
+	// selected openhab widget
+	private OpenHABWidget selectedOpenHABWidget;
 
 	@Override
 	public void onStart() {
@@ -554,6 +557,36 @@ public class OpenHABWidgetListActivity extends ListActivity implements AsyncServ
 					}
 				}
 				
+			});
+			getListView().setOnItemLongClickListener(new OnItemLongClickListener() {
+				@Override
+				public boolean onItemLongClick(AdapterView<?> parent, View view,
+						int position, long id) {
+					Log.d(TAG, "Widget long-clicked " + String.valueOf(position));
+					OpenHABWidget openHABWidget = openHABWidgetAdapter.getItem(position);
+					Log.d(TAG, "Widget type = " + openHABWidget.getType());
+					if (openHABWidget.getType().equals("Switch")) {
+						OpenHABWidgetListActivity.this.selectedOpenHABWidget = openHABWidget;
+						AlertDialog.Builder builder = new AlertDialog.Builder(OpenHABWidgetListActivity.this);
+						builder.setTitle(R.string.nfc_dialog_title);
+						builder.setItems(R.array.nfcActionValues, new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialog, int which) {
+								Log.d(TAG, "Dialog selected action " + 
+										getResources().getStringArray(R.array.nfcActionValues)[which]);
+					            Intent writeTagIntent = new Intent(OpenHABWidgetListActivity.this.getApplicationContext(),
+					            		OpenHABWriteTagActivity.class);
+					            writeTagIntent.putExtra("sitemapPage", OpenHABWidgetListActivity.this.displayPageUrl);
+					            writeTagIntent.putExtra("widget", OpenHABWidgetListActivity.this.selectedOpenHABWidget.getId());
+					            writeTagIntent.putExtra("command", getResources().getStringArray(R.array.nfcActionValues)[which]);
+					            startActivityForResult(writeTagIntent, 0);
+							}
+						});
+						builder.show();
+						return true;
+					}
+					return false;
+				}				
 			});
 		} catch (ParserConfigurationException e) {
 			// TODO Auto-generated catch block

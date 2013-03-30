@@ -5,7 +5,6 @@
   android:layout_height="wrap_content"
   android:orientation="horizontal">
   <LinearLayout
-	    xmlns:android="http://schemas.android.com/apk/res/android"
 	    android:id="@+id/switchleftlayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" 
@@ -34,6 +33,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:layout_marginRight="3dip"
     />
 <LinearLayout 
     	android:id="@+id/listdivider"

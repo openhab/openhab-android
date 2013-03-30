@@ -62,6 +62,8 @@ public class OpenHABWriteTagActivity extends Activity {
 	// Logging TAG
 	private static final String TAG = "OpenHABWriteTagActivity";
 	private String sitemapPage = "";
+	private String widget = "";
+	private String command = "";
 
 	@Override
 	public void onStart() {
@@ -90,6 +92,15 @@ public class OpenHABWriteTagActivity extends Activity {
     	}
 		if (getIntent().hasExtra("sitemapPage")) {
 			sitemapPage = getIntent().getExtras().getString("sitemapPage");
+			Log.d(TAG, "Got sitemapPage = " + sitemapPage);
+		}
+		if (getIntent().hasExtra("widget")) {
+			widget = getIntent().getExtras().getString("widget");
+			Log.d(TAG, "Got widget = " + widget);
+		}
+		if (getIntent().hasExtra("command")) {
+			command = getIntent().getExtras().getString("command");
+			Log.d(TAG, "Got command = " + command);
 		}
 	}
 
@@ -129,6 +140,12 @@ public class OpenHABWriteTagActivity extends Activity {
 			URI sitemapURI = new URI(sitemapPage);
 			if (sitemapURI.getPath().startsWith("/rest/sitemaps")) {
 				openhabURI = "openhab://sitemaps" + sitemapURI.getPath().substring(14, sitemapURI.getPath().length());
+				if (widget.length() > 0) {
+					openhabURI = openhabURI + "?widget=" + widget;
+				}
+				if (command.length() > 0) {
+					openhabURI = openhabURI + "&command=" + command;
+				}
 			}
 			Log.d(TAG, "URI = " + openhabURI);
 		    writeTagMessage.setText(R.string.info_write_tag_progress);

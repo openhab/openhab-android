@@ -40,4 +40,5 @@
     <string name="info_write_tag_unsupported">This device doesn\'t have NFC support :-(</string>
     <string name="info_write_tag_disabled">NFC is disabled. Please enable it in device settings menu.</string>
     <string name="action_settings">Settings</string>
+    <string name="nfc_dialog_title">Please select NFC tag action</string>
 </resources>

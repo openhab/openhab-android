@@ -41,6 +41,7 @@ import org.w3c.dom.NodeList;
  */
 
 public class OpenHABWidget {
+	private String id;
 	private String label;
 	private String icon;
 	private String type;
@@ -78,7 +79,9 @@ public class OpenHABWidget {
 					new OpenHABWidget(this, childNode);
 				} else {
 					if (childNode.getNodeName().equals("type")) {
-						this.type = childNode.getTextContent();
+						this.setType(childNode.getTextContent());
+					} else if (childNode.getNodeName().equals("widgetId")) {
+						this.setId(childNode.getTextContent());
 					} else if (childNode.getNodeName().equals("label")) {
 						this.setLabel(childNode.getTextContent());
 					} else if (childNode.getNodeName().equals("icon")) {
@@ -262,6 +265,14 @@ public class OpenHABWidget {
 
 	public void setHeight(int height) {
 		this.height = height;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
 	}
 	
 }

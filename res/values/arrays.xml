@@ -8,4 +8,9 @@
    <item>dark</item>
    <item>light</item>
 </string-array>
+<string-array name="nfcActionValues">
+    <item>On</item>
+    <item>Off</item>
+    <item>Toggle</item>
+</string-array>
 </resources>
