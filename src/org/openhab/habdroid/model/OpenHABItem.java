@@ -44,7 +44,7 @@ import android.graphics.Color;
 public class OpenHABItem {
 	private String name;
 	private String type;
-	private String state;
+	private String state = "";
 	private String link;
 
 	public OpenHABItem(Node startNode) {
