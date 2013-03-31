@@ -48,6 +48,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.model.OpenHABItem;
+import org.openhab.habdroid.model.OpenHABNFCActionList;
 import org.openhab.habdroid.model.OpenHABPage;
 import org.openhab.habdroid.model.OpenHABSitemap;
 import org.openhab.habdroid.model.OpenHABWidget;
@@ -564,15 +565,13 @@ public class OpenHABWidgetListActivity extends ListActivity implements AsyncServ
 				// Found widget with id from nfc tag and it has an item
 				if (nfcWidget != null && nfcItem != null) {
 					// TODO: Perform nfc widget action here
-					if (this.nfcCommand.equals("On")) {
-						this.openHABWidgetAdapter.sendItemCommand(nfcItem, "ON");
-					} else if (this.nfcCommand.equals("Off")) {
-						this.openHABWidgetAdapter.sendItemCommand(nfcItem, "OFF");
-					} else if (this.nfcCommand.equals("Toggle")) {
+					if (this.nfcCommand.equals("TOGGLE")) {
 						if (nfcItem.getStateAsBoolean())
 							this.openHABWidgetAdapter.sendItemCommand(nfcItem, "OFF");
 						else
 							this.openHABWidgetAdapter.sendItemCommand(nfcItem, "ON");
+					} else {
+						this.openHABWidgetAdapter.sendItemCommand(nfcItem, this.nfcCommand);
 					}
 				}
 				this.nfcWidgetId = null;
@@ -601,20 +600,21 @@ public class OpenHABWidgetListActivity extends ListActivity implements AsyncServ
 					Log.d(TAG, "Widget long-clicked " + String.valueOf(position));
 					OpenHABWidget openHABWidget = openHABWidgetAdapter.getItem(position);
 					Log.d(TAG, "Widget type = " + openHABWidget.getType());
-					if (openHABWidget.getType().equals("Switch")) {
+					if (openHABWidget.getType().equals("Switch") || openHABWidget.getType().equals("Selection")) {
 						OpenHABWidgetListActivity.this.selectedOpenHABWidget = openHABWidget;
 						AlertDialog.Builder builder = new AlertDialog.Builder(OpenHABWidgetListActivity.this);
 						builder.setTitle(R.string.nfc_dialog_title);
-						builder.setItems(R.array.nfcActionValues, new DialogInterface.OnClickListener() {
+						OpenHABNFCActionList nfcActionList = new OpenHABNFCActionList(OpenHABWidgetListActivity.this.selectedOpenHABWidget);
+						builder.setItems(nfcActionList.getNames(), new DialogInterface.OnClickListener() {
 							@Override
 							public void onClick(DialogInterface dialog, int which) {
-								Log.d(TAG, "Dialog selected action " + 
-										getResources().getStringArray(R.array.nfcActionValues)[which]);
 					            Intent writeTagIntent = new Intent(OpenHABWidgetListActivity.this.getApplicationContext(),
 					            		OpenHABWriteTagActivity.class);
 					            writeTagIntent.putExtra("sitemapPage", OpenHABWidgetListActivity.this.displayPageUrl);
 					            writeTagIntent.putExtra("widget", OpenHABWidgetListActivity.this.selectedOpenHABWidget.getId());
-					            writeTagIntent.putExtra("command", getResources().getStringArray(R.array.nfcActionValues)[which]);
+					            OpenHABNFCActionList nfcActionList = 
+					            	new OpenHABNFCActionList(OpenHABWidgetListActivity.this.selectedOpenHABWidget);
+					            writeTagIntent.putExtra("command", nfcActionList.getCommands()[which]);
 					            startActivityForResult(writeTagIntent, 0);
 					            OpenHABWidgetListActivity.this.selectedOpenHABWidget = null;
 							}
@@ -622,7 +622,7 @@ public class OpenHABWidgetListActivity extends ListActivity implements AsyncServ
 						builder.show();
 						return true;
 					}
-					return false;
+					return true;
 				}				
 			});
 		} catch (ParserConfigurationException e) {
