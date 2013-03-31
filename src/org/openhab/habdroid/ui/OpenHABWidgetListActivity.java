@@ -143,6 +143,8 @@ public class OpenHABWidgetListActivity extends ListActivity implements AsyncServ
 	private String nfcCommand;
 	// auto close app after nfc action is complete
 	private boolean nfcAutoClose = false;
+	// Service resolver for Bonjour
+	private AsyncServiceResolver serviceResolver;
 
 	@Override
 	public void onStart() {
@@ -271,10 +273,10 @@ public class OpenHABWidgetListActivity extends ListActivity implements AsyncServ
 								|| activeNetworkInfo.getType() == ConnectivityManager.TYPE_ETHERNET) {
 							Log.i(TAG, "Network is WiFi or Ethernet");
 							// Start service discovery
-							AsyncServiceResolver serviceResolver = new AsyncServiceResolver(this, openHABServiceType);
+							this.serviceResolver = new AsyncServiceResolver(this, openHABServiceType);
 							progressDialog = ProgressDialog.show(this, "", 
 			                        "Discovering openHAB. Please wait...", true);
-							serviceResolver.start();
+							this.serviceResolver.start();
 						// We don't know how to handle this network type
 						} else {
 							Log.i(TAG, "Network type (" + activeNetworkInfo.getTypeName() + ") is unsupported");
@@ -352,7 +354,8 @@ public class OpenHABWidgetListActivity extends ListActivity implements AsyncServ
 
 	@Override
 	public void onServiceResolveFailed() {
-		progressDialog.dismiss();
+		if (progressDialog.isShowing())
+			progressDialog.dismiss();
 		Log.i(TAG, "Service resolve failed, switching to remote URL");
 		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
 		openHABBaseUrl = normalizeUrl(settings.getString("default_openhab_alturl", ""));
@@ -451,6 +454,10 @@ public class OpenHABWidgetListActivity extends ListActivity implements AsyncServ
 	protected void onDestroy() {
 		super.onDestroy();
 		Log.d(TAG, "onDestroy() for " + this.displayPageUrl);
+		if (this.progressDialog != null)
+			this.progressDialog.dismiss();
+		if (this.serviceResolver != null)
+			this.serviceResolver.interrupt();
 		if (pageAsyncHttpClient != null)
 			pageAsyncHttpClient.cancelRequests(this, true);
 	}
