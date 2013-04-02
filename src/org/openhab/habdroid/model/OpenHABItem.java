@@ -94,16 +94,26 @@ public class OpenHABItem {
 	}
 	
 	public boolean getStateAsBoolean() {
+		// If state is ON for switches return True
 		if (state.equals("ON")) {
 			return true;
 		}
+		// If decimal value and it is >0 return True
+		try {
+			int decimalValue = Integer.valueOf(state);
+			if (decimalValue > 0)
+				return true;
+		} catch (NumberFormatException e) {
+			return false;
+		}
+		// Else return False
 		return false;
 	}
 	
 	public Float getStateAsFloat() {
 		return Float.parseFloat(state);
 	}
-	
+
 	public float[] getStateAsHSV() {
 		String[] stateSplit = state.split(",");
 		if (stateSplit.length == 3) { // We need exactly 3 numbers to operate this
@@ -114,7 +124,7 @@ public class OpenHABItem {
 			return result;
 		}
 	}
-	
+
 	public int getStateAsColor() {
 		return Color.HSVToColor(getStateAsHSV());
 	}

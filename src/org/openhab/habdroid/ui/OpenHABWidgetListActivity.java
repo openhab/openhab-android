@@ -573,10 +573,17 @@ public class OpenHABWidgetListActivity extends ListActivity implements AsyncServ
 				if (nfcWidget != null && nfcItem != null) {
 					// TODO: Perform nfc widget action here
 					if (this.nfcCommand.equals("TOGGLE")) {
-						if (nfcItem.getStateAsBoolean())
-							this.openHABWidgetAdapter.sendItemCommand(nfcItem, "OFF");
-						else
-							this.openHABWidgetAdapter.sendItemCommand(nfcItem, "ON");
+						if (nfcItem.getType().equals("RollershutterItem")) {
+							if (nfcItem.getStateAsBoolean())
+								this.openHABWidgetAdapter.sendItemCommand(nfcItem, "UP");
+							else
+								this.openHABWidgetAdapter.sendItemCommand(nfcItem, "DOWN");							
+						} else {
+							if (nfcItem.getStateAsBoolean())
+								this.openHABWidgetAdapter.sendItemCommand(nfcItem, "OFF");
+							else
+								this.openHABWidgetAdapter.sendItemCommand(nfcItem, "ON");
+						}
 					} else {
 						this.openHABWidgetAdapter.sendItemCommand(nfcItem, this.nfcCommand);
 					}

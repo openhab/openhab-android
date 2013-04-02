@@ -60,6 +60,8 @@ public class OpenHABNFCActionList {
 					actionCommands.add("UP");
 					actionNames.add("Down");
 					actionCommands.add("DOWN");					
+					actionNames.add("Toggle");
+					actionCommands.add("TOGGLE");					
 				}
 			}
 		}
