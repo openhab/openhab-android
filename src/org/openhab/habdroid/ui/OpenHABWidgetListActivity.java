@@ -690,6 +690,7 @@ public class OpenHABWidgetListActivity extends ListActivity implements AsyncServ
 			preferencesEditor.putString("default_openhab_sitemap", "");
 			preferencesEditor.commit();
     		selectSitemap(openHABBaseUrl, true);
+    		return true;
         case android.R.id.home:
         	displayPageUrl = sitemapRootUrl;
         	// we are navigating to root page, so clear page stack to support regular 'back' behavior for root page
@@ -710,6 +711,7 @@ public class OpenHABWidgetListActivity extends ListActivity implements AsyncServ
 			// Start launch activity
 			startActivity(restartIntent);
 			// Start launch activity
+			return true;
         case R.id.mainmenu_openhab_writetag:
             Intent writeTagIntent = new Intent(this.getApplicationContext(), OpenHABWriteTagActivity.class);
             writeTagIntent.putExtra("sitemapPage", this.displayPageUrl);
