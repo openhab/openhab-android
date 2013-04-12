@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">HABDroid</string>
+    <string name="openhab_service_type">_openhab-server-ssl._tcp.local.</string>
+    <string name="openhab_demo_url">https://demo.openhab.org:8443/</string>
+    <string name="app_preferences_name">Einstellungen</string>
+    <string name="mainmenu_openhab_preferences">Einstellungen</string>
+    <string name="mainmenu_openhab_selectsitemap">Wähle Sitemap</string>
+    <string name="mainmenu_openhab_writetag">Schreibe NFC Tag</string>
+    <string name="mainmenu_openhab_clearcache">Lösche Bildercache</string>
+    <string name="settings_title">HABDroid Einstellungen</string>
+    <string name="settings_openhab_url">openHAB URL</string>
+    <string name="settings_openhab_url_summary">Manual konfigurierte openHAB URL. Wenn gesetzt, ist Auto-Discovery deaktiviert.</string>
+    <string name="settings_openhab_alturl">openHAB Remote URL</string>
+    <string name="settings_openhab_alturl_summary">Remote openHAB URL (genutzt, wenn openHAB lokal nicht gefunden wird)</string>
+    <string name="settings_openhab_username">Benutzername</string>
+    <string name="settings_openhab_username_summary">openHAB Benutzername</string>
+    <string name="settings_openhab_password">Passwort</string>
+    <string name="settings_openhab_password_summary">openHAB Passwort</string>
+    <string name="settings_openhab_screentimeroff">Deaktiviere Ruhezustand</string>
+    <string name="settings_openhab_screentimeroff_summary">Schaltet das automatische Aktivieren des Ruhezustands nach Inaktivität ab, wenn HABDroid läuft.</string>
+    <string name="settings_openhab_demomode">Demo Modus</string>
+    <string name="settings_openhab_demomode_summary">Betreibt HABDroid im Demo Modus</string>
+    <string name="settings_openhab_theme">HABDroid Theme</string>
+    <string name="settings_openhab_appversion">HABDroid Version</string>
+    <string name="info_demo_mode">HABDroid läuft im Demo Modus. Unter Einstellungen kann eine eigene openHAB-Instanz konfiguriert werden.</string>
+    <string name="info_conn_url">Verbinde mit lokaler URL</string>
+    <string name="info_conn_rem_url">Verbinde mit Remote URL</string>
+    <string name="error_no_url">Bitte prüfen Sie, ob openHAB läuft oder die URLs falsch konfiguriert sind.</string>
+    <string name="error_authentication_failed">Benutzeranmeldung fehlgeschlagen. Bitte prüfen Sie Benutzername/Passwort</string>
+    <string name="error_empty_sitemap_list">openHAB lieferte eine leere Sitemapliste</string>
+    <string name="error_network_not_available">Netzwerk nicht verfügbar</string>
+    <string name="error_no_uuid">Konnte openHAB UUID nicht abrufen, Verbindung fehlgeschlagen</string>
+    <string name="erorr_invalid_url">Bitte geben Sie eine gültige URL im \'protocol://host:port/\' format an.</string>
+    <string name="title_activity_openhabwritetag">Schreibe NFC Tag</string>
+    <string name="info_write_tag">Berühren Sie den NFC-Tag und warten Sie auf die Bestätigungsmitteilung</string>
+    <string name="info_write_tag_progress">Schreibe NFC-Tag</string>
+    <string name="info_write_tag_finished">Erfolgreich abgeschlossen</string>
+    <string name="info_write_failed">Fehler beim Schreiben des NFC-Tags</string>
+    <string name="info_write_tag_unsupported">Dieses Gerät unterstützt leider kein NFC :-(</string>
+    <string name="info_write_tag_disabled">NFC ist deaktiviert. Bitte aktivieren Sie es im Geräte Einstellungsmenü.</string>
+    <string name="action_settings">Einstellungen</string>
+    <string name="nfc_dialog_title">Aktion des NFC-Tags</string>
+</resources>
