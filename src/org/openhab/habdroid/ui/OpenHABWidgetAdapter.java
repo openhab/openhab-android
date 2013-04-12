@@ -211,6 +211,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     			}
     		}
     		MySmartImageView groupImage = (MySmartImageView)widgetView.findViewById(R.id.groupimage);
+    		groupImage.setImageResource(R.drawable.blank_icon);;
     		groupImage.setImageUrl(openHABBaseUrl + "images/" +
     				openHABWidget.getIcon() + ".png");
     		break;
@@ -264,6 +265,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
 				}
     		});
     		MySmartImageView sectionSwitchImage = (MySmartImageView)widgetView.findViewById(R.id.sectionswitchimage);
+    		sectionSwitchImage.setImageResource(R.drawable.blank_icon);
     		sectionSwitchImage.setImageUrl(openHABBaseUrl + "images/" +
     				openHABWidget.getIcon() + ".png");
     		break;
@@ -295,6 +297,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
 				}
     		});
     		MySmartImageView switchImage = (MySmartImageView)widgetView.findViewById(R.id.switchimage);
+    		switchImage.setImageResource(R.drawable.blank_icon);
     		switchImage.setImageUrl(openHABBaseUrl + "images/" +
     				openHABWidget.getIcon() + ".png");
     		break;
@@ -352,6 +355,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
 				}
     		});
     		MySmartImageView colorImage = (MySmartImageView)widgetView.findViewById(R.id.colorimage);
+    		colorImage.setImageResource(R.drawable.blank_icon);
     		colorImage.setImageUrl(openHABBaseUrl + "images/" +
     				openHABWidget.getIcon() + ".png");
     		break;    		
@@ -396,6 +400,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
 				}
     		});
     		MySmartImageView rollershutterImage = (MySmartImageView)widgetView.findViewById(R.id.rollershutterimage);
+    		rollershutterImage.setImageResource(R.drawable.blank_icon);
     		rollershutterImage.setImageUrl(openHABBaseUrl + "images/" +
     				openHABWidget.getIcon() + ".png");
     		break;
@@ -416,6 +421,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     				valueTextView.setText("");
     			}
     		MySmartImageView textImage = (MySmartImageView)widgetView.findViewById(R.id.textimage);
+    		textImage.setImageResource(R.drawable.blank_icon);
     		textImage.setImageUrl(openHABBaseUrl + "images/" +
     				openHABWidget.getIcon() + ".png");
     		break;
@@ -425,6 +431,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     		if (labelTextView != null)
     			labelTextView.setText(splitString[0]);
     		MySmartImageView itemImage = (MySmartImageView)widgetView.findViewById(R.id.sliderimage);
+    		itemImage.setImageResource(R.drawable.blank_icon);
     		itemImage.setImageUrl(openHABBaseUrl + "images/" +
     				openHABWidget.getIcon() + ".png");
     		SeekBar sliderSeekBar = (SeekBar)widgetView.findViewById(R.id.sliderseekbar);
@@ -590,6 +597,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
 				}    			
     		});
     		MySmartImageView selectionImage = (MySmartImageView)widgetView.findViewById(R.id.selectionimage);
+    		selectionImage.setImageResource(R.drawable.blank_icon);
     		selectionImage.setImageUrl(openHABBaseUrl + "images/" +
     				openHABWidget.getIcon() + ".png");
     		break;
@@ -599,6 +607,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     		if (labelTextView != null)
     			labelTextView.setText(splitString[0]);
     		MySmartImageView setPointImage = (MySmartImageView)widgetView.findViewById(R.id.setpointimage);
+    		setPointImage.setImageResource(R.drawable.blank_icon);
     		setPointImage.setImageUrl(openHABBaseUrl + "images/" +
     				openHABWidget.getIcon() + ".png");
     		TextView setPointValueTextView = (TextView)widgetView.findViewById(R.id.setpointvaluelabel);
@@ -643,6 +652,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     		if (labelTextView != null)
     			labelTextView.setText(openHABWidget.getLabel());
     		MySmartImageView sliderImage = (MySmartImageView)widgetView.findViewById(R.id.itemimage);
+    		sliderImage.setImageResource(R.drawable.blank_icon);
     		sliderImage.setImageUrl(openHABBaseUrl + "images/" +
     				openHABWidget.getIcon() + ".png");
     		break;
