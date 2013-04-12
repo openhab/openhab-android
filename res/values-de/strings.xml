@@ -41,4 +41,5 @@
     <string name="info_write_tag_disabled">NFC ist deaktiviert. Bitte aktivieren Sie es im Geräte Einstellungsmenü.</string>
     <string name="action_settings">Einstellungen</string>
     <string name="nfc_dialog_title">Aktion des NFC-Tags</string>
+    <string name="info_not_set">Nicht gesetzt</string>    
 </resources>

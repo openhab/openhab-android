@@ -141,12 +141,12 @@ public class OpenHABPreferencesActivity extends PreferenceActivity {
 			if (textPreference.getSharedPreferences().getString(textPreference.getKey(), "").length() > 0)
 		    	textPreference.setSummary(textPreference.getSharedPreferences().getString(textPreference.getKey(), ""));
 		    else
-		    	textPreference.setSummary("Not set");
+		    	textPreference.setSummary(this.getResources().getString(R.string.info_not_set));
 		} else {
 			if (newValue.length() > 0)
 				textPreference.setSummary(newValue);
 			else
-				textPreference.setSummary("Not set");
+				textPreference.setSummary(this.getResources().getString(R.string.info_not_set));
 		}
 	}
 	
@@ -155,12 +155,12 @@ public class OpenHABPreferencesActivity extends PreferenceActivity {
 			if (passwordPreference.getSharedPreferences().getString(passwordPreference.getKey(), "").length() > 0)
 				passwordPreference.setSummary("******");
 			else
-				passwordPreference.setSummary("Not set");
+				passwordPreference.setSummary(this.getResources().getString(R.string.info_not_set));
 		} else {
 			if (newValue.length() > 0)
 				passwordPreference.setSummary("******");
 			else
-				passwordPreference.setSummary("Not set");
+				passwordPreference.setSummary(this.getResources().getString(R.string.info_not_set));
 		}
 	}
 	
