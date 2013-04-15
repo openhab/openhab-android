@@ -199,7 +199,8 @@ public class OpenHABWriteTagActivity extends Activity {
 				    autoCloseActivity();
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
-					Log.e(TAG, e.getMessage());
+					if (e != null)
+						Log.e(TAG, e.getMessage());
 				} catch (FormatException e) {
 					// TODO Auto-generated catch block
 					Log.e(TAG, e.getMessage());
