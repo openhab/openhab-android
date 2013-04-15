@@ -687,10 +687,13 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     	} else if (openHABWidget.getType().equals("Switch")) {
     		if (openHABWidget.hasMappings()) {
     			return TYPE_SECTIONSWITCH;
-    		} else if (openHABWidget.getItem().getType()!= null) {
-    			if (openHABWidget.getItem().getType().equals("RollershutterItem"))
-    				return TYPE_ROLLERSHUTTER;
-    			else
+    		} else if (openHABWidget.getItem() != null) {
+    			if (openHABWidget.getItem().getType()!= null) {
+	    			if (openHABWidget.getItem().getType().equals("RollershutterItem"))
+	    				return TYPE_ROLLERSHUTTER;
+	    			else
+	    				return TYPE_SWITCH;
+    			} else
     				return TYPE_SWITCH;
     		} else {
     			return TYPE_SWITCH;
