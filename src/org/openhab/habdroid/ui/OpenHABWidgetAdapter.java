@@ -489,10 +489,12 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     		OpenHABItem chartItem = openHABWidget.getItem();
     		Random random = new Random();
     		String chartUrl = "";
-    		if (chartItem.getType().equals("GroupItem")) {
-    			chartUrl = openHABBaseUrl + "rrdchart.png?groups=" + chartItem.getName() + 
-    					"&period=" + openHABWidget.getPeriod() + "&random=" +
-    					String.valueOf(random.nextInt());
+    		if (chartItem != null) {
+	    		if (chartItem.getType().equals("GroupItem")) {
+	    			chartUrl = openHABBaseUrl + "rrdchart.png?groups=" + chartItem.getName() + 
+	    					"&period=" + openHABWidget.getPeriod() + "&random=" +
+	    					String.valueOf(random.nextInt());
+	    		}
     		}
     		Log.d(TAG, "Chart url = " + chartUrl);
     		if (chartImage == null)
