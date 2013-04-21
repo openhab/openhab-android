@@ -212,12 +212,23 @@ public class OpenHABWriteTagActivity extends Activity {
 		}
 	}
 	
+	@Override
+	public void finish() {
+		super.finish();
+		overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);		
+	}
+	
 	private void autoCloseActivity() {
 		Timer autoCloseTimer = new Timer();
 		autoCloseTimer.schedule(new TimerTask() {
 			@Override
 			public void run() {
-				finish();
+				OpenHABWriteTagActivity.this.runOnUiThread(new Runnable() {
+					@Override
+					public void run() {
+						OpenHABWriteTagActivity.this.finish();
+					}
+				});
 				Log.d(TAG, "Autoclosing tag write activity");
 			}
 			

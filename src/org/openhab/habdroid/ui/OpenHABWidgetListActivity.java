@@ -92,10 +92,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ViewFlipper;
 
 /**
  * This class is apps' main activity which runs startup sequence and displays list of openHAB
@@ -145,6 +149,13 @@ public class OpenHABWidgetListActivity extends ListActivity implements AsyncServ
 	private boolean nfcAutoClose = false;
 	// Service resolver for Bonjour
 	private AsyncServiceResolver serviceResolver;
+	// Animation transition for widgets listview
+	private int listTransitionAnimation = 0;
+	private static final int TRANSITION_NONE = 0;
+	private static final int TRANSITION_IN_FROM_RIGHT = 1;
+	private static final int TRANSITION_IN_FROM_LEFT = 2;
+	// View flipper for widgets listview transition animation
+	ViewFlipper flipper;
 
 	@Override
 	public void onStart() {
@@ -206,6 +217,7 @@ public class OpenHABWidgetListActivity extends ListActivity implements AsyncServ
 		openHABWidgetAdapter = new OpenHABWidgetAdapter(OpenHABWidgetListActivity.this,
 				R.layout.openhabwidgetlist_genericitem, widgetList);
 		getListView().setAdapter(openHABWidgetAdapter);
+		this.flipper = (ViewFlipper) this.findViewById(R.id.viewflipper);
 		// Set adapter parameters
 		openHABWidgetAdapter.setOpenHABUsername(openHABUsername);
 		openHABWidgetAdapter.setOpenHABPassword(openHABPassword);
@@ -492,8 +504,10 @@ public class OpenHABWidgetListActivity extends ListActivity implements AsyncServ
 		// Cancel any existing http request to openHAB (typically ongoing long poll)
 		if (!longPolling)
 			setProgressBarIndeterminateVisibility(true);
-		if (longPolling)
+		if (longPolling) {
 			widgetListPosition = -1;
+			this.listTransitionAnimation = TRANSITION_NONE;
+		}
 		if (pageAsyncHttpClient != null) {
 			pageAsyncHttpClient.cancelRequests(this, true);
 		}
@@ -552,6 +566,18 @@ public class OpenHABWidgetListActivity extends ListActivity implements AsyncServ
 			Node rootNode = document.getFirstChild();
 			openHABWidgetDataSource.setSourceNode(rootNode);
 			widgetList.clear();
+			switch (listTransitionAnimation) {
+				case TRANSITION_IN_FROM_RIGHT:
+					flipper.setInAnimation(this.inFromRight());
+					flipper.showNext();
+					break;
+				case TRANSITION_IN_FROM_LEFT:
+					flipper.setInAnimation(this.inFromLeft());
+					flipper.showNext();
+					break;
+				default:
+					break;
+			}
 			// As we change the page we need to stop all videos on current page
 			// before going to the new page. This is quite dirty, but is the only
 			// way to do that...
@@ -631,6 +657,7 @@ public class OpenHABWidgetListActivity extends ListActivity implements AsyncServ
 					            	new OpenHABNFCActionList(OpenHABWidgetListActivity.this.selectedOpenHABWidget);
 					            writeTagIntent.putExtra("command", nfcActionList.getCommands()[which]);
 					            startActivityForResult(writeTagIntent, 0);
+					            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
 					            OpenHABWidgetListActivity.this.selectedOpenHABWidget = null;
 							}
 						});
@@ -666,6 +693,7 @@ public class OpenHABWidgetListActivity extends ListActivity implements AsyncServ
 			pageStack.add(0, new OpenHABPage(displayPageUrl, OpenHABWidgetListActivity.this.getListView().getFirstVisiblePosition()));
 			displayPageUrl = pageLink;
 			widgetListPosition = 0;
+			this.listTransitionAnimation = TRANSITION_IN_FROM_RIGHT;
 			showPage(pageLink, false);
 		}
 	}
@@ -683,6 +711,7 @@ public class OpenHABWidgetListActivity extends ListActivity implements AsyncServ
     	case R.id.mainmenu_openhab_preferences:
             Intent settingsIntent = new Intent(this.getApplicationContext(), OpenHABPreferencesActivity.class);
             startActivityForResult(settingsIntent, 0);
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     		return true;
     	case R.id.mainmenu_openhab_selectsitemap:
 			SharedPreferences settings = 
@@ -717,6 +746,7 @@ public class OpenHABWidgetListActivity extends ListActivity implements AsyncServ
             Intent writeTagIntent = new Intent(this.getApplicationContext(), OpenHABWriteTagActivity.class);
             writeTagIntent.putExtra("sitemapPage", this.displayPageUrl);
             startActivityForResult(writeTagIntent, 0);
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     		return true;
         default:
     		return super.onOptionsItemSelected(item);
@@ -741,6 +771,7 @@ public class OpenHABWidgetListActivity extends ListActivity implements AsyncServ
     			Log.d(TAG, String.format("onKeyDown: list position from the stack = %d", pageStack.get(0).getWidgetListPosition()));
     			widgetListPosition = pageStack.get(0).getWidgetListPosition();
     			pageStack.remove(0);
+    			this.listTransitionAnimation = TRANSITION_IN_FROM_LEFT;
     			showPage(displayPageUrl, false);
     		} else {
     			Log.d(TAG, "No more pages left in stack, exiting");
@@ -938,6 +969,24 @@ public class OpenHABWidgetListActivity extends ListActivity implements AsyncServ
 			Log.d(TAG, "normalizeUrl: invalid URL");
 		}
 		return normalizedUrl;
+	}
+	
+	private Animation inFromRight() {
+		Animation animation = new TranslateAnimation(
+			Animation.RELATIVE_TO_PARENT,  1.0f, Animation.RELATIVE_TO_PARENT,  0.0f,
+			Animation.RELATIVE_TO_PARENT,  0.0f, Animation.RELATIVE_TO_PARENT,   0.0f);
+		animation.setDuration(400);
+		animation.setInterpolator(new AccelerateInterpolator());
+		return animation;
+	}
+	
+	private Animation inFromLeft() {
+		Animation animation = new TranslateAnimation(
+				Animation.RELATIVE_TO_PARENT,  -1.0f, Animation.RELATIVE_TO_PARENT,  0.0f,
+				Animation.RELATIVE_TO_PARENT,  0.0f, Animation.RELATIVE_TO_PARENT,   0.0f);
+			animation.setDuration(400);
+			animation.setInterpolator(new AccelerateInterpolator());
+			return animation;
 	}
 
 }

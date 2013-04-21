@@ -4,6 +4,10 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     >
+<ViewFlipper
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:id="@+id/viewflipper">
 <ListView
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
@@ -13,4 +17,5 @@
     android:divider="#00000000"
     android:dividerHeight="0dip"
     />
+</ViewFlipper>
 </LinearLayout>
