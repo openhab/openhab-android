@@ -63,6 +63,17 @@ public class OpenHABNFCActionList {
 					actionNames.add("Toggle");
 					actionCommands.add("TOGGLE");					
 				}
+			} else if (openHABWidget.getType().equals("Colorpicker")) {
+				actionNames.add("On");
+				actionCommands.add("ON");
+				actionNames.add("Off");
+				actionCommands.add("OFF");
+				actionNames.add("Toggle");
+				actionCommands.add("TOGGLE");
+				if (openHABWidget.getItem() != null) {
+					actionNames.add("Current Color");
+					actionCommands.add(openHABWidget.getItem().getState());
+				}
 			}
 		}
 	}

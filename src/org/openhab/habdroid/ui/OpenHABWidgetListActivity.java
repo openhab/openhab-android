@@ -614,7 +614,8 @@ public class OpenHABWidgetListActivity extends ListActivity implements AsyncServ
 					Log.d(TAG, "Widget long-clicked " + String.valueOf(position));
 					OpenHABWidget openHABWidget = openHABWidgetAdapter.getItem(position);
 					Log.d(TAG, "Widget type = " + openHABWidget.getType());
-					if (openHABWidget.getType().equals("Switch") || openHABWidget.getType().equals("Selection")) {
+					if (openHABWidget.getType().equals("Switch") || openHABWidget.getType().equals("Selection") ||
+							openHABWidget.getType().equals("Colorpicker")) {
 						OpenHABWidgetListActivity.this.selectedOpenHABWidget = openHABWidget;
 						AlertDialog.Builder builder = new AlertDialog.Builder(OpenHABWidgetListActivity.this);
 						builder.setTitle(R.string.nfc_dialog_title);

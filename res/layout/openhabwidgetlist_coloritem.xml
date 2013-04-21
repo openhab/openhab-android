@@ -3,9 +3,10 @@
   xmlns:android="http://schemas.android.com/apk/res/android"
   android:layout_width="fill_parent"
   android:layout_height="wrap_content"
-  android:orientation="horizontal">
+  android:orientation="horizontal"
+  android:descendantFocusability="blocksDescendants"
+  >
   <LinearLayout
-	    xmlns:android="http://schemas.android.com/apk/res/android"
 	    android:id="@+id/switchleftlayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" 
@@ -30,11 +31,12 @@
     	/>
 </LinearLayout>
 <LinearLayout
-	    xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" 
 		android:layout_alignParentRight="true"
         android:layout_centerInParent="true"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
       >
 <ImageButton
         android:id="@+id/colorbutton_up"
@@ -44,6 +46,8 @@
         android:layout_height="wrap_content"
         android:src="@drawable/ic_action_up"
         android:layout_gravity="center_vertical"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
         />
 <ImageButton
         android:id="@+id/colorbutton_color"
@@ -53,6 +57,8 @@
         android:layout_height="wrap_content"
         android:src="@drawable/colorwheel" 
         android:layout_gravity="center_vertical"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
         />
 <ImageButton
         android:id="@+id/colorbutton_down"
@@ -62,6 +68,8 @@
         android:layout_height="wrap_content"
         android:src="@drawable/ic_action_down"
         android:layout_gravity="center_vertical"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
         />
 </LinearLayout>
 <LinearLayout 
