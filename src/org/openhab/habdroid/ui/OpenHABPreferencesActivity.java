@@ -39,7 +39,6 @@ import com.google.analytics.tracking.android.EasyTracker;
 
 import android.preference.ListPreference;
 import android.preference.Preference;
-import android.preference.PreferenceManager;
 import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.PreferenceActivity;
 import android.util.Log;

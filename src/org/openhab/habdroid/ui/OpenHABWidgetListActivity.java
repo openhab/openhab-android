@@ -33,8 +33,6 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -92,14 +90,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.animation.AccelerateInterpolator;
-import android.view.animation.Animation;
-import android.view.animation.TranslateAnimation;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ViewFlipper;
 
 /**
  * This class is apps' main activity which runs startup sequence and displays list of openHAB
@@ -149,13 +143,6 @@ public class OpenHABWidgetListActivity extends ListActivity implements AsyncServ
 	private boolean nfcAutoClose = false;
 	// Service resolver for Bonjour
 	private AsyncServiceResolver serviceResolver;
-	// Animation transition for widgets listview
-	private int listTransitionAnimation = 0;
-	private static final int TRANSITION_NONE = 0;
-	private static final int TRANSITION_IN_FROM_RIGHT = 1;
-	private static final int TRANSITION_IN_FROM_LEFT = 2;
-	// View flipper for widgets listview transition animation
-	ViewFlipper flipper;
 
 	@Override
 	public void onStart() {
@@ -217,7 +204,6 @@ public class OpenHABWidgetListActivity extends ListActivity implements AsyncServ
 		openHABWidgetAdapter = new OpenHABWidgetAdapter(OpenHABWidgetListActivity.this,
 				R.layout.openhabwidgetlist_genericitem, widgetList);
 		getListView().setAdapter(openHABWidgetAdapter);
-		this.flipper = (ViewFlipper) this.findViewById(R.id.viewflipper);
 		// Set adapter parameters
 		openHABWidgetAdapter.setOpenHABUsername(openHABUsername);
 		openHABWidgetAdapter.setOpenHABPassword(openHABPassword);
@@ -231,6 +217,15 @@ public class OpenHABWidgetListActivity extends ListActivity implements AsyncServ
 			sitemapRootUrl = savedInstanceState.getString("sitemapRootUrl");
 			openHABWidgetAdapter.setOpenHABBaseUrl(openHABBaseUrl);
 		}
+		// Check if this is a launch from myself (drill down navigation)
+		if (getIntent() != null) {
+			if (getIntent().getAction().equals("org.openhab.habdroid.ui.OpwnHABWidgetListActivity")) {
+				displayPageUrl = getIntent().getExtras().getString("displayPageUrl");
+				openHABBaseUrl = getIntent().getExtras().getString("openHABBaseUrl");
+				sitemapRootUrl = getIntent().getExtras().getString("sitemapRootUrl");
+				openHABWidgetAdapter.setOpenHABBaseUrl(openHABBaseUrl);
+			}
+		}
 		// If yes, then just go to it (means restore activity from it's saved state)
 		if (displayPageUrl.length() > 0) {
 			Log.d(TAG, "displayPageUrl = " + displayPageUrl);
@@ -238,6 +233,7 @@ public class OpenHABWidgetListActivity extends ListActivity implements AsyncServ
 		// If not means it is a clean start
 		} else {
 			if (getIntent() != null) {
+				Log.i(TAG, "Launch intent = " + getIntent().getAction());
 				// If this is a launch through NFC tag reading
 				if (getIntent().getAction().equals("android.nfc.action.NDEF_DISCOVERED")) {
 					// Save url which we got from NFC tag
@@ -475,6 +471,12 @@ public class OpenHABWidgetListActivity extends ListActivity implements AsyncServ
 	}
 	
 	@Override
+	public void finish() {
+		super.finish();
+		overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);		
+	}
+	
+	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		Log.d(TAG, "onActivityResult " + String.valueOf(requestCode) + " " + String.valueOf(resultCode));
 		if (resultCode == -1) {
@@ -484,7 +486,7 @@ public class OpenHABWidgetListActivity extends ListActivity implements AsyncServ
 			// Get launch intent for application
 			Intent restartIntent = getBaseContext().getPackageManager()
 		             .getLaunchIntentForPackage( getBaseContext().getPackageName() );
-			restartIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			restartIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
 			// Finish current activity
 			finish();
 			// Start launch activity
@@ -506,7 +508,6 @@ public class OpenHABWidgetListActivity extends ListActivity implements AsyncServ
 			setProgressBarIndeterminateVisibility(true);
 		if (longPolling) {
 			widgetListPosition = -1;
-			this.listTransitionAnimation = TRANSITION_NONE;
 		}
 		if (pageAsyncHttpClient != null) {
 			pageAsyncHttpClient.cancelRequests(this, true);
@@ -566,18 +567,6 @@ public class OpenHABWidgetListActivity extends ListActivity implements AsyncServ
 			Node rootNode = document.getFirstChild();
 			openHABWidgetDataSource.setSourceNode(rootNode);
 			widgetList.clear();
-			switch (listTransitionAnimation) {
-				case TRANSITION_IN_FROM_RIGHT:
-					flipper.setInAnimation(this.inFromRight());
-					flipper.showNext();
-					break;
-				case TRANSITION_IN_FROM_LEFT:
-					flipper.setInAnimation(this.inFromLeft());
-					flipper.showNext();
-					break;
-				default:
-					break;
-			}
 			// As we change the page we need to stop all videos on current page
 			// before going to the new page. This is quite dirty, but is the only
 			// way to do that...
@@ -690,11 +679,18 @@ public class OpenHABWidgetListActivity extends ListActivity implements AsyncServ
 	private void navigateToPage(String pageLink) {
 		// We don't want to put current page to stack if navigateToPage is trying to go to the same page
 		if (!pageLink.equals(displayPageUrl)) {
-			pageStack.add(0, new OpenHABPage(displayPageUrl, OpenHABWidgetListActivity.this.getListView().getFirstVisiblePosition()));
+/*			pageStack.add(0, new OpenHABPage(displayPageUrl, OpenHABWidgetListActivity.this.getListView().getFirstVisiblePosition()));
 			displayPageUrl = pageLink;
 			widgetListPosition = 0;
-			this.listTransitionAnimation = TRANSITION_IN_FROM_RIGHT;
-			showPage(pageLink, false);
+			showPage(pageLink, false);*/
+            Intent drillDownIntent = new Intent(OpenHABWidgetListActivity.this.getApplicationContext(),
+            		OpenHABWidgetListActivity.class);
+            drillDownIntent.setAction("org.openhab.habdroid.ui.OpwnHABWidgetListActivity");
+            drillDownIntent.putExtra("displayPageUrl", pageLink);
+            drillDownIntent.putExtra("openHABBaseUrl", openHABBaseUrl);
+            drillDownIntent.putExtra("sitemapRootUrl", sitemapRootUrl);
+            startActivityForResult(drillDownIntent, 0);
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
 		}
 	}
 	
@@ -771,7 +767,6 @@ public class OpenHABWidgetListActivity extends ListActivity implements AsyncServ
     			Log.d(TAG, String.format("onKeyDown: list position from the stack = %d", pageStack.get(0).getWidgetListPosition()));
     			widgetListPosition = pageStack.get(0).getWidgetListPosition();
     			pageStack.remove(0);
-    			this.listTransitionAnimation = TRANSITION_IN_FROM_LEFT;
     			showPage(displayPageUrl, false);
     		} else {
     			Log.d(TAG, "No more pages left in stack, exiting");
@@ -971,22 +966,4 @@ public class OpenHABWidgetListActivity extends ListActivity implements AsyncServ
 		return normalizedUrl;
 	}
 	
-	private Animation inFromRight() {
-		Animation animation = new TranslateAnimation(
-			Animation.RELATIVE_TO_PARENT,  1.0f, Animation.RELATIVE_TO_PARENT,  0.0f,
-			Animation.RELATIVE_TO_PARENT,  0.0f, Animation.RELATIVE_TO_PARENT,   0.0f);
-		animation.setDuration(400);
-		animation.setInterpolator(new AccelerateInterpolator());
-		return animation;
-	}
-	
-	private Animation inFromLeft() {
-		Animation animation = new TranslateAnimation(
-				Animation.RELATIVE_TO_PARENT,  -1.0f, Animation.RELATIVE_TO_PARENT,  0.0f,
-				Animation.RELATIVE_TO_PARENT,  0.0f, Animation.RELATIVE_TO_PARENT,   0.0f);
-			animation.setDuration(400);
-			animation.setInterpolator(new AccelerateInterpolator());
-			return animation;
-	}
-
 }

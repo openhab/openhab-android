@@ -48,13 +48,11 @@ import android.nfc.Tag;
 import android.nfc.tech.Ndef;
 import android.nfc.tech.NdefFormatable;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.util.Log;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.TextView;
 
 public class OpenHABWriteTagActivity extends Activity {
