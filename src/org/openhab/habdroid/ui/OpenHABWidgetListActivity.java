@@ -473,7 +473,7 @@ public class OpenHABWidgetListActivity extends ListActivity implements AsyncServ
 	@Override
 	public void finish() {
 		super.finish();
-		overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);		
+//		overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);		
 	}
 	
 	@Override
@@ -646,7 +646,7 @@ public class OpenHABWidgetListActivity extends ListActivity implements AsyncServ
 					            	new OpenHABNFCActionList(OpenHABWidgetListActivity.this.selectedOpenHABWidget);
 					            writeTagIntent.putExtra("command", nfcActionList.getCommands()[which]);
 					            startActivityForResult(writeTagIntent, 0);
-					            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+					            //overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
 					            OpenHABWidgetListActivity.this.selectedOpenHABWidget = null;
 							}
 						});
@@ -690,7 +690,7 @@ public class OpenHABWidgetListActivity extends ListActivity implements AsyncServ
             drillDownIntent.putExtra("openHABBaseUrl", openHABBaseUrl);
             drillDownIntent.putExtra("sitemapRootUrl", sitemapRootUrl);
             startActivityForResult(drillDownIntent, 0);
-            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+            //overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
 		}
 	}
 	
@@ -707,7 +707,7 @@ public class OpenHABWidgetListActivity extends ListActivity implements AsyncServ
     	case R.id.mainmenu_openhab_preferences:
             Intent settingsIntent = new Intent(this.getApplicationContext(), OpenHABPreferencesActivity.class);
             startActivityForResult(settingsIntent, 0);
-            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+            //overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     		return true;
     	case R.id.mainmenu_openhab_selectsitemap:
 			SharedPreferences settings = 
@@ -742,7 +742,7 @@ public class OpenHABWidgetListActivity extends ListActivity implements AsyncServ
             Intent writeTagIntent = new Intent(this.getApplicationContext(), OpenHABWriteTagActivity.class);
             writeTagIntent.putExtra("sitemapPage", this.displayPageUrl);
             startActivityForResult(writeTagIntent, 0);
-            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+            //overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     		return true;
         default:
     		return super.onOptionsItemSelected(item);
