@@ -77,7 +77,7 @@ public class AsyncServiceResolver extends Thread implements ServiceListener {
 		sleepingThread = Thread.currentThread();
 		Log.i(TAG, "Discovering service " + serviceType);
 		try {
-			Log.i(TAG, "Local IP:"  + getLocalIpv4Address().getHostAddress().toString());
+//			Log.i(TAG, "Local IP:"  + getLocalIpv4Address().getHostAddress().toString());
 			/* TODO: This is a dirty fix of some crazy ipv6 incompatibility
 			   This workaround makes jmdns work on local ipv4 address an thus
 			   discover openHAB on ipv4 address. This should be fixed to fully

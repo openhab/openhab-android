@@ -78,6 +78,7 @@ public class OpenHABPreferencesActivity extends PreferenceActivity {
 	    Preference usernamePreference = getPreferenceScreen().findPreference("default_openhab_username");
 	    Preference passwordPreference = getPreferenceScreen().findPreference("default_openhab_password");
 	    ListPreference themePreference = (ListPreference)getPreferenceScreen().findPreference("default_openhab_theme");
+	    ListPreference animationPreference = (ListPreference)getPreferenceScreen().findPreference("default_openhab_animation");
 	    Preference versionPreference = getPreferenceScreen().findPreference("default_openhab_appversion");
 	    urlPreference.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
 			@Override
@@ -131,6 +132,15 @@ public class OpenHABPreferencesActivity extends PreferenceActivity {
 			}
 	    });
 	    themePreference.setSummary(themePreference.getEntry());
+	    animationPreference.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
+			@Override
+			public boolean onPreferenceChange(Preference preference, Object newValue) {
+				ListPreference listPreference = (ListPreference)preference;
+				listPreference.setSummary(listPreference.getEntries()[listPreference.findIndexOfValue((String)newValue)]);
+				return true;
+			}
+	    });
+	    animationPreference.setSummary(animationPreference.getEntry());
 	    updateTextPreferenceSummary(versionPreference, null);
 	    setResult(RESULT_OK);
 	}
@@ -191,6 +201,6 @@ public class OpenHABPreferencesActivity extends PreferenceActivity {
 	@Override
 	public void finish() {
 		super.finish();
-//		overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);		
+		Util.overridePendingTransition(this, true);		
 	}
 }

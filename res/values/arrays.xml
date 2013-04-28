@@ -8,6 +8,16 @@
    <item>dark</item>
    <item>light</item>
 </string-array>
+<string-array name="animationArray">
+   <item>Android (Dissolve)</item>
+   <item>iOS (Slide)</item>
+   <item>None</item>
+</string-array>
+<string-array name="animationValues">
+   <item>android</item>
+   <item>ios</item>
+   <item>none</item>
+</string-array>
 <string-array name="nfcActionValues">
     <item>On</item>
     <item>Off</item>

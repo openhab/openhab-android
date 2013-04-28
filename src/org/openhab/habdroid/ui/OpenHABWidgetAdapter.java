@@ -244,8 +244,12 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     							R.layout.openhabwidgetlist_sectionswitchitem_button, sectionSwitchRadioGroup, false);
     			segmentedControlButton.setText(widgetMapping.getLabel());
     			segmentedControlButton.setTag(widgetMapping.getCommand());
-    			if (widgetMapping.getCommand().equals(openHABWidget.getItem().getState())) {
-    				segmentedControlButton.setChecked(true);
+    			if (openHABWidget.getItem() != null && widgetMapping.getCommand() != null) {
+	    			if (widgetMapping.getCommand().equals(openHABWidget.getItem().getState())) {
+	    				segmentedControlButton.setChecked(true);
+	    			} else {
+	    				segmentedControlButton.setChecked(false);
+	    			}
     			} else {
     				segmentedControlButton.setChecked(false);
     			}
@@ -408,7 +412,11 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     		labelTextView = (TextView)widgetView.findViewById(R.id.textlabel);
     		splitString = openHABWidget.getLabel().split("\\[|\\]");
     		if (labelTextView != null)
-    			labelTextView.setText(splitString[0]);
+    			if (splitString.length > 0) {
+    				labelTextView.setText(splitString[0]);
+    			} else {
+    				labelTextView.setText(openHABWidget.getLabel());
+    			}
     		valueTextView = (TextView)widgetView.findViewById(R.id.textvalue);
     		if (valueTextView != null) 
     			if (splitString.length > 1) {

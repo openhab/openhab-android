@@ -66,6 +66,7 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.image.WebImageCache;
 
+import android.Manifest.permission;
 import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.app.PendingIntent;
@@ -75,6 +76,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -143,6 +145,10 @@ public class OpenHABWidgetListActivity extends ListActivity implements AsyncServ
 	private boolean nfcAutoClose = false;
 	// Service resolver for Bonjour
 	private AsyncServiceResolver serviceResolver;
+	// Enable/disable openHAB discovery
+	private boolean serviceDiscoveryEnabled = true;
+	// Animation config
+	private String activityAnimation;
 
 	@Override
 	public void onStart() {
@@ -195,6 +201,12 @@ public class OpenHABWidgetListActivity extends ListActivity implements AsyncServ
 		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
 		if (settings.getBoolean("default_openhab_screentimeroff", false)) {
 			getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+		}
+		// Check if we got all needed permissions
+		PackageManager pm = getPackageManager();
+		if (!(pm.checkPermission(permission.CHANGE_WIFI_MULTICAST_STATE, getPackageName()) == PackageManager.PERMISSION_GRANTED)) {
+			showAlertDialog(getString(R.string.erorr_no_wifi_mcast_permission));
+			serviceDiscoveryEnabled = false;
 		}
 		// Get username/password from preferences
 		openHABUsername = settings.getString("default_openhab_username", null);
@@ -263,8 +275,12 @@ public class OpenHABWidgetListActivity extends ListActivity implements AsyncServ
 					if (activeNetworkInfo != null) {
 						Log.i(TAG, "Network is connected");
 						// If network is mobile, try to use remote URL
-						if (activeNetworkInfo.getType() == ConnectivityManager.TYPE_MOBILE) {
-							Log.i(TAG, "Network is Mobile (" + activeNetworkInfo.getSubtypeName() + ")");
+						if (activeNetworkInfo.getType() == ConnectivityManager.TYPE_MOBILE || serviceDiscoveryEnabled == false) {
+							if (!serviceDiscoveryEnabled) {
+								Log.i(TAG, "openHAB discovery is disabled");
+							} else {
+								Log.i(TAG, "Network is Mobile (" + activeNetworkInfo.getSubtypeName() + ")");
+							}
 							openHABBaseUrl = normalizeUrl(settings.getString("default_openhab_alturl", ""));
 							// If remote URL is configured
 							if (openHABBaseUrl.length() > 0) {
@@ -473,7 +489,7 @@ public class OpenHABWidgetListActivity extends ListActivity implements AsyncServ
 	@Override
 	public void finish() {
 		super.finish();
-//		overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);		
+		Util.overridePendingTransition(this, true);		
 	}
 	
 	@Override
@@ -646,7 +662,7 @@ public class OpenHABWidgetListActivity extends ListActivity implements AsyncServ
 					            	new OpenHABNFCActionList(OpenHABWidgetListActivity.this.selectedOpenHABWidget);
 					            writeTagIntent.putExtra("command", nfcActionList.getCommands()[which]);
 					            startActivityForResult(writeTagIntent, 0);
-					            //overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+					            Util.overridePendingTransition(OpenHABWidgetListActivity.this, false);
 					            OpenHABWidgetListActivity.this.selectedOpenHABWidget = null;
 							}
 						});
@@ -690,7 +706,7 @@ public class OpenHABWidgetListActivity extends ListActivity implements AsyncServ
             drillDownIntent.putExtra("openHABBaseUrl", openHABBaseUrl);
             drillDownIntent.putExtra("sitemapRootUrl", sitemapRootUrl);
             startActivityForResult(drillDownIntent, 0);
-            //overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+            Util.overridePendingTransition(this, false);
 		}
 	}
 	
@@ -707,7 +723,7 @@ public class OpenHABWidgetListActivity extends ListActivity implements AsyncServ
     	case R.id.mainmenu_openhab_preferences:
             Intent settingsIntent = new Intent(this.getApplicationContext(), OpenHABPreferencesActivity.class);
             startActivityForResult(settingsIntent, 0);
-            //overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+            Util.overridePendingTransition(this, false);
     		return true;
     	case R.id.mainmenu_openhab_selectsitemap:
 			SharedPreferences settings = 
@@ -742,7 +758,7 @@ public class OpenHABWidgetListActivity extends ListActivity implements AsyncServ
             Intent writeTagIntent = new Intent(this.getApplicationContext(), OpenHABWriteTagActivity.class);
             writeTagIntent.putExtra("sitemapPage", this.displayPageUrl);
             startActivityForResult(writeTagIntent, 0);
-            //overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+            Util.overridePendingTransition(this, false);
     		return true;
         default:
     		return super.onOptionsItemSelected(item);

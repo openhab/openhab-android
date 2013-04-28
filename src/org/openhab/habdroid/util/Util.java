@@ -29,6 +29,8 @@
 
 package org.openhab.habdroid.util;
 
+import org.openhab.habdroid.R;
+
 import android.app.Activity;
 import android.preference.PreferenceManager;
 
@@ -38,6 +40,19 @@ public class Util {
 			activity.setTheme(android.R.style.Theme_Holo);
 		} else {
 			activity.setTheme(android.R.style.Theme_Holo_Light);
+		}
+	}
+	
+	public static void overridePendingTransition(Activity activity, boolean reverse) {
+		if (PreferenceManager.getDefaultSharedPreferences(activity).getString("default_openhab_animation", "android").equals("android")) {
+		} else if (PreferenceManager.getDefaultSharedPreferences(activity).getString("default_openhab_animation", "android").equals("ios")) {
+			if (reverse) {
+				activity.overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+			} else {
+				activity.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);				
+			}
+		} else {
+			activity.overridePendingTransition(0, 0);
 		}
 	}
 }
