@@ -43,6 +43,8 @@ import javax.jmdns.ServiceEvent;
 import javax.jmdns.ServiceInfo;
 import javax.jmdns.ServiceListener;
 
+import com.crittercism.app.Crittercism;
+
 import android.app.Activity;
 import android.content.Context;
 import android.net.wifi.WifiManager;
@@ -73,7 +75,12 @@ public class AsyncServiceResolver extends Thread implements ServiceListener {
 		              context.getSystemService(android.content.Context.WIFI_SERVICE);
 		multicastLock = wifi.createMulticastLock("HABDroidMulticastLock");
 		multicastLock.setReferenceCounted(true);
-		multicastLock.acquire();
+		try {
+			multicastLock.acquire();
+		} catch (SecurityException e) {
+			Log.i(TAG, "Security exception during multicast lock");
+			Crittercism.logHandledException(e);
+		}
 		sleepingThread = Thread.currentThread();
 		Log.i(TAG, "Discovering service " + serviceType);
 		try {

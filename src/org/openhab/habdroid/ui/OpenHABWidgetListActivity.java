@@ -92,6 +92,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.WindowManager.BadTokenException;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.Toast;
@@ -206,6 +207,10 @@ public class OpenHABWidgetListActivity extends ListActivity implements AsyncServ
 		PackageManager pm = getPackageManager();
 		if (!(pm.checkPermission(permission.CHANGE_WIFI_MULTICAST_STATE, getPackageName()) == PackageManager.PERMISSION_GRANTED)) {
 			showAlertDialog(getString(R.string.erorr_no_wifi_mcast_permission));
+			serviceDiscoveryEnabled = false;
+		}
+		if (!(pm.checkPermission(permission.ACCESS_WIFI_STATE, getPackageName()) == PackageManager.PERMISSION_GRANTED)) {
+			showAlertDialog(getString(R.string.erorr_no_wifi_state_permission));
 			serviceDiscoveryEnabled = false;
 		}
 		// Get username/password from preferences
@@ -901,6 +906,7 @@ public class OpenHABWidgetListActivity extends ListActivity implements AsyncServ
 		List<OpenHABSitemap> sitemapList = new ArrayList<OpenHABSitemap>();
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder builder;
+		Crittercism.leaveBreadcrumb("parseSitemapList");
 		try {
 			builder = factory.newDocumentBuilder();
 			Document document;
@@ -944,6 +950,7 @@ public class OpenHABWidgetListActivity extends ListActivity implements AsyncServ
 		}
 		AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(OpenHABWidgetListActivity.this);
 		dialogBuilder.setTitle("Select sitemap");
+		try {
 		dialogBuilder.setItems(sitemapNameList.toArray(new CharSequence[sitemapNameList.size()]),
 			new DialogInterface.OnClickListener() {
 				@Override
@@ -957,6 +964,9 @@ public class OpenHABWidgetListActivity extends ListActivity implements AsyncServ
 					openSitemap(sitemapList.get(item).getHomepageLink());
 				}
 			}).show();
+		} catch (BadTokenException e) {
+			Crittercism.logHandledException(e);
+		}
 	}
 	
 	private void openSitemap(String sitemapUrl) {
