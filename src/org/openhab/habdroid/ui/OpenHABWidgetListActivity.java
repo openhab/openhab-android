@@ -47,7 +47,6 @@ import org.json.JSONObject;
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.model.OpenHABItem;
 import org.openhab.habdroid.model.OpenHABNFCActionList;
-import org.openhab.habdroid.model.OpenHABPage;
 import org.openhab.habdroid.model.OpenHABSitemap;
 import org.openhab.habdroid.model.OpenHABWidget;
 import org.openhab.habdroid.model.OpenHABWidgetDataSource;
@@ -85,7 +84,6 @@ import android.nfc.NfcAdapter;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -119,8 +117,6 @@ public class OpenHABWidgetListActivity extends ListActivity implements AsyncServ
 	private String sitemapRootUrl = "";
 	// async http client
 	private static AsyncHttpClient pageAsyncHttpClient;
-	// Sitemap pages stack for digging in and getting back
-	private ArrayList<OpenHABPage> pageStack = new ArrayList<OpenHABPage>();
 	// openHAB base url
 	private String openHABBaseUrl = "https://demo.openhab.org:8443/";
 	// List of widgets to display
@@ -128,8 +124,6 @@ public class OpenHABWidgetListActivity extends ListActivity implements AsyncServ
 	// Username/password for authentication
 	private String openHABUsername;
 	private String openHABPassword;
-	// Wiget list position
-	private int widgetListPosition = -1;
 	// openHAB Bonjour service name
 	private String openHABServiceType;
 	// openHAB page url from NFC tag
@@ -148,8 +142,6 @@ public class OpenHABWidgetListActivity extends ListActivity implements AsyncServ
 	private AsyncServiceResolver serviceResolver;
 	// Enable/disable openHAB discovery
 	private boolean serviceDiscoveryEnabled = true;
-	// Animation config
-	private String activityAnimation;
 
 	@Override
 	public void onStart() {
@@ -229,7 +221,6 @@ public class OpenHABWidgetListActivity extends ListActivity implements AsyncServ
 		// Check if we have openHAB page url in saved instance state?
 		if (savedInstanceState != null) {
 			displayPageUrl = savedInstanceState.getString("displayPageUrl");
-			pageStack = savedInstanceState.getParcelableArrayList("pageStack");
 			openHABBaseUrl = savedInstanceState.getString("openHABBaseUrl");
 			sitemapRootUrl = savedInstanceState.getString("sitemapRootUrl");
 			openHABWidgetAdapter.setOpenHABBaseUrl(openHABBaseUrl);
@@ -473,7 +464,6 @@ public class OpenHABWidgetListActivity extends ListActivity implements AsyncServ
 	  // This bundle will be passed to onCreate if the process is
 	  // killed and restarted.
 	  savedInstanceState.putString("displayPageUrl", displayPageUrl);
-	  savedInstanceState.putParcelableArrayList("pageStack", pageStack);
 	  savedInstanceState.putString("openHABBaseUrl", openHABBaseUrl);
 	  savedInstanceState.putString("sitemapRootUrl", sitemapRootUrl);
 	  super.onSaveInstanceState(savedInstanceState);
@@ -527,9 +517,6 @@ public class OpenHABWidgetListActivity extends ListActivity implements AsyncServ
 		// Cancel any existing http request to openHAB (typically ongoing long poll)
 		if (!longPolling)
 			setProgressBarIndeterminateVisibility(true);
-		if (longPolling) {
-			widgetListPosition = -1;
-		}
 		if (pageAsyncHttpClient != null) {
 			pageAsyncHttpClient.cancelRequests(this, true);
 		}
@@ -598,8 +585,6 @@ public class OpenHABWidgetListActivity extends ListActivity implements AsyncServ
 			setTitle(openHABWidgetDataSource.getTitle());
 			setProgressBarIndeterminateVisibility(false);
 			// Set widget list index to saved or zero position
-			if (this.widgetListPosition >= 0)
-				getListView().setSelection(this.widgetListPosition);
 			// This would mean we got widget and command from nfc tag, so we need to do some automatic actions!
 			if (this.nfcWidgetId != null && this.nfcCommand != null) {
 				Log.d(TAG, "Have widget and command, NFC action!");
@@ -690,7 +675,6 @@ public class OpenHABWidgetListActivity extends ListActivity implements AsyncServ
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		this.widgetListPosition = 0;
 		showPage(displayPageUrl, true);
 	}
 
@@ -776,35 +760,6 @@ public class OpenHABWidgetListActivity extends ListActivity implements AsyncServ
     		return true;
         default:
     		return super.onOptionsItemSelected(item);
-    	}
-    }
-
-    /**
-     * We run all openHAB browsing in a single activity, so we need to
-     * intercept 'Back' key to get back to previous sitemap page.
-     * If no pages in stack - simulate typical android app behaviour -
-     * exit application.
-     *
-     */
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-    	Log.d(TAG, "keyCode = " + keyCode);
-    	if (keyCode == 4) {
-    		Log.d(TAG, "This is 'back' key");
-    		if (pageStack.size() > 0) {
-    			displayPageUrl = pageStack.get(0).getPageUrl();
-//    			OpenHABWidgetListActivity.this.setSelection(pageStack.get(0).getWidgetListPosition());
-    			Log.d(TAG, String.format("onKeyDown: list position from the stack = %d", pageStack.get(0).getWidgetListPosition()));
-    			widgetListPosition = pageStack.get(0).getWidgetListPosition();
-    			pageStack.remove(0);
-    			showPage(displayPageUrl, false);
-    		} else {
-    			Log.d(TAG, "No more pages left in stack, exiting");
-    			finish();
-    		}
-    		return true;
-    	} else {
-    		return super.onKeyDown(keyCode, event);
     	}
     }
 
