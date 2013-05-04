@@ -739,11 +739,20 @@ public class OpenHABWidgetListActivity extends ListActivity implements AsyncServ
     		selectSitemap(openHABBaseUrl, true);
     		return true;
         case android.R.id.home:
-        	displayPageUrl = sitemapRootUrl;
-        	// we are navigating to root page, so clear page stack to support regular 'back' behavior for root page
-        	pageStack.clear();
-            showPage(sitemapRootUrl, false);
             Log.d(TAG, "Home selected - " + sitemapRootUrl);
+			// Get launch intent for application
+			Intent homeIntent = getBaseContext().getPackageManager()
+		             .getLaunchIntentForPackage( getBaseContext().getPackageName() );
+			homeIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+			homeIntent.setAction("org.openhab.habdroid.ui.OpwnHABWidgetListActivity");
+			homeIntent.putExtra("displayPageUrl", sitemapRootUrl);
+			homeIntent.putExtra("openHABBaseUrl", openHABBaseUrl);
+			homeIntent.putExtra("sitemapRootUrl", sitemapRootUrl);
+			// Finish current activity
+			finish();
+			// Start launch activity
+			startActivity(homeIntent);
+			Util.overridePendingTransition(this, true);		
             return true;
         case R.id.mainmenu_openhab_clearcache:
 			Log.d(TAG, "Restarting");
