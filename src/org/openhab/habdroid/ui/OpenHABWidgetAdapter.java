@@ -102,8 +102,8 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
 	public static final int TYPES_COUNT = 15;
 	private static final String TAG = "OpenHABWidgetAdapter";
 	private String openHABBaseUrl = "http://demo.openhab.org:8080/";
-	private String openHABUsername;
-	private String openHABPassword;
+	private String openHABUsername = "";
+	private String openHABPassword = "";
 	private ArrayList<VideoView> videoWidgetList;
 	private ArrayList<MySmartImageView> refreshImageList;
 
@@ -213,7 +213,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     		MySmartImageView groupImage = (MySmartImageView)widgetView.findViewById(R.id.groupimage);
     		groupImage.setImageResource(R.drawable.blank_icon);;
     		groupImage.setImageUrl(openHABBaseUrl + "images/" +
-    				openHABWidget.getIcon() + ".png");
+    				openHABWidget.getIcon() + ".png", openHABUsername, openHABPassword);
     		break;
     	case TYPE_SECTIONSWITCH:
     		labelTextView = (TextView)widgetView.findViewById(R.id.sectionswitchlabel);
@@ -271,7 +271,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     		MySmartImageView sectionSwitchImage = (MySmartImageView)widgetView.findViewById(R.id.sectionswitchimage);
     		sectionSwitchImage.setImageResource(R.drawable.blank_icon);
     		sectionSwitchImage.setImageUrl(openHABBaseUrl + "images/" +
-    				openHABWidget.getIcon() + ".png");
+    				openHABWidget.getIcon() + ".png", openHABUsername, openHABPassword);
     		break;
     	case TYPE_SWITCH:
     		labelTextView = (TextView)widgetView.findViewById(R.id.switchlabel);
@@ -303,7 +303,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     		MySmartImageView switchImage = (MySmartImageView)widgetView.findViewById(R.id.switchimage);
     		switchImage.setImageResource(R.drawable.blank_icon);
     		switchImage.setImageUrl(openHABBaseUrl + "images/" +
-    				openHABWidget.getIcon() + ".png");
+    				openHABWidget.getIcon() + ".png", openHABUsername, openHABPassword);
     		break;
     	case TYPE_COLOR:
     		labelTextView = (TextView)widgetView.findViewById(R.id.colorlabel);
@@ -361,7 +361,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     		MySmartImageView colorImage = (MySmartImageView)widgetView.findViewById(R.id.colorimage);
     		colorImage.setImageResource(R.drawable.blank_icon);
     		colorImage.setImageUrl(openHABBaseUrl + "images/" +
-    				openHABWidget.getIcon() + ".png");
+    				openHABWidget.getIcon() + ".png", openHABUsername, openHABPassword);
     		break;    		
     	case TYPE_ROLLERSHUTTER:
     		labelTextView = (TextView)widgetView.findViewById(R.id.rollershutterlabel);
@@ -406,7 +406,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     		MySmartImageView rollershutterImage = (MySmartImageView)widgetView.findViewById(R.id.rollershutterimage);
     		rollershutterImage.setImageResource(R.drawable.blank_icon);
     		rollershutterImage.setImageUrl(openHABBaseUrl + "images/" +
-    				openHABWidget.getIcon() + ".png");
+    				openHABWidget.getIcon() + ".png", openHABUsername, openHABPassword);
     		break;
     	case TYPE_TEXT:
     		labelTextView = (TextView)widgetView.findViewById(R.id.textlabel);
@@ -431,7 +431,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     		MySmartImageView textImage = (MySmartImageView)widgetView.findViewById(R.id.textimage);
     		textImage.setImageResource(R.drawable.blank_icon);
     		textImage.setImageUrl(openHABBaseUrl + "images/" +
-    				openHABWidget.getIcon() + ".png");
+    				openHABWidget.getIcon() + ".png", openHABUsername, openHABPassword);
     		break;
     	case TYPE_SLIDER:
     		labelTextView = (TextView)widgetView.findViewById(R.id.sliderlabel);
@@ -441,7 +441,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     		MySmartImageView itemImage = (MySmartImageView)widgetView.findViewById(R.id.sliderimage);
     		itemImage.setImageResource(R.drawable.blank_icon);
     		itemImage.setImageUrl(openHABBaseUrl + "images/" +
-    				openHABWidget.getIcon() + ".png");
+    				openHABWidget.getIcon() + ".png", openHABUsername, openHABPassword);
     		SeekBar sliderSeekBar = (SeekBar)widgetView.findViewById(R.id.sliderseekbar);
     		if (openHABWidget.hasItem()) {
     			sliderSeekBar.setTag(openHABWidget.getItem());
@@ -482,7 +482,8 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     		break;
     	case TYPE_IMAGE:
     		MySmartImageView imageImage = (MySmartImageView)widgetView.findViewById(R.id.imageimage);
-    		imageImage.setImageUrl(ensureAbsoluteURL(openHABBaseUrl, openHABWidget.getUrl()), false);
+    		imageImage.setImageUrl(ensureAbsoluteURL(openHABBaseUrl, openHABWidget.getUrl()), false, 
+    				openHABUsername, openHABPassword);
 //    		ViewGroup.LayoutParams imageLayoutParams = imageImage.getLayoutParams();
 //    		float imageRatio = imageImage.getDrawable().getIntrinsicWidth()/imageImage.getDrawable().getIntrinsicHeight();
 //    		imageLayoutParams.height = (int) (screenWidth/imageRatio);
@@ -507,10 +508,10 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     		Log.d(TAG, "Chart url = " + chartUrl);
     		if (chartImage == null)
     			Log.e(TAG, "chartImage == null !!!");
-    		if (openHABUsername != null && openHABPassword != null)
-    			chartImage.setImageUrl(chartUrl, false, openHABUsername, openHABPassword);
-    		else
-    			chartImage.setImageUrl(chartUrl, false);
+//    		if (openHABUsername != null && openHABPassword != null)
+   			chartImage.setImageUrl(chartUrl, false, openHABUsername, openHABPassword);
+//    		else
+//    			chartImage.setImageUrl(chartUrl, false);
     		// TODO: This is quite dirty fix to make charts look full screen width on all displays
     		ViewGroup.LayoutParams chartLayoutParams = chartImage.getLayoutParams();
     		chartLayoutParams.height = (int) (screenWidth/1.88);
@@ -609,7 +610,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     		MySmartImageView selectionImage = (MySmartImageView)widgetView.findViewById(R.id.selectionimage);
     		selectionImage.setImageResource(R.drawable.blank_icon);
     		selectionImage.setImageUrl(openHABBaseUrl + "images/" +
-    				openHABWidget.getIcon() + ".png");
+    				openHABWidget.getIcon() + ".png", openHABUsername, openHABPassword);
     		break;
     	case TYPE_SETPOINT:
     		labelTextView = (TextView)widgetView.findViewById(R.id.setpointlabel);
@@ -619,7 +620,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     		MySmartImageView setPointImage = (MySmartImageView)widgetView.findViewById(R.id.setpointimage);
     		setPointImage.setImageResource(R.drawable.blank_icon);
     		setPointImage.setImageUrl(openHABBaseUrl + "images/" +
-    				openHABWidget.getIcon() + ".png");
+    				openHABWidget.getIcon() + ".png", openHABUsername, openHABPassword);
     		TextView setPointValueTextView = (TextView)widgetView.findViewById(R.id.setpointvaluelabel);
     		if (setPointValueTextView != null) 
     			if (splitString.length > 1) {
@@ -664,7 +665,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     		MySmartImageView sliderImage = (MySmartImageView)widgetView.findViewById(R.id.itemimage);
     		sliderImage.setImageResource(R.drawable.blank_icon);
     		sliderImage.setImageUrl(openHABBaseUrl + "images/" +
-    				openHABWidget.getIcon() + ".png");
+    				openHABWidget.getIcon() + ".png", openHABUsername, openHABPassword);
     		break;
     	}
     	LinearLayout dividerLayout = (LinearLayout)widgetView.findViewById(R.id.listdivider);
