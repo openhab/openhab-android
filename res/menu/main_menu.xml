@@ -12,4 +12,10 @@
     <item android:id="@+id/mainmenu_openhab_clearcache"
           android:title="@string/mainmenu_openhab_clearcache"
           />
+<!--    <item
+            android:id="@+id/action_refresh"
+            android:orderInCategory="100"
+            android:showAsAction="always"
+            android:icon="@drawable/ic_action_mic"
+            android:title="Voice Recognition"/> -->
 </menu>

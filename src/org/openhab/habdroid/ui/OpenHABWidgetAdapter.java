@@ -122,8 +122,8 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     	final RelativeLayout widgetView;
 		TextView labelTextView;
 		TextView valueTextView;
-    	int widgetLayout = 0;
-    	String[] splitString = {};
+    	int widgetLayout;
+    	String[] splitString;
     	OpenHABWidget openHABWidget = getItem(position);
     	int screenWidth = ((WindowManager)getContext().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getWidth();
     	switch (this.getItemViewType(position)) {
@@ -713,6 +713,8 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
 			StringEntity se = new StringEntity(command);
 			asyncHttpClient.post(null, item.getLink(), se, "text/plain", new AsyncHttpResponseHandler());
 		} catch (UnsupportedEncodingException e) {
+            if (e != null)
+                Log.e(TAG, e.getMessage());
 		}
     }
 

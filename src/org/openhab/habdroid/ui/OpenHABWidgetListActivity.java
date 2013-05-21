@@ -172,6 +172,8 @@ public class OpenHABWidgetListActivity extends ListActivity implements AsyncServ
 			PreferenceManager.getDefaultSharedPreferences(this).edit().putString("default_openhab_appversion",
 					getPackageManager().getPackageInfo(getPackageName(), 0).versionName).commit();
 		} catch (NameNotFoundException e1) {
+            if (e1 != null)
+                Log.d(TAG, e1.getMessage());
 		}
 		// Set the theme to one from preferences
 		Util.setActivityTheme(this);
@@ -237,6 +239,7 @@ public class OpenHABWidgetListActivity extends ListActivity implements AsyncServ
                     displayPageUrl = getIntent().getExtras().getString("displayPageUrl");
                     openHABBaseUrl = getIntent().getExtras().getString("openHABBaseUrl");
                     sitemapRootUrl = getIntent().getExtras().getString("sitemapRootUrl");
+                    this.setTitle(getIntent().getExtras().getString("pageTitle"));
                     openHABWidgetAdapter.setOpenHABBaseUrl(openHABBaseUrl);
                 }
             }
@@ -446,7 +449,7 @@ public class OpenHABWidgetListActivity extends ListActivity implements AsyncServ
 			}
 			Log.d(TAG, "Should go to " + newPageUrl);
 			if (pushCurrentToStack)
-				navigateToPage(newPageUrl);
+				navigateToPage(newPageUrl, "");
 			else
 				openSitemap(newPageUrl);
 		}		
@@ -660,7 +663,9 @@ public class OpenHABWidgetListActivity extends ListActivity implements AsyncServ
 					OpenHABWidget openHABWidget = openHABWidgetAdapter.getItem(position);
 					if (openHABWidget.hasLinkedPage()) {
 						// Widget have a page linked to it
-						navigateToPage(openHABWidget.getLinkedPage().getLink());
+                        String[] splitString;
+                        splitString = openHABWidget.getLinkedPage().getTitle().split("\\[|\\]");
+                        navigateToPage(openHABWidget.getLinkedPage().getLink(), splitString[0]);
 					}
 				}
 				
@@ -716,7 +721,7 @@ public class OpenHABWidgetListActivity extends ListActivity implements AsyncServ
 	/*
 	 * Put current page and current widget list position into the stack and go to new page
 	 */
-	private void navigateToPage(String pageLink) {
+	private void navigateToPage(String pageLink, String pageTitle) {
 		// We don't want to put current page to stack if navigateToPage is trying to go to the same page
 		if (!pageLink.equals(displayPageUrl)) {
             Intent drillDownIntent = new Intent(OpenHABWidgetListActivity.this.getApplicationContext(),
@@ -725,6 +730,7 @@ public class OpenHABWidgetListActivity extends ListActivity implements AsyncServ
             drillDownIntent.putExtra("displayPageUrl", pageLink);
             drillDownIntent.putExtra("openHABBaseUrl", openHABBaseUrl);
             drillDownIntent.putExtra("sitemapRootUrl", sitemapRootUrl);
+            drillDownIntent.putExtra("pageTitle", pageTitle);
             startActivityForResult(drillDownIntent, 0);
             Util.overridePendingTransition(this, false);
 		}
