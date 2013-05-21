@@ -68,12 +68,12 @@ public class MySmartImageView extends SmartImageView {
     
     public void setImageUrl(String url, final Integer fallbackResource) {
     	this.myImageUrl = url;
-        setImage(new MyWebImage(url), fallbackResource);
+        setImage(new MyWebImage(url), fallbackResource, null);
     }
 
     public void setImageUrl(String url, final Integer fallbackResource, String username, String password) {
     	this.myImageUrl = url;
-        setImage(new MyWebImage(url, username, password), fallbackResource);
+        setImage(new MyWebImage(url, username, password), fallbackResource, null);
     }
     
     public void setImageUrl(String url, final Integer fallbackResource, final Integer loadingResource) {

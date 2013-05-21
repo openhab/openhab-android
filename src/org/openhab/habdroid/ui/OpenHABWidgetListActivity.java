@@ -42,6 +42,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import android.view.*;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.openhab.habdroid.R;
@@ -84,12 +85,6 @@ import android.nfc.NfcAdapter;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.view.WindowManager.BadTokenException;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemLongClickListener;
@@ -237,12 +232,14 @@ public class OpenHABWidgetListActivity extends ListActivity implements AsyncServ
 		}
 		// Check if this is a launch from myself (drill down navigation)
 		if (getIntent() != null) {
-			if (getIntent().getAction().equals("org.openhab.habdroid.ui.OpwnHABWidgetListActivity")) {
-				displayPageUrl = getIntent().getExtras().getString("displayPageUrl");
-				openHABBaseUrl = getIntent().getExtras().getString("openHABBaseUrl");
-				sitemapRootUrl = getIntent().getExtras().getString("sitemapRootUrl");
-				openHABWidgetAdapter.setOpenHABBaseUrl(openHABBaseUrl);
-			}
+            if (getIntent().getAction() != null) {
+                if (getIntent().getAction().equals("org.openhab.habdroid.ui.OpwnHABWidgetListActivity")) {
+                    displayPageUrl = getIntent().getExtras().getString("displayPageUrl");
+                    openHABBaseUrl = getIntent().getExtras().getString("openHABBaseUrl");
+                    sitemapRootUrl = getIntent().getExtras().getString("sitemapRootUrl");
+                    openHABWidgetAdapter.setOpenHABBaseUrl(openHABBaseUrl);
+                }
+            }
 		}
 		// If yes, then just go to it (means restore activity from it's saved state)
 		if (displayPageUrl.length() > 0) {
@@ -253,10 +250,12 @@ public class OpenHABWidgetListActivity extends ListActivity implements AsyncServ
 			if (getIntent() != null) {
 				Log.i(TAG, "Launch intent = " + getIntent().getAction());
 				// If this is a launch through NFC tag reading
-				if (getIntent().getAction().equals("android.nfc.action.NDEF_DISCOVERED")) {
-					// Save url which we got from NFC tag
-					nfcTagData = getIntent().getDataString();
-				}
+                if (getIntent().getAction() != null) {
+                    if (getIntent().getAction().equals("android.nfc.action.NDEF_DISCOVERED")) {
+                        // Save url which we got from NFC tag
+                        nfcTagData = getIntent().getDataString();
+                    }
+                }
 			}
 			// If we are in demo mode, ignore all settings and use demo url from strings
 			if (settings.getBoolean("default_openhab_demomode", false)) {
@@ -341,7 +340,6 @@ public class OpenHABWidgetListActivity extends ListActivity implements AsyncServ
 	 * This method is called by AsyncServiceResolver in case of successful service discovery
 	 * to start connection with local openHAB instance
 	 */
-	@Override
 	public void onServiceResolved(ServiceInfo serviceInfo) {
 		Log.i(TAG, "Service resolved: "
                 + serviceInfo.getHostAddresses()[0]
@@ -390,7 +388,6 @@ public class OpenHABWidgetListActivity extends ListActivity implements AsyncServ
 	 * This method is called by AsyncServiceResolver in case of discovery failure
 	 * to start alternate connection through remote url (if configured)
 	 */
-	@Override
 	public void onServiceResolveFailed() {
 		if (progressDialog.isShowing())
 			progressDialog.dismiss();
@@ -657,7 +654,6 @@ public class OpenHABWidgetListActivity extends ListActivity implements AsyncServ
 				}
 			}
 			getListView().setOnItemClickListener(new OnItemClickListener() {
-				@Override
 				public void onItemClick(AdapterView<?> parent, View view, int position,
 						long id) {
 					Log.d(TAG, "Widget clicked " + String.valueOf(position));
@@ -670,7 +666,6 @@ public class OpenHABWidgetListActivity extends ListActivity implements AsyncServ
 				
 			});
 			getListView().setOnItemLongClickListener(new OnItemLongClickListener() {
-				@Override
 				public boolean onItemLongClick(AdapterView<?> parent, View view,
 						int position, long id) {
 					Log.d(TAG, "Widget long-clicked " + String.valueOf(position));
@@ -683,7 +678,6 @@ public class OpenHABWidgetListActivity extends ListActivity implements AsyncServ
 						builder.setTitle(R.string.nfc_dialog_title);
 						OpenHABNFCActionList nfcActionList = new OpenHABNFCActionList(OpenHABWidgetListActivity.this.selectedOpenHABWidget);
 						builder.setItems(nfcActionList.getNames(), new DialogInterface.OnClickListener() {
-							@Override
 							public void onClick(DialogInterface dialog, int which) {
 					            Intent writeTagIntent = new Intent(OpenHABWidgetListActivity.this.getApplicationContext(),
 					            		OpenHABWriteTagActivity.class);
@@ -735,6 +729,24 @@ public class OpenHABWidgetListActivity extends ListActivity implements AsyncServ
             Util.overridePendingTransition(this, false);
 		}
 	}
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent event) {
+        Log.d(TAG, event.toString());
+        Log.d(TAG, String.format("event action = %d", event.getAction()));
+        return super.dispatchTouchEvent(event);
+    }
+
+    @Override
+    public boolean onKeyLongPress(int keyCode, KeyEvent event) {
+        Log.d(TAG, "keyCode = " + String.format("%d", keyCode));
+        Log.d(TAG, "event = " + event.toString());
+        if (keyCode == 4) {
+            return true;
+        } else {
+            return super.onKeyLongPress(keyCode, event);
+        }
+    }
 	
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -804,7 +816,7 @@ public class OpenHABWidgetListActivity extends ListActivity implements AsyncServ
      * Get sitemaps from openHAB, if user already configured preffered sitemap
      * just open it. If no preffered sitemap is configured - let user select one.
      *
-     * @param  baseUrl  an absolute base URL of openHAB to open
+     * @param  baseURL  an absolute base URL of openHAB to open
      * @return      void
      */
 
@@ -954,7 +966,6 @@ public class OpenHABWidgetListActivity extends ListActivity implements AsyncServ
 		try {
 		dialogBuilder.setItems(sitemapNameList.toArray(new CharSequence[sitemapNameList.size()]),
 			new DialogInterface.OnClickListener() {
-				@Override
 				public void onClick(DialogInterface dialog, int item) {
 					Log.d(TAG, "Selected sitemap " + sitemapNameList.get(item));
 					SharedPreferences settings = 

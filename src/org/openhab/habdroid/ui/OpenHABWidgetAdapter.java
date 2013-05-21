@@ -118,8 +118,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     @SuppressWarnings("deprecation")
 	@Override
     public View getView(int position, View convertView, ViewGroup parent) {
-    	/* TODO: This definitely needs some huge refactoring
-    	 */
+    	/* TODO: This definitely needs some huge refactoring */
     	final RelativeLayout widgetView;
 		TextView labelTextView;
 		TextView valueTextView;
@@ -183,6 +182,18 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     	} else {
     		widgetView = (RelativeLayout) convertView;
     	}
+        // Process widgets icon image
+        MySmartImageView widgetImage = (MySmartImageView)widgetView.findViewById(R.id.widgetimage);
+        // Some of widgets, for example Frame doesnt' have an icon, so...
+        if (widgetImage != null) {
+            /* TODO: This need a fix inside smart image not to mess non existing icons
+               instead of blinking them all blank before loading... */
+            if (openHABWidget.getIcon() != null) {
+            //    widgetImage.setImageResource(R.drawable.blank_icon);
+                widgetImage.setImageUrl(openHABBaseUrl + "images/" +
+                        openHABWidget.getIcon() + ".png", R.drawable.blank_icon, openHABUsername, openHABPassword);
+            }
+        }
     	switch (getItemViewType(position)) {
     	case TYPE_FRAME:
     		labelTextView = (TextView)widgetView.findViewById(R.id.framelabel);
@@ -210,10 +221,6 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     				valueTextView.setText("");
     			}
     		}
-    		MySmartImageView groupImage = (MySmartImageView)widgetView.findViewById(R.id.groupimage);
-    		groupImage.setImageResource(R.drawable.blank_icon);;
-    		groupImage.setImageUrl(openHABBaseUrl + "images/" +
-    				openHABWidget.getIcon() + ".png", openHABUsername, openHABPassword);
     		break;
     	case TYPE_SECTIONSWITCH:
     		labelTextView = (TextView)widgetView.findViewById(R.id.sectionswitchlabel);
@@ -256,7 +263,6 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     			sectionSwitchRadioGroup.addView(segmentedControlButton);
     		}
     		sectionSwitchRadioGroup.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-				@Override
 				public void onCheckedChanged(RadioGroup group, int checkedId) {
 					OpenHABWidget radioWidget = (OpenHABWidget)group.getTag();
 					SegmentedControlButton selectedButton = (SegmentedControlButton)group.findViewById(checkedId);
@@ -268,10 +274,6 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
 					}
 				}
     		});
-    		MySmartImageView sectionSwitchImage = (MySmartImageView)widgetView.findViewById(R.id.sectionswitchimage);
-    		sectionSwitchImage.setImageResource(R.drawable.blank_icon);
-    		sectionSwitchImage.setImageUrl(openHABBaseUrl + "images/" +
-    				openHABWidget.getIcon() + ".png", openHABUsername, openHABPassword);
     		break;
     	case TYPE_SWITCH:
     		labelTextView = (TextView)widgetView.findViewById(R.id.switchlabel);
@@ -287,7 +289,6 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     		}
     		switchSwitch.setTag(openHABWidget.getItem());
     		switchSwitch.setOnTouchListener(new OnTouchListener() {
-				@Override
 				public boolean onTouch(View v, MotionEvent motionEvent) {
 					Switch switchSwitch = (Switch)v;
 					OpenHABItem linkedItem = (OpenHABItem)switchSwitch.getTag();
@@ -299,11 +300,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
 						}
 					return false;
 				}
-    		});
-    		MySmartImageView switchImage = (MySmartImageView)widgetView.findViewById(R.id.switchimage);
-    		switchImage.setImageResource(R.drawable.blank_icon);
-    		switchImage.setImageUrl(openHABBaseUrl + "images/" +
-    				openHABWidget.getIcon() + ".png", openHABUsername, openHABPassword);
+                		});
     		break;
     	case TYPE_COLOR:
     		labelTextView = (TextView)widgetView.findViewById(R.id.colorlabel);
@@ -316,7 +313,6 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     		colorDownButton.setTag(openHABWidget.getItem());
     		colorColorButton.setTag(openHABWidget.getItem());
     		colorUpButton.setOnTouchListener(new OnTouchListener() {
-				@Override
 				public boolean onTouch(View v, MotionEvent motionEvent) {
 					ImageButton colorButton = (ImageButton)v;
 					OpenHABItem colorItem = (OpenHABItem)colorButton.getTag();
@@ -324,9 +320,8 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
 						sendItemCommand(colorItem, "ON");
 					return false;
 				}
-    		});
+            });
     		colorDownButton.setOnTouchListener(new OnTouchListener() {
-				@Override
 				public boolean onTouch(View v, MotionEvent motionEvent) {
 					ImageButton colorButton = (ImageButton)v;
 					OpenHABItem colorItem = (OpenHABItem)colorButton.getTag();
@@ -334,16 +329,14 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
 						sendItemCommand(colorItem, "OFF");
 					return false;
 				}
-    		});
+                		});
     		colorColorButton.setOnTouchListener(new OnTouchListener() {
-				@Override
 				public boolean onTouch(View v, MotionEvent motionEvent) {
 					ImageButton colorButton = (ImageButton)v;
 					OpenHABItem colorItem = (OpenHABItem)colorButton.getTag();
 					if (motionEvent.getActionMasked() == MotionEvent.ACTION_UP) {
 						Log.d(TAG, "Time to launch color picker!");
 						ColorPickerDialog colorDialog = new ColorPickerDialog(widgetView.getContext(), new OnColorChangedListener() {
-							@Override
 							public void colorChanged(float[] hsv, View v) {
 								Log.d(TAG, "New color HSV = " + hsv[0] + ", " + hsv[1] + ", " +
 										hsv[2]);
@@ -357,12 +350,8 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
 					}
 					return false;
 				}
-    		});
-    		MySmartImageView colorImage = (MySmartImageView)widgetView.findViewById(R.id.colorimage);
-    		colorImage.setImageResource(R.drawable.blank_icon);
-    		colorImage.setImageUrl(openHABBaseUrl + "images/" +
-    				openHABWidget.getIcon() + ".png", openHABUsername, openHABPassword);
-    		break;    		
+                		});
+    		break;
     	case TYPE_ROLLERSHUTTER:
     		labelTextView = (TextView)widgetView.findViewById(R.id.rollershutterlabel);
     		if (labelTextView != null)
@@ -374,7 +363,6 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     		rollershutterStopButton.setTag(openHABWidget.getItem());
     		rollershutterDownButton.setTag(openHABWidget.getItem());
     		rollershutterUpButton.setOnTouchListener(new OnTouchListener() {
-				@Override
 				public boolean onTouch(View v, MotionEvent motionEvent) {
 					ImageButton rollershutterButton = (ImageButton)v;
 					OpenHABItem rollershutterItem = (OpenHABItem)rollershutterButton.getTag();
@@ -382,9 +370,8 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
 						sendItemCommand(rollershutterItem, "UP");
 					return false;
 				}
-    		});
+                		});
     		rollershutterStopButton.setOnTouchListener(new OnTouchListener() {
-				@Override
 				public boolean onTouch(View v, MotionEvent motionEvent) {
 					ImageButton rollershutterButton = (ImageButton)v;
 					OpenHABItem rollershutterItem = (OpenHABItem)rollershutterButton.getTag();
@@ -392,9 +379,8 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
 						sendItemCommand(rollershutterItem, "STOP");
 					return false;
 				}
-    		});
+                		});
     		rollershutterDownButton.setOnTouchListener(new OnTouchListener() {
-				@Override
 				public boolean onTouch(View v, MotionEvent motionEvent) {
 					ImageButton rollershutterButton = (ImageButton)v;
 					OpenHABItem rollershutterItem = (OpenHABItem)rollershutterButton.getTag();
@@ -402,11 +388,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
 						sendItemCommand(rollershutterItem, "DOWN");
 					return false;
 				}
-    		});
-    		MySmartImageView rollershutterImage = (MySmartImageView)widgetView.findViewById(R.id.rollershutterimage);
-    		rollershutterImage.setImageResource(R.drawable.blank_icon);
-    		rollershutterImage.setImageUrl(openHABBaseUrl + "images/" +
-    				openHABWidget.getIcon() + ".png", openHABUsername, openHABPassword);
+                		});
     		break;
     	case TYPE_TEXT:
     		labelTextView = (TextView)widgetView.findViewById(R.id.textlabel);
@@ -428,20 +410,12 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     				valueTextView.setVisibility(View.GONE);
     				valueTextView.setText("");
     			}
-    		MySmartImageView textImage = (MySmartImageView)widgetView.findViewById(R.id.textimage);
-    		textImage.setImageResource(R.drawable.blank_icon);
-    		textImage.setImageUrl(openHABBaseUrl + "images/" +
-    				openHABWidget.getIcon() + ".png", openHABUsername, openHABPassword);
     		break;
     	case TYPE_SLIDER:
     		labelTextView = (TextView)widgetView.findViewById(R.id.sliderlabel);
     		splitString = openHABWidget.getLabel().split("\\[|\\]");
     		if (labelTextView != null)
     			labelTextView.setText(splitString[0]);
-    		MySmartImageView itemImage = (MySmartImageView)widgetView.findViewById(R.id.sliderimage);
-    		itemImage.setImageResource(R.drawable.blank_icon);
-    		itemImage.setImageUrl(openHABBaseUrl + "images/" +
-    				openHABWidget.getIcon() + ".png", openHABUsername, openHABPassword);
     		SeekBar sliderSeekBar = (SeekBar)widgetView.findViewById(R.id.sliderseekbar);
     		if (openHABWidget.hasItem()) {
     			sliderSeekBar.setTag(openHABWidget.getItem());
@@ -461,15 +435,12 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     			}
     			sliderSeekBar.setProgress(sliderState);
     			sliderSeekBar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
-						@Override
 						public void onProgressChanged(SeekBar seekBar,
 								int progress, boolean fromUser) {
 						}
-						@Override
 						public void onStartTrackingTouch(SeekBar seekBar) {
 							Log.d(TAG, "onStartTrackingTouch position = " + seekBar.getProgress());
 						}
-						@Override
 						public void onStopTrackingTouch(SeekBar seekBar) {
 							Log.d(TAG, "onStopTrackingTouch position = " + seekBar.getProgress());
 							OpenHABItem sliderItem = (OpenHABItem)seekBar.getTag();
@@ -575,8 +546,6 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     			selectionSpinner.setSelection(spinnerSelectedIndex);
     		
     		selectionSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
-
-    			@Override
 				public void onItemSelected(AdapterView<?> parent, View view,
 						int index, long id) {
 					Log.d(TAG, "Spinner item click on index " + index);
@@ -603,24 +572,15 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
 //								openHABWidget.getMapping(index).getCommand());
 				}
 
-				@Override
 				public void onNothingSelected(AdapterView<?> arg0) {
 				}    			
     		});
-    		MySmartImageView selectionImage = (MySmartImageView)widgetView.findViewById(R.id.selectionimage);
-    		selectionImage.setImageResource(R.drawable.blank_icon);
-    		selectionImage.setImageUrl(openHABBaseUrl + "images/" +
-    				openHABWidget.getIcon() + ".png", openHABUsername, openHABPassword);
     		break;
     	case TYPE_SETPOINT:
     		labelTextView = (TextView)widgetView.findViewById(R.id.setpointlabel);
     		splitString = openHABWidget.getLabel().split("\\[|\\]");
     		if (labelTextView != null)
     			labelTextView.setText(splitString[0]);
-    		MySmartImageView setPointImage = (MySmartImageView)widgetView.findViewById(R.id.setpointimage);
-    		setPointImage.setImageResource(R.drawable.blank_icon);
-    		setPointImage.setImageUrl(openHABBaseUrl + "images/" +
-    				openHABWidget.getIcon() + ".png", openHABUsername, openHABPassword);
     		TextView setPointValueTextView = (TextView)widgetView.findViewById(R.id.setpointvaluelabel);
     		if (setPointValueTextView != null) 
     			if (splitString.length > 1) {
@@ -633,7 +593,6 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     		setPointMinusButton.setTag(openHABWidget);
     		setPointPlusButton.setTag(openHABWidget);
     		setPointMinusButton.setOnClickListener(new OnClickListener() {
-				@Override
 				public void onClick(View v) {
 					Log.d(TAG, "Minus");
 					OpenHABWidget setPointWidget = (OpenHABWidget)v.getTag();
@@ -641,31 +600,30 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
 					currentValue = currentValue - setPointWidget.getStep();
 					if (currentValue < setPointWidget.getMinValue())
 						currentValue = setPointWidget.getMinValue();
+                    if (currentValue > setPointWidget.getMaxValue())
+                        currentValue = setPointWidget.getMaxValue();
 					sendItemCommand(setPointWidget.getItem(), String.valueOf(currentValue));
 
 				}
-    		});
+                		});
     		setPointPlusButton.setOnClickListener(new OnClickListener() {
-				@Override
 				public void onClick(View v) {
 					Log.d(TAG,"Plus");
 					OpenHABWidget setPointWidget = (OpenHABWidget)v.getTag();
 					float currentValue = Float.valueOf(setPointWidget.getItem().getState()).floatValue();
 					currentValue = currentValue + setPointWidget.getStep();
+                    if (currentValue < setPointWidget.getMinValue())
+                        currentValue = setPointWidget.getMinValue();
 					if (currentValue > setPointWidget.getMaxValue())
 						currentValue = setPointWidget.getMaxValue();
 					sendItemCommand(setPointWidget.getItem(), String.valueOf(currentValue));
 				}
-    		});
+                		});
     		break;
     	default:
     		labelTextView = (TextView)widgetView.findViewById(R.id.itemlabel);
     		if (labelTextView != null)
     			labelTextView.setText(openHABWidget.getLabel());
-    		MySmartImageView sliderImage = (MySmartImageView)widgetView.findViewById(R.id.itemimage);
-    		sliderImage.setImageResource(R.drawable.blank_icon);
-    		sliderImage.setImageUrl(openHABBaseUrl + "images/" +
-    				openHABWidget.getIcon() + ".png", openHABUsername, openHABPassword);
     		break;
     	}
     	LinearLayout dividerLayout = (LinearLayout)widgetView.findViewById(R.id.listdivider);

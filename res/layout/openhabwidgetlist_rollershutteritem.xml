@@ -17,7 +17,7 @@
         android:paddingBottom="6dip" 
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" 
-        android:id="@+id/rollershutterimage"
+        android:id="@+id/widgetimage"
 		android:minHeight="50dip"
 		android:minWidth="50dip"
 		android:maxHeight="50dip"
