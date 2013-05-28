@@ -36,6 +36,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 import javax.jmdns.ServiceInfo;
 import javax.xml.parsers.DocumentBuilder;
@@ -904,7 +905,7 @@ public class OpenHABWidgetListActivity extends ListActivity implements AsyncServ
 	private void stopProgressIndicator() {
 		setProgressBarIndeterminateVisibility(false);
 	}
-	
+
 	private boolean sitemapExists(List<OpenHABSitemap> sitemapList, String sitemapName) {
 		for (int i=0; i<sitemapList.size(); i++) {
 			if (sitemapList.get(i).getName().equals(sitemapName))

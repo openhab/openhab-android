@@ -57,6 +57,7 @@ public class OpenHABWidget {
 	private OpenHABLinkedPage linkedPage;
 	private ArrayList<OpenHABWidget> children;
 	private ArrayList<OpenHABWidgetMapping> mappings;
+    private boolean mChildrenHasLinkedPages = false;
 	
 	public OpenHABWidget() {
 		this.children = new ArrayList<OpenHABWidget>();
@@ -274,5 +275,25 @@ public class OpenHABWidget {
 	public void setId(String id) {
 		this.id = id;
 	}
-	
+
+    public boolean childrenHasLinkedPages() {
+        if (this.hasChildren()) {
+            for (OpenHABWidget w : this.getChildren()) {
+                if (w.hasLinkedPage())
+                    return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean childrenHasNonlinkedPages() {
+        if (this.hasChildren()) {
+            for (OpenHABWidget w : this.getChildren()) {
+                if (!w.hasLinkedPage())
+                    return true;
+            }
+        }
+        return false;
+    }
+
 }

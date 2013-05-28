@@ -112,8 +112,48 @@ public class OpenHABWidgetDataSource {
 		}
 		return result;
 	}
-	
-	public void logWidget(OpenHABWidget widget) {
+
+    public ArrayList<OpenHABWidget> getLinkWidgets() {
+        ArrayList<OpenHABWidget> result = new ArrayList<OpenHABWidget>();
+        if (rootWidget != null)
+            if (this.rootWidget.hasChildren()) {
+                for (int i = 0; i < rootWidget.getChildren().size(); i++) {
+                    OpenHABWidget openHABWidget = this.rootWidget.getChildren().get(i);
+                    if (openHABWidget.hasLinkedPage() || openHABWidget.childrenHasLinkedPages())
+                    result.add(openHABWidget);
+                    if (openHABWidget.hasChildren()) {
+                        for (int j = 0; j < openHABWidget.getChildren().size(); j++) {
+                            if (openHABWidget.getChildren().get(j).hasLinkedPage())
+                                result.add(openHABWidget.getChildren().get(j));
+                        }
+                    }
+                }
+            }
+        return result;
+    }
+
+    public ArrayList<OpenHABWidget> getNonlinkWidgets() {
+        ArrayList<OpenHABWidget> result = new ArrayList<OpenHABWidget>();
+        if (rootWidget != null)
+            if (this.rootWidget.hasChildren()) {
+                for (int i = 0; i < rootWidget.getChildren().size(); i++) {
+                    OpenHABWidget openHABWidget = this.rootWidget.getChildren().get(i);
+                    if ((openHABWidget.getType().equals("Frame") && openHABWidget.childrenHasNonlinkedPages()) ||
+                            (!openHABWidget.getType().equals("Frame") && !openHABWidget.hasLinkedPage()))
+                        result.add(openHABWidget);
+                    if (openHABWidget.hasChildren()) {
+                        for (int j = 0; j < openHABWidget.getChildren().size(); j++) {
+                            if (!openHABWidget.getChildren().get(j).hasLinkedPage())
+                                result.add(openHABWidget.getChildren().get(j));
+                        }
+                    }
+                }
+            }
+        return result;
+    }
+
+
+    public void logWidget(OpenHABWidget widget) {
 		Log.i(TAG, "Widget <" + widget.getLabel() + "> (" + widget.getType() + ")");
 		if (widget.hasChildren()) {
 			for (int i = 0; i < widget.getChildren().size(); i++) {
@@ -124,8 +164,11 @@ public class OpenHABWidgetDataSource {
 
 	public String getTitle() {
 		String[] splitString;
-		splitString = title.split("\\[|\\]");
-		return splitString[0];
+        if (title != null) {
+    		splitString = title.split("\\[|\\]");
+		    return splitString[0];
+        }
+        return "";
 	}
 
 	public void setTitle(String title) {

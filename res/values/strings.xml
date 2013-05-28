@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- General app strings -->
     <string name="app_name">HABDroid</string>
     <string name="openhab_service_type">_openhab-server-ssl._tcp.local.</string>
     <string name="openhab_demo_url">https://demo.openhab.org:8443/</string>
     <string name="app_preferences_name">Settings</string>
+    <!-- Main menu items -->
     <string name="mainmenu_openhab_preferences">Settings</string>
     <string name="mainmenu_openhab_selectsitemap">Select sitemap</string>
     <string name="mainmenu_openhab_writetag">Write NFC tag</string>
     <string name="mainmenu_openhab_clearcache">Clear images cache</string>
+    <!-- App settings strings -->
     <string name="settings_title">HABDroid Settings</string>
     <string name="settings_openhab_url">openHAB URL</string>
     <string name="settings_openhab_url_summary">Manually configured openHAB URL. Disables autodiscovery if configured.</string>
@@ -24,6 +27,9 @@
     <string name="settings_openhab_theme">HABDroid Theme</string>
     <string name="settings_openhab_animation">Animation style</string>
     <string name="settings_openhab_appversion">HABDroid Version</string>
+    <string name="settings_openhab_sslhost">Ignore SSL hostname</string>
+    <string name="settings_openhab_sslhost_summary">Ignore SSL hostname check during initial handshake</string>
+    <!-- App messages strings -->
     <string name="info_demo_mode">HABDroid is running in demo mode. To connect to your openHAB please go to settings menu.</string>
     <string name="info_conn_url">Connecting to configured URL</string>
     <string name="info_conn_rem_url">Connecting to remote URL</string>
@@ -45,4 +51,10 @@
     <string name="action_settings">Settings</string>
     <string name="nfc_dialog_title">Please select NFC tag action</string>
     <string name="info_not_set">Not set</string>
+    <!-- Strings for MemorizingTrustManager activity -->
+    <string name="mtm_accept_cert">Accept Unknown Certificate?</string>
+    <string name="mtm_decision_always">Always</string>
+    <string name="mtm_decision_once">Once</string>
+    <string name="mtm_decision_abort">Abort</string>
+    <string name="mtm_notification">Certificate Verification</string>
 </resources>

@@ -53,55 +53,65 @@ import android.util.Log;
 
 public class AsyncServiceResolver extends Thread implements ServiceListener {
 	private final static String TAG = "AsyncServiceResolver";
-	private Context context;
+	private Context mCtx;
 	// Multicast lock for mDNS
-	private MulticastLock multicastLock;
+	private MulticastLock mMulticastLock;
 	// mDNS service
-	private JmDNS jmdns;
-	private String serviceType;
-	private ServiceInfo resolvedServiceInfo;
-	private static Thread sleepingThread;
-	private boolean isResolved = false;
+	private JmDNS mJmdns;
+	private String mServiceType;
+	private ServiceInfo mResolvedServiceInfo;
+	private static Thread mSleepingThread;
+	private boolean mIsResolved = false;
+    private AsyncServiceResolverListener mListener;
+    private final static int mDefaultDiscoveryTimeout = 3000;
 	
 	public AsyncServiceResolver(Context context, String serviceType) {
 		super();
-		this.context = context;
-		this.serviceType = serviceType;
+		mCtx = context;
+		mServiceType = serviceType;
+        if (context instanceof AsyncServiceResolverListener)
+            mListener = (AsyncServiceResolverListener)context;
 	}
-	
-	public void run() {
+
+    public AsyncServiceResolver(Context context, AsyncServiceResolverListener listener, String serviceType) {
+        super();
+        mCtx = context;
+        mServiceType = serviceType;
+        mListener = listener;
+    }
+
+    public void run() {
 		WifiManager wifi =
 		           (android.net.wifi.WifiManager)
-		              context.getSystemService(android.content.Context.WIFI_SERVICE);
-		multicastLock = wifi.createMulticastLock("HABDroidMulticastLock");
-		multicastLock.setReferenceCounted(true);
+		              mCtx.getSystemService(android.content.Context.WIFI_SERVICE);
+		mMulticastLock = wifi.createMulticastLock("HABDroidMulticastLock");
+		mMulticastLock.setReferenceCounted(true);
 		try {
-			multicastLock.acquire();
+			mMulticastLock.acquire();
 		} catch (SecurityException e) {
 			Log.i(TAG, "Security exception during multicast lock");
 			Crittercism.logHandledException(e);
 		}
-		sleepingThread = Thread.currentThread();
-		Log.i(TAG, "Discovering service " + serviceType);
+		mSleepingThread = Thread.currentThread();
+		Log.i(TAG, "Discovering service " + mServiceType);
 		try {
 //			Log.i(TAG, "Local IP:"  + getLocalIpv4Address().getHostAddress().toString());
 			/* TODO: This is a dirty fix of some crazy ipv6 incompatibility
-			   This workaround makes jmdns work on local ipv4 address an thus
+			   This workaround makes JMDNS work on local ipv4 address an thus
 			   discover openHAB on ipv4 address. This should be fixed to fully
 			   support ipv6 in future. */
-			jmdns = JmDNS.create(getLocalIpv4Address());
-			jmdns.addServiceListener(serviceType, this);
+			mJmdns = JmDNS.create(getLocalIpv4Address());
+			mJmdns.addServiceListener(mServiceType, this);
 		} catch (IOException e) {
 			Log.e(TAG, e.getMessage());
 		}
 		try {
-			// Sleep for 3 second
-			Thread.sleep(3000);
-			if (!isResolved) {
-				((Activity)context).runOnUiThread(new Runnable() {
-					@Override
+			// Sleep for specified timeout
+			Thread.sleep(mDefaultDiscoveryTimeout);
+			if (!mIsResolved) {
+				((Activity) mCtx).runOnUiThread(new Runnable() {
 					public void run() {
-						((AsyncServiceResolverListener)context).onServiceResolveFailed();
+						mListener.onServiceResolveFailed();
 					}
 				});
 				shutdown();
@@ -110,36 +120,32 @@ public class AsyncServiceResolver extends Thread implements ServiceListener {
 		}
 	}
 
-	@Override
 	public void serviceAdded(ServiceEvent event) {
-		jmdns.requestServiceInfo(event.getType(), event.getName(), 1);
+		mJmdns.requestServiceInfo(event.getType(), event.getName(), 1);
 	}
 
-	@Override
 	public void serviceRemoved(ServiceEvent event) {
 	}
 
-	@Override
 	public void serviceResolved(ServiceEvent event) {
-		resolvedServiceInfo = event.getInfo();
-		isResolved = true;
-		((Activity)context).runOnUiThread(new Runnable() {
-			@Override
+		mResolvedServiceInfo = event.getInfo();
+		mIsResolved = true;
+		((Activity) mCtx).runOnUiThread(new Runnable() {
 			public void run() {
-				((AsyncServiceResolverListener)context).onServiceResolved(resolvedServiceInfo);
+				mListener.onServiceResolved(mResolvedServiceInfo);
 			}
 		});
 		shutdown();
-		sleepingThread.interrupt();
+		mSleepingThread.interrupt();
 	}
 
 	private void shutdown() {
-		if (multicastLock != null)
-			multicastLock.release();
-		if (jmdns != null) {
-			jmdns.removeServiceListener(serviceType, this);
+		if (mMulticastLock != null)
+			mMulticastLock.release();
+		if (mJmdns != null) {
+			mJmdns.removeServiceListener(mServiceType, this);
 			try {
-				jmdns.close();
+				mJmdns.close();
 			} catch (IOException e) {
 				Log.e(TAG, e.getMessage());
 			}
