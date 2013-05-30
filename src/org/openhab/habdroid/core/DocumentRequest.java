@@ -55,6 +55,7 @@ public class DocumentRequest extends BaseRequest<Document> {
                            ErrorListener errorListener) {
         super(method, url, errorListener);
         mListener = listener;
+        setHeader("Accept", "application/xml");
     }
 
     @Override

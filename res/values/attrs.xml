@@ -13,5 +13,7 @@
         <attr name="lineHeightUnselected" format="dimension" />
         <attr name="lineHeightSelected" format="dimension" />
     </declare-styleable>
-
+    <declare-styleable name="customAttrs">
+        <attr name="customMicIcon" format="reference" />
+    </declare-styleable>
 </resources>

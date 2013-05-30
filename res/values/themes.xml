@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="HABDroid.Dark" parent="android:Theme.Holo">
+        <item name="customMicIcon">@drawable/menu_mic_dark</item>
+    </style>
+    <style name="HABDroid.Light" parent="android:Theme.Holo.Light">
+        <item name="customMicIcon">@drawable/menu_mic_light</item>
+    </style>
+</resources>

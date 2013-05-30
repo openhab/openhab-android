@@ -38,12 +38,11 @@ import android.view.animation.Interpolator;
 
 import java.lang.reflect.Field;
 
-/**
- * Created by belovictor on 5/23/13.
- */
 public class OpenHABViewPager extends ViewPager {
 
-    private boolean mSwipeEnabled = true;
+    // Disable page swiping by default
+    private boolean mSwipeEnabled = false;
+    // A custom scroller to lower the scroll speed a little bit
     private ScrollerCustomDuration mScroller = null;
 
     public OpenHABViewPager(Context context) {

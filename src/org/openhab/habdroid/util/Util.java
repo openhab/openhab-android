@@ -61,9 +61,11 @@ public class Util {
 
 	public static void setActivityTheme(Activity activity) {
 		if (PreferenceManager.getDefaultSharedPreferences(activity).getString("default_openhab_theme", "dark").equals("dark")) {
-			activity.setTheme(android.R.style.Theme_Holo);
+//			activity.setTheme(android.R.style.Theme_Holo);
+			activity.setTheme(R.style.HABDroid_Dark);
 		} else {
-			activity.setTheme(android.R.style.Theme_Holo_Light);
+//			activity.setTheme(android.R.style.Theme_Holo_Light);
+			activity.setTheme(R.style.HABDroid_Light);
 		}
 	}
 	

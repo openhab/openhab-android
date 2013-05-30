@@ -110,6 +110,8 @@ public class OpenHABWidgetListFragment extends ListFragment {
     // parent activity
     private OpenHABMainActivity mActivity;
     private RequestQueue volleyRequestQueue;
+    // Am I visible?
+    private boolean mIsVisible = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -252,7 +254,8 @@ public class OpenHABWidgetListFragment extends ListFragment {
     @Override
     public void setUserVisibleHint (boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        Log.d(TAG, String.format("%s isVisibleToUser(%B)", displayPageUrl, isVisibleToUser));
+        mIsVisible = isVisibleToUser;
+        Log.d(TAG, String.format("isVisibleToUser(%B)", isVisibleToUser));
         if (isVisibleToUser) {
         } else {
         }
@@ -299,6 +302,7 @@ public class OpenHABWidgetListFragment extends ListFragment {
                 } else {
                     volleyError.printStackTrace();
                 }
+                showPage(displayPageUrl, true);
             }
         });
         // If long polling is needed
@@ -331,6 +335,8 @@ public class OpenHABWidgetListFragment extends ListFragment {
             widgetList.add(w);
         }
         openHABWidgetAdapter.notifyDataSetChanged();
+        if (getActivity() != null && mIsVisible)
+            getActivity().setTitle(openHABWidgetDataSource.getTitle());
         stopProgressIndicator();
 //            }
         // Set widget list index to saved or zero position
@@ -408,4 +414,5 @@ public class OpenHABWidgetListFragment extends ListFragment {
             return openHABWidgetDataSource.getTitle();
         return "";
     }
+
 }

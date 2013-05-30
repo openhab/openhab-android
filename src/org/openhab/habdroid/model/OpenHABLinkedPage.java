@@ -73,6 +73,9 @@ public class OpenHABLinkedPage {
 	}
 
 	public String getTitle() {
+        if (title.indexOf('[') > 0) {
+            return title.substring(0, title.indexOf('['));
+        }
 		return title;
 	}
 

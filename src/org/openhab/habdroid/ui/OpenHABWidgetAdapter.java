@@ -474,7 +474,11 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
 	    			chartUrl = openHABBaseUrl + "rrdchart.png?groups=" + chartItem.getName() + 
 	    					"&period=" + openHABWidget.getPeriod() + "&random=" +
 	    					String.valueOf(random.nextInt());
-	    		}
+	    		} else {
+                    chartUrl = openHABBaseUrl + "rrdchart.png?items=" + chartItem.getName() +
+                            "&period=" + openHABWidget.getPeriod() + "&random=" +
+                            String.valueOf(random.nextInt());
+                }
     		}
     		Log.d(TAG, "Chart url = " + chartUrl);
     		if (chartImage == null)
