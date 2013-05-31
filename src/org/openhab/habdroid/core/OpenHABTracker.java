@@ -30,6 +30,7 @@ package org.openhab.habdroid.core;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -67,27 +68,38 @@ public class OpenHABTracker implements AsyncServiceResolverListener {
     AsyncServiceResolver mServiceResolver;
     // Bonjour openHAB service type
     String mOpenHABServiceType;
+    // Receiver for connectivity tracking
+    ConnectivityChangeReceiver mConnectivityChangeReceiver;
 
     public OpenHABTracker(Context ctx, boolean discoveryEnabled) {
         mCtx = ctx;
         mDiscoveryEnabled = discoveryEnabled;
+        // If context is implementing our callback interface, set it as a receiver automatically
         if (ctx instanceof OpenHABTrackerReceiver) {
             mReceiver = (OpenHABTrackerReceiver)ctx;
         }
+        // openHAB Bonjour service type
         mOpenHABServiceType = "_openhab-server-ssl._tcp.local.";
+        // Create and register receiver for connectivity changes tracking
+        mConnectivityChangeReceiver = new ConnectivityChangeReceiver();
     }
 
     /*
         This method engages tracker to start discovery process
      */
 
-    public void engage() {
+    public void start() {
+        // Get preferences
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(mCtx);
+        // If demo mode is on, just go for demo server base URL ignoring other settings
+        mCtx.registerReceiver(mConnectivityChangeReceiver,
+                new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
         if (settings.getBoolean("default_openhab_demomode", false)) {
             mOpenHABUrl = mCtx.getString(R.string.openhab_demo_url);
             Log.d(TAG, "Demo mode, url = " + mOpenHABUrl);
             openHABTracked(mOpenHABUrl, mCtx.getString(R.string.info_demo_mode));
             return;
+        // If no demo mode, check if direct URL configured
         } else {
             mOpenHABUrl = Util.normalizeUrl(settings.getString("default_openhab_url", ""));
             // Check if we have a direct URL in preferences, if yes - use it
@@ -102,7 +114,7 @@ public class OpenHABTracker implements AsyncServiceResolverListener {
                 NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
                 if (activeNetworkInfo != null) {
                     Log.d(TAG, "Network is connected");
-                    // If network is mobile, try to use remote URL
+                    // If network is mobile, directly try to use remote URL
                     if (activeNetworkInfo.getType() == ConnectivityManager.TYPE_MOBILE || mDiscoveryEnabled == false) {
                         if (!mDiscoveryEnabled) {
                             Log.d(TAG, "openHAB discovery is disabled");
@@ -136,6 +148,10 @@ public class OpenHABTracker implements AsyncServiceResolverListener {
                 }
             }
         }
+    }
+
+    public void stop() {
+        mCtx.unregisterReceiver(mConnectivityChangeReceiver);
     }
 
     public void onServiceResolved(ServiceInfo serviceInfo) {

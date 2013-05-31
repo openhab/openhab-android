@@ -41,10 +41,10 @@ public class OpenHABRetryPolicy implements RetryPolicy {
     private int mCurrentRetryCount;
     private float mBackoffMultiplier;
 
-    /** The default socket timeout in milliseconds - 1 minute */
-    public static final int DEFAULT_TIMEOUT_MS = 1 * 60 * 1000;
-    /** The default number of retries - retry forever */
-    public static final int DEFAULT_MAX_RETRIES = 0;
+    /** The default socket timeout in milliseconds - 30 seconds */
+    public static final int DEFAULT_TIMEOUT_MS = 30 * 1000;
+    /** The default number of retries 3 */
+    public static final int DEFAULT_MAX_RETRIES = 3;
     /** The default backoff multiplier - factor of 1 */
     public static final float DEFAULT_BACKOFF_MULT = 1f;
 
@@ -77,6 +77,6 @@ public class OpenHABRetryPolicy implements RetryPolicy {
     protected boolean hasAttemptRemaining() {
         if (mMaxNumRetries > 0)
             return mCurrentRetryCount <= mMaxNumRetries;
-        return true;
+        return false;
     }
 }

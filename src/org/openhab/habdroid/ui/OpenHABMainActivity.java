@@ -29,6 +29,7 @@
 
 package org.openhab.habdroid.ui;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -36,8 +37,10 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.speech.RecognizerIntent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -47,6 +50,7 @@ import android.util.Log;
 import android.view.*;
 import android.widget.Toast;
 import com.android.volley.*;
+import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
 import com.crittercism.app.Crittercism;
 import com.google.analytics.tracking.android.EasyTracker;
@@ -58,6 +62,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.core.DocumentRequest;
+import org.openhab.habdroid.core.LruBitmapCache;
 import org.openhab.habdroid.core.OpenHABTracker;
 import org.openhab.habdroid.core.OpenHABTrackerReceiver;
 import org.openhab.habdroid.model.OpenHABLinkedPage;
@@ -80,6 +85,10 @@ import java.util.List;
 public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSelectedListener, OpenHABTrackerReceiver {
     // Logging TAG
     private static final String TAG = "MainActivity";
+    // Activities request codes
+    private static final int VOICE_RECOGNITION_REQUEST_CODE = 1001;
+    private static final int SETTINGS_REQUEST_CODE = 1002;
+    private static final int WRITE_NFC_TAG_REQUEST_CODE = 1003;
     // Base URL of current openHAB connection
     private String openHABBaseUrl = "https://demo.openhab.org:8443/";
     // openHAB username
@@ -106,6 +115,12 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
     private ProgressDialog mProgressDialog;
     // Volley request queue
     private RequestQueue mRequestQueue;
+    // If Voice Recognition is enabled
+    private boolean mVoiceRecognitionEnabled = false;
+    // If openHAB discovery is enabled
+    private boolean mServiceDiscoveryEnabled = true;
+    // Volley image loader
+    private ImageLoader mImageLoader;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,8 +137,12 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
             if (e1 != null)
                 Log.d(TAG, e1.getMessage());
         }
+        checkDiscoveryPermissions();
+        checkVoiceRecognition();
         // initialize volley request queue for this activity
         mRequestQueue = Volley.newRequestQueue(this);
+        // initialize volley image loader
+        mImageLoader = new ImageLoader(mRequestQueue, new LruBitmapCache(1000));
         // Set the theme to one from preferences
         Util.setActivityTheme(this);
         mSettings = PreferenceManager.getDefaultSharedPreferences(this);
@@ -185,8 +204,8 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
             sitemapRootUrl = savedInstanceState.getString("sitemapRootUrl");
         }
         if (savedInstanceState == null) {
-            mOpenHABTracker = new OpenHABTracker(this, true);
-            mOpenHABTracker.engage();
+            mOpenHABTracker = new OpenHABTracker(this, mServiceDiscoveryEnabled);
+            mOpenHABTracker.start();
         }
 //        leftPager.setPageTransformer(true, new DepthPageTransformer());
     }
@@ -282,7 +301,6 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
                         }                    }
                 }, new Response.ErrorListener() {
             public void onErrorResponse(VolleyError volleyError) {
-                // TODO: Handle Auth error separately
                 Log.e(TAG, volleyError.getClass().toString());
                 if (volleyError instanceof AuthFailureError) {
                     showAlertDialog(getString(R.string.error_authentication_failed));
@@ -307,7 +325,7 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
             sitemapNameList.add(sitemapList.get(i).getName());
         }
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(OpenHABMainActivity.this);
-        dialogBuilder.setTitle("Select sitemap");
+        dialogBuilder.setTitle(getString(R.string.mainmenu_openhab_selectsitemap));
         try {
             dialogBuilder.setItems(sitemapNameList.toArray(new CharSequence[sitemapNameList.size()]),
                     new DialogInterface.OnClickListener() {
@@ -342,11 +360,17 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
     }
 
     @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        menu.findItem(R.id.mainmenu_voice_recognition).setVisible(mVoiceRecognitionEnabled);
+        return true;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.mainmenu_openhab_preferences:
                 Intent settingsIntent = new Intent(this.getApplicationContext(), OpenHABPreferencesActivity.class);
-                startActivityForResult(settingsIntent, 0);
+                startActivityForResult(settingsIntent, SETTINGS_REQUEST_CODE);
                 Util.overridePendingTransition(this, false);
                 return true;
             case R.id.mainmenu_openhab_selectsitemap:
@@ -392,8 +416,11 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
                 Intent writeTagIntent = new Intent(this.getApplicationContext(), OpenHABWriteTagActivity.class);
                 // TODO: get current display page url, which? how? :-/
                 writeTagIntent.putExtra("sitemapPage", "");
-                startActivityForResult(writeTagIntent, 0);
+                startActivityForResult(writeTagIntent, WRITE_NFC_TAG_REQUEST_CODE);
                 Util.overridePendingTransition(this, false);
+                return true;
+            case R.id.mainmenu_voice_recognition:
+                launchVoiceRecognition();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -402,19 +429,46 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Log.d(TAG, "onActivityResult " + String.valueOf(requestCode) + " " + String.valueOf(resultCode));
-        if (resultCode == -1) {
-            // Right now only PreferencesActivity returns -1
-            // Restart app after preferences
-            Log.d(TAG, "Restarting");
-            // Get launch intent for application
-            Intent restartIntent = getBaseContext().getPackageManager()
-                    .getLaunchIntentForPackage( getBaseContext().getPackageName() );
-            restartIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            // Finish current activity
-            finish();
-            // Start launch activity
-            startActivity(restartIntent);
+        Log.d(TAG, String.format("onActivityResult requestCode = %d, resultCode = %d", requestCode, resultCode));
+        switch (requestCode) {
+            case SETTINGS_REQUEST_CODE:
+                // Restart app after preferences
+                Log.d(TAG, "Restarting after settings");
+                // Get launch intent for application
+                Intent restartIntent = getBaseContext().getPackageManager()
+                        .getLaunchIntentForPackage( getBaseContext().getPackageName() );
+                restartIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                // Finish current activity
+                finish();
+                // Start launch activity
+                startActivity(restartIntent);
+                break;
+            case WRITE_NFC_TAG_REQUEST_CODE:
+                Log.d(TAG, "Got back from Write NFC tag");
+                break;
+            case VOICE_RECOGNITION_REQUEST_CODE:
+                Log.d(TAG, "Got back from Voice recognition");
+                setProgressBarIndeterminateVisibility(false);
+                if(resultCode == RESULT_OK) {
+                    ArrayList<String> textMatchList = data
+                            .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+                    if (!textMatchList.isEmpty()) {
+                        Log.d(TAG, textMatchList.get(0));
+                        Log.d(TAG, "Recognized text: " + textMatchList.get(0));
+                        Toast.makeText(this, "I recognized: " + textMatchList.get(0),
+                                Toast.LENGTH_LONG).show();
+                    } else {
+                        Log.d(TAG, "Voice recognition returned empty set");
+                        Toast.makeText(this, "I can't read you!",
+                                Toast.LENGTH_LONG).show();
+                    }
+                } else {
+                    Log.d(TAG, "A voice recognition error occured");
+                    Toast.makeText(this, "A voice recognition error occured",
+                            Toast.LENGTH_LONG).show();
+                }
+                break;
+            default:
         }
     }
 
@@ -447,11 +501,25 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
      */
     @Override
     public void onStop() {
+        Log.d(TAG, "onStop()");
         super.onStop();
         stateFragment.setFragmentList(pagerAdapter.getFragmentList());
         // Stop activity tracking via Google Analytics
         if (!isDeveloper)
             EasyTracker.getInstance().activityStop(this);
+        if (mOpenHABTracker != null)
+            mOpenHABTracker.stop();
+    }
+
+    @Override
+    public void onPause() {
+        Log.d(TAG, "onPause()");
+        super.onPause();
+        mRequestQueue.cancelAll(new RequestQueue.RequestFilter() {
+            public boolean apply(Request<?> request) {
+                return true;
+            }
+        });
     }
 
 
@@ -473,6 +541,26 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
         }
     }
 
+    public void startProgressIndicator() {
+        setProgressBarIndeterminateVisibility(true);
+    }
+
+    public void stopProgressIndicator() {
+        setProgressBarIndeterminateVisibility(false);
+    }
+
+    private void launchVoiceRecognition() {
+        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        // Specify the calling package to identify your application
+        intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, getClass().getPackage().getName());
+        // Display an hint to the user about what he should say.
+        intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "openHAB, at your command!");
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        intent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 1);
+        startActivityForResult(intent, VOICE_RECOGNITION_REQUEST_CODE);
+    }
+
+
     private void showAlertDialog(String alertMessage) {
         AlertDialog.Builder builder = new AlertDialog.Builder(OpenHABMainActivity.this);
         builder.setMessage(alertMessage)
@@ -484,6 +572,34 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
         alert.show();
     }
 
+    public void checkVoiceRecognition() {
+        // Check if voice recognition is present
+        PackageManager pm = getPackageManager();
+        List<ResolveInfo> activities = pm.queryIntentActivities(new Intent(
+                RecognizerIntent.ACTION_RECOGNIZE_SPEECH), 0);
+        if (activities.size() == 0) {
+//            speakButton.setEnabled(false);
+//            speakButton.setText("Voice recognizer not present");
+            Toast.makeText(this, "Voice recognizer not present, voice recognition disabled",
+                    Toast.LENGTH_SHORT).show();
+        } else {
+            mVoiceRecognitionEnabled = true;
+        }
+    }
+
+    public void checkDiscoveryPermissions() {
+        // Check if we got all needed permissions
+        PackageManager pm = getPackageManager();
+        if (!(pm.checkPermission(Manifest.permission.CHANGE_WIFI_MULTICAST_STATE, getPackageName()) == PackageManager.PERMISSION_GRANTED)) {
+            showAlertDialog(getString(R.string.erorr_no_wifi_mcast_permission));
+            mServiceDiscoveryEnabled = false;
+        }
+        if (!(pm.checkPermission(Manifest.permission.ACCESS_WIFI_STATE, getPackageName()) == PackageManager.PERMISSION_GRANTED)) {
+            showAlertDialog(getString(R.string.erorr_no_wifi_state_permission));
+            mServiceDiscoveryEnabled = false;
+        }
+
+    }
 
     public String getOpenHABBaseUrl() {
         return openHABBaseUrl;
@@ -507,5 +623,13 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
 
     public void setOpenHABPassword(String openHABPassword) {
         this.openHABPassword = openHABPassword;
+    }
+
+    public RequestQueue getRequestQueue() {
+        return mRequestQueue;
+    }
+
+    public ImageLoader getImageLoader() {
+        return mImageLoader;
     }
 }

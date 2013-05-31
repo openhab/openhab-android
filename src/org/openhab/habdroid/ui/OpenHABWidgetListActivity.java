@@ -767,7 +767,6 @@ public class OpenHABWidgetListActivity extends ListActivity implements AsyncServ
     	switch (item.getItemId()) {
     	case R.id.mainmenu_openhab_preferences:
             Intent settingsIntent = new Intent(this.getApplicationContext(), OpenHABPreferencesActivity.class);
-            startActivityForResult(settingsIntent, 0);
             Util.overridePendingTransition(this, false);
     		return true;
     	case R.id.mainmenu_openhab_selectsitemap:

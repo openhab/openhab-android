@@ -45,6 +45,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.loopj.android.http.AsyncHttpClient;
@@ -109,7 +110,10 @@ public class OpenHABWidgetListFragment extends ListFragment {
     private boolean nfcAutoClose = false;
     // parent activity
     private OpenHABMainActivity mActivity;
+    // volley request queue
     private RequestQueue volleyRequestQueue;
+    // volley image loader
+    private ImageLoader imageLoader;
     // Am I visible?
     private boolean mIsVisible = false;
 
@@ -132,7 +136,6 @@ public class OpenHABWidgetListFragment extends ListFragment {
             openHABUsername = getArguments().getString("openHABUsername");
             openHABPassword = getArguments().getString("openHABPassword");
         }
-        volleyRequestQueue = Volley.newRequestQueue(this.getActivity());
     }
 
     @Override
@@ -150,6 +153,7 @@ public class OpenHABWidgetListFragment extends ListFragment {
         openHABWidgetAdapter.setOpenHABUsername(openHABUsername);
         openHABWidgetAdapter.setOpenHABPassword(openHABPassword);
         openHABWidgetAdapter.setOpenHABBaseUrl(openHABBaseUrl);
+        openHABWidgetAdapter.setRequestQueue(volleyRequestQueue);
         getListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position,
                                     long id) {
@@ -208,6 +212,8 @@ public class OpenHABWidgetListFragment extends ListFragment {
         if (activity instanceof OnWidgetSelectedListener) {
             widgetSelectedListener = (OnWidgetSelectedListener)activity;
             mActivity = (OpenHABMainActivity)activity;
+            volleyRequestQueue = mActivity.getRequestQueue();
+            imageLoader = mActivity.getImageLoader();
         } else {
             Log.e("TAG", "Attached to incompatible activity");
         }
@@ -225,7 +231,16 @@ public class OpenHABWidgetListFragment extends ListFragment {
     public void onPause () {
         super.onPause();
         Log.d(TAG, "onPause() " + displayPageUrl);
-        volleyRequestQueue.cancelAll(this);
+        volleyRequestQueue.cancelAll(new RequestQueue.RequestFilter() {
+            public boolean apply(Request<?> request) {
+                Log.d(TAG, "Should I cancel request to " + request.getUrl());
+                if (request.getUrl().equals(displayPageUrl)) {
+                    Log.d(TAG, "Cancelling request to " + request.getUrl());
+                    return true;
+                }
+                return false;
+            }
+        });
         if (openHABWidgetAdapter != null) {
             openHABWidgetAdapter.stopImageRefresh();
             openHABWidgetAdapter.stopVideoWidgets();
@@ -256,9 +271,6 @@ public class OpenHABWidgetListFragment extends ListFragment {
         super.setUserVisibleHint(isVisibleToUser);
         mIsVisible = isVisibleToUser;
         Log.d(TAG, String.format("isVisibleToUser(%B)", isVisibleToUser));
-        if (isVisibleToUser) {
-        } else {
-        }
     }
 
     public static OpenHABWidgetListFragment withPage(String pageUrl, String baseUrl, String rootUrl,
@@ -282,7 +294,7 @@ public class OpenHABWidgetListFragment extends ListFragment {
      * @param  longPolling  enable long polling when loading page
      * @return      void
      */
-    public void showPage(String pageUrl, boolean longPolling) {
+    public void showPage(String pageUrl, final boolean longPolling) {
         Log.i(TAG, " showPage for " + pageUrl + " longPolling = " + longPolling);
         // Cancel any existing http request to openHAB (typically ongoing long poll)
         if (!longPolling)
@@ -291,18 +303,21 @@ public class OpenHABWidgetListFragment extends ListFragment {
            new Response.Listener<Document>() {
             public void onResponse(Document document) {
                 Log.d(TAG, "Response: "  + document.toString());
+                if (!longPolling)
+                    stopProgressIndicator();
                 processContent(document);
             }
         }, new Response.ErrorListener() {
             public void onErrorResponse(VolleyError volleyError) {
-                stopProgressIndicator();
+                if (!longPolling)
+                    stopProgressIndicator();
                 if (volleyError.getMessage() != null) {
                     Log.e(TAG, volleyError.getMessage());
 //                    showAlertDialog(volleyError.getMessage());
                 } else {
                     volleyError.printStackTrace();
                 }
-                showPage(displayPageUrl, true);
+                showPage(displayPageUrl, longPolling);
             }
         });
         // If long polling is needed
@@ -311,7 +326,10 @@ public class OpenHABWidgetListFragment extends ListFragment {
         // If authentication is needed
         req.setBasicAuth(openHABUsername, openHABPassword);
         req.setHeader("Accept", "application/xml");
-        req.setRetryPolicy(new OpenHABRetryPolicy());
+        if (!longPolling)
+            req.setRetryPolicy(new OpenHABRetryPolicy(10000, 0, 1f));
+        else
+            req.setRetryPolicy(new OpenHABRetryPolicy(30000, 0, 1f));
         req.setTag(this);
         volleyRequestQueue.add(req);
     }
@@ -337,7 +355,6 @@ public class OpenHABWidgetListFragment extends ListFragment {
         openHABWidgetAdapter.notifyDataSetChanged();
         if (getActivity() != null && mIsVisible)
             getActivity().setTitle(openHABWidgetDataSource.getTitle());
-        stopProgressIndicator();
 //            }
         // Set widget list index to saved or zero position
         // This would mean we got widget and command from nfc tag, so we need to do some automatic actions!
@@ -376,13 +393,13 @@ public class OpenHABWidgetListFragment extends ListFragment {
     private void stopProgressIndicator() {
         if (mActivity != null)
             Log.d(TAG, "Stop progress indicator");
-            mActivity.setProgressBarIndeterminateVisibility(false);
+            mActivity.stopProgressIndicator();
     }
 
     private void startProgressIndicator() {
         if (mActivity != null)
             Log.d(TAG, "Start progress indicator");
-            mActivity.setProgressBarIndeterminateVisibility(true);
+            mActivity.startProgressIndicator();
     }
 
     private void showAlertDialog(String alertMessage) {

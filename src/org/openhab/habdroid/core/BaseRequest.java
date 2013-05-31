@@ -29,7 +29,10 @@
 
 package org.openhab.habdroid.core;
 
+import android.text.TextUtils;
 import android.util.Base64;
+import android.util.Log;
+
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
@@ -60,6 +63,12 @@ public abstract class BaseRequest<T> extends Request<T>  {
         return mHeaders;
     }
 
+    @Override
+    public void cancel() {
+        Log.d("BaseRequest", "Request to " + getUrl() + " canceled");
+        super.cancel();
+    }
+
     public void setHeader(String headerName, String headerValue) {
         mHeaders.put(headerName, headerValue);
     }
@@ -69,9 +78,11 @@ public abstract class BaseRequest<T> extends Request<T>  {
     }
 
     public void setBasicAuth(String username, String password) {
-        String userPassword = username + ":" + password;
-        String encoding = Base64.encodeToString(userPassword.getBytes(), Base64.DEFAULT);
-        setHeader("Authorization", "Basic " + encoding);
+        if (!TextUtils.isEmpty(username) && !TextUtils.isEmpty(password)) {
+            String userPassword = username + ":" + password;
+            String encoding = Base64.encodeToString(userPassword.getBytes(), Base64.DEFAULT);
+            setHeader("Authorization", "Basic " + encoding);
+        }
     }
 
     public void setLongPolling() {

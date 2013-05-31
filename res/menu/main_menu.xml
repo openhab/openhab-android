@@ -13,7 +13,7 @@
           android:title="@string/mainmenu_openhab_clearcache"
           />
     <item
-            android:id="@+id/action_refresh"
+            android:id="@+id/mainmenu_voice_recognition"
             android:orderInCategory="100"
             android:showAsAction="always"
             android:icon="?attr/customMicIcon"

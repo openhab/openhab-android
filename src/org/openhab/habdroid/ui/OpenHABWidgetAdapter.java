@@ -39,6 +39,7 @@ import java.util.Random;
 
 import org.apache.http.entity.StringEntity;
 import org.openhab.habdroid.R;
+import org.openhab.habdroid.core.CommandRequest;
 import org.openhab.habdroid.model.OpenHABItem;
 import org.openhab.habdroid.model.OpenHABWidget;
 import org.openhab.habdroid.model.OpenHABWidgetMapping;
@@ -73,6 +74,10 @@ import android.widget.TextView;
 import android.widget.VideoView;
 import at.bookworm.widget.segcontrol.SegmentedControlButton;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.crittercism.app.Crittercism;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
@@ -106,6 +111,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
 	private String openHABPassword = "";
 	private ArrayList<VideoView> videoWidgetList;
 	private ArrayList<MySmartImageView> refreshImageList;
+    private RequestQueue mRequestQueue;
 
 	public OpenHABWidgetAdapter(Context context, int resource,
 			List<OpenHABWidget> objects) {
@@ -711,15 +717,17 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     }
     
     public void sendItemCommand(OpenHABItem item, String command) {
-		MyAsyncHttpClient asyncHttpClient = new MyAsyncHttpClient();
-		asyncHttpClient.setBasicAuthCredientidals(openHABUsername, openHABPassword);
-		try {
-			StringEntity se = new StringEntity(command);
-			asyncHttpClient.post(null, item.getLink(), se, "text/plain", new AsyncHttpResponseHandler());
-		} catch (UnsupportedEncodingException e) {
-            if (e != null)
-                Log.e(TAG, e.getMessage());
-		}
+        CommandRequest request = new CommandRequest(Request.Method.POST, item.getLink(), command, new Response.Listener<String>(){
+            public void onResponse(String s) {
+                Log.d(TAG, "Got command response = " + s);
+            }
+        }, new Response.ErrorListener() {
+            public void onErrorResponse(VolleyError volleyError) {
+                Log.d(TAG, "Got command error response");
+            }
+        });
+        if (mRequestQueue != null)
+            mRequestQueue.add(request);
     }
 
 	public String getOpenHABUsername() {
@@ -755,4 +763,12 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
 		}
 		refreshImageList.clear();
 	}
+
+    public RequestQueue getRequestQueue() {
+        return mRequestQueue;
+    }
+
+    public void setRequestQueue(RequestQueue requestQueue) {
+        mRequestQueue = requestQueue;
+    }
 }
