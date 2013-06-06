@@ -5,7 +5,6 @@
               android:layout_height="match_parent"
               android:paddingLeft="@dimen/widgetlist_fragment_left_margin"
               android:paddingRight="@dimen/widgetlist_fragment_right_margin"
-              android:background="?attr/fragmentBackground"
         >
     <ListView android:id="@id/android:list"
               android:layout_width="match_parent"

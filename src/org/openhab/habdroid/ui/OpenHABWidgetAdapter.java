@@ -111,7 +111,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
 	private String openHABPassword = "";
 	private ArrayList<VideoView> videoWidgetList;
 	private ArrayList<MySmartImageView> refreshImageList;
-    private RequestQueue mRequestQueue;
+    private MyAsyncHttpClient mAsyncHttpClient;
 
 	public OpenHABWidgetAdapter(Context context, int resource,
 			List<OpenHABWidget> objects) {
@@ -717,17 +717,24 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     }
     
     public void sendItemCommand(OpenHABItem item, String command) {
-        CommandRequest request = new CommandRequest(Request.Method.POST, item.getLink(), command, new Response.Listener<String>(){
-            public void onResponse(String s) {
-                Log.d(TAG, "Got command response = " + s);
-            }
-        }, new Response.ErrorListener() {
-            public void onErrorResponse(VolleyError volleyError) {
-                Log.d(TAG, "Got command error response");
-            }
-        });
-        if (mRequestQueue != null)
-            mRequestQueue.add(request);
+        try {
+            StringEntity se = new StringEntity(command);
+            mAsyncHttpClient.post(getContext(), item.getLink(), se, "text/plain", new AsyncHttpResponseHandler() {
+                @Override
+                public void onSuccess(String response) {
+                    Log.d(TAG, "Command was sent successfully");
+                }
+                @Override
+                public void onFailure(Throwable error, String errorResponse) {
+                    Log.e(TAG, "Got command error " + error.getMessage());
+                    if (errorResponse != null)
+                        Log.e(TAG, "Error response = " + errorResponse);
+                }
+            });
+        } catch (UnsupportedEncodingException e) {
+            if (e != null)
+            Log.e(TAG, e.getMessage());
+        }
     }
 
 	public String getOpenHABUsername() {
@@ -764,11 +771,11 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
 		refreshImageList.clear();
 	}
 
-    public RequestQueue getRequestQueue() {
-        return mRequestQueue;
+    public MyAsyncHttpClient getAsyncHttpClient() {
+        return mAsyncHttpClient;
     }
 
-    public void setRequestQueue(RequestQueue requestQueue) {
-        mRequestQueue = requestQueue;
+    public void setAsyncHttpClient(MyAsyncHttpClient asyncHttpClient) {
+        mAsyncHttpClient = asyncHttpClient;
     }
 }

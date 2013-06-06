@@ -164,7 +164,7 @@ public class OpenHABWidgetListFragment extends ListFragment {
         openHABWidgetAdapter.setOpenHABUsername(openHABUsername);
         openHABWidgetAdapter.setOpenHABPassword(openHABPassword);
         openHABWidgetAdapter.setOpenHABBaseUrl(openHABBaseUrl);
-        openHABWidgetAdapter.setRequestQueue(volleyRequestQueue);
+        openHABWidgetAdapter.setAsyncHttpClient(mAsyncHttpClient);
         getListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position,
                                     long id) {
