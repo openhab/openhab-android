@@ -2,8 +2,16 @@
 <resources>
     <style name="HABDroid.Dark" parent="android:Theme.Holo">
         <item name="customMicIcon">@drawable/menu_mic_dark</item>
+        <item name="fragmentBackground">#ff222222</item>
+        <item name="android:actionBarStyle">@style/HABDroid.Dark.ActionBar</item>
+        <item name="widgetlistItemDivider">?android:attr/listDivider</item>
     </style>
     <style name="HABDroid.Light" parent="android:Theme.Holo.Light">
         <item name="customMicIcon">@drawable/menu_mic_light</item>
+        <item name="fragmentBackground">#ffffffff</item>
+        <item name="widgetlistItemDivider">?android:attr/listDivider</item>
+    </style>
+    <style name="HABDroid.Dark.ActionBar" parent="@android:style/Widget.Holo.ActionBar">
+        <item name="android:background">#101010</item>
     </style>
 </resources>

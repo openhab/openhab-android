@@ -35,6 +35,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -48,9 +49,14 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.loopj.android.http.AsyncHttpAbortException;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
+
+import org.apache.http.Header;
+import org.apache.http.message.BasicHeader;
 import org.openhab.habdroid.R;
+import org.openhab.habdroid.core.DocumentHttpResponseHandler;
 import org.openhab.habdroid.core.DocumentRequest;
 import org.openhab.habdroid.core.OpenHABRetryPolicy;
 import org.openhab.habdroid.model.OpenHABItem;
@@ -69,6 +75,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 
 /**
@@ -112,14 +119,18 @@ public class OpenHABWidgetListFragment extends ListFragment {
     private OpenHABMainActivity mActivity;
     // volley request queue
     private RequestQueue volleyRequestQueue;
+    // loopj
+    private MyAsyncHttpClient mAsyncHttpClient;
     // volley image loader
     private ImageLoader imageLoader;
     // Am I visible?
     private boolean mIsVisible = false;
+    private  OpenHABWidgetListFragment mTag;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         Log.d(TAG, "onCreate()");
+        mTag = this;
         super.onCreate(savedInstanceState);
         if (savedInstanceState != null) {
             Log.d(TAG, "restoring state from savedInstanceState");
@@ -213,6 +224,7 @@ public class OpenHABWidgetListFragment extends ListFragment {
             widgetSelectedListener = (OnWidgetSelectedListener)activity;
             mActivity = (OpenHABMainActivity)activity;
             volleyRequestQueue = mActivity.getRequestQueue();
+            mAsyncHttpClient = mActivity.getAsyncHttpClient();
             imageLoader = mActivity.getImageLoader();
         } else {
             Log.e("TAG", "Attached to incompatible activity");
@@ -225,6 +237,15 @@ public class OpenHABWidgetListFragment extends ListFragment {
         // Inflate the layout for this fragment
         Log.i(TAG, "onCreateView");
         return inflater.inflate(R.layout.openhabwidgetlist_fragment, container, false);
+    }
+
+    private void cancelHttpRequests() {
+        Runnable can = new Runnable() {
+            public void run() {
+                mAsyncHttpClient.cancelRequests(mActivity, mTag, true);
+            }
+        };
+        new Thread(can).start();
     }
 
     @Override
@@ -241,6 +262,7 @@ public class OpenHABWidgetListFragment extends ListFragment {
                 return false;
             }
         });
+        cancelHttpRequests();
         if (openHABWidgetAdapter != null) {
             openHABWidgetAdapter.stopImageRefresh();
             openHABWidgetAdapter.stopVideoWidgets();
@@ -297,41 +319,37 @@ public class OpenHABWidgetListFragment extends ListFragment {
     public void showPage(String pageUrl, final boolean longPolling) {
         Log.i(TAG, " showPage for " + pageUrl + " longPolling = " + longPolling);
         // Cancel any existing http request to openHAB (typically ongoing long poll)
+        Header[] headers = {};
         if (!longPolling)
             startProgressIndicator();
-        DocumentRequest req = new DocumentRequest(Request.Method.GET, pageUrl,
-           new Response.Listener<Document>() {
-            public void onResponse(Document document) {
+        if (longPolling) {
+            headers = new Header[] {new BasicHeader("X-Atmosphere-Transport", "long-polling")};
+        }
+        mAsyncHttpClient.get(mActivity, pageUrl, headers, null, new DocumentHttpResponseHandler() {
+            @Override
+            public void onSuccess(Document document) {
                 Log.d(TAG, "Response: "  + document.toString());
                 if (!longPolling)
                     stopProgressIndicator();
                 processContent(document);
             }
-        }, new Response.ErrorListener() {
-            public void onErrorResponse(VolleyError volleyError) {
+            @Override
+            public void onFailure(Throwable error, String content) {
                 if (!longPolling)
                     stopProgressIndicator();
-                if (volleyError.getMessage() != null) {
-                    Log.e(TAG, volleyError.getMessage());
-//                    showAlertDialog(volleyError.getMessage());
-                } else {
-                    volleyError.printStackTrace();
+                if (error instanceof AsyncHttpAbortException) {
+                    Log.d(TAG, "Request for " + displayPageUrl + " was aborted");
+                    return;
                 }
-                showPage(displayPageUrl, longPolling);
+                if (error instanceof SocketTimeoutException) {
+                    Log.d(TAG, "Connection timeout, reconnecting");
+                    showPage(displayPageUrl, longPolling);
+                    return;
+                }
+                Log.e(TAG, error.getClass().toString());
+                Log.e(TAG, "Connection error = " + error.getClass().toString() + ", cycle aborted");
             }
-        });
-        // If long polling is needed
-        if (longPolling)
-            req.setLongPolling();
-        // If authentication is needed
-        req.setBasicAuth(openHABUsername, openHABPassword);
-        req.setHeader("Accept", "application/xml");
-        if (!longPolling)
-            req.setRetryPolicy(new OpenHABRetryPolicy(10000, 0, 1f));
-        else
-            req.setRetryPolicy(new OpenHABRetryPolicy(30000, 0, 1f));
-        req.setTag(this);
-        volleyRequestQueue.add(req);
+        }, mTag);
     }
 
     /**
@@ -350,6 +368,9 @@ public class OpenHABWidgetListFragment extends ListFragment {
         openHABWidgetDataSource.setSourceNode(rootNode);
         widgetList.clear();
         for (OpenHABWidget w : openHABWidgetDataSource.getWidgets()) {
+            // Remove frame widgets with no label text
+            if (w.getType().equals("Frame") && TextUtils.isEmpty(w.getLabel()))
+                continue;
             widgetList.add(w);
         }
         openHABWidgetAdapter.notifyDataSetChanged();

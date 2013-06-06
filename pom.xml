@@ -197,7 +197,7 @@
 		<dependency>
 			<groupId>com.loopj</groupId>
 			<artifactId>android-async-http</artifactId>
-			<version>1.0-openhab</version>
+			<version>1.4.2-openhab</version>
 		</dependency>
 		<dependency>
 			<groupId>com.loopj</groupId>

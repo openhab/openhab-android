@@ -38,6 +38,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.net.http.AndroidHttpClient;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.speech.RecognizerIntent;
@@ -46,6 +47,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.*;
 import android.widget.Toast;
@@ -58,9 +60,12 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.image.WebImageCache;
 import de.duenndns.ssl.MemorizingTrustManager;
+
+import org.apache.http.client.HttpResponseException;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.openhab.habdroid.R;
+import org.openhab.habdroid.core.DocumentHttpResponseHandler;
 import org.openhab.habdroid.core.DocumentRequest;
 import org.openhab.habdroid.core.LruBitmapCache;
 import org.openhab.habdroid.core.OpenHABTracker;
@@ -70,11 +75,18 @@ import org.openhab.habdroid.model.OpenHABSitemap;
 import org.openhab.habdroid.util.MyAsyncHttpClient;
 import org.openhab.habdroid.util.Util;
 import org.w3c.dom.Document;
+import org.xml.sax.SAXException;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSession;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
@@ -121,6 +133,8 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
     private boolean mServiceDiscoveryEnabled = true;
     // Volley image loader
     private ImageLoader mImageLoader;
+    // Loopj
+    private static MyAsyncHttpClient mAsyncHttpClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -139,6 +153,8 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
         }
         checkDiscoveryPermissions();
         checkVoiceRecognition();
+        // initialize loopj async http client
+        mAsyncHttpClient = new MyAsyncHttpClient(this);
         // initialize volley request queue for this activity
         mRequestQueue = Volley.newRequestQueue(this);
         // initialize volley image loader
@@ -155,6 +171,9 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
         // Get username/password from preferences
         openHABUsername = mSettings.getString("default_openhab_username", null);
         openHABPassword = mSettings.getString("default_openhab_password", null);
+        mAsyncHttpClient.setBasicAuth(openHABUsername, openHABPassword);
+        mAsyncHttpClient.addHeader("Accept", "application/xml");
+        mAsyncHttpClient.setTimeout(30000);
         requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         requestWindowFeature(Window.FEATURE_PROGRESS);
         setProgressBarIndeterminateVisibility(true);
@@ -162,25 +181,6 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
             Util.initCrittercism(getApplicationContext(), "5117659f59e1bd4ba9000004");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        // Initialize MemorizingTrustManager
-        try {
-            SSLContext sc = SSLContext.getInstance("TLS");
-            sc.init(null, MemorizingTrustManager.getInstanceList(this),
-                    new java.security.SecureRandom());
-            // If set in preferences ignore hostname verification
-            if (mSettings.getBoolean("default_openhab_sslhost", false))
-                HttpsURLConnection.setDefaultHostnameVerifier(new HostnameVerifier() {
-                    public boolean verify(String hostname, SSLSession session) {
-                        Log.d(TAG, "Approving host " + hostname);
-                        return true;
-                    }
-                });
-            HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
-        } catch (NoSuchAlgorithmException e) {
-            Log.e(TAG, e.getMessage());
-        } catch (KeyManagementException e) {
-            Log.e(TAG, e.getMessage());
-        }
         pager = (OpenHABViewPager)findViewById(R.id.pager);
         pager.setScrollDurationFactor(2.5);
         pager.setOffscreenPageLimit(1);
@@ -232,6 +232,13 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
     public void onBonjourDiscoveryFinished() {
         mProgressDialog.dismiss();
     }
+    protected Document parseResponse(String responseBody) throws ParserConfigurationException, IOException, SAXException {
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        Document document;
+        DocumentBuilder builder = factory.newDocumentBuilder();
+        document = builder.parse(new ByteArrayInputStream(responseBody.getBytes()));
+        return document;
+    }
 
     /**
      * Get sitemaps from openHAB, if user already configured preffered sitemap
@@ -243,9 +250,78 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
 
     private void selectSitemap(final String baseUrl, final boolean forceSelect) {
         Log.d(TAG, "Loding sitemap list from " + baseUrl + "rest/sitemaps");
-        AsyncHttpClient asyncHttpClient = new MyAsyncHttpClient();
-        // If authentication is needed
-        DocumentRequest sitemapRequest = new DocumentRequest(Request.Method.GET, baseUrl + "rest/sitemaps",
+        mAsyncHttpClient.get(baseUrl + "rest/sitemaps", new DocumentHttpResponseHandler() {
+            @Override
+            public void onSuccess(Document document) {
+                Log.d(TAG, "Response: " +  document.toString());
+                List<OpenHABSitemap> sitemapList = Util.parseSitemapList(document);
+                if (sitemapList.size() == 0) {
+                    // Got an empty sitemap list!
+                    Log.e(TAG, "openHAB returned empty sitemap list");
+                    showAlertDialog(getString(R.string.error_empty_sitemap_list));
+                    return;
+                }
+                // If we are forced to do selection, just open selection dialog
+                if (forceSelect) {
+                    showSitemapSelectionDialog(sitemapList);
+                } else {
+                    // Check if we have a sitemap configured to use
+                    SharedPreferences settings =
+                            PreferenceManager.getDefaultSharedPreferences(OpenHABMainActivity.this);
+                    String configuredSitemap = settings.getString("default_openhab_sitemap", "");
+                    // If we have sitemap configured
+                    if (configuredSitemap.length() > 0) {
+                        // Configured sitemap is on the list we got, open it!
+                        if (Util.sitemapExists(sitemapList, configuredSitemap)) {
+                            Log.d(TAG, "Configured sitemap is on the list");
+                            OpenHABSitemap selectedSitemap = Util.getSitemapByName(sitemapList, configuredSitemap);
+                            openSitemap(selectedSitemap.getHomepageLink());
+                            // Configured sitemap is not on the list we got!
+                        } else {
+                            Log.d(TAG, "Configured sitemap is not on the list");
+                            if (sitemapList.size() == 1) {
+                                Log.d(TAG, "Got only one sitemap");
+                                SharedPreferences.Editor preferencesEditor = settings.edit();
+                                preferencesEditor.putString("default_openhab_sitemap", sitemapList.get(0).getName());
+                                preferencesEditor.commit();
+                                openSitemap(sitemapList.get(0).getHomepageLink());
+                            } else {
+                                Log.d(TAG, "Got multiply sitemaps, user have to select one");
+                                showSitemapSelectionDialog(sitemapList);
+                            }
+                        }
+                        // No sitemap is configured to use
+                    } else {
+                        // We got only one single sitemap from openHAB, use it
+                        if (sitemapList.size() == 1) {
+                            Log.d(TAG, "Got only one sitemap");
+                            SharedPreferences.Editor preferencesEditor = settings.edit();
+                            preferencesEditor.putString("default_openhab_sitemap", sitemapList.get(0).getName());
+                            preferencesEditor.commit();
+                            openSitemap(sitemapList.get(0).getHomepageLink());
+                        } else {
+                            Log.d(TAG, "Got multiply sitemaps, user have to select one");
+                            showSitemapSelectionDialog(sitemapList);
+                        }
+                    }
+                }
+            }
+            @Override public void onFailure(Throwable error, String content) {
+                if (error instanceof HttpResponseException) {
+                    switch (((HttpResponseException) error).getStatusCode()) {
+                        case 401:
+                            showAlertDialog(getString(R.string.error_authentication_failed));
+                            break;
+                        default:
+                            Log.e(TAG, String.format("Http code = %d", ((HttpResponseException) error).getStatusCode()));
+                            break;
+                    }
+                } else {
+                    Log.e(TAG, error.getClass().toString());
+                }
+            }
+        });
+/*        DocumentRequest sitemapRequest = new DocumentRequest(Request.Method.GET, baseUrl + "rest/sitemaps",
                 new Response.Listener<Document>() {
                     public void onResponse(Document document) {
                         Log.d(TAG, "Response: " + document.toString());
@@ -298,7 +374,8 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
                                     showSitemapSelectionDialog(sitemapList);
                                 }
                             }
-                        }                    }
+                        }
+                    }
                 }, new Response.ErrorListener() {
             public void onErrorResponse(VolleyError volleyError) {
                 Log.e(TAG, volleyError.getClass().toString());
@@ -315,7 +392,7 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
             }
         });
         sitemapRequest.setBasicAuth(openHABUsername, openHABPassword);
-        mRequestQueue.add(sitemapRequest);
+        mRequestQueue.add(sitemapRequest);*/
     }
 
     private void showSitemapSelectionDialog(final List<OpenHABSitemap> sitemapList) {
@@ -520,6 +597,12 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
                 return true;
             }
         });
+        Runnable can = new Runnable() {
+            public void run() {
+                mAsyncHttpClient.cancelRequests(OpenHABMainActivity.this, true);
+            }
+        };
+        new Thread(can).start();
     }
 
 
@@ -632,4 +715,9 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
     public ImageLoader getImageLoader() {
         return mImageLoader;
     }
+
+    public static MyAsyncHttpClient getAsyncHttpClient() {
+        return mAsyncHttpClient;
+    }
+
 }

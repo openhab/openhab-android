@@ -4,7 +4,10 @@
   android:layout_width="fill_parent"
   android:layout_height="wrap_content"
   android:adjustViewBounds="true"
-  >
+  android:paddingLeft="@dimen/widgetlist_item_left_margin"
+  android:paddingRight="@dimen/widgetlist_item_right_margin"
+
+        >
 <WebView 
     android:id="@+id/webweb"
     android:layout_width="fill_parent"
@@ -19,7 +22,7 @@
         android:background="?android:attr/listDivider"
         android:orientation="horizontal"
         android:layout_below="@+id/webweb"
-        android:layout_marginLeft="5dip"
-        android:layout_marginRight="5dip"
+        android:layout_marginLeft="@dimen/widgetlist_divider_left_margin"
+        android:layout_marginRight="@dimen/widgetlist_divider_right_margin"
        />
 </RelativeLayout>

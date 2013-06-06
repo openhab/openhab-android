@@ -96,6 +96,7 @@ public class OpenHABTracker implements AsyncServiceResolverListener {
                 new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
         if (settings.getBoolean("default_openhab_demomode", false)) {
             mOpenHABUrl = mCtx.getString(R.string.openhab_demo_url);
+//            mOpenHABUrl = "http://192.168.88.248:3000/";
             Log.d(TAG, "Demo mode, url = " + mOpenHABUrl);
             openHABTracked(mOpenHABUrl, mCtx.getString(R.string.info_demo_mode));
             return;
@@ -151,7 +152,11 @@ public class OpenHABTracker implements AsyncServiceResolverListener {
     }
 
     public void stop() {
-        mCtx.unregisterReceiver(mConnectivityChangeReceiver);
+        try {
+            mCtx.unregisterReceiver(mConnectivityChangeReceiver);
+        } catch (RuntimeException e) {
+            Log.d(TAG, e.getMessage());
+        }
     }
 
     public void onServiceResolved(ServiceInfo serviceInfo) {

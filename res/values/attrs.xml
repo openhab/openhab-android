@@ -15,5 +15,7 @@
     </declare-styleable>
     <declare-styleable name="customAttrs">
         <attr name="customMicIcon" format="reference" />
+        <attr name="fragmentBackground" format="color" />
+        <attr name="widgetlistItemDivider" format="reference" />
     </declare-styleable>
 </resources>

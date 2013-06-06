@@ -28,6 +28,9 @@
  */
 package org.openhab.habdroid.util;
 
+import android.content.Context;
+import android.preference.PreferenceManager;
+
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 
@@ -39,29 +42,21 @@ import org.apache.http.conn.ssl.SSLSocketFactory;
 
 import com.loopj.android.http.AsyncHttpClient;
 
+import de.duenndns.ssl.MemorizingTrustManager;
+
 public class MyAsyncHttpClient extends AsyncHttpClient {
 	
 	private SSLContext sslContext;
 	private SSLSocketFactory sslSocketFactory;
 	
-	public MyAsyncHttpClient() {
-		super();
+	public MyAsyncHttpClient(Context ctx) {
+		super(ctx);
 		try {
-	        X509TrustManager tm = new X509TrustManager() { 
-	            public void checkClientTrusted(X509Certificate[] xcs, String string) throws CertificateException {
-	            }
-
-	            public void checkServerTrusted(X509Certificate[] xcs, String string) throws CertificateException {
-	            }
-
-	            public X509Certificate[] getAcceptedIssuers() {
-	                return null;
-	            }
-	        };
 	        sslContext = SSLContext.getInstance("TLS");
-	        sslContext.init(null, new TrustManager[]{tm}, null);
+	        sslContext.init(null, MemorizingTrustManager.getInstanceList(ctx), new java.security.SecureRandom());
 	        sslSocketFactory = new MySSLSocketFactory(sslContext);
-	        sslSocketFactory.setHostnameVerifier(SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
+            if (PreferenceManager.getDefaultSharedPreferences(ctx).getBoolean("default_openhab_sslhost", false))
+                sslSocketFactory.setHostnameVerifier(SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
 	        this.setSSLSocketFactory(sslSocketFactory);
 	    } catch (Exception ex) {
 	    }

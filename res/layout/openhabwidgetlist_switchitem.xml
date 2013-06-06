@@ -3,7 +3,10 @@
   xmlns:android="http://schemas.android.com/apk/res/android"
   android:layout_width="fill_parent"
   android:layout_height="wrap_content"
-  android:orientation="horizontal">
+  android:orientation="horizontal"
+  android:paddingLeft="@dimen/widgetlist_item_left_margin"
+  android:paddingRight="@dimen/widgetlist_item_right_margin"
+        >
   <LinearLayout
 	    android:id="@+id/switchleftlayout"
         android:layout_width="wrap_content"
@@ -44,7 +47,7 @@
         android:background="?android:attr/listDivider"
         android:orientation="horizontal"
         android:layout_below="@+id/switchleftlayout"
-        android:layout_marginLeft="5dip"
-        android:layout_marginRight="5dip"
+        android:layout_marginLeft="@dimen/widgetlist_divider_left_margin"
+        android:layout_marginRight="@dimen/widgetlist_divider_right_margin"
        />
 </RelativeLayout>
