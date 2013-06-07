@@ -30,7 +30,6 @@
 package org.openhab.habdroid.ui;
 
 import android.Manifest;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -38,36 +37,22 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
-import android.net.http.AndroidHttpClient;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.speech.RecognizerIntent;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.*;
 import android.widget.Toast;
-import com.android.volley.*;
-import com.android.volley.toolbox.ImageLoader;
-import com.android.volley.toolbox.Volley;
 import com.crittercism.app.Crittercism;
 import com.google.analytics.tracking.android.EasyTracker;
-import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.image.WebImageCache;
-import de.duenndns.ssl.MemorizingTrustManager;
 
 import org.apache.http.client.HttpResponseException;
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.core.DocumentHttpResponseHandler;
-import org.openhab.habdroid.core.DocumentRequest;
-import org.openhab.habdroid.core.LruBitmapCache;
 import org.openhab.habdroid.core.OpenHABTracker;
 import org.openhab.habdroid.core.OpenHABTrackerReceiver;
 import org.openhab.habdroid.model.OpenHABLinkedPage;
@@ -77,19 +62,12 @@ import org.openhab.habdroid.util.Util;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
-import javax.net.ssl.HostnameVerifier;
-import javax.net.ssl.HttpsURLConnection;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLSession;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.lang.reflect.Field;
-import java.security.KeyManagementException;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -125,16 +103,14 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
     private OpenHABTracker mOpenHABTracker;
     // Progress dialog
     private ProgressDialog mProgressDialog;
-    // Volley request queue
-    private RequestQueue mRequestQueue;
     // If Voice Recognition is enabled
     private boolean mVoiceRecognitionEnabled = false;
     // If openHAB discovery is enabled
     private boolean mServiceDiscoveryEnabled = true;
-    // Volley image loader
-    private ImageLoader mImageLoader;
     // Loopj
     private static MyAsyncHttpClient mAsyncHttpClient;
+    //
+    private boolean sitemapSelected = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -155,10 +131,6 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
         checkVoiceRecognition();
         // initialize loopj async http client
         mAsyncHttpClient = new MyAsyncHttpClient(this);
-        // initialize volley request queue for this activity
-        mRequestQueue = Volley.newRequestQueue(this);
-        // initialize volley image loader
-        mImageLoader = new ImageLoader(mRequestQueue, new LruBitmapCache(1000));
         // Set the theme to one from preferences
         Util.setActivityTheme(this);
         mSettings = PreferenceManager.getDefaultSharedPreferences(this);
@@ -190,24 +162,27 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
         pagerAdapter.setOpenHABPassword(openHABPassword);
         pager.setAdapter(pagerAdapter);
         pager.setOnPageChangeListener(pagerAdapter);
-        FragmentManager fm = getSupportFragmentManager();
-        stateFragment = (StateRetainFragment)fm.findFragmentByTag("stateFragment");
-        if (stateFragment == null) {
-            stateFragment = new StateRetainFragment();
-            fm.beginTransaction().add(stateFragment, "stateFragment").commit();
-        } else {
-            pagerAdapter.setFragmentList(stateFragment.getFragmentList());
-        }
         // Check if we have openHAB page url in saved instance state?
         if (savedInstanceState != null) {
             openHABBaseUrl = savedInstanceState.getString("openHABBaseUrl");
             sitemapRootUrl = savedInstanceState.getString("sitemapRootUrl");
         }
-        if (savedInstanceState == null) {
-            mOpenHABTracker = new OpenHABTracker(this, mServiceDiscoveryEnabled);
+    }
+
+    @Override
+    public void onResume() {
+        Log.d(TAG, "onResume()");
+        super.onResume();
+        FragmentManager fm = getSupportFragmentManager();
+        stateFragment = (StateRetainFragment)fm.findFragmentByTag("stateFragment");
+        if (stateFragment == null) {
+            stateFragment = new StateRetainFragment();
+            fm.beginTransaction().add(stateFragment, "stateFragment").commit();
+            mOpenHABTracker = new OpenHABTracker(this, openHABServiceType, mServiceDiscoveryEnabled);
             mOpenHABTracker.start();
+        } else {
+            pagerAdapter.setFragmentList(stateFragment.getFragmentList());
         }
-//        leftPager.setPageTransformer(true, new DepthPageTransformer());
     }
 
     public void onOpenHABTracked(String baseUrl, String message) {
@@ -423,6 +398,7 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
 
     private void openSitemap(String sitemapUrl) {
         Log.i(TAG, "Opening sitemap at " + sitemapUrl);
+        sitemapSelected = true;
         sitemapRootUrl = sitemapUrl;
         pagerAdapter.clearFragmentList();
         pagerAdapter.openPage(sitemapRootUrl);
@@ -592,17 +568,12 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
     public void onPause() {
         Log.d(TAG, "onPause()");
         super.onPause();
-        mRequestQueue.cancelAll(new RequestQueue.RequestFilter() {
-            public boolean apply(Request<?> request) {
-                return true;
-            }
-        });
-        Runnable can = new Runnable() {
-            public void run() {
-                mAsyncHttpClient.cancelRequests(OpenHABMainActivity.this, true);
-            }
-        };
-        new Thread(can).start();
+//        Runnable can = new Runnable() {
+//            public void run() {
+//                mAsyncHttpClient.cancelRequests(OpenHABMainActivity.this, true);
+//            }
+//        };
+//        new Thread(can).start();
     }
 
 
@@ -706,14 +677,6 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
 
     public void setOpenHABPassword(String openHABPassword) {
         this.openHABPassword = openHABPassword;
-    }
-
-    public RequestQueue getRequestQueue() {
-        return mRequestQueue;
-    }
-
-    public ImageLoader getImageLoader() {
-        return mImageLoader;
     }
 
     public static MyAsyncHttpClient getAsyncHttpClient() {

@@ -41,24 +41,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.ImageLoader;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.loopj.android.http.AsyncHttpAbortException;
-import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.AsyncHttpResponseHandler;
 
 import org.apache.http.Header;
 import org.apache.http.message.BasicHeader;
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.core.DocumentHttpResponseHandler;
-import org.openhab.habdroid.core.DocumentRequest;
-import org.openhab.habdroid.core.OpenHABRetryPolicy;
 import org.openhab.habdroid.model.OpenHABItem;
 import org.openhab.habdroid.model.OpenHABNFCActionList;
 import org.openhab.habdroid.model.OpenHABWidget;
@@ -67,14 +55,6 @@ import org.openhab.habdroid.util.MyAsyncHttpClient;
 import org.openhab.habdroid.util.Util;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
-import org.xml.sax.SAXException;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 
@@ -98,8 +78,6 @@ public class OpenHABWidgetListFragment extends ListFragment {
     private String displayPageUrl;
     // sitemap root url
     private String sitemapRootUrl = "";
-    // async http client
-    private AsyncHttpClient pageAsyncHttpClient;
     // openHAB base url
     private String openHABBaseUrl = "https://demo.openhab.org:8443/";
     // List of widgets to display
@@ -117,12 +95,8 @@ public class OpenHABWidgetListFragment extends ListFragment {
     private boolean nfcAutoClose = false;
     // parent activity
     private OpenHABMainActivity mActivity;
-    // volley request queue
-    private RequestQueue volleyRequestQueue;
     // loopj
     private MyAsyncHttpClient mAsyncHttpClient;
-    // volley image loader
-    private ImageLoader imageLoader;
     // Am I visible?
     private boolean mIsVisible = false;
     private  OpenHABWidgetListFragment mTag;
@@ -223,9 +197,7 @@ public class OpenHABWidgetListFragment extends ListFragment {
         if (activity instanceof OnWidgetSelectedListener) {
             widgetSelectedListener = (OnWidgetSelectedListener)activity;
             mActivity = (OpenHABMainActivity)activity;
-            volleyRequestQueue = mActivity.getRequestQueue();
             mAsyncHttpClient = mActivity.getAsyncHttpClient();
-            imageLoader = mActivity.getImageLoader();
         } else {
             Log.e("TAG", "Attached to incompatible activity");
         }
@@ -252,16 +224,6 @@ public class OpenHABWidgetListFragment extends ListFragment {
     public void onPause () {
         super.onPause();
         Log.d(TAG, "onPause() " + displayPageUrl);
-        volleyRequestQueue.cancelAll(new RequestQueue.RequestFilter() {
-            public boolean apply(Request<?> request) {
-                Log.d(TAG, "Should I cancel request to " + request.getUrl());
-                if (request.getUrl().equals(displayPageUrl)) {
-                    Log.d(TAG, "Cancelling request to " + request.getUrl());
-                    return true;
-                }
-                return false;
-            }
-        });
         cancelHttpRequests();
         if (openHABWidgetAdapter != null) {
             openHABWidgetAdapter.stopImageRefresh();

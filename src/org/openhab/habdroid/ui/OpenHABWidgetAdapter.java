@@ -39,7 +39,6 @@ import java.util.Random;
 
 import org.apache.http.entity.StringEntity;
 import org.openhab.habdroid.R;
-import org.openhab.habdroid.core.CommandRequest;
 import org.openhab.habdroid.model.OpenHABItem;
 import org.openhab.habdroid.model.OpenHABWidget;
 import org.openhab.habdroid.model.OpenHABWidgetMapping;

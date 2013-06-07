@@ -3,13 +3,17 @@
     <style name="HABDroid.Dark" parent="android:Theme.Holo">
         <item name="customMicIcon">@drawable/menu_mic_dark</item>
         <item name="android:actionBarStyle">@style/HABDroid.Dark.ActionBar</item>
-        <item name="widgetlistItemDivider">?android:attr/listDivider</item>
+        <item name="widgetlistItemDivider">?android:dividerHorizontal</item>
     </style>
     <style name="HABDroid.Light" parent="android:Theme.Holo.Light">
         <item name="customMicIcon">@drawable/menu_mic_light</item>
-        <item name="widgetlistItemDivider">?android:attr/listDivider</item>
+        <item name="android:actionBarStyle">@style/HABDroid.Light.ActionBar</item>
+        <item name="widgetlistItemDivider">?android:dividerHorizontal</item>
     </style>
     <style name="HABDroid.Dark.ActionBar" parent="@android:style/Widget.Holo.ActionBar">
-        <item name="android:background">#101010</item>
+        <item name="android:icon">@drawable/openhabicon</item>
+    </style>
+    <style name="HABDroid.Light.ActionBar" parent="@android:style/Widget.Holo.Light.ActionBar">
+        <item name="android:icon">@drawable/openhabicon_light</item>
     </style>
 </resources>

@@ -71,7 +71,7 @@ public class OpenHABTracker implements AsyncServiceResolverListener {
     // Receiver for connectivity tracking
     ConnectivityChangeReceiver mConnectivityChangeReceiver;
 
-    public OpenHABTracker(Context ctx, boolean discoveryEnabled) {
+    public OpenHABTracker(Context ctx, String serviceType, boolean discoveryEnabled) {
         mCtx = ctx;
         mDiscoveryEnabled = discoveryEnabled;
         // If context is implementing our callback interface, set it as a receiver automatically
@@ -79,7 +79,7 @@ public class OpenHABTracker implements AsyncServiceResolverListener {
             mReceiver = (OpenHABTrackerReceiver)ctx;
         }
         // openHAB Bonjour service type
-        mOpenHABServiceType = "_openhab-server-ssl._tcp.local.";
+        mOpenHABServiceType = serviceType;
         // Create and register receiver for connectivity changes tracking
         mConnectivityChangeReceiver = new ConnectivityChangeReceiver();
     }
