@@ -52,9 +52,9 @@
     <string name="nfc_dialog_title">Please select NFC tag action</string>
     <string name="info_not_set">Not set</string>
     <!-- Strings for MemorizingTrustManager activity -->
-    <string name="mtm_accept_cert">Accept Unknown Certificate?</string>
+    <string name="mtm_accept_cert">Accept unknown certificate?</string>
     <string name="mtm_decision_always">Always</string>
     <string name="mtm_decision_once">Once</string>
     <string name="mtm_decision_abort">Abort</string>
-    <string name="mtm_notification">Certificate Verification</string>
+    <string name="mtm_notification">Certificate verification</string>
 </resources>

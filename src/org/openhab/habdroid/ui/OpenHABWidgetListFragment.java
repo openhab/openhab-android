@@ -211,20 +211,11 @@ public class OpenHABWidgetListFragment extends ListFragment {
         return inflater.inflate(R.layout.openhabwidgetlist_fragment, container, false);
     }
 
-    private void cancelHttpRequests() {
-        Runnable can = new Runnable() {
-            public void run() {
-                mAsyncHttpClient.cancelRequests(mActivity, mTag, true);
-            }
-        };
-        new Thread(can).start();
-    }
-
     @Override
     public void onPause () {
         super.onPause();
         Log.d(TAG, "onPause() " + displayPageUrl);
-        cancelHttpRequests();
+        mAsyncHttpClient.cancelRequests(mActivity, mTag, true);
         if (openHABWidgetAdapter != null) {
             openHABWidgetAdapter.stopImageRefresh();
             openHABWidgetAdapter.stopVideoWidgets();

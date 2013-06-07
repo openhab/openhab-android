@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- General app strings -->
     <string name="app_name">HABDroid</string>
     <string name="openhab_service_type">_openhab-server-ssl._tcp.local.</string>
     <string name="openhab_demo_url">https://demo.openhab.org:8443/</string>
-    <string name="app_preferences_name">Einstellungen</string>
+    <string name="app_preferences_name">Settings</string>
+    <!-- Main menu items -->
     <string name="mainmenu_openhab_preferences">Einstellungen</string>
     <string name="mainmenu_openhab_selectsitemap">Wähle Sitemap</string>
     <string name="mainmenu_openhab_writetag">Schreibe NFC Tag</string>
     <string name="mainmenu_openhab_clearcache">Lösche Bildercache</string>
+    <!-- App settings strings -->
     <string name="settings_title">HABDroid Einstellungen</string>
     <string name="settings_openhab_url">openHAB URL</string>
     <string name="settings_openhab_url_summary">Manual konfigurierte openHAB URL. Wenn gesetzt, ist Auto-Discovery deaktiviert.</string>
@@ -23,6 +26,10 @@
     <string name="settings_openhab_demomode_summary">Betreibt HABDroid im Demo Modus</string>
     <string name="settings_openhab_theme">HABDroid Theme</string>
     <string name="settings_openhab_appversion">HABDroid Version</string>
+    <string name="settings_openhab_animation">Animation style</string>
+    <string name="settings_openhab_sslhost">Ignoriere SSL Hostnamen</string>
+    <string name="settings_openhab_sslhost_summary">Deaktiviert die Prüfung auf ungültige SSL Hostnamen</string>
+    <!-- App messages strings -->
     <string name="info_demo_mode">HABDroid läuft im Demo Modus. Unter Einstellungen kann eine eigene openHAB-Instanz konfiguriert werden.</string>
     <string name="info_conn_url">Verbinde mit lokaler URL</string>
     <string name="info_conn_rem_url">Verbinde mit Remote URL</string>
@@ -32,6 +39,8 @@
     <string name="error_network_not_available">Netzwerk nicht verfügbar</string>
     <string name="error_no_uuid">Konnte openHAB UUID nicht abrufen, Verbindung fehlgeschlagen</string>
     <string name="erorr_invalid_url">Bitte geben Sie eine gültige URL im \'protocol://host:port/\' format an.</string>
+    <string name="erorr_no_wifi_mcast_permission">CHANGE_WIFI_MULTICAST_STATE permission wurde nicht erteilt, openHAB discovery wird daher deaktivert!</string>
+    <string name="erorr_no_wifi_state_permission">ACCESS_WIFI_STATE permission wurde nicht erteilt, openHAB discovery wird daher deaktiviert!</string>
     <string name="title_activity_openhabwritetag">Schreibe NFC Tag</string>
     <string name="info_write_tag">Berühren Sie den NFC-Tag und warten Sie auf die Bestätigungsmitteilung</string>
     <string name="info_write_tag_progress">Schreibe NFC-Tag</string>
@@ -42,4 +51,10 @@
     <string name="action_settings">Einstellungen</string>
     <string name="nfc_dialog_title">Aktion des NFC-Tags</string>
     <string name="info_not_set">Nicht gesetzt</string>    
+    <!-- Strings for MemorizingTrustManager activity -->
+    <string name="mtm_accept_cert">Akzeptiere unbekanntes Zertifikat?</string>
+    <string name="mtm_decision_always">Immer</string>
+    <string name="mtm_decision_once">Einmalig</string>
+    <string name="mtm_decision_abort">Abbrechen</string>
+    <string name="mtm_notification">Unbekanntes Zertifikat</string>
 </resources>
