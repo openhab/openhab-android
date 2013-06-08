@@ -173,7 +173,8 @@ public class OpenHABWidgetListFragment extends ListFragment {
                             Intent writeTagIntent = new Intent(getActivity().getApplicationContext(),
                                     OpenHABWriteTagActivity.class);
                             writeTagIntent.putExtra("sitemapPage", displayPageUrl);
-                            writeTagIntent.putExtra("widget", selectedOpenHABWidget.getId());
+                            writeTagIntent.putExtra("item", selectedOpenHABWidget.getItem().getName());
+                            writeTagIntent.putExtra("itemType", selectedOpenHABWidget.getItem().getType());
                             OpenHABNFCActionList nfcActionList =
                                     new OpenHABNFCActionList(selectedOpenHABWidget);
                             writeTagIntent.putExtra("command", nfcActionList.getCommands()[which]);
@@ -397,6 +398,10 @@ public class OpenHABWidgetListFragment extends ListFragment {
 
     public void setDisplayPageUrl(String displayPageUrl) {
         this.displayPageUrl = displayPageUrl;
+    }
+
+    public String getDisplayPageUrl() {
+        return displayPageUrl;
     }
 
     public String getTitle() {

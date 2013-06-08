@@ -481,6 +481,8 @@ public class OpenHABWidgetListActivity extends ListActivity implements AsyncServ
 	public void onPause() {
 		Log.d(TAG, "onPause()");
 		super.onPause();
+        if (NfcAdapter.getDefaultAdapter(this) != null)
+            NfcAdapter.getDefaultAdapter(this).disableForegroundDispatch(this);
 		openHABWidgetAdapter.stopVideoWidgets();
 		openHABWidgetAdapter.stopImageRefresh();
 		if(NfcAdapter.getDefaultAdapter(this) != null)

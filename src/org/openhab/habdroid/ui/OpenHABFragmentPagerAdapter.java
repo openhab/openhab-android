@@ -100,6 +100,22 @@ public class OpenHABFragmentPagerAdapter extends FragmentStatePagerAdapter imple
         notifyDataSetChanged();
     }
 
+    public OpenHABWidgetListFragment getFragment(int position) {
+        if (position < fragmentList.size()) {
+            return fragmentList.get(position);
+        }
+        return null;
+    }
+
+    public int getPositionByUrl(String pageUrl) {
+        for (int i = 0; i < fragmentList.size(); i++) {
+            if (fragmentList.get(i).getDisplayPageUrl().equals(pageUrl)) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
     @Override
     public float getPageWidth(int position) {
         float pageWidth = 1.0f / columnsNumber;

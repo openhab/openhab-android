@@ -31,12 +31,15 @@ package org.openhab.habdroid.ui;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.net.Uri;
+import android.nfc.NfcAdapter;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.speech.RecognizerIntent;
@@ -48,9 +51,11 @@ import android.view.*;
 import android.widget.Toast;
 import com.crittercism.app.Crittercism;
 import com.google.analytics.tracking.android.EasyTracker;
+import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.image.WebImageCache;
 
 import org.apache.http.client.HttpResponseException;
+import org.apache.http.entity.StringEntity;
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.core.DocumentHttpResponseHandler;
 import org.openhab.habdroid.core.OpenHABTracker;
@@ -68,8 +73,11 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
+
+import de.duenndns.ssl.MemorizingTrustManager;
 
 
 public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSelectedListener, OpenHABTrackerReceiver {
@@ -111,6 +119,8 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
     private static MyAsyncHttpClient mAsyncHttpClient;
     //
     private boolean sitemapSelected = false;
+    // NFC Launch data
+    private String mNfcData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -167,12 +177,32 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
             openHABBaseUrl = savedInstanceState.getString("openHABBaseUrl");
             sitemapRootUrl = savedInstanceState.getString("sitemapRootUrl");
         }
+        if (getIntent() != null) {
+            Log.d(TAG, "Intent != null");
+            if (getIntent().getAction() != null) {
+                Log.d(TAG, "Intent action = " + getIntent().getAction());
+                if (getIntent().getAction().equals("android.nfc.action.NDEF_DISCOVERED")) {
+                    Log.d(TAG, "This is NFC action");
+                    if (getIntent().getDataString() != null) {
+                        Log.d(TAG, "NFC data = " + getIntent().getDataString());
+                        mNfcData = getIntent().getDataString();
+                    }
+                }
+            }
+        }
     }
 
     @Override
     public void onResume() {
         Log.d(TAG, "onResume()");
         super.onResume();
+        PendingIntent pendingIntent = PendingIntent.getActivity(
+                this, 0, new Intent(this, getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
+        if (NfcAdapter.getDefaultAdapter(this) != null)
+            NfcAdapter.getDefaultAdapter(this).enableForegroundDispatch(this, pendingIntent, null, null);
+        if (!TextUtils.isEmpty(mNfcData)) {
+            Log.d(TAG, "We have NFC data from launch");
+        }
         FragmentManager fm = getSupportFragmentManager();
         stateFragment = (StateRetainFragment)fm.findFragmentByTag("stateFragment");
         if (stateFragment == null) {
@@ -191,7 +221,11 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
                 Toast.LENGTH_LONG).show();
         openHABBaseUrl = baseUrl;
         pagerAdapter.setOpenHABBaseUrl(openHABBaseUrl);
-        selectSitemap(baseUrl, false);
+        if (!TextUtils.isEmpty(mNfcData)) {
+            onNfcTag(mNfcData);
+        } else {
+            selectSitemap(baseUrl, false);
+        }
     }
 
     public void onError(String error) {
@@ -201,18 +235,11 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
 
     public void onBonjourDiscoveryStarted() {
         mProgressDialog = ProgressDialog.show(this, "",
-                "Discovering openHAB. Please wait...", true);
+                getString(R.string.info_discovery), true);
     }
 
     public void onBonjourDiscoveryFinished() {
         mProgressDialog.dismiss();
-    }
-    protected Document parseResponse(String responseBody) throws ParserConfigurationException, IOException, SAXException {
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        Document document;
-        DocumentBuilder builder = factory.newDocumentBuilder();
-        document = builder.parse(new ByteArrayInputStream(responseBody.getBytes()));
-        return document;
     }
 
     /**
@@ -296,78 +323,7 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
                 }
             }
         });
-/*        DocumentRequest sitemapRequest = new DocumentRequest(Request.Method.GET, baseUrl + "rest/sitemaps",
-                new Response.Listener<Document>() {
-                    public void onResponse(Document document) {
-                        Log.d(TAG, "Response: " + document.toString());
-                        List<OpenHABSitemap> sitemapList = Util.parseSitemapList(document);
-                        if (sitemapList.size() == 0) {
-                            // Got an empty sitemap list!
-                            showAlertDialog(getString(R.string.error_empty_sitemap_list));
-                            return;
-                        }
-                        // If we are forced to do selection, just open selection dialog
-                        if (forceSelect) {
-                            showSitemapSelectionDialog(sitemapList);
-                        } else {
-                            // Check if we have a sitemap configured to use
-                            SharedPreferences settings =
-                                    PreferenceManager.getDefaultSharedPreferences(OpenHABMainActivity.this);
-                            String configuredSitemap = settings.getString("default_openhab_sitemap", "");
-                            // If we have sitemap configured
-                            if (configuredSitemap.length() > 0) {
-                                // Configured sitemap is on the list we got, open it!
-                                if (Util.sitemapExists(sitemapList, configuredSitemap)) {
-                                    Log.d(TAG, "Configured sitemap is on the list");
-                                    OpenHABSitemap selectedSitemap = Util.getSitemapByName(sitemapList, configuredSitemap);
-                                    openSitemap(selectedSitemap.getHomepageLink());
-                                    // Configured sitemap is not on the list we got!
-                                } else {
-                                    Log.d(TAG, "Configured sitemap is not on the list");
-                                    if (sitemapList.size() == 1) {
-                                        Log.d(TAG, "Got only one sitemap");
-                                        SharedPreferences.Editor preferencesEditor = settings.edit();
-                                        preferencesEditor.putString("default_openhab_sitemap", sitemapList.get(0).getName());
-                                        preferencesEditor.commit();
-                                        openSitemap(sitemapList.get(0).getHomepageLink());
-                                    } else {
-                                        Log.d(TAG, "Got multiply sitemaps, user have to select one");
-                                        showSitemapSelectionDialog(sitemapList);
-                                    }
-                                }
-                                // No sitemap is configured to use
-                            } else {
-                                // We got only one single sitemap from openHAB, use it
-                                if (sitemapList.size() == 1) {
-                                    Log.d(TAG, "Got only one sitemap");
-                                    SharedPreferences.Editor preferencesEditor = settings.edit();
-                                    preferencesEditor.putString("default_openhab_sitemap", sitemapList.get(0).getName());
-                                    preferencesEditor.commit();
-                                    openSitemap(sitemapList.get(0).getHomepageLink());
-                                } else {
-                                    Log.d(TAG, "Got multiply sitemaps, user have to select one");
-                                    showSitemapSelectionDialog(sitemapList);
-                                }
-                            }
-                        }
-                    }
-                }, new Response.ErrorListener() {
-            public void onErrorResponse(VolleyError volleyError) {
-                Log.e(TAG, volleyError.getClass().toString());
-                if (volleyError instanceof AuthFailureError) {
-                    showAlertDialog(getString(R.string.error_authentication_failed));
-                } else {
-                    if (volleyError.getMessage() != null) {
-                        Log.e(TAG, volleyError.getMessage());
-                        showAlertDialog(volleyError.getMessage());
-                    } else {
-                        volleyError.printStackTrace();
-                    }
-                }
-            }
-        });
-        sitemapRequest.setBasicAuth(openHABUsername, openHABPassword);
-        mRequestQueue.add(sitemapRequest);*/
+
     }
 
     private void showSitemapSelectionDialog(final List<OpenHABSitemap> sitemapList) {
@@ -468,7 +424,8 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
             case R.id.mainmenu_openhab_writetag:
                 Intent writeTagIntent = new Intent(this.getApplicationContext(), OpenHABWriteTagActivity.class);
                 // TODO: get current display page url, which? how? :-/
-                writeTagIntent.putExtra("sitemapPage", "");
+                OpenHABWidgetListFragment currentFragment = pagerAdapter.getFragment(pager.getCurrentItem());
+                writeTagIntent.putExtra("sitemapPage", currentFragment.getDisplayPageUrl());
                 startActivityForResult(writeTagIntent, WRITE_NFC_TAG_REQUEST_CODE);
                 Util.overridePendingTransition(this, false);
                 return true;
@@ -556,7 +513,6 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
     public void onStop() {
         Log.d(TAG, "onStop()");
         super.onStop();
-        stateFragment.setFragmentList(pagerAdapter.getFragmentList());
         // Stop activity tracking via Google Analytics
         if (!isDeveloper)
             EasyTracker.getInstance().activityStop(this);
@@ -568,6 +524,7 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
     public void onPause() {
         Log.d(TAG, "onPause()");
         super.onPause();
+        stateFragment.setFragmentList(pagerAdapter.getFragmentList());
 //        Runnable can = new Runnable() {
 //            public void run() {
 //                mAsyncHttpClient.cancelRequests(OpenHABMainActivity.this, true);
@@ -576,6 +533,78 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
 //        new Thread(can).start();
     }
 
+    /**
+     * This method is called when activity receives a new intent while running
+     */
+    @Override
+    public void onNewIntent(Intent newIntent) {
+        if (newIntent.getAction() != null) {
+            Log.d(TAG, "New intent received = " + newIntent.getAction().toString());
+            if (newIntent.getAction().equals("android.nfc.action.NDEF_DISCOVERED")) {
+                Log.d(TAG, "This is NFC action");
+                if (newIntent.getDataString() != null) {
+                    Log.d(TAG, "Action data = " + newIntent.getDataString());
+                    onNfcTag(newIntent.getDataString());
+                }
+            }
+        }
+    }
+
+    /**
+     * This method processes new intents generated by NFC subsystem
+     * @param nfcData - a data which NFC subsystem got from the NFC tag
+     */
+    public void onNfcTag(String nfcData) {
+        Log.d(TAG, "onNfcTag()");
+        Uri openHABURI = Uri.parse(nfcData);
+        Log.d(TAG, "NFC Scheme = " + openHABURI.getScheme());
+        Log.d(TAG, "NFC Host = " + openHABURI.getHost());
+        Log.d(TAG, "NFC Path = " + openHABURI.getPath());
+        String nfcItem = openHABURI.getQueryParameter("item");
+        String nfcCommand = openHABURI.getQueryParameter("command");
+        String nfcItemType = openHABURI.getQueryParameter("itemType");
+        // If there is no item parameter it means tag contains only sitemap page url
+        if (TextUtils.isEmpty(nfcItem)) {
+            Log.d(TAG, "This is a sitemap tag without parameters");
+            // Form the new sitemap page url
+            String newPageUrl = openHABBaseUrl + "rest/sitemaps" + openHABURI.getPath();
+            // Check if we have this page in stack?
+            int possiblePosition = pagerAdapter.getPositionByUrl(newPageUrl);
+            // If yes, then just switch to this page
+            if (possiblePosition >= 0) {
+                pager.setCurrentItem(possiblePosition);
+            // If not, then open this page as new one
+            } else {
+                pagerAdapter.openPage(newPageUrl);
+                pager.setCurrentItem(pagerAdapter.getCount()-1);
+            }
+        } else {
+            Log.d(TAG, "Target item = " + nfcItem);
+            try {
+                StringEntity se = new StringEntity(nfcCommand);
+                mAsyncHttpClient.post(this, openHABBaseUrl + "rest/items/" + nfcItem, se, "text/plain", new AsyncHttpResponseHandler() {
+                    @Override
+                    public void onSuccess(String response) {
+                        Log.d(TAG, "Command was sent successfully");
+                    }
+                    @Override
+                    public void onFailure(Throwable error, String errorResponse) {
+                        Log.e(TAG, "Got command error " + error.getMessage());
+                        if (errorResponse != null)
+                            Log.e(TAG, "Error response = " + errorResponse);
+                    }
+                });
+            } catch (UnsupportedEncodingException e) {
+                if (e != null)
+                    Log.e(TAG, e.getMessage());
+            }
+            if (!TextUtils.isEmpty(mNfcData)) {
+                Log.d(TAG, "This was NFC activity launch, exiting");
+                finish();
+            }
+        }
+        mNfcData = "";
+    }
 
     public void onWidgetSelectedListener(OpenHABLinkedPage linkedPage) {
         Log.i(TAG, "Got widget link = " + linkedPage.getLink());

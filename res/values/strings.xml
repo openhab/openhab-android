@@ -33,6 +33,7 @@
     <string name="info_demo_mode">HABDroid is running in demo mode. To connect to your openHAB please go to settings menu.</string>
     <string name="info_conn_url">Connecting to configured URL</string>
     <string name="info_conn_rem_url">Connecting to remote URL</string>
+    <string name="info_discovery">Discovering openHAB. Please wait...</string>
     <string name="error_no_url">Please check that openHAB is running or configure openHAB URL or remote URL</string>
     <string name="error_authentication_failed">Authentication Failed. Please check Username/Password settings</string>
     <string name="error_empty_sitemap_list">openHAB returned empty sitemap list</string>
@@ -52,7 +53,7 @@
     <string name="nfc_dialog_title">Please select NFC tag action</string>
     <string name="info_not_set">Not set</string>
     <!-- Strings for MemorizingTrustManager activity -->
-    <string name="mtm_accept_cert">Accept unknown certificate?</string>
+    <string name="mtm_accept_cert">Accept unknown Certificate?</string>
     <string name="mtm_decision_always">Always</string>
     <string name="mtm_decision_once">Once</string>
     <string name="mtm_decision_abort">Abort</string>

@@ -51,6 +51,7 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.Intent;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.widget.TextView;
@@ -60,7 +61,7 @@ public class OpenHABWriteTagActivity extends Activity {
 	// Logging TAG
 	private static final String TAG = "OpenHABWriteTagActivity";
 	private String sitemapPage = "";
-	private String widget = "";
+	private String item = "";
 	private String command = "";
 
 	@Override
@@ -92,9 +93,9 @@ public class OpenHABWriteTagActivity extends Activity {
 			sitemapPage = getIntent().getExtras().getString("sitemapPage");
 			Log.d(TAG, "Got sitemapPage = " + sitemapPage);
 		}
-		if (getIntent().hasExtra("widget")) {
-			widget = getIntent().getExtras().getString("widget");
-			Log.d(TAG, "Got widget = " + widget);
+		if (getIntent().hasExtra("item")) {
+			item = getIntent().getExtras().getString("item");
+			Log.d(TAG, "Got item = " + item);
 		}
 		if (getIntent().hasExtra("command")) {
 			command = getIntent().getExtras().getString("command");
@@ -138,10 +139,10 @@ public class OpenHABWriteTagActivity extends Activity {
 			URI sitemapURI = new URI(sitemapPage);
 			if (sitemapURI.getPath().startsWith("/rest/sitemaps")) {
 				openhabURI = "openhab://sitemaps" + sitemapURI.getPath().substring(14, sitemapURI.getPath().length());
-				if (widget.length() > 0) {
-					openhabURI = openhabURI + "?widget=" + widget;
+				if (!TextUtils.isEmpty(item)) {
+					openhabURI = openhabURI + "?item=" + item;
 				}
-				if (command.length() > 0) {
+				if (!TextUtils.isEmpty(command)) {
 					openhabURI = openhabURI + "&command=" + command;
 				}
 			}
@@ -222,7 +223,6 @@ public class OpenHABWriteTagActivity extends Activity {
 			@Override
 			public void run() {
 				OpenHABWriteTagActivity.this.runOnUiThread(new Runnable() {
-					@Override
 					public void run() {
 						OpenHABWriteTagActivity.this.finish();
 					}
