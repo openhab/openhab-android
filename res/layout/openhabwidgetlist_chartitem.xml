@@ -6,7 +6,9 @@
         android:adjustViewBounds="true"
         android:paddingLeft="@dimen/widgetlist_item_left_margin"
         android:paddingRight="@dimen/widgetlist_item_right_margin"
-  >
+        android:background="?android:activatedBackgroundIndicator"
+
+        >
 <org.openhab.habdroid.util.MySmartImageView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content" 

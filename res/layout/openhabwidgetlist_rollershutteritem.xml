@@ -7,6 +7,7 @@
   android:descendantFocusability="blocksDescendants"
   android:paddingLeft="@dimen/widgetlist_item_left_margin"
   android:paddingRight="@dimen/widgetlist_item_right_margin"
+  android:background="?android:activatedBackgroundIndicator"
 
         >
   <LinearLayout

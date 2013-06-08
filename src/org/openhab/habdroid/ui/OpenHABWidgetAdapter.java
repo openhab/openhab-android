@@ -46,6 +46,7 @@ import org.openhab.habdroid.util.MyAsyncHttpClient;
 import org.openhab.habdroid.util.MySmartImageView;
 import android.content.Context;
 import android.net.Uri;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -73,10 +74,6 @@ import android.widget.TextView;
 import android.widget.VideoView;
 import at.bookworm.widget.segcontrol.SegmentedControlButton;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.crittercism.app.Crittercism;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
@@ -187,6 +184,10 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     	} else {
     		widgetView = (RelativeLayout) convertView;
     	}
+        if (!openHABWidget.hasLinkedPage()) {
+            widgetView.setClickable(false);
+            widgetView.setLongClickable(true);
+        }
         // Process widgets icon image
         MySmartImageView widgetImage = (MySmartImageView)widgetView.findViewById(R.id.widgetimage);
         // Some of widgets, for example Frame doesnt' have an icon, so...

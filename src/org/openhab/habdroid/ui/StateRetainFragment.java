@@ -38,6 +38,7 @@ import java.util.List;
 public class StateRetainFragment extends Fragment {
 
     private List<OpenHABWidgetListFragment> fragmentList = new ArrayList<OpenHABWidgetListFragment>(0);
+    private int mCurrentPage;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -51,5 +52,13 @@ public class StateRetainFragment extends Fragment {
 
     public void setFragmentList(List<OpenHABWidgetListFragment> fragmentList) {
         this.fragmentList = fragmentList;
+    }
+
+    public int getCurrentPage() {
+        return mCurrentPage;
+    }
+
+    public void setCurrentPage(int currentPage) {
+        mCurrentPage = currentPage;
     }
 }

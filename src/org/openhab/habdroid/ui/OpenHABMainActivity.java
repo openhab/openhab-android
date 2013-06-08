@@ -203,6 +203,7 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
         if (!TextUtils.isEmpty(mNfcData)) {
             Log.d(TAG, "We have NFC data from launch");
         }
+        pagerAdapter.setColumnsNumber(getResources().getInteger(R.integer.pager_columns));
         FragmentManager fm = getSupportFragmentManager();
         stateFragment = (StateRetainFragment)fm.findFragmentByTag("stateFragment");
         if (stateFragment == null) {
@@ -212,6 +213,7 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
             mOpenHABTracker.start();
         } else {
             pagerAdapter.setFragmentList(stateFragment.getFragmentList());
+            pager.setCurrentItem(stateFragment.getCurrentPage());
         }
     }
 
@@ -526,6 +528,7 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
         Log.d(TAG, "onPause()");
         super.onPause();
         stateFragment.setFragmentList(pagerAdapter.getFragmentList());
+        stateFragment.setCurrentPage(pager.getCurrentItem());
 //        Runnable can = new Runnable() {
 //            public void run() {
 //                mAsyncHttpClient.cancelRequests(OpenHABMainActivity.this, true);
@@ -607,9 +610,10 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
         }
     }
 
-    public void onWidgetSelectedListener(OpenHABLinkedPage linkedPage) {
+    public void onWidgetSelectedListener(OpenHABLinkedPage linkedPage, OpenHABWidgetListFragment source) {
         Log.i(TAG, "Got widget link = " + linkedPage.getLink());
-        pagerAdapter.openPage(linkedPage.getLink());
+        Log.i(TAG, String.format("Link came from fragment %d", pagerAdapter.getPosition(source)));
+        pagerAdapter.openPage(linkedPage.getLink(), pagerAdapter.getPosition(source)+1);
         pager.setCurrentItem(pagerAdapter.getCount()-1);
         setTitle(linkedPage.getTitle());
     }

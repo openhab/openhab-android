@@ -57,6 +57,7 @@ public class OpenHABFragmentPagerAdapter extends FragmentStatePagerAdapter imple
     private String sitemapRootUrl;
     private String openHABUsername;
     private String openHABPassword;
+    private boolean fragmentCountChanged = false;
 
     public OpenHABFragmentPagerAdapter(FragmentManager fm) {
         super(fm);
@@ -79,6 +80,8 @@ public class OpenHABFragmentPagerAdapter extends FragmentStatePagerAdapter imple
     @Override
     public int getItemPosition(Object object) {
         Log.d(TAG, "getItemPosition");
+        if (fragmentCountChanged)
+            return POSITION_NONE;
         if (fragmentList.contains(object)) {
             int index = fragmentList.indexOf(object);
             return index;
@@ -116,9 +119,22 @@ public class OpenHABFragmentPagerAdapter extends FragmentStatePagerAdapter imple
         return -1;
     }
 
+    public int getPosition(OpenHABWidgetListFragment fragment) {
+        if (fragmentList.contains(fragment)) {
+            return fragmentList.indexOf(fragment);
+        }
+        return -1;
+    }
+
     @Override
     public float getPageWidth(int position) {
-        float pageWidth = 1.0f / columnsNumber;
+        Log.d(TAG, String.format("getPageWidth(%d)", position));
+        float pageWidth;
+        if (fragmentList.size() < columnsNumber && fragmentList.size() > 0) {
+            pageWidth = 1.0f / fragmentList.size();
+        } else {
+            pageWidth = 1.0f / columnsNumber;
+        }
         return  pageWidth;
     }
 
@@ -131,6 +147,27 @@ public class OpenHABFragmentPagerAdapter extends FragmentStatePagerAdapter imple
         notifyDataSetChanged();
     }
 
+    public void openPage(String pageUrl, int position) {
+        Log.d(TAG, "openPage(" + pageUrl + ")");
+        int oldFragmentCount = fragmentList.size();
+        if (position < fragmentList.size()) {
+            for (int i=fragmentList.size()-1; i>=position; i--) {
+                fragmentList.remove(i);
+                Log.d(TAG, String.format("Removing fragment at position %d", i));
+            }
+            notifyDataSetChanged();
+        }
+        OpenHABWidgetListFragment fragment = OpenHABWidgetListFragment.withPage(pageUrl, openHABBaseUrl,
+                sitemapRootUrl, openHABUsername, openHABPassword);
+        fragmentList.add(fragment);
+        if (fragmentList.size() != oldFragmentCount)
+            fragmentCountChanged = true;
+        Log.d(TAG, "Before notifyDataSetChanged");
+        notifyDataSetChanged();
+        Log.d(TAG, "After notifyDataSetChanged");
+        fragmentCountChanged = false;
+    }
+
     public void onPageScrolled(int i, float v, int i2) {
 
     }
@@ -140,12 +177,21 @@ public class OpenHABFragmentPagerAdapter extends FragmentStatePagerAdapter imple
         if (i < fragmentList.size() - 1) {
             Log.d(TAG, "new position is less then current");
             fragmentList.remove(fragmentList.size() - 1);
-            notifyDataSetChangedPending = true;
+            // If we have more then 1 column, notify pager of change here
+            if (columnsNumber > 1) {
+                fragmentCountChanged = true;
+                notifyDataSetChanged();
+                fragmentCountChanged = false;
+            // If only 1 column, set flag to notify pager later, after transition is complete
+            } else {
+                notifyDataSetChangedPending = true;
+            }
         }
     }
 
     public void onPageScrollStateChanged(int state) {
         Log.d(TAG, String.format("onPageScrollStateChanged(%d)", state));
+        // If scroll was finished and there is a flag to notify pager pending
         if (state == ViewPager.SCROLL_STATE_IDLE && notifyDataSetChangedPending) {
             Log.d(TAG, "Scrolling finished");
             notifyDataSetChanged();

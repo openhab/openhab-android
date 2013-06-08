@@ -41,6 +41,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ListView;
+
 import com.loopj.android.http.AsyncHttpAbortException;
 
 import org.apache.http.Header;
@@ -100,6 +102,7 @@ public class OpenHABWidgetListFragment extends ListFragment {
     // Am I visible?
     private boolean mIsVisible = false;
     private  OpenHABWidgetListFragment mTag;
+    private int mCurrentSelectedItem = -1;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -113,6 +116,8 @@ public class OpenHABWidgetListFragment extends ListFragment {
             sitemapRootUrl = savedInstanceState.getString("sitemapRootUrl");
             openHABUsername = savedInstanceState.getString("openHABUsername");
             openHABPassword = savedInstanceState.getString("openHABPassword");
+            mCurrentSelectedItem = savedInstanceState.getInt("currentSelectedItem", -1);
+            Log.d(TAG, String.format("onCreate selected item = %d", mCurrentSelectedItem));
         }
         if (getArguments() != null) {
             displayPageUrl = getArguments().getString("displayPageUrl");
@@ -121,6 +126,9 @@ public class OpenHABWidgetListFragment extends ListFragment {
             openHABUsername = getArguments().getString("openHABUsername");
             openHABPassword = getArguments().getString("openHABPassword");
         }
+        if (savedInstanceState != null)
+            if (!displayPageUrl.equals(savedInstanceState.getString("displayPageUrl")))
+                mCurrentSelectedItem = -1;
     }
 
     @Override
@@ -149,7 +157,8 @@ public class OpenHABWidgetListFragment extends ListFragment {
                     String[] splitString;
                     splitString = openHABWidget.getLinkedPage().getTitle().split("\\[|\\]");
                     if (OpenHABWidgetListFragment.this.widgetSelectedListener != null) {
-                        widgetSelectedListener.onWidgetSelectedListener(openHABWidget.getLinkedPage());
+                        widgetSelectedListener.onWidgetSelectedListener(openHABWidget.getLinkedPage(),
+                                OpenHABWidgetListFragment.this);
                     }
 //                        navigateToPage(openHABWidget.getLinkedPage().getLink(), splitString[0]);
                 }
@@ -189,6 +198,10 @@ public class OpenHABWidgetListFragment extends ListFragment {
                 return true;
             }
         });
+        if (getResources().getInteger(R.integer.pager_columns) > 1) {
+            Log.d(TAG, "More then 1 column, setting selector on");
+            getListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+        }
     }
 
     @Override
@@ -221,6 +234,7 @@ public class OpenHABWidgetListFragment extends ListFragment {
             openHABWidgetAdapter.stopImageRefresh();
             openHABWidgetAdapter.stopVideoWidgets();
         }
+        mCurrentSelectedItem = getListView().getCheckedItemPosition();
     }
 
     @Override
@@ -234,11 +248,13 @@ public class OpenHABWidgetListFragment extends ListFragment {
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
         Log.d(TAG, "onSaveInstanceState");
+        Log.d(TAG, String.format("onSave current selected item = %d", getListView().getCheckedItemPosition()));
         savedInstanceState.putString("displayPageUrl", displayPageUrl);
         savedInstanceState.putString("openHABBaseUrl", openHABBaseUrl);
         savedInstanceState.putString("sitemapRootUrl", sitemapRootUrl);
         savedInstanceState.putString("openHABUsername", openHABUsername);
         savedInstanceState.putString("openHABPassword", openHABPassword);
+        savedInstanceState.putInt("currentSelectedItem", getListView().getCheckedItemPosition());
         super.onSaveInstanceState(savedInstanceState);
     }
 
@@ -285,7 +301,7 @@ public class OpenHABWidgetListFragment extends ListFragment {
                 Log.d(TAG, "Response: "  + document.toString());
                 if (!longPolling)
                     stopProgressIndicator();
-                processContent(document);
+                processContent(document, longPolling);
             }
             @Override
             public void onFailure(Throwable error, String content) {
@@ -312,7 +328,7 @@ public class OpenHABWidgetListFragment extends ListFragment {
      * @param  document	XML Document
      * @return      void
      */
-    public void processContent(Document document) {
+    public void processContent(Document document, boolean longPolling) {
         // As we change the page we need to stop all videos on current page
         // before going to the new page. This is quite dirty, but is the only
         // way to do that...
@@ -328,6 +344,12 @@ public class OpenHABWidgetListFragment extends ListFragment {
             widgetList.add(w);
         }
         openHABWidgetAdapter.notifyDataSetChanged();
+        if (!longPolling) {
+            getListView().clearChoices();
+            Log.d(TAG, String.format("processContent selectedItem = %d", mCurrentSelectedItem));
+            if (mCurrentSelectedItem >= 0)
+                getListView().setItemChecked(mCurrentSelectedItem, true);
+        }
         if (getActivity() != null && mIsVisible)
             getActivity().setTitle(openHABWidgetDataSource.getTitle());
 //            }

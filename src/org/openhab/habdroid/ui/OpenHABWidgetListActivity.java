@@ -381,7 +381,7 @@ public class OpenHABWidgetListActivity extends ListActivity implements AsyncServ
 				}
 			}
 			@Override
-		    public void onFailure(Throwable e) {
+		    public void onFailure(Throwable e, String errorResponse) {
 				Toast.makeText(getApplicationContext(), getString(R.string.error_no_uuid),
 						Toast.LENGTH_LONG).show();
 			}
@@ -583,7 +583,7 @@ public class OpenHABWidgetListActivity extends ListActivity implements AsyncServ
 				processContent(content);
 			}
 			@Override
-		     public void onFailure(Throwable e) {
+		     public void onFailure(Throwable e, String errorResponse) {
 				Log.e(TAG, "http request failed");
 				if (e.getMessage() != null) {
 					Log.e(TAG, e.getMessage());
@@ -888,7 +888,7 @@ public class OpenHABWidgetListActivity extends ListActivity implements AsyncServ
 				}
 			}
 			@Override
-	    	public void onFailure(Throwable e) {
+	    	public void onFailure(Throwable e, String errorResponse) {
 				if (e.getMessage() != null) {
 					if (e.getMessage().equals("Unauthorized")) {
 						showAlertDialog(getString(R.string.error_authentication_failed));

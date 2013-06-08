@@ -220,11 +220,6 @@
             <version>r11</version>
         </dependency>
         <dependency>
-            <groupId>com.android.volley</groupId>
-            <artifactId>volley</artifactId>
-            <version>1.0</version>
-        </dependency>
-        <dependency>
             <groupId>de.duenndns.ssl</groupId>
             <artifactId>memorizingtrustmanager</artifactId>
             <version>1.0</version>
