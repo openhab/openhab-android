@@ -467,6 +467,7 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
                         Log.d(TAG, "Recognized text: " + textMatchList.get(0));
                         Toast.makeText(this, "I recognized: " + textMatchList.get(0),
                                 Toast.LENGTH_LONG).show();
+                        sendItemCommand("VoiceCommand", textMatchList.get(0));
                     } else {
                         Log.d(TAG, "Voice recognition returned empty set");
                         Toast.makeText(this, "I can't read you!",
@@ -580,30 +581,30 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
             }
         } else {
             Log.d(TAG, "Target item = " + nfcItem);
-            try {
-                StringEntity se = new StringEntity(nfcCommand);
-                mAsyncHttpClient.post(this, openHABBaseUrl + "rest/items/" + nfcItem, se, "text/plain", new AsyncHttpResponseHandler() {
-                    @Override
-                    public void onSuccess(String response) {
-                        Log.d(TAG, "Command was sent successfully");
-                    }
-                    @Override
-                    public void onFailure(Throwable error, String errorResponse) {
-                        Log.e(TAG, "Got command error " + error.getMessage());
-                        if (errorResponse != null)
-                            Log.e(TAG, "Error response = " + errorResponse);
-                    }
-                });
-            } catch (UnsupportedEncodingException e) {
-                if (e != null)
-                    Log.e(TAG, e.getMessage());
-            }
-            if (!TextUtils.isEmpty(mNfcData)) {
-                Log.d(TAG, "This was NFC activity launch, exiting");
-                finish();
-            }
+            sendItemCommand(nfcItem, nfcCommand);
         }
         mNfcData = "";
+    }
+
+    public void sendItemCommand(String itemName, String command) {
+        try {
+            StringEntity se = new StringEntity(command);
+            mAsyncHttpClient.post(this, openHABBaseUrl + "rest/items/" + itemName, se, "text/plain", new AsyncHttpResponseHandler() {
+                @Override
+                public void onSuccess(String response) {
+                    Log.d(TAG, "Command was sent successfully");
+                }
+                @Override
+                public void onFailure(Throwable error, String errorResponse) {
+                    Log.e(TAG, "Got command error " + error.getMessage());
+                    if (errorResponse != null)
+                        Log.e(TAG, "Error response = " + errorResponse);
+                }
+            });
+        } catch (UnsupportedEncodingException e) {
+            if (e != null)
+                Log.e(TAG, e.getMessage());
+        }
     }
 
     public void onWidgetSelectedListener(OpenHABLinkedPage linkedPage) {
