@@ -29,16 +29,11 @@
 
 package org.openhab.habdroid.ui;
 
-import android.os.Bundle;
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
-import android.view.View;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,7 +52,7 @@ public class OpenHABFragmentPagerAdapter extends FragmentStatePagerAdapter imple
     private String sitemapRootUrl;
     private String openHABUsername;
     private String openHABPassword;
-    private boolean fragmentCountChanged = false;
+    private boolean actualColumnCountChanged = false;
 
     public OpenHABFragmentPagerAdapter(FragmentManager fm) {
         super(fm);
@@ -80,7 +75,7 @@ public class OpenHABFragmentPagerAdapter extends FragmentStatePagerAdapter imple
     @Override
     public int getItemPosition(Object object) {
         Log.d(TAG, "getItemPosition");
-        if (fragmentCountChanged)
+        if (actualColumnCountChanged)
             return POSITION_NONE;
         if (fragmentList.contains(object)) {
             int index = fragmentList.indexOf(object);
@@ -130,14 +125,16 @@ public class OpenHABFragmentPagerAdapter extends FragmentStatePagerAdapter imple
     public float getPageWidth(int position) {
         Log.d(TAG, String.format("getPageWidth(%d)", position));
         float pageWidth;
-        if (fragmentList.size() < columnsNumber && fragmentList.size() > 0) {
-            pageWidth = 1.0f / fragmentList.size();
-        } else {
-            pageWidth = 1.0f / columnsNumber;
-        }
+        pageWidth = 1.0f / getActualColumnsNumber();
         return  pageWidth;
     }
 
+    public int getActualColumnsNumber() {
+        if (fragmentList.size() < columnsNumber && fragmentList.size() > 0) {
+            return fragmentList.size();
+        }
+        return columnsNumber;
+    }
 
     public void openPage(String pageUrl) {
         Log.d(TAG, "openPage(" + pageUrl + ")");
@@ -149,7 +146,7 @@ public class OpenHABFragmentPagerAdapter extends FragmentStatePagerAdapter imple
 
     public void openPage(String pageUrl, int position) {
         Log.d(TAG, "openPage(" + pageUrl + ")");
-        int oldFragmentCount = fragmentList.size();
+        int oldColumnCount = getActualColumnsNumber();
         if (position < fragmentList.size()) {
             for (int i=fragmentList.size()-1; i>=position; i--) {
                 fragmentList.remove(i);
@@ -160,12 +157,13 @@ public class OpenHABFragmentPagerAdapter extends FragmentStatePagerAdapter imple
         OpenHABWidgetListFragment fragment = OpenHABWidgetListFragment.withPage(pageUrl, openHABBaseUrl,
                 sitemapRootUrl, openHABUsername, openHABPassword);
         fragmentList.add(fragment);
-        if (fragmentList.size() != oldFragmentCount)
-            fragmentCountChanged = true;
+        Log.d(TAG, String.format("Old columns = %d, new columns = %d", oldColumnCount, getActualColumnsNumber()));
+        if (getActualColumnsNumber() != oldColumnCount)
+            actualColumnCountChanged = true;
         Log.d(TAG, "Before notifyDataSetChanged");
         notifyDataSetChanged();
         Log.d(TAG, "After notifyDataSetChanged");
-        fragmentCountChanged = false;
+        actualColumnCountChanged = false;
     }
 
     public void onPageScrolled(int i, float v, int i2) {
@@ -174,14 +172,16 @@ public class OpenHABFragmentPagerAdapter extends FragmentStatePagerAdapter imple
 
     public void onPageSelected(int i) {
         Log.d(TAG, String.format("onPageSelected(%d)", i));
+        int oldColumnCount = getActualColumnsNumber();
         if (i < fragmentList.size() - 1) {
             Log.d(TAG, "new position is less then current");
             fragmentList.remove(fragmentList.size() - 1);
             // If we have more then 1 column, notify pager of change here
             if (columnsNumber > 1) {
-                fragmentCountChanged = true;
+                if (getActualColumnsNumber() != oldColumnCount)
+                    actualColumnCountChanged = true;
                 notifyDataSetChanged();
-                fragmentCountChanged = false;
+                actualColumnCountChanged = false;
             // If only 1 column, set flag to notify pager later, after transition is complete
             } else {
                 notifyDataSetChangedPending = true;

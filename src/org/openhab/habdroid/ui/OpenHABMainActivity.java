@@ -77,10 +77,13 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.duenndns.ssl.MTMDecision;
+import de.duenndns.ssl.MemorizingResponder;
 import de.duenndns.ssl.MemorizingTrustManager;
 
 
-public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSelectedListener, OpenHABTrackerReceiver {
+public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSelectedListener,
+        OpenHABTrackerReceiver, MemorizingResponder {
     // Logging TAG
     private static final String TAG = "MainActivity";
     // Activities request codes
@@ -172,6 +175,9 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
         pagerAdapter.setOpenHABPassword(openHABPassword);
         pager.setAdapter(pagerAdapter);
         pager.setOnPageChangeListener(pagerAdapter);
+        MemorizingTrustManager.setResponder(this);
+//        pager.setPageMargin(1);
+//        pager.setPageMarginDrawable(android.R.color.darker_gray);
         // Check if we have openHAB page url in saved instance state?
         if (savedInstanceState != null) {
             openHABBaseUrl = savedInstanceState.getString("openHABBaseUrl");
@@ -687,6 +693,11 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
             mServiceDiscoveryEnabled = false;
         }
 
+    }
+
+    public void makeDecision(int decisionId, String certMessage) {
+        Log.d(TAG, String.format("MTM is asking for decision on id = %d", decisionId));
+        MemorizingTrustManager.interactResult(decisionId, MTMDecision.DECISION_ONCE);
     }
 
     public String getOpenHABBaseUrl() {
