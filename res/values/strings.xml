@@ -27,8 +27,10 @@
     <string name="settings_openhab_theme">HABDroid Theme</string>
     <string name="settings_openhab_animation">Animation style</string>
     <string name="settings_openhab_appversion">HABDroid Version</string>
+    <string name="settings_openhab_sslcert">Ignore SSL certificate</string>
+    <string name="settings_openhab_sslcert_summary">Ignore certificate validation during SSL handshake</string>
     <string name="settings_openhab_sslhost">Ignore SSL hostname</string>
-    <string name="settings_openhab_sslhost_summary">Ignore SSL hostname check during initial handshake</string>
+    <string name="settings_openhab_sslhost_summary">Ignore hostname check during SSL handshake</string>
     <!-- App messages strings -->
     <string name="info_demo_mode">HABDroid is running in demo mode. To connect to your openHAB please go to settings menu.</string>
     <string name="info_conn_url">Connecting to configured URL</string>

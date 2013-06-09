@@ -666,6 +666,32 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
         alert.show();
     }
 
+    private void showCertificateDialog(final int decisionId, String certMessage) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(OpenHABMainActivity.this);
+        builder.setMessage(certMessage)
+                .setTitle(R.string.mtm_accept_cert);
+        builder.setPositiveButton(R.string.mtm_decision_always, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Log.d(TAG, "User decided to always accept unknown certificate");
+                MemorizingTrustManager.interactResult(decisionId, MTMDecision.DECISION_ALWAYS);
+            }
+        });
+        builder.setNeutralButton(R.string.mtm_decision_once, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Log.d(TAG, "User decided to accept unknown certificate once");
+                MemorizingTrustManager.interactResult(decisionId, MTMDecision.DECISION_ONCE);
+            }
+        });
+        builder.setNegativeButton(R.string.mtm_decision_abort, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Log.d(TAG, "User decided to abort unknown certificate");
+                MemorizingTrustManager.interactResult(decisionId, MTMDecision.DECISION_ABORT);
+            }
+        });
+        AlertDialog certAlert = builder.create();
+        certAlert.show();
+    }
+
     public void checkVoiceRecognition() {
         // Check if voice recognition is present
         PackageManager pm = getPackageManager();
@@ -697,7 +723,10 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
 
     public void makeDecision(int decisionId, String certMessage) {
         Log.d(TAG, String.format("MTM is asking for decision on id = %d", decisionId));
-        MemorizingTrustManager.interactResult(decisionId, MTMDecision.DECISION_ONCE);
+        if (mSettings.getBoolean("default_openhab_sslcert", false))
+            MemorizingTrustManager.interactResult(decisionId, MTMDecision.DECISION_ONCE);
+        else
+            showCertificateDialog(decisionId, certMessage);
     }
 
     public String getOpenHABBaseUrl() {

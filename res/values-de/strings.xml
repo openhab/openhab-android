@@ -27,13 +27,15 @@
     <string name="settings_openhab_theme">HABDroid Theme</string>
     <string name="settings_openhab_appversion">HABDroid Version</string>
     <string name="settings_openhab_animation">Animation style</string>
+    <string name="settings_openhab_sslcert">Ignoriere SSL Zertifikat</string>
+    <string name="settings_openhab_sslcert_summary">Ignoriere Zertifikatsvalidierung beim SSL-Handshake</string>
     <string name="settings_openhab_sslhost">Ignoriere SSL Hostnamen</string>
-    <string name="settings_openhab_sslhost_summary">Deaktiviert die Prüfung auf ungültige SSL Hostnamen</string>
+    <string name="settings_openhab_sslhost_summary">Ignoriere Hostname-Prüfung beim SSL-Handshake</string>
     <!-- App messages strings -->
     <string name="info_demo_mode">HABDroid läuft im Demo Modus. Unter Einstellungen kann eine eigene openHAB-Instanz konfiguriert werden.</string>
     <string name="info_conn_url">Verbinde mit lokaler URL</string>
     <string name="info_conn_rem_url">Verbinde mit Remote URL</string>
-    <string name="info_discovery">Discovering openHAB. Please wait...</string>
+    <string name="info_discovery">Suche openHAB. Bitte warten...</string>
     <string name="error_no_url">Bitte prüfen Sie, ob openHAB läuft oder die URLs falsch konfiguriert sind.</string>
     <string name="error_authentication_failed">Benutzeranmeldung fehlgeschlagen. Bitte prüfen Sie Benutzername/Passwort</string>
     <string name="error_empty_sitemap_list">openHAB lieferte eine leere Sitemapliste</string>
