@@ -120,8 +120,6 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
     private boolean mServiceDiscoveryEnabled = true;
     // Loopj
     private static MyAsyncHttpClient mAsyncHttpClient;
-    //
-    private boolean sitemapSelected = false;
     // NFC Launch data
     private String mNfcData;
 
@@ -218,8 +216,11 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
             mOpenHABTracker = new OpenHABTracker(this, openHABServiceType, mServiceDiscoveryEnabled);
             mOpenHABTracker.start();
         } else {
+            Log.d(TAG, "State fragment found");
             pagerAdapter.setFragmentList(stateFragment.getFragmentList());
+            Log.d(TAG, String.format("Loaded %d fragments", stateFragment.getFragmentList().size()));
             pager.setCurrentItem(stateFragment.getCurrentPage());
+            Log.d(TAG, String.format("Loaded current page = %d", stateFragment.getCurrentPage()));
         }
     }
 
@@ -260,9 +261,11 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
 
     private void selectSitemap(final String baseUrl, final boolean forceSelect) {
         Log.d(TAG, "Loding sitemap list from " + baseUrl + "rest/sitemaps");
+        startProgressIndicator();
         mAsyncHttpClient.get(baseUrl + "rest/sitemaps", new DocumentHttpResponseHandler() {
             @Override
             public void onSuccess(Document document) {
+                stopProgressIndicator();
                 Log.d(TAG, "Response: " +  document.toString());
                 List<OpenHABSitemap> sitemapList = Util.parseSitemapList(document);
                 if (sitemapList.size() == 0) {
@@ -317,6 +320,7 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
                 }
             }
             @Override public void onFailure(Throwable error, String content) {
+                stopProgressIndicator();
                 if (error instanceof HttpResponseException) {
                     switch (((HttpResponseException) error).getStatusCode()) {
                         case 401:
@@ -362,7 +366,6 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
 
     private void openSitemap(String sitemapUrl) {
         Log.i(TAG, "Opening sitemap at " + sitemapUrl);
-        sitemapSelected = true;
         sitemapRootUrl = sitemapUrl;
         pagerAdapter.clearFragmentList();
         pagerAdapter.openPage(sitemapRootUrl);
@@ -399,21 +402,10 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
                 selectSitemap(openHABBaseUrl, true);
                 return true;
             case android.R.id.home:
-                Log.d(TAG, "Home selected - " + sitemapRootUrl);
-                // TODO: rewrite 'Home' action to use OpenHABFragmentPagerAdapter.
-                // Get launch intent for application
-/*                Intent homeIntent = getBaseContext().getPackageManager()
-                        .getLaunchIntentForPackage( getBaseContext().getPackageName() );
-                homeIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                homeIntent.setAction("org.openhab.habdroid.ui.OpwnHABWidgetListActivity");
-                homeIntent.putExtra("displayPageUrl", sitemapRootUrl);
-                homeIntent.putExtra("openHABBaseUrl", openHABBaseUrl);
-                homeIntent.putExtra("sitemapRootUrl", sitemapRootUrl);
-                // Finish current activity
-                finish();
-                // Start launch activity
-                startActivity(homeIntent);
-                Util.overridePendingTransition(this, true);*/
+                Log.d(TAG, "Home selected");
+                if (pager.getCurrentItem() > 0) {
+                    pager.setCurrentItem(0);
+                }
                 return true;
             case R.id.mainmenu_openhab_clearcache:
                 Log.d(TAG, "Restarting");
@@ -533,6 +525,8 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
     public void onPause() {
         Log.d(TAG, "onPause()");
         super.onPause();
+        Log.d(TAG, String.format("Saving %d fragments", pagerAdapter.getFragmentList().size()));
+        Log.d(TAG, String.format("Saving current page = %d", pager.getCurrentItem()));
         stateFragment.setFragmentList(pagerAdapter.getFragmentList());
         stateFragment.setCurrentPage(pager.getCurrentItem());
 //        Runnable can = new Runnable() {
@@ -618,8 +612,8 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
 
     public void onWidgetSelectedListener(OpenHABLinkedPage linkedPage, OpenHABWidgetListFragment source) {
         Log.i(TAG, "Got widget link = " + linkedPage.getLink());
-        Log.i(TAG, String.format("Link came from fragment %d", pagerAdapter.getPosition(source)));
-        pagerAdapter.openPage(linkedPage.getLink(), pagerAdapter.getPosition(source)+1);
+        Log.i(TAG, String.format("Link came from fragment on position %d", source.getPosition()));
+        pagerAdapter.openPage(linkedPage.getLink(), source.getPosition() + 1);
         pager.setCurrentItem(pagerAdapter.getCount()-1);
         setTitle(linkedPage.getTitle());
     }

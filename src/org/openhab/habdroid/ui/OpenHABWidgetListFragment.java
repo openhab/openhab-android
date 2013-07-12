@@ -103,6 +103,7 @@ public class OpenHABWidgetListFragment extends ListFragment {
     private boolean mIsVisible = false;
     private  OpenHABWidgetListFragment mTag;
     private int mCurrentSelectedItem = -1;
+    private int mPosition;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -117,6 +118,7 @@ public class OpenHABWidgetListFragment extends ListFragment {
             openHABUsername = savedInstanceState.getString("openHABUsername");
             openHABPassword = savedInstanceState.getString("openHABPassword");
             mCurrentSelectedItem = savedInstanceState.getInt("currentSelectedItem", -1);
+            mPosition = savedInstanceState.getInt("position", -1);
             Log.d(TAG, String.format("onCreate selected item = %d", mCurrentSelectedItem));
         }
         if (getArguments() != null) {
@@ -125,6 +127,7 @@ public class OpenHABWidgetListFragment extends ListFragment {
             sitemapRootUrl = getArguments().getString("sitemapRootUrl");
             openHABUsername = getArguments().getString("openHABUsername");
             openHABPassword = getArguments().getString("openHABPassword");
+            mPosition = getArguments().getInt("position");
         }
         if (savedInstanceState != null)
             if (!displayPageUrl.equals(savedInstanceState.getString("displayPageUrl")))
@@ -255,6 +258,7 @@ public class OpenHABWidgetListFragment extends ListFragment {
         savedInstanceState.putString("openHABUsername", openHABUsername);
         savedInstanceState.putString("openHABPassword", openHABPassword);
         savedInstanceState.putInt("currentSelectedItem", getListView().getCheckedItemPosition());
+        savedInstanceState.putInt("position", mPosition);
         super.onSaveInstanceState(savedInstanceState);
     }
 
@@ -266,7 +270,7 @@ public class OpenHABWidgetListFragment extends ListFragment {
     }
 
     public static OpenHABWidgetListFragment withPage(String pageUrl, String baseUrl, String rootUrl,
-                                                     String username, String password) {
+                                                     String username, String password, int position) {
         Log.d(TAG, "withPage(" + pageUrl + ")");
         OpenHABWidgetListFragment fragment = new OpenHABWidgetListFragment();
         Bundle args = new Bundle();
@@ -275,6 +279,7 @@ public class OpenHABWidgetListFragment extends ListFragment {
         args.putString("sitemapRootUrl", rootUrl);
         args.putString("openHABUsername", username);
         args.putString("openHABPassword", password);
+        args.putInt("position", position);
         fragment.setArguments(args);
         return fragment;
     }
@@ -431,6 +436,10 @@ public class OpenHABWidgetListFragment extends ListFragment {
         if (openHABWidgetDataSource != null)
             return openHABWidgetDataSource.getTitle();
         return "";
+    }
+
+    public int getPosition() {
+        return mPosition;
     }
 
 }

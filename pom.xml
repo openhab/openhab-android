@@ -219,11 +219,11 @@
             <artifactId>support-v4</artifactId>
             <version>r11</version>
         </dependency>
-        <dependency>
+<!--        <dependency>
             <groupId>de.duenndns.ssl</groupId>
             <artifactId>memorizingtrustmanager</artifactId>
             <version>1.1</version>
-        </dependency>
+        </dependency> -->
     </dependencies>
 	<repositories>
 		<repository>
