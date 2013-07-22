@@ -64,11 +64,11 @@ import javax.net.ssl.X509TrustManager;
  */
 public class MemorizingTrustManager implements X509TrustManager {
 	final static String TAG = "MemorizingTrustManager";
-	final static String DECISION_INTENT = "de.duenndns.ssl.DECISION";
+	public final static String DECISION_INTENT = "de.duenndns.ssl.DECISION";
 	final static String DECISION_INTENT_APP    = DECISION_INTENT + ".app";
-	final static String DECISION_INTENT_ID     = DECISION_INTENT + ".decisionId";
+	public final static String DECISION_INTENT_ID     = DECISION_INTENT + ".decisionId";
 	final static String DECISION_INTENT_CERT   = DECISION_INTENT + ".cert";
-	final static String DECISION_INTENT_CHOICE = DECISION_INTENT + ".decisionChoice";
+	public final static String DECISION_INTENT_CHOICE = DECISION_INTENT + ".decisionChoice";
 	private final static int NOTIFICATION_ID = 100509;
 
 	static String KEYSTORE_DIR = "KeyStore";

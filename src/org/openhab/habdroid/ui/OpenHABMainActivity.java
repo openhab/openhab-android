@@ -65,22 +65,12 @@ import org.openhab.habdroid.model.OpenHABSitemap;
 import org.openhab.habdroid.util.MyAsyncHttpClient;
 import org.openhab.habdroid.util.Util;
 import org.w3c.dom.Document;
-import org.xml.sax.SAXException;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
-
 import de.duenndns.ssl.MTMDecision;
 import de.duenndns.ssl.MemorizingResponder;
 import de.duenndns.ssl.MemorizingTrustManager;
-
 
 public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSelectedListener,
         OpenHABTrackerReceiver, MemorizingResponder {
@@ -260,7 +250,7 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
      */
 
     private void selectSitemap(final String baseUrl, final boolean forceSelect) {
-        Log.d(TAG, "Loding sitemap list from " + baseUrl + "rest/sitemaps");
+        Log.d(TAG, "Loading sitemap list from " + baseUrl + "rest/sitemaps");
         startProgressIndicator();
         mAsyncHttpClient.get(baseUrl + "rest/sitemaps", new DocumentHttpResponseHandler() {
             @Override
@@ -551,7 +541,7 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
     @Override
     public void onNewIntent(Intent newIntent) {
         if (newIntent.getAction() != null) {
-            Log.d(TAG, "New intent received = " + newIntent.getAction().toString());
+            Log.d(TAG, "New intent received = " + newIntent.getAction());
             if (newIntent.getAction().equals("android.nfc.action.NDEF_DISCOVERED")) {
                 Log.d(TAG, "This is NFC action");
                 if (newIntent.getDataString() != null) {
@@ -613,7 +603,7 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
                 }
             });
         } catch (UnsupportedEncodingException e) {
-            if (e != null)
+            if (e.getMessage() != null)
                 Log.e(TAG, e.getMessage());
         }
     }
@@ -675,24 +665,36 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
         builder.setPositiveButton(R.string.mtm_decision_always, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialogInterface, int i) {
                 Log.d(TAG, "User decided to always accept unknown certificate");
-                MemorizingTrustManager.interactResult(decisionId, MTMDecision.DECISION_ALWAYS);
+//                MemorizingTrustManager.interactResult(decisionId, MTMDecision.DECISION_ALWAYS);
+                sendMTMDecision(decisionId, MTMDecision.DECISION_ALWAYS);
             }
         });
         builder.setNeutralButton(R.string.mtm_decision_once, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialogInterface, int i) {
                 Log.d(TAG, "User decided to accept unknown certificate once");
-                MemorizingTrustManager.interactResult(decisionId, MTMDecision.DECISION_ONCE);
+//                MemorizingTrustManager.interactResult(decisionId, MTMDecision.DECISION_ONCE);
+                sendMTMDecision(decisionId, MTMDecision.DECISION_ONCE);
             }
         });
         builder.setNegativeButton(R.string.mtm_decision_abort, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialogInterface, int i) {
                 Log.d(TAG, "User decided to abort unknown certificate");
-                MemorizingTrustManager.interactResult(decisionId, MTMDecision.DECISION_ABORT);
+//                MemorizingTrustManager.interactResult(decisionId, MTMDecision.DECISION_ABORT);
+                sendMTMDecision(decisionId, MTMDecision.DECISION_ABORT);
             }
         });
         AlertDialog certAlert = builder.create();
         certAlert.show();
     }
+
+    void sendMTMDecision(int decisionId, int decision) {
+        Log.d(TAG, "Sending decision to MTM");
+        Intent i = new Intent(MemorizingTrustManager.DECISION_INTENT + "/" + getPackageName());
+        i.putExtra(MemorizingTrustManager.DECISION_INTENT_ID, decisionId);
+        i.putExtra(MemorizingTrustManager.DECISION_INTENT_CHOICE, decision);
+        sendBroadcast(i);
+    }
+
 
     public void checkVoiceRecognition() {
         // Check if voice recognition is present

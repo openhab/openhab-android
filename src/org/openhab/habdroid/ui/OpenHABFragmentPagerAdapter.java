@@ -63,8 +63,9 @@ public class OpenHABFragmentPagerAdapter extends FragmentStatePagerAdapter imple
     @Override
     public Fragment getItem(int position) {
         Log.d(TAG, String.format("getItem(%d)", position));
-        OpenHABWidgetListFragment fragment = fragmentList.get(position);
-        return fragment;
+//        OpenHABWidgetListFragment fragment = fragmentList.get(position);
+//        return fragment;
+        return fragmentList.get(position);
     }
 
     @Override
@@ -78,8 +79,9 @@ public class OpenHABFragmentPagerAdapter extends FragmentStatePagerAdapter imple
         if (actualColumnCountChanged)
             return POSITION_NONE;
         if (fragmentList.contains(object)) {
-            int index = fragmentList.indexOf(object);
-            return index;
+//            int index = fragmentList.indexOf(object);
+//            return index;
+            return fragmentList.indexOf(object);
         }
         return POSITION_NONE;
     }
