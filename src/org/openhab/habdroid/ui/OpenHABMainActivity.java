@@ -330,6 +330,14 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
                             Log.e(TAG, String.format("Http code = %d", ((HttpResponseException) error).getStatusCode()));
                             break;
                     }
+                } else if (error instanceof org.apache.http.conn.HttpHostConnectException) {
+                    Log.e(TAG, "Error connecting to host");
+                    if (error.getMessage() != null) {
+                        Log.e(TAG, error.getMessage());
+                        showAlertDialog(error.getMessage());
+                    } else {
+                        showAlertDialog(getString(R.string.error_connection_failed));
+                    }
                 } else {
                     Log.e(TAG, error.getClass().toString());
                 }

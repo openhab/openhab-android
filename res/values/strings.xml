@@ -44,6 +44,7 @@
     <string name="erorr_invalid_url">Please enter a valid URL in a \'protocol://host:port/\' form</string>
     <string name="erorr_no_wifi_mcast_permission">CHANGE_WIFI_MULTICAST_STATE permission is not granted, openHAB discovery will be disabled!</string>
     <string name="erorr_no_wifi_state_permission">ACCESS_WIFI_STATE permission is not granted, openHAB discovery will be disabled!</string>
+    <string name="error_connection_failed">Connection to host failed</string>
     <string name="title_activity_openhabwritetag">Write NFC tag</string>
     <string name="info_write_tag">Touch the tag and keep it close until the confirmation message appear</string>
     <string name="info_write_tag_progress">Writing the tag</string>
