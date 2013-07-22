@@ -31,6 +31,8 @@ package org.openhab.habdroid.ui;
 
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -192,12 +194,13 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
         MySmartImageView widgetImage = (MySmartImageView)widgetView.findViewById(R.id.widgetimage);
         // Some of widgets, for example Frame doesnt' have an icon, so...
         if (widgetImage != null) {
-            /* TODO: This need a fix inside smart image not to mess non existing icons
-               instead of blinking them all blank before loading... */
             if (openHABWidget.getIcon() != null) {
-            //    widgetImage.setImageResource(R.drawable.blank_icon);
-                widgetImage.setImageUrl(openHABBaseUrl + "images/" +
-                        openHABWidget.getIcon() + ".png", R.drawable.blank_icon, openHABUsername, openHABPassword);
+                // This is needed to escape possible spaces and everything according to rfc2396
+                String iconUrl = openHABBaseUrl + "images/" + Uri.encode(openHABWidget.getIcon() + ".png");
+                Log.d(TAG, "Will try to load icon from " + iconUrl);
+                // Now set image URL
+                widgetImage.setImageUrl(iconUrl, R.drawable.blank_icon,
+                        openHABUsername, openHABPassword);
             }
         }
     	switch (getItemViewType(position)) {
