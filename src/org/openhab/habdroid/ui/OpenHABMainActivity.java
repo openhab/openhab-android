@@ -80,6 +80,7 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
     private static final int VOICE_RECOGNITION_REQUEST_CODE = 1001;
     private static final int SETTINGS_REQUEST_CODE = 1002;
     private static final int WRITE_NFC_TAG_REQUEST_CODE = 1003;
+    private static final int INFO_REQUEST_CODE = 1004;
     // Base URL of current openHAB connection
     private String openHABBaseUrl = "https://demo.openhab.org:8443/";
     // openHAB username
@@ -425,6 +426,14 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
                 OpenHABWidgetListFragment currentFragment = pagerAdapter.getFragment(pager.getCurrentItem());
                 writeTagIntent.putExtra("sitemapPage", currentFragment.getDisplayPageUrl());
                 startActivityForResult(writeTagIntent, WRITE_NFC_TAG_REQUEST_CODE);
+                Util.overridePendingTransition(this, false);
+                return true;
+            case R.id.mainmenu_openhab_info:
+                Intent infoIntent = new Intent(this.getApplicationContext(), OpenHABInfoActivity.class);
+                infoIntent.putExtra("openHABBaseUrl", openHABBaseUrl);
+                infoIntent.putExtra("username", openHABUsername);
+                infoIntent.putExtra("password", openHABPassword);
+                startActivityForResult(infoIntent, INFO_REQUEST_CODE);
                 Util.overridePendingTransition(this, false);
                 return true;
             case R.id.mainmenu_voice_recognition:

@@ -9,6 +9,9 @@
     <item android:id="@+id/mainmenu_openhab_writetag"
           android:title="@string/mainmenu_openhab_writetag"
           />
+    <item android:id="@+id/mainmenu_openhab_info"
+          android:title="@string/mainmenu_openhab_info"
+            />
     <item android:id="@+id/mainmenu_openhab_clearcache"
           android:title="@string/mainmenu_openhab_clearcache"
           />
