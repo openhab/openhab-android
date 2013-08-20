@@ -131,7 +131,7 @@ public class OpenHABTracker implements AsyncServiceResolverListener {
                             openHABError(mCtx.getString(R.string.error_no_url));
                         }
                         // If network is WiFi or Ethernet
-                    } if (activeNetworkInfo.getType() == ConnectivityManager.TYPE_WIFI
+                    } else if (activeNetworkInfo.getType() == ConnectivityManager.TYPE_WIFI
                             || activeNetworkInfo.getType() == ConnectivityManager.TYPE_ETHERNET) {
                         Log.i(TAG, "Network is WiFi or Ethernet");
                         // Start service discovery
