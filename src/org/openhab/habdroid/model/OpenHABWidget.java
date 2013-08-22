@@ -147,7 +147,7 @@ public class OpenHABWidget {
 	}
 	
 	public boolean hasLinkedPage() {
-		if (this.getLinkedPage() != null) {
+		if (this.linkedPage != null) {
 			return true;
 		} else {
 			return false;

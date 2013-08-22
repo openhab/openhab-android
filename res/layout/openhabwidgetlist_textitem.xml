@@ -6,7 +6,6 @@
   android:paddingLeft="@dimen/widgetlist_item_left_margin"
   android:paddingRight="@dimen/widgetlist_item_right_margin"
   android:background="?android:activatedBackgroundIndicator"
-
         >
 <org.openhab.habdroid.util.MySmartImageView 
         android:paddingTop="6dip" 
@@ -40,14 +39,14 @@
         android:layout_marginRight="5dp"
     />
 </RelativeLayout>
-<LinearLayout 
-    	android:id="@+id/listdivider"
-        android:layout_width="fill_parent"
-        android:layout_height="1dip"
-        android:background="?android:attr/listDivider"
-        android:orientation="horizontal"
-        android:layout_below="@+id/widgetimage"
-        android:layout_marginLeft="@dimen/widgetlist_divider_left_margin"
-        android:layout_marginRight="@dimen/widgetlist_divider_right_margin"
-       />
+    <LinearLayout
+            android:id="@+id/listdivider"
+            android:layout_width="fill_parent"
+            android:layout_height="1dip"
+            android:background="?attr/widgetlistItemDivider"
+            android:orientation="horizontal"
+            android:layout_below="@+id/widgetimage"
+            android:layout_marginLeft="@dimen/widgetlist_divider_left_margin"
+            android:layout_marginRight="@dimen/widgetlist_divider_right_margin"
+           />
 </RelativeLayout>

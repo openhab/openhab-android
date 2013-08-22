@@ -40,14 +40,13 @@
     />
 </RelativeLayout>
     <LinearLayout
-            xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/listdivider"
             android:layout_width="fill_parent"
             android:layout_height="1dip"
             android:background="?attr/widgetlistItemDivider"
-            android:layout_marginLeft="@dimen/widgetlist_divider_left_margin"
-            android:layout_marginRight="@dimen/widgetlist_divider_right_margin"
             android:orientation="horizontal"
             android:layout_below="@+id/widgetimage"
+            android:layout_marginLeft="@dimen/widgetlist_divider_left_margin"
+            android:layout_marginRight="@dimen/widgetlist_divider_right_margin"
             />
 </RelativeLayout>

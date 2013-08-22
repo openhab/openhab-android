@@ -177,7 +177,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     		widgetLayout = R.layout.openhabwidgetlist_genericitem;
     		break;
     	}
-    	if(convertView==null) {
+    	if (convertView == null) {
     		widgetView = new RelativeLayout(getContext());
     		String inflater = Context.LAYOUT_INFLATER_SERVICE;
     		LayoutInflater vi;
@@ -186,10 +186,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     	} else {
     		widgetView = (RelativeLayout) convertView;
     	}
-        if (!openHABWidget.hasLinkedPage()) {
-            widgetView.setClickable(false);
-            widgetView.setLongClickable(true);
-        }
+
         // Process widgets icon image
         MySmartImageView widgetImage = (MySmartImageView)widgetView.findViewById(R.id.widgetimage);
         // Some of widgets, for example Frame doesnt' have an icon, so...
@@ -781,4 +778,16 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     public void setAsyncHttpClient(MyAsyncHttpClient asyncHttpClient) {
         mAsyncHttpClient = asyncHttpClient;
     }
+
+    public boolean areAllItemsEnabled() {
+        return false;
+    }
+
+    public boolean isEnabled(int position) {
+        OpenHABWidget openHABWidget = getItem(position);
+        if (openHABWidget.getType().equals("Frame"))
+            return false;
+        return true;
+    }
+
 }

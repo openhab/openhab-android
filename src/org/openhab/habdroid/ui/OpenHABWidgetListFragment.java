@@ -104,6 +104,7 @@ public class OpenHABWidgetListFragment extends ListFragment {
     private  OpenHABWidgetListFragment mTag;
     private int mCurrentSelectedItem = -1;
     private int mPosition;
+    private int mOldSelectedItem = -1;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -164,6 +165,15 @@ public class OpenHABWidgetListFragment extends ListFragment {
                                 OpenHABWidgetListFragment.this);
                     }
 //                        navigateToPage(openHABWidget.getLinkedPage().getLink(), splitString[0]);
+                    mOldSelectedItem = position;
+                } else {
+                    Log.d(TAG, String.format("Click on item with no linked page, reverting selection to item %d", mOldSelectedItem));
+                    // If an item without a linked page is clicked this will clear the selection
+                    // and revert it to previously selected item (if any) when CHOICE_MODE_SINGLE
+                    // is switched on for widget listview in multi-column mode on tablets
+                    getListView().clearChoices();
+                    getListView().requestLayout();
+                    getListView().setItemChecked(mOldSelectedItem, true);
                 }
             }
 
