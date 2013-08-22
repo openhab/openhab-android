@@ -155,6 +155,8 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
             Util.initCrittercism(getApplicationContext(), "5117659f59e1bd4ba9000004");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        // Enable app icon in action bar work as 'home'
+        this.getActionBar().setHomeButtonEnabled(true);
         pager = (OpenHABViewPager)findViewById(R.id.pager);
         pager.setScrollDurationFactor(2.5);
         pager.setOffscreenPageLimit(1);
@@ -323,6 +325,14 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
                     }
                 } else if (error instanceof org.apache.http.conn.HttpHostConnectException) {
                     Log.e(TAG, "Error connecting to host");
+                    if (error.getMessage() != null) {
+                        Log.e(TAG, error.getMessage());
+                        showAlertDialog(error.getMessage());
+                    } else {
+                        showAlertDialog(getString(R.string.error_connection_failed));
+                    }
+                } else if (error instanceof java.net.UnknownHostException) {
+                    Log.e(TAG, "Unable to resolve hostname");
                     if (error.getMessage() != null) {
                         Log.e(TAG, error.getMessage());
                         showAlertDialog(error.getMessage());
