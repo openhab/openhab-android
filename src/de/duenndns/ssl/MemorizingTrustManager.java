@@ -160,7 +160,7 @@ public class MemorizingTrustManager implements X509TrustManager {
 	 * Removes an Activity from the MTM display stack.
 	 *
 	 * Always call this function when the Activity added with
-	 * @see bindDisplayActivity is hidden.
+	 * bindDisplayActivity is hidden.
 	 *
 	 * @param act Activity to be unbound
 	 */
@@ -420,8 +420,10 @@ public class MemorizingTrustManager implements X509TrustManager {
 				}*/
                 if (mResponder != null)
                     mResponder.makeDecision(myId, certMessage);
-                else
+                else {
+                    Log.e(TAG, "No responder for decision!");
                     interactResult(myId, MTMDecision.DECISION_ABORT);
+                }
 			}
 		});
 

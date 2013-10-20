@@ -312,7 +312,8 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
                     }
                 }
             }
-            @Override public void onFailure(Throwable error, String content) {
+            @Override
+            public void onFailure(Throwable error, String content) {
                 stopProgressIndicator();
                 if (error instanceof HttpResponseException) {
                     switch (((HttpResponseException) error).getStatusCode()) {

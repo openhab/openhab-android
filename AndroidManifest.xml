@@ -45,6 +45,10 @@
             android:name="org.openhab.habdroid.ui.OpenHABWriteTagActivity"
             android:label="@string/title_activity_openhabwritetag" >
         </activity>
+        <activity
+                android:name="org.openhab.habdroid.ui.OpenHABInfoActivity"
+                android:label="@string/title_activity_openhabinfo" >
+        </activity>
         <activity android:name="com.crittercism.NotificationActivity" />
         <activity android:name="de.duenndns.ssl.MemorizingActivity" />
     </application>

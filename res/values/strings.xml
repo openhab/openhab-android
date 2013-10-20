@@ -47,12 +47,16 @@
     <string name="erorr_no_wifi_state_permission">ACCESS_WIFI_STATE permission is not granted, openHAB discovery will be disabled!</string>
     <string name="error_connection_failed">Connection to host failed</string>
     <string name="title_activity_openhabwritetag">Write NFC tag</string>
+    <string name="title_activity_openhabinfo">openHAB Information</string>
     <string name="info_write_tag">Touch the tag and keep it close until the confirmation message appear</string>
     <string name="info_write_tag_progress">Writing the tag</string>
     <string name="info_write_tag_finished">Successfully finished</string>
     <string name="info_write_failed">Tag write error</string>
     <string name="info_write_tag_unsupported">This device doesn\'t have NFC support :-(</string>
     <string name="info_write_tag_disabled">NFC is disabled. Please enable it in device settings menu.</string>
+    <string name="info_openhab_version_label">openHAB Version</string>
+    <string name="info_openhab_uuid_label">openHAB UUID</string>
+    <string name="info_openhab_secret_label">openHAB Secret</string>
     <string name="action_settings">Settings</string>
     <string name="nfc_dialog_title">Please select NFC tag action</string>
     <string name="info_not_set">Not set</string>
