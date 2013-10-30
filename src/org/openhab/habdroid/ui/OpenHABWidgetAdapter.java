@@ -31,8 +31,6 @@ package org.openhab.habdroid.ui;
 
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -48,7 +46,6 @@ import org.openhab.habdroid.util.MyAsyncHttpClient;
 import org.openhab.habdroid.util.MySmartImageView;
 import android.content.Context;
 import android.net.Uri;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -74,7 +71,7 @@ import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.VideoView;
-import at.bookworm.widget.segcontrol.SegmentedControlButton;
+import org.openhab.habdroid.ui.widget.SegmentedControlButton;
 
 import com.crittercism.app.Crittercism;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -247,10 +244,6 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     		sectionSwitchRadioGroup.setTag(openHABWidget);
     		Iterator<OpenHABWidgetMapping> sectionMappingIterator = openHABWidget.getMappings().iterator();
     		while (sectionMappingIterator.hasNext()) {
-    			/* TODO: There is some problem here, because multiply buttons inside RadioGroup
-    			 * can be checked at the same time. I suspect there is some problem in parent
-    			 * child relationship or in inflater
-    			 */ 
     			OpenHABWidgetMapping widgetMapping = sectionMappingIterator.next();
     			SegmentedControlButton segmentedControlButton = 
     					(SegmentedControlButton)LayoutInflater.from(sectionSwitchRadioGroup.getContext()).inflate(
@@ -266,8 +259,24 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     			} else {
     				segmentedControlButton.setChecked(false);
     			}
+                segmentedControlButton.setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Log.i(TAG, "Button clicked");
+                        RadioGroup group = (RadioGroup)view.getParent();
+                        if (group.getTag() != null) {
+                            OpenHABWidget radioWidget = (OpenHABWidget)group.getTag();
+                            SegmentedControlButton selectedButton = (SegmentedControlButton)view;
+                            if (selectedButton.getTag() != null) {
+                                sendItemCommand(radioWidget.getItem(), (String)selectedButton.getTag());
+                            }
+                        }
+                    }
+                });
     			sectionSwitchRadioGroup.addView(segmentedControlButton);
     		}
+
+
     		sectionSwitchRadioGroup.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 				public void onCheckedChanged(RadioGroup group, int checkedId) {
 					OpenHABWidget radioWidget = (OpenHABWidget)group.getTag();
