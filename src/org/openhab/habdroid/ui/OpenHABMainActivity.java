@@ -113,6 +113,8 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
     private static MyAsyncHttpClient mAsyncHttpClient;
     // NFC Launch data
     private String mNfcData;
+    // Pending NFC page
+    private String mPendingNfcPage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -215,6 +217,22 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
             pager.setCurrentItem(stateFragment.getCurrentPage());
             Log.d(TAG, String.format("Loaded current page = %d", stateFragment.getCurrentPage()));
         }
+        if (!TextUtils.isEmpty(mPendingNfcPage)) {
+            openNFCPageIfPending();
+        }
+    }
+
+    public void openNFCPageIfPending() {
+        int possiblePosition = pagerAdapter.getPositionByUrl(mPendingNfcPage);
+        // If yes, then just switch to this page
+        if (possiblePosition >= 0) {
+            pager.setCurrentItem(possiblePosition);
+            // If not, then open this page as new one
+        } else {
+            pagerAdapter.openPage(mPendingNfcPage);
+            pager.setCurrentItem(pagerAdapter.getCount()-1);
+        }
+        mPendingNfcPage = null;
     }
 
     public void onOpenHABTracked(String baseUrl, String message) {
@@ -225,6 +243,7 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
         pagerAdapter.setOpenHABBaseUrl(openHABBaseUrl);
         if (!TextUtils.isEmpty(mNfcData)) {
             onNfcTag(mNfcData);
+            openNFCPageIfPending();
         } else {
             selectSitemap(baseUrl, false);
         }
@@ -566,7 +585,7 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
                 Log.d(TAG, "This is NFC action");
                 if (newIntent.getDataString() != null) {
                     Log.d(TAG, "Action data = " + newIntent.getDataString());
-//                    onNfcTag(newIntent.getDataString());
+                    onNfcTag(newIntent.getDataString());
                 }
             }
         }
@@ -591,15 +610,7 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
             // Form the new sitemap page url
             String newPageUrl = openHABBaseUrl + "rest/sitemaps" + openHABURI.getPath();
             // Check if we have this page in stack?
-            int possiblePosition = pagerAdapter.getPositionByUrl(newPageUrl);
-            // If yes, then just switch to this page
-            if (possiblePosition >= 0) {
-                pager.setCurrentItem(possiblePosition);
-            // If not, then open this page as new one
-            } else {
-                pagerAdapter.openPage(newPageUrl);
-                pager.setCurrentItem(pagerAdapter.getCount()-1);
-            }
+            mPendingNfcPage = newPageUrl;
         } else {
             Log.d(TAG, "Target item = " + nfcItem);
             sendItemCommand(nfcItem, nfcCommand);
