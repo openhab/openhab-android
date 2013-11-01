@@ -63,7 +63,7 @@ public class AsyncServiceResolver extends Thread implements ServiceListener {
 	private static Thread mSleepingThread;
 	private boolean mIsResolved = false;
     private AsyncServiceResolverListener mListener;
-    private final static int mDefaultDiscoveryTimeout = 4000;
+    private final static int mDefaultDiscoveryTimeout = 3000;
 	
 	public AsyncServiceResolver(Context context, String serviceType) {
 		super();
