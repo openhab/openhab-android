@@ -27,7 +27,7 @@
  * to convey the resulting work.
  */
 
-package org.openhab.habdroid.ui;
+package org.openhab.habdroid.ui.widget;
 
 import org.openhab.habdroid.R;
 

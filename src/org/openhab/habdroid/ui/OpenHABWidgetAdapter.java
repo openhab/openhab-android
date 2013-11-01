@@ -42,6 +42,8 @@ import org.openhab.habdroid.R;
 import org.openhab.habdroid.model.OpenHABItem;
 import org.openhab.habdroid.model.OpenHABWidget;
 import org.openhab.habdroid.model.OpenHABWidgetMapping;
+import org.openhab.habdroid.ui.widget.ColorPickerDialog;
+import org.openhab.habdroid.ui.widget.OnColorChangedListener;
 import org.openhab.habdroid.util.MyAsyncHttpClient;
 import org.openhab.habdroid.util.MySmartImageView;
 import android.content.Context;
@@ -191,7 +193,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
             if (openHABWidget.getIcon() != null) {
                 // This is needed to escape possible spaces and everything according to rfc2396
                 String iconUrl = openHABBaseUrl + "images/" + Uri.encode(openHABWidget.getIcon() + ".png");
-                Log.d(TAG, "Will try to load icon from " + iconUrl);
+//                Log.d(TAG, "Will try to load icon from " + iconUrl);
                 // Now set image URL
                 widgetImage.setImageUrl(iconUrl, R.drawable.blank_icon,
                         openHABUsername, openHABPassword);

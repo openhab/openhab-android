@@ -566,7 +566,7 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
                 Log.d(TAG, "This is NFC action");
                 if (newIntent.getDataString() != null) {
                     Log.d(TAG, "Action data = " + newIntent.getDataString());
-                    onNfcTag(newIntent.getDataString());
+//                    onNfcTag(newIntent.getDataString());
                 }
             }
         }
@@ -603,6 +603,10 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
         } else {
             Log.d(TAG, "Target item = " + nfcItem);
             sendItemCommand(nfcItem, nfcCommand);
+            // if mNfcData is not empty, this means we were launched with NFC touch
+            // and thus need to autoexit after an item action
+            if (!TextUtils.isEmpty(mNfcData))
+                finish();
         }
         mNfcData = "";
     }

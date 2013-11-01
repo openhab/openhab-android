@@ -92,8 +92,8 @@ public class OpenHABTracker implements AsyncServiceResolverListener {
         // Get preferences
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(mCtx);
         // If demo mode is on, just go for demo server base URL ignoring other settings
-        mCtx.registerReceiver(mConnectivityChangeReceiver,
-                new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
+//        mCtx.registerReceiver(mConnectivityChangeReceiver,
+//                new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
         if (settings.getBoolean("default_openhab_demomode", false)) {
             mOpenHABUrl = mCtx.getString(R.string.openhab_demo_url);
 //            mOpenHABUrl = "http://192.168.88.248:3000/";
