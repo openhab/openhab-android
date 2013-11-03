@@ -53,6 +53,7 @@ public class OpenHABFragmentPagerAdapter extends FragmentStatePagerAdapter imple
     private String openHABUsername;
     private String openHABPassword;
     private boolean actualColumnCountChanged = false;
+    private int mSelectedPage;
 
     public OpenHABFragmentPagerAdapter(FragmentManager fm) {
         super(fm);
@@ -132,7 +133,7 @@ public class OpenHABFragmentPagerAdapter extends FragmentStatePagerAdapter imple
     }
 
     public int getActualColumnsNumber() {
-        if (fragmentList.size() < columnsNumber && fragmentList.size() > 0) {
+        if (mSelectedPage + 1 < columnsNumber && fragmentList.size() > 0) {
             return fragmentList.size();
         }
         return columnsNumber;
@@ -172,14 +173,19 @@ public class OpenHABFragmentPagerAdapter extends FragmentStatePagerAdapter imple
 
     }
 
-    public void onPageSelected(int i) {
-        Log.d(TAG, String.format("onPageSelected(%d)", i));
+    public void onPageSelected(int pageSelected) {
+        Log.d(TAG, String.format("onPageSelected(%d)", pageSelected));
+        mSelectedPage = pageSelected;
         int oldColumnCount = getActualColumnsNumber();
-        if (i < fragmentList.size() - 1) {
-            Log.d(TAG, "new position is less then current");
-            fragmentList.remove(fragmentList.size() - 1);
+        if (pageSelected < fragmentList.size() - 1) {
             // If we have more then 1 column, notify pager of change here
             if (columnsNumber > 1) {
+                if (mSelectedPage < fragmentList.size() - 1) {
+                    Log.d(TAG, "new position is less then current");
+                    for(int i=fragmentList.size()-1; i>mSelectedPage; i--) {
+                        fragmentList.remove(i);
+                    }
+                }
                 if (getActualColumnsNumber() != oldColumnCount)
                     actualColumnCountChanged = true;
                 notifyDataSetChanged();
@@ -196,6 +202,12 @@ public class OpenHABFragmentPagerAdapter extends FragmentStatePagerAdapter imple
         // If scroll was finished and there is a flag to notify pager pending
         if (state == ViewPager.SCROLL_STATE_IDLE && notifyDataSetChangedPending) {
             Log.d(TAG, "Scrolling finished");
+            if (mSelectedPage < fragmentList.size() - 1) {
+                Log.d(TAG, "new position is less then current");
+                for(int i=fragmentList.size()-1; i>mSelectedPage; i--) {
+                    fragmentList.remove(i);
+                }
+            }
             notifyDataSetChanged();
             notifyDataSetChangedPending = false;
         }

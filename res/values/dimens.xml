@@ -5,9 +5,9 @@
     <dimen name="activity_vertical_margin">0dp</dimen>
     <dimen name="widgetlist_fragment_left_margin">0dp</dimen>
     <dimen name="widgetlist_fragment_right_margin">0dp</dimen>
-    <dimen name="widgetlist_divider_left_margin">5dp</dimen>
-    <dimen name="widgetlist_divider_right_margin">5dp</dimen>
-    <dimen name="widgetlist_item_left_margin">5dp</dimen>
-    <dimen name="widgetlist_item_right_margin">5dp</dimen>
+    <dimen name="widgetlist_divider_left_margin">0dp</dimen>
+    <dimen name="widgetlist_divider_right_margin">0dp</dimen>
+    <dimen name="widgetlist_item_left_margin">0dp</dimen>
+    <dimen name="widgetlist_item_right_margin">0dp</dimen>
 
 </resources>

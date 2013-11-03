@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: com.google.android:support-v4:r13">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/com/google/android/support-v4/r13/support-v4-r13.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/com/google/android/support-v4/r13/support-v4-r13-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/com/google/android/support-v4/r13/support-v4-r13-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
