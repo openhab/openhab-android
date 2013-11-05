@@ -102,8 +102,11 @@ public class DocumentHttpResponseHandler extends AsyncHttpResponseHandler {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         Document document;
         DocumentBuilder builder = factory.newDocumentBuilder();
-        document = builder.parse(new ByteArrayInputStream(responseBody.getBytes()));
-        return document;
+        if (responseBody != null) {
+            document = builder.parse(new ByteArrayInputStream(responseBody.getBytes()));
+            return document;
+        } else
+            return null;
     }
 
 }

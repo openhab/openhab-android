@@ -313,10 +313,14 @@ public class OpenHABWidgetListFragment extends ListFragment {
         mAsyncHttpClient.get(mActivity, pageUrl, headers, null, new DocumentHttpResponseHandler() {
             @Override
             public void onSuccess(Document document) {
-                Log.d(TAG, "Response: "  + document.toString());
-                if (!longPolling)
-                    stopProgressIndicator();
-                processContent(document, longPolling);
+                if (document != null) {
+                    Log.d(TAG, "Response: "  + document.toString());
+                    if (!longPolling)
+                        stopProgressIndicator();
+                    processContent(document, longPolling);
+                } else {
+                    Log.e(TAG, "Got a null response from openHAB");
+                }
             }
             @Override
             public void onFailure(Throwable error, String content) {

@@ -43,8 +43,10 @@ import android.nfc.NfcAdapter;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.speech.RecognizerIntent;
+import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.widget.DrawerLayout;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.*;
@@ -115,6 +117,10 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
     private String mNfcData;
     // Pending NFC page
     private String mPendingNfcPage;
+    // Drawer Layout
+    private DrawerLayout mDrawerLayout;
+    // Drawer Toggler
+    private ActionBarDrawerToggle mDrawerToggle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -158,7 +164,7 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         // Enable app icon in action bar work as 'home'
-        this.getActionBar().setHomeButtonEnabled(true);
+//        this.getActionBar().setHomeButtonEnabled(true);
         pager = (OpenHABViewPager)findViewById(R.id.pager);
         pager.setScrollDurationFactor(2.5);
         pager.setOffscreenPageLimit(1);
@@ -172,10 +178,23 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
 //        pager.setPageMargin(1);
 //        pager.setPageMarginDrawable(android.R.color.darker_gray);
         // Check if we have openHAB page url in saved instance state?
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.drawable.ic_navigation_drawer,
+                R.string.app_name, R.string.app_name) {
+            public void onDrawerClosed(View view) {
+                Log.d(TAG, "onDrawerClosed");
+            }
+            public void onDrawerOpened(View drawerView) {
+                Log.d(TAG, "onDrawerOpened");
+            }
+        };
+        mDrawerLayout.setDrawerListener(mDrawerToggle);
         if (savedInstanceState != null) {
             openHABBaseUrl = savedInstanceState.getString("openHABBaseUrl");
             sitemapRootUrl = savedInstanceState.getString("sitemapRootUrl");
         }
+        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getActionBar().setHomeButtonEnabled(true);
         if (getIntent() != null) {
             Log.d(TAG, "Intent != null");
             if (getIntent().getAction() != null) {
