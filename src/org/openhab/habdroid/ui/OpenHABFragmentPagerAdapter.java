@@ -77,14 +77,11 @@ public class OpenHABFragmentPagerAdapter extends FragmentStatePagerAdapter imple
     @Override
     public int getItemPosition(Object object) {
         Log.d(TAG, "getItemPosition");
-//        if (actualColumnCountChanged)
-//            return POSITION_NONE;
-//        if (fragmentList.contains(object)) {
-//            int index = fragmentList.indexOf(object);
-//            return index;
-//            return fragmentList.indexOf(object);
-//        }
-        return POSITION_NONE;
+        if (columnsNumber == 1 && fragmentList.contains(object)) {
+            return fragmentList.indexOf(object);
+        } else {
+            return POSITION_NONE;
+        }
     }
 
     public List<OpenHABWidgetListFragment> getFragmentList() {
@@ -188,27 +185,16 @@ public class OpenHABFragmentPagerAdapter extends FragmentStatePagerAdapter imple
         int oldColumnCount = getActualColumnsNumber();
         if (pageSelected < fragmentList.size() - 1) {
             Log.d(TAG, "new position is less then current");
-            // If we have more then 1 column, notify pager of change here
-/*            if (columnsNumber > 1) {
-                if (mSelectedPage < fragmentList.size() - 1) {
-                    Log.d(TAG, "new position is less then current");
-                    for(int i=fragmentList.size()-1; i>mSelectedPage; i--) {
-                        fragmentList.remove(i);
-                    }
+            fragmentList.get(pageSelected).clearSelection();
+            if (columnsNumber > 1) { // In multicolumn we will modify fragment list immediately
+                for(int i=fragmentList.size()-1; i>mSelectedPage; i--) {
+                    Log.d(TAG, String.format("Removing page %d", i));
+                    fragmentList.remove(i);
                 }
-                if (getActualColumnsNumber() != oldColumnCount)
-                    actualColumnCountChanged = true;
                 notifyDataSetChanged();
-                actualColumnCountChanged = false;
-            // If only 1 column, set flag to notify pager later, after transition is complete
-            } else {
+            } else { // In single column we will set a flag to do that after scroll finishes
                 notifyDataSetChangedPending = true;
-            }*/
-            for(int i=fragmentList.size()-1; i>mSelectedPage; i--) {
-                Log.d(TAG, String.format("Removing page %d", i));
-                fragmentList.remove(i);
             }
-            notifyDataSetChanged();
         }
     }
 

@@ -452,6 +452,11 @@ public class OpenHABWidgetListFragment extends ListFragment {
         return "";
     }
 
+    public void clearSelection() {
+        getListView().clearChoices();
+        getListView().requestLayout();
+    }
+
     public int getPosition() {
         return mPosition;
     }
