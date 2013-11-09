@@ -77,13 +77,13 @@ public class OpenHABFragmentPagerAdapter extends FragmentStatePagerAdapter imple
     @Override
     public int getItemPosition(Object object) {
         Log.d(TAG, "getItemPosition");
-        if (actualColumnCountChanged)
-            return POSITION_NONE;
-        if (fragmentList.contains(object)) {
+//        if (actualColumnCountChanged)
+//            return POSITION_NONE;
+//        if (fragmentList.contains(object)) {
 //            int index = fragmentList.indexOf(object);
 //            return index;
-            return fragmentList.indexOf(object);
-        }
+//            return fragmentList.indexOf(object);
+//        }
         return POSITION_NONE;
     }
 
@@ -126,9 +126,18 @@ public class OpenHABFragmentPagerAdapter extends FragmentStatePagerAdapter imple
 
     @Override
     public float getPageWidth(int position) {
-        Log.d(TAG, String.format("getPageWidth(%d)", position));
         float pageWidth;
-        pageWidth = 1.0f / getActualColumnsNumber();
+/*        pageWidth = 1.0f / getActualColumnsNumber();*/
+        if (getActualColumnsNumber() > 1) {
+            if (position == fragmentList.size()-1) { // Last fragment
+                pageWidth = 0.67f;
+            } else {
+                pageWidth = 0.33f;
+            }
+        } else {
+            pageWidth = 1.0f;
+        }
+        Log.d(TAG, String.format("getPageWidth(%d) returned %f", position, pageWidth));
         return  pageWidth;
     }
 
@@ -161,7 +170,7 @@ public class OpenHABFragmentPagerAdapter extends FragmentStatePagerAdapter imple
                 sitemapRootUrl, openHABUsername, openHABPassword, position);
         fragmentList.add(fragment);
         Log.d(TAG, String.format("Old columns = %d, new columns = %d", oldColumnCount, getActualColumnsNumber()));
-        if (getActualColumnsNumber() != oldColumnCount)
+//        if (getActualColumnsNumber() != oldColumnCount)
             actualColumnCountChanged = true;
         Log.d(TAG, "Before notifyDataSetChanged");
         notifyDataSetChanged();
@@ -178,8 +187,9 @@ public class OpenHABFragmentPagerAdapter extends FragmentStatePagerAdapter imple
         mSelectedPage = pageSelected;
         int oldColumnCount = getActualColumnsNumber();
         if (pageSelected < fragmentList.size() - 1) {
+            Log.d(TAG, "new position is less then current");
             // If we have more then 1 column, notify pager of change here
-            if (columnsNumber > 1) {
+/*            if (columnsNumber > 1) {
                 if (mSelectedPage < fragmentList.size() - 1) {
                     Log.d(TAG, "new position is less then current");
                     for(int i=fragmentList.size()-1; i>mSelectedPage; i--) {
@@ -193,7 +203,12 @@ public class OpenHABFragmentPagerAdapter extends FragmentStatePagerAdapter imple
             // If only 1 column, set flag to notify pager later, after transition is complete
             } else {
                 notifyDataSetChangedPending = true;
+            }*/
+            for(int i=fragmentList.size()-1; i>mSelectedPage; i--) {
+                Log.d(TAG, String.format("Removing page %d", i));
+                fragmentList.remove(i);
             }
+            notifyDataSetChanged();
         }
     }
 
