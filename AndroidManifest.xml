@@ -14,6 +14,11 @@
     <uses-permission android:name="android.permission.READ_LOGS" />
     <uses-permission android:name="android.permission.GET_TASKS" />
     <uses-permission android:name="android.permission.NFC" />
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+    <permission android:name="com.example.gcm.permission.C2D_MESSAGE"
+        android:protectionLevel="signature" />
+    <uses-permission android:name="com.example.gcm.permission.C2D_MESSAGE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-feature
         android:name="android.hardware.nfc"
         android:required="false" />
@@ -51,5 +56,13 @@
         </activity>
         <activity android:name="com.crittercism.NotificationActivity" />
         <activity android:name="de.duenndns.ssl.MemorizingActivity" />
+        <receiver
+            android:name="org.openhab.habdroid.core.GcmBroadcastReceiver"
+            android:permission="com.google.android.c2dm.permission.SEND">
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                <category android:name="org.openhab.gcmtest" />
+            </intent-filter>
+        </receiver>
     </application>
 </manifest>

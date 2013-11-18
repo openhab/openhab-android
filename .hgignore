@@ -1,4 +1,11 @@
 target
 
-syntax: regexp
-^bin$
+syntax: glob
+bin/*
+.idea/*
+.settings/*
+gen/*
+gen-external-apklibs/*
+target/*
+out/*
+.DS_Store

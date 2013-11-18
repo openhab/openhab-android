@@ -40,6 +40,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.nfc.NfcAdapter;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.speech.RecognizerIntent;
@@ -53,11 +54,17 @@ import android.view.*;
 import android.widget.Toast;
 import com.crittercism.app.Crittercism;
 import com.google.analytics.tracking.android.EasyTracker;
+import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.image.WebImageCache;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.auth.AuthScope;
+import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.HttpResponseException;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.DefaultHttpClient;
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.core.DocumentHttpResponseHandler;
 import org.openhab.habdroid.core.OpenHABTracker;
@@ -67,6 +74,8 @@ import org.openhab.habdroid.model.OpenHABSitemap;
 import org.openhab.habdroid.util.MyAsyncHttpClient;
 import org.openhab.habdroid.util.Util;
 import org.w3c.dom.Document;
+
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
@@ -83,6 +92,7 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
     private static final int SETTINGS_REQUEST_CODE = 1002;
     private static final int WRITE_NFC_TAG_REQUEST_CODE = 1003;
     private static final int INFO_REQUEST_CODE = 1004;
+    public static final String GCM_SENDER_ID = "737820980945";
     // Base URL of current openHAB connection
     private String openHABBaseUrl = "https://demo.openhab.org:8443/";
     // openHAB username
@@ -121,6 +131,11 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
     private DrawerLayout mDrawerLayout;
     // Drawer Toggler
     private ActionBarDrawerToggle mDrawerToggle;
+    // GCM Registration expiration
+    public static final long REGISTRATION_EXPIRY_TIME_MS = 1000 * 3600 * 24 * 7;
+    // Google Cloud Messaging
+    private GoogleCloudMessaging mGcm;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -163,6 +178,7 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
             Util.initCrittercism(getApplicationContext(), "5117659f59e1bd4ba9000004");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        gcmRegisterBackground();
         // Enable app icon in action bar work as 'home'
 //        this.getActionBar().setHomeButtonEnabled(true);
         pager = (OpenHABViewPager)findViewById(R.id.pager);
@@ -815,4 +831,48 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
         return mAsyncHttpClient;
     }
 
+    private void gcmRegisterBackground() {
+        // We need settings
+        if (mSettings == null)
+            return;
+        // We need remote URL
+        String remoteUrl = mSettings.getString("default_openhab_alturl", null);
+        if (TextUtils.isEmpty(remoteUrl))
+            return;
+        // We need it to be my.oh
+        if (!remoteUrl.toLowerCase().startsWith("https://my.openhab.org"))
+            return;
+        // Finally, all sanity is done
+        if (mGcm == null)
+            mGcm = GoogleCloudMessaging.getInstance(getApplicationContext());
+        new AsyncTask<Void, Void, String>() {
+            @Override
+            protected String doInBackground(Void... params) {
+                String regId = null;
+                try {
+                    regId = mGcm.register(GCM_SENDER_ID);
+                    String regUrl = "https://my.openhab.org/addAndroidRegistration?regId=" + regId;
+                    mAsyncHttpClient.get(getApplicationContext(), regUrl, new AsyncHttpResponseHandler() {
+                        @Override
+                        public void onSuccess(String response) {
+                            Log.d(TAG, "GCM reg id success");
+                        }
+                        @Override
+                        public void onFailure(Throwable error, String errorResponse) {
+                            Log.e(TAG, "GCM reg id error: " + error.getMessage());
+                            if (errorResponse != null)
+                                Log.e(TAG, "Error response = " + errorResponse);
+                        }
+                    });
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    Log.e(TAG, e.getMessage());
+                }
+                return regId;
+            }
+            @Override
+            protected void onPostExecute(String regId) {
+            }
+        }.execute(null, null, null);
+    }
 }
