@@ -7,7 +7,7 @@
   android:paddingLeft="@dimen/widgetlist_item_left_margin"
   android:paddingRight="@dimen/widgetlist_item_right_margin"
 	>
-    <TextView android:id="@+id/framelabel"
+    <TextView android:id="@+id/widgetlabel"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="6dip"
@@ -24,7 +24,7 @@
         android:layout_height="2dip"
         android:background="#ff32b2e2"
         android:orientation="horizontal"
-        android:layout_below="@+id/framelabel"
+        android:layout_below="@+id/widgetlabel"
         android:layout_marginLeft="@dimen/widgetlist_divider_left_margin"
         android:layout_marginRight="@dimen/widgetlist_divider_right_margin"
         android:layout_marginTop="7dip"

@@ -186,6 +186,11 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     		widgetView = (RelativeLayout) convertView;
     	}
 
+        // Process the colour attributes
+        Integer iconColor = openHABWidget.getIconColor();
+        Integer labelColor = openHABWidget.getLabelColor();
+        Integer valueColor = openHABWidget.getValueColor();
+
         // Process widgets icon image
         MySmartImageView widgetImage = (MySmartImageView)widgetView.findViewById(R.id.widgetimage);
         // Some of widgets, for example Frame doesnt' have an icon, so...
@@ -197,11 +202,20 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
                 // Now set image URL
                 widgetImage.setImageUrl(iconUrl, R.drawable.blank_icon,
                         openHABUsername, openHABPassword);
+                if(iconColor != null)
+                    widgetImage.setColorFilter(iconColor);
             }
         }
+        // Get TextView for widget label and set it's color
+        labelTextView = (TextView)widgetView.findViewById(R.id.widgetlabel);
+        if(labelColor != null && labelTextView != null)
+            labelTextView.setTextColor(labelColor);
+        // Get TextView for widget value and set it's color
+        valueTextView = (TextView)widgetView.findViewById(R.id.widgetvalue);
+        if (valueColor != null && valueTextView != null)
+            valueTextView.setTextColor(valueColor);
     	switch (getItemViewType(position)) {
     	case TYPE_FRAME:
-    		labelTextView = (TextView)widgetView.findViewById(R.id.framelabel);
     		if (labelTextView != null)
     			labelTextView.setText(openHABWidget.getLabel());
     		widgetView.setClickable(false);
@@ -214,8 +228,6 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     		}
     		break;
     	case TYPE_GROUP:
-    		labelTextView = (TextView)widgetView.findViewById(R.id.grouplabel);
-    		valueTextView = (TextView)widgetView.findViewById(R.id.groupvalue);
     		if (labelTextView != null && valueTextView != null) {
     			splitString = openHABWidget.getLabel().split("\\[|\\]");
     			labelTextView.setText(splitString[0]);
@@ -228,8 +240,6 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     		}
     		break;
     	case TYPE_SECTIONSWITCH:
-    		labelTextView = (TextView)widgetView.findViewById(R.id.sectionswitchlabel);
-    		valueTextView = (TextView)widgetView.findViewById(R.id.sectionswitchvalue);
 			splitString = openHABWidget.getLabel().split("\\[|\\]");
 			if (labelTextView != null)
 				labelTextView.setText(splitString[0]);
@@ -293,7 +303,6 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     		});
     		break;
     	case TYPE_SWITCH:
-    		labelTextView = (TextView)widgetView.findViewById(R.id.switchlabel);
     		if (labelTextView != null)
     			labelTextView.setText(openHABWidget.getLabel());
     		Switch switchSwitch = (Switch)widgetView.findViewById(R.id.switchswitch);
@@ -320,7 +329,6 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
                 		});
     		break;
     	case TYPE_COLOR:
-    		labelTextView = (TextView)widgetView.findViewById(R.id.colorlabel);
     		if (labelTextView != null)
     			labelTextView.setText(openHABWidget.getLabel());
     		ImageButton colorUpButton = (ImageButton)widgetView.findViewById(R.id.colorbutton_up);
@@ -370,7 +378,6 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
                 		});
     		break;
     	case TYPE_ROLLERSHUTTER:
-    		labelTextView = (TextView)widgetView.findViewById(R.id.rollershutterlabel);
     		if (labelTextView != null)
     			labelTextView.setText(openHABWidget.getLabel());
     		ImageButton rollershutterUpButton = (ImageButton)widgetView.findViewById(R.id.rollershutterbutton_up);
@@ -408,7 +415,6 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
                 		});
     		break;
     	case TYPE_TEXT:
-    		labelTextView = (TextView)widgetView.findViewById(R.id.textlabel);
     		splitString = openHABWidget.getLabel().split("\\[|\\]");
     		if (labelTextView != null)
     			if (splitString.length > 0) {
@@ -416,8 +422,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     			} else {
     				labelTextView.setText(openHABWidget.getLabel());
     			}
-    		valueTextView = (TextView)widgetView.findViewById(R.id.textvalue);
-    		if (valueTextView != null) 
+    		if (valueTextView != null)
     			if (splitString.length > 1) {
     				// If value is not empty, show TextView
     				valueTextView.setVisibility(View.VISIBLE);
@@ -429,7 +434,6 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     			}
     		break;
     	case TYPE_SLIDER:
-    		labelTextView = (TextView)widgetView.findViewById(R.id.sliderlabel);
     		splitString = openHABWidget.getLabel().split("\\[|\\]");
     		if (labelTextView != null)
     			labelTextView.setText(splitString[0]);
@@ -545,7 +549,6 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     	break;
     	case TYPE_SELECTION:
     		int spinnerSelectedIndex = -1;
-    		labelTextView = (TextView)widgetView.findViewById(R.id.selectionlabel);
     		if (labelTextView != null)
     			labelTextView.setText(openHABWidget.getLabel());
     		Spinner selectionSpinner = (Spinner)widgetView.findViewById(R.id.selectionspinner);
@@ -598,16 +601,14 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     		});
     		break;
     	case TYPE_SETPOINT:
-    		labelTextView = (TextView)widgetView.findViewById(R.id.setpointlabel);
     		splitString = openHABWidget.getLabel().split("\\[|\\]");
     		if (labelTextView != null)
     			labelTextView.setText(splitString[0]);
-    		TextView setPointValueTextView = (TextView)widgetView.findViewById(R.id.setpointvaluelabel);
-    		if (setPointValueTextView != null) 
+    		if (valueTextView != null)
     			if (splitString.length > 1) {
     				// If value is not empty, show TextView
-    				setPointValueTextView.setVisibility(View.VISIBLE);
-    				setPointValueTextView.setText(splitString[1]);
+    				valueTextView.setVisibility(View.VISIBLE);
+    				valueTextView.setText(splitString[1]);
     			}
     		Button setPointMinusButton = (Button)widgetView.findViewById(R.id.setpointbutton_minus);
     		Button setPointPlusButton = (Button)widgetView.findViewById(R.id.setpointbutton_plus);
@@ -642,7 +643,6 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
                 		});
     		break;
     	default:
-    		labelTextView = (TextView)widgetView.findViewById(R.id.itemlabel);
     		if (labelTextView != null)
     			labelTextView.setText(openHABWidget.getLabel());
     		break;

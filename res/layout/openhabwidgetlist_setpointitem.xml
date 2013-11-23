@@ -27,7 +27,7 @@
 		android:maxHeight="50dip"
 		android:maxWidth="50dip"
 		/>
-<TextView android:id="@+id/setpointlabel"
+<TextView android:id="@+id/widgetlabel"
         	android:layout_width="wrap_content"
         	android:layout_height="wrap_content"
         	android:textAppearance="?android:attr/textAppearanceMedium"
@@ -45,7 +45,7 @@
         android:layout_width="40dip"
         android:layout_height="wrap_content"
         android:text="-" />
-  <TextView android:id="@+id/setpointvaluelabel"
+  <TextView android:id="@+id/widgetvalue"
         	android:layout_width="wrap_content"
         	android:layout_height="wrap_content"
         	android:textAppearance="?android:attr/textAppearanceMedium"
