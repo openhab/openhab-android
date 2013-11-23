@@ -73,6 +73,7 @@ public class DocumentHttpResponseHandler extends AsyncHttpResponseHandler {
             case SUCCESS_MESSAGE:
                 response = (Object[])msg.obj;
                 Document responseDocument = null;
+                Log.d("DocumentHttpResponseHandler", String.format("response[%d]", response.length));
                 try {
                     Log.d("DocumentHttpResponseHandler", "Got response = " + (String) response[2]);
                     responseDocument = parseResponse((String) response[2]);

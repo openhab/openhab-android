@@ -41,8 +41,10 @@ import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.nfc.NfcAdapter;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.provider.Settings;
 import android.speech.RecognizerIntent;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.FragmentActivity;
@@ -77,6 +79,7 @@ import org.w3c.dom.Document;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 import de.duenndns.ssl.MTMDecision;
@@ -851,7 +854,10 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
                 String regId = null;
                 try {
                     regId = mGcm.register(GCM_SENDER_ID);
-                    String regUrl = "https://my.openhab.org/addAndroidRegistration?regId=" + regId;
+                    String deviceModel = URLEncoder.encode(Build.MODEL, "UTF-8");
+                    String deviceId = Settings.Secure.getString(getContentResolver(),Settings.Secure.ANDROID_ID);
+                    String regUrl = "https://my.openhab.org/addAndroidRegistration?deviceId=" + deviceId +
+                            "&deviceModel=" + deviceModel + "&regId=" + regId;
                     mAsyncHttpClient.get(getApplicationContext(), regUrl, new AsyncHttpResponseHandler() {
                         @Override
                         public void onSuccess(String response) {
