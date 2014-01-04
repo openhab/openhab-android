@@ -31,25 +31,28 @@ package org.openhab.habdroid.core;
 
 import android.app.Activity;
 import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.media.RingtoneManager;
-import android.net.Uri;
-import android.support.v4.app.NotificationCompat;
-import android.util.Log;
-import com.google.android.gms.gcm.GoogleCloudMessaging;
-import org.openhab.habdroid.R;
-import org.openhab.habdroid.ui.OpenHABMainActivity;
+import android.support.v4.content.WakefulBroadcastReceiver;
 
-public class GcmBroadcastReceiver extends BroadcastReceiver {
+public class GcmBroadcastReceiver extends WakefulBroadcastReceiver {
     private static final String TAG = "GcmBroadcastReceiver";
     private Context mContext;
     private NotificationManager mNotificationManager;
     private static int mNotificationId = 0;
 
     @Override
+    public void onReceive(Context context, Intent intent) {
+        // Explicitly specify that GcmIntentService will handle the intent.
+        ComponentName comp = new ComponentName(context.getPackageName(),
+                GcmIntentService.class.getName());
+        // Start the service, keeping the device awake while it is launching.
+        startWakefulService(context, (intent.setComponent(comp)));
+        setResultCode(Activity.RESULT_OK);
+    }
+
+/*    @Override
     public void onReceive(Context context, Intent intent) {
         mContext = context;
         GoogleCloudMessaging gcm = GoogleCloudMessaging.getInstance(context);
@@ -93,6 +96,6 @@ public class GcmBroadcastReceiver extends BroadcastReceiver {
         mBuilder.setContentIntent(contentIntent);
         mNotificationManager.notify(mNotificationId, mBuilder.build());
     }
-
+*/
 
 }

@@ -70,7 +70,7 @@
 					<assetsDirectory>${project.basedir}/assets</assetsDirectory>
 					<resourceDirectory>${project.basedir}/res</resourceDirectory>
 					<sdk>
-						<platform>15</platform>
+						<platform>19</platform>
 					</sdk>
 					<undeployBeforeDeploy>true</undeployBeforeDeploy>
 					<zipalign>
@@ -217,12 +217,13 @@
         <dependency>
             <groupId>com.google.android</groupId>
             <artifactId>support-v4</artifactId>
-            <version>r13</version>
+            <version>r19</version>
         </dependency>
         <dependency>
             <groupId>com.google.android.gms</groupId>
             <artifactId>google-play-services</artifactId>
-            <version>3.2.25</version>
+            <type>jar</type>
+            <version>4</version>
         </dependency>
 <!--        <dependency>
             <groupId>de.duenndns.ssl</groupId>

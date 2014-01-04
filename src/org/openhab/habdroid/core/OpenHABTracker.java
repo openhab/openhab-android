@@ -34,6 +34,7 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.Toast;
@@ -43,8 +44,15 @@ import org.openhab.habdroid.util.AsyncServiceResolverListener;
 import org.openhab.habdroid.util.Util;
 
 import javax.jmdns.ServiceInfo;
+
+import java.io.IOException;
+import java.net.InetSocketAddress;
 import java.net.MalformedURLException;
+import java.net.Socket;
+import java.net.SocketAddress;
 import java.net.URL;
+import java.net.UnknownHostException;
+import java.util.concurrent.ExecutionException;
 
 /**
  * This class provides openHAB discovery and continuous network state tracking to
@@ -105,9 +113,20 @@ public class OpenHABTracker implements AsyncServiceResolverListener {
             mOpenHABUrl = Util.normalizeUrl(settings.getString("default_openhab_url", ""));
             // Check if we have a direct URL in preferences, if yes - use it
             if (mOpenHABUrl.length() > 0) {
-                Log.d(TAG, "Connecting to directly configured URL = " + mOpenHABUrl);
-                openHABTracked(mOpenHABUrl, mCtx.getString(R.string.info_conn_url));
-                return;
+                if (checkUrlReachability(mOpenHABUrl)) {
+                    Log.d(TAG, "Connecting to directly configured URL = " + mOpenHABUrl);
+                    openHABTracked(mOpenHABUrl, mCtx.getString(R.string.info_conn_url));
+                    return;
+                } else {
+                    mOpenHABUrl = Util.normalizeUrl(settings.getString("default_openhab_alturl", ""));
+                    // If remote URL is configured
+                    if (mOpenHABUrl.length() > 0) {
+                        Log.d(TAG, "Connecting to remote URL " + mOpenHABUrl);
+                        openHABTracked(mOpenHABUrl, mCtx.getString(R.string.info_conn_rem_url));
+                    } else {
+                        openHABError(mCtx.getString(R.string.error_no_url));
+                    }
+                }
             } else {
                 // Get current network information
                 ConnectivityManager connectivityManager = (ConnectivityManager)mCtx.getSystemService(
@@ -180,6 +199,37 @@ public class OpenHABTracker implements AsyncServiceResolverListener {
             openHABTracked(mOpenHABUrl, mCtx.getString(R.string.info_conn_rem_url));
         } else {
             openHABError(mCtx.getString(R.string.error_no_url));
+        }
+    }
+
+    private boolean checkUrlReachability(String urlString) {
+        Log.d(TAG, "Checking reachability of " + urlString);
+        try {
+            return new AsyncTask<String, Void, Boolean>() {
+                @Override
+                protected Boolean doInBackground(String... strings) {
+                    try {
+                        URL url = new URL(strings[0]);
+                        Socket s = new Socket();
+                        s.connect(new InetSocketAddress(url.getHost(), url.getPort()), 100);
+                        Log.d(TAG, "Socket connected");
+                        s.close();
+                        return true;
+                    } catch (MalformedURLException e) {
+                        Log.e(TAG, e.getMessage());
+                        return false;
+                    } catch (IOException e) {
+                        Log.e(TAG, e.getMessage());
+                        return false;
+                    }
+                }
+            }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, urlString).get();
+        } catch (InterruptedException e) {
+            Log.e(TAG, e.getMessage());
+            return false;
+        } catch (ExecutionException e) {
+            Log.e(TAG, e.getMessage());
+            return false;
         }
     }
 

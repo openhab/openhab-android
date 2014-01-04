@@ -38,6 +38,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.nfc.NfcAdapter;
 import android.os.AsyncTask;
@@ -53,26 +54,27 @@ import android.support.v4.widget.DrawerLayout;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.*;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.Toast;
 import com.crittercism.app.Crittercism;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
+import com.google.android.gms.location.LocationClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.image.WebImageCache;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.auth.AuthScope;
-import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.HttpResponseException;
-import org.apache.http.client.methods.HttpGet;
 import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.DefaultHttpClient;
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.core.DocumentHttpResponseHandler;
+import org.openhab.habdroid.core.NotificationDeletedBroadcastReceiver;
 import org.openhab.habdroid.core.OpenHABTracker;
 import org.openhab.habdroid.core.OpenHABTrackerReceiver;
 import org.openhab.habdroid.model.OpenHABLinkedPage;
 import org.openhab.habdroid.model.OpenHABSitemap;
+import org.openhab.habdroid.ui.drawer.OpenHABDrawerAdapter;
 import org.openhab.habdroid.util.MyAsyncHttpClient;
 import org.openhab.habdroid.util.Util;
 import org.w3c.dom.Document;
@@ -138,7 +140,10 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
     public static final long REGISTRATION_EXPIRY_TIME_MS = 1000 * 3600 * 24 * 7;
     // Google Cloud Messaging
     private GoogleCloudMessaging mGcm;
-
+    private OpenHABDrawerAdapter mDrawerAdapter;
+    private String[] mDrawerTitles = {"First floor", "Seconf floor", "Cellar", "Garage"};
+    private ListView mDrawerList;
+    private List<OpenHABSitemap> mSitemapList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -198,6 +203,7 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
 //        pager.setPageMarginDrawable(android.R.color.darker_gray);
         // Check if we have openHAB page url in saved instance state?
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawerList = (ListView) findViewById(R.id.left_drawer);
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.drawable.ic_navigation_drawer,
                 R.string.app_name, R.string.app_name) {
             public void onDrawerClosed(View view) {
@@ -212,6 +218,23 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
             openHABBaseUrl = savedInstanceState.getString("openHABBaseUrl");
             sitemapRootUrl = savedInstanceState.getString("sitemapRootUrl");
         }
+        mSitemapList = new ArrayList<OpenHABSitemap>();
+        mDrawerAdapter = new OpenHABDrawerAdapter(this, R.layout.openhabdrawer_item, mSitemapList);
+        mDrawerAdapter.setOpenHABUsername(openHABUsername);
+        mDrawerAdapter.setOpenHABPassword(openHABPassword);
+        mDrawerList.setAdapter(mDrawerAdapter);
+        mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int item, long l) {
+                Log.d(TAG, "Drawer selected item " + String.valueOf(item));
+                if (mSitemapList != null) {
+                    Log.d(TAG, "This is sitemap " + mSitemapList.get(item).getLink());
+                    mDrawerLayout.closeDrawers();
+                    openSitemap(mSitemapList.get(item).getHomepageLink());
+                }
+            }
+        });
+//        mDrawerList.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, mDrawerTitles));
         getActionBar().setDisplayHomeAsUpEnabled(true);
         getActionBar().setHomeButtonEnabled(true);
         if (getIntent() != null) {
@@ -221,12 +244,31 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
                 if (getIntent().getAction().equals("android.nfc.action.NDEF_DISCOVERED")) {
                     Log.d(TAG, "This is NFC action");
                     if (getIntent().getDataString() != null) {
+
+
+
+
                         Log.d(TAG, "NFC data = " + getIntent().getDataString());
                         mNfcData = getIntent().getDataString();
                     }
+                } else if (getIntent().getAction().equals("org.openhab.notification.selected")) {
+                    onNotificationSelected(getIntent());
                 }
             }
         }
+    }
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        // Sync the toggle state after onRestoreInstanceState has occurred.
+        mDrawerToggle.syncState();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
     @Override
@@ -278,6 +320,7 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
         Toast.makeText(getApplicationContext(), message,
                 Toast.LENGTH_LONG).show();
         openHABBaseUrl = baseUrl;
+        mDrawerAdapter.setOpenHABBaseUrl(openHABBaseUrl);
         pagerAdapter.setOpenHABBaseUrl(openHABBaseUrl);
         if (!TextUtils.isEmpty(mNfcData)) {
             onNfcTag(mNfcData);
@@ -317,16 +360,18 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
             public void onSuccess(Document document) {
                 stopProgressIndicator();
                 Log.d(TAG, "Response: " +  document.toString());
-                List<OpenHABSitemap> sitemapList = Util.parseSitemapList(document);
-                if (sitemapList.size() == 0) {
+                mSitemapList.clear();
+                mSitemapList.addAll(Util.parseSitemapList(document));
+                if (mSitemapList.size() == 0) {
                     // Got an empty sitemap list!
                     Log.e(TAG, "openHAB returned empty sitemap list");
                     showAlertDialog(getString(R.string.error_empty_sitemap_list));
                     return;
                 }
+                mDrawerAdapter.notifyDataSetChanged();
                 // If we are forced to do selection, just open selection dialog
                 if (forceSelect) {
-                    showSitemapSelectionDialog(sitemapList);
+                    showSitemapSelectionDialog(mSitemapList);
                 } else {
                     // Check if we have a sitemap configured to use
                     SharedPreferences settings =
@@ -335,36 +380,36 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
                     // If we have sitemap configured
                     if (configuredSitemap.length() > 0) {
                         // Configured sitemap is on the list we got, open it!
-                        if (Util.sitemapExists(sitemapList, configuredSitemap)) {
+                        if (Util.sitemapExists(mSitemapList, configuredSitemap)) {
                             Log.d(TAG, "Configured sitemap is on the list");
-                            OpenHABSitemap selectedSitemap = Util.getSitemapByName(sitemapList, configuredSitemap);
+                            OpenHABSitemap selectedSitemap = Util.getSitemapByName(mSitemapList, configuredSitemap);
                             openSitemap(selectedSitemap.getHomepageLink());
                             // Configured sitemap is not on the list we got!
                         } else {
                             Log.d(TAG, "Configured sitemap is not on the list");
-                            if (sitemapList.size() == 1) {
+                            if (mSitemapList.size() == 1) {
                                 Log.d(TAG, "Got only one sitemap");
                                 SharedPreferences.Editor preferencesEditor = settings.edit();
-                                preferencesEditor.putString("default_openhab_sitemap", sitemapList.get(0).getName());
+                                preferencesEditor.putString("default_openhab_sitemap", mSitemapList.get(0).getName());
                                 preferencesEditor.commit();
-                                openSitemap(sitemapList.get(0).getHomepageLink());
+                                openSitemap(mSitemapList.get(0).getHomepageLink());
                             } else {
                                 Log.d(TAG, "Got multiply sitemaps, user have to select one");
-                                showSitemapSelectionDialog(sitemapList);
+                                showSitemapSelectionDialog(mSitemapList);
                             }
                         }
                         // No sitemap is configured to use
                     } else {
                         // We got only one single sitemap from openHAB, use it
-                        if (sitemapList.size() == 1) {
+                        if (mSitemapList.size() == 1) {
                             Log.d(TAG, "Got only one sitemap");
                             SharedPreferences.Editor preferencesEditor = settings.edit();
-                            preferencesEditor.putString("default_openhab_sitemap", sitemapList.get(0).getName());
+                            preferencesEditor.putString("default_openhab_sitemap", mSitemapList.get(0).getName());
                             preferencesEditor.commit();
-                            openSitemap(sitemapList.get(0).getHomepageLink());
+                            openSitemap(mSitemapList.get(0).getHomepageLink());
                         } else {
                             Log.d(TAG, "Got multiply sitemaps, user have to select one");
-                            showSitemapSelectionDialog(sitemapList);
+                            showSitemapSelectionDialog(mSitemapList);
                         }
                     }
                 }
@@ -625,7 +670,22 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
                     Log.d(TAG, "Action data = " + newIntent.getDataString());
                     onNfcTag(newIntent.getDataString());
                 }
+            } else if (newIntent.getAction().equals("org.openhab.notification.selected")) {
+                onNotificationSelected(newIntent);
             }
+        }
+    }
+
+    private void onNotificationSelected(Intent intent) {
+        Log.d(TAG, "Notification was selected");
+        if (intent.hasExtra("notificationId")) {
+            Log.d(TAG, String.format("Notification id = %d",
+                    intent.getExtras().getInt("notificationId")));
+            // Make a fake broadcast intent to hide intent on other devices
+            Intent deleteIntent = new Intent(this, NotificationDeletedBroadcastReceiver.class);
+            deleteIntent.setAction("org.openhab.notification.deleted");
+            deleteIntent.putExtra("notificationId", intent.getExtras().getInt("notificationId"));
+            sendBroadcast(deleteIntent);
         }
     }
 
@@ -879,6 +939,6 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
             @Override
             protected void onPostExecute(String regId) {
             }
-        }.execute(null, null, null);
+        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,null, null, null);
     }
 }
