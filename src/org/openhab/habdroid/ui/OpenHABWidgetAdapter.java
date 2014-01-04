@@ -204,16 +204,24 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
                         openHABUsername, openHABPassword);
                 if(iconColor != null)
                     widgetImage.setColorFilter(iconColor);
+                else
+                    widgetImage.clearColorFilter();
             }
         }
         // Get TextView for widget label and set it's color
         labelTextView = (TextView)widgetView.findViewById(R.id.widgetlabel);
-        if(labelColor != null && labelTextView != null)
+        if(labelColor != null && labelTextView != null) {
+            Log.d(TAG, String.format("Setting label color to %d", labelColor));
             labelTextView.setTextColor(labelColor);
+        } else if (labelTextView != null)
+            labelTextView.setTextColor(labelTextView.getTextColors().getDefaultColor());
         // Get TextView for widget value and set it's color
         valueTextView = (TextView)widgetView.findViewById(R.id.widgetvalue);
-        if (valueColor != null && valueTextView != null)
+        if (valueColor != null && valueTextView != null) {
+            Log.d(TAG, String.format("Setting value color to %d", valueColor));
             valueTextView.setTextColor(valueColor);
+        } else if (valueTextView != null)
+            valueTextView.setTextColor(valueTextView.getTextColors().getDefaultColor());
     	switch (getItemViewType(position)) {
     	case TYPE_FRAME:
     		if (labelTextView != null)

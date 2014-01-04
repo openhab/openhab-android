@@ -30,6 +30,7 @@
 package org.openhab.habdroid.model;
 
 import android.graphics.Color;
+import android.util.Log;
 
 import java.util.ArrayList;
 import org.w3c.dom.Node;
@@ -313,8 +314,10 @@ public class OpenHABWidget {
 
     public void setLabelColor(String color) {
         try {
-            this.labelcolor = new Integer(Color.parseColor(color));
+            this.labelcolor = new Integer(Color.parseColor(fixColorName(color)));
         } catch(IllegalArgumentException e) {
+            Log.e("OpenHABWidget", "Color was " + color);
+            Log.e("OpenHABWidget", e.getMessage());
             this.labelcolor = null;
         }
     }
@@ -325,8 +328,10 @@ public class OpenHABWidget {
 
     public void setValueColor(String color) {
         try {
-            this.valuecolor = new Integer(Color.parseColor(color));
+            this.valuecolor = new Integer(Color.parseColor(fixColorName(color)));
         } catch(IllegalArgumentException e) {
+            Log.e("OpenHABWidget", "Color was " + color);
+            Log.e("OpenHABWidget", e.getMessage());
             this.valuecolor = null;
         }
     }
@@ -337,9 +342,17 @@ public class OpenHABWidget {
 
     public void setIconColor(String color) {
         try {
-            this.iconcolor = new Integer(Color.parseColor(color));
+            this.iconcolor = new Integer(Color.parseColor(fixColorName(color)));
         } catch(IllegalArgumentException e) {
+            Log.e("OpenHABWidget", "Color was " + color);
+            Log.e("OpenHABWidget", e.getMessage());
             this.iconcolor = null;
         }
+    }
+
+    private String fixColorName(String colorName) {
+        if (colorName.equals("orange"))
+            return "#FFA500";
+        return colorName;
     }
 }

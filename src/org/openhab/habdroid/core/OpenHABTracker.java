@@ -211,7 +211,7 @@ public class OpenHABTracker implements AsyncServiceResolverListener {
                     try {
                         URL url = new URL(strings[0]);
                         Socket s = new Socket();
-                        s.connect(new InetSocketAddress(url.getHost(), url.getPort()), 100);
+                        s.connect(new InetSocketAddress(url.getHost(), url.getPort()), 2000);
                         Log.d(TAG, "Socket connected");
                         s.close();
                         return true;
