@@ -30,6 +30,7 @@
 package org.openhab.habdroid.model;
 
 import android.graphics.Color;
+import android.text.TextUtils;
 import android.util.Log;
 
 import java.util.ArrayList;

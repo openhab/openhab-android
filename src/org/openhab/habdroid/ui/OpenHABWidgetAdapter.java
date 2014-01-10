@@ -48,6 +48,7 @@ import org.openhab.habdroid.util.MyAsyncHttpClient;
 import org.openhab.habdroid.util.MySmartImageView;
 import android.content.Context;
 import android.net.Uri;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -502,11 +503,11 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     		String chartUrl = "";
     		if (chartItem != null) {
 	    		if (chartItem.getType().equals("GroupItem")) {
-	    			chartUrl = openHABBaseUrl + "rrdchart.png?groups=" + chartItem.getName() + 
+	    			chartUrl = openHABBaseUrl + "chart?groups=" + chartItem.getName() +
 	    					"&period=" + openHABWidget.getPeriod() + "&random=" +
 	    					String.valueOf(random.nextInt());
 	    		} else {
-                    chartUrl = openHABBaseUrl + "rrdchart.png?items=" + chartItem.getName() +
+                    chartUrl = openHABBaseUrl + "chart?items=" + chartItem.getName() +
                             "&period=" + openHABWidget.getPeriod() + "&random=" +
                             String.valueOf(random.nextInt());
                 }
