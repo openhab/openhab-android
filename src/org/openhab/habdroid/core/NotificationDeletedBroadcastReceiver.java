@@ -1,3 +1,16 @@
+/**
+ * Copyright (c) 2010-2014, openHAB.org and others.
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ *  @author Victor Belov
+ *  @since 1.4.0
+ *
+ */
+
 package org.openhab.habdroid.core;
 
 import android.content.BroadcastReceiver;
@@ -13,9 +26,6 @@ import org.openhab.habdroid.ui.OpenHABMainActivity;
 
 import java.io.IOException;
 
-/**
- * Created by belovictor on 25/11/13.
- */
 public class NotificationDeletedBroadcastReceiver extends BroadcastReceiver {
     private final static String TAG = "NotificationDeletedBroadcastReceiver";
     private GoogleCloudMessaging gcm;
