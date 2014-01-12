@@ -133,7 +133,7 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
     protected void onCreate(Bundle savedInstanceState) {
         Log.d(TAG, "onCreate()");
         // Check if we are in development mode
-        isDeveloper = true;
+        isDeveloper = false;
         // Set default values, false means do it one time during the very first launch
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
         // Set non-persistent HABDroid version preference to current version from application package
