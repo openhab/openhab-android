@@ -190,8 +190,13 @@ public class OpenHABTracker implements AsyncServiceResolverListener {
                 protected Boolean doInBackground(String... strings) {
                     try {
                         URL url = new URL(strings[0]);
+                        int checkPort = url.getPort();
+                        if (url.getProtocol().equals("http") && checkPort == -1)
+                            checkPort = 80;
+                        if (url.getProtocol().equals("https") && checkPort == -1)
+                            checkPort = 443;
                         Socket s = new Socket();
-                        s.connect(new InetSocketAddress(url.getHost(), url.getPort()), 1000);
+                        s.connect(new InetSocketAddress(url.getHost(), checkPort), 1000);
                         Log.d(TAG, "Socket connected");
                         s.close();
                         return true;
