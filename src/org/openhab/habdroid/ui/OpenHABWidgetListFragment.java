@@ -220,6 +220,12 @@ public class OpenHABWidgetListFragment extends ListFragment {
     }
 
     @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        Log.d(TAG, "onViewCreated");
+        super.onViewCreated(view, savedInstanceState);
+    }
+
+    @Override
     public void onPause () {
         super.onPause();
         Log.d(TAG, "onPause() " + displayPageUrl);
