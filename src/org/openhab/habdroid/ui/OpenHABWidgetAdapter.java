@@ -721,19 +721,21 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     
     public void sendItemCommand(OpenHABItem item, String command) {
         try {
-            StringEntity se = new StringEntity(command);
-            mAsyncHttpClient.post(getContext(), item.getLink(), se, "text/plain", new AsyncHttpResponseHandler() {
-                @Override
-                public void onSuccess(String response) {
-                    Log.d(TAG, "Command was sent successfully");
-                }
-                @Override
-                public void onFailure(Throwable error, String errorResponse) {
-                    Log.e(TAG, "Got command error " + error.getMessage());
-                    if (errorResponse != null)
-                        Log.e(TAG, "Error response = " + errorResponse);
-                }
-            });
+            if (item != null && command != null) {
+                StringEntity se = new StringEntity(command);
+                mAsyncHttpClient.post(getContext(), item.getLink(), se, "text/plain", new AsyncHttpResponseHandler() {
+                    @Override
+                    public void onSuccess(String response) {
+                        Log.d(TAG, "Command was sent successfully");
+                    }
+                    @Override
+                    public void onFailure(Throwable error, String errorResponse) {
+                        Log.e(TAG, "Got command error " + error.getMessage());
+                        if (errorResponse != null)
+                            Log.e(TAG, "Error response = " + errorResponse);
+                    }
+                });
+            }
         } catch (UnsupportedEncodingException e) {
             if (e != null)
             Log.e(TAG, e.getMessage());
