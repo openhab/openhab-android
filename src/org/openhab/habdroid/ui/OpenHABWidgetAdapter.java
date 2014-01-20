@@ -28,6 +28,7 @@ import org.openhab.habdroid.model.OpenHABWidget;
 import org.openhab.habdroid.model.OpenHABWidgetMapping;
 import org.openhab.habdroid.ui.widget.ColorPickerDialog;
 import org.openhab.habdroid.ui.widget.OnColorChangedListener;
+import org.openhab.habdroid.util.MjpegStreamer;
 import org.openhab.habdroid.util.MyAsyncHttpClient;
 import org.openhab.habdroid.util.MySmartImageView;
 import android.content.Context;
@@ -48,6 +49,7 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
@@ -83,13 +85,15 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
 	public static final int TYPE_VIDEO = 12;
 	public static final int TYPE_WEB = 13;
 	public static final int TYPE_COLOR = 14;
-	public static final int TYPES_COUNT = 15;
+    public static final int TYPE_VIDEO_MJPEG = 15;
+	public static final int TYPES_COUNT = 16;
 	private static final String TAG = "OpenHABWidgetAdapter";
 	private String openHABBaseUrl = "http://demo.openhab.org:8080/";
 	private String openHABUsername = "";
 	private String openHABPassword = "";
 	private ArrayList<VideoView> videoWidgetList;
 	private ArrayList<MySmartImageView> refreshImageList;
+    private ArrayList<MjpegStreamer> mjpegWidgetList;
     private MyAsyncHttpClient mAsyncHttpClient;
 
 	public OpenHABWidgetAdapter(Context context, int resource,
@@ -98,6 +102,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
 		// Initialize video view array
 		videoWidgetList = new ArrayList<VideoView>();
 		refreshImageList = new ArrayList<MySmartImageView>();
+        mjpegWidgetList = new ArrayList<MjpegStreamer>();
 	}
 
     @SuppressWarnings("deprecation")
@@ -148,6 +153,9 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     	case TYPE_VIDEO:
     		widgetLayout = R.layout.openhabwidgetlist_videoitem;
     		break;
+        case TYPE_VIDEO_MJPEG:
+            widgetLayout = R.layout.openhabwidgetlist_videomjpegitem;
+            break;
     	case TYPE_WEB:
     		widgetLayout = R.layout.openhabwidgetlist_webitem;
     		break;
@@ -511,24 +519,33 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     		Log.d(TAG, "chart size = " + chartLayoutParams.width + " " + chartLayoutParams.height);
     	break;
     	case TYPE_VIDEO:
-    		VideoView videoVideo = (VideoView)widgetView.findViewById(R.id.videovideo);
-    		Log.d(TAG, "Opening video at " + openHABWidget.getUrl());
-    		// TODO: This is quite dirty fix to make video look maximum available size on all screens
-    		WindowManager wm = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
-    		ViewGroup.LayoutParams videoLayoutParams = videoVideo.getLayoutParams();
-    		videoLayoutParams.height = (int)(wm.getDefaultDisplay().getWidth()/1.77);
-    		videoVideo.setLayoutParams(videoLayoutParams);
-    		// We don't have any event handler to know if the VideoView is on the screen
-    		// so we manage an array of all videos to stop them when user leaves the page
-    		if (!videoWidgetList.contains(videoVideo))
-    			videoWidgetList.add(videoVideo);
-    		// Start video
-    		if (!videoVideo.isPlaying()) {
-        		videoVideo.setVideoURI(Uri.parse(openHABWidget.getUrl()));
-    			videoVideo.start();
-    		}
-    		Log.d(TAG, "Video height is " + videoVideo.getHeight());
+            VideoView videoVideo = (VideoView)widgetView.findViewById(R.id.videovideo);
+            Log.d(TAG, "Opening video at " + openHABWidget.getUrl());
+            // TODO: This is quite dirty fix to make video look maximum available size on all screens
+            WindowManager wm = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
+            ViewGroup.LayoutParams videoLayoutParams = videoVideo.getLayoutParams();
+            videoLayoutParams.height = (int)(wm.getDefaultDisplay().getWidth()/1.77);
+            videoVideo.setLayoutParams(videoLayoutParams);
+            // We don't have any event handler to know if the VideoView is on the screen
+            // so we manage an array of all videos to stop them when user leaves the page
+            if (!videoWidgetList.contains(videoVideo))
+                videoWidgetList.add(videoVideo);
+            // Start video
+            if (!videoVideo.isPlaying()) {
+                videoVideo.setVideoURI(Uri.parse(openHABWidget.getUrl()));
+                videoVideo.start();
+            }
+            Log.d(TAG, "Video height is " + videoVideo.getHeight());
     	break;
+        case TYPE_VIDEO_MJPEG:
+            Log.d(TAG, "Video is mjpeg");
+            ImageView mjpegImage = (ImageView)widgetView.findViewById(R.id.mjpegimage);
+            MjpegStreamer mjpegStreamer = new MjpegStreamer(openHABWidget.getUrl(), "", "", this.getContext());
+            mjpegStreamer.setTargetImageView(mjpegImage);
+            mjpegStreamer.start();
+            if (!mjpegWidgetList.contains(mjpegStreamer))
+                mjpegWidgetList.add(mjpegStreamer);
+        break;
     	case TYPE_WEB:
     		WebView webWeb = (WebView)widgetView.findViewById(R.id.webweb);
     		if (openHABWidget.getHeight() > 0) {
@@ -694,7 +711,15 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     	} else if (openHABWidget.getType().equals("Chart")) {
     		return TYPE_CHART;
     	} else if (openHABWidget.getType().equals("Video")) {
-    		return TYPE_VIDEO;
+            if (openHABWidget.getEncoding() != null) {
+                if (openHABWidget.getEncoding().equals("mjpeg")) {
+                    return TYPE_VIDEO_MJPEG;
+                } else {
+                    return TYPE_VIDEO;
+                }
+            } else {
+        		return TYPE_VIDEO;
+            }
     	} else if (openHABWidget.getType().equals("Webview")) {
     		return TYPE_WEB;
     	} else if (openHABWidget.getType().equals("Colorpicker")) {
@@ -766,8 +791,14 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
 				videoWidgetList.get(i).stopPlayback();
 		}
 		videoWidgetList.clear();
+        for (int i=0; i<mjpegWidgetList.size(); i++) {
+            if (mjpegWidgetList.get(i) != null)
+                mjpegWidgetList.get(i).stop();
+        }
+        mjpegWidgetList.clear();
 	}
-	
+
+
 	public void stopImageRefresh() {
 		Log.d(TAG, "Stopping image refresh for " + refreshImageList.size() + " widgets");
 		for (int i=0; i<refreshImageList.size(); i++) {

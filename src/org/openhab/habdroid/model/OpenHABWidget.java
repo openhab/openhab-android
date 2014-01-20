@@ -46,6 +46,7 @@ public class OpenHABWidget {
     private Integer iconcolor;
     private Integer labelcolor;
     private Integer valuecolor;
+    private String encoding;
 
 	public OpenHABWidget() {
 		this.children = new ArrayList<OpenHABWidget>();
@@ -107,6 +108,8 @@ public class OpenHABWidget {
                         setLabelColor(childNode.getTextContent());
                     } else if (childNode.getNodeName().equals("valuecolor")) {
                         setValueColor(childNode.getTextContent());
+                    } else if (childNode.getNodeName().equals("encoding")) {
+                        setEncoding(childNode.getTextContent());
                     }
 				}
 			}
@@ -336,5 +339,13 @@ public class OpenHABWidget {
         if (colorName.equals("orange"))
             return "#FFA500";
         return colorName;
+    }
+
+    public String getEncoding() {
+        return encoding;
+    }
+
+    public void setEncoding(String encoding) {
+        this.encoding = encoding;
     }
 }

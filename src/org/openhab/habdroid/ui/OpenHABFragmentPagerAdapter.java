@@ -166,8 +166,8 @@ public class OpenHABFragmentPagerAdapter extends FragmentStatePagerAdapter imple
         int oldColumnCount = getActualColumnsNumber();
         if (pageSelected < fragmentList.size() - 1) {
             Log.d(TAG, "new position is less then current");
-            fragmentList.get(pageSelected).clearSelection();
             if (columnsNumber > 1) { // In multicolumn we will modify fragment list immediately
+                fragmentList.get(pageSelected).clearSelection();
                 for(int i=fragmentList.size()-1; i>mSelectedPage; i--) {
                     Log.d(TAG, String.format("Removing page %d", i));
                     fragmentList.remove(i);
