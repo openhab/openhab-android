@@ -537,6 +537,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     			webWeb.setLayoutParams(webLayoutParams);
     		}
     		webWeb.setWebViewClient(new WebViewClient());
+            webWeb.getSettings().setJavaScriptEnabled(true);
     		webWeb.loadUrl(openHABWidget.getUrl());
     	break;
     	case TYPE_SELECTION:
