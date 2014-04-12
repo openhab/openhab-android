@@ -567,9 +567,10 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     		while (mappingIterator.hasNext()) {
     			OpenHABWidgetMapping openHABWidgetMapping = mappingIterator.next();
     			spinnerArray.add(openHABWidgetMapping.getLabel());
-    			if (openHABWidgetMapping.getCommand().equals(openHABWidget.getItem().getState())) {
-    				spinnerSelectedIndex = spinnerArray.size() - 1;
-    			}
+                if (openHABWidgetMapping.getCommand() != null && openHABWidget.getItem() != null)
+                    if (openHABWidgetMapping.getCommand().equals(openHABWidget.getItem().getState())) {
+                        spinnerSelectedIndex = spinnerArray.size() - 1;
+                    }
     		}
     		ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(this.getContext() ,
     				android.R.layout.simple_spinner_item, spinnerArray);

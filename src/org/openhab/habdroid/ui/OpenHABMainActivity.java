@@ -325,7 +325,13 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
     }
 
     public void onBonjourDiscoveryFinished() {
-        mProgressDialog.dismiss();
+        try {
+            mProgressDialog.dismiss();
+            mProgressDialog = null;
+        } catch (Exception e) {
+            // This is to catch "java.lang.IllegalArgumentException: View not attached to window manager"
+            // exception which happens if user quited app during discovery
+        }
     }
 
     /**
@@ -521,9 +527,11 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
                 Intent writeTagIntent = new Intent(this.getApplicationContext(), OpenHABWriteTagActivity.class);
                 // TODO: get current display page url, which? how? :-/
                 OpenHABWidgetListFragment currentFragment = pagerAdapter.getFragment(pager.getCurrentItem());
-                writeTagIntent.putExtra("sitemapPage", currentFragment.getDisplayPageUrl());
-                startActivityForResult(writeTagIntent, WRITE_NFC_TAG_REQUEST_CODE);
-                Util.overridePendingTransition(this, false);
+                if (currentFragment != null) {
+                    writeTagIntent.putExtra("sitemapPage", currentFragment.getDisplayPageUrl());
+                    startActivityForResult(writeTagIntent, WRITE_NFC_TAG_REQUEST_CODE);
+                    Util.overridePendingTransition(this, false);
+                }
                 return true;
             case R.id.mainmenu_openhab_info:
                 Intent infoIntent = new Intent(this.getApplicationContext(), OpenHABInfoActivity.class);

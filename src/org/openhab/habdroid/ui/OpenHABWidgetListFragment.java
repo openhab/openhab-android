@@ -295,7 +295,8 @@ public class OpenHABWidgetListFragment extends ListFragment {
         if (!longPolling)
             startProgressIndicator();
         if (longPolling) {
-            headers = new Header[] {new BasicHeader("X-Atmosphere-Transport", "long-polling")};
+            headers = new Header[] {new BasicHeader("X-Atmosphere-Transport", "long-polling"),
+                new BasicHeader("Accept", "application/xml")};
         }
         mAsyncHttpClient.get(mActivity, pageUrl, headers, null, new DocumentHttpResponseHandler() {
             @Override

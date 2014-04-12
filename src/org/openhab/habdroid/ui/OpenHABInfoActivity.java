@@ -87,7 +87,8 @@ public class OpenHABInfoActivity extends Activity {
             @Override
             public void onFailure(Throwable error, String content) {
                 mOpenHABUUIDText.setText("Unknown");
-                Log.e(TAG, error.getMessage());
+                if (error.getMessage() != null)
+                    Log.e(TAG, error.getMessage());
             }
         });
         mAsyncHttpClient.get(mOpenHABBaseUrl + "static/secret", new AsyncHttpResponseHandler() {

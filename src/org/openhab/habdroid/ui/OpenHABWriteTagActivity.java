@@ -23,6 +23,7 @@ import org.openhab.habdroid.R;
 import org.openhab.habdroid.util.Util;
 
 import com.google.analytics.tracking.android.EasyTracker;
+import com.sun.xml.internal.ws.util.StringUtils;
 
 import android.nfc.FormatException;
 import android.nfc.NdefMessage;
@@ -142,6 +143,14 @@ public class OpenHABWriteTagActivity extends Activity {
 	public void writeTag(Tag tag, String openhabUri) {
 		Log.d(TAG, "Creating tag object");
 	    TextView writeTagMessage = (TextView)findViewById(R.id.write_tag_message);
+        if (openhabUri == null) {
+            writeTagMessage.setText(R.string.info_write_failed);
+            return;
+        }
+        if (openhabUri.length() == 0) {
+            writeTagMessage.setText(R.string.info_write_failed);
+            return;
+        }
 		NdefRecord[] ndefRecords;
 		ndefRecords = new NdefRecord[1];
 		ndefRecords[0] = NdefRecord.createUri(openhabUri);
