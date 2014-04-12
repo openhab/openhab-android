@@ -23,7 +23,6 @@ import org.openhab.habdroid.R;
 import org.openhab.habdroid.util.Util;
 
 import com.google.analytics.tracking.android.EasyTracker;
-import com.sun.xml.internal.ws.util.StringUtils;
 
 import android.nfc.FormatException;
 import android.nfc.NdefMessage;
