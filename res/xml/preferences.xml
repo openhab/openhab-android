@@ -12,5 +12,7 @@
         <CheckBoxPreference android:key="default_openhab_sslcert" android:title="@string/settings_openhab_sslcert" android:summary="@string/settings_openhab_sslcert_summary" android:defaultValue="false" />
         <CheckBoxPreference android:key="default_openhab_sslhost" android:title="@string/settings_openhab_sslhost" android:summary="@string/settings_openhab_sslhost_summary" android:defaultValue="true" />
         <EditTextPreference android:key="default_openhab_appversion" android:title="@string/settings_openhab_appversion" android:persistent="false" android:enabled="false" android:shouldDisableView="false"/>
+        <CheckBoxPreference android:key="default_openhab_splitview" android:title="@string/settings_openhab_splitview" android:summary="@string/settings_openhab_splitview_summary" android:defaultValue="true" />
+        <CheckBoxPreference android:key="default_openhab_fullscreen" android:title="@string/settings_openhab_fullscreen" android:summary="@string/settings_openhab_fullscreen_summary" android:defaultValue="false" />
     </PreferenceCategory>
 </PreferenceScreen>

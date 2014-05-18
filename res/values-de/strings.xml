@@ -24,6 +24,10 @@
     <string name="settings_openhab_screentimeroff_summary">Schaltet das automatische Aktivieren des Ruhezustands nach Inaktivität ab, wenn HABDroid läuft.</string>
     <string name="settings_openhab_demomode">Demo Modus</string>
     <string name="settings_openhab_demomode_summary">Betreibt HABDroid im Demo Modus</string>
+     <string name="settings_openhab_splitview">Split View</string>
+    <string name="settings_openhab_splitview_summary">Use 2 panes for tablet sized screens</string>
+    <string name="settings_openhab_fullscreen">Full Screen</string>
+    <string name="settings_openhab_fullscreen_summary">Display in fullscreen mode (4.4 and later)</string>
     <string name="settings_openhab_theme">HABDroid Theme</string>
     <string name="settings_openhab_appversion">HABDroid Version</string>
     <string name="settings_openhab_animation">Animation style</string>
