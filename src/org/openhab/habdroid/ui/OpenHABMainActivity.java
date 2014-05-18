@@ -133,6 +133,8 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
     private List<OpenHABSitemap> mSitemapList;
     //do we support android 4.4 features
     private boolean supportsKitKat = false;
+    //are we in fullscreen mode
+    private boolean fullScreen;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -250,7 +252,7 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
         }
         
         supportsKitKat = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
-        boolean fullScreen = mSettings.getBoolean("default_openhab_fullscreen", false);
+        fullScreen = mSettings.getBoolean("default_openhab_fullscreen", false);
         
         if(supportsKitKat && fullScreen){
                 registerReceiver(dreamReceiver, new IntentFilter("android.intent.action.DREAMING_STARTED"));
@@ -528,7 +530,11 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
             case android.R.id.home:
                 Log.d(TAG, "Home selected");
                 if (pager.getCurrentItem() > 0) {
-                    pager.setCurrentItem(0);
+                	if(fullScreen){
+                    	onBackPressed();
+                	} else {
+                    	pager.setCurrentItem(0);
+                	}
                 }
                 return true;
             case R.id.mainmenu_openhab_clearcache:
@@ -962,7 +968,7 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
      * @author digitaldan
      */
     protected void checkFullscreen(){
-      if(supportsKitKat && mSettings.getBoolean("default_openhab_fullscreen", false)) {
+      if(supportsKitKat && fullScreen) {
         int uiOptions = getWindow().getDecorView().getSystemUiVisibility();
         uiOptions |= View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
         uiOptions |= View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
