@@ -216,8 +216,11 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
         defaultTextView = null;
     	switch (getItemViewType(position)) {
     	case TYPE_FRAME:
-    		if (labelTextView != null)
+    		if (labelTextView != null){
     			labelTextView.setText(openHABWidget.getLabel());
+    			if(valueColor != null)
+    				labelTextView.setTextColor(valueColor);
+    		}
     		widgetView.setClickable(false);
     		if (openHABWidget.getLabel().length() > 0) { // hide empty frames
     			widgetView.setVisibility(View.VISIBLE);
