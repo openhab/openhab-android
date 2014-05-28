@@ -500,6 +500,9 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
                             "&period=" + openHABWidget.getPeriod() + "&random=" +
                             String.valueOf(random.nextInt());
                 }
+                if (openHABWidget.getService() != null && openHABWidget.getService().length() > 0) {
+                    chartUrl += "&service=" + openHABWidget.getService();
+                }
     		}
     		Log.d(TAG, "Chart url = " + chartUrl);
     		if (chartImage == null)
