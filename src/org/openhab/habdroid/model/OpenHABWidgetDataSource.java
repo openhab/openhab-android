@@ -147,7 +147,11 @@ public class OpenHABWidgetDataSource {
 		String[] splitString;
         if (title != null) {
     		splitString = title.split("\\[|\\]");
-		    return splitString[0];
+            if (splitString.length>0) {
+                return splitString[0];
+            } else {
+                return title;
+            }
         }
         return "";
 	}
