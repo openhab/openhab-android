@@ -543,7 +543,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
         case TYPE_VIDEO_MJPEG:
             Log.d(TAG, "Video is mjpeg");
             ImageView mjpegImage = (ImageView)widgetView.findViewById(R.id.mjpegimage);
-            MjpegStreamer mjpegStreamer = new MjpegStreamer(openHABWidget.getUrl(), "", "", this.getContext());
+            MjpegStreamer mjpegStreamer = new MjpegStreamer(openHABWidget.getUrl(), this.openHABUsername, this.openHABPassword, this.getContext());
             mjpegStreamer.setTargetImageView(mjpegImage);
             mjpegStreamer.start();
             if (!mjpegWidgetList.contains(mjpegStreamer))
