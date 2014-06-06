@@ -50,7 +50,9 @@ import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.image.WebImageCache;
 
 import org.apache.http.client.HttpResponseException;
+import org.apache.http.entity.ByteArrayEntity;
 import org.apache.http.entity.StringEntity;
+import org.apache.http.protocol.HTTP;
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.core.DocumentHttpResponseHandler;
 import org.openhab.habdroid.core.NotificationDeletedBroadcastReceiver;
@@ -714,8 +716,8 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
 
     public void sendItemCommand(String itemName, String command) {
         try {
-            StringEntity se = new StringEntity(command);
-            mAsyncHttpClient.post(this, openHABBaseUrl + "rest/items/" + itemName, se, "text/plain", new AsyncHttpResponseHandler() {
+            StringEntity se = new StringEntity(command, "UTF-8");
+            mAsyncHttpClient.post(this, openHABBaseUrl + "rest/items/" + itemName, se, "text/plain;charset=UTF-8", new AsyncHttpResponseHandler() {
                 @Override
                 public void onSuccess(String response) {
                     Log.d(TAG, "Command was sent successfully");
