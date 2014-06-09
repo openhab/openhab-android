@@ -86,6 +86,7 @@ public class OpenHABWidgetListFragment extends ListFragment {
     private int mCurrentSelectedItem = -1;
     private int mPosition;
     private int mOldSelectedItem = -1;
+    private String mAtmosphereTrackingId;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -295,12 +296,25 @@ public class OpenHABWidgetListFragment extends ListFragment {
         if (!longPolling)
             startProgressIndicator();
         if (longPolling) {
-            headers = new Header[] {new BasicHeader("X-Atmosphere-Transport", "long-polling"),
-                new BasicHeader("Accept", "application/xml")};
+            if (this.mAtmosphereTrackingId == null) {
+                headers = new Header[]{new BasicHeader("X-Atmosphere-Transport", "long-polling"),
+                        new BasicHeader("Accept", "application/xml")};
+            } else {
+                headers = new Header[]{new BasicHeader("X-Atmosphere-Transport", "long-polling"),
+                        new BasicHeader("Accept", "application/xml"),
+                        new BasicHeader("X-Atmosphere-tracking-id", this.mAtmosphereTrackingId)};
+            }
         }
         mAsyncHttpClient.get(mActivity, pageUrl, headers, null, new DocumentHttpResponseHandler() {
             @Override
-            public void onSuccess(Document document) {
+            public void onSuccess(int statusCode, Header[] headers, Document document) {
+                for (int i=0; i<headers.length; i++) {
+                    Log.i(TAG, headers[i].getName() + ": " + headers[i].getValue());
+                    if (headers[i].getName().equalsIgnoreCase("X-Atmosphere-tracking-id")) {
+                        Log.i(TAG, "Found atmosphere tracking id: " + headers[i].getValue());
+                        OpenHABWidgetListFragment.this.mAtmosphereTrackingId = headers[i].getValue();
+                    }
+                }
                 if (document != null) {
                     Log.d(TAG, "Response: "  + document.toString());
                     if (!longPolling)
