@@ -18,6 +18,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.ListFragment;
 import android.text.TextUtils;
 import android.util.Log;
@@ -41,6 +42,7 @@ import org.openhab.habdroid.util.MyAsyncHttpClient;
 import org.openhab.habdroid.util.Util;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
+
 import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 
@@ -193,7 +195,12 @@ public class OpenHABWidgetListFragment extends ListFragment {
                 return true;
             }
         });
-        if (getResources().getInteger(R.integer.pager_columns) > 1) {
+
+		boolean splitView = PreferenceManager.getDefaultSharedPreferences(
+				getActivity().getApplicationContext()).getBoolean(
+				"default_openhab_splitview", true);
+        
+        if (splitView && getResources().getInteger(R.integer.pager_columns) > 1) {
             Log.d(TAG, "More then 1 column, setting selector on");
             getListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
         }
