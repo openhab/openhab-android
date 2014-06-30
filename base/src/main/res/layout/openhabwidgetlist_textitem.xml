@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="fill_parent"
+  android:layout_height="wrap_content"
+  android:paddingLeft="@dimen/widgetlist_item_left_margin"
+  android:paddingRight="@dimen/widgetlist_item_right_margin"
+  android:background="@drawable/list_selector"
+        >
+<org.openhab.habdroid.util.MySmartImageView 
+        android:paddingTop="6dip" 
+        android:paddingBottom="6dip" 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" 
+        android:id="@+id/widgetimage"
+		android:layout_gravity="center_vertical"
+		android:minHeight="50dip"
+		android:minWidth="50dip"
+		android:maxHeight="50dip"
+		android:maxWidth="50dip"
+		/>
+<RelativeLayout
+  android:layout_width="wrap_content"
+  android:layout_height="wrap_content"
+  android:orientation="vertical"
+  android:layout_centerVertical="true"
+  android:layout_toRightOf="@+id/widgetimage">
+  <TextView android:id="@+id/widgetlabel"
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content"
+        	android:textAppearance="?android:attr/textAppearanceMedium"
+    	/>
+<TextView android:id="@+id/widgetvalue"
+    android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="5dp"
+    />
+</RelativeLayout>
+    <LinearLayout
+            android:id="@+id/listdivider"
+            android:layout_width="fill_parent"
+            android:layout_height="1dip"
+            android:background="?attr/widgetlistItemDivider"
+            android:orientation="horizontal"
+            android:layout_below="@+id/widgetimage"
+            android:layout_marginLeft="@dimen/widgetlist_divider_left_margin"
+            android:layout_marginRight="@dimen/widgetlist_divider_right_margin"
+           />
+</RelativeLayout>
