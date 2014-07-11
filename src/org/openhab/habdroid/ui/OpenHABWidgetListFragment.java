@@ -18,6 +18,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.ListFragment;
 import android.text.TextUtils;
 import android.util.Log;
@@ -43,6 +44,8 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import java.net.SocketTimeoutException;
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * This class is apps' main fragment which displays list of openHAB
@@ -87,6 +90,9 @@ public class OpenHABWidgetListFragment extends ListFragment {
     private int mPosition;
     private int mOldSelectedItem = -1;
     private String mAtmosphereTrackingId;
+    //handlers will reconnect the network during outages
+    private Handler networkHandler = new Handler();
+    private Runnable networkRunnable;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -231,6 +237,10 @@ public class OpenHABWidgetListFragment extends ListFragment {
         super.onPause();
         Log.d(TAG, "onPause() " + displayPageUrl);
         mAsyncHttpClient.cancelRequests(mActivity, mTag, true);
+
+        //remove any runtimes that may try to connect again
+        networkHandler.removeCallbacks(networkRunnable);
+
         if (openHABWidgetAdapter != null) {
             openHABWidgetAdapter.stopImageRefresh();
             openHABWidgetAdapter.stopVideoWidgets();
@@ -292,20 +302,24 @@ public class OpenHABWidgetListFragment extends ListFragment {
     public void showPage(String pageUrl, final boolean longPolling) {
         Log.i(TAG, " showPage for " + pageUrl + " longPolling = " + longPolling);
         // Cancel any existing http request to openHAB (typically ongoing long poll)
-        Header[] headers = {};
         if (!longPolling)
             startProgressIndicator();
+        List<BasicHeader> headers = new LinkedList<BasicHeader>();
+        headers.add(new BasicHeader("Accept", "application/xml"));
+        headers.add(new BasicHeader("X-Atmosphere-Framework", "1.0"));
         if (longPolling) {
+            mAsyncHttpClient.setTimeout(300000);
+            headers.add(new BasicHeader("X-Atmosphere-Transport", "long-polling"));
             if (this.mAtmosphereTrackingId == null) {
-                headers = new Header[]{new BasicHeader("X-Atmosphere-Transport", "long-polling"),
-                        new BasicHeader("Accept", "application/xml")};
+                headers.add(new BasicHeader("X-Atmosphere-tracking-id", "0"));
             } else {
-                headers = new Header[]{new BasicHeader("X-Atmosphere-Transport", "long-polling"),
-                        new BasicHeader("Accept", "application/xml"),
-                        new BasicHeader("X-Atmosphere-tracking-id", this.mAtmosphereTrackingId)};
+                headers.add(new BasicHeader("X-Atmosphere-tracking-id", this.mAtmosphereTrackingId));
             }
+        } else {
+            headers.add(new BasicHeader("X-Atmosphere-tracking-id", "0"));
+            mAsyncHttpClient.setTimeout(10000);
         }
-        mAsyncHttpClient.get(mActivity, pageUrl, headers, null, new DocumentHttpResponseHandler() {
+        mAsyncHttpClient.get(mActivity, pageUrl, headers.toArray(new BasicHeader[] {}), null, new DocumentHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, Document document) {
                 for (int i=0; i<headers.length; i++) {
@@ -322,10 +336,12 @@ public class OpenHABWidgetListFragment extends ListFragment {
                     processContent(document, longPolling);
                 } else {
                     Log.e(TAG, "Got a null response from openHAB");
+                    showPage(displayPageUrl, true);
                 }
             }
             @Override
             public void onFailure(Throwable error, String content) {
+                mAtmosphereTrackingId = null;
                 if (!longPolling)
                     stopProgressIndicator();
                 if (error instanceof AsyncHttpAbortException) {
@@ -334,11 +350,24 @@ public class OpenHABWidgetListFragment extends ListFragment {
                 }
                 if (error instanceof SocketTimeoutException) {
                     Log.d(TAG, "Connection timeout, reconnecting");
-                    showPage(displayPageUrl, longPolling);
+                    showPage(displayPageUrl, false);
                     return;
+                } else {
+                    /*
+                    * If we get a network error try connecting again, if the
+                    * fragment is paused, the runnable will be removed
+                    */
+                    Log.e(TAG, error.getClass().toString());
+                    Log.e(TAG, "Connection error = " + error.getClass().toString() + ", cycle aborted");
+                    networkHandler.removeCallbacks(networkRunnable);
+                    networkRunnable =  new Runnable(){
+                        @Override
+                        public void run(){
+                            showPage(displayPageUrl, false);
+                        }
+                    };
+                    networkHandler.postDelayed(networkRunnable, 10 * 1000);
                 }
-                Log.e(TAG, error.getClass().toString());
-                Log.e(TAG, "Connection error = " + error.getClass().toString() + ", cycle aborted");
             }
         }, mTag);
     }
