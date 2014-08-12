@@ -394,7 +394,7 @@ public class OpenHABWidgetListFragment extends ListFragment {
             widgetList.add(w);
         }
         openHABWidgetAdapter.notifyDataSetChanged();
-        if (!longPolling) {
+        if (!longPolling && isAdded()) {
             getListView().clearChoices();
             Log.d(TAG, String.format("processContent selectedItem = %d", mCurrentSelectedItem));
             if (mCurrentSelectedItem >= 0)
