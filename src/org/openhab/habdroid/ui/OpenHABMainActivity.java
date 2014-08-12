@@ -904,6 +904,7 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
         if (!remoteUrl.toLowerCase().startsWith("https://my.openhab.org"))
             return;
         // Finally, all sanity is done
+        Crittercism.setUsername(openHABUsername);
         if (mGcm == null)
             mGcm = GoogleCloudMessaging.getInstance(getApplicationContext());
         new AsyncTask<Void, Void, String>() {
