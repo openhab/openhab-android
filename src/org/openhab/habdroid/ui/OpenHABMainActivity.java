@@ -775,6 +775,8 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
 
 
     private void showAlertDialog(String alertMessage) {
+        if (this.isFinishing())
+            return;
         AlertDialog.Builder builder = new AlertDialog.Builder(OpenHABMainActivity.this);
         builder.setMessage(alertMessage)
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
