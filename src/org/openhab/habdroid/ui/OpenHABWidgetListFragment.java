@@ -484,7 +484,7 @@ public class OpenHABWidgetListFragment extends ListFragment {
     }
 
     public void clearSelection() {
-        if (getListView() != null && this.isVisible()) {
+        if (getListView() != null && this.isVisible() && isAdded()) {
             getListView().clearChoices();
             getListView().requestLayout();
         }
