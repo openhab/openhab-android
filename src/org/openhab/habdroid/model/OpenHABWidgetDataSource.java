@@ -43,6 +43,8 @@ public class OpenHABWidgetDataSource {
 	
 	public void setSourceNode(Node rootNode) {
 		Log.i(TAG, "Loading new data");
+        if (rootNode == null)
+            return;
 		rootWidget = new OpenHABWidget();
 		rootWidget.setType("root");
 		if (rootNode.hasChildNodes()) {

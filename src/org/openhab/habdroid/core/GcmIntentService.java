@@ -46,6 +46,8 @@ public class GcmIntentService extends IntentService {
     @Override
     protected void onHandleIntent(Intent intent) {
         Bundle extras = intent.getExtras();
+        if (extras == null)
+            return;
         int notificationId;
         if (mNotificationManager == null)
             mNotificationManager = (NotificationManager)
