@@ -788,6 +788,8 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
     }
 
     private void showCertificateDialog(final int decisionId, String certMessage) {
+        if (this.isFinishing())
+            return;
         AlertDialog.Builder builder = new AlertDialog.Builder(OpenHABMainActivity.this);
         builder.setMessage(certMessage)
                 .setTitle(R.string.mtm_accept_cert);
