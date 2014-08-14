@@ -1,0 +1,22 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    tools:context=".OpenHABWriteTagActivity" >
+    <ImageView
+        android:id="@+id/write_tag_image"
+        android:src="@drawable/nfc_splash"
+        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:layout_marginTop="30dp"
+        android:gravity="center" />
+    <TextView
+        android:id="@+id/write_tag_message"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/info_write_tag" 
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_marginTop="20dp"
+        android:gravity="center" />
+</LinearLayout>

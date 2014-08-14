@@ -1,0 +1,41 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 20
+    buildToolsVersion '20.0.0'
+
+    defaultConfig {
+        applicationId "org.openhab.habdroid"
+        minSdkVersion 15
+        targetSdkVersion 20
+        versionCode 11
+        versionName "1.5.1.1"
+    }
+    buildTypes {
+        release {
+            runProguard false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+repositories {
+    jcenter()
+    mavenCentral()
+    maven {
+        name "OpenHAB"
+        url "http://repository-openhab.forge.cloudbees.com/release/"
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    wearApp project(':wear')
+    compile 'com.google.android.gms:play-services-wearable:+'
+    compile 'com.google.android.analytics:analytics:2.+'
+    compile 'com.crittercism:crittercism-android-agent:+'
+    compile 'javax.jmdns:jmdns:3.4.1'
+    compile 'com.android.support:support-v4:20.0.0'
+    compile 'com.loopj:android-async-http:1.4.2-openhab'
+    compile 'com.loopj:android-smart-image-view:1.0.0'
+}

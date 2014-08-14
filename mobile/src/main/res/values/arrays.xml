@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+<string-array name="themeArray">
+   <item>Holo Dark</item>
+   <item>Holo Light</item>
+</string-array>
+<string-array name="themeValues">
+   <item>dark</item>
+   <item>light</item>
+</string-array>
+<string-array name="animationArray">
+   <item>Android (Dissolve)</item>
+   <item>iOS (Slide)</item>
+   <item>None</item>
+</string-array>
+<string-array name="animationValues">
+   <item>android</item>
+   <item>ios</item>
+   <item>none</item>
+</string-array>
+<string-array name="nfcActionValues">
+    <item>On</item>
+    <item>Off</item>
+    <item>Toggle</item>
+</string-array>
+</resources>
