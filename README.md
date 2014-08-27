@@ -20,6 +20,8 @@ Android -> SDK Manager)
 
 You are ready to contribute!
 
+Before producing any amount of code please have a look at [contribution guidelines](https://github.com/openhab/openhab.android/blob/master/CONTRIBUTING.md)
+
 ## Trademark Disclaimer
 
 Product names, logos, brands and other trademarks referred to within the openHAB website are the
