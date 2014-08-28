@@ -39,7 +39,7 @@ public class Util {
     private final static String TAG = "Util";
 
 	public static void setActivityTheme(Activity activity) {
-		if (PreferenceManager.getDefaultSharedPreferences(activity).getString("default_openhab_theme", "dark").equals("dark")) {
+		if (PreferenceManager.getDefaultSharedPreferences(activity).getString(Constants.PREFERENCE_THEME, "dark").equals("dark")) {
 //			activity.setTheme(android.R.style.Theme_Holo);
 			activity.setTheme(R.style.HABDroid_Dark);
 		} else {
@@ -49,8 +49,8 @@ public class Util {
 	}
 	
 	public static void overridePendingTransition(Activity activity, boolean reverse) {
-		if (PreferenceManager.getDefaultSharedPreferences(activity).getString("default_openhab_animation", "android").equals("android")) {
-		} else if (PreferenceManager.getDefaultSharedPreferences(activity).getString("default_openhab_animation", "android").equals("ios")) {
+		if (PreferenceManager.getDefaultSharedPreferences(activity).getString(Constants.PREFERENCE_ANIMATION, "android").equals("android")) {
+		} else if (PreferenceManager.getDefaultSharedPreferences(activity).getString(Constants.PREFERENCE_ANIMATION, "android").equals("ios")) {
 			if (reverse) {
 				activity.overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
 			} else {

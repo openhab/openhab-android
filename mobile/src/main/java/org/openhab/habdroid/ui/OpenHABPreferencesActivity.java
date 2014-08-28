@@ -25,6 +25,7 @@ import android.util.Log;
 import com.google.analytics.tracking.android.EasyTracker;
 
 import org.openhab.habdroid.R;
+import org.openhab.habdroid.util.Constants;
 import org.openhab.habdroid.util.Util;
 
 import java.net.MalformedURLException;
@@ -54,13 +55,13 @@ public class OpenHABPreferencesActivity extends PreferenceActivity {
 		Util.setActivityTheme(this);
 	    super.onCreate(savedInstanceState);
 	    addPreferencesFromResource(R.xml.preferences);
-	    Preference urlPreference = getPreferenceScreen().findPreference("default_openhab_url");
-	    Preference altUrlPreference = getPreferenceScreen().findPreference("default_openhab_alturl");
-	    Preference usernamePreference = getPreferenceScreen().findPreference("default_openhab_username");
-	    Preference passwordPreference = getPreferenceScreen().findPreference("default_openhab_password");
-	    ListPreference themePreference = (ListPreference)getPreferenceScreen().findPreference("default_openhab_theme");
-	    ListPreference animationPreference = (ListPreference)getPreferenceScreen().findPreference("default_openhab_animation");
-	    Preference versionPreference = getPreferenceScreen().findPreference("default_openhab_appversion");
+	    Preference urlPreference = getPreferenceScreen().findPreference(Constants.PREFERENCE_URL);
+	    Preference altUrlPreference = getPreferenceScreen().findPreference(Constants.PREFERENCE_ALTURL);
+	    Preference usernamePreference = getPreferenceScreen().findPreference(Constants.PREFERENCE_USERNAME);
+	    Preference passwordPreference = getPreferenceScreen().findPreference(Constants.PREFERENCE_PASSWORD);
+	    ListPreference themePreference = (ListPreference)getPreferenceScreen().findPreference(Constants.PREFERENCE_THEME);
+	    ListPreference animationPreference = (ListPreference)getPreferenceScreen().findPreference(Constants.PREFERENCE_ANIMATION);
+	    Preference versionPreference = getPreferenceScreen().findPreference(Constants.PREFERENCE_APPVERSION);
 	    urlPreference.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
 			@Override
 			public boolean onPreferenceChange(Preference preference, Object newValue) {

@@ -63,6 +63,7 @@ import org.openhab.habdroid.core.OpenHABTrackerReceiver;
 import org.openhab.habdroid.model.OpenHABLinkedPage;
 import org.openhab.habdroid.model.OpenHABSitemap;
 import org.openhab.habdroid.ui.drawer.OpenHABDrawerAdapter;
+import org.openhab.habdroid.util.Constants;
 import org.openhab.habdroid.util.MyAsyncHttpClient;
 import org.openhab.habdroid.util.Util;
 import org.w3c.dom.Document;
@@ -143,7 +144,7 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
         // Set non-persistent HABDroid version preference to current version from application package
         try {
-            PreferenceManager.getDefaultSharedPreferences(this).edit().putString("default_openhab_appversion",
+            PreferenceManager.getDefaultSharedPreferences(this).edit().putString(Constants.PREFERENCE_APPVERSION,
                     getPackageManager().getPackageInfo(getPackageName(), 0).versionName).commit();
         } catch (PackageManager.NameNotFoundException e1) {
             if (e1 != null)
@@ -157,14 +158,14 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
         Util.setActivityTheme(this);
         mSettings = PreferenceManager.getDefaultSharedPreferences(this);
         // Disable screen timeout if set in preferences
-        if (mSettings.getBoolean("default_openhab_screentimeroff", false)) {
+        if (mSettings.getBoolean(Constants.PREFERENCE_SCREENTIMEROFF, false)) {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         }
         // Fetch openHAB service type name from strings.xml
         openHABServiceType = getString(R.string.openhab_service_type);
         // Get username/password from preferences
-        openHABUsername = mSettings.getString("default_openhab_username", null);
-        openHABPassword = mSettings.getString("default_openhab_password", null);
+        openHABUsername = mSettings.getString(Constants.PREFERENCE_USERNAME, null);
+        openHABPassword = mSettings.getString(Constants.PREFERENCE_PASSWORD, null);
         mAsyncHttpClient.setBasicAuth(openHABUsername, openHABPassword);
         mAsyncHttpClient.addHeader("Accept", "application/xml");
         mAsyncHttpClient.setTimeout(30000);
@@ -371,7 +372,7 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
                     // Check if we have a sitemap configured to use
                     SharedPreferences settings =
                             PreferenceManager.getDefaultSharedPreferences(OpenHABMainActivity.this);
-                    String configuredSitemap = settings.getString("default_openhab_sitemap", "");
+                    String configuredSitemap = settings.getString(Constants.PREFERENCE_SITEMAP, "");
                     // If we have sitemap configured
                     if (configuredSitemap.length() > 0) {
                         // Configured sitemap is on the list we got, open it!
@@ -385,7 +386,7 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
                             if (mSitemapList.size() == 1) {
                                 Log.d(TAG, "Got only one sitemap");
                                 SharedPreferences.Editor preferencesEditor = settings.edit();
-                                preferencesEditor.putString("default_openhab_sitemap", mSitemapList.get(0).getName());
+                                preferencesEditor.putString(Constants.PREFERENCE_SITEMAP, mSitemapList.get(0).getName());
                                 preferencesEditor.commit();
                                 openSitemap(mSitemapList.get(0).getHomepageLink());
                             } else {
@@ -399,7 +400,7 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
                         if (mSitemapList.size() == 1) {
                             Log.d(TAG, "Got only one sitemap");
                             SharedPreferences.Editor preferencesEditor = settings.edit();
-                            preferencesEditor.putString("default_openhab_sitemap", mSitemapList.get(0).getName());
+                            preferencesEditor.putString(Constants.PREFERENCE_SITEMAP, mSitemapList.get(0).getName());
                             preferencesEditor.commit();
                             openSitemap(mSitemapList.get(0).getHomepageLink());
                         } else {
@@ -461,7 +462,7 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
                             SharedPreferences settings =
                                     PreferenceManager.getDefaultSharedPreferences(OpenHABMainActivity.this);
                             SharedPreferences.Editor preferencesEditor = settings.edit();
-                            preferencesEditor.putString("default_openhab_sitemap", sitemapList.get(item).getName());
+                            preferencesEditor.putString(Constants.PREFERENCE_SITEMAP, sitemapList.get(item).getName());
                             preferencesEditor.commit();
                             openSitemap(sitemapList.get(item).getHomepageLink());
                         }
@@ -504,7 +505,7 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
                 SharedPreferences settings =
                         PreferenceManager.getDefaultSharedPreferences(OpenHABMainActivity.this);
                 SharedPreferences.Editor preferencesEditor = settings.edit();
-                preferencesEditor.putString("default_openhab_sitemap", "");
+                preferencesEditor.putString(Constants.PREFERENCE_SITEMAP, "");
                 preferencesEditor.commit();
                 selectSitemap(openHABBaseUrl, true);
                 return true;
@@ -861,7 +862,7 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
 
     public void makeDecision(int decisionId, String certMessage) {
         Log.d(TAG, String.format("MTM is asking for decision on id = %d", decisionId));
-        if (mSettings.getBoolean("default_openhab_sslcert", false))
+        if (mSettings.getBoolean(Constants.PREFERENCE_SSLCERT, false))
             MemorizingTrustManager.interactResult(decisionId, MTMDecision.DECISION_ONCE);
         else
             showCertificateDialog(decisionId, certMessage);
@@ -900,7 +901,7 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
         if (mSettings == null)
             return;
         // We need remote URL
-        String remoteUrl = mSettings.getString("default_openhab_alturl", null);
+        String remoteUrl = mSettings.getString(Constants.PREFERENCE_ALTURL, null);
         if (TextUtils.isEmpty(remoteUrl))
             return;
         // We need it to be my.oh
