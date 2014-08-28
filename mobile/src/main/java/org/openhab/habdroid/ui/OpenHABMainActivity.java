@@ -119,6 +119,8 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
     private static MyAsyncHttpClient mAsyncHttpClient;
     // NFC Launch data
     private String mNfcData;
+    // Voice Launch data
+    private String mVoiceData;
     // Pending NFC page
     private String mPendingNfcPage;
     // Drawer Layout
@@ -243,6 +245,13 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
                 } else if (getIntent().getAction().equals("org.openhab.notification.selected")) {
                     onNotificationSelected(getIntent());
                 }
+            }else if(getIntent().getExtras() != null){
+                Log.d(TAG, "This is Voice action");
+
+                List<String> results = getIntent().getExtras().getStringArrayList("android.speech.extra.RESULTS");
+                if (!results.isEmpty()) {
+                    mVoiceData = results.get(0);
+                }
             }
         }
     }
@@ -314,6 +323,9 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
         if (!TextUtils.isEmpty(mNfcData)) {
             onNfcTag(mNfcData);
             openNFCPageIfPending();
+        } else if (!TextUtils.isEmpty(mVoiceData)) {
+            sendItemCommand("VoiceCommand", mVoiceData);
+            finish();
         } else {
             selectSitemap(baseUrl, false);
         }
@@ -770,7 +782,7 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
         // Specify the calling package to identify your application
         intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, ((Object) this).getClass().getPackage().getName());
         // Display an hint to the user about what he should say.
-        intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "openHAB, at your command!");
+        intent.putExtra(RecognizerIntent.EXTRA_PROMPT, getString(R.string.info_voice_input));
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
         intent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 1);
         startActivityForResult(intent, VOICE_RECOGNITION_REQUEST_CODE);
