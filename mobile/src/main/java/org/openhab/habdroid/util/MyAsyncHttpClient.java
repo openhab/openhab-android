@@ -35,7 +35,7 @@ public class MyAsyncHttpClient extends AsyncHttpClient {
 	        sslContext = SSLContext.getInstance("TLS");
 	        sslContext.init(null, MemorizingTrustManager.getInstanceList(ctx), new java.security.SecureRandom());
 	        sslSocketFactory = new MySSLSocketFactory(sslContext);
-            if (PreferenceManager.getDefaultSharedPreferences(ctx).getBoolean("default_openhab_sslhost", false))
+            if (PreferenceManager.getDefaultSharedPreferences(ctx).getBoolean(Constants.PREFERENCE_SSLHOST, false))
                 sslSocketFactory.setHostnameVerifier(SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
 	        this.setSSLSocketFactory(sslSocketFactory);
 	    } catch (Exception ex) {

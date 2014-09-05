@@ -24,6 +24,7 @@ import android.util.Log;
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.util.AsyncServiceResolver;
 import org.openhab.habdroid.util.AsyncServiceResolverListener;
+import org.openhab.habdroid.util.Constants;
 import org.openhab.habdroid.util.Util;
 
 import java.io.IOException;
@@ -88,7 +89,7 @@ public class OpenHABTracker implements AsyncServiceResolverListener {
                 Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         if (activeNetworkInfo != null) {
-            if (settings.getBoolean("default_openhab_demomode", false)) {
+            if (settings.getBoolean(Constants.PREFERENCE_DEMOMODE, false)) {
                 mOpenHABUrl = mCtx.getString(R.string.openhab_demo_url);
                 Log.d(TAG, "Demo mode, url = " + mOpenHABUrl);
                 openHABTracked(mOpenHABUrl, mCtx.getString(R.string.info_demo_mode));
@@ -96,7 +97,7 @@ public class OpenHABTracker implements AsyncServiceResolverListener {
             } else {
                 // If we are on a mobile network go directly to remote URL from settings
                 if (activeNetworkInfo.getType() == ConnectivityManager.TYPE_MOBILE) {
-                    mOpenHABUrl = Util.normalizeUrl(settings.getString("default_openhab_alturl", ""));
+                    mOpenHABUrl = Util.normalizeUrl(settings.getString(Constants.PREFERENCE_ALTURL, ""));
                     // If remote URL is configured
                     if (mOpenHABUrl.length() > 0) {
                         Log.d(TAG, "Connecting to remote URL " + mOpenHABUrl);
@@ -108,7 +109,7 @@ public class OpenHABTracker implements AsyncServiceResolverListener {
                 } else if (activeNetworkInfo.getType() == ConnectivityManager.TYPE_WIFI
                         || activeNetworkInfo.getType() == ConnectivityManager.TYPE_ETHERNET) {
                     // See if we have a local URL configured in settings
-                    mOpenHABUrl = Util.normalizeUrl(settings.getString("default_openhab_url", ""));
+                    mOpenHABUrl = Util.normalizeUrl(settings.getString(Constants.PREFERENCE_ALTURL, ""));
                     // If local URL is configured
                     if (mOpenHABUrl.length() > 0) {
                         // Check if configured local URL is reachable
@@ -118,7 +119,7 @@ public class OpenHABTracker implements AsyncServiceResolverListener {
                             return;
                             // If local URL is not reachable go with remote URL
                         } else {
-                            mOpenHABUrl = Util.normalizeUrl(settings.getString("default_openhab_alturl", ""));
+                            mOpenHABUrl = Util.normalizeUrl(settings.getString(Constants.PREFERENCE_ALTURL, ""));
                             // If remote URL is configured
                             if (mOpenHABUrl.length() > 0) {
                                 Log.d(TAG, "Connecting to remote URL " + mOpenHABUrl);
@@ -168,7 +169,7 @@ public class OpenHABTracker implements AsyncServiceResolverListener {
         bonjourDiscoveryFinished();
         Log.i(TAG, "Service resolve failed, switching to remote URL");
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(mCtx);
-        mOpenHABUrl = Util.normalizeUrl(settings.getString("default_openhab_alturl", ""));
+        mOpenHABUrl = Util.normalizeUrl(settings.getString(Constants.PREFERENCE_ALTURL, ""));
         // If remote URL is configured
         if (mOpenHABUrl.length() > 0) {
             Log.d(TAG, "Connecting to remote URL " + mOpenHABUrl);
