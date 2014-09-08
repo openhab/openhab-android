@@ -33,6 +33,8 @@
     <string name="settings_openhab_sslhost">Ignore SSL hostname</string>
     <string name="settings_openhab_sslhost_summary">Ignore hostname check during SSL handshake</string>
     <!-- App messages strings -->
+    <string name="title_voice_widget">OpenHAB Voice Commands</string>
+    <string name="info_voice_input">"openHAB, at your command!"</string>
     <string name="info_demo_mode">HABDroid is running in demo mode. To connect to your openHAB please go to settings menu.</string>
     <string name="info_conn_url">Connecting to configured URL</string>
     <string name="info_conn_rem_url">Connecting to remote URL</string>
