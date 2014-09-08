@@ -109,7 +109,7 @@ public class OpenHABTracker implements AsyncServiceResolverListener {
                 } else if (activeNetworkInfo.getType() == ConnectivityManager.TYPE_WIFI
                         || activeNetworkInfo.getType() == ConnectivityManager.TYPE_ETHERNET) {
                     // See if we have a local URL configured in settings
-                    mOpenHABUrl = Util.normalizeUrl(settings.getString(Constants.PREFERENCE_ALTURL, ""));
+                    mOpenHABUrl = Util.normalizeUrl(settings.getString(Constants.PREFERENCE_URL, ""));
                     // If local URL is configured
                     if (mOpenHABUrl.length() > 0) {
                         // Check if configured local URL is reachable
