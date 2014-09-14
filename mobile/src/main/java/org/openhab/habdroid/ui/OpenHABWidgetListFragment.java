@@ -324,14 +324,13 @@ public class OpenHABWidgetListFragment extends ListFragment {
             @Override
             public void onSuccess(int statusCode, Header[] headers, Document document) {
                 for (int i=0; i<headers.length; i++) {
-                    Log.i(TAG, headers[i].getName() + ": " + headers[i].getValue());
                     if (headers[i].getName().equalsIgnoreCase("X-Atmosphere-tracking-id")) {
                         Log.i(TAG, "Found atmosphere tracking id: " + headers[i].getValue());
                         OpenHABWidgetListFragment.this.mAtmosphereTrackingId = headers[i].getValue();
                     }
                 }
                 if (document != null) {
-                    Log.d(TAG, "Response: " + document.toString());
+//                    Log.d(TAG, "Response: " + document.toString());
                     if (!longPolling)
                         stopProgressIndicator();
                     processContent(document, longPolling);

@@ -191,10 +191,12 @@ public class OpenHABWriteTagActivity extends Activity {
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					if (e != null)
-						Log.e(TAG, e.getMessage());
+						Log.e(TAG, e.getClass().getCanonicalName());
+                    writeTagMessage.setText(R.string.info_write_failed);
 				} catch (FormatException e) {
 					// TODO Auto-generated catch block
 					Log.e(TAG, e.getMessage());
+                    writeTagMessage.setText(R.string.info_write_failed);
 				}
 			} else {
 				Log.e(TAG, "Ndef == null");
