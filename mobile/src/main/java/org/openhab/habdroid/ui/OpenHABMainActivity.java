@@ -136,6 +136,7 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
     private String[] mDrawerTitles = {"First floor", "Seconf floor", "Cellar", "Garage"};
     private ListView mDrawerList;
     private List<OpenHABSitemap> mSitemapList;
+    private int mStartedWithNetworkConnectivityType = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -209,6 +210,7 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
         if (savedInstanceState != null) {
             openHABBaseUrl = savedInstanceState.getString("openHABBaseUrl");
             sitemapRootUrl = savedInstanceState.getString("sitemapRootUrl");
+            mStartedWithNetworkConnectivityType = savedInstanceState.getInt("startedWithNetworkConnectivityType");
         }
         mSitemapList = new ArrayList<OpenHABSitemap>();
         mDrawerAdapter = new OpenHABDrawerAdapter(this, R.layout.openhabdrawer_item, mSitemapList);
@@ -288,9 +290,22 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
             stateFragment = new StateRetainFragment();
             fm.beginTransaction().add(stateFragment, "stateFragment").commit();
             mOpenHABTracker = new OpenHABTracker(this, openHABServiceType, mServiceDiscoveryEnabled);
+            mStartedWithNetworkConnectivityType = OpenHABTracker.getCurrentNetworkConnectivityType(this);
             mOpenHABTracker.start();
         } else {
             Log.d(TAG, "State fragment found");
+            if (OpenHABTracker.getCurrentNetworkConnectivityType(this) != mStartedWithNetworkConnectivityType) {
+                Log.d(TAG, "Connectivity type changed while I was out, need to restart");
+                // Get launch intent for application
+                Intent restartIntent = getBaseContext().getPackageManager()
+                        .getLaunchIntentForPackage( getBaseContext().getPackageName() );
+                restartIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                // Finish current activity
+                finish();
+                // Start launch activity
+                startActivity(restartIntent);
+                return;
+            }
             pagerAdapter.setFragmentList(stateFragment.getFragmentList());
             Log.d(TAG, String.format("Loaded %d fragments", stateFragment.getFragmentList().size()));
             pager.setCurrentItem(stateFragment.getCurrentPage());
@@ -623,6 +638,7 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
         savedInstanceState.putString("openHABBaseUrl", openHABBaseUrl);
         savedInstanceState.putString("sitemapRootUrl", sitemapRootUrl);
         savedInstanceState.putInt("currentFragment", pager.getCurrentItem());
+        savedInstanceState.putInt("startedWithNetworkConnectivityType", mStartedWithNetworkConnectivityType);
         super.onSaveInstanceState(savedInstanceState);
     }
 

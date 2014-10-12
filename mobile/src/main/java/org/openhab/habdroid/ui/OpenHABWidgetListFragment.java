@@ -98,6 +98,7 @@ public class OpenHABWidgetListFragment extends ListFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         Log.d(TAG, "onCreate()");
+        Log.d(TAG, "isAdded = " + isAdded());
         mTag = this;
         super.onCreate(savedInstanceState);
         if (savedInstanceState != null) {
@@ -128,6 +129,7 @@ public class OpenHABWidgetListFragment extends ListFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         Log.d(TAG, "onActivityCreated()");
+        Log.d(TAG, "isAdded = " + isAdded());
         mActivity = (OpenHABMainActivity)getActivity();
         openHABWidgetDataSource = new OpenHABWidgetDataSource();
         openHABWidgetAdapter = new OpenHABWidgetAdapter(getActivity(),
@@ -210,6 +212,7 @@ public class OpenHABWidgetListFragment extends ListFragment {
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         Log.d(TAG, "onAttach()");
+        Log.d(TAG, "isAdded = " + isAdded());
         if (activity instanceof OnWidgetSelectedListener) {
             widgetSelectedListener = (OnWidgetSelectedListener)activity;
             mActivity = (OpenHABMainActivity)activity;
@@ -224,12 +227,14 @@ public class OpenHABWidgetListFragment extends ListFragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         Log.i(TAG, "onCreateView");
+        Log.d(TAG, "isAdded = " + isAdded());
         return inflater.inflate(R.layout.openhabwidgetlist_fragment, container, false);
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         Log.d(TAG, "onViewCreated");
+        Log.d(TAG, "isAdded = " + isAdded());
         super.onViewCreated(view, savedInstanceState);
     }
 
@@ -237,6 +242,7 @@ public class OpenHABWidgetListFragment extends ListFragment {
     public void onPause () {
         super.onPause();
         Log.d(TAG, "onPause() " + displayPageUrl);
+        Log.d(TAG, "isAdded = " + isAdded());
         mAsyncHttpClient.cancelRequests(mActivity, mTag, true);
 
         //remove any runtimes that may try to connect again
@@ -253,6 +259,7 @@ public class OpenHABWidgetListFragment extends ListFragment {
     public void onResume () {
         super.onResume();
         Log.d(TAG, "onResume() " + displayPageUrl);
+        Log.d(TAG, "isAdded = " + isAdded());
         if (displayPageUrl != null)
             showPage(displayPageUrl, false);
     }
@@ -260,6 +267,7 @@ public class OpenHABWidgetListFragment extends ListFragment {
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
         Log.d(TAG, "onSaveInstanceState");
+        Log.d(TAG, "isAdded = " + isAdded());
         Log.d(TAG, String.format("onSave current selected item = %d", getListView().getCheckedItemPosition()));
         savedInstanceState.putString("displayPageUrl", displayPageUrl);
         savedInstanceState.putString("openHABBaseUrl", openHABBaseUrl);
@@ -302,6 +310,7 @@ public class OpenHABWidgetListFragment extends ListFragment {
      */
     public void showPage(String pageUrl, final boolean longPolling) {
         Log.i(TAG, " showPage for " + pageUrl + " longPolling = " + longPolling);
+        Log.d(TAG, "isAdded = " + isAdded());
         // Cancel any existing http request to openHAB (typically ongoing long poll)
         if (!longPolling)
             startProgressIndicator();
@@ -382,6 +391,8 @@ public class OpenHABWidgetListFragment extends ListFragment {
         // As we change the page we need to stop all videos on current page
         // before going to the new page. This is quite dirty, but is the only
         // way to do that...
+        Log.d(TAG, "processContent() " + this.displayPageUrl);
+        Log.d(TAG, "isAdded = " + isAdded());
         openHABWidgetAdapter.stopVideoWidgets();
         openHABWidgetAdapter.stopImageRefresh();
         Node rootNode = document.getFirstChild();
@@ -484,6 +495,8 @@ public class OpenHABWidgetListFragment extends ListFragment {
     }
 
     public void clearSelection() {
+        Log.d(TAG, "clearSelection() " + this.displayPageUrl);
+        Log.d(TAG, "isAdded = " + isAdded());
         if (getListView() != null && this.isVisible() && isAdded()) {
             getListView().clearChoices();
             getListView().requestLayout();
