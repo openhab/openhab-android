@@ -147,6 +147,7 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
         // Set non-persistent HABDroid version preference to current version from application package
         try {
+            Log.d(TAG, "App version = " + getPackageManager().getPackageInfo(getPackageName(), 0).versionName);
             PreferenceManager.getDefaultSharedPreferences(this).edit().putString(Constants.PREFERENCE_APPVERSION,
                     getPackageManager().getPackageInfo(getPackageName(), 0).versionName).commit();
         } catch (PackageManager.NameNotFoundException e1) {
