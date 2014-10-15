@@ -294,8 +294,13 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
             mOpenHABTracker.start();
         } else {
             Log.d(TAG, "State fragment found");
-            if (OpenHABTracker.getCurrentNetworkConnectivityType(this) != mStartedWithNetworkConnectivityType) {
-                Log.d(TAG, "Connectivity type changed while I was out, need to restart");
+            // If connectivity type changed while we were in background
+            // or if state fragment returned 0 fragments (this happens sometimes and we don't yet
+            // know why, so this is a workaround
+            // Restart the whole process
+            if (OpenHABTracker.getCurrentNetworkConnectivityType(this) != mStartedWithNetworkConnectivityType ||
+                    stateFragment.getFragmentList().size() == 0) {
+                Log.d(TAG, "Connectivity type changed while I was out, or zero fragments found, need to restart");
                 // Get launch intent for application
                 Intent restartIntent = getBaseContext().getPackageManager()
                         .getLaunchIntentForPackage( getBaseContext().getPackageName() );
@@ -631,7 +636,11 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
         Log.d(TAG, "onSaveInstanceState");
-
+        // Save opened framents into state retaining fragment (I love Google! :-)
+        Log.d(TAG, String.format("Saving %d fragments", pagerAdapter.getFragmentList().size()));
+        Log.d(TAG, String.format("Saving current page = %d", pager.getCurrentItem()));
+        stateFragment.setFragmentList(pagerAdapter.getFragmentList());
+        stateFragment.setCurrentPage(pager.getCurrentItem());
         // Save UI state changes to the savedInstanceState.
         // This bundle will be passed to onCreate if the process is
         // killed and restarted.
@@ -671,16 +680,6 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
     public void onPause() {
         Log.d(TAG, "onPause()");
         super.onPause();
-        Log.d(TAG, String.format("Saving %d fragments", pagerAdapter.getFragmentList().size()));
-        Log.d(TAG, String.format("Saving current page = %d", pager.getCurrentItem()));
-        stateFragment.setFragmentList(pagerAdapter.getFragmentList());
-        stateFragment.setCurrentPage(pager.getCurrentItem());
-//        Runnable can = new Runnable() {
-//            public void run() {
-//                mAsyncHttpClient.cancelRequests(OpenHABMainActivity.this, true);
-//            }
-//        };
-//        new Thread(can).start();
     }
 
     /**
