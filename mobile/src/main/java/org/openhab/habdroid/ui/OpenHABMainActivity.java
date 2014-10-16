@@ -287,29 +287,31 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
         pagerAdapter.setColumnsNumber(getResources().getInteger(R.integer.pager_columns));
         FragmentManager fm = getSupportFragmentManager();
         stateFragment = (StateRetainFragment)fm.findFragmentByTag("stateFragment");
-        if (stateFragment == null) {
+        // If state fragment doesn't exist (which means fresh start of the app)
+        // or if state fragment returned 0 fragments (this happens sometimes and we don't yet
+        // know why, so this is a workaround
+        // start over the whole process
+        if (stateFragment == null || stateFragment.getFragmentList().size() == 0) {
+            stateFragment = null;
             stateFragment = new StateRetainFragment();
             fm.beginTransaction().add(stateFragment, "stateFragment").commit();
             mOpenHABTracker = new OpenHABTracker(this, openHABServiceType, mServiceDiscoveryEnabled);
             mStartedWithNetworkConnectivityType = OpenHABTracker.getCurrentNetworkConnectivityType(this);
             mOpenHABTracker.start();
+        // If state fragment exists and contains something then just restore the fragments
         } else {
             Log.d(TAG, "State fragment found");
             // If connectivity type changed while we were in background
-            // or if state fragment returned 0 fragments (this happens sometimes and we don't yet
-            // know why, so this is a workaround
             // Restart the whole process
-            if (OpenHABTracker.getCurrentNetworkConnectivityType(this) != mStartedWithNetworkConnectivityType ||
-                    stateFragment.getFragmentList().size() == 0) {
+            // TODO: this must be refactored to remove duplicate code!
+            if (OpenHABTracker.getCurrentNetworkConnectivityType(this) != mStartedWithNetworkConnectivityType) {
                 Log.d(TAG, "Connectivity type changed while I was out, or zero fragments found, need to restart");
-                // Get launch intent for application
-                Intent restartIntent = getBaseContext().getPackageManager()
-                        .getLaunchIntentForPackage( getBaseContext().getPackageName() );
-                restartIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                // Finish current activity
-                finish();
-                // Start launch activity
-                startActivity(restartIntent);
+                stateFragment = null;
+                stateFragment = new StateRetainFragment();
+                fm.beginTransaction().add(stateFragment, "stateFragment").commit();
+                mOpenHABTracker = new OpenHABTracker(this, openHABServiceType, mServiceDiscoveryEnabled);
+                mStartedWithNetworkConnectivityType = OpenHABTracker.getCurrentNetworkConnectivityType(this);
+                mOpenHABTracker.start();
                 return;
             }
             pagerAdapter.setFragmentList(stateFragment.getFragmentList());
