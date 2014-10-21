@@ -345,7 +345,7 @@ public class OpenHABWidgetListFragment extends ListFragment {
                     processContent(document, longPolling);
                 } else {
                     Log.e(TAG, "Got a null response from openHAB");
-                    showPage(displayPageUrl, true);
+                    showPage(displayPageUrl, false);
                 }
             }
             @Override
@@ -445,7 +445,10 @@ public class OpenHABWidgetListFragment extends ListFragment {
                 getActivity().finish();
             }
         }
-        showPage(displayPageUrl, true);
+        if (longPolling)
+            showPage(displayPageUrl, false);
+        else
+            showPage(displayPageUrl, true);
     }
 
     private void stopProgressIndicator() {

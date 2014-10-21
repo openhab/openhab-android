@@ -57,6 +57,7 @@ import org.apache.http.client.HttpResponseException;
 import org.apache.http.entity.StringEntity;
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.core.DocumentHttpResponseHandler;
+import org.openhab.habdroid.core.NetworkConnectivityInfo;
 import org.openhab.habdroid.core.NotificationDeletedBroadcastReceiver;
 import org.openhab.habdroid.core.OpenHABTracker;
 import org.openhab.habdroid.core.OpenHABTrackerReceiver;
@@ -136,7 +137,7 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
     private String[] mDrawerTitles = {"First floor", "Seconf floor", "Cellar", "Garage"};
     private ListView mDrawerList;
     private List<OpenHABSitemap> mSitemapList;
-    private int mStartedWithNetworkConnectivityType = -1;
+    private NetworkConnectivityInfo mStartedWithNetworkConnectivityInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -211,7 +212,7 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
         if (savedInstanceState != null) {
             openHABBaseUrl = savedInstanceState.getString("openHABBaseUrl");
             sitemapRootUrl = savedInstanceState.getString("sitemapRootUrl");
-            mStartedWithNetworkConnectivityType = savedInstanceState.getInt("startedWithNetworkConnectivityType");
+            mStartedWithNetworkConnectivityInfo = savedInstanceState.getParcelable("startedWithNetworkConnectivityInfo");
         }
         mSitemapList = new ArrayList<OpenHABSitemap>();
         mDrawerAdapter = new OpenHABDrawerAdapter(this, R.layout.openhabdrawer_item, mSitemapList);
@@ -296,7 +297,7 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
             stateFragment = new StateRetainFragment();
             fm.beginTransaction().add(stateFragment, "stateFragment").commit();
             mOpenHABTracker = new OpenHABTracker(this, openHABServiceType, mServiceDiscoveryEnabled);
-            mStartedWithNetworkConnectivityType = OpenHABTracker.getCurrentNetworkConnectivityType(this);
+            mStartedWithNetworkConnectivityInfo = NetworkConnectivityInfo.currentNetworkConnectivityInfo(this);
             mOpenHABTracker.start();
         // If state fragment exists and contains something then just restore the fragments
         } else {
@@ -304,13 +305,13 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
             // If connectivity type changed while we were in background
             // Restart the whole process
             // TODO: this must be refactored to remove duplicate code!
-            if (OpenHABTracker.getCurrentNetworkConnectivityType(this) != mStartedWithNetworkConnectivityType) {
+            if (!NetworkConnectivityInfo.currentNetworkConnectivityInfo(this).equals(mStartedWithNetworkConnectivityInfo)) {
                 Log.d(TAG, "Connectivity type changed while I was out, or zero fragments found, need to restart");
                 stateFragment = null;
                 stateFragment = new StateRetainFragment();
                 fm.beginTransaction().add(stateFragment, "stateFragment").commit();
                 mOpenHABTracker = new OpenHABTracker(this, openHABServiceType, mServiceDiscoveryEnabled);
-                mStartedWithNetworkConnectivityType = OpenHABTracker.getCurrentNetworkConnectivityType(this);
+                mStartedWithNetworkConnectivityInfo = NetworkConnectivityInfo.currentNetworkConnectivityInfo(this);
                 mOpenHABTracker.start();
                 return;
             }
@@ -650,7 +651,7 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
         savedInstanceState.putString("openHABBaseUrl", openHABBaseUrl);
         savedInstanceState.putString("sitemapRootUrl", sitemapRootUrl);
         savedInstanceState.putInt("currentFragment", pager.getCurrentItem());
-        savedInstanceState.putInt("startedWithNetworkConnectivityType", mStartedWithNetworkConnectivityType);
+        savedInstanceState.putParcelable("startedWithNetworkConnectivityInfo", mStartedWithNetworkConnectivityInfo);
         super.onSaveInstanceState(savedInstanceState);
     }
 
