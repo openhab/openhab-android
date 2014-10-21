@@ -307,7 +307,12 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
             // TODO: this must be refactored to remove duplicate code!
             if (!NetworkConnectivityInfo.currentNetworkConnectivityInfo(this).equals(mStartedWithNetworkConnectivityInfo)) {
                 Log.d(TAG, "Connectivity type changed while I was out, or zero fragments found, need to restart");
+                // Clean up any existing fragments
+                pagerAdapter.clearFragmentList();
+                stateFragment.getFragmentList().clear();
                 stateFragment = null;
+                // Clean up title
+                this.setTitle(R.string.app_name);
                 stateFragment = new StateRetainFragment();
                 fm.beginTransaction().add(stateFragment, "stateFragment").commit();
                 mOpenHABTracker = new OpenHABTracker(this, openHABServiceType, mServiceDiscoveryEnabled);

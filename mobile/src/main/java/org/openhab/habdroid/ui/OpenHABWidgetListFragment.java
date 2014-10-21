@@ -252,7 +252,8 @@ public class OpenHABWidgetListFragment extends ListFragment {
             openHABWidgetAdapter.stopImageRefresh();
             openHABWidgetAdapter.stopVideoWidgets();
         }
-        mCurrentSelectedItem = getListView().getCheckedItemPosition();
+        if (isAdded())
+            mCurrentSelectedItem = getListView().getCheckedItemPosition();
     }
 
     @Override
