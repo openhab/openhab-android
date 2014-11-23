@@ -747,7 +747,7 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
     public void onPause() {
         Log.d(TAG, "onPause()");
         super.onPause();
-        mAsyncHttpClient.cancelAllRequests(true);
+//        mAsyncHttpClient.cancelAllRequests(true);
     }
 
     /**
