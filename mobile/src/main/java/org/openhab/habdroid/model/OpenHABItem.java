@@ -15,6 +15,8 @@ package org.openhab.habdroid.model;
 
 import android.graphics.Color;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
@@ -49,6 +51,26 @@ public class OpenHABItem {
 			}
 		}
 	}
+
+    public OpenHABItem(JSONObject jsonObject) {
+            try {
+                if (jsonObject.has("type"))
+                    this.setType(jsonObject.getString("type"));
+                if (jsonObject.has("name"))
+                    this.setName(jsonObject.getString("name"));
+                if (jsonObject.has("state")) {
+                    if (jsonObject.getString("state").equals("Uninitialized")) {
+                        this.setState("0");
+                    } else {
+                        this.setState(jsonObject.getString("state"));
+                    }
+                }
+                if (jsonObject.has("link"))
+                    this.setLink(jsonObject.getString("link"));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+    }
 	
 	public String getName() {
 		return name;

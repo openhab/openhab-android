@@ -21,6 +21,7 @@ import android.util.Log;
 import com.crittercism.app.Crittercism;
 import com.crittercism.app.CrittercismConfig;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.openhab.habdroid.R;
@@ -93,6 +94,20 @@ public class Util {
                     sitemapList.add(openhabSitemap);
                 }
             }
+        return sitemapList;
+    }
+
+    public static List<OpenHABSitemap> parseSitemapList(JSONArray jsonArray) {
+        List<OpenHABSitemap> sitemapList = new ArrayList<OpenHABSitemap>();
+        for(int i=0; i<jsonArray.length(); i++) {
+            try {
+                JSONObject sitemapJson = jsonArray.getJSONObject(i);
+                OpenHABSitemap openHABSitemap = new OpenHABSitemap(sitemapJson);
+                sitemapList.add(openHABSitemap);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
         return sitemapList;
     }
 

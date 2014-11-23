@@ -43,8 +43,11 @@ import android.widget.TextView;
 import android.widget.VideoView;
 
 import com.crittercism.app.Crittercism;
+import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.TextHttpResponseHandler;
 
+import org.apache.http.Header;
 import org.apache.http.entity.StringEntity;
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.model.OpenHABItem;
@@ -94,7 +97,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
 	private ArrayList<VideoView> videoWidgetList;
 	private ArrayList<MySmartImageView> refreshImageList;
     private ArrayList<MjpegStreamer> mjpegWidgetList;
-    private MyAsyncHttpClient mAsyncHttpClient;
+    private AsyncHttpClient mAsyncHttpClient;
 
 	public OpenHABWidgetAdapter(Context context, int resource,
 			List<OpenHABWidget> objects) {
@@ -756,16 +759,17 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
         try {
             if (item != null && command != null) {
                 StringEntity se = new StringEntity(command);
-                mAsyncHttpClient.post(getContext(), item.getLink(), se, "text/plain", new AsyncHttpResponseHandler() {
+                mAsyncHttpClient.post(getContext(), item.getLink(), se, "text/plain", new TextHttpResponseHandler() {
                     @Override
-                    public void onSuccess(String response) {
-                        Log.d(TAG, "Command was sent successfully");
-                    }
-                    @Override
-                    public void onFailure(Throwable error, String errorResponse) {
+                    public void onFailure(int statusCode, Header[] headers, String responseString, Throwable error) {
                         Log.e(TAG, "Got command error " + error.getMessage());
-                        if (errorResponse != null)
-                            Log.e(TAG, "Error response = " + errorResponse);
+                        if (responseString != null)
+                            Log.e(TAG, "Error response = " + responseString);
+                    }
+
+                    @Override
+                    public void onSuccess(int statusCode, Header[] headers, String responseString) {
+                        Log.d(TAG, "Command was sent successfully");
                     }
                 });
             }
@@ -815,11 +819,11 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
 		refreshImageList.clear();
 	}
 
-    public MyAsyncHttpClient getAsyncHttpClient() {
+    public AsyncHttpClient getAsyncHttpClient() {
         return mAsyncHttpClient;
     }
 
-    public void setAsyncHttpClient(MyAsyncHttpClient asyncHttpClient) {
+    public void setAsyncHttpClient(AsyncHttpClient asyncHttpClient) {
         mAsyncHttpClient = asyncHttpClient;
     }
 

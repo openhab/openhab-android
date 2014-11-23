@@ -13,6 +13,8 @@
 
 package org.openhab.habdroid.model;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
@@ -57,7 +59,26 @@ public class OpenHABSitemap {
 			}
 		}
 	}
-	
+
+    public OpenHABSitemap(JSONObject jsonObject) {
+        try {
+            if (jsonObject.has("name"))
+                this.setName(jsonObject.getString("name"));
+            if (jsonObject.has("label"))
+                this.setLabel(jsonObject.getString("label"));
+            if (jsonObject.has("link"))
+                this.setLink(jsonObject.getString("link"));
+            if (jsonObject.has("icon"))
+                this.setIcon(jsonObject.getString("icon"));
+            if (jsonObject.has("homepage")) {
+                JSONObject homepageObject = jsonObject.getJSONObject("homepage");
+                this.setHomepageLink(homepageObject.getString("link"));
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
 	public String getName() {
 		return name;
 	}

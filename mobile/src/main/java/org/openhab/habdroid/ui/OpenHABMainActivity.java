@@ -50,13 +50,19 @@ import android.widget.Toast;
 import com.crittercism.app.Crittercism;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
+import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.SyncHttpClient;
+import com.loopj.android.http.TextHttpResponseHandler;
 import com.loopj.android.image.WebImageCache;
 
+import org.apache.http.Header;
 import org.apache.http.client.HttpResponseException;
 import org.apache.http.entity.StringEntity;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.openhab.habdroid.R;
-import org.openhab.habdroid.core.DocumentHttpResponseHandler;
 import org.openhab.habdroid.core.NetworkConnectivityInfo;
 import org.openhab.habdroid.core.NotificationDeletedBroadcastReceiver;
 import org.openhab.habdroid.core.OpenHABTracker;
@@ -68,12 +74,20 @@ import org.openhab.habdroid.util.Constants;
 import org.openhab.habdroid.util.MyAsyncHttpClient;
 import org.openhab.habdroid.util.Util;
 import org.w3c.dom.Document;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 
 import de.duenndns.ssl.MTMDecision;
 import de.duenndns.ssl.MemorizingResponder;
@@ -118,7 +132,8 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
     // If openHAB discovery is enabled
     private boolean mServiceDiscoveryEnabled = true;
     // Loopj
-    private static MyAsyncHttpClient mAsyncHttpClient;
+//    private static MyAsyncHttpClient mAsyncHttpClient;
+    private static AsyncHttpClient mAsyncHttpClient = new AsyncHttpClient();
     // NFC Launch data
     private String mNfcData;
     // Voice Launch data
@@ -138,6 +153,7 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
     private ListView mDrawerList;
     private List<OpenHABSitemap> mSitemapList;
     private NetworkConnectivityInfo mStartedWithNetworkConnectivityInfo;
+    private int mOpenHABVersion;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -171,8 +187,7 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
         // Get username/password from preferences
         openHABUsername = mSettings.getString(Constants.PREFERENCE_USERNAME, null);
         openHABPassword = mSettings.getString(Constants.PREFERENCE_PASSWORD, null);
-        mAsyncHttpClient.setBasicAuth(openHABUsername, openHABPassword);
-        mAsyncHttpClient.addHeader("Accept", "application/xml");
+        mAsyncHttpClient.setBasicAuth(openHABUsername, openHABPassword, true);
         mAsyncHttpClient.setTimeout(30000);
         requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         requestWindowFeature(Window.FEATURE_PROGRESS);
@@ -357,7 +372,22 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
             sendItemCommand("VoiceCommand", mVoiceData);
             finish();
         } else {
-            selectSitemap(baseUrl, false);
+            mAsyncHttpClient.get(baseUrl + "rest/bindings", new TextHttpResponseHandler() {
+                @Override
+                public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                    mOpenHABVersion = 1;
+                    Log.d(TAG, "openHAB version 1");
+                    mAsyncHttpClient.addHeader("Accept", "application/xml");
+                    selectSitemap(openHABBaseUrl, false);
+                }
+
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, String responseString) {
+                    mOpenHABVersion = 2;
+                    Log.d(TAG, "openHAB version 2");
+                    selectSitemap(openHABBaseUrl, false);
+                }
+            });
         }
     }
 
@@ -392,13 +422,41 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
     private void selectSitemap(final String baseUrl, final boolean forceSelect) {
         Log.d(TAG, "Loading sitemap list from " + baseUrl + "rest/sitemaps");
         startProgressIndicator();
-        mAsyncHttpClient.get(baseUrl + "rest/sitemaps", new DocumentHttpResponseHandler() {
+        mAsyncHttpClient.get(baseUrl + "rest/sitemaps", new AsyncHttpResponseHandler() {
+
             @Override
-            public void onSuccess(Document document) {
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                Log.d(TAG, new String(responseBody));
                 stopProgressIndicator();
-                Log.d(TAG, "Response: " + document.toString());
                 mSitemapList.clear();
-                mSitemapList.addAll(Util.parseSitemapList(document));
+                // If openHAB's version is 1, get sitemap list from XML
+                if (mOpenHABVersion == 1) {
+                    DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+                    try {
+                        DocumentBuilder builder = dbf.newDocumentBuilder();
+                        Document sitemapsXml = builder.parse(new ByteArrayInputStream(responseBody));
+                        mSitemapList.addAll(Util.parseSitemapList(sitemapsXml));
+                    } catch (ParserConfigurationException e) {
+                        e.printStackTrace();
+                    } catch (SAXException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                // Later versions work with JSON
+                } else {
+                    try {
+                        String jsonString = new String(responseBody, "UTF-8");
+                        JSONArray jsonArray = new JSONArray(jsonString);
+                        mSitemapList.addAll(Util.parseSitemapList(jsonArray));
+                        Log.d(TAG, jsonArray.toString());
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                // Now work with sitemaps list
                 if (mSitemapList.size() == 0) {
                     // Got an empty sitemap list!
                     Log.e(TAG, "openHAB returned empty sitemap list");
@@ -451,8 +509,9 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
                     }
                 }
             }
+
             @Override
-            public void onFailure(Throwable error, String content) {
+            public void  onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
                 stopProgressIndicator();
                 if (error instanceof HttpResponseException) {
                     switch (((HttpResponseException) error).getStatusCode()) {
@@ -484,7 +543,6 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
                 }
             }
         });
-
     }
 
     private void showSitemapSelectionDialog(final List<OpenHABSitemap> sitemapList) {
@@ -689,6 +747,7 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
     public void onPause() {
         Log.d(TAG, "onPause()");
         super.onPause();
+        mAsyncHttpClient.cancelAllRequests(true);
     }
 
     /**
@@ -757,16 +816,17 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
     public void sendItemCommand(String itemName, String command) {
         try {
             StringEntity se = new StringEntity(command, "UTF-8");
-            mAsyncHttpClient.post(this, openHABBaseUrl + "rest/items/" + itemName, se, "text/plain;charset=UTF-8", new AsyncHttpResponseHandler() {
+            mAsyncHttpClient.post(this, openHABBaseUrl + "rest/items/" + itemName, se, "text/plain;charset=UTF-8", new TextHttpResponseHandler() {
                 @Override
-                public void onSuccess(String response) {
-                    Log.d(TAG, "Command was sent successfully");
-                }
-                @Override
-                public void onFailure(Throwable error, String errorResponse) {
+                public void onFailure(int statusCode, Header[] headers, String responseString, Throwable error) {
                     Log.e(TAG, "Got command error " + error.getMessage());
-                    if (errorResponse != null)
-                        Log.e(TAG, "Error response = " + errorResponse);
+                    if (responseString != null)
+                        Log.e(TAG, "Error response = " + responseString);
+                }
+
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, String responseString) {
+                    Log.d(TAG, "Command was sent successfully");
                 }
             });
         } catch (UnsupportedEncodingException e) {
@@ -928,7 +988,11 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
         this.openHABPassword = openHABPassword;
     }
 
-    public static MyAsyncHttpClient getAsyncHttpClient() {
+    public int getOpenHABVersion() {
+        return this.mOpenHABVersion;
+    }
+
+    public static AsyncHttpClient getAsyncHttpClient() {
         return mAsyncHttpClient;
     }
 
@@ -957,16 +1021,19 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
                     String deviceId = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
                     String regUrl = "https://my.openhab.org/addAndroidRegistration?deviceId=" + deviceId +
                             "&deviceModel=" + deviceModel + "&regId=" + regId;
-                    mAsyncHttpClient.get(getApplicationContext(), regUrl, new AsyncHttpResponseHandler() {
+                    AsyncHttpClient syncClient = new SyncHttpClient();
+                    syncClient.setBasicAuth(openHABUsername, openHABPassword, true);
+                    syncClient.get(getApplicationContext(), regUrl, new AsyncHttpResponseHandler() {
                         @Override
-                        public void onSuccess(String response) {
-                            Log.d(TAG, "GCM reg id success");
-                        }
-                        @Override
-                        public void onFailure(Throwable error, String errorResponse) {
+                        public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
                             Log.e(TAG, "GCM reg id error: " + error.getMessage());
-                            if (errorResponse != null)
-                                Log.e(TAG, "Error response = " + errorResponse);
+                            if (responseBody != null)
+                                Log.e(TAG, "Error response = " + new String(responseBody));
+                        }
+
+                        @Override
+                        public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                            Log.d(TAG, "GCM reg id success");
                         }
                     });
                 } catch (IOException e) {

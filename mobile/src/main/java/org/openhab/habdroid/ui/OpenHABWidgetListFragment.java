@@ -28,25 +28,34 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.loopj.android.http.AsyncHttpAbortException;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.TextHttpResponseHandler;
 
 import org.apache.http.Header;
 import org.apache.http.message.BasicHeader;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.openhab.habdroid.R;
-import org.openhab.habdroid.core.DocumentHttpResponseHandler;
 import org.openhab.habdroid.model.OpenHABItem;
 import org.openhab.habdroid.model.OpenHABNFCActionList;
 import org.openhab.habdroid.model.OpenHABWidget;
 import org.openhab.habdroid.model.OpenHABWidgetDataSource;
-import org.openhab.habdroid.util.MyAsyncHttpClient;
 import org.openhab.habdroid.util.Util;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 
+import java.io.IOException;
+import java.io.StringReader;
 import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 
 /**
  * This class is apps' main fragment which displays list of openHAB
@@ -83,7 +92,7 @@ public class OpenHABWidgetListFragment extends ListFragment {
     // parent activity
     private OpenHABMainActivity mActivity;
     // loopj
-    private MyAsyncHttpClient mAsyncHttpClient;
+    private AsyncHttpClient mAsyncHttpClient;
     // Am I visible?
     private boolean mIsVisible = false;
     private OpenHABWidgetListFragment mTag;
@@ -243,7 +252,7 @@ public class OpenHABWidgetListFragment extends ListFragment {
         super.onPause();
         Log.d(TAG, "onPause() " + displayPageUrl);
         Log.d(TAG, "isAdded = " + isAdded());
-        mAsyncHttpClient.cancelRequests(mActivity, mTag, true);
+//        mAsyncHttpClient.cancelRequests(mActivity, true);
 
         //remove any runtimes that may try to connect again
         networkHandler.removeCallbacks(networkRunnable);
@@ -316,7 +325,8 @@ public class OpenHABWidgetListFragment extends ListFragment {
         if (!longPolling)
             startProgressIndicator();
         List<BasicHeader> headers = new LinkedList<BasicHeader>();
-        headers.add(new BasicHeader("Accept", "application/xml"));
+        if (mActivity.getOpenHABVersion() == 1)
+            headers.add(new BasicHeader("Accept", "application/xml"));
         headers.add(new BasicHeader("X-Atmosphere-Framework", "1.0"));
         if (longPolling) {
             mAsyncHttpClient.setTimeout(300000);
@@ -330,56 +340,49 @@ public class OpenHABWidgetListFragment extends ListFragment {
             headers.add(new BasicHeader("X-Atmosphere-tracking-id", "0"));
             mAsyncHttpClient.setTimeout(10000);
         }
-        mAsyncHttpClient.get(mActivity, pageUrl, headers.toArray(new BasicHeader[] {}), null, new DocumentHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, Document document) {
-                for (int i=0; i<headers.length; i++) {
-                    if (headers[i].getName().equalsIgnoreCase("X-Atmosphere-tracking-id")) {
-                        Log.i(TAG, "Found atmosphere tracking id: " + headers[i].getValue());
-                        OpenHABWidgetListFragment.this.mAtmosphereTrackingId = headers[i].getValue();
-                    }
-                }
-                if (document != null) {
-//                    Log.d(TAG, "Response: " + document.toString());
-                    if (!longPolling)
-                        stopProgressIndicator();
-                    processContent(document, longPolling);
-                } else {
-                    Log.e(TAG, "Got a null response from openHAB");
-                    showPage(displayPageUrl, false);
-                }
-            }
-            @Override
-            public void onFailure(Throwable error, String content) {
-                mAtmosphereTrackingId = null;
-                if (!longPolling)
-                    stopProgressIndicator();
-                if (error instanceof AsyncHttpAbortException) {
-                    Log.d(TAG, "Request for " + displayPageUrl + " was aborted");
-                    return;
-                }
-                if (error instanceof SocketTimeoutException) {
-                    Log.d(TAG, "Connection timeout, reconnecting");
-                    showPage(displayPageUrl, false);
-                    return;
-                } else {
+        mAsyncHttpClient.get(mActivity, pageUrl, headers.toArray(new BasicHeader[] {}), null, new TextHttpResponseHandler() {
+                    @Override
+                    public void onFailure(int statusCode, Header[] headers, String responseString, Throwable error) {
+                        mAtmosphereTrackingId = null;
+                        if (!longPolling)
+                            stopProgressIndicator();
+                        if (error instanceof SocketTimeoutException) {
+                            Log.d(TAG, "Connection timeout, reconnecting");
+                            showPage(displayPageUrl, false);
+                            return;
+                        } else {
                     /*
                     * If we get a network error try connecting again, if the
                     * fragment is paused, the runnable will be removed
                     */
-                    Log.e(TAG, error.getClass().toString());
-                    Log.e(TAG, "Connection error = " + error.getClass().toString() + ", cycle aborted");
-                    networkHandler.removeCallbacks(networkRunnable);
-                    networkRunnable =  new Runnable(){
-                        @Override
-                        public void run(){
-                            showPage(displayPageUrl, false);
+                            Log.e(TAG, error.getClass().toString());
+                            Log.e(TAG, String.format("status code = %d", statusCode));
+                            Log.e(TAG, "Connection error = " + error.getClass().toString() + ", cycle aborted");
+                            networkHandler.removeCallbacks(networkRunnable);
+                            networkRunnable =  new Runnable(){
+                                @Override
+                                public void run(){
+                                    showPage(displayPageUrl, false);
+                                }
+                            };
+                            networkHandler.postDelayed(networkRunnable, 10 * 1000);
                         }
-                    };
-                    networkHandler.postDelayed(networkRunnable, 10 * 1000);
-                }
-            }
-        }, mTag);
+                    }
+
+                    @Override
+                    public void onSuccess(int statusCode, Header[] headers, String responseString) {
+                        for (int i=0; i<headers.length; i++) {
+                            if (headers[i].getName().equalsIgnoreCase("X-Atmosphere-tracking-id")) {
+                                Log.i(TAG, "Found atmosphere tracking id: " + headers[i].getValue());
+                                OpenHABWidgetListFragment.this.mAtmosphereTrackingId = headers[i].getValue();
+                            }
+                        }
+                        if (!longPolling)
+                            stopProgressIndicator();
+                        processContent(responseString, longPolling);
+                        Log.d(TAG, responseString);
+                    }
+                });
     }
 
     /**
@@ -388,7 +391,7 @@ public class OpenHABWidgetListFragment extends ListFragment {
      * @param  document	XML Document
      * @return      void
      */
-    public void processContent(Document document, boolean longPolling) {
+    public void processContent(String responseString, boolean longPolling) {
         // As we change the page we need to stop all videos on current page
         // before going to the new page. This is quite dirty, but is the only
         // way to do that...
@@ -396,15 +399,50 @@ public class OpenHABWidgetListFragment extends ListFragment {
         Log.d(TAG, "isAdded = " + isAdded());
         openHABWidgetAdapter.stopVideoWidgets();
         openHABWidgetAdapter.stopImageRefresh();
-        Node rootNode = document.getFirstChild();
-        openHABWidgetDataSource.setSourceNode(rootNode);
-        widgetList.clear();
-        for (OpenHABWidget w : openHABWidgetDataSource.getWidgets()) {
-            // Remove frame widgets with no label text
-            if (w.getType().equals("Frame") && TextUtils.isEmpty(w.getLabel()))
-                continue;
-            widgetList.add(w);
+        // If openHAB verion = 1 get page from XML
+        if (mActivity.getOpenHABVersion() == 1) {
+            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+            try {
+                DocumentBuilder builder = dbf.newDocumentBuilder();
+                Document document = builder.parse(new InputSource(new StringReader(responseString)));
+                if (document != null) {
+                    Node rootNode = document.getFirstChild();
+                    openHABWidgetDataSource.setSourceNode(rootNode);
+                    widgetList.clear();
+                    for (OpenHABWidget w : openHABWidgetDataSource.getWidgets()) {
+                        // Remove frame widgets with no label text
+                        if (w.getType().equals("Frame") && TextUtils.isEmpty(w.getLabel()))
+                            continue;
+                        widgetList.add(w);
+                    }
+                } else {
+                    Log.e(TAG, "Got a null response from openHAB");
+                    showPage(displayPageUrl, false);
+                }
+            } catch (ParserConfigurationException e) {
+                e.printStackTrace();
+            } catch (SAXException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            // Later versions work with JSON
+        } else {
+            try {
+                JSONObject pageJson = new JSONObject(responseString);
+                openHABWidgetDataSource.setSourceJson(pageJson);
+                widgetList.clear();
+                for (OpenHABWidget w : openHABWidgetDataSource.getWidgets()) {
+                    // Remove frame widgets with no label text
+                    if (w.getType().equals("Frame") && TextUtils.isEmpty(w.getLabel()))
+                        continue;
+                    widgetList.add(w);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
+
         openHABWidgetAdapter.notifyDataSetChanged();
         if (!longPolling && isAdded()) {
             getListView().clearChoices();
