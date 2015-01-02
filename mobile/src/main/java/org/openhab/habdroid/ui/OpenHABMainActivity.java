@@ -60,6 +60,7 @@ import org.apache.http.client.HttpResponseException;
 import org.apache.http.entity.StringEntity;
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.core.DocumentHttpResponseHandler;
+import org.openhab.habdroid.core.NetworkConnectivityInfo;
 import org.openhab.habdroid.core.NotificationDeletedBroadcastReceiver;
 import org.openhab.habdroid.core.OpenHABTracker;
 import org.openhab.habdroid.core.OpenHABTrackerReceiver;
@@ -140,6 +141,7 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
     private ListView mDrawerList;
     private List<OpenHABSitemap> mSitemapList;
     private boolean supportsKitKat = false;
+    private NetworkConnectivityInfo mStartedWithNetworkConnectivityInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -150,6 +152,7 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
         // Set non-persistent HABDroid version preference to current version from application package
         try {
+            Log.d(TAG, "App version = " + getPackageManager().getPackageInfo(getPackageName(), 0).versionName);
             PreferenceManager.getDefaultSharedPreferences(this).edit().putString(Constants.PREFERENCE_APPVERSION,
                     getPackageManager().getPackageInfo(getPackageName(), 0).versionName).commit();
         } catch (PackageManager.NameNotFoundException e1) {
@@ -213,6 +216,7 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
         if (savedInstanceState != null) {
             openHABBaseUrl = savedInstanceState.getString("openHABBaseUrl");
             sitemapRootUrl = savedInstanceState.getString("sitemapRootUrl");
+            mStartedWithNetworkConnectivityInfo = savedInstanceState.getParcelable("startedWithNetworkConnectivityInfo");
         }
         mSitemapList = new ArrayList<OpenHABSitemap>();
         mDrawerAdapter = new OpenHABDrawerAdapter(this, R.layout.openhabdrawer_item, mSitemapList);
@@ -301,13 +305,38 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
         pagerAdapter.setColumnsNumber(getResources().getInteger(R.integer.pager_columns));
         FragmentManager fm = getSupportFragmentManager();
         stateFragment = (StateRetainFragment)fm.findFragmentByTag("stateFragment");
-        if (stateFragment == null) {
+        // If state fragment doesn't exist (which means fresh start of the app)
+        // or if state fragment returned 0 fragments (this happens sometimes and we don't yet
+        // know why, so this is a workaround
+        // start over the whole process
+        if (stateFragment == null || stateFragment.getFragmentList().size() == 0) {
+            stateFragment = null;
             stateFragment = new StateRetainFragment();
             fm.beginTransaction().add(stateFragment, "stateFragment").commit();
             mOpenHABTracker = new OpenHABTracker(this, openHABServiceType, mServiceDiscoveryEnabled);
+            mStartedWithNetworkConnectivityInfo = NetworkConnectivityInfo.currentNetworkConnectivityInfo(this);
             mOpenHABTracker.start();
+        // If state fragment exists and contains something then just restore the fragments
         } else {
             Log.d(TAG, "State fragment found");
+            // If connectivity type changed while we were in background
+            // Restart the whole process
+            // TODO: this must be refactored to remove duplicate code!
+            if (!NetworkConnectivityInfo.currentNetworkConnectivityInfo(this).equals(mStartedWithNetworkConnectivityInfo)) {
+                Log.d(TAG, "Connectivity type changed while I was out, or zero fragments found, need to restart");
+                // Clean up any existing fragments
+                pagerAdapter.clearFragmentList();
+                stateFragment.getFragmentList().clear();
+                stateFragment = null;
+                // Clean up title
+                this.setTitle(R.string.app_name);
+                stateFragment = new StateRetainFragment();
+                fm.beginTransaction().add(stateFragment, "stateFragment").commit();
+                mOpenHABTracker = new OpenHABTracker(this, openHABServiceType, mServiceDiscoveryEnabled);
+                mStartedWithNetworkConnectivityInfo = NetworkConnectivityInfo.currentNetworkConnectivityInfo(this);
+                mOpenHABTracker.start();
+                return;
+            }
             pagerAdapter.setFragmentList(stateFragment.getFragmentList());
             Log.d(TAG, String.format("Loaded %d fragments", stateFragment.getFragmentList().size()));
             pager.setCurrentItem(stateFragment.getCurrentPage());
@@ -635,13 +664,18 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
         Log.d(TAG, "onSaveInstanceState");
-
+        // Save opened framents into state retaining fragment (I love Google! :-)
+        Log.d(TAG, String.format("Saving %d fragments", pagerAdapter.getFragmentList().size()));
+        Log.d(TAG, String.format("Saving current page = %d", pager.getCurrentItem()));
+        stateFragment.setFragmentList(pagerAdapter.getFragmentList());
+        stateFragment.setCurrentPage(pager.getCurrentItem());
         // Save UI state changes to the savedInstanceState.
         // This bundle will be passed to onCreate if the process is
         // killed and restarted.
         savedInstanceState.putString("openHABBaseUrl", openHABBaseUrl);
         savedInstanceState.putString("sitemapRootUrl", sitemapRootUrl);
         savedInstanceState.putInt("currentFragment", pager.getCurrentItem());
+        savedInstanceState.putParcelable("startedWithNetworkConnectivityInfo", mStartedWithNetworkConnectivityInfo);
         super.onSaveInstanceState(savedInstanceState);
     }
 
@@ -674,16 +708,6 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
     public void onPause() {
         Log.d(TAG, "onPause()");
         super.onPause();
-        Log.d(TAG, String.format("Saving %d fragments", pagerAdapter.getFragmentList().size()));
-        Log.d(TAG, String.format("Saving current page = %d", pager.getCurrentItem()));
-        stateFragment.setFragmentList(pagerAdapter.getFragmentList());
-        stateFragment.setCurrentPage(pager.getCurrentItem());
-//        Runnable can = new Runnable() {
-//            public void run() {
-//                mAsyncHttpClient.cancelRequests(OpenHABMainActivity.this, true);
-//            }
-//        };
-//        new Thread(can).start();
     }
 
     /**

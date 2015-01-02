@@ -216,8 +216,11 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
         defaultTextView = null;
     	switch (getItemViewType(position)) {
     	case TYPE_FRAME:
-    		if (labelTextView != null)
-    			labelTextView.setText(openHABWidget.getLabel());
+            if (labelTextView != null){
+                labelTextView.setText(openHABWidget.getLabel());
+                if(valueColor != null)
+                    labelTextView.setTextColor(valueColor);
+            }
     		widgetView.setClickable(false);
     		if (openHABWidget.getLabel().length() > 0) { // hide empty frames
     			widgetView.setVisibility(View.VISIBLE);
@@ -507,14 +510,13 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     		Log.d(TAG, "Chart url = " + chartUrl);
     		if (chartImage == null)
     			Log.e(TAG, "chartImage == null !!!");
-//    		if (openHABUsername != null && openHABPassword != null)
+            ViewGroup.LayoutParams chartLayoutParams = chartImage.getLayoutParams();
+            chartLayoutParams.height = (int) (screenWidth/2);
+            chartImage.setLayoutParams(chartLayoutParams);
+            chartUrl += "&w=" + String.valueOf(screenWidth);
+            chartUrl += "&h=" + String.valueOf(screenWidth/2);
    			chartImage.setImageUrl(chartUrl, false, openHABUsername, openHABPassword);
-//    		else
-//    			chartImage.setImageUrl(chartUrl, false);
     		// TODO: This is quite dirty fix to make charts look full screen width on all displays
-    		ViewGroup.LayoutParams chartLayoutParams = chartImage.getLayoutParams();
-    		chartLayoutParams.height = (int) (screenWidth/1.88);
-    		chartImage.setLayoutParams(chartLayoutParams);
     		if (openHABWidget.getRefresh() > 0) {
     			chartImage.setRefreshRate(openHABWidget.getRefresh());
     			refreshImageList.add(chartImage);
