@@ -31,6 +31,8 @@
     <string name="settings_openhab_sslcert_summary">Ignoriere Zertifikatsvalidierung beim SSL-Handshake</string>
     <string name="settings_openhab_sslhost">Ignoriere SSL Hostnamen</string>
     <string name="settings_openhab_sslhost_summary">Ignoriere Hostname-Prüfung beim SSL-Handshake</string>
+    <string name="settings_openhab_fullscreen">Full Screen</string>
+    <string name="settings_openhab_fullscreen_summary">Display in fullscreen mode</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">OpenHAB Sprachbefehle</string>
     <string name="info_voice_input">"openHAB, zu Ihren Diensten!"</string>

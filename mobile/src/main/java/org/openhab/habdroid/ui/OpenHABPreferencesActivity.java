@@ -15,6 +15,7 @@ package org.openhab.habdroid.ui;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.Preference;
@@ -124,6 +125,12 @@ public class OpenHABPreferencesActivity extends PreferenceActivity {
 	    });
 	    animationPreference.setSummary(animationPreference.getEntry());
 	    updateTextPreferenceSummary(versionPreference, null);
+
+        //fullscreen is not supoorted in builds < 4.4
+        if( Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            getPreferenceScreen().removePreference(getPreferenceScreen().findPreference(Constants.PREFERENCE_FULLSCREEN));
+        }
+
 	    setResult(RESULT_OK);
 	}
 	

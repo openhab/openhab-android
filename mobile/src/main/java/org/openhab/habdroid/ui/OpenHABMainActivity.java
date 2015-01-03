@@ -17,8 +17,11 @@ import android.Manifest;
 import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
@@ -150,6 +153,7 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
     private String[] mDrawerTitles = {"First floor", "Seconf floor", "Cellar", "Garage"};
     private ListView mDrawerList;
     private List<OpenHABSitemap> mSitemapList;
+    private boolean supportsKitKat = false;
     private NetworkConnectivityInfo mStartedWithNetworkConnectivityInfo;
     private int mOpenHABVersion;
 
@@ -261,6 +265,19 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
                 }
             }
         }
+
+        /**
+         * If we are 4.4 we can use fullscreen mode and Daydream features
+         */
+        supportsKitKat = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
+
+        boolean fullScreen = mSettings.getBoolean("default_openhab_fullscreen", false);
+
+        if(supportsKitKat && fullScreen){
+            registerReceiver(dreamReceiver, new IntentFilter("android.intent.action.DREAMING_STARTED"));
+            registerReceiver(dreamReceiver, new IntentFilter("android.intent.action.DREAMING_STOPPED"));
+            checkFullscreen();
+        }
     }
 
     @Override
@@ -330,6 +347,8 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
         if (!TextUtils.isEmpty(mPendingNfcPage)) {
             openNFCPageIfPending();
         }
+
+        checkFullscreen();
     }
 
     public void openNFCPageIfPending() {
@@ -1012,4 +1031,32 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
             }
         }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,null, null, null);
     }
+
+    /**
+     * If fullscreen is enabled and we are on at least android 4.4 set
+     * the system visibility to fullscreen + immersive + noNav
+     * @author Dan Cunningham
+     */
+    protected void checkFullscreen(){
+        if(supportsKitKat && mSettings.getBoolean("default_openhab_fullscreen", false)) {
+            int uiOptions = getWindow().getDecorView().getSystemUiVisibility();
+            uiOptions |= View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
+            uiOptions |= View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
+            uiOptions |= View.SYSTEM_UI_FLAG_FULLSCREEN;
+            getWindow().getDecorView().setSystemUiVisibility(uiOptions);
+        }
+    }
+
+    /*
+     *Daydreaming gets us into a funk when in fullscreen, this allows us to
+     *reset ourselves to fullscreen.
+     * @author Dan Cunningham
+     */
+    private BroadcastReceiver dreamReceiver = new BroadcastReceiver(){
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Log.i("INTENTFILTER", "Recieved intent: " + intent.toString());
+            checkFullscreen();
+        }
+    };
 }
