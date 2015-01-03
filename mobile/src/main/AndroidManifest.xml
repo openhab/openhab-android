@@ -57,6 +57,10 @@
             android:label="@string/title_activity_openhabinfo" >
         </activity>
         <activity android:name="de.duenndns.ssl.MemorizingActivity" />
+        <service
+            android:name=".core.OpenHABVoiceService"
+            android:exported="false">
+        </service>
         <receiver
             android:name="org.openhab.habdroid.core.GcmBroadcastReceiver"
             android:permission="com.google.android.c2dm.permission.SEND">

@@ -67,6 +67,7 @@ import org.openhab.habdroid.core.NetworkConnectivityInfo;
 import org.openhab.habdroid.core.NotificationDeletedBroadcastReceiver;
 import org.openhab.habdroid.core.OpenHABTracker;
 import org.openhab.habdroid.core.OpenHABTrackerReceiver;
+import org.openhab.habdroid.core.OpenHABVoiceService;
 import org.openhab.habdroid.model.OpenHABLinkedPage;
 import org.openhab.habdroid.model.OpenHABSitemap;
 import org.openhab.habdroid.ui.drawer.OpenHABDrawerAdapter;
@@ -98,7 +99,6 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
     // Logging TAG
     private static final String TAG = "MainActivity";
     // Activities request codes
-    private static final int VOICE_RECOGNITION_REQUEST_CODE = 1001;
     private static final int SETTINGS_REQUEST_CODE = 1002;
     private static final int WRITE_NFC_TAG_REQUEST_CODE = 1003;
     private static final int INFO_REQUEST_CODE = 1004;
@@ -136,8 +136,6 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
     private static AsyncHttpClient mAsyncHttpClient = new AsyncHttpClient();
     // NFC Launch data
     private String mNfcData;
-    // Voice Launch data
-    private String mVoiceData;
     // Pending NFC page
     private String mPendingNfcPage;
     // Drawer Layout
@@ -255,22 +253,11 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
                 if (getIntent().getAction().equals("android.nfc.action.NDEF_DISCOVERED")) {
                     Log.d(TAG, "This is NFC action");
                     if (getIntent().getDataString() != null) {
-
-
-
-
                         Log.d(TAG, "NFC data = " + getIntent().getDataString());
                         mNfcData = getIntent().getDataString();
                     }
                 } else if (getIntent().getAction().equals("org.openhab.notification.selected")) {
                     onNotificationSelected(getIntent());
-                }
-            }else if(getIntent().getExtras() != null){
-                Log.d(TAG, "This is Voice action");
-
-                List<String> results = getIntent().getExtras().getStringArrayList("android.speech.extra.RESULTS");
-                if (!results.isEmpty()) {
-                    mVoiceData = results.get(0);
                 }
             }
         }
@@ -368,9 +355,6 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
         if (!TextUtils.isEmpty(mNfcData)) {
             onNfcTag(mNfcData);
             openNFCPageIfPending();
-        } else if (!TextUtils.isEmpty(mVoiceData)) {
-            sendItemCommand("VoiceCommand", mVoiceData);
-            finish();
         } else {
             mAsyncHttpClient.get(baseUrl + "rest/bindings", new TextHttpResponseHandler() {
                 @Override
@@ -640,7 +624,7 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
                 return true;
             case R.id.mainmenu_openhab_info:
                 Intent infoIntent = new Intent(this.getApplicationContext(), OpenHABInfoActivity.class);
-                infoIntent.putExtra("openHABBaseUrl", openHABBaseUrl);
+                infoIntent.putExtra(OpenHABVoiceService.OPENHAB_BASE_URL_EXTRA, openHABBaseUrl);
                 infoIntent.putExtra("username", openHABUsername);
                 infoIntent.putExtra("password", openHABPassword);
                 startActivityForResult(infoIntent, INFO_REQUEST_CODE);
@@ -672,29 +656,6 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
                 break;
             case WRITE_NFC_TAG_REQUEST_CODE:
                 Log.d(TAG, "Got back from Write NFC tag");
-                break;
-            case VOICE_RECOGNITION_REQUEST_CODE:
-                Log.d(TAG, "Got back from Voice recognition");
-                setProgressBarIndeterminateVisibility(false);
-                if(resultCode == RESULT_OK) {
-                    ArrayList<String> textMatchList = data
-                            .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-                    if (!textMatchList.isEmpty()) {
-                        Log.d(TAG, textMatchList.get(0));
-                        Log.d(TAG, "Recognized text: " + textMatchList.get(0));
-                        Toast.makeText(this, "I recognized: " + textMatchList.get(0),
-                                Toast.LENGTH_LONG).show();
-                        sendItemCommand("VoiceCommand", textMatchList.get(0));
-                    } else {
-                        Log.d(TAG, "Voice recognition returned empty set");
-                        Toast.makeText(this, "I can't read you!",
-                                Toast.LENGTH_LONG).show();
-                    }
-                } else {
-                    Log.d(TAG, "A voice recognition error occured");
-                    Toast.makeText(this, "A voice recognition error occured",
-                            Toast.LENGTH_LONG).show();
-                }
                 break;
             default:
         }
@@ -863,14 +824,18 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
     }
 
     private void launchVoiceRecognition() {
-        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-        // Specify the calling package to identify your application
-        intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, ((Object) this).getClass().getPackage().getName());
+        Intent callbackIntent = new Intent(this, OpenHABVoiceService.class);
+        callbackIntent.putExtra(OpenHABVoiceService.OPENHAB_BASE_URL_EXTRA, openHABBaseUrl);
+        PendingIntent openhabPendingIntent = PendingIntent.getService(this, 0, callbackIntent, 0);
+
+        Intent speechIntent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         // Display an hint to the user about what he should say.
-        intent.putExtra(RecognizerIntent.EXTRA_PROMPT, getString(R.string.info_voice_input));
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-        intent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 1);
-        startActivityForResult(intent, VOICE_RECOGNITION_REQUEST_CODE);
+        speechIntent.putExtra(RecognizerIntent.EXTRA_PROMPT, getString(R.string.info_voice_input));
+        speechIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        speechIntent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 1);
+        speechIntent.putExtra(RecognizerIntent.EXTRA_RESULTS_PENDINGINTENT, openhabPendingIntent);
+
+        startActivity(speechIntent);
     }
 
 

@@ -32,6 +32,9 @@
     <string name="settings_openhab_sslhost">Ignoriere SSL Hostnamen</string>
     <string name="settings_openhab_sslhost_summary">Ignoriere Hostname-Prüfung beim SSL-Handshake</string>
     <!-- App messages strings -->
+    <string name="title_voice_widget">OpenHAB Sprachbefehle</string>
+    <string name="info_voice_input">"openHAB, zu Ihren Diensten!"</string>
+    <string name="info_voice_recognized_text">"Erkannter Befehl: %1$s"</string>
     <string name="info_demo_mode">HABDroid läuft im Demo Modus. Unter Einstellungen kann eine eigene openHAB-Instanz konfiguriert werden.</string>
     <string name="info_conn_url">Verbinde mit lokaler URL</string>
     <string name="info_conn_rem_url">Verbinde mit Remote URL</string>
