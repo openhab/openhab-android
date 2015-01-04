@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources
+xmlns:tools="http://schemas.android.com/tools"
+tools:ignore="MissingTranslation">
+>
+<!-- General app strings -->
+<string name="app_name">openHAB</string>
+<string name="openhab_service_type">_openhab-server-ssl._tcp.local.</string>
+<string name="openhab_demo_url">https://demo.openhab.org:8443/</string>
+<string name="app_preferences_name">Instellingen</string>
+<!-- Main menu items -->
+<string name="mainmenu_openhab_preferences">Instellingen</string>
+<string name="mainmenu_openhab_selectsitemap">Selecteer standaard sitemap</string>
+<string name="mainmenu_openhab_writetag">Schrijf NFC tag</string>
+<string name="mainmenu_openhab_info">openHAB info</string>
+<string name="mainmenu_openhab_clearcache">Verwijder afbeeldings cache</string>
+<!-- App settings strings -->
+<string name="settings_title">HABDroid Instellingen</string>
+<string name="settings_openhab_url">openHAB URL</string>
+<string name="settings_openhab_url_summary">Handmatig ingevulde openHAB URL. Zet autmatisch ontdekking uit.</string>
+<string name="settings_openhab_alturl">openHAB externe URL</string>
+<string name="settings_openhab_alturl_summary">openHAB externe URL (Word gebruikt als er lokaal geen verbinding is)</string>
+<string name="settings_openhab_username">Gebruikersnaam</string>
+<string name="settings_openhab_username_summary">openHAB gebruikersnaam</string>
+<string name="settings_openhab_password">Wachtwoord</string>
+<string name="settings_openhab_password_summary">openHAB wachtwoord</string>
+<string name="settings_openhab_screentimeroff">Uitschakelen weergave timer</string>
+<string name="settings_openhab_screentimeroff_summary">Zet het uitschakelen van het scherm uit als HABDroid actief is.</string>
+<string name="settings_openhab_demomode">Demo mode</string>
+<string name="settings_openhab_demomode_summary">Gebruik HABDroid in demo mode</string>
+<string name="settings_openhab_theme">HABDroid Thema</string>
+<string name="settings_openhab_animation">Animatie stijl</string>
+<string name="settings_openhab_appversion">HABDroid Versie</string>
+<string name="settings_openhab_sslcert">Ignore SSL certificaat</string>
+<string name="settings_openhab_sslcert_summary">Negeer certificaat validatie tijdens SSLverificatie</string>
+<string name="settings_openhab_sslhost">Ignore SSL hostnaam</string>
+<string name="settings_openhab_sslhost_summary">Negeer hostnaam controller tijdens SSL verificatie</string>
+<string name="settings_openhab_fullscreen">Volledig scherm</string>
+<string name="settings_openhab_fullscreen_summary">Gebruik in volledig scherm modes</string>
+<!-- App messages strings -->
+<string name="title_voice_widget">OpenHAB stem commando\'s</string>
+<string name="info_voice_input">"openHAB, at your command!"</string>
+<string name="info_voice_recognized_text">"Herkend commando: %1$s"</string>
+<string name="info_demo_mode">HABDroid draaid in demo mode. Om naar je eigensysteem te verbinding gebruik het instellingen menu.</string>
+<string name="info_conn_url">Verbinden met ingestelde URL</string>
+<string name="info_conn_rem_url">Verbinden naar externe URL</string>
+<string name="info_discovery">Ontdekken van openHAB. Moment geduld...</string>
+<string name="error_no_url">Controlleer of openHAB actief is.</string>
+<string name="error_authentication_failed">Authenticatie mislukt. Controlleer gebruikersnaam en wachtwoord</string>
+<string name="error_empty_sitemap_list">openHAB heeft een lege sitemap geladen</string>
+<string name="error_network_not_available">Network is niet beschikbaar</string>
+<string name="error_no_uuid">UopenHAB UUID kan niet opgevraagd worden, connectie mislukt</string>
+<string name="erorr_invalid_url">Vul een correcte URL in deze \'protocol://host:port/\' vorm</string>
+<string name="erorr_no_wifi_mcast_permission">CHANGE_WIFI_MULTICAST_STATE permissie is niet gegeven, openHAB ontdekken word uitgeschakelt!</string>
+<string name="erorr_no_wifi_state_permission">ACCESS_WIFI_STATE permissie is niet gegeven, openHAB ontdekken word uitgeschakelt!</string>
+<string name="error_connection_failed">Connectie naar host mislukt</string>
+<string name="title_activity_openhabwritetag">Schrijf NFC tag</string>
+<string name="title_activity_openhabinfo">openHAB Informatie</string>
+<string name="info_write_tag">Raak de  tag aan en houd het dichtbij tot een bevestiging verschijnt</string>
+<string name="info_write_tag_progress">De tag word weggeschreven</string>
+<string name="info_write_tag_finished">Gelukt!</string>
+<string name="info_write_failed">Tag schrijf fout</string>
+<string name="info_write_tag_unsupported">Dit apparaat heeft geen NFC ondersteuing :-(</string>
+<string name="info_write_tag_disabled">NFC is uitgeschakelt. Zet het aan in de apparaart instellingen menu.</string>
+<string name="info_openhab_version_label">openHAB Versie</string>
+<string name="info_openhab_uuid_label">openHAB UUID</string>
+<string name="info_openhab_secret_label">openHAB geheim</string>
+<string name="action_settings">Instellingen</string>
+<string name="nfc_dialog_title">Selecteer een actio voor de NFC tag</string>
+<string name="info_not_set">Niet ingesteld</string>
+<!-- Strings for MemorizingTrustManager activity -->
+<string name="mtm_accept_cert">Accepteer onbekend certificaat?</string>
+<string name="mtm_decision_always">Altijd</string>
+<string name="mtm_decision_once">eenmalig</string>
+<string name="mtm_decision_abort">Abort</string>
+<string name="mtm_notification">Certificate verification</string>
+</resources>
