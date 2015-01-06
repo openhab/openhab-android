@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
+import org.apache.http.Header;
 import org.apache.http.entity.StringEntity;
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.util.Constants;
@@ -167,13 +168,13 @@ public class OpenHABVoiceService extends ContinuingIntentService implements Open
                 mAsyncHttpClient.post(OpenHABVoiceService.this, mOpenHABBaseUrl + "rest/items/" + itemName,
                         command, "text/plain;charset=UTF-8", new AsyncHttpResponseHandler() {
                             @Override
-                            public void onSuccess(String response) {
+                            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                                 Log.d(TAG, "Command was sent successfully");
                             }
 
                             @Override
-                            public void onFailure(Throwable error, String errorResponse) {
-                                Log.e(TAG, "Got command error " + errorResponse, error);
+                            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                                Log.e(TAG, "Got command error " + statusCode, error);
                             }
                         });
             }
