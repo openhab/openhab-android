@@ -38,8 +38,8 @@
     <string name="title_voice_widget">Commandes vocales OpenHAB</string>
     <string name="info_voice_input">openHAB, à vos ordres!"</string>
     <string name="info_demo_mode">HABDroid fonctionne en mode démo. Pour connecter votre instance openHAB, rendez-vous dans les paramètres de l\'application</string>
-    <string name="info_conn_url">Connexion à l'adresse  locale</string>
-    <string name="info_conn_rem_url">Connexion à l'adresse distante</string>
+    <string name="info_conn_url">Connexion à l\'adresse  locale</string>
+    <string name="info_conn_rem_url">Connexion à l\'adresse distante</string>
     <string name="info_discovery">Recherche d\'openHAB, merci de patienter...</string>
     <string name="error_no_url">Merci de vérifier qu\'openHAB fonctionne. Si oui passez en configuration manuelle des adresses locale et/ou distante</string>
     <string name="error_authentication_failed">Erreur d\'authentification. Merci de vérifier votre identifiant et votre mot de passe.</string>
