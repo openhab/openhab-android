@@ -51,7 +51,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.crittercism.app.Crittercism;
-import com.google.analytics.tracking.android.EasyTracker;
+import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -66,6 +66,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.openhab.habdroid.R;
+import org.openhab.habdroid.core.HABDroid;
 import org.openhab.habdroid.core.NetworkConnectivityInfo;
 import org.openhab.habdroid.core.NotificationDeletedBroadcastReceiver;
 import org.openhab.habdroid.core.OpenHABTracker;
@@ -197,6 +198,8 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
         if (!isDeveloper)
             Util.initCrittercism(getApplicationContext(), "5117659f59e1bd4ba9000004");
         super.onCreate(savedInstanceState);
+        if (!isDeveloper)
+            ((HABDroid) getApplication()).getTracker(HABDroid.TrackerName.APP_TRACKER);
         setContentView(R.layout.activity_main);
         gcmRegisterBackground();
         // Enable app icon in action bar work as 'home'
@@ -706,7 +709,7 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
         super.onStart();
         // Start activity tracking via Google Analytics
         if (!isDeveloper)
-            EasyTracker.getInstance().activityStart(this);
+            GoogleAnalytics.getInstance(this).reportActivityStart(this);
     }
 
     /**
@@ -718,7 +721,7 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
         super.onStop();
         // Stop activity tracking via Google Analytics
         if (!isDeveloper)
-            EasyTracker.getInstance().activityStop(this);
+            GoogleAnalytics.getInstance(this).reportActivityStop(this);
         if (mOpenHABTracker != null)
             mOpenHABTracker.stop();
     }

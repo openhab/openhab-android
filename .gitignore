@@ -7,3 +7,4 @@
 +wear/build
 +local.properties
 +.gradle
++.DS_Store

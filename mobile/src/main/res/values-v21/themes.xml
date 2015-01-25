@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="HABDroid.Dark" parent="android:Theme.Material">
+        <item name="customMicIcon">@drawable/menu_mic_dark</item>
+        <item name="widgetlistItemDivider">?android:dividerHorizontal</item>
+    </style>
+    <style name="HABDroid.Light" parent="android:Theme.Material.Light">
+        <item name="customMicIcon">@drawable/menu_mic_light</item>
+        <item name="widgetlistItemDivider">?android:dividerHorizontal</item>
+    </style>
+</resources>
