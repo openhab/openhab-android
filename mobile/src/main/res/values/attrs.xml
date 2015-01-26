@@ -16,5 +16,6 @@
     <declare-styleable name="customAttrs">
         <attr name="customMicIcon" format="reference" />
         <attr name="widgetlistItemDivider" format="reference" />
+        <attr name="frameWidgetDividerBackground" format="reference" />
     </declare-styleable>
 </resources>
