@@ -61,7 +61,6 @@ public class OpenHABPreferencesActivity extends PreferenceActivity {
 	    Preference usernamePreference = getPreferenceScreen().findPreference(Constants.PREFERENCE_USERNAME);
 	    Preference passwordPreference = getPreferenceScreen().findPreference(Constants.PREFERENCE_PASSWORD);
 	    ListPreference themePreference = (ListPreference)getPreferenceScreen().findPreference(Constants.PREFERENCE_THEME);
-	    ListPreference animationPreference = (ListPreference)getPreferenceScreen().findPreference(Constants.PREFERENCE_ANIMATION);
 	    Preference versionPreference = getPreferenceScreen().findPreference(Constants.PREFERENCE_APPVERSION);
 	    urlPreference.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
 			@Override
@@ -115,15 +114,6 @@ public class OpenHABPreferencesActivity extends PreferenceActivity {
 			}
 	    });
 	    themePreference.setSummary(themePreference.getEntry());
-	    animationPreference.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
-			@Override
-			public boolean onPreferenceChange(Preference preference, Object newValue) {
-				ListPreference listPreference = (ListPreference)preference;
-				listPreference.setSummary(listPreference.getEntries()[listPreference.findIndexOfValue((String)newValue)]);
-				return true;
-			}
-	    });
-	    animationPreference.setSummary(animationPreference.getEntry());
 	    updateTextPreferenceSummary(versionPreference, null);
 
         //fullscreen is not supoorted in builds < 4.4

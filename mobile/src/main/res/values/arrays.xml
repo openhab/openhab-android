@@ -3,22 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:ignore="MissingTranslation">
 <string-array name="themeArray">
-   <item>Holo Dark</item>
-   <item>Holo Light</item>
+   <item>Dark</item>
+   <item>Light</item>
 </string-array>
 <string-array name="themeValues">
    <item>dark</item>
    <item>light</item>
-</string-array>
-<string-array name="animationArray">
-   <item>Android (Dissolve)</item>
-   <item>iOS (Slide)</item>
-   <item>None</item>
-</string-array>
-<string-array name="animationValues">
-   <item>android</item>
-   <item>ios</item>
-   <item>none</item>
 </string-array>
 <string-array name="nfcActionValues">
     <item>On</item>

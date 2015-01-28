@@ -4,6 +4,7 @@
         <item name="customMicIcon">@android:drawable/ic_btn_speak_now</item>
         <item name="widgetlistItemDivider">?android:dividerHorizontal</item>
         <item name="android:colorPrimary">#FF5722</item>
+        <item name="android:colorAccent">#FF5722</item>
         <item name="android:colorPrimaryDark">#BF360C</item>
         <item name="frameWidgetDividerBackground">@drawable/material_divider_dark</item>
     </style>
@@ -11,6 +12,7 @@
         <item name="customMicIcon">@android:drawable/ic_btn_speak_now</item>
         <item name="widgetlistItemDivider">?android:dividerHorizontal</item>
         <item name="android:colorPrimary">#FF5722</item>
+        <item name="android:colorAccent">#FF5722</item>
         <item name="android:colorPrimaryDark">#BF360C</item>
         <item name="frameWidgetDividerBackground">@drawable/material_divider</item>
     </style>
