@@ -37,6 +37,7 @@ import android.speech.RecognizerIntent;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.text.TextUtils;
 import android.util.Log;
@@ -234,6 +235,7 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
             sitemapRootUrl = savedInstanceState.getString("sitemapRootUrl");
             mStartedWithNetworkConnectivityInfo = savedInstanceState.getParcelable("startedWithNetworkConnectivityInfo");
         }
+        mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
         mSitemapList = new ArrayList<OpenHABSitemap>();
         mDrawerAdapter = new OpenHABDrawerAdapter(this, R.layout.openhabdrawer_item, mSitemapList);
         mDrawerAdapter.setOpenHABUsername(openHABUsername);

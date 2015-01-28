@@ -19,6 +19,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -46,6 +47,7 @@ public class OpenHABDrawerAdapter extends ArrayAdapter<OpenHABSitemap> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         final RelativeLayout drawerItemView;
+        LinearLayout drawerDivider;
         TextView drawerItemLabelTextView;
         MySmartImageView drawerItemImage;
         int drawerItemLayout;
@@ -67,8 +69,14 @@ public class OpenHABDrawerAdapter extends ArrayAdapter<OpenHABSitemap> {
         } else {
             drawerItemView = (RelativeLayout) convertView;
         }
+
         drawerItemLabelTextView = (TextView)drawerItemView.findViewById(R.id.itemlabel);
         drawerItemImage = (MySmartImageView)drawerItemView.findViewById(R.id.itemimage);
+        drawerDivider = (LinearLayout)drawerItemView.findViewById(R.id.drawerdivider);
+        if (position == getCount()-1)
+            drawerDivider.setVisibility(View.VISIBLE);
+        else
+            drawerDivider.setVisibility(View.INVISIBLE);
         if (openHABSitemap.getLabel() != null && drawerItemLabelTextView != null) {
             drawerItemLabelTextView.setText(openHABSitemap.getLabel());
         } else {

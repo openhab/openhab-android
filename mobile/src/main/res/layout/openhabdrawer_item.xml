@@ -28,7 +28,7 @@
             />
     </LinearLayout>
     <LinearLayout
-        android:id="@+id/listdivider"
+        android:id="@+id/drawerdivider"
         android:layout_width="fill_parent"
         android:layout_height="1dip"
         android:background="?android:attr/listDivider"
