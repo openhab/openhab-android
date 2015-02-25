@@ -14,6 +14,7 @@
     <string name="mainmenu_openhab_writetag">Write NFC tag</string>
     <string name="mainmenu_openhab_info">openHAB info</string>
     <string name="mainmenu_openhab_clearcache">Clear images cache</string>
+    <string name="mainmenu_openhab_voice_recognition">Voice Recognition</string>
     <!-- App settings strings -->
     <string name="settings_title">HABDroid Settings</string>
     <string name="settings_openhab_url">openHAB URL</string>
