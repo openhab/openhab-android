@@ -622,20 +622,6 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
                     pager.setCurrentItem(0);
                 }
                 return true;
-            case R.id.mainmenu_openhab_clearcache:
-                Log.d(TAG, "Restarting");
-                // Get launch intent for application
-                Intent restartIntent = getBaseContext().getPackageManager()
-                        .getLaunchIntentForPackage( getBaseContext().getPackageName() );
-                restartIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                // Finish current activity
-                finish();
-                WebImageCache cache = new WebImageCache(getBaseContext());
-                cache.clear();
-                // Start launch activity
-                startActivity(restartIntent);
-                // Start launch activity
-                return true;
             case R.id.mainmenu_openhab_writetag:
                 Intent writeTagIntent = new Intent(this.getApplicationContext(), OpenHABWriteTagActivity.class);
                 // TODO: get current display page url, which? how? :-/

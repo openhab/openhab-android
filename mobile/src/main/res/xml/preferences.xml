@@ -13,4 +13,10 @@
         <CheckBoxPreference android:key="default_openhab_fullscreen" android:title="@string/settings_openhab_fullscreen" android:summary="@string/settings_openhab_fullscreen_summary" android:defaultValue="false" />
         <EditTextPreference android:key="default_openhab_appversion" android:title="@string/settings_openhab_appversion" android:persistent="false" android:enabled="false" android:shouldDisableView="false"/>
     </PreferenceCategory>
+
+    <PreferenceCategory>
+        <Preference android:id="@+id/mainmenu_openhab_clearcache"
+            android:title="@string/mainmenu_openhab_clearcache"
+            android:key="mainmenu_openhab_clearcache" />
+    </PreferenceCategory>
 </PreferenceScreen>

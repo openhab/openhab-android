@@ -15,6 +15,7 @@ package org.openhab.habdroid.ui;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.ListPreference;
@@ -24,6 +25,7 @@ import android.preference.PreferenceActivity;
 import android.util.Log;
 
 import com.google.android.gms.analytics.GoogleAnalytics;
+import com.loopj.android.image.WebImageCache;
 
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.util.Constants;
@@ -120,6 +122,25 @@ public class OpenHABPreferencesActivity extends PreferenceActivity {
         if( Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             getPreferenceScreen().removePreference(getPreferenceScreen().findPreference(Constants.PREFERENCE_FULLSCREEN));
         }
+
+        Preference button = findPreference("mainmenu_openhab_clearcache");
+        button.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference arg0) {
+                // Get launch intent for application
+                Intent restartIntent = getBaseContext().getPackageManager()
+                        .getLaunchIntentForPackage( getBaseContext().getPackageName() );
+                restartIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                // Finish current activity
+                finish();
+                WebImageCache cache = new WebImageCache(getBaseContext());
+                cache.clear();
+                // Start launch activity
+                startActivity(restartIntent);
+
+                return true;
+            }
+        });
 
 	    setResult(RESULT_OK);
 	}
