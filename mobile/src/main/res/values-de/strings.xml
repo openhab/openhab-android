@@ -10,8 +10,12 @@
     <string name="mainmenu_openhab_selectsitemap">Wähle Sitemap</string>
     <string name="mainmenu_openhab_writetag">Schreibe NFC Tag</string>
     <string name="mainmenu_openhab_clearcache">Lösche Bildercache</string>
+    <string name="mainmenu_openhab_voice_recognition">Sprachbefehl</string>
     <!-- App settings strings -->
     <string name="settings_title">HABDroid Einstellungen</string>
+    <string name="settings_connection_title">Verbindungen</string>
+    <string name="settings_screen_title">Bildschirm</string>
+    <string name="settings_security_title">Sicherheit</string>
     <string name="settings_openhab_url">openHAB URL</string>
     <string name="settings_openhab_url_summary">Manual konfigurierte openHAB URL. Wenn gesetzt, ist Auto-Discovery deaktiviert.</string>
     <string name="settings_openhab_alturl">openHAB Remote URL</string>
@@ -31,8 +35,8 @@
     <string name="settings_openhab_sslcert_summary">Ignoriere Zertifikatsvalidierung beim SSL-Handshake</string>
     <string name="settings_openhab_sslhost">Ignoriere SSL Hostnamen</string>
     <string name="settings_openhab_sslhost_summary">Ignoriere Hostname-Prüfung beim SSL-Handshake</string>
-    <string name="settings_openhab_fullscreen">Full Screen</string>
-    <string name="settings_openhab_fullscreen_summary">Display in fullscreen mode</string>
+    <string name="settings_openhab_fullscreen">Vollbild</string>
+    <string name="settings_openhab_fullscreen_summary">Blendet die Statusleiste aus</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">OpenHAB Sprachbefehle</string>
     <string name="info_voice_input">"openHAB, zu Ihren Diensten!"</string>
