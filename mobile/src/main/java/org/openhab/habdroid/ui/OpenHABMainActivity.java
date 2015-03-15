@@ -35,10 +35,10 @@ import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.speech.RecognizerIntent;
 import android.support.v4.app.ActionBarDrawerToggle;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
@@ -65,7 +65,6 @@ import org.apache.http.client.HttpResponseException;
 import org.apache.http.entity.StringEntity;
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.core.HABDroid;
 import org.openhab.habdroid.core.NetworkConnectivityInfo;
@@ -80,12 +79,10 @@ import org.openhab.habdroid.util.Constants;
 import org.openhab.habdroid.util.MyAsyncHttpClient;
 import org.openhab.habdroid.util.Util;
 import org.w3c.dom.Document;
-import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
@@ -99,7 +96,7 @@ import de.duenndns.ssl.MTMDecision;
 import de.duenndns.ssl.MemorizingResponder;
 import de.duenndns.ssl.MemorizingTrustManager;
 
-public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSelectedListener,
+public class OpenHABMainActivity extends ActionBarActivity implements OnWidgetSelectedListener,
         OpenHABTrackerReceiver, MemorizingResponder {
     // Logging TAG
     private static final String TAG = "MainActivity";
@@ -204,7 +201,7 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
         setContentView(R.layout.activity_main);
         gcmRegisterBackground();
         // Enable app icon in action bar work as 'home'
-//        this.getActionBar().setHomeButtonEnabled(true);
+//        this.getSupportActionBar().setHomeButtonEnabled(true);
         pager = (OpenHABViewPager)findViewById(R.id.pager);
         pager.setScrollDurationFactor(2.5);
         pager.setOffscreenPageLimit(1);
@@ -253,8 +250,8 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
             }
         });
 //        mDrawerList.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, mDrawerTitles));
-        getActionBar().setDisplayHomeAsUpEnabled(true);
-        getActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
         if (getIntent() != null) {
             Log.d(TAG, "Intent != null");
             if (getIntent().getAction() != null) {

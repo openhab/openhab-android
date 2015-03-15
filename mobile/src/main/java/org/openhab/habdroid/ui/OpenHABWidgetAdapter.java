@@ -15,6 +15,7 @@ package org.openhab.habdroid.ui;
 
 import android.content.Context;
 import android.net.Uri;
+import android.support.v7.widget.SwitchCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -38,7 +39,6 @@ import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.Spinner;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.VideoView;
 
@@ -312,7 +312,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     	case TYPE_SWITCH:
     		if (labelTextView != null)
     			labelTextView.setText(openHABWidget.getLabel());
-    		Switch switchSwitch = (Switch)widgetView.findViewById(R.id.switchswitch);
+    		SwitchCompat switchSwitch = (SwitchCompat)widgetView.findViewById(R.id.switchswitch);
     		if (openHABWidget.hasItem()) {
     			if (openHABWidget.getItem().getStateAsBoolean()) {
     				switchSwitch.setChecked(true);
@@ -323,7 +323,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     		switchSwitch.setTag(openHABWidget.getItem());
     		switchSwitch.setOnTouchListener(new OnTouchListener() {
 				public boolean onTouch(View v, MotionEvent motionEvent) {
-					Switch switchSwitch = (Switch)v;
+					SwitchCompat switchSwitch = (SwitchCompat)v;
 					OpenHABItem linkedItem = (OpenHABItem)switchSwitch.getTag();
 					if (motionEvent.getActionMasked() == MotionEvent.ACTION_UP)
 						if (!switchSwitch.isChecked()) {
