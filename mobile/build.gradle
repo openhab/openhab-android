@@ -36,6 +36,7 @@ dependencies {
     compile 'com.crittercism:crittercism-android-agent:+'
     compile 'javax.jmdns:jmdns:3.4.1'
     compile 'com.android.support:support-v4:21.0.3'
+    compile 'com.android.support:appcompat-v7:21.0.+'
 //    compile 'com.loopj:android-async-http:1.4.2-openhab'
     compile 'com.loopj.android:android-async-http:1.4.5'
     compile 'com.loopj:android-smart-image-view:1.0.0'
