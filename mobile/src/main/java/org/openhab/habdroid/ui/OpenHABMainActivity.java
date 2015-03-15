@@ -34,6 +34,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.speech.RecognizerIntent;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -41,6 +42,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -65,7 +67,6 @@ import org.apache.http.client.HttpResponseException;
 import org.apache.http.entity.StringEntity;
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.core.HABDroid;
 import org.openhab.habdroid.core.NetworkConnectivityInfo;
@@ -80,12 +81,10 @@ import org.openhab.habdroid.util.Constants;
 import org.openhab.habdroid.util.MyAsyncHttpClient;
 import org.openhab.habdroid.util.Util;
 import org.w3c.dom.Document;
-import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
@@ -837,6 +836,33 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
             pager.setCurrentItem(pager.getCurrentItem() - 1, true);
             setTitle(pagerAdapter.getPageTitle(pager.getCurrentItem()));
         }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        Log.v(TAG, "KeyDown: " + event.toString());
+        if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN){
+            OpenHABWidgetListFragment currentFragment = pagerAdapter.getFragment(pager.getCurrentItem());
+            if (currentFragment != null)
+                return currentFragment.onVolumeDown();
+        }
+        else if(keyCode == KeyEvent.KEYCODE_VOLUME_UP){
+            OpenHABWidgetListFragment currentFragment = pagerAdapter.getFragment(pager.getCurrentItem());
+            if (currentFragment != null)
+                return currentFragment.onVolumeUp();
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    public boolean onKeyUp(int keyCode, @NonNull KeyEvent event) {
+        Log.v(TAG, "KeyUp: " + event.toString());
+        if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN || keyCode == KeyEvent.KEYCODE_VOLUME_UP){
+            OpenHABWidgetListFragment currentFragment = pagerAdapter.getFragment(pager.getCurrentItem());
+            if (currentFragment != null && currentFragment.isVolumeHandled())
+                return true;
+        }
+        return super.onKeyUp(keyCode, event);
     }
 
     public void startProgressIndicator() {
