@@ -558,4 +558,15 @@ public class OpenHABWidgetListFragment extends ListFragment {
         return mPosition;
     }
 
+    public boolean onVolumeDown() {
+        return openHABWidgetAdapter.onVolumeDown();
+    }
+
+    public boolean onVolumeUp() {
+        return openHABWidgetAdapter.onVolumeUp();
+    }
+
+    public boolean isVolumeHandled() {
+        return openHABWidgetAdapter.isVolumeHandled();
+    }
 }

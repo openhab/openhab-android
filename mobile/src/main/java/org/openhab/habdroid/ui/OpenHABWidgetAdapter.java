@@ -44,7 +44,6 @@ import android.widget.VideoView;
 
 import com.crittercism.app.Crittercism;
 import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.TextHttpResponseHandler;
 
 import org.apache.http.Header;
@@ -57,7 +56,6 @@ import org.openhab.habdroid.ui.widget.ColorPickerDialog;
 import org.openhab.habdroid.ui.widget.OnColorChangedListener;
 import org.openhab.habdroid.ui.widget.SegmentedControlButton;
 import org.openhab.habdroid.util.MjpegStreamer;
-import org.openhab.habdroid.util.MyAsyncHttpClient;
 import org.openhab.habdroid.util.MySmartImageView;
 
 import java.io.UnsupportedEncodingException;
@@ -97,6 +95,8 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
 	private ArrayList<VideoView> videoWidgetList;
 	private ArrayList<MySmartImageView> refreshImageList;
     private ArrayList<MjpegStreamer> mjpegWidgetList;
+    private View volumeUpWidget;
+    private View volumeDownWidget;
     private AsyncHttpClient mAsyncHttpClient;
 
 	public OpenHABWidgetAdapter(Context context, int resource,
@@ -478,6 +478,10 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
 						}
     			});
     		}
+            if (volumeUpWidget == null) {
+                volumeUpWidget = sliderSeekBar;
+                volumeDownWidget = sliderSeekBar;
+            }
     		break;
     	case TYPE_IMAGE:
     		MySmartImageView imageImage = (MySmartImageView)widgetView.findViewById(R.id.imageimage);
@@ -662,6 +666,11 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
 					sendItemCommand(setPointWidget.getItem(), String.valueOf(currentValue));
 				}
                 		});
+
+            if (volumeUpWidget == null) {
+                volumeUpWidget = setPointPlusButton;
+                volumeDownWidget = setPointMinusButton;
+            }
     		break;
     	default:
     		if (labelTextView != null)
@@ -839,4 +848,37 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
         return true;
     }
 
+    public boolean onVolumeDown() {
+        if (volumeDownWidget instanceof SeekBar) {
+            SeekBar seekBar = (SeekBar) volumeDownWidget;
+            seekBar.incrementProgressBy(-10);
+            OpenHABItem sliderItem = (OpenHABItem)seekBar.getTag();
+            if (sliderItem != null)
+                sendItemCommand(sliderItem, String.valueOf(seekBar.getProgress()));
+        } else if (volumeDownWidget instanceof Button) {
+            volumeDownWidget.callOnClick();
+        } else {
+            return false;
+        }
+        return true;
+    }
+
+    public boolean onVolumeUp() {
+        if (volumeUpWidget instanceof SeekBar) {
+            SeekBar seekBar = (SeekBar) volumeUpWidget;
+            seekBar.incrementProgressBy(10);
+            OpenHABItem sliderItem = (OpenHABItem)seekBar.getTag();
+            if (sliderItem != null)
+                sendItemCommand(sliderItem, String.valueOf(seekBar.getProgress()));
+        } else if (volumeUpWidget instanceof Button) {
+            volumeUpWidget.callOnClick();
+        } else {
+            return false;
+        }
+        return true;
+    }
+
+    public boolean isVolumeHandled() {
+        return volumeUpWidget != null;
+    }
 }
