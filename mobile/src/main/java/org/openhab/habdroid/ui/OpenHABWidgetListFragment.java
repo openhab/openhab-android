@@ -15,6 +15,7 @@ package org.openhab.habdroid.ui;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.BroadcastReceiver;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -28,6 +29,12 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.google.android.gms.common.api.PendingResult;
+import com.google.android.gms.wearable.DataApi;
+import com.google.android.gms.wearable.DataMap;
+import com.google.android.gms.wearable.PutDataMapRequest;
+import com.google.android.gms.wearable.PutDataRequest;
+import com.google.android.gms.wearable.Wearable;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestHandle;
@@ -389,7 +396,7 @@ public class OpenHABWidgetListFragment extends ListFragment {
                             stopProgressIndicator();
                         String responseString = new String(responseBody);
                         processContent(responseString, longPolling);
-                        Log.d(TAG, responseString);
+                        //Log.d(TAG, responseString);
                     }
                 });
     }
@@ -408,6 +415,11 @@ public class OpenHABWidgetListFragment extends ListFragment {
         Log.d(TAG, "isAdded = " + isAdded());
         openHABWidgetAdapter.stopVideoWidgets();
         openHABWidgetAdapter.stopImageRefresh();
+
+        PutDataMapRequest putDataMapRequest = PutDataMapRequest.create("/widgets");
+        ArrayList<DataMap> dataMap = new ArrayList<DataMap>();
+
+
         // If openHAB verion = 1 get page from XML
         if (mActivity.getOpenHABVersion() == 1) {
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
@@ -423,6 +435,19 @@ public class OpenHABWidgetListFragment extends ListFragment {
                         if (w.getType().equals("Frame") && TextUtils.isEmpty(w.getLabel()))
                             continue;
                         widgetList.add(w);
+                        DataMap temp = new DataMap();
+                        temp.putString("type", w.getType());
+                        temp.putString("icon", w.getIcon());
+                        temp.putString("label", w.getLabel());
+                        dataMap.add(temp);
+                    }
+                    try {
+                        Log.d(TAG, "Sending data to wearable");
+                        putDataMapRequest.getDataMap().putDataMapArrayList("org.openhab.widget_list", dataMap);
+                        PutDataRequest putDataRequest = putDataMapRequest.asPutDataRequest();
+                        PendingResult<DataApi.DataItemResult> pendingResult = Wearable.DataApi.putDataItem(mActivity.getGoogleApiClient(), putDataRequest);
+                    } catch (Exception e) {
+                        Log.e(TAG, "Cannot send data to wearable", e);
                     }
                 } else {
                     Log.e(TAG, "Got a null response from openHAB");
