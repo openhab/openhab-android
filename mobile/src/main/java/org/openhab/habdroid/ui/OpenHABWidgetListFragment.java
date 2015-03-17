@@ -407,7 +407,7 @@ public class OpenHABWidgetListFragment extends ListFragment {
             PutDataMapRequest putDataMapRequest = PutDataMapRequest.create("/sitemap");
             Log.d(TAG, "Sending data to wearable");
             putDataMapRequest.getDataMap().putString("xml_sitemap", responseString);
-            // putDataMapRequest.getDataMap().putLong("time", System.currentTimeMillis());
+            putDataMapRequest.getDataMap().putLong("time", System.currentTimeMillis());
             PutDataRequest putDataRequest = putDataMapRequest.asPutDataRequest();
             PendingResult<DataApi.DataItemResult> pendingResult = Wearable.DataApi.putDataItem(mActivity.getGoogleApiClient(), putDataRequest);
         } catch (Exception e) {

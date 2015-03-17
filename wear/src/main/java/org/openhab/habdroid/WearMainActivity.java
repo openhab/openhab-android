@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.wearable.view.WatchViewStub;
 import android.support.wearable.view.WearableListView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -21,6 +22,8 @@ import com.google.android.gms.wearable.DataMapItem;
 import com.google.android.gms.wearable.Wearable;
 
 import org.openhab.habdroid.adapter.OpenHABWearWidgetAdapter;
+import org.openhab.habdroid.model.OpenHABWidget;
+import org.openhab.habdroid.model.OpenHABWidgetDataSource;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
@@ -28,21 +31,29 @@ import org.xml.sax.SAXException;
 
 import java.io.IOException;
 import java.io.StringReader;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-public class MainActivity extends Activity implements GoogleApiClient.ConnectionCallbacks, DataApi.DataListener, WearableListView.ClickListener {
+public class WearMainActivity extends Activity implements GoogleApiClient.ConnectionCallbacks, DataApi.DataListener, WearableListView.ClickListener {
 
-    private static final String TAG = MainActivity.class.getSimpleName();
+    private static final String TAG = WearMainActivity.class.getSimpleName();
 
     private TextView mTextView;
 
     private WearableListView mListView;
 
+    private OpenHABWearWidgetAdapter mListAdapter;
+
     private GoogleApiClient mGoogleApiClient;
+
+    private OpenHABWidgetDataSource mOpenHABWidgetDataSource;
+
+    private List<OpenHABWidget> mWidgetList = new ArrayList<OpenHABWidget>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,13 +63,16 @@ public class MainActivity extends Activity implements GoogleApiClient.Connection
 
         initGoogleApiClient();
 
+        mOpenHABWidgetDataSource = new OpenHABWidgetDataSource();
+
         stub.setOnLayoutInflatedListener(new WatchViewStub.OnLayoutInflatedListener() {
             @Override
             public void onLayoutInflated(WatchViewStub stub) {
                 mTextView = (TextView) stub.findViewById(R.id.text);
                 mListView = (WearableListView) stub.findViewById(R.id.listView);
-                mListView.setAdapter(new OpenHABWearWidgetAdapter(MainActivity.this, null));
-                mListView.setClickListener(MainActivity.this);
+                mListAdapter = new OpenHABWearWidgetAdapter(WearMainActivity.this, mWidgetList);
+                mListView.setAdapter(mListAdapter);
+                mListView.setClickListener(WearMainActivity.this);
             }
         });
 
@@ -106,18 +120,18 @@ public class MainActivity extends Activity implements GoogleApiClient.Connection
             Document document = builder.parse(new InputSource(new StringReader(sitemap)));
             if (document != null) {
                 Node rootNode = document.getFirstChild();
-                /*openHABWidgetDataSource.setSourceNode(rootNode);
-                widgetList.clear();
-                for (OpenHABWidget w : openHABWidgetDataSource.getWidgets()) {
+                mOpenHABWidgetDataSource.setSourceNode(rootNode);
+                mWidgetList.clear();
+                for (OpenHABWidget w : mOpenHABWidgetDataSource.getWidgets()) {
                     // Remove frame widgets with no label text
                     if (w.getType().equals("Frame") && TextUtils.isEmpty(w.getLabel()))
                         continue;
-                    widgetList.add(w);
-                }*/
+                    mWidgetList.add(w);
+                }
             } else {
                 Log.e(TAG, "Got a null response from openHAB");
-                //showPage(displayPageUrl, false);
             }
+            mListAdapter.notifyDataSetChanged();
         } catch (ParserConfigurationException e) {
             e.printStackTrace();
         } catch (SAXException e) {

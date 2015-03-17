@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import org.openhab.habdroid.R;
+import org.openhab.habdroid.model.OpenHABWidget;
 
 import java.util.List;
 
@@ -18,10 +19,10 @@ public class OpenHABWearWidgetAdapter extends WearableListView.Adapter {
 
     private final Context mContext;
     private final LayoutInflater mInflater;
-    private List mWidgets;
+    private List<OpenHABWidget> mWidgets;
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public OpenHABWearWidgetAdapter(Context context, List widgets) {
+    public OpenHABWearWidgetAdapter(Context context, List<OpenHABWidget> widgets) {
         mContext = context;
         mInflater = LayoutInflater.from(context);
         mWidgets = widgets;
@@ -58,8 +59,8 @@ public class OpenHABWearWidgetAdapter extends WearableListView.Adapter {
         TextView view = itemHolder.textView;
         // replace text contents
 
-        // TODO: HERE !!!
-        // view.setText(mWidgets.get(position));
+        OpenHABWidget widget = mWidgets.get(position);
+        view.setText(widget.getLabel());
 
         // replace list item's metadata
         holder.itemView.setTag(position);

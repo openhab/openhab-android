@@ -7,5 +7,5 @@
     android:layout_height="match_parent"
     app:rectLayout="@layout/rect_activity_main"
     app:roundLayout="@layout/round_activity_main"
-    tools:context="org.openhab.habdroid.MainActivity"
+    tools:context="org.openhab.habdroid.WearMainActivity"
     tools:deviceIds="wear"></android.support.wearable.view.WatchViewStub>

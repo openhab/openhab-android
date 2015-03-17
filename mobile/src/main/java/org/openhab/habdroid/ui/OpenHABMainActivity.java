@@ -101,7 +101,7 @@ import de.duenndns.ssl.MemorizingTrustManager;
 public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSelectedListener,
         OpenHABTrackerReceiver, MemorizingResponder {
     // Logging TAG
-    private static final String TAG = "MainActivity";
+    private static final String TAG = OpenHABMainActivity.class.getSimpleName();
     // Activities request codes
     private static final int SETTINGS_REQUEST_CODE = 1002;
     private static final int WRITE_NFC_TAG_REQUEST_CODE = 1003;
@@ -551,13 +551,14 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
             public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
                 stopProgressIndicator();
                 if (error instanceof HttpResponseException) {
-                    switch (((HttpResponseException) error).getStatusCode()) {
+                    HttpResponseException exception = (HttpResponseException) error;
+                    switch (exception.getStatusCode()) {
                         case 401:
                             showAlertDialog(getString(R.string.error_authentication_failed));
                             break;
                         default:
                             Log.e(TAG, String.format("Http code = %d", ((HttpResponseException) error).getStatusCode()));
-                            if (((HttpResponseException) error).getMessage().contains("Sitemap 'default'")) {
+                            if (exception.getMessage().contains("Sitemap 'default'")) {
                                 showAlertDialog("Sitemap 'default' does not exits on server");
                             }
                             break;
@@ -588,7 +589,6 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
     private void showSitemapSelectionDialog(final List<OpenHABSitemap> sitemapList) {
         Log.d(TAG, "Opening sitemap selection dialog");
         final List<String> sitemapNameList = new ArrayList<String>();
-        ;
         for (int i = 0; i < sitemapList.size(); i++) {
             sitemapNameList.add(sitemapList.get(i).getName());
         }
@@ -603,7 +603,7 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
                                     PreferenceManager.getDefaultSharedPreferences(OpenHABMainActivity.this);
                             SharedPreferences.Editor preferencesEditor = settings.edit();
                             preferencesEditor.putString(Constants.PREFERENCE_SITEMAP, sitemapList.get(item).getName());
-                            preferencesEditor.commit();
+                            preferencesEditor.apply();
                             openSitemap(sitemapList.get(item).getHomepageLink());
                         }
                     }).show();
@@ -646,7 +646,7 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
                         PreferenceManager.getDefaultSharedPreferences(OpenHABMainActivity.this);
                 SharedPreferences.Editor preferencesEditor = settings.edit();
                 preferencesEditor.putString(Constants.PREFERENCE_SITEMAP, "");
-                preferencesEditor.commit();
+                preferencesEditor.apply();
                 selectSitemap(openHABBaseUrl, true);
                 return true;
             case android.R.id.home:
