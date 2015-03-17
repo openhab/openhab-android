@@ -90,6 +90,7 @@
     <orderEntry type="library" exported="" name="support-annotations-21.0.0" level="project" />
     <orderEntry type="library" exported="" name="support-v4-21.0.0" level="project" />
     <orderEntry type="library" exported="" name="play-services-wearable-5.0.77" level="project" />
+    <orderEntry type="module" module-name="habdroidshared" />
   </component>
 </module>
 
