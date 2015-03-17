@@ -22,7 +22,7 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:support-v13:18.0.0'
+    compile 'com.android.support:support-v13:21.0.+'
     compile 'com.google.android.support:wearable:+'
     compile 'com.google.android.gms:play-services-wearable:5.0.77'
     compile project(':habdroidshared')
