@@ -4,7 +4,9 @@ import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.wearable.view.WatchViewStub;
+import android.support.wearable.view.WearableListView;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -18,6 +20,7 @@ import com.google.android.gms.wearable.DataMap;
 import com.google.android.gms.wearable.DataMapItem;
 import com.google.android.gms.wearable.Wearable;
 
+import org.openhab.habdroid.adapter.OpenHABWearWidgetAdapter;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
@@ -31,11 +34,13 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-public class MainActivity extends Activity implements GoogleApiClient.ConnectionCallbacks, DataApi.DataListener {
+public class MainActivity extends Activity implements GoogleApiClient.ConnectionCallbacks, DataApi.DataListener, WearableListView.ClickListener {
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
     private TextView mTextView;
+
+    private WearableListView mListView;
 
     private GoogleApiClient mGoogleApiClient;
 
@@ -51,6 +56,9 @@ public class MainActivity extends Activity implements GoogleApiClient.Connection
             @Override
             public void onLayoutInflated(WatchViewStub stub) {
                 mTextView = (TextView) stub.findViewById(R.id.text);
+                mListView = (WearableListView) stub.findViewById(R.id.listView);
+                mListView.setAdapter(new OpenHABWearWidgetAdapter(MainActivity.this, null));
+                mListView.setClickListener(MainActivity.this);
             }
         });
 
@@ -137,6 +145,16 @@ public class MainActivity extends Activity implements GoogleApiClient.Connection
         mGoogleApiClient.disconnect();
     }
 
+    @Override
+    public void onClick(WearableListView.ViewHolder viewHolder) {
+        Log.d(TAG, "Clicked an element");
+    }
+
+    @Override
+    public void onTopEmptyRegionClick() {
+        Log.d(TAG, "Top Empty Region click");
+    }
+
     class GetDataAsync extends AsyncTask<Void, Void, DataMapItem> {
         @Override
         protected DataMapItem doInBackground(Void... params) {
@@ -160,7 +178,9 @@ public class MainActivity extends Activity implements GoogleApiClient.Connection
         protected void onPostExecute(DataMapItem dataMapItem) {
             if (dataMapItem == null) {
                 mTextView.setText("Es wurde noch keine Sitemap geladen... bitte auf dem Handy korrekt einrichten");
+                mTextView.setVisibility(View.VISIBLE);
             } else {
+                mTextView.setVisibility(View.GONE);
                 String sitemapContent = dataMapItem.getDataMap().getString("xml_sitemap");
                 processSitemap(sitemapContent);
             }

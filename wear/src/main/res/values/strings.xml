@@ -1,6 +1,6 @@
 <resources>
-    <string name="app_name">HABDroid</string>
-    <string name="title_activity_main">HABDroid</string>
+    <string name="app_name">HABWear</string>
+    <string name="title_activity_main">HABWear</string>
     <string name="hello_round">Hello Round World!</string>
     <string name="hello_square">Hello Square World!</string>
 </resources>
