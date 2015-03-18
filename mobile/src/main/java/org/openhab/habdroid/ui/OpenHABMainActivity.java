@@ -267,6 +267,10 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
                     }
                 } else if (getIntent().getAction().equals("org.openhab.notification.selected")) {
                     onNotificationSelected(getIntent());
+                } else if (getIntent().getAction().equals("android.intent.action.VIEW")) {
+                    Log.d(TAG, "This is URL Action");
+                    String URL = getIntent().getDataString();
+                    mNfcData = URL;
                 }
             }
         }
