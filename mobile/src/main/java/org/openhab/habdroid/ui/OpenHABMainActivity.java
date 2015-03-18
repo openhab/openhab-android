@@ -633,7 +633,7 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
     class ClearDataApiAsync extends AsyncTask<OpenHABSitemap, Void, OpenHABSitemap> {
         @Override
         protected OpenHABSitemap doInBackground(OpenHABSitemap... params) {
-            PendingResult<DataItemBuffer> pendingResult = Wearable.DataApi.getDataItems(mGoogleApiClient);
+            /*PendingResult<DataItemBuffer> pendingResult = Wearable.DataApi.getDataItems(mGoogleApiClient);
             DataItemBuffer dataItem = pendingResult.await(5, TimeUnit.SECONDS);
             int count = dataItem.getCount();
             if (count > 0) {
@@ -644,7 +644,7 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
                     pendingDelete.await(10, TimeUnit.MILLISECONDS);
                     Log.d(TAG, "Deleted data");
                 }
-            }
+            }*/
             return params[0];
         }
 

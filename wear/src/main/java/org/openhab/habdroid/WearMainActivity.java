@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.wearable.view.WatchViewStub;
 import android.support.wearable.view.WearableListView;
 import android.text.TextUtils;
@@ -127,11 +129,11 @@ public class WearMainActivity extends Activity implements GoogleApiClient.Connec
             mListAdapter.notifyDataSetChanged();
             mTextView.setVisibility(View.GONE);
         } catch (ParserConfigurationException e) {
-            e.printStackTrace();
+            Log.e(TAG, "ParserConfig", e);
         } catch (SAXException e) {
-            e.printStackTrace();
+            Log.e(TAG, "SAXException", e);
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.e(TAG, "IOException", e);
         }
     }
 
@@ -161,7 +163,7 @@ public class WearMainActivity extends Activity implements GoogleApiClient.Connec
         if (clickedWidget.getType().equals("Frame") || clickedWidget.getType().equals("Group")) {
             Log.d(TAG, "Clicked on frame or group");
             OpenHABLinkedPage linkedPage = clickedWidget.getLinkedPage();
-            if(linkedPage != null) {
+            if (linkedPage != null) {
                 Log.d(TAG, "Linked page url " + linkedPage.getLink());
                 checkDataForUrl(linkedPage.getLink());
             } else {
@@ -194,7 +196,12 @@ public class WearMainActivity extends Activity implements GoogleApiClient.Connec
                 final DataMapItem dataMapItem = DataMapItem.fromDataItem(event.getDataItem());
                 Log.d(TAG, "Changed for " + dataMapItem.getUri());
                 if (event.getDataItem().getUri().getPath().endsWith(SharedConstants.DataMapUrl.SITEMAP_DETAILS.value())) {
-                    processDataMapItem(dataMapItem);
+                    new Handler(Looper.getMainLooper()).post(new Runnable() {
+
+                        public void run() {
+                            processDataMapItem(dataMapItem);
+                        }
+                    });
                 } else if (event.getDataItem().getUri().toString().endsWith(SharedConstants.DataMapUrl.SITEMAP_BASE.value())) {
                     mSitemapName = dataMapItem.getDataMap().getString(SharedConstants.DataMapKey.SITEMAP_NAME.name());
                     mSitemapLink = dataMapItem.getDataMap().getString(SharedConstants.DataMapKey.SITEMAP_LINK.name());
@@ -216,52 +223,94 @@ public class WearMainActivity extends Activity implements GoogleApiClient.Connec
         }
     }
 
-    private String getLocalNodeId() {
-        NodeApi.GetLocalNodeResult nodeResult = Wearable.NodeApi.getLocalNode(mGoogleApiClient).await();
-        return nodeResult.getNode().getId();
+    private List<String> getLocalNodeId() {
+        PendingResult<NodeApi.GetConnectedNodesResult> connectedNodes = Wearable.NodeApi.getConnectedNodes(mGoogleApiClient);
+        NodeApi.GetConnectedNodesResult connectedNodesResult = connectedNodes.await(5, TimeUnit.SECONDS);
+        List<String> nodeIds = new ArrayList<String>();
+        for (com.google.android.gms.wearable.Node node : connectedNodesResult.getNodes()) {
+            Log.d(TAG, "Found node " + node.getId() + " - " + node.getDisplayName());
+            nodeIds.add(node.getId());
+        }
+        return nodeIds;
     }
 
-    private Uri getUriForDataItem(String path) {
-        String nodeId = getLocalNodeId();
-        return new Uri.Builder().scheme(PutDataRequest.WEAR_URI_SCHEME).authority(nodeId).path(path).build();
+    private List<Uri> getUriForDataItem(String path) {
+        List<Uri> result = new ArrayList<Uri>();
+        List<String> nodeIds = getLocalNodeId();
+        for (String nodeId : nodeIds) {
+            result.add(new Uri.Builder().scheme(PutDataRequest.WEAR_URI_SCHEME).authority(nodeId).path(path).build());
+        }
+        return result;
     }
 
     class GetDataAsync extends AsyncTask<Void, Void, DataMapItem> {
 
         @Override
         protected DataMapItem doInBackground(Void... params) {
-            String nodeId = getLocalNodeId();
-            PendingResult<DataItemBuffer> pendingResult = Wearable.DataApi.getDataItems(mGoogleApiClient, getUriForDataItem(SharedConstants.DataMapUrl.SITEMAP_BASE.value()));
-            DataItemBuffer dataItem = pendingResult.await(5, TimeUnit.SECONDS);
-            int count = dataItem.getCount();
-            boolean foundBaseValues = false;
-            if (count > 0) {
-                Log.d(TAG, "Found '" + count + "' items for sitemap_base");
-                for (int i = 0; i < dataItem.getCount(); i++) {
-                    DataItem item = dataItem.get(i);
-                    Log.d(TAG, "DataItemUri: " + item.getUri());
-                    final DataMapItem dataMapItem = DataMapItem.fromDataItem(item);
-                    if (item.getUri().toString().endsWith(SharedConstants.DataMapUrl.SITEMAP_BASE.value())) {
-                        Log.d(TAG, "Got base values");
-                        mSitemapName = dataMapItem.getDataMap().getString(SharedConstants.DataMapKey.SITEMAP_NAME.name());
-                        mSitemapLink = dataMapItem.getDataMap().getString(SharedConstants.DataMapKey.SITEMAP_LINK.name());
-                        foundBaseValues = true;
-                        continue;
-                    }
+            while (!mGoogleApiClient.isConnected()) {
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
+                    Log.e(TAG, "Interrupted");
                 }
             }
-            if (foundBaseValues) {
-                pendingResult = Wearable.DataApi.getDataItems(mGoogleApiClient, getUriForDataItem("/" + mSitemapLink.hashCode() + SharedConstants.DataMapUrl.SITEMAP_DETAILS.value()));
+            Log.d(TAG, "Connected -> now check data items");
+            boolean foundBaseValues = false;
+            List<Uri> uris = getUriForDataItem(SharedConstants.DataMapUrl.SITEMAP_BASE.value());
+            PendingResult<DataItemBuffer> pendingResult;
+            int count;
+            DataItemBuffer dataItem;
+            for (Uri uri : uris) {
+                pendingResult = Wearable.DataApi.getDataItems(mGoogleApiClient, uri);
                 dataItem = pendingResult.await(5, TimeUnit.SECONDS);
                 count = dataItem.getCount();
+                Log.d(TAG, "Found '" + count + "' items for sitemap_base");
                 if (count > 0) {
                     for (int i = 0; i < dataItem.getCount(); i++) {
                         DataItem item = dataItem.get(i);
                         Log.d(TAG, "DataItemUri: " + item.getUri());
                         final DataMapItem dataMapItem = DataMapItem.fromDataItem(item);
-                        if (item.getUri().toString().endsWith(mSitemapLink.hashCode() + SharedConstants.DataMapUrl.SITEMAP_DETAILS.value())) {
-                            Log.d(TAG, "Got base sitemap for the correct uri");
-                            return dataMapItem;
+                        if (item.getUri().toString().endsWith(SharedConstants.DataMapUrl.SITEMAP_BASE.value())) {
+                            Log.d(TAG, "Got base values");
+                            mSitemapName = dataMapItem.getDataMap().getString(SharedConstants.DataMapKey.SITEMAP_NAME.name());
+                            mSitemapLink = dataMapItem.getDataMap().getString(SharedConstants.DataMapKey.SITEMAP_LINK.name());
+                            foundBaseValues = true;
+                            continue;
+                        }
+                    }
+                }
+            }
+            if (!foundBaseValues) {
+                pendingResult = Wearable.DataApi.getDataItems(mGoogleApiClient);
+                dataItem = pendingResult.await(5, TimeUnit.SECONDS);
+                count = dataItem.getCount();
+                for (int i = 0; i < count; i++) {
+                    DataItem item = dataItem.get(i);
+                    Log.d(TAG, "Item uri for base " + item.getUri());
+                    if (item.getUri().toString().endsWith(SharedConstants.DataMapUrl.SITEMAP_BASE.value())) {
+                        DataMapItem dataMapItem = DataMapItem.fromDataItem(item);
+                        mSitemapName = dataMapItem.getDataMap().getString(SharedConstants.DataMapKey.SITEMAP_NAME.name());
+                        mSitemapLink = dataMapItem.getDataMap().getString(SharedConstants.DataMapKey.SITEMAP_LINK.name());
+                        foundBaseValues = true;
+                    }
+                }
+            }
+            if (foundBaseValues) {
+                uris = getUriForDataItem("/" + mSitemapLink.hashCode() + SharedConstants.DataMapUrl.SITEMAP_DETAILS.value());
+                for (Uri uri : uris) {
+                    pendingResult = Wearable.DataApi.getDataItems(mGoogleApiClient, uri);
+                    dataItem = pendingResult.await(5, TimeUnit.SECONDS);
+                    count = dataItem.getCount();
+                    Log.d(TAG, "Found '" + count + "' sitemap detail items for uri " + uri);
+                    if (count > 0) {
+                        for (int i = 0; i < dataItem.getCount(); i++) {
+                            DataItem item = dataItem.get(i);
+                            Log.d(TAG, "DataItemUri: " + item.getUri());
+                            final DataMapItem dataMapItem = DataMapItem.fromDataItem(item);
+                            if (item.getUri().toString().endsWith(mSitemapLink.hashCode() + SharedConstants.DataMapUrl.SITEMAP_DETAILS.value())) {
+                                Log.d(TAG, "Got base sitemap for the correct uri");
+                                return dataMapItem;
+                            }
                         }
                     }
                 }
@@ -294,22 +343,25 @@ public class WearMainActivity extends Activity implements GoogleApiClient.Connec
             }
             String uriValueToCheck = "/" + mCurrentLink.hashCode() + SharedConstants.DataMapUrl.SITEMAP_DETAILS.value();
             Log.d(TAG, "Async checking for " + uriValueToCheck);
-            PendingResult<DataItemBuffer> pendingResult = Wearable.DataApi.getDataItems(mGoogleApiClient, getUriForDataItem(uriValueToCheck));
-            DataItemBuffer dataItem = pendingResult.await(5, TimeUnit.SECONDS);
-            int count = dataItem.getCount();
-            if (count > 0) {
-                for (int i = 0; i < dataItem.getCount(); i++) {
-                    DataItem item = dataItem.get(i);
-                    Log.d(TAG, "DataItemUri: " + item.getUri());
-                    final DataMapItem dataMapItem = DataMapItem.fromDataItem(item);
-                    if (item.getUri().toString().endsWith("/" + mCurrentLink.hashCode() + SharedConstants.DataMapUrl.SITEMAP_DETAILS.value())) {
-                        return dataMapItem;
-                    } else {
-                        Log.w(TAG, "Unknown URI: " + item.getUri());
+            List<Uri> uris = getUriForDataItem(uriValueToCheck);
+            for (Uri uri : uris) {
+                PendingResult<DataItemBuffer> pendingResult = Wearable.DataApi.getDataItems(mGoogleApiClient, uri);
+                DataItemBuffer dataItem = pendingResult.await(5, TimeUnit.SECONDS);
+                int count = dataItem.getCount();
+                if (count > 0) {
+                    for (int i = 0; i < dataItem.getCount(); i++) {
+                        DataItem item = dataItem.get(i);
+                        Log.d(TAG, "DataItemUri: " + item.getUri());
+                        final DataMapItem dataMapItem = DataMapItem.fromDataItem(item);
+                        if (item.getUri().toString().endsWith("/" + mCurrentLink.hashCode() + SharedConstants.DataMapUrl.SITEMAP_DETAILS.value())) {
+                            return dataMapItem;
+                        } else {
+                            Log.w(TAG, "Unknown URI: " + item.getUri());
+                        }
                     }
+                } else {
+                    Log.d(TAG, "Did not find anything in the map so far");
                 }
-            } else {
-                Log.d(TAG, "Did not find anything in the map so far");
             }
             return null;
         }
