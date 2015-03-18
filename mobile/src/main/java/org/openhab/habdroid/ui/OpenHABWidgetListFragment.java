@@ -405,14 +405,13 @@ public class OpenHABWidgetListFragment extends ListFragment {
             PutDataMapRequest putDataMapRequest = PutDataMapRequest.create("/" + pageUrl.hashCode() + SharedConstants.DataMapUrl.SITEMAP_DETAILS.value());
             Log.d(TAG, "HashCode for URI: " + pageUrl.hashCode());
 
-
             putDataMapRequest.getDataMap().putString(SharedConstants.DataMapKey.SITEMAP_XML.name(), responseString);
             putDataMapRequest.getDataMap().putString(SharedConstants.DataMapKey.SITEMAP_LINK.name(), pageUrl);
             putDataMapRequest.getDataMap().putLong("time", System.currentTimeMillis());
             Log.d(TAG, "Sending to uri : " + putDataMapRequest.getUri());
             Log.d(TAG, "Sending datamap: " + putDataMapRequest.getDataMap());
             PutDataRequest putDataRequest = putDataMapRequest.asPutDataRequest();
-            PendingResult<DataApi.DataItemResult> pendingResult = Wearable.DataApi.putDataItem(mActivity.getGoogleApiClient(), putDataRequest);
+            Wearable.DataApi.putDataItem(mActivity.getGoogleApiClient(), putDataRequest);
         } catch (Exception e) {
             Log.e(TAG, "Cannot send data to wearable", e);
         }
@@ -421,7 +420,7 @@ public class OpenHABWidgetListFragment extends ListFragment {
     /**
      * Parse XML sitemap page and show it
      *
-     * @param document XML Document
+     * @param responseString XML Document
      * @return void
      */
     public void processContent(String responseString, boolean longPolling) {

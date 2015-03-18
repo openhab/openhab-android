@@ -57,6 +57,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.android.gms.wearable.DataApi;
+import com.google.android.gms.wearable.DataItem;
 import com.google.android.gms.wearable.DataItemBuffer;
 import com.google.android.gms.wearable.DataMap;
 import com.google.android.gms.wearable.PutDataMapRequest;
@@ -626,18 +627,43 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
     }
 
     private void setSitemapForWearable(OpenHABSitemap openHABSitemap) {
-        try {
-            PutDataMapRequest putDataMapRequest = PutDataMapRequest.create(SharedConstants.DataMapUrl.SITEMAP_BASE.value());
-            Log.d(TAG, "Sending sitemap to wearable:\nName: " + openHABSitemap.getName() + "\nLink: " + openHABSitemap.getHomepageLink());
-            Log.d(TAG, "Sending to uri " + putDataMapRequest.getUri());
+        new ClearDataApiAsync().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, openHABSitemap);
+    }
 
-            putDataMapRequest.getDataMap().putString(SharedConstants.DataMapKey.SITEMAP_NAME.name(), openHABSitemap.getName());
-            putDataMapRequest.getDataMap().putString(SharedConstants.DataMapKey.SITEMAP_LINK.name(), openHABSitemap.getHomepageLink());
-            putDataMapRequest.getDataMap().putLong("time", System.currentTimeMillis());
-            PutDataRequest putDataRequest = putDataMapRequest.asPutDataRequest();
-            Wearable.DataApi.putDataItem(getGoogleApiClient(), putDataRequest);
-        } catch (Exception e) {
-            Log.e(TAG, "Cannot send data to wearable", e);
+    class ClearDataApiAsync extends AsyncTask<OpenHABSitemap, Void, OpenHABSitemap> {
+        @Override
+        protected OpenHABSitemap doInBackground(OpenHABSitemap... params) {
+            PendingResult<DataItemBuffer> pendingResult = Wearable.DataApi.getDataItems(mGoogleApiClient);
+            DataItemBuffer dataItem = pendingResult.await(5, TimeUnit.SECONDS);
+            int count = dataItem.getCount();
+            if (count > 0) {
+                Log.d(TAG, "Now deleting '" + count + "' data items");
+                for (int i = 0; i < dataItem.getCount(); i++) {
+                    DataItem item = dataItem.get(i);
+                    PendingResult<DataApi.DeleteDataItemsResult> pendingDelete = Wearable.DataApi.deleteDataItems(mGoogleApiClient, item.getUri());
+                    pendingDelete.await(10, TimeUnit.MILLISECONDS);
+                    Log.d(TAG, "Deleted data");
+                }
+            }
+            return params[0];
+        }
+
+        @Override
+        protected void onPostExecute(OpenHABSitemap openHABSitemap) {
+            Log.d(TAG, "Now send new data");
+            try {
+                PutDataMapRequest putDataMapRequest = PutDataMapRequest.create(SharedConstants.DataMapUrl.SITEMAP_BASE.value());
+                Log.d(TAG, "Sending sitemap to wearable:\nName: " + openHABSitemap.getName() + "\nLink: " + openHABSitemap.getHomepageLink());
+                Log.d(TAG, "Sending to uri " + putDataMapRequest.getUri());
+
+                putDataMapRequest.getDataMap().putString(SharedConstants.DataMapKey.SITEMAP_NAME.name(), openHABSitemap.getName());
+                putDataMapRequest.getDataMap().putString(SharedConstants.DataMapKey.SITEMAP_LINK.name(), openHABSitemap.getHomepageLink());
+                putDataMapRequest.getDataMap().putLong("time", System.currentTimeMillis());
+                PutDataRequest putDataRequest = putDataMapRequest.asPutDataRequest();
+                Wearable.DataApi.putDataItem(getGoogleApiClient(), putDataRequest);
+            } catch (Exception e) {
+                Log.e(TAG, "Cannot send data to wearable", e);
+            }
         }
     }
 
