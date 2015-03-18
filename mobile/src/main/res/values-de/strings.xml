@@ -11,6 +11,7 @@
     <string name="mainmenu_openhab_writetag">Schreibe NFC Tag</string>
     <string name="mainmenu_openhab_clearcache">Lösche Bildercache</string>
     <!-- App settings strings -->
+    <string name="ringtone">Klingelton</string>
     <string name="settings_title">HABDroid Einstellungen</string>
     <string name="settings_openhab_url">openHAB URL</string>
     <string name="settings_openhab_url_summary">Manual konfigurierte openHAB URL. Wenn gesetzt, ist Auto-Discovery deaktiviert.</string>

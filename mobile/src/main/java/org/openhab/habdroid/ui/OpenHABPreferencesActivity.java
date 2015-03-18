@@ -15,12 +15,16 @@ package org.openhab.habdroid.ui;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.PreferenceActivity;
+import android.preference.RingtonePreference;
+import android.media.Ringtone;
 import android.util.Log;
 
 import com.google.android.gms.analytics.GoogleAnalytics;
@@ -30,6 +34,7 @@ import org.openhab.habdroid.util.Constants;
 import org.openhab.habdroid.util.Util;
 
 import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URL;
 
 /**
@@ -39,7 +44,9 @@ import java.net.URL;
 public class OpenHABPreferencesActivity extends PreferenceActivity {
 	@SuppressWarnings("deprecation")
 
-	@Override
+    private static final String TAG = "OpenHABPreferencesActivity";
+
+    @Override
 	public void onStart() {
 		super.onStart();
         GoogleAnalytics.getInstance(this).reportActivityStart(this);
@@ -47,7 +54,7 @@ public class OpenHABPreferencesActivity extends PreferenceActivity {
 	
 	@Override
 	public void onStop() {
-		super.onStop();
+        super.onStop();
         GoogleAnalytics.getInstance(this).reportActivityStop(this);
 	}
 
@@ -62,19 +69,22 @@ public class OpenHABPreferencesActivity extends PreferenceActivity {
 	    Preference passwordPreference = getPreferenceScreen().findPreference(Constants.PREFERENCE_PASSWORD);
 	    ListPreference themePreference = (ListPreference)getPreferenceScreen().findPreference(Constants.PREFERENCE_THEME);
 	    Preference versionPreference = getPreferenceScreen().findPreference(Constants.PREFERENCE_APPVERSION);
-	    urlPreference.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
-			@Override
-			public boolean onPreferenceChange(Preference preference, Object newValue) {
-				Log.d("OpenHABPreferencesActivity", "Validating new url = " + (String) newValue);
-				String newUrl = (String)newValue;
-				if (newUrl.length() == 0 || urlIsValid(newUrl)) {
-					updateTextPreferenceSummary(preference, (String)newValue);
-					return true;
-				}
-				showAlertDialog(getString(R.string.erorr_invalid_url));
-				return false;
-			}
-	    });
+        RingtonePreference tonePreference = (RingtonePreference) findPreference(Constants.PREFERENCE_TONE);
+        Log.d( TAG, "from tone"+ tonePreference.toString() );
+
+        urlPreference.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newValue) {
+                Log.d("OpenHABPreferencesActivity", "Validating new url = " + (String) newValue);
+                String newUrl = (String) newValue;
+                if (newUrl.length() == 0 || urlIsValid(newUrl)) {
+                    updateTextPreferenceSummary(preference, (String) newValue);
+                    return true;
+                }
+                showAlertDialog(getString(R.string.erorr_invalid_url));
+                return false;
+            }
+        });
 	    updateTextPreferenceSummary(urlPreference, null);
 	    altUrlPreference.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
 			@Override
@@ -121,9 +131,23 @@ public class OpenHABPreferencesActivity extends PreferenceActivity {
             getPreferenceScreen().removePreference(getPreferenceScreen().findPreference(Constants.PREFERENCE_FULLSCREEN));
         }
 
-	    setResult(RESULT_OK);
+        tonePreference.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newValue) {
+                showAlertDialog("Ton geändert");
+                Uri ringtoneUri = Uri.parse ((String) newValue);
+                Ringtone ringtone = RingtoneManager.getRingtone(getApplicationContext(), ringtoneUri);
+                if (ringtone != null) {
+                    preference.setSummary(ringtone.getTitle(getApplicationContext()));
+                }
+                return true;
+            }
+        });
+        updateTextPreferenceSummary(tonePreference, null);
+
+        setResult(RESULT_OK);
 	}
-	
+
 	private void updateTextPreferenceSummary(Preference textPreference, String newValue) {
 		if (newValue == null) {
 			if (textPreference.getSharedPreferences().getString(textPreference.getKey(), "").length() > 0)
@@ -135,7 +159,7 @@ public class OpenHABPreferencesActivity extends PreferenceActivity {
 				textPreference.setSummary(newValue);
 			else
 				textPreference.setSummary(this.getResources().getString(R.string.info_not_set));
-		}
+        }
 	}
 	
 	private void updatePasswordPreferenceSummary(Preference passwordPreference, String newValue) {
