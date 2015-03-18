@@ -1,6 +1,7 @@
 package org.openhab.habdroid;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -374,6 +375,12 @@ public class WearMainActivity extends Activity implements GoogleApiClient.Connec
             } else {
                 // TODO forward to next subview list
                 Log.d(TAG, "Already have the data for the link " + mCurrentLink);
+                String sitemapXml = dataMapItem.getDataMap().getString(SharedConstants.DataMapKey.SITEMAP_XML.name());
+                Bundle data = new Bundle();
+                data.putString(SharedConstants.DataMapKey.SITEMAP_XML.name(), sitemapXml);
+                Intent intent = new Intent(WearMainActivity.this, SublistActivity.class);
+                intent.putExtras(data);
+                startActivity(intent);
             }
         }
     }
