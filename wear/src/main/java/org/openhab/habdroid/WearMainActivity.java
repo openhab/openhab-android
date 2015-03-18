@@ -24,6 +24,7 @@ import com.google.android.gms.wearable.Wearable;
 import org.openhab.habdroid.adapter.OpenHABWearWidgetAdapter;
 import org.openhab.habdroid.model.OpenHABWidget;
 import org.openhab.habdroid.model.OpenHABWidgetDataSource;
+import org.openhab.habdroid.util.SharedConstants;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
@@ -42,6 +43,10 @@ import javax.xml.parsers.ParserConfigurationException;
 public class WearMainActivity extends Activity implements GoogleApiClient.ConnectionCallbacks, DataApi.DataListener, WearableListView.ClickListener {
 
     private static final String TAG = WearMainActivity.class.getSimpleName();
+
+    private static String mSitemapName;
+
+    private static String mSitemapLink;
 
     private TextView mTextView;
 
@@ -86,6 +91,7 @@ public class WearMainActivity extends Activity implements GoogleApiClient.Connec
     }
 
     private void getDataFromMap() {
+        Log.d(TAG, "Getting data from map async");
         new GetDataAsync().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
@@ -93,23 +99,6 @@ public class WearMainActivity extends Activity implements GoogleApiClient.Connec
     protected void onResume() {
         super.onStart();
         mGoogleApiClient.connect();
-    }
-
-    @Override
-    public void onDataChanged(DataEventBuffer dataEvents) {
-        Log.d(TAG, "Data changed");
-        if (dataEvents != null) {
-            for (DataEvent event : dataEvents) {
-                if (event.getDataItem().getUri().getPath().contains("/sitemap")) {
-                    final DataMapItem dataMapItem = DataMapItem.fromDataItem(event.getDataItem());
-                    DataMap map = dataMapItem.getDataMap();
-                    Log.d(TAG, "Got DataMapItem: " + map);
-                    processSitemap(map.getString("xml_sitemap"));
-                } else {
-                    Log.i(TAG, "no widgets");
-                }
-            }
-        }
     }
 
     private void processSitemap(String sitemap) {
@@ -161,7 +150,16 @@ public class WearMainActivity extends Activity implements GoogleApiClient.Connec
 
     @Override
     public void onClick(WearableListView.ViewHolder viewHolder) {
-        Log.d(TAG, "Clicked an element");
+        Log.d(TAG, "Clicked an element at position " + viewHolder.getPosition());
+        OpenHABWidget clickedWidget = mWidgetList.get(viewHolder.getPosition());
+        Log.d(TAG, "Clicked the widget " + clickedWidget);
+        if (clickedWidget.getType().equals("FRAME") || clickedWidget.getType().equals("GROUP")) {
+            checkDataForUrl(clickedWidget.getUrl());
+        }
+    }
+
+    private void checkDataForUrl(String url) {
+        new GetSiteDataAsync().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, url);
     }
 
     @Override
@@ -169,7 +167,35 @@ public class WearMainActivity extends Activity implements GoogleApiClient.Connec
         Log.d(TAG, "Top Empty Region click");
     }
 
+    @Override
+    public void onDataChanged(DataEventBuffer dataEvents) {
+        Log.d(TAG, "Data changed");
+        if (dataEvents != null) {
+            for (DataEvent event : dataEvents) {
+                final DataMapItem dataMapItem = DataMapItem.fromDataItem(event.getDataItem());
+                if (event.getDataItem().getUri().getPath().endsWith(SharedConstants.DataMapUrl.SITEMAP_DETAILS.value())) {
+                    processDataMapItem(dataMapItem);
+                } else if (event.getDataItem().getUri().toString().endsWith(SharedConstants.DataMapUrl.SITEMAP_BASE.value())) {
+                    mSitemapName = dataMapItem.getDataMap().getString(SharedConstants.DataMapKey.SITEMAP_NAME.name());
+                    mSitemapLink = dataMapItem.getDataMap().getString(SharedConstants.DataMapKey.SITEMAP_LINK.name());
+                }
+            }
+        }
+    }
+
+    private void processDataMapItem(DataMapItem dataMapItem) {
+        DataMap map = dataMapItem.getDataMap();
+        Log.d(TAG, "Got DataMapItem: " + map);
+        String sitemapXML = map.getString(SharedConstants.DataMapKey.SITEMAP_XML.name());
+        String thisSitemapLink = map.getString(SharedConstants.DataMapKey.SITEMAP_LINK.name());
+        Log.d(TAG, "Got Sitemap XML for '" + thisSitemapLink + "'");
+        if (thisSitemapLink.equals(mSitemapLink)) {
+            processSitemap(sitemapXML);
+        }
+    }
+
     class GetDataAsync extends AsyncTask<Void, Void, DataMapItem> {
+
         @Override
         protected DataMapItem doInBackground(Void... params) {
             PendingResult<DataItemBuffer> pendingResult = Wearable.DataApi.getDataItems(mGoogleApiClient);
@@ -178,9 +204,16 @@ public class WearMainActivity extends Activity implements GoogleApiClient.Connec
             if (count > 0) {
                 for (int i = 0; i < dataItem.getCount(); i++) {
                     DataItem item = dataItem.get(i);
+                    Log.d(TAG, "DataItemUri: " + item.getUri());
                     final DataMapItem dataMapItem = DataMapItem.fromDataItem(item);
-                    Log.d(TAG, "Got DataMapItem: " + dataMapItem.getDataMap());
-                    return dataMapItem;
+                    if (item.getUri().toString().endsWith(SharedConstants.DataMapUrl.SITEMAP_BASE.value())) {
+                        mSitemapName = dataMapItem.getDataMap().getString(SharedConstants.DataMapKey.SITEMAP_NAME.name());
+                        mSitemapLink = dataMapItem.getDataMap().getString(SharedConstants.DataMapKey.SITEMAP_LINK.name());
+                    } else if (item.getUri().toString().endsWith(SharedConstants.DataMapUrl.SITEMAP_DETAILS.value())) {
+                        return dataMapItem;
+                    } else {
+                        Log.w(TAG, "Unknown URI: " + item.getUri());
+                    }
                 }
             } else {
                 Log.d(TAG, "Did not find anything in the map so far");
@@ -195,8 +228,48 @@ public class WearMainActivity extends Activity implements GoogleApiClient.Connec
                 mTextView.setVisibility(View.VISIBLE);
             } else {
                 mTextView.setVisibility(View.GONE);
-                String sitemapContent = dataMapItem.getDataMap().getString("xml_sitemap");
-                processSitemap(sitemapContent);
+                processDataMapItem(dataMapItem);
+            }
+        }
+    }
+
+    class GetSiteDataAsync extends AsyncTask<String, Void, DataMapItem> {
+
+        private String mCurrentLink;
+
+        @Override
+        protected DataMapItem doInBackground(String... params) {
+            if (params.length > 0) {
+                mCurrentLink = params[0];
+            }
+            PendingResult<DataItemBuffer> pendingResult = Wearable.DataApi.getDataItems(mGoogleApiClient);
+            DataItemBuffer dataItem = pendingResult.await(5, TimeUnit.SECONDS);
+            int count = dataItem.getCount();
+            if (count > 0) {
+                for (int i = 0; i < dataItem.getCount(); i++) {
+                    DataItem item = dataItem.get(i);
+                    Log.d(TAG, "DataItemUri: " + item.getUri());
+                    final DataMapItem dataMapItem = DataMapItem.fromDataItem(item);
+                    if (item.getUri().toString().endsWith("/" + mCurrentLink.hashCode() + "/" + SharedConstants.DataMapUrl.SITEMAP_DETAILS.value())) {
+                        return dataMapItem;
+                    } else {
+                        Log.w(TAG, "Unknown URI: " + item.getUri());
+                    }
+                }
+            } else {
+                Log.d(TAG, "Did not find anything in the map so far");
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(DataMapItem dataMapItem) {
+            if (dataMapItem == null) {
+                // TODO get data from mobile app
+                Log.d(TAG, "Do not have data for this link " + mCurrentLink);
+            } else {
+                // TODO forward to next subview list
+                Log.d(TAG, "Already have the data for the link " + mCurrentLink);
             }
         }
     }

@@ -15,7 +15,6 @@ package org.openhab.habdroid.ui;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.BroadcastReceiver;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -31,14 +30,12 @@ import android.widget.ListView;
 
 import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.wearable.DataApi;
-import com.google.android.gms.wearable.DataMap;
 import com.google.android.gms.wearable.PutDataMapRequest;
 import com.google.android.gms.wearable.PutDataRequest;
 import com.google.android.gms.wearable.Wearable;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestHandle;
-import com.loopj.android.http.TextHttpResponseHandler;
 
 import org.apache.http.Header;
 import org.apache.http.message.BasicHeader;
@@ -49,6 +46,7 @@ import org.openhab.habdroid.model.OpenHABItem;
 import org.openhab.habdroid.model.OpenHABNFCActionList;
 import org.openhab.habdroid.model.OpenHABWidget;
 import org.openhab.habdroid.model.OpenHABWidgetDataSource;
+import org.openhab.habdroid.util.SharedConstants;
 import org.openhab.habdroid.util.Util;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -150,7 +148,7 @@ public class OpenHABWidgetListFragment extends ListFragment {
         super.onActivityCreated(savedInstanceState);
         Log.d(TAG, "onActivityCreated()");
         Log.d(TAG, "isAdded = " + isAdded());
-        mActivity = (OpenHABMainActivity)getActivity();
+        mActivity = (OpenHABMainActivity) getActivity();
         openHABWidgetDataSource = new OpenHABWidgetDataSource();
         openHABWidgetAdapter = new OpenHABWidgetAdapter(getActivity(),
                 R.layout.openhabwidgetlist_genericitem, widgetList);
@@ -234,8 +232,8 @@ public class OpenHABWidgetListFragment extends ListFragment {
         Log.d(TAG, "onAttach()");
         Log.d(TAG, "isAdded = " + isAdded());
         if (activity instanceof OnWidgetSelectedListener) {
-            widgetSelectedListener = (OnWidgetSelectedListener)activity;
-            mActivity = (OpenHABMainActivity)activity;
+            widgetSelectedListener = (OnWidgetSelectedListener) activity;
+            mActivity = (OpenHABMainActivity) activity;
             mAsyncHttpClient = mActivity.getAsyncHttpClient();
         } else {
             Log.e("TAG", "Attached to incompatible activity");
@@ -259,15 +257,15 @@ public class OpenHABWidgetListFragment extends ListFragment {
     }
 
     @Override
-    public void onPause () {
+    public void onPause() {
         super.onPause();
         Log.d(TAG, "onPause() " + displayPageUrl);
         Log.d(TAG, "isAdded = " + isAdded());
         // We only have 1 request running per fragment so
         // cancel it if we have it
-        Thread thread = new Thread(new Runnable(){
+        Thread thread = new Thread(new Runnable() {
             @Override
-            public void run(){
+            public void run() {
                 mRequestHanle.cancel(true);
             }
         });
@@ -281,7 +279,7 @@ public class OpenHABWidgetListFragment extends ListFragment {
     }
 
     @Override
-    public void onResume () {
+    public void onResume() {
         super.onResume();
         Log.d(TAG, "onResume() " + displayPageUrl);
         Log.d(TAG, "isAdded = " + isAdded());
@@ -305,7 +303,7 @@ public class OpenHABWidgetListFragment extends ListFragment {
     }
 
     @Override
-    public void setUserVisibleHint (boolean isVisibleToUser) {
+    public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         mIsVisible = isVisibleToUser;
         Log.d(TAG, String.format("isVisibleToUser(%B)", isVisibleToUser));
@@ -329,11 +327,11 @@ public class OpenHABWidgetListFragment extends ListFragment {
     /**
      * Loads data from sitemap page URL and passes it to processContent
      *
-     * @param  pageUrl  an absolute base URL of openHAB sitemap page
-     * @param  longPolling  enable long polling when loading page
-     * @return      void
+     * @param pageUrl     an absolute base URL of openHAB sitemap page
+     * @param longPolling enable long polling when loading page
+     * @return void
      */
-    public void showPage(String pageUrl, final boolean longPolling) {
+    public void showPage(final String pageUrl, final boolean longPolling) {
         Log.i(TAG, " showPage for " + pageUrl + " longPolling = " + longPolling);
         Log.d(TAG, "isAdded = " + isAdded());
         // Cancel any existing http request to openHAB (typically ongoing long poll)
@@ -355,59 +353,64 @@ public class OpenHABWidgetListFragment extends ListFragment {
             headers.add(new BasicHeader("X-Atmosphere-tracking-id", "0"));
             mAsyncHttpClient.setTimeout(10000);
         }
-        mRequestHanle = mAsyncHttpClient.get(mActivity, pageUrl, headers.toArray(new BasicHeader[] {}), null, new AsyncHttpResponseHandler() {
-                    @Override
-                    public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                        mAtmosphereTrackingId = null;
-                        if (!longPolling)
-                            stopProgressIndicator();
-                        if (error instanceof SocketTimeoutException) {
-                            Log.d(TAG, "Connection timeout, reconnecting");
-                            showPage(displayPageUrl, false);
-                            return;
-                        } else {
+        mRequestHanle = mAsyncHttpClient.get(mActivity, pageUrl, headers.toArray(new BasicHeader[]{}), null, new AsyncHttpResponseHandler() {
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                mAtmosphereTrackingId = null;
+                if (!longPolling)
+                    stopProgressIndicator();
+                if (error instanceof SocketTimeoutException) {
+                    Log.d(TAG, "Connection timeout, reconnecting");
+                    showPage(displayPageUrl, false);
+                    return;
+                } else {
                     /*
                     * If we get a network error try connecting again, if the
                     * fragment is paused, the runnable will be removed
                     */
-                            Log.e(TAG, error.getClass().toString());
-                            Log.e(TAG, String.format("status code = %d", statusCode));
-                            Log.e(TAG, "Connection error = " + error.getClass().toString() + ", cycle aborted");
+                    Log.e(TAG, error.getClass().toString());
+                    Log.e(TAG, String.format("status code = %d", statusCode));
+                    Log.e(TAG, "Connection error = " + error.getClass().toString() + ", cycle aborted");
 //                            networkHandler.removeCallbacks(networkRunnable);
 //                            networkRunnable =  new Runnable(){
 //                                @Override
 //                                public void run(){
-                                    showPage(displayPageUrl, false);
+                    showPage(displayPageUrl, false);
 //                                }
 //                            };
 //                            networkHandler.postDelayed(networkRunnable, 10 * 1000);
-                        }
-                    }
+                }
+            }
 
-                    @Override
-                    public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                        for (int i=0; i<headers.length; i++) {
-                            if (headers[i].getName().equalsIgnoreCase("X-Atmosphere-tracking-id")) {
-                                Log.i(TAG, "Found atmosphere tracking id: " + headers[i].getValue());
-                                OpenHABWidgetListFragment.this.mAtmosphereTrackingId = headers[i].getValue();
-                            }
-                        }
-                        if (!longPolling)
-                            stopProgressIndicator();
-                        String responseString = new String(responseBody);
-                        processContent(responseString, longPolling);
-                        sendDataToWearable(responseString);
-                        //Log.d(TAG, responseString);
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                for (int i = 0; i < headers.length; i++) {
+                    if (headers[i].getName().equalsIgnoreCase("X-Atmosphere-tracking-id")) {
+                        Log.i(TAG, "Found atmosphere tracking id: " + headers[i].getValue());
+                        OpenHABWidgetListFragment.this.mAtmosphereTrackingId = headers[i].getValue();
                     }
-                });
+                }
+                if (!longPolling)
+                    stopProgressIndicator();
+                String responseString = new String(responseBody);
+                processContent(responseString, longPolling);
+                sendDataToWearable(pageUrl, responseString);
+                Log.d(TAG, responseString);
+            }
+        });
     }
 
-    private void sendDataToWearable(String responseString) {
+    private void sendDataToWearable(String pageUrl, String responseString) {
         try {
-            PutDataMapRequest putDataMapRequest = PutDataMapRequest.create("/sitemap");
-            Log.d(TAG, "Sending data to wearable");
-            putDataMapRequest.getDataMap().putString("xml_sitemap", responseString);
+            PutDataMapRequest putDataMapRequest = PutDataMapRequest.create("/" + pageUrl.hashCode() + SharedConstants.DataMapUrl.SITEMAP_DETAILS.value());
+            Log.d(TAG, "HashCode for URI: " + pageUrl.hashCode());
+
+
+            putDataMapRequest.getDataMap().putString(SharedConstants.DataMapKey.SITEMAP_XML.name(), responseString);
+            putDataMapRequest.getDataMap().putString(SharedConstants.DataMapKey.SITEMAP_LINK.name(), pageUrl);
             putDataMapRequest.getDataMap().putLong("time", System.currentTimeMillis());
+            Log.d(TAG, "Sending to uri : " + putDataMapRequest.getUri());
+            Log.d(TAG, "Sending datamap: " + putDataMapRequest.getDataMap());
             PutDataRequest putDataRequest = putDataMapRequest.asPutDataRequest();
             PendingResult<DataApi.DataItemResult> pendingResult = Wearable.DataApi.putDataItem(mActivity.getGoogleApiClient(), putDataRequest);
         } catch (Exception e) {
@@ -418,8 +421,8 @@ public class OpenHABWidgetListFragment extends ListFragment {
     /**
      * Parse XML sitemap page and show it
      *
-     * @param  document	XML Document
-     * @return      void
+     * @param document XML Document
+     * @return void
      */
     public void processContent(String responseString, boolean longPolling) {
         // As we change the page we need to stop all videos on current page
@@ -524,13 +527,13 @@ public class OpenHABWidgetListFragment extends ListFragment {
     private void stopProgressIndicator() {
         if (mActivity != null)
             Log.d(TAG, "Stop progress indicator");
-            mActivity.stopProgressIndicator();
+        mActivity.stopProgressIndicator();
     }
 
     private void startProgressIndicator() {
         if (mActivity != null)
             Log.d(TAG, "Start progress indicator");
-            mActivity.startProgressIndicator();
+        mActivity.startProgressIndicator();
     }
 
     private void showAlertDialog(String alertMessage) {

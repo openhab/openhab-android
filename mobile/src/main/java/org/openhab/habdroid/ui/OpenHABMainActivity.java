@@ -54,7 +54,13 @@ import android.widget.Toast;
 import com.crittercism.app.Crittercism;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
+import com.google.android.gms.wearable.DataApi;
+import com.google.android.gms.wearable.DataItemBuffer;
+import com.google.android.gms.wearable.DataMap;
+import com.google.android.gms.wearable.PutDataMapRequest;
+import com.google.android.gms.wearable.PutDataRequest;
 import com.google.android.gms.wearable.Wearable;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -79,6 +85,7 @@ import org.openhab.habdroid.model.OpenHABSitemap;
 import org.openhab.habdroid.ui.drawer.OpenHABDrawerAdapter;
 import org.openhab.habdroid.util.Constants;
 import org.openhab.habdroid.util.MyAsyncHttpClient;
+import org.openhab.habdroid.util.SharedConstants;
 import org.openhab.habdroid.util.Util;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
@@ -89,6 +96,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -250,6 +258,7 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
                     Log.d(TAG, "This is sitemap " + mSitemapList.get(item).getLink());
                     mDrawerLayout.closeDrawers();
                     openSitemap(mSitemapList.get(item).getHomepageLink());
+                    setSitemapForWearable(mSitemapList.get(item));
                 }
             }
         });
@@ -516,6 +525,7 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
                             Log.d(TAG, "Configured sitemap is on the list");
                             OpenHABSitemap selectedSitemap = Util.getSitemapByName(mSitemapList, configuredSitemap);
                             openSitemap(selectedSitemap.getHomepageLink());
+                            setSitemapForWearable(selectedSitemap);
                             // Configured sitemap is not on the list we got!
                         } else {
                             Log.d(TAG, "Configured sitemap is not on the list");
@@ -525,6 +535,7 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
                                 preferencesEditor.putString(Constants.PREFERENCE_SITEMAP, mSitemapList.get(0).getName());
                                 preferencesEditor.commit();
                                 openSitemap(mSitemapList.get(0).getHomepageLink());
+                                setSitemapForWearable(mSitemapList.get(0));
                             } else {
                                 Log.d(TAG, "Got multiply sitemaps, user have to select one");
                                 showSitemapSelectionDialog(mSitemapList);
@@ -539,6 +550,7 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
                             preferencesEditor.putString(Constants.PREFERENCE_SITEMAP, mSitemapList.get(0).getName());
                             preferencesEditor.commit();
                             openSitemap(mSitemapList.get(0).getHomepageLink());
+                            setSitemapForWearable(mSitemapList.get(0));
                         } else {
                             Log.d(TAG, "Got multiply sitemaps, user have to select one");
                             showSitemapSelectionDialog(mSitemapList);
@@ -605,10 +617,27 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
                             preferencesEditor.putString(Constants.PREFERENCE_SITEMAP, sitemapList.get(item).getName());
                             preferencesEditor.apply();
                             openSitemap(sitemapList.get(item).getHomepageLink());
+                            setSitemapForWearable(sitemapList.get(item));
                         }
                     }).show();
         } catch (WindowManager.BadTokenException e) {
             Crittercism.logHandledException(e);
+        }
+    }
+
+    private void setSitemapForWearable(OpenHABSitemap openHABSitemap) {
+        try {
+            PutDataMapRequest putDataMapRequest = PutDataMapRequest.create(SharedConstants.DataMapUrl.SITEMAP_BASE.value());
+            Log.d(TAG, "Sending sitemap to wearable:\nName: " + openHABSitemap.getName() + "\nLink: " + openHABSitemap.getHomepageLink());
+            Log.d(TAG, "Sending to uri " + putDataMapRequest.getUri());
+
+            putDataMapRequest.getDataMap().putString(SharedConstants.DataMapKey.SITEMAP_NAME.name(), openHABSitemap.getName());
+            putDataMapRequest.getDataMap().putString(SharedConstants.DataMapKey.SITEMAP_LINK.name(), openHABSitemap.getHomepageLink());
+            putDataMapRequest.getDataMap().putLong("time", System.currentTimeMillis());
+            PutDataRequest putDataRequest = putDataMapRequest.asPutDataRequest();
+            Wearable.DataApi.putDataItem(getGoogleApiClient(), putDataRequest);
+        } catch (Exception e) {
+            Log.e(TAG, "Cannot send data to wearable", e);
         }
     }
 
