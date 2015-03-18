@@ -25,6 +25,7 @@ import com.google.android.gms.wearable.PutDataRequest;
 import com.google.android.gms.wearable.Wearable;
 
 import org.openhab.habdroid.adapter.OpenHABWearWidgetAdapter;
+import org.openhab.habdroid.model.OpenHABLinkedPage;
 import org.openhab.habdroid.model.OpenHABWidget;
 import org.openhab.habdroid.model.OpenHABWidgetDataSource;
 import org.openhab.habdroid.util.SharedConstants;
@@ -124,6 +125,7 @@ public class WearMainActivity extends Activity implements GoogleApiClient.Connec
                 Log.e(TAG, "Got a null response from openHAB");
             }
             mListAdapter.notifyDataSetChanged();
+            mTextView.setVisibility(View.GONE);
         } catch (ParserConfigurationException e) {
             e.printStackTrace();
         } catch (SAXException e) {
@@ -158,7 +160,13 @@ public class WearMainActivity extends Activity implements GoogleApiClient.Connec
         Log.d(TAG, "Clicked the widget " + clickedWidget);
         if (clickedWidget.getType().equals("Frame") || clickedWidget.getType().equals("Group")) {
             Log.d(TAG, "Clicked on frame or group");
-            checkDataForUrl(clickedWidget.getUrl());
+            OpenHABLinkedPage linkedPage = clickedWidget.getLinkedPage();
+            if(linkedPage != null) {
+                Log.d(TAG, "Linked page url " + linkedPage.getLink());
+                checkDataForUrl(linkedPage.getLink());
+            } else {
+                Log.i(TAG, "Linked page on widget is null");
+            }
         } else {
             Log.d(TAG, "Widget is of type " + clickedWidget.getType());
         }
@@ -166,7 +174,7 @@ public class WearMainActivity extends Activity implements GoogleApiClient.Connec
 
     private void checkDataForUrl(String url) {
         Log.d(TAG, "Checking if we have data for the url " + url);
-        if(url != null) {
+        if (url != null) {
             new GetSiteDataAsync().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, url);
         } else {
             Log.d(TAG, "Error url must not be null");
@@ -208,22 +216,27 @@ public class WearMainActivity extends Activity implements GoogleApiClient.Connec
         }
     }
 
-    class GetDataAsync extends AsyncTask<Void, Void, DataMapItem> {
+    private String getLocalNodeId() {
+        NodeApi.GetLocalNodeResult nodeResult = Wearable.NodeApi.getLocalNode(mGoogleApiClient).await();
+        return nodeResult.getNode().getId();
+    }
 
-        private Uri getUriForDataItem(String path) {
-            String nodeId = getLocalNodeId();
-            return new Uri.Builder().scheme(PutDataRequest.WEAR_URI_SCHEME).authority(nodeId).path(path).build();
-        }
+    private Uri getUriForDataItem(String path) {
+        String nodeId = getLocalNodeId();
+        return new Uri.Builder().scheme(PutDataRequest.WEAR_URI_SCHEME).authority(nodeId).path(path).build();
+    }
+
+    class GetDataAsync extends AsyncTask<Void, Void, DataMapItem> {
 
         @Override
         protected DataMapItem doInBackground(Void... params) {
             String nodeId = getLocalNodeId();
-            PendingResult<DataItemBuffer> pendingResult = Wearable.DataApi.getDataItems(mGoogleApiClient);
+            PendingResult<DataItemBuffer> pendingResult = Wearable.DataApi.getDataItems(mGoogleApiClient, getUriForDataItem(SharedConstants.DataMapUrl.SITEMAP_BASE.value()));
             DataItemBuffer dataItem = pendingResult.await(5, TimeUnit.SECONDS);
             int count = dataItem.getCount();
+            boolean foundBaseValues = false;
             if (count > 0) {
-                DataMapItem dataMapItemToUse = null;
-                boolean foundBaseValues = false;
+                Log.d(TAG, "Found '" + count + "' items for sitemap_base");
                 for (int i = 0; i < dataItem.getCount(); i++) {
                     DataItem item = dataItem.get(i);
                     Log.d(TAG, "DataItemUri: " + item.getUri());
@@ -236,28 +249,25 @@ public class WearMainActivity extends Activity implements GoogleApiClient.Connec
                         continue;
                     }
                 }
-                if (foundBaseValues) {
+            }
+            if (foundBaseValues) {
+                pendingResult = Wearable.DataApi.getDataItems(mGoogleApiClient, getUriForDataItem("/" + mSitemapLink.hashCode() + SharedConstants.DataMapUrl.SITEMAP_DETAILS.value()));
+                dataItem = pendingResult.await(5, TimeUnit.SECONDS);
+                count = dataItem.getCount();
+                if (count > 0) {
                     for (int i = 0; i < dataItem.getCount(); i++) {
                         DataItem item = dataItem.get(i);
                         Log.d(TAG, "DataItemUri: " + item.getUri());
                         final DataMapItem dataMapItem = DataMapItem.fromDataItem(item);
                         if (item.getUri().toString().endsWith(mSitemapLink.hashCode() + SharedConstants.DataMapUrl.SITEMAP_DETAILS.value())) {
-                            Log.d(TAG, "Got base sitemap");
-                            dataMapItemToUse = dataMapItem;
-                            continue;
+                            Log.d(TAG, "Got base sitemap for the correct uri");
+                            return dataMapItem;
                         }
                     }
                 }
-                return dataMapItemToUse;
-            } else {
-                Log.d(TAG, "Did not find anything in the map so far");
             }
-            return null;
-        }
 
-        private String getLocalNodeId() {
-            NodeApi.GetLocalNodeResult nodeResult = Wearable.NodeApi.getLocalNode(mGoogleApiClient).await();
-            return nodeResult.getNode().getId();
+            return null;
         }
 
         @Override
@@ -266,7 +276,6 @@ public class WearMainActivity extends Activity implements GoogleApiClient.Connec
                 mTextView.setText("Es wurde noch keine Sitemap geladen... bitte auf dem Handy korrekt einrichten");
                 mTextView.setVisibility(View.VISIBLE);
             } else {
-                mTextView.setVisibility(View.GONE);
                 processDataMapItem(dataMapItem);
             }
         }
@@ -280,8 +289,12 @@ public class WearMainActivity extends Activity implements GoogleApiClient.Connec
         protected DataMapItem doInBackground(String... params) {
             if (params.length > 0) {
                 mCurrentLink = params[0];
+            } else {
+                return null;
             }
-            PendingResult<DataItemBuffer> pendingResult = Wearable.DataApi.getDataItems(mGoogleApiClient);
+            String uriValueToCheck = "/" + mCurrentLink.hashCode() + SharedConstants.DataMapUrl.SITEMAP_DETAILS.value();
+            Log.d(TAG, "Async checking for " + uriValueToCheck);
+            PendingResult<DataItemBuffer> pendingResult = Wearable.DataApi.getDataItems(mGoogleApiClient, getUriForDataItem(uriValueToCheck));
             DataItemBuffer dataItem = pendingResult.await(5, TimeUnit.SECONDS);
             int count = dataItem.getCount();
             if (count > 0) {
@@ -289,7 +302,7 @@ public class WearMainActivity extends Activity implements GoogleApiClient.Connec
                     DataItem item = dataItem.get(i);
                     Log.d(TAG, "DataItemUri: " + item.getUri());
                     final DataMapItem dataMapItem = DataMapItem.fromDataItem(item);
-                    if (item.getUri().toString().endsWith("/" + mCurrentLink.hashCode() + "/" + SharedConstants.DataMapUrl.SITEMAP_DETAILS.value())) {
+                    if (item.getUri().toString().endsWith("/" + mCurrentLink.hashCode() + SharedConstants.DataMapUrl.SITEMAP_DETAILS.value())) {
                         return dataMapItem;
                     } else {
                         Log.w(TAG, "Unknown URI: " + item.getUri());
