@@ -267,6 +267,10 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
                     }
                 } else if (getIntent().getAction().equals("org.openhab.notification.selected")) {
                     onNotificationSelected(getIntent());
+                } else if (getIntent().getAction().equals("android.intent.action.VIEW")) {
+                    Log.d(TAG, "This is URL Action");
+                    String URL = getIntent().getDataString();
+                    mNfcData = URL;
                 }
             }
         }
@@ -621,20 +625,6 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
                 if (pager.getCurrentItem() > 0) {
                     pager.setCurrentItem(0);
                 }
-                return true;
-            case R.id.mainmenu_openhab_clearcache:
-                Log.d(TAG, "Restarting");
-                // Get launch intent for application
-                Intent restartIntent = getBaseContext().getPackageManager()
-                        .getLaunchIntentForPackage( getBaseContext().getPackageName() );
-                restartIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                // Finish current activity
-                finish();
-                WebImageCache cache = new WebImageCache(getBaseContext());
-                cache.clear();
-                // Start launch activity
-                startActivity(restartIntent);
-                // Start launch activity
                 return true;
             case R.id.mainmenu_openhab_writetag:
                 Intent writeTagIntent = new Intent(this.getApplicationContext(), OpenHABWriteTagActivity.class);
