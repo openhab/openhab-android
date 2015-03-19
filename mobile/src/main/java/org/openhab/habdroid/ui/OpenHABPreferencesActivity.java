@@ -23,6 +23,7 @@ import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.PreferenceActivity;
+import android.preference.PreferenceManager;
 import android.preference.RingtonePreference;
 import android.media.Ringtone;
 import android.util.Log;
@@ -70,7 +71,6 @@ public class OpenHABPreferencesActivity extends PreferenceActivity {
 	    ListPreference themePreference = (ListPreference)getPreferenceScreen().findPreference(Constants.PREFERENCE_THEME);
 	    Preference versionPreference = getPreferenceScreen().findPreference(Constants.PREFERENCE_APPVERSION);
         RingtonePreference tonePreference = (RingtonePreference) findPreference(Constants.PREFERENCE_TONE);
-        Log.d( TAG, "from tone"+ tonePreference.toString() );
 
         urlPreference.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
             @Override
@@ -134,7 +134,6 @@ public class OpenHABPreferencesActivity extends PreferenceActivity {
         tonePreference.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
-                showAlertDialog("Ton geändert");
                 Uri ringtoneUri = Uri.parse ((String) newValue);
                 Ringtone ringtone = RingtoneManager.getRingtone(getApplicationContext(), ringtoneUri);
                 if (ringtone != null) {

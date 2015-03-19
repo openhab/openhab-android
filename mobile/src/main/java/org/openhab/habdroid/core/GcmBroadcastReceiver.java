@@ -41,11 +41,6 @@ public class GcmBroadcastReceiver extends WakefulBroadcastReceiver {
         // Start the service, keeping the device awake while it is launching.
         startWakefulService(context, (intent.setComponent(comp)));
 
-        // Currently, custom sound + default notification is played
-        Uri notification = Uri.parse(PreferenceManager.getDefaultSharedPreferences(context).getString(Constants.PREFERENCE_TONE, null));
-        MediaPlayer mp = MediaPlayer.create(context, notification);
-        mp.start();
-
         setResultCode(Activity.RESULT_OK);
     }
 
