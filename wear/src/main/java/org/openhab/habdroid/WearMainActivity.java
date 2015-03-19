@@ -56,18 +56,17 @@ public class WearMainActivity extends Activity implements GoogleApiClient.Connec
     private static String mSitemapName;
 
     private static String mSitemapLink;
-
-    private TextView mTextView;
-
-    private WearableListView mListView;
-
-    private OpenHABWearWidgetAdapter mListAdapter;
-
     private static GoogleApiClient mGoogleApiClient;
-
+    private static String mCurrentSitemapLinkToWaitFor;
+    private TextView mTextView;
+    private WearableListView mListView;
+    private OpenHABWearWidgetAdapter mListAdapter;
     private OpenHABWidgetDataSource mOpenHABWidgetDataSource;
-
     private List<OpenHABWidget> mWidgetList = new ArrayList<OpenHABWidget>();
+
+    public static GoogleApiClient getGoogleApiClient() {
+        return mGoogleApiClient;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -191,6 +190,9 @@ public class WearMainActivity extends Activity implements GoogleApiClient.Connec
         Log.d(TAG, "Top Empty Region click");
     }
 
+    /**
+     * @param dataEvents
+     */
     @Override
     public void onDataChanged(DataEventBuffer dataEvents) {
         Log.d(TAG, "Data changed");
@@ -221,6 +223,8 @@ public class WearMainActivity extends Activity implements GoogleApiClient.Connec
         Log.d(TAG, "Got Sitemap XML for '" + thisSitemapLink + "'");
         if (thisSitemapLink.equals(mSitemapLink)) {
             processSitemap(sitemapXML);
+        } else if (mCurrentSitemapLinkToWaitFor != null && thisSitemapLink.equals(mCurrentSitemapLinkToWaitFor)) {
+            openSublist(sitemapXML);
         } else {
             Log.d(TAG, thisSitemapLink + " does not match " + mSitemapLink + " -> thus no setup");
         }
@@ -246,8 +250,16 @@ public class WearMainActivity extends Activity implements GoogleApiClient.Connec
         return result;
     }
 
-    public static GoogleApiClient getGoogleApiClient() {
-        return mGoogleApiClient;
+    private void getDataFromMobileApp(String link, List<String> nodeIdList) {
+        String firstNodeId;
+        if (!nodeIdList.isEmpty()) {
+            firstNodeId = nodeIdList.get(0);
+            nodeIdList.remove(0);
+            GetDataResultCallBack resultCallBack = new GetDataResultCallBack(link, nodeIdList);
+            Wearable.MessageApi.sendMessage(mGoogleApiClient, firstNodeId, SharedConstants.MessagePath.LOAD_SITEMAP.value(), link.getBytes()).setResultCallback(resultCallBack);
+        } else {
+            Log.d(TAG, "Can not get data from any remote node");
+        }
     }
 
     class GetDataAsync extends AsyncTask<Void, Void, DataMapItem> {
@@ -377,29 +389,33 @@ public class WearMainActivity extends Activity implements GoogleApiClient.Connec
         protected void onPostExecute(DataMapItem dataMapItem) {
             if (dataMapItem == null) {
                 Log.d(TAG, "Do not have data for this link " + mCurrentLink);
-                List<String> nodeIdList = getNodeIdList();
-                getDataFromMobileApp(mCurrentLink, nodeIdList);
+                mCurrentSitemapLinkToWaitFor = mCurrentLink;
+                new GetRemoteDataAsync().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, mCurrentLink);
             } else {
                 Log.d(TAG, "Already have the data for the link " + mCurrentLink);
                 String sitemapXml = dataMapItem.getDataMap().getString(SharedConstants.DataMapKey.SITEMAP_XML.name());
-                Bundle data = new Bundle();
-                data.putString(SharedConstants.DataMapKey.SITEMAP_XML.name(), sitemapXml);
-                Intent intent = new Intent(WearMainActivity.this, SublistActivity.class);
-                intent.putExtras(data);
-                startActivity(intent);
+                openSublist(sitemapXml);
             }
         }
     }
 
-    private void getDataFromMobileApp(String link, List<String> nodeIdList) {
-        String firstNodeId;
-        if (!nodeIdList.isEmpty()) {
-            firstNodeId = nodeIdList.get(0);
-            nodeIdList.remove(0);
-            GetDataResultCallBack resultCallBack = new GetDataResultCallBack(link, nodeIdList);
-            Wearable.MessageApi.sendMessage(mGoogleApiClient, firstNodeId, "WHAT SHOULD YOU DO", new byte[0]).setResultCallback(resultCallBack);
-        } else {
-            Log.d(TAG, "Can not get data from any remote node");
+    private void openSublist(String sitemapXml) {
+        Bundle data = new Bundle();
+        data.putString(SharedConstants.DataMapKey.SITEMAP_XML.name(), sitemapXml);
+        Intent intent = new Intent(WearMainActivity.this, SublistActivity.class);
+        intent.putExtras(data);
+        startActivity(intent);
+    }
+
+    class GetRemoteDataAsync extends AsyncTask<String, Void, Void> {
+        @Override
+        protected Void doInBackground(String... params) {
+            if (params.length > 0) {
+                String link = params[0];
+                List<String> nodeIdList = getNodeIdList();
+                getDataFromMobileApp(link, nodeIdList);
+            }
+            return null;
         }
     }
 

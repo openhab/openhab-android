@@ -105,13 +105,19 @@ import de.duenndns.ssl.MemorizingTrustManager;
 
 public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSelectedListener,
         OpenHABTrackerReceiver, MemorizingResponder {
+    public static final String GCM_SENDER_ID = "737820980945";
+    // GCM Registration expiration
+    public static final long REGISTRATION_EXPIRY_TIME_MS = 1000 * 3600 * 24 * 7;
     // Logging TAG
     private static final String TAG = OpenHABMainActivity.class.getSimpleName();
     // Activities request codes
     private static final int SETTINGS_REQUEST_CODE = 1002;
     private static final int WRITE_NFC_TAG_REQUEST_CODE = 1003;
     private static final int INFO_REQUEST_CODE = 1004;
-    public static final String GCM_SENDER_ID = "737820980945";
+    // Loopj
+//    private static MyAsyncHttpClient mAsyncHttpClient;
+    private static AsyncHttpClient mAsyncHttpClient = new AsyncHttpClient();
+    private static SyncHttpClient mSyncHttpClient = new SyncHttpClient();
     // Base URL of current openHAB connection
     private String openHABBaseUrl = "https://demo.openhab.org:8443/";
     // openHAB username
@@ -140,9 +146,6 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
     private boolean mVoiceRecognitionEnabled = false;
     // If openHAB discovery is enabled
     private boolean mServiceDiscoveryEnabled = true;
-    // Loopj
-//    private static MyAsyncHttpClient mAsyncHttpClient;
-    private static AsyncHttpClient mAsyncHttpClient = new AsyncHttpClient();
     // NFC Launch data
     private String mNfcData;
     // Pending NFC page
@@ -151,8 +154,6 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
     private DrawerLayout mDrawerLayout;
     // Drawer Toggler
     private ActionBarDrawerToggle mDrawerToggle;
-    // GCM Registration expiration
-    public static final long REGISTRATION_EXPIRY_TIME_MS = 1000 * 3600 * 24 * 7;
     // Google Cloud Messaging
     private GoogleCloudMessaging mGcm;
     private OpenHABDrawerAdapter mDrawerAdapter;
@@ -163,6 +164,22 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
     private NetworkConnectivityInfo mStartedWithNetworkConnectivityInfo;
     private int mOpenHABVersion;
     private GoogleApiClient mGoogleApiClient;
+    /*
+     *Daydreaming gets us into a funk when in fullscreen, this allows us to
+     *reset ourselves to fullscreen.
+     * @author Dan Cunningham
+     */
+    private BroadcastReceiver dreamReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Log.i("INTENTFILTER", "Recieved intent: " + intent.toString());
+            checkFullscreen();
+        }
+    };
+
+    public static AsyncHttpClient getAsyncHttpClient() {
+        return mAsyncHttpClient;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -313,18 +330,23 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
             Wearable.MessageApi.addListener(mGoogleApiClient, new MessageApi.MessageListener() {
                 @Override
                 public void onMessageReceived(MessageEvent messageEvent) {
+                    Log.d(TAG, "Incoming message for " + messageEvent.getPath());
                     if (messageEvent.getPath().equals(SharedConstants.MessagePath.LOAD_SITEMAP.value())) {
-                        String url = new String(messageEvent.getData());
+                        final String url = new String(messageEvent.getData());
+
                         Log.d(TAG, "Getting data from url " + url);
-                        mAsyncHttpClient.get(url, new TextHttpResponseHandler() {
+
+                        mSyncHttpClient.get(url, new TextHttpResponseHandler() {
+
                             @Override
-                            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                            public void onFailure(int statusCode, Header[] headers, String responseBody, Throwable error) {
                                 Log.d(TAG, "Failed to load data for wearable");
                             }
 
                             @Override
-                            public void onSuccess(int statusCode, Header[] headers, String responseString) {
-                                Log.d(TAG, "Successfully got data for wearable " + responseString);
+                            public void onSuccess(int statusCode, Header[] headers, String responseBody) {
+                                Log.d(TAG, "Successfully got data for wearable " + responseBody);
+                                setDataForWearable(url, responseBody);
                             }
                         });
                     }
@@ -642,45 +664,34 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
         }
     }
 
-    private void setSitemapForWearable(OpenHABSitemap openHABSitemap) {
-        new ClearDataApiAsync().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, openHABSitemap);
+    private void setDataForWearable(String link, String content) {
+        try {
+            PutDataMapRequest putDataMapRequest = PutDataMapRequest.create("/" + link.hashCode() + SharedConstants.DataMapUrl.SITEMAP_DETAILS.value());
+            putDataMapRequest.getDataMap().putString(SharedConstants.DataMapKey.SITEMAP_XML.name(), content);
+            putDataMapRequest.getDataMap().putString(SharedConstants.DataMapKey.SITEMAP_LINK.name(), link);
+            putDataMapRequest.getDataMap().putLong("time", System.currentTimeMillis());
+            PutDataRequest putDataRequest = putDataMapRequest.asPutDataRequest();
+            Wearable.DataApi.putDataItem(getGoogleApiClient(), putDataRequest);
+        } catch (Exception e) {
+            Log.e(TAG, "Exception occured");
+        }
     }
 
-    class ClearDataApiAsync extends AsyncTask<OpenHABSitemap, Void, OpenHABSitemap> {
-        @Override
-        protected OpenHABSitemap doInBackground(OpenHABSitemap... params) {
-            /*PendingResult<DataItemBuffer> pendingResult = Wearable.DataApi.getDataItems(mGoogleApiClient);
-            DataItemBuffer dataItem = pendingResult.await(5, TimeUnit.SECONDS);
-            int count = dataItem.getCount();
-            if (count > 0) {
-                Log.d(TAG, "Now deleting '" + count + "' data items");
-                for (int i = 0; i < dataItem.getCount(); i++) {
-                    DataItem item = dataItem.get(i);
-                    PendingResult<DataApi.DeleteDataItemsResult> pendingDelete = Wearable.DataApi.deleteDataItems(mGoogleApiClient, item.getUri());
-                    pendingDelete.await(10, TimeUnit.MILLISECONDS);
-                    Log.d(TAG, "Deleted data");
-                }
-            }*/
-            return params[0];
-        }
+    private void setSitemapForWearable(OpenHABSitemap openHABSitemap) {
+        try {
+            PutDataMapRequest putDataMapRequest = PutDataMapRequest.create(SharedConstants.DataMapUrl.SITEMAP_BASE.value());
+            Log.d(TAG, "Sending sitemap to wearable:\nName: " + openHABSitemap.getName() + "\nLink: " + openHABSitemap.getHomepageLink());
+            Log.d(TAG, "Sending to uri " + putDataMapRequest.getUri());
 
-        @Override
-        protected void onPostExecute(OpenHABSitemap openHABSitemap) {
-            Log.d(TAG, "Now send new data");
-            try {
-                PutDataMapRequest putDataMapRequest = PutDataMapRequest.create(SharedConstants.DataMapUrl.SITEMAP_BASE.value());
-                Log.d(TAG, "Sending sitemap to wearable:\nName: " + openHABSitemap.getName() + "\nLink: " + openHABSitemap.getHomepageLink());
-                Log.d(TAG, "Sending to uri " + putDataMapRequest.getUri());
-
-                putDataMapRequest.getDataMap().putString(SharedConstants.DataMapKey.SITEMAP_NAME.name(), openHABSitemap.getName());
-                putDataMapRequest.getDataMap().putString(SharedConstants.DataMapKey.SITEMAP_LINK.name(), openHABSitemap.getHomepageLink());
-                putDataMapRequest.getDataMap().putLong("time", System.currentTimeMillis());
-                PutDataRequest putDataRequest = putDataMapRequest.asPutDataRequest();
-                Wearable.DataApi.putDataItem(getGoogleApiClient(), putDataRequest);
-            } catch (Exception e) {
-                Log.e(TAG, "Cannot send data to wearable", e);
-            }
+            putDataMapRequest.getDataMap().putString(SharedConstants.DataMapKey.SITEMAP_NAME.name(), openHABSitemap.getName());
+            putDataMapRequest.getDataMap().putString(SharedConstants.DataMapKey.SITEMAP_LINK.name(), openHABSitemap.getHomepageLink());
+            putDataMapRequest.getDataMap().putLong("time", System.currentTimeMillis());
+            PutDataRequest putDataRequest = putDataMapRequest.asPutDataRequest();
+            Wearable.DataApi.putDataItem(getGoogleApiClient(), putDataRequest);
+        } catch (Exception e) {
+            Log.e(TAG, "Cannot send data to wearable", e);
         }
+        new ClearDataApiAsync().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, openHABSitemap);
     }
 
     private void openSitemap(String sitemapUrl) {
@@ -967,7 +978,6 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
         startActivity(speechIntent);
     }
 
-
     private void showAlertDialog(String alertMessage) {
         if (this.isFinishing())
             return;
@@ -1019,7 +1029,6 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
         i.putExtra(MemorizingTrustManager.DECISION_INTENT_CHOICE, decision);
         sendBroadcast(i);
     }
-
 
     public void checkVoiceRecognition() {
         // Check if voice recognition is present
@@ -1084,10 +1093,6 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
 
     public int getOpenHABVersion() {
         return this.mOpenHABVersion;
-    }
-
-    public static AsyncHttpClient getAsyncHttpClient() {
-        return mAsyncHttpClient;
     }
 
     private void gcmRegisterBackground() {
@@ -1159,16 +1164,27 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
         }
     }
 
-    /*
-     *Daydreaming gets us into a funk when in fullscreen, this allows us to
-     *reset ourselves to fullscreen.
-     * @author Dan Cunningham
-     */
-    private BroadcastReceiver dreamReceiver = new BroadcastReceiver() {
+    class ClearDataApiAsync extends AsyncTask<OpenHABSitemap, Void, OpenHABSitemap> {
         @Override
-        public void onReceive(Context context, Intent intent) {
-            Log.i("INTENTFILTER", "Recieved intent: " + intent.toString());
-            checkFullscreen();
+        protected OpenHABSitemap doInBackground(OpenHABSitemap... params) {
+            /*PendingResult<DataItemBuffer> pendingResult = Wearable.DataApi.getDataItems(mGoogleApiClient);
+            DataItemBuffer dataItem = pendingResult.await(5, TimeUnit.SECONDS);
+            int count = dataItem.getCount();
+            if (count > 0) {
+                Log.d(TAG, "Now deleting '" + count + "' data items");
+                for (int i = 0; i < dataItem.getCount(); i++) {
+                    DataItem item = dataItem.get(i);
+                    PendingResult<DataApi.DeleteDataItemsResult> pendingDelete = Wearable.DataApi.deleteDataItems(mGoogleApiClient, item.getUri());
+                    pendingDelete.await(10, TimeUnit.MILLISECONDS);
+                    Log.d(TAG, "Deleted data");
+                }
+            }*/
+            return params[0];
         }
-    };
+
+        @Override
+        protected void onPostExecute(OpenHABSitemap openHABSitemap) {
+            Log.d(TAG, "Now send new data");
+        }
+    }
 }
