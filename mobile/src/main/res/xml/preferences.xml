@@ -8,6 +8,13 @@
         <CheckBoxPreference android:key="default_openhab_screentimeroff" android:title="@string/settings_openhab_screentimeroff" android:summary="@string/settings_openhab_screentimeroff_summary" android:defaultValue="false" />
         <CheckBoxPreference android:key="default_openhab_demomode" android:title="@string/settings_openhab_demomode" android:summary="@string/settings_openhab_demomode_summary" android:defaultValue="true" />
         <ListPreference android:key="default_openhab_theme" android:title="@string/settings_openhab_theme" android:defaultValue="dark" android:entries="@array/themeArray" android:entryValues="@array/themeValues" />
+        <RingtonePreference
+            android:showSilent="true"
+            android:title="@string/ringtone"
+            android:ringtoneType="ringtone|notification"
+            android:key="default_openhab_alertringtone"
+            android:persistent="true">
+        </RingtonePreference>
         <CheckBoxPreference android:key="default_openhab_sslcert" android:title="@string/settings_openhab_sslcert" android:summary="@string/settings_openhab_sslcert_summary" android:defaultValue="false" />
         <CheckBoxPreference android:key="default_openhab_sslhost" android:title="@string/settings_openhab_sslhost" android:summary="@string/settings_openhab_sslhost_summary" android:defaultValue="true" />
         <CheckBoxPreference android:key="default_openhab_fullscreen" android:title="@string/settings_openhab_fullscreen" android:summary="@string/settings_openhab_fullscreen_summary" android:defaultValue="false" />

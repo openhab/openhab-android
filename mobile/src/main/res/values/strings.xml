@@ -38,6 +38,7 @@
     <string name="settings_openhab_fullscreen">Full Screen</string>
     <string name="settings_openhab_fullscreen_summary">Display in fullscreen mode</string>
     <!-- App messages strings -->
+    <string name="ringtone">Ringtone</string>
     <string name="title_voice_widget">OpenHAB Voice Commands</string>
     <string name="info_voice_input">"openHAB, at your command!"</string>
     <string name="info_voice_recognized_text">"Recognized command: %1$s"</string>

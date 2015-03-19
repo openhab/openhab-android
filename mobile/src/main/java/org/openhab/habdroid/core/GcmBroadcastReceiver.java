@@ -18,7 +18,13 @@ import android.app.NotificationManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
+import android.media.RingtoneManager;
+import android.preference.PreferenceManager;
+import android.media.MediaPlayer;
 import android.support.v4.content.WakefulBroadcastReceiver;
+
+import org.openhab.habdroid.util.Constants;
 
 public class GcmBroadcastReceiver extends WakefulBroadcastReceiver {
     private static final String TAG = "GcmBroadcastReceiver";
@@ -31,8 +37,10 @@ public class GcmBroadcastReceiver extends WakefulBroadcastReceiver {
         // Explicitly specify that GcmIntentService will handle the intent.
         ComponentName comp = new ComponentName(context.getPackageName(),
                 GcmIntentService.class.getName());
+
         // Start the service, keeping the device awake while it is launching.
         startWakefulService(context, (intent.setComponent(comp)));
+
         setResultCode(Activity.RESULT_OK);
     }
 
