@@ -54,12 +54,9 @@ import android.widget.Toast;
 import com.crittercism.app.Crittercism;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
-import com.google.android.gms.wearable.DataApi;
-import com.google.android.gms.wearable.DataItem;
-import com.google.android.gms.wearable.DataItemBuffer;
-import com.google.android.gms.wearable.DataMap;
+import com.google.android.gms.wearable.MessageApi;
+import com.google.android.gms.wearable.MessageEvent;
 import com.google.android.gms.wearable.PutDataMapRequest;
 import com.google.android.gms.wearable.PutDataRequest;
 import com.google.android.gms.wearable.Wearable;
@@ -97,7 +94,6 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -314,6 +310,26 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
                 }
             }).addApi(Wearable.API).build();
             mGoogleApiClient.connect();
+            Wearable.MessageApi.addListener(mGoogleApiClient, new MessageApi.MessageListener() {
+                @Override
+                public void onMessageReceived(MessageEvent messageEvent) {
+                    if (messageEvent.getPath().equals(SharedConstants.MessagePath.LOAD_SITEMAP.value())) {
+                        String url = new String(messageEvent.getData());
+                        Log.d(TAG, "Getting data from url " + url);
+                        mAsyncHttpClient.get(url, new TextHttpResponseHandler() {
+                            @Override
+                            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                                Log.d(TAG, "Failed to load data for wearable");
+                            }
+
+                            @Override
+                            public void onSuccess(int statusCode, Header[] headers, String responseString) {
+                                Log.d(TAG, "Successfully got data for wearable " + responseString);
+                            }
+                        });
+                    }
+                }
+            });
 
         } catch (Exception e) {
             Log.e(TAG, "connection to wearable not successfull");

@@ -16,4 +16,12 @@ public class SharedConstants {
             return "/" + name();
         }
     }
+
+    public enum MessagePath {
+        LOAD_SITEMAP;
+
+        public String value() {
+            return "/" + name();
+        }
+    }
 }

@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
+import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.wearable.DataApi;
 import com.google.android.gms.wearable.DataEvent;
 import com.google.android.gms.wearable.DataEventBuffer;
@@ -23,6 +24,7 @@ import com.google.android.gms.wearable.DataItem;
 import com.google.android.gms.wearable.DataItemBuffer;
 import com.google.android.gms.wearable.DataMap;
 import com.google.android.gms.wearable.DataMapItem;
+import com.google.android.gms.wearable.MessageApi;
 import com.google.android.gms.wearable.NodeApi;
 import com.google.android.gms.wearable.PutDataRequest;
 import com.google.android.gms.wearable.Wearable;
@@ -61,7 +63,7 @@ public class WearMainActivity extends Activity implements GoogleApiClient.Connec
 
     private OpenHABWearWidgetAdapter mListAdapter;
 
-    private GoogleApiClient mGoogleApiClient;
+    private static GoogleApiClient mGoogleApiClient;
 
     private OpenHABWidgetDataSource mOpenHABWidgetDataSource;
 
@@ -224,7 +226,7 @@ public class WearMainActivity extends Activity implements GoogleApiClient.Connec
         }
     }
 
-    private List<String> getLocalNodeId() {
+    private List<String> getNodeIdList() {
         PendingResult<NodeApi.GetConnectedNodesResult> connectedNodes = Wearable.NodeApi.getConnectedNodes(mGoogleApiClient);
         NodeApi.GetConnectedNodesResult connectedNodesResult = connectedNodes.await(5, TimeUnit.SECONDS);
         List<String> nodeIds = new ArrayList<String>();
@@ -237,11 +239,15 @@ public class WearMainActivity extends Activity implements GoogleApiClient.Connec
 
     private List<Uri> getUriForDataItem(String path) {
         List<Uri> result = new ArrayList<Uri>();
-        List<String> nodeIds = getLocalNodeId();
+        List<String> nodeIds = getNodeIdList();
         for (String nodeId : nodeIds) {
             result.add(new Uri.Builder().scheme(PutDataRequest.WEAR_URI_SCHEME).authority(nodeId).path(path).build());
         }
         return result;
+    }
+
+    public static GoogleApiClient getGoogleApiClient() {
+        return mGoogleApiClient;
     }
 
     class GetDataAsync extends AsyncTask<Void, Void, DataMapItem> {
@@ -370,10 +376,10 @@ public class WearMainActivity extends Activity implements GoogleApiClient.Connec
         @Override
         protected void onPostExecute(DataMapItem dataMapItem) {
             if (dataMapItem == null) {
-                // TODO get data from mobile app
                 Log.d(TAG, "Do not have data for this link " + mCurrentLink);
+                List<String> nodeIdList = getNodeIdList();
+                getDataFromMobileApp(mCurrentLink, nodeIdList);
             } else {
-                // TODO forward to next subview list
                 Log.d(TAG, "Already have the data for the link " + mCurrentLink);
                 String sitemapXml = dataMapItem.getDataMap().getString(SharedConstants.DataMapKey.SITEMAP_XML.name());
                 Bundle data = new Bundle();
@@ -381,6 +387,39 @@ public class WearMainActivity extends Activity implements GoogleApiClient.Connec
                 Intent intent = new Intent(WearMainActivity.this, SublistActivity.class);
                 intent.putExtras(data);
                 startActivity(intent);
+            }
+        }
+    }
+
+    private void getDataFromMobileApp(String link, List<String> nodeIdList) {
+        String firstNodeId;
+        if (!nodeIdList.isEmpty()) {
+            firstNodeId = nodeIdList.get(0);
+            nodeIdList.remove(0);
+            GetDataResultCallBack resultCallBack = new GetDataResultCallBack(link, nodeIdList);
+            Wearable.MessageApi.sendMessage(mGoogleApiClient, firstNodeId, "WHAT SHOULD YOU DO", new byte[0]).setResultCallback(resultCallBack);
+        } else {
+            Log.d(TAG, "Can not get data from any remote node");
+        }
+    }
+
+    class GetDataResultCallBack implements ResultCallback<MessageApi.SendMessageResult> {
+
+        private List<String> mNodeIds;
+
+        private String mLink;
+
+        public GetDataResultCallBack(String link, List<String> nodeIds) {
+            mNodeIds = nodeIds;
+            mLink = link;
+        }
+
+        @Override
+        public void onResult(MessageApi.SendMessageResult sendMessageResult) {
+            if (!sendMessageResult.getStatus().isSuccess()) {
+                getDataFromMobileApp(mLink, mNodeIds);
+            } else {
+                Log.d(TAG, "Successfully sent message to remote node");
             }
         }
     }
