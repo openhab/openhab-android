@@ -340,7 +340,7 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
 
                             @Override
                             public void onFailure(int statusCode, Header[] headers, String responseBody, Throwable error) {
-                                Log.d(TAG, "Failed to load data for wearable");
+                                Log.d(TAG, "Failed to load data for wearable", error);
                             }
 
                             @Override

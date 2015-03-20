@@ -1,19 +1,32 @@
 package org.openhab.habdroid;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.wearable.view.WatchViewStub;
 import android.support.wearable.view.WearableListView;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.google.android.gms.common.api.PendingResult;
+import com.google.android.gms.wearable.DataApi;
+import com.google.android.gms.wearable.DataEvent;
+import com.google.android.gms.wearable.DataEventBuffer;
+import com.google.android.gms.wearable.DataItem;
+import com.google.android.gms.wearable.DataItemBuffer;
+import com.google.android.gms.wearable.DataMap;
 import com.google.android.gms.wearable.DataMapItem;
 
 import org.openhab.habdroid.adapter.OpenHABWearWidgetAdapter;
 import org.openhab.habdroid.model.OpenHABLinkedPage;
 import org.openhab.habdroid.model.OpenHABWidget;
 import org.openhab.habdroid.model.OpenHABWidgetDataSource;
+import org.openhab.habdroid.service.GetRemoteDataAsync;
+import org.openhab.habdroid.service.GoogleApiService;
 import org.openhab.habdroid.util.SharedConstants;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -24,12 +37,15 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
+import java.util.concurrent.TimeUnit;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-public class SublistActivity extends Activity implements WearableListView.ClickListener {
+public class SublistActivity extends Activity implements WearableListView.ClickListener, Observer, DataApi.DataListener {
 
     private static final String TAG = SublistActivity.class.getSimpleName();
 
@@ -40,6 +56,10 @@ public class SublistActivity extends Activity implements WearableListView.ClickL
     private OpenHABWidgetDataSource mOpenHABWidgetDataSource;
 
     private List<OpenHABWidget> mWidgetList = new ArrayList<OpenHABWidget>();
+
+    private GoogleApiService mGoogleApiService;
+
+    private static String mCurrentSitemapLinkToWaitFor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,11 +82,24 @@ public class SublistActivity extends Activity implements WearableListView.ClickL
                 processSitemap(xml);
             }
         });
+
+        mGoogleApiService = new GoogleApiService(getApplicationContext());
     }
 
     @Override
     protected void onResume() {
-        super.onStart();
+        super.onResume();
+        if (!mGoogleApiService.isConnected()) {
+            mGoogleApiService.connect();
+        }
+        mGoogleApiService.addObserver(this);
+    }
+
+    @Override
+    protected void onPause() {
+        mGoogleApiService.removeListener(this);
+        mGoogleApiService.deleteObserver(this);
+        super.onPause();
     }
 
     private void processSitemap(String sitemap) {
@@ -127,8 +160,56 @@ public class SublistActivity extends Activity implements WearableListView.ClickL
     }
 
     @Override
+    public void update(Observable observable, Object data) {
+        if (data instanceof String) {
+            String what = (String) data;
+            if ("CONNECTED".equals(what)) {
+                mGoogleApiService.addListener(this);
+            }
+        }
+    }
+
+    @Override
     public void onTopEmptyRegionClick() {
         Log.d(TAG, "Top Empty Region click");
+    }
+
+    @Override
+    public void onDataChanged(DataEventBuffer dataEvents) {
+        Log.d(TAG, "Data changed");
+        if (dataEvents != null) {
+            for (DataEvent event : dataEvents) {
+                final DataMapItem dataMapItem = DataMapItem.fromDataItem(event.getDataItem());
+                Log.d(TAG, "Changed for " + dataMapItem.getUri());
+                if (event.getDataItem().getUri().getPath().endsWith(SharedConstants.DataMapUrl.SITEMAP_DETAILS.value())) {
+                    new Handler(Looper.getMainLooper()).post(new Runnable() {
+
+                        public void run() {
+                            processDataMapItem(dataMapItem);
+                        }
+                    });
+                }
+            }
+        }
+    }
+
+    private void processDataMapItem(DataMapItem dataMapItem) {
+        DataMap map = dataMapItem.getDataMap();
+        Log.d(TAG, "Got DataMapItem: " + map);
+        String sitemapXML = map.getString(SharedConstants.DataMapKey.SITEMAP_XML.name());
+        String thisSitemapLink = map.getString(SharedConstants.DataMapKey.SITEMAP_LINK.name());
+        Log.d(TAG, "Got Sitemap XML for '" + thisSitemapLink + "'");
+        if (mCurrentSitemapLinkToWaitFor != null && thisSitemapLink.equals(mCurrentSitemapLinkToWaitFor)) {
+            openSublist(sitemapXML);
+        }
+    }
+
+    private void openSublist(String sitemapXml) {
+        Bundle data = new Bundle();
+        data.putString(SharedConstants.DataMapKey.SITEMAP_XML.name(), sitemapXml);
+        Intent intent = new Intent(this, SublistActivity.class);
+        intent.putExtras(data);
+        startActivity(intent);
     }
 
     class GetSiteDataAsync extends AsyncTask<String, Void, DataMapItem> {
@@ -144,9 +225,9 @@ public class SublistActivity extends Activity implements WearableListView.ClickL
             }
             String uriValueToCheck = "/" + mCurrentLink.hashCode() + SharedConstants.DataMapUrl.SITEMAP_DETAILS.value();
             Log.d(TAG, "Async checking for " + uriValueToCheck);
-            /*List<Uri> uris = getUriForDataItem(uriValueToCheck);
+            List<Uri> uris = mGoogleApiService.getUriForDataItem(uriValueToCheck);
             for (Uri uri : uris) {
-                PendingResult<DataItemBuffer> pendingResult = Wearable.DataApi.getDataItems(mGoogleApiClient, uri);
+                PendingResult<DataItemBuffer> pendingResult = mGoogleApiService.getDataItems(uri);
                 DataItemBuffer dataItem = pendingResult.await(5, TimeUnit.SECONDS);
                 int count = dataItem.getCount();
                 if (count > 0) {
@@ -163,19 +244,20 @@ public class SublistActivity extends Activity implements WearableListView.ClickL
                 } else {
                     Log.d(TAG, "Did not find anything in the map so far");
                 }
-            }*/
+            }
             return null;
         }
 
         @Override
         protected void onPostExecute(DataMapItem dataMapItem) {
             if (dataMapItem == null) {
-                // TODO get data from mobile app
                 Log.d(TAG, "Do not have data for this link " + mCurrentLink);
+                mCurrentSitemapLinkToWaitFor = mCurrentLink;
+                new GetRemoteDataAsync(mGoogleApiService).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, mCurrentLink);
             } else {
-                // TODO forward to next subview list
                 Log.d(TAG, "Already have the data for the link " + mCurrentLink);
-                Log.d(TAG, "DataMapItem: " + dataMapItem.getDataMap());
+                String sitemapXml = dataMapItem.getDataMap().getString(SharedConstants.DataMapKey.SITEMAP_XML.name());
+                openSublist(sitemapXml);
             }
         }
     }
