@@ -48,6 +48,7 @@ import org.openhab.habdroid.model.OpenHABWidget;
 import org.openhab.habdroid.model.OpenHABWidgetDataSource;
 import org.openhab.habdroid.util.SharedConstants;
 import org.openhab.habdroid.util.Util;
+import org.openhab.habdroid.wear.WearService;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
@@ -112,6 +113,7 @@ public class OpenHABWidgetListFragment extends ListFragment {
     private Runnable networkRunnable;
     // keeps track of current request to cancel it in onPause
     private RequestHandle mRequestHanle;
+    private WearService mWearService;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -141,6 +143,8 @@ public class OpenHABWidgetListFragment extends ListFragment {
         if (savedInstanceState != null)
             if (!displayPageUrl.equals(savedInstanceState.getString("displayPageUrl")))
                 mCurrentSelectedItem = -1;
+        mWearService = new WearService(mActivity.getApplicationContext(), openHABBaseUrl);
+        mWearService.connect();
     }
 
     @Override
@@ -274,8 +278,9 @@ public class OpenHABWidgetListFragment extends ListFragment {
             openHABWidgetAdapter.stopImageRefresh();
             openHABWidgetAdapter.stopVideoWidgets();
         }
-        if (isAdded())
+        if (isAdded()) {
             mCurrentSelectedItem = getListView().getCheckedItemPosition();
+        }
     }
 
     @Override
@@ -394,28 +399,13 @@ public class OpenHABWidgetListFragment extends ListFragment {
                     stopProgressIndicator();
                 String responseString = new String(responseBody);
                 processContent(responseString, longPolling);
-                sendDataToWearable(pageUrl, responseString);
+                mWearService.sendDataToWearable(pageUrl, responseString);
                 Log.d(TAG, responseString);
             }
         });
     }
 
-    private void sendDataToWearable(String pageUrl, String responseString) {
-        try {
-            PutDataMapRequest putDataMapRequest = PutDataMapRequest.create("/" + pageUrl.hashCode() + SharedConstants.DataMapUrl.SITEMAP_DETAILS.value());
-            Log.d(TAG, "HashCode for URI: " + pageUrl.hashCode());
 
-            putDataMapRequest.getDataMap().putString(SharedConstants.DataMapKey.SITEMAP_XML.name(), responseString);
-            putDataMapRequest.getDataMap().putString(SharedConstants.DataMapKey.SITEMAP_LINK.name(), pageUrl);
-            putDataMapRequest.getDataMap().putLong("time", System.currentTimeMillis());
-            Log.d(TAG, "Sending to uri : " + putDataMapRequest.getUri());
-            Log.d(TAG, "Sending datamap: " + putDataMapRequest.getDataMap());
-            PutDataRequest putDataRequest = putDataMapRequest.asPutDataRequest();
-            Wearable.DataApi.putDataItem(mActivity.getGoogleApiClient(), putDataRequest);
-        } catch (Exception e) {
-            Log.e(TAG, "Cannot send data to wearable", e);
-        }
-    }
 
     /**
      * Parse XML sitemap page and show it

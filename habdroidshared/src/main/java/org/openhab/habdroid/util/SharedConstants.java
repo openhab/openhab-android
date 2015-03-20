@@ -24,4 +24,8 @@ public class SharedConstants {
             return "/" + name();
         }
     }
+
+    public enum ObserverData {
+        CONNECTED, CONNECTION_SUSPENDED;
+    }
 }
