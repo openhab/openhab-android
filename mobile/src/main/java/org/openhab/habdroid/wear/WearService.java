@@ -7,6 +7,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.wearable.MessageApi;
 import com.google.android.gms.wearable.MessageEvent;
 import com.google.android.gms.wearable.PutDataMapRequest;
@@ -16,6 +17,7 @@ import com.loopj.android.http.SyncHttpClient;
 import com.loopj.android.http.TextHttpResponseHandler;
 
 import org.apache.http.Header;
+import org.apache.http.entity.StringEntity;
 import org.openhab.habdroid.model.OpenHABSitemap;
 import org.openhab.habdroid.model.OpenHABWidget;
 import org.openhab.habdroid.model.OpenHABWidgetDataSource;
@@ -43,6 +45,8 @@ public class WearService implements GoogleApiClient.ConnectionCallbacks, Message
 
     private static GoogleApiClient mGoogleApiClient;
 
+    private Context mContext;
+
     private String mOpenHABBaseUrl;
 
     private SyncHttpClient mSyncHttpClient = new SyncHttpClient();
@@ -54,6 +58,7 @@ public class WearService implements GoogleApiClient.ConnectionCallbacks, Message
                     .addApi(Wearable.API)
                     .build();
         }
+        mContext = context;
     }
 
     /**
@@ -92,7 +97,45 @@ public class WearService implements GoogleApiClient.ConnectionCallbacks, Message
                     setDataForWearable(url, responseBody);
                 }
             });
+        } else if (messageEvent.getPath().equals(SharedConstants.MessagePath.SEND_TO_OPENHAB.value())) {
+            sendCommand(messageEvent);
         }
+    }
+
+    private void sendCommand(final MessageEvent messageEvent) {
+        String[] data = new String(messageEvent.getData()).split("\\:\\:");
+        final String command = data[0];
+        final String link = data[1];
+        Log.d(TAG, "Send command " + command + " to url " + link);
+        try {
+            StringEntity se = new StringEntity(command);
+            mSyncHttpClient.post(mContext, link, se, "text/plain", new TextHttpResponseHandler() {
+                @Override
+                public void onFailure(int statusCode, Header[] headers, String responseString, Throwable error) {
+                    Log.e(TAG, "Got command error " + error.getMessage());
+                    if (responseString != null)
+                        Log.e(TAG, "Error response = " + responseString);
+                }
+
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, String responseString) {
+                    Log.d(TAG, "Command was sent successfully and got " + responseString);
+                    postSuccess(messageEvent, link);
+                }
+            });
+        } catch (Exception e) {
+            Log.e(TAG, "Exception occured", e);
+        }
+    }
+
+    private void postSuccess(MessageEvent messageEvent, String link) {
+        String nodeId = messageEvent.getSourceNodeId();
+        Wearable.MessageApi.sendMessage(mGoogleApiClient, nodeId, SharedConstants.MessagePath.SUCCESS.value(), link.getBytes()).setResultCallback(new ResultCallback<MessageApi.SendMessageResult>() {
+            @Override
+            public void onResult(MessageApi.SendMessageResult sendMessageResult) {
+                // humm
+            }
+        });
     }
 
     private void setDataForWearable(String link, String content) {

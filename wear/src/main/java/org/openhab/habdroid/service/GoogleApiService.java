@@ -18,6 +18,7 @@ import com.google.android.gms.wearable.PutDataRequest;
 import com.google.android.gms.wearable.Wearable;
 
 import org.openhab.habdroid.util.SharedConstants;
+import org.openhab.habdroid.widget.SwitchWidgetActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +43,9 @@ public class GoogleApiService extends Observable implements GoogleApiClient.Conn
     }
 
     public void connect() {
-        mGoogleApiClient.connect();
+        if (!mGoogleApiClient.isConnected()) {
+            mGoogleApiClient.connect();
+        }
     }
 
     public boolean isConnected() {
@@ -132,6 +135,48 @@ public class GoogleApiService extends Observable implements GoogleApiClient.Conn
 
     public PendingResult<DataItemBuffer> getDataItems(Uri uri) {
         return Wearable.DataApi.getDataItems(mGoogleApiClient, uri);
+    }
+
+    public void sendCommand(List<String> nodeIdList, String command, String link) {
+        String firstNodeId;
+        if (!nodeIdList.isEmpty()) {
+            firstNodeId = nodeIdList.get(0);
+            nodeIdList.remove(0);
+            SendCommandResultCallBack callBack = new SendCommandResultCallBack(command, link, nodeIdList);
+            String dataToSend = command + "::" + link;
+            Wearable.MessageApi.sendMessage(mGoogleApiClient, firstNodeId, SharedConstants.MessagePath.SEND_TO_OPENHAB.value(), dataToSend.getBytes()).setResultCallback(callBack);
+        }
+    }
+
+    public void addMessageListener(MessageApi.MessageListener messageListener) {
+        Wearable.MessageApi.addListener(mGoogleApiClient, messageListener);
+    }
+
+    public void removeMessageListener(MessageApi.MessageListener messageListener) {
+        Wearable.MessageApi.removeListener(mGoogleApiClient, messageListener);
+    }
+
+    class SendCommandResultCallBack implements ResultCallback<MessageApi.SendMessageResult> {
+        private List<String> mNodeIds;
+
+        private String mLink;
+
+        private String mCommand;
+
+        public SendCommandResultCallBack(String command, String link, List<String> nodeIds) {
+            mNodeIds = nodeIds;
+            mLink = link;
+            mCommand = command;
+        }
+
+        @Override
+        public void onResult(MessageApi.SendMessageResult sendMessageResult) {
+            if (!sendMessageResult.getStatus().isSuccess()) {
+                sendCommand(mNodeIds, mCommand, mLink);
+            } else {
+                Log.d(TAG, "Successfully sent command to backend");
+            }
+        }
     }
 
     class GetDataResultCallBack implements ResultCallback<MessageApi.SendMessageResult> {

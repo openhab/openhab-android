@@ -2,6 +2,7 @@ package org.openhab.habdroid.adapter;
 
 import android.content.Context;
 import android.support.wearable.view.WearableListView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,8 @@ import java.util.List;
  */
 public class OpenHABWearWidgetAdapter extends WearableListView.Adapter {
 
+    private static final String TAG = OpenHABWearWidgetAdapter.class.getSimpleName();
+
     private final Context mContext;
     private final LayoutInflater mInflater;
     private List<OpenHABWidget> mWidgets;
@@ -31,11 +34,13 @@ public class OpenHABWearWidgetAdapter extends WearableListView.Adapter {
     // Provide a reference to the type of views you're using
     public static class ItemViewHolder extends WearableListView.ViewHolder {
         private TextView textView;
+        private TextView widgetNameText;
 
         public ItemViewHolder(View itemView) {
             super(itemView);
             // find the text view within the custom item's layout
             textView = (TextView) itemView.findViewById(R.id.name);
+            widgetNameText = (TextView) itemView.findViewById(R.id.widgetName);
         }
     }
 
@@ -57,10 +62,13 @@ public class OpenHABWearWidgetAdapter extends WearableListView.Adapter {
         // retrieve the text view
         ItemViewHolder itemHolder = (ItemViewHolder) holder;
         TextView view = itemHolder.textView;
-        // replace text contents
+        TextView widgetName = itemHolder.widgetNameText;
 
         OpenHABWidget widget = mWidgets.get(position);
         view.setText(widget.getLabel());
+        String widgetType = "" + widget.getType().charAt(0);
+        Log.d(TAG, "Setting widgetType " + widgetType);
+        widgetName.setText(widgetType);
 
         // replace list item's metadata
         holder.itemView.setTag(position);

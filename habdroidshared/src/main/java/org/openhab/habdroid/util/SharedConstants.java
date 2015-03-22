@@ -18,7 +18,7 @@ public class SharedConstants {
     }
 
     public enum MessagePath {
-        LOAD_SITEMAP;
+        LOAD_SITEMAP, SEND_TO_OPENHAB, SUCCESS;
 
         public String value() {
             return "/" + name();

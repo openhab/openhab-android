@@ -28,6 +28,7 @@ import org.openhab.habdroid.model.OpenHABWidgetDataSource;
 import org.openhab.habdroid.service.GetRemoteDataAsync;
 import org.openhab.habdroid.service.GoogleApiService;
 import org.openhab.habdroid.util.SharedConstants;
+import org.openhab.habdroid.widget.SwitchWidgetActivity;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
@@ -147,7 +148,16 @@ public class SublistActivity extends Activity implements WearableListView.ClickL
             }
         } else {
             Log.d(TAG, "Widget is of type " + clickedWidget.getType());
+            Log.d(TAG, "Widget item " + clickedWidget.getItem());
+            Intent intent = new Intent(getApplicationContext(), SwitchWidgetActivity.class);
+            intent.putExtra(SwitchWidgetActivity.STATE, clickedWidget.getItem().getStateAsBoolean());
+            intent.putExtra(SwitchWidgetActivity.WIDGET_LINK, clickedWidget.getItem().getLink());
+            startActivity(intent);
         }
+    }
+
+    private void forwardToSwitch() {
+
     }
 
     private void checkDataForUrl(String url) {
