@@ -2,14 +2,6 @@
 <resources
     xmlns:tools="http://schemas.android.com/tools"
     tools:ignore="MissingTranslation">
-<string-array name="themeArray">
-   <item>Dark</item>
-   <item>Light</item>
-</string-array>
-<string-array name="themeValues">
-   <item>dark</item>
-   <item>light</item>
-</string-array>
 <string-array name="nfcActionValues">
     <item>On</item>
     <item>Off</item>
