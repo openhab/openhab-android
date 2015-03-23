@@ -330,8 +330,10 @@ public class OpenHABWidgetListFragment extends ListFragment {
         Log.i(TAG, " showPage for " + pageUrl + " longPolling = " + longPolling);
         Log.d(TAG, "isAdded = " + isAdded());
         // Cancel any existing http request to openHAB (typically ongoing long poll)
-        if (!longPolling)
+        if (!longPolling) {
             startProgressIndicator();
+            this.mAtmosphereTrackingId = null;
+        }
         List<BasicHeader> headers = new LinkedList<BasicHeader>();
         if (mActivity.getOpenHABVersion() == 1)
             headers.add(new BasicHeader("Accept", "application/xml"));
@@ -493,10 +495,8 @@ public class OpenHABWidgetListFragment extends ListFragment {
                 getActivity().finish();
             }
         }
-        if (longPolling)
-            showPage(displayPageUrl, false);
-        else
-            showPage(displayPageUrl, true);
+
+        showPage(displayPageUrl, true);
     }
 
     private void stopProgressIndicator() {
