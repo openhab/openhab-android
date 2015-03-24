@@ -62,7 +62,7 @@ public class WearService implements GoogleApiClient.ConnectionCallbacks, Message
     }
 
     public void setOpenHABBaseUrl(String url) {
-        mOpenHABBaseUrl 0 url;
+        mOpenHABBaseUrl = url;
     }
 
     /**
