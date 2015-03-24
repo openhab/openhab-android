@@ -7,9 +7,15 @@
     tools:deviceIds="wear_round">
 
     <TextView
-        android:id="@+id/switch_status"
+        android:id="@+id/switchName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"/>
+    <Switch
+        android:id="@+id/switchItem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/switchName"/>
 
 </RelativeLayout>

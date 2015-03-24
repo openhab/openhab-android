@@ -8,6 +8,7 @@ import android.os.Looper;
 import android.support.wearable.view.WatchViewStub;
 import android.util.Log;
 import android.view.View;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.google.android.gms.wearable.MessageApi;
@@ -25,12 +26,17 @@ public class SwitchWidgetActivity extends Activity implements MessageApi.Message
 
     public static final String STATE = "state";
     public static final String WIDGET_LINK = "widget_link";
+    public static final String WIDGET_NAME = "widget_name";
     private static final String TAG = SwitchWidgetActivity.class.getSimpleName();
     private boolean mCurrentState;
 
+    private String mWidgetLabel;
+
     private String mWidgetLink;
 
-    private TextView mStatusTextView;
+    private TextView mSwitchName;
+
+    private Switch mSwitch;
 
     private GoogleApiService mGoogleApiService;
 
@@ -45,6 +51,9 @@ public class SwitchWidgetActivity extends Activity implements MessageApi.Message
 
         mWidgetLink = getIntent().getStringExtra(WIDGET_LINK);
 
+        mWidgetLabel = getIntent().getStringExtra(WIDGET_NAME);
+
+
         mGoogleApiService = new GoogleApiService(getApplicationContext());
         mGoogleApiService.connect();
 
@@ -53,15 +62,14 @@ public class SwitchWidgetActivity extends Activity implements MessageApi.Message
         stub.setOnLayoutInflatedListener(new WatchViewStub.OnLayoutInflatedListener() {
             @Override
             public void onLayoutInflated(WatchViewStub stub) {
-                mStatusTextView = (TextView) findViewById(R.id.switch_status);
+                mSwitchName = (TextView) findViewById(R.id.switchName);
+                mSwitch = (Switch) findViewById(R.id.switchItem);
 
-                if (mCurrentState) {
-                    mStatusTextView.setText("ON");
-                } else {
-                    mStatusTextView.setText("OFF");
-                }
+                mSwitchName.setText(mWidgetLabel);
 
-                mStatusTextView.setOnClickListener(new View.OnClickListener() {
+                mSwitch.setChecked(mCurrentState);
+
+                mSwitch.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         String command = mCurrentState ? "OFF" : "ON";
@@ -84,9 +92,9 @@ public class SwitchWidgetActivity extends Activity implements MessageApi.Message
                     if (result.equals(mWidgetLink)) {
                         mCurrentState = !mCurrentState;
                         if (mCurrentState) {
-                            mStatusTextView.setText("ON");
+                            mSwitchName.setText("ON");
                         } else {
-                            mStatusTextView.setText("OFF");
+                            mSwitchName.setText("OFF");
                         }
                     }
                 }

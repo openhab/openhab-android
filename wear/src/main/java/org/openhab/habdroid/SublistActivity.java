@@ -152,6 +152,7 @@ public class SublistActivity extends Activity implements WearableListView.ClickL
             Intent intent = new Intent(getApplicationContext(), SwitchWidgetActivity.class);
             intent.putExtra(SwitchWidgetActivity.STATE, clickedWidget.getItem().getStateAsBoolean());
             intent.putExtra(SwitchWidgetActivity.WIDGET_LINK, clickedWidget.getItem().getLink());
+            intent.putExtra(SwitchWidgetActivity.WIDGET_NAME, clickedWidget.getLabel());
             startActivity(intent);
         }
     }
