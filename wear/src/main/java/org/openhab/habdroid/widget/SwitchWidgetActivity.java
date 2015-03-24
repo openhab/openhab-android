@@ -1,13 +1,17 @@
 package org.openhab.habdroid.widget;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.wearable.activity.ConfirmationActivity;
+import android.support.wearable.view.DelayedConfirmationView;
 import android.support.wearable.view.WatchViewStub;
 import android.util.Log;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Switch;
 import android.widget.TextView;
 
@@ -35,6 +39,8 @@ public class SwitchWidgetActivity extends Activity implements MessageApi.Message
     private String mWidgetLink;
 
     private TextView mSwitchName;
+
+    private ProgressBar mProgressBar;
 
     private Switch mSwitch;
 
@@ -64,6 +70,7 @@ public class SwitchWidgetActivity extends Activity implements MessageApi.Message
             public void onLayoutInflated(WatchViewStub stub) {
                 mSwitchName = (TextView) findViewById(R.id.switchName);
                 mSwitch = (Switch) findViewById(R.id.switchItem);
+                mProgressBar = (ProgressBar) findViewById(R.id.progressBar);
 
                 mSwitchName.setText(mWidgetLabel);
 
@@ -73,6 +80,7 @@ public class SwitchWidgetActivity extends Activity implements MessageApi.Message
                     @Override
                     public void onClick(View v) {
                         String command = mCurrentState ? "OFF" : "ON";
+                        mProgressBar.setVisibility(View.VISIBLE);
                         new SendCommandAsync(getApplicationContext()).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, command, mWidgetLink);
                         mGoogleApiService.addMessageListener(SwitchWidgetActivity.this);
                     }
@@ -90,12 +98,13 @@ public class SwitchWidgetActivity extends Activity implements MessageApi.Message
                 @Override
                 public void run() {
                     if (result.equals(mWidgetLink)) {
+                        mProgressBar.setVisibility(View.INVISIBLE);
                         mCurrentState = !mCurrentState;
-                        if (mCurrentState) {
-                            mSwitchName.setText("ON");
-                        } else {
-                            mSwitchName.setText("OFF");
-                        }
+                        Intent intent = new Intent(SwitchWidgetActivity.this, ConfirmationActivity.class);
+                        intent.putExtra(ConfirmationActivity.EXTRA_ANIMATION_TYPE,
+                                ConfirmationActivity.SUCCESS_ANIMATION);
+                        intent.putExtra(ConfirmationActivity.EXTRA_MESSAGE, "");
+                        startActivity(intent);
                     }
                 }
             });

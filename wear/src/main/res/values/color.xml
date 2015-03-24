@@ -2,4 +2,6 @@
 <resources>
     <color name="text_color">#FFF</color>
     <color name="wl_gray">#666</color>
+    <color name="cancel_blue">#2878ff</color>
+    <color name="lightblue">#A9EBEE</color>
 </resources>

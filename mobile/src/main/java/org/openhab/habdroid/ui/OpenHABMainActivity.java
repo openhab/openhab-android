@@ -620,6 +620,7 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
                             preferencesEditor.putString(Constants.PREFERENCE_SITEMAP, sitemapList.get(item).getName());
                             preferencesEditor.apply();
                             openSitemap(sitemapList.get(item).getHomepageLink());
+                            mWearService.setOpenHABBaseUrl(sitemapList.get(item).getHomepageLink());
                             mWearService.setSitemapForWearable(sitemapList.get(item));
                         }
                     }).show();

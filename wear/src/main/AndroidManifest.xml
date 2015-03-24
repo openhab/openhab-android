@@ -28,6 +28,8 @@
         <activity
             android:name=".widget.SwitchWidgetActivity"
             android:label="@string/title_activity_main"></activity>
+        <activity
+            android:name="android.support.wearable.activity.ConfirmationActivity"></activity>
     </application>
 
 </manifest>

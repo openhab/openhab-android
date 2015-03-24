@@ -35,12 +35,14 @@ public class OpenHABWearWidgetAdapter extends WearableListView.Adapter {
     public static class ItemViewHolder extends WearableListView.ViewHolder {
         private TextView textView;
         private TextView widgetNameText;
+        private TextView linkArrow;
 
         public ItemViewHolder(View itemView) {
             super(itemView);
             // find the text view within the custom item's layout
             textView = (TextView) itemView.findViewById(R.id.name);
             widgetNameText = (TextView) itemView.findViewById(R.id.widgetName);
+            linkArrow = (TextView) itemView.findViewById(R.id.linkArrow);
         }
     }
 
@@ -63,12 +65,21 @@ public class OpenHABWearWidgetAdapter extends WearableListView.Adapter {
         ItemViewHolder itemHolder = (ItemViewHolder) holder;
         TextView view = itemHolder.textView;
         TextView widgetName = itemHolder.widgetNameText;
+        TextView link = itemHolder.linkArrow;
 
         OpenHABWidget widget = mWidgets.get(position);
         view.setText(widget.getLabel());
         String widgetType = "" + widget.getType().charAt(0);
         Log.d(TAG, "Setting widgetType " + widgetType);
         widgetName.setText(widgetType);
+        if (widget.getType().equals("Text")) {
+            link.setVisibility(View.GONE);
+            if(widget.getItem().getState() != null) {
+                view.setText(widget.getLabel() + " " + widget.getItem().getState());
+            }
+        } else {
+            link.setVisibility(View.VISIBLE);
+        }
 
         // replace list item's metadata
         holder.itemView.setTag(position);

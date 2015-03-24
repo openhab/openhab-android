@@ -146,14 +146,17 @@ public class SublistActivity extends Activity implements WearableListView.ClickL
             } else {
                 Log.i(TAG, "Linked page on widget is null");
             }
-        } else {
-            Log.d(TAG, "Widget is of type " + clickedWidget.getType());
-            Log.d(TAG, "Widget item " + clickedWidget.getItem());
+        } else if(clickedWidget.getType().equals("Text")) {
+            Log.d(TAG, "Is a simple text");
+        } else if(clickedWidget.getType().equals("Switch")) {
             Intent intent = new Intent(getApplicationContext(), SwitchWidgetActivity.class);
             intent.putExtra(SwitchWidgetActivity.STATE, clickedWidget.getItem().getStateAsBoolean());
             intent.putExtra(SwitchWidgetActivity.WIDGET_LINK, clickedWidget.getItem().getLink());
             intent.putExtra(SwitchWidgetActivity.WIDGET_NAME, clickedWidget.getLabel());
             startActivity(intent);
+        } else {
+            Log.d(TAG, "Widget is of type " + clickedWidget.getType());
+            Log.d(TAG, "Widget item " + clickedWidget.getItem());
         }
     }
 

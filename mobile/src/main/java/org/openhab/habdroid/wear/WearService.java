@@ -61,6 +61,10 @@ public class WearService implements GoogleApiClient.ConnectionCallbacks, Message
         mContext = context;
     }
 
+    public void setOpenHABBaseUrl(String url) {
+        mOpenHABBaseUrl 0 url;
+    }
+
     /**
      * Delegates connect() to the internal googleapiclient
      */
@@ -182,6 +186,7 @@ public class WearService implements GoogleApiClient.ConnectionCallbacks, Message
     }
 
     public void setSitemapForWearable(OpenHABSitemap openHABSitemap) {
+        Log.d(TAG, "Try to set sitemap in data api");
         try {
             PutDataMapRequest putDataMapRequest = PutDataMapRequest.create(SharedConstants.DataMapUrl.SITEMAP_BASE.value());
             Log.d(TAG, "Sending sitemap to wearable:\nName: " + openHABSitemap.getName() + "\nLink: " + openHABSitemap.getHomepageLink());
