@@ -2,7 +2,6 @@ package org.openhab.habdroid.widget;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -19,7 +18,6 @@ import com.google.android.gms.wearable.MessageEvent;
 
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.service.GoogleApiService;
-import org.openhab.habdroid.service.SendCommandAsync;
 import org.openhab.habdroid.util.SharedConstants;
 
 /**
@@ -67,23 +65,6 @@ public class RollerShutterWidgetActivity extends Activity implements MessageApi.
         stub.setOnLayoutInflatedListener(new WatchViewStub.OnLayoutInflatedListener() {
             @Override
             public void onLayoutInflated(WatchViewStub stub) {
-                mSwitchName = (TextView) findViewById(R.id.switchName);
-                mSwitch = (Switch) findViewById(R.id.switchItem);
-                mProgressBar = (ProgressBar) findViewById(R.id.progressBar);
-
-                mSwitchName.setText(mWidgetLabel);
-
-                mSwitch.setChecked(mCurrentState);
-
-                mSwitch.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        String command = mCurrentState ? "OFF" : "ON";
-                        mProgressBar.setVisibility(View.VISIBLE);
-                        new SendCommandAsync(getApplicationContext()).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, command, mWidgetLink);
-                        mGoogleApiService.addMessageListener(RollerShutterWidgetActivity.this);
-                    }
-                });
             }
         });
     }

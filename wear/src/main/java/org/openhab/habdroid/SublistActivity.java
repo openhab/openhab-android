@@ -28,6 +28,7 @@ import org.openhab.habdroid.model.OpenHABWidgetDataSource;
 import org.openhab.habdroid.service.GetRemoteDataAsync;
 import org.openhab.habdroid.service.GoogleApiService;
 import org.openhab.habdroid.util.SharedConstants;
+import org.openhab.habdroid.widget.RollerShutterWidgetActivity;
 import org.openhab.habdroid.widget.SwitchWidgetActivity;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -137,7 +138,11 @@ public class SublistActivity extends Activity implements WearableListView.ClickL
         Log.d(TAG, "Clicked an element at position " + viewHolder.getPosition());
         OpenHABWidget clickedWidget = mWidgetList.get(viewHolder.getPosition());
         Log.d(TAG, "Clicked the widget " + clickedWidget);
-        if (clickedWidget.getType().equals("Frame") || clickedWidget.getType().equals("Group")) {
+        Log.d(TAG, "Widget is of type " + clickedWidget.getType());
+        Log.d(TAG, "Widget item " + clickedWidget.getItem());
+        Log.d(TAG, "Widget item type " + clickedWidget.getItem().getType());
+        String typeToCheck = clickedWidget.getItem().getType();
+        if (typeToCheck.equals("FrameItem") || typeToCheck.equals("GroupItem")) {
             Log.d(TAG, "Clicked on frame or group");
             OpenHABLinkedPage linkedPage = clickedWidget.getLinkedPage();
             if (linkedPage != null) {
@@ -146,17 +151,21 @@ public class SublistActivity extends Activity implements WearableListView.ClickL
             } else {
                 Log.i(TAG, "Linked page on widget is null");
             }
-        } else if(clickedWidget.getType().equals("Text")) {
+        } else if (typeToCheck.equals("TextItem")) {
             Log.d(TAG, "Is a simple text");
-        } else if(clickedWidget.getType().equals("Switch")) {
+        } else if (typeToCheck.equals("SwitchItem")) {
             Intent intent = new Intent(getApplicationContext(), SwitchWidgetActivity.class);
             intent.putExtra(SwitchWidgetActivity.STATE, clickedWidget.getItem().getStateAsBoolean());
             intent.putExtra(SwitchWidgetActivity.WIDGET_LINK, clickedWidget.getItem().getLink());
             intent.putExtra(SwitchWidgetActivity.WIDGET_NAME, clickedWidget.getLabel());
             startActivity(intent);
+        } else if (typeToCheck.equals("RollershutterItem")) {
+            Intent intent = new Intent(getApplicationContext(), RollerShutterWidgetActivity.class);
+            intent.putExtra(SwitchWidgetActivity.STATE, clickedWidget.getItem().getStateAsBoolean());
+            intent.putExtra(SwitchWidgetActivity.WIDGET_LINK, clickedWidget.getItem().getLink());
+            intent.putExtra(SwitchWidgetActivity.WIDGET_NAME, clickedWidget.getLabel());
+            startActivity(intent);
         } else {
-            Log.d(TAG, "Widget is of type " + clickedWidget.getType());
-            Log.d(TAG, "Widget item " + clickedWidget.getItem());
         }
     }
 
