@@ -15,6 +15,16 @@
         android:id="@+id/progressBar"
         android:layout_centerInParent="true"
         android:indeterminate="true" />
+    <org.openhab.habdroid.view.ShutterUpTriangleView
+        android:id="@+id/shutterUp"
+        android:layout_centerInParent="true"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
+    <org.openhab.habdroid.view.ShutterDownTriangleView
+        android:id="@+id/shutterDown"
+        android:layout_centerInParent="true"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
     <org.openhab.habdroid.view.ShutterCancleCircleView
         android:id="@+id/shutterStop"
         android:layout_centerInParent="true"
