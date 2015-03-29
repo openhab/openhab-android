@@ -20,6 +20,7 @@ import org.openhab.habdroid.R;
 import org.openhab.habdroid.service.GoogleApiService;
 import org.openhab.habdroid.service.SendCommandAsync;
 import org.openhab.habdroid.util.SharedConstants;
+import org.openhab.habdroid.view.ProgressWheel;
 import org.openhab.habdroid.view.SwitchCircleView;
 
 /**
@@ -39,7 +40,7 @@ public class SwitchWidgetActivity extends Activity implements MessageApi.Message
 
     private TextView mSwitchName;
 
-    private ProgressBar mProgressBar;
+    private ProgressWheel mProgressBar;
 
     private SwitchCircleView mSwitch;
 
@@ -67,7 +68,7 @@ public class SwitchWidgetActivity extends Activity implements MessageApi.Message
             @Override
             public void onLayoutInflated(WatchViewStub stub) {
                 mSwitchName = (TextView) findViewById(R.id.switchName);
-                mProgressBar = (ProgressBar) findViewById(R.id.progressBar);
+                mProgressBar = (ProgressWheel) findViewById(R.id.progressBar);
                 mSwitch = (SwitchCircleView) findViewById(R.id.switchCircle);
 
                 mSwitchName.setText(mWidgetLabel);
@@ -80,6 +81,7 @@ public class SwitchWidgetActivity extends Activity implements MessageApi.Message
                         String command = mCurrentState ? "OFF" : "ON";
                         mSwitch.setCurrentState(!mCurrentState);
                         mProgressBar.setVisibility(View.VISIBLE);
+                        mProgressBar.spin();
                         new SendCommandAsync(getApplicationContext()).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, command, mWidgetLink);
                         mGoogleApiService.addMessageListener(SwitchWidgetActivity.this);
                     }
@@ -98,7 +100,7 @@ public class SwitchWidgetActivity extends Activity implements MessageApi.Message
                 @Override
                 public void run() {
                     if (result.equals(mWidgetLink)) {
-                        mProgressBar.setVisibility(View.INVISIBLE);
+                        mProgressBar.stopSpinning();
                         mCurrentState = !mCurrentState;
                         if(mCurrentState) {
                             mSwitch.setText("On");

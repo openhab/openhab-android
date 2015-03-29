@@ -1,20 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:ProgressWheel="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="org.openhab.habdroid.widget.SwitchWidgetActivity"
     tools:deviceIds="wear_round">
 
-    <ProgressBar
-        style="?android:attr/progressBarStyleLarge"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="invisible"
-        android:id="@+id/progressBar"
-        android:layout_centerInParent="true"
-        android:indeterminate="true" />
     <org.openhab.habdroid.view.ShutterUpTriangleView
         android:id="@+id/shutterUp"
         android:layout_centerHorizontal="true"
@@ -27,6 +19,18 @@
         android:layout_centerHorizontal="true"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content" />
+    <org.openhab.habdroid.view.ProgressWheel
+        android:id="@+id/progressBar"
+        android:layout_centerInParent="true"
+        android:layout_width="95dp"
+        android:layout_height="130dp"
+        ProgressWheel:spinSpeed="3sp"
+        ProgressWheel:textColor="#222"
+        ProgressWheel:rimColor="#330097D6"
+        ProgressWheel:barLength="60dp"
+        ProgressWheel:barColor="#0097D6"
+        ProgressWheel:barWidth="5dp"
+        ProgressWheel:rimWidth="5dp"/>
     <org.openhab.habdroid.view.ShutterCancleCircleView
         android:id="@+id/shutterStop"
         android:layout_centerInParent="true"
