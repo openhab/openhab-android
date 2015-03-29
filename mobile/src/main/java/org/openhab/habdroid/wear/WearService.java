@@ -109,7 +109,15 @@ public class WearService implements GoogleApiClient.ConnectionCallbacks, Message
     private void sendCommand(final MessageEvent messageEvent) {
         String[] data = new String(messageEvent.getData()).split("\\:\\:");
         final String command = data[0];
-        final String link = data[1];
+        String link = data[1];
+        if (command.startsWith("/CMD")) {
+            String baseUrlToUse = mOpenHABBaseUrl;
+            if (mOpenHABBaseUrl.endsWith("/")) {
+                baseUrlToUse = mOpenHABBaseUrl.substring(0, mOpenHABBaseUrl.length() - 1);
+            }
+            link = baseUrlToUse + command;
+        }
+        final String finalLink = link;
         Log.d(TAG, "Send command " + command + " to url " + link);
         try {
             StringEntity se = new StringEntity(command);
@@ -123,8 +131,8 @@ public class WearService implements GoogleApiClient.ConnectionCallbacks, Message
 
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, String responseString) {
-                    Log.d(TAG, "Command was sent successfully and got " + responseString);
-                    postSuccess(messageEvent, link);
+                    Log.d(TAG, "Command was sent successfully and got response '" + responseString + "'");
+                    postSuccess(messageEvent, finalLink);
                 }
             });
         } catch (Exception e) {

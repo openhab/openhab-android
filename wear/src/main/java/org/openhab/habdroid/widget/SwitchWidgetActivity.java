@@ -94,6 +94,7 @@ public class SwitchWidgetActivity extends Activity implements MessageApi.Message
         Log.d(TAG, "Received a message at path " + messageEvent.getPath());
         if (messageEvent.getPath().endsWith(SharedConstants.MessagePath.SUCCESS.value())) {
             final String result = new String(messageEvent.getData());
+            mGoogleApiService.removeMessageListener(SwitchWidgetActivity.this);
             new Handler(Looper.getMainLooper()).post(new Runnable() {
                 @Override
                 public void run() {

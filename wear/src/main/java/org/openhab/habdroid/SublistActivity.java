@@ -161,16 +161,12 @@ public class SublistActivity extends Activity implements WearableListView.ClickL
             startActivity(intent);
         } else if (typeToCheck.equals("RollershutterItem")) {
             Intent intent = new Intent(getApplicationContext(), RollerShutterWidgetActivity.class);
-            intent.putExtra(SwitchWidgetActivity.STATE, clickedWidget.getItem().getStateAsBoolean());
-            intent.putExtra(SwitchWidgetActivity.WIDGET_LINK, clickedWidget.getItem().getLink());
-            intent.putExtra(SwitchWidgetActivity.WIDGET_NAME, clickedWidget.getLabel());
+            intent.putExtra(RollerShutterWidgetActivity.WIDGET_LINK, clickedWidget.getItem().getLink());
+            intent.putExtra(RollerShutterWidgetActivity.WIDGET_NAME, clickedWidget.getLabel());
+            intent.putExtra(RollerShutterWidgetActivity.ITEM_NAME, clickedWidget.getItem().getName());
             startActivity(intent);
         } else {
         }
-    }
-
-    private void forwardToSwitch() {
-
     }
 
     private void checkDataForUrl(String url) {
@@ -222,12 +218,14 @@ public class SublistActivity extends Activity implements WearableListView.ClickL
         String sitemapXML = map.getString(SharedConstants.DataMapKey.SITEMAP_XML.name());
         String thisSitemapLink = map.getString(SharedConstants.DataMapKey.SITEMAP_LINK.name());
         Log.d(TAG, "Got Sitemap XML for '" + thisSitemapLink + "'");
+        Log.d(TAG, "Check if new sitemap is the one we're waiting for: " + mCurrentSitemapLinkToWaitFor);
         if (mCurrentSitemapLinkToWaitFor != null && thisSitemapLink.equals(mCurrentSitemapLinkToWaitFor)) {
             openSublist(sitemapXML);
         }
     }
 
     private void openSublist(String sitemapXml) {
+        Log.d(TAG, "Opening sitemap");
         Bundle data = new Bundle();
         data.putString(SharedConstants.DataMapKey.SITEMAP_XML.name(), sitemapXml);
         Intent intent = new Intent(this, SublistActivity.class);

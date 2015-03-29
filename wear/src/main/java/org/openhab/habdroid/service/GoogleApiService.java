@@ -199,5 +199,4 @@ public class GoogleApiService extends Observable implements GoogleApiClient.Conn
             }
         }
     }
-
 }

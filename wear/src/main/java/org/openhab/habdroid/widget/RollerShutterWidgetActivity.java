@@ -2,6 +2,7 @@ package org.openhab.habdroid.widget;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -18,30 +19,35 @@ import com.google.android.gms.wearable.MessageEvent;
 
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.service.GoogleApiService;
+import org.openhab.habdroid.service.SendCommandAsync;
 import org.openhab.habdroid.util.SharedConstants;
+import org.openhab.habdroid.view.ShutterCancleCircleView;
+import org.openhab.habdroid.view.ShutterDownTriangleView;
+import org.openhab.habdroid.view.ShutterUpTriangleView;
 
 /**
  * Created by tobiasamon on 22.03.15.
  */
 public class RollerShutterWidgetActivity extends Activity implements MessageApi.MessageListener {
 
-    public static final String STATE = "state";
     public static final String WIDGET_LINK = "widget_link";
     public static final String WIDGET_NAME = "widget_name";
+    public static final String ITEM_NAME = "item_name";
     private static final String TAG = RollerShutterWidgetActivity.class.getSimpleName();
-    private boolean mCurrentState;
 
     private String mWidgetLabel;
 
     private String mWidgetLink;
 
-    private TextView mSwitchName;
-
-    private ProgressBar mProgressBar;
-
-    private Switch mSwitch;
+    private String mItemName;
 
     private GoogleApiService mGoogleApiService;
+
+    private ShutterCancleCircleView mCancelView;
+
+    private ShutterUpTriangleView mUpView;
+
+    private ShutterDownTriangleView mDownView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,21 +56,48 @@ public class RollerShutterWidgetActivity extends Activity implements MessageApi.
 
         final WatchViewStub stub = (WatchViewStub) findViewById(R.id.watch_view_stub_switch);
 
-        mCurrentState = getIntent().getBooleanExtra(STATE, false); // default state -> false
-
         mWidgetLink = getIntent().getStringExtra(WIDGET_LINK);
 
         mWidgetLabel = getIntent().getStringExtra(WIDGET_NAME);
 
+        mItemName = getIntent().getStringExtra(ITEM_NAME);
 
         mGoogleApiService = new GoogleApiService(getApplicationContext());
         mGoogleApiService.connect();
 
         Log.d(TAG, "Current widget link " + mWidgetLink);
+        Log.d(TAG, "Widget item name " + mItemName);
 
         stub.setOnLayoutInflatedListener(new WatchViewStub.OnLayoutInflatedListener() {
             @Override
             public void onLayoutInflated(WatchViewStub stub) {
+                mCancelView = (ShutterCancleCircleView) stub.findViewById(R.id.shutterStop);
+                mCancelView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String command = "/CMD?" + mItemName + "=STOP";
+                        new SendCommandAsync(getApplicationContext()).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, command, mWidgetLink);
+                        mGoogleApiService.addMessageListener(RollerShutterWidgetActivity.this);
+                    }
+                });
+                mUpView = (ShutterUpTriangleView) stub.findViewById(R.id.shutterUp);
+                mUpView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String command = "/CMD?" + mItemName + "=UP";
+                        new SendCommandAsync(getApplicationContext()).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, command, mWidgetLink);
+                        mGoogleApiService.addMessageListener(RollerShutterWidgetActivity.this);
+                    }
+                });
+                mDownView = (ShutterDownTriangleView) stub.findViewById(R.id.shutterDown);
+                mDownView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String command = "/CMD?" + mItemName + "=DOWN";
+                        new SendCommandAsync(getApplicationContext()).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, command, mWidgetLink);
+                        mGoogleApiService.addMessageListener(RollerShutterWidgetActivity.this);
+                    }
+                });
             }
         });
     }
@@ -74,18 +107,10 @@ public class RollerShutterWidgetActivity extends Activity implements MessageApi.
         Log.d(TAG, "Received a message at path " + messageEvent.getPath());
         if (messageEvent.getPath().endsWith(SharedConstants.MessagePath.SUCCESS.value())) {
             final String result = new String(messageEvent.getData());
+            mGoogleApiService.removeMessageListener(RollerShutterWidgetActivity.this);
             new Handler(Looper.getMainLooper()).post(new Runnable() {
                 @Override
                 public void run() {
-                    if (result.equals(mWidgetLink)) {
-                        mProgressBar.setVisibility(View.INVISIBLE);
-                        mCurrentState = !mCurrentState;
-                        Intent intent = new Intent(RollerShutterWidgetActivity.this, ConfirmationActivity.class);
-                        intent.putExtra(ConfirmationActivity.EXTRA_ANIMATION_TYPE,
-                                ConfirmationActivity.SUCCESS_ANIMATION);
-                        intent.putExtra(ConfirmationActivity.EXTRA_MESSAGE, "");
-                        startActivity(intent);
-                    }
                 }
             });
         }

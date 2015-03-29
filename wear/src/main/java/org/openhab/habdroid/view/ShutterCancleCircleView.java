@@ -52,12 +52,54 @@ public class ShutterCancleCircleView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        canvas.drawCircle(canvas.getWidth() / 2, canvas.getHeight() / 2, 65, mPaint);
-        int xMinus = (canvas.getWidth() / 2) - 22;
-        int yMinus = (canvas.getHeight() / 2) - 22;
-        int xPlus = (canvas.getWidth() / 2) + 22;
-        int yPlus = (canvas.getHeight() / 2) + 22;
+        canvas.drawCircle(58, 58, 55, mPaint);
+        int xMinus = 33;
+        int yMinus = 33;
+        int xPlus = 83;
+        int yPlus = 83;
         canvas.drawLine(xMinus, yMinus, xPlus, yPlus, mTextPaint);
         canvas.drawLine(xPlus, yMinus, xMinus, yPlus, mTextPaint);
+    }
+
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+
+        int desiredWidth = 120;
+        int desiredHeight = 120;
+
+        int widthMode = MeasureSpec.getMode(widthMeasureSpec);
+        int widthSize = MeasureSpec.getSize(widthMeasureSpec);
+        int heightMode = MeasureSpec.getMode(heightMeasureSpec);
+        int heightSize = MeasureSpec.getSize(heightMeasureSpec);
+
+        int width;
+        int height;
+
+        //Measure Width
+        if (widthMode == MeasureSpec.EXACTLY) {
+            //Must be this size
+            width = widthSize;
+        } else if (widthMode == MeasureSpec.AT_MOST) {
+            //Can't be bigger than...
+            width = Math.min(desiredWidth, widthSize);
+        } else {
+            //Be whatever you want
+            width = desiredWidth;
+        }
+
+        //Measure Height
+        if (heightMode == MeasureSpec.EXACTLY) {
+            //Must be this size
+            height = heightSize;
+        } else if (heightMode == MeasureSpec.AT_MOST) {
+            //Can't be bigger than...
+            height = Math.min(desiredHeight, heightSize);
+        } else {
+            //Be whatever you want
+            height = desiredHeight;
+        }
+
+        //MUST CALL THIS
+        setMeasuredDimension(width, height);
     }
 }

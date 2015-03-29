@@ -277,6 +277,7 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
                     mDrawerLayout.closeDrawers();
                     openSitemap(mSitemapList.get(item).getHomepageLink());
                     mWearService.setSitemapForWearable(mSitemapList.get(item));
+                    mWearService.setOpenHABBaseUrl(openHABBaseUrl);
                 }
             }
         });
@@ -529,6 +530,7 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
                             OpenHABSitemap selectedSitemap = Util.getSitemapByName(mSitemapList, configuredSitemap);
                             openSitemap(selectedSitemap.getHomepageLink());
                             mWearService.setSitemapForWearable(selectedSitemap);
+                            mWearService.setOpenHABBaseUrl(openHABBaseUrl);
                             // Configured sitemap is not on the list we got!
                         } else {
                             Log.d(TAG, "Configured sitemap is not on the list");
@@ -539,6 +541,7 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
                                 preferencesEditor.commit();
                                 openSitemap(mSitemapList.get(0).getHomepageLink());
                                 mWearService.setSitemapForWearable(mSitemapList.get(0));
+                                mWearService.setOpenHABBaseUrl(openHABBaseUrl);
                             } else {
                                 Log.d(TAG, "Got multiply sitemaps, user have to select one");
                                 showSitemapSelectionDialog(mSitemapList);
@@ -554,6 +557,7 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
                             preferencesEditor.commit();
                             openSitemap(mSitemapList.get(0).getHomepageLink());
                             mWearService.setSitemapForWearable(mSitemapList.get(0));
+                            mWearService.setOpenHABBaseUrl(openHABBaseUrl);
                         } else {
                             Log.d(TAG, "Got multiply sitemaps, user have to select one");
                             showSitemapSelectionDialog(mSitemapList);
@@ -622,6 +626,7 @@ public class OpenHABMainActivity extends FragmentActivity implements OnWidgetSel
                             openSitemap(sitemapList.get(item).getHomepageLink());
                             mWearService.setOpenHABBaseUrl(sitemapList.get(item).getHomepageLink());
                             mWearService.setSitemapForWearable(sitemapList.get(item));
+                            mWearService.setOpenHABBaseUrl(openHABBaseUrl);
                         }
                     }).show();
         } catch (WindowManager.BadTokenException e) {

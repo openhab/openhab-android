@@ -2,6 +2,7 @@
 <resources>
     <color name="text_color">#FFF</color>
     <color name="wl_gray">#666</color>
+    <color name="light_gray">#D4D4D4</color>
     <color name="cancel_blue">#2878ff</color>
     <color name="lightblue">#A9EBEE</color>
     <color name="cancleCircleBLue">#89BEDB</color>

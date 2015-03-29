@@ -17,18 +17,20 @@
         android:indeterminate="true" />
     <org.openhab.habdroid.view.ShutterUpTriangleView
         android:id="@+id/shutterUp"
-        android:layout_centerInParent="true"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentTop="true"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent" />
+        android:layout_height="wrap_content" />
     <org.openhab.habdroid.view.ShutterDownTriangleView
         android:id="@+id/shutterDown"
-        android:layout_centerInParent="true"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent" />
+        android:layout_height="wrap_content" />
     <org.openhab.habdroid.view.ShutterCancleCircleView
         android:id="@+id/shutterStop"
         android:layout_centerInParent="true"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
 </RelativeLayout>
