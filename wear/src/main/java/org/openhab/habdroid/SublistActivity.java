@@ -128,6 +128,7 @@ public class SublistActivity extends Activity implements WearableListView.ClickL
             Log.e(TAG, "ParserConfig", e);
         } catch (SAXException e) {
             Log.e(TAG, "SAXException", e);
+            Log.d(TAG, sitemap);
         } catch (IOException e) {
             Log.e(TAG, "IOException", e);
         }

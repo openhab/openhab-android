@@ -1,0 +1,6 @@
+<resources>
+    <declare-styleable name="SwitchCircleView">
+        <attr name="text" format="string" />
+        <attr name="on" format="boolean" />
+    </declare-styleable>
+</resources>

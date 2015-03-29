@@ -7,12 +7,10 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.wearable.activity.ConfirmationActivity;
-import android.support.wearable.view.DelayedConfirmationView;
 import android.support.wearable.view.WatchViewStub;
 import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
-import android.widget.Switch;
 import android.widget.TextView;
 
 import com.google.android.gms.wearable.MessageApi;
@@ -22,6 +20,7 @@ import org.openhab.habdroid.R;
 import org.openhab.habdroid.service.GoogleApiService;
 import org.openhab.habdroid.service.SendCommandAsync;
 import org.openhab.habdroid.util.SharedConstants;
+import org.openhab.habdroid.view.SwitchCircleView;
 
 /**
  * Created by tobiasamon on 22.03.15.
@@ -42,7 +41,7 @@ public class SwitchWidgetActivity extends Activity implements MessageApi.Message
 
     private ProgressBar mProgressBar;
 
-    private Switch mSwitch;
+    private SwitchCircleView mSwitch;
 
     private GoogleApiService mGoogleApiService;
 
@@ -59,7 +58,6 @@ public class SwitchWidgetActivity extends Activity implements MessageApi.Message
 
         mWidgetLabel = getIntent().getStringExtra(WIDGET_NAME);
 
-
         mGoogleApiService = new GoogleApiService(getApplicationContext());
         mGoogleApiService.connect();
 
@@ -69,17 +67,18 @@ public class SwitchWidgetActivity extends Activity implements MessageApi.Message
             @Override
             public void onLayoutInflated(WatchViewStub stub) {
                 mSwitchName = (TextView) findViewById(R.id.switchName);
-                mSwitch = (Switch) findViewById(R.id.switchItem);
                 mProgressBar = (ProgressBar) findViewById(R.id.progressBar);
+                mSwitch = (SwitchCircleView) findViewById(R.id.switchCircle);
 
                 mSwitchName.setText(mWidgetLabel);
 
-                mSwitch.setChecked(mCurrentState);
+                mSwitch.setCurrentState(mCurrentState);
 
                 mSwitch.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         String command = mCurrentState ? "OFF" : "ON";
+                        mSwitch.setCurrentState(!mCurrentState);
                         mProgressBar.setVisibility(View.VISIBLE);
                         new SendCommandAsync(getApplicationContext()).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, command, mWidgetLink);
                         mGoogleApiService.addMessageListener(SwitchWidgetActivity.this);
@@ -101,6 +100,11 @@ public class SwitchWidgetActivity extends Activity implements MessageApi.Message
                     if (result.equals(mWidgetLink)) {
                         mProgressBar.setVisibility(View.INVISIBLE);
                         mCurrentState = !mCurrentState;
+                        if(mCurrentState) {
+                            mSwitch.setText("On");
+                        } else {
+                            mSwitch.setText("Off");
+                        }
                         Intent intent = new Intent(SwitchWidgetActivity.this, ConfirmationActivity.class);
                         intent.putExtra(ConfirmationActivity.EXTRA_ANIMATION_TYPE,
                                 ConfirmationActivity.SUCCESS_ANIMATION);
