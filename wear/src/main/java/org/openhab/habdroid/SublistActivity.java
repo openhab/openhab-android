@@ -25,7 +25,6 @@ import org.openhab.habdroid.adapter.OpenHABWearWidgetAdapter;
 import org.openhab.habdroid.model.OpenHABLinkedPage;
 import org.openhab.habdroid.model.OpenHABWidget;
 import org.openhab.habdroid.model.OpenHABWidgetDataSource;
-import org.openhab.habdroid.service.GetRemoteDataAsync;
 import org.openhab.habdroid.service.GoogleApiService;
 import org.openhab.habdroid.util.SharedConstants;
 import org.openhab.habdroid.widget.RollerShutterWidgetActivity;
@@ -240,47 +239,11 @@ public class SublistActivity extends Activity implements WearableListView.ClickL
 
         @Override
         protected DataMapItem doInBackground(String... params) {
-            if (params.length > 0) {
-                mCurrentLink = params[0];
-            } else {
-                return null;
-            }
-            String uriValueToCheck = "/" + mCurrentLink.hashCode() + SharedConstants.DataMapUrl.SITEMAP_DETAILS.value();
-            Log.d(TAG, "Async checking for " + uriValueToCheck);
-            List<Uri> uris = mGoogleApiService.getUriForDataItem(uriValueToCheck);
-            for (Uri uri : uris) {
-                PendingResult<DataItemBuffer> pendingResult = mGoogleApiService.getDataItems(uri);
-                DataItemBuffer dataItem = pendingResult.await(5, TimeUnit.SECONDS);
-                int count = dataItem.getCount();
-                if (count > 0) {
-                    for (int i = 0; i < dataItem.getCount(); i++) {
-                        DataItem item = dataItem.get(i);
-                        Log.d(TAG, "DataItemUri: " + item.getUri());
-                        final DataMapItem dataMapItem = DataMapItem.fromDataItem(item);
-                        if (item.getUri().toString().endsWith("/" + mCurrentLink.hashCode() + SharedConstants.DataMapUrl.SITEMAP_DETAILS.value())) {
-                            return dataMapItem;
-                        } else {
-                            Log.w(TAG, "Unknown URI: " + item.getUri());
-                        }
-                    }
-                } else {
-                    Log.d(TAG, "Did not find anything in the map so far");
-                }
-            }
             return null;
         }
 
         @Override
         protected void onPostExecute(DataMapItem dataMapItem) {
-            if (dataMapItem == null) {
-                Log.d(TAG, "Do not have data for this link " + mCurrentLink);
-                mCurrentSitemapLinkToWaitFor = mCurrentLink;
-                new GetRemoteDataAsync(mGoogleApiService).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, mCurrentLink);
-            } else {
-                Log.d(TAG, "Already have the data for the link " + mCurrentLink);
-                String sitemapXml = dataMapItem.getDataMap().getString(SharedConstants.DataMapKey.SITEMAP_XML.name());
-                openSublist(sitemapXml);
-            }
         }
     }
 }

@@ -18,10 +18,6 @@ public class SendCommandAsync extends AsyncTask<String, Void, Void> {
 
     @Override
     protected Void doInBackground(String... params) {
-        String command = params[0];
-        String link = params[1];
-        List<String> nodes = mGoogleApiService.getNodeIdList();
-        mGoogleApiService.sendCommand(nodes, command, link);
         return null;
     }
 }

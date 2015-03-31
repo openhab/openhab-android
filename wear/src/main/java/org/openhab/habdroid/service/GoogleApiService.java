@@ -78,65 +78,6 @@ public class GoogleApiService extends Observable implements GoogleApiClient.Conn
         mGoogleApiClient.disconnect();
     }
 
-    public List<String> getNodeIdList() {
-        PendingResult<NodeApi.GetConnectedNodesResult> connectedNodes = Wearable.NodeApi.getConnectedNodes(mGoogleApiClient);
-        NodeApi.GetConnectedNodesResult connectedNodesResult = connectedNodes.await(5, TimeUnit.SECONDS);
-        List<String> nodeIds = new ArrayList<String>();
-        for (com.google.android.gms.wearable.Node node : connectedNodesResult.getNodes()) {
-            Log.d(TAG, "Found node " + node.getId() + " - " + node.getDisplayName());
-            nodeIds.add(node.getId());
-        }
-        return nodeIds;
-    }
-
-    public List<Uri> getUriForDataItem(String path) {
-        List<Uri> result = new ArrayList<Uri>();
-        List<String> nodeIds = getNodeIdList();
-        for (String nodeId : nodeIds) {
-            result.add(new Uri.Builder().scheme(PutDataRequest.WEAR_URI_SCHEME).authority(nodeId).path(path).build());
-        }
-        return result;
-    }
-
-    public void getDataFromMobileApp(String link, List<String> nodeIdList) {
-        String firstNodeId;
-        if (!nodeIdList.isEmpty()) {
-            firstNodeId = nodeIdList.get(0);
-            nodeIdList.remove(0);
-            GetDataResultCallBack resultCallBack = new GetDataResultCallBack(link, nodeIdList);
-            Wearable.MessageApi.sendMessage(mGoogleApiClient, firstNodeId, SharedConstants.MessagePath.LOAD_SITEMAP.value(), link.getBytes()).setResultCallback(resultCallBack);
-        } else {
-            Log.d(TAG, "Can not get data from any remote node");
-        }
-    }
-
-    public DataMapItem getDataItemForUri(Uri uri, String currentLink) {
-        PendingResult<DataItemBuffer> pendingResult = Wearable.DataApi.getDataItems(mGoogleApiClient, uri);
-        DataItemBuffer dataItem = pendingResult.await(5, TimeUnit.SECONDS);
-        int count = dataItem.getCount();
-        if (count > 0) {
-            for (int i = 0; i < dataItem.getCount(); i++) {
-                DataItem item = dataItem.get(i);
-                Log.d(TAG, "DataItemUri: " + item.getUri());
-                final DataMapItem dataMapItem = DataMapItem.fromDataItem(item);
-                if (item.getUri().toString().endsWith("/" + currentLink.hashCode() + SharedConstants.DataMapUrl.SITEMAP_DETAILS.value())) {
-                    return dataMapItem;
-                } else {
-                    Log.w(TAG, "Unknown URI: " + item.getUri());
-                }
-            }
-        }
-        return null;
-    }
-
-    public PendingResult<DataItemBuffer> getDataItems() {
-        return Wearable.DataApi.getDataItems(mGoogleApiClient);
-    }
-
-    public PendingResult<DataItemBuffer> getDataItems(Uri uri) {
-        return Wearable.DataApi.getDataItems(mGoogleApiClient, uri);
-    }
-
     public void sendCommand(List<String> nodeIdList, String command, String link) {
         String firstNodeId;
         if (!nodeIdList.isEmpty()) {
@@ -179,24 +120,5 @@ public class GoogleApiService extends Observable implements GoogleApiClient.Conn
         }
     }
 
-    class GetDataResultCallBack implements ResultCallback<MessageApi.SendMessageResult> {
 
-        private List<String> mNodeIds;
-
-        private String mLink;
-
-        public GetDataResultCallBack(String link, List<String> nodeIds) {
-            mNodeIds = nodeIds;
-            mLink = link;
-        }
-
-        @Override
-        public void onResult(MessageApi.SendMessageResult sendMessageResult) {
-            if (!sendMessageResult.getStatus().isSuccess()) {
-                getDataFromMobileApp(mLink, mNodeIds);
-            } else {
-                Log.d(TAG, "Successfully sent message to remote node");
-            }
-        }
-    }
 }
