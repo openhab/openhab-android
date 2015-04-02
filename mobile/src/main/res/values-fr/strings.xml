@@ -20,7 +20,7 @@
     <string name="settings_openhab_alturl">URL openHAB distante</string>
     <string name="settings_openhab_alturl_summary">Utilisée lorsque l\'adresse local n\'est pas accessible</string>
     <string name="settings_openhab_username">Identifiant</string>
-    <string name="settings_openhab_username_summary">Votre identifiant openHAB </string>
+    <string name="settings_openhab_username_summary">Votre identifiant openHAB</string>
     <string name="settings_openhab_password">Mot de passe</string>
     <string name="settings_openhab_password_summary">Votre mot de passe openHAB</string>
     <string name="settings_openhab_screentimeroff">Désactiver l\'extinction d\'écran</string>
@@ -34,12 +34,15 @@
     <string name="settings_openhab_sslcert_summary">Ne vérifie pas le certificat SSL pendant la connexion</string>
     <string name="settings_openhab_sslhost">Ignorer le domaine SSL</string>
     <string name="settings_openhab_sslhost_summary">Ne vérifie pas la pertinence du nom de domaine lors de la connexion</string>
+	<string name="settings_openhab_fullscreen">Plein écran</string>
+    <string name="settings_openhab_fullscreen_summary">Afficher OpenHab en mode plein écran</string>
+    <string name="settings_ringtone">Sonnerie</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Commandes vocales OpenHAB</string>
     <string name="info_voice_input">openHAB, à vos ordres!"</string>
     <string name="info_demo_mode">HABDroid fonctionne en mode démo. Pour connecter votre instance openHAB, rendez-vous dans les paramètres de l\'application</string>
-    <string name="info_conn_url">Connexion à l'adresse  locale</string>
-    <string name="info_conn_rem_url">Connexion à l'adresse distante</string>
+    <string name="info_conn_url">Connexion à l\'adresse  locale</string>
+    <string name="info_conn_rem_url">Connexion à l\'adresse distante</string>
     <string name="info_discovery">Recherche d\'openHAB, merci de patienter...</string>
     <string name="error_no_url">Merci de vérifier qu\'openHAB fonctionne. Si oui passez en configuration manuelle des adresses locale et/ou distante</string>
     <string name="error_authentication_failed">Erreur d\'authentification. Merci de vérifier votre identifiant et votre mot de passe.</string>
