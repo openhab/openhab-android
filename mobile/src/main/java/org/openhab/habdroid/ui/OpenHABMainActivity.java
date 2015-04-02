@@ -157,7 +157,7 @@ public class OpenHABMainActivity extends ActionBarActivity implements OnWidgetSe
     private OpenHABDrawerAdapter mDrawerAdapter;
     private String[] mDrawerTitles = {"First floor", "Seconf floor", "Cellar", "Garage"};
     private ListView mDrawerList;
-    private List<OpenHABSitemap> mSitemapList;
+    private ArrayList<OpenHABSitemap> mSitemapList;
     private boolean supportsKitKat = false;
     private NetworkConnectivityInfo mStartedWithNetworkConnectivityInfo;
     private int mOpenHABVersion;
@@ -228,6 +228,13 @@ public class OpenHABMainActivity extends ActionBarActivity implements OnWidgetSe
 //        pager.setPageMargin(1);
 //        pager.setPageMarginDrawable(android.R.color.darker_gray);
         // Check if we have openHAB page url in saved instance state?
+        if (savedInstanceState != null) {
+            openHABBaseUrl = savedInstanceState.getString("openHABBaseUrl");
+            sitemapRootUrl = savedInstanceState.getString("sitemapRootUrl");
+            mStartedWithNetworkConnectivityInfo = savedInstanceState.getParcelable("startedWithNetworkConnectivityInfo");
+            mOpenHABVersion = savedInstanceState.getInt("openHABVersion");
+            mSitemapList = savedInstanceState.getParcelableArrayList("sitemapList");
+        }
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.drawable.ic_navigation_drawer,
@@ -241,14 +248,9 @@ public class OpenHABMainActivity extends ActionBarActivity implements OnWidgetSe
             }
         };
         mDrawerLayout.setDrawerListener(mDrawerToggle);
-        if (savedInstanceState != null) {
-            openHABBaseUrl = savedInstanceState.getString("openHABBaseUrl");
-            sitemapRootUrl = savedInstanceState.getString("sitemapRootUrl");
-            mStartedWithNetworkConnectivityInfo = savedInstanceState.getParcelable("startedWithNetworkConnectivityInfo");
-            mOpenHABVersion = savedInstanceState.getInt("openHABVersion");
-        }
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
-        mSitemapList = new ArrayList<OpenHABSitemap>();
+        if (mSitemapList == null)
+            mSitemapList = new ArrayList<OpenHABSitemap>();
         mDrawerItemList = new ArrayList<OpenHABDrawerItem>();
         mDrawerAdapter = new OpenHABDrawerAdapter(this, R.layout.openhabdrawer_sitemap_item, mDrawerItemList);
         mDrawerAdapter.setOpenHABUsername(openHABUsername);
@@ -719,6 +721,7 @@ public class OpenHABMainActivity extends ActionBarActivity implements OnWidgetSe
         savedInstanceState.putInt("currentFragment", pager.getCurrentItem());
         savedInstanceState.putParcelable("startedWithNetworkConnectivityInfo", mStartedWithNetworkConnectivityInfo);
         savedInstanceState.putInt("openHABVersion", mOpenHABVersion);
+        savedInstanceState.putParcelableArrayList("sitemapList", mSitemapList);
         super.onSaveInstanceState(savedInstanceState);
     }
 
