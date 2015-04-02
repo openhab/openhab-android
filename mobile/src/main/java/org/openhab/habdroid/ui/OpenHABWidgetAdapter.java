@@ -606,6 +606,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
 							if (openHABWidgetMapping.getLabel().equals(selectedLabel)) {
 								Log.d(TAG, "Spinner onItemSelected found match with " + openHABWidgetMapping.getCommand());
                                 if (openHABWidget.getItem().getState() != null)
+                                    // Only send the command for selection of selected command will change the state
                                     if (!openHABWidget.getItem().getState().equals(openHABWidgetMapping.getCommand())) {
                                         Log.d(TAG, "Spinner onItemSelected selected label command != current item state");
                                         sendItemCommand(openHABWidget.getItem(), openHABWidgetMapping.getCommand());
