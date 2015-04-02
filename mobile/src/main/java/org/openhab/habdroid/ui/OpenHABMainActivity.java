@@ -45,15 +45,13 @@ import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -857,6 +855,33 @@ public class OpenHABMainActivity extends ActionBarActivity implements OnWidgetSe
             pager.setCurrentItem(pager.getCurrentItem() - 1, true);
             setTitle(pagerAdapter.getPageTitle(pager.getCurrentItem()));
         }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        Log.v(TAG, "KeyDown: " + event.toString());
+        if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN){
+            OpenHABWidgetListFragment currentFragment = pagerAdapter.getFragment(pager.getCurrentItem());
+            if (currentFragment != null)
+                return currentFragment.onVolumeDown();
+        }
+        else if(keyCode == KeyEvent.KEYCODE_VOLUME_UP){
+            OpenHABWidgetListFragment currentFragment = pagerAdapter.getFragment(pager.getCurrentItem());
+            if (currentFragment != null)
+                return currentFragment.onVolumeUp();
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        Log.v(TAG, "KeyUp: " + event.toString());
+        if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN || keyCode == KeyEvent.KEYCODE_VOLUME_UP){
+            OpenHABWidgetListFragment currentFragment = pagerAdapter.getFragment(pager.getCurrentItem());
+            if (currentFragment != null && currentFragment.isVolumeHandled())
+                return true;
+        }
+        return super.onKeyUp(keyCode, event);
     }
 
     public void startProgressIndicator() {
