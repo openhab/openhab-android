@@ -21,6 +21,7 @@ import android.content.Intent;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
@@ -28,14 +29,16 @@ import com.google.android.gms.gcm.GoogleCloudMessaging;
 
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.ui.OpenHABMainActivity;
+import org.openhab.habdroid.util.Constants;
 
 public class GcmIntentService extends IntentService {
 
     private static final String TAG = "GcmIntentService";
-    private NotificationManager mNotificationManager;
     // Notification delete receiver
     private final NotificationDeletedBroadcastReceiver mNotificationDeletedBroadcastReceiver =
-            new NotificationDeletedBroadcastReceiver();;
+            new NotificationDeletedBroadcastReceiver();
+    private NotificationManager mNotificationManager;
+    ;
 
     public GcmIntentService() {
         super("GcmIntentService");
@@ -90,7 +93,10 @@ public class GcmIntentService extends IntentService {
         deleteIntent.putExtra("notificationId", notificationId);
         PendingIntent pendingDeleteIntent = PendingIntent.getBroadcast(getApplicationContext(), 0,
                 deleteIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        Uri alarmSound = Uri.parse(PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString(Constants.PREFERENCE_TONE, ""));
+        if (alarmSound.toString() == "" || alarmSound == null) {
+            alarmSound = Uri.parse(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION).toString());
+        }
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(this)
                         .setSmallIcon(R.drawable.openhabicon)

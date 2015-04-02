@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:ignore="MissingTranslation">
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     >
     <!-- General app strings -->
     <string name="app_name">openHAB</string>
@@ -16,6 +14,7 @@
     <string name="mainmenu_openhab_clearcache">Clear images cache</string>
     <!-- App settings strings -->
     <string name="settings_title">HABDroid Settings</string>
+    <string name="ringtone">Ring tone</string>
     <string name="settings_openhab_url">openHAB URL</string>
     <string name="settings_openhab_url_summary">Manually configured openHAB URL. Disables autodiscovery if configured.</string>
     <string name="settings_openhab_alturl">openHAB Remote URL</string>

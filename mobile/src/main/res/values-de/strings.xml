@@ -12,6 +12,7 @@
     <string name="mainmenu_openhab_clearcache">Lösche Bildercache</string>
     <!-- App settings strings -->
     <string name="settings_title">HABDroid Einstellungen</string>
+    <string name="ringtone">Klingelton</string>
     <string name="settings_openhab_url">openHAB URL</string>
     <string name="settings_openhab_url_summary">Manual konfigurierte openHAB URL. Wenn gesetzt, ist Auto-Discovery deaktiviert.</string>
     <string name="settings_openhab_alturl">openHAB Remote URL</string>
@@ -58,7 +59,7 @@
     <string name="info_write_tag_disabled">NFC ist deaktiviert. Bitte aktivieren Sie es im Geräte Einstellungsmenü.</string>
     <string name="action_settings">Einstellungen</string>
     <string name="nfc_dialog_title">Aktion des NFC-Tags</string>
-    <string name="info_not_set">Nicht gesetzt</string>    
+    <string name="info_not_set">Nicht gesetzt</string>
     <!-- Strings for MemorizingTrustManager activity -->
     <string name="mtm_accept_cert">Akzeptiere unbekanntes Zertifikat?</string>
     <string name="mtm_decision_always">Immer</string>
