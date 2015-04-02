@@ -244,7 +244,7 @@ public class OpenHABMainActivity extends ActionBarActivity implements OnWidgetSe
             }
             public void onDrawerOpened(View drawerView) {
                 Log.d(TAG, "onDrawerOpened");
-                loadDrawerItems();
+                loadSitemapList(OpenHABMainActivity.this.openHABBaseUrl);
             }
         };
         mDrawerLayout.setDrawerListener(mDrawerToggle);
@@ -434,6 +434,54 @@ public class OpenHABMainActivity extends ActionBarActivity implements OnWidgetSe
             // This is to catch "java.lang.IllegalArgumentException: View not attached to window manager"
             // exception which happens if user quited app during discovery
         }
+    }
+
+    private void loadSitemapList(String baseUrl) {
+        Log.d(TAG, "Loading sitemap list from " + baseUrl + "rest/sitemaps");
+        startProgressIndicator();
+        mAsyncHttpClient.get(baseUrl + "rest/sitemaps", new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                stopProgressIndicator();
+                mSitemapList.clear();
+                // If openHAB's version is 1, get sitemap list from XML
+                if (mOpenHABVersion == 1) {
+                    DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+                    try {
+                        DocumentBuilder builder = dbf.newDocumentBuilder();
+                        Document sitemapsXml = builder.parse(new ByteArrayInputStream(responseBody));
+                        mSitemapList.addAll(Util.parseSitemapList(sitemapsXml));
+                    } catch (ParserConfigurationException e) {
+                        e.printStackTrace();
+                    } catch (SAXException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    // Later versions work with JSON
+                } else {
+                    try {
+                        String jsonString = new String(responseBody, "UTF-8");
+                        JSONArray jsonArray = new JSONArray(jsonString);
+                        mSitemapList.addAll(Util.parseSitemapList(jsonArray));
+                        Log.d(TAG, jsonArray.toString());
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                if (mSitemapList.size() == 0) {
+                    return;
+                }
+                loadDrawerItems();
+            }
+            @Override
+            public void  onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                stopProgressIndicator();
+
+            }
+        });
     }
 
     /**
