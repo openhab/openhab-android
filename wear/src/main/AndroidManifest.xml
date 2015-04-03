@@ -23,7 +23,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".SublistActivity"
+            android:name=".WidgetListActivity"
             android:label="@string/title_activity_main"></activity>
         <activity
             android:name=".widget.SwitchWidgetActivity"

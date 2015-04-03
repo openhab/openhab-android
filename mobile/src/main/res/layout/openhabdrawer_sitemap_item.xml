@@ -8,14 +8,14 @@
     android:gravity="center_vertical"
     android:layout_gravity="center_vertical">
     <org.openhab.habdroid.util.MySmartImageView
-        android:layout_width="wrap_content"
+        android:layout_width="32dp"
         android:layout_height="match_parent"
         android:id="@+id/itemimage"
         android:layout_gravity="center_vertical"
-        android:minHeight="24dp"
-        android:minWidth="24dp"
-        android:maxHeight="24dp"
-        android:maxWidth="24dp"
+        android:minHeight="32dp"
+        android:minWidth="32dp"
+        android:maxHeight="32dp"
+        android:maxWidth="32dp"
         android:scaleType="fitCenter"
         android:layout_marginLeft="20dp"
         android:adjustViewBounds="true"
@@ -33,6 +33,7 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:layout_gravity="center_vertical"
             android:text="Main menu"
+            android:textColor="#000000"
             />
     </LinearLayout>
 </RelativeLayout>

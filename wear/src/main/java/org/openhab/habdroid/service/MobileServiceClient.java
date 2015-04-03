@@ -12,8 +12,4 @@ public interface MobileServiceClient {
     public void connected();
 
     public void connectionSuspended();
-
-    public void sitemapBaseMissing();
-
-    public void onSitemapLoaded(List<OpenHABWidget> widgetList, String sitemapLink);
 }

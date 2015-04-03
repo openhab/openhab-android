@@ -1,26 +1,16 @@
 package org.openhab.habdroid.widget;
 
 import android.app.Activity;
-import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.support.wearable.activity.ConfirmationActivity;
 import android.support.wearable.view.WatchViewStub;
 import android.util.Log;
 import android.view.View;
-import android.widget.ProgressBar;
-import android.widget.Switch;
-import android.widget.TextView;
-
-import com.google.android.gms.wearable.MessageApi;
-import com.google.android.gms.wearable.MessageEvent;
 
 import org.openhab.habdroid.R;
-import org.openhab.habdroid.service.GoogleApiService;
-import org.openhab.habdroid.service.SendCommandAsync;
-import org.openhab.habdroid.util.SharedConstants;
+import org.openhab.habdroid.service.MobileService;
+import org.openhab.habdroid.service.MobileServiceWdigetClient;
 import org.openhab.habdroid.view.ProgressWheel;
 import org.openhab.habdroid.view.ShutterCancleCircleView;
 import org.openhab.habdroid.view.ShutterDownTriangleView;
@@ -29,7 +19,7 @@ import org.openhab.habdroid.view.ShutterUpTriangleView;
 /**
  * Created by tobiasamon on 22.03.15.
  */
-public class RollerShutterWidgetActivity extends Activity implements MessageApi.MessageListener {
+public class RollerShutterWidgetActivity extends Activity implements MobileServiceWdigetClient {
 
     public static final String WIDGET_LINK = "widget_link";
     public static final String WIDGET_NAME = "widget_name";
@@ -42,8 +32,6 @@ public class RollerShutterWidgetActivity extends Activity implements MessageApi.
 
     private String mItemName;
 
-    private GoogleApiService mGoogleApiService;
-
     private ShutterCancleCircleView mCancelView;
 
     private ShutterUpTriangleView mUpView;
@@ -51,6 +39,8 @@ public class RollerShutterWidgetActivity extends Activity implements MessageApi.
     private ShutterDownTriangleView mDownView;
 
     private ProgressWheel mProgressWheel;
+
+    private MobileService mMobileService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,8 +55,8 @@ public class RollerShutterWidgetActivity extends Activity implements MessageApi.
 
         mItemName = getIntent().getStringExtra(ITEM_NAME);
 
-        mGoogleApiService = new GoogleApiService(getApplicationContext());
-        mGoogleApiService.connect();
+        mMobileService = MobileService.getService(getApplicationContext());
+        mMobileService.addClient(this);
 
         Log.d(TAG, "Current widget link " + mWidgetLink);
         Log.d(TAG, "Widget item name " + mItemName);
@@ -82,8 +72,7 @@ public class RollerShutterWidgetActivity extends Activity implements MessageApi.
                     public void onClick(View v) {
                         mProgressWheel.spin();
                         String command = "/CMD?" + mItemName + "=STOP";
-                        new SendCommandAsync(getApplicationContext()).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, command, mWidgetLink);
-                        mGoogleApiService.addMessageListener(RollerShutterWidgetActivity.this);
+                        mMobileService.sendCommand(command, mWidgetLink);
                     }
                 });
                 mUpView = (ShutterUpTriangleView) stub.findViewById(R.id.shutterUp);
@@ -92,8 +81,7 @@ public class RollerShutterWidgetActivity extends Activity implements MessageApi.
                     public void onClick(View v) {
                         mProgressWheel.spin();
                         String command = "/CMD?" + mItemName + "=UP";
-                        new SendCommandAsync(getApplicationContext()).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, command, mWidgetLink);
-                        mGoogleApiService.addMessageListener(RollerShutterWidgetActivity.this);
+                        mMobileService.sendCommand(command, mWidgetLink);
                     }
                 });
                 mDownView = (ShutterDownTriangleView) stub.findViewById(R.id.shutterDown);
@@ -102,8 +90,7 @@ public class RollerShutterWidgetActivity extends Activity implements MessageApi.
                     public void onClick(View v) {
                         mProgressWheel.spin();
                         String command = "/CMD?" + mItemName + "=DOWN";
-                        new SendCommandAsync(getApplicationContext()).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, command, mWidgetLink);
-                        mGoogleApiService.addMessageListener(RollerShutterWidgetActivity.this);
+                        mMobileService.sendCommand(command, mWidgetLink);
                     }
                 });
             }
@@ -111,17 +98,22 @@ public class RollerShutterWidgetActivity extends Activity implements MessageApi.
     }
 
     @Override
-    public void onMessageReceived(MessageEvent messageEvent) {
-        Log.d(TAG, "Received a message at path " + messageEvent.getPath());
-        if (messageEvent.getPath().endsWith(SharedConstants.MessagePath.SUCCESS.value())) {
-            final String result = new String(messageEvent.getData());
-            mGoogleApiService.removeMessageListener(RollerShutterWidgetActivity.this);
-            new Handler(Looper.getMainLooper()).post(new Runnable() {
-                @Override
-                public void run() {
-                    mProgressWheel.stopSpinning();
-                }
-            });
-        }
+    public void commandExecuted(boolean success) {
+        new Handler(Looper.getMainLooper()).post(new Runnable() {
+            @Override
+            public void run() {
+                mProgressWheel.stopSpinning();
+            }
+        });
+    }
+
+    @Override
+    public void connected() {
+
+    }
+
+    @Override
+    public void connectionSuspended() {
+
     }
 }

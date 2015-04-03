@@ -9,6 +9,7 @@
  *  @author Victor Belov
  *  @since 1.4.0
  *
+ *
  */
 
 package org.openhab.habdroid.ui;
@@ -31,12 +32,10 @@ import android.nfc.NfcAdapter;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.speech.RecognizerIntent;
 import android.support.v4.app.ActionBarDrawerToggle;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -45,15 +44,13 @@ import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -124,6 +121,9 @@ public class OpenHABMainActivity extends ActionBarActivity implements OnWidgetSe
     private static final int SETTINGS_REQUEST_CODE = 1002;
     private static final int WRITE_NFC_TAG_REQUEST_CODE = 1003;
     private static final int INFO_REQUEST_CODE = 1004;
+    // Loopj
+//    private static MyAsyncHttpClient mAsyncHttpClient;
+    private static AsyncHttpClient mAsyncHttpClient = new AsyncHttpClient();
     // Base URL of current openHAB connection
     private String openHABBaseUrl = "https://demo.openhab.org:8443/";
     // openHAB username
@@ -152,9 +152,6 @@ public class OpenHABMainActivity extends ActionBarActivity implements OnWidgetSe
     private boolean mVoiceRecognitionEnabled = false;
     // If openHAB discovery is enabled
     private boolean mServiceDiscoveryEnabled = true;
-    // Loopj
-//    private static MyAsyncHttpClient mAsyncHttpClient;
-    private static AsyncHttpClient mAsyncHttpClient = new AsyncHttpClient();
     // NFC Launch data
     private String mNfcData;
     // Pending NFC page
@@ -178,6 +175,22 @@ public class OpenHABMainActivity extends ActionBarActivity implements OnWidgetSe
     private String mRegId = null;
     private GoogleApiClient mGoogleApiClient;
     private WearService mWearService;
+    /*
+     *Daydreaming gets us into a funk when in fullscreen, this allows us to
+     *reset ourselves to fullscreen.
+     * @author Dan Cunningham
+     */
+    private BroadcastReceiver dreamReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Log.i("INTENTFILTER", "Recieved intent: " + intent.toString());
+            checkFullscreen();
+        }
+    };
+
+    public static AsyncHttpClient getAsyncHttpClient() {
+        return mAsyncHttpClient;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -222,7 +235,7 @@ public class OpenHABMainActivity extends ActionBarActivity implements OnWidgetSe
         setSupportActionBar(toolbar);
         // ProgressBar layout params inside the toolbar have to be done programmatically
         // because it doesn't work through layout file :-(
-        mProgressBar = (ProgressBar)toolbar.findViewById(R.id.toolbar_progress_bar);
+        mProgressBar = (ProgressBar) toolbar.findViewById(R.id.toolbar_progress_bar);
         mProgressBar.setLayoutParams(new Toolbar.LayoutParams(Gravity.RIGHT));
         startProgressIndicator();
         gcmRegisterBackground();
@@ -241,6 +254,13 @@ public class OpenHABMainActivity extends ActionBarActivity implements OnWidgetSe
 //        pager.setPageMargin(1);
 //        pager.setPageMarginDrawable(android.R.color.darker_gray);
         // Check if we have openHAB page url in saved instance state?
+        if (savedInstanceState != null) {
+            openHABBaseUrl = savedInstanceState.getString("openHABBaseUrl");
+            sitemapRootUrl = savedInstanceState.getString("sitemapRootUrl");
+            mStartedWithNetworkConnectivityInfo = savedInstanceState.getParcelable("startedWithNetworkConnectivityInfo");
+            mOpenHABVersion = savedInstanceState.getInt("openHABVersion");
+            mSitemapList = savedInstanceState.getParcelableArrayList("sitemapList");
+        }
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.drawable.ic_navigation_drawer,
@@ -251,18 +271,13 @@ public class OpenHABMainActivity extends ActionBarActivity implements OnWidgetSe
 
             public void onDrawerOpened(View drawerView) {
                 Log.d(TAG, "onDrawerOpened");
-                loadDrawerItems();
+                loadSitemapList(OpenHABMainActivity.this.openHABBaseUrl);
             }
         };
         mDrawerLayout.setDrawerListener(mDrawerToggle);
-        if (savedInstanceState != null) {
-            openHABBaseUrl = savedInstanceState.getString("openHABBaseUrl");
-            sitemapRootUrl = savedInstanceState.getString("sitemapRootUrl");
-            mStartedWithNetworkConnectivityInfo = savedInstanceState.getParcelable("startedWithNetworkConnectivityInfo");
-            mOpenHABVersion = savedInstanceState.getInt("openHABVersion");
-        }
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
-        mSitemapList = new ArrayList<OpenHABSitemap>();
+        if (mSitemapList == null)
+            mSitemapList = new ArrayList<OpenHABSitemap>();
         mDrawerItemList = new ArrayList<OpenHABDrawerItem>();
         mDrawerAdapter = new OpenHABDrawerAdapter(this, R.layout.openhabdrawer_sitemap_item, mDrawerItemList);
         mDrawerAdapter.setOpenHABUsername(openHABUsername);
@@ -298,6 +313,10 @@ public class OpenHABMainActivity extends ActionBarActivity implements OnWidgetSe
                     }
                 } else if (getIntent().getAction().equals("org.openhab.notification.selected")) {
                     onNotificationSelected(getIntent());
+                } else if (getIntent().getAction().equals("android.intent.action.VIEW")) {
+                    Log.d(TAG, "This is URL Action");
+                    String URL = getIntent().getDataString();
+                    mNfcData = URL;
                 }
             }
         }
@@ -461,6 +480,54 @@ public class OpenHABMainActivity extends ActionBarActivity implements OnWidgetSe
             // This is to catch "java.lang.IllegalArgumentException: View not attached to window manager"
             // exception which happens if user quited app during discovery
         }
+    }
+
+    private void loadSitemapList(String baseUrl) {
+        Log.d(TAG, "Loading sitemap list from " + baseUrl + "rest/sitemaps");
+        startProgressIndicator();
+        mAsyncHttpClient.get(baseUrl + "rest/sitemaps", new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                stopProgressIndicator();
+                mSitemapList.clear();
+                // If openHAB's version is 1, get sitemap list from XML
+                if (mOpenHABVersion == 1) {
+                    DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+                    try {
+                        DocumentBuilder builder = dbf.newDocumentBuilder();
+                        Document sitemapsXml = builder.parse(new ByteArrayInputStream(responseBody));
+                        mSitemapList.addAll(Util.parseSitemapList(sitemapsXml));
+                    } catch (ParserConfigurationException e) {
+                        e.printStackTrace();
+                    } catch (SAXException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    // Later versions work with JSON
+                } else {
+                    try {
+                        String jsonString = new String(responseBody, "UTF-8");
+                        JSONArray jsonArray = new JSONArray(jsonString);
+                        mSitemapList.addAll(Util.parseSitemapList(jsonArray));
+                        Log.d(TAG, jsonArray.toString());
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                if (mSitemapList.size() == 0) {
+                    return;
+                }
+                loadDrawerItems();
+            }
+            @Override
+            public void  onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                stopProgressIndicator();
+
+            }
+        });
     }
 
     /**
@@ -761,6 +828,7 @@ public class OpenHABMainActivity extends ActionBarActivity implements OnWidgetSe
         savedInstanceState.putInt("currentFragment", pager.getCurrentItem());
         savedInstanceState.putParcelable("startedWithNetworkConnectivityInfo", mStartedWithNetworkConnectivityInfo);
         savedInstanceState.putInt("openHABVersion", mOpenHABVersion);
+        //savedInstanceState.putParcelableArrayList("sitemapList", mSitemapList);
         super.onSaveInstanceState(savedInstanceState);
     }
 
@@ -814,6 +882,9 @@ public class OpenHABMainActivity extends ActionBarActivity implements OnWidgetSe
                 }
             } else if (newIntent.getAction().equals("org.openhab.notification.selected")) {
                 onNotificationSelected(newIntent);
+            } else if (newIntent.getAction().equals("android.intent.action.VIEW")) {
+                Log.d(TAG, "This is URL Action");
+                onNfcTag(newIntent.getDataString());
             }
         }
     }
@@ -902,6 +973,33 @@ public class OpenHABMainActivity extends ActionBarActivity implements OnWidgetSe
             pager.setCurrentItem(pager.getCurrentItem() - 1, true);
             setTitle(pagerAdapter.getPageTitle(pager.getCurrentItem()));
         }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        Log.v(TAG, "KeyDown: " + event.toString());
+        if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN){
+            OpenHABWidgetListFragment currentFragment = pagerAdapter.getFragment(pager.getCurrentItem());
+            if (currentFragment != null)
+                return currentFragment.onVolumeDown();
+        }
+        else if(keyCode == KeyEvent.KEYCODE_VOLUME_UP){
+            OpenHABWidgetListFragment currentFragment = pagerAdapter.getFragment(pager.getCurrentItem());
+            if (currentFragment != null)
+                return currentFragment.onVolumeUp();
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        Log.v(TAG, "KeyUp: " + event.toString());
+        if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN || keyCode == KeyEvent.KEYCODE_VOLUME_UP){
+            OpenHABWidgetListFragment currentFragment = pagerAdapter.getFragment(pager.getCurrentItem());
+            if (currentFragment != null && currentFragment.isVolumeHandled())
+                return true;
+        }
+        return super.onKeyUp(keyCode, event);
     }
 
     public void startProgressIndicator() {
@@ -1044,10 +1142,6 @@ public class OpenHABMainActivity extends ActionBarActivity implements OnWidgetSe
         return this.mOpenHABVersion;
     }
 
-    public static AsyncHttpClient getAsyncHttpClient() {
-        return mAsyncHttpClient;
-    }
-
     private void gcmRegisterBackground() {
         // We need settings
         if (mSettings == null)
@@ -1125,19 +1219,6 @@ public class OpenHABMainActivity extends ActionBarActivity implements OnWidgetSe
             getWindow().getDecorView().setSystemUiVisibility(uiOptions);
         }
     }
-
-    /*
-     *Daydreaming gets us into a funk when in fullscreen, this allows us to
-     *reset ourselves to fullscreen.
-     * @author Dan Cunningham
-     */
-    private BroadcastReceiver dreamReceiver = new BroadcastReceiver(){
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            Log.i("INTENTFILTER", "Recieved intent: " + intent.toString());
-            checkFullscreen();
-        }
-    };
 
     private void loadDrawerItems() {
         mDrawerItemList.clear();

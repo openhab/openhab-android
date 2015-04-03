@@ -10,14 +10,18 @@
         android:id="@+id/text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="false"
+        android:paddingTop="15dp"
+        android:visibility="gone"
         android:text="@string/hello_round" />
 
-
-    <ImageView
-        android:id="@+id/openHabImage"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent" />
+    <android.support.wearable.view.WearableListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/listView"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
 
 
 </RelativeLayout>

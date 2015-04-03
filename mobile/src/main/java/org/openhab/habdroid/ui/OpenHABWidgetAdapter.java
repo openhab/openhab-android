@@ -39,13 +39,11 @@ import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.Spinner;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.VideoView;
 
 import com.crittercism.app.Crittercism;
 import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.TextHttpResponseHandler;
 
 import org.apache.http.Header;
@@ -58,7 +56,6 @@ import org.openhab.habdroid.ui.widget.ColorPickerDialog;
 import org.openhab.habdroid.ui.widget.OnColorChangedListener;
 import org.openhab.habdroid.ui.widget.SegmentedControlButton;
 import org.openhab.habdroid.util.MjpegStreamer;
-import org.openhab.habdroid.util.MyAsyncHttpClient;
 import org.openhab.habdroid.util.MySmartImageView;
 
 import java.io.UnsupportedEncodingException;
@@ -99,6 +96,8 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
 	private ArrayList<MySmartImageView> refreshImageList;
     private ArrayList<MjpegStreamer> mjpegWidgetList;
     private AsyncHttpClient mAsyncHttpClient;
+    private View volumeUpWidget;
+    private View volumeDownWidget;
 
 	public OpenHABWidgetAdapter(Context context, int resource,
 			List<OpenHABWidget> objects) {
@@ -478,6 +477,10 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
 								sendItemCommand(sliderItem, String.valueOf(seekBar.getProgress()));
 						}
     			});
+                if (volumeUpWidget == null) {
+                    volumeUpWidget = sliderSeekBar;
+                    volumeDownWidget = sliderSeekBar;
+                }
     		}
     		break;
     	case TYPE_IMAGE:
@@ -606,6 +609,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
 							if (openHABWidgetMapping.getLabel().equals(selectedLabel)) {
 								Log.d(TAG, "Spinner onItemSelected found match with " + openHABWidgetMapping.getCommand());
                                 if (openHABWidget.getItem().getState() != null)
+                                    // Only send the command for selection of selected command will change the state
                                     if (!openHABWidget.getItem().getState().equals(openHABWidgetMapping.getCommand())) {
                                         Log.d(TAG, "Spinner onItemSelected selected label command != current item state");
                                         sendItemCommand(openHABWidget.getItem(), openHABWidgetMapping.getCommand());
@@ -663,6 +667,10 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
 					sendItemCommand(setPointWidget.getItem(), String.valueOf(currentValue));
 				}
                 		});
+            if (volumeUpWidget == null) {
+                volumeUpWidget = setPointPlusButton;
+                volumeDownWidget = setPointMinusButton;
+            }
     		break;
     	default:
     		if (labelTextView != null)
@@ -820,6 +828,50 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
 		}
 		refreshImageList.clear();
 	}
+
+    /*
+        onVolumeDown and onVolumeUp handle (if possible) volume up and volume down presses
+        addressing the currently selected volume widget (would normally be the first slider or
+        setpoint on the page.
+     */
+
+    public boolean onVolumeDown() {
+        if (volumeDownWidget instanceof SeekBar) {
+            SeekBar seekBar = (SeekBar) volumeDownWidget;
+            seekBar.incrementProgressBy(-10);
+            OpenHABItem sliderItem = (OpenHABItem)seekBar.getTag();
+            if (sliderItem != null)
+                sendItemCommand(sliderItem, String.valueOf(seekBar.getProgress()));
+        } else if (volumeDownWidget instanceof Button) {
+            volumeDownWidget.callOnClick();
+        } else {
+            return false;
+        }
+        return true;
+    }
+
+    public boolean onVolumeUp() {
+        if (volumeUpWidget instanceof SeekBar) {
+            SeekBar seekBar = (SeekBar) volumeUpWidget;
+            seekBar.incrementProgressBy(10);
+            OpenHABItem sliderItem = (OpenHABItem)seekBar.getTag();
+            if (sliderItem != null)
+                sendItemCommand(sliderItem, String.valueOf(seekBar.getProgress()));
+        } else if (volumeUpWidget instanceof Button) {
+            volumeUpWidget.callOnClick();
+        } else {
+            return false;
+        }
+        return true;
+    }
+
+    /*
+        isVolumeHandled returns true if there is a widget to send volume commands to
+     */
+
+    public boolean isVolumeHandled() {
+        return volumeUpWidget != null;
+    }
 
     public AsyncHttpClient getAsyncHttpClient() {
         return mAsyncHttpClient;

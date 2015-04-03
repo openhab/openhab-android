@@ -2,7 +2,6 @@ package org.openhab.habdroid.widget;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -10,23 +9,18 @@ import android.support.wearable.activity.ConfirmationActivity;
 import android.support.wearable.view.WatchViewStub;
 import android.util.Log;
 import android.view.View;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.google.android.gms.wearable.MessageApi;
-import com.google.android.gms.wearable.MessageEvent;
-
 import org.openhab.habdroid.R;
-import org.openhab.habdroid.service.GoogleApiService;
-import org.openhab.habdroid.service.SendCommandAsync;
-import org.openhab.habdroid.util.SharedConstants;
+import org.openhab.habdroid.service.MobileService;
+import org.openhab.habdroid.service.MobileServiceWdigetClient;
 import org.openhab.habdroid.view.ProgressWheel;
 import org.openhab.habdroid.view.SwitchCircleView;
 
 /**
  * Created by tobiasamon on 22.03.15.
  */
-public class SwitchWidgetActivity extends Activity implements MessageApi.MessageListener {
+public class SwitchWidgetActivity extends Activity implements MobileServiceWdigetClient {
 
     public static final String STATE = "state";
     public static final String WIDGET_LINK = "widget_link";
@@ -44,7 +38,7 @@ public class SwitchWidgetActivity extends Activity implements MessageApi.Message
 
     private SwitchCircleView mSwitch;
 
-    private GoogleApiService mGoogleApiService;
+    private MobileService mMobileService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,8 +53,8 @@ public class SwitchWidgetActivity extends Activity implements MessageApi.Message
 
         mWidgetLabel = getIntent().getStringExtra(WIDGET_NAME);
 
-        mGoogleApiService = new GoogleApiService(getApplicationContext());
-        mGoogleApiService.connect();
+        mMobileService = MobileService.getService(getApplicationContext());
+        mMobileService.addClient(this);
 
         Log.d(TAG, "Current widget link " + mWidgetLink);
 
@@ -82,8 +76,7 @@ public class SwitchWidgetActivity extends Activity implements MessageApi.Message
                         mSwitch.setCurrentState(!mCurrentState);
                         mProgressBar.setVisibility(View.VISIBLE);
                         mProgressBar.spin();
-                        new SendCommandAsync(getApplicationContext()).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, command, mWidgetLink);
-                        mGoogleApiService.addMessageListener(SwitchWidgetActivity.this);
+                        mMobileService.sendCommand(command, mWidgetLink);
                     }
                 });
             }
@@ -91,30 +84,37 @@ public class SwitchWidgetActivity extends Activity implements MessageApi.Message
     }
 
     @Override
-    public void onMessageReceived(MessageEvent messageEvent) {
-        Log.d(TAG, "Received a message at path " + messageEvent.getPath());
-        if (messageEvent.getPath().endsWith(SharedConstants.MessagePath.SUCCESS.value())) {
-            final String result = new String(messageEvent.getData());
-            mGoogleApiService.removeMessageListener(SwitchWidgetActivity.this);
+    public void commandExecuted(boolean success) {
+
+        if (success) {
             new Handler(Looper.getMainLooper()).post(new Runnable() {
                 @Override
                 public void run() {
-                    if (result.equals(mWidgetLink)) {
-                        mProgressBar.stopSpinning();
-                        mCurrentState = !mCurrentState;
-                        if(mCurrentState) {
-                            mSwitch.setText("On");
-                        } else {
-                            mSwitch.setText("Off");
-                        }
-                        Intent intent = new Intent(SwitchWidgetActivity.this, ConfirmationActivity.class);
-                        intent.putExtra(ConfirmationActivity.EXTRA_ANIMATION_TYPE,
-                                ConfirmationActivity.SUCCESS_ANIMATION);
-                        intent.putExtra(ConfirmationActivity.EXTRA_MESSAGE, "");
-                        startActivity(intent);
+                    mProgressBar.stopSpinning();
+                    mCurrentState = !mCurrentState;
+                    if (mCurrentState) {
+                        mSwitch.setText("On");
+                    } else {
+                        mSwitch.setText("Off");
                     }
+                    Intent intent = new Intent(SwitchWidgetActivity.this, ConfirmationActivity.class);
+                    intent.putExtra(ConfirmationActivity.EXTRA_ANIMATION_TYPE,
+                            ConfirmationActivity.SUCCESS_ANIMATION);
+                    intent.putExtra(ConfirmationActivity.EXTRA_MESSAGE, "");
+                    startActivity(intent);
                 }
+
             });
         }
+    }
+
+    @Override
+    public void connected() {
+        // ??
+    }
+
+    @Override
+    public void connectionSuspended() {
+        // ??
     }
 }

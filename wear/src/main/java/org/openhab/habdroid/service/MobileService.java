@@ -20,6 +20,7 @@ import com.google.android.gms.wearable.DataItemBuffer;
 import com.google.android.gms.wearable.DataMap;
 import com.google.android.gms.wearable.DataMapItem;
 import com.google.android.gms.wearable.MessageApi;
+import com.google.android.gms.wearable.MessageEvent;
 import com.google.android.gms.wearable.NodeApi;
 import com.google.android.gms.wearable.PutDataRequest;
 import com.google.android.gms.wearable.Wearable;
@@ -45,7 +46,7 @@ import javax.xml.parsers.ParserConfigurationException;
 /**
  * Created by tobiasamon on 31.03.15.
  */
-public class MobileService implements GoogleApiClient.ConnectionCallbacks, DataApi.DataListener {
+public class MobileService implements GoogleApiClient.ConnectionCallbacks, DataApi.DataListener, MessageApi.MessageListener {
 
     private static final String TAG = MobileService.class.getSimpleName();
     private static MobileService instance;
@@ -68,14 +69,18 @@ public class MobileService implements GoogleApiClient.ConnectionCallbacks, DataA
 
     public void connect(MobileServiceClient client) {
         addClient(client);
-        mGoogleApiClient.connect();
+        if (!mGoogleApiClient.isConnected()) {
+            mGoogleApiClient.connect();
+        } else {
+            client.connected();
+        }
     }
 
     public void addClient(MobileServiceClient client) {
         if (client != null && !clients.contains(client)) {
             clients.add(client);
         }
-        if(!mGoogleApiClient.isConnected()) {
+        if (!mGoogleApiClient.isConnected()) {
             mGoogleApiClient.connect();
         }
     }
@@ -84,7 +89,7 @@ public class MobileService implements GoogleApiClient.ConnectionCallbacks, DataA
         if (client != null && clients.contains(client)) {
             clients.remove(client);
         }
-        if(clients.isEmpty()) {
+        if (clients.isEmpty()) {
             mGoogleApiClient.disconnect();
         }
     }
@@ -95,6 +100,7 @@ public class MobileService implements GoogleApiClient.ConnectionCallbacks, DataA
             client.connected();
         }
         Wearable.DataApi.addListener(mGoogleApiClient, this);
+        Wearable.MessageApi.addListener(mGoogleApiClient, this);
     }
 
     @Override
@@ -185,7 +191,9 @@ public class MobileService implements GoogleApiClient.ConnectionCallbacks, DataA
                 Log.e(TAG, "Got a null response from openHAB");
             }
             for (MobileServiceClient client : clients) {
-                client.onSitemapLoaded(widgetList, thisSitemapLink);
+                if (client instanceof MobileServiceWdigetListClient) {
+                    ((MobileServiceWdigetListClient) client).onSitemapLoaded(widgetList, thisSitemapLink);
+                }
             }
         } catch (ParserConfigurationException e) {
             Log.e(TAG, "ParserConfig", e);
@@ -221,6 +229,16 @@ public class MobileService implements GoogleApiClient.ConnectionCallbacks, DataA
         }
     }
 
+    @Override
+    public void onMessageReceived(MessageEvent messageEvent) {
+        boolean success = messageEvent.getPath().endsWith(SharedConstants.MessagePath.SUCCESS.value());
+        for (MobileServiceClient client : clients) {
+            if (client instanceof MobileServiceWdigetClient) {
+                ((MobileServiceWdigetClient) client).commandExecuted(success);
+            }
+        }
+    }
+
     private void processDataMapItem(DataMapItem dataMapItem) {
         DataMap map = dataMapItem.getDataMap();
         Log.d(TAG, "Got DataMapItem: " + map);
@@ -236,6 +254,44 @@ public class MobileService implements GoogleApiClient.ConnectionCallbacks, DataA
 
     public void getBaseSitemap() {
         new GetDataAsync().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+    }
+
+    public void sendCommand(String command, String link) {
+        new SendCommandAsync().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, command, link);
+    }
+
+    private void sendCommand(List<String> nodeIdList, String command, String link) {
+        String firstNodeId;
+        if (!nodeIdList.isEmpty()) {
+            firstNodeId = nodeIdList.get(0);
+            nodeIdList.remove(0);
+            SendCommandResultCallBack callBack = new SendCommandResultCallBack(command, link, nodeIdList);
+            String dataToSend = command + "::" + link;
+            Wearable.MessageApi.sendMessage(mGoogleApiClient, firstNodeId, SharedConstants.MessagePath.SEND_TO_OPENHAB.value(), dataToSend.getBytes()).setResultCallback(callBack);
+        }
+    }
+
+    class SendCommandResultCallBack implements ResultCallback<MessageApi.SendMessageResult> {
+        private List<String> mNodeIds;
+
+        private String mLink;
+
+        private String mCommand;
+
+        public SendCommandResultCallBack(String command, String link, List<String> nodeIds) {
+            mNodeIds = nodeIds;
+            mLink = link;
+            mCommand = command;
+        }
+
+        @Override
+        public void onResult(MessageApi.SendMessageResult sendMessageResult) {
+            if (!sendMessageResult.getStatus().isSuccess()) {
+                sendCommand(mNodeIds, mCommand, mLink);
+            } else {
+                Log.d(TAG, "Successfully sent command to backend");
+            }
+        }
     }
 
     class GetDataAsync extends AsyncTask<Void, Void, SitemapBaseValues> {
@@ -298,9 +354,16 @@ public class MobileService implements GoogleApiClient.ConnectionCallbacks, DataA
         protected void onPostExecute(SitemapBaseValues sitemapBaseValues) {
             if (sitemapBaseValues == null) {
                 for (MobileServiceClient client : clients) {
-                    client.sitemapBaseMissing();
+                    if (client instanceof MobileServiceBaseClient) {
+                        ((MobileServiceBaseClient) client).sitemapBaseMissing();
+                    }
                 }
             } else {
+                for (MobileServiceClient client : clients) {
+                    if (client instanceof MobileServiceBaseClient) {
+                        ((MobileServiceBaseClient) client).sitemapBaseFound(sitemapBaseValues);
+                    }
+                }
                 new GetSiteDataAsync().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, sitemapBaseValues.getSitemapUrl());
             }
         }
@@ -377,4 +440,17 @@ public class MobileService implements GoogleApiClient.ConnectionCallbacks, DataA
             }
         }
     }
+
+    class SendCommandAsync extends AsyncTask<String, Void, Void> {
+
+        @Override
+        protected Void doInBackground(String... params) {
+            String command = params[0];
+            String link = params[1];
+            List<String> nodes = getNodeIdList();
+            sendCommand(nodes, command, link);
+            return null;
+        }
+    }
+
 }

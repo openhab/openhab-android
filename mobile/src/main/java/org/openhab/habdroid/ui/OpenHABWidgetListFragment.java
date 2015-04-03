@@ -71,7 +71,7 @@ import javax.xml.parsers.ParserConfigurationException;
  */
 
 public class OpenHABWidgetListFragment extends ListFragment {
-    private static final String TAG = "OpenHABWidgetListFragment";
+    private static final String TAG = "OpenHABWidgetListFrag";
     private OnWidgetSelectedListener widgetSelectedListener;
     // Datasource, providing list of openHAB widgets
     private OpenHABWidgetDataSource openHABWidgetDataSource;
@@ -570,6 +570,18 @@ public class OpenHABWidgetListFragment extends ListFragment {
 
     public int getPosition() {
         return mPosition;
+    }
+
+    public boolean onVolumeDown() {
+        return openHABWidgetAdapter.onVolumeDown();
+    }
+
+    public boolean onVolumeUp() {
+        return openHABWidgetAdapter.onVolumeUp();
+    }
+
+    public boolean isVolumeHandled() {
+        return openHABWidgetAdapter.isVolumeHandled();
     }
 
 }
