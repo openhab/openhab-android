@@ -110,7 +110,7 @@ public class MobileService implements GoogleApiClient.ConnectionCallbacks, DataA
         }
     }
 
-    public List<Uri> getUriForDataItem(String path) {
+    private List<Uri> getUriForDataItem(String path) {
         List<Uri> result = new ArrayList<Uri>();
         List<String> nodeIds = getNodeIdList();
         for (String nodeId : nodeIds) {
@@ -119,7 +119,7 @@ public class MobileService implements GoogleApiClient.ConnectionCallbacks, DataA
         return result;
     }
 
-    public List<String> getNodeIdList() {
+    private List<String> getNodeIdList() {
         PendingResult<NodeApi.GetConnectedNodesResult> connectedNodes = Wearable.NodeApi.getConnectedNodes(mGoogleApiClient);
         NodeApi.GetConnectedNodesResult connectedNodesResult = connectedNodes.await(5, TimeUnit.SECONDS);
         List<String> nodeIds = new ArrayList<String>();
@@ -130,15 +130,15 @@ public class MobileService implements GoogleApiClient.ConnectionCallbacks, DataA
         return nodeIds;
     }
 
-    public PendingResult<DataItemBuffer> getDataItems() {
+    private PendingResult<DataItemBuffer> getDataItems() {
         return Wearable.DataApi.getDataItems(mGoogleApiClient);
     }
 
-    public PendingResult<DataItemBuffer> getDataItems(Uri uri) {
+    private PendingResult<DataItemBuffer> getDataItems(Uri uri) {
         return Wearable.DataApi.getDataItems(mGoogleApiClient, uri);
     }
 
-    public DataMapItem getDataItemForUri(Uri uri, String currentLink) {
+    private DataMapItem getDataItemForUri(Uri uri, String currentLink) {
         PendingResult<DataItemBuffer> pendingResult = Wearable.DataApi.getDataItems(mGoogleApiClient, uri);
         DataItemBuffer dataItem = pendingResult.await(5, TimeUnit.SECONDS);
         int count = dataItem.getCount();
@@ -157,7 +157,7 @@ public class MobileService implements GoogleApiClient.ConnectionCallbacks, DataA
         return null;
     }
 
-    public void getDataFromMobileApp(String link, List<String> nodeIdList) {
+    private void getDataFromMobileApp(String link, List<String> nodeIdList) {
         String firstNodeId;
         if (!nodeIdList.isEmpty()) {
             firstNodeId = nodeIdList.get(0);
@@ -271,7 +271,7 @@ public class MobileService implements GoogleApiClient.ConnectionCallbacks, DataA
         }
     }
 
-    class SendCommandResultCallBack implements ResultCallback<MessageApi.SendMessageResult> {
+    private final class SendCommandResultCallBack implements ResultCallback<MessageApi.SendMessageResult> {
         private List<String> mNodeIds;
 
         private String mLink;
@@ -294,7 +294,7 @@ public class MobileService implements GoogleApiClient.ConnectionCallbacks, DataA
         }
     }
 
-    class GetDataAsync extends AsyncTask<Void, Void, SitemapBaseValues> {
+    private final class GetDataAsync extends AsyncTask<Void, Void, SitemapBaseValues> {
 
         @Override
         protected SitemapBaseValues doInBackground(Void... params) {
@@ -369,7 +369,7 @@ public class MobileService implements GoogleApiClient.ConnectionCallbacks, DataA
         }
     }
 
-    class GetSiteDataAsync extends AsyncTask<String, Void, DataMapItem> {
+    private final class GetSiteDataAsync extends AsyncTask<String, Void, DataMapItem> {
 
         private String mCurrentLink;
 
@@ -406,7 +406,7 @@ public class MobileService implements GoogleApiClient.ConnectionCallbacks, DataA
         }
     }
 
-    class GetRemoteDataAsync extends AsyncTask<String, Void, Void> {
+    private final class GetRemoteDataAsync extends AsyncTask<String, Void, Void> {
 
 
         @Override
@@ -420,7 +420,7 @@ public class MobileService implements GoogleApiClient.ConnectionCallbacks, DataA
         }
     }
 
-    class GetDataResultCallBack implements ResultCallback<MessageApi.SendMessageResult> {
+    private final class GetDataResultCallBack implements ResultCallback<MessageApi.SendMessageResult> {
 
         private List<String> mNodeIds;
 
@@ -441,7 +441,7 @@ public class MobileService implements GoogleApiClient.ConnectionCallbacks, DataA
         }
     }
 
-    class SendCommandAsync extends AsyncTask<String, Void, Void> {
+    private final class SendCommandAsync extends AsyncTask<String, Void, Void> {
 
         @Override
         protected Void doInBackground(String... params) {
