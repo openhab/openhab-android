@@ -312,7 +312,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     	case TYPE_SWITCH:
     		if (labelTextView != null)
     			labelTextView.setText(openHABWidget.getLabel());
-            SwitchCompat switchSwitch = (SwitchCompat)widgetView.findViewById(R.id.switchswitch);
+    		SwitchCompat switchSwitch = (SwitchCompat)widgetView.findViewById(R.id.switchswitch);
     		if (openHABWidget.hasItem()) {
     			if (openHABWidget.getItem().getStateAsBoolean()) {
     				switchSwitch.setChecked(true);
