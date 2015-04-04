@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="fill_parent"
+  android:layout_height="wrap_content"
+  android:focusable="false"
+  android:paddingLeft="@dimen/widgetlist_item_left_margin"
+  android:paddingRight="@dimen/widgetlist_item_right_margin"
+  android:minHeight="50dp"
+	>
+    <LinearLayout
+        android:id="@+id/listdivider"
+        android:layout_width="fill_parent"
+        android:layout_height="8dip"
+        android:background="?attr/frameWidgetDividerBackground"
+        android:orientation="horizontal"
+        android:layout_marginLeft="@dimen/widgetlist_divider_left_margin"
+        android:layout_marginRight="@dimen/widgetlist_divider_right_margin"
+        android:layout_marginBottom="7dip"
+        android:gravity="top"
+        />
+    <TextView android:id="@+id/widgetlabel"
+        android:gravity="center_vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="6dip"
+        android:layout_centerVertical="true"
+        android:textStyle="bold"
+        android:textAllCaps="true"
+        android:paddingLeft="5dp"
+        android:textColor="?android:colorPrimary"
+    />
+</RelativeLayout>

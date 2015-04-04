@@ -13,12 +13,15 @@
 
 package org.openhab.habdroid.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-public class OpenHABSitemap {
+public class OpenHABSitemap implements Parcelable {
 	private String name;
     private String label;
 	private String link;
@@ -79,6 +82,14 @@ public class OpenHABSitemap {
         }
     }
 
+    private OpenHABSitemap(Parcel in) {
+        this.name = in.readString();
+        this.label = in.readString();
+        this.link = in.readString();
+        this.icon = in.readString();
+        this.homepageLink = in.readString();
+    }
+
 	public String getName() {
 		return name;
 	}
@@ -119,4 +130,29 @@ public class OpenHABSitemap {
     public void setLeaf(boolean isLeaf) {
         leaf = isLeaf;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(name);
+        dest.writeString(label);
+        dest.writeString(link);
+        dest.writeString(icon);
+        dest.writeString(homepageLink);
+    }
+
+    public static final Parcelable.Creator<OpenHABSitemap> CREATOR = new Parcelable.Creator<OpenHABSitemap>() {
+        public OpenHABSitemap createFromParcel(Parcel in) {
+            return new OpenHABSitemap(in);
+        }
+
+        public OpenHABSitemap[] newArray(int size) {
+            return new OpenHABSitemap[size];
+        }
+    };
+
 }

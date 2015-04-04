@@ -39,16 +39,6 @@ public class Util {
 
     private final static String TAG = "Util";
 
-	public static void setActivityTheme(Activity activity) {
-		if (PreferenceManager.getDefaultSharedPreferences(activity).getString(Constants.PREFERENCE_THEME, "dark").equals("dark")) {
-//			activity.setTheme(android.R.style.Theme_Holo);
-			activity.setTheme(R.style.HABDroid_Dark);
-		} else {
-//			activity.setTheme(android.R.style.Theme_Holo_Light);
-			activity.setTheme(R.style.HABDroid_Light);
-		}
-	}
-	
 	public static void overridePendingTransition(Activity activity, boolean reverse) {
 		if (PreferenceManager.getDefaultSharedPreferences(activity).getString(Constants.PREFERENCE_ANIMATION, "android").equals("android")) {
 		} else if (PreferenceManager.getDefaultSharedPreferences(activity).getString(Constants.PREFERENCE_ANIMATION, "android").equals("ios")) {

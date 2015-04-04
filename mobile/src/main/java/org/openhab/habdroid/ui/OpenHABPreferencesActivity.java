@@ -23,7 +23,7 @@ import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.PreferenceActivity;
 import android.util.Log;
 
-import com.google.analytics.tracking.android.EasyTracker;
+import com.google.android.gms.analytics.GoogleAnalytics;
 
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.util.Constants;
@@ -42,26 +42,23 @@ public class OpenHABPreferencesActivity extends PreferenceActivity {
 	@Override
 	public void onStart() {
 		super.onStart();
-		EasyTracker.getInstance().activityStart(this);
+        GoogleAnalytics.getInstance(this).reportActivityStart(this);
 	}
 	
 	@Override
 	public void onStop() {
 		super.onStop();
-		EasyTracker.getInstance().activityStop(this);
+        GoogleAnalytics.getInstance(this).reportActivityStop(this);
 	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		Util.setActivityTheme(this);
 	    super.onCreate(savedInstanceState);
 	    addPreferencesFromResource(R.xml.preferences);
 	    Preference urlPreference = getPreferenceScreen().findPreference(Constants.PREFERENCE_URL);
 	    Preference altUrlPreference = getPreferenceScreen().findPreference(Constants.PREFERENCE_ALTURL);
 	    Preference usernamePreference = getPreferenceScreen().findPreference(Constants.PREFERENCE_USERNAME);
 	    Preference passwordPreference = getPreferenceScreen().findPreference(Constants.PREFERENCE_PASSWORD);
-	    ListPreference themePreference = (ListPreference)getPreferenceScreen().findPreference(Constants.PREFERENCE_THEME);
-	    ListPreference animationPreference = (ListPreference)getPreferenceScreen().findPreference(Constants.PREFERENCE_ANIMATION);
 	    Preference versionPreference = getPreferenceScreen().findPreference(Constants.PREFERENCE_APPVERSION);
 	    urlPreference.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
 			@Override
@@ -106,24 +103,6 @@ public class OpenHABPreferencesActivity extends PreferenceActivity {
 			}
 	    });
 	    updatePasswordPreferenceSummary(passwordPreference, null);
-	    themePreference.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
-			@Override
-			public boolean onPreferenceChange(Preference preference, Object newValue) {
-				ListPreference listPreference = (ListPreference)preference;
-				listPreference.setSummary(listPreference.getEntries()[listPreference.findIndexOfValue((String)newValue)]);
-				return true;
-			}
-	    });
-	    themePreference.setSummary(themePreference.getEntry());
-	    animationPreference.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
-			@Override
-			public boolean onPreferenceChange(Preference preference, Object newValue) {
-				ListPreference listPreference = (ListPreference)preference;
-				listPreference.setSummary(listPreference.getEntries()[listPreference.findIndexOfValue((String)newValue)]);
-				return true;
-			}
-	    });
-	    animationPreference.setSummary(animationPreference.getEntry());
 	    updateTextPreferenceSummary(versionPreference, null);
 
         //fullscreen is not supoorted in builds < 4.4

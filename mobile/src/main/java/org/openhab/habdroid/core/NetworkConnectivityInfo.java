@@ -39,7 +39,7 @@ public class NetworkConnectivityInfo implements Parcelable {
                 Context.CONNECTIVITY_SERVICE);
         NetworkConnectivityInfo connectivityInfo = new NetworkConnectivityInfo();
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-        if (activeNetworkInfo.isConnected()) {
+        if (activeNetworkInfo != null && activeNetworkInfo.isConnected()) {
             connectivityInfo.setNetworkType(activeNetworkInfo.getType());
             if (activeNetworkInfo.getType() == ConnectivityManager.TYPE_WIFI) {
                 // get ssid here
