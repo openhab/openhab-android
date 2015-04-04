@@ -1,29 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="HABDroid.Dark" parent="@style/Theme.AppCompat">
+    <style name="HABDroid.Light" parent="@style/Theme.AppCompat.Light">
         <item name="customMicIcon">@android:drawable/ic_btn_speak_now</item>
-        <item name="android:actionBarStyle">@style/HABDroid.Dark.ActionBar</item>
-        <item name="widgetlistItemDivider">?android:dividerHorizontal</item>
-        <item name="colorPrimary">#FF5722</item>
-        <item name="colorAccent">#FF5722</item>
-        <item name="colorPrimaryDark">#BF360C</item>
-        <item name="frameWidgetDividerBackground">@drawable/material_divider_dark</item>
-    </style>
-
-    <style name="HABDroid.Light" parent="@style/Theme.AppCompat.Light.DarkActionBar">
-        <item name="customMicIcon">@android:drawable/ic_btn_speak_now</item>
-        <item name="android:actionBarStyle">@style/HABDroid.Light.ActionBar</item>
         <item name="widgetlistItemDivider">?android:dividerHorizontal</item>
         <item name="colorPrimary">#FF5722</item>
         <item name="colorAccent">#FF5722</item>
         <item name="colorPrimaryDark">#BF360C</item>
         <item name="frameWidgetDividerBackground">@drawable/material_divider</item>
-    </style>
-
-    <style name="HABDroid.Dark.ActionBar" parent="@style/Widget.AppCompat.ActionBar">
-        <item name="android:icon">@drawable/openhabicon</item>
-    </style>
-    <style name="HABDroid.Light.ActionBar" parent="@style/Widget.AppCompat.Light.ActionBar">
-        <item name="android:icon">@drawable/openhabicon_light</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
     </style>
 </resources>

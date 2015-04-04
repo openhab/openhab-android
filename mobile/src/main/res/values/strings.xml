@@ -28,8 +28,6 @@
     <string name="settings_openhab_screentimeroff_summary">Disable display switch off timer when HABDroid is running</string>
     <string name="settings_openhab_demomode">Demo mode</string>
     <string name="settings_openhab_demomode_summary">Run HABDroid in demo mode</string>
-    <string name="settings_openhab_theme">HABDroid Theme</string>
-    <string name="settings_openhab_animation">Animation style</string>
     <string name="settings_openhab_appversion">HABDroid Version</string>
     <string name="settings_openhab_sslcert">Ignore SSL certificate</string>
     <string name="settings_openhab_sslcert_summary">Ignore certificate validation during SSL handshake</string>
@@ -37,6 +35,7 @@
     <string name="settings_openhab_sslhost_summary">Ignore hostname check during SSL handshake</string>
     <string name="settings_openhab_fullscreen">Full Screen</string>
     <string name="settings_openhab_fullscreen_summary">Display in fullscreen mode</string>
+    <string name="settings_ringtone">Ring tone</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">OpenHAB Voice Commands</string>
     <string name="info_voice_input">"openHAB, at your command!"</string>

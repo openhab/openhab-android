@@ -31,7 +31,6 @@ import android.widget.ListView;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestHandle;
-import com.loopj.android.http.TextHttpResponseHandler;
 
 import org.apache.http.Header;
 import org.apache.http.message.BasicHeader;
@@ -65,7 +64,7 @@ import javax.xml.parsers.ParserConfigurationException;
  */
 
 public class OpenHABWidgetListFragment extends ListFragment {
-    private static final String TAG = "OpenHABWidgetListFragment";
+    private static final String TAG = "OpenHABWidgetListFrag";
     private OnWidgetSelectedListener widgetSelectedListener;
     // Datasource, providing list of openHAB widgets
     private OpenHABWidgetDataSource openHABWidgetDataSource;
@@ -330,8 +329,10 @@ public class OpenHABWidgetListFragment extends ListFragment {
         Log.i(TAG, " showPage for " + pageUrl + " longPolling = " + longPolling);
         Log.d(TAG, "isAdded = " + isAdded());
         // Cancel any existing http request to openHAB (typically ongoing long poll)
-        if (!longPolling)
+        if (!longPolling) {
             startProgressIndicator();
+            this.mAtmosphereTrackingId = null;
+        }
         List<BasicHeader> headers = new LinkedList<BasicHeader>();
         if (mActivity.getOpenHABVersion() == 1)
             headers.add(new BasicHeader("Accept", "application/xml"));
@@ -397,7 +398,7 @@ public class OpenHABWidgetListFragment extends ListFragment {
     /**
      * Parse XML sitemap page and show it
      *
-     * @param  document	XML Document
+     * @param document  XML Document
      * @return      void
      */
     public void processContent(String responseString, boolean longPolling) {
@@ -493,10 +494,8 @@ public class OpenHABWidgetListFragment extends ListFragment {
                 getActivity().finish();
             }
         }
-        if (longPolling)
-            showPage(displayPageUrl, false);
-        else
-            showPage(displayPageUrl, true);
+
+        showPage(displayPageUrl, true);
     }
 
     private void stopProgressIndicator() {
@@ -556,6 +555,18 @@ public class OpenHABWidgetListFragment extends ListFragment {
 
     public int getPosition() {
         return mPosition;
+    }
+
+    public boolean onVolumeDown() {
+        return openHABWidgetAdapter.onVolumeDown();
+    }
+
+    public boolean onVolumeUp() {
+        return openHABWidgetAdapter.onVolumeUp();
+    }
+
+    public boolean isVolumeHandled() {
+        return openHABWidgetAdapter.isVolumeHandled();
     }
 
 }

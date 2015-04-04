@@ -28,6 +28,5 @@
         android:textStyle="bold"
         android:textAllCaps="true"
         android:paddingLeft="5dp"
-        android:textColor="?colorPrimary"
         />
 </RelativeLayout>
