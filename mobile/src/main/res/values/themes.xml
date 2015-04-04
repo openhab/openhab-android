@@ -10,4 +10,14 @@
         <item name="android:windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
     </style>
+    <style name="HABDroid.Dark" parent="@style/Theme.AppCompat">
+        <item name="customMicIcon">@android:drawable/ic_btn_speak_now</item>
+        <item name="widgetlistItemDivider">?android:dividerHorizontal</item>
+        <item name="colorPrimary">#FF5722</item>
+        <item name="colorAccent">#FF5722</item>
+        <item name="colorPrimaryDark">#BF360C</item>
+        <item name="frameWidgetDividerBackground">@drawable/material_divider</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+    </style>
 </resources>
