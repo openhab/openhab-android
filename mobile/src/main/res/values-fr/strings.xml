@@ -71,4 +71,5 @@
     <string name="mtm_decision_once">Une fois</string>
     <string name="mtm_decision_abort">Annuler</string>
     <string name="mtm_notification">Validation du certificat SSL</string>
+    <string name="settings_openhab_theme">Thème HABDroid</string>
 </resources>

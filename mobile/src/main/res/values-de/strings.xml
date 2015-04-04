@@ -64,4 +64,5 @@
     <string name="mtm_decision_once">Einmalig</string>
     <string name="mtm_decision_abort">Abbrechen</string>
     <string name="mtm_notification">Unbekanntes Zertifikat</string>
+    <string name="settings_openhab_theme">HABDroid Theme</string>
 </resources>
