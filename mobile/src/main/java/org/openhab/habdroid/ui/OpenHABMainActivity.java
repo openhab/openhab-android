@@ -215,6 +215,7 @@ public class OpenHABMainActivity extends ActionBarActivity implements OnWidgetSe
         mAsyncHttpClient.setTimeout(30000);
         if (!isDeveloper)
             Util.initCrittercism(getApplicationContext(), "5117659f59e1bd4ba9000004");
+        Util.setActivityTheme(this);
         super.onCreate(savedInstanceState);
         if (!isDeveloper)
             ((HABDroid) getApplication()).getTracker(HABDroid.TrackerName.APP_TRACKER);

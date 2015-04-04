@@ -32,6 +32,12 @@
             android:key="default_openhab_password"
             android:summary="@string/settings_openhab_password_summary"
             android:title="@string/settings_openhab_password" />
+        <ListPreference
+            android:key="default_openhab_theme"
+            android:title="@string/settings_openhab_theme"
+            android:defaultValue="dark"
+            android:entries="@array/themeArray"
+            android:entryValues="@array/themeValues" />
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="default_openhab_sslcert"

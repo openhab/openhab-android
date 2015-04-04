@@ -72,4 +72,5 @@ tools:ignore="MissingTranslation">
 <string name="mtm_decision_once">eenmalig</string>
 <string name="mtm_decision_abort">Abort</string>
 <string name="mtm_notification">Certificate verification</string>
+<string name="settings_openhab_theme">HABDroid Thema</string>
 </resources>
