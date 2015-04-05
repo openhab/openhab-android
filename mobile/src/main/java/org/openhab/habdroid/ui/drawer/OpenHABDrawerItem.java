@@ -21,9 +21,9 @@ public class OpenHABDrawerItem {
     private DrawerItemType mItemType;
     private OpenHABSitemap mSiteMap;
     private int mCount = 0;
+    private int mTag;
 
     public OpenHABDrawerItem() {
-
     }
 
     // A constructor to create a SITEMAP_ITEM
@@ -46,24 +46,34 @@ public class OpenHABDrawerItem {
         return newItem;
     }
 
-    public static OpenHABDrawerItem menuItem(String labelText, Drawable icon) {
+    public static OpenHABDrawerItem menuItem(String labelText, Drawable icon, int tag) {
         OpenHABDrawerItem newItem = new OpenHABDrawerItem();
         newItem.mLabelText = labelText;
         newItem.mIcon = icon;
         newItem.setItemType(DrawerItemType.MENU_ITEM);
+        newItem.setTag(tag);
         return newItem;
     }
 
-    public static OpenHABDrawerItem menuWithCountItem(String labelText, Drawable icon, int count) {
+    public static OpenHABDrawerItem menuItem(String labelText, Drawable icon) {
+        return menuItem(labelText, icon, 0);
+    }
+
+    public static OpenHABDrawerItem menuWithCountItem(String labelText, Drawable icon, int count, int tag) {
         OpenHABDrawerItem newItem = new OpenHABDrawerItem();
         newItem.mLabelText = labelText;
         newItem.mIcon = icon;
         newItem.mCount = count;
         newItem.setItemType(DrawerItemType.MENU_WITH_COUNT);
+        newItem.setTag(tag);
         return newItem;
     }
 
-    public String getLabelText() {
+    public static OpenHABDrawerItem menuWithCountItem(String labelText, Drawable icon, int count) {
+        return menuWithCountItem(labelText, icon, count, 0);
+    }
+
+        public String getLabelText() {
         return mLabelText;
     }
 
@@ -103,5 +113,11 @@ public class OpenHABDrawerItem {
         this.mCount = count;
     }
 
+    public int getTag() {
+        return mTag;
+    }
 
+    public void setTag(int tag) {
+        this.mTag = tag;
+    }
 }
