@@ -111,6 +111,8 @@ public class OpenHABMainActivity extends ActionBarActivity implements OnWidgetSe
     private static final int SETTINGS_REQUEST_CODE = 1002;
     private static final int WRITE_NFC_TAG_REQUEST_CODE = 1003;
     private static final int INFO_REQUEST_CODE = 1004;
+    // Drawer item codes
+    private static final int DRAWER_NOTIFICATIONS = 100;
     // Loopj
 //    private static MyAsyncHttpClient mAsyncHttpClient;
     private static AsyncHttpClient mAsyncHttpClient = new AsyncHttpClient();
@@ -153,7 +155,6 @@ public class OpenHABMainActivity extends ActionBarActivity implements OnWidgetSe
     // Google Cloud Messaging
     private GoogleCloudMessaging mGcm;
     private OpenHABDrawerAdapter mDrawerAdapter;
-    private String[] mDrawerTitles = {"First floor", "Seconf floor", "Cellar", "Garage"};
     private ListView mDrawerList;
     private ArrayList<OpenHABSitemap> mSitemapList;
     private boolean supportsKitKat = false;
@@ -215,6 +216,7 @@ public class OpenHABMainActivity extends ActionBarActivity implements OnWidgetSe
         mAsyncHttpClient.setTimeout(30000);
         if (!isDeveloper)
             Util.initCrittercism(getApplicationContext(), "5117659f59e1bd4ba9000004");
+        Util.setActivityTheme(this);
         super.onCreate(savedInstanceState);
         if (!isDeveloper)
             ((HABDroid) getApplication()).getTracker(HABDroid.TrackerName.APP_TRACKER);
@@ -281,6 +283,12 @@ public class OpenHABMainActivity extends ActionBarActivity implements OnWidgetSe
                     openSitemap(mDrawerItemList.get(item).getSiteMap().getHomepageLink());
                 } else {
                     Log.d(TAG, "This is not sitemap");
+                    if (mDrawerItemList.get(item).getTag() == DRAWER_NOTIFICATIONS) {
+                        Log.d(TAG, "Notifications selected");
+                        mDrawerLayout.closeDrawers();
+                        OpenHABMainActivity.this.pagerAdapter.openNotifications();
+                        pager.setCurrentItem(pagerAdapter.getCount() - 1);
+                    }
                 }
             }
         });
@@ -727,11 +735,13 @@ public class OpenHABMainActivity extends ActionBarActivity implements OnWidgetSe
             case R.id.mainmenu_openhab_writetag:
                 Intent writeTagIntent = new Intent(this.getApplicationContext(), OpenHABWriteTagActivity.class);
                 // TODO: get current display page url, which? how? :-/
-                OpenHABWidgetListFragment currentFragment = pagerAdapter.getFragment(pager.getCurrentItem());
-                if (currentFragment != null) {
-                    writeTagIntent.putExtra("sitemapPage", currentFragment.getDisplayPageUrl());
-                    startActivityForResult(writeTagIntent, WRITE_NFC_TAG_REQUEST_CODE);
-                    Util.overridePendingTransition(this, false);
+                if (pagerAdapter.getFragment(pager.getCurrentItem()) instanceof OpenHABWidgetListFragment) {
+                    OpenHABWidgetListFragment currentFragment = (OpenHABWidgetListFragment)pagerAdapter.getFragment(pager.getCurrentItem());
+                    if (currentFragment != null) {
+                        writeTagIntent.putExtra("sitemapPage", currentFragment.getDisplayPageUrl());
+                        startActivityForResult(writeTagIntent, WRITE_NFC_TAG_REQUEST_CODE);
+                        Util.overridePendingTransition(this, false);
+                    }
                 }
                 return true;
             case R.id.mainmenu_openhab_info:
@@ -937,14 +947,18 @@ public class OpenHABMainActivity extends ActionBarActivity implements OnWidgetSe
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         Log.v(TAG, "KeyDown: " + event.toString());
         if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN){
-            OpenHABWidgetListFragment currentFragment = pagerAdapter.getFragment(pager.getCurrentItem());
-            if (currentFragment != null)
-                return currentFragment.onVolumeDown();
+            if (pagerAdapter.getFragment(pager.getCurrentItem()) instanceof OpenHABWidgetListFragment) {
+                OpenHABWidgetListFragment currentFragment = (OpenHABWidgetListFragment)pagerAdapter.getFragment(pager.getCurrentItem());
+                if (currentFragment != null)
+                    return currentFragment.onVolumeDown();
+            }
         }
         else if(keyCode == KeyEvent.KEYCODE_VOLUME_UP){
-            OpenHABWidgetListFragment currentFragment = pagerAdapter.getFragment(pager.getCurrentItem());
-            if (currentFragment != null)
-                return currentFragment.onVolumeUp();
+            if (pagerAdapter.getFragment(pager.getCurrentItem()) instanceof OpenHABWidgetListFragment) {
+                OpenHABWidgetListFragment currentFragment = (OpenHABWidgetListFragment)pagerAdapter.getFragment(pager.getCurrentItem());
+                if (currentFragment != null)
+                    return currentFragment.onVolumeUp();
+            }
         }
         return super.onKeyDown(keyCode, event);
     }
@@ -953,9 +967,11 @@ public class OpenHABMainActivity extends ActionBarActivity implements OnWidgetSe
     public boolean onKeyUp(int keyCode, KeyEvent event) {
         Log.v(TAG, "KeyUp: " + event.toString());
         if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN || keyCode == KeyEvent.KEYCODE_VOLUME_UP){
-            OpenHABWidgetListFragment currentFragment = pagerAdapter.getFragment(pager.getCurrentItem());
-            if (currentFragment != null && currentFragment.isVolumeHandled())
-                return true;
+            if (pagerAdapter.getFragment(pager.getCurrentItem()) instanceof OpenHABWidgetListFragment) {
+                OpenHABWidgetListFragment currentFragment = (OpenHABWidgetListFragment)pagerAdapter.getFragment(pager.getCurrentItem());
+                if (currentFragment != null && currentFragment.isVolumeHandled())
+                    return true;
+            }
         }
         return super.onKeyUp(keyCode, event);
     }
@@ -1189,7 +1205,8 @@ public class OpenHABMainActivity extends ActionBarActivity implements OnWidgetSe
 //        mDrawerItemList.add(OpenHABDrawerItem.menuItem("Favorites", getResources().getDrawable(R.drawable.ic_star_grey600_36dp)));
         // Only show Notifications item if using my.openHAB
         if (mIsMyOpenHAB)
-            mDrawerItemList.add(OpenHABDrawerItem.menuWithCountItem("Notifications", getResources().getDrawable(R.drawable.ic_notifications_grey600_36dp), 21));
+//            mDrawerItemList.add(OpenHABDrawerItem.menuWithCountItem("Notifications", getResources().getDrawable(R.drawable.ic_notifications_grey600_36dp), 21));
+            mDrawerItemList.add(OpenHABDrawerItem.menuItem("Notifications", getResources().getDrawable(R.drawable.ic_notifications_grey600_36dp), DRAWER_NOTIFICATIONS));
         // Only show those items if openHAB version is >= 2, openHAB 1.x just don't have those APIs...
         if (mOpenHABVersion >= 2) {
             mDrawerItemList.add(OpenHABDrawerItem.menuItem("Discover", getResources().getDrawable(R.drawable.ic_track_changes_grey600_36dp)));
