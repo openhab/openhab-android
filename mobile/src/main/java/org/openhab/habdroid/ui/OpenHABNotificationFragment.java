@@ -36,13 +36,9 @@ public class OpenHABNotificationFragment extends ListFragment implements SwipeRe
 
     private static final String TAG = "NotificationFragment";
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_USERNAME = "openHABUsername";
     private static final String ARG_PASSWORD = "openHABPassword";
 
-    // TODO: Rename and change types of parameters
-    // Username/password for authentication
     private String openHABUsername = "";
     private String openHABPassword = "";
 
@@ -236,7 +232,6 @@ public class OpenHABNotificationFragment extends ListFragment implements SwipeRe
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         public void onFragmentInteraction(String id);
     }
 

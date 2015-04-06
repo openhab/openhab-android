@@ -24,6 +24,7 @@
     <string name="settings_openhab_screentimeroff_summary">Schaltet das automatische Aktivieren des Ruhezustands nach Inaktivität ab, wenn HABDroid läuft.</string>
     <string name="settings_openhab_demomode">Demo Modus</string>
     <string name="settings_openhab_demomode_summary">Betreibt HABDroid im Demo Modus</string>
+    <string name="settings_openhab_theme">HABDroid Theme</string>
     <string name="settings_openhab_appversion">HABDroid Version</string>
     <string name="settings_openhab_sslcert">Ignoriere SSL Zertifikat</string>
     <string name="settings_openhab_sslcert_summary">Ignoriere Zertifikatsvalidierung beim SSL-Handshake</string>

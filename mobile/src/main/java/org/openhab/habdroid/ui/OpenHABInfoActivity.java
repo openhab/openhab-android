@@ -43,6 +43,7 @@ public class OpenHABInfoActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         Log.d(TAG, "onCreate()");
         super.onCreate(savedInstanceState);
+        Util.setActivityTheme(this);
         setContentView(R.layout.openhabinfo);
         mAsyncHttpClient = new MyAsyncHttpClient(this);
         mOpenHABVersionText = (TextView)findViewById(R.id.openhab_version);

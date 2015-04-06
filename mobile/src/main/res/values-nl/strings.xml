@@ -28,6 +28,7 @@ tools:ignore="MissingTranslation">
 <string name="settings_openhab_screentimeroff_summary">Zet het uitschakelen van het scherm uit als HABDroid actief is.</string>
 <string name="settings_openhab_demomode">Demo mode</string>
 <string name="settings_openhab_demomode_summary">Gebruik HABDroid in demo mode</string>
+<string name="settings_openhab_theme">HABDroid Thema</string>
 <string name="settings_openhab_appversion">HABDroid Versie</string>
 <string name="settings_openhab_sslcert">Negeer SSL certificaat</string>
 <string name="settings_openhab_sslcert_summary">Negeer certificaat validatie tijdens SSLverificatie</string>
