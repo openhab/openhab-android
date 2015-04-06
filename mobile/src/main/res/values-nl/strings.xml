@@ -15,7 +15,6 @@ tools:ignore="MissingTranslation">
 <string name="mainmenu_openhab_info">openHAB info</string>
 <string name="mainmenu_openhab_clearcache">Verwijder afbeeldings cache</string>
 <!-- App settings strings -->
-<string name="settings_title">HABDroid Instellingen</string>
 <string name="settings_openhab_url">openHAB URL</string>
 <string name="settings_openhab_url_summary">Handmatig ingevulde openHAB URL. Zet autmatisch ontdekking uit.</string>
 <string name="settings_openhab_alturl">openHAB externe URL</string>

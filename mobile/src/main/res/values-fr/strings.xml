@@ -14,7 +14,6 @@
     <string name="mainmenu_openhab_info">Infos openHAB</string>
     <string name="mainmenu_openhab_clearcache">Effacer le cache image</string>
     <!-- App settings strings -->
-    <string name="settings_title">Paramètres HABDroid</string>
     <string name="settings_openhab_url">URL openHAB</string>
     <string name="settings_openhab_url_summary">Configurer manuellement l\'adresse openHAB. Cela désactive la découverte automatique si disponible.</string>
     <string name="settings_openhab_alturl">URL openHAB distante</string>
