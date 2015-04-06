@@ -22,6 +22,11 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import java.util.Locale;
+import java.util.concurrent.TimeUnit;
+
+import android.speech.tts.TextToSpeech;
+import android.speech.tts.TextToSpeech.OnInitListener;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
@@ -31,13 +36,16 @@ import org.openhab.habdroid.R;
 import org.openhab.habdroid.ui.OpenHABMainActivity;
 import org.openhab.habdroid.util.Constants;
 
-public class GcmIntentService extends IntentService {
+public class GcmIntentService extends IntentService implements OnInitListener {
 
     private static final String TAG = "GcmIntentService";
     private NotificationManager mNotificationManager;
     // Notification delete receiver
     private final NotificationDeletedBroadcastReceiver mNotificationDeletedBroadcastReceiver =
-            new NotificationDeletedBroadcastReceiver();;
+            new NotificationDeletedBroadcastReceiver();
+
+    public static TextToSpeech tts;
+    protected String tts_msg;
 
     public GcmIntentService() {
         super("GcmIntentService");
@@ -65,7 +73,7 @@ public class GcmIntentService extends IntentService {
                 }
                 if (intent.getExtras().getString("type").equals("notification")) {
                     sendNotification(intent.getExtras().getString("message"), notificationId);
-                // If this is hideNotification, cancel existing notification with it's id
+                    // If this is hideNotification, cancel existing notification with it's id
                 } else if (intent.getExtras().getString("type").equals("hideNotification")) {
                     mNotificationManager.cancel(Integer.parseInt(intent.getExtras().getString("notificationId")));
                 }
@@ -96,6 +104,23 @@ public class GcmIntentService extends IntentService {
         if (alarmSound.toString() == "" || alarmSound == null) {
             alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         }
+
+        // Prepare TTS
+        // GCM message introduces additional whitespace on the beginning
+        msg = msg.trim();
+        if (msg.startsWith("speak")) {
+            // strip speak-prefix
+            tts_msg = msg.substring(6, msg.length());
+            msg = tts_msg;
+        } else
+            tts_msg = "";
+
+        if (tts_msg.length() != 0) {
+            if(tts == null) {
+                tts = new TextToSpeech(this.getApplicationContext(), this);
+            }
+        }
+
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(this)
                         .setSmallIcon(R.drawable.openhabicon)
@@ -107,6 +132,24 @@ public class GcmIntentService extends IntentService {
                         .setContentText(msg);
         mBuilder.setContentIntent(pendingNotificationIntent);
         mBuilder.setDeleteIntent(pendingDeleteIntent);
+
         mNotificationManager.notify(notificationId, mBuilder.build());
+    }
+
+    @Override
+    public void onInit(int status) {
+        if (status == TextToSpeech.SUCCESS) {
+            int result = tts.setLanguage(Locale.getDefault());
+            if (result == TextToSpeech.LANG_MISSING_DATA
+                    || result == TextToSpeech.LANG_NOT_SUPPORTED) {
+                tts.setLanguage(Locale.ENGLISH);
+            }
+
+            // Speak out tts_msg
+            tts.speak(tts_msg, TextToSpeech.QUEUE_FLUSH, null, null);
+
+            // Free TTS
+            tts = null;
+        }
     }
 }
