@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <PreferenceCategory android:title="@string/settings_title">
+    <PreferenceCategory android:title="@string/settings_connection_title">
         <CheckBoxPreference
             android:defaultValue="true"
             android:disableDependentsState="true"
@@ -42,6 +42,8 @@
             android:key="default_openhab_sslhost"
             android:summary="@string/settings_openhab_sslhost_summary"
             android:title="@string/settings_openhab_sslhost" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/settings_display_title">
         <ListPreference
             android:key="default_openhab_theme"
             android:title="@string/settings_openhab_theme"
@@ -58,6 +60,8 @@
             android:key="default_openhab_fullscreen"
             android:summary="@string/settings_openhab_fullscreen_summary"
             android:title="@string/settings_openhab_fullscreen" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/settings_misc_title">
         <RingtonePreference
             android:key="default_openhab_alertringtone"
             android:persistent="true"

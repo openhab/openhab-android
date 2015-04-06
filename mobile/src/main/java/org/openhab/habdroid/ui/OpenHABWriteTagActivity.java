@@ -62,8 +62,8 @@ public class OpenHABWriteTagActivity extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
 		Util.setActivityTheme(this);
+		super.onCreate(savedInstanceState);
 		setContentView(R.layout.openhabwritetag);
 		TextView writeTagMessage = (TextView)findViewById(R.id.write_tag_message);
     	if (!this.getPackageManager().hasSystemFeature("android.hardware.nfc")) {

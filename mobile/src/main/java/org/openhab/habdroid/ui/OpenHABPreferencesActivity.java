@@ -53,8 +53,8 @@ public class OpenHABPreferencesActivity extends PreferenceActivity {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-	    super.onCreate(savedInstanceState);
 		Util.setActivityTheme(this);
+	    super.onCreate(savedInstanceState);
 	    addPreferencesFromResource(R.xml.preferences);
 	    Preference urlPreference = getPreferenceScreen().findPreference(Constants.PREFERENCE_URL);
 	    Preference altUrlPreference = getPreferenceScreen().findPreference(Constants.PREFERENCE_ALTURL);
