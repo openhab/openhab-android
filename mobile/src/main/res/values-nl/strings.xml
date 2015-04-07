@@ -15,7 +15,6 @@ tools:ignore="MissingTranslation">
 <string name="mainmenu_openhab_info">openHAB info</string>
 <string name="mainmenu_openhab_clearcache">Verwijder afbeeldings cache</string>
 <!-- App settings strings -->
-<string name="settings_title">HABDroid Instellingen</string>
 <string name="settings_openhab_url">openHAB URL</string>
 <string name="settings_openhab_url_summary">Handmatig ingevulde openHAB URL. Zet autmatisch ontdekking uit.</string>
 <string name="settings_openhab_alturl">openHAB externe URL</string>
@@ -28,13 +27,15 @@ tools:ignore="MissingTranslation">
 <string name="settings_openhab_screentimeroff_summary">Zet het uitschakelen van het scherm uit als HABDroid actief is.</string>
 <string name="settings_openhab_demomode">Demo mode</string>
 <string name="settings_openhab_demomode_summary">Gebruik HABDroid in demo mode</string>
+<string name="settings_openhab_theme">HABDroid Thema</string>
 <string name="settings_openhab_appversion">HABDroid Versie</string>
-<string name="settings_openhab_sslcert">Ignore SSL certificaat</string>
+<string name="settings_openhab_sslcert">Negeer SSL certificaat</string>
 <string name="settings_openhab_sslcert_summary">Negeer certificaat validatie tijdens SSLverificatie</string>
-<string name="settings_openhab_sslhost">Ignore SSL hostnaam</string>
+<string name="settings_openhab_sslhost">Negeer SSL hostnaam</string>
 <string name="settings_openhab_sslhost_summary">Negeer hostnaam controller tijdens SSL verificatie</string>
 <string name="settings_openhab_fullscreen">Volledig scherm</string>
-<string name="settings_openhab_fullscreen_summary">Gebruik in volledig scherm modes</string>
+<string name="settings_openhab_fullscreen_summary">Gebruik in volledige scherm modes</string>
+<string name="settings_ringtone">Beltoon</string>
 <!-- App messages strings -->
 <string name="title_voice_widget">OpenHAB stem commando\'s</string>
 <string name="info_voice_input">"openHAB, at your command!"</string>
@@ -70,6 +71,6 @@ tools:ignore="MissingTranslation">
 <string name="mtm_accept_cert">Accepteer onbekend certificaat?</string>
 <string name="mtm_decision_always">Altijd</string>
 <string name="mtm_decision_once">eenmalig</string>
-<string name="mtm_decision_abort">Abort</string>
-<string name="mtm_notification">Certificate verification</string>
+<string name="mtm_decision_abort">Afbreken</string>
+<string name="mtm_notification">Certificaat verificatie</string>
 </resources>

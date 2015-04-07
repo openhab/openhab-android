@@ -11,7 +11,6 @@
     <string name="mainmenu_openhab_writetag">Schreibe NFC Tag</string>
     <string name="mainmenu_openhab_clearcache">Lösche Bildercache</string>
     <!-- App settings strings -->
-    <string name="settings_title">HABDroid Einstellungen</string>
     <string name="settings_openhab_url">openHAB URL</string>
     <string name="settings_openhab_url_summary">Manual konfigurierte openHAB URL. Wenn gesetzt, ist Auto-Discovery deaktiviert.</string>
     <string name="settings_openhab_alturl">openHAB Remote URL</string>
@@ -24,6 +23,7 @@
     <string name="settings_openhab_screentimeroff_summary">Schaltet das automatische Aktivieren des Ruhezustands nach Inaktivität ab, wenn HABDroid läuft.</string>
     <string name="settings_openhab_demomode">Demo Modus</string>
     <string name="settings_openhab_demomode_summary">Betreibt HABDroid im Demo Modus</string>
+    <string name="settings_openhab_theme">HABDroid Theme</string>
     <string name="settings_openhab_appversion">HABDroid Version</string>
     <string name="settings_openhab_sslcert">Ignoriere SSL Zertifikat</string>
     <string name="settings_openhab_sslcert_summary">Ignoriere Zertifikatsvalidierung beim SSL-Handshake</string>

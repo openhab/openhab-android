@@ -364,7 +364,6 @@ public class MobileService implements GoogleApiClient.ConnectionCallbacks, DataA
                         ((MobileServiceBaseClient) client).sitemapBaseFound(sitemapBaseValues);
                     }
                 }
-                new GetSiteDataAsync().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, sitemapBaseValues.getSitemapUrl());
             }
         }
     }

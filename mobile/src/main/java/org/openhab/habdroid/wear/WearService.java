@@ -3,7 +3,6 @@ package org.openhab.habdroid.wear;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.Log;
 
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -19,20 +18,7 @@ import com.loopj.android.http.TextHttpResponseHandler;
 import org.apache.http.Header;
 import org.apache.http.entity.StringEntity;
 import org.openhab.habdroid.model.OpenHABSitemap;
-import org.openhab.habdroid.model.OpenHABWidget;
-import org.openhab.habdroid.model.OpenHABWidgetDataSource;
 import org.openhab.habdroid.util.SharedConstants;
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
-
-import java.io.IOException;
-import java.io.StringReader;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 
 /**
  * This is a service to communicate with the wearable
@@ -163,36 +149,6 @@ public class WearService implements GoogleApiClient.ConnectionCallbacks, Message
         }
     }
 
-    private void parseSitemapAndGetImages(String sitemapXML) {
-        OpenHABWidgetDataSource openHABWidgetDataSource = new OpenHABWidgetDataSource();
-        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-        try {
-            DocumentBuilder builder = dbf.newDocumentBuilder();
-            Document document = builder.parse(new InputSource(new StringReader(sitemapXML)));
-            if (document != null) {
-                Node rootNode = document.getFirstChild();
-                openHABWidgetDataSource.setSourceNode(rootNode);
-                for (OpenHABWidget w : openHABWidgetDataSource.getWidgets()) {
-                    // Remove frame widgets with no label text
-                    if (w.getType().equals("Frame") && TextUtils.isEmpty(w.getLabel())) {
-                        continue;
-                    } else {
-                        String url = mOpenHABBaseUrl + "/images/" + w.getIcon() + ".png";
-                        Log.d(TAG, "Getting image from url: " + url);
-                    }
-                }
-            } else {
-                Log.e(TAG, "Got a null response from openHAB");
-            }
-        } catch (ParserConfigurationException e) {
-            e.printStackTrace();
-        } catch (SAXException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
     public void setSitemapForWearable(OpenHABSitemap openHABSitemap) {
         Log.d(TAG, "Try to set sitemap in data api");
         try {
@@ -239,6 +195,8 @@ public class WearService implements GoogleApiClient.ConnectionCallbacks, Message
         }
     }
 
+    @Deprecated
+            // kept to have a wait during development to remove data
     class ClearDataApiAsync extends AsyncTask<OpenHABSitemap, Void, OpenHABSitemap> {
         @Override
         protected OpenHABSitemap doInBackground(OpenHABSitemap... params) {

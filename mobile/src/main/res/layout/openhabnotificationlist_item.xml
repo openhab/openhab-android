@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="horizontal"
+    android:layout_height="64dp">
+        <TextView
+            android:id="@+id/notificationMessage"
+            android:layout_width="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="6dp"/>
+        <TextView
+            android:id="@+id/notificationCreated"
+            android:layout_width="100dp"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_height="wrap_content" />
+    <LinearLayout
+        android:id="@+id/listdivider"
+        android:layout_width="fill_parent"
+        android:layout_height="1dip"
+        android:background="?android:attr/listDivider"
+        android:orientation="horizontal"
+        android:layout_below="@+id/widgetimage"
+        android:layout_marginLeft="@dimen/widgetlist_divider_left_margin"
+        android:layout_marginRight="@dimen/widgetlist_divider_right_margin"
+        />
+</RelativeLayout>
