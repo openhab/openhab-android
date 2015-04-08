@@ -19,10 +19,12 @@ import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
@@ -32,6 +34,7 @@ import android.nfc.NfcAdapter;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.speech.RecognizerIntent;
@@ -83,6 +86,7 @@ import org.openhab.habdroid.core.OpenHABTrackerReceiver;
 import org.openhab.habdroid.core.OpenHABVoiceService;
 import org.openhab.habdroid.model.OpenHABLinkedPage;
 import org.openhab.habdroid.model.OpenHABSitemap;
+import org.openhab.habdroid.service.WearBackgroundService;
 import org.openhab.habdroid.ui.drawer.OpenHABDrawerAdapter;
 import org.openhab.habdroid.ui.drawer.OpenHABDrawerItem;
 import org.openhab.habdroid.util.Constants;
@@ -126,6 +130,11 @@ public class OpenHABMainActivity extends ActionBarActivity implements OnWidgetSe
     // Loopj
 //    private static MyAsyncHttpClient mAsyncHttpClient;
     private static AsyncHttpClient mAsyncHttpClient = new AsyncHttpClient();
+
+    private WearBackgroundService mWearBackgroundService;
+
+    private boolean mBound;
+
     // Base URL of current openHAB connection
     private String openHABBaseUrl = "https://demo.openhab.org:8443/";
     // openHAB username
@@ -174,8 +183,6 @@ public class OpenHABMainActivity extends ActionBarActivity implements OnWidgetSe
     private ProgressBar mProgressBar;
     private Boolean mIsMyOpenHAB = false;
     private String mRegId = null;
-    private GoogleApiClient mGoogleApiClient;
-    private WearService mWearService;
     /*
      *Daydreaming gets us into a funk when in fullscreen, this allows us to
      *reset ourselves to fullscreen.
@@ -293,8 +300,7 @@ public class OpenHABMainActivity extends ActionBarActivity implements OnWidgetSe
                     Log.d(TAG, "This is sitemap " + mDrawerItemList.get(item).getSiteMap().getLink());
                     mDrawerLayout.closeDrawers();
                     openSitemap(mDrawerItemList.get(item).getSiteMap().getHomepageLink());
-                    mWearService.setSitemapForWearable(mSitemapList.get(item));
-                    mWearService.setOpenHABBaseUrl(openHABBaseUrl);
+                    mWearBackgroundService.setSitemapForWearable(mSitemapList.get(item));
                 } else {
                     Log.d(TAG, "This is not sitemap");
                     if (mDrawerItemList.get(item).getTag() == DRAWER_NOTIFICATIONS) {
@@ -341,19 +347,15 @@ public class OpenHABMainActivity extends ActionBarActivity implements OnWidgetSe
             registerReceiver(dreamReceiver, new IntentFilter("android.intent.action.DREAMING_STOPPED"));
             checkFullscreen();
         }
-        initWearConnection();
     }
 
     /**
      * Wear integration
      */
     private void initWearConnection() {
-        try {
-            mWearService = new WearService(getApplicationContext(), openHABBaseUrl);
-            mWearService.connect();
-        } catch (Exception e) {
-            Log.e(TAG, "connection to wearable not successfull");
-        }
+        Intent intent = new Intent(this, WearBackgroundService.class);
+        intent.putExtra("BASEURL", openHABBaseUrl);
+        bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
     }
 
     @Override
@@ -445,6 +447,9 @@ public class OpenHABMainActivity extends ActionBarActivity implements OnWidgetSe
             Toast.makeText(getApplicationContext(), message,
                     Toast.LENGTH_LONG).show();
         openHABBaseUrl = baseUrl;
+        if(mWearBackgroundService != null) {
+            mWearBackgroundService.setBaseUrl(baseUrl);
+        }
         mDrawerAdapter.setOpenHABBaseUrl(openHABBaseUrl);
         pagerAdapter.setOpenHABBaseUrl(openHABBaseUrl);
         if (!TextUtils.isEmpty(mNfcData)) {
@@ -606,8 +611,7 @@ public class OpenHABMainActivity extends ActionBarActivity implements OnWidgetSe
                             Log.d(TAG, "Configured sitemap is on the list");
                             OpenHABSitemap selectedSitemap = Util.getSitemapByName(mSitemapList, configuredSitemap);
                             openSitemap(selectedSitemap.getHomepageLink());
-                            mWearService.setSitemapForWearable(selectedSitemap);
-                            mWearService.setOpenHABBaseUrl(openHABBaseUrl);
+                            mWearBackgroundService.setSitemapForWearable(selectedSitemap);
                             // Configured sitemap is not on the list we got!
                         } else {
                             Log.d(TAG, "Configured sitemap is not on the list");
@@ -617,8 +621,7 @@ public class OpenHABMainActivity extends ActionBarActivity implements OnWidgetSe
                                 preferencesEditor.putString(Constants.PREFERENCE_SITEMAP, mSitemapList.get(0).getName());
                                 preferencesEditor.commit();
                                 openSitemap(mSitemapList.get(0).getHomepageLink());
-                                mWearService.setSitemapForWearable(mSitemapList.get(0));
-                                mWearService.setOpenHABBaseUrl(openHABBaseUrl);
+                                mWearBackgroundService.setSitemapForWearable(mSitemapList.get(0));
                             } else {
                                 Log.d(TAG, "Got multiply sitemaps, user have to select one");
                                 showSitemapSelectionDialog(mSitemapList);
@@ -633,8 +636,7 @@ public class OpenHABMainActivity extends ActionBarActivity implements OnWidgetSe
                             preferencesEditor.putString(Constants.PREFERENCE_SITEMAP, mSitemapList.get(0).getName());
                             preferencesEditor.commit();
                             openSitemap(mSitemapList.get(0).getHomepageLink());
-                            mWearService.setSitemapForWearable(mSitemapList.get(0));
-                            mWearService.setOpenHABBaseUrl(openHABBaseUrl);
+                            mWearBackgroundService.setSitemapForWearable(mSitemapList.get(0));
                         } else {
                             Log.d(TAG, "Got multiply sitemaps, user have to select one");
                             showSitemapSelectionDialog(mSitemapList);
@@ -701,9 +703,7 @@ public class OpenHABMainActivity extends ActionBarActivity implements OnWidgetSe
                             preferencesEditor.putString(Constants.PREFERENCE_SITEMAP, sitemapList.get(item).getName());
                             preferencesEditor.apply();
                             openSitemap(sitemapList.get(item).getHomepageLink());
-                            mWearService.setOpenHABBaseUrl(sitemapList.get(item).getHomepageLink());
-                            mWearService.setSitemapForWearable(sitemapList.get(item));
-                            mWearService.setOpenHABBaseUrl(openHABBaseUrl);
+                            mWearBackgroundService.setSitemapForWearable(sitemapList.get(item));
                         }
                     }).show();
         } catch (WindowManager.BadTokenException e) {
@@ -852,7 +852,8 @@ public class OpenHABMainActivity extends ActionBarActivity implements OnWidgetSe
         if (!isDeveloper) {
             GoogleAnalytics.getInstance(this).reportActivityStart(this);
         }
-        mWearService.connect();
+
+        initWearConnection();
     }
 
     /**
@@ -867,12 +868,16 @@ public class OpenHABMainActivity extends ActionBarActivity implements OnWidgetSe
             GoogleAnalytics.getInstance(this).reportActivityStop(this);
         if (mOpenHABTracker != null)
             mOpenHABTracker.stop();
+
+        if (mBound) {
+            unbindService(mConnection);
+            mBound = false;
+        }
     }
 
     @Override
     public void onPause() {
         Log.d(TAG, "onPause()");
-        mWearService.disconnect();
         super.onPause();
 //        mAsyncHttpClient.cancelAllRequests(true);
     }
@@ -1261,4 +1266,22 @@ public class OpenHABMainActivity extends ActionBarActivity implements OnWidgetSe
         }
         mDrawerAdapter.notifyDataSetChanged();
     }
+
+    /** Defines callbacks for service binding, passed to bindService() */
+    private ServiceConnection mConnection = new ServiceConnection() {
+
+        @Override
+        public void onServiceConnected(ComponentName className,
+                                       IBinder service) {
+            // We've bound to LocalService, cast the IBinder and get LocalService instance
+            WearBackgroundService.LocalBinder binder = (WearBackgroundService.LocalBinder) service;
+            mWearBackgroundService = binder.getService();
+            mBound = true;
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName arg0) {
+            mBound = false;
+        }
+    };
 }
