@@ -19,13 +19,14 @@ import org.apache.http.Header;
 import org.apache.http.entity.StringEntity;
 import org.openhab.habdroid.model.OpenHABSitemap;
 import org.openhab.habdroid.util.SharedConstants;
+import org.openhab.habdroid.util.URLAware;
 
 /**
  * This is a service to communicate with the wearable
  * <p/>
  * Created by tamon on 20.03.15.
  */
-public class WearService implements GoogleApiClient.ConnectionCallbacks, MessageApi.MessageListener {
+public class WearService implements GoogleApiClient.ConnectionCallbacks, MessageApi.MessageListener, URLAware {
 
     private static final String TAG = WearService.class.getSimpleName();
 
@@ -37,8 +38,7 @@ public class WearService implements GoogleApiClient.ConnectionCallbacks, Message
 
     private SyncHttpClient mSyncHttpClient = new SyncHttpClient();
 
-    public WearService(Context context, String openhabBaseUrl) {
-        mOpenHABBaseUrl = openhabBaseUrl;
+    public WearService(Context context) {
         if (mGoogleApiClient == null) {
             mGoogleApiClient = new GoogleApiClient.Builder(context).addConnectionCallbacks(this)
                     .addApi(Wearable.API)
@@ -47,7 +47,8 @@ public class WearService implements GoogleApiClient.ConnectionCallbacks, Message
         mContext = context;
     }
 
-    public void setOpenHABBaseUrl(String url) {
+    @Override
+    public void urlChanged(String url) {
         mOpenHABBaseUrl = url;
     }
 

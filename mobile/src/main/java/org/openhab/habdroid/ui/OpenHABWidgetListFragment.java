@@ -143,7 +143,7 @@ public class OpenHABWidgetListFragment extends ListFragment {
         if (savedInstanceState != null)
             if (!displayPageUrl.equals(savedInstanceState.getString("displayPageUrl")))
                 mCurrentSelectedItem = -1;
-        mWearService = new WearService(mActivity.getApplicationContext(), openHABBaseUrl);
+        mWearService = new WearService(mActivity.getApplicationContext());
         mWearService.connect();
     }
 

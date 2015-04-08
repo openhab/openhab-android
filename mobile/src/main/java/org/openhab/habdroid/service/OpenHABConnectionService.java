@@ -2,25 +2,27 @@ package org.openhab.habdroid.service;
 
 import android.Manifest;
 import android.app.Service;
-import android.content.ComponentName;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.ServiceConnection;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.net.ConnectivityManager;
 import android.os.Binder;
 import android.os.IBinder;
-import android.text.TextUtils;
 import android.util.Log;
-import android.widget.Toast;
 
-import com.loopj.android.http.TextHttpResponseHandler;
-
-import org.apache.http.Header;
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.core.OpenHABTracker;
 import org.openhab.habdroid.core.OpenHABTrackerReceiver;
+import org.openhab.habdroid.util.URLAware;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class OpenHABConnectionService extends Service implements OpenHABTrackerReceiver {
+
+    private static final String TAG = OpenHABConnectionService.class.getSimpleName();
 
     // Binder given to clients
     private final IBinder mBinder = new LocalBinder();
@@ -28,6 +30,8 @@ public class OpenHABConnectionService extends Service implements OpenHABTrackerR
     private String openHABServiceType;
     // If openHAB discovery is enabled
     private boolean mServiceDiscoveryEnabled = true;
+
+    private List<URLAware> urlAwareObjects = new ArrayList<URLAware>();
 
     private OpenHABTracker mTracker;
 
@@ -68,6 +72,10 @@ public class OpenHABConnectionService extends Service implements OpenHABTrackerR
     @Override
     public void onOpenHABTracked(String baseUrl, String message) {
         mBaseUrl = baseUrl;
+        Log.d(TAG, "onOpenHABTracked - notifying '" + urlAwareObjects.size() + "' items");
+        for (URLAware urlAware : urlAwareObjects) {
+            urlAware.urlChanged(baseUrl);
+        }
     }
 
     @Override
@@ -83,6 +91,19 @@ public class OpenHABConnectionService extends Service implements OpenHABTrackerR
     @Override
     public void onBonjourDiscoveryFinished() {
 
+    }
+
+    public void addUrlCallback(URLAware urlAware) {
+        Log.d(TAG, "addUrlCallback");
+        if (!urlAwareObjects.contains(urlAware)) {
+            urlAwareObjects.add(urlAware);
+        }
+    }
+
+    public void removeCallback(URLAware urlAware) {
+        if (urlAwareObjects.contains(urlAware)) {
+            urlAwareObjects.remove(urlAware);
+        }
     }
 
 

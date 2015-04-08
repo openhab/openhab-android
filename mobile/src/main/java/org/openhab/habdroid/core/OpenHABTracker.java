@@ -13,7 +13,9 @@
 
 package org.openhab.habdroid.core;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
@@ -44,7 +46,7 @@ import javax.jmdns.ServiceInfo;
  * @author Victor Belov
  */
 
-public class OpenHABTracker implements AsyncServiceResolverListener {
+public class OpenHABTracker extends BroadcastReceiver implements AsyncServiceResolverListener {
     private final static String TAG = "OpenHABTracker";
     // Context in which openhabtracker is working
     Context mCtx;
@@ -58,8 +60,6 @@ public class OpenHABTracker implements AsyncServiceResolverListener {
     AsyncServiceResolver mServiceResolver;
     // Bonjour openHAB service type
     String mOpenHABServiceType;
-    // Receiver for connectivity tracking
-    ConnectivityChangeReceiver mConnectivityChangeReceiver;
 
     public OpenHABTracker(Context ctx, String serviceType, boolean discoveryEnabled) {
         mCtx = ctx;
@@ -70,8 +70,6 @@ public class OpenHABTracker implements AsyncServiceResolverListener {
         }
         // openHAB Bonjour service type
         mOpenHABServiceType = serviceType;
-        // Create and register receiver for connectivity changes tracking
-        mConnectivityChangeReceiver = new ConnectivityChangeReceiver();
     }
 
     /*
@@ -88,11 +86,21 @@ public class OpenHABTracker implements AsyncServiceResolverListener {
         return -1;
     }
 
+    @Override
+    public void onReceive(Context context, Intent intent) {
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(mCtx);
+        checkActiveNetwork(settings);
+    }
+
     public void start() {
         // Get preferences
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(mCtx);
-        mCtx.registerReceiver(mConnectivityChangeReceiver,
+        mCtx.registerReceiver(this,
                 new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
+        checkActiveNetwork(settings);
+    }
+
+    private void checkActiveNetwork(SharedPreferences settings) {
         // If demo mode is on, just go for demo server base URL ignoring other settings
         // Get current network information
         ConnectivityManager connectivityManager = (ConnectivityManager) mCtx.getSystemService(
@@ -107,10 +115,10 @@ public class OpenHABTracker implements AsyncServiceResolverListener {
             } else {
                 // If we are on a mobile network go directly to remote URL from settings
                 if (activeNetworkInfo.getType() == ConnectivityManager.TYPE_MOBILE) {
+                    Log.d(TAG, "Connecting to remote URL " + mOpenHABUrl);
                     mOpenHABUrl = Util.normalizeUrl(settings.getString(Constants.PREFERENCE_ALTURL, ""));
                     // If remote URL is configured
                     if (mOpenHABUrl.length() > 0) {
-                        Log.d(TAG, "Connecting to remote URL " + mOpenHABUrl);
                         openHABTracked(mOpenHABUrl, mCtx.getString(R.string.info_conn_rem_url));
                     } else {
                         openHABError(mCtx.getString(R.string.error_no_url));
@@ -122,9 +130,9 @@ public class OpenHABTracker implements AsyncServiceResolverListener {
                     mOpenHABUrl = Util.normalizeUrl(settings.getString(Constants.PREFERENCE_URL, ""));
                     // If local URL is configured
                     if (mOpenHABUrl.length() > 0) {
+                        Log.d(TAG, "Connecting to directly configured URL = " + mOpenHABUrl);
                         // Check if configured local URL is reachable
                         if (checkUrlReachability(mOpenHABUrl)) {
-                            Log.d(TAG, "Connecting to directly configured URL = " + mOpenHABUrl);
                             openHABTracked(mOpenHABUrl, mCtx.getString(R.string.info_conn_url));
                             return;
                             // If local URL is not reachable go with remote URL
@@ -159,7 +167,7 @@ public class OpenHABTracker implements AsyncServiceResolverListener {
 
     public void stop() {
         try {
-            mCtx.unregisterReceiver(mConnectivityChangeReceiver);
+            mCtx.unregisterReceiver(this);
         } catch (RuntimeException e) {
             Log.d(TAG, e.getMessage());
         }
