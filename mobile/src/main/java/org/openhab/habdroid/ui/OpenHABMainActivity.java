@@ -869,10 +869,10 @@ public class OpenHABMainActivity extends ActionBarActivity implements OnWidgetSe
         if (mOpenHABTracker != null)
             mOpenHABTracker.stop();
 
-        if (mBound) {
+        /*if (mBound) {
             unbindService(mConnection);
             mBound = false;
-        }
+        }*/
     }
 
     @Override

@@ -116,6 +116,7 @@ public class MobileService implements GoogleApiClient.ConnectionCallbacks, DataA
         for (String nodeId : nodeIds) {
             result.add(new Uri.Builder().scheme(PutDataRequest.WEAR_URI_SCHEME).authority(nodeId).path(path).build());
         }
+        Log.d(TAG, "Got '" + result.size() + "' uris for the path " + path);
         return result;
     }
 
@@ -253,6 +254,7 @@ public class MobileService implements GoogleApiClient.ConnectionCallbacks, DataA
     }
 
     public void getBaseSitemap() {
+        Log.d(TAG, "Getting base sitemap");
         new GetDataAsync().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
@@ -333,6 +335,7 @@ public class MobileService implements GoogleApiClient.ConnectionCallbacks, DataA
                 }
             }
             if (!foundBaseValues) {
+                Log.d(TAG, "Did not find the items, yet... try again");
                 pendingResult = getDataItems();
                 dataItem = pendingResult.await(5, TimeUnit.SECONDS);
                 count = dataItem.getCount();

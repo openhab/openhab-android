@@ -61,6 +61,7 @@ public class SwitchWidgetActivity extends Activity implements MobileServiceWdige
         stub.setOnLayoutInflatedListener(new WatchViewStub.OnLayoutInflatedListener() {
             @Override
             public void onLayoutInflated(WatchViewStub stub) {
+                Log.d(TAG, "Layout inflated");
                 mSwitchName = (TextView) findViewById(R.id.switchName);
                 mProgressBar = (ProgressWheel) findViewById(R.id.progressBar);
                 mSwitch = (SwitchCircleView) findViewById(R.id.switchCircle);
@@ -90,9 +91,11 @@ public class SwitchWidgetActivity extends Activity implements MobileServiceWdige
             new Handler(Looper.getMainLooper()).post(new Runnable() {
                 @Override
                 public void run() {
+                    mSwitch = (SwitchCircleView) findViewById(R.id.switchCircle);
                     mProgressBar.stopSpinning();
                     mCurrentState = !mCurrentState;
-                    if (mCurrentState) {
+                    mSwitch.setCurrentState(mCurrentState);
+                    if(mCurrentState) {
                         mSwitch.setText("On");
                     } else {
                         mSwitch.setText("Off");
@@ -104,6 +107,13 @@ public class SwitchWidgetActivity extends Activity implements MobileServiceWdige
                     startActivity(intent);
                 }
 
+            });
+        } else {
+            new Handler(Looper.getMainLooper()).post(new Runnable() {
+                @Override
+                public void run() {
+                    mProgressBar.stopSpinning();
+                }
             });
         }
     }
