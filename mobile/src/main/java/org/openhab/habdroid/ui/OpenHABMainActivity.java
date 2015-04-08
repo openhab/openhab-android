@@ -14,7 +14,6 @@
 
 package org.openhab.habdroid.ui;
 
-import android.Manifest;
 import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.app.ProgressDialog;
@@ -60,13 +59,7 @@ import android.widget.Toast;
 
 import com.crittercism.app.Crittercism;
 import com.google.android.gms.analytics.GoogleAnalytics;
-import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
-import com.google.android.gms.wearable.MessageApi;
-import com.google.android.gms.wearable.MessageEvent;
-import com.google.android.gms.wearable.PutDataMapRequest;
-import com.google.android.gms.wearable.PutDataRequest;
-import com.google.android.gms.wearable.Wearable;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.TextHttpResponseHandler;
@@ -82,18 +75,16 @@ import org.openhab.habdroid.core.HABDroid;
 import org.openhab.habdroid.core.NetworkConnectivityInfo;
 import org.openhab.habdroid.core.NotificationDeletedBroadcastReceiver;
 import org.openhab.habdroid.core.OpenHABTracker;
-import org.openhab.habdroid.core.OpenHABTrackerReceiver;
 import org.openhab.habdroid.core.OpenHABVoiceService;
 import org.openhab.habdroid.model.OpenHABLinkedPage;
 import org.openhab.habdroid.model.OpenHABSitemap;
+import org.openhab.habdroid.service.OpenHABConnectionService;
 import org.openhab.habdroid.service.WearBackgroundService;
 import org.openhab.habdroid.ui.drawer.OpenHABDrawerAdapter;
 import org.openhab.habdroid.ui.drawer.OpenHABDrawerItem;
 import org.openhab.habdroid.util.Constants;
 import org.openhab.habdroid.util.MyAsyncHttpClient;
-import org.openhab.habdroid.util.SharedConstants;
 import org.openhab.habdroid.util.Util;
-import org.openhab.habdroid.wear.WearService;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
@@ -103,8 +94,6 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Observable;
-import java.util.Observer;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -114,8 +103,7 @@ import de.duenndns.ssl.MTMDecision;
 import de.duenndns.ssl.MemorizingResponder;
 import de.duenndns.ssl.MemorizingTrustManager;
 
-public class OpenHABMainActivity extends ActionBarActivity implements OnWidgetSelectedListener,
-        OpenHABTrackerReceiver, MemorizingResponder {
+public class OpenHABMainActivity extends ActionBarActivity implements OnWidgetSelectedListener, MemorizingResponder {
     public static final String GCM_SENDER_ID = "737820980945";
     // GCM Registration expiration
     public static final long REGISTRATION_EXPIRY_TIME_MS = 1000 * 3600 * 24 * 7;
@@ -132,17 +120,40 @@ public class OpenHABMainActivity extends ActionBarActivity implements OnWidgetSe
     private static AsyncHttpClient mAsyncHttpClient = new AsyncHttpClient();
 
     private WearBackgroundService mWearBackgroundService;
+    /**
+     * Defines callbacks for service binding, passed to bindService()
+     */
+    private ServiceConnection mConnection = new ServiceConnection() {
 
+        @Override
+        public void onServiceConnected(ComponentName className,
+                                       IBinder service) {
+            // We've bound to LocalService, cast the IBinder and get LocalService instance
+            WearBackgroundService.LocalBinder binder = (WearBackgroundService.LocalBinder) service;
+            mWearBackgroundService = binder.getService();
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName arg0) {
+        }
+    };
+    private OpenHABConnectionService mConnectionService;
+    private ServiceConnection mConnectionServiceConnection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            OpenHABConnectionService.LocalBinder binder = (OpenHABConnectionService.LocalBinder) service;
+            mConnectionService = binder.getService();
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+        }
+    };
     private boolean mBound;
-
-    // Base URL of current openHAB connection
-    private String openHABBaseUrl = "https://demo.openhab.org:8443/";
     // openHAB username
     private String openHABUsername = "";
     // openHAB password
     private String openHABPassword = "";
-    // openHAB Bonjour service name
-    private String openHABServiceType;
     // view pager for widgetlist fragments
     private OpenHABViewPager pager;
     // view pager adapter for widgetlist fragments
@@ -155,14 +166,10 @@ public class OpenHABMainActivity extends ActionBarActivity implements OnWidgetSe
     private boolean isDeveloper;
     // preferences
     private SharedPreferences mSettings;
-    // OpenHAB tracker
-    private OpenHABTracker mOpenHABTracker;
     // Progress dialog
     private ProgressDialog mProgressDialog;
     // If Voice Recognition is enabled
     private boolean mVoiceRecognitionEnabled = false;
-    // If openHAB discovery is enabled
-    private boolean mServiceDiscoveryEnabled = true;
     // NFC Launch data
     private String mNfcData;
     // Pending NFC page
@@ -216,7 +223,6 @@ public class OpenHABMainActivity extends ActionBarActivity implements OnWidgetSe
             if (e1 != null)
                 Log.d(TAG, e1.getMessage());
         }
-        checkDiscoveryPermissions();
         checkVoiceRecognition();
         // initialize loopj async http client
         mAsyncHttpClient = new MyAsyncHttpClient(this);
@@ -226,8 +232,6 @@ public class OpenHABMainActivity extends ActionBarActivity implements OnWidgetSe
         if (mSettings.getBoolean(Constants.PREFERENCE_SCREENTIMEROFF, false)) {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         }
-        // Fetch openHAB service type name from strings.xml
-        openHABServiceType = getString(R.string.openhab_service_type);
         // Get username/password from preferences
         openHABUsername = mSettings.getString(Constants.PREFERENCE_USERNAME, null);
         openHABPassword = mSettings.getString(Constants.PREFERENCE_PASSWORD, null);
@@ -263,15 +267,20 @@ public class OpenHABMainActivity extends ActionBarActivity implements OnWidgetSe
 //        pager.setPageMargin(1);
 //        pager.setPageMarginDrawable(android.R.color.darker_gray);
         // Check if we have openHAB page url in saved instance state?
+        String openHABBaseUrl;
         if (savedInstanceState != null) {
             openHABBaseUrl = savedInstanceState.getString("openHABBaseUrl");
             sitemapRootUrl = savedInstanceState.getString("sitemapRootUrl");
             mStartedWithNetworkConnectivityInfo = savedInstanceState.getParcelable("startedWithNetworkConnectivityInfo");
             mOpenHABVersion = savedInstanceState.getInt("openHABVersion");
             mSitemapList = savedInstanceState.getParcelableArrayList("sitemapList");
+        } else {
+            openHABBaseUrl = "https://demo.openhab.org:8443/";
         }
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
+
+        final String baseUrlForDrawer = openHABBaseUrl;
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.drawable.ic_navigation_drawer,
                 R.string.app_name, R.string.app_name) {
             public void onDrawerClosed(View view) {
@@ -280,7 +289,7 @@ public class OpenHABMainActivity extends ActionBarActivity implements OnWidgetSe
 
             public void onDrawerOpened(View drawerView) {
                 Log.d(TAG, "onDrawerOpened");
-                loadSitemapList(OpenHABMainActivity.this.openHABBaseUrl);
+                loadSitemapList(baseUrlForDrawer);
             }
         };
         mDrawerLayout.setDrawerListener(mDrawerToggle);
@@ -349,15 +358,6 @@ public class OpenHABMainActivity extends ActionBarActivity implements OnWidgetSe
         }
     }
 
-    /**
-     * Wear integration
-     */
-    private void initWearConnection() {
-        Intent intent = new Intent(this, WearBackgroundService.class);
-        intent.putExtra("BASEURL", openHABBaseUrl);
-        bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
-    }
-
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
@@ -393,9 +393,7 @@ public class OpenHABMainActivity extends ActionBarActivity implements OnWidgetSe
             stateFragment = null;
             stateFragment = new StateRetainFragment();
             fm.beginTransaction().add(stateFragment, "stateFragment").commit();
-            mOpenHABTracker = new OpenHABTracker(this, openHABServiceType, mServiceDiscoveryEnabled);
             mStartedWithNetworkConnectivityInfo = NetworkConnectivityInfo.currentNetworkConnectivityInfo(this);
-            mOpenHABTracker.start();
             // If state fragment exists and contains something then just restore the fragments
         } else {
             Log.d(TAG, "State fragment found");
@@ -412,9 +410,7 @@ public class OpenHABMainActivity extends ActionBarActivity implements OnWidgetSe
                 this.setTitle(R.string.app_name);
                 stateFragment = new StateRetainFragment();
                 fm.beginTransaction().add(stateFragment, "stateFragment").commit();
-                mOpenHABTracker = new OpenHABTracker(this, openHABServiceType, mServiceDiscoveryEnabled);
                 mStartedWithNetworkConnectivityInfo = NetworkConnectivityInfo.currentNetworkConnectivityInfo(this);
-                mOpenHABTracker.start();
                 return;
             }
             pagerAdapter.setFragmentList(stateFragment.getFragmentList());
@@ -440,59 +436,6 @@ public class OpenHABMainActivity extends ActionBarActivity implements OnWidgetSe
             pager.setCurrentItem(pagerAdapter.getCount() - 1);
         }
         mPendingNfcPage = null;
-    }
-
-    public void onOpenHABTracked(String baseUrl, String message) {
-        if (message != null)
-            Toast.makeText(getApplicationContext(), message,
-                    Toast.LENGTH_LONG).show();
-        openHABBaseUrl = baseUrl;
-        if(mWearBackgroundService != null) {
-            mWearBackgroundService.setBaseUrl(baseUrl);
-        }
-        mDrawerAdapter.setOpenHABBaseUrl(openHABBaseUrl);
-        pagerAdapter.setOpenHABBaseUrl(openHABBaseUrl);
-        if (!TextUtils.isEmpty(mNfcData)) {
-            onNfcTag(mNfcData);
-            openNFCPageIfPending();
-        } else {
-            mAsyncHttpClient.get(baseUrl + "rest/bindings", new TextHttpResponseHandler() {
-                @Override
-                public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                    mOpenHABVersion = 1;
-                    Log.d(TAG, "openHAB version 1");
-                    mAsyncHttpClient.addHeader("Accept", "application/xml");
-                    selectSitemap(openHABBaseUrl, false);
-                }
-
-                @Override
-                public void onSuccess(int statusCode, Header[] headers, String responseString) {
-                    mOpenHABVersion = 2;
-                    Log.d(TAG, "openHAB version 2");
-                    selectSitemap(openHABBaseUrl, false);
-                }
-            });
-        }
-    }
-
-    public void onError(String error) {
-        Toast.makeText(getApplicationContext(), error,
-                Toast.LENGTH_LONG).show();
-    }
-
-    public void onBonjourDiscoveryStarted() {
-        mProgressDialog = ProgressDialog.show(this, "",
-                getString(R.string.info_discovery), true);
-    }
-
-    public void onBonjourDiscoveryFinished() {
-        try {
-            mProgressDialog.dismiss();
-            mProgressDialog = null;
-        } catch (Exception e) {
-            // This is to catch "java.lang.IllegalArgumentException: View not attached to window manager"
-            // exception which happens if user quited app during discovery
-        }
     }
 
     private void loadSitemapList(String baseUrl) {
@@ -535,8 +478,9 @@ public class OpenHABMainActivity extends ActionBarActivity implements OnWidgetSe
                 }
                 loadDrawerItems();
             }
+
             @Override
-            public void  onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
                 stopProgressIndicator();
 
             }
@@ -749,7 +693,7 @@ public class OpenHABMainActivity extends ActionBarActivity implements OnWidgetSe
                 SharedPreferences.Editor preferencesEditor = settings.edit();
                 preferencesEditor.putString(Constants.PREFERENCE_SITEMAP, "");
                 preferencesEditor.apply();
-                selectSitemap(openHABBaseUrl, true);
+                selectSitemap(mConnectionService.getBaseUrl(), true);
                 return true;
             case android.R.id.home:
                 Log.d(TAG, "Home selected");
@@ -775,7 +719,7 @@ public class OpenHABMainActivity extends ActionBarActivity implements OnWidgetSe
                 Intent writeTagIntent = new Intent(this.getApplicationContext(), OpenHABWriteTagActivity.class);
                 // TODO: get current display page url, which? how? :-/
                 if (pagerAdapter.getFragment(pager.getCurrentItem()) instanceof OpenHABWidgetListFragment) {
-                    OpenHABWidgetListFragment currentFragment = (OpenHABWidgetListFragment)pagerAdapter.getFragment(pager.getCurrentItem());
+                    OpenHABWidgetListFragment currentFragment = (OpenHABWidgetListFragment) pagerAdapter.getFragment(pager.getCurrentItem());
                     if (currentFragment != null) {
                         writeTagIntent.putExtra("sitemapPage", currentFragment.getDisplayPageUrl());
                         startActivityForResult(writeTagIntent, WRITE_NFC_TAG_REQUEST_CODE);
@@ -785,7 +729,7 @@ public class OpenHABMainActivity extends ActionBarActivity implements OnWidgetSe
                 return true;
             case R.id.mainmenu_openhab_info:
                 Intent infoIntent = new Intent(this.getApplicationContext(), OpenHABInfoActivity.class);
-                infoIntent.putExtra(OpenHABVoiceService.OPENHAB_BASE_URL_EXTRA, openHABBaseUrl);
+                infoIntent.putExtra(OpenHABVoiceService.OPENHAB_BASE_URL_EXTRA, mConnectionService.getBaseUrl());
                 infoIntent.putExtra("username", openHABUsername);
                 infoIntent.putExtra("password", openHABPassword);
                 startActivityForResult(infoIntent, INFO_REQUEST_CODE);
@@ -833,7 +777,7 @@ public class OpenHABMainActivity extends ActionBarActivity implements OnWidgetSe
         // Save UI state changes to the savedInstanceState.
         // This bundle will be passed to onCreate if the process is
         // killed and restarted.
-        savedInstanceState.putString("openHABBaseUrl", openHABBaseUrl);
+        savedInstanceState.putString("openHABBaseUrl", mConnectionService.getBaseUrl());
         savedInstanceState.putString("sitemapRootUrl", sitemapRootUrl);
         savedInstanceState.putInt("currentFragment", pager.getCurrentItem());
         savedInstanceState.putParcelable("startedWithNetworkConnectivityInfo", mStartedWithNetworkConnectivityInfo);
@@ -853,7 +797,24 @@ public class OpenHABMainActivity extends ActionBarActivity implements OnWidgetSe
             GoogleAnalytics.getInstance(this).reportActivityStart(this);
         }
 
-        initWearConnection();
+        bindWearService();
+        bindConnectivityService();
+    }
+
+    /**
+     * Bind the wear background service to enable communication between openhab and wear even if the app is nor running
+     */
+    private void bindWearService() {
+        Intent intent = new Intent(this, WearBackgroundService.class);
+        bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
+    }
+
+    /**
+     * Bind to the connection service which tracks connection to the openhab backend
+     */
+    private void bindConnectivityService() {
+        Intent intent = new Intent(this, OpenHABConnectionService.class);
+        bindService(intent, mConnectionServiceConnection, Context.BIND_AUTO_CREATE);
     }
 
     /**
@@ -866,13 +827,6 @@ public class OpenHABMainActivity extends ActionBarActivity implements OnWidgetSe
         // Stop activity tracking via Google Analytics
         if (!isDeveloper)
             GoogleAnalytics.getInstance(this).reportActivityStop(this);
-        if (mOpenHABTracker != null)
-            mOpenHABTracker.stop();
-
-        /*if (mBound) {
-            unbindService(mConnection);
-            mBound = false;
-        }*/
     }
 
     @Override
@@ -935,7 +889,7 @@ public class OpenHABMainActivity extends ActionBarActivity implements OnWidgetSe
         if (TextUtils.isEmpty(nfcItem)) {
             Log.d(TAG, "This is a sitemap tag without parameters");
             // Form the new sitemap page url
-            String newPageUrl = openHABBaseUrl + "rest/sitemaps" + openHABURI.getPath();
+            String newPageUrl = mConnectionService.getBaseUrl() + "rest/sitemaps" + openHABURI.getPath();
             // Check if we have this page in stack?
             mPendingNfcPage = newPageUrl;
         } else {
@@ -952,7 +906,7 @@ public class OpenHABMainActivity extends ActionBarActivity implements OnWidgetSe
     public void sendItemCommand(String itemName, String command) {
         try {
             StringEntity se = new StringEntity(command, "UTF-8");
-            mAsyncHttpClient.post(this, openHABBaseUrl + "rest/items/" + itemName, se, "text/plain;charset=UTF-8", new TextHttpResponseHandler() {
+            mAsyncHttpClient.post(this, mConnectionService.getBaseUrl() + "rest/items/" + itemName, se, "text/plain;charset=UTF-8", new TextHttpResponseHandler() {
                 @Override
                 public void onFailure(int statusCode, Header[] headers, String responseString, Throwable error) {
                     Log.e(TAG, "Got command error " + error.getMessage());
@@ -993,16 +947,15 @@ public class OpenHABMainActivity extends ActionBarActivity implements OnWidgetSe
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         Log.v(TAG, "KeyDown: " + event.toString());
-        if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN){
+        if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN) {
             if (pagerAdapter.getFragment(pager.getCurrentItem()) instanceof OpenHABWidgetListFragment) {
-                OpenHABWidgetListFragment currentFragment = (OpenHABWidgetListFragment)pagerAdapter.getFragment(pager.getCurrentItem());
+                OpenHABWidgetListFragment currentFragment = (OpenHABWidgetListFragment) pagerAdapter.getFragment(pager.getCurrentItem());
                 if (currentFragment != null)
                     return currentFragment.onVolumeDown();
             }
-        }
-        else if(keyCode == KeyEvent.KEYCODE_VOLUME_UP){
+        } else if (keyCode == KeyEvent.KEYCODE_VOLUME_UP) {
             if (pagerAdapter.getFragment(pager.getCurrentItem()) instanceof OpenHABWidgetListFragment) {
-                OpenHABWidgetListFragment currentFragment = (OpenHABWidgetListFragment)pagerAdapter.getFragment(pager.getCurrentItem());
+                OpenHABWidgetListFragment currentFragment = (OpenHABWidgetListFragment) pagerAdapter.getFragment(pager.getCurrentItem());
                 if (currentFragment != null)
                     return currentFragment.onVolumeUp();
             }
@@ -1013,9 +966,9 @@ public class OpenHABMainActivity extends ActionBarActivity implements OnWidgetSe
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
         Log.v(TAG, "KeyUp: " + event.toString());
-        if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN || keyCode == KeyEvent.KEYCODE_VOLUME_UP){
+        if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN || keyCode == KeyEvent.KEYCODE_VOLUME_UP) {
             if (pagerAdapter.getFragment(pager.getCurrentItem()) instanceof OpenHABWidgetListFragment) {
-                OpenHABWidgetListFragment currentFragment = (OpenHABWidgetListFragment)pagerAdapter.getFragment(pager.getCurrentItem());
+                OpenHABWidgetListFragment currentFragment = (OpenHABWidgetListFragment) pagerAdapter.getFragment(pager.getCurrentItem());
                 if (currentFragment != null && currentFragment.isVolumeHandled())
                     return true;
             }
@@ -1033,7 +986,7 @@ public class OpenHABMainActivity extends ActionBarActivity implements OnWidgetSe
 
     private void launchVoiceRecognition() {
         Intent callbackIntent = new Intent(this, OpenHABVoiceService.class);
-        callbackIntent.putExtra(OpenHABVoiceService.OPENHAB_BASE_URL_EXTRA, openHABBaseUrl);
+        callbackIntent.putExtra(OpenHABVoiceService.OPENHAB_BASE_URL_EXTRA, mConnectionService.getBaseUrl());
         PendingIntent openhabPendingIntent = PendingIntent.getService(this, 0, callbackIntent, 0);
 
         Intent speechIntent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
@@ -1113,20 +1066,6 @@ public class OpenHABMainActivity extends ActionBarActivity implements OnWidgetSe
         }
     }
 
-    public void checkDiscoveryPermissions() {
-        // Check if we got all needed permissions
-        PackageManager pm = getPackageManager();
-        if (!(pm.checkPermission(Manifest.permission.CHANGE_WIFI_MULTICAST_STATE, getPackageName()) == PackageManager.PERMISSION_GRANTED)) {
-            showAlertDialog(getString(R.string.erorr_no_wifi_mcast_permission));
-            mServiceDiscoveryEnabled = false;
-        }
-        if (!(pm.checkPermission(Manifest.permission.ACCESS_WIFI_STATE, getPackageName()) == PackageManager.PERMISSION_GRANTED)) {
-            showAlertDialog(getString(R.string.erorr_no_wifi_state_permission));
-            mServiceDiscoveryEnabled = false;
-        }
-
-    }
-
     public void makeDecision(int decisionId, String certMessage) {
         Log.d(TAG, String.format("MTM is asking for decision on id = %d", decisionId));
         if (mSettings.getBoolean(Constants.PREFERENCE_SSLCERT, false))
@@ -1136,27 +1075,15 @@ public class OpenHABMainActivity extends ActionBarActivity implements OnWidgetSe
     }
 
     public String getOpenHABBaseUrl() {
-        return openHABBaseUrl;
-    }
-
-    public void setOpenHABBaseUrl(String openHABBaseUrl) {
-        this.openHABBaseUrl = openHABBaseUrl;
+        return mConnectionService.getBaseUrl();
     }
 
     public String getOpenHABUsername() {
         return openHABUsername;
     }
 
-    public void setOpenHABUsername(String openHABUsername) {
-        this.openHABUsername = openHABUsername;
-    }
-
     public String getOpenHABPassword() {
         return openHABPassword;
-    }
-
-    public void setOpenHABPassword(String openHABPassword) {
-        this.openHABPassword = openHABPassword;
     }
 
     public int getOpenHABVersion() {
@@ -1245,7 +1172,7 @@ public class OpenHABMainActivity extends ActionBarActivity implements OnWidgetSe
         mDrawerItemList.clear();
         if (mSitemapList != null) {
             mDrawerItemList.add(OpenHABDrawerItem.headerItem("Sitemaps"));
-            for (OpenHABSitemap sitemap: mSitemapList) {
+            for (OpenHABSitemap sitemap : mSitemapList) {
                 mDrawerItemList.add(new OpenHABDrawerItem(sitemap));
             }
             mDrawerItemList.add(OpenHABDrawerItem.dividerItem());
@@ -1266,22 +1193,4 @@ public class OpenHABMainActivity extends ActionBarActivity implements OnWidgetSe
         }
         mDrawerAdapter.notifyDataSetChanged();
     }
-
-    /** Defines callbacks for service binding, passed to bindService() */
-    private ServiceConnection mConnection = new ServiceConnection() {
-
-        @Override
-        public void onServiceConnected(ComponentName className,
-                                       IBinder service) {
-            // We've bound to LocalService, cast the IBinder and get LocalService instance
-            WearBackgroundService.LocalBinder binder = (WearBackgroundService.LocalBinder) service;
-            mWearBackgroundService = binder.getService();
-            mBound = true;
-        }
-
-        @Override
-        public void onServiceDisconnected(ComponentName arg0) {
-            mBound = false;
-        }
-    };
 }
