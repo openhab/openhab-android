@@ -15,8 +15,14 @@ import java.util.Date;
 public class OpenHABNotification {
     private String mMessage;
     private Date mCreated;
+    private String mIcon;
+    private String mSeverity;
     public OpenHABNotification(JSONObject jsonObject) {
         try {
+            if (jsonObject.has("icon"))
+                this.setIcon(jsonObject.getString("icon"));
+            if (jsonObject.has("severity"))
+                this.setSeverity(jsonObject.getString("severity"));
             if (jsonObject.has("message"))
                 this.setMessage(jsonObject.getString("message"));
             if (jsonObject.has("created")) {
@@ -44,6 +50,22 @@ public class OpenHABNotification {
 
     public void setCreated(Date created) {
         this.mCreated = created;
+    }
+
+    public String getIcon() {
+        return mIcon;
+    }
+
+    public void setIcon(String icon) {
+        this.mIcon = icon;
+    }
+
+    public String getSeverity() {
+        return mSeverity;
+    }
+
+    public void setSeverity(String severity) {
+        this.mSeverity = severity;
     }
 }
 
