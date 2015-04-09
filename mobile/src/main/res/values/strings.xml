@@ -42,6 +42,7 @@
     <string name="settings_ringtone">Ring tone</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">OpenHAB Voice Commands</string>
+    <string name="title_item_widget">OpenHAB Item Command</string>
     <string name="info_voice_input">"openHAB, at your command!"</string>
     <string name="info_voice_recognized_text">"Recognized command: %1$s"</string>
     <string name="info_demo_mode">HABDroid is running in demo mode. To connect to your openHAB please go to settings menu.</string>
@@ -77,4 +78,5 @@
     <string name="mtm_decision_once">Once</string>
     <string name="mtm_decision_abort">Abort</string>
     <string name="mtm_notification">Certificate verification</string>
+    <string name="title_activity_item_widget_configure">Configure Item Widget</string>
 </resources>

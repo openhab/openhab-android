@@ -22,6 +22,9 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import java.util.Locale;
+import android.speech.tts.TextToSpeech;
+import android.speech.tts.TextToSpeech.OnInitListener;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
@@ -31,13 +34,15 @@ import org.openhab.habdroid.R;
 import org.openhab.habdroid.ui.OpenHABMainActivity;
 import org.openhab.habdroid.util.Constants;
 
-public class GcmIntentService extends IntentService {
+public class GcmIntentService extends IntentService implements OnInitListener {
 
     private static final String TAG = "GcmIntentService";
     private NotificationManager mNotificationManager;
     // Notification delete receiver
     private final NotificationDeletedBroadcastReceiver mNotificationDeletedBroadcastReceiver =
-            new NotificationDeletedBroadcastReceiver();;
+            new NotificationDeletedBroadcastReceiver();
+
+    public static TextToSpeech tts;
 
     public GcmIntentService() {
         super("GcmIntentService");
@@ -96,6 +101,18 @@ public class GcmIntentService extends IntentService {
         if (alarmSound.toString().equals("")) {
             alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         }
+
+        // Read aloud what sendNotification sent
+        if (msg.startsWith("speak ")) {
+            // strip speak-prefix
+            msg = msg.substring(6, msg.length()-6);
+
+            if(tts == null) {
+                tts = new TextToSpeech(this.getApplicationContext(), this);
+            }
+            tts.speak(msg, TextToSpeech.QUEUE_FLUSH, null);
+        }
+
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(this)
                         .setSmallIcon(R.drawable.openhabicon)
@@ -107,6 +124,18 @@ public class GcmIntentService extends IntentService {
                         .setContentText(msg);
         mBuilder.setContentIntent(pendingNotificationIntent);
         mBuilder.setDeleteIntent(pendingDeleteIntent);
+
         mNotificationManager.notify(notificationId, mBuilder.build());
+    }
+
+    @Override
+    public void onInit(int status) {
+        if (status == TextToSpeech.SUCCESS) {
+            int result = tts.setLanguage(Locale.getDefault());
+            if (result == TextToSpeech.LANG_MISSING_DATA
+                    || result == TextToSpeech.LANG_NOT_SUPPORTED) {
+                tts.setLanguage(Locale.ENGLISH);
+            }
+        }
     }
 }
