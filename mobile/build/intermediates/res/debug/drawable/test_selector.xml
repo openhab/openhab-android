@@ -1,0 +1,4 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+    <solid android:color="#fb9d23"></solid>
+</shape>
+<!-- From: file:/C:/Users/Dirk/Entwicklung/openhab.android/mobile/src/main/res/drawable/test_selector.xml -->

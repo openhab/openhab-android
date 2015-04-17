@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:ns1="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- From: file:/C:/Users/Dirk/Entwicklung/openhab.android/mobile/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/res/values-nl/values.xml -->
+    <eat-comment/>
+    <string msgid="4600421777120114993" name="abc_action_bar_home_description">"Navigeren naar startpositie"</string>
+    <string msgid="1397052879051804371" name="abc_action_bar_home_description_format">"%1$s, %2$s"</string>
+    <string msgid="6623331958280229229" name="abc_action_bar_home_subtitle_description_format">"%1$s, %2$s, %3$s"</string>
+    <string msgid="1594238315039666878" name="abc_action_bar_up_description">"Omhoog navigeren"</string>
+    <string msgid="3588849162933574182" name="abc_action_menu_overflow_description">"Meer opties"</string>
+    <string msgid="4076576682505996667" name="abc_action_mode_done">"Gereed"</string>
+    <string msgid="7468859129482906941" name="abc_activity_chooser_view_see_all">"Alles weergeven"</string>
+    <string msgid="2031811694353399454" name="abc_activitychooserview_choose_application">"Een app selecteren"</string>
+    <string msgid="3691816814315814921" name="abc_searchview_description_clear">"Zoekopdracht wissen"</string>
+    <string msgid="2550479030709304392" name="abc_searchview_description_query">"Zoekopdracht"</string>
+    <string msgid="8264924765203268293" name="abc_searchview_description_search">"Zoeken"</string>
+    <string msgid="8928215447528550784" name="abc_searchview_description_submit">"Zoekopdracht verzenden"</string>
+    <string msgid="893419373245838918" name="abc_searchview_description_voice">"Gesproken zoekopdracht"</string>
+    <string msgid="3421042268587513524" name="abc_shareactionprovider_share_with">"Delen met"</string>
+    <string msgid="7165123711973476752" name="abc_shareactionprovider_share_with_application">"Delen met %s"</string>
+    <!-- From: file:/C:/Users/Dirk/Entwicklung/openhab.android/mobile/src/main/res/values-nl/strings.xml -->
+    <eat-comment/>
+    <string name="action_settings">Instellingen</string>
+    <string name="app_name">openHAB</string>
+    <string name="app_preferences_name">Instellingen</string>
+    <!-- From: file:/C:/Users/Dirk/Entwicklung/openhab.android/mobile/build/intermediates/exploded-aar/com.google.android.gms/play-services/6.5.87/res/values-nl/common_strings.xml -->
+    <eat-comment/>
+    <string msgid="473679118463211576" name="common_android_wear_notification_needs_update_text">"Er is een update van de Android Wear-app vereist voor een bepaalde app."</string>
+    <string msgid="3046420540094071256" name="common_android_wear_update_text">"Deze app wordt niet uitgevoerd, tenzij u de Android Wear-app bijwerkt."</string>
+    <string msgid="1366439133145190222" name="common_android_wear_update_title">"Android Wear bijwerken"</string>
+    <string msgid="4181637455539816337" name="common_google_play_services_enable_button">"Google Play-services inschak."</string>
+    <string msgid="7627896071867667758" name="common_google_play_services_enable_text">"Deze app werkt niet, tenzij u Google Play-services inschakelt."</string>
+    <string msgid="529078775174559253" name="common_google_play_services_enable_title">"Google Play-services inschakelen"</string>
+    <string msgid="2443362625939284971" name="common_google_play_services_error_notification_requested_by_msg">"Aangevraagd door <ns1:g id="APP_NAME">%1$s</ns1:g>"</string>
+    <string msgid="8515591849428043265" name="common_google_play_services_install_button">"Google Play-services ophalen"</string>
+    <string msgid="8685301130651051380" name="common_google_play_services_install_text_phone">"Deze app kan niet worden uitgevoerd zonder Google Play-services die ontbreken op uw telefoon."</string>
+    <string msgid="1589957570365247855" name="common_google_play_services_install_text_tablet">"Deze app kan niet worden uitgevoerd zonder Google Play-services die ontbreken op uw tablet."</string>
+    <string msgid="26645092511305524" name="common_google_play_services_install_title">"Google Play-services ophalen"</string>
+    <string msgid="4983316348021735578" name="common_google_play_services_invalid_account_text">"Het gespecificeerde account bestaat niet op dit apparaat. Kies een ander account."</string>
+    <string msgid="1066672360770936753" name="common_google_play_services_invalid_account_title">"Ongeldig account"</string>
+    <string msgid="2583358409598976717" name="common_google_play_services_needs_enabling_title">"Google Play-services moet zijn ingeschakeld voor een app."</string>
+    <string msgid="9038847255613537209" name="common_google_play_services_network_error_text">"Er is een gegevensverbinding nodig om verbinding te kunnen maken met Google Play-services."</string>
+    <string msgid="3827284619958211114" name="common_google_play_services_network_error_title">"Netwerkfout"</string>
+    <string msgid="8120534356798772974" name="common_google_play_services_notification_needs_installation_title">"Google Play-services moet zijn geïnstalleerd voor een app."</string>
+    <string msgid="1388129345631079938" name="common_google_play_services_notification_needs_update_title">"Google Play-services moet worden geüpdatet voor een app."</string>
+    <string msgid="1852570676146674985" name="common_google_play_services_notification_ticker">"Fout met Google Play-services"</string>
+    <string msgid="4762332809710093730" name="common_google_play_services_unknown_issue">"Onbekend probleem met Google Play-services."</string>
+    <string msgid="3542578567569488671" name="common_google_play_services_unsupported_text">"Google Play-services, dat vereist is voor een aantal van uw applicaties, wordt niet ondersteund door uw apparaat. Neem contact op met de fabrikant voor ondersteuning."</string>
+    <string msgid="6334768798839376943" name="common_google_play_services_unsupported_title">"Google Play-services"</string>
+    <string msgid="8932944190611227642" name="common_google_play_services_update_button">"Updaten"</string>
+    <string msgid="448354684997260580" name="common_google_play_services_update_text">"Deze app kan niet worden uitgevoerd, tenzij u Google Play-services updatet."</string>
+    <string msgid="6006316683626838685" name="common_google_play_services_update_title">"Google Play-services updaten"</string>
+    <string msgid="411506735369601515" name="common_open_on_phone">"Openen op telefoon"</string>
+    <string msgid="9071884888741449141" name="common_signin_button_text">"Inloggen"</string>
+    <string msgid="2429381841831957106" name="common_signin_button_text_long">"Inloggen met Google"</string>
+    <!-- From: file:/C:/Users/Dirk/Entwicklung/openhab.android/mobile/src/main/res/values-nl/strings.xml -->
+    <eat-comment/>
+    <string name="erorr_invalid_url">Vul een correcte URL in deze \'protocol://host:port/\' vorm</string>
+    <string name="erorr_no_wifi_mcast_permission">CHANGE_WIFI_MULTICAST_STATE permissie is niet gegeven, openHAB ontdekken word uitgeschakelt!</string>
+    <string name="erorr_no_wifi_state_permission">ACCESS_WIFI_STATE permissie is niet gegeven, openHAB ontdekken word uitgeschakelt!</string>
+    <string name="error_authentication_failed">Authenticatie mislukt. Controlleer gebruikersnaam en wachtwoord</string>
+    <string name="error_connection_failed">Connectie naar host mislukt</string>
+    <string name="error_empty_sitemap_list">openHAB heeft een lege sitemap geladen</string>
+    <string name="error_network_not_available">Network is niet beschikbaar</string>
+    <string name="error_no_url">Controlleer of openHAB actief is.</string>
+    <string name="error_no_uuid">UopenHAB UUID kan niet opgevraagd worden, connectie mislukt</string>
+    <string name="info_conn_rem_url">Verbinden naar externe URL</string>
+    <string name="info_conn_url">Verbinden met ingestelde URL</string>
+    <string name="info_demo_mode">HABDroid draaid in demo mode. Om naar je eigensysteem te verbinding gebruik het instellingen menu.</string>
+    <string name="info_discovery">Ontdekken van openHAB. Moment geduld...</string>
+    <string name="info_not_set">Niet ingesteld</string>
+    <string name="info_openhab_secret_label">openHAB geheim</string>
+    <string name="info_openhab_uuid_label">openHAB UUID</string>
+    <string name="info_openhab_version_label">openHAB Versie</string>
+    <string name="info_voice_input">"openHAB, at your command!"</string>
+    <string name="info_voice_recognized_text">"Herkend commando: %1$s"</string>
+    <string name="info_write_failed">Tag schrijf fout</string>
+    <string name="info_write_tag">Raak de  tag aan en houd het dichtbij tot een bevestiging verschijnt</string>
+    <string name="info_write_tag_disabled">NFC is uitgeschakelt. Zet het aan in de apparaart instellingen menu.</string>
+    <string name="info_write_tag_finished">Gelukt!</string>
+    <string name="info_write_tag_progress">De tag word weggeschreven</string>
+    <string name="info_write_tag_unsupported">Dit apparaat heeft geen NFC ondersteuing :-(</string>
+    <string name="mainmenu_openhab_clearcache">Verwijder afbeeldings cache</string>
+    <string name="mainmenu_openhab_info">openHAB info</string>
+    <string name="mainmenu_openhab_preferences">Instellingen</string>
+    <string name="mainmenu_openhab_selectsitemap">Selecteer standaard sitemap</string>
+    <string name="mainmenu_openhab_writetag">Schrijf NFC tag</string>
+    <string name="mtm_accept_cert">Accepteer onbekend certificaat?</string>
+    <string name="mtm_decision_abort">Afbreken</string>
+    <string name="mtm_decision_always">Altijd</string>
+    <string name="mtm_decision_once">eenmalig</string>
+    <string name="mtm_notification">Certificaat verificatie</string>
+    <string name="nfc_dialog_title">Selecteer een actio voor de NFC tag</string>
+    <string name="openhab_demo_url">https://demo.openhab.org:8443/</string>
+    <string name="openhab_service_type">_openhab-server-ssl._tcp.local.</string>
+    <string name="settings_openhab_alturl">openHAB externe URL</string>
+    <string name="settings_openhab_alturl_summary">openHAB externe URL (Word gebruikt als er lokaal geen verbinding is)</string>
+    <string name="settings_openhab_appversion">HABDroid Versie</string>
+    <string name="settings_openhab_demomode">Demo mode</string>
+    <string name="settings_openhab_demomode_summary">Gebruik HABDroid in demo mode</string>
+    <string name="settings_openhab_fullscreen">Volledig scherm</string>
+    <string name="settings_openhab_fullscreen_summary">Gebruik in volledige scherm modes</string>
+    <string name="settings_openhab_password">Wachtwoord</string>
+    <string name="settings_openhab_password_summary">openHAB wachtwoord</string>
+    <string name="settings_openhab_screentimeroff">Uitschakelen weergave timer</string>
+    <string name="settings_openhab_screentimeroff_summary">Zet het uitschakelen van het scherm uit als HABDroid actief is.</string>
+    <string name="settings_openhab_sslcert">Negeer SSL certificaat</string>
+    <string name="settings_openhab_sslcert_summary">Negeer certificaat validatie tijdens SSLverificatie</string>
+    <string name="settings_openhab_sslhost">Negeer SSL hostnaam</string>
+    <string name="settings_openhab_sslhost_summary">Negeer hostnaam controller tijdens SSL verificatie</string>
+    <string name="settings_openhab_theme">HABDroid Thema</string>
+    <string name="settings_openhab_url">openHAB URL</string>
+    <string name="settings_openhab_url_summary">Handmatig ingevulde openHAB URL. Zet autmatisch ontdekking uit.</string>
+    <string name="settings_openhab_username">Gebruikersnaam</string>
+    <string name="settings_openhab_username_summary">openHAB gebruikersnaam</string>
+    <string name="settings_ringtone">Beltoon</string>
+    <string name="title_activity_openhabinfo">openHAB Informatie</string>
+    <string name="title_activity_openhabwritetag">Schrijf NFC tag</string>
+    <string name="title_voice_widget">OpenHAB stem commando\'s</string>
+</resources>

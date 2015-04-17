@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- From: file:/C:/Users/Dirk/Entwicklung/openhab.android/mobile/src/main/res/values-sw600dp-land/layout.xml -->
+    <eat-comment/>
+    <integer name="pager_columns">2</integer>
+    <item name="activity_main" type="layout">@layout/activity_main_onepane</item>
+</resources>

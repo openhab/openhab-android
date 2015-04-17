@@ -1,0 +1,231 @@
+-- Merging decision tree log ---
+manifest
+ADDED from AndroidManifest.xml:2:1
+	xmlns:android
+		ADDED from AndroidManifest.xml:2:11
+	package
+		ADDED from AndroidManifest.xml:3:5
+		INJECTED from AndroidManifest.xml:0:0
+		INJECTED from AndroidManifest.xml:0:0
+	android:versionName
+		ADDED from AndroidManifest.xml:5:5
+	android:versionCode
+		ADDED from AndroidManifest.xml:4:5
+		INJECTED from AndroidManifest.xml:0:0
+		INJECTED from AndroidManifest.xml:0:0
+uses-sdk
+ADDED from AndroidManifest.xml:6:5
+MERGED from com.google.android.gms:play-services:6.5.87:18:5
+MERGED from com.android.support:support-v4:21.0.3:15:5
+MERGED from com.android.support:appcompat-v7:21.0.3:15:5
+MERGED from com.android.support:support-v4:21.0.3:15:5
+	android:targetSdkVersion
+		ADDED from AndroidManifest.xml:8:9
+		INJECTED from AndroidManifest.xml:0:0
+		INJECTED from AndroidManifest.xml:0:0
+	android:minSdkVersion
+		ADDED from AndroidManifest.xml:7:9
+		INJECTED from AndroidManifest.xml:0:0
+		INJECTED from AndroidManifest.xml:0:0
+uses-permission#android.permission.INTERNET
+ADDED from AndroidManifest.xml:10:5
+	android:name
+		ADDED from AndroidManifest.xml:10:22
+uses-permission#android.permission.CHANGE_WIFI_MULTICAST_STATE
+ADDED from AndroidManifest.xml:11:5
+	android:name
+		ADDED from AndroidManifest.xml:11:22
+uses-permission#android.permission.ACCESS_NETWORK_STATE
+ADDED from AndroidManifest.xml:12:5
+	android:name
+		ADDED from AndroidManifest.xml:12:22
+uses-permission#android.permission.ACCESS_WIFI_STATE
+ADDED from AndroidManifest.xml:13:5
+	android:name
+		ADDED from AndroidManifest.xml:13:22
+uses-permission#android.permission.READ_LOGS
+ADDED from AndroidManifest.xml:14:5
+	android:name
+		ADDED from AndroidManifest.xml:14:22
+uses-permission#android.permission.GET_TASKS
+ADDED from AndroidManifest.xml:15:5
+	android:name
+		ADDED from AndroidManifest.xml:15:22
+uses-permission#android.permission.NFC
+ADDED from AndroidManifest.xml:16:5
+	android:name
+		ADDED from AndroidManifest.xml:16:22
+uses-permission#android.permission.WAKE_LOCK
+ADDED from AndroidManifest.xml:18:5
+	android:name
+		ADDED from AndroidManifest.xml:18:22
+uses-permission#com.google.android.c2dm.permission.RECEIVE
+ADDED from AndroidManifest.xml:19:5
+	android:name
+		ADDED from AndroidManifest.xml:19:22
+permission#org.openhab.habdroid.gcm.permission.C2D_MESSAGE
+ADDED from AndroidManifest.xml:20:5
+	android:protectionLevel
+		ADDED from AndroidManifest.xml:21:9
+	android:name
+		ADDED from AndroidManifest.xml:20:17
+uses-permission#org.openhab.habdroid.gcm.permission.C2D_MESSAGE
+ADDED from AndroidManifest.xml:22:5
+	android:name
+		ADDED from AndroidManifest.xml:22:22
+uses-permission#android.permission.ACCESS_FINE_LOCATION
+ADDED from AndroidManifest.xml:23:5
+	android:name
+		ADDED from AndroidManifest.xml:23:22
+uses-feature#android.hardware.location.gps
+ADDED from AndroidManifest.xml:24:5
+	android:required
+		ADDED from AndroidManifest.xml:26:9
+	android:name
+		ADDED from AndroidManifest.xml:25:9
+uses-feature#android.hardware.nfc
+ADDED from AndroidManifest.xml:27:5
+	android:required
+		ADDED from AndroidManifest.xml:29:9
+	android:name
+		ADDED from AndroidManifest.xml:28:9
+application
+ADDED from AndroidManifest.xml:30:5
+MERGED from com.google.android.gms:play-services:6.5.87:20:5
+MERGED from com.android.support:support-v4:21.0.3:16:5
+MERGED from com.android.support:appcompat-v7:21.0.3:16:5
+MERGED from com.android.support:support-v4:21.0.3:16:5
+	android:label
+		ADDED from AndroidManifest.xml:34:9
+	android:allowBackup
+		ADDED from AndroidManifest.xml:32:9
+	android:icon
+		ADDED from AndroidManifest.xml:33:9
+	android:theme
+		ADDED from AndroidManifest.xml:35:9
+	android:name
+		ADDED from AndroidManifest.xml:31:9
+activity#org.openhab.habdroid.ui.OpenHABPreferencesActivity
+ADDED from AndroidManifest.xml:36:9
+	android:label
+		ADDED from AndroidManifest.xml:38:13
+	android:name
+		ADDED from AndroidManifest.xml:37:13
+activity#org.openhab.habdroid.ui.OpenHABMainActivity
+ADDED from AndroidManifest.xml:40:9
+	android:label
+		ADDED from AndroidManifest.xml:42:13
+	android:name
+		ADDED from AndroidManifest.xml:41:13
+	android:launchMode
+		ADDED from AndroidManifest.xml:43:13
+intent-filter#android.intent.action.MAIN+android.intent.category.LAUNCHER
+ADDED from AndroidManifest.xml:44:13
+action#android.intent.action.MAIN
+ADDED from AndroidManifest.xml:45:17
+	android:name
+		ADDED from AndroidManifest.xml:45:25
+category#android.intent.category.LAUNCHER
+ADDED from AndroidManifest.xml:46:17
+	android:name
+		ADDED from AndroidManifest.xml:46:27
+intent-filter#android.intent.category.DEFAULT+android.nfc.action.NDEF_DISCOVERED
+ADDED from AndroidManifest.xml:48:13
+action#android.nfc.action.NDEF_DISCOVERED
+ADDED from AndroidManifest.xml:49:17
+	android:name
+		ADDED from AndroidManifest.xml:49:25
+category#android.intent.category.DEFAULT
+ADDED from AndroidManifest.xml:50:17
+	android:name
+		ADDED from AndroidManifest.xml:50:27
+data
+ADDED from AndroidManifest.xml:51:17
+	android:scheme
+		ADDED from AndroidManifest.xml:51:23
+intent-filter#android.intent.action.VIEW+android.intent.category.BROWSABLE+android.intent.category.DEFAULT
+ADDED from AndroidManifest.xml:53:13
+action#android.intent.action.VIEW
+ADDED from AndroidManifest.xml:54:17
+	android:name
+		ADDED from AndroidManifest.xml:54:25
+category#android.intent.category.BROWSABLE
+ADDED from AndroidManifest.xml:57:17
+	android:name
+		ADDED from AndroidManifest.xml:57:27
+activity#org.openhab.habdroid.ui.OpenHABWriteTagActivity
+ADDED from AndroidManifest.xml:62:9
+	android:label
+		ADDED from AndroidManifest.xml:64:13
+	android:name
+		ADDED from AndroidManifest.xml:63:13
+activity#org.openhab.habdroid.ui.OpenHABInfoActivity
+ADDED from AndroidManifest.xml:66:9
+	android:label
+		ADDED from AndroidManifest.xml:68:13
+	android:name
+		ADDED from AndroidManifest.xml:67:13
+activity#de.duenndns.ssl.MemorizingActivity
+ADDED from AndroidManifest.xml:70:9
+	android:name
+		ADDED from AndroidManifest.xml:70:19
+service#org.openhab.habdroid.core.OpenHABVoiceService
+ADDED from AndroidManifest.xml:71:9
+	android:exported
+		ADDED from AndroidManifest.xml:73:13
+	android:name
+		ADDED from AndroidManifest.xml:72:13
+receiver#org.openhab.habdroid.core.GcmBroadcastReceiver
+ADDED from AndroidManifest.xml:75:9
+	android:permission
+		ADDED from AndroidManifest.xml:77:13
+	android:name
+		ADDED from AndroidManifest.xml:76:13
+intent-filter#com.google.android.c2dm.intent.RECEIVE+org.openhab.habdroid
+ADDED from AndroidManifest.xml:78:13
+action#com.google.android.c2dm.intent.RECEIVE
+ADDED from AndroidManifest.xml:79:17
+	android:name
+		ADDED from AndroidManifest.xml:79:25
+category#org.openhab.habdroid
+ADDED from AndroidManifest.xml:80:17
+	android:name
+		ADDED from AndroidManifest.xml:80:27
+receiver#org.openhab.habdroid.core.NotificationDeletedBroadcastReceiver
+ADDED from AndroidManifest.xml:83:9
+	android:name
+		ADDED from AndroidManifest.xml:83:19
+intent-filter#org.openhab.habdroid+org.openhab.habdroid.notification.deleted
+ADDED from AndroidManifest.xml:84:13
+action#org.openhab.habdroid.notification.deleted
+ADDED from AndroidManifest.xml:85:17
+	android:name
+		ADDED from AndroidManifest.xml:85:25
+service#org.openhab.habdroid.core.GcmIntentService
+ADDED from AndroidManifest.xml:89:9
+	android:name
+		ADDED from AndroidManifest.xml:89:18
+receiver#org.openhab.habdroid.ui.VoiceWidget
+ADDED from AndroidManifest.xml:90:9
+	android:label
+		ADDED from AndroidManifest.xml:91:13
+	android:name
+		ADDED from AndroidManifest.xml:90:19
+intent-filter#android.appwidget.action.APPWIDGET_UPDATE
+ADDED from AndroidManifest.xml:92:13
+action#android.appwidget.action.APPWIDGET_UPDATE
+ADDED from AndroidManifest.xml:93:17
+	android:name
+		ADDED from AndroidManifest.xml:93:25
+meta-data#android.appwidget.provider
+ADDED from AndroidManifest.xml:95:13
+	android:resource
+		ADDED from AndroidManifest.xml:97:17
+	android:name
+		ADDED from AndroidManifest.xml:96:17
+meta-data#com.google.android.gms.version
+ADDED from com.google.android.gms:play-services:6.5.87:21:9
+	android:name
+		ADDED from com.google.android.gms:play-services:6.5.87:22:13
+	android:value
+		ADDED from com.google.android.gms:play-services:6.5.87:23:13
