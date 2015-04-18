@@ -312,28 +312,29 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     	case TYPE_SWITCH:
     		if (labelTextView != null)
     			labelTextView.setText(openHABWidget.getLabel());
-            SwitchCompat switchSwitch = (SwitchCompat)widgetView.findViewById(R.id.switchswitch);
-    		if (openHABWidget.hasItem()) {
-    			if (openHABWidget.getItem().getStateAsBoolean()) {
-    				switchSwitch.setChecked(true);
-    			} else {
-    				switchSwitch.setChecked(false);
-    			}
-    		}
-    		switchSwitch.setTag(openHABWidget.getItem());
-    		switchSwitch.setOnTouchListener(new OnTouchListener() {
-				public boolean onTouch(View v, MotionEvent motionEvent) {
-					SwitchCompat switchSwitch = (SwitchCompat)v;
-					OpenHABItem linkedItem = (OpenHABItem)switchSwitch.getTag();
-					if (motionEvent.getActionMasked() == MotionEvent.ACTION_UP)
-						if (!switchSwitch.isChecked()) {
-							sendItemCommand(linkedItem, "ON");
-						} else {
-							sendItemCommand(linkedItem, "OFF");
-						}
-					return false;
-				}
-                		});
+            if (openHABWidget.hasItem()) {
+                // get the model and state
+                final OpenHABItem item = openHABWidget.getItem();
+                final boolean state = item.getStateAsBoolean();
+
+                // set the switch to the right state
+                final SwitchCompat switchSwitch = (SwitchCompat)widgetView.findViewById(R.id.switchswitch);
+                switchSwitch.setChecked(state);
+
+                final View switchLayout = widgetView.findViewById(R.id.parent);
+                switchLayout.setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (!state) {
+                            sendItemCommand(item, "ON");
+                        } else {
+                            sendItemCommand(item, "OFF");
+                        }
+                    }
+                });
+            } else {
+                Log.w(TAG, "no linked item for widget " + openHABWidget.getLabel());
+            }
     		break;
     	case TYPE_COLOR:
     		if (labelTextView != null)
