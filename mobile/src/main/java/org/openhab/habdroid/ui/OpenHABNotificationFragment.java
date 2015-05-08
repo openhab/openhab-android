@@ -19,6 +19,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.openhab.habdroid.R;
+import org.openhab.habdroid.util.Constants;
 
 import org.openhab.habdroid.model.OpenHABNotification;
 
@@ -166,7 +167,7 @@ public class OpenHABNotificationFragment extends ListFragment implements SwipeRe
     private void loadNotifications() {
         if (mAsyncHttpClient != null) {
             startProgressIndicator();
-            mRequestHandle = mAsyncHttpClient.get("http://192.168.100.88:3000/api/v1/notifications?limit=20", new AsyncHttpResponseHandler() {
+            mRequestHandle = mAsyncHttpClient.get(Constants.MYOPENHAB_BASE_URL + "/api/v1/notifications?limit=20", new AsyncHttpResponseHandler() {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                     stopProgressIndicator();
