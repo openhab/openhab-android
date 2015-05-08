@@ -6,20 +6,26 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.wearable.DataApi;
+import com.google.android.gms.wearable.DataItem;
+import com.google.android.gms.wearable.DataItemBuffer;
 import com.google.android.gms.wearable.MessageApi;
 import com.google.android.gms.wearable.MessageEvent;
 import com.google.android.gms.wearable.PutDataMapRequest;
 import com.google.android.gms.wearable.PutDataRequest;
 import com.google.android.gms.wearable.Wearable;
-import com.loopj.android.http.SyncHttpClient;
 import com.loopj.android.http.TextHttpResponseHandler;
 
 import org.apache.http.Header;
 import org.apache.http.entity.StringEntity;
 import org.openhab.habdroid.model.OpenHABSitemap;
+import org.openhab.habdroid.util.MySyncHttpClient;
 import org.openhab.habdroid.util.SharedConstants;
 import org.openhab.habdroid.util.URLAware;
+
+import java.util.concurrent.TimeUnit;
 
 /**
  * This is a service to communicate with the wearable
@@ -36,9 +42,10 @@ public class WearService implements GoogleApiClient.ConnectionCallbacks, Message
 
     private String mOpenHABBaseUrl;
 
-    private SyncHttpClient mSyncHttpClient = new SyncHttpClient();
+    private MySyncHttpClient mSyncHttpClient;
 
     public WearService(Context context) {
+        mSyncHttpClient = new MySyncHttpClient(context);
         if (mGoogleApiClient == null) {
             mGoogleApiClient = new GoogleApiClient.Builder(context).addConnectionCallbacks(this)
                     .addApi(Wearable.API)
@@ -165,7 +172,7 @@ public class WearService implements GoogleApiClient.ConnectionCallbacks, Message
         } catch (Exception e) {
             Log.e(TAG, "Cannot send data to wearable", e);
         }
-        new ClearDataApiAsync().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, openHABSitemap);
+        //new ClearDataApiAsync().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, openHABSitemap);
     }
 
     public void sendDataToWearable(String pageUrl, String responseString) {
@@ -201,7 +208,7 @@ public class WearService implements GoogleApiClient.ConnectionCallbacks, Message
     class ClearDataApiAsync extends AsyncTask<OpenHABSitemap, Void, OpenHABSitemap> {
         @Override
         protected OpenHABSitemap doInBackground(OpenHABSitemap... params) {
-            /*PendingResult<DataItemBuffer> pendingResult = Wearable.DataApi.getDataItems(mGoogleApiClient);
+            PendingResult<DataItemBuffer> pendingResult = Wearable.DataApi.getDataItems(mGoogleApiClient);
             DataItemBuffer dataItem = pendingResult.await(5, TimeUnit.SECONDS);
             int count = dataItem.getCount();
             if (count > 0) {
@@ -212,7 +219,7 @@ public class WearService implements GoogleApiClient.ConnectionCallbacks, Message
                     pendingDelete.await(10, TimeUnit.MILLISECONDS);
                     Log.d(TAG, "Deleted data");
                 }
-            }*/
+            }
             return params[0];
         }
 

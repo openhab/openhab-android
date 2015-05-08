@@ -1,6 +1,7 @@
 package org.openhab.habdroid.layout;
 
 import android.content.Context;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.GradientDrawable;
 import android.support.wearable.view.WearableListView;
 import android.util.AttributeSet;
@@ -53,13 +54,15 @@ public class WearableListItemLayout extends LinearLayout
 
     @Override
     public void onCenterPosition(boolean animate) {
+        int[] state = new int[]{android.R.attr.state_enabled};
+        ((BitmapDrawable) mCircle.getDrawable()).setState(state);
         mName.setAlpha(1f);
-        ((GradientDrawable) mCircle.getDrawable()).setColor(mChosenCircleColor);
     }
 
     @Override
     public void onNonCenterPosition(boolean animate) {
-        ((GradientDrawable) mCircle.getDrawable()).setColor(mFadedCircleColor);
+        int[] state = new int[]{-android.R.attr.state_enabled};
+        ((BitmapDrawable) mCircle.getDrawable()).setState(state);
         mName.setAlpha(mFadedTextAlpha);
     }
 }

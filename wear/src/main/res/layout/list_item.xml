@@ -8,13 +8,14 @@
         android:layout_height="24dp"
         android:layout_margin="16dp"
         android:layout_width="24dp"
-        android:src="@drawable/wl_circle"/>
+        android:src="@drawable/group_icon"/>
     <TextView
         android:id="@+id/widgetName"
         android:layout_height="20dp"
         android:layout_marginLeft="-32dp"
         android:layout_marginTop="-1dp"
         android:layout_width="wrap_content"
+        android:visibility="gone"
         android:text="SB"/>
     <TextView
         android:id="@+id/name"

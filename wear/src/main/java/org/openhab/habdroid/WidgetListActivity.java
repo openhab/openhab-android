@@ -8,6 +8,7 @@ import android.support.wearable.view.WearableListView;
 import android.util.Log;
 
 import org.openhab.habdroid.adapter.OpenHABWearWidgetAdapter;
+import org.openhab.habdroid.model.OpenHABItem;
 import org.openhab.habdroid.model.OpenHABLinkedPage;
 import org.openhab.habdroid.model.OpenHABWidget;
 import org.openhab.habdroid.model.OpenHABWidgetDataSource;
@@ -86,9 +87,18 @@ public class WidgetListActivity extends Activity implements WearableListView.Cli
         Log.d(TAG, "Clicked the widget " + clickedWidget);
         Log.d(TAG, "Widget is of type " + clickedWidget.getType());
         Log.d(TAG, "Widget item " + clickedWidget.getItem());
-        Log.d(TAG, "Widget item type " + clickedWidget.getItem().getType());
-        String typeToCheck = clickedWidget.getItem().getType();
-        if (typeToCheck.equals("FrameItem") || typeToCheck.equals("GroupItem")) {
+        OpenHABItem widgetItem = clickedWidget.getItem();
+        String typeToCheck;
+        if (widgetItem != null) {
+            typeToCheck = widgetItem.getType();
+        } else if (clickedWidget.getType().equals("Text")) {
+            Log.d(TAG, "Widget is of type text...");
+            typeToCheck = "TextItem";
+        } else {
+            typeToCheck = "";
+        }
+        Log.d(TAG, "Widget item type " + typeToCheck);
+        if (typeToCheck.equals("FrameItem") || typeToCheck.equals("GroupItem") || typeToCheck.equals("TextItem")) {
             Log.d(TAG, "Clicked on frame or group");
             OpenHABLinkedPage linkedPage = clickedWidget.getLinkedPage();
             if (linkedPage != null) {
@@ -100,8 +110,6 @@ public class WidgetListActivity extends Activity implements WearableListView.Cli
             } else {
                 Log.i(TAG, "Linked page on widget is null");
             }
-        } else if (typeToCheck.equals("TextItem")) {
-            Log.d(TAG, "Is a simple text");
         } else if (typeToCheck.equals("SwitchItem")) {
             Intent intent = new Intent(getApplicationContext(), SwitchWidgetActivity.class);
             intent.putExtra(SwitchWidgetActivity.STATE, clickedWidget.getItem().getStateAsBoolean());

@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.openhab.habdroid.R;
@@ -36,6 +37,7 @@ public class OpenHABWearWidgetAdapter extends WearableListView.Adapter {
         private TextView textView;
         private TextView widgetNameText;
         private TextView linkArrow;
+        private ImageView itemIcon;
 
         public ItemViewHolder(View itemView) {
             super(itemView);
@@ -43,6 +45,7 @@ public class OpenHABWearWidgetAdapter extends WearableListView.Adapter {
             textView = (TextView) itemView.findViewById(R.id.name);
             widgetNameText = (TextView) itemView.findViewById(R.id.widgetName);
             linkArrow = (TextView) itemView.findViewById(R.id.linkArrow);
+            itemIcon = (ImageView) itemView.findViewById(R.id.circle);
         }
     }
 
@@ -66,16 +69,26 @@ public class OpenHABWearWidgetAdapter extends WearableListView.Adapter {
         TextView view = itemHolder.textView;
         TextView widgetName = itemHolder.widgetNameText;
         TextView link = itemHolder.linkArrow;
+        ImageView itemIcon = itemHolder.itemIcon;
 
         OpenHABWidget widget = mWidgets.get(position);
         view.setText(widget.getLabel());
-        String widgetType = "" + widget.getType().charAt(0);
+        String widgetType = "" + widget.getType();
         Log.d(TAG, "Setting widgetType " + widgetType);
+        if("Slider".equals(widgetType)) {
+            itemIcon.setImageResource(R.drawable.slider_icon);
+        } else if ("Switch".equals(widgetType)) {
+            itemIcon.setImageResource(R.drawable.switch_icon);
+        } else {
+            itemIcon.setImageResource(R.drawable.group_icon);
+        }
         widgetName.setText(widgetType);
         if (widget.getType().equals("Text")) {
             link.setVisibility(View.GONE);
-            if(widget.getItem().getState() != null) {
-                view.setText(widget.getLabel() + " " + widget.getItem().getState());
+            if (widget.getItem() != null && widget.getItem().getState() != null) {
+                if (!widget.getLabel().toLowerCase().contains(widget.getItem().getState().toLowerCase())) {
+                    view.setText(widget.getLabel() + " " + widget.getItem().getState());
+                }
             }
         } else {
             link.setVisibility(View.VISIBLE);

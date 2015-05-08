@@ -184,8 +184,11 @@ public class MobileService implements GoogleApiClient.ConnectionCallbacks, DataA
                 widgetList.clear();
                 for (OpenHABWidget w : openHABWidgetDataSource.getWidgets()) {
                     // Remove frame widgets with no label text
-                    if (w.getType().equals("Frame") && TextUtils.isEmpty(w.getLabel()))
+                    Log.d(TAG, "Found widget with type " + w.getType() + " and label " + w.getLabel());
+                    if (w.getType().toLowerCase().equals("frame")) {
+                        Log.d(TAG, "Remove it ... its a frame");
                         continue;
+                    }
                     widgetList.add(w);
                 }
             } else {
@@ -200,6 +203,7 @@ public class MobileService implements GoogleApiClient.ConnectionCallbacks, DataA
             Log.e(TAG, "ParserConfig", e);
         } catch (SAXException e) {
             Log.e(TAG, "SAXException", e);
+            Log.d(TAG, "Sitemap to parse: " + sitemap);
         } catch (IOException e) {
             Log.e(TAG, "IOException", e);
         }
