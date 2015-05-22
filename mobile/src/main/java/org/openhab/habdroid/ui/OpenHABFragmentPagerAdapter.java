@@ -129,12 +129,18 @@ public class OpenHABFragmentPagerAdapter extends FragmentStatePagerAdapter imple
     }
 
     public void openNotifications() {
-        if (!(fragmentList.get(fragmentList.size() - 1) instanceof OpenHABNotificationFragment)) {
+        if (fragmentList.size() > 0) {
+            if (!(fragmentList.get(fragmentList.size() - 1) instanceof OpenHABNotificationFragment)) {
+                OpenHABNotificationFragment fragment = new OpenHABNotificationFragment();
+                fragmentList.add(fragment);
+                notifyDataSetChanged();
+            } else {
+                ((OpenHABNotificationFragment) fragmentList.get(fragmentList.size() - 1)).refresh();
+            }
+        } else {
             OpenHABNotificationFragment fragment = new OpenHABNotificationFragment();
             fragmentList.add(fragment);
             notifyDataSetChanged();
-        } else {
-            ((OpenHABNotificationFragment)fragmentList.get(fragmentList.size() - 1)).refresh();
         }
     }
 
