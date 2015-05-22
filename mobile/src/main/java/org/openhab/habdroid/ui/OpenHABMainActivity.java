@@ -506,7 +506,35 @@ public class OpenHABMainActivity extends ActionBarActivity implements OnWidgetSe
             @Override
             public void  onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
                 stopProgressIndicator();
-
+                if (error instanceof HttpResponseException) {
+                    switch (((HttpResponseException) error).getStatusCode()) {
+                        case 401:
+                            showAlertDialog(getString(R.string.error_authentication_failed));
+                            break;
+                        default:
+                            showAlertDialog("HTTP Error: " + error.getMessage());
+                            Log.e(TAG, String.format("Http code = %d", ((HttpResponseException) error).getStatusCode()));
+                            break;
+                    }
+                } else if (error instanceof org.apache.http.conn.HttpHostConnectException) {
+                    Log.e(TAG, "Error connecting to host");
+                    if (error.getMessage() != null) {
+                        Log.e(TAG, error.getMessage());
+                        showAlertDialog(error.getMessage());
+                    } else {
+                        showAlertDialog(getString(R.string.error_connection_failed));
+                    }
+                } else if (error instanceof java.net.UnknownHostException) {
+                    Log.e(TAG, "Unable to resolve hostname");
+                    if (error.getMessage() != null) {
+                        Log.e(TAG, error.getMessage());
+                        showAlertDialog(error.getMessage());
+                    } else {
+                        showAlertDialog(getString(R.string.error_connection_failed));
+                    }
+                } else {
+                    Log.e(TAG, error.getClass().toString());
+                }
             }
         });
     }
@@ -620,6 +648,7 @@ public class OpenHABMainActivity extends ActionBarActivity implements OnWidgetSe
                             break;
                         default:
                             Log.e(TAG, String.format("Http code = %d", ((HttpResponseException) error).getStatusCode()));
+                            showAlertDialog("HTTP Error: " + error.getMessage());
                             break;
                     }
                 } else if (error instanceof org.apache.http.conn.HttpHostConnectException) {
