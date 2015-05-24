@@ -113,6 +113,8 @@ public class OpenHABMainActivity extends ActionBarActivity implements OnWidgetSe
     private static final int INFO_REQUEST_CODE = 1004;
     // Drawer item codes
     private static final int DRAWER_NOTIFICATIONS = 100;
+    private static final int DRAWER_BINDINGS = 101;
+    private static final int DRAWER_INBOX = 102;
     // Loopj
 //    private static MyAsyncHttpClient mAsyncHttpClient;
     private static AsyncHttpClient mAsyncHttpClient = new AsyncHttpClient();
@@ -287,6 +289,16 @@ public class OpenHABMainActivity extends ActionBarActivity implements OnWidgetSe
                         Log.d(TAG, "Notifications selected");
                         mDrawerLayout.closeDrawers();
                         OpenHABMainActivity.this.pagerAdapter.openNotifications();
+                        pager.setCurrentItem(pagerAdapter.getCount() - 1);
+                    } else if (mDrawerItemList.get(item).getTag() == DRAWER_BINDINGS) {
+                        Log.d(TAG, "Bindings selected");
+                        mDrawerLayout.closeDrawers();
+                        OpenHABMainActivity.this.pagerAdapter.openBindings();
+                        pager.setCurrentItem(pagerAdapter.getCount() - 1);
+                    } else if (mDrawerItemList.get(item).getTag() == DRAWER_INBOX) {
+                        Log.d(TAG, "Inbox selected");
+                        mDrawerLayout.closeDrawers();
+                        OpenHABMainActivity.this.openDiscoveryInbox();
                         pager.setCurrentItem(pagerAdapter.getCount() - 1);
                     }
                 }
@@ -698,6 +710,18 @@ public class OpenHABMainActivity extends ActionBarActivity implements OnWidgetSe
                     }).show();
         } catch (WindowManager.BadTokenException e) {
             Crittercism.logHandledException(e);
+        }
+    }
+
+    public void openDiscovery() {
+        if (this.pagerAdapter != null) {
+            pagerAdapter.openDiscovery();
+        }
+    }
+
+    public void openDiscoveryInbox() {
+        if (this.pagerAdapter != null) {
+            pagerAdapter.openDiscoveryInbox();
         }
     }
 
@@ -1238,10 +1262,10 @@ public class OpenHABMainActivity extends ActionBarActivity implements OnWidgetSe
             mDrawerItemList.add(OpenHABDrawerItem.menuItem("Notifications", getResources().getDrawable(R.drawable.ic_notifications_grey600_36dp), DRAWER_NOTIFICATIONS));
         // Only show those items if openHAB version is >= 2, openHAB 1.x just don't have those APIs...
         if (mOpenHABVersion >= 2) {
-            mDrawerItemList.add(OpenHABDrawerItem.menuItem("Discover", getResources().getDrawable(R.drawable.ic_track_changes_grey600_36dp)));
-            mDrawerItemList.add(OpenHABDrawerItem.menuWithCountItem("New devices", getResources().getDrawable(R.drawable.ic_inbox_grey600_36dp), 2));
+            mDrawerItemList.add(OpenHABDrawerItem.menuItem("Discovery", getResources().getDrawable(R.drawable.ic_track_changes_grey600_36dp), DRAWER_INBOX));
+//            mDrawerItemList.add(OpenHABDrawerItem.menuWithCountItem("New devices", getResources().getDrawable(R.drawable.ic_inbox_grey600_36dp), 2, DRAWER_INBOX));
             mDrawerItemList.add(OpenHABDrawerItem.menuItem("Things", getResources().getDrawable(R.drawable.ic_surround_sound_grey600_36dp)));
-            mDrawerItemList.add(OpenHABDrawerItem.menuItem("Bindings", getResources().getDrawable(R.drawable.ic_extension_grey600_36dp)));
+            mDrawerItemList.add(OpenHABDrawerItem.menuItem("Bindings", getResources().getDrawable(R.drawable.ic_extension_grey600_36dp), DRAWER_BINDINGS));
 //        mDrawerItemList.add(OpenHABDrawerItem.menuItem("openHAB info", getResources().getDrawable(R.drawable.ic_info_grey600_36dp)));
             mDrawerItemList.add(OpenHABDrawerItem.menuItem("Setup", getResources().getDrawable(R.drawable.ic_settings_grey600_36dp)));
         }

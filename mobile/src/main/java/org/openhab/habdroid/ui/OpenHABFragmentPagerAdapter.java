@@ -131,6 +131,7 @@ public class OpenHABFragmentPagerAdapter extends FragmentStatePagerAdapter imple
     public void openNotifications() {
         if (fragmentList.size() > 0) {
             if (!(fragmentList.get(fragmentList.size() - 1) instanceof OpenHABNotificationFragment)) {
+                removeLastFragmentIfNotWidgetList();
                 OpenHABNotificationFragment fragment = new OpenHABNotificationFragment();
                 fragmentList.add(fragment);
                 notifyDataSetChanged();
@@ -139,6 +140,57 @@ public class OpenHABFragmentPagerAdapter extends FragmentStatePagerAdapter imple
             }
         } else {
             OpenHABNotificationFragment fragment = new OpenHABNotificationFragment();
+            fragmentList.add(fragment);
+            notifyDataSetChanged();
+        }
+    }
+
+    public void openBindings() {
+        if (fragmentList.size() > 0) {
+            if (!(fragmentList.get(fragmentList.size() - 1) instanceof OpenHABBindingFragment)) {
+                removeLastFragmentIfNotWidgetList();
+                OpenHABBindingFragment fragment = OpenHABBindingFragment.newInstance(openHABBaseUrl, openHABUsername, openHABPassword);
+                fragmentList.add(fragment);
+                notifyDataSetChanged();
+            } else {
+                ((OpenHABBindingFragment) fragmentList.get(fragmentList.size() - 1)).refresh();
+            }
+        } else {
+            OpenHABBindingFragment fragment = OpenHABBindingFragment.newInstance(openHABBaseUrl, openHABUsername, openHABPassword);
+            fragmentList.add(fragment);
+            notifyDataSetChanged();
+        }
+    }
+
+    public void openDiscoveryInbox() {
+        if (fragmentList.size() > 0) {
+            if (!(fragmentList.get(fragmentList.size() - 1) instanceof OpenHABDiscoveryInboxFragment)) {
+                removeLastFragmentIfNotWidgetList();
+                OpenHABDiscoveryInboxFragment fragment = OpenHABDiscoveryInboxFragment.newInstance(openHABBaseUrl, openHABUsername, openHABPassword);
+                fragmentList.add(fragment);
+                notifyDataSetChanged();
+            } else {
+                ((OpenHABDiscoveryInboxFragment) fragmentList.get(fragmentList.size() - 1)).refresh();
+            }
+        } else {
+            OpenHABDiscoveryInboxFragment fragment = OpenHABDiscoveryInboxFragment.newInstance(openHABBaseUrl, openHABUsername, openHABPassword);
+            fragmentList.add(fragment);
+            notifyDataSetChanged();
+        }
+    }
+
+    public void openDiscovery() {
+        if (fragmentList.size() > 0) {
+            if (!(fragmentList.get(fragmentList.size() - 1) instanceof OpenHABDiscoveryFragment)) {
+                removeLastFragmentIfNotWidgetList();
+                OpenHABDiscoveryFragment fragment = OpenHABDiscoveryFragment.newInstance(openHABBaseUrl, openHABUsername, openHABPassword);
+                fragmentList.add(fragment);
+                notifyDataSetChanged();
+            } else {
+                ((OpenHABDiscoveryFragment) fragmentList.get(fragmentList.size() - 1)).refresh();
+            }
+        } else {
+            OpenHABDiscoveryFragment fragment = OpenHABDiscoveryFragment.newInstance(openHABBaseUrl, openHABUsername, openHABPassword);
             fragmentList.add(fragment);
             notifyDataSetChanged();
         }
@@ -213,6 +265,12 @@ public class OpenHABFragmentPagerAdapter extends FragmentStatePagerAdapter imple
             notifyDataSetChangedPending = false;
         }
 
+    }
+
+    private void removeLastFragmentIfNotWidgetList() {
+        if (!(fragmentList.get(fragmentList.size() - 1) instanceof OpenHABWidgetListFragment)) {
+            fragmentList.remove(fragmentList.size() - 1);
+        }
     }
 
     @Override
