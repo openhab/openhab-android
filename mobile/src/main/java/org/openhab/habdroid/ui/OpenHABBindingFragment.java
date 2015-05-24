@@ -8,7 +8,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.loopj.android.http.AsyncHttpClient;
@@ -22,9 +21,6 @@ import org.json.JSONObject;
 import org.openhab.habdroid.R;
 
 import org.openhab.habdroid.model.OpenHABBinding;
-import org.openhab.habdroid.model.OpenHABNotification;
-import org.openhab.habdroid.ui.dummy.DummyContent;
-import org.openhab.habdroid.util.Constants;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;

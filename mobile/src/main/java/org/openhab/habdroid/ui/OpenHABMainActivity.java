@@ -1264,10 +1264,10 @@ public class OpenHABMainActivity extends ActionBarActivity implements OnWidgetSe
         if (mOpenHABVersion >= 2) {
             mDrawerItemList.add(OpenHABDrawerItem.menuItem("Discovery", getResources().getDrawable(R.drawable.ic_track_changes_grey600_36dp), DRAWER_INBOX));
 //            mDrawerItemList.add(OpenHABDrawerItem.menuWithCountItem("New devices", getResources().getDrawable(R.drawable.ic_inbox_grey600_36dp), 2, DRAWER_INBOX));
-            mDrawerItemList.add(OpenHABDrawerItem.menuItem("Things", getResources().getDrawable(R.drawable.ic_surround_sound_grey600_36dp)));
+//            mDrawerItemList.add(OpenHABDrawerItem.menuItem("Things", getResources().getDrawable(R.drawable.ic_surround_sound_grey600_36dp)));
             mDrawerItemList.add(OpenHABDrawerItem.menuItem("Bindings", getResources().getDrawable(R.drawable.ic_extension_grey600_36dp), DRAWER_BINDINGS));
 //        mDrawerItemList.add(OpenHABDrawerItem.menuItem("openHAB info", getResources().getDrawable(R.drawable.ic_info_grey600_36dp)));
-            mDrawerItemList.add(OpenHABDrawerItem.menuItem("Setup", getResources().getDrawable(R.drawable.ic_settings_grey600_36dp)));
+//            mDrawerItemList.add(OpenHABDrawerItem.menuItem("Setup", getResources().getDrawable(R.drawable.ic_settings_grey600_36dp)));
         }
         mDrawerAdapter.notifyDataSetChanged();
     }

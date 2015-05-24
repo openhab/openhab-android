@@ -189,10 +189,12 @@ public class OpenHABDiscoveryInboxFragment extends ListFragment implements Swipe
         });
         builder.setNeutralButton(R.string.app_discoveryinbox_ignore, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
+                sendInboxIgnore(mDiscoveryInboxAdapter.getItem(selectedInbox).getThingUID());
             }
         });
         builder.setNegativeButton(R.string.app_discoveryinbox_delete, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
+                sendInboxDelete(mDiscoveryInboxAdapter.getItem(selectedInbox).getThingUID());
             }
         });
         builder.setCancelable(true);
@@ -282,6 +284,48 @@ public class OpenHABDiscoveryInboxFragment extends ListFragment implements Swipe
             });
         }
     }
+
+    private void sendInboxIgnore(String UID) {
+        if (mAsyncHttpClient != null) {
+            startProgressIndicator();
+            mAsyncHttpClient.post(getActivity(), openHABBaseUrl + "rest/inbox/" + UID + "/ignore", null, "text/plain", new AsyncHttpResponseHandler() {
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                    stopProgressIndicator();
+                    Log.d(TAG, "Inbox ignore request success");
+                    refresh();
+                }
+
+                @Override
+                public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                    stopProgressIndicator();
+                    Log.e(TAG, "Inbox ignore request error: " + error.getMessage());
+                }
+            });
+        }
+    }
+
+
+    private void sendInboxDelete(String UID) {
+        if (mAsyncHttpClient != null) {
+            startProgressIndicator();
+            mAsyncHttpClient.delete(getActivity(), openHABBaseUrl + "rest/inbox/" + UID, new AsyncHttpResponseHandler() {
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                    stopProgressIndicator();
+                    Log.d(TAG, "Inbox delete request success");
+                    refresh();
+                }
+
+                @Override
+                public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                    stopProgressIndicator();
+                    Log.e(TAG, "Inbox delete request error: " + error.getMessage());
+                }
+            });
+        }
+    }
+
 
     private void stopProgressIndicator() {
         if (mActivity != null)
