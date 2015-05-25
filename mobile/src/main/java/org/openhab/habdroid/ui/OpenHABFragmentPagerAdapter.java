@@ -124,8 +124,15 @@ public class OpenHABFragmentPagerAdapter extends FragmentStatePagerAdapter imple
     }
 
     public int getActualColumnsNumber() {
-        if (mSelectedPage + 1 < columnsNumber && fragmentList.size() > 0) {
-            return fragmentList.size();
+        if (fragmentList.size() > 0) {
+            if (fragmentList.get(fragmentList.size() - 1) instanceof OpenHABWidgetListFragment) {
+                if (mSelectedPage + 1 < columnsNumber && fragmentList.size() > 0) {
+                    return fragmentList.size();
+                }
+                return columnsNumber;
+            } else {
+                return 1;
+            }
         }
         return columnsNumber;
     }
