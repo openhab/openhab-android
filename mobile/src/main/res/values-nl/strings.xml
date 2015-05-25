@@ -8,6 +8,17 @@ tools:ignore="MissingTranslation">
 <string name="openhab_service_type">_openhab-server-ssl._tcp.local.</string>
 <string name="openhab_demo_url">https://demo.openhab.org:8443/</string>
 <string name="app_preferences_name">Instellingen</string>
+<string name="app_notifications">Notificaties</string>
+<string name="app_bindings">Bindings</string>
+<string name="app_bindings_supportedthings">Ondersteunde Dingen</string>
+<string name="app_discoveryinbox">Ontdek</string>
+<string name="app_discoveryinbox_deviceunnamed">Onbenoemd Apparaat</string>
+<string name="app_discoveryinbox_deviceaction">Selecteer actie</string>
+<string name="app_discoveryinbox_approve">Keur Goed</string>
+<string name="app_discoveryinbox_ignore">Negeer</string>
+<string name="app_discoveryinbox_delete">Verwijder</string>
+<string name="app_discoveryinbox_nothings">Geen nieuwe dingen</string>
+<string name="app_discovery">Activeer Ontdekken</string>
 <!-- Main menu items -->
 <string name="mainmenu_openhab_preferences">Instellingen</string>
 <string name="mainmenu_openhab_selectsitemap">Selecteer standaard sitemap</string>
@@ -15,6 +26,9 @@ tools:ignore="MissingTranslation">
 <string name="mainmenu_openhab_info">openHAB info</string>
 <string name="mainmenu_openhab_clearcache">Verwijder afbeeldings cache</string>
 <!-- App settings strings -->
+<string name="settings_connection_title">Connectie instellingen</string>
+<string name="settings_display_title">Display Instellingen</string>
+<string name="settings_misc_title">Misc Instellingen</string>
 <string name="settings_openhab_url">openHAB URL</string>
 <string name="settings_openhab_url_summary">Handmatig ingevulde openHAB URL. Zet autmatisch ontdekking uit.</string>
 <string name="settings_openhab_alturl">openHAB externe URL</string>
@@ -65,7 +79,7 @@ tools:ignore="MissingTranslation">
 <string name="info_openhab_uuid_label">openHAB UUID</string>
 <string name="info_openhab_secret_label">openHAB geheim</string>
 <string name="action_settings">Instellingen</string>
-<string name="nfc_dialog_title">Selecteer een actio voor de NFC tag</string>
+<string name="nfc_dialog_title">Selecteer een actie voor de NFC tag</string>
 <string name="info_not_set">Niet ingesteld</string>
 <!-- Strings for MemorizingTrustManager activity -->
 <string name="mtm_accept_cert">Accepteer onbekend certificaat?</string>
