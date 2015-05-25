@@ -77,6 +77,7 @@ import org.openhab.habdroid.core.OpenHABTrackerReceiver;
 import org.openhab.habdroid.core.OpenHABVoiceService;
 import org.openhab.habdroid.model.OpenHABLinkedPage;
 import org.openhab.habdroid.model.OpenHABSitemap;
+import org.openhab.habdroid.model.thing.ThingType;
 import org.openhab.habdroid.ui.drawer.OpenHABDrawerAdapter;
 import org.openhab.habdroid.ui.drawer.OpenHABDrawerItem;
 import org.openhab.habdroid.util.Constants;
@@ -288,18 +289,15 @@ public class OpenHABMainActivity extends ActionBarActivity implements OnWidgetSe
                     if (mDrawerItemList.get(item).getTag() == DRAWER_NOTIFICATIONS) {
                         Log.d(TAG, "Notifications selected");
                         mDrawerLayout.closeDrawers();
-                        OpenHABMainActivity.this.pagerAdapter.openNotifications();
-                        pager.setCurrentItem(pagerAdapter.getCount() - 1);
+                        OpenHABMainActivity.this.openNotifications();
                     } else if (mDrawerItemList.get(item).getTag() == DRAWER_BINDINGS) {
                         Log.d(TAG, "Bindings selected");
                         mDrawerLayout.closeDrawers();
-                        OpenHABMainActivity.this.pagerAdapter.openBindings();
-                        pager.setCurrentItem(pagerAdapter.getCount() - 1);
+                        OpenHABMainActivity.this.openBindings();
                     } else if (mDrawerItemList.get(item).getTag() == DRAWER_INBOX) {
                         Log.d(TAG, "Inbox selected");
                         mDrawerLayout.closeDrawers();
                         OpenHABMainActivity.this.openDiscoveryInbox();
-                        pager.setCurrentItem(pagerAdapter.getCount() - 1);
                     }
                 }
             }
@@ -713,15 +711,38 @@ public class OpenHABMainActivity extends ActionBarActivity implements OnWidgetSe
         }
     }
 
+    public void openNotifications() {
+        if (this.pagerAdapter != null) {
+            pagerAdapter.openNotifications();
+            pager.setCurrentItem(pagerAdapter.getCount() - 1);
+        }
+    }
+
+    public void openBindings() {
+        if (this.pagerAdapter != null) {
+            pagerAdapter.openBindings();
+            pager.setCurrentItem(pagerAdapter.getCount() - 1);
+        }
+    }
+
     public void openDiscovery() {
         if (this.pagerAdapter != null) {
             pagerAdapter.openDiscovery();
+            pager.setCurrentItem(pagerAdapter.getCount() - 1);
         }
     }
 
     public void openDiscoveryInbox() {
         if (this.pagerAdapter != null) {
             pagerAdapter.openDiscoveryInbox();
+            pager.setCurrentItem(pagerAdapter.getCount() - 1);
+        }
+    }
+
+    public void openBindingThingTypes(ArrayList<ThingType> thingTypes) {
+        if (this.pagerAdapter != null) {
+            pagerAdapter.openBindingThingTypes(thingTypes);
+            pager.setCurrentItem(pagerAdapter.getCount() - 1);
         }
     }
 

@@ -2,6 +2,9 @@ package org.openhab.habdroid.model;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.openhab.habdroid.model.thing.ThingType;
+
+import java.util.ArrayList;
 
 /**
  * Created by belovictor on 22/05/15.
@@ -13,6 +16,7 @@ public class OpenHABBinding {
     private String name;
     private String description;
     private String author;
+    private ArrayList<ThingType> thingTypes;
 
     public OpenHABBinding(JSONObject jsonObject) {
         try {
@@ -59,5 +63,13 @@ public class OpenHABBinding {
 
     public void setAuthor(String author) {
         this.author = author;
+    }
+
+    public ArrayList<ThingType> getThingTypes() {
+        return thingTypes;
+    }
+
+    public void setThingTypes(ArrayList<ThingType> thingTypes) {
+        this.thingTypes = thingTypes;
     }
 }

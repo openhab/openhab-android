@@ -20,6 +20,8 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 
+import org.openhab.habdroid.model.thing.ThingType;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -196,6 +198,12 @@ public class OpenHABFragmentPagerAdapter extends FragmentStatePagerAdapter imple
         }
     }
 
+    public void openBindingThingTypes(ArrayList<ThingType> thingTypes) {
+        BindingThingTypesFragment fragment = BindingThingTypesFragment.newInstance(thingTypes);
+        fragmentList.add(fragment);
+        notifyDataSetChanged();
+    }
+
     public void openPage(String pageUrl) {
         Log.d(TAG, "openPage(" + pageUrl + ")");
         OpenHABWidgetListFragment fragment = OpenHABWidgetListFragment.withPage(pageUrl, openHABBaseUrl,
@@ -268,7 +276,8 @@ public class OpenHABFragmentPagerAdapter extends FragmentStatePagerAdapter imple
     }
 
     private void removeLastFragmentIfNotWidgetList() {
-        if (!(fragmentList.get(fragmentList.size() - 1) instanceof OpenHABWidgetListFragment)) {
+        while (!(fragmentList.get(fragmentList.size() - 1) instanceof OpenHABWidgetListFragment) &&
+                fragmentList.size() > 0) {
             fragmentList.remove(fragmentList.size() - 1);
         }
     }

@@ -1,13 +1,13 @@
 package org.openhab.habdroid.model.thing;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.ArrayList;
 import com.google.gson.annotations.SerializedName;
 
-/**
- * Created by belovictor on 23/05/15.
- */
-public class ThingType {
-    private ArrayList<ThingTypeChannel> channles;
+public class ThingType implements Parcelable {
+    private ArrayList<ThingTypeChannel> channels;
     private ArrayList<ThingTypeChannelGroup> channelGroups;
     private ArrayList<ThingTypeConfigParameter> configParameters;
 //    private ArrayList<ThingTypeProperty> properties;
@@ -16,12 +16,19 @@ public class ThingType {
     private String UID;
     private Boolean bridge;
 
-    public ArrayList<ThingTypeChannel> getChannles() {
-        return channles;
+    public ThingType(Parcel in) {
+        description = in.readString();
+        label = in.readString();
+        UID = in.readString();
+        bridge = in.readByte() != 0;
     }
 
-    public void setChannles(ArrayList<ThingTypeChannel> channles) {
-        this.channles = channles;
+    public ArrayList<ThingTypeChannel> getChannels() {
+        return channels;
+    }
+
+    public void setChannles(ArrayList<ThingTypeChannel> channels) {
+        this.channels = channels;
     }
 
     public ArrayList<ThingTypeChannelGroup> getChannelGroups() {
@@ -71,4 +78,28 @@ public class ThingType {
     public void setBridge(Boolean bridge) {
         this.bridge = bridge;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(description);
+        dest.writeString(label);
+        dest.writeString(UID);
+        dest.writeByte((byte)(bridge ? 1 : 0));
+    }
+
+    public static final Parcelable.Creator<ThingType> CREATOR
+            = new Parcelable.Creator<ThingType>() {
+        public ThingType createFromParcel(Parcel in) {
+            return new ThingType(in);
+        }
+
+        public ThingType[] newArray(int size) {
+            return new ThingType[size];
+        }
+    };
 }

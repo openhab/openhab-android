@@ -10,6 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestHandle;
@@ -24,6 +26,7 @@ import org.openhab.habdroid.model.OpenHABBinding;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class OpenHABBindingFragment extends ListFragment implements SwipeRefreshLayout.OnRefreshListener {
 
@@ -156,7 +159,13 @@ public class OpenHABBindingFragment extends ListFragment implements SwipeRefresh
 
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
-        super.onListItemClick(l, v, position, id);
+//        super.onListItemClick(l, v, position, id);
+        if (mBindings.get(position).getThingTypes() == null) {
+            Log.d(TAG, "Source thing types == null");
+        }
+        if (mActivity != null) {
+            mActivity.openBindingThingTypes(mBindings.get(position).getThingTypes());
+        }
     }
 
     private void loadBindings() {
@@ -166,28 +175,19 @@ public class OpenHABBindingFragment extends ListFragment implements SwipeRefresh
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                     stopProgressIndicator();
-                    Log.d(TAG, "Bindings request success");
+                    String jsonString = null;
                     try {
-                        String jsonString = new String(responseBody, "UTF-8");
-                        JSONArray jsonArray = new JSONArray(jsonString);
-                        Log.d(TAG, jsonArray.toString());
-                        mBindings.clear();
-                        for(int i=0; i<jsonArray.length(); i++) {
-                            try {
-                                JSONObject bindingJson = jsonArray.getJSONObject(i);
-                                OpenHABBinding binding = new OpenHABBinding(bindingJson);
-                                mBindings.add(binding);
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                        mBindingAdapter.notifyDataSetChanged();
+                        jsonString = new String(responseBody, "UTF-8");
                     } catch (UnsupportedEncodingException e) {
                         e.printStackTrace();
-                    } catch (JSONException e) {
-                        e.printStackTrace();
                     }
-
+                    Log.d(TAG, "Bindings request success");
+                    Log.d(TAG, jsonString);
+                    GsonBuilder gsonBuilder = new GsonBuilder();
+                    Gson gson = gsonBuilder.create();
+                    mBindings.clear();
+                    mBindings.addAll(Arrays.asList(gson.fromJson(jsonString, OpenHABBinding[].class)));
+                    mBindingAdapter.notifyDataSetChanged();
                 }
 
                 @Override
