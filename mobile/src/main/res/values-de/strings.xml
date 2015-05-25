@@ -10,15 +10,15 @@
     <string name="app_preferences_name">Einstellunge</string>
     <string name="app_notifications">Notifications</string>
     <string name="app_bindings">Bindings</string>
-    <string name="app_bindings_supportedthings">Supported Things</string>
-    <string name="app_discoveryinbox">Discovery</string>
+    <string name="app_bindings_supportedthings">Unterstütze Things</string>
+    <string name="app_discoveryinbox">Suche</string>
     <string name="app_discoveryinbox_deviceunnamed">Unbenanntes Gerät</string>
-    <string name="app_discoveryinbox_deviceaction">Select action</string>
+    <string name="app_discoveryinbox_deviceaction">Aktion</string>
     <string name="app_discoveryinbox_approve">Bestätigen</string>
     <string name="app_discoveryinbox_ignore">Ignorieren</string>
     <string name="app_discoveryinbox_delete">Löschen</string>
     <string name="app_discoveryinbox_nothings">Keine neuen Things</string>
-    <string name="app_discovery">Activate Discovery</string>
+    <string name="app_discovery">Starte Suche</string>
     <!-- Main menu items -->
     <string name="mainmenu_openhab_preferences">Einstellungen</string>
     <string name="mainmenu_openhab_selectsitemap">Wähle Sitemap</string>
