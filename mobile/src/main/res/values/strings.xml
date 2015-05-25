@@ -8,6 +8,17 @@
     <string name="openhab_service_type">_openhab-server-ssl._tcp.local.</string>
     <string name="openhab_demo_url">https://demo.openhab.org:8443/</string>
     <string name="app_preferences_name">Settings</string>
+    <string name="app_notifications">Notifications</string>
+    <string name="app_bindings">Bindings</string>
+    <string name="app_bindings_supportedthings">Supported Things</string>
+    <string name="app_discoveryinbox">Discovery</string>
+    <string name="app_discoveryinbox_deviceunnamed">Unnamed device</string>
+    <string name="app_discoveryinbox_deviceaction">Select action</string>
+    <string name="app_discoveryinbox_approve">Approve</string>
+    <string name="app_discoveryinbox_ignore">Ignore</string>
+    <string name="app_discoveryinbox_delete">Delete</string>
+    <string name="app_discoveryinbox_nothings">No new things</string>
+    <string name="app_discovery">Activate Discovery</string>
     <!-- Main menu items -->
     <string name="mainmenu_openhab_preferences">Settings</string>
     <string name="mainmenu_openhab_selectsitemap">Select default sitemap</string>
@@ -15,7 +26,9 @@
     <string name="mainmenu_openhab_info">openHAB info</string>
     <string name="mainmenu_openhab_clearcache">Clear images cache</string>
     <!-- App settings strings -->
-    <string name="settings_title">HABDroid Settings</string>
+    <string name="settings_connection_title">Connection Settings</string>
+    <string name="settings_display_title">Display Settings</string>
+    <string name="settings_misc_title">Misc Settings</string>
     <string name="settings_openhab_url">openHAB URL</string>
     <string name="settings_openhab_url_summary">Manually configured openHAB URL. Disables autodiscovery if configured.</string>
     <string name="settings_openhab_alturl">openHAB Remote URL</string>
@@ -29,15 +42,18 @@
     <string name="settings_openhab_demomode">Demo mode</string>
     <string name="settings_openhab_demomode_summary">Run HABDroid in demo mode</string>
     <string name="settings_openhab_theme">HABDroid Theme</string>
-    <string name="settings_openhab_animation">Animation style</string>
     <string name="settings_openhab_appversion">HABDroid Version</string>
     <string name="settings_openhab_sslcert">Ignore SSL certificate</string>
     <string name="settings_openhab_sslcert_summary">Ignore certificate validation during SSL handshake</string>
     <string name="settings_openhab_sslhost">Ignore SSL hostname</string>
     <string name="settings_openhab_sslhost_summary">Ignore hostname check during SSL handshake</string>
+    <string name="settings_openhab_fullscreen">Full Screen</string>
+    <string name="settings_openhab_fullscreen_summary">Display in fullscreen mode</string>
+    <string name="settings_ringtone">Ring tone</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">OpenHAB Voice Commands</string>
     <string name="info_voice_input">"openHAB, at your command!"</string>
+    <string name="info_voice_recognized_text">"Recognized command: %1$s"</string>
     <string name="info_demo_mode">HABDroid is running in demo mode. To connect to your openHAB please go to settings menu.</string>
     <string name="info_conn_url">Connecting to configured URL</string>
     <string name="info_conn_rem_url">Connecting to remote URL</string>

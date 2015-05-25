@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="horizontal"
+    android:layout_height="64dp"
+    android:gravity="center_vertical"
+    android:minHeight="64dp"
+    >
+    <TextView
+        android:id="@+id/deviceLabel"
+        android:layout_width="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="6dp"
+        android:layout_alignParentLeft="true"
+        android:layout_gravity="center_vertical"
+        android:gravity="center_vertical"
+        />
+    <LinearLayout
+        android:id="@+id/listdivider"
+        android:layout_width="fill_parent"
+        android:layout_height="1dip"
+        android:background="?android:attr/listDivider"
+        android:orientation="horizontal"
+        android:layout_marginLeft="@dimen/widgetlist_divider_left_margin"
+        android:layout_marginRight="@dimen/widgetlist_divider_right_margin"
+        android:layout_alignParentBottom="true"
+        />
+</RelativeLayout>

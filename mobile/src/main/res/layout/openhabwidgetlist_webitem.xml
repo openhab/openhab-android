@@ -2,7 +2,7 @@
 <RelativeLayout
   xmlns:android="http://schemas.android.com/apk/res/android"
   android:layout_width="fill_parent"
-  android:layout_height="wrap_content"
+  android:layout_height="match_parent"
   android:adjustViewBounds="true"
   android:paddingLeft="@dimen/widgetlist_item_left_margin"
   android:paddingRight="@dimen/widgetlist_item_right_margin"
@@ -12,7 +12,7 @@
 <WebView 
     android:id="@+id/webweb"
     android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:adjustViewBounds="true"
     android:layout_margin="5dip"
     />

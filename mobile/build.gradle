@@ -1,19 +1,17 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 20
-    buildToolsVersion '20.0.0'
+    compileSdkVersion 21
+    buildToolsVersion '21.1.2'
 
     defaultConfig {
         applicationId "org.openhab.habdroid"
         minSdkVersion 15
-        targetSdkVersion 20
-        versionCode 11
-        versionName "1.5.1.1"
+        targetSdkVersion 21
     }
     buildTypes {
         release {
-            runProguard false
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -31,11 +29,13 @@ repositories {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     wearApp project(':wear')
-    compile 'com.google.android.gms:play-services-wearable:+'
-    compile 'com.google.android.analytics:analytics:2.+'
+    compile 'com.google.android.gms:play-services:6.5.87'
+    compile 'com.google.apis:google-api-services-analytics:v3+'
     compile 'com.crittercism:crittercism-android-agent:+'
     compile 'javax.jmdns:jmdns:3.4.1'
-    compile 'com.android.support:support-v4:20.0.0'
-    compile 'com.loopj:android-async-http:1.4.2-openhab'
+    compile "com.android.support:appcompat-v7:21.0.+"
+    compile 'com.loopj.android:android-async-http:1.4.5'
     compile 'com.loopj:android-smart-image-view:1.0.0'
+    compile 'com.google.code.gson:gson:2.3.1'
+    compile 'com.github.shell-software:fab:1.1.0'
 }

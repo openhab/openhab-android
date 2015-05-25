@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+    <string name="ga_trackingId">UA-39285202-1</string>
+    <string name="ga_sampleFrequency">100.0</string>
+    <bool name="ga_autoActivityTracking">true</bool>
+    <bool name="ga_reportUncaughtExceptions">true</bool>
+    <integer name="ga_sessionTimeout">-1</integer>
+    <screenName name="org.openhab.habdroid.ui.OpenHABMainActivity">OpenHABMainActivity</screenName>
+    <screenName name="org.openhab.habdroid.ui.OpenHABWriteTagActivity">OpenHABWriteTagActivity</screenName>
+    <screenName name="org.openhab.habdroid.ui.OpenHABPreferencesActivity">OpenHABPreferencesActivity</screenName>
+</resources>

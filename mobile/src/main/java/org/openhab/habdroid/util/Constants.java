@@ -1,6 +1,7 @@
 package org.openhab.habdroid.util;
 
 public class Constants {
+    public static final String MYOPENHAB_BASE_URL           = "https://my.openhab.org";
     public static final String PREFERENCE_APPVERSION        = "default_openhab_appversion";
     public static final String PREFERENCE_SCREENTIMEROFF    = "default_openhab_screentimeroff";
     public static final String PREFERENCE_USERNAME          = "default_openhab_username";
@@ -13,4 +14,6 @@ public class Constants {
     public static final String PREFERENCE_THEME             = "default_openhab_theme";
     public static final String PREFERENCE_ANIMATION         = "default_openhab_animation";
     public static final String PREFERENCE_DEMOMODE          = "default_openhab_demomode";
+    public static final String PREFERENCE_FULLSCREEN        = "default_openhab_fullscreen";
+    public static final String PREFERENCE_TONE              = "default_openhab_alertringtone";
 }

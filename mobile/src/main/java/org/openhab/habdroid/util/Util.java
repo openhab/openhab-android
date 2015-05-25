@@ -21,6 +21,7 @@ import android.util.Log;
 import com.crittercism.app.Crittercism;
 import com.crittercism.app.CrittercismConfig;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.openhab.habdroid.R;
@@ -38,16 +39,6 @@ public class Util {
 
     private final static String TAG = "Util";
 
-	public static void setActivityTheme(Activity activity) {
-		if (PreferenceManager.getDefaultSharedPreferences(activity).getString(Constants.PREFERENCE_THEME, "dark").equals("dark")) {
-//			activity.setTheme(android.R.style.Theme_Holo);
-			activity.setTheme(R.style.HABDroid_Dark);
-		} else {
-//			activity.setTheme(android.R.style.Theme_Holo_Light);
-			activity.setTheme(R.style.HABDroid_Light);
-		}
-	}
-	
 	public static void overridePendingTransition(Activity activity, boolean reverse) {
 		if (PreferenceManager.getDefaultSharedPreferences(activity).getString(Constants.PREFERENCE_ANIMATION, "android").equals("android")) {
 		} else if (PreferenceManager.getDefaultSharedPreferences(activity).getString(Constants.PREFERENCE_ANIMATION, "android").equals("ios")) {
@@ -96,6 +87,20 @@ public class Util {
         return sitemapList;
     }
 
+    public static List<OpenHABSitemap> parseSitemapList(JSONArray jsonArray) {
+        List<OpenHABSitemap> sitemapList = new ArrayList<OpenHABSitemap>();
+        for(int i=0; i<jsonArray.length(); i++) {
+            try {
+                JSONObject sitemapJson = jsonArray.getJSONObject(i);
+                OpenHABSitemap openHABSitemap = new OpenHABSitemap(sitemapJson);
+                sitemapList.add(openHABSitemap);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return sitemapList;
+    }
+
     public static boolean sitemapExists(List<OpenHABSitemap> sitemapList, String sitemapName) {
         for (int i=0; i<sitemapList.size(); i++) {
             if (sitemapList.get(i).getName().equals(sitemapName))
@@ -112,4 +117,11 @@ public class Util {
         return null;
     }
 
+    public static void setActivityTheme(Activity activity) {
+        if (PreferenceManager.getDefaultSharedPreferences(activity).getString(Constants.PREFERENCE_THEME, "dark").equals("dark")) {
+            activity.setTheme(R.style.HABDroid_Dark);
+        } else {
+            activity.setTheme(R.style.HABDroid_Light);
+        }
+    }
 }

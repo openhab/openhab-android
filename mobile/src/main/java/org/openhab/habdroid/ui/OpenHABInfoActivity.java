@@ -20,7 +20,9 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.TextHttpResponseHandler;
 
+import org.apache.http.Header;
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.util.MyAsyncHttpClient;
 import org.openhab.habdroid.util.Util;
@@ -64,47 +66,47 @@ public class OpenHABInfoActivity extends Activity {
         Log.d(TAG, "onResume()");
         super.onResume();
         Log.d(TAG, "url = " + mOpenHABBaseUrl + "static/version");
-        mAsyncHttpClient.get(mOpenHABBaseUrl + "static/version", new AsyncHttpResponseHandler() {
+        mAsyncHttpClient.get(mOpenHABBaseUrl + "static/version", new TextHttpResponseHandler() {
             @Override
-            public void onSuccess(String content) {
-                Log.d(TAG, "Got version = " + content);
-                mOpenHABVersionText.setText(content);
-            }
-
-            @Override
-            public void onFailure(Throwable error, String content) {
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable error) {
                 mOpenHABVersionText.setText("Unknown");
                 Log.e(TAG, error.getMessage());
             }
-        });
-        mAsyncHttpClient.get(mOpenHABBaseUrl + "static/uuid", new AsyncHttpResponseHandler() {
-            @Override
-            public void onSuccess(String content) {
-                Log.d(TAG, "Got uuid = " + content);
-                mOpenHABUUIDText.setText(content);
-            }
 
             @Override
-            public void onFailure(Throwable error, String content) {
+            public void onSuccess(int statusCode, Header[] headers, String responseString) {
+                Log.d(TAG, "Got version = " + responseString);
+                mOpenHABVersionText.setText(responseString);
+            }
+        });
+        mAsyncHttpClient.get(mOpenHABBaseUrl + "static/uuid", new TextHttpResponseHandler() {
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable error) {
                 mOpenHABUUIDText.setText("Unknown");
                 if (error.getMessage() != null)
                     Log.e(TAG, error.getMessage());
             }
-        });
-        mAsyncHttpClient.get(mOpenHABBaseUrl + "static/secret", new AsyncHttpResponseHandler() {
-            @Override
-            public void onSuccess(String content) {
-                Log.d(TAG, "Got secret = " + content);
-                mOpenHABSecretText.setVisibility(View.VISIBLE);
-                mOpenHABSecretLabel.setVisibility(View.VISIBLE);
-                mOpenHABSecretText.setText(content);
-            }
 
             @Override
-            public void onFailure(Throwable error, String content) {
+            public void onSuccess(int statusCode, Header[] headers, String responseString) {
+                Log.d(TAG, "Got uuid = " + responseString);
+                mOpenHABUUIDText.setText(responseString);
+            }
+        });
+        mAsyncHttpClient.get(mOpenHABBaseUrl + "static/secret", new TextHttpResponseHandler() {
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable error) {
                 mOpenHABSecretText.setVisibility(View.GONE);
                 mOpenHABSecretLabel.setVisibility(View.GONE);
                 Log.e(TAG, error.getMessage());
+            }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, String responseString) {
+                Log.d(TAG, "Got secret = " + responseString);
+                mOpenHABSecretText.setVisibility(View.VISIBLE);
+                mOpenHABSecretLabel.setVisibility(View.VISIBLE);
+                mOpenHABSecretText.setText(responseString);
             }
         });
     }

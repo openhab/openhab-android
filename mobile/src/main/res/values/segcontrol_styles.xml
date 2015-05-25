@@ -2,8 +2,8 @@
 <resources>
     <style name="buttonStyle1">
         <item name="android:layout_margin">0px</item><item name="textColorSelected">@color/light</item>
-        <item name="textColorUnselected">@color/normal</item>
-        <item name="lineColor">@color/highlight</item>
+        <item name="textColorUnselected">?attr/colorPrimary</item>
+        <item name="lineColor">?attr/colorPrimary</item>
         <item name="lineHeightUnselected">2dp</item>
         <item name="lineHeightSelected">7dp</item>
         <item name="android:layout_width">wrap_content</item>
@@ -19,10 +19,10 @@
         <item name="android:layout_margin">0px</item>
         <item name="textColorUnselected">@color/normal</item>
         <item name="android:minWidth">45dp</item>
-        <item name="textColorSelected">@color/dark</item>
+        <item name="textColorSelected">#ffffff</item>
         <item name="android:background">#00000000</item>
-        <item name="backgroundSelected">@color/highlight</item>
-        <item name="lineColor">@color/highlight</item>
+        <item name="backgroundSelected">?attr/colorPrimary</item>
+        <item name="lineColor">?attr/colorPrimary</item>
         <item name="lineHeightUnselected">2dp</item>
         <item name="lineHeightSelected">2dp</item>
         <item name="android:layout_width">wrap_content</item>
