@@ -42,6 +42,7 @@ public class OpenHABInfoActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.d(TAG, "onCreate()");
+        Util.setActivityTheme(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.openhabinfo);
         mAsyncHttpClient = new MyAsyncHttpClient(this);

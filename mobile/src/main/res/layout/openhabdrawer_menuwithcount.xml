@@ -35,7 +35,6 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:layout_gravity="left|center_vertical"
-            android:textColor="#000000"
             />
     </LinearLayout>
     <LinearLayout
@@ -54,6 +53,6 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:layout_gravity="right|center_vertical"
             android:layout_marginRight="20dp"
-            android:textColor="#000000"/>
+            />
     </LinearLayout>
 </RelativeLayout>

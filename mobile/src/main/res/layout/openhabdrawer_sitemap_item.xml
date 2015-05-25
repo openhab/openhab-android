@@ -33,7 +33,6 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:layout_gravity="center_vertical"
             android:text="Main menu"
-            android:textColor="#000000"
             />
     </LinearLayout>
 </RelativeLayout>

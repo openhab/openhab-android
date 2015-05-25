@@ -7,14 +7,27 @@
     <string name="openhab_service_type">_openhab-server-ssl._tcp.local.</string>
     <string name="openhab_demo_url">https://demo.openhab.org:8443/</string>
     <string name="app_preferences_name">Paramètres</string>
+    <string name="app_notifications">Notifications</string>
+    <string name="app_bindings">Objets et protocoles</string>
+    <string name="app_bindings_supportedthings">Objet et protocoles supportés</string>
+    <string name="app_discoveryinbox">Découverte</string>
+    <string name="app_discoveryinbox_deviceunnamed">Objet sans nom</string>
+    <string name="app_discoveryinbox_deviceaction">Sélectionner une action</string>
+    <string name="app_discoveryinbox_approve">Approuver</string>
+    <string name="app_discoveryinbox_ignore">Ignorer</string>
+    <string name="app_discoveryinbox_delete">Supprimer</string>
+    <string name="app_discoveryinbox_nothings">Pas de nouvel objet</string>
+    <string name="app_discovery">Activer la découverte</string>
     <!-- Main menu items -->
     <string name="mainmenu_openhab_preferences">Paramètres</string>
-    <string name="mainmenu_openhab_selectsitemap">Sitemap par défaut...</string>
+    <string name="mainmenu_openhab_selectsitemap">Sélectionner le sitemap par défaut</string>
     <string name="mainmenu_openhab_writetag">Écrire une tag NFC</string>
     <string name="mainmenu_openhab_info">Infos openHAB</string>
     <string name="mainmenu_openhab_clearcache">Effacer le cache image</string>
     <!-- App settings strings -->
-    <string name="settings_title">Paramètres HABDroid</string>
+    <string name="settings_connection_title">Paramètres de connexion</string>
+    <string name="settings_display_title">Paramètres d\'affichage</string>
+    <string name="settings_misc_title">Autres paramètres</string>
     <string name="settings_openhab_url">URL openHAB</string>
     <string name="settings_openhab_url_summary">Configurer manuellement l\'adresse openHAB. Cela désactive la découverte automatique si disponible.</string>
     <string name="settings_openhab_alturl">URL openHAB distante</string>
@@ -27,17 +40,19 @@
     <string name="settings_openhab_screentimeroff_summary">Désactive l\'extinction d\'écran lorsque HABDroid fonctionne</string>
     <string name="settings_openhab_demomode">Mode démo</string>
     <string name="settings_openhab_demomode_summary">Lancer HABDroiden mode démo</string>
+    <string name="settings_openhab_theme">Thème HABDroid</string>
     <string name="settings_openhab_appversion">Version HABDroid</string>
     <string name="settings_openhab_sslcert">Ignorer les certificats SSL</string>
     <string name="settings_openhab_sslcert_summary">Ne vérifie pas le certificat SSL pendant la connexion</string>
     <string name="settings_openhab_sslhost">Ignorer le domaine SSL</string>
     <string name="settings_openhab_sslhost_summary">Ne vérifie pas la pertinence du nom de domaine lors de la connexion</string>
-	<string name="settings_openhab_fullscreen">Plein écran</string>
+    <string name="settings_openhab_fullscreen">Plein écran</string>
     <string name="settings_openhab_fullscreen_summary">Afficher OpenHab en mode plein écran</string>
     <string name="settings_ringtone">Sonnerie</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Commandes vocales OpenHAB</string>
     <string name="info_voice_input">openHAB, à vos ordres!"</string>
+    <string name="info_voice_recognized_text">"Commande identifiée: %1$s"</string>
     <string name="info_demo_mode">HABDroid fonctionne en mode démo. Pour connecter votre instance openHAB, rendez-vous dans les paramètres de l\'application</string>
     <string name="info_conn_url">Connexion à l\'adresse  locale</string>
     <string name="info_conn_rem_url">Connexion à l\'adresse distante</string>

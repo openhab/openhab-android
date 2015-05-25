@@ -77,6 +77,7 @@ import org.openhab.habdroid.core.OpenHABTrackerReceiver;
 import org.openhab.habdroid.core.OpenHABVoiceService;
 import org.openhab.habdroid.model.OpenHABLinkedPage;
 import org.openhab.habdroid.model.OpenHABSitemap;
+import org.openhab.habdroid.model.thing.ThingType;
 import org.openhab.habdroid.ui.drawer.OpenHABDrawerAdapter;
 import org.openhab.habdroid.ui.drawer.OpenHABDrawerItem;
 import org.openhab.habdroid.util.Constants;
@@ -111,6 +112,10 @@ public class OpenHABMainActivity extends ActionBarActivity implements OnWidgetSe
     private static final int SETTINGS_REQUEST_CODE = 1002;
     private static final int WRITE_NFC_TAG_REQUEST_CODE = 1003;
     private static final int INFO_REQUEST_CODE = 1004;
+    // Drawer item codes
+    private static final int DRAWER_NOTIFICATIONS = 100;
+    private static final int DRAWER_BINDINGS = 101;
+    private static final int DRAWER_INBOX = 102;
     // Loopj
 //    private static MyAsyncHttpClient mAsyncHttpClient;
     private static AsyncHttpClient mAsyncHttpClient = new AsyncHttpClient();
@@ -153,7 +158,6 @@ public class OpenHABMainActivity extends ActionBarActivity implements OnWidgetSe
     // Google Cloud Messaging
     private GoogleCloudMessaging mGcm;
     private OpenHABDrawerAdapter mDrawerAdapter;
-    private String[] mDrawerTitles = {"First floor", "Seconf floor", "Cellar", "Garage"};
     private ListView mDrawerList;
     private ArrayList<OpenHABSitemap> mSitemapList;
     private boolean supportsKitKat = false;
@@ -215,6 +219,7 @@ public class OpenHABMainActivity extends ActionBarActivity implements OnWidgetSe
         mAsyncHttpClient.setTimeout(30000);
         if (!isDeveloper)
             Util.initCrittercism(getApplicationContext(), "5117659f59e1bd4ba9000004");
+        Util.setActivityTheme(this);
         super.onCreate(savedInstanceState);
         if (!isDeveloper)
             ((HABDroid) getApplication()).getTracker(HABDroid.TrackerName.APP_TRACKER);
@@ -281,6 +286,19 @@ public class OpenHABMainActivity extends ActionBarActivity implements OnWidgetSe
                     openSitemap(mDrawerItemList.get(item).getSiteMap().getHomepageLink());
                 } else {
                     Log.d(TAG, "This is not sitemap");
+                    if (mDrawerItemList.get(item).getTag() == DRAWER_NOTIFICATIONS) {
+                        Log.d(TAG, "Notifications selected");
+                        mDrawerLayout.closeDrawers();
+                        OpenHABMainActivity.this.openNotifications();
+                    } else if (mDrawerItemList.get(item).getTag() == DRAWER_BINDINGS) {
+                        Log.d(TAG, "Bindings selected");
+                        mDrawerLayout.closeDrawers();
+                        OpenHABMainActivity.this.openBindings();
+                    } else if (mDrawerItemList.get(item).getTag() == DRAWER_INBOX) {
+                        Log.d(TAG, "Inbox selected");
+                        mDrawerLayout.closeDrawers();
+                        OpenHABMainActivity.this.openDiscoveryInbox();
+                    }
                 }
             }
         });
@@ -498,7 +516,35 @@ public class OpenHABMainActivity extends ActionBarActivity implements OnWidgetSe
             @Override
             public void  onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
                 stopProgressIndicator();
-
+                if (error instanceof HttpResponseException) {
+                    switch (((HttpResponseException) error).getStatusCode()) {
+                        case 401:
+                            showAlertDialog(getString(R.string.error_authentication_failed));
+                            break;
+                        default:
+                            showAlertDialog("HTTP Error: " + error.getMessage());
+                            Log.e(TAG, String.format("Http code = %d", ((HttpResponseException) error).getStatusCode()));
+                            break;
+                    }
+                } else if (error instanceof org.apache.http.conn.HttpHostConnectException) {
+                    Log.e(TAG, "Error connecting to host");
+                    if (error.getMessage() != null) {
+                        Log.e(TAG, error.getMessage());
+                        showAlertDialog(error.getMessage());
+                    } else {
+                        showAlertDialog(getString(R.string.error_connection_failed));
+                    }
+                } else if (error instanceof java.net.UnknownHostException) {
+                    Log.e(TAG, "Unable to resolve hostname");
+                    if (error.getMessage() != null) {
+                        Log.e(TAG, error.getMessage());
+                        showAlertDialog(error.getMessage());
+                    } else {
+                        showAlertDialog(getString(R.string.error_connection_failed));
+                    }
+                } else {
+                    Log.e(TAG, error.getClass().toString());
+                }
             }
         });
     }
@@ -612,6 +658,7 @@ public class OpenHABMainActivity extends ActionBarActivity implements OnWidgetSe
                             break;
                         default:
                             Log.e(TAG, String.format("Http code = %d", ((HttpResponseException) error).getStatusCode()));
+                            showAlertDialog("HTTP Error: " + error.getMessage());
                             break;
                     }
                 } else if (error instanceof org.apache.http.conn.HttpHostConnectException) {
@@ -661,6 +708,41 @@ public class OpenHABMainActivity extends ActionBarActivity implements OnWidgetSe
                     }).show();
         } catch (WindowManager.BadTokenException e) {
             Crittercism.logHandledException(e);
+        }
+    }
+
+    public void openNotifications() {
+        if (this.pagerAdapter != null) {
+            pagerAdapter.openNotifications();
+            pager.setCurrentItem(pagerAdapter.getCount() - 1);
+        }
+    }
+
+    public void openBindings() {
+        if (this.pagerAdapter != null) {
+            pagerAdapter.openBindings();
+            pager.setCurrentItem(pagerAdapter.getCount() - 1);
+        }
+    }
+
+    public void openDiscovery() {
+        if (this.pagerAdapter != null) {
+            pagerAdapter.openDiscovery();
+            pager.setCurrentItem(pagerAdapter.getCount() - 1);
+        }
+    }
+
+    public void openDiscoveryInbox() {
+        if (this.pagerAdapter != null) {
+            pagerAdapter.openDiscoveryInbox();
+            pager.setCurrentItem(pagerAdapter.getCount() - 1);
+        }
+    }
+
+    public void openBindingThingTypes(ArrayList<ThingType> thingTypes) {
+        if (this.pagerAdapter != null) {
+            pagerAdapter.openBindingThingTypes(thingTypes);
+            pager.setCurrentItem(pagerAdapter.getCount() - 1);
         }
     }
 
@@ -727,11 +809,13 @@ public class OpenHABMainActivity extends ActionBarActivity implements OnWidgetSe
             case R.id.mainmenu_openhab_writetag:
                 Intent writeTagIntent = new Intent(this.getApplicationContext(), OpenHABWriteTagActivity.class);
                 // TODO: get current display page url, which? how? :-/
-                OpenHABWidgetListFragment currentFragment = pagerAdapter.getFragment(pager.getCurrentItem());
-                if (currentFragment != null) {
-                    writeTagIntent.putExtra("sitemapPage", currentFragment.getDisplayPageUrl());
-                    startActivityForResult(writeTagIntent, WRITE_NFC_TAG_REQUEST_CODE);
-                    Util.overridePendingTransition(this, false);
+                if (pagerAdapter.getFragment(pager.getCurrentItem()) instanceof OpenHABWidgetListFragment) {
+                    OpenHABWidgetListFragment currentFragment = (OpenHABWidgetListFragment)pagerAdapter.getFragment(pager.getCurrentItem());
+                    if (currentFragment != null) {
+                        writeTagIntent.putExtra("sitemapPage", currentFragment.getDisplayPageUrl());
+                        startActivityForResult(writeTagIntent, WRITE_NFC_TAG_REQUEST_CODE);
+                        Util.overridePendingTransition(this, false);
+                    }
                 }
                 return true;
             case R.id.mainmenu_openhab_info:
@@ -937,14 +1021,18 @@ public class OpenHABMainActivity extends ActionBarActivity implements OnWidgetSe
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         Log.v(TAG, "KeyDown: " + event.toString());
         if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN){
-            OpenHABWidgetListFragment currentFragment = pagerAdapter.getFragment(pager.getCurrentItem());
-            if (currentFragment != null)
-                return currentFragment.onVolumeDown();
+            if (pagerAdapter.getFragment(pager.getCurrentItem()) instanceof OpenHABWidgetListFragment) {
+                OpenHABWidgetListFragment currentFragment = (OpenHABWidgetListFragment)pagerAdapter.getFragment(pager.getCurrentItem());
+                if (currentFragment != null)
+                    return currentFragment.onVolumeDown();
+            }
         }
         else if(keyCode == KeyEvent.KEYCODE_VOLUME_UP){
-            OpenHABWidgetListFragment currentFragment = pagerAdapter.getFragment(pager.getCurrentItem());
-            if (currentFragment != null)
-                return currentFragment.onVolumeUp();
+            if (pagerAdapter.getFragment(pager.getCurrentItem()) instanceof OpenHABWidgetListFragment) {
+                OpenHABWidgetListFragment currentFragment = (OpenHABWidgetListFragment)pagerAdapter.getFragment(pager.getCurrentItem());
+                if (currentFragment != null)
+                    return currentFragment.onVolumeUp();
+            }
         }
         return super.onKeyDown(keyCode, event);
     }
@@ -953,9 +1041,11 @@ public class OpenHABMainActivity extends ActionBarActivity implements OnWidgetSe
     public boolean onKeyUp(int keyCode, KeyEvent event) {
         Log.v(TAG, "KeyUp: " + event.toString());
         if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN || keyCode == KeyEvent.KEYCODE_VOLUME_UP){
-            OpenHABWidgetListFragment currentFragment = pagerAdapter.getFragment(pager.getCurrentItem());
-            if (currentFragment != null && currentFragment.isVolumeHandled())
-                return true;
+            if (pagerAdapter.getFragment(pager.getCurrentItem()) instanceof OpenHABWidgetListFragment) {
+                OpenHABWidgetListFragment currentFragment = (OpenHABWidgetListFragment)pagerAdapter.getFragment(pager.getCurrentItem());
+                if (currentFragment != null && currentFragment.isVolumeHandled())
+                    return true;
+            }
         }
         return super.onKeyUp(keyCode, event);
     }
@@ -1189,15 +1279,16 @@ public class OpenHABMainActivity extends ActionBarActivity implements OnWidgetSe
 //        mDrawerItemList.add(OpenHABDrawerItem.menuItem("Favorites", getResources().getDrawable(R.drawable.ic_star_grey600_36dp)));
         // Only show Notifications item if using my.openHAB
         if (mIsMyOpenHAB)
-            mDrawerItemList.add(OpenHABDrawerItem.menuWithCountItem("Notifications", getResources().getDrawable(R.drawable.ic_notifications_grey600_36dp), 21));
+//            mDrawerItemList.add(OpenHABDrawerItem.menuWithCountItem("Notifications", getResources().getDrawable(R.drawable.ic_notifications_grey600_36dp), 21));
+            mDrawerItemList.add(OpenHABDrawerItem.menuItem("Notifications", getResources().getDrawable(R.drawable.ic_notifications_grey600_36dp), DRAWER_NOTIFICATIONS));
         // Only show those items if openHAB version is >= 2, openHAB 1.x just don't have those APIs...
         if (mOpenHABVersion >= 2) {
-            mDrawerItemList.add(OpenHABDrawerItem.menuItem("Discover", getResources().getDrawable(R.drawable.ic_track_changes_grey600_36dp)));
-            mDrawerItemList.add(OpenHABDrawerItem.menuWithCountItem("New devices", getResources().getDrawable(R.drawable.ic_inbox_grey600_36dp), 2));
-            mDrawerItemList.add(OpenHABDrawerItem.menuItem("Things", getResources().getDrawable(R.drawable.ic_surround_sound_grey600_36dp)));
-            mDrawerItemList.add(OpenHABDrawerItem.menuItem("Bindings", getResources().getDrawable(R.drawable.ic_extension_grey600_36dp)));
+            mDrawerItemList.add(OpenHABDrawerItem.menuItem("Discovery", getResources().getDrawable(R.drawable.ic_track_changes_grey600_36dp), DRAWER_INBOX));
+//            mDrawerItemList.add(OpenHABDrawerItem.menuWithCountItem("New devices", getResources().getDrawable(R.drawable.ic_inbox_grey600_36dp), 2, DRAWER_INBOX));
+//            mDrawerItemList.add(OpenHABDrawerItem.menuItem("Things", getResources().getDrawable(R.drawable.ic_surround_sound_grey600_36dp)));
+            mDrawerItemList.add(OpenHABDrawerItem.menuItem("Bindings", getResources().getDrawable(R.drawable.ic_extension_grey600_36dp), DRAWER_BINDINGS));
 //        mDrawerItemList.add(OpenHABDrawerItem.menuItem("openHAB info", getResources().getDrawable(R.drawable.ic_info_grey600_36dp)));
-            mDrawerItemList.add(OpenHABDrawerItem.menuItem("Setup", getResources().getDrawable(R.drawable.ic_settings_grey600_36dp)));
+//            mDrawerItemList.add(OpenHABDrawerItem.menuItem("Setup", getResources().getDrawable(R.drawable.ic_settings_grey600_36dp)));
         }
         mDrawerAdapter.notifyDataSetChanged();
     }

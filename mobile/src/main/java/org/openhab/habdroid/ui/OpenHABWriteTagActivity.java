@@ -62,6 +62,7 @@ public class OpenHABWriteTagActivity extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		Util.setActivityTheme(this);
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.openhabwritetag);
 		TextView writeTagMessage = (TextView)findViewById(R.id.write_tag_message);

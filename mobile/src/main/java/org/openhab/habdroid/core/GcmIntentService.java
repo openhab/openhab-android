@@ -93,7 +93,7 @@ public class GcmIntentService extends IntentService {
         PendingIntent pendingDeleteIntent = PendingIntent.getBroadcast(getApplicationContext(), 0,
                 deleteIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         Uri alarmSound = Uri.parse(PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString(Constants.PREFERENCE_TONE, ""));
-        if (alarmSound.toString() == "" || alarmSound == null) {
+        if (alarmSound.toString().equals("")) {
             alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         }
         NotificationCompat.Builder mBuilder =

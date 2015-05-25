@@ -53,6 +53,7 @@ public class OpenHABPreferencesActivity extends PreferenceActivity {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
+		Util.setActivityTheme(this);
 	    super.onCreate(savedInstanceState);
 	    addPreferencesFromResource(R.xml.preferences);
 	    Preference urlPreference = getPreferenceScreen().findPreference(Constants.PREFERENCE_URL);
@@ -63,7 +64,7 @@ public class OpenHABPreferencesActivity extends PreferenceActivity {
 	    urlPreference.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
 			@Override
 			public boolean onPreferenceChange(Preference preference, Object newValue) {
-				Log.d("OpenHABPreferencesActivity", "Validating new url = " + (String) newValue);
+				Log.d("PreferencesActivity", "Validating new url = " + (String) newValue);
 				String newUrl = (String)newValue;
 				if (newUrl.length() == 0 || urlIsValid(newUrl)) {
 					updateTextPreferenceSummary(preference, (String)newValue);

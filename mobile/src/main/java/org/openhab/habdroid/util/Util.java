@@ -117,4 +117,11 @@ public class Util {
         return null;
     }
 
+    public static void setActivityTheme(Activity activity) {
+        if (PreferenceManager.getDefaultSharedPreferences(activity).getString(Constants.PREFERENCE_THEME, "dark").equals("dark")) {
+            activity.setTheme(R.style.HABDroid_Dark);
+        } else {
+            activity.setTheme(R.style.HABDroid_Light);
+        }
+    }
 }

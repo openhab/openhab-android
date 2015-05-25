@@ -105,7 +105,7 @@ public class OpenHABWidgetListFragment extends ListFragment {
     private Handler networkHandler = new Handler();
     private Runnable networkRunnable;
     // keeps track of current request to cancel it in onPause
-    private RequestHandle mRequestHanle;
+    private RequestHandle mRequestHandle;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -260,7 +260,7 @@ public class OpenHABWidgetListFragment extends ListFragment {
         Thread thread = new Thread(new Runnable(){
             @Override
             public void run(){
-                mRequestHanle.cancel(true);
+                mRequestHandle.cancel(true);
             }
         });
         thread.start();
@@ -349,7 +349,7 @@ public class OpenHABWidgetListFragment extends ListFragment {
             headers.add(new BasicHeader("X-Atmosphere-tracking-id", "0"));
             mAsyncHttpClient.setTimeout(10000);
         }
-        mRequestHanle = mAsyncHttpClient.get(mActivity, pageUrl, headers.toArray(new BasicHeader[] {}), null, new AsyncHttpResponseHandler() {
+        mRequestHandle = mAsyncHttpClient.get(mActivity, pageUrl, headers.toArray(new BasicHeader[] {}), null, new AsyncHttpResponseHandler() {
                     @Override
                     public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
                         mAtmosphereTrackingId = null;
