@@ -40,6 +40,10 @@ public class OpenHABConnectionService extends Service implements OpenHABTrackerR
     public OpenHABConnectionService() {
     }
 
+    public void stopTracker() {
+        mTracker.stop();
+    }
+
     @Override
     public IBinder onBind(Intent intent) {
         // Fetch openHAB service type name from strings.xml

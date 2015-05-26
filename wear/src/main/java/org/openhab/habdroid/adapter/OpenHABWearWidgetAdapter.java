@@ -75,10 +75,19 @@ public class OpenHABWearWidgetAdapter extends WearableListView.Adapter {
         view.setText(widget.getLabel());
         String widgetType = "" + widget.getType();
         Log.d(TAG, "Setting widgetType " + widgetType);
-        if("Slider".equals(widgetType)) {
+        if (widget.getItem() != null) {
+            String itemType = widget.getItem().getType();
+            Log.d(TAG, "Or we can use the item type " + itemType);
+            if ("RollershutterItem".equals(itemType)) {
+                widgetType = "Shutter";
+            }
+        }
+        if ("Slider".equals(widgetType)) {
             itemIcon.setImageResource(R.drawable.slider_icon);
         } else if ("Switch".equals(widgetType)) {
             itemIcon.setImageResource(R.drawable.switch_icon);
+        } else if ("Shutter".equals(widgetType)) {
+            itemIcon.setImageResource(R.drawable.shutter_icon);
         } else {
             itemIcon.setImageResource(R.drawable.group_icon);
         }

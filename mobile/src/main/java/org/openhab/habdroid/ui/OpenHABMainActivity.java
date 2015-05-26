@@ -222,12 +222,7 @@ public class OpenHABMainActivity extends ActionBarActivity implements OnWidgetSe
         pager = (OpenHABViewPager) findViewById(R.id.pager);
         pager.setScrollDurationFactor(2.5);
         pager.setOffscreenPageLimit(1);
-        pagerAdapter = new OpenHABFragmentPagerAdapter(getSupportFragmentManager());
-        pagerAdapter.setColumnsNumber(getResources().getInteger(R.integer.pager_columns));
-        pagerAdapter.setOpenHABUsername(openHABUsername);
-        pagerAdapter.setOpenHABPassword(openHABPassword);
-        pager.setAdapter(pagerAdapter);
-        pager.setOnPageChangeListener(pagerAdapter);
+
         MemorizingTrustManager.setResponder(this);
 //        pager.setPageMargin(1);
 //        pager.setPageMarginDrawable(android.R.color.darker_gray);
@@ -274,7 +269,7 @@ public class OpenHABMainActivity extends ActionBarActivity implements OnWidgetSe
                     Log.d(TAG, "This is sitemap " + mDrawerItemList.get(item).getSiteMap().getLink());
                     mDrawerLayout.closeDrawers();
                     openSitemap(mDrawerItemList.get(item).getSiteMap().getHomepageLink());
-                    ServiceManager.setSitemapForWearable(mSitemapList.get(item));
+                    ServiceManager.setSitemapForWearable(mDrawerItemList.get(item).getSiteMap());
                 } else {
                     Log.d(TAG, "This is not sitemap");
                     if (mDrawerItemList.get(item).getTag() == DRAWER_NOTIFICATIONS) {
@@ -340,6 +335,14 @@ public class OpenHABMainActivity extends ActionBarActivity implements OnWidgetSe
     public void onResume() {
         Log.d(TAG, "onResume()");
         super.onResume();
+
+        pagerAdapter = new OpenHABFragmentPagerAdapter(getSupportFragmentManager());
+        pagerAdapter.setColumnsNumber(getResources().getInteger(R.integer.pager_columns));
+        pagerAdapter.setOpenHABUsername(openHABUsername);
+        pagerAdapter.setOpenHABPassword(openHABPassword);
+        pager.setAdapter(pagerAdapter);
+        pager.setOnPageChangeListener(pagerAdapter);
+
         PendingIntent pendingIntent = PendingIntent.getActivity(
                 this, 0, new Intent(this, ((Object) this).getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
         if (NfcAdapter.getDefaultAdapter(this) != null)
@@ -388,6 +391,9 @@ public class OpenHABMainActivity extends ActionBarActivity implements OnWidgetSe
         }
 
         checkFullscreen();
+
+        ServiceManager.bindServices(this);
+        ServiceManager.addUrlCallback(this);
     }
 
     public void openNFCPageIfPending() {
@@ -757,13 +763,11 @@ public class OpenHABMainActivity extends ActionBarActivity implements OnWidgetSe
     @Override
     public void onStart() {
         super.onStart();
+        ServiceManager.startServicesSticky(this);
         // Start activity tracking via Google Analytics
         if (!isDeveloper) {
             GoogleAnalytics.getInstance(this).reportActivityStart(this);
         }
-
-        ServiceManager.bindServices(this);
-        ServiceManager.addUrlCallback(this);
     }
 
     /**
@@ -778,6 +782,7 @@ public class OpenHABMainActivity extends ActionBarActivity implements OnWidgetSe
             GoogleAnalytics.getInstance(this).reportActivityStop(this);
 
         ServiceManager.removeCallback(this);
+        ServiceManager.unbindServices();
     }
 
     @Override
