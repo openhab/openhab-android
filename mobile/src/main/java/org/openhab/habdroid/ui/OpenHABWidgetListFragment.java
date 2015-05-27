@@ -260,7 +260,9 @@ public class OpenHABWidgetListFragment extends ListFragment {
         Thread thread = new Thread(new Runnable(){
             @Override
             public void run(){
-                mRequestHandle.cancel(true);
+                if (mRequestHandle != null) {
+                    mRequestHandle.cancel(true);
+                }
             }
         });
         thread.start();
