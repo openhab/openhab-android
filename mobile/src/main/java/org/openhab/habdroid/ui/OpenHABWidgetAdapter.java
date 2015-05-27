@@ -366,19 +366,21 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
 				public boolean onTouch(View v, MotionEvent motionEvent) {
 					ImageButton colorButton = (ImageButton)v;
 					OpenHABItem colorItem = (OpenHABItem)colorButton.getTag();
-					if (motionEvent.getActionMasked() == MotionEvent.ACTION_UP) {
-						Log.d(TAG, "Time to launch color picker!");
-						ColorPickerDialog colorDialog = new ColorPickerDialog(widgetView.getContext(), new OnColorChangedListener() {
-							public void colorChanged(float[] hsv, View v) {
-								Log.d(TAG, "New color HSV = " + hsv[0] + ", " + hsv[1] + ", " +
-                                        hsv[2]);
-								String newColor = String.valueOf(hsv[0]) + "," + String.valueOf(hsv[1]*100) + "," + String.valueOf(hsv[2]*100);
-								OpenHABItem colorItem = (OpenHABItem) v.getTag();
-								sendItemCommand(colorItem, newColor);
-							}
-						}, colorItem.getStateAsHSV());
-						colorDialog.setTag(colorItem);
-						colorDialog.show();
+					if (colorItem != null) {
+						if (motionEvent.getActionMasked() == MotionEvent.ACTION_UP) {
+							Log.d(TAG, "Time to launch color picker!");
+							ColorPickerDialog colorDialog = new ColorPickerDialog(widgetView.getContext(), new OnColorChangedListener() {
+								public void colorChanged(float[] hsv, View v) {
+									Log.d(TAG, "New color HSV = " + hsv[0] + ", " + hsv[1] + ", " +
+											hsv[2]);
+									String newColor = String.valueOf(hsv[0]) + "," + String.valueOf(hsv[1]*100) + "," + String.valueOf(hsv[2]*100);
+									OpenHABItem colorItem = (OpenHABItem) v.getTag();
+									sendItemCommand(colorItem, newColor);
+								}
+							}, colorItem.getStateAsHSV());
+							colorDialog.setTag(colorItem);
+							colorDialog.show();
+						}
 					}
 					return false;
 				}
