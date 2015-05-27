@@ -261,15 +261,17 @@ public class OpenHABDiscoveryFragment extends ListFragment implements SwipeRefre
                         @Override
                         public void run() {
                             Log.d(TAG, "Discovery timer ended");
-                            getActivity().runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    stopProgressIndicator();
-                                    if (mActivity != null) {
-                                        mActivity.openDiscoveryInbox();
+                            if (getActivity() != null) {
+                                getActivity().runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        stopProgressIndicator();
+                                        if (mActivity != null) {
+                                            mActivity.openDiscoveryInbox();
+                                        }
                                     }
-                                }
-                            });
+                                });
+                            }
                         }
                     }, 10000);
                 }
