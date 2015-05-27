@@ -292,8 +292,12 @@ public class OpenHABFragmentPagerAdapter extends FragmentStatePagerAdapter imple
     @Override
     public CharSequence getPageTitle(int position) {
         Log.d(TAG, String.format("getPageTitle(%d)", position));
-        if (fragmentList.get(position) instanceof OpenHABWidgetListFragment)
-            return ((OpenHABWidgetListFragment)fragmentList.get(position)).getTitle();
+        if (position > fragmentList.size() - 1) {
+            return null;
+        }
+        if (fragmentList.get(position) instanceof OpenHABWidgetListFragment) {
+            return ((OpenHABWidgetListFragment) fragmentList.get(position)).getTitle();
+        }
         return null;
     }
 
