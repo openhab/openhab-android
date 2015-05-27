@@ -70,7 +70,9 @@ public class OpenHABInfoActivity extends Activity {
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable error) {
                 mOpenHABVersionText.setText("Unknown");
-                Log.e(TAG, error.getMessage());
+                if (error.getMessage() != null) {
+                    Log.e(TAG, error.getMessage());
+                }
             }
 
             @Override
@@ -83,8 +85,9 @@ public class OpenHABInfoActivity extends Activity {
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable error) {
                 mOpenHABUUIDText.setText("Unknown");
-                if (error.getMessage() != null)
+                if (error.getMessage() != null) {
                     Log.e(TAG, error.getMessage());
+                }
             }
 
             @Override
@@ -98,7 +101,9 @@ public class OpenHABInfoActivity extends Activity {
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable error) {
                 mOpenHABSecretText.setVisibility(View.GONE);
                 mOpenHABSecretLabel.setVisibility(View.GONE);
-                Log.e(TAG, error.getMessage());
+                if (error.getMessage() != null) {
+                    Log.e(TAG, error.getMessage());
+                }
             }
 
             @Override
