@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import org.openhab.habdroid.R;
+import org.openhab.habdroid.model.OpenHABBinding;
 import org.openhab.habdroid.model.OpenHABNotification;
 import org.openhab.habdroid.util.Constants;
 import org.openhab.habdroid.util.MySmartImageView;
@@ -18,38 +19,31 @@ import org.w3c.dom.Text;
 import java.util.ArrayList;
 
 /**
- * Created by belovictor on 03/04/15.
+ * Created by belovictor on 23/05/15.
  */
-public class OpenHABNotificationAdapter extends ArrayAdapter<OpenHABNotification> {
+public class OpenHABBindingAdapter extends ArrayAdapter<OpenHABBinding> {
     private int mResource;
     private String mOpenHABUsername;
     private String mOpenHABPassword;
+    private String mOpenHABBaseUrl;
 
-    public OpenHABNotificationAdapter(Context context, int resource, ArrayList<OpenHABNotification> objects) {
+    public OpenHABBindingAdapter(Context context, int resource, ArrayList<OpenHABBinding> objects) {
         super(context, resource, objects);
         mResource = resource;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        OpenHABNotification notification = getItem(position);
+        OpenHABBinding binding = getItem(position);
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(mResource, parent, false);
         }
-        TextView createdView = (TextView)convertView.findViewById(R.id.notificationCreated);
-        TextView messageView = (TextView)convertView.findViewById(R.id.notificationMessage);
-        MySmartImageView imageView = (MySmartImageView)convertView.findViewById(R.id.notificationImage);
-        if (imageView != null) {
-            if (notification.getIcon() != null && imageView != null) {
-                String iconUrl = Constants.MYOPENHAB_BASE_URL + "/images/" + Uri.encode(notification.getIcon() + ".png");
-                imageView.setImageUrl(iconUrl, R.drawable.openhabiconsmall,
-                        mOpenHABUsername, mOpenHABPassword);
-            } else {
-                imageView.setImageDrawable(getContext().getResources().getDrawable(R.drawable.openhabicon_light));
-            }
-        }
-        createdView.setText(DateUtils.getRelativeDateTimeString(this.getContext(), notification.getCreated().getTime(), DateUtils.MINUTE_IN_MILLIS, DateUtils.WEEK_IN_MILLIS, 0));
-        messageView.setText(notification.getMessage());
+        TextView nameView = (TextView)convertView.findViewById(R.id.bindingName);
+        TextView descriptionView = (TextView)convertView.findViewById(R.id.bindingDescription);
+        TextView authorView = (TextView)convertView.findViewById(R.id.bindingAuthor);
+        nameView.setText(binding.getName());
+        descriptionView.setText(binding.getDescription());
+        authorView.setText(binding.getAuthor());
         return convertView;
     }
 
@@ -68,4 +62,6 @@ public class OpenHABNotificationAdapter extends ArrayAdapter<OpenHABNotification
     public void setOpenHABPassword(String openHABPassword) {
         this.mOpenHABPassword = openHABPassword;
     }
+
+
 }
