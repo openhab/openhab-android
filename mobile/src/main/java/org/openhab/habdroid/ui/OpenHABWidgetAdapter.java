@@ -449,21 +449,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     		SeekBar sliderSeekBar = (SeekBar)widgetView.findViewById(R.id.sliderseekbar);
     		if (openHABWidget.hasItem()) {
     			sliderSeekBar.setTag(openHABWidget.getItem());
-    			int sliderState = 0;
-    			try {
-    				sliderState = (int)Float.parseFloat(openHABWidget.getItem().getState());
-    			} catch (NumberFormatException e) {
-    				if (e != null) {
-    					Crittercism.logHandledException(e);
-    					Log.e(TAG, e.getMessage());
-    				}
-    				if (openHABWidget.getItem().getState().equals("OFF")) {
-    					sliderState = 0;
-    				} else if (openHABWidget.getItem().getState().equals("ON")) {
-    					sliderState = 100;
-    				}
-    			}
-    			sliderSeekBar.setProgress(sliderState);
+    			sliderSeekBar.setProgress(openHABWidget.getItem().getStateAsFloat().intValue());
     			sliderSeekBar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
 						public void onProgressChanged(SeekBar seekBar,
 								int progress, boolean fromUser) {
@@ -576,7 +562,8 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     		int spinnerSelectedIndex = -1;
     		if (labelTextView != null)
     			labelTextView.setText(openHABWidget.getLabel());
-    		Spinner selectionSpinner = (Spinner)widgetView.findViewById(R.id.selectionspinner);
+    		final Spinner selectionSpinner = (Spinner)widgetView.findViewById(R.id.selectionspinner);
+			selectionSpinner.setOnItemSelectedListener(null);
     		ArrayList<String> spinnerArray = new ArrayList<String>();
     		Iterator<OpenHABWidgetMapping> mappingIterator = openHABWidget.getMappings().iterator();
     		while (mappingIterator.hasNext()) {
@@ -592,41 +579,53 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     		spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
     		selectionSpinner.setAdapter(spinnerAdapter);
     		selectionSpinner.setTag(openHABWidget);
-    		if (spinnerSelectedIndex >= 0)
-    			selectionSpinner.setSelection(spinnerSelectedIndex);
-    		
-    		selectionSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
-				public void onItemSelected(AdapterView<?> parent, View view,
-						int index, long id) {
-					Log.d(TAG, "Spinner item click on index " + index);
-					Spinner spinner = (Spinner)parent;
-					String selectedLabel = (String)spinner.getAdapter().getItem(index);
-					Log.d(TAG, "Spinner onItemSelected selected label = " + selectedLabel);
-					OpenHABWidget openHABWidget = (OpenHABWidget)parent.getTag();
-					if (openHABWidget != null) {
-						Log.d(TAG, "Label selected = " + openHABWidget.getMapping(index).getLabel());
-						Iterator<OpenHABWidgetMapping> mappingIterator = openHABWidget.getMappings().iterator();
-						while (mappingIterator.hasNext()) {
-							OpenHABWidgetMapping openHABWidgetMapping = mappingIterator.next();
-							if (openHABWidgetMapping.getLabel().equals(selectedLabel)) {
-								Log.d(TAG, "Spinner onItemSelected found match with " + openHABWidgetMapping.getCommand());
-                                if (openHABWidget.getItem() != null && openHABWidget.getItem().getState() != null)
-                                    // Only send the command for selection of selected command will change the state
-                                    if (!openHABWidget.getItem().getState().equals(openHABWidgetMapping.getCommand())) {
-                                        Log.d(TAG, "Spinner onItemSelected selected label command != current item state");
-                                        sendItemCommand(openHABWidget.getItem(), openHABWidgetMapping.getCommand());
-                                    }
+    		if (spinnerSelectedIndex >= 0) {
+				Log.d(TAG, "Setting spinner selected index to " + String.valueOf(spinnerSelectedIndex));
+				selectionSpinner.setSelection(spinnerSelectedIndex);
+			} else {
+				Log.d(TAG, "Not setting spinner selected index");
+			}
+			selectionSpinner.post(new Runnable() {
+				@Override
+				public void run() {
+					selectionSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+						public void onItemSelected(AdapterView<?> parent, View view,
+												   int index, long id) {
+							Log.d(TAG, "Spinner item click on index " + index);
+							Spinner spinner = (Spinner) parent;
+							String selectedLabel = (String) spinner.getAdapter().getItem(index);
+							Log.d(TAG, "Spinner onItemSelected selected label = " + selectedLabel);
+							OpenHABWidget openHABWidget = (OpenHABWidget) parent.getTag();
+							if (openHABWidget != null) {
+								Log.d(TAG, "Label selected = " + openHABWidget.getMapping(index).getLabel());
+								Iterator<OpenHABWidgetMapping> mappingIterator = openHABWidget.getMappings().iterator();
+								while (mappingIterator.hasNext()) {
+									OpenHABWidgetMapping openHABWidgetMapping = mappingIterator.next();
+									if (openHABWidgetMapping.getLabel().equals(selectedLabel)) {
+										Log.d(TAG, "Spinner onItemSelected found match with " + openHABWidgetMapping.getCommand());
+										if (openHABWidget.getItem() != null && openHABWidget.getItem().getState() != null) {
+											// Only send the command for selection of selected command will change the state
+											if (!openHABWidget.getItem().getState().equals(openHABWidgetMapping.getCommand())) {
+												Log.d(TAG, "Spinner onItemSelected selected label command != current item state");
+												sendItemCommand(openHABWidget.getItem(), openHABWidgetMapping.getCommand());
+											}
+										} else if (openHABWidget.getItem() != null && openHABWidget.getItem().getState() == null) {
+											Log.d(TAG, "Spinner onItemSelected selected label command and state == null");
+											sendItemCommand(openHABWidget.getItem(), openHABWidgetMapping.getCommand());
+										}
+									}
+								}
 							}
-						}
-					}
 //					if (!openHABWidget.getItem().getState().equals(openHABWidget.getMapping(index).getCommand()))
 //						sendItemCommand(openHABWidget.getItem(),
 //								openHABWidget.getMapping(index).getCommand());
-				}
+						}
 
-				public void onNothingSelected(AdapterView<?> arg0) {
-				}    			
-    		});
+						public void onNothingSelected(AdapterView<?> arg0) {
+						}
+					});
+				}
+			});
     		break;
     	case TYPE_SETPOINT:
     		splitString = openHABWidget.getLabel().split("\\[|\\]");
@@ -646,7 +645,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
 				public void onClick(View v) {
 					Log.d(TAG, "Minus");
 					OpenHABWidget setPointWidget = (OpenHABWidget)v.getTag();
-					float currentValue = Float.valueOf(setPointWidget.getItem().getState()).floatValue();
+					float currentValue = setPointWidget.getItem().getStateAsFloat();
 					currentValue = currentValue - setPointWidget.getStep();
 					if (currentValue < setPointWidget.getMinValue())
 						currentValue = setPointWidget.getMinValue();
@@ -660,7 +659,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
 				public void onClick(View v) {
 					Log.d(TAG, "Plus");
 					OpenHABWidget setPointWidget = (OpenHABWidget)v.getTag();
-					float currentValue = Float.valueOf(setPointWidget.getItem().getState()).floatValue();
+					float currentValue = setPointWidget.getItem().getStateAsFloat();
 					currentValue = currentValue + setPointWidget.getStep();
                     if (currentValue < setPointWidget.getMinValue())
                         currentValue = setPointWidget.getMinValue();

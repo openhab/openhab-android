@@ -392,7 +392,7 @@ public class OpenHABWidgetListFragment extends ListFragment {
                             stopProgressIndicator();
                         String responseString = new String(responseBody);
                         processContent(responseString, longPolling);
-                        Log.d(TAG, responseString);
+                        // Log.d(TAG, responseString);
                     }
                 });
     }
