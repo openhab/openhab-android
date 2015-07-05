@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android" android:oneshot="true">
+    <item android:drawable="@drawable/generic_confirmation_00163" android:duration="33"/>
+    <item android:drawable="@drawable/generic_confirmation_00164" android:duration="33"/>
+    <item android:drawable="@drawable/generic_confirmation_00165" android:duration="33"/>
+    <item android:drawable="@drawable/generic_confirmation_00166" android:duration="33"/>
+    <item android:drawable="@drawable/generic_confirmation_00167" android:duration="33"/>
+    <item android:drawable="@drawable/generic_confirmation_00168" android:duration="33"/>
+    <item android:drawable="@drawable/generic_confirmation_00169" android:duration="33"/>
+    <item android:drawable="@drawable/generic_confirmation_00170" android:duration="33"/>
+    <item android:drawable="@drawable/generic_confirmation_00171" android:duration="33"/>
+    <item android:drawable="@drawable/generic_confirmation_00172" android:duration="33"/>
+    <item android:drawable="@drawable/generic_confirmation_00173" android:duration="33"/>
+    <item android:drawable="@drawable/generic_confirmation_00174" android:duration="33"/>
+    <item android:drawable="@drawable/generic_confirmation_00175" android:duration="333"/>
+    <item android:drawable="@drawable/generic_confirmation_00185" android:duration="33"/>
+    <item android:drawable="@drawable/generic_confirmation_00186" android:duration="33"/>
+    <item android:drawable="@drawable/generic_confirmation_00187" android:duration="33"/>
+    <item android:drawable="@drawable/generic_confirmation_00188" android:duration="33"/>
+    <item android:drawable="@drawable/generic_confirmation_00189" android:duration="33"/>
+    <item android:drawable="@drawable/generic_confirmation_00190" android:duration="33"/>
+    <item android:drawable="@drawable/generic_confirmation_00191" android:duration="33"/>
+    <item android:drawable="@drawable/generic_confirmation_00192" android:duration="33"/>
+    <item android:drawable="@drawable/generic_confirmation_00193" android:duration="33"/>
+</animation-list><!-- From: file:/usr/local/google/buildbot/repo_clients/https___googleplex-android.googlesource.com_a_platform_manifest.git/ub-wearable-common-bismuth/vendor/unbundled_google/libs/wearable/wearable-support/lib/src/main/res/drawable/confirmation_animation.xml -->

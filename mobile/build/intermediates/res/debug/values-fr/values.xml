@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:ns1="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- From: file:/C:/Users/Dirk/Entwicklung/openhab.android/mobile/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/res/values-fr/values.xml -->
+    <eat-comment/>
+    <string msgid="4600421777120114993" name="abc_action_bar_home_description">"Revenir à l\'accueil"</string>
+    <string msgid="1397052879051804371" name="abc_action_bar_home_description_format">"%1$s, %2$s"</string>
+    <string msgid="6623331958280229229" name="abc_action_bar_home_subtitle_description_format">"%1$s, %2$s, %3$s"</string>
+    <string msgid="1594238315039666878" name="abc_action_bar_up_description">"Revenir en haut de la page"</string>
+    <string msgid="3588849162933574182" name="abc_action_menu_overflow_description">"Plus d\'options"</string>
+    <string msgid="4076576682505996667" name="abc_action_mode_done">"OK"</string>
+    <string msgid="7468859129482906941" name="abc_activity_chooser_view_see_all">"Tout afficher"</string>
+    <string msgid="2031811694353399454" name="abc_activitychooserview_choose_application">"Sélectionner une application"</string>
+    <string msgid="3691816814315814921" name="abc_searchview_description_clear">"Effacer la requête"</string>
+    <string msgid="2550479030709304392" name="abc_searchview_description_query">"Requête de recherche"</string>
+    <string msgid="8264924765203268293" name="abc_searchview_description_search">"Rechercher"</string>
+    <string msgid="8928215447528550784" name="abc_searchview_description_submit">"Envoyer la requête"</string>
+    <string msgid="893419373245838918" name="abc_searchview_description_voice">"Recherche vocale"</string>
+    <string msgid="3421042268587513524" name="abc_shareactionprovider_share_with">"Partager avec"</string>
+    <string msgid="7165123711973476752" name="abc_shareactionprovider_share_with_application">"Partager avec %s"</string>
+    <!-- From: file:/C:/Users/Dirk/Entwicklung/openhab.android/mobile/src/main/res/values-fr/strings.xml -->
+    <eat-comment/>
+    <string name="action_settings">Paramétrage</string>
+    <string name="app_name">openHAB</string>
+    <string name="app_preferences_name">Paramètres</string>
+    <!-- From: file:/C:/Users/Dirk/Entwicklung/openhab.android/mobile/build/intermediates/exploded-aar/com.google.android.gms/play-services/6.5.87/res/values-fr/common_strings.xml -->
+    <eat-comment/>
+    <string msgid="473679118463211576" name="common_android_wear_notification_needs_update_text">"Une application nécessite une mise à jour du Bios de l\'application Android Wear."</string>
+    <string msgid="3046420540094071256" name="common_android_wear_update_text">"Cette application ne fonctionnera pas tant que vous n\'aurez pas mis à jour l\'application Android Wear."</string>
+    <string msgid="1366439133145190222" name="common_android_wear_update_title">"Mettre à jour Android Wear"</string>
+    <string msgid="4181637455539816337" name="common_google_play_services_enable_button">"Activer services Google Play"</string>
+    <string msgid="7627896071867667758" name="common_google_play_services_enable_text">"Cette application ne fonctionnera pas tant que vous n\'aurez pas activé les services Google Play."</string>
+    <string msgid="529078775174559253" name="common_google_play_services_enable_title">"Activer les services Google Play"</string>
+    <string msgid="2443362625939284971" name="common_google_play_services_error_notification_requested_by_msg">"Notification issue de l\'application \"<ns1:g id="APP_NAME">%1$s</ns1:g>\""</string>
+    <string msgid="8515591849428043265" name="common_google_play_services_install_button">"Installer services Google Play"</string>
+    <string msgid="8685301130651051380" name="common_google_play_services_install_text_phone">"Cette application ne fonctionnera pas sans les services Google Play, qui ne sont pas installés sur votre téléphone."</string>
+    <string msgid="1589957570365247855" name="common_google_play_services_install_text_tablet">"Cette application ne fonctionnera pas sans les services Google Play, qui ne sont pas installés sur votre tablette."</string>
+    <string msgid="26645092511305524" name="common_google_play_services_install_title">"Installer les services Google Play"</string>
+    <string msgid="4983316348021735578" name="common_google_play_services_invalid_account_text">"Le compte indiqué n\'existe pas sur cet appareil. Veuillez sélectionner un autre compte."</string>
+    <string msgid="1066672360770936753" name="common_google_play_services_invalid_account_title">"Compte erroné"</string>
+    <string msgid="2583358409598976717" name="common_google_play_services_needs_enabling_title">"Une application demande l\'activation des services Google Play."</string>
+    <string msgid="9038847255613537209" name="common_google_play_services_network_error_text">"Vous devez disposer d\'une connexion de données pour utiliser les services Google Play."</string>
+    <string msgid="3827284619958211114" name="common_google_play_services_network_error_title">"Erreur réseau"</string>
+    <string msgid="8120534356798772974" name="common_google_play_services_notification_needs_installation_title">"Une application demande l\'installation des services Google Play."</string>
+    <string msgid="1388129345631079938" name="common_google_play_services_notification_needs_update_title">"Une application demande la mise à jour des services Google Play."</string>
+    <string msgid="1852570676146674985" name="common_google_play_services_notification_ticker">"Erreur liée aux services Google Play"</string>
+    <string msgid="4762332809710093730" name="common_google_play_services_unknown_issue">"Problème inconnu avec les services Google Play."</string>
+    <string msgid="3542578567569488671" name="common_google_play_services_unsupported_text">"Les services Google Play, dont dépendent certaines de vos applications, ne sont pas compatibles avec votre appareil. Veuillez contacter le fabricant pour obtenir de l\'aide."</string>
+    <string msgid="6334768798839376943" name="common_google_play_services_unsupported_title">"Services Google Play"</string>
+    <string msgid="8932944190611227642" name="common_google_play_services_update_button">"Mettre à jour"</string>
+    <string msgid="448354684997260580" name="common_google_play_services_update_text">"Cette application ne fonctionnera pas tant que vous n\'aurez pas mis à jour les services Google Play."</string>
+    <string msgid="6006316683626838685" name="common_google_play_services_update_title">"Mettre à jour les services Google Play"</string>
+    <string msgid="411506735369601515" name="common_open_on_phone">"Ouvrir sur le téléphone"</string>
+    <string msgid="9071884888741449141" name="common_signin_button_text">"Connexion"</string>
+    <string msgid="2429381841831957106" name="common_signin_button_text_long">"Se connecter avec Google"</string>
+    <!-- From: file:/C:/Users/Dirk/Entwicklung/openhab.android/mobile/src/main/res/values-fr/strings.xml -->
+    <eat-comment/>
+    <string name="erorr_invalid_url">Entrez une adresse valide au format \'protocole://domaine_ou_IP:port/\' </string>
+    <string name="erorr_no_wifi_mcast_permission">Les droits CHANGE_WIFI_MULTICAST_STATE n\'ont pas été accordés à l\'application par le système Android. La découverte automatique sera désactivée.</string>
+    <string name="erorr_no_wifi_state_permission">Les droits ACCESS_WIFI_STATE n\'ont pas été accordés à l\'application par le système Android. La découverte automatique sera désactivée.</string>
+    <string name="error_authentication_failed">Erreur d\'authentification. Merci de vérifier votre identifiant et votre mot de passe.</string>
+    <string name="error_connection_failed">Connexion au domaine échouée</string>
+    <string name="error_empty_sitemap_list">openHAB a renvoyé une liste Sitemap vide</string>
+    <string name="error_network_not_available">Aucune connexion réseau disponible</string>
+    <string name="error_no_url">Merci de vérifier qu\'openHAB fonctionne. Si oui passez en configuration manuelle des adresses locale et/ou distante</string>
+    <string name="error_no_uuid">Récupération de l\'UUID openHAB impossible. La connexion a échoué</string>
+    <string name="info_conn_rem_url">Connexion à l\'adresse distante</string>
+    <string name="info_conn_url">Connexion à l\'adresse  locale</string>
+    <string name="info_demo_mode">HABDroid fonctionne en mode démo. Pour connecter votre instance openHAB, rendez-vous dans les paramètres de l\'application</string>
+    <string name="info_discovery">Recherche d\'openHAB, merci de patienter...</string>
+    <string name="info_not_set">Non paramétré</string>
+    <string name="info_openhab_secret_label">Phrase secrète openHAB</string>
+    <string name="info_openhab_uuid_label">UUID openHAB</string>
+    <string name="info_openhab_version_label">Version openHAB</string>
+    <string name="info_voice_input">openHAB, à vos ordres!"</string>
+    <string name="info_write_failed">Erreur d\'écriture du tag</string>
+    <string name="info_write_tag">Approchez votre téléphone et gardez le proche du tag NFC jusqu\'à ce que le message de confirmation apparaisse.</string>
+    <string name="info_write_tag_disabled">NFC est désactivé. Merci d\'activer la fonctionnalité dans les paramètres du téléphone.</string>
+    <string name="info_write_tag_finished">Écriture du tag terminée.</string>
+    <string name="info_write_tag_progress">Écriture du tag en cours...</string>
+    <string name="info_write_tag_unsupported">Ce téléphone n\'est pas compatible NFC :-(</string>
+    <string name="mainmenu_openhab_clearcache">Effacer le cache image</string>
+    <string name="mainmenu_openhab_info">Infos openHAB</string>
+    <string name="mainmenu_openhab_preferences">Paramètres</string>
+    <string name="mainmenu_openhab_selectsitemap">Sitemap par défaut...</string>
+    <string name="mainmenu_openhab_writetag">Écrire une tag NFC</string>
+    <string name="mtm_accept_cert">Accepter ce certificat inconnu ?</string>
+    <string name="mtm_decision_abort">Annuler</string>
+    <string name="mtm_decision_always">Toujours</string>
+    <string name="mtm_decision_once">Une fois</string>
+    <string name="mtm_notification">Validation du certificat SSL</string>
+    <string name="nfc_dialog_title">Sélectionner une action pour le tag NFC</string>
+    <string name="openhab_demo_url">https://demo.openhab.org:8443/</string>
+    <string name="openhab_service_type">_openhab-server-ssl._tcp.local.</string>
+    <string name="settings_openhab_alturl">URL openHAB distante</string>
+    <string name="settings_openhab_alturl_summary">Utilisée lorsque l\'adresse local n\'est pas accessible</string>
+    <string name="settings_openhab_appversion">Version HABDroid</string>
+    <string name="settings_openhab_demomode">Mode démo</string>
+    <string name="settings_openhab_demomode_summary">Lancer HABDroiden mode démo</string>
+    <string name="settings_openhab_fullscreen">Plein écran</string>
+    <string name="settings_openhab_fullscreen_summary">Afficher OpenHab en mode plein écran</string>
+    <string name="settings_openhab_password">Mot de passe</string>
+    <string name="settings_openhab_password_summary">Votre mot de passe openHAB</string>
+    <string name="settings_openhab_screentimeroff">Désactiver l\'extinction d\'écran</string>
+    <string name="settings_openhab_screentimeroff_summary">Désactive l\'extinction d\'écran lorsque HABDroid fonctionne</string>
+    <string name="settings_openhab_sslcert">Ignorer les certificats SSL</string>
+    <string name="settings_openhab_sslcert_summary">Ne vérifie pas le certificat SSL pendant la connexion</string>
+    <string name="settings_openhab_sslhost">Ignorer le domaine SSL</string>
+    <string name="settings_openhab_sslhost_summary">Ne vérifie pas la pertinence du nom de domaine lors de la connexion</string>
+    <string name="settings_openhab_theme">Thème HABDroid</string>
+    <string name="settings_openhab_url">URL openHAB</string>
+    <string name="settings_openhab_url_summary">Configurer manuellement l\'adresse openHAB. Cela désactive la découverte automatique si disponible.</string>
+    <string name="settings_openhab_username">Identifiant</string>
+    <string name="settings_openhab_username_summary">Votre identifiant openHAB</string>
+    <string name="settings_ringtone">Sonnerie</string>
+    <string name="title_activity_openhabinfo">Informations openHAB</string>
+    <string name="title_activity_openhabwritetag">Écrire un tag NFC</string>
+    <string name="title_voice_widget">Commandes vocales OpenHAB</string>
+</resources>

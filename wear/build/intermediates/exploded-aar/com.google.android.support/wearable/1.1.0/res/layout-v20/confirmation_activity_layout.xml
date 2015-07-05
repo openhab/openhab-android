@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        >
+    <LinearLayout
+            android:id="@+id/action_error"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_gravity="center"
+            android:background="#777777"
+            android:visibility="gone"
+            >
+        <ImageView
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:src="@drawable/ic_full_sad"
+                android:layout_weight="1"
+                android:layout_gravity="center_horizontal|bottom"
+                />
+
+        <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:id="@+id/error_message"
+                android:layout_weight="1"
+                android:layout_gravity="center_horizontal|top"
+                android:textSize="20sp"
+                />
+    </LinearLayout>
+
+    <FrameLayout
+            android:id="@+id/action_success"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:background="#CC000000"
+            android:visibility="gone">
+        <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                >
+            <ImageView
+                    android:id="@+id/animation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingRight="8dp"
+                    />
+        </FrameLayout>
+        <TextView
+                android:id="@+id/message"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|bottom"
+                android:layout_marginBottom="16dp"
+                android:textColor="#FFF"
+                android:fontFamily="sans-serif-condensed-light"
+                android:textSize="20sp"
+                />
+    </FrameLayout>
+</FrameLayout><!-- From: file:/usr/local/google/buildbot/repo_clients/https___googleplex-android.googlesource.com_a_platform_manifest.git/ub-wearable-common-bismuth/vendor/unbundled_google/libs/wearable/wearable-support/lib/src/main/res/layout-v20/confirmation_activity_layout.xml -->
