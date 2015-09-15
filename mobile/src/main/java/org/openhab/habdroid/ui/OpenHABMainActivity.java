@@ -1196,11 +1196,15 @@ public class OpenHABMainActivity extends ActionBarActivity implements OnWidgetSe
             return;
         // We need remote URL, username and password, without them we can't connect to my.openHAB
         String remoteUrl = mSettings.getString(Constants.PREFERENCE_ALTURL, null);
-        if (TextUtils.isEmpty(remoteUrl) || TextUtils.isEmpty(openHABUsername) || TextUtils.isEmpty(openHABPassword))
+        if (TextUtils.isEmpty(remoteUrl) || TextUtils.isEmpty(openHABUsername) || TextUtils.isEmpty(openHABPassword)) {
+            Log.d(TAG, "Remote URL, username or password are empty, no GCM registration will be made");
             return;
+        }
         // We need remote URL to be my.oh
-        if (!remoteUrl.toLowerCase().startsWith("https://my.openhab.org"))
+        if (!remoteUrl.toLowerCase().startsWith("https://my.openhab.org")) {
+            Log.d(TAG, "Remote URL " + remoteUrl + "is not https://my.openhab.org, no GCM registration will be made");
             return;
+        }
         mIsMyOpenHAB = true;
         // Finally, all sanity is done
         Crittercism.setUsername(openHABUsername);
@@ -1241,7 +1245,7 @@ public class OpenHABMainActivity extends ActionBarActivity implements OnWidgetSe
                     });
                 } catch (IOException e) {
                     e.printStackTrace();
-                    Log.e(TAG, e.getMessage());
+                    Log.e(TAG, "Error getting GCM ID: " + e.getMessage());
                 }
                 return mRegId;
             }
