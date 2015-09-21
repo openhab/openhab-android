@@ -14,6 +14,9 @@
 package org.openhab.habdroid.model;
 
 import android.graphics.Color;
+import android.util.Log;
+
+import com.crittercism.app.Crittercism;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -29,6 +32,7 @@ public class OpenHABItem {
 	private String type;
 	private String state = "";
 	private String link;
+	private final static String TAG = "OpenHABItem";
 
 	public OpenHABItem(Node startNode) {
 		if (startNode.hasChildNodes()) {
@@ -41,7 +45,7 @@ public class OpenHABItem {
 					this.setName(childNode.getTextContent());
 				} else if (childNode.getNodeName().equals("state")) {
 					if (childNode.getTextContent().equals("Uninitialized")) {
-						this.setState("0");
+						this.setState(null);
 					} else {
 						this.setState(childNode.getTextContent());
 					}
@@ -59,8 +63,8 @@ public class OpenHABItem {
                 if (jsonObject.has("name"))
                     this.setName(jsonObject.getString("name"));
                 if (jsonObject.has("state")) {
-                    if (jsonObject.getString("state").equals("Uninitialized")) {
-                        this.setState("0");
+                    if (jsonObject.getString("state").equals("NULL")) {
+                        this.setState(null);
                     } else {
                         this.setState(jsonObject.getString("state"));
                     }
@@ -97,6 +101,10 @@ public class OpenHABItem {
 	}
 	
 	public boolean getStateAsBoolean() {
+		// For uninitialized/null state return false
+		if (state == null) {
+			return false;
+		}
 		// If state is ON for switches return True
 		if (state.equals("ON")) {
 			return true;
@@ -114,10 +122,33 @@ public class OpenHABItem {
 	}
 	
 	public Float getStateAsFloat() {
+		// For uninitialized/null state return zero
+		if (state == null) {
+			return new Float(0);
+		}
+		if ("ON".equals(state)) {
+			return new Float(100);
+		}
+		if ("OFF".equals(state)) {
+			return new Float(0);
+		}
+		try {
+			Float result = Float.parseFloat(state);
+		} catch (NumberFormatException e) {
+			if (e != null) {
+				Crittercism.logHandledException(e);
+				Log.e(TAG, e.getMessage());
+			}
+
+		}
 		return Float.parseFloat(state);
 	}
 
 	public float[] getStateAsHSV() {
+		if (state == null) {
+			float[] result = {0, 0, 0};
+			return result;
+		}
 		String[] stateSplit = state.split(",");
 		if (stateSplit.length == 3) { // We need exactly 3 numbers to operate this
 			float[] result = {Float.parseFloat(stateSplit[0]), Float.parseFloat(stateSplit[1])/100, Float.parseFloat(stateSplit[2])/100};

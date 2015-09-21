@@ -83,7 +83,7 @@ public class OpenHABWidgetDataSource {
             JSONArray jsonWidgetArray = jsonObject.getJSONArray("widgets");
             for (int i=0; i<jsonWidgetArray.length(); i++) {
                 JSONObject widgetJson = jsonWidgetArray.getJSONObject(i);
-                Log.d(TAG, widgetJson.toString());
+                // Log.d(TAG, widgetJson.toString());
                 new OpenHABWidget(rootWidget, widgetJson);
             }
             if (jsonObject.has("title"))

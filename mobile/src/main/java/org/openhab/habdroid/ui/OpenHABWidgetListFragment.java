@@ -391,22 +391,22 @@ public class OpenHABWidgetListFragment extends ListFragment {
                 }
             }
 
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                for (int i = 0; i < headers.length; i++) {
-                    if (headers[i].getName().equalsIgnoreCase("X-Atmosphere-tracking-id")) {
-                        Log.i(TAG, "Found atmosphere tracking id: " + headers[i].getValue());
-                        OpenHABWidgetListFragment.this.mAtmosphereTrackingId = headers[i].getValue();
+                    @Override
+                    public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                        for (int i=0; i<headers.length; i++) {
+                            if (headers[i].getName().equalsIgnoreCase("X-Atmosphere-tracking-id")) {
+                                Log.i(TAG, "Found atmosphere tracking id: " + headers[i].getValue());
+                                OpenHABWidgetListFragment.this.mAtmosphereTrackingId = headers[i].getValue();
+                            }
+                        }
+                        if (!longPolling)
+                            stopProgressIndicator();
+                        String responseString = new String(responseBody);
+                        processContent(responseString, longPolling);
+                        // Log.d(TAG, responseString);
+                		mWearService.sendDataToWearable(pageUrl, responseString);
                     }
-                }
-                if (!longPolling)
-                    stopProgressIndicator();
-                String responseString = new String(responseBody);
-                processContent(responseString, longPolling);
-                mWearService.sendDataToWearable(pageUrl, responseString);
-                Log.d(TAG, responseString);
-            }
-        });
+                });
     }
 
 

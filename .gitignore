@@ -1,11 +1,21 @@
-+/out
-+*.class
-+*.iml
+# Java class files
+*.class
+
+# Android Studio
+*.iml
 .idea
-gen
-build
-mobile/build
-wear/build
-local.properties
+
+# Gradle files
 .gradle
+**/build/
+
+# Generated files
+gen/
+.gradle
+
+
+# Local configuration file (sdk path, etc)
+local.properties
+
+# Mac OSX clutter
 .DS_Store
