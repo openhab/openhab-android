@@ -21,12 +21,12 @@ public class WearBackgroundService extends Service {
     public WearBackgroundService() {
     }
 
-    @Override
+/*    @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.d(TAG, "onStartCommand");
         return START_STICKY;
     }
-
+*/
     @Override
     public IBinder onBind(Intent intent) {
         Log.d(TAG, "onBind");

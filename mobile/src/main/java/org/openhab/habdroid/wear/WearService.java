@@ -155,7 +155,7 @@ public class WearService implements GoogleApiClient.ConnectionCallbacks, Message
         Log.d(TAG, "Try to set sitemap in data api");
         try {
             PutDataMapRequest putDataMapRequest = PutDataMapRequest.create(SharedConstants.DataMapUrl.SITEMAP_BASE.value());
-            Log.d(TAG, "Sending sitemap to wearable:\nName: " + openHABSitemap.getName() + "\nLink: " + openHABSitemap.getHomepageLink());
+            Log.d(TAG, "Sending sitemap base to wearable:\nName: " + openHABSitemap.getName() + "\nLink: " + openHABSitemap.getHomepageLink());
             Log.d(TAG, "Sending to uri " + putDataMapRequest.getUri());
 
             putDataMapRequest.getDataMap().putString(SharedConstants.DataMapKey.SITEMAP_NAME.name(), openHABSitemap.getName());
@@ -177,8 +177,8 @@ public class WearService implements GoogleApiClient.ConnectionCallbacks, Message
             putDataMapRequest.getDataMap().putString(SharedConstants.DataMapKey.SITEMAP_XML.name(), responseString);
             putDataMapRequest.getDataMap().putString(SharedConstants.DataMapKey.SITEMAP_LINK.name(), pageUrl);
             putDataMapRequest.getDataMap().putLong("time", System.currentTimeMillis());
-            Log.d(TAG, "Sending to uri : " + putDataMapRequest.getUri());
-            Log.d(TAG, "Sending datamap: " + putDataMapRequest.getDataMap());
+            Log.d(TAG, "Sending sitemap details to uri : " + putDataMapRequest.getUri());
+            //Log.d(TAG, "Sending datamap: " + putDataMapRequest.getDataMap());
             PutDataRequest putDataRequest = putDataMapRequest.asPutDataRequest();
             Wearable.DataApi.putDataItem(mGoogleApiClient, putDataRequest);
         } catch (Exception e) {

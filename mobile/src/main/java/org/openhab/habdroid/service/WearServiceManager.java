@@ -54,7 +54,7 @@ public class WearServiceManager {
 
     private void internalStartService() {
         Log.d(TAG, "Start services");
-        mContext.startService(new Intent(mContext, WearBackgroundService.class));
+        //mContext.startService(new Intent(mContext, WearBackgroundService.class));
     }
 
     public static void bindServices(Context context) {
@@ -103,6 +103,7 @@ public class WearServiceManager {
     }
 
     private void setSitemapForWearableInternal(OpenHABSitemap openHABSitemap) {
+        Log.d(TAG, "Setting sitemap for wearable on service " + mWearBackgroundService);
         if (mWearBackgroundService != null) {
             mWearBackgroundService.setSitemapForWearable(openHABSitemap);
         }

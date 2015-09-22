@@ -194,7 +194,9 @@ public class MobileService implements GoogleApiClient.ConnectionCallbacks, DataA
             } else {
                 Log.e(TAG, "Got a null response from openHAB");
             }
+            Log.d(TAG, "Notifying clients " + clients);
             for (MobileServiceClient client : clients) {
+                Log.d(TAG, "Client is of type " + client.getClass().getSimpleName());
                 if (client instanceof MobileServiceWdigetListClient) {
                     ((MobileServiceWdigetListClient) client).onSitemapLoaded(widgetList, thisSitemapLink);
                 }
