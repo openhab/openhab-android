@@ -51,7 +51,9 @@ public class WearMainActivity extends Activity implements MobileServiceBaseClien
     @Override
     protected void onResume() {
         super.onResume();
+        Log.d(TAG, "OnResume");
         mMobileService.addClient(this);
+        mMobileService.getBaseSitemap();
     }
 
     @Override

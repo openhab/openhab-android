@@ -55,8 +55,10 @@ public class WidgetListActivity extends Activity implements WearableListView.Cli
                 Log.d(TAG, "Layout inflated");
                 mListView = (WearableListView) stub.findViewById(R.id.listView);
                 mListAdapter = new OpenHABWearWidgetAdapter(WidgetListActivity.this, mWidgetList);
-                mListView.setAdapter(mListAdapter);
-                mListView.setClickListener(WidgetListActivity.this);
+                if (mListView != null && mListAdapter != null) {
+                    mListView.setAdapter(mListAdapter);
+                    mListView.setClickListener(WidgetListActivity.this);
+                }
             }
         });
 
