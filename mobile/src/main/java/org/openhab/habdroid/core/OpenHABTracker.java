@@ -93,11 +93,11 @@ public class OpenHABTracker extends BroadcastReceiver implements AsyncServiceRes
     }
 
     public void start() {
+        Log.d(TAG, "Starting openHabTracker");
         // Get preferences
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(mCtx);
         mCtx.registerReceiver(this,
                 new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
-        checkActiveNetwork(settings);
     }
 
     private void checkActiveNetwork(SharedPreferences settings) {
@@ -115,8 +115,8 @@ public class OpenHABTracker extends BroadcastReceiver implements AsyncServiceRes
             } else {
                 // If we are on a mobile network go directly to remote URL from settings
                 if (activeNetworkInfo.getType() == ConnectivityManager.TYPE_MOBILE) {
-                    Log.d(TAG, "Connecting to remote URL " + mOpenHABUrl);
                     mOpenHABUrl = Util.normalizeUrl(settings.getString(Constants.PREFERENCE_ALTURL, ""));
+                    Log.d(TAG, "Connecting to remote URL " + mOpenHABUrl);
                     // If remote URL is configured
                     if (mOpenHABUrl.length() > 0) {
                         openHABTracked(mOpenHABUrl, mCtx.getString(R.string.info_conn_rem_url));
@@ -128,6 +128,7 @@ public class OpenHABTracker extends BroadcastReceiver implements AsyncServiceRes
                         || activeNetworkInfo.getType() == ConnectivityManager.TYPE_ETHERNET) {
                     // See if we have a local URL configured in settings
                     mOpenHABUrl = Util.normalizeUrl(settings.getString(Constants.PREFERENCE_URL, ""));
+                    Log.d(TAG, "Connecting to main URL: " + mOpenHABUrl);
                     // If local URL is configured
                     if (mOpenHABUrl.length() > 0) {
                         Log.d(TAG, "Connecting to directly configured URL = " + mOpenHABUrl);

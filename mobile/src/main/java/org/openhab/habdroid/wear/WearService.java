@@ -23,7 +23,6 @@ import org.apache.http.entity.StringEntity;
 import org.openhab.habdroid.model.OpenHABSitemap;
 import org.openhab.habdroid.util.MySyncHttpClient;
 import org.openhab.habdroid.util.SharedConstants;
-import org.openhab.habdroid.util.URLAware;
 
 import java.util.concurrent.TimeUnit;
 
@@ -32,7 +31,7 @@ import java.util.concurrent.TimeUnit;
  * <p/>
  * Created by tamon on 20.03.15.
  */
-public class WearService implements GoogleApiClient.ConnectionCallbacks, MessageApi.MessageListener, URLAware {
+public class WearService implements GoogleApiClient.ConnectionCallbacks, MessageApi.MessageListener {
 
     private static final String TAG = WearService.class.getSimpleName();
 
@@ -52,11 +51,6 @@ public class WearService implements GoogleApiClient.ConnectionCallbacks, Message
                     .build();
         }
         mContext = context;
-    }
-
-    @Override
-    public void urlChanged(String url) {
-        mOpenHABBaseUrl = url;
     }
 
     /**
@@ -201,6 +195,10 @@ public class WearService implements GoogleApiClient.ConnectionCallbacks, Message
         if (mGoogleApiClient.isConnected()) {
             mGoogleApiClient.disconnect();
         }
+    }
+
+    public void setOpenHabBaseUrl(String openHabBaseUrl) {
+        mOpenHABBaseUrl = openHabBaseUrl;
     }
 
     @Deprecated

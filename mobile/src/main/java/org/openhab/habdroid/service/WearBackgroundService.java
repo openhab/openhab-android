@@ -23,6 +23,7 @@ public class WearBackgroundService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        Log.d(TAG, "onStartCommand");
         return START_STICKY;
     }
 
@@ -30,13 +31,16 @@ public class WearBackgroundService extends Service {
     public IBinder onBind(Intent intent) {
         Log.d(TAG, "onBind");
         mWearService = new WearService(getApplicationContext());
-        ServiceManager.addUrlCallback(mWearService);
         mWearService.connect();
         return mBinder;
     }
 
     public void setSitemapForWearable(OpenHABSitemap openHABSitemap) {
         mWearService.setSitemapForWearable(openHABSitemap);
+    }
+
+    public void setOpenHabBaseUrl(String openHabBaseUrl) {
+        mWearService.setOpenHabBaseUrl(openHabBaseUrl);
     }
 
     /**
