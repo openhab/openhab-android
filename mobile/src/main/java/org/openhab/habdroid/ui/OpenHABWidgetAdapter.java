@@ -554,7 +554,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     			webLayoutParams.height = openHABWidget.getHeight() * 80;
     			webWeb.setLayoutParams(webLayoutParams);
     		}
-    		webWeb.setWebViewClient(new AnchorWebViewClient(openHABWidget.getUrl()));
+    		webWeb.setWebViewClient(new AnchorWebViewClient(openHABWidget.getUrl(), this.openHABUsername, this.openHABPassword));
             webWeb.getSettings().setJavaScriptEnabled(true);
     		webWeb.loadUrl(openHABWidget.getUrl());
     	break;
