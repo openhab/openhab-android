@@ -13,10 +13,7 @@
 
 package org.openhab.habdroid.core;
 
-import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -44,9 +41,10 @@ import javax.jmdns.ServiceInfo;
  * change openHAB connectivity URL during app use if needed
  *
  * @author Victor Belov
+ *
  */
 
-public class OpenHABTracker extends BroadcastReceiver implements AsyncServiceResolverListener {
+public class OpenHABTracker implements AsyncServiceResolverListener {
     private final static String TAG = "OpenHABTracker";
     // Context in which openhabtracker is working
     Context mCtx;
@@ -60,50 +58,34 @@ public class OpenHABTracker extends BroadcastReceiver implements AsyncServiceRes
     AsyncServiceResolver mServiceResolver;
     // Bonjour openHAB service type
     String mOpenHABServiceType;
+    // Receiver for connectivity tracking
+    ConnectivityChangeReceiver mConnectivityChangeReceiver;
 
     public OpenHABTracker(Context ctx, String serviceType, boolean discoveryEnabled) {
         mCtx = ctx;
         mDiscoveryEnabled = discoveryEnabled;
         // If context is implementing our callback interface, set it as a receiver automatically
         if (ctx instanceof OpenHABTrackerReceiver) {
-            mReceiver = (OpenHABTrackerReceiver) ctx;
+            mReceiver = (OpenHABTrackerReceiver)ctx;
         }
         // openHAB Bonjour service type
         mOpenHABServiceType = serviceType;
+        // Create and register receiver for connectivity changes tracking
+        mConnectivityChangeReceiver = new ConnectivityChangeReceiver();
     }
 
     /*
         This method engages tracker to start discovery process
      */
 
-    public static int getCurrentNetworkConnectivityType(Context ctx) {
-        ConnectivityManager connectivityManager = (ConnectivityManager) ctx.getSystemService(
-                Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-        if (activeNetworkInfo != null) {
-            return activeNetworkInfo.getType();
-        }
-        return -1;
-    }
-
-    @Override
-    public void onReceive(Context context, Intent intent) {
-        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(mCtx);
-        checkActiveNetwork(settings);
-    }
-
     public void start() {
-        Log.d(TAG, "Starting openHabTracker");
         // Get preferences
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(mCtx);
-        mCtx.registerReceiver(this,
-                new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
-    }
-
-    private void checkActiveNetwork(SharedPreferences settings) {
+//        mCtx.registerReceiver(mConnectivityChangeReceiver,
+//                new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
         // If demo mode is on, just go for demo server base URL ignoring other settings
         // Get current network information
-        ConnectivityManager connectivityManager = (ConnectivityManager) mCtx.getSystemService(
+        ConnectivityManager connectivityManager = (ConnectivityManager)mCtx.getSystemService(
                 Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         if (activeNetworkInfo != null) {
@@ -116,24 +98,23 @@ public class OpenHABTracker extends BroadcastReceiver implements AsyncServiceRes
                 // If we are on a mobile network go directly to remote URL from settings
                 if (activeNetworkInfo.getType() == ConnectivityManager.TYPE_MOBILE) {
                     mOpenHABUrl = Util.normalizeUrl(settings.getString(Constants.PREFERENCE_ALTURL, ""));
-                    Log.d(TAG, "Connecting to remote URL " + mOpenHABUrl);
                     // If remote URL is configured
                     if (mOpenHABUrl.length() > 0) {
+                        Log.d(TAG, "Connecting to remote URL " + mOpenHABUrl);
                         openHABTracked(mOpenHABUrl, mCtx.getString(R.string.info_conn_rem_url));
                     } else {
                         openHABError(mCtx.getString(R.string.error_no_url));
                     }
-                    // Else if we are on Wifi or Ethernet network
+                // Else if we are on Wifi or Ethernet network
                 } else if (activeNetworkInfo.getType() == ConnectivityManager.TYPE_WIFI
                         || activeNetworkInfo.getType() == ConnectivityManager.TYPE_ETHERNET) {
                     // See if we have a local URL configured in settings
                     mOpenHABUrl = Util.normalizeUrl(settings.getString(Constants.PREFERENCE_URL, ""));
-                    Log.d(TAG, "Connecting to main URL: " + mOpenHABUrl);
                     // If local URL is configured
                     if (mOpenHABUrl.length() > 0) {
-                        Log.d(TAG, "Connecting to directly configured URL = " + mOpenHABUrl);
                         // Check if configured local URL is reachable
                         if (checkUrlReachability(mOpenHABUrl)) {
+                            Log.d(TAG, "Connecting to directly configured URL = " + mOpenHABUrl);
                             openHABTracked(mOpenHABUrl, mCtx.getString(R.string.info_conn_url));
                             return;
                             // If local URL is not reachable go with remote URL
@@ -147,14 +128,14 @@ public class OpenHABTracker extends BroadcastReceiver implements AsyncServiceRes
                                 openHABError(mCtx.getString(R.string.error_no_url));
                             }
                         }
-                        // If no local URL is configured
+                    // If no local URL is configured
                     } else {
                         // Start service discovery
                         mServiceResolver = new AsyncServiceResolver(mCtx, this, mOpenHABServiceType);
                         bonjourDiscoveryStarted();
                         mServiceResolver.start();
                     }
-                    // Else we treat other networks types as unsupported
+                // Else we treat other networks types as unsupported
                 } else {
                     Log.e(TAG, "Network type (" + activeNetworkInfo.getTypeName() + ") is unsupported");
                     openHABError("Network type (" + activeNetworkInfo.getTypeName() + ") is unsupported");
@@ -168,7 +149,7 @@ public class OpenHABTracker extends BroadcastReceiver implements AsyncServiceRes
 
     public void stop() {
         try {
-            mCtx.unregisterReceiver(this);
+            mCtx.unregisterReceiver(mConnectivityChangeReceiver);
         } catch (RuntimeException e) {
             Log.d(TAG, e.getMessage());
         }
@@ -196,6 +177,16 @@ public class OpenHABTracker extends BroadcastReceiver implements AsyncServiceRes
         } else {
             openHABError(mCtx.getString(R.string.error_no_url));
         }
+    }
+
+    public static int getCurrentNetworkConnectivityType(Context ctx) {
+        ConnectivityManager connectivityManager = (ConnectivityManager)ctx.getSystemService(
+                Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        if (activeNetworkInfo != null) {
+            return activeNetworkInfo.getType();
+        }
+        return -1;
     }
 
     private boolean checkUrlReachability(String urlString) {

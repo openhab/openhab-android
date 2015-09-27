@@ -72,7 +72,6 @@
             android:name=".core.OpenHABVoiceService"
             android:exported="false">
         </service>
-        <service android:name=".service.WearBackgroundService" />
         <receiver
             android:name="org.openhab.habdroid.core.GcmBroadcastReceiver"
             android:permission="com.google.android.c2dm.permission.SEND">
