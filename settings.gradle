@@ -1,1 +1,1 @@
-include ':mobile', ':wear', ':habdroidshared'
+include ':mobile', ':wear'

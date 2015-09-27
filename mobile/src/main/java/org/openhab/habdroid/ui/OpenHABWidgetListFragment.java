@@ -28,11 +28,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.google.android.gms.common.api.PendingResult;
-import com.google.android.gms.wearable.DataApi;
-import com.google.android.gms.wearable.PutDataMapRequest;
-import com.google.android.gms.wearable.PutDataRequest;
-import com.google.android.gms.wearable.Wearable;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestHandle;
@@ -46,9 +41,7 @@ import org.openhab.habdroid.model.OpenHABItem;
 import org.openhab.habdroid.model.OpenHABNFCActionList;
 import org.openhab.habdroid.model.OpenHABWidget;
 import org.openhab.habdroid.model.OpenHABWidgetDataSource;
-import org.openhab.habdroid.util.SharedConstants;
 import org.openhab.habdroid.util.Util;
-import org.openhab.habdroid.wear.WearService;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
@@ -113,7 +106,6 @@ public class OpenHABWidgetListFragment extends ListFragment {
     private Runnable networkRunnable;
     // keeps track of current request to cancel it in onPause
     private RequestHandle mRequestHandle;
-    private WearService mWearService;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -143,8 +135,6 @@ public class OpenHABWidgetListFragment extends ListFragment {
         if (savedInstanceState != null)
             if (!displayPageUrl.equals(savedInstanceState.getString("displayPageUrl")))
                 mCurrentSelectedItem = -1;
-        mWearService = new WearService(mActivity.getApplicationContext());
-        mWearService.connect();
     }
 
     @Override
@@ -152,7 +142,7 @@ public class OpenHABWidgetListFragment extends ListFragment {
         super.onActivityCreated(savedInstanceState);
         Log.d(TAG, "onActivityCreated()");
         Log.d(TAG, "isAdded = " + isAdded());
-        mActivity = (OpenHABMainActivity) getActivity();
+        mActivity = (OpenHABMainActivity)getActivity();
         openHABWidgetDataSource = new OpenHABWidgetDataSource();
         openHABWidgetAdapter = new OpenHABWidgetAdapter(getActivity(),
                 R.layout.openhabwidgetlist_genericitem, widgetList);
@@ -236,8 +226,8 @@ public class OpenHABWidgetListFragment extends ListFragment {
         Log.d(TAG, "onAttach()");
         Log.d(TAG, "isAdded = " + isAdded());
         if (activity instanceof OnWidgetSelectedListener) {
-            widgetSelectedListener = (OnWidgetSelectedListener) activity;
-            mActivity = (OpenHABMainActivity) activity;
+            widgetSelectedListener = (OnWidgetSelectedListener)activity;
+            mActivity = (OpenHABMainActivity)activity;
             mAsyncHttpClient = mActivity.getAsyncHttpClient();
         } else {
             Log.e("TAG", "Attached to incompatible activity");
@@ -261,13 +251,13 @@ public class OpenHABWidgetListFragment extends ListFragment {
     }
 
     @Override
-    public void onPause() {
+    public void onPause () {
         super.onPause();
         Log.d(TAG, "onPause() " + displayPageUrl);
         Log.d(TAG, "isAdded = " + isAdded());
         // We only have 1 request running per fragment so
         // cancel it if we have it
-        Thread thread = new Thread(new Runnable() {
+        Thread thread = new Thread(new Runnable(){
             @Override
             public void run(){
                 if (mRequestHandle != null) {
@@ -280,13 +270,12 @@ public class OpenHABWidgetListFragment extends ListFragment {
             openHABWidgetAdapter.stopImageRefresh();
             openHABWidgetAdapter.stopVideoWidgets();
         }
-        if (isAdded()) {
+        if (isAdded())
             mCurrentSelectedItem = getListView().getCheckedItemPosition();
-        }
     }
 
     @Override
-    public void onResume() {
+    public void onResume () {
         super.onResume();
         Log.d(TAG, "onResume() " + displayPageUrl);
         Log.d(TAG, "isAdded = " + isAdded());
@@ -310,7 +299,7 @@ public class OpenHABWidgetListFragment extends ListFragment {
     }
 
     @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
+    public void setUserVisibleHint (boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         mIsVisible = isVisibleToUser;
         Log.d(TAG, String.format("isVisibleToUser(%B)", isVisibleToUser));
@@ -334,11 +323,11 @@ public class OpenHABWidgetListFragment extends ListFragment {
     /**
      * Loads data from sitemap page URL and passes it to processContent
      *
-     * @param pageUrl     an absolute base URL of openHAB sitemap page
-     * @param longPolling enable long polling when loading page
-     * @return void
+     * @param  pageUrl  an absolute base URL of openHAB sitemap page
+     * @param  longPolling  enable long polling when loading page
+     * @return      void
      */
-    public void showPage(final String pageUrl, final boolean longPolling) {
+    public void showPage(String pageUrl, final boolean longPolling) {
         Log.i(TAG, " showPage for " + pageUrl + " longPolling = " + longPolling);
         Log.d(TAG, "isAdded = " + isAdded());
         // Cancel any existing http request to openHAB (typically ongoing long poll)
@@ -377,19 +366,19 @@ public class OpenHABWidgetListFragment extends ListFragment {
                     * If we get a network error try connecting again, if the
                     * fragment is paused, the runnable will be removed
                     */
-                    Log.e(TAG, error.getClass().toString());
-                    Log.e(TAG, String.format("status code = %d", statusCode));
-                    Log.e(TAG, "Connection error = " + error.getClass().toString() + ", cycle aborted");
+                            Log.e(TAG, error.getClass().toString());
+                            Log.e(TAG, String.format("status code = %d", statusCode));
+                            Log.e(TAG, "Connection error = " + error.getClass().toString() + ", cycle aborted");
 //                            networkHandler.removeCallbacks(networkRunnable);
 //                            networkRunnable =  new Runnable(){
 //                                @Override
 //                                public void run(){
-                    showPage(displayPageUrl, false);
+                                    showPage(displayPageUrl, false);
 //                                }
 //                            };
 //                            networkHandler.postDelayed(networkRunnable, 10 * 1000);
-                }
-            }
+                        }
+                    }
 
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
@@ -404,18 +393,15 @@ public class OpenHABWidgetListFragment extends ListFragment {
                         String responseString = new String(responseBody);
                         processContent(responseString, longPolling);
                         // Log.d(TAG, responseString);
-                		mWearService.sendDataToWearable(pageUrl, responseString);
                     }
                 });
     }
 
-
-
     /**
      * Parse XML sitemap page and show it
      *
-     * @param responseString XML Document
-     * @return void
+     * @param document  XML Document
+     * @return      void
      */
     public void processContent(String responseString, boolean longPolling) {
         // As we change the page we need to stop all videos on current page
@@ -425,7 +411,6 @@ public class OpenHABWidgetListFragment extends ListFragment {
         Log.d(TAG, "isAdded = " + isAdded());
         openHABWidgetAdapter.stopVideoWidgets();
         openHABWidgetAdapter.stopImageRefresh();
-
         // If openHAB verion = 1 get page from XML
         if (mActivity.getOpenHABVersion() == 1) {
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
@@ -518,13 +503,13 @@ public class OpenHABWidgetListFragment extends ListFragment {
     private void stopProgressIndicator() {
         if (mActivity != null)
             Log.d(TAG, "Stop progress indicator");
-        mActivity.stopProgressIndicator();
+            mActivity.stopProgressIndicator();
     }
 
     private void startProgressIndicator() {
         if (mActivity != null)
             Log.d(TAG, "Start progress indicator");
-        mActivity.startProgressIndicator();
+            mActivity.startProgressIndicator();
     }
 
     private void showAlertDialog(String alertMessage) {
