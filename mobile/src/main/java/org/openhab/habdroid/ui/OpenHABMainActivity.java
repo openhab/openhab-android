@@ -160,7 +160,6 @@ public class OpenHABMainActivity extends ActionBarActivity implements OnWidgetSe
     private OpenHABDrawerAdapter mDrawerAdapter;
     private ListView mDrawerList;
     private ArrayList<OpenHABSitemap> mSitemapList;
-    private boolean supportsKitKat = false;
     private NetworkConnectivityInfo mStartedWithNetworkConnectivityInfo;
     private int mOpenHABVersion;
     private List<OpenHABDrawerItem> mDrawerItemList;
@@ -325,14 +324,7 @@ public class OpenHABMainActivity extends ActionBarActivity implements OnWidgetSe
             }
         }
 
-        /**
-         * If we are 4.4 we can use fullscreen mode and Daydream features
-         */
-        supportsKitKat = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
-
-        boolean fullScreen = mSettings.getBoolean("default_openhab_fullscreen", false);
-
-        if (supportsKitKat && fullScreen) {
+        if (isFullscreenEnabled()) {
             registerReceiver(dreamReceiver, new IntentFilter("android.intent.action.DREAMING_STARTED"));
             registerReceiver(dreamReceiver, new IntentFilter("android.intent.action.DREAMING_STOPPED"));
             checkFullscreen();
@@ -769,6 +761,15 @@ public class OpenHABMainActivity extends ActionBarActivity implements OnWidgetSe
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+
+        /**
+         * if we are in fullscreen, override this for navigation
+         */
+        if(isFullscreenEnabled() && item.getItemId() == android.R.id.home){
+            onBackPressed();
+            return false;
+        }
+
         if (mDrawerToggle.onOptionsItemSelected(item)) {
             return true;
         }
@@ -1010,7 +1011,10 @@ public class OpenHABMainActivity extends ActionBarActivity implements OnWidgetSe
     public void onBackPressed() {
         Log.d(TAG, String.format("onBackPressed() I'm at the %d page", pager.getCurrentItem()));
         if (pager.getCurrentItem() == 0) {
-            super.onBackPressed();
+            //in fullscreen don't continue back which would exit the app
+            if(!isFullscreenEnabled()) {
+                super.onBackPressed();
+            }
         } else {
             pager.setCurrentItem(pager.getCurrentItem() - 1, true);
             setTitle(pagerAdapter.getPageTitle(pager.getCurrentItem()));
@@ -1262,7 +1266,7 @@ public class OpenHABMainActivity extends ActionBarActivity implements OnWidgetSe
      * @author Dan Cunningham
      */
     protected void checkFullscreen() {
-        if (supportsKitKat && mSettings.getBoolean("default_openhab_fullscreen", false)) {
+        if (isFullscreenEnabled()) {
             int uiOptions = getWindow().getDecorView().getSystemUiVisibility();
             uiOptions |= View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
             uiOptions |= View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
@@ -1270,6 +1274,16 @@ public class OpenHABMainActivity extends ActionBarActivity implements OnWidgetSe
             getWindow().getDecorView().setSystemUiVisibility(uiOptions);
         }
     }
+
+    /**
+     * If we are 4.4 we can use fullscreen mode and Daydream features
+     */
+    protected boolean isFullscreenEnabled(){
+        boolean supportsKitKat = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
+        boolean fullScreen = mSettings.getBoolean("default_openhab_fullscreen", false);
+        return supportsKitKat && fullScreen;
+    }
+
 
     private void loadDrawerItems() {
         mDrawerItemList.clear();
