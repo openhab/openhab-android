@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="48dp"
+    android:minHeight="48dp"
+    android:paddingLeft="@dimen/widgetlist_item_left_margin"
+    android:paddingRight="@dimen/widgetlist_item_right_margin"
+    android:gravity="center_vertical"
+    android:layout_gravity="center_vertical">
+    <org.openhab.habdroid.util.MySmartImageView
+        android:layout_width="32dp"
+        android:layout_height="match_parent"
+        android:id="@+id/itemimage"
+        android:layout_gravity="center_vertical"
+        android:minHeight="32dp"
+        android:minWidth="32dp"
+        android:maxHeight="32dp"
+        android:maxWidth="32dp"
+        android:scaleType="fitCenter"
+        android:layout_marginLeft="20dp"
+        android:adjustViewBounds="true"
+        />
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_toRightOf="@+id/itemimage"
+        android:layout_marginLeft="20dp"
+        android:layout_centerVertical="true"
+        android:gravity="center_vertical">
+        <TextView android:id="@+id/itemlabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:layout_gravity="center_vertical"
+            android:text="Main menu"
+            />
+    </LinearLayout>
+</RelativeLayout>

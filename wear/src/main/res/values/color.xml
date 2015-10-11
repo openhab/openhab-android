@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="text_color">#FFF</color>
+    <color name="wl_gray">#666</color>
+    <color name="light_gray">#D4D4D4</color>
+    <color name="cancel_blue">#2878ff</color>
+    <color name="lightblue">#A9EBEE</color>
+    <color name="cancleCircleBLue">#89BEDB</color>
+    <color name="upTriangleYellow">#DBDB89</color>
+    <color name="downTriangleGreen">#89DBB5</color>
+</resources>

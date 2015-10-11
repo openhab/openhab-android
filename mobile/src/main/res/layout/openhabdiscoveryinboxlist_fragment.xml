@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.SwipeRefreshLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/swipe_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
+        <ListView android:id="@id/android:list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:drawSelectorOnTop="false"
+            android:footerDividersEnabled="false"
+            android:headerDividersEnabled="false"
+            android:divider="#00000000"
+            android:dividerHeight="0dip"
+            android:scrollbarStyle="outsideOverlay"
+            />
+        <com.software.shell.fab.ActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/discovery_button"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="24dp"
+            android:layout_marginRight="24dp"
+            fab:image="@drawable/ic_action_add"
+            fab:button_color="?attr/colorPrimary"
+            fab:button_colorPressed="?attr/colorPrimary"
+            />
+        <TextView
+            android:id="@+id/empty_inbox_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="@string/app_discoveryinbox_nothings"
+            android:visibility="gone"
+            android:gravity="center_vertical|center"
+            />
+    </RelativeLayout>
+</android.support.v4.widget.SwipeRefreshLayout>
