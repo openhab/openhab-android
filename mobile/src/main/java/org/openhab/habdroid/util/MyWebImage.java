@@ -191,7 +191,7 @@ public class MyWebImage implements SmartImage {
     public void setAuthentication(String username, String password) {
     	this.authUsername = username;
     	this.authPassword = password;
-    	if (this.authUsername.length() > 0 && this.authPassword.length() > 0)
+    	if (this.authUsername != null && (this.authUsername.length() > 0 && this.authPassword.length() > 0))
     		this.shouldAuth = true;
     }
 }

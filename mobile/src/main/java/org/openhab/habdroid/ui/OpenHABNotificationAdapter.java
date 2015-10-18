@@ -45,7 +45,7 @@ public class OpenHABNotificationAdapter extends ArrayAdapter<OpenHABNotification
                 imageView.setImageUrl(iconUrl, R.drawable.openhabiconsmall,
                         mOpenHABUsername, mOpenHABPassword);
             } else {
-                imageView.setImageDrawable(getContext().getResources().getDrawable(R.drawable.openhabicon_light));
+                imageView.setImageDrawable(getContext().getResources().getDrawable(R.drawable.openhab));
             }
         }
         createdView.setText(DateUtils.getRelativeDateTimeString(this.getContext(), notification.getCreated().getTime(), DateUtils.MINUTE_IN_MILLIS, DateUtils.WEEK_IN_MILLIS, 0));
