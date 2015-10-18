@@ -126,15 +126,18 @@ public class SegmentedControlButton extends RadioButton {
         this.setOnTouchListener(new OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
+                Log.d("SegmentedControlButton", motionEvent.toString());
                 if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
-                    Log.i("SegmentedControlButton", "Button released");
+                    Log.d("SegmentedControlButton", "Button released");
                     if (!isChecked())
                         SegmentedControlButton.this.setBackgroundDrawable(backgroundUnselected);
-                } else if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
-                    Log.i("SegmentedControlButton", "Button pressed");
-                    SegmentedControlButton.this.setBackgroundDrawable(backgroundSelected);
                     if (mOnClickListener != null)
                         mOnClickListener.onClick(SegmentedControlButton.this);
+                } else if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+                    Log.d("SegmentedControlButton", "Button pressed");
+                    SegmentedControlButton.this.setBackgroundDrawable(backgroundSelected);
+                } else if (motionEvent.getAction() == MotionEvent.ACTION_CANCEL) {
+                    SegmentedControlButton.this.setBackgroundDrawable(backgroundUnselected);
                 }
                 return true;
             }
