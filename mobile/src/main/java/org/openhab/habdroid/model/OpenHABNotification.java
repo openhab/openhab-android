@@ -11,6 +11,7 @@ import org.json.JSONObject;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.TimeZone;
 
 public class OpenHABNotification {
     private String mMessage;
@@ -27,6 +28,7 @@ public class OpenHABNotification {
                 this.setMessage(jsonObject.getString("message"));
             if (jsonObject.has("created")) {
                 SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.S'Z'");
+                format.setTimeZone(TimeZone.getTimeZone("UTC"));
                 this.setCreated(format.parse(jsonObject.getString("created")));
             }
         } catch (JSONException e) {
