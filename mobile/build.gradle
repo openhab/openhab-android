@@ -8,6 +8,7 @@ android {
         applicationId "org.openhab.habdroid"
         minSdkVersion 15
         targetSdkVersion 21
+        multiDexEnabled = true
     }
     buildTypes {
         release {
@@ -38,4 +39,5 @@ dependencies {
     compile 'com.loopj:android-smart-image-view:1.0.0'
     compile 'com.google.code.gson:gson:2.3.1'
     compile 'com.github.shell-software:fab:1.1.0'
+    compile 'com.android.support:multidex:1.0.1'
 }
