@@ -412,14 +412,37 @@ public class OpenHABWidgetListFragment extends ListFragment {
         openHABWidgetAdapter.stopVideoWidgets();
         openHABWidgetAdapter.stopImageRefresh();
         // If openHAB verion = 1 get page from XML
-        if (mActivity.getOpenHABVersion() == 1) {
-            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-            try {
-                DocumentBuilder builder = dbf.newDocumentBuilder();
-                Document document = builder.parse(new InputSource(new StringReader(responseString)));
-                if (document != null) {
-                    Node rootNode = document.getFirstChild();
-                    openHABWidgetDataSource.setSourceNode(rootNode);
+        if (responseString != null && responseString.length() > 0) {
+            if (mActivity.getOpenHABVersion() == 1) {
+                DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+                try {
+                    DocumentBuilder builder = dbf.newDocumentBuilder();
+                    Document document = builder.parse(new InputSource(new StringReader(responseString)));
+                    if (document != null) {
+                        Node rootNode = document.getFirstChild();
+                        openHABWidgetDataSource.setSourceNode(rootNode);
+                        widgetList.clear();
+                        for (OpenHABWidget w : openHABWidgetDataSource.getWidgets()) {
+                            // Remove frame widgets with no label text
+                            if (w.getType().equals("Frame") && TextUtils.isEmpty(w.getLabel()))
+                                continue;
+                            widgetList.add(w);
+                        }
+                    } else {
+                        Log.e(TAG, "Got a null response from openHAB");
+                        showPage(displayPageUrl, false);
+                    }
+                } catch (ParserConfigurationException | SAXException e) {
+                    Log.d(TAG, "responseString:\n" + String.valueOf(responseString));
+                    Log.e(TAG, e.getMessage(), e);
+                } catch (IOException e) {
+                    Log.e(TAG, e.getMessage(), e);
+                }
+                // Later versions work with JSON
+            } else {
+                try {
+                    JSONObject pageJson = new JSONObject(responseString);
+                    openHABWidgetDataSource.setSourceJson(pageJson);
                     widgetList.clear();
                     for (OpenHABWidget w : openHABWidgetDataSource.getWidgets()) {
                         // Remove frame widgets with no label text
@@ -427,34 +450,11 @@ public class OpenHABWidgetListFragment extends ListFragment {
                             continue;
                         widgetList.add(w);
                     }
-                } else {
-                    Log.e(TAG, "Got a null response from openHAB");
-                    showPage(displayPageUrl, false);
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
-            } catch (ParserConfigurationException e) {
-                e.printStackTrace();
-            } catch (SAXException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            // Later versions work with JSON
-        } else {
-            try {
-                JSONObject pageJson = new JSONObject(responseString);
-                openHABWidgetDataSource.setSourceJson(pageJson);
-                widgetList.clear();
-                for (OpenHABWidget w : openHABWidgetDataSource.getWidgets()) {
-                    // Remove frame widgets with no label text
-                    if (w.getType().equals("Frame") && TextUtils.isEmpty(w.getLabel()))
-                        continue;
-                    widgetList.add(w);
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
             }
         }
-
         openHABWidgetAdapter.notifyDataSetChanged();
         if (!longPolling && isAdded()) {
             getListView().clearChoices();
