@@ -1,19 +1,15 @@
-/**
- * Copyright (c) 2010-2014, openHAB.org and others.
+/*
+ * Copyright (c) 2010-2016, openHAB.org and others.
  *
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- *  @author Victor Belov
- *  @since 1.4.0
- *
+ *   All rights reserved. This program and the accompanying materials
+ *   are made available under the terms of the Eclipse Public License v1.0
+ *   which accompanies this distribution, and is available at
+ *   http://www.eclipse.org/legal/epl-v10.html
  */
 
 package org.openhab.habdroid.ui;
 
-import android.app.Activity;
+
 import android.app.Dialog;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -33,7 +29,7 @@ import org.openhab.habdroid.util.Util;
 
 public class OpenHABInfoFragment extends DialogFragment {
 
-    private static final String TAG = "OpenHABInfoFragment";
+    private static final String TAG = "OpenHABInfoActivity";
     private TextView mOpenHABVersionText;
     private TextView mOpenHABUUIDText;
     private TextView mOpenHABSecretText;
@@ -67,7 +63,6 @@ public class OpenHABInfoFragment extends DialogFragment {
             Log.e(TAG, "No openHABBaseURl parameter passed, can't fetch openHAB info from nowhere");
 
         }
-
 
 
         return view;

@@ -1,14 +1,10 @@
-/**
- * Copyright (c) 2010-2014, openHAB.org and others.
+/*
+ * Copyright (c) 2010-2016, openHAB.org and others.
  *
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- *  @author Victor Belov
- *  @since 1.4.0
- *
+ *   All rights reserved. This program and the accompanying materials
+ *   are made available under the terms of the Eclipse Public License v1.0
+ *   which accompanies this distribution, and is available at
+ *   http://www.eclipse.org/legal/epl-v10.html
  */
 
 package org.openhab.habdroid.ui.widget;
@@ -138,7 +134,7 @@ public class ColorPicker extends View {
 	 * {@code true} if the user clicked on the brightness pointer to start the move mode. {@code false} once
 	 * the user stops touching the screen.
 	 *
-	 * @see #inTouchEvent( android.view.MotionEvent )
+	 * @see ( android.view.MotionEvent )
 	 */
 	private boolean mUserIsMovingBrightnessPointer = false;
 
@@ -146,7 +142,7 @@ public class ColorPicker extends View {
 	 * {@code true} if the user clicked on the brightness pointer to start the move mode. {@code false} once
 	 * the user stops touching the screen.
 	 *
-	 * @see #inTouchEvent( android.view.MotionEvent )
+	 * @see ( android.view.MotionEvent )
 	 */
 	private boolean mUserIsMovingSaturationPointer = false;
 

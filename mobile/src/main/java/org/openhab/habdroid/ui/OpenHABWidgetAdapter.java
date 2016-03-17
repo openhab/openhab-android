@@ -1,14 +1,10 @@
-/**
- * Copyright (c) 2010-2014, openHAB.org and others.
+/*
+ * Copyright (c) 2010-2016, openHAB.org and others.
  *
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- *  @author Victor Belov
- *  @since 1.4.0
- *
+ *   All rights reserved. This program and the accompanying materials
+ *   are made available under the terms of the Eclipse Public License v1.0
+ *   which accompanies this distribution, and is available at
+ *   http://www.eclipse.org/legal/epl-v10.html
  */
 
 package org.openhab.habdroid.ui;
@@ -486,6 +482,8 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
    		break;
     	case TYPE_CHART:
     		MySmartImageView chartImage = (MySmartImageView)widgetView.findViewById(R.id.chartimage);
+    		//Always clear the drawable so no images from recycled views appear
+    		chartImage.setImageDrawable(null);
     		OpenHABItem chartItem = openHABWidget.getItem();
     		Random random = new Random();
     		String chartUrl = "";

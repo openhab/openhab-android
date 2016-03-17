@@ -1,14 +1,10 @@
-/**
- * Copyright (c) 2010-2014, openHAB.org and others.
+/*
+ * Copyright (c) 2010-2016, openHAB.org and others.
  *
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- *  @author Victor Belov
- *  @since 1.4.0
- *
+ *   All rights reserved. This program and the accompanying materials
+ *   are made available under the terms of the Eclipse Public License v1.0
+ *   which accompanies this distribution, and is available at
+ *   http://www.eclipse.org/legal/epl-v10.html
  */
 
 package org.openhab.habdroid.ui;
@@ -400,15 +396,25 @@ public class OpenHABWidgetListFragment extends ListFragment {
     /**
      * Parse XML sitemap page and show it
      *
-     * @param document  XML Document
+     *
      * @return      void
      */
     public void processContent(String responseString, boolean longPolling) {
+
+        Log.d(TAG, "processContent() " + this.displayPageUrl);
+        Log.d(TAG, "isAdded = " + isAdded());
+        Log.d(TAG, "responseString.length() = " + (responseString != null ? responseString.length()  : -1));
+
+        // We can receive empty response, probably when no items was changed
+        // so we needn't process it
+        if (responseString == null || responseString.length() == 0) {
+            showPage(displayPageUrl, true);
+            return;
+        }
+
         // As we change the page we need to stop all videos on current page
         // before going to the new page. This is quite dirty, but is the only
         // way to do that...
-        Log.d(TAG, "processContent() " + this.displayPageUrl);
-        Log.d(TAG, "isAdded = " + isAdded());
         openHABWidgetAdapter.stopVideoWidgets();
         openHABWidgetAdapter.stopImageRefresh();
         // If openHAB verion = 1 get page from XML
@@ -431,12 +437,9 @@ public class OpenHABWidgetListFragment extends ListFragment {
                     Log.e(TAG, "Got a null response from openHAB");
                     showPage(displayPageUrl, false);
                 }
-            } catch (ParserConfigurationException e) {
-                e.printStackTrace();
-            } catch (SAXException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
+            } catch (ParserConfigurationException | SAXException | IOException e) {
+                    Log.d(TAG, "responseString:\n" + String.valueOf(responseString));
+                    Log.e(TAG, e.getMessage(), e);
             }
             // Later versions work with JSON
         } else {
