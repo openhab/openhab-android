@@ -14,9 +14,13 @@
 package org.openhab.habdroid.ui;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -27,9 +31,9 @@ import org.openhab.habdroid.R;
 import org.openhab.habdroid.util.MyAsyncHttpClient;
 import org.openhab.habdroid.util.Util;
 
-public class OpenHABInfoActivity extends Activity {
+public class OpenHABInfoFragment extends DialogFragment {
 
-    private static final String TAG = "OpenHABInfoActivity";
+    private static final String TAG = "OpenHABInfoFragment";
     private TextView mOpenHABVersionText;
     private TextView mOpenHABUUIDText;
     private TextView mOpenHABSecretText;
@@ -39,27 +43,48 @@ public class OpenHABInfoActivity extends Activity {
     private String mPassword;
     private static MyAsyncHttpClient mAsyncHttpClient;
 
+
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        Log.d(TAG, "onCreate()");
-        Util.setActivityTheme(this);
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.openhabinfo);
-        mAsyncHttpClient = new MyAsyncHttpClient(this);
-        mOpenHABVersionText = (TextView)findViewById(R.id.openhab_version);
-        mOpenHABUUIDText = (TextView)findViewById(R.id.openhab_uuid);
-        mOpenHABSecretText = (TextView)findViewById(R.id.openhab_secret);
-        mOpenHABSecretLabel = (TextView)findViewById(R.id.openhab_secret_label);
-        if (getIntent().hasExtra("openHABBaseUrl")) {
-            mOpenHABBaseUrl = getIntent().getStringExtra("openHABBaseUrl");
-            mUsername = getIntent().getStringExtra("username");
-            mPassword = getIntent().getStringExtra("password");
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.openhabinfo, container);
+        mAsyncHttpClient = new MyAsyncHttpClient(getActivity().getApplicationContext());
+        mOpenHABVersionText = (TextView)view.findViewById(R.id.openhab_version);
+        mOpenHABUUIDText = (TextView)view.findViewById(R.id.openhab_uuid);
+        mOpenHABSecretText = (TextView)view.findViewById(R.id.openhab_secret);
+        mOpenHABSecretLabel = (TextView)view.findViewById(R.id.openhab_secret_label);
+        Bundle bundle=getArguments();
+
+        if (bundle!=null)
+        {
+
+            mOpenHABBaseUrl = bundle.getString("openHABBaseUrl");
+            mUsername = bundle.getString("username");
+            mPassword = bundle.getString("password");
             mAsyncHttpClient.setBasicAuth(mUsername, mPassword);
-        } else {
+        }else {
             Log.e(TAG, "No openHABBaseURl parameter passed, can't fetch openHAB info from nowhere");
-            finish();
+
+        }
+
+
+
+        return view;
+    }
+    @Override
+    public void onStart()
+    {
+        super.onStart();
+        Dialog dialog = getDialog();
+        if (dialog != null)
+        {
+            int width = ViewGroup.LayoutParams.MATCH_PARENT;
+            int height = ViewGroup.LayoutParams.MATCH_PARENT;
+            dialog.getWindow().setLayout(width, height);
         }
     }
+
 
     @Override
     public void onResume() {
@@ -116,9 +141,5 @@ public class OpenHABInfoActivity extends Activity {
         });
     }
 
-        @Override
-    public void finish() {
-        super.finish();
-        Util.overridePendingTransition(this, true);
-    }
+
 }

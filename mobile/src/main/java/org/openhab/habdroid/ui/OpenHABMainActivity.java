@@ -36,7 +36,9 @@ import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.speech.RecognizerIntent;
 import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
@@ -820,12 +822,19 @@ public class OpenHABMainActivity extends ActionBarActivity implements OnWidgetSe
                 }
                 return true;
             case R.id.mainmenu_openhab_info:
-                Intent infoIntent = new Intent(this.getApplicationContext(), OpenHABInfoActivity.class);
-                infoIntent.putExtra(OpenHABVoiceService.OPENHAB_BASE_URL_EXTRA, openHABBaseUrl);
-                infoIntent.putExtra("username", openHABUsername);
-                infoIntent.putExtra("password", openHABPassword);
-                startActivityForResult(infoIntent, INFO_REQUEST_CODE);
-                Util.overridePendingTransition(this, false);
+
+                Bundle bundle = new Bundle();
+                bundle.putString(OpenHABVoiceService.OPENHAB_BASE_URL_EXTRA, openHABBaseUrl);
+                bundle.putString("username", openHABUsername);
+                bundle.putString("password", openHABPassword);
+
+                FragmentManager fm = getSupportFragmentManager();
+                Fragment openHabInfo = new OpenHABInfoFragment();
+
+                openHabInfo.setArguments(bundle);
+                FragmentTransaction ft = fm.beginTransaction();
+                ft.add(openHabInfo,"openHabTag");
+                ft.commit();
                 return true;
             case R.id.mainmenu_voice_recognition:
                 launchVoiceRecognition();
