@@ -404,45 +404,32 @@ public class OpenHABWidgetListFragment extends ListFragment {
      * @return      void
      */
     public void processContent(String responseString, boolean longPolling) {
+
+        Log.d(TAG, "processContent() " + this.displayPageUrl);
+        Log.d(TAG, "isAdded = " + isAdded());
+        Log.d(TAG, "responseString.length() = " + (responseString != null ? responseString.length()  : -1));
+
+        // We can receive empty response, probably when no items was changed
+        // so we needn't process it
+        if (responseString == null || responseString.length() == 0) {
+            showPage(displayPageUrl, true);
+            return;
+        }
+
         // As we change the page we need to stop all videos on current page
         // before going to the new page. This is quite dirty, but is the only
         // way to do that...
-        Log.d(TAG, "processContent() " + this.displayPageUrl);
-        Log.d(TAG, "isAdded = " + isAdded());
         openHABWidgetAdapter.stopVideoWidgets();
         openHABWidgetAdapter.stopImageRefresh();
         // If openHAB verion = 1 get page from XML
-        if (responseString != null && responseString.length() > 0) {
-            if (mActivity.getOpenHABVersion() == 1) {
-                DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-                try {
-                    DocumentBuilder builder = dbf.newDocumentBuilder();
-                    Document document = builder.parse(new InputSource(new StringReader(responseString)));
-                    if (document != null) {
-                        Node rootNode = document.getFirstChild();
-                        openHABWidgetDataSource.setSourceNode(rootNode);
-                        widgetList.clear();
-                        for (OpenHABWidget w : openHABWidgetDataSource.getWidgets()) {
-                            // Remove frame widgets with no label text
-                            if (w.getType().equals("Frame") && TextUtils.isEmpty(w.getLabel()))
-                                continue;
-                            widgetList.add(w);
-                        }
-                    } else {
-                        Log.e(TAG, "Got a null response from openHAB");
-                        showPage(displayPageUrl, false);
-                    }
-                } catch (ParserConfigurationException | SAXException e) {
-                    Log.d(TAG, "responseString:\n" + String.valueOf(responseString));
-                    Log.e(TAG, e.getMessage(), e);
-                } catch (IOException e) {
-                    Log.e(TAG, e.getMessage(), e);
-                }
-                // Later versions work with JSON
-            } else {
-                try {
-                    JSONObject pageJson = new JSONObject(responseString);
-                    openHABWidgetDataSource.setSourceJson(pageJson);
+        if (mActivity.getOpenHABVersion() == 1) {
+            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+            try {
+                DocumentBuilder builder = dbf.newDocumentBuilder();
+                Document document = builder.parse(new InputSource(new StringReader(responseString)));
+                if (document != null) {
+                    Node rootNode = document.getFirstChild();
+                    openHABWidgetDataSource.setSourceNode(rootNode);
                     widgetList.clear();
                     for (OpenHABWidget w : openHABWidgetDataSource.getWidgets()) {
                         // Remove frame widgets with no label text
@@ -450,11 +437,31 @@ public class OpenHABWidgetListFragment extends ListFragment {
                             continue;
                         widgetList.add(w);
                     }
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                } else {
+                    Log.e(TAG, "Got a null response from openHAB");
+                    showPage(displayPageUrl, false);
                 }
+            } catch (ParserConfigurationException | SAXException | IOException e) {
+                    Log.d(TAG, "responseString:\n" + String.valueOf(responseString));
+                    Log.e(TAG, e.getMessage(), e);
+            }
+            // Later versions work with JSON
+        } else {
+            try {
+                JSONObject pageJson = new JSONObject(responseString);
+                openHABWidgetDataSource.setSourceJson(pageJson);
+                widgetList.clear();
+                for (OpenHABWidget w : openHABWidgetDataSource.getWidgets()) {
+                    // Remove frame widgets with no label text
+                    if (w.getType().equals("Frame") && TextUtils.isEmpty(w.getLabel()))
+                        continue;
+                    widgetList.add(w);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
         }
+
         openHABWidgetAdapter.notifyDataSetChanged();
         if (!longPolling && isAdded()) {
             getListView().clearChoices();
