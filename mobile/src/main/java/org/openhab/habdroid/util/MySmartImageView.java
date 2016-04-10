@@ -17,19 +17,43 @@ import android.util.Log;
 
 import com.loopj.android.image.SmartImageView;
 
+import java.lang.ref.WeakReference;
+import java.sql.Ref;
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class MySmartImageView extends SmartImageView {
-	private String myImageUrl;
-	private Timer imageRefreshTimer;
-	
-	boolean useImageCache = true;
 
-	public MySmartImageView(Context context) {
-		super(context);
-	}
-	
+    public static final String TAG = "MySmartImageView";
+
+    // Handler classes should be static or leaks might occur.
+    private static class RefreshHandler extends Handler {
+
+        private final WeakReference<MySmartImageView> viewWeakReference;
+
+        RefreshHandler(MySmartImageView smartImageView) {
+            viewWeakReference = new WeakReference<>(smartImageView);
+        }
+
+        public void handleMessage(Message msg) {
+            MySmartImageView imageView = viewWeakReference.get();
+            if (imageView != null) {
+                Log.i(TAG, "Refreshing image at " + imageView.myImageUrl);
+                imageView.setImage(new MyWebImage(imageView.myImageUrl, false, imageView.username, imageView.password));
+            }
+        }
+    }
+
+    private String myImageUrl;
+    private String username;
+    private String password;
+
+    private Timer imageRefreshTimer;
+
+    public MySmartImageView(Context context) {
+        super(context);
+    }
+
     public MySmartImageView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
@@ -38,70 +62,55 @@ public class MySmartImageView extends SmartImageView {
         super(context, attrs, defStyle);
     }
 
-    public void setImageUrl(String url) {
-    	this.myImageUrl = url;
-        setImage(new MyWebImage(url));
-    }
-
     public void setImageUrl(String url, String username, String password) {
-    	this.myImageUrl = url;
+        this.myImageUrl = url;
+        this.username = username;
+        this.password = password;
         setImage(new MyWebImage(url, username, password));
-    }
-    
-    public void setImageUrl(String url, final Integer fallbackResource) {
-    	this.myImageUrl = url;
-        setImage(new MyWebImage(url), fallbackResource, null);
     }
 
     public void setImageUrl(String url, final Integer fallbackResource, String username, String password) {
-    	this.myImageUrl = url;
+        this.myImageUrl = url;
+        this.username = username;
+        this.password = password;
         setImage(new MyWebImage(url, username, password), fallbackResource, null);
-    }
-    
-    public void setImageUrl(String url, final Integer fallbackResource, final Integer loadingResource) {
-    	this.myImageUrl = url;
-        setImage(new MyWebImage(url), fallbackResource, loadingResource);
     }
 
     public void setImageUrl(String url, final Integer fallbackResource, final Integer loadingResource, String username, String password) {
-    	this.myImageUrl = url;
+        this.myImageUrl = url;
+        this.username = username;
+        this.password = password;
         setImage(new MyWebImage(url, username, password), fallbackResource, loadingResource);
-    }
-    
-    public void setImageUrl(String url, boolean useImageCache) {
-    	this.myImageUrl = url;
-    	this.useImageCache = useImageCache;
-        setImage(new MyWebImage(url, useImageCache));
     }
 
     public void setImageUrl(String url, boolean useImageCache, String username, String password) {
-    	this.myImageUrl = url;
-    	this.useImageCache = useImageCache;
+        this.myImageUrl = url;
+        this.username = username;
+        this.password = password;
         setImage(new MyWebImage(url, useImageCache, username, password));
     }
-    
+
     public void setRefreshRate(int msec) {
-    	Log.i("MySmartImageView", "Setting image refresh rate to " + msec + " msec");
-    	if (this.imageRefreshTimer != null)
-    		this.imageRefreshTimer.cancel();
-    	this.imageRefreshTimer = new Timer();
-    	final Handler timerHandler = new Handler() {
-    		public void handleMessage(Message msg) {
-				Log.i("MySmartImageView", "Refreshing image at " + MySmartImageView.this.myImageUrl);
-				MySmartImageView.this.setImage(new MyWebImage(MySmartImageView.this.myImageUrl, false));
-    		}
-    	};
-    	imageRefreshTimer.scheduleAtFixedRate(new TimerTask() {
-			@Override
-			public void run() {
-				timerHandler.sendEmptyMessage(0);
-			}
-    	}, msec, msec);
-    }
-    
-    public void cancelRefresh() {
-    	if (this.imageRefreshTimer != null)
-    		this.imageRefreshTimer.cancel();
+        Log.i(TAG, "Setting image refresh rate to " + msec + " msec for " + myImageUrl);
+        if (this.imageRefreshTimer != null) {
+            this.imageRefreshTimer.cancel();
+        }
+
+        this.imageRefreshTimer = new Timer();
+        final Handler timerHandler = new RefreshHandler(this);
+
+        imageRefreshTimer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                timerHandler.sendEmptyMessage(0);
+            }
+        }, msec, msec);
     }
 
+    public void cancelRefresh() {
+        Log.i(TAG, "Cancel image Refresh for " + myImageUrl);
+        if (this.imageRefreshTimer != null) {
+            this.imageRefreshTimer.cancel();
+        }
+    }
 }

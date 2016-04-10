@@ -49,20 +49,10 @@ public class MyWebImage implements SmartImage {
     private String authPassword;
     private boolean shouldAuth = false;
 
-    public MyWebImage(String url) {
-        this.url = url;
-        this.useCache = true;
-    }
-    
     public MyWebImage(String url, String username, String password) {
         this.url = url;
         this.useCache = true;
         this.setAuthentication(username, password);
-    }
-    
-    public MyWebImage(String url, boolean useCache) {
-    	this.url = url;
-    	this.useCache = useCache;
     }
 
     public MyWebImage(String url, boolean useCache, String username, String password) {
