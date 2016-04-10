@@ -482,6 +482,8 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
    		break;
     	case TYPE_CHART:
     		MySmartImageView chartImage = (MySmartImageView)widgetView.findViewById(R.id.chartimage);
+    		//Always clear the drawable so no images from recycled views appear
+    		chartImage.setImageDrawable(null);
     		OpenHABItem chartItem = openHABWidget.getItem();
     		Random random = new Random();
     		String chartUrl = "";
