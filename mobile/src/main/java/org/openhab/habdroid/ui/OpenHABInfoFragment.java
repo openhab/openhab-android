@@ -52,14 +52,13 @@ public class OpenHABInfoFragment extends DialogFragment {
         mOpenHABSecretLabel = (TextView)view.findViewById(R.id.openhab_secret_label);
         Bundle bundle=getArguments();
 
-        if (bundle!=null)
-        {
+        if (bundle!=null){
 
             mOpenHABBaseUrl = bundle.getString("openHABBaseUrl");
             mUsername = bundle.getString("username");
             mPassword = bundle.getString("password");
             mAsyncHttpClient.setBasicAuth(mUsername, mPassword);
-        }else {
+        } else {
             Log.e(TAG, "No openHABBaseURl parameter passed, can't fetch openHAB info from nowhere");
 
         }
@@ -72,8 +71,8 @@ public class OpenHABInfoFragment extends DialogFragment {
     {
         super.onStart();
         Dialog dialog = getDialog();
-        if (dialog != null)
-        {
+        if (dialog != null) {
+
             int width = ViewGroup.LayoutParams.MATCH_PARENT;
             int height = ViewGroup.LayoutParams.MATCH_PARENT;
             dialog.getWindow().setLayout(width, height);
