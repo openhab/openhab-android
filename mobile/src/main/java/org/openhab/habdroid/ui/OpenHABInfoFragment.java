@@ -19,13 +19,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.loopj.android.http.AsyncHttpResponseHandler;
+
 import com.loopj.android.http.TextHttpResponseHandler;
 
 import org.apache.http.Header;
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.util.MyAsyncHttpClient;
-import org.openhab.habdroid.util.Util;
+
 
 public class OpenHABInfoFragment extends DialogFragment {
 
