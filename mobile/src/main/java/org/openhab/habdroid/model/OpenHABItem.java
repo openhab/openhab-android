@@ -19,6 +19,9 @@ import org.json.JSONObject;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  * This is a class to hold basic information about openHAB Item.
  */
@@ -29,6 +32,7 @@ public class OpenHABItem {
 	private String state = "";
 	private String link;
 	private final static String TAG = "OpenHABItem";
+	private final static Pattern HSB_PATTERN = Pattern.compile("^\\d+,\\d+,(\\d+)$");
 
 	public OpenHABItem(Node startNode) {
 		if (startNode.hasChildNodes()) {
@@ -95,7 +99,7 @@ public class OpenHABItem {
 	public void setState(String state) {
 		this.state = state;
 	}
-	
+
 	public boolean getStateAsBoolean() {
 		// For uninitialized/null state return false
 		if (state == null) {
@@ -105,18 +109,26 @@ public class OpenHABItem {
 		if (state.equals("ON")) {
 			return true;
 		}
-		// If decimal value and it is >0 return True
+
+		Matcher hsbMatcher = HSB_PATTERN.matcher(state);
+		if(hsbMatcher.find()) {
+			String brightness = hsbMatcher.group(1);
+			return isValueDecimalIntegerAndGreaterThanZero(brightness);
+		}
+
+		return isValueDecimalIntegerAndGreaterThanZero(state);
+
+	}
+
+	private Boolean isValueDecimalIntegerAndGreaterThanZero(String value) {
 		try {
-			int decimalValue = Integer.valueOf(state);
-			if (decimalValue > 0)
-				return true;
+			int decimalValue = Integer.valueOf(value);
+			return decimalValue > 0;
 		} catch (NumberFormatException e) {
 			return false;
 		}
-		// Else return False
-		return false;
 	}
-	
+
 	public Float getStateAsFloat() {
 		// For uninitialized/null state return zero
 		if (state == null) {
