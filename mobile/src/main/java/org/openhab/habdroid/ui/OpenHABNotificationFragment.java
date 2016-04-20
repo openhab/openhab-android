@@ -28,9 +28,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.openhab.habdroid.R;
-import org.openhab.habdroid.util.Constants;
-
 import org.openhab.habdroid.model.OpenHABNotification;
+import org.openhab.habdroid.util.Constants;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
@@ -133,14 +132,14 @@ public class OpenHABNotificationFragment extends ListFragment implements SwipeRe
     }
 
     @Override
-    public void onResume () {
+    public void onResume() {
         super.onResume();
         Log.d(TAG, "onResume()");
         loadNotifications();
     }
 
-        @Override
-    public void onPause () {
+    @Override
+    public void onPause() {
         super.onPause();
         Log.d(TAG, "onPause()");
         // Cancel request for notifications if there was any
@@ -186,7 +185,7 @@ public class OpenHABNotificationFragment extends ListFragment implements SwipeRe
                         JSONArray jsonArray = new JSONArray(jsonString);
                         Log.d(TAG, jsonArray.toString());
                         mNotifications.clear();
-                        for(int i=0; i<jsonArray.length(); i++) {
+                        for (int i = 0; i < jsonArray.length(); i++) {
                             try {
                                 JSONObject sitemapJson = jsonArray.getJSONObject(i);
                                 OpenHABNotification notification = new OpenHABNotification(sitemapJson);
@@ -205,7 +204,7 @@ public class OpenHABNotificationFragment extends ListFragment implements SwipeRe
                 }
 
                 @Override
-                public void  onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
                     stopProgressIndicator();
                     Log.d(TAG, "Notifications request failure");
                 }
@@ -214,15 +213,17 @@ public class OpenHABNotificationFragment extends ListFragment implements SwipeRe
     }
 
     private void stopProgressIndicator() {
-        if (mActivity != null)
+        if (mActivity != null) {
             Log.d(TAG, "Stop progress indicator");
-        mActivity.stopProgressIndicator();
+            mActivity.setProgressIndicatorVisible(false);
+        }
     }
 
     private void startProgressIndicator() {
-        if (mActivity != null)
+        if (mActivity != null) {
             Log.d(TAG, "Start progress indicator");
-        mActivity.startProgressIndicator();
+            mActivity.setProgressIndicatorVisible(true);
+        }
         mSwipeLayout.setRefreshing(false);
     }
 

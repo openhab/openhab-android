@@ -504,15 +504,17 @@ public class OpenHABWidgetListFragment extends ListFragment {
     }
 
     private void stopProgressIndicator() {
-        if (mActivity != null)
+        if (mActivity != null) {
             Log.d(TAG, "Stop progress indicator");
-            mActivity.stopProgressIndicator();
+            mActivity.setProgressIndicatorVisible(false);
+        }
     }
 
     private void startProgressIndicator() {
-        if (mActivity != null)
+        if (mActivity != null) {
             Log.d(TAG, "Start progress indicator");
-            mActivity.startProgressIndicator();
+            mActivity.setProgressIndicatorVisible(true);
+        }
     }
 
     private void showAlertDialog(String alertMessage) {

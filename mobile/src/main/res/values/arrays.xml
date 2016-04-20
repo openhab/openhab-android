@@ -1,18 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:ignore="MissingTranslation">
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+
     <string-array name="nfcActionValues">
-        <item>On</item>
-        <item>Off</item>
-        <item>Toggle</item>
+        <item>@string/nfc_action_on</item>
+        <item>@string/nfc_action_off</item>
+        <item>@string/nfc_action_toggle</item>
     </string-array>
+
     <string-array name="themeArray">
-        <item>Dark</item>
-        <item>Light</item>
+        <item>@string/theme_name_dark</item>
+        <item>@string/theme_name_light</item>
+        <item>@string/theme_name_black</item>
     </string-array>
+
     <string-array name="themeValues">
-        <item>dark</item>
-        <item>light</item>
+        <item>@string/theme_value_dark</item>
+        <item>@string/theme_value_light</item>
+        <item>@string/theme_value_black</item>
     </string-array>
+
 </resources>
