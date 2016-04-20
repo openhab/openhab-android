@@ -29,7 +29,7 @@ import java.util.ArrayList;
 
 public class BindingThingTypesFragment extends ListFragment implements SwipeRefreshLayout.OnRefreshListener {
 
-    private static final String TAG = "BindingThingTypesFrag";
+    private static final String TAG = BindingThingTypesFragment.class.getSimpleName();
 
     private static final String ARG_THINGTYPES = "thingTypes";
 

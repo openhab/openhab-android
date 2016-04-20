@@ -24,7 +24,7 @@ import java.util.TimerTask;
 
 public class MySmartImageView extends SmartImageView {
 
-    public static final String TAG = "MySmartImageView";
+    public static final String TAG = MySmartImageView.class.getSimpleName();
 
     // Handler classes should be static or leaks might occur.
     private static class RefreshHandler extends Handler {

@@ -32,7 +32,7 @@ import javax.jmdns.ServiceInfo;
 import javax.jmdns.ServiceListener;
 
 public class AsyncServiceResolver extends Thread implements ServiceListener {
-    private final static String TAG = "AsyncServiceResolver";
+    private final static String TAG = AsyncServiceResolver.class.getSimpleName();
     private Context mCtx;
     // Multicast lock for mDNS
     private MulticastLock mMulticastLock;

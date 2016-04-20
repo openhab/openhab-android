@@ -104,7 +104,7 @@ public class OpenHABMainActivity extends ActionBarActivity implements OnWidgetSe
     // GCM Registration expiration
     public static final long REGISTRATION_EXPIRY_TIME_MS = 1000 * 3600 * 24 * 7;
     // Logging TAG
-    private static final String TAG = "MainActivity";
+    private static final String TAG = OpenHABMainActivity.class.getSimpleName();
     // Activities request codes
     private static final int SETTINGS_REQUEST_CODE = 1002;
     private static final int WRITE_NFC_TAG_REQUEST_CODE = 1003;

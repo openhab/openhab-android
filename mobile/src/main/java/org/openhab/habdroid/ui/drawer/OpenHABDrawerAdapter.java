@@ -36,7 +36,7 @@ public class OpenHABDrawerAdapter extends ArrayAdapter<OpenHABDrawerItem> {
     public static final int TYPE_HEADER_ITEM = 3;
     public static final int TYPE_DIVIDER_ITEM = 4;
     public static final int TYPES_COUNT = 5;
-    private static final String TAG = "OpenHABDrawerAdapter";
+    private static final String TAG = OpenHABDrawerAdapter.class.getSimpleName();
     private String openHABBaseUrl = "http://demo.openhab.org:8080/";
     private String openHABUsername = "";
     private String openHABPassword = "";

@@ -33,7 +33,7 @@ import java.util.List;
 
 public class Util {
 
-    private final static String TAG = "Util";
+    private final static String TAG = Util.class.getSimpleName();
 
 	public static void overridePendingTransition(Activity activity, boolean reverse) {
 		if (PreferenceManager.getDefaultSharedPreferences(activity).getString(Constants.PREFERENCE_ANIMATION, "android").equals("android")) {

@@ -39,7 +39,7 @@ import java.util.Arrays;
 
 public class OpenHABBindingFragment extends ListFragment implements SwipeRefreshLayout.OnRefreshListener {
 
-    private static final String TAG = "BindingFragment";
+    private static final String TAG = OpenHABBindingFragment.class.getSimpleName();
 
     private static final String ARG_USERNAME = "openHABUsername";
     private static final String ARG_PASSWORD = "openHABPassword";

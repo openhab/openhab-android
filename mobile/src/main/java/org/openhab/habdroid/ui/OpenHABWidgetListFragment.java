@@ -60,7 +60,7 @@ import javax.xml.parsers.ParserConfigurationException;
  */
 
 public class OpenHABWidgetListFragment extends ListFragment {
-    private static final String TAG = "OpenHABWidgetListFrag";
+    private static final String TAG = OpenHABWidgetListFragment.class.getSimpleName();
     private OnWidgetSelectedListener widgetSelectedListener;
     // Datasource, providing list of openHAB widgets
     private OpenHABWidgetDataSource openHABWidgetDataSource;

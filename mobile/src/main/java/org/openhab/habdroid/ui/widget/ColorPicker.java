@@ -37,7 +37,7 @@ import org.openhab.habdroid.R;
  */
 public class ColorPicker extends View {
 
-	private static final String TAG = "ColorPicker";
+	private static final String TAG = ColorPicker.class.getSimpleName();
 	/*
 	 * Constants used to save/restore the instance state.
 	 */

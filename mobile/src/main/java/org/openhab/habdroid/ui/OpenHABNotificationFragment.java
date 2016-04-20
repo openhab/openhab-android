@@ -44,7 +44,7 @@ import java.util.ArrayList;
  */
 public class OpenHABNotificationFragment extends ListFragment implements SwipeRefreshLayout.OnRefreshListener {
 
-    private static final String TAG = "NotificationFragment";
+    private static final String TAG = OpenHABNotificationFragment.class.getSimpleName();
 
     private static final String ARG_USERNAME = "openHABUsername";
     private static final String ARG_PASSWORD = "openHABPassword";

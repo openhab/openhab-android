@@ -23,7 +23,7 @@ import java.util.List;
 
 public class OpenHABFragmentPagerAdapter extends FragmentStatePagerAdapter implements ViewPager.OnPageChangeListener {
 
-    private static final String TAG = "FragmentPagerAdapter";
+    private static final String TAG = OpenHABFragmentPagerAdapter.class.getSimpleName();
     private List<ListFragment> fragmentList;
     private FragmentManager fragmentManager;
     private boolean notifyDataSetChangedPending = false;

@@ -39,7 +39,7 @@ import java.util.TimerTask;
 public class OpenHABWriteTagActivity extends Activity {
 
 	// Logging TAG
-	private static final String TAG = "OpenHABWriteTagActivity";
+	private static final String TAG = OpenHABWriteTagActivity.class.getSimpleName();
 	private String sitemapPage = "";
 	private String item = "";
 	private String command = "";

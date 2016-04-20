@@ -41,7 +41,7 @@ import javax.jmdns.ServiceInfo;
  */
 
 public class OpenHABTracker implements AsyncServiceResolverListener {
-    private final static String TAG = "OpenHABTracker";
+    private final static String TAG = OpenHABTracker.class.getSimpleName();
     // Context in which openhabtracker is working
     Context mCtx;
     // If bonjour discovery is enabled?

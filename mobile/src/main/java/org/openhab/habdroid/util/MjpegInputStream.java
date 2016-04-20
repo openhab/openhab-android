@@ -20,7 +20,7 @@ import java.io.InputStream;
 import java.util.Properties;
 
 public class MjpegInputStream extends DataInputStream {
-    private static final String TAG = "MjpegInputStream";
+    private static final String TAG = MjpegInputStream.class.getSimpleName();
 
     private final byte[] SOI_MARKER = { (byte) 0xFF, (byte) 0xD8 };
     private final byte[] EOF_MARKER = { (byte) 0xFF, (byte) 0xD9 };
