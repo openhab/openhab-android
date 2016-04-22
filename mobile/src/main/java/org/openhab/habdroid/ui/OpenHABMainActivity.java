@@ -396,7 +396,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         final ListView drawerList = (ListView) findViewById(R.id.left_drawer);
-        mDrawerToggle = new ActionBarDrawerToggle(OpenHABMainActivity.this, mDrawerLayout, mToolbar,
+        mDrawerToggle = new ActionBarDrawerToggle(OpenHABMainActivity.this, mDrawerLayout,
                 R.string.drawer_open, R.string.drawer_close) {
             @Override
             public void onDrawerOpened(View drawerView) {
@@ -814,17 +814,18 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        /**
-         * if we are in fullscreen, override this for navigation
-         */
-        if (isFullscreenEnabled() && item.getItemId() == android.R.id.home) {
+        //clicking the back navigation arrow
+        if (pager.getCurrentItem() > 0 && item.getItemId() == android.R.id.home) {
             onBackPressed();
             return false;
         }
 
+        //clicking the hamburger menu
         if (mDrawerToggle.onOptionsItemSelected(item)) {
             return true;
         }
+
+        //menu items
         switch (item.getItemId()) {
             case R.id.mainmenu_openhab_preferences:
                 Intent settingsIntent = new Intent(this.getApplicationContext(), OpenHABPreferencesActivity.class);
@@ -838,12 +839,6 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
                 preferencesEditor.putString(Constants.PREFERENCE_SITEMAP, "");
                 preferencesEditor.commit();
                 selectSitemap(openHABBaseUrl, true);
-                return true;
-            case android.R.id.home:
-                Log.d(TAG, "Home selected");
-                if (pager.getCurrentItem() > 0) {
-                    pager.setCurrentItem(0);
-                }
                 return true;
             case R.id.mainmenu_openhab_clearcache:
                 Log.d(TAG, "Restarting");
@@ -1032,6 +1027,8 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
         pagerAdapter.openPage(linkedPage.getLink(), source.getPosition() + 1);
         pager.setCurrentItem(pagerAdapter.getCount() - 1);
         setTitle(linkedPage.getTitle());
+        //set the drawer icon to a back arrow when not on the rook menu
+        mDrawerToggle.setDrawerIndicatorEnabled(pager.getCurrentItem() == 0);
     }
 
     @Override
@@ -1045,6 +1042,8 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
         } else {
             pager.setCurrentItem(pager.getCurrentItem() - 1, true);
             setTitle(pagerAdapter.getPageTitle(pager.getCurrentItem()));
+            //set the drawer icon back to to hamburger menu if on the root menu
+            mDrawerToggle.setDrawerIndicatorEnabled(pager.getCurrentItem() == 0);
         }
     }
 
