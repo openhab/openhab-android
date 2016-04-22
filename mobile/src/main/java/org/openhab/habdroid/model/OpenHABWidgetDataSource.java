@@ -25,7 +25,7 @@ import java.util.ArrayList;
  */
 
 public class OpenHABWidgetDataSource {
-	private static final String TAG = "OpenHABWidgetDataSource";
+	private static final String TAG = OpenHABWidgetDataSource.class.getSimpleName();
 	private OpenHABWidget rootWidget;
 	private String title;
 	private String id;

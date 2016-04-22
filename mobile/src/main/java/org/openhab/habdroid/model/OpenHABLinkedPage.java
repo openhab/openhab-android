@@ -23,7 +23,7 @@ public class OpenHABLinkedPage {
 	private String title;
 	private String icon;
 	private String link;
-	private static final String TAG = "OpenHABLinkedPage";
+	private static final String TAG = OpenHABLinkedPage.class.getSimpleName();
 	
 	public OpenHABLinkedPage(Node startNode) {
 		if (startNode.hasChildNodes()) {

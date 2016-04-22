@@ -40,7 +40,7 @@ import java.util.Arrays;
 
 public class OpenHABDiscoveryInboxFragment extends ListFragment implements SwipeRefreshLayout.OnRefreshListener {
 
-    private static final String TAG = "DiscoveryInboxFragment";
+    private static final String TAG = OpenHABDiscoveryInboxFragment.class.getSimpleName();
 
     private static final String ARG_USERNAME = "openHABUsername";
     private static final String ARG_PASSWORD = "openHABPassword";

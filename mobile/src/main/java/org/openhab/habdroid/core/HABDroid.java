@@ -30,7 +30,7 @@ public class HABDroid extends MultiDexApplication {
     }
     private HashMap<TrackerName, Tracker> mTrackers = new HashMap<TrackerName, Tracker>();
     private static final String PROPERTY_ID = "UA-39285202-1";
-    private static final String TAG = "HABDroid";
+    private static final String TAG = HABDroid.class.getSimpleName();
 
     public synchronized Tracker getTracker(TrackerName trackerId) {
         if (!mTrackers.containsKey(trackerId)) {

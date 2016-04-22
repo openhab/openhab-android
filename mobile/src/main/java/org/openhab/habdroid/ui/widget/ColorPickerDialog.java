@@ -17,7 +17,7 @@ import android.view.View;
 
 public class ColorPickerDialog extends Dialog {
 
-	private static final String TAG = "ColorPickerDialog";
+	private static final String TAG = ColorPickerDialog.class.getSimpleName();
     private OnColorChangedListener mListener;
     private float[] mInitialColor;
     private ColorPicker colorPickerView;

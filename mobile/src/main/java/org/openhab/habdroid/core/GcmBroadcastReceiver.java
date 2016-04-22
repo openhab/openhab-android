@@ -17,7 +17,7 @@ import android.content.Intent;
 import android.support.v4.content.WakefulBroadcastReceiver;
 
 public class GcmBroadcastReceiver extends WakefulBroadcastReceiver {
-    private static final String TAG = "GcmBroadcastReceiver";
+    private static final String TAG = GcmBroadcastReceiver.class.getSimpleName();
     private Context mContext;
     private NotificationManager mNotificationManager;
     private static int mNotificationId = 0;

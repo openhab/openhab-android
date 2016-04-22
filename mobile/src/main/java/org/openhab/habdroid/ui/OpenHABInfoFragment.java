@@ -29,7 +29,7 @@ import org.openhab.habdroid.util.MyAsyncHttpClient;
 
 public class OpenHABInfoFragment extends DialogFragment {
 
-    private static final String TAG = "OpenHABInfoActivity";
+    private static final String TAG = OpenHABInfoFragment.class.getSimpleName();
     private TextView mOpenHABVersionText;
     private TextView mOpenHABUUIDText;
     private TextView mOpenHABSecretText;

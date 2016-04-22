@@ -31,7 +31,7 @@ public class OpenHABItem {
 	private String type;
 	private String state = "";
 	private String link;
-	private final static String TAG = "OpenHABItem";
+	private final static String TAG = OpenHABItem.class.getSimpleName();
 	private final static Pattern HSB_PATTERN = Pattern.compile("^\\d+,\\d+,(\\d+)$");
 
 	public OpenHABItem(Node startNode) {

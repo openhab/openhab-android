@@ -29,7 +29,7 @@ import org.openhab.habdroid.util.Constants;
 
 public class GcmIntentService extends IntentService {
 
-    private static final String TAG = "GcmIntentService";
+    private static final String TAG = GcmIntentService.class.getSimpleName();
     private NotificationManager mNotificationManager;
     // Notification delete receiver
     private final NotificationDeletedBroadcastReceiver mNotificationDeletedBroadcastReceiver =

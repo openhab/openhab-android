@@ -32,7 +32,7 @@ import java.net.URI;
 
 public class MjpegStreamer {
 
-    private static final String TAG = "MjpegStreamer";
+    private static final String TAG = MjpegStreamer.class.getSimpleName();
     private String mSourceUrl;
     private String mUsername;
     private String mPassword;
