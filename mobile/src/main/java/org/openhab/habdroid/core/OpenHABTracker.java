@@ -203,10 +203,7 @@ public class OpenHABTracker implements AsyncServiceResolverListener {
                         Log.d(TAG, "Socket connected");
                         s.close();
                         return true;
-                    } catch (MalformedURLException e) {
-                        Log.e(TAG, e.getMessage());
-                        return false;
-                    } catch (IOException e) {
+                    } catch (Exception e) {
                         Log.e(TAG, e.getMessage());
                         return false;
                     }
