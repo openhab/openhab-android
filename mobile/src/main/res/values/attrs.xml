@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <declare-styleable name="ColorPicker">
-       <attr name="wheel_size" format="integer" />
-       <attr name="pointer_size" format="integer" />
-   </declare-styleable>
+        <attr name="wheel_size" format="integer" />
+        <attr name="pointer_size" format="integer" />
+    </declare-styleable>
+
     <declare-styleable name="SegmentedControlButton">
         <attr name="textColorSelected" format="color" />
         <attr name="textColorUnselected" format="color" />
@@ -13,9 +15,14 @@
         <attr name="lineHeightUnselected" format="dimension" />
         <attr name="lineHeightSelected" format="dimension" />
     </declare-styleable>
+
     <declare-styleable name="customAttrs">
         <attr name="customMicIcon" format="reference" />
         <attr name="widgetlistItemDivider" format="reference" />
         <attr name="frameWidgetDividerBackground" format="reference" />
     </declare-styleable>
+
+    <attr name="themedDrawerBackground" format="reference|color" />
+    <attr name="themedHeaderTextColor" format="reference|color" />
+
 </resources>

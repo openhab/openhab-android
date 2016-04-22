@@ -12,6 +12,7 @@ package org.openhab.habdroid.util;
 import android.app.Activity;
 import android.content.Context;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.crittercism.app.Crittercism;
@@ -35,18 +36,18 @@ public class Util {
 
     private final static String TAG = Util.class.getSimpleName();
 
-	public static void overridePendingTransition(Activity activity, boolean reverse) {
-		if (PreferenceManager.getDefaultSharedPreferences(activity).getString(Constants.PREFERENCE_ANIMATION, "android").equals("android")) {
-		} else if (PreferenceManager.getDefaultSharedPreferences(activity).getString(Constants.PREFERENCE_ANIMATION, "android").equals("ios")) {
-			if (reverse) {
-				activity.overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
-			} else {
-				activity.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-			}
-		} else {
-			activity.overridePendingTransition(0, 0);
-		}
-	}
+    public static void overridePendingTransition(Activity activity, boolean reverse) {
+        if (PreferenceManager.getDefaultSharedPreferences(activity).getString(Constants.PREFERENCE_ANIMATION, "android").equals("android")) {
+        } else if (PreferenceManager.getDefaultSharedPreferences(activity).getString(Constants.PREFERENCE_ANIMATION, "android").equals("ios")) {
+            if (reverse) {
+                activity.overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+            } else {
+                activity.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+            }
+        } else {
+            activity.overridePendingTransition(0, 0);
+        }
+    }
 
     public static String normalizeUrl(String sourceUrl) {
         String normalizedUrl = "";
@@ -72,20 +73,20 @@ public class Util {
 
     public static List<OpenHABSitemap> parseSitemapList(Document document) {
         List<OpenHABSitemap> sitemapList = new ArrayList<OpenHABSitemap>();
-            NodeList sitemapNodes = document.getElementsByTagName("sitemap");
-            if (sitemapNodes.getLength() > 0) {
-                for (int i=0; i < sitemapNodes.getLength(); i++) {
-                    Node sitemapNode = sitemapNodes.item(i);
-                    OpenHABSitemap openhabSitemap = new OpenHABSitemap(sitemapNode);
-                    sitemapList.add(openhabSitemap);
-                }
+        NodeList sitemapNodes = document.getElementsByTagName("sitemap");
+        if (sitemapNodes.getLength() > 0) {
+            for (int i = 0; i < sitemapNodes.getLength(); i++) {
+                Node sitemapNode = sitemapNodes.item(i);
+                OpenHABSitemap openhabSitemap = new OpenHABSitemap(sitemapNode);
+                sitemapList.add(openhabSitemap);
             }
+        }
         return sitemapList;
     }
 
     public static List<OpenHABSitemap> parseSitemapList(JSONArray jsonArray) {
         List<OpenHABSitemap> sitemapList = new ArrayList<OpenHABSitemap>();
-        for(int i=0; i<jsonArray.length(); i++) {
+        for (int i = 0; i < jsonArray.length(); i++) {
             try {
                 JSONObject sitemapJson = jsonArray.getJSONObject(i);
                 OpenHABSitemap openHABSitemap = new OpenHABSitemap(sitemapJson);
@@ -98,7 +99,7 @@ public class Util {
     }
 
     public static boolean sitemapExists(List<OpenHABSitemap> sitemapList, String sitemapName) {
-        for (int i=0; i<sitemapList.size(); i++) {
+        for (int i = 0; i < sitemapList.size(); i++) {
             if (sitemapList.get(i).getName().equals(sitemapName))
                 return true;
         }
@@ -106,18 +107,23 @@ public class Util {
     }
 
     public static OpenHABSitemap getSitemapByName(List<OpenHABSitemap> sitemapList, String sitemapName) {
-        for (int i=0; i<sitemapList.size(); i++) {
+        for (int i = 0; i < sitemapList.size(); i++) {
             if (sitemapList.get(i).getName().equals(sitemapName))
                 return sitemapList.get(i);
         }
         return null;
     }
 
-    public static void setActivityTheme(Activity activity) {
-        if (PreferenceManager.getDefaultSharedPreferences(activity).getString(Constants.PREFERENCE_THEME, "dark").equals("dark")) {
-            activity.setTheme(R.style.HABDroid_Dark);
+    public static void setActivityTheme(@NonNull final Activity activity) {
+        final String theme = PreferenceManager.getDefaultSharedPreferences(activity).getString(Constants.PREFERENCE_THEME, activity.getString(R.string.theme_value_dark));
+        int themeRes;
+        if (theme.equals(activity.getString(R.string.theme_value_light))) {
+            themeRes = R.style.HABDroid_Light;
+        } else if (theme.equals(activity.getString(R.string.theme_value_black))) {
+            themeRes = R.style.HABDroid_Black;
         } else {
-            activity.setTheme(R.style.HABDroid_Light);
+            themeRes = R.style.HABDroid_Dark;
         }
+        activity.setTheme(themeRes);
     }
 }

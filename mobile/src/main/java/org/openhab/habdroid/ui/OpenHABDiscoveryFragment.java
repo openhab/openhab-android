@@ -27,7 +27,6 @@ import com.loopj.android.http.RequestHandle;
 
 import org.apache.http.Header;
 import org.openhab.habdroid.R;
-
 import org.openhab.habdroid.model.OpenHABBinding;
 
 import java.io.UnsupportedEncodingException;
@@ -77,6 +76,7 @@ public class OpenHABDiscoveryFragment extends ListFragment implements SwipeRefre
 
     public OpenHABDiscoveryFragment() {
     }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -129,7 +129,7 @@ public class OpenHABDiscoveryFragment extends ListFragment implements SwipeRefre
     }
 
     @Override
-    public void onResume () {
+    public void onResume() {
         super.onResume();
         Log.d(TAG, "onResume()");
         loadDiscovery();
@@ -137,7 +137,7 @@ public class OpenHABDiscoveryFragment extends ListFragment implements SwipeRefre
     }
 
     @Override
-    public void onPause () {
+    public void onPause() {
         super.onPause();
         Log.d(TAG, "onPause()");
         // Cancel request for notifications if there was any
@@ -198,7 +198,7 @@ public class OpenHABDiscoveryFragment extends ListFragment implements SwipeRefre
                 }
 
                 @Override
-                public void  onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
                     stopProgressIndicator();
                     Log.d(TAG, "Discovery request failure: " + error.getMessage());
                 }
@@ -229,7 +229,7 @@ public class OpenHABDiscoveryFragment extends ListFragment implements SwipeRefre
                 }
 
                 @Override
-                public void  onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
                     stopProgressIndicator();
                     Log.d(TAG, "Bindings request failure: " + error.getMessage());
                 }
@@ -295,15 +295,17 @@ public class OpenHABDiscoveryFragment extends ListFragment implements SwipeRefre
     }
 
     private void stopProgressIndicator() {
-        if (mActivity != null)
+        if (mActivity != null) {
             Log.d(TAG, "Stop progress indicator");
-        mActivity.stopProgressIndicator();
+            mActivity.setProgressIndicatorVisible(false);
+        }
     }
 
     private void startProgressIndicator() {
-        if (mActivity != null)
+        if (mActivity != null) {
             Log.d(TAG, "Start progress indicator");
-        mActivity.startProgressIndicator();
+            mActivity.setProgressIndicatorVisible(true);
+        }
         mSwipeLayout.setRefreshing(false);
     }
 

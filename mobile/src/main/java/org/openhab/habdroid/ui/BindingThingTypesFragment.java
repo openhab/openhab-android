@@ -105,14 +105,14 @@ public class BindingThingTypesFragment extends ListFragment implements SwipeRefr
     }
 
     @Override
-    public void onResume () {
+    public void onResume() {
         super.onResume();
         bindingThingTypesAdapter.notifyDataSetChanged();
         Log.d(TAG, "onResume()");
     }
 
     @Override
-    public void onPause () {
+    public void onPause() {
         super.onPause();
         Log.d(TAG, "onPause()");
         // Cancel request for notifications if there was any
@@ -150,15 +150,17 @@ public class BindingThingTypesFragment extends ListFragment implements SwipeRefr
     }
 
     private void stopProgressIndicator() {
-        if (mActivity != null)
+        if (mActivity != null) {
             Log.d(TAG, "Stop progress indicator");
-        mActivity.stopProgressIndicator();
+            mActivity.setProgressIndicatorVisible(false);
+        }
     }
 
     private void startProgressIndicator() {
-        if (mActivity != null)
+        if (mActivity != null) {
             Log.d(TAG, "Start progress indicator");
-        mActivity.startProgressIndicator();
+            mActivity.setProgressIndicatorVisible(true);
+        }
         mSwipeLayout.setRefreshing(false);
     }
 }
