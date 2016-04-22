@@ -708,7 +708,8 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     			return TYPE_SECTIONSWITCH;
     		} else if (openHABWidget.getItem() != null) {
     			if (openHABWidget.getItem().getType()!= null) {
-	    			if (openHABWidget.getItem().getType().equals("RollershutterItem"))
+	    			if ("RollershutterItem".equals(openHABWidget.getItem().getType()) ||
+							"Rollershutter".equals(openHABWidget.getItem().getGroupType()))
 	    				return TYPE_ROLLERSHUTTER;
 	    			else
 	    				return TYPE_SWITCH;
@@ -747,7 +748,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     		return TYPE_GENERICITEM;
     	}
     }
-	
+
     public void setOpenHABBaseUrl(String baseUrl) {
     	openHABBaseUrl = baseUrl;
     }

@@ -29,6 +29,7 @@ import java.util.regex.Pattern;
 public class OpenHABItem {
 	private String name;
 	private String type;
+	private String groupType;
 	private String state = "";
 	private String link;
 	private final static String TAG = OpenHABItem.class.getSimpleName();
@@ -41,6 +42,8 @@ public class OpenHABItem {
 				Node childNode = childNodes.item(i);
 				if (childNode.getNodeName().equals("type")) {
 					this.setType(childNode.getTextContent());
+				} else if (childNode.getNodeName().equals("groupType")) {
+					this.setGroupType(childNode.getTextContent());
 				} else if (childNode.getNodeName().equals("name")) {
 					this.setName(childNode.getTextContent());
 				} else if (childNode.getNodeName().equals("state")) {
@@ -60,6 +63,8 @@ public class OpenHABItem {
             try {
                 if (jsonObject.has("type"))
                     this.setType(jsonObject.getString("type"));
+				if (jsonObject.has("groupType"))
+					this.setGroupType(jsonObject.getString("groupType"));
                 if (jsonObject.has("name"))
                     this.setName(jsonObject.getString("name"));
                 if (jsonObject.has("state")) {
@@ -90,6 +95,14 @@ public class OpenHABItem {
 
 	public void setType(String type) {
 		this.type = type;
+	}
+
+	public String getGroupType() {
+		return groupType;
+	}
+
+	public void setGroupType(String groupType) {
+		this.groupType = groupType;
 	}
 
 	public String getState() {
