@@ -62,6 +62,7 @@ import com.loopj.android.image.WebImageCache;
 
 import org.apache.http.Header;
 import org.apache.http.client.HttpResponseException;
+import org.apache.http.conn.HttpHostConnectException;
 import org.apache.http.entity.StringEntity;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -91,6 +92,7 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.net.ssl.SSLHandshakeException;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -101,6 +103,44 @@ import de.duenndns.ssl.MemorizingTrustManager;
 
 public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSelectedListener,
         OpenHABTrackerReceiver, MemorizingResponder {
+
+    private abstract class DefaultHttpResponseHandler extends AsyncHttpResponseHandler {
+
+
+        @Override
+        public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+            setProgressIndicatorVisible(false);
+            if (error instanceof HttpResponseException) {
+                switch (((HttpResponseException) error).getStatusCode()) {
+                    case 401:
+                        showAlertDialog(getString(R.string.error_authentication_failed));
+                        break;
+                    default:
+                        showError(error.getMessage());
+                }
+            } else if (error instanceof HttpHostConnectException) {
+                Log.e(TAG, "Error connecting to host");
+                showError(error.getMessage());
+            } else if (error instanceof java.net.UnknownHostException) {
+                Log.e(TAG, "Unable to resolve hostname");
+                showError(error.getMessage());
+            } else if (error instanceof SSLHandshakeException) {
+                showError(getString(R.string.error_connection_sslhandshake_failed));
+            } else {
+                Log.e(TAG, error.getClass().toString());
+            }
+        }
+
+        private void showError(String message) {
+            if (message != null) {
+                Log.e(TAG, message);
+                showAlertDialog(message);
+            } else {
+                showAlertDialog(getString(R.string.error_connection_failed));
+            }
+        }
+    }
+
     public static final String GCM_SENDER_ID = "737820980945";
     // GCM Registration expiration
     public static final long REGISTRATION_EXPIRY_TIME_MS = 1000 * 3600 * 24 * 7;
@@ -519,7 +559,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
     private void loadSitemapList(String baseUrl) {
         Log.d(TAG, "Loading sitemap list from " + baseUrl + "rest/sitemaps");
         setProgressIndicatorVisible(true);
-        mAsyncHttpClient.get(baseUrl + "rest/sitemaps", new AsyncHttpResponseHandler() {
+        mAsyncHttpClient.get(baseUrl + "rest/sitemaps", new DefaultHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 setProgressIndicatorVisible(false);
@@ -531,11 +571,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
                         DocumentBuilder builder = dbf.newDocumentBuilder();
                         Document sitemapsXml = builder.parse(new ByteArrayInputStream(responseBody));
                         mSitemapList.addAll(Util.parseSitemapList(sitemapsXml));
-                    } catch (ParserConfigurationException e) {
-                        e.printStackTrace();
-                    } catch (SAXException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
+                    } catch (ParserConfigurationException | SAXException | IOException e) {
                         e.printStackTrace();
                     }
                     // Later versions work with JSON
@@ -545,9 +581,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
                         JSONArray jsonArray = new JSONArray(jsonString);
                         mSitemapList.addAll(Util.parseSitemapList(jsonArray));
                         Log.d(TAG, jsonArray.toString());
-                    } catch (UnsupportedEncodingException e) {
-                        e.printStackTrace();
-                    } catch (JSONException e) {
+                    } catch (UnsupportedEncodingException | JSONException e) {
                         e.printStackTrace();
                     }
                 }
@@ -557,39 +591,6 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
                 loadDrawerItems();
             }
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                setProgressIndicatorVisible(false);
-                if (error instanceof HttpResponseException) {
-                    switch (((HttpResponseException) error).getStatusCode()) {
-                        case 401:
-                            showAlertDialog(getString(R.string.error_authentication_failed));
-                            break;
-                        default:
-                            showAlertDialog("HTTP Error: " + error.getMessage());
-                            Log.e(TAG, String.format("Http code = %d", ((HttpResponseException) error).getStatusCode()));
-                            break;
-                    }
-                } else if (error instanceof org.apache.http.conn.HttpHostConnectException) {
-                    Log.e(TAG, "Error connecting to host");
-                    if (error.getMessage() != null) {
-                        Log.e(TAG, error.getMessage());
-                        showAlertDialog(error.getMessage());
-                    } else {
-                        showAlertDialog(getString(R.string.error_connection_failed));
-                    }
-                } else if (error instanceof java.net.UnknownHostException) {
-                    Log.e(TAG, "Unable to resolve hostname");
-                    if (error.getMessage() != null) {
-                        Log.e(TAG, error.getMessage());
-                        showAlertDialog(error.getMessage());
-                    } else {
-                        showAlertDialog(getString(R.string.error_connection_failed));
-                    }
-                } else {
-                    Log.e(TAG, error.getClass().toString());
-                }
-            }
         });
     }
 
@@ -604,7 +605,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
     private void selectSitemap(final String baseUrl, final boolean forceSelect) {
         Log.d(TAG, "Loading sitemap list from " + baseUrl + "rest/sitemaps");
         setProgressIndicatorVisible(true);
-        mAsyncHttpClient.get(baseUrl + "rest/sitemaps", new AsyncHttpResponseHandler() {
+        mAsyncHttpClient.get(baseUrl + "rest/sitemaps", new DefaultHttpResponseHandler() {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
@@ -618,11 +619,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
                         DocumentBuilder builder = dbf.newDocumentBuilder();
                         Document sitemapsXml = builder.parse(new ByteArrayInputStream(responseBody));
                         mSitemapList.addAll(Util.parseSitemapList(sitemapsXml));
-                    } catch (ParserConfigurationException e) {
-                        e.printStackTrace();
-                    } catch (SAXException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
+                    } catch (ParserConfigurationException | SAXException | IOException e) {
                         e.printStackTrace();
                     }
                     // Later versions work with JSON
@@ -632,9 +629,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
                         JSONArray jsonArray = new JSONArray(jsonString);
                         mSitemapList.addAll(Util.parseSitemapList(jsonArray));
                         Log.d(TAG, jsonArray.toString());
-                    } catch (UnsupportedEncodingException e) {
-                        e.printStackTrace();
-                    } catch (JSONException e) {
+                    } catch (UnsupportedEncodingException | JSONException e) {
                         e.printStackTrace();
                     }
                 }
@@ -689,40 +684,6 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
                             showSitemapSelectionDialog(mSitemapList);
                         }
                     }
-                }
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                setProgressIndicatorVisible(false);
-                if (error instanceof HttpResponseException) {
-                    switch (((HttpResponseException) error).getStatusCode()) {
-                        case 401:
-                            showAlertDialog(getString(R.string.error_authentication_failed));
-                            break;
-                        default:
-                            Log.e(TAG, String.format("Http code = %d", ((HttpResponseException) error).getStatusCode()));
-                            showAlertDialog("HTTP Error: " + error.getMessage());
-                            break;
-                    }
-                } else if (error instanceof org.apache.http.conn.HttpHostConnectException) {
-                    Log.e(TAG, "Error connecting to host");
-                    if (error.getMessage() != null) {
-                        Log.e(TAG, error.getMessage());
-                        showAlertDialog(error.getMessage());
-                    } else {
-                        showAlertDialog(getString(R.string.error_connection_failed));
-                    }
-                } else if (error instanceof java.net.UnknownHostException) {
-                    Log.e(TAG, "Unable to resolve hostname");
-                    if (error.getMessage() != null) {
-                        Log.e(TAG, error.getMessage());
-                        showAlertDialog(error.getMessage());
-                    } else {
-                        showAlertDialog(getString(R.string.error_connection_failed));
-                    }
-                } else {
-                    Log.e(TAG, error.getClass().toString());
                 }
             }
         });
