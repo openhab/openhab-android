@@ -29,14 +29,14 @@ public class OpenHABSitemapPage {
         Node rootNode = document.getFirstChild();
         if (rootNode == null)
             return;
-        mRootWidget = new OpenHABWidget();
+        mRootWidget = new OpenHAB1Widget();
         mRootWidget.setType("root");
         if (rootNode.hasChildNodes()) {
             NodeList childNodes = rootNode.getChildNodes();
             for (int i = 0; i < childNodes.getLength(); i ++) {
                 Node childNode = childNodes.item(i);
                 if (childNode.getNodeName().equals("widget")) {
-                    OpenHABWidget newOpenHABWidget = new OpenHABWidget(mRootWidget, childNode);
+                    OpenHABWidget newOpenHABWidget = OpenHAB1Widget.createOpenHABWidgetFromNode(mRootWidget, childNode);
                     mWidgets.add(newOpenHABWidget);
                 } else if (childNode.getNodeName().equals("title")) {
                     this.setTitle(childNode.getTextContent());
@@ -53,7 +53,6 @@ public class OpenHABSitemapPage {
     }
 
     public OpenHABSitemapPage(JSONObject document) {
-
     }
 
     public ArrayList<OpenHABWidget> getWidgets() {
