@@ -17,68 +17,15 @@ import org.json.JSONObject;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-public class OpenHABSitemap implements Parcelable {
+public abstract class OpenHABSitemap implements Parcelable {
 	private String name;
     private String label;
 	private String link;
     private String icon;
 	private String homepageLink;
     private boolean leaf = false;
-	
-	public OpenHABSitemap(Node startNode) {
-		if (startNode.hasChildNodes()) {
-			NodeList childNodes = startNode.getChildNodes();
-			for (int i = 0; i < childNodes.getLength(); i ++) {
-				Node childNode = childNodes.item(i);
-				if (childNode.getNodeName().equals("name")) {
-					this.setName(childNode.getTextContent());
-                } else if (childNode.getNodeName().equals("label")) {
-                    this.setLabel(childNode.getTextContent());
-				} else if (childNode.getNodeName().equals("link")) {
-					this.setLink(childNode.getTextContent());
-                } else if (childNode.getNodeName().equals("icon")) {
-                    this.setIcon(childNode.getTextContent());
-				} else if (childNode.getNodeName().equals("homepage")) {
-					if (childNode.hasChildNodes()) {
-						NodeList homepageNodes = childNode.getChildNodes();
-						for (int j = 0; j < homepageNodes.getLength(); j++) {
-							Node homepageChildNode = homepageNodes.item(j);
-							if (homepageChildNode.getNodeName().equals("link")) {
-								this.setHomepageLink(homepageChildNode.getTextContent());
-							} else if (homepageChildNode.getNodeName().equals("leaf")) {
-                                if (homepageChildNode.getTextContent().equals("true")) {
-                                    setLeaf(true);
-                                } else {
-                                    setLeaf(false);
-                                }
-                            }
-						}
-					}
-				}
-			}
-		}
-	}
 
-    public OpenHABSitemap(JSONObject jsonObject) {
-        try {
-            if (jsonObject.has("name"))
-                this.setName(jsonObject.getString("name"));
-            if (jsonObject.has("label"))
-                this.setLabel(jsonObject.getString("label"));
-            if (jsonObject.has("link"))
-                this.setLink(jsonObject.getString("link"));
-            if (jsonObject.has("icon"))
-                this.setIcon(jsonObject.getString("icon"));
-            if (jsonObject.has("homepage")) {
-                JSONObject homepageObject = jsonObject.getJSONObject("homepage");
-                this.setHomepageLink(homepageObject.getString("link"));
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private OpenHABSitemap(Parcel in) {
+    OpenHABSitemap(Parcel in) {
         this.name = in.readString();
         this.label = in.readString();
         this.link = in.readString();
@@ -86,7 +33,10 @@ public class OpenHABSitemap implements Parcelable {
         this.homepageLink = in.readString();
     }
 
-	public String getName() {
+    protected OpenHABSitemap() {
+    }
+
+    public String getName() {
 		return name;
 	}
 	public void setName(String name) {
@@ -141,14 +91,6 @@ public class OpenHABSitemap implements Parcelable {
         dest.writeString(homepageLink);
     }
 
-    public static final Parcelable.Creator<OpenHABSitemap> CREATOR = new Parcelable.Creator<OpenHABSitemap>() {
-        public OpenHABSitemap createFromParcel(Parcel in) {
-            return new OpenHABSitemap(in);
-        }
-
-        public OpenHABSitemap[] newArray(int size) {
-            return new OpenHABSitemap[size];
-        }
-    };
+    public abstract String getIconPath();
 
 }

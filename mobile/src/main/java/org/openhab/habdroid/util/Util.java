@@ -22,6 +22,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.openhab.habdroid.R;
+import org.openhab.habdroid.model.OpenHAB1Sitemap;
+import org.openhab.habdroid.model.OpenHAB2Sitemap;
 import org.openhab.habdroid.model.OpenHABSitemap;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -77,7 +79,7 @@ public class Util {
         if (sitemapNodes.getLength() > 0) {
             for (int i = 0; i < sitemapNodes.getLength(); i++) {
                 Node sitemapNode = sitemapNodes.item(i);
-                OpenHABSitemap openhabSitemap = new OpenHABSitemap(sitemapNode);
+                OpenHABSitemap openhabSitemap = new OpenHAB1Sitemap(sitemapNode);
                 sitemapList.add(openhabSitemap);
             }
         }
@@ -89,7 +91,7 @@ public class Util {
         for (int i = 0; i < jsonArray.length(); i++) {
             try {
                 JSONObject sitemapJson = jsonArray.getJSONObject(i);
-                OpenHABSitemap openHABSitemap = new OpenHABSitemap(sitemapJson);
+                OpenHABSitemap openHABSitemap = new OpenHAB2Sitemap(sitemapJson);
                 sitemapList.add(openHABSitemap);
             } catch (JSONException e) {
                 e.printStackTrace();

@@ -24,6 +24,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import org.openhab.habdroid.R;
+import org.openhab.habdroid.model.OpenHABSitemap;
 import org.openhab.habdroid.util.MySmartImageView;
 
 import java.util.List;
@@ -92,17 +93,17 @@ public class OpenHABDrawerAdapter extends ArrayAdapter<OpenHABDrawerItem> {
         drawerItemImage = (MySmartImageView)drawerItemView.findViewById(R.id.itemimage);
         switch (this.getItemViewType(position)) {
             case TYPE_SITEMAPITEM:
-                if (drawerItem.getSiteMap().getLabel() != null && drawerItemLabelTextView != null) {
-                    drawerItemLabelTextView.setText(drawerItem.getSiteMap().getLabel());
+                OpenHABSitemap siteMap = drawerItem.getSiteMap();
+                if (siteMap.getLabel() != null && drawerItemLabelTextView != null) {
+                    drawerItemLabelTextView.setText(siteMap.getLabel());
                 } else {
-                    drawerItemLabelTextView.setText(drawerItem.getSiteMap().getName());
+                    drawerItemLabelTextView.setText(siteMap.getName());
                 }
-                if (drawerItem.getSiteMap().getIcon() != null && drawerItemImage != null) {
-                    String iconUrl = openHABBaseUrl + "images/" + Uri.encode(drawerItem.getSiteMap().getIcon() + ".png");
+                if (siteMap.getIcon() != null && drawerItemImage != null) {
+                    String iconUrl = openHABBaseUrl + Uri.encode(siteMap.getIconPath(),"/?=");
                     drawerItemImage.setImageUrl(iconUrl, R.drawable.openhabiconsmall,
                             openHABUsername, openHABPassword);
                 } else {
-                    String iconUrl = openHABBaseUrl + "images/" + ".png";
                     drawerItemImage.setImageDrawable(getContext().getResources().getDrawable(R.drawable.openhabicon_light));
                 }
                 break;

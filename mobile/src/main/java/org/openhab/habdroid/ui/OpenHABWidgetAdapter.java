@@ -21,7 +21,6 @@ import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
@@ -38,7 +37,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.VideoView;
 
-import com.crittercism.app.Crittercism;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.TextHttpResponseHandler;
 
@@ -184,17 +182,16 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
         MySmartImageView widgetImage = (MySmartImageView)widgetView.findViewById(R.id.widgetimage);
         // Some of widgets, for example Frame doesnt' have an icon, so...
         if (widgetImage != null) {
-            if (openHABWidget.getIcon() != null) {
-                // This is needed to escape possible spaces and everything according to rfc2396
-                String iconUrl = openHABBaseUrl + "images/" + Uri.encode(openHABWidget.getIcon() + ".png");
+            // This is needed to escape possible spaces and everything according to rfc2396
+            String iconUrl = openHABBaseUrl + Uri.encode(openHABWidget.getIconPath(),"/?=");
 //                Log.d(TAG, "Will try to load icon from " + iconUrl);
-                // Now set image URL
-                widgetImage.setImageUrl(iconUrl, R.drawable.blank_icon,
-                        openHABUsername, openHABPassword);
-                if(iconColor != null)
-                    widgetImage.setColorFilter(iconColor);
-                else
-                    widgetImage.clearColorFilter();
+            // Now set image URL
+            widgetImage.setImageUrl(iconUrl, R.drawable.blank_icon,
+                    openHABUsername, openHABPassword);
+            if (iconColor != null) {
+                widgetImage.setColorFilter(iconColor);
+            } else {
+                widgetImage.clearColorFilter();
             }
         }
         TextView defaultTextView = new TextView(widgetView.getContext());

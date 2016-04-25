@@ -12,19 +12,13 @@ package org.openhab.habdroid.model;
 import android.graphics.Color;
 import android.util.Log;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-
 import java.util.ArrayList;
 
 /**
  * This is a class to hold basic information about openHAB widget.
  */
 
-public class OpenHABWidget {
+public abstract class OpenHABWidget {
 	private String id;
 	private String label;
 	private String icon;
@@ -37,11 +31,12 @@ public class OpenHABWidget {
 	private float step = 1;
 	private int refresh = 0;
 	private int height = 0;
-	private OpenHABWidget parent;
+	private String state;
+	OpenHABWidget parent;
 	private OpenHABItem item;
 	private OpenHABLinkedPage linkedPage;
-	private ArrayList<OpenHABWidget> children;
-	private ArrayList<OpenHABWidgetMapping> mappings;
+	ArrayList<OpenHABWidget> children;
+	ArrayList<OpenHABWidgetMapping> mappings;
     private boolean mChildrenHasLinkedPages = false;
     private Integer iconcolor;
     private Integer labelcolor;
@@ -52,141 +47,7 @@ public class OpenHABWidget {
 		this.children = new ArrayList<OpenHABWidget>();
 		this.mappings = new ArrayList<OpenHABWidgetMapping>();
 	}
-	
-	public OpenHABWidget(OpenHABWidget parent, Node startNode) {
-		this.parent = parent;
-		this.children = new ArrayList<OpenHABWidget>();
-		this.mappings = new ArrayList<OpenHABWidgetMapping>();
-		if (startNode.hasChildNodes()) {
-			NodeList childNodes = startNode.getChildNodes();
-			for (int i = 0; i < childNodes.getLength(); i ++) {
-				Node childNode = childNodes.item(i);
-				if (childNode.getNodeName().equals("item")) {
-					this.setItem(new OpenHABItem(childNode));
-				} else if (childNode.getNodeName().equals("linkedPage")) {					
-					this.setLinkedPage(new OpenHABLinkedPage(childNode));
-				} else if (childNode.getNodeName().equals("widget")) {
-					new OpenHABWidget(this, childNode);
-				} else {
-					if (childNode.getNodeName().equals("type")) {
-						this.setType(childNode.getTextContent());
-					} else if (childNode.getNodeName().equals("widgetId")) {
-						this.setId(childNode.getTextContent());
-					} else if (childNode.getNodeName().equals("label")) {
-						this.setLabel(childNode.getTextContent());
-					} else if (childNode.getNodeName().equals("icon")) {
-						this.setIcon(childNode.getTextContent());
-					} else if (childNode.getNodeName().equals("url")) {
-						this.setUrl(childNode.getTextContent());
-					} else if (childNode.getNodeName().equals("minValue")) {
-						setMinValue(Float.valueOf(childNode.getTextContent()).floatValue());
-					} else if (childNode.getNodeName().equals("maxValue")) {
-						setMaxValue(Float.valueOf(childNode.getTextContent()).floatValue());
-					} else if (childNode.getNodeName().equals("step")) {
-						setStep(Float.valueOf(childNode.getTextContent()).floatValue());
-					} else if (childNode.getNodeName().equals("refresh")) {
-						setRefresh(Integer.valueOf(childNode.getTextContent()).intValue());
-					} else if (childNode.getNodeName().equals("period")) {
-						setPeriod(childNode.getTextContent());
-                    } else if (childNode.getNodeName().equals("service")) {
-                        setService(childNode.getTextContent());
-                    } else if (childNode.getNodeName().equals("height")) {
-						setHeight(Integer.valueOf(childNode.getTextContent()));
-					} else if (childNode.getNodeName().equals("mapping")) {
-						NodeList mappingChildNodes = childNode.getChildNodes();
-						String mappingCommand = "";
-						String mappingLabel = "";
-						for (int k = 0; k < mappingChildNodes.getLength(); k++) {
-							if (mappingChildNodes.item(k).getNodeName().equals("command"))
-								mappingCommand = mappingChildNodes.item(k).getTextContent();
-							if (mappingChildNodes.item(k).getNodeName().equals("label"))
-								mappingLabel = mappingChildNodes.item(k).getTextContent();
-						}
-						OpenHABWidgetMapping mapping = new OpenHABWidgetMapping(mappingCommand, mappingLabel);
-						mappings.add(mapping);
-					} else if (childNode.getNodeName().equals("iconcolor")) {
-                        setIconColor(childNode.getTextContent());
-                    } else if (childNode.getNodeName().equals("labelcolor")) {
-                        setLabelColor(childNode.getTextContent());
-                    } else if (childNode.getNodeName().equals("valuecolor")) {
-                        setValueColor(childNode.getTextContent());
-                    } else if (childNode.getNodeName().equals("encoding")) {
-                        setEncoding(childNode.getTextContent());
-                    }
-				}
-			}
-		}
-		this.parent.addChildWidget(this);
-	}
 
-    public OpenHABWidget(OpenHABWidget parent, JSONObject widgetJson) {
-        this.parent = parent;
-        this.children = new ArrayList<OpenHABWidget>();
-        this.mappings = new ArrayList<OpenHABWidgetMapping>();
-        try {
-            if (widgetJson.has("item")) {
-                this.setItem(new OpenHABItem(widgetJson.getJSONObject("item")));
-            }
-            if (widgetJson.has("linkedPage")) {
-                this.setLinkedPage(new OpenHABLinkedPage(widgetJson.getJSONObject("linkedPage")));
-            }
-            if (widgetJson.has("mappings")) {
-                JSONArray mappingsJsonArray = widgetJson.getJSONArray("mappings");
-                for (int i=0; i<mappingsJsonArray.length(); i++) {
-                    JSONObject mappingObject = mappingsJsonArray.getJSONObject(i);
-                    OpenHABWidgetMapping mapping = new OpenHABWidgetMapping(mappingObject.getString("command"),
-                            mappingObject.getString("label"));
-                    mappings.add(mapping);
-                }
-            }
-            if (widgetJson.has("type"))
-                this.setType(widgetJson.getString("type"));
-            if (widgetJson.has("widgetId"))
-                this.setId(widgetJson.getString("widgetId"));
-            if (widgetJson.has("label"))
-                this.setLabel(widgetJson.getString("label"));
-            if (widgetJson.has("icon"))
-                this.setIcon(widgetJson.getString("icon"));
-            if (widgetJson.has("url"))
-                this.setUrl(widgetJson.getString("url"));
-            if (widgetJson.has("minValue"))
-                this.setMinValue((float)widgetJson.getDouble("minValue"));
-            if (widgetJson.has("maxValue"))
-                this.setMaxValue((float)widgetJson.getDouble("maxValue"));
-            if (widgetJson.has("step"))
-                this.setStep((float)widgetJson.getDouble("step"));
-            if (widgetJson.has("refresh"))
-                this.setRefresh(widgetJson.getInt("refresh"));
-            if (widgetJson.has("period"))
-                this.setPeriod(widgetJson.getString("period"));
-            if (widgetJson.has("service"))
-                this.setService(widgetJson.getString("service"));
-            if (widgetJson.has("height"))
-                this.setHeight(widgetJson.getInt("height"));
-            if (widgetJson.has("iconcolor"))
-                this.setIconColor(widgetJson.getString("iconcolor"));
-            if (widgetJson.has("labelcolor"))
-                this.setLabelColor(widgetJson.getString("labelcolor"));
-            if (widgetJson.has("valuecolor"))
-                this.setValueColor(widgetJson.getString("valuecolor"));
-            if (widgetJson.has("encoding"))
-                this.setEncoding(widgetJson.getString("encoding"));
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        if (widgetJson.has("widgets")) {
-            try {
-                JSONArray childWidgetJsonArray = widgetJson.getJSONArray("widgets");
-                for (int i=0; i<childWidgetJsonArray.length(); i++) {
-                    new OpenHABWidget(this, childWidgetJsonArray.getJSONObject(i));
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-        this.parent.addChildWidget(this);
-    }
-	
 	public void addChildWidget(OpenHABWidget child) {
 		if (child != null) {
 			this.children.add(child);
@@ -422,4 +283,14 @@ public class OpenHABWidget {
     public void setEncoding(String encoding) {
         this.encoding = encoding;
     }
+
+	public void setState(String state) {
+		this.state = state;
+	}
+
+	public String getState() {
+		return state;
+	}
+
+	public abstract String getIconPath();
 }

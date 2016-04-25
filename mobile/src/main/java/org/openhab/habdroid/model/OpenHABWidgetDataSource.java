@@ -48,14 +48,14 @@ public class OpenHABWidgetDataSource {
 		Log.i(TAG, "Loading new data");
         if (rootNode == null)
             return;
-		rootWidget = new OpenHABWidget();
+		rootWidget = new OpenHAB1Widget();
 		rootWidget.setType("root");
 		if (rootNode.hasChildNodes()) {
 			NodeList childNodes = rootNode.getChildNodes();
 			for (int i = 0; i < childNodes.getLength(); i ++) {
 				Node childNode = childNodes.item(i);
 				if (childNode.getNodeName().equals("widget")) {
-					new OpenHABWidget(rootWidget, childNode);
+					OpenHAB1Widget.createOpenHABWidgetFromNode(rootWidget, childNode);
 				} else if (childNode.getNodeName().equals("title")) {
 					this.setTitle(childNode.getTextContent());
 				} else if (childNode.getNodeName().equals("id")) {
@@ -73,14 +73,14 @@ public class OpenHABWidgetDataSource {
         Log.d(TAG, jsonObject.toString());
         if (!jsonObject.has("widgets"))
             return;
-        rootWidget = new OpenHABWidget();
+        rootWidget = new OpenHAB2Widget();
         rootWidget.setType("root");
         try {
             JSONArray jsonWidgetArray = jsonObject.getJSONArray("widgets");
             for (int i=0; i<jsonWidgetArray.length(); i++) {
                 JSONObject widgetJson = jsonWidgetArray.getJSONObject(i);
                 // Log.d(TAG, widgetJson.toString());
-                new OpenHABWidget(rootWidget, widgetJson);
+                OpenHAB2Widget.createOpenHABWidgetFromJson(rootWidget, widgetJson);
             }
             if (jsonObject.has("title"))
                 this.setTitle(jsonObject.getString("title"));
