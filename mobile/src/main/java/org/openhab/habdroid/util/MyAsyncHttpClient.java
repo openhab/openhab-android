@@ -30,7 +30,7 @@ public class MyAsyncHttpClient extends AsyncHttpClient {
 //		super(ctx);
 		try {
 	        sslContext = SSLContext.getInstance("TLS");
-	        sslContext.init(null, MemorizingTrustManager.getInstanceList(ctx), new java.security.SecureRandom());
+	        sslContext.init(MyKeyManager.getInstance(ctx), MemorizingTrustManager.getInstanceList(ctx), new java.security.SecureRandom());
 	        sslSocketFactory = new MySSLSocketFactory(sslContext);
             if (PreferenceManager.getDefaultSharedPreferences(ctx).getBoolean(Constants.PREFERENCE_SSLHOST, false))
                 sslSocketFactory.setHostnameVerifier(SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
