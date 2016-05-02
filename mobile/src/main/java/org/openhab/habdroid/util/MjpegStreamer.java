@@ -17,14 +17,14 @@ import android.os.Message;
 import android.util.Log;
 import android.widget.ImageView;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.auth.AuthScope;
-import org.apache.http.auth.UsernamePasswordCredentials;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.CredentialsProvider;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.BasicCredentialsProvider;
-import org.apache.http.impl.client.DefaultHttpClient;
+import cz.msebera.android.httpclient.HttpResponse;
+import cz.msebera.android.httpclient.auth.AuthScope;
+import cz.msebera.android.httpclient.auth.UsernamePasswordCredentials;
+import cz.msebera.android.httpclient.client.ClientProtocolException;
+import cz.msebera.android.httpclient.client.CredentialsProvider;
+import cz.msebera.android.httpclient.client.methods.HttpGet;
+import cz.msebera.android.httpclient.impl.client.BasicCredentialsProvider;
+import cz.msebera.android.httpclient.impl.client.DefaultHttpClient;
 
 import java.io.IOException;
 import java.io.InputStream;

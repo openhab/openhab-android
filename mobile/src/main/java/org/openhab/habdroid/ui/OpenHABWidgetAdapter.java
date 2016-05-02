@@ -40,8 +40,8 @@ import android.widget.VideoView;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.TextHttpResponseHandler;
 
-import org.apache.http.Header;
-import org.apache.http.entity.StringEntity;
+import cz.msebera.android.httpclient.Header;
+import cz.msebera.android.httpclient.entity.StringEntity;
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.model.OpenHABItem;
 import org.openhab.habdroid.model.OpenHABWidget;

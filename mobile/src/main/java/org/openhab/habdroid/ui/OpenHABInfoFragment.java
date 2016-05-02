@@ -22,7 +22,7 @@ import android.widget.TextView;
 
 import com.loopj.android.http.TextHttpResponseHandler;
 
-import org.apache.http.Header;
+import cz.msebera.android.httpclient.Header;
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.util.MyAsyncHttpClient;
 
