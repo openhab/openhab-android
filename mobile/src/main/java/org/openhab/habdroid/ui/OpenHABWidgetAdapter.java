@@ -230,7 +230,9 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     	case TYPE_GROUP:
     		if (labelTextView != null && valueTextView != null) {
     			splitString = openHABWidget.getLabel().split("\\[|\\]");
-    			labelTextView.setText(splitString[0]);
+                if(splitString.length > 0) {
+                    labelTextView.setText(splitString[0]);
+                }
     			if (splitString.length > 1) { // We have some value
     				valueTextView.setText(splitString[1]);
     			} else {
@@ -241,7 +243,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     		break;
     	case TYPE_SECTIONSWITCH:
 			splitString = openHABWidget.getLabel().split("\\[|\\]");
-			if (labelTextView != null)
+			if (labelTextView != null && splitString.length > 0)
 				labelTextView.setText(splitString[0]);
 			if (splitString.length > 1 && valueTextView != null) { // We have some value
 				valueTextView.setText(splitString[1]);
@@ -437,7 +439,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     		break;
     	case TYPE_SLIDER:
     		splitString = openHABWidget.getLabel().split("\\[|\\]");
-    		if (labelTextView != null)
+    		if (labelTextView != null && splitString.length > 0)
     			labelTextView.setText(splitString[0]);
     		SeekBar sliderSeekBar = (SeekBar)widgetView.findViewById(R.id.sliderseekbar);
     		if (openHABWidget.hasItem()) {
@@ -624,7 +626,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     		break;
     	case TYPE_SETPOINT:
     		splitString = openHABWidget.getLabel().split("\\[|\\]");
-    		if (labelTextView != null)
+    		if (labelTextView != null && splitString.length > 0)
     			labelTextView.setText(splitString[0]);
     		if (valueTextView != null)
     			if (splitString.length > 1) {
