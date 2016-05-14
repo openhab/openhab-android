@@ -20,8 +20,8 @@ import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
-import org.apache.http.Header;
-import org.apache.http.entity.StringEntity;
+import cz.msebera.android.httpclient.Header;
+import cz.msebera.android.httpclient.entity.StringEntity;
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.util.Constants;
 import org.openhab.habdroid.util.ContinuingIntentService;
@@ -149,7 +149,7 @@ public class OpenHABVoiceService extends ContinuingIntentService implements Open
         Log.d(TAG, "sendItemCommand(): itemName=" + itemName + ", command=" + command);
         try {
             performHttpPost(itemName, new StringEntity(command, "UTF-8"));
-        } catch (UnsupportedEncodingException e) {
+        } catch (RuntimeException e) {
             Log.e(TAG, "Unable to encode command " + command, e);
         }
     }

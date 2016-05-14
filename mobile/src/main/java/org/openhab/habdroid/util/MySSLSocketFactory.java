@@ -9,7 +9,7 @@
 
 package org.openhab.habdroid.util;
 
-import org.apache.http.conn.ssl.SSLSocketFactory;
+import cz.msebera.android.httpclient.conn.ssl.SSLSocketFactory;
 
 import java.io.IOException;
 import java.net.Socket;

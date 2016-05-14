@@ -14,7 +14,7 @@ import android.preference.PreferenceManager;
 
 import com.loopj.android.http.AsyncHttpClient;
 
-import org.apache.http.conn.ssl.SSLSocketFactory;
+import cz.msebera.android.httpclient.conn.ssl.SSLSocketFactory;
 
 import javax.net.ssl.SSLContext;
 

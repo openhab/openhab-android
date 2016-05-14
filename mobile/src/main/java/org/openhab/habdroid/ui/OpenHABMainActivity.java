@@ -60,9 +60,9 @@ import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.TextHttpResponseHandler;
 import com.loopj.android.image.WebImageCache;
 
-import org.apache.http.Header;
-import org.apache.http.client.HttpResponseException;
-import org.apache.http.entity.StringEntity;
+import cz.msebera.android.httpclient.Header;
+import cz.msebera.android.httpclient.client.HttpResponseException;
+import cz.msebera.android.httpclient.entity.StringEntity;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.openhab.habdroid.BuildConfig;
@@ -570,7 +570,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
                             Log.e(TAG, String.format("Http code = %d", ((HttpResponseException) error).getStatusCode()));
                             break;
                     }
-                } else if (error instanceof org.apache.http.conn.HttpHostConnectException) {
+                } else if (error instanceof cz.msebera.android.httpclient.conn.HttpHostConnectException) {
                     Log.e(TAG, "Error connecting to host");
                     if (error.getMessage() != null) {
                         Log.e(TAG, error.getMessage());
@@ -705,7 +705,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
                             showAlertDialog("HTTP Error: " + error.getMessage());
                             break;
                     }
-                } else if (error instanceof org.apache.http.conn.HttpHostConnectException) {
+                } else if (error instanceof cz.msebera.android.httpclient.conn.HttpHostConnectException) {
                     Log.e(TAG, "Error connecting to host");
                     if (error.getMessage() != null) {
                         Log.e(TAG, error.getMessage());
@@ -1015,7 +1015,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
                     Log.d(TAG, "Command was sent successfully");
                 }
             });
-        } catch (UnsupportedEncodingException e) {
+        } catch (RuntimeException e) {
             if (e.getMessage() != null)
                 Log.e(TAG, e.getMessage());
         }
