@@ -68,7 +68,7 @@ public class OpenHABItem {
                 if (jsonObject.has("name"))
                     this.setName(jsonObject.getString("name"));
                 if (jsonObject.has("state")) {
-                    if (jsonObject.getString("state").equals("NULL")) {
+                    if (jsonObject.getString("state").equals("NULL") || jsonObject.getString("state").equals("UNDEF")) {
                         this.setState(null);
                     } else {
                         this.setState(jsonObject.getString("state"));
