@@ -68,7 +68,9 @@ public class OpenHABItem {
                 if (jsonObject.has("name"))
                     this.setName(jsonObject.getString("name"));
                 if (jsonObject.has("state")) {
-                    if (jsonObject.getString("state").equals("NULL") || jsonObject.getString("state").equals("UNDEF")) {
+                    if (jsonObject.getString("state").equals("NULL") ||
+                            jsonObject.getString("state").equals("UNDEF") ||
+                            jsonObject.getString("state").equalsIgnoreCase("undefined")) {
                         this.setState(null);
                     } else {
                         this.setState(jsonObject.getString("state"));
@@ -143,26 +145,26 @@ public class OpenHABItem {
 	}
 
 	public Float getStateAsFloat() {
+		Float result;
 		// For uninitialized/null state return zero
 		if (state == null) {
-			return new Float(0);
-		}
-		if ("ON".equals(state)) {
-			return new Float(100);
-		}
-		if ("OFF".equals(state)) {
-			return new Float(0);
-		}
-		try {
-			Float result = Float.parseFloat(state);
-		} catch (NumberFormatException e) {
-			if (e != null) {
-				Crittercism.logHandledException(e);
-				Log.e(TAG, e.getMessage());
+			result = new Float(0);
+		} else if ("ON".equals(state)) {
+			result = new Float(100);
+		} else if ("OFF".equals(state)) {
+			result = new Float(0);
+		} else {
+			try {
+				result = Float.parseFloat(state);
+			} catch (NumberFormatException e) {
+				if (e != null) {
+					Crittercism.logHandledException(e);
+					Log.e(TAG, e.getMessage());
+				}
+				result = new Float(0);
 			}
-
 		}
-		return Float.parseFloat(state);
+		return result;
 	}
 
 	public float[] getStateAsHSV() {
