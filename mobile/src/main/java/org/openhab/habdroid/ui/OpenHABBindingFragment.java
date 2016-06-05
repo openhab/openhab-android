@@ -167,6 +167,7 @@ public class OpenHABBindingFragment extends ListFragment implements SwipeRefresh
 //        super.onListItemClick(l, v, position, id);
         if (mBindings.get(position).getThingTypes() == null) {
             Log.d(TAG, "Source thing types == null");
+            return;
         }
         if (mActivity != null) {
             mActivity.openBindingThingTypes(mBindings.get(position).getThingTypes());
