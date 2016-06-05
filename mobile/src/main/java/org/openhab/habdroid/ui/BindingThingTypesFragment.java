@@ -61,11 +61,14 @@ public class BindingThingTypesFragment extends ListFragment implements SwipeRefr
         Log.d(TAG, "onCreate()");
         if (getArguments() != null) {
             thingTypes = getArguments().getParcelableArrayList(ARG_THINGTYPES);
-            for (ThingType thingType : thingTypes) {
-                Log.d(TAG, "Got thingType " + thingType.getLabel());
-            }
-            if (thingTypes == null)
+
+            if (thingTypes == null) {
                 Log.d(TAG, "thingTypes == null");
+            } else {
+                for (ThingType thingType : thingTypes) {
+                    Log.d(TAG, "Got thingType " + thingType.getLabel());
+                }
+            }
         }
     }
 
