@@ -32,6 +32,8 @@ import org.w3c.dom.NodeList;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class Util {
@@ -83,6 +85,14 @@ public class Util {
                 sitemapList.add(openhabSitemap);
             }
         }
+        // Sort by sitename label
+        Collections.sort(sitemapList, new Comparator<OpenHABSitemap>() {
+            @Override
+            public int compare(OpenHABSitemap sitemap1, OpenHABSitemap sitemap2) {
+                return  sitemap1.getLabel().compareTo(sitemap2.getLabel());
+            }
+        });
+
         return sitemapList;
     }
 
