@@ -74,6 +74,7 @@
     <string name="info_write_tag_unsupported">This device doesn\'t have NFC support :-(</string>
     <string name="info_write_tag_disabled">NFC is disabled. Please enable it in device settings menu.</string>
     <string name="info_openhab_version_label">openHAB Version</string>
+    <string name="info_openhab_apiversion_label">openHAB Rest API Version</string>
     <string name="info_openhab_uuid_label">openHAB UUID</string>
     <string name="info_openhab_secret_label">openHAB Secret</string>
     <string name="action_settings">Settings</string>

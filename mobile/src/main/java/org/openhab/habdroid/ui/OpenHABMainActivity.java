@@ -872,6 +872,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
                 bundle.putString(OpenHABVoiceService.OPENHAB_BASE_URL_EXTRA, openHABBaseUrl);
                 bundle.putString("username", openHABUsername);
                 bundle.putString("password", openHABPassword);
+                bundle.putInt("openHABVersion", mOpenHABVersion);
 
                 FragmentManager fm = getSupportFragmentManager();
                 Fragment openHabInfo = new OpenHABInfoFragment();
