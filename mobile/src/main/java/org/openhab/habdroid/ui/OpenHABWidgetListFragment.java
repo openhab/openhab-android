@@ -565,15 +565,25 @@ public class OpenHABWidgetListFragment extends ListFragment {
     }
 
     public boolean onVolumeDown() {
-        return openHABWidgetAdapter.onVolumeDown();
+        if(openHABWidgetAdapter != null) {
+            return openHABWidgetAdapter.onVolumeDown();
+        }
+        return false;
     }
 
     public boolean onVolumeUp() {
-        return openHABWidgetAdapter.onVolumeUp();
+        if(openHABWidgetAdapter != null) {
+            return openHABWidgetAdapter.onVolumeUp();
+        }
+        return false;
     }
 
     public boolean isVolumeHandled() {
-        return openHABWidgetAdapter.isVolumeHandled();
+        if(openHABWidgetAdapter != null) {
+            return openHABWidgetAdapter.isVolumeHandled();
+        }
+        return false;
+
     }
 
 }
