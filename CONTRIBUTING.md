@@ -25,9 +25,9 @@ If your pull request is not accepted on the first try, don't be
 discouraged! If there's a problem with the implementation, hopefully you
 received feedback on what to improve.
 
-### Discuss your design on the mailing list
+### Discuss your design on the community forum
 
-We recommend discussing your plans [in the issue tracker](https://github.com/openhab/openhab.android/issues?labels=enhancement&page=1&state=open)
+We recommend discussing your plans on the [community forum](https://community.openhab.org)
 before starting to code - especially for more ambitious contributions.
 This gives other contributors a chance to point you in the right
 direction, give feedback on your design, and maybe point out if someone
