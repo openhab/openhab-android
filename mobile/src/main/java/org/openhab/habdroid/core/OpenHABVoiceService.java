@@ -27,7 +27,6 @@ import org.openhab.habdroid.util.Constants;
 import org.openhab.habdroid.util.ContinuingIntentService;
 import org.openhab.habdroid.util.MyAsyncHttpClient;
 
-import java.io.UnsupportedEncodingException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;

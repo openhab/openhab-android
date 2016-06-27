@@ -15,14 +15,11 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import com.google.android.gms.appindexing.Thing;
-
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.model.OpenHABDiscoveryInbox;
 import org.openhab.habdroid.model.thing.ThingType;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class OpenHABDiscoveryInboxAdapter extends ArrayAdapter<OpenHABDiscoveryInbox> {
     private int mResource;

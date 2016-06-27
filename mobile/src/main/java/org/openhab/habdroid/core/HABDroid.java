@@ -9,8 +9,6 @@
 
 package org.openhab.habdroid.core;
 
-import android.app.Activity;
-import android.app.Application;
 import android.support.multidex.MultiDexApplication;
 import android.util.Log;
 

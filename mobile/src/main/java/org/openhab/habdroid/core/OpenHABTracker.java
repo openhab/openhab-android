@@ -23,9 +23,7 @@ import org.openhab.habdroid.util.AsyncServiceResolverListener;
 import org.openhab.habdroid.util.Constants;
 import org.openhab.habdroid.util.Util;
 
-import java.io.IOException;
 import java.net.InetSocketAddress;
-import java.net.MalformedURLException;
 import java.net.Socket;
 import java.net.URL;
 import java.util.concurrent.ExecutionException;

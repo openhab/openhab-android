@@ -12,11 +12,6 @@ package org.openhab.habdroid.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-
 public abstract class OpenHABSitemap implements Parcelable {
 	private String name;
     private String label;

@@ -9,7 +9,6 @@
 
 package org.openhab.habdroid.util;
 
-import android.app.Activity;
 import android.content.Context;
 import android.net.wifi.WifiManager;
 import android.net.wifi.WifiManager.MulticastLock;
