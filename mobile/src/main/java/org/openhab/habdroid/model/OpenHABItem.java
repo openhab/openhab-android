@@ -148,11 +148,11 @@ public class OpenHABItem {
 		Float result;
 		// For uninitialized/null state return zero
 		if (state == null) {
-			result = new Float(0);
+			result = 0f;
 		} else if ("ON".equals(state)) {
-			result = new Float(100);
+			result = 100f;
 		} else if ("OFF".equals(state)) {
-			result = new Float(0);
+			result = 0f;
 		} else {
 			try {
 				result = Float.parseFloat(state);
