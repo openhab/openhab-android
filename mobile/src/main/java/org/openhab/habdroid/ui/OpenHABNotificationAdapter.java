@@ -22,7 +22,6 @@ import org.openhab.habdroid.R;
 import org.openhab.habdroid.model.OpenHABNotification;
 import org.openhab.habdroid.util.Constants;
 import org.openhab.habdroid.util.MySmartImageView;
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 

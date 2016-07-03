@@ -18,7 +18,6 @@ import android.util.Log;
 import com.loopj.android.image.SmartImageView;
 
 import java.lang.ref.WeakReference;
-import java.sql.Ref;
 import java.util.Timer;
 import java.util.TimerTask;
 

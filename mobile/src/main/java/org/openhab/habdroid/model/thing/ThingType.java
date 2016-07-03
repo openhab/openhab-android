@@ -13,7 +13,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.util.ArrayList;
-import com.google.gson.annotations.SerializedName;
 
 public class ThingType implements Parcelable {
     private ArrayList<ThingTypeChannel> channels;

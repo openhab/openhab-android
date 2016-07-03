@@ -10,8 +10,6 @@
 package org.openhab.habdroid.ui;
 
 import android.content.Context;
-import android.net.Uri;
-import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,10 +18,6 @@ import android.widget.TextView;
 
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.model.OpenHABBinding;
-import org.openhab.habdroid.model.OpenHABNotification;
-import org.openhab.habdroid.util.Constants;
-import org.openhab.habdroid.util.MySmartImageView;
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
