@@ -13,6 +13,7 @@ import android.Manifest;
 import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.app.ProgressDialog;
+import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -1097,7 +1098,14 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
         speechIntent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 1);
         speechIntent.putExtra(RecognizerIntent.EXTRA_RESULTS_PENDINGINTENT, openhabPendingIntent);
 
-        startActivity(speechIntent);
+        try {
+            startActivity(speechIntent);
+        } catch(ActivityNotFoundException e) {
+            // Speech not installed?
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW,
+                    Uri.parse("https://market.android.com/details?id=com.google.android.voicesearch"));
+            startActivity(browserIntent);
+        }
     }
 
     private void showAlertDialog(String alertMessage) {
