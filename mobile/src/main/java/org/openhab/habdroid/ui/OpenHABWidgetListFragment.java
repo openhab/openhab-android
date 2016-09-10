@@ -478,7 +478,8 @@ public class OpenHABWidgetListFragment extends ListFragment {
             if (nfcWidget != null && nfcItem != null) {
                 // TODO: Perform nfc widget action here
                 if (this.nfcCommand.equals("TOGGLE")) {
-                    if (nfcItem.getType().equals("RollershutterItem")) {
+                    //RollerShutterItem changed to RollerShutter in later builds of OH2
+                    if (nfcItem.getType().startsWith("Rollershutter")) {
                         if (nfcItem.getStateAsBoolean())
                             this.openHABWidgetAdapter.sendItemCommand(nfcItem, "UP");
                         else
