@@ -247,6 +247,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
             mStartedWithNetworkConnectivityInfo = savedInstanceState.getParcelable("startedWithNetworkConnectivityInfo");
             mOpenHABVersion = savedInstanceState.getInt("openHABVersion");
             mSitemapList = savedInstanceState.getParcelableArrayList("sitemapList");
+            pagerAdapter.setOpenHABBaseUrl(openHABBaseUrl);
         }
 
         if (mSitemapList == null) {
