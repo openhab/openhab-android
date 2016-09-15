@@ -36,8 +36,9 @@ public class OpenHABNFCActionList {
 					actionNames.add("Toggle");
 					actionCommands.add("TOGGLE");
 					//RollerShutterItem changed to RollerShutter in later builds of OH2
-				} else if (openHABWidget.getItem().getType().startsWith("RollerShutter") ||
-						openHABWidget.getItem().getGroupType().equals("RollerShutter")) {
+				} else if ("RollershutterItem".equals(openHABWidget.getItem().getType()) ||
+						"Rollershutter".equals(openHABWidget.getItem().getType()) ||
+						"Rollershutter".equals(openHABWidget.getItem().getGroupType())) {
 					actionNames.add("Up");
 					actionCommands.add("UP");
 					actionNames.add("Down");

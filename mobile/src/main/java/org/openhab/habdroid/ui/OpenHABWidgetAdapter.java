@@ -708,8 +708,9 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     		} else if (openHABWidget.getItem() != null) {
     			if (openHABWidget.getItem().getType()!= null) {
 					//RollerShutterItem changed to RollerShutter in later builds of OH2
-	    			if (openHABWidget.getItem().getType().startsWith("RollerShutter") ||
-							openHABWidget.getItem().getGroupType().equals("RollerShutter"))
+					if ("RollershutterItem".equals(openHABWidget.getItem().getType()) ||
+							"Rollershutter".equals(openHABWidget.getItem().getType()) ||
+							"Rollershutter".equals(openHABWidget.getItem().getGroupType()))
 	    				return TYPE_ROLLERSHUTTER;
 	    			else
 	    				return TYPE_SWITCH;
