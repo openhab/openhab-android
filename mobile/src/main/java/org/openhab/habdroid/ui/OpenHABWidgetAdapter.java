@@ -487,7 +487,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     		Random random = new Random();
     		String chartUrl = "";
     		if (chartItem != null) {
-	    		if (chartItem.getType().equals("GroupItem")) {
+	    		if (chartItem.getType().equals("GroupItem") || chartItem.getType().equals("Group")) {
 	    			chartUrl = openHABBaseUrl + "chart?groups=" + chartItem.getName() +
 	    					"&period=" + openHABWidget.getPeriod() + "&random=" +
 	    					String.valueOf(random.nextInt());
