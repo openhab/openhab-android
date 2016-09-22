@@ -112,15 +112,7 @@ public class MemorizingActivity extends Activity
 		    }
 		    if(desireClass != null)
 		        id = desireClass.getField(name).getInt(desireClass);
-		} catch (ClassNotFoundException e) {
-		    e.printStackTrace();
-		} catch (IllegalArgumentException e) {
-		    e.printStackTrace();
-		} catch (SecurityException e) {
-		    e.printStackTrace();
-		} catch (IllegalAccessException e) {
-		    e.printStackTrace();
-		} catch (NoSuchFieldException e) {
+		} catch (ClassNotFoundException | IllegalArgumentException | SecurityException | IllegalAccessException | NoSuchFieldException e) {
 		    e.printStackTrace();
 		}
 		return id;
