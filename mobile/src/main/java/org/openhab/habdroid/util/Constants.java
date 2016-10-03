@@ -25,4 +25,6 @@ public class Constants {
     public static final String PREFERENCE_DEMOMODE          = "default_openhab_demomode";
     public static final String PREFERENCE_FULLSCREEN        = "default_openhab_fullscreen";
     public static final String PREFERENCE_TONE              = "default_openhab_alertringtone";
+    public static final String PREFERENCE_SSLCLIENTCERT     = "default_openhab_sslclientcert";
+    public static final String PREFERENCE_SSLCLIENTCERT_HOWTO = "default_openhab_sslclientcert_howto";
 }
