@@ -89,6 +89,12 @@ public class Util {
         Collections.sort(sitemapList, new Comparator<OpenHABSitemap>() {
             @Override
             public int compare(OpenHABSitemap sitemap1, OpenHABSitemap sitemap2) {
+                if (sitemap1.getLabel() == null) {
+                    return sitemap2.getLabel() == null ? 0 : -1;
+                }
+                if (sitemap2.getLabel() == null) {
+                    return 1;
+                }
                 return  sitemap1.getLabel().compareTo(sitemap2.getLabel());
             }
         });
