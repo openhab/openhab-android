@@ -41,11 +41,6 @@ public class UtilTest {
     }
 
     @Test
-    public void initCrittercism() throws Exception {
-
-    }
-
-    @Test
     public void parseSitemapList() throws Exception {
         List<OpenHABSitemap> sitemapList = Util.parseSitemapList(createSitemapDocument());
         assertFalse(sitemapList.isEmpty());
@@ -87,10 +82,4 @@ public class UtilTest {
         assertEquals("i AM DEfault", Util.getSitemapByName(sitemapList(), "default").getLabel());
         assertEquals(null, Util.getSitemapByName(sitemapList(), "outside").getLabel());
     }
-
-    @Test
-    public void setActivityTheme() throws Exception {
-
-    }
-
 }
