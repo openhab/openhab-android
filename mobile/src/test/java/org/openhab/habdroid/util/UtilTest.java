@@ -15,6 +15,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
 
 public class UtilTest {
@@ -70,9 +71,15 @@ public class UtilTest {
         return builder.parse(new InputSource(new StringReader(xml)));
     }
 
+
     @Test
     public void sitemapExists() throws Exception {
+        assertTrue(Util.sitemapExists(sitemapList(), "garden"));
+        assertFalse(Util.sitemapExists(sitemapList(), "monkies"));
+    }
 
+    private List<OpenHABSitemap> sitemapList() throws IOException, SAXException, ParserConfigurationException {
+        return Util.parseSitemapList(createSitemapDocument());
     }
 
     @Test
