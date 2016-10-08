@@ -41,15 +41,16 @@ public class Util {
     private final static String TAG = Util.class.getSimpleName();
 
     public static void overridePendingTransition(Activity activity, boolean reverse) {
-        if (PreferenceManager.getDefaultSharedPreferences(activity).getString(Constants.PREFERENCE_ANIMATION, "android").equals("android")) {
-        } else if (PreferenceManager.getDefaultSharedPreferences(activity).getString(Constants.PREFERENCE_ANIMATION, "android").equals("ios")) {
-            if (reverse) {
-                activity.overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+        if (!PreferenceManager.getDefaultSharedPreferences(activity).getString(Constants.PREFERENCE_ANIMATION, "android").equals("android")) {
+            if (PreferenceManager.getDefaultSharedPreferences(activity).getString(Constants.PREFERENCE_ANIMATION, "android").equals("ios")) {
+                if (reverse) {
+                    activity.overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+                } else {
+                    activity.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                }
             } else {
-                activity.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                activity.overridePendingTransition(0, 0);
             }
-        } else {
-            activity.overridePendingTransition(0, 0);
         }
     }
 
