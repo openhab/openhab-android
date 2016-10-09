@@ -533,11 +533,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
                         DocumentBuilder builder = dbf.newDocumentBuilder();
                         Document sitemapsXml = builder.parse(new ByteArrayInputStream(responseBody));
                         mSitemapList.addAll(Util.parseSitemapList(sitemapsXml));
-                    } catch (ParserConfigurationException e) {
-                        e.printStackTrace();
-                    } catch (SAXException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
+                    } catch (ParserConfigurationException | SAXException | IOException e) {
                         e.printStackTrace();
                     }
                     // Later versions work with JSON
@@ -547,9 +543,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
                         JSONArray jsonArray = new JSONArray(jsonString);
                         mSitemapList.addAll(Util.parseSitemapList(jsonArray));
                         Log.d(TAG, jsonArray.toString());
-                    } catch (UnsupportedEncodingException e) {
-                        e.printStackTrace();
-                    } catch (JSONException e) {
+                    } catch (UnsupportedEncodingException | JSONException e) {
                         e.printStackTrace();
                     }
                 }
@@ -620,11 +614,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
                         DocumentBuilder builder = dbf.newDocumentBuilder();
                         Document sitemapsXml = builder.parse(new ByteArrayInputStream(responseBody));
                         mSitemapList.addAll(Util.parseSitemapList(sitemapsXml));
-                    } catch (ParserConfigurationException e) {
-                        e.printStackTrace();
-                    } catch (SAXException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
+                    } catch (ParserConfigurationException | SAXException | IOException e) {
                         e.printStackTrace();
                     }
                     // Later versions work with JSON
@@ -634,9 +624,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
                         JSONArray jsonArray = new JSONArray(jsonString);
                         mSitemapList.addAll(Util.parseSitemapList(jsonArray));
                         Log.d(TAG, jsonArray.toString());
-                    } catch (UnsupportedEncodingException e) {
-                        e.printStackTrace();
-                    } catch (JSONException e) {
+                    } catch (UnsupportedEncodingException | JSONException e) {
                         e.printStackTrace();
                     }
                 }
