@@ -6,7 +6,7 @@
     <!-- General app strings -->
     <string name="app_name">openHAB</string>
     <string name="openhab_service_type">_openhab-server-ssl._tcp.local.</string>
-    <string name="openhab_demo_url">https://demo.openhab.org:8443/</string>
+    <string name="openhab_demo_url">http://demo.openhab.org:8080/</string>
     <string name="app_preferences_name">Instellingen</string>
     <string name="app_notifications">Notificaties</string>
     <string name="app_bindings">Bindings</string>

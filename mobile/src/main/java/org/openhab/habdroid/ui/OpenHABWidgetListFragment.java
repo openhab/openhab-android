@@ -72,7 +72,7 @@ public class OpenHABWidgetListFragment extends ListFragment {
     // sitemap root url
     private String sitemapRootUrl = "";
     // openHAB base url
-    private String openHABBaseUrl = "https://demo.openhab.org:8443/";
+    private String openHABBaseUrl = "http://demo.openhab.org:8080/";
     // List of widgets to display
     private ArrayList<OpenHABWidget> widgetList = new ArrayList<OpenHABWidget>();
     // Username/password for authentication

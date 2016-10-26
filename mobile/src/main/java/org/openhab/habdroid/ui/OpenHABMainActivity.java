@@ -119,7 +119,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
 //    private static MyAsyncHttpClient mAsyncHttpClient;
     private static AsyncHttpClient mAsyncHttpClient = new AsyncHttpClient();
     // Base URL of current openHAB connection
-    private String openHABBaseUrl = "https://demo.openhab.org:8443/";
+    private String openHABBaseUrl = "http://demo.openhab.org:8080/";
     // openHAB username
     private String openHABUsername = "";
     // openHAB password
