@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    >
+    <!-- General app strings -->
+    <string name="app_name">openHAB</string>
+    <string name="openhab_service_type">_openhab-server-ssl._tcp.local.</string>
+    <string name="openhab_demo_url">http://demo.openhab.org:9080/</string>
+    <string name="app_preferences_name">Configuración</string>
+    <string name="app_notifications">Notificaciones</string>
+    <string name="app_bindings">Bindings</string>
+    <string name="app_bindings_supportedthings">Elementos soportados</string>
+    <string name="app_discoveryinbox">Búsqueda</string>
+    <string name="app_discoveryinbox_deviceunnamed">Dispositivo sin nombre</string>
+    <string name="app_discoveryinbox_deviceaction">Seleccionar una acción</string>
+    <string name="app_discoveryinbox_approve">Aprobar</string>
+    <string name="app_discoveryinbox_ignore">Ignorar</string>
+    <string name="app_discoveryinbox_delete">Suprimir</string>
+    <string name="app_discoveryinbox_nothings">No hay elementos nuevos</string>
+    <string name="app_discovery">Activar la búsqueda</string>
+    <!-- Main menu items -->
+    <string name="mainmenu_openhab_preferences">Configuración</string>
+    <string name="mainmenu_openhab_selectsitemap">Seleccionar el sitemap por defecto</string>
+    <string name="mainmenu_openhab_writetag">Escribir una tag NFC</string>
+    <string name="mainmenu_openhab_info">Acerca de openHAB</string>
+    <string name="mainmenu_openhab_clearcache">Borrar la caché de imágenes</string>
+    <!-- App settings strings -->
+    <string name="settings_connection_title">Configuración de la conexión</string>
+    <string name="settings_display_title">Configuración de la pantalla</string>
+    <string name="settings_misc_title">Otras configuraciones</string>
+    <string name="settings_openhab_url">URL openHAB</string>
+    <string name="settings_openhab_url_summary">Configurar manualmente la dirección de openHAB. Deshabilita la búsqueda automática si se encuentra disponible.</string>
+    <string name="settings_openhab_alturl">URL remota openHAB</string>
+    <string name="settings_openhab_alturl_summary">Usada cuando la dirección local no está disponible</string>
+    <string name="settings_openhab_username">Nombre de usuario</string>
+    <string name="settings_openhab_username_summary">Nombre de usuario de openHAB</string>
+    <string name="settings_openhab_password">Contraseña</string>
+    <string name="settings_openhab_password_summary">Contraseña de openHAB</string>
+    <string name="settings_openhab_screentimeroff">Deshabilitar apagado de pantalla</string>
+    <string name="settings_openhab_screentimeroff_summary">Deshabilita el temporizador que apaga la pantalla mientras HABDroid está siendo ejecutado</string>
+    <string name="settings_openhab_demomode">Modo demo</string>
+    <string name="settings_openhab_demomode_summary">Ejecutar HABDroid modo demo</string>
+    <string name="settings_openhab_theme">Tema HABDroid</string>
+    <string name="settings_openhab_appversion">Versión HABDroid</string>
+    <string name="settings_openhab_sslcert">Ignorar certificado SSL</string>
+    <string name="settings_openhab_sslcert_summary">No comprobar el certificado durante la conexión SSL</string>
+    <string name="settings_openhab_sslhost">Ignorar dominio SSL</string>
+    <string name="settings_openhab_sslhost_summary">No comprobar el nombre de dominio durante la conexión SSL</string>
+    <string name="settings_openhab_fullscreen">Pantalla completa</string>
+    <string name="settings_openhab_fullscreen_summary">Mostrar a pantalla completa</string>
+    <string name="settings_ringtone">Sonido</string>
+    <!-- App messages strings -->
+    <string name="title_voice_widget">Comandos de voz OpenHAB</string>
+    <string name="info_voice_input">"openHAB, ¡a tus órdenes!"</string>
+    <string name="info_voice_recognized_text">"Comando reconocido: %1$s"</string>
+    <string name="info_demo_mode">HABDroid se ejecuta en modo demo. Por favor, ir al menú configuración para conectarlo a openHAB.</string>
+    <string name="info_conn_url">Conectando a la URL local</string>
+    <string name="info_conn_rem_url">Conectando a la URL remota</string>
+    <string name="info_discovery">Buscando openHAB. Por favor, espera...</string>
+    <string name="error_no_url">Por favor, comprobar que openHAB se está ejecutando o configurar la URL local de openHAB o la URL remota</string>
+    <string name="error_authentication_failed">Error de autentificación. Por favor, comprobar la configuración del Usuario/Contraseña</string>
+    <string name="error_empty_sitemap_list">openHAB devolvió una lista de sitemaps vacía</string>
+    <string name="error_network_not_available">La conexión de red no está disponible</string>
+    <string name="error_no_uuid">No se puede obtener la openHAB UUID, conexión fallida</string>
+    <string name="erorr_invalid_url">Por favor, introducir una URL válida con formato \'protocolo://host:puerto/\'</string>
+    <string name="erorr_no_wifi_mcast_permission">El permiso CHANGE_WIFI_MULTICAST_STATE no ha sido otorgado, ¡la búsqueda de openHAB será deshabilitada!</string>
+    <string name="erorr_no_wifi_state_permission">El permiso ACCESS_WIFI_STATE no ha sido otorgado, ¡la búsqueda de openHAB será deshabilitada!</string>
+    <string name="error_connection_failed">Ha fallado la conexión con el host</string>
+    <string name="title_activity_openhabwritetag">Escribir etiqueta NFC</string>
+    <string name="title_activity_openhabinfo">Información openHAB</string>
+    <string name="info_write_tag">Aproximar el teléfono y mantener presionada la etiqueta hasta que aparezca un mensaje de confirmación</string>
+    <string name="info_write_tag_progress">Escribiendo la etiqueta</string>
+    <string name="info_write_tag_finished">Finalizado correctamente</string>
+    <string name="info_write_failed">Error al escribir la etiqueta</string>
+    <string name="info_write_tag_unsupported">Este dispositivo no soporta NFC :-(</string>
+    <string name="info_write_tag_disabled">NFC está deshabilitado. Por favor, activar en el menú de configuración del dispositivo.</string>
+    <string name="info_openhab_version_label">Versión openHAB</string>
+    <string name="info_openhab_apiversion_label">Versión Rest API openHAB</string>
+    <string name="info_openhab_uuid_label">openHAB UUID</string>
+    <string name="info_openhab_secret_label">openHAB Secret</string>
+    <string name="action_settings">Configuración</string>
+    <string name="nfc_dialog_title">Seleccionar una acción para la tag NFC</string>
+    <string name="info_not_set">Sin establecer</string>
+    <!-- Strings for MemorizingTrustManager activity -->
+    <string name="mtm_accept_cert">Aceptar este certificado desconocido?</string>
+    <string name="mtm_decision_always">Siempre</string>
+    <string name="mtm_decision_once">Una vez</string>
+    <string name="mtm_decision_abort">Cancelar</string>
+    <string name="mtm_notification">Validación del certificado</string>
+</resources>
