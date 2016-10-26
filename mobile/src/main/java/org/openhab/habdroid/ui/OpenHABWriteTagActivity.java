@@ -159,14 +159,9 @@ public class OpenHABWriteTagActivity extends Activity {
 				ndefFormatable.close();
 			    writeTagMessage.setText(R.string.info_write_tag_finished);
 			    autoCloseActivity();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
+			} catch (IOException | FormatException e) {
 				if (e.getMessage() != null)
 					Log.e(TAG, e.getMessage());
-				writeTagMessage.setText(R.string.info_write_failed);
-			} catch (FormatException e) {
-				// TODO Auto-generated catch block
-				Log.e(TAG, e.getMessage());
 				writeTagMessage.setText(R.string.info_write_failed);
 			}
 		} else {
