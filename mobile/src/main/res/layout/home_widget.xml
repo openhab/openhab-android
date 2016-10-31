@@ -1,0 +1,33 @@
+<LinearLayout  xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#6333">
+
+
+    <ImageButton
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:id="@+id/widgetButton"
+        android:src="@drawable/ic_action_up"
+        android:background="#00ffffff"
+        android:padding="20dp"
+        android:scaleType="fitCenter"
+        android:adjustViewBounds="true"
+        />
+
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Hallo"
+        android:id="@+id/widgetLabel"
+        android:textSize="18dp"
+        android:textAlignment="center"
+        android:singleLine="true"
+        android:ellipsize="marquee"
+        />
+
+</LinearLayout>

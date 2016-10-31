@@ -4,12 +4,8 @@ import android.app.Activity;
 import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -18,17 +14,13 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.RemoteViews;
 import android.widget.Spinner;
-import android.widget.TextView;
 
 import org.json.JSONArray;
-import org.json.JSONObject;
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.model.OpenHABItem;
-import org.openhab.habdroid.util.Constants;
+import org.openhab.habdroid.util.HomeWidgetUpdateJob;
 import org.openhab.habdroid.util.HomeWidgetUtils;
-import org.openhab.habdroid.util.MyAsyncHttpClient;
 
 import java.util.ArrayList;
 
@@ -114,13 +106,24 @@ public class HomeWidgetConfigurationActivity extends Activity implements View.On
                 HomeWidgetUtils.saveWidgetPrefs(context, mAppWidgetId, "pin", pinCheckbox.isEnabled() ? pinText.getText().toString() : null);
 
                 AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(getApplicationContext());
-                HomeWidgetUtils.updateAppWidget(context, appWidgetManager, mAppWidgetId);
+
+                new HomeWidgetUpdateJob(context, appWidgetManager, mAppWidgetId).execute();
+
+
+
+
+
+
+                //TODO: save max widget id
 
 
 
                 Intent resultValue = new Intent();
                 resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, mAppWidgetId);
                 setResult(RESULT_OK, resultValue);
+
+
+
                 finish();
 
                 break;
@@ -143,7 +146,7 @@ public class HomeWidgetConfigurationActivity extends Activity implements View.On
             itemList = new ArrayList<OpenHABItem>();
 
             jsonarray = HomeWidgetUtils
-                    .getJSONfromURL(getApplicationContext(), "/rest/items?type=Switch&recursive=true");
+                    .getJSONArrayFromURL(getApplicationContext(), "rest/items?type=Switch&recursive=true");
 
             try {
 

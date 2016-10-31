@@ -1,14 +1,14 @@
 package org.openhab.habdroid.util;
 
-import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
-import android.os.AsyncTask;
+import android.graphics.Canvas;
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
+import android.graphics.Paint;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.RemoteViews;
@@ -17,45 +17,25 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.openhab.habdroid.R;
-import org.openhab.habdroid.ui.HomeWidgetProvider;
-import org.xml.sax.InputSource;
-import org.xml.sax.XMLReader;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.URL;
 import java.util.ArrayList;
-
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
 
 import cz.msebera.android.httpclient.HttpEntity;
 import cz.msebera.android.httpclient.HttpResponse;
 import cz.msebera.android.httpclient.client.HttpClient;
 import cz.msebera.android.httpclient.client.methods.HttpGet;
-import cz.msebera.android.httpclient.client.methods.HttpPost;
 import cz.msebera.android.httpclient.impl.client.DefaultHttpClient;
 
 public class HomeWidgetUtils {
     private static final String TAG = HomeWidgetUtils.class.getSimpleName();
 
-
-
     private static final String PREFS_NAME
             = "org.openhab.habdroid.HomeWidgetPrefs";
 
     private static final String PREF_PREFIX_KEY = "widget_";
-
-
-    public static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
-                                int appWidgetId) {
-
-        new GetItemDetails(context, appWidgetManager, appWidgetId).execute();
-    }
-
-
-
 
 
     public static void saveWidgetPrefs(Context context, int appWidgetId, String field, String text) {
@@ -84,12 +64,39 @@ public class HomeWidgetUtils {
                                   ArrayList<String> texts) {
     }
 
-    public static JSONArray getJSONfromURL(Context context, String url) {
-        InputStream is = null;
-        String result = "";
+    public static JSONArray getJSONArrayFromURL(Context context, String url) {
         JSONArray jArray = null;
 
 
+
+        try {
+            jArray = new JSONArray(HomeWidgetUtils.getJSONTextFromURL(context,url));
+        } catch (JSONException e) {
+            Log.e("log_tag", "Error parsing data " + e.toString());
+        }
+
+        return jArray;
+    }
+
+    public static JSONObject getJSONObjectFromURL(Context context, String url) {
+        JSONObject jObject = null;
+
+        Log.d(TAG, url);
+
+        try {
+            jObject = new JSONObject(HomeWidgetUtils.getJSONTextFromURL(context,url));
+
+        } catch (JSONException e) {
+            Log.e("log_tag", "Error parsing data " + e.toString());
+        }
+
+        return jObject;
+    }
+
+
+    private static String getJSONTextFromURL(Context context, String url){
+        InputStream is = null;
+        String result = "";
 
         SharedPreferences mSettings = PreferenceManager.getDefaultSharedPreferences(context);
         String username = mSettings.getString(Constants.PREFERENCE_USERNAME, null);
@@ -97,6 +104,9 @@ public class HomeWidgetUtils {
         String baseURL = mSettings.getString(Constants.PREFERENCE_URL, null);
 
         url = baseURL + url;
+
+        Log.d(TAG, "Loading JSON from " + url);
+
 
         // Download JSON data from URL
         try {
@@ -126,14 +136,7 @@ public class HomeWidgetUtils {
             Log.e("log_tag", "Error converting result " + e.toString());
         }
 
-        try {
-
-            jArray = new JSONArray(result);
-        } catch (JSONException e) {
-            Log.e("log_tag", "Error parsing data " + e.toString());
-        }
-
-        return jArray;
+        return result;
     }
 
     private void updateTextLabel(int item, int widgetId, String text, Context context){
@@ -154,5 +157,20 @@ public class HomeWidgetUtils {
         remoteViews.setImageViewBitmap(item, icon);
 
         AppWidgetManager.getInstance(context).updateAppWidget(widgetId, remoteViews);
+    }
+
+    public static Bitmap toGrayscale(Bitmap original) {
+        int height = original.getHeight();
+        int width = original.getWidth();
+
+        Bitmap grayscale = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        Canvas c = new Canvas(grayscale);
+        Paint paint = new Paint();
+        ColorMatrix cm = new ColorMatrix();
+        cm.setSaturation(0); // <-- important line here
+        ColorMatrixColorFilter f = new ColorMatrixColorFilter(cm);
+        paint.setColorFilter(f);
+        c.drawBitmap(original, 0, 0, paint);
+        return grayscale;
     }
 }
