@@ -9,20 +9,37 @@
 
 package org.openhab.habdroid.core;
 
+import android.app.Service;
 import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Handler;
+import android.os.IBinder;
 import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.speech.RecognizerIntent;
+import android.support.annotation.Nullable;
 import android.util.Log;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestHandle;
 
+import org.atmosphere.wasync.Client;
+import org.atmosphere.wasync.ClientFactory;
+import org.atmosphere.wasync.Decoder;
+import org.atmosphere.wasync.Encoder;
+import org.atmosphere.wasync.Event;
+import org.atmosphere.wasync.Function;
+import org.atmosphere.wasync.Request;
+import org.atmosphere.wasync.Socket;
+import org.atmosphere.wasync.impl.AtmosphereClient;
+import org.atmosphere.wasync.impl.AtmosphereRequest;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -31,41 +48,34 @@ import org.openhab.habdroid.ui.HomeWidgetProvider;
 import org.openhab.habdroid.ui.OpenHABWidgetListFragment;
 import org.openhab.habdroid.util.Constants;
 import org.openhab.habdroid.util.ContinuingIntentService;
+import org.openhab.habdroid.util.HomeWidgetSendCommandJob;
 import org.openhab.habdroid.util.HomeWidgetUpdateJob;
 import org.openhab.habdroid.util.HomeWidgetUtils;
 import org.openhab.habdroid.util.MyAsyncHttpClient;
 
+import java.io.IOException;
 import java.net.SocketTimeoutException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
+import java.util.concurrent.TimeUnit;
 
 import cz.msebera.android.httpclient.Header;
+import cz.msebera.android.httpclient.client.methods.RequestBuilder;
 import cz.msebera.android.httpclient.entity.StringEntity;
 import cz.msebera.android.httpclient.message.BasicHeader;
 
-/**
- * This service handles voice commands and sends them to OpenHAB.
- * It will use the openHAB base URL if passed in the intent's extra,
- * or else use the {@link OpenHABTracker} to discover openHAB itself.
- */
-public class OpenHABHomeWidgetService extends ContinuingIntentService implements OpenHABTrackerReceiver {
+
+public class OpenHABHomeWidgetService extends Service{
 
     private static final String TAG = OpenHABHomeWidgetService.class.getSimpleName();
-    public static final String OPENHAB_BASE_URL_EXTRA = "openHABBaseUrl";
 
-    private String mOpenHABBaseUrl;
     private MyAsyncHttpClient mAsyncHttpClient;
-
-    private OpenHABTracker mOpenHABTracker;
-    private Queue<Intent> mBufferedIntents;
     private String mAtmosphereTrackingId;
     private RequestHandle mRequestHandle;
-
-    public OpenHABHomeWidgetService() {
-        super(TAG);
-    }
 
 
     @Override
@@ -73,70 +83,120 @@ public class OpenHABHomeWidgetService extends ContinuingIntentService implements
         super.onCreate();
         Log.d(TAG, "onCreate()");
 
-        mBufferedIntents = new LinkedList<Intent>();
-        initHttpClient();
-    }
-
-
-    private void initHttpClient() {
         SharedPreferences mSettings = PreferenceManager.getDefaultSharedPreferences(this);
         String username = mSettings.getString(Constants.PREFERENCE_USERNAME, null);
         String password = mSettings.getString(Constants.PREFERENCE_PASSWORD, null);
-        mAsyncHttpClient = new MyAsyncHttpClient(this);
-        mAsyncHttpClient.setBasicAuth(username, password);
+        String baseURL = mSettings.getString(Constants.PREFERENCE_URL, null);
 
 
-        Log.d(TAG, "RECREATED SERVICE");
-        subscribeForChanges("http://openhab:8080/rest/items");
-    }
 
-    @Override
-    protected void onHandleIntent(Intent intent) {
-        Log.d(TAG, "onHandleIntent()");
-        bufferIntent(intent);
-        if (intent.hasExtra(OPENHAB_BASE_URL_EXTRA)) {
-            Log.d(TAG, "openHABBaseUrl passed as Intent");
-            onOpenHABTracked(intent.getStringExtra(OPENHAB_BASE_URL_EXTRA), null);
-        } else if (mOpenHABTracker == null) {
-            Log.d(TAG, "No openHABBaseUrl passed, starting OpenHABTracker");
-            mOpenHABTracker = new OpenHABTracker(OpenHABHomeWidgetService.this, getString(R.string.openhab_service_type), false);
-            mOpenHABTracker.start();
+        if(mAsyncHttpClient == null) {
+            mAsyncHttpClient = new MyAsyncHttpClient(this);
+            mAsyncHttpClient.setBasicAuth(username, password);
+
+            subscribeForChangesLongPoll(baseURL + "rest/sitemaps/_default/default");
         }
+
+
+        //subscribeForChangesWebsockets(baseURL + "rest/items/alarmMode");
     }
 
-    /**
-     * Buffers the {@link Intent} to be processed later when openHABBaseUrl has been determined by {@link OpenHABTracker}.
-     *
-     * Usually, the discovery of the openHABBaseUrl is fast enough, so there will be only one intent in the buffer
-     * when the buffer is processed and this service is stopped.
-     * However, it is not guaranteed that this service is only called once before openHABBaseUrl can be discovered.
-     * Therefore all intents are buffered and later this buffer will be processed.
-     *
-     * @param intent The {@link Intent} to be buffered.
-     */
-    private void bufferIntent(Intent intent) {
-        mBufferedIntents.add(intent);
+
+    public void subscribeForChangesWebsockets(String url){
+
+        final String wsUrl = url.replace("http","ws");
+
+        Runnable task = new Runnable() {
+
+            public void run() {
+                try {
+
+                    Client client = ClientFactory.getDefault().newClient();
+
+
+                    org.atmosphere.wasync.Request request = client.newRequestBuilder()
+                            .method(Request.METHOD.GET)
+                            .uri(wsUrl)
+                            .transport(Request.TRANSPORT.SSE)
+                            .build();
+
+                    //.transport(Request.TRANSPORT.STREAMING)
+
+                    final Socket socket = client.create();
+                    socket.on(Event.MESSAGE, new Function<String>() {
+                        @Override
+                        public void on(String message) {
+                            Log.d(TAG, "DATA RCVD: " + message);
+                        }
+                    });
+
+                    socket.open(request);
+
+                    /*
+                    AtmosphereClient client = ClientFactory.getDefault().newClient(AtmosphereClient.class);
+
+
+
+                    AtmosphereRequest.AtmosphereRequestBuilder request = client.newRequestBuilder()
+                            .method(Request.METHOD.GET)
+                            .uri(wsUrl)
+                            .trackMessageLength(true)
+                            /*.encoder(new Encoder<String, String>() {
+
+                                @Override
+                                public String encode(String s) {
+                                    return null;
+                                }
+                            })
+                            .decoder(new Decoder<String, String>() {
+
+                                @Override
+                                public String decode(Event e, String s) {
+                                    return null;
+                                }
+                            })
+                            .transport(Request.TRANSPORT.WEBSOCKET);
+
+                    final org.atmosphere.wasync.Socket socket = client.create();
+                    socket.on("message", new Function<String>()
+
+                            {
+                                @Override
+                                public void on(String s) {
+                                    Log.d(TAG, s);
+                                }
+                            }
+
+                    ).on(new Function<Throwable>() {
+
+                             @Override
+                             public void on(Throwable t) {
+                                 t.printStackTrace();
+                             }
+
+                         }
+
+                    ).open(request.build()
+
+                    );
+                    */
+
+                } catch (Throwable e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+
+        new Thread(task).start();
+
     }
 
-    @Override
-    public void onOpenHABTracked(String baseUrl, String message) {
-        Log.d(TAG, "onOpenHABTracked(): " + baseUrl + " " + message);
-        mOpenHABBaseUrl = baseUrl;
 
 
-        while (!mBufferedIntents.isEmpty()) {
-            processWidgetIntent(mBufferedIntents.poll());
-        }
-        Log.d(TAG, "Stopping service for start ID " + getLastStartId());
-        //stopSelf(getLastStartId());
+    public void subscribeForChangesLongPoll(final String pageUrl){
 
 
-
-    }
-
-    public void subscribeForChanges(final String pageUrl){
-            Log.i(TAG, " subscribe for " + pageUrl + " longPolling = ");
-            // Cancel any existing http request to openHAB (typically ongoing long poll)
+            Log.d(TAG, "Registering for changes of " +pageUrl + " (Long-Poll)");
 
             List<BasicHeader> headers = new LinkedList<BasicHeader>();
 
@@ -157,13 +217,9 @@ public class OpenHABHomeWidgetService extends ContinuingIntentService implements
 
                     if (error instanceof SocketTimeoutException) {
                         Log.d(TAG, "Connection timeout, reconnecting");
-                        //showPage(displayPageUrl, false);
                         return;
                     } else {
-                    /*
-                    * If we get a network error try connecting again, if the
-                    * fragment is paused, the runnable will be removed
-                    */
+
                         Log.e(TAG, error.getClass().toString());
                         Log.e(TAG, String.format("status code = %d", statusCode));
                         Log.e(TAG, "Connection error = " + error.getClass().toString() + ", cycle aborted");
@@ -175,6 +231,14 @@ public class OpenHABHomeWidgetService extends ContinuingIntentService implements
 //                                }
 //                            };
 //                            networkHandler.postDelayed(networkRunnable, 10 * 1000);
+
+                        try {
+                            Thread.sleep(5000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        subscribeForChangesLongPoll(pageUrl);
+
                     }
                 }
 
@@ -190,13 +254,11 @@ public class OpenHABHomeWidgetService extends ContinuingIntentService implements
                     String responseString = new String(responseBody);
                     processChanges(responseString);
                     Log.d(TAG, responseString);
-                    //subscribeForChanges(pageUrl);
+                    subscribeForChangesLongPoll(pageUrl);
                 }
             });
 
     }
-
-
 
     private void processChanges(String responseString){
         JSONArray jArray = null;
@@ -207,14 +269,26 @@ public class OpenHABHomeWidgetService extends ContinuingIntentService implements
         HashMap<String, HashMap<String, String>> widgetConfigs = getWidgetConfigs();
 
         try {
-            jArray = new JSONArray(responseString);
+            jObject = new JSONObject(responseString);
+
+            processObject(jObject, widgetConfigs);
+
+
+        /*
+            jArray = jObject.getJSONArray("widgets");
+
+
 
             for(int i = 0; i < jArray.length(); i++){
                 jObject = jArray.getJSONObject(i);
                 try {
                     itemName = jObject.getString("name");
 
-                    if(widgetConfigs.containsKey(itemName) && !widgetConfigs.get(itemName).get("lastState").equals(jObject.getString("state"))){
+                    if (    widgetConfigs.containsKey(itemName) &&
+                            widgetConfigs.get(itemName).containsKey("lastState") &&
+                            jObject.has("state") &&
+                            !widgetConfigs.get(itemName).get("lastState").equals(jObject.getString("state"))
+                    ) {
                         widgetId = Integer.parseInt(widgetConfigs.get(itemName).get("id"));
                         new HomeWidgetUpdateJob(getApplicationContext(), widgetId).execute();
                     }
@@ -222,12 +296,47 @@ public class OpenHABHomeWidgetService extends ContinuingIntentService implements
                 }catch (JSONException e){}
             }
 
+        */
+
         } catch (JSONException e) {
             Log.e("log_tag", "Error parsing data " + e.toString());
         }
 
     }
 
+    private void processObject(JSONObject jObject, HashMap<String, HashMap<String, String>> widgetConfigs){
+        String itemName;
+        int widgetId;
+        try {
+            JSONArray jArray = jObject.getJSONArray("widgets");
+            for(int i = 0; i < jArray.length(); i++){
+                jObject = jArray.getJSONObject(i);
+
+                try {
+
+                    jObject = jObject.getJSONObject("item");
+                    itemName = jObject.getString("name");
+
+                    if (    widgetConfigs.containsKey(itemName) &&
+                            widgetConfigs.get(itemName).containsKey("lastState") &&
+                            jObject.has("state") &&
+                            !widgetConfigs.get(itemName).get("lastState").equals(jObject.getString("state"))
+                            ) {
+                        widgetId = Integer.parseInt(widgetConfigs.get(itemName).get("id"));
+                        new HomeWidgetUpdateJob(getApplicationContext(), widgetId).execute();
+                    }
+
+                }catch (JSONException e){}
+
+                if(jObject.has("widgets")){
+                    processObject(jObject, widgetConfigs);
+                }
+
+            }
+        } catch (JSONException e) {
+            Log.e("log_tag", "Error parsing data " + e.toString());
+        }
+    }
 
     private HashMap<String, HashMap<String, String>> getWidgetConfigs(){
         HashMap<String, HashMap<String, String>> configs = new HashMap<String, HashMap<String, String>>();
@@ -235,114 +344,31 @@ public class OpenHABHomeWidgetService extends ContinuingIntentService implements
         int ids[] = AppWidgetManager.getInstance(this).getAppWidgetIds(new ComponentName(this,HomeWidgetProvider.class));
 
         for(int i : ids){
-            HashMap<String, String> wdgtConfig = new HashMap<String, String>();
+            if(HomeWidgetUtils.loadWidgetPrefs(getApplicationContext(), i, "name") != null) {
+                HashMap<String, String> wdgtConfig = new HashMap<String, String>();
 
-            wdgtConfig.put("lastState",HomeWidgetUtils.loadWidgetPrefs(getApplicationContext(), i, "lastState"));
-            wdgtConfig.put("id",i+"");
-            configs.put(HomeWidgetUtils.loadWidgetPrefs(getApplicationContext(), i, "name"),wdgtConfig);
+                String lastState = HomeWidgetUtils.loadWidgetPrefs(getApplicationContext(), i, "lastState");
+                wdgtConfig.put("lastState", lastState == null ? "UNDEFINED" : lastState);
+                wdgtConfig.put("id", i + "");
+                configs.put(HomeWidgetUtils.loadWidgetPrefs(getApplicationContext(), i, "name"), wdgtConfig);
+            }
         }
 
         return configs;
     }
 
     @Override
-    public void onError(String error) {
-        showToast(error);
-        Log.d(TAG, "onError(): " + error);
-        stopSelf();
-    }
-
-    @Override
     public void onDestroy() {
         Log.d(TAG, "onDestroy()");
-        if (mOpenHABTracker != null) {
-            mOpenHABTracker.stop();
-        }
         super.onDestroy();
     }
 
-    /**
-     * Displays the given message as a toast
-     *
-     * @param message The message to be displayed.
-     */
-    private void showToast(final String message) {
-        // Display toast on main looper because OpenHABVoiceService might be destroyed
-        // before to toast has finished displaying
-        new Handler(Looper.getMainLooper()).post(new Runnable() {
-            @Override
-            public void run() {
-                Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
-            }
-        });
-    }
-
+    @Nullable
     @Override
-    public void onBonjourDiscoveryStarted() {
-        Log.d(TAG, "onBonjourDiscoveryStarted()");
-    }
-
-    @Override
-    public void onBonjourDiscoveryFinished() {
-        Log.d(TAG, "onBonjourDiscoveryFinished()");
+    public IBinder onBind(Intent intent) {
+        return null;
     }
 
 
 
-    private void processWidgetIntent(Intent data) {
-
-
-        if(data.hasExtra("item_name")) {
-
-            String item = data.getStringExtra("item_name");
-            String command = data.getStringExtra("item_command");
-            if (mOpenHABBaseUrl != null) {
-                sendItemCommand(item, command);
-            } else {
-                Log.w(TAG, "Couldn't determine OpenHAB URL");
-                showToast("Couldn't determine OpenHAB URL");
-            }
-
-        }
-    }
-
-
-
-    private void sendItemCommand(final String itemName, final String command) {
-        Log.d(TAG, "sendItemCommand(): itemName=" + itemName + ", command=" + command);
-        try {
-            performHttpPost(itemName, new StringEntity(command, "UTF-8"));
-        } catch (RuntimeException e) {
-            Log.e(TAG, "Unable to encode command " + command, e);
-        }
-    }
-
-    private void performHttpPost(final String itemName, final StringEntity command) {
-        /* Call MyAsyncHttpClient on the main UI thread in order to retrieve the callbacks correctly.
-         * If calling MyAsyncHttpClient directly, the following would happen:
-         * (1) MyAsyncHttpClient performs the HTTP post asynchronously
-         * (2) OpenHABVoiceService stops because all intents have been handled
-         * (3) MyAsyncHttpClient tries to call onSuccess() or onFailure(), which is not possible
-         *     anymore because OpenHABVoiceService is already stopped/destroyed.
-         */
-
-        Log.d(TAG, "WEB REQUEST: " + mOpenHABBaseUrl + "rest/items/" + itemName);
-        new Handler(Looper.getMainLooper()).post(new Runnable() {
-            @Override
-            public void run() {
-                mAsyncHttpClient.post(OpenHABHomeWidgetService.this, mOpenHABBaseUrl + "rest/items/" + itemName,
-                        command, "text/plain;charset=UTF-8", new AsyncHttpResponseHandler() {
-                            @Override
-                            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                                Log.d(TAG, "Command was sent successfully");
-                            }
-
-                            @Override
-                            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                                Log.e(TAG, "Got command error " + statusCode, error);
-                            }
-                        });
-            }
-        });
-    }
 }

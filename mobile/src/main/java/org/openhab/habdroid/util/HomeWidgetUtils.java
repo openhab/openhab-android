@@ -103,6 +103,9 @@ public class HomeWidgetUtils {
         String password = mSettings.getString(Constants.PREFERENCE_PASSWORD, null);
         String baseURL = mSettings.getString(Constants.PREFERENCE_URL, null);
 
+        //TODO: username + password
+
+
         url = baseURL + url;
 
         Log.d(TAG, "Loading JSON from " + url);

@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
@@ -96,9 +97,12 @@ public class HomeWidgetUpdateJob extends AsyncTask {
             result.put("image", iconBitmap);
             try{
                 result.put("state", state);
-                result.put("stateDescription", item.getJSONObject("stateDescription"));
+                if(item.has("stateDescription")) {
+                    result.put("stateDescription", item.getJSONObject("stateDescription"));
+                }
             } catch (JSONException e) {
                 e.printStackTrace();
+                Log.d(TAG, item.toString());
                 Log.d(TAG, "no state def found");
             }
 
@@ -117,30 +121,36 @@ public class HomeWidgetUpdateJob extends AsyncTask {
         if(name != null) {
             String label = HomeWidgetUtils.loadWidgetPrefs(context, appWidgetId, "label");
 
-            String pin = HomeWidgetUtils.loadWidgetPrefs(context, appWidgetId, "pin");
+
 
             RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.home_widget);
             views.setTextViewText(R.id.widgetLabel, label);
             views.setImageViewBitmap(R.id.widgetButton, (Bitmap) itemMap.get("image"));
+            String currentState = (String) itemMap.get("state");
+
+            if(currentState.equals("ON")){
+                views.setInt(R.id.widgetButton, "setBackgroundColor", Color.WHITE);
+            }
 
 
 
 
             try {
                 JSONObject stateDescription = (JSONObject) itemMap.get("stateDescription");
-                if(!stateDescription.getBoolean("readOnly")) {
+                if(stateDescription == null || !stateDescription.getBoolean("readOnly")) {
 
                     Intent active = new Intent().setClass(context, HomeWidgetProvider.class);
                     active.setAction(HomeWidgetProvider.ACTION_BUTTON_CLICKED);
 
                     Uri data = Uri.withAppendedPath(
-                            Uri.parse(URI_SCHEME + "://widget/id/")
+                            Uri.parse(URI_SCHEME + "://widget/id/"+ (Math.random()*Integer.MAX_VALUE) +"/")
                             , String.valueOf(appWidgetId));
                     active.setData(data);
 
+                    String pin = HomeWidgetUtils.loadWidgetPrefs(context, appWidgetId, "pin");
 
                     active.putExtra("item_name", name);
-                    active.putExtra("item_command", "ON");
+                    active.putExtra("item_command", currentState.equals("ON") ? "OFF" : "ON");
 
                     PendingIntent actionPendingIntent = PendingIntent.getBroadcast(context, 0, active, 0);
                     views.setOnClickPendingIntent(R.id.widgetButton, actionPendingIntent);

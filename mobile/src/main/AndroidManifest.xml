@@ -120,6 +120,8 @@
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
                 <!--action android:name="org.openhab.habdroid.ui.ACTION_BUTTON_CLICKED" /-->
                 <action android:name="org.openhab.habdroid.ui.ACTION_STATUS_CHANGED" />
+                <action android:name="android.appwidget.action.APPWIDGET_ENABLED" />
+                <action android:name="android.appwidget.action.APPWIDGET_DISABLED" />
             </intent-filter>
 
             <meta-data

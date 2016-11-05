@@ -9,8 +9,10 @@
 
 package org.openhab.habdroid.ui;
 
+import android.app.ActivityManager;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -21,6 +23,7 @@ import android.widget.RemoteViews;
 
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.core.OpenHABHomeWidgetService;
+import org.openhab.habdroid.util.HomeWidgetSendCommandJob;
 import org.openhab.habdroid.util.HomeWidgetUpdateJob;
 import org.openhab.habdroid.util.HomeWidgetUtils;
 
@@ -37,11 +40,14 @@ public class HomeWidgetProvider extends AppWidgetProvider {
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
-
-
         Log.d(TAG, "onUpdate");
 
-        // There may be multiple widgets active, so update all of them
+        if(appWidgetIds.length > 0 && !isMyServiceRunning(context, OpenHABHomeWidgetService.class)){
+            context.startService(new Intent(context, OpenHABHomeWidgetService.class));
+        }else if(appWidgetIds.length == 0 && isMyServiceRunning(context, OpenHABHomeWidgetService.class)){
+            context.stopService(new Intent(context, OpenHABHomeWidgetService.class));
+        }
+
         for (int appWidgetId : appWidgetIds) {
             if(HomeWidgetUtils.loadWidgetPrefs(context, appWidgetId, "name") != null) {
                 new HomeWidgetUpdateJob(context, appWidgetManager, appWidgetId).execute();
@@ -84,23 +90,36 @@ public class HomeWidgetProvider extends AppWidgetProvider {
 
         if (intent.getAction().equals(ACTION_BUTTON_CLICKED)){
 
-            Intent serviceIntent = new Intent(context, OpenHABHomeWidgetService.class);
+            if(intent.hasExtra("item_name")) {
+                String item = intent.getStringExtra("item_name");
+                String command = intent.getStringExtra("item_command");
+                new HomeWidgetSendCommandJob(context, item, command).execute();
 
-            serviceIntent.putExtra("item_name", intent.getStringExtra("item_name"));
-            serviceIntent.putExtra("item_command", "ON");
+                new HomeWidgetUpdateJob(context, Integer.parseInt(intent.getData().getLastPathSegment())).execute();
+            }
 
-            context.startService(serviceIntent);
 
-        }else if (intent.getAction().equals(ACTION_STATUS_CHANGED)){
-          //  updateImageButton(R.id.widgetButton, R.drawable.ic_action_down, context);
+
+            if(!isMyServiceRunning(context, OpenHABHomeWidgetService.class)){
+                context.startService(new Intent(context, OpenHABHomeWidgetService.class));
+            }
+
         }else {
             super.onReceive(context, intent);
         }
+
+
     }
 
+    private boolean isMyServiceRunning(Context context, Class<?> serviceClass) {
 
 
-
-
-
+        ActivityManager manager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (serviceClass.getName().equals(service.service.getClassName())) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
