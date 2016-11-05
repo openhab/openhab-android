@@ -140,6 +140,9 @@
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE"/>
             </intent-filter>
         </activity>
+
+        <activity android:name=".ui.PinDialogActivity" android:launchMode="singleInstance"  android:theme="@style/Theme.Transparent"></activity>
+
     </application>
 
 </manifest>

@@ -11,7 +11,7 @@
         android:layout_weight="1"
         android:id="@+id/widgetButton"
         android:background="#00ffffff"
-        android:padding="20dp"
+        android:padding="15dp"
         android:scaleType="fitCenter"
         android:adjustViewBounds="true"
         />
@@ -23,7 +23,7 @@
         android:layout_height="wrap_content"
         android:text="item"
         android:id="@+id/widgetLabel"
-        android:textSize="18dp"
+        android:textSize="15dp"
         android:textAlignment="center"
         android:singleLine="true"
         android:ellipsize="marquee"

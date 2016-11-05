@@ -3,11 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="org.openhab.habdroid.ui.HomeWidgetConfigurationActivity">
+    android:paddingBottom="10dp"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:paddingTop="10dp"
+    tools:context="org.openhab.habdroid.ui.HomeWidgetConfigurationActivity"
+    android:padding="10dp">
 
     <LinearLayout
         android:orientation="vertical"
@@ -21,12 +22,6 @@
             android:text="Select Widget Item"
             android:id="@+id/textView" />
 
-        <!--EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/itemName"
-            android:text="homematic_HG_HM_LC_Sw1PBU_FM_a9a145bb_NEQ0137064_1_STATE" /-->
-
         <Spinner
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -39,7 +34,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Label"
-            android:id="@+id/textView1" />
+            android:id="@+id/textView1"
+            android:layout_marginTop="10dip" />
 
         <EditText
             android:layout_width="match_parent"
@@ -47,17 +43,24 @@
             android:id="@+id/itemLabel"
             android:text="Licht" />
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Ask for pin before switch"
+            android:id="@+id/textView3"
+            android:layout_marginTop="10dip" />
+
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_weight="0.03">
 
-            <CheckBox
+            <Spinner
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="Pin required to disable"
-                android:id="@+id/checkPin"
-                android:checked="false" />
+                android:id="@+id/pinMode"
+                />
 
             <EditText
                 android:layout_width="match_parent"
@@ -73,7 +76,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/iconLabel"
-            android:text="Icon" />
+            android:text="Icon"
+            android:layout_marginTop="10dip" />
 
         <Spinner
             android:layout_width="match_parent"

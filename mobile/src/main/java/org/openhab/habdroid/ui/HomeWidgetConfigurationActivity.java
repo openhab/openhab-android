@@ -24,7 +24,7 @@ import org.openhab.habdroid.util.HomeWidgetUtils;
 
 import java.util.ArrayList;
 
-public class HomeWidgetConfigurationActivity extends Activity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener{
+public class HomeWidgetConfigurationActivity extends Activity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
     private static final String TAG = HomeWidgetConfigurationActivity.class.getSimpleName();
 
 
@@ -32,7 +32,7 @@ public class HomeWidgetConfigurationActivity extends Activity implements View.On
     Spinner itemName;
     EditText itemLabel;
     Spinner iconSpinner;
-    CheckBox pinCheckbox;
+    Spinner pinModeSpinner;
     EditText pinText;
 
 
@@ -72,13 +72,8 @@ public class HomeWidgetConfigurationActivity extends Activity implements View.On
         b.setOnClickListener(this);
 
         itemName = (Spinner) findViewById(R.id.itemName);
-        pinCheckbox = (CheckBox) findViewById(R.id.checkPin);
-        pinCheckbox.setOnCheckedChangeListener(this);
 
         pinText = (EditText) findViewById(R.id.pinText);
-
-
-        Log.d(TAG, "WIDGET ID: " + mAppWidgetId);
 
 
         iconSpinner = (Spinner) findViewById(R.id.iconSpinner);
@@ -86,6 +81,15 @@ public class HomeWidgetConfigurationActivity extends Activity implements View.On
                 R.array.openhab_icons, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         iconSpinner.setAdapter(adapter);
+
+        pinModeSpinner = (Spinner) findViewById(R.id.pinMode);
+        ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(this,
+                R.array.pin_modes, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        pinModeSpinner.setAdapter(adapter2);
+
+        pinModeSpinner.setOnItemSelectedListener(this);
+
 
         new DownloadJSON().execute();
 
@@ -103,7 +107,11 @@ public class HomeWidgetConfigurationActivity extends Activity implements View.On
                 HomeWidgetUtils.saveWidgetPrefs(context, mAppWidgetId, "name", item.getName());
                 HomeWidgetUtils.saveWidgetPrefs(context, mAppWidgetId, "label", itemLabel.getText().toString());
                 HomeWidgetUtils.saveWidgetPrefs(context, mAppWidgetId, "icon", (String) iconSpinner.getSelectedItem());
-                HomeWidgetUtils.saveWidgetPrefs(context, mAppWidgetId, "pin", pinCheckbox.isEnabled() ? pinText.getText().toString() : null);
+                HomeWidgetUtils.saveWidgetPrefs(context, mAppWidgetId, "pin", pinText.getText().toString());
+                HomeWidgetUtils.saveWidgetPrefs(context, mAppWidgetId, "pinmode", pinModeSpinner.getSelectedItem().toString());
+
+                Log.d(TAG, pinModeSpinner.getSelectedItem().toString());
+
 
                 AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(getApplicationContext());
 
@@ -131,8 +139,13 @@ public class HomeWidgetConfigurationActivity extends Activity implements View.On
     }
 
     @Override
-    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        pinText.setEnabled(isChecked);
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        pinText.setEnabled(position > 0);
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+        pinText.setEnabled(false);
     }
 
     private class DownloadJSON extends AsyncTask<Void, Void, Void> {

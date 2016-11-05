@@ -19,6 +19,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.ui.HomeWidgetProvider;
+import org.openhab.habdroid.ui.PinDialogActivity;
 import org.openhab.habdroid.util.Constants;
 import org.openhab.habdroid.util.HomeWidgetUtils;
 import org.openhab.habdroid.util.MyWebImage;
@@ -128,8 +129,11 @@ public class HomeWidgetUpdateJob extends AsyncTask {
             views.setImageViewBitmap(R.id.widgetButton, (Bitmap) itemMap.get("image"));
             String currentState = (String) itemMap.get("state");
 
+
             if(currentState.equals("ON")){
-                views.setInt(R.id.widgetButton, "setBackgroundColor", Color.WHITE);
+                views.setInt(R.id.widgetButton, "setBackgroundColor", Color.argb(255,255,255,255));
+            }else{
+                views.setInt(R.id.widgetButton, "setBackgroundColor", Color.argb(0,255,255,255));
             }
 
 
@@ -139,15 +143,29 @@ public class HomeWidgetUpdateJob extends AsyncTask {
                 JSONObject stateDescription = (JSONObject) itemMap.get("stateDescription");
                 if(stateDescription == null || !stateDescription.getBoolean("readOnly")) {
 
-                    Intent active = new Intent().setClass(context, HomeWidgetProvider.class);
+                    String pin = HomeWidgetUtils.loadWidgetPrefs(context, appWidgetId, "pin");
+                    String pinMode = HomeWidgetUtils.loadWidgetPrefs(context, appWidgetId, "pinmode");
+
+                    Intent active;
+                    if( pin != null && !pin.equals("")  && !pinMode.equals("Never") &&
+                            (
+                                    (pinMode.equals("OnEnable") && currentState.equals("OFF")) ||
+                                    (pinMode.equals("OnDisable") && currentState.equals("ON")) ||
+                                    pinMode.equals("OnEnableAndDisable")
+                            )
+                    ) {
+                        active = new Intent().setClass(context, PinDialogActivity.class);
+                        active.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    }else{
+                        active = new Intent().setClass(context, HomeWidgetProvider.class);
+                    }
                     active.setAction(HomeWidgetProvider.ACTION_BUTTON_CLICKED);
 
                     Uri data = Uri.withAppendedPath(
-                            Uri.parse(URI_SCHEME + "://widget/id/"+ (Math.random()*Integer.MAX_VALUE) +"/")
+                            Uri.parse(URI_SCHEME + "://widget/id/" + (Math.random() * Integer.MAX_VALUE) + "/")
                             , String.valueOf(appWidgetId));
                     active.setData(data);
 
-                    String pin = HomeWidgetUtils.loadWidgetPrefs(context, appWidgetId, "pin");
 
                     active.putExtra("item_name", name);
                     active.putExtra("item_command", currentState.equals("ON") ? "OFF" : "ON");
@@ -160,7 +178,6 @@ public class HomeWidgetUpdateJob extends AsyncTask {
             } catch (JSONException | NullPointerException e) {
                 e.printStackTrace();
             }
-
 
             appWidgetManager.updateAppWidget(new ComponentName(context, HomeWidgetProvider.class), views);
             //appWidgetManager.updateAppWidget(appWidgetId, views);
