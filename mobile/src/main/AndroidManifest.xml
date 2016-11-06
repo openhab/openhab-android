@@ -141,7 +141,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".ui.PinDialogActivity" android:launchMode="singleInstance"  android:theme="@style/Theme.Transparent"></activity>
+        <activity android:name="org.openhab.habdroid.ui.PinDialogActivity" android:launchMode="singleInstance"  android:theme="@style/Theme.Transparent"></activity>
 
     </application>
 

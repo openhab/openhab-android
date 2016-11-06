@@ -143,22 +143,7 @@ public class HomeWidgetUpdateJob extends AsyncTask {
                 JSONObject stateDescription = (JSONObject) itemMap.get("stateDescription");
                 if(stateDescription == null || !stateDescription.getBoolean("readOnly")) {
 
-                    String pin = HomeWidgetUtils.loadWidgetPrefs(context, appWidgetId, "pin");
-                    String pinMode = HomeWidgetUtils.loadWidgetPrefs(context, appWidgetId, "pinmode");
-
-                    Intent active;
-                    if( pin != null && !pin.equals("")  && !pinMode.equals("Never") &&
-                            (
-                                    (pinMode.equals("OnEnable") && currentState.equals("OFF")) ||
-                                    (pinMode.equals("OnDisable") && currentState.equals("ON")) ||
-                                    pinMode.equals("OnEnableAndDisable")
-                            )
-                    ) {
-                        active = new Intent().setClass(context, PinDialogActivity.class);
-                        active.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    }else{
-                        active = new Intent().setClass(context, HomeWidgetProvider.class);
-                    }
+                    Intent active = new Intent().setClass(context, HomeWidgetProvider.class);
                     active.setAction(HomeWidgetProvider.ACTION_BUTTON_CLICKED);
 
                     Uri data = Uri.withAppendedPath(

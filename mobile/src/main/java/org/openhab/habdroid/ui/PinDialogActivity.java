@@ -10,14 +10,13 @@ import android.os.Bundle;
 
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.model.PinDialogListener;
+import org.openhab.habdroid.util.HomeWidgetSendCommandJob;
+import org.openhab.habdroid.util.HomeWidgetUpdateJob;
 import org.openhab.habdroid.util.HomeWidgetUtils;
 
 public class PinDialogActivity extends Activity implements PinDialogListener {
 
     private PinDialog pd;
-
-    //private Intent intent;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +25,7 @@ public class PinDialogActivity extends Activity implements PinDialogListener {
 
         int appWidgetId = Integer.parseInt(getIntent().getData().getLastPathSegment());
 
-        String pin = HomeWidgetUtils.loadWidgetPrefs(getApplicationContext(), appWidgetId, "name");
+        String pin = HomeWidgetUtils.loadWidgetPrefs(getApplicationContext(), appWidgetId, "pin");
 
         pd = new PinDialog(this, pin);
         pd.show();
@@ -35,17 +34,12 @@ public class PinDialogActivity extends Activity implements PinDialogListener {
     @Override
     public void onPinEntered(String pin) {
 
-        Intent originIntent = getIntent();
+        String item = getIntent().getStringExtra("item_name");
+        String command = getIntent().getStringExtra("item_command");
 
-        Intent active = new Intent().setClass(getApplicationContext(), HomeWidgetProvider.class);
-        active.setAction(HomeWidgetProvider.ACTION_BUTTON_CLICKED);
+        new HomeWidgetSendCommandJob(getApplicationContext(), item, command).execute();
+        new HomeWidgetUpdateJob(getApplicationContext(), Integer.parseInt(getIntent().getData().getLastPathSegment())).execute();
 
-        Uri data = originIntent.getData();
-        active.setData(data);
-
-        active.putExtra("item_name", originIntent.getStringExtra("item_name"));
-        active.putExtra("item_command", originIntent.getStringExtra("item_command"));
-        sendBroadcast(active);
 
         this.finish();
     }

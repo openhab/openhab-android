@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -90,7 +91,6 @@ public class HomeWidgetConfigurationActivity extends Activity implements View.On
 
         pinModeSpinner.setOnItemSelectedListener(this);
 
-
         new DownloadJSON().execute();
 
     }
@@ -135,6 +135,8 @@ public class HomeWidgetConfigurationActivity extends Activity implements View.On
                 finish();
 
                 break;
+
+
         }
     }
 

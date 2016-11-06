@@ -90,12 +90,38 @@ public class HomeWidgetProvider extends AppWidgetProvider {
 
         if (intent.getAction().equals(ACTION_BUTTON_CLICKED)){
 
+            int appWidgetId = Integer.parseInt(intent.getData().getLastPathSegment());
+
+
             if(intent.hasExtra("item_name")) {
+
                 String item = intent.getStringExtra("item_name");
                 String command = intent.getStringExtra("item_command");
-                new HomeWidgetSendCommandJob(context, item, command).execute();
 
-                new HomeWidgetUpdateJob(context, Integer.parseInt(intent.getData().getLastPathSegment())).execute();
+                String pin = HomeWidgetUtils.loadWidgetPrefs(context, appWidgetId, "pin");
+                String pinMode = HomeWidgetUtils.loadWidgetPrefs(context, appWidgetId, "pinmode");
+
+
+                if( pin != null && !pin.equals("")  && !pinMode.equals("Never") &&
+                        (
+                                (pinMode.equals("OnEnable") && command.equals("OFF")) ||
+                                        (pinMode.equals("OnDisable") && command.equals("ON")) ||
+                                        pinMode.equals("OnEnableAndDisable")
+                        )
+                    )
+                {
+                    Intent active = new Intent(context, PinDialogActivity.class);
+                    active.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+                    active.setData(intent.getData());
+                    active.putExtra("item_name", item);
+                    active.putExtra("item_command", command);
+
+                    context.startActivity(active);
+                }else{
+                    new HomeWidgetSendCommandJob(context, item, command).execute();
+                    new HomeWidgetUpdateJob(context, Integer.parseInt(intent.getData().getLastPathSegment())).execute();
+                }
             }
 
 
