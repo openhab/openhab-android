@@ -104,8 +104,8 @@ public class HomeWidgetProvider extends AppWidgetProvider {
 
                 if( pin != null && !pin.equals("")  && !pinMode.equals("Never") &&
                         (
-                                (pinMode.equals("OnEnable") && command.equals("OFF")) ||
-                                        (pinMode.equals("OnDisable") && command.equals("ON")) ||
+                                (pinMode.equals("OnEnable") && command.equals("ON")) ||
+                                        (pinMode.equals("OnDisable") && command.equals("OFF")) ||
                                         pinMode.equals("OnEnableAndDisable")
                         )
                     )
