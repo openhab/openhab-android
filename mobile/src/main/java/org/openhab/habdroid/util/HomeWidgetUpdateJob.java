@@ -164,8 +164,8 @@ public class HomeWidgetUpdateJob extends AsyncTask {
                 e.printStackTrace();
             }
 
-            appWidgetManager.updateAppWidget(new ComponentName(context, HomeWidgetProvider.class), views);
-            //appWidgetManager.updateAppWidget(appWidgetId, views);
+            //appWidgetManager.updateAppWidget(new ComponentName(context, HomeWidgetProvider.class), views);
+            appWidgetManager.updateAppWidget(appWidgetId, views);
 
         }
     }
