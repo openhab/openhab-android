@@ -1226,8 +1226,8 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
             return;
         }
         // We need remote URL to be my.oh
-        if (!remoteUrl.toLowerCase().startsWith("https://my.openhab.org")) {
-            Log.d(TAG, "Remote URL " + remoteUrl + "is not https://my.openhab.org, no GCM registration will be made");
+        if (!remoteUrl.toLowerCase().contains("openhab.org")) {
+            Log.d(TAG, "Remote URL " + remoteUrl + "is not a openhab domain, no GCM registration will be made");
             return;
         }
         mIsMyOpenHAB = true;
@@ -1235,6 +1235,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
         Crittercism.setUsername(openHABUsername);
         if (mGcm == null)
             mGcm = GoogleCloudMessaging.getInstance(getApplicationContext());
+        final String baseUrl = remoteUrl;
         new AsyncTask<Void, Void, String>() {
             @Override
             protected String doInBackground(Void... params) {
@@ -1247,7 +1248,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
                             try {
                                 deviceModel = URLEncoder.encode(Build.MODEL, "UTF-8");
                                 String deviceId = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
-                                String regUrl = "https://my.openhab.org/addAndroidRegistration?deviceId=" + deviceId +
+                                String regUrl = baseUrl + "/addAndroidRegistration?deviceId=" + deviceId +
                                         "&deviceModel=" + deviceModel + "&regId=" + mRegId;
                                 mAsyncHttpClient.get(getApplicationContext(), regUrl, new AsyncHttpResponseHandler() {
                                     @Override

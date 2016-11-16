@@ -10,7 +10,6 @@
 package org.openhab.habdroid.util;
 
 public class Constants {
-    public static final String MYOPENHAB_BASE_URL           = "https://my.openhab.org";
     public static final String PREFERENCE_APPVERSION        = "default_openhab_appversion";
     public static final String PREFERENCE_SCREENTIMEROFF    = "default_openhab_screentimeroff";
     public static final String PREFERENCE_USERNAME          = "default_openhab_username";
