@@ -47,9 +47,11 @@ public class OpenHABNotificationFragment extends ListFragment implements SwipeRe
 
     private static final String ARG_USERNAME = "openHABUsername";
     private static final String ARG_PASSWORD = "openHABPassword";
+    private static final String ARG_BASEURL = "openHABBaseUrl";
 
     private String openHABUsername = "";
     private String openHABPassword = "";
+    private String openHABBaseURL = "";
 
     private OpenHABMainActivity mActivity;
     // loopj
@@ -62,11 +64,12 @@ public class OpenHABNotificationFragment extends ListFragment implements SwipeRe
 
     private SwipeRefreshLayout mSwipeLayout;
 
-    public static OpenHABNotificationFragment newInstance(String username, String password) {
+    public static OpenHABNotificationFragment newInstance(String baseURL, String username, String password) {
         OpenHABNotificationFragment fragment = new OpenHABNotificationFragment();
         Bundle args = new Bundle();
         args.putString(ARG_USERNAME, username);
         args.putString(ARG_PASSWORD, password);
+        args.putString(ARG_BASEURL, baseURL);
         fragment.setArguments(args);
         return fragment;
     }
@@ -86,6 +89,7 @@ public class OpenHABNotificationFragment extends ListFragment implements SwipeRe
         if (getArguments() != null) {
             openHABUsername = getArguments().getString(ARG_USERNAME);
             openHABPassword = getArguments().getString(ARG_PASSWORD);
+            openHABBaseURL =  getArguments().getString(ARG_BASEURL);
         }
     }
 
@@ -175,7 +179,7 @@ public class OpenHABNotificationFragment extends ListFragment implements SwipeRe
     private void loadNotifications() {
         if (mAsyncHttpClient != null) {
             startProgressIndicator();
-            mRequestHandle = mAsyncHttpClient.get(Constants.MYOPENHAB_BASE_URL + "/api/v1/notifications?limit=20", new AsyncHttpResponseHandler() {
+            mRequestHandle = mAsyncHttpClient.get(openHABBaseURL + "/api/v1/notifications?limit=20", new AsyncHttpResponseHandler() {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                     stopProgressIndicator();
