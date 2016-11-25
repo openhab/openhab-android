@@ -1,72 +1,183 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.OpenHABWriteBeaconActivity"
-    android:layout_gravity="center"
-    >
-    <ImageView
-        android:id="@+id/write_beacon_image"
-        android:src="@drawable/beacon_icon"
-        android:layout_height="285dp"
-        android:layout_width="match_parent"
-        android:adjustViewBounds="true"
-        />
-    <TextView
-        android:id="@+id/write_message_beacon"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/info_write_beacon"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:gravity="center"
-        />
+    android:layout_height="match_parent">
 
     <LinearLayout
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        tools:context=".ui.OpenHABWriteBeaconActivity"
+        android:layout_gravity="center"
+        android:weightSum="1"
+        android:descendantFocusability="beforeDescendants"
+        android:focusableInTouchMode="true" >
+
+        <ImageView
+            android:id="@+id/write_beacon_image"
+            android:src="@drawable/beacon_icon"
+            android:layout_height="201dp"
+            android:layout_width="196dp"
+            android:adjustViewBounds="true"
+            android:layout_gravity="center_horizontal" />
 
         <TextView
-            android:text="Beacon name: "
-            android:layout_width="wrap_content"
-            android:layout_height="43dp"
-            android:id="@+id/write_beacon_name"
-            android:layout_weight="0.74"
-            android:gravity="center_vertical|center_horizontal"
-            android:textSize="18sp"
-            android:textAlignment="textStart" />
-
-        <EditText
-            android:layout_width="wrap_content"
+            android:id="@+id/write_message_beacon_view"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textPersonName"
-            android:ems="10"
-            android:id="@+id/write_beacon_name_edit" />
+            android:text="@string/info_write_beacon_view"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:gravity="center"
+            />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:text="Sitemap: "
+                android:layout_width="175dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/write_beacon_sitemap"
+                android:gravity="center_vertical|center_horizontal"
+                android:textSize="18sp" />
+
+            <Spinner
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:selectAllOnFocus="true"
+                android:id="@+id/write_beacon_sitemap_choose" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:text="Group: "
+                android:layout_width="175dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/write_beacon_group"
+                android:gravity="center_vertical|center_horizontal"
+                android:textSize="18sp" />
+
+            <Spinner
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:selectAllOnFocus="true"
+                android:id="@+id/write_beacon_group_choose" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/write_message_beacon_beacon"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/info_write_beacon_beacon"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:gravity="center"
+            />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:text="Beacon address: "
+                android:layout_width="175dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/write_beacon_address"
+                android:gravity="center_vertical|center_horizontal"
+                android:textSize="18sp"/>
+
+            <TextView
+                android:text=""
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/write_beacon_address_show"
+                android:layout_weight="1" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:text="Beacon name: "
+                android:layout_width="175dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/write_beacon_name"
+                android:gravity="center_vertical|center_horizontal"
+                android:textSize="18sp"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:selectAllOnFocus="true"
+                android:id="@+id/write_beacon_name_edit" />
+
+        </LinearLayout>
+
+        <CheckBox
+            android:text="@string/write_beacon_further_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/show_beacon_infos" />
+<!-- The Beacon message could be a further Beacon info -->
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:text="Beacon message:"
+                android:layout_width="175dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/beacon_message"
+                android:gravity="center_vertical|center_horizontal"
+                android:textSize="18sp"
+                android:visibility="invisible" />
+
+            <TextView
+                android:text=""
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/beacon_message_show"
+                android:layout_weight="1"
+                android:visibility="invisible" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/beacon_buttons">
+
+            <Button
+                android:text="Save"
+                android:layout_height="wrap_content"
+                android:id="@+id/save_beacon"
+                android:textAlignment="center"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center_horizontal"
+                android:layout_weight="1"
+                android:layout_width="75dp" />
+
+            <Button
+                android:text="Cancel"
+                android:layout_height="wrap_content"
+                android:id="@+id/cancel_beacon"
+                android:textAlignment="center"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center_horizontal"
+                android:layout_weight="1"
+                android:layout_width="75dp" />
+
+        </LinearLayout>
+
     </LinearLayout>
-
-    <TextView
-        android:text="Beacon address: "
-        android:layout_width="match_parent"
-        android:layout_height="43dp"
-        android:id="@+id/write_beacon_address"
-        android:textSize="18sp"
-        android:gravity="center_vertical" />
-
-    <TextView
-        android:text="Beacon message:"
-        android:layout_width="match_parent"
-        android:layout_height="43dp"
-        android:id="@+id/write_beacon_message"
-        android:textSize="18sp"
-        android:gravity="center_vertical" />
-
-    <Button
-        android:text="Save"
-        android:layout_width="136dp"
-        android:layout_height="wrap_content"
-        android:id="@+id/save_beacon"
-        android:textAlignment="center"
-        android:layout_gravity="center_horizontal"
-        android:gravity="center_horizontal" />
-</LinearLayout>
+</ScrollView>

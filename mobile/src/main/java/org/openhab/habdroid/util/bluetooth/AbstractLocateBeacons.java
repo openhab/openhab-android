@@ -1,4 +1,4 @@
-package org.openhab.habdroid.util.Bluetooth;
+package org.openhab.habdroid.util.bluetooth;
 
 import android.bluetooth.BluetoothAdapter;
 import android.os.AsyncTask;
@@ -6,22 +6,13 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
 
-import com.loopj.android.http.AsyncHttpResponseHandler;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.openhab.habdroid.model.OpenHABBeacons;
 import org.openhab.habdroid.ui.OpenHABMainActivity;
 import org.openhab.habdroid.util.BeaconHandler;
 import org.openhab.habdroid.util.Constants;
 
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-
-import cz.msebera.android.httpclient.Header;
-import cz.msebera.android.httpclient.entity.StringEntity;
 
 public abstract class AbstractLocateBeacons extends AsyncTask<BluetoothAdapter, List<OpenHABBeacons>, List<OpenHABBeacons>> implements Parcelable {
 
@@ -42,15 +33,21 @@ public abstract class AbstractLocateBeacons extends AsyncTask<BluetoothAdapter, 
     protected int noBeaconsSinceRestart = 0;
 
     public AbstractLocateBeacons(){
-        beaconHandler = BeaconHandler.getInstance(); //TODO: Null handling
+        try{
+            beaconHandler = BeaconHandler.getInstance();
+        }
+        catch (NullPointerException ne){
+            ne.printStackTrace();
+            //TODO: What to do if BeaconHandler null
+        }
         beaconList = new ArrayList<>();
         this.locate = true;
         this.founded = new ArrayList<>();
     }
 
-    public AbstractLocateBeacons(Parcel in){
+    /*public AbstractLocateBeacons(Parcel in){
         in.readValue(ClassLoader.getSystemClassLoader());
-    }
+    }*/
 
     protected List<OpenHABBeacons> doInBackground(BluetoothAdapter... ba){
         while (locate){
@@ -74,6 +71,7 @@ public abstract class AbstractLocateBeacons extends AsyncTask<BluetoothAdapter, 
 
     protected void onPostExecute(List<OpenHABBeacons> beacons){
         if(!OpenHABMainActivity.bluetoothActivated)ba.disable();
+        ba = null;
         beaconHandler.clearNearRooms();
     }
 

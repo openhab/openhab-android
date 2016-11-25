@@ -1,38 +1,43 @@
-package org.openhab.habdroid.util.Bluetooth;
+package org.openhab.habdroid.util.bluetooth;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
-import android.os.Build;
-import android.os.Parcel;
+import android.bluetooth.le.BluetoothLeScanner;
+import android.bluetooth.le.ScanCallback;
+import android.bluetooth.le.ScanResult;
 import android.util.Log;
 
 import org.openhab.habdroid.model.OpenHABBeacons;
-import org.openhab.habdroid.ui.OpenHABMainActivity;
 import org.openhab.habdroid.util.Constants;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-@TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
-public class LocateBeaconsTaskOld extends AbstractLocateBeacons {
+@SuppressLint("ParcelCreator")
+@TargetApi(21)
+public class LocateBeaconsTaskNew extends AbstractLocateBeacons {
 
-    private static final String TAG = LocateBeaconsTaskOld.class.getSimpleName();
+    private static final String TAG = LocateBeaconsTaskNew.class.getSimpleName();
 
-    private BluetoothAdapter.LeScanCallback scanCallback;
+    private ScanCallback scanCallback;
 
-    /*public LocateBeaconsTaskOld(Parcel in){
+    private BluetoothLeScanner leScanner;
+
+    /*public LocateBeaconsTaskNew(Parcel in){
         super(in);
     }*/
 
-    public LocateBeaconsTaskOld(){
+    public LocateBeaconsTaskNew(){
         super();
 
-        scanCallback = new BluetoothAdapter.LeScanCallback() {
+        scanCallback = new ScanCallback() {
             @Override
-            public void onLeScan(final BluetoothDevice device, int rssi,
-                                 byte[] scanRecord) {
+            public void onScanResult(int callbackType, ScanResult result) {
+                BluetoothDevice device = result.getDevice();
+                int rssi = result.getRssi();
+                byte[] scanRecord = result.getScanRecord().getBytes();
                 if(Arrays.equals(Constants.I_BEACON_PREFIX, Arrays.copyOfRange(scanRecord, 0, 9))){
                     String beaconMessage = bytesToHex(scanRecord);
                     String uUID = getUUID(beaconMessage, Constants.I_BEACON_PREFIX.length*2);
@@ -43,7 +48,7 @@ public class LocateBeaconsTaskOld extends AbstractLocateBeacons {
                     if(founded.contains(newBeacon)){
                         founded.get(founded.indexOf(newBeacon)).setAway(away);
                     }
-                    else {
+                    else{
                         newBeacon.setAway(away);
                         founded.add(newBeacon);
                     }
@@ -57,29 +62,26 @@ public class LocateBeaconsTaskOld extends AbstractLocateBeacons {
     @Override
     protected List<OpenHABBeacons> doInBackground(BluetoothAdapter... ba) {
         this.ba = ba[0];
-        this.ba.startLeScan(scanCallback);
+        leScanner = this.ba.getBluetoothLeScanner();
+        leScanner.startScan(scanCallback);
         return super.doInBackground(ba);
     }
 
     @Override
     protected void onPostExecute(List<OpenHABBeacons> beacons) {
-        ba.stopLeScan(scanCallback);
+        leScanner.stopScan(scanCallback);
         super.onPostExecute(beacons);
     }
 
+    @Override
     public void restartScan(){
         super.restartScan();
         try {
-            ba.stopLeScan(scanCallback);
+            leScanner.stopScan(scanCallback);
             Thread.sleep(10);
-            ba.startLeScan(scanCallback);
-        }
-        catch (InterruptedException e) {
+            leScanner.startScan(scanCallback);
+        } catch (InterruptedException e) {
             e.printStackTrace();
-        }
-        catch (NullPointerException e){
-            e.printStackTrace();
-            Log.e(TAG, "restartScan: NullPointer fliegt!!!!!", e);
         }
     }
 }

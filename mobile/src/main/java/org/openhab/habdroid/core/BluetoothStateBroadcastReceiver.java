@@ -29,7 +29,7 @@ public class BluetoothStateBroadcastReceiver extends BroadcastReceiver{
                 case BluetoothAdapter.STATE_TURNING_OFF:
                     if(main.isLocate()){
                         main.setBluetoothActivated(false);
-                        main.bluetoothWillTurningOff();
+                        main.bluetoothIsTurningOff();
                     }
                     break;
                 case BluetoothAdapter.STATE_ON:

@@ -255,4 +255,27 @@ public class OpenHABBeacons implements Comparable<OpenHABBeacons>, Parcelable {
         json.put("message", beaconMessage);
         return json.toString();
     }
+
+    @Override
+    public String toString(){
+        return "This is the Beacon " + name + " with the MAC-Address: " + address + ". It sends out the Message: " + beaconMessage;
+    }
+
+    /**
+     * isCorrect checks if all necessary attributes are set before saving a Beacon
+     * @return true if Beacon is correct
+     */
+    public boolean isCorrect() {
+        if(name == null || "".equals(name))
+            return false;
+        if(address == null || "".equals(address))
+            return false;
+        if(beaconMessage == null || "".equals(beaconMessage))
+            return false;
+        if(sitemap == null || "".equals(sitemap))
+            return false;
+        if(group == null || "".equals(group))
+            return false;
+        return true;
+    }
 }

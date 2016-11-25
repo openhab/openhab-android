@@ -80,12 +80,13 @@
     <string name="info_write_tag_failed">Fehler beim Schreiben des NFC-Tags</string>
     <string name="info_write_tag_unsupported">Dieses Gerät unterstützt leider kein NFC :-(</string>
     <string name="info_write_tag_disabled">NFC ist deaktiviert. Bitte aktivieren Sie es im Geräte Einstellungsmenü.</string>
-    <string name="info_write_beacon">Wollen sie die Sitemap \'~sitemap~\' und Group \'~group~\' als Position des Becons speichern?</string>
+    <string name="info_write_beacon_view">Wollen sie die folgende Ansicht</string>
     <string name="info_write_beacon_progress">Speichere Beacon</string>
     <string name="info_write_beacon_finished">Erfolgreich abgeschlossen</string>
     <string name="info_write_beacon_failed">Fehler beim Speichern des Beacons</string>
     <string name="info_write_beacon_unsupported">Dieses Gerät unterstützt leider kein Bluetooth low Energy :-(</string>
-    <string name="info_write_beacon_disabled">Bluetooth ist deaktiviert. Bitte aktivieren Sie es im Geräte Einstellungsmenü.</string>
+    <string name="info_write_beacon_bt_disabled">Bluetooth ist deaktiviert. Bitte aktivieren Sie es im Geräte Einstellungsmenü.</string>
+    <string name="write_beacon_further_info">Zeige weitere Beacon Informationen</string>
     <string name="info_openhab_version_label">openHAB Version</string>
     <string name="info_openhab_apiversion_label">openHAB Rest API Version</string>
     <string name="info_openhab_uuid_label">openHAB UUID</string>
@@ -120,4 +121,8 @@
     <!-- drawer -->
     <string name="drawer_open">Sitemap-Bereich öffnen</string>
     <string name="drawer_close">Sitemap-Bereich schließen</string>
+    <!-- Beacon -->
+    <string name="info_write_nobeacon_near">Es befindet sich kein Beacon in der Nähe um die Position zu speichern, bitte versuchen Sie es erneut.</string>
+    <string name="title_activity_openhabwritebeacon">Setze Beacon</string>
+    <string name="info_write_beacon_beacon">als Position des Beacons speichern</string>
 </resources>

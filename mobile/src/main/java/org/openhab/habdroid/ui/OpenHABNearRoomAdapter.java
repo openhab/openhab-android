@@ -58,7 +58,7 @@ public class OpenHABNearRoomAdapter extends ArrayAdapter<OpenHABBeacons> {
 
         TextView infoView = (TextView)convertView.findViewById(R.id.beaconInfo);
         if(roomTXT == null){
-            infoView.setText("To add this Beacon to openHAB\nclick here\n"+infoTXT);
+            infoView.setText(idTXT + "To add this Beacon to openHAB click here\n" + infoTXT);
         }
         else{
             infoView.setText(idTXT+roomTXT+infoTXT);

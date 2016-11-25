@@ -10,42 +10,65 @@
 package org.openhab.habdroid.ui;
 
 import android.app.Activity;
-import android.content.ComponentName;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.MainThread;
+import android.support.annotation.UiThread;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.analytics.GoogleAnalytics;
+import com.loopj.android.http.SyncHttpClient;
 
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.model.OpenHABBeacons;
 import org.openhab.habdroid.util.BeaconHandler;
+import org.openhab.habdroid.util.MySyncHttpClient;
 import org.openhab.habdroid.util.Util;
+import org.openhab.habdroid.util.writeBeacon.WriteBeaconHandleGroup;
+import org.openhab.habdroid.util.writeBeacon.WriteBeaconHandleSitemap;
 
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class OpenHABWriteBeaconActivity extends Activity {
+public class OpenHABWriteBeaconActivity extends Activity implements Observer{
 
 	// Logging TAG
 	private static final String TAG = OpenHABWriteBeaconActivity.class.getSimpleName();
-	private String sitemap = "";
-	private String group = "";
-	private String message = "";
-	private OpenHABBeacons beacon;
 
-    private TextView writeBeaconMessage;
-    private Button btnSave;
+	private String baseURL = "";
+
+	private String intentSitemap;
+	private WriteBeaconHandleSitemap sitemap;
+
+	private String intentGroup;
+	private WriteBeaconHandleGroup group;
+
+	private TextView writeBeaconMessage;
+
+	private OpenHABBeacons intentBeacon;
+	private TextView beaconAddress;
+	private TextView beaconAddressShow;
+	private TextView beaconName;
+	private EditText beaconNameEdit;
+
+	private Button btnSave;
+	private Button btnCancel;
 
 	private BeaconHandler beaconHandler;
+
+	private SyncHttpClient mSyncHttpClient;
+
+	private boolean hide;
 
     @Override
 	public void onStart() {
@@ -63,25 +86,78 @@ public class OpenHABWriteBeaconActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		Util.setActivityTheme(this);
 		super.onCreate(savedInstanceState);
+
+		mSyncHttpClient = new MySyncHttpClient(this);
+
 		beaconHandler = BeaconHandler.getInstance(this);
 		setContentView(R.layout.openhabwritebeacon);
-		writeBeaconMessage = (TextView)findViewById(R.id.write_message_beacon);
-        btnSave = (Button)findViewById(R.id.save_beacon);
-    	checkBluetooth();
+		writeBeaconMessage = (TextView)findViewById(R.id.write_message_beacon_view);
+		configureButton();
+		configureBeaconView();
+		configureCheckbox();
+
+		sitemap = new WriteBeaconHandleSitemap(	this,
+												((Spinner) findViewById(R.id.write_beacon_sitemap_choose)),
+												((TextView) findViewById(R.id.write_beacon_sitemap)),
+												mSyncHttpClient);
+		sitemap.addObserver(this);
+		group = new WriteBeaconHandleGroup(	this,
+											((Spinner) findViewById(R.id.write_beacon_group_choose)),
+											((TextView) findViewById(R.id.write_beacon_group)),
+											mSyncHttpClient);
+		group.addObserver(this);
+
 		intentsExtras();
-		loadNearest();
-        btnSave.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                if(beacon != null) saveBeacon();
-                else refreshBeacon();
-            }
-        });
+		beaconNameEdit.setText(intentBeacon.getName());
+		beaconAddressShow.setText(intentBeacon.getAddress());
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				sitemap.loadSitemapList(baseURL);
+			}
+		}).start();
+	}
+
+	private void configureButton(){
+		btnSave = (Button)findViewById(R.id.save_beacon);
+		btnSave.setOnClickListener(new View.OnClickListener(){
+			@Override
+			public void onClick(View v) {
+				saveBeacon();
+			}
+		});
+		btnCancel = (Button)findViewById(R.id.cancel_beacon);
+		btnCancel.setOnClickListener(new View.OnClickListener(){
+			@Override
+			public void onClick(View v) {
+				closeActivity();
+			}
+		});
+	}
+
+	private void configureBeaconView(){
+		beaconAddress = (TextView)findViewById(R.id.write_beacon_address);
+		beaconAddressShow = (TextView)findViewById(R.id.write_beacon_address_show);
+		beaconName = (TextView)findViewById(R.id.write_beacon_name);
+		beaconNameEdit = (EditText)findViewById(R.id.write_beacon_name_edit);
+	}
+
+	private void configureCheckbox(){
+		findViewById(R.id.show_beacon_infos).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				//actually there is only the Beacon message as further information
+				//in future there could be more further informations
+				findViewById(R.id.beacon_message).setVisibility(View.VISIBLE);
+				findViewById(R.id.beacon_message_show).setVisibility(View.VISIBLE);
+				((TextView)findViewById(R.id.beacon_message_show)).setText(intentBeacon.getBeaconMessage());
+				((LinearLayout)v.getParent()).removeView(v);
+			}
+		});
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main_menu, menu);
 		return true;
 	}
@@ -105,63 +181,55 @@ public class OpenHABWriteBeaconActivity extends Activity {
 	}
 
     private void saveBeacon(){
-        String name = ((EditText)findViewById(R.id.write_beacon_name_edit)).getText().toString();
+		Log.d(TAG, "saveBeacon: ");
+		OpenHABBeacons saveBeacon = new OpenHABBeacons();
+		String name = beaconNameEdit.getText().toString();
         if(name != null && !"".equals(name)) {
 			writeBeaconMessage.setText(R.string.info_write_beacon_progress);
-            beacon.setSitemap(sitemap);
-            beacon.setGroup(group);
-            beacon.setName(name);
-			beaconHandler.addNewBeacon(beacon);
-            if(beaconHandler.writeBeacons(getApplicationContext())){//FileHandler.writeBeacons(beacon, getApplicationContext())){
+            saveBeacon.setSitemap(sitemap.getChosenSitemap());
+			saveBeacon.setGroup(group.getChosenGroup());
+			saveBeacon.setName(name);
+			saveBeacon.setAddress(intentBeacon.getAddress());
+			saveBeacon.setBeaconMessage(intentBeacon.getBeaconMessage());
+			if(saveBeacon.isCorrect() && beaconHandler.addBeacon(saveBeacon, getApplicationContext())){
 				writeBeaconMessage.setText(R.string.info_write_beacon_finished);
-				autoCloseActivity();
+				Log.d(TAG, "saveBeacon: successful");
+				autoCloseActivity(true);
 			}
 			else{
 				hide();
+				Log.d(TAG, "saveBeacon: failure");
 				writeBeaconMessage.setText(R.string.info_write_beacon_failed);
 			}
         }
         else{
+			Log.d(TAG, "saveBeacon: no Name");
             Toast.makeText(getApplicationContext(), "You have to enter a Beacon name!", Toast.LENGTH_LONG);
         }
     }
 
-    private void refreshBeacon(){
-		if(OpenHABMainActivity.bluetoothActivated){
-			loadNearest();
-			if (beacon != null) unhide();
-		}
-		else{
-			writeBeaconMessage.setText(R.string.info_write_beacon_failed + ", please try again");
-			autoCloseActivity();
-		}
-    }
-
     private void hide(){
-        findViewById(R.id.write_beacon_name_edit).setVisibility(View.INVISIBLE);
-        findViewById(R.id.write_beacon_name).setVisibility(View.INVISIBLE);
-        findViewById(R.id.write_beacon_address).setVisibility(View.INVISIBLE);
-        findViewById(R.id.write_beacon_message).setVisibility(View.INVISIBLE);
-        writeBeaconMessage.setText(getString(R.string.info_write_nobeacon_near));
-        btnSave.setText("refresh");
-    }
-
-    private void unhide(){
-        findViewById(R.id.write_beacon_name_edit).setVisibility(View.VISIBLE);
-        findViewById(R.id.write_beacon_name).setVisibility(View.VISIBLE);
-        findViewById(R.id.write_beacon_address).setVisibility(View.VISIBLE);
-        findViewById(R.id.write_beacon_message).setVisibility(View.VISIBLE);
-        writeBeaconMessage.setText(message);
-        btnSave.setText("save");
+		hide = true;
+		sitemap.hide();
+		group.hide();
+		findViewById(R.id.write_message_beacon_beacon).setVisibility(View.INVISIBLE);
+		beaconAddress.setVisibility(View.INVISIBLE);
+		beaconAddressShow.setVisibility(View.INVISIBLE);
+		beaconName.setVisibility(View.INVISIBLE);
+		beaconNameEdit.setVisibility(View.INVISIBLE);
+		findViewById(R.id.show_beacon_infos).setVisibility(View.INVISIBLE);
+		writeBeaconMessage.setText(getString(R.string.info_write_nobeacon_near));
+		((LinearLayout)btnSave.getParent()).removeView(btnSave);
     }
 	
-	private void autoCloseActivity() {
+	private void autoCloseActivity(final boolean save) {
 		Timer autoCloseTimer = new Timer();
 		autoCloseTimer.schedule(new TimerTask() {
 			@Override
 			public void run() {
 				OpenHABWriteBeaconActivity.this.runOnUiThread(new Runnable() {
 					public void run() {
+						OpenHABWriteBeaconActivity.this.setResult((save)?1:-1);
 						OpenHABWriteBeaconActivity.this.finish();
 					}
 				});
@@ -171,41 +239,101 @@ public class OpenHABWriteBeaconActivity extends Activity {
 		}, 2000);
 	}
 
-	private void checkBluetooth(){
+	private boolean checkBluetooth(){
 		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR2) {
 			hide();
 			writeBeaconMessage.setText(R.string.info_write_beacon_unsupported);
-			findViewById(R.id.save_beacon).setVisibility(View.INVISIBLE);
+			return false;
 		} else if (!OpenHABMainActivity.bluetoothActivated) {
 			hide();
-			writeBeaconMessage.setText(R.string.info_write_beacon_disabled);
-			findViewById(R.id.save_beacon).setVisibility(View.INVISIBLE);
+			writeBeaconMessage.setText(R.string.info_write_beacon_bt_disabled);
+			return false;
 		}
+		return true;
+	}
+
+	private boolean checkLocator(){
+		if(!OpenHABMainActivity.isLocate()){
+			hide();
+			writeBeaconMessage.setText(R.string.info_write_beacon_locator_disabled);
+			return false;
+		}
+		return true;
 	}
 
 	private void intentsExtras(){
+		if(getIntent().hasExtra("openHABBaseURL")){
+			baseURL = getIntent().getStringExtra("openHABBaseURL");
+		}
+		if (getIntent().hasExtra("setBeacon")) {
+			intentBeacon = getIntent().getParcelableExtra("setBeacon");
+			if(intentBeacon.getSitemap() != null)
+				intentSitemap = intentBeacon.getSitemap();
+			if(intentBeacon.getGroup() != null)
+				intentGroup = intentBeacon.getGroup();
+		}
+		else {
+			checkBluetooth();
+			checkLocator();
+			return;
+		}
 		if (getIntent().hasExtra("sitemapPage")) {
-			String page = getIntent().getExtras().getString("sitemapPage");
-			Log.d(TAG, "Got sitemapPage = " + page);
-			sitemap = page.split("/")[2];
-			group = page.split("/")[3];
-			writeBeaconMessage.setText(writeBeaconMessage.getText().toString().replace("~sitemap~", sitemap));
-			writeBeaconMessage.setText(writeBeaconMessage.getText().toString().replace("~group~", group));
-			message = writeBeaconMessage.getText().toString();
+			String[] pageSplit = getIntent().getStringExtra("sitemapPage").split("/");
+			Log.d(TAG, "Got sitemapPage = " + getIntent().getStringExtra("sitemapPage"));
+			intentSitemap = pageSplit[2];
+			intentGroup = pageSplit[3];
 		}
 	}
 
-	private void loadNearest(){
-		beacon = beaconHandler.getNearRooms().get(0);
-		if(beacon != null) {
-			Log.d(TAG, "Got beacon = " + beacon.getName() + "(" + beacon.getAddress() + ")");
-			((EditText) findViewById(R.id.write_beacon_name_edit)).setText(beacon.getName());
-			((TextView) findViewById(R.id.write_beacon_address)).append(beacon.getAddress());
-			((TextView) findViewById(R.id.write_beacon_message)).append(beacon.getBeaconMessage());
+	private void closeActivity() {
+		OpenHABWriteBeaconActivity.this.finish();
+	}
+
+	private void setPointer() {
+		sitemap.setSitemapPointer(intentSitemap);
+		group.setGroupLabelsSitemap(sitemap.getChosenSitemap());
+		group.setGroupPointer(intentGroup);
+	}
+
+	@Override
+		public void update(Observable observable, Object data) {
+		if(data == null){
+			return;
 		}
-		else{
-			Log.d(TAG, "Got no beacon");
-			hide();
+		if(observable instanceof WriteBeaconHandleSitemap){
+			if(data instanceof List){
+				if(Thread.currentThread() instanceof UiThread) {
+					sitemap.sitemapAdapterNotifyDataSetChanged();
+				}
+				else{
+					runOnUiThread(new Runnable() {
+						@Override
+						public void run() {
+							sitemap.sitemapAdapterNotifyDataSetChanged();
+						}
+					});
+				}
+				group.loadGroupLabelList((List<String>)data, baseURL);
+			}
+			else if(data instanceof String) {
+				group.setGroupLabelsSitemap((String) data);
+				group.setGroupPointer(0);
+			}
+		}
+		else if(observable instanceof WriteBeaconHandleGroup){
+			if(Thread.currentThread() instanceof UiThread) {
+				group.groupAdapterNotifyDataSetChanged();
+				if (!hide) setPointer();
+			}
+			else{
+				runOnUiThread(new Runnable() {
+					@Override
+					public void run() {
+						group.groupAdapterNotifyDataSetChanged();
+						if (!hide) setPointer();
+					}
+				});
+			}
 		}
 	}
 }

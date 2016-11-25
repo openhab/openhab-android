@@ -10,16 +10,25 @@
 package org.openhab.habdroid.ui;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.ListFragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.crittercism.app.Crittercism;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestHandle;
@@ -29,15 +38,18 @@ import org.json.JSONException;
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.model.OpenHABBeacons;
 import org.openhab.habdroid.util.BeaconHandler;
+import org.openhab.habdroid.util.Constants;
 import org.openhab.habdroid.util.Util;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
 import cz.msebera.android.httpclient.Header;
 
-public class OpenHABNearRoomFragment extends ListFragment implements SwipeRefreshLayout.OnRefreshListener {
+public class OpenHABNearRoomFragment extends ListFragment implements SwipeRefreshLayout.OnRefreshListener, Observer {
 
     private static final String TAG = OpenHABNearRoomFragment.class.getSimpleName();
 
@@ -47,6 +59,7 @@ public class OpenHABNearRoomFragment extends ListFragment implements SwipeRefres
     private static final String NOT_LOCATE = "Locate is not activated, all linked rooms will be shown";
     private static final String BLUETOOTH_IS_NOT_ACTIVATED = "Bluetooth is not activated, all linked rooms will be shown";
     private static final String IS_NO_BLE_DEVICE = "Your device do not support BLE, all linked rooms will be shown";
+    private static final int SAVE_BEACON_REQUEST_CODE = 1007;
 
     private String openHABUsername = "";
     private String openHABPassword = "";
@@ -58,7 +71,6 @@ public class OpenHABNearRoomFragment extends ListFragment implements SwipeRefres
 
     private OpenHABNearRoomAdapter mNearRoomAdapter;
     private ArrayList<OpenHABBeacons> shownBeacons;
-    private OpenHABBeacons noBeacon;
 
     private TextView nonLocate;
     private ListView nearromList;
@@ -97,7 +109,7 @@ public class OpenHABNearRoomFragment extends ListFragment implements SwipeRefres
         nonLocate = new TextView(getContext());
         nonLocate.setTextSize(18);
         beaconHandler = BeaconHandler.getInstance(getContext());
-        noBeacon = new OpenHABBeacons("No Beacon Seen", "Serching for more", "Dummy", -1.0);
+        beaconHandler.addObserver(this);
     }
 
     @Override
@@ -137,6 +149,20 @@ public class OpenHABNearRoomFragment extends ListFragment implements SwipeRefres
         super.onActivityCreated(savedInstanceState);
         mNearRoomAdapter = new OpenHABNearRoomAdapter(this.getActivity(), R.layout.openhabnearroomlist_item, shownBeacons);
         getListView().setAdapter(mNearRoomAdapter);
+
+        //perform Longclick
+        getListView().setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                if(id >= 0){
+                    final OpenHABBeacons beacon = (OpenHABBeacons) parent.getItemAtPosition(position);
+                    openDialog(beacon);
+                    Log.d(TAG, "onItemLongClick: " + beacon.toString());
+                }
+                return true;
+            }
+        });
+
         Log.d(TAG, "onActivityCreated()");
         Log.d(TAG, "isAdded = " + isAdded());
         refresh();
@@ -178,6 +204,13 @@ public class OpenHABNearRoomFragment extends ListFragment implements SwipeRefres
         Log.d(TAG, "onDetach()");
     }
 
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+        beaconHandler.deleteObserver(this);
+        Log.d(TAG, "onDestroy()");
+    }
+
     public void refresh() {
         // A refresh can be executed while the activity is reinstanciated
         Log.d(TAG, "refresh()");
@@ -191,11 +224,10 @@ public class OpenHABNearRoomFragment extends ListFragment implements SwipeRefres
         // The Header has id -1 so only items with ID >= 0 will get an action.
         if(id >= 0){
             OpenHABBeacons beacon = (OpenHABBeacons) l.getItemAtPosition(position);
-            /* TODO: Add function to bind Becon to a sitemap over Near Rooms View
             if(beacon.getRoomForView() == null){
-                mainActivity.createBeacon(beacon);
+                addOrAlterBeacon(beacon);
             }
-            else*/ if(beacon.getRoomForView() != null && !"".equals(beacon.getSitemap()) && !"".equals(beacon.getGroup())) {
+            else if(beacon.getRoomForView() != null && !"".equals(beacon.getSitemap()) && !"".equals(beacon.getGroup())) {
                 String beaconURL = openHABBaseUrl + "rest/sitemaps/" + beacon.getSitemap() + "/" + beacon.getGroup();
                 Log.d(TAG, "onListItemClick: " + beaconURL);
                 ((OpenHABMainActivity)getActivity()).openBeaconPage(beaconURL);
@@ -204,31 +236,8 @@ public class OpenHABNearRoomFragment extends ListFragment implements SwipeRefres
     }
 
     private void handleShownBeacons(){
-        List<OpenHABBeacons> knownBeacons = beaconHandler.getKnownBeacons();
         shownBeacons.clear();
-        if(OpenHABMainActivity.isBLEDevice()<0 || !OpenHABMainActivity.bluetoothActivated || !OpenHABMainActivity.isLocate()){
-            shownBeacons.addAll(knownBeacons);
-            noBeacon.resetNotSeen();
-        }
-        else{
-            List<OpenHABBeacons> nearBeacons = beaconHandler.getNearRooms();
-            if(nearBeacons.isEmpty()){
-                noBeacon.incrementNotSeen();
-                shownBeacons.add(noBeacon);
-            }
-            else{
-                noBeacon.resetNotSeen();
-                for(OpenHABBeacons nearBeacon : nearBeacons) {
-                    if (knownBeacons.contains(nearBeacon)){
-                        shownBeacons.add(nearBeacon.addHABInfos(knownBeacons.get(knownBeacons.indexOf(nearBeacon))));
-                    }
-                    else{
-                        nearBeacon.setName("<UNKNOWN>");
-                        shownBeacons.add(nearBeacon);
-                    }
-                }
-            }
-        }
+        shownBeacons.addAll(beaconHandler.getShownBeacons());
         Log.d(TAG, "handleShownBeacons: " + shownBeacons.size());
         mNearRoomAdapter.notifyDataSetChanged();
     }
@@ -247,5 +256,49 @@ public class OpenHABNearRoomFragment extends ListFragment implements SwipeRefres
         else{
             nonLocate.setVisibility(View.INVISIBLE);
         }
+    }
+
+    @Override
+    public void update(Observable observable, Object data) {
+        if (observable instanceof BeaconHandler){
+            refresh();
+        }
+    }
+
+    private void openDialog(final OpenHABBeacons beacon) {
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getContext());
+        dialogBuilder.setTitle("Beacon Options");
+        CharSequence[] dialogItems = new CharSequence[2];
+        if (beacon.getRoomForView() == null){
+            dialogItems[0] = "Add";
+        }
+        else{
+            dialogItems[0] = "Edit";
+        }
+        dialogItems[1] = "Delete"; // In Future: ignore if Beaocn isn´t known
+        try {
+            dialogBuilder.setItems(dialogItems, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int item) {
+                    Log.d(TAG, "Selected option " + item);
+                    if (item == 0){
+                        addOrAlterBeacon(beacon);
+                    }
+                    else if(item == 1){
+                        beaconHandler.removeKnownBeaocn(beacon, getContext());
+                        refresh();
+                    }
+                }
+            }).show();
+        } catch (WindowManager.BadTokenException e) {
+            Crittercism.logHandledException(e);
+        }
+    }
+
+    private void addOrAlterBeacon(OpenHABBeacons beacon){
+        Intent addOrAlterBeaconIntent = new Intent(this.getContext(), OpenHABWriteBeaconActivity.class);
+        addOrAlterBeaconIntent.putExtra("openHABBaseURL", openHABBaseUrl);
+        addOrAlterBeaconIntent.putExtra("setBeacon", beacon);
+        startActivityForResult(addOrAlterBeaconIntent, SAVE_BEACON_REQUEST_CODE);
     }
 }

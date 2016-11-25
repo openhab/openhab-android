@@ -6,6 +6,7 @@ import android.util.Log;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.openhab.habdroid.model.OpenHABBeacons;
+import org.openhab.habdroid.ui.OpenHABMainActivity;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -30,27 +31,31 @@ public class BeaconHandler extends Observable{
         return ourInstance;
     }
 
-    public static BeaconHandler getInstance(){
+    public static BeaconHandler getInstance() throws NullPointerException{
         if(ourInstance == null){
-            return null;
+            throw new NullPointerException("Need a Context to instantiat the BeaconHandler at first");
         }
         return ourInstance;
     }
 
     private BeaconHandler(Context c) {
+        //addTestBeacons(c);
+
+        noBeacon = new OpenHABBeacons("No Beacon Seen", "Serching for more", "Dummy", -1.0);
         nearRooms = new ArrayList<>();
         knownBeacons = readBeacons(c);
-        nearest = null;
+        oldNearest = null;
         haveToSwitch = false;
     }
 
     private List<OpenHABBeacons> nearRooms;
     private List<OpenHABBeacons> knownBeacons;
-    private OpenHABBeacons nearest;
+    private OpenHABBeacons oldNearest;
     private boolean haveToSwitch;
+    private OpenHABBeacons noBeacon;
 
 
-    public boolean writeBeacons(Context context){
+    private boolean writeBeacons(Context context){
         try {
             String beaconString = "";
             for(OpenHABBeacons beacon : knownBeacons){
@@ -99,24 +104,34 @@ public class BeaconHandler extends Observable{
         return beacons;
     }
 
-    public void addNewBeacon(OpenHABBeacons newBeacon){
+    public boolean addBeacon(OpenHABBeacons newBeacon, Context context){
         if(knownBeacons.contains(newBeacon)){
             knownBeacons.remove(knownBeacons.indexOf(newBeacon));
         }
         knownBeacons.add(newBeacon);
+        if(writeBeacons(context)){
+            return true;
+        }
+        else{
+            knownBeacons.remove(knownBeacons.indexOf(newBeacon));
+            return false;
+        }
     }
 
     public OpenHABBeacons getNearest(){
-        return nearest;
+        if (nearRooms.isEmpty())
+            return null;
+        else
+            return nearRooms.get(0);
     }
 
     private void addBeaconInfos(){
-        if(knownBeacons.contains(nearest)){
-            nearest.addHABInfos(knownBeacons.get(knownBeacons.indexOf(nearest)));
+        if(knownBeacons.contains(nearRooms.get(0))){
+            nearRooms.get(0).addHABInfos(knownBeacons.get(knownBeacons.indexOf(nearRooms.get(0))));
         }
-        else {
-            nearest = null;
-        }
+        /*else {
+            oldNearest = null;
+        }*/
     }
 
     public List<OpenHABBeacons> getKnownBeacons(){
@@ -131,7 +146,7 @@ public class BeaconHandler extends Observable{
             initSwitch();
         }
         else {
-            nearest = null;
+            oldNearest = null;
         }
         setChanged();
         notifyObservers();
@@ -140,15 +155,15 @@ public class BeaconHandler extends Observable{
     private void initSwitch(){
         if(nearRooms != null && !nearRooms.isEmpty()) {
             OpenHABBeacons newNearest = nearRooms.get(0);
-            if(newNearest != null && !newNearest.equals(nearest)) {
+            if(newNearest != null && !newNearest.equals(oldNearest)) {
                 Log.d(TAG, "initSwitch: ");
-                nearest = newNearest;
+                oldNearest = newNearest;
                 addBeaconInfos();
                 haveToSwitch = true;
             }
         }
         else {
-            nearest = null;
+            oldNearest = null;
         }
     }
 
@@ -166,7 +181,7 @@ public class BeaconHandler extends Observable{
 
     public void clearNearRooms(){
         nearRooms.clear();
-        nearest = null;
+        oldNearest = null;
     }
 
     public void removeKnownBeaocn(OpenHABBeacons toRemove, Context context){
@@ -175,4 +190,55 @@ public class BeaconHandler extends Observable{
             writeBeacons(context);
         }
     }
+
+    public void reloadBeacon(Context context){
+        knownBeacons = readBeacons(context);
+    }
+
+    public List<OpenHABBeacons> getShownBeacons(){
+        List<OpenHABBeacons> shownBeacons = new ArrayList<>();
+        if(OpenHABMainActivity.isBLEDevice()<0 || !OpenHABMainActivity.bluetoothActivated || !OpenHABMainActivity.isLocate()){
+            shownBeacons.addAll(knownBeacons);
+            noBeacon.resetNotSeen();
+        }
+        else{
+            if(nearRooms.isEmpty()){
+                noBeacon.incrementNotSeen();
+                shownBeacons.add(noBeacon);
+            }
+            else{
+                noBeacon.resetNotSeen();
+                for(OpenHABBeacons nearBeacon : nearRooms) {
+                    if (knownBeacons.contains(nearBeacon)){
+                        shownBeacons.add(nearBeacon.addHABInfos(knownBeacons.get(knownBeacons.indexOf(nearBeacon))));
+                    }
+                    else{
+                        nearBeacon.setName("<UNKNOWN>");
+                        shownBeacons.add(nearBeacon);
+                    }
+                }
+            }
+        }
+        Log.d(TAG, "handleShownBeacons: " + shownBeacons.size());
+        return shownBeacons;
+    }
+
+    public OpenHABBeacons getNoBeacon(){
+        return noBeacon;
+    }
+
+    /*public void addTestBeacons(Context context){
+        try {
+            String write = (new OpenHABBeacons("Beacon1", "ab:cd:ef:fe:dc:ba", "123456789")).toJSONString() + (new OpenHABBeacons("Beacon2", "12:34:56:78:90:ab", "987654321")).toJSONString();
+            FileOutputStream fos = context.openFileOutput("hab_beacons", Context.MODE_PRIVATE);
+            fos.write(write.getBytes());
+            fos.close();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }*/
 }

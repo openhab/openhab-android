@@ -117,6 +117,21 @@ public class Util {
         return sitemapList;
     }
 
+    public static List<String> parseGroupLabels(JSONArray jsonArray){
+        List<String> groupLabels = new ArrayList<>();
+        for (int i=0; i<jsonArray.length(); i++){
+            try{
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                if("Group".equals(jsonObject.getString("type")) && jsonObject.has("name")){
+                    groupLabels.add(jsonObject.getString("name"));
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return groupLabels;
+    }
+
     public static boolean sitemapExists(List<OpenHABSitemap> sitemapList, String sitemapName) {
         for (int i = 0; i < sitemapList.size(); i++) {
             if (sitemapList.get(i).getName().equals(sitemapName))
