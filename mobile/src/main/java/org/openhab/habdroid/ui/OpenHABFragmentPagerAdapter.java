@@ -207,6 +207,26 @@ public class OpenHABFragmentPagerAdapter extends FragmentStatePagerAdapter imple
         notifyDataSetChanged();
     }
 
+    public void openNearRooms() {
+        Log.d(TAG, "openNearRooms: ");
+        if (fragmentList.size() > 0) {
+            if (!(fragmentList.get(fragmentList.size() - 1) instanceof OpenHABNearRoomFragment)) {
+                removeLastFragmentIfNotWidgetList();
+                OpenHABNearRoomFragment fragment = OpenHABNearRoomFragment.newInstance(openHABBaseUrl, openHABUsername, openHABPassword);
+                fragmentList.add(fragment);
+                notifyDataSetChanged();
+            } else {
+                OpenHABNearRoomFragment nrf = ((OpenHABNearRoomFragment) fragmentList.get(fragmentList.size() - 1));
+                Log.d("RoomsFragment", "openNearRooms: " + nrf.toString());
+                nrf.refresh();
+            }
+        } else {
+            OpenHABNearRoomFragment fragment = OpenHABNearRoomFragment.newInstance(openHABBaseUrl, openHABUsername, openHABPassword);
+            fragmentList.add(fragment);
+            notifyDataSetChanged();
+        }
+    }
+
     public void openPage(String pageUrl) {
         Log.d(TAG, "openPage(" + pageUrl + ")");
         OpenHABWidgetListFragment fragment = OpenHABWidgetListFragment.withPage(pageUrl, openHABBaseUrl,

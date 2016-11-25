@@ -25,4 +25,11 @@ public class Constants {
     public static final String PREFERENCE_DEMOMODE          = "default_openhab_demomode";
     public static final String PREFERENCE_FULLSCREEN        = "default_openhab_fullscreen";
     public static final String PREFERENCE_TONE              = "default_openhab_alertringtone";
+
+    public static final byte IS_NO_BLE_DEVICE               = -1;
+    public static final byte IS_OLD_BLE_DEVICE               = 0;
+    public static final byte IS_NEW_BLE_DEVICE               = 1;
+    public static final char[] HEX_ARRAY = "0123456789abcdef".toCharArray();
+    public static final byte[] I_BEACON_PREFIX = {2, 1, 6, 26, -1, 76, 0, 2, 21};
+    public static final int BEACON_TIMES_OF_NOT_SEEN = 10;
 }
