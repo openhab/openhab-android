@@ -103,6 +103,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
@@ -448,7 +449,6 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
         if (!TextUtils.isEmpty(mPendingNfcPage)) {
             openNFCPageIfPending();
         }
-
         checkFullscreen();
         beaconHandler = BeaconHandler.getInstance(getApplicationContext());
         beaconHandler.addObserver(this);
