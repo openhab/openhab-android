@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:ignore="MissingTranslation">
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     >
     <!-- General app strings -->
     <string name="app_name">openHAB</string>
@@ -37,11 +35,14 @@
     <string name="settings_openhab_username_summary">openHAB Benutzername</string>
     <string name="settings_openhab_password">Passwort</string>
     <string name="settings_openhab_password_summary">openHAB Passwort</string>
+    <string name="settings_openhab_sslclientcert">SSL Client Zertifikat</string>
+    <string name="settings_openhab_sslclientcert_howto">SSL Client Zertifikat How-To</string>
+    <string name="settings_openhab_sslclientcert_howto_url">https://github.com/openhab/openhab.android/blob/master/KeyAuth.md</string>
     <string name="settings_openhab_screentimeroff">Deaktiviere Ruhezustand</string>
     <string name="settings_openhab_screentimeroff_summary">Schaltet das automatische Aktivieren des Ruhezustands nach Inaktivität ab, wenn HABDroid läuft.</string>
     <string name="settings_openhab_demomode">Demo Modus</string>
     <string name="settings_openhab_demomode_summary">Betreibt HABDroid im Demo Modus</string>
-    <string name="settings_openhab_theme">HABDroid Theme</string>
+    <string name="settings_openhab_theme">HABDroid Thema</string>
     <string name="settings_openhab_appversion">HABDroid Version</string>
     <string name="settings_openhab_sslcert">Ignoriere SSL Zertifikat</string>
     <string name="settings_openhab_sslcert_summary">Ignoriere Zertifikatsvalidierung beim SSL-Handshake</string>
@@ -67,6 +68,7 @@
     <string name="erorr_no_wifi_mcast_permission">CHANGE_WIFI_MULTICAST_STATE permission wurde nicht erteilt, openHAB discovery wird daher deaktivert!</string>
     <string name="erorr_no_wifi_state_permission">ACCESS_WIFI_STATE permission wurde nicht erteilt, openHAB discovery wird daher deaktiviert!</string>
     <string name="error_connection_failed">Verbindung fehlgeschlagen</string>
+    <string name="error_connection_sslhandshake_failed">SSL Handshake fehlgeschlagen - Sie brauchen vielleicht ein gültiges Client Zertifikat</string>
     <string name="title_activity_openhabwritetag">Schreibe NFC Tag</string>
     <string name="title_activity_openhabinfo">openHAB Information</string>
     <string name="info_write_tag">Berühren Sie den NFC-Tag und warten Sie auf die Bestätigungsmitteilung</string>
@@ -76,6 +78,7 @@
     <string name="info_write_tag_unsupported">Dieses Gerät unterstützt leider kein NFC :-(</string>
     <string name="info_write_tag_disabled">NFC ist deaktiviert. Bitte aktivieren Sie es im Geräte Einstellungsmenü.</string>
     <string name="info_openhab_version_label">openHAB Version</string>
+    <string name="info_openhab_apiversion_label">openHAB Rest API Version</string>
     <string name="info_openhab_uuid_label">openHAB UUID</string>
     <string name="info_openhab_secret_label">openHAB Secret</string>
     <string name="action_settings">Einstellungen</string>
@@ -87,4 +90,21 @@
     <string name="mtm_decision_once">Einmalig</string>
     <string name="mtm_decision_abort">Abbrechen</string>
     <string name="mtm_notification">Unbekanntes Zertifikat</string>
+    <string name="settings_openhab_none">keins</string>
+    <!-- theme -->
+    <string name="theme_value_light">Hell</string>
+    <string name="theme_value_dark">Dunkel</string>
+    <string name="theme_value_black">Schwarz</string>
+    <string name="theme_name_light">Hell</string>
+    <string name="theme_name_dark">Dunkel</string>
+    <string name="theme_name_black">Schwarz/AMOLED</string>
+
+    <!-- nfc toggle -->
+    <string name="nfc_action_on">An</string>
+    <string name="nfc_action_off">Aus</string>
+	<string name="nfc_action_toggle">Umschalten</string>
+
+    <!-- drawer -->
+    <string name="drawer_open">Sitemap-Bereich öffnen</string>
+    <string name="drawer_close">Sitemap-Bereich schließen</string>
 </resources>
