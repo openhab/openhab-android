@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    >
+    <!-- General app strings -->
+    <string name="app_name">openHAB</string>
+    <string name="openhab_service_type">_openhab-server-ssl._tcp.local.</string>
+    <string name="openhab_demo_url">http://demo.openhab.org:8080/</string>
+    <string name="app_preferences_name">設定</string>
+    <string name="app_notifications">通知</string>
+    <string name="app_bindings">バインド</string>
+    <string name="app_bindings_supportedthings">サポートする機器</string>
+    <string name="app_discoveryinbox">探索</string>
+    <string name="app_discoveryinbox_deviceunnamed">無題のデバイス</string>
+    <string name="app_discoveryinbox_deviceaction">操作を選択</string>
+    <string name="app_discoveryinbox_approve">承認</string>
+    <string name="app_discoveryinbox_ignore">無視</string>
+    <string name="app_discoveryinbox_delete">削除</string>
+    <string name="app_discoveryinbox_nothings">新しい機器はありません</string>
+    <string name="app_discovery">探索を有効にする</string>
+    <!-- Main menu items -->
+    <string name="mainmenu_openhab_preferences">設定</string>
+    <string name="mainmenu_openhab_selectsitemap">デフォルトのサイトマップを選択</string>
+    <string name="mainmenu_openhab_writetag">NFC タグを書き込み</string>
+    <string name="mainmenu_openhab_info">openHAB 情報</string>
+    <string name="mainmenu_openhab_clearcache">画像キャッシュをクリア</string>
+    <!-- App settings strings -->
+    <string name="settings_connection_title">接続設定</string>
+    <string name="settings_display_title">表示設定</string>
+    <string name="settings_misc_title">その他の設定</string>
+    <string name="settings_openhab_url">openHAB URL</string>
+    <string name="settings_openhab_url_summary">openHAB URL が手動で設定されました。 設定された場合、自動検出を無効にします。</string>
+    <string name="settings_openhab_alturl">openHAB リモート URL</string>
+    <string name="settings_openhab_alturl_summary">リモート openHAB URL (ローカル openHAB が利用できないときに使用します)</string>
+    <string name="settings_openhab_username">ユーザー名</string>
+    <string name="settings_openhab_username_summary">openHAB ユーザー名</string>
+    <string name="settings_openhab_password">パスワード</string>
+    <string name="settings_openhab_password_summary">openHAB パスワード</string>
+    <string name="settings_openhab_sslclientcert">SSL クライアント証明書</string>
+    <string name="settings_openhab_sslclientcert_howto">SSL クライアント証明書 how-to</string>
+    <string name="settings_openhab_sslclientcert_howto_url">https://github.com/openhab/openhab.android/blob/master/KeyAuth.md</string>
+    <string name="settings_openhab_screentimeroff">ディスプレイタイマーを無効にする</string>
+    <string name="settings_openhab_screentimeroff_summary">HABDroid が実行中のとき、ディスプレイがスイッチオフになるのを無効にします</string>
+    <string name="settings_openhab_demomode">デモモード</string>
+    <string name="settings_openhab_demomode_summary">デモモードで HABDroid を実行します</string>
+    <string name="settings_openhab_theme">HABDroid テーマ</string>
+    <string name="settings_openhab_appversion">HABDroid バージョン</string>
+    <string name="settings_openhab_sslcert">SSL 証明書を無視する</string>
+    <string name="settings_openhab_sslcert_summary">SSL ハンドシェイクの間、証明書の検証を無効にします</string>
+    <string name="settings_openhab_sslhost">SSL ホスト名を無効にする</string>
+    <string name="settings_openhab_sslhost_summary">SSL ハンドシェイクの間、ホスト名のチェックを無視します</string>
+    <string name="settings_openhab_fullscreen">全画面</string>
+    <string name="settings_openhab_fullscreen_summary">全画面モードで表示します</string>
+    <string name="settings_ringtone">着信音</string>
+    <!-- App messages strings -->
+    <string name="title_voice_widget">OpenHAB 音声コマンド</string>
+    <string name="info_voice_input">"openHAB, お話ください!"</string>
+    <string name="info_voice_recognized_text">"認識したコマンド: %1$s"</string>
+    <string name="info_demo_mode">HABDroid はデモモードで実行中です。 お使いの openHAB に接続するには、設定メニューに移動してください。</string>
+    <string name="info_conn_url">設定した URL に接続しています</string>
+    <string name="info_conn_rem_url">リモート URL に接続しています</string>
+    <string name="info_discovery">openHAB を探索しています。 しばらくお待ちください...</string>
+    <string name="error_no_url">openHAB が実行中か確認するか、openHAB URL またはリモート URL を設定してください</string>
+    <string name="error_authentication_failed">認証に失敗しました。 ユーザー名/パスワードの設定を確認してください</string>
+    <string name="error_empty_sitemap_list">openHAB は空のサイトマップリストを返しました</string>
+    <string name="error_network_not_available">ネットワークが利用できません</string>
+    <string name="error_no_uuid">openHAB UUID を取得できませんでした。接続に失敗しました</string>
+    <string name="erorr_invalid_url">\'protocol://host:port/\' の形式で、正しい URL を入力してください</string>
+    <string name="erorr_no_wifi_mcast_permission">CHANGE_WIFI_MULTICAST_STATE アクセス許可が付与されていません。 openHAB の探索は無効になります!</string>
+    <string name="erorr_no_wifi_state_permission">ACCESS_WIFI_STATE アクセス許可が付与されていません。 openHAB の探索は無効になります!</string>
+    <string name="error_connection_failed">ホストへの接続に失敗しました</string>
+    <string name="error_connection_sslhandshake_failed">SSL ハンドシェイクに失敗しました - 有効なクライアント証明書が必要かもしれません</string>
+    <string name="title_activity_openhabwritetag">NFC タグを書き込み</string>
+    <string name="title_activity_openhabinfo">openHAB 情報</string>
+    <string name="info_write_tag">タグをタッチして、確認メッセージが表示されるまで近づけたままにしてください</string>
+    <string name="info_write_tag_progress">タグを書き込んでいます</string>
+    <string name="info_write_tag_finished">正常に完了しました</string>
+    <string name="info_write_failed">タグの書き込みエラー</string>
+    <string name="info_write_tag_unsupported">このデバイスは NFC サポートがありません :-(</string>
+    <string name="info_write_tag_disabled">NFC が無効です。 デバイスの設定メニューで有効にしてください。</string>
+    <string name="info_openhab_version_label">openHAB バージョン</string>
+    <string name="info_openhab_apiversion_label">openHAB Rest API バージョン</string>
+    <string name="info_openhab_uuid_label">openHAB UUID</string>
+    <string name="info_openhab_secret_label">openHAB シークレット</string>
+    <string name="action_settings">設定</string>
+    <string name="nfc_dialog_title">NFC タグの操作を選択してください</string>
+    <string name="info_not_set">未設定</string>
+    <!-- Strings for MemorizingTrustManager activity -->
+    <string name="mtm_accept_cert">不明な証明書を受け取りますか?</string>
+    <string name="mtm_decision_always">常に</string>
+    <string name="mtm_decision_once">一度だけ</string>
+    <string name="mtm_decision_abort">中断</string>
+    <string name="mtm_notification">証明書の検証</string>
+    <string name="settings_openhab_none">なし</string>
+    <!-- theme -->
+    <string name="theme_value_light">light</string>
+    <string name="theme_value_dark">dark</string>
+    <string name="theme_value_black">black</string>
+    <string name="theme_name_light">ライト</string>
+    <string name="theme_name_dark">ダーク</string>
+    <string name="theme_name_black">ブラック/AMOLED</string>
+
+    <!-- nfc toggle -->
+    <string name="nfc_action_on">オン</string>
+    <string name="nfc_action_off">オフ</string>
+    <string name="nfc_action_toggle">切り替え</string>
+
+    <!-- drawer -->
+    <string name="drawer_open">サイトマップドロワーを開きました</string>
+    <string name="drawer_close">サイトマップドロワーを閉じました</string>
+</resources>
