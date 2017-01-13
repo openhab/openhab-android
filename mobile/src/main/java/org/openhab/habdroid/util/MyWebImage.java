@@ -90,7 +90,7 @@ public class MyWebImage implements SmartImage {
         if (shouldAuth)
         	try {
         		String userPassword = this.authUsername + ":" + this.authPassword;
-        		encodedUserPassword = Base64.encodeToString(userPassword.getBytes("UTF-8"), Base64.DEFAULT);
+        		encodedUserPassword = Base64.encodeToString(userPassword.getBytes("UTF-8"), Base64.NO_WRAP);
         	} catch (UnsupportedEncodingException e1) {
         		// TODO Auto-generated catch block
         		e1.printStackTrace();
