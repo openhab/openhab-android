@@ -104,7 +104,13 @@ public class MyWebImage implements SmartImage {
         		conn.setReadTimeout(READ_TIMEOUT);
         		if (this.shouldAuth)
         			conn.setRequestProperty("Authorization", "Basic " + encodedUserPassword);
-        		bitmap = BitmapFactory.decodeStream((InputStream) conn.getContent());
+                int responseCode = conn.getResponseCode();
+                if (responseCode >= 400) {
+                    throw new Exception("Bad https response status: " + responseCode);
+                }
+                else {
+                    bitmap = BitmapFactory.decodeStream((InputStream) conn.getContent());
+                }
         	} catch(Exception e) {
         		e.printStackTrace();
         	}
@@ -115,10 +121,14 @@ public class MyWebImage implements SmartImage {
         		conn.setReadTimeout(READ_TIMEOUT);
         		if (this.shouldAuth)
         			conn.setRequestProperty("Authorization", "Basic " + encodedUserPassword);
-        		bitmap = BitmapFactory.decodeStream((InputStream) conn.getContent());
-			} catch (MalformedURLException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
+                int responseCode = conn.getResponseCode();
+                if (responseCode >= 400) {
+                    throw new Exception("Bad http response status: " + responseCode);
+                }
+                else {
+                    bitmap = BitmapFactory.decodeStream((InputStream) conn.getContent());
+                }
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
         }
