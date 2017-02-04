@@ -169,6 +169,7 @@ public class HomeWidgetUtils {
         Bitmap grayscale = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         Canvas c = new Canvas(grayscale);
         Paint paint = new Paint();
+        paint.setAlpha(200);
         ColorMatrix cm = new ColorMatrix();
         cm.setSaturation(0); // <-- important line here
         ColorMatrixColorFilter f = new ColorMatrixColorFilter(cm);

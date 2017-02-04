@@ -94,7 +94,7 @@ public class OpenHABHomeWidgetService extends Service{
             mAsyncHttpClient = new MyAsyncHttpClient(this);
             mAsyncHttpClient.setBasicAuth(username, password);
 
-            subscribeForChangesLongPoll(baseURL + "rest/sitemaps/_default/default");
+            subscribeForChangesLongPoll(baseURL + "rest/sitemaps/_default/_default");
         }
 
 
