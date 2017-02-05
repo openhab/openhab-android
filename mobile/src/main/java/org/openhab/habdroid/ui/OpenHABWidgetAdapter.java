@@ -552,6 +552,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     			webWeb.setLayoutParams(webLayoutParams);
     		}
     		webWeb.setWebViewClient(new AnchorWebViewClient(openHABWidget.getUrl(), this.openHABUsername, this.openHABPassword));
+            webWeb.getSettings().setDomStorageEnabled(true);
             webWeb.getSettings().setJavaScriptEnabled(true);
     		webWeb.loadUrl(openHABWidget.getUrl());
     	break;
