@@ -32,6 +32,7 @@ public class OpenHABNotificationAdapter extends ArrayAdapter<OpenHABNotification
     private int mResource;
     private String mOpenHABUsername;
     private String mOpenHABPassword;
+    private String mOpenHABBaseUrl;
 
     public OpenHABNotificationAdapter(Context context, int resource, ArrayList<OpenHABNotification> objects) {
         super(context, resource, objects);
@@ -49,7 +50,7 @@ public class OpenHABNotificationAdapter extends ArrayAdapter<OpenHABNotification
         MySmartImageView imageView = (MySmartImageView)convertView.findViewById(R.id.notificationImage);
         if (imageView != null) {
             if (notification.getIcon() != null && imageView != null) {
-                String iconUrl = Constants.MYOPENHAB_BASE_URL + "/images/" + Uri.encode(notification.getIcon() + ".png");
+                String iconUrl = mOpenHABBaseUrl + "/images/" + Uri.encode(notification.getIcon() + ".png");
                 imageView.setImageUrl(iconUrl, R.drawable.openhabiconsmall,
                         mOpenHABUsername, mOpenHABPassword);
             } else {
@@ -75,5 +76,13 @@ public class OpenHABNotificationAdapter extends ArrayAdapter<OpenHABNotification
 
     public void setOpenHABPassword(String openHABPassword) {
         this.mOpenHABPassword = openHABPassword;
+    }
+
+    public String getOpenHABBaseUrl() {
+        return mOpenHABBaseUrl;
+    }
+
+    public void setOpenHABBaseUrl(String mOpenHABBaseUrl) {
+        this.mOpenHABPassword = mOpenHABBaseUrl;
     }
 }

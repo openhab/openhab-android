@@ -63,6 +63,7 @@ import com.loopj.android.image.WebImageCache;
 
 import cz.msebera.android.httpclient.Header;
 import cz.msebera.android.httpclient.client.HttpResponseException;
+import cz.msebera.android.httpclient.conn.HttpHostConnectException;
 import cz.msebera.android.httpclient.entity.StringEntity;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -92,6 +93,7 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.net.ssl.SSLHandshakeException;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -102,6 +104,44 @@ import de.duenndns.ssl.MemorizingTrustManager;
 
 public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSelectedListener,
         OpenHABTrackerReceiver, MemorizingResponder {
+
+    private abstract class DefaultHttpResponseHandler extends AsyncHttpResponseHandler {
+
+
+        @Override
+        public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+            setProgressIndicatorVisible(false);
+            if (error instanceof HttpResponseException) {
+                switch (((HttpResponseException) error).getStatusCode()) {
+                    case 401:
+                        showAlertDialog(getString(R.string.error_authentication_failed));
+                        break;
+                    default:
+                        showError(error.getMessage());
+                }
+            } else if (error instanceof HttpHostConnectException) {
+                Log.e(TAG, "Error connecting to host");
+                showError(error.getMessage());
+            } else if (error instanceof java.net.UnknownHostException) {
+                Log.e(TAG, "Unable to resolve hostname");
+                showError(error.getMessage());
+            } else if (error instanceof SSLHandshakeException) {
+                showError(getString(R.string.error_connection_sslhandshake_failed));
+            } else {
+                Log.e(TAG, error.getClass().toString());
+            }
+        }
+
+        private void showError(String message) {
+            if (message != null) {
+                Log.e(TAG, message);
+                showAlertDialog(message);
+            } else {
+                showAlertDialog(getString(R.string.error_connection_failed));
+            }
+        }
+    }
+
     public static final String GCM_SENDER_ID = "737820980945";
     // GCM Registration expiration
     public static final long REGISTRATION_EXPIRY_TIME_MS = 1000 * 3600 * 24 * 7;
@@ -119,7 +159,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
 //    private static MyAsyncHttpClient mAsyncHttpClient;
     private static AsyncHttpClient mAsyncHttpClient = new AsyncHttpClient();
     // Base URL of current openHAB connection
-    private String openHABBaseUrl = "https://demo.openhab.org:8443/";
+    private String openHABBaseUrl = "http://demo.openhab.org:8080/";
     // openHAB username
     private String openHABUsername = "";
     // openHAB password
@@ -521,7 +561,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
     private void loadSitemapList(String baseUrl) {
         Log.d(TAG, "Loading sitemap list from " + baseUrl + "rest/sitemaps");
         setProgressIndicatorVisible(true);
-        mAsyncHttpClient.get(baseUrl + "rest/sitemaps", new AsyncHttpResponseHandler() {
+        mAsyncHttpClient.get(baseUrl + "rest/sitemaps", new DefaultHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 setProgressIndicatorVisible(false);
@@ -552,40 +592,6 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
                 }
                 loadDrawerItems();
             }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                setProgressIndicatorVisible(false);
-                if (error instanceof HttpResponseException) {
-                    switch (((HttpResponseException) error).getStatusCode()) {
-                        case 401:
-                            showAlertDialog(getString(R.string.error_authentication_failed));
-                            break;
-                        default:
-                            showAlertDialog("HTTP Error: " + error.getMessage());
-                            Log.e(TAG, String.format("Http code = %d", ((HttpResponseException) error).getStatusCode()));
-                            break;
-                    }
-                } else if (error instanceof cz.msebera.android.httpclient.conn.HttpHostConnectException) {
-                    Log.e(TAG, "Error connecting to host");
-                    if (error.getMessage() != null) {
-                        Log.e(TAG, error.getMessage());
-                        showAlertDialog(error.getMessage());
-                    } else {
-                        showAlertDialog(getString(R.string.error_connection_failed));
-                    }
-                } else if (error instanceof java.net.UnknownHostException) {
-                    Log.e(TAG, "Unable to resolve hostname");
-                    if (error.getMessage() != null) {
-                        Log.e(TAG, error.getMessage());
-                        showAlertDialog(error.getMessage());
-                    } else {
-                        showAlertDialog(getString(R.string.error_connection_failed));
-                    }
-                } else {
-                    Log.e(TAG, error.getClass().toString());
-                }
-            }
         });
     }
 
@@ -600,7 +606,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
     private void selectSitemap(final String baseUrl, final boolean forceSelect) {
         Log.d(TAG, "Loading sitemap list from " + baseUrl + "rest/sitemaps");
         setProgressIndicatorVisible(true);
-        mAsyncHttpClient.get(baseUrl + "rest/sitemaps", new AsyncHttpResponseHandler() {
+        mAsyncHttpClient.get(baseUrl + "rest/sitemaps", new DefaultHttpResponseHandler() {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
@@ -679,40 +685,6 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
                             showSitemapSelectionDialog(mSitemapList);
                         }
                     }
-                }
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                setProgressIndicatorVisible(false);
-                if (error instanceof HttpResponseException) {
-                    switch (((HttpResponseException) error).getStatusCode()) {
-                        case 401:
-                            showAlertDialog(getString(R.string.error_authentication_failed));
-                            break;
-                        default:
-                            Log.e(TAG, String.format("Http code = %d", ((HttpResponseException) error).getStatusCode()));
-                            showAlertDialog("HTTP Error: " + error.getMessage());
-                            break;
-                    }
-                } else if (error instanceof cz.msebera.android.httpclient.conn.HttpHostConnectException) {
-                    Log.e(TAG, "Error connecting to host");
-                    if (error.getMessage() != null) {
-                        Log.e(TAG, error.getMessage());
-                        showAlertDialog(error.getMessage());
-                    } else {
-                        showAlertDialog(getString(R.string.error_connection_failed));
-                    }
-                } else if (error instanceof java.net.UnknownHostException) {
-                    Log.e(TAG, "Unable to resolve hostname");
-                    if (error.getMessage() != null) {
-                        Log.e(TAG, error.getMessage());
-                        showAlertDialog(error.getMessage());
-                    } else {
-                        showAlertDialog(getString(R.string.error_connection_failed));
-                    }
-                } else {
-                    Log.e(TAG, error.getClass().toString());
                 }
             }
         });
@@ -1226,8 +1198,8 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
             return;
         }
         // We need remote URL to be my.oh
-        if (!remoteUrl.toLowerCase().startsWith("https://my.openhab.org")) {
-            Log.d(TAG, "Remote URL " + remoteUrl + "is not https://my.openhab.org, no GCM registration will be made");
+        if (!remoteUrl.toLowerCase().contains("openhab.org")) {
+            Log.d(TAG, "Remote URL " + remoteUrl + "is not a openhab domain, no GCM registration will be made");
             return;
         }
         mIsMyOpenHAB = true;
@@ -1235,6 +1207,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
         Crittercism.setUsername(openHABUsername);
         if (mGcm == null)
             mGcm = GoogleCloudMessaging.getInstance(getApplicationContext());
+        final String baseUrl = remoteUrl;
         new AsyncTask<Void, Void, String>() {
             @Override
             protected String doInBackground(Void... params) {
@@ -1247,7 +1220,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
                             try {
                                 deviceModel = URLEncoder.encode(Build.MODEL, "UTF-8");
                                 String deviceId = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
-                                String regUrl = "https://my.openhab.org/addAndroidRegistration?deviceId=" + deviceId +
+                                String regUrl = baseUrl + "/addAndroidRegistration?deviceId=" + deviceId +
                                         "&deviceModel=" + deviceModel + "&regId=" + mRegId;
                                 mAsyncHttpClient.get(getApplicationContext(), regUrl, new AsyncHttpResponseHandler() {
                                     @Override

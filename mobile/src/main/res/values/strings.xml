@@ -4,7 +4,7 @@
     <!-- General app strings -->
     <string name="app_name">openHAB</string>
     <string name="openhab_service_type">_openhab-server-ssl._tcp.local.</string>
-    <string name="openhab_demo_url">http://demo.openhab.org:9080/</string>
+    <string name="openhab_demo_url">http://demo.openhab.org:8080/</string>
     <string name="app_preferences_name">Settings</string>
     <string name="app_notifications">Notifications</string>
     <string name="app_bindings">Bindings</string>
@@ -35,6 +35,9 @@
     <string name="settings_openhab_username_summary">openHAB username</string>
     <string name="settings_openhab_password">Password</string>
     <string name="settings_openhab_password_summary">openHAB password</string>
+    <string name="settings_openhab_sslclientcert">SSL client certificate</string>
+    <string name="settings_openhab_sslclientcert_howto">SSL client certificate how-to</string>
+    <string name="settings_openhab_sslclientcert_howto_url">https://github.com/openhab/openhab.android/blob/master/KeyAuth.md</string>
     <string name="settings_openhab_screentimeroff">Disable display timer</string>
     <string name="settings_openhab_screentimeroff_summary">Disable display switch off timer when HABDroid is running</string>
     <string name="settings_openhab_demomode">Demo mode</string>
@@ -66,6 +69,7 @@
     <string name="erorr_no_wifi_mcast_permission">CHANGE_WIFI_MULTICAST_STATE permission is not granted, openHAB discovery will be disabled!</string>
     <string name="erorr_no_wifi_state_permission">ACCESS_WIFI_STATE permission is not granted, openHAB discovery will be disabled!</string>
     <string name="error_connection_failed">Connection to host failed</string>
+    <string name="error_connection_sslhandshake_failed">SSL Handshake failed - maybe you need a valid client certificate</string>
     <string name="title_activity_openhabwritetag">Write NFC tag</string>
     <string name="title_activity_openhabinfo">openHAB Information</string>
     <string name="info_write_tag">Touch the tag and keep it close until the confirmation message appear</string>
@@ -87,7 +91,7 @@
     <string name="mtm_decision_once">Once</string>
     <string name="mtm_decision_abort">Abort</string>
     <string name="mtm_notification">Certificate verification</string>
-
+    <string name="settings_openhab_none">none</string>
     <!-- theme -->
     <string name="theme_value_light">light</string>
     <string name="theme_value_dark">dark</string>

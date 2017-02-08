@@ -137,14 +137,14 @@ public class OpenHABFragmentPagerAdapter extends FragmentStatePagerAdapter imple
         if (fragmentList.size() > 0) {
             if (!(fragmentList.get(fragmentList.size() - 1) instanceof OpenHABNotificationFragment)) {
                 removeLastFragmentIfNotWidgetList();
-                OpenHABNotificationFragment fragment = new OpenHABNotificationFragment();
+                OpenHABNotificationFragment fragment = new OpenHABNotificationFragment().newInstance(openHABBaseUrl, openHABUsername, openHABPassword);
                 fragmentList.add(fragment);
                 notifyDataSetChanged();
             } else {
                 ((OpenHABNotificationFragment) fragmentList.get(fragmentList.size() - 1)).refresh();
             }
         } else {
-            OpenHABNotificationFragment fragment = new OpenHABNotificationFragment();
+            OpenHABNotificationFragment fragment = new OpenHABNotificationFragment().newInstance(openHABBaseUrl, openHABUsername, openHABPassword);
             fragmentList.add(fragment);
             notifyDataSetChanged();
         }

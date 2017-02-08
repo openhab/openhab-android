@@ -74,7 +74,7 @@ public class MyWebImage implements SmartImage {
             	bitmap = webImageCache.get(url);
             if(bitmap == null) {
             	Log.i("MyWebImage", "Cache for " + url + " is empty, getting image");
-                bitmap = getBitmapFromUrl(url);
+                bitmap = getBitmapFromUrl(context, url);
                 if(bitmap != null && this.useCache) {
                     webImageCache.put(url, bitmap);
                 }
@@ -84,13 +84,13 @@ public class MyWebImage implements SmartImage {
         return bitmap;
     }
 
-    private Bitmap getBitmapFromUrl(String url) {
+    private Bitmap getBitmapFromUrl(Context context, String url) {
         Bitmap bitmap = null;
         String encodedUserPassword = null;
         if (shouldAuth)
         	try {
         		String userPassword = this.authUsername + ":" + this.authPassword;
-        		encodedUserPassword = Base64.encodeToString(userPassword.getBytes("UTF-8"), Base64.DEFAULT);
+        		encodedUserPassword = Base64.encodeToString(userPassword.getBytes("UTF-8"), Base64.NO_WRAP);
         	} catch (UnsupportedEncodingException e1) {
         		// TODO Auto-generated catch block
         		e1.printStackTrace();
@@ -99,12 +99,18 @@ public class MyWebImage implements SmartImage {
         	try {
         		HttpsURLConnection.setDefaultHostnameVerifier(getHostnameVerifier());
         		HttpsURLConnection conn = (HttpsURLConnection) new URL(url).openConnection();
-        		conn.setSSLSocketFactory(getSSLSocketFactory());
+        		conn.setSSLSocketFactory(getSSLSocketFactory(context));
         		conn.setConnectTimeout(CONNECT_TIMEOUT);
         		conn.setReadTimeout(READ_TIMEOUT);
         		if (this.shouldAuth)
         			conn.setRequestProperty("Authorization", "Basic " + encodedUserPassword);
-        		bitmap = BitmapFactory.decodeStream((InputStream) conn.getContent());
+                int responseCode = conn.getResponseCode();
+                if (responseCode >= 400) {
+                    throw new Exception("Bad https response status: " + responseCode);
+                }
+                else {
+                    bitmap = BitmapFactory.decodeStream((InputStream) conn.getContent());
+                }
         	} catch(Exception e) {
         		e.printStackTrace();
         	}
@@ -115,10 +121,14 @@ public class MyWebImage implements SmartImage {
         		conn.setReadTimeout(READ_TIMEOUT);
         		if (this.shouldAuth)
         			conn.setRequestProperty("Authorization", "Basic " + encodedUserPassword);
-        		bitmap = BitmapFactory.decodeStream((InputStream) conn.getContent());
-			} catch (MalformedURLException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
+                int responseCode = conn.getResponseCode();
+                if (responseCode >= 400) {
+                    throw new Exception("Bad http response status: " + responseCode);
+                }
+                else {
+                    bitmap = BitmapFactory.decodeStream((InputStream) conn.getContent());
+                }
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
         }
@@ -131,7 +141,7 @@ public class MyWebImage implements SmartImage {
         }
     }
     
-    public SSLSocketFactory getSSLSocketFactory() {
+    public SSLSocketFactory getSSLSocketFactory(Context context) {
         // Create a trust manager that does not validate certificate chains
         final TrustManager[] trustAllCerts = new TrustManager[] { new X509TrustManager() {
             @Override
@@ -150,7 +160,7 @@ public class MyWebImage implements SmartImage {
         SSLContext sslContext;
 		try {
 			sslContext = SSLContext.getInstance( "SSL" );
-	        sslContext.init( null, trustAllCerts, new java.security.SecureRandom() );
+	        sslContext.init(MyKeyManager.getInstance(context), trustAllCerts, new java.security.SecureRandom() );
 	        // Create an ssl socket factory with our all-trusting manager
 	        SSLSocketFactory sslSocketFactory = sslContext.getSocketFactory();
 	        return sslSocketFactory;
