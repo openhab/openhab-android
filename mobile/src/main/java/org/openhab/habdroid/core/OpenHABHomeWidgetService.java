@@ -87,14 +87,15 @@ public class OpenHABHomeWidgetService extends Service{
         String username = mSettings.getString(Constants.PREFERENCE_USERNAME, null);
         String password = mSettings.getString(Constants.PREFERENCE_PASSWORD, null);
         String baseURL = mSettings.getString(Constants.PREFERENCE_URL, null);
+        String sitemap = mSettings.getString(Constants.PREFERENCE_SITEMAP, null);
 
 
 
-        if(mAsyncHttpClient == null) {
+        if(mAsyncHttpClient == null && baseURL != null) {
             mAsyncHttpClient = new MyAsyncHttpClient(this);
             mAsyncHttpClient.setBasicAuth(username, password);
 
-            subscribeForChangesLongPoll(baseURL + "rest/sitemaps/_default/_default");
+            subscribeForChangesLongPoll(baseURL + (!baseURL.endsWith("/") ? "/" : "" ) + "rest/sitemaps/"+sitemap+"/"+sitemap);
         }
 
 
@@ -233,7 +234,7 @@ public class OpenHABHomeWidgetService extends Service{
 //                            networkHandler.postDelayed(networkRunnable, 10 * 1000);
 
                         try {
-                            Thread.sleep(5000);
+                            Thread.sleep(15000);
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
@@ -253,7 +254,12 @@ public class OpenHABHomeWidgetService extends Service{
 
                     String responseString = new String(responseBody);
                     processChanges(responseString);
-                    Log.d(TAG, responseString);
+                    //Log.d(TAG, responseString);
+
+                    try {
+                        Thread.sleep(200);
+                    }catch (InterruptedException e){}
+
                     subscribeForChangesLongPoll(pageUrl);
                 }
             });

@@ -26,6 +26,11 @@ android {
     testOptions {
         unitTests.returnDefaultValues = true
     }
+
+    lintOptions {
+        //checkReleaseBuilds false
+        abortOnError false
+    }
 }
 
 repositories {
@@ -58,4 +63,5 @@ dependencies {
     compile 'org.atmosphere:wasync:2.1.2'
     compile 'org.apache.httpcomponents:httpcore:4.4.1'
     compile 'org.apache.httpcomponents:httpclient:4.5'
+    wearApp project(':wear')
 }
