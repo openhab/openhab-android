@@ -106,7 +106,7 @@ public class HomeWidgetUtils {
         //TODO: username + password
 
 
-        url = baseURL + url;
+        url = baseURL  + (!baseURL.endsWith("/") ? "/" : "" ) + url;
 
         Log.d(TAG, "Loading JSON from " + url);
 
