@@ -82,7 +82,7 @@ public class HomeWidgetUpdateJob extends AsyncTask {
 
             Bitmap iconBitmap;
             try {
-                MyWebImage iconImg = new MyWebImage(baseURL + "icon/" + icon + "?state=" + state, username, password);
+                MyWebImage iconImg = new MyWebImage(baseURL + (!baseURL.endsWith("/") ? "/" : "" ) + "icon/" + icon + "?state=" + state, username, password);
 
                 iconBitmap = iconImg.getBitmap(context);
             }catch(Exception e){
