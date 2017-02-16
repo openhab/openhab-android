@@ -47,8 +47,8 @@ dependencies {
     compile "com.android.support:design:25.1.1"
     compile 'com.android.support:multidex:1.0.1'
     compile 'com.google.code.gson:gson:2.7'
-    compile 'com.google.android.gms:play-services-analytics:10.0.1'
-    compile 'com.google.android.gms:play-services-gcm:10.0.1'
+    compile 'com.google.android.gms:play-services-analytics:10.2.0'
+    compile 'com.google.android.gms:play-services-gcm:10.2.0'
     compile 'com.crittercism:crittercism-android-agent:5.8.1-rc-1'
     compile 'org.jmdns:jmdns:3.5.1'
     compile 'com.loopj.android:android-async-http:1.4.9'
