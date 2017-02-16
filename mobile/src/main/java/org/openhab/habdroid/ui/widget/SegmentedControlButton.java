@@ -32,7 +32,7 @@ import android.widget.RadioButton;
 import org.openhab.habdroid.R;
 
 /** @author benjamin ferrari */
-public class SegmentedControlButton extends RadioButton {
+public class SegmentedControlButton extends android.support.v7.widget.AppCompatRadioButton {
 
     private Drawable backgroundSelected;
 
