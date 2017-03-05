@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    >
+    <!-- General app strings -->
+    <string name="app_name">openHAB</string>
+    <string name="openhab_service_type">_openhab-server-ssl._tcp.local.</string>
+    <string name="openhab_demo_url">http://demo.openhab.org:8080/</string>
+    <string name="app_preferences_name">Nustatymai</string>
+    <string name="app_notifications">Pranešimai</string>
+    <string name="app_bindings">Bindings</string>
+    <string name="app_bindings_supportedthings">Palaikomi dalykai</string>
+    <string name="app_discoveryinbox">Aptikimas</string>
+    <string name="app_discoveryinbox_deviceunnamed">Nepavadintas įrenginys</string>
+    <string name="app_discoveryinbox_deviceaction">Pasirinkti veiksmą</string>
+    <string name="app_discoveryinbox_approve">Patvirtinti</string>
+    <string name="app_discoveryinbox_ignore">Ignoruoti</string>
+    <string name="app_discoveryinbox_delete">Pašalinti</string>
+    <string name="app_discoveryinbox_nothings">Nėra naujų dalykų</string>
+    <string name="app_discovery">Pradėti aptikimą</string>
+    <!-- Main menu items -->
+    <string name="mainmenu_openhab_preferences">Nustatymai</string>
+    <string name="mainmenu_openhab_selectsitemap">Pasirinkite numatytą vietos išplanavimą</string>
+    <string name="mainmenu_openhab_writetag">Rašyti NFC žymą</string>
+    <string name="mainmenu_openhab_info">openHAB informacija</string>
+    <string name="mainmenu_openhab_clearcache">Išvalyti paveikslėlių podėlį</string>
+    <!-- App settings strings -->
+    <string name="settings_connection_title">Ryšio nustatymai</string>
+    <string name="settings_display_title">Ekrano nustatymai</string>
+    <string name="settings_misc_title">Kiti nustatymai</string>
+    <string name="settings_openhab_url">openHAB URL</string>
+    <string name="settings_openhab_url_summary">Rankiniu būdu sukonfigūruotas openHAB URL. Jei nurodytas, nėra vykdomas automatinis aptikimas.</string>
+    <string name="settings_openhab_alturl">openHAB nuotolinis URL</string>
+    <string name="settings_openhab_alturl_summary">Nuotolinis openHAB URL (naudojamas, kai vietinis openHAB nepasiekiamas)</string>
+    <string name="settings_openhab_username">Vartotojo vardas</string>
+    <string name="settings_openhab_username_summary">openHAB vartotojo vardas</string>
+    <string name="settings_openhab_password">Slaptažodis</string>
+    <string name="settings_openhab_password_summary">openHAB slaptažodis</string>
+    <string name="settings_openhab_sslclientcert">Kliento SSL sertifikatas</string>
+    <string name="settings_openhab_sslclientcert_howto">Kaip naudoti kliento SSL sertifikatą</string>
+    <string name="settings_openhab_sslclientcert_howto_url">https://github.com/openhab/openhab.android/blob/master/KeyAuth.md</string>
+    <string name="settings_openhab_screentimeroff">Neleisti išjungti ekrano</string>
+    <string name="settings_openhab_screentimeroff_summary">Neleisti išjungti ekrano, kol paleistas HABDroid</string>
+    <string name="settings_openhab_demomode">Demonstracinis režimas</string>
+    <string name="settings_openhab_demomode_summary">Naudoti HABDroid demonstraciniu režimu</string>
+    <string name="settings_openhab_theme">HABDroid tema</string>
+    <string name="settings_openhab_appversion">HABDroid versija</string>
+    <string name="settings_openhab_sslcert">Netikrinti SSL sertifikato</string>
+    <string name="settings_openhab_sslcert_summary">Netikrinti SSL sertifikato validumo</string>
+    <string name="settings_openhab_sslhost">Netikrinti SSL hostname</string>
+    <string name="settings_openhab_sslhost_summary">Netikrinti serverio pavadinimo (hostname) užmezgant SSL ryšį</string>
+    <string name="settings_openhab_fullscreen">Pilnas ekranas</string>
+    <string name="settings_openhab_fullscreen_summary">Rodyti pilno ekrano režimu</string>
+    <string name="settings_ringtone">Skambėjimo melodija</string>
+    <!-- App messages strings -->
+    <string name="title_voice_widget">OpenHAB balso komandos</string>
+    <string name="info_voice_input">\"openHAB, jūsų paliepimu!\"</string>
+    <string name="info_voice_recognized_text">\"Neatpažinta komanda: %1$s\"</string>
+    <string name="info_demo_mode">HABDroid veikia demonstraciniu režimu. Norėdami prisijungti prie savo openHAB, eikite į nustatymų meniu.</string>
+    <string name="info_conn_url">Jungiamasi prie sukonfigūruoto URL</string>
+    <string name="info_conn_rem_url">Jungiamasi prie nuotolinio URL</string>
+    <string name="info_discovery">Aptinkamas openHAB. Prašome palaukti...</string>
+    <string name="error_no_url">Patikrinkite ar openHAB veikia arba sukonfigūruokite openHAB URL arba nuotolinį URL</string>
+    <string name="error_authentication_failed">Nepavyko prisijungti. Patikrinkite vartotojo/slaptažodžio nustatymus</string>
+    <string name="error_empty_sitemap_list">openHAB grąžino tuščią vietos išplanavimų sąrašą</string>
+    <string name="error_network_not_available">Tinklas nepasiekiamas</string>
+    <string name="error_no_uuid">Nepavyko gauti openHAB UUID, ryšys nutrauktas</string>
+    <string name="erorr_invalid_url">Prašome įvesti adresą \'protocol://host:port/\' pavidalu</string>
+    <string name="erorr_no_wifi_mcast_permission">Leidimas CHANGE_WIFI_MULTICAST_STATE nėra suteiktas, openHAB aptikimas bus išjungtas!</string>
+    <string name="erorr_no_wifi_state_permission">Leidimas ACCESS_WIFI_STATE nėra suteiktas, openHAB aptikimas bus išjungtas!</string>
+    <string name="error_connection_failed">Nepavyko prisijungti prie serverio</string>
+    <string name="error_connection_sslhandshake_failed">Nepavyko užmegzti SSL ryšio - gal jums reikia galiojančio kliento sertifikato</string>
+    <string name="title_activity_openhabwritetag">Rašyti NFC žymą</string>
+    <string name="title_activity_openhabinfo">openHAB informacija</string>
+    <string name="info_write_tag">Palieskite žymą ir laikykite ją arti kol bus parodyta patvirtinimo žinutė</string>
+    <string name="info_write_tag_progress">Rašoma NFC žyma</string>
+    <string name="info_write_tag_finished">Sėkmingai baigta</string>
+    <string name="info_write_failed">NFC žymės rašymo klaida</string>
+    <string name="info_write_tag_unsupported">Jūsų įrenginys nepalaiko NFC :-(</string>
+    <string name="info_write_tag_disabled">NFC išjungtas. Prašome jį įjungti įrenginio nustatymuose.</string>
+    <string name="info_openhab_version_label">openHAB versija</string>
+    <string name="info_openhab_apiversion_label">openHAB Rest API versija</string>
+    <string name="info_openhab_uuid_label">openHAB UUID</string>
+    <string name="info_openhab_secret_label">openHAB Secret</string>
+    <string name="action_settings">Nustatymai</string>
+    <string name="nfc_dialog_title">Prašome pasirinkti NFC žymos veiksmą</string>
+    <string name="info_not_set">Nenustatyta</string>
+    <!-- Strings for MemorizingTrustManager activity -->
+    <string name="mtm_accept_cert">Priimti nežinomą sertifikatą?</string>
+    <string name="mtm_decision_always">Visada</string>
+    <string name="mtm_decision_once">Vieną kartą</string>
+    <string name="mtm_decision_abort">Atšaukti</string>
+    <string name="mtm_notification">Sertifikato patikrinimas</string>
+    <string name="settings_openhab_none">joks</string>
+    <!-- theme -->
+    <string name="theme_value_light">light</string>
+    <string name="theme_value_dark">dark</string>
+    <string name="theme_value_black">black</string>
+    <string name="theme_name_light">Šviesi</string>
+    <string name="theme_name_dark">Tamsi</string>
+    <string name="theme_name_black">Juoda/AMOLED</string>
+
+    <!-- nfc toggle -->
+    <string name="nfc_action_on">Įjungti</string>
+    <string name="nfc_action_off">Išjungti</string>
+    <string name="nfc_action_toggle">Perjungti</string>
+
+    <!-- drawer -->
+    <string name="drawer_open">Vietos išplanavimų parinkiklis atvertas</string>
+    <string name="drawer_close">Vietos išplanavimų parinkiklis užvertas</string>
+</resources>
