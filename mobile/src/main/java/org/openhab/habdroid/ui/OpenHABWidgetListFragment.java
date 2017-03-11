@@ -15,6 +15,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.support.v4.app.ListFragment;
 import android.text.TextUtils;
 import android.util.Log;
@@ -139,7 +140,8 @@ public class OpenHABWidgetListFragment extends ListFragment {
         Log.d(TAG, "onActivityCreated()");
         Log.d(TAG, "isAdded = " + isAdded());
         mActivity = (OpenHABMainActivity)getActivity();
-        openHABWidgetDataSource = new OpenHABWidgetDataSource();
+        final String iconFormat = PreferenceManager.getDefaultSharedPreferences(mActivity).getString("iconFormatType","PNG");
+        openHABWidgetDataSource = new OpenHABWidgetDataSource(iconFormat);
         openHABWidgetAdapter = new OpenHABWidgetAdapter(getActivity(),
                 R.layout.openhabwidgetlist_genericitem, widgetList);
         getListView().setAdapter(openHABWidgetAdapter);

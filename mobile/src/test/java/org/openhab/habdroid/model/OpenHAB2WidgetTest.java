@@ -15,13 +15,13 @@ public class OpenHAB2WidgetTest {
 
     @Test
     public void getIconPath_iconExists_returnIconUrlToIconServlet() throws Exception {
-        OpenHABWidget sut = OpenHAB2Widget.createOpenHABWidgetFromJson(rootWidget, createJSONObject());
-        assertEquals("icon/groupicon?state=OFF", sut.getIconPath());
+        OpenHABWidget sut = OpenHAB2Widget.createOpenHABWidgetFromJson(rootWidget, createJSONObject(), "PNG");
+        assertEquals("icon/groupicon?state=OFF&format=PNG", sut.getIconPath());
     }
 
     @Test
     public void testCreateOpenHABWidgetFromJson_createsOpenHAB2Widget() throws Exception {
-        OpenHABWidget sut = OpenHAB2Widget.createOpenHABWidgetFromJson(rootWidget, createJSONObject());
+        OpenHABWidget sut = OpenHAB2Widget.createOpenHABWidgetFromJson(rootWidget, createJSONObject(), "PNG");
         assertTrue(sut instanceof OpenHAB2Widget);
     }
 

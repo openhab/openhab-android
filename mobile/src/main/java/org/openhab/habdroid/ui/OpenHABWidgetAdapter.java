@@ -183,7 +183,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
         // Some of widgets, for example Frame doesnt' have an icon, so...
         if (widgetImage != null) {
             // This is needed to escape possible spaces and everything according to rfc2396
-            String iconUrl = openHABBaseUrl + Uri.encode(openHABWidget.getIconPath(),"/?=");
+            String iconUrl = openHABBaseUrl + Uri.encode(openHABWidget.getIconPath(),"/?=&");
 //                Log.d(TAG, "Will try to load icon from " + iconUrl);
             // Now set image URL
             widgetImage.setImageUrl(iconUrl, R.drawable.blank_icon,
