@@ -28,7 +28,9 @@ public class OpenHABNFCActionList {
 					actionCommands.add(openHABWidget.getMappings().get(i).getCommand());
 				}
 			} else if (openHABWidget.getType().equals("Switch")) {
-				if (openHABWidget.getItem().getType().equals("SwitchItem")) {
+				//SwitchItem changed to Switch in later builds of OH2
+				if (openHABWidget.getItem().getType().equals("SwitchItem") ||
+						"Switch".equals(openHABWidget.getItem().getType())) {
 					actionNames.add("On");
 					actionCommands.add("ON");
 					actionNames.add("Off");
