@@ -78,7 +78,7 @@ public class MyAsyncHttpClient {
     }
 
     public Call get(String url, ResponseHandler responseHandler) {
-        return method(url, "get", null, null, null, responseHandler);
+        return method(url, "GET", null, null, null, responseHandler);
     }
 
     public Call get(String url, TextResponseHandler textResponseHandler) {
@@ -86,11 +86,11 @@ public class MyAsyncHttpClient {
     }
 
     public Call get(String url, Map<String, String> headers, ResponseHandler responseHandler) {
-        return method(url, "get", headers, null, null, responseHandler);
+        return method(url, "GET", headers, null, null, responseHandler);
     }
 
     public Call post(String url, String requestBody, String mediaType, ResponseHandler responseHandler) {
-        return method(url, "post", null, requestBody, mediaType, responseHandler);
+        return method(url, "POST", null, requestBody, mediaType, responseHandler);
     }
 
     public Call post(String url, String requestBody, String mediaType, TextResponseHandler textResponseHandler) {
@@ -98,10 +98,10 @@ public class MyAsyncHttpClient {
     }
 
     public Call delete(String url, ResponseHandler responseHandler) {
-        return method(url, "delete", null, null, null, responseHandler);
+        return method(url, "DELETE", null, null, null, responseHandler);
     }
 
-    public Call method(String url, String method, Map<String, String> addHeaders, String requestBody, String mediaType, final ResponseHandler responseHandler) {
+    private Call method(String url, String method, Map<String, String> addHeaders, String requestBody, String mediaType, final ResponseHandler responseHandler) {
         Request.Builder requestBuilder = new Request.Builder();
         requestBuilder.url(url);
         for (Map.Entry<String, String> entry : headers.entrySet()) {
