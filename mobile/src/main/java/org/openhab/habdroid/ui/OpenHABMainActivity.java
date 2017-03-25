@@ -107,6 +107,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
             setProgressIndicatorVisible(false);
             if (statusCode == 401) {
                 showAlertDialog(getString(R.string.error_authentication_failed));
+                return;
             }
             if (error instanceof java.net.UnknownHostException) {
                 Log.e(TAG, "Unable to resolve hostname");
