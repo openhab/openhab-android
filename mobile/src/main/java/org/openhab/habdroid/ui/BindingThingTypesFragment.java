@@ -19,13 +19,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
-import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.RequestHandle;
-
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.model.thing.ThingType;
+import org.openhab.habdroid.util.MyAsyncHttpClient;
 
 import java.util.ArrayList;
+
+import okhttp3.Call;
 
 public class BindingThingTypesFragment extends ListFragment implements SwipeRefreshLayout.OnRefreshListener {
 
@@ -35,9 +35,9 @@ public class BindingThingTypesFragment extends ListFragment implements SwipeRefr
 
     private OpenHABMainActivity mActivity;
     // loopj
-    private AsyncHttpClient mAsyncHttpClient;
+    private MyAsyncHttpClient mAsyncHttpClient;
     // keeps track of current request to cancel it in onPause
-    private RequestHandle mRequestHandle;
+    private Call mRequestHandle;
 
     private BindingThingTypesAdapter bindingThingTypesAdapter;
     private ArrayList<ThingType> thingTypes;
@@ -123,7 +123,7 @@ public class BindingThingTypesFragment extends ListFragment implements SwipeRefr
             Thread thread = new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    mRequestHandle.cancel(true);
+                    mRequestHandle.cancel();
                 }
             });
             thread.start();

@@ -53,7 +53,7 @@ dependencies {
     compile 'com.google.apis:google-api-services-analytics:v3+'
     compile 'com.crittercism:crittercism-android-agent:5.6.3-rc-1'
     compile 'javax.jmdns:jmdns:3.4.1'
-    compile 'com.loopj.android:android-async-http:1.4.9'
+    compile 'com.squareup.okhttp3:okhttp:3.6.0'
     compile 'com.loopj:android-smart-image-view:1.0.0'
     compile 'com.github.shell-software:fab:1.1.0'
 

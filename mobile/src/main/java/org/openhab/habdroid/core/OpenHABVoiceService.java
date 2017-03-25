@@ -18,10 +18,6 @@ import android.speech.RecognizerIntent;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.loopj.android.http.AsyncHttpResponseHandler;
-
-import cz.msebera.android.httpclient.Header;
-import cz.msebera.android.httpclient.entity.StringEntity;
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.util.Constants;
 import org.openhab.habdroid.util.ContinuingIntentService;
@@ -30,6 +26,9 @@ import org.openhab.habdroid.util.MyAsyncHttpClient;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
+
+import okhttp3.Headers;
+import okhttp3.internal.http2.Header;
 
 /**
  * This service handles voice commands and sends them to OpenHAB.
@@ -66,7 +65,7 @@ public class OpenHABVoiceService extends ContinuingIntentService implements Open
         SharedPreferences mSettings = PreferenceManager.getDefaultSharedPreferences(this);
         String username = mSettings.getString(Constants.PREFERENCE_USERNAME, null);
         String password = mSettings.getString(Constants.PREFERENCE_PASSWORD, null);
-        mAsyncHttpClient = new MyAsyncHttpClient(this);
+        mAsyncHttpClient = new MyAsyncHttpClient();
         mAsyncHttpClient.setBasicAuth(username, password);
     }
 
@@ -147,13 +146,13 @@ public class OpenHABVoiceService extends ContinuingIntentService implements Open
     private void sendItemCommand(final String itemName, final String command) {
         Log.d(TAG, "sendItemCommand(): itemName=" + itemName + ", command=" + command);
         try {
-            performHttpPost(itemName, new StringEntity(command, "UTF-8"));
+            performHttpPost(itemName, command);
         } catch (RuntimeException e) {
             Log.e(TAG, "Unable to encode command " + command, e);
         }
     }
 
-    private void performHttpPost(final String itemName, final StringEntity command) {
+    private void performHttpPost(final String itemName, final String command) {
         /* Call MyAsyncHttpClient on the main UI thread in order to retrieve the callbacks correctly.
          * If calling MyAsyncHttpClient directly, the following would happen:
          * (1) MyAsyncHttpClient performs the HTTP post asynchronously
@@ -164,15 +163,15 @@ public class OpenHABVoiceService extends ContinuingIntentService implements Open
         new Handler(Looper.getMainLooper()).post(new Runnable() {
             @Override
             public void run() {
-                mAsyncHttpClient.post(OpenHABVoiceService.this, mOpenHABBaseUrl + "rest/items/" + itemName,
-                        command, "text/plain;charset=UTF-8", new AsyncHttpResponseHandler() {
+                mAsyncHttpClient.post(mOpenHABBaseUrl + "rest/items/" + itemName,
+                        command, "text/plain;charset=UTF-8", new MyAsyncHttpClient.ResponseHandler() {
                             @Override
-                            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                            public void onSuccess(int statusCode, Headers headers, byte[] responseBody) {
                                 Log.d(TAG, "Command was sent successfully");
                             }
 
                             @Override
-                            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                            public void onFailure(int statusCode, Headers headers, byte[] responseBody, Throwable error) {
                                 Log.e(TAG, "Got command error " + statusCode, error);
                             }
                         });

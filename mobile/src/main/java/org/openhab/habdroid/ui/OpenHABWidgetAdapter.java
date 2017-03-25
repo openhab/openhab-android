@@ -37,11 +37,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.VideoView;
 
-import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.TextHttpResponseHandler;
+import okhttp3.Headers;
 
-import cz.msebera.android.httpclient.Header;
-import cz.msebera.android.httpclient.entity.StringEntity;
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.model.OpenHABItem;
 import org.openhab.habdroid.model.OpenHABWidget;
@@ -50,6 +47,7 @@ import org.openhab.habdroid.ui.widget.ColorPickerDialog;
 import org.openhab.habdroid.ui.widget.OnColorChangedListener;
 import org.openhab.habdroid.ui.widget.SegmentedControlButton;
 import org.openhab.habdroid.util.MjpegStreamer;
+import org.openhab.habdroid.util.MyAsyncHttpClient;
 import org.openhab.habdroid.util.MySmartImageView;
 
 import java.io.UnsupportedEncodingException;
@@ -89,7 +87,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
 	private ArrayList<VideoView> videoWidgetList;
 	private ArrayList<MySmartImageView> refreshImageList;
     private ArrayList<MjpegStreamer> mjpegWidgetList;
-    private AsyncHttpClient mAsyncHttpClient;
+    private MyAsyncHttpClient mAsyncHttpClient;
     private View volumeUpWidget;
     private View volumeDownWidget;
 
@@ -768,26 +766,20 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     }
     
     public void sendItemCommand(OpenHABItem item, String command) {
-        try {
-            if (item != null && command != null) {
-                StringEntity se = new StringEntity(command);
-                mAsyncHttpClient.post(getContext(), item.getLink(), se, "text/plain", new TextHttpResponseHandler() {
-                    @Override
-                    public void onFailure(int statusCode, Header[] headers, String responseString, Throwable error) {
-                        Log.e(TAG, "Got command error " + error.getMessage());
-                        if (responseString != null)
-                            Log.e(TAG, "Error response = " + responseString);
-                    }
+        if (item != null && command != null) {
+            mAsyncHttpClient.post(item.getLink(), command, "text/plain", new MyAsyncHttpClient.TextResponseHandler() {
+                @Override
+                public void onFailure(int statusCode, Headers headers, String responseString, Throwable error) {
+                    Log.e(TAG, "Got command error " + error.getMessage());
+                    if (responseString != null)
+                        Log.e(TAG, "Error response = " + responseString);
+                }
 
-                    @Override
-                    public void onSuccess(int statusCode, Header[] headers, String responseString) {
-                        Log.d(TAG, "Command was sent successfully");
-                    }
-                });
-            }
-        } catch (UnsupportedEncodingException e) {
-            if (e != null)
-            Log.e(TAG, e.getMessage());
+                @Override
+                public void onSuccess(int statusCode, Headers headers, String responseString) {
+                    Log.d(TAG, "Command was sent successfully");
+                }
+            });
         }
     }
 
@@ -875,11 +867,11 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
         return volumeUpWidget != null;
     }
 
-    public AsyncHttpClient getAsyncHttpClient() {
+    public MyAsyncHttpClient getAsyncHttpClient() {
         return mAsyncHttpClient;
     }
 
-    public void setAsyncHttpClient(AsyncHttpClient asyncHttpClient) {
+    public void setAsyncHttpClient(MyAsyncHttpClient asyncHttpClient) {
         mAsyncHttpClient = asyncHttpClient;
     }
 

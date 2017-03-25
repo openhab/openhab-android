@@ -17,18 +17,15 @@ import android.os.Message;
 import android.util.Log;
 import android.widget.ImageView;
 
-import cz.msebera.android.httpclient.HttpResponse;
-import cz.msebera.android.httpclient.auth.AuthScope;
-import cz.msebera.android.httpclient.auth.UsernamePasswordCredentials;
-import cz.msebera.android.httpclient.client.ClientProtocolException;
-import cz.msebera.android.httpclient.client.CredentialsProvider;
-import cz.msebera.android.httpclient.client.methods.HttpGet;
-import cz.msebera.android.httpclient.impl.client.BasicCredentialsProvider;
-import cz.msebera.android.httpclient.impl.client.DefaultHttpClient;
-
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URI;
+
+import okhttp3.Authenticator;
+import okhttp3.Credentials;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+import okhttp3.Route;
 
 public class MjpegStreamer {
 
@@ -91,28 +88,34 @@ public class MjpegStreamer {
         }
     }
 
-    public InputStream httpRequest(String url, String usr, String pwd){
-        HttpResponse res = null;
-        DefaultHttpClient httpclient = new DefaultHttpClient();
-        CredentialsProvider credProvider = new BasicCredentialsProvider();
-        credProvider.setCredentials(new AuthScope(AuthScope.ANY_HOST, AuthScope.ANY_PORT),
-                new UsernamePasswordCredentials(usr, pwd));
-        httpclient.setCredentialsProvider(credProvider);
-        Log.d(TAG, "1. Sending http request");
+    public InputStream httpRequest(String url, final String usr, final String pwd){
+        Request request = new Request.Builder()
+                .url(url)
+                .build();
+        OkHttpClient client = new OkHttpClient.Builder()
+                .authenticator(new Authenticator() {
+                    @Override
+                    public Request authenticate(Route route, Response response) throws IOException {
+                        System.out.println("Authenticating for response: " + response);
+                        System.out.println("Challenges: " + response.challenges());
+                        // Get username/password from preferences
+                        String credential = Credentials.basic(usr, pwd);
+                        return response.request().newBuilder()
+                                .header("Authorization", credential)
+                                .build();
+                    }
+                })
+                .build();
+
         try {
-            res = httpclient.execute(new HttpGet(URI.create(url)));
-            Log.d(TAG, "2. Request finished, status = " + res.getStatusLine().getStatusCode());
-            if(res.getStatusLine().getStatusCode()==401){
+            Log.d(TAG, "1. Sending http request");
+            Response response = client.newCall(request).execute();
+            Log.d(TAG, "2. Request finished, status = " + response.code());
+            if (response.code()==401){
                 //You must turn off camera User Access Control before this will work
                 return null;
             }
-            Log.d(TAG, "content-type = " + res.getEntity().getContentType());
-            Log.d(TAG, "content-encoding = " + res.getEntity().getContentEncoding());
-            return res.getEntity().getContent();
-        } catch (ClientProtocolException e) {
-            e.printStackTrace();
-            Log.d(TAG, "Request failed-ClientProtocolException", e);
-            //Error connecting to camera
+            return response.body().byteStream();
         } catch (IOException e) {
             e.printStackTrace();
             Log.d(TAG, "Request failed-IOException", e);

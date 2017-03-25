@@ -25,12 +25,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.AsyncHttpResponseHandler;
-import com.loopj.android.http.RequestHandle;
-
-import cz.msebera.android.httpclient.Header;
-import cz.msebera.android.httpclient.message.BasicHeader;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.openhab.habdroid.R;
@@ -38,6 +32,7 @@ import org.openhab.habdroid.model.OpenHABItem;
 import org.openhab.habdroid.model.OpenHABNFCActionList;
 import org.openhab.habdroid.model.OpenHABWidget;
 import org.openhab.habdroid.model.OpenHABWidgetDataSource;
+import org.openhab.habdroid.util.MyAsyncHttpClient;
 import org.openhab.habdroid.util.Util;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -47,13 +42,21 @@ import org.xml.sax.SAXException;
 import java.io.IOException;
 import java.io.StringReader;
 import java.net.SocketTimeoutException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+
+import okhttp3.Call;
+import okhttp3.Headers;
+import okhttp3.internal.http2.Header;
 
 /**
  * This class is apps' main fragment which displays list of openHAB
@@ -90,7 +93,7 @@ public class OpenHABWidgetListFragment extends ListFragment {
     // parent activity
     private OpenHABMainActivity mActivity;
     // loopj
-    private AsyncHttpClient mAsyncHttpClient;
+    private MyAsyncHttpClient mAsyncHttpClient;
     // Am I visible?
     private boolean mIsVisible = false;
     private OpenHABWidgetListFragment mTag;
@@ -102,7 +105,7 @@ public class OpenHABWidgetListFragment extends ListFragment {
     private Handler networkHandler = new Handler();
     private Runnable networkRunnable;
     // keeps track of current request to cancel it in onPause
-    private RequestHandle mRequestHandle;
+    private Call mRequestHandle;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -259,7 +262,7 @@ public class OpenHABWidgetListFragment extends ListFragment {
             @Override
             public void run(){
                 if (mRequestHandle != null) {
-                    mRequestHandle.cancel(true);
+                    mRequestHandle.cancel();
                 }
             }
         });
@@ -333,25 +336,26 @@ public class OpenHABWidgetListFragment extends ListFragment {
             startProgressIndicator();
             this.mAtmosphereTrackingId = null;
         }
-        List<BasicHeader> headers = new LinkedList<BasicHeader>();
-        if (mActivity.getOpenHABVersion() == 1)
-            headers.add(new BasicHeader("Accept", "application/xml"));
-        headers.add(new BasicHeader("X-Atmosphere-Framework", "1.0"));
+        Map<String, String> headers = new HashMap<String, String>();
+        if (mActivity.getOpenHABVersion() == 1) {
+            headers.put("Accept", "application/xml");
+        }
+        headers.put("X-Atmosphere-Framework", "1.0");
         if (longPolling) {
             mAsyncHttpClient.setTimeout(300000);
-            headers.add(new BasicHeader("X-Atmosphere-Transport", "long-polling"));
+            headers.put("X-Atmosphere-Transport", "long-polling");
             if (this.mAtmosphereTrackingId == null) {
-                headers.add(new BasicHeader("X-Atmosphere-tracking-id", "0"));
+                headers.put("X-Atmosphere-tracking-id", "0");
             } else {
-                headers.add(new BasicHeader("X-Atmosphere-tracking-id", this.mAtmosphereTrackingId));
+                headers.put("X-Atmosphere-tracking-id", this.mAtmosphereTrackingId);
             }
         } else {
-            headers.add(new BasicHeader("X-Atmosphere-tracking-id", "0"));
+            headers.put("X-Atmosphere-tracking-id", "0");
             mAsyncHttpClient.setTimeout(10000);
         }
-        mRequestHandle = mAsyncHttpClient.get(mActivity, pageUrl, headers.toArray(new BasicHeader[] {}), null, new AsyncHttpResponseHandler() {
+        mRequestHandle = mAsyncHttpClient.get(pageUrl, headers, new MyAsyncHttpClient.ResponseHandler() {
                     @Override
-                    public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                    public void onFailure(int statusCode, Headers headers, byte[] responseBody, Throwable error) {
                         mAtmosphereTrackingId = null;
                         if (!longPolling)
                             stopProgressIndicator();
@@ -379,12 +383,11 @@ public class OpenHABWidgetListFragment extends ListFragment {
                     }
 
                     @Override
-                    public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                        for (int i=0; i<headers.length; i++) {
-                            if (headers[i].getName().equalsIgnoreCase("X-Atmosphere-tracking-id")) {
-                                Log.i(TAG, "Found atmosphere tracking id: " + headers[i].getValue());
-                                OpenHABWidgetListFragment.this.mAtmosphereTrackingId = headers[i].getValue();
-                            }
+                    public void onSuccess(int statusCode, Headers headers, byte[] responseBody) {
+                        String id = headers.get("X-Atmosphere-tracking-id");
+                        if (id != null) {
+                            Log.i(TAG, "Found atmosphere tracking id: " + id);
+                            OpenHABWidgetListFragment.this.mAtmosphereTrackingId = id;
                         }
                         if (!longPolling)
                             stopProgressIndicator();

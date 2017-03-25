@@ -23,20 +23,21 @@ import android.widget.ListView;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.AsyncHttpResponseHandler;
-import com.loopj.android.http.RequestHandle;
 import com.software.shell.fab.ActionButton;
 
-import cz.msebera.android.httpclient.Header;
 import org.openhab.habdroid.R;
 
 import org.openhab.habdroid.model.OpenHABDiscoveryInbox;
 import org.openhab.habdroid.model.thing.ThingType;
+import org.openhab.habdroid.util.MyAsyncHttpClient;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Arrays;
+
+import okhttp3.Call;
+import okhttp3.Headers;
+import okhttp3.internal.http2.Header;
 
 public class OpenHABDiscoveryInboxFragment extends ListFragment implements SwipeRefreshLayout.OnRefreshListener {
 
@@ -52,9 +53,9 @@ public class OpenHABDiscoveryInboxFragment extends ListFragment implements Swipe
 
     private OpenHABMainActivity mActivity;
     // loopj
-    private AsyncHttpClient mAsyncHttpClient;
+    private MyAsyncHttpClient mAsyncHttpClient;
     // keeps track of current request to cancel it in onPause
-    private RequestHandle mRequestHandle;
+    private Call mRequestHandle;
 
     private OpenHABDiscoveryInboxAdapter mDiscoveryInboxAdapter;
     private ArrayList<OpenHABDiscoveryInbox> mDiscoveryInbox;
@@ -162,7 +163,7 @@ public class OpenHABDiscoveryInboxFragment extends ListFragment implements Swipe
             Thread thread = new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    mRequestHandle.cancel(true);
+                    mRequestHandle.cancel();
                 }
             });
             thread.start();
@@ -214,9 +215,9 @@ public class OpenHABDiscoveryInboxFragment extends ListFragment implements Swipe
     private void loadDiscoveryInbox() {
         if (mAsyncHttpClient != null) {
             startProgressIndicator();
-            mRequestHandle = mAsyncHttpClient.get(openHABBaseUrl + "rest/inbox", new AsyncHttpResponseHandler() {
+            mRequestHandle = mAsyncHttpClient.get(openHABBaseUrl + "rest/inbox", new MyAsyncHttpClient.ResponseHandler() {
                 @Override
-                public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                public void onSuccess(int statusCode, Headers headers, byte[] responseBody) {
                     stopProgressIndicator();
                     String jsonString = null;
                     try {
@@ -234,7 +235,7 @@ public class OpenHABDiscoveryInboxFragment extends ListFragment implements Swipe
                 }
 
                 @Override
-                public void  onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                public void  onFailure(int statusCode, Headers headers, byte[] responseBody, Throwable error) {
                     stopProgressIndicator();
                     Log.d(TAG, "Inbox request failure: " + error.getMessage());
                 }
@@ -245,9 +246,9 @@ public class OpenHABDiscoveryInboxFragment extends ListFragment implements Swipe
     private void loadThingTypes () {
         if (mAsyncHttpClient != null) {
             startProgressIndicator();
-            mRequestHandle = mAsyncHttpClient.get(openHABBaseUrl + "rest/thing-types", new AsyncHttpResponseHandler() {
+            mRequestHandle = mAsyncHttpClient.get(openHABBaseUrl + "rest/thing-types", new MyAsyncHttpClient.ResponseHandler() {
                 @Override
-                public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                public void onSuccess(int statusCode, Headers headers, byte[] responseBody) {
                     stopProgressIndicator();
                     String jsonString = null;
                     try {
@@ -266,7 +267,7 @@ public class OpenHABDiscoveryInboxFragment extends ListFragment implements Swipe
                 }
 
                 @Override
-                public void  onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                public void  onFailure(int statusCode, Headers headers, byte[] responseBody, Throwable error) {
                     stopProgressIndicator();
                     Log.d(TAG, "Thing types request failure: " + error.getMessage());
                 }
@@ -277,16 +278,16 @@ public class OpenHABDiscoveryInboxFragment extends ListFragment implements Swipe
     private void sendInboxApprove(String UID) {
         if (mAsyncHttpClient != null) {
             startProgressIndicator();
-            mAsyncHttpClient.post(getActivity(), openHABBaseUrl + "rest/inbox/" + UID + "/approve", null, "text/plain", new AsyncHttpResponseHandler() {
+            mAsyncHttpClient.post(openHABBaseUrl + "rest/inbox/" + UID + "/approve", "", "text/plain", new MyAsyncHttpClient.ResponseHandler() {
                 @Override
-                public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                public void onSuccess(int statusCode, Headers headers, byte[] responseBody) {
                     stopProgressIndicator();
                     Log.d(TAG, "Inbox approve request success");
                     refresh();
                 }
 
                 @Override
-                public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                public void onFailure(int statusCode, Headers headers, byte[] responseBody, Throwable error) {
                     stopProgressIndicator();
                     Log.e(TAG, "Inbox approve request error: " + error.getMessage());
                 }
@@ -297,16 +298,16 @@ public class OpenHABDiscoveryInboxFragment extends ListFragment implements Swipe
     private void sendInboxIgnore(String UID) {
         if (mAsyncHttpClient != null) {
             startProgressIndicator();
-            mAsyncHttpClient.post(getActivity(), openHABBaseUrl + "rest/inbox/" + UID + "/ignore", null, "text/plain", new AsyncHttpResponseHandler() {
+            mAsyncHttpClient.post(openHABBaseUrl + "rest/inbox/" + UID + "/ignore", "", "text/plain", new MyAsyncHttpClient.ResponseHandler() {
                 @Override
-                public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                public void onSuccess(int statusCode, Headers headers, byte[] responseBody) {
                     stopProgressIndicator();
                     Log.d(TAG, "Inbox ignore request success");
                     refresh();
                 }
 
                 @Override
-                public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                public void onFailure(int statusCode, Headers headers, byte[] responseBody, Throwable error) {
                     stopProgressIndicator();
                     Log.e(TAG, "Inbox ignore request error: " + error.getMessage());
                 }
@@ -318,16 +319,16 @@ public class OpenHABDiscoveryInboxFragment extends ListFragment implements Swipe
     private void sendInboxDelete(String UID) {
         if (mAsyncHttpClient != null) {
             startProgressIndicator();
-            mAsyncHttpClient.delete(getActivity(), openHABBaseUrl + "rest/inbox/" + UID, new AsyncHttpResponseHandler() {
+            mAsyncHttpClient.delete(openHABBaseUrl + "rest/inbox/" + UID, new MyAsyncHttpClient.ResponseHandler() {
                 @Override
-                public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                public void onSuccess(int statusCode, Headers headers, byte[] responseBody) {
                     stopProgressIndicator();
                     Log.d(TAG, "Inbox delete request success");
                     refresh();
                 }
 
                 @Override
-                public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                public void onFailure(int statusCode, Headers headers, byte[] responseBody, Throwable error) {
                     stopProgressIndicator();
                     Log.e(TAG, "Inbox delete request error: " + error.getMessage());
                 }
