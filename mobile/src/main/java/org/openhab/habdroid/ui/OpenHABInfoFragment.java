@@ -46,7 +46,7 @@ public class OpenHABInfoFragment extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.openhabinfo, container);
-        mAsyncHttpClient = new MyAsyncHttpClient();
+        mAsyncHttpClient = new MyAsyncHttpClient(getActivity().getApplicationContext());
         mOpenHABVersionText = (TextView)view.findViewById(R.id.openhab_version);
         mOpenHABUUIDText = (TextView)view.findViewById(R.id.openhab_uuid);
         mOpenHABSecretText = (TextView)view.findViewById(R.id.openhab_secret);

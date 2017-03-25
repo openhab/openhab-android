@@ -9,9 +9,14 @@
 
 package org.openhab.habdroid.util;
 
+import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
+
+import org.apache.http.conn.ssl.AllowAllHostnameVerifier;
+import org.apache.http.conn.ssl.SSLSocketFactory;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -47,7 +52,11 @@ public class MyAsyncHttpClient {
     OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder();
     OkHttpClient client = clientBuilder.build();
 
-    public MyAsyncHttpClient() {
+    public MyAsyncHttpClient(Context ctx) {
+        if (PreferenceManager.getDefaultSharedPreferences(ctx).getBoolean(Constants.PREFERENCE_SSLHOST, false)) {
+            clientBuilder.hostnameVerifier(SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
+            client = clientBuilder.build();
+        }
 	}
 
     public void setBasicAuth(String username, String password) {

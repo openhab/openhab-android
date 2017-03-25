@@ -145,7 +145,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
     private static final int DRAWER_INBOX = 102;
     // Loopj
 //    private static MyAsyncHttpClient mAsyncHttpClient;
-    private static MyAsyncHttpClient mAsyncHttpClient = new MyAsyncHttpClient();
+    private static MyAsyncHttpClient mAsyncHttpClient;
     // Base URL of current openHAB connection
     private String openHABBaseUrl = "http://demo.openhab.org:8080/";
     // openHAB username
@@ -229,7 +229,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
         checkVoiceRecognition();
 
         // initialize loopj async http client
-        mAsyncHttpClient = new MyAsyncHttpClient();
+        mAsyncHttpClient = new MyAsyncHttpClient(this);
 
         // Set the theme to one from preferences
         mSettings = PreferenceManager.getDefaultSharedPreferences(this);
