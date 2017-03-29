@@ -64,18 +64,9 @@ public class MyAsyncHttpClient {
     }
 
     public void setBasicAuth(final String username, final String password, boolean preemtive) {
-        clientBuilder.authenticator(new Authenticator() {
-			@Override public Request authenticate(Route route, Response response) throws IOException {
-				System.out.println("Authenticating for response: " + response);
-				System.out.println("Challenges: " + response.challenges());
-				String credential = Credentials.basic(username, password);
-				return response.request().newBuilder()
-						.header("Authorization", credential)
-						.build();
-			}
-		});
-        client = clientBuilder.build();
-	}
+        String credential = Credentials.basic(username, password);
+        headers.put("Authorization", credential);
+    }
 
     public void setTimeout(int timeout) {
         clientBuilder.readTimeout(timeout, TimeUnit.MILLISECONDS);
@@ -164,7 +155,8 @@ public class MyAsyncHttpClient {
             @Override
             public void onFailure(int statusCode, Headers headers, byte[] responseBody, Throwable error) {
                 try {
-                    textResponseHandler.onFailure(statusCode, headers, new String(responseBody, "UTF-8"), error);
+                    String responseString = responseBody == null ? null : new String(responseBody, "UTF-8");
+                    textResponseHandler.onFailure(statusCode, headers, responseString, error);
                 } catch (UnsupportedEncodingException e) {
                     textResponseHandler.onFailure(statusCode, headers, null, e);
                 }
@@ -173,7 +165,8 @@ public class MyAsyncHttpClient {
             @Override
             public void onSuccess(int statusCode, Headers headers, byte[] responseBody) {
                 try {
-                    textResponseHandler.onSuccess(statusCode, headers, new String(responseBody, "UTF-8"));
+                    String responseString = responseBody == null ? null : new String(responseBody, "UTF-8");
+                    textResponseHandler.onSuccess(statusCode, headers, responseString);
                 } catch (UnsupportedEncodingException e) {
                     textResponseHandler.onFailure(statusCode, headers, null, e);
                 }
