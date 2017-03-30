@@ -178,7 +178,7 @@ public class OpenHABBindingFragment extends ListFragment implements SwipeRefresh
             startProgressIndicator();
             mRequestHandle = mAsyncHttpClient.get(openHABBaseUrl + "rest/bindings", new MyAsyncHttpClient.ResponseHandler() {
                 @Override
-                public void onSuccess(int statusCode, Headers headers, byte[] responseBody) {
+                public void onSuccess(Call call, int statusCode, Headers headers, byte[] responseBody) {
                     stopProgressIndicator();
                     String jsonString = null;
                     try {
@@ -196,7 +196,7 @@ public class OpenHABBindingFragment extends ListFragment implements SwipeRefresh
                 }
 
                 @Override
-                public void onFailure(int statusCode, Headers headers, byte[] responseBody, Throwable error) {
+                public void onFailure(Call call, int statusCode, Headers headers, byte[] responseBody, Throwable error) {
                     stopProgressIndicator();
                     Log.d(TAG, "Bindings request failure: " + error.getMessage());
                 }

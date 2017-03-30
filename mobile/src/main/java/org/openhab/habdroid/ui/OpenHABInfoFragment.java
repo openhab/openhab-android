@@ -24,6 +24,7 @@ import org.json.JSONObject;
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.util.MyAsyncHttpClient;
 
+import okhttp3.Call;
 import okhttp3.Headers;
 
 
@@ -95,7 +96,7 @@ public class OpenHABInfoFragment extends DialogFragment {
     private void setSecretText() {
         mAsyncHttpClient.get(mOpenHABBaseUrl + "static/secret", new MyAsyncHttpClient.TextResponseHandler() {
             @Override
-            public void onFailure(int statusCode, Headers headers, String responseString, Throwable error) {
+            public void onFailure(Call call, int statusCode, Headers headers, String responseString, Throwable error) {
                 mOpenHABSecretText.setVisibility(View.GONE);
                 mOpenHABSecretLabel.setVisibility(View.GONE);
                 if (error.getMessage() != null) {
@@ -104,7 +105,7 @@ public class OpenHABInfoFragment extends DialogFragment {
             }
 
             @Override
-            public void onSuccess(int statusCode, Headers headers, String responseString) {
+            public void onSuccess(Call call, int statusCode, Headers headers, String responseString) {
                 Log.d(TAG, "Got secret = " + responseString);
                 mOpenHABSecretText.setVisibility(View.VISIBLE);
                 mOpenHABSecretLabel.setVisibility(View.VISIBLE);
@@ -122,7 +123,7 @@ public class OpenHABInfoFragment extends DialogFragment {
         }
         mAsyncHttpClient.get(uuidUrl, new MyAsyncHttpClient.TextResponseHandler() {
             @Override
-            public void onFailure(int statusCode, Headers headers, String responseString, Throwable error) {
+            public void onFailure(Call call, int statusCode, Headers headers, String responseString, Throwable error) {
                 mOpenHABUUIDText.setText("Unknown");
                 if (error.getMessage() != null) {
                     Log.e(TAG, error.getMessage());
@@ -130,7 +131,7 @@ public class OpenHABInfoFragment extends DialogFragment {
             }
 
             @Override
-            public void onSuccess(int statusCode, Headers headers, String responseString) {
+            public void onSuccess(Call call, int statusCode, Headers headers, String responseString) {
                 Log.d(TAG, "Got uuid = " + responseString);
                 mOpenHABUUIDText.setText(responseString);
             }
@@ -147,7 +148,7 @@ public class OpenHABInfoFragment extends DialogFragment {
         Log.d(TAG, "url = " + versionUrl);
         mAsyncHttpClient.get(versionUrl, new MyAsyncHttpClient.TextResponseHandler() {
             @Override
-            public void onFailure(int statusCode, Headers headers, String responseString, Throwable error) {
+            public void onFailure(Call call, int statusCode, Headers headers, String responseString, Throwable error) {
                 mOpenHABVersionText.setText("Unknown");
                 if (error.getMessage() != null) {
                     Log.e(TAG, error.getMessage());
@@ -155,7 +156,7 @@ public class OpenHABInfoFragment extends DialogFragment {
             }
 
             @Override
-            public void onSuccess(int statusCode, Headers headers, String responseString) {
+            public void onSuccess(Call call, int statusCode, Headers headers, String responseString) {
                 String version="";
                 if(mOpenHABVersion == 1) {
                     version = responseString;

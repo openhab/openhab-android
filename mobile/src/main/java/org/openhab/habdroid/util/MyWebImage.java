@@ -28,6 +28,7 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
+import okhttp3.Call;
 import okhttp3.Headers;
 
 public class MyWebImage implements SmartImage {
@@ -88,7 +89,7 @@ public class MyWebImage implements SmartImage {
 
         client.get(url, new MyAsyncHttpClient.ResponseHandler() {
             @Override
-            public void onFailure(int statusCode, Headers headers, byte[] responseBody, Throwable error) {
+            public void onFailure(Call call, int statusCode, Headers headers, byte[] responseBody, Throwable error) {
                 Log.e(TAG, "Failed to get " + url + " with code " + statusCode + ":" + error);
                 synchronized (result) {
                     result.put("error", error);
@@ -97,7 +98,7 @@ public class MyWebImage implements SmartImage {
             }
 
             @Override
-            public void onSuccess(int statusCode, Headers headers, byte[] responseBody) {
+            public void onSuccess(Call call, int statusCode, Headers headers, byte[] responseBody) {
                 InputStream is = new ByteArrayInputStream(responseBody);
                 synchronized (result) {
                     result.put("bitmap", getBitmapFromInputStream(iconFormat, is));

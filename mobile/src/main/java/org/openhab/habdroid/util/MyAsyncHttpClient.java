@@ -39,13 +39,13 @@ import okhttp3.Route;
 public class MyAsyncHttpClient {
 
     public interface ResponseHandler {
-        void onFailure(int statusCode, Headers headers, byte[] responseBody, Throwable error);
-        void onSuccess(int statusCode, Headers headers, byte[] responseBody);
+        void onFailure(Call call, int statusCode, Headers headers, byte[] responseBody, Throwable error);
+        void onSuccess(Call call, int statusCode, Headers headers, byte[] responseBody);
     }
 
     public interface TextResponseHandler {
-        void onFailure(int statusCode, Headers headers, String responseBody, Throwable error);
-        void onSuccess(int statusCode, Headers headers, String responseBody);
+        void onFailure(Call call, int statusCode, Headers headers, String responseBody, Throwable error);
+        void onSuccess(Call call, int statusCode, Headers headers, String responseBody);
     }
 
     private Map<String, String> headers = new HashMap<String, String>();
@@ -118,17 +118,17 @@ public class MyAsyncHttpClient {
         Call call = client.newCall(requestBuilder.build());
         call.enqueue(new Callback() {
             @Override
-            public void onFailure(Call call, final IOException e) {
+            public void onFailure(final Call call, final IOException e) {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        responseHandler.onFailure(0, new Headers.Builder().build(), null, e);
+                        responseHandler.onFailure(call, 0, new Headers.Builder().build(), null, e);
                     }
                 });
             }
 
             @Override
-            public void onResponse(Call call, Response response) throws IOException {
+            public void onResponse(final Call call, Response response) throws IOException {
                 final int code = response.code();
                 final byte[] body = response.body().bytes();
                 final boolean success = response.isSuccessful();
@@ -138,9 +138,9 @@ public class MyAsyncHttpClient {
                     @Override
                     public void run() {
                         if (success) {
-                            responseHandler.onSuccess(code, headers, body);
+                            responseHandler.onSuccess(call, code, headers, body);
                         } else {
-                            responseHandler.onFailure(code, headers, body, new IOException(message));
+                            responseHandler.onFailure(call, code, headers, body, new IOException(message));
                         }
                     }
                 });
@@ -153,22 +153,22 @@ public class MyAsyncHttpClient {
     private ResponseHandler getResponseHandler(final TextResponseHandler textResponseHandler) {
         return new ResponseHandler() {
             @Override
-            public void onFailure(int statusCode, Headers headers, byte[] responseBody, Throwable error) {
+            public void onFailure(Call call, int statusCode, Headers headers, byte[] responseBody, Throwable error) {
                 try {
                     String responseString = responseBody == null ? null : new String(responseBody, "UTF-8");
-                    textResponseHandler.onFailure(statusCode, headers, responseString, error);
+                    textResponseHandler.onFailure(call, statusCode, headers, responseString, error);
                 } catch (UnsupportedEncodingException e) {
-                    textResponseHandler.onFailure(statusCode, headers, null, e);
+                    textResponseHandler.onFailure(call, statusCode, headers, null, e);
                 }
             }
 
             @Override
-            public void onSuccess(int statusCode, Headers headers, byte[] responseBody) {
+            public void onSuccess(Call call, int statusCode, Headers headers, byte[] responseBody) {
                 try {
                     String responseString = responseBody == null ? null : new String(responseBody, "UTF-8");
-                    textResponseHandler.onSuccess(statusCode, headers, responseString);
+                    textResponseHandler.onSuccess(call, statusCode, headers, responseString);
                 } catch (UnsupportedEncodingException e) {
-                    textResponseHandler.onFailure(statusCode, headers, null, e);
+                    textResponseHandler.onFailure(call, statusCode, headers, null, e);
                 }
             }
         };

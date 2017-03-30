@@ -180,7 +180,7 @@ public class OpenHABNotificationFragment extends ListFragment implements SwipeRe
             startProgressIndicator();
             mRequestHandle = mAsyncHttpClient.get(openHABBaseURL + "/api/v1/notifications?limit=20", new MyAsyncHttpClient.ResponseHandler() {
                 @Override
-                public void onSuccess(int statusCode, Headers headers, byte[] responseBody) {
+                public void onSuccess(Call call, int statusCode, Headers headers, byte[] responseBody) {
                     stopProgressIndicator();
                     Log.d(TAG, "Notifications request success");
                     try {
@@ -207,7 +207,7 @@ public class OpenHABNotificationFragment extends ListFragment implements SwipeRe
                 }
 
                 @Override
-                public void onFailure(int statusCode, Headers headers, byte[] responseBody, Throwable error) {
+                public void onFailure(Call call, int statusCode, Headers headers, byte[] responseBody, Throwable error) {
                     stopProgressIndicator();
                     Log.d(TAG, "Notifications request failure");
                 }

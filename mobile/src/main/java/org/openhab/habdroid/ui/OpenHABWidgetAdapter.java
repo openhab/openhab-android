@@ -37,6 +37,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.VideoView;
 
+import okhttp3.Call;
 import okhttp3.Headers;
 
 import org.openhab.habdroid.R;
@@ -769,14 +770,14 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
         if (item != null && command != null) {
             mAsyncHttpClient.post(item.getLink(), command, "text/plain", new MyAsyncHttpClient.TextResponseHandler() {
                 @Override
-                public void onFailure(int statusCode, Headers headers, String responseString, Throwable error) {
+                public void onFailure(Call call, int statusCode, Headers headers, String responseString, Throwable error) {
                     Log.e(TAG, "Got command error " + error.getMessage());
                     if (responseString != null)
                         Log.e(TAG, "Error response = " + responseString);
                 }
 
                 @Override
-                public void onSuccess(int statusCode, Headers headers, String responseString) {
+                public void onSuccess(Call call, int statusCode, Headers headers, String responseString) {
                     Log.d(TAG, "Command was sent successfully");
                 }
             });

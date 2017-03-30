@@ -94,6 +94,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import de.duenndns.ssl.MTMDecision;
 import de.duenndns.ssl.MemorizingResponder;
 import de.duenndns.ssl.MemorizingTrustManager;
+import okhttp3.Call;
 import okhttp3.Headers;
 import okhttp3.internal.http2.Header;
 
@@ -103,7 +104,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
     private abstract class DefaultHttpResponseHandler implements MyAsyncHttpClient.ResponseHandler {
 
         @Override
-        public void onFailure(int statusCode, Headers headers, byte[] responseBody, Throwable error) {
+        public void onFailure(Call call, int statusCode, Headers headers, byte[] responseBody, Throwable error) {
             setProgressIndicatorVisible(false);
             if (statusCode == 401) {
                 showAlertDialog(getString(R.string.error_authentication_failed));
@@ -509,7 +510,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
         } else {
             mAsyncHttpClient.get(baseUrl + "rest/bindings", new MyAsyncHttpClient.TextResponseHandler() {
                 @Override
-                public void onFailure(int statusCode, Headers headers, String responseString, Throwable throwable) {
+                public void onFailure(Call call, int statusCode, Headers headers, String responseString, Throwable throwable) {
                     mOpenHABVersion = 1;
                     Log.d(TAG, "openHAB version 1");
                     mAsyncHttpClient.addHeader("Accept", "application/xml");
@@ -517,7 +518,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
                 }
 
                 @Override
-                public void onSuccess(int statusCode, Headers headers, String responseString) {
+                public void onSuccess(Call call, int statusCode, Headers headers, String responseString) {
                     mOpenHABVersion = 2;
                     Log.d(TAG, "openHAB version 2");
                     selectSitemap(openHABBaseUrl, false);
@@ -551,7 +552,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
         setProgressIndicatorVisible(true);
         mAsyncHttpClient.get(baseUrl + "rest/sitemaps", new DefaultHttpResponseHandler() {
             @Override
-            public void onSuccess(int statusCode, Headers headers, byte[] responseBody) {
+            public void onSuccess(Call call, int statusCode, Headers headers, byte[] responseBody) {
                 setProgressIndicatorVisible(false);
                 mSitemapList.clear();
                 // If openHAB's version is 1, get sitemap list from XML
@@ -597,7 +598,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
         mAsyncHttpClient.get(baseUrl + "rest/sitemaps", new DefaultHttpResponseHandler() {
 
             @Override
-            public void onSuccess(int statusCode, Headers headers, byte[] responseBody) {
+            public void onSuccess(Call call, int statusCode, Headers headers, byte[] responseBody) {
                 Log.d(TAG, new String(responseBody));
                 setProgressIndicatorVisible(false);
                 mSitemapList.clear();
@@ -954,14 +955,14 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
         try {
             mAsyncHttpClient.post(openHABBaseUrl + "rest/items/" + itemName, command, "text/plain;charset=UTF-8", new MyAsyncHttpClient.TextResponseHandler() {
                 @Override
-                public void onFailure(int statusCode, Headers headers, String responseString, Throwable error) {
+                public void onFailure(Call call, int statusCode, Headers headers, String responseString, Throwable error) {
                     Log.e(TAG, "Got command error " + error.getMessage());
                     if (responseString != null)
                         Log.e(TAG, "Error response = " + responseString);
                 }
 
                 @Override
-                public void onSuccess(int statusCode, Headers headers, String responseString) {
+                public void onSuccess(Call call, int statusCode, Headers headers, String responseString) {
                     Log.d(TAG, "Command was sent successfully");
                 }
             });
@@ -1211,14 +1212,14 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
                                         "&deviceModel=" + deviceModel + "&regId=" + mRegId;
                                 mAsyncHttpClient.get(regUrl, new MyAsyncHttpClient.ResponseHandler() {
                                     @Override
-                                    public void onFailure(int statusCode, Headers headers, byte[] responseBody, Throwable error) {
+                                    public void onFailure(Call call, int statusCode, Headers headers, byte[] responseBody, Throwable error) {
                                         Log.e(TAG, "GCM reg id error: " + error.getMessage());
                                         if (responseBody != null)
                                             Log.e(TAG, "Error response = " + new String(responseBody));
                                     }
 
                                     @Override
-                                    public void onSuccess(int statusCode, Headers headers, byte[] responseBody) {
+                                    public void onSuccess(Call call, int statusCode, Headers headers, byte[] responseBody) {
                                         Log.d(TAG, "GCM reg id success");
                                     }
                                 });

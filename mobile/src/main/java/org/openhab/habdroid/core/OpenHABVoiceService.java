@@ -27,6 +27,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
+import okhttp3.Call;
 import okhttp3.Headers;
 import okhttp3.internal.http2.Header;
 
@@ -166,12 +167,12 @@ public class OpenHABVoiceService extends ContinuingIntentService implements Open
                 mAsyncHttpClient.post(mOpenHABBaseUrl + "rest/items/" + itemName,
                         command, "text/plain;charset=UTF-8", new MyAsyncHttpClient.ResponseHandler() {
                             @Override
-                            public void onSuccess(int statusCode, Headers headers, byte[] responseBody) {
+                            public void onSuccess(Call call, int statusCode, Headers headers, byte[] responseBody) {
                                 Log.d(TAG, "Command was sent successfully");
                             }
 
                             @Override
-                            public void onFailure(int statusCode, Headers headers, byte[] responseBody, Throwable error) {
+                            public void onFailure(Call call, int statusCode, Headers headers, byte[] responseBody, Throwable error) {
                                 Log.e(TAG, "Got command error " + statusCode, error);
                             }
                         });

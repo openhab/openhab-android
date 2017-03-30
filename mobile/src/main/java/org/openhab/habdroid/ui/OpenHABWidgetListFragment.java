@@ -229,7 +229,10 @@ public class OpenHABWidgetListFragment extends ListFragment {
         if (activity instanceof OnWidgetSelectedListener) {
             widgetSelectedListener = (OnWidgetSelectedListener)activity;
             mActivity = (OpenHABMainActivity)activity;
-            mAsyncHttpClient = mActivity.getAsyncHttpClient();
+            // We're using atmosphere so create an own client to not block the others
+            mAsyncHttpClient = new MyAsyncHttpClient(mActivity);
+            mAsyncHttpClient.setBasicAuth(openHABUsername, openHABPassword);
+            Log.i(TAG, "Created new HTTP client for user " + openHABUsername);
         } else {
             Log.e("TAG", "Attached to incompatible activity");
         }
@@ -263,6 +266,7 @@ public class OpenHABWidgetListFragment extends ListFragment {
             public void run(){
                 if (mRequestHandle != null) {
                     mRequestHandle.cancel();
+                    mRequestHandle = null;
                 }
             }
         });
@@ -332,6 +336,10 @@ public class OpenHABWidgetListFragment extends ListFragment {
         Log.i(TAG, " showPage for " + pageUrl + " longPolling = " + longPolling);
         Log.d(TAG, "isAdded = " + isAdded());
         // Cancel any existing http request to openHAB (typically ongoing long poll)
+        if (mRequestHandle != null) {
+            mRequestHandle.cancel();
+            mRequestHandle = null;
+        }
         if (!longPolling) {
             startProgressIndicator();
             this.mAtmosphereTrackingId = null;
@@ -355,7 +363,11 @@ public class OpenHABWidgetListFragment extends ListFragment {
         }
         mRequestHandle = mAsyncHttpClient.get(pageUrl, headers, new MyAsyncHttpClient.ResponseHandler() {
                     @Override
-                    public void onFailure(int statusCode, Headers headers, byte[] responseBody, Throwable error) {
+                    public void onFailure(Call call, int statusCode, Headers headers, byte[] responseBody, Throwable error) {
+                        if (call.isCanceled()) {
+                            Log.i(TAG, "Call canceled on failure - stop updating");
+                            return;
+                        }
                         mAtmosphereTrackingId = null;
                         if (!longPolling)
                             stopProgressIndicator();
@@ -368,9 +380,10 @@ public class OpenHABWidgetListFragment extends ListFragment {
                     * If we get a network error try connecting again, if the
                     * fragment is paused, the runnable will be removed
                     */
-                            Log.e(TAG, error.getClass().toString());
+                            Log.e(TAG, error.toString());
                             Log.e(TAG, String.format("status code = %d", statusCode));
                             Log.e(TAG, "Connection error = " + error.getClass().toString() + ", cycle aborted");
+
 //                            networkHandler.removeCallbacks(networkRunnable);
 //                            networkRunnable =  new Runnable(){
 //                                @Override
@@ -383,7 +396,11 @@ public class OpenHABWidgetListFragment extends ListFragment {
                     }
 
                     @Override
-                    public void onSuccess(int statusCode, Headers headers, byte[] responseBody) {
+                    public void onSuccess(Call call, int statusCode, Headers headers, byte[] responseBody) {
+                        if (call.isCanceled()) {
+                            Log.i(TAG, "Call canceled on success - stop updating");
+                            return;
+                        }
                         String id = headers.get("X-Atmosphere-tracking-id");
                         if (id != null) {
                             Log.i(TAG, "Found atmosphere tracking id: " + id);
