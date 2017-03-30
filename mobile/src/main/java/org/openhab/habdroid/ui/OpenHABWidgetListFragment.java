@@ -42,12 +42,8 @@ import org.xml.sax.SAXException;
 import java.io.IOException;
 import java.io.StringReader;
 import java.net.SocketTimeoutException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -56,7 +52,6 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import okhttp3.Call;
 import okhttp3.Headers;
-import okhttp3.internal.http2.Header;
 
 /**
  * This class is apps' main fragment which displays list of openHAB

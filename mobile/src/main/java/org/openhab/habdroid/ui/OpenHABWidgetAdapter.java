@@ -37,9 +37,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.VideoView;
 
-import okhttp3.Call;
-import okhttp3.Headers;
-
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.model.OpenHABItem;
 import org.openhab.habdroid.model.OpenHABWidget;
@@ -51,13 +48,15 @@ import org.openhab.habdroid.util.MjpegStreamer;
 import org.openhab.habdroid.util.MyAsyncHttpClient;
 import org.openhab.habdroid.util.MySmartImageView;
 
-import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
+
+import okhttp3.Call;
+import okhttp3.Headers;
 
 /**
  * This class provides openHAB widgets adapter for list view.

@@ -29,7 +29,6 @@ import java.util.Queue;
 
 import okhttp3.Call;
 import okhttp3.Headers;
-import okhttp3.internal.http2.Header;
 
 /**
  * This service handles voice commands and sends them to OpenHAB.

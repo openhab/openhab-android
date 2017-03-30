@@ -96,7 +96,6 @@ import de.duenndns.ssl.MemorizingResponder;
 import de.duenndns.ssl.MemorizingTrustManager;
 import okhttp3.Call;
 import okhttp3.Headers;
-import okhttp3.internal.http2.Header;
 
 public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSelectedListener,
         OpenHABTrackerReceiver, MemorizingResponder {

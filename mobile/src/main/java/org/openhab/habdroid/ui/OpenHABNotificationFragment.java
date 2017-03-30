@@ -24,7 +24,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.model.OpenHABNotification;
-import org.openhab.habdroid.util.Constants;
 import org.openhab.habdroid.util.MyAsyncHttpClient;
 
 import java.io.UnsupportedEncodingException;

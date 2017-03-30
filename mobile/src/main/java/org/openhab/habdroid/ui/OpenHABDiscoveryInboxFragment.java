@@ -26,7 +26,6 @@ import com.google.gson.GsonBuilder;
 import com.software.shell.fab.ActionButton;
 
 import org.openhab.habdroid.R;
-
 import org.openhab.habdroid.model.OpenHABDiscoveryInbox;
 import org.openhab.habdroid.model.thing.ThingType;
 import org.openhab.habdroid.util.MyAsyncHttpClient;
@@ -37,7 +36,6 @@ import java.util.Arrays;
 
 import okhttp3.Call;
 import okhttp3.Headers;
-import okhttp3.internal.http2.Header;
 
 public class OpenHABDiscoveryInboxFragment extends ListFragment implements SwipeRefreshLayout.OnRefreshListener {
 
