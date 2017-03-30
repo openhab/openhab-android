@@ -26,23 +26,16 @@ import java.util.ArrayList;
 
 public class OpenHABWidgetDataSource {
 	private static final String TAG = OpenHABWidgetDataSource.class.getSimpleName();
+	private final String iconFormat;
 	private OpenHABWidget rootWidget;
 	private String title;
 	private String id;
 	private String icon;
 	private String link;
 
-	public OpenHABWidgetDataSource() {
-		
+	public OpenHABWidgetDataSource(String iconFormat) {
+		this.iconFormat = iconFormat;
 	}
-	
-	public OpenHABWidgetDataSource(Node rootNode) {
-		setSourceNode(rootNode);
-	}
-
-    public OpenHABWidgetDataSource(JSONObject jsonObject) {
-        setSourceJson(jsonObject);
-    }
 
 	public void setSourceNode(Node rootNode) {
 		Log.i(TAG, "Loading new data");
@@ -80,7 +73,7 @@ public class OpenHABWidgetDataSource {
             for (int i=0; i<jsonWidgetArray.length(); i++) {
                 JSONObject widgetJson = jsonWidgetArray.getJSONObject(i);
                 // Log.d(TAG, widgetJson.toString());
-                OpenHAB2Widget.createOpenHABWidgetFromJson(rootWidget, widgetJson);
+                OpenHAB2Widget.createOpenHABWidgetFromJson(rootWidget, widgetJson, iconFormat);
             }
             if (jsonObject.has("title"))
                 this.setTitle(jsonObject.getString("title"));

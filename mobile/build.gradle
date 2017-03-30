@@ -37,6 +37,10 @@ repositories {
         name "OpenHAB"
         url "http://repository-openhab.forge.cloudbees.com/release/"
     }
+    maven {
+        url 'https://jitpack.io'
+    }
+
 }
 
 dependencies {
@@ -54,6 +58,8 @@ dependencies {
     compile 'com.loopj.android:android-async-http:1.4.9'
     compile 'com.loopj:android-smart-image-view:1.0.0'
     compile 'com.github.shell-software:fab:1.1.2'
+
+    compile 'com.github.hazzeh:androidsvg:fix-npe'
 
     testCompile 'org.mockito:mockito-core:2.7.6'
     testCompile 'junit:junit:4.12'
