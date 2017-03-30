@@ -146,6 +146,9 @@ public class OpenHABWidgetListFragment extends ListFragment {
         openHABBaseUrl = mActivity.getOpenHABBaseUrl();
         openHABUsername = mActivity.getOpenHABUsername();
         openHABPassword = mActivity.getOpenHABPassword();
+        // We're using atmosphere so create an own client to not block the others
+        mAsyncHttpClient = new MyAsyncHttpClient(mActivity);
+        mAsyncHttpClient.setBasicAuth(openHABUsername, openHABPassword);
         openHABWidgetAdapter.setOpenHABUsername(openHABUsername);
         openHABWidgetAdapter.setOpenHABPassword(openHABPassword);
         openHABWidgetAdapter.setOpenHABBaseUrl(openHABBaseUrl);
@@ -224,10 +227,6 @@ public class OpenHABWidgetListFragment extends ListFragment {
         if (activity instanceof OnWidgetSelectedListener) {
             widgetSelectedListener = (OnWidgetSelectedListener)activity;
             mActivity = (OpenHABMainActivity)activity;
-            // We're using atmosphere so create an own client to not block the others
-            mAsyncHttpClient = new MyAsyncHttpClient(mActivity);
-            mAsyncHttpClient.setBasicAuth(openHABUsername, openHABPassword);
-            Log.i(TAG, "Created new HTTP client for user " + openHABUsername);
         } else {
             Log.e("TAG", "Attached to incompatible activity");
         }
