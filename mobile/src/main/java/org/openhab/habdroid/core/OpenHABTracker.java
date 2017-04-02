@@ -108,7 +108,7 @@ public class OpenHABTracker implements AsyncServiceResolverListener {
                     if (mOpenHABUrl.length() > 0) {
                         // Check if configured local URL is reachable
                         if (checkUrlReachability(mOpenHABUrl)) {
-                            Log.d(TAG, "Connecting to directly configured URL = " + mOpenHABUrl);
+                            Log.d(TAG, "Connecting to local URL = " + mOpenHABUrl);
                             openHABTracked(mOpenHABUrl, mCtx.getString(R.string.info_conn_url));
                             return;
                             // If local URL is not reachable go with remote URL
