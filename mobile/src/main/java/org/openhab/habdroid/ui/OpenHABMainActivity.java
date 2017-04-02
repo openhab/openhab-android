@@ -507,11 +507,12 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
             onNfcTag(mNfcData);
             openNFCPageIfPending();
         } else {
-            mAsyncHttpClient.get(baseUrl + "rest/bindings", new MyAsyncHttpClient.TextResponseHandler() {
+            final String url = baseUrl + "rest/bindings";
+            mAsyncHttpClient.get(url, new MyAsyncHttpClient.TextResponseHandler() {
                 @Override
                 public void onFailure(Call call, int statusCode, Headers headers, String responseString, Throwable throwable) {
                     mOpenHABVersion = 1;
-                    Log.d(TAG, "openHAB version 1");
+                    Log.d(TAG, "openHAB version 1 - got error " + throwable + " accessing " + url);
                     mAsyncHttpClient.addHeader("Accept", "application/xml");
                     selectSitemap(openHABBaseUrl, false);
                 }
