@@ -2,9 +2,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     >
     <!-- General app strings -->
-    <string name="app_name">openHAB</string>
-    <string name="openhab_service_type">_openhab-server-ssl._tcp.local.</string>
-    <string name="openhab_demo_url">http://demo.openhab.org:8080/</string>
     <string name="app_preferences_name">Einstellungen</string>
     <string name="app_notifications">Benachrichtigungen</string>
     <string name="app_bindings">Bindings</string>
@@ -102,7 +99,7 @@
     <!-- nfc toggle -->
     <string name="nfc_action_on">An</string>
     <string name="nfc_action_off">Aus</string>
-	<string name="nfc_action_toggle">Umschalten</string>
+    <string name="nfc_action_toggle">Umschalten</string>
 
     <!-- drawer -->
     <string name="drawer_open">Sitemap-Bereich öffnen</string>
