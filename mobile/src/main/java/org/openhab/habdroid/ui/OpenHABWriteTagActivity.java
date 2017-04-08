@@ -9,6 +9,7 @@
 
 package org.openhab.habdroid.ui;
 
+import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.nfc.FormatException;
@@ -19,7 +20,6 @@ import android.nfc.Tag;
 import android.nfc.tech.Ndef;
 import android.nfc.tech.NdefFormatable;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
@@ -36,7 +36,7 @@ import java.net.URISyntaxException;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class OpenHABWriteTagActivity extends AppCompatActivity {
+public class OpenHABWriteTagActivity extends Activity {
 
 	// Logging TAG
 	private static final String TAG = OpenHABWriteTagActivity.class.getSimpleName();
