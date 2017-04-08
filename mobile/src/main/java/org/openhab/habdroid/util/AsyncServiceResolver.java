@@ -62,7 +62,7 @@ public class AsyncServiceResolver extends Thread implements ServiceListener {
     public void run() {
         WifiManager wifi =
                    (android.net.wifi.WifiManager)
-                      mCtx.getSystemService(android.content.Context.WIFI_SERVICE);
+                      mCtx.getApplicationContext().getSystemService(android.content.Context.WIFI_SERVICE);
         mMulticastLock = wifi.createMulticastLock("HABDroidMulticastLock");
         mMulticastLock.setReferenceCounted(true);
         try {
