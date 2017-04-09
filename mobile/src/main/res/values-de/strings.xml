@@ -33,7 +33,6 @@
     <string name="settings_openhab_password_summary">openHAB Passwort</string>
     <string name="settings_openhab_sslclientcert">SSL Client Zertifikat</string>
     <string name="settings_openhab_sslclientcert_howto">SSL Client Zertifikat How-To</string>
-    <string name="settings_openhab_sslclientcert_howto_url">https://github.com/openhab/openhab.android/blob/master/KeyAuth.md</string>
     <string name="settings_openhab_screentimeroff">Deaktiviere Ruhezustand</string>
     <string name="settings_openhab_screentimeroff_summary">Schaltet das automatische Aktivieren des Ruhezustands nach Inaktivität ab, wenn HABDroid läuft.</string>
     <string name="settings_openhab_demomode">Demo Modus</string>
@@ -48,7 +47,7 @@
     <string name="settings_openhab_fullscreen_summary">Blendet die Statusleiste aus</string>
     <string name="settings_ringtone">Klingelton</string>
     <!-- App messages strings -->
-    <string name="title_voice_widget">OpenHAB Sprachbefehl</string>
+    <string name="title_voice_widget">openHAB Sprachbefehl</string>
     <string name="info_voice_input">"openHAB, zu Ihren Diensten!"</string>
     <string name="info_voice_recognized_text">"Erkannter Befehl: %1$s"</string>
     <string name="info_demo_mode">HABDroid läuft im Demo Modus. Unter Einstellungen kann eine eigene openHAB-Instanz konfiguriert werden.</string>

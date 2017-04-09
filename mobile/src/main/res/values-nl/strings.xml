@@ -45,7 +45,7 @@
     <string name="settings_openhab_fullscreen_summary">Gebruik volledige scherm</string>
     <string name="settings_ringtone">Beltoon</string>
     <!-- App messages strings -->
-    <string name="title_voice_widget">OpenHAB stem commando\'s</string>
+    <string name="title_voice_widget">openHAB stem commando\'s</string>
     <string name="info_voice_input">"openHAB, at your command!"</string>
     <string name="info_voice_recognized_text">"Herkend commando: %1$s"</string>
     <string name="info_demo_mode">HABDroid draait in demo mode. Gebruik het instellingenmenu om naar je eigen systeem te verbinden</string>

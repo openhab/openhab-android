@@ -33,7 +33,6 @@
     <string name="settings_openhab_password_summary">openHAB slaptažodis</string>
     <string name="settings_openhab_sslclientcert">Kliento SSL sertifikatas</string>
     <string name="settings_openhab_sslclientcert_howto">Kaip naudoti kliento SSL sertifikatą</string>
-    <string name="settings_openhab_sslclientcert_howto_url">https://github.com/openhab/openhab.android/blob/master/KeyAuth.md</string>
     <string name="settings_openhab_screentimeroff">Neleisti išjungti ekrano</string>
     <string name="settings_openhab_screentimeroff_summary">Neleisti išjungti ekrano, kol paleistas HABDroid</string>
     <string name="settings_openhab_demomode">Demonstracinis režimas</string>
@@ -48,7 +47,7 @@
     <string name="settings_openhab_fullscreen_summary">Rodyti pilno ekrano režimu</string>
     <string name="settings_ringtone">Skambėjimo melodija</string>
     <!-- App messages strings -->
-    <string name="title_voice_widget">OpenHAB balso komandos</string>
+    <string name="title_voice_widget">openHAB balso komandos</string>
     <string name="info_voice_input">\"openHAB, jūsų paliepimu!\"</string>
     <string name="info_voice_recognized_text">\"Neatpažinta komanda: %1$s\"</string>
     <string name="info_demo_mode">HABDroid veikia demonstraciniu režimu. Norėdami prisijungti prie savo openHAB, eikite į nustatymų meniu.</string>

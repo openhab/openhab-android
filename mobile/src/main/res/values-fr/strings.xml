@@ -42,10 +42,10 @@
     <string name="settings_openhab_sslhost">Ignorer le domaine SSL</string>
     <string name="settings_openhab_sslhost_summary">Ne vérifie pas la pertinence du nom de domaine lors de la connexion</string>
     <string name="settings_openhab_fullscreen">Plein écran</string>
-    <string name="settings_openhab_fullscreen_summary">Afficher OpenHab en mode plein écran</string>
+    <string name="settings_openhab_fullscreen_summary">Afficher openHAB en mode plein écran</string>
     <string name="settings_ringtone">Sonnerie</string>
     <!-- App messages strings -->
-    <string name="title_voice_widget">Commandes vocales OpenHAB</string>
+    <string name="title_voice_widget">Commandes vocales openHAB</string>
     <string name="info_voice_input">openHAB, à vos ordres!"</string>
     <string name="info_voice_recognized_text">"Commande identifiée: %1$s"</string>
     <string name="info_demo_mode">HABDroid fonctionne en mode démo. Pour connecter votre instance openHAB, rendez-vous dans les paramètres de l\'application</string>

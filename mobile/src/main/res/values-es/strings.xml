@@ -45,7 +45,7 @@
     <string name="settings_openhab_fullscreen_summary">Mostrar a pantalla completa</string>
     <string name="settings_ringtone">Sonido</string>
     <!-- App messages strings -->
-    <string name="title_voice_widget">Comandos de voz OpenHAB</string>
+    <string name="title_voice_widget">Comandos de voz openHAB</string>
     <string name="info_voice_input">"openHAB, ¡a tus órdenes!"</string>
     <string name="info_voice_recognized_text">"Comando reconocido: %1$s"</string>
     <string name="info_demo_mode">HABDroid se ejecuta en modo demo. Por favor, ir al menú configuración para conectarlo a openHAB.</string>
