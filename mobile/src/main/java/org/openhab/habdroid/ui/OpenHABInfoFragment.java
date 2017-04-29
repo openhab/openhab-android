@@ -39,6 +39,7 @@ public class OpenHABInfoFragment extends DialogFragment {
     private TextView mOpenHABUUIDText;
     private TextView mOpenHABSecretText;
     private TextView mOpenHABSecretLabel;
+    private TextView mOpenHABNotificationText;
     private String mOpenHABBaseUrl;
     private String mUsername;
     private String mPassword;
@@ -55,6 +56,7 @@ public class OpenHABInfoFragment extends DialogFragment {
         mOpenHABSecretText = (TextView)view.findViewById(R.id.openhab_secret);
         mOpenHABSecretLabel = (TextView)view.findViewById(R.id.openhab_secret_label);
         mOpenHABVersionLabel = (TextView)view.findViewById(R.id.openhab_version_label);
+        mOpenHABNotificationText = (TextView)view.findViewById(R.id.openhab_gcm);
         Bundle bundle=getArguments();
 
         if (bundle!=null){
@@ -93,6 +95,7 @@ public class OpenHABInfoFragment extends DialogFragment {
         setVersionText();
         setUuidText();
         setSecretText();
+        setGcmText();
     }
 
     private void setSecretText() {
@@ -179,4 +182,16 @@ public class OpenHABInfoFragment extends DialogFragment {
     }
 
 
+    private void setGcmText() {
+        String infoString;
+        if (OpenHABMainActivity.GCM_SENDER_ID == null) {
+            infoString = getString(R.string.info_openhab_gcm_not_connected);
+        } else {
+            infoString = getString(R.string.info_openhab_gcm_connected);
+        }
+
+        mOpenHABNotificationText.setText(
+                String.format(infoString, OpenHABMainActivity.GCM_SENDER_ID)
+        );
+    }
 }
