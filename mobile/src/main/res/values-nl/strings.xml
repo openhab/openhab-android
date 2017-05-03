@@ -1,12 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:ignore="MissingTranslation">
-    >
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <!-- General app strings -->
-    <string name="app_name">openHAB</string>
-    <string name="openhab_service_type">_openhab-server-ssl._tcp.local.</string>
-    <string name="openhab_demo_url">http://demo.openhab.org:8080/</string>
     <string name="app_preferences_name">Instellingen</string>
     <string name="app_notifications">Notificaties</string>
     <string name="app_bindings">Bindings</string>
@@ -51,7 +45,7 @@
     <string name="settings_openhab_fullscreen_summary">Gebruik volledige scherm</string>
     <string name="settings_ringtone">Beltoon</string>
     <!-- App messages strings -->
-    <string name="title_voice_widget">OpenHAB stem commando\'s</string>
+    <string name="title_voice_widget">openHAB stem commando\'s</string>
     <string name="info_voice_input">"openHAB, at your command!"</string>
     <string name="info_voice_recognized_text">"Herkend commando: %1$s"</string>
     <string name="info_demo_mode">HABDroid draait in demo mode. Gebruik het instellingenmenu om naar je eigen systeem te verbinden</string>
