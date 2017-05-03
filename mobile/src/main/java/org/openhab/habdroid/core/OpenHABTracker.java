@@ -95,7 +95,7 @@ public class OpenHABTracker implements AsyncServiceResolverListener {
                     // If remote URL is configured
                     if (mOpenHABUrl.length() > 0) {
                         Log.d(TAG, "Connecting to remote URL " + mOpenHABUrl);
-                        openHABTracked(mOpenHABUrl, mCtx.getString(R.string.info_conn_rem_url));
+                        openHABTracked(mOpenHABUrl, null);
                     } else {
                         openHABError(mCtx.getString(R.string.error_no_url));
                     }
@@ -108,8 +108,8 @@ public class OpenHABTracker implements AsyncServiceResolverListener {
                     if (mOpenHABUrl.length() > 0) {
                         // Check if configured local URL is reachable
                         if (checkUrlReachability(mOpenHABUrl)) {
-                            Log.d(TAG, "Connecting to directly configured URL = " + mOpenHABUrl);
-                            openHABTracked(mOpenHABUrl, mCtx.getString(R.string.info_conn_url));
+                            Log.d(TAG, "Connecting to local URL = " + mOpenHABUrl);
+                            openHABTracked(mOpenHABUrl, null);
                             return;
                             // If local URL is not reachable go with remote URL
                         } else {
@@ -117,7 +117,7 @@ public class OpenHABTracker implements AsyncServiceResolverListener {
                             // If remote URL is configured
                             if (mOpenHABUrl.length() > 0) {
                                 Log.d(TAG, "Connecting to remote URL " + mOpenHABUrl);
-                                openHABTracked(mOpenHABUrl, mCtx.getString(R.string.info_conn_rem_url));
+                                openHABTracked(mOpenHABUrl, null);
                             } else {
                                 openHABError(mCtx.getString(R.string.error_no_url));
                             }
@@ -167,7 +167,7 @@ public class OpenHABTracker implements AsyncServiceResolverListener {
         // If remote URL is configured
         if (mOpenHABUrl.length() > 0) {
             Log.d(TAG, "Connecting to remote URL " + mOpenHABUrl);
-            openHABTracked(mOpenHABUrl, mCtx.getString(R.string.info_conn_rem_url));
+            openHABTracked(mOpenHABUrl, null);
         } else {
             openHABError(mCtx.getString(R.string.error_no_url));
         }
