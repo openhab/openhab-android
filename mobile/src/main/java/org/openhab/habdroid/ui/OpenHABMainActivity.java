@@ -1198,6 +1198,10 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
     private void gcmRegisterBackground() {
         Crittercism.setUsername(openHABUsername);
         OpenHABMainActivity.GCM_SENDER_ID = null;
+        // if no notification settings can be constructed, no GCM registration can be made.
+        if (getNotificationSettings() == null)
+            return;
+
         if (mGcm == null)
             mGcm = GoogleCloudMessaging.getInstance(getApplicationContext());
 
