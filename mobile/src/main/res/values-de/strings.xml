@@ -45,6 +45,7 @@
     <string name="settings_openhab_sslhost_summary">Ignoriere Hostname-Prüfung beim SSL-Handshake</string>
     <string name="settings_openhab_fullscreen">Vollbild</string>
     <string name="settings_openhab_fullscreen_summary">Blendet die Statusleiste aus</string>
+    <string name="settings_openhab_icon_format">Icon Format</string>
     <string name="settings_ringtone">Klingelton</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">openHAB Sprachbefehl</string>
