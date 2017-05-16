@@ -131,7 +131,7 @@ public class OpenHABWriteTagActivity extends Activity {
 		    writeTag(tagFromIntent, openhabURI);
 		} catch (URISyntaxException e) {
 			Log.e(TAG, e.getMessage());
-			writeTagMessage.setText(R.string.info_write_failed);
+			writeTagMessage.setText(R.string.info_write_tag_failed);
 		}
 	}
 
@@ -139,11 +139,11 @@ public class OpenHABWriteTagActivity extends Activity {
 		Log.d(TAG, "Creating tag object");
 	    TextView writeTagMessage = (TextView)findViewById(R.id.write_tag_message);
         if (openhabUri == null) {
-            writeTagMessage.setText(R.string.info_write_failed);
+            writeTagMessage.setText(R.string.info_write_tag_failed);
             return;
         }
         if (openhabUri.length() == 0) {
-            writeTagMessage.setText(R.string.info_write_failed);
+            writeTagMessage.setText(R.string.info_write_tag_failed);
             return;
         }
 		NdefRecord[] ndefRecords;
@@ -162,7 +162,7 @@ public class OpenHABWriteTagActivity extends Activity {
 			} catch (IOException | FormatException e) {
 				if (e.getMessage() != null)
 					Log.e(TAG, e.getMessage());
-				writeTagMessage.setText(R.string.info_write_failed);
+				writeTagMessage.setText(R.string.info_write_tag_failed);
 			}
 		} else {
 			Log.d(TAG, "Tag is initialized, writing");
@@ -183,15 +183,15 @@ public class OpenHABWriteTagActivity extends Activity {
 					// TODO Auto-generated catch block
 					if (e != null)
 						Log.e(TAG, e.getClass().getCanonicalName());
-                    writeTagMessage.setText(R.string.info_write_failed);
+                    writeTagMessage.setText(R.string.info_write_tag_failed);
 				} catch (FormatException e) {
 					// TODO Auto-generated catch block
 					Log.e(TAG, e.getMessage());
-                    writeTagMessage.setText(R.string.info_write_failed);
+                    writeTagMessage.setText(R.string.info_write_tag_failed);
 				}
 			} else {
 				Log.e(TAG, "Ndef == null");
-				writeTagMessage.setText(R.string.info_write_failed);
+				writeTagMessage.setText(R.string.info_write_tag_failed);
 			}
 		}
 	}

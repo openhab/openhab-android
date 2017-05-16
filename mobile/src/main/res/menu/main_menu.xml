@@ -8,8 +8,11 @@
           android:title="@string/mainmenu_openhab_selectsitemap" 
           />
     <item android:id="@+id/mainmenu_openhab_writetag"
-          android:title="@string/mainmenu_openhab_writetag"
-          />
+        android:title="@string/mainmenu_openhab_writetag"
+        />
+    <item android:id="@+id/mainmenu_openhab_setbeacon"
+        android:title="@string/mainmenu_openhab_setbeacon"
+        />
     <item android:id="@+id/mainmenu_openhab_info"
           android:title="@string/mainmenu_openhab_info"
             />
@@ -22,5 +25,10 @@
             app:showAsAction="always"
             android:icon="@drawable/ic_keyboard_voice_white_48dp"
             android:title="Voice Recognition"
+        />
+    <item
+        android:id="@+id/mainmenu_openhab_locator"
+        android:title="@string/mainmenu_openhab_locate"
+        android:checkable="true"
         />
 </menu>

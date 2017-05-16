@@ -10,9 +10,12 @@
 package org.openhab.habdroid.ui;
 
 import android.Manifest;
+import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.app.ProgressDialog;
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothManager;
 import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -31,9 +34,12 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.speech.RecognizerIntent;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.ListFragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -69,17 +75,23 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.openhab.habdroid.BuildConfig;
 import org.openhab.habdroid.R;
+import org.openhab.habdroid.core.BluetoothStateBroadcastReceiver;
 import org.openhab.habdroid.core.HABDroid;
 import org.openhab.habdroid.core.NetworkConnectivityInfo;
 import org.openhab.habdroid.core.NotificationDeletedBroadcastReceiver;
 import org.openhab.habdroid.core.OpenHABTracker;
 import org.openhab.habdroid.core.OpenHABTrackerReceiver;
 import org.openhab.habdroid.core.OpenHABVoiceService;
+import org.openhab.habdroid.model.OpenHABBeacons;
 import org.openhab.habdroid.model.OpenHABLinkedPage;
 import org.openhab.habdroid.model.OpenHABSitemap;
 import org.openhab.habdroid.model.thing.ThingType;
 import org.openhab.habdroid.ui.drawer.OpenHABDrawerAdapter;
 import org.openhab.habdroid.ui.drawer.OpenHABDrawerItem;
+import org.openhab.habdroid.util.BeaconHandler;
+import org.openhab.habdroid.util.bluetooth.AbstractLocateBeacons;
+import org.openhab.habdroid.util.bluetooth.LocateBeaconsTaskNew;
+import org.openhab.habdroid.util.bluetooth.LocateBeaconsTaskOld;
 import org.openhab.habdroid.util.Constants;
 import org.openhab.habdroid.util.MyAsyncHttpClient;
 import org.openhab.habdroid.util.Util;
@@ -92,6 +104,8 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.net.ssl.SSLHandshakeException;
 import javax.xml.parsers.DocumentBuilder;
@@ -103,10 +117,9 @@ import de.duenndns.ssl.MemorizingResponder;
 import de.duenndns.ssl.MemorizingTrustManager;
 
 public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSelectedListener,
-        OpenHABTrackerReceiver, MemorizingResponder {
+        OpenHABTrackerReceiver, MemorizingResponder, Observer {
 
     private abstract class DefaultHttpResponseHandler extends AsyncHttpResponseHandler {
-
 
         @Override
         public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
@@ -151,10 +164,14 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
     private static final int SETTINGS_REQUEST_CODE = 1002;
     private static final int WRITE_NFC_TAG_REQUEST_CODE = 1003;
     private static final int INFO_REQUEST_CODE = 1004;
+    private final static int REQUEST_ENABLE_BT = 1005;
+    private final static int REQUEST_ACCESS_FINE_LOCATION = 1006;
+    private static final int SAVE_BEACON_REQUEST_CODE = 1007;
     // Drawer item codes
     private static final int DRAWER_NOTIFICATIONS = 100;
     private static final int DRAWER_BINDINGS = 101;
     private static final int DRAWER_INBOX = 102;
+    private static final int DRAWER_NEAR_ROOMS = 103;
     // Loopj
 //    private static MyAsyncHttpClient mAsyncHttpClient;
     private static AsyncHttpClient mAsyncHttpClient = new AsyncHttpClient();
@@ -204,6 +221,18 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
     private ProgressBar mProgressBar;
     private Boolean mIsMyOpenHAB = false;
     private String mRegId = null;
+
+    //new variable for Beacon support
+    private boolean askForBluetooth;
+    private BluetoothStateBroadcastReceiver bluetoothStateBroadcastReceiver;
+    private AbstractLocateBeacons locateBeacons;
+    private BluetoothAdapter bluetoothAdapter;
+    private static boolean locate;
+    private static byte whichBLEAPI = Constants.IS_NO_BLE_DEVICE;
+    public static boolean bluetoothActivated = false;
+    private MenuItem locator;
+    private BeaconHandler beaconHandler;
+
     /*
      *Daydreaming gets us into a funk when in fullscreen, this allows us to
      *reset ourselves to fullscreen.
@@ -318,11 +347,29 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
             registerReceiver(dreamReceiver, new IntentFilter("android.intent.action.DREAMING_STOPPED"));
             checkFullscreen();
         }
+        bluetoothStateBroadcastReceiver = new BluetoothStateBroadcastReceiver(this);
+        registerReceiver(bluetoothStateBroadcastReceiver, new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+            checkBluetooth();
+        }
+        else{
+            whichBLEAPI = Constants.IS_NO_BLE_DEVICE;
+        }
+        beaconHandler = BeaconHandler.getInstance(getApplicationContext());
+        beaconHandler.addObserver(this);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(bluetoothStateBroadcastReceiver);
+        beaconHandler.deleteObserver(this);
     }
 
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
+        Log.d(TAG, "onPostCreate: ");
         // Sync the toggle state after onRestoreInstanceState has occurred.
         mDrawerToggle.syncState();
     }
@@ -331,6 +378,12 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         mDrawerToggle.onConfigurationChanged(newConfig);
+    }
+
+    @Override
+    public void onPause(){
+        super.onPause();
+        beaconHandler.deleteObserver(this);
     }
 
     @Override
@@ -352,12 +405,20 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
         // know why, so this is a workaround
         // start over the whole process
         if (stateFragment == null || stateFragment.getFragmentList().size() == 0) {
-            stateFragment = null;
-            stateFragment = new StateRetainFragment();
-            fm.beginTransaction().add(stateFragment, "stateFragment").commit();
-            mOpenHABTracker = new OpenHABTracker(this, openHABServiceType, mServiceDiscoveryEnabled);
-            mStartedWithNetworkConnectivityInfo = NetworkConnectivityInfo.currentNetworkConnectivityInfo(this);
-            mOpenHABTracker.start();
+            // IF the Device has no Network Connectivity and Bluetooth is off
+            // Then after asking the User to turn on Bluetooth the App Crash at this point
+            // Cause of this askForBluetooh is needed, that no new stateFragment will be initialized
+            if(!askForBluetooth) {
+                stateFragment = null;
+                stateFragment = new StateRetainFragment();
+                fm.beginTransaction().add(stateFragment, "stateFragment").commit();
+                mOpenHABTracker = new OpenHABTracker(this, openHABServiceType, mServiceDiscoveryEnabled);
+                mStartedWithNetworkConnectivityInfo = NetworkConnectivityInfo.currentNetworkConnectivityInfo(this);
+                mOpenHABTracker.start();
+            }
+            else {
+                this.askForBluetooth = false;
+            }
             // If state fragment exists and contains something then just restore the fragments
         } else {
             Log.d(TAG, "State fragment found");
@@ -389,6 +450,9 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
         }
 
         checkFullscreen();
+        beaconHandler = BeaconHandler.getInstance(getApplicationContext());
+        beaconHandler.addObserver(this);
+        beaconHandler.reloadBeacon(getApplicationContext());
     }
 
     /**
@@ -396,10 +460,20 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
      */
     @Override
     public void onStart() {
+        Log.d(TAG, "onStart: ");
         super.onStart();
         // Start activity tracking via Google Analytics
         if (!BuildConfig.IS_DEVELOPER) {
             GoogleAnalytics.getInstance(this).reportActivityStart(this);
+        }
+        beaconHandler.addObserver(this);
+        if (locate && bluetoothActivated) {
+            //If new BLE API locate Task with new Bluetooth scanner, else with old Bluetooth scanner
+            locateBeacons = ((whichBLEAPI >0)?new LocateBeaconsTaskNew():new LocateBeaconsTaskOld());
+            locateBeacons.execute(bluetoothAdapter);
+        }
+        else if(locate && !bluetoothActivated){
+            locate = false;
         }
     }
 
@@ -416,6 +490,11 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
         }
         if (mOpenHABTracker != null) {
             mOpenHABTracker.stop();
+        }
+        beaconHandler.deleteObserver(this);
+        if(locate) {
+            locateBeacons.stop();
+            locator.setChecked(false);
         }
     }
 
@@ -477,6 +556,11 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
                         mDrawerLayout.closeDrawers();
                         OpenHABMainActivity.this.openDiscoveryInbox();
                     }
+                    else if (mDrawerItemList.get(item).getTag() == DRAWER_NEAR_ROOMS) {
+                        Log.d(TAG, "Near Rooms selected");
+                        mDrawerLayout.closeDrawers();
+                        OpenHABMainActivity.this.openNearRooms();
+                    }
                 }
             }
         });
@@ -506,6 +590,18 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
             pager.setCurrentItem(pagerAdapter.getCount() - 1);
         }
         mPendingNfcPage = null;
+    }
+
+    public void openBeaconPage(String url){
+        int possiblePosition = pagerAdapter.getPositionByUrl(url);
+        // If yes, then just switch to this page
+        if (possiblePosition >= 0) {
+            pager.setCurrentItem(possiblePosition);
+            // If not, then open this page as new one
+        } else {
+            pagerAdapter.openPage(url);
+            pager.setCurrentItem(pagerAdapter.getCount() - 1);
+        }
     }
 
     public void onOpenHABTracked(String baseUrl, String message) {
@@ -760,16 +856,37 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
         pager.setCurrentItem(0);
     }
 
+    private void openNearRooms() {
+        if (this.pagerAdapter != null) {
+            pagerAdapter.openNearRooms();
+            pager.setCurrentItem(pagerAdapter.getCount() - 1);
+        }
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        Log.d(TAG, "onCreateOptionsMenu: ");
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main_menu, menu);
+        locator = menu.findItem(R.id.mainmenu_openhab_locator);
         return true;
     }
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
+        Log.d(TAG, "onPrepareOptionsMenu: ");
         menu.findItem(R.id.mainmenu_voice_recognition).setVisible(mVoiceRecognitionEnabled);
+        if(whichBLEAPI <0 || !bluetoothActivated){
+            locator.setCheckable(false);
+            locator.setVisible(false);
+        }
+        else if(locate){
+            locator.setChecked(true);
+        }
+        else{
+            locator.setCheckable(true);
+            locator.setVisible(true);
+        }
         return true;
     }
 
@@ -828,6 +945,24 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
                     }
                 }
                 return true;
+            case R.id.mainmenu_openhab_setbeacon:
+                if (whichBLEAPI < 0 || !bluetoothActivated || !locate){
+                    startActivityForResult(new Intent(this.getApplicationContext(), OpenHABWriteBeaconActivity.class), SAVE_BEACON_REQUEST_CODE);
+                }
+                else{
+                    Intent saveBeaconIntent = new Intent(this.getApplicationContext(), OpenHABWriteBeaconActivity.class);
+                    // TODO: get current display page url, which? how? :-/
+                    if (pagerAdapter.getFragment(pager.getCurrentItem()) instanceof OpenHABWidgetListFragment) {
+                        OpenHABWidgetListFragment currentFragment = (OpenHABWidgetListFragment) pagerAdapter.getFragment(pager.getCurrentItem());
+                        if (currentFragment != null) {
+                            String sitemapPage = currentFragment.getDisplayPageUrl().replace(openHABBaseUrl, "");
+                            saveBeaconIntent.putExtra("sitemapPage", sitemapPage);
+                            saveBeaconIntent.putExtra("openHABBaseURL", openHABBaseUrl);
+                            openChooseBeaconDialog(saveBeaconIntent);
+                        }
+                    }
+                }
+                return true;
             case R.id.mainmenu_openhab_info:
 
                 Bundle bundle = new Bundle();
@@ -846,6 +981,22 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
                 return true;
             case R.id.mainmenu_voice_recognition:
                 launchVoiceRecognition();
+                return true;
+            case R.id.mainmenu_openhab_locator:
+                if(locator.isCheckable()) {
+                    if (item.isChecked()) {
+                        stopLocater(false);
+                    } else {
+                        //If new BLE API locate Task with new Bluetooth scanner, else with old Bluetooth scanner
+                        locateBeacons = ((whichBLEAPI >0)?new LocateBeaconsTaskNew():new LocateBeaconsTaskOld());
+                        locateBeacons.execute(bluetoothAdapter);
+                        item.setChecked(true);
+                        locate = true;
+                    }
+                }
+                else{
+                    Toast.makeText(this, "Your Device do not support Bluetooth or it is not activated", Toast.LENGTH_LONG).show();
+                }
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -871,6 +1022,20 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
             case WRITE_NFC_TAG_REQUEST_CODE:
                 Log.d(TAG, "Got back from Write NFC tag");
                 break;
+            case SAVE_BEACON_REQUEST_CODE:
+                Log.d(TAG, "Got back from Save Beacon");
+                if(resultCode>0) {
+                    Toast.makeText(getApplicationContext(), "Beacon saved", Toast.LENGTH_LONG).show();
+                }
+                break;
+            case REQUEST_ENABLE_BT:
+                askForBluetooth = true;
+                if(resultCode == RESULT_OK){
+                    bluetoothActivated = true;
+                }
+                else{
+                    bluetoothActivated = false;
+                }
             default:
         }
     }
@@ -892,7 +1057,22 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
         savedInstanceState.putParcelable("startedWithNetworkConnectivityInfo", mStartedWithNetworkConnectivityInfo);
         savedInstanceState.putInt("openHABVersion", mOpenHABVersion);
         savedInstanceState.putParcelableArrayList("sitemapList", mSitemapList);
+        savedInstanceState.putBoolean("locate", locate);
+        if(locate) savedInstanceState.putParcelable("locateBeaconTask", locateBeacons);
         super.onSaveInstanceState(savedInstanceState);
+    }
+
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        Log.d(TAG, "onRestoreInstanceState");
+        locate = savedInstanceState.getBoolean("locate", false);
+        if(locate) {
+            locateBeacons = savedInstanceState.getParcelable("locateBeaconTask");
+            locateBeacons.execute(bluetoothAdapter);
+            locator.setChecked(true);
+            locate = true;
+        }
     }
 
     /**
@@ -1002,6 +1182,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
             if (!isFullscreenEnabled()) {
                 super.onBackPressed();
             }
+            stopLocater(false);
         } else {
             pager.setCurrentItem(pager.getCurrentItem() - 1, true);
             setTitle(pagerAdapter.getPageTitle(pager.getCurrentItem()));
@@ -1302,7 +1483,153 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
             mDrawerItemList.add(OpenHABDrawerItem.menuItem("Bindings", getResources().getDrawable(R.drawable.ic_extension_grey600_36dp), DRAWER_BINDINGS));
 //        mDrawerItemList.add(OpenHABDrawerItem.menuItem("openHAB info", getResources().getDrawable(R.drawable.ic_info_grey600_36dp)));
 //            mDrawerItemList.add(OpenHABDrawerItem.menuItem("Setup", getResources().getDrawable(R.drawable.ic_settings_grey600_36dp)));
+            mDrawerItemList.add(OpenHABDrawerItem.menuItem("Near Rooms", getResources().getDrawable(R.drawable.ic_track_changes_grey600_36dp), DRAWER_NEAR_ROOMS));
         }
         mDrawerAdapter.notifyDataSetChanged();
+    }
+
+    public static boolean isLocate(){
+        return locate;
+    }
+
+    public void setBluetoothActivated(boolean b){
+        this.bluetoothActivated = b;
+    }
+
+    public static byte isBLEDevice(){
+        return whichBLEAPI;
+    }
+
+    @TargetApi(Build.VERSION_CODES.M)
+    public void checkAccessFineLocation(){
+        if(PackageManager.PERMISSION_GRANTED == ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)){
+            whichBLEAPI = Constants.IS_NEW_BLE_DEVICE;
+        }
+        else{
+            Log.i(TAG, "checkAccessFineLocation: " + Manifest.permission.ACCESS_FINE_LOCATION);
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION},REQUEST_ACCESS_FINE_LOCATION);
+        }
+    }
+
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
+    public void checkBluetooth() {
+        bluetoothAdapter = ((BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE)).getAdapter();
+        if (bluetoothAdapter == null) {
+            //If BluetoothAdapter is null, then the Device won´t be able to use Bluetooth
+            whichBLEAPI = Constants.IS_NO_BLE_DEVICE;
+        }
+        else if (!getPackageManager().hasSystemFeature(PackageManager.FEATURE_BLUETOOTH_LE)) {
+            whichBLEAPI = Constants.IS_NO_BLE_DEVICE;
+        }
+        else if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            checkAccessFineLocation();
+        }
+        else {
+            whichBLEAPI = Constants.IS_OLD_BLE_DEVICE;
+        }
+        if (whichBLEAPI >= 0 && bluetoothAdapter != null) {
+            if(!bluetoothAdapter.isEnabled()){
+                startActivityForResult(new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE), REQUEST_ENABLE_BT);
+            }
+            else{
+                bluetoothActivated = true;
+            }
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,String[] permissions, int[] grantResults) {
+        switch (requestCode) {
+            case REQUEST_ACCESS_FINE_LOCATION: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    whichBLEAPI = ((Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)?Constants.IS_NEW_BLE_DEVICE:Constants.IS_OLD_BLE_DEVICE);
+                }
+                else if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_DENIED){
+                    whichBLEAPI = Constants.IS_NO_BLE_DEVICE;
+                }
+                else {
+                    whichBLEAPI = Constants.IS_NO_BLE_DEVICE;
+                }
+                return;
+            }
+        }
+    }
+
+    public void stopLocater(boolean bluetoothOff){
+        if(locate) {
+            locateBeacons.stop();
+            locator.setChecked(false);
+            locate = false;
+        }
+        if(bluetoothOff)bluetoothAdapter.disable();
+    }
+
+    public void bluetoothIsTurningOff() {
+        bluetoothAdapter.enable();
+        stopLocater(true);
+    }
+
+    public void setNearRoomFragment(OpenHABNearRoomFragment onrf){
+        if (pagerAdapter.getFragmentList().get(pagerAdapter.getFragmentList().size() - 1) instanceof OpenHABNearRoomFragment) {
+            List<ListFragment> fragmentList = pagerAdapter.getFragmentList();
+            fragmentList.remove(fragmentList.size()-1);
+            fragmentList.add(onrf);
+        }
+    }
+
+    private void openChooseBeaconDialog(final Intent saveBeaconIntent){
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+        dialogBuilder.setTitle("Choose Beacon");
+        final List<OpenHABBeacons> shownBeacons = beaconHandler.getShownBeacons();
+        CharSequence[] dialogItems = new CharSequence[(shownBeacons.size() > 0)?shownBeacons.size():1];
+        if(shownBeacons.size() == 0 || (shownBeacons.size() == 1 && beaconHandler.getNoBeacon().equals(shownBeacons.get(0)))){
+            dialogItems[0] = "no Beacons to set, try again"; //TODO: String.xml
+            dialogBuilder.setItems(dialogItems, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int item) {
+                Log.d(TAG, "Selected option " + item);
+                return;
+            }
+        }).show();
+        }
+        else{
+            int i = 0;
+            for(OpenHABBeacons beacon : shownBeacons){
+                dialogItems[i] = beacon.getName() + "\nAddress:" + beacon.getAddress() + ((beacon.getAway()>=0)? "\nDistance:" + beacon.getAway() + "m)":"");
+                i++;
+            }
+            dialogBuilder.setItems(dialogItems, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int item) {
+                    Log.d(TAG, "Selected option " + item);
+                    saveBeaconIntent.putExtra("setBeacon", shownBeacons.get(item));
+                    startActivityForResult(saveBeaconIntent, SAVE_BEACON_REQUEST_CODE);
+                }
+            }).show();
+        }
+    }
+
+    @Override
+    public void update(Observable observable, Object data) {
+        if (observable instanceof BeaconHandler){
+            ListFragment fragmentList = pagerAdapter.getFragmentList().get(pagerAdapter.getFragmentList().size() - 1);
+            if ((fragmentList instanceof OpenHABNearRoomFragment)) {
+                Log.d(TAG, "refreshNearRooms: refresh");
+                ((OpenHABNearRoomFragment) fragmentList).refresh();
+                beaconHandler.hasSwitched();
+            }
+            else if(beaconHandler.doSwitch()){
+                OpenHABBeacons nearest = beaconHandler.getNearest();
+                if(nearest != null) {
+                    if (!"".equals(nearest.getSitemap()) && nearest.getSitemap() != null && !"".equals(nearest.getGroup()) && nearest.getGroup() != null) {
+                        String beaconURL = getOpenHABBaseUrl() + "rest/sitemaps/" + nearest.getSitemap() + "/" + nearest.getGroup();
+                        Log.d(TAG, "switchRoom: " + beaconURL);
+                        openBeaconPage(beaconURL);
+                        beaconHandler.hasSwitched();
+                    }
+                }
+            }
+        }
+        //More If clauses for other Observables
     }
 }

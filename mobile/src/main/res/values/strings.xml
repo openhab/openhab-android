@@ -16,12 +16,15 @@
     <string name="app_discoveryinbox_delete">Delete</string>
     <string name="app_discoveryinbox_nothings">No new things</string>
     <string name="app_discovery">Activate Discovery</string>
+    <string name="app_nearrooms">Near Rooms</string>
     <!-- Main menu items -->
     <string name="mainmenu_openhab_preferences">Settings</string>
     <string name="mainmenu_openhab_selectsitemap">Select default sitemap</string>
     <string name="mainmenu_openhab_writetag">Write NFC tag</string>
+    <string name="mainmenu_openhab_setbeacon">Set Beacon position</string>
     <string name="mainmenu_openhab_info">openHAB info</string>
     <string name="mainmenu_openhab_clearcache">Clear images cache</string>
+    <string name="mainmenu_openhab_locate">locate</string>
     <!-- App settings strings -->
     <string name="settings_connection_title">Connection Settings</string>
     <string name="settings_display_title">Display Settings</string>
@@ -70,13 +73,24 @@
     <string name="error_connection_failed">Connection to host failed</string>
     <string name="error_connection_sslhandshake_failed">SSL Handshake failed - maybe you need a valid client certificate</string>
     <string name="title_activity_openhabwritetag">Write NFC tag</string>
+    <string name="title_activity_openhabwritebeacon">Save Beacon</string>
     <string name="title_activity_openhabinfo">openHAB Information</string>
     <string name="info_write_tag">Touch the tag and keep it close until the confirmation message appear</string>
     <string name="info_write_tag_progress">Writing the tag</string>
     <string name="info_write_tag_finished">Successfully finished</string>
-    <string name="info_write_failed">Tag write error</string>
+    <string name="info_write_tag_failed">Tag write error</string>
     <string name="info_write_tag_unsupported">This device doesn\'t have NFC support :-(</string>
     <string name="info_write_tag_disabled">NFC is disabled. Please enable it in device settings menu.</string>
+    <string name="info_write_beacon_view">Do you want to save the following View </string>
+    <string name="info_write_beacon_beacon">As Location of the Beacon: </string>
+    <string name="info_write_beacon_progress">Saving the beacon</string>
+    <string name="info_write_beacon_finished">Successfully finished</string>
+    <string name="info_write_beacon_failed">Beacon save error</string>
+    <string name="info_write_beacon_unsupported">This device doesn\'t have BLE support :-(</string>
+    <string name="info_write_beacon_bt_disabled">Bluetooth is disabled. Please enable it in device settings menu.</string>
+    <string name="info_write_beacon_locator_disabled">Locator is disabled. Please enable it in app main menu.</string>
+    <string name="info_write_nobeacon_near">There is no Beacon near to save location, please try again.</string>
+    <string name="write_beacon_further_info">Show further Beacon informations</string>
     <string name="info_openhab_version_label">openHAB Version</string>
     <string name="info_openhab_apiversion_label">openHAB Rest API Version</string>
     <string name="info_openhab_uuid_label">openHAB UUID</string>
