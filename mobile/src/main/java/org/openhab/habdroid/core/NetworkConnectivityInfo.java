@@ -52,7 +52,7 @@ public class NetworkConnectivityInfo implements Parcelable {
             connectivityInfo.setNetworkType(activeNetworkInfo.getType());
             if (activeNetworkInfo.getType() == ConnectivityManager.TYPE_WIFI) {
                 // get ssid here
-                WifiManager wifiManager = (WifiManager) ctx.getSystemService(Context.WIFI_SERVICE);
+                WifiManager wifiManager = (WifiManager) ctx.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
                 WifiInfo wifiConnectionInfo = wifiManager.getConnectionInfo();
                 if (wifiConnectionInfo != null) {
                     connectivityInfo.setSsid(wifiConnectionInfo.getSSID());

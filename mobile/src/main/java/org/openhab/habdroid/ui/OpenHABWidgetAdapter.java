@@ -11,6 +11,7 @@ package org.openhab.habdroid.ui;
 
 import android.content.Context;
 import android.net.Uri;
+import android.os.Build;
 import android.support.v7.widget.SwitchCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -40,8 +41,6 @@ import android.widget.VideoView;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.TextHttpResponseHandler;
 
-import cz.msebera.android.httpclient.Header;
-import cz.msebera.android.httpclient.entity.StringEntity;
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.model.OpenHABItem;
 import org.openhab.habdroid.model.OpenHABWidget;
@@ -59,6 +58,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
+
+import cz.msebera.android.httpclient.Header;
+import cz.msebera.android.httpclient.entity.StringEntity;
 
 /**
  * This class provides openHAB widgets adapter for list view.
@@ -845,8 +847,12 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
             if (sliderItem != null)
                 sendItemCommand(sliderItem, String.valueOf(seekBar.getProgress()));
         } else if (volumeDownWidget instanceof Button) {
-            volumeDownWidget.callOnClick();
-        } else {
+			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
+				volumeDownWidget.callOnClick();
+			} else {
+				volumeDownWidget.performClick();
+			}
+		} else {
             return false;
         }
         return true;
@@ -860,8 +866,12 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
             if (sliderItem != null)
                 sendItemCommand(sliderItem, String.valueOf(seekBar.getProgress()));
         } else if (volumeUpWidget instanceof Button) {
-            volumeUpWidget.callOnClick();
-        } else {
+			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
+				volumeUpWidget.callOnClick();
+			} else {
+				volumeUpWidget.performClick();
+			}
+		} else {
             return false;
         }
         return true;

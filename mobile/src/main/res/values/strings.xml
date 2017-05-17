@@ -16,6 +16,7 @@
     <string name="app_discoveryinbox_delete">Delete</string>
     <string name="app_discoveryinbox_nothings">No new things</string>
     <string name="app_discovery">Activate Discovery</string>
+    <string name="empty_string">\?</string>
     <!-- Main menu items -->
     <string name="mainmenu_openhab_preferences">Settings</string>
     <string name="mainmenu_openhab_selectsitemap">Select default sitemap</string>
