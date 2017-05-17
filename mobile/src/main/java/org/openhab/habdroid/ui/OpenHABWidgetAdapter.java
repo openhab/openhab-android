@@ -11,6 +11,7 @@ package org.openhab.habdroid.ui;
 
 import android.content.Context;
 import android.net.Uri;
+import android.os.Build;
 import android.support.v7.widget.SwitchCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -837,8 +838,12 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
             if (sliderItem != null)
                 sendItemCommand(sliderItem, String.valueOf(seekBar.getProgress()));
         } else if (volumeDownWidget instanceof Button) {
-            volumeDownWidget.callOnClick();
-        } else {
+			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
+				volumeDownWidget.callOnClick();
+			} else {
+				volumeDownWidget.performClick();
+			}
+		} else {
             return false;
         }
         return true;
@@ -852,8 +857,12 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
             if (sliderItem != null)
                 sendItemCommand(sliderItem, String.valueOf(seekBar.getProgress()));
         } else if (volumeUpWidget instanceof Button) {
-            volumeUpWidget.callOnClick();
-        } else {
+			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
+				volumeUpWidget.callOnClick();
+			} else {
+				volumeUpWidget.performClick();
+			}
+		} else {
             return false;
         }
         return true;
