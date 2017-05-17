@@ -60,11 +60,11 @@
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/settings_display_title">
         <ListPreference
-            android:defaultValue="@string/theme_name_dark"
-            android:entries="@array/themeArray"
-            android:entryValues="@array/themeValues"
             android:key="default_openhab_theme"
-            android:title="@string/settings_openhab_theme" />
+            android:title="@string/settings_openhab_theme"
+            android:defaultValue="@string/theme_value_light"
+            android:entries="@array/themeArray"
+            android:entryValues="@array/themeValues" />
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="default_openhab_screentimeroff"
@@ -75,7 +75,8 @@
             android:key="default_openhab_fullscreen"
             android:summary="@string/settings_openhab_fullscreen_summary"
             android:title="@string/settings_openhab_fullscreen" />
-        <ListPreference android:title="Icon format"
+        <ListPreference
+            android:title="@string/settings_openhab_icon_format"
             android:key="iconFormatType"
             android:defaultValue="PNG"
             android:summary="%s"

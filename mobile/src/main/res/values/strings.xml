@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    >
     <!-- General app strings -->
-    <string name="app_name">openHAB</string>
-    <string name="openhab_service_type">_openhab-server-ssl._tcp.local.</string>
-    <string name="openhab_demo_url">http://demo.openhab.org:8080/</string>
+    <string name="app_name" translatable="false">openHAB</string>
+    <string name="openhab_service_type" translatable="false">_openhab-server-ssl._tcp.local.</string>
+    <string name="openhab_demo_url" translatable="false">http://demo.openhab.org:8080/</string>
     <string name="app_preferences_name">Settings</string>
     <string name="app_notifications">Notifications</string>
     <string name="app_bindings">Bindings</string>
@@ -38,7 +37,7 @@
     <string name="settings_openhab_password_summary">openHAB password</string>
     <string name="settings_openhab_sslclientcert">SSL client certificate</string>
     <string name="settings_openhab_sslclientcert_howto">SSL client certificate how-to</string>
-    <string name="settings_openhab_sslclientcert_howto_url">https://github.com/openhab/openhab.android/blob/master/KeyAuth.md</string>
+    <string name="settings_openhab_sslclientcert_howto_url" translatable="false">https://github.com/openhab/openhab.android/blob/master/KeyAuth.md</string>
     <string name="settings_openhab_screentimeroff">Disable display timer</string>
     <string name="settings_openhab_screentimeroff_summary">Disable display switch off timer when HABDroid is running</string>
     <string name="settings_openhab_demomode">Demo mode</string>
@@ -51,9 +50,10 @@
     <string name="settings_openhab_sslhost_summary">Ignore hostname check during SSL handshake</string>
     <string name="settings_openhab_fullscreen">Full Screen</string>
     <string name="settings_openhab_fullscreen_summary">Display in fullscreen mode</string>
+    <string name="settings_openhab_icon_format">Icon format</string>
     <string name="settings_ringtone">Ring tone</string>
     <!-- App messages strings -->
-    <string name="title_voice_widget">OpenHAB Voice Commands</string>
+    <string name="title_voice_widget">openHAB Voice Commands</string>
     <string name="info_voice_input">"openHAB, at your command!"</string>
     <string name="info_voice_recognized_text">"Recognized command: %1$s"</string>
     <string name="info_demo_mode">HABDroid is running in demo mode. To connect to your openHAB please go to settings menu.</string>
