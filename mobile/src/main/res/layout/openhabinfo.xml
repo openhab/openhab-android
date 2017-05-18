@@ -3,7 +3,7 @@
               android:orientation="vertical"
               android:layout_width="fill_parent"
               android:layout_height="fill_parent"
-              tools:context=".OpenHABWriteTagActivity" >
+              tools:context="org.openhab.habdroid.ui.OpenHABWriteTagActivity" >
     <TextView
         android:id="@+id/openhab_version_label"
         android:layout_width="fill_parent"

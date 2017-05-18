@@ -22,10 +22,13 @@ import android.preference.PreferenceActivity;
 import android.security.KeyChain;
 import android.security.KeyChainAliasCallback;
 import android.security.KeyChainException;
+import android.security.keystore.KeyProperties;
 import android.util.Log;
+import java.text.DateFormat;
 
 import com.google.android.gms.analytics.GoogleAnalytics;
 
+import org.openhab.habdroid.BuildConfig;
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.util.Constants;
 import org.openhab.habdroid.util.Util;
@@ -33,6 +36,9 @@ import org.openhab.habdroid.util.Util;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.security.cert.X509Certificate;
+import java.util.Locale;
+
+import static android.R.attr.format;
 
 /**
  * This is a class to provide preferences activity for application.
@@ -109,6 +115,8 @@ public class OpenHABPreferencesActivity extends PreferenceActivity {
         });
         updatePasswordPreferenceSummary(passwordPreference, null);
         updateTextPreferenceSummary(versionPreference, null);
+        versionPreference.setSummary(versionPreference.getSummary() + " - " +
+                DateFormat.getDateTimeInstance().format(BuildConfig.buildTime));
 
 
         updateSslCleintCertSumary(sslClientCert);
@@ -130,12 +138,21 @@ public class OpenHABPreferencesActivity extends PreferenceActivity {
 
                 sslClientCert.getSharedPreferences().edit().putString(sslClientCert.getKey(), null).apply();
 
-                KeyChain.choosePrivateKeyAlias(OpenHABPreferencesActivity.this,
-                        keyChainAliasCallback,
-                        new String[]{"RSA", "DSA"},
-                        null,
-                        getPreferenceString(altUrlPreference, null),
-                        -1, null);
+                if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.M) {
+                    KeyChain.choosePrivateKeyAlias(OpenHABPreferencesActivity.this,
+                            keyChainAliasCallback,
+                            new String[]{"RSA", "DSA"},
+                            null,
+                            getPreferenceString(altUrlPreference, null),
+                            -1, null);
+                } else {
+                    KeyChain.choosePrivateKeyAlias(OpenHABPreferencesActivity.this,
+                            keyChainAliasCallback,
+                            new String[]{KeyProperties.KEY_ALGORITHM_RSA, KeyProperties.KEY_ALGORITHM_EC},
+                            null,
+                            Uri.parse(getPreferenceString(altUrlPreference, null)),
+                            null);
+                }
 
                 return true;
             }

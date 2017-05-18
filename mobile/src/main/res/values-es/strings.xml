@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    >
     <!-- General app strings -->
-    <string name="app_name">openHAB</string>
-    <string name="openhab_service_type">_openhab-server-ssl._tcp.local.</string>
-    <string name="openhab_demo_url">http://demo.openhab.org:8080/</string>
     <string name="app_preferences_name">Configuración</string>
     <string name="app_notifications">Notificaciones</string>
     <string name="app_bindings">Bindings</string>
@@ -49,7 +45,7 @@
     <string name="settings_openhab_fullscreen_summary">Mostrar a pantalla completa</string>
     <string name="settings_ringtone">Sonido</string>
     <!-- App messages strings -->
-    <string name="title_voice_widget">Comandos de voz OpenHAB</string>
+    <string name="title_voice_widget">Comandos de voz openHAB</string>
     <string name="info_voice_input">"openHAB, ¡a tus órdenes!"</string>
     <string name="info_voice_recognized_text">"Comando reconocido: %1$s"</string>
     <string name="info_demo_mode">HABDroid se ejecuta en modo demo. Por favor, ir al menú configuración para conectarlo a openHAB.</string>
