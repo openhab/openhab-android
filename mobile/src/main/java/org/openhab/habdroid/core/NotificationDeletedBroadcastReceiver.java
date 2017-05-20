@@ -37,6 +37,9 @@ public class NotificationDeletedBroadcastReceiver extends BroadcastReceiver {
             sendBundle.putString("notificationId", String.valueOf(intent.getExtras().getInt("notificationId")));
             new AsyncTask<Void, Void, Void>() {
                 protected Void doInBackground(Void... params) {
+                    if (OpenHABMainActivity.GCM_SENDER_ID == null)
+                        return null;
+
                     try {
                         gcm.send(OpenHABMainActivity.GCM_SENDER_ID + "@gcm.googleapis.com",
                                 "1", sendBundle);
