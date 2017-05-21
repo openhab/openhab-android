@@ -34,11 +34,11 @@
     <string name="settings_openhab_sslclientcert">Kliento SSL sertifikatas</string>
     <string name="settings_openhab_sslclientcert_howto">Kaip naudoti kliento SSL sertifikatą</string>
     <string name="settings_openhab_screentimeroff">Neleisti išjungti ekrano</string>
-    <string name="settings_openhab_screentimeroff_summary">Neleisti išjungti ekrano, kol paleistas HABDroid</string>
+    <string name="settings_openhab_screentimeroff_summary">Neleisti išjungti ekrano, kol paleista openHAB programėlė</string>
     <string name="settings_openhab_demomode">Demonstracinis režimas</string>
-    <string name="settings_openhab_demomode_summary">Naudoti HABDroid demonstraciniu režimu</string>
-    <string name="settings_openhab_theme">HABDroid tema</string>
-    <string name="settings_openhab_appversion">HABDroid versija</string>
+    <string name="settings_openhab_demomode_summary">Naudoti openHAB programėlę demonstraciniu režimu</string>
+    <string name="settings_openhab_theme">openHAB tema</string>
+    <string name="settings_openhab_appversion">openHAB programėlės versija</string>
     <string name="settings_openhab_sslcert">Netikrinti SSL sertifikato</string>
     <string name="settings_openhab_sslcert_summary">Netikrinti SSL sertifikato validumo</string>
     <string name="settings_openhab_sslhost">Netikrinti SSL hostname</string>
@@ -50,7 +50,7 @@
     <string name="title_voice_widget">openHAB balso komandos</string>
     <string name="info_voice_input">\"openHAB, jūsų paliepimu!\"</string>
     <string name="info_voice_recognized_text">\"Neatpažinta komanda: %1$s\"</string>
-    <string name="info_demo_mode">HABDroid veikia demonstraciniu režimu. Norėdami prisijungti prie savo openHAB, eikite į nustatymų meniu.</string>
+    <string name="info_demo_mode">openHAB programėlė veikia demonstraciniu režimu. Norėdami prisijungti prie savo openHAB serverio, eikite į nustatymų meniu.</string>
     <string name="info_conn_url">Jungiamasi prie sukonfigūruoto URL</string>
     <string name="info_conn_rem_url">Jungiamasi prie nuotolinio URL</string>
     <string name="info_discovery">Aptinkamas openHAB. Prašome palaukti...</string>
@@ -70,7 +70,7 @@
     <string name="info_write_tag_progress">Rašoma NFC žyma</string>
     <string name="info_write_tag_finished">Sėkmingai baigta</string>
     <string name="info_write_failed">NFC žymės rašymo klaida</string>
-    <string name="info_write_tag_unsupported">Jūsų įrenginys nepalaiko NFC :-(</string>
+    <string name="info_write_tag_unsupported">Jūsų įrenginys nepalaiko NFC</string>
     <string name="info_write_tag_disabled">NFC išjungtas. Prašome jį įjungti įrenginio nustatymuose.</string>
     <string name="info_openhab_version_label">openHAB versija</string>
     <string name="info_openhab_apiversion_label">openHAB Rest API versija</string>
