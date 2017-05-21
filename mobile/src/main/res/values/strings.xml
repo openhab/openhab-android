@@ -38,7 +38,7 @@
     <string name="settings_openhab_sslclientcert_howto">SSL client certificate how-to</string>
     <string name="settings_openhab_sslclientcert_howto_url" translatable="false">https://github.com/openhab/openhab.android/blob/master/KeyAuth.md</string>
     <string name="settings_openhab_screentimeroff">Disable display timer</string>
-    <string name="settings_openhab_screentimeroff_summary">Disable display switch off timer when  is running</string>
+    <string name="settings_openhab_screentimeroff_summary">Disable display switch off timer when openHAB is running</string>
     <string name="settings_openhab_demomode">Demo mode</string>
     <string name="settings_openhab_demomode_summary">Run openHAB App in demo mode</string>
     <string name="settings_openhab_theme">openHAB Theme</string>
