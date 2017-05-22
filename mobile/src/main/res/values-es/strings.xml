@@ -32,11 +32,11 @@
     <string name="settings_openhab_password">Contraseña</string>
     <string name="settings_openhab_password_summary">Contraseña de openHAB</string>
     <string name="settings_openhab_screentimeroff">Deshabilitar apagado de pantalla</string>
-    <string name="settings_openhab_screentimeroff_summary">Deshabilita el temporizador que apaga la pantalla mientras HABDroid está siendo ejecutado</string>
+    <string name="settings_openhab_screentimeroff_summary">Deshabilita el temporizador que apaga la pantalla mientras se está ejecutando</string>
     <string name="settings_openhab_demomode">Modo demo</string>
-    <string name="settings_openhab_demomode_summary">Ejecutar HABDroid modo demo</string>
-    <string name="settings_openhab_theme">Tema HABDroid</string>
-    <string name="settings_openhab_appversion">Versión HABDroid</string>
+    <string name="settings_openhab_demomode_summary">Ejecutar openHAB App modo demo</string>
+    <string name="settings_openhab_theme">Tema openHAB App</string>
+    <string name="settings_openhab_appversion">Versión openHAB App</string>
     <string name="settings_openhab_sslcert">Ignorar certificado SSL</string>
     <string name="settings_openhab_sslcert_summary">No comprobar el certificado durante la conexión SSL</string>
     <string name="settings_openhab_sslhost">Ignorar dominio SSL</string>
@@ -48,7 +48,7 @@
     <string name="title_voice_widget">Comandos de voz openHAB</string>
     <string name="info_voice_input">"openHAB, ¡a tus órdenes!"</string>
     <string name="info_voice_recognized_text">"Comando reconocido: %1$s"</string>
-    <string name="info_demo_mode">HABDroid se ejecuta en modo demo. Por favor, ir al menú configuración para conectarlo a openHAB.</string>
+    <string name="info_demo_mode">openHAB App se ejecuta en modo demo. Por favor, ir al menú configuración para conectarlo a openHAB.</string>
     <string name="info_conn_url">Conectando a la URL local</string>
     <string name="info_conn_rem_url">Conectando a la URL remota</string>
     <string name="info_discovery">Buscando openHAB. Por favor, espera...</string>
@@ -67,7 +67,7 @@
     <string name="info_write_tag_progress">Escribiendo la etiqueta</string>
     <string name="info_write_tag_finished">Finalizado correctamente</string>
     <string name="info_write_failed">Error al escribir la etiqueta</string>
-    <string name="info_write_tag_unsupported">Este dispositivo no soporta NFC :-(</string>
+    <string name="info_write_tag_unsupported">Este dispositivo no soporta NFC</string>
     <string name="info_write_tag_disabled">NFC está deshabilitado. Por favor, activar en el menú de configuración del dispositivo.</string>
     <string name="info_openhab_version_label">Versión openHAB</string>
     <string name="info_openhab_apiversion_label">Versión Rest API openHAB</string>
