@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    >
     <!-- General app strings -->
-    <string name="app_name">openHAB</string>
-    <string name="openhab_service_type">_openhab-server-ssl._tcp.local.</string>
-    <string name="openhab_demo_url">http://demo.openhab.org:8080/</string>
+    <string name="app_name" translatable="false">openHAB</string>
+    <string name="openhab_service_type" translatable="false">_openhab-server-ssl._tcp.local.</string>
+    <string name="openhab_demo_url" translatable="false">http://demo.openhab.org:8080/</string>
     <string name="app_preferences_name">Settings</string>
     <string name="app_notifications">Notifications</string>
     <string name="app_bindings">Bindings</string>
@@ -17,6 +16,7 @@
     <string name="app_discoveryinbox_delete">Delete</string>
     <string name="app_discoveryinbox_nothings">No new things</string>
     <string name="app_discovery">Activate Discovery</string>
+    <string name="empty_string" translatable="false"></string>
     <!-- Main menu items -->
     <string name="mainmenu_openhab_preferences">Settings</string>
     <string name="mainmenu_openhab_selectsitemap">Select default sitemap</string>
@@ -37,7 +37,7 @@
     <string name="settings_openhab_password_summary">openHAB password</string>
     <string name="settings_openhab_sslclientcert">SSL client certificate</string>
     <string name="settings_openhab_sslclientcert_howto">SSL client certificate how-to</string>
-    <string name="settings_openhab_sslclientcert_howto_url">https://github.com/openhab/openhab.android/blob/master/KeyAuth.md</string>
+    <string name="settings_openhab_sslclientcert_howto_url" translatable="false">https://github.com/openhab/openhab.android/blob/master/KeyAuth.md</string>
     <string name="settings_openhab_screentimeroff">Disable display timer</string>
     <string name="settings_openhab_screentimeroff_summary">Disable display switch off timer when HABDroid is running</string>
     <string name="settings_openhab_demomode">Demo mode</string>
@@ -50,13 +50,14 @@
     <string name="settings_openhab_sslhost_summary">Ignore hostname check during SSL handshake</string>
     <string name="settings_openhab_fullscreen">Full Screen</string>
     <string name="settings_openhab_fullscreen_summary">Display in fullscreen mode</string>
+    <string name="settings_openhab_icon_format">Icon format</string>
     <string name="settings_ringtone">Ring tone</string>
     <!-- App messages strings -->
-    <string name="title_voice_widget">OpenHAB Voice Commands</string>
+    <string name="title_voice_widget">openHAB Voice Commands</string>
     <string name="info_voice_input">"openHAB, at your command!"</string>
     <string name="info_voice_recognized_text">"Recognized command: %1$s"</string>
     <string name="info_demo_mode">HABDroid is running in demo mode. To connect to your openHAB please go to settings menu.</string>
-    <string name="info_conn_url">Connecting to configured URL</string>
+    <string name="info_conn_url">Connecting to local URL</string>
     <string name="info_conn_rem_url">Connecting to remote URL</string>
     <string name="info_discovery">Discovering openHAB. Please wait...</string>
     <string name="error_no_url">Please check that openHAB is running or configure openHAB URL or remote URL</string>
@@ -81,6 +82,9 @@
     <string name="info_openhab_apiversion_label">openHAB Rest API Version</string>
     <string name="info_openhab_uuid_label">openHAB UUID</string>
     <string name="info_openhab_secret_label">openHAB Secret</string>
+    <string name="info_openhab_gcm_label">Google Cloud Message Status</string>
+    <string name="info_openhab_gcm_not_connected">Device registration failed with Sender ID %s</string>
+    <string name="info_openhab_gcm_connected">Registered device with Sender ID %s</string>
     <string name="action_settings">Settings</string>
     <string name="nfc_dialog_title">Please select NFC tag action</string>
     <string name="info_not_set">Not set</string>

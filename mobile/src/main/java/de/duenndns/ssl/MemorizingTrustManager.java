@@ -36,6 +36,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Handler;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import java.io.File;
@@ -75,7 +76,7 @@ public class MemorizingTrustManager implements X509TrustManager {
     static String KEYSTORE_FILE = "KeyStore.bks";
 
     Context master;
-    Activity foregroundAct;
+    AppCompatActivity foregroundAct;
     NotificationManager notificationManager;
     private static int decisionId = 0;
     private static HashMap<Integer, MTMDecision> openDecisions = new HashMap<Integer, MTMDecision>();
@@ -155,7 +156,7 @@ public class MemorizingTrustManager implements X509TrustManager {
      *
      * @param act Activity to be bound
      */
-    public void bindDisplayActivity(Activity act) {
+    public void bindDisplayActivity(AppCompatActivity act) {
         foregroundAct = act;
     }
 

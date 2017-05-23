@@ -12,9 +12,16 @@ package org.openhab.habdroid.util;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.util.Base64;
 import android.util.Log;
 
+import com.caverock.androidsvg.SVG;
+import com.caverock.androidsvg.SVGParseException;
 import com.loopj.android.image.SmartImage;
 import com.loopj.android.image.WebImageCache;
 
@@ -74,7 +81,8 @@ public class MyWebImage implements SmartImage {
             	bitmap = webImageCache.get(url);
             if(bitmap == null) {
             	Log.i("MyWebImage", "Cache for " + url + " is empty, getting image");
-                bitmap = getBitmapFromUrl(context, url);
+                final String iconFormat = PreferenceManager.getDefaultSharedPreferences(context).getString("iconFormatType","PNG");
+                bitmap = getBitmapFromUrl(context, url, iconFormat);
                 if(bitmap != null && this.useCache) {
                     webImageCache.put(url, bitmap);
                 }
@@ -84,13 +92,14 @@ public class MyWebImage implements SmartImage {
         return bitmap;
     }
 
-    private Bitmap getBitmapFromUrl(Context context, String url) {
+    private Bitmap getBitmapFromUrl(Context context, String url, String iconFormat) {
+
         Bitmap bitmap = null;
         String encodedUserPassword = null;
         if (shouldAuth)
         	try {
         		String userPassword = this.authUsername + ":" + this.authPassword;
-        		encodedUserPassword = Base64.encodeToString(userPassword.getBytes("UTF-8"), Base64.DEFAULT);
+        		encodedUserPassword = Base64.encodeToString(userPassword.getBytes("UTF-8"), Base64.NO_WRAP);
         	} catch (UnsupportedEncodingException e1) {
         		// TODO Auto-generated catch block
         		e1.printStackTrace();
@@ -104,7 +113,13 @@ public class MyWebImage implements SmartImage {
         		conn.setReadTimeout(READ_TIMEOUT);
         		if (this.shouldAuth)
         			conn.setRequestProperty("Authorization", "Basic " + encodedUserPassword);
-        		bitmap = BitmapFactory.decodeStream((InputStream) conn.getContent());
+                int responseCode = conn.getResponseCode();
+                if (responseCode >= 400) {
+                    throw new Exception("Bad https response status: " + responseCode);
+                }
+                else {
+                    InputStream is = (InputStream) conn.getContent();
+                    bitmap = getBitmapFromInputStream(iconFormat, is);                }
         	} catch(Exception e) {
         		e.printStackTrace();
         	}
@@ -115,12 +130,43 @@ public class MyWebImage implements SmartImage {
         		conn.setReadTimeout(READ_TIMEOUT);
         		if (this.shouldAuth)
         			conn.setRequestProperty("Authorization", "Basic " + encodedUserPassword);
-        		bitmap = BitmapFactory.decodeStream((InputStream) conn.getContent());
-			} catch (MalformedURLException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
+                int responseCode = conn.getResponseCode();
+                if (responseCode >= 400) {
+                    throw new Exception("Bad http response status: " + responseCode);
+                }
+                else {
+                    InputStream is = (InputStream) conn.getContent();
+                    bitmap = getBitmapFromInputStream(iconFormat, is);                }
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
+        }
+        return bitmap;
+    }
+
+    private Bitmap getBitmapFromInputStream(String iconFormat, InputStream is) {
+        Bitmap bitmap;
+        if("SVG".equals(iconFormat)) {
+            bitmap = getBitmapFromSvgInputstream(is);
+        }else {
+            bitmap = BitmapFactory.decodeStream(is);
+        }
+        return bitmap;
+    }
+
+    private Bitmap getBitmapFromSvgInputstream(InputStream is) {
+        Bitmap bitmap = null;
+        try {
+            SVG svg = SVG.getFromInputStream(is);
+                double width = svg.getDocumentViewBox().width();
+                double height = svg.getDocumentViewBox().height();
+
+                bitmap = Bitmap.createBitmap((int) Math.ceil(width), (int) Math.ceil(height), Bitmap.Config.ARGB_8888);
+                Canvas canvas = new Canvas(bitmap);
+                canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);//drawARGB(0,0,0,0);//drawRGB(255, 255, 255);
+                svg.renderToCanvas(canvas);
+        } catch (SVGParseException e) {
+            e.printStackTrace();
         }
         return bitmap;
     }

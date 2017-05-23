@@ -1,14 +1,14 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion '21.1.2'
+    buildToolsVersion '25.0.2'
+    compileSdkVersion 25
     useLibrary 'org.apache.http.legacy'
 
     defaultConfig {
         applicationId "org.openhab.habdroid"
-        minSdkVersion 15
-        targetSdkVersion 22
+        minSdkVersion 14
+        targetSdkVersion 25
         multiDexEnabled = true
     }
     buildTypes {
@@ -17,10 +17,12 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             buildConfigField 'boolean', IS_DEVELOPER, 'false'
+            buildConfigField "java.util.Date", "buildTime", "new java.util.Date(" + System.currentTimeMillis() + "L)"
         }
         debug {
             minifyEnabled false
             buildConfigField 'boolean', IS_DEVELOPER, 'true'
+            buildConfigField "java.util.Date", "buildTime", "new java.util.Date(" + System.currentTimeMillis() + "L)"
         }
     }
     testOptions {
@@ -35,25 +37,31 @@ repositories {
         name "OpenHAB"
         url "http://repository-openhab.forge.cloudbees.com/release/"
     }
+    maven {
+        url 'https://jitpack.io'
+    }
+
 }
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     wearApp project(':wear')
-    compile "com.android.support:appcompat-v7:23.1.1"
-    compile "com.android.support:support-v4:23.1.1"
-    compile "com.android.support:design:23.1.1"
+    compile "com.android.support:appcompat-v7:25.3.1"
+    compile "com.android.support:support-v4:25.3.1"
+    compile "com.android.support:design:25.3.1"
     compile 'com.android.support:multidex:1.0.1'
-    compile 'com.google.code.gson:gson:2.4'
-    compile 'com.google.android.gms:play-services:6.5.87'
-    compile 'com.google.apis:google-api-services-analytics:v3+'
-    compile 'com.crittercism:crittercism-android-agent:5.6.3-rc-1'
-    compile 'javax.jmdns:jmdns:3.4.1'
+    compile 'com.google.code.gson:gson:2.7'
+    compile 'com.google.android.gms:play-services-analytics:10.2.1'
+    compile 'com.google.android.gms:play-services-gcm:10.2.1'
+    compile 'com.crittercism:crittercism-android-agent:5.8.1-rc-1'
+    compile 'org.jmdns:jmdns:3.5.1'
     compile 'com.loopj.android:android-async-http:1.4.9'
     compile 'com.loopj:android-smart-image-view:1.0.0'
-    compile 'com.github.shell-software:fab:1.1.0'
+    compile 'com.github.shell-software:fab:1.1.2'
 
-    testCompile 'org.mockito:mockito-core:1.10.19'
+    compile 'com.github.hazzeh:androidsvg:fix-npe'
+
+    testCompile 'org.mockito:mockito-core:2.7.6'
     testCompile 'junit:junit:4.12'
-    testCompile 'org.json:json:20140107'
+    testCompile 'org.json:json:20160810'
 }

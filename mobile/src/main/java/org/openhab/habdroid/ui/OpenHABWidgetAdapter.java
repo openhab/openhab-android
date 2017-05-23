@@ -11,6 +11,7 @@ package org.openhab.habdroid.ui;
 
 import android.content.Context;
 import android.net.Uri;
+import android.os.Build;
 import android.support.v7.widget.SwitchCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -40,8 +41,6 @@ import android.widget.VideoView;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.TextHttpResponseHandler;
 
-import cz.msebera.android.httpclient.Header;
-import cz.msebera.android.httpclient.entity.StringEntity;
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.model.OpenHABItem;
 import org.openhab.habdroid.model.OpenHABWidget;
@@ -59,6 +58,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
+
+import cz.msebera.android.httpclient.Header;
+import cz.msebera.android.httpclient.entity.StringEntity;
 
 /**
  * This class provides openHAB widgets adapter for list view.
@@ -183,7 +185,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
         // Some of widgets, for example Frame doesnt' have an icon, so...
         if (widgetImage != null) {
             // This is needed to escape possible spaces and everything according to rfc2396
-            String iconUrl = openHABBaseUrl + Uri.encode(openHABWidget.getIconPath(),"/?=");
+            String iconUrl = openHABBaseUrl + Uri.encode(openHABWidget.getIconPath(),"/?=&");
 //                Log.d(TAG, "Will try to load icon from " + iconUrl);
             // Now set image URL
             widgetImage.setImageUrl(iconUrl, R.drawable.blank_icon,
@@ -552,6 +554,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     			webWeb.setLayoutParams(webLayoutParams);
     		}
     		webWeb.setWebViewClient(new AnchorWebViewClient(openHABWidget.getUrl(), this.openHABUsername, this.openHABPassword));
+            webWeb.getSettings().setDomStorageEnabled(true);
             webWeb.getSettings().setJavaScriptEnabled(true);
     		webWeb.loadUrl(openHABWidget.getUrl());
     	break;
@@ -844,8 +847,12 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
             if (sliderItem != null)
                 sendItemCommand(sliderItem, String.valueOf(seekBar.getProgress()));
         } else if (volumeDownWidget instanceof Button) {
-            volumeDownWidget.callOnClick();
-        } else {
+			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
+				volumeDownWidget.callOnClick();
+			} else {
+				volumeDownWidget.performClick();
+			}
+		} else {
             return false;
         }
         return true;
@@ -859,8 +866,12 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
             if (sliderItem != null)
                 sendItemCommand(sliderItem, String.valueOf(seekBar.getProgress()));
         } else if (volumeUpWidget instanceof Button) {
-            volumeUpWidget.callOnClick();
-        } else {
+			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
+				volumeUpWidget.callOnClick();
+			} else {
+				volumeUpWidget.performClick();
+			}
+		} else {
             return false;
         }
         return true;

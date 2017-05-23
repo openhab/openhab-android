@@ -108,23 +108,18 @@ public class OpenHABTracker implements AsyncServiceResolverListener {
                     if (mOpenHABUrl.length() > 0) {
                         // Check if configured local URL is reachable
                         if (checkUrlReachability(mOpenHABUrl)) {
-                            Log.d(TAG, "Connecting to directly configured URL = " + mOpenHABUrl);
+                            Log.d(TAG, "Connecting to local URL = " + mOpenHABUrl);
                             openHABTracked(mOpenHABUrl, mCtx.getString(R.string.info_conn_url));
                             return;
-                            // If local URL is not reachable go with remote URL
-                        } else {
-                            mOpenHABUrl = Util.normalizeUrl(settings.getString(Constants.PREFERENCE_ALTURL, ""));
-                            // If remote URL is configured
-                            if (mOpenHABUrl.length() > 0) {
-                                Log.d(TAG, "Connecting to remote URL " + mOpenHABUrl);
-                                openHABTracked(mOpenHABUrl, mCtx.getString(R.string.info_conn_rem_url));
-                            } else {
-                                openHABError(mCtx.getString(R.string.error_no_url));
-                            }
                         }
-                    // If no local URL is configured
+                    }
+                    // If local URL is not reachable or not configured, try with remote URL
+                    mOpenHABUrl = Util.normalizeUrl(settings.getString(Constants.PREFERENCE_ALTURL, ""));
+                    if (mOpenHABUrl.length() > 0) {
+                        Log.d(TAG, "Connecting to remote URL " + mOpenHABUrl);
+                        openHABTracked(mOpenHABUrl, mCtx.getString(R.string.info_conn_rem_url));
                     } else {
-                        // Start service discovery
+                        // if not URL is configured, start service discovery
                         mServiceResolver = new AsyncServiceResolver(mCtx, this, mOpenHABServiceType);
                         bonjourDiscoveryStarted();
                         mServiceResolver.start();
