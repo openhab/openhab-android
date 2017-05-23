@@ -45,6 +45,7 @@
     <string name="settings_openhab_sslhost_summary">SSL ハンドシェイクの間、ホスト名のチェックを無視します</string>
     <string name="settings_openhab_fullscreen">全画面</string>
     <string name="settings_openhab_fullscreen_summary">全画面モードで表示します</string>
+    <string name="settings_openhab_icon_format">アイコンフォーマット</string>
     <string name="settings_ringtone">着信音</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">openHAB 音声コマンド</string>
@@ -76,6 +77,9 @@
     <string name="info_openhab_apiversion_label">openHAB Rest API バージョン</string>
     <string name="info_openhab_uuid_label">openHAB UUID</string>
     <string name="info_openhab_secret_label">openHAB シークレット</string>
+    <string name="info_openhab_gcm_label">Google Cloud Message ステータス</string>
+    <string name="info_openhab_gcm_not_connected">送信者 ID %s でデバイスの登録に失敗しました</string>
+    <string name="info_openhab_gcm_connected">送信者 ID %s でデバイスを登録しました</string>
     <string name="action_settings">設定</string>
     <string name="nfc_dialog_title">NFC タグの操作を選択してください</string>
     <string name="info_not_set">未設定</string>
