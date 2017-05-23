@@ -1,3 +1,7 @@
+# openHAB Android Client
+
+<img alt="Logo" src="mobile/src/main/res/drawable-xxxhdpi/openhabicon_material.png" width="100">
+
 ## Introduction
 
 openHAB Android application is a native client for openHAB. It uses REST API of openHAB to render
@@ -5,6 +9,8 @@ sitemaps of your openHAB. It also supports my.openhab.org including push notific
 Release version of the app is always available for installation through
 [Google Play](https://play.google.com/store/apps/details?id=org.openhab.habdroid)
 Development snapshots are available for download on [CloudBees](https://openhab.ci.cloudbees.com/job/HABDroid/)
+
+<a href="https://play.google.com/store/apps/details?id=org.openhab.habdroid"><img src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" height="60"></a>
 
 ## Setting up development environment
 
