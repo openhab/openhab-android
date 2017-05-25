@@ -1135,12 +1135,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
         PackageManager pm = getPackageManager();
         List<ResolveInfo> activities = pm.queryIntentActivities(new Intent(
                 RecognizerIntent.ACTION_RECOGNIZE_SPEECH), 0);
-        if (activities.size() == 0) {
-//            speakButton.setEnabled(false);
-//            speakButton.setText("Voice recognizer not present");
-            Toast.makeText(this, "Voice recognizer not present, voice recognition disabled",
-                    Toast.LENGTH_SHORT).show();
-        } else {
+        if (activities.size() != 0) {
             mVoiceRecognitionEnabled = true;
         }
     }
