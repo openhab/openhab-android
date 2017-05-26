@@ -87,7 +87,7 @@ public class MyWebImage implements SmartImage {
             client.setBasicAuth(authUsername, authPassword);
         }
 
-        client.get(url, new MyAsyncHttpClient.ResponseHandler() {
+        client.get(url, new MyHttpClient.ResponseHandler() {
             @Override
             public void onFailure(Call call, int statusCode, Headers headers, byte[] responseBody, Throwable error) {
                 Log.e(TAG, "Failed to get " + url + " with code " + statusCode + ":" + error);

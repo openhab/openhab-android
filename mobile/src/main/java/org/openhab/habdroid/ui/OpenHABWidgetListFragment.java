@@ -33,6 +33,7 @@ import org.openhab.habdroid.model.OpenHABNFCActionList;
 import org.openhab.habdroid.model.OpenHABWidget;
 import org.openhab.habdroid.model.OpenHABWidgetDataSource;
 import org.openhab.habdroid.util.MyAsyncHttpClient;
+import org.openhab.habdroid.util.MyHttpClient;
 import org.openhab.habdroid.util.Util;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -355,7 +356,7 @@ public class OpenHABWidgetListFragment extends ListFragment {
             headers.put("X-Atmosphere-tracking-id", "0");
             mAsyncHttpClient.setTimeout(10000);
         }
-        mRequestHandle = mAsyncHttpClient.get(pageUrl, headers, new MyAsyncHttpClient.ResponseHandler() {
+        mRequestHandle = mAsyncHttpClient.get(pageUrl, headers, new MyHttpClient.ResponseHandler() {
                     @Override
                     public void onFailure(Call call, int statusCode, Headers headers, byte[] responseBody, Throwable error) {
                         if (call.isCanceled()) {

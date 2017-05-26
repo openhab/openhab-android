@@ -25,6 +25,7 @@ import org.json.JSONObject;
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.model.OpenHABNotification;
 import org.openhab.habdroid.util.MyAsyncHttpClient;
+import org.openhab.habdroid.util.MyHttpClient;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
@@ -177,7 +178,7 @@ public class OpenHABNotificationFragment extends ListFragment implements SwipeRe
     private void loadNotifications() {
         if (mAsyncHttpClient != null) {
             startProgressIndicator();
-            mRequestHandle = mAsyncHttpClient.get(openHABBaseURL + "/api/v1/notifications?limit=20", new MyAsyncHttpClient.ResponseHandler() {
+            mRequestHandle = mAsyncHttpClient.get(openHABBaseURL + "/api/v1/notifications?limit=20", new MyHttpClient.ResponseHandler() {
                 @Override
                 public void onSuccess(Call call, int statusCode, Headers headers, byte[] responseBody) {
                     stopProgressIndicator();
