@@ -21,19 +21,20 @@ import android.widget.ListView;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.AsyncHttpResponseHandler;
-import com.loopj.android.http.RequestHandle;
 
-import cz.msebera.android.httpclient.Header;
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.model.OpenHABBinding;
+import org.openhab.habdroid.util.MyAsyncHttpClient;
+import org.openhab.habdroid.util.MyHttpClient;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import okhttp3.Call;
+import okhttp3.Headers;
 
 public class OpenHABDiscoveryFragment extends ListFragment implements SwipeRefreshLayout.OnRefreshListener {
 
@@ -49,9 +50,9 @@ public class OpenHABDiscoveryFragment extends ListFragment implements SwipeRefre
 
     private OpenHABMainActivity mActivity;
     // loopj
-    private AsyncHttpClient mAsyncHttpClient;
+    private MyAsyncHttpClient mAsyncHttpClient;
     // keeps track of current request to cancel it in onPause
-    private RequestHandle mRequestHandle;
+    private Call mRequestHandle;
 
     private OpenHABDiscoveryAdapter mDiscoveryAdapter;
     private ArrayList<OpenHABBinding> bindings;
@@ -145,7 +146,7 @@ public class OpenHABDiscoveryFragment extends ListFragment implements SwipeRefre
             Thread thread = new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    mRequestHandle.cancel(true);
+                    mRequestHandle.cancel();
                 }
             });
             thread.start();
@@ -178,9 +179,9 @@ public class OpenHABDiscoveryFragment extends ListFragment implements SwipeRefre
     private void loadDiscovery() {
         if (mAsyncHttpClient != null) {
             startProgressIndicator();
-            mRequestHandle = mAsyncHttpClient.get(openHABBaseUrl + "rest/discovery", new AsyncHttpResponseHandler() {
+            mRequestHandle = mAsyncHttpClient.get(openHABBaseUrl + "rest/discovery", new MyHttpClient.ResponseHandler() {
                 @Override
-                public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                public void onSuccess(Call call, int statusCode, Headers headers, byte[] responseBody) {
                     stopProgressIndicator();
                     String jsonString = null;
                     try {
@@ -198,7 +199,7 @@ public class OpenHABDiscoveryFragment extends ListFragment implements SwipeRefre
                 }
 
                 @Override
-                public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                public void onFailure(Call call, int statusCode, Headers headers, byte[] responseBody, Throwable error) {
                     stopProgressIndicator();
                     Log.d(TAG, "Discovery request failure: " + error.getMessage());
                 }
@@ -209,9 +210,9 @@ public class OpenHABDiscoveryFragment extends ListFragment implements SwipeRefre
     private void loadBindings() {
         if (mAsyncHttpClient != null) {
             startProgressIndicator();
-            mRequestHandle = mAsyncHttpClient.get(openHABBaseUrl + "rest/bindings", new AsyncHttpResponseHandler() {
+            mRequestHandle = mAsyncHttpClient.get(openHABBaseUrl + "rest/bindings", new MyHttpClient.ResponseHandler() {
                 @Override
-                public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                public void onSuccess(Call call, int statusCode, Headers headers, byte[] responseBody) {
                     stopProgressIndicator();
                     String jsonString = null;
                     try {
@@ -229,7 +230,7 @@ public class OpenHABDiscoveryFragment extends ListFragment implements SwipeRefre
                 }
 
                 @Override
-                public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                public void onFailure(Call call, int statusCode, Headers headers, byte[] responseBody, Throwable error) {
                     stopProgressIndicator();
                     Log.d(TAG, "Bindings request failure: " + error.getMessage());
                 }
@@ -256,9 +257,9 @@ public class OpenHABDiscoveryFragment extends ListFragment implements SwipeRefre
     private void activateDiscovery(String id) {
         if (mAsyncHttpClient != null) {
             startProgressIndicator();
-            mAsyncHttpClient.post(getActivity(), openHABBaseUrl + "rest/discovery/bindings/" + id + "/scan", null, "text/plain", new AsyncHttpResponseHandler() {
+            mAsyncHttpClient.post(openHABBaseUrl + "rest/discovery/bindings/" + id + "/scan", null, "text/plain", new MyHttpClient.ResponseHandler() {
                 @Override
-                public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                public void onSuccess(Call call, int statusCode, Headers headers, byte[] responseBody) {
                     Log.d(TAG, "Activate discovery request success");
                     if (discoveryTimer != null) {
                         discoveryTimer.cancel();
@@ -286,7 +287,7 @@ public class OpenHABDiscoveryFragment extends ListFragment implements SwipeRefre
                 }
 
                 @Override
-                public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                public void onFailure(Call call, int statusCode, Headers headers, byte[] responseBody, Throwable error) {
                     stopProgressIndicator();
                     Log.e(TAG, "Activate discovery request error: " + error.getMessage());
                 }

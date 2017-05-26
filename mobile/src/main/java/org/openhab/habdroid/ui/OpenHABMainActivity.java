@@ -56,16 +56,7 @@ import android.widget.Toast;
 import com.crittercism.app.Crittercism;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
-import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.AsyncHttpResponseHandler;
-import com.loopj.android.http.SyncHttpClient;
-import com.loopj.android.http.TextHttpResponseHandler;
 import com.loopj.android.image.WebImageCache;
-
-import cz.msebera.android.httpclient.Header;
-import cz.msebera.android.httpclient.client.HttpResponseException;
-import cz.msebera.android.httpclient.conn.HttpHostConnectException;
-import cz.msebera.android.httpclient.entity.StringEntity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -86,6 +77,7 @@ import org.openhab.habdroid.ui.drawer.OpenHABDrawerAdapter;
 import org.openhab.habdroid.ui.drawer.OpenHABDrawerItem;
 import org.openhab.habdroid.util.Constants;
 import org.openhab.habdroid.util.MyAsyncHttpClient;
+import org.openhab.habdroid.util.MyHttpClient;
 import org.openhab.habdroid.util.MySyncHttpClient;
 import org.openhab.habdroid.util.Util;
 import org.w3c.dom.Document;
@@ -96,7 +88,6 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -108,34 +99,29 @@ import javax.xml.parsers.ParserConfigurationException;
 import de.duenndns.ssl.MTMDecision;
 import de.duenndns.ssl.MemorizingResponder;
 import de.duenndns.ssl.MemorizingTrustManager;
+import okhttp3.Call;
+import okhttp3.Headers;
 
 public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSelectedListener,
         OpenHABTrackerReceiver, MemorizingResponder {
 
-    private abstract class DefaultHttpResponseHandler extends AsyncHttpResponseHandler {
-
+    private abstract class DefaultHttpResponseHandler implements MyHttpClient.ResponseHandler {
 
         @Override
-        public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+        public void onFailure(Call call, int statusCode, Headers headers, byte[] responseBody, Throwable error) {
             setProgressIndicatorVisible(false);
-            if (error instanceof HttpResponseException) {
-                switch (((HttpResponseException) error).getStatusCode()) {
-                    case 401:
-                        showAlertDialog(getString(R.string.error_authentication_failed));
-                        break;
-                    default:
-                        showError(error.getMessage());
-                }
-            } else if (error instanceof HttpHostConnectException) {
-                Log.e(TAG, "Error connecting to host");
-                showError(error.getMessage());
-            } else if (error instanceof java.net.UnknownHostException) {
+            if (statusCode == 401) {
+                showAlertDialog(getString(R.string.error_authentication_failed));
+                return;
+            }
+            if (error instanceof java.net.UnknownHostException) {
                 Log.e(TAG, "Unable to resolve hostname");
                 showError(error.getMessage());
             } else if (error instanceof SSLHandshakeException) {
                 showError(getString(R.string.error_connection_sslhandshake_failed));
             } else {
                 Log.e(TAG, error.getClass().toString());
+                showError(error.getMessage());
             }
         }
 
@@ -162,7 +148,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
     private static final int DRAWER_INBOX = 102;
     // Loopj
 //    private static MyAsyncHttpClient mAsyncHttpClient;
-    private static AsyncHttpClient mAsyncHttpClient = new AsyncHttpClient();
+    private static MyAsyncHttpClient mAsyncHttpClient;
     // Base URL of current openHAB connection
     private String openHABBaseUrl = "http://demo.openhab.org:8080/";
     // openHAB username
@@ -225,7 +211,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
         }
     };
 
-    public static AsyncHttpClient getAsyncHttpClient() {
+    public static MyAsyncHttpClient getAsyncHttpClient() {
         return mAsyncHttpClient;
     }
 
@@ -527,17 +513,18 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
             onNfcTag(mNfcData);
             openNFCPageIfPending();
         } else {
-            mAsyncHttpClient.get(baseUrl + "rest/bindings", new TextHttpResponseHandler() {
+            final String url = baseUrl + "rest/bindings";
+            mAsyncHttpClient.get(url, new MyHttpClient.TextResponseHandler() {
                 @Override
-                public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                public void onFailure(Call call, int statusCode, Headers headers, String responseString, Throwable throwable) {
                     mOpenHABVersion = 1;
-                    Log.d(TAG, "openHAB version 1");
+                    Log.d(TAG, "openHAB version 1 - got error " + throwable + " accessing " + url);
                     mAsyncHttpClient.addHeader("Accept", "application/xml");
                     selectSitemap(openHABBaseUrl, false);
                 }
 
                 @Override
-                public void onSuccess(int statusCode, Header[] headers, String responseString) {
+                public void onSuccess(Call call, int statusCode, Headers headers, String responseString) {
                     mOpenHABVersion = 2;
                     Log.d(TAG, "openHAB version 2");
                     selectSitemap(openHABBaseUrl, false);
@@ -571,7 +558,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
         setProgressIndicatorVisible(true);
         mAsyncHttpClient.get(baseUrl + "rest/sitemaps", new DefaultHttpResponseHandler() {
             @Override
-            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+            public void onSuccess(Call call, int statusCode, Headers headers, byte[] responseBody) {
                 setProgressIndicatorVisible(false);
                 mSitemapList.clear();
                 // If openHAB's version is 1, get sitemap list from XML
@@ -617,7 +604,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
         mAsyncHttpClient.get(baseUrl + "rest/sitemaps", new DefaultHttpResponseHandler() {
 
             @Override
-            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+            public void onSuccess(Call call, int statusCode, Headers headers, byte[] responseBody) {
                 Log.d(TAG, new String(responseBody));
                 setProgressIndicatorVisible(false);
                 mSitemapList.clear();
@@ -972,17 +959,16 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
 
     public void sendItemCommand(String itemName, String command) {
         try {
-            StringEntity se = new StringEntity(command, "UTF-8");
-            mAsyncHttpClient.post(this, openHABBaseUrl + "rest/items/" + itemName, se, "text/plain;charset=UTF-8", new TextHttpResponseHandler() {
+            mAsyncHttpClient.post(openHABBaseUrl + "rest/items/" + itemName, command, "text/plain;charset=UTF-8", new MyHttpClient.TextResponseHandler() {
                 @Override
-                public void onFailure(int statusCode, Header[] headers, String responseString, Throwable error) {
+                public void onFailure(Call call, int statusCode, Headers headers, String responseString, Throwable error) {
                     Log.e(TAG, "Got command error " + error.getMessage());
                     if (responseString != null)
                         Log.e(TAG, "Error response = " + responseString);
                 }
 
                 @Override
-                public void onSuccess(int statusCode, Header[] headers, String responseString) {
+                public void onSuccess(Call call, int statusCode, Headers headers, String responseString) {
                     Log.d(TAG, "Command was sent successfully");
                 }
             });
@@ -1246,10 +1232,9 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
                 Log.d(TAG, "Could not parse the baseURL to an URL: " + ex.getMessage());
                 return null;
             }
-            SyncHttpClient httpClient = new MySyncHttpClient(this);
-            httpClient.setBasicAuth(getOpenHABUsername(), getOpenHABPassword(), true);
-            httpClient.setTimeout(30000);
-            mNotifySettings = new NotificationSettings(baseUrl, httpClient);
+            MySyncHttpClient syncHttpClient = new MySyncHttpClient(this);
+            syncHttpClient.setBasicAuth(getOpenHABUsername(), getOpenHABPassword());
+            mNotifySettings = new NotificationSettings(baseUrl, syncHttpClient);
         }
         return mNotifySettings;
     }

@@ -21,17 +21,17 @@ import android.widget.ListView;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.AsyncHttpResponseHandler;
-import com.loopj.android.http.RequestHandle;
-
-import cz.msebera.android.httpclient.Header;
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.model.OpenHABBinding;
+import org.openhab.habdroid.util.MyAsyncHttpClient;
+import org.openhab.habdroid.util.MyHttpClient;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Arrays;
+
+import okhttp3.Call;
+import okhttp3.Headers;
 
 public class OpenHABBindingFragment extends ListFragment implements SwipeRefreshLayout.OnRefreshListener {
 
@@ -47,9 +47,9 @@ public class OpenHABBindingFragment extends ListFragment implements SwipeRefresh
 
     private OpenHABMainActivity mActivity;
     // loopj
-    private AsyncHttpClient mAsyncHttpClient;
+    private MyAsyncHttpClient mAsyncHttpClient;
     // keeps track of current request to cancel it in onPause
-    private RequestHandle mRequestHandle;
+    private Call mRequestHandle;
 
     private OpenHABBindingAdapter mBindingAdapter;
     private ArrayList<OpenHABBinding> mBindings;
@@ -137,7 +137,7 @@ public class OpenHABBindingFragment extends ListFragment implements SwipeRefresh
             Thread thread = new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    mRequestHandle.cancel(true);
+                    mRequestHandle.cancel();
                 }
             });
             thread.start();
@@ -177,9 +177,9 @@ public class OpenHABBindingFragment extends ListFragment implements SwipeRefresh
     private void loadBindings() {
         if (mAsyncHttpClient != null) {
             startProgressIndicator();
-            mRequestHandle = mAsyncHttpClient.get(openHABBaseUrl + "rest/bindings", new AsyncHttpResponseHandler() {
+            mRequestHandle = mAsyncHttpClient.get(openHABBaseUrl + "rest/bindings", new MyHttpClient.ResponseHandler() {
                 @Override
-                public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                public void onSuccess(Call call, int statusCode, Headers headers, byte[] responseBody) {
                     stopProgressIndicator();
                     String jsonString = null;
                     try {
@@ -197,7 +197,7 @@ public class OpenHABBindingFragment extends ListFragment implements SwipeRefresh
                 }
 
                 @Override
-                public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                public void onFailure(Call call, int statusCode, Headers headers, byte[] responseBody, Throwable error) {
                     stopProgressIndicator();
                     Log.d(TAG, "Bindings request failure: " + error.getMessage());
                 }

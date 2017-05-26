@@ -10,32 +10,78 @@
 package org.openhab.habdroid.util;
 
 import android.content.Context;
-import android.preference.PreferenceManager;
+import android.os.Handler;
+import android.os.Looper;
 
-import com.loopj.android.http.AsyncHttpClient;
+import java.io.IOException;
+import java.util.Map;
 
-import cz.msebera.android.httpclient.conn.ssl.SSLSocketFactory;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Headers;
+import okhttp3.MediaType;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
-import javax.net.ssl.SSLContext;
+public class MyAsyncHttpClient extends MyHttpClient<Call> {
 
-import de.duenndns.ssl.MemorizingTrustManager;
-
-public class MyAsyncHttpClient extends AsyncHttpClient {
-	
-	private SSLContext sslContext;
-	private SSLSocketFactory sslSocketFactory;
-	
-	public MyAsyncHttpClient(Context ctx) {
-        super();
-//		super(ctx);
-		try {
-	        sslContext = SSLContext.getInstance("TLS");
-	        sslContext.init(MyKeyManager.getInstance(ctx), MemorizingTrustManager.getInstanceList(ctx), new java.security.SecureRandom());
-	        sslSocketFactory = new MySSLSocketFactory(sslContext);
-            if (PreferenceManager.getDefaultSharedPreferences(ctx).getBoolean(Constants.PREFERENCE_SSLHOST, false))
-                sslSocketFactory.setHostnameVerifier(SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
-	        this.setSSLSocketFactory(sslSocketFactory);
-	    } catch (Exception ex) {
-	    }
+    public MyAsyncHttpClient(Context ctx) {
+        clientSSLSetup(ctx);
 	}
+
+    protected Call method(String url, String method, Map<String, String> addHeaders, String
+            requestBody, String mediaType, final MyHttpClient.ResponseHandler responseHandler) {
+        Request.Builder requestBuilder = new Request.Builder();
+        requestBuilder.url(url);
+        for (Map.Entry<String, String> entry : headers.entrySet()) {
+            requestBuilder.addHeader(entry.getKey(), entry.getValue());
+        }
+        if (addHeaders != null) {
+            for (Map.Entry<String, String> entry : addHeaders.entrySet()) {
+                requestBuilder.addHeader(entry.getKey(), entry.getValue());
+            }
+        }
+        if (requestBody != null) {
+            requestBuilder.method(method, RequestBody.create(MediaType.parse(mediaType), requestBody));
+        }
+        Call call = client.newCall(requestBuilder.build());
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(final Call call, final IOException e) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        responseHandler.onFailure(call, 0, new Headers.Builder().build(), null, e);
+                    }
+                });
+            }
+
+            @Override
+            public void onResponse(final Call call, Response response) throws IOException {
+                final int code = response.code();
+                final byte[] body = response.body().bytes();
+                final boolean success = response.isSuccessful();
+                final Headers headers = response.headers();
+                final String message = response.message();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (success) {
+                            responseHandler.onSuccess(call, code, headers, body);
+                        } else {
+                            responseHandler.onFailure(call, code, headers, body, new IOException(message));
+                        }
+                    }
+                });
+            }
+        });
+        return call;
+    }
+
+    private void runOnUiThread(Runnable runnable) {
+        new Handler(Looper.getMainLooper()).post(runnable);
+    }
+
+
 }
