@@ -2,17 +2,17 @@ package org.openhab.habdroid.core.notifications;
 
 import android.util.Log;
 
-import com.loopj.android.http.SyncHttpClient;
-import com.loopj.android.http.TextHttpResponseHandler;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.openhab.habdroid.util.Constants;
+import org.openhab.habdroid.util.MyHttpClient;
+import org.openhab.habdroid.util.MySyncHttpClient;
 
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import cz.msebera.android.httpclient.Header;
+import okhttp3.Call;
+import okhttp3.Headers;
 
 public class NotificationSettings {
     private static final String TAG = NotificationSettings.class.getSimpleName();
@@ -22,7 +22,7 @@ public class NotificationSettings {
     private static final String GCM_SENDER_ID_KEY = "senderId";
 
     private URL openHABCloudURL;
-    private SyncHttpClient httpClient;
+    private MySyncHttpClient httpClient;
     private JSONObject settings = new JSONObject();
     private boolean isLoaded = false;
 
@@ -33,7 +33,8 @@ public class NotificationSettings {
      * @param httpClient
      * @throws MalformedURLException
      */
-    public NotificationSettings(String openHABCloudURL, SyncHttpClient httpClient) throws MalformedURLException {
+    public NotificationSettings(String openHABCloudURL, MySyncHttpClient httpClient) throws
+            MalformedURLException {
         this(new URL(openHABCloudURL), httpClient);
     }
 
@@ -43,12 +44,12 @@ public class NotificationSettings {
      * @param openHABCloudURL
      * @param httpClient
      */
-    public NotificationSettings(URL openHABCloudURL, SyncHttpClient httpClient) {
+    public NotificationSettings(URL openHABCloudURL, MySyncHttpClient httpClient) {
         this.openHABCloudURL = openHABCloudURL;
         this.httpClient = httpClient;
     }
 
-    SyncHttpClient getHttpClient () {
+    MyHttpClient getHttpClient () {
         return this.httpClient;
     }
 
@@ -97,19 +98,19 @@ public class NotificationSettings {
         return this.openHABCloudURL;
     }
 
-    private class SettingsAsyncHttpResponseHandler extends TextHttpResponseHandler {
+    private class SettingsAsyncHttpResponseHandler implements MyHttpClient.ResponseHandler {
         @Override
-        public void onFailure(int statusCode, Header[] headers, String responseBody, Throwable error) {
+        public void onFailure(Call call, int statusCode, Headers headers, byte[] responseBody, Throwable error) {
             Log.e(TAG, "Error loading notification settings: " + error.getMessage());
         }
 
         @Override
-        public void onSuccess(int statusCode, Header[] headers, String jsonString) {
+        public void onSuccess(Call call, int statusCode, Headers headers, byte[] responseBody) {
             Log.d(TAG, "Successfully requested notification settings, parsing it now.");
 
             JSONObject notifySettings;
             try {
-                notifySettings = new JSONObject(jsonString);
+                notifySettings = new JSONObject(new String(responseBody));
             } catch (JSONException e) {
                 Log.d(TAG, "Unable to parse returned body as JSON: " + e.getMessage(), e);
                 return;

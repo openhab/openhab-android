@@ -25,6 +25,7 @@ import com.google.gson.GsonBuilder;
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.model.OpenHABBinding;
 import org.openhab.habdroid.util.MyAsyncHttpClient;
+import org.openhab.habdroid.util.MyHttpClient;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
@@ -178,7 +179,7 @@ public class OpenHABDiscoveryFragment extends ListFragment implements SwipeRefre
     private void loadDiscovery() {
         if (mAsyncHttpClient != null) {
             startProgressIndicator();
-            mRequestHandle = mAsyncHttpClient.get(openHABBaseUrl + "rest/discovery", new MyAsyncHttpClient.ResponseHandler() {
+            mRequestHandle = mAsyncHttpClient.get(openHABBaseUrl + "rest/discovery", new MyHttpClient.ResponseHandler() {
                 @Override
                 public void onSuccess(Call call, int statusCode, Headers headers, byte[] responseBody) {
                     stopProgressIndicator();
@@ -209,7 +210,7 @@ public class OpenHABDiscoveryFragment extends ListFragment implements SwipeRefre
     private void loadBindings() {
         if (mAsyncHttpClient != null) {
             startProgressIndicator();
-            mRequestHandle = mAsyncHttpClient.get(openHABBaseUrl + "rest/bindings", new MyAsyncHttpClient.ResponseHandler() {
+            mRequestHandle = mAsyncHttpClient.get(openHABBaseUrl + "rest/bindings", new MyHttpClient.ResponseHandler() {
                 @Override
                 public void onSuccess(Call call, int statusCode, Headers headers, byte[] responseBody) {
                     stopProgressIndicator();
@@ -256,7 +257,7 @@ public class OpenHABDiscoveryFragment extends ListFragment implements SwipeRefre
     private void activateDiscovery(String id) {
         if (mAsyncHttpClient != null) {
             startProgressIndicator();
-            mAsyncHttpClient.post(openHABBaseUrl + "rest/discovery/bindings/" + id + "/scan", null, "text/plain", new MyAsyncHttpClient.ResponseHandler() {
+            mAsyncHttpClient.post(openHABBaseUrl + "rest/discovery/bindings/" + id + "/scan", null, "text/plain", new MyHttpClient.ResponseHandler() {
                 @Override
                 public void onSuccess(Call call, int statusCode, Headers headers, byte[] responseBody) {
                     Log.d(TAG, "Activate discovery request success");

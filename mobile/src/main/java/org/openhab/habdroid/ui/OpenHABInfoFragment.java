@@ -23,6 +23,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.util.MyAsyncHttpClient;
+import org.openhab.habdroid.util.MyHttpClient;
 
 import okhttp3.Call;
 import okhttp3.Headers;
@@ -97,7 +98,7 @@ public class OpenHABInfoFragment extends DialogFragment {
     }
 
     private void setSecretText() {
-        mAsyncHttpClient.get(mOpenHABBaseUrl + "static/secret", new MyAsyncHttpClient.TextResponseHandler() {
+        mAsyncHttpClient.get(mOpenHABBaseUrl + "static/secret", new MyHttpClient.TextResponseHandler() {
             @Override
             public void onFailure(Call call, int statusCode, Headers headers, String responseString, Throwable error) {
                 mOpenHABSecretText.setVisibility(View.GONE);
@@ -124,7 +125,7 @@ public class OpenHABInfoFragment extends DialogFragment {
         } else {
             uuidUrl = mOpenHABBaseUrl + "rest/uuid";
         }
-        mAsyncHttpClient.get(uuidUrl, new MyAsyncHttpClient.TextResponseHandler() {
+        mAsyncHttpClient.get(uuidUrl, new MyHttpClient.TextResponseHandler() {
             @Override
             public void onFailure(Call call, int statusCode, Headers headers, String responseString, Throwable error) {
                 mOpenHABUUIDText.setText("Unknown");
@@ -149,7 +150,7 @@ public class OpenHABInfoFragment extends DialogFragment {
             versionUrl = mOpenHABBaseUrl + "rest";
         }
         Log.d(TAG, "url = " + versionUrl);
-        mAsyncHttpClient.get(versionUrl, new MyAsyncHttpClient.TextResponseHandler() {
+        mAsyncHttpClient.get(versionUrl, new MyHttpClient.TextResponseHandler() {
             @Override
             public void onFailure(Call call, int statusCode, Headers headers, String responseString, Throwable error) {
                 mOpenHABVersionText.setText("Unknown");

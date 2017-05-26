@@ -29,6 +29,7 @@ import org.openhab.habdroid.R;
 import org.openhab.habdroid.model.OpenHABDiscoveryInbox;
 import org.openhab.habdroid.model.thing.ThingType;
 import org.openhab.habdroid.util.MyAsyncHttpClient;
+import org.openhab.habdroid.util.MyHttpClient;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
@@ -213,7 +214,7 @@ public class OpenHABDiscoveryInboxFragment extends ListFragment implements Swipe
     private void loadDiscoveryInbox() {
         if (mAsyncHttpClient != null) {
             startProgressIndicator();
-            mRequestHandle = mAsyncHttpClient.get(openHABBaseUrl + "rest/inbox", new MyAsyncHttpClient.ResponseHandler() {
+            mRequestHandle = mAsyncHttpClient.get(openHABBaseUrl + "rest/inbox", new MyHttpClient.ResponseHandler() {
                 @Override
                 public void onSuccess(Call call, int statusCode, Headers headers, byte[] responseBody) {
                     stopProgressIndicator();
@@ -244,7 +245,7 @@ public class OpenHABDiscoveryInboxFragment extends ListFragment implements Swipe
     private void loadThingTypes () {
         if (mAsyncHttpClient != null) {
             startProgressIndicator();
-            mRequestHandle = mAsyncHttpClient.get(openHABBaseUrl + "rest/thing-types", new MyAsyncHttpClient.ResponseHandler() {
+            mRequestHandle = mAsyncHttpClient.get(openHABBaseUrl + "rest/thing-types", new MyHttpClient.ResponseHandler() {
                 @Override
                 public void onSuccess(Call call, int statusCode, Headers headers, byte[] responseBody) {
                     stopProgressIndicator();
@@ -276,7 +277,7 @@ public class OpenHABDiscoveryInboxFragment extends ListFragment implements Swipe
     private void sendInboxApprove(String UID) {
         if (mAsyncHttpClient != null) {
             startProgressIndicator();
-            mAsyncHttpClient.post(openHABBaseUrl + "rest/inbox/" + UID + "/approve", "", "text/plain", new MyAsyncHttpClient.ResponseHandler() {
+            mAsyncHttpClient.post(openHABBaseUrl + "rest/inbox/" + UID + "/approve", "", "text/plain", new MyHttpClient.ResponseHandler() {
                 @Override
                 public void onSuccess(Call call, int statusCode, Headers headers, byte[] responseBody) {
                     stopProgressIndicator();
@@ -296,7 +297,7 @@ public class OpenHABDiscoveryInboxFragment extends ListFragment implements Swipe
     private void sendInboxIgnore(String UID) {
         if (mAsyncHttpClient != null) {
             startProgressIndicator();
-            mAsyncHttpClient.post(openHABBaseUrl + "rest/inbox/" + UID + "/ignore", "", "text/plain", new MyAsyncHttpClient.ResponseHandler() {
+            mAsyncHttpClient.post(openHABBaseUrl + "rest/inbox/" + UID + "/ignore", "", "text/plain", new MyHttpClient.ResponseHandler() {
                 @Override
                 public void onSuccess(Call call, int statusCode, Headers headers, byte[] responseBody) {
                     stopProgressIndicator();
@@ -317,7 +318,7 @@ public class OpenHABDiscoveryInboxFragment extends ListFragment implements Swipe
     private void sendInboxDelete(String UID) {
         if (mAsyncHttpClient != null) {
             startProgressIndicator();
-            mAsyncHttpClient.delete(openHABBaseUrl + "rest/inbox/" + UID, new MyAsyncHttpClient.ResponseHandler() {
+            mAsyncHttpClient.delete(openHABBaseUrl + "rest/inbox/" + UID, new MyHttpClient.ResponseHandler() {
                 @Override
                 public void onSuccess(Call call, int statusCode, Headers headers, byte[] responseBody) {
                     stopProgressIndicator();

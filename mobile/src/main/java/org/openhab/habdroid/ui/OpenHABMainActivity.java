@@ -77,6 +77,7 @@ import org.openhab.habdroid.ui.drawer.OpenHABDrawerAdapter;
 import org.openhab.habdroid.ui.drawer.OpenHABDrawerItem;
 import org.openhab.habdroid.util.Constants;
 import org.openhab.habdroid.util.MyAsyncHttpClient;
+import org.openhab.habdroid.util.MyHttpClient;
 import org.openhab.habdroid.util.MySyncHttpClient;
 import org.openhab.habdroid.util.Util;
 import org.w3c.dom.Document;
@@ -87,7 +88,6 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -105,7 +105,7 @@ import okhttp3.Headers;
 public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSelectedListener,
         OpenHABTrackerReceiver, MemorizingResponder {
 
-    private abstract class DefaultHttpResponseHandler implements MyAsyncHttpClient.ResponseHandler {
+    private abstract class DefaultHttpResponseHandler implements MyHttpClient.ResponseHandler {
 
         @Override
         public void onFailure(Call call, int statusCode, Headers headers, byte[] responseBody, Throwable error) {
@@ -514,7 +514,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
             openNFCPageIfPending();
         } else {
             final String url = baseUrl + "rest/bindings";
-            mAsyncHttpClient.get(url, new MyAsyncHttpClient.TextResponseHandler() {
+            mAsyncHttpClient.get(url, new MyHttpClient.TextResponseHandler() {
                 @Override
                 public void onFailure(Call call, int statusCode, Headers headers, String responseString, Throwable throwable) {
                     mOpenHABVersion = 1;
@@ -959,7 +959,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
 
     public void sendItemCommand(String itemName, String command) {
         try {
-            mAsyncHttpClient.post(openHABBaseUrl + "rest/items/" + itemName, command, "text/plain;charset=UTF-8", new MyAsyncHttpClient.TextResponseHandler() {
+            mAsyncHttpClient.post(openHABBaseUrl + "rest/items/" + itemName, command, "text/plain;charset=UTF-8", new MyHttpClient.TextResponseHandler() {
                 @Override
                 public void onFailure(Call call, int statusCode, Headers headers, String responseString, Throwable error) {
                     Log.e(TAG, "Got command error " + error.getMessage());
@@ -1232,10 +1232,9 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
                 Log.d(TAG, "Could not parse the baseURL to an URL: " + ex.getMessage());
                 return null;
             }
-            SyncHttpClient httpClient = new MySyncHttpClient(this);
-            httpClient.setBasicAuth(getOpenHABUsername(), getOpenHABPassword(), true);
-            httpClient.setTimeout(30000);
-            mNotifySettings = new NotificationSettings(baseUrl, httpClient);
+            MySyncHttpClient syncHttpClient = new MySyncHttpClient(this);
+            syncHttpClient.setBasicAuth(getOpenHABUsername(), getOpenHABPassword());
+            mNotifySettings = new NotificationSettings(baseUrl, syncHttpClient);
         }
         return mNotifySettings;
     }

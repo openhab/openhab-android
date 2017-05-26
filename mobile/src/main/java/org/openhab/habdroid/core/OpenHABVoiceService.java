@@ -22,6 +22,7 @@ import org.openhab.habdroid.R;
 import org.openhab.habdroid.util.Constants;
 import org.openhab.habdroid.util.ContinuingIntentService;
 import org.openhab.habdroid.util.MyAsyncHttpClient;
+import org.openhab.habdroid.util.MyHttpClient;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -164,7 +165,7 @@ public class OpenHABVoiceService extends ContinuingIntentService implements Open
             @Override
             public void run() {
                 mAsyncHttpClient.post(mOpenHABBaseUrl + "rest/items/" + itemName,
-                        command, "text/plain;charset=UTF-8", new MyAsyncHttpClient.ResponseHandler() {
+                        command, "text/plain;charset=UTF-8", new MyHttpClient.ResponseHandler() {
                             @Override
                             public void onSuccess(Call call, int statusCode, Headers headers, byte[] responseBody) {
                                 Log.d(TAG, "Command was sent successfully");

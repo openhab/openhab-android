@@ -1,22 +1,19 @@
 package org.openhab.habdroid.core.notifications;
 
-import android.content.Context;
 import android.os.Build;
-import android.provider.Settings;
 import android.util.Log;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
-import com.loopj.android.http.AsyncHttpResponseHandler;
-import com.loopj.android.http.TextHttpResponseHandler;
 
-import org.openhab.habdroid.util.Constants;
+import org.openhab.habdroid.util.MyHttpClient;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
 import java.net.URLEncoder;
 
-import cz.msebera.android.httpclient.Header;
+import okhttp3.Call;
+import okhttp3.Headers;
 
 public class GoogleCloudMessageConnector {
     private static final String TAG = GoogleCloudMessageConnector.class.getSimpleName();
@@ -69,9 +66,9 @@ public class GoogleCloudMessageConnector {
         }
 
         Log.d(TAG, "Register device at openHAB-cloud with URL: " + regUrl);
-        mSettings.getHttpClient().get(regUrl, new TextHttpResponseHandler() {
+        mSettings.getHttpClient().get(regUrl, new MyHttpClient.ResponseHandler() {
             @Override
-            public void onFailure(int statusCode, Header[] headers, String responseBody, Throwable error) {
+            public void onFailure(Call call, int statusCode, Headers headers, byte[] responseBody, Throwable error) {
                 Log.e(TAG, "GCM reg id error: " + error.getMessage());
                 isRegistered = false;
                 if (responseBody != null)
@@ -79,7 +76,7 @@ public class GoogleCloudMessageConnector {
             }
 
             @Override
-            public void onSuccess(int statusCode, Header[] headers, String responseBody) {
+            public void onSuccess(Call call, int statusCode, Headers headers, byte[] responseBody) {
                 Log.d(TAG, "GCM reg id success");
                 isRegistered = true;
             }

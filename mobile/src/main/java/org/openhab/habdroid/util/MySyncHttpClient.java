@@ -10,30 +10,86 @@
 package org.openhab.habdroid.util;
 
 import android.content.Context;
-import android.preference.PreferenceManager;
+import android.os.Handler;
+import android.os.Looper;
+import android.support.annotation.NonNull;
 
-import com.loopj.android.http.SyncHttpClient;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.util.Map;
 
-import javax.net.ssl.SSLContext;
+import okhttp3.Call;
+import okhttp3.Headers;
+import okhttp3.MediaType;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
-import cz.msebera.android.httpclient.conn.ssl.SSLSocketFactory;
-import de.duenndns.ssl.MemorizingTrustManager;
+public class MySyncHttpClient extends MyHttpClient<Response> {
 
-public class MySyncHttpClient extends SyncHttpClient {
+    public MySyncHttpClient(Context ctx) {
+        clientSSLSetup(ctx);
+    }
 
-	private SSLContext sslContext;
-	private SSLSocketFactory sslSocketFactory;
+    protected Response method(String url, String method, Map<String, String> addHeaders, String
+            requestBody, String mediaType, final ResponseHandler responseHandler) {
+        Request.Builder requestBuilder = new Request.Builder();
+        requestBuilder.url(url);
+        for (Map.Entry<String, String> entry : headers.entrySet()) {
+            requestBuilder.addHeader(entry.getKey(), entry.getValue());
+        }
+        if (addHeaders != null) {
+            for (Map.Entry<String, String> entry : addHeaders.entrySet()) {
+                requestBuilder.addHeader(entry.getKey(), entry.getValue());
+            }
+        }
+        if (requestBody != null) {
+            requestBuilder.method(method, RequestBody.create(MediaType.parse(mediaType), requestBody));
+        }
+        Call call = client.newCall(requestBuilder.build());
+        try {
+            Response resp = call.execute();
+            if (resp.isSuccessful()) {
+                responseHandler.onSuccess(call, resp.code(), resp.headers(), resp.body().bytes());
+            } else {
+                responseHandler.onFailure(call, resp.code(), resp.headers(), resp.body().bytes(),
+                        new IOException(resp.code() + ": " + resp.message()));
+            }
+            return resp;
+        } catch(IOException ex) {
+            responseHandler.onFailure(call, 0, new Headers.Builder().build(), null, ex);
+            return new Response.Builder().code(500).message(ex.getMessage()).build();
+        }
+    }
 
-	public MySyncHttpClient(Context ctx) {
-        super();
-		try {
-	        sslContext = SSLContext.getInstance("TLS");
-	        sslContext.init(MyKeyManager.getInstance(ctx), MemorizingTrustManager.getInstanceList(ctx), new java.security.SecureRandom());
-	        sslSocketFactory = new MySSLSocketFactory(sslContext);
-            if (PreferenceManager.getDefaultSharedPreferences(ctx).getBoolean(Constants.PREFERENCE_SSLHOST, false))
-                sslSocketFactory.setHostnameVerifier(SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
-	        this.setSSLSocketFactory(sslSocketFactory);
-	    } catch (Exception ex) {
-	    }
-	}
+    @NonNull
+    private ResponseHandler getResponseHandler(final TextResponseHandler textResponseHandler) {
+        return new ResponseHandler() {
+            @Override
+            public void onFailure(Call call, int statusCode, Headers headers, byte[] responseBody, Throwable error) {
+                try {
+                    String responseString = responseBody == null ? null : new String(responseBody, "UTF-8");
+                    textResponseHandler.onFailure(call, statusCode, headers, responseString, error);
+                } catch (UnsupportedEncodingException e) {
+                    textResponseHandler.onFailure(call, statusCode, headers, null, e);
+                }
+            }
+
+            @Override
+            public void onSuccess(Call call, int statusCode, Headers headers, byte[] responseBody) {
+                try {
+                    String responseString = responseBody == null ? null : new String(responseBody, "UTF-8");
+                    textResponseHandler.onSuccess(call, statusCode, headers, responseString);
+                } catch (UnsupportedEncodingException e) {
+                    textResponseHandler.onFailure(call, statusCode, headers, null, e);
+                }
+            }
+        };
+    }
+
+    private void runOnUiThread(Runnable runnable) {
+        new Handler(Looper.getMainLooper()).post(runnable);
+    }
+
+
 }

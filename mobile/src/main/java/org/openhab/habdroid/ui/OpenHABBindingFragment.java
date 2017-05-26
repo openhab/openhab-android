@@ -24,6 +24,7 @@ import com.google.gson.GsonBuilder;
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.model.OpenHABBinding;
 import org.openhab.habdroid.util.MyAsyncHttpClient;
+import org.openhab.habdroid.util.MyHttpClient;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
@@ -176,7 +177,7 @@ public class OpenHABBindingFragment extends ListFragment implements SwipeRefresh
     private void loadBindings() {
         if (mAsyncHttpClient != null) {
             startProgressIndicator();
-            mRequestHandle = mAsyncHttpClient.get(openHABBaseUrl + "rest/bindings", new MyAsyncHttpClient.ResponseHandler() {
+            mRequestHandle = mAsyncHttpClient.get(openHABBaseUrl + "rest/bindings", new MyHttpClient.ResponseHandler() {
                 @Override
                 public void onSuccess(Call call, int statusCode, Headers headers, byte[] responseBody) {
                     stopProgressIndicator();

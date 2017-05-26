@@ -47,6 +47,7 @@ import org.openhab.habdroid.ui.widget.OnColorChangedListener;
 import org.openhab.habdroid.ui.widget.SegmentedControlButton;
 import org.openhab.habdroid.util.MjpegStreamer;
 import org.openhab.habdroid.util.MyAsyncHttpClient;
+import org.openhab.habdroid.util.MyHttpClient;
 import org.openhab.habdroid.util.MySmartImageView;
 
 import java.net.MalformedURLException;
@@ -768,7 +769,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     
     public void sendItemCommand(OpenHABItem item, String command) {
         if (item != null && command != null) {
-            mAsyncHttpClient.post(item.getLink(), command, "text/plain", new MyAsyncHttpClient.TextResponseHandler() {
+            mAsyncHttpClient.post(item.getLink(), command, "text/plain", new MyHttpClient.TextResponseHandler() {
                 @Override
                 public void onFailure(Call call, int statusCode, Headers headers, String responseString, Throwable error) {
                     Log.e(TAG, "Got command error " + error.getMessage());
