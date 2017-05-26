@@ -68,6 +68,8 @@ import org.openhab.habdroid.core.NotificationDeletedBroadcastReceiver;
 import org.openhab.habdroid.core.OpenHABTracker;
 import org.openhab.habdroid.core.OpenHABTrackerReceiver;
 import org.openhab.habdroid.core.OpenHABVoiceService;
+import org.openhab.habdroid.core.notifications.GoogleCloudMessageConnector;
+import org.openhab.habdroid.core.notifications.NotificationSettings;
 import org.openhab.habdroid.model.OpenHABLinkedPage;
 import org.openhab.habdroid.model.OpenHABSitemap;
 import org.openhab.habdroid.model.thing.ThingType;
@@ -75,6 +77,7 @@ import org.openhab.habdroid.ui.drawer.OpenHABDrawerAdapter;
 import org.openhab.habdroid.ui.drawer.OpenHABDrawerItem;
 import org.openhab.habdroid.util.Constants;
 import org.openhab.habdroid.util.MyAsyncHttpClient;
+import org.openhab.habdroid.util.MySyncHttpClient;
 import org.openhab.habdroid.util.Util;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
@@ -82,6 +85,8 @@ import org.xml.sax.SAXException;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
@@ -129,8 +134,6 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
             }
         }
     }
-
-    public static final String GCM_SENDER_ID = "737820980945";
     // GCM Registration expiration
     public static final long REGISTRATION_EXPIRY_TIME_MS = 1000 * 3600 * 24 * 7;
     // Logging TAG
@@ -191,7 +194,10 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
     private List<OpenHABDrawerItem> mDrawerItemList;
     private ProgressBar mProgressBar;
     private Boolean mIsMyOpenHAB = false;
-    private String mRegId = null;
+    private NotificationSettings mNotifySettings = null;
+
+    public static String GCM_SENDER_ID;
+
     /*
      *Daydreaming gets us into a funk when in fullscreen, this allows us to
      *reset ourselves to fullscreen.
@@ -1176,70 +1182,62 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
     }
 
     private void gcmRegisterBackground() {
-        // We need settings
-        if (mSettings == null)
-            return;
-        // We need remote URL, username and password, without them we can't connect to my.openHAB
-        String remoteUrl = mSettings.getString(Constants.PREFERENCE_ALTURL, null);
-        if (TextUtils.isEmpty(remoteUrl) || TextUtils.isEmpty(openHABUsername) || TextUtils.isEmpty(openHABPassword)) {
-            Log.d(TAG, "Remote URL, username or password are empty, no GCM registration will be made");
-            return;
-        }
-        // We need remote URL to be my.oh
-        if (!remoteUrl.toLowerCase().contains("openhab.org")) {
-            Log.d(TAG, "Remote URL " + remoteUrl + "is not a openhab domain, no GCM registration will be made");
-            return;
-        }
-        mIsMyOpenHAB = true;
-        // Finally, all sanity is done
         Crittercism.setUsername(openHABUsername);
+        OpenHABMainActivity.GCM_SENDER_ID = null;
+        // if no notification settings can be constructed, no GCM registration can be made.
+        if (getNotificationSettings() == null)
+            return;
+
         if (mGcm == null)
             mGcm = GoogleCloudMessaging.getInstance(getApplicationContext());
-        final String baseUrl = remoteUrl;
+
         new AsyncTask<Void, Void, String>() {
             @Override
             protected String doInBackground(Void... params) {
-                try {
-                    mRegId = mGcm.register(GCM_SENDER_ID);
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            String deviceModel = null;
-                            try {
-                                deviceModel = URLEncoder.encode(Build.MODEL, "UTF-8");
-                                String deviceId = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
-                                String regUrl = baseUrl + "/addAndroidRegistration?deviceId=" + deviceId +
-                                        "&deviceModel=" + deviceModel + "&regId=" + mRegId;
-                                mAsyncHttpClient.get(regUrl, new MyAsyncHttpClient.ResponseHandler() {
-                                    @Override
-                                    public void onFailure(Call call, int statusCode, Headers headers, byte[] responseBody, Throwable error) {
-                                        Log.e(TAG, "GCM reg id error: " + error.getMessage());
-                                        if (responseBody != null)
-                                            Log.e(TAG, "Error response = " + new String(responseBody));
-                                    }
+                String deviceId = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
+                GoogleCloudMessageConnector connector =
+                        new GoogleCloudMessageConnector(getNotificationSettings(), deviceId, mGcm);
 
-                                    @Override
-                                    public void onSuccess(Call call, int statusCode, Headers headers, byte[] responseBody) {
-                                        Log.d(TAG, "GCM reg id success");
-                                    }
-                                });
-                            } catch (UnsupportedEncodingException e) {
-                                e.printStackTrace();
-                            }
-
-                        }
-                    });
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    Log.e(TAG, "Error getting GCM ID: " + e.getMessage());
+                if (connector.register()) {
+                    OpenHABMainActivity.GCM_SENDER_ID = getNotificationSettings().getSenderId();
                 }
-                return mRegId;
+                return null;
             }
 
             @Override
-            protected void onPostExecute(String regId) {
-            }
+            protected void onPostExecute(String regId) {}
         }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, null, null, null);
+    }
+
+    /**
+     * Returns the notification settings object
+     * @return
+     */
+    public NotificationSettings getNotificationSettings() {
+        if (mNotifySettings == null) {
+            // We need settings
+            if (mSettings == null)
+                return null;
+
+            // We need remote URL, username and password, without them we can't connect to openhab-cloud
+            String remoteUrl = mSettings.getString(Constants.PREFERENCE_ALTURL, null);
+            if (TextUtils.isEmpty(remoteUrl) || TextUtils.isEmpty(openHABUsername) || TextUtils.isEmpty(openHABPassword)) {
+                Log.d(TAG, "Remote URL, username or password are empty, no GCM registration will be made");
+                return null;
+            }
+            final URL baseUrl;
+            try {
+                baseUrl = new URL(remoteUrl);
+            } catch(MalformedURLException ex) {
+                Log.d(TAG, "Could not parse the baseURL to an URL: " + ex.getMessage());
+                return null;
+            }
+            SyncHttpClient httpClient = new MySyncHttpClient(this);
+            httpClient.setBasicAuth(getOpenHABUsername(), getOpenHABPassword(), true);
+            httpClient.setTimeout(30000);
+            mNotifySettings = new NotificationSettings(baseUrl, httpClient);
+        }
+        return mNotifySettings;
     }
 
     /**

@@ -55,4 +55,21 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_marginTop="20dp"
         android:gravity="center" />
+    <TextView
+        android:id="@+id/openhab_gcm_label"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/info_openhab_gcm_label"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_marginTop="20dp"
+        android:gravity="center" />
+    <TextView
+        android:id="@+id/openhab_gcm"
+        android:textIsSelectable="true"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_marginTop="20dp"
+        android:gravity="center" />
 </LinearLayout>
