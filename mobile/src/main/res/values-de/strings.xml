@@ -36,7 +36,7 @@
     <string name="settings_openhab_screentimeroff">Deaktiviere Ruhezustand</string>
     <string name="settings_openhab_screentimeroff_summary">Schaltet das automatische Aktivieren des Ruhezustands nach Inaktivität ab, wenn die openHAB App läuft.</string>
     <string name="settings_openhab_demomode">Demo Modus</string>
-    <string name="settings_openhab_demomode_summary">Betreibt openHAB App im Demo Modus</string>
+    <string name="settings_openhab_demomode_summary">Betreibt openHAB im Demo Modus</string>
     <string name="settings_openhab_theme">openHAB Thema</string>
     <string name="settings_openhab_appversion">openHAB App Version</string>
     <string name="settings_openhab_sslcert">Ignoriere SSL Zertifikat</string>
@@ -50,7 +50,7 @@
     <string name="title_voice_widget">openHAB Sprachbefehl</string>
     <string name="info_voice_input">"openHAB, zu Ihren Diensten!"</string>
     <string name="info_voice_recognized_text">"Erkannter Befehl: %1$s"</string>
-    <string name="info_demo_mode">openHAB App läuft im Demo Modus. Unter Einstellungen kann ein eigener openHAB Server konfiguriert werden.</string>
+    <string name="info_demo_mode">openHAB läuft im Demo Modus. Unter Einstellungen kann ein eigener openHAB Server konfiguriert werden.</string>
     <string name="info_conn_url">Verbinde mit lokaler URL</string>
     <string name="info_conn_rem_url">Verbinde mit Remote URL</string>
     <string name="info_discovery">Suche openHAB. Bitte warten...</string>

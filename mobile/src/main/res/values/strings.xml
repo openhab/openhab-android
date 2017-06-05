@@ -40,7 +40,7 @@
     <string name="settings_openhab_screentimeroff">Disable display timer</string>
     <string name="settings_openhab_screentimeroff_summary">Disable display switch off timer when openHAB is running</string>
     <string name="settings_openhab_demomode">Demo mode</string>
-    <string name="settings_openhab_demomode_summary">Run openHAB App in demo mode</string>
+    <string name="settings_openhab_demomode_summary">Run in demo mode</string>
     <string name="settings_openhab_theme">openHAB Theme</string>
     <string name="settings_openhab_appversion">openHAB App Version</string>
     <string name="settings_openhab_sslcert">Ignore SSL certificate</string>
@@ -54,7 +54,7 @@
     <string name="title_voice_widget">openHAB Voice Commands</string>
     <string name="info_voice_input">"openHAB, at your command!"</string>
     <string name="info_voice_recognized_text">"Recognized command: %1$s"</string>
-    <string name="info_demo_mode">openHAB App is running in demo mode. To connect to your openHAB server please go to settings menu.</string>
+    <string name="info_demo_mode">Running in demo mode. To connect to your openHAB server please go to settings menu.</string>
     <string name="info_conn_url">Connecting to local URL</string>
     <string name="info_conn_rem_url">Connecting to remote URL</string>
     <string name="info_discovery">Discovering openHAB. Please wait...</string>
