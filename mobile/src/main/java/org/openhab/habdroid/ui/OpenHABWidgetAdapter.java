@@ -23,7 +23,6 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.webkit.WebView;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -50,6 +49,7 @@ import org.openhab.habdroid.util.MyAsyncHttpClient;
 import org.openhab.habdroid.util.MyHttpClient;
 import org.openhab.habdroid.util.MySmartImageView;
 
+import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -561,7 +561,6 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     		if (labelTextView != null)
     			labelTextView.setText(openHABWidget.getLabel());
     		final Spinner selectionSpinner = (Spinner)widgetView.findViewById(R.id.selectionspinner);
-			selectionSpinner.setOnItemSelectedListener(null);
     		ArrayList<String> spinnerArray = new ArrayList<String>();
     		Iterator<OpenHABWidgetMapping> mappingIterator = openHABWidget.getMappings().iterator();
     		while (mappingIterator.hasNext()) {
@@ -572,58 +571,47 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
                         spinnerSelectedIndex = spinnerArray.size() - 1;
                     }
     		}
-    		ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(this.getContext() ,
-    				android.R.layout.simple_spinner_item, spinnerArray);
+			ArrayAdapter<String> spinnerAdapter = new SpinnerClickAdapter<String>(this.getContext(),
+				android.R.layout.simple_spinner_item, spinnerArray, openHABWidget, new AdapterView.OnItemClickListener() {
+				@Override
+				public void onItemClick(AdapterView<?> parent, View view, int index, long id) {
+					Log.d(TAG, "Spinner item click on index " + index);
+					String selectedLabel = (String) parent.getAdapter().getItem(index);
+					Log.d(TAG, "Spinner onItemSelected selected label = " + selectedLabel);
+					OpenHABWidget openHABWidget = (OpenHABWidget) parent.getTag();
+					if (openHABWidget != null) {
+						Log.d(TAG, "Label selected = " + openHABWidget.getMapping(index).getLabel());
+						Iterator<OpenHABWidgetMapping> mappingIterator = openHABWidget.getMappings().iterator();
+						while (mappingIterator.hasNext()) {
+							OpenHABWidgetMapping openHABWidgetMapping = mappingIterator.next();
+							if (openHABWidgetMapping.getLabel().equals(selectedLabel)) {
+								Log.d(TAG, "Spinner onItemSelected found match with " + openHABWidgetMapping.getCommand());
+								if (openHABWidget.getItem() != null && openHABWidget.getItem().getState() != null) {
+									sendItemCommand(openHABWidget.getItem(), openHABWidgetMapping.getCommand());
+								} else if (openHABWidget.getItem() != null && openHABWidget.getItem().getState() == null) {
+									Log.d(TAG, "Spinner onItemSelected selected label command and state == null");
+									sendItemCommand(openHABWidget.getItem(), openHABWidgetMapping.getCommand());
+								}
+							}
+						}
+					}
+					// TODO: there's probably a better solution...
+					try {
+						// Close the spinner programmatically
+						Method method = Spinner.class.getDeclaredMethod("onDetachedFromWindow");
+						method.setAccessible(true);
+						method.invoke(selectionSpinner);
+					} catch (Exception ex) {}
+				}
+			});
     		spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
     		selectionSpinner.setAdapter(spinnerAdapter);
-    		selectionSpinner.setTag(openHABWidget);
     		if (spinnerSelectedIndex >= 0) {
 				Log.d(TAG, "Setting spinner selected index to " + String.valueOf(spinnerSelectedIndex));
 				selectionSpinner.setSelection(spinnerSelectedIndex);
 			} else {
 				Log.d(TAG, "Not setting spinner selected index");
 			}
-			selectionSpinner.post(new Runnable() {
-				@Override
-				public void run() {
-					selectionSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
-						public void onItemSelected(AdapterView<?> parent, View view,
-												   int index, long id) {
-							Log.d(TAG, "Spinner item click on index " + index);
-							Spinner spinner = (Spinner) parent;
-							String selectedLabel = (String) spinner.getAdapter().getItem(index);
-							Log.d(TAG, "Spinner onItemSelected selected label = " + selectedLabel);
-							OpenHABWidget openHABWidget = (OpenHABWidget) parent.getTag();
-							if (openHABWidget != null) {
-								Log.d(TAG, "Label selected = " + openHABWidget.getMapping(index).getLabel());
-								Iterator<OpenHABWidgetMapping> mappingIterator = openHABWidget.getMappings().iterator();
-								while (mappingIterator.hasNext()) {
-									OpenHABWidgetMapping openHABWidgetMapping = mappingIterator.next();
-									if (openHABWidgetMapping.getLabel().equals(selectedLabel)) {
-										Log.d(TAG, "Spinner onItemSelected found match with " + openHABWidgetMapping.getCommand());
-										if (openHABWidget.getItem() != null && openHABWidget.getItem().getState() != null) {
-											// Only send the command for selection of selected command will change the state
-											if (!openHABWidget.getItem().getState().equals(openHABWidgetMapping.getCommand())) {
-												Log.d(TAG, "Spinner onItemSelected selected label command != current item state");
-												sendItemCommand(openHABWidget.getItem(), openHABWidgetMapping.getCommand());
-											}
-										} else if (openHABWidget.getItem() != null && openHABWidget.getItem().getState() == null) {
-											Log.d(TAG, "Spinner onItemSelected selected label command and state == null");
-											sendItemCommand(openHABWidget.getItem(), openHABWidgetMapping.getCommand());
-										}
-									}
-								}
-							}
-//					if (!openHABWidget.getItem().getState().equals(openHABWidget.getMapping(index).getCommand()))
-//						sendItemCommand(openHABWidget.getItem(),
-//								openHABWidget.getMapping(index).getCommand());
-						}
-
-						public void onNothingSelected(AdapterView<?> arg0) {
-						}
-					});
-				}
-			});
     		break;
     	case TYPE_SETPOINT:
     		splitString = openHABWidget.getLabel().split("\\[|\\]");
