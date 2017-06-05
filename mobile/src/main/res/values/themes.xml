@@ -24,9 +24,9 @@
         <item name="widgetlistItemDivider">?android:dividerHorizontal</item>
         <item name="frameWidgetDividerBackground">@drawable/material_divider_dark</item>
 
-        <item name="colorPrimary">#9E9E9E</item>
-        <item name="colorAccent">#9E9E9E</item>
-        <item name="colorPrimaryDark">#212121</item>
+        <item name="colorPrimary">#FF5722</item>
+        <item name="colorAccent">#FF5722</item>
+        <item name="colorPrimaryDark">#BF360C</item>
 
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
