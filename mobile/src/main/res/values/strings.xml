@@ -59,6 +59,8 @@
     <string name="info_demo_mode">HABDroid is running in demo mode. To connect to your openHAB please go to settings menu.</string>
     <string name="info_conn_url">Connecting to local URL</string>
     <string name="info_conn_rem_url">Connecting to remote URL</string>
+    <string name="info_conn_trust_all_certs_failed">Applying setting to trust all certs
+        failed: %s</string>
     <string name="info_discovery">Discovering openHAB. Please wait...</string>
     <string name="error_no_url">Please check that openHAB is running or configure openHAB URL or remote URL</string>
     <string name="error_authentication_failed">Authentication Failed. Please check Username/Password settings</string>
