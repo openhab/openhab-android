@@ -10,7 +10,7 @@ Release version of the app is always available for installation through
 [Google Play](https://play.google.com/store/apps/details?id=org.openhab.habdroid)
 Development snapshots are available for download on [CloudBees](https://openhab.ci.cloudbees.com/job/HABDroid/)
 
-<a href="https://play.google.com/store/apps/details?id=org.openhab.habdroid"><img src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" height="60"></a>
+<a href="https://play.google.com/store/apps/details?id=org.openhab.habdroid"><img src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" height="80"></a>
 
 ## Setting up development environment
 
