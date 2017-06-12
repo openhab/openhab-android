@@ -32,6 +32,7 @@ import org.openhab.habdroid.model.OpenHABItem;
 import org.openhab.habdroid.model.OpenHABNFCActionList;
 import org.openhab.habdroid.model.OpenHABWidget;
 import org.openhab.habdroid.model.OpenHABWidgetDataSource;
+import org.openhab.habdroid.util.Constants;
 import org.openhab.habdroid.util.MyAsyncHttpClient;
 import org.openhab.habdroid.util.MyHttpClient;
 import org.openhab.habdroid.util.Util;
@@ -148,7 +149,8 @@ public class OpenHABWidgetListFragment extends ListFragment {
         openHABUsername = mActivity.getOpenHABUsername();
         openHABPassword = mActivity.getOpenHABPassword();
         // We're using atmosphere so create an own client to not block the others
-        mAsyncHttpClient = new MyAsyncHttpClient(mActivity);
+        mAsyncHttpClient = new MyAsyncHttpClient(PreferenceManager
+                .getDefaultSharedPreferences(mActivity).getBoolean(Constants.PREFERENCE_SSLHOST, false));
         mAsyncHttpClient.setBasicAuth(openHABUsername, openHABPassword);
         openHABWidgetAdapter.setOpenHABUsername(openHABUsername);
         openHABWidgetAdapter.setOpenHABPassword(openHABPassword);

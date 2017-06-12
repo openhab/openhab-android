@@ -9,7 +9,6 @@
 
 package org.openhab.habdroid.util;
 
-import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.NonNull;
@@ -21,14 +20,15 @@ import java.util.Map;
 import okhttp3.Call;
 import okhttp3.Headers;
 import okhttp3.MediaType;
+import okhttp3.Protocol;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class MySyncHttpClient extends MyHttpClient<Response> {
 
-    public MySyncHttpClient(Context ctx) {
-        clientSSLSetup(ctx);
+    public MySyncHttpClient(Boolean ignoreSSLHostname) {
+        clientSSLSetup(ignoreSSLHostname);
     }
 
     protected Response method(String url, String method, Map<String, String> addHeaders, String
@@ -46,7 +46,8 @@ public class MySyncHttpClient extends MyHttpClient<Response> {
         if (requestBody != null) {
             requestBuilder.method(method, RequestBody.create(MediaType.parse(mediaType), requestBody));
         }
-        Call call = client.newCall(requestBuilder.build());
+        Request request = requestBuilder.build();
+        Call call = client.newCall(request);
         try {
             Response resp = call.execute();
             if (resp.isSuccessful()) {
@@ -58,7 +59,13 @@ public class MySyncHttpClient extends MyHttpClient<Response> {
             return resp;
         } catch(IOException ex) {
             responseHandler.onFailure(call, 0, new Headers.Builder().build(), null, ex);
-            return new Response.Builder().code(500).message(ex.getMessage()).build();
+            return new Response
+                    .Builder()
+                    .code(500)
+                    .message(ex.getMessage())
+                    .request(request)
+                    .protocol(Protocol.HTTP_1_0)
+                    .build();
         }
     }
 

@@ -9,8 +9,6 @@
 
 package org.openhab.habdroid.util;
 
-import android.content.Context;
-import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 
 import org.apache.http.conn.ssl.SSLSocketFactory;
@@ -41,8 +39,8 @@ public abstract class MyHttpClient<T> {
     protected OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder();
     protected OkHttpClient client = clientBuilder.build();
 
-    protected void clientSSLSetup(Context ctx) {
-        if (PreferenceManager.getDefaultSharedPreferences(ctx).getBoolean(Constants.PREFERENCE_SSLHOST, false)) {
+    protected void clientSSLSetup(Boolean ignoreSSLHostname) {
+        if (ignoreSSLHostname) {
             clientBuilder.hostnameVerifier(SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
             client = clientBuilder.build();
         }

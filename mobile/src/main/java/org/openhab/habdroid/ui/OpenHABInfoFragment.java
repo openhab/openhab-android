@@ -12,6 +12,7 @@ package org.openhab.habdroid.ui;
 
 import android.app.Dialog;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.DialogFragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -22,6 +23,7 @@ import android.widget.TextView;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.openhab.habdroid.R;
+import org.openhab.habdroid.util.Constants;
 import org.openhab.habdroid.util.MyAsyncHttpClient;
 import org.openhab.habdroid.util.MyHttpClient;
 
@@ -49,7 +51,9 @@ public class OpenHABInfoFragment extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.openhabinfo, container);
-        mAsyncHttpClient = new MyAsyncHttpClient(getActivity().getApplicationContext());
+        mAsyncHttpClient = new MyAsyncHttpClient(PreferenceManager.getDefaultSharedPreferences
+                (getActivity().getApplicationContext())
+                .getBoolean(Constants.PREFERENCE_SSLHOST, false));
         mOpenHABVersionText = (TextView)view.findViewById(R.id.openhab_version);
         mOpenHABUUIDText = (TextView)view.findViewById(R.id.openhab_uuid);
         mOpenHABSecretText = (TextView)view.findViewById(R.id.openhab_secret);

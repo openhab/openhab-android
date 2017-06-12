@@ -81,7 +81,9 @@ public class MyWebImage implements SmartImage {
 
     private Bitmap getBitmapFromUrl(Context context, final String url, final String iconFormat) {
         final Map<String, Object> result = new HashMap<String, Object>();
-        MyAsyncHttpClient client = new MyAsyncHttpClient(context);
+        MyAsyncHttpClient client = new MyAsyncHttpClient(PreferenceManager
+                .getDefaultSharedPreferences(context)
+                .getBoolean(Constants.PREFERENCE_SSLHOST, false));
         client.setTimeout(READ_TIMEOUT);
         if (shouldAuth) {
             client.setBasicAuth(authUsername, authPassword);
