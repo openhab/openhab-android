@@ -33,3 +33,5 @@ Before producing any amount of code please have a look at [contribution guidelin
 Product names, logos, brands and other trademarks referred to within the openHAB website are the
 property of their respective trademark holders. These trademark holders are not affiliated with
 openHAB or our website. They do not sponsor or endorse our materials.
+
+Google Play and the Google Play logo are trademarks of Google Inc.
