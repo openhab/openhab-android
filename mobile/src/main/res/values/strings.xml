@@ -39,11 +39,11 @@
     <string name="settings_openhab_sslclientcert_howto">SSL client certificate how-to</string>
     <string name="settings_openhab_sslclientcert_howto_url" translatable="false">https://github.com/openhab/openhab.android/blob/master/KeyAuth.md</string>
     <string name="settings_openhab_screentimeroff">Disable display timer</string>
-    <string name="settings_openhab_screentimeroff_summary">Disable display switch off timer when HABDroid is running</string>
+    <string name="settings_openhab_screentimeroff_summary">Disable display switch off timer when openHAB is running</string>
     <string name="settings_openhab_demomode">Demo mode</string>
-    <string name="settings_openhab_demomode_summary">Run HABDroid in demo mode</string>
-    <string name="settings_openhab_theme">HABDroid Theme</string>
-    <string name="settings_openhab_appversion">HABDroid Version</string>
+    <string name="settings_openhab_demomode_summary">Run in demo mode</string>
+    <string name="settings_openhab_theme">openHAB Theme</string>
+    <string name="settings_openhab_appversion">openHAB App Version</string>
     <string name="settings_openhab_sslcert">Ignore SSL certificate</string>
     <string name="settings_openhab_sslcert_summary">Ignore certificate validation during SSL handshake</string>
     <string name="settings_openhab_sslhost">Ignore SSL hostname</string>
@@ -56,7 +56,7 @@
     <string name="title_voice_widget">openHAB Voice Commands</string>
     <string name="info_voice_input">"openHAB, at your command!"</string>
     <string name="info_voice_recognized_text">"Recognized command: %1$s"</string>
-    <string name="info_demo_mode">HABDroid is running in demo mode. To connect to your openHAB please go to settings menu.</string>
+    <string name="info_demo_mode">Running in demo mode. To connect to your openHAB server please go to settings menu.</string>
     <string name="info_conn_url">Connecting to local URL</string>
     <string name="info_conn_rem_url">Connecting to remote URL</string>
     <string name="info_discovery">Discovering openHAB. Please wait...</string>
@@ -76,7 +76,7 @@
     <string name="info_write_tag_progress">Writing the tag</string>
     <string name="info_write_tag_finished">Successfully finished</string>
     <string name="info_write_failed">Tag write error</string>
-    <string name="info_write_tag_unsupported">This device doesn\'t have NFC support :-(</string>
+    <string name="info_write_tag_unsupported">This device doesn\'t have NFC support</string>
     <string name="info_write_tag_disabled">NFC is disabled. Please enable it in device settings menu.</string>
     <string name="info_openhab_version_label">openHAB Version</string>
     <string name="info_openhab_apiversion_label">openHAB Rest API Version</string>
