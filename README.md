@@ -18,11 +18,10 @@ If you want to contribute to Android application we are here to help you to set 
 development environment. openHAB Android app is developed using Android studio and also can be
 build with maven.
 
-- Download and install [Android Studio](http://developer.android.com/sdk/installing/studio.html)
-- After installation launch Android Studio, download and install Android SDK version 4.0.3 (Tools ->
-Android -> SDK Manager)
-- Check out the latest code from github
-- Open the project in Android Studio (File -> Open, select project folder)
+- Download and install [Android Studio](http://developer.android.com/sdk/installing/studio.html).  Should you feel adventurous, preview versions of Android Studio are also available [here](https://developer.android.com/studio/preview/index.html#linux-canary-bundle).
+- After installation, launch Android Studio.  Next, select **Tools** from the main menu, then **Android**, and choose **SDK Manager**.  Install the latest Android build tools, SDKs, and libraries (SDK Tools >= 26.0.0 and SDK Platform-Tools >=26.0.2).
+- Download the latest OpenHAB source code from github with the *git* command:  `git clone https://github.com/openhab/openhab.android.git` or download the source from [here](https://github.com/openhab/openhab.android/archive/master.zip).
+- Open the project in Android Studio (Select **File** from the main menu, then choose **Open**.  Select the OpenHAB project folder and choose **OK**.)
 
 You are ready to contribute!
 
@@ -31,7 +30,7 @@ Before producing any amount of code please have a look at [contribution guidelin
 ## Trademark Disclaimer
 
 Product names, logos, brands and other trademarks referred to within the openHAB website are the
-property of their respective trademark holders. These trademark holders are not affiliated with
-openHAB or our website. They do not sponsor or endorse our materials.
+property of their respective trademark holders.  These trademark holders are not affiliated with
+openHAB or our website.  They do not sponsor or endorse our materials.
 
-Google Play and the Google Play logo are trademarks of Google Inc.
+Google Play&trade; and the Google Play&trade; logo are trademarks of Google Inc.
