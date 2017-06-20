@@ -1229,9 +1229,10 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
                 Log.d(TAG, "Could not parse the baseURL to an URL: " + ex.getMessage());
                 return null;
             }
-            MySyncHttpClient syncHttpClient = new MySyncHttpClient(PreferenceManager
-                    .getDefaultSharedPreferences(this)
-                    .getBoolean(Constants.PREFERENCE_SSLHOST, false));
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+            MySyncHttpClient syncHttpClient = new MySyncHttpClient(
+                    prefs.getBoolean(Constants.PREFERENCE_SSLHOST, false),
+                    prefs.getBoolean(Constants.PREFERENCE_SSLCERT, false));
             syncHttpClient.setBasicAuth(getOpenHABUsername(), getOpenHABPassword());
             mNotifySettings = new NotificationSettings(baseUrl, syncHttpClient);
         }
