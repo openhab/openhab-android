@@ -45,13 +45,13 @@
             android:name="org.openhab.habdroid.ui.OpenHABMainActivity"
             android:label="@string/app_name"
             android:launchMode="singleTop">
-            <!-- for Nougat -->
-            <layout
+            <!-- for Nougat commented out for now due to bug in latest aapt2-->
+            <!--layout
                 android:defaultHeight="500dp"
                 android:defaultWidth="600dp"
                 android:gravity="top|end"
                 android:minHeight="320dp"
-                android:minWidth="480dp" />
+                android:minWidth="480dp" /-->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
