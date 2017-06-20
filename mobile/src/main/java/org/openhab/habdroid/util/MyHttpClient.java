@@ -12,13 +12,20 @@ package org.openhab.habdroid.util;
 import android.content.Context;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
+import android.widget.Toast;
 
-import org.apache.http.conn.ssl.SSLSocketFactory;
+import org.openhab.habdroid.R;
 
 import java.io.UnsupportedEncodingException;
+import java.security.cert.CertificateException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
+
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSocketFactory;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
 
 import okhttp3.Call;
 import okhttp3.Credentials;
@@ -43,9 +50,41 @@ public abstract class MyHttpClient<T> {
 
     protected void clientSSLSetup(Context ctx) {
         if (PreferenceManager.getDefaultSharedPreferences(ctx).getBoolean(Constants.PREFERENCE_SSLHOST, false)) {
-            clientBuilder.hostnameVerifier(SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
-            client = clientBuilder.build();
+            clientBuilder.hostnameVerifier(org.apache.http.conn.ssl.SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
         }
+        if (PreferenceManager.getDefaultSharedPreferences(ctx).getBoolean(Constants
+                .PREFERENCE_SSLCERT, false)) {
+            X509TrustManager trustAllCertsTrustManager =
+                new X509TrustManager() {
+                    @Override
+                    public void checkClientTrusted(java.security.cert.X509Certificate[] chain, String authType) throws CertificateException {
+                    }
+
+                    @Override
+                    public void checkServerTrusted(java.security.cert.X509Certificate[] chain, String authType) throws CertificateException {
+                    }
+
+                    @Override
+                    public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+                        return new java.security.cert.X509Certificate[]{};
+                    }
+                };
+
+            try {
+                final SSLContext sslContext = SSLContext.getInstance("TLS");
+                sslContext.init(null, new TrustManager[] { trustAllCertsTrustManager }, new java
+                        .security.SecureRandom());
+                final SSLSocketFactory sslSocketFactory = sslContext.getSocketFactory();
+                clientBuilder.sslSocketFactory(sslSocketFactory, trustAllCertsTrustManager);
+            } catch (Exception e) {
+                Toast toast = Toast.makeText(ctx,
+                        ctx.getString(R.string.info_conn_trust_all_certs_failed, e
+                                .getMessage()),
+                        Toast.LENGTH_LONG);
+                toast.show();
+            }
+        }
+        client = clientBuilder.build();
     }
 
     public void setBasicAuth(String username, String password) {
