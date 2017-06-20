@@ -13,6 +13,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
@@ -149,8 +150,10 @@ public class OpenHABWidgetListFragment extends ListFragment {
         openHABUsername = mActivity.getOpenHABUsername();
         openHABPassword = mActivity.getOpenHABPassword();
         // We're using atmosphere so create an own client to not block the others
-        mAsyncHttpClient = new MyAsyncHttpClient(PreferenceManager
-                .getDefaultSharedPreferences(mActivity).getBoolean(Constants.PREFERENCE_SSLHOST, false));
+        SharedPreferences prefs = PreferenceManager
+                .getDefaultSharedPreferences(mActivity);
+        mAsyncHttpClient = new MyAsyncHttpClient(prefs.getBoolean(Constants.PREFERENCE_SSLHOST,
+                        false), prefs.getBoolean(Constants.PREFERENCE_SSLCERT, false));
         mAsyncHttpClient.setBasicAuth(openHABUsername, openHABPassword);
         openHABWidgetAdapter.setOpenHABUsername(openHABUsername);
         openHABWidgetAdapter.setOpenHABPassword(openHABPassword);

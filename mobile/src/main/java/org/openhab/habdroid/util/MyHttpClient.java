@@ -10,13 +10,18 @@
 package org.openhab.habdroid.util;
 
 import android.support.annotation.NonNull;
-
-import org.apache.http.conn.ssl.SSLSocketFactory;
+import android.util.Log;
 
 import java.io.UnsupportedEncodingException;
+import java.security.cert.CertificateException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
+
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSocketFactory;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
 
 import okhttp3.Call;
 import okhttp3.Credentials;
@@ -24,6 +29,8 @@ import okhttp3.Headers;
 import okhttp3.OkHttpClient;
 
 public abstract class MyHttpClient<T> {
+
+    private static final String TAG = MyHttpClient.class.getSimpleName();
 
     public interface ResponseHandler {
         void onFailure(Call call, int statusCode, Headers headers, byte[] responseBody, Throwable error);
@@ -39,11 +46,39 @@ public abstract class MyHttpClient<T> {
     protected OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder();
     protected OkHttpClient client = clientBuilder.build();
 
-    protected void clientSSLSetup(Boolean ignoreSSLHostname) {
+    protected void clientSSLSetup(Boolean ignoreSSLHostname, Boolean ignoreCertTrust) {
         if (ignoreSSLHostname) {
-            clientBuilder.hostnameVerifier(SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
+            clientBuilder.hostnameVerifier(org.apache.http.conn.ssl.SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
             client = clientBuilder.build();
         }
+        if (ignoreCertTrust) {
+            X509TrustManager trustAllCertsTrustManager =
+                new X509TrustManager() {
+                    @Override
+                    public void checkClientTrusted(java.security.cert.X509Certificate[] chain, String authType) throws CertificateException {
+                    }
+
+                    @Override
+                    public void checkServerTrusted(java.security.cert.X509Certificate[] chain, String authType) throws CertificateException {
+                    }
+
+                    @Override
+                    public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+                        return new java.security.cert.X509Certificate[]{};
+                    }
+                };
+
+            try {
+                final SSLContext sslContext = SSLContext.getInstance("TLS");
+                sslContext.init(null, new TrustManager[] { trustAllCertsTrustManager }, new java
+                        .security.SecureRandom());
+                final SSLSocketFactory sslSocketFactory = sslContext.getSocketFactory();
+                clientBuilder.sslSocketFactory(sslSocketFactory, trustAllCertsTrustManager);
+            } catch (Exception e) {
+                Log.d(TAG, "Applying certificate trust settings failed", e);
+            }
+        }
+        client = clientBuilder.build();
     }
 
     public void setBasicAuth(String username, String password) {

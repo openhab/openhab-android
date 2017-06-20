@@ -237,7 +237,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
 
         // initialize loopj async http client
         mAsyncHttpClient = new MyAsyncHttpClient(sharedPrefs.getBoolean(Constants.PREFERENCE_SSLHOST,
-                false));
+                false), sharedPrefs.getBoolean(Constants.PREFERENCE_SSLCERT, false));
 
         // Set the theme to one from preferences
         mSettings = PreferenceManager.getDefaultSharedPreferences(this);

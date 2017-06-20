@@ -11,6 +11,7 @@ package org.openhab.habdroid.ui;
 
 
 import android.app.Dialog;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.DialogFragment;
@@ -51,9 +52,10 @@ public class OpenHABInfoFragment extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.openhabinfo, container);
-        mAsyncHttpClient = new MyAsyncHttpClient(PreferenceManager.getDefaultSharedPreferences
-                (getActivity().getApplicationContext())
-                .getBoolean(Constants.PREFERENCE_SSLHOST, false));
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences
+                (getActivity().getApplicationContext());
+        mAsyncHttpClient = new MyAsyncHttpClient(prefs.getBoolean(Constants.PREFERENCE_SSLHOST,
+                false), prefs.getBoolean(Constants.PREFERENCE_SSLCERT, false));
         mOpenHABVersionText = (TextView)view.findViewById(R.id.openhab_version);
         mOpenHABUUIDText = (TextView)view.findViewById(R.id.openhab_uuid);
         mOpenHABSecretText = (TextView)view.findViewById(R.id.openhab_secret);

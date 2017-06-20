@@ -27,8 +27,8 @@ import okhttp3.Response;
 
 public class MySyncHttpClient extends MyHttpClient<Response> {
 
-    public MySyncHttpClient(Boolean ignoreSSLHostname) {
-        clientSSLSetup(ignoreSSLHostname);
+    public MySyncHttpClient(Boolean ignoreSSLHostname, Boolean ignoreCertTrust) {
+        clientSSLSetup(ignoreSSLHostname, ignoreCertTrust);
     }
 
     protected Response method(String url, String method, Map<String, String> addHeaders, String

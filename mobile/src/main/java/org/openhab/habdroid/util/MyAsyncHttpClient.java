@@ -25,8 +25,8 @@ import okhttp3.Response;
 
 public class MyAsyncHttpClient extends MyHttpClient<Call> {
 
-    public MyAsyncHttpClient(Boolean ignoreSSLHostname) {
-        clientSSLSetup(ignoreSSLHostname);
+    public MyAsyncHttpClient(Boolean ignoreSSLHostname, Boolean ignoreCertTrust) {
+        clientSSLSetup(ignoreSSLHostname, ignoreCertTrust);
 	}
 
     protected Call method(String url, String method, Map<String, String> addHeaders, String
