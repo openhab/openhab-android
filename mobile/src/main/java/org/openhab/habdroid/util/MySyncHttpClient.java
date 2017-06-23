@@ -62,7 +62,7 @@ public class MySyncHttpClient extends MyHttpClient<Response> {
             return new Response
                     .Builder()
                     .code(500)
-                    .message(ex.getMessage())
+                    .message(ex.getClass().getName() + ": " + ex.getMessage())
                     .request(request)
                     .protocol(Protocol.HTTP_1_0)
                     .build();

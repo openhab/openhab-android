@@ -3,6 +3,7 @@ package org.openhab.habdroid.util;
 
 import org.junit.Test;
 
+import java.net.UnknownHostException;
 import java.util.HashMap;
 
 import okhttp3.Call;
@@ -10,6 +11,7 @@ import okhttp3.Headers;
 import okhttp3.Response;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class MySyncHttpClientTest {
     /**
@@ -35,6 +37,6 @@ public class MySyncHttpClientTest {
                 });
 
         assertEquals(500, resp.code());
-        assertEquals(host, resp.message());
+        assertTrue(resp.message().startsWith(UnknownHostException.class.getName()));
     }
 }
