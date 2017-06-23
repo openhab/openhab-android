@@ -17,7 +17,7 @@ public class MySyncHttpClientTest {
      */
     @Test
     public void testMethodErrorResponse() {
-        MySyncHttpClient httpClient = new MySyncHttpClient(false);
+        MySyncHttpClient httpClient = new MySyncHttpClient(false, false);
 
         String host = "just.a.local.url.local";
         Response resp = httpClient.method(
