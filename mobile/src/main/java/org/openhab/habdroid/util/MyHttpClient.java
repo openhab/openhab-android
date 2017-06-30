@@ -9,12 +9,8 @@
 
 package org.openhab.habdroid.util;
 
-import android.content.Context;
-import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
-import android.widget.Toast;
-
-import org.openhab.habdroid.R;
+import android.util.Log;
 
 import java.io.UnsupportedEncodingException;
 import java.security.cert.CertificateException;
@@ -34,6 +30,8 @@ import okhttp3.OkHttpClient;
 
 public abstract class MyHttpClient<T> {
 
+    private static final String TAG = MyHttpClient.class.getSimpleName();
+
     public interface ResponseHandler {
         void onFailure(Call call, int statusCode, Headers headers, byte[] responseBody, Throwable error);
         void onSuccess(Call call, int statusCode, Headers headers, byte[] responseBody);
@@ -48,12 +46,12 @@ public abstract class MyHttpClient<T> {
     protected OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder();
     protected OkHttpClient client = clientBuilder.build();
 
-    protected void clientSSLSetup(Context ctx) {
-        if (PreferenceManager.getDefaultSharedPreferences(ctx).getBoolean(Constants.PREFERENCE_SSLHOST, false)) {
+    protected void clientSSLSetup(Boolean ignoreSSLHostname, Boolean ignoreCertTrust) {
+        if (ignoreSSLHostname) {
             clientBuilder.hostnameVerifier(org.apache.http.conn.ssl.SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
+            client = clientBuilder.build();
         }
-        if (PreferenceManager.getDefaultSharedPreferences(ctx).getBoolean(Constants
-                .PREFERENCE_SSLCERT, false)) {
+        if (ignoreCertTrust) {
             X509TrustManager trustAllCertsTrustManager =
                 new X509TrustManager() {
                     @Override
@@ -77,11 +75,7 @@ public abstract class MyHttpClient<T> {
                 final SSLSocketFactory sslSocketFactory = sslContext.getSocketFactory();
                 clientBuilder.sslSocketFactory(sslSocketFactory, trustAllCertsTrustManager);
             } catch (Exception e) {
-                Toast toast = Toast.makeText(ctx,
-                        ctx.getString(R.string.info_conn_trust_all_certs_failed, e
-                                .getMessage()),
-                        Toast.LENGTH_LONG);
-                toast.show();
+                Log.d(TAG, "Applying certificate trust settings failed", e);
             }
         }
         client = clientBuilder.build();

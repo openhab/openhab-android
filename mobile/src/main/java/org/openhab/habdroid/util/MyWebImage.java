@@ -10,6 +10,7 @@
 package org.openhab.habdroid.util;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -81,7 +82,9 @@ public class MyWebImage implements SmartImage {
 
     private Bitmap getBitmapFromUrl(Context context, final String url, final String iconFormat) {
         final Map<String, Object> result = new HashMap<String, Object>();
-        MyAsyncHttpClient client = new MyAsyncHttpClient(context);
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        MyAsyncHttpClient client = new MyAsyncHttpClient(prefs.getBoolean(Constants
+                .PREFERENCE_SSLHOST, false), prefs.getBoolean(Constants.PREFERENCE_SSLCERT, false));
         client.setTimeout(READ_TIMEOUT);
         if (shouldAuth) {
             client.setBasicAuth(authUsername, authPassword);
