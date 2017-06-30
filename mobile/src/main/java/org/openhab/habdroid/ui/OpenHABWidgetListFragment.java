@@ -111,17 +111,6 @@ public class OpenHABWidgetListFragment extends ListFragment {
         Log.d(TAG, "isAdded = " + isAdded());
         mTag = this;
         super.onCreate(savedInstanceState);
-        if (savedInstanceState != null) {
-            Log.d(TAG, "restoring state from savedInstanceState");
-            displayPageUrl = savedInstanceState.getString("displayPageUrl");
-            openHABBaseUrl = savedInstanceState.getString("openHABBaseUrl");
-            sitemapRootUrl = savedInstanceState.getString("sitemapRootUrl");
-            openHABUsername = savedInstanceState.getString("openHABUsername");
-            openHABPassword = savedInstanceState.getString("openHABPassword");
-            mCurrentSelectedItem = savedInstanceState.getInt("currentSelectedItem", -1);
-            mPosition = savedInstanceState.getInt("position", -1);
-            Log.d(TAG, String.format("onCreate selected item = %d", mCurrentSelectedItem));
-        }
         if (getArguments() != null) {
             displayPageUrl = getArguments().getString("displayPageUrl");
             openHABBaseUrl = getArguments().getString("openHABBaseUrl");
@@ -130,9 +119,6 @@ public class OpenHABWidgetListFragment extends ListFragment {
             openHABPassword = getArguments().getString("openHABPassword");
             mPosition = getArguments().getInt("position");
         }
-        if (savedInstanceState != null)
-            if (!displayPageUrl.equals(savedInstanceState.getString("displayPageUrl")))
-                mCurrentSelectedItem = -1;
     }
 
     @Override
@@ -286,21 +272,6 @@ public class OpenHABWidgetListFragment extends ListFragment {
         Log.d(TAG, "isAdded = " + isAdded());
         if (displayPageUrl != null)
             showPage(displayPageUrl, false);
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle savedInstanceState) {
-        Log.d(TAG, "onSaveInstanceState");
-        Log.d(TAG, "isAdded = " + isAdded());
-        Log.d(TAG, String.format("onSave current selected item = %d", getListView().getCheckedItemPosition()));
-        savedInstanceState.putString("displayPageUrl", displayPageUrl);
-        savedInstanceState.putString("openHABBaseUrl", openHABBaseUrl);
-        savedInstanceState.putString("sitemapRootUrl", sitemapRootUrl);
-        savedInstanceState.putString("openHABUsername", openHABUsername);
-        savedInstanceState.putString("openHABPassword", openHABPassword);
-        savedInstanceState.putInt("currentSelectedItem", getListView().getCheckedItemPosition());
-        savedInstanceState.putInt("position", mPosition);
-        super.onSaveInstanceState(savedInstanceState);
     }
 
     @Override

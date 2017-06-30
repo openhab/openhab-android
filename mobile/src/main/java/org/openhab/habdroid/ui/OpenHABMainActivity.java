@@ -329,6 +329,19 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
         mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
+    /**
+     * Restore the fragment, which was saved in the onSaveInstanceState handler, if there's any.
+     * @param savedInstanceState
+     */
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+        int savedFragment = savedInstanceState.getInt("currentFragment", 0);
+        if (savedFragment != 0){
+            pager.setCurrentItem(savedFragment);
+            Log.d(TAG, String.format("Loaded current page = %d", savedFragment));
+        }
+    }
+
     @Override
     public void onResume() {
         Log.d(TAG, "onResume()");
@@ -347,44 +360,46 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
         // or if state fragment returned 0 fragments (this happens sometimes and we don't yet
         // know why, so this is a workaround
         // start over the whole process
-        if (stateFragment == null || stateFragment.getFragmentList().size() == 0) {
-            stateFragment = null;
-            stateFragment = new StateRetainFragment();
-            fm.beginTransaction().add(stateFragment, "stateFragment").commit();
-            mOpenHABTracker = new OpenHABTracker(this, openHABServiceType, mServiceDiscoveryEnabled);
-            mStartedWithNetworkConnectivityInfo = NetworkConnectivityInfo.currentNetworkConnectivityInfo(this);
-            mOpenHABTracker.start();
-            // If state fragment exists and contains something then just restore the fragments
+        Boolean startOver = stateFragment == null || stateFragment.getFragmentList().size() == 0;
+        if (startOver || !NetworkConnectivityInfo.currentNetworkConnectivityInfo(this).equals(mStartedWithNetworkConnectivityInfo)) {
+            resetStateFragmentAfterResume(fm);
         } else {
-            Log.d(TAG, "State fragment found");
             // If connectivity type changed while we were in background
             // Restart the whole process
-            // TODO: this must be refactored to remove duplicate code!
             if (!NetworkConnectivityInfo.currentNetworkConnectivityInfo(this).equals(mStartedWithNetworkConnectivityInfo)) {
                 Log.d(TAG, "Connectivity type changed while I was out, or zero fragments found, need to restart");
+                resetStateFragmentAfterResume(fm);
                 // Clean up any existing fragments
                 pagerAdapter.clearFragmentList();
-                stateFragment.getFragmentList().clear();
-                stateFragment = null;
                 // Clean up title
                 this.setTitle(R.string.app_name);
-                stateFragment = new StateRetainFragment();
-                fm.beginTransaction().add(stateFragment, "stateFragment").commit();
-                mOpenHABTracker = new OpenHABTracker(this, openHABServiceType, mServiceDiscoveryEnabled);
-                mStartedWithNetworkConnectivityInfo = NetworkConnectivityInfo.currentNetworkConnectivityInfo(this);
-                mOpenHABTracker.start();
                 return;
             }
+            // If state fragment exists and contains something then just restore the fragments
+            Log.d(TAG, "State fragment found");
             pagerAdapter.setFragmentList(stateFragment.getFragmentList());
             Log.d(TAG, String.format("Loaded %d fragments", stateFragment.getFragmentList().size()));
             pager.setCurrentItem(stateFragment.getCurrentPage());
-            Log.d(TAG, String.format("Loaded current page = %d", stateFragment.getCurrentPage()));
         }
         if (!TextUtils.isEmpty(mPendingNfcPage)) {
             openNFCPageIfPending();
         }
 
         checkFullscreen();
+    }
+
+    /**
+     * Resets the state of the app and activity after a fresh start or network change was
+     * recognized. Helper method for onResume only.
+     *
+     * @param fm
+     */
+    private void resetStateFragmentAfterResume(FragmentManager fm) {
+        stateFragment = new StateRetainFragment();
+        fm.beginTransaction().add(stateFragment, "stateFragment").commit();
+        mOpenHABTracker = new OpenHABTracker(this, openHABServiceType, mServiceDiscoveryEnabled);
+        mStartedWithNetworkConnectivityInfo = NetworkConnectivityInfo.currentNetworkConnectivityInfo(this);
+        mOpenHABTracker.start();
     }
 
     /**
