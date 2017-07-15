@@ -12,6 +12,8 @@ Development snapshots are available for download on [CloudBees](https://openhab.
 
 <a href="https://play.google.com/store/apps/details?id=org.openhab.habdroid"><img src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" height="80"></a>
 
+<img src="https://raw.githubusercontent.com/openhab/openhab.android/master/screenshots/main_menu.png" width="200px"> <img src="https://raw.githubusercontent.com/openhab/openhab.android/master/screenshots/widget_overview.png" width="200px"> <img src="https://raw.githubusercontent.com/openhab/openhab.android/master/screenshots/astro_binding.png" width="200px"> <img src="https://raw.githubusercontent.com/openhab/openhab.android/master/screenshots/bindings.png" width="200px">
+
 ## Setting up development environment
 
 If you want to contribute to Android application we are here to help you to set up
