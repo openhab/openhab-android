@@ -143,13 +143,19 @@ public class MyWebImage implements SmartImage {
         Bitmap bitmap = null;
         try {
             SVG svg = SVG.getFromInputStream(is);
-                double width = svg.getDocumentViewBox().width();
-                double height = svg.getDocumentViewBox().height();
+            double width = 16;
+            double height = 16;
+            if (svg.getDocumentViewBox() != null) {
+                width = svg.getDocumentViewBox().width();
+                height = svg.getDocumentViewBox().height();
+            } else {
+                Log.d(TAG, "DocumentViewBox is null. assuming width and heigh of 16px.");
+            }
 
-                bitmap = Bitmap.createBitmap((int) Math.ceil(width), (int) Math.ceil(height), Bitmap.Config.ARGB_8888);
-                Canvas canvas = new Canvas(bitmap);
-                canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);//drawARGB(0,0,0,0);//drawRGB(255, 255, 255);
-                svg.renderToCanvas(canvas);
+            bitmap = Bitmap.createBitmap((int) Math.ceil(width), (int) Math.ceil(height), Bitmap.Config.ARGB_8888);
+            Canvas canvas = new Canvas(bitmap);
+            canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);//drawARGB(0,0,0,0);//drawRGB(255, 255, 255);
+            svg.renderToCanvas(canvas);
         } catch (SVGParseException e) {
             e.printStackTrace();
         }
