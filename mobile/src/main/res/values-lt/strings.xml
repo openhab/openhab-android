@@ -24,13 +24,11 @@
     <string name="settings_display_title">Ekrano nustatymai</string>
     <string name="settings_misc_title">Kiti nustatymai</string>
     <string name="settings_openhab_url">openHAB URL</string>
-    <string name="settings_openhab_url_summary">Rankiniu būdu sukonfigūruotas openHAB URL. Jei nurodytas, nėra vykdomas automatinis aptikimas.</string>
+    <string name="settings_openhab_url_summary">Rankiniu būdu sukonfigūruotas openHAB URL. Jei nurodytas, nėra vykdomas automatinis aptikimas. [%s]</string>
     <string name="settings_openhab_alturl">openHAB nuotolinis URL</string>
-    <string name="settings_openhab_alturl_summary">Nuotolinis openHAB URL (naudojamas, kai vietinis openHAB nepasiekiamas)</string>
+    <string name="settings_openhab_alturl_summary">Nuotolinis openHAB URL (naudojamas, kai vietinis openHAB nepasiekiamas) [%s]</string>
     <string name="settings_openhab_username">Vartotojo vardas</string>
-    <string name="settings_openhab_username_summary">openHAB vartotojo vardas</string>
     <string name="settings_openhab_password">Slaptažodis</string>
-    <string name="settings_openhab_password_summary">openHAB slaptažodis</string>
     <string name="settings_openhab_sslclientcert">Kliento SSL sertifikatas</string>
     <string name="settings_openhab_sslclientcert_howto">Kaip naudoti kliento SSL sertifikatą</string>
     <string name="settings_openhab_screentimeroff">Neleisti išjungti ekrano</string>
@@ -53,7 +51,7 @@
     <string name="info_demo_mode">openHAB programėlė veikia demonstraciniu režimu. Norėdami prisijungti prie savo openHAB serverio, eikite į nustatymų meniu.</string>
     <string name="info_conn_url">Jungiamasi prie sukonfigūruoto URL</string>
     <string name="info_conn_rem_url">Jungiamasi prie nuotolinio URL</string>
-    <string name="info_discovery">Aptinkamas openHAB. Prašome palaukti...</string>
+    <string name="info_discovery">Aptinkamas openHAB. Prašome palaukti\u2026</string>
     <string name="error_no_url">Patikrinkite ar openHAB veikia arba sukonfigūruokite openHAB URL arba nuotolinį URL</string>
     <string name="error_authentication_failed">Nepavyko prisijungti. Patikrinkite vartotojo/slaptažodžio nustatymus</string>
     <string name="error_empty_sitemap_list">openHAB grąžino tuščią vietos išplanavimų sąrašą</string>

@@ -219,24 +219,14 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
         // Set default values, false means do it one time during the very first launch
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
 
-        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-        // Set non-persistent HABDroid version preference to current version from application package
-        try {
-            Log.d(TAG, "App version = " + getPackageManager().getPackageInfo(getPackageName(), 0).versionName);
-            sharedPrefs.edit().putString(Constants.PREFERENCE_APPVERSION,
-                    getPackageManager().getPackageInfo(getPackageName(), 0).versionName).commit();
-        } catch (PackageManager.NameNotFoundException e1) {
-            Log.d(TAG, e1.getMessage());
-        }
-
         checkVoiceRecognition();
-
-        // initialize loopj async http client
-        mAsyncHttpClient = new MyAsyncHttpClient(this, sharedPrefs.getBoolean(Constants.PREFERENCE_SSLHOST,
-                false), sharedPrefs.getBoolean(Constants.PREFERENCE_SSLCERT, false));
 
         // Set the theme to one from preferences
         mSettings = PreferenceManager.getDefaultSharedPreferences(this);
+
+        // initialize loopj async http client
+        mAsyncHttpClient = new MyAsyncHttpClient(this, mSettings.getBoolean(Constants.PREFERENCE_SSLHOST,
+                false), mSettings.getBoolean(Constants.PREFERENCE_SSLCERT, false));
 
         // Disable screen timeout if set in preferences
         if (mSettings.getBoolean(Constants.PREFERENCE_SCREENTIMEROFF, false)) {

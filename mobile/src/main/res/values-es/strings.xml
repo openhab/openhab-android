@@ -24,13 +24,11 @@
     <string name="settings_display_title">Configuración de la pantalla</string>
     <string name="settings_misc_title">Otras configuraciones</string>
     <string name="settings_openhab_url">URL openHAB</string>
-    <string name="settings_openhab_url_summary">Configurar manualmente la dirección de openHAB. Deshabilita la búsqueda automática si se encuentra disponible.</string>
+    <string name="settings_openhab_url_summary">Configurar manualmente la dirección de openHAB. Deshabilita la búsqueda automática si se encuentra disponible. [%s]</string>
     <string name="settings_openhab_alturl">URL remota openHAB</string>
-    <string name="settings_openhab_alturl_summary">Usada cuando la dirección local no está disponible</string>
+    <string name="settings_openhab_alturl_summary">Usada cuando la dirección local no está disponible [%s]</string>
     <string name="settings_openhab_username">Nombre de usuario</string>
-    <string name="settings_openhab_username_summary">Nombre de usuario de openHAB</string>
     <string name="settings_openhab_password">Contraseña</string>
-    <string name="settings_openhab_password_summary">Contraseña de openHAB</string>
     <string name="settings_openhab_screentimeroff">Deshabilitar apagado de pantalla</string>
     <string name="settings_openhab_screentimeroff_summary">Deshabilita el temporizador que apaga la pantalla mientras se está ejecutando</string>
     <string name="settings_openhab_demomode">Modo demo</string>
@@ -51,7 +49,7 @@
     <string name="info_demo_mode">openHAB App se ejecuta en modo demo. Por favor, ir al menú configuración para conectarlo a openHAB.</string>
     <string name="info_conn_url">Conectando a la URL local</string>
     <string name="info_conn_rem_url">Conectando a la URL remota</string>
-    <string name="info_discovery">Buscando openHAB. Por favor, espera...</string>
+    <string name="info_discovery">Buscando openHAB. Por favor, espera\u2026</string>
     <string name="error_no_url">Por favor, comprobar que openHAB se está ejecutando o configurar la URL local de openHAB o la URL remota</string>
     <string name="error_authentication_failed">Error de autentificación. Por favor, comprobar la configuración del Usuario/Contraseña</string>
     <string name="error_empty_sitemap_list">openHAB devolvió una lista de sitemaps vacía</string>

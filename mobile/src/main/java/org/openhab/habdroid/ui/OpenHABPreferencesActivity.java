@@ -9,8 +9,6 @@
 
 package org.openhab.habdroid.ui;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -24,9 +22,9 @@ import android.security.KeyChainAliasCallback;
 import android.security.KeyChainException;
 import android.security.keystore.KeyProperties;
 import android.support.annotation.Nullable;
+import android.support.annotation.StringRes;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 
 import java.text.DateFormat;
@@ -38,8 +36,6 @@ import org.openhab.habdroid.R;
 import org.openhab.habdroid.util.Constants;
 import org.openhab.habdroid.util.Util;
 
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.security.cert.X509Certificate;
 
 /**
@@ -102,59 +98,18 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
 
             addPreferencesFromResource(R.xml.preferences);
 
-            Preference urlPreference = getPreferenceScreen().findPreference(Constants.PREFERENCE_URL);
-            final Preference altUrlPreference = getPreferenceScreen().findPreference(Constants.PREFERENCE_ALTURL);
-            Preference usernamePreference = getPreferenceScreen().findPreference(Constants.PREFERENCE_USERNAME);
-            Preference passwordPreference = getPreferenceScreen().findPreference(Constants.PREFERENCE_PASSWORD);
-            Preference versionPreference = getPreferenceScreen().findPreference(Constants.PREFERENCE_APPVERSION);
+            initEditorPreference(Constants.PREFERENCE_URL, R.string.settings_openhab_url_summary, false);
+            initEditorPreference(Constants.PREFERENCE_ALTURL, R.string.settings_openhab_alturl_summary, false);
+            initEditorPreference(Constants.PREFERENCE_USERNAME, 0, false);
+            initEditorPreference(Constants.PREFERENCE_PASSWORD, 0, true);
+
+            Preference versionPreference = getPreferenceScreen().findPreference("default_openhab_appversion");
+            versionPreference.setSummary(BuildConfig.VERSION_NAME
+                    + " - " + DateFormat.getDateTimeInstance().format(BuildConfig.buildTime));
+
             final Preference sslClientCert = getPreferenceScreen().findPreference(Constants.PREFERENCE_SSLCLIENTCERT);
             final Preference sslClientCertHowTo = getPreferenceScreen().findPreference(Constants.PREFERENCE_SSLCLIENTCERT_HOWTO);
-            urlPreference.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
-                @Override
-                public boolean onPreferenceChange(Preference preference, Object newValue) {
-                    Log.d("PreferencesActivity", "Validating new url = " + newValue);
-                    String newUrl = (String) newValue;
-                    if (newUrl.length() == 0 || urlIsValid(newUrl)) {
-                        updateTextPreferenceSummary(preference, (String) newValue);
-                        return true;
-                    }
-                    showAlertDialog(getString(R.string.erorr_invalid_url));
-                    return false;
-                }
-            });
-            updateTextPreferenceSummary(urlPreference, null);
-            altUrlPreference.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
-                @Override
-                public boolean onPreferenceChange(Preference preference, Object newValue) {
-                    String newUrl = (String) newValue;
-                    if (newUrl.length() == 0 || urlIsValid(newUrl)) {
-                        updateTextPreferenceSummary(preference, (String) newValue);
-                        return true;
-                    }
-                    showAlertDialog(getString(R.string.erorr_invalid_url));
-                    return false;
-                }
-            });
-            updateTextPreferenceSummary(altUrlPreference, null);
-            usernamePreference.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
-                @Override
-                public boolean onPreferenceChange(Preference preference, Object newValue) {
-                    updateTextPreferenceSummary(preference, (String) newValue);
-                    return true;
-                }
-            });
-            updateTextPreferenceSummary(usernamePreference, null);
-            passwordPreference.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
-                @Override
-                public boolean onPreferenceChange(Preference preference, Object newValue) {
-                    updatePasswordPreferenceSummary(preference, (String) newValue);
-                    return true;
-                }
-            });
-            updatePasswordPreferenceSummary(passwordPreference, null);
-            updateTextPreferenceSummary(versionPreference, null);
-            versionPreference.setSummary(versionPreference.getSummary() + " - " +
-                    DateFormat.getDateTimeInstance().format(BuildConfig.buildTime));
+            final Preference altUrlPreference = getPreferenceScreen().findPreference(Constants.PREFERENCE_ALTURL);
 
             updateSslClientCertSummary(sslClientCert);
 
@@ -212,32 +167,32 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
             return preference.getSharedPreferences().getString(preference.getKey(), defValue);
         }
 
-        private void updateTextPreferenceSummary(Preference textPreference, String newValue) {
+        private void updateTextPreferenceSummary(Preference textPreference, @StringRes int summaryFormatResId,
+                                                 String newValue, boolean isPassword) {
             if (newValue == null) {
-                if (textPreference.getSharedPreferences().getString(textPreference.getKey(), "").length() > 0)
-                    textPreference.setSummary(textPreference.getSharedPreferences().getString(textPreference.getKey(), ""));
-                else
-                    textPreference.setSummary(this.getResources().getString(R.string.info_not_set));
-            } else {
-                if (newValue.length() > 0)
-                    textPreference.setSummary(newValue);
-                else
-                    textPreference.setSummary(this.getResources().getString(R.string.info_not_set));
+                newValue = getPreferenceString(textPreference, "");
             }
+            if (newValue.isEmpty()) {
+                newValue = getString(R.string.info_not_set);
+            } else if (isPassword) {
+                newValue = getString(R.string.password_placeholder);
+            }
+
+            textPreference.setSummary(summaryFormatResId != 0
+                    ? getString(summaryFormatResId, newValue) : newValue);
         }
 
-        private void updatePasswordPreferenceSummary(Preference passwordPreference, String newValue) {
-            if (newValue == null) {
-                if (passwordPreference.getSharedPreferences().getString(passwordPreference.getKey(), "").length() > 0)
-                    passwordPreference.setSummary("******");
-                else
-                    passwordPreference.setSummary(this.getResources().getString(R.string.info_not_set));
-            } else {
-                if (newValue.length() > 0)
-                    passwordPreference.setSummary("******");
-                else
-                    passwordPreference.setSummary(this.getResources().getString(R.string.info_not_set));
-            }
+        private void initEditorPreference(String key, @StringRes final int summaryFormatResId,
+                                          final boolean isPassword) {
+            Preference pref = getPreferenceScreen().findPreference(key);
+            pref.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object newValue) {
+                    updateTextPreferenceSummary(preference, summaryFormatResId, (String) newValue, isPassword);
+                    return true;
+                }
+            });
+            updateTextPreferenceSummary(pref, summaryFormatResId, null, isPassword);
         }
 
         private void updateSslClientCertSummary(final Preference sslClientCert) {
@@ -270,31 +225,6 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
                     }
                 }
             }.execute(sslClientCert);
-        }
-
-        private boolean urlIsValid(String url) {
-            // As we accept an empty URL, which means it is not configured, length==0 is ok
-            if (url.length() == 0)
-                return true;
-            if (url.contains("\n") || url.contains(" "))
-                return false;
-            try {
-                URL testURL = new URL(url);
-            } catch (MalformedURLException e) {
-                return false;
-            }
-            return true;
-        }
-
-        private void showAlertDialog(String alertMessage) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-            builder.setMessage(alertMessage)
-                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                        }
-                    });
-            AlertDialog alert = builder.create();
-            alert.show();
         }
     }
 }

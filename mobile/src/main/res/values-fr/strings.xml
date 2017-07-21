@@ -25,13 +25,11 @@
     <string name="settings_display_title">Paramètres d\'affichage</string>
     <string name="settings_misc_title">Autres paramètres</string>
     <string name="settings_openhab_url">URL openHAB</string>
-    <string name="settings_openhab_url_summary">Configurer manuellement l\'adresse openHAB. Cela désactive la découverte automatique si disponible.</string>
+    <string name="settings_openhab_url_summary">Configurer manuellement l\'adresse openHAB. Cela désactive la découverte automatique si disponible. [%s]</string>
     <string name="settings_openhab_alturl">URL openHAB distante</string>
-    <string name="settings_openhab_alturl_summary">Utilisée lorsque l\'adresse local n\'est pas accessible</string>
+    <string name="settings_openhab_alturl_summary">Utilisée lorsque l\'adresse local n\'est pas accessible [%s]</string>
     <string name="settings_openhab_username">Identifiant</string>
-    <string name="settings_openhab_username_summary">Votre identifiant openHAB</string>
     <string name="settings_openhab_password">Mot de passe</string>
-    <string name="settings_openhab_password_summary">Votre mot de passe openHAB</string>
     <string name="settings_openhab_screentimeroff">Désactiver l\'extinction d\'écran</string>
     <string name="settings_openhab_screentimeroff_summary">Désactive l\'extinction d\'écran lorsque HABDroid fonctionne</string>
     <string name="settings_openhab_demomode">Mode démo</string>
@@ -52,7 +50,7 @@
     <string name="info_demo_mode">HABDroid fonctionne en mode démo. Pour connecter votre instance openHAB, rendez-vous dans les paramètres de l\'application</string>
     <string name="info_conn_url">Connexion à l\'adresse  locale</string>
     <string name="info_conn_rem_url">Connexion à l\'adresse distante</string>
-    <string name="info_discovery">Recherche d\'openHAB, merci de patienter...</string>
+    <string name="info_discovery">Recherche d\'openHAB, merci de patienter\u2026</string>
     <string name="error_no_url">Merci de vérifier qu\'openHAB fonctionne. Si oui passez en configuration manuelle des adresses locale et/ou distante</string>
     <string name="error_authentication_failed">Erreur d\'authentification. Merci de vérifier votre identifiant et votre mot de passe.</string>
     <string name="error_empty_sitemap_list">openHAB a renvoyé une liste Sitemap vide</string>
