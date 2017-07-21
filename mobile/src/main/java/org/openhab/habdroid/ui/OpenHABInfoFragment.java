@@ -188,15 +188,11 @@ public class OpenHABInfoFragment extends DialogFragment {
 
 
     private void setGcmText() {
-        String infoString;
         if (OpenHABMainActivity.GCM_SENDER_ID == null) {
-            infoString = getString(R.string.info_openhab_gcm_not_connected);
+            mOpenHABNotificationText.setText(R.string.info_openhab_gcm_not_connected);
         } else {
-            infoString = getString(R.string.info_openhab_gcm_connected);
+            mOpenHABNotificationText.setText(
+                    getString(R.string.info_openhab_gcm_connected, OpenHABMainActivity.GCM_SENDER_ID));
         }
-
-        mOpenHABNotificationText.setText(
-                String.format(infoString, OpenHABMainActivity.GCM_SENDER_ID)
-        );
     }
 }

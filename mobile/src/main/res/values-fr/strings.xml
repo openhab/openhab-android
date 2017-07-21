@@ -79,7 +79,7 @@
     <string name="info_openhab_uuid_label">UUID openHAB</string>
     <string name="info_openhab_secret_label">Phrase secrète openHAB</string>
     <string name="info_openhab_gcm_label">Google Cloud Message</string>
-    <string name="info_openhab_gcm_not_connected">Echec de l\'enregistrement de l\'appareil avec l\'ID %s</string>
+    <string name="info_openhab_gcm_not_connected">Echec de l\'enregistrement de l\'appareil</string>
     <string name="info_openhab_gcm_connected">Appareil enregistré avec l\'ID %s</string>
     <string name="action_settings">Paramétrage</string>
     <string name="nfc_dialog_title">Sélectionner une action pour le tag NFC</string>

@@ -92,7 +92,7 @@
     <string name="info_openhab_uuid_label">openHAB UUID</string>
     <string name="info_openhab_secret_label">openHAB Secret</string>
     <string name="info_openhab_gcm_label">Google Cloud Message Status</string>
-    <string name="info_openhab_gcm_not_connected">Device registration failed with Sender ID %s</string>
+    <string name="info_openhab_gcm_not_connected">Device registration failed</string>
     <string name="info_openhab_gcm_connected">Registered device with Sender ID %s</string>
     <string name="action_settings">Settings</string>
     <string name="nfc_dialog_title">Please select NFC tag action</string>
