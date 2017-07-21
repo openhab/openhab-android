@@ -59,8 +59,6 @@
     <string name="error_network_not_available">Aucune connexion réseau disponible</string>
     <string name="error_no_uuid">Récupération de l\'UUID openHAB impossible. La connexion a échoué</string>
     <string name="erorr_invalid_url">Entrez une adresse valide au format \'protocole://domaine_ou_IP:port/\' </string>
-    <string name="erorr_no_wifi_mcast_permission">Les droits CHANGE_WIFI_MULTICAST_STATE n\'ont pas été accordés à l\'application par le système Android. La découverte automatique sera désactivée.</string>
-    <string name="erorr_no_wifi_state_permission">Les droits ACCESS_WIFI_STATE n\'ont pas été accordés à l\'application par le système Android. La découverte automatique sera désactivée.</string>
     <string name="error_connection_failed">Connexion au domaine échouée</string>
     <string name="title_activity_openhabwritetag">Écrire un tag NFC</string>
     <string name="title_activity_openhabinfo">Informations openHAB</string>

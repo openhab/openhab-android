@@ -58,8 +58,6 @@
     <string name="error_network_not_available">Netwerk is niet beschikbaar</string>
     <string name="error_no_uuid">openHAB UUID kan niet opgevraagd worden, connectie mislukt</string>
     <string name="erorr_invalid_url">Vul een correcte URL in deze \'protocol://host:port/\' vorm</string>
-    <string name="erorr_no_wifi_mcast_permission">CHANGE_WIFI_MULTICAST_STATE permissie is niet gegeven, openHAB ontdekken wordt uitgeschakeld!</string>
-    <string name="erorr_no_wifi_state_permission">ACCESS_WIFI_STATE permissie is niet gegeven, openHAB ontdekken wordt uitgeschakeld!</string>
     <string name="error_connection_failed">Verbinding met host mislukt</string>
     <string name="title_activity_openhabwritetag">Schrijf NFC-tag</string>
     <string name="title_activity_openhabinfo">openHAB Informatie</string>

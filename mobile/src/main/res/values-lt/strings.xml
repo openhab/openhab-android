@@ -60,8 +60,6 @@
     <string name="error_network_not_available">Tinklas nepasiekiamas</string>
     <string name="error_no_uuid">Nepavyko gauti openHAB UUID, ryšys nutrauktas</string>
     <string name="erorr_invalid_url">Prašome įvesti adresą \'protocol://host:port/\' pavidalu</string>
-    <string name="erorr_no_wifi_mcast_permission">Leidimas CHANGE_WIFI_MULTICAST_STATE nėra suteiktas, openHAB aptikimas bus išjungtas!</string>
-    <string name="erorr_no_wifi_state_permission">Leidimas ACCESS_WIFI_STATE nėra suteiktas, openHAB aptikimas bus išjungtas!</string>
     <string name="error_connection_failed">Nepavyko prisijungti prie serverio</string>
     <string name="error_connection_sslhandshake_failed">Nepavyko užmegzti SSL ryšio - gal jums reikia galiojančio kliento sertifikato</string>
     <string name="title_activity_openhabwritetag">Rašyti NFC žymą</string>
