@@ -75,8 +75,6 @@
     <string name="error_network_not_available">Network is not available</string>
     <string name="error_no_uuid">Unable to get openHAB UUID, connection failed</string>
     <string name="erorr_invalid_url">Please enter a valid URL in a \'protocol://host:port/\' form</string>
-    <string name="erorr_no_wifi_mcast_permission">CHANGE_WIFI_MULTICAST_STATE permission is not granted, openHAB discovery will be disabled!</string>
-    <string name="erorr_no_wifi_state_permission">ACCESS_WIFI_STATE permission is not granted, openHAB discovery will be disabled!</string>
     <string name="error_connection_failed">Connection to host failed</string>
     <string name="error_connection_sslhandshake_failed">SSL Handshake failed - maybe you need a valid client certificate</string>
     <string name="title_activity_openhabwritetag">Write NFC tag</string>
