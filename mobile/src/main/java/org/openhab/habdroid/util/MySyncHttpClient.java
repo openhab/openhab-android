@@ -9,6 +9,7 @@
 
 package org.openhab.habdroid.util;
 
+import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.NonNull;
@@ -27,8 +28,8 @@ import okhttp3.Response;
 
 public class MySyncHttpClient extends MyHttpClient<Response> {
 
-    public MySyncHttpClient(Boolean ignoreSSLHostname, Boolean ignoreCertTrust) {
-        clientSSLSetup(ignoreSSLHostname, ignoreCertTrust);
+    public MySyncHttpClient(Context ctx, Boolean ignoreSSLHostname, Boolean ignoreCertTrust) {
+        clientSSLSetup(ctx, ignoreSSLHostname, ignoreCertTrust);
     }
 
     protected Response method(String url, String method, Map<String, String> addHeaders, String

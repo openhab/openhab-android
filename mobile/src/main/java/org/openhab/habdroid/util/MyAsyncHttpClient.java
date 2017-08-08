@@ -9,6 +9,7 @@
 
 package org.openhab.habdroid.util;
 
+import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 
@@ -25,8 +26,8 @@ import okhttp3.Response;
 
 public class MyAsyncHttpClient extends MyHttpClient<Call> {
 
-    public MyAsyncHttpClient(Boolean ignoreSSLHostname, Boolean ignoreCertTrust) {
-        clientSSLSetup(ignoreSSLHostname, ignoreCertTrust);
+    public MyAsyncHttpClient(Context ctx, Boolean ignoreSSLHostname, Boolean ignoreCertTrust) {
+        clientSSLSetup(ctx, ignoreSSLHostname, ignoreCertTrust);
 	}
 
     protected Call method(String url, String method, Map<String, String> addHeaders, String

@@ -54,7 +54,7 @@ public class OpenHABInfoFragment extends DialogFragment {
         View view = inflater.inflate(R.layout.openhabinfo, container);
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences
                 (getActivity().getApplicationContext());
-        mAsyncHttpClient = new MyAsyncHttpClient(prefs.getBoolean(Constants.PREFERENCE_SSLHOST,
+        mAsyncHttpClient = new MyAsyncHttpClient(getActivity().getApplicationContext(), prefs.getBoolean(Constants.PREFERENCE_SSLHOST,
                 false), prefs.getBoolean(Constants.PREFERENCE_SSLCERT, false));
         mOpenHABVersionText = (TextView)view.findViewById(R.id.openhab_version);
         mOpenHABUUIDText = (TextView)view.findViewById(R.id.openhab_uuid);
