@@ -61,8 +61,8 @@ dependencies {
     compile 'com.squareup.okhttp3:okhttp:3.6.0'
     compile 'com.loopj:android-smart-image-view:1.0.0'
     compile 'com.github.shell-software:fab:1.1.2'
-
-    compile 'com.github.hazzeh:androidsvg:fix-npe'
+    //androidsvg commit as of July 16th 2017
+    compile 'com.github.BigBadaboom:androidsvg:418cf676849b200cacf3465478079f39709fe5b1'
 
     testCompile 'org.mockito:mockito-core:2.7.6'
     testCompile 'junit:junit:4.12'
