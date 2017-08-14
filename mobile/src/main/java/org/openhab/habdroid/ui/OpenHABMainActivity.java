@@ -236,7 +236,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
         checkVoiceRecognition();
 
         // initialize loopj async http client
-        mAsyncHttpClient = new MyAsyncHttpClient(sharedPrefs.getBoolean(Constants.PREFERENCE_SSLHOST,
+        mAsyncHttpClient = new MyAsyncHttpClient(this, sharedPrefs.getBoolean(Constants.PREFERENCE_SSLHOST,
                 false), sharedPrefs.getBoolean(Constants.PREFERENCE_SSLCERT, false));
 
         // Set the theme to one from preferences
@@ -1245,7 +1245,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
                 return null;
             }
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-            MySyncHttpClient syncHttpClient = new MySyncHttpClient(
+            MySyncHttpClient syncHttpClient = new MySyncHttpClient(this,
                     prefs.getBoolean(Constants.PREFERENCE_SSLHOST, false),
                     prefs.getBoolean(Constants.PREFERENCE_SSLCERT, false));
             syncHttpClient.setBasicAuth(getOpenHABUsername(), getOpenHABPassword());

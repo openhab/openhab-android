@@ -138,7 +138,7 @@ public class OpenHABWidgetListFragment extends ListFragment {
         // We're using atmosphere so create an own client to not block the others
         SharedPreferences prefs = PreferenceManager
                 .getDefaultSharedPreferences(mActivity);
-        mAsyncHttpClient = new MyAsyncHttpClient(prefs.getBoolean(Constants.PREFERENCE_SSLHOST,
+        mAsyncHttpClient = new MyAsyncHttpClient(mActivity, prefs.getBoolean(Constants.PREFERENCE_SSLHOST,
                         false), prefs.getBoolean(Constants.PREFERENCE_SSLCERT, false));
         mAsyncHttpClient.setBasicAuth(openHABUsername, openHABPassword);
         openHABWidgetAdapter.setOpenHABUsername(openHABUsername);

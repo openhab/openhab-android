@@ -9,18 +9,23 @@
 
 package org.openhab.habdroid.util;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
 import java.io.UnsupportedEncodingException;
+import java.security.KeyStore;
 import java.security.cert.CertificateException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSession;
 import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
+import javax.net.ssl.TrustManagerFactory;
 import javax.net.ssl.X509TrustManager;
 
 import okhttp3.Call;
@@ -46,13 +51,20 @@ public abstract class MyHttpClient<T> {
     protected OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder();
     protected OkHttpClient client = clientBuilder.build();
 
-    protected void clientSSLSetup(Boolean ignoreSSLHostname, Boolean ignoreCertTrust) {
+    protected void clientSSLSetup(Context ctx, Boolean ignoreSSLHostname, Boolean ignoreCertTrust) {
         if (ignoreSSLHostname) {
-            clientBuilder.hostnameVerifier(org.apache.http.conn.ssl.SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
-            client = clientBuilder.build();
+            clientBuilder.hostnameVerifier(new HostnameVerifier() {
+                @Override
+                public boolean verify(String hostname, SSLSession session) {
+                    return true;
+                }
+            });
         }
+
+        X509TrustManager x509TrustManager = null;
+
         if (ignoreCertTrust) {
-            X509TrustManager trustAllCertsTrustManager =
+            x509TrustManager =
                 new X509TrustManager() {
                     @Override
                     public void checkClientTrusted(java.security.cert.X509Certificate[] chain, String authType) throws CertificateException {
@@ -67,17 +79,33 @@ public abstract class MyHttpClient<T> {
                         return new java.security.cert.X509Certificate[]{};
                     }
                 };
-
+        } else {
+            // get default trust manager
             try {
-                final SSLContext sslContext = SSLContext.getInstance("TLS");
-                sslContext.init(null, new TrustManager[] { trustAllCertsTrustManager }, new java
-                        .security.SecureRandom());
-                final SSLSocketFactory sslSocketFactory = sslContext.getSocketFactory();
-                clientBuilder.sslSocketFactory(sslSocketFactory, trustAllCertsTrustManager);
+                TrustManagerFactory trustManagerFactory = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
+                trustManagerFactory.init((KeyStore)null);
+                TrustManager[] trustManagers = trustManagerFactory.getTrustManagers();
+
+                for (TrustManager trustManager : trustManagers) {
+                    if (trustManager instanceof X509TrustManager) {
+                        x509TrustManager = (X509TrustManager) trustManager;
+                        break;
+                    }
+                }
             } catch (Exception e) {
-                Log.d(TAG, "Applying certificate trust settings failed", e);
+                Log.d(TAG, "Getting default trust manager failed", e);
             }
         }
+
+        try {
+            final SSLContext sslContext = SSLContext.getInstance("TLS");
+            sslContext.init( MyKeyManager.getInstance(ctx), new TrustManager[]{x509TrustManager}, new java.security.SecureRandom());
+            final SSLSocketFactory sslSocketFactory = sslContext.getSocketFactory();
+                clientBuilder.sslSocketFactory(sslSocketFactory, x509TrustManager);
+        } catch (Exception e) {
+            Log.d(TAG, "Applying certificate trust settings failed", e);
+        }
+
         client = clientBuilder.build();
     }
 
