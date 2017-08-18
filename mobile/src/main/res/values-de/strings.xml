@@ -33,7 +33,8 @@
     <string name="settings_openhab_username">Benutzername</string>
     <string name="settings_openhab_password">Passwort</string>
     <string name="settings_openhab_sslclientcert">SSL-Client-Zertifikat</string>
-    <string name="settings_openhab_sslclientcert_howto">Erläuterungen zum SSL-Client-Zertifikat</string>
+    <string name="settings_openhab_sslclientcert_howto">Erläuterungen zum Client-Zertifikat</string>
+    <string name="settings_openhab_sslclientcert_howto_summary">Für Hinweise und Erläuterungen zur SSL-Authentifizierung mittels Client-Zertifikat hier tippen</string>
     <string name="settings_openhab_screentimeroff">Ruhezustand deaktivieren</string>
     <string name="settings_openhab_screentimeroff_summary">Schaltet das automatische Aktivieren des Ruhezustands nach Inaktivität ab, wenn die openHAB-App läuft</string>
     <string name="settings_openhab_demomode">Demomodus</string>

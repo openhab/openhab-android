@@ -44,6 +44,7 @@
             android:clickable="true"
             android:dependency="default_openhab_demomode"
             android:key="default_openhab_sslclientcert_howto"
+            android:summary="@string/settings_openhab_sslclientcert_howto_summary"
             android:title="@string/settings_openhab_sslclientcert_howto" />
         <CheckBoxPreference
             android:defaultValue="false"
