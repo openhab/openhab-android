@@ -75,6 +75,11 @@
             android:label="@string/title_activity_openhabwritetag" />
         <activity android:name="de.duenndns.ssl.MemorizingActivity" />
 
+        <service android:name=".core.GeofenceIntentService"/>
+        <receiver android:name=".core.GeofenceBroadcastReceiver"
+            android:exported="false">
+        </receiver>
+
         <service
             android:name=".core.OpenHABVoiceService"
             android:exported="false" />

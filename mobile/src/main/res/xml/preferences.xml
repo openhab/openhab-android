@@ -58,6 +58,34 @@
             android:summary="@string/settings_openhab_sslhost_summary"
             android:title="@string/settings_openhab_sslhost" />
     </PreferenceCategory>
+    <PreferenceCategory android:title="Presence">
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="default_openhab_presence_enable"
+            android:summary="Enable location-based presence reporting"
+            android:title="Enable" />
+        <EditTextPreference
+            android:defaultValue="isPresent"
+            android:dependency="default_openhab_presence_enable"
+            android:inputType="textNoSuggestions"
+            android:key="default_openhab_presence_item"
+            android:summary=""
+            android:title="Presence Item" />
+        <EditTextPreference
+            android:defaultValue="47.606383"
+            android:dependency="default_openhab_presence_enable"
+            android:inputType="numberDecimal"
+            android:key="default_openhab_presence_lat"
+            android:summary=""
+            android:title="Home Latitude" />
+        <EditTextPreference
+            android:defaultValue="-122.304941"
+            android:dependency="default_openhab_presence_enable"
+            android:inputType="numberDecimal"
+            android:key="default_openhab_presence_lng"
+            android:summary=""
+            android:title="Home Longitude" />
+    </PreferenceCategory>
     <PreferenceCategory android:title="@string/settings_display_title">
         <ListPreference
             android:key="default_openhab_theme"
