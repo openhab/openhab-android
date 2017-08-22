@@ -5,8 +5,12 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.os.Handler;
+import android.os.Looper;
+import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 import android.text.TextUtils;
@@ -17,25 +21,27 @@ import com.google.android.gms.location.GeofencingEvent;
 
 import org.openhab.habdroid.ui.OpenHABMainActivity;
 import org.openhab.habdroid.R;
+import org.openhab.habdroid.util.Constants;
+import org.openhab.habdroid.util.MyAsyncHttpClient;
+import org.openhab.habdroid.util.MyHttpClient;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import okhttp3.Call;
+import okhttp3.Headers;
 
 /**
  * Created by jjhuff on 8/17/17.
  */
 
-public class GeofenceIntentService extends IntentService {
+public class GeofenceIntentService extends OpenHABIntentService {
     private static final String TAG = GeofenceIntentService.class.getSimpleName();
 
-    /**
-     * This constructor is required, and calls the super IntentService(String)
-     * constructor with the name for a worker thread.
-     */
     public GeofenceIntentService() {
-        // Use the TAG to name the worker thread.
         super(TAG);
     }
+
 
     /**
      * Handles incoming intents.
@@ -43,7 +49,7 @@ public class GeofenceIntentService extends IntentService {
      *               Services (inside a PendingIntent) when addGeofences() is called.
      */
     @Override
-    protected void onHandleIntent(Intent intent) {
+    protected void processIntent(Intent intent) {
         GeofencingEvent geofencingEvent = GeofencingEvent.fromIntent(intent);
         if (geofencingEvent.hasError()) {
             Log.e(TAG, "Error:"+geofencingEvent.getErrorCode());
@@ -53,24 +59,29 @@ public class GeofenceIntentService extends IntentService {
         // Get the transition type.
         int geofenceTransition = geofencingEvent.getGeofenceTransition();
 
-        // Test that the reported transition was of interest.
-        if (geofenceTransition == Geofence.GEOFENCE_TRANSITION_ENTER ||
-                geofenceTransition == Geofence.GEOFENCE_TRANSITION_EXIT) {
+        // Get the geofences that were triggered. A single event can trigger multiple geofences.
+        List<Geofence> triggeringGeofences = geofencingEvent.getTriggeringGeofences();
 
-            // Get the geofences that were triggered. A single event can trigger multiple geofences.
-            List<Geofence> triggeringGeofences = geofencingEvent.getTriggeringGeofences();
+        // Get the transition details as a String.
+        String geofenceTransitionDetails = getGeofenceTransitionDetails(geofenceTransition,
+                triggeringGeofences);
 
-            // Get the transition details as a String.
-            String geofenceTransitionDetails = getGeofenceTransitionDetails(geofenceTransition,
-                    triggeringGeofences);
+        // Send notification and log the transition details.
+        sendNotification(geofenceTransitionDetails);
+        Log.i(TAG, geofenceTransitionDetails);
 
-            // Send notification and log the transition details.
-            sendNotification(geofenceTransitionDetails);
-
-            Log.i(TAG, geofenceTransitionDetails);
-        } else {
-            // Log the error.
-            Log.e(TAG, "Invalid transition type:"+geofenceTransition);
+        // Send command to presence item
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+        String item = settings.getString(Constants.PREFERENCE_PRESENCE_ITEM, null);
+        if (!item.isEmpty()) {
+            String command;
+            if (geofenceTransition == Geofence.GEOFENCE_TRANSITION_ENTER ||
+                    geofenceTransition == Geofence.GEOFENCE_TRANSITION_DWELL) {
+                command = "ON";
+            } else {
+                command = "OFF";
+            }
+            sendItemCommand(item, command);
         }
     }
 
@@ -155,6 +166,8 @@ public class GeofenceIntentService extends IntentService {
                 return "GEOFENCE_TRANSITION_ENTER";
             case Geofence.GEOFENCE_TRANSITION_EXIT:
                 return "GEOFENCE_TRANSITION_EXIT";
+            case Geofence.GEOFENCE_TRANSITION_DWELL:
+                return "GEOFENCE_TRANSITION_DWELL";
             default:
                 return "Unknown type"+transitionType;
         }
