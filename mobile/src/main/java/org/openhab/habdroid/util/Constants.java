@@ -30,5 +30,6 @@ public class Constants {
     public static final String PREFERENCE_PRESENCE_ITEM     = "default_openhab_presence_item";
     public static final String PREFERENCE_PRESENCE_LAT      = "default_openhab_presence_lat";
     public static final String PREFERENCE_PRESENCE_LNG      = "default_openhab_presence_lng";
+    public static final String PREFERENCE_PRESENCE_DEBUG     = "default_openhab_presence_debug";
     public static final String DEFAULT_GCM_SENDER_ID        = "737820980945";
 }

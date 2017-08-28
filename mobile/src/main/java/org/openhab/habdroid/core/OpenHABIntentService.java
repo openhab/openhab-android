@@ -155,6 +155,11 @@ public class OpenHABIntentService extends ContinuingIntentService implements Ope
 
                             @Override
                             public void onFailure(Call call, int statusCode, Headers headers, byte[] responseBody, Throwable error) {
+                                if (statusCode == 404) {
+                                    showToast("Item " + itemName + " doesn't exist");
+                                } else {
+                                    showToast("Error " + statusCode + " while sending " + command + " to " + itemName);
+                                }
                                 Log.e(TAG, "Got command error " + statusCode, error);
                             }
                         });

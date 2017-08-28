@@ -72,19 +72,24 @@
             android:summary=""
             android:title="Presence Item" />
         <EditTextPreference
-            android:defaultValue="47.606383"
+            android:defaultValue="47.6"
             android:dependency="default_openhab_presence_enable"
             android:inputType="numberDecimal"
             android:key="default_openhab_presence_lat"
             android:summary=""
-            android:title="Home Latitude" />
+            android:title="Latitude" />
         <EditTextPreference
-            android:defaultValue="-122.304941"
+            android:defaultValue="-122.3"
             android:dependency="default_openhab_presence_enable"
             android:inputType="numberDecimal"
             android:key="default_openhab_presence_lng"
             android:summary=""
-            android:title="Home Longitude" />
+            android:title="Longitude" />
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="default_openhab_presence_debug"
+            android:summary="Enable debug notifications"
+            android:title="Debugging" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/settings_display_title">
         <ListPreference

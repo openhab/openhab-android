@@ -50,6 +50,8 @@ public class GeofenceIntentService extends OpenHABIntentService {
      */
     @Override
     protected void processIntent(Intent intent) {
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+
         GeofencingEvent geofencingEvent = GeofencingEvent.fromIntent(intent);
         if (geofencingEvent.hasError()) {
             Log.e(TAG, "Error:"+geofencingEvent.getErrorCode());
@@ -66,12 +68,16 @@ public class GeofenceIntentService extends OpenHABIntentService {
         String geofenceTransitionDetails = getGeofenceTransitionDetails(geofenceTransition,
                 triggeringGeofences);
 
-        // Send notification and log the transition details.
-        sendNotification(geofenceTransitionDetails);
+        // Log the transition details.
         Log.i(TAG, geofenceTransitionDetails);
 
+        // Send the notification if enabled
+        boolean notificationsEnabled = settings.getBoolean(Constants.PREFERENCE_PRESENCE_DEBUG, false);
+        if (notificationsEnabled) {
+            sendNotification(geofenceTransitionDetails);
+        }
+
         // Send command to presence item
-        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
         String item = settings.getString(Constants.PREFERENCE_PRESENCE_ITEM, null);
         if (!item.isEmpty()) {
             String command;
