@@ -103,4 +103,9 @@
     <!-- drawer -->
     <string name="drawer_open">Sitemap-Bereich öffnen</string>
     <string name="drawer_close">Sitemap-Bereich schließen</string>
+    <string name="minus">-</string>
+    <string name="main_menu">Hauptmenü</string>
+    <string name="plus">+</string>
+    <string name="settings_openhab_icon_format_png">PNG</string>
+    <string name="settings_openhab_icon_format_svg">SVG</string>
 </resources>
