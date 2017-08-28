@@ -60,7 +60,7 @@
     </PreferenceCategory>
     <PreferenceCategory android:title="Presence">
         <CheckBoxPreference
-            android:defaultValue="true"
+            android:defaultValue="false"
             android:key="default_openhab_presence_enable"
             android:summary="Enable location-based presence reporting"
             android:title="Enable" />
