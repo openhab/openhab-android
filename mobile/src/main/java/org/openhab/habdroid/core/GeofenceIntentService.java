@@ -1,16 +1,11 @@
 package org.openhab.habdroid.core;
 
-import android.app.IntentService;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.os.Handler;
-import android.os.Looper;
-import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 import android.text.TextUtils;
@@ -22,14 +17,9 @@ import com.google.android.gms.location.GeofencingEvent;
 import org.openhab.habdroid.ui.OpenHABMainActivity;
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.util.Constants;
-import org.openhab.habdroid.util.MyAsyncHttpClient;
-import org.openhab.habdroid.util.MyHttpClient;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import okhttp3.Call;
-import okhttp3.Headers;
 
 /**
  * Created by jjhuff on 8/17/17.
@@ -42,7 +32,6 @@ public class GeofenceIntentService extends OpenHABIntentService {
         super(TAG);
     }
 
-
     /**
      * Handles incoming intents.
      * @param intent sent by Location Services. This Intent is provided to Location
@@ -50,11 +39,9 @@ public class GeofenceIntentService extends OpenHABIntentService {
      */
     @Override
     protected void processIntent(Intent intent) {
-        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
-
         GeofencingEvent geofencingEvent = GeofencingEvent.fromIntent(intent);
         if (geofencingEvent.hasError()) {
-            Log.e(TAG, "Error:"+geofencingEvent.getErrorCode());
+            Log.e(TAG, "Error:" + geofencingEvent.getErrorCode());
             return;
         }
 
@@ -69,16 +56,16 @@ public class GeofenceIntentService extends OpenHABIntentService {
                 triggeringGeofences);
 
         // Log the transition details.
-        Log.i(TAG, geofenceTransitionDetails);
+        Log.d(TAG, geofenceTransitionDetails);
 
         // Send the notification if enabled
-        boolean notificationsEnabled = settings.getBoolean(Constants.PREFERENCE_PRESENCE_DEBUG, false);
+        boolean notificationsEnabled = mSettings.getBoolean(Constants.PREFERENCE_PRESENCE_DEBUG, false);
         if (notificationsEnabled) {
             sendNotification(geofenceTransitionDetails);
         }
 
         // Send command to presence item
-        String item = settings.getString(Constants.PREFERENCE_PRESENCE_ITEM, null);
+        String item = mSettings.getString(Constants.PREFERENCE_PRESENCE_ITEM, null);
         if (!item.isEmpty()) {
             String command;
             if (geofenceTransition == Geofence.GEOFENCE_TRANSITION_ENTER ||

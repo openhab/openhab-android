@@ -47,6 +47,8 @@ public class OpenHABIntentService extends ContinuingIntentService implements Ope
     private OpenHABTracker mOpenHABTracker;
     private Queue<Intent> mBufferedIntents;
 
+    protected SharedPreferences mSettings;
+
     public OpenHABIntentService(String name) {
         super(name);
     }
@@ -57,11 +59,11 @@ public class OpenHABIntentService extends ContinuingIntentService implements Ope
         Log.d(TAG, "onCreate()");
 
         mBufferedIntents = new LinkedList<Intent>();
+        mSettings = PreferenceManager.getDefaultSharedPreferences(this);
         initHttpClient();
     }
 
     private void initHttpClient() {
-        SharedPreferences mSettings = PreferenceManager.getDefaultSharedPreferences(this);
         String username = mSettings.getString(Constants.PREFERENCE_USERNAME, null);
         String password = mSettings.getString(Constants.PREFERENCE_PASSWORD, null);
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);

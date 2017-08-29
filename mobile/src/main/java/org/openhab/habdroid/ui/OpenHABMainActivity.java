@@ -69,6 +69,7 @@ import org.json.JSONException;
 import org.openhab.habdroid.BuildConfig;
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.core.GeofenceBroadcastReceiver;
+import org.openhab.habdroid.core.GeofenceRegistrationService;
 import org.openhab.habdroid.core.HABDroid;
 import org.openhab.habdroid.core.NetworkConnectivityInfo;
 import org.openhab.habdroid.core.NotificationDeletedBroadcastReceiver;
@@ -110,8 +111,7 @@ import okhttp3.Call;
 import okhttp3.Headers;
 
 public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSelectedListener,
-        OpenHABTrackerReceiver, MemorizingResponder,GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener {
+        OpenHABTrackerReceiver, MemorizingResponder {
 
     private abstract class DefaultHttpResponseHandler implements MyHttpClient.ResponseHandler {
 
@@ -208,11 +208,6 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
 
     // If Presence reporting is enabled
     private boolean mPresenceEnabled = true;
-    private String mPresenceItem;
-    private float mPresenceLat;
-    private float mPresenceLng;
-    private GoogleApiClient mApiClient;
-    private PendingIntent mGeofencePendingIntent;
 
     /*
      *Daydreaming gets us into a funk when in fullscreen, this allows us to
@@ -283,21 +278,13 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
             ((HABDroid) getApplication()).getTracker(HABDroid.TrackerName.APP_TRACKER);
         }
 
-        // Setup API client for LocationServices
-        mApiClient = new GoogleApiClient.Builder(this)
-                .enableAutoManage(this /* FragmentActivity */,
-                        this /* OnConnectionFailedListener */)
-                .addApi(LocationServices.API)
-                .addConnectionCallbacks(this)
-                .build();
-        mApiClient.connect();
-
         setContentView(R.layout.activity_main);
 
         setupToolbar();
         setupDrawer();
         gcmRegisterBackground();
         setupPager();
+        setupPresence();
 
         MemorizingTrustManager.setResponder(this);
 
@@ -339,29 +326,6 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
             registerReceiver(dreamReceiver, new IntentFilter("android.intent.action.DREAMING_STOPPED"));
             checkFullscreen();
         }
-    }
-
-    /**
-     * Google API service connection failed in a non-recoverable way.
-     * @param connectionResult
-     */
-    @Override
-    public void onConnectionFailed(ConnectionResult connectionResult) {
-        Log.e(TAG, "Connection to Google Play services failed with error: " + connectionResult.getErrorMessage());
-    }
-
-    /**
-     * Once the Google API service connection is available, send a request to add the Geofences.
-     */
-    @Override
-    public void onConnected(Bundle connectionHint) {
-        Log.i(TAG, "onConnected");
-        setupPresence();
-    }
-
-    @Override
-    public void onConnectionSuspended (int cause) {
-        Log.i(TAG, "onConnectionSuspended");
     }
 
     @Override
@@ -1319,70 +1283,23 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
     private void setupPresence() {
         Log.i(TAG, "setupPresence");
         mPresenceEnabled = mSettings.getBoolean(Constants.PREFERENCE_PRESENCE_ENABLE, false);
-        mPresenceItem = mSettings.getString(Constants.PREFERENCE_PRESENCE_ITEM, null);
-        mPresenceLat = Float.parseFloat(mSettings.getString(Constants.PREFERENCE_PRESENCE_LAT, "0"));
-        mPresenceLng = Float.parseFloat(mSettings.getString(Constants.PREFERENCE_PRESENCE_LNG, "0"));
-        if (!checkLocationPermissions()){
-            Log.i(TAG, "No location permissions.");
-            return;
-        }
 
         if (!mPresenceEnabled) {
             Log.i(TAG, "Presence reporting is disabled");
             return;
         }
 
-        LocationServices.GeofencingApi.addGeofences(mApiClient,
-                getGeofencingRequest(), getGeofencePendingIntent());
-  /*              .addOnSuccessListener(this, new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Log.i(TAG, "Geofence: onSuccess");
-                    }
-                })
-                .addOnFailureListener(this, new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        if (e instanceof ApiException) {
-                            Log.e(TAG, "Geofence: onFailure: " + ((ApiException) e).getStatusCode(), e);
-                        } else {
-                            Log.e(TAG, "Geofence: onFailure: " + e.getMessage(), e);
-                        }
-                    }
-                });*/
-    }
-
-    /**
-     * Return the geofence request
-     * @return
-     */
-    private GeofencingRequest getGeofencingRequest() {
-        Geofence geofence;
-        geofence = new Geofence.Builder()
-                .setRequestId("home")
-                .setCircularRegion(mPresenceLat, mPresenceLng, 100)
-                .setNotificationResponsiveness(30 * 1000 ) // 30 sec
-                .setExpirationDuration(Geofence.NEVER_EXPIRE)
-                .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER |
-                        Geofence.GEOFENCE_TRANSITION_EXIT)
-                .build();
-
-        GeofencingRequest.Builder builder = new GeofencingRequest.Builder();
-        builder.setInitialTrigger(GeofencingRequest.INITIAL_TRIGGER_ENTER | GeofencingRequest.INITIAL_TRIGGER_EXIT);
-        builder.addGeofence(geofence);
-        return builder.build();
-    }
-
-    private PendingIntent getGeofencePendingIntent() {
-        // Reuse the PendingIntent if we already have it.
-        if (mGeofencePendingIntent != null) {
-            return mGeofencePendingIntent;
+        if (!checkLocationPermissions()){
+            Log.i(TAG, "No location permissions.");
+            return;
         }
-        Intent intent = new Intent(this, GeofenceBroadcastReceiver.class);
-        mGeofencePendingIntent = PendingIntent.getBroadcast(this, 0, intent,
-                PendingIntent.FLAG_UPDATE_CURRENT);
-        return mGeofencePendingIntent;
+
+        // Start the service to register the geofence
+        Intent intent = new Intent(this, GeofenceRegistrationService.class);
+        startService(intent);
     }
+
+
 
     /**
      * If fullscreen is enabled and we are on at least android 4.4 set

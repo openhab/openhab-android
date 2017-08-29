@@ -16,10 +16,16 @@ public class GeofenceBroadcastReceiver extends WakefulBroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        Log.i(TAG, "onReceive");
-        ComponentName comp = new ComponentName(context.getPackageName(),
-                GeofenceIntentService.class.getName());
-        startWakefulService(context, (intent.setComponent(comp)));
+        Log.d(TAG, "onReceive");
+        if(intent.getAction()!= null && intent.getAction().equals(Intent.ACTION_BOOT_COMPLETED)){
+            // Did we just boot? Go register.
+            Intent serviceIntent = new Intent(context , GeofenceRegistrationService.class);
+            startWakefulService(context, serviceIntent);
+        } else {
+            ComponentName comp = new ComponentName(context.getPackageName(),
+                    GeofenceIntentService.class.getName());
+            startWakefulService(context, (intent.setComponent(comp)));
+        }
         setResultCode(Activity.RESULT_OK);
     }
 }
