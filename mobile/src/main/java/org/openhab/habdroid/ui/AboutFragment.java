@@ -35,14 +35,18 @@ public class AboutFragment extends DialogFragment {
 
         View view = inflater.inflate(R.layout.openhababout, container);
 
-        TextView about = (TextView)view.findViewById(R.id.html_text);
+        TextView about = (TextView)view.findViewById(R.id.license_link);
         about.setText(Html.fromHtml(getString(R.string.about_license)));
         about.setMovementMethod(LinkMovementMethod.getInstance());
 
         String year = new SimpleDateFormat("yyyy").format(Calendar.getInstance().getTime());
         TextView copyright = (TextView)view.findViewById(R.id.copyright);
-        copyright.setText(year);
+        copyright.setText(String.format(getString(R.string.about_copyright),year));
         copyright.setMovementMethod(LinkMovementMethod.getInstance());
+
+        TextView links = (TextView)view.findViewById(R.id.links_list);
+        links.setText(Html.fromHtml(getString(R.string.about_links_list)));
+        links.setMovementMethod(LinkMovementMethod.getInstance());
 
         return view;
     }
