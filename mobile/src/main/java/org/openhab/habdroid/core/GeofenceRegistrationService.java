@@ -58,8 +58,19 @@ public class GeofenceRegistrationService extends OpenHABIntentService implements
     @SuppressWarnings("MissingPermission")
     public void onConnected(Bundle connectionHint) {
         Log.d(TAG, "onConnected");
+
+        float lat;
+        float lng;
+        try {
+            lat = Float.parseFloat(mSettings.getString(Constants.PREFERENCE_PRESENCE_LAT, "0"));
+            lng = Float.parseFloat(mSettings.getString(Constants.PREFERENCE_PRESENCE_LNG, "0"));
+        } catch(NumberFormatException e) {
+            Log.i(TAG, "Invalid lat/lng");
+            return;
+        }
+
         LocationServices.GeofencingApi.addGeofences(mApiClient,
-                getGeofencingRequest(), getGeofencePendingIntent()).setResultCallback(new ResultCallback<Status>() {
+                getGeofencingRequest(lat, lng), getGeofencePendingIntent()).setResultCallback(new ResultCallback<Status>() {
             @Override
             public void onResult(@NonNull Status status) {
                 if(status.isSuccess()){
@@ -77,23 +88,12 @@ public class GeofenceRegistrationService extends OpenHABIntentService implements
     }
 
 
-    /**
-     * Handles incoming intents.
-     * @param intent sent by Location Services. This Intent is provided to Location
-     *               Services (inside a PendingIntent) when addGeofences() is called.
-     */
-    @Override
-    protected void processIntent(Intent intent) {
-    }
 
     /**
      * Return the geofence request
      * @return
      */
-    private GeofencingRequest getGeofencingRequest() {
-        float lat = Float.parseFloat(mSettings.getString(Constants.PREFERENCE_PRESENCE_LAT, "0"));
-        float lng = Float.parseFloat(mSettings.getString(Constants.PREFERENCE_PRESENCE_LNG, "0"));
-
+    private GeofencingRequest getGeofencingRequest(float lat, float lng) {
         Geofence geofence;
         geofence = new Geofence.Builder()
                 .setRequestId("home")
