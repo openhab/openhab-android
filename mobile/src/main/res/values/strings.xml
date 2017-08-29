@@ -111,4 +111,10 @@
     <!-- drawer -->
     <string name="drawer_open">Sitemap drawer opened</string>
     <string name="drawer_close">Sitemap drawer closed</string>
+
+    <!-- About -->
+    <string name="about_title">About</string>
+    <string name="about_license_title">License</string>
+    <string name="about_license"><![CDATA[<center><a href="https://raw.githubusercontent.com/openhab/openhab.android/master/LICENSE">Eclipse Public License - v 1.0</a><center>]]></string>
+    <string name="about_copyright">\u00A9 openHAB Foundation</string>
 </resources>
