@@ -62,35 +62,33 @@
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="default_openhab_presence_enable"
-            android:summary="Enable location-based presence reporting"
-            android:title="Enable" />
+            android:summary="@string/presence_pref_enable_summary"
+            android:title="@string/presence_pref_enable_title" />
         <EditTextPreference
             android:defaultValue="isPresent"
             android:dependency="default_openhab_presence_enable"
             android:inputType="textNoSuggestions"
             android:key="default_openhab_presence_item"
             android:summary=""
-            android:title="Presence Item" />
+            android:title="@string/presence_pref_item_title" />
         <EditTextPreference
-            android:defaultValue=""
             android:dependency="default_openhab_presence_enable"
             android:inputType="numberDecimal"
             android:key="default_openhab_presence_lat"
             android:summary=""
-            android:title="Latitude" />
+            android:title="@string/presence_pref_lat_title" />
         <EditTextPreference
-            android:defaultValue=""
             android:dependency="default_openhab_presence_enable"
             android:inputType="numberDecimal"
             android:key="default_openhab_presence_lng"
             android:summary=""
-            android:title="Longitude" />
+            android:title="@string/presence_pref_lng_title" />
         <CheckBoxPreference
             android:defaultValue="false"
             android:dependency="default_openhab_presence_enable"
             android:key="default_openhab_presence_debug"
-            android:summary="Enable debug notifications"
-            android:title="Debugging" />
+            android:summary="@string/presence_pref_debug_summary"
+            android:title="@string/presence_pref_debug_title" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/settings_display_title">
         <ListPreference

@@ -14,6 +14,7 @@ import com.google.android.gms.location.Geofence;
 import com.google.android.gms.location.GeofencingRequest;
 import com.google.android.gms.location.LocationServices;
 
+import org.openhab.habdroid.R;
 import org.openhab.habdroid.util.Constants;
 
 /**
@@ -65,7 +66,8 @@ public class GeofenceRegistrationService extends OpenHABIntentService implements
             lat = Float.parseFloat(mSettings.getString(Constants.PREFERENCE_PRESENCE_LAT, "0"));
             lng = Float.parseFloat(mSettings.getString(Constants.PREFERENCE_PRESENCE_LNG, "0"));
         } catch(NumberFormatException e) {
-            Log.i(TAG, "Invalid lat/lng");
+            Log.e(TAG, "Invalid lat/lng");
+            showToast(getString(R.string.presence_invalid_latlng));
             return;
         }
 

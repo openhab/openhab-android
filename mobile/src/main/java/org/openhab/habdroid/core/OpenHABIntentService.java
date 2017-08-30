@@ -123,7 +123,7 @@ public class OpenHABIntentService extends ContinuingIntentService implements Ope
         Log.d(TAG, "processIntent()");
         if (mOpenHABBaseUrl == null) {
             Log.w(TAG, "Couldn't determine OpenHAB URL");
-            showToast("Couldn't determine OpenHAB URL");
+            showToast(getString(R.string.error_find_url));
         }
     }
 
@@ -158,9 +158,9 @@ public class OpenHABIntentService extends ContinuingIntentService implements Ope
                             @Override
                             public void onFailure(Call call, int statusCode, Headers headers, byte[] responseBody, Throwable error) {
                                 if (statusCode == 404) {
-                                    showToast("Item " + itemName + " doesn't exist");
+                                    showToast(getString(R.string.error_item_missing, itemName));
                                 } else {
-                                    showToast("Error " + statusCode + " while sending " + command + " to " + itemName);
+                                    showToast(getString(R.string.error_item_command, statusCode, command, itemName));
                                 }
                                 Log.e(TAG, "Got command error " + statusCode, error);
                             }

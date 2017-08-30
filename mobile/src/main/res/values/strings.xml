@@ -112,4 +112,19 @@
     <!-- drawer -->
     <string name="drawer_open">Sitemap drawer opened</string>
     <string name="drawer_close">Sitemap drawer closed</string>
+
+    <!-- Presence/Geofence -->
+    <string name="geofence_debug_notification">Geofence transition</string>
+    <string name="geofence_debug_unknown">Unknown transition type: %d</string>
+    <string name="presence_invalid_latlng">Invalid presence Lat/Lng</string>
+    <string name="error_find_url">Couldn\'t determine OpenHAB URL</string>
+    <string name="error_item_missing">Item %s doesn\'t exist.</string>
+    <string name="error_item_command">Error %1$d while sending %2$s to %3$s</string>
+    <string name="presence_pref_enable_title">Enable</string>
+    <string name="presence_pref_enable_summary">Enable location-based presence reporting</string>
+    <string name="presence_pref_item_title">Presence Item</string>
+    <string name="presence_pref_lat_title">Latitude</string>
+    <string name="presence_pref_lng_title">Longitude</string>
+    <string name="presence_pref_debug_title">Debugging</string>
+    <string name="presence_pref_debug_summary">Enable debug notifications</string>
 </resources>

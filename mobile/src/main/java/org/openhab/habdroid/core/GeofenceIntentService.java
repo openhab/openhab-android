@@ -126,14 +126,9 @@ public class GeofenceIntentService extends OpenHABIntentService {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
 
         // Define the notification settings.
-        builder.setSmallIcon(R.drawable.ic_launcher)
-                // In a real app, you may want to use a library like Volley
-                // to decode the Bitmap.
-                .setLargeIcon(BitmapFactory.decodeResource(getResources(),
-                        R.drawable.ic_launcher))
-                .setColor(Color.RED)
+        builder.setSmallIcon(R.drawable.ic_stat_openhab_bw)
                 .setContentTitle(notificationDetails)
-                .setContentText("Geofence transition")
+                .setContentText(getString(R.string.geofence_debug_notification))
                 .setContentIntent(notificationPendingIntent);
 
         // Dismiss notification once the user touches it.
@@ -162,7 +157,7 @@ public class GeofenceIntentService extends OpenHABIntentService {
             case Geofence.GEOFENCE_TRANSITION_DWELL:
                 return "GEOFENCE_TRANSITION_DWELL";
             default:
-                return "Unknown type"+transitionType;
+                return getString(R.string.geofence_debug_unknown, transitionType);
         }
     }
 }
