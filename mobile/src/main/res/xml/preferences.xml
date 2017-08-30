@@ -58,7 +58,7 @@
             android:summary="@string/settings_openhab_sslhost_summary"
             android:title="@string/settings_openhab_sslhost" />
     </PreferenceCategory>
-    <PreferenceCategory android:title="Presence">
+    <PreferenceCategory android:title="@string/presence_pref_title">
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="default_openhab_presence_enable"

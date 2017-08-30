@@ -120,6 +120,7 @@
     <string name="error_find_url">Couldn\'t determine OpenHAB URL</string>
     <string name="error_item_missing">Item %s doesn\'t exist.</string>
     <string name="error_item_command">Error %1$d while sending %2$s to %3$s</string>
+    <string name="presence_pref_title">Presence</string>
     <string name="presence_pref_enable_title">Enable</string>
     <string name="presence_pref_enable_summary">Enable location-based presence reporting</string>
     <string name="presence_pref_item_title">Presence Item</string>
