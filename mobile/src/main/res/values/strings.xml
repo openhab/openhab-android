@@ -123,7 +123,7 @@
     <string name="presence_pref_title">Presence</string>
     <string name="presence_pref_enable_title">Enable</string>
     <string name="presence_pref_enable_summary">Enable location-based presence reporting</string>
-    <string name="presence_pref_item_title">Presence Item</string>
+    <string name="presence_pref_item_title">Item</string>
     <string name="presence_pref_lat_title">Latitude</string>
     <string name="presence_pref_lng_title">Longitude</string>
     <string name="presence_pref_debug_title">Debugging</string>

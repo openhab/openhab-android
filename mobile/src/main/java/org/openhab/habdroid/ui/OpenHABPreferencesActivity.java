@@ -71,6 +71,10 @@ public class OpenHABPreferencesActivity extends PreferenceActivity {
         Preference versionPreference = getPreferenceScreen().findPreference(Constants.PREFERENCE_APPVERSION);
         final Preference sslClientCert = getPreferenceScreen().findPreference(Constants.PREFERENCE_SSLCLIENTCERT);
         final Preference sslClientCertHowTo = getPreferenceScreen().findPreference(Constants.PREFERENCE_SSLCLIENTCERT_HOWTO);
+        final Preference itemPreference = getPreferenceScreen().findPreference(Constants.PREFERENCE_PRESENCE_ITEM);
+        final Preference latPreference = getPreferenceScreen().findPreference(Constants.PREFERENCE_PRESENCE_LAT);
+        final Preference lngPreference = getPreferenceScreen().findPreference(Constants.PREFERENCE_PRESENCE_LNG);
+
         urlPreference.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
@@ -118,6 +122,30 @@ public class OpenHABPreferencesActivity extends PreferenceActivity {
         versionPreference.setSummary(versionPreference.getSummary() + " - " +
                 DateFormat.getDateTimeInstance().format(BuildConfig.buildTime));
 
+        itemPreference.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newValue) {
+                updateTextPreferenceSummary(preference, (String) newValue);
+                return true;
+            }
+        });
+        updateTextPreferenceSummary(itemPreference, null);
+        latPreference.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newValue) {
+                updateTextPreferenceSummary(preference, (String) newValue);
+                return true;
+            }
+        });
+        updateTextPreferenceSummary(latPreference, null);
+        lngPreference.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newValue) {
+                updateTextPreferenceSummary(preference, (String) newValue);
+                return true;
+            }
+        });
+        updateTextPreferenceSummary(lngPreference, null);
 
         updateSslCleintCertSumary(sslClientCert);
 
