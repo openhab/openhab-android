@@ -68,6 +68,7 @@
     <string name="erorr_invalid_url">Please enter a valid URL in a \'protocol://host:port/\' form</string>
     <string name="erorr_no_wifi_mcast_permission">CHANGE_WIFI_MULTICAST_STATE permission is not granted, openHAB discovery will be disabled!</string>
     <string name="erorr_no_wifi_state_permission">ACCESS_WIFI_STATE permission is not granted, openHAB discovery will be disabled!</string>
+    <string name="erorr_no_location_permission">ACCESS_FINE_LOCATION permission is not granted, openHAB presence reporting will be disabled!</string>
     <string name="error_connection_failed">Connection to host failed</string>
     <string name="error_connection_sslhandshake_failed">SSL Handshake failed - maybe you need a valid client certificate</string>
     <string name="title_activity_openhabwritetag">Write NFC tag</string>
@@ -111,4 +112,20 @@
     <!-- drawer -->
     <string name="drawer_open">Sitemap drawer opened</string>
     <string name="drawer_close">Sitemap drawer closed</string>
+
+    <!-- Presence/Geofence -->
+    <string name="geofence_debug_notification">Geofence transition</string>
+    <string name="geofence_debug_unknown">Unknown transition type: %d</string>
+    <string name="presence_invalid_latlng">Invalid presence Lat/Lng</string>
+    <string name="error_find_url">Couldn\'t determine OpenHAB URL</string>
+    <string name="error_item_missing">Item %s doesn\'t exist.</string>
+    <string name="error_item_command">Error %1$d while sending %2$s to %3$s</string>
+    <string name="presence_pref_title">Presence</string>
+    <string name="presence_pref_enable_title">Enable</string>
+    <string name="presence_pref_enable_summary">Enable location-based presence reporting</string>
+    <string name="presence_pref_item_title">Item</string>
+    <string name="presence_pref_lat_title">Latitude</string>
+    <string name="presence_pref_lng_title">Longitude</string>
+    <string name="presence_pref_debug_title">Debugging</string>
+    <string name="presence_pref_debug_summary">Enable debug notifications</string>
 </resources>

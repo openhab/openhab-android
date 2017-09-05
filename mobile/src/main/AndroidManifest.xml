@@ -20,6 +20,7 @@
 
     <uses-permission android:name="org.openhab.habdroid.gcm.permission.C2D_MESSAGE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <uses-feature
         android:name="android.hardware.location.gps"
@@ -74,6 +75,15 @@
             android:name="org.openhab.habdroid.ui.OpenHABWriteTagActivity"
             android:label="@string/title_activity_openhabwritetag" />
         <activity android:name="de.duenndns.ssl.MemorizingActivity" />
+
+        <service android:name=".core.GeofenceRegistrationService"/>
+        <service android:name=".core.GeofenceIntentService"/>
+        <receiver android:name=".core.GeofenceBroadcastReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+            </intent-filter>
+        </receiver>
 
         <service
             android:name=".core.OpenHABVoiceService"

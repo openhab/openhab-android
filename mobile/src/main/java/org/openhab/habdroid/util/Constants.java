@@ -26,5 +26,10 @@ public class Constants {
     public static final String PREFERENCE_TONE              = "default_openhab_alertringtone";
     public static final String PREFERENCE_SSLCLIENTCERT     = "default_openhab_sslclientcert";
     public static final String PREFERENCE_SSLCLIENTCERT_HOWTO = "default_openhab_sslclientcert_howto";
+    public static final String PREFERENCE_PRESENCE_ENABLE   = "default_openhab_presence_enable";
+    public static final String PREFERENCE_PRESENCE_ITEM     = "default_openhab_presence_item";
+    public static final String PREFERENCE_PRESENCE_LAT      = "default_openhab_presence_lat";
+    public static final String PREFERENCE_PRESENCE_LNG      = "default_openhab_presence_lng";
+    public static final String PREFERENCE_PRESENCE_DEBUG     = "default_openhab_presence_debug";
     public static final String DEFAULT_GCM_SENDER_ID        = "737820980945";
 }

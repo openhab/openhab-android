@@ -31,6 +31,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.speech.RecognizerIntent;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -60,8 +61,10 @@ import com.loopj.android.image.WebImageCache;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 import org.openhab.habdroid.BuildConfig;
 import org.openhab.habdroid.R;
+import org.openhab.habdroid.core.GeofenceRegistrationService;
 import org.openhab.habdroid.core.HABDroid;
 import org.openhab.habdroid.core.NetworkConnectivityInfo;
 import org.openhab.habdroid.core.NotificationDeletedBroadcastReceiver;
@@ -142,12 +145,13 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
     private static final int SETTINGS_REQUEST_CODE = 1002;
     private static final int WRITE_NFC_TAG_REQUEST_CODE = 1003;
     private static final int INFO_REQUEST_CODE = 1004;
+    private static final int MY_PERMISSIONS_ACCESS_FINE_LOCATION = 1005;
+
     // Drawer item codes
     private static final int DRAWER_NOTIFICATIONS = 100;
     private static final int DRAWER_BINDINGS = 101;
     private static final int DRAWER_INBOX = 102;
     // Loopj
-//    private static MyAsyncHttpClient mAsyncHttpClient;
     private static MyAsyncHttpClient mAsyncHttpClient;
     // Base URL of current openHAB connection
     private String openHABBaseUrl = "http://demo.openhab.org:8080/";
@@ -197,6 +201,9 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
     private NotificationSettings mNotifySettings = null;
 
     public static String GCM_SENDER_ID;
+
+    // If Presence reporting is enabled
+    private boolean mPresenceEnabled = true;
 
     /*
      *Daydreaming gets us into a funk when in fullscreen, this allows us to
@@ -273,6 +280,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
         setupDrawer();
         gcmRegisterBackground();
         setupPager();
+        setupPresence();
 
         MemorizingTrustManager.setResponder(this);
 
@@ -526,6 +534,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
         openHABBaseUrl = baseUrl;
         mDrawerAdapter.setOpenHABBaseUrl(openHABBaseUrl);
         pagerAdapter.setOpenHABBaseUrl(openHABBaseUrl);
+        loadPresenceLocation();
         if (!TextUtils.isEmpty(mNfcData)) {
             onNfcTag(mNfcData);
             openNFCPageIfPending();
@@ -547,6 +556,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
                     selectSitemap(openHABBaseUrl, false);
                 }
             });
+
         }
     }
 
@@ -1154,7 +1164,37 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
             showAlertDialog(getString(R.string.erorr_no_wifi_state_permission));
             mServiceDiscoveryEnabled = false;
         }
+    }
 
+    public boolean checkLocationPermissions() {
+        // Check if we got all needed permissions
+        PackageManager pm = getPackageManager();
+        if (!(pm.checkPermission(Manifest.permission.ACCESS_FINE_LOCATION, getPackageName()) == PackageManager.PERMISSION_GRANTED)) {
+            ActivityCompat.requestPermissions(this,
+                new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                MY_PERMISSIONS_ACCESS_FINE_LOCATION);
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case MY_PERMISSIONS_ACCESS_FINE_LOCATION: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // permission was granted, yay!
+                    setupPresence();
+                } else {
+                    // permission denied, boo! Disable presence reporting
+                    SharedPreferences.Editor preferencesEditor = mSettings.edit();
+                    preferencesEditor.putBoolean(Constants.PREFERENCE_PRESENCE_ENABLE, false);
+                    preferencesEditor.apply();
+                }
+                return;
+            }
+        }
     }
 
     public void makeDecision(int decisionId, String certMessage) {
@@ -1252,6 +1292,68 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
             mNotifySettings = new NotificationSettings(baseUrl, syncHttpClient);
         }
         return mNotifySettings;
+    }
+
+    /**
+     * Setup presence reporting
+     */
+    @SuppressWarnings("MissingPermission")
+    private void setupPresence() {
+        Log.i(TAG, "setupPresence");
+        mPresenceEnabled = mSettings.getBoolean(Constants.PREFERENCE_PRESENCE_ENABLE, false);
+
+        if (!mPresenceEnabled) {
+            Log.i(TAG, "Presence reporting is disabled");
+            return;
+        }
+
+        if (!checkLocationPermissions()){
+            Log.i(TAG, "No location permissions.");
+            return;
+        }
+
+        // Start the service to register the geofence
+        Intent intent = new Intent(this, GeofenceRegistrationService.class);
+        startService(intent);
+    }
+
+    protected void loadPresenceLocation() {
+        boolean demoMode = mSettings.getBoolean(Constants.PREFERENCE_DEMOMODE, false);
+        if (demoMode) {
+            return;
+        }
+        String latStr = mSettings.getString(Constants.PREFERENCE_PRESENCE_LAT, "");
+        String lngStr = mSettings.getString(Constants.PREFERENCE_PRESENCE_LNG, "");
+        if (!latStr.equals("") && !lngStr.equals("")) {
+            return;
+        }
+        mAsyncHttpClient.get(openHABBaseUrl + "rest/services/org.eclipse.smarthome.core.i18nprovider/config",
+                new MyHttpClient.ResponseHandler() {
+                    @Override
+                    public void onSuccess(Call call, int statusCode, Headers headers, byte[] responseBody) {
+                        JSONObject json;
+                        try {
+                            json = new JSONObject(new String(responseBody));
+                            String locStr = json.getString("location");
+                            String[] locArray = locStr.split(",");
+                            if(locArray.length >= 2) {
+                                SharedPreferences.Editor preferencesEditor = mSettings.edit();
+                                preferencesEditor.putString(Constants.PREFERENCE_PRESENCE_LAT, locArray[0]);
+                                preferencesEditor.putString(Constants.PREFERENCE_PRESENCE_LNG, locArray[1]);
+                                preferencesEditor.commit();
+                            }
+                            Log.i(TAG, "Location: "+locStr);
+                        } catch (JSONException e) {
+                            Log.d(TAG, "Unable to parse returned body as JSON: " + e.getMessage(), e);
+                            return;
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call call, int statusCode, Headers headers, byte[] responseBody, Throwable error) {
+                        Log.e(TAG, "getLocation: error " + statusCode, error);
+                    }
+                });
     }
 
     /**

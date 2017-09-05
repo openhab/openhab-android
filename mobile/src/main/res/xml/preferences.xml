@@ -58,6 +58,38 @@
             android:summary="@string/settings_openhab_sslhost_summary"
             android:title="@string/settings_openhab_sslhost" />
     </PreferenceCategory>
+    <PreferenceCategory android:title="@string/presence_pref_title">
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="default_openhab_presence_enable"
+            android:summary="@string/presence_pref_enable_summary"
+            android:title="@string/presence_pref_enable_title" />
+        <EditTextPreference
+            android:defaultValue="isPresent"
+            android:dependency="default_openhab_presence_enable"
+            android:inputType="textNoSuggestions"
+            android:key="default_openhab_presence_item"
+            android:summary=""
+            android:title="@string/presence_pref_item_title" />
+        <EditTextPreference
+            android:dependency="default_openhab_presence_enable"
+            android:inputType="numberDecimal"
+            android:key="default_openhab_presence_lat"
+            android:summary=""
+            android:title="@string/presence_pref_lat_title" />
+        <EditTextPreference
+            android:dependency="default_openhab_presence_enable"
+            android:inputType="numberDecimal"
+            android:key="default_openhab_presence_lng"
+            android:summary=""
+            android:title="@string/presence_pref_lng_title" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:dependency="default_openhab_presence_enable"
+            android:key="default_openhab_presence_debug"
+            android:summary="@string/presence_pref_debug_summary"
+            android:title="@string/presence_pref_debug_title" />
+    </PreferenceCategory>
     <PreferenceCategory android:title="@string/settings_display_title">
         <ListPreference
             android:key="default_openhab_theme"
