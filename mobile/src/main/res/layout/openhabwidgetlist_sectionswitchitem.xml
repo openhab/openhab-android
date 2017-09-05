@@ -1,43 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:paddingLeft="@dimen/widgetlist_item_left_margin"
-    android:paddingRight="@dimen/widgetlist_item_right_margin"
     android:background="?android:activatedBackgroundIndicator"
-    >
+    tools:layout_editor_absoluteY="25dp"
+    tools:layout_editor_absoluteX="0dp">
 
     <include
         android:id="@+id/sectionleftlayout"
-        layout="@layout/openhabwidgetlist_icontext" />
+        layout="@layout/openhabwidgetlist_icontext"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        tools:layout_editor_absoluteY="0dp" />
 
     <TextView
         android:id="@+id/widgetvalue"
-        android:layout_width="wrap_content"
+        android:layout_width="1dp"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:layout_toLeftOf="@+id/sectionswitchradiogroup"
-        android:layout_centerVertical="true" />
+        tools:layout_editor_absoluteY="14dp"
+        app:layout_constraintLeft_toRightOf="@+id/sectionleftlayout"
+        android:layout_marginLeft="333dp"
+        android:layout_marginStart="333dp" />
 
     <RadioGroup
         android:id="@+id/sectionswitchradiogroup"
-        android:layout_width="wrap_content"
+        style="@style/buttonStyle2"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:layout_margin="0px"
-        style="@style/buttonStyle2">
+        tools:layout_editor_absoluteY="20dp"
+        android:layout_width="0dp"
+        android:layout_marginRight="8dp"
+        app:layout_constraintRight_toRightOf="parent">
         android:focusable="false"
         android:focusableInTouchMode="false"</RadioGroup>
 
     <LinearLayout
         android:id="@+id/listdivider"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="1dip"
+        android:layout_marginLeft="0dp"
+        android:layout_marginRight="0dp"
+        android:layout_marginTop="0dp"
         android:background="?android:attr/listDivider"
         android:orientation="horizontal"
-        android:layout_below="@+id/sectionleftlayout"
-        android:layout_marginLeft="@dimen/widgetlist_divider_left_margin"
-        android:layout_marginRight="@dimen/widgetlist_divider_right_margin" />
-</RelativeLayout>
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sectionleftlayout" />
+
+</android.support.constraint.ConstraintLayout>
