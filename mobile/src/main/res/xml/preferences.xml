@@ -78,7 +78,7 @@
         <ListPreference
             android:title="@string/settings_openhab_icon_format"
             android:key="iconFormatType"
-            android:defaultValue="PNG"
+            android:defaultValue="@string/settings_openhab_icon_format_png"
             android:summary="%s"
             android:entries="@array/iconTypeValues"
             android:entryValues="@array/iconTypeValues" />
