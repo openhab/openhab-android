@@ -108,4 +108,8 @@
     <string name="plus">+</string>
     <string name="settings_openhab_icon_format_png">PNG</string>
     <string name="settings_openhab_icon_format_svg">SVG</string>
+    <string name="about_license_title">Lizenz</string>
+    <string name="about_links">Links</string>
+    <string name="about_title">Über</string>
+    <string name="about_links_list"><![CDATA[· <a href="https://github.com/openhab/openhab.android">openHAB App Quellcode</a><br><br> · <a href="https://github.com/openhab/openhab.android/issues">Berichte ein Problem</a><br><br> · <a href="http://docs.openhab.org/">openHAB Dokumentation</a><br><br> · <a href="https://community.openhab.org/">Community Forum</a>]]></string>
 </resources>

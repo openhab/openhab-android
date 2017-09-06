@@ -72,4 +72,5 @@ dependencies {
     testCompile 'org.powermock:powermock-core:1.7.0'
     testCompile 'org.powermock:powermock-api-mockito2:1.7.0'
     testCompile 'org.powermock:powermock-module-junit4:1.7.0'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
 }
