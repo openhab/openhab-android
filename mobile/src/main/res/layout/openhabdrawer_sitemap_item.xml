@@ -32,7 +32,7 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:layout_gravity="center_vertical"
-            android:text="Main menu"
+            android:text="@string/main_menu"
             />
     </LinearLayout>
 </RelativeLayout>

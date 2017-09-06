@@ -20,7 +20,7 @@
             android:id="@+id/setpointbutton_minus"
             android:layout_width="40dip"
             android:layout_height="wrap_content"
-            android:text="-" />
+            android:text="@string/minus" />
 
         <TextView
             android:id="@+id/widgetvalue"
@@ -32,7 +32,7 @@
             android:id="@+id/setpointbutton_plus"
             android:layout_width="40dip"
             android:layout_height="wrap_content"
-            android:text="+" />
+            android:text="@string/plus" />
     </LinearLayout>
 
     <LinearLayout

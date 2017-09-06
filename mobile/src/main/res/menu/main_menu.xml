@@ -33,9 +33,15 @@
         android:title="@string/mainmenu_openhab_info"
         app:showAsAction="ifRoom" />
     <item
+        android:id="@+id/mainmenu_about"
+        android:icon="@drawable/ic_action_info"
+        android:orderInCategory="105"
+        android:title="@string/about_title"
+        app:showAsAction="ifRoom" />
+    <item
         android:id="@+id/mainmenu_openhab_preferences"
         android:icon="@drawable/ic_action_settings"
-        android:orderInCategory="105"
+        android:orderInCategory="106"
         android:title="@string/mainmenu_openhab_preferences"
         app:showAsAction="ifRoom" />
 </menu>
