@@ -841,7 +841,6 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
                 }
                 return true;
             case R.id.mainmenu_openhab_info:
-
                 Bundle bundle = new Bundle();
                 bundle.putString(OpenHABVoiceService.OPENHAB_BASE_URL_EXTRA, openHABBaseUrl);
                 bundle.putString("username", openHABUsername);
@@ -855,6 +854,13 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
                 FragmentTransaction ft = fm.beginTransaction();
                 ft.add(openHabInfo, "openHabTag");
                 ft.commit();
+                return true;
+            case R.id.mainmenu_about:
+                FragmentManager fm2 = getSupportFragmentManager();
+                Fragment about = new AboutFragment();
+                FragmentTransaction ft2 = fm2.beginTransaction();
+                ft2.add(about, "openHabTag");
+                ft2.commit();
                 return true;
             case R.id.mainmenu_voice_recognition:
                 launchVoiceRecognition();

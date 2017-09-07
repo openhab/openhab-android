@@ -24,7 +24,7 @@
     </string-array>
 
     <string-array name="iconTypeValues">
-        <item>PNG</item>
-        <item>SVG</item>
+        <item>@string/settings_openhab_icon_format_png</item>
+        <item>@string/settings_openhab_icon_format_svg</item>
     </string-array>
 </resources>
