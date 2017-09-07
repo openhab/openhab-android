@@ -103,4 +103,6 @@
     <!-- drawer -->
     <string name="drawer_open">Sitemap-Bereich öffnen</string>
     <string name="drawer_close">Sitemap-Bereich schließen</string>
+    <string name="theme_name_basic_ui">Basic UI</string>
+    <string name="theme_name_basic_ui_dark">Basic UI dunkel</string>
 </resources>
