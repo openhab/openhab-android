@@ -35,4 +35,7 @@
         <item name="android:layout_gravity">center_vertical|center_horizontal</item>
         <item name="android:padding">5dip</item>
     </style>
+    <style name="whiteText">
+        <item name="android:textColor">#ffffff</item>
+    </style>
 </resources>
