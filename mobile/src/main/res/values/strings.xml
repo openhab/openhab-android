@@ -4,11 +4,13 @@
     <string name="app_name" translatable="false">openHAB</string>
     <string name="openhab_service_type" translatable="false">_openhab-server-ssl._tcp.local.</string>
     <string name="openhab_demo_url" translatable="false">http://demo.openhab.org:8080/</string>
+    <string name="main_menu">Main menu</string>
     <string name="app_preferences_name">Settings</string>
     <string name="app_notifications">Notifications</string>
     <string name="app_bindings">Bindings</string>
     <string name="app_bindings_supportedthings">Supported Things</string>
     <string name="app_discoveryinbox">Discovery</string>
+    <string name="favorites">Favorites</string>
     <string name="app_discoveryinbox_deviceunnamed">Unnamed device</string>
     <string name="app_discoveryinbox_deviceaction">Select action</string>
     <string name="app_discoveryinbox_approve">Approve</string>
@@ -17,6 +19,8 @@
     <string name="app_discoveryinbox_nothings">No new things</string>
     <string name="app_discovery">Activate Discovery</string>
     <string name="empty_string" translatable="false"></string>
+    <string name="minus">-</string>
+    <string name="plus">+</string>
     <!-- Main menu items -->
     <string name="mainmenu_openhab_preferences">Settings</string>
     <string name="mainmenu_openhab_selectsitemap">Select default sitemap</string>
@@ -51,6 +55,8 @@
     <string name="settings_openhab_fullscreen">Full Screen</string>
     <string name="settings_openhab_fullscreen_summary">Display in fullscreen mode</string>
     <string name="settings_openhab_icon_format">Icon format</string>
+    <string name="settings_openhab_icon_format_png">PNG</string>
+    <string name="settings_openhab_icon_format_svg">SVG</string>
     <string name="settings_ringtone">Ring tone</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">openHAB Voice Commands</string>
@@ -115,4 +121,12 @@
     <!-- drawer -->
     <string name="drawer_open">Sitemap drawer opened</string>
     <string name="drawer_close">Sitemap drawer closed</string>
+
+    <!-- About -->
+    <string name="about_title">About</string>
+    <string name="about_license_title">License</string>
+    <string name="about_license" translatable="false"><![CDATA[<a href="https://raw.githubusercontent.com/openhab/openhab.android/master/LICENSE">Eclipse Public License - v 1.0</a>]]></string>
+    <string name="about_links">Links</string>
+    <string name="about_links_list"><![CDATA[\u00B7 <a href="https://github.com/openhab/openhab.android">openHAB App source code</a><br><br> \u00B7 <a href="https://github.com/openhab/openhab.android/issues">Report a problem</a><br><br> \u00B7 <a href="http://docs.openhab.org/">openHAB Documentation</a><br><br> \u00B7 <a href="https://community.openhab.org/">Community Forum</a>]]></string>
+    <string name="about_copyright" translatable="false">© 2012 - %s openHAB Foundation</string>
 </resources>

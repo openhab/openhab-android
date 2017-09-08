@@ -81,4 +81,5 @@
     <string name="mtm_decision_once">Eenmalig</string>
     <string name="mtm_decision_abort">Afbreken</string>
     <string name="mtm_notification">Certificaatverificatie</string>
+    <string name="about_links_list"></string>
 </resources>
