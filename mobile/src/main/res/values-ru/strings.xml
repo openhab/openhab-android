@@ -1,60 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <!-- General app strings -->
-    <string name="app_name" translatable="false">openHAB</string>
-    <string name="openhab_service_type" translatable="false">_openhab-server-ssl._tcp.local.</string>
-    <string name="openhab_demo_url" translatable="false">http://demo.openhab.org:8080/</string>
-    <string name="main_menu">Main menu</string>
-    <string name="app_preferences_name">Settings</string>
-    <string name="app_notifications">Notifications</string>
-    <string name="app_bindings">Bindings</string>
+    <string name="main_menu">Главное меню</string>
+    <string name="app_preferences_name">Настройки</string>
+    <string name="app_notifications">Уведомления</string>
+    <string name="app_bindings">Связи</string>
     <string name="app_bindings_supportedthings">Supported Things</string>
-    <string name="app_discoveryinbox">Discovery</string>
-    <string name="favorites">Favorites</string>
-    <string name="app_discoveryinbox_deviceunnamed">Unnamed device</string>
-    <string name="app_discoveryinbox_deviceaction">Select action</string>
-    <string name="app_discoveryinbox_approve">Approve</string>
-    <string name="app_discoveryinbox_ignore">Ignore</string>
-    <string name="app_discoveryinbox_delete">Delete</string>
+    <string name="app_discoveryinbox">Обнаружение</string>
+    <string name="favorites">Избранное</string>
+    <string name="app_discoveryinbox_deviceunnamed">Безымянное устройство</string>
+    <string name="app_discoveryinbox_deviceaction">Выберите действие</string>
+    <string name="app_discoveryinbox_approve">Утвердить</string>
+    <string name="app_discoveryinbox_ignore">Игнорировать</string>
+    <string name="app_discoveryinbox_delete">Удалить</string>
     <string name="app_discoveryinbox_nothings">No new things</string>
-    <string name="app_discovery">Activate Discovery</string>
-    <string name="empty_string" translatable="false"></string>
+    <string name="app_discovery">Активация Обнаружения</string>
     <string name="minus">-</string>
     <string name="plus">+</string>
     <!-- Main menu items -->
-    <string name="mainmenu_openhab_preferences">Settings</string>
-    <string name="mainmenu_openhab_selectsitemap">Select default sitemap</string>
-    <string name="mainmenu_openhab_writetag">Write NFC tag</string>
-    <string name="mainmenu_openhab_info">openHAB info</string>
-    <string name="mainmenu_openhab_clearcache">Clear images cache</string>
+    <string name="mainmenu_openhab_preferences">Параметры</string>
+    <string name="mainmenu_openhab_selectsitemap">Выбрать sitemap по умолчанию</string>
+    <string name="mainmenu_openhab_writetag">Запись NFC tag</string>
+    <string name="mainmenu_openhab_info">openHAB Инфо</string>
+    <string name="mainmenu_openhab_clearcache">Очистить кеш картинок</string>
     <!-- App settings strings -->
-    <string name="settings_connection_title">Connection Settings</string>
-    <string name="settings_display_title">Display Settings</string>
+    <string name="settings_connection_title">Параметры Подключения</string>
+    <string name="settings_display_title">Параметры Дисплея</string>
     <string name="settings_misc_title">Misc Settings</string>
-    <string name="settings_openhab_url">openHAB URL</string>
-    <string name="settings_openhab_url_summary">Manually configured openHAB URL. Disables autodiscovery if configured.</string>
-    <string name="settings_openhab_alturl">openHAB Remote URL</string>
-    <string name="settings_openhab_alturl_summary">Remote openHAB URL (used when local openHAB is unavailable)</string>
-    <string name="settings_openhab_username">Username</string>
-    <string name="settings_openhab_username_summary">openHAB username</string>
-    <string name="settings_openhab_password">Password</string>
-    <string name="settings_openhab_password_summary">openHAB password</string>
+    <string name="settings_openhab_url">URL адрес локального openHAB</string>
+    <string name="settings_openhab_url_summary">Ручная конфигурация openHAB URL. Отключает автоопределение, если настроен.</string>
+    <string name="settings_openhab_alturl">URL-адрес удаленного openHAB</string>
+    <string name="settings_openhab_alturl_summary">URL-адрес удаленного openHAB (используется, когда локальный openHAB недоступен
+)</string>
+    <string name="settings_openhab_username">Пользователь</string>
+    <string name="settings_openhab_username_summary">openHAB пользователь</string>
+    <string name="settings_openhab_password">Пароль</string>
+    <string name="settings_openhab_password_summary">openHAB пароль</string>
     <string name="settings_openhab_sslclientcert">SSL client certificate</string>
     <string name="settings_openhab_sslclientcert_howto">SSL client certificate how-to</string>
-    <string name="settings_openhab_sslclientcert_howto_url" translatable="false">https://github.com/openhab/openhab.android/blob/master/KeyAuth.md</string>
     <string name="settings_openhab_screentimeroff">Disable display timer</string>
     <string name="settings_openhab_screentimeroff_summary">Disable display switch off timer when openHAB is running</string>
-    <string name="settings_openhab_demomode">Demo mode</string>
-    <string name="settings_openhab_demomode_summary">Run in demo mode</string>
-    <string name="settings_openhab_theme">openHAB Theme</string>
+    <string name="settings_openhab_demomode">Demo режим</string>
+    <string name="settings_openhab_demomode_summary">Запуск demo режима</string>
+    <string name="settings_openhab_theme">openHAB Тема</string>
     <string name="settings_openhab_appversion">openHAB App Version</string>
-    <string name="settings_openhab_sslcert">Ignore SSL certificate</string>
+    <string name="settings_openhab_sslcert">Игнорировать SSL сертификат</string>
     <string name="settings_openhab_sslcert_summary">Ignore certificate validation during SSL handshake</string>
-    <string name="settings_openhab_sslhost">Ignore SSL hostname</string>
+    <string name="settings_openhab_sslhost">Игнорировать SSL Имя хоста</string>
     <string name="settings_openhab_sslhost_summary">Ignore hostname check during SSL handshake</string>
-    <string name="settings_openhab_fullscreen">Full Screen</string>
+    <string name="settings_openhab_fullscreen">Во весь экран</string>
     <string name="settings_openhab_fullscreen_summary">Display in fullscreen mode</string>
-    <string name="settings_openhab_icon_format">Icon format</string>
+    <string name="settings_openhab_icon_format">Формат иконок</string>
     <string name="settings_openhab_icon_format_png">PNG</string>
     <string name="settings_openhab_icon_format_svg">SVG</string>
     <string name="settings_ringtone">Ring tone</string>
@@ -91,38 +87,36 @@
     <string name="info_openhab_gcm_label">Google Cloud Message Status</string>
     <string name="info_openhab_gcm_not_connected">Device registration failed with Sender ID %s</string>
     <string name="info_openhab_gcm_connected">Registered device with Sender ID %s</string>
-    <string name="action_settings">Settings</string>
+    <string name="action_settings">Параметры</string>
     <string name="nfc_dialog_title">Please select NFC tag action</string>
     <string name="info_not_set">Not set</string>
     <!-- Strings for MemorizingTrustManager activity -->
-    <string name="mtm_accept_cert">Accept unknown Certificate?</string>
-    <string name="mtm_decision_always">Always</string>
+    <string name="mtm_accept_cert">Принять неизвестный Сертификат?</string>
+    <string name="mtm_decision_always">Всегда</string>
     <string name="mtm_decision_once">Once</string>
-    <string name="mtm_decision_abort">Abort</string>
+    <string name="mtm_decision_abort">Отмена</string>
     <string name="mtm_notification">Certificate verification</string>
     <string name="settings_openhab_none">none</string>
     <!-- theme -->
-    <string name="theme_value_light">light</string>
-    <string name="theme_value_dark">dark</string>
-    <string name="theme_value_black">black</string>
-    <string name="theme_name_light">Light</string>
-    <string name="theme_name_dark">Dark</string>
-    <string name="theme_name_black">Black/AMOLED</string>
+    <string name="theme_value_light">светлая</string>
+    <string name="theme_value_dark">темная</string>
+    <string name="theme_value_black">чёрная</string>
+    <string name="theme_name_light">Светлая</string>
+    <string name="theme_name_dark">Темная</string>
+    <string name="theme_name_black">Чёрная/AMOLED</string>
 
     <!-- nfc toggle -->
-    <string name="nfc_action_on">On</string>
-    <string name="nfc_action_off">Off</string>
-    <string name="nfc_action_toggle">Toggle</string>
+    <string name="nfc_action_on">Вкл</string>
+    <string name="nfc_action_off">Выкл</string>
+    <string name="nfc_action_toggle">Переключатель</string>
 
     <!-- drawer -->
     <string name="drawer_open">Sitemap drawer opened</string>
     <string name="drawer_close">Sitemap drawer closed</string>
 
     <!-- About -->
-    <string name="about_title">About</string>
-    <string name="about_license_title">License</string>
-    <string name="about_license" translatable="false"><![CDATA[<a href="https://raw.githubusercontent.com/openhab/openhab.android/master/LICENSE">Eclipse Public License - v 1.0</a>]]></string>
-    <string name="about_links">Links</string>
+    <string name="about_title">О программе</string>
+    <string name="about_license_title">Лицензия</string>
+    <string name="about_links">Ссылки</string>
     <string name="about_links_list"><![CDATA[\u00B7 <a href="https://github.com/openhab/openhab.android">openHAB App source code</a><br><br> \u00B7 <a href="https://github.com/openhab/openhab.android/issues">Report a problem</a><br><br> \u00B7 <a href="http://docs.openhab.org/">openHAB Documentation</a><br><br> \u00B7 <a href="https://community.openhab.org/">Community Forum</a>]]></string>
-    <string name="about_copyright" translatable="false">© 2012 - %s openHAB Foundation</string>
 </resources>
