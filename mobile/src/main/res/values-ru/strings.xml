@@ -96,8 +96,11 @@
     <string name="mtm_decision_abort">Отмена</string>
     <string name="mtm_notification">Проверка сертификата</string>
     <string name="settings_openhab_none">Нет</string>
-    <!-- theme -->
 
+    <!-- theme -->
+    <string name="theme_name_light">Светлая</string>
+    <string name="theme_name_dark">Темная</string>
+    <string name="theme_name_black">Чёрная/AMOLED</string>
 
     <!-- nfc toggle -->
     <string name="nfc_action_on">Вкл</string>
