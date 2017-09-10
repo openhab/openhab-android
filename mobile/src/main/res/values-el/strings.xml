@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+    <resources>
     <string name="about_license_title">Άδεια</string>
     <string name="about_links">Σύνδεσμοι</string>
+    <string name="about_links_list"><![CDATA[· <a href="https://github.com/openhab/openhab.android">Πηγαίος κώδικας εφαρμογής openHAB</a><br><br> · <a href="https://github.com/openhab/openhab.android/issues">Αναφορά Προβλήματος</a><br><br> · <a href="http://docs.openhab.org/">Έγγραφα τεκμηρίωσης του openHAB</a><br><br> · <a href="https://community.openhab.org/">Τόπος συζητήσεως κοινότητας</a>]]></string>
     <string name="about_title">Σχετικά</string>
     <string name="action_settings">Ρυθμίσεις</string>
     <string name="app_bindings">Συνδέσεις</string>
@@ -93,9 +94,6 @@
     <string name="theme_name_black">Μαύρο/AMOLED</string>
     <string name="theme_name_dark">Σκούρο</string>
     <string name="theme_name_light">Ανοιχτόχρωμο</string>
-    <string name="theme_value_black">Μαύρο</string>
-    <string name="theme_value_dark">Μαύρο</string>
-    <string name="theme_value_light">Ανοιχτόχρωμο</string>
     <string name="title_activity_openhabinfo">Πληροφορίες για το openHAB</string>
     <string name="title_activity_openhabwritetag">Εγγραφή ετικέτας NFC</string>
     <string name="title_voice_widget">Φωνητικές εντολές openHAB</string>
