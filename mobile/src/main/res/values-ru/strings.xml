@@ -64,7 +64,7 @@
     <string name="info_discovery">Обнаружение openHAB. Пожалуйста подождите...</string>
     <string name="error_no_url">Убедитесь, что openHAB запущен и настроен локальный URL-адрес openHAB или удаленный URL-адрес</string>
     <string name="error_authentication_failed">Ошибка авторизации. Пожалуйста проверьте Имя пользователя/Пароль settings</string>
-    <string name="error_empty_sitemap_list">openHAB returned empty sitemap list</string>
+    <string name="error_empty_sitemap_list">openHAB вернул пустой sitemap лист</string>
     <string name="error_network_not_available">Сеть недоступна</string>
     <string name="error_no_uuid">Не удалось получить OpenHAB UUID, соединение не выполнено</string>
     <string name="erorr_invalid_url">Пожалйста напишите правильный URL in a \'protocol://host:port/\' form</string>
