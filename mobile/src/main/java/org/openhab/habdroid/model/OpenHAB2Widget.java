@@ -17,12 +17,22 @@ public class OpenHAB2Widget extends OpenHABWidget {
     @Override
     public String getIconPath() {
         OpenHABItem widgetItem = getItem();
-        String itemState = (widgetItem != null) ? widgetItem.getState() : null;
-        // For switch item that control a dimmer item set the state to off instead of 0
-        // to fetch the correct icon
-        if(itemState != null && getType().equals("Switch") && itemState.equals("0")) {
-            itemState = "OFF";
+        String itemState;
+        if (widgetItem != null) {
+            itemState = widgetItem.getState();
+            // For switch item that control a dimmer item set the state to off instead of 0
+            // to fetch the correct icon
+            if(itemState != null && getType().equals("Switch")) {
+                if(itemState.equals("100")) {
+                    itemState = "ON";
+                } else if (itemState.equals("0")){
+                    itemState = "OFF";
+                }
+            }
+        } else {
+            itemState = null;
         }
+
         return String.format("icon/%s?state=%s&format=%s", getIcon(), itemState, iconFormat);
     }
 
