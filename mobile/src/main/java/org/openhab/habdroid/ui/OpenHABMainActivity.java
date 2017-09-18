@@ -134,6 +134,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
             }
         }
     }
+
     // GCM Registration expiration
     public static final long REGISTRATION_EXPIRY_TIME_MS = 1000 * 3600 * 24 * 7;
     // Logging TAG
@@ -331,12 +332,13 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
 
     /**
      * Restore the fragment, which was saved in the onSaveInstanceState handler, if there's any.
+     *
      * @param savedInstanceState
      */
     @Override
     public void onRestoreInstanceState(Bundle savedInstanceState) {
         int savedFragment = savedInstanceState.getInt("currentFragment", 0);
-        if (savedFragment != 0){
+        if (savedFragment != 0) {
             pager.setCurrentItem(savedFragment);
             Log.d(TAG, String.format("Loaded current page = %d", savedFragment));
         }
@@ -537,14 +539,14 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
                     mOpenHABVersion = 1;
                     Log.d(TAG, "openHAB version 1 - got error " + throwable + " accessing " + url);
                     mAsyncHttpClient.addHeader("Accept", "application/xml");
-                    selectSitemap(openHABBaseUrl, false);
+                    selectSitemap(openHABBaseUrl, false, false);
                 }
 
                 @Override
                 public void onSuccess(Call call, int statusCode, Headers headers, String responseString) {
                     mOpenHABVersion = 2;
                     Log.d(TAG, "openHAB version 2");
-                    selectSitemap(openHABBaseUrl, false);
+                    selectSitemap(openHABBaseUrl, false, false);
                 }
             });
         }
@@ -615,7 +617,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
      * @return void
      */
 
-    private void selectSitemap(final String baseUrl, final boolean forceSelect) {
+    private void selectSitemap(final String baseUrl, final boolean forceSelect, final boolean cancelable) {
         Log.d(TAG, "Loading sitemap list from " + baseUrl + "rest/sitemaps");
         setProgressIndicatorVisible(true);
         mAsyncHttpClient.get(baseUrl + "rest/sitemaps", new DefaultHttpResponseHandler() {
@@ -656,7 +658,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
                 loadDrawerItems();
                 // If we are forced to do selection, just open selection dialog
                 if (forceSelect) {
-                    showSitemapSelectionDialog(mSitemapList);
+                    showSitemapSelectionDialog(mSitemapList, cancelable);
                 } else {
                     // Check if we have a sitemap configured to use
                     SharedPreferences settings =
@@ -680,7 +682,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
                                 openSitemap(mSitemapList.get(0).getHomepageLink());
                             } else {
                                 Log.d(TAG, "Got multiply sitemaps, user have to select one");
-                                showSitemapSelectionDialog(mSitemapList);
+                                showSitemapSelectionDialog(mSitemapList, cancelable);
                             }
                         }
                         // No sitemap is configured to use
@@ -694,7 +696,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
                             openSitemap(mSitemapList.get(0).getHomepageLink());
                         } else {
                             Log.d(TAG, "Got multiply sitemaps, user have to select one");
-                            showSitemapSelectionDialog(mSitemapList);
+                            showSitemapSelectionDialog(mSitemapList, cancelable);
                         }
                     }
                 }
@@ -702,7 +704,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
         });
     }
 
-    private void showSitemapSelectionDialog(final List<OpenHABSitemap> sitemapList) {
+    private void showSitemapSelectionDialog(final List<OpenHABSitemap> sitemapList, final boolean cancelable) {
         Log.d(TAG, "Opening sitemap selection dialog");
         final List<String> sitemapNameList = new ArrayList<String>();
         ;
@@ -711,6 +713,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
         }
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(OpenHABMainActivity.this);
         dialogBuilder.setTitle(getString(R.string.mainmenu_openhab_selectsitemap));
+        dialogBuilder.setCancelable(cancelable);
         try {
             dialogBuilder.setItems(sitemapNameList.toArray(new CharSequence[sitemapNameList.size()]),
                     new DialogInterface.OnClickListener() {
@@ -811,8 +814,8 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
                         PreferenceManager.getDefaultSharedPreferences(OpenHABMainActivity.this);
                 SharedPreferences.Editor preferencesEditor = settings.edit();
                 preferencesEditor.putString(Constants.PREFERENCE_SITEMAP, "");
-                preferencesEditor.commit();
-                selectSitemap(openHABBaseUrl, true);
+                preferencesEditor.apply();
+                selectSitemap(openHABBaseUrl, true, true);
                 return true;
             case R.id.mainmenu_openhab_clearcache:
                 Log.d(TAG, "Restarting");
@@ -1295,7 +1298,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
             }
             mDrawerItemList.add(OpenHABDrawerItem.dividerItem());
         }
-//        mDrawerItemList.add(OpenHABDrawerItem.menuItem("Favorites", getResources().getDrawable(R.drawable.ic_star_grey600_36dp)));
+        //mDrawerItemList.add(OpenHABDrawerItem.menuItem("Favorites", getResources().getDrawable(R.drawable.ic_star_grey600_36dp)));
         // Only show Notifications item if using my.openHAB
         if (mIsMyOpenHAB)
 //            mDrawerItemList.add(OpenHABDrawerItem.menuWithCountItem("Notifications", getResources().getDrawable(R.drawable.ic_notifications_grey600_36dp), 21));
