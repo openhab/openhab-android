@@ -776,6 +776,11 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main_menu, menu);
+        if (!this.getPackageManager().hasSystemFeature("android.hardware.nfc")) {
+            Log.d(TAG, "Hide nfc menu entry, because nfc is not available");
+            MenuItem nfc = menu.findItem(R.id.mainmenu_openhab_writetag);
+            nfc.setVisible(false);
+        }
         return true;
     }
 
