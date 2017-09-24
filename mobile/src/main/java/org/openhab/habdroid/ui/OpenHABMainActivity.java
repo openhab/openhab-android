@@ -62,6 +62,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.openhab.habdroid.BuildConfig;
 import org.openhab.habdroid.R;
+import org.openhab.habdroid.core.GcmIntentService;
 import org.openhab.habdroid.core.HABDroid;
 import org.openhab.habdroid.core.NetworkConnectivityInfo;
 import org.openhab.habdroid.core.NotificationDeletedBroadcastReceiver;
@@ -179,6 +180,8 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
     private String mNfcData;
     // Pending NFC page
     private String mPendingNfcPage;
+    // Pending Notification page
+    private Integer mNotificationPosition;
     // Toolbar / Actionbar
     private Toolbar mToolbar;
     // Drawer Layout
@@ -213,6 +216,14 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
 
     public static MyAsyncHttpClient getAsyncHttpClient() {
         return mAsyncHttpClient;
+    }
+
+    /**
+     * This method is called when activity receives a new intent while running
+     */
+    @Override
+    protected void onNewIntent(Intent intent) {
+        processIntent(intent);
     }
 
     @Override
@@ -291,28 +302,32 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
         }
 
         if (getIntent() != null) {
-            Log.d(TAG, "Intent != null");
-            if (getIntent().getAction() != null) {
-                Log.d(TAG, "Intent action = " + getIntent().getAction());
-                if (getIntent().getAction().equals("android.nfc.action.NDEF_DISCOVERED")) {
-                    Log.d(TAG, "This is NFC action");
-                    if (getIntent().getDataString() != null) {
-                        Log.d(TAG, "NFC data = " + getIntent().getDataString());
-                        mNfcData = getIntent().getDataString();
-                    }
-                } else if (getIntent().getAction().equals("org.openhab.notification.selected")) {
-                    onNotificationSelected(getIntent());
-                } else if (getIntent().getAction().equals("android.intent.action.VIEW")) {
-                    Log.d(TAG, "This is URL Action");
-                    mNfcData = getIntent().getDataString();
-                }
-            }
+            processIntent(getIntent());
         }
 
         if (isFullscreenEnabled()) {
             registerReceiver(dreamReceiver, new IntentFilter("android.intent.action.DREAMING_STARTED"));
             registerReceiver(dreamReceiver, new IntentFilter("android.intent.action.DREAMING_STOPPED"));
             checkFullscreen();
+        }
+    }
+
+    private void processIntent(Intent intent) {
+        Log.d(TAG, "Intent != null");
+        if (intent.getAction() != null) {
+            Log.d(TAG, "Intent action = " + intent.getAction());
+            if (intent.getAction().equals("android.nfc.action.NDEF_DISCOVERED")) {
+                Log.d(TAG, "This is NFC action");
+                if (intent.getDataString() != null) {
+                    Log.d(TAG, "NFC data = " + intent.getDataString());
+                    mNfcData = intent.getDataString();
+                }
+            } else if (intent.getAction().equals(GcmIntentService.ACTION_NOTIFICATION_SELECTED)) {
+                onNotificationSelected(intent);
+            } else if (intent.getAction().equals("android.intent.action.VIEW")) {
+                Log.d(TAG, "This is URL Action");
+                mNfcData = intent.getDataString();
+            }
         }
     }
 
@@ -382,7 +397,13 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
             pager.setCurrentItem(stateFragment.getCurrentPage());
         }
         if (!TextUtils.isEmpty(mPendingNfcPage)) {
-            openNFCPageIfPending();
+            openPageIfPending(mPendingNfcPage);
+            mPendingNfcPage = null;
+        }
+
+        if (mNotificationPosition != null) {
+            openPageIfPending(mNotificationPosition);
+            mNotificationPosition = null;
         }
 
         checkFullscreen();
@@ -506,17 +527,20 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
         pager.addOnPageChangeListener(pagerAdapter);
     }
 
-    public void openNFCPageIfPending() {
-        int possiblePosition = pagerAdapter.getPositionByUrl(mPendingNfcPage);
+    public void openPageIfPending(int pagePosition) {
+        pager.setCurrentItem(pagePosition);
+    }
+
+    public void openPageIfPending(String pendingPage) {
+        int possiblePosition = pagerAdapter.getPositionByUrl(pendingPage);
         // If yes, then just switch to this page
         if (possiblePosition >= 0) {
-            pager.setCurrentItem(possiblePosition);
+            openPageIfPending(possiblePosition);
             // If not, then open this page as new one
         } else {
-            pagerAdapter.openPage(mPendingNfcPage);
+            pagerAdapter.openPage(pendingPage);
             pager.setCurrentItem(pagerAdapter.getCount() - 1);
         }
-        mPendingNfcPage = null;
     }
 
     public void onOpenHABTracked(String baseUrl, String message) {
@@ -528,7 +552,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
         pagerAdapter.setOpenHABBaseUrl(openHABBaseUrl);
         if (!TextUtils.isEmpty(mNfcData)) {
             onNfcTag(mNfcData);
-            openNFCPageIfPending();
+            openPageIfPending(mPendingNfcPage);
         } else {
             final String url = baseUrl + "rest/bindings";
             mAsyncHttpClient.get(url, new MyHttpClient.TextResponseHandler() {
@@ -907,38 +931,31 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
         super.onSaveInstanceState(savedInstanceState);
     }
 
-    /**
-     * This method is called when activity receives a new intent while running
-     */
-    @Override
-    public void onNewIntent(Intent newIntent) {
-        if (newIntent.getAction() != null) {
-            Log.d(TAG, "New intent received = " + newIntent.getAction());
-            if (newIntent.getAction().equals("android.nfc.action.NDEF_DISCOVERED")) {
-                Log.d(TAG, "This is NFC action");
-                if (newIntent.getDataString() != null) {
-                    Log.d(TAG, "Action data = " + newIntent.getDataString());
-                    onNfcTag(newIntent.getDataString());
-                }
-            } else if (newIntent.getAction().equals("org.openhab.notification.selected")) {
-                onNotificationSelected(newIntent);
-            } else if (newIntent.getAction().equals("android.intent.action.VIEW")) {
-                Log.d(TAG, "This is URL Action");
-                onNfcTag(newIntent.getDataString());
-            }
-        }
-    }
-
     private void onNotificationSelected(Intent intent) {
         Log.d(TAG, "Notification was selected");
-        if (intent.hasExtra("notificationId")) {
+        if (intent.hasExtra(GcmIntentService.EXTRA_NOTIFICATION_ID)) {
             Log.d(TAG, String.format("Notification id = %d",
-                    intent.getExtras().getInt("notificationId")));
+                    intent.getExtras().getInt(GcmIntentService.EXTRA_NOTIFICATION_ID)));
             // Make a fake broadcast intent to hide intent on other devices
             Intent deleteIntent = new Intent(this, NotificationDeletedBroadcastReceiver.class);
-            deleteIntent.setAction("org.openhab.notification.deleted");
-            deleteIntent.putExtra("notificationId", intent.getExtras().getInt("notificationId"));
+            deleteIntent.setAction(GcmIntentService.ACTION_NOTIFICATION_DELETED);
+            deleteIntent.putExtra(GcmIntentService.EXTRA_NOTIFICATION_ID, intent.getExtras().getInt(GcmIntentService.EXTRA_NOTIFICATION_ID));
             sendBroadcast(deleteIntent);
+        }
+
+        if (getNotificationSettings() != null) {
+            openNotifications();
+            mNotificationPosition = pagerAdapter.getCount() - 1;
+        }
+
+        if (intent.hasExtra(GcmIntentService.EXTRA_MSG)) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle(getString(R.string.dlg_notification_title));
+            builder.setMessage(intent.getExtras().getString(GcmIntentService.EXTRA_MSG));
+            builder.setPositiveButton(getString(android.R.string.ok), null);
+            AlertDialog dialog = builder.create();
+            dialog.show();
+
         }
     }
 
