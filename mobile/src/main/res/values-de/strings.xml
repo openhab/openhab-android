@@ -56,7 +56,6 @@
     <string name="info_conn_rem_url">Verbinde mit Remote URL</string>
     <string name="info_discovery">Suche openHAB. Bitte warten...</string>
     <string name="error_no_url">Bitte prüfen Sie, ob openHAB läuft oder die URLs falsch konfiguriert sind.</string>
-    <string name="error_authentication_failed">Benutzeranmeldung fehlgeschlagen. Bitte prüfen Sie Benutzername/Passwort</string>
     <string name="error_empty_sitemap_list">openHAB lieferte eine leere Sitemapliste</string>
     <string name="error_network_not_available">Netzwerk nicht verfügbar</string>
     <string name="error_no_uuid">Konnte openHAB UUID nicht abrufen, Verbindung fehlgeschlagen</string>

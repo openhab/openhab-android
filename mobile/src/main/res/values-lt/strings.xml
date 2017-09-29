@@ -55,7 +55,6 @@
     <string name="info_conn_rem_url">Jungiamasi prie nuotolinio URL</string>
     <string name="info_discovery">Aptinkamas openHAB. Prašome palaukti...</string>
     <string name="error_no_url">Patikrinkite ar openHAB veikia arba sukonfigūruokite openHAB URL arba nuotolinį URL</string>
-    <string name="error_authentication_failed">Nepavyko prisijungti. Patikrinkite vartotojo/slaptažodžio nustatymus</string>
     <string name="error_empty_sitemap_list">openHAB grąžino tuščią vietos išplanavimų sąrašą</string>
     <string name="error_network_not_available">Tinklas nepasiekiamas</string>
     <string name="error_no_uuid">Nepavyko gauti openHAB UUID, ryšys nutrauktas</string>

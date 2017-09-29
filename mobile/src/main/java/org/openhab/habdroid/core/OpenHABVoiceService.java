@@ -9,6 +9,8 @@
 
 package org.openhab.habdroid.core;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Handler;
@@ -16,7 +18,6 @@ import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.speech.RecognizerIntent;
 import android.util.Log;
-import android.widget.Toast;
 
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.util.Constants;
@@ -78,7 +79,7 @@ public class OpenHABVoiceService extends ContinuingIntentService implements Open
         bufferIntent(intent);
         if (intent.hasExtra(OPENHAB_BASE_URL_EXTRA)) {
             Log.d(TAG, "openHABBaseUrl passed as Intent");
-            onOpenHABTracked(intent.getStringExtra(OPENHAB_BASE_URL_EXTRA), null);
+            onOpenHABTracked(intent.getStringExtra(OPENHAB_BASE_URL_EXTRA));
         } else if (mOpenHABTracker == null) {
             Log.d(TAG, "No openHABBaseUrl passed, starting OpenHABTracker");
             mOpenHABTracker = new OpenHABTracker(OpenHABVoiceService.this, getString(R.string.openhab_service_type), false);
@@ -101,7 +102,7 @@ public class OpenHABVoiceService extends ContinuingIntentService implements Open
     }
 
     @Override
-    public void onOpenHABTracked(String baseUrl, String message) {
+    public void onOpenHABTracked(String baseUrl) {
         Log.d(TAG, "onOpenHABTracked(): " + baseUrl);
         mOpenHABBaseUrl = baseUrl;
         while (!mBufferedIntents.isEmpty()) {
@@ -111,9 +112,29 @@ public class OpenHABVoiceService extends ContinuingIntentService implements Open
         stopSelf(getLastStartId());
     }
 
+    /**
+     * @param message message to show
+     * @param messageType must be "dialog"
+     * @param logLevel not implemented
+     */
+    public void showMessageToUser(String message, String messageType, int logLevel) {
+        switch (messageType) {
+            case "dialog":
+                AlertDialog.Builder builder = new AlertDialog.Builder(OpenHABVoiceService.this);
+                builder.setMessage(message)
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                            }
+                        });
+                AlertDialog alert = builder.create();
+                alert.show();
+                break;
+        }
+    }
+
     @Override
     public void onError(String error) {
-        showToast(error);
+        showMessageToUser(error, "dialog", 5);
         Log.d(TAG, "onError(): " + error);
         stopSelf();
     }
@@ -128,7 +149,7 @@ public class OpenHABVoiceService extends ContinuingIntentService implements Open
                 sendItemCommand("VoiceCommand", voiceCommand);
             } else {
                 Log.w(TAG, "Couldn't determine OpenHAB URL");
-                showToast("Couldn't determine OpenHAB URL");
+                showToast(getString(R.string.error_couldnt_determine_openhab_url));
             }
         }
     }
@@ -203,7 +224,7 @@ public class OpenHABVoiceService extends ContinuingIntentService implements Open
         new Handler(Looper.getMainLooper()).post(new Runnable() {
             @Override
             public void run() {
-                Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+                showMessageToUser(message, "snackbar", 5);
             }
         });
     }

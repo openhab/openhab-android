@@ -53,7 +53,6 @@
     <string name="info_conn_rem_url">Verbinden naar externe URL</string>
     <string name="info_discovery">Ontdekken van openHAB. Moment geduld...</string>
     <string name="error_no_url">Controleer of openHAB actief is.</string>
-    <string name="error_authentication_failed">Authenticatie mislukt. Controleer gebruikersnaam en wachtwoord</string>
     <string name="error_empty_sitemap_list">openHAB heeft een lege sitemap geladen</string>
     <string name="error_network_not_available">Netwerk is niet beschikbaar</string>
     <string name="error_no_uuid">openHAB UUID kan niet opgevraagd worden, connectie mislukt</string>

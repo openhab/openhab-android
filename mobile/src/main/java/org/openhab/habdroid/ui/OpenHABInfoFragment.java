@@ -134,7 +134,7 @@ public class OpenHABInfoFragment extends DialogFragment {
         mAsyncHttpClient.get(uuidUrl, new MyHttpClient.TextResponseHandler() {
             @Override
             public void onFailure(Call call, int statusCode, Headers headers, String responseString, Throwable error) {
-                mOpenHABUUIDText.setText("Unknown");
+                mOpenHABUUIDText.setText(R.string.unknown);
                 if (error.getMessage() != null) {
                     Log.e(TAG, error.getMessage());
                 }
@@ -159,7 +159,7 @@ public class OpenHABInfoFragment extends DialogFragment {
         mAsyncHttpClient.get(versionUrl, new MyHttpClient.TextResponseHandler() {
             @Override
             public void onFailure(Call call, int statusCode, Headers headers, String responseString, Throwable error) {
-                mOpenHABVersionText.setText("Unknown");
+                mOpenHABVersionText.setText(R.string.unknown);
                 if (error.getMessage() != null) {
                     Log.e(TAG, error.getMessage());
                 }
