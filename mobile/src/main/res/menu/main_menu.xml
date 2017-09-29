@@ -9,39 +9,34 @@
         android:title="@string/mainmenu_openhab_voice_recognition"
         app:showAsAction="always" />
     <item
-        android:id="@+id/mainmenu_openhab_selectsitemap"
-        android:icon="@drawable/ic_action_select_sitemap"
-        android:orderInCategory="101"
-        android:title="@string/mainmenu_openhab_selectsitemap"
-        app:showAsAction="always" />
-    <item
         android:id="@+id/mainmenu_openhab_writetag"
         android:icon="@drawable/ic_action_nfc"
-        android:orderInCategory="102"
+        android:orderInCategory="101"
         android:title="@string/mainmenu_openhab_writetag"
         app:showAsAction="ifRoom" />
     <item
+        android:id="@+id/mainmenu_openhab_selectsitemap"
+        android:orderInCategory="102"
+        android:title="@string/mainmenu_openhab_selectsitemap"
+        app:showAsAction="never" />
+    <item
         android:id="@+id/mainmenu_openhab_clearcache"
-        android:icon="@drawable/ic_action_clear"
         android:orderInCategory="103"
         android:title="@string/mainmenu_openhab_clearcache"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="never" />
     <item
         android:id="@+id/mainmenu_openhab_info"
-        android:icon="@drawable/ic_action_info"
         android:orderInCategory="104"
         android:title="@string/mainmenu_openhab_info"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="never" />
     <item
         android:id="@+id/mainmenu_about"
-        android:icon="@drawable/ic_action_info"
         android:orderInCategory="105"
         android:title="@string/about_title"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="never" />
     <item
         android:id="@+id/mainmenu_openhab_preferences"
-        android:icon="@drawable/ic_action_settings"
         android:orderInCategory="106"
         android:title="@string/mainmenu_openhab_preferences"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="never" />
 </menu>
