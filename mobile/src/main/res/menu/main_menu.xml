@@ -10,10 +10,9 @@
         app:showAsAction="always" />
     <item
         android:id="@+id/mainmenu_openhab_writetag"
-        android:icon="@drawable/ic_action_nfc"
         android:orderInCategory="101"
         android:title="@string/mainmenu_openhab_writetag"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="never" />
     <item
         android:id="@+id/mainmenu_openhab_selectsitemap"
         android:orderInCategory="102"
