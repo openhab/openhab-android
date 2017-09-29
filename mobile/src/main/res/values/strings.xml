@@ -67,7 +67,7 @@
     <string name="info_conn_rem_url">Connecting to remote URL</string>
     <string name="info_discovery">Discovering openHAB. Please wait...</string>
     <string name="error_no_url">Please check that openHAB is running or configure openHAB URL or remote URL</string>
-    <string name="error_authentication_failed">Authentication Failed. Please check Username/Password settings</string>
+    <string name="error_authentication_failed">Authentication Failed. Please check username/password settings</string>
     <string name="error_empty_sitemap_list">openHAB returned empty sitemap list</string>
     <string name="error_network_not_available">Network is not available</string>
     <string name="error_no_uuid">Unable to get openHAB UUID, connection failed</string>
@@ -85,12 +85,12 @@
     <string name="info_write_tag_unsupported">This device doesn\'t have NFC support</string>
     <string name="info_write_tag_disabled">NFC is disabled. Please enable it in device settings menu.</string>
     <string name="info_openhab_version_label">openHAB Version</string>
-    <string name="info_openhab_apiversion_label">openHAB Rest API Version</string>
+    <string name="info_openhab_apiversion_label">openHAB Rest API version</string>
     <string name="info_openhab_uuid_label">openHAB UUID</string>
     <string name="info_openhab_secret_label">openHAB Secret</string>
-    <string name="info_openhab_gcm_label">Google Cloud Message Status</string>
-    <string name="info_openhab_gcm_not_connected">Device registration failed with Sender ID %s</string>
-    <string name="info_openhab_gcm_connected">Registered device with Sender ID %s</string>
+    <string name="info_openhab_gcm_label">Google Cloud Message status</string>
+    <string name="info_openhab_gcm_not_connected">Device registration failed with sender ID %s</string>
+    <string name="info_openhab_gcm_connected">Registered device with sender ID %s</string>
     <string name="action_settings">Settings</string>
     <string name="nfc_dialog_title">Please select NFC tag action</string>
     <string name="info_not_set">Not set</string>
@@ -102,9 +102,9 @@
     <string name="mtm_notification">Certificate verification</string>
     <string name="settings_openhab_none">none</string>
     <!-- theme -->
-    <string name="theme_value_light">light</string>
-    <string name="theme_value_dark">dark</string>
-    <string name="theme_value_black">black</string>
+    <string name="theme_value_light" translatable="false">light</string>
+    <string name="theme_value_dark" translatable="false">dark</string>
+    <string name="theme_value_black" translatable="false">black</string>
     <string name="theme_name_light">Light</string>
     <string name="theme_name_dark">Dark</string>
     <string name="theme_name_black">Black/AMOLED</string>
@@ -117,6 +117,7 @@
     <!-- drawer -->
     <string name="drawer_open">Sitemap drawer opened</string>
     <string name="drawer_close">Sitemap drawer closed</string>
+    <string name="mainmenu_openhab_voice_recognition">Voice recognition</string>
 
     <!-- About -->
     <string name="about_title">About</string>

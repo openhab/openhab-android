@@ -10,11 +10,13 @@
 package org.openhab.habdroid.ui;
 
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.nfc.FormatException;
 import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
 import android.nfc.NfcAdapter;
+import android.nfc.NfcManager;
 import android.nfc.Tag;
 import android.nfc.tech.Ndef;
 import android.nfc.tech.NdefFormatable;
@@ -62,13 +64,13 @@ public class OpenHABWriteTagActivity extends AppCompatActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.openhabwritetag);
 		TextView writeTagMessage = (TextView)findViewById(R.id.write_tag_message);
-    	if (!this.getPackageManager().hasSystemFeature("android.hardware.nfc")) {
-    		writeTagMessage.setText(R.string.info_write_tag_unsupported);
-    	} else if (NfcAdapter.getDefaultAdapter(this) != null) {
-    		if (!NfcAdapter.getDefaultAdapter(this).isEnabled()) {
-    			writeTagMessage.setText(R.string.info_write_tag_disabled);
-    		}
-    	}
+		NfcManager manager = (NfcManager) this.getSystemService(Context.NFC_SERVICE);
+		NfcAdapter adapter = manager.getDefaultAdapter();
+		if (adapter == null) {
+			writeTagMessage.setText(R.string.info_write_tag_unsupported);
+		} else if (! adapter.isEnabled()) {
+			writeTagMessage.setText(R.string.info_write_tag_disabled);
+		}
 		if (getIntent().hasExtra("sitemapPage")) {
 			sitemapPage = getIntent().getExtras().getString("sitemapPage");
 			Log.d(TAG, "Got sitemapPage = " + sitemapPage);

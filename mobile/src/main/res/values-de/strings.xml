@@ -88,9 +88,6 @@
     <string name="mtm_notification">Unbekanntes Zertifikat</string>
     <string name="settings_openhab_none">keins</string>
     <!-- theme -->
-    <string name="theme_value_light">Hell</string>
-    <string name="theme_value_dark">Dunkel</string>
-    <string name="theme_value_black">Schwarz</string>
     <string name="theme_name_light">Hell</string>
     <string name="theme_name_dark">Dunkel</string>
     <string name="theme_name_black">Schwarz/AMOLED</string>
@@ -103,6 +100,7 @@
     <!-- drawer -->
     <string name="drawer_open">Sitemap-Bereich öffnen</string>
     <string name="drawer_close">Sitemap-Bereich schließen</string>
+    <string name="mainmenu_openhab_voice_recognition">Sprachbefehl</string>
     <string name="minus">-</string>
     <string name="main_menu">Hauptmenü</string>
     <string name="plus">+</string>
