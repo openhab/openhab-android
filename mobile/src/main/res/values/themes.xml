@@ -1,6 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <style name="HABDroid.SplashTheme" parent="@style/Theme.AppCompat.NoActionBar">
+        <item name="android:windowBackground">@drawable/splashscreen</item>
+        <item name="customMicIcon">@android:drawable/ic_btn_speak_now</item>
+        <item name="widgetlistItemDivider">?android:dividerHorizontal</item>
+        <item name="frameWidgetDividerBackground">@drawable/material_divider</item>
+
+        <item name="colorPrimary">#FF5722</item>
+        <item name="colorAccent">#FF5722</item>
+        <item name="colorPrimaryDark">#BF360C</item>
+
+        <item name="themedDrawerBackground">?android:colorBackground</item>
+        <item name="themedHeaderTextColor">@color/colorAccent_themeDark</item>
+    </style>
+
     <style name="HABDroid.Light" parent="@style/Theme.AppCompat.Light">
         <item name="customMicIcon">@android:drawable/ic_btn_speak_now</item>
         <item name="widgetlistItemDivider">?android:dividerHorizontal</item>
