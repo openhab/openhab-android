@@ -136,12 +136,16 @@ public class Util {
     public static void setActivityTheme(@NonNull final Activity activity) {
         final String theme = PreferenceManager.getDefaultSharedPreferences(activity).getString(Constants.PREFERENCE_THEME, activity.getString(R.string.theme_value_dark));
         int themeRes;
-        if (theme.equals(activity.getString(R.string.theme_value_light))) {
-            themeRes = R.style.HABDroid_Light;
+        if (theme.equals(activity.getString(R.string.theme_value_dark))) {
+            themeRes = R.style.HABDroid_Dark;
         } else if (theme.equals(activity.getString(R.string.theme_value_black))) {
             themeRes = R.style.HABDroid_Black;
+        } else if (theme.equals(activity.getString(R.string.theme_value_basic_ui))) {
+            themeRes = R.style.HABDroid_Basic_ui;
+        } else if (theme.equals(activity.getString(R.string.theme_value_basic_ui_dark))) {
+            themeRes = R.style.HABDroid_Basic_ui_dark;
         } else {
-            themeRes = R.style.HABDroid_Dark;
+            themeRes = R.style.HABDroid_Light;
         }
         activity.setTheme(themeRes);
     }

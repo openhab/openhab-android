@@ -101,6 +101,8 @@
     <string name="drawer_open">Sitemap-Bereich öffnen</string>
     <string name="drawer_close">Sitemap-Bereich schließen</string>
     <string name="mainmenu_openhab_voice_recognition">Sprachbefehl</string>
+    <string name="theme_name_basic_ui">Basic UI</string>
+    <string name="theme_name_basic_ui_dark">Basic UI dunkel</string>
     <string name="minus">-</string>
     <string name="main_menu">Hauptmenü</string>
     <string name="plus">+</string>
