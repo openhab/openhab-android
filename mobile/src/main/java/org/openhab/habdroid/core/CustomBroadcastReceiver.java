@@ -56,6 +56,7 @@ public class CustomBroadcastReceiver extends BroadcastReceiver {
                         @Override
                         public void onSuccess(Call call, int statusCode, Headers headers, String responseString) {
                             Log.d(TAG, "Command was sent successfully");
+                            // todo write text to notification
                         }
                     });
                 } catch (RuntimeException e) {

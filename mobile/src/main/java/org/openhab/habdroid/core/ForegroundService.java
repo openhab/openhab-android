@@ -1,6 +1,7 @@
 package org.openhab.habdroid.core;
 
 import android.app.Notification;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -31,11 +32,15 @@ public class ForegroundService extends Service {
             notificationIntent.setAction(Constants.ACTION.MAIN_ACTION);
             notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 
+            PendingIntent pendingIntent =
+                    PendingIntent.getActivity(this, 0, notificationIntent, 0);
+
             Notification notification = new NotificationCompat.Builder(this)
                     .setContentTitle(getString(R.string.settings_custom_broadcast_listening))
                     .setSmallIcon(R.drawable.openhabicon_light)
                     .setPriority(Notification.PRIORITY_LOW)
                     .setColor(ResourcesCompat.getColor(getResources(), R.color.openhab_orange, null))
+                    .setContentIntent(pendingIntent)
                     .setOngoing(true).build();
                     //.setContentText(getString(R.string.settings_custom_broadcast_listening))
 
