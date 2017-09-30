@@ -11,6 +11,7 @@ package org.openhab.habdroid.ui;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
@@ -62,6 +63,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.openhab.habdroid.BuildConfig;
 import org.openhab.habdroid.R;
+import org.openhab.habdroid.core.ForegroundService;
 import org.openhab.habdroid.core.HABDroid;
 import org.openhab.habdroid.core.NetworkConnectivityInfo;
 import org.openhab.habdroid.core.NotificationDeletedBroadcastReceiver;
@@ -148,9 +150,9 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
     private static final int DRAWER_INBOX = 102;
     // Loopj
 //    private static MyAsyncHttpClient mAsyncHttpClient;
-    private static MyAsyncHttpClient mAsyncHttpClient;
+    public static MyAsyncHttpClient mAsyncHttpClient;
     // Base URL of current openHAB connection
-    private String openHABBaseUrl = "http://demo.openhab.org:8080/";
+    public static String openHABBaseUrl = "http://demo.openhab.org:8080/";
     // openHAB username
     private String openHABUsername = "";
     // openHAB password
@@ -313,6 +315,19 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
             registerReceiver(dreamReceiver, new IntentFilter("android.intent.action.DREAMING_STARTED"));
             registerReceiver(dreamReceiver, new IntentFilter("android.intent.action.DREAMING_STOPPED"));
             checkFullscreen();
+        }
+        // Custom broadcast receiver
+        if(mSettings.getBoolean(Constants.PREFERENCE_CUSTOM_BROADCAST, false)) {
+            Log.d(TAG, "start cbr");
+            Intent startIntent = new Intent(this, ForegroundService.class);
+            startIntent.setAction(Constants.ACTION.STARTFOREGROUND_ACTION);
+            startIntent.putExtra("broadcast", mSettings.getString(Constants.PREFERENCE_CUSTOM_BROADCAST_BROADCAST, ""));
+            startService(startIntent);
+        } else {
+            Log.d(TAG, "stop cbr");
+            Intent stopIntent = new Intent(this, ForegroundService.class);
+            stopIntent.setAction(Constants.ACTION.STOPFOREGROUND_ACTION);
+            startService(stopIntent);
         }
     }
 

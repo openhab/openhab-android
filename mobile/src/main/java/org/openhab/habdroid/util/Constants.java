@@ -26,5 +26,18 @@ public class Constants {
     public static final String PREFERENCE_TONE              = "default_openhab_alertringtone";
     public static final String PREFERENCE_SSLCLIENTCERT     = "default_openhab_sslclientcert";
     public static final String PREFERENCE_SSLCLIENTCERT_HOWTO = "default_openhab_sslclientcert_howto";
+    public static final String PREFERENCE_CUSTOM_BROADCAST    = "default_openhab_custom_broadcast_enabled";
+    public static final String PREFERENCE_CUSTOM_BROADCAST_BROADCAST = "default_openhab_custom_broadcast";
+    public static final String PREFERENCE_CUSTOM_BROADCAST_ITEM = "default_openhab_custom_broadcast_item";
     public static final String DEFAULT_GCM_SENDER_ID        = "737820980945";
+
+    public interface ACTION {
+        public static String MAIN_ACTION = "org.openhab.habdroid.action.main";
+        public static String STARTFOREGROUND_ACTION = "org.openhab.habdroid.action.startforeground";
+        public static String STOPFOREGROUND_ACTION = "org.openhab.habdroid.action.stopforeground";
+    }
+
+    public interface NOTIFICATION_ID {
+        public static int FOREGROUND_SERVICE = 101;
+    }
 }

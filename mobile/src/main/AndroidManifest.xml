@@ -105,6 +105,8 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/voice_widget_info" />
         </receiver>
+
+        <service android:name=".core.ForegroundService" />
         <!--    This is temp disabled because of a bug in GMS 6.5
                 <meta-data android:name="com.google.android.gms.analytics.globalConfigResource"
                     android:resource="@xml/global_tracker" /> -->
