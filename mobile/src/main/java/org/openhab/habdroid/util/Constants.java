@@ -40,4 +40,18 @@ public class Constants {
             public static final int ALWAYS = 5;
         }
     }
+    public static final String PREFERENCE_CUSTOM_BROADCAST    = "default_openhab_custom_broadcast_enabled";
+    public static final String PREFERENCE_CUSTOM_BROADCAST_BROADCAST = "default_openhab_custom_broadcast";
+    public static final String PREFERENCE_CUSTOM_BROADCAST_EXTRA = "default_openhab_custom_broadcast_extra";
+    public static final String PREFERENCE_CUSTOM_BROADCAST_ITEM = "default_openhab_custom_broadcast_item";
+
+    public interface ACTION {
+        public static String MAIN_ACTION = "org.openhab.habdroid.action.main";
+        public static String STARTFOREGROUND_ACTION = "org.openhab.habdroid.action.startforeground";
+        public static String STOPFOREGROUND_ACTION = "org.openhab.habdroid.action.stopforeground";
+    }
+
+    public interface NOTIFICATION_ID {
+        public static int FOREGROUND_SERVICE = 101;
+    }
 }

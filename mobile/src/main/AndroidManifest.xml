@@ -20,6 +20,7 @@
 
     <uses-permission android:name="org.openhab.habdroid.gcm.permission.C2D_MESSAGE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
 
     <uses-feature
         android:name="android.hardware.location.gps"
@@ -70,6 +71,9 @@
 
                 <data android:scheme="openhab" />
             </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+            </intent-filter>
         </activity>
         <activity
             android:name="org.openhab.habdroid.ui.OpenHABWriteTagActivity"
@@ -107,6 +111,8 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/voice_widget_info" />
         </receiver>
+
+        <service android:name=".core.ForegroundService" />
         <!--    This is temp disabled because of a bug in GMS 6.5
                 <meta-data android:name="com.google.android.gms.analytics.globalConfigResource"
                     android:resource="@xml/global_tracker" /> -->
