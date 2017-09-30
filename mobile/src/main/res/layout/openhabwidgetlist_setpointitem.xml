@@ -15,10 +15,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true">
-
         <Button
             android:id="@+id/setpointbutton_minus"
-            android:layout_width="40dip"
+            android:layout_width="46dip"
             android:layout_height="wrap_content"
             android:text="@string/minus" />
 
@@ -30,7 +29,7 @@
 
         <Button
             android:id="@+id/setpointbutton_plus"
-            android:layout_width="40dip"
+            android:layout_width="46dip"
             android:layout_height="wrap_content"
             android:text="@string/plus" />
     </LinearLayout>
