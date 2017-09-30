@@ -138,4 +138,7 @@
     <string name="settings_custom_broadcast">Custom broadcast receiver</string>
     <string name="error_custom_broadcast_item_not_found">Item for custom broadcasts is incorrect</string>
     <string name="settings_custom_broadcast_listening">Listening for broadcasts</string>
+    <string name="notification_last_broadcast_success" formatted="false">Last broadcast at %s with %s presses was successful</string>
+    <string name="notification_last_broadcast_failed" formatted="false">Last broadcast at %s with %s presses failed</string>
+    <string name="notification_last_broadcast_none">No broadcast received since start</string>
 </resources>

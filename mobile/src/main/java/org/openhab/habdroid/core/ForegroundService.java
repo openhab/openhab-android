@@ -27,6 +27,10 @@ public class ForegroundService extends Service {
         CustomBroadcastReceiver cbr = new CustomBroadcastReceiver();
         if (intent.getAction().equals(Constants.ACTION.STARTFOREGROUND_ACTION)) {
             Log.i(TAG, "Received Start Foreground Intent ");
+            String broadcast = (String) intent.getExtras().get("broadcast");
+            IntentFilter cbr_intent = new IntentFilter();
+            cbr_intent.addAction(broadcast);
+            registerReceiver(cbr, cbr_intent);
 
             Intent notificationIntent = new Intent(this, OpenHABMainActivity.class);
             notificationIntent.setAction(Constants.ACTION.MAIN_ACTION);
@@ -37,19 +41,15 @@ public class ForegroundService extends Service {
 
             Notification notification = new NotificationCompat.Builder(this)
                     .setContentTitle(getString(R.string.settings_custom_broadcast_listening))
+                    .setContentText(getString(R.string.notification_last_broadcast_none))
                     .setSmallIcon(R.drawable.openhabicon_light)
                     .setPriority(Notification.PRIORITY_LOW)
                     .setColor(ResourcesCompat.getColor(getResources(), R.color.openhab_orange, null))
                     .setContentIntent(pendingIntent)
                     .setOngoing(true).build();
-                    //.setContentText(getString(R.string.settings_custom_broadcast_listening))
 
             startForeground(Constants.NOTIFICATION_ID.FOREGROUND_SERVICE, notification);
 
-            String broadcast = (String) intent.getExtras().get("broadcast");
-            IntentFilter cbr_intent = new IntentFilter();
-            cbr_intent.addAction(broadcast);
-            registerReceiver(cbr, cbr_intent);
         } else if (intent.getAction().equals(Constants.ACTION.STOPFOREGROUND_ACTION)) {
             // No API call available to check if a broadcast receiver is running: https://stackoverflow.com/questions/2682043/how-to-check-if-receiver-is-registered-in-android/3568906#3568906
             try {
