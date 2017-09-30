@@ -31,6 +31,8 @@
 
         <item name="themedDrawerBackground">?android:colorBackground</item>
         <item name="themedHeaderTextColor">@color/colorAccent_themeDark</item>
+
+        <item name="chartTheme">white</item>
     </style>
 
     <style name="HABDroid.Dark" parent="@style/Theme.AppCompat">
@@ -51,6 +53,8 @@
 
         <item name="themedDrawerBackground">?android:colorBackground</item>
         <item name="themedHeaderTextColor">@color/colorAccent_themeDark</item>
+
+        <item name="chartTheme">dark</item>
     </style>
 
     <style name="HABDroid.Black" parent="@style/Theme.AppCompat">
@@ -71,6 +75,8 @@
 
         <item name="themedDrawerBackground">@color/black</item>
         <item name="themedHeaderTextColor">@color/colorAccent_themeDark</item>
+
+        <item name="chartTheme">black</item>
     </style>
 
     <style name="HABDroid.Basic_ui" parent="Theme.AppCompat.Light.NoActionBar">
@@ -89,6 +95,8 @@
 
         <item name="themedDrawerBackground">?android:colorBackground</item>
         <item name="themedHeaderTextColor">@color/colorAccent_themeDark</item>
+
+        <item name="chartTheme">white</item>
     </style>
 
     <style name="HABDroid.Basic_ui_dark" parent="Theme.AppCompat.NoActionBar">
@@ -107,9 +115,10 @@
         <item name="android:itemBackground">#303030</item>
         <item name="android:itemTextAppearance">@style/whiteText</item>
 
-
         <item name="themedDrawerBackground">?android:colorBackground</item>
         <item name="themedHeaderTextColor">@color/colorAccent_themeDark</item>
+
+        <item name="chartTheme">dark</item>
     </style>
 
 </resources>

@@ -129,4 +129,11 @@
     <string name="about_links">Links</string>
     <string name="about_links_list"><![CDATA[\u00B7 <a href="https://github.com/openhab/openhab.android">openHAB App source code</a><br><br> \u00B7 <a href="https://github.com/openhab/openhab.android/issues">Report a problem</a><br><br> \u00B7 <a href="http://docs.openhab.org/">openHAB Documentation</a><br><br> \u00B7 <a href="https://community.openhab.org/">Community Forum</a>]]></string>
     <string name="about_copyright" translatable="false">© 2012 - %s openHAB Foundation</string>
+    <string name="settings_openhab_chart_show_legend">Show chart legend</string>
+    <string name="chart_show_legend_auto">When more than one item is shown</string>
+    <string name="chart_show_legend_always">Always</string>
+    <string name="chart_show_legend_never">Never</string>
+    <string name="chart_show_legend_auto_values" translatable="false">auto</string>
+    <string name="chart_show_legend_always_values" translatable="false">true</string>
+    <string name="chart_show_legend_never_values" translatable="false">false</string>
 </resources>
