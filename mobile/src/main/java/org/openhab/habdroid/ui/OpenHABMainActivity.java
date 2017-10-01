@@ -113,7 +113,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
         public void onFailure(Call call, int statusCode, Headers headers, byte[] responseBody, Throwable error) {
             setProgressIndicatorVisible(false);
             Log.e(TAG, "Error: " + error.toString());
-            Log.e(TAG, "Code: " + statusCode);
+            Log.e(TAG, "HTTP status code: " + statusCode);
             if (statusCode >= 400){
                 int resourceID;
                 try {
@@ -127,13 +127,13 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
                 showMessageToUser(getString(R.string.error_unable_to_resolve_hostname), "dialog", 5);
             } else if (error instanceof SSLHandshakeException) {
                 // if ssl exception, check for some common problems
-                if (error.toString().contains("java.security.cert.CertPathValidatorException")) {
+                if (error.getCause() instanceof java.security.cert.CertPathValidatorException) {
                     showMessageToUser(getString(R.string.error_certificate_not_trusted), "dialog", 5);
-                } else if (error.toString().contains("java.security.cert.CertificateExpiredException")) {
+                } else if (error.getCause() instanceof java.security.cert.CertificateExpiredException) {
                     showMessageToUser(getString(R.string.error_certificate_expired), "dialog", 5);
-                } else if (error.toString().contains("java.security.cert.CertificateNotYetValidException")) {
+                } else if (error.getCause() instanceof java.security.cert.CertificateNotYetValidException) {
                     showMessageToUser(getString(R.string.error_certificate_not_valid_yet), "dialog", 5);
-                } else if (error.toString().contains("java.security.cert.CertificateRevokedException")) {
+                } else if (error.getCause() instanceof java.security.cert.CertificateRevokedException) {
                     showMessageToUser(getString(R.string.error_certificate_revoked), "dialog", 5);
                 } else {
                     showMessageToUser(getString(R.string.error_connection_sslhandshake_failed), "dialog", 5);
