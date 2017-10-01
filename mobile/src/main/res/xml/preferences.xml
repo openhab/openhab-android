@@ -66,13 +66,6 @@
             android:entries="@array/themeArray"
             android:entryValues="@array/themeValues" />
         <ListPreference
-            android:key="default_openhab_chart_show_legend"
-            android:title="@string/settings_openhab_chart_show_legend"
-            android:summary="%s"
-            android:defaultValue="@string/chart_show_legend_auto"
-            android:entries="@array/chart_show_legend_array"
-            android:entryValues="@array/chart_show_legend_array_values" />
-        <ListPreference
             android:title="@string/settings_openhab_icon_format"
             android:key="iconFormatType"
             android:defaultValue="@string/settings_openhab_icon_format_png"

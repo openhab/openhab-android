@@ -27,16 +27,4 @@
         <item>@string/settings_openhab_icon_format_png</item>
         <item>@string/settings_openhab_icon_format_svg</item>
     </string-array>
-
-    <string-array name="chart_show_legend_array">
-        <item>@string/chart_show_legend_auto</item>
-        <item>@string/chart_show_legend_always</item>
-        <item>@string/chart_show_legend_never</item>
-    </string-array>
-
-    <string-array name="chart_show_legend_array_values">
-        <item>@string/chart_show_legend_auto_values</item>
-        <item>@string/chart_show_legend_always_values</item>
-        <item>@string/chart_show_legend_never_values</item>
-    </string-array>
 </resources>

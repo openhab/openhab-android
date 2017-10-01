@@ -517,12 +517,8 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
                 int dpi = metrics.densityDpi;
                 chartUrl += "&dpi=" + dpi;
 
-                SharedPreferences settings =
-                        PreferenceManager.getDefaultSharedPreferences(getContext());
-                String showLegend = settings.getString(Constants.PREFERENCE_CHART_SHOW_LEGEND, "");
-                if(!showLegend.equals("auto")) {
-                    chartUrl += "&legend=" + showLegend;
-                }
+                // add legend
+                chartUrl += "&legend=" + openHABWidget.getLegend();
             }
     		Log.d(TAG, "Chart url = " + chartUrl);
             ViewGroup.LayoutParams chartLayoutParams = chartImage.getLayoutParams();
