@@ -129,4 +129,16 @@
     <string name="about_links">Links</string>
     <string name="about_links_list"><![CDATA[\u00B7 <a href="https://github.com/openhab/openhab.android">openHAB App source code</a><br><br> \u00B7 <a href="https://github.com/openhab/openhab.android/issues">Report a problem</a><br><br> \u00B7 <a href="http://docs.openhab.org/">openHAB Documentation</a><br><br> \u00B7 <a href="https://community.openhab.org/">Community Forum</a>]]></string>
     <string name="about_copyright" translatable="false">© 2012 - %s openHAB Foundation</string>
+    <string name="settings_custom_broadcast_enabled_title">Receive custom broadcast</string>
+    <string name="settings_custom_broadcast_enabled_summary">Can be used to fetch Mi Band button presses via Gadgetbridge</string>
+    <string name="settings_custom_broadcast_broadcast" translatable="false">nodomain.freeyourgadget.gadgetbridge.mibandButtonPressed</string>
+    <string name="settings_custom_broadcast_title">Broadcast to receive</string>
+    <string name="settings_custom_broadcast_item_title">Item to change</string>
+    <string name="settings_custom_broadcast_item_summary">Item state will be set to number of button presses</string>
+    <string name="settings_custom_broadcast">Custom broadcast receiver</string>
+    <string name="error_custom_broadcast_item_not_found">Item for custom broadcasts is incorrect</string>
+    <string name="settings_custom_broadcast_listening">Listening for broadcasts</string>
+    <string name="notification_last_broadcast_success" formatted="false">Last broadcast at %s with %s presses was successful</string>
+    <string name="notification_last_broadcast_failed" formatted="false">Last broadcast at %s with %s presses failed</string>
+    <string name="notification_last_broadcast_none">No broadcast received since start</string>
 </resources>
