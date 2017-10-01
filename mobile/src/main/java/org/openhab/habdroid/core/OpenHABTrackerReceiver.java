@@ -11,7 +11,7 @@ package org.openhab.habdroid.core;
 
 public interface OpenHABTrackerReceiver {
     public void onOpenHABTracked(String baseUrl);
-    public void showMessageToUser(String message, String messageType, int logLevel);
+    public void showMessageToUser(String message, int messageType, int logLevel);
     public void onError(String error);
     public void onBonjourDiscoveryStarted();
     public void onBonjourDiscoveryFinished();

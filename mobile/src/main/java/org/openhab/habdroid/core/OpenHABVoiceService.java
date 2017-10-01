@@ -114,12 +114,12 @@ public class OpenHABVoiceService extends ContinuingIntentService implements Open
 
     /**
      * @param message message to show
-     * @param messageType must be "dialog"
+     * @param messageType must be Constants.MESSAGES.DIALOG
      * @param logLevel not implemented
      */
-    public void showMessageToUser(String message, String messageType, int logLevel) {
+    public void showMessageToUser(String message, int messageType, int logLevel) {
         switch (messageType) {
-            case "dialog":
+            case Constants.MESSAGES.DIALOG:
                 AlertDialog.Builder builder = new AlertDialog.Builder(OpenHABVoiceService.this);
                 builder.setMessage(message)
                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -134,7 +134,7 @@ public class OpenHABVoiceService extends ContinuingIntentService implements Open
 
     @Override
     public void onError(String error) {
-        showMessageToUser(error, "dialog", 5);
+        showMessageToUser(error, Constants.MESSAGES.DIALOG, Constants.MESSAGES.LOGLEVEL.ALWAYS);
         Log.d(TAG, "onError(): " + error);
         stopSelf();
     }
@@ -224,7 +224,7 @@ public class OpenHABVoiceService extends ContinuingIntentService implements Open
         new Handler(Looper.getMainLooper()).post(new Runnable() {
             @Override
             public void run() {
-                showMessageToUser(message, "snackbar", 5);
+                showMessageToUser(message, Constants.MESSAGES.SNACKBAR, Constants.MESSAGES.LOGLEVEL.ALWAYS);
             }
         });
     }

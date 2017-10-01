@@ -118,31 +118,31 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
                 int resourceID;
                 try {
                     resourceID = getResources().getIdentifier("error_http_code_" + statusCode, "string", getPackageName());
-                    showMessageToUser(getString(resourceID), "dialog", 5);
+                    showMessageToUser(getString(resourceID), Constants.MESSAGES.DIALOG, Constants.MESSAGES.LOGLEVEL.ALWAYS);
                 } catch (android.content.res.Resources.NotFoundException e) {
-                    showMessageToUser(String.format(getString(R.string.error_http_connection_failed), statusCode), "dialog", 5);
+                    showMessageToUser(String.format(getString(R.string.error_http_connection_failed), statusCode), Constants.MESSAGES.DIALOG, Constants.MESSAGES.LOGLEVEL.ALWAYS);
                 }
             } else if (error instanceof java.net.UnknownHostException) {
                 Log.e(TAG, "Unable to resolve hostname");
-                showMessageToUser(getString(R.string.error_unable_to_resolve_hostname), "dialog", 5);
+                showMessageToUser(getString(R.string.error_unable_to_resolve_hostname), Constants.MESSAGES.DIALOG, Constants.MESSAGES.LOGLEVEL.ALWAYS);
             } else if (error instanceof SSLHandshakeException) {
                 // if ssl exception, check for some common problems
                 if (error.getCause() instanceof java.security.cert.CertPathValidatorException) {
-                    showMessageToUser(getString(R.string.error_certificate_not_trusted), "dialog", 5);
+                    showMessageToUser(getString(R.string.error_certificate_not_trusted), Constants.MESSAGES.DIALOG, Constants.MESSAGES.LOGLEVEL.ALWAYS);
                 } else if (error.getCause() instanceof java.security.cert.CertificateExpiredException) {
-                    showMessageToUser(getString(R.string.error_certificate_expired), "dialog", 5);
+                    showMessageToUser(getString(R.string.error_certificate_expired), Constants.MESSAGES.DIALOG, Constants.MESSAGES.LOGLEVEL.ALWAYS);
                 } else if (error.getCause() instanceof java.security.cert.CertificateNotYetValidException) {
-                    showMessageToUser(getString(R.string.error_certificate_not_valid_yet), "dialog", 5);
+                    showMessageToUser(getString(R.string.error_certificate_not_valid_yet), Constants.MESSAGES.DIALOG, Constants.MESSAGES.LOGLEVEL.ALWAYS);
                 } else if (error.getCause() instanceof java.security.cert.CertificateRevokedException) {
-                    showMessageToUser(getString(R.string.error_certificate_revoked), "dialog", 5);
+                    showMessageToUser(getString(R.string.error_certificate_revoked), Constants.MESSAGES.DIALOG, Constants.MESSAGES.LOGLEVEL.ALWAYS);
                 } else {
-                    showMessageToUser(getString(R.string.error_connection_sslhandshake_failed), "dialog", 5);
+                    showMessageToUser(getString(R.string.error_connection_sslhandshake_failed), Constants.MESSAGES.DIALOG, Constants.MESSAGES.LOGLEVEL.ALWAYS);
                 }
             } else if (error instanceof java.net.ConnectException) {
-                showMessageToUser(getString(R.string.error_connection_failed), "dialog", 5);
+                showMessageToUser(getString(R.string.error_connection_failed), Constants.MESSAGES.DIALOG, Constants.MESSAGES.LOGLEVEL.ALWAYS);
             } else {
                 Log.e(TAG, error.getClass().toString());
-                showMessageToUser(error.getMessage(), "dialog", 5);
+                showMessageToUser(error.getMessage(), Constants.MESSAGES.DIALOG, Constants.MESSAGES.LOGLEVEL.ALWAYS);
             }
         }
     }
@@ -560,23 +560,20 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
     }
 
     public void onError(String error) {
-        showMessageToUser(error, "dialog", 5);
+        showMessageToUser(error, Constants.MESSAGES.DIALOG, Constants.MESSAGES.LOGLEVEL.ALWAYS);
     }
 
     /**
      * Shows a message to the user.
-     * You might want to send two messages: One detailed one with logLevel 0
-     * and one simple message with 4
+     * You might want to send two messages: One detailed one with
+     * logLevel Constants.MESSAGES.LOGLEVEL.DEBUG and one simple message with
+     * Constants.MESSAGES.LOGLEVEL.NO_DEBUG
      *
      * @param message message to show
-     * @param messageType can be dialog, snackbar or toast (deprecated)
-     * @param logLevel 0 when debug is enabled
-     *                 1 when remote url is configured
-     *                 2 when local url is configured
-     *                 4 when debug is disabled
-     *                 5 always
+     * @param messageType can be one of Constants.MESSAGES.*
+     * @param logLevel can be on of Constants.MESSAGES.LOGLEVEL.*
      */
-    public void showMessageToUser(String message, String messageType, int logLevel) {
+    public void showMessageToUser(String message, int messageType, int logLevel) {
         if (message != null) {
             boolean debugEnabled = mSettings.getBoolean(Constants.PREFERENCE_DEBUG_MESSAGES, false);
             String remoteUrl = mSettings.getString(Constants.PREFERENCE_ALTURL, "");
@@ -584,12 +581,12 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
 
             // if debug mode is enabled, show all messages, except those with logLevel 4
             if(debugEnabled) {
-                if (logLevel == 4) {
+                if (logLevel == Constants.MESSAGES.LOGLEVEL.NO_DEBUG) {
                     return;
                 }
             } else {
                 switch (logLevel) {
-                    case 1:
+                    case Constants.MESSAGES.LOGLEVEL.REMOTE:
                         if (remoteUrl.length() > 1) {
                             Log.d(TAG, "remote URL set, show message: " + message);
                         } else {
@@ -597,7 +594,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
                             return;
                         }
                         break;
-                    case 2:
+                    case Constants.MESSAGES.LOGLEVEL.LOCAL:
                         if (localUrl.length() > 1) {
                             Log.d(TAG, "local URL set, show message: " + message);
                         } else {
@@ -610,17 +607,17 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
             }
 
             switch (messageType) {
-                case "dialog":
+                case Constants.MESSAGES.DIALOG:
                     AlertDialog.Builder builder = new AlertDialog.Builder(OpenHABMainActivity.this);
                     builder.setMessage(message)
-                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            .setPositiveButton(getText(R.string.ok), new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
                                 }
                             });
                     AlertDialog alert = builder.create();
                     alert.show();
                     break;
-                case "snackbar":
+                case Constants.MESSAGES.SNACKBAR:
                     Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG);
                     snackbar.show();
                     break;
@@ -1168,7 +1165,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
     private void showAlertDialog(String alertMessage) {
         if (this.isFinishing())
             return;
-       showMessageToUser(alertMessage, "dialog", 5);
+       showMessageToUser(alertMessage, Constants.MESSAGES.DIALOG, Constants.MESSAGES.LOGLEVEL.ALWAYS);
     }
 
     private void showCertificateDialog(final int decisionId, String certMessage) {

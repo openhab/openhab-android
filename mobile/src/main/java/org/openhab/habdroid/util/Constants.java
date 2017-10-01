@@ -28,4 +28,17 @@ public class Constants {
     public static final String PREFERENCE_SSLCLIENTCERT_HOWTO = "default_openhab_sslclientcert_howto";
     public static final String PREFERENCE_DEBUG_MESSAGES      = "default_openhab_debug_messages";
     public static final String DEFAULT_GCM_SENDER_ID        = "737820980945";
+
+    public interface MESSAGES {
+        public static final int DIALOG = 1;
+        public static final int SNACKBAR = 2;
+        public static final int TOAST = 3;
+        public interface LOGLEVEL {
+            public static final int DEBUG = 0;
+            public static final int REMOTE = 1;
+            public static final int LOCAL = 2;
+            public static final int NO_DEBUG = 4;
+            public static final int ALWAYS = 5;
+        }
+    }
 }
