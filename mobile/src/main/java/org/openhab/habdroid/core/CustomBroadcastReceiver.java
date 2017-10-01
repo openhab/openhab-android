@@ -56,8 +56,6 @@ public class CustomBroadcastReceiver extends BroadcastReceiver {
         try {
             Log.d(TAG, "onReceive()");
             if (intent.hasExtra("button_id")) {
-                Toast.makeText(context, "Got broadcast "+intent.getExtras().get("button_id"), Toast.LENGTH_SHORT).show();
-                //Log.d(TAG, "Button id " + intent.toString());
                 Log.d(TAG, "Button: " + intent.getExtras().get("button_id"));
 
                 final String state;
@@ -79,11 +77,10 @@ public class CustomBroadcastReceiver extends BroadcastReceiver {
                         public void onFailure(Call call, int statusCode, Headers headers, String responseString, Throwable error) {
                             Log.e(TAG, "Got command error " + error.getMessage());
                             String message = String.format(context.getString(R.string.notification_last_broadcast_failed), currentTime, state);
-                            updateNotification(message, context);
                             if (statusCode == 404) {
-                                String toastMessage = context.getString(R.string.error_custom_broadcast_item_not_found);
-                                Toast.makeText(context, toastMessage, Toast.LENGTH_LONG).show();
+                                message = context.getString(R.string.error_custom_broadcast_item_not_found);
                             }
+                            updateNotification(message, context);
                             if (responseString != null)
                                 Log.e(TAG, "Error response = " + responseString);
                         }
