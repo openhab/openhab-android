@@ -574,57 +574,59 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
      * @param logLevel can be on of Constants.MESSAGES.LOGLEVEL.*
      */
     public void showMessageToUser(String message, int messageType, int logLevel) {
-        if (message != null) {
-            boolean debugEnabled = mSettings.getBoolean(Constants.PREFERENCE_DEBUG_MESSAGES, false);
-            String remoteUrl = mSettings.getString(Constants.PREFERENCE_ALTURL, "");
-            String localUrl = mSettings.getString(Constants.PREFERENCE_URL, "");
+        if (message == null) {
+            return;
+        }
+        boolean debugEnabled = mSettings.getBoolean(Constants.PREFERENCE_DEBUG_MESSAGES, false);
+        String remoteUrl = mSettings.getString(Constants.PREFERENCE_ALTURL, "");
+        String localUrl = mSettings.getString(Constants.PREFERENCE_URL, "");
 
-            // if debug mode is enabled, show all messages, except those with logLevel 4
-            if(debugEnabled) {
-                if (logLevel == Constants.MESSAGES.LOGLEVEL.NO_DEBUG) {
-                    return;
-                }
-            } else {
-                switch (logLevel) {
-                    case Constants.MESSAGES.LOGLEVEL.REMOTE:
-                        if (remoteUrl.length() > 1) {
-                            Log.d(TAG, "remote URL set, show message: " + message);
-                        } else {
-                            Log.d(TAG, "no remote URL set, dont show message: " + message);
-                            return;
-                        }
-                        break;
-                    case Constants.MESSAGES.LOGLEVEL.LOCAL:
-                        if (localUrl.length() > 1) {
-                            Log.d(TAG, "local URL set, show message: " + message);
-                        } else {
-                            Log.d(TAG, "no local URL set, dont show message: " + message);
-                            return;
-
-                        }
-                        break;
-                }
+        // if debug mode is enabled, show all messages, except those with logLevel 4
+        if(debugEnabled) {
+            if (logLevel == Constants.MESSAGES.LOGLEVEL.NO_DEBUG) {
+                return;
             }
-
-            switch (messageType) {
-                case Constants.MESSAGES.DIALOG:
-                    AlertDialog.Builder builder = new AlertDialog.Builder(OpenHABMainActivity.this);
-                    builder.setMessage(message)
-                            .setPositiveButton(getText(R.string.ok), new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
-                                }
-                            });
-                    AlertDialog alert = builder.create();
-                    alert.show();
+        } else {
+            switch (logLevel) {
+                case Constants.MESSAGES.LOGLEVEL.REMOTE:
+                    if (remoteUrl.length() > 1) {
+                        Log.d(TAG, "Remote URL set, show message: " + message);
+                    } else {
+                        Log.d(TAG, "No remote URL set, don't show message: " + message);
+                        return;
+                    }
                     break;
-                case Constants.MESSAGES.SNACKBAR:
-                    Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG);
-                    snackbar.show();
-                    break;
-                default:
-                    Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+                case Constants.MESSAGES.LOGLEVEL.LOCAL:
+                    if (localUrl.length() > 1) {
+                        Log.d(TAG, "Local URL set, show message: " + message);
+                    } else {
+                        Log.d(TAG, "No local URL set, don't show message: " + message);
+                        return;
+                    }
                     break;
             }
+        }
+
+        switch (messageType) {
+            case Constants.MESSAGES.DIALOG:
+                AlertDialog.Builder builder = new AlertDialog.Builder(OpenHABMainActivity.this);
+                builder.setMessage(message)
+                        .setPositiveButton(getText(R.string.ok), new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                            }
+                        });
+                AlertDialog alert = builder.create();
+                alert.show();
+                break;
+            case Constants.MESSAGES.SNACKBAR:
+                Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG);
+                snackbar.show();
+                break;
+            case Constants.MESSAGES.TOAST:
+                Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+                break;
+            default:
+                throw new IllegalArgumentException("Message type not implemented");
         }
     }
 

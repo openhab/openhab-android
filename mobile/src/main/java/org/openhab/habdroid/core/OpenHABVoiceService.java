@@ -118,6 +118,9 @@ public class OpenHABVoiceService extends ContinuingIntentService implements Open
      * @param logLevel not implemented
      */
     public void showMessageToUser(String message, int messageType, int logLevel) {
+        if(message == null) {
+            return;
+        }
         switch (messageType) {
             case Constants.MESSAGES.DIALOG:
                 AlertDialog.Builder builder = new AlertDialog.Builder(OpenHABVoiceService.this);
@@ -129,6 +132,8 @@ public class OpenHABVoiceService extends ContinuingIntentService implements Open
                 AlertDialog alert = builder.create();
                 alert.show();
                 break;
+            default:
+                throw new IllegalArgumentException("Message type not implemented");
         }
     }
 
