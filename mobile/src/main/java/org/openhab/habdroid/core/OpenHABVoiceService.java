@@ -18,6 +18,7 @@ import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.speech.RecognizerIntent;
 import android.util.Log;
+import android.widget.Toast;
 
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.util.Constants;
@@ -114,7 +115,7 @@ public class OpenHABVoiceService extends ContinuingIntentService implements Open
 
     /**
      * @param message message to show
-     * @param messageType must be Constants.MESSAGES.DIALOG
+     * @param messageType must be Constants.MESSAGES.DIALOG or Constants.MESSAGES.TOAST
      * @param logLevel not implemented
      */
     public void showMessageToUser(String message, int messageType, int logLevel) {
@@ -131,6 +132,9 @@ public class OpenHABVoiceService extends ContinuingIntentService implements Open
                         });
                 AlertDialog alert = builder.create();
                 alert.show();
+                break;
+            case Constants.MESSAGES.TOAST:
+                Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
                 break;
             default:
                 throw new IllegalArgumentException("Message type not implemented");
@@ -229,7 +233,7 @@ public class OpenHABVoiceService extends ContinuingIntentService implements Open
         new Handler(Looper.getMainLooper()).post(new Runnable() {
             @Override
             public void run() {
-                showMessageToUser(message, Constants.MESSAGES.SNACKBAR, Constants.MESSAGES.LOGLEVEL.ALWAYS);
+                showMessageToUser(message, Constants.MESSAGES.TOAST, Constants.MESSAGES.LOGLEVEL.ALWAYS);
             }
         });
     }
