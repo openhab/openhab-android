@@ -88,8 +88,14 @@ import org.xml.sax.SAXException;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.ConnectException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.UnknownHostException;
+import java.security.cert.CertPathValidatorException;
+import java.security.cert.CertificateExpiredException;
+import java.security.cert.CertificateNotYetValidException;
+import java.security.cert.CertificateRevokedException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -122,23 +128,23 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
                 } catch (android.content.res.Resources.NotFoundException e) {
                     showMessageToUser(String.format(getString(R.string.error_http_connection_failed), statusCode), Constants.MESSAGES.DIALOG, Constants.MESSAGES.LOGLEVEL.ALWAYS);
                 }
-            } else if (error instanceof java.net.UnknownHostException) {
+            } else if (error instanceof UnknownHostException) {
                 Log.e(TAG, "Unable to resolve hostname");
                 showMessageToUser(getString(R.string.error_unable_to_resolve_hostname), Constants.MESSAGES.DIALOG, Constants.MESSAGES.LOGLEVEL.ALWAYS);
             } else if (error instanceof SSLHandshakeException) {
                 // if ssl exception, check for some common problems
-                if (error.getCause() instanceof java.security.cert.CertPathValidatorException) {
+                if (error.getCause() instanceof CertPathValidatorException) {
                     showMessageToUser(getString(R.string.error_certificate_not_trusted), Constants.MESSAGES.DIALOG, Constants.MESSAGES.LOGLEVEL.ALWAYS);
-                } else if (error.getCause() instanceof java.security.cert.CertificateExpiredException) {
+                } else if (error.getCause() instanceof CertificateExpiredException) {
                     showMessageToUser(getString(R.string.error_certificate_expired), Constants.MESSAGES.DIALOG, Constants.MESSAGES.LOGLEVEL.ALWAYS);
-                } else if (error.getCause() instanceof java.security.cert.CertificateNotYetValidException) {
+                } else if (error.getCause() instanceof CertificateNotYetValidException) {
                     showMessageToUser(getString(R.string.error_certificate_not_valid_yet), Constants.MESSAGES.DIALOG, Constants.MESSAGES.LOGLEVEL.ALWAYS);
-                } else if (error.getCause() instanceof java.security.cert.CertificateRevokedException) {
+                } else if (error.getCause() instanceof CertificateRevokedException) {
                     showMessageToUser(getString(R.string.error_certificate_revoked), Constants.MESSAGES.DIALOG, Constants.MESSAGES.LOGLEVEL.ALWAYS);
                 } else {
                     showMessageToUser(getString(R.string.error_connection_sslhandshake_failed), Constants.MESSAGES.DIALOG, Constants.MESSAGES.LOGLEVEL.ALWAYS);
                 }
-            } else if (error instanceof java.net.ConnectException) {
+            } else if (error instanceof ConnectException) {
                 showMessageToUser(getString(R.string.error_connection_failed), Constants.MESSAGES.DIALOG, Constants.MESSAGES.LOGLEVEL.ALWAYS);
             } else {
                 Log.e(TAG, error.getClass().toString());
