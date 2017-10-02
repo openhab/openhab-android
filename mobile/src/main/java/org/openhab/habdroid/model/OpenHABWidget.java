@@ -26,7 +26,7 @@ public abstract class OpenHABWidget {
 	private String url;
 	private String period = "";
 	private String service = "";
-	private boolean legend = true;
+	private Boolean legend = null;
 	private float minValue =0;
 	private float maxValue = 100;
 	private float step = 1;
@@ -193,9 +193,9 @@ public abstract class OpenHABWidget {
 
     public void setService(String service) { this.service = service; }
 
-	public boolean getLegend() { return legend; }
+	public Boolean getLegend() { return legend; }
 
-	public void setLegend(boolean legend) { this.legend = legend; }
+	public void setLegend(Boolean legend) { this.legend = legend; }
 
 	public int getHeight() {
 		return height;

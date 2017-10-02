@@ -518,7 +518,9 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
                 chartUrl += "&dpi=" + dpi;
 
                 // add legend
-                chartUrl += "&legend=" + openHABWidget.getLegend();
+                if(openHABWidget.getLegend() != null) {
+                    chartUrl += "&legend=" + openHABWidget.getLegend();
+                }
             }
     		Log.d(TAG, "Chart url = " + chartUrl);
             ViewGroup.LayoutParams chartLayoutParams = chartImage.getLayoutParams();
