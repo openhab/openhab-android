@@ -36,9 +36,6 @@ import org.openhab.habdroid.util.Util;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.security.cert.X509Certificate;
-import java.util.Locale;
-
-import static android.R.attr.format;
 
 /**
  * This is a class to provide preferences activity for application.
@@ -66,8 +63,12 @@ public class OpenHABPreferencesActivity extends PreferenceActivity {
         addPreferencesFromResource(R.xml.preferences);
         Preference urlPreference = getPreferenceScreen().findPreference(Constants.PREFERENCE_URL);
         final Preference altUrlPreference = getPreferenceScreen().findPreference(Constants.PREFERENCE_ALTURL);
-        Preference usernamePreference = getPreferenceScreen().findPreference(Constants.PREFERENCE_USERNAME);
-        Preference passwordPreference = getPreferenceScreen().findPreference(Constants.PREFERENCE_PASSWORD);
+        Preference usernamePreference = getPreferenceScreen().findPreference(Constants.PREFERENCE_LOCAL_USERNAME);
+        Preference remoteUsernamePreference = getPreferenceScreen().findPreference(Constants
+                .PREFERENCE_USERNAME);
+        Preference passwordPreference = getPreferenceScreen().findPreference(Constants.PREFERENCE_LOCAL_PASSWORD);
+        Preference remotePasswordPreference = getPreferenceScreen().findPreference(Constants
+                .PREFERENCE_PASSWORD);
         Preference versionPreference = getPreferenceScreen().findPreference(Constants.PREFERENCE_APPVERSION);
         final Preference sslClientCert = getPreferenceScreen().findPreference(Constants.PREFERENCE_SSLCLIENTCERT);
         final Preference sslClientCertHowTo = getPreferenceScreen().findPreference(Constants.PREFERENCE_SSLCLIENTCERT_HOWTO);
@@ -98,22 +99,33 @@ public class OpenHABPreferencesActivity extends PreferenceActivity {
             }
         });
         updateTextPreferenceSummary(altUrlPreference, null);
-        usernamePreference.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
+        OnPreferenceChangeListener updateTextPreferenceSummaryListener = new
+                OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
                 updateTextPreferenceSummary(preference, (String) newValue);
                 return true;
             }
-        });
-        updateTextPreferenceSummary(usernamePreference, null);
-        passwordPreference.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
+        };
+        OnPreferenceChangeListener updatePasswordPreferenceSummaryListener = new
+                OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
                 updatePasswordPreferenceSummary(preference, (String) newValue);
                 return true;
             }
-        });
+        };
+        usernamePreference.setOnPreferenceChangeListener(updateTextPreferenceSummaryListener);
+        remoteUsernamePreference.setOnPreferenceChangeListener(updateTextPreferenceSummaryListener);
+        updateTextPreferenceSummary(usernamePreference, null);
+        updateTextPreferenceSummary(remoteUsernamePreference, null);
+
+        passwordPreference.setOnPreferenceChangeListener(updatePasswordPreferenceSummaryListener);
+        remotePasswordPreference.setOnPreferenceChangeListener
+                (updatePasswordPreferenceSummaryListener);
         updatePasswordPreferenceSummary(passwordPreference, null);
+        updatePasswordPreferenceSummary(remotePasswordPreference, null);
+
         updateTextPreferenceSummary(versionPreference, null);
         versionPreference.setSummary(versionPreference.getSummary() + " - " +
                 DateFormat.getDateTimeInstance().format(BuildConfig.buildTime));
@@ -177,7 +189,6 @@ public class OpenHABPreferencesActivity extends PreferenceActivity {
 
         setResult(RESULT_OK);
     }
-
 
     private String getPreferenceString(Preference preference, String defValue) {
         return preference.getSharedPreferences().getString(preference.getKey(), defValue);

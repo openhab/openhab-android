@@ -12,8 +12,10 @@ package org.openhab.habdroid.util;
 public class Constants {
     public static final String PREFERENCE_APPVERSION        = "default_openhab_appversion";
     public static final String PREFERENCE_SCREENTIMEROFF    = "default_openhab_screentimeroff";
-    public static final String PREFERENCE_USERNAME          = "default_openhab_username";
-    public static final String PREFERENCE_PASSWORD          = "default_openhab_password";
+    public static final String PREFERENCE_USERNAME          = "default_openhab_remote_username";
+    public static final String PREFERENCE_LOCAL_USERNAME    = "default_openhab_username";
+    public static final String PREFERENCE_PASSWORD          = "default_openhab_remote_password";
+    public static final String PREFERENCE_LOCAL_PASSWORD    = "default_openhab_password";
     public static final String PREFERENCE_SITEMAP           = "default_openhab_sitemap";
     public static final String PREFERENCE_SSLCERT           = "default_openhab_sslcert";
     public static final String PREFERENCE_SSLHOST           = "default_openhab_sslhost";

@@ -524,6 +524,13 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
             Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
         }
         openHABBaseUrl = baseUrl;
+        if (baseUrl.equals(mSettings.getString(Constants.PREFERENCE_URL, null))) {
+            openHABUsername = mSettings.getString(Constants.PREFERENCE_LOCAL_USERNAME, null);
+            openHABPassword = mSettings.getString(Constants.PREFERENCE_LOCAL_PASSWORD, null);
+        } else {
+            openHABUsername = mSettings.getString(Constants.PREFERENCE_USERNAME, null);
+            openHABPassword = mSettings.getString(Constants.PREFERENCE_PASSWORD, null);
+        }
         mDrawerAdapter.setOpenHABBaseUrl(openHABBaseUrl);
         pagerAdapter.setOpenHABBaseUrl(openHABBaseUrl);
         if (!TextUtils.isEmpty(mNfcData)) {
