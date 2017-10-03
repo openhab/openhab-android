@@ -34,7 +34,8 @@ public class OpenHABNFCActionList {
 			} else if (openHABWidget.getType().equals("Switch")) {
 				//SwitchItem changed to Switch in later builds of OH2
 				if (openHABWidget.getItem().getType().equals("SwitchItem") ||
-						"Switch".equals(openHABWidget.getItem().getType())) {
+                        "Switch".equals(openHABWidget.getItem().getType()) ||
+                        "Switch".equals(openHABWidget.getItem().getGroupType())) {
 					actionNames.add(ctx.getString(R.string.nfc_action_on));
 					actionCommands.add("ON");
 					actionNames.add(ctx.getString(R.string.nfc_action_off));
