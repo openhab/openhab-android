@@ -27,4 +27,16 @@
         <item>@string/settings_openhab_icon_format_png</item>
         <item>@string/settings_openhab_icon_format_svg</item>
     </string-array>
+
+    <string-array name="screen_dim_time_values">
+        <item>1</item>
+        <item>5</item>
+        <item>10</item>
+    </string-array>
+
+    <string-array name="screen_dim_time">
+        <item>@string/settings_openhab_screen_dim_time_one_minute</item>
+        <item>@string/settings_openhab_screen_dim_time_five_minutes</item>
+        <item>@string/settings_openhab_screen_dim_time_ten_minutes</item>
+    </string-array>
 </resources>
