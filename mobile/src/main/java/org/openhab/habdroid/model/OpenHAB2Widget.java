@@ -84,6 +84,8 @@ public class OpenHAB2Widget extends OpenHABWidget {
                 this.setPeriod(widgetJson.getString("period"));
             if (widgetJson.has("service"))
                 this.setService(widgetJson.getString("service"));
+            if (widgetJson.has("legend"))
+                this.setLegend(widgetJson.getBoolean("legend"));
             if (widgetJson.has("height"))
                 this.setHeight(widgetJson.getInt("height"));
             if (widgetJson.has("iconcolor"))

@@ -10,10 +10,14 @@
 package org.openhab.habdroid.ui;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Build;
+import android.preference.PreferenceManager;
 import android.support.v7.widget.SwitchCompat;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -44,6 +48,7 @@ import org.openhab.habdroid.model.OpenHABWidgetMapping;
 import org.openhab.habdroid.ui.widget.ColorPickerDialog;
 import org.openhab.habdroid.ui.widget.OnColorChangedListener;
 import org.openhab.habdroid.ui.widget.SegmentedControlButton;
+import org.openhab.habdroid.util.Constants;
 import org.openhab.habdroid.util.MjpegStreamer;
 import org.openhab.habdroid.util.MyAsyncHttpClient;
 import org.openhab.habdroid.util.MyHttpClient;
@@ -499,10 +504,25 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
                 if (openHABWidget.getService() != null && openHABWidget.getService().length() > 0) {
                     chartUrl += "&service=" + openHABWidget.getService();
                 }
-    		}
+                // add theme attribute
+                TypedValue chartTheme = new TypedValue();
+                if (getContext().getTheme().resolveAttribute(R.attr.chartTheme, chartTheme, true)) {
+                    chartUrl += "&theme=" + chartTheme.string;
+                }
+
+                // add dpi attribute
+                WindowManager wm = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
+                DisplayMetrics metrics = new DisplayMetrics();
+                wm.getDefaultDisplay().getMetrics(metrics);
+                int dpi = metrics.densityDpi;
+                chartUrl += "&dpi=" + dpi;
+
+                // add legend
+                if(openHABWidget.getLegend() != null) {
+                    chartUrl += "&legend=" + openHABWidget.getLegend();
+                }
+            }
     		Log.d(TAG, "Chart url = " + chartUrl);
-    		if (chartImage == null)
-    			Log.e(TAG, "chartImage == null !!!");
             ViewGroup.LayoutParams chartLayoutParams = chartImage.getLayoutParams();
             chartLayoutParams.height = (int) (screenWidth/2);
             chartImage.setLayoutParams(chartLayoutParams);
