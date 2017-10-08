@@ -59,22 +59,36 @@
             android:title="@string/settings_openhab_sslhost" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/settings_display_title">
+        <PreferenceScreen android:title="@string/settings_display_hardware">
+            <CheckBoxPreference
+                android:defaultValue="false"
+                android:key="default_openhab_fullscreen"
+                android:summary="@string/settings_openhab_fullscreen_summary"
+                android:title="@string/settings_openhab_fullscreen" />
+            <CheckBoxPreference
+                android:defaultValue="false"
+                android:key="default_openhab_screentimeroff"
+                android:summary="@string/settings_openhab_screentimeroff_summary"
+                android:title="@string/settings_openhab_screentimeroff" />
+            <CheckBoxPreference
+                android:defaultValue="false"
+                android:key="default_openhab_screen_dim"
+                android:title="@string/settings_openhab_screen_dim_title" />
+            <ListPreference
+                android:title="@string/settings_openhab_screen_dim_time_title"
+                android:key="default_openhab_screen_dim_time"
+                android:defaultValue="5"
+                android:dependency="default_openhab_screen_dim"
+                android:summary="%s"
+                android:entries="@array/screen_dim_time"
+                android:entryValues="@array/screen_dim_time_values" />
+        </PreferenceScreen>
         <ListPreference
-            android:key="default_openhab_theme"
-            android:title="@string/settings_openhab_theme"
-            android:defaultValue="@string/theme_value_light"
-            android:entries="@array/themeArray"
-            android:entryValues="@array/themeValues" />
-        <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="default_openhab_screentimeroff"
-            android:summary="@string/settings_openhab_screentimeroff_summary"
-            android:title="@string/settings_openhab_screentimeroff" />
-        <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="default_openhab_fullscreen"
-            android:summary="@string/settings_openhab_fullscreen_summary"
-            android:title="@string/settings_openhab_fullscreen" />
+        android:key="default_openhab_theme"
+        android:title="@string/settings_openhab_theme"
+        android:defaultValue="@string/theme_value_light"
+        android:entries="@array/themeArray"
+        android:entryValues="@array/themeValues" />
         <ListPreference
             android:title="@string/settings_openhab_icon_format"
             android:key="iconFormatType"

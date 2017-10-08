@@ -28,6 +28,7 @@ import android.nfc.NfcAdapter;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.speech.RecognizerIntent;
@@ -197,6 +198,10 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
     private List<OpenHABDrawerItem> mDrawerItemList;
     private ProgressBar mProgressBar;
     private NotificationSettings mNotifySettings = null;
+    // Dim display after inactivity
+    private boolean dimDisplayEnabled;
+    private int screenBrightness;
+    private long dimDisplayTime;
 
     public static String GCM_SENDER_ID;
 
@@ -406,6 +411,22 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
         }
 
         checkFullscreen();
+
+        dimDisplayEnabled = mSettings.getBoolean(Constants.PREFERENCE_SCREEN_DIM, false);
+        if(dimDisplayEnabled) {
+            Log.d(TAG, "Set up dimmer");
+            // We get minutes, but need milliseconds
+            try {
+                dimDisplayTime = Integer.valueOf(mSettings.getString(Constants.PREFERENCE_SCREEN_DIM_TIME, "")) * 60 * 1000;
+            } catch (Exception e) {
+                e.printStackTrace();
+                dimDisplayTime = 5 * 60 * 1000;
+            }
+            resetDimDisplayTimer();
+        } else {
+            // stop running timer
+            stopDimDisplayTimer();
+        }
     }
 
     /**
@@ -447,6 +468,20 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
         }
         if (mOpenHABTracker != null) {
             mOpenHABTracker.stop();
+        }
+
+        stopDimDisplayTimer();
+        if(dimDisplayEnabled) {
+            restoreDisplayBrightness();
+        }
+    }
+
+    @Override
+    public void onUserInteraction(){
+        Log.d(TAG, "onUserInteraction()");
+        if(dimDisplayEnabled) {
+            resetDimDisplayTimer();
+            restoreDisplayBrightness();
         }
     }
 
@@ -1301,6 +1336,68 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
         return supportsKitKat && fullScreen;
     }
 
+    /**
+     * Save initial brightness and set it to 0
+     *
+     * @author mueller-ma
+     */
+    private void reduceDisplayBrightness() {
+        Log.d(TAG, "dim");
+        // Save brightness
+        try {
+            screenBrightness = Settings.System.getInt(getContentResolver(), Settings.System.SCREEN_BRIGHTNESS);
+        } catch (Exception e) {
+            e.printStackTrace();
+            // if it fails, assume maximum brightness
+            screenBrightness = 255;
+        }
+        // Set brightness to 0
+        android.provider.Settings.System.putInt(getContentResolver(),
+                android.provider.Settings.System.SCREEN_BRIGHTNESS, 0);
+    }
+
+    /**
+     * Restore screen brightness
+     *
+     * @author mueller-ma
+     */
+    private void restoreDisplayBrightness() {
+        try {
+            // In case the brightness was changed, while openhab dimmed the display, save the new value
+            int currentScreenBrightness = Settings.System.getInt(getContentResolver(), Settings.System.SCREEN_BRIGHTNESS);
+            if(currentScreenBrightness != 0) {
+                screenBrightness = currentScreenBrightness;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        android.provider.Settings.System.putInt(getContentResolver(),
+                android.provider.Settings.System.SCREEN_BRIGHTNESS, screenBrightness);
+    }
+
+    private Handler dimDisplayHandler = new Handler(){};
+
+    private Runnable dimDisplayCallback = new Runnable() {
+        @Override
+        public void run() {
+            reduceDisplayBrightness();
+        }
+    };
+
+    /**
+     * Resets the timer. When no timer is running, start it.
+     */
+    public void resetDimDisplayTimer(){
+        dimDisplayHandler.removeCallbacks(dimDisplayCallback);
+        dimDisplayHandler.postDelayed(dimDisplayCallback, dimDisplayTime);
+    }
+
+    /**
+     * Stops the timer
+     */
+    public void stopDimDisplayTimer(){
+        dimDisplayHandler.removeCallbacks(dimDisplayCallback);
+    }
 
     private void loadDrawerItems() {
         mDrawerItemList.clear();
