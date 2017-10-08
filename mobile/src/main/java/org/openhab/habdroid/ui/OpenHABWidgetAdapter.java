@@ -180,7 +180,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
 
         // Process widgets icon image
         MySmartImageView widgetImage = (MySmartImageView)widgetView.findViewById(R.id.widgetimage);
-        // Some of widgets, for example Frame doesnt' have an icon, so...
+        // Some of widgets, for example frames, doesn't have an icon, so...
         if (widgetImage != null) {
             // This is needed to escape possible spaces and everything according to rfc2396
             String iconUrl = openHABBaseUrl + Uri.encode(openHABWidget.getIconPath(),"/?=&");
