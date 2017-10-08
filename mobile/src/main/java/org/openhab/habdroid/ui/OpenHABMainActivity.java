@@ -193,7 +193,6 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
     private int mOpenHABVersion;
     private List<OpenHABDrawerItem> mDrawerItemList;
     private ProgressBar mProgressBar;
-    private Boolean mIsMyOpenHAB = false;
     private NotificationSettings mNotifySettings = null;
 
     public static String GCM_SENDER_ID;
@@ -1229,7 +1228,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
 
     /**
      * Returns the notification settings object
-     * @return
+     * @return Returns the NotificationSettings or null, if openHAB-cloud isn't used
      */
     public NotificationSettings getNotificationSettings() {
         if (mNotifySettings == null) {
@@ -1295,19 +1294,15 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
             }
             mDrawerItemList.add(OpenHABDrawerItem.dividerItem());
         }
-//        mDrawerItemList.add(OpenHABDrawerItem.menuItem("Favorites", getResources().getDrawable(R.drawable.ic_star_grey600_36dp)));
-        // Only show Notifications item if using my.openHAB
-        if (mIsMyOpenHAB)
-//            mDrawerItemList.add(OpenHABDrawerItem.menuWithCountItem("Notifications", getResources().getDrawable(R.drawable.ic_notifications_grey600_36dp), 21));
+
+        if (getNotificationSettings() != null) {
             mDrawerItemList.add(OpenHABDrawerItem.menuItem("Notifications", getResources().getDrawable(R.drawable.ic_notifications_grey600_36dp), DRAWER_NOTIFICATIONS));
+        }
+
         // Only show those items if openHAB version is >= 2, openHAB 1.x just don't have those APIs...
         if (mOpenHABVersion >= 2) {
             mDrawerItemList.add(OpenHABDrawerItem.menuItem("Discovery", getResources().getDrawable(R.drawable.ic_track_changes_grey600_36dp), DRAWER_INBOX));
-//            mDrawerItemList.add(OpenHABDrawerItem.menuWithCountItem("New devices", getResources().getDrawable(R.drawable.ic_inbox_grey600_36dp), 2, DRAWER_INBOX));
-//            mDrawerItemList.add(OpenHABDrawerItem.menuItem("Things", getResources().getDrawable(R.drawable.ic_surround_sound_grey600_36dp)));
             mDrawerItemList.add(OpenHABDrawerItem.menuItem("Bindings", getResources().getDrawable(R.drawable.ic_extension_grey600_36dp), DRAWER_BINDINGS));
-//        mDrawerItemList.add(OpenHABDrawerItem.menuItem("openHAB info", getResources().getDrawable(R.drawable.ic_info_grey600_36dp)));
-//            mDrawerItemList.add(OpenHABDrawerItem.menuItem("Setup", getResources().getDrawable(R.drawable.ic_settings_grey600_36dp)));
         }
         mDrawerAdapter.notifyDataSetChanged();
     }
