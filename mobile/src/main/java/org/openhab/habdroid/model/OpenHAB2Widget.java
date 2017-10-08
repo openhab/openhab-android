@@ -17,7 +17,27 @@ public class OpenHAB2Widget extends OpenHABWidget {
     @Override
     public String getIconPath() {
         OpenHABItem widgetItem = getItem();
-        String itemState = (widgetItem != null) ? widgetItem.getState() : null;
+        String itemState;
+        if (widgetItem != null) {
+            itemState = widgetItem.getState();
+            // For switch item without mappings (just ON and OFF) that control a dimmer item
+            // set the state to "OFF" instead of 0 or to "ON" to fetch the correct icon
+            if(itemState != null && getType().equals("Switch") && ! hasMappings()) {
+                try {
+                    int itemStateNumber = Integer.valueOf(itemState);
+                    if (itemStateNumber == 0) {
+                        itemState = "OFF";
+                    } else {
+                        itemState = "ON";
+                    }
+                } catch (java.lang.NumberFormatException e) {
+                    // Item state is not a number, not sure if that can happen, but good to catch
+                }
+            }
+        } else {
+            itemState = null;
+        }
+
         return String.format("icon/%s?state=%s&format=%s", getIcon(), itemState, iconFormat);
     }
 
