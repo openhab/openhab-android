@@ -668,7 +668,11 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
                         if (Util.sitemapExists(mSitemapList, configuredSitemap)) {
                             Log.d(TAG, "Configured sitemap is on the list");
                             OpenHABSitemap selectedSitemap = Util.getSitemapByName(mSitemapList, configuredSitemap);
-                            openSitemap(selectedSitemap.getHomepageLink());
+                            try {
+                                openSitemap(selectedSitemap.getHomepageLink());
+                            } catch (NullPointerException e) {
+                                e.printStackTrace();
+                            }
                             // Configured sitemap is not on the list we got!
                         } else {
                             Log.d(TAG, "Configured sitemap is not on the list");
