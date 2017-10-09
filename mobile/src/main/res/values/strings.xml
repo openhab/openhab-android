@@ -105,9 +105,6 @@
     <string name="theme_value_light" translatable="false">light</string>
     <string name="theme_value_dark" translatable="false">dark</string>
     <string name="theme_value_black" translatable="false">black</string>
-    <string name="theme_value_light">light</string>
-    <string name="theme_value_dark">dark</string>
-    <string name="theme_value_black">black</string>
     <string name="theme_value_basic_ui" translatable="false">basicui</string>
     <string name="theme_value_basic_ui_dark" translatable="false">basicuidark</string>
     <string name="theme_name_light">Light</string>
