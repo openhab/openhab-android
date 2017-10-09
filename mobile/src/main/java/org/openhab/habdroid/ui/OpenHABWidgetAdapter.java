@@ -486,55 +486,57 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
    		break;
     	case TYPE_CHART:
     		MySmartImageView chartImage = (MySmartImageView)widgetView.findViewById(R.id.chartimage);
-    		//Always clear the drawable so no images from recycled views appear
+    		// Always clear the drawable, so no images from recycled views appear
     		chartImage.setImageDrawable(null);
     		OpenHABItem chartItem = openHABWidget.getItem();
     		Random random = new Random();
     		String chartUrl = "";
     		if (chartItem != null) {
-	    		if (chartItem.getType().equals("GroupItem") || chartItem.getType().equals("Group")) {
-	    			chartUrl = openHABBaseUrl + "chart?groups=" + chartItem.getName() +
-	    					"&period=" + openHABWidget.getPeriod() + "&random=" +
-	    					String.valueOf(random.nextInt());
-	    		} else {
-                    chartUrl = openHABBaseUrl + "chart?items=" + chartItem.getName() +
-                            "&period=" + openHABWidget.getPeriod() + "&random=" +
-                            String.valueOf(random.nextInt());
-                }
-                if (openHABWidget.getService() != null && openHABWidget.getService().length() > 0) {
-                    chartUrl += "&service=" + openHABWidget.getService();
-                }
-                // add theme attribute
-                TypedValue chartTheme = new TypedValue();
-                if (getContext().getTheme().resolveAttribute(R.attr.chartTheme, chartTheme, true)) {
-                    chartUrl += "&theme=" + chartTheme.string;
-                }
+				if (chartItem.getType().equals("GroupItem") || chartItem.getType().equals("Group")) {
+					chartUrl = openHABBaseUrl + "chart?groups=" + chartItem.getName() +
+							"&period=" + openHABWidget.getPeriod() + "&random=" +
+							String.valueOf(random.nextInt());
+				} else {
+					chartUrl = openHABBaseUrl + "chart?items=" + chartItem.getName() +
+							"&period=" + openHABWidget.getPeriod() + "&random=" +
+							String.valueOf(random.nextInt());
+				}
+				if (openHABWidget.getService() != null && openHABWidget.getService().length() > 0) {
+					chartUrl += "&service=" + openHABWidget.getService();
+				}
+				// add theme attribute
+				TypedValue chartTheme = new TypedValue();
+				if (getContext().getTheme().resolveAttribute(R.attr.chartTheme, chartTheme, true)) {
+					chartUrl += "&theme=" + chartTheme.string;
+				}
 
-                // add dpi attribute
-                WindowManager wm = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
-                DisplayMetrics metrics = new DisplayMetrics();
-                wm.getDefaultDisplay().getMetrics(metrics);
-                int dpi = metrics.densityDpi;
-                chartUrl += "&dpi=" + dpi;
+				// add dpi attribute
+				WindowManager wm = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
+				DisplayMetrics metrics = new DisplayMetrics();
+				wm.getDefaultDisplay().getMetrics(metrics);
+				int dpi = metrics.densityDpi;
+				chartUrl += "&dpi=" + dpi;
 
-                // add legend
-                if(openHABWidget.getLegend() != null) {
-                    chartUrl += "&legend=" + openHABWidget.getLegend();
-                }
-            }
-    		Log.d(TAG, "Chart url = " + chartUrl);
-            ViewGroup.LayoutParams chartLayoutParams = chartImage.getLayoutParams();
-            chartLayoutParams.height = (int) (screenWidth/2);
-            chartImage.setLayoutParams(chartLayoutParams);
-            chartUrl += "&w=" + String.valueOf(screenWidth);
-            chartUrl += "&h=" + String.valueOf(screenWidth/2);
-   			chartImage.setImageUrl(chartUrl, false, openHABUsername, openHABPassword);
-    		// TODO: This is quite dirty fix to make charts look full screen width on all displays
-    		if (openHABWidget.getRefresh() > 0) {
-    			chartImage.setRefreshRate(openHABWidget.getRefresh());
-    			refreshImageList.add(chartImage);
-    		}
-    		Log.d(TAG, "chart size = " + chartLayoutParams.width + " " + chartLayoutParams.height);
+				// add legend
+				if (openHABWidget.getLegend() != null) {
+					chartUrl += "&legend=" + openHABWidget.getLegend();
+				}
+				Log.d(TAG, "Chart url = " + chartUrl);
+				ViewGroup.LayoutParams chartLayoutParams = chartImage.getLayoutParams();
+				chartLayoutParams.height = (int) (screenWidth / 2);
+				chartImage.setLayoutParams(chartLayoutParams);
+				chartUrl += "&w=" + String.valueOf(screenWidth);
+				chartUrl += "&h=" + String.valueOf(screenWidth / 2);
+				chartImage.setImageUrl(chartUrl, false, openHABUsername, openHABPassword);
+				// TODO: This is quite dirty fix to make charts look full screen width on all displays
+				if (openHABWidget.getRefresh() > 0) {
+					chartImage.setRefreshRate(openHABWidget.getRefresh());
+					refreshImageList.add(chartImage);
+				}
+				Log.d(TAG, "chart size = " + chartLayoutParams.width + " " + chartLayoutParams.height);
+			} else {
+				Log.e(TAG, "Chart item is null");
+			}
     	break;
     	case TYPE_VIDEO:
             VideoView videoVideo = (VideoView)widgetView.findViewById(R.id.videovideo);
