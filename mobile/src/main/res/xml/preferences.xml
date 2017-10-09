@@ -65,6 +65,13 @@
             android:defaultValue="@string/theme_value_light"
             android:entries="@array/themeArray"
             android:entryValues="@array/themeValues" />
+        <ListPreference
+            android:title="@string/settings_openhab_icon_format"
+            android:key="iconFormatType"
+            android:defaultValue="@string/settings_openhab_icon_format_png"
+            android:summary="%s"
+            android:entries="@array/iconTypeValues"
+            android:entryValues="@array/iconTypeValues" />
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="default_openhab_screentimeroff"
@@ -75,13 +82,6 @@
             android:key="default_openhab_fullscreen"
             android:summary="@string/settings_openhab_fullscreen_summary"
             android:title="@string/settings_openhab_fullscreen" />
-        <ListPreference
-            android:title="@string/settings_openhab_icon_format"
-            android:key="iconFormatType"
-            android:defaultValue="@string/settings_openhab_icon_format_png"
-            android:summary="%s"
-            android:entries="@array/iconTypeValues"
-            android:entryValues="@array/iconTypeValues" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/settings_misc_title">
         <RingtonePreference

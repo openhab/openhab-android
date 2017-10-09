@@ -6,8 +6,8 @@
         <item name="widgetlistItemDivider">?android:dividerHorizontal</item>
         <item name="frameWidgetDividerBackground">@drawable/material_divider</item>
 
-        <item name="colorPrimary">#FF5722</item>
-        <item name="colorAccent">#FF5722</item>
+        <item name="colorPrimary">@color/openhab_orange</item>
+        <item name="colorAccent">@color/openhab_orange</item>
         <item name="colorPrimaryDark">#BF360C</item>
 
         <item name="windowNoTitle">true</item>
@@ -17,6 +17,8 @@
 
         <item name="themedDrawerBackground">?android:colorBackground</item>
         <item name="themedHeaderTextColor">@color/colorAccent_themeDark</item>
+
+        <item name="chartTheme">white</item>
     </style>
 
     <style name="HABDroid.Dark" parent="@style/Theme.AppCompat">
@@ -27,6 +29,8 @@
         <item name="colorPrimary">#9E9E9E</item>
         <item name="colorAccent">#9E9E9E</item>
         <item name="colorPrimaryDark">#212121</item>
+        <item name="android:itemBackground">#212121</item>
+        <item name="android:itemTextAppearance">@style/whiteText</item>
 
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
@@ -35,6 +39,8 @@
 
         <item name="themedDrawerBackground">?android:colorBackground</item>
         <item name="themedHeaderTextColor">@color/colorAccent_themeDark</item>
+
+        <item name="chartTheme">dark</item>
     </style>
 
     <style name="HABDroid.Black" parent="@style/Theme.AppCompat">
@@ -50,9 +56,55 @@
         <item name="windowActionBar">false</item>
         <item name="windowActionBarOverlay">false</item>
         <item name="android:windowBackground">@color/black</item>
+        <item name="android:itemBackground">@color/black</item>
+        <item name="android:itemTextAppearance">@style/whiteText</item>
 
         <item name="themedDrawerBackground">@color/black</item>
         <item name="themedHeaderTextColor">@color/colorAccent_themeDark</item>
+
+        <item name="chartTheme">black</item>
+    </style>
+
+    <style name="HABDroid.Basic_ui" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="customMicIcon">@android:drawable/ic_btn_speak_now</item>
+        <item name="widgetlistItemDivider">?android:dividerHorizontal</item>
+        <item name="frameWidgetDividerBackground">@drawable/material_divider</item>
+
+        <item name="colorPrimary">@color/indigo_500</item>
+        <item name="colorAccent">@color/pink_a200</item>
+        <item name="colorPrimaryDark">@color/indigo_800</item>
+
+        <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowActionBarOverlay">false</item>
+        <item name="android:windowBackground">?android:colorBackground</item>
+
+        <item name="themedDrawerBackground">?android:colorBackground</item>
+        <item name="themedHeaderTextColor">@color/colorAccent_themeDark</item>
+
+        <item name="chartTheme">white</item>
+    </style>
+
+    <style name="HABDroid.Basic_ui_dark" parent="Theme.AppCompat.NoActionBar">
+        <item name="customMicIcon">@android:drawable/ic_btn_speak_now</item>
+        <item name="widgetlistItemDivider">?android:dividerHorizontal</item>
+        <item name="frameWidgetDividerBackground">@drawable/material_divider_dark</item>
+
+        <item name="colorPrimary">@color/indigo_500</item>
+        <item name="colorAccent">@color/pink_a200</item>
+        <item name="colorPrimaryDark">@color/indigo_800</item>
+
+        <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowActionBarOverlay">false</item>
+        <item name="android:windowBackground">?android:colorBackground</item>
+        <item name="android:itemBackground">#303030</item>
+        <item name="android:itemTextAppearance">@style/whiteText</item>
+
+        <item name="themedDrawerBackground">?android:colorBackground</item>
+        <item name="themedHeaderTextColor">@color/colorAccent_themeDark</item>
+
+        <item name="chartTheme">dark</item>
     </style>
 
 </resources>

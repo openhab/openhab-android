@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- NEW NEW DESIGN ;) -->
     <color name="normal">#b0b0b0</color>
     <color name="light">#ffffff</color>
     <color name="dark">#191919</color>
     <color name="highlight">#38c0f4</color>
     <color name="black">#000000</color>
     <color name="colorAccent_themeDark">#9E9E9E</color>
+    <color name="foreground_material_light">#ffffff</color>
+    <color name="openhab_orange">#ff5722</color>
+    <color name="indigo_500">#3f51b5</color>
+    <color name="indigo_800">#283593</color>
+    <color name="pink_a200">#ff4081</color>
 
 </resources>
