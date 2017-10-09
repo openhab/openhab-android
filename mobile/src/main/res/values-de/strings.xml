@@ -61,8 +61,6 @@
     <string name="error_network_not_available">Netzwerk nicht verfügbar</string>
     <string name="error_no_uuid">Konnte openHAB UUID nicht abrufen, Verbindung fehlgeschlagen</string>
     <string name="erorr_invalid_url">Bitte geben Sie eine gültige URL im \'protocol://host:port/\' format an.</string>
-    <string name="erorr_no_wifi_mcast_permission">CHANGE_WIFI_MULTICAST_STATE permission wurde nicht erteilt, openHAB discovery wird daher deaktivert!</string>
-    <string name="erorr_no_wifi_state_permission">ACCESS_WIFI_STATE permission wurde nicht erteilt, openHAB discovery wird daher deaktiviert!</string>
     <string name="error_connection_failed">Verbindung fehlgeschlagen</string>
     <string name="error_connection_sslhandshake_failed">SSL Handshake fehlgeschlagen - Sie brauchen vielleicht ein gültiges Client Zertifikat</string>
     <string name="title_activity_openhabwritetag">Schreibe NFC Tag</string>
