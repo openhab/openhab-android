@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <!-- TODO change habdroid to openHAB -->
     <!-- General app strings -->
+    <string name="main_menu">Menu principal</string>
     <string name="app_preferences_name">Paramètres</string>
     <string name="app_notifications">Notifications</string>
     <string name="app_bindings">Objets et protocoles</string>
-    <string name="app_bindings_supportedthings">Objet et protocoles supportés</string>
+    <string name="app_bindings_supportedthings">Objets et protocoles supportés</string>
     <string name="app_discoveryinbox">Découverte</string>
     <string name="app_discoveryinbox_deviceunnamed">Objet sans nom</string>
     <string name="app_discoveryinbox_deviceaction">Sélectionner une action</string>
@@ -16,8 +16,8 @@
     <string name="app_discovery">Activer la découverte</string>
     <!-- Main menu items -->
     <string name="mainmenu_openhab_preferences">Paramètres</string>
-    <string name="mainmenu_openhab_selectsitemap">Sélectionner le sitemap par défaut</string>
-    <string name="mainmenu_openhab_writetag">Écrire une tag NFC</string>
+    <string name="mainmenu_openhab_selectsitemap">Sélectionner la sitemap par défaut</string>
+    <string name="mainmenu_openhab_writetag">Écrire un tag NFC</string>
     <string name="mainmenu_openhab_info">Infos openHAB</string>
     <string name="mainmenu_openhab_clearcache">Effacer le cache image</string>
     <!-- App settings strings -->
@@ -27,41 +27,45 @@
     <string name="settings_openhab_url">URL openHAB</string>
     <string name="settings_openhab_url_summary">Configurer manuellement l\'adresse openHAB. Cela désactive la découverte automatique si disponible.</string>
     <string name="settings_openhab_alturl">URL openHAB distante</string>
-    <string name="settings_openhab_alturl_summary">Utilisée lorsque l\'adresse local n\'est pas accessible</string>
+    <string name="settings_openhab_alturl_summary">Utilisée lorsque l\'adresse locale n\'est pas accessible</string>
     <string name="settings_openhab_username">Identifiant</string>
     <string name="settings_openhab_username_summary">Votre identifiant openHAB</string>
     <string name="settings_openhab_password">Mot de passe</string>
     <string name="settings_openhab_password_summary">Votre mot de passe openHAB</string>
+    <string name="settings_openhab_sslclientcert">Certificat SSL client</string>
+    <string name="settings_openhab_sslclientcert_howto">Comment définir un certificat SSL</string>
     <string name="settings_openhab_screentimeroff">Désactiver l\'extinction d\'écran</string>
-    <string name="settings_openhab_screentimeroff_summary">Désactive l\'extinction d\'écran lorsque HABDroid fonctionne</string>
+    <string name="settings_openhab_screentimeroff_summary">Désactive l\'extinction d\'écran lorsque l\'app openHAB fonctionne</string>
     <string name="settings_openhab_demomode">Mode démo</string>
-    <string name="settings_openhab_demomode_summary">Lancer HABDroiden mode démo</string>
-    <string name="settings_openhab_theme">Thème HABDroid</string>
-    <string name="settings_openhab_appversion">Version HABDroid</string>
+    <string name="settings_openhab_demomode_summary">Lancer l\'app openHAB en mode démo</string>
+    <string name="settings_openhab_theme">Thème app openHAB</string>
+    <string name="settings_openhab_appversion">Version app openHAB</string>
     <string name="settings_openhab_sslcert">Ignorer les certificats SSL</string>
     <string name="settings_openhab_sslcert_summary">Ne vérifie pas le certificat SSL pendant la connexion</string>
     <string name="settings_openhab_sslhost">Ignorer le domaine SSL</string>
     <string name="settings_openhab_sslhost_summary">Ne vérifie pas la pertinence du nom de domaine lors de la connexion</string>
     <string name="settings_openhab_fullscreen">Plein écran</string>
-    <string name="settings_openhab_fullscreen_summary">Afficher openHAB en mode plein écran</string>
+    <string name="settings_openhab_fullscreen_summary">Afficher l\'app openHAB en mode plein écran</string>
+    <string name="settings_openhab_icon_format">Format des icônes</string>
     <string name="settings_ringtone">Sonnerie</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Commandes vocales openHAB</string>
     <string name="info_voice_input">openHAB, à vos ordres!"</string>
     <string name="info_voice_recognized_text">"Commande identifiée: %1$s"</string>
-    <string name="info_demo_mode">HABDroid fonctionne en mode démo. Pour connecter votre instance openHAB, rendez-vous dans les paramètres de l\'application</string>
-    <string name="info_conn_url">Connexion à l\'adresse  locale</string>
+    <string name="info_demo_mode">L\'app openHAB fonctionne en mode démo. Pour connecter votre instance openHAB, rendez-vous dans les paramètres de l\'application</string>
+    <string name="info_conn_url">Connexion à l\'adresse locale</string>
     <string name="info_conn_rem_url">Connexion à l\'adresse distante</string>
     <string name="info_discovery">Recherche d\'openHAB, merci de patienter...</string>
-    <string name="error_no_url">Merci de vérifier qu\'openHAB fonctionne. Si oui passez en configuration manuelle des adresses locale et/ou distante</string>
+    <string name="error_no_url">Merci de vérifier qu\'openHAB fonctionne et si oui passez en configuration manuelle les adresses locale et/ou distante</string>
     <string name="error_authentication_failed">Erreur d\'authentification. Merci de vérifier votre identifiant et votre mot de passe.</string>
-    <string name="error_empty_sitemap_list">openHAB a renvoyé une liste Sitemap vide</string>
+    <string name="error_empty_sitemap_list">openHAB a renvoyé une liste vide de sitemaps</string>
     <string name="error_network_not_available">Aucune connexion réseau disponible</string>
     <string name="error_no_uuid">Récupération de l\'UUID openHAB impossible. La connexion a échoué</string>
     <string name="erorr_invalid_url">Entrez une adresse valide au format \'protocole://domaine_ou_IP:port/\' </string>
     <string name="erorr_no_wifi_mcast_permission">Les droits CHANGE_WIFI_MULTICAST_STATE n\'ont pas été accordés à l\'application par le système Android. La découverte automatique sera désactivée.</string>
     <string name="erorr_no_wifi_state_permission">Les droits ACCESS_WIFI_STATE n\'ont pas été accordés à l\'application par le système Android. La découverte automatique sera désactivée.</string>
     <string name="error_connection_failed">Connexion au domaine échouée</string>
+    <string name="error_connection_sslhandshake_failed">Echec de la négociation SSL. Vous devriez peut-être vérifier la validité de votre certificat client</string>
     <string name="title_activity_openhabwritetag">Écrire un tag NFC</string>
     <string name="title_activity_openhabinfo">Informations openHAB</string>
     <string name="info_write_tag">Approchez votre téléphone et gardez le proche du tag NFC jusqu\'à ce que le message de confirmation apparaisse.</string>
@@ -71,8 +75,12 @@
     <string name="info_write_tag_unsupported">Ce téléphone n\'est pas compatible NFC :-(</string>
     <string name="info_write_tag_disabled">NFC est désactivé. Merci d\'activer la fonctionnalité dans les paramètres du téléphone.</string>
     <string name="info_openhab_version_label">Version openHAB</string>
+    <string name="info_openhab_apiversion_label">Version API Rest openHAB</string>
     <string name="info_openhab_uuid_label">UUID openHAB</string>
     <string name="info_openhab_secret_label">Phrase secrète openHAB</string>
+    <string name="info_openhab_gcm_label">Google Cloud Message</string>
+    <string name="info_openhab_gcm_not_connected">Echec de l\'enregistrement de l\'appareil avec l\'ID %s</string>
+    <string name="info_openhab_gcm_connected">Appareil enregistré avec l\'ID %s</string>
     <string name="action_settings">Paramétrage</string>
     <string name="nfc_dialog_title">Sélectionner une action pour le tag NFC</string>
     <string name="info_not_set">Non paramétré</string>
@@ -80,6 +88,24 @@
     <string name="mtm_accept_cert">Accepter ce certificat inconnu ?</string>
     <string name="mtm_decision_always">Toujours</string>
     <string name="mtm_decision_once">Une fois</string>
-    <string name="mtm_decision_abort">Annuler</string>
+    <string name="mtm_decision_abort">Abandonner</string>
     <string name="mtm_notification">Validation du certificat SSL</string>
+    <string name="settings_openhab_none">aucun</string>
+    <!-- theme -->
+    <string name="theme_value_light">Clair</string>
+    <string name="theme_value_dark">Sombre</string>
+    <string name="theme_value_black">Noir</string>
+    <string name="theme_name_light">Clair</string>
+    <string name="theme_name_dark">Sombre</string>
+    <string name="theme_name_black">Noir/AMOLED</string>
+    
+    <!-- drawer -->
+    <string name="drawer_open">Menu sitemap ouvert</string>
+    <string name="drawer_close">Menu sitemap fermé</string>
+    
+    <!-- About -->
+    <string name="about_title">A propos</string>
+    <string name="about_license_title">Licence</string>
+    <string name="about_links">Liens</string>
+    <string name="about_links_list"><![CDATA[\u00B7 <a href="https://github.com/openhab/openhab.android">Code source app openHAB</a><br><br> \u00B7 <a href="https://github.com/openhab/openhab.android/issues">Remonter un problème</a><br><br> \u00B7 <a href="http://docs.openhab.org/">Documentation openHAB</a><br><br> \u00B7 <a href="https://community.openhab.org/">Forum de discussion</a>]]></string>
 </resources>

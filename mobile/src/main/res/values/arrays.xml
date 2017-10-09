@@ -23,8 +23,13 @@
         <item>@string/theme_value_basic_ui_dark</item>
     </string-array>
 
-    <string-array name="iconTypeValues">
+    <string-array name="iconTypeNames">
         <item>@string/settings_openhab_icon_format_png</item>
         <item>@string/settings_openhab_icon_format_svg</item>
+    </string-array>
+
+    <string-array name="iconTypeValues">
+        <item>@string/settings_openhab_icon_format_value_png</item>
+        <item>@string/settings_openhab_icon_format_value_svg</item>
     </string-array>
 </resources>

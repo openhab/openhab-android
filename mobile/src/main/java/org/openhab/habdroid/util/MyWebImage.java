@@ -69,7 +69,10 @@ public class MyWebImage implements SmartImage {
             	bitmap = webImageCache.get(url);
             if(bitmap == null) {
             	Log.i("MyWebImage", "Cache for " + url + " is empty, getting image");
-                final String iconFormat = PreferenceManager.getDefaultSharedPreferences(context).getString("iconFormatType","PNG");
+                String iconFormat = "PNG";
+                if (url.contains("format=SVG")) {
+                    iconFormat = "SVG";
+                }
                 bitmap = getBitmapFromUrl(context, url, iconFormat);
                 if(bitmap != null && this.useCache) {
                     webImageCache.put(url, bitmap);
