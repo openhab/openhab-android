@@ -30,10 +30,13 @@ import org.openhab.habdroid.util.Constants;
 public class GcmIntentService extends IntentService {
 
     private static final String TAG = GcmIntentService.class.getSimpleName();
+
+    public static final String EXTRA_MSG = "message";
+    public static final String EXTRA_NOTIFICATION_ID = "notificationId";
+    public static final String ACTION_NOTIFICATION_SELECTED = "org.openhab.notification.selected";
+    public static final String ACTION_NOTIFICATION_DELETED = "org.openhab.notification.deleted";
+
     private NotificationManager mNotificationManager;
-    // Notification delete receiver
-    private final NotificationDeletedBroadcastReceiver mNotificationDeletedBroadcastReceiver =
-            new NotificationDeletedBroadcastReceiver();;
 
     public GcmIntentService() {
         super("GcmIntentService");
@@ -54,16 +57,16 @@ public class GcmIntentService extends IntentService {
         if (!extras.isEmpty()) {
             if (GoogleCloudMessaging.MESSAGE_TYPE_MESSAGE.equals(messageType)) {
                 // If this is notification, create new one
-                if (!intent.hasExtra("notificationId")) {
+                if (!intent.hasExtra(EXTRA_NOTIFICATION_ID)) {
                     notificationId = 1;
                 } else {
-                    notificationId = Integer.parseInt(intent.getExtras().getString("notificationId"));
+                    notificationId = Integer.parseInt(intent.getExtras().getString(EXTRA_NOTIFICATION_ID));
                 }
                 if ("notification".equals(intent.getExtras().getString("type"))) {
-                    sendNotification(intent.getExtras().getString("message"), notificationId);
+                    sendNotification(intent.getExtras().getString(EXTRA_MSG), notificationId);
                 // If this is hideNotification, cancel existing notification with it's id
                 } else if ("hideNotification".equals(intent.getExtras().getString("type"))) {
-                    mNotificationManager.cancel(Integer.parseInt(intent.getExtras().getString("notificationId")));
+                    mNotificationManager.cancel(Integer.parseInt(intent.getExtras().getString(EXTRA_NOTIFICATION_ID)));
                 }
             }
         }
@@ -72,26 +75,30 @@ public class GcmIntentService extends IntentService {
     }
 
     private void sendNotification(String msg, int notificationId) {
-//        registerReceiver(mNotificationDeletedBroadcastReceiver,
-//                new IntentFilter("org.openhab.notification.deleted"));
         if (mNotificationManager == null)
             mNotificationManager = (NotificationManager)
                     this.getSystemService(Context.NOTIFICATION_SERVICE);
-        Intent notificationIntent = new Intent(this, OpenHABMainActivity.class);
-        notificationIntent.setAction("org.openhab.notification.selected");
-        notificationIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        notificationIntent.putExtra("notificationId", notificationId);
+        Intent notificationIntent = new Intent(this, OpenHABMainActivity.class)
+            .setAction(ACTION_NOTIFICATION_SELECTED)
+            .setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            .putExtra(EXTRA_NOTIFICATION_ID, notificationId)
+            .putExtra(EXTRA_MSG, msg);
+
         PendingIntent pendingNotificationIntent = PendingIntent.getActivity(getApplicationContext(), 0,
                 notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        Intent deleteIntent = new Intent(getApplicationContext(), NotificationDeletedBroadcastReceiver.class);
-        deleteIntent.setAction("org.openhab.notification.deleted");
-        deleteIntent.putExtra("notificationId", notificationId);
+
+        Intent deleteIntent = new Intent(getApplicationContext(), NotificationDeletedBroadcastReceiver.class)
+            .setAction(ACTION_NOTIFICATION_DELETED)
+            .putExtra(EXTRA_NOTIFICATION_ID, notificationId);
+
         PendingIntent pendingDeleteIntent = PendingIntent.getBroadcast(getApplicationContext(), 0,
                 deleteIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
         Uri alarmSound = Uri.parse(PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString(Constants.PREFERENCE_TONE, ""));
         if (alarmSound.toString().equals("")) {
             alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         }
+
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(this)
                         .setSmallIcon(R.drawable.ic_stat_openhab_bw)
@@ -100,9 +107,10 @@ public class GcmIntentService extends IntentService {
                                 .bigText(msg))
                         .setAutoCancel(true)
                         .setSound(alarmSound)
-                        .setContentText(msg);
-        mBuilder.setContentIntent(pendingNotificationIntent);
-        mBuilder.setDeleteIntent(pendingDeleteIntent);
+                        .setContentText(msg)
+                        .setContentIntent(pendingNotificationIntent)
+                        .setDeleteIntent(pendingDeleteIntent);
+
         mNotificationManager.notify(notificationId, mBuilder.build());
     }
 }

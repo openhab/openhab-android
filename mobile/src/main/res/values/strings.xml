@@ -7,6 +7,7 @@
     <string name="main_menu">Main menu</string>
     <string name="app_preferences_name">Settings</string>
     <string name="app_notifications">Notifications</string>
+    <string name="dlg_notification_title">Notification message</string>
     <string name="app_bindings">Bindings</string>
     <string name="app_bindings_supportedthings">Supported Things</string>
     <string name="app_discoveryinbox">Discovery</string>
@@ -55,6 +56,8 @@
     <string name="settings_openhab_fullscreen">Full Screen</string>
     <string name="settings_openhab_fullscreen_summary">Display in fullscreen mode</string>
     <string name="settings_openhab_icon_format">Icon format</string>
+    <string name="settings_openhab_icon_format_value_png" translatable="false">PNG</string>
+    <string name="settings_openhab_icon_format_value_svg" translatable="false">SVG</string>
     <string name="settings_openhab_icon_format_png">PNG</string>
     <string name="settings_openhab_icon_format_svg">SVG</string>
     <string name="settings_ringtone">Ring tone</string>
