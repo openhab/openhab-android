@@ -620,7 +620,8 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
                             Method method = Spinner.class.getDeclaredMethod("onDetachedFromWindow");
                             method.setAccessible(true);
                             method.invoke(selectionSpinner);
-                        } catch (Exception ignored) {}
+                        } catch (Exception ignored) {
+                        }
                     }
                 });
                 spinnerAdapter.setDropDownViewResource(R.layout.openhabwidgetlist_sectionswitchitem_spinner);
