@@ -147,6 +147,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
     private static final int DRAWER_NOTIFICATIONS = 100;
     private static final int DRAWER_BINDINGS = 101;
     private static final int DRAWER_INBOX = 102;
+    private static final int DRAWER_PREFERENCES = 103;
     // Loopj
 //    private static MyAsyncHttpClient mAsyncHttpClient;
     private static MyAsyncHttpClient mAsyncHttpClient;
@@ -507,6 +508,8 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
                         Log.d(TAG, "Inbox selected");
                         mDrawerLayout.closeDrawers();
                         OpenHABMainActivity.this.openDiscoveryInbox();
+                    } else if (mDrawerItemList.get(item).getTag() == DRAWER_PREFERENCES) {
+                        openPreferences();
                     }
                 }
             }
@@ -825,9 +828,12 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
         //menu items
         switch (item.getItemId()) {
             case R.id.mainmenu_openhab_preferences:
-                Intent settingsIntent = new Intent(this.getApplicationContext(), OpenHABPreferencesActivity.class);
-                startActivityForResult(settingsIntent, SETTINGS_REQUEST_CODE);
-                Util.overridePendingTransition(this, false);
+                Toast.makeText(
+                        getApplicationContext(),
+                        getString(R.string.info_settings_moved),
+                        Toast.LENGTH_LONG)
+                        .show();
+                openPreferences();
                 return true;
             case R.id.mainmenu_openhab_selectsitemap:
                 SharedPreferences settings =
@@ -891,6 +897,12 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void openPreferences() {
+        Intent settingsIntent = new Intent(this.getApplicationContext(), OpenHABPreferencesActivity.class);
+        startActivityForResult(settingsIntent, SETTINGS_REQUEST_CODE);
+        Util.overridePendingTransition(this, false);
     }
 
     @Override
@@ -1321,6 +1333,10 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
             mDrawerItemList.add(OpenHABDrawerItem.menuItem("Discovery", getResources().getDrawable(R.drawable.ic_track_changes_grey600_36dp), DRAWER_INBOX));
             mDrawerItemList.add(OpenHABDrawerItem.menuItem("Bindings", getResources().getDrawable(R.drawable.ic_extension_grey600_36dp), DRAWER_BINDINGS));
         }
+        mDrawerItemList.add(OpenHABDrawerItem.dividerItem());
+        mDrawerItemList.add(OpenHABDrawerItem.menuItem(getString(R.string
+                .mainmenu_openhab_preferences), getResources().getDrawable(R.drawable
+                .ic_settings_grey600_36dp), DRAWER_PREFERENCES));
         mDrawerAdapter.notifyDataSetChanged();
     }
 }
