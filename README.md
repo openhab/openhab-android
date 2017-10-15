@@ -13,7 +13,8 @@ Development snapshots are available for download on [CloudBees](https://openhab.
 <a href="https://play.google.com/store/apps/details?id=org.openhab.habdroid"><img src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" height="80"></a>
 
 ## Features
-* Controll your openHAB server and openHAB Cloud instance
+* Control your openHAB server and openHAB Cloud instance
+* Receive notifications from openHAB Cloud
 * Change items via NFC tags
 * Send voice commands to openHAB
 * Discover devices and add them as items
