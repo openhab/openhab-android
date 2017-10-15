@@ -86,7 +86,7 @@ public class OpenHABTracker implements AsyncServiceResolverListener {
             if (settings.getBoolean(Constants.PREFERENCE_DEMOMODE, false)) {
                 mOpenHABUrl = mCtx.getString(R.string.openhab_demo_url);
                 Log.d(TAG, "Demo mode, url = " + mOpenHABUrl);
-                openHABTracked(mOpenHABUrl, mCtx.getString(R.string.info_demo_mode));
+                openHABTracked(mOpenHABUrl, null);
                 return;
             } else {
                 // If we are on a mobile network go directly to remote URL from settings

@@ -11,6 +11,7 @@ package org.openhab.habdroid.ui;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
@@ -91,6 +92,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.locks.ReentrantLock;
 
 import javax.net.ssl.SSLHandshakeException;
 import javax.xml.parsers.DocumentBuilder;
@@ -197,6 +199,8 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
     private List<OpenHABDrawerItem> mDrawerItemList;
     private ProgressBar mProgressBar;
     private NotificationSettings mNotifySettings = null;
+    // select sitemap dialog
+    private Dialog selectSitemapDialog;
 
     public static String GCM_SENDER_ID;
 
@@ -308,6 +312,19 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
             registerReceiver(dreamReceiver, new IntentFilter("android.intent.action.DREAMING_STARTED"));
             registerReceiver(dreamReceiver, new IntentFilter("android.intent.action.DREAMING_STOPPED"));
             checkFullscreen();
+        }
+
+        //  Create a new boolean and preference and set it to true
+        boolean isFirstStart = mSettings.getBoolean("firstStart", true);
+
+        //  If the activity has never started before...
+        if (isFirstStart) {
+
+            //  Launch app intro
+            final Intent i = new Intent(OpenHABMainActivity.this, IntroActivity.class);
+            startActivity(i);
+
+            sharedPrefs.edit().putBoolean("firstStart", false).apply();
         }
     }
 
@@ -447,6 +464,9 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
         }
         if (mOpenHABTracker != null) {
             mOpenHABTracker.stop();
+        }
+        if(selectSitemapDialog != null && selectSitemapDialog.isShowing()) {
+            selectSitemapDialog.dismiss();
         }
     }
 
@@ -728,14 +748,13 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
     private void showSitemapSelectionDialog(final List<OpenHABSitemap> sitemapList) {
         Log.d(TAG, "Opening sitemap selection dialog");
         final List<String> sitemapNameList = new ArrayList<String>();
-        ;
         for (int i = 0; i < sitemapList.size(); i++) {
             sitemapNameList.add(sitemapList.get(i).getName());
         }
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(OpenHABMainActivity.this);
         dialogBuilder.setTitle(getString(R.string.mainmenu_openhab_selectsitemap));
         try {
-            dialogBuilder.setItems(sitemapNameList.toArray(new CharSequence[sitemapNameList.size()]),
+            selectSitemapDialog = dialogBuilder.setItems(sitemapNameList.toArray(new CharSequence[sitemapNameList.size()]),
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int item) {
                             Log.d(TAG, "Selected sitemap " + sitemapNameList.get(item));
@@ -743,7 +762,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
                                     PreferenceManager.getDefaultSharedPreferences(OpenHABMainActivity.this);
                             SharedPreferences.Editor preferencesEditor = settings.edit();
                             preferencesEditor.putString(Constants.PREFERENCE_SITEMAP, sitemapList.get(item).getName());
-                            preferencesEditor.commit();
+                            preferencesEditor.apply();
                             openSitemap(sitemapList.get(item).getHomepageLink());
                         }
                     }).show();
