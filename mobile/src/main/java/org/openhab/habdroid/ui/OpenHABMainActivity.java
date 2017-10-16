@@ -9,7 +9,6 @@
 
 package org.openhab.habdroid.ui;
 
-import android.Manifest;
 import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.app.ProgressDialog;
@@ -174,8 +173,6 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
     private ProgressDialog mProgressDialog;
     // If Voice Recognition is enabled
     private boolean mVoiceRecognitionEnabled = false;
-    // If openHAB discovery is enabled
-    private boolean mServiceDiscoveryEnabled = true;
     // NFC Launch data
     private String mNfcData;
     // Pending NFC page
@@ -232,25 +229,14 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
         // Set default values, false means do it one time during the very first launch
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
 
-        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-        // Set non-persistent HABDroid version preference to current version from application package
-        try {
-            Log.d(TAG, "App version = " + getPackageManager().getPackageInfo(getPackageName(), 0).versionName);
-            sharedPrefs.edit().putString(Constants.PREFERENCE_APPVERSION,
-                    getPackageManager().getPackageInfo(getPackageName(), 0).versionName).commit();
-        } catch (PackageManager.NameNotFoundException e1) {
-            Log.d(TAG, e1.getMessage());
-        }
-
-        checkDiscoveryPermissions();
         checkVoiceRecognition();
-
-        // initialize loopj async http client
-        mAsyncHttpClient = new MyAsyncHttpClient(this, sharedPrefs.getBoolean(Constants.PREFERENCE_SSLHOST,
-                false), sharedPrefs.getBoolean(Constants.PREFERENCE_SSLCERT, false));
 
         // Set the theme to one from preferences
         mSettings = PreferenceManager.getDefaultSharedPreferences(this);
+
+        // initialize loopj async http client
+        mAsyncHttpClient = new MyAsyncHttpClient(this, mSettings.getBoolean(Constants.PREFERENCE_SSLHOST,
+                false), mSettings.getBoolean(Constants.PREFERENCE_SSLCERT, false));
 
         // Disable screen timeout if set in preferences
         if (mSettings.getBoolean(Constants.PREFERENCE_SCREENTIMEROFF, false)) {
@@ -417,7 +403,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
     private void resetStateFragmentAfterResume(FragmentManager fm) {
         stateFragment = new StateRetainFragment();
         fm.beginTransaction().add(stateFragment, "stateFragment").commit();
-        mOpenHABTracker = new OpenHABTracker(this, openHABServiceType, mServiceDiscoveryEnabled);
+        mOpenHABTracker = new OpenHABTracker(this, openHABServiceType);
         mStartedWithNetworkConnectivityInfo = NetworkConnectivityInfo.currentNetworkConnectivityInfo(this);
         mOpenHABTracker.start();
     }
@@ -1163,20 +1149,6 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
         if (activities.size() != 0) {
             mVoiceRecognitionEnabled = true;
         }
-    }
-
-    public void checkDiscoveryPermissions() {
-        // Check if we got all needed permissions
-        PackageManager pm = getPackageManager();
-        if (!(pm.checkPermission(Manifest.permission.CHANGE_WIFI_MULTICAST_STATE, getPackageName()) == PackageManager.PERMISSION_GRANTED)) {
-            showAlertDialog(getString(R.string.erorr_no_wifi_mcast_permission));
-            mServiceDiscoveryEnabled = false;
-        }
-        if (!(pm.checkPermission(Manifest.permission.ACCESS_WIFI_STATE, getPackageName()) == PackageManager.PERMISSION_GRANTED)) {
-            showAlertDialog(getString(R.string.erorr_no_wifi_state_permission));
-            mServiceDiscoveryEnabled = false;
-        }
-
     }
 
     public void makeDecision(int decisionId, String certMessage) {
