@@ -8,8 +8,8 @@
     android:weightSum="1">
 
     <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="368dp"
+        android:layout_height="551dp"
         tools:layout_editor_absoluteX="8dp"
         tools:layout_editor_absoluteY="8dp">
 
@@ -70,7 +70,7 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/icon"
+                app:srcCompat="@drawable/icon_blank"
                 tools:layout_conversion_absoluteHeight="59dp"
                 tools:layout_conversion_absoluteWidth="384dp"
                 tools:layout_conversion_absoluteX="0dp"
