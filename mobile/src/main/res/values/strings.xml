@@ -33,15 +33,14 @@
     <string name="settings_display_title">Display Settings</string>
     <string name="settings_misc_title">Misc Settings</string>
     <string name="settings_openhab_url">openHAB URL</string>
-    <string name="settings_openhab_url_summary">Manually configured openHAB URL. Disables autodiscovery if configured.</string>
+    <string name="settings_openhab_url_summary">Manually configured openHAB URL. Disables autodiscovery if configured. [%s]</string>
     <string name="settings_openhab_alturl">openHAB Remote URL</string>
-    <string name="settings_openhab_alturl_summary">Remote openHAB URL (used when local openHAB is unavailable)</string>
+    <string name="settings_openhab_alturl_summary">Remote openHAB URL (used when local openHAB is unavailable) [%s]</string>
     <string name="settings_openhab_username">Username</string>
-    <string name="settings_openhab_username_summary">openHAB username</string>
     <string name="settings_openhab_password">Password</string>
-    <string name="settings_openhab_password_summary">openHAB password</string>
     <string name="settings_openhab_sslclientcert">SSL client certificate</string>
     <string name="settings_openhab_sslclientcert_howto">SSL client certificate how-to</string>
+    <string name="settings_openhab_sslclientcert_howto_summary">Tap here to get some hints and explanations on how to set up SSL client certificate authentication</string>
     <string name="settings_openhab_sslclientcert_howto_url" translatable="false">https://github.com/openhab/openhab.android/blob/master/KeyAuth.md</string>
     <string name="settings_openhab_screentimeroff">Disable display timer</string>
     <string name="settings_openhab_screentimeroff_summary">Disable display switch off timer when openHAB is running</string>
@@ -68,15 +67,13 @@
     <string name="info_demo_mode">Running in demo mode. To connect to your openHAB server please go to settings menu.</string>
     <string name="info_conn_url">Connecting to local URL</string>
     <string name="info_conn_rem_url">Connecting to remote URL</string>
-    <string name="info_discovery">Discovering openHAB. Please wait...</string>
+    <string name="info_discovery">Discovering openHAB. Please wait\u2026</string>
     <string name="error_no_url">Please check that openHAB is running or configure openHAB URL or remote URL</string>
     <string name="error_authentication_failed">Authentication Failed. Please check Username/Password settings</string>
     <string name="error_empty_sitemap_list">openHAB returned empty sitemap list</string>
     <string name="error_network_not_available">Network is not available</string>
     <string name="error_no_uuid">Unable to get openHAB UUID, connection failed</string>
     <string name="erorr_invalid_url">Please enter a valid URL in a \'protocol://host:port/\' form</string>
-    <string name="erorr_no_wifi_mcast_permission">CHANGE_WIFI_MULTICAST_STATE permission is not granted, openHAB discovery will be disabled!</string>
-    <string name="erorr_no_wifi_state_permission">ACCESS_WIFI_STATE permission is not granted, openHAB discovery will be disabled!</string>
     <string name="error_connection_failed">Connection to host failed</string>
     <string name="error_connection_sslhandshake_failed">SSL Handshake failed - maybe you need a valid client certificate</string>
     <string name="title_activity_openhabwritetag">Write NFC tag</string>
@@ -92,11 +89,12 @@
     <string name="info_openhab_uuid_label">openHAB UUID</string>
     <string name="info_openhab_secret_label">openHAB Secret</string>
     <string name="info_openhab_gcm_label">Google Cloud Message Status</string>
-    <string name="info_openhab_gcm_not_connected">Device registration failed with Sender ID %s</string>
+    <string name="info_openhab_gcm_not_connected">Device registration failed</string>
     <string name="info_openhab_gcm_connected">Registered device with Sender ID %s</string>
     <string name="action_settings">Settings</string>
     <string name="nfc_dialog_title">Please select NFC tag action</string>
     <string name="info_not_set">Not set</string>
+    <string name="password_placeholder" translatable="false">\u25cf\u25cf\u25cf\u25cf\u25cf\u25cf</string>
     <!-- Strings for MemorizingTrustManager activity -->
     <string name="mtm_accept_cert">Accept unknown Certificate?</string>
     <string name="mtm_decision_always">Always</string>
