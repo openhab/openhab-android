@@ -130,4 +130,9 @@
     <string name="about_links">Links</string>
     <string name="about_links_list"><![CDATA[\u00B7 <a href="https://github.com/openhab/openhab.android">openHAB App source code</a><br><br> \u00B7 <a href="https://github.com/openhab/openhab.android/issues">Report a problem</a><br><br> \u00B7 <a href="http://docs.openhab.org/">openHAB Documentation</a><br><br> \u00B7 <a href="https://community.openhab.org/">Community Forum</a>]]></string>
     <string name="about_copyright" translatable="false">© 2012 - %s openHAB Foundation</string>
+    <string name="app_intro">Intro</string>
+    <string name="intro_welcome">Welcome to openHAB</string>
+    <string name="intro_whatis">A vendor and technology agnostic open source automation software for your home</string>
+    <string name="intro_themes">Themes</string>
+    <string name="intro_themes_description">Choose between several themes</string>
 </resources>
