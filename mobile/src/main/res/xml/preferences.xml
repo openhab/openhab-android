@@ -7,14 +7,14 @@
             android:key="default_openhab_demomode"
             android:summary="@string/settings_openhab_demomode_summary"
             android:title="@string/settings_openhab_demomode" />
-        <EditTextPreference
+        <org.openhab.habdroid.ui.widget.URLInputPreference
             android:defaultValue="@string/empty_string"
             android:dependency="default_openhab_demomode"
             android:inputType="textNoSuggestions"
             android:key="default_openhab_url"
             android:summary="@string/settings_openhab_url_summary"
             android:title="@string/settings_openhab_url" />
-        <EditTextPreference
+        <org.openhab.habdroid.ui.widget.URLInputPreference
             android:defaultValue="@string/empty_string"
             android:dependency="default_openhab_demomode"
             android:inputType="textNoSuggestions"
@@ -26,14 +26,12 @@
             android:dependency="default_openhab_demomode"
             android:inputType="textNoSuggestions"
             android:key="default_openhab_username"
-            android:summary="@string/settings_openhab_username_summary"
             android:title="@string/settings_openhab_username" />
         <EditTextPreference
             android:defaultValue="@string/empty_string"
             android:dependency="default_openhab_demomode"
             android:inputType="textPassword"
             android:key="default_openhab_password"
-            android:summary="@string/settings_openhab_password_summary"
             android:title="@string/settings_openhab_password" />
         <Preference
             android:clickable="true"
@@ -46,6 +44,7 @@
             android:clickable="true"
             android:dependency="default_openhab_demomode"
             android:key="default_openhab_sslclientcert_howto"
+            android:summary="@string/settings_openhab_sslclientcert_howto_summary"
             android:title="@string/settings_openhab_sslclientcert_howto" />
         <CheckBoxPreference
             android:defaultValue="false"
@@ -63,6 +62,7 @@
             android:key="default_openhab_theme"
             android:title="@string/settings_openhab_theme"
             android:defaultValue="@string/theme_value_light"
+            android:summary="%s"
             android:entries="@array/themeArray"
             android:entryValues="@array/themeValues" />
         <ListPreference
