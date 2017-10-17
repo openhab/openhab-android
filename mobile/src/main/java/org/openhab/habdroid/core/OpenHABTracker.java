@@ -86,7 +86,6 @@ public class OpenHABTracker implements AsyncServiceResolverListener {
                 openHABTracked(mOpenHABUrl);
                 // todo add button that takes user to preferences
                 openHABMessage(mCtx.getString(R.string.info_demo_mode_short), Constants.MESSAGES.SNACKBAR, Constants.MESSAGES.LOGLEVEL.ALWAYS);
-                openHABTracked(mOpenHABUrl, null);
                 return;
             } else {
                 // If we are on a mobile network go directly to remote URL from settings
