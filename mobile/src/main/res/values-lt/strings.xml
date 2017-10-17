@@ -83,9 +83,6 @@
     <string name="mtm_notification">Sertifikato patikrinimas</string>
     <string name="settings_openhab_none">joks</string>
     <!-- theme -->
-    <string name="theme_value_light">light</string>
-    <string name="theme_value_dark">dark</string>
-    <string name="theme_value_black">black</string>
     <string name="theme_name_light">Šviesi</string>
     <string name="theme_name_dark">Tamsi</string>
     <string name="theme_name_black">Juoda/AMOLED</string>
