@@ -83,7 +83,7 @@ public class OpenHABVoiceService extends ContinuingIntentService implements Open
             onOpenHABTracked(intent.getStringExtra(OPENHAB_BASE_URL_EXTRA));
         } else if (mOpenHABTracker == null) {
             Log.d(TAG, "No openHABBaseUrl passed, starting OpenHABTracker");
-            mOpenHABTracker = new OpenHABTracker(OpenHABVoiceService.this, getString(R.string.openhab_service_type), false);
+            mOpenHABTracker = new OpenHABTracker(OpenHABVoiceService.this, getString(R.string.openhab_service_type));
             mOpenHABTracker.start();
         }
     }

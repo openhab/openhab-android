@@ -42,8 +42,6 @@ public class OpenHABTracker implements AsyncServiceResolverListener {
     private final static String TAG = OpenHABTracker.class.getSimpleName();
     // Context in which openhabtracker is working
     Context mCtx;
-    // If bonjour discovery is enabled?
-    boolean mDiscoveryEnabled;
     // receiver for openhabtracker notifications
     OpenHABTrackerReceiver mReceiver;
     // openHAB URL
@@ -55,9 +53,8 @@ public class OpenHABTracker implements AsyncServiceResolverListener {
     // Receiver for connectivity tracking
     ConnectivityChangeReceiver mConnectivityChangeReceiver;
 
-    public OpenHABTracker(Context ctx, String serviceType, boolean discoveryEnabled) {
+    public OpenHABTracker(Context ctx, String serviceType) {
         mCtx = ctx;
-        mDiscoveryEnabled = discoveryEnabled;
         // If context is implementing our callback interface, set it as a receiver automatically
         if (ctx instanceof OpenHABTrackerReceiver) {
             mReceiver = (OpenHABTrackerReceiver)ctx;
@@ -89,6 +86,7 @@ public class OpenHABTracker implements AsyncServiceResolverListener {
                 openHABTracked(mOpenHABUrl);
                 // todo add button that takes user to preferences
                 openHABMessage(mCtx.getString(R.string.info_demo_mode_short), Constants.MESSAGES.SNACKBAR, Constants.MESSAGES.LOGLEVEL.ALWAYS);
+                openHABTracked(mOpenHABUrl, null);
                 return;
             } else {
                 // If we are on a mobile network go directly to remote URL from settings
