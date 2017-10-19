@@ -8,7 +8,7 @@
             android:summary="@string/settings_openhab_demomode_summary"
             android:title="@string/settings_openhab_demomode"/>
         <PreferenceScreen android:title="@string/settings_openhab_connection">
-            <EditTextPreference
+            <org.openhab.habdroid.ui.widget.URLInputPreference
                 android:defaultValue="@string/empty_string"
                 android:dependency="default_openhab_demomode"
                 android:inputType="textNoSuggestions"
@@ -32,7 +32,7 @@
         </PreferenceScreen>
         <PreferenceScreen
             android:title="@string/settings_openhab_alt_connection">
-            <EditTextPreference
+            <org.openhab.habdroid.ui.widget.URLInputPreference
                 android:defaultValue="@string/empty_string"
                 android:dependency="default_openhab_demomode"
                 android:inputType="textNoSuggestions"
@@ -82,6 +82,7 @@
     <PreferenceCategory android:title="@string/settings_display_title">
         <ListPreference
             android:defaultValue="@string/theme_value_light"
+            android:summary="%s"
             android:entries="@array/themeArray"
             android:entryValues="@array/themeValues" />
         <ListPreference

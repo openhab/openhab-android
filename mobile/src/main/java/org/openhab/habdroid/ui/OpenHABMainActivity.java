@@ -9,8 +9,8 @@
 
 package org.openhab.habdroid.ui;
 
-import android.Manifest;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
@@ -25,6 +25,7 @@ import android.content.pm.ResolveInfo;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.nfc.NfcAdapter;
+import android.nfc.NfcManager;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -91,6 +92,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.locks.ReentrantLock;
 
 import javax.net.ssl.SSLHandshakeException;
 import javax.xml.parsers.DocumentBuilder;
@@ -135,6 +137,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
             }
         }
     }
+
     // GCM Registration expiration
     public static final long REGISTRATION_EXPIRY_TIME_MS = 1000 * 3600 * 24 * 7;
     // Logging TAG
@@ -174,8 +177,6 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
     private ProgressDialog mProgressDialog;
     // If Voice Recognition is enabled
     private boolean mVoiceRecognitionEnabled = false;
-    // If openHAB discovery is enabled
-    private boolean mServiceDiscoveryEnabled = true;
     // NFC Launch data
     private String mNfcData;
     // Pending NFC page
@@ -197,6 +198,8 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
     private List<OpenHABDrawerItem> mDrawerItemList;
     private ProgressBar mProgressBar;
     private NotificationSettings mNotifySettings = null;
+    // select sitemap dialog
+    private Dialog selectSitemapDialog;
 
     public static String GCM_SENDER_ID;
 
@@ -233,24 +236,15 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
 
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-        // Set non-persistent HABDroid version preference to current version from application package
-        try {
-            Log.d(TAG, "App version = " + getPackageManager().getPackageInfo(getPackageName(), 0).versionName);
-            sharedPrefs.edit().putString(Constants.PREFERENCE_APPVERSION,
-                    getPackageManager().getPackageInfo(getPackageName(), 0).versionName).commit();
-        } catch (PackageManager.NameNotFoundException e1) {
-            Log.d(TAG, e1.getMessage());
-        }
 
-        checkDiscoveryPermissions();
         checkVoiceRecognition();
-
-        // initialize loopj async http client
-        mAsyncHttpClient = new MyAsyncHttpClient(this, sharedPrefs.getBoolean(Constants.PREFERENCE_SSLHOST,
-                false), sharedPrefs.getBoolean(Constants.PREFERENCE_SSLCERT, false));
 
         // Set the theme to one from preferences
         mSettings = PreferenceManager.getDefaultSharedPreferences(this);
+
+        // initialize loopj async http client
+        mAsyncHttpClient = new MyAsyncHttpClient(this, mSettings.getBoolean(Constants.PREFERENCE_SSLHOST,
+                false), mSettings.getBoolean(Constants.PREFERENCE_SSLCERT, false));
 
         // Disable screen timeout if set in preferences
         if (mSettings.getBoolean(Constants.PREFERENCE_SCREENTIMEROFF, false)) {
@@ -309,6 +303,19 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
             registerReceiver(dreamReceiver, new IntentFilter("android.intent.action.DREAMING_STOPPED"));
             checkFullscreen();
         }
+
+        //  Create a new boolean and preference and set it to true
+        boolean isFirstStart = mSettings.getBoolean("firstStart", true);
+
+        //  If the activity has never started before...
+        if (isFirstStart) {
+
+            //  Launch app intro
+            final Intent i = new Intent(OpenHABMainActivity.this, IntroActivity.class);
+            startActivity(i);
+
+            sharedPrefs.edit().putBoolean("firstStart", false).apply();
+        }
     }
 
     private void processIntent(Intent intent) {
@@ -345,12 +352,13 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
 
     /**
      * Restore the fragment, which was saved in the onSaveInstanceState handler, if there's any.
+     *
      * @param savedInstanceState
      */
     @Override
     public void onRestoreInstanceState(Bundle savedInstanceState) {
         int savedFragment = savedInstanceState.getInt("currentFragment", 0);
-        if (savedFragment != 0){
+        if (savedFragment != 0) {
             pager.setCurrentItem(savedFragment);
             Log.d(TAG, String.format("Loaded current page = %d", savedFragment));
         }
@@ -417,7 +425,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
     private void resetStateFragmentAfterResume(FragmentManager fm) {
         stateFragment = new StateRetainFragment();
         fm.beginTransaction().add(stateFragment, "stateFragment").commit();
-        mOpenHABTracker = new OpenHABTracker(this, openHABServiceType, mServiceDiscoveryEnabled);
+        mOpenHABTracker = new OpenHABTracker(this, openHABServiceType);
         mStartedWithNetworkConnectivityInfo = NetworkConnectivityInfo.currentNetworkConnectivityInfo(this);
         mOpenHABTracker.start();
     }
@@ -447,6 +455,9 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
         }
         if (mOpenHABTracker != null) {
             mOpenHABTracker.stop();
+        }
+        if(selectSitemapDialog != null && selectSitemapDialog.isShowing()) {
+            selectSitemapDialog.dismiss();
         }
     }
 
@@ -567,14 +578,14 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
                     mOpenHABVersion = 1;
                     Log.d(TAG, "openHAB version 1 - got error " + throwable + " accessing " + url);
                     mAsyncHttpClient.addHeader("Accept", "application/xml");
-                    selectSitemap(openHABBaseUrl, false);
+                    selectSitemap(openHABBaseUrl, false, false);
                 }
 
                 @Override
                 public void onSuccess(Call call, int statusCode, Headers headers, String responseString) {
                     mOpenHABVersion = 2;
                     Log.d(TAG, "openHAB version 2");
-                    selectSitemap(openHABBaseUrl, false);
+                    selectSitemap(openHABBaseUrl, false, false);
                 }
             });
         }
@@ -645,7 +656,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
      * @return void
      */
 
-    private void selectSitemap(final String baseUrl, final boolean forceSelect) {
+    private void selectSitemap(final String baseUrl, final boolean forceSelect, final boolean cancelable) {
         Log.d(TAG, "Loading sitemap list from " + baseUrl + "rest/sitemaps");
         setProgressIndicatorVisible(true);
         mAsyncHttpClient.get(baseUrl + "rest/sitemaps", new DefaultHttpResponseHandler() {
@@ -686,7 +697,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
                 loadDrawerItems();
                 // If we are forced to do selection, just open selection dialog
                 if (forceSelect) {
-                    showSitemapSelectionDialog(mSitemapList);
+                    showSitemapSelectionDialog(mSitemapList, cancelable);
                 } else {
                     // Check if we have a sitemap configured to use
                     SharedPreferences settings =
@@ -710,7 +721,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
                                 openSitemap(mSitemapList.get(0).getHomepageLink());
                             } else {
                                 Log.d(TAG, "Got multiply sitemaps, user have to select one");
-                                showSitemapSelectionDialog(mSitemapList);
+                                showSitemapSelectionDialog(mSitemapList, cancelable);
                             }
                         }
                         // No sitemap is configured to use
@@ -724,7 +735,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
                             openSitemap(mSitemapList.get(0).getHomepageLink());
                         } else {
                             Log.d(TAG, "Got multiply sitemaps, user have to select one");
-                            showSitemapSelectionDialog(mSitemapList);
+                            showSitemapSelectionDialog(mSitemapList, cancelable);
                         }
                     }
                 }
@@ -732,17 +743,17 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
         });
     }
 
-    private void showSitemapSelectionDialog(final List<OpenHABSitemap> sitemapList) {
+    private void showSitemapSelectionDialog(final List<OpenHABSitemap> sitemapList, final boolean cancelable) {
         Log.d(TAG, "Opening sitemap selection dialog");
         final List<String> sitemapNameList = new ArrayList<String>();
-        ;
         for (int i = 0; i < sitemapList.size(); i++) {
             sitemapNameList.add(sitemapList.get(i).getName());
         }
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(OpenHABMainActivity.this);
         dialogBuilder.setTitle(getString(R.string.mainmenu_openhab_selectsitemap));
+        dialogBuilder.setCancelable(cancelable);
         try {
-            dialogBuilder.setItems(sitemapNameList.toArray(new CharSequence[sitemapNameList.size()]),
+            selectSitemapDialog = dialogBuilder.setItems(sitemapNameList.toArray(new CharSequence[sitemapNameList.size()]),
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int item) {
                             Log.d(TAG, "Selected sitemap " + sitemapNameList.get(item));
@@ -750,7 +761,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
                                     PreferenceManager.getDefaultSharedPreferences(OpenHABMainActivity.this);
                             SharedPreferences.Editor preferencesEditor = settings.edit();
                             preferencesEditor.putString(Constants.PREFERENCE_SITEMAP, sitemapList.get(item).getName());
-                            preferencesEditor.commit();
+                            preferencesEditor.apply();
                             openSitemap(sitemapList.get(item).getHomepageLink());
                         }
                     }).show();
@@ -806,6 +817,13 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main_menu, menu);
+        NfcManager manager = (NfcManager) this.getSystemService(Context.NFC_SERVICE);
+        NfcAdapter adapter = manager.getDefaultAdapter();
+        if (adapter == null) {
+            Log.d(TAG, "Hide nfc menu entry, because nfc is not available");
+            MenuItem nfc = menu.findItem(R.id.mainmenu_openhab_writetag);
+            nfc.setVisible(false);
+        }
         return true;
     }
 
@@ -841,8 +859,8 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
                         PreferenceManager.getDefaultSharedPreferences(OpenHABMainActivity.this);
                 SharedPreferences.Editor preferencesEditor = settings.edit();
                 preferencesEditor.putString(Constants.PREFERENCE_SITEMAP, "");
-                preferencesEditor.commit();
-                selectSitemap(openHABBaseUrl, true);
+                preferencesEditor.apply();
+                selectSitemap(openHABBaseUrl, true, true);
                 return true;
             case R.id.mainmenu_openhab_clearcache:
                 Log.d(TAG, "Restarting");
@@ -1172,20 +1190,6 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
         }
     }
 
-    public void checkDiscoveryPermissions() {
-        // Check if we got all needed permissions
-        PackageManager pm = getPackageManager();
-        if (!(pm.checkPermission(Manifest.permission.CHANGE_WIFI_MULTICAST_STATE, getPackageName()) == PackageManager.PERMISSION_GRANTED)) {
-            showAlertDialog(getString(R.string.erorr_no_wifi_mcast_permission));
-            mServiceDiscoveryEnabled = false;
-        }
-        if (!(pm.checkPermission(Manifest.permission.ACCESS_WIFI_STATE, getPackageName()) == PackageManager.PERMISSION_GRANTED)) {
-            showAlertDialog(getString(R.string.erorr_no_wifi_state_permission));
-            mServiceDiscoveryEnabled = false;
-        }
-
-    }
-
     public void makeDecision(int decisionId, String certMessage) {
         Log.d(TAG, String.format("MTM is asking for decision on id = %d", decisionId));
         if (mSettings.getBoolean(Constants.PREFERENCE_SSLCERT, false))
@@ -1318,7 +1322,6 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
             }
             mDrawerItemList.add(OpenHABDrawerItem.dividerItem());
         }
-
         if (getNotificationSettings() != null) {
             mDrawerItemList.add(OpenHABDrawerItem.menuItem("Notifications", getResources().getDrawable(R.drawable.ic_notifications_grey600_36dp), DRAWER_NOTIFICATIONS));
         }
