@@ -101,7 +101,9 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
             initEditorPreference(Constants.PREFERENCE_URL, R.string.settings_openhab_url_summary, false);
             initEditorPreference(Constants.PREFERENCE_ALTURL, R.string.settings_openhab_alturl_summary, false);
             initEditorPreference(Constants.PREFERENCE_USERNAME, 0, false);
+            initEditorPreference(Constants.PREFERENCE_LOCAL_USERNAME, 0, false);
             initEditorPreference(Constants.PREFERENCE_PASSWORD, 0, true);
+            initEditorPreference(Constants.PREFERENCE_LOCAL_PASSWORD, 0, true);
 
             Preference versionPreference = getPreferenceScreen().findPreference("default_openhab_appversion");
             versionPreference.setSummary(BuildConfig.VERSION_NAME
