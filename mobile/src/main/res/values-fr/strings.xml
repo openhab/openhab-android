@@ -53,7 +53,6 @@
     <string name="info_conn_rem_url">Connexion à l\'adresse distante</string>
     <string name="info_discovery">Recherche d\'openHAB, merci de patienter\u2026</string>
     <string name="error_no_url">Merci de vérifier qu\'openHAB fonctionne. Si oui passez en configuration manuelle des adresses locale et/ou distante</string>
-    <string name="error_authentication_failed">Erreur d\'authentification. Merci de vérifier votre identifiant et votre mot de passe.</string>
     <string name="error_empty_sitemap_list">openHAB a renvoyé une liste vide de sitemaps</string>
     <string name="error_network_not_available">Aucune connexion réseau disponible</string>
     <string name="error_no_uuid">Récupération de l\'UUID openHAB impossible. La connexion a échoué</string>
