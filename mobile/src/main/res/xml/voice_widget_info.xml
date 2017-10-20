@@ -3,7 +3,7 @@
     android:minWidth="40dp"
     android:minHeight="40dp"
     android:updatePeriodMillis="86400000"
-    android:previewImage="@drawable/openhabicon"
+    android:previewImage="@mipmap/icon"
     android:initialLayout="@layout/voice_widget"
     android:widgetCategory="home_screen">
 </appwidget-provider>
