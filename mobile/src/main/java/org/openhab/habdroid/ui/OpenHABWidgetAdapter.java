@@ -602,9 +602,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
                         OpenHABWidget openHABWidget = (OpenHABWidget) parent.getTag();
                         if (openHABWidget != null) {
                             Log.d(TAG, "Label selected = " + openHABWidget.getMapping(index).getLabel());
-                            Iterator<OpenHABWidgetMapping> mappingIterator = openHABWidget.getMappings().iterator();
-                            while (mappingIterator.hasNext()) {
-                                OpenHABWidgetMapping openHABWidgetMapping = mappingIterator.next();
+                            for (OpenHABWidgetMapping openHABWidgetMapping : openHABWidget.getMappings()) {
                                 if (openHABWidgetMapping.getLabel().equals(selectedLabel)) {
                                     Log.d(TAG, "Spinner onItemSelected found match with " + openHABWidgetMapping.getCommand());
                                     if (openHABWidget.getItem() != null && openHABWidget.getItem().getState() != null) {
@@ -622,11 +620,12 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
                             Method method = Spinner.class.getDeclaredMethod("onDetachedFromWindow");
                             method.setAccessible(true);
                             method.invoke(selectionSpinner);
-                        } catch (Exception ex) {
+                        } catch (Exception ignored) {
                         }
                     }
                 });
-                spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spinnerAdapter.setDropDownViewResource(R.layout.openhabwidgetlist_sectionswitchitem_spinner);
+                selectionSpinner.setPrompt(openHABWidget.getLabel());
                 selectionSpinner.setAdapter(spinnerAdapter);
                 if (spinnerSelectedIndex >= 0) {
                     Log.d(TAG, "Setting spinner selected index to " + String.valueOf(spinnerSelectedIndex));
