@@ -53,7 +53,6 @@
     <string name="info_conn_rem_url">リモート URL に接続しています</string>
     <string name="info_discovery">openHAB を探索しています。 しばらくお待ちください\u2026</string>
     <string name="error_no_url">openHAB が実行中か確認するか、openHAB URL またはリモート URL を設定してください</string>
-    <string name="error_authentication_failed">認証に失敗しました。 ユーザー名/パスワードの設定を確認してください</string>
     <string name="error_empty_sitemap_list">openHAB は空のサイトマップリストを返しました</string>
     <string name="error_network_not_available">ネットワークが利用できません</string>
     <string name="error_no_uuid">openHAB UUID を取得できませんでした。接続に失敗しました</string>

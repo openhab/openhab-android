@@ -51,7 +51,6 @@
     <string name="info_conn_rem_url">Conectando a la URL remota</string>
     <string name="info_discovery">Buscando openHAB. Por favor, espera\u2026</string>
     <string name="error_no_url">Por favor, comprobar que openHAB se está ejecutando o configurar la URL local de openHAB o la URL remota</string>
-    <string name="error_authentication_failed">Error de autentificación. Por favor, comprobar la configuración del Usuario/Contraseña</string>
     <string name="error_empty_sitemap_list">openHAB devolvió una lista de sitemaps vacía</string>
     <string name="error_network_not_available">La conexión de red no está disponible</string>
     <string name="error_no_uuid">No se puede obtener la openHAB UUID, conexión fallida</string>
