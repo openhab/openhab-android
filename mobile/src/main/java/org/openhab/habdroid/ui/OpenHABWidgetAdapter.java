@@ -579,8 +579,14 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
                 break;
             case TYPE_SELECTION:
                 int spinnerSelectedIndex = -1;
-                if (labelTextView != null)
-                    labelTextView.setText(openHABWidget.getLabel());
+                splitString = openHABWidget.getLabel().split("\\[|\\]");
+                if (labelTextView != null) {
+                    if (splitString.length > 0) {
+                        labelTextView.setText(splitString[0]);
+                    } else {
+                        labelTextView.setText(openHABWidget.getLabel());
+                    }
+                }
                 final Spinner selectionSpinner = (Spinner) widgetView.findViewById(R.id.selectionspinner);
                 ArrayList<String> spinnerArray = new ArrayList<String>();
                 Iterator<OpenHABWidgetMapping> mappingIterator = openHABWidget.getMappings().iterator();
@@ -625,7 +631,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
                     }
                 });
                 spinnerAdapter.setDropDownViewResource(R.layout.openhabwidgetlist_sectionswitchitem_spinner);
-                selectionSpinner.setPrompt(openHABWidget.getLabel());
+                selectionSpinner.setPrompt(splitString.length > 0 ? splitString[0] : openHABWidget.getLabel());
                 selectionSpinner.setAdapter(spinnerAdapter);
                 if (spinnerSelectedIndex >= 0) {
                     Log.d(TAG, "Setting spinner selected index to " + String.valueOf(spinnerSelectedIndex));
