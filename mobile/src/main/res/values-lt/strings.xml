@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <!-- General app strings -->
+    <string name="main_menu">Pagrindinis meniu</string>
     <string name="app_preferences_name">Nustatymai</string>
     <string name="app_notifications">Pranešimai</string>
     <string name="app_bindings">Bindings</string>
     <string name="app_bindings_supportedthings">Palaikomi dalykai</string>
     <string name="app_discoveryinbox">Aptikimas</string>
+    <string name="favorites">Mėgstami</string>
     <string name="app_discoveryinbox_deviceunnamed">Nepavadintas įrenginys</string>
     <string name="app_discoveryinbox_deviceaction">Pasirinkti veiksmą</string>
     <string name="app_discoveryinbox_approve">Patvirtinti</string>
@@ -13,6 +15,8 @@
     <string name="app_discoveryinbox_delete">Pašalinti</string>
     <string name="app_discoveryinbox_nothings">Nėra naujų dalykų</string>
     <string name="app_discovery">Pradėti aptikimą</string>
+    <string name="minus">-</string>
+    <string name="plus">+</string>
     <!-- Main menu items -->
     <string name="mainmenu_openhab_preferences">Nustatymai</string>
     <string name="mainmenu_openhab_selectsitemap">Pasirinkite numatytą vietos išplanavimą</string>
@@ -43,6 +47,9 @@
     <string name="settings_openhab_sslhost_summary">Netikrinti serverio pavadinimo (hostname) užmezgant SSL ryšį</string>
     <string name="settings_openhab_fullscreen">Pilnas ekranas</string>
     <string name="settings_openhab_fullscreen_summary">Rodyti pilno ekrano režimu</string>
+    <string name="settings_openhab_icon_format">Piktogramų formatas</string>
+    <string name="settings_openhab_icon_format_png">PNG</string>
+    <string name="settings_openhab_icon_format_svg">SVG</string>
     <string name="settings_ringtone">Skambėjimo melodija</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">openHAB balso komandos</string>
@@ -71,6 +78,9 @@
     <string name="info_openhab_apiversion_label">openHAB Rest API versija</string>
     <string name="info_openhab_uuid_label">openHAB UUID</string>
     <string name="info_openhab_secret_label">openHAB Secret</string>
+    <string name="info_openhab_gcm_label">Google Cloud žinučių būsena</string>
+    <string name="info_openhab_gcm_not_connected">Nepavyko įrenginio registracija</string>
+    <string name="info_openhab_gcm_connected">Įrenginys užregistruotas</string>
     <string name="action_settings">Nustatymai</string>
     <string name="nfc_dialog_title">Prašome pasirinkti NFC žymos veiksmą</string>
     <string name="info_not_set">Nenustatyta</string>
@@ -94,4 +104,44 @@
     <!-- drawer -->
     <string name="drawer_open">Vietos išplanavimų parinkiklis atvertas</string>
     <string name="drawer_close">Vietos išplanavimų parinkiklis užvertas</string>
+
+    <!-- About -->
+    <string name="about_title">Apie</string>
+    <string name="about_license_title">Licencija</string>
+    <string name="about_links">Nuorodos</string>
+    <string name="about_links_list"><![CDATA[\u00B7 <a href="https://github.com/openhab/openhab.android">openHAB programėlės išeities kodas</a><br><br> \u00B7 <a href="https://github.com/openhab/openhab.android/issues">Pranešti apie klaidą</a><br><br> \u00B7 <a href="http://docs.openhab.org/">openHAB dokumentacija</a><br><br> \u00B7 <a href="https://community.openhab.org/">Diskusijų forumas</a>]]></string>
+    <string name="app_intro">Intro</string>
+    <string name="dlg_notification_title">Pranešimo žinutė</string>
+    <string name="unknown">Nežinoma</string>
+    <string name="theme_name_basic_ui">Paprastas UI</string>
+    <string name="theme_name_basic_ui_dark">Paprastas UI (tamsus)</string>
+    <string name="error_couldnt_determine_openhab_url">Nepavyko nustatyti OpenHAB URL</string>
+    <string name="error_network_type_unsupported">Tinklo tipas (%s) nepalaikomas</string>
+    <string name="error_unable_to_resolve_hostname">Nepavyko \"išrišti\" hostname</string>
+    <string name="info_demo_mode_short">Veikia demo režimu</string>
+    <string name="intro_themes">Temos</string>
+    <string name="ok">Gerai</string>
+    <string name="mainmenu_openhab_voice_recognition">Balso atpažinimas</string>
+    <string name="settings_debug_messages_summary">Kai kurie klaidų pranešimai savyje turi daugiau informacijos</string>
+    <string name="settings_debug_messages_title">Rodyti derinimo žinutes</string>
+    <string name="settings_openhab_sslclientcert_howto_summary">Paspauskite čia, kad gautumėte informacijos, kaip nustatyti SSL autentifikaciją</string>
+    <string name="intro_whatis">Nepriklausomas nuo gamintojų atviro kodo išmanių namų sprendimas</string>
+    <string name="intro_welcome">Sveiki atvykę į openHAB</string>
+    <string name="error_certificate_expired">SSL sertifikato galiojimas baigėsi. Gaukite naują sertifikatą arba išjunkite sertifikatų patvirtinimą</string>
+    <string name="intro_themes_description">Pasirinkite tarp kelių temų</string>
+    <string name="error_http_connection_failed">Gautas neteisingas atsakymas iš openHAB. Patikrinkite, ar openHAB veikia tinkamai (HTTP atsakymo kodas %d)</string>
+    <string name="error_http_code_511">Reikalingas tinklo autentifikavimas (HTTP atsakymo kodas 511)</string>
+    <string name="error_http_code_507">openHAB nepakanka laisvos vietos (HTTP atsakymo kodas 507)</string>
+    <string name="error_http_code_504">Gateway Time-out. Atrodo, kad jūsų atvirkštinis proxy veikia, bet negalėjo gauti atsakymo iš openHAB (HTTP atsakymo kodas 504)</string>
+    <string name="error_http_code_502">Jūsų atvirkštinis proksis gavo neteisingą atsakymą iš openHAB (HTTP atsakymo kodas 502)</string>
+    <string name="error_http_code_496">Reikalingas SSL kliento sertifikatas (HTTP atsakymo kodas 496)</string>
+    <string name="error_http_code_495">Neteisingas SSL kliento sertifikatas (HTTP atsakymo kodas 495)</string>
+    <string name="error_http_code_426">Reikalingas HTTPS. Prašome pakeisti openHAB-URL (HTTP atsakymo kodas 426)</string>
+    <string name="error_http_code_414">openHAB-URL per ilgas (HTTP atsakymo kodas 414)</string>
+    <string name="error_http_code_407">Vartotojo autentifikavimas nepavyko. Patikrinkite vartotojo vardą, slaptažodį ir SSL kliento sertifikatą (HTTP atsakymo kodas 407)</string>
+    <string name="error_http_code_403">Vartotojo autentifikavimas nepavyko. Prašome patikrinti vartotojo vardą, slaptažodį ir SSL kliento sertifikatą (HTTP atsakymo kodas 403)</string>
+    <string name="error_http_code_401">Vartotojo autentifikavimas nepavyko. Patikrinkite vartotojo vardą, slaptažodį ir SSL kliento sertifikatą (HTTP atsakymo kodas 401)</string>
+    <string name="error_certificate_revoked">SSL sertifikatas buvo atšauktas. Gaukite naują sertifikatą arba išjunkite sertifikato patvirtinimą</string>
+    <string name="error_certificate_not_valid_yet">SSL sertifikatas dar negalioja. Gaukite teisingą sertifikatą arba išjunkite sertifikato patvirtinimą. Taip pat patikrinkite, ar jūsų telefone laikrodis nustatytas teisingai</string>
+    <string name="error_certificate_not_trusted">SSL sertifikatas nėra patikimas. Importuokite šakninį SSL sertifikatą arba išjunkite sertifikatų patvirtinimą</string>
 </resources>
