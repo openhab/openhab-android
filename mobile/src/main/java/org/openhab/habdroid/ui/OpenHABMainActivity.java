@@ -9,8 +9,6 @@
 
 package org.openhab.habdroid.ui;
 
-import android.Manifest;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.PendingIntent;
@@ -101,7 +99,6 @@ import java.security.cert.CertificateNotYetValidException;
 import java.security.cert.CertificateRevokedException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.locks.ReentrantLock;
 
 import javax.net.ssl.SSLHandshakeException;
 import javax.xml.parsers.DocumentBuilder;
@@ -928,11 +925,11 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
         //menu items
         switch (item.getItemId()) {
             case R.id.mainmenu_openhab_preferences:
-                Toast.makeText(
-                        getApplicationContext(),
+                showMessageToUser(
                         getString(R.string.info_settings_moved),
-                        Toast.LENGTH_LONG)
-                        .show();
+                        Constants.MESSAGES.TOAST,
+                        Constants.MESSAGES.LOGLEVEL.ALWAYS
+                );
                 openPreferences();
                 return true;
             case R.id.mainmenu_openhab_selectsitemap:
