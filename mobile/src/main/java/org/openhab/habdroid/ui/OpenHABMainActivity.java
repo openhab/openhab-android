@@ -9,8 +9,6 @@
 
 package org.openhab.habdroid.ui;
 
-import android.Manifest;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.PendingIntent;
@@ -101,7 +99,6 @@ import java.security.cert.CertificateNotYetValidException;
 import java.security.cert.CertificateRevokedException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.locks.ReentrantLock;
 
 import javax.net.ssl.SSLHandshakeException;
 import javax.xml.parsers.DocumentBuilder;
@@ -847,7 +844,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
 
     public void openNotifications() {
         if (this.pagerAdapter != null) {
-            pagerAdapter.openNotifications();
+            pagerAdapter.openNotifications(getNotificationSettings());
             pager.setCurrentItem(pagerAdapter.getCount() - 1);
         }
     }
@@ -1353,6 +1350,10 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
                     prefs.getBoolean(Constants.PREFERENCE_SSLCERT, false));
             syncHttpClient.setBasicAuth(getOpenHABUsername(), getOpenHABPassword());
             mNotifySettings = new NotificationSettings(baseUrl, syncHttpClient);
+            mNotifySettings.setOpenHABCloudUsername(
+                    mSettings.getString(Constants.PREFERENCE_USERNAME, openHABUsername));
+            mNotifySettings.setOpenHABCloudPassword(
+                    mSettings.getString(Constants.PREFERENCE_PASSWORD, openHABPassword));
         }
         return mNotifySettings;
     }
