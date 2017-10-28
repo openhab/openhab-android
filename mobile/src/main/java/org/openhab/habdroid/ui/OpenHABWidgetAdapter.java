@@ -550,7 +550,6 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
                 break;
             case TYPE_VIDEO:
                 VideoView videoVideo = (VideoView) widgetView.findViewById(R.id.videovideo);
-                Log.d(TAG, "Opening video at " + openHABWidget.getUrl());
                 // TODO: This is quite dirty fix to make video look maximum available size on all screens
                 WindowManager wm = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
                 ViewGroup.LayoutParams videoLayoutParams = videoVideo.getLayoutParams();
@@ -562,7 +561,17 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
                     videoWidgetList.add(videoVideo);
                 // Start video
                 if (!videoVideo.isPlaying()) {
-                    videoVideo.setVideoURI(Uri.parse(openHABWidget.getUrl()));
+                    String videoUrl;
+                    OpenHABItem videoItem = openHABWidget.getItem();
+                    if (openHABWidget.getEncoding() != null && openHABWidget.getEncoding().toLowerCase().equals("hls")
+                            && videoItem != null && videoItem.getType().equals("String")
+                            && videoItem.getState() != null && !videoItem.getState().equals("UNDEF")) {
+                        videoUrl = videoItem.getState();
+                    } else {
+                        videoUrl = openHABWidget.getUrl();
+                    }
+                    Log.d(TAG, "Opening video at " + videoUrl);
+                    videoVideo.setVideoURI(Uri.parse(videoUrl));
                     videoVideo.start();
                 }
                 Log.d(TAG, "Video height is " + videoVideo.getHeight());
