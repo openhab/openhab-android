@@ -42,8 +42,6 @@ public class OpenHABTracker implements AsyncServiceResolverListener {
     private final static String TAG = OpenHABTracker.class.getSimpleName();
     // Context in which openhabtracker is working
     Context mCtx;
-    // If bonjour discovery is enabled?
-    boolean mDiscoveryEnabled;
     // receiver for openhabtracker notifications
     OpenHABTrackerReceiver mReceiver;
     // openHAB URL
@@ -55,9 +53,8 @@ public class OpenHABTracker implements AsyncServiceResolverListener {
     // Receiver for connectivity tracking
     ConnectivityChangeReceiver mConnectivityChangeReceiver;
 
-    public OpenHABTracker(Context ctx, String serviceType, boolean discoveryEnabled) {
+    public OpenHABTracker(Context ctx, String serviceType) {
         mCtx = ctx;
-        mDiscoveryEnabled = discoveryEnabled;
         // If context is implementing our callback interface, set it as a receiver automatically
         if (ctx instanceof OpenHABTrackerReceiver) {
             mReceiver = (OpenHABTrackerReceiver)ctx;
@@ -86,7 +83,9 @@ public class OpenHABTracker implements AsyncServiceResolverListener {
             if (settings.getBoolean(Constants.PREFERENCE_DEMOMODE, false)) {
                 mOpenHABUrl = mCtx.getString(R.string.openhab_demo_url);
                 Log.d(TAG, "Demo mode, url = " + mOpenHABUrl);
-                openHABTracked(mOpenHABUrl, mCtx.getString(R.string.info_demo_mode));
+                openHABTracked(mOpenHABUrl);
+                // todo add button that takes user to preferences
+                openHABMessage(mCtx.getString(R.string.info_demo_mode_short), Constants.MESSAGES.SNACKBAR, Constants.MESSAGES.LOGLEVEL.ALWAYS);
                 return;
             } else {
                 // If we are on a mobile network go directly to remote URL from settings
@@ -95,9 +94,11 @@ public class OpenHABTracker implements AsyncServiceResolverListener {
                     // If remote URL is configured
                     if (mOpenHABUrl.length() > 0) {
                         Log.d(TAG, "Connecting to remote URL " + mOpenHABUrl);
-                        openHABTracked(mOpenHABUrl, mCtx.getString(R.string.info_conn_rem_url));
+                        openHABTracked(mOpenHABUrl);
+                        openHABMessage(mCtx.getString(R.string.info_conn_rem_url), Constants.MESSAGES.SNACKBAR, Constants.MESSAGES.LOGLEVEL.LOCAL);
+
                     } else {
-                        openHABError(mCtx.getString(R.string.error_no_url));
+                        openHABMessage(mCtx.getString(R.string.error_no_url), Constants.MESSAGES.DIALOG, Constants.MESSAGES.LOGLEVEL.ALWAYS);
                     }
                 // Else if we are on Wifi or Ethernet network
                 } else if (activeNetworkInfo.getType() == ConnectivityManager.TYPE_WIFI
@@ -109,7 +110,8 @@ public class OpenHABTracker implements AsyncServiceResolverListener {
                         // Check if configured local URL is reachable
                         if (checkUrlReachability(mOpenHABUrl)) {
                             Log.d(TAG, "Connecting to local URL = " + mOpenHABUrl);
-                            openHABTracked(mOpenHABUrl, mCtx.getString(R.string.info_conn_url));
+                            openHABTracked(mOpenHABUrl);
+                            openHABMessage(mCtx.getString(R.string.info_conn_url), Constants.MESSAGES.SNACKBAR, Constants.MESSAGES.LOGLEVEL.REMOTE);
                             return;
                         }
                     }
@@ -117,7 +119,8 @@ public class OpenHABTracker implements AsyncServiceResolverListener {
                     mOpenHABUrl = Util.normalizeUrl(settings.getString(Constants.PREFERENCE_ALTURL, ""));
                     if (mOpenHABUrl.length() > 0) {
                         Log.d(TAG, "Connecting to remote URL " + mOpenHABUrl);
-                        openHABTracked(mOpenHABUrl, mCtx.getString(R.string.info_conn_rem_url));
+                        openHABTracked(mOpenHABUrl);
+                        openHABMessage(mCtx.getString(R.string.info_conn_rem_url), Constants.MESSAGES.SNACKBAR, Constants.MESSAGES.LOGLEVEL.LOCAL);
                     } else {
                         // if not URL is configured, start service discovery
                         mServiceResolver = new AsyncServiceResolver(mCtx, this, mOpenHABServiceType);
@@ -127,12 +130,13 @@ public class OpenHABTracker implements AsyncServiceResolverListener {
                 // Else we treat other networks types as unsupported
                 } else {
                     Log.e(TAG, "Network type (" + activeNetworkInfo.getTypeName() + ") is unsupported");
-                    openHABError("Network type (" + activeNetworkInfo.getTypeName() + ") is unsupported");
+                    openHABMessage(String.format(mCtx.getString(R.string.error_network_type_unsupported), activeNetworkInfo.getTypeName()), Constants.MESSAGES.DIALOG, Constants.MESSAGES.LOGLEVEL.ALWAYS);
                 }
             }
         } else {
             Log.e(TAG, "Network is not available");
-            openHABError(mCtx.getString(R.string.error_network_not_available));
+            //todo disable progress indicator
+            openHABMessage(mCtx.getString(R.string.error_network_not_available), Constants.MESSAGES.DIALOG, Constants.MESSAGES.LOGLEVEL.ALWAYS);
         }
     }
 
@@ -151,7 +155,7 @@ public class OpenHABTracker implements AsyncServiceResolverListener {
                 + " port:" + serviceInfo.getPort());
         mOpenHABUrl = "https://" + serviceInfo.getHostAddresses()[0] + ":" +
                 String.valueOf(serviceInfo.getPort()) + "/";
-        openHABTracked(mOpenHABUrl, null);
+        openHABTracked(mOpenHABUrl);
     }
 
     public void onServiceResolveFailed() {
@@ -162,9 +166,10 @@ public class OpenHABTracker implements AsyncServiceResolverListener {
         // If remote URL is configured
         if (mOpenHABUrl.length() > 0) {
             Log.d(TAG, "Connecting to remote URL " + mOpenHABUrl);
-            openHABTracked(mOpenHABUrl, mCtx.getString(R.string.info_conn_rem_url));
+            openHABTracked(mOpenHABUrl);
+            openHABMessage(mCtx.getString(R.string.info_conn_rem_url), Constants.MESSAGES.SNACKBAR, Constants.MESSAGES.LOGLEVEL.LOCAL);
         } else {
-            openHABError(mCtx.getString(R.string.error_no_url));
+            openHABMessage(mCtx.getString(R.string.error_no_url), Constants.MESSAGES.DIALOG, Constants.MESSAGES.LOGLEVEL.ALWAYS);
         }
     }
 
@@ -211,14 +216,16 @@ public class OpenHABTracker implements AsyncServiceResolverListener {
         }
     }
 
-    private void openHABError(String error) {
-        if (mReceiver != null)
-            mReceiver.onError(error);
+    private void openHABTracked(String openHABUrl) {
+        if (mReceiver != null) {
+            mReceiver.onOpenHABTracked(mOpenHABUrl);
+        }
     }
 
-    private void openHABTracked(String openHABUrl, String message) {
-        if (mReceiver != null)
-            mReceiver.onOpenHABTracked(mOpenHABUrl, message);
+    private void openHABMessage(String message, int messageType, int logLevel) {
+        if (mReceiver != null) {
+            mReceiver.showMessageToUser(message, messageType, logLevel);
+        }
     }
 
     private void bonjourDiscoveryStarted() {

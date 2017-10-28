@@ -62,6 +62,7 @@ dependencies {
     compile 'com.github.shell-software:fab:1.1.2'
     //androidsvg commit as of July 16th 2017
     compile 'com.github.BigBadaboom:androidsvg:418cf676849b200cacf3465478079f39709fe5b1'
+    compile 'com.github.apl-devs:appintro:v4.2.2'
 
     testCompile 'org.mockito:mockito-core:2.7.6'
     testCompile 'junit:junit:4.12'
