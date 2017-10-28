@@ -1,6 +1,6 @@
 # openHAB Android Client
 
-<img alt="Logo" src="mobile/src/main/res/drawable-xxxhdpi/openhabicon_material.png" width="100">
+<img alt="Logo" src="screenshots/icon.png" width="100">
 
 ## Introduction
 
