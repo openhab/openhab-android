@@ -70,6 +70,8 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
                     .add(R.id.prefs_container, new SettingsFragment())
                     .commit();
         }
+
+        setResult(RESULT_OK);
     }
 
     @Override
