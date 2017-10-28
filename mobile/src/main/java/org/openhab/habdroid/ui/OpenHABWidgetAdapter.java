@@ -10,9 +10,12 @@
 package org.openhab.habdroid.ui;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.support.v7.widget.SwitchCompat;
+import android.util.Base64;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
@@ -38,6 +41,8 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.VideoView;
+
+import com.loopj.android.image.SmartImage;
 
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.model.OpenHABItem;
@@ -472,16 +477,22 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
                 break;
             case TYPE_IMAGE:
                 MySmartImageView imageImage = (MySmartImageView) widgetView.findViewById(R.id.imageimage);
-                imageImage.setImageUrl(ensureAbsoluteURL(openHABBaseUrl, openHABWidget.getUrl()), false,
+                OpenHABItem item = openHABWidget.getItem();
+                if (item != null && item.getType().equals("Image") && item.getState() != null
+                        && item.getState().startsWith("data:")) {
+                   imageImage.setImage(new MyImageFromItem(item.getState()));
+                } else {
+                    imageImage.setImageUrl(ensureAbsoluteURL(openHABBaseUrl, openHABWidget.getUrl()), false,
                         openHABUsername, openHABPassword);
+                    if (openHABWidget.getRefresh() > 0) {
+                        imageImage.setRefreshRate(openHABWidget.getRefresh());
+                        refreshImageList.add(imageImage);
+                    }
+                }
 //    		ViewGroup.LayoutParams imageLayoutParams = imageImage.getLayoutParams();
 //    		float imageRatio = imageImage.getDrawable().getIntrinsicWidth()/imageImage.getDrawable().getIntrinsicHeight();
 //    		imageLayoutParams.height = (int) (screenWidth/imageRatio);
 //    		imageImage.setLayoutParams(imageLayoutParams);
-                if (openHABWidget.getRefresh() > 0) {
-                    imageImage.setRefreshRate(openHABWidget.getRefresh());
-                    refreshImageList.add(imageImage);
-                }
                 break;
             case TYPE_CHART:
                 MySmartImageView chartImage = (MySmartImageView) widgetView.findViewById(R.id.chartimage);
@@ -905,4 +916,16 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
         return true;
     }
 
+    class MyImageFromItem implements SmartImage {
+        private String itemState;
+
+        public MyImageFromItem(String itemState) {
+            this.itemState = itemState;
+        }
+
+        public Bitmap getBitmap(Context context) {
+            byte[] data = Base64.decode(itemState.substring(itemState.indexOf(",") + 1), Base64.DEFAULT);
+            return BitmapFactory.decodeByteArray(data, 0, data.length);
+        }
+    };
 }
