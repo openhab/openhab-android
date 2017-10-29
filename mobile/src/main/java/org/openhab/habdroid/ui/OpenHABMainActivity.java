@@ -904,7 +904,10 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        menu.findItem(R.id.mainmenu_voice_recognition).setVisible(mVoiceRecognitionEnabled);
+        MenuItem voiceRecognitionItem = menu.findItem(R.id.mainmenu_voice_recognition);
+        voiceRecognitionItem.setVisible(mVoiceRecognitionEnabled);
+        voiceRecognitionItem.getIcon()
+                .setColorFilter(ContextCompat.getColor(this, R.color.light), PorterDuff.Mode.SRC_IN);
         return true;
     }
 
