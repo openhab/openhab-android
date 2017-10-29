@@ -26,7 +26,6 @@ import org.openhab.habdroid.R;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Locale;
 
 public class AboutFragment extends Fragment {
 
@@ -47,8 +46,7 @@ public class AboutFragment extends Fragment {
                 DateFormat.getDateTimeInstance().format(BuildConfig.buildTime)
         ));
 
-        String year = new SimpleDateFormat("yyyy", Locale.US)
-                .format(Calendar.getInstance().getTime());
+        String year = new SimpleDateFormat("yyyy").format(Calendar.getInstance().getTime());
         TextView copyright = (TextView)view.findViewById(R.id.copyright);
         copyright.setText(String.format(getString(R.string.about_copyright),year));
         copyright.setMovementMethod(LinkMovementMethod.getInstance());
