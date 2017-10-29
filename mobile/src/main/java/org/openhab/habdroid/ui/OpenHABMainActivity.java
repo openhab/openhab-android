@@ -9,8 +9,6 @@
 
 package org.openhab.habdroid.ui;
 
-import android.Manifest;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.PendingIntent;
@@ -25,6 +23,8 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.content.res.Configuration;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.nfc.NfcAdapter;
 import android.nfc.NfcManager;
@@ -38,6 +38,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -101,7 +102,6 @@ import java.security.cert.CertificateNotYetValidException;
 import java.security.cert.CertificateRevokedException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.locks.ReentrantLock;
 
 import javax.net.ssl.SSLHandshakeException;
 import javax.xml.parsers.DocumentBuilder;
@@ -1392,14 +1392,45 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
             }
             mDrawerItemList.add(OpenHABDrawerItem.dividerItem());
         }
+        int iconColor = ContextCompat.getColor(this, R.color.colorAccent_themeDark);
+        Drawable notificationDrawable = getResources().getDrawable(R.drawable
+                .ic_notifications_black_24dp);
+        notificationDrawable.setColorFilter(
+                iconColor,
+                PorterDuff.Mode.SRC_IN
+        );
+        Drawable discoveryDrawable = getResources().getDrawable(R.drawable
+                .ic_track_changes_black_24dp);
+        discoveryDrawable.setColorFilter(
+                iconColor,
+                PorterDuff.Mode.SRC_IN
+        );
+        Drawable bindingsDrawable = getResources().getDrawable(R.drawable
+                .ic_extension_black_24dp);
+        bindingsDrawable.setColorFilter(
+                iconColor,
+                PorterDuff.Mode.SRC_IN
+        );
         if (getNotificationSettings() != null) {
-            mDrawerItemList.add(OpenHABDrawerItem.menuItem("Notifications", getResources().getDrawable(R.drawable.ic_notifications_grey600_36dp), DRAWER_NOTIFICATIONS));
+            mDrawerItemList.add(OpenHABDrawerItem.menuItem(
+                    "Notifications",
+                    notificationDrawable,
+                    DRAWER_NOTIFICATIONS
+            ));
         }
 
         // Only show those items if openHAB version is >= 2, openHAB 1.x just don't have those APIs...
         if (mOpenHABVersion >= 2) {
-            mDrawerItemList.add(OpenHABDrawerItem.menuItem("Discovery", getResources().getDrawable(R.drawable.ic_track_changes_grey600_36dp), DRAWER_INBOX));
-            mDrawerItemList.add(OpenHABDrawerItem.menuItem("Bindings", getResources().getDrawable(R.drawable.ic_extension_grey600_36dp), DRAWER_BINDINGS));
+            mDrawerItemList.add(OpenHABDrawerItem.menuItem(
+                    "Discovery",
+                    discoveryDrawable,
+                    DRAWER_INBOX
+            ));
+            mDrawerItemList.add(OpenHABDrawerItem.menuItem(
+                    "Bindings",
+                    bindingsDrawable,
+                    DRAWER_BINDINGS
+            ));
         }
         mDrawerAdapter.notifyDataSetChanged();
     }
