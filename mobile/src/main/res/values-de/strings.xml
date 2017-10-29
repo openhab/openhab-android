@@ -20,7 +20,6 @@
     <string name="mainmenu_openhab_preferences">Einstellungen</string>
     <string name="mainmenu_openhab_selectsitemap">Standard-Sitemap auswählen</string>
     <string name="mainmenu_openhab_writetag">NFC-Tag schreiben</string>
-    <string name="mainmenu_openhab_info">openHAB-Info</string>
     <string name="mainmenu_openhab_clearcache">Bilder-Cache leeren</string>
     <!-- App settings strings -->
     <string name="settings_connection_title">Verbindungseinstellungen</string>

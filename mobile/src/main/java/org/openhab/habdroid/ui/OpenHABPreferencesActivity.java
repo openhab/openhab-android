@@ -27,11 +27,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
-import java.text.DateFormat;
-
 import com.google.android.gms.analytics.GoogleAnalytics;
 
-import org.openhab.habdroid.BuildConfig;
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.util.Constants;
 import org.openhab.habdroid.util.Util;
@@ -102,10 +99,6 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
             initEditorPreference(Constants.PREFERENCE_ALTURL, R.string.settings_openhab_alturl_summary, false);
             initEditorPreference(Constants.PREFERENCE_USERNAME, 0, false);
             initEditorPreference(Constants.PREFERENCE_PASSWORD, 0, true);
-
-            Preference versionPreference = getPreferenceScreen().findPreference("default_openhab_appversion");
-            versionPreference.setSummary(BuildConfig.VERSION_NAME
-                    + " - " + DateFormat.getDateTimeInstance().format(BuildConfig.buildTime));
 
             final Preference sslClientCert = getPreferenceScreen().findPreference(Constants.PREFERENCE_SSLCLIENTCERT);
             final Preference sslClientCertHowTo = getPreferenceScreen().findPreference(Constants.PREFERENCE_SSLCLIENTCERT_HOWTO);
