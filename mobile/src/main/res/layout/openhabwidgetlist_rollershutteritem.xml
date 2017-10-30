@@ -1,66 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/relativeLayout5"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:descendantFocusability="blocksDescendants"
-    android:paddingLeft="@dimen/widgetlist_item_left_margin"
-    android:paddingRight="@dimen/widgetlist_item_right_margin"
     android:background="?android:activatedBackgroundIndicator"
-    >
+    android:descendantFocusability="blocksDescendants"
+    tools:layout_editor_absoluteY="25dp">
 
     <include
         android:id="@+id/rollershutterleftlayout"
-        layout="@layout/openhabwidgetlist_icontext" />
-
-    <LinearLayout
-        android:layout_width="wrap_content"
+        layout="@layout/openhabwidgetlist_icontext"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_centerInParent="true"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/rollershutterbutton_up"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginRight="8dp" />
+
+
+    <ImageButton
+        android:id="@+id/rollershutterbutton_up"
+        android:layout_width="46dip"
+        android:layout_height="wrap_content"
         android:focusable="false"
-        android:focusableInTouchMode="false">
+        android:focusableInTouchMode="false"
+        android:paddingLeft="3dip"
+        android:paddingRight="3dip"
+        android:src="@drawable/ic_action_up"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/rollershutterbutton_stop"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageButton
-            android:id="@+id/rollershutterbutton_up"
-            android:layout_width="46dip"
-            android:layout_height="match_parent"
-            android:layout_gravity="center_vertical"
-            android:focusable="false"
-            android:focusableInTouchMode="false"
-            android:paddingLeft="3dip"
-            android:paddingRight="3dip"
-            android:src="@drawable/ic_action_up" />
+    <ImageButton
+        android:id="@+id/rollershutterbutton_stop"
+        android:layout_width="46dip"
+        android:layout_height="wrap_content"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:paddingLeft="7dip"
+        android:paddingRight="7dip"
+        android:src="@drawable/ic_action_cancel"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/rollershutterbutton_down"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageButton
-            android:id="@+id/rollershutterbutton_stop"
-            android:layout_width="46dip"
-            android:layout_height="match_parent"
-            android:layout_gravity="center_vertical"
-            android:focusable="false"
-            android:focusableInTouchMode="false"
-            android:paddingLeft="7dip"
-            android:paddingRight="7dip"
-            android:src="@drawable/ic_action_cancel" />
+    <ImageButton
+        android:id="@+id/rollershutterbutton_down"
+        android:layout_width="46dip"
+        android:layout_height="wrap_content"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:paddingLeft="3dip"
+        android:paddingRight="3dip"
+        android:src="@drawable/ic_action_down"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageButton
-            android:id="@+id/rollershutterbutton_down"
-            android:layout_width="46dip"
-            android:layout_height="match_parent"
-            android:layout_gravity="center_vertical"
-            android:focusable="false"
-            android:focusableInTouchMode="false"
-            android:paddingLeft="3dip"
-            android:paddingRight="3dip"
-            android:src="@drawable/ic_action_down" />
-    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/listdivider"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="1dip"
+        android:layout_marginLeft="0dp"
+        android:layout_marginRight="0dp"
+        android:layout_marginTop="0dp"
         android:background="?android:attr/listDivider"
         android:orientation="horizontal"
-        android:layout_below="@+id/rollershutterleftlayout"
-        android:layout_marginLeft="@dimen/widgetlist_divider_left_margin"
-        android:layout_marginRight="@dimen/widgetlist_divider_right_margin" />
-</RelativeLayout>
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rollershutterleftlayout" />
+</android.support.constraint.ConstraintLayout>
