@@ -1,7 +1,7 @@
 apply plugin: 'com.android.application'
 
 android {
-    buildToolsVersion '26.0.2'
+    buildToolsVersion '25.0.2'
     compileSdkVersion 25
     useLibrary 'org.apache.http.legacy'
 
@@ -44,7 +44,6 @@ repositories {
         url 'https://jitpack.io'
     }
 
-    google()
 }
 
 dependencies {
