@@ -618,6 +618,10 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
                             spinnerSelectedIndex = spinnerArray.size() - 1;
                         }
                 }
+                if (spinnerSelectedIndex == -1) {
+                    spinnerArray.add("          ");
+                    spinnerSelectedIndex = spinnerArray.size() - 1;
+                }
                 ArrayAdapter<String> spinnerAdapter = new SpinnerClickAdapter<String>(this.getContext(),
                         android.R.layout.simple_spinner_item, spinnerArray, openHABWidget, new AdapterView.OnItemClickListener() {
                     @Override
@@ -626,7 +630,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
                         String selectedLabel = (String) parent.getAdapter().getItem(index);
                         Log.d(TAG, "Spinner onItemSelected selected label = " + selectedLabel);
                         OpenHABWidget openHABWidget = (OpenHABWidget) parent.getTag();
-                        if (openHABWidget != null) {
+                        if (openHABWidget != null && index < openHABWidget.getMappings().size()) {
                             Log.d(TAG, "Label selected = " + openHABWidget.getMapping(index).getLabel());
                             for (OpenHABWidgetMapping openHABWidgetMapping : openHABWidget.getMappings()) {
                                 if (openHABWidgetMapping.getLabel().equals(selectedLabel)) {
