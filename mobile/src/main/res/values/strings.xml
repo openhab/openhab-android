@@ -155,6 +155,8 @@
     <string name="unknown">Unknown</string>
     <string name="error_network_type_unsupported">Network type (%s) is unsupported</string>
     <string name="ok">Ok</string>
+    <string name="set">Set</string>
+    <string name="cancel">Cancel</string>
     <string name="app_intro">Intro</string>
     <string name="intro_welcome">Welcome to openHAB</string>
     <string name="intro_whatis">A vendor and technology agnostic open source automation software for your home</string>

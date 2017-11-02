@@ -9,7 +9,9 @@
 
 package org.openhab.habdroid.ui;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -33,6 +35,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.NumberPicker;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.RelativeLayout;
@@ -114,11 +117,11 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     public View getView(int position, View convertView, ViewGroup parent) {
         /* TODO: This definitely needs some huge refactoring */
         final RelativeLayout widgetView;
-        TextView labelTextView;
-        TextView valueTextView;
+        final TextView labelTextView;
+        final TextView valueTextView;
         int widgetLayout;
         String[] splitString;
-        OpenHABWidget openHABWidget = getItem(position);
+        final OpenHABWidget openHABWidget = getItem(position);
         int screenWidth = ((WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getWidth();
         switch (this.getItemViewType(position)) {
             case TYPE_FRAME:
@@ -149,7 +152,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
                 widgetLayout = R.layout.openhabwidgetlist_selectionitem;
                 break;
             case TYPE_SETPOINT:
-                widgetLayout = R.layout.openhabwidgetlist_setpointitem;
+                widgetLayout = R.layout.openhabwidgetlist_textitem;
                 break;
             case TYPE_CHART:
                 widgetLayout = R.layout.openhabwidgetlist_chartitem;
@@ -664,47 +667,55 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
                 splitString = openHABWidget.getLabel().split("\\[|\\]");
                 if (labelTextView != null && splitString.length > 0)
                     labelTextView.setText(splitString[0]);
-                if (valueTextView != null)
+                if (valueTextView != null) {
                     if (splitString.length > 1) {
                         // If value is not empty, show TextView
                         valueTextView.setVisibility(View.VISIBLE);
                         valueTextView.setText(splitString[1]);
                     }
-                Button setPointMinusButton = (Button) widgetView.findViewById(R.id.setpointbutton_minus);
-                Button setPointPlusButton = (Button) widgetView.findViewById(R.id.setpointbutton_plus);
-                setPointMinusButton.setTag(openHABWidget);
-                setPointPlusButton.setTag(openHABWidget);
-                setPointMinusButton.setOnClickListener(new OnClickListener() {
-                    public void onClick(View v) {
-                        Log.d(TAG, "Minus");
-                        OpenHABWidget setPointWidget = (OpenHABWidget) v.getTag();
-                        float currentValue = setPointWidget.getItem().getStateAsFloat();
-                        currentValue = currentValue - setPointWidget.getStep();
-                        if (currentValue < setPointWidget.getMinValue())
-                            currentValue = setPointWidget.getMinValue();
-                        if (currentValue > setPointWidget.getMaxValue())
-                            currentValue = setPointWidget.getMaxValue();
-                        sendItemCommand(setPointWidget.getItem(), String.valueOf(currentValue));
+                    final Context context = getContext();
 
-                    }
-                });
-                setPointPlusButton.setOnClickListener(new OnClickListener() {
-                    public void onClick(View v) {
-                        Log.d(TAG, "Plus");
-                        OpenHABWidget setPointWidget = (OpenHABWidget) v.getTag();
-                        float currentValue = setPointWidget.getItem().getStateAsFloat();
-                        currentValue = currentValue + setPointWidget.getStep();
-                        if (currentValue < setPointWidget.getMinValue())
-                            currentValue = setPointWidget.getMinValue();
-                        if (currentValue > setPointWidget.getMaxValue())
-                            currentValue = setPointWidget.getMaxValue();
-                        sendItemCommand(setPointWidget.getItem(), String.valueOf(currentValue));
-                    }
-                });
+                    widgetView.setOnClickListener( new OnClickListener(){
+                        @Override
+                        public void onClick(final View view) {
+                            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+
+                            builder.setTitle(labelTextView.getText());
+                            final LayoutInflater inflater = LayoutInflater.from(context);
+                            final View dialogView = inflater.inflate(R.layout.openhab_dialog_numberpicker, null);
+                            builder.setView(dialogView);
+
+                            builder.setPositiveButton(R.string.set, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    // User clicked OK button
+                                    final NumberPicker numberPicker = (NumberPicker) dialogView.findViewById(R.id.numberpicker);
+                                    OpenHABWidget setPointWidget = (OpenHABWidget) view.getTag();
+                                    sendItemCommand(setPointWidget.getItem(), String.valueOf(numberPicker.getValue()));
+                                }
+                            });
+                            builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    // User cancelled the dialog
+                                }
+                            });
+
+                            AlertDialog dialog = builder.create();
+
+                            final NumberPicker numberPicker = (NumberPicker) dialogView.findViewById(R.id.numberpicker);
+                            numberPicker.setMinValue((int) openHABWidget.getMinValue());
+                            numberPicker.setMaxValue((int) openHABWidget.getMaxValue());
+                            numberPicker.setValue(Integer.parseInt(valueTextView.getText().toString()));
+                            dialog.show();
+                        }
+                    });
+                }
+                /*
+                I don't know what this does or how it fits into a number picker?
                 if (volumeUpWidget == null) {
                     volumeUpWidget = setPointPlusButton;
                     volumeDownWidget = setPointMinusButton;
                 }
+                */
                 break;
             default:
                 if (labelTextView != null)
