@@ -675,6 +675,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
                     }
                     final Context context = getContext();
 
+
                     widgetView.setOnClickListener( new OnClickListener(){
                         @Override
                         public void onClick(final View view) {
@@ -689,7 +690,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
                                 public void onClick(DialogInterface dialog, int id) {
                                     // User clicked OK button
                                     final NumberPicker numberPicker = (NumberPicker) dialogView.findViewById(R.id.numberpicker);
-                                    OpenHABWidget setPointWidget = (OpenHABWidget) view.getTag();
+                                    OpenHABWidget setPointWidget = (OpenHABWidget) openHABWidget;
                                     sendItemCommand(setPointWidget.getItem(), String.valueOf(numberPicker.getValue()));
                                 }
                             });
