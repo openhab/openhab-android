@@ -707,19 +707,19 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
                             final NumberPicker numberPicker = (NumberPicker) dialogView.findViewById(R.id.numberpicker);
                             int minValue = (int) openHABWidget.getMinValue();
                             int maxValue = (int) openHABWidget.getMaxValue();
-                            int stepSize = (int) openHABWidget.getStep();
-                            final int stepSizeSave;
+                            final int stepSize;
                             if(minValue == maxValue) {
-                                stepSizeSave = 1;
+                                stepSize = 1;
                             } else {
-                                stepSizeSave = stepSize;
+                                stepSize = (int) openHABWidget.getStep();
                             }
+
                             numberPicker.setMaxValue(maxValue/stepSize);
                             numberPicker.setMinValue(minValue);
                             NumberPicker.Formatter formatter = new NumberPicker.Formatter() {
                                 @Override
                                 public String format(int value) {
-                                    int temp = value * stepSizeSave;
+                                    int temp = value * stepSize;
                                     return "" + temp;
                                 }
                             };
