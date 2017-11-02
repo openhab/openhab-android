@@ -680,31 +680,56 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
                         public void onClick(final View view) {
                             AlertDialog.Builder builder = new AlertDialog.Builder(context);
 
-                            builder.setTitle(labelTextView.getText());
+                            if (labelTextView != null) {
+                                builder.setTitle(labelTextView.getText());
+                            }
                             final LayoutInflater inflater = LayoutInflater.from(context);
                             final View dialogView = inflater.inflate(R.layout.openhab_dialog_numberpicker, null);
                             builder.setView(dialogView);
 
+                            // OK button
                             builder.setPositiveButton(R.string.set, new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
-                                    // User clicked OK button
                                     final NumberPicker numberPicker = (NumberPicker) dialogView.findViewById(R.id.numberpicker);
-                                    OpenHABWidget setPointWidget = (OpenHABWidget) view.getTag();
-                                    sendItemCommand(setPointWidget.getItem(), String.valueOf(numberPicker.getValue()));
+                                    sendItemCommand(openHABWidget.getItem(), String.valueOf(numberPicker.getValue()));
                                 }
                             });
+                            // Cancel button
                             builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
-                                    // User cancelled the dialog
+                                public void onClick(DialogInterface dialog, int which) {
+                                    // do nothing, just close the dialog
                                 }
                             });
 
                             AlertDialog dialog = builder.create();
 
                             final NumberPicker numberPicker = (NumberPicker) dialogView.findViewById(R.id.numberpicker);
-                            numberPicker.setMinValue((int) openHABWidget.getMinValue());
-                            numberPicker.setMaxValue((int) openHABWidget.getMaxValue());
-                            numberPicker.setValue(Integer.parseInt(valueTextView.getText().toString()));
+                            int minValue = (int) openHABWidget.getMinValue();
+                            int maxValue = (int) openHABWidget.getMaxValue();
+                            int stepsize = (int) openHABWidget.getStep();
+                            final int stepsizeSave;
+                            if(minValue == maxValue) {
+                                stepsizeSave = 1;
+                            } else {
+                                stepsizeSave = stepsize;
+                            }
+                            numberPicker.setMaxValue(maxValue/stepsize);
+                            numberPicker.setMinValue(minValue);
+                            NumberPicker.Formatter formatter = new NumberPicker.Formatter() {
+                                @Override
+                                public String format(int value) {
+                                    int temp = value * stepsizeSave;
+                                    return "" + temp;
+                                }
+                            };
+                            numberPicker.setFormatter(formatter);
+                            try {
+                                numberPicker.setValue(Integer.parseInt(openHABWidget.getState()));
+                            } catch (NumberFormatException e) {
+                                e.printStackTrace();
+                                Log.e(TAG, "set 0");
+                                numberPicker.setValue(0);
+                            }
                             dialog.show();
                         }
                     });
