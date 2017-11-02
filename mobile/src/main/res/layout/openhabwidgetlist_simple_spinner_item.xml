@@ -6,5 +6,7 @@
     android:layout_height="wrap_content"
     android:layout_centerVertical="true"
     android:textAppearance="?android:attr/textAppearanceMedium"
-    android:gravity="right"
+    android:paddingEnd="10dp"
+    android:gravity="end"
+    android:paddingRight="10dp"
     />
