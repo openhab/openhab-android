@@ -688,11 +688,22 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
                             final View dialogView = inflater.inflate(R.layout.openhab_dialog_numberpicker, null);
                             builder.setView(dialogView);
 
+                            final NumberPicker numberPicker = (NumberPicker) dialogView.findViewById(R.id.numberpicker);
+
+                            int minValue = (int) openHABWidget.getMinValue();
+                            int maxValue = (int) openHABWidget.getMaxValue();
+                            final int stepSize;
+                            if(minValue == maxValue) {
+                                stepSize = 1;
+                            } else {
+                                stepSize = (int) openHABWidget.getStep();
+                            }
+
                             // OK button
                             builder.setPositiveButton(R.string.set, new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
                                     final NumberPicker numberPicker = (NumberPicker) dialogView.findViewById(R.id.numberpicker);
-                                    sendItemCommand(openHABWidget.getItem(), String.valueOf(numberPicker.getValue()));
+                                    sendItemCommand(openHABWidget.getItem(), String.valueOf(numberPicker.getValue() * stepSize));
                                 }
                             });
                             // Cancel button
@@ -703,16 +714,6 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
                             });
 
                             AlertDialog dialog = builder.create();
-
-                            final NumberPicker numberPicker = (NumberPicker) dialogView.findViewById(R.id.numberpicker);
-                            int minValue = (int) openHABWidget.getMinValue();
-                            int maxValue = (int) openHABWidget.getMaxValue();
-                            final int stepSize;
-                            if(minValue == maxValue) {
-                                stepSize = 1;
-                            } else {
-                                stepSize = (int) openHABWidget.getStep();
-                            }
 
                             numberPicker.setMaxValue(maxValue/stepSize);
                             numberPicker.setMinValue(minValue);
@@ -725,7 +726,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
                             };
                             numberPicker.setFormatter(formatter);
                             try {
-                                numberPicker.setValue(Integer.parseInt(openHABWidget.getState()));
+                                numberPicker.setValue(Integer.parseInt(valueTextView.getText().toString()) / stepSize);
                             } catch (NumberFormatException e) {
                                 e.printStackTrace();
                                 Log.e(TAG, "set 0");
