@@ -63,6 +63,7 @@ import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
@@ -679,6 +680,21 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
                     widgetView.setOnClickListener( new OnClickListener(){
                         @Override
                         public void onClick(final View view) {
+
+                            int minValue = (int) openHABWidget.getMinValue();
+                            int maxValue = (int) openHABWidget.getMaxValue();
+                            final int stepSize;
+                            if(minValue == maxValue) {
+                                stepSize = 1;
+                            } else {
+                                stepSize = (int) openHABWidget.getStep();
+                            }
+
+                            final String[] stepValues = new String[(maxValue - minValue)/stepSize +1];
+                            for(int i = 0; i < stepValues.length; i++){
+                                stepValues[i] = String.valueOf(minValue + (i*stepSize));
+                            }
+
                             AlertDialog.Builder builder = new AlertDialog.Builder(context);
 
                             if (labelTextView != null) {
@@ -692,7 +708,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
                             builder.setPositiveButton(R.string.set, new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
                                     final NumberPicker numberPicker = (NumberPicker) dialogView.findViewById(R.id.numberpicker);
-                                    sendItemCommand(openHABWidget.getItem(), String.valueOf(numberPicker.getValue()));
+                                    sendItemCommand(openHABWidget.getItem(), stepValues[numberPicker.getValue()]);
                                 }
                             });
                             // Cancel button
@@ -705,32 +721,18 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
                             AlertDialog dialog = builder.create();
 
                             final NumberPicker numberPicker = (NumberPicker) dialogView.findViewById(R.id.numberpicker);
-                            int minValue = (int) openHABWidget.getMinValue();
-                            int maxValue = (int) openHABWidget.getMaxValue();
-                            final int stepSize;
-                            if(minValue == maxValue) {
-                                stepSize = 1;
-                            } else {
-                                stepSize = (int) openHABWidget.getStep();
-                            }
 
-                            numberPicker.setMaxValue(maxValue/stepSize);
-                            numberPicker.setMinValue(minValue);
-                            NumberPicker.Formatter formatter = new NumberPicker.Formatter() {
-                                @Override
-                                public String format(int value) {
-                                    int temp = value * stepSize;
-                                    return "" + temp;
-                                }
-                            };
-                            numberPicker.setFormatter(formatter);
-                            try {
-                                numberPicker.setValue(Integer.parseInt(openHABWidget.getState()));
-                            } catch (NumberFormatException e) {
-                                e.printStackTrace();
-                                Log.e(TAG, "set 0");
-                                numberPicker.setValue(0);
-                            }
+                            numberPicker.setMinValue(0);
+                            numberPicker.setMaxValue(stepValues.length -1);
+                            numberPicker.setDisplayedValues(stepValues);
+
+                            // Find the closest value in the calculated step values.
+                            int stepIndex = Arrays.binarySearch(stepValues, valueTextView.getText());
+                            if ( stepIndex < 0 ){
+                                stepIndex = (-stepIndex) - 1; // Use the returned insertion point if value is not found and select the closest value.
+                             }
+                            numberPicker.setValue(stepIndex);
+
                             dialog.show();
                         }
                     });
