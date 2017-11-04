@@ -64,6 +64,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
@@ -727,7 +728,12 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
                             numberPicker.setDisplayedValues(stepValues);
 
                             // Find the closest value in the calculated step values.
-                            int stepIndex = Arrays.binarySearch(stepValues, valueTextView.getText());
+                            int stepIndex = Arrays.binarySearch(stepValues, valueTextView.getText(), new Comparator<CharSequence>() {
+                                @Override
+                                public int compare(CharSequence t1, CharSequence t2) {
+                                    return Integer.valueOf(t1.toString()).compareTo(Integer.valueOf(t2.toString()));
+                                }
+                            });
                             if ( stepIndex < 0 ){
                                 stepIndex = (-stepIndex) - 1; // Use the returned insertion point if value is not found and select the closest value.
                              }
