@@ -688,8 +688,13 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
                             if(minValue == maxValue) {
                                 stepSize = 1;
                             } else {
-                                stepSize = (int) openHABWidget.getStep();
+                                stepSize = 2;
+                                //stepSize = (int) openHABWidget.getStep();
                             }
+
+                            minValue = 0;
+                            maxValue = 9;
+
 
                             final String[] stepValues = new String[(maxValue - minValue)/stepSize +1];
                             for(int i = 0; i < stepValues.length; i++){
@@ -727,6 +732,8 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
                             numberPicker.setMaxValue(stepValues.length -1);
                             numberPicker.setDisplayedValues(stepValues);
 
+                            valueTextView.setText("10");
+
                             // Find the closest value in the calculated step values.
                             int stepIndex = Arrays.binarySearch(stepValues, valueTextView.getText(), new Comparator<CharSequence>() {
                                 @Override
@@ -735,7 +742,8 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
                                 }
                             });
                             if ( stepIndex < 0 ){
-                                stepIndex = (-stepIndex) - 1; // Use the returned insertion point if value is not found and select the closest value.
+                                stepIndex = (-(stepIndex+1)); // Use the returned insertion point if value is not found and select the closest value.
+                                stepIndex = Math.min(stepIndex, stepValues.length -1);  //handle case where insertion would be larger than the array
                              }
                             numberPicker.setValue(stepIndex);
 
