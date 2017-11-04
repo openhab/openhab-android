@@ -688,12 +688,8 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
                             if(minValue == maxValue) {
                                 stepSize = 1;
                             } else {
-                                stepSize = 2;
-                                //stepSize = (int) openHABWidget.getStep();
+                                stepSize = (int) openHABWidget.getStep();
                             }
-
-                            minValue = 0;
-                            maxValue = 9;
 
 
                             final String[] stepValues = new String[(maxValue - minValue)/stepSize +1];
@@ -731,8 +727,6 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
                             numberPicker.setMinValue(0);
                             numberPicker.setMaxValue(stepValues.length -1);
                             numberPicker.setDisplayedValues(stepValues);
-
-                            valueTextView.setText("10");
 
                             // Find the closest value in the calculated step values.
                             int stepIndex = Arrays.binarySearch(stepValues, valueTextView.getText(), new Comparator<CharSequence>() {
