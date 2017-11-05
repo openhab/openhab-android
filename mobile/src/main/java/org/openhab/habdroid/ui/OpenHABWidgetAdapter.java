@@ -745,13 +745,6 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
                         }
                     });
                 }
-                /*
-                I don't know what this does or how it fits into a number picker?
-                if (volumeUpWidget == null) {
-                    volumeUpWidget = setPointPlusButton;
-                    volumeDownWidget = setPointMinusButton;
-                }
-                */
                 break;
             default:
                 if (labelTextView != null)
