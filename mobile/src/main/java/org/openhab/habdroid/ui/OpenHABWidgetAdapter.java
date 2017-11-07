@@ -97,8 +97,6 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     private ArrayList<MySmartImageView> refreshImageList;
     private ArrayList<MjpegStreamer> mjpegWidgetList;
     private MyAsyncHttpClient mAsyncHttpClient;
-    private View volumeUpWidget;
-    private View volumeDownWidget;
 
     public OpenHABWidgetAdapter(Context context, int resource,
                                 List<OpenHABWidget> objects) {
@@ -469,10 +467,6 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
                                 sendItemCommand(sliderItem, String.valueOf(seekBar.getProgress()));
                         }
                     });
-                    if (volumeUpWidget == null) {
-                        volumeUpWidget = sliderSeekBar;
-                        volumeDownWidget = sliderSeekBar;
-                    }
                 }
                 break;
             case TYPE_IMAGE:
@@ -701,10 +695,6 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
                         sendItemCommand(setPointWidget.getItem(), String.valueOf(currentValue));
                     }
                 });
-                if (volumeUpWidget == null) {
-                    volumeUpWidget = setPointPlusButton;
-                    volumeDownWidget = setPointMinusButton;
-                }
                 break;
             default:
                 if (labelTextView != null)
@@ -860,57 +850,6 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
         refreshImageList.clear();
     }
 
-    /*
-        onVolumeDown and onVolumeUp handle (if possible) volume up and volume down presses
-        addressing the currently selected volume widget (would normally be the first slider or
-        setpoint on the page.
-     */
-
-    public boolean onVolumeDown() {
-        if (volumeDownWidget instanceof SeekBar) {
-            SeekBar seekBar = (SeekBar) volumeDownWidget;
-            seekBar.incrementProgressBy(-10);
-            OpenHABItem sliderItem = (OpenHABItem) seekBar.getTag();
-            if (sliderItem != null)
-                sendItemCommand(sliderItem, String.valueOf(seekBar.getProgress()));
-        } else if (volumeDownWidget instanceof Button) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
-                volumeDownWidget.callOnClick();
-            } else {
-                volumeDownWidget.performClick();
-            }
-        } else {
-            return false;
-        }
-        return true;
-    }
-
-    public boolean onVolumeUp() {
-        if (volumeUpWidget instanceof SeekBar) {
-            SeekBar seekBar = (SeekBar) volumeUpWidget;
-            seekBar.incrementProgressBy(10);
-            OpenHABItem sliderItem = (OpenHABItem) seekBar.getTag();
-            if (sliderItem != null)
-                sendItemCommand(sliderItem, String.valueOf(seekBar.getProgress()));
-        } else if (volumeUpWidget instanceof Button) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
-                volumeUpWidget.callOnClick();
-            } else {
-                volumeUpWidget.performClick();
-            }
-        } else {
-            return false;
-        }
-        return true;
-    }
-
-    /*
-        isVolumeHandled returns true if there is a widget to send volume commands to
-     */
-
-    public boolean isVolumeHandled() {
-        return volumeUpWidget != null;
-    }
 
     public MyAsyncHttpClient getAsyncHttpClient() {
         return mAsyncHttpClient;
