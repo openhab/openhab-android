@@ -9,13 +9,12 @@ import android.content.pm.PackageManager;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
-import org.openhab.habdroid.ui.OpenHABMainActivity;
 import org.openhab.habdroid.util.Constants;
 
 public class OnUpdateBroadcastReceiver extends BroadcastReceiver {
-    private static final String TAG = OpenHABMainActivity.class.getSimpleName();
+    private static final String TAG = OnUpdateBroadcastReceiver.class.getSimpleName();
 
-    private static final String UPDATE_LOCAL_CREDENTIALS = "1.8.0.8";
+    private static final String UPDATE_LOCAL_CREDENTIALS = "2.0.0.0";
 
     @Override
     public void onReceive(Context context, Intent intent) {
