@@ -650,7 +650,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
                         }
                     }
                 });
-                spinnerAdapter.setDropDownViewResource(R.layout.openhabwidgetlist_sectionswitchitem_spinner);
+                spinnerAdapter.setDropDownViewResource(android.R.layout.select_dialog_singlechoice);
                 selectionSpinner.setPrompt(splitString.length > 0 ? splitString[0] : openHABWidget.getLabel());
                 selectionSpinner.setAdapter(spinnerAdapter);
                 if (spinnerSelectedIndex >= 0) {
