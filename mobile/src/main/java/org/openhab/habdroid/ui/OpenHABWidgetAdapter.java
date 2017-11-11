@@ -451,7 +451,19 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
                 SeekBar sliderSeekBar = (SeekBar) widgetView.findViewById(R.id.sliderseekbar);
                 if (openHABWidget.hasItem()) {
                     sliderSeekBar.setTag(openHABWidget.getItem());
-                    sliderSeekBar.setProgress(openHABWidget.getItem().getStateAsFloat().intValue());
+                    int progress;
+                    if(openHABWidget.getItem().getType().equals("Color") ||
+                            (openHABWidget.getItem().getGroupType() != null && openHABWidget.getItem().getGroupType().equals("Color"))) {
+                        Log.d(TAG, "Color slider");
+                        try {
+                            progress = openHABWidget.getItem().getStateAsBrightness();
+                        } catch (IllegalStateException e) {
+                            progress = 0;
+                        }
+                    } else {
+                        progress = openHABWidget.getItem().getStateAsFloat().intValue();
+                    }
+                    sliderSeekBar.setProgress(progress);
                     sliderSeekBar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
                         public void onProgressChanged(SeekBar seekBar,
                                                       int progress, boolean fromUser) {
@@ -465,8 +477,9 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
                             Log.d(TAG, "onStopTrackingTouch position = " + seekBar.getProgress());
                             OpenHABItem sliderItem = (OpenHABItem) seekBar.getTag();
 //							sliderItem.sendCommand(String.valueOf(seekBar.getProgress()));
-                            if (sliderItem != null && seekBar != null)
+                            if (sliderItem != null && seekBar != null) {
                                 sendItemCommand(sliderItem, String.valueOf(seekBar.getProgress()));
+                            }
                         }
                     });
                     if (volumeUpWidget == null) {

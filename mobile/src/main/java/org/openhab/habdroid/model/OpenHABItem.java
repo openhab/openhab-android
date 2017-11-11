@@ -10,7 +10,6 @@
 package org.openhab.habdroid.model;
 
 import android.graphics.Color;
-import android.util.Log;
 
 import com.crittercism.app.Crittercism;
 
@@ -33,7 +32,7 @@ public class OpenHABItem {
 	private String state = "";
 	private String link;
 	private final static String TAG = OpenHABItem.class.getSimpleName();
-	private final static Pattern HSB_PATTERN = Pattern.compile("^\\d+,\\d+,(\\d+)$");
+	private final static Pattern HSB_PATTERN = Pattern.compile("^([0-9]*\\.?[0-9]+),([0-9]*\\.?[0-9]+),([0-9]*\\.?[0-9]+)$");
 
 	public OpenHABItem(Node startNode) {
 		if (startNode.hasChildNodes()) {
@@ -125,14 +124,11 @@ public class OpenHABItem {
 			return true;
 		}
 
-		Matcher hsbMatcher = HSB_PATTERN.matcher(state);
-		if(hsbMatcher.find()) {
-			String brightness = hsbMatcher.group(1);
-			return isValueDecimalIntegerAndGreaterThanZero(brightness);
-		}
-
-		return isValueDecimalIntegerAndGreaterThanZero(state);
-
+        try {
+            return getStateAsBrightness() != 0;
+        } catch (Exception ignored) {
+            return isValueDecimalIntegerAndGreaterThanZero(state);
+        }
 	}
 
 	private Boolean isValueDecimalIntegerAndGreaterThanZero(String value) {
@@ -157,11 +153,9 @@ public class OpenHABItem {
 			try {
 				result = Float.parseFloat(state);
 			} catch (NumberFormatException e) {
-				if (e != null) {
-					Crittercism.logHandledException(e);
-					Log.e(TAG, e.getMessage());
-				}
-				result = new Float(0);
+				Crittercism.logHandledException(e);
+				e.printStackTrace();
+				result = 0f;
 			}
 		}
 		return result;
@@ -193,5 +187,16 @@ public class OpenHABItem {
 	public void setLink(String link) {
 		this.link = link;
 	}
-	
+
+	public int getStateAsBrightness() {
+        Matcher hsbMatcher = HSB_PATTERN.matcher(state);
+        if(hsbMatcher.find()) {
+            try {
+                return Float.valueOf(hsbMatcher.group(3)).intValue();
+            } catch (Exception e) {
+                throw new IllegalStateException("No brightness");
+            }
+        }
+        throw new IllegalStateException("No brightness");
+    }
 }
