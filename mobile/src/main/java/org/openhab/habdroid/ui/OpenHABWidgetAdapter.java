@@ -10,9 +10,12 @@
 package org.openhab.habdroid.ui;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.support.v7.widget.SwitchCompat;
+import android.util.Base64;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
@@ -38,6 +41,8 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.VideoView;
+
+import com.loopj.android.image.SmartImage;
 
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.model.OpenHABItem;
@@ -472,16 +477,22 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
                 break;
             case TYPE_IMAGE:
                 MySmartImageView imageImage = (MySmartImageView) widgetView.findViewById(R.id.imageimage);
-                imageImage.setImageUrl(ensureAbsoluteURL(openHABBaseUrl, openHABWidget.getUrl()), false,
+                OpenHABItem item = openHABWidget.getItem();
+                if (item != null && item.getType().equals("Image") && item.getState() != null
+                        && item.getState().startsWith("data:")) {
+                   imageImage.setImage(new MyImageFromItem(item.getState()));
+                } else {
+                    imageImage.setImageUrl(ensureAbsoluteURL(openHABBaseUrl, openHABWidget.getUrl()), false,
                         openHABUsername, openHABPassword);
+                    if (openHABWidget.getRefresh() > 0) {
+                        imageImage.setRefreshRate(openHABWidget.getRefresh());
+                        refreshImageList.add(imageImage);
+                    }
+                }
 //    		ViewGroup.LayoutParams imageLayoutParams = imageImage.getLayoutParams();
 //    		float imageRatio = imageImage.getDrawable().getIntrinsicWidth()/imageImage.getDrawable().getIntrinsicHeight();
 //    		imageLayoutParams.height = (int) (screenWidth/imageRatio);
 //    		imageImage.setLayoutParams(imageLayoutParams);
-                if (openHABWidget.getRefresh() > 0) {
-                    imageImage.setRefreshRate(openHABWidget.getRefresh());
-                    refreshImageList.add(imageImage);
-                }
                 break;
             case TYPE_CHART:
                 MySmartImageView chartImage = (MySmartImageView) widgetView.findViewById(R.id.chartimage);
@@ -539,7 +550,6 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
                 break;
             case TYPE_VIDEO:
                 VideoView videoVideo = (VideoView) widgetView.findViewById(R.id.videovideo);
-                Log.d(TAG, "Opening video at " + openHABWidget.getUrl());
                 // TODO: This is quite dirty fix to make video look maximum available size on all screens
                 WindowManager wm = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
                 ViewGroup.LayoutParams videoLayoutParams = videoVideo.getLayoutParams();
@@ -551,7 +561,17 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
                     videoWidgetList.add(videoVideo);
                 // Start video
                 if (!videoVideo.isPlaying()) {
-                    videoVideo.setVideoURI(Uri.parse(openHABWidget.getUrl()));
+                    String videoUrl;
+                    OpenHABItem videoItem = openHABWidget.getItem();
+                    if (openHABWidget.getEncoding() != null && openHABWidget.getEncoding().toLowerCase().equals("hls")
+                            && videoItem != null && videoItem.getType().equals("String")
+                            && videoItem.getState() != null && !videoItem.getState().equals("UNDEF")) {
+                        videoUrl = videoItem.getState();
+                    } else {
+                        videoUrl = openHABWidget.getUrl();
+                    }
+                    Log.d(TAG, "Opening video at " + videoUrl);
+                    videoVideo.setVideoURI(Uri.parse(videoUrl));
                     videoVideo.start();
                 }
                 Log.d(TAG, "Video height is " + videoVideo.getHeight());
@@ -579,8 +599,14 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
                 break;
             case TYPE_SELECTION:
                 int spinnerSelectedIndex = -1;
-                if (labelTextView != null)
-                    labelTextView.setText(openHABWidget.getLabel());
+                splitString = openHABWidget.getLabel().split("\\[|\\]");
+                if (labelTextView != null) {
+                    if (splitString.length > 0) {
+                        labelTextView.setText(splitString[0]);
+                    } else {
+                        labelTextView.setText(openHABWidget.getLabel());
+                    }
+                }
                 final Spinner selectionSpinner = (Spinner) widgetView.findViewById(R.id.selectionspinner);
                 ArrayList<String> spinnerArray = new ArrayList<String>();
                 Iterator<OpenHABWidgetMapping> mappingIterator = openHABWidget.getMappings().iterator();
@@ -602,9 +628,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
                         OpenHABWidget openHABWidget = (OpenHABWidget) parent.getTag();
                         if (openHABWidget != null) {
                             Log.d(TAG, "Label selected = " + openHABWidget.getMapping(index).getLabel());
-                            Iterator<OpenHABWidgetMapping> mappingIterator = openHABWidget.getMappings().iterator();
-                            while (mappingIterator.hasNext()) {
-                                OpenHABWidgetMapping openHABWidgetMapping = mappingIterator.next();
+                            for (OpenHABWidgetMapping openHABWidgetMapping : openHABWidget.getMappings()) {
                                 if (openHABWidgetMapping.getLabel().equals(selectedLabel)) {
                                     Log.d(TAG, "Spinner onItemSelected found match with " + openHABWidgetMapping.getCommand());
                                     if (openHABWidget.getItem() != null && openHABWidget.getItem().getState() != null) {
@@ -622,11 +646,12 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
                             Method method = Spinner.class.getDeclaredMethod("onDetachedFromWindow");
                             method.setAccessible(true);
                             method.invoke(selectionSpinner);
-                        } catch (Exception ex) {
+                        } catch (Exception ignored) {
                         }
                     }
                 });
-                spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spinnerAdapter.setDropDownViewResource(R.layout.openhabwidgetlist_sectionswitchitem_spinner);
+                selectionSpinner.setPrompt(splitString.length > 0 ? splitString[0] : openHABWidget.getLabel());
                 selectionSpinner.setAdapter(spinnerAdapter);
                 if (spinnerSelectedIndex >= 0) {
                     Log.d(TAG, "Setting spinner selected index to " + String.valueOf(spinnerSelectedIndex));
@@ -744,7 +769,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
             return TYPE_CHART;
         } else if (openHABWidget.getType().equals("Video")) {
             if (openHABWidget.getEncoding() != null) {
-                if (openHABWidget.getEncoding().equals("mjpeg")) {
+                if (openHABWidget.getEncoding().toLowerCase().equals("mjpeg")) {
                     return TYPE_VIDEO_MJPEG;
                 } else {
                     return TYPE_VIDEO;
@@ -906,4 +931,16 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
         return true;
     }
 
+    class MyImageFromItem implements SmartImage {
+        private String itemState;
+
+        public MyImageFromItem(String itemState) {
+            this.itemState = itemState;
+        }
+
+        public Bitmap getBitmap(Context context) {
+            byte[] data = Base64.decode(itemState.substring(itemState.indexOf(",") + 1), Base64.DEFAULT);
+            return BitmapFactory.decodeByteArray(data, 0, data.length);
+        }
+    };
 }

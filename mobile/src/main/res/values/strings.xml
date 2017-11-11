@@ -68,17 +68,35 @@
     <string name="info_voice_input">"openHAB, at your command!"</string>
     <string name="info_voice_recognized_text">"Recognized command: %1$s"</string>
     <string name="info_demo_mode">Running in demo mode. To connect to your openHAB server please go to settings menu.</string>
+    <string name="info_demo_mode_short">Running in demo mode</string>
     <string name="info_conn_url">Connecting to local URL</string>
     <string name="info_conn_rem_url">Connecting to remote URL</string>
     <string name="info_discovery">Discovering openHAB. Please wait\u2026</string>
     <string name="error_no_url">Please check that openHAB is running or configure openHAB URL or remote URL</string>
-    <string name="error_authentication_failed">Authentication Failed. Please check username/password settings</string>
     <string name="error_empty_sitemap_list">openHAB returned empty sitemap list</string>
     <string name="error_network_not_available">Network is not available</string>
+    <string name="error_http_connection_failed">Received an invalid response from openHAB. Please check if openHAB is working correctly (HTTP response code %d)</string>
     <string name="error_no_uuid">Unable to get openHAB UUID, connection failed</string>
     <string name="erorr_invalid_url">Please enter a valid URL in a \'protocol://host:port/\' form</string>
     <string name="error_connection_failed">Connection to host failed</string>
+    <string name="error_unable_to_resolve_hostname">Unable to resolve hostname</string>
     <string name="error_connection_sslhandshake_failed">SSL Handshake failed - maybe you need a valid client certificate</string>
+    <string name="error_certificate_not_trusted">SSL certificate is not trusted. Please import the root certificate or disable certificate validation during SSL handshake</string>
+    <string name="error_certificate_expired">SSL certificate has been expired. Please get a new certificate or disable certificate validation during SSL handshake</string>
+    <string name="error_certificate_not_valid_yet">SSL certificate is not valid yet. Please get a correct certificate or disable certificate validation during SSL handshake. Also check if the clock on your phone is set correctly</string>
+    <string name="error_certificate_revoked">SSL certificate has been revoked. Please get a new certificate or disable certificate validation during SSL handshake</string>
+    <string name="error_http_code_401">User authentication has failed. Please check username, password and SSL client certificate (HTTP response code 401)</string>
+    <string name="error_http_code_403">User authentication has failed. Please check username, password and SSL client certificate (HTTP response code 403)</string>
+    <string name="error_http_code_407">User authentication has failed. Please check username, password and SSL client certificate (HTTP response code 407)</string>
+    <string name="error_http_code_414">openHAB-URL is too long (HTTP response code 414)</string>
+    <string name="error_http_code_426">HTTPS is required. Please change the openHAB-URL (HTTP response code 426)</string>
+    <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
+    <string name="error_http_code_495">Invalid SSL client certificate (HTTP response code 495)</string>
+    <string name="error_http_code_496">SSL client certificate is required (HTTP response code 496)</string>
+    <string name="error_http_code_502">Your reverse proxy got an invalid answer from openHAB (HTTP response code 502)</string>
+    <string name="error_http_code_504">Gateway Time-out. Seems that your reverse proxy is running, but couldn\'t get an answer from openHAB (HTTP response code 504)</string>
+    <string name="error_http_code_507">openHAB hasn\'t enough free space (HTTP response code 507)</string>
+    <string name="error_http_code_511">Network authentication is required (HTTP response code 511)</string>
     <string name="title_activity_openhabwritetag">Write NFC tag</string>
     <string name="title_activity_openhabinfo">openHAB Information</string>
     <string name="info_write_tag">Touch the tag and keep it close until the confirmation message appear</string>
@@ -134,6 +152,12 @@
     <string name="about_links">Links</string>
     <string name="about_links_list"><![CDATA[\u00B7 <a href="https://github.com/openhab/openhab.android">openHAB App source code</a><br><br> \u00B7 <a href="https://github.com/openhab/openhab.android/issues">Report a problem</a><br><br> \u00B7 <a href="http://docs.openhab.org/">openHAB Documentation</a><br><br> \u00B7 <a href="https://community.openhab.org/">Community Forum</a>]]></string>
     <string name="about_copyright" translatable="false">© 2012 - %s openHAB Foundation</string>
+    <string name="settings_debug_messages_summary">Some error messages include more information</string>
+    <string name="settings_debug_messages_title">Show debug messages</string>
+    <string name="error_couldnt_determine_openhab_url">Couldn\'t determine OpenHAB URL</string>
+    <string name="unknown">Unknown</string>
+    <string name="error_network_type_unsupported">Network type (%s) is unsupported</string>
+    <string name="ok">OK</string>
     <string name="app_intro">Intro</string>
     <string name="intro_welcome">Welcome to openHAB</string>
     <string name="intro_whatis">A vendor and technology agnostic open source automation software for your home</string>

@@ -9,6 +9,8 @@
 
 package org.openhab.habdroid.ui;
 
+import android.Manifest;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.PendingIntent;
@@ -32,6 +34,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.speech.RecognizerIntent;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -88,8 +91,14 @@ import org.xml.sax.SAXException;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.ConnectException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.UnknownHostException;
+import java.security.cert.CertPathValidatorException;
+import java.security.cert.CertificateExpiredException;
+import java.security.cert.CertificateNotYetValidException;
+import java.security.cert.CertificateRevokedException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.locks.ReentrantLock;
@@ -113,27 +122,37 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
         @Override
         public void onFailure(Call call, int statusCode, Headers headers, byte[] responseBody, Throwable error) {
             setProgressIndicatorVisible(false);
-            if (statusCode == 401) {
-                showAlertDialog(getString(R.string.error_authentication_failed));
-                return;
-            }
-            if (error instanceof java.net.UnknownHostException) {
+            Log.e(TAG, "Error: " + error.toString());
+            Log.e(TAG, "HTTP status code: " + statusCode);
+            if (statusCode >= 400){
+                int resourceID;
+                try {
+                    resourceID = getResources().getIdentifier("error_http_code_" + statusCode, "string", getPackageName());
+                    showMessageToUser(getString(resourceID), Constants.MESSAGES.DIALOG, Constants.MESSAGES.LOGLEVEL.ALWAYS);
+                } catch (android.content.res.Resources.NotFoundException e) {
+                    showMessageToUser(String.format(getString(R.string.error_http_connection_failed), statusCode), Constants.MESSAGES.DIALOG, Constants.MESSAGES.LOGLEVEL.ALWAYS);
+                }
+            } else if (error instanceof UnknownHostException) {
                 Log.e(TAG, "Unable to resolve hostname");
-                showError(error.getMessage());
+                showMessageToUser(getString(R.string.error_unable_to_resolve_hostname), Constants.MESSAGES.DIALOG, Constants.MESSAGES.LOGLEVEL.ALWAYS);
             } else if (error instanceof SSLHandshakeException) {
-                showError(getString(R.string.error_connection_sslhandshake_failed));
+                // if ssl exception, check for some common problems
+                if (error.getCause() instanceof CertPathValidatorException) {
+                    showMessageToUser(getString(R.string.error_certificate_not_trusted), Constants.MESSAGES.DIALOG, Constants.MESSAGES.LOGLEVEL.ALWAYS);
+                } else if (error.getCause() instanceof CertificateExpiredException) {
+                    showMessageToUser(getString(R.string.error_certificate_expired), Constants.MESSAGES.DIALOG, Constants.MESSAGES.LOGLEVEL.ALWAYS);
+                } else if (error.getCause() instanceof CertificateNotYetValidException) {
+                    showMessageToUser(getString(R.string.error_certificate_not_valid_yet), Constants.MESSAGES.DIALOG, Constants.MESSAGES.LOGLEVEL.ALWAYS);
+                } else if (error.getCause() instanceof CertificateRevokedException) {
+                    showMessageToUser(getString(R.string.error_certificate_revoked), Constants.MESSAGES.DIALOG, Constants.MESSAGES.LOGLEVEL.ALWAYS);
+                } else {
+                    showMessageToUser(getString(R.string.error_connection_sslhandshake_failed), Constants.MESSAGES.DIALOG, Constants.MESSAGES.LOGLEVEL.ALWAYS);
+                }
+            } else if (error instanceof ConnectException) {
+                showMessageToUser(getString(R.string.error_connection_failed), Constants.MESSAGES.DIALOG, Constants.MESSAGES.LOGLEVEL.ALWAYS);
             } else {
                 Log.e(TAG, error.getClass().toString());
-                showError(error.getMessage());
-            }
-        }
-
-        private void showError(String message) {
-            if (message != null) {
-                Log.e(TAG, message);
-                showAlertDialog(message);
-            } else {
-                showAlertDialog(getString(R.string.error_connection_failed));
+                showMessageToUser(error.getMessage(), Constants.MESSAGES.DIALOG, Constants.MESSAGES.LOGLEVEL.ALWAYS);
             }
         }
     }
@@ -203,9 +222,9 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
 
     public static String GCM_SENDER_ID;
 
-    /*
-     *Daydreaming gets us into a funk when in fullscreen, this allows us to
-     *reset ourselves to fullscreen.
+    /**
+     * Daydreaming gets us into a funk when in fullscreen, this allows us to
+     * reset ourselves to fullscreen.
      * @author Dan Cunningham
      */
     private BroadcastReceiver dreamReceiver = new BroadcastReceiver() {
@@ -553,10 +572,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
         }
     }
 
-    public void onOpenHABTracked(String baseUrl, String message) {
-        if (message != null) {
-            Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
-        }
+    public void onOpenHABTracked(String baseUrl) {
         openHABBaseUrl = baseUrl;
         if (baseUrl.equals(mSettings.getString(Constants.PREFERENCE_URL, null))) {
             openHABUsername = mSettings.getString(Constants.PREFERENCE_LOCAL_USERNAME, null);
@@ -592,8 +608,74 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
     }
 
     public void onError(String error) {
-        Toast.makeText(getApplicationContext(), error,
-                Toast.LENGTH_LONG).show();
+        showMessageToUser(error, Constants.MESSAGES.DIALOG, Constants.MESSAGES.LOGLEVEL.ALWAYS);
+    }
+
+    /**
+     * Shows a message to the user.
+     * You might want to send two messages: One detailed one with
+     * logLevel Constants.MESSAGES.LOGLEVEL.DEBUG and one simple message with
+     * Constants.MESSAGES.LOGLEVEL.NO_DEBUG
+     *
+     * @param message message to show
+     * @param messageType can be one of Constants.MESSAGES.*
+     * @param logLevel can be on of Constants.MESSAGES.LOGLEVEL.*
+     */
+    public void showMessageToUser(String message, int messageType, int logLevel) {
+        if (message == null) {
+            return;
+        }
+        boolean debugEnabled = mSettings.getBoolean(Constants.PREFERENCE_DEBUG_MESSAGES, false);
+        String remoteUrl = mSettings.getString(Constants.PREFERENCE_ALTURL, "");
+        String localUrl = mSettings.getString(Constants.PREFERENCE_URL, "");
+
+        // if debug mode is enabled, show all messages, except those with logLevel 4
+        if(debugEnabled) {
+            if (logLevel == Constants.MESSAGES.LOGLEVEL.NO_DEBUG) {
+                return;
+            }
+        } else {
+            switch (logLevel) {
+                case Constants.MESSAGES.LOGLEVEL.REMOTE:
+                    if (remoteUrl.length() > 1) {
+                        Log.d(TAG, "Remote URL set, show message: " + message);
+                    } else {
+                        Log.d(TAG, "No remote URL set, don't show message: " + message);
+                        return;
+                    }
+                    break;
+                case Constants.MESSAGES.LOGLEVEL.LOCAL:
+                    if (localUrl.length() > 1) {
+                        Log.d(TAG, "Local URL set, show message: " + message);
+                    } else {
+                        Log.d(TAG, "No local URL set, don't show message: " + message);
+                        return;
+                    }
+                    break;
+            }
+        }
+
+        switch (messageType) {
+            case Constants.MESSAGES.DIALOG:
+                AlertDialog.Builder builder = new AlertDialog.Builder(OpenHABMainActivity.this);
+                builder.setMessage(message)
+                        .setPositiveButton(getText(R.string.ok), new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                            }
+                        });
+                AlertDialog alert = builder.create();
+                alert.show();
+                break;
+            case Constants.MESSAGES.SNACKBAR:
+                Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG);
+                snackbar.show();
+                break;
+            case Constants.MESSAGES.TOAST:
+                Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+                break;
+            default:
+                throw new IllegalArgumentException("Message type not implemented");
+        }
     }
 
     public void onBonjourDiscoveryStarted() {
@@ -1122,6 +1204,8 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
             startActivity(speechIntent);
         } catch(ActivityNotFoundException e) {
             // Speech not installed?
+            // todo url doesnt seem to work anymore
+            // not sure, if this is called
             Intent browserIntent = new Intent(Intent.ACTION_VIEW,
                     Uri.parse("https://market.android.com/details?id=com.google.android.voicesearch"));
             startActivity(browserIntent);
@@ -1131,14 +1215,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
     private void showAlertDialog(String alertMessage) {
         if (this.isFinishing())
             return;
-        AlertDialog.Builder builder = new AlertDialog.Builder(OpenHABMainActivity.this);
-        builder.setMessage(alertMessage)
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                    }
-                });
-        AlertDialog alert = builder.create();
-        alert.show();
+       showMessageToUser(alertMessage, Constants.MESSAGES.DIALOG, Constants.MESSAGES.LOGLEVEL.ALWAYS);
     }
 
     private void showCertificateDialog(final int decisionId, String certMessage) {
