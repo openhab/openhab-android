@@ -59,9 +59,7 @@ dependencies {
     fullCompile 'com.google.android.gms:play-services-gcm:10.2.1'
     compile 'org.jmdns:jmdns:3.5.1'
     compile 'com.squareup.okhttp3:okhttp:3.6.0'
-    compile 'com.github.loopj:android-smart-image-view:d09783b9508af5996361437a54cc234b662e4c78' {
-        compa
-    }
+    compile 'com.github.loopj:android-smart-image-view:d09783b9508af5996361437a54cc234b662e4c78'
     compile 'com.github.shell-software:fab:1.1.2'
     //androidsvg commit as of July 16th 2017
     compile 'com.github.BigBadaboom:androidsvg:418cf676849b200cacf3465478079f39709fe5b1'
