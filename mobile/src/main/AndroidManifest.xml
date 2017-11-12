@@ -29,7 +29,6 @@
         android:required="false" />
 
     <application
-        android:name=".core.HABDroid"
         android:allowBackup="true"
         android:fullBackupContent="true"
         android:icon="@mipmap/icon"
