@@ -13,9 +13,7 @@ import android.support.multidex.MultiDexApplication;
 
 public class HABDroid extends MultiDexApplication {
 
-    public enum TrackerName {
-        APP_TRACKER // Tracker used only in this app.
-    }
+    public enum TrackerName {}
 
     public synchronized void getTracker(TrackerName trackerId) {
     }

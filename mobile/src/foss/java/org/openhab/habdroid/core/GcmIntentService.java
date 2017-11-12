@@ -11,13 +11,17 @@ package org.openhab.habdroid.core;
 
 import android.app.IntentService;
 import android.content.Intent;
+import android.util.Log;
 
 public class GcmIntentService extends IntentService {
+    private static final String TAG = GcmIntentService.class.getSimpleName();
+
     public GcmIntentService() {
         super("GcmIntentService");
     }
 
     @Override
     protected void onHandleIntent(Intent intent) {
+        Log.e(TAG, "Running foss build: don't handle intent");
     }
 }
