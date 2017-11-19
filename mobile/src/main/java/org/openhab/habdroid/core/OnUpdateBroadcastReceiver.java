@@ -14,10 +14,7 @@ import static org.openhab.habdroid.util.Constants.PREFERENCE_COMPAREABLEVERSION;
 public class OnUpdateBroadcastReceiver extends BroadcastReceiver {
     private static final String TAG = OnUpdateBroadcastReceiver.class.getSimpleName();
 
-    /**
-     * Versions higher than 2.0.0.0 do not need to check for credentials update.
-     */
-    private static final int UPDATE_LOCAL_CREDENTIALS = 2000;
+    private static final int UPDATE_LOCAL_CREDENTIALS = 25;
 
     @Override
     public void onReceive(Context context, Intent intent) {

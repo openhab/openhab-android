@@ -20,7 +20,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.content.res.Configuration;
@@ -337,20 +336,8 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
             prefsEdit.putBoolean("firstStart", false).apply();
         }
 
-        prefsEdit.putInt(PREFERENCE_COMPAREABLEVERSION,
-                getCompareableVersionNumber(getPackageManager(), getPackageName()));
+        prefsEdit.putInt(PREFERENCE_COMPAREABLEVERSION, BuildConfig.VERSION_CODE);
         prefsEdit.apply();
-    }
-
-    public static int getCompareableVersionNumber(PackageManager pm, String packageName) {
-        try {
-            PackageInfo packageInfo = pm.getPackageInfo(packageName, 0);
-            Log.d(TAG, packageInfo.versionName);
-            return Integer.parseInt(packageInfo.versionName.replace(".", ""));
-        } catch (PackageManager.NameNotFoundException|NumberFormatException e) {
-            Log.d(TAG, "Could not get package version information.", e);
-            return 0;
-        }
     }
 
     private void processIntent(Intent intent) {
