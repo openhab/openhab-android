@@ -11,8 +11,6 @@ package org.openhab.habdroid.model;
 
 import android.graphics.Color;
 
-import com.crittercism.app.Crittercism;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.w3c.dom.Node;
@@ -153,7 +151,6 @@ public class OpenHABItem {
 			try {
 				result = Float.parseFloat(state);
 			} catch (NumberFormatException e) {
-				Crittercism.logHandledException(e);
 				e.printStackTrace();
 				result = 0f;
 			}

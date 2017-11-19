@@ -1,9 +1,11 @@
 apply plugin: 'com.android.application'
 
 android {
-    buildToolsVersion '25.0.2'
+    buildToolsVersion '26.0.2'
     compileSdkVersion 25
     useLibrary 'org.apache.http.legacy'
+
+    flavorDimensions "main"
 
     defaultConfig {
         applicationId "org.openhab.habdroid"
@@ -25,10 +27,20 @@ android {
             buildConfigField "java.util.Date", "buildTime", "new java.util.Date(" + System.currentTimeMillis() + "L)"
         }
     }
+    productFlavors {
+        full {
+            dimension "main"
+        }
+        foss {
+            dimension "main"
+            applicationIdSuffix ".foss"
+            versionNameSuffix "-foss"
+        }
+    }
     testOptions {
         unitTests.returnDefaultValues = true
     }
-   lintOptions {
+    lintOptions {
         lintConfig file("lint.xml")
         abortOnError false
     }
@@ -38,28 +50,23 @@ repositories {
     jcenter()
     mavenCentral()
     maven {
-        name "OpenHAB"
-        url "http://repository-openhab.forge.cloudbees.com/release/"
-    }
-    maven {
         url 'https://jitpack.io'
     }
-
+    google()
 }
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile "com.android.support:appcompat-v7:25.3.1"
-    compile "com.android.support:support-v4:25.3.1"
-    compile "com.android.support:design:25.3.1"
-    compile 'com.android.support:multidex:1.0.1'
-    compile 'com.google.code.gson:gson:2.7'
-    compile 'com.google.android.gms:play-services-analytics:10.2.1'
-    compile 'com.google.android.gms:play-services-gcm:10.2.1'
-    compile 'com.crittercism:crittercism-android-agent:5.8.1-rc-1'
+    compile "com.android.support:appcompat-v7:25.4.0"
+    compile "com.android.support:support-v4:25.4.0"
+    compile "com.android.support:design:25.4.0"
+    compile 'com.android.support:multidex:1.0.2'
+    compile 'com.google.code.gson:gson:2.8.0'
+    fullCompile 'com.google.android.gms:play-services-gcm:10.2.1'
+    fossCompile project(':gcmdummy')
     compile 'org.jmdns:jmdns:3.5.1'
     compile 'com.squareup.okhttp3:okhttp:3.6.0'
-    compile 'com.loopj:android-smart-image-view:1.0.0'
+    compile 'com.github.loopj:android-smart-image-view:d09783b9508af5996361437a54cc234b662e4c78'
     compile 'com.github.shell-software:fab:1.1.2'
     //androidsvg commit as of July 16th 2017
     compile 'com.github.BigBadaboom:androidsvg:418cf676849b200cacf3465478079f39709fe5b1'
