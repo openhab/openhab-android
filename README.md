@@ -1,5 +1,7 @@
 # openHAB Android Client
 
+<a href="https://travis-ci.org/openhab/openhab.android"><img src="https://travis-ci.org/openhab/openhab.android.svg?branch=master"></a>
+
 <img alt="Logo" src="screenshots/icon.png" width="100">
 
 ## Introduction
