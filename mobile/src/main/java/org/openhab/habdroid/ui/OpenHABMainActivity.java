@@ -9,8 +9,6 @@
 
 package org.openhab.habdroid.ui;
 
-import android.Manifest;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.PendingIntent;
@@ -22,6 +20,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.content.res.Configuration;
@@ -101,7 +100,6 @@ import java.security.cert.CertificateNotYetValidException;
 import java.security.cert.CertificateRevokedException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.locks.ReentrantLock;
 
 import javax.net.ssl.SSLHandshakeException;
 import javax.xml.parsers.DocumentBuilder;
@@ -113,6 +111,8 @@ import de.duenndns.ssl.MemorizingResponder;
 import de.duenndns.ssl.MemorizingTrustManager;
 import okhttp3.Call;
 import okhttp3.Headers;
+
+import static org.openhab.habdroid.util.Constants.PREFERENCE_COMPAREABLEVERSION;
 
 public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSelectedListener,
         OpenHABTrackerReceiver, MemorizingResponder {
@@ -326,6 +326,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
         //  Create a new boolean and preference and set it to true
         boolean isFirstStart = mSettings.getBoolean("firstStart", true);
 
+        SharedPreferences.Editor prefsEdit = sharedPrefs.edit();
         //  If the activity has never started before...
         if (isFirstStart) {
 
@@ -333,7 +334,22 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
             final Intent i = new Intent(OpenHABMainActivity.this, IntroActivity.class);
             startActivity(i);
 
-            sharedPrefs.edit().putBoolean("firstStart", false).apply();
+            prefsEdit.putBoolean("firstStart", false).apply();
+        }
+
+        prefsEdit.putInt(PREFERENCE_COMPAREABLEVERSION,
+                getCompareableVersionNumber(getPackageManager(), getPackageName()));
+        prefsEdit.apply();
+    }
+
+    public static int getCompareableVersionNumber(PackageManager pm, String packageName) {
+        try {
+            PackageInfo packageInfo = pm.getPackageInfo(packageName, 0);
+            Log.d(TAG, packageInfo.versionName);
+            return Integer.parseInt(packageInfo.versionName.replace(".", ""));
+        } catch (PackageManager.NameNotFoundException|NumberFormatException e) {
+            Log.d(TAG, "Could not get package version information.", e);
+            return 0;
         }
     }
 
