@@ -32,7 +32,6 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.provider.Settings;
 import android.speech.RecognizerIntent;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -57,27 +56,22 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.crittercism.app.Crittercism;
-import com.google.android.gms.analytics.GoogleAnalytics;
-import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.loopj.android.image.WebImageCache;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.openhab.habdroid.BuildConfig;
 import org.openhab.habdroid.R;
-import org.openhab.habdroid.core.GcmIntentService;
-import org.openhab.habdroid.core.HABDroid;
 import org.openhab.habdroid.core.NetworkConnectivityInfo;
 import org.openhab.habdroid.core.NotificationDeletedBroadcastReceiver;
 import org.openhab.habdroid.core.OpenHABTracker;
 import org.openhab.habdroid.core.OpenHABTrackerReceiver;
 import org.openhab.habdroid.core.OpenHABVoiceService;
-import org.openhab.habdroid.core.notifications.GoogleCloudMessageConnector;
 import org.openhab.habdroid.core.notifications.NotificationSettings;
 import org.openhab.habdroid.model.OpenHABLinkedPage;
 import org.openhab.habdroid.model.OpenHABSitemap;
 import org.openhab.habdroid.model.thing.ThingType;
+import org.openhab.habdroid.nonfree.myGoogleCloudMessaging;
+import org.openhab.habdroid.nonfree.NonfreeMainActivity;
 import org.openhab.habdroid.ui.drawer.OpenHABDrawerAdapter;
 import org.openhab.habdroid.ui.drawer.OpenHABDrawerItem;
 import org.openhab.habdroid.util.Constants;
@@ -160,7 +154,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
     // GCM Registration expiration
     public static final long REGISTRATION_EXPIRY_TIME_MS = 1000 * 3600 * 24 * 7;
     // Logging TAG
-    private static final String TAG = OpenHABMainActivity.class.getSimpleName();
+    protected static final String TAG = OpenHABMainActivity.class.getSimpleName();
     // Activities request codes
     private static final int SETTINGS_REQUEST_CODE = 1002;
     private static final int WRITE_NFC_TAG_REQUEST_CODE = 1003;
@@ -175,7 +169,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
     // Base URL of current openHAB connection
     private String openHABBaseUrl = "http://demo.openhab.org:8080/";
     // openHAB username
-    private String openHABUsername = "";
+    protected String openHABUsername = "";
     // openHAB password
     private String openHABPassword = "";
     // openHAB Bonjour service name
@@ -183,7 +177,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
     // view pager for widgetlist fragments
     private OpenHABViewPager pager;
     // view pager adapter for widgetlist fragments
-    private OpenHABFragmentPagerAdapter pagerAdapter;
+    protected OpenHABFragmentPagerAdapter pagerAdapter;
     // root URL of the current sitemap
     private String sitemapRootUrl;
     // A fragment which retains it's state through configuration changes to keep the current state of the app
@@ -197,11 +191,11 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
     // If Voice Recognition is enabled
     private boolean mVoiceRecognitionEnabled = false;
     // NFC Launch data
-    private String mNfcData;
+    protected String mNfcData;
     // Pending NFC page
     private String mPendingNfcPage;
     // Pending Notification page
-    private Integer mNotificationPosition;
+    protected Integer mNotificationPosition;
     // Toolbar / Actionbar
     private Toolbar mToolbar;
     // Drawer Layout
@@ -209,7 +203,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
     // Drawer Toggler
     private ActionBarDrawerToggle mDrawerToggle;
     // Google Cloud Messaging
-    private GoogleCloudMessaging mGcm;
+    protected myGoogleCloudMessaging mGcm;
     private OpenHABDrawerAdapter mDrawerAdapter;
     private ArrayList<OpenHABSitemap> mSitemapList;
     private NetworkConnectivityInfo mStartedWithNetworkConnectivityInfo;
@@ -219,6 +213,8 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
     private NotificationSettings mNotifySettings = null;
     // select sitemap dialog
     private Dialog selectSitemapDialog;
+    // Non foss stuff
+    NonfreeMainActivity nonfreemainactivity;
 
     public static String GCM_SENDER_ID;
 
@@ -244,7 +240,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
      */
     @Override
     protected void onNewIntent(Intent intent) {
-        processIntent(intent);
+        nonfreemainactivity.processIntent(intent);
     }
 
     @Override
@@ -279,22 +275,15 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
         mAsyncHttpClient.setBasicAuth(openHABUsername, openHABPassword, true);
         mAsyncHttpClient.setTimeout(30000);
 
-        if (!BuildConfig.IS_DEVELOPER) {
-            Util.initCrittercism(getApplicationContext(), "5117659f59e1bd4ba9000004");
-        }
-
         Util.setActivityTheme(this);
         super.onCreate(savedInstanceState);
-
-        if (!BuildConfig.IS_DEVELOPER) {
-            ((HABDroid) getApplication()).getTracker(HABDroid.TrackerName.APP_TRACKER);
-        }
 
         setContentView(R.layout.activity_main);
 
         setupToolbar();
         setupDrawer();
-        gcmRegisterBackground();
+        nonfreemainactivity = new NonfreeMainActivity();
+        nonfreemainactivity.gcmRegisterBackground();
         setupPager();
 
         MemorizingTrustManager.setResponder(this);
@@ -314,7 +303,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
         }
 
         if (getIntent() != null) {
-            processIntent(getIntent());
+            nonfreemainactivity.processIntent(getIntent());
         }
 
         if (isFullscreenEnabled()) {
@@ -334,25 +323,6 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
             startActivity(i);
 
             sharedPrefs.edit().putBoolean("firstStart", false).apply();
-        }
-    }
-
-    private void processIntent(Intent intent) {
-        Log.d(TAG, "Intent != null");
-        if (intent.getAction() != null) {
-            Log.d(TAG, "Intent action = " + intent.getAction());
-            if (intent.getAction().equals("android.nfc.action.NDEF_DISCOVERED")) {
-                Log.d(TAG, "This is NFC action");
-                if (intent.getDataString() != null) {
-                    Log.d(TAG, "NFC data = " + intent.getDataString());
-                    mNfcData = intent.getDataString();
-                }
-            } else if (intent.getAction().equals(GcmIntentService.ACTION_NOTIFICATION_SELECTED)) {
-                onNotificationSelected(intent);
-            } else if (intent.getAction().equals("android.intent.action.VIEW")) {
-                Log.d(TAG, "This is URL Action");
-                mNfcData = intent.getDataString();
-            }
         }
     }
 
@@ -450,28 +420,12 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
     }
 
     /**
-     * Overriding onStart to enable Google Analytics stats collection
-     */
-    @Override
-    public void onStart() {
-        super.onStart();
-        // Start activity tracking via Google Analytics
-        if (!BuildConfig.IS_DEVELOPER) {
-            GoogleAnalytics.getInstance(this).reportActivityStart(this);
-        }
-    }
-
-    /**
      * Overriding onStop to enable Google Analytics stats collection
      */
     @Override
     public void onStop() {
         Log.d(TAG, "onStop()");
         super.onStop();
-        // Stop activity tracking via Google Analytics
-        if (!BuildConfig.IS_DEVELOPER) {
-            GoogleAnalytics.getInstance(this).reportActivityStop(this);
-        }
         if (mOpenHABTracker != null) {
             mOpenHABTracker.stop();
         }
@@ -841,7 +795,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
                         }
                     }).show();
         } catch (WindowManager.BadTokenException e) {
-            Crittercism.logHandledException(e);
+            e.printStackTrace();
         }
     }
 
@@ -1034,34 +988,6 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
         savedInstanceState.putInt("openHABVersion", mOpenHABVersion);
         savedInstanceState.putParcelableArrayList("sitemapList", mSitemapList);
         super.onSaveInstanceState(savedInstanceState);
-    }
-
-    private void onNotificationSelected(Intent intent) {
-        Log.d(TAG, "Notification was selected");
-        if (intent.hasExtra(GcmIntentService.EXTRA_NOTIFICATION_ID)) {
-            Log.d(TAG, String.format("Notification id = %d",
-                    intent.getExtras().getInt(GcmIntentService.EXTRA_NOTIFICATION_ID)));
-            // Make a fake broadcast intent to hide intent on other devices
-            Intent deleteIntent = new Intent(this, NotificationDeletedBroadcastReceiver.class);
-            deleteIntent.setAction(GcmIntentService.ACTION_NOTIFICATION_DELETED);
-            deleteIntent.putExtra(GcmIntentService.EXTRA_NOTIFICATION_ID, intent.getExtras().getInt(GcmIntentService.EXTRA_NOTIFICATION_ID));
-            sendBroadcast(deleteIntent);
-        }
-
-        if (getNotificationSettings() != null) {
-            openNotifications();
-            mNotificationPosition = pagerAdapter.getCount() - 1;
-        }
-
-        if (intent.hasExtra(GcmIntentService.EXTRA_MSG)) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle(getString(R.string.dlg_notification_title));
-            builder.setMessage(intent.getExtras().getString(GcmIntentService.EXTRA_MSG));
-            builder.setPositiveButton(getString(android.R.string.ok), null);
-            AlertDialog dialog = builder.create();
-            dialog.show();
-
-        }
     }
 
     /**
@@ -1294,34 +1220,6 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
 
     public int getOpenHABVersion() {
         return this.mOpenHABVersion;
-    }
-
-    private void gcmRegisterBackground() {
-        Crittercism.setUsername(openHABUsername);
-        OpenHABMainActivity.GCM_SENDER_ID = null;
-        // if no notification settings can be constructed, no GCM registration can be made.
-        if (getNotificationSettings() == null)
-            return;
-
-        if (mGcm == null)
-            mGcm = GoogleCloudMessaging.getInstance(getApplicationContext());
-
-        new AsyncTask<Void, Void, String>() {
-            @Override
-            protected String doInBackground(Void... params) {
-                String deviceId = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
-                GoogleCloudMessageConnector connector =
-                        new GoogleCloudMessageConnector(getNotificationSettings(), deviceId, mGcm);
-
-                if (connector.register()) {
-                    OpenHABMainActivity.GCM_SENDER_ID = getNotificationSettings().getSenderId();
-                }
-                return null;
-            }
-
-            @Override
-            protected void onPostExecute(String regId) {}
-        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, null, null, null);
     }
 
     /**
