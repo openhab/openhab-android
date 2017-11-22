@@ -23,4 +23,15 @@ public class ExampleInstrumentedTest {
 
         assertEquals("com.google.android.gms.gcm.test", appContext.getPackageName());
     }
+
+    @Test
+    public void InstanceIsNull() throws Exception {
+        Context context = null;
+        GoogleCloudMessaging gcm = GoogleCloudMessaging.getInstance(context);
+        assertEquals(gcm, null);
+
+        context = InstrumentationRegistry.getTargetContext();
+        gcm = GoogleCloudMessaging.getInstance(context);
+        assertEquals(gcm, null);
+    }
 }
