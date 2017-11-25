@@ -115,7 +115,7 @@
     <string name="unknown">Nežinoma</string>
     <string name="theme_name_basic_ui">Paprastas UI</string>
     <string name="theme_name_basic_ui_dark">Paprastas UI (tamsus)</string>
-    <string name="error_couldnt_determine_openhab_url">Nepavyko nustatyti OpenHAB URL</string>
+    <string name="error_couldnt_determine_openhab_url">Nepavyko nustatyti openHAB URL</string>
     <string name="error_network_type_unsupported">Tinklo tipas (%s) nepalaikomas</string>
     <string name="error_unable_to_resolve_hostname">Nepavyko \"išrišti\" hostname</string>
     <string name="info_demo_mode_short">Veikia demo režimu</string>
