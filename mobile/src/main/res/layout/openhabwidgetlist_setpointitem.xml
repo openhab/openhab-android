@@ -1,47 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/relativeLayout2"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:paddingLeft="@dimen/widgetlist_item_left_margin"
-    android:paddingRight="@dimen/widgetlist_item_right_margin"
     android:background="?android:activatedBackgroundIndicator"
-    >
+    android:paddingLeft="@dimen/widgetlist_item_left_margin"
+    android:paddingRight="@dimen/widgetlist_item_right_margin">
 
     <include
         android:id="@+id/setpointleftlayout"
-        layout="@layout/openhabwidgetlist_icontext" />
+        layout="@layout/openhabwidgetlist_icontext"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/setpointbutton_minus"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginRight="8dp" />
 
-    <LinearLayout
+
+    <Button
+        android:id="@+id/setpointbutton_minus"
+        android:layout_width="46dip"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="3dp"
+        android:layout_marginEnd="8dp"
+        android:text="@string/minus"
+        app:layout_constraintBottom_toTopOf="@+id/listdivider"
+        app:layout_constraintEnd_toStartOf="@+id/widgetvalue"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginRight="8dp" />
+
+    <TextView
+        android:id="@+id/widgetvalue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true">
-        <Button
-            android:id="@+id/setpointbutton_minus"
-            android:layout_width="46dip"
-            android:layout_height="wrap_content"
-            android:text="@string/minus" />
+        android:layout_marginEnd="8dp"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/setpointbutton_plus"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginRight="8dp" />
 
-        <TextView
-            android:id="@+id/widgetvalue"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+    <Button
+        android:id="@+id/setpointbutton_plus"
+        android:layout_width="46dip"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:text="@string/plus"
+        app:layout_constraintBottom_toTopOf="@+id/listdivider"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginRight="8dp" />
 
-        <Button
-            android:id="@+id/setpointbutton_plus"
-            android:layout_width="46dip"
-            android:layout_height="wrap_content"
-            android:text="@string/plus" />
-    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/listdivider"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="1dip"
+        android:layout_marginLeft="0dp"
+        android:layout_marginRight="0dp"
+        android:layout_marginTop="0dp"
         android:background="?android:attr/listDivider"
         android:orientation="horizontal"
-        android:layout_below="@+id/setpointleftlayout"
-        android:layout_marginLeft="@dimen/widgetlist_divider_left_margin"
-        android:layout_marginRight="@dimen/widgetlist_divider_right_margin"
-        android:layout_alignParentLeft="true" />
-</RelativeLayout>
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/setpointleftlayout" />
+</android.support.constraint.ConstraintLayout>
