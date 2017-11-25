@@ -121,7 +121,7 @@
     <string name="about_links_list"><![CDATA[\u00B7 <a href="https://github.com/openhab/openhab.android">Иходный код приложения openHAB</a><br><br> \u00B7 <a href="https://github.com/openhab/openhab.android/issues">Сообщить о проблеме</a><br><br> \u00B7 <a href="http://docs.openhab.org/">Документация openHAB</a><br><br> \u00B7 <a href="https://community.openhab.org/">Сообщество openHAB</a>]]></string>
     <string name="settings_debug_messages_summary">Некоторые сообщения об ошибках включают больше информации</string>
     <string name="settings_debug_messages_title">Показать debug сообщения</string>
-    <string name="error_couldnt_determine_openhab_url">Не удалось определить адрес OpenHAB</string>
+    <string name="error_couldnt_determine_openhab_url">Не удалось определить адрес openHAB</string>
     <string name="unknown">Неизвестный</string>
     <string name="error_network_type_unsupported">Тип сети (%s) не поддерживается</string>
     <string name="ok">Ок</string>
