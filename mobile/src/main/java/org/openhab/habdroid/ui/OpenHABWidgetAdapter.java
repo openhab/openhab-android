@@ -102,8 +102,6 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     private ArrayList<MySmartImageView> refreshImageList;
     private ArrayList<MjpegStreamer> mjpegWidgetList;
     private MyAsyncHttpClient mAsyncHttpClient;
-    private View volumeUpWidget;
-    private View volumeDownWidget;
 
     public OpenHABWidgetAdapter(Context context, int resource,
                                 List<OpenHABWidget> objects) {
@@ -456,7 +454,19 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
                 SeekBar sliderSeekBar = (SeekBar) widgetView.findViewById(R.id.sliderseekbar);
                 if (openHABWidget.hasItem()) {
                     sliderSeekBar.setTag(openHABWidget.getItem());
-                    sliderSeekBar.setProgress(openHABWidget.getItem().getStateAsFloat().intValue());
+                    int progress;
+                    if(openHABWidget.getItem().getType().equals("Color") ||
+                            (openHABWidget.getItem().getGroupType() != null && openHABWidget.getItem().getGroupType().equals("Color"))) {
+                        Log.d(TAG, "Color slider");
+                        try {
+                            progress = openHABWidget.getItem().getStateAsBrightness();
+                        } catch (IllegalStateException e) {
+                            progress = 0;
+                        }
+                    } else {
+                        progress = openHABWidget.getItem().getStateAsFloat().intValue();
+                    }
+                    sliderSeekBar.setProgress(progress);
                     sliderSeekBar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
                         public void onProgressChanged(SeekBar seekBar,
                                                       int progress, boolean fromUser) {
@@ -470,14 +480,11 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
                             Log.d(TAG, "onStopTrackingTouch position = " + seekBar.getProgress());
                             OpenHABItem sliderItem = (OpenHABItem) seekBar.getTag();
 //							sliderItem.sendCommand(String.valueOf(seekBar.getProgress()));
-                            if (sliderItem != null && seekBar != null)
+                            if (sliderItem != null && seekBar != null) {
                                 sendItemCommand(sliderItem, String.valueOf(seekBar.getProgress()));
+                            }
                         }
                     });
-                    if (volumeUpWidget == null) {
-                        volumeUpWidget = sliderSeekBar;
-                        volumeDownWidget = sliderSeekBar;
-                    }
                 }
                 break;
             case TYPE_IMAGE:
@@ -623,15 +630,19 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
                             spinnerSelectedIndex = spinnerArray.size() - 1;
                         }
                 }
+                if (spinnerSelectedIndex == -1) {
+                    spinnerArray.add("          ");
+                    spinnerSelectedIndex = spinnerArray.size() - 1;
+                }
                 ArrayAdapter<String> spinnerAdapter = new SpinnerClickAdapter<String>(this.getContext(),
-                        android.R.layout.simple_spinner_item, spinnerArray, openHABWidget, new AdapterView.OnItemClickListener() {
+                        R.layout.openhabwidgetlist_simple_spinner_item, spinnerArray, openHABWidget, new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int index, long id) {
                         Log.d(TAG, "Spinner item click on index " + index);
                         String selectedLabel = (String) parent.getAdapter().getItem(index);
                         Log.d(TAG, "Spinner onItemSelected selected label = " + selectedLabel);
                         OpenHABWidget openHABWidget = (OpenHABWidget) parent.getTag();
-                        if (openHABWidget != null) {
+                        if (openHABWidget != null && index < openHABWidget.getMappings().size()) {
                             Log.d(TAG, "Label selected = " + openHABWidget.getMapping(index).getLabel());
                             for (OpenHABWidgetMapping openHABWidgetMapping : openHABWidget.getMappings()) {
                                 if (openHABWidgetMapping.getLabel().equals(selectedLabel)) {
@@ -655,7 +666,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
                         }
                     }
                 });
-                spinnerAdapter.setDropDownViewResource(R.layout.openhabwidgetlist_sectionswitchitem_spinner);
+                spinnerAdapter.setDropDownViewResource(android.R.layout.select_dialog_singlechoice);
                 selectionSpinner.setPrompt(splitString.length > 0 ? splitString[0] : openHABWidget.getLabel());
                 selectionSpinner.setAdapter(spinnerAdapter);
                 if (spinnerSelectedIndex >= 0) {
@@ -676,7 +687,6 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
                         valueTextView.setText(splitString[1]);
                     }
                     final Context context = getContext();
-
 
                     widgetView.setOnClickListener( new OnClickListener(){
                         @Override
@@ -900,57 +910,6 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
         refreshImageList.clear();
     }
 
-    /*
-        onVolumeDown and onVolumeUp handle (if possible) volume up and volume down presses
-        addressing the currently selected volume widget (would normally be the first slider or
-        setpoint on the page.
-     */
-
-    public boolean onVolumeDown() {
-        if (volumeDownWidget instanceof SeekBar) {
-            SeekBar seekBar = (SeekBar) volumeDownWidget;
-            seekBar.incrementProgressBy(-10);
-            OpenHABItem sliderItem = (OpenHABItem) seekBar.getTag();
-            if (sliderItem != null)
-                sendItemCommand(sliderItem, String.valueOf(seekBar.getProgress()));
-        } else if (volumeDownWidget instanceof Button) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
-                volumeDownWidget.callOnClick();
-            } else {
-                volumeDownWidget.performClick();
-            }
-        } else {
-            return false;
-        }
-        return true;
-    }
-
-    public boolean onVolumeUp() {
-        if (volumeUpWidget instanceof SeekBar) {
-            SeekBar seekBar = (SeekBar) volumeUpWidget;
-            seekBar.incrementProgressBy(10);
-            OpenHABItem sliderItem = (OpenHABItem) seekBar.getTag();
-            if (sliderItem != null)
-                sendItemCommand(sliderItem, String.valueOf(seekBar.getProgress()));
-        } else if (volumeUpWidget instanceof Button) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
-                volumeUpWidget.callOnClick();
-            } else {
-                volumeUpWidget.performClick();
-            }
-        } else {
-            return false;
-        }
-        return true;
-    }
-
-    /*
-        isVolumeHandled returns true if there is a widget to send volume commands to
-     */
-
-    public boolean isVolumeHandled() {
-        return volumeUpWidget != null;
-    }
 
     public MyAsyncHttpClient getAsyncHttpClient() {
         return mAsyncHttpClient;

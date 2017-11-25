@@ -558,26 +558,4 @@ public class OpenHABWidgetListFragment extends ListFragment {
         return mPosition;
     }
 
-    public boolean onVolumeDown() {
-        if(openHABWidgetAdapter != null) {
-            return openHABWidgetAdapter.onVolumeDown();
-        }
-        return false;
-    }
-
-    public boolean onVolumeUp() {
-        if(openHABWidgetAdapter != null) {
-            return openHABWidgetAdapter.onVolumeUp();
-        }
-        return false;
-    }
-
-    public boolean isVolumeHandled() {
-        if(openHABWidgetAdapter != null) {
-            return openHABWidgetAdapter.isVolumeHandled();
-        }
-        return false;
-
-    }
-
 }

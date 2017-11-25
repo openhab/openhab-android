@@ -10,6 +10,7 @@ android {
         minSdkVersion 14
         targetSdkVersion 25
         multiDexEnabled = true
+        testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
     }
     buildTypes {
         def IS_DEVELOPER = "IS_DEVELOPER"
@@ -30,6 +31,7 @@ android {
     }
    lintOptions {
         lintConfig file("lint.xml")
+        abortOnError false
     }
 }
 
@@ -73,4 +75,7 @@ dependencies {
     testCompile 'org.powermock:powermock-api-mockito2:1.7.0'
     testCompile 'org.powermock:powermock-module-junit4:1.7.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    }
 }
