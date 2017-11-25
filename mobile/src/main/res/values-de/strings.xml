@@ -129,7 +129,7 @@
     <string name="error_http_code_403">Authentifizierung fehlgeschlagen. Bitte überprüfen Sie Nutzername und Passwort bzw. Client-Zertifikat (HTTP-Statuscode 403)</string>
     <string name="error_http_code_407">Authentifizierung fehlgeschlagen. Bitte überprüfen Sie Nutzername und Passwort bzw. Client-Zertifikat (HTTP-Statuscode 407)</string>
     <string name="error_http_code_414">openHAB-URL zu lang (HTTP-Statuscode 414)</string>
-    <string name="error_http_code_426">HTTPS wird gefordert. Bitte ändern Sie die openHAB URL (HTTP-Statuscode 426)</string>
+    <string name="error_http_code_426">HTTPS wird gefordert. Bitte ändern Sie die openHAB-URL (HTTP-Statuscode 426)</string>
     <string name="error_http_code_495">Ungültiges Client-Zertifikat (HTTP-Statuscode 495)</string>
     <string name="error_http_code_496">Client-Zertifikat wird gefordert (HTTP-Statuscode 496)</string>
     <string name="error_http_code_502">Ihr Reverse-Proxy bekam eine ungültige Antwort von openHAB (HTTP-Statuscode 502)</string>
