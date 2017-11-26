@@ -635,7 +635,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
                     spinnerSelectedIndex = spinnerArray.size() - 1;
                 }
                 ArrayAdapter<String> spinnerAdapter = new SpinnerClickAdapter<String>(this.getContext(),
-                        R.layout.openhabwidgetlist_simple_spinner_item, spinnerArray, openHABWidget, new AdapterView.OnItemClickListener() {
+                        android.R.layout.simple_spinner_item, spinnerArray, openHABWidget, new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int index, long id) {
                         Log.d(TAG, "Spinner item click on index " + index);
