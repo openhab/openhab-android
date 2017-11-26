@@ -143,4 +143,7 @@
     <string name="settings_debug_messages_title">Debug-Meldungen anzeigen</string>
     <string name="error_couldnt_determine_openhab_url">Konnte openHAB-URL nicht ermitteln</string>
     <string name="error_unable_to_resolve_hostname">Fehler beim Auflösen des Hostnamens</string>
+    <string name="set">Setzen</string>
+    <string name="cancel">Abbrechen</string>
+    <string name="dlg_notification_title">Benachrichtigung</string>
 </resources>
