@@ -58,17 +58,13 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.crittercism.app.Crittercism;
-import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.loopj.android.image.WebImageCache;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.openhab.habdroid.BuildConfig;
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.core.GcmIntentService;
-import org.openhab.habdroid.core.HABDroid;
 import org.openhab.habdroid.core.NetworkConnectivityInfo;
 import org.openhab.habdroid.core.NotificationDeletedBroadcastReceiver;
 import org.openhab.habdroid.core.OpenHABTracker;
@@ -219,7 +215,6 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
     private NotificationSettings mNotifySettings = null;
     // select sitemap dialog
     private Dialog selectSitemapDialog;
-
     public static String GCM_SENDER_ID;
 
     /**
@@ -279,16 +274,8 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
         mAsyncHttpClient.setBasicAuth(openHABUsername, openHABPassword, true);
         mAsyncHttpClient.setTimeout(30000);
 
-        if (!BuildConfig.IS_DEVELOPER) {
-            Util.initCrittercism(getApplicationContext(), "5117659f59e1bd4ba9000004");
-        }
-
         Util.setActivityTheme(this);
         super.onCreate(savedInstanceState);
-
-        if (!BuildConfig.IS_DEVELOPER) {
-            ((HABDroid) getApplication()).getTracker(HABDroid.TrackerName.APP_TRACKER);
-        }
 
         setContentView(R.layout.activity_main);
 
@@ -450,28 +437,12 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
     }
 
     /**
-     * Overriding onStart to enable Google Analytics stats collection
-     */
-    @Override
-    public void onStart() {
-        super.onStart();
-        // Start activity tracking via Google Analytics
-        if (!BuildConfig.IS_DEVELOPER) {
-            GoogleAnalytics.getInstance(this).reportActivityStart(this);
-        }
-    }
-
-    /**
      * Overriding onStop to enable Google Analytics stats collection
      */
     @Override
     public void onStop() {
         Log.d(TAG, "onStop()");
         super.onStop();
-        // Stop activity tracking via Google Analytics
-        if (!BuildConfig.IS_DEVELOPER) {
-            GoogleAnalytics.getInstance(this).reportActivityStop(this);
-        }
         if (mOpenHABTracker != null) {
             mOpenHABTracker.stop();
         }
@@ -841,7 +812,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
                         }
                     }).show();
         } catch (WindowManager.BadTokenException e) {
-            Crittercism.logHandledException(e);
+            e.printStackTrace();
         }
     }
 
@@ -1267,8 +1238,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
         return this.mOpenHABVersion;
     }
 
-    private void gcmRegisterBackground() {
-        Crittercism.setUsername(openHABUsername);
+    public void gcmRegisterBackground() {
         OpenHABMainActivity.GCM_SENDER_ID = null;
         // if no notification settings can be constructed, no GCM registration can be made.
         if (getNotificationSettings() == null)
