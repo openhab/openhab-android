@@ -2,7 +2,7 @@
 
 <a href="https://travis-ci.org/openhab/openhab.android"><img src="https://travis-ci.org/openhab/openhab.android.svg?branch=master"></a>
 
-<img alt="Logo" src="screenshots/icon.png" width="100">
+<img alt="Logo" src="fastlane/metadata/android/en-US/images/icon.png" width="100">
 
 ## Introduction
 
@@ -18,7 +18,7 @@ openHAB Android application is a native client for openHAB. It uses REST API of 
 * Discover devices and add them as items
 * Supports wall mounted tablets
 
-<img src="https://raw.githubusercontent.com/openhab/openhab.android/master/screenshots/main_menu.png" width="200px"> <img src="https://raw.githubusercontent.com/openhab/openhab.android/master/screenshots/widget_overview.png" width="200px"> <img src="https://raw.githubusercontent.com/openhab/openhab.android/master/screenshots/astro_binding.png" width="200px"> <img src="https://raw.githubusercontent.com/openhab/openhab.android/master/screenshots/bindings.png" width="200px">
+<img src="https://raw.githubusercontent.com/openhab/openhab.android/master/fastlane/metadata/android/en-US/phoneScreenshots/main_menu.png" width="200px"> <img src="https://raw.githubusercontent.com/openhab/openhab.android/master/fastlane/metadata/android/en-US/phoneScreenshots/widget_overview.png" width="200px"> <img src="https://raw.githubusercontent.com/openhab/openhab.android/master/fastlane/metadata/android/en-US/phoneScreenshots/astro_binding.png" width="200px"> <img src="https://raw.githubusercontent.com/openhab/openhab.android/master/fastlane/metadata/android/en-US/phoneScreenshots/bindings.png" width="200px">
 
 ## Setting up development environment
 
