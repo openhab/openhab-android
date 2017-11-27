@@ -698,7 +698,8 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
                             if(minValue == maxValue) {
                                 stepSize = 1;
                             } else {
-                                stepSize = (int) openHABWidget.getStep();
+                                //Ensure min step size is 1
+                                stepSize = Math.max(1, (int) openHABWidget.getStep());
                             }
 
 
