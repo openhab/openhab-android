@@ -6,16 +6,7 @@
     <string name="app_notifications">Уведомления</string>
     <string name="dlg_notification_title">Уведомление</string>
     <string name="app_bindings">Привязывать</string>
-    <string name="app_bindings_supportedthings">Вспомогательное оборудование</string>
-    <string name="app_discoveryinbox">Обнаружение</string>
     <string name="favorites">Избранное</string>
-    <string name="app_discoveryinbox_deviceunnamed">Безымянное устройство</string>
-    <string name="app_discoveryinbox_deviceaction">Выберите действие</string>
-    <string name="app_discoveryinbox_approve">Утвердить</string>
-    <string name="app_discoveryinbox_ignore">Игнорировать</string>
-    <string name="app_discoveryinbox_delete">Удалить</string>
-    <string name="app_discoveryinbox_nothings">Нет нового оборудования</string>
-    <string name="app_discovery">Активация Обнаружения</string>
     <string name="minus">-</string>
     <string name="plus">+</string>
     <!-- Main menu items -->

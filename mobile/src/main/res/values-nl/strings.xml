@@ -4,15 +4,6 @@
     <string name="app_preferences_name">Instellingen</string>
     <string name="app_notifications">Notificaties</string>
     <string name="app_bindings">Bindings</string>
-    <string name="app_bindings_supportedthings">Ondersteunde Dingen</string>
-    <string name="app_discoveryinbox">Ontdek</string>
-    <string name="app_discoveryinbox_deviceunnamed">Onbenoemd Apparaat</string>
-    <string name="app_discoveryinbox_deviceaction">Selecteer actie</string>
-    <string name="app_discoveryinbox_approve">Keur Goed</string>
-    <string name="app_discoveryinbox_ignore">Negeren</string>
-    <string name="app_discoveryinbox_delete">Verwijderen</string>
-    <string name="app_discoveryinbox_nothings">Geen nieuwe dingen</string>
-    <string name="app_discovery">Activeer Ontdekken</string>
     <!-- Main menu items -->
     <string name="mainmenu_openhab_preferences">Instellingen</string>
     <string name="mainmenu_openhab_selectsitemap">Selecteer standaard sitemap</string>
