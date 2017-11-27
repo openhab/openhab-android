@@ -703,7 +703,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
                             }
 
 
-                            final String[] stepValues = new String[(maxValue - minValue)/stepSize +1];
+                            final String[] stepValues = new String[Math.abs(maxValue - minValue)/stepSize +1];
                             for(int i = 0; i < stepValues.length; i++){
                                 stepValues[i] = String.valueOf(minValue + (i*stepSize));
                             }
