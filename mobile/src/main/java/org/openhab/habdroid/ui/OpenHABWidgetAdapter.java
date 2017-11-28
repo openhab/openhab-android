@@ -692,23 +692,23 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
                         @Override
                         public void onClick(final View view) {
 
-                            int minValue = (int) openHABWidget.getMinValue();
-                            int maxValue = (int) openHABWidget.getMaxValue();
+                            float minValue = openHABWidget.getMinValue();
+                            float maxValue = openHABWidget.getMaxValue();
 
                             //This prevents an exception below. But could lead to user confusion if this case is ever encountered.
                             if (minValue > maxValue){
                                 maxValue = minValue;
                             }
-                            final int stepSize;
+                            final float stepSize;
                             if(minValue == maxValue) {
                                 stepSize = 1;
                             } else {
                                 //Ensure min step size is 1
-                                stepSize = Math.max(1, (int) openHABWidget.getStep());
+                                stepSize = openHABWidget.getStep();
                             }
 
 
-                            final String[] stepValues = new String[Math.abs(maxValue - minValue)/stepSize +1];
+                            final String[] stepValues = new String[((int)(Math.abs(maxValue - minValue)/stepSize)) +1];
                             for(int i = 0; i < stepValues.length; i++){
                                 stepValues[i] = String.valueOf(minValue + (i*stepSize));
                             }
@@ -744,11 +744,11 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
                             numberPicker.setMaxValue(stepValues.length -1);
                             numberPicker.setDisplayedValues(stepValues);
 
-                            // Find the closest value in the calculated step values.
-                            int stepIndex = Arrays.binarySearch(stepValues, valueTextView.getText(), new Comparator<CharSequence>() {
+                            // Find the closest value in the calculated step value
+                            int stepIndex = Arrays.binarySearch(stepValues, Float.toString(openHABWidget.getItem().getStateAsFloat()), new Comparator<CharSequence>() {
                                 @Override
                                 public int compare(CharSequence t1, CharSequence t2) {
-                                    return Integer.valueOf(t1.toString()).compareTo(Integer.valueOf(t2.toString()));
+                                    return Float.valueOf(t1.toString()).compareTo(Float.valueOf(t2.toString()));
                                 }
                             });
                             if ( stepIndex < 0 ){
