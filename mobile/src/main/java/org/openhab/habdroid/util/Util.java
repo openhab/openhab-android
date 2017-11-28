@@ -15,9 +15,6 @@ import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.crittercism.app.Crittercism;
-import com.crittercism.app.CrittercismConfig;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -67,13 +64,6 @@ public class Util {
             Log.e(TAG, "normalizeUrl: invalid URL");
         }
         return normalizedUrl;
-    }
-
-    public static void initCrittercism(Context ctx, String appKey) {
-        // Initialize crittercism reporting
-        CrittercismConfig crittercismConfig = new CrittercismConfig();
-        crittercismConfig.setLogcatReportingEnabled(true);
-        Crittercism.initialize(ctx, appKey, crittercismConfig);
     }
 
     public static List<OpenHABSitemap> parseSitemapList(Document document) {

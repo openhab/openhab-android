@@ -27,8 +27,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.widget.TextView;
 
-import com.google.android.gms.analytics.GoogleAnalytics;
-
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.util.Util;
 
@@ -45,18 +43,6 @@ public class OpenHABWriteTagActivity extends AppCompatActivity {
 	private String sitemapPage = "";
 	private String item = "";
 	private String command = "";
-
-	@Override
-	public void onStart() {
-		super.onStart();
-        GoogleAnalytics.getInstance(this).reportActivityStart(this);
-	}
-	
-	@Override
-	public void onStop() {
-		super.onStop();
-        GoogleAnalytics.getInstance(this).reportActivityStop(this);
-	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

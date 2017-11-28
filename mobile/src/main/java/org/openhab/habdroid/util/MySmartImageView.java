@@ -72,7 +72,7 @@ public class MySmartImageView extends SmartImageView {
         this.myImageUrl = url;
         this.username = username;
         this.password = password;
-        setImage(new MyWebImage(url, username, password), fallbackResource, null);
+        setImage(new MyWebImage(url, username, password), fallbackResource);
     }
 
     public void setImageUrl(String url, final Integer fallbackResource, final Integer loadingResource, String username, String password) {

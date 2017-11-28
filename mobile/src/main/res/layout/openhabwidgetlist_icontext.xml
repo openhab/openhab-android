@@ -15,8 +15,7 @@
         android:maxWidth="50dip"
         android:minWidth="50dip"
         android:maxHeight="50dip"
-        android:minHeight="50dip"
-        />
+        android:minHeight="50dip" />
 
     <TextView
         android:id="@+id/widgetlabel"

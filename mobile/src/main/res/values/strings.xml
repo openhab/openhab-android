@@ -57,8 +57,8 @@
     <string name="settings_openhab_icon_format">Icon format</string>
     <string name="settings_openhab_icon_format_value_png" translatable="false">PNG</string>
     <string name="settings_openhab_icon_format_value_svg" translatable="false">SVG</string>
-    <string name="settings_openhab_icon_format_png">PNG</string>
-    <string name="settings_openhab_icon_format_svg">SVG</string>
+    <string name="settings_openhab_icon_format_png">Bitmap</string>
+    <string name="settings_openhab_icon_format_svg">Vector</string>
     <string name="settings_ringtone">Ring tone</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">openHAB Voice Commands</string>
@@ -85,8 +85,8 @@
     <string name="error_http_code_401">User authentication has failed. Please check username, password and SSL client certificate (HTTP response code 401)</string>
     <string name="error_http_code_403">User authentication has failed. Please check username, password and SSL client certificate (HTTP response code 403)</string>
     <string name="error_http_code_407">User authentication has failed. Please check username, password and SSL client certificate (HTTP response code 407)</string>
-    <string name="error_http_code_414">openHAB-URL is too long (HTTP response code 414)</string>
-    <string name="error_http_code_426">HTTPS is required. Please change the openHAB-URL (HTTP response code 426)</string>
+    <string name="error_http_code_414">openHAB URL is too long (HTTP response code 414)</string>
+    <string name="error_http_code_426">HTTPS is required. Please change the openHAB URL (HTTP response code 426)</string>
     <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
     <string name="error_http_code_495">Invalid SSL client certificate (HTTP response code 495)</string>
     <string name="error_http_code_496">SSL client certificate is required (HTTP response code 496)</string>
@@ -152,10 +152,12 @@
     <string name="about_copyright" translatable="false">© 2012 - %s openHAB Foundation</string>
     <string name="settings_debug_messages_summary">Some error messages include more information</string>
     <string name="settings_debug_messages_title">Show debug messages</string>
-    <string name="error_couldnt_determine_openhab_url">Couldn\'t determine OpenHAB URL</string>
+    <string name="error_couldnt_determine_openhab_url">Couldn\'t determine openHAB URL</string>
     <string name="unknown">Unknown</string>
     <string name="error_network_type_unsupported">Network type (%s) is unsupported</string>
     <string name="ok">Ok</string>
+    <string name="set">Set</string>
+    <string name="cancel">Cancel</string>
     <string name="app_intro">Intro</string>
     <string name="intro_welcome">Welcome to openHAB</string>
     <string name="intro_whatis">A vendor and technology agnostic open source automation software for your home</string>
