@@ -694,6 +694,11 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
 
                             int minValue = (int) openHABWidget.getMinValue();
                             int maxValue = (int) openHABWidget.getMaxValue();
+
+                            //This prevents an exception below. But could lead to user confusion if this case is ever encountered.
+                            if (minValue > maxValue){
+                                maxValue = minValue;
+                            }
                             final int stepSize;
                             if(minValue == maxValue) {
                                 stepSize = 1;
