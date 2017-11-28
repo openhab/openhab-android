@@ -16,8 +16,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.android.gms.analytics.GoogleAnalytics;
-
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.core.OpenHABVoiceService;
 import org.openhab.habdroid.util.Util;
@@ -28,18 +26,6 @@ public class OpenHABAboutActivity extends AppCompatActivity {
     private static String openHABUsername;
     private static String openHABPassword;
     private static int openHABVersion;
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        GoogleAnalytics.getInstance(this).reportActivityStart(this);
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        GoogleAnalytics.getInstance(this).reportActivityStop(this);
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

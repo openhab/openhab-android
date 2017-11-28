@@ -1371,7 +1371,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
         }
         Drawable aboutDrawable = getResources().getDrawable(R.drawable.ic_info_outline);
         aboutDrawable.setColorFilter(
-                ContextCompat.getColor(this, R.color.colorAccent_themeDark),
+                iconColor,
                 PorterDuff.Mode.SRC_IN);
         mDrawerItemList.add(OpenHABDrawerItem.dividerItem());
         mDrawerItemList.add(OpenHABDrawerItem.menuItem(
