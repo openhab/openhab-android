@@ -27,8 +27,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
-import com.google.android.gms.analytics.GoogleAnalytics;
+import java.text.DateFormat;
 
+import org.openhab.habdroid.BuildConfig;
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.util.Constants;
 import org.openhab.habdroid.util.Util;
@@ -40,18 +41,6 @@ import java.security.cert.X509Certificate;
  */
 
 public class OpenHABPreferencesActivity extends AppCompatActivity {
-	@Override
-	public void onStart() {
-		super.onStart();
-        GoogleAnalytics.getInstance(this).reportActivityStart(this);
-	}
-
-	@Override
-	public void onStop() {
-		super.onStop();
-        GoogleAnalytics.getInstance(this).reportActivityStop(this);
-	}
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         Util.setActivityTheme(this);

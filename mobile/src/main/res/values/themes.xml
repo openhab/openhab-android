@@ -2,7 +2,6 @@
 <resources>
 
     <style name="HABDroid.Light" parent="@style/Theme.AppCompat.Light">
-        <item name="customMicIcon">@android:drawable/ic_btn_speak_now</item>
         <item name="widgetlistItemDivider">?android:dividerHorizontal</item>
         <item name="frameWidgetDividerBackground">@drawable/material_divider</item>
 
@@ -22,7 +21,6 @@
     </style>
 
     <style name="HABDroid.Dark" parent="@style/Theme.AppCompat">
-        <item name="customMicIcon">@android:drawable/ic_btn_speak_now</item>
         <item name="widgetlistItemDivider">?android:dividerHorizontal</item>
         <item name="frameWidgetDividerBackground">@drawable/material_divider_dark</item>
 
@@ -44,7 +42,6 @@
     </style>
 
     <style name="HABDroid.Black" parent="@style/Theme.AppCompat">
-        <item name="customMicIcon">@android:drawable/ic_btn_speak_now</item>
         <item name="widgetlistItemDivider">?android:dividerHorizontal</item>
         <item name="frameWidgetDividerBackground">@color/black</item>
 
@@ -66,7 +63,6 @@
     </style>
 
     <style name="HABDroid.Basic_ui" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="customMicIcon">@android:drawable/ic_btn_speak_now</item>
         <item name="widgetlistItemDivider">?android:dividerHorizontal</item>
         <item name="frameWidgetDividerBackground">@drawable/material_divider</item>
 
@@ -86,7 +82,6 @@
     </style>
 
     <style name="HABDroid.Basic_ui_dark" parent="Theme.AppCompat.NoActionBar">
-        <item name="customMicIcon">@android:drawable/ic_btn_speak_now</item>
         <item name="widgetlistItemDivider">?android:dividerHorizontal</item>
         <item name="frameWidgetDividerBackground">@drawable/material_divider_dark</item>
 
