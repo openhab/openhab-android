@@ -57,8 +57,8 @@
     <string name="settings_openhab_icon_format">Icon format</string>
     <string name="settings_openhab_icon_format_value_png" translatable="false">PNG</string>
     <string name="settings_openhab_icon_format_value_svg" translatable="false">SVG</string>
-    <string name="settings_openhab_icon_format_png">PNG</string>
-    <string name="settings_openhab_icon_format_svg">SVG</string>
+    <string name="settings_openhab_icon_format_png">Bitmap</string>
+    <string name="settings_openhab_icon_format_svg">Vector</string>
     <string name="settings_ringtone">Ring tone</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">openHAB Voice Commands</string>
