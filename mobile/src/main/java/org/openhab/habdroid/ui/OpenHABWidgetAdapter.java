@@ -710,7 +710,16 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
 
                             final String[] stepValues = new String[((int)(Math.abs(maxValue - minValue)/stepSize)) +1];
                             for(int i = 0; i < stepValues.length; i++){
-                                stepValues[i] = String.valueOf(minValue + (i*stepSize));
+                                //Check if step size is a whole integer.
+                                if( stepSize == Math.ceil(stepSize)){
+                                    //Cast to int to prevent .0 being added to all values in picker
+                                    stepValues[i] = String.valueOf((int) (minValue + (i*stepSize)));
+                                }
+                                else{
+
+                                    stepValues[i] = String.valueOf(minValue + (i*stepSize));
+                                }
+
                             }
 
                             AlertDialog.Builder builder = new AlertDialog.Builder(context);
