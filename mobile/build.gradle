@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     buildToolsVersion '26.0.2'
-    compileSdkVersion 25
+    compileSdkVersion 26
     useLibrary 'org.apache.http.legacy'
 
     flavorDimensions "main"
@@ -58,9 +58,9 @@ repositories {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile "com.android.support:appcompat-v7:25.4.0"
-    compile "com.android.support:support-v4:25.4.0"
-    compile "com.android.support:design:25.4.0"
+    compile "com.android.support:appcompat-v7:26.1.0"
+    compile "com.android.support:support-v4:26.1.0"
+    compile "com.android.support:design:26.1.0"
     compile 'com.android.support:multidex:1.0.2'
     compile 'com.google.code.gson:gson:2.8.0'
     fullCompile 'com.google.android.gms:play-services-gcm:10.2.1'
