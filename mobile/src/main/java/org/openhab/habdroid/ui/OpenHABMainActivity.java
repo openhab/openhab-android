@@ -47,7 +47,6 @@ import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -59,7 +58,6 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
-import com.loopj.android.image.WebImageCache;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -74,7 +72,6 @@ import org.openhab.habdroid.core.notifications.GoogleCloudMessageConnector;
 import org.openhab.habdroid.core.notifications.NotificationSettings;
 import org.openhab.habdroid.model.OpenHABLinkedPage;
 import org.openhab.habdroid.model.OpenHABSitemap;
-import org.openhab.habdroid.model.thing.ThingType;
 import org.openhab.habdroid.ui.drawer.OpenHABDrawerAdapter;
 import org.openhab.habdroid.ui.drawer.OpenHABDrawerItem;
 import org.openhab.habdroid.util.Constants;
@@ -872,20 +869,6 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
                 preferencesEditor.putString(Constants.PREFERENCE_SITEMAP, "");
                 preferencesEditor.apply();
                 selectSitemap(openHABBaseUrl, true, true);
-                return true;
-            case R.id.mainmenu_openhab_clearcache:
-                Log.d(TAG, "Restarting");
-                // Get launch intent for application
-                Intent restartIntent = getBaseContext().getPackageManager()
-                        .getLaunchIntentForPackage(getBaseContext().getPackageName());
-                restartIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                // Finish current activity
-                finish();
-                WebImageCache cache = new WebImageCache(getBaseContext());
-                cache.clear();
-                // Start launch activity
-                startActivity(restartIntent);
-                // Start launch activity
                 return true;
             case R.id.mainmenu_openhab_writetag:
                 Intent writeTagIntent = new Intent(this.getApplicationContext(), OpenHABWriteTagActivity.class);

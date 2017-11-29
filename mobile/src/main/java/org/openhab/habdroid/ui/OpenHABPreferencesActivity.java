@@ -27,7 +27,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
-import java.text.DateFormat;
+import com.loopj.android.image.WebImageCache;
 
 import org.openhab.habdroid.BuildConfig;
 import org.openhab.habdroid.R;
@@ -35,6 +35,7 @@ import org.openhab.habdroid.util.Constants;
 import org.openhab.habdroid.util.Util;
 
 import java.security.cert.X509Certificate;
+import java.text.DateFormat;
 
 /**
  * This is a class to provide preferences activity for application.
@@ -96,6 +97,8 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
             final Preference sslClientCert = getPreferenceScreen().findPreference(Constants.PREFERENCE_SSLCLIENTCERT);
             final Preference sslClientCertHowTo = getPreferenceScreen().findPreference(Constants.PREFERENCE_SSLCLIENTCERT_HOWTO);
             final Preference altUrlPreference = getPreferenceScreen().findPreference(Constants.PREFERENCE_ALTURL);
+            final Preference clearCachePreference = getPreferenceScreen().findPreference(Constants
+                    .PREFERENCE_CLEAR_CACHE);
 
             updateSslClientCertSummary(sslClientCert);
 
@@ -140,6 +143,27 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
                     if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
                         startActivity(intent);
                     }
+                    return true;
+                }
+            });
+
+            clearCachePreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    if (getActivity() == null) {
+                        return false;
+                    }
+                    // Get launch intent for application
+                    Intent restartIntent = getActivity().getBaseContext().getPackageManager()
+                            .getLaunchIntentForPackage(getActivity().getBaseContext().getPackageName());
+                    restartIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    // Finish current activity
+                    getActivity().finish();
+                    WebImageCache cache = new WebImageCache(getActivity().getBaseContext());
+                    cache.clear();
+                    // Start launch activity
+                    startActivity(restartIntent);
+                    // Start launch activity
                     return true;
                 }
             });

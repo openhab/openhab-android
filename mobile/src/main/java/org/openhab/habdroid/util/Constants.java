@@ -22,7 +22,7 @@ public class Constants {
     public static final String PREFERENCE_ANIMATION         = "default_openhab_animation";
     public static final String PREFERENCE_DEMOMODE          = "default_openhab_demomode";
     public static final String PREFERENCE_FULLSCREEN        = "default_openhab_fullscreen";
-    public static final String PREFERENCE_TONE              = "default_openhab_alertringtone";
+    public static final String PREFERENCE_CLEAR_CACHE       = "default_openhab_cleacache";
     public static final String PREFERENCE_SSLCLIENTCERT     = "default_openhab_sslclientcert";
     public static final String PREFERENCE_SSLCLIENTCERT_HOWTO = "default_openhab_sslclientcert_howto";
     public static final String PREFERENCE_DEBUG_MESSAGES      = "default_openhab_debug_messages";
