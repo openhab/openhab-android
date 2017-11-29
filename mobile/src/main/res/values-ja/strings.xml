@@ -4,15 +4,6 @@
     <string name="app_preferences_name">設定</string>
     <string name="app_notifications">通知</string>
     <string name="app_bindings">バインド</string>
-    <string name="app_bindings_supportedthings">サポートする機器</string>
-    <string name="app_discoveryinbox">探索</string>
-    <string name="app_discoveryinbox_deviceunnamed">無題のデバイス</string>
-    <string name="app_discoveryinbox_deviceaction">操作を選択</string>
-    <string name="app_discoveryinbox_approve">承認</string>
-    <string name="app_discoveryinbox_ignore">無視</string>
-    <string name="app_discoveryinbox_delete">削除</string>
-    <string name="app_discoveryinbox_nothings">新しい機器はありません</string>
-    <string name="app_discovery">探索を有効にする</string>
     <!-- Main menu items -->
     <string name="mainmenu_openhab_preferences">設定</string>
     <string name="mainmenu_openhab_selectsitemap">デフォルトのサイトマップを選択</string>
