@@ -35,8 +35,8 @@ android {
         }
         foss {
             dimension "main"
-            applicationIdSuffix ".foss"
-            versionNameSuffix "-foss"
+//            applicationIdSuffix ".foss"
+//            versionNameSuffix "-foss"
         }
     }
     testOptions {
