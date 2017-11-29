@@ -68,6 +68,7 @@ import org.openhab.habdroid.core.GcmIntentService;
 import org.openhab.habdroid.core.HABDroid;
 import org.openhab.habdroid.core.NetworkConnectivityInfo;
 import org.openhab.habdroid.core.NotificationDeletedBroadcastReceiver;
+import org.openhab.habdroid.core.OnUpdateBroadcastReceiver;
 import org.openhab.habdroid.core.OpenHABTracker;
 import org.openhab.habdroid.core.OpenHABTrackerReceiver;
 import org.openhab.habdroid.core.OpenHABVoiceService;
@@ -110,8 +111,6 @@ import de.duenndns.ssl.MemorizingResponder;
 import de.duenndns.ssl.MemorizingTrustManager;
 import okhttp3.Call;
 import okhttp3.Headers;
-
-import static org.openhab.habdroid.util.Constants.PREFERENCE_COMPAREABLEVERSION;
 
 public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSelectedListener,
         OpenHABTrackerReceiver, MemorizingResponder {
@@ -336,7 +335,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
             prefsEdit.putBoolean("firstStart", false).apply();
         }
 
-        prefsEdit.putInt(PREFERENCE_COMPAREABLEVERSION, BuildConfig.VERSION_CODE);
+        OnUpdateBroadcastReceiver.updateComparableVersion(prefsEdit);
         prefsEdit.apply();
     }
 

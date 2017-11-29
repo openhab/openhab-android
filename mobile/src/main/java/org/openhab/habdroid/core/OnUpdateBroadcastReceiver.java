@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
+import org.openhab.habdroid.BuildConfig;
 import org.openhab.habdroid.util.Constants;
 
 import static org.openhab.habdroid.util.Constants.PREFERENCE_COMPAREABLEVERSION;
@@ -18,14 +19,14 @@ public class OnUpdateBroadcastReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        if (!Intent.ACTION_MY_PACKAGE_REPLACED.equalsIgnoreCase(intent.getAction())) {
+        if (!Intent.ACTION_MY_PACKAGE_REPLACED.equals(intent.getAction())) {
             return;
         }
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor edit = prefs.edit();
 
         if (prefs.getInt(PREFERENCE_COMPAREABLEVERSION, 0) <= UPDATE_LOCAL_CREDENTIALS) {
             Log.d(TAG, "Checking for putting username/password to local username/password.");
-            SharedPreferences.Editor edit = prefs.edit();
             if (prefs.getString(Constants.PREFERENCE_LOCAL_USERNAME, null) == null) {
                 edit.putString(Constants.PREFERENCE_LOCAL_USERNAME, prefs.getString(Constants
                         .PREFERENCE_USERNAME, null));
@@ -34,7 +35,13 @@ public class OnUpdateBroadcastReceiver extends BroadcastReceiver {
                 edit.putString(Constants.PREFERENCE_LOCAL_PASSWORD, prefs.getString(Constants
                         .PREFERENCE_PASSWORD, null));
             }
-            edit.apply();
         }
+
+        updateComparableVersion(edit);
+        edit.apply();
+    }
+
+    public static void updateComparableVersion(SharedPreferences.Editor prefsEdit) {
+        prefsEdit.putInt(PREFERENCE_COMPAREABLEVERSION, BuildConfig.VERSION_CODE);
     }
 }
