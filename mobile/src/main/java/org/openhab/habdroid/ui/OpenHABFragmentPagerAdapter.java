@@ -165,63 +165,6 @@ public class OpenHABFragmentPagerAdapter extends FragmentStatePagerAdapter imple
         );
     }
 
-    public void openBindings() {
-        if (fragmentList.size() > 0) {
-            if (!(fragmentList.get(fragmentList.size() - 1) instanceof OpenHABBindingFragment)) {
-                removeLastFragmentIfNotWidgetList();
-                OpenHABBindingFragment fragment = OpenHABBindingFragment.newInstance(openHABBaseUrl, openHABUsername, openHABPassword);
-                fragmentList.add(fragment);
-                notifyDataSetChanged();
-            } else {
-                ((OpenHABBindingFragment) fragmentList.get(fragmentList.size() - 1)).refresh();
-            }
-        } else {
-            OpenHABBindingFragment fragment = OpenHABBindingFragment.newInstance(openHABBaseUrl, openHABUsername, openHABPassword);
-            fragmentList.add(fragment);
-            notifyDataSetChanged();
-        }
-    }
-
-    public void openDiscoveryInbox() {
-        if (fragmentList.size() > 0) {
-            if (!(fragmentList.get(fragmentList.size() - 1) instanceof OpenHABDiscoveryInboxFragment)) {
-                removeLastFragmentIfNotWidgetList();
-                OpenHABDiscoveryInboxFragment fragment = OpenHABDiscoveryInboxFragment.newInstance(openHABBaseUrl, openHABUsername, openHABPassword);
-                fragmentList.add(fragment);
-                notifyDataSetChanged();
-            } else {
-                ((OpenHABDiscoveryInboxFragment) fragmentList.get(fragmentList.size() - 1)).refresh();
-            }
-        } else {
-            OpenHABDiscoveryInboxFragment fragment = OpenHABDiscoveryInboxFragment.newInstance(openHABBaseUrl, openHABUsername, openHABPassword);
-            fragmentList.add(fragment);
-            notifyDataSetChanged();
-        }
-    }
-
-    public void openDiscovery() {
-        if (fragmentList.size() > 0) {
-            if (!(fragmentList.get(fragmentList.size() - 1) instanceof OpenHABDiscoveryFragment)) {
-                removeLastFragmentIfNotWidgetList();
-                OpenHABDiscoveryFragment fragment = OpenHABDiscoveryFragment.newInstance(openHABBaseUrl, openHABUsername, openHABPassword);
-                fragmentList.add(fragment);
-                notifyDataSetChanged();
-            } else {
-                ((OpenHABDiscoveryFragment) fragmentList.get(fragmentList.size() - 1)).refresh();
-            }
-        } else {
-            OpenHABDiscoveryFragment fragment = OpenHABDiscoveryFragment.newInstance(openHABBaseUrl, openHABUsername, openHABPassword);
-            fragmentList.add(fragment);
-            notifyDataSetChanged();
-        }
-    }
-
-    public void openBindingThingTypes(ArrayList<ThingType> thingTypes) {
-        BindingThingTypesFragment fragment = BindingThingTypesFragment.newInstance(thingTypes);
-        fragmentList.add(fragment);
-        notifyDataSetChanged();
-    }
-
     public void openPage(String pageUrl) {
         Log.d(TAG, "openPage(" + pageUrl + ")");
         OpenHABWidgetListFragment fragment = OpenHABWidgetListFragment.withPage(pageUrl, openHABBaseUrl,

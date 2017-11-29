@@ -162,9 +162,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
     private static final int INFO_REQUEST_CODE = 1004;
     // Drawer item codes
     private static final int DRAWER_NOTIFICATIONS = 100;
-    private static final int DRAWER_BINDINGS = 101;
-    private static final int DRAWER_INBOX = 102;
-    private static final int DRAWER_ABOUT = 103;
+    private static final int DRAWER_ABOUT = 101;
 
     // Loopj
 //    private static MyAsyncHttpClient mAsyncHttpClient;
@@ -501,14 +499,6 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
                         Log.d(TAG, "Notifications selected");
                         mDrawerLayout.closeDrawers();
                         OpenHABMainActivity.this.openNotifications();
-                    } else if (mDrawerItemList.get(item).getTag() == DRAWER_BINDINGS) {
-                        Log.d(TAG, "Bindings selected");
-                        mDrawerLayout.closeDrawers();
-                        OpenHABMainActivity.this.openBindings();
-                    } else if (mDrawerItemList.get(item).getTag() == DRAWER_INBOX) {
-                        Log.d(TAG, "Inbox selected");
-                        mDrawerLayout.closeDrawers();
-                        OpenHABMainActivity.this.openDiscoveryInbox();
                     } else if (mDrawerItemList.get(item).getTag() == DRAWER_ABOUT) {
                         OpenHABMainActivity.this.openAbout();
                     }
@@ -833,34 +823,6 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
     public void openNotifications() {
         if (this.pagerAdapter != null) {
             pagerAdapter.openNotifications(getNotificationSettings());
-            pager.setCurrentItem(pagerAdapter.getCount() - 1);
-        }
-    }
-
-    public void openBindings() {
-        if (this.pagerAdapter != null) {
-            pagerAdapter.openBindings();
-            pager.setCurrentItem(pagerAdapter.getCount() - 1);
-        }
-    }
-
-    public void openDiscovery() {
-        if (this.pagerAdapter != null) {
-            pagerAdapter.openDiscovery();
-            pager.setCurrentItem(pagerAdapter.getCount() - 1);
-        }
-    }
-
-    public void openDiscoveryInbox() {
-        if (this.pagerAdapter != null) {
-            pagerAdapter.openDiscoveryInbox();
-            pager.setCurrentItem(pagerAdapter.getCount() - 1);
-        }
-    }
-
-    public void openBindingThingTypes(ArrayList<ThingType> thingTypes) {
-        if (this.pagerAdapter != null) {
-            pagerAdapter.openBindingThingTypes(thingTypes);
             pager.setCurrentItem(pagerAdapter.getCount() - 1);
         }
     }
@@ -1336,18 +1298,6 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
                 iconColor,
                 PorterDuff.Mode.SRC_IN
         );
-        Drawable discoveryDrawable = getResources().getDrawable(R.drawable
-                .ic_track_changes_black_24dp);
-        discoveryDrawable.setColorFilter(
-                iconColor,
-                PorterDuff.Mode.SRC_IN
-        );
-        Drawable bindingsDrawable = getResources().getDrawable(R.drawable
-                .ic_extension_black_24dp);
-        bindingsDrawable.setColorFilter(
-                iconColor,
-                PorterDuff.Mode.SRC_IN
-        );
         if (getNotificationSettings() != null) {
             mDrawerItemList.add(OpenHABDrawerItem.menuItem(
                     "Notifications",
@@ -1356,19 +1306,6 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
             ));
         }
 
-        // Only show those items if openHAB version is >= 2, openHAB 1.x just don't have those APIs...
-        if (mOpenHABVersion >= 2) {
-            mDrawerItemList.add(OpenHABDrawerItem.menuItem(
-                    "Discovery",
-                    discoveryDrawable,
-                    DRAWER_INBOX
-            ));
-            mDrawerItemList.add(OpenHABDrawerItem.menuItem(
-                    "Bindings",
-                    bindingsDrawable,
-                    DRAWER_BINDINGS
-            ));
-        }
         Drawable aboutDrawable = getResources().getDrawable(R.drawable.ic_info_outline);
         aboutDrawable.setColorFilter(
                 iconColor,
