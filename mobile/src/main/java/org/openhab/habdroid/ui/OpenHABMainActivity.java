@@ -47,7 +47,6 @@ import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -74,7 +73,6 @@ import org.openhab.habdroid.core.notifications.GoogleCloudMessageConnector;
 import org.openhab.habdroid.core.notifications.NotificationSettings;
 import org.openhab.habdroid.model.OpenHABLinkedPage;
 import org.openhab.habdroid.model.OpenHABSitemap;
-import org.openhab.habdroid.model.thing.ThingType;
 import org.openhab.habdroid.ui.drawer.OpenHABDrawerAdapter;
 import org.openhab.habdroid.ui.drawer.OpenHABDrawerItem;
 import org.openhab.habdroid.util.Constants;
@@ -1309,7 +1307,6 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
             for (OpenHABSitemap sitemap : mSitemapList) {
                 mDrawerItemList.add(new OpenHABDrawerItem(sitemap));
             }
-            mDrawerItemList.add(OpenHABDrawerItem.dividerItem());
         }
         int iconColor = ContextCompat.getColor(this, R.color.colorAccent_themeDark);
         Drawable notificationDrawable = getResources().getDrawable(R.drawable
@@ -1326,10 +1323,18 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
             ));
         }
 
+        Drawable settingsDrawable = getResources().getDrawable(R.drawable
+                .ic_settings_black_24dp);
+        settingsDrawable.setColorFilter(
+                iconColor,
+                PorterDuff.Mode.SRC_IN
+        );
         mDrawerItemList.add(OpenHABDrawerItem.dividerItem());
-        mDrawerItemList.add(OpenHABDrawerItem.menuItem(getString(R.string
-                .mainmenu_openhab_preferences), getResources().getDrawable(R.drawable
-                .ic_settings_grey600_36dp), DRAWER_PREFERENCES));
+        mDrawerItemList.add(OpenHABDrawerItem.menuItem(
+                getString(R.string.mainmenu_openhab_preferences),
+                settingsDrawable,
+                DRAWER_PREFERENCES
+        ));
         mDrawerAdapter.notifyDataSetChanged();
     }
 }
