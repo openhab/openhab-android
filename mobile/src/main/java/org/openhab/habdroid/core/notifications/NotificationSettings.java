@@ -22,6 +22,8 @@ public class NotificationSettings {
     private static final String GCM_SENDER_ID_KEY = "senderId";
 
     private URL openHABCloudURL;
+    private String openHABCloudUsername;
+    private String openHABCloudPassword;
     private MySyncHttpClient httpClient;
     private JSONObject settings = new JSONObject();
     private boolean isLoaded = false;
@@ -47,6 +49,22 @@ public class NotificationSettings {
     public NotificationSettings(URL openHABCloudURL, MySyncHttpClient httpClient) {
         this.openHABCloudURL = openHABCloudURL;
         this.httpClient = httpClient;
+    }
+
+    public String getOpenHABCloudUsername() {
+        return openHABCloudUsername;
+    }
+
+    public void setOpenHABCloudUsername(String openHABCloudUsername) {
+        this.openHABCloudUsername = openHABCloudUsername;
+    }
+
+    public String getOpenHABCloudPassword() {
+        return openHABCloudPassword;
+    }
+
+    public void setOpenHABCloudPassword(String openHABCloudPassword) {
+        this.openHABCloudPassword = openHABCloudPassword;
     }
 
     MyHttpClient getHttpClient () {

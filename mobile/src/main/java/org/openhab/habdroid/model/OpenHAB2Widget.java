@@ -1,5 +1,7 @@
 package org.openhab.habdroid.model;
 
+import android.util.Log;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -7,7 +9,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 public class OpenHAB2Widget extends OpenHABWidget {
-
+    private final static String TAG = OpenHAB2Widget.class.getSimpleName();
     private String iconFormat;
 
     public OpenHAB2Widget() {
@@ -20,9 +22,27 @@ public class OpenHAB2Widget extends OpenHABWidget {
         String itemState;
         if (widgetItem != null) {
             itemState = widgetItem.getState();
-            // For switch item without mappings (just ON and OFF) that control a dimmer item
-            // set the state to "OFF" instead of 0 or to "ON" to fetch the correct icon
-            if(itemState != null && getType().equals("Switch") && ! hasMappings()) {
+            if(itemState == null) {
+                Log.e(TAG, "itemState is null");
+            } else if (widgetItem.getType().equals("Color") || (widgetItem.getGroupType() != null && widgetItem.getGroupType().equals("Color"))) {
+                // For items that control a color item fetch the correct icon
+                if (getType().equals("Slider") || (getType().equals("Switch") && ! hasMappings())) {
+                    try {
+                        itemState = String.valueOf(widgetItem.getStateAsBrightness());
+                        if(getType().equals("Switch")) {
+                            if (itemState.equals("0")) {
+                                itemState = "OFF";
+                            } else {
+                                itemState = "ON";
+                            }
+                        }
+                    } catch (Exception e) {
+                        itemState = "OFF";
+                    }
+                }
+            } else if(getType().equals("Switch") && ! hasMappings()) {
+                // For switch items without mappings (just ON and OFF) that control a dimmer item
+                // set the state to "OFF" instead of 0 or to "ON" to fetch the correct icon
                 try {
                     int itemStateNumber = Integer.valueOf(itemState);
                     if (itemStateNumber == 0) {

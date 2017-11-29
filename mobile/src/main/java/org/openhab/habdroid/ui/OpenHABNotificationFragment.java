@@ -122,6 +122,9 @@ public class OpenHABNotificationFragment extends ListFragment implements SwipeRe
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mNotificationAdapter = new OpenHABNotificationAdapter(this.getActivity(), R.layout.openhabnotificationlist_item, mNotifications);
+        mNotificationAdapter.setOpenHABBaseUrl(openHABBaseURL);
+        mNotificationAdapter.setOpenHABUsername(openHABUsername);
+        mNotificationAdapter.setOpenHABPassword(openHABPassword);
         getListView().setAdapter(mNotificationAdapter);
         Log.d(TAG, "onActivityCreated()");
         Log.d(TAG, "isAdded = " + isAdded());

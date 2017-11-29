@@ -16,8 +16,6 @@ import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 
-import com.crittercism.app.Crittercism;
-
 import java.io.IOException;
 import java.net.Inet4Address;
 import java.net.InetAddress;
@@ -69,7 +67,6 @@ public class AsyncServiceResolver extends Thread implements ServiceListener {
             mMulticastLock.acquire();
         } catch (SecurityException e) {
             Log.i(TAG, "Security exception during multicast lock");
-            Crittercism.logHandledException(e);
         }
         mSleepingThread = Thread.currentThread();
         Log.i(TAG, "Discovering service " + mServiceType);

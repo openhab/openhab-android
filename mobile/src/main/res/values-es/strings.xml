@@ -4,15 +4,6 @@
     <string name="app_preferences_name">Configuración</string>
     <string name="app_notifications">Notificaciones</string>
     <string name="app_bindings">Bindings</string>
-    <string name="app_bindings_supportedthings">Elementos soportados</string>
-    <string name="app_discoveryinbox">Búsqueda</string>
-    <string name="app_discoveryinbox_deviceunnamed">Dispositivo sin nombre</string>
-    <string name="app_discoveryinbox_deviceaction">Seleccionar una acción</string>
-    <string name="app_discoveryinbox_approve">Aprobar</string>
-    <string name="app_discoveryinbox_ignore">Ignorar</string>
-    <string name="app_discoveryinbox_delete">Suprimir</string>
-    <string name="app_discoveryinbox_nothings">No hay elementos nuevos</string>
-    <string name="app_discovery">Activar la búsqueda</string>
     <!-- Main menu items -->
     <string name="mainmenu_openhab_preferences">Configuración</string>
     <string name="mainmenu_openhab_selectsitemap">Seleccionar el sitemap por defecto</string>
