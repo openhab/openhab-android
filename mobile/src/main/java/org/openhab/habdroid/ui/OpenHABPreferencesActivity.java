@@ -90,10 +90,6 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
             initEditorPreference(Constants.PREFERENCE_USERNAME, 0, false);
             initEditorPreference(Constants.PREFERENCE_PASSWORD, 0, true);
 
-            Preference versionPreference = getPreferenceScreen().findPreference("default_openhab_appversion");
-            versionPreference.setSummary(BuildConfig.VERSION_NAME
-                    + " - " + DateFormat.getDateTimeInstance().format(BuildConfig.buildTime));
-
             final Preference sslClientCert = getPreferenceScreen().findPreference(Constants.PREFERENCE_SSLCLIENTCERT);
             final Preference sslClientCertHowTo = getPreferenceScreen().findPreference(Constants.PREFERENCE_SSLCLIENTCERT_HOWTO);
             final Preference altUrlPreference = getPreferenceScreen().findPreference(Constants.PREFERENCE_ALTURL);

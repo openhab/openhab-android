@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "849058498762",
+    "firebase_url": "https://openhab-mobile.firebaseio.com",
+    "project_id": "openhab-mobile",
+    "storage_bucket": "openhab-mobile.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:849058498762:android:9fcb28f91e1b4abb",
+        "android_client_info": {
+          "package_name": "org.openhab.habdroid"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "849058498762-bc6nbdk0aercq1e5utj1so77e390cr5j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBtollIxWyEIm3ni68CaoDJgZuUqoYC2Zw"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
