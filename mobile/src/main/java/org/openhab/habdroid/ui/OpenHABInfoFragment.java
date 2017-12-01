@@ -10,11 +10,10 @@
 package org.openhab.habdroid.ui;
 
 
-import android.app.Dialog;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,7 +31,7 @@ import okhttp3.Call;
 import okhttp3.Headers;
 
 
-public class OpenHABInfoFragment extends DialogFragment {
+public class OpenHABInfoFragment extends Fragment {
 
     private static final String TAG = OpenHABInfoFragment.class.getSimpleName();
     private int mOpenHABVersion;
@@ -51,7 +50,7 @@ public class OpenHABInfoFragment extends DialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.openhabinfo, container);
+        View view = inflater.inflate(R.layout.openhabinfo, container, false);
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences
                 (getActivity().getApplicationContext());
         mAsyncHttpClient = new MyAsyncHttpClient(getActivity().getApplicationContext(), prefs.getBoolean(Constants.PREFERENCE_SSLHOST,
@@ -65,7 +64,6 @@ public class OpenHABInfoFragment extends DialogFragment {
         Bundle bundle=getArguments();
 
         if (bundle!=null){
-
             mOpenHABBaseUrl = bundle.getString("openHABBaseUrl");
             mUsername = bundle.getString("username");
             mPassword = bundle.getString("password");
@@ -73,25 +71,10 @@ public class OpenHABInfoFragment extends DialogFragment {
             mAsyncHttpClient.setBasicAuth(mUsername, mPassword);
         } else {
             Log.e(TAG, "No openHABBaseURl parameter passed, can't fetch openHAB info from nowhere");
-
         }
-
 
         return view;
     }
-    @Override
-    public void onStart()
-    {
-        super.onStart();
-        Dialog dialog = getDialog();
-        if (dialog != null) {
-
-            int width = ViewGroup.LayoutParams.MATCH_PARENT;
-            int height = ViewGroup.LayoutParams.MATCH_PARENT;
-            dialog.getWindow().setLayout(width, height);
-        }
-    }
-
 
     @Override
     public void onResume() {

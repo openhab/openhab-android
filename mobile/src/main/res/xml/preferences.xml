@@ -95,11 +95,5 @@
             android:key="default_openhab_debug_messages"
             android:summary="@string/settings_debug_messages_summary"
             android:title="@string/settings_debug_messages_title" />
-        <EditTextPreference
-            android:enabled="false"
-            android:key="default_openhab_appversion"
-            android:persistent="false"
-            android:shouldDisableView="false"
-            android:title="@string/settings_openhab_appversion" />
     </PreferenceCategory>
 </PreferenceScreen>
