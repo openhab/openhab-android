@@ -29,13 +29,11 @@ import android.view.MenuItem;
 
 import com.loopj.android.image.WebImageCache;
 
-import org.openhab.habdroid.BuildConfig;
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.util.Constants;
 import org.openhab.habdroid.util.Util;
 
 import java.security.cert.X509Certificate;
-import java.text.DateFormat;
 
 /**
  * This is a class to provide preferences activity for application.
@@ -146,11 +144,8 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
             clearCachePreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
-                    if (getActivity() == null) {
-                        return false;
-                    }
                     // Get launch intent for application
-                    Intent restartIntent = getActivity().getBaseContext().getPackageManager()
+                    Intent restartIntent = getActivity().getPackageManager()
                             .getLaunchIntentForPackage(getActivity().getBaseContext().getPackageName());
                     restartIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     // Finish current activity
