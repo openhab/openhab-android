@@ -272,8 +272,8 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
         openHABServiceType = getString(R.string.openhab_service_type);
 
         // Get username/password from preferences
-        openHABUsername = mSettings.getString(Constants.PREFERENCE_USERNAME, null);
-        openHABPassword = mSettings.getString(Constants.PREFERENCE_PASSWORD, null);
+        openHABUsername = mSettings.getString(Constants.PREFERENCE_REMOTE_USERNAME, null);
+        openHABPassword = mSettings.getString(Constants.PREFERENCE_REMOTE_PASSWORD, null);
         mAsyncHttpClient.setBasicAuth(openHABUsername, openHABPassword, true);
         mAsyncHttpClient.setTimeout(30000);
 
@@ -580,9 +580,12 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
             openHABUsername = mSettings.getString(Constants.PREFERENCE_LOCAL_USERNAME, null);
             openHABPassword = mSettings.getString(Constants.PREFERENCE_LOCAL_PASSWORD, null);
         } else {
-            openHABUsername = mSettings.getString(Constants.PREFERENCE_USERNAME, null);
-            openHABPassword = mSettings.getString(Constants.PREFERENCE_PASSWORD, null);
+            openHABUsername = mSettings.getString(Constants.PREFERENCE_REMOTE_USERNAME, null);
+            openHABPassword = mSettings.getString(Constants.PREFERENCE_REMOTE_PASSWORD, null);
         }
+
+        mAsyncHttpClient.setBasicAuth(openHABUsername, openHABPassword, true);
+
         mDrawerAdapter.setOpenHABBaseUrl(openHABBaseUrl);
         pagerAdapter.setOpenHABBaseUrl(openHABBaseUrl);
         if (!TextUtils.isEmpty(mNfcData)) {

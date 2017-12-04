@@ -7,68 +7,21 @@
             android:key="default_openhab_demomode"
             android:summary="@string/settings_openhab_demomode_summary"
             android:title="@string/settings_openhab_demomode"/>
-        <PreferenceScreen android:title="@string/settings_openhab_connection"
-                          android:dependency="default_openhab_demomode">
-            <org.openhab.habdroid.ui.widget.URLInputPreference
-                android:defaultValue="@string/empty_string"
-                android:inputType="textNoSuggestions"
-                android:key="default_openhab_url"
-                android:summary="@string/settings_openhab_url_summary"
-                android:title="@string/settings_openhab_url"/>
-            <EditTextPreference
-                android:defaultValue="@string/empty_string"
-                android:inputType="textNoSuggestions"
-                android:key="default_openhab_username"
-                android:title="@string/settings_openhab_username"/>
-            <EditTextPreference
-                android:defaultValue="@string/empty_string"
-                android:inputType="textPassword"
-                android:key="default_openhab_password"
-                android:title="@string/settings_openhab_password"/>
-        </PreferenceScreen>
-        <PreferenceScreen
+        <Preference
+            android:key="default_openhab_local_connection"
+            android:persistent="false"
+            android:title="@string/settings_openhab_connection"
+            android:dependency="default_openhab_demomode"/>
+        <Preference
+            android:key="default_openhab_remote_connection"
+            android:persistent="false"
             android:title="@string/settings_openhab_alt_connection"
-            android:dependency="default_openhab_demomode">
-            <org.openhab.habdroid.ui.widget.URLInputPreference
-                android:defaultValue="@string/empty_string"
-                android:inputType="textNoSuggestions"
-                android:key="default_openhab_alturl"
-                android:summary="@string/settings_openhab_alturl_summary"
-                android:title="@string/settings_openhab_alturl"/>
-            <EditTextPreference
-                android:defaultValue="@string/empty_string"
-                android:inputType="textNoSuggestions"
-                android:key="default_openhab_remote_username"
-                android:title="@string/settings_openhab_username"/>
-            <EditTextPreference
-                android:defaultValue="@string/empty_string"
-                android:inputType="textPassword"
-                android:key="default_openhab_remote_password"
-                android:title="@string/settings_openhab_password"/>
-        </PreferenceScreen>
-        <PreferenceScreen android:title="@string/settings_openhab_sslsettings"
-                          android:dependency="default_openhab_demomode">
-            <Preference
-                android:clickable="true"
-                android:defaultValue="@string/settings_openhab_none"
-                android:key="default_openhab_sslclientcert"
-                android:summary=""
-                android:title="@string/settings_openhab_sslclientcert"/>
-            <Preference
-                android:clickable="true"
-                android:key="default_openhab_sslclientcert_howto"
-                android:title="@string/settings_openhab_sslclientcert_howto"/>
-            <CheckBoxPreference
-                android:defaultValue="false"
-                android:key="default_openhab_sslcert"
-                android:summary="@string/settings_openhab_sslcert_summary"
-                android:title="@string/settings_openhab_sslcert"/>
-            <CheckBoxPreference
-                android:defaultValue="false"
-                android:key="default_openhab_sslhost"
-                android:summary="@string/settings_openhab_sslhost_summary"
-                android:title="@string/settings_openhab_sslhost"/>
-        </PreferenceScreen>
+            android:dependency="default_openhab_demomode"/>
+        <Preference
+            android:key="default_openhab_ssl"
+            android:persistent="false"
+            android:title="@string/settings_openhab_sslsettings"
+            android:dependency="default_openhab_demomode"/>
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/settings_display_title">
         <ListPreference

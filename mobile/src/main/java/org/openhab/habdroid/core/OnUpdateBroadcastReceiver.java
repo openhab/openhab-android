@@ -15,7 +15,7 @@ import static org.openhab.habdroid.util.Constants.PREFERENCE_COMPAREABLEVERSION;
 public class OnUpdateBroadcastReceiver extends BroadcastReceiver {
     private static final String TAG = OnUpdateBroadcastReceiver.class.getSimpleName();
 
-    private static final int UPDATE_LOCAL_CREDENTIALS = 25;
+    private static final int UPDATE_LOCAL_CREDENTIALS = 26;
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -27,13 +27,13 @@ public class OnUpdateBroadcastReceiver extends BroadcastReceiver {
 
         if (prefs.getInt(PREFERENCE_COMPAREABLEVERSION, 0) <= UPDATE_LOCAL_CREDENTIALS) {
             Log.d(TAG, "Checking for putting username/password to local username/password.");
-            if (prefs.getString(Constants.PREFERENCE_LOCAL_USERNAME, null) == null) {
-                edit.putString(Constants.PREFERENCE_LOCAL_USERNAME, prefs.getString(Constants
-                        .PREFERENCE_USERNAME, null));
+            if (prefs.getString(Constants.PREFERENCE_REMOTE_USERNAME, null) == null) {
+                edit.putString(Constants.PREFERENCE_REMOTE_USERNAME, prefs.getString(Constants
+                        .PREFERENCE_LOCAL_USERNAME, null));
             }
-            if (prefs.getString(Constants.PREFERENCE_LOCAL_PASSWORD, null) == null) {
-                edit.putString(Constants.PREFERENCE_LOCAL_PASSWORD, prefs.getString(Constants
-                        .PREFERENCE_PASSWORD, null));
+            if (prefs.getString(Constants.PREFERENCE_REMOTE_PASSWORD, null) == null) {
+                edit.putString(Constants.PREFERENCE_REMOTE_PASSWORD, prefs.getString(Constants
+                        .PREFERENCE_LOCAL_PASSWORD, null));
             }
         }
 
