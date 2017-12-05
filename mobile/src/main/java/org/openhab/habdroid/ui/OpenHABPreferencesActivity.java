@@ -22,7 +22,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
-import com.google.android.gms.analytics.GoogleAnalytics;
+import java.text.DateFormat;
 
 import org.openhab.habdroid.BuildConfig;
 import org.openhab.habdroid.R;
@@ -36,19 +36,6 @@ import java.text.DateFormat;
  */
 
 public class OpenHABPreferencesActivity extends AppCompatActivity {
-    private static final String TAG_NESTED = "TAG_NESTED";
-
-	@Override
-	public void onStart() {
-		super.onStart();
-        GoogleAnalytics.getInstance(this).reportActivityStart(this);
-	}
-
-	@Override
-	public void onStop() {
-		super.onStop();
-        GoogleAnalytics.getInstance(this).reportActivityStop(this);
-	}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -98,8 +85,8 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
     public void openSubScreen(SettingsFragment subScreenFragment) {
         getFragmentManager()
                 .beginTransaction()
-                .replace(R.id.prefs_container, subScreenFragment, TAG_NESTED)
-                .addToBackStack(TAG_NESTED)
+                .replace(R.id.prefs_container, subScreenFragment)
+                .addToBackStack(null)
                 .commit();
     }
 
@@ -124,10 +111,6 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
 
         protected void updateAndInitPreferences() {
             addPreferencesFromResource(R.xml.preferences);
-
-            Preference versionPreference = getPreferenceScreen().findPreference("default_openhab_appversion");
-            versionPreference.setSummary(BuildConfig.VERSION_NAME
-                    + " - " + DateFormat.getDateTimeInstance().format(BuildConfig.buildTime));
 
             final Preference subScreenLocalConn = getPreferenceScreen().findPreference(Constants.SUBSCREEN_LOCAL_CONNECTION);
             final Preference subScreenRemoteConn = getPreferenceScreen().findPreference(Constants.SUBSCREEN_REMOTE_CONNECTION);

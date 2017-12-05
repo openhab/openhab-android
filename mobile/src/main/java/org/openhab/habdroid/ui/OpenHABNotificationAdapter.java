@@ -21,7 +21,6 @@ import android.widget.TextView;
 
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.model.OpenHABNotification;
-import org.openhab.habdroid.util.Constants;
 import org.openhab.habdroid.util.MySmartImageView;
 
 import java.util.ArrayList;
@@ -88,6 +87,6 @@ public class OpenHABNotificationAdapter extends ArrayAdapter<OpenHABNotification
     }
 
     public void setOpenHABBaseUrl(String mOpenHABBaseUrl) {
-        this.mOpenHABPassword = mOpenHABBaseUrl;
+        this.mOpenHABBaseUrl = mOpenHABBaseUrl;
     }
 }

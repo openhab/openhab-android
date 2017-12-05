@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/mainmenu_voice_recognition"
-        android:icon="@drawable/ic_action_microphone"
+        android:icon="@drawable/ic_mic_black_24dp"
         android:orderInCategory="100"
         android:title="@string/mainmenu_openhab_voice_recognition"
         app:showAsAction="always" />
@@ -24,18 +24,8 @@
         android:title="@string/mainmenu_openhab_clearcache"
         app:showAsAction="never" />
     <item
-        android:id="@+id/mainmenu_openhab_info"
-        android:orderInCategory="104"
-        android:title="@string/mainmenu_openhab_info"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/mainmenu_about"
-        android:orderInCategory="105"
-        android:title="@string/about_title"
-        app:showAsAction="never" />
-    <item
         android:id="@+id/mainmenu_openhab_preferences"
-        android:orderInCategory="106"
+        android:orderInCategory="104"
         android:title="@string/mainmenu_openhab_preferences"
         app:showAsAction="never" />
 </menu>

@@ -9,13 +9,14 @@
 
 package org.openhab.habdroid.ui;
 
-import android.support.v4.app.ListFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.app.ListFragment;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 
+import org.openhab.habdroid.core.notifications.NotificationSettings;
 import org.openhab.habdroid.model.thing.ThingType;
 
 import java.util.ArrayList;
@@ -133,78 +134,35 @@ public class OpenHABFragmentPagerAdapter extends FragmentStatePagerAdapter imple
         return columnsNumber;
     }
 
-    public void openNotifications() {
+    /**
+     * This method assumes, that a remote URL (altUrl) is set and always uses this one, instead
+     * of the currently used URL to connect to openHAB. Notifications are always handled in the
+     * remote url, if there's any. However, the caller of this method must ensure, that this
+     * method is not called, when no openHAB remote URL is set.
+     */
+    public void openNotifications(NotificationSettings notificationSettings) {
         if (fragmentList.size() > 0) {
             if (!(fragmentList.get(fragmentList.size() - 1) instanceof OpenHABNotificationFragment)) {
                 removeLastFragmentIfNotWidgetList();
-                OpenHABNotificationFragment fragment = new OpenHABNotificationFragment().newInstance(openHABBaseUrl, openHABUsername, openHABPassword);
+                OpenHABNotificationFragment fragment = getNewNotificationFragment(notificationSettings);
                 fragmentList.add(fragment);
                 notifyDataSetChanged();
             } else {
                 ((OpenHABNotificationFragment) fragmentList.get(fragmentList.size() - 1)).refresh();
             }
         } else {
-            OpenHABNotificationFragment fragment = new OpenHABNotificationFragment().newInstance(openHABBaseUrl, openHABUsername, openHABPassword);
+            OpenHABNotificationFragment fragment = getNewNotificationFragment(notificationSettings);
             fragmentList.add(fragment);
             notifyDataSetChanged();
         }
     }
 
-    public void openBindings() {
-        if (fragmentList.size() > 0) {
-            if (!(fragmentList.get(fragmentList.size() - 1) instanceof OpenHABBindingFragment)) {
-                removeLastFragmentIfNotWidgetList();
-                OpenHABBindingFragment fragment = OpenHABBindingFragment.newInstance(openHABBaseUrl, openHABUsername, openHABPassword);
-                fragmentList.add(fragment);
-                notifyDataSetChanged();
-            } else {
-                ((OpenHABBindingFragment) fragmentList.get(fragmentList.size() - 1)).refresh();
-            }
-        } else {
-            OpenHABBindingFragment fragment = OpenHABBindingFragment.newInstance(openHABBaseUrl, openHABUsername, openHABPassword);
-            fragmentList.add(fragment);
-            notifyDataSetChanged();
-        }
-    }
-
-    public void openDiscoveryInbox() {
-        if (fragmentList.size() > 0) {
-            if (!(fragmentList.get(fragmentList.size() - 1) instanceof OpenHABDiscoveryInboxFragment)) {
-                removeLastFragmentIfNotWidgetList();
-                OpenHABDiscoveryInboxFragment fragment = OpenHABDiscoveryInboxFragment.newInstance(openHABBaseUrl, openHABUsername, openHABPassword);
-                fragmentList.add(fragment);
-                notifyDataSetChanged();
-            } else {
-                ((OpenHABDiscoveryInboxFragment) fragmentList.get(fragmentList.size() - 1)).refresh();
-            }
-        } else {
-            OpenHABDiscoveryInboxFragment fragment = OpenHABDiscoveryInboxFragment.newInstance(openHABBaseUrl, openHABUsername, openHABPassword);
-            fragmentList.add(fragment);
-            notifyDataSetChanged();
-        }
-    }
-
-    public void openDiscovery() {
-        if (fragmentList.size() > 0) {
-            if (!(fragmentList.get(fragmentList.size() - 1) instanceof OpenHABDiscoveryFragment)) {
-                removeLastFragmentIfNotWidgetList();
-                OpenHABDiscoveryFragment fragment = OpenHABDiscoveryFragment.newInstance(openHABBaseUrl, openHABUsername, openHABPassword);
-                fragmentList.add(fragment);
-                notifyDataSetChanged();
-            } else {
-                ((OpenHABDiscoveryFragment) fragmentList.get(fragmentList.size() - 1)).refresh();
-            }
-        } else {
-            OpenHABDiscoveryFragment fragment = OpenHABDiscoveryFragment.newInstance(openHABBaseUrl, openHABUsername, openHABPassword);
-            fragmentList.add(fragment);
-            notifyDataSetChanged();
-        }
-    }
-
-    public void openBindingThingTypes(ArrayList<ThingType> thingTypes) {
-        BindingThingTypesFragment fragment = BindingThingTypesFragment.newInstance(thingTypes);
-        fragmentList.add(fragment);
-        notifyDataSetChanged();
+    private OpenHABNotificationFragment getNewNotificationFragment(NotificationSettings notificationSettings) {
+        return new OpenHABNotificationFragment().newInstance(
+                notificationSettings.getOpenHABCloudURL().toString(),
+                notificationSettings.getOpenHABCloudUsername(),
+                notificationSettings.getOpenHABCloudPassword()
+        );
     }
 
     public void openPage(String pageUrl) {

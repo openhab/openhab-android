@@ -5,22 +5,12 @@
     <string name="app_preferences_name">Einstellungen</string>
     <string name="app_notifications">Benachrichtigungen</string>
     <string name="app_bindings">Bindings</string>
-    <string name="app_bindings_supportedthings">Unterstützte Things</string>
-    <string name="app_discoveryinbox">Suche</string>
-    <string name="app_discoveryinbox_deviceunnamed">Unbenanntes Gerät</string>
-    <string name="app_discoveryinbox_deviceaction">Aktion</string>
-    <string name="app_discoveryinbox_approve">Bestätigen</string>
-    <string name="app_discoveryinbox_ignore">Ignorieren</string>
-    <string name="app_discoveryinbox_delete">Löschen</string>
-    <string name="app_discoveryinbox_nothings">Keine neuen Things</string>
-    <string name="app_discovery">Starte Suche</string>
     <string name="minus">-</string>
     <string name="plus">+</string>
     <!-- Main menu items -->
     <string name="mainmenu_openhab_preferences">Einstellungen</string>
     <string name="mainmenu_openhab_selectsitemap">Standard-Sitemap auswählen</string>
     <string name="mainmenu_openhab_writetag">NFC-Tag schreiben</string>
-    <string name="mainmenu_openhab_info">openHAB-Info</string>
     <string name="mainmenu_openhab_clearcache">Bilder-Cache leeren</string>
     <!-- App settings strings -->
     <string name="settings_connection_title">Verbindungseinstellungen</string>
@@ -118,4 +108,32 @@
     <string name="app_intro">Intro</string>
     <string name="intro_themes">Designs</string>
     <string name="intro_themes_description">Wählen Sie zwischen verschiedenen Designs</string>
+    <string name="favorites">Favoriten</string>
+    <string name="info_demo_mode_short">Läuft im Demomodus</string>
+    <string name="error_http_connection_failed">Ungültige Antwort von openHAB erhalten. Bitte überprüfen Sie openHAB (HTTP-Statuscode %d)</string>
+    <string name="error_certificate_not_trusted">SSL-Zertifikat nicht vertrauenswürdig. Bitte importieren Sie das Root-Zertifikat oder deaktivieren Sie die Zertifikatsvalidierung</string>
+    <string name="error_certificate_expired">SSL-Zertifikat abgelaufen. Bitte erstellen Sie ein neues Zertifikat oder deaktivieren Sie die Zertifikatsvalidierung</string>
+    <string name="error_certificate_not_valid_yet">SSL-Zertifikat noch nicht gültig. Bitte erstellen Sie ein gültiges Zertifikat oder deaktivieren Sie die Zertifikatsvalidierung. Überprüfen Sie auch die Uhrzeit auf Ihrem Smartphone</string>
+    <string name="error_certificate_revoked">SSL-Zertifikat widerrufen. Bitte erstellen Sie ein neues Zertifikat oder deaktivieren Sie die Zertifikatsvalidierung</string>
+    <string name="error_http_code_401">Authentifizierung fehlgeschlagen. Bitte überprüfen Sie Nutzername und Passwort bzw. Client-Zertifikat (HTTP-Statuscode 401)</string>
+    <string name="error_http_code_403">Authentifizierung fehlgeschlagen. Bitte überprüfen Sie Nutzername und Passwort bzw. Client-Zertifikat (HTTP-Statuscode 403)</string>
+    <string name="error_http_code_407">Authentifizierung fehlgeschlagen. Bitte überprüfen Sie Nutzername und Passwort bzw. Client-Zertifikat (HTTP-Statuscode 407)</string>
+    <string name="error_http_code_414">openHAB-URL zu lang (HTTP-Statuscode 414)</string>
+    <string name="error_http_code_426">HTTPS wird gefordert. Bitte ändern Sie die openHAB-URL (HTTP-Statuscode 426)</string>
+    <string name="error_http_code_495">Ungültiges Client-Zertifikat (HTTP-Statuscode 495)</string>
+    <string name="error_http_code_496">Client-Zertifikat wird gefordert (HTTP-Statuscode 496)</string>
+    <string name="error_http_code_502">Ihr Reverse-Proxy bekam eine ungültige Antwort von openHAB (HTTP-Statuscode 502)</string>
+    <string name="error_http_code_504">Gateway Time-out. Ihr Reverse-Proxy läuft, aber bekam keine Antwort von openHAB (HTTP-Statuscode 504)</string>
+    <string name="error_http_code_507">openHAB hat nicht genug freien Speicher (HTTP-Statuscode 507)</string>
+    <string name="error_http_code_511">Netzwerkauthentifizierung wird gefordert (HTTP-Statuscode 511)</string>
+    <string name="ok">OK</string>
+    <string name="error_network_type_unsupported">Netzwerktyp (%s) wird nicht unterstützt</string>
+    <string name="unknown">Unbekannt</string>
+    <string name="settings_debug_messages_summary">Einige Meldungen enthalten mehr Informationen</string>
+    <string name="settings_debug_messages_title">Debug-Meldungen anzeigen</string>
+    <string name="error_couldnt_determine_openhab_url">Konnte openHAB-URL nicht ermitteln</string>
+    <string name="error_unable_to_resolve_hostname">Fehler beim Auflösen des Hostnamens</string>
+    <string name="set">Setzen</string>
+    <string name="cancel">Abbrechen</string>
+    <string name="dlg_notification_title">Benachrichtigung</string>
 </resources>

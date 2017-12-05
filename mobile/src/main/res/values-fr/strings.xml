@@ -6,16 +6,7 @@
     <string name="app_notifications">Notifications</string>
     <string name="dlg_notification_title">Message de notification</string>
     <string name="app_bindings">Objets et protocoles</string>
-    <string name="app_bindings_supportedthings">Objets et protocoles supportés</string>
     <string name="favorites">Favoris</string>
-    <string name="app_discoveryinbox">Découverte</string>
-    <string name="app_discoveryinbox_deviceunnamed">Objet sans nom</string>
-    <string name="app_discoveryinbox_deviceaction">Sélectionner une action</string>
-    <string name="app_discoveryinbox_approve">Approuver</string>
-    <string name="app_discoveryinbox_ignore">Ignorer</string>
-    <string name="app_discoveryinbox_delete">Supprimer</string>
-    <string name="app_discoveryinbox_nothings">Pas de nouvel objet</string>
-    <string name="app_discovery">Activer la découverte</string>
     <!-- Main menu items -->
     <string name="mainmenu_openhab_preferences">Préférences</string>
     <string name="mainmenu_openhab_selectsitemap">Sélectionner la sitemap par défaut</string>

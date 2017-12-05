@@ -1,38 +1,51 @@
 language: android
 jdk: oraclejdk8
-
+env:
+  global:
+  - secure: fMBUkSsCBTw/U907w7Xm/yNzw4lq9yt7zFy0JyEZrA543LI7zQRIclIOtsDTUs0bwY+4KI08MNoYPLJ4TQhSJaH4wQ8b9C5TRsqXNfc0V718TcuYqSXqU6VPRVtX46/fCEWv/HAs0ksUKrHIlpWOwLPQpYDcKxwwlUndaakYKJ8=
 before_cache:
-  - cd ${TRAVIS_BUILD_DIR}/gradle/caches/
-  - find . -name "*.lock" -exec rm -rfv {} \;
-  - cd ${TRAVIS_BUILD_DIR}
-
+- cd ${TRAVIS_BUILD_DIR}/gradle/caches/
+- find . -name "*.lock" -exec rm -rfv {} \;
+- cd ${TRAVIS_BUILD_DIR}
 cache:
   directories:
-    - ${TRAVIS_BUILD_DIR}/gradle/caches/
-    - ${TRAVIS_BUILD_DIR}/gradle/wrapper/dists/
-
+  - "${TRAVIS_BUILD_DIR}/gradle/caches/"
+  - "${TRAVIS_BUILD_DIR}/gradle/wrapper/dists/"
 notifications:
   email: false
-
 android:
-  components: # Cookbooks version: https://github.com/travis-ci/travis-cookbooks/tree/9c6cd11
-    - tools # Update preinstalled tools from revision 24.0.2 to 24.4.1
-    - build-tools-25.0.2 # Match build-tools version used in build.gradle
-    - platform-tools # Update platform-tools to revision 25.0.3+
-    - tools # Update tools from revision 24.4.1 to 25.2.5
-
+  components:
+  - tools
+  - build-tools-25.0.2
+  - platform-tools
+  - tools
 install:
-  - echo yes | sdkmanager "extras;m2repository;com;android;support;constraint;constraint-layout;1.0.2"
-  - echo yes | sdkmanager "extras;m2repository;com;android;support;constraint;constraint-layout-solver;1.0.2"
-  # Show version and download Gradle Wrapper if it's not already cached
-  - ./gradlew --version
-  # Check components status
-  - sdkmanager --list || true
-
+- echo yes | sdkmanager "extras;m2repository;com;android;support;constraint;constraint-layout;1.0.2"
+- echo yes | sdkmanager "extras;m2repository;com;android;support;constraint;constraint-layout-solver;1.0.2"
+- "./gradlew --version"
+- sdkmanager --list || true
 script:
-  - ./gradlew clean build
-  - ./gradlew test
-  
+- "./gradlew clean build"
+- "./gradlew test"
 after_script:
-  # Show lint results
-  - cat ${TRAVIS_BUILD_DIR}/*/build/reports/lint-results.xml
+- cat ${TRAVIS_BUILD_DIR}/*/build/reports/lint-results.xml
+before_deploy:
+- openssl aes-256-cbc -K $encrypted_903a93ed2309_key -iv $encrypted_903a93ed2309_iv
+  -in keystore.enc -out keystore -d
+- cp $TRAVIS_BUILD_DIR/keystore $HOME
+- cd mobile/build/outputs/apk/
+- jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore $HOME/keystore
+  -storepass $storepass mobile-release-unsigned.apk sign
+- jarsigner -verify mobile-release-unsigned.apk
+- "${ANDROID_HOME}/build-tools/25.0.2/zipalign -v 4 mobile-release-unsigned.apk mobile-release.apk"
+deploy:
+  provider: releases
+  prerelease: true
+  file: mobile-release.apk
+  skip_cleanup: true
+  on:
+    repo: openhab/openhab.android
+    tags: true
+    jdk: oraclejdk8
+  api_key:
+    secure: JaDHY9PaBF625dfulN8ygmOvBk3ZDmnZZDr7IPwqJ9hZ+4WzS85om8F9+bgQlZTDDVUeaNZ03ZkfRZ81g9D0EEHF5WSFqgN8aUcNoAa8ViBFAQUeO1uTjVkiP0G7JOVRyW59HTTk6Cjr5eiGKkmeIGT9KgUUi+4Bw/6Quag8f8Y=

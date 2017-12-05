@@ -23,6 +23,8 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.content.res.Configuration;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.nfc.NfcAdapter;
 import android.nfc.NfcManager;
@@ -33,9 +35,9 @@ import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.speech.RecognizerIntent;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
+
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -55,17 +57,13 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.crittercism.app.Crittercism;
-import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.loopj.android.image.WebImageCache;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.openhab.habdroid.BuildConfig;
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.core.GcmIntentService;
-import org.openhab.habdroid.core.HABDroid;
 import org.openhab.habdroid.core.NetworkConnectivityInfo;
 import org.openhab.habdroid.core.NotificationDeletedBroadcastReceiver;
 import org.openhab.habdroid.core.OnUpdateBroadcastReceiver;
@@ -165,8 +163,8 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
     private static final int INFO_REQUEST_CODE = 1004;
     // Drawer item codes
     private static final int DRAWER_NOTIFICATIONS = 100;
-    private static final int DRAWER_BINDINGS = 101;
-    private static final int DRAWER_INBOX = 102;
+    private static final int DRAWER_ABOUT = 101;
+
     // Loopj
 //    private static MyAsyncHttpClient mAsyncHttpClient;
     private static MyAsyncHttpClient mAsyncHttpClient;
@@ -217,7 +215,6 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
     private NotificationSettings mNotifySettings = null;
     // select sitemap dialog
     private Dialog selectSitemapDialog;
-
     public static String GCM_SENDER_ID;
 
     /**
@@ -277,16 +274,8 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
         mAsyncHttpClient.setBasicAuth(openHABUsername, openHABPassword, true);
         mAsyncHttpClient.setTimeout(30000);
 
-        if (!BuildConfig.IS_DEVELOPER) {
-            Util.initCrittercism(getApplicationContext(), "5117659f59e1bd4ba9000004");
-        }
-
         Util.setActivityTheme(this);
         super.onCreate(savedInstanceState);
-
-        if (!BuildConfig.IS_DEVELOPER) {
-            ((HABDroid) getApplication()).getTracker(HABDroid.TrackerName.APP_TRACKER);
-        }
 
         setContentView(R.layout.activity_main);
 
@@ -452,28 +441,12 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
     }
 
     /**
-     * Overriding onStart to enable Google Analytics stats collection
-     */
-    @Override
-    public void onStart() {
-        super.onStart();
-        // Start activity tracking via Google Analytics
-        if (!BuildConfig.IS_DEVELOPER) {
-            GoogleAnalytics.getInstance(this).reportActivityStart(this);
-        }
-    }
-
-    /**
      * Overriding onStop to enable Google Analytics stats collection
      */
     @Override
     public void onStop() {
         Log.d(TAG, "onStop()");
         super.onStop();
-        // Stop activity tracking via Google Analytics
-        if (!BuildConfig.IS_DEVELOPER) {
-            GoogleAnalytics.getInstance(this).reportActivityStop(this);
-        }
         if (mOpenHABTracker != null) {
             mOpenHABTracker.stop();
         }
@@ -531,19 +504,24 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
                         Log.d(TAG, "Notifications selected");
                         mDrawerLayout.closeDrawers();
                         OpenHABMainActivity.this.openNotifications();
-                    } else if (mDrawerItemList.get(item).getTag() == DRAWER_BINDINGS) {
-                        Log.d(TAG, "Bindings selected");
-                        mDrawerLayout.closeDrawers();
-                        OpenHABMainActivity.this.openBindings();
-                    } else if (mDrawerItemList.get(item).getTag() == DRAWER_INBOX) {
-                        Log.d(TAG, "Inbox selected");
-                        mDrawerLayout.closeDrawers();
-                        OpenHABMainActivity.this.openDiscoveryInbox();
+                    } else if (mDrawerItemList.get(item).getTag() == DRAWER_ABOUT) {
+                        OpenHABMainActivity.this.openAbout();
                     }
                 }
             }
         });
         loadDrawerItems();
+    }
+
+    private void openAbout() {
+        Intent aboutIntent = new Intent(this.getApplicationContext(), OpenHABAboutActivity.class);
+        aboutIntent.putExtra(OpenHABVoiceService.OPENHAB_BASE_URL_EXTRA, openHABBaseUrl);
+        aboutIntent.putExtra("username", openHABUsername);
+        aboutIntent.putExtra("password", openHABPassword);
+        aboutIntent.putExtra("openHABVersion", mOpenHABVersion);
+
+        startActivityForResult(aboutIntent, INFO_REQUEST_CODE);
+        Util.overridePendingTransition(this, false);
     }
 
     private void setupPager() {
@@ -853,41 +831,13 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
                         }
                     }).show();
         } catch (WindowManager.BadTokenException e) {
-            Crittercism.logHandledException(e);
+            e.printStackTrace();
         }
     }
 
     public void openNotifications() {
         if (this.pagerAdapter != null) {
-            pagerAdapter.openNotifications();
-            pager.setCurrentItem(pagerAdapter.getCount() - 1);
-        }
-    }
-
-    public void openBindings() {
-        if (this.pagerAdapter != null) {
-            pagerAdapter.openBindings();
-            pager.setCurrentItem(pagerAdapter.getCount() - 1);
-        }
-    }
-
-    public void openDiscovery() {
-        if (this.pagerAdapter != null) {
-            pagerAdapter.openDiscovery();
-            pager.setCurrentItem(pagerAdapter.getCount() - 1);
-        }
-    }
-
-    public void openDiscoveryInbox() {
-        if (this.pagerAdapter != null) {
-            pagerAdapter.openDiscoveryInbox();
-            pager.setCurrentItem(pagerAdapter.getCount() - 1);
-        }
-    }
-
-    public void openBindingThingTypes(ArrayList<ThingType> thingTypes) {
-        if (this.pagerAdapter != null) {
-            pagerAdapter.openBindingThingTypes(thingTypes);
+            pagerAdapter.openNotifications(getNotificationSettings());
             pager.setCurrentItem(pagerAdapter.getCount() - 1);
         }
     }
@@ -916,7 +866,10 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        menu.findItem(R.id.mainmenu_voice_recognition).setVisible(mVoiceRecognitionEnabled);
+        MenuItem voiceRecognitionItem = menu.findItem(R.id.mainmenu_voice_recognition);
+        voiceRecognitionItem.setVisible(mVoiceRecognitionEnabled);
+        voiceRecognitionItem.getIcon()
+                .setColorFilter(ContextCompat.getColor(this, R.color.light), PorterDuff.Mode.SRC_IN);
         return true;
     }
 
@@ -974,28 +927,6 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
                         Util.overridePendingTransition(this, false);
                     }
                 }
-                return true;
-            case R.id.mainmenu_openhab_info:
-                Bundle bundle = new Bundle();
-                bundle.putString(OpenHABVoiceService.OPENHAB_BASE_URL_EXTRA, openHABBaseUrl);
-                bundle.putString("username", openHABUsername);
-                bundle.putString("password", openHABPassword);
-                bundle.putInt("openHABVersion", mOpenHABVersion);
-
-                FragmentManager fm = getSupportFragmentManager();
-                Fragment openHabInfo = new OpenHABInfoFragment();
-
-                openHabInfo.setArguments(bundle);
-                FragmentTransaction ft = fm.beginTransaction();
-                ft.add(openHabInfo, "openHabTag");
-                ft.commit();
-                return true;
-            case R.id.mainmenu_about:
-                FragmentManager fm2 = getSupportFragmentManager();
-                Fragment about = new AboutFragment();
-                FragmentTransaction ft2 = fm2.beginTransaction();
-                ft2.add(about, "openHabTag");
-                ft2.commit();
                 return true;
             case R.id.mainmenu_voice_recognition:
                 launchVoiceRecognition();
@@ -1155,38 +1086,6 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
         }
     }
 
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        Log.v(TAG, "KeyDown: " + event.toString());
-        if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN) {
-            if (pagerAdapter.getFragment(pager.getCurrentItem()) instanceof OpenHABWidgetListFragment) {
-                OpenHABWidgetListFragment currentFragment = (OpenHABWidgetListFragment) pagerAdapter.getFragment(pager.getCurrentItem());
-                if (currentFragment != null)
-                    return currentFragment.onVolumeDown();
-            }
-        } else if (keyCode == KeyEvent.KEYCODE_VOLUME_UP) {
-            if (pagerAdapter.getFragment(pager.getCurrentItem()) instanceof OpenHABWidgetListFragment) {
-                OpenHABWidgetListFragment currentFragment = (OpenHABWidgetListFragment) pagerAdapter.getFragment(pager.getCurrentItem());
-                if (currentFragment != null)
-                    return currentFragment.onVolumeUp();
-            }
-        }
-        return super.onKeyDown(keyCode, event);
-    }
-
-    @Override
-    public boolean onKeyUp(int keyCode, KeyEvent event) {
-        Log.v(TAG, "KeyUp: " + event.toString());
-        if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN || keyCode == KeyEvent.KEYCODE_VOLUME_UP) {
-            if (pagerAdapter.getFragment(pager.getCurrentItem()) instanceof OpenHABWidgetListFragment) {
-                OpenHABWidgetListFragment currentFragment = (OpenHABWidgetListFragment) pagerAdapter.getFragment(pager.getCurrentItem());
-                if (currentFragment != null && currentFragment.isVolumeHandled())
-                    return true;
-            }
-        }
-        return super.onKeyUp(keyCode, event);
-    }
-
     protected void setProgressIndicatorVisible(boolean visible) {
         if (mProgressBar != null) {
             mProgressBar.setVisibility(visible ? View.VISIBLE : View.INVISIBLE);
@@ -1308,8 +1207,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
         return this.mOpenHABVersion;
     }
 
-    private void gcmRegisterBackground() {
-        Crittercism.setUsername(openHABUsername);
+    public void gcmRegisterBackground() {
         OpenHABMainActivity.GCM_SENDER_ID = null;
         // if no notification settings can be constructed, no GCM registration can be made.
         if (getNotificationSettings() == null)
@@ -1365,6 +1263,10 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
                     prefs.getBoolean(Constants.PREFERENCE_SSLCERT, false));
             syncHttpClient.setBasicAuth(getOpenHABUsername(), getOpenHABPassword());
             mNotifySettings = new NotificationSettings(baseUrl, syncHttpClient);
+            mNotifySettings.setOpenHABCloudUsername(
+                    mSettings.getString(Constants.PREFERENCE_USERNAME, openHABUsername));
+            mNotifySettings.setOpenHABCloudPassword(
+                    mSettings.getString(Constants.PREFERENCE_PASSWORD, openHABPassword));
         }
         return mNotifySettings;
     }
@@ -1404,15 +1306,31 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
             }
             mDrawerItemList.add(OpenHABDrawerItem.dividerItem());
         }
+        int iconColor = ContextCompat.getColor(this, R.color.colorAccent_themeDark);
+        Drawable notificationDrawable = getResources().getDrawable(R.drawable
+                .ic_notifications_black_24dp);
+        notificationDrawable.setColorFilter(
+                iconColor,
+                PorterDuff.Mode.SRC_IN
+        );
         if (getNotificationSettings() != null) {
-            mDrawerItemList.add(OpenHABDrawerItem.menuItem("Notifications", getResources().getDrawable(R.drawable.ic_notifications_grey600_36dp), DRAWER_NOTIFICATIONS));
+            mDrawerItemList.add(OpenHABDrawerItem.menuItem(
+                    "Notifications",
+                    notificationDrawable,
+                    DRAWER_NOTIFICATIONS
+            ));
         }
 
-        // Only show those items if openHAB version is >= 2, openHAB 1.x just don't have those APIs...
-        if (mOpenHABVersion >= 2) {
-            mDrawerItemList.add(OpenHABDrawerItem.menuItem("Discovery", getResources().getDrawable(R.drawable.ic_track_changes_grey600_36dp), DRAWER_INBOX));
-            mDrawerItemList.add(OpenHABDrawerItem.menuItem("Bindings", getResources().getDrawable(R.drawable.ic_extension_grey600_36dp), DRAWER_BINDINGS));
-        }
+        Drawable aboutDrawable = getResources().getDrawable(R.drawable.ic_info_outline);
+        aboutDrawable.setColorFilter(
+                iconColor,
+                PorterDuff.Mode.SRC_IN);
+        mDrawerItemList.add(OpenHABDrawerItem.dividerItem());
+        mDrawerItemList.add(OpenHABDrawerItem.menuItem(
+                getString(R.string.about_title),
+                aboutDrawable,
+                DRAWER_ABOUT
+        ));
         mDrawerAdapter.notifyDataSetChanged();
     }
 }

@@ -9,7 +9,9 @@
 
 package org.openhab.habdroid.ui;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -33,6 +35,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.NumberPicker;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.RelativeLayout;
@@ -60,6 +63,8 @@ import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
@@ -97,8 +102,6 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     private ArrayList<MySmartImageView> refreshImageList;
     private ArrayList<MjpegStreamer> mjpegWidgetList;
     private MyAsyncHttpClient mAsyncHttpClient;
-    private View volumeUpWidget;
-    private View volumeDownWidget;
 
     public OpenHABWidgetAdapter(Context context, int resource,
                                 List<OpenHABWidget> objects) {
@@ -114,11 +117,11 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     public View getView(int position, View convertView, ViewGroup parent) {
         /* TODO: This definitely needs some huge refactoring */
         final RelativeLayout widgetView;
-        TextView labelTextView;
-        TextView valueTextView;
+        final TextView labelTextView;
+        final TextView valueTextView;
         int widgetLayout;
         String[] splitString;
-        OpenHABWidget openHABWidget = getItem(position);
+        final OpenHABWidget openHABWidget = getItem(position);
         int screenWidth = ((WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getWidth();
         switch (this.getItemViewType(position)) {
             case TYPE_FRAME:
@@ -149,7 +152,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
                 widgetLayout = R.layout.openhabwidgetlist_selectionitem;
                 break;
             case TYPE_SETPOINT:
-                widgetLayout = R.layout.openhabwidgetlist_setpointitem;
+                widgetLayout = R.layout.openhabwidgetlist_textitem;
                 break;
             case TYPE_CHART:
                 widgetLayout = R.layout.openhabwidgetlist_chartitem;
@@ -482,10 +485,6 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
                             }
                         }
                     });
-                    if (volumeUpWidget == null) {
-                        volumeUpWidget = sliderSeekBar;
-                        volumeDownWidget = sliderSeekBar;
-                    }
                 }
                 break;
             case TYPE_IMAGE:
@@ -631,6 +630,10 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
                             spinnerSelectedIndex = spinnerArray.size() - 1;
                         }
                 }
+                if (spinnerSelectedIndex == -1) {
+                    spinnerArray.add("          ");
+                    spinnerSelectedIndex = spinnerArray.size() - 1;
+                }
                 ArrayAdapter<String> spinnerAdapter = new SpinnerClickAdapter<String>(this.getContext(),
                         android.R.layout.simple_spinner_item, spinnerArray, openHABWidget, new AdapterView.OnItemClickListener() {
                     @Override
@@ -639,7 +642,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
                         String selectedLabel = (String) parent.getAdapter().getItem(index);
                         Log.d(TAG, "Spinner onItemSelected selected label = " + selectedLabel);
                         OpenHABWidget openHABWidget = (OpenHABWidget) parent.getTag();
-                        if (openHABWidget != null) {
+                        if (openHABWidget != null && index < openHABWidget.getMappings().size()) {
                             Log.d(TAG, "Label selected = " + openHABWidget.getMapping(index).getLabel());
                             for (OpenHABWidgetMapping openHABWidgetMapping : openHABWidget.getMappings()) {
                                 if (openHABWidgetMapping.getLabel().equals(selectedLabel)) {
@@ -663,7 +666,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
                         }
                     }
                 });
-                spinnerAdapter.setDropDownViewResource(R.layout.openhabwidgetlist_sectionswitchitem_spinner);
+                spinnerAdapter.setDropDownViewResource(android.R.layout.select_dialog_singlechoice);
                 selectionSpinner.setPrompt(splitString.length > 0 ? splitString[0] : openHABWidget.getLabel());
                 selectionSpinner.setAdapter(spinnerAdapter);
                 if (spinnerSelectedIndex >= 0) {
@@ -677,46 +680,95 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
                 splitString = openHABWidget.getLabel().split("\\[|\\]");
                 if (labelTextView != null && splitString.length > 0)
                     labelTextView.setText(splitString[0]);
-                if (valueTextView != null)
+                if (valueTextView != null) {
                     if (splitString.length > 1) {
                         // If value is not empty, show TextView
                         valueTextView.setVisibility(View.VISIBLE);
                         valueTextView.setText(splitString[1]);
                     }
-                Button setPointMinusButton = (Button) widgetView.findViewById(R.id.setpointbutton_minus);
-                Button setPointPlusButton = (Button) widgetView.findViewById(R.id.setpointbutton_plus);
-                setPointMinusButton.setTag(openHABWidget);
-                setPointPlusButton.setTag(openHABWidget);
-                setPointMinusButton.setOnClickListener(new OnClickListener() {
-                    public void onClick(View v) {
-                        Log.d(TAG, "Minus");
-                        OpenHABWidget setPointWidget = (OpenHABWidget) v.getTag();
-                        float currentValue = setPointWidget.getItem().getStateAsFloat();
-                        currentValue = currentValue - setPointWidget.getStep();
-                        if (currentValue < setPointWidget.getMinValue())
-                            currentValue = setPointWidget.getMinValue();
-                        if (currentValue > setPointWidget.getMaxValue())
-                            currentValue = setPointWidget.getMaxValue();
-                        sendItemCommand(setPointWidget.getItem(), String.valueOf(currentValue));
+                    final Context context = getContext();
 
-                    }
-                });
-                setPointPlusButton.setOnClickListener(new OnClickListener() {
-                    public void onClick(View v) {
-                        Log.d(TAG, "Plus");
-                        OpenHABWidget setPointWidget = (OpenHABWidget) v.getTag();
-                        float currentValue = setPointWidget.getItem().getStateAsFloat();
-                        currentValue = currentValue + setPointWidget.getStep();
-                        if (currentValue < setPointWidget.getMinValue())
-                            currentValue = setPointWidget.getMinValue();
-                        if (currentValue > setPointWidget.getMaxValue())
-                            currentValue = setPointWidget.getMaxValue();
-                        sendItemCommand(setPointWidget.getItem(), String.valueOf(currentValue));
-                    }
-                });
-                if (volumeUpWidget == null) {
-                    volumeUpWidget = setPointPlusButton;
-                    volumeDownWidget = setPointMinusButton;
+                    widgetView.setOnClickListener( new OnClickListener(){
+                        @Override
+                        public void onClick(final View view) {
+
+                            float minValue = openHABWidget.getMinValue();
+                            float maxValue = openHABWidget.getMaxValue();
+
+                            //This prevents an exception below. But could lead to user confusion if this case is ever encountered.
+                            if (minValue > maxValue){
+                                maxValue = minValue;
+                            }
+                            final float stepSize;
+                            if(minValue == maxValue) {
+                                stepSize = 1;
+                            } else {
+                                //Ensure min step size is 1
+                                stepSize = openHABWidget.getStep();
+                            }
+
+
+                            final String[] stepValues = new String[((int)(Math.abs(maxValue - minValue)/stepSize)) +1];
+                            for(int i = 0; i < stepValues.length; i++){
+                                //Check if step size is a whole integer.
+                                if( stepSize == Math.ceil(stepSize)){
+                                    //Cast to int to prevent .0 being added to all values in picker
+                                    stepValues[i] = String.valueOf((int) (minValue + (i*stepSize)));
+                                }
+                                else{
+
+                                    stepValues[i] = String.valueOf(minValue + (i*stepSize));
+                                }
+
+                            }
+
+                            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+
+                            if (labelTextView != null) {
+                                builder.setTitle(labelTextView.getText());
+                            }
+                            final LayoutInflater inflater = LayoutInflater.from(context);
+                            final View dialogView = inflater.inflate(R.layout.openhab_dialog_numberpicker, null);
+                            builder.setView(dialogView);
+
+                            // OK button
+                            builder.setPositiveButton(R.string.set, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    final NumberPicker numberPicker = (NumberPicker) dialogView.findViewById(R.id.numberpicker);
+                                    sendItemCommand(openHABWidget.getItem(), stepValues[numberPicker.getValue()]);
+                                }
+                            });
+                            // Cancel button
+                            builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    // do nothing, just close the dialog
+                                }
+                            });
+
+                            AlertDialog dialog = builder.create();
+
+                            final NumberPicker numberPicker = (NumberPicker) dialogView.findViewById(R.id.numberpicker);
+
+                            numberPicker.setMinValue(0);
+                            numberPicker.setMaxValue(stepValues.length -1);
+                            numberPicker.setDisplayedValues(stepValues);
+
+                            // Find the closest value in the calculated step value
+                            int stepIndex = Arrays.binarySearch(stepValues, Float.toString(openHABWidget.getItem().getStateAsFloat()), new Comparator<CharSequence>() {
+                                @Override
+                                public int compare(CharSequence t1, CharSequence t2) {
+                                    return Float.valueOf(t1.toString()).compareTo(Float.valueOf(t2.toString()));
+                                }
+                            });
+                            if ( stepIndex < 0 ){
+                                stepIndex = (-(stepIndex+1)); // Use the returned insertion point if value is not found and select the closest value.
+                                stepIndex = Math.min(stepIndex, stepValues.length -1);  //handle case where insertion would be larger than the array
+                             }
+                            numberPicker.setValue(stepIndex);
+
+                            dialog.show();
+                        }
+                    });
                 }
                 break;
             default:
@@ -873,57 +925,6 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
         refreshImageList.clear();
     }
 
-    /*
-        onVolumeDown and onVolumeUp handle (if possible) volume up and volume down presses
-        addressing the currently selected volume widget (would normally be the first slider or
-        setpoint on the page.
-     */
-
-    public boolean onVolumeDown() {
-        if (volumeDownWidget instanceof SeekBar) {
-            SeekBar seekBar = (SeekBar) volumeDownWidget;
-            seekBar.incrementProgressBy(-10);
-            OpenHABItem sliderItem = (OpenHABItem) seekBar.getTag();
-            if (sliderItem != null)
-                sendItemCommand(sliderItem, String.valueOf(seekBar.getProgress()));
-        } else if (volumeDownWidget instanceof Button) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
-                volumeDownWidget.callOnClick();
-            } else {
-                volumeDownWidget.performClick();
-            }
-        } else {
-            return false;
-        }
-        return true;
-    }
-
-    public boolean onVolumeUp() {
-        if (volumeUpWidget instanceof SeekBar) {
-            SeekBar seekBar = (SeekBar) volumeUpWidget;
-            seekBar.incrementProgressBy(10);
-            OpenHABItem sliderItem = (OpenHABItem) seekBar.getTag();
-            if (sliderItem != null)
-                sendItemCommand(sliderItem, String.valueOf(seekBar.getProgress()));
-        } else if (volumeUpWidget instanceof Button) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
-                volumeUpWidget.callOnClick();
-            } else {
-                volumeUpWidget.performClick();
-            }
-        } else {
-            return false;
-        }
-        return true;
-    }
-
-    /*
-        isVolumeHandled returns true if there is a widget to send volume commands to
-     */
-
-    public boolean isVolumeHandled() {
-        return volumeUpWidget != null;
-    }
 
     public MyAsyncHttpClient getAsyncHttpClient() {
         return mAsyncHttpClient;
