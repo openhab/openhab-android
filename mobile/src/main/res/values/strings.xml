@@ -16,7 +16,6 @@
     <string name="mainmenu_openhab_preferences">Settings</string>
     <string name="mainmenu_openhab_selectsitemap">Select default sitemap</string>
     <string name="mainmenu_openhab_writetag">Write NFC tag</string>
-    <string name="mainmenu_openhab_info">openHAB info</string>
     <string name="mainmenu_openhab_clearcache">Clear images cache</string>
     <!-- App settings strings -->
     <string name="settings_connection_title">Connection Settings</string>
@@ -37,7 +36,6 @@
     <string name="settings_openhab_demomode">Demo mode</string>
     <string name="settings_openhab_demomode_summary">Run in demo mode</string>
     <string name="settings_openhab_theme">openHAB Theme</string>
-    <string name="settings_openhab_appversion">openHAB App Version</string>
     <string name="settings_openhab_sslcert">Ignore SSL certificate</string>
     <string name="settings_openhab_sslcert_summary">Ignore certificate validation during SSL handshake</string>
     <string name="settings_openhab_sslhost">Ignore SSL hostname</string>
@@ -140,6 +138,7 @@
     <string name="about_links">Links</string>
     <string name="about_links_list"><![CDATA[\u00B7 <a href="https://github.com/openhab/openhab.android">openHAB App source code</a><br><br> \u00B7 <a href="https://github.com/openhab/openhab.android/issues">Report a problem</a><br><br> \u00B7 <a href="http://docs.openhab.org/">openHAB Documentation</a><br><br> \u00B7 <a href="https://community.openhab.org/">Community Forum</a>]]></string>
     <string name="about_copyright" translatable="false">© 2012 - %s openHAB Foundation</string>
+    <string name="about_version_string" translatable="false">%1$s - %2$s</string>
     <string name="settings_debug_messages_summary">Some error messages include more information</string>
     <string name="settings_debug_messages_title">Show debug messages</string>
     <string name="error_couldnt_determine_openhab_url">Couldn\'t determine openHAB URL</string>

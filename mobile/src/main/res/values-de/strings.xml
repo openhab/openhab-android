@@ -11,7 +11,6 @@
     <string name="mainmenu_openhab_preferences">Einstellungen</string>
     <string name="mainmenu_openhab_selectsitemap">Standard-Sitemap auswählen</string>
     <string name="mainmenu_openhab_writetag">NFC-Tag schreiben</string>
-    <string name="mainmenu_openhab_info">openHAB-Info</string>
     <string name="mainmenu_openhab_clearcache">Bilder-Cache leeren</string>
     <!-- App settings strings -->
     <string name="settings_connection_title">Verbindungseinstellungen</string>
@@ -135,4 +134,7 @@
     <string name="settings_debug_messages_title">Debug-Meldungen anzeigen</string>
     <string name="error_couldnt_determine_openhab_url">Konnte openHAB-URL nicht ermitteln</string>
     <string name="error_unable_to_resolve_hostname">Fehler beim Auflösen des Hostnamens</string>
+    <string name="set">Setzen</string>
+    <string name="cancel">Abbrechen</string>
+    <string name="dlg_notification_title">Benachrichtigung</string>
 </resources>
