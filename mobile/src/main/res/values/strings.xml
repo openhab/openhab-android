@@ -79,7 +79,7 @@
     <string name="error_http_code_495">Invalid SSL client certificate (HTTP response code 495)</string>
     <string name="error_http_code_496">SSL client certificate is required (HTTP response code 496)</string>
     <string name="error_http_code_502">Your reverse proxy got an invalid answer from openHAB (HTTP response code 502)</string>
-    <string name="error_http_code_503">openHAB is currently unavailable (HTTP response code 503)</string>
+    <string name="error_http_code_503">openHAB is temporarily unavailable (HTTP response code 503)</string>
     <string name="error_http_code_504">Gateway Time-out. Seems that your reverse proxy is running, but couldn\'t get an answer from openHAB (HTTP response code 504)</string>
     <string name="error_http_code_507">openHAB hasn\'t enough free space (HTTP response code 507)</string>
     <string name="error_http_code_511">Network authentication is required (HTTP response code 511)</string>
