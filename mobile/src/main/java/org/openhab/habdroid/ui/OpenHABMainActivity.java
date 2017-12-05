@@ -587,7 +587,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
      * @param logLevel can be on of Constants.MESSAGES.LOGLEVEL.*
      */
     public void showMessageToUser(String message, int messageType, int logLevel) {
-        if (message == null) {
+        if (isFinishing() || message == null) {
             return;
         }
         boolean debugEnabled = mSettings.getBoolean(Constants.PREFERENCE_DEBUG_MESSAGES, false);
