@@ -692,19 +692,34 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
                         @Override
                         public void onClick(final View view) {
 
-                            int minValue = (int) openHABWidget.getMinValue();
-                            int maxValue = (int) openHABWidget.getMaxValue();
-                            final int stepSize;
+                            float minValue = openHABWidget.getMinValue();
+                            float maxValue = openHABWidget.getMaxValue();
+
+                            //This prevents an exception below. But could lead to user confusion if this case is ever encountered.
+                            if (minValue > maxValue){
+                                maxValue = minValue;
+                            }
+                            final float stepSize;
                             if(minValue == maxValue) {
                                 stepSize = 1;
                             } else {
-                                stepSize = (int) openHABWidget.getStep();
+                                //Ensure min step size is 1
+                                stepSize = openHABWidget.getStep();
                             }
 
 
-                            final String[] stepValues = new String[(maxValue - minValue)/stepSize +1];
+                            final String[] stepValues = new String[((int)(Math.abs(maxValue - minValue)/stepSize)) +1];
                             for(int i = 0; i < stepValues.length; i++){
-                                stepValues[i] = String.valueOf(minValue + (i*stepSize));
+                                //Check if step size is a whole integer.
+                                if( stepSize == Math.ceil(stepSize)){
+                                    //Cast to int to prevent .0 being added to all values in picker
+                                    stepValues[i] = String.valueOf((int) (minValue + (i*stepSize)));
+                                }
+                                else{
+
+                                    stepValues[i] = String.valueOf(minValue + (i*stepSize));
+                                }
+
                             }
 
                             AlertDialog.Builder builder = new AlertDialog.Builder(context);
@@ -738,11 +753,11 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
                             numberPicker.setMaxValue(stepValues.length -1);
                             numberPicker.setDisplayedValues(stepValues);
 
-                            // Find the closest value in the calculated step values.
-                            int stepIndex = Arrays.binarySearch(stepValues, valueTextView.getText(), new Comparator<CharSequence>() {
+                            // Find the closest value in the calculated step value
+                            int stepIndex = Arrays.binarySearch(stepValues, Float.toString(openHABWidget.getItem().getStateAsFloat()), new Comparator<CharSequence>() {
                                 @Override
                                 public int compare(CharSequence t1, CharSequence t2) {
-                                    return Integer.valueOf(t1.toString()).compareTo(Integer.valueOf(t2.toString()));
+                                    return Float.valueOf(t1.toString()).compareTo(Float.valueOf(t2.toString()));
                                 }
                             });
                             if ( stepIndex < 0 ){

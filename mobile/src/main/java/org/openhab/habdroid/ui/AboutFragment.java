@@ -10,22 +10,25 @@
 package org.openhab.habdroid.ui;
 
 
-import android.app.Dialog;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import org.openhab.habdroid.R;
 import android.widget.TextView;
 
+import org.openhab.habdroid.BuildConfig;
+import org.openhab.habdroid.R;
+
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Locale;
 
-public class AboutFragment extends DialogFragment {
+public class AboutFragment extends Fragment {
 
     private static final String TAG = AboutFragment.class.getSimpleName();
 
@@ -33,13 +36,19 @@ public class AboutFragment extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.openhababout, container);
+        View view = inflater.inflate(R.layout.openhababout, container, false);
 
-        TextView about = (TextView)view.findViewById(R.id.license_link);
+        TextView about = (TextView) view.findViewById(R.id.license_link);
         about.setText(Html.fromHtml(getString(R.string.about_license)));
         about.setMovementMethod(LinkMovementMethod.getInstance());
+        TextView appVersion = (TextView) view.findViewById(R.id.app_version);
+        appVersion.setText(getString(R.string.about_version_string,
+                BuildConfig.VERSION_NAME,
+                DateFormat.getDateTimeInstance().format(BuildConfig.buildTime)
+        ));
 
-        String year = new SimpleDateFormat("yyyy").format(Calendar.getInstance().getTime());
+        String year = new SimpleDateFormat("yyyy", Locale.US)
+                .format(Calendar.getInstance().getTime());
         TextView copyright = (TextView)view.findViewById(R.id.copyright);
         copyright.setText(String.format(getString(R.string.about_copyright),year));
         copyright.setMovementMethod(LinkMovementMethod.getInstance());
@@ -49,19 +58,6 @@ public class AboutFragment extends DialogFragment {
         links.setMovementMethod(LinkMovementMethod.getInstance());
 
         return view;
-    }
-
-    @Override
-    public void onStart()
-    {
-        super.onStart();
-        Dialog dialog = getDialog();
-        if (dialog != null) {
-
-            int width = ViewGroup.LayoutParams.MATCH_PARENT;
-            int height = ViewGroup.LayoutParams.MATCH_PARENT;
-            dialog.getWindow().setLayout(width, height);
-        }
     }
 
     @Override

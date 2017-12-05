@@ -35,9 +35,8 @@ import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.speech.RecognizerIntent;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
+
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -47,7 +46,6 @@ import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -59,7 +57,6 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
-import com.loopj.android.image.WebImageCache;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -74,7 +71,6 @@ import org.openhab.habdroid.core.notifications.GoogleCloudMessageConnector;
 import org.openhab.habdroid.core.notifications.NotificationSettings;
 import org.openhab.habdroid.model.OpenHABLinkedPage;
 import org.openhab.habdroid.model.OpenHABSitemap;
-import org.openhab.habdroid.model.thing.ThingType;
 import org.openhab.habdroid.ui.drawer.OpenHABDrawerAdapter;
 import org.openhab.habdroid.ui.drawer.OpenHABDrawerItem;
 import org.openhab.habdroid.util.Constants;
@@ -163,8 +159,8 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
     private static final int INFO_REQUEST_CODE = 1004;
     // Drawer item codes
     private static final int DRAWER_NOTIFICATIONS = 100;
-    private static final int DRAWER_BINDINGS = 101;
-    private static final int DRAWER_INBOX = 102;
+    private static final int DRAWER_ABOUT = 101;
+
     // Loopj
 //    private static MyAsyncHttpClient mAsyncHttpClient;
     private static MyAsyncHttpClient mAsyncHttpClient;
@@ -500,19 +496,24 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
                         Log.d(TAG, "Notifications selected");
                         mDrawerLayout.closeDrawers();
                         OpenHABMainActivity.this.openNotifications();
-                    } else if (mDrawerItemList.get(item).getTag() == DRAWER_BINDINGS) {
-                        Log.d(TAG, "Bindings selected");
-                        mDrawerLayout.closeDrawers();
-                        OpenHABMainActivity.this.openBindings();
-                    } else if (mDrawerItemList.get(item).getTag() == DRAWER_INBOX) {
-                        Log.d(TAG, "Inbox selected");
-                        mDrawerLayout.closeDrawers();
-                        OpenHABMainActivity.this.openDiscoveryInbox();
+                    } else if (mDrawerItemList.get(item).getTag() == DRAWER_ABOUT) {
+                        OpenHABMainActivity.this.openAbout();
                     }
                 }
             }
         });
         loadDrawerItems();
+    }
+
+    private void openAbout() {
+        Intent aboutIntent = new Intent(this.getApplicationContext(), OpenHABAboutActivity.class);
+        aboutIntent.putExtra(OpenHABVoiceService.OPENHAB_BASE_URL_EXTRA, openHABBaseUrl);
+        aboutIntent.putExtra("username", openHABUsername);
+        aboutIntent.putExtra("password", openHABPassword);
+        aboutIntent.putExtra("openHABVersion", mOpenHABVersion);
+
+        startActivityForResult(aboutIntent, INFO_REQUEST_CODE);
+        Util.overridePendingTransition(this, false);
     }
 
     private void setupPager() {
@@ -823,34 +824,6 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
         }
     }
 
-    public void openBindings() {
-        if (this.pagerAdapter != null) {
-            pagerAdapter.openBindings();
-            pager.setCurrentItem(pagerAdapter.getCount() - 1);
-        }
-    }
-
-    public void openDiscovery() {
-        if (this.pagerAdapter != null) {
-            pagerAdapter.openDiscovery();
-            pager.setCurrentItem(pagerAdapter.getCount() - 1);
-        }
-    }
-
-    public void openDiscoveryInbox() {
-        if (this.pagerAdapter != null) {
-            pagerAdapter.openDiscoveryInbox();
-            pager.setCurrentItem(pagerAdapter.getCount() - 1);
-        }
-    }
-
-    public void openBindingThingTypes(ArrayList<ThingType> thingTypes) {
-        if (this.pagerAdapter != null) {
-            pagerAdapter.openBindingThingTypes(thingTypes);
-            pager.setCurrentItem(pagerAdapter.getCount() - 1);
-        }
-    }
-
     private void openSitemap(String sitemapUrl) {
         Log.i(TAG, "Opening sitemap at " + sitemapUrl);
         sitemapRootUrl = sitemapUrl;
@@ -911,20 +884,6 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
                 preferencesEditor.apply();
                 selectSitemap(openHABBaseUrl, true, true);
                 return true;
-            case R.id.mainmenu_openhab_clearcache:
-                Log.d(TAG, "Restarting");
-                // Get launch intent for application
-                Intent restartIntent = getBaseContext().getPackageManager()
-                        .getLaunchIntentForPackage(getBaseContext().getPackageName());
-                restartIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                // Finish current activity
-                finish();
-                WebImageCache cache = new WebImageCache(getBaseContext());
-                cache.clear();
-                // Start launch activity
-                startActivity(restartIntent);
-                // Start launch activity
-                return true;
             case R.id.mainmenu_openhab_writetag:
                 Intent writeTagIntent = new Intent(this.getApplicationContext(), OpenHABWriteTagActivity.class);
                 // TODO: get current display page url, which? how? :-/
@@ -936,28 +895,6 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
                         Util.overridePendingTransition(this, false);
                     }
                 }
-                return true;
-            case R.id.mainmenu_openhab_info:
-                Bundle bundle = new Bundle();
-                bundle.putString(OpenHABVoiceService.OPENHAB_BASE_URL_EXTRA, openHABBaseUrl);
-                bundle.putString("username", openHABUsername);
-                bundle.putString("password", openHABPassword);
-                bundle.putInt("openHABVersion", mOpenHABVersion);
-
-                FragmentManager fm = getSupportFragmentManager();
-                Fragment openHabInfo = new OpenHABInfoFragment();
-
-                openHabInfo.setArguments(bundle);
-                FragmentTransaction ft = fm.beginTransaction();
-                ft.add(openHabInfo, "openHabTag");
-                ft.commit();
-                return true;
-            case R.id.mainmenu_about:
-                FragmentManager fm2 = getSupportFragmentManager();
-                Fragment about = new AboutFragment();
-                FragmentTransaction ft2 = fm2.beginTransaction();
-                ft2.add(about, "openHabTag");
-                ft2.commit();
                 return true;
             case R.id.mainmenu_voice_recognition:
                 launchVoiceRecognition();
@@ -1344,18 +1281,6 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
                 iconColor,
                 PorterDuff.Mode.SRC_IN
         );
-        Drawable discoveryDrawable = getResources().getDrawable(R.drawable
-                .ic_track_changes_black_24dp);
-        discoveryDrawable.setColorFilter(
-                iconColor,
-                PorterDuff.Mode.SRC_IN
-        );
-        Drawable bindingsDrawable = getResources().getDrawable(R.drawable
-                .ic_extension_black_24dp);
-        bindingsDrawable.setColorFilter(
-                iconColor,
-                PorterDuff.Mode.SRC_IN
-        );
         if (getNotificationSettings() != null) {
             mDrawerItemList.add(OpenHABDrawerItem.menuItem(
                     "Notifications",
@@ -1364,19 +1289,16 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
             ));
         }
 
-        // Only show those items if openHAB version is >= 2, openHAB 1.x just don't have those APIs...
-        if (mOpenHABVersion >= 2) {
-            mDrawerItemList.add(OpenHABDrawerItem.menuItem(
-                    "Discovery",
-                    discoveryDrawable,
-                    DRAWER_INBOX
-            ));
-            mDrawerItemList.add(OpenHABDrawerItem.menuItem(
-                    "Bindings",
-                    bindingsDrawable,
-                    DRAWER_BINDINGS
-            ));
-        }
+        Drawable aboutDrawable = getResources().getDrawable(R.drawable.ic_info_outline);
+        aboutDrawable.setColorFilter(
+                iconColor,
+                PorterDuff.Mode.SRC_IN);
+        mDrawerItemList.add(OpenHABDrawerItem.dividerItem());
+        mDrawerItemList.add(OpenHABDrawerItem.menuItem(
+                getString(R.string.about_title),
+                aboutDrawable,
+                DRAWER_ABOUT
+        ));
         mDrawerAdapter.notifyDataSetChanged();
     }
 }

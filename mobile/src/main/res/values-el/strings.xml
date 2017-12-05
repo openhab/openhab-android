@@ -6,15 +6,6 @@
     <string name="about_title">Σχετικά</string>
     <string name="action_settings">Ρυθμίσεις</string>
     <string name="app_bindings">Συνδέσεις</string>
-    <string name="app_bindings_supportedthings">Υποστηριζόμενα Πράγματα</string>
-    <string name="app_discovery">Ενεργοποίηση Ανεύρεσης</string>
-    <string name="app_discoveryinbox">Ανεύρεση</string>
-    <string name="app_discoveryinbox_approve">Έγκριση</string>
-    <string name="app_discoveryinbox_delete">Διαγραφή</string>
-    <string name="app_discoveryinbox_deviceaction">Επιλογή ενέργειας</string>
-    <string name="app_discoveryinbox_deviceunnamed">Ανώνυμη συσκευή</string>
-    <string name="app_discoveryinbox_ignore">Αγνόηση</string>
-    <string name="app_discoveryinbox_nothings">Κανένα νέο πράγμα</string>
     <string name="app_notifications">Ενημερώσεις</string>
     <string name="app_preferences_name">Ρυθμίσεις</string>
     <string name="drawer_close">Συρτάρι-κλειστό</string>

@@ -19,23 +19,8 @@
         android:title="@string/mainmenu_openhab_selectsitemap"
         app:showAsAction="never" />
     <item
-        android:id="@+id/mainmenu_openhab_clearcache"
-        android:orderInCategory="103"
-        android:title="@string/mainmenu_openhab_clearcache"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/mainmenu_openhab_info"
-        android:orderInCategory="104"
-        android:title="@string/mainmenu_openhab_info"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/mainmenu_about"
-        android:orderInCategory="105"
-        android:title="@string/about_title"
-        app:showAsAction="never" />
-    <item
         android:id="@+id/mainmenu_openhab_preferences"
-        android:orderInCategory="106"
+        android:orderInCategory="104"
         android:title="@string/mainmenu_openhab_preferences"
         app:showAsAction="never" />
 </menu>
