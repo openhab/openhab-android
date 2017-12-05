@@ -2,7 +2,7 @@
 <a href="https://travis-ci.org/openhab/openhab.android"><img src="https://travis-ci.org/openhab/openhab.android.svg?branch=master"></a>
 <a href="https://www.bountysource.com/teams/openhab/issues?tracker_ids=968858"><img src="https://www.bountysource.com/badge/tracker?tracker_id=968858"></a><br>
 <img alt="Logo" src="fastlane/metadata/android/en-US/images/icon.png" width="100"><br>
-<b>openHAB Android Client<b>
+<b>openHAB Android Client</b>
 </p>
 
 ## Introduction
