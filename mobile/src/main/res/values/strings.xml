@@ -144,7 +144,6 @@
     <string name="error_couldnt_determine_openhab_url">Couldn\'t determine openHAB URL</string>
     <string name="unknown">Unknown</string>
     <string name="error_network_type_unsupported">Network type (%s) is unsupported</string>
-    <string name="ok">Ok</string>
     <string name="set">Set</string>
     <string name="cancel">Cancel</string>
     <string name="app_intro">Intro</string>

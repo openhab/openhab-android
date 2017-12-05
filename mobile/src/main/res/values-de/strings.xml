@@ -127,7 +127,6 @@
     <string name="error_http_code_504">Gateway Time-out. Ihr Reverse-Proxy läuft, aber bekam keine Antwort von openHAB (HTTP-Statuscode 504)</string>
     <string name="error_http_code_507">openHAB hat nicht genug freien Speicher (HTTP-Statuscode 507)</string>
     <string name="error_http_code_511">Netzwerkauthentifizierung wird gefordert (HTTP-Statuscode 511)</string>
-    <string name="ok">OK</string>
     <string name="error_network_type_unsupported">Netzwerktyp (%s) wird nicht unterstützt</string>
     <string name="unknown">Unbekannt</string>
     <string name="settings_debug_messages_summary">Einige Meldungen enthalten mehr Informationen</string>

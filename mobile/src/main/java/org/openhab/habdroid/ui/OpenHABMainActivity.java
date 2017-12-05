@@ -624,7 +624,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
             case Constants.MESSAGES.DIALOG:
                 AlertDialog.Builder builder = new AlertDialog.Builder(OpenHABMainActivity.this);
                 builder.setMessage(message)
-                        .setPositiveButton(getText(R.string.ok), new DialogInterface.OnClickListener() {
+                        .setPositiveButton(getText(android.R.string.ok), new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                             }
                         });
