@@ -19,11 +19,6 @@
         android:title="@string/mainmenu_openhab_selectsitemap"
         app:showAsAction="never" />
     <item
-        android:id="@+id/mainmenu_openhab_clearcache"
-        android:orderInCategory="103"
-        android:title="@string/mainmenu_openhab_clearcache"
-        app:showAsAction="never" />
-    <item
         android:id="@+id/mainmenu_openhab_preferences"
         android:orderInCategory="104"
         android:title="@string/mainmenu_openhab_preferences"
