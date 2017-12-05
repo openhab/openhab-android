@@ -1264,9 +1264,9 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
             syncHttpClient.setBasicAuth(getOpenHABUsername(), getOpenHABPassword());
             mNotifySettings = new NotificationSettings(baseUrl, syncHttpClient);
             mNotifySettings.setOpenHABCloudUsername(
-                    mSettings.getString(Constants.PREFERENCE_USERNAME, openHABUsername));
+                    mSettings.getString(Constants.PREFERENCE_REMOTE_USERNAME, openHABUsername));
             mNotifySettings.setOpenHABCloudPassword(
-                    mSettings.getString(Constants.PREFERENCE_PASSWORD, openHABPassword));
+                    mSettings.getString(Constants.PREFERENCE_REMOTE_PASSWORD, openHABPassword));
         }
         return mNotifySettings;
     }

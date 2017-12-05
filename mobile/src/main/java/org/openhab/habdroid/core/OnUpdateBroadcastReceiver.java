@@ -26,7 +26,7 @@ public class OnUpdateBroadcastReceiver extends BroadcastReceiver {
         SharedPreferences.Editor edit = prefs.edit();
 
         if (prefs.getInt(PREFERENCE_COMPAREABLEVERSION, 0) <= UPDATE_LOCAL_CREDENTIALS) {
-            Log.d(TAG, "Checking for putting username/password to local username/password.");
+            Log.d(TAG, "Checking for putting local username/password to remote username/password.");
             if (prefs.getString(Constants.PREFERENCE_REMOTE_USERNAME, null) == null) {
                 edit.putString(Constants.PREFERENCE_REMOTE_USERNAME, prefs.getString(Constants
                         .PREFERENCE_LOCAL_USERNAME, null));
