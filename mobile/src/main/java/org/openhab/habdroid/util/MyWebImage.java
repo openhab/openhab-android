@@ -55,18 +55,38 @@ public class MyWebImage implements SmartImage {
     	this.useCache = useCache;
         this.setAuthentication(username, password);
     }
-    
-    public Bitmap getBitmap(Context context) {
-        // Don't leak context
-        if(webImageCache == null) {
-            webImageCache = new WebImageCache(context);
+
+    /**
+     * Returns the already initialized WebImageCache, if there's any. This method may return
+     * null if {@link MyWebImage#getWebImageCache(Context ctx)} was not called so far.
+     *
+     * @return WebImageCache|null
+     */
+    public static WebImageCache getWebImageCache() {
+        return webImageCache;
+    }
+
+    /**
+     * See {@link MyWebImage#getWebImageCache()}, with the difference, that this method does not
+     * return null.
+     *
+     * @param ctx
+     * @return WebImageCache
+     */
+    public static WebImageCache getWebImageCache(Context ctx) {
+        if (webImageCache == null) {
+            webImageCache = new WebImageCache(ctx);
         }
 
-        // Try getting bitmap from cache first
+        return webImageCache;
+    }
+
+    public Bitmap getBitmap(Context context) {
+                // Try getting bitmap from cache first
         Bitmap bitmap = null;
         if(url != null) {
             if (this.useCache)
-            	bitmap = webImageCache.get(url);
+            	bitmap = getWebImageCache(context).get(url);
             if(bitmap == null) {
             	Log.i("MyWebImage", "Cache for " + url + " is empty, getting image");
                 String iconFormat = "PNG";
@@ -75,7 +95,7 @@ public class MyWebImage implements SmartImage {
                 }
                 bitmap = getBitmapFromUrl(context, url, iconFormat);
                 if(bitmap != null && this.useCache) {
-                    webImageCache.put(url, bitmap);
+                    getWebImageCache(context).put(url, bitmap);
                 }
             }
         }
@@ -166,7 +186,7 @@ public class MyWebImage implements SmartImage {
     }
 
     public static void removeFromCache(String url) {
-        if(webImageCache != null) {
+        if(getWebImageCache() != null) {
             webImageCache.remove(url);
         }
     }
