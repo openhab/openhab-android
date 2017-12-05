@@ -19,7 +19,6 @@
     <string name="error_no_uuid">Αδυναμία λήψης του openHAB UUID, η σύνδεση απέτυχε.</string>
     <string name="info_conn_rem_url">Σύνδεση στην απομακρυσμένη διεύθυνση</string>
     <string name="info_conn_url">Σύνδεση στην τοπική διεύθυνση</string>
-    <string name="info_demo_mode">Εκτέλεση σε κατάσταση παρουσίασης (demo). Για να συνδεθείτε στον διακομιστή openHAB σας παρακαλώ πηγαίνετε στο μενού των ρυθμίσεων.</string>
     <string name="info_discovery">Ανεύρεση openHAB. Παρακαλώ περιμένετε...</string>
     <string name="info_not_set">Δεν έχει ρυθμιστεί</string>
     <string name="info_openhab_apiversion_label">Έκδοση openHAB Rest API</string>

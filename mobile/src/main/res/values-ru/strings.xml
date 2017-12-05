@@ -48,7 +48,6 @@
     <string name="title_voice_widget">openHAB Голосовые команды</string>
     <string name="info_voice_input">"openHAB, Ваша команда!"</string>
     <string name="info_voice_recognized_text">"Принятая команда: %1$s"</string>
-    <string name="info_demo_mode">Запущен демо режим. Что бы подключиться к Вашему openHAB серверу пожалуйста зайдите в меню настройки.</string>
     <string name="info_demo_mode_short">Запущен демо режим</string>
     <string name="info_conn_url">Подключение к локальному URL</string>
     <string name="info_conn_rem_url">Подключение к удаленному URL</string>

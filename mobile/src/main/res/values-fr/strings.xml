@@ -44,7 +44,6 @@
     <string name="title_voice_widget">Commandes vocales openHAB</string>
     <string name="info_voice_input">openHAB, à vos ordres!"</string>
     <string name="info_voice_recognized_text">"Commande identifiée: %1$s"</string>
-    <string name="info_demo_mode">L\'app openHAB fonctionne en mode démo. Pour connecter votre instance openHAB, rendez-vous dans les paramètres de l\'application</string>
     <string name="info_demo_mode_short">Exécution en mode démo</string>
     <string name="info_conn_url">Connexion à l\'adresse locale</string>
     <string name="info_conn_rem_url">Connexion à l\'adresse distante</string>
