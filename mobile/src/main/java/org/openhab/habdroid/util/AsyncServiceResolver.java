@@ -93,8 +93,7 @@ public class AsyncServiceResolver extends Thread implements ServiceListener {
                 });
                 shutdown();
             }
-        } catch (InterruptedException e) {
-        }
+        } catch (InterruptedException ignored) {}
     }
 
     public void serviceAdded(ServiceEvent event) {
@@ -106,6 +105,7 @@ public class AsyncServiceResolver extends Thread implements ServiceListener {
     }
 
     public void serviceResolved(ServiceEvent event) {
+        Log.d(TAG, "serviceResolved()");
         mResolvedServiceInfo = event.getInfo();
         mIsResolved = true;
         new Handler(Looper.getMainLooper()).post(new Runnable() {

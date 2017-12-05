@@ -2,8 +2,8 @@
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <!-- General app strings -->
     <string name="app_name" translatable="false">openHAB</string>
-    <string name="openhab_service_type" translatable="false">_openhab-server-ssl._tcp.local.</string>
-    <string name="openhab_demo_url" translatable="false">http://demo.openhab.org:8080/</string>
+    <string name="openhab_service_type" translatable="false">_openhab-server._tcp.local.</string>
+    <string name="openhab_demo_url" translatable="false">https://demo.openhab.org:8443/</string>
     <string name="main_menu">Main menu</string>
     <string name="app_preferences_name">Settings</string>
     <string name="app_notifications">Notifications</string>
@@ -151,4 +151,7 @@
     <string name="intro_whatis">A vendor and technology agnostic open source automation software for your home</string>
     <string name="intro_themes">Themes</string>
     <string name="intro_themes_description">Choose between several themes</string>
+    <string name="error_no_url_start_demo_mode">You need an openHAB server to use this app. Please go to settings to enter IP or DNS. Demo mode will be started now.</string>
+    <string name="intro_discovery">Discovery</string>
+    <string name="intro_discovery_summary">openHAB for Android tries to find the openHAB server automatically. This will not work, when authentication is enforced.</string>
 </resources>
