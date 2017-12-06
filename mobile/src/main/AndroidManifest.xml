@@ -71,9 +71,6 @@
 
                 <data android:scheme="openhab" />
             </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED"/>
-            </intent-filter>
         </activity>
         <activity
             android:name="org.openhab.habdroid.ui.OpenHABWriteTagActivity"
@@ -81,6 +78,7 @@
         <activity android:name="org.openhab.habdroid.ui.IntroActivity"
             android:label="@string/app_intro"/>
         <activity android:name="de.duenndns.ssl.MemorizingActivity" />
+
         <service
             android:name=".core.OpenHABVoiceService"
             android:exported="false" />
@@ -110,6 +108,13 @@
             <meta-data
                 android:name="android.appwidget.provider"
                 android:resource="@xml/voice_widget_info" />
+        </receiver>
+
+        <receiver android:name=".core.BootCompletedReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <category android:name="android.intent.category.HOME" />
+            </intent-filter>
         </receiver>
 
         <service android:name=".core.ForegroundService" />

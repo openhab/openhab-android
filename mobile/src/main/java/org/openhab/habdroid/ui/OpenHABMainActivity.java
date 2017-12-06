@@ -11,7 +11,6 @@ package org.openhab.habdroid.ui;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
@@ -47,7 +46,6 @@ import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -75,7 +73,6 @@ import org.openhab.habdroid.core.notifications.GoogleCloudMessageConnector;
 import org.openhab.habdroid.core.notifications.NotificationSettings;
 import org.openhab.habdroid.model.OpenHABLinkedPage;
 import org.openhab.habdroid.model.OpenHABSitemap;
-import org.openhab.habdroid.model.thing.ThingType;
 import org.openhab.habdroid.ui.drawer.OpenHABDrawerAdapter;
 import org.openhab.habdroid.ui.drawer.OpenHABDrawerItem;
 import org.openhab.habdroid.util.Constants;
@@ -110,6 +107,8 @@ import de.duenndns.ssl.MemorizingResponder;
 import de.duenndns.ssl.MemorizingTrustManager;
 import okhttp3.Call;
 import okhttp3.Headers;
+
+import static org.openhab.habdroid.core.CustomBroadcastReceiver.CUSTOM_BROADCAST_RECEIVER_INTENT;
 
 public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSelectedListener,
         OpenHABTrackerReceiver, MemorizingResponder {
@@ -342,7 +341,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
             } else if (intent.getAction().equals("android.intent.action.VIEW")) {
                 Log.d(TAG, "This is URL Action");
                 mNfcData = intent.getDataString();
-            } else if (intent.getAction().equals(Intent.ACTION_BOOT_COMPLETED)) {
+            } else if (intent.getAction().equals(CUSTOM_BROADCAST_RECEIVER_INTENT)) {
                 Log.d(TAG, "Boot broadcast");
                 setupCustomBroadcastReceiver();
             }

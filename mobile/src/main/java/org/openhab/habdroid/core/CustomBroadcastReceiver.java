@@ -31,6 +31,7 @@ import static org.openhab.habdroid.ui.OpenHABMainActivity.mAsyncHttpClient;
 
 public class CustomBroadcastReceiver extends BroadcastReceiver {
     private final static String TAG = CustomBroadcastReceiver.class.getSimpleName();
+    public final static String CUSTOM_BROADCAST_RECEIVER_INTENT = "org.openhab.habdroid.cbr";
 
     private static void updateNotification(String text, Context context) {
         Intent notificationIntent = new Intent(context, OpenHABMainActivity.class);
