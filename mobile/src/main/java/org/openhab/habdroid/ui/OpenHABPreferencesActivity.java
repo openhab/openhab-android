@@ -28,8 +28,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import org.openhab.habdroid.BuildConfig;
+import com.loopj.android.image.WebImageCache;
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.util.Constants;
+import org.openhab.habdroid.util.MyWebImage;
 import org.openhab.habdroid.util.Util;
 
 import java.security.cert.X509Certificate;
@@ -92,6 +94,8 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
             final Preference sslClientCertHowTo = getPreferenceScreen().findPreference(Constants.PREFERENCE_SSLCLIENTCERT_HOWTO);
             final Preference altUrlPreference = getPreferenceScreen().findPreference(Constants.PREFERENCE_ALTURL);
             final Preference themePreference = getPreferenceScreen().findPreference(Constants.PREFERENCE_THEME);
+            final Preference clearCachePreference = getPreferenceScreen().findPreference(Constants
+                    .PREFERENCE_CLEAR_CACHE);
 
             updateSslClientCertSummary(sslClientCert);
 
@@ -149,6 +153,25 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
                 }
             });
 
+            clearCachePreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    // Get launch intent for application
+                    Intent restartIntent = getActivity().getPackageManager()
+                            .getLaunchIntentForPackage(getActivity().getBaseContext().getPackageName());
+                    restartIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    // Finish current activity
+                    getActivity().finish();
+                    WebImageCache cache = MyWebImage.getWebImageCache();
+                    if (cache != null) {
+                        cache.clear();
+                    }
+                    // Start launch activity
+                    startActivity(restartIntent);
+                    // Start launch activity
+                    return true;
+                }
+            });
             //fullscreen is not supoorted in builds < 4.4
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
                 getPreferenceScreen().removePreference(getPreferenceScreen().findPreference(Constants.PREFERENCE_FULLSCREEN));

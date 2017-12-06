@@ -57,7 +57,6 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
-import com.loopj.android.image.WebImageCache;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -591,7 +590,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
      * @param logLevel can be on of Constants.MESSAGES.LOGLEVEL.*
      */
     public void showMessageToUser(String message, int messageType, int logLevel) {
-        if (message == null) {
+        if (isFinishing() || message == null) {
             return;
         }
         boolean debugEnabled = mSettings.getBoolean(Constants.PREFERENCE_DEBUG_MESSAGES, false);
@@ -628,7 +627,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
             case Constants.MESSAGES.DIALOG:
                 AlertDialog.Builder builder = new AlertDialog.Builder(OpenHABMainActivity.this);
                 builder.setMessage(message)
-                        .setPositiveButton(getText(R.string.ok), new DialogInterface.OnClickListener() {
+                        .setPositiveButton(getText(android.R.string.ok), new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                             }
                         });
@@ -768,7 +767,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
                                 Log.d(TAG, "Got only one sitemap");
                                 SharedPreferences.Editor preferencesEditor = settings.edit();
                                 preferencesEditor.putString(Constants.PREFERENCE_SITEMAP, mSitemapList.get(0).getName());
-                                preferencesEditor.commit();
+                                preferencesEditor.apply();
                                 openSitemap(mSitemapList.get(0).getHomepageLink());
                             } else {
                                 Log.d(TAG, "Got multiply sitemaps, user have to select one");
@@ -782,7 +781,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
                             Log.d(TAG, "Got only one sitemap");
                             SharedPreferences.Editor preferencesEditor = settings.edit();
                             preferencesEditor.putString(Constants.PREFERENCE_SITEMAP, mSitemapList.get(0).getName());
-                            preferencesEditor.commit();
+                            preferencesEditor.apply();
                             openSitemap(mSitemapList.get(0).getHomepageLink());
                         } else {
                             Log.d(TAG, "Got multiply sitemaps, user have to select one");
@@ -890,20 +889,6 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
                 preferencesEditor.putString(Constants.PREFERENCE_SITEMAP, "");
                 preferencesEditor.apply();
                 selectSitemap(openHABBaseUrl, true, true);
-                return true;
-            case R.id.mainmenu_openhab_clearcache:
-                Log.d(TAG, "Restarting");
-                // Get launch intent for application
-                Intent restartIntent = getBaseContext().getPackageManager()
-                        .getLaunchIntentForPackage(getBaseContext().getPackageName());
-                restartIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                // Finish current activity
-                finish();
-                WebImageCache cache = new WebImageCache(getBaseContext());
-                cache.clear();
-                // Start launch activity
-                startActivity(restartIntent);
-                // Start launch activity
                 return true;
             case R.id.mainmenu_openhab_writetag:
                 Intent writeTagIntent = new Intent(this.getApplicationContext(), OpenHABWriteTagActivity.class);

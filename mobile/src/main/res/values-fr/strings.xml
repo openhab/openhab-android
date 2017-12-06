@@ -106,7 +106,6 @@
     <string name="error_couldnt_determine_openhab_url">Impossible de détermine l\'URL openHAB</string>
     <string name="unknown">Inconnu</string>
     <string name="error_network_type_unsupported">Type de réseau (%s) non supporté</string>
-    <string name="ok">Ok</string>
     <string name="app_intro">Intro</string>
     <string name="intro_welcome">Bienvenue dans openHAB</string>
     <string name="intro_whatis">Un logiciel open source de domotique pour votre maison non lié à un vendeur ou à une technologie particulière</string>

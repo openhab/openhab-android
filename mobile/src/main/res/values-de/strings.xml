@@ -124,10 +124,10 @@
     <string name="error_http_code_495">Ungültiges Client-Zertifikat (HTTP-Statuscode 495)</string>
     <string name="error_http_code_496">Client-Zertifikat wird gefordert (HTTP-Statuscode 496)</string>
     <string name="error_http_code_502">Ihr Reverse-Proxy bekam eine ungültige Antwort von openHAB (HTTP-Statuscode 502)</string>
+    <string name="error_http_code_503">openHAB steht temporär nicht zur Verfügung (HTTP-Statuscode 503)</string>
     <string name="error_http_code_504">Gateway Time-out. Ihr Reverse-Proxy läuft, aber bekam keine Antwort von openHAB (HTTP-Statuscode 504)</string>
     <string name="error_http_code_507">openHAB hat nicht genug freien Speicher (HTTP-Statuscode 507)</string>
     <string name="error_http_code_511">Netzwerkauthentifizierung wird gefordert (HTTP-Statuscode 511)</string>
-    <string name="ok">OK</string>
     <string name="error_network_type_unsupported">Netzwerktyp (%s) wird nicht unterstützt</string>
     <string name="unknown">Unbekannt</string>
     <string name="settings_debug_messages_summary">Einige Meldungen enthalten mehr Informationen</string>
