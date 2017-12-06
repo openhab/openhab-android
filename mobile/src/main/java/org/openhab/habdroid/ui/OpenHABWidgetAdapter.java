@@ -123,6 +123,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
         String[] splitString;
         final OpenHABWidget openHABWidget = getItem(position);
         int screenWidth = ((WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getWidth();
+        int screenHeight = ((WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getHeight();
         switch (this.getItemViewType(position)) {
             case TYPE_FRAME:
                 widgetLayout = R.layout.openhabwidgetlist_frameitem;
@@ -489,6 +490,8 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
                 break;
             case TYPE_IMAGE:
                 MySmartImageView imageImage = (MySmartImageView) widgetView.findViewById(R.id.imageimage);
+                imageImage.setMaxSize(parent.getWidth() > 0 ? parent.getWidth() : screenWidth,
+                        parent.getHeight() > 0 ? parent.getHeight() : screenHeight);
                 OpenHABItem item = openHABWidget.getItem();
                 if (item != null && item.getType().equals("Image") && item.getState() != null
                         && item.getState().startsWith("data:")) {
@@ -501,10 +504,6 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
                         refreshImageList.add(imageImage);
                     }
                 }
-//    		ViewGroup.LayoutParams imageLayoutParams = imageImage.getLayoutParams();
-//    		float imageRatio = imageImage.getDrawable().getIntrinsicWidth()/imageImage.getDrawable().getIntrinsicHeight();
-//    		imageLayoutParams.height = (int) (screenWidth/imageRatio);
-//    		imageImage.setLayoutParams(imageLayoutParams);
                 break;
             case TYPE_CHART:
                 MySmartImageView chartImage = (MySmartImageView) widgetView.findViewById(R.id.chartimage);
@@ -514,12 +513,8 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
                 Random random = new Random();
                 String chartUrl = "";
                 if (chartItem != null) {
-                    int fragmentWidth = parent.getWidth();
+                    int fragmentWidth = parent.getWidth() > 0 ? parent.getWidth() : screenWidth;
                     Log.d(TAG, "Chart width = " + fragmentWidth + " - screen width " + screenWidth);
-                    // We use the screen width in case the parent width would not be set
-                    if (fragmentWidth <= 0) {
-                        fragmentWidth = screenWidth;
-                    }
 
                     if (chartItem.getType().equals("GroupItem") || chartItem.getType().equals("Group")) {
                         chartUrl = openHABBaseUrl + "chart?groups=" + chartItem.getName() +

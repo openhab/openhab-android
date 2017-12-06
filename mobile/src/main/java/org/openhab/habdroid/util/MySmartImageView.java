@@ -10,10 +10,12 @@
 package org.openhab.habdroid.util;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.os.Handler;
 import android.os.Message;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.ViewGroup;
 
 import com.loopj.android.image.SmartImageView;
 
@@ -46,19 +48,27 @@ public class MySmartImageView extends SmartImageView {
     private String myImageUrl;
     private String username;
     private String password;
+    private int maxWidth;
+    private int maxHeight;
 
     private Timer imageRefreshTimer;
 
     public MySmartImageView(Context context) {
         super(context);
+        this.maxWidth = -1;
+        this.maxHeight = -1;
     }
 
     public MySmartImageView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        this.maxWidth = -1;
+        this.maxHeight = -1;
     }
 
     public MySmartImageView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
+        this.maxWidth = -1;
+        this.maxHeight = -1;
     }
 
     public void setImageUrl(String url, String username, String password) {
@@ -89,6 +99,11 @@ public class MySmartImageView extends SmartImageView {
         setImage(new MyWebImage(url, useImageCache, username, password));
     }
 
+    public void setMaxSize(int maxWidth, int maxHeight) {
+        this.maxWidth = maxWidth;
+        this.maxHeight = maxHeight;
+    }
+
     public void setRefreshRate(int msec) {
         Log.i(TAG, "Setting image refresh rate to " + msec + " msec for " + myImageUrl);
         if (this.imageRefreshTimer != null) {
@@ -111,5 +126,18 @@ public class MySmartImageView extends SmartImageView {
         if (this.imageRefreshTimer != null) {
             this.imageRefreshTimer.cancel();
         }
+    }
+
+    @Override
+    public void setImageBitmap(Bitmap bm) {
+        if (maxWidth > 0 && maxHeight > 0) {
+            float imageRatio = bm.getWidth()/bm.getHeight();
+            if ((int) (maxWidth / imageRatio) > maxHeight) {
+                ViewGroup.LayoutParams layoutParams = getLayoutParams();
+                layoutParams.height = maxHeight;
+                setLayoutParams(layoutParams);
+            }
+        }
+        super.setImageBitmap(bm);
     }
 }
