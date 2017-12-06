@@ -38,6 +38,10 @@
             android:summary="%s"
             android:entries="@array/iconTypeValues"
             android:entryValues="@array/iconTypeValues" />
+        <Preference
+            android:clickable="true"
+            android:key="default_openhab_cleacache"
+            android:title="@string/mainmenu_openhab_clearcache" />
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="default_openhab_screentimeroff"

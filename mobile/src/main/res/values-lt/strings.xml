@@ -111,7 +111,6 @@
     <string name="error_unable_to_resolve_hostname">Nepavyko \"išrišti\" hostname</string>
     <string name="info_demo_mode_short">Veikia demo režimu</string>
     <string name="intro_themes">Temos</string>
-    <string name="ok">Gerai</string>
     <string name="mainmenu_openhab_voice_recognition">Balso atpažinimas</string>
     <string name="settings_debug_messages_summary">Kai kurie klaidų pranešimai savyje turi daugiau informacijos</string>
     <string name="settings_debug_messages_title">Rodyti derinimo žinutes</string>

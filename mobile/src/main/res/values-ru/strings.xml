@@ -115,7 +115,6 @@
     <string name="error_couldnt_determine_openhab_url">Не удалось определить адрес openHAB</string>
     <string name="unknown">Неизвестный</string>
     <string name="error_network_type_unsupported">Тип сети (%s) не поддерживается</string>
-    <string name="ok">Ок</string>
     <string name="app_intro">Введение</string>
     <string name="intro_welcome">Добро пожаловать в openHAB</string>
     <string name="intro_whatis">Независимое программное обеспечение автоматизации Вашего дома</string>

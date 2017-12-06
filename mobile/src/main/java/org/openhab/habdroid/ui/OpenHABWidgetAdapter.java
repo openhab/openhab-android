@@ -514,6 +514,13 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
                 Random random = new Random();
                 String chartUrl = "";
                 if (chartItem != null) {
+                    int fragmentWidth = parent.getWidth();
+                    Log.d(TAG, "Chart width = " + fragmentWidth + " - screen width " + screenWidth);
+                    // We use the screen width in case the parent width would not be set
+                    if (fragmentWidth <= 0) {
+                        fragmentWidth = screenWidth;
+                    }
+
                     if (chartItem.getType().equals("GroupItem") || chartItem.getType().equals("Group")) {
                         chartUrl = openHABBaseUrl + "chart?groups=" + chartItem.getName() +
                                 "&period=" + openHABWidget.getPeriod() + "&random=" +
@@ -545,10 +552,10 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
                     }
                     Log.d(TAG, "Chart url = " + chartUrl);
                     ViewGroup.LayoutParams chartLayoutParams = chartImage.getLayoutParams();
-                    chartLayoutParams.height = (int) (screenWidth / 2);
+                    chartLayoutParams.height = (int) (fragmentWidth / 2);
                     chartImage.setLayoutParams(chartLayoutParams);
-                    chartUrl += "&w=" + String.valueOf(screenWidth);
-                    chartUrl += "&h=" + String.valueOf(screenWidth / 2);
+                    chartUrl += "&w=" + String.valueOf(fragmentWidth);
+                    chartUrl += "&h=" + String.valueOf(fragmentWidth / 2);
                     chartImage.setImageUrl(chartUrl, false, openHABUsername, openHABPassword);
                     // TODO: This is quite dirty fix to make charts look full screen width on all displays
                     if (openHABWidget.getRefresh() > 0) {
