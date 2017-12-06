@@ -49,8 +49,8 @@
     <string name="settings_openhab_icon_format_svg">Vector</string>
     <string name="settings_ringtone">Ring tone</string>
     <string name="settings_openhab_sslsettings">Encryption settings</string>
-    <string name="settings_openhab_alt_connection">openHAB remote settings</string>
-    <string name="settings_openhab_connection">openHAB local settings</string>
+    <string name="settings_openhab_alt_connection">Remote server settings</string>
+    <string name="settings_openhab_connection">Local server settings</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">openHAB Voice Commands</string>
     <string name="info_voice_input">"openHAB, at your command!"</string>
