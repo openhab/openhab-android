@@ -17,6 +17,7 @@ import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.PreferenceFragment;
+import android.preference.PreferenceScreen;
 import android.security.KeyChain;
 import android.security.KeyChainAliasCallback;
 import android.security.KeyChainException;
@@ -27,11 +28,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
-import com.loopj.android.image.WebImageCache;
-
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.util.Constants;
-import org.openhab.habdroid.util.MyWebImage;
 import org.openhab.habdroid.util.Util;
 
 import java.security.cert.X509Certificate;
@@ -56,7 +54,7 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
         if (savedInstanceState == null) {
             getFragmentManager()
                     .beginTransaction()
-                    .add(R.id.prefs_container, new SettingsFragment())
+                    .add(R.id.prefs_container, new MainSettingsFragment())
                     .commit();
         }
 
@@ -78,7 +76,7 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
         Util.overridePendingTransition(this, true);
     }
 
-    public void openSubScreen(SettingsFragment subScreenFragment) {
+    public void openSubScreen(AbstractSettingsFragment subScreenFragment) {
         getFragmentManager()
                 .beginTransaction()
                 .replace(R.id.prefs_container, subScreenFragment)
@@ -86,7 +84,7 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
                 .commit();
     }
 
-    public static class SettingsFragment extends PreferenceFragment {
+    private static abstract class AbstractSettingsFragment extends PreferenceFragment {
         @Override
         public void onCreate(@Nullable Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
@@ -98,69 +96,16 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
         public void onStart() {
             super.onStart();
 
-            ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(getTitle());
+            getParentActivity().getSupportActionBar().setTitle(getTitleResId());
         }
 
-        protected String getTitle() {
-            return getString(R.string.action_settings);
-        }
+        protected abstract void updateAndInitPreferences();
 
-        protected void updateAndInitPreferences() {
-            addPreferencesFromResource(R.xml.preferences);
+        protected abstract @StringRes
+        int getTitleResId();
 
-            final Preference subScreenLocalConn = getPreferenceScreen().findPreference(Constants.SUBSCREEN_LOCAL_CONNECTION);
-            final Preference subScreenRemoteConn = getPreferenceScreen().findPreference(Constants.SUBSCREEN_REMOTE_CONNECTION);
-            final Preference subScreenSsl = getPreferenceScreen().findPreference(Constants.SUBSCREEN_SSL_SETTINGS);
-            final Preference clearCachePreference = getPreferenceScreen().findPreference(Constants
-                    .PREFERENCE_CLEAR_CACHE);
-            subScreenLocalConn.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                @Override
-                public boolean onPreferenceClick(Preference preference) {
-                    ((OpenHABPreferencesActivity)getActivity()).openSubScreen(new LocalConnectionSettingsFragment());
-                    return false;
-                }
-            });
-
-            subScreenRemoteConn.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                @Override
-                public boolean onPreferenceClick(Preference preference) {
-                    ((OpenHABPreferencesActivity)getActivity()).openSubScreen(new RemoteConnectionSettingsFragment());
-                    return false;
-                }
-            });
-
-            subScreenSsl.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                @Override
-                public boolean onPreferenceClick(Preference preference) {
-                    ((OpenHABPreferencesActivity)getActivity()).openSubScreen(new SslSettingsFragment());
-                    return false;
-                }
-            });
-
-            clearCachePreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                @Override
-                public boolean onPreferenceClick(Preference preference) {
-                    // Get launch intent for application
-                    Intent restartIntent = getActivity().getPackageManager()
-                            .getLaunchIntentForPackage(getActivity().getBaseContext().getPackageName());
-                    restartIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    // Finish current activity
-                    getActivity().finish();
-                    WebImageCache cache = MyWebImage.getWebImageCache();
-                    if (cache != null) {
-                        cache.clear();
-                    }
-                    // Start launch activity
-                    startActivity(restartIntent);
-                    // Start launch activity
-                    return true;
-                }
-            });
-
-            //fullscreen is not supoorted in builds < 4.4
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                getPreferenceScreen().removePreference(getPreferenceScreen().findPreference(Constants.PREFERENCE_FULLSCREEN));
-            }
+        protected OpenHABPreferencesActivity getParentActivity() {
+            return (OpenHABPreferencesActivity) getActivity();
         }
 
         protected String getPreferenceString(Preference preference, String defValue) {
@@ -171,7 +116,8 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
             return getPreferenceScreen().getSharedPreferences().getString(prefKey, defValue);
         }
 
-        private void updateTextPreferenceSummary(Preference textPreference, @StringRes int summaryFormatResId,
+        private void updateTextPreferenceSummary(Preference textPreference,
+                                                 @StringRes int summaryFormatResId,
                                                  String newValue, boolean isPassword) {
             if (newValue == null) {
                 newValue = getPreferenceString(textPreference, "");
@@ -187,7 +133,7 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
         }
 
         protected void initEditorPreference(String key, @StringRes final int summaryFormatResId,
-                                          final boolean isPassword) {
+                                            final boolean isPassword) {
             Preference pref = getPreferenceScreen().findPreference(key);
             pref.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
                 @Override
@@ -200,10 +146,57 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
         }
     }
 
-    public static class LocalConnectionSettingsFragment extends SettingsFragment {
+    public static class MainSettingsFragment extends AbstractSettingsFragment {
         @Override
-        protected String getTitle() {
-            return getString(R.string.settings_openhab_connection);
+        protected @StringRes
+        int getTitleResId() {
+            return R.string.action_settings;
+        }
+
+        @Override
+        protected void updateAndInitPreferences() {
+            addPreferencesFromResource(R.xml.preferences);
+
+            final Preference subScreenLocalConn = findPreference(Constants.SUBSCREEN_LOCAL_CONNECTION);
+            final Preference subScreenRemoteConn = findPreference(Constants.SUBSCREEN_REMOTE_CONNECTION);
+            final Preference subScreenSsl = findPreference(Constants.SUBSCREEN_SSL_SETTINGS);
+            subScreenLocalConn.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    getParentActivity().openSubScreen(new LocalConnectionSettingsFragment());
+                    return false;
+                }
+            });
+
+            subScreenRemoteConn.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    getParentActivity().openSubScreen(new RemoteConnectionSettingsFragment());
+                    return false;
+                }
+            });
+
+            subScreenSsl.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    getParentActivity().openSubScreen(new SslSettingsFragment());
+                    return false;
+                }
+            });
+
+            //fullscreen is not supoorted in builds < 4.4
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                final PreferenceScreen ps = getPreferenceScreen();
+                ps.removePreference(ps.findPreference(Constants.PREFERENCE_FULLSCREEN));
+            }
+        }
+    }
+
+
+    public static class LocalConnectionSettingsFragment extends AbstractSettingsFragment {
+        @Override
+        protected @StringRes int getTitleResId() {
+            return R.string.settings_openhab_connection;
         }
 
         @Override
@@ -216,18 +209,18 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
         }
     }
 
-    public static class SslSettingsFragment extends SettingsFragment {
+    public static class SslSettingsFragment extends AbstractSettingsFragment {
         @Override
-        protected String getTitle() {
-            return getString(R.string.settings_openhab_sslsettings);
+        protected @StringRes int getTitleResId() {
+            return R.string.settings_openhab_sslsettings;
         }
 
         @Override
         protected void updateAndInitPreferences() {
             addPreferencesFromResource(R.xml.ssl_preferences);
 
-            final Preference sslClientCert = getPreferenceScreen().findPreference(Constants.PREFERENCE_SSLCLIENTCERT);
-            final Preference sslClientCertHowTo = getPreferenceScreen().findPreference(Constants.PREFERENCE_SSLCLIENTCERT_HOWTO);
+            final Preference sslClientCert = findPreference(Constants.PREFERENCE_SSLCLIENTCERT);
+            final Preference sslClientCertHowTo = findPreference(Constants.PREFERENCE_SSLCLIENTCERT_HOWTO);
 
             updateSslClientCertSummary(sslClientCert);
 
@@ -310,10 +303,10 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
         }
     }
 
-    public static class RemoteConnectionSettingsFragment extends SettingsFragment {
+    public static class RemoteConnectionSettingsFragment extends AbstractSettingsFragment {
         @Override
-        protected String getTitle() {
-            return getString(R.string.settings_openhab_alt_connection);
+        protected @StringRes int getTitleResId() {
+            return R.string.settings_openhab_alt_connection;
         }
 
         @Override
