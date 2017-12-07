@@ -171,8 +171,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
     private static final int DRAWER_PREFERENCES = 102;
 
     // Loopj
-//    private static MyAsyncHttpClient mAsyncHttpClient;
-    private static MyAsyncHttpClient mAsyncHttpClient;
+    private MyAsyncHttpClient mAsyncHttpClient;
     // Base URL of current openHAB connection
     private String openHABBaseUrl = "http://demo.openhab.org:8080/";
     // openHAB username
@@ -233,7 +232,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
         }
     };
 
-    public static MyAsyncHttpClient getAsyncHttpClient() {
+    public MyAsyncHttpClient getAsyncHttpClient() {
         return mAsyncHttpClient;
     }
 

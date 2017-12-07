@@ -45,7 +45,7 @@ public class OpenHABInfoFragment extends Fragment {
     private String mOpenHABBaseUrl;
     private String mUsername;
     private String mPassword;
-    private static MyAsyncHttpClient mAsyncHttpClient;
+    private MyAsyncHttpClient mAsyncHttpClient;
 
 
     @Override
