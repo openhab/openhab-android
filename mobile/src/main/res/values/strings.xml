@@ -150,7 +150,7 @@
     <string name="intro_whatis">A vendor and technology agnostic open source automation software for your home</string>
     <string name="intro_themes">Themes</string>
     <string name="intro_themes_description">Choose between several themes</string>
-    <string name="error_no_url_start_demo_mode">You need an openHAB server to use this app. Please go to settings to enter IP or DNS. Demo mode will be started now.</string>
+    <string name="error_no_url_start_demo_mode">Please configure the server IP address or host name in the server settings. For now, demo mode will be used.</string>
     <string name="intro_discovery">Discovery</string>
-    <string name="intro_discovery_summary">openHAB for Android tries to find the openHAB server automatically. This will not work, when authentication is enforced.</string>
+    <string name="intro_discovery_summary">Please note this will work only if authentication is not enforced by the server</string>
 </resources>
