@@ -74,7 +74,6 @@
     <string name="action_settings">Einstellungen</string>
     <string name="nfc_dialog_title">Aktion des NFC-Tags</string>
     <string name="info_not_set">Nicht gesetzt</string>
-    <string name="info_settings_moved">Der Menüeintrag Einstellungen wurde in die linke Navigationsleiste verschoben. Bitte nutze diesen Eintrag zukünftig.</string>
     <!-- Strings for MemorizingTrustManager activity -->
     <string name="mtm_accept_cert">Unbekanntes Zertifikat akzeptieren?</string>
     <string name="mtm_decision_always">Immer</string>

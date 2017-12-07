@@ -27,7 +27,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
-import org.openhab.habdroid.BuildConfig;
 import com.loopj.android.image.WebImageCache;
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.util.Constants;
@@ -35,7 +34,6 @@ import org.openhab.habdroid.util.MyWebImage;
 import org.openhab.habdroid.util.Util;
 
 import java.security.cert.X509Certificate;
-import java.text.DateFormat;
 
 /**
  * This is a class to provide preferences activity for application.

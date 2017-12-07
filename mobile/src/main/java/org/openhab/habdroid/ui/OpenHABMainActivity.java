@@ -498,7 +498,9 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
                         mDrawerLayout.closeDrawers();
                         OpenHABMainActivity.this.openNotifications();
                     } else if (mDrawerItemList.get(item).getTag() == DRAWER_PREFERENCES) {
-                        openPreferences();
+                        Intent settingsIntent = new Intent(OpenHABMainActivity.this, OpenHABPreferencesActivity.class);
+                        startActivityForResult(settingsIntent, SETTINGS_REQUEST_CODE);
+                        Util.overridePendingTransition(OpenHABMainActivity.this, false);
                     } else if (mDrawerItemList.get(item).getTag() == DRAWER_ABOUT) {
                         OpenHABMainActivity.this.openAbout();
                     }
@@ -874,14 +876,6 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
 
         //menu items
         switch (item.getItemId()) {
-            case R.id.mainmenu_openhab_preferences:
-                showMessageToUser(
-                        getString(R.string.info_settings_moved),
-                        Constants.MESSAGES.TOAST,
-                        Constants.MESSAGES.LOGLEVEL.ALWAYS
-                );
-                openPreferences();
-                return true;
             case R.id.mainmenu_openhab_selectsitemap:
                 SharedPreferences settings =
                         PreferenceManager.getDefaultSharedPreferences(OpenHABMainActivity.this);
@@ -908,12 +902,6 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
-
-    private void openPreferences() {
-        Intent settingsIntent = new Intent(this.getApplicationContext(), OpenHABPreferencesActivity.class);
-        startActivityForResult(settingsIntent, SETTINGS_REQUEST_CODE);
-        Util.overridePendingTransition(this, false);
     }
 
     @Override
