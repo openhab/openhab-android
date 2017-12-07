@@ -101,8 +101,7 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
 
         protected abstract void updateAndInitPreferences();
 
-        protected abstract @StringRes
-        int getTitleResId();
+        protected abstract @StringRes int getTitleResId();
 
         protected OpenHABPreferencesActivity getParentActivity() {
             return (OpenHABPreferencesActivity) getActivity();
