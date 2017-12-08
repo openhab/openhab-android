@@ -28,7 +28,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.loopj.android.image.WebImageCache;
-
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.util.Constants;
 import org.openhab.habdroid.util.MyWebImage;
@@ -39,8 +38,8 @@ import java.security.cert.X509Certificate;
 /**
  * This is a class to provide preferences activity for application.
  */
-
 public class OpenHABPreferencesActivity extends AppCompatActivity {
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         Util.setActivityTheme(this);
@@ -92,6 +91,7 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
             final Preference sslClientCert = getPreferenceScreen().findPreference(Constants.PREFERENCE_SSLCLIENTCERT);
             final Preference sslClientCertHowTo = getPreferenceScreen().findPreference(Constants.PREFERENCE_SSLCLIENTCERT_HOWTO);
             final Preference altUrlPreference = getPreferenceScreen().findPreference(Constants.PREFERENCE_ALTURL);
+            final Preference themePreference = getPreferenceScreen().findPreference(Constants.PREFERENCE_THEME);
             final Preference clearCachePreference = getPreferenceScreen().findPreference(Constants
                     .PREFERENCE_CLEAR_CACHE);
 
@@ -138,6 +138,15 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
                     if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
                         startActivity(intent);
                     }
+                    return true;
+                }
+            });
+
+            themePreference.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object newValue) {
+                    Util.setActivityTheme(getActivity(), (String) newValue);
+                    getActivity().recreate();
                     return true;
                 }
             });
