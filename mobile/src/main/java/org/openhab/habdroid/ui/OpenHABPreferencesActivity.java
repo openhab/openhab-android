@@ -28,6 +28,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
+import com.loopj.android.image.WebImageCache;
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.util.Constants;
 import org.openhab.habdroid.util.Util;
@@ -37,7 +38,6 @@ import java.security.cert.X509Certificate;
 /**
  * This is a class to provide preferences activity for application.
  */
-
 public class OpenHABPreferencesActivity extends AppCompatActivity {
 
     @Override
@@ -159,6 +159,9 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
             final Preference subScreenLocalConn = findPreference(Constants.SUBSCREEN_LOCAL_CONNECTION);
             final Preference subScreenRemoteConn = findPreference(Constants.SUBSCREEN_REMOTE_CONNECTION);
             final Preference subScreenSsl = findPreference(Constants.SUBSCREEN_SSL_SETTINGS);
+            final Preference themePreference = getPreferenceScreen().findPreference(Constants.PREFERENCE_THEME);
+            final Preference clearCachePreference = getPreferenceScreen().findPreference(Constants
+                    .PREFERENCE_CLEAR_CACHE);
             subScreenLocalConn.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
@@ -180,6 +183,35 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
                 public boolean onPreferenceClick(Preference preference) {
                     getParentActivity().openSubScreen(new SslSettingsFragment());
                     return false;
+                }
+            });
+
+            themePreference.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object newValue) {
+                    Util.setActivityTheme(getActivity(), (String) newValue);
+                    getActivity().recreate();
+                    return true;
+                }
+            });
+
+            clearCachePreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    // Get launch intent for application
+                    Intent restartIntent = getActivity().getPackageManager()
+                            .getLaunchIntentForPackage(getActivity().getBaseContext().getPackageName());
+                    restartIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    // Finish current activity
+                    getActivity().finish();
+                    WebImageCache cache = MyWebImage.getWebImageCache();
+                    if (cache != null) {
+                        cache.clear();
+                    }
+                    // Start launch activity
+                    startActivity(restartIntent);
+                    // Start launch activity
+                    return true;
                 }
             });
 
@@ -214,12 +246,8 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
             return R.string.settings_openhab_sslsettings;
         }
 
-        @Override
         protected void updateAndInitPreferences() {
             addPreferencesFromResource(R.xml.ssl_preferences);
-
-            final Preference sslClientCert = findPreference(Constants.PREFERENCE_SSLCLIENTCERT);
-            final Preference sslClientCertHowTo = findPreference(Constants.PREFERENCE_SSLCLIENTCERT_HOWTO);
 
             updateSslClientCertSummary(sslClientCert);
 

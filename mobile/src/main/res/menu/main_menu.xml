@@ -18,9 +18,4 @@
         android:orderInCategory="102"
         android:title="@string/mainmenu_openhab_selectsitemap"
         app:showAsAction="never" />
-    <item
-        android:id="@+id/mainmenu_openhab_preferences"
-        android:orderInCategory="104"
-        android:title="@string/mainmenu_openhab_preferences"
-        app:showAsAction="never" />
 </menu>

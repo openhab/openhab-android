@@ -124,7 +124,12 @@ public class Util {
     }
 
     public static void setActivityTheme(@NonNull final Activity activity) {
-        final String theme = PreferenceManager.getDefaultSharedPreferences(activity).getString(Constants.PREFERENCE_THEME, activity.getString(R.string.theme_value_dark));
+        setActivityTheme(activity, null);
+    }
+    public static void setActivityTheme(@NonNull final Activity activity, String theme) {
+        if (theme == null) {
+            theme = PreferenceManager.getDefaultSharedPreferences(activity).getString(Constants.PREFERENCE_THEME, activity.getString(R.string.theme_value_dark));
+        }
         int themeRes;
         if (theme.equals(activity.getString(R.string.theme_value_dark))) {
             themeRes = R.style.HABDroid_Dark;
