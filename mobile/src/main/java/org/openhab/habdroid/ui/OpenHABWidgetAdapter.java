@@ -14,6 +14,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Build;
 import android.support.v7.widget.SwitchCompat;
@@ -23,6 +24,7 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
+import android.view.TouchDelegate;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
@@ -775,9 +777,18 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
                              dialog.show();
                          }
                      };
-
-                    valueTextView.setOnClickListener(clickListener);
+                    
                     widgetView.findViewById(R.id.imageViewDownArrow).setOnClickListener(clickListener);
+                    widgetView.post(new Runnable(){
+                        public void run(){
+                            final Rect rect = new Rect();
+                            ImageView image = widgetView.findViewById(R.id.imageViewDownArrow);
+                            image.getHitRect(rect);
+                            rect.left -= 150;   // increase left hit area
+                            rect.right += 8;  // increase right hit area
+                            widgetView.setTouchDelegate( new TouchDelegate( rect , image));
+                        }
+                    });
 
                 }
                 break;
