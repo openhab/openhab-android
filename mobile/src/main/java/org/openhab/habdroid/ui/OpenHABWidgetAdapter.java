@@ -490,8 +490,9 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
                 break;
             case TYPE_IMAGE:
                 MySmartImageView imageImage = (MySmartImageView) widgetView.findViewById(R.id.imageimage);
+                // We scale the image at max 90% of the available height
                 imageImage.setMaxSize(parent.getWidth() > 0 ? parent.getWidth() : screenWidth,
-                        parent.getHeight() > 0 ? parent.getHeight() : screenHeight);
+                        (parent.getHeight() > 0 ? parent.getHeight() : screenHeight) * 90 / 100);
                 OpenHABItem item = openHABWidget.getItem();
                 if (item != null && item.getType().equals("Image") && item.getState() != null
                         && item.getState().startsWith("data:")) {
