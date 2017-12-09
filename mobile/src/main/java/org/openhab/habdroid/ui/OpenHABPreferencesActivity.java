@@ -31,6 +31,7 @@ import android.view.MenuItem;
 import com.loopj.android.image.WebImageCache;
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.util.Constants;
+import org.openhab.habdroid.util.MyWebImage;
 import org.openhab.habdroid.util.Util;
 
 import java.security.cert.X509Certificate;
@@ -248,6 +249,9 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
 
         protected void updateAndInitPreferences() {
             addPreferencesFromResource(R.xml.ssl_preferences);
+
+            final Preference sslClientCert = findPreference(Constants.PREFERENCE_SSLCLIENTCERT);
+            final Preference sslClientCertHowTo = findPreference(Constants.PREFERENCE_SSLCLIENTCERT_HOWTO);
 
             updateSslClientCertSummary(sslClientCert);
 

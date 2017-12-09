@@ -556,7 +556,8 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
 
     public void onOpenHABTracked(String baseUrl) {
         openHABBaseUrl = baseUrl;
-        if (baseUrl.equals(mSettings.getString(Constants.PREFERENCE_URL, null))) {
+        if (baseUrl.equals(
+                Util.normalizeUrl(mSettings.getString(Constants.PREFERENCE_URL, null)))) {
             openHABUsername = mSettings.getString(Constants.PREFERENCE_LOCAL_USERNAME, null);
             openHABPassword = mSettings.getString(Constants.PREFERENCE_LOCAL_PASSWORD, null);
         } else {
