@@ -1273,6 +1273,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
                 mDrawerItemList.add(new OpenHABDrawerItem(sitemap));
             }
         }
+        mDrawerItemList.add(OpenHABDrawerItem.dividerItem());
         int iconColor = ContextCompat.getColor(this, R.color.colorAccent_themeDark);
         Drawable notificationDrawable = getResources().getDrawable(R.drawable
                 .ic_notifications_black_24dp);
@@ -1294,7 +1295,6 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
                 iconColor,
                 PorterDuff.Mode.SRC_IN
         );
-        mDrawerItemList.add(OpenHABDrawerItem.dividerItem());
         mDrawerItemList.add(OpenHABDrawerItem.menuItem(
                 getString(R.string.mainmenu_openhab_preferences),
                 settingsDrawable,
