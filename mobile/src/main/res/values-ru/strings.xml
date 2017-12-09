@@ -5,15 +5,11 @@
     <string name="app_preferences_name">Настройки</string>
     <string name="app_notifications">Уведомления</string>
     <string name="dlg_notification_title">Уведомление</string>
-    <string name="app_bindings">Привязывать</string>
     <string name="favorites">Избранное</string>
-    <string name="minus">-</string>
-    <string name="plus">+</string>
     <!-- Main menu items -->
     <string name="mainmenu_openhab_preferences">Параметры</string>
     <string name="mainmenu_openhab_selectsitemap">Выбрать sitemap по умолчанию</string>
     <string name="mainmenu_openhab_writetag">Запись NFC tag</string>
-    <string name="mainmenu_openhab_info">openHAB Инфо</string>
     <string name="mainmenu_openhab_clearcache">Очистить кеш картинок</string>
     <!-- App settings strings -->
     <string name="settings_connection_title">Параметры Подключения</string>
@@ -33,7 +29,6 @@
     <string name="settings_openhab_demomode">Демо режим</string>
     <string name="settings_openhab_demomode_summary">Запуск демо режима</string>
     <string name="settings_openhab_theme">openHAB Тема</string>
-    <string name="settings_openhab_appversion">Версия openHAB приложения</string>
     <string name="settings_openhab_sslcert">Игнорировать SSL сертификат</string>
     <string name="settings_openhab_sslcert_summary">Игнорировать проверку сертификата во время установления SSL-соединения</string>
     <string name="settings_openhab_sslhost">Игнорировать SSL Имя хоста</string>
@@ -41,8 +36,6 @@
     <string name="settings_openhab_fullscreen">Во весь экран</string>
     <string name="settings_openhab_fullscreen_summary">Дисплей в полноэкранном режиме</string>
     <string name="settings_openhab_icon_format">Формат иконок</string>
-    <string name="settings_openhab_icon_format_png">PNG</string>
-    <string name="settings_openhab_icon_format_svg">SVG</string>
     <string name="settings_ringtone">Рингтон</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">openHAB Голосовые команды</string>

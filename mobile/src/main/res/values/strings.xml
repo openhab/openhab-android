@@ -10,8 +10,6 @@
     <string name="dlg_notification_title">Notification message</string>
     <string name="favorites">Favorites</string>
     <string name="empty_string" translatable="false"></string>
-    <string name="minus">-</string>
-    <string name="plus">+</string>
     <!-- Main menu items -->
     <string name="mainmenu_openhab_preferences">Settings</string>
     <string name="mainmenu_openhab_selectsitemap">Select default sitemap</string>

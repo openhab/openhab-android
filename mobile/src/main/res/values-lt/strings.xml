@@ -4,15 +4,11 @@
     <string name="main_menu">Pagrindinis meniu</string>
     <string name="app_preferences_name">Nustatymai</string>
     <string name="app_notifications">Pranešimai</string>
-    <string name="app_bindings">Bindings</string>
     <string name="favorites">Mėgstami</string>
-    <string name="minus">-</string>
-    <string name="plus">+</string>
     <!-- Main menu items -->
     <string name="mainmenu_openhab_preferences">Nustatymai</string>
     <string name="mainmenu_openhab_selectsitemap">Pasirinkite numatytą vietos išplanavimą</string>
     <string name="mainmenu_openhab_writetag">Rašyti NFC žymą</string>
-    <string name="mainmenu_openhab_info">openHAB informacija</string>
     <string name="mainmenu_openhab_clearcache">Išvalyti paveikslėlių podėlį</string>
     <!-- App settings strings -->
     <string name="settings_connection_title">Ryšio nustatymai</string>
@@ -31,7 +27,6 @@
     <string name="settings_openhab_demomode">Demonstracinis režimas</string>
     <string name="settings_openhab_demomode_summary">Naudoti openHAB programėlę demonstraciniu režimu</string>
     <string name="settings_openhab_theme">openHAB tema</string>
-    <string name="settings_openhab_appversion">openHAB programėlės versija</string>
     <string name="settings_openhab_sslcert">Netikrinti SSL sertifikato</string>
     <string name="settings_openhab_sslcert_summary">Netikrinti SSL sertifikato validumo</string>
     <string name="settings_openhab_sslhost">Netikrinti SSL hostname</string>
@@ -39,8 +34,6 @@
     <string name="settings_openhab_fullscreen">Pilnas ekranas</string>
     <string name="settings_openhab_fullscreen_summary">Rodyti pilno ekrano režimu</string>
     <string name="settings_openhab_icon_format">Piktogramų formatas</string>
-    <string name="settings_openhab_icon_format_png">PNG</string>
-    <string name="settings_openhab_icon_format_svg">SVG</string>
     <string name="settings_ringtone">Skambėjimo melodija</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">openHAB balso komandos</string>
