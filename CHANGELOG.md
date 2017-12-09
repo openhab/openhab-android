@@ -11,6 +11,7 @@
 ## Improvements
 - Update app icon
 - Improved selection and setpoint items
+- Move settings to the side menu
 - Improved error messages
 - Improved charts size. Need openHAB server > 2.1
 - Better support for image items
