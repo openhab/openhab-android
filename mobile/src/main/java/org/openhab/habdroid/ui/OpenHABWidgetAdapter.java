@@ -695,7 +695,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
                     }
                     final Context context = getContext();
 
-                    widgetView.setOnClickListener( new OnClickListener(){
+                    valueTextView.setOnClickListener( new OnClickListener(){
                         @Override
                         public void onClick(final View view) {
 
