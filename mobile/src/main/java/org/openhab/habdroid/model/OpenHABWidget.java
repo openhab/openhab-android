@@ -175,7 +175,8 @@ public abstract class OpenHABWidget {
 	}
 
 	public void setRefresh(int refresh) {
-		this.refresh = refresh;
+		// Consider a minimal refresh rate of 100 ms
+		this.refresh = Math.max(100, refresh);
 	}
 
 	public String getPeriod() {

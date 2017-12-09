@@ -492,7 +492,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
                 OpenHABItem item = openHABWidget.getItem();
                 if (item != null && item.getType().equals("Image") && item.getState() != null
                         && item.getState().startsWith("data:")) {
-                   imageImage.setImage(new MyImageFromItem(item.getState()));
+                   imageImage.setImageWithData(new MyImageFromItem(item.getState()));
                 } else {
                     imageImage.setImageUrl(ensureAbsoluteURL(openHABBaseUrl, openHABWidget.getUrl()), false,
                         openHABUsername, openHABPassword);
