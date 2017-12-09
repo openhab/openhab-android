@@ -5,13 +5,11 @@
     <string name="app_preferences_name">Préférences</string>
     <string name="app_notifications">Notifications</string>
     <string name="dlg_notification_title">Message de notification</string>
-    <string name="app_bindings">Objets et protocoles</string>
     <string name="favorites">Favoris</string>
     <!-- Main menu items -->
     <string name="mainmenu_openhab_preferences">Préférences</string>
     <string name="mainmenu_openhab_selectsitemap">Sélectionner la sitemap par défaut</string>
     <string name="mainmenu_openhab_writetag">Écrire un tag NFC</string>
-    <string name="mainmenu_openhab_info">Infos openHAB</string>
     <string name="mainmenu_openhab_clearcache">Effacer le cache image</string>
     <!-- App settings strings -->
     <string name="settings_connection_title">Paramètres de connexion</string>
@@ -31,7 +29,6 @@
     <string name="settings_openhab_demomode">Mode démo</string>
     <string name="settings_openhab_demomode_summary">Lancer l\'app openHAB en mode démo</string>
     <string name="settings_openhab_theme">Thème app openHAB</string>
-    <string name="settings_openhab_appversion">Version app openHAB</string>
     <string name="settings_openhab_sslcert">Ignorer les certificats SSL</string>
     <string name="settings_openhab_sslcert_summary">Ne vérifie pas le certificat SSL pendant la connexion</string>
     <string name="settings_openhab_sslhost">Ignorer le domaine SSL</string>
@@ -58,6 +55,10 @@
     <string name="error_connection_failed">Connexion au domaine échouée</string>
     <string name="error_unable_to_resolve_hostname">Impossible de résoudre le nom d\'hôte</string>
     <string name="error_connection_sslhandshake_failed">Echec de la négociation SSL. Vous devriez peut-être vérifier la validité de votre certificat client</string>
+    <string name="error_certificate_not_trusted">Le certificat SSL n\'est pas un certificat de confiance. Veuillez importer le certificat racine ou désactiver la validation du certificat</string>
+    <string name="error_certificate_expired">Le certificat SSL a expiré. Veuillez obtenir un nouveau certificat ou désactiver la validation du certificat</string>
+    <string name="error_certificate_not_valid_yet">Le certificat SSL n\'est pas valide. Veuillez obtenir un certificat valide ou désactiver la validation du certificat Vérifiez également que votre téléphone est à l\'heure</string>
+    <string name="error_certificate_revoked">Le certificat SSL a été révoqué. Veuillez obtenir un nouveau certificat ou désactiver la validation du certificat</string>
     <string name="title_activity_openhabwritetag">Écrire un tag NFC</string>
     <string name="title_activity_openhabinfo">Informations openHAB</string>
     <string name="info_write_tag">Approchez votre téléphone et gardez le proche du tag NFC jusqu\'à ce que le message de confirmation apparaisse.</string>
@@ -100,12 +101,13 @@
     <string name="about_license_title">Licence</string>
     <string name="about_links">Liens</string>
     <string name="about_links_list"><![CDATA[\u00B7 <a href="https://github.com/openhab/openhab.android">Code source app openHAB</a><br><br> \u00B7 <a href="https://github.com/openhab/openhab.android/issues">Remonter un problème</a><br><br> \u00B7 <a href="http://docs.openhab.org/">Documentation openHAB</a><br><br> \u00B7 <a href="https://community.openhab.org/">Forum de discussion</a>]]></string>
-
     <string name="settings_debug_messages_summary">Plus d\'information dans les messages d\'erreur</string>
     <string name="settings_debug_messages_title">Afficher des messages de debug</string>
     <string name="error_couldnt_determine_openhab_url">Impossible de détermine l\'URL openHAB</string>
     <string name="unknown">Inconnu</string>
     <string name="error_network_type_unsupported">Type de réseau (%s) non supporté</string>
+    <string name="set">Définir</string>
+    <string name="cancel">Annuler</string>
     <string name="app_intro">Intro</string>
     <string name="intro_welcome">Bienvenue dans openHAB</string>
     <string name="intro_whatis">Un logiciel open source de domotique pour votre maison non lié à un vendeur ou à une technologie particulière</string>
