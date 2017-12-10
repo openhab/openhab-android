@@ -5,7 +5,6 @@
     <string name="app_preferences_name">Настройки</string>
     <string name="app_notifications">Уведомления</string>
     <string name="dlg_notification_title">Уведомление</string>
-    <string name="app_bindings">Привязывать</string>
     <string name="favorites">Избранное</string>
     <string name="minus">-</string>
     <string name="plus">+</string>
@@ -13,7 +12,6 @@
     <string name="mainmenu_openhab_preferences">Параметры</string>
     <string name="mainmenu_openhab_selectsitemap">Выбрать sitemap по умолчанию</string>
     <string name="mainmenu_openhab_writetag">Запись NFC tag</string>
-    <string name="mainmenu_openhab_info">openHAB Инфо</string>
     <string name="mainmenu_openhab_clearcache">Очистить кеш картинок</string>
     <!-- App settings strings -->
     <string name="settings_connection_title">Параметры Подключения</string>
@@ -33,7 +31,6 @@
     <string name="settings_openhab_demomode">Демо режим</string>
     <string name="settings_openhab_demomode_summary">Запуск демо режима</string>
     <string name="settings_openhab_theme">openHAB Тема</string>
-    <string name="settings_openhab_appversion">Версия openHAB приложения</string>
     <string name="settings_openhab_sslcert">Игнорировать SSL сертификат</string>
     <string name="settings_openhab_sslcert_summary">Игнорировать проверку сертификата во время установления SSL-соединения</string>
     <string name="settings_openhab_sslhost">Игнорировать SSL Имя хоста</string>
@@ -135,4 +132,7 @@
     <string name="error_http_code_504">Тайм-аут шлюза. Кажется, что ваш обратный прокси работает, но не смог получить ответ от openHAB (код ответа HTTP 504)</string>
     <string name="error_http_code_507">openHAB недостаточно свободного места (код ответа HTTP 507)</string>
     <string name="error_http_code_511">Требуется сетевая аутентификация (код ответа HTTP 511)</string>
+    <string name="cancel">Отмена</string>
+    <string name="error_http_code_503">openHAB временно недоступен (код ответа HTTP 503)</string>
+    <string name="set">Установить</string>
 </resources>
