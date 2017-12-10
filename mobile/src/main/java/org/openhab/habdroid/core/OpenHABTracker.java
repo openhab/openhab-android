@@ -30,6 +30,9 @@ import java.util.concurrent.ExecutionException;
 
 import javax.jmdns.ServiceInfo;
 
+import static org.openhab.habdroid.util.Constants.PREFERENCE_DEMOMODE;
+import static org.openhab.habdroid.util.Constants.PREFERENCE_URL;
+
 /**
  * This class provides openHAB discovery and continuous network state tracking to
  * change openHAB connectivity URL during app use if needed
@@ -80,7 +83,7 @@ public class OpenHABTracker implements AsyncServiceResolverListener {
                 Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         if (activeNetworkInfo != null) {
-            if (settings.getBoolean(Constants.PREFERENCE_DEMOMODE, false)) {
+            if (settings.getBoolean(PREFERENCE_DEMOMODE, false)) {
                 mOpenHABUrl = mCtx.getString(R.string.openhab_demo_url);
                 Log.d(TAG, "Demo mode, url = " + mOpenHABUrl);
                 openHABTracked(mOpenHABUrl);
@@ -103,8 +106,9 @@ public class OpenHABTracker implements AsyncServiceResolverListener {
                 // Else if we are on Wifi or Ethernet network
                 } else if (activeNetworkInfo.getType() == ConnectivityManager.TYPE_WIFI
                         || activeNetworkInfo.getType() == ConnectivityManager.TYPE_ETHERNET) {
+                    boolean haveURL = false;
                     // See if we have a local URL configured in settings
-                    mOpenHABUrl = Util.normalizeUrl(settings.getString(Constants.PREFERENCE_URL, ""));
+                    mOpenHABUrl = Util.normalizeUrl(settings.getString(PREFERENCE_URL, ""));
                     // If local URL is configured
                     if (mOpenHABUrl.length() > 0) {
                         // Check if configured local URL is reachable
@@ -114,6 +118,7 @@ public class OpenHABTracker implements AsyncServiceResolverListener {
                             openHABMessage(mCtx.getString(R.string.info_conn_url), Constants.MESSAGES.SNACKBAR, Constants.MESSAGES.LOGLEVEL.REMOTE);
                             return;
                         }
+                        haveURL = true;
                     }
                     // If local URL is not reachable or not configured, try with remote URL
                     mOpenHABUrl = Util.normalizeUrl(settings.getString(Constants.PREFERENCE_ALTURL, ""));
@@ -121,7 +126,9 @@ public class OpenHABTracker implements AsyncServiceResolverListener {
                         Log.d(TAG, "Connecting to remote URL " + mOpenHABUrl);
                         openHABTracked(mOpenHABUrl);
                         openHABMessage(mCtx.getString(R.string.info_conn_rem_url), Constants.MESSAGES.SNACKBAR, Constants.MESSAGES.LOGLEVEL.LOCAL);
-                    } else {
+                        return;
+                    }
+                    if (!haveURL){
                         // if not URL is configured, start service discovery
                         mServiceResolver = new AsyncServiceResolver(mCtx, this, mOpenHABServiceType);
                         bonjourDiscoveryStarted();
@@ -153,24 +160,16 @@ public class OpenHABTracker implements AsyncServiceResolverListener {
         Log.d(TAG, "Service resolved: "
                 + serviceInfo.getHostAddresses()[0]
                 + " port:" + serviceInfo.getPort());
-        mOpenHABUrl = "https://" + serviceInfo.getHostAddresses()[0] + ":" +
+        mOpenHABUrl = "http://" + serviceInfo.getHostAddresses()[0] + ":" +
                 String.valueOf(serviceInfo.getPort()) + "/";
+        PreferenceManager.getDefaultSharedPreferences(mCtx).edit().putString(PREFERENCE_URL, mOpenHABUrl).apply();
         openHABTracked(mOpenHABUrl);
     }
 
     public void onServiceResolveFailed() {
         bonjourDiscoveryFinished();
-        Log.i(TAG, "Service resolve failed, switching to remote URL");
-        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(mCtx);
-        mOpenHABUrl = Util.normalizeUrl(settings.getString(Constants.PREFERENCE_ALTURL, ""));
-        // If remote URL is configured
-        if (mOpenHABUrl.length() > 0) {
-            Log.d(TAG, "Connecting to remote URL " + mOpenHABUrl);
-            openHABTracked(mOpenHABUrl);
-            openHABMessage(mCtx.getString(R.string.info_conn_rem_url), Constants.MESSAGES.SNACKBAR, Constants.MESSAGES.LOGLEVEL.LOCAL);
-        } else {
-            openHABMessage(mCtx.getString(R.string.error_no_url), Constants.MESSAGES.DIALOG, Constants.MESSAGES.LOGLEVEL.ALWAYS);
-        }
+        PreferenceManager.getDefaultSharedPreferences(mCtx).edit().putBoolean(PREFERENCE_DEMOMODE, true).apply();
+        openHABMessage(mCtx.getString(R.string.error_no_url_start_demo_mode), Constants.MESSAGES.DIALOG, Constants.MESSAGES.LOGLEVEL.ALWAYS);
     }
 
     public static int getCurrentNetworkConnectivityType(Context ctx) {

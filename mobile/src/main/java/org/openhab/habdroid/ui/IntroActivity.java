@@ -17,7 +17,7 @@ public class IntroActivity extends AppIntro {
         // Add slides
         addOHSlide(R.string.intro_welcome, R.string.intro_whatis, R.drawable.icon_blank);
         addOHSlide(R.string.intro_themes, R.string.intro_themes_description, R.drawable.themes);
-        addOHSlide(R.string.settings_openhab_demomode, R.string.info_demo_mode, R.drawable.demo_mode);
+        addOHSlide(R.string.intro_discovery, R.string.intro_discovery_summary, R.drawable.demo_mode);
         // Change bar color
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
             setBarColor(getColor(R.color.openhab_orange));
