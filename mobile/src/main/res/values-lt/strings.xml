@@ -10,7 +10,6 @@
     <!-- Main menu items -->
     <string name="mainmenu_openhab_preferences">Nustatymai</string>
     <string name="mainmenu_openhab_selectsitemap">Pasirinkite numatytą vietos išplanavimą</string>
-    <string name="mainmenu_openhab_writetag">Rašyti NFC žymą</string>
     <string name="mainmenu_openhab_clearcache">Išvalyti paveikslėlių podėlį</string>
     <!-- App settings strings -->
     <string name="settings_connection_title">Ryšio nustatymai</string>

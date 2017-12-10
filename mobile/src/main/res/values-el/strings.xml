@@ -41,7 +41,6 @@
     <string name="mainmenu_openhab_info">Πληροφορίες openHAB</string>
     <string name="mainmenu_openhab_preferences">Ρυθμίσεις</string>
     <string name="mainmenu_openhab_selectsitemap">Προκαθορισμένο Sitemap</string>
-    <string name="mainmenu_openhab_writetag">Εγγραφή ετικέτας NFC</string>
     <string name="mtm_accept_cert">Αποδοχή άγνωστου πιστοποιητικού;</string>
     <string name="mtm_decision_abort">Διακοπή</string>
     <string name="mtm_decision_always">Πάντα</string>

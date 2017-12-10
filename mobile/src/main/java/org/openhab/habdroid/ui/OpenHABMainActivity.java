@@ -27,7 +27,6 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.nfc.NfcAdapter;
-import android.nfc.NfcManager;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -36,7 +35,6 @@ import android.provider.Settings;
 import android.speech.RecognizerIntent;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
-
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -862,13 +860,6 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main_menu, menu);
-        NfcManager manager = (NfcManager) this.getSystemService(Context.NFC_SERVICE);
-        NfcAdapter adapter = manager.getDefaultAdapter();
-        if (adapter == null) {
-            Log.d(TAG, "Hide nfc menu entry, because nfc is not available");
-            MenuItem nfc = menu.findItem(R.id.mainmenu_openhab_writetag);
-            nfc.setVisible(false);
-        }
         return true;
     }
 
@@ -904,18 +895,6 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
                 preferencesEditor.putString(Constants.PREFERENCE_SITEMAP, "");
                 preferencesEditor.apply();
                 selectSitemap(openHABBaseUrl, true, true);
-                return true;
-            case R.id.mainmenu_openhab_writetag:
-                Intent writeTagIntent = new Intent(this.getApplicationContext(), OpenHABWriteTagActivity.class);
-                // TODO: get current display page url, which? how? :-/
-                if (pagerAdapter.getFragment(pager.getCurrentItem()) instanceof OpenHABWidgetListFragment) {
-                    OpenHABWidgetListFragment currentFragment = (OpenHABWidgetListFragment) pagerAdapter.getFragment(pager.getCurrentItem());
-                    if (currentFragment != null) {
-                        writeTagIntent.putExtra("sitemapPage", currentFragment.getDisplayPageUrl());
-                        startActivityForResult(writeTagIntent, WRITE_NFC_TAG_REQUEST_CODE);
-                        Util.overridePendingTransition(this, false);
-                    }
-                }
                 return true;
             case R.id.mainmenu_voice_recognition:
                 launchVoiceRecognition();

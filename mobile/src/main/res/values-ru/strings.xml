@@ -11,7 +11,6 @@
     <!-- Main menu items -->
     <string name="mainmenu_openhab_preferences">Параметры</string>
     <string name="mainmenu_openhab_selectsitemap">Выбрать sitemap по умолчанию</string>
-    <string name="mainmenu_openhab_writetag">Запись NFC tag</string>
     <string name="mainmenu_openhab_clearcache">Очистить кеш картинок</string>
     <!-- App settings strings -->
     <string name="settings_connection_title">Параметры Подключения</string>
