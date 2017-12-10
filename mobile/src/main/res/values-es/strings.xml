@@ -96,7 +96,7 @@
     <string name="mtm_decision_once">Una vez</string>
     <string name="mtm_decision_abort">Cancelar</string>
     <string name="mtm_notification">Validación del certificado</string>
-    <string name="settings_openhab_none">ninguno</string>
+    <string name="settings_openhab_none">Ninguno</string>
 
     <!-- drawer -->
     <string name="drawer_open">Sitemap drawer abierto</string>
