@@ -151,4 +151,19 @@
     <string name="intro_whatis">A vendor and technology agnostic open source automation software for your home</string>
     <string name="intro_themes">Themes</string>
     <string name="intro_themes_description">Choose between several themes</string>
+    <string name="settings_custom_broadcast_enabled_title">Receive custom broadcast</string>
+    <string name="settings_custom_broadcast_enabled_summary">Can be used to receive Android broadcasts, e. g. from Gadgetbridge or Tasker</string>
+    <string name="settings_custom_broadcast_broadcast" translatable="false">nodomain.freeyourgadget.gadgetbridge.mibandButtonPressed</string>
+    <string name="settings_custom_broadcast_title">Broadcast to receive</string>
+    <string name="settings_custom_broadcast_item_title">Item to change</string>
+    <string name="settings_custom_broadcast_item_summary">Item state will be set to number of button presses</string>
+    <string name="settings_custom_broadcast">Custom broadcast receiver</string>
+    <string name="error_custom_broadcast_item_not_found">Item for custom broadcasts is incorrect</string>
+    <string name="settings_custom_broadcast_listening">Listening for broadcasts</string>
+    <string name="notification_last_broadcast_success" formatted="false">Last broadcast at %s with value "%s" was successful</string>
+    <string name="notification_last_broadcast_failed" formatted="false">Last broadcast at %s with value "%s" failed</string>
+    <string name="notification_last_broadcast_none">No broadcast received since start</string>
+    <string name="settings_custom_broadcast_extra" translatable="false">button_id</string>
+    <string name="settings_custom_broadcast_extra_title">Intent extra</string>
+    <string name="error_custom_broadcast_extra_not_found">Received intent without configured extra</string>
 </resources>

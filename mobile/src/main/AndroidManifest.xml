@@ -20,6 +20,7 @@
 
     <uses-permission android:name="org.openhab.habdroid.gcm.permission.C2D_MESSAGE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
 
     <uses-feature
         android:name="android.hardware.location.gps"
@@ -77,6 +78,7 @@
         <activity android:name="org.openhab.habdroid.ui.IntroActivity"
             android:label="@string/app_intro"/>
         <activity android:name="de.duenndns.ssl.MemorizingActivity" />
+
         <service
             android:name=".core.OpenHABVoiceService"
             android:exported="false" />
@@ -107,6 +109,15 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/voice_widget_info" />
         </receiver>
+
+        <receiver android:name=".core.BootCompletedReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <category android:name="android.intent.category.HOME" />
+            </intent-filter>
+        </receiver>
+
+        <service android:name=".core.ForegroundService" />
         <!--    This is temp disabled because of a bug in GMS 6.5
                 <meta-data android:name="com.google.android.gms.analytics.globalConfigResource"
                     android:resource="@xml/global_tracker" /> -->

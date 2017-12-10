@@ -62,6 +62,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.core.GcmIntentService;
+import org.openhab.habdroid.core.ForegroundService;
 import org.openhab.habdroid.core.NetworkConnectivityInfo;
 import org.openhab.habdroid.core.NotificationDeletedBroadcastReceiver;
 import org.openhab.habdroid.core.OpenHABTracker;
@@ -105,6 +106,8 @@ import de.duenndns.ssl.MemorizingResponder;
 import de.duenndns.ssl.MemorizingTrustManager;
 import okhttp3.Call;
 import okhttp3.Headers;
+
+import static org.openhab.habdroid.core.CustomBroadcastReceiver.CUSTOM_BROADCAST_RECEIVER_INTENT;
 
 public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSelectedListener,
         OpenHABTrackerReceiver, MemorizingResponder {
@@ -164,9 +167,9 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
 
     // Loopj
 //    private static MyAsyncHttpClient mAsyncHttpClient;
-    private static MyAsyncHttpClient mAsyncHttpClient;
+    public static MyAsyncHttpClient mAsyncHttpClient;
     // Base URL of current openHAB connection
-    private String openHABBaseUrl = "http://demo.openhab.org:8080/";
+    public static String openHABBaseUrl = "http://demo.openhab.org:8080/";
     // openHAB username
     private String openHABUsername = "";
     // openHAB password
@@ -319,6 +322,8 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
 
             sharedPrefs.edit().putBoolean("firstStart", false).apply();
         }
+
+        setupCustomBroadcastReceiver();
     }
 
     private void processIntent(Intent intent) {
@@ -336,7 +341,26 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
             } else if (intent.getAction().equals("android.intent.action.VIEW")) {
                 Log.d(TAG, "This is URL Action");
                 mNfcData = intent.getDataString();
+            } else if (intent.getAction().equals(CUSTOM_BROADCAST_RECEIVER_INTENT)) {
+                Log.d(TAG, "Boot broadcast");
+                setupCustomBroadcastReceiver();
             }
+        }
+    }
+
+    private void setupCustomBroadcastReceiver() {
+        // Custom broadcast receiver
+        if (mSettings.getBoolean(Constants.PREFERENCE_CUSTOM_BROADCAST, false)) {
+            Log.d(TAG, "start cbr");
+            Intent startIntent = new Intent(this, ForegroundService.class);
+            startIntent.setAction(Constants.ACTION.STARTFOREGROUND_ACTION);
+            startIntent.putExtra("broadcast", mSettings.getString(Constants.PREFERENCE_CUSTOM_BROADCAST_BROADCAST, ""));
+            startService(startIntent);
+        } else {
+            Log.d(TAG, "stop cbr");
+            Intent stopIntent = new Intent(this, ForegroundService.class);
+            stopIntent.setAction(Constants.ACTION.STOPFOREGROUND_ACTION);
+            startService(stopIntent);
         }
     }
 
