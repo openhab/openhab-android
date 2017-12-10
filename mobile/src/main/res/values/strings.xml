@@ -50,6 +50,7 @@
     <string name="settings_ringtone">Ring tone</string>
     <string name="settings_clear_default_sitemap">Clear default sitemap</string>
     <string name="settings_no_default_sitemap">No default sitemap selected</string>
+    <string name="settings_current_default_sitemap">Current default sitemap: %1$s</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">openHAB Voice Commands</string>
     <string name="info_voice_input">"openHAB, at your command!"</string>

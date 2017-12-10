@@ -138,4 +138,5 @@
     <string name="dlg_notification_title">Benachrichtigung</string>
     <string name="settings_no_default_sitemap">Kein Standard-Sitemap festgelegt</string>
     <string name="settings_clear_default_sitemap">Standard-Sitemap zurücksetzen</string>
+    <string name="settings_current_default_sitemap">Aktuelles Standard-Sitemap: %1$s</string>
 </resources>

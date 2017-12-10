@@ -98,9 +98,12 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
             final Preference clearDefaultSitemapPreference = getPreferenceScreen().findPreference
                     (Constants.PREFERENCE_CLEAR_DEFAULT_SITEMAP);
 
-            if (clearCachePreference.getSharedPreferences().getString(Constants
-                    .PREFERENCE_SITEMAP, "").isEmpty()) {
+            String currentDefaultSitemap = clearDefaultSitemapPreference.getSharedPreferences().getString(Constants
+                    .PREFERENCE_SITEMAP, "");
+            if (currentDefaultSitemap.isEmpty()) {
                 onNoDefaultSitemap(clearDefaultSitemapPreference);
+            } else {
+                clearDefaultSitemapPreference.setSummary(getString(R.string.settings_current_default_sitemap, currentDefaultSitemap));
             }
 
             updateSslClientCertSummary(sslClientCert);
