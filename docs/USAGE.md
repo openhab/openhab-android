@@ -31,7 +31,7 @@ Normally, after unchecking the Demo Mode, the app will be able to use multicast 
 
 You also have the option to manually set the server URL in the settings.
 Please enter the base URL to your openHAB server as you would enter it in the browser to reach the openHAB dashboard.
-The URL might look like one of the following examples.
+The URL might look like one of the following examples:
 
 * IP address: `http://192.168.1.3:8080`
 * Local DNS name: `http://openhabianpi:8080` respectively `http://openhabianpi.local:8080` (depending on your network)
