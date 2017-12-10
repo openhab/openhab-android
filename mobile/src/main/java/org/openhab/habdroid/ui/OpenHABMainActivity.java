@@ -64,6 +64,7 @@ import org.openhab.habdroid.R;
 import org.openhab.habdroid.core.GcmIntentService;
 import org.openhab.habdroid.core.NetworkConnectivityInfo;
 import org.openhab.habdroid.core.NotificationDeletedBroadcastReceiver;
+import org.openhab.habdroid.core.OnUpdateBroadcastReceiver;
 import org.openhab.habdroid.core.OpenHABTracker;
 import org.openhab.habdroid.core.OpenHABTrackerReceiver;
 import org.openhab.habdroid.core.OpenHABVoiceService;
@@ -266,8 +267,8 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
         openHABServiceType = getString(R.string.openhab_service_type);
 
         // Get username/password from preferences
-        openHABUsername = mSettings.getString(Constants.PREFERENCE_USERNAME, null);
-        openHABPassword = mSettings.getString(Constants.PREFERENCE_PASSWORD, null);
+        openHABUsername = mSettings.getString(Constants.PREFERENCE_REMOTE_USERNAME, null);
+        openHABPassword = mSettings.getString(Constants.PREFERENCE_REMOTE_PASSWORD, null);
         mAsyncHttpClient.setBasicAuth(openHABUsername, openHABPassword, true);
         mAsyncHttpClient.setTimeout(30000);
 
@@ -310,6 +311,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
         //  Create a new boolean and preference and set it to true
         boolean isFirstStart = mSettings.getBoolean("firstStart", true);
 
+        SharedPreferences.Editor prefsEdit = sharedPrefs.edit();
         //  If the activity has never started before...
         if (isFirstStart) {
 
@@ -317,8 +319,11 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
             final Intent i = new Intent(OpenHABMainActivity.this, IntroActivity.class);
             startActivity(i);
 
-            sharedPrefs.edit().putBoolean("firstStart", false).apply();
+            prefsEdit.putBoolean("firstStart", false).apply();
         }
+
+        OnUpdateBroadcastReceiver.updateComparableVersion(prefsEdit);
+        prefsEdit.apply();
     }
 
     private void processIntent(Intent intent) {
@@ -551,8 +556,24 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
 
     public void onOpenHABTracked(String baseUrl) {
         openHABBaseUrl = baseUrl;
+        if (baseUrl.equals(
+                Util.normalizeUrl(mSettings.getString(Constants.PREFERENCE_URL, null)))) {
+            openHABUsername = mSettings.getString(Constants.PREFERENCE_LOCAL_USERNAME, null);
+            openHABPassword = mSettings.getString(Constants.PREFERENCE_LOCAL_PASSWORD, null);
+        } else {
+            openHABUsername = mSettings.getString(Constants.PREFERENCE_REMOTE_USERNAME, null);
+            openHABPassword = mSettings.getString(Constants.PREFERENCE_REMOTE_PASSWORD, null);
+        }
+
+        mAsyncHttpClient.setBasicAuth(openHABUsername, openHABPassword, true);
+
         mDrawerAdapter.setOpenHABBaseUrl(openHABBaseUrl);
+        mDrawerAdapter.setOpenHABUsername(openHABUsername);
+        mDrawerAdapter.setOpenHABPassword(openHABPassword);
         pagerAdapter.setOpenHABBaseUrl(openHABBaseUrl);
+        pagerAdapter.setOpenHABUsername(openHABUsername);
+        pagerAdapter.setOpenHABPassword(openHABPassword);
+
         if (!TextUtils.isEmpty(mNfcData)) {
             onNfcTag(mNfcData);
             openPageIfPending(mPendingNfcPage);
@@ -1216,12 +1237,11 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
             MySyncHttpClient syncHttpClient = new MySyncHttpClient(this,
                     prefs.getBoolean(Constants.PREFERENCE_SSLHOST, false),
                     prefs.getBoolean(Constants.PREFERENCE_SSLCERT, false));
-            syncHttpClient.setBasicAuth(getOpenHABUsername(), getOpenHABPassword());
             mNotifySettings = new NotificationSettings(baseUrl, syncHttpClient);
             mNotifySettings.setOpenHABCloudUsername(
-                    mSettings.getString(Constants.PREFERENCE_USERNAME, openHABUsername));
+                    mSettings.getString(Constants.PREFERENCE_REMOTE_USERNAME, openHABUsername));
             mNotifySettings.setOpenHABCloudPassword(
-                    mSettings.getString(Constants.PREFERENCE_PASSWORD, openHABPassword));
+                    mSettings.getString(Constants.PREFERENCE_REMOTE_PASSWORD, openHABPassword));
         }
         return mNotifySettings;
     }

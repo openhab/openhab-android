@@ -11,8 +11,10 @@ package org.openhab.habdroid.util;
 
 public class Constants {
     public static final String PREFERENCE_SCREENTIMEROFF        = "default_openhab_screentimeroff";
-    public static final String PREFERENCE_USERNAME              = "default_openhab_username";
-    public static final String PREFERENCE_PASSWORD              = "default_openhab_password";
+    public static final String PREFERENCE_LOCAL_USERNAME        = "default_openhab_username";
+    public static final String PREFERENCE_LOCAL_PASSWORD        = "default_openhab_password";
+    public static final String PREFERENCE_REMOTE_PASSWORD       = "default_openhab_remote_password";
+    public static final String PREFERENCE_REMOTE_USERNAME       = "default_openhab_remote_username";
     public static final String PREFERENCE_SITEMAP               = "default_openhab_sitemap";
     public static final String PREFERENCE_SSLCERT               = "default_openhab_sslcert";
     public static final String PREFERENCE_SSLHOST               = "default_openhab_sslhost";
@@ -31,6 +33,11 @@ public class Constants {
     public static final String PREFERENCE_CLEAR_DEFAULT_SITEMAP =
             "default_openhab_clear_default_sitemap";
     public static final String DEFAULT_GCM_SENDER_ID            = "737820980945";
+    public static final String PREFERENCE_COMPAREABLEVERSION    = "versionAsInt";
+
+    public static final String SUBSCREEN_LOCAL_CONNECTION     = "default_openhab_local_connection";
+    public static final String SUBSCREEN_REMOTE_CONNECTION    = "default_openhab_remote_connection";
+    public static final String SUBSCREEN_SSL_SETTINGS         = "default_openhab_ssl";
 
     public interface MESSAGES {
         public static final int DIALOG = 1;

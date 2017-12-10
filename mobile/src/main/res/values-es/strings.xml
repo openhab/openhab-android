@@ -20,6 +20,9 @@
     <string name="settings_openhab_alturl_summary">Usada cuando la dirección local no está disponible [%s]</string>
     <string name="settings_openhab_username">Nombre de usuario</string>
     <string name="settings_openhab_password">Contraseña</string>
+    <string name="settings_openhab_sslclientcert">Certificado de cliente SSL</string>
+    <string name="settings_openhab_sslclientcert_howto">Certificado de cliente SSL how-to</string>
+    <string name="settings_openhab_sslclientcert_howto_summary">Clic aquí para obtener sugerencias y explicaciones sobre cómo configurar la autenticación del certificado de cliente SSL</string>
     <string name="settings_openhab_screentimeroff">Deshabilitar apagado de pantalla</string>
     <string name="settings_openhab_screentimeroff_summary">Deshabilita el temporizador que apaga la pantalla mientras se está ejecutando</string>
     <string name="settings_openhab_demomode">Modo demo</string>
@@ -32,21 +35,43 @@
     <string name="settings_openhab_sslhost_summary">No comprobar el nombre de dominio durante la conexión SSL</string>
     <string name="settings_openhab_fullscreen">Pantalla completa</string>
     <string name="settings_openhab_fullscreen_summary">Mostrar a pantalla completa</string>
+    <string name="settings_openhab_icon_format">Formato de los iconos</string>
     <string name="settings_ringtone">Sonido</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Comandos de voz openHAB</string>
     <string name="info_voice_input">"openHAB, ¡a tus órdenes!"</string>
     <string name="info_voice_recognized_text">"Comando reconocido: %1$s"</string>
     <string name="info_demo_mode">openHAB App se ejecuta en modo demo. Por favor, ir al menú configuración para conectarlo a openHAB.</string>
+    <string name="info_demo_mode_short">Ejecutando en modo demo</string>
     <string name="info_conn_url">Conectando a la URL local</string>
     <string name="info_conn_rem_url">Conectando a la URL remota</string>
     <string name="info_discovery">Buscando openHAB. Por favor, espera\u2026</string>
     <string name="error_no_url">Por favor, comprobar que openHAB se está ejecutando o configurar la URL local de openHAB o la URL remota</string>
     <string name="error_empty_sitemap_list">openHAB devolvió una lista de sitemaps vacía</string>
     <string name="error_network_not_available">La conexión de red no está disponible</string>
+    <string name="error_http_connection_failed">Recibida una respuesta incorrecta de openHAB. Por favor, comprueba si openHAB está trabajando correctamente (Código de respuesta HTTP %d)</string>
     <string name="error_no_uuid">No se puede obtener la openHAB UUID, conexión fallida</string>
     <string name="erorr_invalid_url">Por favor, introducir una URL válida con formato \'protocolo://host:puerto/\'</string>
     <string name="error_connection_failed">Ha fallado la conexión con el host</string>
+    <string name="error_unable_to_resolve_hostname">No se puede resolver el nombre de host</string>
+    <string name="error_connection_sslhandshake_failed">La negociación SSL ha fallado - tal vez necesitas un certificado de cliente válido</string>
+    <string name="error_certificate_not_trusted">El certificado SSL no es de confianza. Por favor, importa el certificado raíz o deshabilita la validación del certificado durante la negociación SSL</string>
+    <string name="error_certificate_expired">El certificado SSL ha caducado. Por favor, obtén un nuevo certificado o deshabilita la validación del certificado durante la negociación SSL</string>
+    <string name="error_certificate_not_valid_yet">El certificado SSL no es válido todavía. Por favor, obtén un certificado válido o deshabilita la validación del certificado durante la negociación SSL. Also check if the clock on your phone is set correctly</string>
+    <string name="error_certificate_revoked">El certificado SSL ha sido revocado. Por favor, obtén un nuevo certificado o deshabilita la validación del certificado durante la negociación SSL</string>
+    <string name="error_http_code_401">La autenticación de usuario ha fallado. Por favor, verifica el nombre de usuario, la contraseña y el certificado de cliente SSL (Código de respuesta HTTP 401)</string>
+    <string name="error_http_code_403">La autenticación de usuario ha fallado. Por favor, verifica el nombre de usuario, la contraseña y el certificado de cliente SSL (Código de respuesta HTTP 403)</string>
+    <string name="error_http_code_407">La autenticación de usuario ha fallado. Por favor, verifica el nombre de usuario, la contraseña y el certificado de cliente SSL (Código de respuesta HTTP 407)</string>
+    <string name="error_http_code_414">La URL de openHAB es demasiado larga (Código de respuesta HTTP 414)</string>
+    <string name="error_http_code_426">HTTPS is required. Please change the openHAB URL (Código de respuesta HTTP 426)</string>
+    <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
+    <string name="error_http_code_495">Invalid SSL client certificate (Código de respuesta HTTP 495)</string>
+    <string name="error_http_code_496">SSL client certificate is required (Código de respuesta HTTP 496)</string>
+    <string name="error_http_code_502">Tu proxy inverso obtuvo una respuesta inválida de openHAB (Código de respuesta HTTP 502)</string>
+    <string name="error_http_code_503">openHAB no está disponible temporalmente (Código de respuesta HTTP 503)</string>
+    <string name="error_http_code_504">Gateway Time-out. Parece que tu proxy inverso se está ejecutando, pero no pudo obtener una respuesta de openHAB (Código de respuesta HTTP 504)</string>
+    <string name="error_http_code_507">openHAB no tiene suficiente espacio libre (Código de respuesta HTTP 507)</string>
+    <string name="error_http_code_511">Se requiere autenticación de red (Código de respuesta HTTP 511)</string>
     <string name="title_activity_openhabwritetag">Escribir etiqueta NFC</string>
     <string name="title_activity_openhabinfo">Información openHAB</string>
     <string name="info_write_tag">Aproximar el teléfono y mantener presionada la etiqueta hasta que aparezca un mensaje de confirmación</string>
@@ -59,6 +84,9 @@
     <string name="info_openhab_apiversion_label">Versión Rest API openHAB</string>
     <string name="info_openhab_uuid_label">openHAB UUID</string>
     <string name="info_openhab_secret_label">openHAB Secret</string>
+    <string name="info_openhab_gcm_label">Estado de Google Cloud Message</string>
+    <string name="info_openhab_gcm_not_connected">Registro del dispositivo fallido</string>
+    <string name="info_openhab_gcm_connected">Dispositivo registrado con Sender ID %s</string>
     <string name="action_settings">Configuración</string>
     <string name="nfc_dialog_title">Seleccionar una acción para la tag NFC</string>
     <string name="info_not_set">Sin establecer</string>
@@ -68,4 +96,28 @@
     <string name="mtm_decision_once">Una vez</string>
     <string name="mtm_decision_abort">Cancelar</string>
     <string name="mtm_notification">Validación del certificado</string>
+    <string name="settings_openhab_none">Ninguno</string>
+
+    <!-- drawer -->
+    <string name="drawer_open">Sitemap drawer abierto</string>
+    <string name="drawer_close">Sitemap drawer cerrado</string>
+    <string name="mainmenu_openhab_voice_recognition">Reconocimiento de voz</string>
+
+    <!-- About -->
+    <string name="about_title">Acerca de</string>
+    <string name="about_license_title">Licencia</string>
+    <string name="about_links">Enlaces</string>
+    <string name="about_links_list"><![CDATA[\u00B7 <a href="https://github.com/openhab/openhab.android">Código fuente de openHAB App</a><br><br> \u00B7 <a href="https://github.com/openhab/openhab.android/issues">Informar de un error</a><br><br> \u00B7 <a href="http://docs.openhab.org/">Documentación de openHAB</a><br><br> \u00B7 <a href="https://community.openhab.org/">Foro de la Comunidad</a>]]></string>
+    <string name="settings_debug_messages_summary">Algunos mensajes de error incluyen más información</string>
+    <string name="settings_debug_messages_title">Mostrar mensajes de depuración</string>
+    <string name="error_couldnt_determine_openhab_url">No se pudo determinar la URL de openHAB</string>
+    <string name="unknown">Desconocido</string>
+    <string name="error_network_type_unsupported">El tipo de red (%s) no está soportado</string>
+    <string name="set">Establecer</string>
+    <string name="cancel">Cancelar</string>
+    <string name="app_intro">Intro</string>
+    <string name="intro_welcome">Bienvenido a openHAB</string>
+    <string name="intro_whatis">Software de automatización de código abierto para tu hogar sin importar vendedores ni tecnologías</string>
+    <string name="intro_themes">Temas</string>
+    <string name="intro_themes_description">Elegir entre varios temas</string>
 </resources>
