@@ -1,6 +1,6 @@
 # 2.0
 
-## Additions
+## Added
 - Add adaptive app icon
 - Add two new themes
 - Add app intro
@@ -8,7 +8,7 @@
 - Implement support for HSL videos
 - Add theme support for charts. Need openHAB server > 2.1
 
-## Improvements
+## Changed
 - Update app icon
 - Improved selection and setpoint items
 - Move settings to the side menu
@@ -19,13 +19,13 @@
 - Generell performance improvements
 - Update translations
 
-## Bugfixes
+## Fixed
 - Fixed overlapping label and value
 - Fixed a bug where images and charts were not shown
 - Fixed a bug where notification were not shown when on WIFI
 - Fixed a bug where no charts was shown when icon type set to SVG
 - Fixed some bugs where wrong icon was shown
 
-## Removals
+## Removed
 - Remove support for controlling items via volume buttons
 - Remove Bindings and Discovery funtionality. Please use PaperUI instead
