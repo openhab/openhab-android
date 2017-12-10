@@ -568,7 +568,12 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
         mAsyncHttpClient.setBasicAuth(openHABUsername, openHABPassword, true);
 
         mDrawerAdapter.setOpenHABBaseUrl(openHABBaseUrl);
+        mDrawerAdapter.setOpenHABUsername(openHABUsername);
+        mDrawerAdapter.setOpenHABPassword(openHABPassword);
         pagerAdapter.setOpenHABBaseUrl(openHABBaseUrl);
+        pagerAdapter.setOpenHABUsername(openHABUsername);
+        pagerAdapter.setOpenHABPassword(openHABPassword);
+
         if (!TextUtils.isEmpty(mNfcData)) {
             onNfcTag(mNfcData);
             openPageIfPending(mPendingNfcPage);
@@ -1245,7 +1250,6 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
             MySyncHttpClient syncHttpClient = new MySyncHttpClient(this,
                     prefs.getBoolean(Constants.PREFERENCE_SSLHOST, false),
                     prefs.getBoolean(Constants.PREFERENCE_SSLCERT, false));
-            syncHttpClient.setBasicAuth(getOpenHABUsername(), getOpenHABPassword());
             mNotifySettings = new NotificationSettings(baseUrl, syncHttpClient);
             mNotifySettings.setOpenHABCloudUsername(
                     mSettings.getString(Constants.PREFERENCE_REMOTE_USERNAME, openHABUsername));
