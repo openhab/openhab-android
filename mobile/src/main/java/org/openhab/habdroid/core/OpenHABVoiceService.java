@@ -66,8 +66,8 @@ public class OpenHABVoiceService extends ContinuingIntentService implements Open
 
     private void initHttpClient() {
         SharedPreferences mSettings = PreferenceManager.getDefaultSharedPreferences(this);
-        String username = mSettings.getString(Constants.PREFERENCE_USERNAME, null);
-        String password = mSettings.getString(Constants.PREFERENCE_PASSWORD, null);
+        String username = mSettings.getString(Constants.PREFERENCE_REMOTE_USERNAME, null);
+        String password = mSettings.getString(Constants.PREFERENCE_REMOTE_PASSWORD, null);
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         mAsyncHttpClient = new MyAsyncHttpClient(this, prefs.getBoolean(Constants.PREFERENCE_SSLHOST,
                 false), prefs.getBoolean(Constants.PREFERENCE_SSLCERT, false));

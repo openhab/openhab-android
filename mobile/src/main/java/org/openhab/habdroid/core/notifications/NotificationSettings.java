@@ -57,6 +57,7 @@ public class NotificationSettings {
 
     public void setOpenHABCloudUsername(String openHABCloudUsername) {
         this.openHABCloudUsername = openHABCloudUsername;
+        updateHttpClientAuth();
     }
 
     public String getOpenHABCloudPassword() {
@@ -65,6 +66,11 @@ public class NotificationSettings {
 
     public void setOpenHABCloudPassword(String openHABCloudPassword) {
         this.openHABCloudPassword = openHABCloudPassword;
+        updateHttpClientAuth();
+    }
+
+    private void updateHttpClientAuth() {
+        this.httpClient.setBasicAuth(this.openHABCloudUsername, this.openHABCloudPassword);
     }
 
     MyHttpClient getHttpClient () {
@@ -77,7 +83,7 @@ public class NotificationSettings {
             return;
         }
 
-        String requestUrl = null;
+        String requestUrl;
         try {
             requestUrl = new URL(openHABCloudURL, SETTINGS_ROUTE).toString();
         } catch (MalformedURLException ex) {

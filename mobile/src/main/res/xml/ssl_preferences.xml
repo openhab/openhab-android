@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:title="@string/settings_openhab_sslsettings">
+    <Preference
+        android:clickable="true"
+        android:defaultValue="@string/settings_openhab_none"
+        android:key="default_openhab_sslclientcert"
+        android:summary=""
+        android:title="@string/settings_openhab_sslclientcert" />
+    <Preference
+        android:clickable="true"
+        android:key="default_openhab_sslclientcert_howto"
+        android:title="@string/settings_openhab_sslclientcert_howto" />
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="default_openhab_sslcert"
+        android:summary="@string/settings_openhab_sslcert_summary"
+        android:title="@string/settings_openhab_sslcert" />
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="default_openhab_sslhost"
+        android:summary="@string/settings_openhab_sslhost_summary"
+        android:title="@string/settings_openhab_sslhost" />
+</PreferenceScreen>
