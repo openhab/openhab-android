@@ -56,6 +56,10 @@
             android:key="default_openhab_sslhost"
             android:summary="@string/settings_openhab_sslhost_summary"
             android:title="@string/settings_openhab_sslhost" />
+        <Preference
+            android:clickable="true"
+            android:key="default_openhab_clear_default_sitemap"
+            android:title="@string/settings_clear_default_sitemap" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/settings_display_title">
         <ListPreference

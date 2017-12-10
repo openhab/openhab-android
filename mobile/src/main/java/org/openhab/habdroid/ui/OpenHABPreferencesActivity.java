@@ -10,6 +10,7 @@
 package org.openhab.habdroid.ui;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -94,6 +95,13 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
             final Preference themePreference = getPreferenceScreen().findPreference(Constants.PREFERENCE_THEME);
             final Preference clearCachePreference = getPreferenceScreen().findPreference(Constants
                     .PREFERENCE_CLEAR_CACHE);
+            final Preference clearDefaultSitemapPreference = getPreferenceScreen().findPreference
+                    (Constants.PREFERENCE_CLEAR_DEFAULT_SITEMAP);
+
+            if (clearCachePreference.getSharedPreferences().getString(Constants
+                    .PREFERENCE_SITEMAP, "").isEmpty()) {
+                onNoDefaultSitemap(clearDefaultSitemapPreference);
+            }
 
             updateSslClientCertSummary(sslClientCert);
 
@@ -170,10 +178,28 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
                     return true;
                 }
             });
+
+            clearDefaultSitemapPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    SharedPreferences.Editor edit = preference.getSharedPreferences().edit();
+                    edit.putString(Constants.PREFERENCE_SITEMAP, "");
+                    edit.apply();
+
+                    onNoDefaultSitemap(preference);
+                    return true;
+                }
+            });
+
             //fullscreen is not supoorted in builds < 4.4
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
                 getPreferenceScreen().removePreference(getPreferenceScreen().findPreference(Constants.PREFERENCE_FULLSCREEN));
             }
+        }
+
+        private void onNoDefaultSitemap(Preference pref) {
+            pref.setEnabled(false);
+            pref.setSummary(R.string.settings_no_default_sitemap);
         }
 
         private String getPreferenceString(Preference preference, String defValue) {
