@@ -10,7 +10,6 @@
 package org.openhab.habdroid.util;
 
 import android.app.Activity;
-import android.content.Context;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.util.Log;
@@ -19,6 +18,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.openhab.habdroid.R;
+import org.openhab.habdroid.core.sitemap.SitemapList;
 import org.openhab.habdroid.model.OpenHAB1Sitemap;
 import org.openhab.habdroid.model.OpenHAB2Sitemap;
 import org.openhab.habdroid.model.OpenHABSitemap;
@@ -107,7 +107,7 @@ public class Util {
         return sitemapList;
     }
 
-    public static boolean sitemapExists(List<OpenHABSitemap> sitemapList, String sitemapName) {
+    public static boolean sitemapExists(SitemapList sitemapList, String sitemapName) {
         for (int i = 0; i < sitemapList.size(); i++) {
             if (sitemapList.get(i).getName().equals(sitemapName))
                 return true;
@@ -115,7 +115,7 @@ public class Util {
         return false;
     }
 
-    public static OpenHABSitemap getSitemapByName(List<OpenHABSitemap> sitemapList, String sitemapName) {
+    public static OpenHABSitemap getSitemapByName(SitemapList sitemapList, String sitemapName) {
         for (int i = 0; i < sitemapList.size(); i++) {
             if (sitemapList.get(i).getName().equals(sitemapName))
                 return sitemapList.get(i);

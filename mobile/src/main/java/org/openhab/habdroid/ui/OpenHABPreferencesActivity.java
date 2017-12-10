@@ -30,6 +30,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.loopj.android.image.WebImageCache;
+
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.util.Constants;
 import org.openhab.habdroid.util.MyWebImage;
