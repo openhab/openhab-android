@@ -14,9 +14,9 @@
 - Move settings to the side menu
 - Improved error messages
 - Improved charts size. Need openHAB server > 2.1
-- Better support for image items
+- Better handling of image items
 - Right align selection value
-- Generell performance improvements
+- General performance improvements
 - Update translations
 
 ## Fixed
