@@ -73,6 +73,10 @@ public class NotificationSettings {
         this.httpClient.setBasicAuth(this.openHABCloudUsername, this.openHABCloudPassword);
     }
 
+    MyHttpClient getHttpClient () {
+        return this.httpClient;
+    }
+
     private void loadSettings() {
         if (isLoaded) {
             Log.d(TAG, "Requested to load notifications settings, but it is loaded already.");
