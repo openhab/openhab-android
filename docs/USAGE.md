@@ -7,19 +7,21 @@ title: Android openHAB App
 
 # Android openHAB App
 
-openHAB Android application is a native client for openHAB. It uses REST API of openHAB to render your sitemaps.
+The openHAB Android application is a native client for openHAB. The app follows the basic principles of the other UIs, like Basic UI, and presents your predefined openHAB [sitemap(s)}(http://docs.openhab.org/configuration/sitemaps.html).
 
 <a href="https://play.google.com/store/apps/details?id=org.openhab.habdroid"><img src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" height="80"></a>
 
 ## Features
-* Control your openHAB server and [openHAB Cloud instance](https://github.com/openhab/openhab-cloud)
-* Receive notifications from openHAB Cloud
+* Control your openHAB server and [openHAB Cloud instance](https://github.com/openhab/openhab-cloud), e.g., an account with [myopenhab](http://www.myopenhab.org/)
+* [Receive notifications via openHAB Cloud](http://docs.openhab.org/addons/actions.html)
 * Change items via NFC tags
 * Send voice commands to openHAB
-* Discover devices and add them as items
 * Supports wall mounted tablets
 
-<img src="images/main_menu.png" width="200px"> <img src="images/widget_overview.png" width="200px">
+<div class="row">
+  <div class="col s12 m5"><img src="images/main_menu.png" alt="Demo Overview"></div>
+  <div class="col s12 m5"><img src="images/widget_overview.png" alt="Demo Widget Overview"></div>
+</div>
 
 ## Getting Started
 
@@ -39,12 +41,10 @@ Once the URL is set correctly, the display of the app will be determined by the 
 The option to set a "Remote URL" allows the app to be used when you are away from home.
 There are a number of strategies available to provide [secure remote access]({{base}}/installation/security.html) to your openHAB server.
 
-## Help and technical details
+## Help and Technical Details
 
-Please refer to the [openhab/android project on GitHub](https://github.com/openhab/openhab.android) for more details.
+Please refer to the [openhab.android project on GitHub](https://github.com/openhab/openhab.android) for more details.
 
 ## Trademark Disclaimer
-
-Product names, logos, brands and other trademarks referred to within the openHAB website are the property of their respective trademark holders. These trademark holders are not affiliated with openHAB or our website. They do not sponsor or endorse our materials.
 
 Google Play and the Google Play logo are trademarks of Google Inc.
