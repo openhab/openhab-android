@@ -4,7 +4,6 @@
     <string name="main_menu">Pagrindinis meniu</string>
     <string name="app_preferences_name">Nustatymai</string>
     <string name="app_notifications">Pranešimai</string>
-    <string name="app_bindings">Bindings</string>
     <string name="favorites">Mėgstami</string>
     <string name="minus">-</string>
     <string name="plus">+</string>
@@ -12,7 +11,6 @@
     <string name="mainmenu_openhab_preferences">Nustatymai</string>
     <string name="mainmenu_openhab_selectsitemap">Pasirinkite numatytą vietos išplanavimą</string>
     <string name="mainmenu_openhab_writetag">Rašyti NFC žymą</string>
-    <string name="mainmenu_openhab_info">openHAB informacija</string>
     <string name="mainmenu_openhab_clearcache">Išvalyti paveikslėlių podėlį</string>
     <!-- App settings strings -->
     <string name="settings_connection_title">Ryšio nustatymai</string>
@@ -31,7 +29,6 @@
     <string name="settings_openhab_demomode">Demonstracinis režimas</string>
     <string name="settings_openhab_demomode_summary">Naudoti openHAB programėlę demonstraciniu režimu</string>
     <string name="settings_openhab_theme">openHAB tema</string>
-    <string name="settings_openhab_appversion">openHAB programėlės versija</string>
     <string name="settings_openhab_sslcert">Netikrinti SSL sertifikato</string>
     <string name="settings_openhab_sslcert_summary">Netikrinti SSL sertifikato validumo</string>
     <string name="settings_openhab_sslhost">Netikrinti SSL hostname</string>
@@ -134,4 +131,7 @@
     <string name="error_certificate_revoked">SSL sertifikatas buvo atšauktas. Gaukite naują sertifikatą arba išjunkite sertifikato patvirtinimą</string>
     <string name="error_certificate_not_valid_yet">SSL sertifikatas dar negalioja. Gaukite teisingą sertifikatą arba išjunkite sertifikato patvirtinimą. Taip pat patikrinkite, ar jūsų telefone laikrodis nustatytas teisingai</string>
     <string name="error_certificate_not_trusted">SSL sertifikatas nėra patikimas. Importuokite šakninį SSL sertifikatą arba išjunkite sertifikatų patvirtinimą</string>
+    <string name="cancel">Atšaukti</string>
+    <string name="error_http_code_503">openHAB laikinai nepasiekiamas (HTTP atsakymo kodas 503)</string>
+    <string name="set">Nustatyti</string>
 </resources>
