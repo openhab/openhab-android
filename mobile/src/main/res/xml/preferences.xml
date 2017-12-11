@@ -22,6 +22,10 @@
             android:persistent="false"
             android:title="@string/settings_openhab_sslsettings"
             android:dependency="default_openhab_demomode"/>
+        <Preference
+            android:clickable="true"
+            android:key="default_openhab_clear_default_sitemap"
+            android:title="@string/settings_clear_default_sitemap" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/settings_display_title">
         <ListPreference

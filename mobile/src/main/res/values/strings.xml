@@ -46,6 +46,9 @@
     <string name="settings_openhab_icon_format_png">Bitmap</string>
     <string name="settings_openhab_icon_format_svg">Vector</string>
     <string name="settings_ringtone">Ring tone</string>
+    <string name="settings_clear_default_sitemap">Clear default sitemap</string>
+    <string name="settings_no_default_sitemap">No default sitemap selected</string>
+    <string name="settings_current_default_sitemap">Current default sitemap: %1$s</string>
     <string name="settings_openhab_sslsettings">Encryption settings</string>
     <string name="settings_openhab_alt_connection">Remote server settings</string>
     <string name="settings_openhab_connection">Local server settings</string>
