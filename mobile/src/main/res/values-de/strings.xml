@@ -20,7 +20,7 @@
   <string name="settings_misc_title">Sonstige Einstellungen</string>
   <string name="settings_openhab_url">openHAB URL</string>
   <string name="settings_openhab_url_summary">URL des openHAB-Servers. Wenn gesetzt, ist Auto-Discovery deaktiviert. [%s]</string>
-  <string name="settings_openhab_alturl">openHAB-Remote-URL</string>
+  <string name="settings_openhab_alturl">openHAB Remote-URL</string>
   <string name="settings_openhab_alturl_summary">URL eines openHAB-Servers außerhalb des lokalen Netzwerkes. Wird genutzt, wenn im lokalen Netzwerk kein openHAB-Server gefunden wurde. [%s]</string>
   <string name="settings_openhab_username">Benutzername</string>
   <string name="settings_openhab_password">Passwort</string>
