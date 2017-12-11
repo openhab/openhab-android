@@ -33,8 +33,7 @@ before_deploy:
 - openssl aes-256-cbc -K $encrypted_903a93ed2309_key -iv $encrypted_903a93ed2309_iv
   -in keystore.enc -out keystore -d
 - cp $TRAVIS_BUILD_DIR/keystore $HOME
-- cd mobile/build/outputs/apk/
-- ls -l
+- cd mobile/build/outputs/apk/full
 - jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore $HOME/keystore
   -storepass $storepass mobile-release-unsigned.apk sign
 - jarsigner -verify mobile-release-unsigned.apk
