@@ -2,12 +2,10 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/relativeLayout2"
+    android:id="@+id/relativeLayout4"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:background="?android:activatedBackgroundIndicator"
-    android:paddingLeft="@dimen/widgetlist_item_left_margin"
-    android:paddingRight="@dimen/widgetlist_item_right_margin">
+    android:background="@drawable/list_selector">
 
     <include
         android:id="@+id/setpointleftlayout"
@@ -16,21 +14,8 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/setpointbutton_minus"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginRight="8dp" />
-
-
-    <Button
-        android:id="@+id/setpointbutton_minus"
-        android:layout_width="46dip"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="3dp"
-        android:layout_marginEnd="8dp"
-        android:text="@string/minus"
-        app:layout_constraintBottom_toTopOf="@+id/listdivider"
         app:layout_constraintEnd_toStartOf="@+id/widgetvalue"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginRight="8dp" />
 
@@ -38,24 +23,20 @@
         android:id="@+id/widgetvalue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
         android:textAppearance="?android:attr/textAppearanceMedium"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/setpointbutton_plus"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginRight="8dp" />
+        app:layout_constraintRight_toLeftOf="@id/imageViewDownArrow"
+        app:layout_constraintTop_toTopOf="parent"/>
 
-    <Button
-        android:id="@+id/setpointbutton_plus"
-        android:layout_width="46dip"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:text="@string/plus"
-        app:layout_constraintBottom_toTopOf="@+id/listdivider"
+    <ImageView
+        android:id="@+id/imageViewDownArrow"
+        android:layout_width="48dp"
+        android:layout_height="30dp"
+        android:scaleType="center"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginRight="8dp" />
-
+        android:src="@drawable/ic_spinner_caret" />
 
     <LinearLayout
         android:id="@+id/listdivider"

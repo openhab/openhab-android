@@ -12,10 +12,13 @@ package org.openhab.habdroid.ui;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.Build;
+import android.support.annotation.ColorInt;
 import android.support.v7.widget.SwitchCompat;
 import android.util.Base64;
 import android.util.DisplayMetrics;
@@ -102,6 +105,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     private ArrayList<MySmartImageView> refreshImageList;
     private ArrayList<MjpegStreamer> mjpegWidgetList;
     private MyAsyncHttpClient mAsyncHttpClient;
+    private @ColorInt int mPrimaryForegroundColor;
 
     public OpenHABWidgetAdapter(Context context, int resource,
                                 List<OpenHABWidget> objects) {
@@ -110,6 +114,12 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
         videoWidgetList = new ArrayList<VideoView>();
         refreshImageList = new ArrayList<MySmartImageView>();
         mjpegWidgetList = new ArrayList<MjpegStreamer>();
+
+        TypedArray a = context.obtainStyledAttributes(new int[] {
+            R.attr.colorControlNormal
+        });
+        mPrimaryForegroundColor = a.getColor(0, 0);
+        a.recycle();
     }
 
     @SuppressWarnings("deprecation")
@@ -153,7 +163,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
                 widgetLayout = R.layout.openhabwidgetlist_selectionitem;
                 break;
             case TYPE_SETPOINT:
-                widgetLayout = R.layout.openhabwidgetlist_textitem;
+                widgetLayout = R.layout.openhabwidgetlist_setpointitem;
                 break;
             case TYPE_CHART:
                 widgetLayout = R.layout.openhabwidgetlist_chartitem;
@@ -691,87 +701,90 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
                     }
                     final Context context = getContext();
 
-                    widgetView.setOnClickListener( new OnClickListener(){
-                        @Override
-                        public void onClick(final View view) {
+                     View.OnClickListener clickListener = new OnClickListener() {
+                         @Override
+                         public void onClick(final View view) {
 
-                            float minValue = openHABWidget.getMinValue();
-                            float maxValue = openHABWidget.getMaxValue();
+                             float minValue = openHABWidget.getMinValue();
+                             float maxValue = openHABWidget.getMaxValue();
 
-                            //This prevents an exception below. But could lead to user confusion if this case is ever encountered.
-                            if (minValue > maxValue){
-                                maxValue = minValue;
-                            }
-                            final float stepSize;
-                            if(minValue == maxValue) {
-                                stepSize = 1;
-                            } else {
-                                //Ensure min step size is 1
-                                stepSize = openHABWidget.getStep();
-                            }
-
-
-                            final String[] stepValues = new String[((int)(Math.abs(maxValue - minValue)/stepSize)) +1];
-                            for(int i = 0; i < stepValues.length; i++){
-                                //Check if step size is a whole integer.
-                                if( stepSize == Math.ceil(stepSize)){
-                                    //Cast to int to prevent .0 being added to all values in picker
-                                    stepValues[i] = String.valueOf((int) (minValue + (i*stepSize)));
-                                }
-                                else{
-
-                                    stepValues[i] = String.valueOf(minValue + (i*stepSize));
-                                }
-
-                            }
-
-                            AlertDialog.Builder builder = new AlertDialog.Builder(context);
-
-                            if (labelTextView != null) {
-                                builder.setTitle(labelTextView.getText());
-                            }
-                            final LayoutInflater inflater = LayoutInflater.from(context);
-                            final View dialogView = inflater.inflate(R.layout.openhab_dialog_numberpicker, null);
-                            builder.setView(dialogView);
-
-                            // OK button
-                            builder.setPositiveButton(R.string.set, new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
-                                    final NumberPicker numberPicker = (NumberPicker) dialogView.findViewById(R.id.numberpicker);
-                                    sendItemCommand(openHABWidget.getItem(), stepValues[numberPicker.getValue()]);
-                                }
-                            });
-                            // Cancel button
-                            builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-                                    // do nothing, just close the dialog
-                                }
-                            });
-
-                            AlertDialog dialog = builder.create();
-
-                            final NumberPicker numberPicker = (NumberPicker) dialogView.findViewById(R.id.numberpicker);
-
-                            numberPicker.setMinValue(0);
-                            numberPicker.setMaxValue(stepValues.length -1);
-                            numberPicker.setDisplayedValues(stepValues);
-
-                            // Find the closest value in the calculated step value
-                            int stepIndex = Arrays.binarySearch(stepValues, Float.toString(openHABWidget.getItem().getStateAsFloat()), new Comparator<CharSequence>() {
-                                @Override
-                                public int compare(CharSequence t1, CharSequence t2) {
-                                    return Float.valueOf(t1.toString()).compareTo(Float.valueOf(t2.toString()));
-                                }
-                            });
-                            if ( stepIndex < 0 ){
-                                stepIndex = (-(stepIndex+1)); // Use the returned insertion point if value is not found and select the closest value.
-                                stepIndex = Math.min(stepIndex, stepValues.length -1);  //handle case where insertion would be larger than the array
+                             //This prevents an exception below. But could lead to user confusion if this case is ever encountered.
+                             if (minValue > maxValue) {
+                                 maxValue = minValue;
                              }
-                            numberPicker.setValue(stepIndex);
+                             final float stepSize;
+                             if (minValue == maxValue) {
+                                 stepSize = 1;
+                             } else {
+                                 //Ensure min step size is 1
+                                 stepSize = openHABWidget.getStep();
+                             }
 
-                            dialog.show();
-                        }
-                    });
+
+                             final String[] stepValues = new String[((int) (Math.abs(maxValue - minValue) / stepSize)) + 1];
+                             for (int i = 0; i < stepValues.length; i++) {
+                                 //Check if step size is a whole integer.
+                                 if (stepSize == Math.ceil(stepSize)) {
+                                     //Cast to int to prevent .0 being added to all values in picker
+                                     stepValues[i] = String.valueOf((int) (minValue + (i * stepSize)));
+                                 } else {
+
+                                     stepValues[i] = String.valueOf(minValue + (i * stepSize));
+                                 }
+
+                             }
+
+                             AlertDialog.Builder builder = new AlertDialog.Builder(context);
+
+                             if (labelTextView != null) {
+                                 builder.setTitle(labelTextView.getText());
+                             }
+                             final LayoutInflater inflater = LayoutInflater.from(context);
+                             final View dialogView = inflater.inflate(R.layout.openhab_dialog_numberpicker, null);
+                             builder.setView(dialogView);
+
+                             // OK button
+                             builder.setPositiveButton(R.string.set, new DialogInterface.OnClickListener() {
+                                 public void onClick(DialogInterface dialog, int id) {
+                                     final NumberPicker numberPicker = (NumberPicker) dialogView.findViewById(R.id.numberpicker);
+                                     sendItemCommand(openHABWidget.getItem(), stepValues[numberPicker.getValue()]);
+                                 }
+                             });
+                             // Cancel button
+                             builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                                 public void onClick(DialogInterface dialog, int which) {
+                                     // do nothing, just close the dialog
+                                 }
+                             });
+
+                             AlertDialog dialog = builder.create();
+
+                             final NumberPicker numberPicker = (NumberPicker) dialogView.findViewById(R.id.numberpicker);
+
+                             numberPicker.setMinValue(0);
+                             numberPicker.setMaxValue(stepValues.length - 1);
+                             numberPicker.setDisplayedValues(stepValues);
+
+                             // Find the closest value in the calculated step value
+                             int stepIndex = Arrays.binarySearch(stepValues, Float.toString(openHABWidget.getItem().getStateAsFloat()), new Comparator<CharSequence>() {
+                                 @Override
+                                 public int compare(CharSequence t1, CharSequence t2) {
+                                     return Float.valueOf(t1.toString()).compareTo(Float.valueOf(t2.toString()));
+                                 }
+                             });
+                             if (stepIndex < 0) {
+                                 stepIndex = (-(stepIndex + 1)); // Use the returned insertion point if value is not found and select the closest value.
+                                 stepIndex = Math.min(stepIndex, stepValues.length - 1);  //handle case where insertion would be larger than the array
+                             }
+                             numberPicker.setValue(stepIndex);
+
+                             dialog.show();
+                         }
+                     };
+                    valueTextView.setOnClickListener(clickListener);
+                    ImageView dropdownArrow = widgetView.findViewById(R.id.imageViewDownArrow);
+                    dropdownArrow.setOnClickListener(clickListener);
+                    dropdownArrow.setColorFilter(mPrimaryForegroundColor, PorterDuff.Mode.SRC_IN);
                 }
                 break;
             default:
