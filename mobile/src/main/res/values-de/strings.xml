@@ -136,4 +136,6 @@
     <string name="set">Setzen</string>
     <string name="cancel">Abbrechen</string>
     <string name="dlg_notification_title">Benachrichtigung</string>
+    <string name="nfc_action_got_settings">Öffne NFC Einstellungen</string>
+    <string name="nfc_waiting_for_tag">Warte auf NFC Tag</string>
 </resources>

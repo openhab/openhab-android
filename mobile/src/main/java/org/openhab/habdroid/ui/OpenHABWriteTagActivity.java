@@ -12,6 +12,8 @@ package org.openhab.habdroid.ui;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.nfc.FormatException;
 import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
@@ -20,11 +22,21 @@ import android.nfc.NfcManager;
 import android.nfc.Tag;
 import android.nfc.tech.Ndef;
 import android.nfc.tech.NdefFormatable;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.Menu;
+import android.view.LayoutInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import org.openhab.habdroid.R;
@@ -49,14 +61,20 @@ public class OpenHABWriteTagActivity extends AppCompatActivity {
 		Util.setActivityTheme(this);
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.openhabwritetag);
-		TextView writeTagMessage = (TextView)findViewById(R.id.write_tag_message);
-		NfcManager manager = (NfcManager) this.getSystemService(Context.NFC_SERVICE);
-		NfcAdapter adapter = manager.getDefaultAdapter();
-		if (adapter == null) {
-			writeTagMessage.setText(R.string.info_write_tag_unsupported);
-		} else if (! adapter.isEnabled()) {
-			writeTagMessage.setText(R.string.info_write_tag_disabled);
+
+		Toolbar toolbar = (Toolbar) findViewById(R.id.openhab_toolbar);
+		setSupportActionBar(toolbar);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+		if (savedInstanceState == null) {
+			getSupportFragmentManager()
+					.beginTransaction()
+					.add(R.id.writenfc_container, new OpenHABWriteTagActivity.WriteNFCFragment())
+					.commit();
 		}
+
+		setResult(RESULT_OK);
+
 		if (getIntent().hasExtra("sitemapPage")) {
 			sitemapPage = getIntent().getExtras().getString("sitemapPage");
 			Log.d(TAG, "Got sitemapPage = " + sitemapPage);
@@ -72,10 +90,12 @@ public class OpenHABWriteTagActivity extends AppCompatActivity {
 	}
 
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.main_menu, menu);
-		return true;
+	public boolean onOptionsItemSelected(MenuItem item) {
+		if (item.getItemId() == android.R.id.home) {
+			finish();
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
 	}
 
 	@Override
@@ -189,7 +209,7 @@ public class OpenHABWriteTagActivity extends AppCompatActivity {
 		super.finish();
 		Util.overridePendingTransition(this, true);
 	}
-	
+
 	private void autoCloseActivity() {
 		Timer autoCloseTimer = new Timer();
 		autoCloseTimer.schedule(new TimerTask() {
@@ -202,7 +222,73 @@ public class OpenHABWriteTagActivity extends AppCompatActivity {
 				});
 				Log.d(TAG, "Autoclosing tag write activity");
 			}
-			
+
 		}, 2000);
+	}
+
+	public static class WriteNFCFragment extends Fragment {
+
+		@Override
+		public void onResume() {
+			super.onResume();
+
+			updateFragmentContents(getView());
+		}
+
+		@Override
+		public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+			super.onCreateView(inflater, container, savedInstanceState);
+
+			final View view = inflater.inflate(R.layout.fragment_writenfc, container, false);
+
+			TextView writeTagMessage = view.findViewById(R.id.write_tag_message);
+			Drawable ic_intro = getResources().getDrawable(R.drawable.ic_info_outline);
+			ic_intro.setColorFilter(
+					writeTagMessage.getCurrentTextColor(),
+					PorterDuff.Mode.SRC_IN
+			);
+			int h = ic_intro.getIntrinsicHeight();
+			int w = ic_intro.getIntrinsicWidth();
+			ic_intro.setBounds( 0, 0, w, h );
+			writeTagMessage.setCompoundDrawables(ic_intro, null, null, null);
+
+			updateFragmentContents(view);
+
+			return view;
+		}
+
+		private void updateFragmentContents(View view) {
+			final TextView writeTagMessage = view.findViewById(R.id.write_tag_message);
+			final TextView waitMessage = view.findViewById(R.id.nfc_wait_for_tag);
+			final ProgressBar waitProgressBar = view.findViewById(R.id.nfc_wait_progress);
+			final Button goToSettingsButton = view.findViewById(R.id.nfc_go_to_settings);
+
+			NfcManager manager =
+					(NfcManager) this.getActivity().getSystemService(Context.NFC_SERVICE);
+			NfcAdapter adapter = manager.getDefaultAdapter();
+			if (adapter == null) {
+				writeTagMessage.setText(R.string.info_write_tag_unsupported);
+			} else if (! adapter.isEnabled()) {
+				writeTagMessage.setText(R.string.info_write_tag_disabled);
+				waitMessage.setVisibility(View.GONE);
+				waitProgressBar.setVisibility(View.GONE);
+				goToSettingsButton.setVisibility(View.VISIBLE);
+				goToSettingsButton.setOnClickListener(new View.OnClickListener() {
+					@Override
+					public void onClick(View view) {
+						if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+							startActivity(new Intent(Settings.ACTION_NFC_SETTINGS));
+						} else {
+							startActivity(new Intent(Settings.ACTION_WIRELESS_SETTINGS));
+						}
+					}
+				});
+			} else {
+				writeTagMessage.setText(R.string.info_write_tag);
+				waitMessage.setVisibility(View.VISIBLE);
+				waitProgressBar.setVisibility(View.VISIBLE);
+				goToSettingsButton.setVisibility(View.GONE);
+			}
+		}
 	}
 }
