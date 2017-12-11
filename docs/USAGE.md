@@ -1,9 +1,12 @@
 ---
 layout: documentation
 title: Android openHAB App
+source: https://github.com/openhab/openhab.android/blob/master/docs/USAGE.md
 ---
 
 {% include base.html %}
+
+<!-- Attention authors: Do not edit directly. Please add your changes to the appropriate source repository -->
 
 # Android openHAB App
 
@@ -19,8 +22,8 @@ The openHAB Android application is a native client for openHAB. The app follows 
 * Supports wall mounted tablets
 
 <div class="row">
-  <div class="col s12 m5"><img src="images/main_menu.png" alt="Demo Overview"></div>
-  <div class="col s12 m5"><img src="images/widget_overview.png" alt="Demo Widget Overview"></div>
+  <div class="col s12 m6"><img src="images/main_menu.png" alt="Demo Overview"></div>
+  <div class="col s12 m6"><img src="images/widget_overview.png" alt="Demo Widget Overview"></div>
 </div>
 
 ## Getting Started
