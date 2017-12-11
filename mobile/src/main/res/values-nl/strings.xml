@@ -3,12 +3,10 @@
     <!-- General app strings -->
     <string name="app_preferences_name">Instellingen</string>
     <string name="app_notifications">Notificaties</string>
-    <string name="app_bindings">Bindings</string>
     <!-- Main menu items -->
     <string name="mainmenu_openhab_preferences">Instellingen</string>
     <string name="mainmenu_openhab_selectsitemap">Selecteer standaard sitemap</string>
     <string name="mainmenu_openhab_writetag">Schrijf NFC tag</string>
-    <string name="mainmenu_openhab_info">openHAB info</string>
     <string name="mainmenu_openhab_clearcache">Verwijder afbeeldingscache</string>
     <!-- App settings strings -->
     <string name="settings_connection_title">Verbindingsinstellingen</string>
@@ -25,7 +23,6 @@
     <string name="settings_openhab_demomode">Demo mode</string>
     <string name="settings_openhab_demomode_summary">Gebruik de openHAB App in demo modus</string>
     <string name="settings_openhab_theme">openHAB App thema</string>
-    <string name="settings_openhab_appversion">openHAB App Versie</string>
     <string name="settings_openhab_sslcert">Negeer SSL-certificaat</string>
     <string name="settings_openhab_sslcert_summary">Negeer certificaatvalidatie tijdens SSL-verificatie</string>
     <string name="settings_openhab_sslhost">Negeer SSL-hostnaam</string>

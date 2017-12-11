@@ -6,8 +6,6 @@
     <string name="app_notifications">Уведомления</string>
     <string name="dlg_notification_title">Уведомление</string>
     <string name="favorites">Избранное</string>
-    <string name="minus">-</string>
-    <string name="plus">+</string>
     <!-- Main menu items -->
     <string name="mainmenu_openhab_preferences">Параметры</string>
     <string name="mainmenu_openhab_selectsitemap">Выбрать sitemap по умолчанию</string>
@@ -38,8 +36,6 @@
     <string name="settings_openhab_fullscreen">Во весь экран</string>
     <string name="settings_openhab_fullscreen_summary">Дисплей в полноэкранном режиме</string>
     <string name="settings_openhab_icon_format">Формат иконок</string>
-    <string name="settings_openhab_icon_format_png">PNG</string>
-    <string name="settings_openhab_icon_format_svg">SVG</string>
     <string name="settings_ringtone">Рингтон</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">openHAB Голосовые команды</string>
