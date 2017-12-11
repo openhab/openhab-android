@@ -34,15 +34,20 @@ before_deploy:
   -in keystore.enc -out keystore -d
 - cp $TRAVIS_BUILD_DIR/keystore $HOME
 - cd mobile/build/outputs/apk/
+- ls -l
 - jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore $HOME/keystore
   -storepass $storepass mobile-release-unsigned.apk sign
 - jarsigner -verify mobile-release-unsigned.apk
 - "${ANDROID_HOME}/build-tools/25.0.2/zipalign -v 4 mobile-release-unsigned.apk mobile-release.apk"
+- git config --local user.name "TravisCI"
+- git config --local user.email "support@openhab.org"
+- git tag "$(date +'%Y%m%d%H%M%S')-$(git log --format=%h -1)"
 deploy:
   provider: releases
   prerelease: true
   file: mobile-release.apk
   skip_cleanup: true
+  overwrite: true
   on:
     repo: openhab/openhab.android
     tags: true
