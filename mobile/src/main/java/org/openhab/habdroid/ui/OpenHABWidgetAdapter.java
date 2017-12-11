@@ -777,16 +777,19 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
                              dialog.show();
                          }
                      };
-                    
+                    //valueTextView.setOnClickListener(clickListener);
                     widgetView.findViewById(R.id.imageViewDownArrow).setOnClickListener(clickListener);
                     widgetView.post(new Runnable(){
                         public void run(){
-                            final Rect rect = new Rect();
+                            final Rect touchRect = new Rect();
                             ImageView image = widgetView.findViewById(R.id.imageViewDownArrow);
-                            image.getHitRect(rect);
-                            rect.left -= 150;   // increase left hit area
-                            rect.right += 8;  // increase right hit area
-                            widgetView.setTouchDelegate( new TouchDelegate( rect , image));
+                            image.getHitRect(touchRect); // Start with the image as the basis for the touch delegate
+                            TextView textView = widgetView.findViewById(R.id.widgetvalue);
+                            final Rect textRect = new Rect();
+                            textView.getHitRect(textRect);
+                            touchRect.left = textRect.left;   // Set hit area to the end of the text element
+                            touchRect.right += 8;  // Set hit area to the edge of the screen.
+                            widgetView.setTouchDelegate( new TouchDelegate( touchRect , image));
                         }
                     });
 
