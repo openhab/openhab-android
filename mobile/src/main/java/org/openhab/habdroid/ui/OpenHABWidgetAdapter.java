@@ -12,11 +12,13 @@ package org.openhab.habdroid.ui;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Rect;
+import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.Build;
+import android.support.annotation.ColorInt;
 import android.support.v7.widget.SwitchCompat;
 import android.util.Base64;
 import android.util.DisplayMetrics;
@@ -24,7 +26,6 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
-import android.view.TouchDelegate;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
@@ -104,6 +105,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     private ArrayList<MySmartImageView> refreshImageList;
     private ArrayList<MjpegStreamer> mjpegWidgetList;
     private MyAsyncHttpClient mAsyncHttpClient;
+    private @ColorInt int mPrimaryForegroundColor;
 
     public OpenHABWidgetAdapter(Context context, int resource,
                                 List<OpenHABWidget> objects) {
@@ -112,6 +114,12 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
         videoWidgetList = new ArrayList<VideoView>();
         refreshImageList = new ArrayList<MySmartImageView>();
         mjpegWidgetList = new ArrayList<MjpegStreamer>();
+
+        TypedArray a = context.obtainStyledAttributes(new int[] {
+            R.attr.colorControlNormal
+        });
+        mPrimaryForegroundColor = a.getColor(0, 0);
+        a.recycle();
     }
 
     @SuppressWarnings("deprecation")
@@ -777,22 +785,10 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
                              dialog.show();
                          }
                      };
-                    //valueTextView.setOnClickListener(clickListener);
-                    widgetView.findViewById(R.id.imageViewDownArrow).setOnClickListener(clickListener);
-                    widgetView.post(new Runnable(){
-                        public void run(){
-                            final Rect touchRect = new Rect();
-                            ImageView image = widgetView.findViewById(R.id.imageViewDownArrow);
-                            image.getHitRect(touchRect); // Start with the image as the basis for the touch delegate
-                            TextView textView = widgetView.findViewById(R.id.widgetvalue);
-                            final Rect textRect = new Rect();
-                            textView.getHitRect(textRect);
-                            touchRect.left = textRect.left;   // Set hit area to the end of the text element
-                            touchRect.right += 8;  // Set hit area to the edge of the screen.
-                            widgetView.setTouchDelegate( new TouchDelegate( touchRect , image));
-                        }
-                    });
-
+                    valueTextView.setOnClickListener(clickListener);
+                    ImageView dropdownArrow = widgetView.findViewById(R.id.imageViewDownArrow);
+                    dropdownArrow.setOnClickListener(clickListener);
+                    dropdownArrow.setColorFilter(mPrimaryForegroundColor, PorterDuff.Mode.SRC_IN);
                 }
                 break;
             default:
