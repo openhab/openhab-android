@@ -40,6 +40,7 @@ before_deploy:
 - "${ANDROID_HOME}/build-tools/25.0.2/zipalign -v 4 mobile-full-release-unsigned.apk mobile-full-release.apk"
 - git config --local user.name "TravisCI"
 - git config --local user.email "support@openhab.org"
+- git tag -d "latest-master" || true
 - git tag "latest-master"
 deploy:
   provider: releases
