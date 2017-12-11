@@ -7,8 +7,6 @@
   <string name="app_notifications">Уведомления</string>
   <string name="dlg_notification_title">Уведомление</string>
   <string name="favorites">Избранное</string>
-  <string name="minus">-</string>
-  <string name="plus">+</string>
   <!-- Main menu items -->
   <string name="mainmenu_openhab_preferences">Параметры</string>
   <string name="mainmenu_openhab_selectsitemap">Выбрать sitemap по умолчанию</string>
@@ -42,9 +40,6 @@
   <string name="settings_openhab_icon_format_png">PNG</string>
   <string name="settings_openhab_icon_format_svg">SVG</string>
   <string name="settings_ringtone">Рингтон</string>
-  <string name="settings_openhab_sslsettings">Encryption settings</string>
-  <string name="settings_openhab_alt_connection">Remote server settings</string>
-  <string name="settings_openhab_connection">Local server settings</string>
   <!-- App messages strings -->
   <string name="title_voice_widget">openHAB Голосовые команды</string>
   <string name="info_voice_input">"openHAB, Ваша команда!"</string>
@@ -90,8 +85,6 @@
   <string name="info_write_tag_disabled">NFC выключено. Пожалуйста включите в настройках устройства.</string>
   <string name="info_openhab_version_label">Версия openHAB</string>
   <string name="info_openhab_apiversion_label">openHAB Rest API Версия</string>
-  <string name="info_openhab_uuid_label">openHAB UUID</string>
-  <string name="info_openhab_secret_label">openHAB Secret</string>
   <string name="info_openhab_gcm_label">Google Cloud Статус Сообщения</string>
   <string name="info_openhab_gcm_not_connected">Ошибка регистрации устройства</string>
   <string name="info_openhab_gcm_connected">Устройство зарегистрировано с отправленным ID %s</string>
