@@ -43,7 +43,7 @@
   <string name="settings_openhab_icon_format_svg">Vektorgrafik</string>
   <string name="settings_ringtone">Klingelton</string>
   <string name="settings_openhab_sslsettings">Verschlüsselungs-Einstellungen</string>
-  <string name="settings_openhab_alt_connection">Globale Verbindungsdaten</string>
+  <string name="settings_openhab_alt_connection">Remote Verbindungsdaten</string>
   <string name="settings_openhab_connection">Lokale Verbindungsdaten</string>
   <!-- App messages strings -->
   <string name="title_voice_widget">openHAB-Sprachbefehl</string>
@@ -52,7 +52,7 @@
   <string name="info_demo_mode">openHAB läuft im Demomodus. In den Einstellungen kann ein eigener openHAB-Server konfiguriert werden.</string>
   <string name="info_demo_mode_short">Läuft im Demomodus</string>
   <string name="info_conn_url">Verbinde mit lokaler Adresse</string>
-  <string name="info_conn_rem_url">Verbinde mit globaler Adresse</string>
+  <string name="info_conn_rem_url">Verbinde mit remote Adresse</string>
   <string name="info_discovery">Suche openHAB Instanz. Bitte warten\u2026</string>
   <string name="error_no_url">Bitte prüfen Sie, ob openHAB aktiv ist und die eingegebene Adresse korrekt ist</string>
   <string name="error_empty_sitemap_list">openHAB lieferte eine leere Sitemap-Liste</string>
