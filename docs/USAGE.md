@@ -41,6 +41,10 @@ Once the URL is set correctly, the display of the app will be determined by the 
 The option to set a "Remote URL" allows the app to be used when you are away from home.
 There are a number of strategies available to provide [secure remote access]({{base}}/installation/security.html) to your openHAB server.
 
+## Permanent Deployment
+
+If you want to use openHAB Android on a wall mounted tablet, go to settings and tick `Disable display timer` and `Full Screen`.
+
 ## Help and Technical Details
 
 Please refer to the [openhab.android project on GitHub](https://github.com/openhab/openhab.android) for more details.
