@@ -7,6 +7,7 @@
 - Add about screen
 - Implement support for HSL videos
 - Add theme support for charts. Need openHAB server > 2.1
+- Added seperate user and password settings for local and remote connection
 
 ## Changed
 - Update app icon
@@ -25,6 +26,7 @@
 - Fixed a bug where notification were not shown when on WIFI
 - Fixed a bug where no charts was shown when icon type set to SVG
 - Fixed some bugs where wrong icon was shown
+- Removed useless sitemap refreshes
 
 ## Removed
 - Remove support for controlling items via volume buttons
