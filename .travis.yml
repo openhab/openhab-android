@@ -41,7 +41,9 @@ before_deploy:
 - git config --local user.name "TravisCI"
 - git config --local user.email "support@openhab.org"
 - git tag -d "latest-master" || true
-- git tag "latest-master"
+- git push origin :refs/tags/latest-master || true
+- git tag -a "latest-master" -m "Built by Travis CI on $(date +'%Y%m%d%H%M%S')"
+- $TRAVIS_TAG=latest-master
 deploy:
   provider: releases
   prerelease: true
@@ -51,5 +53,7 @@ deploy:
   on:
     repo: openhab/openhab.android
     jdk: oraclejdk8
+    branch: master
+    tags: true
   api_key:
     secure: JaDHY9PaBF625dfulN8ygmOvBk3ZDmnZZDr7IPwqJ9hZ+4WzS85om8F9+bgQlZTDDVUeaNZ03ZkfRZ81g9D0EEHF5WSFqgN8aUcNoAa8ViBFAQUeO1uTjVkiP0G7JOVRyW59HTTk6Cjr5eiGKkmeIGT9KgUUi+4Bw/6Quag8f8Y=
