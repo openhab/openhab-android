@@ -1,0 +1,3 @@
+files:
+  - source: /mobile/src/main/res/values/strings.xml
+    translation: /mobile/src/main/res/values-%two_letters_code%/%original_file_name%

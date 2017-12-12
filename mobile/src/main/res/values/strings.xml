@@ -10,8 +10,6 @@
     <string name="dlg_notification_title">Notification message</string>
     <string name="favorites">Favorites</string>
     <string name="empty_string" translatable="false"></string>
-    <string name="minus">-</string>
-    <string name="plus">+</string>
     <!-- Main menu items -->
     <string name="mainmenu_openhab_preferences">Settings</string>
     <string name="mainmenu_openhab_selectsitemap">Select default sitemap</string>
@@ -48,6 +46,9 @@
     <string name="settings_openhab_icon_format_png">Bitmap</string>
     <string name="settings_openhab_icon_format_svg">Vector</string>
     <string name="settings_ringtone">Ring tone</string>
+    <string name="settings_clear_default_sitemap">Clear default sitemap</string>
+    <string name="settings_no_default_sitemap">No default sitemap selected</string>
+    <string name="settings_current_default_sitemap">Current default sitemap: %1$s</string>
     <string name="settings_openhab_sslsettings">Encryption settings</string>
     <string name="settings_openhab_alt_connection">Remote server settings</string>
     <string name="settings_openhab_connection">Local server settings</string>
