@@ -138,4 +138,5 @@
     <string name="dlg_notification_title">Benachrichtigung</string>
     <string name="nfc_action_got_settings">Öffne NFC Einstellungen</string>
     <string name="nfc_waiting_for_tag">Warte auf NFC Tag</string>
+    <string name="nfc_activate">Aktivieren</string>
 </resources>
