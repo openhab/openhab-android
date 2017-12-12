@@ -131,4 +131,7 @@
     <string name="intro_whatis">Λογισμικό ανοιχτού κώδικα αυτοματοποίησης, ανεξάρτητο κατασκευαστή και τεχνολογίας, για το σπίτι σας.</string>
     <string name="intro_themes">Θέματα</string>
     <string name="intro_themes_description">Επιλέξτε μεταξύ διαφόρων θεμάτων</string>
+    <string name="settings_clear_default_sitemap">Καθαρισμός προκαθορισμένου sitemap</string>
+    <string name="settings_no_default_sitemap">Δεν έχει επιλεγεί προκαθορισμένο sitemap</string>
+    <string name="settings_current_default_sitemap">Τρέχον προκαθορισμένο sitemap: %1$s</string>
 </resources>
