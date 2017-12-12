@@ -38,12 +38,6 @@ before_deploy:
   -storepass $storepass mobile-full-release-unsigned.apk sign
 - jarsigner -verify mobile-full-release-unsigned.apk
 - "${ANDROID_HOME}/build-tools/25.0.2/zipalign -v 4 mobile-full-release-unsigned.apk mobile-full-release.apk"
-- git config --local user.name "TravisCI"
-- git config --local user.email "support@openhab.org"
-- git tag -d "latest-master" || true
-- git push origin :refs/tags/latest-master || true
-- git tag -a "latest-master" -m "Built by Travis CI on $(date +'%Y%m%d%H%M%S')"
-- $TRAVIS_TAG=latest-master
 deploy:
   provider: releases
   prerelease: true
