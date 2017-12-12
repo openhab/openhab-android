@@ -405,13 +405,13 @@ public class OpenHABWidgetListFragment extends ListFragment {
             return;
         }
 
-        // As we change the page we need to stop all videos on current page
-        // before going to the new page. This is quite dirty, but is the only
-        // way to do that...
-        openHABWidgetAdapter.stopVideoWidgets();
-        openHABWidgetAdapter.stopImageRefresh();
         // If openHAB verion = 1 get page from XML
         if (mActivity.getOpenHABVersion() == 1) {
+            // As we change the page we need to stop all videos on current page
+            // before going to the new page. This is quite dirty, but is the only
+            // way to do that...
+            openHABWidgetAdapter.stopVideoWidgets();
+            openHABWidgetAdapter.stopImageRefresh();
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
             try {
                 DocumentBuilder builder = dbf.newDocumentBuilder();
@@ -438,6 +438,19 @@ public class OpenHABWidgetListFragment extends ListFragment {
         } else {
             try {
                 JSONObject pageJson = new JSONObject(responseString);
+                // In case of a server timeout in the long polling request, nothing is done
+                // and the request is restarted
+                if (longPolling && pageJson.has("timeout")
+                        && pageJson.getString("timeout").equalsIgnoreCase("true")) {
+                    Log.e(TAG, "Server timeout in the long polling request");
+                    showPage(displayPageUrl, true);
+                    return;
+                }
+                // As we change the page we need to stop all videos on current page
+                // before going to the new page. This is quite dirty, but is the only
+                // way to do that...
+                openHABWidgetAdapter.stopVideoWidgets();
+                openHABWidgetAdapter.stopImageRefresh();
                 openHABWidgetDataSource.setSourceJson(pageJson);
                 widgetList.clear();
                 for (OpenHABWidget w : openHABWidgetDataSource.getWidgets()) {
