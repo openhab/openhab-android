@@ -4,9 +4,6 @@
     <string name="main_menu">Hauptmenü</string>
     <string name="app_preferences_name">Einstellungen</string>
     <string name="app_notifications">Benachrichtigungen</string>
-    <string name="app_bindings">Bindings</string>
-    <string name="minus">-</string>
-    <string name="plus">+</string>
     <!-- Main menu items -->
     <string name="mainmenu_openhab_preferences">Einstellungen</string>
     <string name="mainmenu_openhab_selectsitemap">Standard-Sitemap auswählen</string>
@@ -29,7 +26,6 @@
     <string name="settings_openhab_demomode">Demomodus</string>
     <string name="settings_openhab_demomode_summary">Demo-Daten an Stelle von realen Server-Daten verwenden</string>
     <string name="settings_openhab_theme">Design</string>
-    <string name="settings_openhab_appversion">openHAB-App-Version</string>
     <string name="settings_openhab_sslcert">SSL-Zertifikat ignorieren</string>
     <string name="settings_openhab_sslcert_summary">Beim SSL-Handshake alle Zertifikate unabhängig von ihrer Gültigkeit akzeptieren</string>
     <string name="settings_openhab_sslhost">SSL-Hostnamen ignorieren</string>
@@ -37,8 +33,6 @@
     <string name="settings_openhab_fullscreen">Vollbild</string>
     <string name="settings_openhab_fullscreen_summary">Geräte-Statusleiste während der Verwendung der App ausblenden</string>
     <string name="settings_openhab_icon_format">Symbol-Format</string>
-    <string name="settings_openhab_icon_format_png">PNG</string>
-    <string name="settings_openhab_icon_format_svg">SVG</string>
     <string name="settings_ringtone">Klingelton</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">openHAB-Sprachbefehl</string>
@@ -135,4 +129,7 @@
     <string name="set">Setzen</string>
     <string name="cancel">Abbrechen</string>
     <string name="dlg_notification_title">Benachrichtigung</string>
+    <string name="settings_no_default_sitemap">Keine Standard-Sitemap festgelegt</string>
+    <string name="settings_clear_default_sitemap">Standard-Sitemap zurücksetzen</string>
+    <string name="settings_current_default_sitemap">Aktuelle Standard-Sitemap: %1$s</string>
 </resources>

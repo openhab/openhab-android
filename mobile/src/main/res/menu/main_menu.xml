@@ -8,9 +8,4 @@
         android:orderInCategory="100"
         android:title="@string/mainmenu_openhab_voice_recognition"
         app:showAsAction="always" />
-    <item
-        android:id="@+id/mainmenu_openhab_selectsitemap"
-        android:orderInCategory="102"
-        android:title="@string/mainmenu_openhab_selectsitemap"
-        app:showAsAction="never" />
 </menu>

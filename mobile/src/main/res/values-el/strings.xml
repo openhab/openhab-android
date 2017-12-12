@@ -5,7 +5,6 @@
     <string name="about_links_list"><![CDATA[· <a href="https://github.com/openhab/openhab.android">Πηγαίος κώδικας εφαρμογής openHAB</a><br><br> · <a href="https://github.com/openhab/openhab.android/issues">Αναφορά Προβλήματος</a><br><br> · <a href="http://docs.openhab.org/">Έγγραφα τεκμηρίωσης του openHAB</a><br><br> · <a href="https://community.openhab.org/">Τόπος συζητήσεως κοινότητας</a>]]></string>
     <string name="about_title">Σχετικά</string>
     <string name="action_settings">Ρυθμίσεις</string>
-    <string name="app_bindings">Συνδέσεις</string>
     <string name="app_notifications">Ενημερώσεις</string>
     <string name="app_preferences_name">Ρυθμίσεις</string>
     <string name="drawer_close">Συρτάρι-κλειστό</string>
@@ -38,7 +37,6 @@
     <string name="info_write_tag_progress">Εγγραφή ετικέτας NFC</string>
     <string name="info_write_tag_unsupported">Αυτή η συσκευή δεν υποστηρίζει NFC</string>
     <string name="mainmenu_openhab_clearcache">Καθάρισμα κρυφής μνήμης</string>
-    <string name="mainmenu_openhab_info">Πληροφορίες openHAB</string>
     <string name="mainmenu_openhab_preferences">Ρυθμίσεις</string>
     <string name="mainmenu_openhab_selectsitemap">Προκαθορισμένο Sitemap</string>
     <string name="mtm_accept_cert">Αποδοχή άγνωστου πιστοποιητικού;</string>
@@ -55,7 +53,6 @@
     <string name="settings_misc_title">Διάφορες Ρυθμίσεις</string>
     <string name="settings_openhab_alturl">Απομακρυσμένη διεύθυνση openHAB</string>
     <string name="settings_openhab_alturl_summary">Απομακρυσμένη διεύθυνση openHAB (χρησιμοποιείται όταν το τοπικό openHAB δεν είναι διαθέσιμο)</string>
-    <string name="settings_openhab_appversion">Έκδοση openHAB App</string>
     <string name="settings_openhab_demomode">Κατάσταση επίδειξης</string>
     <string name="settings_openhab_demomode_summary">Εκτέλεση σε κατάσταση επίδειξης</string>
     <string name="settings_openhab_fullscreen">Πλήρης Οθόνη</string>
@@ -84,8 +81,4 @@
     <string name="title_voice_widget">Φωνητικές εντολές openHAB</string>
     <string name="favorites">Αγαπημένα</string>
     <string name="main_menu">Κεντρικό Μενού</string>
-    <string name="minus">-</string>
-    <string name="plus">+</string>
-    <string name="settings_openhab_icon_format_png">PNG</string>
-    <string name="settings_openhab_icon_format_svg">SVG</string>
 </resources>

@@ -5,8 +5,6 @@
     <string name="app_preferences_name">Nustatymai</string>
     <string name="app_notifications">Pranešimai</string>
     <string name="favorites">Mėgstami</string>
-    <string name="minus">-</string>
-    <string name="plus">+</string>
     <!-- Main menu items -->
     <string name="mainmenu_openhab_preferences">Nustatymai</string>
     <string name="mainmenu_openhab_selectsitemap">Pasirinkite numatytą vietos išplanavimą</string>
@@ -35,8 +33,6 @@
     <string name="settings_openhab_fullscreen">Pilnas ekranas</string>
     <string name="settings_openhab_fullscreen_summary">Rodyti pilno ekrano režimu</string>
     <string name="settings_openhab_icon_format">Piktogramų formatas</string>
-    <string name="settings_openhab_icon_format_png">PNG</string>
-    <string name="settings_openhab_icon_format_svg">SVG</string>
     <string name="settings_ringtone">Skambėjimo melodija</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">openHAB balso komandos</string>

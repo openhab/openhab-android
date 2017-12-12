@@ -583,14 +583,14 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
                     mOpenHABVersion = 1;
                     Log.d(TAG, "openHAB version 1 - got error " + throwable + " accessing " + url);
                     mAsyncHttpClient.addHeader("Accept", "application/xml");
-                    selectSitemap(openHABBaseUrl, false, false);
+                    selectSitemap(openHABBaseUrl);
                 }
 
                 @Override
                 public void onSuccess(Call call, int statusCode, Headers headers, String responseString) {
                     mOpenHABVersion = 2;
                     Log.d(TAG, "openHAB version 2");
-                    selectSitemap(openHABBaseUrl, false, false);
+                    selectSitemap(openHABBaseUrl);
                 }
             });
         }
@@ -727,7 +727,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
      * @return void
      */
 
-    private void selectSitemap(final String baseUrl, final boolean forceSelect, final boolean cancelable) {
+    private void selectSitemap(final String baseUrl) {
         Log.d(TAG, "Loading sitemap list from " + baseUrl + "rest/sitemaps");
         setProgressIndicatorVisible(true);
         mAsyncHttpClient.get(baseUrl + "rest/sitemaps", new DefaultHttpResponseHandler() {
@@ -766,38 +766,21 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
                     return;
                 }
                 loadDrawerItems();
-                // If we are forced to do selection, just open selection dialog
-                if (forceSelect) {
-                    showSitemapSelectionDialog(mSitemapList, cancelable);
-                } else {
-                    // Check if we have a sitemap configured to use
-                    SharedPreferences settings =
-                            PreferenceManager.getDefaultSharedPreferences(OpenHABMainActivity.this);
-                    String configuredSitemap = settings.getString(Constants.PREFERENCE_SITEMAP, "");
-                    // If we have sitemap configured
-                    if (configuredSitemap.length() > 0) {
-                        // Configured sitemap is on the list we got, open it!
-                        if (Util.sitemapExists(mSitemapList, configuredSitemap)) {
-                            Log.d(TAG, "Configured sitemap is on the list");
-                            OpenHABSitemap selectedSitemap = Util.getSitemapByName(mSitemapList, configuredSitemap);
-                            openSitemap(selectedSitemap.getHomepageLink());
-                            // Configured sitemap is not on the list we got!
-                        } else {
-                            Log.d(TAG, "Configured sitemap is not on the list");
-                            if (mSitemapList.size() == 1) {
-                                Log.d(TAG, "Got only one sitemap");
-                                SharedPreferences.Editor preferencesEditor = settings.edit();
-                                preferencesEditor.putString(Constants.PREFERENCE_SITEMAP, mSitemapList.get(0).getName());
-                                preferencesEditor.apply();
-                                openSitemap(mSitemapList.get(0).getHomepageLink());
-                            } else {
-                                Log.d(TAG, "Got multiply sitemaps, user have to select one");
-                                showSitemapSelectionDialog(mSitemapList, cancelable);
-                            }
-                        }
-                        // No sitemap is configured to use
+
+                // Check if we have a sitemap configured to use
+                SharedPreferences settings =
+                        PreferenceManager.getDefaultSharedPreferences(OpenHABMainActivity.this);
+                String configuredSitemap = settings.getString(Constants.PREFERENCE_SITEMAP, "");
+                // If we have sitemap configured
+                if (configuredSitemap.length() > 0) {
+                    // Configured sitemap is on the list we got, open it!
+                    if (Util.sitemapExists(mSitemapList, configuredSitemap)) {
+                        Log.d(TAG, "Configured sitemap is on the list");
+                        OpenHABSitemap selectedSitemap = Util.getSitemapByName(mSitemapList, configuredSitemap);
+                        openSitemap(selectedSitemap.getHomepageLink());
+                        // Configured sitemap is not on the list we got!
                     } else {
-                        // We got only one single sitemap from openHAB, use it
+                        Log.d(TAG, "Configured sitemap is not on the list");
                         if (mSitemapList.size() == 1) {
                             Log.d(TAG, "Got only one sitemap");
                             SharedPreferences.Editor preferencesEditor = settings.edit();
@@ -806,15 +789,28 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
                             openSitemap(mSitemapList.get(0).getHomepageLink());
                         } else {
                             Log.d(TAG, "Got multiply sitemaps, user have to select one");
-                            showSitemapSelectionDialog(mSitemapList, cancelable);
+                            showSitemapSelectionDialog(mSitemapList);
                         }
+                    }
+                    // No sitemap is configured to use
+                } else {
+                    // We got only one single sitemap from openHAB, use it
+                    if (mSitemapList.size() == 1) {
+                        Log.d(TAG, "Got only one sitemap");
+                        SharedPreferences.Editor preferencesEditor = settings.edit();
+                        preferencesEditor.putString(Constants.PREFERENCE_SITEMAP, mSitemapList.get(0).getName());
+                        preferencesEditor.apply();
+                        openSitemap(mSitemapList.get(0).getHomepageLink());
+                    } else {
+                        Log.d(TAG, "Got multiply sitemaps, user have to select one");
+                        showSitemapSelectionDialog(mSitemapList);
                     }
                 }
             }
         });
     }
 
-    private void showSitemapSelectionDialog(final List<OpenHABSitemap> sitemapList, final boolean cancelable) {
+    private void showSitemapSelectionDialog(final List<OpenHABSitemap> sitemapList) {
         Log.d(TAG, "Opening sitemap selection dialog");
         final List<String> sitemapNameList = new ArrayList<String>();
         for (int i = 0; i < sitemapList.size(); i++) {
@@ -822,7 +818,6 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
         }
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(OpenHABMainActivity.this);
         dialogBuilder.setTitle(getString(R.string.mainmenu_openhab_selectsitemap));
-        dialogBuilder.setCancelable(cancelable);
         try {
             selectSitemapDialog = dialogBuilder.setItems(sitemapNameList.toArray(new CharSequence[sitemapNameList.size()]),
                     new DialogInterface.OnClickListener() {
@@ -888,14 +883,6 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
 
         //menu items
         switch (item.getItemId()) {
-            case R.id.mainmenu_openhab_selectsitemap:
-                SharedPreferences settings =
-                        PreferenceManager.getDefaultSharedPreferences(OpenHABMainActivity.this);
-                SharedPreferences.Editor preferencesEditor = settings.edit();
-                preferencesEditor.putString(Constants.PREFERENCE_SITEMAP, "");
-                preferencesEditor.apply();
-                selectSitemap(openHABBaseUrl, true, true);
-                return true;
             case R.id.mainmenu_voice_recognition:
                 launchVoiceRecognition();
                 return true;

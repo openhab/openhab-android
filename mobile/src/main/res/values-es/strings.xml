@@ -3,11 +3,9 @@
     <!-- General app strings -->
     <string name="app_preferences_name">Configuración</string>
     <string name="app_notifications">Notificaciones</string>
-    <string name="app_bindings">Bindings</string>
     <!-- Main menu items -->
     <string name="mainmenu_openhab_preferences">Configuración</string>
     <string name="mainmenu_openhab_selectsitemap">Seleccionar el sitemap por defecto</string>
-    <string name="mainmenu_openhab_info">Acerca de openHAB</string>
     <string name="mainmenu_openhab_clearcache">Borrar la caché de imágenes</string>
     <!-- App settings strings -->
     <string name="settings_connection_title">Configuración de la conexión</string>
@@ -27,7 +25,6 @@
     <string name="settings_openhab_demomode">Modo demo</string>
     <string name="settings_openhab_demomode_summary">Ejecutar openHAB App modo demo</string>
     <string name="settings_openhab_theme">Tema openHAB App</string>
-    <string name="settings_openhab_appversion">Versión openHAB App</string>
     <string name="settings_openhab_sslcert">Ignorar certificado SSL</string>
     <string name="settings_openhab_sslcert_summary">No comprobar el certificado durante la conexión SSL</string>
     <string name="settings_openhab_sslhost">Ignorar dominio SSL</string>
