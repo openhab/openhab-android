@@ -6,15 +6,11 @@
     <string name="app_notifications">Ενημερώσεις</string>
     <string name="dlg_notification_title">Μήνυμα Ειδοποίησης</string>
     <string name="favorites">Αγαπημένα</string>
-    <string name="minus">-</string>
-    <string name="plus">+</string>
-
     <!-- Main menu items -->
+    <string name="mainmenu_openhab_clearcache">Καθάρισμα κρυφής μνήμης</string>
     <string name="mainmenu_openhab_preferences">Ρυθμίσεις</string>
     <string name="mainmenu_openhab_selectsitemap">Προκαθορισμένο Sitemap</string>
     <string name="mainmenu_openhab_writetag">Εγγραφή ετικέτας NFC</string>
-    <string name="mainmenu_openhab_clearcache">Καθάρισμα κρυφής μνήμης</string>
-
     <!-- App settings strings -->
     <string name="settings_connection_title">Ρυθμίσεις Σύνδεσης</string>
     <string name="settings_display_title">Ρυθμίσεις Προβολής</string>
@@ -23,6 +19,11 @@
     <string name="settings_openhab_url_summary">Ρύθμιση διεύθυνσης openHAB με το χέρι. Απενεργοποιεί την αυτόματη εύρεση αν έχει ήδη ρυθμιστεί.</string>
     <string name="settings_openhab_alturl">Απομακρυσμένη διεύθυνση openHAB</string>
     <string name="settings_openhab_alturl_summary">Απομακρυσμένη διεύθυνση openHAB (χρησιμοποιείται όταν το τοπικό openHAB δεν είναι διαθέσιμο)</string>
+    <string name="settings_openhab_demomode">Κατάσταση επίδειξης</string>
+    <string name="settings_openhab_demomode_summary">Εκτέλεση σε κατάσταση επίδειξης</string>
+    <string name="settings_openhab_fullscreen">Πλήρης Οθόνη</string>
+    <string name="settings_openhab_fullscreen_summary">Προβολή σε πλήρη οθόνη</string>
+    <string name="settings_openhab_icon_format">Μορφή εικονιδίου</string>
     <string name="settings_openhab_username">Όνομα χρήστη</string>
     <string name="settings_openhab_password">Κωδικός</string>
     <string name="settings_openhab_sslclientcert">Πιστοποιητικό SSL πελάτη</string>
@@ -30,23 +31,15 @@
     <string name="settings_openhab_sslclientcert_howto_summary">Πατήστε εδώ για να ενημερωθείτε για το πως θα ορίσετε πιστοποίηση με πιστοποιητικό SSL πελάτη.</string>
     <string name="settings_openhab_screentimeroff">Απενεργοποίηση αδρανοποίησης</string>
     <string name="settings_openhab_screentimeroff_summary">Απενεργοποίηση σβησίματος οθόνης όταν τρέχει το openHAB</string>
-    <string name="settings_openhab_demomode">Κατάσταση επίδειξης</string>
-    <string name="settings_openhab_demomode_summary">Εκτέλεση σε κατάσταση επίδειξης</string>
     <string name="settings_openhab_theme">Θέμα openHAB</string>
     <string name="settings_openhab_sslcert">Αγνόηση πιστοποιητικού SSL</string>
     <string name="settings_openhab_sslcert_summary">Αγνόηση της επικύρωσης του πιστοποιητικού κατά την διαδικασία SSL Handshake</string>
     <string name="settings_openhab_sslhost">Αγνόηση ονόματος διακομιστή SSL</string>
     <string name="settings_openhab_sslhost_summary">Αγνόηση του ελέγχου ονόματος διακομιστή κατά την διαδικασία SSL Handshake</string>
-    <string name="settings_openhab_fullscreen">Πλήρης Οθόνη</string>
-    <string name="settings_openhab_fullscreen_summary">Προβολή σε πλήρη οθόνη</string>
-    <string name="settings_openhab_icon_format">Μορφή εικονιδίου</string>
-    <string name="settings_openhab_icon_format_png">PNG</string>
-    <string name="settings_openhab_icon_format_svg">SVG</string>
     <string name="settings_ringtone">Ήχος κλήσης</string>
     <string name="settings_openhab_sslsettings">Ρυθμίσεις Κρυπτογράφησης</string>
     <string name="settings_openhab_alt_connection">Ρυθμίσεις Απομακρυσμένου διακομιστή</string>
     <string name="settings_openhab_connection">Ρυθμίσεις Τοπικού διακομιστή</string>
-
     <!-- App messages strings -->
     <string name="title_voice_widget">Φωνητικές εντολές openHAB</string>
     <string name="info_voice_input">\"openHAB, στις προσταγές σας!\"</string>
@@ -74,7 +67,6 @@
     <string name="error_http_code_407">Η πιστοποίηση του χρήστη απέτυχε. Παρακαλώ ελέγξτε το όνομα χρήστη, κωδικό και SSL πιστοποιητικό πελάτη (HTTP response code 407)</string>
     <string name="error_http_code_414">Το openHAB URL είναι πολύ μακρύ (HTTP response code 414)</string>
     <string name="error_http_code_426">Απαιτείται χρήση HTTPS. Παρακαλώ αλλάξτε το openHAB URL (HTTP response code 426)</string>
-
     <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
     <string name="error_http_code_495">Μη έγκυρο SSL πιστοποιητικό πελάτη (HTTP response code 495)</string>
     <string name="error_http_code_496">Απαιτείται SSL πιστοποιητικό πελάτη (HTTP response code 496)</string>
@@ -101,7 +93,6 @@
     <string name="action_settings">Ρυθμίσεις</string>
     <string name="nfc_dialog_title">Παρακαλώ επιλέξτε ενέργεια για την ετικέτα NFC</string>
     <string name="info_not_set">Δεν έχει ρυθμιστεί</string>
-
     <!-- Strings for MemorizingTrustManager activity -->
     <string name="mtm_accept_cert">Αποδοχή άγνωστου πιστοποιητικού;</string>
     <string name="mtm_decision_always">Πάντα</string>
@@ -109,24 +100,20 @@
     <string name="mtm_decision_abort">Διακοπή</string>
     <string name="mtm_notification">Επιβεβαίωση πιστοποιητικού</string>
     <string name="settings_openhab_none">κανένα</string>
-
     <!-- theme -->
     <string name="theme_name_light">Ανοιχτόχρωμο</string>
     <string name="theme_name_dark">Σκοτεινό</string>
     <string name="theme_name_black">Μαύρο/AMOLED</string>
     <string name="theme_name_basic_ui">Βασικό UI</string>
     <string name="theme_name_basic_ui_dark">Βασικό σκοτεινό UI</string>
-
     <!-- nfc toggle -->
     <string name="nfc_action_on">Αναμμένο</string>
     <string name="nfc_action_off">Σβηστό</string>
     <string name="nfc_action_toggle">Μεταβολή</string>
-
     <!-- drawer -->
     <string name="drawer_open">Συρτάρι-ανοικτό</string>
     <string name="drawer_close">Συρτάρι-κλειστό</string>
-    <string name="mainmenu_openhab_voice_recognition">Voice recognition</string>
-
+    <string name="mainmenu_openhab_voice_recognition">Αναγνώριση φωνής</string>
     <!-- About -->
     <string name="about_title">Σχετικά</string>
     <string name="about_license_title">Άδεια</string>
