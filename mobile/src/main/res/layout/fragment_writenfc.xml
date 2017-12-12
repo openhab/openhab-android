@@ -43,5 +43,5 @@
         android:text="@string/nfc_activate"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="?android:attr/textColorLink"
-        android:visibility="visible"/>
+        android:visibility="gone"/>
 </LinearLayout>
