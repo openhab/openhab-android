@@ -7,7 +7,7 @@
 - Add about screen
 - Implement support for HSL videos
 - Add theme support for charts. Need openHAB server > 2.1
-- Added seperate user and password settings for local and remote connection
+- Added separate user and password settings for local and remote connection
 
 ## Changed
 - Update app icon
@@ -30,4 +30,4 @@
 
 ## Removed
 - Remove support for controlling items via volume buttons
-- Remove Bindings and Discovery funtionality. Please use PaperUI instead
+- Remove Bindings and Discovery functionality. Please use PaperUI instead
