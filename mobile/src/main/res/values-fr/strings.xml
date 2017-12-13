@@ -9,7 +9,6 @@
     <!-- Main menu items -->
     <string name="mainmenu_openhab_preferences">Préférences</string>
     <string name="mainmenu_openhab_selectsitemap">Sélectionner la sitemap par défaut</string>
-    <string name="mainmenu_openhab_writetag">Écrire un tag NFC</string>
     <string name="mainmenu_openhab_clearcache">Effacer le cache image</string>
     <!-- App settings strings -->
     <string name="settings_connection_title">Paramètres de connexion</string>

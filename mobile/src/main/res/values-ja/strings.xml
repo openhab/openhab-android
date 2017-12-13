@@ -6,7 +6,6 @@
     <!-- Main menu items -->
     <string name="mainmenu_openhab_preferences">設定</string>
     <string name="mainmenu_openhab_selectsitemap">デフォルトのサイトマップを選択</string>
-    <string name="mainmenu_openhab_writetag">NFC タグを書き込み</string>
     <string name="mainmenu_openhab_clearcache">画像キャッシュをクリア</string>
     <!-- App settings strings -->
     <string name="settings_connection_title">接続設定</string>

@@ -6,7 +6,6 @@
     <!-- Main menu items -->
     <string name="mainmenu_openhab_preferences">Instellingen</string>
     <string name="mainmenu_openhab_selectsitemap">Selecteer standaard sitemap</string>
-    <string name="mainmenu_openhab_writetag">Schrijf NFC tag</string>
     <string name="mainmenu_openhab_clearcache">Verwijder afbeeldingscache</string>
     <!-- App settings strings -->
     <string name="settings_connection_title">Verbindingsinstellingen</string>
