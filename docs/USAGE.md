@@ -10,13 +10,13 @@ source: https://github.com/openhab/openhab.android/blob/master/docs/USAGE.md
 
 # Android openHAB App
 
-The openHAB Android application is a native client for openHAB. The app follows the basic principles of the other UIs, like Basic UI, and presents your predefined openHAB [sitemap(s)}(http://docs.openhab.org/configuration/sitemaps.html).
+The openHAB Android application is a native client for openHAB. The app follows the basic principles of the other UIs, like Basic UI, and presents your predefined openHAB [sitemap(s)](http://docs.openhab.org/configuration/sitemaps.html).
 
 <a href="https://play.google.com/store/apps/details?id=org.openhab.habdroid"><img src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" height="80"></a>
 
 ## Features
-* Control your openHAB server and [openHAB Cloud instance](https://github.com/openhab/openhab-cloud), e.g., an account with [myopenhab](http://www.myopenhab.org/)
-* [Receive notifications via openHAB Cloud](http://docs.openhab.org/addons/actions.html)
+* Control your openHAB server and/or [openHAB Cloud instance](https://github.com/openhab/openhab-cloud), e.g., an account with [myopenHAB](http://www.myopenhab.org/)
+* Receive notifications through an openHAB Cloud connection, [read more](http://docs.openhab.org/addons/actions.html)
 * Change items via NFC tags
 * Send voice commands to openHAB
 * Supports wall mounted tablets
