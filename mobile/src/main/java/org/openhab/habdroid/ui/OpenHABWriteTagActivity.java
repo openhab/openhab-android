@@ -253,7 +253,7 @@ public class OpenHABWriteTagActivity extends AppCompatActivity {
             final View view = inflater.inflate(R.layout.fragment_writenfc, container, false);
             final ImageView watermark = view.findViewById(R.id.nfc_watermark);
 
-            Drawable ic_nfc = getResources().getDrawable(R.drawable.ic_nfc_black_24dp);
+            Drawable ic_nfc = getResources().getDrawable(R.drawable.ic_nfc_black_180dp);
             ic_nfc.setColorFilter(
                     ContextCompat.getColor(getActivity(), R.color.empty_list_text_color),
                     PorterDuff.Mode.SRC_IN);
