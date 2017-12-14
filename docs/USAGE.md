@@ -33,7 +33,11 @@ To connect it to your own openHAB server, first navigate to Settings and uncheck
 Normally, after unchecking the Demo Mode, the app will be able to use multicast DNS to autodetect to your openHAB server if it is on the same network.
 
 You also have the option to manually set the server URL in the settings.
-Please enter the base URL to your openHAB server as you would enter it in the browser to reach the openHAB dashboard.
+
+**Local server settings:** Please enter the base URL to your openHAB server as you would enter it in the browser to reach the openHAB dashboard.
+
+**Remote server settings:** If you want to use openHAB cloud, please enter URL, user and password of you cloud instance here. Please make sure to [secure this connection](http://docs.openhab.org/installation/security.html).
+
 The URL might look like one of the following examples:
 
 * IP address: `http://192.168.1.3:8080`
