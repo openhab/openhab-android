@@ -178,30 +178,29 @@ public class OpenHABWidgetListFragment extends ListFragment {
                 Log.d(TAG, "Widget long-clicked " + String.valueOf(position));
                 OpenHABWidget openHABWidget = openHABWidgetAdapter.getItem(position);
                 Log.d(TAG, "Widget type = " + openHABWidget.getType());
-                if (openHABWidget.getType().equals("Switch") || openHABWidget.getType().equals("Selection") ||
-                        openHABWidget.getType().equals("Colorpicker")) {
-                    selectedOpenHABWidget = openHABWidget;
-                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                    builder.setTitle(R.string.nfc_dialog_title);
-                    OpenHABNFCActionList nfcActionList = new OpenHABNFCActionList(selectedOpenHABWidget);
-                    builder.setItems(nfcActionList.getNames(), new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            Intent writeTagIntent = new Intent(getActivity().getApplicationContext(),
-                                    OpenHABWriteTagActivity.class);
-                            writeTagIntent.putExtra("sitemapPage", displayPageUrl);
+
+                selectedOpenHABWidget = openHABWidget;
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setTitle(R.string.nfc_dialog_title);
+                final OpenHABNFCActionList nfcActionList = new OpenHABNFCActionList
+                        (selectedOpenHABWidget, getContext());
+                builder.setItems(nfcActionList.getNames(), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent writeTagIntent = new Intent(getActivity().getApplicationContext(),
+                                OpenHABWriteTagActivity.class);
+                        writeTagIntent.putExtra("sitemapPage", displayPageUrl);
+
+                        if (nfcActionList.getCommands().length > which) {
                             writeTagIntent.putExtra("item", selectedOpenHABWidget.getItem().getName());
                             writeTagIntent.putExtra("itemType", selectedOpenHABWidget.getItem().getType());
-                            OpenHABNFCActionList nfcActionList =
-                                    new OpenHABNFCActionList(selectedOpenHABWidget);
                             writeTagIntent.putExtra("command", nfcActionList.getCommands()[which]);
-                            startActivityForResult(writeTagIntent, 0);
-                            Util.overridePendingTransition(getActivity(), false);
-                            selectedOpenHABWidget = null;
                         }
-                    });
-                    builder.show();
-                    return true;
-                }
+                        startActivityForResult(writeTagIntent, 0);
+                        Util.overridePendingTransition(getActivity(), false);
+                        selectedOpenHABWidget = null;
+                    }
+                });
+                builder.show();
                 return true;
             }
         });

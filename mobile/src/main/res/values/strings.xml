@@ -128,6 +128,7 @@
     <string name="nfc_action_on">On</string>
     <string name="nfc_action_off">Off</string>
     <string name="nfc_action_toggle">Toggle</string>
+    <string name="nfc_action_to_sitemap_page">Navigate to Sitemap page</string>
 
     <!-- drawer -->
     <string name="drawer_open">Sitemap drawer opened</string>
