@@ -9,13 +9,17 @@
 
 package org.openhab.habdroid.model;
 
+import android.content.Context;
+
+import org.openhab.habdroid.R;
+
 import java.util.ArrayList;
 
 public class OpenHABNFCActionList {
 	private ArrayList<String> actionNames;
 	private ArrayList<String> actionCommands;
 
-	public OpenHABNFCActionList(OpenHABWidget openHABWidget) {
+	public OpenHABNFCActionList(OpenHABWidget openHABWidget, Context ctx) {
 		actionNames = new ArrayList<String>();
 		actionCommands = new ArrayList<String>();
 		if (openHABWidget.getItem() != null) {
@@ -61,6 +65,7 @@ public class OpenHABNFCActionList {
 				}
 			}
 		}
+		actionNames.add(ctx.getString(R.string.nfc_action_to_sitemap_page));
 	}
 	
 	public String[] getNames() {
