@@ -22,18 +22,20 @@ openHAB Android application is a native client for openHAB. It uses REST API of 
 
 ## Setting up development environment
 
-If you want to contribute to Android application we are here to help you to set up
-development environment. openHAB Android app is developed using Android studio and also can be
-build with maven.
+If you want to contribute to Android application we are here to help you to set up development environment. openHAB Android app is developed using Android Studio and also can be build with maven.
 
-- Download and install [Android Studio](https://developer.android.com/sdk/installing/studio.html)
-Android -> SDK Manager)
+- Download and install [Android Studio](https://developer.android.com/sdk/installing/studio.html) Android -> SDK Manager
 - Check out the latest code from Github via Android Studio
 - Install SDKs and Gradle if you get asked
+- Click on "Build Variants" on the left side and change the build variant of the module "mobile" to fullDebug
 
 You are ready to contribute!
 
 Before producing any amount of code please have a look at [contribution guidelines](https://github.com/openhab/openhab.android/blob/master/CONTRIBUTING.md)
+
+## Build flavors
+
+An optional build flavor "foss" is available for distribution through F-Droid. This build has GCM and crash reporting removed and will not be able to receive push notifications from openHAB Cloud.
 
 ## Trademark Disclaimer
 
