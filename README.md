@@ -35,7 +35,7 @@ Before producing any amount of code please have a look at [contribution guidelin
 
 ## Build flavors
 
-An optional build flavor "foss" is available for distribution through F-Droid.  This build has GCM and crash reporting removed and will not be able to receive push notifications from openHAB Cloud.
+An optional build flavor "foss" is available for distribution through F-Droid. This build has GCM and crash reporting removed and will not be able to receive push notifications from openHAB Cloud.
 
 ## Trademark Disclaimer
 
