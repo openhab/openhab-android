@@ -62,8 +62,8 @@ import com.loopj.android.image.WebImageCache;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.openhab.habdroid.R;
+import org.openhab.habdroid.core.CustomBroadcastListenerService;
 import org.openhab.habdroid.core.GcmIntentService;
-import org.openhab.habdroid.core.ForegroundService;
 import org.openhab.habdroid.core.NetworkConnectivityInfo;
 import org.openhab.habdroid.core.NotificationDeletedBroadcastReceiver;
 import org.openhab.habdroid.core.OpenHABTracker;
@@ -352,13 +352,12 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
         // Custom broadcast receiver
         if (mSettings.getBoolean(Constants.PREFERENCE_CUSTOM_BROADCAST, false)) {
             Log.d(TAG, "start cbr");
-            Intent startIntent = new Intent(this, ForegroundService.class);
+            Intent startIntent = new Intent(this, CustomBroadcastListenerService.class);
             startIntent.setAction(Constants.ACTION.STARTFOREGROUND_ACTION);
-            startIntent.putExtra("broadcast", mSettings.getString(Constants.PREFERENCE_CUSTOM_BROADCAST_BROADCAST, ""));
             startService(startIntent);
         } else {
             Log.d(TAG, "stop cbr");
-            Intent stopIntent = new Intent(this, ForegroundService.class);
+            Intent stopIntent = new Intent(this, CustomBroadcastListenerService.class);
             stopIntent.setAction(Constants.ACTION.STOPFOREGROUND_ACTION);
             startService(stopIntent);
         }

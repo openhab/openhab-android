@@ -117,7 +117,7 @@
             </intent-filter>
         </receiver>
 
-        <service android:name=".core.ForegroundService" />
+        <service android:name=".core.CustomBroadcastListenerService" />
         <!--    This is temp disabled because of a bug in GMS 6.5
                 <meta-data android:name="com.google.android.gms.analytics.globalConfigResource"
                     android:resource="@xml/global_tracker" /> -->

@@ -16,8 +16,9 @@ import org.openhab.habdroid.R;
 import org.openhab.habdroid.ui.OpenHABMainActivity;
 import org.openhab.habdroid.util.Constants;
 
-public class ForegroundService extends Service {
-    private static final String TAG = "ForegroundService";
+public class CustomBroadcastListenerService extends Service {
+    private static final String TAG = "CBLService";
+    private static boolean cbrRunning = false;
 
     @Override
     public void onCreate() {
@@ -30,7 +31,13 @@ public class ForegroundService extends Service {
         CustomBroadcastReceiver cbr = new CustomBroadcastReceiver();
         if (intent.getAction().equals(Constants.ACTION.STARTFOREGROUND_ACTION)) {
             Log.i(TAG, "Received Start Foreground Intent ");
-            String broadcast = (String) intent.getExtras().get("broadcast");
+            SharedPreferences mSettings = PreferenceManager.getDefaultSharedPreferences(this);
+            String broadcast = mSettings.getString(Constants.PREFERENCE_CUSTOM_BROADCAST_BROADCAST, "");
+            String item = mSettings.getString(Constants.PREFERENCE_CUSTOM_BROADCAST_ITEM, "");
+            String intent_extra = mSettings.getString(Constants.PREFERENCE_CUSTOM_BROADCAST_EXTRA, "button_id");
+            CustomBroadcastReceiver.item = item;
+            CustomBroadcastReceiver.intent_extra = intent_extra;
+
             IntentFilter cbr_intent = new IntentFilter();
             cbr_intent.addAction(broadcast);
             registerReceiver(cbr, cbr_intent);
@@ -39,16 +46,12 @@ public class ForegroundService extends Service {
             notificationIntent.setAction(Constants.ACTION.MAIN_ACTION);
             notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 
-            PendingIntent pendingIntent =
-                    PendingIntent.getActivity(this, 0, notificationIntent, 0);
-
             Notification notification = new NotificationCompat.Builder(this)
                     .setContentTitle(getString(R.string.settings_custom_broadcast_listening))
                     .setContentText(getString(R.string.notification_last_broadcast_none))
                     .setSmallIcon(R.drawable.icon_blank)
                     .setPriority(Notification.PRIORITY_LOW)
                     .setColor(ResourcesCompat.getColor(getResources(), R.color.openhab_orange, null))
-                    .setContentIntent(pendingIntent)
                     .setOngoing(true).build();
 
             startForeground(Constants.NOTIFICATION_ID.FOREGROUND_SERVICE, notification);

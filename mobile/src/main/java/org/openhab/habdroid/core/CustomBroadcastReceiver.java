@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.icu.text.SimpleDateFormat;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
@@ -32,14 +33,13 @@ import static org.openhab.habdroid.ui.OpenHABMainActivity.mAsyncHttpClient;
 public class CustomBroadcastReceiver extends BroadcastReceiver {
     private final static String TAG = CustomBroadcastReceiver.class.getSimpleName();
     public final static String CUSTOM_BROADCAST_RECEIVER_INTENT = "org.openhab.habdroid.cbr";
+    public static String item;
+    public static String intent_extra;
 
     private static void updateNotification(String text, Context context) {
         Intent notificationIntent = new Intent(context, OpenHABMainActivity.class);
         notificationIntent.setAction(Constants.ACTION.MAIN_ACTION);
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-
-        PendingIntent pendingIntent =
-                PendingIntent.getActivity(context, 0, notificationIntent, 0);
 
         Notification notification;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN) {
@@ -49,7 +49,6 @@ public class CustomBroadcastReceiver extends BroadcastReceiver {
                     .setSmallIcon(R.drawable.icon_blank)
                     .setPriority(Notification.PRIORITY_LOW)
                     .setColor(ResourcesCompat.getColor(context.getResources(), R.color.openhab_orange, null))
-                    .setContentIntent(pendingIntent)
                     .setOngoing(true).build();
         } else {
             notification = new NotificationCompat.Builder(context)
@@ -57,7 +56,6 @@ public class CustomBroadcastReceiver extends BroadcastReceiver {
                     .setContentText(text)
                     .setSmallIcon(R.drawable.icon_blank)
                     .setColor(ResourcesCompat.getColor(context.getResources(), R.color.openhab_orange, null))
-                    .setContentIntent(pendingIntent)
                     .setOngoing(true).build();
         }
         NotificationManager nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
@@ -68,23 +66,20 @@ public class CustomBroadcastReceiver extends BroadcastReceiver {
     public void onReceive(final Context context, Intent intent) {
         Log.d(TAG, "onReceive()");
         try {
-            SharedPreferences mSettings = PreferenceManager.getDefaultSharedPreferences(context);
-            String extra = mSettings.getString(Constants.PREFERENCE_CUSTOM_BROADCAST_EXTRA, "button_id");
 
-            if (intent.hasExtra(extra)) {
-                Log.d(TAG, "Button: " + intent.getExtras().get(extra));
-
+            if (intent.hasExtra(intent_extra)) {
                 final String state;
                 try {
-                    state = intent.getExtras().get(extra).toString();
+                    state = intent.getExtras().get(intent_extra).toString();
                 } catch (NullPointerException e) {
                     e.printStackTrace();
                     return;
                 }
-                String item = mSettings.getString(Constants.PREFERENCE_CUSTOM_BROADCAST_ITEM, "");
+
+                Log.d(TAG, "Value: " + state);
 
                 final String currentTime;
-                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                     currentTime = new SimpleDateFormat("HH:mm:ss").format(new Date());
                 } else {
                     currentTime = Calendar.getInstance().getTime().toString();
