@@ -13,6 +13,7 @@
 - Update app icon
 - Improved selection and setpoint items
 - Move settings to the side menu
+- Moved NFC menu entry to item long press menu
 - Improved error messages
 - Improved charts size. Need openHAB server > 2.1
 - Better handling of image items
