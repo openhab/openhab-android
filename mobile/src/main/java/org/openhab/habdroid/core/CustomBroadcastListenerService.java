@@ -18,7 +18,6 @@ import org.openhab.habdroid.util.Constants;
 
 public class CustomBroadcastListenerService extends Service {
     private static final String TAG = "CBLService";
-    private static boolean cbrRunning = false;
 
     @Override
     public void onCreate() {
@@ -30,7 +29,7 @@ public class CustomBroadcastListenerService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         CustomBroadcastReceiver cbr = new CustomBroadcastReceiver();
         if (intent.getAction().equals(Constants.ACTION.STARTFOREGROUND_ACTION)) {
-            Log.i(TAG, "Received Start Foreground Intent ");
+            Log.i(TAG, "Received Start Foreground Intent");
             SharedPreferences mSettings = PreferenceManager.getDefaultSharedPreferences(this);
             String broadcast = mSettings.getString(Constants.PREFERENCE_CUSTOM_BROADCAST_BROADCAST, "");
             String item = mSettings.getString(Constants.PREFERENCE_CUSTOM_BROADCAST_ITEM, "");
