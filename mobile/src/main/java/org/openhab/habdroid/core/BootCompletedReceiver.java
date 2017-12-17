@@ -14,7 +14,6 @@ public class BootCompletedReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        Log.e(TAG, "fooooo");
         if (Intent.ACTION_BOOT_COMPLETED.equals(intent.getAction())) {
             try {
                 Intent i = new Intent(context, OpenHABMainActivity.class);
