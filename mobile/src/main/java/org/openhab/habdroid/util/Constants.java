@@ -46,7 +46,6 @@ public class Constants {
     public static final String PREFERENCE_CUSTOM_BROADCAST_ITEM = "default_openhab_custom_broadcast_item";
 
     public interface ACTION {
-        public static String MAIN_ACTION = "org.openhab.habdroid.action.main";
         public static String STARTFOREGROUND_ACTION = "org.openhab.habdroid.action.startforeground";
         public static String STOPFOREGROUND_ACTION = "org.openhab.habdroid.action.stopforeground";
     }

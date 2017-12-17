@@ -38,7 +38,6 @@ public class CustomBroadcastReceiver extends BroadcastReceiver {
 
     private static void updateNotification(String text, Context context) {
         Intent notificationIntent = new Intent(context, OpenHABMainActivity.class);
-        notificationIntent.setAction(Constants.ACTION.MAIN_ACTION);
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 
         Notification notification;

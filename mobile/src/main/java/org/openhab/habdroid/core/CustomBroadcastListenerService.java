@@ -43,7 +43,6 @@ public class CustomBroadcastListenerService extends Service {
             registerReceiver(cbr, cbr_intent);
 
             Intent notificationIntent = new Intent(this, OpenHABMainActivity.class);
-            notificationIntent.setAction(Constants.ACTION.MAIN_ACTION);
             notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 
             Notification notification = new NotificationCompat.Builder(this)
