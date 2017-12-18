@@ -27,6 +27,7 @@ android {
             minifyEnabled false
             buildConfigField 'boolean', IS_DEVELOPER, 'true'
             buildConfigField "java.util.Date", "buildTime", "new java.util.Date(" + System.currentTimeMillis() + "L)"
+            pseudoLocalesEnabled true
         }
     }
     productFlavors {
