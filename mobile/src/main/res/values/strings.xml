@@ -171,4 +171,12 @@
     <string name="intro_whatis">A vendor and technology agnostic open source automation software for your home</string>
     <string name="intro_themes">Themes</string>
     <string name="intro_themes_description">Choose between several themes</string>
+    <string name="content_description_open_roller_shutter">Open roller shutter</string>
+    <string name="content_description_stop_roller_shutter">Stop roller shutter</string>
+    <string name="content_description_close_roller_shutter">Close roller shutter</string>
+    <string name="content_description_open_color_wheel">Open color wheel</string>
+    <string name="content_description_color_up">Color up</string>
+    <string name="content_description_color_down">Color down</string>
+    <string name="content_description_open_number_picker">Open number picker</string>
+    <string name="content_description_video">Video</string>
 </resources>
