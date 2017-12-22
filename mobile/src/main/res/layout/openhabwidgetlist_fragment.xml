@@ -4,7 +4,9 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:paddingLeft="@dimen/widgetlist_fragment_left_margin"
-    android:paddingRight="@dimen/widgetlist_fragment_right_margin">
+    android:paddingRight="@dimen/widgetlist_fragment_right_margin"
+    android:paddingStart="@dimen/widgetlist_fragment_left_margin"
+    android:paddingEnd="@dimen/widgetlist_fragment_right_margin">
 
     <ListView
         android:id="@id/android:list"
