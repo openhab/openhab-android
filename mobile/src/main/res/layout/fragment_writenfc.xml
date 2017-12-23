@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:gravity="center_horizontal|center_vertical"
@@ -19,7 +20,8 @@
             android:adjustViewBounds="true"
             android:gravity="center"
             android:scaleType="fitXY"
-            android:src="@drawable/ic_nfc_black_180dp"/>
+            android:src="@drawable/ic_nfc_black_180dp"
+            tools:ignore="contentDescription"/>
 
         <TextView
             android:id="@+id/write_tag_message"
