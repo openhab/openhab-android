@@ -10,7 +10,6 @@
     <string name="mainmenu_openhab_clearcache">Καθάρισμα κρυφής μνήμης</string>
     <string name="mainmenu_openhab_preferences">Ρυθμίσεις</string>
     <string name="mainmenu_openhab_selectsitemap">Προκαθορισμένο Sitemap</string>
-    <string name="mainmenu_openhab_writetag">Εγγραφή ετικέτας NFC</string>
     <!-- App settings strings -->
     <string name="settings_connection_title">Ρυθμίσεις Σύνδεσης</string>
     <string name="settings_display_title">Ρυθμίσεις Προβολής</string>
