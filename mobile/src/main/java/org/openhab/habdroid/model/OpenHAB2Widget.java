@@ -41,7 +41,7 @@ public class OpenHAB2Widget extends OpenHABWidget {
                     }
                 }
             } else if(getType().equals("Switch") && ! hasMappings() &&
-                    (! widgetItem.getType().equals("Rollershutter") || (widgetItem.getGroupType() != null && widgetItem.getGroupType().equals("Rollershutter")))) {
+                    ! (widgetItem.getType().equals("Rollershutter") || (widgetItem.getGroupType() != null && widgetItem.getGroupType().equals("Rollershutter")))) {
                 // For switch items without mappings (just ON and OFF) that control a dimmer item
                 // set the state to "OFF" instead of 0 or to "ON" to fetch the correct icon
                 try {
