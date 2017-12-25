@@ -177,7 +177,7 @@ public class SitemapList implements Collection<OpenHABSitemap> {
         return sitemaps.get(i);
     }
 
-    public ArrayList<? extends Parcelable> asList() {
+    public ArrayList<OpenHABSitemap> asList() {
         return new ArrayList<>(sitemaps);
     }
 
