@@ -100,7 +100,6 @@
     <string name="about_license_title">Licence</string>
     <string name="about_links">Liens</string>
     <string name="about_links_list"><![CDATA[\u00B7 <a href="https://github.com/openhab/openhab.android">Code source app openHAB</a><br><br> \u00B7 <a href="https://github.com/openhab/openhab.android/issues">Remonter un problème</a><br><br> \u00B7 <a href="http://docs.openhab.org/">Documentation openHAB</a><br><br> \u00B7 <a href="https://community.openhab.org/">Forum de discussion</a>]]></string>
-    <string name="settings_debug_messages_summary">Plus d\'information dans les messages d\'erreur</string>
     <string name="settings_debug_messages_title">Afficher des messages de debug</string>
     <string name="error_couldnt_determine_openhab_url">Impossible de détermine l\'URL openHAB</string>
     <string name="unknown">Inconnu</string>

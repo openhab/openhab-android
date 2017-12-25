@@ -122,7 +122,6 @@
     <string name="error_http_code_511">Netzwerkauthentifizierung wird gefordert (HTTP-Statuscode 511)</string>
     <string name="error_network_type_unsupported">Netzwerktyp (%s) wird nicht unterstützt</string>
     <string name="unknown">Unbekannt</string>
-    <string name="settings_debug_messages_summary">Einige Meldungen enthalten mehr Informationen</string>
     <string name="settings_debug_messages_title">Debug-Meldungen anzeigen</string>
     <string name="error_couldnt_determine_openhab_url">Konnte openHAB-URL nicht ermitteln</string>
     <string name="error_unable_to_resolve_hostname">Fehler beim Auflösen des Hostnamens</string>
