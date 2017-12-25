@@ -26,7 +26,8 @@
         android:layout_marginLeft="6dip"
         android:gravity="center_vertical"
         android:paddingLeft="5dp"
-        android:textAllCaps="true"
+        android:ellipsize="end"
+        android:maxLines="2"
         android:textColor="?attr/themedHeaderTextColor"
         android:textStyle="bold" />
 
