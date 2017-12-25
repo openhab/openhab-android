@@ -9,7 +9,9 @@ import org.openhab.habdroid.util.MyHttpClient;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.net.URLEncoder;
 
 import okhttp3.Call;
@@ -58,15 +60,16 @@ public class GoogleCloudMessageConnector {
         String regUrl;
 
         try {
-            regUrl = mSettings.getOpenHABCloudURL().toURI().resolve("/addAndroidRegistration?deviceId=" + mDeviceId +
-                    "&deviceModel=" + deviceModel + "&regId=" + registrationId).toString();
-        } catch (URISyntaxException ex) {
+            regUrl = new URL(mSettings.getConnection().getOpenHABUrl()).toURI()
+                    .resolve("/addAndroidRegistration?deviceId=" + mDeviceId + "&deviceModel=" +
+                            deviceModel + "&regId=" + registrationId).toString();
+        } catch (URISyntaxException | MalformedURLException ex) {
             Log.d(TAG, "Could not resolve registration path to openHAB URI: " + ex.getMessage());
             return false;
         }
 
         Log.d(TAG, "Register device at openHAB-cloud with URL: " + regUrl);
-        mSettings.getHttpClient().get(regUrl, new MyHttpClient.ResponseHandler() {
+        mSettings.getConnection().getSyncHttpClient().get(regUrl, new MyHttpClient.ResponseHandler() {
             @Override
             public void onFailure(Call call, int statusCode, Headers headers, byte[] responseBody, Throwable error) {
                 Log.e(TAG, "GCM reg id error: " + error.getMessage());

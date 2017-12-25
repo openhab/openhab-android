@@ -9,15 +9,16 @@
 
 package org.openhab.habdroid.ui;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.PorterDuff;
 import android.net.Uri;
-import android.os.Build;
 import android.support.annotation.ColorInt;
 import android.support.v7.widget.SwitchCompat;
 import android.util.Base64;
@@ -34,7 +35,6 @@ import android.view.WindowManager;
 import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -51,14 +51,19 @@ import android.widget.VideoView;
 import com.loopj.android.image.SmartImage;
 
 import org.openhab.habdroid.R;
+import org.openhab.habdroid.core.connection.Connection;
+import org.openhab.habdroid.core.connection.ConnectionFactory;
+import org.openhab.habdroid.core.connection.Connections;
+import org.openhab.habdroid.core.connection.exception.ConnectionException;
+import org.openhab.habdroid.core.message.MessageHandler;
 import org.openhab.habdroid.model.OpenHABItem;
 import org.openhab.habdroid.model.OpenHABWidget;
 import org.openhab.habdroid.model.OpenHABWidgetMapping;
 import org.openhab.habdroid.ui.widget.ColorPickerDialog;
 import org.openhab.habdroid.ui.widget.OnColorChangedListener;
 import org.openhab.habdroid.ui.widget.SegmentedControlButton;
+import org.openhab.habdroid.util.Constants;
 import org.openhab.habdroid.util.MjpegStreamer;
-import org.openhab.habdroid.util.MyAsyncHttpClient;
 import org.openhab.habdroid.util.MyHttpClient;
 import org.openhab.habdroid.util.MySmartImageView;
 
@@ -74,6 +79,8 @@ import java.util.Random;
 
 import okhttp3.Call;
 import okhttp3.Headers;
+
+import static org.openhab.habdroid.ui.NoNetworkActivity.NO_NETWORK_MESSAGE;
 
 /**
  * This class provides openHAB widgets adapter for list view.
@@ -98,13 +105,9 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     public static final int TYPE_VIDEO_MJPEG = 15;
     public static final int TYPES_COUNT = 16;
     private static final String TAG = "OpenHABWidgetAdapter";
-    private String openHABBaseUrl = "http://demo.openhab.org:8080/";
-    private String openHABUsername = "";
-    private String openHABPassword = "";
     private ArrayList<VideoView> videoWidgetList;
     private ArrayList<MySmartImageView> refreshImageList;
     private ArrayList<MjpegStreamer> mjpegWidgetList;
-    private MyAsyncHttpClient mAsyncHttpClient;
     private @ColorInt int mPrimaryForegroundColor;
 
     public OpenHABWidgetAdapter(Context context, int resource,
@@ -129,6 +132,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
         final RelativeLayout widgetView;
         final TextView labelTextView;
         final TextView valueTextView;
+        final Connection conn = ConnectionFactory.getConnection(Connections.ANY, getContext());
         int widgetLayout;
         String[] splitString;
         final OpenHABWidget openHABWidget = getItem(position);
@@ -204,11 +208,13 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
         // Some of widgets, for example frames, doesn't have an icon, so...
         if (widgetImage != null) {
             // This is needed to escape possible spaces and everything according to rfc2396
-            String iconUrl = openHABBaseUrl + Uri.encode(openHABWidget.getIconPath(), "/?=&");
+            String iconUrl = conn.getOpenHABUrl() +
+                    Uri.encode(openHABWidget.getIconPath(), "/?=&");
 //                Log.d(TAG, "Will try to load icon from " + iconUrl);
             // Now set image URL
             widgetImage.setImageUrl(iconUrl, R.drawable.blank_icon,
-                    openHABUsername, openHABPassword);
+                    conn.getUsername(),
+                    conn.getPassword());
             if (iconColor != null) {
                 widgetImage.setColorFilter(iconColor);
             } else {
@@ -508,8 +514,9 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
                         && item.getState().startsWith("data:")) {
                    imageImage.setImageWithData(new MyImageFromItem(item.getState()));
                 } else {
-                    imageImage.setImageUrl(ensureAbsoluteURL(openHABBaseUrl, openHABWidget.getUrl()), false,
-                        openHABUsername, openHABPassword);
+                    imageImage.setImageUrl(ensureAbsoluteURL(
+                            conn.getOpenHABUrl(), openHABWidget.getUrl()), false,
+                            conn.getUsername(), conn.getPassword());
                     if (openHABWidget.getRefresh() > 0) {
                         imageImage.setRefreshRate(openHABWidget.getRefresh());
                         refreshImageList.add(imageImage);
@@ -528,11 +535,11 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
                     Log.d(TAG, "Chart width = " + fragmentWidth + " - screen width " + screenWidth);
 
                     if (chartItem.getType().equals("GroupItem") || chartItem.getType().equals("Group")) {
-                        chartUrl = openHABBaseUrl + "chart?groups=" + chartItem.getName() +
+                        chartUrl = conn.getOpenHABUrl() + "chart?groups=" + chartItem.getName() +
                                 "&period=" + openHABWidget.getPeriod() + "&random=" +
                                 String.valueOf(random.nextInt());
                     } else {
-                        chartUrl = openHABBaseUrl + "chart?items=" + chartItem.getName() +
+                        chartUrl = conn.getOpenHABUrl() + "chart?items=" + chartItem.getName() +
                                 "&period=" + openHABWidget.getPeriod() + "&random=" +
                                 String.valueOf(random.nextInt());
                     }
@@ -562,7 +569,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
                     chartImage.setLayoutParams(chartLayoutParams);
                     chartUrl += "&w=" + String.valueOf(fragmentWidth);
                     chartUrl += "&h=" + String.valueOf(fragmentWidth / 2);
-                    chartImage.setImageUrl(chartUrl, false, openHABUsername, openHABPassword);
+                    chartImage.setImageUrl(chartUrl, false, conn.getUsername(), conn.getPassword());
                     // TODO: This is quite dirty fix to make charts look full screen width on all displays
                     if (openHABWidget.getRefresh() > 0) {
                         chartImage.setRefreshRate(openHABWidget.getRefresh());
@@ -604,7 +611,8 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
             case TYPE_VIDEO_MJPEG:
                 Log.d(TAG, "Video is mjpeg");
                 ImageView mjpegImage = (ImageView) widgetView.findViewById(R.id.mjpegimage);
-                MjpegStreamer mjpegStreamer = new MjpegStreamer(openHABWidget.getUrl(), this.openHABUsername, this.openHABPassword, this.getContext());
+                MjpegStreamer mjpegStreamer = new MjpegStreamer(openHABWidget.getUrl(), conn.getUsername(),
+                        conn.getPassword(), this.getContext());
                 mjpegStreamer.setTargetImageView(mjpegImage);
                 mjpegStreamer.start();
                 if (!mjpegWidgetList.contains(mjpegStreamer))
@@ -617,7 +625,8 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
                     webLayoutParams.height = openHABWidget.getHeight() * 80;
                     webWeb.setLayoutParams(webLayoutParams);
                 }
-                webWeb.setWebViewClient(new AnchorWebViewClient(openHABWidget.getUrl(), this.openHABUsername, this.openHABPassword));
+                webWeb.setWebViewClient(new AnchorWebViewClient(openHABWidget.getUrl(), conn.getUsername(),
+                        conn.getPassword()));
                 webWeb.getSettings().setDomStorageEnabled(true);
                 webWeb.getSettings().setJavaScriptEnabled(true);
                 webWeb.loadUrl(openHABWidget.getUrl());
@@ -867,10 +876,6 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
         }
     }
 
-    public void setOpenHABBaseUrl(String baseUrl) {
-        openHABBaseUrl = baseUrl;
-    }
-
     private String ensureAbsoluteURL(String base, String maybeRelative) {
         if (maybeRelative.startsWith("http")) {
             return maybeRelative;
@@ -884,37 +889,38 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     }
 
     public void sendItemCommand(OpenHABItem item, String command) {
-        if (item != null && command != null) {
-            mAsyncHttpClient.post(item.getLink(), command, "text/plain", new MyHttpClient.TextResponseHandler() {
-                @Override
-                public void onFailure(Call call, int statusCode, Headers headers, String responseString, Throwable error) {
-                    Log.e(TAG, "Got command error " + error.getMessage());
-                    if (responseString != null)
-                        Log.e(TAG, "Error response = " + responseString);
-                }
-
-                @Override
-                public void onSuccess(Call call, int statusCode, Headers headers, String responseString) {
-                    Log.d(TAG, "Command was sent successfully");
-                }
-            });
+        if (item == null && command == null) {
+            return;
         }
-    }
+        Connection conn;
+        try {
+            conn = ConnectionFactory.getConnection(Connections.ANY, getContext());
+        } catch(ConnectionException e) {
+            if (!(getContext() instanceof Activity)) {
+                Intent connectionNotAvailableIntent =
+                        new Intent(getContext(), NoNetworkActivity.class);
+                connectionNotAvailableIntent.putExtra(NO_NETWORK_MESSAGE, e.getMessage());
+                getContext().startActivity(connectionNotAvailableIntent);
+                return;
+            }
+            MessageHandler.showMessageToUser((Activity) getContext(),
+                    e.getMessage(), Constants.MESSAGES.DIALOG, Constants.MESSAGES.LOGLEVEL.ALWAYS);
+            return;
+        }
+        conn.getAsyncHttpClient()
+                .post(item.getLink(), command, "text/plain", new MyHttpClient.TextResponseHandler() {
+            @Override
+            public void onFailure(Call call, int statusCode, Headers headers, String responseString, Throwable error) {
+                Log.e(TAG, "Got command error " + error.getMessage());
+                if (responseString != null)
+                    Log.e(TAG, "Error response = " + responseString);
+            }
 
-    public String getOpenHABUsername() {
-        return openHABUsername;
-    }
-
-    public void setOpenHABUsername(String openHABUsername) {
-        this.openHABUsername = openHABUsername;
-    }
-
-    public String getOpenHABPassword() {
-        return openHABPassword;
-    }
-
-    public void setOpenHABPassword(String openHABPassword) {
-        this.openHABPassword = openHABPassword;
+            @Override
+            public void onSuccess(Call call, int statusCode, Headers headers, String responseString) {
+                Log.d(TAG, "Command was sent successfully");
+            }
+        });
     }
 
     public void stopVideoWidgets() {
@@ -939,15 +945,6 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
                 refreshImageList.get(i).cancelRefresh();
         }
         refreshImageList.clear();
-    }
-
-
-    public MyAsyncHttpClient getAsyncHttpClient() {
-        return mAsyncHttpClient;
-    }
-
-    public void setAsyncHttpClient(MyAsyncHttpClient asyncHttpClient) {
-        mAsyncHttpClient = asyncHttpClient;
     }
 
     public boolean areAllItemsEnabled() {

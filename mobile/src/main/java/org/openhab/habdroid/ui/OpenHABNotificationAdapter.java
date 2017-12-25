@@ -20,19 +20,16 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import org.openhab.habdroid.R;
+import org.openhab.habdroid.core.connection.Connection;
+import org.openhab.habdroid.core.connection.ConnectionFactory;
+import org.openhab.habdroid.core.connection.Connections;
 import org.openhab.habdroid.model.OpenHABNotification;
 import org.openhab.habdroid.util.MySmartImageView;
 
 import java.util.ArrayList;
 
-/**
- * Created by belovictor on 03/04/15.
- */
 public class OpenHABNotificationAdapter extends ArrayAdapter<OpenHABNotification> {
     private int mResource;
-    private String mOpenHABUsername;
-    private String mOpenHABPassword;
-    private String mOpenHABBaseUrl;
 
     public OpenHABNotificationAdapter(Context context, int resource, ArrayList<OpenHABNotification> objects) {
         super(context, resource, objects);
@@ -50,9 +47,11 @@ public class OpenHABNotificationAdapter extends ArrayAdapter<OpenHABNotification
         MySmartImageView imageView = (MySmartImageView)convertView.findViewById(R.id.notificationImage);
         if (imageView != null) {
             if (notification.getIcon() != null && imageView != null) {
-                String iconUrl = mOpenHABBaseUrl + "/images/" + Uri.encode(notification.getIcon() + ".png");
+                Connection conn = ConnectionFactory.getConnection(Connections.CLOUD, getContext());
+                String iconUrl = conn.getOpenHABUrl() + "/images/" + Uri.encode(notification
+                        .getIcon() + ".png");
                 imageView.setImageUrl(iconUrl, R.drawable.icon_blank,
-                        mOpenHABUsername, mOpenHABPassword);
+                        conn.getUsername(), conn.getPassword());
             } else {
                 if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     imageView.setImageDrawable(getContext().getDrawable(R.drawable.icon_blank));
@@ -64,29 +63,5 @@ public class OpenHABNotificationAdapter extends ArrayAdapter<OpenHABNotification
         createdView.setText(DateUtils.getRelativeDateTimeString(this.getContext(), notification.getCreated().getTime(), DateUtils.MINUTE_IN_MILLIS, DateUtils.WEEK_IN_MILLIS, 0));
         messageView.setText(notification.getMessage());
         return convertView;
-    }
-
-    public String getOpenHABUsername() {
-        return mOpenHABUsername;
-    }
-
-    public void setOpenHABUsername(String openHABUsername) {
-        this.mOpenHABUsername = openHABUsername;
-    }
-
-    public String getOpenHABPassword() {
-        return mOpenHABPassword;
-    }
-
-    public void setOpenHABPassword(String openHABPassword) {
-        this.mOpenHABPassword = openHABPassword;
-    }
-
-    public String getOpenHABBaseUrl() {
-        return mOpenHABBaseUrl;
-    }
-
-    public void setOpenHABBaseUrl(String mOpenHABBaseUrl) {
-        this.mOpenHABBaseUrl = mOpenHABBaseUrl;
     }
 }

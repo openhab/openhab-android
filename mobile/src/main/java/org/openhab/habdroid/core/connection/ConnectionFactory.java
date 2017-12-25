@@ -1,0 +1,252 @@
+package org.openhab.habdroid.core.connection;
+
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.preference.PreferenceManager;
+import android.util.Log;
+
+import org.openhab.habdroid.R;
+import org.openhab.habdroid.core.connection.exception.NetworkNotAvailableException;
+import org.openhab.habdroid.core.connection.exception.NetworkNotSupportedException;
+import org.openhab.habdroid.core.connection.exception.NoUrlInformationException;
+import org.openhab.habdroid.util.Constants;
+import org.openhab.habdroid.util.Util;
+
+import java.util.HashMap;
+import java.util.Map;
+
+/**
+ * A factory class, which is the main entry point to get a Connection to a specific openHAB
+ * server. Use this factory class whenever you need to obtain a connection to load additional
+ * data from the openHAB server or another supported source (see the constants in {@link Connections}).
+ */
+final public class ConnectionFactory extends BroadcastReceiver {
+    private static final String TAG = ConnectionFactory.class.getSimpleName();
+
+    private Context ctx;
+    private SharedPreferences settings;
+    private NetworkInfo activeNetworkInfo;
+
+    Map<Integer, Connection> cachedConnections = new HashMap<>();
+
+    private static class InstanceHolder {
+        public static final ConnectionFactory INSTANCE = new ConnectionFactory();
+    }
+
+    static ConnectionFactory getInstance() {
+        return InstanceHolder.INSTANCE;
+    }
+
+    private void setContext(Context ctx) {
+        this.ctx = ctx;
+    }
+
+    private void setSettings(SharedPreferences settings) {
+        this.settings = settings;
+    }
+
+    public static Connection getConnection(int connectionType, Context ctx) {
+        return getConnection(connectionType, ctx,
+                PreferenceManager.getDefaultSharedPreferences(ctx));
+    }
+
+    public static Connection getConnection(int connectionType, Context ctx,
+                                           SharedPreferences settings) {
+        // FIXME: Once we're on API level 19, use Objects.requireNonNull();
+        if (ctx == null) {
+            throw new NullPointerException("Context ctx can not be null.");
+        }
+
+        ConnectionFactory factory = getInstance();
+        factory.setSettings(settings);
+        factory.setContext(ctx);
+
+        if (factory.cachedConnections.containsKey(Connections.ANY)) {
+            Connection conn = factory.cachedConnections.get(Connections.ANY);
+            ctx.registerReceiver(factory, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
+            return conn;
+        }
+
+        Connection conn;
+        switch (connectionType) {
+            case Connections.LOCAL:
+                conn = factory.getLocalConnection();
+                break;
+            case Connections.REMOTE:
+                conn = factory.getRemoteConnection();
+                break;
+            case Connections.CLOUD:
+                // TODO: Need a proper way of finding if the connection supports openHAB cloud
+                // things, e.g. by checking if the /api/v1/settings/notifications endpoint works,
+                // but currently does not work for myopenhab.org
+                conn = factory.getRemoteConnection();
+                break;
+            case Connections.ANY:
+                conn = factory.getAvailableConnection();
+                break;
+            default:
+                throw new IllegalArgumentException("Invalid Connection type requested.");
+        }
+
+        if (conn != null)
+            factory.cachedConnections.put(connectionType, conn);
+
+        return conn;
+    }
+
+    private Connection getLocalConnection() {
+        String openHABUrl = Util.normalizeUrl(settings.getString(Constants
+                .PREFERENCE_URL, ""));
+        // If remote URL is configured
+        if (openHABUrl.length() > 0) {
+            Log.d(TAG, "Connecting to local URL " + openHABUrl);
+            Connection conn = new DefaultConnection(ctx);
+            conn.setOpenHABUrl(openHABUrl);
+            conn.setConnectionType(Connections.LOCAL);
+
+            if (hasUsername()) {
+                conn.setUsername(getUsername());
+            }
+            if (hasPassword()) {
+                conn.setPassword(getPassword());
+            }
+
+            return conn;
+        } else {
+            return null;
+        }
+    }
+
+    private String getPassword() {
+        return settings.getString(Constants.PREFERENCE_LOCAL_PASSWORD, null);
+    }
+
+    private boolean hasPassword() {
+        return getPassword() != null && !getPassword().isEmpty();
+    }
+
+    private String getUsername() {
+        return settings.getString(Constants.PREFERENCE_LOCAL_USERNAME, null);
+    }
+
+    private boolean hasUsername() {
+        return getUsername() != null && !getUsername().isEmpty();
+    }
+
+    private Connection getRemoteConnection() {
+        String openHABUrl = Util.normalizeUrl(settings.getString(Constants
+                .PREFERENCE_ALTURL, ""));
+        // If remote URL is configured
+        if (openHABUrl.length() > 0) {
+            Log.d(TAG, "Connecting to remote URL " + openHABUrl);
+            Connection conn = new DefaultConnection(ctx);
+            conn.setOpenHABUrl(openHABUrl);
+            conn.setConnectionType(Connections.REMOTE);
+
+            if (hasRemoteUsername()) {
+                conn.setUsername(getRemoteUsername());
+            }
+            if (hasRemotePassword()) {
+                conn.setPassword(getRemotePassword());
+            }
+
+            return conn;
+        } else {
+            return null;
+        }
+    }
+
+    private String getRemotePassword() {
+        return settings.getString(Constants.PREFERENCE_REMOTE_PASSWORD, null);
+    }
+
+    private boolean hasRemotePassword() {
+        return getRemotePassword() != null && !getRemotePassword().isEmpty();
+    }
+
+    private String getRemoteUsername() {
+        return settings.getString(Constants.PREFERENCE_REMOTE_USERNAME, null);
+    }
+
+    private boolean hasRemoteUsername() {
+        return getRemoteUsername() != null && !getRemoteUsername().isEmpty();
+    }
+
+    private Connection getAvailableConnection() {
+        ConnectivityManager connectivityManager =
+                (ConnectivityManager) ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        if (activeNetworkInfo != null) {
+            if (settings.getBoolean(Constants.PREFERENCE_DEMOMODE, false)) {
+                Log.d(TAG, "Demo mode");
+
+                return new DemoConnection(ctx);
+            } else {
+                // If we are on a mobile network go directly to remote URL from settings
+                if (activeNetworkInfo.getType() == ConnectivityManager.TYPE_MOBILE) {
+                    if (getRemoteConnection() == null) {
+                        throw new NoUrlInformationException();
+                    }
+                    return getRemoteConnection();
+
+                    // Else if we are on Wifi or Ethernet network
+                } else if (activeNetworkInfo.getType() == ConnectivityManager.TYPE_WIFI
+                        || activeNetworkInfo.getType() == ConnectivityManager.TYPE_ETHERNET) {
+                    // See if we have a local URL configured in settings
+                    Connection localConnection = getLocalConnection();
+
+                    // If local URL is configured and rechable
+                    if (localConnection != null && localConnection.isReachable()) {
+                        Log.d(TAG, "Connecting to local URL");
+
+                        return localConnection;
+                    }
+                    // If local URL is not reachable or not configured, try with remote URL
+                    Connection remoteConnection = getRemoteConnection();
+                    if (remoteConnection != null) {
+                        Log.d(TAG, "Connecting to remote URL");
+                        return getRemoteConnection();
+                    } else {
+                        throw new NoUrlInformationException(ctx.getString(R.string.error_no_url));
+                    }
+                    // Else we treat other networks types as unsupported
+                } else {
+                    Log.e(TAG, "Network type (" + activeNetworkInfo.getTypeName() + ") is unsupported");
+                    NetworkNotSupportedException ex = new NetworkNotSupportedException(
+                            String.format(ctx.getString(R.string.error_network_type_unsupported),
+                            activeNetworkInfo.getTypeName()));
+
+                    ex.setNetworkInfo(activeNetworkInfo);
+
+                    throw ex;
+                }
+            }
+        } else {
+            Log.e(TAG, "Network is not available");
+            throw new NetworkNotAvailableException(
+                    ctx.getString(R.string.error_network_not_available));
+        }
+    }
+
+    @Override
+    public void onReceive(Context context, Intent intent) {
+        if (activeNetworkInfo == null || intent.getExtras() == null) {
+            return;
+        }
+        NetworkInfo otherNetworkInfo = (NetworkInfo) intent.getExtras().get("EXTRA_NETWORK_INFO");
+        if (otherNetworkInfo == null) {
+            return;
+        }
+        if (activeNetworkInfo.getType() == otherNetworkInfo.getType()) {
+            return;
+        }
+
+        cachedConnections.remove(Connections.ANY);
+    }
+}

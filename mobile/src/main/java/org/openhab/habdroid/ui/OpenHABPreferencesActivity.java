@@ -37,15 +37,25 @@ import org.openhab.habdroid.util.Util;
 
 import java.security.cert.X509Certificate;
 
+import static org.openhab.habdroid.core.message.MessageHandler.showMessageToUser;
+
 /**
  * This is a class to provide preferences activity for application.
  */
 public class OpenHABPreferencesActivity extends AppCompatActivity {
+    public static final String NO_URL_INFO_EXCEPTION_EXTRA = "no_url_information";
+    public static final String NO_URL_INFO_EXCEPTION_MESSAGE = "no_url_information_message";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         Util.setActivityTheme(this);
         super.onCreate(savedInstanceState);
+        if (getIntent().hasExtra(NO_URL_INFO_EXCEPTION_EXTRA)) {
+            showMessageToUser(this,
+                    getIntent().getStringExtra(NO_URL_INFO_EXCEPTION_MESSAGE),
+                    Constants.MESSAGES.DIALOG,
+                    Constants.MESSAGES.LOGLEVEL.ALWAYS);
+        }
 
         setContentView(R.layout.activity_prefs);
 

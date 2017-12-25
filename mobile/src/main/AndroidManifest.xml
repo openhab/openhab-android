@@ -76,6 +76,8 @@
             android:label="@string/title_activity_openhabwritetag" />
         <activity android:name="org.openhab.habdroid.ui.IntroActivity"
             android:label="@string/app_intro"/>
+        <activity android:name="org.openhab.habdroid.ui.NoNetworkActivity"
+            android:label="@string/network_error"/>
         <activity android:name="de.duenndns.ssl.MemorizingActivity" />
         <service
             android:name=".core.OpenHABVoiceService"

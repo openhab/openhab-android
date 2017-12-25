@@ -23,6 +23,11 @@ import android.widget.TextView;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.openhab.habdroid.R;
+import org.openhab.habdroid.core.connection.Connection;
+import org.openhab.habdroid.core.connection.ConnectionFactory;
+import org.openhab.habdroid.core.connection.Connections;
+import org.openhab.habdroid.core.connection.exception.NetworkNotAvailableException;
+import org.openhab.habdroid.core.connection.exception.NetworkNotSupportedException;
 import org.openhab.habdroid.util.Constants;
 import org.openhab.habdroid.util.MyAsyncHttpClient;
 import org.openhab.habdroid.util.MyHttpClient;
@@ -87,7 +92,14 @@ public class OpenHABInfoFragment extends Fragment {
     }
 
     private void setSecretText() {
-        mAsyncHttpClient.get(mOpenHABBaseUrl + "static/secret", new MyHttpClient.TextResponseHandler() {
+        Connection conn;
+        try {
+            conn = ConnectionFactory.getConnection(Connections.ANY, getActivity());
+        } catch (NetworkNotSupportedException | NetworkNotAvailableException e) {
+            return;
+        }
+
+        conn.getAsyncHttpClient().get(mOpenHABBaseUrl + "static/secret", new MyHttpClient.TextResponseHandler() {
             @Override
             public void onFailure(Call call, int statusCode, Headers headers, String responseString, Throwable error) {
                 mOpenHABSecretText.setVisibility(View.GONE);

@@ -15,7 +15,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v4.app.ListFragment;
 import android.text.TextUtils;
@@ -29,11 +28,12 @@ import android.widget.ListView;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.openhab.habdroid.R;
+import org.openhab.habdroid.core.connection.ConnectionFactory;
+import org.openhab.habdroid.core.connection.Connections;
 import org.openhab.habdroid.model.OpenHABItem;
 import org.openhab.habdroid.model.OpenHABNFCActionList;
 import org.openhab.habdroid.model.OpenHABWidget;
 import org.openhab.habdroid.model.OpenHABWidgetDataSource;
-import org.openhab.habdroid.util.Constants;
 import org.openhab.habdroid.util.MyAsyncHttpClient;
 import org.openhab.habdroid.util.MyHttpClient;
 import org.openhab.habdroid.util.Util;
@@ -69,17 +69,9 @@ public class OpenHABWidgetListFragment extends ListFragment {
     // List adapter for list view of openHAB widgets
     private OpenHABWidgetAdapter openHABWidgetAdapter;
     // Url of current sitemap page displayed
-    // Url of current sitemap page displayed
     private String displayPageUrl;
-    // sitemap root url
-    private String sitemapRootUrl = "";
-    // openHAB base url
-    private String openHABBaseUrl = "http://demo.openhab.org:8080/";
     // List of widgets to display
     private ArrayList<OpenHABWidget> widgetList = new ArrayList<OpenHABWidget>();
-    // Username/password for authentication
-    private String openHABUsername = "";
-    private String openHABPassword = "";
     // selected openhab widget
     private OpenHABWidget selectedOpenHABWidget;
     // widget Id which we got from nfc tag
@@ -90,18 +82,12 @@ public class OpenHABWidgetListFragment extends ListFragment {
     private boolean nfcAutoClose = false;
     // parent activity
     private OpenHABMainActivity mActivity;
-    // loopj
-    private MyAsyncHttpClient mAsyncHttpClient;
     // Am I visible?
     private boolean mIsVisible = false;
-    private OpenHABWidgetListFragment mTag;
     private int mCurrentSelectedItem = -1;
     private int mPosition;
     private int mOldSelectedItem = -1;
     private String mAtmosphereTrackingId;
-    //handlers will reconnect the network during outages
-    private Handler networkHandler = new Handler();
-    private Runnable networkRunnable;
     // keeps track of current request to cancel it in onPause
     private Call mRequestHandle;
 
@@ -109,14 +95,9 @@ public class OpenHABWidgetListFragment extends ListFragment {
     public void onCreate(Bundle savedInstanceState) {
         Log.d(TAG, "onCreate()");
         Log.d(TAG, "isAdded = " + isAdded());
-        mTag = this;
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             displayPageUrl = getArguments().getString("displayPageUrl");
-            openHABBaseUrl = getArguments().getString("openHABBaseUrl");
-            sitemapRootUrl = getArguments().getString("sitemapRootUrl");
-            openHABUsername = getArguments().getString("openHABUsername");
-            openHABPassword = getArguments().getString("openHABPassword");
             mPosition = getArguments().getInt("position");
         }
     }
@@ -132,19 +113,10 @@ public class OpenHABWidgetListFragment extends ListFragment {
         openHABWidgetAdapter = new OpenHABWidgetAdapter(getActivity(),
                 R.layout.openhabwidgetlist_genericitem, widgetList);
         getListView().setAdapter(openHABWidgetAdapter);
-        openHABBaseUrl = mActivity.getOpenHABBaseUrl();
-        openHABUsername = mActivity.getOpenHABUsername();
-        openHABPassword = mActivity.getOpenHABPassword();
         // We're using atmosphere so create an own client to not block the others
         SharedPreferences prefs = PreferenceManager
                 .getDefaultSharedPreferences(mActivity);
-        mAsyncHttpClient = new MyAsyncHttpClient(mActivity, prefs.getBoolean(Constants.PREFERENCE_SSLHOST,
-                        false), prefs.getBoolean(Constants.PREFERENCE_SSLCERT, false));
-        mAsyncHttpClient.setBasicAuth(openHABUsername, openHABPassword);
-        openHABWidgetAdapter.setOpenHABUsername(openHABUsername);
-        openHABWidgetAdapter.setOpenHABPassword(openHABPassword);
-        openHABWidgetAdapter.setOpenHABBaseUrl(openHABBaseUrl);
-        openHABWidgetAdapter.setAsyncHttpClient(mAsyncHttpClient);
+
         getListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position,
                                     long id) {
@@ -280,16 +252,11 @@ public class OpenHABWidgetListFragment extends ListFragment {
         Log.d(TAG, String.format("isVisibleToUser(%B)", isVisibleToUser));
     }
 
-    public static OpenHABWidgetListFragment withPage(String pageUrl, String baseUrl, String rootUrl,
-                                                     String username, String password, int position) {
+    public static OpenHABWidgetListFragment withPage(String pageUrl, int position) {
         Log.d(TAG, "withPage(" + pageUrl + ")");
         OpenHABWidgetListFragment fragment = new OpenHABWidgetListFragment();
         Bundle args = new Bundle();
         args.putString("displayPageUrl", pageUrl);
-        args.putString("openHABBaseUrl", baseUrl);
-        args.putString("sitemapRootUrl", rootUrl);
-        args.putString("openHABUsername", username);
-        args.putString("openHABPassword", password);
         args.putInt("position", position);
         fragment.setArguments(args);
         return fragment;
@@ -318,9 +285,11 @@ public class OpenHABWidgetListFragment extends ListFragment {
         if (mActivity.getOpenHABVersion() == 1) {
             headers.put("Accept", "application/xml");
         }
+        MyAsyncHttpClient asyncHttpClient = ConnectionFactory.getConnection(Connections.ANY, getActivity())
+                .getAsyncHttpClient();
         headers.put("X-Atmosphere-Framework", "1.0");
         if (longPolling) {
-            mAsyncHttpClient.setTimeout(300000);
+            asyncHttpClient.setTimeout(300000);
             headers.put("X-Atmosphere-Transport", "long-polling");
             if (this.mAtmosphereTrackingId == null) {
                 headers.put("X-Atmosphere-tracking-id", "0");
@@ -329,9 +298,9 @@ public class OpenHABWidgetListFragment extends ListFragment {
             }
         } else {
             headers.put("X-Atmosphere-tracking-id", "0");
-            mAsyncHttpClient.setTimeout(10000);
+            asyncHttpClient.setTimeout(10000);
         }
-        mRequestHandle = mAsyncHttpClient.get(pageUrl, headers, new MyHttpClient.ResponseHandler() {
+        mRequestHandle = asyncHttpClient.get(pageUrl, headers, new MyHttpClient.ResponseHandler() {
                     @Override
                     public void onFailure(Call call, int statusCode, Headers headers, byte[] responseBody, Throwable error) {
                         if (call.isCanceled()) {
@@ -532,14 +501,6 @@ public class OpenHABWidgetListFragment extends ListFragment {
                 });
         AlertDialog alert = builder.create();
         alert.show();
-    }
-
-    public void setOpenHABUsername(String openHABUsername) {
-        this.openHABUsername = openHABUsername;
-    }
-
-    public void setOpenHABPassword(String openHABPassword) {
-        this.openHABPassword = openHABPassword;
     }
 
     public void setDisplayPageUrl(String displayPageUrl) {

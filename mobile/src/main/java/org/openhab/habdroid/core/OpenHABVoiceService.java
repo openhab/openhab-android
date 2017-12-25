@@ -12,18 +12,19 @@ package org.openhab.habdroid.core;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.Looper;
-import android.preference.PreferenceManager;
 import android.speech.RecognizerIntent;
 import android.util.Log;
 import android.widget.Toast;
 
 import org.openhab.habdroid.R;
+import org.openhab.habdroid.core.connection.Connection;
+import org.openhab.habdroid.core.connection.ConnectionFactory;
+import org.openhab.habdroid.core.connection.Connections;
+import org.openhab.habdroid.core.connection.exception.ConnectionException;
 import org.openhab.habdroid.util.Constants;
 import org.openhab.habdroid.util.ContinuingIntentService;
-import org.openhab.habdroid.util.MyAsyncHttpClient;
 import org.openhab.habdroid.util.MyHttpClient;
 
 import java.util.LinkedList;
@@ -41,12 +42,7 @@ import okhttp3.Headers;
 public class OpenHABVoiceService extends ContinuingIntentService implements OpenHABTrackerReceiver {
 
     private static final String TAG = OpenHABVoiceService.class.getSimpleName();
-    public static final String OPENHAB_BASE_URL_EXTRA = "openHABBaseUrl";
 
-    private String mOpenHABBaseUrl;
-    private MyAsyncHttpClient mAsyncHttpClient;
-
-    private OpenHABTracker mOpenHABTracker;
     private Queue<Intent> mBufferedIntents;
 
 
@@ -61,31 +57,12 @@ public class OpenHABVoiceService extends ContinuingIntentService implements Open
         Log.d(TAG, "onCreate()");
 
         mBufferedIntents = new LinkedList<Intent>();
-        initHttpClient();
-    }
-
-    private void initHttpClient() {
-        SharedPreferences mSettings = PreferenceManager.getDefaultSharedPreferences(this);
-        String username = mSettings.getString(Constants.PREFERENCE_REMOTE_USERNAME, null);
-        String password = mSettings.getString(Constants.PREFERENCE_REMOTE_PASSWORD, null);
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        mAsyncHttpClient = new MyAsyncHttpClient(this, prefs.getBoolean(Constants.PREFERENCE_SSLHOST,
-                false), prefs.getBoolean(Constants.PREFERENCE_SSLCERT, false));
-        mAsyncHttpClient.setBasicAuth(username, password);
     }
 
     @Override
     protected void onHandleIntent(Intent intent) {
         Log.d(TAG, "onHandleIntent()");
         bufferIntent(intent);
-        if (intent.hasExtra(OPENHAB_BASE_URL_EXTRA)) {
-            Log.d(TAG, "openHABBaseUrl passed as Intent");
-            onOpenHABTracked(intent.getStringExtra(OPENHAB_BASE_URL_EXTRA));
-        } else if (mOpenHABTracker == null) {
-            Log.d(TAG, "No openHABBaseUrl passed, starting OpenHABTracker");
-            mOpenHABTracker = new OpenHABTracker(OpenHABVoiceService.this, getString(R.string.openhab_service_type));
-            mOpenHABTracker.start();
-        }
     }
 
     /**
@@ -105,7 +82,6 @@ public class OpenHABVoiceService extends ContinuingIntentService implements Open
     @Override
     public void onOpenHABTracked(String baseUrl) {
         Log.d(TAG, "onOpenHABTracked(): " + baseUrl);
-        mOpenHABBaseUrl = baseUrl;
         while (!mBufferedIntents.isEmpty()) {
             processVoiceIntent(mBufferedIntents.poll());
         }
@@ -154,10 +130,11 @@ public class OpenHABVoiceService extends ContinuingIntentService implements Open
 
         String voiceCommand = extractVoiceCommand(data);
         if (!voiceCommand.isEmpty()) {
-            if (mOpenHABBaseUrl != null) {
-                sendItemCommand("VoiceCommand", voiceCommand);
-            } else {
-                Log.w(TAG, "Couldn't determine OpenHAB URL");
+            try {
+                Connection conn = ConnectionFactory.getConnection(Connections.ANY, this);
+                sendItemCommand("VoiceCommand", voiceCommand, conn);
+            } catch (ConnectionException e) {
+                Log.w(TAG, "Couldn't determine OpenHAB URL", e);
                 showToast(getString(R.string.error_couldnt_determine_openhab_url));
             }
         }
@@ -176,16 +153,17 @@ public class OpenHABVoiceService extends ContinuingIntentService implements Open
     }
 
 
-    private void sendItemCommand(final String itemName, final String command) {
+    private void sendItemCommand(final String itemName, final String command, Connection conn) {
         Log.d(TAG, "sendItemCommand(): itemName=" + itemName + ", command=" + command);
         try {
-            performHttpPost(itemName, command);
+            performHttpPost(itemName, command, conn);
         } catch (RuntimeException e) {
             Log.e(TAG, "Unable to encode command " + command, e);
         }
     }
 
-    private void performHttpPost(final String itemName, final String command) {
+    private void performHttpPost(final String itemName, final String command,
+                                 final Connection conn) {
         /* Call MyAsyncHttpClient on the main UI thread in order to retrieve the callbacks correctly.
          * If calling MyAsyncHttpClient directly, the following would happen:
          * (1) MyAsyncHttpClient performs the HTTP post asynchronously
@@ -196,7 +174,7 @@ public class OpenHABVoiceService extends ContinuingIntentService implements Open
         new Handler(Looper.getMainLooper()).post(new Runnable() {
             @Override
             public void run() {
-                mAsyncHttpClient.post(mOpenHABBaseUrl + "rest/items/" + itemName,
+                conn.getAsyncHttpClient().post(conn.getOpenHABUrl() + "rest/items/" + itemName,
                         command, "text/plain;charset=UTF-8", new MyHttpClient.ResponseHandler() {
                             @Override
                             public void onSuccess(Call call, int statusCode, Headers headers, byte[] responseBody) {
@@ -210,16 +188,6 @@ public class OpenHABVoiceService extends ContinuingIntentService implements Open
                         });
             }
         });
-    }
-
-
-    @Override
-    public void onDestroy() {
-        Log.d(TAG, "onDestroy()");
-        if (mOpenHABTracker != null) {
-            mOpenHABTracker.stop();
-        }
-        super.onDestroy();
     }
 
     /**

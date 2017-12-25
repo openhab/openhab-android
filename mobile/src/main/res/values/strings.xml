@@ -3,7 +3,6 @@
     <!-- General app strings -->
     <string name="app_name" translatable="false">openHAB</string>
     <string name="openhab_service_type" translatable="false">_openhab-server-ssl._tcp.local.</string>
-    <string name="openhab_demo_url" translatable="false">http://demo.openhab.org:8080/</string>
     <string name="main_menu">Main menu</string>
     <string name="app_preferences_name">Settings</string>
     <string name="app_notifications">Notifications</string>
@@ -155,4 +154,6 @@
     <string name="intro_whatis">A vendor and technology agnostic open source automation software for your home</string>
     <string name="intro_themes">Themes</string>
     <string name="intro_themes_description">Choose between several themes</string>
+    <string name="restart_button">Restart</string>
+    <string name="network_error">Network error</string>
 </resources>

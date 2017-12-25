@@ -9,6 +9,7 @@
 
 package org.openhab.habdroid.core;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
@@ -18,6 +19,7 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 
 import org.openhab.habdroid.R;
+import org.openhab.habdroid.core.message.MessageHandler;
 import org.openhab.habdroid.util.AsyncServiceResolver;
 import org.openhab.habdroid.util.AsyncServiceResolverListener;
 import org.openhab.habdroid.util.Constants;
@@ -81,7 +83,7 @@ public class OpenHABTracker implements AsyncServiceResolverListener {
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         if (activeNetworkInfo != null) {
             if (settings.getBoolean(Constants.PREFERENCE_DEMOMODE, false)) {
-                mOpenHABUrl = mCtx.getString(R.string.openhab_demo_url);
+                mOpenHABUrl = "http://demo.openhab.org:8080/";
                 Log.d(TAG, "Demo mode, url = " + mOpenHABUrl);
                 openHABTracked(mOpenHABUrl);
                 // todo add button that takes user to preferences
@@ -224,7 +226,10 @@ public class OpenHABTracker implements AsyncServiceResolverListener {
 
     private void openHABMessage(String message, int messageType, int logLevel) {
         if (mReceiver != null) {
-            mReceiver.showMessageToUser(message, messageType, logLevel);
+            if (!(mReceiver instanceof Activity)) {
+                return;
+            }
+            MessageHandler.showMessageToUser((Activity) mReceiver, message, messageType, logLevel);
         }
     }
 

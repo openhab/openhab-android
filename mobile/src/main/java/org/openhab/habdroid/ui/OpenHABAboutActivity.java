@@ -17,14 +17,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import org.openhab.habdroid.R;
-import org.openhab.habdroid.core.OpenHABVoiceService;
 import org.openhab.habdroid.util.Util;
 
 public class OpenHABAboutActivity extends AppCompatActivity {
-
-    private static String openHABBaseUrl;
-    private static String openHABUsername;
-    private static String openHABPassword;
     private static int openHABVersion;
 
     @Override
@@ -32,9 +27,6 @@ public class OpenHABAboutActivity extends AppCompatActivity {
         Util.setActivityTheme(this);
 
         Bundle extras = getIntent().getExtras();
-        openHABBaseUrl = extras.getString(OpenHABVoiceService.OPENHAB_BASE_URL_EXTRA);
-        openHABUsername = extras.getString("username");
-        openHABPassword = extras.getString("password");
         openHABVersion = extras.getInt("openHABVersion");
 
         super.onCreate(savedInstanceState);
@@ -119,9 +111,6 @@ public class OpenHABAboutActivity extends AppCompatActivity {
                     return new AboutFragment();
                 case 1:
                     Bundle bundle = new Bundle();
-                    bundle.putString(OpenHABVoiceService.OPENHAB_BASE_URL_EXTRA, openHABBaseUrl);
-                    bundle.putString("username", openHABUsername);
-                    bundle.putString("password", openHABPassword);
                     bundle.putInt("openHABVersion", openHABVersion);
                     Fragment infoFragment = new OpenHABInfoFragment();
                     infoFragment.setArguments(bundle);

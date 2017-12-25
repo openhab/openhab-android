@@ -1,12 +1,13 @@
 package org.openhab.habdroid.core.notifications;
 
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.openhab.habdroid.core.connection.Connection;
 import org.openhab.habdroid.util.Constants;
 import org.openhab.habdroid.util.MyHttpClient;
-import org.openhab.habdroid.util.MySyncHttpClient;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -21,60 +22,12 @@ public class NotificationSettings {
     private static final String GCM_OBJECT_KEY = "gcm";
     private static final String GCM_SENDER_ID_KEY = "senderId";
 
-    private URL openHABCloudURL;
-    private String openHABCloudUsername;
-    private String openHABCloudPassword;
-    private MySyncHttpClient httpClient;
     private JSONObject settings = new JSONObject();
     private boolean isLoaded = false;
+    private Connection conn;
 
-    /**
-     * Constructor
-     *
-     * @param openHABCloudURL
-     * @param httpClient
-     * @throws MalformedURLException
-     */
-    public NotificationSettings(String openHABCloudURL, MySyncHttpClient httpClient) throws
-            MalformedURLException {
-        this(new URL(openHABCloudURL), httpClient);
-    }
-
-    /**
-     * Constructor
-     *
-     * @param openHABCloudURL
-     * @param httpClient
-     */
-    public NotificationSettings(URL openHABCloudURL, MySyncHttpClient httpClient) {
-        this.openHABCloudURL = openHABCloudURL;
-        this.httpClient = httpClient;
-    }
-
-    public String getOpenHABCloudUsername() {
-        return openHABCloudUsername;
-    }
-
-    public void setOpenHABCloudUsername(String openHABCloudUsername) {
-        this.openHABCloudUsername = openHABCloudUsername;
-        updateHttpClientAuth();
-    }
-
-    public String getOpenHABCloudPassword() {
-        return openHABCloudPassword;
-    }
-
-    public void setOpenHABCloudPassword(String openHABCloudPassword) {
-        this.openHABCloudPassword = openHABCloudPassword;
-        updateHttpClientAuth();
-    }
-
-    private void updateHttpClientAuth() {
-        this.httpClient.setBasicAuth(this.openHABCloudUsername, this.openHABCloudPassword);
-    }
-
-    MyHttpClient getHttpClient () {
-        return this.httpClient;
+    public NotificationSettings(@NonNull Connection conn) {
+        this.conn = conn;
     }
 
     private void loadSettings() {
@@ -85,13 +38,13 @@ public class NotificationSettings {
 
         String requestUrl;
         try {
-            requestUrl = new URL(openHABCloudURL, SETTINGS_ROUTE).toString();
+            requestUrl = new URL(new URL(conn.getOpenHABUrl()), SETTINGS_ROUTE).toString();
         } catch (MalformedURLException ex) {
             Log.d(TAG, "Unable to build request URL, got error: " + ex.getMessage(), ex);
             return;
         }
         Log.d(TAG, "Request notification settings from: " + requestUrl);
-        httpClient.get(requestUrl, new SettingsAsyncHttpResponseHandler());
+        conn.getSyncHttpClient().get(requestUrl, new SettingsAsyncHttpResponseHandler());
     }
 
     /**
@@ -113,13 +66,8 @@ public class NotificationSettings {
         }
     }
 
-    /**
-     * Returns the URL object which represents the openHAB-cloud instance.
-     *
-     * @return
-     */
-    public URL getOpenHABCloudURL() {
-        return this.openHABCloudURL;
+    public Connection getConnection(){
+        return conn;
     }
 
     private class SettingsAsyncHttpResponseHandler implements MyHttpClient.ResponseHandler {
