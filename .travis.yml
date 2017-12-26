@@ -26,7 +26,7 @@ install:
 - sdkmanager --list || true
 script:
 - "./gradlew clean build"
-- "./gradlew test"
+- "./gradlew test --stacktrace"
 after_script:
 - cat ${TRAVIS_BUILD_DIR}/*/build/reports/lint-results.xml
 before_deploy:
