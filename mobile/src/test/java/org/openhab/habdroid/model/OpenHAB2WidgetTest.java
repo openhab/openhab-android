@@ -313,8 +313,89 @@ public class OpenHAB2WidgetTest {
                         "  }";
                 break;
             case 3:
-                json= "{\"widgetId\":\"0202_0\",\"type\":\"Frame\",\"label\":\"Percent-based Widgets\",\"icon\":\"frame\",\"mappings\":[],\"widgets\":[{\"widgetId\":\"0202_0_0\",\"type\":\"Slider\",\"label\":\"Dimmer [81 %]\",\"icon\":\"slider\",\"mappings\":[],\"switchSupport\":true,\"sendFrequency\":0,\"item\":{\"link\":\"http://openhab.local:8080/rest/items/DimmedLight\",\"state\":\"81\",\"stateDescription\":{\"pattern\":\"%d %%\",\"readOnly\":false,\"options\":[]},\"type\":\"Dimmer\",\"name\":\"DimmedLight\",\"label\":\"Dimmer\",\"category\":\"slider\",\"tags\":[],\"groupNames\":[]},\"widgets\":[]},{\"widgetId\":\"0202_0_0_1\",\"type\":\"Switch\",\"label\":\"Roller Shutter\",\"icon\":\"rollershutter\",\"mappings\":[],\"item\":{\"link\":\"http://openhab.local:8080/rest/items/DemoShutter\",\"state\":\"0\",\"type\":\"Rollershutter\",\"name\":\"DemoShutter\",\"label\":\"Roller Shutter\",\"tags\":[],\"groupNames\":[\"Shutters\"]},\"widgets\":[]},{\"widgetId\":\"0202_0_0_1_2\",\"type\":\"Group\",\"label\":\"Shutters\",\"icon\":\"rollershutter\",\"mappings\":[],\"item\":{\"members\":[],\"groupType\":\"Rollershutter\",\"function\":{\"name\":\"AVG\"},\"link\":\"http://openhab.local:8080/rest/items/Shutters\",\"state\":\"42\",\"type\":\"Group\",\"name\":\"Shutters\",\"category\":\"rollershutter\",\"tags\":[],\"groupNames\":[]},\"linkedPage\":{\"id\":\"02020002\",\"title\":\"Shutters\",\"icon\":\"rollershutter\",\"link\":\"http://openhab.local:8080/rest/sitemaps/demo/02020002\",\"leaf\":true,\"timeout\":false},\"widgets\":[]}]}";
-                break;
+				json = "{\"widgetId\": \"0202_0\"," +
+			    	"\"type\": \"Frame\"," +
+			    	"\"label\": \"Percent-based Widgets\"," +
+			    	"\"icon\": \"frame\"," +
+			    	"\"mappings\": []," +
+			    	"\"widgets\": [" +
+			    		"{" +
+			    		"\"widgetId\": \"0202_0_0\"," +
+			    		"\"type\": \"Slider\"," +
+			    		"\"label\": \"Dimmer [81 %]\"," +
+			    		"\"icon\": \"slider\"," +
+			    		"\"mappings\": []," +
+			    		"\"switchSupport\": true," +
+			    		"\"sendFrequency\": 0," +
+			    		"\"item\": {" +
+			    			"\"link\": \"http://openhab.local:8080/rest/items/DimmedLight\"," +
+			    			"\"state\": \"81\"," +
+			    			"\"stateDescription\": {" +
+			    			"\"pattern\": \"%d %%\"," +
+			    			"\"readOnly\": false," +
+			    			"\"options\": []" +
+			    			"}," +
+			    			"\"type\": \"Dimmer\"," +
+			    			"\"name\": \"DimmedLight\"," +
+			    			"\"label\": \"Dimmer\"," +
+			    			"\"category\": \"slider\"," +
+			    			"\"tags\": []," +
+			    			"\"groupNames\": []" +
+			    		"}," +
+			    		"\"widgets\": []" +
+			    		"}," +
+			    		"{" +
+			    		"\"widgetId\": \"0202_0_0_1\"," +
+			    		"\"type\": \"Switch\"," +
+			    		"\"label\": \"Roller Shutter\"," +
+			    		"\"icon\": \"rollershutter\"," +
+			    		"\"mappings\": []," +
+			    		"\"item\": {" +
+			    			"\"link\": \"http://openhab.local:8080/rest/items/DemoShutter\"," +
+			    			"\"state\": \"0\"," +
+			    			"\"type\": \"Rollershutter\"," +
+			    			"\"name\": \"DemoShutter\"," +
+			    			"\"label\": \"Roller Shutter\"," +
+			    			"\"tags\": []," +
+			    			"\"groupNames\": [" +
+			    			"\"Shutters\"" +
+			    			"]" +
+			    		"}," +
+			    		"\"widgets\": []" +
+			    		"}," +
+			    		"{" +
+			    		"\"widgetId\": \"0202_0_0_1_2\"," +
+			    		"\"type\": \"Group\"," +
+			    		"\"label\": \"Shutters\"," +
+			    		"\"icon\": \"rollershutter\"," +
+			    		"\"mappings\": []," +
+			    		"\"item\": {" +
+			    			"\"members\": []," +
+			    			"\"groupType\": \"Rollershutter\"," +
+			    			"\"function\": {" +
+			    			"\"name\": \"AVG\"" +
+			    			"}," +
+			    			"\"link\": \"http://openhab.local:8080/rest/items/Shutters\"," +
+			    			"\"state\": \"42\"," +
+			    			"\"type\": \"Group\"," +
+			    			"\"name\": \"Shutters\"," +
+			    			"\"category\": \"rollershutter\"," +
+			    			"\"tags\": []," +
+			    			"\"groupNames\": []" +
+			    		"}," +
+			    		"\"linkedPage\": {" +
+			    			"\"id\": \"02020002\"," +
+			    			"\"title\": \"Shutters\"," +
+			    			"\"icon\": \"rollershutter\"," +
+			    			"\"link\": \"http://openhab.local:8080/rest/sitemaps/demo/02020002\"," +
+			    			"\"leaf\": true," +
+			    			"\"timeout\": false" +
+			    		"}," +
+			    		"\"widgets\": []" +
+			    		"}" +
+			    	"]" +
+			    "}";
+            break;
             default:
                     throw new InvalidParameterException();
         }
