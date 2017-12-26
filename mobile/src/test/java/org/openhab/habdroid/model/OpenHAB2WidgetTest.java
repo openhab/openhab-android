@@ -223,7 +223,7 @@ public class OpenHAB2WidgetTest {
 
     @Test
     public void testGetEncoding() throws Exception {
-        assertEquals("mpeg", sut1.getEncoding());
+        assertEquals("42", sut1.getEncoding());
         assertEquals(null, sut2.getEncoding());
     }
 
