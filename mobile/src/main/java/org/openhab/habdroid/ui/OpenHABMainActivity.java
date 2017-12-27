@@ -107,8 +107,6 @@ import okhttp3.Call;
 import okhttp3.Headers;
 
 import static org.openhab.habdroid.core.message.MessageHandler.showMessageToUser;
-import static org.openhab.habdroid.ui.OpenHABPreferencesActivity.NO_URL_INFO_EXCEPTION_EXTRA;
-import static org.openhab.habdroid.ui.OpenHABPreferencesActivity.NO_URL_INFO_EXCEPTION_MESSAGE;
 
 public class OpenHABMainActivity extends ConnectionAvailbilityAwareAcivity implements OnWidgetSelectedListener,
         OpenHABTrackerReceiver, MemorizingResponder {
@@ -239,17 +237,6 @@ public class OpenHABMainActivity extends ConnectionAvailbilityAwareAcivity imple
     protected void onCreate(Bundle savedInstanceState) {
         Log.d(TAG, "onCreate()");
 
-        // helper for ConnectionAvailbilityAwareAcivity, which will start this activity with this
-        // specific extra. We'll send the user to the preferences activity to check the settings.
-        if (getIntent().hasExtra(NO_URL_INFO_EXCEPTION_EXTRA)) {
-            super.onCreate(savedInstanceState);
-            Intent settingsIntent = new Intent(this, OpenHABPreferencesActivity.class);
-            settingsIntent.putExtra(NO_URL_INFO_EXCEPTION_EXTRA, true);
-            settingsIntent.putExtra(NO_URL_INFO_EXCEPTION_MESSAGE, getIntent().getStringExtra(NO_URL_INFO_EXCEPTION_MESSAGE));
-            startActivityForResult(settingsIntent, SETTINGS_REQUEST_CODE);
-            return;
-        }
-
         // Set default values, false means do it one time during the very first launch
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
 
@@ -342,14 +329,17 @@ public class OpenHABMainActivity extends ConnectionAvailbilityAwareAcivity imple
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        // Sync the toggle state after onRestoreInstanceState has occurred.
-        mDrawerToggle.syncState();
+        if (mDrawerToggle != null) {
+            // Sync the toggle state after onRestoreInstanceState has occurred.
+            mDrawerToggle.syncState();
+        }
     }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        mDrawerToggle.onConfigurationChanged(newConfig);
+        if (mDrawerToggle != null)
+            mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
     /**

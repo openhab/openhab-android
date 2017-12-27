@@ -25,11 +25,14 @@ import android.security.KeyChainException;
 import android.security.keystore.KeyProperties;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
+import android.support.v4.app.NavUtils;
+import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.loopj.android.image.WebImageCache;
+
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.util.Constants;
 import org.openhab.habdroid.util.MyWebImage;
@@ -75,11 +78,24 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            onBackPressed();
-            return true;
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                if (getIntent().hasExtra(NO_URL_INFO_EXCEPTION_EXTRA)) {
+                    Intent upIntent = NavUtils.getParentActivityIntent(this);
+                    TaskStackBuilder.create(this)
+                            .addNextIntentWithParentStack(upIntent)
+                            .startActivities();
+                } else {
+                    NavUtils.navigateUpFromSameTask(this);
+                }
+                return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
     }
 
     @Override

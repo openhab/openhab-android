@@ -38,7 +38,11 @@
         android:theme="@style/HABDroid.Light">
         <activity
             android:name="org.openhab.habdroid.ui.OpenHABPreferencesActivity"
-            android:label="@string/app_preferences_name" />
+            android:label="@string/app_preferences_name">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="org.openhab.habdroid.ui.OpenHABMainActivity" />
+        </activity>
         <activity
             android:name="org.openhab.habdroid.ui.OpenHABAboutActivity"
             android:label="@string/about_title" />
