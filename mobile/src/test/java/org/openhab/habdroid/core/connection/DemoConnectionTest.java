@@ -20,7 +20,7 @@ public class DemoConnectionTest {
 
     @Test
     public void testGetOpenHABUrl() {
-        assertEquals("http://demo.openhab.org:8080/", testConnection.getOpenHABUrl());
+        assertEquals("https://demo.openhab.org:8443/", testConnection.getOpenHABUrl());
     }
 
     @Test
