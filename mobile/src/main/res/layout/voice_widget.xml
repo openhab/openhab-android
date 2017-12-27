@@ -6,20 +6,23 @@
     android:weightSum="100"
     android:padding="@dimen/widget_margin"
     android:background="#6333" >
+
     <ImageView
         android:id="@+id/btn_mic"
-        android:src="@drawable/ic_mic_white_24dp"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_weight="75"
         android:contentDescription="@string/info_voice_input"
-        android:layout_weight="77" />
+        android:src="@drawable/ic_mic_white_24dp" />
 
     <ImageView
         android:id="@+id/btn_open_main"
-        android:src="@mipmap/icon"
         android:layout_width="fill_parent"
-        android:layout_height="10dp"
-        android:layout_weight="33"
+        android:layout_height="20dp"
+        android:layout_weight="30"
+        android:background="#C333 "
         android:contentDescription="@string/app_name"
-        android:background="#FFF" />
+        android:padding="0dp"
+        android:scaleType="fitCenter"
+        android:src="@mipmap/icon" />
 </LinearLayout >
