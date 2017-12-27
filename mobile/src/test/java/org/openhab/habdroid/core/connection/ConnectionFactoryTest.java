@@ -48,7 +48,7 @@ public class ConnectionFactoryTest {
 
         assertNotNull("Requesting a remote connection when a remote url is set, should return a " +
                 "connection.", conn);
-        assertEquals("The connection type of a remote connection should be REMOTE.",
+        assertEquals("The connection type of a remote connection should be LOGLEVEL_REMOTE.",
                 Connections.REMOTE, conn.getConnectionType());
     }
 
@@ -71,7 +71,7 @@ public class ConnectionFactoryTest {
 
         assertNotNull("Requesting a local connection when local url is set, should " +
                 "return a connection.", conn);
-        assertEquals("The connection type of a local connection should be LOCAL.",
+        assertEquals("The connection type of a local connection should be LOGLEVEL_LOCAL.",
                 Connections.LOCAL, conn.getConnectionType());
     }
 
@@ -95,7 +95,7 @@ public class ConnectionFactoryTest {
 
         assertNotNull("Requesting a cloud connection when a remote url is set, should return a " +
                 "connection.", conn);
-        assertEquals("The connection type of a cloud connection should be REMOTE.",
+        assertEquals("The connection type of a cloud connection should be LOGLEVEL_REMOTE.",
                 Connections.REMOTE, conn.getConnectionType());
     }
 
@@ -132,7 +132,7 @@ public class ConnectionFactoryTest {
         assertNotNull("Requesting any connection in WIFI when only a remote url is set, should " +
                 "return" +
                 " a connection.", conn);
-        assertEquals("The connection type of the connection should be REMOTE.",
+        assertEquals("The connection type of the connection should be LOGLEVEL_REMOTE.",
                 Connections.REMOTE, conn.getConnectionType());
     }
 
@@ -152,7 +152,7 @@ public class ConnectionFactoryTest {
 
         assertNotNull("Requesting any connection in WIFI when a local url is set, should return" +
                 " a connection.", conn);
-        assertEquals("The connection type of the connection should be LOCAL.",
+        assertEquals("The connection type of the connection should be LOGLEVEL_LOCAL.",
                 Connections.LOCAL, conn.getConnectionType());
     }
 

@@ -96,10 +96,7 @@ public abstract class AbstractConnection implements Connection {
 
             // task can be null, e.g. unit tests, assume the target is reachable in this case
             return task == null || (boolean) task.get();
-        } catch (InterruptedException e) {
-            Log.e(TAG, e.getMessage());
-            return false;
-        } catch (ExecutionException e) {
+        } catch (InterruptedException | ExecutionException e) {
             Log.e(TAG, e.getMessage());
             return false;
         }

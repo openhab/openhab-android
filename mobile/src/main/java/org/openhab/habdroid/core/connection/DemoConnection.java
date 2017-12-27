@@ -43,7 +43,7 @@ public class DemoConnection extends AbstractConnection {
 
     @Override
     public String getOpenHABUrl() {
-        return "http://demo.openhab.org:8080/";
+        return "https://demo.openhab.org:8443/";
     }
 
     @Override

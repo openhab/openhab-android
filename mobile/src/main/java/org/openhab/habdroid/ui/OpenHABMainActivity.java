@@ -122,36 +122,36 @@ public class OpenHABMainActivity extends ConnectionAvailbilityAwareAcivity imple
                 int resourceID;
                 try {
                     resourceID = getResources().getIdentifier("error_http_code_" + statusCode, "string", getPackageName());
-                    showMessageToUser(OpenHABMainActivity.this, getString(resourceID), Constants.MESSAGES
-                                    .DIALOG,
-                            Constants.MESSAGES.LOGLEVEL.ALWAYS);
+                    showMessageToUser(OpenHABMainActivity.this, getString(resourceID), MessageHandler
+                                    .TYPE_DIALOG,
+                            MessageHandler.LOGLEVEL_ALWAYS);
                 } catch (android.content.res.Resources.NotFoundException e) {
                     showMessageToUser(OpenHABMainActivity.this, String.format
-                            (getString(R.string.error_http_connection_failed), statusCode), Constants.MESSAGES.DIALOG, Constants.MESSAGES.LOGLEVEL.ALWAYS);
+                            (getString(R.string.error_http_connection_failed), statusCode), MessageHandler.TYPE_DIALOG, MessageHandler.LOGLEVEL_ALWAYS);
                 }
             } else if (error instanceof UnknownHostException) {
                 Log.e(TAG, "Unable to resolve hostname");
                 showMessageToUser(OpenHABMainActivity.this, getString(R.string
-                        .error_unable_to_resolve_hostname), Constants.MESSAGES.DIALOG, Constants.MESSAGES.LOGLEVEL.ALWAYS);
+                        .error_unable_to_resolve_hostname), MessageHandler.TYPE_DIALOG, MessageHandler.LOGLEVEL_ALWAYS);
             } else if (error instanceof SSLHandshakeException) {
                 // if ssl exception, check for some common problems
                 if (error.getCause() instanceof CertPathValidatorException) {
                     showMessageToUser(OpenHABMainActivity.this, getString(R.string
-                            .error_certificate_not_trusted), Constants.MESSAGES.DIALOG, Constants.MESSAGES.LOGLEVEL.ALWAYS);
+                            .error_certificate_not_trusted), MessageHandler.TYPE_DIALOG, MessageHandler.LOGLEVEL_ALWAYS);
                 } else if (error.getCause() instanceof CertificateExpiredException) {
-                    showMessageToUser(OpenHABMainActivity.this, getString(R.string.error_certificate_expired), Constants.MESSAGES.DIALOG, Constants.MESSAGES.LOGLEVEL.ALWAYS);
+                    showMessageToUser(OpenHABMainActivity.this, getString(R.string.error_certificate_expired), MessageHandler.TYPE_DIALOG, MessageHandler.LOGLEVEL_ALWAYS);
                 } else if (error.getCause() instanceof CertificateNotYetValidException) {
-                    showMessageToUser(OpenHABMainActivity.this, getString(R.string.error_certificate_not_valid_yet), Constants.MESSAGES.DIALOG, Constants.MESSAGES.LOGLEVEL.ALWAYS);
+                    showMessageToUser(OpenHABMainActivity.this, getString(R.string.error_certificate_not_valid_yet), MessageHandler.TYPE_DIALOG, MessageHandler.LOGLEVEL_ALWAYS);
                 } else if (error.getCause() instanceof CertificateRevokedException) {
-                    showMessageToUser(OpenHABMainActivity.this, getString(R.string.error_certificate_revoked), Constants.MESSAGES.DIALOG, Constants.MESSAGES.LOGLEVEL.ALWAYS);
+                    showMessageToUser(OpenHABMainActivity.this, getString(R.string.error_certificate_revoked), MessageHandler.TYPE_DIALOG, MessageHandler.LOGLEVEL_ALWAYS);
                 } else {
-                    showMessageToUser(OpenHABMainActivity.this, getString(R.string.error_connection_sslhandshake_failed), Constants.MESSAGES.DIALOG, Constants.MESSAGES.LOGLEVEL.ALWAYS);
+                    showMessageToUser(OpenHABMainActivity.this, getString(R.string.error_connection_sslhandshake_failed), MessageHandler.TYPE_DIALOG, MessageHandler.LOGLEVEL_ALWAYS);
                 }
             } else if (error instanceof ConnectException) {
-                showMessageToUser(OpenHABMainActivity.this, getString(R.string.error_connection_failed), Constants.MESSAGES.DIALOG, Constants.MESSAGES.LOGLEVEL.ALWAYS);
+                showMessageToUser(OpenHABMainActivity.this, getString(R.string.error_connection_failed), MessageHandler.TYPE_DIALOG, MessageHandler.LOGLEVEL_ALWAYS);
             } else {
                 Log.e(TAG, error.getClass().toString());
-                showMessageToUser(OpenHABMainActivity.this, error.getMessage(), Constants.MESSAGES.DIALOG, Constants.MESSAGES.LOGLEVEL.ALWAYS);
+                showMessageToUser(OpenHABMainActivity.this, error.getMessage(), MessageHandler.TYPE_DIALOG, MessageHandler.LOGLEVEL_ALWAYS);
             }
         }
     }
@@ -559,7 +559,7 @@ public class OpenHABMainActivity extends ConnectionAvailbilityAwareAcivity imple
     }
 
     public void onError(String error) {
-        showMessageToUser(OpenHABMainActivity.this, error, Constants.MESSAGES.DIALOG, Constants.MESSAGES.LOGLEVEL.ALWAYS);
+        showMessageToUser(OpenHABMainActivity.this, error, MessageHandler.TYPE_DIALOG, MessageHandler.LOGLEVEL_ALWAYS);
     }
 
     public void onBonjourDiscoveryStarted() {
@@ -911,8 +911,8 @@ public class OpenHABMainActivity extends ConnectionAvailbilityAwareAcivity imple
                 }
             });
         } catch(ConnectionException e) {
-            MessageHandler.showMessageToUser(this, e.getMessage(), Constants.MESSAGES.DIALOG,
-                    Constants.MESSAGES.LOGLEVEL.ALWAYS);
+            MessageHandler.showMessageToUser(this, e.getMessage(), MessageHandler.TYPE_DIALOG,
+                    MessageHandler.LOGLEVEL_ALWAYS);
         } catch (RuntimeException e) {
             if (e.getMessage() != null)
                 Log.e(TAG, e.getMessage());
@@ -977,7 +977,7 @@ public class OpenHABMainActivity extends ConnectionAvailbilityAwareAcivity imple
     private void showAlertDialog(String alertMessage) {
         if (this.isFinishing())
             return;
-       showMessageToUser(OpenHABMainActivity.this, alertMessage, Constants.MESSAGES.DIALOG, Constants.MESSAGES.LOGLEVEL.ALWAYS);
+       showMessageToUser(OpenHABMainActivity.this, alertMessage, MessageHandler.TYPE_DIALOG, MessageHandler.LOGLEVEL_ALWAYS);
     }
 
     private void showCertificateDialog(final int decisionId, String certMessage) {

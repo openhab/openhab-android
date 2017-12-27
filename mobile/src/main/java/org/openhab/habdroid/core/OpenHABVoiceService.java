@@ -23,7 +23,7 @@ import org.openhab.habdroid.core.connection.Connection;
 import org.openhab.habdroid.core.connection.ConnectionFactory;
 import org.openhab.habdroid.core.connection.Connections;
 import org.openhab.habdroid.core.connection.exception.ConnectionException;
-import org.openhab.habdroid.util.Constants;
+import org.openhab.habdroid.core.message.MessageHandler;
 import org.openhab.habdroid.util.ContinuingIntentService;
 import org.openhab.habdroid.util.MyHttpClient;
 
@@ -91,7 +91,7 @@ public class OpenHABVoiceService extends ContinuingIntentService implements Open
 
     /**
      * @param message message to show
-     * @param messageType must be Constants.MESSAGES.DIALOG or Constants.MESSAGES.TOAST
+     * @param messageType must be Constants.MESSAGES.TYPE_DIALOG or Constants.MESSAGES.TYPE_TOAST
      * @param logLevel not implemented
      */
     public void showMessageToUser(String message, int messageType, int logLevel) {
@@ -99,7 +99,7 @@ public class OpenHABVoiceService extends ContinuingIntentService implements Open
             return;
         }
         switch (messageType) {
-            case Constants.MESSAGES.DIALOG:
+            case MessageHandler.TYPE_DIALOG:
                 AlertDialog.Builder builder = new AlertDialog.Builder(OpenHABVoiceService.this);
                 builder.setMessage(message)
                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -109,7 +109,7 @@ public class OpenHABVoiceService extends ContinuingIntentService implements Open
                 AlertDialog alert = builder.create();
                 alert.show();
                 break;
-            case Constants.MESSAGES.TOAST:
+            case MessageHandler.TYPE_TOAST:
                 Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
                 break;
             default:
@@ -119,7 +119,7 @@ public class OpenHABVoiceService extends ContinuingIntentService implements Open
 
     @Override
     public void onError(String error) {
-        showMessageToUser(error, Constants.MESSAGES.DIALOG, Constants.MESSAGES.LOGLEVEL.ALWAYS);
+        showMessageToUser(error, MessageHandler.TYPE_DIALOG, MessageHandler.LOGLEVEL_ALWAYS);
         Log.d(TAG, "onError(): " + error);
         stopSelf();
     }
@@ -201,7 +201,7 @@ public class OpenHABVoiceService extends ContinuingIntentService implements Open
         new Handler(Looper.getMainLooper()).post(new Runnable() {
             @Override
             public void run() {
-                showMessageToUser(message, Constants.MESSAGES.TOAST, Constants.MESSAGES.LOGLEVEL.ALWAYS);
+                showMessageToUser(message, MessageHandler.TYPE_TOAST, MessageHandler.LOGLEVEL_ALWAYS);
             }
         });
     }

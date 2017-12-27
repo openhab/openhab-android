@@ -190,7 +190,7 @@ public class OpenHABNotificationFragment extends ListFragment implements SwipeRe
             @Override
             public void onFailure(Call call, int statusCode, Headers headers, byte[] responseBody, Throwable error) {
                 stopProgressIndicator();
-                Log.d(TAG, "Notifications request failure");
+                Log.e(TAG, "Notifications request failure");
             }
         });
     }

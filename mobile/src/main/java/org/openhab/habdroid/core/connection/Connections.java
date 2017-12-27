@@ -4,8 +4,8 @@ public final class Connections {
     /**
      * Returns any openHAB connection that is most likely to work on the current network. The
      * connections available will be tried in the following order:
-     *  - LOCAL
-     *  - REMOTE
+     *  - LOGLEVEL_LOCAL
+     *  - LOGLEVEL_REMOTE
      *  - CLOUD
      *  - DISCOVERY
      *
@@ -28,15 +28,15 @@ public final class Connections {
      * the device. The connection may or may not be available in the network the device is
      * currently connected to.
      *
-     * This method can return null, if no Connection for a local openHAB server could be
+     * This method can return null, if no Connection for a remote openHAB server could be
      * constructed. In this case, no exception with more information will be thrown.
      */
     public static final int REMOTE = 2;
     /**
      * Returns a connection that is guaranteed to provide functionality implemented in the
-     * openHAB-cloud product (like notifications).
+     * openHAB cloud product (like notifications).
      *
-     * This method can return null, if no Connection for a local openHAB server could be
+     * This method can return null, if no Connection for an openHAB cloud server could be
      * constructed. In this case, no exception with more information will be thrown.
      */
     public static final int CLOUD = 3;

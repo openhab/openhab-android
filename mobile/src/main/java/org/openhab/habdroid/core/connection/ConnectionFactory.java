@@ -7,6 +7,7 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Build;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
@@ -17,7 +18,9 @@ import org.openhab.habdroid.core.connection.exception.NoUrlInformationException;
 import org.openhab.habdroid.util.Constants;
 import org.openhab.habdroid.util.Util;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -27,6 +30,8 @@ import java.util.Map;
  */
 final public class ConnectionFactory extends BroadcastReceiver {
     private static final String TAG = ConnectionFactory.class.getSimpleName();
+    private static final List<Integer> localConnectionTypes = Arrays.asList(ConnectivityManager
+            .TYPE_ETHERNET, ConnectivityManager.TYPE_WIFI, ConnectivityManager.TYPE_WIMAX);
 
     private Context ctx;
     private SharedPreferences settings;
@@ -40,6 +45,12 @@ final public class ConnectionFactory extends BroadcastReceiver {
 
     static ConnectionFactory getInstance() {
         return InstanceHolder.INSTANCE;
+    }
+
+    public ConnectionFactory() {
+        if (Build.VERSION.SDK_INT >= 21) {
+            localConnectionTypes.add(ConnectivityManager.TYPE_VPN);
+        }
     }
 
     private void setContext(Context ctx) {
@@ -102,7 +113,7 @@ final public class ConnectionFactory extends BroadcastReceiver {
     private Connection getLocalConnection() {
         String openHABUrl = Util.normalizeUrl(settings.getString(Constants
                 .PREFERENCE_URL, ""));
-        // If remote URL is configured
+        // If local URL is configured
         if (openHABUrl.length() > 0) {
             Log.d(TAG, "Connecting to local URL " + openHABUrl);
             Connection conn = new DefaultConnection(ctx);
@@ -196,8 +207,7 @@ final public class ConnectionFactory extends BroadcastReceiver {
                     return getRemoteConnection();
 
                     // Else if we are on Wifi or Ethernet network
-                } else if (activeNetworkInfo.getType() == ConnectivityManager.TYPE_WIFI
-                        || activeNetworkInfo.getType() == ConnectivityManager.TYPE_ETHERNET) {
+                } else if (localConnectionTypes.contains(activeNetworkInfo.getType())) {
                     // See if we have a local URL configured in settings
                     Connection localConnection = getLocalConnection();
 

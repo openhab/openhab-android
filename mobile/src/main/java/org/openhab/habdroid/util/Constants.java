@@ -38,17 +38,4 @@ public class Constants {
     public static final String SUBSCREEN_LOCAL_CONNECTION     = "default_openhab_local_connection";
     public static final String SUBSCREEN_REMOTE_CONNECTION    = "default_openhab_remote_connection";
     public static final String SUBSCREEN_SSL_SETTINGS         = "default_openhab_ssl";
-
-    public interface MESSAGES {
-        public static final int DIALOG = 1;
-        public static final int SNACKBAR = 2;
-        public static final int TOAST = 3;
-        public interface LOGLEVEL {
-            public static final int DEBUG = 0;
-            public static final int REMOTE = 1;
-            public static final int LOCAL = 2;
-            public static final int NO_DEBUG = 4;
-            public static final int ALWAYS = 5;
-        }
-    }
 }

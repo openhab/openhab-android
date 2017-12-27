@@ -13,12 +13,21 @@ import org.openhab.habdroid.util.Constants;
 
 public class MessageHandler {
     private static final String TAG = MessageHandler.class.getSimpleName();
+    public static final int TYPE_DIALOG = 1;
+    public static final int TYPE_SNACKBAR = 2;
+    public static final int TYPE_TOAST = 3;
+
+    public static final int LOGLEVEL_DEBUG = 0;
+    public static final int LOGLEVEL_REMOTE = 1;
+    public static final int LOGLEVEL_LOCAL = 2;
+    public static final int LOGLEVEL_NO_DEBUG = 4;
+    public static final int LOGLEVEL_ALWAYS = 5;
 
     /**
      * Shows a message to the user.
      * You might want to send two messages: One detailed one with
-     * logLevel Constants.MESSAGES.LOGLEVEL.DEBUG and one simple message with
-     * Constants.MESSAGES.LOGLEVEL.NO_DEBUG
+     * logLevel Constants.MESSAGES.LOGLEVEL.LOGLEVEL_DEBUG and one simple message with
+     * Constants.MESSAGES.LOGLEVEL.LOGLEVEL_NO_DEBUG
      *
      * @param message message to show
      * @param messageType can be one of Constants.MESSAGES.*
@@ -36,12 +45,12 @@ public class MessageHandler {
 
         // if debug mode is enabled, show all messages, except those with logLevel 4
         if(debugEnabled) {
-            if (logLevel == Constants.MESSAGES.LOGLEVEL.NO_DEBUG) {
+            if (logLevel == LOGLEVEL_NO_DEBUG) {
                 return;
             }
         } else {
             switch (logLevel) {
-                case Constants.MESSAGES.LOGLEVEL.REMOTE:
+                case LOGLEVEL_REMOTE:
                     if (remoteUrl.length() > 1) {
                         Log.d(TAG, "Remote URL set, show message: " + message);
                     } else {
@@ -49,7 +58,7 @@ public class MessageHandler {
                         return;
                     }
                     break;
-                case Constants.MESSAGES.LOGLEVEL.LOCAL:
+                case LOGLEVEL_LOCAL:
                     if (localUrl.length() > 1) {
                         Log.d(TAG, "Local URL set, show message: " + message);
                     } else {
@@ -61,7 +70,7 @@ public class MessageHandler {
         }
 
         switch (messageType) {
-            case Constants.MESSAGES.DIALOG:
+            case TYPE_DIALOG:
                 AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
                 builder.setMessage(message)
                         .setPositiveButton(ctx.getText(android.R.string.ok), new DialogInterface
@@ -72,16 +81,16 @@ public class MessageHandler {
                 AlertDialog alert = builder.create();
                 alert.show();
                 break;
-            case Constants.MESSAGES.SNACKBAR:
+            case TYPE_SNACKBAR:
                 Snackbar snackbar = Snackbar.make(ctx.findViewById(android.R.id.content),
                         message, Snackbar.LENGTH_LONG);
                 snackbar.show();
                 break;
-            case Constants.MESSAGES.TOAST:
+            case TYPE_TOAST:
                 Toast.makeText(ctx.getApplicationContext(), message, Toast.LENGTH_LONG).show();
                 break;
             default:
-                throw new IllegalArgumentException("Message type not implemented");
+                throw new IllegalArgumentException("Wrong message type");
         }
     }
 }

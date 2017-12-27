@@ -62,7 +62,6 @@ import org.openhab.habdroid.model.OpenHABWidgetMapping;
 import org.openhab.habdroid.ui.widget.ColorPickerDialog;
 import org.openhab.habdroid.ui.widget.OnColorChangedListener;
 import org.openhab.habdroid.ui.widget.SegmentedControlButton;
-import org.openhab.habdroid.util.Constants;
 import org.openhab.habdroid.util.MjpegStreamer;
 import org.openhab.habdroid.util.MyHttpClient;
 import org.openhab.habdroid.util.MySmartImageView;
@@ -904,7 +903,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
                 return;
             }
             MessageHandler.showMessageToUser((Activity) getContext(),
-                    e.getMessage(), Constants.MESSAGES.DIALOG, Constants.MESSAGES.LOGLEVEL.ALWAYS);
+                    e.getMessage(), MessageHandler.TYPE_DIALOG, MessageHandler.LOGLEVEL_ALWAYS);
             return;
         }
         conn.getAsyncHttpClient()

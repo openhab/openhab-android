@@ -34,6 +34,7 @@ import android.view.MenuItem;
 import com.loopj.android.image.WebImageCache;
 
 import org.openhab.habdroid.R;
+import org.openhab.habdroid.core.message.MessageHandler;
 import org.openhab.habdroid.util.Constants;
 import org.openhab.habdroid.util.MyWebImage;
 import org.openhab.habdroid.util.Util;
@@ -56,8 +57,8 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
         if (getIntent().hasExtra(NO_URL_INFO_EXCEPTION_EXTRA)) {
             showMessageToUser(this,
                     getIntent().getStringExtra(NO_URL_INFO_EXCEPTION_MESSAGE),
-                    Constants.MESSAGES.DIALOG,
-                    Constants.MESSAGES.LOGLEVEL.ALWAYS);
+                    MessageHandler.TYPE_DIALOG,
+                    MessageHandler.LOGLEVEL_ALWAYS);
         }
 
         setContentView(R.layout.activity_prefs);
