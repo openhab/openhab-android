@@ -129,4 +129,5 @@
     <string name="cancel">Atšaukti</string>
     <string name="error_http_code_503">openHAB laikinai nepasiekiamas (HTTP atsakymo kodas 503)</string>
     <string name="set">Nustatyti</string>
+    <string name="mainmenu_openhab_sitemaps">Vietų išplanavimai</string>
 </resources>
