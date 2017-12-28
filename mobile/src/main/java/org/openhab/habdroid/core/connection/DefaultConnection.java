@@ -19,11 +19,15 @@ public class DefaultConnection extends AbstractConnection {
     @Override
     public void setUsername(String username) {
         this.username = username;
+        updateHttpClientAuth(getAsyncHttpClient());
+        updateHttpClientAuth(getSyncHttpClient());
     }
 
     @Override
     public void setPassword(String password) {
         this.password = password;
+        updateHttpClientAuth(getAsyncHttpClient());
+        updateHttpClientAuth(getSyncHttpClient());
     }
 
     @Override

@@ -29,11 +29,16 @@ import java.util.Map;
  * server. Use this factory class whenever you need to obtain a connection to load additional
  * data from the openHAB server or another supported source (see the constants in {@link Connections}).
  */
-final public class ConnectionFactory extends BroadcastReceiver {
+final public class ConnectionFactory
+        extends BroadcastReceiver implements SharedPreferences.OnSharedPreferenceChangeListener {
     private static final String TAG = ConnectionFactory.class.getSimpleName();
     private static final List<Integer> localConnectionTypes = new ArrayList<>(
             Arrays.asList(ConnectivityManager.TYPE_ETHERNET, ConnectivityManager.TYPE_WIFI,
                     ConnectivityManager.TYPE_WIMAX));
+    private static final List<String> needInvalidateCachePreferenceKeys = Arrays.asList(Constants
+            .PREFERENCE_ALTURL, Constants.PREFERENCE_LOCAL_USERNAME, Constants
+            .PREFERENCE_LOCAL_PASSWORD, Constants.PREFERENCE_REMOTE_PASSWORD, Constants
+            .PREFERENCE_REMOTE_USERNAME, Constants.PREFERENCE_URL);
 
     private Context ctx;
     private SharedPreferences settings;
@@ -56,7 +61,23 @@ final public class ConnectionFactory extends BroadcastReceiver {
     }
 
     private void setContext(Context ctx) {
+        SharedPreferences prefs;
+        if (this.ctx != null) {
+            prefs = PreferenceManager.getDefaultSharedPreferences(this.ctx);
+            prefs.unregisterOnSharedPreferenceChangeListener(this);
+        }
+
         this.ctx = ctx;
+
+        prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
+        prefs.registerOnSharedPreferenceChangeListener(this);
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        if (needInvalidateCachePreferenceKeys.contains(key)) {
+            cachedConnections.clear();
+        }
     }
 
     private void setSettings(SharedPreferences settings) {

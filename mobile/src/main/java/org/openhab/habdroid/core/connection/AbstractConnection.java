@@ -8,6 +8,7 @@ import android.util.Log;
 
 import org.openhab.habdroid.util.Constants;
 import org.openhab.habdroid.util.MyAsyncHttpClient;
+import org.openhab.habdroid.util.MyHttpClient;
 import org.openhab.habdroid.util.MySyncHttpClient;
 
 import java.net.InetSocketAddress;
@@ -35,11 +36,15 @@ public abstract class AbstractConnection implements Connection {
         this.settings = settings;
     }
 
+    protected void updateHttpClientAuth(MyHttpClient httpClient) {
+        httpClient.setBasicAuth(getUsername(), getPassword());
+    }
     public MyAsyncHttpClient getAsyncHttpClient() {
         if (asyncHttpClient == null) {
             asyncHttpClient = new MyAsyncHttpClient(ctx, ignoreSslHostname(), ignoreCertTrust());
-            asyncHttpClient.setBasicAuth(getUsername(), getPassword());
             asyncHttpClient.setTimeout(30000);
+
+            updateHttpClientAuth(asyncHttpClient);
         }
         return asyncHttpClient;
     }
@@ -55,7 +60,8 @@ public abstract class AbstractConnection implements Connection {
     public MySyncHttpClient getSyncHttpClient() {
         if (syncHttpClient == null) {
             syncHttpClient = new MySyncHttpClient(ctx, ignoreSslHostname(), ignoreCertTrust());
-            syncHttpClient.setBasicAuth(getUsername(), getPassword());
+
+            updateHttpClientAuth(syncHttpClient);
         }
         return syncHttpClient;
     }
