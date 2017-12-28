@@ -30,6 +30,7 @@ import static org.openhab.habdroid.ui.OpenHABPreferencesActivity.NO_URL_INFO_EXC
 
 public abstract class ConnectionAvailbilityAwareAcivity extends AppCompatActivity {
     private static final String TAG = ConnectionAvailbilityAwareAcivity.class.getSimpleName();
+    private boolean noConnectionFragmentShown = false;
 
     @Override
     protected void onStop() {
@@ -69,6 +70,7 @@ public abstract class ConnectionAvailbilityAwareAcivity extends AppCompatActivit
                 .beginTransaction()
                 .replace(android.R.id.content, noNetworkFrament)
                 .commit();
+        noConnectionFragmentShown = true;
 
         Toolbar noNetworkToolbar = findViewById(R.id.openhab_toolbar_no_network);
         setSupportActionBar(noNetworkToolbar);
@@ -81,15 +83,16 @@ public abstract class ConnectionAvailbilityAwareAcivity extends AppCompatActivit
         Intent startActivity = new Intent(this, OpenHABMainActivity.class);
         startActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(startActivity);
-
-        System.exit(0);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        if (!noConnectionFragmentShown) {
+            return;
+        }
         try {
-            ConnectionFactory.getConnection(Connections.ANY, this);
+            getConnection(Connections.ANY);
             restartApp();
         } catch (ConnectionException e) {
             Log.d(TAG, "After resuming the app, there's still no network available.", e);
@@ -97,7 +100,6 @@ public abstract class ConnectionAvailbilityAwareAcivity extends AppCompatActivit
     }
 
     public static class NoNetworkFragment extends Fragment {
-        private static final String TAG = NoNetworkFragment.class.getSimpleName();
         public static final String NO_NETWORK_MESSAGE = "message";
 
         @Override
