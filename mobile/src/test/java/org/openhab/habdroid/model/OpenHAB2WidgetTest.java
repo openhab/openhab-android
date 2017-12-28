@@ -33,7 +33,6 @@ public class OpenHAB2WidgetTest {
         sut1 = OpenHAB2Widget.createOpenHABWidgetFromJson(rootWidget, createJSONObject(1), "PNG");
         sut2 = OpenHAB2Widget.createOpenHABWidgetFromJson(rootWidget, createJSONObject(2), "SVG");
         sut3 = OpenHAB2Widget.createOpenHABWidgetFromJson(rootWidget, createJSONObject(3), "SVG");
-
     }
 
     @Test
@@ -52,7 +51,6 @@ public class OpenHAB2WidgetTest {
         // Rollersutter icon should always be 0 to 100, not ON/OFF
         //assertEquals("icon/rollershutter?state=0&format=SVG", sut3.getChildren().get(1).getIconPath());
         assertEquals("icon/rollershutter?state=42&format=SVG", sut3.getChildren().get(2).getIconPath());
-
     }
 
     @Test
@@ -114,14 +112,12 @@ public class OpenHAB2WidgetTest {
         assertEquals(false, sut1.childrenHasLinkedPages());
         assertEquals(false, sut2.childrenHasLinkedPages());
         assertEquals(true, sut3.childrenHasLinkedPages());
-
     }
 
     @Test
     public void testChildrenHasNonlinkedPages() throws Exception {
         assertEquals(true, sut1.childrenHasNonlinkedPages());
         assertEquals(false, sut2.childrenHasNonlinkedPages());
-
     }
 
     @Test
@@ -243,6 +239,8 @@ public class OpenHAB2WidgetTest {
      * @param id get different json objects depending on the id
      *           1: All values are set
      *           2: Different colors, no periode, max step size < 1, chart refresh < 100
+     *           3: Frame with Slider, Rollershutter switch and Rollershutter group
+     *
      * @return JSON object
      * @throws Exception when no object with id is found
      */
