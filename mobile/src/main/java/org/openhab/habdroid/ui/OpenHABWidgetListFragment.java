@@ -28,6 +28,8 @@ import android.widget.ListView;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.openhab.habdroid.R;
+import org.openhab.habdroid.core.connection.Connection;
+import org.openhab.habdroid.core.connection.ConnectionAvailbilityAwareAcivity;
 import org.openhab.habdroid.core.connection.ConnectionFactory;
 import org.openhab.habdroid.core.connection.Connections;
 import org.openhab.habdroid.model.OpenHABItem;
@@ -285,8 +287,14 @@ public class OpenHABWidgetListFragment extends ListFragment {
         if (mActivity.getOpenHABVersion() == 1) {
             headers.put("Accept", "application/xml");
         }
-        MyAsyncHttpClient asyncHttpClient = ConnectionFactory.getConnection(Connections.ANY, getActivity())
-                .getAsyncHttpClient();
+        Connection conn;
+        if (getContext() instanceof ConnectionAvailbilityAwareAcivity) {
+            conn = ((ConnectionAvailbilityAwareAcivity) getContext())
+                    .getConnection(Connections.ANY);
+        } else {
+            conn = ConnectionFactory.getConnection(Connections.ANY, getContext());
+        }
+        MyAsyncHttpClient asyncHttpClient = conn.getAsyncHttpClient();
         headers.put("X-Atmosphere-Framework", "1.0");
         if (longPolling) {
             asyncHttpClient.setTimeout(300000);

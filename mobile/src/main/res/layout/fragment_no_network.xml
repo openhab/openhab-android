@@ -4,11 +4,10 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:layout_gravity="center"
-              android:orientation="vertical"
-              tools:context="org.openhab.habdroid.ui.OpenHABWriteTagActivity">
+              android:orientation="vertical">
 
     <android.support.v7.widget.Toolbar
-        android:id="@+id/openhab_toolbar"
+        android:id="@+id/openhab_toolbar_no_network"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorPrimary"

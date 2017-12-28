@@ -65,7 +65,6 @@ import org.openhab.habdroid.core.OpenHABTrackerReceiver;
 import org.openhab.habdroid.core.OpenHABVoiceService;
 import org.openhab.habdroid.core.connection.Connection;
 import org.openhab.habdroid.core.connection.ConnectionAvailbilityAwareAcivity;
-import org.openhab.habdroid.core.connection.ConnectionFactory;
 import org.openhab.habdroid.core.connection.Connections;
 import org.openhab.habdroid.core.connection.exception.ConnectionException;
 import org.openhab.habdroid.core.message.MessageHandler;
@@ -537,7 +536,7 @@ public class OpenHABMainActivity extends ConnectionAvailbilityAwareAcivity imple
             openPageIfPending(mPendingNfcPage);
         } else {
             final String url = baseUrl + "rest/bindings";
-            final Connection conn = ConnectionFactory.getConnection(Connections.ANY, this);
+            final Connection conn = getConnection(Connections.ANY);
 
             conn.getAsyncHttpClient().get(url, new MyHttpClient.TextResponseHandler() {
                 @Override
@@ -579,7 +578,7 @@ public class OpenHABMainActivity extends ConnectionAvailbilityAwareAcivity imple
 
     private void loadSitemapList() {
         setProgressIndicatorVisible(true);
-        Connection conn = ConnectionFactory.getConnection(Connections.ANY, this);
+        Connection conn = getConnection(Connections.ANY);
         final String baseUrl = conn.getOpenHABUrl();
         Log.d(TAG, "Loading sitemap list from " + baseUrl + "rest/sitemaps");
 
@@ -624,7 +623,7 @@ public class OpenHABMainActivity extends ConnectionAvailbilityAwareAcivity imple
 
     private void selectSitemap() {
         setProgressIndicatorVisible(true);
-        Connection conn = ConnectionFactory.getConnection(Connections.ANY, this);
+        Connection conn = getConnection(Connections.ANY);
         final String baseUrl = conn.getOpenHABUrl();
         Log.d(TAG, "Loading sitemap list from " + baseUrl + "rest/sitemaps");
 
@@ -876,8 +875,7 @@ public class OpenHABMainActivity extends ConnectionAvailbilityAwareAcivity imple
         if (TextUtils.isEmpty(nfcItem)) {
             Log.d(TAG, "This is a sitemap tag without parameters");
             // Form the new sitemap page url
-            String newPageUrl =
-                    ConnectionFactory.getConnection(Connections.ANY, this).getOpenHABUrl() +
+            String newPageUrl = getConnection(Connections.ANY).getOpenHABUrl() +
                     "rest/sitemaps" + openHABURI.getPath();
             // Check if we have this page in stack?
             mPendingNfcPage = newPageUrl;
@@ -894,7 +892,7 @@ public class OpenHABMainActivity extends ConnectionAvailbilityAwareAcivity imple
 
     public void sendItemCommand(String itemName, String command) {
         try {
-            Connection conn = ConnectionFactory.getConnection(Connections.ANY, this);
+            Connection conn = getConnection(Connections.ANY);
 
             conn.getAsyncHttpClient().post(conn.getOpenHABUrl() + "rest/items/" + itemName, command,
                     "text/plain;charset=UTF-8", new MyHttpClient.TextResponseHandler() {
@@ -1079,7 +1077,7 @@ public class OpenHABMainActivity extends ConnectionAvailbilityAwareAcivity imple
                 return null;
 
             Connection conn;
-            conn = ConnectionFactory.getConnection(Connections.CLOUD, this);
+            conn = getConnection(Connections.CLOUD);
 
             if (conn == null) {
                 Log.d(TAG, "Remote URL, username or password are empty, no GCM registration will be made");

@@ -22,6 +22,7 @@ import android.widget.TextView;
 
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.core.connection.Connection;
+import org.openhab.habdroid.core.connection.ConnectionAvailbilityAwareAcivity;
 import org.openhab.habdroid.core.connection.ConnectionFactory;
 import org.openhab.habdroid.core.connection.Connections;
 import org.openhab.habdroid.model.OpenHABSitemap;
@@ -89,7 +90,13 @@ public class OpenHABDrawerAdapter extends ArrayAdapter<OpenHABDrawerItem> {
         drawerItemCountLabelTextView = (TextView)drawerItemView.findViewById(R.id.itemcountlabel);
         drawerItemImage = (MySmartImageView)drawerItemView.findViewById(R.id.itemimage);
 
-        Connection conn = ConnectionFactory.getConnection(Connections.ANY, getContext());
+        Connection conn;
+        if (getContext() instanceof ConnectionAvailbilityAwareAcivity) {
+            conn = ((ConnectionAvailbilityAwareAcivity) getContext())
+                    .getConnection(Connections.ANY);
+        } else {
+            conn = ConnectionFactory.getConnection(Connections.ANY, getContext());
+        }
         switch (this.getItemViewType(position)) {
             case TYPE_SITEMAPITEM:
                 OpenHABSitemap siteMap = drawerItem.getSiteMap();

@@ -13,7 +13,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -52,6 +51,7 @@ import com.loopj.android.image.SmartImage;
 
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.core.connection.Connection;
+import org.openhab.habdroid.core.connection.ConnectionAvailbilityAwareAcivity;
 import org.openhab.habdroid.core.connection.ConnectionFactory;
 import org.openhab.habdroid.core.connection.Connections;
 import org.openhab.habdroid.core.connection.exception.ConnectionException;
@@ -78,8 +78,6 @@ import java.util.Random;
 
 import okhttp3.Call;
 import okhttp3.Headers;
-
-import static org.openhab.habdroid.ui.NoNetworkActivity.NO_NETWORK_MESSAGE;
 
 /**
  * This class provides openHAB widgets adapter for list view.
@@ -131,7 +129,13 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
         final RelativeLayout widgetView;
         final TextView labelTextView;
         final TextView valueTextView;
-        final Connection conn = ConnectionFactory.getConnection(Connections.ANY, getContext());
+        final Connection conn;
+        if (getContext() instanceof ConnectionAvailbilityAwareAcivity) {
+            conn = ((ConnectionAvailbilityAwareAcivity) getContext())
+                    .getConnection(Connections.ANY);
+        } else {
+            conn = ConnectionFactory.getConnection(Connections.ANY, getContext());
+        }
         int widgetLayout;
         String[] splitString;
         final OpenHABWidget openHABWidget = getItem(position);
@@ -895,13 +899,6 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
         try {
             conn = ConnectionFactory.getConnection(Connections.ANY, getContext());
         } catch(ConnectionException e) {
-            if (!(getContext() instanceof Activity)) {
-                Intent connectionNotAvailableIntent =
-                        new Intent(getContext(), NoNetworkActivity.class);
-                connectionNotAvailableIntent.putExtra(NO_NETWORK_MESSAGE, e.getMessage());
-                getContext().startActivity(connectionNotAvailableIntent);
-                return;
-            }
             MessageHandler.showMessageToUser((Activity) getContext(),
                     e.getMessage(), MessageHandler.TYPE_DIALOG, MessageHandler.LOGLEVEL_ALWAYS);
             return;
