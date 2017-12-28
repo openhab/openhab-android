@@ -4,8 +4,8 @@ public final class Connections {
     /**
      * Returns any openHAB connection that is most likely to work on the current network. The
      * connections available will be tried in the following order:
-     *  - LOGLEVEL_LOCAL
-     *  - LOGLEVEL_REMOTE
+     *  - LOCAL
+     *  - REMOTE
      *  - CLOUD
      *  - DISCOVERY
      *

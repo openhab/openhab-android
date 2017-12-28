@@ -7,15 +7,20 @@ import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.openhab.habdroid.R;
+import org.openhab.habdroid.core.connection.ConnectionFactory;
+import org.openhab.habdroid.core.connection.Connections;
+import org.openhab.habdroid.core.connection.exception.ConnectionException;
 import org.openhab.habdroid.util.Util;
 
 public class NoNetworkActivity extends AppCompatActivity {
+    private static final String TAG = NoNetworkActivity.class.getSimpleName();
     public static final String NO_NETWORK_MESSAGE = "message";
 
     @Override
@@ -43,16 +48,31 @@ public class NoNetworkActivity extends AppCompatActivity {
         restartButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent startActivity = new Intent(NoNetworkActivity.this, OpenHABMainActivity.class);
-                startActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(startActivity);
-
-                System.exit(0);
+                restartApp();
             }
         });
 
         Toolbar toolbar = findViewById(R.id.openhab_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+    }
+
+    private void restartApp() {
+        Intent startActivity = new Intent(NoNetworkActivity.this, OpenHABMainActivity.class);
+        startActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(startActivity);
+
+        System.exit(0);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        try {
+            ConnectionFactory.getConnection(Connections.ANY, this);
+            restartApp();
+        } catch (ConnectionException e) {
+            Log.d(TAG, "After resuming the app, there's still no network available.", e);
+        }
     }
 }

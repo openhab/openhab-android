@@ -91,7 +91,7 @@ public class OpenHABVoiceService extends ContinuingIntentService implements Open
 
     /**
      * @param message message to show
-     * @param messageType must be Constants.MESSAGES.TYPE_DIALOG or Constants.MESSAGES.TYPE_TOAST
+     * @param messageType must be MessageHandler.TYPE_DIALOG or MessageHandler.TYPE_TOAST
      * @param logLevel not implemented
      */
     public void showMessageToUser(String message, int messageType, int logLevel) {

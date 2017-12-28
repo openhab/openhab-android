@@ -26,12 +26,12 @@ public class MessageHandler {
     /**
      * Shows a message to the user.
      * You might want to send two messages: One detailed one with
-     * logLevel Constants.MESSAGES.LOGLEVEL.LOGLEVEL_DEBUG and one simple message with
-     * Constants.MESSAGES.LOGLEVEL.LOGLEVEL_NO_DEBUG
+     * logLevel MessageHandler.LOGLEVEL_DEBUG and one simple message with
+     * MessageHandler.LOGLEVEL_NO_DEBUG
      *
      * @param message message to show
-     * @param messageType can be one of Constants.MESSAGES.*
-     * @param logLevel can be on of Constants.MESSAGES.LOGLEVEL.*
+     * @param messageType can be one of MessageHandler.TYPE_*
+     * @param logLevel can be on of MessageHandler.LOGLEVEL.*
      */
     public static void showMessageToUser(Activity ctx, String message, int messageType,
                                          int logLevel) {

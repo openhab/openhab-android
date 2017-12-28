@@ -18,6 +18,7 @@ import org.openhab.habdroid.core.connection.exception.NoUrlInformationException;
 import org.openhab.habdroid.util.Constants;
 import org.openhab.habdroid.util.Util;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -30,8 +31,9 @@ import java.util.Map;
  */
 final public class ConnectionFactory extends BroadcastReceiver {
     private static final String TAG = ConnectionFactory.class.getSimpleName();
-    private static final List<Integer> localConnectionTypes = Arrays.asList(ConnectivityManager
-            .TYPE_ETHERNET, ConnectivityManager.TYPE_WIFI, ConnectivityManager.TYPE_WIMAX);
+    private static final List<Integer> localConnectionTypes = new ArrayList<>(
+            Arrays.asList(ConnectivityManager.TYPE_ETHERNET, ConnectivityManager.TYPE_WIFI,
+                    ConnectivityManager.TYPE_WIMAX));
 
     private Context ctx;
     private SharedPreferences settings;
@@ -77,9 +79,10 @@ final public class ConnectionFactory extends BroadcastReceiver {
         factory.setSettings(settings);
         factory.setContext(ctx);
 
+        ctx.registerReceiver(factory, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
+
         if (factory.cachedConnections.containsKey(Connections.ANY)) {
             Connection conn = factory.cachedConnections.get(Connections.ANY);
-            ctx.registerReceiver(factory, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
             return conn;
         }
 
@@ -249,14 +252,15 @@ final public class ConnectionFactory extends BroadcastReceiver {
         if (activeNetworkInfo == null || intent.getExtras() == null) {
             return;
         }
-        NetworkInfo otherNetworkInfo = (NetworkInfo) intent.getExtras().get("EXTRA_NETWORK_INFO");
+        NetworkInfo otherNetworkInfo = (NetworkInfo) intent.getExtras()
+                .get(ConnectivityManager.EXTRA_NETWORK_INFO);
         if (otherNetworkInfo == null) {
             return;
         }
-        if (activeNetworkInfo.getType() == otherNetworkInfo.getType()) {
+        if (activeNetworkInfo.getType() == otherNetworkInfo.getType() && otherNetworkInfo.isConnected()) {
             return;
         }
 
-        cachedConnections.remove(Connections.ANY);
+        cachedConnections.clear();
     }
 }

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 
 import org.openhab.habdroid.core.connection.exception.NetworkNotAvailableException;
 import org.openhab.habdroid.core.connection.exception.NetworkNotSupportedException;
@@ -18,6 +19,7 @@ import static org.openhab.habdroid.ui.OpenHABPreferencesActivity.NO_URL_INFO_EXC
 import static org.openhab.habdroid.ui.OpenHABPreferencesActivity.NO_URL_INFO_EXCEPTION_MESSAGE;
 
 public abstract class ConnectionAvailbilityAwareAcivity extends AppCompatActivity {
+    private static final String TAG = ConnectionAvailbilityAwareAcivity.class.getSimpleName();
     private Thread.UncaughtExceptionHandler originalHandler;
 
     @Override
@@ -36,6 +38,17 @@ public abstract class ConnectionAvailbilityAwareAcivity extends AppCompatActivit
         }
 
         Thread.setDefaultUncaughtExceptionHandler(originalHandler);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        try {
+            unregisterReceiver(ConnectionFactory.getInstance());
+        } catch (IllegalArgumentException e) {
+            Log.d(TAG, "Tried to unregister not registered BroadcastReceiver.", e);
+        }
     }
 
     private void setConnectionExceptionHandler() {

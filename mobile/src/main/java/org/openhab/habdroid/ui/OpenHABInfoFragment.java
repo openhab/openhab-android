@@ -46,10 +46,6 @@ public class OpenHABInfoFragment extends Fragment {
     private TextView mOpenHABSecretText;
     private TextView mOpenHABSecretLabel;
     private TextView mOpenHABNotificationText;
-    private String mOpenHABBaseUrl;
-    private String mUsername;
-    private String mPassword;
-    private static MyAsyncHttpClient mAsyncHttpClient;
 
 
     @Override
@@ -58,22 +54,16 @@ public class OpenHABInfoFragment extends Fragment {
         View view = inflater.inflate(R.layout.openhabinfo, container, false);
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences
                 (getActivity().getApplicationContext());
-        mAsyncHttpClient = new MyAsyncHttpClient(getActivity().getApplicationContext(), prefs.getBoolean(Constants.PREFERENCE_SSLHOST,
-                false), prefs.getBoolean(Constants.PREFERENCE_SSLCERT, false));
         mOpenHABVersionText = (TextView)view.findViewById(R.id.openhab_version);
         mOpenHABUUIDText = (TextView)view.findViewById(R.id.openhab_uuid);
         mOpenHABSecretText = (TextView)view.findViewById(R.id.openhab_secret);
         mOpenHABSecretLabel = (TextView)view.findViewById(R.id.openhab_secret_label);
         mOpenHABVersionLabel = (TextView)view.findViewById(R.id.openhab_version_label);
         mOpenHABNotificationText = (TextView)view.findViewById(R.id.openhab_gcm);
-        Bundle bundle=getArguments();
+        Bundle bundle = getArguments();
 
-        if (bundle!=null){
-            mOpenHABBaseUrl = bundle.getString("openHABBaseUrl");
-            mUsername = bundle.getString("username");
-            mPassword = bundle.getString("password");
+        if (bundle != null){
             mOpenHABVersion = bundle.getInt("openHABVersion");
-            mAsyncHttpClient.setBasicAuth(mUsername, mPassword);
         } else {
             Log.e(TAG, "No openHABBaseURl parameter passed, can't fetch openHAB info from nowhere");
         }
@@ -99,7 +89,8 @@ public class OpenHABInfoFragment extends Fragment {
             return;
         }
 
-        conn.getAsyncHttpClient().get(mOpenHABBaseUrl + "static/secret", new MyHttpClient.TextResponseHandler() {
+        conn.getAsyncHttpClient().get(conn.getOpenHABUrl() + "static/secret",
+                new MyHttpClient.TextResponseHandler() {
             @Override
             public void onFailure(Call call, int statusCode, Headers headers, String responseString, Throwable error) {
                 mOpenHABSecretText.setVisibility(View.GONE);
@@ -120,13 +111,20 @@ public class OpenHABInfoFragment extends Fragment {
     }
 
     private void setUuidText() {
-        String uuidUrl;
-        if (mOpenHABVersion == 1) {
-            uuidUrl = mOpenHABBaseUrl + "static/uuid";
-        } else {
-            uuidUrl = mOpenHABBaseUrl + "rest/uuid";
+        Connection conn;
+        try {
+            conn = ConnectionFactory.getConnection(Connections.ANY, getActivity());
+        } catch (NetworkNotSupportedException | NetworkNotAvailableException e) {
+            return;
         }
-        mAsyncHttpClient.get(uuidUrl, new MyHttpClient.TextResponseHandler() {
+
+        String uuidUrl = conn.getOpenHABUrl();
+        if (mOpenHABVersion == 1) {
+            uuidUrl = uuidUrl + "static/uuid";
+        } else {
+            uuidUrl = uuidUrl + "rest/uuid";
+        }
+        conn.getAsyncHttpClient().get(uuidUrl, new MyHttpClient.TextResponseHandler() {
             @Override
             public void onFailure(Call call, int statusCode, Headers headers, String responseString, Throwable error) {
                 mOpenHABUUIDText.setText(R.string.unknown);
@@ -144,14 +142,21 @@ public class OpenHABInfoFragment extends Fragment {
     }
 
     private void setVersionText() {
+        Connection conn;
+        try {
+            conn = ConnectionFactory.getConnection(Connections.ANY, getActivity());
+        } catch (NetworkNotSupportedException | NetworkNotAvailableException e) {
+            return;
+        }
+
         final String versionUrl;
         if (mOpenHABVersion == 1) {
-            versionUrl = mOpenHABBaseUrl + "static/version";
+            versionUrl = conn.getOpenHABUrl() + "static/version";
         } else {
-            versionUrl = mOpenHABBaseUrl + "rest";
+            versionUrl = conn.getOpenHABUrl() + "rest";
         }
         Log.d(TAG, "url = " + versionUrl);
-        mAsyncHttpClient.get(versionUrl, new MyHttpClient.TextResponseHandler() {
+        conn.getAsyncHttpClient().get(versionUrl, new MyHttpClient.TextResponseHandler() {
             @Override
             public void onFailure(Call call, int statusCode, Headers headers, String responseString, Throwable error) {
                 mOpenHABVersionText.setText(R.string.unknown);
