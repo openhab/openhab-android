@@ -154,7 +154,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
             showMessageToUser(message, DIALOG, NO_DEBUG);
             message += "\nURL: " + openHABBaseUrl + "\nUsername: " + openHABUsername + "\nPassword: " + openHABPassword;
             message += "\nStacktrace:\n" + Log.getStackTraceString(error);
-            showMessageToUser(message,DIALOG, DEBUG);
+            showMessageToUser(message, DIALOG, DEBUG);
         }
     }
 
