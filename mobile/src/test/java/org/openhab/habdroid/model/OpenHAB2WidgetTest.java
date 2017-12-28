@@ -3,6 +3,7 @@ package org.openhab.habdroid.model;
 import net.bytebuddy.implementation.bytecode.Throw;
 
 import org.json.JSONObject;
+import org.junit.Assume;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,6 +16,9 @@ import java.util.concurrent.ExecutionException;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
+
+import android.graphics.Color;
+import static org.hamcrest.CoreMatchers.equalTo;
 
 @RunWith(MockitoJUnitRunner.class)
 public class OpenHAB2WidgetTest {
@@ -29,8 +33,14 @@ public class OpenHAB2WidgetTest {
         sut1 = OpenHAB2Widget.createOpenHABWidgetFromJson(rootWidget, createJSONObject(1), "PNG");
         sut2 = OpenHAB2Widget.createOpenHABWidgetFromJson(rootWidget, createJSONObject(2), "SVG");
         sut3 = OpenHAB2Widget.createOpenHABWidgetFromJson(rootWidget, createJSONObject(3), "SVG");
+
+    }
+
+    @Test
+    public void testSutInstanceOfOpenHAB2Widget() throws Exception {
         assertTrue(sut1 instanceof OpenHAB2Widget);
         assertTrue(sut2 instanceof OpenHAB2Widget);
+        assertTrue(sut3 instanceof OpenHAB2Widget);
     }
 
     @Test
@@ -48,15 +58,12 @@ public class OpenHAB2WidgetTest {
     @Test
     public void testGetChildren() throws Exception {
         assertEquals("demo11", sut1.getChildren().get(0).getId());
+        assertEquals("0202_0_0_1", sut3.getChildren().get(1).getId());
+    }
 
-        // sut2 doesn't have children
-        IndexOutOfBoundsException e = null;
-        try {
-            sut2.getChildren().get(0).getId();
-        } catch (IndexOutOfBoundsException ex) {
-            e = ex;
-        }
-        assertTrue(e != null);
+    @Test(expected = IndexOutOfBoundsException.class)
+    public void testGetChildrenNoChildren() throws Exception {
+        sut2.getChildren().get(0).getId();
     }
 
     @Test
@@ -119,6 +126,7 @@ public class OpenHAB2WidgetTest {
 
     @Test
     public void testGetColors() throws Exception {
+        Assume.assumeThat(Color.parseColor("blue"), equalTo(Color.BLUE));
         // Doesn't seem to work via Android Studio
         Integer i = new Integer(0);
         assertEquals(i, sut1.getLabelColor());
@@ -150,14 +158,11 @@ public class OpenHAB2WidgetTest {
         assertEquals("ON", sut1.getMapping(0).getCommand());
         assertEquals("On", sut1.getMapping(0).getLabel());
         assertEquals("abcäöüßẞèéóò\uD83D\uDE03", sut2.getMapping(0).getLabel());
+    }
 
-        IndexOutOfBoundsException e = null;
-        try {
-            sut3.getChildren().get(0).getMapping(0);
-        } catch (IndexOutOfBoundsException ex) {
-            e = ex;
-        }
-        assertTrue(e != null);
+    @Test(expected = IndexOutOfBoundsException.class)
+    public void testGetMappingNoMapping() throws Exception {
+        sut3.getChildren().get(0).getMapping(0);
     }
 
     @Test
