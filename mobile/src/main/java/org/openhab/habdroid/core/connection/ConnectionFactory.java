@@ -61,16 +61,7 @@ final public class ConnectionFactory
     }
 
     private void setContext(Context ctx) {
-        SharedPreferences prefs;
-        if (this.ctx != null) {
-            prefs = PreferenceManager.getDefaultSharedPreferences(this.ctx);
-            prefs.unregisterOnSharedPreferenceChangeListener(this);
-        }
-
         this.ctx = ctx;
-
-        prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
-        prefs.registerOnSharedPreferenceChangeListener(this);
     }
 
     @Override
@@ -81,7 +72,12 @@ final public class ConnectionFactory
     }
 
     private void setSettings(SharedPreferences settings) {
+        if (this.settings != null) {
+            this.settings.unregisterOnSharedPreferenceChangeListener(this);
+        }
         this.settings = settings;
+
+        this.settings.registerOnSharedPreferenceChangeListener(this);
     }
 
     public static Connection getConnection(int connectionType, Context ctx) {
@@ -103,8 +99,7 @@ final public class ConnectionFactory
         ctx.registerReceiver(factory, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
 
         if (factory.cachedConnections.containsKey(Connections.ANY)) {
-            Connection conn = factory.cachedConnections.get(Connections.ANY);
-            return conn;
+            return factory.cachedConnections.get(Connections.ANY);
         }
 
         Connection conn;
