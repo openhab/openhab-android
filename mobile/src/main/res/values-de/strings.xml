@@ -38,7 +38,6 @@
     <string name="title_voice_widget">openHAB-Sprachbefehl</string>
     <string name="info_voice_input">"openHAB, zu Ihren Diensten!"</string>
     <string name="info_voice_recognized_text">"Erkannter Befehl: %1$s"</string>
-    <string name="info_demo_mode">openHAB läuft im Demomodus. In den Einstellungen kann ein eigener openHAB-Server konfiguriert werden.</string>
     <string name="info_conn_url">Verbinde mit lokaler URL</string>
     <string name="info_conn_rem_url">Verbinde mit Remote-URL</string>
     <string name="info_discovery">Suche openHAB. Bitte warten\u2026</string>
@@ -132,4 +131,7 @@
     <string name="settings_no_default_sitemap">Keine Standard-Sitemap festgelegt</string>
     <string name="settings_clear_default_sitemap">Standard-Sitemap zurücksetzen</string>
     <string name="settings_current_default_sitemap">Aktuelle Standard-Sitemap: %1$s</string>
+    <string name="error_no_url_start_demo_mode">Bitte konfiguriere die IP Adresse oder den Server-Namen in den Server-Einstellungen. Bis dahin wird der Demo-Modus verwendet.</string>
+    <string name="intro_discovery">Discovery</string>
+    <string name="intro_discovery_summary">Bitte beachte, dass dies nur funktionieren wird, wenn durch den Server keine Authentifizierung verlangt wird.</string>
 </resources>

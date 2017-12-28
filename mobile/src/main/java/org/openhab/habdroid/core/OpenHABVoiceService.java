@@ -27,66 +27,20 @@ import org.openhab.habdroid.core.message.MessageHandler;
 import org.openhab.habdroid.util.ContinuingIntentService;
 import org.openhab.habdroid.util.MyHttpClient;
 
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Queue;
 
 import okhttp3.Call;
 import okhttp3.Headers;
 
 /**
  * This service handles voice commands and sends them to OpenHAB.
- * It will use the openHAB base URL if passed in the intent's extra,
- * or else use the {@link OpenHABTracker} to discover openHAB itself.
+ * It will use the openHAB base URL if passed in the intent's extra.
  */
-public class OpenHABVoiceService extends ContinuingIntentService implements OpenHABTrackerReceiver {
-
+public class OpenHABVoiceService extends ContinuingIntentService {
     private static final String TAG = OpenHABVoiceService.class.getSimpleName();
-
-    private Queue<Intent> mBufferedIntents;
-
 
     public OpenHABVoiceService() {
         super(TAG);
-    }
-
-
-    @Override
-    public void onCreate() {
-        super.onCreate();
-        Log.d(TAG, "onCreate()");
-
-        mBufferedIntents = new LinkedList<Intent>();
-    }
-
-    @Override
-    protected void onHandleIntent(Intent intent) {
-        Log.d(TAG, "onHandleIntent()");
-        bufferIntent(intent);
-    }
-
-    /**
-     * Buffers the {@link Intent} to be processed later when openHABBaseUrl has been determined by {@link OpenHABTracker}.
-     *
-     * Usually, the discovery of the openHABBaseUrl is fast enough, so there will be only one intent in the buffer
-     * when the buffer is processed and this service is stopped.
-     * However, it is not guaranteed that this service is only called once before openHABBaseUrl can be discovered.
-     * Therefore all intents are buffered and later this buffer will be processed.
-     *
-     * @param intent The {@link Intent} to be buffered.
-     */
-    private void bufferIntent(Intent intent) {
-        mBufferedIntents.add(intent);
-    }
-
-    @Override
-    public void onOpenHABTracked(String baseUrl) {
-        Log.d(TAG, "onOpenHABTracked(): " + baseUrl);
-        while (!mBufferedIntents.isEmpty()) {
-            processVoiceIntent(mBufferedIntents.poll());
-        }
-        Log.d(TAG, "Stopping service for start ID " + getLastStartId());
-        stopSelf(getLastStartId());
     }
 
     /**
@@ -118,17 +72,8 @@ public class OpenHABVoiceService extends ContinuingIntentService implements Open
     }
 
     @Override
-    public void onError(String error) {
-        showMessageToUser(error, MessageHandler.TYPE_DIALOG, MessageHandler.LOGLEVEL_ALWAYS);
-        Log.d(TAG, "onError(): " + error);
-        stopSelf();
-    }
-
-
-    private void processVoiceIntent(Intent data) {
-        Log.d(TAG, "processVoiceIntent()");
-
-        String voiceCommand = extractVoiceCommand(data);
+    protected void onHandleIntent(Intent intent) {
+        String voiceCommand = extractVoiceCommand(intent);
         if (!voiceCommand.isEmpty()) {
             try {
                 Connection conn = ConnectionFactory.getConnection(Connections.ANY, this);
@@ -139,7 +84,6 @@ public class OpenHABVoiceService extends ContinuingIntentService implements Open
             }
         }
     }
-
 
     private String extractVoiceCommand(Intent data) {
         String voiceCommand = "";
@@ -204,15 +148,5 @@ public class OpenHABVoiceService extends ContinuingIntentService implements Open
                 showMessageToUser(message, MessageHandler.TYPE_TOAST, MessageHandler.LOGLEVEL_ALWAYS);
             }
         });
-    }
-
-    @Override
-    public void onBonjourDiscoveryStarted() {
-        Log.d(TAG, "onBonjourDiscoveryStarted()");
-    }
-
-    @Override
-    public void onBonjourDiscoveryFinished() {
-        Log.d(TAG, "onBonjourDiscoveryFinished()");
     }
 }

@@ -60,13 +60,16 @@ import org.openhab.habdroid.core.GcmIntentService;
 import org.openhab.habdroid.core.NetworkConnectivityInfo;
 import org.openhab.habdroid.core.NotificationDeletedBroadcastReceiver;
 import org.openhab.habdroid.core.OnUpdateBroadcastReceiver;
-import org.openhab.habdroid.core.OpenHABTracker;
-import org.openhab.habdroid.core.OpenHABTrackerReceiver;
 import org.openhab.habdroid.core.OpenHABVoiceService;
 import org.openhab.habdroid.core.connection.Connection;
 import org.openhab.habdroid.core.connection.ConnectionAvailbilityAwareAcivity;
+import org.openhab.habdroid.core.connection.ConnectionFactory;
 import org.openhab.habdroid.core.connection.Connections;
+import org.openhab.habdroid.core.connection.DemoConnection;
 import org.openhab.habdroid.core.connection.exception.ConnectionException;
+import org.openhab.habdroid.core.connection.exception.NetworkNotAvailableException;
+import org.openhab.habdroid.core.connection.exception.NetworkNotSupportedException;
+import org.openhab.habdroid.core.connection.exception.NoUrlInformationException;
 import org.openhab.habdroid.core.message.MessageHandler;
 import org.openhab.habdroid.core.notifications.GoogleCloudMessageConnector;
 import org.openhab.habdroid.core.notifications.NotificationSettings;
@@ -74,6 +77,8 @@ import org.openhab.habdroid.model.OpenHABLinkedPage;
 import org.openhab.habdroid.model.OpenHABSitemap;
 import org.openhab.habdroid.ui.drawer.OpenHABDrawerAdapter;
 import org.openhab.habdroid.ui.drawer.OpenHABDrawerItem;
+import org.openhab.habdroid.util.AsyncServiceResolver;
+import org.openhab.habdroid.util.AsyncServiceResolverListener;
 import org.openhab.habdroid.util.Constants;
 import org.openhab.habdroid.util.MyHttpClient;
 import org.openhab.habdroid.util.Util;
@@ -94,6 +99,7 @@ import java.security.cert.CertificateRevokedException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.jmdns.ServiceInfo;
 import javax.net.ssl.SSLHandshakeException;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -105,10 +111,13 @@ import de.duenndns.ssl.MemorizingTrustManager;
 import okhttp3.Call;
 import okhttp3.Headers;
 
+import static org.openhab.habdroid.core.message.MessageHandler.LOGLEVEL_ALWAYS;
+import static org.openhab.habdroid.core.message.MessageHandler.TYPE_DIALOG;
+import static org.openhab.habdroid.core.message.MessageHandler.TYPE_SNACKBAR;
 import static org.openhab.habdroid.core.message.MessageHandler.showMessageToUser;
 
-public class OpenHABMainActivity extends ConnectionAvailbilityAwareAcivity implements OnWidgetSelectedListener,
-        OpenHABTrackerReceiver, MemorizingResponder {
+public class OpenHABMainActivity extends ConnectionAvailbilityAwareAcivity
+        implements OnWidgetSelectedListener, MemorizingResponder, AsyncServiceResolverListener {
 
     private abstract class DefaultHttpResponseHandler implements MyHttpClient.ResponseHandler {
 
@@ -160,6 +169,7 @@ public class OpenHABMainActivity extends ConnectionAvailbilityAwareAcivity imple
     // Logging TAG
     private static final String TAG = OpenHABMainActivity.class.getSimpleName();
     // Activities request codes
+    private static final int INTO_REQUEST_CODE = 1001;
     private static final int SETTINGS_REQUEST_CODE = 1002;
     private static final int WRITE_NFC_TAG_REQUEST_CODE = 1003;
     private static final int INFO_REQUEST_CODE = 1004;
@@ -167,6 +177,8 @@ public class OpenHABMainActivity extends ConnectionAvailbilityAwareAcivity imple
     private static final int DRAWER_NOTIFICATIONS = 100;
     private static final int DRAWER_ABOUT = 101;
     private static final int DRAWER_PREFERENCES = 102;
+
+    private static final String EXTRA_DEMO_FIRST_TIME = "firstDemo";
 
     // openHAB Bonjour service name
     private String openHABServiceType;
@@ -180,10 +192,9 @@ public class OpenHABMainActivity extends ConnectionAvailbilityAwareAcivity imple
     private StateRetainFragment stateFragment;
     // preferences
     private SharedPreferences mSettings;
-    // OpenHAB tracker
-    private OpenHABTracker mOpenHABTracker;
     // Progress dialog
     private ProgressDialog mProgressDialog;
+    private AsyncServiceResolver mServiceResolver;
     // If Voice Recognition is enabled
     private boolean mVoiceRecognitionEnabled = false;
     // NFC Launch data
@@ -260,6 +271,32 @@ public class OpenHABMainActivity extends ConnectionAvailbilityAwareAcivity imple
         setContentView(R.layout.activity_main);
 
         setupToolbar();
+
+        //  Create a new boolean and preference and set it to true
+        boolean isFirstStart = mSettings.getBoolean("firstStart", true);
+
+        SharedPreferences.Editor prefsEdit = sharedPrefs.edit();
+        //  If the activity has never started before...
+        if (isFirstStart) {
+
+            //  Launch app intro
+            final Intent i = new Intent(OpenHABMainActivity.this, IntroActivity.class);
+            startActivityForResult(i, INTO_REQUEST_CODE);
+
+            prefsEdit.putBoolean("firstStart", false).apply();
+            return;
+        }
+
+        try {
+            initializeConnectivity();
+        } catch (NoUrlInformationException e) {
+            Log.d(TAG, "No connection data available, start discovery.", e);
+            discoverOpenHAB();
+            return;
+        } catch (NetworkNotSupportedException | NetworkNotAvailableException e) {
+            // will be handled by #getConnection if it is used later
+        }
+
         setupDrawer();
         gcmRegisterBackground();
         setupPager();
@@ -288,22 +325,95 @@ public class OpenHABMainActivity extends ConnectionAvailbilityAwareAcivity imple
             checkFullscreen();
         }
 
-        //  Create a new boolean and preference and set it to true
-        boolean isFirstStart = mSettings.getBoolean("firstStart", true);
-
-        SharedPreferences.Editor prefsEdit = sharedPrefs.edit();
-        //  If the activity has never started before...
-        if (isFirstStart) {
-
-            //  Launch app intro
-            final Intent i = new Intent(OpenHABMainActivity.this, IntroActivity.class);
-            startActivity(i);
-
-            prefsEdit.putBoolean("firstStart", false).apply();
-        }
-
         OnUpdateBroadcastReceiver.updateComparableVersion(prefsEdit);
         prefsEdit.apply();
+    }
+
+    private void initializeConnectivity() throws NoUrlInformationException,
+            NetworkNotAvailableException, NetworkNotSupportedException {
+        final Connection conn = ConnectionFactory.getConnection(Connections.ANY, this);
+        if (conn instanceof DemoConnection) {
+            showMessageToUser(
+                    this, getString(R.string.info_demo_mode_short), TYPE_SNACKBAR, LOGLEVEL_ALWAYS);
+            if (getIntent().hasExtra(EXTRA_DEMO_FIRST_TIME)) {
+                showMessageToUser(this, getString(R.string.error_no_url_start_demo_mode),
+                        TYPE_DIALOG, LOGLEVEL_ALWAYS);
+            }
+        } else if (conn.getConnectionType() == Connections.LOCAL) {
+            showMessageToUser(
+                    this, getString(R.string.info_conn_url), TYPE_SNACKBAR, LOGLEVEL_ALWAYS);
+        } else if (conn.getConnectionType() == Connections.REMOTE) {
+            showMessageToUser(
+                    this, getString(R.string.info_conn_rem_url), TYPE_SNACKBAR, LOGLEVEL_ALWAYS);
+        }
+
+        final String url = conn.getOpenHABUrl() + "rest/bindings";
+        conn.getAsyncHttpClient().get(url, new MyHttpClient.TextResponseHandler() {
+            @Override
+            public void onFailure(Call call, int statusCode, Headers headers, String responseString, Throwable throwable) {
+                mOpenHABVersion = 1;
+                Log.d(TAG, "openHAB version 1 - got error " + throwable + " accessing " + url);
+                conn.getAsyncHttpClient().addHeader("Accept", "application/xml");
+                selectSitemap();
+            }
+
+            @Override
+            public void onSuccess(Call call, int statusCode, Headers headers, String responseString) {
+                mOpenHABVersion = 2;
+                Log.d(TAG, "openHAB version 2");
+                selectSitemap();
+            }
+        });
+    }
+
+    private void discoverOpenHAB() {
+        if (mServiceResolver != null && mServiceResolver.isAlive()) {
+            Log.d(TAG, "openHAB is already being discovered, another start of discovery refused.");
+            return;
+        }
+        mProgressDialog = ProgressDialog.show(this, "",
+                getString(R.string.info_discovery), true);
+
+        mServiceResolver = new AsyncServiceResolver(
+                this, this, openHABServiceType);
+        mServiceResolver.start();
+    }
+
+    @Override
+    public void onServiceResolved(ServiceInfo serviceInfo) {
+        stopProgressDialog();
+
+        Log.d(TAG, "Service resolved: "
+                + serviceInfo.getHostAddresses()[0]
+                + " port:" + serviceInfo.getPort());
+        String openHABUrl = "https://" + serviceInfo.getHostAddresses()[0] + ":" +
+                String.valueOf(serviceInfo.getPort()) + "/";
+
+        PreferenceManager.getDefaultSharedPreferences(this).edit().putString(Constants.PREFERENCE_URL, openHABUrl).apply();
+
+        showMessageToUser(this, "Discovered as " + openHABUrl, MessageHandler.TYPE_SNACKBAR,
+                MessageHandler.LOGLEVEL_ALWAYS);
+    }
+
+    @Override
+    public void onServiceResolveFailed() {
+        stopProgressDialog();
+        PreferenceManager
+                .getDefaultSharedPreferences(this)
+                .edit()
+                .putBoolean(Constants.PREFERENCE_DEMOMODE, true)
+                .apply();
+        restartAfterSettingsUpdate(true);
+    }
+
+    private void stopProgressDialog() {
+        try {
+            mProgressDialog.dismiss();
+            mProgressDialog = null;
+        } catch (Exception e) {
+            // This is to catch "java.lang.IllegalArgumentException: View not attached to window manager"
+            // exception which happens if user quited app during discovery
+        }
     }
 
     private void processIntent(Intent intent) {
@@ -359,6 +469,9 @@ public class OpenHABMainActivity extends ConnectionAvailbilityAwareAcivity imple
     public void onResume() {
         Log.d(TAG, "onResume()");
         super.onResume();
+        if ((mServiceResolver != null && mServiceResolver.isAlive()) || pagerAdapter == null) {
+            return;
+        }
         PendingIntent pendingIntent = PendingIntent.getActivity(
                 this, 0, new Intent(this, ((Object) this).getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
         if (NfcAdapter.getDefaultAdapter(this) != null)
@@ -416,9 +529,7 @@ public class OpenHABMainActivity extends ConnectionAvailbilityAwareAcivity imple
     private void resetStateFragmentAfterResume(FragmentManager fm) {
         stateFragment = new StateRetainFragment();
         fm.beginTransaction().add(stateFragment, "stateFragment").commit();
-        mOpenHABTracker = new OpenHABTracker(this, openHABServiceType);
         mStartedWithNetworkConnectivityInfo = NetworkConnectivityInfo.currentNetworkConnectivityInfo(this);
-        mOpenHABTracker.start();
     }
 
     /**
@@ -428,9 +539,6 @@ public class OpenHABMainActivity extends ConnectionAvailbilityAwareAcivity imple
     public void onStop() {
         Log.d(TAG, "onStop()");
         super.onStop();
-        if (mOpenHABTracker != null) {
-            mOpenHABTracker.stop();
-        }
         if(selectSitemapDialog != null && selectSitemapDialog.isShowing()) {
             selectSitemapDialog.dismiss();
         }
@@ -527,52 +635,6 @@ public class OpenHABMainActivity extends ConnectionAvailbilityAwareAcivity imple
         } else {
             pagerAdapter.openPage(pendingPage);
             pager.setCurrentItem(pagerAdapter.getCount() - 1);
-        }
-    }
-
-    public void onOpenHABTracked(String baseUrl) {
-        if (!TextUtils.isEmpty(mNfcData)) {
-            onNfcTag(mNfcData);
-            openPageIfPending(mPendingNfcPage);
-        } else {
-            final String url = baseUrl + "rest/bindings";
-            final Connection conn = getConnection(Connections.ANY);
-
-            conn.getAsyncHttpClient().get(url, new MyHttpClient.TextResponseHandler() {
-                @Override
-                public void onFailure(Call call, int statusCode, Headers headers, String responseString, Throwable throwable) {
-                    mOpenHABVersion = 1;
-                    Log.d(TAG, "openHAB version 1 - got error " + throwable + " accessing " + url);
-                    conn.getAsyncHttpClient().addHeader("Accept", "application/xml");
-                    selectSitemap();
-                }
-
-                @Override
-                public void onSuccess(Call call, int statusCode, Headers headers, String responseString) {
-                    mOpenHABVersion = 2;
-                    Log.d(TAG, "openHAB version 2");
-                    selectSitemap();
-                }
-            });
-        }
-    }
-
-    public void onError(String error) {
-        showMessageToUser(OpenHABMainActivity.this, error, MessageHandler.TYPE_DIALOG, MessageHandler.LOGLEVEL_ALWAYS);
-    }
-
-    public void onBonjourDiscoveryStarted() {
-        mProgressDialog = ProgressDialog.show(this, "",
-                getString(R.string.info_discovery), true);
-    }
-
-    public void onBonjourDiscoveryFinished() {
-        try {
-            mProgressDialog.dismiss();
-            mProgressDialog = null;
-        } catch (Exception e) {
-            // This is to catch "java.lang.IllegalArgumentException: View not attached to window manager"
-            // exception which happens if user quited app during discovery
         }
     }
 
@@ -793,16 +855,8 @@ public class OpenHABMainActivity extends ConnectionAvailbilityAwareAcivity imple
         Log.d(TAG, String.format("onActivityResult requestCode = %d, resultCode = %d", requestCode, resultCode));
         switch (requestCode) {
             case SETTINGS_REQUEST_CODE:
-                // Restart app after preferences
-                Log.d(TAG, "Restarting after settings");
-                // Get launch intent for application
-                Intent restartIntent = getBaseContext().getPackageManager()
-                        .getLaunchIntentForPackage(getBaseContext().getPackageName());
-                restartIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                // Finish current activity
-                finish();
-                // Start launch activity
-                startActivity(restartIntent);
+            case INTO_REQUEST_CODE:
+                restartAfterSettingsUpdate();
                 break;
             case WRITE_NFC_TAG_REQUEST_CODE:
                 Log.d(TAG, "Got back from Write NFC tag");
@@ -811,9 +865,32 @@ public class OpenHABMainActivity extends ConnectionAvailbilityAwareAcivity imple
         }
     }
 
+    private void restartAfterSettingsUpdate() {
+        restartAfterSettingsUpdate(false);
+    }
+
+    private void restartAfterSettingsUpdate(boolean firstTimeDemo) {
+        // Restart app after preferences
+        Log.d(TAG, "Restarting after settings");
+        // Get launch intent for application
+        Intent restartIntent = getBaseContext().getPackageManager()
+                .getLaunchIntentForPackage(getBaseContext().getPackageName());
+        restartIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        if (firstTimeDemo) {
+            restartIntent.putExtra(EXTRA_DEMO_FIRST_TIME, true);
+        }
+        // Finish current activity
+        finish();
+        // Start launch activity
+        startActivity(restartIntent);
+    }
+
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
         Log.d(TAG, "onSaveInstanceState");
+        if (pagerAdapter == null) {
+            return;
+        }
         // Save opened framents into state retaining fragment (I love Google! :-)
         Log.d(TAG, String.format("Saving %d fragments", pagerAdapter.getFragmentList().size()));
         Log.d(TAG, String.format("Saving current page = %d", pager.getCurrentItem()));
