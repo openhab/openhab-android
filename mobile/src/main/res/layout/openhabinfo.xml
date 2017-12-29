@@ -1,75 +1,110 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:tools="http://schemas.android.com/tools"
-              android:orientation="vertical"
               android:layout_width="fill_parent"
               android:layout_height="fill_parent"
-              tools:context="org.openhab.habdroid.ui.OpenHABWriteTagActivity" >
+              android:orientation="vertical"
+              android:padding="5dp"
+              tools:context="org.openhab.habdroid.ui.OpenHABWriteTagActivity">
+
     <TextView
         android:id="@+id/openhab_version_label"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="@string/info_openhab_version_label"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:layout_marginTop="20dp"
-        android:gravity="center" />
+        android:textColor="@color/black"
+        android:textAppearance="?android:attr/textAppearanceMedium"/>
+
     <TextView
         android:id="@+id/openhab_version"
-        android:textIsSelectable="true"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
         android:text=""
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:layout_marginTop="20dp"
-        android:gravity="center" />
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textIsSelectable="true"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="7dp"
+        android:background="@android:color/darker_gray"/>
+
     <TextView
         android:id="@+id/openhab_uuid_label"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="14dp"
         android:text="@string/info_openhab_uuid_label"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:layout_marginTop="20dp"
-        android:gravity="center" />
+        android:textColor="@color/black"
+        android:textAppearance="?android:attr/textAppearanceMedium"/>
+
     <TextView
         android:id="@+id/openhab_uuid"
-        android:textIsSelectable="true"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
         android:text=""
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:layout_marginTop="20dp"
-        android:gravity="center" />
-    <TextView
-        android:id="@+id/openhab_secret_label"
-        android:layout_width="fill_parent"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textIsSelectable="true"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="7dp"
+        android:background="@android:color/darker_gray"/>
+
+    <LinearLayout
+        android:id="@+id/openhab_secret_layout"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/info_openhab_secret_label"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:layout_marginTop="20dp"
-        android:gravity="center" />
-    <TextView
-        android:id="@+id/openhab_secret"
-        android:textIsSelectable="true"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text=""
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:layout_marginTop="20dp"
-        android:gravity="center" />
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/openhab_secret_label"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:text="@string/info_openhab_secret_label"
+            android:textColor="@color/black"
+            android:textAppearance="?android:attr/textAppearanceMedium"/>
+
+        <TextView
+            android:id="@+id/openhab_secret"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text=""
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textIsSelectable="true">
+        </TextView>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="7dp"
+            android:background="@android:color/darker_gray"/>
+    </LinearLayout>
+
     <TextView
         android:id="@+id/openhab_gcm_label"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="14dp"
         android:text="@string/info_openhab_gcm_label"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:layout_marginTop="20dp"
-        android:gravity="center" />
+        android:textColor="@color/black"
+        android:textAppearance="?android:attr/textAppearanceMedium"/>
+
     <TextView
         android:id="@+id/openhab_gcm"
-        android:textIsSelectable="true"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
         android:text=""
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:layout_marginTop="20dp"
-        android:gravity="center" />
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textIsSelectable="true"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="7dp"
+        android:background="@android:color/darker_gray"/>
 </LinearLayout>
