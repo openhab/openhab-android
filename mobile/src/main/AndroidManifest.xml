@@ -19,7 +19,6 @@
         android:protectionLevel="signature" />
 
     <uses-permission android:name="org.openhab.habdroid.gcm.permission.C2D_MESSAGE" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <uses-feature
         android:name="android.hardware.location.gps"
