@@ -140,6 +140,10 @@ public abstract class MyHttpClient<T> {
         headers.put(key, value);
     }
 
+    public Map<String, String> getHeaders() {
+        return headers;
+    }
+
     public T get(String url, ResponseHandler responseHandler) {
         return method(url, "GET", null, null, null, responseHandler);
     }

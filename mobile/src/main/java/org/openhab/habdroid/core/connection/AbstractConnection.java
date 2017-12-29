@@ -37,7 +37,10 @@ public abstract class AbstractConnection implements Connection {
     }
 
     protected void updateHttpClientAuth(MyHttpClient httpClient) {
-        httpClient.setBasicAuth(getUsername(), getPassword());
+        if ((getUsername() != null && !getUsername().isEmpty()) ||
+                (getPassword() != null && !getPassword().isEmpty())) {
+            httpClient.setBasicAuth(getUsername(), getPassword());
+        }
     }
     public MyAsyncHttpClient getAsyncHttpClient() {
         if (asyncHttpClient == null) {
