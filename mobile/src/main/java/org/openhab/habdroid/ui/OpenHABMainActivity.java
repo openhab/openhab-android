@@ -168,7 +168,7 @@ public class OpenHABMainActivity extends ConnectionAvailbilityAwareAcivity
     // Logging TAG
     private static final String TAG = OpenHABMainActivity.class.getSimpleName();
     // Activities request codes
-    private static final int INTO_REQUEST_CODE = 1001;
+    private static final int INTRO_REQUEST_CODE = 1001;
     private static final int SETTINGS_REQUEST_CODE = 1002;
     private static final int WRITE_NFC_TAG_REQUEST_CODE = 1003;
     private static final int INFO_REQUEST_CODE = 1004;
@@ -280,7 +280,7 @@ public class OpenHABMainActivity extends ConnectionAvailbilityAwareAcivity
 
             //  Launch app intro
             final Intent i = new Intent(OpenHABMainActivity.this, IntroActivity.class);
-            startActivityForResult(i, INTO_REQUEST_CODE);
+            startActivityForResult(i, INTRO_REQUEST_CODE);
 
             prefsEdit.putBoolean("firstStart", false).apply();
             return;
@@ -385,13 +385,12 @@ public class OpenHABMainActivity extends ConnectionAvailbilityAwareAcivity
         Log.d(TAG, "Service resolved: "
                 + serviceInfo.getHostAddresses()[0]
                 + " port:" + serviceInfo.getPort());
-        String openHABUrl = "https://" + serviceInfo.getHostAddresses()[0] + ":" +
+        String openHABUrl = "http://" + serviceInfo.getHostAddresses()[0] + ":" +
                 String.valueOf(serviceInfo.getPort()) + "/";
 
         PreferenceManager.getDefaultSharedPreferences(this).edit().putString(Constants.PREFERENCE_URL, openHABUrl).apply();
 
-        showMessageToUser(this, "Discovered as " + openHABUrl, MessageHandler.TYPE_SNACKBAR,
-                MessageHandler.LOGLEVEL_ALWAYS);
+        restartAfterSettingsUpdate();
     }
 
     @Override
@@ -851,7 +850,7 @@ public class OpenHABMainActivity extends ConnectionAvailbilityAwareAcivity
         Log.d(TAG, String.format("onActivityResult requestCode = %d, resultCode = %d", requestCode, resultCode));
         switch (requestCode) {
             case SETTINGS_REQUEST_CODE:
-            case INTO_REQUEST_CODE:
+            case INTRO_REQUEST_CODE:
                 restartAfterSettingsUpdate();
                 break;
             case WRITE_NFC_TAG_REQUEST_CODE:
