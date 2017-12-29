@@ -53,7 +53,6 @@ import org.openhab.habdroid.R;
 import org.openhab.habdroid.core.connection.Connection;
 import org.openhab.habdroid.core.connection.ConnectionAvailbilityAwareAcivity;
 import org.openhab.habdroid.core.connection.ConnectionFactory;
-import org.openhab.habdroid.core.connection.Connections;
 import org.openhab.habdroid.core.connection.exception.ConnectionException;
 import org.openhab.habdroid.core.message.MessageHandler;
 import org.openhab.habdroid.model.OpenHABItem;
@@ -132,9 +131,9 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
         final Connection conn;
         if (getContext() instanceof ConnectionAvailbilityAwareAcivity) {
             conn = ((ConnectionAvailbilityAwareAcivity) getContext())
-                    .getConnection(Connections.ANY);
+                    .getConnection(Connection.TYPE_ANY);
         } else {
-            conn = ConnectionFactory.getConnection(Connections.ANY, getContext());
+            conn = ConnectionFactory.getConnection(Connection.TYPE_ANY, getContext());
         }
         int widgetLayout;
         String[] splitString;
@@ -897,7 +896,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
         }
         Connection conn;
         try {
-            conn = ConnectionFactory.getConnection(Connections.ANY, getContext());
+            conn = ConnectionFactory.getConnection(Connection.TYPE_ANY, getContext());
         } catch(ConnectionException e) {
             MessageHandler.showMessageToUser((Activity) getContext(),
                     e.getMessage(), MessageHandler.TYPE_DIALOG, MessageHandler.LOGLEVEL_ALWAYS);

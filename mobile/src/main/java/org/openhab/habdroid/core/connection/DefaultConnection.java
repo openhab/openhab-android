@@ -2,6 +2,7 @@ package org.openhab.habdroid.core.connection;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.support.annotation.NonNull;
 
 public class DefaultConnection extends AbstractConnection {
     private String username;
@@ -46,6 +47,7 @@ public class DefaultConnection extends AbstractConnection {
     }
 
     @Override
+    @NonNull
     public String getOpenHABUrl() {
         return openHABUrl;
     }

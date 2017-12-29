@@ -25,11 +25,8 @@ import org.json.JSONObject;
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.core.connection.Connection;
 import org.openhab.habdroid.core.connection.ConnectionFactory;
-import org.openhab.habdroid.core.connection.Connections;
 import org.openhab.habdroid.core.connection.exception.NetworkNotAvailableException;
 import org.openhab.habdroid.core.connection.exception.NetworkNotSupportedException;
-import org.openhab.habdroid.util.Constants;
-import org.openhab.habdroid.util.MyAsyncHttpClient;
 import org.openhab.habdroid.util.MyHttpClient;
 
 import okhttp3.Call;
@@ -84,7 +81,7 @@ public class OpenHABInfoFragment extends Fragment {
     private void setSecretText() {
         Connection conn;
         try {
-            conn = ConnectionFactory.getConnection(Connections.ANY, getActivity());
+            conn = ConnectionFactory.getConnection(Connection.TYPE_ANY, getActivity());
         } catch (NetworkNotSupportedException | NetworkNotAvailableException e) {
             return;
         }
@@ -113,7 +110,7 @@ public class OpenHABInfoFragment extends Fragment {
     private void setUuidText() {
         Connection conn;
         try {
-            conn = ConnectionFactory.getConnection(Connections.ANY, getActivity());
+            conn = ConnectionFactory.getConnection(Connection.TYPE_ANY, getActivity());
         } catch (NetworkNotSupportedException | NetworkNotAvailableException e) {
             return;
         }
@@ -144,7 +141,7 @@ public class OpenHABInfoFragment extends Fragment {
     private void setVersionText() {
         Connection conn;
         try {
-            conn = ConnectionFactory.getConnection(Connections.ANY, getActivity());
+            conn = ConnectionFactory.getConnection(Connection.TYPE_ANY, getActivity());
         } catch (NetworkNotSupportedException | NetworkNotAvailableException e) {
             return;
         }

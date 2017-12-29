@@ -25,7 +25,6 @@ import org.json.JSONObject;
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.core.connection.Connection;
 import org.openhab.habdroid.core.connection.ConnectionFactory;
-import org.openhab.habdroid.core.connection.Connections;
 import org.openhab.habdroid.core.connection.exception.ConnectionException;
 import org.openhab.habdroid.model.OpenHABNotification;
 import org.openhab.habdroid.util.MyHttpClient;
@@ -152,7 +151,7 @@ public class OpenHABNotificationFragment extends ListFragment implements SwipeRe
         Connection conn;
 
         try {
-            conn = ConnectionFactory.getConnection(Connections.CLOUD, getActivity());
+            conn = ConnectionFactory.getConnection(Connection.TYPE_CLOUD, getActivity());
         } catch (ConnectionException e) {
             return;
         }

@@ -27,7 +27,7 @@ import java.util.Map;
 /**
  * A factory class, which is the main entry point to get a Connection to a specific openHAB
  * server. Use this factory class whenever you need to obtain a connection to load additional
- * data from the openHAB server or another supported source (see the constants in {@link Connections}).
+ * data from the openHAB server or another supported source (see the constants in {@link Connection}).
  */
 final public class ConnectionFactory
         extends BroadcastReceiver implements SharedPreferences.OnSharedPreferenceChangeListener {
@@ -98,25 +98,25 @@ final public class ConnectionFactory
 
         ctx.registerReceiver(factory, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
 
-        if (factory.cachedConnections.containsKey(Connections.ANY)) {
-            return factory.cachedConnections.get(Connections.ANY);
+        if (factory.cachedConnections.containsKey(Connection.TYPE_ANY)) {
+            return factory.cachedConnections.get(Connection.TYPE_ANY);
         }
 
         Connection conn;
         switch (connectionType) {
-            case Connections.LOCAL:
+            case Connection.TYPE_LOCAL:
                 conn = factory.getLocalConnection();
                 break;
-            case Connections.REMOTE:
+            case Connection.TYPE_REMOTE:
                 conn = factory.getRemoteConnection();
                 break;
-            case Connections.CLOUD:
+            case Connection.TYPE_CLOUD:
                 // TODO: Need a proper way of finding if the connection supports openHAB cloud
                 // things, e.g. by checking if the /api/v1/settings/notifications endpoint works,
                 // but currently does not work for myopenhab.org
                 conn = factory.getRemoteConnection();
                 break;
-            case Connections.ANY:
+            case Connection.TYPE_ANY:
                 conn = factory.getAvailableConnection();
                 break;
             default:
@@ -137,7 +137,7 @@ final public class ConnectionFactory
             Log.d(TAG, "Connecting to local URL " + openHABUrl);
             Connection conn = new DefaultConnection(ctx);
             conn.setOpenHABUrl(openHABUrl);
-            conn.setConnectionType(Connections.LOCAL);
+            conn.setConnectionType(Connection.TYPE_LOCAL);
 
             if (hasUsername()) {
                 conn.setUsername(getUsername());
@@ -176,7 +176,7 @@ final public class ConnectionFactory
             Log.d(TAG, "Connecting to remote URL " + openHABUrl);
             Connection conn = new DefaultConnection(ctx);
             conn.setOpenHABUrl(openHABUrl);
-            conn.setConnectionType(Connections.REMOTE);
+            conn.setConnectionType(Connection.TYPE_REMOTE);
 
             if (hasRemoteUsername()) {
                 conn.setUsername(getRemoteUsername());

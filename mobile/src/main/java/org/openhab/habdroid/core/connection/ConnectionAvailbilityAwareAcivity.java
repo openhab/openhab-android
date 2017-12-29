@@ -92,7 +92,7 @@ public abstract class ConnectionAvailbilityAwareAcivity extends AppCompatActivit
             return;
         }
         try {
-            getConnection(Connections.ANY);
+            getConnection(Connection.TYPE_ANY);
             restartApp();
         } catch (ConnectionException e) {
             Log.d(TAG, "After resuming the app, there's still no network available.", e);

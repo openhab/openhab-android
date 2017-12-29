@@ -40,25 +40,25 @@ public class DefaultConnectionTest {
 
     @Test
     public void testGetConnectionTypeNotSet() {
-        assertEquals(Connections.ANY, testConnection.getConnectionType());
+        assertEquals(Connection.TYPE_ANY, testConnection.getConnectionType());
     }
 
     @Test
     public void testGetConnectionTypeSetRemote() {
-        testConnection.setConnectionType(Connections.REMOTE);
-        assertEquals(Connections.REMOTE, testConnection.getConnectionType());
+        testConnection.setConnectionType(Connection.TYPE_REMOTE);
+        assertEquals(Connection.TYPE_REMOTE, testConnection.getConnectionType());
     }
 
     @Test
     public void testGetConnectionTypeSetLocal() {
-        testConnection.setConnectionType(Connections.LOCAL);
-        assertEquals(Connections.LOCAL, testConnection.getConnectionType());
+        testConnection.setConnectionType(Connection.TYPE_LOCAL);
+        assertEquals(Connection.TYPE_LOCAL, testConnection.getConnectionType());
     }
 
     @Test
     public void testGetConnectionTypeSetCloud() {
-        testConnection.setConnectionType(Connections.CLOUD);
-        assertEquals(Connections.CLOUD, testConnection.getConnectionType());
+        testConnection.setConnectionType(Connection.TYPE_CLOUD);
+        assertEquals(Connection.TYPE_CLOUD, testConnection.getConnectionType());
     }
 
     @Test

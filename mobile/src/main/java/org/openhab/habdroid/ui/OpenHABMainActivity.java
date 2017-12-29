@@ -64,7 +64,6 @@ import org.openhab.habdroid.core.OpenHABVoiceService;
 import org.openhab.habdroid.core.connection.Connection;
 import org.openhab.habdroid.core.connection.ConnectionAvailbilityAwareAcivity;
 import org.openhab.habdroid.core.connection.ConnectionFactory;
-import org.openhab.habdroid.core.connection.Connections;
 import org.openhab.habdroid.core.connection.DemoConnection;
 import org.openhab.habdroid.core.connection.exception.ConnectionException;
 import org.openhab.habdroid.core.connection.exception.NetworkNotAvailableException;
@@ -331,7 +330,7 @@ public class OpenHABMainActivity extends ConnectionAvailbilityAwareAcivity
 
     private void initializeConnectivity() throws NoUrlInformationException,
             NetworkNotAvailableException, NetworkNotSupportedException {
-        final Connection conn = ConnectionFactory.getConnection(Connections.ANY, this);
+        final Connection conn = ConnectionFactory.getConnection(Connection.TYPE_ANY, this);
         if (conn instanceof DemoConnection) {
             showMessageToUser(
                     this, getString(R.string.info_demo_mode_short), TYPE_SNACKBAR, LOGLEVEL_ALWAYS);
@@ -339,10 +338,10 @@ public class OpenHABMainActivity extends ConnectionAvailbilityAwareAcivity
                 showMessageToUser(this, getString(R.string.error_no_url_start_demo_mode),
                         TYPE_DIALOG, LOGLEVEL_ALWAYS);
             }
-        } else if (conn.getConnectionType() == Connections.LOCAL) {
+        } else if (conn.getConnectionType() == Connection.TYPE_LOCAL) {
             showMessageToUser(
                     this, getString(R.string.info_conn_url), TYPE_SNACKBAR, LOGLEVEL_ALWAYS);
-        } else if (conn.getConnectionType() == Connections.REMOTE) {
+        } else if (conn.getConnectionType() == Connection.TYPE_REMOTE) {
             showMessageToUser(
                     this, getString(R.string.info_conn_rem_url), TYPE_SNACKBAR, LOGLEVEL_ALWAYS);
         }
@@ -640,7 +639,7 @@ public class OpenHABMainActivity extends ConnectionAvailbilityAwareAcivity
 
     private void loadSitemapList() {
         setProgressIndicatorVisible(true);
-        Connection conn = getConnection(Connections.ANY);
+        Connection conn = getConnection(Connection.TYPE_ANY);
         final String baseUrl = conn.getOpenHABUrl();
         Log.d(TAG, "Loading sitemap list from " + baseUrl + "rest/sitemaps");
 
@@ -685,7 +684,7 @@ public class OpenHABMainActivity extends ConnectionAvailbilityAwareAcivity
 
     private void selectSitemap() {
         setProgressIndicatorVisible(true);
-        Connection conn = getConnection(Connections.ANY);
+        Connection conn = getConnection(Connection.TYPE_ANY);
         final String baseUrl = conn.getOpenHABUrl();
         Log.d(TAG, "Loading sitemap list from " + baseUrl + "rest/sitemaps");
 
@@ -952,7 +951,7 @@ public class OpenHABMainActivity extends ConnectionAvailbilityAwareAcivity
         if (TextUtils.isEmpty(nfcItem)) {
             Log.d(TAG, "This is a sitemap tag without parameters");
             // Form the new sitemap page url
-            String newPageUrl = getConnection(Connections.ANY).getOpenHABUrl() +
+            String newPageUrl = getConnection(Connection.TYPE_ANY).getOpenHABUrl() +
                     "rest/sitemaps" + openHABURI.getPath();
             // Check if we have this page in stack?
             mPendingNfcPage = newPageUrl;
@@ -969,7 +968,7 @@ public class OpenHABMainActivity extends ConnectionAvailbilityAwareAcivity
 
     public void sendItemCommand(String itemName, String command) {
         try {
-            Connection conn = getConnection(Connections.ANY);
+            Connection conn = getConnection(Connection.TYPE_ANY);
 
             conn.getAsyncHttpClient().post(conn.getOpenHABUrl() + "rest/items/" + itemName, command,
                     "text/plain;charset=UTF-8", new MyHttpClient.TextResponseHandler() {
@@ -1154,7 +1153,7 @@ public class OpenHABMainActivity extends ConnectionAvailbilityAwareAcivity
                 return null;
 
             Connection conn;
-            conn = getConnection(Connections.CLOUD);
+            conn = getConnection(Connection.TYPE_CLOUD);
 
             if (conn == null) {
                 Log.d(TAG, "Remote URL, username or password are empty, no GCM registration will be made");

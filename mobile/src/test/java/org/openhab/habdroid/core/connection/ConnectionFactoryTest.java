@@ -44,19 +44,19 @@ public class ConnectionFactoryTest {
     public void testGetConnectionRemoteWithUrl() {
         Mockito.when(mockSettings.getString(eq(Constants.PREFERENCE_ALTURL), anyString()))
                 .thenReturn("https://myopenhab.org:8443");
-        Connection conn = ConnectionFactory.getConnection(Connections.REMOTE, mockContext, mockSettings);
+        Connection conn = ConnectionFactory.getConnection(Connection.TYPE_REMOTE, mockContext, mockSettings);
 
         assertNotNull("Requesting a remote connection when a remote url is set, should return a " +
                 "connection.", conn);
         assertEquals("The connection type of a remote connection should be LOGLEVEL_REMOTE.",
-                Connections.REMOTE, conn.getConnectionType());
+                Connection.TYPE_REMOTE, conn.getConnectionType());
     }
 
     @Test
     public void testGetConnectionRemoteWithoutUrl() {
         Mockito.when(mockSettings.getString(eq(Constants.PREFERENCE_ALTURL), anyString()))
                 .thenReturn("");
-        Connection conn = ConnectionFactory.getConnection(Connections.REMOTE, mockContext, mockSettings);
+        Connection conn = ConnectionFactory.getConnection(Connection.TYPE_REMOTE, mockContext, mockSettings);
 
         assertNull("Requesting a remote connection when a remote url isn't set, should not " +
                 "return a connection.", conn);
@@ -66,20 +66,20 @@ public class ConnectionFactoryTest {
     public void testGetConnectionLocalWithUrl() {
         Mockito.when(mockSettings.getString(eq(Constants.PREFERENCE_URL), anyString()))
                 .thenReturn("https://openhab.local:8080");
-        Connection conn = ConnectionFactory.getConnection(Connections.LOCAL, mockContext,
+        Connection conn = ConnectionFactory.getConnection(Connection.TYPE_LOCAL, mockContext,
                 mockSettings);
 
         assertNotNull("Requesting a local connection when local url is set, should " +
                 "return a connection.", conn);
         assertEquals("The connection type of a local connection should be LOGLEVEL_LOCAL.",
-                Connections.LOCAL, conn.getConnectionType());
+                Connection.TYPE_LOCAL, conn.getConnectionType());
     }
 
     @Test
     public void testGetConnectionLocalWithoutUrl() {
         Mockito.when(mockSettings.getString(eq(Constants.PREFERENCE_URL), anyString()))
                 .thenReturn("");
-        Connection conn = ConnectionFactory.getConnection(Connections.LOCAL, mockContext,
+        Connection conn = ConnectionFactory.getConnection(Connection.TYPE_LOCAL, mockContext,
                 mockSettings);
 
         assertNull("Requesting a remote connection when a local url isn't set, should not " +
@@ -90,20 +90,20 @@ public class ConnectionFactoryTest {
     public void testGetConnectionCloudWithUrl() {
         Mockito.when(mockSettings.getString(eq(Constants.PREFERENCE_ALTURL), anyString()))
                 .thenReturn("https://myopenhab.org:8443");
-        Connection conn = ConnectionFactory.getConnection(Connections.CLOUD, mockContext,
+        Connection conn = ConnectionFactory.getConnection(Connection.TYPE_CLOUD, mockContext,
                 mockSettings);
 
         assertNotNull("Requesting a cloud connection when a remote url is set, should return a " +
                 "connection.", conn);
         assertEquals("The connection type of a cloud connection should be LOGLEVEL_REMOTE.",
-                Connections.REMOTE, conn.getConnectionType());
+                Connection.TYPE_REMOTE, conn.getConnectionType());
     }
 
     @Test(expected = NetworkNotAvailableException.class)
     public void testGetAnyConnectionNoNetwork() {
         Mockito.when(mockConnectivityService.getActiveNetworkInfo()).thenReturn(null);
 
-        ConnectionFactory.getConnection(Connections.ANY, mockContext, mockSettings);
+        ConnectionFactory.getConnection(Connection.TYPE_ANY, mockContext, mockSettings);
     }
 
     @Test(expected = NetworkNotSupportedException.class)
@@ -114,7 +114,7 @@ public class ConnectionFactoryTest {
 
         Mockito.when(mockConnectivityService.getActiveNetworkInfo()).thenReturn(mockNetworkInfo);
 
-        ConnectionFactory.getConnection(Connections.ANY, mockContext, mockSettings);
+        ConnectionFactory.getConnection(Connection.TYPE_ANY, mockContext, mockSettings);
     }
 
     @Test
@@ -126,14 +126,14 @@ public class ConnectionFactoryTest {
 
         Mockito.when(mockConnectivityService.getActiveNetworkInfo()).thenReturn(mockNetworkInfo);
 
-        Connection conn = ConnectionFactory.getConnection(Connections.ANY, mockContext,
+        Connection conn = ConnectionFactory.getConnection(Connection.TYPE_ANY, mockContext,
                 mockSettings);
 
         assertNotNull("Requesting any connection in WIFI when only a remote url is set, should " +
                 "return" +
                 " a connection.", conn);
         assertEquals("The connection type of the connection should be LOGLEVEL_REMOTE.",
-                Connections.REMOTE, conn.getConnectionType());
+                Connection.TYPE_REMOTE, conn.getConnectionType());
     }
 
     @Test
@@ -147,13 +147,13 @@ public class ConnectionFactoryTest {
 
         Mockito.when(mockConnectivityService.getActiveNetworkInfo()).thenReturn(mockNetworkInfo);
 
-        Connection conn = ConnectionFactory.getConnection(Connections.ANY, mockContext,
+        Connection conn = ConnectionFactory.getConnection(Connection.TYPE_ANY, mockContext,
                 mockSettings);
 
         assertNotNull("Requesting any connection in WIFI when a local url is set, should return" +
                 " a connection.", conn);
         assertEquals("The connection type of the connection should be LOGLEVEL_LOCAL.",
-                Connections.LOCAL, conn.getConnectionType());
+                Connection.TYPE_LOCAL, conn.getConnectionType());
     }
 
     @Test(expected = NoUrlInformationException.class)
@@ -164,7 +164,7 @@ public class ConnectionFactoryTest {
 
         Mockito.when(mockConnectivityService.getActiveNetworkInfo()).thenReturn(mockNetworkInfo);
 
-        ConnectionFactory.getConnection(Connections.ANY, mockContext, mockSettings);
+        ConnectionFactory.getConnection(Connection.TYPE_ANY, mockContext, mockSettings);
     }
 
     @Test
@@ -178,10 +178,10 @@ public class ConnectionFactoryTest {
 
         Mockito.when(mockConnectivityService.getActiveNetworkInfo()).thenReturn(mockNetworkInfo);
 
-        Connection conn = ConnectionFactory.getConnection(Connections.ANY, mockContext,
+        Connection conn = ConnectionFactory.getConnection(Connection.TYPE_ANY, mockContext,
                 mockSettings);
 
-        Connection conn2 = ConnectionFactory.getConnection(Connections.ANY, mockContext,
+        Connection conn2 = ConnectionFactory.getConnection(Connection.TYPE_ANY, mockContext,
                 mockSettings);
 
         assertNotNull(conn);

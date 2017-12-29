@@ -21,7 +21,6 @@ import android.widget.Toast;
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.core.connection.Connection;
 import org.openhab.habdroid.core.connection.ConnectionFactory;
-import org.openhab.habdroid.core.connection.Connections;
 import org.openhab.habdroid.core.connection.exception.ConnectionException;
 import org.openhab.habdroid.core.message.MessageHandler;
 import org.openhab.habdroid.util.ContinuingIntentService;
@@ -76,7 +75,7 @@ public class OpenHABVoiceService extends ContinuingIntentService {
         String voiceCommand = extractVoiceCommand(intent);
         if (!voiceCommand.isEmpty()) {
             try {
-                Connection conn = ConnectionFactory.getConnection(Connections.ANY, this);
+                Connection conn = ConnectionFactory.getConnection(Connection.TYPE_ANY, this);
                 sendItemCommand("VoiceCommand", voiceCommand, conn);
             } catch (ConnectionException e) {
                 Log.w(TAG, "Couldn't determine OpenHAB URL", e);

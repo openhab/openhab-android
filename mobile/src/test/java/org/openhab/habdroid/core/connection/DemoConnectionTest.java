@@ -25,7 +25,7 @@ public class DemoConnectionTest {
 
     @Test
     public void testGetConnectionType() {
-        assertEquals(Connections.REMOTE, testConnection.getConnectionType());
+        assertEquals(Connection.TYPE_REMOTE, testConnection.getConnectionType());
     }
 
     @Test
@@ -55,6 +55,6 @@ public class DemoConnectionTest {
 
     @Test(expected = RuntimeException.class)
     public void testSetConnectionType() {
-        testConnection.setConnectionType(Connections.REMOTE);
+        testConnection.setConnectionType(Connection.TYPE_REMOTE);
     }
 }

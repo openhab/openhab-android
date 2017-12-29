@@ -1,6 +1,7 @@
 package org.openhab.habdroid.core.connection;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 
 public class DemoConnection extends AbstractConnection {
     DemoConnection(Context ctx) {
@@ -42,12 +43,13 @@ public class DemoConnection extends AbstractConnection {
     }
 
     @Override
+    @NonNull
     public String getOpenHABUrl() {
         return "https://demo.openhab.org:8443/";
     }
 
     @Override
     public int getConnectionType() {
-        return Connections.REMOTE;
+        return Connection.TYPE_REMOTE;
     }
 }

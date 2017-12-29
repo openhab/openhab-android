@@ -23,7 +23,6 @@ import org.openhab.habdroid.R;
 import org.openhab.habdroid.core.connection.Connection;
 import org.openhab.habdroid.core.connection.ConnectionAvailbilityAwareAcivity;
 import org.openhab.habdroid.core.connection.ConnectionFactory;
-import org.openhab.habdroid.core.connection.Connections;
 import org.openhab.habdroid.model.OpenHABNotification;
 import org.openhab.habdroid.util.MySmartImageView;
 
@@ -51,9 +50,9 @@ public class OpenHABNotificationAdapter extends ArrayAdapter<OpenHABNotification
                 Connection conn;
                 if (getContext() instanceof ConnectionAvailbilityAwareAcivity) {
                     conn = ((ConnectionAvailbilityAwareAcivity) getContext())
-                            .getConnection(Connections.CLOUD);
+                            .getConnection(Connection.TYPE_CLOUD);
                 } else {
-                    conn = ConnectionFactory.getConnection(Connections.CLOUD, getContext());
+                    conn = ConnectionFactory.getConnection(Connection.TYPE_CLOUD, getContext());
                 }
                 String iconUrl = conn.getOpenHABUrl() + "/images/" + Uri.encode(notification
                         .getIcon() + ".png");

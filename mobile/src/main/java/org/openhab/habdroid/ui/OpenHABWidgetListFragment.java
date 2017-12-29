@@ -31,7 +31,6 @@ import org.openhab.habdroid.R;
 import org.openhab.habdroid.core.connection.Connection;
 import org.openhab.habdroid.core.connection.ConnectionAvailbilityAwareAcivity;
 import org.openhab.habdroid.core.connection.ConnectionFactory;
-import org.openhab.habdroid.core.connection.Connections;
 import org.openhab.habdroid.model.OpenHABItem;
 import org.openhab.habdroid.model.OpenHABNFCActionList;
 import org.openhab.habdroid.model.OpenHABWidget;
@@ -290,9 +289,9 @@ public class OpenHABWidgetListFragment extends ListFragment {
         Connection conn;
         if (getContext() instanceof ConnectionAvailbilityAwareAcivity) {
             conn = ((ConnectionAvailbilityAwareAcivity) getContext())
-                    .getConnection(Connections.ANY);
+                    .getConnection(Connection.TYPE_ANY);
         } else {
-            conn = ConnectionFactory.getConnection(Connections.ANY, getContext());
+            conn = ConnectionFactory.getConnection(Connection.TYPE_ANY, getContext());
         }
         MyAsyncHttpClient asyncHttpClient = conn.getAsyncHttpClient();
         headers.put("X-Atmosphere-Framework", "1.0");

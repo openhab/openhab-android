@@ -24,7 +24,6 @@ import org.openhab.habdroid.R;
 import org.openhab.habdroid.core.connection.Connection;
 import org.openhab.habdroid.core.connection.ConnectionAvailbilityAwareAcivity;
 import org.openhab.habdroid.core.connection.ConnectionFactory;
-import org.openhab.habdroid.core.connection.Connections;
 import org.openhab.habdroid.model.OpenHABSitemap;
 import org.openhab.habdroid.util.MySmartImageView;
 
@@ -93,9 +92,9 @@ public class OpenHABDrawerAdapter extends ArrayAdapter<OpenHABDrawerItem> {
         Connection conn;
         if (getContext() instanceof ConnectionAvailbilityAwareAcivity) {
             conn = ((ConnectionAvailbilityAwareAcivity) getContext())
-                    .getConnection(Connections.ANY);
+                    .getConnection(Connection.TYPE_ANY);
         } else {
-            conn = ConnectionFactory.getConnection(Connections.ANY, getContext());
+            conn = ConnectionFactory.getConnection(Connection.TYPE_ANY, getContext());
         }
         switch (this.getItemViewType(position)) {
             case TYPE_SITEMAPITEM:
