@@ -156,8 +156,7 @@ public class OpenHABNotificationFragment extends ListFragment implements SwipeRe
             return;
         }
         startProgressIndicator();
-        mRequestHandle = conn.getAsyncHttpClient().get(
-                conn.getOpenHABUrl() + "/api/v1/notifications?limit=20",
+        mRequestHandle = conn.getAsyncHttpClient().get("/api/v1/notifications?limit=20",
                 new MyHttpClient.ResponseHandler() {
             @Override
             public void onSuccess(Call call, int statusCode, Headers headers, byte[] responseBody) {

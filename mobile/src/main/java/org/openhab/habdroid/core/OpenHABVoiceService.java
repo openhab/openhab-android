@@ -117,7 +117,7 @@ public class OpenHABVoiceService extends ContinuingIntentService {
         new Handler(Looper.getMainLooper()).post(new Runnable() {
             @Override
             public void run() {
-                conn.getAsyncHttpClient().post(conn.getOpenHABUrl() + "rest/items/" + itemName,
+                conn.getAsyncHttpClient().post("/rest/items/" + itemName,
                         command, "text/plain;charset=UTF-8", new MyHttpClient.ResponseHandler() {
                             @Override
                             public void onSuccess(Call call, int statusCode, Headers headers, byte[] responseBody) {

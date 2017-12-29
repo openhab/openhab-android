@@ -346,7 +346,7 @@ public class OpenHABMainActivity extends ConnectionAvailbilityAwareAcivity
                     this, getString(R.string.info_conn_rem_url), TYPE_SNACKBAR, LOGLEVEL_ALWAYS);
         }
 
-        final String url = conn.getOpenHABUrl() + "rest/bindings";
+        final String url = "/rest/bindings";
         conn.getAsyncHttpClient().get(url, new MyHttpClient.TextResponseHandler() {
             @Override
             public void onFailure(Call call, int statusCode, Headers headers, String responseString, Throwable throwable) {
@@ -640,10 +640,9 @@ public class OpenHABMainActivity extends ConnectionAvailbilityAwareAcivity
     private void loadSitemapList() {
         setProgressIndicatorVisible(true);
         Connection conn = getConnection(Connection.TYPE_ANY);
-        final String baseUrl = conn.getOpenHABUrl();
-        Log.d(TAG, "Loading sitemap list from " + baseUrl + "rest/sitemaps");
+        Log.d(TAG, "Loading sitemap list from /rest/sitemaps");
 
-        conn.getAsyncHttpClient().get(baseUrl + "rest/sitemaps", new DefaultHttpResponseHandler() {
+        conn.getAsyncHttpClient().get("/rest/sitemaps", new DefaultHttpResponseHandler() {
             @Override
             public void onSuccess(Call call, int statusCode, Headers headers, byte[] responseBody) {
                 setProgressIndicatorVisible(false);
@@ -685,11 +684,9 @@ public class OpenHABMainActivity extends ConnectionAvailbilityAwareAcivity
     private void selectSitemap() {
         setProgressIndicatorVisible(true);
         Connection conn = getConnection(Connection.TYPE_ANY);
-        final String baseUrl = conn.getOpenHABUrl();
-        Log.d(TAG, "Loading sitemap list from " + baseUrl + "rest/sitemaps");
+        Log.d(TAG, "Loading sitemap list from /rest/sitemaps");
 
-        conn.getAsyncHttpClient().get(baseUrl + "rest/sitemaps", new DefaultHttpResponseHandler() {
-
+        conn.getAsyncHttpClient().get("/rest/sitemaps", new DefaultHttpResponseHandler() {
             @Override
             public void onSuccess(Call call, int statusCode, Headers headers, byte[] responseBody) {
                 Log.d(TAG, new String(responseBody));
@@ -951,10 +948,9 @@ public class OpenHABMainActivity extends ConnectionAvailbilityAwareAcivity
         if (TextUtils.isEmpty(nfcItem)) {
             Log.d(TAG, "This is a sitemap tag without parameters");
             // Form the new sitemap page url
-            String newPageUrl = getConnection(Connection.TYPE_ANY).getOpenHABUrl() +
-                    "rest/sitemaps" + openHABURI.getPath();
             // Check if we have this page in stack?
-            mPendingNfcPage = newPageUrl;
+            mPendingNfcPage = getConnection(Connection.TYPE_ANY).getOpenHABUrl() +
+                    "rest/sitemaps" + openHABURI.getPath();
         } else {
             Log.d(TAG, "Target item = " + nfcItem);
             sendItemCommand(nfcItem, nfcCommand);
@@ -970,7 +966,7 @@ public class OpenHABMainActivity extends ConnectionAvailbilityAwareAcivity
         try {
             Connection conn = getConnection(Connection.TYPE_ANY);
 
-            conn.getAsyncHttpClient().post(conn.getOpenHABUrl() + "rest/items/" + itemName, command,
+            conn.getAsyncHttpClient().post("/rest/items/" + itemName, command,
                     "text/plain;charset=UTF-8", new MyHttpClient.TextResponseHandler() {
                 @Override
                 public void onFailure(Call call, int statusCode, Headers headers, String responseString, Throwable error) {

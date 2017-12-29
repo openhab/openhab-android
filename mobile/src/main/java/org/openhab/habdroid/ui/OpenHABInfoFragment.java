@@ -86,8 +86,7 @@ public class OpenHABInfoFragment extends Fragment {
             return;
         }
 
-        conn.getAsyncHttpClient().get(conn.getOpenHABUrl() + "static/secret",
-                new MyHttpClient.TextResponseHandler() {
+        conn.getAsyncHttpClient().get("/static/secret", new MyHttpClient.TextResponseHandler() {
             @Override
             public void onFailure(Call call, int statusCode, Headers headers, String responseString, Throwable error) {
                 mOpenHABSecretText.setVisibility(View.GONE);
@@ -115,11 +114,11 @@ public class OpenHABInfoFragment extends Fragment {
             return;
         }
 
-        String uuidUrl = conn.getOpenHABUrl();
+        final String uuidUrl;
         if (mOpenHABVersion == 1) {
-            uuidUrl = uuidUrl + "static/uuid";
+            uuidUrl = "/static/uuid";
         } else {
-            uuidUrl = uuidUrl + "rest/uuid";
+            uuidUrl = "/rest/uuid";
         }
         conn.getAsyncHttpClient().get(uuidUrl, new MyHttpClient.TextResponseHandler() {
             @Override
@@ -148,9 +147,9 @@ public class OpenHABInfoFragment extends Fragment {
 
         final String versionUrl;
         if (mOpenHABVersion == 1) {
-            versionUrl = conn.getOpenHABUrl() + "static/version";
+            versionUrl = "/static/version";
         } else {
-            versionUrl = conn.getOpenHABUrl() + "rest";
+            versionUrl = "/rest";
         }
         Log.d(TAG, "url = " + versionUrl);
         conn.getAsyncHttpClient().get(versionUrl, new MyHttpClient.TextResponseHandler() {

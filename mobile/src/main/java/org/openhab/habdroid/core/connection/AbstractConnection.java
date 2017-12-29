@@ -43,6 +43,7 @@ public abstract class AbstractConnection implements Connection {
         if (asyncHttpClient == null) {
             asyncHttpClient = new MyAsyncHttpClient(ctx, ignoreSslHostname(), ignoreCertTrust());
             asyncHttpClient.setTimeout(30000);
+            asyncHttpClient.setBaseUrl(getOpenHABUrl());
 
             updateHttpClientAuth(asyncHttpClient);
         }
@@ -60,6 +61,7 @@ public abstract class AbstractConnection implements Connection {
     public MySyncHttpClient getSyncHttpClient() {
         if (syncHttpClient == null) {
             syncHttpClient = new MySyncHttpClient(ctx, ignoreSslHostname(), ignoreCertTrust());
+            syncHttpClient.setBaseUrl(getOpenHABUrl());
 
             updateHttpClientAuth(syncHttpClient);
         }

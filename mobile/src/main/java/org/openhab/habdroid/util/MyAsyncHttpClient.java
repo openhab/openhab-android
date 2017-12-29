@@ -33,7 +33,7 @@ public class MyAsyncHttpClient extends MyHttpClient<Call> {
     protected Call method(String url, String method, Map<String, String> addHeaders, String
             requestBody, String mediaType, final MyHttpClient.ResponseHandler responseHandler) {
         Request.Builder requestBuilder = new Request.Builder();
-        requestBuilder.url(url);
+        requestBuilder.url(getBaseUrl().newBuilder(url).build());
         for (Map.Entry<String, String> entry : headers.entrySet()) {
             requestBuilder.addHeader(entry.getKey(), entry.getValue());
         }

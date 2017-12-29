@@ -31,11 +31,13 @@ import javax.net.ssl.X509TrustManager;
 import okhttp3.Call;
 import okhttp3.Credentials;
 import okhttp3.Headers;
+import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 
 public abstract class MyHttpClient<T> {
-
     private static final String TAG = MyHttpClient.class.getSimpleName();
+
+    private HttpUrl baseUrl;
 
     public interface ResponseHandler {
         void onFailure(Call call, int statusCode, Headers headers, byte[] responseBody, Throwable error);
@@ -116,6 +118,17 @@ public abstract class MyHttpClient<T> {
     public void setBasicAuth(final String username, final String password, boolean preemtive) {
         String credential = Credentials.basic(username, password);
         headers.put("Authorization", credential);
+    }
+
+    public void setBaseUrl(String baseUrl) {
+        this.baseUrl = HttpUrl.parse(baseUrl);
+    }
+
+    protected HttpUrl getBaseUrl() {
+        if (baseUrl == null) {
+            throw new IllegalStateException("No baseUrl was set so far.");
+        }
+        return this.baseUrl;
     }
 
     public void setTimeout(int timeout) {

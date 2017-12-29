@@ -9,9 +9,6 @@ import org.openhab.habdroid.core.connection.Connection;
 import org.openhab.habdroid.util.Constants;
 import org.openhab.habdroid.util.MyHttpClient;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-
 import okhttp3.Call;
 import okhttp3.Headers;
 
@@ -36,15 +33,8 @@ public class NotificationSettings {
             return;
         }
 
-        String requestUrl;
-        try {
-            requestUrl = new URL(new URL(conn.getOpenHABUrl()), SETTINGS_ROUTE).toString();
-        } catch (MalformedURLException ex) {
-            Log.d(TAG, "Unable to build request URL, got error: " + ex.getMessage(), ex);
-            return;
-        }
-        Log.d(TAG, "Request notification settings from: " + requestUrl);
-        conn.getSyncHttpClient().get(requestUrl, new SettingsAsyncHttpResponseHandler());
+        Log.d(TAG, "Request notification settings from: " + SETTINGS_ROUTE);
+        conn.getSyncHttpClient().get(SETTINGS_ROUTE, new SettingsAsyncHttpResponseHandler());
     }
 
     /**
