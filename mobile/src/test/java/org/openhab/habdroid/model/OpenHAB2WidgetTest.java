@@ -48,8 +48,7 @@ public class OpenHAB2WidgetTest {
         assertEquals("icon/groupicon?state=ON&format=SVG", sut2.getIconPath());
         assertEquals("icon/slider?state=81&format=SVG", sut3.getChildren().get(0).getIconPath());
 
-        // Rollersutter icon should always be 0 to 100, not ON/OFF
-        //assertEquals("icon/rollershutter?state=0&format=SVG", sut3.getChildren().get(1).getIconPath());
+        //assertEquals("Rollersutter icon should always be 0 to 100, not ON/OFF", "icon/rollershutter?state=0&format=SVG", sut3.getChildren().get(1).getIconPath());
         assertEquals("icon/rollershutter?state=42&format=SVG", sut3.getChildren().get(2).getIconPath());
     }
 
@@ -74,7 +73,7 @@ public class OpenHAB2WidgetTest {
     @Test
     public void testGetPeriode() throws Exception {
         assertEquals("M", sut1.getPeriod());
-        assertEquals("D", sut2.getPeriod()); // Object has no period, should default to D
+        assertEquals("Object has no period, should default to D", "D", sut2.getPeriod());
     }
 
     @Test
@@ -86,7 +85,7 @@ public class OpenHAB2WidgetTest {
     @Test
     public void testGetRefresh() throws Exception {
         assertEquals(1000, sut1.getRefresh());
-        assertEquals(100, sut2.getRefresh()); // Min refresh is 100, object has set refresh to 10
+        assertEquals("Min refresh is 100, object has set refresh to 10",100, sut2.getRefresh());
     }
 
     @Test
