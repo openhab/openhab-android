@@ -290,6 +290,11 @@ public class OpenHABWidgetListFragment extends ListFragment {
         if (getContext() instanceof ConnectionAvailbilityAwareAcivity) {
             conn = ((ConnectionAvailbilityAwareAcivity) getContext())
                     .getConnection(Connection.TYPE_ANY);
+            // if no connection could be created, the ConnectionAvailbilityAwareAcivity will
+            // handle that but returns null in this case
+            if (conn == null) {
+                return;
+            }
         } else {
             conn = ConnectionFactory.getConnection(Connection.TYPE_ANY, getContext());
         }

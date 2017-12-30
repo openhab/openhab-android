@@ -66,6 +66,8 @@ public abstract class ConnectionAvailbilityAwareAcivity extends AppCompatActivit
         bundle.putString(NoNetworkFragment.NO_NETWORK_MESSAGE, message);
         noNetworkFrament.setArguments(bundle);
 
+        onContentReplace();
+
         getFragmentManager()
                 .beginTransaction()
                 .replace(android.R.id.content, noNetworkFrament)
@@ -78,6 +80,13 @@ public abstract class ConnectionAvailbilityAwareAcivity extends AppCompatActivit
             getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         }
     }
+
+    /**
+     * This method is called whenever this abstract class will replace the whole content with
+     * other information, such as error fragments or something like that. A class extending from
+     * here can override this method to also reset/clear/remove views from the activity if needed.
+     */
+    protected void onContentReplace() {}
 
     private void restartApp() {
         Intent startActivity = new Intent(this, OpenHABMainActivity.class);
@@ -97,6 +106,10 @@ public abstract class ConnectionAvailbilityAwareAcivity extends AppCompatActivit
         } catch (ConnectionException e) {
             Log.d(TAG, "After resuming the app, there's still no network available.", e);
         }
+    }
+
+    public final void onConnectivityChanged() {
+        ConnectionFactory.getInstance().cachedConnections.clear();
     }
 
     public static class NoNetworkFragment extends Fragment {

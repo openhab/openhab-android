@@ -528,6 +528,22 @@ public class OpenHABMainActivity extends ConnectionAvailbilityAwareAcivity
         stateFragment = new StateRetainFragment();
         fm.beginTransaction().add(stateFragment, "stateFragment").commit();
         mStartedWithNetworkConnectivityInfo = NetworkConnectivityInfo.currentNetworkConnectivityInfo(this);
+
+        onConnectivityChanged();
+        try {
+            initializeConnectivity();
+        } catch (ConnectionException e) {
+            // will be handled by #getConnection() later
+        }
+    }
+
+    @Override
+    protected void onContentReplace() {
+        super.onContentReplace();
+        OpenHABViewPager pager = findViewById(R.id.pager);
+        if (pager != null) {
+            pager.removeAllViews();
+        }
     }
 
     /**
@@ -766,6 +782,9 @@ public class OpenHABMainActivity extends ConnectionAvailbilityAwareAcivity
 
     private void showSitemapSelectionDialog(final List<OpenHABSitemap> sitemapList) {
         Log.d(TAG, "Opening sitemap selection dialog");
+        if (selectSitemapDialog != null && selectSitemapDialog.isShowing()) {
+            return;
+        }
         final List<String> sitemapNameList = new ArrayList<String>();
         for (int i = 0; i < sitemapList.size(); i++) {
             sitemapNameList.add(sitemapList.get(i).getName());
