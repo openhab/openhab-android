@@ -138,4 +138,5 @@
     <string name="settings_openhab_connection">Vietinio serverio nustatymai</string>
     <string name="settings_clear_default_sitemap">Išvalyti numatytą vietos išplanavimą</string>
     <string name="settings_no_default_sitemap">Nepasirinktas numatytas vietos išplanavimas</string>
+    <string name="mainmenu_openhab_sitemaps">Vietų išplanavimai</string>
 </resources>
