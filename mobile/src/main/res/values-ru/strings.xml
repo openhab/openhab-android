@@ -130,4 +130,5 @@
     <string name="cancel">Отмена</string>
     <string name="error_http_code_503">openHAB временно недоступен (код ответа HTTP 503)</string>
     <string name="set">Установить</string>
+    <string name="mainmenu_openhab_sitemaps">Sitemap\'ы</string>
 </resources>
