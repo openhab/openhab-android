@@ -16,10 +16,10 @@
   <string name="settings_connection_title">Параметры Подключения</string>
   <string name="settings_display_title">Параметры Дисплея</string>
   <string name="settings_misc_title">Другие параметры</string>
-  <string name="settings_openhab_url">URL адрес локального openHAB</string>
-  <string name="settings_openhab_url_summary">Ручная конфигурация openHAB URL. Отключает автоопределение, если настроен.</string>
-  <string name="settings_openhab_alturl">URL-адрес удаленного openHAB</string>
-  <string name="settings_openhab_alturl_summary">URL-адрес удаленного openHAB (используется, когда локальный openHAB недоступен)</string>
+  <string name="settings_openhab_url">Local server URL</string>
+  <string name="settings_openhab_url_summary">The URL of the openHAB dashboard (based on hostname or IP). If configured, autodiscovery is disabled. Current setting: %s</string>
+  <string name="settings_openhab_alturl">Remote server URL</string>
+  <string name="settings_openhab_alturl_summary">The URL of the openHAB dashboard used when the local address is unavailable. Current setting: %s</string>
   <string name="settings_openhab_username">Пользователь</string>
   <string name="settings_openhab_password">Пароль</string>
   <string name="settings_openhab_sslclientcert">SSL сертификат клиента</string>
@@ -29,12 +29,12 @@
   <string name="settings_openhab_screentimeroff_summary">Отключить таймер засыпание экрана пока openHAB запущен</string>
   <string name="settings_openhab_demomode">Демо режим</string>
   <string name="settings_openhab_demomode_summary">Запуск демо режима</string>
-  <string name="settings_openhab_theme">openHAB Тема</string>
+  <string name="settings_openhab_theme">Theme</string>
   <string name="settings_openhab_sslcert">Игнорировать SSL сертификат</string>
   <string name="settings_openhab_sslcert_summary">Игнорировать проверку сертификата во время установления SSL-соединения</string>
   <string name="settings_openhab_sslhost">Игнорировать SSL Имя хоста</string>
   <string name="settings_openhab_sslhost_summary">Игнорировать проверку имени хоста во время установления SSL-соединения</string>
-  <string name="settings_openhab_fullscreen">Во весь экран</string>
+  <string name="settings_openhab_fullscreen">Fullscreen</string>
   <string name="settings_openhab_fullscreen_summary">Дисплей в полноэкранном режиме</string>
   <string name="settings_openhab_icon_format">Формат иконок</string>
   <string name="settings_openhab_icon_format_png">Растр</string>
@@ -97,7 +97,7 @@
   <string name="info_openhab_gcm_not_connected">Ошибка регистрации устройства</string>
   <string name="info_openhab_gcm_connected">Устройство зарегистрировано с отправленным ID %s</string>
   <string name="action_settings">Параметры</string>
-  <string name="nfc_dialog_title">Выберите действие тега NFC</string>
+  <string name="nfc_dialog_title">Write NFC tag action for this element</string>
   <string name="info_not_set">Не задано</string>
   <!-- Strings for MemorizingTrustManager activity -->
   <string name="mtm_accept_cert">Принять неизвестный Сертификат?</string>
