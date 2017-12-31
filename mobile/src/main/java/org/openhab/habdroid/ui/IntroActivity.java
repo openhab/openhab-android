@@ -15,7 +15,7 @@ public class IntroActivity extends AppIntro {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // Add slides
-        addOHSlide(R.string.intro_welcome, R.string.intro_whatis, R.drawable.icon_blank);
+        addOHSlide(R.string.intro_welcome, R.string.intro_whatis, R.drawable.ic_openhab_appicon_340dp);
         addOHSlide(R.string.intro_themes, R.string.intro_themes_description, R.drawable.themes);
         addOHSlide(R.string.settings_openhab_demomode, R.string.info_demo_mode, R.drawable.demo_mode);
         // Change bar color
