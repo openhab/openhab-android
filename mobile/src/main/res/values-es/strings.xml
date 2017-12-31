@@ -16,10 +16,10 @@
   <string name="settings_connection_title">Configuración de la conexión</string>
   <string name="settings_display_title">Configuración de la pantalla</string>
   <string name="settings_misc_title">Otras configuraciones</string>
-  <string name="settings_openhab_url">URL openHAB</string>
-  <string name="settings_openhab_url_summary">Configurar manualmente la dirección de openHAB. Deshabilita la búsqueda automática si se encuentra disponible. [%s]</string>
-  <string name="settings_openhab_alturl">URL remota openHAB</string>
-  <string name="settings_openhab_alturl_summary">Usada cuando la dirección local no está disponible [%s]</string>
+  <string name="settings_openhab_url">Local server URL</string>
+  <string name="settings_openhab_url_summary">The URL of the openHAB dashboard (based on hostname or IP). If configured, autodiscovery is disabled. Current setting: %s</string>
+  <string name="settings_openhab_alturl">Remote server URL</string>
+  <string name="settings_openhab_alturl_summary">The URL of the openHAB dashboard used when the local address is unavailable. Current setting: %s</string>
   <string name="settings_openhab_username">Nombre de usuario</string>
   <string name="settings_openhab_password">Contraseña</string>
   <string name="settings_openhab_sslclientcert">Certificado de cliente SSL</string>
@@ -29,12 +29,12 @@
   <string name="settings_openhab_screentimeroff_summary">Deshabilita el temporizador que apaga la pantalla mientras se está ejecutando</string>
   <string name="settings_openhab_demomode">Modo demo</string>
   <string name="settings_openhab_demomode_summary">Ejecutar openHAB App modo demo</string>
-  <string name="settings_openhab_theme">Tema openHAB App</string>
+  <string name="settings_openhab_theme">Theme</string>
   <string name="settings_openhab_sslcert">Ignorar certificado SSL</string>
   <string name="settings_openhab_sslcert_summary">No comprobar el certificado durante la conexión SSL</string>
   <string name="settings_openhab_sslhost">Ignorar dominio SSL</string>
   <string name="settings_openhab_sslhost_summary">No comprobar el nombre de dominio durante la conexión SSL</string>
-  <string name="settings_openhab_fullscreen">Pantalla completa</string>
+  <string name="settings_openhab_fullscreen">Fullscreen</string>
   <string name="settings_openhab_fullscreen_summary">Mostrar a pantalla completa</string>
   <string name="settings_openhab_icon_format">Formato de los iconos</string>
   <string name="settings_openhab_icon_format_png">Bitmap</string>
@@ -97,7 +97,7 @@
   <string name="info_openhab_gcm_not_connected">Registro del dispositivo fallido</string>
   <string name="info_openhab_gcm_connected">Dispositivo registrado con Sender ID %s</string>
   <string name="action_settings">Configuración</string>
-  <string name="nfc_dialog_title">Seleccionar una acción para la tag NFC</string>
+  <string name="nfc_dialog_title">Write NFC tag action for this element</string>
   <string name="info_not_set">Sin establecer</string>
   <!-- Strings for MemorizingTrustManager activity -->
   <string name="mtm_accept_cert">Aceptar este certificado desconocido?</string>
