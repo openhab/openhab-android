@@ -47,7 +47,6 @@ public class OpenHAB2WidgetTest {
         assertEquals("icon/groupicon?state=OFF&format=PNG", sut1.getIconPath());
         assertEquals("icon/groupicon?state=ON&format=SVG", sut2.getIconPath());
         assertEquals("icon/slider?state=81&format=SVG", sut3.getChildren().get(0).getIconPath());
-
         assertEquals("Rollersutter icon should always be 0 to 100, not ON/OFF", "icon/rollershutter?state=0&format=SVG", sut3.getChildren().get(1).getIconPath());
         assertEquals("icon/rollershutter?state=42&format=SVG", sut3.getChildren().get(2).getIconPath());
     }
