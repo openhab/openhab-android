@@ -1215,7 +1215,7 @@ public class OpenHABMainActivity extends ConnectionAvailbilityAwareAcivity
     private void loadDrawerItems() {
         mDrawerItemList.clear();
         if (mSitemapList != null) {
-            mDrawerItemList.add(OpenHABDrawerItem.headerItem("Sitemaps"));
+            mDrawerItemList.add(OpenHABDrawerItem.headerItem(getString(R.string.mainmenu_openhab_sitemaps)));
             for (OpenHABSitemap sitemap : mSitemapList) {
                 mDrawerItemList.add(new OpenHABDrawerItem(sitemap));
             }
