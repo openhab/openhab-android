@@ -1,7 +1,9 @@
 package org.openhab.habdroid.ui;
 
 
+import android.support.constraint.ConstraintLayout;
 import android.support.test.espresso.DataInteraction;
+import android.support.test.espresso.IdlingResource;
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
@@ -15,16 +17,25 @@ import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
 import org.hamcrest.TypeSafeMatcher;
 import org.hamcrest.core.IsInstanceOf;
+import org.junit.After;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.openhab.habdroid.OpenHABProgressbarIdlingResource;
 import org.openhab.habdroid.R;
 
 import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.action.ViewActions.*;
-import static android.support.test.espresso.assertion.ViewAssertions.*;
-import static android.support.test.espresso.matcher.ViewMatchers.*;
+import static android.support.test.espresso.Espresso.registerIdlingResources;
+import static android.support.test.espresso.Espresso.unregisterIdlingResources;
+import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.withClassName;
+import static android.support.test.espresso.matcher.ViewMatchers.withContentDescription;
+import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withParent;
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.CoreMatchers.allOf;
 import static org.hamcrest.Matchers.anything;
 import static org.hamcrest.Matchers.is;
@@ -36,8 +47,10 @@ public class BasicWidgetTest {
     @Rule
     public ActivityTestRule<OpenHABMainActivity> mActivityTestRule = new ActivityTestRule<>(OpenHABMainActivity.class);
 
+    private IdlingResource mProgressbarIdlingResource;
+
     @Test
-    public void openHABMainActivityTest2() {
+    public void openHABMainActivityTest2() throws InterruptedException {
         // click next
         ViewInteraction appCompatImageButton = onView(
                 allOf(withId(R.id.next),
@@ -73,6 +86,11 @@ public class BasicWidgetTest {
                                 4),
                         isDisplayed()));
         appCompatButton.perform(click());
+
+        View progressBar = mActivityTestRule.getActivity().findViewById(R.id.toolbar_progress_bar);
+        mProgressbarIdlingResource = new OpenHABProgressbarIdlingResource("Progressbar " +
+                "IdleResource", progressBar);
+        registerIdlingResources(mProgressbarIdlingResource);
 
         // do we have sitemap selection popup?
         ViewInteraction linearLayout = onView(
@@ -122,10 +140,6 @@ public class BasicWidgetTest {
                 allOf(withId(R.id.mainmenu_voice_recognition), withContentDescription("Voice recognition"), isDisplayed()));
         voice.check(matches(isDisplayed()));
 
-        ViewInteraction option = onView(
-                allOf(withContentDescription("More options"), isDisplayed()));
-        option.check(matches(isDisplayed()));
-
         ViewInteraction firstfloor = onView(
                 allOf(withId(R.id.widgetlabel), withText("First Floor"),
                         childAtPosition(
@@ -142,7 +156,7 @@ public class BasicWidgetTest {
                         childAtPosition(
                                 allOf(withId(R.id.textleftlayout),
                                         childAtPosition(
-                                                IsInstanceOf.<View>instanceOf(android.widget.RelativeLayout.class),
+                                                IsInstanceOf.<View>instanceOf(ConstraintLayout.class),
                                                 0)),
                                 1),
                         isDisplayed()));
@@ -247,26 +261,6 @@ public class BasicWidgetTest {
                         isDisplayed()));
         switch_.check(matches(isDisplayed()));
 
-        ViewInteraction button = onView(
-                Matchers.allOf(withId(R.id.setpointbutton_minus),
-                        childAtPosition(
-                                childAtPosition(
-                                        childAtPosition(
-                                                childAtPosition(
-                                                        Matchers.allOf(withId(android.R.id.list),
-                                                                childAtPosition(
-                                                                        withParent(Matchers.allOf(withId(R.id.pager),
-                                                                                childAtPosition(
-                                                                                        IsInstanceOf.<View>instanceOf(android.widget.RelativeLayout.class),
-                                                                                        0))),
-                                                                        0)),
-                                                        6),
-                                                0),
-                                        1),
-                                0),
-                        isDisplayed()));
-        button.check(matches(isDisplayed()));
-
         ViewInteraction seekBar = onView(
                 Matchers.allOf(withId(R.id.sliderseekbar),
                         childAtPosition(
@@ -295,6 +289,12 @@ public class BasicWidgetTest {
         ViewInteraction imageButton2 = onView(
                 Matchers.allOf(withId(R.id.rollershutterbutton_stop), isDisplayed()));
         imageButton2.check(matches(isDisplayed()));
+    }
+
+    @After
+    public void unregisterIdlingResource() {
+        if (mProgressbarIdlingResource != null)
+            unregisterIdlingResources(mProgressbarIdlingResource);
     }
 
     private static Matcher<View> childAtPosition(
