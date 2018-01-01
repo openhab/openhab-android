@@ -632,25 +632,24 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
         if((debugEnabled && logLevel == Constants.MESSAGES.LOGLEVEL.NO_DEBUG) ||
                 (!debugEnabled && logLevel == Constants.MESSAGES.LOGLEVEL.DEBUG)) {
             return;
-        } else {
-            switch (logLevel) {
-                case Constants.MESSAGES.LOGLEVEL.REMOTE:
-                    if (remoteUrl.length() > 1) {
-                        Log.d(TAG, "Remote URL set, show message: " + message);
-                    } else {
-                        Log.d(TAG, "No remote URL set, don't show message: " + message);
-                        return;
-                    }
-                    break;
-                case Constants.MESSAGES.LOGLEVEL.LOCAL:
-                    if (localUrl.length() > 1) {
-                        Log.d(TAG, "Local URL set, show message: " + message);
-                    } else {
-                        Log.d(TAG, "No local URL set, don't show message: " + message);
-                        return;
-                    }
-                    break;
-            }
+        }
+        switch (logLevel) {
+            case Constants.MESSAGES.LOGLEVEL.REMOTE:
+                if (remoteUrl.length() > 1) {
+                    Log.d(TAG, "Remote URL set, show message: " + message);
+                } else {
+                    Log.d(TAG, "No remote URL set, don't show message: " + message);
+                    return;
+                }
+                break;
+            case Constants.MESSAGES.LOGLEVEL.LOCAL:
+                if (localUrl.length() > 1) {
+                    Log.d(TAG, "Local URL set, show message: " + message);
+                } else {
+                    Log.d(TAG, "No local URL set, don't show message: " + message);
+                    return;
+                }
+                break;
         }
 
         switch (messageType) {
