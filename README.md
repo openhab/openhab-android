@@ -21,6 +21,17 @@ openHAB Android application is a native client for openHAB. It uses REST API of 
 
 <img src="https://raw.githubusercontent.com/openhab/openhab.android/master/fastlane/metadata/android/en-US/phoneScreenshots/main_menu.png" width="200px"> <img src="https://raw.githubusercontent.com/openhab/openhab.android/master/fastlane/metadata/android/en-US/phoneScreenshots/widget_overview.png" width="200px"> <img src="https://raw.githubusercontent.com/openhab/openhab.android/master/fastlane/metadata/android/en-US/phoneScreenshots/astro_binding.png" width="200px">
 
+## Localization
+
+Concerning all `values-*` folders at [mobile/src/main/res](mobile/src/main/res/)
+
+All language/regional translations are managed with [Crowdin](https://crowdin.com/).
+Please do NOT contribute translations as Pull Requests against the `mobile/src/main/res/values-*` folders directly but submit them through the Crowdin webservice:
+
+- [https://crowdin.com/project/openhab-android](https://crowdin.com/project/openhab-android)
+
+Thanks for your consideration and contribution!
+
 ## Setting up development environment
 
 If you want to contribute to Android application we are here to help you to set up development environment. openHAB Android app is developed using Android Studio and also can be build with maven.
