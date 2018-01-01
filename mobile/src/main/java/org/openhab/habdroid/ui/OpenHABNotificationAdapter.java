@@ -51,13 +51,13 @@ public class OpenHABNotificationAdapter extends ArrayAdapter<OpenHABNotification
         if (imageView != null) {
             if (notification.getIcon() != null && imageView != null) {
                 String iconUrl = mOpenHABBaseUrl + "/images/" + Uri.encode(notification.getIcon() + ".png");
-                imageView.setImageUrl(iconUrl, R.drawable.ic_openhab_appicon_340dp,
+                imageView.setImageUrl(iconUrl, R.drawable.ic_openhab_appicon_24dp,
                         mOpenHABUsername, mOpenHABPassword);
             } else {
                 if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    imageView.setImageDrawable(getContext().getDrawable(R.drawable.ic_openhab_appicon_340dp));
+                    imageView.setImageDrawable(getContext().getDrawable(R.drawable.ic_openhab_appicon_24dp));
                 } else {
-                    imageView.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_openhab_appicon_340dp));
+                    imageView.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_openhab_appicon_24dp));
                 }
             }
         }
