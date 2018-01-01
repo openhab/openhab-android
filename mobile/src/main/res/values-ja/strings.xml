@@ -60,7 +60,6 @@
   <string name="error_network_not_available">ネットワークが利用できません</string>
   <string name="error_http_connection_failed">OpenHAB から無効な応答を受信しました。OpenHAB が正常に機能しているかどうかを確認してください (HTTP 応答コード %d)</string>
   <string name="error_no_uuid">openHAB UUID を取得できませんでした。接続に失敗しました</string>
-  <string name="erorr_invalid_url">\'protocol://host:port/\' の形式で、正しい URL を入力してください</string>
   <string name="error_connection_failed">ホストへの接続に失敗しました</string>
   <string name="error_unable_to_resolve_hostname">ホスト名を解決できません</string>
   <string name="error_connection_sslhandshake_failed">SSL ハンドシェイクに失敗しました - 有効なクライアント証明書が必要かもしれません</string>
