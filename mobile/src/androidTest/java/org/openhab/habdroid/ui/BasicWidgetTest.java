@@ -11,13 +11,8 @@ import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.LargeTest;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.ViewParent;
 
-import org.hamcrest.Description;
-import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
-import org.hamcrest.TypeSafeMatcher;
 import org.hamcrest.core.IsInstanceOf;
 import org.junit.After;
 import org.junit.Before;
@@ -43,6 +38,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.CoreMatchers.allOf;
 import static org.hamcrest.Matchers.anything;
 import static org.hamcrest.Matchers.is;
+import static org.openhab.habdroid.TestUtils.childAtPosition;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
@@ -67,7 +63,7 @@ public class BasicWidgetTest {
     }
 
     @Test
-    public void openHABMainActivityTest2() throws InterruptedException {
+    public void openHABMainActivityTest() throws InterruptedException {
         View progressBar = mActivityTestRule.getActivity().findViewById(R.id.toolbar_progress_bar);
         mProgressbarIdlingResource = new OpenHABProgressbarIdlingResource("Progressbar " +
                 "IdleResource", progressBar);
@@ -276,24 +272,5 @@ public class BasicWidgetTest {
     public void unregisterIdlingResource() {
         if (mProgressbarIdlingResource != null)
             unregisterIdlingResources(mProgressbarIdlingResource);
-    }
-
-    private static Matcher<View> childAtPosition(
-            final Matcher<View> parentMatcher, final int position) {
-
-        return new TypeSafeMatcher<View>() {
-            @Override
-            public void describeTo(Description description) {
-                description.appendText("Child at position " + position + " in parent ");
-                parentMatcher.describeTo(description);
-            }
-
-            @Override
-            public boolean matchesSafely(View view) {
-                ViewParent parent = view.getParent();
-                return parent instanceof ViewGroup && parentMatcher.matches(parent)
-                        && view.equals(((ViewGroup) parent).getChildAt(position));
-            }
-        };
     }
 }
