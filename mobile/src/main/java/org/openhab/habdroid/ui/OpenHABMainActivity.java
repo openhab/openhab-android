@@ -307,7 +307,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
         }
 
         //  Create a new boolean and preference and set it to true
-        boolean isFirstStart = mSettings.getBoolean("firstStart", true);
+        boolean isFirstStart = mSettings.getBoolean(Constants.PREFERENCE_FIRST_START, true);
 
         SharedPreferences.Editor prefsEdit = sharedPrefs.edit();
         //  If the activity has never started before...

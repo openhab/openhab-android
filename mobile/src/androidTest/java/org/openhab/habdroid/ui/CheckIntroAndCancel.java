@@ -1,6 +1,8 @@
 package org.openhab.habdroid.ui;
 
 
+import android.preference.PreferenceManager;
+import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
@@ -14,15 +16,20 @@ import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
 import org.hamcrest.TypeSafeMatcher;
 import org.hamcrest.core.IsInstanceOf;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openhab.habdroid.R;
+import org.openhab.habdroid.util.Constants;
 
 import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.action.ViewActions.*;
-import static android.support.test.espresso.assertion.ViewAssertions.*;
-import static android.support.test.espresso.matcher.ViewMatchers.*;
+import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withParent;
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 
 @LargeTest
@@ -30,7 +37,19 @@ import static org.hamcrest.Matchers.allOf;
 public class CheckIntroAndCancel {
 
     @Rule
-    public ActivityTestRule<OpenHABMainActivity> mActivityTestRule = new ActivityTestRule<>(OpenHABMainActivity.class);
+    public ActivityTestRule<OpenHABMainActivity> mActivityTestRule = new ActivityTestRule<>
+            (OpenHABMainActivity.class, true, false);
+
+    @Before
+    public void setup() {
+        PreferenceManager
+                .getDefaultSharedPreferences(InstrumentationRegistry.getTargetContext())
+                .edit()
+                .putBoolean(Constants.PREFERENCE_FIRST_START, true)
+                .commit();
+
+        mActivityTestRule.launchActivity(null);
+    }
 
     @Test
     public void appShowsIntro() {
