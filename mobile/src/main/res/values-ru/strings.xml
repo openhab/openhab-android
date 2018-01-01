@@ -54,7 +54,6 @@
   <string name="error_network_not_available">Сеть недоступна</string>
   <string name="error_http_connection_failed">Полученный недействительный ответ от openHAB. Пожалуйста, проверьте, работает ли openHAB правильно (код ответа HTTP %d)</string>
   <string name="error_no_uuid">Не удалось получить OpenHAB UUID, соединение не выполнено</string>
-  <string name="erorr_invalid_url">Пожалйста напишите правильный URL в форме \'протокол://хост:порт/\'</string>
   <string name="error_connection_failed">Ошибка подключения к хосту</string>
   <string name="error_unable_to_resolve_hostname">Не удалось разрешить имя хоста</string>
   <string name="error_connection_sslhandshake_failed">Не удалось получить подтверждение SSL - возможно, вам нужен действительный клиентский сертификат</string>
