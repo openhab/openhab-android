@@ -16,7 +16,7 @@
             android:minWidth="50dp"
             android:maxHeight="50dp"
             android:maxWidth="50dp"
-            />
+            android:layout_alignParentStart="true" />
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -24,7 +24,8 @@
             android:layout_toRightOf="@+id/notificationImage"
             android:layout_marginLeft="6dp"
             android:layout_centerVertical="true"
-            >
+            android:layout_toEndOf="@+id/notificationImage"
+            android:layout_marginStart="6dp">
             <TextView
                 android:id="@+id/notificationMessage"
                 android:layout_width="wrap_content"
@@ -32,15 +33,14 @@
                 android:layout_centerVertical="true"
                 android:layout_toRightOf="@+id/notificationImage"
                 android:layout_height="wrap_content"
-
-                />
+                android:layout_toEndOf="@+id/notificationImage" />
             <TextView
                 android:id="@+id/notificationCreated"
                 android:layout_width="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:layout_alignParentRight="true"
                 android:layout_height="wrap_content"
-                />
+                android:layout_alignParentEnd="true" />
         </LinearLayout>
     <LinearLayout
         android:id="@+id/listdivider"
@@ -51,5 +51,6 @@
         android:layout_below="@+id/widgetimage"
         android:layout_marginLeft="@dimen/widgetlist_divider_left_margin"
         android:layout_marginRight="@dimen/widgetlist_divider_right_margin"
-        />
+        android:layout_marginStart="@dimen/widgetlist_divider_left_margin"
+        android:layout_marginEnd="@dimen/widgetlist_divider_right_margin" />
 </RelativeLayout>

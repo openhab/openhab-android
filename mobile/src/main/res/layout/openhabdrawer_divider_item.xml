@@ -5,7 +5,9 @@
     android:minHeight="8dp"
     android:paddingLeft="@dimen/widgetlist_item_left_margin"
     android:paddingRight="@dimen/widgetlist_item_right_margin"
-    android:gravity="center_vertical">
+    android:gravity="center_vertical"
+    android:paddingStart="@dimen/widgetlist_item_left_margin"
+    android:paddingEnd="@dimen/widgetlist_item_right_margin">
     <LinearLayout
         android:id="@+id/drawerdivider"
         android:layout_width="fill_parent"
@@ -14,5 +16,6 @@
         android:orientation="horizontal"
         android:layout_marginLeft="@dimen/widgetlist_divider_left_margin"
         android:layout_marginRight="@dimen/widgetlist_divider_right_margin"
-        />
+        android:layout_marginStart="@dimen/widgetlist_divider_left_margin"
+        android:layout_marginEnd="@dimen/widgetlist_divider_right_margin" />
 </RelativeLayout>
