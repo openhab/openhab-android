@@ -85,20 +85,15 @@ public class BasicWidgetTest {
         ViewInteraction textView = onView(
                 Matchers.allOf(withId(android.R.id.text1), withText("demo"),
                         childAtPosition(
-                                Matchers.allOf(IsInstanceOf.<View>instanceOf(android.widget.ListView.class),
-                                        childAtPosition(
-                                                IsInstanceOf.<View>instanceOf(android.widget.FrameLayout.class),
-                                                0)),
+                                IsInstanceOf.<View>instanceOf(android.widget.ListView.class),
                                 0),
                         isDisplayed()));
         textView.check(matches(withText("demo")));
 
         // click on demo
         DataInteraction appCompatTextView = onData(anything())
-                .inAdapterView(allOf(withClassName(is("com.android.internal.app.AlertController$RecycleListView")),
-                        childAtPosition(
-                                withClassName(is("android.widget.FrameLayout")),
-                                0)))
+                .inAdapterView(withClassName(
+                        is("com.android.internal.app.AlertController$RecycleListView")))
                 .atPosition(0);
         appCompatTextView.perform(click());
 
@@ -197,20 +192,10 @@ public class BasicWidgetTest {
         textView3.check(matches(withText("Scene Selection")));
 
         DataInteraction appCompatCheckedTextView = onData(anything())
-                .inAdapterView(Matchers.allOf(withClassName(is("com.android.internal.app.AlertController$RecycleListView")),
-                        childAtPosition(
-                                Matchers.allOf(withClassName(is("android.widget.FrameLayout")),
-                                        childAtPosition(
-                                                Matchers.allOf(withClassName(is("com.android.internal.widget.AlertDialogLayout")),
-                                                        childAtPosition(
-                                                                Matchers.allOf(withId(android.R.id.content),
-                                                                        childAtPosition(
-                                                                                withClassName(is("android.widget.FrameLayout")),
-                                                                                0)),
-                                                                0)),
-                                                1)),
-                                0)))
+                .inAdapterView(withClassName(
+                        is("com.android.internal.app.AlertController$RecycleListView")))
                 .atPosition(0);
+        appCompatCheckedTextView.check(matches(withText("off")));
         appCompatCheckedTextView.perform(click());
 
         /*ViewInteraction radioButton = onView(
