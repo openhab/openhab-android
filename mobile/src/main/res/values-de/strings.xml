@@ -36,6 +36,7 @@
   <string name="settings_openhab_fullscreen">Vollbild</string>
   <string name="settings_openhab_fullscreen_summary">Geräte-Statusleiste während der Verwendung der App ausblenden</string>
   <string name="settings_openhab_icon_format">Symbol-Format</string>
+  <string name="settings_openhab_icon_format_png">Pixelgrafik</string>
   <string name="settings_openhab_icon_format_svg">Vektorgrafik</string>
   <string name="settings_ringtone">Klingelton</string>
   <string name="settings_clear_default_sitemap">Standard-Sitemap zurücksetzen</string>
@@ -92,6 +93,7 @@
   <string name="info_openhab_gcm_not_connected">Geräteregistrierung fehlgeschlagen</string>
   <string name="info_openhab_gcm_connected">Gerät mit ID %s registriert</string>
   <string name="action_settings">Einstellungen</string>
+  <string name="nfc_dialog_title">Schreibe eine Aktion für dieses Element in einen NFC Tag</string>
   <string name="info_not_set">Nicht gesetzt</string>
   <!-- Strings for MemorizingTrustManager activity -->
   <string name="mtm_accept_cert">Unbekanntes Zertifikat akzeptieren?</string>
@@ -110,6 +112,7 @@
   <string name="nfc_action_on">An</string>
   <string name="nfc_action_off">Aus</string>
   <string name="nfc_action_toggle">Umschalten</string>
+  <string name="nfc_action_to_sitemap_page">Zur entsprechenden Sitemap navigieren</string>
   <!-- drawer -->
   <string name="drawer_open">Sitemap-Bereich öffnen</string>
   <string name="drawer_close">Sitemap-Bereich schließen</string>
