@@ -111,7 +111,6 @@
   <string name="about_title">O</string>
   <string name="about_license_title">Licencja</string>
   <string name="about_links">Linki</string>
-  <string name="settings_debug_messages_summary">Niektóre komunikaty o błędach zawierają więcej informacji</string>
   <string name="settings_debug_messages_title">Pokaż komunikaty debugowania</string>
   <string name="error_couldnt_determine_openhab_url">Nie można określić adresu URL openHAB</string>
   <string name="unknown">Nieznane</string>
