@@ -49,7 +49,6 @@
   <string name="error_no_url">Παρακαλώ ελέξτε ότι το openHAB τρέχει ή ρυθμίστε σωστά την διεύθυνση ή απομακρυσμένης διεύθυνσης του openHAB</string>
   <string name="error_empty_sitemap_list">Το openHAB επέστρεψε μια άδεια λίστα sitemap</string>
   <string name="error_network_not_available">Το δίκτυο δεν είναι διαθέσιμο</string>
-  <string name="error_http_connection_failed">Λήψη μη έγκυρης απάντησης από το openHAB. Παρακαλώ ελέξτε ότι το openHAB λειτουργεί κανονικά (HTTP response code %d)</string>
   <string name="error_no_uuid">Αδυναμία λήψης του openHAB UUID, η σύνδεση απέτυχε</string>
   <string name="erorr_invalid_url">Παρακαλώ εισάγετε ενα σωστό URL της μορφής \'πρωτόκολλο://διακομιστής:πόρτα/\'</string>
   <string name="error_connection_failed">Η σύνδεση στον διακομιστή απέτυχε</string>
