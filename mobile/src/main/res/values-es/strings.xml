@@ -42,7 +42,6 @@
   <string name="error_network_not_available">La conexión de red no está disponible</string>
   <string name="error_http_connection_failed">Recibida una respuesta incorrecta de openHAB. Por favor, comprueba si openHAB está trabajando correctamente (Código de respuesta HTTP %d)</string>
   <string name="error_no_uuid">No se puede obtener la openHAB UUID, conexión fallida</string>
-  <string name="erorr_invalid_url">Por favor, introducir una URL válida con formato \'protocolo://host:puerto/\'</string>
   <string name="error_connection_failed">Ha fallado la conexión con el host</string>
   <string name="error_unable_to_resolve_hostname">No se puede resolver el nombre de host</string>
   <string name="error_connection_sslhandshake_failed">La negociación SSL ha fallado - tal vez necesitas un certificado de cliente válido</string>
