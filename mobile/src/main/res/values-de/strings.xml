@@ -42,6 +42,7 @@
   <string name="settings_clear_default_sitemap">Standard-Sitemap zurücksetzen</string>
   <string name="settings_no_default_sitemap">Keine Standard-Sitemap festgelegt</string>
   <string name="settings_current_default_sitemap">Aktuelle Standard-Sitemap: %1$s</string>
+  <string name="settings_openhab_sslsettings">Verschlüsselungseinstellungen</string>
   <!-- App messages strings -->
   <string name="title_voice_widget">openHAB-Sprachbefehl</string>
   <string name="info_voice_input">"openHAB, zu Ihren Diensten!"</string>
