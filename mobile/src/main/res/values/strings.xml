@@ -89,6 +89,7 @@
     <string name="error_http_code_511">Network authentication is required (HTTP response code 511)</string>
     <string name="title_activity_openhabwritetag">Write NFC tag</string>
     <string name="title_activity_openhabinfo">openHAB Information</string>
+    <string name="title_activity_libraries">Used Libraries</string>
     <string name="info_write_tag">Touch the tag and keep it close until the confirmation message appear</string>
     <string name="info_write_tag_progress">Writing the tag</string>
     <string name="info_write_tag_finished">Successfully finished</string>
