@@ -50,7 +50,6 @@
   <string name="error_empty_sitemap_list">Το openHAB επέστρεψε μια άδεια λίστα sitemap</string>
   <string name="error_network_not_available">Το δίκτυο δεν είναι διαθέσιμο</string>
   <string name="error_no_uuid">Αδυναμία λήψης του openHAB UUID, η σύνδεση απέτυχε</string>
-  <string name="erorr_invalid_url">Παρακαλώ εισάγετε ενα σωστό URL της μορφής \'πρωτόκολλο://διακομιστής:πόρτα/\'</string>
   <string name="error_connection_failed">Η σύνδεση στον διακομιστή απέτυχε</string>
   <string name="error_unable_to_resolve_hostname">Αδυναμία ανεύρεσης ονόματος διακομιστή</string>
   <string name="error_connection_sslhandshake_failed">Η διαδικασία SSL Handshake απέτυχε - ίσως χρειάζεστε ένα έγκυρο πιστοποιητικό πελάτη</string>
