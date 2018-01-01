@@ -3,7 +3,7 @@
               android:layout_width="fill_parent"
               android:layout_height="fill_parent"
               android:orientation="vertical"
-              android:padding="5dp"
+              android:paddingTop="5dp"
               tools:context="org.openhab.habdroid.ui.OpenHABWriteTagActivity">
 
     <TextView
@@ -12,6 +12,8 @@
         android:layout_height="wrap_content"
         android:text="@string/info_openhab_version_label"
         android:textColor="@color/black"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
         android:textAppearance="?android:attr/textAppearanceMedium"/>
 
     <TextView
@@ -20,6 +22,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:text=""
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:textIsSelectable="true"/>
 
@@ -36,6 +40,8 @@
         android:layout_marginTop="14dp"
         android:text="@string/info_openhab_uuid_label"
         android:textColor="@color/black"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
         android:textAppearance="?android:attr/textAppearanceMedium"/>
 
     <TextView
@@ -45,6 +51,8 @@
         android:layout_marginTop="5dp"
         android:text=""
         android:textAppearance="?android:attr/textAppearanceSmall"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
         android:textIsSelectable="true"/>
 
     <View
@@ -65,6 +73,8 @@
             android:layout_marginTop="14dp"
             android:text="@string/info_openhab_secret_label"
             android:textColor="@color/black"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
             android:textAppearance="?android:attr/textAppearanceMedium"/>
 
         <TextView
@@ -73,6 +83,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:text=""
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textIsSelectable="true">
         </TextView>
@@ -91,6 +103,8 @@
         android:layout_marginTop="14dp"
         android:text="@string/info_openhab_gcm_label"
         android:textColor="@color/black"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
         android:textAppearance="?android:attr/textAppearanceMedium"/>
 
     <TextView
@@ -99,6 +113,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:text=""
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:textIsSelectable="true"/>
 
