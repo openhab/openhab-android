@@ -38,6 +38,17 @@
         <item name="themedDrawerBackground">?android:colorBackground</item>
         <item name="themedHeaderTextColor">@color/colorAccent_themeDark</item>
 
+        <item name="about_libraries_window_background">
+            @color/about_libraries_window_background_dark
+        </item>
+        <item name="about_libraries_card">@color/about_libraries_card_dark</item>
+        <item name="about_libraries_title_openSource">
+            @color/about_libraries_title_openSource_dark
+        </item>
+        <item name="about_libraries_text_openSource">
+            @color/about_libraries_text_openSource_dark
+        </item>
+
         <item name="chartTheme">dark</item>
     </style>
 
@@ -58,6 +69,17 @@
 
         <item name="themedDrawerBackground">@color/black</item>
         <item name="themedHeaderTextColor">@color/colorAccent_themeDark</item>
+
+        <item name="about_libraries_window_background">
+            @color/about_libraries_window_background_dark
+        </item>
+        <item name="about_libraries_card">@color/about_libraries_card_dark</item>
+        <item name="about_libraries_title_openSource">
+            @color/about_libraries_title_openSource_dark
+        </item>
+        <item name="about_libraries_text_openSource">
+            @color/about_libraries_text_openSource_dark
+        </item>
 
         <item name="chartTheme">black</item>
     </style>
@@ -98,6 +120,17 @@
 
         <item name="themedDrawerBackground">?android:colorBackground</item>
         <item name="themedHeaderTextColor">@color/colorAccent_themeDark</item>
+
+        <item name="about_libraries_window_background">
+            @color/about_libraries_window_background_dark
+        </item>
+        <item name="about_libraries_card">@color/about_libraries_card_dark</item>
+        <item name="about_libraries_title_openSource">
+            @color/about_libraries_title_openSource_dark
+        </item>
+        <item name="about_libraries_text_openSource">
+            @color/about_libraries_text_openSource_dark
+        </item>
 
         <item name="chartTheme">dark</item>
     </style>

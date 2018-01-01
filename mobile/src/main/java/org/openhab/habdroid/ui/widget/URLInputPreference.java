@@ -71,7 +71,7 @@ public class URLInputPreference extends EditTextPreference implements TextWatche
                 }
             }
         }
-        mEditor.setError(mUrlIsValid ? null : mEditor.getResources().getString(R.string.erorr_invalid_url));
+        mEditor.setError(mUrlIsValid ? null : mEditor.getResources().getString(R.string.error_invalid_url));
         updateOkButtonState();
     }
 

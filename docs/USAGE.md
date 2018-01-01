@@ -1,7 +1,7 @@
 ---
 layout: documentation
 title: Android openHAB App
-source: https://github.com/openhab/openhab.android/blob/master/docs/USAGE.md
+source: https://github.com/openhab/openhab-android/blob/master/docs/USAGE.md
 ---
 
 {% include base.html %}
@@ -10,7 +10,8 @@ source: https://github.com/openhab/openhab.android/blob/master/docs/USAGE.md
 
 # Android openHAB App
 
-The openHAB Android application is a native client for openHAB. The app follows the basic principles of the other UIs, like Basic UI, and presents your predefined openHAB [sitemap(s)](http://docs.openhab.org/configuration/sitemaps.html).
+The openHAB Android application is a native client for openHAB.
+The app follows the basic principles of the other openHAB UIs, like Basic UI, and presents your predefined openHAB [sitemap(s)](http://docs.openhab.org/configuration/sitemaps.html).
 
 <a href="https://play.google.com/store/apps/details?id=org.openhab.habdroid"><img src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" height="80"></a>
 
@@ -50,11 +51,11 @@ There are a number of strategies available to provide [secure remote access]({{b
 
 ## Permanent Deployment
 
-If you want to use openHAB Android on a wall mounted tablet, go to settings and tick `Disable display timer` and `Full Screen`.
+If you want to use openHAB Android on a wall mounted tablet, go to settings and tick `Disable display timer` and `Fullscreen`.
 
 ## Help and Technical Details
 
-Please refer to the [openhab.android project on GitHub](https://github.com/openhab/openhab.android) for more details.
+Please refer to the [openhab-android project on GitHub](https://github.com/openhab/openhab-android) for more details.
 
 ## Trademark Disclaimer
 

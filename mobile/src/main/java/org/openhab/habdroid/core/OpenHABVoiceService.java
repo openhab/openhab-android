@@ -133,11 +133,9 @@ public class OpenHABVoiceService extends ContinuingIntentService implements Open
                 AlertDialog alert = builder.create();
                 alert.show();
                 break;
-            case Constants.MESSAGES.TOAST:
+            default:
                 Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
                 break;
-            default:
-                throw new IllegalArgumentException("Message type not implemented");
         }
     }
 

@@ -46,7 +46,6 @@
     <string name="error_empty_sitemap_list">openHAB lieferte eine leere Sitemap-Liste</string>
     <string name="error_network_not_available">Netzwerk nicht verfügbar</string>
     <string name="error_no_uuid">Konnte openHAB-UUID nicht abrufen, Verbindung fehlgeschlagen</string>
-    <string name="erorr_invalid_url">Bitte geben Sie eine gültige URL im Format \'protocol://host:port/\' an.</string>
     <string name="error_connection_failed">Verbindung fehlgeschlagen</string>
     <string name="error_connection_sslhandshake_failed">SSL-Handshake fehlgeschlagen - benötigen Sie eventuell ein gültiges Client-Zertifikat?</string>
     <string name="title_activity_openhabwritetag">Schreibe NFC-Tag</string>

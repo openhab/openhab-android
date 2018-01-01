@@ -46,7 +46,6 @@
     <string name="error_empty_sitemap_list">openHAB grąžino tuščią vietos išplanavimų sąrašą</string>
     <string name="error_network_not_available">Tinklas nepasiekiamas</string>
     <string name="error_no_uuid">Nepavyko gauti openHAB UUID, ryšys nutrauktas</string>
-    <string name="erorr_invalid_url">Prašome įvesti adresą \'protocol://host:port/\' pavidalu</string>
     <string name="error_connection_failed">Nepavyko prisijungti prie serverio</string>
     <string name="error_connection_sslhandshake_failed">Nepavyko užmegzti SSL ryšio - gal jums reikia galiojančio kliento sertifikato</string>
     <string name="title_activity_openhabwritetag">Rašyti NFC žymą</string>
@@ -63,7 +62,7 @@
     <string name="info_openhab_secret_label">openHAB Secret</string>
     <string name="info_openhab_gcm_label">Google Cloud žinučių būsena</string>
     <string name="info_openhab_gcm_not_connected">Nepavyko įrenginio registracija</string>
-    <string name="info_openhab_gcm_connected">Įrenginys užregistruotas</string>
+    <string name="info_openhab_gcm_connected">Įrenginys užregistruotas su siuntėjo ID %s</string>
     <string name="action_settings">Nustatymai</string>
     <string name="nfc_dialog_title">Prašome pasirinkti NFC žymos veiksmą</string>
     <string name="info_not_set">Nenustatyta</string>
@@ -107,10 +106,10 @@
     <string name="settings_debug_messages_summary">Kai kurie klaidų pranešimai savyje turi daugiau informacijos</string>
     <string name="settings_debug_messages_title">Rodyti derinimo žinutes</string>
     <string name="settings_openhab_sslclientcert_howto_summary">Paspauskite čia, kad gautumėte informacijos, kaip nustatyti SSL autentifikaciją</string>
-    <string name="intro_whatis">Nepriklausomas nuo gamintojų atviro kodo išmanių namų sprendimas</string>
+    <string name="intro_whatis">Nepriklausomas atviro kodo išmanių namų sprendimas</string>
     <string name="intro_welcome">Sveiki atvykę į openHAB</string>
     <string name="error_certificate_expired">SSL sertifikato galiojimas baigėsi. Gaukite naują sertifikatą arba išjunkite sertifikatų patvirtinimą</string>
-    <string name="intro_themes_description">Pasirinkite tarp kelių temų</string>
+    <string name="intro_themes_description">Galite pasirinkti vieną iš kelių temų</string>
     <string name="error_http_connection_failed">Gautas neteisingas atsakymas iš openHAB. Patikrinkite, ar openHAB veikia tinkamai (HTTP atsakymo kodas %d)</string>
     <string name="error_http_code_511">Reikalingas tinklo autentifikavimas (HTTP atsakymo kodas 511)</string>
     <string name="error_http_code_507">openHAB nepakanka laisvos vietos (HTTP atsakymo kodas 507)</string>
@@ -129,4 +128,14 @@
     <string name="cancel">Atšaukti</string>
     <string name="error_http_code_503">openHAB laikinai nepasiekiamas (HTTP atsakymo kodas 503)</string>
     <string name="set">Nustatyti</string>
+    <string name="nfc_action_to_sitemap_page">Eiti į išplanavimo puslapį</string>
+    <string name="settings_openhab_icon_format_svg">Vektorinis</string>
+    <string name="settings_openhab_icon_format_png">Taškinis</string>
+    <string name="settings_current_default_sitemap">Dabartinis numatytas vietos išplanavimas: %1$s</string>
+    <string name="settings_openhab_sslsettings">Šifravimo nustatymai</string>
+    <string name="settings_openhab_alt_connection">Nuotolinio serverio nustatymai</string>
+    <string name="settings_openhab_connection">Vietinio serverio nustatymai</string>
+    <string name="settings_clear_default_sitemap">Išvalyti numatytą vietos išplanavimą</string>
+    <string name="settings_no_default_sitemap">Nepasirinktas numatytas vietos išplanavimas</string>
+    <string name="mainmenu_openhab_sitemaps">Vietų išplanavimai</string>
 </resources>
