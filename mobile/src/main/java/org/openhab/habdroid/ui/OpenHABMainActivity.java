@@ -629,10 +629,9 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
         String localUrl = mSettings.getString(Constants.PREFERENCE_URL, "");
 
         // if debug mode is enabled, show all messages, except those with logLevel 4
-        if(debugEnabled) {
-            if (logLevel == Constants.MESSAGES.LOGLEVEL.NO_DEBUG) {
-                return;
-            }
+        if((debugEnabled && logLevel == Constants.MESSAGES.LOGLEVEL.NO_DEBUG) ||
+                (!debugEnabled && logLevel == Constants.MESSAGES.LOGLEVEL.DEBUG)) {
+            return;
         } else {
             switch (logLevel) {
                 case Constants.MESSAGES.LOGLEVEL.REMOTE:
