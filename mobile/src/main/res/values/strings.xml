@@ -148,7 +148,7 @@
     <string name="about_links_list"><![CDATA[\u00B7 <a href="https://github.com/openhab/openhab.android">openHAB App source code</a><br><br> \u00B7 <a href="https://github.com/openhab/openhab.android/issues">Report a problem</a><br><br> \u00B7 <a href="http://docs.openhab.org/">openHAB Documentation</a><br><br> \u00B7 <a href="https://community.openhab.org/">Community Forum</a>]]></string>
     <string name="about_copyright" translatable="false">© 2012 - %s openHAB Foundation</string>
     <string name="about_version_string" translatable="false">%1$s - %2$s</string>
-    <string name="settings_debug_messages_summary">Some error messages include more information</string>
+    <string name="settings_debug_messages_summary">Passwords will be shown in clear text!</string>
     <string name="settings_debug_messages_title">Show debug messages</string>
     <string name="error_couldnt_determine_openhab_url">Couldn\'t determine openHAB URL</string>
     <string name="unknown">Unknown</string>
