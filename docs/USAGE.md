@@ -1,7 +1,7 @@
 ---
 layout: documentation
 title: Android openHAB App
-source: https://github.com/openhab/openhab.android/blob/master/docs/USAGE.md
+source: https://github.com/openhab/openhab-android/blob/master/docs/USAGE.md
 ---
 
 {% include base.html %}
@@ -55,7 +55,7 @@ If you want to use openHAB Android on a wall mounted tablet, go to settings and 
 
 ## Help and Technical Details
 
-Please refer to the [openhab.android project on GitHub](https://github.com/openhab/openhab.android) for more details.
+Please refer to the [openhab-android project on GitHub](https://github.com/openhab/openhab-android) for more details.
 
 ## Trademark Disclaimer
 
