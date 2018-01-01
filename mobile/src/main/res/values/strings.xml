@@ -66,7 +66,7 @@
     <string name="error_network_not_available">Network is not available</string>
     <string name="error_http_connection_failed">Received an invalid response from openHAB. Please check if openHAB is working correctly (HTTP response code %d)</string>
     <string name="error_no_uuid">Unable to get openHAB UUID, connection failed</string>
-    <string name="erorr_invalid_url">Please enter a valid URL in a \'protocol://host:port/\' form</string>
+    <string name="error_invalid_url">Please enter a valid URL in a \'protocol://host:port/\' form</string>
     <string name="error_connection_failed">Connection to host failed</string>
     <string name="error_unable_to_resolve_hostname">Unable to resolve hostname</string>
     <string name="error_connection_sslhandshake_failed">SSL Handshake failed - maybe you need a valid client certificate</string>

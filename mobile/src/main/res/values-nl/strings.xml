@@ -41,7 +41,6 @@
     <string name="error_empty_sitemap_list">openHAB heeft een lege sitemap geladen</string>
     <string name="error_network_not_available">Netwerk is niet beschikbaar</string>
     <string name="error_no_uuid">openHAB UUID kan niet opgevraagd worden, connectie mislukt</string>
-    <string name="erorr_invalid_url">Vul een correcte URL in deze \'protocol://host:port/\' vorm</string>
     <string name="error_connection_failed">Verbinding met host mislukt</string>
     <string name="title_activity_openhabwritetag">Schrijf NFC-tag</string>
     <string name="title_activity_openhabinfo">openHAB Informatie</string>
