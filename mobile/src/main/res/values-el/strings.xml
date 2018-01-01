@@ -99,7 +99,6 @@
   <string name="about_license_title">Άδεια</string>
   <string name="about_links">Σύνδεσμοι</string>
   <string name="about_links_list"><![CDATA[· <a href="https://github.com/openhab/openhab.android">Πηγαίος κώδικας εφαρμογής openHAB</a><br><br> · <a href="https://github.com/openhab/openhab.android/issues">Αναφορά Προβλήματος</a><br><br> · <a href="http://docs.openhab.org/">Έγγραφα τεκμηρίωσης του openHAB</a><br><br> · <a href="https://community.openhab.org/">Τόπος συζητήσεως κοινότητας</a>]]></string>
-  <string name="settings_debug_messages_summary">Μερικά μηνύματα λάθους περιέχουν περισσότερες πληροφορίες</string>
   <string name="settings_debug_messages_title">Προβολή μηνυμάτων αποσφαλμάτωσης</string>
   <string name="error_couldnt_determine_openhab_url">Αδυναμία προσδιορισμού του openHAB URL</string>
   <string name="unknown">Άγνωστο</string>
