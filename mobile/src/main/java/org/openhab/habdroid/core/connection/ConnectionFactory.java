@@ -38,7 +38,7 @@ final public class ConnectionFactory
     private static final List<String> needInvalidateCachePreferenceKeys = Arrays.asList(Constants
             .PREFERENCE_ALTURL, Constants.PREFERENCE_LOCAL_USERNAME, Constants
             .PREFERENCE_LOCAL_PASSWORD, Constants.PREFERENCE_REMOTE_PASSWORD, Constants
-            .PREFERENCE_REMOTE_USERNAME, Constants.PREFERENCE_URL);
+            .PREFERENCE_REMOTE_USERNAME, Constants.PREFERENCE_URL, Constants.PREFERENCE_DEMOMODE);
 
     private Context ctx;
     private SharedPreferences settings;
