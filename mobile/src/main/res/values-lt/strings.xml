@@ -65,6 +65,27 @@
   <!-- nfc toggle -->
   <string name="nfc_action_on">Įjungti</string>
   <string name="nfc_action_off">Išjungti</string>
+  <string name="nfc_action_toggle">Perjungti</string>
+  <string name="nfc_action_to_sitemap_page">Eiti į išplanavimo puslapį</string>
   <!-- drawer -->
+  <string name="drawer_open">Vietos išplanavimų parinkiklis atvertas</string>
+  <string name="drawer_close">Vietos išplanavimų parinkiklis užvertas</string>
+  <string name="mainmenu_openhab_voice_recognition">Balso atpažinimas</string>
   <!-- About -->
+  <string name="about_title">Apie</string>
+  <string name="about_license_title">Licencija</string>
+  <string name="about_links">Nuorodos</string>
+  <string name="about_links_list"><![CDATA[\u00B7 <a href="https://github.com/openhab/openhab.android">openHAB programėlės išeities kodas</a><br><br> \u00B7 <a href="https://github.com/openhab/openhab.android/issues">Pranešti apie klaidą</a><br><br> \u00B7 <a href="http://docs.openhab.org/">openHAB dokumentacija</a><br><br> \u00B7 <a href="https://community.openhab.org/">Diskusijų forumas</a>]]></string>
+  <string name="settings_debug_messages_summary">Kai kurie klaidų pranešimai savyje turi daugiau informacijos</string>
+  <string name="settings_debug_messages_title">Rodyti derinimo žinutes</string>
+  <string name="error_couldnt_determine_openhab_url">Nepavyko nustatyti openHAB URL</string>
+  <string name="unknown">Nežinoma</string>
+  <string name="error_network_type_unsupported">Tinklo tipas (%s) nepalaikomas</string>
+  <string name="set">Nustatyti</string>
+  <string name="cancel">Atšaukti</string>
+  <string name="app_intro">Intro</string>
+  <string name="intro_welcome">Sveiki atvykę į openHAB</string>
+  <string name="intro_whatis">Nepriklausomas atviro kodo išmanių namų sprendimas</string>
+  <string name="intro_themes">Temos</string>
+  <string name="intro_themes_description">Galite pasirinkti vieną iš kelių temų</string>
 </resources>
