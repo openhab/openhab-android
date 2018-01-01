@@ -128,8 +128,11 @@
 
     <!-- nfc toggle -->
     <string name="nfc_action_on">On</string>
+    <string name="nfc_action_up">Up</string>
     <string name="nfc_action_off">Off</string>
+    <string name="nfc_action_down">Down</string>
     <string name="nfc_action_toggle">Toggle</string>
+    <string name="nfc_action_current_color">Current color</string>
     <string name="nfc_action_to_sitemap_page">Navigate to Sitemap page</string>
 
     <!-- drawer -->
