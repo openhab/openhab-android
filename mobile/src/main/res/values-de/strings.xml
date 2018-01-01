@@ -8,6 +8,8 @@
   <string name="settings_clear_default_sitemap">Standard-Sitemap zurücksetzen</string>
   <string name="settings_no_default_sitemap">Keine Standard-Sitemap festgelegt</string>
   <!-- App messages strings -->
+  <string name="erorr_invalid_url">Bitte geben Sie eine gültige URL im Format \'protocol://host:port/\' an</string>
+  <string name="error_unable_to_resolve_hostname">Fehler beim Auflösen des Hostnamens</string>
   <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
   <!-- Strings for MemorizingTrustManager activity -->
   <!-- theme -->
