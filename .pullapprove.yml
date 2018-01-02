@@ -23,12 +23,11 @@ group_defaults:
 groups:
   maintainers:
     required: 1
-    users:
-      - kaikreuzer
-      - digitaldan
-      - ThomDietrich
-      - mueller-ma
+    teams:
+      - android-maintainers
     conditions:
       branches:
         - master
     reject_value: -100
+    author_approval:
+        auto: true
