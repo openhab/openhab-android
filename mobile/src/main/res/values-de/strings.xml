@@ -20,6 +20,7 @@
   <string name="settings_misc_title">Sonstige Einstellungen</string>
   <string name="settings_openhab_url">Lokale Server-URL</string>
   <string name="settings_openhab_url_summary">Die Adresse des openHAB Dashboards (basierend auf Rechnername oder IP). Setzen dieser Option deaktiviert die automatische Ermittlung. Aktueller Wert: %s</string>
+  <string name="settings_openhab_alturl">Server-URL für Fernzugiff</string>
   <string name="settings_openhab_alturl_summary">Diese Adresse zum openHAB Dashboard wird verwendet wenn die lokale Adresse nicht erreichbar ist. Aktueller Wert: %s</string>
   <string name="settings_openhab_username">Benutzername</string>
   <string name="settings_openhab_password">Passwort</string>
@@ -81,6 +82,7 @@
   <string name="error_http_code_511">Netzwerkauthentifizierung wird gefordert (HTTP-Statuscode 511)</string>
   <string name="title_activity_openhabwritetag">Schreibe NFC-Tag</string>
   <string name="title_activity_openhabinfo">openHAB-Informationen</string>
+  <string name="title_activity_libraries">Verwendete Softwarebibliotheken</string>
   <string name="info_write_tag">Berühren Sie den NFC-Tag und warten Sie auf die Bestätigungsmitteilung</string>
   <string name="info_write_tag_progress">Schreibe NFC-Tag</string>
   <string name="info_write_tag_finished">Erfolgreich abgeschlossen</string>
@@ -112,8 +114,11 @@
   <string name="theme_name_basic_ui_dark">Basic UI dunkel</string>
   <!-- NFC toggle -->
   <string name="nfc_action_on">An</string>
+  <string name="nfc_action_up">Hoch</string>
   <string name="nfc_action_off">Aus</string>
+  <string name="nfc_action_down">Runter</string>
   <string name="nfc_action_toggle">Umschalten</string>
+  <string name="nfc_action_current_color">Aktuelle Farbe</string>
   <string name="nfc_action_to_sitemap_page">Zur entsprechenden Sitemap navigieren</string>
   <!-- Drawer -->
   <string name="drawer_open">Sitemap-Bereich öffnen</string>
@@ -124,6 +129,7 @@
   <string name="about_license_title">Lizenz</string>
   <string name="about_links">Links</string>
   <string name="about_links_list"><![CDATA[· <a href="https://github.com/openhab/openhab.android">openHAB App Quellcode</a><br><br> · <a href="https://github.com/openhab/openhab.android/issues">Berichte ein Problem</a><br><br> · <a href="http://docs.openhab.org/">openHAB Dokumentation</a><br><br> · <a href="https://community.openhab.org/">Community Forum</a>]]></string>
+  <string name="settings_debug_messages_summary">Passwörter werden in Klartext angezeigt!</string>
   <string name="settings_debug_messages_title">Debug-Meldungen anzeigen</string>
   <string name="error_couldnt_determine_openhab_url">Konnte openHAB-URL nicht ermitteln</string>
   <string name="unknown">Unbekannt</string>
