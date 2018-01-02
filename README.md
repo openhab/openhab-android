@@ -26,7 +26,7 @@ openHAB Android application is a native client for openHAB. It uses REST API of 
 Concerning all `values-*` folders at [mobile/src/main/res](mobile/src/main/res/)
 
 All language/regional translations are managed with [Crowdin](https://crowdin.com/).
-Please do NOT contribute translations as Pull Requests against the `mobile/src/main/res/values-*` folders directly but submit them through the Crowdin webservice:
+Please do NOT contribute translations as pull requests against the `mobile/src/main/res/values-*` folders directly, but submit them through the Crowdin web service:
 
 - [https://crowdin.com/project/openhab-android](https://crowdin.com/project/openhab-android)
 
