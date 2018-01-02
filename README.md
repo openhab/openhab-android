@@ -1,6 +1,6 @@
 <p align="center">
-  <a href="https://travis-ci.org/openhab/openhab.android">
-    <img src="https://travis-ci.org/openhab/openhab.android.svg?branch=master">
+  <a href="https://travis-ci.org/openhab/openhab-android">
+    <img src="https://travis-ci.org/openhab/openhab-android.svg?branch=master">
   </a>
   <a href="https://crowdin.com/project/openhab-android">
     <img src="https://d322cqt584bo4o.cloudfront.net/openhab-android/localized.svg">
