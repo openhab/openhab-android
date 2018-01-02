@@ -8,6 +8,7 @@
   <!-- App settings strings -->
   <!-- App messages strings -->
   <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
+  <string name="info_openhab_uuid_label">openHAB UUID</string>
   <!-- Strings for MemorizingTrustManager activity -->
   <!-- Themes -->
   <!-- NFC toggle -->
