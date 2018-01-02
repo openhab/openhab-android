@@ -4,14 +4,145 @@
   <!-- Attention translators! Do NOT submit localized strings through GitHub Pull Request. -->
   <!-- See: https://github.com/openhab/openhab-android/blob/master/README.md#localization -->
   <!-- General app strings -->
+  <string name="main_menu">Main menu</string>
+  <string name="app_preferences_name">Pengaturan</string>
+  <string name="app_notifications">Pemberitahuan</string>
+  <string name="dlg_notification_title">Pengaturan pesan</string>
+  <string name="favorites">Favorit</string>
   <!-- Main menu items -->
+  <string name="mainmenu_openhab_sitemaps">Peta Situs</string>
+  <string name="mainmenu_openhab_preferences">Pengaturan</string>
+  <string name="mainmenu_openhab_selectsitemap">Pilih peta situs default</string>
+  <string name="mainmenu_openhab_clearcache">Hapus cache gambar</string>
   <!-- App settings strings -->
+  <string name="settings_connection_title">Pengaturan Koneksi</string>
+  <string name="settings_display_title">Pengaturan tampilan</string>
+  <string name="settings_misc_title">Pengaturan lain</string>
+  <string name="settings_openhab_url">URL server lokal</string>
+  <string name="settings_openhab_url_summary">URL dashboard openHAB (berdasarkan nama host atau IP). Jika mengkonfigurasi, penemuan otomatis dinonaktifkan. Pengaturan saat ini: %s</string>
+  <string name="settings_openhab_alturl">URL server jauh</string>
+  <string name="settings_openhab_alturl_summary">URL dashboard openHAB digunakan saat alamat lokal tidak tersedia. Setelan saat ini: %s</string>
+  <string name="settings_openhab_username">Nama pengguna</string>
+  <string name="settings_openhab_password">Kata sandi</string>
+  <string name="settings_openhab_sslclientcert">SSL klien sertifikat</string>
+  <string name="settings_openhab_sslclientcert_howto">Sertifikat klien SSL bagaimana caranya</string>
+  <string name="settings_openhab_sslclientcert_howto_summary">Ketuk di sini untuk mendapatkan beberapa petunjuk dan penjelasan tentang cara menyiapkan otentikasi sertifikat klien SSL</string>
+  <string name="settings_openhab_screentimeroff">Nonaktifkan pewaktu tampilan</string>
+  <string name="settings_openhab_screentimeroff_summary">Nonaktifkan tampilan matikan timer saat openHab sedang berlari</string>
+  <string name="settings_openhab_demomode">Mode demo</string>
+  <string name="settings_openhab_demomode_summary">Jalankan dalam mode demo</string>
+  <string name="settings_openhab_theme">Tema</string>
+  <string name="settings_openhab_sslcert">Abaikan sertifikat SSL</string>
+  <string name="settings_openhab_sslcert_summary">Abaikan validasi sertifikat selama SSL jabat tangan</string>
+  <string name="settings_openhab_sslhost">Abaikan nama host SSL</string>
+  <string name="settings_openhab_sslhost_summary">Abaikan nama tempat cek saat SSL jabat tangan</string>
+  <string name="settings_openhab_fullscreen">Layar penuh</string>
+  <string name="settings_openhab_fullscreen_summary">Tampilan dalam mode layar penuh</string>
+  <string name="settings_openhab_icon_format">Format ikon</string>
+  <string name="settings_openhab_icon_format_png">Bitmap</string>
+  <string name="settings_openhab_icon_format_svg">Vektor</string>
+  <string name="settings_ringtone">Nada dering</string>
+  <string name="settings_clear_default_sitemap">Hapus peta situs default</string>
+  <string name="settings_no_default_sitemap">Tidak ada peta situs default yang dipilih</string>
+  <string name="settings_current_default_sitemap">Peta Situs default saat ini: %1$s</string>
+  <string name="settings_openhab_sslsettings">Pengaturan enkripsi</string>
+  <string name="settings_openhab_alt_connection">Pengaturan server jauh</string>
+  <string name="settings_openhab_connection">Pengaturan server lokal</string>
   <!-- App messages strings -->
+  <string name="title_voice_widget">openHAB Perintah suara</string>
+  <string name="info_voice_input">"openHAB, atas perintahmu!"</string>
+  <string name="info_voice_recognized_text">"Perintah yang Diakui: %1$s"</string>
+  <string name="info_demo_mode">Berjalan dalam mode demo. Untuk terhubung ke server openHAB anda silahkan masuk ke menu pengaturan.</string>
+  <string name="info_demo_mode_short">Berjalan dalam mode demo</string>
+  <string name="info_conn_url">Menghubungkan ke URL lokal</string>
+  <string name="info_conn_rem_url">Menghubungkan ke URL jauh</string>
+  <string name="info_discovery">Menemukan openHAB Mohon tunggu\u2026</string>
+  <string name="error_no_url">Harap periksa apakah openHAB menjalankan atau mengkonfigurasi URL openHAB atau URL jauh</string>
+  <string name="error_empty_sitemap_list">openHAB mengembalikan daftar peta situs kosong</string>
+  <string name="error_network_not_available">Jaringan tidak tersedia</string>
+  <string name="error_http_connection_failed">Menerima respons yang tidak valid dari openHAB. Harap periksa apakah openHAB bekerja dengan benar (kode tanggapan HTTP %d)</string>
+  <string name="error_no_uuid">Tidak dapat menerima openHAB UUID, koneksi gagal</string>
+  <string name="error_invalid_url">Masukkan URL yang valid di \'protokol://rumah:pangkalan/\' dari</string>
+  <string name="error_connection_failed">Sambungan ke rumah gagal</string>
+  <string name="error_unable_to_resolve_hostname">Tidak dapat menyelesaikan nama rumah</string>
+  <string name="error_connection_sslhandshake_failed">SSL Handshake gagal - mungkin Anda memerlukan sertifikat klien yang sah</string>
+  <string name="error_certificate_not_trusted">Sertifikat SSL tidak dipercaya. Harap impor sertifikat akar atau nonaktifkan sertifikat validasi selama SSL jabat tangan</string>
+  <string name="error_certificate_expired">Sertifikat SSL tidak dipercaya. Harap impor sertifikat akar atau nonaktifkan sertifikat validasi selama SSL jabat tangan</string>
+  <string name="error_certificate_not_valid_yet">Sertifikat SSL belum valid Harap mendapatkan sertifikat yang benar atau menonaktifkan validasi sertifikat selama SSL handshake. Juga periksa apakah jam di telepon Anda sudah diatur dengan benar</string>
+  <string name="error_certificate_revoked">Sertifikat SSL telah dicabut. Harap dapatkan sertifikat baru atau nonaktifkan validasi sertifikat selama SSL handshake</string>
+  <string name="error_http_code_401">Otentikasi pengguna telah gagal Silakan periksa nama pengguna, kata sandi dan sertifikat relasi SSL (kode tanggapan HTTP 401)</string>
+  <string name="error_http_code_403">Otentikasi pengguna telah gagal Silakan periksa nama pengguna, kata sandi dan sertifikat relasi SSL (kode tanggapan HTTP 403)</string>
+  <string name="error_http_code_407">Otentikasi pengguna telah gagal Harap periksa nama pengguna, kata sandi dan sertifikat relasi SSL (kode tanggapan HTTP 407)</string>
+  <string name="error_http_code_414">uRL openHAB terlalu panjang (kode tanggapan HTTP 414)</string>
+  <string name="error_http_code_426">HTTPS diperlukan Silahkan ganti URL openHAB (kode tanggapan HTTP 426)</string>
   <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
+  <string name="error_http_code_495">Sertifikat relasi SSL tidak valid (kode tanggapan HTTP 495)</string>
+  <string name="error_http_code_496">Sertifikat relasi SSL diperlukan (kode tanggapan HTTP 496)</string>
+  <string name="error_http_code_502">Proxy reverse Anda mendapat jawaban yang tidak benar dari openHAB (kode tanggapan HTTP 502)</string>
+  <string name="error_http_code_503">openHAB sementara tidak tersedia (kode tanggapan HTTP 503)</string>
+  <string name="error_http_code_504">Gerbang pintu keluar. Sepertinya proxy balik Anda berjalan, tapi tidak bisa mendapat jawaban dari openHAB (kode tanggapan HTTP 504)</string>
+  <string name="error_http_code_507">openHAB tidak memiliki cukup ruang kosong (HTTP response code 507)</string>
+  <string name="error_http_code_511">Otentikasi jaringan diperlukan (kode tanggapan HTTP 511)</string>
+  <string name="title_activity_openhabwritetag">Tulis tag NFC</string>
+  <string name="title_activity_openhabinfo">informasi openHAB</string>
+  <string name="title_activity_libraries">Perpustakaan yang Digunakan</string>
+  <string name="info_write_tag">Sentuh tag dan tetap tutup sampai pesan konfirmasi muncul</string>
+  <string name="info_write_tag_progress">Menulis tag</string>
+  <string name="info_write_tag_finished">Berhasil selesai</string>
+  <string name="info_write_failed">Kesalahan penulisan tag</string>
+  <string name="info_write_tag_unsupported">Perangkat ini tidak memiliki dukungan NFC</string>
+  <string name="info_write_tag_disabled">NFC dinonaktifkan Aktifkan di menu setelan perangkat.</string>
+  <string name="info_openhab_version_label">versi openHAB</string>
+  <string name="info_openhab_apiversion_label">versi openHAB Jeda API</string>
   <string name="info_openhab_uuid_label">openHAB UUID</string>
+  <string name="info_openhab_secret_label">rahasia openHAB</string>
+  <string name="info_openhab_gcm_label">Status Pesan Google Awan</string>
+  <string name="info_openhab_gcm_not_connected">Pendaftaran perangkat gagal</string>
+  <string name="info_openhab_gcm_connected">Perangkat terdaftar dengan ID Pengirim %s</string>
+  <string name="action_settings">Pengaturan</string>
+  <string name="nfc_dialog_title">Tuliskan tag NFC untuk elemen ini</string>
+  <string name="info_not_set">Tidak diatur</string>
   <!-- Strings for MemorizingTrustManager activity -->
+  <string name="mtm_accept_cert">Terima sertifikat yang tidak diketahui?</string>
+  <string name="mtm_decision_always">Selalu</string>
+  <string name="mtm_decision_once">Sekali</string>
+  <string name="mtm_decision_abort">Menggugurkan</string>
+  <string name="mtm_notification">Verifikasi sertifikat</string>
+  <string name="settings_openhab_none">tidak ada</string>
   <!-- Themes -->
+  <string name="theme_name_light">Cahaya</string>
+  <string name="theme_name_dark">Gelap</string>
+  <string name="theme_name_black">Hitam/AMOLED</string>
+  <string name="theme_name_basic_ui">UI Dasar</string>
+  <string name="theme_name_basic_ui_dark">Dasar UI gelap</string>
   <!-- NFC toggle -->
+  <string name="nfc_action_on">Di</string>
+  <string name="nfc_action_up">Naik</string>
+  <string name="nfc_action_off">Mati</string>
+  <string name="nfc_action_down">Turun</string>
+  <string name="nfc_action_toggle">Toggle</string>
+  <string name="nfc_action_current_color">Warna sekarang</string>
+  <string name="nfc_action_to_sitemap_page">Navigasikan ke halaman Peta Situs</string>
   <!-- Drawer -->
+  <string name="drawer_open">Laci peta dibuka</string>
+  <string name="drawer_close">Peta Situs laci tertutup</string>
+  <string name="mainmenu_openhab_voice_recognition">Pengenalan suara</string>
   <!-- About -->
+  <string name="about_title">Tentang</string>
+  <string name="about_license_title">Izin</string>
+  <string name="about_links">Tautan</string>
+  <string name="about_links_list"><![CDATA[\u00B7 <a href="https://github.com/openhab/openhab.android">openHAB Sumber aplikasi
+kode</a><br><br> \u00B7 <a href="https://github.com/openhab/openhab.android/issues">Laporkan masalah</a><br><br> \u00B7 <a href="http://docs.openhab.org/">openHAB Dokumentasi</a><br><br> \u00B7 <a href="https://community.openhab.org/">Forum Komunitas</a>]]></string>
+  <string name="settings_debug_messages_summary">Kata sandi akan ditampilkan dalam teks yang jelas!</string>
+  <string name="settings_debug_messages_title">Tampilkan pesan debug</string>
+  <string name="error_couldnt_determine_openhab_url">Tidak dapat menentukan URL openHAB</string>
+  <string name="unknown">Tidak diketahui</string>
+  <string name="error_network_type_unsupported">Tipe jaringan (%s) tidak didukung</string>
+  <string name="set">Atur</string>
+  <string name="cancel">Batalkan</string>
+  <string name="app_intro">Intro</string>
+  <string name="intro_welcome">Selamat Datang di openHAB</string>
+  <string name="intro_whatis">Sebuah vendor dan teknologi agnostik perangkat lunak open source otomasi untuk rumah Anda</string>
+  <string name="intro_themes">Thema</string>
+  <string name="intro_themes_description">Pilih di antara beberapa tema</string>
 </resources>
