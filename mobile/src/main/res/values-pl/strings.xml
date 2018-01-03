@@ -81,7 +81,6 @@
   <string name="info_openhab_apiversion_label">wersja Rest API openHAB</string>
   <string name="info_openhab_uuid_label">openHAB UUID</string>
   <string name="info_openhab_secret_label">sekret openHAB</string>
-  <string name="info_openhab_gcm_label">Status wiadomości Google Cloud</string>
   <string name="info_openhab_gcm_not_connected">Rejestracja urządzenia nie powiodła się</string>
   <string name="info_openhab_gcm_connected">Zarejestrowano urządzenie z ID Wysyłającego %s</string>
   <string name="action_settings">Ustawienia</string>
