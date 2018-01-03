@@ -1,26 +1,28 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout  xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:weightSum="100"
     android:padding="@dimen/widget_margin"
     android:background="#6333" >
+
     <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="10dp"
         android:id="@+id/btn_mic"
-
-        android:layout_centerHorizontal="true"
-        android:src="@drawable/menu_mic_dark"
-        android:layout_above="@+id/btn_open_main" />
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="70"
+        android:contentDescription="@string/info_voice_input"
+        android:src="@drawable/ic_mic_white_24dp" />
 
     <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:id="@+id/btn_open_main"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:paddingTop="5dp"
-        android:paddingBottom="5dp"
-        android:src="@mipmap/icon"
-        android:background="#C333" />
-</RelativeLayout>
+        android:layout_width="fill_parent"
+        android:layout_height="20dp"
+        android:layout_weight="30"
+        android:background="#C333 "
+        android:contentDescription="@string/app_name"
+        android:padding="0dp"
+        android:scaleType="fitCenter"
+        android:src="@mipmap/icon" />
+</LinearLayout >

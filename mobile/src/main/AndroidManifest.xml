@@ -2,7 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.openhab.habdroid"
     android:versionCode="27"
-    android:versionName="2.0.0" >
+    android:versionName="2.0.0">
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_MULTICAST_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -38,15 +39,16 @@
         android:theme="@style/HABDroid.Light"
         android:supportsRtl="true">
         <activity
-            android:name="org.openhab.habdroid.ui.OpenHABPreferencesActivity"
+            android:name=".ui.OpenHABPreferencesActivity"
             android:label="@string/app_preferences_name" />
         <activity
-            android:name="org.openhab.habdroid.ui.OpenHABAboutActivity"
+            android:name=".ui.OpenHABAboutActivity"
             android:label="@string/about_title" />
         <activity
-            android:name="org.openhab.habdroid.ui.OpenHABMainActivity"
+            android:name=".ui.OpenHABMainActivity"
             android:label="@string/app_name"
             android:launchMode="singleTop">
+
             <!-- for Nougat -->
             <layout
                 android:defaultHeight="500dp"
@@ -54,13 +56,17 @@
                 android:gravity="top|end"
                 android:minHeight="320dp"
                 android:minWidth="480dp" />
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.nfc.action.NDEF_DISCOVERED" />
+
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <data android:scheme="openhab" />
             </intent-filter>
             <intent-filter>
@@ -73,37 +79,43 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="org.openhab.habdroid.ui.OpenHABWriteTagActivity"
+            android:name=".ui.OpenHABWriteTagActivity"
             android:label="@string/title_activity_openhabwritetag" />
-        <activity android:name="org.openhab.habdroid.ui.IntroActivity"
-            android:label="@string/app_intro"/>
+        <activity
+            android:name=".ui.IntroActivity"
+            android:label="@string/app_intro" />
         <activity android:name="de.duenndns.ssl.MemorizingActivity" />
+
         <service
             android:name=".core.OpenHABVoiceService"
-            android:exported="false" />
+            android:exported="true" />
 
         <receiver
-            android:name="org.openhab.habdroid.core.GcmBroadcastReceiver"
+            android:name=".core.GcmBroadcastReceiver"
             android:permission="com.google.android.c2dm.permission.SEND">
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+
                 <category android:name="org.openhab.habdroid" />
             </intent-filter>
         </receiver>
         <receiver android:name=".core.NotificationDeletedBroadcastReceiver">
             <intent-filter>
                 <action android:name="org.openhab.habdroid.notification.deleted" />
+
                 <category android:name="org.openhab.habdroid" />
             </intent-filter>
         </receiver>
 
-        <service android:name="org.openhab.habdroid.core.GcmIntentService" />
+        <service android:name=".core.GcmIntentService" />
+
         <receiver
             android:name=".ui.VoiceWidget"
             android:label="@string/title_voice_widget">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
+
             <meta-data
                 android:name="android.appwidget.provider"
                 android:resource="@xml/voice_widget_info" />
@@ -113,8 +125,15 @@
                 <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
             </intent-filter>
         </receiver>
-        <!--    This is temp disabled because of a bug in GMS 6.5
+        <!--
+                This is temp disabled because of a bug in GMS 6.5
                 <meta-data android:name="com.google.android.gms.analytics.globalConfigResource"
-                    android:resource="@xml/global_tracker" /> -->
+                    android:resource="@xml/global_tracker" />
+        -->
+        <service
+            android:name=".WebAudioService"
+            android:enabled="true"
+            android:exported="true"></service>
     </application>
+
 </manifest>

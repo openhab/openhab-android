@@ -101,7 +101,7 @@ public class GcmIntentService extends IntentService {
 
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(this)
-                        .setSmallIcon(R.drawable.ic_stat_openhab_bw)
+                        .setSmallIcon(R.mipmap.icon)
                         .setContentTitle("openHAB")
                         .setStyle(new NotificationCompat.BigTextStyle()
                                 .bigText(msg))
