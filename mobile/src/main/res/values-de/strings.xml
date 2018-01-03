@@ -21,6 +21,7 @@
   <string name="settings_openhab_url">Lokale Server-URL</string>
   <string name="settings_openhab_url_summary">Die Adresse des openHAB-Dashboards (basierend auf Rechnername oder IP). Setzen dieser Option deaktiviert die automatische Ermittlung. Aktueller Wert: %s</string>
   <string name="settings_openhab_alturl">Server-URL für Fernzugiff</string>
+  <string name="settings_openhab_alturl_summary">Adresse des Dashboards eines openHAB-Servers außerhalb des lokalen Netzwerks. Sie wird verwendet, wenn die lokale Adresse nicht erreichbar ist. Aktueller Wert: %s</string>
   <string name="settings_openhab_username">Benutzername</string>
   <string name="settings_openhab_password">Passwort</string>
   <string name="settings_openhab_sslclientcert">SSL-Client-Zertifikat</string>
