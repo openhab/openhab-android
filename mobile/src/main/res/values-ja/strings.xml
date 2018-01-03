@@ -94,7 +94,6 @@
   <string name="info_openhab_apiversion_label">openHAB Rest API バージョン</string>
   <string name="info_openhab_uuid_label">openHAB UUID</string>
   <string name="info_openhab_secret_label">openHAB シークレット</string>
-  <string name="info_openhab_gcm_label">Google クラウドのメッセージステータス</string>
   <string name="info_openhab_gcm_not_connected">デバイス登録に失敗しました</string>
   <string name="info_openhab_gcm_connected">送信者 ID %s でデバイスを登録しました</string>
   <string name="action_settings">設定</string>
