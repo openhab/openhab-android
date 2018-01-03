@@ -46,7 +46,7 @@
   <string name="settings_current_default_sitemap">Aktuelle Standard-Sitemap: %1$s</string>
   <string name="settings_openhab_sslsettings">Verschlüsselungseinstellungen</string>
   <!-- App messages strings -->
-  <string name="title_voice_widget">openHAB-Sprachbefehl</string>
+  <string name="title_voice_widget">openHAB-Sprachbefehle</string>
   <string name="info_voice_input">"openHAB, zu Ihren Diensten!"</string>
   <string name="info_voice_recognized_text">"Erkannter Befehl: %1$s"</string>
   <string name="info_demo_mode">openHAB läuft im Demomodus. In den Einstellungen kann ein eigener openHAB-Server konfiguriert werden.</string>
