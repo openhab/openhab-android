@@ -19,6 +19,7 @@
   <string name="settings_display_title">Ekrano nustatymai</string>
   <string name="settings_misc_title">Kiti nustatymai</string>
   <string name="settings_openhab_url">openHAB URL</string>
+  <string name="settings_openhab_url_summary">OpenHAB skydelio adresas (pagal kompiuterio vardą ar IP). Įvedus automatinis aptikimas išjungiamas. Dabartinis nustatymas: %s</string>
   <string name="settings_openhab_alturl">openHAB nuotolinis URL</string>
   <string name="settings_openhab_username">Vartotojo vardas</string>
   <string name="settings_openhab_password">Slaptažodis</string>
