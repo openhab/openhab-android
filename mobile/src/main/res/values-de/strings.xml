@@ -19,9 +19,8 @@
   <string name="settings_display_title">Display-Einstellungen</string>
   <string name="settings_misc_title">Sonstige Einstellungen</string>
   <string name="settings_openhab_url">Lokale Server-URL</string>
-  <string name="settings_openhab_url_summary">Die Adresse des openHAB Dashboards (basierend auf Rechnername oder IP). Setzen dieser Option deaktiviert die automatische Ermittlung. Aktueller Wert: %s</string>
+  <string name="settings_openhab_url_summary">Die Adresse des openHAB-Dashboards (basierend auf Rechnername oder IP). Setzen dieser Option deaktiviert die automatische Ermittlung. Aktueller Wert: %s</string>
   <string name="settings_openhab_alturl">Server-URL für Fernzugiff</string>
-  <string name="settings_openhab_alturl_summary">Diese Adresse zum openHAB Dashboard wird verwendet wenn die lokale Adresse nicht erreichbar ist. Aktueller Wert: %s</string>
   <string name="settings_openhab_username">Benutzername</string>
   <string name="settings_openhab_password">Passwort</string>
   <string name="settings_openhab_sslclientcert">SSL-Client-Zertifikat</string>
@@ -65,7 +64,7 @@
   <string name="error_connection_sslhandshake_failed">SSL-Handshake fehlgeschlagen - eventuell benötigen Sie ein gültiges Client-Zertifikat</string>
   <string name="error_certificate_not_trusted">SSL-Zertifikat nicht vertrauenswürdig. Bitte importieren Sie das Root-Zertifikat oder deaktivieren Sie die Zertifikatsvalidierung</string>
   <string name="error_certificate_expired">SSL-Zertifikat abgelaufen. Bitte erstellen Sie ein neues Zertifikat oder deaktivieren Sie die Zertifikatsvalidierung</string>
-  <string name="error_certificate_not_valid_yet">SSL-Zertifikat noch nicht gültig. Bitte erstellen Sie ein gültiges Zertifikat oder deaktivieren Sie die Zertifikatsvalidierung. Überprüfen Sie auch die Uhrzeit auf Ihrem Smartphone</string>
+  <string name="error_certificate_not_valid_yet">SSL-Zertifikat noch nicht gültig. Bitte erstellen Sie ein gültiges Zertifikat oder deaktivieren Sie die Zertifikatsvalidierung. Überprüfen Sie auch die auf Ihrem Gerät eingestellte Uhrzeit</string>
   <string name="error_certificate_revoked">SSL-Zertifikat widerrufen. Bitte erstellen Sie ein neues Zertifikat oder deaktivieren Sie die Zertifikatsvalidierung</string>
   <string name="error_http_code_401">Authentifizierung fehlgeschlagen. Bitte überprüfen Sie Nutzername und Passwort bzw. Client-Zertifikat (HTTP-Statuscode 401)</string>
   <string name="error_http_code_403">Authentifizierung fehlgeschlagen. Bitte überprüfen Sie Nutzername und Passwort bzw. Client-Zertifikat (HTTP-Statuscode 403)</string>
@@ -128,7 +127,6 @@
   <string name="about_title">Über</string>
   <string name="about_license_title">Lizenz</string>
   <string name="about_links">Links</string>
-  <string name="about_links_list"><![CDATA[· <a href="https://github.com/openhab/openhab.android">openHAB App Quellcode</a><br><br> · <a href="https://github.com/openhab/openhab.android/issues">Berichte ein Problem</a><br><br> · <a href="http://docs.openhab.org/">openHAB Dokumentation</a><br><br> · <a href="https://community.openhab.org/">Community Forum</a>]]></string>
   <string name="settings_debug_messages_summary">Passwörter werden in Klartext angezeigt!</string>
   <string name="settings_debug_messages_title">Debug-Meldungen anzeigen</string>
   <string name="error_couldnt_determine_openhab_url">Konnte openHAB-URL nicht ermitteln</string>
