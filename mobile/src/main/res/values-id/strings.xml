@@ -130,8 +130,6 @@
   <string name="about_title">Tentang</string>
   <string name="about_license_title">Izin</string>
   <string name="about_links">Tautan</string>
-  <string name="about_links_list"><![CDATA[\u00B7 <a href="https://github.com/openhab/openhab.android">openHAB Sumber aplikasi
-kode</a><br><br> \u00B7 <a href="https://github.com/openhab/openhab.android/issues">Laporkan masalah</a><br><br> \u00B7 <a href="http://docs.openhab.org/">openHAB Dokumentasi</a><br><br> \u00B7 <a href="https://community.openhab.org/">Forum Komunitas</a>]]></string>
   <string name="settings_debug_messages_summary">Kata sandi akan ditampilkan dalam teks yang jelas!</string>
   <string name="settings_debug_messages_title">Tampilkan pesan debug</string>
   <string name="error_couldnt_determine_openhab_url">Tidak dapat menentukan URL openHAB</string>
