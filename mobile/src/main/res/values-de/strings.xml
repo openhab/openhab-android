@@ -79,7 +79,7 @@
   <string name="error_http_code_504">Gateway Time-out. Ihr Reverse-Proxy läuft, aber bekam keine Antwort von openHAB (HTTP-Statuscode 504)</string>
   <string name="error_http_code_507">openHAB hat nicht genug freien Speicher (HTTP-Statuscode 507)</string>
   <string name="error_http_code_511">Netzwerkauthentifizierung wird gefordert (HTTP-Statuscode 511)</string>
-  <string name="title_activity_openhabwritetag">Schreibe NFC-Tag</string>
+  <string name="title_activity_openhabwritetag">NFC-Tag beschreiben</string>
   <string name="title_activity_openhabinfo">openHAB-Informationen</string>
   <string name="title_activity_libraries">Verwendete Softwarebibliotheken</string>
   <string name="info_write_tag">Berühren Sie den NFC-Tag und warten Sie auf die Bestätigungsmitteilung</string>
@@ -117,7 +117,7 @@
   <string name="nfc_action_off">Aus</string>
   <string name="nfc_action_down">Runter</string>
   <string name="nfc_action_toggle">Umschalten</string>
-  <string name="nfc_action_current_color">Aktuelle Farbe</string>
+  <string name="nfc_action_current_color">Momentane Farbe</string>
   <string name="nfc_action_to_sitemap_page">Zur entsprechenden Sitemap navigieren</string>
   <!-- Drawer -->
   <string name="drawer_open">Sitemap-Bereich öffnen</string>
