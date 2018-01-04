@@ -21,9 +21,9 @@
     <string name="mainmenu_openhab_clearcache">Clear images cache</string>
 
     <!-- App settings strings -->
-    <string name="settings_connection_title">Connection Settings</string>
-    <string name="settings_display_title">Display Settings</string>
-    <string name="settings_misc_title">Misc Settings</string>
+    <string name="settings_connection_title">Connection</string>
+    <string name="settings_display_title">Display</string>
+    <string name="settings_misc_title">Misc</string>
     <string name="settings_openhab_url">Local server URL</string>
     <string name="settings_openhab_url_summary">The URL of the openHAB dashboard (based on hostname or IP). If configured, autodiscovery is disabled. Current setting: %s</string>
     <string name="settings_openhab_alturl">Remote server URL</string>
@@ -54,9 +54,9 @@
     <string name="settings_clear_default_sitemap">Clear default sitemap</string>
     <string name="settings_no_default_sitemap">No default sitemap selected</string>
     <string name="settings_current_default_sitemap">Current default sitemap: %1$s</string>
-    <string name="settings_openhab_sslsettings">Encryption settings</string>
-    <string name="settings_openhab_alt_connection">Remote server settings</string>
-    <string name="settings_openhab_connection">Local server settings</string>
+    <string name="settings_openhab_sslsettings">Encryption</string>
+    <string name="settings_openhab_alt_connection">Remote server</string>
+    <string name="settings_openhab_connection">Local server</string>
 
     <!-- App messages strings -->
     <string name="title_voice_widget">openHAB Voice Commands</string>
@@ -78,7 +78,7 @@
     <string name="error_connection_sslhandshake_failed">SSL Handshake failed - maybe you need a valid client certificate</string>
     <string name="error_certificate_not_trusted">SSL certificate is not trusted. Please import the root certificate or disable certificate validation during SSL handshake</string>
     <string name="error_certificate_expired">SSL certificate has been expired. Please get a new certificate or disable certificate validation during SSL handshake</string>
-    <string name="error_certificate_not_valid_yet">SSL certificate is not valid yet. Please get a correct certificate or disable certificate validation during SSL handshake. Also check if the clock on your phone is set correctly</string>
+    <string name="error_certificate_not_valid_yet">SSL certificate is not valid yet. Please get a correct certificate or disable certificate validation during SSL handshake. Also check if the clock on your device is set correctly</string>
     <string name="error_certificate_revoked">SSL certificate has been revoked. Please get a new certificate or disable certificate validation during SSL handshake</string>
     <string name="error_http_code_401">User authentication has failed. Please check username, password and SSL client certificate (HTTP response code 401)</string>
     <string name="error_http_code_403">User authentication has failed. Please check username, password and SSL client certificate (HTTP response code 403)</string>
