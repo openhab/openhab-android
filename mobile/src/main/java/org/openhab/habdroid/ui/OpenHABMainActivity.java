@@ -335,6 +335,7 @@ public class OpenHABMainActivity extends ConnectionAvailbilityAwareAcivity
             showMessageToUser(
                     this, getString(R.string.info_demo_mode_short), TYPE_SNACKBAR, LOGLEVEL_ALWAYS);
             if (getIntent().hasExtra(EXTRA_DEMO_FIRST_TIME)) {
+                getIntent().removeExtra(EXTRA_DEMO_FIRST_TIME);
                 showMessageToUser(this, getString(R.string.error_no_url_start_demo_mode),
                         TYPE_DIALOG, LOGLEVEL_ALWAYS);
             }
