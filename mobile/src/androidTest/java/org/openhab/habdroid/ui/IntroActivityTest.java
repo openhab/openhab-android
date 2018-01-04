@@ -1,11 +1,7 @@
 package org.openhab.habdroid.ui;
 
 
-import android.preference.PreferenceManager;
-import android.support.test.InstrumentationRegistry;
-import android.support.test.espresso.IdlingResource;
 import android.support.test.espresso.ViewInteraction;
-import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.LargeTest;
 import android.view.View;
@@ -13,18 +9,12 @@ import android.view.View;
 import org.hamcrest.CoreMatchers;
 import org.hamcrest.Matchers;
 import org.hamcrest.core.IsInstanceOf;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.openhab.habdroid.OpenHABProgressbarIdlingResource;
 import org.openhab.habdroid.R;
-import org.openhab.habdroid.util.Constants;
+import org.openhab.habdroid.TestWithIntro;
 
 import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.Espresso.registerIdlingResources;
-import static android.support.test.espresso.Espresso.unregisterIdlingResources;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -36,26 +26,7 @@ import static org.openhab.habdroid.TestUtils.childAtPosition;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class IntroActivityTest {
-
-    @Rule
-    public ActivityTestRule<OpenHABMainActivity> mActivityTestRule = new ActivityTestRule<>
-            (OpenHABMainActivity.class, true, false);
-
-    private IdlingResource mProgressbarIdlingResource;
-
-    @Before
-    public void setup() {
-        PreferenceManager
-                .getDefaultSharedPreferences(InstrumentationRegistry.getTargetContext())
-                .edit()
-                .putString(Constants.PREFERENCE_SITEMAP, "")
-                .putBoolean(Constants.PREFERENCE_FIRST_START, true)
-                .commit();
-
-        mActivityTestRule.launchActivity(null);
-    }
-
+public class IntroActivityTest extends TestWithIntro {
     @Test
     public void appShowsIntro() {
         ViewInteraction textView = onView(
@@ -156,11 +127,6 @@ public class IntroActivityTest {
                         isDisplayed()));
         appCompatButton.perform(click());
 
-        View progressBar = mActivityTestRule.getActivity().findViewById(R.id.toolbar_progress_bar);
-        mProgressbarIdlingResource = new OpenHABProgressbarIdlingResource("Progressbar " +
-                "IdleResource", progressBar);
-        registerIdlingResources(mProgressbarIdlingResource);
-
         // do we have sitemap selection popup?
         ViewInteraction linearLayout = onView(
                 Matchers.allOf(IsInstanceOf.<View>instanceOf(android.widget.LinearLayout.class),
@@ -172,11 +138,5 @@ public class IntroActivityTest {
                                 0),
                         isDisplayed()));
         linearLayout.check(matches(isDisplayed()));
-    }
-
-    @After
-    public void unregisterIdlingResource() {
-        if (mProgressbarIdlingResource != null)
-            unregisterIdlingResources(mProgressbarIdlingResource);
     }
 }

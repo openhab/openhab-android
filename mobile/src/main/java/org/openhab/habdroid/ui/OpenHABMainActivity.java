@@ -20,8 +20,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
 import android.content.res.Configuration;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
@@ -33,6 +31,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.speech.RecognizerIntent;
+import android.speech.SpeechRecognizer;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
@@ -196,8 +195,6 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
     private OpenHABTracker mOpenHABTracker;
     // Progress dialog
     private ProgressDialog mProgressDialog;
-    // If Voice Recognition is enabled
-    private boolean mVoiceRecognitionEnabled = false;
     // NFC Launch data
     private String mNfcData;
     // Pending NFC page
@@ -256,8 +253,6 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
 
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-
-        checkVoiceRecognition();
 
         // Set the theme to one from preferences
         mSettings = PreferenceManager.getDefaultSharedPreferences(this);
@@ -869,7 +864,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         MenuItem voiceRecognitionItem = menu.findItem(R.id.mainmenu_voice_recognition);
-        voiceRecognitionItem.setVisible(mVoiceRecognitionEnabled);
+        voiceRecognitionItem.setVisible(SpeechRecognizer.isRecognitionAvailable(this));
         voiceRecognitionItem.getIcon()
                 .setColorFilter(ContextCompat.getColor(this, R.color.light), PorterDuff.Mode.SRC_IN);
         return true;
@@ -1122,16 +1117,6 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
         i.putExtra(MemorizingTrustManager.DECISION_INTENT_ID, decisionId);
         i.putExtra(MemorizingTrustManager.DECISION_INTENT_CHOICE, decision);
         sendBroadcast(i);
-    }
-
-    public void checkVoiceRecognition() {
-        // Check if voice recognition is present
-        PackageManager pm = getPackageManager();
-        List<ResolveInfo> activities = pm.queryIntentActivities(new Intent(
-                RecognizerIntent.ACTION_RECOGNIZE_SPEECH), 0);
-        if (activities.size() != 0) {
-            mVoiceRecognitionEnabled = true;
-        }
     }
 
     public void makeDecision(int decisionId, String certMessage) {
