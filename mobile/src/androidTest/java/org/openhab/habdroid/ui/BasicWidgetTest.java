@@ -1,78 +1,73 @@
 package org.openhab.habdroid.ui;
 
 
+import android.preference.PreferenceManager;
+import android.support.constraint.ConstraintLayout;
+import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.DataInteraction;
+import android.support.test.espresso.IdlingResource;
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.LargeTest;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.ViewParent;
 
-import org.hamcrest.Description;
-import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
-import org.hamcrest.TypeSafeMatcher;
 import org.hamcrest.core.IsInstanceOf;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.openhab.habdroid.OpenHABProgressbarIdlingResource;
 import org.openhab.habdroid.R;
+import org.openhab.habdroid.util.Constants;
 
 import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.action.ViewActions.*;
-import static android.support.test.espresso.assertion.ViewAssertions.*;
-import static android.support.test.espresso.matcher.ViewMatchers.*;
+import static android.support.test.espresso.Espresso.registerIdlingResources;
+import static android.support.test.espresso.Espresso.unregisterIdlingResources;
+import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.withClassName;
+import static android.support.test.espresso.matcher.ViewMatchers.withContentDescription;
+import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withParent;
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.CoreMatchers.allOf;
 import static org.hamcrest.Matchers.anything;
 import static org.hamcrest.Matchers.is;
+import static org.openhab.habdroid.TestUtils.childAtPosition;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
 public class BasicWidgetTest {
 
     @Rule
-    public ActivityTestRule<OpenHABMainActivity> mActivityTestRule = new ActivityTestRule<>(OpenHABMainActivity.class);
+    public ActivityTestRule<OpenHABMainActivity> mActivityTestRule = new ActivityTestRule<>
+            (OpenHABMainActivity.class, true, false);
+
+    private IdlingResource mProgressbarIdlingResource;
+
+    @Before
+    public void setup() {
+        PreferenceManager
+                .getDefaultSharedPreferences(InstrumentationRegistry.getTargetContext())
+                .edit()
+                .putString(Constants.PREFERENCE_SITEMAP, "")
+                .putBoolean(Constants.PREFERENCE_FIRST_START, false)
+                .commit();
+
+        mActivityTestRule.launchActivity(null);
+    }
 
     @Test
-    public void openHABMainActivityTest2() {
-        // click next
-        ViewInteraction appCompatImageButton = onView(
-                allOf(withId(R.id.next),
-                        childAtPosition(
-                                allOf(withId(R.id.bottomContainer),
-                                        childAtPosition(
-                                                withId(R.id.bottom),
-                                                1)),
-                                3),
-                        isDisplayed()));
-        appCompatImageButton.perform(click());
-
-        // click next
-        ViewInteraction appCompatImageButton2 = onView(
-                allOf(withId(R.id.next),
-                        childAtPosition(
-                                allOf(withId(R.id.bottomContainer),
-                                        childAtPosition(
-                                                withId(R.id.bottom),
-                                                1)),
-                                3),
-                        isDisplayed()));
-        appCompatImageButton2.perform(click());
-
-        // close intro
-        ViewInteraction appCompatButton = onView(
-                allOf(withId(R.id.done), withText("DONE"),
-                        childAtPosition(
-                                allOf(withId(R.id.bottomContainer),
-                                        childAtPosition(
-                                                withId(R.id.bottom),
-                                                1)),
-                                4),
-                        isDisplayed()));
-        appCompatButton.perform(click());
+    public void openHABMainActivityTest() throws InterruptedException {
+        View progressBar = mActivityTestRule.getActivity().findViewById(R.id.toolbar_progress_bar);
+        mProgressbarIdlingResource = new OpenHABProgressbarIdlingResource("Progressbar " +
+                "IdleResource", progressBar);
+        registerIdlingResources(mProgressbarIdlingResource);
 
         // do we have sitemap selection popup?
         ViewInteraction linearLayout = onView(
@@ -90,20 +85,15 @@ public class BasicWidgetTest {
         ViewInteraction textView = onView(
                 Matchers.allOf(withId(android.R.id.text1), withText("demo"),
                         childAtPosition(
-                                Matchers.allOf(IsInstanceOf.<View>instanceOf(android.widget.ListView.class),
-                                        childAtPosition(
-                                                IsInstanceOf.<View>instanceOf(android.widget.FrameLayout.class),
-                                                0)),
+                                IsInstanceOf.<View>instanceOf(android.widget.ListView.class),
                                 0),
                         isDisplayed()));
         textView.check(matches(withText("demo")));
 
         // click on demo
         DataInteraction appCompatTextView = onData(anything())
-                .inAdapterView(allOf(withClassName(is("com.android.internal.app.AlertController$RecycleListView")),
-                        childAtPosition(
-                                withClassName(is("android.widget.FrameLayout")),
-                                0)))
+                .inAdapterView(withClassName(
+                        is("com.android.internal.app.AlertController$RecycleListView")))
                 .atPosition(0);
         appCompatTextView.perform(click());
 
@@ -122,10 +112,6 @@ public class BasicWidgetTest {
                 allOf(withId(R.id.mainmenu_voice_recognition), withContentDescription("Voice recognition"), isDisplayed()));
         voice.check(matches(isDisplayed()));
 
-        ViewInteraction option = onView(
-                allOf(withContentDescription("More options"), isDisplayed()));
-        option.check(matches(isDisplayed()));
-
         ViewInteraction firstfloor = onView(
                 allOf(withId(R.id.widgetlabel), withText("First Floor"),
                         childAtPosition(
@@ -142,7 +128,7 @@ public class BasicWidgetTest {
                         childAtPosition(
                                 allOf(withId(R.id.textleftlayout),
                                         childAtPosition(
-                                                IsInstanceOf.<View>instanceOf(android.widget.RelativeLayout.class),
+                                                IsInstanceOf.<View>instanceOf(ConstraintLayout.class),
                                                 0)),
                                 1),
                         isDisplayed()));
@@ -206,20 +192,10 @@ public class BasicWidgetTest {
         textView3.check(matches(withText("Scene Selection")));
 
         DataInteraction appCompatCheckedTextView = onData(anything())
-                .inAdapterView(Matchers.allOf(withClassName(is("com.android.internal.app.AlertController$RecycleListView")),
-                        childAtPosition(
-                                Matchers.allOf(withClassName(is("android.widget.FrameLayout")),
-                                        childAtPosition(
-                                                Matchers.allOf(withClassName(is("com.android.internal.widget.AlertDialogLayout")),
-                                                        childAtPosition(
-                                                                Matchers.allOf(withId(android.R.id.content),
-                                                                        childAtPosition(
-                                                                                withClassName(is("android.widget.FrameLayout")),
-                                                                                0)),
-                                                                0)),
-                                                1)),
-                                0)))
+                .inAdapterView(withClassName(
+                        is("com.android.internal.app.AlertController$RecycleListView")))
                 .atPosition(0);
+        appCompatCheckedTextView.check(matches(withText("off")));
         appCompatCheckedTextView.perform(click());
 
         /*ViewInteraction radioButton = onView(
@@ -246,26 +222,6 @@ public class BasicWidgetTest {
                                 1),
                         isDisplayed()));
         switch_.check(matches(isDisplayed()));
-
-        ViewInteraction button = onView(
-                Matchers.allOf(withId(R.id.setpointbutton_minus),
-                        childAtPosition(
-                                childAtPosition(
-                                        childAtPosition(
-                                                childAtPosition(
-                                                        Matchers.allOf(withId(android.R.id.list),
-                                                                childAtPosition(
-                                                                        withParent(Matchers.allOf(withId(R.id.pager),
-                                                                                childAtPosition(
-                                                                                        IsInstanceOf.<View>instanceOf(android.widget.RelativeLayout.class),
-                                                                                        0))),
-                                                                        0)),
-                                                        6),
-                                                0),
-                                        1),
-                                0),
-                        isDisplayed()));
-        button.check(matches(isDisplayed()));
 
         ViewInteraction seekBar = onView(
                 Matchers.allOf(withId(R.id.sliderseekbar),
@@ -297,22 +253,9 @@ public class BasicWidgetTest {
         imageButton2.check(matches(isDisplayed()));
     }
 
-    private static Matcher<View> childAtPosition(
-            final Matcher<View> parentMatcher, final int position) {
-
-        return new TypeSafeMatcher<View>() {
-            @Override
-            public void describeTo(Description description) {
-                description.appendText("Child at position " + position + " in parent ");
-                parentMatcher.describeTo(description);
-            }
-
-            @Override
-            public boolean matchesSafely(View view) {
-                ViewParent parent = view.getParent();
-                return parent instanceof ViewGroup && parentMatcher.matches(parent)
-                        && view.equals(((ViewGroup) parent).getChildAt(position));
-            }
-        };
+    @After
+    public void unregisterIdlingResource() {
+        if (mProgressbarIdlingResource != null)
+            unregisterIdlingResources(mProgressbarIdlingResource);
     }
 }

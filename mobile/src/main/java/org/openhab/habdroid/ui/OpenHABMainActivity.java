@@ -105,6 +105,11 @@ import de.duenndns.ssl.MemorizingTrustManager;
 import okhttp3.Call;
 import okhttp3.Headers;
 
+import static org.openhab.habdroid.util.Constants.MESSAGES.DIALOG;
+import static org.openhab.habdroid.util.Constants.MESSAGES.LOGLEVEL.ALWAYS;
+import static org.openhab.habdroid.util.Constants.MESSAGES.LOGLEVEL.DEBUG;
+import static org.openhab.habdroid.util.Constants.MESSAGES.LOGLEVEL.NO_DEBUG;
+
 public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSelectedListener,
         OpenHABTrackerReceiver, MemorizingResponder {
 
@@ -115,36 +120,41 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
             setProgressIndicatorVisible(false);
             Log.e(TAG, "Error: " + error.toString());
             Log.e(TAG, "HTTP status code: " + statusCode);
+            String message;
             if (statusCode >= 400){
                 int resourceID;
                 try {
                     resourceID = getResources().getIdentifier("error_http_code_" + statusCode, "string", getPackageName());
-                    showMessageToUser(getString(resourceID), Constants.MESSAGES.DIALOG, Constants.MESSAGES.LOGLEVEL.ALWAYS);
+                    message = getString(resourceID);
                 } catch (android.content.res.Resources.NotFoundException e) {
-                    showMessageToUser(String.format(getString(R.string.error_http_connection_failed), statusCode), Constants.MESSAGES.DIALOG, Constants.MESSAGES.LOGLEVEL.ALWAYS);
+                    message = String.format(getString(R.string.error_http_connection_failed), statusCode);
                 }
             } else if (error instanceof UnknownHostException) {
                 Log.e(TAG, "Unable to resolve hostname");
-                showMessageToUser(getString(R.string.error_unable_to_resolve_hostname), Constants.MESSAGES.DIALOG, Constants.MESSAGES.LOGLEVEL.ALWAYS);
+                message = getString(R.string.error_unable_to_resolve_hostname);
             } else if (error instanceof SSLHandshakeException) {
                 // if ssl exception, check for some common problems
                 if (error.getCause() instanceof CertPathValidatorException) {
-                    showMessageToUser(getString(R.string.error_certificate_not_trusted), Constants.MESSAGES.DIALOG, Constants.MESSAGES.LOGLEVEL.ALWAYS);
+                    message = getString(R.string.error_certificate_not_trusted);
                 } else if (error.getCause() instanceof CertificateExpiredException) {
-                    showMessageToUser(getString(R.string.error_certificate_expired), Constants.MESSAGES.DIALOG, Constants.MESSAGES.LOGLEVEL.ALWAYS);
+                    message = getString(R.string.error_certificate_expired);
                 } else if (error.getCause() instanceof CertificateNotYetValidException) {
-                    showMessageToUser(getString(R.string.error_certificate_not_valid_yet), Constants.MESSAGES.DIALOG, Constants.MESSAGES.LOGLEVEL.ALWAYS);
+                    message = getString(R.string.error_certificate_not_valid_yet);
                 } else if (error.getCause() instanceof CertificateRevokedException) {
-                    showMessageToUser(getString(R.string.error_certificate_revoked), Constants.MESSAGES.DIALOG, Constants.MESSAGES.LOGLEVEL.ALWAYS);
+                    message = getString(R.string.error_certificate_revoked);
                 } else {
-                    showMessageToUser(getString(R.string.error_connection_sslhandshake_failed), Constants.MESSAGES.DIALOG, Constants.MESSAGES.LOGLEVEL.ALWAYS);
+                    message = getString(R.string.error_connection_sslhandshake_failed);
                 }
             } else if (error instanceof ConnectException) {
-                showMessageToUser(getString(R.string.error_connection_failed), Constants.MESSAGES.DIALOG, Constants.MESSAGES.LOGLEVEL.ALWAYS);
+                message = getString(R.string.error_connection_failed);
             } else {
                 Log.e(TAG, error.getClass().toString());
-                showMessageToUser(error.getMessage(), Constants.MESSAGES.DIALOG, Constants.MESSAGES.LOGLEVEL.ALWAYS);
+                message = error.getMessage();
             }
+            showMessageToUser(message, DIALOG, NO_DEBUG);
+            message += "\nURL: " + openHABBaseUrl + "\nUsername: " + openHABUsername + "\nPassword: " + openHABPassword;
+            message += "\nStacktrace:\n" + Log.getStackTraceString(error);
+            showMessageToUser(message, DIALOG, DEBUG);
         }
     }
 
@@ -307,7 +317,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
         }
 
         //  Create a new boolean and preference and set it to true
-        boolean isFirstStart = mSettings.getBoolean("firstStart", true);
+        boolean isFirstStart = mSettings.getBoolean(Constants.PREFERENCE_FIRST_START, true);
 
         SharedPreferences.Editor prefsEdit = sharedPrefs.edit();
         //  If the activity has never started before...
@@ -597,7 +607,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
     }
 
     public void onError(String error) {
-        showMessageToUser(error, Constants.MESSAGES.DIALOG, Constants.MESSAGES.LOGLEVEL.ALWAYS);
+        showMessageToUser(error, DIALOG, ALWAYS);
     }
 
     /**
@@ -619,29 +629,27 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
         String localUrl = mSettings.getString(Constants.PREFERENCE_URL, "");
 
         // if debug mode is enabled, show all messages, except those with logLevel 4
-        if(debugEnabled) {
-            if (logLevel == Constants.MESSAGES.LOGLEVEL.NO_DEBUG) {
-                return;
-            }
-        } else {
-            switch (logLevel) {
-                case Constants.MESSAGES.LOGLEVEL.REMOTE:
-                    if (remoteUrl.length() > 1) {
-                        Log.d(TAG, "Remote URL set, show message: " + message);
-                    } else {
-                        Log.d(TAG, "No remote URL set, don't show message: " + message);
-                        return;
-                    }
-                    break;
-                case Constants.MESSAGES.LOGLEVEL.LOCAL:
-                    if (localUrl.length() > 1) {
-                        Log.d(TAG, "Local URL set, show message: " + message);
-                    } else {
-                        Log.d(TAG, "No local URL set, don't show message: " + message);
-                        return;
-                    }
-                    break;
-            }
+        if((debugEnabled && logLevel == Constants.MESSAGES.LOGLEVEL.NO_DEBUG) ||
+                (!debugEnabled && logLevel == Constants.MESSAGES.LOGLEVEL.DEBUG)) {
+            return;
+        }
+        switch (logLevel) {
+            case Constants.MESSAGES.LOGLEVEL.REMOTE:
+                if (remoteUrl.length() > 1) {
+                    Log.d(TAG, "Remote URL set, show message: " + message);
+                } else {
+                    Log.d(TAG, "No remote URL set, don't show message: " + message);
+                    return;
+                }
+                break;
+            case Constants.MESSAGES.LOGLEVEL.LOCAL:
+                if (localUrl.length() > 1) {
+                    Log.d(TAG, "Local URL set, show message: " + message);
+                } else {
+                    Log.d(TAG, "No local URL set, don't show message: " + message);
+                    return;
+                }
+                break;
         }
 
         switch (messageType) {
@@ -1074,7 +1082,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
     private void showAlertDialog(String alertMessage) {
         if (this.isFinishing())
             return;
-       showMessageToUser(alertMessage, Constants.MESSAGES.DIALOG, Constants.MESSAGES.LOGLEVEL.ALWAYS);
+       showMessageToUser(alertMessage, DIALOG, ALWAYS);
     }
 
     private void showCertificateDialog(final int decisionId, String certMessage) {
