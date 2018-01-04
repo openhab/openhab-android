@@ -6,7 +6,7 @@
   <!-- General app strings -->
   <string name="main_menu">Κεντρικό Μενού</string>
   <string name="app_preferences_name">Ρυθμίσεις</string>
-  <string name="app_notifications">Ενημερώσεις</string>
+  <string name="app_notifications">Ειδοποιήσεις</string>
   <string name="dlg_notification_title">Μήνυμα Ειδοποίησης</string>
   <string name="favorites">Αγαπημένα</string>
   <!-- Main menu items -->
@@ -60,7 +60,7 @@
   <string name="error_no_url">Παρακαλώ ελέξτε ότι το openHAB τρέχει ή ρυθμίστε σωστά την διεύθυνση ή απομακρυσμένης διεύθυνσης του openHAB</string>
   <string name="error_empty_sitemap_list">Το openHAB επέστρεψε μια άδεια λίστα χαρτών χώρου</string>
   <string name="error_network_not_available">Το δίκτυο δεν είναι διαθέσιμο</string>
-  <string name="error_http_connection_failed">Λήψη μη έγκυρης απάντησης από το openHAB. Παρακαλώ ελέξτε ότι το openHAB λειτουργεί κανονικά (HTTP response code %d)</string>
+  <string name="error_http_connection_failed">Λήψη μη έγκυρης απάντησης από το openHAB. Παρακαλώ ελέξτε ότι το openHAB λειτουργεί κανονικά (κωδικός απόκρισης HTTP %d)</string>
   <string name="error_no_uuid">Αδυναμία λήψης του openHAB UUID, η σύνδεση απέτυχε</string>
   <string name="error_invalid_url">Παρακαλώ εισάγετε ενα σωστό URL της μορφής \'πρωτόκολλο://διακομιστής:πόρτα/\'</string>
   <string name="error_connection_failed">Η σύνδεση στον διακομιστή απέτυχε</string>
@@ -96,6 +96,7 @@
   <string name="info_openhab_apiversion_label">Έκδοση openHAB Rest API</string>
   <string name="info_openhab_uuid_label">openHAB UUID</string>
   <string name="info_openhab_secret_label">Μυστικό openHAB</string>
+  <string name="info_openhab_gcm_label">Κατάσταση υπηρεσίας Google Cloud Messaging</string>
   <string name="info_openhab_gcm_not_connected">Η εγγραφή συσκευής απέτυχε</string>
   <string name="info_openhab_gcm_connected">Εγγραφή συσκευής με ID αποστολέα %s</string>
   <string name="action_settings">Ρυθμίσεις</string>
