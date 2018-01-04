@@ -40,6 +40,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Base64;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
@@ -91,6 +92,7 @@ import java.net.ConnectException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.UnknownHostException;
+import java.nio.charset.Charset;
 import java.security.cert.CertPathValidatorException;
 import java.security.cert.CertificateExpiredException;
 import java.security.cert.CertificateNotYetValidException;
@@ -111,6 +113,8 @@ import okhttp3.Call;
 import okhttp3.Headers;
 
 import static org.openhab.habdroid.core.message.MessageHandler.LOGLEVEL_ALWAYS;
+import static org.openhab.habdroid.core.message.MessageHandler.LOGLEVEL_DEBUG;
+import static org.openhab.habdroid.core.message.MessageHandler.LOGLEVEL_NO_DEBUG;
 import static org.openhab.habdroid.core.message.MessageHandler.TYPE_DIALOG;
 import static org.openhab.habdroid.core.message.MessageHandler.TYPE_SNACKBAR;
 import static org.openhab.habdroid.core.message.MessageHandler.showMessageToUser;
@@ -125,41 +129,57 @@ public class OpenHABMainActivity extends ConnectionAvailbilityAwareAcivity
             setProgressIndicatorVisible(false);
             Log.e(TAG, "Error: " + error.toString());
             Log.e(TAG, "HTTP status code: " + statusCode);
+            String message;
             if (statusCode >= 400){
                 int resourceID;
                 try {
                     resourceID = getResources().getIdentifier("error_http_code_" + statusCode, "string", getPackageName());
-                    showMessageToUser(OpenHABMainActivity.this, getString(resourceID), MessageHandler
-                                    .TYPE_DIALOG,
-                            MessageHandler.LOGLEVEL_ALWAYS);
+                    message = getString(resourceID);
                 } catch (android.content.res.Resources.NotFoundException e) {
-                    showMessageToUser(OpenHABMainActivity.this, String.format
-                            (getString(R.string.error_http_connection_failed), statusCode), MessageHandler.TYPE_DIALOG, MessageHandler.LOGLEVEL_ALWAYS);
+                    message = String.format(getString(R.string.error_http_connection_failed), statusCode);
                 }
             } else if (error instanceof UnknownHostException) {
                 Log.e(TAG, "Unable to resolve hostname");
-                showMessageToUser(OpenHABMainActivity.this, getString(R.string
-                        .error_unable_to_resolve_hostname), MessageHandler.TYPE_DIALOG, MessageHandler.LOGLEVEL_ALWAYS);
+                message = getString(R.string.error_unable_to_resolve_hostname);
             } else if (error instanceof SSLHandshakeException) {
                 // if ssl exception, check for some common problems
                 if (error.getCause() instanceof CertPathValidatorException) {
-                    showMessageToUser(OpenHABMainActivity.this, getString(R.string
-                            .error_certificate_not_trusted), MessageHandler.TYPE_DIALOG, MessageHandler.LOGLEVEL_ALWAYS);
+                    message = getString(R.string.error_certificate_not_trusted);
                 } else if (error.getCause() instanceof CertificateExpiredException) {
-                    showMessageToUser(OpenHABMainActivity.this, getString(R.string.error_certificate_expired), MessageHandler.TYPE_DIALOG, MessageHandler.LOGLEVEL_ALWAYS);
+                    message = getString(R.string.error_certificate_expired);
                 } else if (error.getCause() instanceof CertificateNotYetValidException) {
-                    showMessageToUser(OpenHABMainActivity.this, getString(R.string.error_certificate_not_valid_yet), MessageHandler.TYPE_DIALOG, MessageHandler.LOGLEVEL_ALWAYS);
+                    message = getString(R.string.error_certificate_not_valid_yet);
                 } else if (error.getCause() instanceof CertificateRevokedException) {
-                    showMessageToUser(OpenHABMainActivity.this, getString(R.string.error_certificate_revoked), MessageHandler.TYPE_DIALOG, MessageHandler.LOGLEVEL_ALWAYS);
+                    message = getString(R.string.error_certificate_revoked);
                 } else {
-                    showMessageToUser(OpenHABMainActivity.this, getString(R.string.error_connection_sslhandshake_failed), MessageHandler.TYPE_DIALOG, MessageHandler.LOGLEVEL_ALWAYS);
+                    message = getString(R.string.error_connection_sslhandshake_failed);
                 }
             } else if (error instanceof ConnectException) {
-                showMessageToUser(OpenHABMainActivity.this, getString(R.string.error_connection_failed), MessageHandler.TYPE_DIALOG, MessageHandler.LOGLEVEL_ALWAYS);
+                message = getString(R.string.error_connection_failed);
             } else {
                 Log.e(TAG, error.getClass().toString());
-                showMessageToUser(OpenHABMainActivity.this, error.getMessage(), MessageHandler.TYPE_DIALOG, MessageHandler.LOGLEVEL_ALWAYS);
+                message = error.getMessage();
             }
+            showMessageToUser(OpenHABMainActivity.this, message, TYPE_DIALOG, LOGLEVEL_NO_DEBUG);
+
+            message += "\nURL: " + call.request().url();
+            if (call.request().header("Authorization") != null)
+                message += "\n" + getUserPasswordFromAuthorization(call.request().header
+                        ("Authorization"));
+            message += "\nStacktrace:\n" + Log.getStackTraceString(error);
+            showMessageToUser(OpenHABMainActivity.this, message, TYPE_DIALOG, LOGLEVEL_DEBUG);
+        }
+
+        private String getUserPasswordFromAuthorization(String authorizationString) {
+            if (authorizationString != null && authorizationString.startsWith("Basic")) {
+                String base64Credentials = authorizationString.substring("Basic".length()).trim();
+                String credentials = new String(Base64.decode(base64Credentials, Base64.DEFAULT),
+                        Charset.forName("UTF-8"));
+                final String[] values = credentials.split(":", 2);
+
+                return "Username: " + values[0] + "\nPassword: " + values[1];
+            }
+            return "";
         }
     }
 

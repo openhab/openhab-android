@@ -18,6 +18,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.json.JSONException;
@@ -41,7 +42,7 @@ public class OpenHABInfoFragment extends Fragment {
     private TextView mOpenHABVersionLabel;
     private TextView mOpenHABUUIDText;
     private TextView mOpenHABSecretText;
-    private TextView mOpenHABSecretLabel;
+    private LinearLayout mOpenHABSecretLayout;
     private TextView mOpenHABNotificationText;
 
 
@@ -54,9 +55,9 @@ public class OpenHABInfoFragment extends Fragment {
         mOpenHABVersionText = (TextView)view.findViewById(R.id.openhab_version);
         mOpenHABUUIDText = (TextView)view.findViewById(R.id.openhab_uuid);
         mOpenHABSecretText = (TextView)view.findViewById(R.id.openhab_secret);
-        mOpenHABSecretLabel = (TextView)view.findViewById(R.id.openhab_secret_label);
         mOpenHABVersionLabel = (TextView)view.findViewById(R.id.openhab_version_label);
         mOpenHABNotificationText = (TextView)view.findViewById(R.id.openhab_gcm);
+        mOpenHABSecretLayout = view.findViewById(R.id.openhab_secret_layout);
         Bundle bundle = getArguments();
 
         if (bundle != null){
@@ -89,8 +90,7 @@ public class OpenHABInfoFragment extends Fragment {
         conn.getAsyncHttpClient().get("/static/secret", new MyHttpClient.TextResponseHandler() {
             @Override
             public void onFailure(Call call, int statusCode, Headers headers, String responseString, Throwable error) {
-                mOpenHABSecretText.setVisibility(View.GONE);
-                mOpenHABSecretLabel.setVisibility(View.GONE);
+                mOpenHABSecretLayout.setVisibility(View.GONE);
                 if (error.getMessage() != null) {
                     Log.e(TAG, error.getMessage());
                 }
@@ -99,8 +99,7 @@ public class OpenHABInfoFragment extends Fragment {
             @Override
             public void onSuccess(Call call, int statusCode, Headers headers, String responseString) {
                 Log.d(TAG, "Got secret = " + responseString);
-                mOpenHABSecretText.setVisibility(View.VISIBLE);
-                mOpenHABSecretLabel.setVisibility(View.VISIBLE);
+                mOpenHABSecretLayout.setVisibility(View.VISIBLE);
                 mOpenHABSecretText.setText(responseString);
             }
         });

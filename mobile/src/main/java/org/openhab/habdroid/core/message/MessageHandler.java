@@ -44,29 +44,28 @@ public class MessageHandler {
         String localUrl = settings.getString(Constants.PREFERENCE_URL, "");
 
         // if debug mode is enabled, show all messages, except those with logLevel 4
-        if(debugEnabled) {
-            if (logLevel == LOGLEVEL_NO_DEBUG) {
-                return;
-            }
-        } else {
-            switch (logLevel) {
-                case LOGLEVEL_REMOTE:
-                    if (remoteUrl.length() > 1) {
-                        Log.d(TAG, "Remote URL set, show message: " + message);
-                    } else {
-                        Log.d(TAG, "No remote URL set, don't show message: " + message);
-                        return;
-                    }
-                    break;
-                case LOGLEVEL_LOCAL:
-                    if (localUrl.length() > 1) {
-                        Log.d(TAG, "Local URL set, show message: " + message);
-                    } else {
-                        Log.d(TAG, "No local URL set, don't show message: " + message);
-                        return;
-                    }
-                    break;
-            }
+        if((debugEnabled && logLevel == LOGLEVEL_NO_DEBUG) ||
+                (!debugEnabled && logLevel == LOGLEVEL_DEBUG)) {
+            return;
+        }
+
+        switch (logLevel) {
+            case LOGLEVEL_REMOTE:
+                if (remoteUrl.length() > 1) {
+                    Log.d(TAG, "Remote URL set, show message: " + message);
+                } else {
+                    Log.d(TAG, "No remote URL set, don't show message: " + message);
+                    return;
+                }
+                break;
+            case LOGLEVEL_LOCAL:
+                if (localUrl.length() > 1) {
+                    Log.d(TAG, "Local URL set, show message: " + message);
+                } else {
+                    Log.d(TAG, "No local URL set, don't show message: " + message);
+                    return;
+                }
+                break;
         }
 
         switch (messageType) {

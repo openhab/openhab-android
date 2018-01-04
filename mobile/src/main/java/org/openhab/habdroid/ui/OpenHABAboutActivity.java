@@ -16,6 +16,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.mikepenz.aboutlibraries.LibsBuilder;
+
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.util.Util;
 
@@ -116,12 +118,14 @@ public class OpenHABAboutActivity extends AppCompatActivity {
                     infoFragment.setArguments(bundle);
 
                     return infoFragment;
+                case 2:
+                    return new LibsBuilder().supportFragment();
             }
         }
 
         @Override
         public int getCount() {
-            return 2;
+            return 3;
         }
 
         @Override
@@ -131,6 +135,8 @@ public class OpenHABAboutActivity extends AppCompatActivity {
                     return mContext.getString(R.string.about_title);
                 case 1:
                     return mContext.getString(R.string.title_activity_openhabinfo);
+                case 2:
+                    return mContext.getString(R.string.title_activity_libraries);
             }
         }
     }
