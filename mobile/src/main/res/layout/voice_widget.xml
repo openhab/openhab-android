@@ -6,7 +6,6 @@
     android:weightSum="100"
     android:padding="@dimen/widget_margin"
     android:background="#6333" >
-
     <ImageView
         android:id="@+id/btn_mic"
         android:layout_width="fill_parent"
@@ -14,7 +13,6 @@
         android:layout_weight="70"
         android:contentDescription="@string/info_voice_input"
         android:src="@drawable/ic_mic_white_24dp" />
-
     <ImageView
         android:id="@+id/btn_open_main"
         android:layout_width="fill_parent"
