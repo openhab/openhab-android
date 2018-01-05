@@ -12,7 +12,7 @@ public abstract class TestWithIntro extends ProgressbarAwareTest {
         PreferenceManager
                 .getDefaultSharedPreferences(InstrumentationRegistry.getTargetContext())
                 .edit()
-                .putString(Constants.PREFERENCE_SITEMAP, "")
+                .putString(Constants.PREFERENCE_SITEMAP_NAME, "")
                 .putBoolean(Constants.PREFERENCE_FIRST_START, true)
                 .commit();
 
