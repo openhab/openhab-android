@@ -19,6 +19,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
@@ -102,9 +103,10 @@ public class GcmIntentService extends IntentService {
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(this)
                         .setSmallIcon(R.drawable.ic_openhab_appicon_24dp)
-                        .setContentTitle("openHAB")
+                        .setContentTitle(getBaseContext().getString(R.string.app_name))
                         .setStyle(new NotificationCompat.BigTextStyle()
                                 .bigText(msg))
+                        .setColor(ContextCompat.getColor(this, R.color.openhab_orange))
                         .setAutoCancel(true)
                         .setSound(alarmSound)
                         .setContentText(msg)
