@@ -519,7 +519,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
     }
 
     private void openAbout() {
-        Intent aboutIntent = new Intent(this.getApplicationContext(), OpenHABAboutActivity.class);
+        Intent aboutIntent = new Intent(this, OpenHABAboutActivity.class);
         aboutIntent.putExtra(OpenHABVoiceService.OPENHAB_BASE_URL_EXTRA, openHABBaseUrl);
         aboutIntent.putExtra("username", openHABUsername);
         aboutIntent.putExtra("password", openHABPassword);
@@ -663,7 +663,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
                 snackbar.show();
                 break;
             case Constants.MESSAGES.TOAST:
-                Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+                Toast.makeText(this, message, Toast.LENGTH_LONG).show();
                 break;
             default:
                 throw new IllegalArgumentException("Message type not implemented");
@@ -902,8 +902,8 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
                 // Restart app after preferences
                 Log.d(TAG, "Restarting after settings");
                 // Get launch intent for application
-                Intent restartIntent = getBaseContext().getPackageManager()
-                        .getLaunchIntentForPackage(getBaseContext().getPackageName());
+                Intent restartIntent = getPackageManager()
+                        .getLaunchIntentForPackage(getPackageName());
                 restartIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 // Finish current activity
                 finish();
@@ -1162,7 +1162,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
             return;
 
         if (mGcm == null)
-            mGcm = GoogleCloudMessaging.getInstance(getApplicationContext());
+            mGcm = GoogleCloudMessaging.getInstance(this);
 
         new AsyncTask<Void, Void, String>() {
             @Override
