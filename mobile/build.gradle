@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'io.fabric'
+apply plugin: 'jacoco-android'
 
 android {
     buildToolsVersion '26.0.2'
@@ -28,6 +29,7 @@ android {
             buildConfigField 'boolean', IS_DEVELOPER, 'true'
             buildConfigField "java.util.Date", "buildTime", "new java.util.Date(" + System.currentTimeMillis() + "L)"
             pseudoLocalesEnabled true
+            testCoverageEnabled true
         }
     }
     productFlavors {
