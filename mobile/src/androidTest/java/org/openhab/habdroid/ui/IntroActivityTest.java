@@ -3,6 +3,7 @@ package org.openhab.habdroid.ui;
 
 import android.app.Activity;
 import android.app.Instrumentation;
+import android.support.test.espresso.IdlingRegistry;
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.LargeTest;
@@ -91,7 +92,7 @@ public class IntroActivityTest extends TestWithIntro {
         mActivityTestRule.finishActivity();
         mActivityTestRule.launchActivity(null);
 
-        registerIdlingResources(getProgressbarIdlingResource());
+        IdlingRegistry.getInstance().register(getProgressbarIdlingResource());
 
         // do we have sitemap selection popup?
         ViewInteraction linearLayout = onView(
@@ -152,7 +153,7 @@ public class IntroActivityTest extends TestWithIntro {
         mActivityTestRule.finishActivity();
         mActivityTestRule.launchActivity(null);
 
-        registerIdlingResources(getProgressbarIdlingResource());
+        IdlingRegistry.getInstance().register(getProgressbarIdlingResource());
 
         // do we have sitemap selection popup?
         ViewInteraction linearLayout = onView(

@@ -1,5 +1,6 @@
 package org.openhab.habdroid;
 
+import android.support.test.espresso.IdlingRegistry;
 import android.support.test.espresso.IdlingResource;
 import android.support.test.espresso.intent.rule.IntentsTestRule;
 import android.view.View;
@@ -9,7 +10,6 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.openhab.habdroid.ui.OpenHABMainActivity;
 
-import static android.support.test.espresso.Espresso.registerIdlingResources;
 import static android.support.test.espresso.Espresso.unregisterIdlingResources;
 
 public abstract class ProgressbarAwareTest {
@@ -28,7 +28,7 @@ public abstract class ProgressbarAwareTest {
     }
 
     protected void setupRegisterIdlingResources() {
-        registerIdlingResources(getProgressbarIdlingResource());
+        IdlingRegistry.getInstance().register(getProgressbarIdlingResource());
     }
 
     protected IdlingResource getProgressbarIdlingResource() {
@@ -43,6 +43,6 @@ public abstract class ProgressbarAwareTest {
     @After
     public void unregisterIdlingResource() {
         if (mProgressbarIdlingResource != null)
-            unregisterIdlingResources(mProgressbarIdlingResource);
+            IdlingRegistry.getInstance().unregister(mProgressbarIdlingResource);
     }
 }
