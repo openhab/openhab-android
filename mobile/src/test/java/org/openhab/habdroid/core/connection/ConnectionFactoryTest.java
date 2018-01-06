@@ -16,6 +16,7 @@ import org.openhab.habdroid.util.Constants;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertNull;
+import static org.junit.Assert.assertNotEquals;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
@@ -186,5 +187,27 @@ public class ConnectionFactoryTest {
 
         assertNotNull(conn);
         assertEquals(conn, conn2);
+    }
+
+    @Test
+    public void testGetCachedConnectionAnyRemote() {
+        Mockito.when(mockSettings.getString(eq(Constants.PREFERENCE_ALTURL), anyString()))
+                .thenReturn("https://myopenhab.org:8443");
+        Mockito.when(mockSettings.getString(eq(Constants.PREFERENCE_URL), anyString()))
+                .thenReturn("https://openhab.local:8080");
+        NetworkInfo mockNetworkInfo = Mockito.mock(NetworkInfo.class);
+        Mockito.when(mockNetworkInfo.getType()).thenReturn(ConnectivityManager.TYPE_WIFI);
+
+        Mockito.when(mockConnectivityService.getActiveNetworkInfo()).thenReturn(mockNetworkInfo);
+
+        Connection conn = ConnectionFactory.getConnection(Connection.TYPE_ANY, mockContext,
+                mockSettings);
+
+        Connection conn2 = ConnectionFactory.getConnection(Connection.TYPE_REMOTE, mockContext,
+                mockSettings);
+
+        assertNotNull(conn);
+        assertNotEquals("Requesting a specific type after type ANY was cached, should not return" +
+                " the cached ANY type connection.", conn, conn2);
     }
 }

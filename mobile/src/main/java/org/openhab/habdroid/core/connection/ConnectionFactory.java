@@ -98,8 +98,8 @@ final public class ConnectionFactory
 
         ctx.registerReceiver(factory, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
 
-        if (factory.cachedConnections.containsKey(Connection.TYPE_ANY)) {
-            return factory.cachedConnections.get(Connection.TYPE_ANY);
+        if (factory.cachedConnections.containsKey(connectionType)) {
+            return factory.cachedConnections.get(connectionType);
         }
 
         Connection conn;
