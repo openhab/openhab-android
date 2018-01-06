@@ -560,6 +560,11 @@ public class OpenHABMainActivity extends ConnectionAvailbilityAwareAcivity
         if (pager != null) {
             pager.removeAllViews();
         }
+
+        if (mDrawerLayout != null) {
+            mDrawerLayout.closeDrawers();
+            mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+        }
     }
 
     /**

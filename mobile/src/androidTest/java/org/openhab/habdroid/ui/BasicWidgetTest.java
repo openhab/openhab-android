@@ -12,8 +12,8 @@ import org.hamcrest.Matchers;
 import org.hamcrest.core.IsInstanceOf;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.openhab.habdroid.TestWithoutIntro;
 import org.openhab.habdroid.R;
+import org.openhab.habdroid.TestWithoutIntro;
 
 import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;

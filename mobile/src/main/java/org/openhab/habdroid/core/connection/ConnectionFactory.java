@@ -29,7 +29,7 @@ import java.util.Map;
  * server. Use this factory class whenever you need to obtain a connection to load additional
  * data from the openHAB server or another supported source (see the constants in {@link Connection}).
  */
-final public class ConnectionFactory
+public class ConnectionFactory
         extends BroadcastReceiver implements SharedPreferences.OnSharedPreferenceChangeListener {
     private static final String TAG = ConnectionFactory.class.getSimpleName();
     private static final List<Integer> localConnectionTypes = new ArrayList<>(
@@ -46,15 +46,15 @@ final public class ConnectionFactory
 
     Map<Integer, Connection> cachedConnections = new HashMap<>();
 
-    private static class InstanceHolder {
-        public static final ConnectionFactory INSTANCE = new ConnectionFactory();
+    static class InstanceHolder {
+        public static ConnectionFactory INSTANCE = new ConnectionFactory();
     }
 
     static ConnectionFactory getInstance() {
         return InstanceHolder.INSTANCE;
     }
 
-    public ConnectionFactory() {
+    ConnectionFactory() {
         if (Build.VERSION.SDK_INT >= 21) {
             localConnectionTypes.add(ConnectivityManager.TYPE_VPN);
         }
@@ -207,7 +207,7 @@ final public class ConnectionFactory
         return getRemoteUsername() != null && !getRemoteUsername().isEmpty();
     }
 
-    private Connection getAvailableConnection() {
+    Connection getAvailableConnection() {
         ConnectivityManager connectivityManager =
                 (ConnectivityManager) ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
 
