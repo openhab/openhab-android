@@ -225,7 +225,7 @@ final public class ConnectionFactory
                     }
                     return getRemoteConnection();
 
-                    // Else if we are on Wifi or Ethernet network
+                    // Else if we are on Wifi, Ethernet, WIMAX or VPN network
                 } else if (localConnectionTypes.contains(activeNetworkInfo.getType())) {
                     // See if we have a local URL configured in settings
                     Connection localConnection = getLocalConnection();
