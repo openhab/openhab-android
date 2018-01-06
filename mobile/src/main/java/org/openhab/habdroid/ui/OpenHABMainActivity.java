@@ -903,8 +903,7 @@ public class OpenHABMainActivity extends ConnectionAvailbilityAwareAcivity
         // Restart app after preferences
         Log.d(TAG, "Restarting after settings");
         // Get launch intent for application
-        Intent restartIntent = getBaseContext().getPackageManager()
-                .getLaunchIntentForPackage(getBaseContext().getPackageName());
+        Intent restartIntent = getPackageManager().getLaunchIntentForPackage(getPackageName());
         restartIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         if (firstTimeDemo) {
             restartIntent.putExtra(EXTRA_DEMO_FIRST_TIME, true);
