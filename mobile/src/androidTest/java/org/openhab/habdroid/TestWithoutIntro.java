@@ -19,6 +19,7 @@ public abstract class TestWithoutIntro extends ProgressbarAwareTest {
             edit.putString(Constants.PREFERENCE_SITEMAP, "demo");
         }
 
+        edit.putBoolean(Constants.PREFERENCE_DEMOMODE, true);
         edit.putBoolean(Constants.PREFERENCE_FIRST_START, false).commit();
 
         super.setup();

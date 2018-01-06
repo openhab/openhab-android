@@ -13,9 +13,13 @@ public abstract class TestWithIntro extends ProgressbarAwareTest {
                 .getDefaultSharedPreferences(InstrumentationRegistry.getTargetContext())
                 .edit()
                 .putString(Constants.PREFERENCE_SITEMAP, "")
+                .putBoolean(Constants.PREFERENCE_DEMOMODE, true)
                 .putBoolean(Constants.PREFERENCE_FIRST_START, true)
                 .commit();
 
         super.setup();
     }
+
+    @Override
+    protected void setupRegisterIdlingResources() {}
 }

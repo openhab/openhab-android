@@ -1,6 +1,8 @@
 package org.openhab.habdroid.ui;
 
 
+import android.app.Activity;
+import android.app.Instrumentation;
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.LargeTest;
@@ -14,9 +16,14 @@ import org.junit.runner.RunWith;
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.TestWithIntro;
 
+import static android.content.Intent.FLAG_ACTIVITY_CLEAR_TASK;
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.Espresso.registerIdlingResources;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.intent.Intents.intended;
+import static android.support.test.espresso.intent.Intents.intending;
+import static android.support.test.espresso.intent.matcher.IntentMatchers.hasFlag;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withParent;
@@ -29,6 +36,9 @@ import static org.openhab.habdroid.TestUtils.childAtPosition;
 public class IntroActivityTest extends TestWithIntro {
     @Test
     public void appShowsIntro() {
+        intending(hasFlag(FLAG_ACTIVITY_CLEAR_TASK))
+                .respondWith(new Instrumentation.ActivityResult(Activity.RESULT_OK, null));
+
         ViewInteraction textView = onView(
                 allOf(withId(R.id.title), withText("Welcome to openHAB"),
                         childAtPosition(
@@ -76,6 +86,13 @@ public class IntroActivityTest extends TestWithIntro {
                         isDisplayed()));
         appCompatButton.perform(click());
 
+        intended(hasFlag(FLAG_ACTIVITY_CLEAR_TASK));
+
+        mActivityTestRule.finishActivity();
+        mActivityTestRule.launchActivity(null);
+
+        registerIdlingResources(getProgressbarIdlingResource());
+
         // do we have sitemap selection popup?
         ViewInteraction linearLayout = onView(
                 Matchers.allOf(IsInstanceOf.<View>instanceOf(android.widget.LinearLayout.class),
@@ -90,7 +107,10 @@ public class IntroActivityTest extends TestWithIntro {
     }
 
     @Test
-    public void goThroughInto() {
+    public void goThroughIntro() {
+        intending(hasFlag(FLAG_ACTIVITY_CLEAR_TASK))
+                .respondWith(new Instrumentation.ActivityResult(Activity.RESULT_OK, null));
+
         // click next
         ViewInteraction appCompatImageButton = onView(
                 CoreMatchers.allOf(withId(R.id.next),
@@ -126,6 +146,13 @@ public class IntroActivityTest extends TestWithIntro {
                                 4),
                         isDisplayed()));
         appCompatButton.perform(click());
+
+        intended(hasFlag(FLAG_ACTIVITY_CLEAR_TASK));
+
+        mActivityTestRule.finishActivity();
+        mActivityTestRule.launchActivity(null);
+
+        registerIdlingResources(getProgressbarIdlingResource());
 
         // do we have sitemap selection popup?
         ViewInteraction linearLayout = onView(
