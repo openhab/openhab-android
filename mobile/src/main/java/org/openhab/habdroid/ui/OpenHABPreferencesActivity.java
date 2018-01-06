@@ -290,7 +290,7 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
         protected void updateAndInitPreferences() {
             addPreferencesFromResource(R.xml.local_connection_preferences);
 
-            initEditorPreference(Constants.PREFERENCE_URL, R.string.settings_openhab_url_summary, false);
+            initEditorPreference(Constants.PREFERENCE_LOCAL_URL, R.string.settings_openhab_url_summary, false);
             initEditorPreference(Constants.PREFERENCE_LOCAL_USERNAME, 0, false);
             initEditorPreference(Constants.PREFERENCE_LOCAL_PASSWORD, 0, true);
         }
@@ -328,14 +328,14 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
                                 keyChainAliasCallback,
                                 new String[]{"RSA", "DSA"},
                                 null,
-                                getPreferenceString(Constants.PREFERENCE_ALTURL, null),
+                                getPreferenceString(Constants.PREFERENCE_REMOTE_URL, null),
                                 -1, null);
                     } else {
                         KeyChain.choosePrivateKeyAlias(getActivity(),
                                 keyChainAliasCallback,
                                 new String[]{KeyProperties.KEY_ALGORITHM_RSA, KeyProperties.KEY_ALGORITHM_EC},
                                 null,
-                                Uri.parse(getPreferenceString(Constants.PREFERENCE_ALTURL, null)),
+                                Uri.parse(getPreferenceString(Constants.PREFERENCE_REMOTE_URL, null)),
                                 null);
                     }
 
@@ -399,7 +399,7 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
         protected void updateAndInitPreferences() {
             addPreferencesFromResource(R.xml.remote_connection_preferences);
 
-            initEditorPreference(Constants.PREFERENCE_ALTURL, R.string.settings_openhab_alturl_summary, false);
+            initEditorPreference(Constants.PREFERENCE_REMOTE_URL, R.string.settings_openhab_alturl_summary, false);
             initEditorPreference(Constants.PREFERENCE_REMOTE_USERNAME, 0, false);
             initEditorPreference(Constants.PREFERENCE_REMOTE_PASSWORD, 0, true);
         }

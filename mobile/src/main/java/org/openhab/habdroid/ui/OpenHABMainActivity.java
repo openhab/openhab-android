@@ -404,7 +404,7 @@ public class OpenHABMainActivity extends ConnectionAvailbilityAwareAcivity
         String openHABUrl = "http://" + serviceInfo.getHostAddresses()[0] + ":" +
                 String.valueOf(serviceInfo.getPort()) + "/";
 
-        PreferenceManager.getDefaultSharedPreferences(this).edit().putString(Constants.PREFERENCE_URL, openHABUrl).apply();
+        PreferenceManager.getDefaultSharedPreferences(this).edit().putString(Constants.PREFERENCE_LOCAL_URL, openHABUrl).apply();
 
         restartAfterSettingsUpdate();
     }

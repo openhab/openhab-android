@@ -43,7 +43,7 @@ public class ConnectionFactoryTest {
 
     @Test
     public void testGetConnectionRemoteWithUrl() {
-        Mockito.when(mockSettings.getString(eq(Constants.PREFERENCE_ALTURL), anyString()))
+        Mockito.when(mockSettings.getString(eq(Constants.PREFERENCE_REMOTE_URL), anyString()))
                 .thenReturn("https://myopenhab.org:8443");
         Connection conn = ConnectionFactory.getConnection(Connection.TYPE_REMOTE, mockContext, mockSettings);
 
@@ -55,7 +55,7 @@ public class ConnectionFactoryTest {
 
     @Test
     public void testGetConnectionRemoteWithoutUrl() {
-        Mockito.when(mockSettings.getString(eq(Constants.PREFERENCE_ALTURL), anyString()))
+        Mockito.when(mockSettings.getString(eq(Constants.PREFERENCE_REMOTE_URL), anyString()))
                 .thenReturn("");
         Connection conn = ConnectionFactory.getConnection(Connection.TYPE_REMOTE, mockContext, mockSettings);
 
@@ -65,7 +65,7 @@ public class ConnectionFactoryTest {
 
     @Test
     public void testGetConnectionLocalWithUrl() {
-        Mockito.when(mockSettings.getString(eq(Constants.PREFERENCE_URL), anyString()))
+        Mockito.when(mockSettings.getString(eq(Constants.PREFERENCE_LOCAL_URL), anyString()))
                 .thenReturn("https://openhab.local:8080");
         Connection conn = ConnectionFactory.getConnection(Connection.TYPE_LOCAL, mockContext,
                 mockSettings);
@@ -78,7 +78,7 @@ public class ConnectionFactoryTest {
 
     @Test
     public void testGetConnectionLocalWithoutUrl() {
-        Mockito.when(mockSettings.getString(eq(Constants.PREFERENCE_URL), anyString()))
+        Mockito.when(mockSettings.getString(eq(Constants.PREFERENCE_LOCAL_URL), anyString()))
                 .thenReturn("");
         Connection conn = ConnectionFactory.getConnection(Connection.TYPE_LOCAL, mockContext,
                 mockSettings);
@@ -89,7 +89,7 @@ public class ConnectionFactoryTest {
 
     @Test
     public void testGetConnectionCloudWithUrl() {
-        Mockito.when(mockSettings.getString(eq(Constants.PREFERENCE_ALTURL), anyString()))
+        Mockito.when(mockSettings.getString(eq(Constants.PREFERENCE_REMOTE_URL), anyString()))
                 .thenReturn("https://myopenhab.org:8443");
         Connection conn = ConnectionFactory.getConnection(Connection.TYPE_CLOUD, mockContext,
                 mockSettings);
@@ -120,7 +120,7 @@ public class ConnectionFactoryTest {
 
     @Test
     public void testGetAnyConnectionWifiRemoteOnly() {
-        Mockito.when(mockSettings.getString(eq(Constants.PREFERENCE_ALTURL), anyString()))
+        Mockito.when(mockSettings.getString(eq(Constants.PREFERENCE_REMOTE_URL), anyString()))
                 .thenReturn("https://myopenhab.org:8443");
         NetworkInfo mockNetworkInfo = Mockito.mock(NetworkInfo.class);
         Mockito.when(mockNetworkInfo.getType()).thenReturn(ConnectivityManager.TYPE_WIFI);
@@ -139,9 +139,9 @@ public class ConnectionFactoryTest {
 
     @Test
     public void testGetAnyConnectionWifiLocalRemote() {
-        Mockito.when(mockSettings.getString(eq(Constants.PREFERENCE_ALTURL), anyString()))
+        Mockito.when(mockSettings.getString(eq(Constants.PREFERENCE_REMOTE_URL), anyString()))
                 .thenReturn("https://myopenhab.org:8443");
-        Mockito.when(mockSettings.getString(eq(Constants.PREFERENCE_URL), anyString()))
+        Mockito.when(mockSettings.getString(eq(Constants.PREFERENCE_LOCAL_URL), anyString()))
                 .thenReturn("https://openhab.local:8080");
         NetworkInfo mockNetworkInfo = Mockito.mock(NetworkInfo.class);
         Mockito.when(mockNetworkInfo.getType()).thenReturn(ConnectivityManager.TYPE_WIFI);
@@ -170,9 +170,9 @@ public class ConnectionFactoryTest {
 
     @Test
     public void testGetAnyConnectionWifiLocalRemoteCached() {
-        Mockito.when(mockSettings.getString(eq(Constants.PREFERENCE_ALTURL), anyString()))
+        Mockito.when(mockSettings.getString(eq(Constants.PREFERENCE_REMOTE_URL), anyString()))
                 .thenReturn("https://myopenhab.org:8443");
-        Mockito.when(mockSettings.getString(eq(Constants.PREFERENCE_URL), anyString()))
+        Mockito.when(mockSettings.getString(eq(Constants.PREFERENCE_LOCAL_URL), anyString()))
                 .thenReturn("https://openhab.local:8080");
         NetworkInfo mockNetworkInfo = Mockito.mock(NetworkInfo.class);
         Mockito.when(mockNetworkInfo.getType()).thenReturn(ConnectivityManager.TYPE_WIFI);
@@ -191,9 +191,9 @@ public class ConnectionFactoryTest {
 
     @Test
     public void testGetCachedConnectionAnyRemote() {
-        Mockito.when(mockSettings.getString(eq(Constants.PREFERENCE_ALTURL), anyString()))
+        Mockito.when(mockSettings.getString(eq(Constants.PREFERENCE_REMOTE_URL), anyString()))
                 .thenReturn("https://myopenhab.org:8443");
-        Mockito.when(mockSettings.getString(eq(Constants.PREFERENCE_URL), anyString()))
+        Mockito.when(mockSettings.getString(eq(Constants.PREFERENCE_LOCAL_URL), anyString()))
                 .thenReturn("https://openhab.local:8080");
         NetworkInfo mockNetworkInfo = Mockito.mock(NetworkInfo.class);
         Mockito.when(mockNetworkInfo.getType()).thenReturn(ConnectivityManager.TYPE_WIFI);

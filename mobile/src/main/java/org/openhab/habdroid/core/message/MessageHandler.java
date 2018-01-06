@@ -40,8 +40,8 @@ public class MessageHandler {
         }
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(ctx);
         boolean debugEnabled = settings.getBoolean(Constants.PREFERENCE_DEBUG_MESSAGES, false);
-        String remoteUrl = settings.getString(Constants.PREFERENCE_ALTURL, "");
-        String localUrl = settings.getString(Constants.PREFERENCE_URL, "");
+        String remoteUrl = settings.getString(Constants.PREFERENCE_REMOTE_URL, "");
+        String localUrl = settings.getString(Constants.PREFERENCE_LOCAL_URL, "");
 
         // if debug mode is enabled, show all messages, except those with logLevel 4
         if((debugEnabled && logLevel == LOGLEVEL_NO_DEBUG) ||

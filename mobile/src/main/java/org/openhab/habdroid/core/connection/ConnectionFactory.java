@@ -36,9 +36,9 @@ final public class ConnectionFactory
             Arrays.asList(ConnectivityManager.TYPE_ETHERNET, ConnectivityManager.TYPE_WIFI,
                     ConnectivityManager.TYPE_WIMAX));
     private static final List<String> needInvalidateCachePreferenceKeys = Arrays.asList(Constants
-            .PREFERENCE_ALTURL, Constants.PREFERENCE_LOCAL_USERNAME, Constants
+            .PREFERENCE_REMOTE_URL, Constants.PREFERENCE_LOCAL_USERNAME, Constants
             .PREFERENCE_LOCAL_PASSWORD, Constants.PREFERENCE_REMOTE_PASSWORD, Constants
-            .PREFERENCE_REMOTE_USERNAME, Constants.PREFERENCE_URL, Constants.PREFERENCE_DEMOMODE);
+            .PREFERENCE_REMOTE_USERNAME, Constants.PREFERENCE_LOCAL_URL, Constants.PREFERENCE_DEMOMODE);
 
     private Context ctx;
     private SharedPreferences settings;
@@ -131,7 +131,7 @@ final public class ConnectionFactory
 
     private Connection getLocalConnection() {
         String openHABUrl = Util.normalizeUrl(settings.getString(Constants
-                .PREFERENCE_URL, ""));
+                .PREFERENCE_LOCAL_URL, ""));
         // If local URL is configured
         if (openHABUrl.length() > 0) {
             Log.d(TAG, "Connecting to local URL " + openHABUrl);
@@ -170,7 +170,7 @@ final public class ConnectionFactory
 
     private Connection getRemoteConnection() {
         String openHABUrl = Util.normalizeUrl(settings.getString(Constants
-                .PREFERENCE_ALTURL, ""));
+                .PREFERENCE_REMOTE_URL, ""));
         // If remote URL is configured
         if (openHABUrl.length() > 0) {
             Log.d(TAG, "Connecting to remote URL " + openHABUrl);
