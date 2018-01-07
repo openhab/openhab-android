@@ -1,6 +1,6 @@
 ---
 layout: documentation
-title: Android openHAB App
+title: Android App
 source: https://github.com/openhab/openhab-android/blob/master/docs/USAGE.md
 ---
 
@@ -8,7 +8,7 @@ source: https://github.com/openhab/openhab-android/blob/master/docs/USAGE.md
 
 <!-- Attention authors: Do not edit directly. Please add your changes to the appropriate source repository -->
 
-# Android openHAB App
+# Android App
 
 The openHAB Android application is a native client for openHAB.
 The app follows the basic principles of the other openHAB UIs, like Basic UI, and presents your predefined openHAB [sitemap(s)](http://docs.openhab.org/configuration/sitemaps.html).
@@ -18,8 +18,9 @@ The app follows the basic principles of the other openHAB UIs, like Basic UI, an
 </a>
 
 ## Features
+
 * Control your openHAB server and/or [openHAB Cloud instance](https://github.com/openhab/openhab-cloud), e.g., an account with [myopenHAB](http://www.myopenhab.org/)
-* Receive notifications through an openHAB Cloud connection, [read more](http://docs.openhab.org/addons/actions.html)
+* Receive notifications through an openHAB Cloud connection, [read more…](http://docs.openhab.org/addons/actions.html)
 * Change items via NFC tags
 * Send voice commands to openHAB
 * Supports wall mounted tablets
@@ -32,14 +33,17 @@ The app follows the basic principles of the other openHAB UIs, like Basic UI, an
 ## Getting Started
 
 When first installed the app is in "Demo Mode".
-To connect it to your own openHAB server, first navigate to Settings and uncheck the "Demo Mode" option.
-Normally, after unchecking the Demo Mode, the app will be able to use multicast DNS to autodetect to your openHAB server if it is on the same network.
+To connect to your own openHAB server, first navigate into the Settings menu and uncheck the "Demo Mode" option.
+Normally, after unchecking the Demo Mode, the app will be able to use multicast DNS to auto-detect your openHAB server if it is on the same network.
 
 You also have the option to manually set the server URL in the settings.
 
-**Local server settings:** Please enter the base URL to your openHAB server as you would enter it in the browser to reach the openHAB dashboard.
+**Local server settings:**
+Please enter the base URL to your openHAB server as you would enter it in the browser to reach the openHAB dashboard.
 
-**Remote server settings:** If you want to use openHAB cloud, please enter URL, user and password of you cloud instance here. Please make sure to [secure this connection](http://docs.openhab.org/installation/security.html).
+**Remote server settings:**
+If you want to use openHAB cloud, please enter URL, user and password of you cloud instance here.
+Please make sure to [secure this connection](http://docs.openhab.org/installation/security.html).
 
 The URL might look like one of the following examples:
 
