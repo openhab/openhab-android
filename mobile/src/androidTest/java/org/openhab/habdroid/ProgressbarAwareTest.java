@@ -10,8 +10,6 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.openhab.habdroid.ui.OpenHABMainActivity;
 
-import static android.support.test.espresso.Espresso.unregisterIdlingResources;
-
 public abstract class ProgressbarAwareTest {
 
     @Rule
@@ -44,5 +42,7 @@ public abstract class ProgressbarAwareTest {
     public void unregisterIdlingResource() {
         if (mProgressbarIdlingResource != null)
             IdlingRegistry.getInstance().unregister(mProgressbarIdlingResource);
+
+        mProgressbarIdlingResource = null;
     }
 }

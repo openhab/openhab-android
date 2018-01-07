@@ -2,17 +2,15 @@ package org.openhab.habdroid.core.connection;
 
 import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.ViewInteraction;
-import android.support.test.rule.ActivityTestRule;
 import android.view.View;
 
 import org.hamcrest.core.IsInstanceOf;
-import org.junit.Before;
-import org.junit.Rule;
+import org.junit.After;
 import org.junit.Test;
 import org.mockito.Mockito;
 import org.openhab.habdroid.R;
+import org.openhab.habdroid.TestWithoutIntro;
 import org.openhab.habdroid.core.connection.exception.NetworkNotAvailableException;
-import org.openhab.habdroid.ui.OpenHABMainActivity;
 
 import java.util.HashMap;
 
@@ -26,15 +24,11 @@ import static org.hamcrest.CoreMatchers.allOf;
 import static org.hamcrest.core.IsNot.not;
 import static org.openhab.habdroid.TestUtils.childAtPosition;
 
-public class NoNetworkAvailableTest {
-    @Rule
-    public ActivityTestRule<OpenHABMainActivity> mActivityTestRule = new ActivityTestRule<>
-            (OpenHABMainActivity.class,  true, false);
-
+public class NoNetworkAvailableTest extends TestWithoutIntro {
     private String noNetworkMessage;
 
-    @Before
-    public void ensureNoNetworkAvailable() {
+    @Override
+    public void setup() {
         noNetworkMessage = InstrumentationRegistry.getTargetContext().getString(R.string
                 .error_network_not_available);
 
@@ -44,8 +38,16 @@ public class NoNetworkAvailableTest {
         mockConnectionFactory.cachedConnections = new HashMap<>();
         ConnectionFactory.InstanceHolder.INSTANCE = mockConnectionFactory;
 
-        mActivityTestRule.launchActivity(null);
+        super.setup();
     }
+
+    @After
+    public void releaseConnection() {
+        ConnectionFactory.InstanceHolder.INSTANCE = new ConnectionFactory();
+    }
+
+    @Override
+    protected void setupRegisterIdlingResources() {}
 
     @Test
     public void testNoNetworkFragmentShown() {
