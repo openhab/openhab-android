@@ -134,13 +134,13 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
                 message = getString(R.string.error_unable_to_resolve_hostname);
             } else if (error instanceof SSLHandshakeException) {
                 // if ssl exception, check for some common problems
-                if (error.getCause() instanceof CertPathValidatorException) {
+                if (error.getCause().getCause() instanceof CertPathValidatorException) {
                     message = getString(R.string.error_certificate_not_trusted);
-                } else if (error.getCause() instanceof CertificateExpiredException) {
+                } else if (error.getCause().getCause() instanceof CertificateExpiredException) {
                     message = getString(R.string.error_certificate_expired);
-                } else if (error.getCause() instanceof CertificateNotYetValidException) {
+                } else if (error.getCause().getCause() instanceof CertificateNotYetValidException) {
                     message = getString(R.string.error_certificate_not_valid_yet);
-                } else if (error.getCause() instanceof CertificateRevokedException) {
+                } else if (error.getCause().getCause() instanceof CertificateRevokedException) {
                     message = getString(R.string.error_certificate_revoked);
                 } else {
                     message = getString(R.string.error_connection_sslhandshake_failed);
