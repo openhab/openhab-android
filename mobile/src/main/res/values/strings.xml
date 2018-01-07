@@ -77,7 +77,7 @@
     <string name="error_invalid_url">Please enter a valid URL in a \'http(s)://host(:port)/\' form</string>
     <string name="error_connection_failed">Connection to host failed</string>
     <string name="error_unable_to_resolve_hostname">Unable to resolve hostname</string>
-    <string name="error_connection_sslhandshake_failed">SSL Handshake failed - maybe you need a valid client certificate</string>
+    <string name="error_connection_sslhandshake_failed">SSL handshake failed</string>
     <string name="error_certificate_not_trusted">SSL certificate is not trusted. Please import the root certificate or disable certificate validation during SSL handshake</string>
     <string name="error_certificate_expired">SSL certificate has been expired. Please get a new certificate or disable certificate validation during SSL handshake</string>
     <string name="error_certificate_not_valid_yet">SSL certificate is not valid yet. Please get a correct certificate or disable certificate validation during SSL handshake. Also check if the clock on your device is set correctly</string>
