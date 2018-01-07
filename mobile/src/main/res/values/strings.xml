@@ -72,7 +72,7 @@
     <string name="error_no_url">Please check that openHAB is running or configure openHAB URL or remote URL</string>
     <string name="error_empty_sitemap_list">openHAB returned empty sitemap list</string>
     <string name="error_network_not_available">Network is not available</string>
-    <string name="error_http_connection_failed">Connection unsuccessful. An unexpected response was received while trying to connect to the configured openHAB server. Please check the provided connection details, ensure the accessibility and operation of the server or contact your server administrator. (Received HTTP response code: %d)</string>
+    <string name="error_http_connection_failed">Connection unsuccessful. An unexpected response was received while trying to connect to the configured openHAB server (Received HTTP response code: %d)</string>
     <string name="error_no_uuid">Unable to get openHAB UUID, connection failed</string>
     <string name="error_invalid_url">Please enter a valid URL in a \'http(s)://host(:port)/\' form</string>
     <string name="error_connection_failed">Connection to host failed</string>
@@ -90,10 +90,10 @@
     <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
     <string name="error_http_code_495">Authentication failed. Please check the provided SSL client certificate (HTTP response code 495)</string>
     <string name="error_http_code_496">SSL client certificate is required (HTTP response code 496)</string>
-    <string name="error_http_code_502">Your reverse proxy got an invalid answer from the openHAB server. Please check the operation of the server or contact your server administrator (HTTP response code 502)</string>
-    <string name="error_http_code_503">openHAB is temporarily unavailable. Please check the operation of the server or contact your server administrator(HTTP response code 503)</string>
-    <string name="error_http_code_504">Gateway Time-out. Seems that your reverse proxy is running, but couldn\'t get an answer from openHAB. Please check the operation of the server or contact your server administrator (HTTP response code 504)</string>
-    <string name="error_http_code_507">The openHAB server hasn\'t enough free space. Please check the operation of the server or contact your server administrator (HTTP response code 507)</string>
+    <string name="error_http_code_502">Your reverse proxy got an invalid answer from the openHAB server (HTTP response code 502)</string>
+    <string name="error_http_code_503">openHAB is temporarily unavailable (HTTP response code 503)</string>
+    <string name="error_http_code_504">Gateway Time-out. Seems that your reverse proxy is running, but couldn\'t get an answer from openHAB (HTTP response code 504)</string>
+    <string name="error_http_code_507">The openHAB server hasn\'t enough free space (HTTP response code 507)</string>
     <string name="error_http_code_511">Network authentication is required (HTTP response code 511)</string>
     <string name="title_activity_openhabwritetag">Write NFC tag</string>
     <string name="title_activity_openhabinfo">openHAB Information</string>
