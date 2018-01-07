@@ -42,7 +42,7 @@ You also have the option to manually set the server URL in the settings.
 Please enter the base URL to your openHAB server as you would enter it in the browser to reach the openHAB dashboard.
 
 **Remote server settings:**
-If you want to use openHAB cloud, please enter the URL, username and password of you openHAB cloud instance here.
+If you want to use openHAB cloud, please enter the URL, username and password of your openHAB cloud instance here.
 Please make sure to [secure this connection](http://docs.openhab.org/installation/security.html).
 
 The URL might look like one of the following examples:
