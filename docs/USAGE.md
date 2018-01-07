@@ -33,7 +33,7 @@ The app follows the basic principles of the other openHAB UIs, like Basic UI, an
 ## Getting Started
 
 When first installed the app is in "Demo Mode".
-To connect to your own openHAB server, first navigate into the Settings menu and uncheck the "Demo Mode" option.
+To connect to your own openHAB server, navigate to the Settings menu and uncheck the "Demo Mode" option.
 Normally, after unchecking the Demo Mode, the app will be able to use multicast DNS to auto-detect your openHAB server if it is on the same network.
 
 You also have the option to manually set the server URL in the settings.
@@ -42,7 +42,7 @@ You also have the option to manually set the server URL in the settings.
 Please enter the base URL to your openHAB server as you would enter it in the browser to reach the openHAB dashboard.
 
 **Remote server settings:**
-If you want to use openHAB cloud, please enter URL, user and password of you cloud instance here.
+If you want to use openHAB cloud, please enter the URL, username and password of you openHAB cloud instance here.
 Please make sure to [secure this connection](http://docs.openhab.org/installation/security.html).
 
 The URL might look like one of the following examples:
@@ -57,7 +57,7 @@ There are a number of strategies available to provide [secure remote access]({{b
 
 ## Permanent Deployment
 
-If you want to use openHAB Android on a wall mounted tablet, go to settings and tick `Disable display timer` and `Fullscreen`.
+If you want to use openHAB Android on a wall mounted tablet, go to settings and select `Disable display timer` and `Fullscreen`.
 
 ## Help and Technical Details
 
