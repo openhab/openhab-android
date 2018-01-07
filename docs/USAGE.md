@@ -13,7 +13,9 @@ source: https://github.com/openhab/openhab-android/blob/master/docs/USAGE.md
 The openHAB Android application is a native client for openHAB.
 The app follows the basic principles of the other openHAB UIs, like Basic UI, and presents your predefined openHAB [sitemap(s)](http://docs.openhab.org/configuration/sitemaps.html).
 
-<a href="https://play.google.com/store/apps/details?id=org.openhab.habdroid"><img src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" height="80"></a>
+<a href="https://play.google.com/store/apps/details?id=org.openhab.habdroid">
+  <img alt="Get it on Google Play" src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" style="width: 240px;" width="240px">
+</a>
 
 ## Features
 * Control your openHAB server and/or [openHAB Cloud instance](https://github.com/openhab/openhab-cloud), e.g., an account with [myopenHAB](http://www.myopenhab.org/)
