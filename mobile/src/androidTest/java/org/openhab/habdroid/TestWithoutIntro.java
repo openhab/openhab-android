@@ -8,6 +8,7 @@ import org.junit.Before;
 import org.openhab.habdroid.util.Constants;
 
 public abstract class TestWithoutIntro extends ProgressbarAwareTest {
+    @Override
     @Before
     public void setup() {
         SharedPreferences.Editor edit = PreferenceManager

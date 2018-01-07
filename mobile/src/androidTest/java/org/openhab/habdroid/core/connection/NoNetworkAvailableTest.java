@@ -6,6 +6,7 @@ import android.view.View;
 
 import org.hamcrest.core.IsInstanceOf;
 import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 import org.openhab.habdroid.R;
@@ -28,6 +29,7 @@ public class NoNetworkAvailableTest extends TestWithoutIntro {
     private String noNetworkMessage;
 
     @Override
+    @Before
     public void setup() {
         noNetworkMessage = InstrumentationRegistry.getTargetContext().getString(R.string
                 .error_network_not_available);
