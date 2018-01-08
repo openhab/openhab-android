@@ -4,6 +4,9 @@ env:
   global:
   - secure: fMBUkSsCBTw/U907w7Xm/yNzw4lq9yt7zFy0JyEZrA543LI7zQRIclIOtsDTUs0bwY+4KI08MNoYPLJ4TQhSJaH4wQ8b9C5TRsqXNfc0V718TcuYqSXqU6VPRVtX46/fCEWv/HAs0ksUKrHIlpWOwLPQpYDcKxwwlUndaakYKJ8=
   - ADB_INSTALL_TIMEOUT=8
+  matrix:
+    - ANDROID_TARGET=android-22 ANDROID_ABI=armeabi-v7a
+    - ANDROID_TARGET=android-27 ANDROID_ABI=armeabi-v7a
 
 before_cache:
 - cd ${TRAVIS_BUILD_DIR}/gradle/caches/
@@ -24,17 +27,12 @@ android:
   - build-tools-25.0.2
   - platform-tools
   - tools
-  - android-22
   - extra-google-google_play_services
   - extra-google-m2repository
   - extra-android-m2repository
   - extra-android-support
-  - addon-google_apis-google-22 # Google play services
-  - sys-img-armeabi-v7a-google_apis-22
-
-licenses:
-  - android-sdk-license-.+
-  - google-gdk-license-.+
+  - $ANDROID_TARGET
+  - sys-img-$ANDROID_ABI-$ANDROID_TARGET
 
 install:
 - echo yes | sdkmanager "extras;m2repository;com;android;support;constraint;constraint-layout;1.0.2"
@@ -46,7 +44,7 @@ install:
 before_script:
 - android list device
 - android list target
-- echo no | android create avd --force -n test -t android-22 --abi armeabi-v7a --tag google_apis -d "5.4in FWVGA"
+- echo no | android create avd --force -n test -t $ANDROID_TARGET --abi $ANDROID_ABI -d "5.4in FWVGA"
 - emulator -avd test -no-window &
 - android-wait-for-emulator
 - adb shell input keyevent 82 &
