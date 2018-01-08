@@ -49,12 +49,12 @@ public class BasicWidgetTest extends TestWithoutIntro {
 
         // does it contain "demo"?
         ViewInteraction textView = onView(
-                Matchers.allOf(withId(android.R.id.text1), withText("demo"),
+                Matchers.allOf(withId(android.R.id.text1), withText("Main Menu"),
                         childAtPosition(
                                 IsInstanceOf.<View>instanceOf(android.widget.ListView.class),
                                 0),
                         isDisplayed()));
-        textView.check(matches(withText("demo")));
+        textView.check(matches(withText("Main Menu")));
 
         // click on demo
         DataInteraction appCompatTextView = onData(anything())
