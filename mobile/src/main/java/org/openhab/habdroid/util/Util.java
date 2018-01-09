@@ -85,7 +85,7 @@ public class Util {
             for (int i = 0; i < sitemapNodes.getLength(); i++) {
                 Node sitemapNode = sitemapNodes.item(i);
                 OpenHABSitemap openhabSitemap = new OpenHAB1Sitemap(sitemapNode);
-                if (openhabSitemap.getName().equals("_default")) {
+                if (openhabSitemap.getName().equals("default")) {
                     continue;
                 }
                 sitemapList.add(openhabSitemap);
