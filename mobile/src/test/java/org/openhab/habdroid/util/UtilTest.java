@@ -45,10 +45,8 @@ public class UtilTest {
         List<OpenHABSitemap> sitemapList = Util.parseSitemapList(createSitemapDocument());
         assertFalse(sitemapList.isEmpty());
 
-        // Should be sorted, null first
-        assertEquals(null, sitemapList.get(0).getLabel());
-        assertEquals("Garden", sitemapList.get(1).getLabel());
-        assertEquals(8, sitemapList.size());
+        assertEquals("Garden", sitemapList.get(0).getLabel());
+        assertEquals(7, sitemapList.size());
     }
 
     private Document createSitemapDocument() throws ParserConfigurationException, IOException, SAXException {
