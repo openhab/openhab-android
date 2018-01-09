@@ -6,7 +6,7 @@ env:
   - ADB_INSTALL_TIMEOUT=8
   matrix:
     - ANDROID_TARGET=android-22 ANDROID_ABI=armeabi-v7a
-    - ANDROID_TARGET=android-27 ANDROID_ABI=armeabi-v7a
+    - ANDROID_TARGET=android-25 ANDROID_ABI=armeabi-v7a
 
 before_cache:
 - cd ${TRAVIS_BUILD_DIR}/gradle/caches/
@@ -30,7 +30,6 @@ android:
   - extra-google-google_play_services
   - extra-google-m2repository
   - extra-android-m2repository
-  - extra-android-support
   - $ANDROID_TARGET
   - sys-img-$ANDROID_ABI-$ANDROID_TARGET
 
