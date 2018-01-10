@@ -5,6 +5,7 @@ import android.util.Log;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.openhab.habdroid.util.Util;
 
 import java.util.ArrayList;
 
@@ -136,5 +137,15 @@ public class OpenHAB2Widget extends OpenHABWidget {
 
     public static OpenHABWidget createOpenHABWidgetFromJson(OpenHABWidget parent, JSONObject widgetJson, String iconFormat) {
         return new OpenHAB2Widget(parent, widgetJson, iconFormat);
+    }
+
+    public boolean requireRefresh(OpenHABWidget other)
+    {
+        if ( (other instanceof OpenHAB2Widget) &&
+             !Util.bothNullOrEqual(this.iconFormat, ((OpenHAB2Widget)other).iconFormat))
+        {
+            return true;
+        }
+        return super.requireRefresh(other);
     }
 }

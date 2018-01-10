@@ -11,6 +11,7 @@ package org.openhab.habdroid.model;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.openhab.habdroid.util.Util;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
@@ -96,5 +97,18 @@ public class OpenHABLinkedPage {
 	public static String getTag() {
 		return TAG;
 	}
-	
+
+	@Override
+	public boolean equals(Object obj)
+	{
+		if (obj instanceof OpenHABLinkedPage)
+		{
+			OpenHABLinkedPage other = (OpenHABLinkedPage) obj;
+			return (Util.bothNullOrEqual(this.id, other.id) &&
+					Util.bothNullOrEqual(this.title, other.title) &&
+					Util.bothNullOrEqual(this.icon, other.icon) &&
+					Util.bothNullOrEqual(this.link, other.link));
+		}
+		return false;
+	}
 }

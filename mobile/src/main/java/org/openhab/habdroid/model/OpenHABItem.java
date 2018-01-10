@@ -13,6 +13,7 @@ import android.graphics.Color;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.openhab.habdroid.util.Util;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
@@ -196,4 +197,19 @@ public class OpenHABItem {
         }
         throw new IllegalStateException("No brightness");
     }
+
+	@Override
+	public boolean equals(Object obj)
+	{
+		if (obj instanceof OpenHABItem)
+		{
+			OpenHABItem other = (OpenHABItem) obj;
+			return (Util.bothNullOrEqual(this.name, other.name) &&
+					Util.bothNullOrEqual(this.type, other.type) &&
+					Util.bothNullOrEqual(this.groupType, other.groupType) &&
+					Util.bothNullOrEqual(this.state, other.state) &&
+					Util.bothNullOrEqual(this.link, other.link));
+		}
+		return false;
+	}
 }
