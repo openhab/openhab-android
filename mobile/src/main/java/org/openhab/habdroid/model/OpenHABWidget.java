@@ -12,6 +12,8 @@ package org.openhab.habdroid.model;
 import android.graphics.Color;
 import android.util.Log;
 
+import org.openhab.habdroid.util.Util;
+
 import java.util.ArrayList;
 
 /**
@@ -299,4 +301,35 @@ public abstract class OpenHABWidget {
 	}
 
 	public abstract String getIconPath();
+
+	public boolean requireRefresh(OpenHABWidget other)
+	{
+		if (Util.bothNullOrEqual(this.id, other.id) &&
+		    Util.bothNullOrEqual(this.label, other.label) &&
+		 	Util.bothNullOrEqual(this.icon, other.icon) &&
+		 	Util.bothNullOrEqual(this.type, other.type) &&
+			Util.bothNullOrEqual(this.url, other.url) &&
+			Util.bothNullOrEqual(this.period, other.period) &&
+			Util.bothNullOrEqual(this.service, other.service) &&
+			Util.bothNullOrEqual(this.state, other.state) &&
+			Util.bothNullOrEqual(this.encoding, other.encoding) &&
+			Util.bothNullOrEqual(this.legend, other.legend) &&
+			this.minValue == other.minValue &&
+			this.maxValue == other.maxValue &&
+			this.step == other.step &&
+			this.refresh == other.refresh &&
+			this.height == other.height &&
+			this.children.size() == other.children.size() &&
+			this.mappings.size() == other.mappings.size() &&
+			this.mChildrenHasLinkedPages == other.mChildrenHasLinkedPages &&
+			Util.bothNullOrEqual(this.iconcolor, other.iconcolor) &&
+			Util.bothNullOrEqual(this.labelcolor, other.labelcolor) &&
+			Util.bothNullOrEqual(this.valuecolor, other.valuecolor) &&
+			Util.bothNullOrEqual(this.item, other.item) &&
+			Util.bothNullOrEqual(this.linkedPage, other.linkedPage))
+		{
+			return false;
+		}
+		return true;
+	}
 }

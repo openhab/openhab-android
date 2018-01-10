@@ -25,7 +25,7 @@ import java.util.List;
 public class OpenHABFragmentPagerAdapter extends FragmentStatePagerAdapter implements ViewPager.OnPageChangeListener {
 
     private static final String TAG = OpenHABFragmentPagerAdapter.class.getSimpleName();
-    private List<ListFragment> fragmentList;
+    private List<Fragment> fragmentList;
     private FragmentManager fragmentManager;
     private boolean notifyDataSetChangedPending = false;
     private int columnsNumber = 1;
@@ -39,7 +39,7 @@ public class OpenHABFragmentPagerAdapter extends FragmentStatePagerAdapter imple
     public OpenHABFragmentPagerAdapter(FragmentManager fm) {
         super(fm);
         fragmentManager = fm;
-        fragmentList = new ArrayList<ListFragment>(0);
+        fragmentList = new ArrayList<Fragment>(0);
     }
 
     @Override
@@ -65,11 +65,11 @@ public class OpenHABFragmentPagerAdapter extends FragmentStatePagerAdapter imple
         }
     }
 
-    public List<ListFragment> getFragmentList() {
+    public List<Fragment> getFragmentList() {
         return fragmentList;
     }
 
-    public void setFragmentList(List<ListFragment>fragments) {
+    public void setFragmentList(List<Fragment>fragments) {
         fragmentList = fragments;
         notifyDataSetChanged();
     }
@@ -79,7 +79,7 @@ public class OpenHABFragmentPagerAdapter extends FragmentStatePagerAdapter imple
         notifyDataSetChanged();
     }
 
-    public ListFragment getFragment(int position) {
+    public Fragment getFragment(int position) {
         if (position < fragmentList.size()) {
             return fragmentList.get(position);
         }

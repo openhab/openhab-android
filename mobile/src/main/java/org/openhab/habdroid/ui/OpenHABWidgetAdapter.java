@@ -12,13 +12,14 @@ package org.openhab.habdroid.ui;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.PorterDuff;
 import android.net.Uri;
-import android.os.Build;
 import android.support.annotation.ColorInt;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SwitchCompat;
 import android.util.Base64;
 import android.util.DisplayMetrics;
@@ -34,14 +35,12 @@ import android.view.WindowManager;
 import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
-import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.Spinner;
@@ -52,6 +51,7 @@ import com.loopj.android.image.SmartImage;
 
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.model.OpenHABItem;
+import org.openhab.habdroid.model.OpenHABNFCActionList;
 import org.openhab.habdroid.model.OpenHABWidget;
 import org.openhab.habdroid.model.OpenHABWidgetMapping;
 import org.openhab.habdroid.ui.widget.ColorPickerDialog;
@@ -61,6 +61,7 @@ import org.openhab.habdroid.util.MjpegStreamer;
 import org.openhab.habdroid.util.MyAsyncHttpClient;
 import org.openhab.habdroid.util.MyHttpClient;
 import org.openhab.habdroid.util.MySmartImageView;
+import org.openhab.habdroid.util.Util;
 
 import java.lang.reflect.Method;
 import java.net.MalformedURLException;
@@ -79,7 +80,7 @@ import okhttp3.Headers;
  * This class provides openHAB widgets adapter for list view.
  */
 
-public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
+public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdapter.ViewHolder> {
     public static final int TYPE_GENERICITEM = 0;
     public static final int TYPE_FRAME = 1;
     public static final int TYPE_GROUP = 2;
@@ -106,10 +107,19 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     private ArrayList<MjpegStreamer> mjpegWidgetList;
     private MyAsyncHttpClient mAsyncHttpClient;
     private @ColorInt int mPrimaryForegroundColor;
+    private ArrayList<OpenHABWidget> widgetList;
+    private OpenHABWidgetListFragment openHABWidgetListFragment;
+    private int mSelectedItem = -1;
+    private int mOldSelectedItem = -1;
+    // selected openhab widget
+    private OpenHABWidget selectedOpenHABWidget;
+    private boolean bEnableSingleChoiceMode = true;
 
     public OpenHABWidgetAdapter(Context context, int resource,
-                                List<OpenHABWidget> objects) {
-        super(context, resource, objects);
+                                ArrayList<OpenHABWidget> widgetList,
+                                OpenHABWidgetListFragment openHABWidgetListFragment) {
+        this.widgetList = widgetList;
+        this.openHABWidgetListFragment = openHABWidgetListFragment;
         // Initialize video view array
         videoWidgetList = new ArrayList<VideoView>();
         refreshImageList = new ArrayList<MySmartImageView>();
@@ -122,19 +132,13 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
         a.recycle();
     }
 
-    @SuppressWarnings("deprecation")
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public OpenHABWidgetAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
+    {
         /* TODO: This definitely needs some huge refactoring */
-        final RelativeLayout widgetView;
-        final TextView labelTextView;
-        final TextView valueTextView;
         int widgetLayout;
-        String[] splitString;
-        final OpenHABWidget openHABWidget = getItem(position);
-        int screenWidth = ((WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getWidth();
-        int screenHeight = ((WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getHeight();
-        switch (this.getItemViewType(position)) {
+        switch (viewType)
+        {
             case TYPE_FRAME:
                 widgetLayout = R.layout.openhabwidgetlist_frameitem;
                 break;
@@ -184,20 +188,30 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
                 widgetLayout = R.layout.openhabwidgetlist_genericitem;
                 break;
         }
-        if (convertView == null) {
-            widgetView = new RelativeLayout(getContext());
-            String inflater = Context.LAYOUT_INFLATER_SERVICE;
-            LayoutInflater vi;
-            vi = (LayoutInflater) getContext().getSystemService(inflater);
-            vi.inflate(widgetLayout, widgetView, true);
-        } else {
-            widgetView = (RelativeLayout) convertView;
-        }
+        LayoutInflater vi = LayoutInflater.from(parent.getContext());
+        View widget = vi.inflate(widgetLayout, parent, false);
+        return new OpenHABWidgetAdapter.ViewHolder(widget, parent);
+    }
+
+    @Override
+    public void onBindViewHolder(final OpenHABWidgetAdapter.ViewHolder holder, int position)
+    {
+        final View widgetView = holder.getWidgetView();
+        final ViewGroup parent = holder.getParent();
+
+        String[] splitString;
+        final OpenHABWidget openHABWidget = widgetList.get(position);
+        final TextView labelTextView;
+        final TextView valueTextView;
+        int screenWidth = ((WindowManager) openHABWidgetListFragment.getContext().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getWidth();
+        int screenHeight = ((WindowManager) openHABWidgetListFragment.getContext().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getHeight();
 
         // Process the colour attributes
         Integer iconColor = openHABWidget.getIconColor();
         Integer labelColor = openHABWidget.getLabelColor();
         Integer valueColor = openHABWidget.getValueColor();
+
+        widgetView.setSelected(position == mSelectedItem);
 
         // Process widgets icon image
         MySmartImageView widgetImage = (MySmartImageView) widgetView.findViewById(R.id.widgetimage);
@@ -541,12 +555,12 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
                     }
                     // add theme attribute
                     TypedValue chartTheme = new TypedValue();
-                    if (getContext().getTheme().resolveAttribute(R.attr.chartTheme, chartTheme, true)) {
+                    if (openHABWidgetListFragment.getContext().getTheme().resolveAttribute(R.attr.chartTheme, chartTheme, true)) {
                         chartUrl += "&theme=" + chartTheme.string;
                     }
 
                     // add dpi attribute
-                    WindowManager wm = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
+                    WindowManager wm = (WindowManager) openHABWidgetListFragment.getContext().getSystemService(Context.WINDOW_SERVICE);
                     DisplayMetrics metrics = new DisplayMetrics();
                     wm.getDefaultDisplay().getMetrics(metrics);
                     int dpi = metrics.densityDpi;
@@ -576,7 +590,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
             case TYPE_VIDEO:
                 VideoView videoVideo = (VideoView) widgetView.findViewById(R.id.videovideo);
                 // TODO: This is quite dirty fix to make video look maximum available size on all screens
-                WindowManager wm = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
+                WindowManager wm = (WindowManager) openHABWidgetListFragment.getContext().getSystemService(Context.WINDOW_SERVICE);
                 ViewGroup.LayoutParams videoLayoutParams = videoVideo.getLayoutParams();
                 videoLayoutParams.height = (int) (wm.getDefaultDisplay().getWidth() / 1.77);
                 videoVideo.setLayoutParams(videoLayoutParams);
@@ -604,7 +618,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
             case TYPE_VIDEO_MJPEG:
                 Log.d(TAG, "Video is mjpeg");
                 ImageView mjpegImage = (ImageView) widgetView.findViewById(R.id.mjpegimage);
-                MjpegStreamer mjpegStreamer = new MjpegStreamer(openHABWidget.getUrl(), this.openHABUsername, this.openHABPassword, this.getContext());
+                MjpegStreamer mjpegStreamer = new MjpegStreamer(openHABWidget.getUrl(), this.openHABUsername, this.openHABPassword, this.openHABWidgetListFragment.getContext());
                 mjpegStreamer.setTargetImageView(mjpegImage);
                 mjpegStreamer.start();
                 if (!mjpegWidgetList.contains(mjpegStreamer))
@@ -647,7 +661,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
                     spinnerArray.add("          ");
                     spinnerSelectedIndex = spinnerArray.size() - 1;
                 }
-                ArrayAdapter<String> spinnerAdapter = new SpinnerClickAdapter<String>(this.getContext(),
+                ArrayAdapter<String> spinnerAdapter = new SpinnerClickAdapter<String>(this.openHABWidgetListFragment.getContext(),
                         android.R.layout.simple_spinner_item, spinnerArray, openHABWidget, new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int index, long id) {
@@ -699,7 +713,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
                         valueTextView.setVisibility(View.VISIBLE);
                         valueTextView.setText(splitString[1]);
                     }
-                    final Context context = getContext();
+                    final Context context = openHABWidgetListFragment.getContext();
 
                      View.OnClickListener clickListener = new OnClickListener() {
                          @Override
@@ -794,7 +808,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
         }
         LinearLayout dividerLayout = (LinearLayout) widgetView.findViewById(R.id.listdivider);
         if (dividerLayout != null) {
-            if (position < this.getCount() - 1) {
+            if (position < this.getItemCount() - 1) {
                 if (this.getItemViewType(position + 1) == TYPE_FRAME) {
                     dividerLayout.setVisibility(View.GONE); // hide dividers before frame widgets
                 } else {
@@ -804,17 +818,99 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
                 dividerLayout.setVisibility(View.GONE);
             }
         }
-        return widgetView;
-    }
 
-    @Override
-    public int getViewTypeCount() {
-        return TYPES_COUNT;
+        widgetView.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                int position = holder.getAdapterPosition();
+                Log.d(TAG, "Widget clicked " + String.valueOf(position));
+                OpenHABWidget openHABWidget = widgetList.get(position);
+                List<Integer> itemsToRefresh = new ArrayList<>();
+                if (openHABWidget.hasLinkedPage()) {
+                    // Widget have a page linked to it
+                    String[] splitString;
+                    splitString = openHABWidget.getLinkedPage().getTitle().split("\\[|\\]");
+                    if (openHABWidgetListFragment.getWidgetSelectedListener() != null) {
+                        openHABWidgetListFragment.getWidgetSelectedListener().onWidgetSelectedListener(openHABWidget.getLinkedPage(),
+                                openHABWidgetListFragment);
+                    }
+//                        navigateToPage(openHABWidget.getLinkedPage().getLink(), splitString[0]);
+                    if (bEnableSingleChoiceMode)
+                    {
+                        itemsToRefresh.add(mOldSelectedItem);
+                        itemsToRefresh.add(position);
+                        mOldSelectedItem = position;
+                        mSelectedItem = position;
+                    }
+                } else {
+                    Log.d(TAG, String.format("Click on item with no linked page, reverting selection to item %d", mOldSelectedItem));
+                    // If an item without a linked page is clicked this will clear the selection
+                    // and revert it to previously selected item (if any) when CHOICE_MODE_SINGLE
+                    // is switched on for widget listview in multi-column mode on tablets
+                    if (bEnableSingleChoiceMode)
+                    {
+                        itemsToRefresh.add(mOldSelectedItem);
+                        itemsToRefresh.add(position);
+                        mSelectedItem = mOldSelectedItem;
+                    }
+                }
+                for (int itemToRefresh : itemsToRefresh)
+                {
+                    if (itemToRefresh != -1)
+                    {
+                        notifyItemChanged(itemToRefresh);
+                    }
+                }
+            }
+        });
+
+        if (openHABWidgetListFragment.getResources().getInteger(R.integer.pager_columns) > 1) {
+            Log.d(TAG, "More then 1 column, setting selector on");
+            bEnableSingleChoiceMode = true;
+        }
+
+        widgetView.setOnLongClickListener(new View.OnLongClickListener()
+        {
+            @Override
+            public boolean onLongClick(View v)
+            {
+                int position = holder.getAdapterPosition();
+                Log.d(TAG, "Widget long-clicked " + String.valueOf(position));
+                OpenHABWidget openHABWidget = widgetList.get(position);
+                Log.d(TAG, "Widget type = " + openHABWidget.getType());
+
+                selectedOpenHABWidget = openHABWidget;
+                AlertDialog.Builder builder = new AlertDialog.Builder(openHABWidgetListFragment.getActivity());
+                builder.setTitle(R.string.nfc_dialog_title);
+                final OpenHABNFCActionList nfcActionList = new OpenHABNFCActionList
+                        (selectedOpenHABWidget, openHABWidgetListFragment.getContext());
+                builder.setItems(nfcActionList.getNames(), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent writeTagIntent = new Intent(openHABWidgetListFragment.getActivity().getApplicationContext(),
+                                OpenHABWriteTagActivity.class);
+                        writeTagIntent.putExtra("sitemapPage", openHABWidgetListFragment.getDisplayPageUrl());
+
+                        if (nfcActionList.getCommands().length > which) {
+                            writeTagIntent.putExtra("item", selectedOpenHABWidget.getItem().getName());
+                            writeTagIntent.putExtra("itemType", selectedOpenHABWidget.getItem().getType());
+                            writeTagIntent.putExtra("command", nfcActionList.getCommands()[which]);
+                        }
+                        openHABWidgetListFragment.startActivityForResult(writeTagIntent, 0);
+                        Util.overridePendingTransition(openHABWidgetListFragment.getActivity(), false);
+                        selectedOpenHABWidget = null;
+                    }
+                });
+                builder.show();
+                return true;
+            }
+        });
     }
 
     @Override
     public int getItemViewType(int position) {
-        OpenHABWidget openHABWidget = getItem(position);
+        OpenHABWidget openHABWidget = widgetList.get(position);
         if (openHABWidget.getType().equals("Frame")) {
             return TYPE_FRAME;
         } else if (openHABWidget.getType().equals("Group")) {
@@ -955,7 +1051,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
     }
 
     public boolean isEnabled(int position) {
-        OpenHABWidget openHABWidget = getItem(position);
+        OpenHABWidget openHABWidget = widgetList.get(position);
         if (openHABWidget.getType().equals("Frame"))
             return false;
         return true;
@@ -973,4 +1069,83 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
             return BitmapFactory.decodeByteArray(data, 0, data.length);
         }
     };
+
+    /**
+     * Provide a reference to the type of views that you are using (custom ViewHolder)
+     */
+    public static class ViewHolder extends RecyclerView.ViewHolder
+    {
+        private final View widgetView;
+        private final ViewGroup parent;
+
+        public ViewHolder(View widgetView, ViewGroup parent)
+        {
+            super(widgetView);
+            this.widgetView = widgetView;
+            this.parent = parent;
+        }
+
+        public View getWidgetView()
+        {
+            return widgetView;
+        }
+
+        public ViewGroup getParent()
+        {
+            return parent;
+        }
+    }
+
+    @Override
+    public int getItemCount()
+    {
+        return widgetList.size();
+    }
+
+    void clearChoices()
+    {
+        List<Integer> itemsToRefresh = new ArrayList<>();
+        itemsToRefresh.add(mSelectedItem);
+        itemsToRefresh.add(mOldSelectedItem);
+        mSelectedItem = -1;
+        mOldSelectedItem = -1;
+        for (int itemToRefresh : itemsToRefresh)
+        {
+            if (itemToRefresh != -1)
+            {
+                notifyItemChanged(itemToRefresh);
+            }
+        }
+    }
+
+    int getCheckedItemPosition()
+    {
+        return mSelectedItem;
+    }
+
+    void setItemChecked(int selectedItem)
+    {
+        mSelectedItem = selectedItem;
+        notifyItemChanged(mSelectedItem);
+    }
+
+    void reload(ArrayList<OpenHABWidget> oldItems, ArrayList<OpenHABWidget> newItems)
+    {
+        if (oldItems.size() != newItems.size())
+        {
+            // If number of items changed refresh all
+            // TODO: in future we may analyze both lists and do add, remove, move items
+            notifyDataSetChanged();
+        }
+        else
+        {
+            for (int i = 0; i < oldItems.size(); i++)
+            {
+                if (newItems.get(i).requireRefresh(oldItems.get(i)))
+                {
+                    notifyItemChanged(i);
+                }
+            }
+        }
+    }
 }

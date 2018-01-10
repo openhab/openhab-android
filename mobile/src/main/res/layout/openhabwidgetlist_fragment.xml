@@ -8,8 +8,8 @@
     android:paddingStart="@dimen/widgetlist_fragment_left_margin"
     android:paddingEnd="@dimen/widgetlist_fragment_right_margin">
 
-    <ListView
-        android:id="@id/android:list"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="0dip"
         android:layout_weight="1"
