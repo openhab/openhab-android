@@ -1,5 +1,7 @@
 package org.openhab.habdroid.util;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.junit.Test;
 import org.openhab.habdroid.model.OpenHABSitemap;
 import org.w3c.dom.Document;
@@ -42,7 +44,8 @@ public class UtilTest {
 
     @Test
     public void parseSitemapList() throws Exception {
-        List<OpenHABSitemap> sitemapList = Util.parseSitemapList(createSitemapDocument());
+        // openHAB 1
+        List<OpenHABSitemap> sitemapList = Util.parseSitemapList(createSitemapOH1Document());
         assertFalse(sitemapList.isEmpty());
 
         // Should be sorted
@@ -56,9 +59,23 @@ public class UtilTest {
         assertEquals("outside", sitemapList.get(7).getLabel());
 
         assertEquals(8, sitemapList.size());
+
+        // openHAB 2
+        sitemapList = Util.parseSitemapList(createJsonArray(1));
+        assertFalse(sitemapList.isEmpty());
+
+        assertEquals("Main Menu", sitemapList.get(0).getLabel());
+        assertEquals(1, sitemapList.size());
+
+        sitemapList = Util.parseSitemapList(createJsonArray(2));
+        assertFalse(sitemapList.isEmpty());
+
+        assertEquals("Main Menu", sitemapList.get(0).getLabel());
+        assertEquals("HOME", sitemapList.get(1).getLabel());
+        assertEquals(2, sitemapList.size());
     }
 
-    private Document createSitemapDocument() throws ParserConfigurationException, IOException, SAXException {
+    private Document createSitemapOH1Document() throws ParserConfigurationException, IOException, SAXException {
         String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>" +
                 "<sitemaps><sitemap><name>default</name><label>i AM DEfault</label><link>http://myopenhab/rest/sitemaps/default</link><homepage><link>http://myopenhab/rest/sitemaps/default/default</link><leaf>false</leaf></homepage></sitemap>" +
                 "<sitemap><name>heating</name><label>Heating</label><link>http://myopenhab/rest/sitemaps/heating</link><homepage><link>http://myopenhab/rest/sitemaps/heating/heating</link><leaf>false</leaf></homepage></sitemap>" +
@@ -78,15 +95,48 @@ public class UtilTest {
     public void sitemapExists() throws Exception {
         assertTrue(Util.sitemapExists(sitemapList(), "garden"));
         assertFalse(Util.sitemapExists(sitemapList(), "monkies"));
+        assertTrue(Util.sitemapExists(Util.parseSitemapList(createJsonArray(1)), "demo"));
+        assertFalse(Util.sitemapExists(Util.parseSitemapList(createJsonArray(1)), "_default"));
+        assertFalse(Util.sitemapExists(Util.parseSitemapList(createJsonArray(2)), "_default"));
+        assertTrue(Util.sitemapExists(Util.parseSitemapList(createJsonArray(3)), "_default"));
     }
 
     private List<OpenHABSitemap> sitemapList() throws IOException, SAXException, ParserConfigurationException {
-        return Util.parseSitemapList(createSitemapDocument());
+        return Util.parseSitemapList(createSitemapOH1Document());
     }
 
     @Test
     public void getSitemapByName() throws Exception {
         assertEquals("i AM DEfault", Util.getSitemapByName(sitemapList(), "default").getLabel());
         assertEquals("outside", Util.getSitemapByName(sitemapList(), "outside").getLabel());
+    }
+
+    /**
+     * @param id
+     *             1: Two sitemaps, one "normal", one "_default"
+     *             2: Three sitemaps, two "normal", one "_default"
+     *             3: One "_default"
+     * @return Sitemaps as jsonArray
+     * @throws JSONException
+     */
+    private JSONArray createJsonArray(int id) throws JSONException {
+        String jsonString;
+        switch (id) {
+            case 1:
+                jsonString = "[{\"name\":\"demo\",\"label\":\"Main Menu\",\"link\":\"http://demo.openhab.org:8080/rest/sitemaps/demo\",\"homepage\":{\"link\":\"http://demo.openhab.org:8080/rest/sitemaps/demo/demo\",\"leaf\":false,\"timeout\":false,\"widgets\":[]}}," +
+                        "{\"name\":\"_default\",\"label\":\"Home\",\"link\":\"http://demo.openhab.org:8080/rest/sitemaps/_default\",\"homepage\":{\"link\":\"http://demo.openhab.org:8080/rest/sitemaps/_default/_default\",\"leaf\":false,\"timeout\":false,\"widgets\":[]}}]";
+                break;
+            case 2:
+                jsonString = "[{\"name\":\"demo\",\"label\":\"Main Menu\",\"link\":\"http://demo.openhab.org:8080/rest/sitemaps/demo\",\"homepage\":{\"link\":\"http://demo.openhab.org:8080/rest/sitemaps/demo/demo\",\"leaf\":false,\"timeout\":false,\"widgets\":[]}}," +
+                        "{\"name\":\"home\",\"label\":\"HOME\",\"link\":\"http://demo.openhab.org:8080/rest/sitemaps/home\",\"homepage\":{\"link\":\"http://demo.openhab.org:8080/rest/sitemaps/home/home\",\"leaf\":false,\"timeout\":false,\"widgets\":[]}}," +
+                        "{\"name\":\"_default\",\"label\":\"Home\",\"link\":\"http://demo.openhab.org:8080/rest/sitemaps/_default\",\"homepage\":{\"link\":\"http://demo.openhab.org:8080/rest/sitemaps/_default/_default\",\"leaf\":false,\"timeout\":false,\"widgets\":[]}}]";
+                break;
+            case 3:
+                jsonString = "[{\"name\":\"_default\",\"label\":\"Home\",\"link\":\"http://demo.openhab.org:8080/rest/sitemaps/_default\",\"homepage\":{\"link\":\"http://demo.openhab.org:8080/rest/sitemaps/_default/_default\",\"leaf\":false,\"timeout\":false,\"widgets\":[]}}]";
+                break;
+                default:
+                    throw new IllegalArgumentException("Wrong id");
+        }
+        return new JSONArray(jsonString);
     }
 }
