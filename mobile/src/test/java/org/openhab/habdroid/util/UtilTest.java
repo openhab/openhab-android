@@ -77,7 +77,7 @@ public class UtilTest {
 
     @Test
     public void getSitemapByName() throws Exception {
-        assertEquals("i AM DEfault", Util.getSitemapByName(sitemapList(), "default").getLabel());
+        assertEquals("Heatpump", Util.getSitemapByName(sitemapList(), "heatpump").getLabel());
         assertEquals(null, Util.getSitemapByName(sitemapList(), "outside").getLabel());
     }
 }
