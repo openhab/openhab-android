@@ -66,6 +66,25 @@ public class Util {
         return normalizedUrl;
     }
 
+    private static List<OpenHABSitemap> removeDefaultFromSitemapList(String defaultName, List<OpenHABSitemap> sitemapList) {
+        // Only default sitemap is given, so don't remove it
+        if (sitemapList.size() == 1) {
+            return sitemapList;
+        }
+
+        List<OpenHABSitemap> sitemapListResult = new ArrayList<>();
+
+        // Remove default sitemap
+        for (int i = 0; i < sitemapList.size(); i++) {
+            if (sitemapList.get(i).getName().equals(defaultName)) {
+                continue;
+            }
+            sitemapListResult.add(sitemapList.get(i));
+        }
+
+        return sitemapListResult;
+    }
+
     public static List<OpenHABSitemap> parseSitemapList(Document document) {
         List<OpenHABSitemap> sitemapList = new ArrayList<OpenHABSitemap>();
         NodeList sitemapNodes = document.getElementsByTagName("sitemap");
@@ -90,7 +109,7 @@ public class Util {
             }
         });
 
-        return sitemapList;
+        return removeDefaultFromSitemapList("default", sitemapList);
     }
 
     public static List<OpenHABSitemap> parseSitemapList(JSONArray jsonArray) {
@@ -104,7 +123,7 @@ public class Util {
                 e.printStackTrace();
             }
         }
-        return sitemapList;
+        return removeDefaultFromSitemapList("_default", sitemapList);
     }
 
     public static boolean sitemapExists(List<OpenHABSitemap> sitemapList, String sitemapName) {
