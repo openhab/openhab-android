@@ -8,6 +8,12 @@
   <string name="app_preferences_name">Configurações</string>
   <!-- Main menu items -->
   <!-- App settings strings -->
+  <string name="settings_connection_title">Definições de ligação</string>
+  <string name="settings_display_title">Mostrar configurações</string>
+  <string name="settings_misc_title">Várias opções</string>
+  <string name="settings_openhab_url">URL do servidor local</string>
+  <string name="settings_openhab_url_summary">A URL do painel openHAB (baseado no nome do host ou IP). Se configurado, está desativada a detecção automática. Configuração atual %s</string>
+  <string name="settings_openhab_alturl">URL do servidor remoto</string>
   <!-- App messages strings -->
   <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
   <!-- Strings for MemorizingTrustManager activity -->
