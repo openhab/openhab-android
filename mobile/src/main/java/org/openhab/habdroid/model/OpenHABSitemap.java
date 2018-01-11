@@ -11,6 +11,7 @@ package org.openhab.habdroid.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 
 public abstract class OpenHABSitemap implements Parcelable {
 	private String name;
@@ -56,8 +57,8 @@ public abstract class OpenHABSitemap implements Parcelable {
         this.icon = icon;
     }
 
-    public String getLabel() {
-        return label;
+    public @NonNull String getLabel() {
+        return (label == null) ? getName() : label;
     }
 
     public void setLabel(String label) {
