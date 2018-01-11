@@ -1,5 +1,7 @@
 package org.openhab.habdroid.util;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.junit.Test;
 import org.openhab.habdroid.model.OpenHABSitemap;
 import org.w3c.dom.Document;
@@ -48,7 +50,7 @@ public class UtilTest {
         // Should be sorted, null first
         assertEquals(null, sitemapList.get(0).getLabel());
         assertEquals("Garden", sitemapList.get(1).getLabel());
-        assertEquals(8, sitemapList.size());
+        assertEquals(7, sitemapList.size());
     }
 
     private Document createSitemapDocument() throws ParserConfigurationException, IOException, SAXException {
@@ -66,6 +68,27 @@ public class UtilTest {
         return builder.parse(new InputSource(new StringReader(xml)));
     }
 
+    @Test
+    public void parseSitemapListOpenhab2() throws Exception {
+        List<OpenHABSitemap> sitemapList = Util.parseSitemapList(createSitemapDocumentOpenhab2());
+        assertFalse(sitemapList.isEmpty());
+
+        assertEquals(4, sitemapList.size());
+    }
+
+    private JSONArray createSitemapDocumentOpenhab2() throws JSONException {
+        String sitemap = "[{\"name\":\"system\",\"icon\":\"linux\",\"label\":\"System\",\"link\":\"http:\\/\\/192.168.0.1:8080\\/rest\\/sitemaps\\/system\",\"homepage\"" +
+                ":{\"link\":\"http:\\/\\/192.168.0.1:8080\\/rest\\/sitemaps\\/system\\/system\",\"leaf\":false,\"timeout\":false,\"widgets\":[]}},{\"name\":\"weather\"," +
+                "\"icon\":\"sun2\",\"label\":\"Weather\",\"link\":\"http:\\/\\/192.168.0.1:8080\\/rest\\/sitemaps\\/weather\",\"homepage\":{\"link\"" +
+                ":\"http:\\/\\/192.168.0.1:8080\\/rest\\/sitemaps\\/weather\\/weather\",\"leaf\":false,\"timeout\":false,\"widgets\":[]}},{\"name\":\"kitchen\",\"icon\"" +
+                ":\"pot\",\"label\":\"Kitchen\",\"link\":\"http:\\/\\/192.168.0.1:8080\\/rest\\/sitemaps\\/kitchen\",\"homepage\"" +
+                ":{\"link\":\"http:\\/\\/192.168.0.1:8080\\/rest\\/sitemaps\\/kitchen\\/kitchen\",\"leaf\":false,\"timeout\":false,\"widgets\":[]}},{\"name\":\"bathroom\"" +
+                ",\"icon\":\"bathroom\",\"label\":\"Bathroom\",\"link\":\"http:\\/\\/192.168.0.1:8080\\/rest\\/sitemaps\\/bathroom\",\"homepage\":{\"link\"" +
+                ":\"http:\\/\\/192.168.0.1:8080\\/rest\\/sitemaps\\/bathroom\\/bathroom\",\"leaf\":false,\"timeout\":false,\"widgets\":[]}},{\"name\":\"_default\",\"label\"" +
+                ":\"Home\",\"link\":\"http:\\/\\/192.168.0.1:8080\\/rest\\/sitemaps\\/_default\",\"homepage\"" +
+                ":{\"link\":\"http:\\/\\/192.168.0.1:8080\\/rest\\/sitemaps\\/_default\\/_default\",\"leaf\":false,\"timeout\":false,\"widgets\":[]}}]";
+        return new JSONArray(sitemap);
+    }
 
     @Test
     public void sitemapExists() throws Exception {
@@ -79,7 +102,7 @@ public class UtilTest {
 
     @Test
     public void getSitemapByName() throws Exception {
-        assertEquals("i AM DEfault", Util.getSitemapByName(sitemapList(), "default").getLabel());
+        assertEquals("Garden", Util.getSitemapByName(sitemapList(), "garden").getLabel());
         assertEquals(null, Util.getSitemapByName(sitemapList(), "outside").getLabel());
     }
 }

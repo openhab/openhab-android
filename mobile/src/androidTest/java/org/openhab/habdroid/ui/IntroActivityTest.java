@@ -76,18 +76,6 @@ public class IntroActivityTest extends TestWithIntro {
                                 1),
                         isDisplayed()));
         appCompatButton.perform(click());
-
-        // do we have sitemap selection popup?
-        ViewInteraction linearLayout = onView(
-                Matchers.allOf(IsInstanceOf.<View>instanceOf(android.widget.LinearLayout.class),
-                        childAtPosition(
-                                Matchers.allOf(IsInstanceOf.<View>instanceOf(android.widget.LinearLayout.class),
-                                        childAtPosition(
-                                                IsInstanceOf.<View>instanceOf(android.widget.LinearLayout.class),
-                                                0)),
-                                0),
-                        isDisplayed()));
-        linearLayout.check(matches(isDisplayed()));
     }
 
     @Test
@@ -127,17 +115,5 @@ public class IntroActivityTest extends TestWithIntro {
                                 4),
                         isDisplayed()));
         appCompatButton.perform(click());
-
-        // do we have sitemap selection popup?
-        ViewInteraction linearLayout = onView(
-                Matchers.allOf(IsInstanceOf.<View>instanceOf(android.widget.LinearLayout.class),
-                        childAtPosition(
-                                Matchers.allOf(IsInstanceOf.<View>instanceOf(android.widget.LinearLayout.class),
-                                        childAtPosition(
-                                                IsInstanceOf.<View>instanceOf(android.widget.LinearLayout.class),
-                                                0)),
-                                0),
-                        isDisplayed()));
-        linearLayout.check(matches(isDisplayed()));
     }
 }
