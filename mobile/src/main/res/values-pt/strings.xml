@@ -4,6 +4,7 @@
   <!-- Attention translators! Do NOT submit localized strings through GitHub Pull Request. -->
   <!-- See: https://github.com/openhab/openhab-android/blob/master/README.md#localization -->
   <!-- General app strings -->
+  <string name="main_menu">Menu principal</string>
   <string name="app_preferences_name">Configurações</string>
   <!-- Main menu items -->
   <!-- App settings strings -->
