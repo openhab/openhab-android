@@ -20,7 +20,7 @@ The app follows the basic principles of the other openHAB UIs, like Basic UI, an
 ## Features
 
 * Control your openHAB server and/or [openHAB Cloud instance](https://github.com/openhab/openhab-cloud), e.g., an account with [myopenHAB](http://www.myopenhab.org/)
-* Receive notifications through an openHAB Cloud connection, [read more…](http://docs.openhab.org/addons/actions.html)
+* Receive notifications through an openHAB Cloud connection, [read more](https://docs.openhab.org/addons/actions.html#cloud-notification-actions)
 * Change items via NFC tags
 * Send voice commands to openHAB
 * Supports wall mounted tablets

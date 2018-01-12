@@ -21,9 +21,9 @@
     <string name="mainmenu_openhab_clearcache">Clear images cache</string>
 
     <!-- App settings strings -->
-    <string name="settings_connection_title">Connection Settings</string>
-    <string name="settings_display_title">Display Settings</string>
-    <string name="settings_misc_title">Misc Settings</string>
+    <string name="settings_connection_title">Connection</string>
+    <string name="settings_display_title">Display</string>
+    <string name="settings_misc_title">Miscellaneous</string>
     <string name="settings_openhab_url">Local server URL</string>
     <string name="settings_openhab_url_summary">The URL of the openHAB dashboard (based on hostname or IP). If configured, autodiscovery is disabled. Current setting: %s</string>
     <string name="settings_openhab_alturl">Remote server URL</string>
@@ -54,9 +54,9 @@
     <string name="settings_clear_default_sitemap">Clear default sitemap</string>
     <string name="settings_no_default_sitemap">No default sitemap selected</string>
     <string name="settings_current_default_sitemap">Current default sitemap: %1$s</string>
-    <string name="settings_openhab_sslsettings">Encryption settings</string>
-    <string name="settings_openhab_alt_connection">Remote server settings</string>
-    <string name="settings_openhab_connection">Local server settings</string>
+    <string name="settings_openhab_sslsettings">Encryption</string>
+    <string name="settings_openhab_alt_connection">Remote</string>
+    <string name="settings_openhab_connection">Local</string>
 
     <!-- App messages strings -->
     <string name="title_voice_widget">openHAB Voice Commands</string>
@@ -67,32 +67,33 @@
     <string name="info_conn_url">Connecting to local URL</string>
     <string name="info_conn_rem_url">Connecting to remote URL</string>
     <string name="info_discovery">Discovering openHAB. Please wait\u2026</string>
+
+    <!-- Error messages -->
     <string name="error_no_url">Please check that openHAB is running or configure openHAB URL or remote URL</string>
     <string name="error_empty_sitemap_list">openHAB returned empty sitemap list</string>
     <string name="error_network_not_available">Network is not available</string>
-    <string name="error_http_connection_failed">Received an invalid response from openHAB. Please check if openHAB is working correctly (HTTP response code %d)</string>
+    <string name="error_http_connection_failed">Connection unsuccessful. An unexpected response was received while trying to connect to the configured openHAB server (Received HTTP response code: %d)</string>
     <string name="error_no_uuid">Unable to get openHAB UUID, connection failed</string>
-    <string name="error_invalid_url">Please enter a valid URL in a \'protocol://host:port/\' form</string>
+    <string name="error_invalid_url">Please enter a valid URL in a \'http(s)://host(:port)/\' form</string>
     <string name="error_connection_failed">Connection to host failed</string>
     <string name="error_unable_to_resolve_hostname">Unable to resolve hostname</string>
-    <string name="error_connection_sslhandshake_failed">SSL Handshake failed - maybe you need a valid client certificate</string>
+    <string name="error_connection_sslhandshake_failed">SSL handshake failed</string>
     <string name="error_certificate_not_trusted">SSL certificate is not trusted. Please import the root certificate or disable certificate validation during SSL handshake</string>
     <string name="error_certificate_expired">SSL certificate has been expired. Please get a new certificate or disable certificate validation during SSL handshake</string>
-    <string name="error_certificate_not_valid_yet">SSL certificate is not valid yet. Please get a correct certificate or disable certificate validation during SSL handshake. Also check if the clock on your phone is set correctly</string>
+    <string name="error_certificate_not_valid_yet">SSL certificate is not valid yet. Please get a correct certificate or disable certificate validation during SSL handshake. Also check if the clock on your device is set correctly</string>
     <string name="error_certificate_revoked">SSL certificate has been revoked. Please get a new certificate or disable certificate validation during SSL handshake</string>
-    <string name="error_http_code_401">User authentication has failed. Please check username, password and SSL client certificate (HTTP response code 401)</string>
-    <string name="error_http_code_403">User authentication has failed. Please check username, password and SSL client certificate (HTTP response code 403)</string>
-    <string name="error_http_code_407">User authentication has failed. Please check username, password and SSL client certificate (HTTP response code 407)</string>
-    <string name="error_http_code_414">openHAB URL is too long (HTTP response code 414)</string>
-    <string name="error_http_code_426">HTTPS is required. Please change the openHAB URL (HTTP response code 426)</string>
-
+    <string name="error_http_code_401">Authentication failed. Please check the configured username and password respectively the provided SSL client certificate (HTTP response code 401)</string>
+    <string name="error_http_code_403">Authentication failed. Please check the configured username and password respectively the provided SSL client certificate (HTTP response code 403)</string>
+    <string name="error_http_code_407">Authentication failed. Please check the configured username and password respectively the provided SSL client certificate (HTTP response code 407)</string>
+    <string name="error_http_code_414">URL is too long. Please use the IP address or a shorter URL (HTTP response code 414)</string>
+    <string name="error_http_code_426">HTTPS is required. Please change the URL (HTTP response code 426)</string>
     <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
-    <string name="error_http_code_495">Invalid SSL client certificate (HTTP response code 495)</string>
+    <string name="error_http_code_495">Authentication failed. Please check the provided SSL client certificate (HTTP response code 495)</string>
     <string name="error_http_code_496">SSL client certificate is required (HTTP response code 496)</string>
-    <string name="error_http_code_502">Your reverse proxy got an invalid answer from openHAB (HTTP response code 502)</string>
-    <string name="error_http_code_503">openHAB is temporarily unavailable (HTTP response code 503)</string>
-    <string name="error_http_code_504">Gateway Time-out. Seems that your reverse proxy is running, but couldn\'t get an answer from openHAB (HTTP response code 504)</string>
-    <string name="error_http_code_507">openHAB hasn\'t enough free space (HTTP response code 507)</string>
+    <string name="error_http_code_502">Your reverse proxy got an invalid answer from the openHAB server (HTTP response code 502)</string>
+    <string name="error_http_code_503">The openHAB server is temporarily unavailable (HTTP response code 503)</string>
+    <string name="error_http_code_504">Gateway Time-out. Seems that your reverse proxy is running, but couldn\'t get an answer from the openHAB server (HTTP response code 504)</string>
+    <string name="error_http_code_507">The openHAB server hasn\'t enough free space (HTTP response code 507)</string>
     <string name="error_http_code_511">Network authentication is required (HTTP response code 511)</string>
     <string name="title_activity_openhabwritetag">Write NFC tag</string>
     <string name="title_activity_openhabinfo">openHAB Information</string>
@@ -141,6 +142,7 @@
     <string name="nfc_action_off">Off</string>
     <string name="nfc_action_down">Down</string>
     <string name="nfc_action_toggle">Toggle</string>
+    <string name="nfc_activate">Activate</string>
     <string name="nfc_action_current_color">Current color</string>
     <string name="nfc_action_to_sitemap_page">Navigate to Sitemap page</string>
 

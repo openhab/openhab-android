@@ -64,7 +64,7 @@ deploy:
   skip_cleanup: true
   overwrite: true
   on:
-    repo: openhab/openhab.android
+    repo: openhab/openhab-android
     jdk: oraclejdk8
     branch: master
     tags: true

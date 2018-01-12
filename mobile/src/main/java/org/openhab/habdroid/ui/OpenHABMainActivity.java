@@ -519,7 +519,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
     }
 
     private void openAbout() {
-        Intent aboutIntent = new Intent(this.getApplicationContext(), OpenHABAboutActivity.class);
+        Intent aboutIntent = new Intent(this, OpenHABAboutActivity.class);
         aboutIntent.putExtra(OpenHABVoiceService.OPENHAB_BASE_URL_EXTRA, openHABBaseUrl);
         aboutIntent.putExtra("username", openHABUsername);
         aboutIntent.putExtra("password", openHABPassword);
@@ -663,7 +663,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
                 snackbar.show();
                 break;
             case Constants.MESSAGES.TOAST:
-                Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+                Toast.makeText(this, message, Toast.LENGTH_LONG).show();
                 break;
             default:
                 throw new IllegalArgumentException("Message type not implemented");
@@ -773,7 +773,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
                 // Check if we have a sitemap configured to use
                 SharedPreferences settings =
                         PreferenceManager.getDefaultSharedPreferences(OpenHABMainActivity.this);
-                String configuredSitemap = settings.getString(Constants.PREFERENCE_SITEMAP, "");
+                String configuredSitemap = settings.getString(Constants.PREFERENCE_SITEMAP_NAME, "");
                 // If we have sitemap configured
                 if (configuredSitemap.length() > 0) {
                     // Configured sitemap is on the list we got, open it!
@@ -787,7 +787,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
                         if (mSitemapList.size() == 1) {
                             Log.d(TAG, "Got only one sitemap");
                             SharedPreferences.Editor preferencesEditor = settings.edit();
-                            preferencesEditor.putString(Constants.PREFERENCE_SITEMAP, mSitemapList.get(0).getName());
+                            preferencesEditor.putString(Constants.PREFERENCE_SITEMAP_NAME, mSitemapList.get(0).getName());
                             preferencesEditor.apply();
                             openSitemap(mSitemapList.get(0).getHomepageLink());
                         } else {
@@ -801,7 +801,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
                     if (mSitemapList.size() == 1) {
                         Log.d(TAG, "Got only one sitemap");
                         SharedPreferences.Editor preferencesEditor = settings.edit();
-                        preferencesEditor.putString(Constants.PREFERENCE_SITEMAP, mSitemapList.get(0).getName());
+                        preferencesEditor.putString(Constants.PREFERENCE_SITEMAP_NAME, mSitemapList.get(0).getName());
                         preferencesEditor.apply();
                         openSitemap(mSitemapList.get(0).getHomepageLink());
                     } else {
@@ -815,21 +815,22 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
 
     private void showSitemapSelectionDialog(final List<OpenHABSitemap> sitemapList) {
         Log.d(TAG, "Opening sitemap selection dialog");
-        final List<String> sitemapNameList = new ArrayList<String>();
+        final List<String> sitemapLabelList = new ArrayList<String>();
         for (int i = 0; i < sitemapList.size(); i++) {
-            sitemapNameList.add(sitemapList.get(i).getName());
+            sitemapLabelList.add(sitemapList.get(i).getLabel());
         }
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(OpenHABMainActivity.this);
         dialogBuilder.setTitle(getString(R.string.mainmenu_openhab_selectsitemap));
         try {
-            selectSitemapDialog = dialogBuilder.setItems(sitemapNameList.toArray(new CharSequence[sitemapNameList.size()]),
+            selectSitemapDialog = dialogBuilder.setItems(sitemapLabelList.toArray(new CharSequence[sitemapLabelList.size()]),
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int item) {
-                            Log.d(TAG, "Selected sitemap " + sitemapNameList.get(item));
+                            Log.d(TAG, "Selected sitemap " + sitemapList.get(item).getName());
                             SharedPreferences settings =
                                     PreferenceManager.getDefaultSharedPreferences(OpenHABMainActivity.this);
                             SharedPreferences.Editor preferencesEditor = settings.edit();
-                            preferencesEditor.putString(Constants.PREFERENCE_SITEMAP, sitemapList.get(item).getName());
+                            preferencesEditor.putString(Constants.PREFERENCE_SITEMAP_NAME, sitemapList.get(item).getName());
+                            preferencesEditor.putString(Constants.PREFERENCE_SITEMAP_LABEL, sitemapList.get(item).getLabel());
                             preferencesEditor.apply();
                             openSitemap(sitemapList.get(item).getHomepageLink());
                         }
@@ -902,8 +903,8 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
                 // Restart app after preferences
                 Log.d(TAG, "Restarting after settings");
                 // Get launch intent for application
-                Intent restartIntent = getBaseContext().getPackageManager()
-                        .getLaunchIntentForPackage(getBaseContext().getPackageName());
+                Intent restartIntent = getPackageManager()
+                        .getLaunchIntentForPackage(getPackageName());
                 restartIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 // Finish current activity
                 finish();
@@ -1162,7 +1163,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
             return;
 
         if (mGcm == null)
-            mGcm = GoogleCloudMessaging.getInstance(getApplicationContext());
+            mGcm = GoogleCloudMessaging.getInstance(this);
 
         new AsyncTask<Void, Void, String>() {
             @Override

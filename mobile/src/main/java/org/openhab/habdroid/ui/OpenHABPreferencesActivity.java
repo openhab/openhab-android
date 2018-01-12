@@ -168,11 +168,13 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
                     (Constants.PREFERENCE_CLEAR_DEFAULT_SITEMAP);
 
             String currentDefaultSitemap = clearDefaultSitemapPreference.getSharedPreferences().getString(Constants
-                    .PREFERENCE_SITEMAP, "");
+                    .PREFERENCE_SITEMAP_NAME, "");
+            String currentDefaultSitemapLabel = clearDefaultSitemapPreference.getSharedPreferences().getString(Constants
+                    .PREFERENCE_SITEMAP_LABEL, "");
             if (currentDefaultSitemap.isEmpty()) {
                 onNoDefaultSitemap(clearDefaultSitemapPreference);
             } else {
-                clearDefaultSitemapPreference.setSummary(getString(R.string.settings_current_default_sitemap, currentDefaultSitemap));
+                clearDefaultSitemapPreference.setSummary(getString(R.string.settings_current_default_sitemap, currentDefaultSitemapLabel));
             }
 
             subScreenLocalConn.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
@@ -232,7 +234,8 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
                     SharedPreferences.Editor edit = preference.getSharedPreferences().edit();
-                    edit.putString(Constants.PREFERENCE_SITEMAP, "");
+                    edit.putString(Constants.PREFERENCE_SITEMAP_NAME, "");
+                    edit.putString(Constants.PREFERENCE_SITEMAP_LABEL, "");
                     edit.apply();
 
                     onNoDefaultSitemap(preference);

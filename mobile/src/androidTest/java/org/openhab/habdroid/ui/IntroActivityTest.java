@@ -27,6 +27,7 @@ import static org.openhab.habdroid.TestUtils.childAtPosition;
 @LargeTest
 @RunWith(AndroidJUnit4.class)
 public class IntroActivityTest extends TestWithIntro {
+
     @Test
     public void appShowsIntro() {
         ViewInteraction textView = onView(
@@ -76,17 +77,17 @@ public class IntroActivityTest extends TestWithIntro {
                         isDisplayed()));
         appCompatButton.perform(click());
 
-        // do we have sitemap selection popup?
-        ViewInteraction linearLayout = onView(
-                Matchers.allOf(IsInstanceOf.<View>instanceOf(android.widget.LinearLayout.class),
+        // Do we see the sitemap?
+        ViewInteraction firstfloor = onView(
+                CoreMatchers.allOf(withId(R.id.widgetlabel), withText("First Floor"),
                         childAtPosition(
-                                Matchers.allOf(IsInstanceOf.<View>instanceOf(android.widget.LinearLayout.class),
+                                CoreMatchers.allOf(withId(R.id.groupleftlayout),
                                         childAtPosition(
-                                                IsInstanceOf.<View>instanceOf(android.widget.LinearLayout.class),
+                                                IsInstanceOf.<View>instanceOf(android.widget.RelativeLayout.class),
                                                 0)),
-                                0),
+                                1),
                         isDisplayed()));
-        linearLayout.check(matches(isDisplayed()));
+        firstfloor.check(matches(withText("First Floor")));
     }
 
     @Test
@@ -127,16 +128,16 @@ public class IntroActivityTest extends TestWithIntro {
                         isDisplayed()));
         appCompatButton.perform(click());
 
-        // do we have sitemap selection popup?
-        ViewInteraction linearLayout = onView(
-                Matchers.allOf(IsInstanceOf.<View>instanceOf(android.widget.LinearLayout.class),
+        // Do we see the sitemap?
+        ViewInteraction firstfloor = onView(
+                CoreMatchers.allOf(withId(R.id.widgetlabel), withText("First Floor"),
                         childAtPosition(
-                                Matchers.allOf(IsInstanceOf.<View>instanceOf(android.widget.LinearLayout.class),
+                                CoreMatchers.allOf(withId(R.id.groupleftlayout),
                                         childAtPosition(
-                                                IsInstanceOf.<View>instanceOf(android.widget.LinearLayout.class),
+                                                IsInstanceOf.<View>instanceOf(android.widget.RelativeLayout.class),
                                                 0)),
-                                0),
+                                1),
                         isDisplayed()));
-        linearLayout.check(matches(isDisplayed()));
+        firstfloor.check(matches(withText("First Floor")));
     }
 }
