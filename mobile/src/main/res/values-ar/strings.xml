@@ -7,6 +7,7 @@
   <!-- Main menu items -->
   <!-- App settings strings -->
   <!-- App messages strings -->
+  <!-- Error messages -->
   <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
   <!-- Strings for MemorizingTrustManager activity -->
   <!-- Themes -->
