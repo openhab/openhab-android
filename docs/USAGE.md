@@ -37,22 +37,18 @@ To connect to your own openHAB server, navigate to the Settings menu and uncheck
 Normally, after unchecking the Demo Mode, the app will be able to use multicast DNS to auto-detect your openHAB server if it is on the same network.
 
 You also have the option to manually set the server URL in the settings.
-
-**Local server settings:**
-Please enter the base URL to your openHAB server as you would enter it in the browser to reach the openHAB dashboard.
-
-**Remote server settings:**
-If you want to use openHAB cloud, please enter the URL, username and password of your openHAB cloud instance here.
-Please make sure to [secure this connection](http://docs.openhab.org/installation/security.html).
-
-The URL might look like one of the following examples:
+The URL field(s) might look like one of the following examples:
 
 * IP address: `http://192.168.1.3:8080`
-* Local DNS name: `http://openhabianpi:8080` respectively `http://openhabianpi.local:8080` (depending on your network)
+* Local hostname: `http://openhabianpi:8080` (depending on your network the suffix `.local` needs to be added to the hostname)
+* Remote domain name: `https://home.myopenhab.org` for an openHAB cloud account with [myopenHAB](http://www.myopenhab.org/)
 
-Once the URL is set correctly, the display of the app will be determined by the sitemaps defined on your server.
+**Local server settings:**
+Please enter the base URL of your openHAB server, as you would enter it in the browser to reach the openHAB dashboard.
 
-The option to set a "Remote URL" allows the app to be used when you are away from home.
+**Remote server settings:**
+If your openHAB instance is reachable via a public address/domain from outside your home network, these settings will be used when the local connection is not successful.
+Make sure to secure this connection against unauthorized access.
 There are a number of strategies available to provide [secure remote access]({{base}}/installation/security.html) to your openHAB server.
 
 ## Permanent Deployment
