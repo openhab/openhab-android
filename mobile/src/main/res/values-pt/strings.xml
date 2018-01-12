@@ -15,9 +15,6 @@
   <string name="mainmenu_openhab_selectsitemap">Selecione o mapa do site padrão</string>
   <string name="mainmenu_openhab_clearcache">Limpar cache das imagens</string>
   <!-- App settings strings -->
-  <string name="settings_connection_title">Definições de ligação</string>
-  <string name="settings_display_title">Mostrar configurações</string>
-  <string name="settings_misc_title">Várias opções</string>
   <string name="settings_openhab_url">URL do servidor local</string>
   <string name="settings_openhab_url_summary">A URL do painel openHAB (baseado no nome do host ou IP). Se configurado, está desativada a detecção automática. Configuração atual %s</string>
   <string name="settings_openhab_alturl">URL do servidor remoto</string>
@@ -45,9 +42,6 @@
   <string name="settings_clear_default_sitemap">Selecione o mapa do site padrão</string>
   <string name="settings_no_default_sitemap">Mapa do site padrão não selecionado</string>
   <string name="settings_current_default_sitemap">Mapa do site padrão atual: %1$s</string>
-  <string name="settings_openhab_sslsettings">Definições de Encriptação</string>
-  <string name="settings_openhab_alt_connection">Configurações do servidor remoto</string>
-  <string name="settings_openhab_connection">Configurações do servidor local</string>
   <!-- App messages strings -->
   <string name="title_voice_widget">openHAB comandos de voz</string>
   <string name="info_voice_input">"openhab, às suas ordens!"</string>
@@ -57,31 +51,18 @@
   <string name="info_conn_url">Conectando a URL local</string>
   <string name="info_conn_rem_url">Conectando a URL local</string>
   <string name="info_discovery">Descobrindo openHAB. Por favor aguarde\u2026</string>
+  <!-- Error messages -->
   <string name="error_no_url">Por favor verifique que o openHAB está sendo executado ou configurar openHAB ou URL remoto</string>
   <string name="error_empty_sitemap_list">openhab lista do mapa do site retornou vazia</string>
   <string name="error_network_not_available">Rede não está disponivel</string>
-  <string name="error_http_connection_failed">Recebeu uma resposta inválida do openHAB. Por favor, verifique se o openHAB está funcionando corretamente (%d código de resposta HTTP)</string>
   <string name="error_no_uuid">Não é possível obter openHAB UUID, conexão falhou</string>
-  <string name="error_invalid_url">Por favor introduza um URL válido num ´protocol://host:port/´form</string>
   <string name="error_connection_failed">Conexão ao host falhado</string>
   <string name="error_unable_to_resolve_hostname">Não foi possível resolver nome de anfitrião</string>
-  <string name="error_connection_sslhandshake_failed">SSL Handshake falhou - talvez precise de um certificado de cliente válido</string>
   <string name="error_certificate_not_trusted">Certificado SSL não é confiável. Por favor, importe o certificado de raiz ou deabilite a validação de certificados durante o hanshake SSL</string>
   <string name="error_certificate_expired">Certificado SLL expirou. Por favor, obter um novo certificado ousesabilitar a validação de certificado durante o handshake SSL</string>
-  <string name="error_certificate_not_valid_yet">Certificado SSL ainda não é válido. Por favor, obter um certificado correto ou desabilitar a validação de certificados durante o handshake SSL. Verifique também se o relógio no seu telefone está configurado corretamente</string>
   <string name="error_certificate_revoked">Certificado SLL foi revogado. Por favor, obter um novo certificado ou desabilitar a validação de certificado durante o handshake SSL</string>
-  <string name="error_http_code_401">Autenticação de usuário falou. Por favor, verifique o nome de usuário, senha e certificado de cliente SSL (HTTP código de resposta 401)</string>
-  <string name="error_http_code_403">Autenticação de usuário falhou. Por favor, verifique o nome de usuário, senha e certificado de cliente SLL (HTTP código de resposta 403)</string>
-  <string name="error_http_code_407">Autenticação de usuário falhou. Por favor, verifique o nome de usuário, senha e certificado de cliente SLL (HTTP código de resposta 403)</string>
-  <string name="error_http_code_414">openHAB é muito longo (HTTP código de resposta HTTP 414)</string>
-  <string name="error_http_code_426">HTTPS é necessária. Por favor, altere a URL openHAB (HTTP código de resposta 426)</string>
   <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
-  <string name="error_http_code_495">Certificado de cliente SSL inválido (HTTP código de resposta 495)</string>
   <string name="error_http_code_496">Certificado de cliente SSL é necessário (HTTP código de resposta 496)</string>
-  <string name="error_http_code_502">O seu proxy reverso tem uma resposta inválida de openHAB (HTTP código de resposta 502)</string>
-  <string name="error_http_code_503">openHAB está temporariamente indisponível (HTTP código de resposta 503)</string>
-  <string name="error_http_code_504">Acabou o tempo do gateway. Parece que o seu proxy reverso está sendo executado, mas não consegui uma resposta de openHAB (HTTP código de resposta 504)</string>
-  <string name="error_http_code_507">openHAB não tem espaço livre suficiente (HTTP código de resposta 507)</string>
   <string name="error_http_code_511">Autenticação de rede é necessária (HTTP código de resposta 511)</string>
   <string name="title_activity_openhabwritetag">Escrever na etiqueta NFC</string>
   <string name="title_activity_openhabinfo">openHAB Informação</string>
