@@ -15,6 +15,7 @@
   <string name="mainmenu_openhab_selectsitemap">Standard-Sitemap auswählen</string>
   <string name="mainmenu_openhab_clearcache">Bilder-Cache leeren</string>
   <!-- App settings strings -->
+  <string name="settings_connection_title">Verbindung</string>
   <string name="settings_openhab_url">Lokale Server-URL</string>
   <string name="settings_openhab_url_summary">Die Adresse des openHAB-Dashboards (basierend auf Rechnername oder IP). Setzen dieser Option deaktiviert die automatische Ermittlung. Aktueller Wert: %s</string>
   <string name="settings_openhab_alturl">Server-URL für Fernzugiff</string>
@@ -42,6 +43,8 @@
   <string name="settings_clear_default_sitemap">Standard-Sitemap zurücksetzen</string>
   <string name="settings_no_default_sitemap">Keine Standard-Sitemap festgelegt</string>
   <string name="settings_current_default_sitemap">Aktuelle Standard-Sitemap: %1$s</string>
+  <string name="settings_openhab_sslsettings">Verschlüsselung</string>
+  <string name="settings_openhab_connection">Lokal</string>
   <!-- App messages strings -->
   <string name="title_voice_widget">openHAB-Sprachbefehle</string>
   <string name="info_voice_input">"openHAB, zu Ihren Diensten!"</string>
@@ -60,7 +63,10 @@
   <string name="error_unable_to_resolve_hostname">Fehler beim Auflösen des Hostnamens</string>
   <string name="error_certificate_not_trusted">SSL-Zertifikat nicht vertrauenswürdig. Bitte importieren Sie das Root-Zertifikat oder deaktivieren Sie die Zertifikatsvalidierung</string>
   <string name="error_certificate_expired">SSL-Zertifikat abgelaufen. Bitte erstellen Sie ein neues Zertifikat oder deaktivieren Sie die Zertifikatsvalidierung</string>
+  <string name="error_certificate_not_valid_yet">SSL-Zertifikat noch nicht gültig. Bitte erstellen Sie ein gültiges Zertifikat oder deaktivieren Sie die Zertifikatsvalidierung. Überprüfen Sie auch die auf Ihrem Gerät eingestellte Uhrzeit</string>
   <string name="error_certificate_revoked">SSL-Zertifikat widerrufen. Bitte erstellen Sie ein neues Zertifikat oder deaktivieren Sie die Zertifikatsvalidierung</string>
+  <string name="error_http_code_414">URL ist zu lang. Bitte verwenden Sie die IP-Adresse oder eine kürzere URL (HTTP-Statuscode 414)</string>
+  <string name="error_http_code_426">HTTPS wird gefordert. Bitte ändern Sie die openHAB-URL (HTTP-Statuscode 426)</string>
   <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
   <string name="error_http_code_496">Client-Zertifikat wird gefordert (HTTP-Statuscode 496)</string>
   <string name="error_http_code_511">Netzwerkauthentifizierung wird gefordert (HTTP-Statuscode 511)</string>
