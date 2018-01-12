@@ -13,9 +13,6 @@
   <string name="mainmenu_openhab_selectsitemap">Sélectionner la sitemap par défaut</string>
   <string name="mainmenu_openhab_clearcache">Effacer le cache image</string>
   <!-- App settings strings -->
-  <string name="settings_connection_title">Paramètres de connexion</string>
-  <string name="settings_display_title">Paramètres d\'affichage</string>
-  <string name="settings_misc_title">Autres paramètres</string>
   <string name="settings_openhab_username">Identifiant</string>
   <string name="settings_openhab_password">Mot de passe</string>
   <string name="settings_openhab_sslclientcert">Certificat SSL client</string>
@@ -41,17 +38,15 @@
   <string name="info_conn_url">Connexion à l\'adresse locale</string>
   <string name="info_conn_rem_url">Connexion à l\'adresse distante</string>
   <string name="info_discovery">Recherche d\'openHAB, merci de patienter\u2026</string>
+  <!-- Error messages -->
   <string name="error_no_url">Merci de vérifier qu\'openHAB fonctionne. Si oui passez en configuration manuelle des adresses locale et/ou distante</string>
   <string name="error_empty_sitemap_list">openHAB a renvoyé une liste vide de sitemaps</string>
   <string name="error_network_not_available">Aucune connexion réseau disponible</string>
-  <string name="error_http_connection_failed">Réception d\'une réponse invalide du serveur openHAB. Merci de vérifier que votre serveur openHAB est en cours d\'exécution (code de réponse HTTP %d)</string>
   <string name="error_no_uuid">Récupération de l\'UUID openHAB impossible. La connexion a échoué</string>
   <string name="error_connection_failed">Connexion au domaine échouée</string>
   <string name="error_unable_to_resolve_hostname">Impossible de résoudre le nom d\'hôte</string>
-  <string name="error_connection_sslhandshake_failed">Echec de la négociation SSL. Vous devriez peut-être vérifier la validité de votre certificat client</string>
   <string name="error_certificate_not_trusted">Le certificat SSL n\'est pas un certificat de confiance. Veuillez importer le certificat racine ou désactiver la validation du certificat</string>
   <string name="error_certificate_expired">Le certificat SSL a expiré. Veuillez obtenir un nouveau certificat ou désactiver la validation du certificat</string>
-  <string name="error_certificate_not_valid_yet">Le certificat SSL n\'est pas valide. Veuillez obtenir un certificat valide ou désactiver la validation du certificat Vérifiez également que votre téléphone est à l\'heure</string>
   <string name="error_certificate_revoked">Le certificat SSL a été révoqué. Veuillez obtenir un nouveau certificat ou désactiver la validation du certificat</string>
   <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
   <string name="title_activity_openhabwritetag">Écrire un tag NFC</string>
