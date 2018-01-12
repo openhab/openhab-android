@@ -61,19 +61,31 @@ public class UtilTest {
     }
 
     @Test
-    public void parseOH2SitemapList() throws Exception {
+    public void parseOH2SitemapListWithId1() throws Exception {
         List<OpenHABSitemap> sitemapList = Util.parseSitemapList(createJsonArray(1));
         assertFalse(sitemapList.isEmpty());
 
         assertEquals("Main Menu", sitemapList.get(0).getLabel());
         assertEquals(1, sitemapList.size());
+    }
 
-        sitemapList = Util.parseSitemapList(createJsonArray(2));
+    @Test
+    public void parseOH2SitemapListWithId2() throws Exception {
+        List<OpenHABSitemap> sitemapList  = Util.parseSitemapList(createJsonArray(2));
         assertFalse(sitemapList.isEmpty());
 
         assertEquals("Main Menu", sitemapList.get(0).getLabel());
         assertEquals("HOME", sitemapList.get(1).getLabel());
         assertEquals(2, sitemapList.size());
+    }
+
+    @Test
+    public void parseOH2SitemapListWithId3() throws Exception {
+        List<OpenHABSitemap> sitemapList = Util.parseSitemapList(createJsonArray(3));
+        assertFalse(sitemapList.isEmpty());
+
+        assertEquals("Home", sitemapList.get(0).getLabel());
+        assertEquals(1, sitemapList.size());
     }
 
     private Document getSitemapOH1Document() throws ParserConfigurationException, IOException, SAXException {
