@@ -44,7 +44,7 @@ public class NetworkConnectivityInfo implements Parcelable {
     };
 
     public static NetworkConnectivityInfo currentNetworkConnectivityInfo(Context ctx) {
-        ConnectivityManager connectivityManager = (ConnectivityManager)ctx.getSystemService(
+        ConnectivityManager connectivityManager = (ConnectivityManager) ctx.getSystemService(
                 Context.CONNECTIVITY_SERVICE);
         NetworkConnectivityInfo connectivityInfo = new NetworkConnectivityInfo();
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();

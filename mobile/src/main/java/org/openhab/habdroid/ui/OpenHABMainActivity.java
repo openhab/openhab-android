@@ -640,7 +640,7 @@ public class OpenHABMainActivity extends ConnectionAvailbilityAwareAcivity
     }
 
     private void openAbout() {
-        Intent aboutIntent = new Intent(this.getApplicationContext(), OpenHABAboutActivity.class);
+        Intent aboutIntent = new Intent(this, OpenHABAboutActivity.class);
         aboutIntent.putExtra("openHABVersion", mOpenHABVersion);
 
         startActivityForResult(aboutIntent, INFO_REQUEST_CODE);
@@ -1147,7 +1147,7 @@ public class OpenHABMainActivity extends ConnectionAvailbilityAwareAcivity
             return;
 
         if (mGcm == null)
-            mGcm = GoogleCloudMessaging.getInstance(getApplicationContext());
+            mGcm = GoogleCloudMessaging.getInstance(this);
 
         new AsyncTask<Void, Void, String>() {
             @Override

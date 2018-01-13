@@ -35,45 +35,6 @@ public class BasicWidgetTest extends TestWithoutIntro {
 
     @Test
     public void openHABMainActivityTest() throws InterruptedException {
-        // do we have sitemap selection popup?
-        ViewInteraction linearLayout = onView(
-                Matchers.allOf(IsInstanceOf.<View>instanceOf(android.widget.LinearLayout.class),
-                        childAtPosition(
-                                Matchers.allOf(IsInstanceOf.<View>instanceOf(android.widget.LinearLayout.class),
-                                        childAtPosition(
-                                                IsInstanceOf.<View>instanceOf(android.widget.LinearLayout.class),
-                                                0)),
-                                0),
-                        isDisplayed()));
-        linearLayout.check(matches(isDisplayed()));
-
-        // does it contain "demo"?
-        ViewInteraction textView = onView(
-                Matchers.allOf(withId(android.R.id.text1), withText("Main Menu"),
-                        childAtPosition(
-                                IsInstanceOf.<View>instanceOf(android.widget.ListView.class),
-                                0),
-                        isDisplayed()));
-        textView.check(matches(withText("Main Menu")));
-
-        // click on demo
-        DataInteraction appCompatTextView = onData(anything())
-                .inAdapterView(withClassName(
-                        is("com.android.internal.app.AlertController$RecycleListView")))
-                .atPosition(0);
-        appCompatTextView.perform(click());
-
-        ViewInteraction mainmenu = onView(
-                allOf(withText("Main Menu"),
-                        childAtPosition(
-                                allOf(withId(R.id.openhab_toolbar),
-                                        childAtPosition(
-                                                IsInstanceOf.<View>instanceOf(android.widget.LinearLayout.class),
-                                                0)),
-                                1),
-                        isDisplayed()));
-        mainmenu.check(matches(withText("Main Menu")));
-
         ViewInteraction firstfloor = onView(
                 allOf(withId(R.id.widgetlabel), withText("First Floor"),
                         childAtPosition(

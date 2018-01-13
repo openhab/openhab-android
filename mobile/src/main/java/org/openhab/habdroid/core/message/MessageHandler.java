@@ -86,7 +86,7 @@ public class MessageHandler {
                 snackbar.show();
                 break;
             case TYPE_TOAST:
-                Toast.makeText(ctx.getApplicationContext(), message, Toast.LENGTH_LONG).show();
+                Toast.makeText(ctx, message, Toast.LENGTH_LONG).show();
                 break;
             default:
                 throw new IllegalArgumentException("Wrong message type");

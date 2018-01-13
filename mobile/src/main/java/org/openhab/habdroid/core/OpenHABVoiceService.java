@@ -63,7 +63,7 @@ public class OpenHABVoiceService extends ContinuingIntentService {
                 alert.show();
                 break;
             default:
-                Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+                Toast.makeText(this, message, Toast.LENGTH_LONG).show();
                 break;
         }
     }
