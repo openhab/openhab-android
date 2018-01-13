@@ -55,8 +55,6 @@ import android.widget.Toast;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.core.GcmIntentService;
 import org.openhab.habdroid.core.NetworkConnectivityInfo;
@@ -68,7 +66,7 @@ import org.openhab.habdroid.core.OpenHABVoiceService;
 import org.openhab.habdroid.core.notifications.GoogleCloudMessageConnector;
 import org.openhab.habdroid.core.notifications.NotificationSettings;
 import org.openhab.habdroid.model.OpenHABLinkedPage;
-import org.openhab.habdroid.model.OpenHABSitemap;
+import org.openhab.habdroid.model.Sitemap;
 import org.openhab.habdroid.ui.drawer.OpenHABDrawerAdapter;
 import org.openhab.habdroid.ui.drawer.OpenHABDrawerItem;
 import org.openhab.habdroid.util.Constants;
@@ -76,11 +74,7 @@ import org.openhab.habdroid.util.MyAsyncHttpClient;
 import org.openhab.habdroid.util.MyHttpClient;
 import org.openhab.habdroid.util.MySyncHttpClient;
 import org.openhab.habdroid.util.Util;
-import org.w3c.dom.Document;
-import org.xml.sax.SAXException;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.ConnectException;
 import java.net.MalformedURLException;
@@ -94,9 +88,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.net.ssl.SSLHandshakeException;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 
 import de.duenndns.ssl.MTMDecision;
 import de.duenndns.ssl.MemorizingResponder;
@@ -210,7 +201,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
     // Google Cloud Messaging
     private GoogleCloudMessaging mGcm;
     private OpenHABDrawerAdapter mDrawerAdapter;
-    private ArrayList<OpenHABSitemap> mSitemapList;
+    private ArrayList<Sitemap> mSitemapList;
     private NetworkConnectivityInfo mStartedWithNetworkConnectivityInfo;
     private int mOpenHABVersion;
     private List<OpenHABDrawerItem> mDrawerItemList;
@@ -693,27 +684,17 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
             public void onSuccess(Call call, int statusCode, Headers headers, byte[] responseBody) {
                 setProgressIndicatorVisible(false);
                 mSitemapList.clear();
-                // If openHAB's version is 1, get sitemap list from XML
-                if (mOpenHABVersion == 1) {
-                    DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-                    try {
-                        DocumentBuilder builder = dbf.newDocumentBuilder();
-                        Document sitemapsXml = builder.parse(new ByteArrayInputStream(responseBody));
-                        mSitemapList.addAll(Util.parseSitemapList(sitemapsXml));
-                    } catch (ParserConfigurationException | SAXException | IOException e) {
-                        e.printStackTrace();
-                    }
-                    // Later versions work with JSON
-                } else {
-                    try {
-                        String jsonString = new String(responseBody, "UTF-8");
-                        JSONArray jsonArray = new JSONArray(jsonString);
-                        mSitemapList.addAll(Util.parseSitemapList(jsonArray));
-                        Log.d(TAG, jsonArray.toString());
-                    } catch (UnsupportedEncodingException | JSONException e) {
-                        e.printStackTrace();
-                    }
+
+                String dtoString = "";
+                try {
+                    dtoString = new String(responseBody, "UTF-8");
+                    Log.d(TAG, dtoString);
+                } catch (UnsupportedEncodingException e) {
+                    Log.e(TAG, e.getMessage(), e);
                 }
+
+                mSitemapList.addAll(Util.parseSitemapList(dtoString));
+
                 if (mSitemapList.size() == 0) {
                     return;
                 }
@@ -740,27 +721,17 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
                 Log.d(TAG, new String(responseBody));
                 setProgressIndicatorVisible(false);
                 mSitemapList.clear();
-                // If openHAB's version is 1, get sitemap list from XML
-                if (mOpenHABVersion == 1) {
-                    DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-                    try {
-                        DocumentBuilder builder = dbf.newDocumentBuilder();
-                        Document sitemapsXml = builder.parse(new ByteArrayInputStream(responseBody));
-                        mSitemapList.addAll(Util.parseSitemapList(sitemapsXml));
-                    } catch (ParserConfigurationException | SAXException | IOException e) {
-                        e.printStackTrace();
-                    }
-                    // Later versions work with JSON
-                } else {
-                    try {
-                        String jsonString = new String(responseBody, "UTF-8");
-                        JSONArray jsonArray = new JSONArray(jsonString);
-                        mSitemapList.addAll(Util.parseSitemapList(jsonArray));
-                        Log.d(TAG, jsonArray.toString());
-                    } catch (UnsupportedEncodingException | JSONException e) {
-                        e.printStackTrace();
-                    }
+
+                String dtoString = "";
+                try {
+                    dtoString = new String(responseBody, "UTF-8");
+                    Log.d(TAG, dtoString);
+                } catch (UnsupportedEncodingException e) {
+                    Log.e(TAG, e.getMessage(), e);
                 }
+
+                mSitemapList.addAll(Util.parseSitemapList(dtoString));
+
                 // Now work with sitemaps list
                 if (mSitemapList.size() == 0) {
                     // Got an empty sitemap list!
@@ -779,7 +750,8 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
                     // Configured sitemap is on the list we got, open it!
                     if (Util.sitemapExists(mSitemapList, configuredSitemap)) {
                         Log.d(TAG, "Configured sitemap is on the list");
-                        OpenHABSitemap selectedSitemap = Util.getSitemapByName(mSitemapList, configuredSitemap);
+                        Sitemap selectedSitemap = Util.getSitemapByName(mSitemapList,
+                                configuredSitemap);
                         openSitemap(selectedSitemap.getHomepageLink());
                         // Configured sitemap is not on the list we got!
                     } else {
@@ -813,7 +785,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
         });
     }
 
-    private void showSitemapSelectionDialog(final List<OpenHABSitemap> sitemapList) {
+    private void showSitemapSelectionDialog(final List<Sitemap> sitemapList) {
         Log.d(TAG, "Opening sitemap selection dialog");
         final List<String> sitemapLabelList = new ArrayList<String>();
         for (int i = 0; i < sitemapList.size(); i++) {
@@ -1249,7 +1221,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
         mDrawerItemList.clear();
         if (mSitemapList != null) {
             mDrawerItemList.add(OpenHABDrawerItem.headerItem(getString(R.string.mainmenu_openhab_sitemaps)));
-            for (OpenHABSitemap sitemap : mSitemapList) {
+            for (Sitemap sitemap : mSitemapList) {
                 mDrawerItemList.add(new OpenHABDrawerItem(sitemap));
             }
         }

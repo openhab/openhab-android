@@ -10,27 +10,22 @@
 package org.openhab.habdroid.util;
 
 import android.app.Activity;
-import android.content.Context;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.openhab.habdroid.R;
-import org.openhab.habdroid.model.OpenHAB1Sitemap;
-import org.openhab.habdroid.model.OpenHAB2Sitemap;
-import org.openhab.habdroid.model.OpenHABSitemap;
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 
+import org.openhab.habdroid.R;
+import org.openhab.habdroid.model.SitemapImpl;
+import org.openhab.habdroid.model.Sitemap;
+
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
+import java.util.Arrays;
 import java.util.List;
 
 public class Util {
@@ -66,50 +61,33 @@ public class Util {
         return normalizedUrl;
     }
 
-    public static List<OpenHABSitemap> parseSitemapList(Document document) {
-        List<OpenHABSitemap> sitemapList = new ArrayList<OpenHABSitemap>();
-        NodeList sitemapNodes = document.getElementsByTagName("sitemap");
-        if (sitemapNodes.getLength() > 0) {
-            for (int i = 0; i < sitemapNodes.getLength(); i++) {
-                Node sitemapNode = sitemapNodes.item(i);
-                OpenHABSitemap openhabSitemap = new OpenHAB1Sitemap(sitemapNode);
-                sitemapList.add(openhabSitemap);
-            }
+    public static List<? extends Sitemap> parseSitemapList(String json) {
+        ObjectMapper mapper = new ObjectMapper();
+        if (json.startsWith("<?xml")) {
+            mapper = new XmlMapper();
         }
-        // Sort by sitename label
-        Collections.sort(sitemapList, new Comparator<OpenHABSitemap>() {
-            @Override
-            public int compare(OpenHABSitemap sitemap1, OpenHABSitemap sitemap2) {
-                if (sitemap1.getLabel() == null) {
-                    return sitemap2.getLabel() == null ? 0 : -1;
+        List<SitemapImpl> sitemapList = new ArrayList<>();
+        try {
+            sitemapList = Arrays.asList(mapper.readValue(json, SitemapImpl[].class));
+        } catch (IOException e) {
+            Log.d(TAG, "Could not de-serialize sitemap.", e);
+        }
+
+        if (sitemapList.size() != 1) {
+            List<SitemapImpl> newSitemapList = new ArrayList<>(sitemapList);
+            for (Sitemap sitemap : sitemapList) {
+                if (sitemap.getName().equals("_default")) {
+                    newSitemapList.remove(sitemap);
                 }
-                if (sitemap2.getLabel() == null) {
-                    return 1;
-                }
-                return  sitemap1.getLabel().compareTo(sitemap2.getLabel());
             }
-        });
+
+            sitemapList = newSitemapList;
+        }
 
         return sitemapList;
     }
 
-    public static List<OpenHABSitemap> parseSitemapList(JSONArray jsonArray) {
-        List<OpenHABSitemap> sitemapList = new ArrayList<OpenHABSitemap>();
-        for (int i = 0; i < jsonArray.length(); i++) {
-            try {
-                JSONObject sitemapJson = jsonArray.getJSONObject(i);
-                OpenHABSitemap openHABSitemap = new OpenHAB2Sitemap(sitemapJson);
-                if(! (openHABSitemap.getName().equals("_default") && jsonArray.length() != 1)) {
-                    sitemapList.add(openHABSitemap);
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-        return sitemapList;
-    }
-
-    public static boolean sitemapExists(List<OpenHABSitemap> sitemapList, String sitemapName) {
+    public static boolean sitemapExists(List<? extends Sitemap> sitemapList, String sitemapName) {
         for (int i = 0; i < sitemapList.size(); i++) {
             if (sitemapList.get(i).getName().equals(sitemapName))
                 return true;
@@ -117,7 +95,8 @@ public class Util {
         return false;
     }
 
-    public static OpenHABSitemap getSitemapByName(List<OpenHABSitemap> sitemapList, String sitemapName) {
+    public static Sitemap getSitemapByName(List<? extends Sitemap> sitemapList, String
+            sitemapName) {
         for (int i = 0; i < sitemapList.size(); i++) {
             if (sitemapList.get(i).getName().equals(sitemapName))
                 return sitemapList.get(i);

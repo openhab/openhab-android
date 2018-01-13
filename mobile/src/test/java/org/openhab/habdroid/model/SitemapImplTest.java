@@ -1,28 +1,29 @@
 package org.openhab.habdroid.model;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
 
 @RunWith(MockitoJUnitRunner.class)
-public class OpenHABSitemapTest {
-    OpenHABSitemap demoSitemapWithLabel;
-    OpenHABSitemap homeSitemapWithoutLabel;
+public class SitemapImplTest {
+    private Sitemap demoSitemapWithLabel;
+    private Sitemap homeSitemapWithoutLabel;
 
     @Before
-    public void initSitemaps() throws JSONException {
+    public void initSitemaps() throws Exception {
         String jsonString = "{\"name\":\"demo\",\"label\":\"Main Menu\",\"link\":\"http://demo.openhab.org:8080/rest/sitemaps/demo\",\"homepage\":{\"link\":\"http://demo.openhab.org:8080/rest/sitemaps/demo/demo\",\"leaf\":false,\"timeout\":false,\"widgets\":[]}}";
-        JSONObject jsonObject = new JSONObject(jsonString);
-        demoSitemapWithLabel = new OpenHAB2Sitemap(jsonObject);
+        ObjectMapper mapper = new ObjectMapper();
+        demoSitemapWithLabel = mapper.readValue(jsonString, SitemapImpl.class);
 
         jsonString = "{\"name\":\"home\",\"icon\":\"home\",\"link\":\"http://demo.openhab.org:8080/rest/sitemaps/home\",\"homepage\":{\"link\":\"http://demo.openhab.org:8080/rest/sitemaps/home/home\",\"leaf\":true,\"timeout\":false,\"widgets\":[]}}";
-        jsonObject = new JSONObject(jsonString);
-        homeSitemapWithoutLabel = new OpenHAB2Sitemap(jsonObject);
+        homeSitemapWithoutLabel = mapper.readValue(jsonString, SitemapImpl.class);
     }
 
     @Test
