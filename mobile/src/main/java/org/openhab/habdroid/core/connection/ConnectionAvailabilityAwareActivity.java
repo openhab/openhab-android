@@ -29,7 +29,7 @@ import static org.openhab.habdroid.ui.OpenHABPreferencesActivity.NO_URL_INFO_EXC
 
 public abstract class ConnectionAvailabilityAwareActivity extends AppCompatActivity {
     private static final String TAG = ConnectionAvailabilityAwareActivity.class.getSimpleName();
-    private boolean noConnectionFragmentShown = false;
+    public static final String NO_NETWORK_TAG = "noNetwork";
 
     @Override
     protected void onStop() {
@@ -65,13 +65,12 @@ public abstract class ConnectionAvailabilityAwareActivity extends AppCompatActiv
         bundle.putString(NoNetworkFragment.NO_NETWORK_MESSAGE, message);
         noNetworkFrament.setArguments(bundle);
 
-        onContentReplace();
+        onEnterNoNetwork();
 
         getFragmentManager()
                 .beginTransaction()
-                .replace(android.R.id.content, noNetworkFrament)
+                .replace(android.R.id.content, noNetworkFrament, NO_NETWORK_TAG)
                 .commit();
-        noConnectionFragmentShown = true;
 
         setTitle(R.string.app_name);
         if (getSupportActionBar() != null) {
@@ -84,7 +83,14 @@ public abstract class ConnectionAvailabilityAwareActivity extends AppCompatActiv
      * other information, such as error fragments or something like that. A class extending from
      * here can override this method to also reset/clear/remove views from the activity if needed.
      */
-    protected void onContentReplace() {}
+    protected void onEnterNoNetwork() {}
+
+    /**
+     * This method is called whenever this abstract class will remove the content added when
+     * onEnterNoNetwork() was called. A class extending from here can override this method to
+     * re-add content or reset states.
+     */
+    protected void onLeaveNoNetwork() {}
 
     private void restartApp() {
         Intent startActivity = new Intent(this, OpenHABMainActivity.class);
@@ -95,12 +101,19 @@ public abstract class ConnectionAvailabilityAwareActivity extends AppCompatActiv
     @Override
     protected void onResume() {
         super.onResume();
-        if (!noConnectionFragmentShown) {
+        Fragment fragment = getFragmentManager().findFragmentByTag(NO_NETWORK_TAG);
+        if (fragment == null || !fragment.isVisible()) {
             return;
         }
         try {
             ConnectionFactory.getConnection(Connection.TYPE_ANY, this);
-            restartApp();
+            getFragmentManager().beginTransaction().remove(fragment).commit();
+            onConnectivityChanged();
+            if (getSupportActionBar() != null) {
+                getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            }
+
+            onLeaveNoNetwork();
         } catch (ConnectionException e) {
             Log.d(TAG, "After resuming the app, there's still no network available.", e);
         }

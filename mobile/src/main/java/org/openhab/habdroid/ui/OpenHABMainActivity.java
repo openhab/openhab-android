@@ -555,8 +555,8 @@ public class OpenHABMainActivity extends ConnectionAvailabilityAwareActivity
     }
 
     @Override
-    protected void onContentReplace() {
-        super.onContentReplace();
+    protected void onEnterNoNetwork() {
+        super.onEnterNoNetwork();
         OpenHABViewPager pager = findViewById(R.id.pager);
         if (pager != null) {
             pager.removeAllViews();
@@ -568,6 +568,16 @@ public class OpenHABMainActivity extends ConnectionAvailabilityAwareActivity
         }
 
         mProgressBar.setVisibility(View.GONE);
+        invalidateOptionsMenu();
+    }
+
+    @Override
+    protected void onLeaveNoNetwork() {
+        super.onLeaveNoNetwork();
+        if (mDrawerLayout != null) {
+            mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+        }
+
         invalidateOptionsMenu();
     }
 
