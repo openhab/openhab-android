@@ -5,10 +5,9 @@
 
 error=0
 
-for folder in fastlane/metadata/android
+for folder in fastlane/metadata/android/*
 do
     [ ! -d "$folder" ] && continue
-    cd "$folder"
     if [ -f "${folder}/full_description.txt" ]
     then
         chars=$(wc -m "${folder}/full_description.txt" | cut -d " " -f 1)
@@ -29,7 +28,10 @@ do
     fi
 done
 
-if [ "$error" -ne 0 ]
+if [ "$error" -eq 0 ]
 then
+    echo "All Play Store descriptions are valid!"
+else
+    echo "$error errors occured when validation Play Store descriptions!" 1>&2
     exit 1
 fi
