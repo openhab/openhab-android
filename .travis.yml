@@ -31,6 +31,7 @@ install:
 - echo yes | sdkmanager "extras;m2repository;com;android;support;constraint;constraint-layout-solver;1.0.2"
 - ./gradlew --version
 - sdkmanager --list || true
+- chmod +x validate-play-store-description.sh
 
 # Emulator Management: Create, Start and Wait
 before_script:
