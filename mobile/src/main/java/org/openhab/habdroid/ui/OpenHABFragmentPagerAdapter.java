@@ -17,7 +17,6 @@ import android.support.v4.view.ViewPager;
 import android.util.Log;
 
 import org.openhab.habdroid.core.notifications.NotificationSettings;
-import org.openhab.habdroid.model.thing.ThingType;
 
 import java.util.ArrayList;
 import java.util.List;
