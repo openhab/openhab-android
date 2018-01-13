@@ -18,6 +18,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v4.app.ListFragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -104,6 +105,7 @@ public class OpenHABWidgetListFragment extends ListFragment {
     private Runnable networkRunnable;
     // keeps track of current request to cancel it in onPause
     private Call mRequestHandle;
+    private SwipeRefreshLayout refreshLayout;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -208,6 +210,18 @@ public class OpenHABWidgetListFragment extends ListFragment {
             Log.d(TAG, "More then 1 column, setting selector on");
             getListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
         }
+        refreshLayout = getView().findViewById(R.id.swiperefresh);
+        if (refreshLayout == null) {
+            return;
+        }
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                if (displayPageUrl != null) {
+                    showPage(displayPageUrl, false);
+                }
+            }
+        });
     }
 
     @Override
@@ -380,7 +394,6 @@ public class OpenHABWidgetListFragment extends ListFragment {
                             stopProgressIndicator();
                         String responseString = new String(responseBody);
                         processContent(responseString, longPolling);
-                        // Log.d(TAG, responseString);
                     }
                 });
     }
@@ -514,10 +527,14 @@ public class OpenHABWidgetListFragment extends ListFragment {
             Log.d(TAG, "Stop progress indicator");
             mActivity.setProgressIndicatorVisible(false);
         }
+        if (refreshLayout != null)
+            refreshLayout.setRefreshing(false);
     }
 
     private void startProgressIndicator() {
-        if (mActivity != null) {
+        boolean swipeAlreadyLoading = refreshLayout != null && refreshLayout.isRefreshing();
+
+        if (mActivity != null && !swipeAlreadyLoading) {
             Log.d(TAG, "Start progress indicator");
             mActivity.setProgressIndicatorVisible(true);
         }
