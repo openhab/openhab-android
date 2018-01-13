@@ -720,6 +720,9 @@ public class OpenHABMainActivity extends ConnectionAvailbilityAwareAcivity
     private void selectSitemap() {
         setProgressIndicatorVisible(true);
         Connection conn = getConnection(Connection.TYPE_ANY);
+        if (conn == null) {
+            return;
+        }
         Log.d(TAG, "Loading sitemap list from /rest/sitemaps");
 
         conn.getAsyncHttpClient().get("/rest/sitemaps", new DefaultHttpResponseHandler() {
