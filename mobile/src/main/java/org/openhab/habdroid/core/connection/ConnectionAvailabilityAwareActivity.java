@@ -21,6 +21,7 @@ import org.openhab.habdroid.core.connection.exception.ConnectionException;
 import org.openhab.habdroid.core.connection.exception.NetworkNotAvailableException;
 import org.openhab.habdroid.core.connection.exception.NetworkNotSupportedException;
 import org.openhab.habdroid.core.connection.exception.NoUrlInformationException;
+import org.openhab.habdroid.core.message.MessageHandler;
 import org.openhab.habdroid.ui.OpenHABMainActivity;
 import org.openhab.habdroid.ui.OpenHABPreferencesActivity;
 
@@ -66,6 +67,8 @@ public abstract class ConnectionAvailabilityAwareActivity extends AppCompatActiv
         noNetworkFrament.setArguments(bundle);
 
         onEnterNoNetwork();
+
+        MessageHandler.closeAllMessages();
 
         getFragmentManager()
                 .beginTransaction()

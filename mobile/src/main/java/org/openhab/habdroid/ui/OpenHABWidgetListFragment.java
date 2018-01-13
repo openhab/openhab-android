@@ -79,7 +79,7 @@ public class OpenHABWidgetListFragment extends ListFragment {
     private String nfcWidgetId;
     // widget command which we got from nfc tag
     private String nfcCommand;
-    // auto close app after nfc action is complete
+    // auto closeAllMessages app after nfc action is complete
     private boolean nfcAutoClose = false;
     // parent activity
     private OpenHABMainActivity mActivity;

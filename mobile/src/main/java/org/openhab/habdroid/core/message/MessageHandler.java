@@ -23,6 +23,23 @@ public class MessageHandler {
     public static final int LOGLEVEL_NO_DEBUG = 4;
     public static final int LOGLEVEL_ALWAYS = 5;
 
+    private static Snackbar snackbar;
+    private static AlertDialog alertDialog;
+    private static Toast toast;
+
+    public static void closeAllMessages() {
+        if (snackbar != null) {
+            snackbar.dismiss();
+        }
+
+        if (alertDialog != null) {
+            alertDialog.dismiss();
+        }
+
+        if (toast != null) {
+            toast.cancel();
+        }
+    }
     /**
      * Shows a message to the user.
      * You might want to send two messages: One detailed one with
@@ -77,16 +94,17 @@ public class MessageHandler {
                             public void onClick(DialogInterface dialog, int id) {
                             }
                         });
-                AlertDialog alert = builder.create();
-                alert.show();
+                alertDialog = builder.create();
+                alertDialog.show();
                 break;
             case TYPE_SNACKBAR:
-                Snackbar snackbar = Snackbar.make(ctx.findViewById(android.R.id.content),
+                snackbar = Snackbar.make(ctx.findViewById(android.R.id.content),
                         message, Snackbar.LENGTH_LONG);
                 snackbar.show();
                 break;
             case TYPE_TOAST:
-                Toast.makeText(ctx, message, Toast.LENGTH_LONG).show();
+                toast = Toast.makeText(ctx, message, Toast.LENGTH_LONG);
+                toast.show();
                 break;
             default:
                 throw new IllegalArgumentException("Wrong message type");
