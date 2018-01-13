@@ -22,7 +22,7 @@ import android.widget.TextView;
 
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.core.connection.Connection;
-import org.openhab.habdroid.core.connection.ConnectionAvailbilityAwareAcivity;
+import org.openhab.habdroid.core.connection.ConnectionAvailabilityAwareActivity;
 import org.openhab.habdroid.core.connection.ConnectionFactory;
 import org.openhab.habdroid.model.OpenHABSitemap;
 import org.openhab.habdroid.util.MySmartImageView;
@@ -90,8 +90,8 @@ public class OpenHABDrawerAdapter extends ArrayAdapter<OpenHABDrawerItem> {
         drawerItemImage = (MySmartImageView)drawerItemView.findViewById(R.id.itemimage);
 
         Connection conn;
-        if (getContext() instanceof ConnectionAvailbilityAwareAcivity) {
-            conn = ((ConnectionAvailbilityAwareAcivity) getContext())
+        if (getContext() instanceof ConnectionAvailabilityAwareActivity) {
+            conn = ((ConnectionAvailabilityAwareActivity) getContext())
                     .getConnection(Connection.TYPE_ANY);
         } else {
             conn = ConnectionFactory.getConnection(Connection.TYPE_ANY, getContext());

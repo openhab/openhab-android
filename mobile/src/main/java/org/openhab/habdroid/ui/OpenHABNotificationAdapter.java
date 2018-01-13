@@ -21,7 +21,7 @@ import android.widget.TextView;
 
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.core.connection.Connection;
-import org.openhab.habdroid.core.connection.ConnectionAvailbilityAwareAcivity;
+import org.openhab.habdroid.core.connection.ConnectionAvailabilityAwareActivity;
 import org.openhab.habdroid.core.connection.ConnectionFactory;
 import org.openhab.habdroid.model.OpenHABNotification;
 import org.openhab.habdroid.util.MySmartImageView;
@@ -48,8 +48,8 @@ public class OpenHABNotificationAdapter extends ArrayAdapter<OpenHABNotification
         if (imageView != null) {
             if (notification.getIcon() != null && imageView != null) {
                 Connection conn;
-                if (getContext() instanceof ConnectionAvailbilityAwareAcivity) {
-                    conn = ((ConnectionAvailbilityAwareAcivity) getContext())
+                if (getContext() instanceof ConnectionAvailabilityAwareActivity) {
+                    conn = ((ConnectionAvailabilityAwareActivity) getContext())
                             .getConnection(Connection.TYPE_CLOUD);
                 } else {
                     conn = ConnectionFactory.getConnection(Connection.TYPE_CLOUD, getContext());

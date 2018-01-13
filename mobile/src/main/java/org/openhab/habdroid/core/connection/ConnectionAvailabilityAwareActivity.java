@@ -27,8 +27,8 @@ import org.openhab.habdroid.ui.OpenHABPreferencesActivity;
 import static org.openhab.habdroid.ui.OpenHABPreferencesActivity.NO_URL_INFO_EXCEPTION_EXTRA;
 import static org.openhab.habdroid.ui.OpenHABPreferencesActivity.NO_URL_INFO_EXCEPTION_MESSAGE;
 
-public abstract class ConnectionAvailbilityAwareAcivity extends AppCompatActivity {
-    private static final String TAG = ConnectionAvailbilityAwareAcivity.class.getSimpleName();
+public abstract class ConnectionAvailabilityAwareActivity extends AppCompatActivity {
+    private static final String TAG = ConnectionAvailabilityAwareActivity.class.getSimpleName();
     private boolean noConnectionFragmentShown = false;
 
     @Override
@@ -138,7 +138,7 @@ public abstract class ConnectionAvailbilityAwareAcivity extends AppCompatActivit
             restartButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ((ConnectionAvailbilityAwareAcivity) getActivity()).restartApp();
+                    ((ConnectionAvailabilityAwareActivity) getActivity()).restartApp();
                 }
             });
 

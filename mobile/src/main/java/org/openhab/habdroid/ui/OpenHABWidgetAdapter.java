@@ -51,7 +51,7 @@ import com.loopj.android.image.SmartImage;
 
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.core.connection.Connection;
-import org.openhab.habdroid.core.connection.ConnectionAvailbilityAwareAcivity;
+import org.openhab.habdroid.core.connection.ConnectionAvailabilityAwareActivity;
 import org.openhab.habdroid.core.connection.ConnectionFactory;
 import org.openhab.habdroid.core.connection.exception.ConnectionException;
 import org.openhab.habdroid.core.message.MessageHandler;
@@ -129,8 +129,8 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
         final TextView labelTextView;
         final TextView valueTextView;
         final Connection conn;
-        if (getContext() instanceof ConnectionAvailbilityAwareAcivity) {
-            conn = ((ConnectionAvailbilityAwareAcivity) getContext())
+        if (getContext() instanceof ConnectionAvailabilityAwareActivity) {
+            conn = ((ConnectionAvailabilityAwareActivity) getContext())
                     .getConnection(Connection.TYPE_ANY);
         } else {
             conn = ConnectionFactory.getConnection(Connection.TYPE_ANY, getContext());

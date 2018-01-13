@@ -62,7 +62,7 @@ import org.openhab.habdroid.core.NotificationDeletedBroadcastReceiver;
 import org.openhab.habdroid.core.OnUpdateBroadcastReceiver;
 import org.openhab.habdroid.core.OpenHABVoiceService;
 import org.openhab.habdroid.core.connection.Connection;
-import org.openhab.habdroid.core.connection.ConnectionAvailbilityAwareAcivity;
+import org.openhab.habdroid.core.connection.ConnectionAvailabilityAwareActivity;
 import org.openhab.habdroid.core.connection.ConnectionFactory;
 import org.openhab.habdroid.core.connection.DemoConnection;
 import org.openhab.habdroid.core.connection.exception.ConnectionException;
@@ -119,7 +119,7 @@ import static org.openhab.habdroid.core.message.MessageHandler.TYPE_DIALOG;
 import static org.openhab.habdroid.core.message.MessageHandler.TYPE_SNACKBAR;
 import static org.openhab.habdroid.core.message.MessageHandler.showMessageToUser;
 
-public class OpenHABMainActivity extends ConnectionAvailbilityAwareAcivity
+public class OpenHABMainActivity extends ConnectionAvailabilityAwareActivity
         implements OnWidgetSelectedListener, MemorizingResponder, AsyncServiceResolverListener {
 
     private abstract class DefaultHttpResponseHandler implements MyHttpClient.ResponseHandler {

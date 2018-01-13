@@ -29,7 +29,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.core.connection.Connection;
-import org.openhab.habdroid.core.connection.ConnectionAvailbilityAwareAcivity;
+import org.openhab.habdroid.core.connection.ConnectionAvailabilityAwareActivity;
 import org.openhab.habdroid.core.connection.ConnectionFactory;
 import org.openhab.habdroid.model.OpenHABItem;
 import org.openhab.habdroid.model.OpenHABNFCActionList;
@@ -287,10 +287,10 @@ public class OpenHABWidgetListFragment extends ListFragment {
             headers.put("Accept", "application/xml");
         }
         Connection conn;
-        if (getContext() instanceof ConnectionAvailbilityAwareAcivity) {
-            conn = ((ConnectionAvailbilityAwareAcivity) getContext())
+        if (getContext() instanceof ConnectionAvailabilityAwareActivity) {
+            conn = ((ConnectionAvailabilityAwareActivity) getContext())
                     .getConnection(Connection.TYPE_ANY);
-            // if no connection could be created, the ConnectionAvailbilityAwareAcivity will
+            // if no connection could be created, the ConnectionAvailabilityAwareActivity will
             // handle that but returns null in this case
             if (conn == null) {
                 return;
