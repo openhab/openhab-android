@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -74,8 +73,7 @@ public abstract class ConnectionAvailbilityAwareAcivity extends AppCompatActivit
                 .commit();
         noConnectionFragmentShown = true;
 
-        Toolbar noNetworkToolbar = findViewById(R.id.openhab_toolbar_no_network);
-        setSupportActionBar(noNetworkToolbar);
+        setTitle(R.string.app_name);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         }
@@ -101,7 +99,7 @@ public abstract class ConnectionAvailbilityAwareAcivity extends AppCompatActivit
             return;
         }
         try {
-            getConnection(Connection.TYPE_ANY);
+            ConnectionFactory.getConnection(Connection.TYPE_ANY, this);
             restartApp();
         } catch (ConnectionException e) {
             Log.d(TAG, "After resuming the app, there's still no network available.", e);

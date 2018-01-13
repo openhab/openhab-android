@@ -111,6 +111,7 @@ import de.duenndns.ssl.MemorizingTrustManager;
 import okhttp3.Call;
 import okhttp3.Headers;
 
+import static org.openhab.habdroid.core.connection.Connection.TYPE_ANY;
 import static org.openhab.habdroid.core.message.MessageHandler.LOGLEVEL_ALWAYS;
 import static org.openhab.habdroid.core.message.MessageHandler.LOGLEVEL_DEBUG;
 import static org.openhab.habdroid.core.message.MessageHandler.LOGLEVEL_NO_DEBUG;
@@ -345,7 +346,7 @@ public class OpenHABMainActivity extends ConnectionAvailbilityAwareAcivity
 
     private void initializeConnectivity() throws NoUrlInformationException,
             NetworkNotAvailableException, NetworkNotSupportedException {
-        final Connection conn = ConnectionFactory.getConnection(Connection.TYPE_ANY, this);
+        final Connection conn = ConnectionFactory.getConnection(TYPE_ANY, this);
         if (conn instanceof DemoConnection) {
             showMessageToUser(
                     this, getString(R.string.info_demo_mode_short), TYPE_SNACKBAR, LOGLEVEL_ALWAYS);
@@ -565,6 +566,9 @@ public class OpenHABMainActivity extends ConnectionAvailbilityAwareAcivity
             mDrawerLayout.closeDrawers();
             mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         }
+
+        mProgressBar.setVisibility(View.GONE);
+        invalidateOptionsMenu();
     }
 
     /**
@@ -675,7 +679,7 @@ public class OpenHABMainActivity extends ConnectionAvailbilityAwareAcivity
 
     private void loadSitemapList() {
         setProgressIndicatorVisible(true);
-        Connection conn = getConnection(Connection.TYPE_ANY);
+        Connection conn = getConnection(TYPE_ANY);
         Log.d(TAG, "Loading sitemap list from /rest/sitemaps");
 
         conn.getAsyncHttpClient().get("/rest/sitemaps", new DefaultHttpResponseHandler() {
@@ -719,7 +723,7 @@ public class OpenHABMainActivity extends ConnectionAvailbilityAwareAcivity
 
     private void selectSitemap() {
         setProgressIndicatorVisible(true);
-        Connection conn = getConnection(Connection.TYPE_ANY);
+        Connection conn = getConnection(TYPE_ANY);
         if (conn == null) {
             return;
         }
@@ -862,6 +866,12 @@ public class OpenHABMainActivity extends ConnectionAvailbilityAwareAcivity
         voiceRecognitionItem.setVisible(SpeechRecognizer.isRecognitionAvailable(this));
         voiceRecognitionItem.getIcon()
                 .setColorFilter(ContextCompat.getColor(this, R.color.light), PorterDuff.Mode.SRC_IN);
+
+        try {
+            ConnectionFactory.getConnection(TYPE_ANY, this);
+        } catch (ConnectionException e) {
+            voiceRecognitionItem.setVisible(false);
+        }
         return true;
     }
 
@@ -991,7 +1001,7 @@ public class OpenHABMainActivity extends ConnectionAvailbilityAwareAcivity
             Log.d(TAG, "This is a sitemap tag without parameters");
             // Form the new sitemap page url
             // Check if we have this page in stack?
-            mPendingNfcPage = getConnection(Connection.TYPE_ANY).getOpenHABUrl() +
+            mPendingNfcPage = getConnection(TYPE_ANY).getOpenHABUrl() +
                     "rest/sitemaps" + openHABURI.getPath();
         } else {
             Log.d(TAG, "Target item = " + nfcItem);
@@ -1006,7 +1016,7 @@ public class OpenHABMainActivity extends ConnectionAvailbilityAwareAcivity
 
     public void sendItemCommand(String itemName, String command) {
         try {
-            Connection conn = getConnection(Connection.TYPE_ANY);
+            Connection conn = getConnection(TYPE_ANY);
 
             conn.getAsyncHttpClient().post("/rest/items/" + itemName, command,
                     "text/plain;charset=UTF-8", new MyHttpClient.TextResponseHandler() {
