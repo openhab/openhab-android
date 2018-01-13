@@ -27,4 +27,5 @@ comment:
 
 ignore:
   - "doc"
+  - "fastlane"
   - "**/*.md"
