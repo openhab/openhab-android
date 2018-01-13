@@ -105,6 +105,5 @@ dependencies {
     androidTestCompile 'com.android.support.test:runner:1.0.1'
     androidTestCompile 'com.android.support.test:rules:1.0.1'
     androidTestCompile 'com.android.support.test.espresso:espresso-intents:3.0.1'
-    androidTestCompile 'org.mockito:mockito-android:2.7.6'
 }
 apply plugin: 'com.google.gms.google-services'
