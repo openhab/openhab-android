@@ -845,6 +845,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
             pagerAdapter.openNotifications(getNotificationSettings());
             pager.setCurrentItem(pagerAdapter.getCount() - 1);
         }
+        mDrawerToggle.setDrawerIndicatorEnabled(false);
     }
 
     private void openSitemap(String sitemapUrl) {
