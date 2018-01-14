@@ -126,4 +126,5 @@
   <string name="intro_whatis">Λογισμικό ανοιχτού κώδικα αυτοματοποίησης, ανεξάρτητο κατασκευαστή και τεχνολογίας, για το σπίτι σας.</string>
   <string name="intro_themes">Θέματα</string>
   <string name="intro_themes_description">Επιλέξτε μεταξύ διαφόρων θεμάτων</string>
+  <!-- Content description for images -->
 </resources>
