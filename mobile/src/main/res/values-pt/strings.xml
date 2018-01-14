@@ -126,4 +126,5 @@
   <string name="intro_whatis">Um software agnóstico e vendedor de automatização de software aberto para a sua casa</string>
   <string name="intro_themes">Temas</string>
   <string name="intro_themes_description">Escolha entre vários temas</string>
+  <!-- Content description for images -->
 </resources>
