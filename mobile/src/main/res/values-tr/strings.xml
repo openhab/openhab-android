@@ -125,4 +125,5 @@
   <string name="intro_whatis">Eviniz için sağlayıcı ve yeni teknolojiye geçişlerden etkilenmeyen açık kaynak otomasyon yazılımı</string>
   <string name="intro_themes">Temalar</string>
   <string name="intro_themes_description">Çeşitli temalar arasından seçim yap</string>
+  <!-- Content description for images -->
 </resources>
