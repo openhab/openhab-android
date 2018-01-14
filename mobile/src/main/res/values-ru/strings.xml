@@ -125,4 +125,5 @@
   <string name="intro_whatis">Независимое программное обеспечение автоматизации Вашего дома</string>
   <string name="intro_themes">Темы</string>
   <string name="intro_themes_description">Выберите между несколькими темами</string>
+  <!-- Content description for images -->
 </resources>
