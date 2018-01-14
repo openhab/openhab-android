@@ -31,7 +31,6 @@ install:
 - echo yes | sdkmanager "extras;m2repository;com;android;support;constraint;constraint-layout-solver;1.0.2"
 - ./gradlew --version
 - sdkmanager --list || true
-- chmod +x validate-play-store-description.sh
 
 # Emulator Management: Create, Start and Wait
 before_script:
@@ -44,7 +43,7 @@ before_script:
 
 script:
 - ./gradlew build connectedCheck test jacocoTestReport
-- ./validate-play-store-description.sh
+- bash assets/store_descriptions/generate_and_validate.sh
 
 after_success:
 - bash <(curl -s https://codecov.io/bash)
