@@ -139,4 +139,5 @@
   <string name="intro_whatis">Eine technologie- und herstellerunabhängige, quelloffene Automatisierungslösung für Ihr Zuhause</string>
   <string name="intro_themes">Designs</string>
   <string name="intro_themes_description">Wählen Sie zwischen verschiedenen Designs</string>
+  <!-- Content description for images -->
 </resources>
