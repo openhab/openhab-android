@@ -92,4 +92,5 @@
   <string name="intro_whatis">Software de automatización de código abierto para tu hogar sin importar vendedores ni tecnologías</string>
   <string name="intro_themes">Temas</string>
   <string name="intro_themes_description">Elegir entre varios temas</string>
+  <!-- Content description for images -->
 </resources>
