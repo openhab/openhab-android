@@ -125,4 +125,5 @@
   <string name="intro_whatis">Otwarte oprogramowanie do automatyzacji Twojego domu</string>
   <string name="intro_themes">Motywy</string>
   <string name="intro_themes_description">Wybierz spośród wielu motywów</string>
+  <!-- Content description for images -->
 </resources>
