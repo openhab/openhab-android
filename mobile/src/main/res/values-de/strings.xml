@@ -16,6 +16,8 @@
   <string name="mainmenu_openhab_clearcache">Bilder-Cache leeren</string>
   <!-- App settings strings -->
   <string name="settings_connection_title">Verbindung</string>
+  <string name="settings_display_title">Anzeige</string>
+  <string name="settings_misc_title">Verschiedenes</string>
   <string name="settings_openhab_url">Lokale Server-URL</string>
   <string name="settings_openhab_url_summary">Die Adresse des openHAB-Dashboards (basierend auf Rechnername oder IP). Setzen dieser Option deaktiviert die automatische Ermittlung. Aktueller Wert: %s</string>
   <string name="settings_openhab_alturl">Server-URL für Fernzugiff</string>
@@ -70,6 +72,10 @@
   <string name="error_http_code_426">HTTPS wird gefordert. Bitte ändern Sie die openHAB-URL (HTTP-Statuscode 426)</string>
   <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
   <string name="error_http_code_496">Client-Zertifikat wird gefordert (HTTP-Statuscode 496)</string>
+  <string name="error_http_code_502">Ihr Reverse-Proxy bekam eine ungültige Antwort vom openHAB-Server (HTTP-Statuscode 502)</string>
+  <string name="error_http_code_503">Der openHAB-Server steht temporär nicht zur Verfügung (HTTP-Statuscode 503)</string>
+  <string name="error_http_code_504">Gateway Time-out. Ihr Reverse-Proxy läuft, aber bekam keine Antwort vom openHAB-Server (HTTP-Statuscode 504)</string>
+  <string name="error_http_code_507">Der openHAB-Server hat nicht genug freien Speicher (HTTP-Statuscode 507)</string>
   <string name="error_http_code_511">Netzwerkauthentifizierung wird gefordert (HTTP-Statuscode 511)</string>
   <string name="title_activity_openhabwritetag">NFC-Tag beschreiben</string>
   <string name="title_activity_openhabinfo">openHAB-Informationen</string>
