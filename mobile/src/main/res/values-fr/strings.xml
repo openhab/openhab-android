@@ -97,4 +97,5 @@
   <string name="intro_whatis">Un logiciel open source de domotique pour votre maison non lié à un vendeur ou à une technologie particulière</string>
   <string name="intro_themes">Thêmes</string>
   <string name="intro_themes_description">Choisir parmi ces thêmes</string>
+  <!-- Content description for images -->
 </resources>
