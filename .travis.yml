@@ -5,7 +5,7 @@ env:
   - secure: fMBUkSsCBTw/U907w7Xm/yNzw4lq9yt7zFy0JyEZrA543LI7zQRIclIOtsDTUs0bwY+4KI08MNoYPLJ4TQhSJaH4wQ8b9C5TRsqXNfc0V718TcuYqSXqU6VPRVtX46/fCEWv/HAs0ksUKrHIlpWOwLPQpYDcKxwwlUndaakYKJ8=
   - ADB_INSTALL_TIMEOUT=8
   matrix:
-    - ANDROID_TARGET=android-14 ANDROID_ABI=armeabi-v7a SYS_IMG=sys-img-$ANDROID_ABI-$ANDROID_TARGET
+    - ANDROID_TARGET=android-19 ANDROID_ABI=armeabi-v7a SYS_IMG=sys-img-$ANDROID_ABI-$ANDROID_TARGET
     - ANDROID_TARGET=android-22 ANDROID_ABI=armeabi-v7a SYS_IMG=sys-img-$ANDROID_ABI-$ANDROID_TARGET
 #    - ANDROID_TARGET=android-25 ANDROID_ABI=google_apis/armeabi-v7a SYS_IMG=sys-img-armeabi-v7a-google_apis-25
 
