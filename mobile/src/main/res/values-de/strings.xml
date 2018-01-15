@@ -74,6 +74,7 @@
   <string name="error_http_code_414">URL ist zu lang. Bitte verwenden Sie die IP-Adresse oder eine kürzere URL (HTTP-Statuscode 414)</string>
   <string name="error_http_code_426">HTTPS wird gefordert. Bitte ändern Sie die openHAB-URL (HTTP-Statuscode 426)</string>
   <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
+  <string name="error_http_code_495">Authentifizierung fehlgeschlagen. Bitte überprüfen Sie das bereitgestellte SSL Client-Zertifikat (HTTP-Statuscode 495)</string>
   <string name="error_http_code_496">Client-Zertifikat wird gefordert (HTTP-Statuscode 496)</string>
   <string name="error_http_code_502">Ihr Reverse-Proxy bekam eine ungültige Antwort vom openHAB-Server (HTTP-Statuscode 502)</string>
   <string name="error_http_code_503">Der openHAB-Server steht temporär nicht zur Verfügung (HTTP-Statuscode 503)</string>
@@ -143,4 +144,9 @@
   <string name="intro_themes">Designs</string>
   <string name="intro_themes_description">Wählen Sie zwischen verschiedenen Designs</string>
   <!-- Content description for images -->
+  <string name="content_description_open_roller_shutter">Rollladen öffnen</string>
+  <string name="content_description_close_roller_shutter">Rollladen schließen</string>
+  <string name="content_description_open_color_wheel">Farbauswahl öffnen</string>
+  <string name="content_description_video">Video</string>
+  <string name="content_description_open_openhab">openHAB öffnen</string>
 </resources>
