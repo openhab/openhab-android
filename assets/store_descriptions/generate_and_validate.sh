@@ -13,7 +13,7 @@ error=0
 
 full_description_template="assets/store_descriptions/full-description.txt.template"
 string_base="assets/store_descriptions/"
-resource_base="fastlane/metadata/android/"
+resource_base="fastlane/metadata/android"
 
 for folder in $string_base*
 do
@@ -23,6 +23,10 @@ do
         source "${string_base}/en-US/strings.sh"
         source "${folder}/strings.sh"
         lang=${folder#$string_base}
+        if [ ! -d "${resource_base}/${lang}" ]
+        then
+            mkdir "${resource_base}/${lang}"
+        fi
         echo $lang
         sed -e "s/\$intro/$intro/" \
             -e "s/\$whatis/$whatis/" \
