@@ -3,6 +3,11 @@ jdk: oraclejdk8
 env:
   global:
   - secure: fMBUkSsCBTw/U907w7Xm/yNzw4lq9yt7zFy0JyEZrA543LI7zQRIclIOtsDTUs0bwY+4KI08MNoYPLJ4TQhSJaH4wQ8b9C5TRsqXNfc0V718TcuYqSXqU6VPRVtX46/fCEWv/HAs0ksUKrHIlpWOwLPQpYDcKxwwlUndaakYKJ8=
+  - ADB_INSTALL_TIMEOUT=8
+  matrix:
+    - ANDROID_TARGET=android-19 ANDROID_ABI=armeabi-v7a SYS_IMG=sys-img-$ANDROID_ABI-$ANDROID_TARGET
+    - ANDROID_TARGET=android-22 ANDROID_ABI=armeabi-v7a SYS_IMG=sys-img-$ANDROID_ABI-$ANDROID_TARGET
+#    - ANDROID_TARGET=android-25 ANDROID_ABI=google_apis/armeabi-v7a SYS_IMG=sys-img-armeabi-v7a-google_apis-25
 
 before_cache:
 - cd ${TRAVIS_BUILD_DIR}/gradle/caches/
@@ -23,9 +28,12 @@ android:
   - build-tools-25.0.2
   - platform-tools
   - tools
-  - android-22
-  - sys-img-armeabi-v7a-android-22
-  
+  - extra-google-google_play_services
+  - extra-google-m2repository
+  - extra-android-m2repository
+  - $ANDROID_TARGET
+  - $SYS_IMG
+
 install:
 - echo yes | sdkmanager "extras;m2repository;com;android;support;constraint;constraint-layout;1.0.2"
 - echo yes | sdkmanager "extras;m2repository;com;android;support;constraint;constraint-layout-solver;1.0.2"
@@ -35,11 +43,11 @@ install:
 # Emulator Management: Create, Start and Wait
 before_script:
 - android list device
-- echo no | android create avd --force -n test -t android-22 --abi armeabi-v7a -d "5.4in FWVGA"
-- emulator -avd test -no-audio -no-window &
+- android list target
+- echo no | android create avd --force -n test -t $ANDROID_TARGET --abi $ANDROID_ABI -d "5.4in FWVGA"
+- emulator -avd test -engine classic -no-window &
 - android-wait-for-emulator
 - adb shell input keyevent 82 &
-- android list target
 
 script:
 - ./gradlew build connectedCheck test jacocoTestReport
