@@ -15,6 +15,9 @@
   <string name="mainmenu_openhab_selectsitemap">Προκαθορισμένο Sitemap</string>
   <string name="mainmenu_openhab_clearcache">Καθάρισμα κρυφής μνήμης</string>
   <!-- App settings strings -->
+  <string name="settings_connection_title">Σύνδεση</string>
+  <string name="settings_display_title">Εμφάνιση</string>
+  <string name="settings_misc_title">Διάφορα</string>
   <string name="settings_openhab_url">Διεύθυνση openHAB</string>
   <string name="settings_openhab_url_summary">Η διεύθυνση του openHAB (όνομα διακομιστή ή IP). Αν ρυθμιστεί, απενεργοποιεί την αυτόματη εύρεση. Τρέχουσα ρύθμιση: %s</string>
   <string name="settings_openhab_alturl">Απομακρυσμένη διεύθυνση openHAB</string>
@@ -42,6 +45,9 @@
   <string name="settings_clear_default_sitemap">Καθαρισμός προκαθορισμένου sitemap</string>
   <string name="settings_no_default_sitemap">Δεν έχει επιλεγεί προκαθορισμένο sitemap</string>
   <string name="settings_current_default_sitemap">Τρέχον προκαθορισμένο sitemap: %1$s</string>
+  <string name="settings_openhab_sslsettings">Κρυπτογράφηση</string>
+  <string name="settings_openhab_alt_connection">Απομακρυσμένo</string>
+  <string name="settings_openhab_connection">Τοπικό</string>
   <!-- App messages strings -->
   <string name="title_voice_widget">Φωνητικές εντολές openHAB</string>
   <string name="info_voice_input">"openHAB, στις προσταγές σας!"</string>
@@ -127,4 +133,6 @@
   <string name="intro_themes">Θέματα</string>
   <string name="intro_themes_description">Επιλέξτε μεταξύ διαφόρων θεμάτων</string>
   <!-- Content description for images -->
+  <string name="content_description_video">Βίντεο</string>
+  <string name="content_description_open_openhab">Άνοιγμα openHAB</string>
 </resources>
