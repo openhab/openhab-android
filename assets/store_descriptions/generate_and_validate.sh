@@ -27,7 +27,7 @@ do
         then
             mkdir "${resource_base}/${lang}"
         fi
-        echo $lang
+        echo "Generate $lang"
         sed -e "s/\$intro/$intro/" \
             -e "s/\$whatis/$whatis/" \
             -e "s/\$rules/$rules/" \
@@ -55,13 +55,13 @@ do
         chars=$(wc -m "${resource_base}/${lang}/full_description.txt" | cut -d " " -f 1)
         if [ "$chars" -gt 4000 ]
         then
-            echo "Full descriptions $lang exceeds 4000 char limit"
+            echo "Full descriptions exceeds 4000 char limit"
             let error++
         fi
         chars=$(wc -m "${resource_base}/${lang}/short_description.txt" | cut -d " " -f 1)
         if [ "$chars" -gt 80 ]
         then
-            echo "Short descriptions $lang exceeds 80 char limit"
+            echo "Short descriptions exceeds 80 char limit"
             let error++
         fi
     fi
