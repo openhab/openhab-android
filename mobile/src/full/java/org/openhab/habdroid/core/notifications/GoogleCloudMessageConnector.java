@@ -10,6 +10,7 @@ import org.openhab.habdroid.util.MyHttpClient;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.Locale;
 
 import okhttp3.Call;
 import okhttp3.Headers;
@@ -54,10 +55,9 @@ public class GoogleCloudMessageConnector {
             Log.d(TAG, "Could not encode device model: " + ex.getMessage());
             return false;
         }
-        String regUrl;
-
-        regUrl = "/addAndroidRegistration?deviceId=" + mDeviceId + "&deviceModel=" +
-                deviceModel + "&regId=" + registrationId;
+        String regUrl = String.format(Locale.US,
+                "/addAndroidRegistration?deviceId=%s&deviceModel=%s&regId=%s",
+                mDeviceId, deviceModel, registrationId);
 
         Log.d(TAG, "Register device at openHAB-cloud with URL: " + regUrl);
         mSettings.getConnection().getSyncHttpClient().get(regUrl, new MyHttpClient.ResponseHandler() {

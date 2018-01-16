@@ -2,8 +2,8 @@ package org.openhab.habdroid.core.connection;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.os.AsyncTask;
-import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
+import android.text.TextUtils;
 import android.util.Log;
 
 import org.openhab.habdroid.util.Constants;
@@ -14,42 +14,45 @@ import org.openhab.habdroid.util.MySyncHttpClient;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.URL;
-import java.util.concurrent.ExecutionException;
 
 public abstract class AbstractConnection implements Connection {
     private static final String TAG = AbstractConnection.class.getSimpleName();
 
-    private Context ctx;
     private SharedPreferences settings;
 
     private int connectionType;
+    private String username;
+    private String password;
+    private String baseUrl;
 
-    private MyAsyncHttpClient asyncHttpClient;
-    private MySyncHttpClient syncHttpClient;
+    private final MyAsyncHttpClient asyncHttpClient;
+    private final MySyncHttpClient syncHttpClient;
 
-    AbstractConnection(Context ctx){
-        this(ctx, PreferenceManager.getDefaultSharedPreferences(ctx));
-    }
-
-    AbstractConnection(Context ctx, SharedPreferences settings) {
-        this.ctx = ctx;
+    AbstractConnection(Context ctx, SharedPreferences settings, int connectionType, String
+            username, String password, String baseUrl) {
         this.settings = settings;
+        this.username = username;
+        this.password = password;
+        this.baseUrl = baseUrl;
+        this.connectionType = connectionType;
+
+        asyncHttpClient = new MyAsyncHttpClient(ctx, ignoreSslHostname(), ignoreCertTrust());
+        asyncHttpClient.setTimeout(30000);
+
+        syncHttpClient = new MySyncHttpClient(ctx, ignoreSslHostname(), ignoreCertTrust());
+
+        updateHttpClientAuth(asyncHttpClient);
+        updateHttpClientAuth(syncHttpClient);
     }
 
-    protected void updateHttpClientAuth(MyHttpClient httpClient) {
-        if ((getUsername() != null && !getUsername().isEmpty()) ||
-                (getPassword() != null && !getPassword().isEmpty())) {
+    private void updateHttpClientAuth(MyHttpClient httpClient) {
+        if (!TextUtils.isEmpty(getUsername()) && !TextUtils.isEmpty(getPassword())) {
             httpClient.setBasicAuth(getUsername(), getPassword());
         }
     }
     public MyAsyncHttpClient getAsyncHttpClient() {
-        if (asyncHttpClient == null) {
-            asyncHttpClient = new MyAsyncHttpClient(ctx, ignoreSslHostname(), ignoreCertTrust());
-            asyncHttpClient.setTimeout(30000);
-            asyncHttpClient.setBaseUrl(getOpenHABUrl());
+        asyncHttpClient.setBaseUrl(getOpenHABUrl());
 
-            updateHttpClientAuth(asyncHttpClient);
-        }
         return asyncHttpClient;
     }
 
@@ -62,54 +65,49 @@ public abstract class AbstractConnection implements Connection {
     };
 
     public MySyncHttpClient getSyncHttpClient() {
-        if (syncHttpClient == null) {
-            syncHttpClient = new MySyncHttpClient(ctx, ignoreSslHostname(), ignoreCertTrust());
-            syncHttpClient.setBaseUrl(getOpenHABUrl());
+        syncHttpClient.setBaseUrl(getOpenHABUrl());
 
-            updateHttpClientAuth(syncHttpClient);
-        }
         return syncHttpClient;
     }
 
     @Override
-    public void setConnectionType(int connectionType) {
-        this.connectionType = connectionType;
+    public String getUsername() {
+        return username;
+    }
+
+    @Override
+    public String getPassword() {
+        return password;
     }
 
     @Override
     public int getConnectionType() {
-        return this.connectionType;
+        return connectionType;
+    }
+
+    @Override
+    @NonNull
+    public String getOpenHABUrl() {
+        return baseUrl;
     }
 
     @Override
     public boolean isReachable() {
         Log.d(TAG, "Checking reachability of " + getOpenHABUrl());
-        try {
-            AsyncTask task = new AsyncTask<String, Void, Boolean>() {
-                @Override
-                protected Boolean doInBackground(String... strings) {
-                    try {
-                        URL url = new URL(strings[0]);
-                        int checkPort = url.getPort();
-                        if (url.getProtocol().equals("http") && checkPort == -1)
-                            checkPort = 80;
-                        if (url.getProtocol().equals("https") && checkPort == -1)
-                            checkPort = 443;
-                        Socket s = new Socket();
-                        s.connect(new InetSocketAddress(url.getHost(), checkPort), 1000);
-                        Log.d(TAG, "Socket connected");
-                        s.close();
-                        return true;
-                    } catch (Exception e) {
-                        Log.e(TAG, e.getMessage());
-                        return false;
-                    }
-                }
-            }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, getOpenHABUrl());
 
-            // task can be null, e.g. unit tests, assume the target is reachable in this case
-            return task == null || (boolean) task.get();
-        } catch (InterruptedException | ExecutionException e) {
+        try {
+            URL url = new URL(getOpenHABUrl());
+            int checkPort = url.getPort();
+            if (url.getProtocol().equals("http") && checkPort == -1)
+                checkPort = 80;
+            if (url.getProtocol().equals("https") && checkPort == -1)
+                checkPort = 443;
+            Socket s = new Socket();
+            s.connect(new InetSocketAddress(url.getHost(), checkPort), 1000);
+            Log.d(TAG, "Socket connected");
+            s.close();
+            return true;
+        } catch (Exception e) {
             Log.e(TAG, e.getMessage());
             return false;
         }

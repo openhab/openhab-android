@@ -1,6 +1,7 @@
 package org.openhab.habdroid.core.connection;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -15,7 +16,8 @@ public class DemoConnectionTest {
     @Before
     public void setup() {
         Context mockContext = Mockito.mock(Context.class);
-        testConnection = new DemoConnection(mockContext);
+        SharedPreferences mockSettings = Mockito.mock(SharedPreferences.class);
+        testConnection = new DemoConnection(mockContext, mockSettings);
     }
 
     @Test
@@ -36,25 +38,5 @@ public class DemoConnectionTest {
     @Test
     public void testGetPassword() {
         assertNull(testConnection.getPassword());
-    }
-
-    @Test(expected = RuntimeException.class)
-    public void testSetOpenHABUrl() {
-        testConnection.setOpenHABUrl("Test");
-    }
-
-    @Test(expected = RuntimeException.class)
-    public void testSetUsername() {
-        testConnection.setUsername("Test");
-    }
-
-    @Test(expected = RuntimeException.class)
-    public void testSetPassword() {
-        testConnection.setPassword("Test");
-    }
-
-    @Test(expected = RuntimeException.class)
-    public void testSetConnectionType() {
-        testConnection.setConnectionType(Connection.TYPE_REMOTE);
     }
 }

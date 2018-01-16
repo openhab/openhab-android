@@ -3,12 +3,10 @@ package org.openhab.habdroid.core.connection;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
-import android.preference.PreferenceManager;
 import android.util.Log;
 
 import org.openhab.habdroid.R;
@@ -50,7 +48,7 @@ final public class ConnectionFactory
         public static final ConnectionFactory INSTANCE = new ConnectionFactory();
     }
 
-    static ConnectionFactory getInstance() {
+    public static ConnectionFactory getInstance() {
         return InstanceHolder.INSTANCE;
     }
 
@@ -60,7 +58,7 @@ final public class ConnectionFactory
         }
     }
 
-    private void setContext(Context ctx) {
+    public void setContext(Context ctx) {
         this.ctx = ctx;
     }
 
@@ -71,7 +69,7 @@ final public class ConnectionFactory
         }
     }
 
-    private void setSettings(SharedPreferences settings) {
+    public void setSettings(SharedPreferences settings) {
         if (this.settings != null) {
             this.settings.unregisterOnSharedPreferenceChangeListener(this);
         }
@@ -80,26 +78,12 @@ final public class ConnectionFactory
         this.settings.registerOnSharedPreferenceChangeListener(this);
     }
 
-    public static Connection getConnection(int connectionType, Context ctx) {
-        return getConnection(connectionType, ctx,
-                PreferenceManager.getDefaultSharedPreferences(ctx));
-    }
-
-    public static Connection getConnection(int connectionType, Context ctx,
-                                           SharedPreferences settings) {
-        // FIXME: Once we're on API level 19, use Objects.requireNonNull();
-        if (ctx == null) {
-            throw new NullPointerException("Context ctx can not be null.");
-        }
-
+    public static Connection getConnection(int connectionType) {
         ConnectionFactory factory = getInstance();
-        factory.setSettings(settings);
-        factory.setContext(ctx);
 
-        ctx.registerReceiver(factory, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
-
-        if (factory.cachedConnections.containsKey(connectionType)) {
-            return factory.cachedConnections.get(connectionType);
+        Connection cached = factory.cachedConnections.get(connectionType);
+        if (cached != null) {
+            return cached;
         }
 
         Connection conn;
@@ -123,8 +107,9 @@ final public class ConnectionFactory
                 throw new IllegalArgumentException("Invalid Connection type requested.");
         }
 
-        if (conn != null)
+        if (conn != null) {
             factory.cachedConnections.put(connectionType, conn);
+        }
 
         return conn;
     }
@@ -135,18 +120,8 @@ final public class ConnectionFactory
         // If local URL is configured
         if (openHABUrl.length() > 0) {
             Log.d(TAG, "Connecting to local URL " + openHABUrl);
-            Connection conn = new DefaultConnection(ctx);
-            conn.setOpenHABUrl(openHABUrl);
-            conn.setConnectionType(Connection.TYPE_LOCAL);
-
-            if (hasUsername()) {
-                conn.setUsername(getUsername());
-            }
-            if (hasPassword()) {
-                conn.setPassword(getPassword());
-            }
-
-            return conn;
+            return new DefaultConnection(ctx, settings, Connection.TYPE_LOCAL, getUsername(),
+                    getPassword(), openHABUrl);
         } else {
             return null;
         }
@@ -156,16 +131,8 @@ final public class ConnectionFactory
         return settings.getString(Constants.PREFERENCE_LOCAL_PASSWORD, null);
     }
 
-    private boolean hasPassword() {
-        return getPassword() != null && !getPassword().isEmpty();
-    }
-
     private String getUsername() {
         return settings.getString(Constants.PREFERENCE_LOCAL_USERNAME, null);
-    }
-
-    private boolean hasUsername() {
-        return getUsername() != null && !getUsername().isEmpty();
     }
 
     private Connection getRemoteConnection() {
@@ -174,18 +141,8 @@ final public class ConnectionFactory
         // If remote URL is configured
         if (openHABUrl.length() > 0) {
             Log.d(TAG, "Connecting to remote URL " + openHABUrl);
-            Connection conn = new DefaultConnection(ctx);
-            conn.setOpenHABUrl(openHABUrl);
-            conn.setConnectionType(Connection.TYPE_REMOTE);
-
-            if (hasRemoteUsername()) {
-                conn.setUsername(getRemoteUsername());
-            }
-            if (hasRemotePassword()) {
-                conn.setPassword(getRemotePassword());
-            }
-
-            return conn;
+            return new DefaultConnection(ctx, settings, Connection.TYPE_REMOTE, getRemoteUsername
+                    (), getRemotePassword(), openHABUrl);
         } else {
             return null;
         }
@@ -195,16 +152,8 @@ final public class ConnectionFactory
         return settings.getString(Constants.PREFERENCE_REMOTE_PASSWORD, null);
     }
 
-    private boolean hasRemotePassword() {
-        return getRemotePassword() != null && !getRemotePassword().isEmpty();
-    }
-
     private String getRemoteUsername() {
         return settings.getString(Constants.PREFERENCE_REMOTE_USERNAME, null);
-    }
-
-    private boolean hasRemoteUsername() {
-        return getRemoteUsername() != null && !getRemoteUsername().isEmpty();
     }
 
     private Connection getAvailableConnection() {
@@ -216,14 +165,15 @@ final public class ConnectionFactory
             if (settings.getBoolean(Constants.PREFERENCE_DEMOMODE, false)) {
                 Log.d(TAG, "Demo mode");
 
-                return new DemoConnection(ctx);
+                return new DemoConnection(ctx, settings);
             } else {
                 // If we are on a mobile network go directly to remote URL from settings
                 if (activeNetworkInfo.getType() == ConnectivityManager.TYPE_MOBILE) {
-                    if (getRemoteConnection() == null) {
+                    Connection remoteConnection = getRemoteConnection();
+                    if (remoteConnection == null) {
                         throw new NoUrlInformationException();
                     }
-                    return getRemoteConnection();
+                    return remoteConnection;
 
                     // Else if we are on Wifi, Ethernet, WIMAX or VPN network
                 } else if (localConnectionTypes.contains(activeNetworkInfo.getType())) {

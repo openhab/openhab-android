@@ -33,7 +33,8 @@
         android:resizeableActivity="true"
         android:supportsPictureInPicture="false"
         android:theme="@style/HABDroid.Light"
-        android:supportsRtl="true">
+        android:supportsRtl="true"
+        android:name=".core.OpenHABApplication">
         <activity
             android:name="org.openhab.habdroid.ui.OpenHABPreferencesActivity"
             android:label="@string/app_preferences_name">

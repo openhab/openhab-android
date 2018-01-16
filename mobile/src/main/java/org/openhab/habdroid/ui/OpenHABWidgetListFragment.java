@@ -296,7 +296,7 @@ public class OpenHABWidgetListFragment extends ListFragment {
                 return;
             }
         } else {
-            conn = ConnectionFactory.getConnection(Connection.TYPE_ANY, getContext());
+            conn = ConnectionFactory.getConnection(Connection.TYPE_ANY);
         }
         MyAsyncHttpClient asyncHttpClient = conn.getAsyncHttpClient();
         headers.put("X-Atmosphere-Framework", "1.0");

@@ -346,7 +346,7 @@ public class OpenHABMainActivity extends ConnectionAvailabilityAwareActivity
 
     private void initializeConnectivity() throws NoUrlInformationException,
             NetworkNotAvailableException, NetworkNotSupportedException {
-        final Connection conn = ConnectionFactory.getConnection(TYPE_ANY, this);
+        final Connection conn = ConnectionFactory.getConnection(TYPE_ANY);
         if (conn instanceof DemoConnection) {
             showMessageToUser(
                     this, getString(R.string.info_demo_mode_short), TYPE_SNACKBAR, LOGLEVEL_ALWAYS);
@@ -422,13 +422,10 @@ public class OpenHABMainActivity extends ConnectionAvailabilityAwareActivity
     }
 
     private void stopProgressDialog() {
-        try {
+        if (!isFinishing() && mProgressDialog != null && mProgressDialog.isShowing()) {
             mProgressDialog.dismiss();
-            mProgressDialog = null;
-        } catch (Exception e) {
-            // This is to catch "java.lang.IllegalArgumentException: View not attached to window manager"
-            // exception which happens if user quited app during discovery
         }
+        mProgressDialog = null;
     }
 
     private void processIntent(Intent intent) {
@@ -462,8 +459,9 @@ public class OpenHABMainActivity extends ConnectionAvailabilityAwareActivity
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        if (mDrawerToggle != null)
+        if (mDrawerToggle != null) {
             mDrawerToggle.onConfigurationChanged(newConfig);
+        }
     }
 
     /**
@@ -690,6 +688,9 @@ public class OpenHABMainActivity extends ConnectionAvailabilityAwareActivity
     private void loadSitemapList() {
         setProgressIndicatorVisible(true);
         Connection conn = getConnection(TYPE_ANY);
+        if (conn == null) {
+            return;
+        }
         Log.d(TAG, "Loading sitemap list from /rest/sitemaps");
 
         conn.getAsyncHttpClient().get("/rest/sitemaps", new DefaultHttpResponseHandler() {
@@ -878,7 +879,7 @@ public class OpenHABMainActivity extends ConnectionAvailabilityAwareActivity
                 .setColorFilter(ContextCompat.getColor(this, R.color.light), PorterDuff.Mode.SRC_IN);
 
         try {
-            ConnectionFactory.getConnection(TYPE_ANY, this);
+            ConnectionFactory.getConnection(TYPE_ANY);
         } catch (ConnectionException e) {
             voiceRecognitionItem.setVisible(false);
         }
@@ -937,10 +938,13 @@ public class OpenHABMainActivity extends ConnectionAvailabilityAwareActivity
         if (firstTimeDemo) {
             restartIntent.putExtra(EXTRA_DEMO_FIRST_TIME, true);
         }
-        // Finish current activity
-        finish();
-        // Start launch activity
-        startActivity(restartIntent);
+        if (firstTimeDemo) {
+            // Finish current activity
+            finish();
+            // Start launch activity
+            startActivity(restartIntent);
+        }
+        recreate();
     }
 
     @Override

@@ -151,7 +151,7 @@ public class OpenHABNotificationFragment extends ListFragment implements SwipeRe
         Connection conn;
 
         try {
-            conn = ConnectionFactory.getConnection(Connection.TYPE_CLOUD, getActivity());
+            conn = ConnectionFactory.getConnection(Connection.TYPE_CLOUD);
         } catch (ConnectionException e) {
             return;
         }

@@ -52,7 +52,7 @@ public class OpenHABNotificationAdapter extends ArrayAdapter<OpenHABNotification
                     conn = ((ConnectionAvailabilityAwareActivity) getContext())
                             .getConnection(Connection.TYPE_CLOUD);
                 } else {
-                    conn = ConnectionFactory.getConnection(Connection.TYPE_CLOUD, getContext());
+                    conn = ConnectionFactory.getConnection(Connection.TYPE_CLOUD);
                 }
                 String iconUrl = conn.getOpenHABUrl() + "/images/" + Uri.encode(notification
                         .getIcon() + ".png");

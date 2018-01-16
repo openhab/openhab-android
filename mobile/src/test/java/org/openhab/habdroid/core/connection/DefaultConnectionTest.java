@@ -27,17 +27,25 @@ public class DefaultConnectionTest {
     private static final String TEST_BASE_URL = "https://demo.local:8443";
 
     private Connection testConnection;
-
     private Connection testConnectionNoUrl;
+    private Connection testConnectionRemote;
+    private Connection testConnectionCloud;
+
     private SharedPreferences mockSettings;
+    private Context mockContext;
 
     @Before
     public void setup() {
-        Context mockContext = Mockito.mock(Context.class);
+        mockContext = Mockito.mock(Context.class);
         mockSettings = Mockito.mock(SharedPreferences.class);
-        testConnection = new DefaultConnection(mockContext, mockSettings);
-        testConnectionNoUrl = new DefaultConnection(mockContext, mockSettings);
-        testConnection.setOpenHABUrl(TEST_BASE_URL);
+        testConnection = new DefaultConnection(mockContext, mockSettings, Connection.TYPE_LOCAL,
+                null, null, TEST_BASE_URL);
+        testConnectionNoUrl = new DefaultConnection(mockContext, mockSettings, Connection.TYPE_LOCAL,
+                null, null, null);
+        testConnectionRemote = new DefaultConnection(mockContext, mockSettings,
+                Connection.TYPE_REMOTE, null, null, null);
+        testConnectionCloud = new DefaultConnection(mockContext, mockSettings,
+                Connection.TYPE_CLOUD, null, null, null);
     }
 
     @Test
@@ -47,31 +55,22 @@ public class DefaultConnectionTest {
 
     @Test
     public void testGetOpenHABUrlSet() {
-        testConnection.setOpenHABUrl("Test-URL");
-        assertEquals("Test-URL", testConnection.getOpenHABUrl());
-    }
-
-    @Test
-    public void testGetConnectionTypeNotSet() {
-        assertEquals(Connection.TYPE_ANY, testConnection.getConnectionType());
+        assertEquals(TEST_BASE_URL, testConnection.getOpenHABUrl());
     }
 
     @Test
     public void testGetConnectionTypeSetRemote() {
-        testConnection.setConnectionType(Connection.TYPE_REMOTE);
-        assertEquals(Connection.TYPE_REMOTE, testConnection.getConnectionType());
+        assertEquals(Connection.TYPE_REMOTE, testConnectionRemote.getConnectionType());
     }
 
     @Test
     public void testGetConnectionTypeSetLocal() {
-        testConnection.setConnectionType(Connection.TYPE_LOCAL);
         assertEquals(Connection.TYPE_LOCAL, testConnection.getConnectionType());
     }
 
     @Test
     public void testGetConnectionTypeSetCloud() {
-        testConnection.setConnectionType(Connection.TYPE_CLOUD);
-        assertEquals(Connection.TYPE_CLOUD, testConnection.getConnectionType());
+        assertEquals(Connection.TYPE_CLOUD, testConnectionCloud.getConnectionType());
     }
 
     @Test
@@ -86,14 +85,16 @@ public class DefaultConnectionTest {
 
     @Test
     public void testGetUsernameSet() {
-        testConnection.setUsername("Test-User");
-        assertEquals("Test-User", testConnection.getUsername());
+        Connection connection = new DefaultConnection(mockContext, mockSettings, Connection.TYPE_LOCAL,
+                "Test-User", null, TEST_BASE_URL);
+        assertEquals("Test-User", connection.getUsername());
     }
 
     @Test
     public void testGetPasswordSet() {
-        testConnection.setPassword("Test-Password");
-        assertEquals("Test-Password", testConnection.getPassword());
+        Connection connection = new DefaultConnection(mockContext, mockSettings, Connection.TYPE_LOCAL,
+                null, "Test-Password", TEST_BASE_URL);
+        assertEquals("Test-Password", connection.getPassword());
     }
 
     @Test
@@ -118,9 +119,9 @@ public class DefaultConnectionTest {
 
     @Test
     public void testAsyncHasUsernamePassword() {
-        testConnection.setUsername("Test-User");
-        testConnection.setPassword("Test-Password");
-        MyHttpClient httpClient = testConnection.getAsyncHttpClient();
+        Connection connection = new DefaultConnection(mockContext, mockSettings, Connection.TYPE_LOCAL,
+                "Test-User", "Test-Password", TEST_BASE_URL);
+        MyHttpClient httpClient = connection.getAsyncHttpClient();
 
         assertTrue(httpClient.getHeaders().containsKey("Authorization"));
         assertEquals(Credentials.basic("Test-User", "Test-Password"),
@@ -129,9 +130,9 @@ public class DefaultConnectionTest {
 
     @Test
     public void testSyncHasUsernamePassword() {
-        testConnection.setUsername("Test-User");
-        testConnection.setPassword("Test-Password");
-        MyHttpClient httpClient = testConnection.getSyncHttpClient();
+        Connection connection = new DefaultConnection(mockContext, mockSettings, Connection.TYPE_LOCAL,
+                "Test-User", "Test-Password", TEST_BASE_URL);
+        MyHttpClient httpClient = connection.getSyncHttpClient();
 
         assertTrue(httpClient.getHeaders().containsKey("Authorization"));
         assertEquals(Credentials.basic("Test-User", "Test-Password"),

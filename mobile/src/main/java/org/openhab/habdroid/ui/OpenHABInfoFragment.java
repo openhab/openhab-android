@@ -82,7 +82,7 @@ public class OpenHABInfoFragment extends Fragment {
     private void setSecretText() {
         Connection conn;
         try {
-            conn = ConnectionFactory.getConnection(Connection.TYPE_ANY, getActivity());
+            conn = ConnectionFactory.getConnection(Connection.TYPE_ANY);
         } catch (NetworkNotSupportedException | NetworkNotAvailableException e) {
             return;
         }
@@ -108,7 +108,7 @@ public class OpenHABInfoFragment extends Fragment {
     private void setUuidText() {
         Connection conn;
         try {
-            conn = ConnectionFactory.getConnection(Connection.TYPE_ANY, getActivity());
+            conn = ConnectionFactory.getConnection(Connection.TYPE_ANY);
         } catch (NetworkNotSupportedException | NetworkNotAvailableException e) {
             return;
         }
@@ -139,7 +139,7 @@ public class OpenHABInfoFragment extends Fragment {
     private void setVersionText() {
         Connection conn;
         try {
-            conn = ConnectionFactory.getConnection(Connection.TYPE_ANY, getActivity());
+            conn = ConnectionFactory.getConnection(Connection.TYPE_ANY);
         } catch (NetworkNotSupportedException | NetworkNotAvailableException e) {
             return;
         }

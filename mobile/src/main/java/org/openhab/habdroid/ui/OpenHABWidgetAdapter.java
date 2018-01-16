@@ -133,7 +133,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
             conn = ((ConnectionAvailabilityAwareActivity) getContext())
                     .getConnection(Connection.TYPE_ANY);
         } else {
-            conn = ConnectionFactory.getConnection(Connection.TYPE_ANY, getContext());
+            conn = ConnectionFactory.getConnection(Connection.TYPE_ANY);
         }
         int widgetLayout;
         String[] splitString;
@@ -896,7 +896,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
         }
         Connection conn;
         try {
-            conn = ConnectionFactory.getConnection(Connection.TYPE_ANY, getContext());
+            conn = ConnectionFactory.getConnection(Connection.TYPE_ANY);
         } catch(ConnectionException e) {
             MessageHandler.showMessageToUser((Activity) getContext(),
                     e.getMessage(), MessageHandler.TYPE_DIALOG, MessageHandler.LOGLEVEL_ALWAYS);

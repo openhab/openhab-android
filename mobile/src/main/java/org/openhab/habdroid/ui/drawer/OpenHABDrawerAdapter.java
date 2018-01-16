@@ -94,7 +94,7 @@ public class OpenHABDrawerAdapter extends ArrayAdapter<OpenHABDrawerItem> {
             conn = ((ConnectionAvailabilityAwareActivity) getContext())
                     .getConnection(Connection.TYPE_ANY);
         } else {
-            conn = ConnectionFactory.getConnection(Connection.TYPE_ANY, getContext());
+            conn = ConnectionFactory.getConnection(Connection.TYPE_ANY);
         }
         switch (this.getItemViewType(position)) {
             case TYPE_SITEMAPITEM:

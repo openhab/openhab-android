@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,7 +23,6 @@ import org.openhab.habdroid.core.connection.exception.NetworkNotAvailableExcepti
 import org.openhab.habdroid.core.connection.exception.NetworkNotSupportedException;
 import org.openhab.habdroid.core.connection.exception.NoUrlInformationException;
 import org.openhab.habdroid.core.message.MessageHandler;
-import org.openhab.habdroid.ui.OpenHABMainActivity;
 import org.openhab.habdroid.ui.OpenHABPreferencesActivity;
 
 import static org.openhab.habdroid.ui.OpenHABPreferencesActivity.NO_URL_INFO_EXCEPTION_EXTRA;
@@ -32,20 +32,9 @@ public abstract class ConnectionAvailabilityAwareActivity extends AppCompatActiv
     private static final String TAG = ConnectionAvailabilityAwareActivity.class.getSimpleName();
     public static final String NO_NETWORK_TAG = "noNetwork";
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-
-        try {
-            unregisterReceiver(ConnectionFactory.getInstance());
-        } catch (IllegalArgumentException e) {
-            Log.d(TAG, "Tried to unregister not registered BroadcastReceiver.", e);
-        }
-    }
-
     public Connection getConnection(int connectionType) {
         try {
-            return ConnectionFactory.getConnection(connectionType, this);
+            return ConnectionFactory.getConnection(connectionType);
         } catch (NetworkNotAvailableException | NetworkNotSupportedException e) {
             showNoNetworkFragment(e.getMessage());
         } catch (NoUrlInformationException e) {
@@ -95,12 +84,6 @@ public abstract class ConnectionAvailabilityAwareActivity extends AppCompatActiv
      */
     protected void onLeaveNoNetwork() {}
 
-    private void restartApp() {
-        Intent startActivity = new Intent(this, OpenHABMainActivity.class);
-        startActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(startActivity);
-    }
-
     @Override
     protected void onResume() {
         super.onResume();
@@ -109,7 +92,7 @@ public abstract class ConnectionAvailabilityAwareActivity extends AppCompatActiv
             return;
         }
         try {
-            ConnectionFactory.getConnection(Connection.TYPE_ANY, this);
+            ConnectionFactory.getConnection(Connection.TYPE_ANY);
             getFragmentManager().beginTransaction().remove(fragment).commit();
             onConnectivityChanged();
             if (getSupportActionBar() != null) {
@@ -137,11 +120,13 @@ public abstract class ConnectionAvailabilityAwareActivity extends AppCompatActiv
             View view = inflater.inflate(R.layout.fragment_no_network, container, false);
 
             TextView descriptionText = view.findViewById(R.id.network_error_description);
-            if (!arguments.getString(NO_NETWORK_MESSAGE, "").isEmpty()) {
-                descriptionText.setText(arguments.getString(NO_NETWORK_MESSAGE));
+            String message = arguments.getString(NO_NETWORK_MESSAGE);
+            if (!TextUtils.isEmpty(message)) {
+                descriptionText.setText(message);
             } else {
                 descriptionText.setVisibility(View.GONE);
             }
+
             final ImageView watermark = view.findViewById(R.id.network_error_image);
 
             Drawable errorImage = getResources().getDrawable(R.drawable.ic_signal_cellular_off_black_24dp);
@@ -150,11 +135,11 @@ public abstract class ConnectionAvailabilityAwareActivity extends AppCompatActiv
                     PorterDuff.Mode.SRC_IN);
             watermark.setImageDrawable(errorImage);
 
-            final Button restartButton = view.findViewById(R.id.network_error_restart);
+            final Button restartButton = view.findViewById(R.id.network_error_try_again);
             restartButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ((ConnectionAvailabilityAwareActivity) getActivity()).restartApp();
+                    getActivity().recreate();
                 }
             });
 

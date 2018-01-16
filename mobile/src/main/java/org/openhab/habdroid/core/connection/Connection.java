@@ -59,19 +59,12 @@ public interface Connection {
      */
     MySyncHttpClient getSyncHttpClient();
 
-    void setUsername(String username);
-    void setPassword(String password);
-
     /**
      * @return The username used for this connection.
      */
     @Nullable String getUsername();
     @Nullable String getPassword();
-
-    void setOpenHABUrl(String openHABUrl);
     @NonNull String getOpenHABUrl();
-
-    void setConnectionType(int connectionType);
 
     /**
      * @return The type of this connection represented by one of the TYPE_* constants of the
