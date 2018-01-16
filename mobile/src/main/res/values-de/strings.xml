@@ -52,7 +52,7 @@
   <string name="title_voice_widget">openHAB-Sprachbefehle</string>
   <string name="info_voice_input">"openHAB, zu Ihren Diensten!"</string>
   <string name="info_voice_recognized_text">"Erkannter Befehl: %1$s"</string>
-  <string name="info_demo_mode">openHAB läuft im Demomodus. In den Einstellungen kann ein eigener openHAB-Server konfiguriert werden.</string>
+  <string name="info_demo_mode">openHAB startet im Demomodus. In den Einstellungen kann ein eigener openHAB-Server konfiguriert werden.</string>
   <string name="info_demo_mode_short">Läuft im Demomodus</string>
   <string name="info_conn_url">Verbinde mit lokaler URL</string>
   <string name="info_conn_rem_url">Verbinde mit Remote-URL</string>
@@ -85,7 +85,7 @@
   <string name="error_http_code_511">Netzwerkauthentifizierung wird gefordert (HTTP-Statuscode 511)</string>
   <string name="title_activity_openhabwritetag">NFC-Tag beschreiben</string>
   <string name="title_activity_openhabinfo">openHAB-Informationen</string>
-  <string name="title_activity_libraries">Verwendete Softwarebibliotheken</string>
+  <string name="title_activity_libraries">Verwendete Bibliotheken</string>
   <string name="info_write_tag">Berühren Sie den NFC-Tag und warten Sie auf die Bestätigungsmitteilung</string>
   <string name="info_write_tag_progress">Schreibe NFC-Tag</string>
   <string name="info_write_tag_finished">Erfolgreich abgeschlossen</string>
