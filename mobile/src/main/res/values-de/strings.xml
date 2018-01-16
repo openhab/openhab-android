@@ -60,6 +60,7 @@
   <string name="error_no_url">Bitte prüfen Sie, ob openHAB läuft oder die URLs falsch konfiguriert sind</string>
   <string name="error_empty_sitemap_list">openHAB lieferte eine leere Sitemap-Liste</string>
   <string name="error_network_not_available">Netzwerk nicht verfügbar</string>
+  <string name="error_http_connection_failed">Verbindung fehlgeschlagen. Es wurde eine unerwartete Antwort während des Verbindungsversuches mit dem konfigurierten openHAB-Server empfangen. (HTTP Statuscode: %d)</string>
   <string name="error_no_uuid">Konnte openHAB-UUID nicht abrufen, Verbindung fehlgeschlagen</string>
   <string name="error_connection_failed">Verbindung fehlgeschlagen</string>
   <string name="error_unable_to_resolve_hostname">Fehler beim Auflösen des Hostnamens</string>
