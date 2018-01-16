@@ -3,26 +3,29 @@
 # Exit on error
 set -e
 
-# Remove old descriptions
-find fastlane/metadata/android/ -name "*_description.txt" -delete
-
 # Checks if play store descriptions does not exceed char limits
 # https://support.google.com/googleplay/android-developer/answer/113469?hl=en
+
+# Check if called from repository root
+[ -d "fastlane/metadata/android" ] || exit 1
+
+# Remove old descriptions
+find fastlane/metadata/android/ -name "*_description.txt" -delete
 
 error=0
 
 full_description_template="assets/store_descriptions/full-description.txt.template"
-string_base="assets/store_descriptions/"
+string_base="assets/store_descriptions"
 resource_base="fastlane/metadata/android"
 
-for folder in $string_base*
+for folder in ${string_base}/*
 do
     [ ! -d "$folder" ] && continue
     if [ -f "${folder}/strings.sh" ]
     then
         source "${string_base}/en-US/strings.sh"
         source "${folder}/strings.sh"
-        lang=${folder#$string_base}
+        lang=${folder#${string_base}/}
         if [ ! -d "${resource_base}/${lang}" ]
         then
             mkdir "${resource_base}/${lang}"
