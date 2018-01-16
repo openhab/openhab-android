@@ -46,6 +46,7 @@
   <string name="settings_no_default_sitemap">Keine Standard-Sitemap festgelegt</string>
   <string name="settings_current_default_sitemap">Aktuelle Standard-Sitemap: %1$s</string>
   <string name="settings_openhab_sslsettings">Verschlüsselung</string>
+  <string name="settings_openhab_alt_connection">Fernzugriff</string>
   <string name="settings_openhab_connection">Lokal</string>
   <!-- App messages strings -->
   <string name="title_voice_widget">openHAB-Sprachbefehle</string>
@@ -148,6 +149,9 @@
   <string name="content_description_open_roller_shutter">Rollladen öffnen</string>
   <string name="content_description_close_roller_shutter">Rollladen schließen</string>
   <string name="content_description_open_color_wheel">Farbauswahl öffnen</string>
+  <string name="content_description_color_up">Ein oder Halten zum Erhöhen der Helligkeit</string>
+  <string name="content_description_color_down">Aus oder Halten zum Verringern der Helligkeit</string>
+  <string name="content_description_open_number_picker">Zahlenauswahl öffnen</string>
   <string name="content_description_video">Video</string>
   <string name="content_description_open_openhab">openHAB öffnen</string>
 </resources>
