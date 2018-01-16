@@ -1,3 +1,31 @@
-This is a native Android user interface application for openHAB - an open source home automation system. The open Home Automation Bus (openHAB) project aims at providing a universal integration platform for all things around home automation. It is designed to be absolutely vendor-neutral as well as hardware/protocol-agnostic. openHAB brings together different bus systems, hardware devices and interface protocols. Supported technologies include KNX, Modbus, DMX, Philips Hue, PLCBus, Sonos, Plugwise, IHC/Elko, RFXCOM, Homematic, Koubachi, Pulseaudio, Samsung TV, Bluetooth, One-Wire, Novelan, Asterisk, generic serial devices and many others. It supports all openHAB features plus NFC tags based sitemap navigation and item control, automatic discovery of your openHAB and remote connection back to your house over the Internet with my.openHAB service. openHAB is the integration and control point of your Smart Home. You will find openHAB at http://www.openhab.org/
+openHAB - "empowering the smart home" - vendor and technology agnostic open source home automation
 
-Please note: GCM and crash analytics has been removed from the F-Droid version. Unlike in other apps it is built directly from upstream.
+openHAB is a Java-based open-source home automation platform that integrates and combines a vast range of different smart home systems and technologies into one single solution.
+On top of the unified abstraction layer all connected devices are available for the overarching automation rule engines and different user interfaces.
+
+<b>Supported Products</b>
+
+Over 200 specific add-ons provide support for brands, devices, technologies and communication protocols. Examples are Z-Wave, Philips Hue, Amazon Echo, Chromecast and Sonos. Discover all available add-ons and supported devices and/or functions at: http://docs.openhab.org/addons/bindings.html
+
+• Home Automation Solutions: Z-Wave, EnOcean, Netatmo, Homematic, Insteon, ...
+• Lighting: Philips Hue, Ikea Trådfri, LIFX, Lutron, Milight, ...
+• Heating: Max!, Nest, Vitotronic, Heatmiser, ...
+• Home Entertainment: Samsung TV, LG TV, Sonos, Pioneer AVR, Squeezebox, Kodi, Plex, ...
+• Security: ZoneMinder, DSC, ...
+• Open Protocols: HTTP, TCP/UDP, MQTT, Serial, ...
+• Special UseCases: Minecraft, Tesla Car, Weather Services, ...
+• ...
+
+<b>Open Source Community</b>
+
+The openHAB open source initiative strongly supports its vibrant community. The forum with over 13,000 registered users is a place to find guidance, help and inspiration. Join the openHAB community forum over at https://community.openhab.org
+When you found an issue please report it in the forum or at https://github.com/openhab/openhab-android/issues
+If you want to translate the app into your language join us at https://crowdin.com/project/openhab-android
+
+<b>openHAB Foundation</b>
+
+The openHAB Foundation e.V. is a nonprofit organization with the mission to educate the public about the possibilities and benefits of free and open smart home solutions. Learn about the mission and the services of the foundation under http://www.openhabfoundation.org
+
+<b>Important note</b>
+
+You need a openHAB server for this app
