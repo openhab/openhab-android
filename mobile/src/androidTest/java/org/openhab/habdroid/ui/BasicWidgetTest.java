@@ -12,17 +12,19 @@ import org.hamcrest.Matchers;
 import org.hamcrest.core.IsInstanceOf;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.openhab.habdroid.TestWithoutIntro;
 import org.openhab.habdroid.R;
+import org.openhab.habdroid.TestWithoutIntro;
 
 import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.hasSibling;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.withChild;
 import static android.support.test.espresso.matcher.ViewMatchers.withClassName;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static android.support.test.espresso.matcher.ViewMatchers.withParent;
+import static android.support.test.espresso.matcher.ViewMatchers.withResourceName;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.CoreMatchers.allOf;
 import static org.hamcrest.Matchers.anything;
@@ -38,11 +40,7 @@ public class BasicWidgetTest extends TestWithoutIntro {
         ViewInteraction firstfloor = onView(
                 allOf(withId(R.id.widgetlabel), withText("First Floor"),
                         childAtPosition(
-                                allOf(withId(R.id.groupleftlayout),
-                                        childAtPosition(
-                                                IsInstanceOf.<View>instanceOf(android.widget.RelativeLayout.class),
-                                                0)),
-                                1),
+                                withId(R.id.groupleftlayout), 1),
                         isDisplayed()));
         firstfloor.check(matches(withText("First Floor")));
 
@@ -71,42 +69,11 @@ public class BasicWidgetTest extends TestWithoutIntro {
 
 
         DataInteraction relativeLayout = onData(anything())
-                .inAdapterView(Matchers.allOf(withId(android.R.id.list),
-                        childAtPosition(
-                                childAtPosition(
-                                        Matchers.allOf(withId(R.id.pager),
-                                                childAtPosition(
-                                                        childAtPosition(
-                                                                Matchers.allOf(withId(R.id.drawer_layout),
-                                                                        childAtPosition(
-                                                                                childAtPosition(
-                                                                                        withId(android.R.id.content),
-                                                                                        0),
-                                                                                1)),
-                                                                0),
-                                                        0)),
-                                        0),
-                                0)))
+                .inAdapterView(withId(android.R.id.list))
                 .atPosition(10);
         relativeLayout.perform(click());
 
-        ViewInteraction appCompatSpinner = onView(
-                Matchers.allOf(withId(R.id.selectionspinner),
-                        childAtPosition(
-                                childAtPosition(
-                                        withParent(Matchers.allOf(withId(android.R.id.list),
-                                                childAtPosition(
-                                                        childAtPosition(
-                                                                Matchers.allOf(withId(R.id.pager),
-                                                                        childAtPosition(
-                                                                                childAtPosition(
-                                                                                        withId(R.id.drawer_layout),
-                                                                                        0),
-                                                                                0)),
-                                                                1),
-                                                        0))),
-                                        0),
-                                1),
+        ViewInteraction appCompatSpinner = onView(Matchers.allOf(withId(R.id.selectionspinner),
                         isDisplayed()));
         appCompatSpinner.perform(click());
 
@@ -121,48 +88,20 @@ public class BasicWidgetTest extends TestWithoutIntro {
         appCompatCheckedTextView.check(matches(withText("off")));
         appCompatCheckedTextView.perform(click());
 
-        /*ViewInteraction radioButton = onView(
-                Matchers.allOf(IsInstanceOf.<View>instanceOf(android.widget.RelativeLayout.class),
-                        withId(R.id.sectionswitchradiogroup), isDisplayed()));
-        radioButton.check(matches(isDisplayed()));*/
-
         ViewInteraction switch_ = onView(
-                Matchers.allOf(withId(R.id.switchswitch),
-                        childAtPosition(
-                                childAtPosition(
-                                        childAtPosition(
-                                                Matchers.allOf(withId(android.R.id.list),
-                                                        childAtPosition(
-                                                                withParent(Matchers.allOf(withId(R.id.pager),
-                                                                        childAtPosition(
-                                                                                childAtPosition(
-                                                                                        withId(R.id.drawer_layout),
-                                                                                        0),
-                                                                                0))),
-                                                                0)),
-                                                1),
-                                        0),
-                                1),
-                        isDisplayed()));
+                Matchers.allOf(withId(R.id.switchswitch), isDisplayed()));
         switch_.check(matches(isDisplayed()));
 
         ViewInteraction seekBar = onView(
                 Matchers.allOf(withId(R.id.sliderseekbar),
-                        childAtPosition(
-                                childAtPosition(
-                                        childAtPosition(
-                                                Matchers.allOf(withId(android.R.id.list),
-                                                        childAtPosition(
-                                                                withParent(Matchers.allOf(withId(R.id.pager),
-                                                                        childAtPosition(
-                                                                                childAtPosition(
-                                                                                        withId(R.id.drawer_layout),
-                                                                                        0),
-                                                                                0))),
-                                                                0)),
-                                                8),
-                                        0),
-                                1),
+                        hasSibling(
+                                allOf(
+                                        withResourceName("sliderleftlayout"),
+                                        withChild(
+                                                allOf(withId(R.id.widgetlabel), withText("Dimmer "))
+                                        )
+                                )
+                        ),
                         isDisplayed()));
         seekBar.check(matches(isDisplayed()));
 
