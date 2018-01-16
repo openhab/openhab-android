@@ -20,7 +20,7 @@ public class GcmBroadcastReceiver extends WakefulBroadcastReceiver {
     private static final String TAG = GcmBroadcastReceiver.class.getSimpleName();
     private Context mContext;
     private NotificationManager mNotificationManager;
-    private static int mNotificationId = 0;
+    private int mNotificationId = 0;
 
     @Override
     public void onReceive(Context context, Intent intent) {
