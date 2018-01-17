@@ -108,7 +108,7 @@ public abstract class AbstractConnection implements Connection {
             s.close();
             return true;
         } catch (Exception e) {
-            Log.e(TAG, e.getMessage());
+            Log.e(TAG, "Error checking if URL is reachable", e);
             return false;
         }
     }

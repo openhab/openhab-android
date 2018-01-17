@@ -44,12 +44,10 @@ final public class ConnectionFactory
 
     Map<Integer, Connection> cachedConnections = new HashMap<>();
 
-    private static class InstanceHolder {
-        public static final ConnectionFactory INSTANCE = new ConnectionFactory();
-    }
+    public static final ConnectionFactory instance = new ConnectionFactory();
 
     public static ConnectionFactory getInstance() {
-        return InstanceHolder.INSTANCE;
+        return instance;
     }
 
     ConnectionFactory() {
