@@ -38,9 +38,8 @@ public class ConnectionFactoryTest {
 
         mockSettings = Mockito.mock(SharedPreferences.class);
 
+        ConnectionFactory.initialize(mockContext, mockSettings);
         ConnectionFactory.getInstance().cachedConnections.clear();
-        ConnectionFactory.getInstance().setSettings(mockSettings);
-        ConnectionFactory.getInstance().setContext(mockContext);
     }
 
     @Test

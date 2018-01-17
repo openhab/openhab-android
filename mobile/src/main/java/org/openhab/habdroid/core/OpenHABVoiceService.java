@@ -49,11 +49,14 @@ public class OpenHABVoiceService extends Service {
         if (!voiceCommand.isEmpty()) {
             try {
                 Connection conn = ConnectionFactory.getConnection(Connection.TYPE_ANY);
-                sendItemCommand("VoiceCommand", voiceCommand, conn);
+                sendItemCommand("VoiceCommand", voiceCommand, conn, startId);
             } catch (ConnectionException e) {
                 Log.w(TAG, "Couldn't determine OpenHAB URL", e);
                 showToast(getString(R.string.error_couldnt_determine_openhab_url));
+                stopSelf(startId);
             }
+        } else {
+            stopSelf(startId);
         }
         return START_NOT_STICKY;
     }
@@ -102,29 +105,31 @@ public class OpenHABVoiceService extends Service {
     }
 
 
-    private void sendItemCommand(final String itemName, final String command, Connection conn) {
+    private void sendItemCommand(final String itemName, final String command,
+                                 final Connection conn, final int startId) {
         Log.d(TAG, "sendItemCommand(): itemName=" + itemName + ", command=" + command);
         try {
-            performHttpPost(itemName, command, conn);
+            performHttpPost(itemName, command, conn, startId);
         } catch (RuntimeException e) {
             Log.e(TAG, "Unable to encode command " + command, e);
+            stopSelf(startId);
         }
     }
 
     private void performHttpPost(final String itemName, final String command,
-                                 final Connection conn) {
+                                 final Connection conn, final int startId) {
         conn.getAsyncHttpClient().post("/rest/items/" + itemName,
                 command, "text/plain;charset=UTF-8", new MyHttpClient.ResponseHandler() {
                     @Override
                     public void onSuccess(Call call, int statusCode, Headers headers, byte[] responseBody) {
                         Log.d(TAG, "Command was sent successfully");
-                        stopSelf();
+                        stopSelf(startId);
                     }
 
                     @Override
                     public void onFailure(Call call, int statusCode, Headers headers, byte[] responseBody, Throwable error) {
                         Log.e(TAG, "Got command error " + statusCode, error);
-                        stopSelf();
+                        stopSelf(startId);
                     }
                 });
     }

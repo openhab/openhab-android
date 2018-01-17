@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import org.openhab.habdroid.R;
@@ -44,20 +45,28 @@ final public class ConnectionFactory
 
     Map<Integer, Connection> cachedConnections = new HashMap<>();
 
-    public static final ConnectionFactory instance = new ConnectionFactory();
+    public static ConnectionFactory sInstance;
 
     public static ConnectionFactory getInstance() {
-        return instance;
+        return sInstance;
     }
 
-    ConnectionFactory() {
+    ConnectionFactory(Context ctx, SharedPreferences settings) {
         if (Build.VERSION.SDK_INT >= 21) {
             localConnectionTypes.add(ConnectivityManager.TYPE_VPN);
         }
+
+        this.ctx = ctx;
+        this.settings = settings;
+        this.settings.registerOnSharedPreferenceChangeListener(this);
     }
 
-    public void setContext(Context ctx) {
-        this.ctx = ctx;
+    public static void initialize(Context ctx) {
+        initialize(ctx, PreferenceManager.getDefaultSharedPreferences(ctx));
+    }
+
+    public static void initialize(Context ctx, SharedPreferences settings) {
+        sInstance = new ConnectionFactory(ctx, settings);
     }
 
     @Override
@@ -65,15 +74,6 @@ final public class ConnectionFactory
         if (needInvalidateCachePreferenceKeys.contains(key)) {
             cachedConnections.clear();
         }
-    }
-
-    public void setSettings(SharedPreferences settings) {
-        if (this.settings != null) {
-            this.settings.unregisterOnSharedPreferenceChangeListener(this);
-        }
-        this.settings = settings;
-
-        this.settings.registerOnSharedPreferenceChangeListener(this);
     }
 
     public static Connection getConnection(int connectionType) {
