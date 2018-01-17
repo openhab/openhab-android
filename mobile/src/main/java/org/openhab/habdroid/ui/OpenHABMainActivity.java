@@ -854,6 +854,7 @@ public class OpenHABMainActivity extends ConnectionAvailabilityAwareActivity
             pagerAdapter.openNotifications();
             pager.setCurrentItem(pagerAdapter.getCount() - 1);
         }
+        mDrawerToggle.setDrawerIndicatorEnabled(false);
     }
 
     private void openSitemap(String sitemapUrl) {

@@ -35,7 +35,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/colorbutton_color"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginRight="0dp" />
+        android:layout_marginRight="0dp"
+        android:contentDescription="@string/content_description_color_up" />
 
     <ImageButton
         android:id="@+id/colorbutton_color"
@@ -50,7 +51,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/colorbutton_down"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginRight="0dp" />
+        android:layout_marginRight="0dp"
+        android:contentDescription="@string/content_description_open_color_wheel" />
 
     <ImageButton
         android:id="@+id/colorbutton_down"
@@ -65,7 +67,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginRight="0dp" />
+        android:layout_marginRight="0dp"
+        android:contentDescription="@string/content_description_color_down" />
 
 
     <LinearLayout

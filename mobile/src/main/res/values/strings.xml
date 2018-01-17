@@ -175,4 +175,15 @@
     <string name="error_no_url_start_demo_mode">Please configure the server IP address or host name in the server settings. For now, demo mode will be used.</string>
     <string name="intro_discovery">Discovery</string>
     <string name="intro_discovery_summary">Please note this will work only if authentication is not enforced by the server</string>
+
+    <!-- Content description for images -->
+    <string name="content_description_open_roller_shutter">Open roller shutter</string>
+    <string name="content_description_stop_roller_shutter">Stop roller shutter</string>
+    <string name="content_description_close_roller_shutter">Close roller shutter</string>
+    <string name="content_description_open_color_wheel">Open color wheel</string>
+    <string name="content_description_color_up">On or hold to increase brightness</string>
+    <string name="content_description_color_down">Off or hold to decrease brightness</string>
+    <string name="content_description_open_number_picker">Open number picker</string>
+    <string name="content_description_video">Video</string>
+    <string name="content_description_open_openhab">Open openHAB</string>
 </resources>

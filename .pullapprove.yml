@@ -5,7 +5,7 @@ requirements:
     required: true
 
 always_pending:
-  title_regex: '(WIP|wip)'
+  title_regex: '^(WIP|wip)'
   explanation: 'Work in progress...'
 
 group_defaults:

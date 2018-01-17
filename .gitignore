@@ -15,5 +15,5 @@ gen/
 # Local configuration file (sdk path, etc)
 local.properties
 
-# Mac OSX clutter
+# macOS clutter
 .DS_Store

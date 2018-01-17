@@ -1,12 +1,12 @@
 package org.openhab.habdroid.core;
 
-import android.app.Application;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
+import android.support.multidex.MultiDexApplication;
 
 import org.openhab.habdroid.core.connection.ConnectionFactory;
 
-public class OpenHABApplication extends Application {
+public class OpenHABApplication extends MultiDexApplication {
     @Override
     public void onCreate() {
         super.onCreate();

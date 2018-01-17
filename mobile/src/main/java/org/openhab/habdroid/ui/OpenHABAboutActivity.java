@@ -22,15 +22,10 @@ import org.openhab.habdroid.R;
 import org.openhab.habdroid.util.Util;
 
 public class OpenHABAboutActivity extends AppCompatActivity {
-    private static int openHABVersion;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         Util.setActivityTheme(this);
-
-        Bundle extras = getIntent().getExtras();
-        openHABVersion = extras.getInt("openHABVersion");
-
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_about);
@@ -40,9 +35,11 @@ public class OpenHABAboutActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         if (savedInstanceState == null) {
+            AboutMainFragment f = new AboutMainFragment();
+            f.setArguments(getIntent().getExtras());
             getSupportFragmentManager()
                     .beginTransaction()
-                    .add(R.id.about_container, new AboutMainFragment())
+                    .add(R.id.about_container, f)
                     .commit();
         }
 
@@ -80,7 +77,8 @@ public class OpenHABAboutActivity extends AppCompatActivity {
             // don't recreate the fragments when changing tabs
             viewPager.setOffscreenPageLimit(1);
 
-            mPagerAdapter = new AboutPagerAdapter(getChildFragmentManager(), getActivity());
+            mPagerAdapter = new AboutPagerAdapter(getChildFragmentManager(),
+                    getActivity(), getArguments());
             viewPager.setAdapter(mPagerAdapter);
 
             final TabLayout tabLayout = (TabLayout) view.findViewById(R.id.tab_layout);
@@ -100,10 +98,12 @@ public class OpenHABAboutActivity extends AppCompatActivity {
 
     public static class AboutPagerAdapter extends FragmentPagerAdapter {
         private Context mContext;
+        private Bundle mExtras;
 
-        AboutPagerAdapter(FragmentManager fm, Context context) {
+        AboutPagerAdapter(FragmentManager fm, Context context, Bundle extras) {
             super(fm);
             mContext = context;
+            mExtras = extras;
         }
 
         @Override
@@ -112,10 +112,8 @@ public class OpenHABAboutActivity extends AppCompatActivity {
                 default:
                     return new AboutFragment();
                 case 1:
-                    Bundle bundle = new Bundle();
-                    bundle.putInt("openHABVersion", openHABVersion);
                     Fragment infoFragment = new OpenHABInfoFragment();
-                    infoFragment.setArguments(bundle);
+                    infoFragment.setArguments(new Bundle(mExtras));
 
                     return infoFragment;
                 case 2:
