@@ -16,6 +16,7 @@ import android.support.v4.view.ViewPager;
 import android.util.Log;
 
 import org.openhab.habdroid.core.notifications.NotificationSettings;
+import org.openhab.habdroid.model.OpenHABLinkedPage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -162,16 +163,16 @@ public class OpenHABFragmentPagerAdapter extends FragmentStatePagerAdapter imple
         );
     }
 
-    public void openPage(String pageUrl) {
+    public void openPage(String pageUrl, String pageTitle) {
         Log.d(TAG, "openPage(" + pageUrl + ")");
-        OpenHABWidgetListFragment fragment = OpenHABWidgetListFragment.withPage(pageUrl, openHABBaseUrl,
-                sitemapRootUrl, openHABUsername, openHABPassword, fragmentList.size());
+        OpenHABWidgetListFragment fragment = OpenHABWidgetListFragment.withPage(pageUrl, pageTitle,
+                openHABBaseUrl, sitemapRootUrl, openHABUsername, openHABPassword, fragmentList.size());
         fragmentList.add(fragment);
         notifyDataSetChanged();
     }
 
-    public void openPage(String pageUrl, int position) {
-        Log.d(TAG, "openPage(" + pageUrl + ")");
+    public void openPage(OpenHABLinkedPage page, int position) {
+        Log.d(TAG, "openPage(" + page.getLink() + ")");
         int oldColumnCount = getActualColumnsNumber();
         if (position < fragmentList.size()) {
             for (int i=fragmentList.size()-1; i>=position; i--) {
@@ -180,8 +181,9 @@ public class OpenHABFragmentPagerAdapter extends FragmentStatePagerAdapter imple
             }
             notifyDataSetChanged();
         }
-        OpenHABWidgetListFragment fragment = OpenHABWidgetListFragment.withPage(pageUrl, openHABBaseUrl,
-                sitemapRootUrl, openHABUsername, openHABPassword, position);
+        OpenHABWidgetListFragment fragment = OpenHABWidgetListFragment.withPage(page.getLink(),
+                page.getTitle(), openHABBaseUrl, sitemapRootUrl,
+                openHABUsername, openHABPassword, position);
         fragmentList.add(fragment);
         Log.d(TAG, String.format("Old columns = %d, new columns = %d", oldColumnCount, getActualColumnsNumber()));
 //        if (getActualColumnsNumber() != oldColumnCount)

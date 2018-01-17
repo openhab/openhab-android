@@ -104,6 +104,7 @@ public class OpenHABWidgetListFragment extends Fragment
     // Am I visible?
     private boolean mIsVisible = false;
     private int mPosition;
+    private String mTitle;
     private String mAtmosphereTrackingId;
     //handlers will reconnect the network during outages
     private Handler networkHandler = new Handler();
@@ -117,6 +118,7 @@ public class OpenHABWidgetListFragment extends Fragment
         Log.d(TAG, "onCreate()");
         Log.d(TAG, "isAdded = " + isAdded());
         super.onCreate(savedInstanceState);
+
         if (getArguments() != null) {
             displayPageUrl = getArguments().getString("displayPageUrl");
             openHABBaseUrl = getArguments().getString("openHABBaseUrl");
@@ -124,6 +126,10 @@ public class OpenHABWidgetListFragment extends Fragment
             openHABUsername = getArguments().getString("openHABUsername");
             openHABPassword = getArguments().getString("openHABPassword");
             mPosition = getArguments().getInt("position");
+            mTitle = getArguments().getString("title");
+        }
+        if (savedInstanceState != null) {
+            mTitle = savedInstanceState.getString("title");
         }
     }
 
@@ -189,6 +195,7 @@ public class OpenHABWidgetListFragment extends Fragment
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
+        outState.putString("title", mTitle);
         outState.putInt("selection", openHABWidgetAdapter.getSelectedPosition());
     }
 
@@ -328,8 +335,8 @@ public class OpenHABWidgetListFragment extends Fragment
         Log.d(TAG, String.format("isVisibleToUser(%B)", isVisibleToUser));
     }
 
-    public static OpenHABWidgetListFragment withPage(String pageUrl, String baseUrl, String rootUrl,
-                                                     String username, String password, int position) {
+    public static OpenHABWidgetListFragment withPage(String pageUrl, String pageTitle,
+            String baseUrl, String rootUrl, String username, String password, int position) {
         Log.d(TAG, "withPage(" + pageUrl + ")");
         OpenHABWidgetListFragment fragment = new OpenHABWidgetListFragment();
         Bundle args = new Bundle();
@@ -338,6 +345,7 @@ public class OpenHABWidgetListFragment extends Fragment
         args.putString("sitemapRootUrl", rootUrl);
         args.putString("openHABUsername", username);
         args.putString("openHABPassword", password);
+        args.putString("title", pageTitle);
         args.putInt("position", position);
         fragment.setArguments(args);
         return fragment;
@@ -511,9 +519,10 @@ public class OpenHABWidgetListFragment extends Fragment
         }
 
         openHABWidgetAdapter.update(widgetList);
-        if (getActivity() != null && mIsVisible)
-            getActivity().setTitle(openHABWidgetDataSource.getTitle());
-//            }
+        mTitle = openHABWidgetDataSource.getTitle();
+        if (widgetSelectedListener != null && mIsVisible) {
+            widgetSelectedListener.onUpdateTitle(mTitle, this);
+        }
         // Set widget list index to saved or zero position
         // This would mean we got widget and command from nfc tag, so we need to do some automatic actions!
         if (this.nfcWidgetId != null && this.nfcCommand != null) {
@@ -573,10 +582,7 @@ public class OpenHABWidgetListFragment extends Fragment
     }
 
     public String getTitle() {
-        Log.d(TAG, "getPageTitle()");
-        if (openHABWidgetDataSource != null)
-            return openHABWidgetDataSource.getTitle();
-        return "";
+        return mTitle;
     }
 
     public void clearSelection() {

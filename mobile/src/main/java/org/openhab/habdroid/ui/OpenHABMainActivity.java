@@ -506,7 +506,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
                 if (mDrawerItemList != null && mDrawerItemList.get(item).getItemType() == OpenHABDrawerItem.DrawerItemType.SITEMAP_ITEM) {
                     Log.d(TAG, "This is sitemap " + mDrawerItemList.get(item).getSiteMap().getLink());
                     mDrawerLayout.closeDrawers();
-                    openSitemap(mDrawerItemList.get(item).getSiteMap().getHomepageLink());
+                    openSitemap(mDrawerItemList.get(item).getSiteMap());
                 } else {
                     Log.d(TAG, "This is not sitemap");
                     if (mDrawerItemList.get(item).getTag() == DRAWER_NOTIFICATIONS) {
@@ -558,7 +558,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
             openPageIfPending(possiblePosition);
             // If not, then open this page as new one
         } else {
-            pagerAdapter.openPage(pendingPage);
+            pagerAdapter.openPage(pendingPage, null);
             pager.setCurrentItem(pagerAdapter.getCount() - 1);
         }
     }
@@ -798,7 +798,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
                         Log.d(TAG, "Configured sitemap is on the list");
                         OpenHABSitemap selectedSitemap = Util.getSitemapByName(mSitemapList,
                                 configuredSitemap);
-                        openSitemap(selectedSitemap.getHomepageLink());
+                        openSitemap(selectedSitemap);
                         // Configured sitemap is not on the list we got!
                     } else {
                         Log.d(TAG, "Configured sitemap is not on the list");
@@ -810,7 +810,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
                             preferencesEditor.putString(Constants.PREFERENCE_SITEMAP_LABEL,
                                     mSitemapList.get(0).getLabel());
                             preferencesEditor.apply();
-                            openSitemap(mSitemapList.get(0).getHomepageLink());
+                            openSitemap(mSitemapList.get(0));
                         } else {
                             Log.d(TAG, "Got multiply sitemaps, user have to select one");
                             showSitemapSelectionDialog(mSitemapList);
@@ -827,7 +827,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
                         preferencesEditor.putString(Constants.PREFERENCE_SITEMAP_LABEL,
                                 mSitemapList.get(0).getLabel());
                         preferencesEditor.apply();
-                        openSitemap(mSitemapList.get(0).getHomepageLink());
+                        openSitemap(mSitemapList.get(0));
                     } else {
                         Log.d(TAG, "Got multiply sitemaps, user have to select one");
                         showSitemapSelectionDialog(mSitemapList);
@@ -856,7 +856,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
                             preferencesEditor.putString(Constants.PREFERENCE_SITEMAP_NAME, sitemapList.get(item).getName());
                             preferencesEditor.putString(Constants.PREFERENCE_SITEMAP_LABEL, sitemapList.get(item).getLabel());
                             preferencesEditor.apply();
-                            openSitemap(sitemapList.get(item).getHomepageLink());
+                            openSitemap(sitemapList.get(item));
                         }
                     }).show();
         } catch (WindowManager.BadTokenException e) {
@@ -872,11 +872,11 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
         mDrawerToggle.setDrawerIndicatorEnabled(false);
     }
 
-    private void openSitemap(String sitemapUrl) {
-        Log.i(TAG, "Opening sitemap at " + sitemapUrl);
-        sitemapRootUrl = sitemapUrl;
+    private void openSitemap(OpenHABSitemap sitemap) {
+        Log.i(TAG, "Opening sitemap at " + sitemap.getHomepageLink());
+        sitemapRootUrl = sitemap.getHomepageLink();
         pagerAdapter.clearFragmentList();
-        pagerAdapter.openPage(sitemapRootUrl);
+        pagerAdapter.openPage(sitemap.getHomepageLink(), sitemap.getLabel());
         pager.setCurrentItem(0);
     }
 
@@ -1047,11 +1047,24 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
     public void onWidgetSelectedListener(OpenHABLinkedPage linkedPage, OpenHABWidgetListFragment source) {
         Log.i(TAG, "Got widget link = " + linkedPage.getLink());
         Log.i(TAG, String.format("Link came from fragment on position %d", source.getPosition()));
-        pagerAdapter.openPage(linkedPage.getLink(), source.getPosition() + 1);
+        pagerAdapter.openPage(linkedPage, source.getPosition() + 1);
         pager.setCurrentItem(pagerAdapter.getCount() - 1);
-        setTitle(linkedPage.getTitle());
+        updateTitle();
         //set the drawer icon to a back arrow when not on the rook menu
         mDrawerToggle.setDrawerIndicatorEnabled(pager.getCurrentItem() == 0);
+    }
+
+    @Override
+    public void onUpdateTitle(String title, OpenHABWidgetListFragment source) {
+        updateTitle();
+    }
+
+    public void updateTitle() {
+        int indexToUse = Math.max(0, pager.getCurrentItem() + 1 - pagerAdapter.getActualColumnsNumber());
+        CharSequence title = pagerAdapter.getPageTitle(indexToUse);
+        Log.d(TAG, "updateTitle: current " + pager.getCurrentItem() + " shown "
+                + pagerAdapter.getActualColumnsNumber() + " index " + indexToUse + " -> title " + title);
+        setTitle(title);
     }
 
     @Override
@@ -1064,7 +1077,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
             }
         } else {
             pager.setCurrentItem(pager.getCurrentItem() - 1, true);
-            setTitle(pagerAdapter.getPageTitle(pager.getCurrentItem()));
+            updateTitle();
             //set the drawer icon back to to hamburger menu if on the root menu
             mDrawerToggle.setDrawerIndicatorEnabled(pager.getCurrentItem() == 0);
         }

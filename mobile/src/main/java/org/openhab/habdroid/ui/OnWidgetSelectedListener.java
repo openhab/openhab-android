@@ -15,5 +15,6 @@ import org.openhab.habdroid.model.OpenHABLinkedPage;
  * Created by belovictor on 5/22/13.
  */
 public interface OnWidgetSelectedListener {
-    public void onWidgetSelectedListener(OpenHABLinkedPage widgetLink, OpenHABWidgetListFragment source);
+    void onWidgetSelectedListener(OpenHABLinkedPage widgetLink, OpenHABWidgetListFragment source);
+    void onUpdateTitle(String title, OpenHABWidgetListFragment source);
 }
