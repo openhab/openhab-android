@@ -1017,34 +1017,14 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
             mPendingNfcPage = newPageUrl;
         } else {
             Log.d(TAG, "Target item = " + nfcItem);
-            sendItemCommand(nfcItem, nfcCommand);
+            String url = openHABBaseUrl + "rest/items/" + nfcItem;
+            Util.sendItemCommand(mAsyncHttpClient, url, nfcCommand);
             // if mNfcData is not empty, this means we were launched with NFC touch
             // and thus need to autoexit after an item action
             if (!TextUtils.isEmpty(mNfcData))
                 finish();
         }
         mNfcData = "";
-    }
-
-    public void sendItemCommand(String itemName, String command) {
-        try {
-            mAsyncHttpClient.post(openHABBaseUrl + "rest/items/" + itemName, command, "text/plain;charset=UTF-8", new MyHttpClient.TextResponseHandler() {
-                @Override
-                public void onFailure(Call call, int statusCode, Headers headers, String responseString, Throwable error) {
-                    Log.e(TAG, "Got command error " + error.getMessage());
-                    if (responseString != null)
-                        Log.e(TAG, "Error response = " + responseString);
-                }
-
-                @Override
-                public void onSuccess(Call call, int statusCode, Headers headers, String responseString) {
-                    Log.d(TAG, "Command was sent successfully");
-                }
-            });
-        } catch (RuntimeException e) {
-            if (e.getMessage() != null)
-                Log.e(TAG, e.getMessage());
-        }
     }
 
     public void onWidgetSelectedListener(OpenHABLinkedPage linkedPage, OpenHABWidgetListFragment source) {

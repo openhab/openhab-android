@@ -168,10 +168,17 @@ public class Util {
     }
 
     public static void sendItemCommand(MyAsyncHttpClient client, OpenHABItem item, String command) {
-        if (item == null || command == null) {
+        if (item == null) {
             return;
         }
-        client.post(item.getLink(), command, "text/plain", new MyHttpClient.TextResponseHandler() {
+        sendItemCommand(client, item.getLink(), command);
+    }
+
+    public static void sendItemCommand(MyAsyncHttpClient client, String itemUrl, String command) {
+        if (itemUrl == null || command == null) {
+            return;
+        }
+        client.post(itemUrl, command, "text/plain;charset=UTF-8", new MyHttpClient.TextResponseHandler() {
             @Override
             public void onFailure(Call call, int statusCode, Headers headers, String responseString, Throwable error) {
                 Log.e(TAG, "Got command error " + error.getMessage());
