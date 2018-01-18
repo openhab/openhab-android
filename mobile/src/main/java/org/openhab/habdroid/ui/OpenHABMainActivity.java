@@ -41,6 +41,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
@@ -218,6 +219,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
     // Google Cloud Messaging
     private GoogleCloudMessaging mGcm;
     private OpenHABDrawerAdapter mDrawerAdapter;
+    private RecyclerView.RecycledViewPool mViewPool;
     private ArrayList<OpenHABSitemap> mSitemapList;
     private NetworkConnectivityInfo mStartedWithNetworkConnectivityInfo;
     private int mOpenHABVersion;
@@ -293,6 +295,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
         gcmRegisterBackground();
         setupPager();
 
+        mViewPool = new RecyclerView.RecycledViewPool();
         MemorizingTrustManager.setResponder(this);
 
         // Check if we have openHAB page url in saved instance state?
@@ -1081,6 +1084,10 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
             //set the drawer icon back to to hamburger menu if on the root menu
             mDrawerToggle.setDrawerIndicatorEnabled(pager.getCurrentItem() == 0);
         }
+    }
+
+    public RecyclerView.RecycledViewPool getViewPool() {
+        return mViewPool;
     }
 
     protected void setProgressIndicatorVisible(boolean visible) {

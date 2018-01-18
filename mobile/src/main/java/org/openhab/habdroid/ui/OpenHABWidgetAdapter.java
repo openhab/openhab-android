@@ -213,6 +213,12 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
     }
 
     @Override
+    public void onViewAttachedToWindow(ViewHolder holder) {
+        super.onViewAttachedToWindow(holder);
+        holder.start();
+    }
+
+    @Override
     public void onViewDetachedFromWindow(ViewHolder holder) {
         super.onViewDetachedFromWindow(holder);
         holder.stop();
@@ -333,6 +339,7 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         }
 
         public abstract void bind(OpenHABWidget widget);
+        public void start() {}
         public void stop() {}
 
         public void updateDivider(boolean show) {
@@ -537,6 +544,7 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
     public static class ImageViewHolder extends ViewHolder {
         private final MySmartImageView mImageView;
         private final Point mScreenSize = new Point();
+        private int mRefreshRate;
 
         ImageViewHolder(LayoutInflater inflater, ViewGroup parent,
                 MyAsyncHttpClient httpClient, ConnectionInfo connection) {
@@ -567,6 +575,7 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
                         return BitmapFactory.decodeByteArray(data, 0, data.length);
                     }
                 });
+                mRefreshRate = 0;
             } else {
                 // Widget URL may be relative, add base URL if that's the case
                 Uri uri = Uri.parse(widget.getUrl());
@@ -575,9 +584,16 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
                 }
                 mImageView.setImageUrl(uri.toString(), mConnectionInfo.userName,
                         mConnectionInfo.password, false);
-                if (widget.getRefresh() > 0) {
-                    mImageView.setRefreshRate(widget.getRefresh());
-                }
+                mRefreshRate = widget.getRefresh();
+            }
+        }
+
+        @Override
+        public void start() {
+            if (mRefreshRate > 0) {
+                mImageView.setRefreshRate(mRefreshRate);
+            } else {
+                mImageView.cancelRefresh();
             }
         }
 
@@ -860,6 +876,7 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         private final DisplayMetrics mMetrics = new DisplayMetrics();
         private final String mChartTheme;
         private final Random mRandom = new Random();
+        private int mRefreshRate = 0;
 
         ChartViewHolder(LayoutInflater inflater, ViewGroup parent, String theme,
                 MyAsyncHttpClient httpClient, ConnectionInfo connection) {
@@ -912,13 +929,20 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
 
                 mImageView.setImageUrl(chartUrl.toString(), mConnectionInfo.userName,
                         mConnectionInfo.password, false);
-
-                if (widget.getRefresh() > 0) {
-                    mImageView.setRefreshRate(widget.getRefresh());
-                }
+                mRefreshRate = widget.getRefresh();
             } else {
                 Log.e(TAG, "Chart item is null");
                 mImageView.setImageDrawable(null);
+                mRefreshRate = 0;
+            }
+        }
+
+        @Override
+        public void start() {
+            if (mRefreshRate > 0) {
+                mImageView.setRefreshRate(mRefreshRate);
+            } else {
+                mImageView.cancelRefresh();
             }
         }
 
@@ -961,8 +985,12 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
                 }
                 Log.d(TAG, "Opening video at " + videoUrl);
                 mVideoView.setVideoURI(Uri.parse(videoUrl));
-                mVideoView.start();
             }
+        }
+
+        @Override
+        public void start() {
+            mVideoView.start();
         }
 
         @Override
@@ -1060,7 +1088,13 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
             mStreamer = new MjpegStreamer(widget.getUrl(),
                     mConnectionInfo.userName, mConnectionInfo.password, mImageView.getContext());
             mStreamer.setTargetImageView(mImageView);
-            mStreamer.start();
+        }
+
+        @Override
+        public void start() {
+            if (mStreamer != null) {
+                mStreamer.start();
+            }
         }
 
         @Override

@@ -79,6 +79,7 @@ public class OpenHABWidgetListFragment extends Fragment
     // List adapter for list view of openHAB widgets
     private OpenHABWidgetAdapter openHABWidgetAdapter;
     private RecyclerView mRecyclerView;
+    private LinearLayoutManager mLayoutManager;
     // Url of current sitemap page displayed
     // Url of current sitemap page displayed
     private String displayPageUrl;
@@ -159,7 +160,11 @@ public class OpenHABWidgetListFragment extends Fragment
         if (savedInstanceState != null) {
             openHABWidgetAdapter.setSelectedPosition(savedInstanceState.getInt("selection", -1));
         }
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
+        mLayoutManager = new LinearLayoutManager(mActivity);
+        mLayoutManager.setRecycleChildrenOnDetach(true);
+
+        mRecyclerView.setRecycledViewPool(mActivity.getViewPool());
+        mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(openHABWidgetAdapter);
 
 
@@ -463,10 +468,6 @@ public class OpenHABWidgetListFragment extends Fragment
 
         // If openHAB verion = 1 get page from XML
         if (mActivity.getOpenHABVersion() == 1) {
-            // As we change the page we need to stop all videos on current page
-            // before going to the new page. This is quite dirty, but is the only
-            // way to do that...
-            stopVisibleViewHolders();
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
             try {
                 DocumentBuilder builder = dbf.newDocumentBuilder();
@@ -501,10 +502,6 @@ public class OpenHABWidgetListFragment extends Fragment
                     showPage(displayPageUrl, true);
                     return;
                 }
-                // As we change the page we need to stop all videos on current page
-                // before going to the new page. This is quite dirty, but is the only
-                // way to do that...
-                stopVisibleViewHolders();
                 openHABWidgetDataSource.setSourceJson(pageJson);
                 widgetList.clear();
                 for (OpenHABWidget w : openHABWidgetDataSource.getWidgets()) {
@@ -598,9 +595,8 @@ public class OpenHABWidgetListFragment extends Fragment
     }
 
     private void stopVisibleViewHolders() {
-        LinearLayoutManager lm = (LinearLayoutManager) mRecyclerView.getLayoutManager();
-        final int firstVisibleItemPosition = lm.findFirstVisibleItemPosition();
-        final int lastVisibleItemPosition = lm.findLastVisibleItemPosition();
+        final int firstVisibleItemPosition = mLayoutManager.findFirstVisibleItemPosition();
+        final int lastVisibleItemPosition = mLayoutManager.findLastVisibleItemPosition();
         for (int i = firstVisibleItemPosition; i <= lastVisibleItemPosition; ++i) {
             OpenHABWidgetAdapter.ViewHolder holder =
                     (OpenHABWidgetAdapter.ViewHolder) mRecyclerView.findViewHolderForAdapterPosition(i);
