@@ -4,5 +4,5 @@ files:
     languages_mapping:
       two_letters_code:
         pt-BR: pt-rBR
-  - source: /assets/store_descriptions/en-US/strings.sh 
+  - source: /assets/store_descriptions/en-US/strings.sh
     translation: /assets/store_descriptions/%locale%/%original_file_name%
