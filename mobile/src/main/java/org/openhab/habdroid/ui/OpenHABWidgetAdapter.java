@@ -567,7 +567,7 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
             OpenHABItem item = widget.getItem();
             final String state = item != null ? item.getState() : null;
 
-            if (state != null && state.startsWith("data:") && "Image".equals(item.getType())) {
+            if (state != null && state.matches("data:image/.*;base64,.*")) {
                 mImageView.setImageWithData(new SmartImage() {
                     @Override
                     public Bitmap getBitmap(Context context) {
