@@ -3,7 +3,10 @@
 
 
 
+supported='Unterstützte Produkte'
 
+lighting='Licht'
+heating='Heizung'
 security='Sicherheitstechnik'
 
 
