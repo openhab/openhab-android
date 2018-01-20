@@ -4,9 +4,11 @@
 
 
 
+security='Sicherheitstechnik'
 
 
 
 
+important_note='Wichtiger Hinweis'
 
 
