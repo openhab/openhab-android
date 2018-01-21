@@ -8,10 +8,15 @@ supported='Unterstützte Produkte'
 lighting='Licht'
 heating='Heizung'
 security='Sicherheitstechnik'
+open_protocols='Offene Protokolle'
+special_useCases='Spezialfälle'
+
+oss_community='Open Source Community'
 
 
-
+foundation='openHAB Foundation e.V.'
 
 important_note='Wichtiger Hinweis'
 
+short_description='openHAB Android Client'
 
