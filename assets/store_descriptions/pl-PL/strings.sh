@@ -26,7 +26,7 @@ translation='Jeśli chcesz przetłumaczyć tę aplikację na swój język, doł�
 foundation='Fundacja openHAB'
 about_foundation='Fundacja openHAB jest organizacją non-profit z misją do informowania opinii publicznej o możliwościach i korzyściach z używania wolnego i otwartego rozwiązania dla inteligentnego domu. Dowiedz się więcej o misji i usługach fundacji pod adresem http://www.openhabfoundation.org'
 
-important_note='Istotne kwestie:'
+important_note='Istotne kwestie'
 oh_server='Potrzebujesz serwera openHAB dla tej aplikacji'
 
 short_description='klient openHAB dla systemu Android'
