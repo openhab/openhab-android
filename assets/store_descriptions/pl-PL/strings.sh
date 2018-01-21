@@ -7,7 +7,7 @@ whatis='openHAB jest otwartą platformą dla automatyki domowej, która integruj
 rules='Nad ujednoliconą warstwa abstrakcji wszystkie połączone urządzenia są dostępne dla silników reguł automatyki a także różnych interfejsów użytkownika.'
 
 supported='Wspierane Produkty'
-bindings='Ponad dwieście dodatków zapewnia wsparcie dla marek, urządzeń, technologii i protokołów komunikacyjnych. Przykładem są: Z-Wave, Philips Hue, Amazon Echo, Chromecast czy Sonos. Odkryj wszystkie dostępne dodatki i wspierane urządzenia na http://docs.openhab.org/addons/bindings.html'
+bindings='Ponad dwieście dodatków zapewnia wsparcie dla marek, urządzeń, technologii i protokołów komunikacyjnych. Przykładem są: Z-Wave, Philips Hue, Amazon Echo, Chromecast czy Sonos. Odkryj wszystkie dostępne dodatki i wspierane urządzenia na http:\\/\\/docs.openhab.org\\/addons\\/bindings.html'
 
 home_automation_solutions='Rozwiązania Automatyki Domowej'
 lighting='Oświetlenie'
@@ -19,12 +19,12 @@ special_useCases='Specjalne Zastosowania'
 
 oss_community='Społeczność Open Source'
 
-forum='Inicjatywę openHAB popiera jego żywa społeczność. Forum, które tworzy ponad 13 000 zarejestrowanych użytkowników, jest miejscem gdzie znajdziesz wskazówki, pomoc i inspirację. Dołącz do forum społeczności openHAB na https://community.openhab.org'
-report_issues='Jeśli znalazłeś problem, napisz na forum lub na https://github.com/openhab/openhab-android/issues'
-translation='Jeśli chcesz przetłumaczyć tę aplikację na swój język, dołącz do nas na https://crowdin.com/project/openhab-android'
+forum='Inicjatywę openHAB popiera jego żywa społeczność. Forum, które tworzy ponad 13 000 zarejestrowanych użytkowników, jest miejscem gdzie znajdziesz wskazówki, pomoc i inspirację. Dołącz do forum społeczności openHAB na https:\\/\\/community.openhab.org'
+report_issues='Jeśli znalazłeś problem, napisz na forum lub na https:\\/\\/github.com\\/openhab\\/openhab-android\\/issues'
+translation='Jeśli chcesz przetłumaczyć tę aplikację na swój język, dołącz do nas na https:\\/\\/crowdin.com\\/project\\/openhab-android'
 
 foundation='Fundacja openHAB'
-about_foundation='Fundacja openHAB jest organizacją non-profit z misją do informowania opinii publicznej o możliwościach i korzyściach z używania wolnego i otwartego rozwiązania dla inteligentnego domu. Dowiedz się więcej o misji i usługach fundacji pod adresem http://www.openhabfoundation.org'
+about_foundation='Fundacja openHAB jest organizacją non-profit z misją do informowania opinii publicznej o możliwościach i korzyściach z używania wolnego i otwartego rozwiązania dla inteligentnego domu. Dowiedz się więcej o misji i usługach fundacji pod adresem http:\\/\\/www.openhabfoundation.org'
 
 important_note='Istotne kwestie'
 oh_server='Potrzebujesz serwera openHAB dla tej aplikacji'
