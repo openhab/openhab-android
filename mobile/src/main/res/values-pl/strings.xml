@@ -15,6 +15,9 @@
   <string name="mainmenu_openhab_selectsitemap">Wybierz domyślną mapę witryny</string>
   <string name="mainmenu_openhab_clearcache">Wyczyść obrazy pamięci podręcznej</string>
   <!-- App settings strings -->
+  <string name="settings_connection_title">Ustawienia połączenia</string>
+  <string name="settings_display_title">Wyświetlanie</string>
+  <string name="settings_misc_title">Różne ustawienia</string>
   <string name="settings_openhab_url">Adres URL serwera lokalnego</string>
   <string name="settings_openhab_url_summary">Adres URL panelu openHAB (w oparciu o nazwę hosta lub adres IP). Jeśli skonfigurowany, autowykrywanie jest wyłączone. Obecne ustawienie: %s</string>
   <string name="settings_openhab_alturl">Adres URL serwera zdalnego</string>
@@ -42,6 +45,8 @@
   <string name="settings_clear_default_sitemap">Wyczyść domyślną mapę witryn</string>
   <string name="settings_no_default_sitemap">Nie wybrano domyślnej mapy witryn</string>
   <string name="settings_current_default_sitemap">Obecna domyślna mapa witryn: %1$s</string>
+  <string name="settings_openhab_alt_connection">Ustawienia serwera zdalnego</string>
+  <string name="settings_openhab_connection">Ustawienia serwera lokalnego</string>
   <!-- App messages strings -->
   <string name="title_voice_widget">komendy głosowe openHAB</string>
   <string name="info_voice_input">"openHAB, na twoje wezwanie!"</string>
