@@ -77,6 +77,10 @@
   <string name="error_http_code_414">Adres URL jest zbyt długi (HTTP response code 414)</string>
   <string name="error_http_code_426">HTTPS jest wymagany. Zmień adres URL openHAB (HTTP response code 426)</string>
   <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
+  <string name="error_http_code_495">Nieprawidłowy certyfikat klienta SSL (HTTP response code 495)</string>
+  <string name="error_http_code_496">Certyfikat klienta SSL jest wymagany (HTTP response code 496)</string>
+  <string name="error_http_code_502">Twój odwrócony serwer proxy otrzymał nieprawidłową odpowiedź od openHAB (HTTP response code 502)</string>
+  <string name="error_http_code_503">openHAB jest tymczasowo niedostępny (HTTP response code 504)</string>
   <string name="error_http_code_504">Przekroczenie czasu oczekiwania bramki. Wygląda na to, że Twój odwrócony serwer proxy jest włączony, ale nie mógł otrzymać odpowiedzi od openHAB (Kod HTTP - 504)</string>
   <string name="error_http_code_507">openHAB nie ma wystarczająco wolnego miejsca (Kod HTTP - 507)</string>
   <string name="error_http_code_511">Autoryzacja sieci jest wymagana (Kod HTTP - 511)</string>
