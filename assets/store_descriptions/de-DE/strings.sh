@@ -10,15 +10,18 @@ bindings='Über 200 spezifische Add-Ons stellen Unterstützung für Marken, Ger�
 
 lighting='Licht'
 heating='Heizung'
+home_entertainment='Heimunterhaltung'
 security='Sicherheitstechnik'
 open_protocols='Offene Protokolle'
 special_useCases='Spezialfälle'
 
 oss_community='Open Source Community'
 
+report_issues='Wenn Sie einen Fehler gefunden haben, melden Sie diesen bitte im Forum oder unter https://github.com/openhab/openhab-android/issues'
 translation='Helfen Sie uns, diese App in Ihre Sprache zu übersetzen: https://crowdin.com/project/openhab-android'
 
 foundation='openHAB Foundation e.V.'
+about_foundation='Die openHAB Foundation e.V. ist eine gemeinnützige Organisation mit dem Ziel die Öffentlichkeit über die Möglichkeiten und Vorteile von freien und offenen Smart-Home-Lösungen zu informieren. Erfahren Sie mehr über die Ziele und Angebote der Foundation unter http://www.openhabfoundation.org'
 
 important_note='Wichtiger Hinweis'
 oh_server='Um diese App zu nutzen brauchen Sie einen openHAB-Server'
