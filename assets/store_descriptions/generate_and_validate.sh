@@ -31,26 +31,26 @@ do
             mkdir "${resource_base}/${lang}"
         fi
         echo "Generate $lang"
-        sed -e "s/\$intro/$intro/" \
-            -e "s/\$whatis/$whatis/" \
-            -e "s/\$rules/$rules/" \
-            -e "s/\$supported/$supported/" \
-            -e "s/\$bindings/$bindings/" \
-            -e "s/\$home_automation_solutions/$home_automation_solutions/" \
-            -e "s/\$lighting/$lighting/" \
-            -e "s/\$heating/$heating/" \
-            -e "s/\$home_entertainment/$home_entertainment/" \
-            -e "s/\$security/$security/" \
-            -e "s/\$open_protocols/$open_protocols/" \
-            -e "s/\$special_useCases/$special_useCases/" \
-            -e "s/\$oss_community/$oss_community/" \
-            -e "s/\$forum/$forum/" \
-            -e "s/\$report_issues/$report_issues/" \
-            -e "s/\$translation/$translation/" \
-            -e "s/\$foundation/$foundation/" \
-            -e "s/\$about_foundation/$about_foundation/" \
-            -e "s/\$important_note/$important_note/" \
-            -e "s/\$oh_server/$oh_server/" \
+        sed -e "s|\$intro|$intro|" \
+            -e "s|\$whatis|$whatis|" \
+            -e "s|\$rules|$rules|" \
+            -e "s|\$supported|$supported|" \
+            -e "s|\$bindings|$bindings|" \
+            -e "s|\$home_automation_solutions|$home_automation_solutions|" \
+            -e "s|\$lighting|$lighting|" \
+            -e "s|\$heating|$heating|" \
+            -e "s|\$home_entertainment|$home_entertainment|" \
+            -e "s|\$security|$security|" \
+            -e "s|\$open_protocols|$open_protocols|" \
+            -e "s|\$special_useCases|$special_useCases|" \
+            -e "s|\$oss_community|$oss_community|" \
+            -e "s|\$forum|$forum|" \
+            -e "s|\$report_issues|$report_issues|" \
+            -e "s|\$translation|$translation|" \
+            -e "s|\$foundation|$foundation|" \
+            -e "s|\$about_foundation|$about_foundation|" \
+            -e "s|\$important_note|$important_note|" \
+            -e "s|\$oh_server|$oh_server|" \
             "$full_description_template" > "${resource_base}/${lang}/full_description.txt"
         echo $short_description > "${resource_base}/${lang}/short_description.txt"
 
