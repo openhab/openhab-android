@@ -4,10 +4,12 @@
 intro='openHAB - "empowering the smart home" - eine technologie- und herstellerunabhängige, quelloffene Automatisierungslösung für Ihr Zuhause'
 
 whatis='openHAB ist eine auf Java basierende quelloffene Plattform zur Heimautomatisierung, welche eine große Bandbreite verschiedenster Smart-Home-Systeme und -Technologien in eine einzige Lösung integriert und kombiniert.'
+rules='Aufbauend auf einer vereinheitlichten Abstraktionsschicht sind alle Geräte für die übergreifenden Automatisierungs-\n bzw. Regelmöglichkeiten und die verschiedenen Benutzeroberflächen verfügbar.'
 
 supported='Unterstützte Produkte'
 bindings='Über 200 spezifische Add-Ons stellen Unterstützung für Marken, Geräte, Technologien und Kommunikations-Protokolle zur Verfügung. Beispiele hierfür sind unter anderem Z-Wave, Philips Hue, Amazon Echo, Chromecast und Sonos. Eine Übersicht aller verfügbaren Add-Ons und unterstützten Geräte finden Sie unter: https://docs.openhab.org/addons/bindings.html'
 
+home_automation_solutions='Heimautomatisierungslösungen'
 lighting='Licht'
 heating='Heizung'
 home_entertainment='Heimunterhaltung'
