@@ -63,13 +63,13 @@ do
         chars=$(wc -m "${resource_base}/${lang}/full_description.txt" | cut -d " " -f 1)
         if [ "$chars" -gt 4000 ]
         then
-            echo "Full descriptions exceeds 4000 char limit"
+            echo "Full descriptions exceeds 4000 char limit" 1>&2
             let error++
         fi
         chars=$(wc -m "${resource_base}/${lang}/short_description.txt" | cut -d " " -f 1)
         if [ "$chars" -gt 80 ]
         then
-            echo "Short descriptions exceeds 80 char limit"
+            echo "Short descriptions exceeds 80 char limit" 1>&2
             let error++
         fi
     fi
