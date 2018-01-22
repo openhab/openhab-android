@@ -23,9 +23,14 @@ do
     [ ! -d "$folder" ] && continue
     if [ -f "${folder}/strings.sh" ]
     then
+        lang=${folder#${string_base}/}
+        if egrep '\||;' "${folder}/strings.sh" --color=always
+        then
+            echo "Prohibited char found in $lang, exiting" 1>&2
+            exit 1
+        fi
         source "${string_base}/en-US/strings.sh"
         source "${folder}/strings.sh"
-        lang=${folder#${string_base}/}
         if [ ! -d "${resource_base}/${lang}" ]
         then
             mkdir "${resource_base}/${lang}"
