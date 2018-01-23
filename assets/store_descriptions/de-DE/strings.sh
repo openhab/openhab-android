@@ -29,5 +29,5 @@ about_foundation='Die openHAB Foundation e.V. ist eine gemeinnützige Organisati
 important_note='Wichtiger Hinweis'
 oh_server='Um diese App zu nutzen brauchen Sie einen openHAB-Server'
 
-short_description='openHAB Android Client'
+short_description='openHAB-Android-Client'
 
