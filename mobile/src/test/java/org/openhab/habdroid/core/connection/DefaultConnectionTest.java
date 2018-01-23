@@ -118,6 +118,20 @@ public class DefaultConnectionTest {
     }
 
     @Test
+    public void testAsyncHasNoUsernamePassword() {
+        MyHttpClient httpClient = testConnection.getAsyncHttpClient();
+
+        assertFalse(httpClient.getHeaders().containsKey("Authorization"));
+    }
+
+    @Test
+    public void testSyncHasNoUsernamePassword() {
+        MyHttpClient httpClient = testConnection.getSyncHttpClient();
+
+        assertFalse(httpClient.getHeaders().containsKey("Authorization"));
+    }
+
+    @Test
     public void testAsyncHasUsernamePassword() {
         Connection connection = new DefaultConnection(mockContext, mockSettings, Connection.TYPE_LOCAL,
                 "Test-User", "Test-Password", TEST_BASE_URL);
@@ -137,20 +151,6 @@ public class DefaultConnectionTest {
         assertTrue(httpClient.getHeaders().containsKey("Authorization"));
         assertEquals(Credentials.basic("Test-User", "Test-Password"),
                 httpClient.getHeaders().get("Authorization"));
-    }
-
-    @Test
-    public void testAsyncHasNoUsernamePassword() {
-        MyHttpClient httpClient = testConnection.getAsyncHttpClient();
-
-        assertFalse(httpClient.getHeaders().containsKey("Authorization"));
-    }
-
-    @Test
-    public void testSyncHasNoUsernamePassword() {
-        MyHttpClient httpClient = testConnection.getSyncHttpClient();
-
-        assertFalse(httpClient.getHeaders().containsKey("Authorization"));
     }
 
     @Test

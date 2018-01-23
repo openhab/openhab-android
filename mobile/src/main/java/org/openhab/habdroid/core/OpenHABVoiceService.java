@@ -80,7 +80,8 @@ public class OpenHABVoiceService extends Service {
             case MessageHandler.TYPE_DIALOG:
                 AlertDialog.Builder builder = new AlertDialog.Builder(OpenHABVoiceService.this);
                 builder.setMessage(message)
-                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        .setPositiveButton(getString(android.R.string.ok), new DialogInterface
+                                .OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                             }
                         });

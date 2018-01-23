@@ -3,7 +3,6 @@ package org.openhab.habdroid.core.connection;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
-import android.text.TextUtils;
 import android.util.Log;
 
 import org.openhab.habdroid.util.Constants;
@@ -46,10 +45,16 @@ public abstract class AbstractConnection implements Connection {
     }
 
     private void updateHttpClientAuth(MyHttpClient httpClient) {
-        if (!TextUtils.isEmpty(getUsername()) && !TextUtils.isEmpty(getPassword())) {
+        if (hasUsernameAndPassword()) {
             httpClient.setBasicAuth(getUsername(), getPassword());
         }
     }
+
+    private boolean hasUsernameAndPassword() {
+        return getUsername() != null && !getUsername().isEmpty() && getPassword() != null &&
+                !getPassword().isEmpty();
+    }
+
     public MyAsyncHttpClient getAsyncHttpClient() {
         asyncHttpClient.setBaseUrl(getOpenHABUrl());
 
