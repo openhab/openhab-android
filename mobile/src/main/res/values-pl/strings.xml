@@ -16,7 +16,7 @@
   <string name="mainmenu_openhab_clearcache">Wyczyść obrazy pamięci podręcznej</string>
   <!-- App settings strings -->
   <string name="settings_connection_title">Ustawienia połączenia</string>
-  <string name="settings_display_title">Wyświetl ustawienia</string>
+  <string name="settings_display_title">Wyświetlanie</string>
   <string name="settings_misc_title">Różne ustawienia</string>
   <string name="settings_openhab_url">Adres URL serwera lokalnego</string>
   <string name="settings_openhab_url_summary">Adres URL panelu openHAB (w oparciu o nazwę hosta lub adres IP). Jeśli skonfigurowany, autowykrywanie jest wyłączone. Obecne ustawienie: %s</string>
@@ -45,7 +45,7 @@
   <string name="settings_clear_default_sitemap">Wyczyść domyślną mapę witryn</string>
   <string name="settings_no_default_sitemap">Nie wybrano domyślnej mapy witryn</string>
   <string name="settings_current_default_sitemap">Obecna domyślna mapa witryn: %1$s</string>
-  <string name="settings_openhab_sslsettings">Ustawienia kodowania</string>
+  <string name="settings_openhab_sslsettings">Szyfrowanie</string>
   <string name="settings_openhab_alt_connection">Ustawienia serwera zdalnego</string>
   <string name="settings_openhab_connection">Ustawienia serwera lokalnego</string>
   <!-- App messages strings -->
@@ -57,10 +57,11 @@
   <string name="info_conn_url">Łączenie z lokalnym URL</string>
   <string name="info_conn_rem_url">Łączenie ze zdalnym adresem URL</string>
   <string name="info_discovery">Odkrywanie openHAB. Proszę czekać\u2026</string>
+  <!-- Error messages -->
   <string name="error_no_url">Proszę sprawdzić czy openHAB jest uruchomione lub skonfiguruj adres URL openHAB lub zdalny adres URL</string>
   <string name="error_empty_sitemap_list">openHAB zwrócił pustą listę map witryn</string>
   <string name="error_network_not_available">Sieć jest niedostępna</string>
-  <string name="error_http_connection_failed">Otrzymano nieprawidłową odpowiedź od openHAB. Proszę sprawdzić, czy openHAB dzieła poprawnie (HTTP response code %d)</string>
+  <string name="error_http_connection_failed">Otrzymano nieprawidłową odpowiedź od openHAB. Proszę sprawdzić, czy openHAB działa poprawnie (HTTP response code %d)</string>
   <string name="error_no_uuid">Nie można otrzymać UUID openHAB, połączenie nie powiodło się</string>
   <string name="error_invalid_url">Proszę wprowadź poprawny adres URL w formie \'protokół://host:port/\'</string>
   <string name="error_connection_failed">Połączenie z hostem nie powiodło się</string>
@@ -73,14 +74,14 @@
   <string name="error_http_code_401">Autoryzacja użytkownika nie powiodła się. Sprawdź nazwę użytkownika, hasło i certyfikat klienta SSL (HTTP response code 401)</string>
   <string name="error_http_code_403">Autoryzacja użytkownika nie powiodła się. Sprawdź nazwę użytkownika, hasło i certyfikat klienta SSL (HTTP response code 403)</string>
   <string name="error_http_code_407">Autoryzacja użytkownika nie powiodła się. Sprawdź nazwę użytkownika, hasło i certyfikat klienta SSL (HTTP response code 407)</string>
-  <string name="error_http_code_414">adres URL openHAB jest zbyt długi (HTTP response code 414)</string>
+  <string name="error_http_code_414">Adres URL jest zbyt długi (HTTP response code 414)</string>
   <string name="error_http_code_426">HTTPS jest wymagany. Zmień adres URL openHAB (HTTP response code 426)</string>
   <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
   <string name="error_http_code_495">Nieprawidłowy certyfikat klienta SSL (HTTP response code 495)</string>
   <string name="error_http_code_496">Certyfikat klienta SSL jest wymagany (HTTP response code 496)</string>
-  <string name="error_http_code_502">Twój odwrócony proxy otrzymał nieprawidłową odpowiedź od openHAB (HTTP response code 502)</string>
+  <string name="error_http_code_502">Twój odwrócony serwer proxy otrzymał nieprawidłową odpowiedź od openHAB (HTTP response code 502)</string>
   <string name="error_http_code_503">openHAB jest tymczasowo niedostępny (HTTP response code 504)</string>
-  <string name="error_http_code_504">Przekroczenie czasu oczekiwania bramki. Wygląda na to, że Twój odwrócony proxy jest włączony, ale nie mógł otrzymać odpowiedzi od openHAB (Kod HTTP - 504)</string>
+  <string name="error_http_code_504">Przekroczenie czasu oczekiwania bramki. Wygląda na to, że Twój odwrócony serwer proxy jest włączony, ale nie mógł otrzymać odpowiedzi od openHAB (Kod HTTP - 504)</string>
   <string name="error_http_code_507">openHAB nie ma wystarczająco wolnego miejsca (Kod HTTP - 507)</string>
   <string name="error_http_code_511">Autoryzacja sieci jest wymagana (Kod HTTP - 511)</string>
   <string name="title_activity_openhabwritetag">Napisz tag NFC</string>
@@ -121,6 +122,7 @@
   <string name="nfc_action_off">Wyłączony</string>
   <string name="nfc_action_down">W dół</string>
   <string name="nfc_action_toggle">Przełącz</string>
+  <string name="nfc_activate">Aktywuj</string>
   <string name="nfc_action_current_color">Bieżący kolor</string>
   <string name="nfc_action_to_sitemap_page">Przejdź do strony mapy witryn</string>
   <!-- Drawer -->
@@ -144,4 +146,14 @@
   <string name="intro_whatis">Otwarte oprogramowanie do automatyzacji Twojego domu</string>
   <string name="intro_themes">Motywy</string>
   <string name="intro_themes_description">Wybierz spośród wielu motywów</string>
+  <!-- Content description for images -->
+  <string name="content_description_open_roller_shutter">Otwórz roletę</string>
+  <string name="content_description_stop_roller_shutter">Zatrzymaj roletę</string>
+  <string name="content_description_close_roller_shutter">Zamknij roletę</string>
+  <string name="content_description_open_color_wheel">Otwórz paletę kolorów</string>
+  <string name="content_description_color_up">Włącz lub przytrzymaj by rozjaśnić</string>
+  <string name="content_description_color_down">Wyłącz lub przytrzymaj by przyciemnić</string>
+  <string name="content_description_open_number_picker">Otwórz klawiaturę numeryczną</string>
+  <string name="content_description_video">Wideo</string>
+  <string name="content_description_open_openhab">Otwórz openHAB</string>
 </resources>

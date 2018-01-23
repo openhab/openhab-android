@@ -15,9 +15,6 @@
   <string name="mainmenu_openhab_selectsitemap">Pasirinkite numatytą vietos išplanavimą</string>
   <string name="mainmenu_openhab_clearcache">Išvalyti paveikslėlių podėlį</string>
   <!-- App settings strings -->
-  <string name="settings_connection_title">Ryšio nustatymai</string>
-  <string name="settings_display_title">Ekrano nustatymai</string>
-  <string name="settings_misc_title">Kiti nustatymai</string>
   <string name="settings_openhab_url">openHAB URL</string>
   <string name="settings_openhab_url_summary">OpenHAB skydelio adresas (pagal kompiuterio vardą ar IP). Įvedus automatinis aptikimas išjungiamas. Dabartinis nustatymas: %s</string>
   <string name="settings_openhab_alturl">openHAB nuotolinis URL</string>
@@ -45,9 +42,6 @@
   <string name="settings_clear_default_sitemap">Išvalyti numatytą vietos išplanavimą</string>
   <string name="settings_no_default_sitemap">Nepasirinktas numatytas vietos išplanavimas</string>
   <string name="settings_current_default_sitemap">Dabartinis numatytas vietos išplanavimas: %1$s</string>
-  <string name="settings_openhab_sslsettings">Šifravimo nustatymai</string>
-  <string name="settings_openhab_alt_connection">Nuotolinio serverio nustatymai</string>
-  <string name="settings_openhab_connection">Vietinio serverio nustatymai</string>
   <!-- App messages strings -->
   <string name="title_voice_widget">openHAB balso komandos</string>
   <string name="info_voice_input">"openHAB, jūsų paliepimu!"</string>
@@ -57,31 +51,18 @@
   <string name="info_conn_url">Jungiamasi prie sukonfigūruoto URL</string>
   <string name="info_conn_rem_url">Jungiamasi prie nuotolinio URL</string>
   <string name="info_discovery">Aptinkamas openHAB. Prašome palaukti\u2026</string>
+  <!-- Error messages -->
   <string name="error_no_url">Patikrinkite ar openHAB veikia arba sukonfigūruokite openHAB URL arba nuotolinį URL</string>
   <string name="error_empty_sitemap_list">openHAB grąžino tuščią vietos išplanavimų sąrašą</string>
   <string name="error_network_not_available">Tinklas nepasiekiamas</string>
-  <string name="error_http_connection_failed">Gautas neteisingas atsakymas iš openHAB. Patikrinkite, ar openHAB veikia tinkamai (HTTP atsakymo kodas %d)</string>
   <string name="error_no_uuid">Nepavyko gauti openHAB UUID, ryšys nutrauktas</string>
-  <string name="error_invalid_url">Prašome įvesti adresą \'protokolas://adresas:prievadas/\' pavidalu</string>
   <string name="error_connection_failed">Nepavyko prisijungti prie serverio</string>
   <string name="error_unable_to_resolve_hostname">Nepavyko aptikti domeno vardo</string>
-  <string name="error_connection_sslhandshake_failed">Nepavyko užmegzti SSL ryšio - gal jums reikia galiojančio kliento sertifikato</string>
   <string name="error_certificate_not_trusted">SSL sertifikatas nėra patikimas. Importuokite šakninį SSL sertifikatą arba išjunkite sertifikatų patvirtinimą</string>
   <string name="error_certificate_expired">SSL sertifikato galiojimas baigėsi. Gaukite naują sertifikatą arba išjunkite sertifikatų patvirtinimą</string>
-  <string name="error_certificate_not_valid_yet">SSL sertifikatas dar negalioja. Gaukite teisingą sertifikatą arba išjunkite sertifikato patvirtinimą. Taip pat patikrinkite, ar jūsų telefone laikrodis nustatytas teisingai</string>
   <string name="error_certificate_revoked">SSL sertifikatas buvo atšauktas. Gaukite naują sertifikatą arba išjunkite sertifikato patvirtinimą</string>
-  <string name="error_http_code_401">Vartotojo autentifikavimas nepavyko. Patikrinkite vartotojo vardą, slaptažodį ir SSL kliento sertifikatą (HTTP atsakymo kodas 401)</string>
-  <string name="error_http_code_403">Vartotojo autentifikavimas nepavyko. Prašome patikrinti vartotojo vardą, slaptažodį ir SSL kliento sertifikatą (HTTP atsakymo kodas 403)</string>
-  <string name="error_http_code_407">Vartotojo autentifikavimas nepavyko. Patikrinkite vartotojo vardą, slaptažodį ir SSL kliento sertifikatą (HTTP atsakymo kodas 407)</string>
-  <string name="error_http_code_414">openHAB-URL per ilgas (HTTP atsakymo kodas 414)</string>
-  <string name="error_http_code_426">Reikalingas HTTPS. Prašome pakeisti openHAB-URL (HTTP atsakymo kodas 426)</string>
   <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
-  <string name="error_http_code_495">Neteisingas SSL kliento sertifikatas (HTTP atsakymo kodas 495)</string>
   <string name="error_http_code_496">Reikalingas SSL kliento sertifikatas (HTTP atsakymo kodas 496)</string>
-  <string name="error_http_code_502">Jūsų atvirkštinis proksis gavo neteisingą atsakymą iš openHAB (HTTP atsakymo kodas 502)</string>
-  <string name="error_http_code_503">openHAB laikinai nepasiekiamas (HTTP atsakymo kodas 503)</string>
-  <string name="error_http_code_504">Gateway Time-out. Atrodo, kad jūsų atvirkštinis proxy veikia, bet negalėjo gauti atsakymo iš openHAB (HTTP atsakymo kodas 504)</string>
-  <string name="error_http_code_507">openHAB nepakanka laisvos vietos (HTTP atsakymo kodas 507)</string>
   <string name="error_http_code_511">Reikalingas tinklo autentifikavimas (HTTP atsakymo kodas 511)</string>
   <string name="title_activity_openhabwritetag">Rašyti NFC žymą</string>
   <string name="title_activity_openhabinfo">openHAB informacija</string>
@@ -144,4 +125,5 @@
   <string name="intro_whatis">Nepriklausomas atviro kodo išmanių namų sprendimas</string>
   <string name="intro_themes">Temos</string>
   <string name="intro_themes_description">Galite pasirinkti vieną iš kelių temų</string>
+  <!-- Content description for images -->
 </resources>
