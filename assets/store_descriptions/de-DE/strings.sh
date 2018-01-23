@@ -17,7 +17,7 @@ security='Sicherheitstechnik'
 open_protocols='Offene Protokolle'
 special_useCases='Spezialfälle'
 
-oss_community='Open Source Community'
+oss_community='Open-Source-Community'
 
 forum='Die quelloffene openHAB Initiative unterstützt nachdrücklich ihre lebhafte Community. Das Forum (mit über 13.000 registrierten Mitgliedern) ist ein Ort an dem man Anleitung, Hilfe und Inspiration findet. Treten Sie dem openHAB-Community-Forum unter https://community.openhab.org bei.'
 report_issues='Wenn Sie einen Fehler gefunden haben, melden Sie diesen bitte im Forum oder unter https://github.com/openhab/openhab-android/issues'
