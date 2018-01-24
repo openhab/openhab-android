@@ -4,8 +4,27 @@
   <!-- Attention translators! Do NOT submit localized strings through GitHub Pull Request. -->
   <!-- See: https://github.com/openhab/openhab-android/blob/master/README.md#localization -->
   <!-- General app strings -->
+  <string name="main_menu">Päävalikko</string>
+  <string name="app_preferences_name">Asetukset</string>
+  <string name="app_notifications">Ilmoitukset</string>
+  <string name="dlg_notification_title">Ilmoitusviesti</string>
+  <string name="favorites">Suosikit</string>
   <!-- Main menu items -->
+  <string name="mainmenu_openhab_sitemaps">Sivukartat</string>
+  <string name="mainmenu_openhab_preferences">Asetukset</string>
+  <string name="mainmenu_openhab_clearcache">Tyhjennä kuvien välimuisti</string>
   <!-- App settings strings -->
+  <string name="settings_connection_title">Yhteys</string>
+  <string name="settings_display_title">Näyttö</string>
+  <string name="settings_misc_title">Sekalaiset</string>
+  <string name="settings_openhab_url">Paikallisen palvelimen URL osoite</string>
+  <string name="settings_openhab_url_summary">OpenHAB palvelimen URL osoite (isäntänimi tai IP osoite). Jos määritetty, automaattinen etsintä poistetaan käytöstä. Nykyinen asetus: %s</string>
+  <string name="settings_openhab_alturl">Etäpalvelimen URL osoite</string>
+  <string name="settings_openhab_alturl_summary">openHAB palvelimen URL osoite jota käytetään jos paikallinen osoite ei ole käytettävissä. Nykyinen asetus: %s</string>
+  <string name="settings_openhab_username">Käyttäjänimi</string>
+  <string name="settings_openhab_password">Salasana</string>
+  <string name="settings_openhab_sslclientcert">Asiakkaan SSL sertifikaatti</string>
+  <string name="settings_openhab_sslclientcert_howto">Asiakkaan SSL sertifikaatti -opas</string>
   <!-- App messages strings -->
   <!-- Error messages -->
   <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
