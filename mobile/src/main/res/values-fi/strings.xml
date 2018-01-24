@@ -68,7 +68,17 @@
   <string name="error_unable_to_resolve_hostname">Isäntänimen selvitys epäonnistui</string>
   <string name="error_connection_sslhandshake_failed">SSL kättely epäonnistui</string>
   <string name="error_certificate_not_trusted">SSL sertifikaatti ei ole luotettu. Ole hyvä ja tuo root-sertifikaatti tai poista käytöstä sertifikaatin vahvistus SSL kättelyn aikana</string>
+  <string name="error_certificate_expired">SSL serifikaatti on vanhentunut. Hanki uusi sertifikaatti tai poista käytöstä sertifikaatin vahvistus SSL kättelyn aikana</string>
+  <string name="error_certificate_not_valid_yet">SSL sertifikaatti ei ole vielä kelvollinen. Hanki sopiva sertifikaatti tai poista käytöstä sertifikaatin vahvistus SSL kättelyn aikana. Tarkista myös, että laitteessasi on oikea kellonaika</string>
+  <string name="error_certificate_revoked">SSL serifikaatti on kumottu. Hanki uusi sertifikaatti tai poista käytöstä sertifikaatin vahvistus SSL kättelyn aikana</string>
+  <string name="error_http_code_401">Todennus epäonnistui. Tarkista määritetty käyttäjänimi, salasana sekä SSL sertifikaatti(HTTP vastaus 401)</string>
+  <string name="error_http_code_403">Todennus epäonnistui. Tarkista määritetty käyttäjänimi, salasana sekä SSL sertifikaatti (HTTP vastaus 403)</string>
+  <string name="error_http_code_407">Todennus epäonnistui. Tarkista määritetty käyttäjänimi, salasana sekä SSL sertifikaatti (HTTP vastaus 407)</string>
+  <string name="error_http_code_414">Liian pitkä URL osoite. Ole hyvä ja käytä IP osoitetta tai lyhyempää URL osoitetta (HTTP vastaus 414)</string>
+  <string name="error_http_code_426">HTTPS on pakollinen. Ole hyvä ja vaihda URL osoite (HTTP vastaus 426)</string>
   <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
+  <string name="error_http_code_495">Todennus epäonnistui. Ole hyvä ja tarkista annettu SSL sertifikaatti (HTTP vastaus 495)</string>
+  <string name="error_http_code_496">SSL sertifikaatti on pakollinen (HTTP vastaus 496)</string>
   <!-- Strings for MemorizingTrustManager activity -->
   <string name="settings_openhab_none">tyhjä</string>
   <!-- Themes -->
