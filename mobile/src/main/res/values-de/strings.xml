@@ -31,7 +31,7 @@
   <string name="settings_openhab_screentimeroff_summary">Schaltet das automatische Aktivieren des Ruhezustands nach Inaktivität ab, wenn die openHAB-App läuft</string>
   <string name="settings_openhab_demomode">Demomodus</string>
   <string name="settings_openhab_demomode_summary">Demo-Daten an Stelle von realen Server-Daten verwenden</string>
-  <string name="settings_openhab_theme">Theme</string>
+  <string name="settings_openhab_theme">Design</string>
   <string name="settings_openhab_sslcert">SSL-Zertifikat ignorieren</string>
   <string name="settings_openhab_sslcert_summary">Beim SSL-Handshake alle Zertifikate unabhängig von ihrer Gültigkeit akzeptieren</string>
   <string name="settings_openhab_sslhost">SSL-Hostnamen ignorieren</string>
