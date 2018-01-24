@@ -13,9 +13,12 @@ home_entertainment='Viihdelaitteet'
 security='Turvallisuus'
 
 
+report_issues='Löytäessäsi ongelman ilmoita siitä foorumilla tai https://github.com/openhab/openhab-android/issues'
 translation='Jos haluat kääntää tämän sovelluksen omalle kielellesi niin liity mukaan osoitteessa https://crowdin.com/project/openhab-android'
 
+foundation='openHAB Säätiö'
 
+important_note='Tärkeä huomautus'
 oh_server='Tarvitset openHAB palvelimen tätä sovellusta varten'
 
 short_description='openHAB asiakassovellus Android-laitteille'
