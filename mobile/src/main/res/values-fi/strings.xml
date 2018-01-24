@@ -79,7 +79,35 @@
   <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
   <string name="error_http_code_495">Todennus epäonnistui. Ole hyvä ja tarkista annettu SSL sertifikaatti (HTTP vastaus 495)</string>
   <string name="error_http_code_496">SSL sertifikaatti on pakollinen (HTTP vastaus 496)</string>
+  <string name="error_http_code_502">Sinun käänteinen välityspalvelin vastaanotti epäkelvon vastauksen openHAB palvelimelta (HTTP vastaus 502)</string>
+  <string name="error_http_code_503">openHAB palvelin on väliaikaisesti pois käytöstä (HTTP vastaus 503)</string>
+  <string name="error_http_code_504">Välityspalvelimen aikakatkaisu. Näyttää siltä että sinun käänteinen välityspalvelin on toiminnassa, mutta ei saanut vastausta openHAB palvelimelta (HTTP vastaus 504)</string>
+  <string name="error_http_code_507">openHAB palvelimella ei ole tarpeeksi tilaa (HTTP vastaus 507)</string>
+  <string name="error_http_code_511">Verkkoon kirjautuminen vaaditaan (HTTP vastaus 511)</string>
+  <string name="title_activity_openhabwritetag">Kirjoita uusi NFC tagi</string>
+  <string name="title_activity_openhabinfo">openHAB tietoja</string>
+  <string name="title_activity_libraries">Käytetyt kirjastot</string>
+  <string name="info_write_tag">Kosketa tagia ja pidä se lähellä kunnes varmistusviesti ilmestyy näytölle</string>
+  <string name="info_write_tag_progress">Kirjoittaa tagia</string>
+  <string name="info_write_tag_finished">Onnistui</string>
+  <string name="info_write_failed">Virhe kirjoitettessa tagia</string>
+  <string name="info_write_tag_unsupported">Tämä laite ei tue NFCtä</string>
+  <string name="info_write_tag_disabled">NFC on pois päältä. Ole hyvä ja kytke se päälle laitteen asetuksista.</string>
+  <string name="info_openhab_version_label">openHAB versio</string>
+  <string name="info_openhab_apiversion_label">openHAB Rest APIn versio</string>
+  <string name="info_openhab_uuid_label">openHAB UUID</string>
+  <string name="info_openhab_secret_label">openHAB salanimi</string>
+  <string name="info_openhab_gcm_label">Google Cloud viestinnän tila</string>
+  <string name="info_openhab_gcm_not_connected">Laitteen rekisteröinti epäonnistui</string>
+  <string name="info_openhab_gcm_connected">Laite rekisteröity lähettäjä IDllä %s</string>
+  <string name="action_settings">Asetukset</string>
+  <string name="info_not_set">Ei määritetty</string>
   <!-- Strings for MemorizingTrustManager activity -->
+  <string name="mtm_accept_cert">Hyväksy tuntematon sertifikaatti?</string>
+  <string name="mtm_decision_always">Aina</string>
+  <string name="mtm_decision_once">Kerran</string>
+  <string name="mtm_decision_abort">Peruuta</string>
+  <string name="mtm_notification">Sertifikaatin todennus</string>
   <string name="settings_openhab_none">tyhjä</string>
   <!-- Themes -->
   <string name="theme_name_light">Valoisa</string>
