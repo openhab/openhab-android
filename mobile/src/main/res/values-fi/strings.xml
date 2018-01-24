@@ -31,13 +31,41 @@
   <string name="settings_openhab_demomode">Esittelytila</string>
   <string name="settings_openhab_demomode_summary">Käytä esittelytilassa</string>
   <string name="settings_openhab_theme">Teema</string>
-  <string name="settings_openhab_sslcert">Hylkää SSL sertifikaatti</string>
+  <string name="settings_openhab_sslcert">Älä huomioi SSL sertifikaattia</string>
   <string name="settings_openhab_sslcert_summary">Hylkää sertifikaatin vahvistaminen SSL kättelyn aikana</string>
+  <string name="settings_openhab_sslhost">Älä huomioi SSL isäntänimeä</string>
+  <string name="settings_openhab_sslhost_summary">Hylkää isäntänimen tarkastus SSL kättelyn aikana</string>
+  <string name="settings_openhab_fullscreen">Kokonäyttö</string>
+  <string name="settings_openhab_fullscreen_summary">Näytä koko näytöllä</string>
+  <string name="settings_openhab_icon_format">Kuvakkeiden tallennusmuoto</string>
+  <string name="settings_openhab_icon_format_png">Bitmap</string>
+  <string name="settings_openhab_icon_format_svg">SVG</string>
+  <string name="settings_ringtone">Soittoääni</string>
+  <string name="settings_clear_default_sitemap">Poista oletussivukartta</string>
+  <string name="settings_no_default_sitemap">Ei sivukarttaa oletuksena</string>
+  <string name="settings_current_default_sitemap">Nykyinen oletussivukartta: %1$s</string>
+  <string name="settings_openhab_sslsettings">Salaus</string>
+  <string name="settings_openhab_alt_connection">Etäkäyttö</string>
+  <string name="settings_openhab_connection">Paikalliskäyttö</string>
   <!-- App messages strings -->
+  <string name="title_voice_widget">openHAB äänikomennot</string>
+  <string name="info_voice_input">"openHAB, komennossasi!"</string>
+  <string name="info_voice_recognized_text">"Tunnistettu komento: %1$s"</string>
+  <string name="info_demo_mode">Sovellus esittelytilassa. Yhdistääksesi openHAB palvelimelle, ole hyvä ja mene asetusvalikkoon.</string>
+  <string name="info_demo_mode_short">Sovellus esittelytilassa</string>
+  <string name="info_conn_url">Yhdistetään paikalliskäytön URL osoitteeseen</string>
+  <string name="info_conn_rem_url">Yhdistetään etäkäytön URL osoitteeseen</string>
+  <string name="info_discovery">Etsitään openHAB palvelinta. Ole hyvä ja odota\u2026</string>
   <!-- Error messages -->
   <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
   <!-- Strings for MemorizingTrustManager activity -->
+  <string name="settings_openhab_none">tyhjä</string>
   <!-- Themes -->
+  <string name="theme_name_light">Valoisa</string>
+  <string name="theme_name_dark">Tumma</string>
+  <string name="theme_name_black">Musta/AMOLED</string>
+  <string name="theme_name_basic_ui">Basic UI</string>
+  <string name="theme_name_basic_ui_dark">Basic UI tumma</string>
   <!-- NFC toggle -->
   <!-- Drawer -->
   <!-- About -->
