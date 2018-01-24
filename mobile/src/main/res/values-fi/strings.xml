@@ -61,6 +61,13 @@
   <string name="error_no_url">Ole hyvä ja tarkista, että openHAB on toiminnassa tai aseta joko paikallis- tai etäkäytön URL osoite</string>
   <string name="error_empty_sitemap_list">openHAB palautti tyhjän sivukarttojen luettelon</string>
   <string name="error_network_not_available">Verkko ei ole käytettävissä</string>
+  <string name="error_http_connection_failed">Yhteys epäonnistui. Odottamaton vastaus yhdistettäessä asetettuun openHAB palvelimeen (HTTP vastaus: %d)</string>
+  <string name="error_no_uuid">Ei saatu openHAB UUIDtä, yhteys epäonnistui</string>
+  <string name="error_invalid_url">Kirjoita kelvollinen URL osoite \'http(s)://isäntä(:portti)/\' muodossa</string>
+  <string name="error_connection_failed">Yhteys palvelimeen epäonnistui</string>
+  <string name="error_unable_to_resolve_hostname">Isäntänimen selvitys epäonnistui</string>
+  <string name="error_connection_sslhandshake_failed">SSL kättely epäonnistui</string>
+  <string name="error_certificate_not_trusted">SSL sertifikaatti ei ole luotettu. Ole hyvä ja tuo root-sertifikaatti tai poista käytöstä sertifikaatin vahvistus SSL kättelyn aikana</string>
   <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
   <!-- Strings for MemorizingTrustManager activity -->
   <string name="settings_openhab_none">tyhjä</string>
