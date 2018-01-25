@@ -50,6 +50,7 @@ public abstract class OpenHABItem implements Parcelable {
     public abstract Type groupType();
     @Nullable
     public abstract String link();
+    public abstract boolean readOnly();
     @Nullable
     public abstract String state();
     public abstract boolean stateAsBoolean();
@@ -70,6 +71,7 @@ public abstract class OpenHABItem implements Parcelable {
         public abstract Builder groupType(Type type);
         public abstract Builder state(@Nullable String state);
         public abstract Builder link(@Nullable String link);
+        public abstract Builder readOnly(boolean readOnly);
 
         public OpenHABItem build() {
             String state = state();
@@ -202,6 +204,7 @@ public abstract class OpenHABItem implements Parcelable {
                 .name(name)
                 .state("Unitialized".equals(state) ? null : state)
                 .link(link)
+                .readOnly(false)
                 .build();
     }
 
@@ -215,12 +218,18 @@ public abstract class OpenHABItem implements Parcelable {
             state = null;
         }
 
+        JSONObject stateDescription = jsonObject.optJSONObject("stateDescription");
+        boolean readOnly = stateDescription != null
+                ? stateDescription.optBoolean("readOnly", false)
+                : false;
+
         return new AutoValue_OpenHABItem.Builder()
                 .type(parseType(jsonObject.getString("type")))
                 .groupType(parseType(jsonObject.optString("groupType")))
                 .name(jsonObject.getString("name"))
                 .link(jsonObject.optString("link", null))
                 .state(state)
+                .readOnly(readOnly)
                 .build();
     }
 }

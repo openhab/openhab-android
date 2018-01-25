@@ -55,6 +55,7 @@ android {
     productFlavors {
         full {
             dimension "license"
+            manifestPlaceholders = [ maps_api_key : project.findProperty("mapsApiKey") ?: "" ]
         }
         foss {
             dimension "license"
@@ -103,6 +104,8 @@ dependencies {
     //androidsvg commit as of July 16th 2017
     compile 'com.github.BigBadaboom:androidsvg:418cf676849b200cacf3465478079f39709fe5b1'
     compile 'com.github.apl-devs:appintro:v4.2.2'
+    // Google Maps
+    fullCompile 'com.google.android.gms:play-services-maps:11.4.2'
     // GCM
     fullCompile 'com.google.android.gms:play-services-gcm:11.4.2'
     fossCompile project(':gcmdummy')
