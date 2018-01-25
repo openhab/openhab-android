@@ -64,7 +64,11 @@ public class GcmIntentService extends IntentService {
                     notificationId = Integer.parseInt(intent.getExtras().getString(EXTRA_NOTIFICATION_ID));
                 }
                 if ("notification".equals(intent.getExtras().getString("type"))) {
-                    sendNotification(intent.getExtras().getString(EXTRA_MSG), notificationId);
+                    long time = System.currentTimeMillis();
+                    if (intent.getExtras().containsKey("time")) {
+                        time = Long.parseLong(intent.getExtras().getString("time")) * 1000;
+                    }
+                    sendNotification(intent.getExtras().getString(EXTRA_MSG), notificationId, time);
                 // If this is hideNotification, cancel existing notification with it's id
                 } else if ("hideNotification".equals(intent.getExtras().getString("type"))) {
                     mNotificationManager.cancel(Integer.parseInt(intent.getExtras().getString(EXTRA_NOTIFICATION_ID)));
@@ -75,7 +79,7 @@ public class GcmIntentService extends IntentService {
         GcmBroadcastReceiver.completeWakefulIntent(intent);
     }
 
-    private void sendNotification(String msg, int notificationId) {
+    private void sendNotification(String msg, int notificationId, long time) {
         if (mNotificationManager == null)
             mNotificationManager = (NotificationManager)
                     this.getSystemService(Context.NOTIFICATION_SERVICE);
@@ -111,7 +115,8 @@ public class GcmIntentService extends IntentService {
                         .setSound(alarmSound)
                         .setContentText(msg)
                         .setContentIntent(pendingNotificationIntent)
-                        .setDeleteIntent(pendingDeleteIntent);
+                        .setDeleteIntent(pendingDeleteIntent)
+                        .setWhen(time);
 
         mNotificationManager.notify(notificationId, mBuilder.build());
     }
