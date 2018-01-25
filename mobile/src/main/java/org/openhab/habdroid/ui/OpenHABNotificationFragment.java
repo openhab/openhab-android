@@ -110,7 +110,7 @@ public class OpenHABNotificationFragment extends ListFragment implements SwipeRe
         Log.d(TAG, "onAttach()");
         try {
             mActivity = (OpenHABMainActivity) activity;
-            mAsyncHttpClient = OpenHABMainActivity.getAsyncHttpClient();
+            mAsyncHttpClient = mActivity.getAsyncHttpClient();
             mActivity.setTitle(R.string.app_notifications);
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
