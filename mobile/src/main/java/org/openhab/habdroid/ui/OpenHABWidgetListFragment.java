@@ -12,31 +12,28 @@ package org.openhab.habdroid.ui;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
-import android.support.v4.app.ListFragment;
+import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ListView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.model.OpenHABItem;
-import org.openhab.habdroid.model.OpenHABNFCActionList;
 import org.openhab.habdroid.model.OpenHABWidget;
 import org.openhab.habdroid.model.OpenHABWidgetDataSource;
 import org.openhab.habdroid.util.Constants;
 import org.openhab.habdroid.util.MyAsyncHttpClient;
 import org.openhab.habdroid.util.MyHttpClient;
-import org.openhab.habdroid.util.Util;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
@@ -61,7 +58,8 @@ import okhttp3.Headers;
  * widgets from sitemap page with further navigation through sitemap and everything else!
  */
 
-public class OpenHABWidgetListFragment extends ListFragment {
+public class OpenHABWidgetListFragment extends Fragment
+{
     private static final String TAG = OpenHABWidgetListFragment.class.getSimpleName();
     private OnWidgetSelectedListener widgetSelectedListener;
     // Datasource, providing list of openHAB widgets
@@ -80,8 +78,6 @@ public class OpenHABWidgetListFragment extends ListFragment {
     // Username/password for authentication
     private String openHABUsername = "";
     private String openHABPassword = "";
-    // selected openhab widget
-    private OpenHABWidget selectedOpenHABWidget;
     // widget Id which we got from nfc tag
     private String nfcWidgetId;
     // widget command which we got from nfc tag
@@ -97,13 +93,15 @@ public class OpenHABWidgetListFragment extends ListFragment {
     private OpenHABWidgetListFragment mTag;
     private int mCurrentSelectedItem = -1;
     private int mPosition;
-    private int mOldSelectedItem = -1;
     private String mAtmosphereTrackingId;
     //handlers will reconnect the network during outages
     private Handler networkHandler = new Handler();
     private Runnable networkRunnable;
     // keeps track of current request to cancel it in onPause
     private Call mRequestHandle;
+
+    private RecyclerView mRecyclerView;
+    private RecyclerView.LayoutManager mLayoutManager;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -130,8 +128,7 @@ public class OpenHABWidgetListFragment extends ListFragment {
         final String iconFormat = PreferenceManager.getDefaultSharedPreferences(mActivity).getString("iconFormatType","PNG");
         openHABWidgetDataSource = new OpenHABWidgetDataSource(iconFormat);
         openHABWidgetAdapter = new OpenHABWidgetAdapter(getActivity(),
-                R.layout.openhabwidgetlist_genericitem, widgetList);
-        getListView().setAdapter(openHABWidgetAdapter);
+                R.layout.openhabwidgetlist_genericitem, widgetList, this);
         openHABBaseUrl = mActivity.getOpenHABBaseUrl();
         openHABUsername = mActivity.getOpenHABUsername();
         openHABPassword = mActivity.getOpenHABPassword();
@@ -145,69 +142,23 @@ public class OpenHABWidgetListFragment extends ListFragment {
         openHABWidgetAdapter.setOpenHABPassword(openHABPassword);
         openHABWidgetAdapter.setOpenHABBaseUrl(openHABBaseUrl);
         openHABWidgetAdapter.setAsyncHttpClient(mAsyncHttpClient);
-        getListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> parent, View view, int position,
-                                    long id) {
-                Log.d(TAG, "Widget clicked " + String.valueOf(position));
-                OpenHABWidget openHABWidget = openHABWidgetAdapter.getItem(position);
-                if (openHABWidget.hasLinkedPage()) {
-                    // Widget have a page linked to it
-                    String[] splitString;
-                    splitString = openHABWidget.getLinkedPage().getTitle().split("\\[|\\]");
-                    if (OpenHABWidgetListFragment.this.widgetSelectedListener != null) {
-                        widgetSelectedListener.onWidgetSelectedListener(openHABWidget.getLinkedPage(),
-                                OpenHABWidgetListFragment.this);
-                    }
-//                        navigateToPage(openHABWidget.getLinkedPage().getLink(), splitString[0]);
-                    mOldSelectedItem = position;
-                } else {
-                    Log.d(TAG, String.format("Click on item with no linked page, reverting selection to item %d", mOldSelectedItem));
-                    // If an item without a linked page is clicked this will clear the selection
-                    // and revert it to previously selected item (if any) when CHOICE_MODE_SINGLE
-                    // is switched on for widget listview in multi-column mode on tablets
-                    getListView().clearChoices();
-                    getListView().requestLayout();
-                    getListView().setItemChecked(mOldSelectedItem, true);
-                }
-            }
 
-        });
-        getListView().setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            public boolean onItemLongClick(AdapterView<?> parent, View view,
-                                           int position, long id) {
-                Log.d(TAG, "Widget long-clicked " + String.valueOf(position));
-                OpenHABWidget openHABWidget = openHABWidgetAdapter.getItem(position);
-                Log.d(TAG, "Widget type = " + openHABWidget.getType());
+        mLayoutManager = new LinearLayoutManager(getActivity());
 
-                selectedOpenHABWidget = openHABWidget;
-                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                builder.setTitle(R.string.nfc_dialog_title);
-                final OpenHABNFCActionList nfcActionList = new OpenHABNFCActionList
-                        (selectedOpenHABWidget, getContext());
-                builder.setItems(nfcActionList.getNames(), new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        Intent writeTagIntent = new Intent(getActivity().getApplicationContext(),
-                                OpenHABWriteTagActivity.class);
-                        writeTagIntent.putExtra("sitemapPage", displayPageUrl);
+        int scrollPosition = 0;
 
-                        if (nfcActionList.getCommands().length > which) {
-                            writeTagIntent.putExtra("item", selectedOpenHABWidget.getItem().getName());
-                            writeTagIntent.putExtra("itemType", selectedOpenHABWidget.getItem().getType());
-                            writeTagIntent.putExtra("command", nfcActionList.getCommands()[which]);
-                        }
-                        startActivityForResult(writeTagIntent, 0);
-                        Util.overridePendingTransition(getActivity(), false);
-                        selectedOpenHABWidget = null;
-                    }
-                });
-                builder.show();
-                return true;
-            }
-        });
-        if (getResources().getInteger(R.integer.pager_columns) > 1) {
-            Log.d(TAG, "More then 1 column, setting selector on");
-            getListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+        // If a layout manager has already been set, get current scroll position.
+        if (mRecyclerView.getLayoutManager() != null) {
+            scrollPosition = ((LinearLayoutManager) mRecyclerView.getLayoutManager())
+                    .findFirstCompletelyVisibleItemPosition();
         }
+
+        mLayoutManager = new LinearLayoutManager(getActivity());
+
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        mRecyclerView.scrollToPosition(scrollPosition);
+
+        mRecyclerView.setAdapter(openHABWidgetAdapter);
     }
 
     @Override
@@ -229,7 +180,10 @@ public class OpenHABWidgetListFragment extends ListFragment {
         // Inflate the layout for this fragment
         Log.i(TAG, "onCreateView");
         Log.d(TAG, "isAdded = " + isAdded());
-        return inflater.inflate(R.layout.openhabwidgetlist_fragment, container, false);
+        View rootView = inflater.inflate(R.layout.openhabwidgetlist_fragment, container, false);
+        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerView);
+
+        return rootView;
     }
 
     @Override
@@ -261,7 +215,9 @@ public class OpenHABWidgetListFragment extends ListFragment {
             openHABWidgetAdapter.stopVideoWidgets();
         }
         if (isAdded())
-            mCurrentSelectedItem = getListView().getCheckedItemPosition();
+        {
+            mCurrentSelectedItem = openHABWidgetAdapter.getCheckedItemPosition();
+        }
     }
 
     @Override
@@ -404,6 +360,7 @@ public class OpenHABWidgetListFragment extends ListFragment {
             return;
         }
 
+        ArrayList<OpenHABWidget> oldList = (ArrayList<OpenHABWidget>)widgetList.clone();
         // If openHAB verion = 1 get page from XML
         if (mActivity.getOpenHABVersion() == 1) {
             // As we change the page we need to stop all videos on current page
@@ -463,12 +420,15 @@ public class OpenHABWidgetListFragment extends ListFragment {
             }
         }
 
-        openHABWidgetAdapter.notifyDataSetChanged();
+        openHABWidgetAdapter.reload(oldList, widgetList);
+
         if (!longPolling && isAdded()) {
-            getListView().clearChoices();
+            openHABWidgetAdapter.clearChoices();
             Log.d(TAG, String.format("processContent selectedItem = %d", mCurrentSelectedItem));
             if (mCurrentSelectedItem >= 0)
-                getListView().setItemChecked(mCurrentSelectedItem, true);
+            {
+                openHABWidgetAdapter.setItemChecked(mCurrentSelectedItem);
+            }
         }
         if (getActivity() != null && mIsVisible)
             getActivity().setTitle(openHABWidgetDataSource.getTitle());
@@ -560,9 +520,9 @@ public class OpenHABWidgetListFragment extends ListFragment {
     public void clearSelection() {
         Log.d(TAG, "clearSelection() " + this.displayPageUrl);
         Log.d(TAG, "isAdded = " + isAdded());
-        if (getListView() != null && this.isVisible() && isAdded()) {
-            getListView().clearChoices();
-            getListView().requestLayout();
+        if (mRecyclerView != null && this.isVisible() && isAdded()) {
+            openHABWidgetAdapter.clearChoices();
+            mRecyclerView.requestLayout();
         }
     }
 
@@ -570,4 +530,13 @@ public class OpenHABWidgetListFragment extends ListFragment {
         return mPosition;
     }
 
+    public RecyclerView getRecyclerView()
+    {
+        return mRecyclerView;
+    }
+
+    public OnWidgetSelectedListener getWidgetSelectedListener()
+    {
+        return widgetSelectedListener;
+    }
 }

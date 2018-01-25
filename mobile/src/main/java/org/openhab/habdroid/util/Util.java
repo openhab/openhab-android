@@ -146,4 +146,8 @@ public class Util {
         }
         activity.setTheme(themeRes);
     }
+
+    public static boolean bothNullOrEqual(Object x, Object y) {
+        return ( x == null ? y == null : x.equals(y) );
+    }
 }
