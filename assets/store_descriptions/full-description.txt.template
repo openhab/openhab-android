@@ -1,0 +1,31 @@
+$intro
+
+$whatis
+$rules
+
+<b>$supported</b>
+
+$bindings
+
+• $home_automation_solutions: Z-Wave, EnOcean, Netatmo, Homematic, Insteon, ...
+• $lighting: Philips Hue, Ikea Trådfri, LIFX, Lutron, Milight, ...
+• $heating: Max!, Nest, Vitotronic, Heatmiser, ...
+• $home_entertainment: Samsung TV, LG TV, Sonos, Pioneer AVR, Squeezebox, Kodi, Plex, ...
+• $security: ZoneMinder, DSC, ...
+• $open_protocols: HTTP, TCP/UDP, MQTT, Serial, ...
+• $special_useCases: Minecraft, Tesla Car, Weather Services, ...
+• ...
+
+<b>$oss_community</b>
+
+$forum
+$report_issues
+$translation
+
+<b>$foundation</b>
+
+$about_foundation
+
+<b>$important_note</b>
+
+$oh_server

@@ -15,9 +15,9 @@
   <string name="mainmenu_openhab_selectsitemap">Προκαθορισμένο Sitemap</string>
   <string name="mainmenu_openhab_clearcache">Καθάρισμα κρυφής μνήμης</string>
   <!-- App settings strings -->
-  <string name="settings_connection_title">Ρυθμίσεις Σύνδεσης</string>
-  <string name="settings_display_title">Ρυθμίσεις Προβολής</string>
-  <string name="settings_misc_title">Διάφορες Ρυθμίσεις</string>
+  <string name="settings_connection_title">Σύνδεση</string>
+  <string name="settings_display_title">Εμφάνιση</string>
+  <string name="settings_misc_title">Διάφορα</string>
   <string name="settings_openhab_url">Διεύθυνση openHAB</string>
   <string name="settings_openhab_url_summary">Η διεύθυνση του openHAB (όνομα διακομιστή ή IP). Αν ρυθμιστεί, απενεργοποιεί την αυτόματη εύρεση. Τρέχουσα ρύθμιση: %s</string>
   <string name="settings_openhab_alturl">Απομακρυσμένη διεύθυνση openHAB</string>
@@ -45,9 +45,9 @@
   <string name="settings_clear_default_sitemap">Καθαρισμός προκαθορισμένου sitemap</string>
   <string name="settings_no_default_sitemap">Δεν έχει επιλεγεί προκαθορισμένο sitemap</string>
   <string name="settings_current_default_sitemap">Τρέχον προκαθορισμένο sitemap: %1$s</string>
-  <string name="settings_openhab_sslsettings">Ρυθμίσεις Κρυπτογράφησης</string>
-  <string name="settings_openhab_alt_connection">Ρυθμίσεις Απομακρυσμένου διακομιστή</string>
-  <string name="settings_openhab_connection">Ρυθμίσεις Τοπικού διακομιστή</string>
+  <string name="settings_openhab_sslsettings">Κρυπτογράφηση</string>
+  <string name="settings_openhab_alt_connection">Απομακρυσμένo</string>
+  <string name="settings_openhab_connection">Τοπικό</string>
   <!-- App messages strings -->
   <string name="title_voice_widget">Φωνητικές εντολές openHAB</string>
   <string name="info_voice_input">"openHAB, στις προσταγές σας!"</string>
@@ -57,31 +57,18 @@
   <string name="info_conn_url">Σύνδεση στην τοπική διεύθυνση</string>
   <string name="info_conn_rem_url">Σύνδεση στην απομακρυσμένη διεύθυνση</string>
   <string name="info_discovery">Ανεύρεση openHAB. Παρακαλώ περιμένετε\u2026</string>
-  <string name="error_no_url">Παρακαλώ ελέξτε ότι το openHAB τρέχει ή ρυθμίστε σωστά την διεύθυνση ή απομακρυσμένης διεύθυνσης του openHAB</string>
+  <!-- Error messages -->
+  <string name="error_no_url">Παρακαλώ ελέξτε ότι το openHAB τρέχει ή ρυθμίστε σωστά την διεύθυνση απομακρυσμένης διεύθυνσης του openHAB</string>
   <string name="error_empty_sitemap_list">Το openHAB επέστρεψε μια άδεια λίστα χαρτών χώρου</string>
   <string name="error_network_not_available">Το δίκτυο δεν είναι διαθέσιμο</string>
-  <string name="error_http_connection_failed">Λήψη μη έγκυρης απάντησης από το openHAB. Παρακαλώ ελέξτε ότι το openHAB λειτουργεί κανονικά (κωδικός απόκρισης HTTP %d)</string>
   <string name="error_no_uuid">Αδυναμία λήψης του openHAB UUID, η σύνδεση απέτυχε</string>
-  <string name="error_invalid_url">Παρακαλώ εισάγετε ενα σωστό URL της μορφής \'πρωτόκολλο://διακομιστής:πόρτα/\'</string>
   <string name="error_connection_failed">Η σύνδεση στον διακομιστή απέτυχε</string>
   <string name="error_unable_to_resolve_hostname">Αδυναμία ανεύρεσης ονόματος διακομιστή</string>
-  <string name="error_connection_sslhandshake_failed">Η διαδικασία SSL Handshake απέτυχε - ίσως χρειάζεστε ένα έγκυρο πιστοποιητικό πελάτη</string>
   <string name="error_certificate_not_trusted">Το πιστοποιητικό SSL δεν είναι έμπιστο. Παρακαλώ εισάγετε το κεντρικό πιστοποιητικό (root certificate) ή απενεργοποιήστε τον έλεγχο του πιστοποιητικού κατά την διάρκεια της διαδικασίας εγκαθίδρυσης SSL.</string>
   <string name="error_certificate_expired">Το πιστοποιητικό SSL έχει λήξει. Παρακαλώ λάβετε καινούριο πιστοποιητικό ή απενεργοποιήστε τον έλεγχο του πιστοποιητικού κατά την διάρκεια της διαδικασίας εγκαθίδρυσης SSL.</string>
-  <string name="error_certificate_not_valid_yet">Το πιστοποιητικό SSL δεν είναι έγκυρο ακόμα. Παρακαλώ λάβετε ένα ορθό πιστοποιητικό ή απενεργοποιήστε τον έλεγχο του πιστοποιητικού κατά την διάρκεια της διαδικασίας εγκαθίδρυσης SSL. Επίσης, ελέγξτε ότι το ρολόι στο τηλέφωνο σας είναι ρυθμισμένο σωστά.</string>
   <string name="error_certificate_revoked">Το πιστοποιητικό SSL έχει ανακληθεί. Παρακαλώ λάβετε καινούριο πιστοποιητικό ή απενεργοποιήστε τον έλεγχο του πιστοποιητικού κατά την διάρκεια της διαδικασίας εγκαθίδρυσης SSL.</string>
-  <string name="error_http_code_401">Η πιστοποίηση του χρήστη απέτυχε. Παρακαλώ ελέγξτε το όνομα χρήστη, κωδικό και SSL πιστοποιητικό πελάτη (κωδικός απόκρισης HTTP 401)</string>
-  <string name="error_http_code_403">Η πιστοποίηση του χρήστη απέτυχε. Παρακαλώ ελέγξτε το όνομα χρήστη, κωδικό και SSL πιστοποιητικό πελάτη (κωδικός απόκρισης HTTP 403)</string>
-  <string name="error_http_code_407">Η πιστοποίηση του χρήστη απέτυχε. Παρακαλώ ελέγξτε το όνομα χρήστη, κωδικό και SSL πιστοποιητικό πελάτη (κωδικός απόκρισης HTTP 407)</string>
-  <string name="error_http_code_414">Το openHAB URL είναι πολύ μακρύ (κωδικός απόκρισης HTTP 414)</string>
-  <string name="error_http_code_426">Απαιτείται χρήση HTTPS. Παρακαλώ αλλάξτε το openHAB URL (κωδικός απόκρισης HTTP 426)</string>
   <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
-  <string name="error_http_code_495">Μη έγκυρο SSL πιστοποιητικό πελάτη (κωδικός απόκρισης HTTP 495)</string>
   <string name="error_http_code_496">Απαιτείται SSL πιστοποιητικό πελάτη (κωδικός απόκρισης HTTP 496)</string>
-  <string name="error_http_code_502">Ο reverse proxy σας έλαβε λάθος απάντηση από το openHAB (κωδικός απόκρισης HTTP 502)</string>
-  <string name="error_http_code_503">Το openHAB είναι προσωρινά μη διαθέσιμο (κωδικός απόκρισης HTTP 503)</string>
-  <string name="error_http_code_504">Τέλος χρόνου Πύλης (Gateway). Φαίνεται ότι ο reverse proxy είναι σε λειτουργία αλλά δε μπορούσε να λάβει απάντηση από το openHAB (κωδικός απόκρισης HTTP 504)</string>
-  <string name="error_http_code_507">Ανεπαρκής χώρος στο openHAB (κωδικός απόκρισης HTTP 507)</string>
   <string name="error_http_code_511">Απαιτείται πιστοποίηση δικτύου (κωδικός απόκρισης HTTP 511)</string>
   <string name="title_activity_openhabwritetag">Εγγραφή ετικέτας NFC</string>
   <string name="title_activity_openhabinfo">Πληροφορίες για το openHAB</string>
@@ -121,6 +108,7 @@
   <string name="nfc_action_off">Σβηστό</string>
   <string name="nfc_action_down">Κάτω</string>
   <string name="nfc_action_toggle">Μεταβολή</string>
+  <string name="nfc_activate">Ενεργοποίηση</string>
   <string name="nfc_action_current_color">Τρέχον χρώμα</string>
   <string name="nfc_action_to_sitemap_page">Μεταβείτε στη σελίδα του Χάρτη Χώρου</string>
   <!-- Drawer -->
@@ -144,4 +132,7 @@
   <string name="intro_whatis">Λογισμικό ανοιχτού κώδικα αυτοματοποίησης, ανεξάρτητο κατασκευαστή και τεχνολογίας, για το σπίτι σας.</string>
   <string name="intro_themes">Θέματα</string>
   <string name="intro_themes_description">Επιλέξτε μεταξύ διαφόρων θεμάτων</string>
+  <!-- Content description for images -->
+  <string name="content_description_video">Βίντεο</string>
+  <string name="content_description_open_openhab">Άνοιγμα openHAB</string>
 </resources>
