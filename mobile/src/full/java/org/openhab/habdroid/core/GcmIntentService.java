@@ -33,6 +33,7 @@ public class GcmIntentService extends IntentService {
     private static final String TAG = GcmIntentService.class.getSimpleName();
 
     public static final String EXTRA_MSG = "message";
+    public static final String EXTRA_SENT_TIME = "google.sent_time";
     public static final String EXTRA_NOTIFICATION_ID = "notificationId";
     public static final String ACTION_NOTIFICATION_SELECTED = "org.openhab.notification.selected";
     public static final String ACTION_NOTIFICATION_DELETED = "org.openhab.notification.deleted";
@@ -64,7 +65,7 @@ public class GcmIntentService extends IntentService {
                     notificationId = Integer.parseInt(intent.getExtras().getString(EXTRA_NOTIFICATION_ID));
                 }
                 if ("notification".equals(intent.getExtras().getString("type"))) {
-                    sendNotification(intent.getExtras().getString(EXTRA_MSG), notificationId);
+                    sendNotification(intent.getExtras().getString(EXTRA_MSG), intent.getExtras().getLong(EXTRA_SENT_TIME), notificationId);
                 // If this is hideNotification, cancel existing notification with it's id
                 } else if ("hideNotification".equals(intent.getExtras().getString("type"))) {
                     mNotificationManager.cancel(Integer.parseInt(intent.getExtras().getString(EXTRA_NOTIFICATION_ID)));
@@ -75,7 +76,7 @@ public class GcmIntentService extends IntentService {
         GcmBroadcastReceiver.completeWakefulIntent(intent);
     }
 
-    private void sendNotification(String msg, int notificationId) {
+    private void sendNotification(String msg, long time, int notificationId) {
         if (mNotificationManager == null)
             mNotificationManager = (NotificationManager)
                     this.getSystemService(Context.NOTIFICATION_SERVICE);
@@ -108,6 +109,7 @@ public class GcmIntentService extends IntentService {
                                 .bigText(msg))
                         .setColor(ContextCompat.getColor(this, R.color.openhab_orange))
                         .setAutoCancel(true)
+                        .setWhen(time)
                         .setSound(alarmSound)
                         .setContentText(msg)
                         .setContentIntent(pendingNotificationIntent)
