@@ -778,7 +778,8 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
                     // Configured sitemap is on the list we got, open it!
                     if (Util.sitemapExists(mSitemapList, configuredSitemap)) {
                         Log.d(TAG, "Configured sitemap is on the list");
-                        OpenHABSitemap selectedSitemap = Util.getSitemapByName(mSitemapList, configuredSitemap);
+                        OpenHABSitemap selectedSitemap = Util.getSitemapByName(mSitemapList,
+                                configuredSitemap);
                         openSitemap(selectedSitemap.getHomepageLink());
                         // Configured sitemap is not on the list we got!
                     } else {
@@ -786,8 +787,10 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
                         if (mSitemapList.size() == 1) {
                             Log.d(TAG, "Got only one sitemap");
                             SharedPreferences.Editor preferencesEditor = settings.edit();
-                            preferencesEditor.putString(Constants.PREFERENCE_SITEMAP_NAME, mSitemapList.get(0).getName());
-                            preferencesEditor.putString(Constants.PREFERENCE_SITEMAP_LABEL, mSitemapList.get(0).getLabel());
+                            preferencesEditor.putString(Constants.PREFERENCE_SITEMAP_NAME,
+                                    mSitemapList.get(0).getName());
+                            preferencesEditor.putString(Constants.PREFERENCE_SITEMAP_LABEL,
+                                    mSitemapList.get(0).getLabel());
                             preferencesEditor.apply();
                             openSitemap(mSitemapList.get(0).getHomepageLink());
                         } else {
@@ -801,8 +804,10 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
                     if (mSitemapList.size() == 1) {
                         Log.d(TAG, "Got only one sitemap");
                         SharedPreferences.Editor preferencesEditor = settings.edit();
-                        preferencesEditor.putString(Constants.PREFERENCE_SITEMAP_NAME, mSitemapList.get(0).getName());
-                        preferencesEditor.putString(Constants.PREFERENCE_SITEMAP_LABEL, mSitemapList.get(0).getLabel());
+                        preferencesEditor.putString(Constants.PREFERENCE_SITEMAP_NAME,
+                                mSitemapList.get(0).getName());
+                        preferencesEditor.putString(Constants.PREFERENCE_SITEMAP_LABEL,
+                                mSitemapList.get(0).getLabel());
                         preferencesEditor.apply();
                         openSitemap(mSitemapList.get(0).getHomepageLink());
                     } else {
