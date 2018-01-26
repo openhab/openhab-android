@@ -21,7 +21,8 @@ public class OpenHABNFCActionList {
 
     /**
      * Creates two list with all available nfc actions for an item, one with a user visble label
-     * (name) and one with the command
+     * (name) and one with the command. It also adds "Navigate to this sitemap" at the end of the
+     * list.
      * @param openHABWidget
      * @param ctx
      */
