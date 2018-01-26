@@ -115,7 +115,7 @@ import static org.openhab.habdroid.util.Constants.MESSAGES.LOGLEVEL.NO_DEBUG;
 import static org.openhab.habdroid.util.Util.exceptionHasCause;
 import static org.openhab.habdroid.util.Util.removeProtocolFromUrl;
 
-public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSelectedListener,
+public class OpenHABMainActivity extends AppCompatActivity implements
         OpenHABTrackerReceiver, MemorizingResponder {
 
     private abstract class DefaultHttpResponseHandler implements MyHttpClient.ResponseHandler {
@@ -1027,7 +1027,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
         mNfcData = "";
     }
 
-    public void onWidgetSelectedListener(OpenHABLinkedPage linkedPage, OpenHABWidgetListFragment source) {
+    public void onWidgetSelected(OpenHABLinkedPage linkedPage, OpenHABWidgetListFragment source) {
         Log.i(TAG, "Got widget link = " + linkedPage.getLink());
         Log.i(TAG, String.format("Link came from fragment on position %d", source.getPosition()));
         pagerAdapter.openPage(linkedPage, source.getPosition() + 1);
@@ -1035,11 +1035,6 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
         updateTitle();
         //set the drawer icon to a back arrow when not on the rook menu
         mDrawerToggle.setDrawerIndicatorEnabled(pager.getCurrentItem() == 0);
-    }
-
-    @Override
-    public void onUpdateTitle(String title, OpenHABWidgetListFragment source) {
-        updateTitle();
     }
 
     public void updateTitle() {
