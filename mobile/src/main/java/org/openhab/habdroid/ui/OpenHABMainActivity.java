@@ -787,6 +787,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
                             Log.d(TAG, "Got only one sitemap");
                             SharedPreferences.Editor preferencesEditor = settings.edit();
                             preferencesEditor.putString(Constants.PREFERENCE_SITEMAP_NAME, mSitemapList.get(0).getName());
+                            preferencesEditor.putString(Constants.PREFERENCE_SITEMAP_LABEL, mSitemapList.get(0).getLabel());
                             preferencesEditor.apply();
                             openSitemap(mSitemapList.get(0).getHomepageLink());
                         } else {
@@ -801,6 +802,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
                         Log.d(TAG, "Got only one sitemap");
                         SharedPreferences.Editor preferencesEditor = settings.edit();
                         preferencesEditor.putString(Constants.PREFERENCE_SITEMAP_NAME, mSitemapList.get(0).getName());
+                        preferencesEditor.putString(Constants.PREFERENCE_SITEMAP_LABEL, mSitemapList.get(0).getLabel());
                         preferencesEditor.apply();
                         openSitemap(mSitemapList.get(0).getHomepageLink());
                     } else {
