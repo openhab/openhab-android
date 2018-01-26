@@ -82,7 +82,7 @@ public class SegmentedControlButton extends android.support.v7.widget.AppCompatR
     }
 
     public void init(AttributeSet attrs) {
-
+        setButtonDrawable(null);
         if (attrs != null) {
             TypedArray attributes = this.getContext().obtainStyledAttributes(attrs, R.styleable.SegmentedControlButton);
             if (backgroundSelected == null) {
@@ -206,5 +206,4 @@ public class SegmentedControlButton extends android.support.v7.widget.AppCompatR
 	public void setButtonIndex(int buttonIndex) {
 		this.buttonIndex = buttonIndex;
 	}
-
 }
