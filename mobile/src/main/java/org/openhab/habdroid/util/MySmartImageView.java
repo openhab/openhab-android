@@ -13,6 +13,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Handler;
 import android.os.Message;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.ViewGroup;
@@ -95,35 +96,47 @@ public class MySmartImageView extends SmartImageView {
     }
 
     public void setImageUrl(String url, String username, String password) {
-        this.myImageUrl = url;
-        this.username = username;
-        this.password = password;
-        this.refreshDisabled = true;
-        setImage(new MyWebImage(url, username, password), imageCompletionListener);
+        setImageUrl(url, username, password, true);
     }
 
-    public void setImageUrl(String url, final Integer fallbackResource, String username, String password) {
-        this.myImageUrl = url;
-        this.username = username;
-        this.password = password;
-        this.refreshDisabled = true;
-        setImage(new MyWebImage(url, username, password), fallbackResource, imageCompletionListener);
+    public void setImageUrl(String url, String username, String password, boolean useImageCache) {
+        setImageUrl(url, username, password, useImageCache, null);
     }
 
-    public void setImageUrl(String url, final Integer fallbackResource, final Integer loadingResource, String username, String password) {
-        this.myImageUrl = url;
-        this.username = username;
-        this.password = password;
-        this.refreshDisabled = true;
-        setImage(new MyWebImage(url, username, password), fallbackResource, loadingResource, imageCompletionListener);
+    public void setImageUrl(String url, String username, String password, Integer fallbackResource) {
+        setImageUrl(url, username, password, true, fallbackResource);
     }
 
-    public void setImageUrl(String url, boolean useImageCache, String username, String password) {
+    public void setImageUrl(String url, String username, String password,
+            boolean useImageCache, Integer fallbackResource) {
+        setImageUrl(url, username, password, useImageCache, fallbackResource, fallbackResource);
+    }
+
+    public void setImageUrl(String url, String username, String password,
+            Integer fallbackResource, Integer loadingResource) {
+        setImageUrl(url, username, password, true, fallbackResource, loadingResource);
+    }
+
+    private void setImageUrl(String url, String username, String password, boolean useImageCache,
+            Integer fallbackResource, Integer loadingResource) {
+        if (TextUtils.equals(myImageUrl, url)
+                && TextUtils.equals(this.username, username)
+                && TextUtils.equals(this.password, password)) {
+            // nothing changed -> nothing to do
+            return;
+        }
         this.myImageUrl = url;
         this.username = username;
         this.password = password;
         this.refreshDisabled = true;
-        setImage(new MyWebImage(url, useImageCache, username, password), imageCompletionListener);
+
+        MyWebImage image = new MyWebImage(url, useImageCache, username, password);
+        Bitmap cachedBitmap = image.getCachedBitmap();
+        if (cachedBitmap != null) {
+            setImageBitmap(cachedBitmap);
+        } else {
+            setImage(image, fallbackResource, loadingResource, imageCompletionListener);
+        }
     }
 
     public void setImageWithData(SmartImage image) {
