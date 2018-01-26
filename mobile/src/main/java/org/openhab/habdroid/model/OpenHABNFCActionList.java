@@ -19,6 +19,12 @@ public class OpenHABNFCActionList {
     private ArrayList<String> actionNames;
     private ArrayList<String> actionCommands;
 
+    /**
+     * Creates two list with all available nfc actions for an item, one with a user visble label
+     * (name) and one with the command
+     * @param openHABWidget
+     * @param ctx
+     */
     public OpenHABNFCActionList(OpenHABWidget openHABWidget, Context ctx) {
         actionNames = new ArrayList<>();
         actionCommands = new ArrayList<>();
@@ -26,7 +32,7 @@ public class OpenHABNFCActionList {
             // If widget have mappings, we will populate names and commands with values
             // from this mappings
             if (openHABWidget.hasMappings()) {
-            // Else we only can do it for Switch widget with On/Off/Toggle commands
+                // Else we only can do it for Switch widget with On/Off/Toggle commands
                 for (int i = 0; i < openHABWidget.getMappings().size(); i++) {
                     actionNames.add(openHABWidget.getMappings().get(i).getLabel());
                     actionCommands.add(openHABWidget.getMappings().get(i).getCommand());
