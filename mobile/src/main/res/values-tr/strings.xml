@@ -15,9 +15,6 @@
   <string name="mainmenu_openhab_selectsitemap">Varsayılan site haritasını seç</string>
   <string name="mainmenu_openhab_clearcache">Resim önbelleğini temizle</string>
   <!-- App settings strings -->
-  <string name="settings_connection_title">Bağlantı Ayarları</string>
-  <string name="settings_display_title">Görüntü Ayarları</string>
-  <string name="settings_misc_title">Diğer Ayarlar</string>
   <string name="settings_openhab_url">Yerel sunucu URL\'si</string>
   <string name="settings_openhab_url_summary">openHAB panel URL\'si (Ana bilgisayar adına ya da IP\'ye göre). Eğer yapılandırılmışsa, otomatik keşfetme devredışı bırakılır. Geçerli ayar: %s</string>
   <string name="settings_openhab_alturl">Uzak sunucu URL\'si</string>
@@ -45,9 +42,6 @@
   <string name="settings_clear_default_sitemap">Varsayılan site haritasını temizle</string>
   <string name="settings_no_default_sitemap">Varsayılan her hangi bir site haritası seçilmedi</string>
   <string name="settings_current_default_sitemap">Geçerli varsayılan site haritası: %1$s</string>
-  <string name="settings_openhab_sslsettings">Şifreleme ayarları</string>
-  <string name="settings_openhab_alt_connection">Uzak sunucu ayarları</string>
-  <string name="settings_openhab_connection">Yerel Sunucu Ağları</string>
   <!-- App messages strings -->
   <string name="title_voice_widget">openHAB Ses Komutları</string>
   <string name="info_voice_input">"openHAB Emrinizdedir!"</string>
@@ -57,31 +51,18 @@
   <string name="info_conn_url">Yerel Sunucuya Bağlanıyor</string>
   <string name="info_conn_rem_url">Uzak URL\'ye Bağlanıyor</string>
   <string name="info_discovery">openHAB keşfediliyor. Lütfen bekleyiniz\u2026</string>
+  <!-- Error messages -->
   <string name="error_no_url">Lütfen openHAB\'ın çalıştığını kontrol ediniz ya da openHAB URL\'si veya karşı URL\'yi yapılandırınız</string>
   <string name="error_empty_sitemap_list">openHAB boş site haritası listesini geri getirdi</string>
   <string name="error_network_not_available">Network müsait değil</string>
-  <string name="error_http_connection_failed">openHAB\'tan geçersiz bir yanıt alındı. Lütfen openHAB\'ın düzgün çalıştığından emin olunuz (HTTP yanıt kodu %d)</string>
   <string name="error_no_uuid">openHAB UUID alınamadı, bağlantı hatası</string>
-  <string name="error_invalid_url">Lütfen \'protocol://host:port/\' formunda geçerli bir URL giriniz</string>
   <string name="error_connection_failed">Ana cihaza bağlantı başarısız oldu</string>
   <string name="error_unable_to_resolve_hostname">Ana cihaz adı çözülemiyor</string>
-  <string name="error_connection_sslhandshake_failed">SSL Handshake başarısız oldu - Belki geçerli bir müşteri sertifikasını ihtiyacınız vardır</string>
   <string name="error_certificate_not_trusted">SSL sertifikasına güvenilmiyor. Lütfen kök sertifikayı içe aktarın ya da SSL handshake esnasında sertifika doğrulaması etkisiz hale getirin</string>
   <string name="error_certificate_expired">SSL sertifikasının süresi doldu. Lütfen yeni bir sertifika edinin ya da SSL handshake esnasında sertifika doğrulamasını etkisiz hale getirin</string>
-  <string name="error_certificate_not_valid_yet">SSL sertifikası henüz geçerli değil. Lütfen geçerli bir sertifika edinin ya da SSL handshake esnasında sertifika doğrulamasını etkisiz hale getirin. Ayrıca telefonunuzdaki saat ayarının doğruluğunu kontrol ediniz</string>
   <string name="error_certificate_revoked">SSL sertifikası iptal edildi. Lütfen yeni bir sertifika edinin ya da SSL handshake esnasında sertifika doğrulamasını etkisiz hale getirin</string>
-  <string name="error_http_code_401">Kullanıcı kimlik doğrulaması başarısız oldu. Lütfen kullanıcı adını, şifreyi ve SSL müşteri sertifikasını kontrol ediniz (HTTP yanıt kodu 401)</string>
-  <string name="error_http_code_403">Kullanıcı kimlik doğrulaması başarısız oldu. Lütfen kullanıcı adınızı, şifrenizi ve SSL müşteri sertifikanızı gözden geçirin (HTTP yanıt kodu 403)</string>
-  <string name="error_http_code_407">Kullanıcı kimlik doğrulaması başarısız oldu. Lütfen kullanıcı adınızı, şifrenizi ve SSL müşteri sertifikanızı gözden geçirin (HTTP yanıt kodu 403)</string>
-  <string name="error_http_code_414">openHAB URL\'si çok uzun (HTTP yanıt kodu 414)</string>
-  <string name="error_http_code_426">HTTPS gereklidir. Lütfen openHAB URL\'sini değiştirin (HTTP yanıt kodu 426)</string>
   <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
-  <string name="error_http_code_495">Geçersiz SSL müşteri sertifikası (HTTP yanıt kodu 495)</string>
   <string name="error_http_code_496">SSL müşteri sertifikası gereklidir (HTTP yanıt kodu 496)</string>
-  <string name="error_http_code_502">Ters proxy\'iniz openHAB\'tan geçersiz bir yanıt aldı (HTTP yanıt kodu 502)</string>
-  <string name="error_http_code_503">openHAB geçici olarak kullanım dışı (HTTP yanıt kodu 503)</string>
-  <string name="error_http_code_504">Gateway zaman aşımı. Görünüşe göre sizin ters proxy\'iniz çalışıyor fakat openHAB\'dan bir cevap alamıyor (HTTP yanıt kodu 504)</string>
-  <string name="error_http_code_507">openHAB yeteri kadar boşluğa sahip değil (HTTP yanıt kodu 507)</string>
   <string name="error_http_code_511">Network kimlik doğrulaması gereklidir (HTTP yanıt kodu 511)</string>
   <string name="title_activity_openhabwritetag">NFC etiketini yazınız</string>
   <string name="title_activity_openhabinfo">openHAB Bilgi</string>
@@ -144,4 +125,5 @@
   <string name="intro_whatis">Eviniz için sağlayıcı ve yeni teknolojiye geçişlerden etkilenmeyen açık kaynak otomasyon yazılımı</string>
   <string name="intro_themes">Temalar</string>
   <string name="intro_themes_description">Çeşitli temalar arasından seçim yap</string>
+  <!-- Content description for images -->
 </resources>

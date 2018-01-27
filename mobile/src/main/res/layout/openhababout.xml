@@ -74,7 +74,8 @@
                 tools:layout_conversion_absoluteHeight="59dp"
                 tools:layout_conversion_absoluteWidth="384dp"
                 tools:layout_conversion_absoluteX="0dp"
-                tools:layout_conversion_absoluteY="0dp" />
+                tools:layout_conversion_absoluteY="0dp"
+                tools:ignore="ContentDescription" />
 
             <TextView
                 android:id="@+id/copyright"
