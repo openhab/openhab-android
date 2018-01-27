@@ -35,6 +35,7 @@ import android.speech.SpeechRecognizer;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
@@ -202,7 +203,7 @@ public class OpenHABMainActivity extends ConnectionAvailabilityAwareActivity
     // openHAB Bonjour service name
     private String openHABServiceType;
     // view pager for widgetlist fragments
-    private OpenHABViewPager pager;
+    private ViewPager pager;
     // view pager adapter for widgetlist fragments
     private OpenHABFragmentPagerAdapter pagerAdapter;
     // root URL of the current sitemap
@@ -555,7 +556,7 @@ public class OpenHABMainActivity extends ConnectionAvailabilityAwareActivity
     @Override
     protected void onEnterNoNetwork() {
         super.onEnterNoNetwork();
-        OpenHABViewPager pager = findViewById(R.id.pager);
+        ViewPager pager = findViewById(R.id.pager);
         if (pager != null) {
             pager.removeAllViews();
         }
@@ -662,9 +663,7 @@ public class OpenHABMainActivity extends ConnectionAvailabilityAwareActivity
     private void setupPager() {
         pagerAdapter = new OpenHABFragmentPagerAdapter(getSupportFragmentManager());
         pagerAdapter.setColumnsNumber(getResources().getInteger(R.integer.pager_columns));
-        pager = (OpenHABViewPager) findViewById(R.id.pager);
-        pager.setScrollDurationFactor(2.5);
-        pager.setOffscreenPageLimit(1);
+        pager = findViewById(R.id.pager);
         pager.setAdapter(pagerAdapter);
         pager.addOnPageChangeListener(pagerAdapter);
     }
@@ -785,7 +784,8 @@ public class OpenHABMainActivity extends ConnectionAvailabilityAwareActivity
                     // Configured sitemap is on the list we got, open it!
                     if (Util.sitemapExists(mSitemapList, configuredSitemap)) {
                         Log.d(TAG, "Configured sitemap is on the list");
-                        OpenHABSitemap selectedSitemap = Util.getSitemapByName(mSitemapList, configuredSitemap);
+                        OpenHABSitemap selectedSitemap = Util.getSitemapByName(mSitemapList,
+                                configuredSitemap);
                         openSitemap(selectedSitemap.getHomepageLink());
                         // Configured sitemap is not on the list we got!
                     } else {
@@ -793,7 +793,10 @@ public class OpenHABMainActivity extends ConnectionAvailabilityAwareActivity
                         if (mSitemapList.size() == 1) {
                             Log.d(TAG, "Got only one sitemap");
                             SharedPreferences.Editor preferencesEditor = settings.edit();
-                            preferencesEditor.putString(Constants.PREFERENCE_SITEMAP_NAME, mSitemapList.get(0).getName());
+                            preferencesEditor.putString(Constants.PREFERENCE_SITEMAP_NAME,
+                                    mSitemapList.get(0).getName());
+                            preferencesEditor.putString(Constants.PREFERENCE_SITEMAP_LABEL,
+                                    mSitemapList.get(0).getLabel());
                             preferencesEditor.apply();
                             openSitemap(mSitemapList.get(0).getHomepageLink());
                         } else {
@@ -807,7 +810,10 @@ public class OpenHABMainActivity extends ConnectionAvailabilityAwareActivity
                     if (mSitemapList.size() == 1) {
                         Log.d(TAG, "Got only one sitemap");
                         SharedPreferences.Editor preferencesEditor = settings.edit();
-                        preferencesEditor.putString(Constants.PREFERENCE_SITEMAP_NAME, mSitemapList.get(0).getName());
+                        preferencesEditor.putString(Constants.PREFERENCE_SITEMAP_NAME,
+                                mSitemapList.get(0).getName());
+                        preferencesEditor.putString(Constants.PREFERENCE_SITEMAP_LABEL,
+                                mSitemapList.get(0).getLabel());
                         preferencesEditor.apply();
                         openSitemap(mSitemapList.get(0).getHomepageLink());
                     } else {

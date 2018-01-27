@@ -147,7 +147,7 @@ public class OpenHABFragmentPagerAdapter extends FragmentStatePagerAdapter imple
     }
 
     private OpenHABNotificationFragment getNewNotificationFragment() {
-        return new OpenHABNotificationFragment().newInstance();
+        return OpenHABNotificationFragment.newInstance();
     }
 
     public void openPage(String pageUrl) {

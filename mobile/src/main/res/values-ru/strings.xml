@@ -15,9 +15,6 @@
   <string name="mainmenu_openhab_selectsitemap">Выбрать sitemap по умолчанию</string>
   <string name="mainmenu_openhab_clearcache">Очистить кеш картинок</string>
   <!-- App settings strings -->
-  <string name="settings_connection_title">Параметры Подключения</string>
-  <string name="settings_display_title">Параметры Дисплея</string>
-  <string name="settings_misc_title">Другие параметры</string>
   <string name="settings_openhab_url">URL адрес локального openHAB</string>
   <string name="settings_openhab_url_summary">URL-адрес панели openHAB (на основании имени хоста или IP). Если введено, автообнаружение отключен. Текущие настройки: %s</string>
   <string name="settings_openhab_alturl">URL-адрес удаленного openHAB</string>
@@ -45,9 +42,6 @@
   <string name="settings_clear_default_sitemap">Очистить sitemap по умолчанию</string>
   <string name="settings_no_default_sitemap">Sitemap по умолчанию не выбран</string>
   <string name="settings_current_default_sitemap">Текущий sitemap по умолчанию: %1$s</string>
-  <string name="settings_openhab_sslsettings">Параметры шифрования</string>
-  <string name="settings_openhab_alt_connection">Параметры удаленного сервера</string>
-  <string name="settings_openhab_connection">Параметры локального сервера</string>
   <!-- App messages strings -->
   <string name="title_voice_widget">openHAB Голосовые команды</string>
   <string name="info_voice_input">"openHAB, Ваша команда!"</string>
@@ -57,31 +51,18 @@
   <string name="info_conn_url">Подключение к локальному URL</string>
   <string name="info_conn_rem_url">Подключение к удаленному URL</string>
   <string name="info_discovery">Обнаружение openHAB. Пожалуйста подождите\u2026</string>
+  <!-- Error messages -->
   <string name="error_no_url">Убедитесь, что openHAB запущен и настроен локальный URL-адрес openHAB или удаленный URL-адрес</string>
   <string name="error_empty_sitemap_list">openHAB вернул пустой sitemap лист</string>
   <string name="error_network_not_available">Сеть недоступна</string>
-  <string name="error_http_connection_failed">Полученный недействительный ответ от openHAB. Пожалуйста, проверьте, работает ли openHAB правильно (код ответа HTTP %d)</string>
   <string name="error_no_uuid">Не удалось получить OpenHAB UUID, соединение не выполнено</string>
-  <string name="error_invalid_url">Пожалйста напишите правильный URL в форме \'протокол://хост:порт/\'</string>
   <string name="error_connection_failed">Ошибка подключения к хосту</string>
   <string name="error_unable_to_resolve_hostname">Не удалось разрешить имя хоста</string>
-  <string name="error_connection_sslhandshake_failed">Не удалось получить подтверждение SSL - возможно, вам нужен действительный клиентский сертификат</string>
   <string name="error_certificate_not_trusted">Сертификат SSL истек. Получите новый сертификат или отключите проверку сертификата SSL</string>
   <string name="error_certificate_expired">Сертификат SSL истек. Получите новый сертификат или отключите проверку допустимости сертификата во время квитирования SSL</string>
-  <string name="error_certificate_not_valid_yet">Сертификат SSL еще не допустим. Получите корректный сертификат или отключите проверку сертификата SSL. Также проверьте, установлены ли часы по Вашему телефону правильно</string>
   <string name="error_certificate_revoked">Сертификат SSL был отменен. Получите новый сертификат или отключите проверку сертификата SSL</string>
-  <string name="error_http_code_401">Ошибка аутентификации пользователя. Проверьте имя пользователя, пароль и сертификат клиента SSL (код ответа HTTP 401)</string>
-  <string name="error_http_code_403">Ошибка аутентификации пользователя. Проверьте имя пользователя, пароль и сертификат клиента SSL (код ответа HTTP 403)</string>
-  <string name="error_http_code_407">Ошибка аутентификации пользователя. Проверьте имя пользователя, пароль и сертификат клиента SSL (код ответа HTTP 407)</string>
-  <string name="error_http_code_414">Адрес openHAB слишком длинный (код ответа HTTP 414)</string>
-  <string name="error_http_code_426">Требуется HTTPS. Измените адрес openHAB (код ответа HTTP 426)</string>
   <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
-  <string name="error_http_code_495">Неверный сертификат клиента SSL (код ответа HTTP 495)</string>
   <string name="error_http_code_496">Требуется сертификат SSL-клиента (код ответа HTTP 496)</string>
-  <string name="error_http_code_502">Ваш обратный прокси получил неверный ответ от openHAB (код ответа HTTP 502)</string>
-  <string name="error_http_code_503">openHAB временно недоступен (код ответа HTTP 503)</string>
-  <string name="error_http_code_504">Тайм-аут шлюза. Кажется, что ваш обратный прокси работает, но не смог получить ответ от openHAB (код ответа HTTP 504)</string>
-  <string name="error_http_code_507">openHAB недостаточно свободного места (код ответа HTTP 507)</string>
   <string name="error_http_code_511">Требуется сетевая аутентификация (код ответа HTTP 511)</string>
   <string name="title_activity_openhabwritetag">Запись NFC tag</string>
   <string name="title_activity_openhabinfo">openHAB Информация</string>
@@ -144,4 +125,5 @@
   <string name="intro_whatis">Независимое программное обеспечение автоматизации Вашего дома</string>
   <string name="intro_themes">Темы</string>
   <string name="intro_themes_description">Выберите между несколькими темами</string>
+  <!-- Content description for images -->
 </resources>

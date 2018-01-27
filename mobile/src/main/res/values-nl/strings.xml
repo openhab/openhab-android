@@ -15,9 +15,6 @@
   <string name="mainmenu_openhab_selectsitemap">Selecteer standaard sitemap</string>
   <string name="mainmenu_openhab_clearcache">Verwijder afbeeldingscache</string>
   <!-- App settings strings -->
-  <string name="settings_connection_title">Verbindingsinstellingen</string>
-  <string name="settings_display_title">Weergave Instellingen</string>
-  <string name="settings_misc_title">Overige Instellingen</string>
   <string name="settings_openhab_username">Gebruikersnaam</string>
   <string name="settings_openhab_password">Wachtwoord</string>
   <string name="settings_openhab_screentimeroff">Uitschakelen weergave timer</string>
@@ -36,6 +33,7 @@
   <string name="info_conn_url">Verbinden met ingestelde URL</string>
   <string name="info_conn_rem_url">Verbinden naar externe URL</string>
   <string name="info_discovery">Ontdekken van openHAB. Moment geduld\u2026</string>
+  <!-- Error messages -->
   <string name="error_empty_sitemap_list">openHAB heeft een lege sitemap geladen</string>
   <string name="error_network_not_available">Netwerk is niet beschikbaar</string>
   <string name="error_no_uuid">openHAB UUID kan niet opgevraagd worden, connectie mislukt</string>
@@ -63,4 +61,5 @@
   <!-- NFC toggle -->
   <!-- Drawer -->
   <!-- About -->
+  <!-- Content description for images -->
 </resources>
