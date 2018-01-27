@@ -95,7 +95,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.net.ssl.SSLException;
-import javax.net.ssl.SSLHandshakeException;
 import javax.net.ssl.SSLPeerUnverifiedException;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -137,17 +136,16 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
                 message = getString(R.string.error_unable_to_resolve_hostname);
             } else if (error instanceof SSLException) {
                 // if ssl exception, check for some common problems
-                if (exceptionHasCause(error, new CertPathValidatorException())) {
+                if (exceptionHasCause(error, CertPathValidatorException.class)) {
                     message = getString(R.string.error_certificate_not_trusted);
-                } else if (exceptionHasCause(error, new CertificateExpiredException())) {
+                } else if (exceptionHasCause(error, CertificateExpiredException.class)) {
                     message = getString(R.string.error_certificate_expired);
-                } else if (exceptionHasCause(error, new CertificateNotYetValidException())) {
+                } else if (exceptionHasCause(error, CertificateNotYetValidException.class)) {
                     message = getString(R.string.error_certificate_not_valid_yet);
                 } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N
-                        && exceptionHasCause(error, new CertificateRevokedException(null, null,
-                            null, null))) {
+                        && exceptionHasCause(error, CertificateRevokedException.class)) {
                     message = getString(R.string.error_certificate_revoked);
-                } else if (exceptionHasCause(error, new SSLPeerUnverifiedException(null))) {
+                } else if (exceptionHasCause(error, SSLPeerUnverifiedException.class)) {
                     message = String.format(getString(R.string.error_certificate_wrong_host),
                             openHABBaseUrl);
                 } else {

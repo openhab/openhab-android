@@ -147,9 +147,9 @@ public class Util {
         activity.setTheme(themeRes);
     }
 
-    public static boolean exceptionHasCause(Throwable error, Throwable cause) {
+    public static boolean exceptionHasCause(Throwable error, Class<? extends Throwable> cause) {
         while (error != null) {
-            if (error.getClass().equals(cause.getClass())) {
+            if (error.getClass().equals(cause)) {
                 return true;
             }
             error = error.getCause();
