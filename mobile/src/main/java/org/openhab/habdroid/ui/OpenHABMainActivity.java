@@ -94,7 +94,9 @@ import java.security.cert.CertificateRevokedException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.net.ssl.SSLException;
 import javax.net.ssl.SSLHandshakeException;
+import javax.net.ssl.SSLPeerUnverifiedException;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -133,7 +135,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
             } else if (error instanceof UnknownHostException) {
                 Log.e(TAG, "Unable to resolve hostname");
                 message = getString(R.string.error_unable_to_resolve_hostname);
-            } else if (error instanceof SSLHandshakeException) {
+            } else if (error instanceof SSLException) {
                 // if ssl exception, check for some common problems
                 if (exceptionHasCause(error, new CertPathValidatorException())) {
                     message = getString(R.string.error_certificate_not_trusted);
@@ -141,8 +143,13 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
                     message = getString(R.string.error_certificate_expired);
                 } else if (exceptionHasCause(error, new CertificateNotYetValidException())) {
                     message = getString(R.string.error_certificate_not_valid_yet);
-                } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N && exceptionHasCause(error, new CertificateRevokedException(null, null, null, null))) {
+                } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N
+                        && exceptionHasCause(error, new CertificateRevokedException(null, null,
+                            null, null))) {
                     message = getString(R.string.error_certificate_revoked);
+                } else if (exceptionHasCause(error, new SSLPeerUnverifiedException(null))) {
+                    message = String.format(getString(R.string.error_certificate_wrong_host),
+                            openHABBaseUrl);
                 } else {
                     message = getString(R.string.error_connection_sslhandshake_failed);
                 }
