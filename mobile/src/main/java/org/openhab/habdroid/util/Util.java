@@ -146,4 +146,14 @@ public class Util {
         }
         activity.setTheme(themeRes);
     }
+
+    public static boolean exceptionHasCause(Throwable error, Throwable cause) {
+        while (error != null) {
+            if (error.getClass().equals(cause.getClass())) {
+                return true;
+            }
+            error = error.getCause();
+        }
+        return false;
+    }
 }

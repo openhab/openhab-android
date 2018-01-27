@@ -109,6 +109,7 @@ import static org.openhab.habdroid.util.Constants.MESSAGES.DIALOG;
 import static org.openhab.habdroid.util.Constants.MESSAGES.LOGLEVEL.ALWAYS;
 import static org.openhab.habdroid.util.Constants.MESSAGES.LOGLEVEL.DEBUG;
 import static org.openhab.habdroid.util.Constants.MESSAGES.LOGLEVEL.NO_DEBUG;
+import static org.openhab.habdroid.util.Util.exceptionHasCause;
 
 public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSelectedListener,
         OpenHABTrackerReceiver, MemorizingResponder {
@@ -134,13 +135,13 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
                 message = getString(R.string.error_unable_to_resolve_hostname);
             } else if (error instanceof SSLHandshakeException) {
                 // if ssl exception, check for some common problems
-                if (error.getCause().getCause() instanceof CertPathValidatorException) {
+                if (exceptionHasCause(error, new CertPathValidatorException())) {
                     message = getString(R.string.error_certificate_not_trusted);
-                } else if (error.getCause().getCause() instanceof CertificateExpiredException) {
+                } else if (exceptionHasCause(error, new CertificateExpiredException())) {
                     message = getString(R.string.error_certificate_expired);
-                } else if (error.getCause().getCause() instanceof CertificateNotYetValidException) {
+                } else if (exceptionHasCause(error, new CertificateNotYetValidException())) {
                     message = getString(R.string.error_certificate_not_valid_yet);
-                } else if (error.getCause().getCause() instanceof CertificateRevokedException) {
+                } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N && exceptionHasCause(error, new CertificateRevokedException(null, null, null, null))) {
                     message = getString(R.string.error_certificate_revoked);
                 } else {
                     message = getString(R.string.error_connection_sslhandshake_failed);
