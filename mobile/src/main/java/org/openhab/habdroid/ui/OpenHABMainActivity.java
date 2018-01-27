@@ -36,6 +36,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -181,7 +182,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
     // openHAB Bonjour service name
     private String openHABServiceType;
     // view pager for widgetlist fragments
-    private OpenHABViewPager pager;
+    private ViewPager pager;
     // view pager adapter for widgetlist fragments
     private OpenHABFragmentPagerAdapter pagerAdapter;
     // root URL of the current sitemap
@@ -533,9 +534,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
         pagerAdapter.setColumnsNumber(getResources().getInteger(R.integer.pager_columns));
         pagerAdapter.setOpenHABUsername(openHABUsername);
         pagerAdapter.setOpenHABPassword(openHABPassword);
-        pager = (OpenHABViewPager) findViewById(R.id.pager);
-        pager.setScrollDurationFactor(2.5);
-        pager.setOffscreenPageLimit(1);
+        pager = findViewById(R.id.pager);
         pager.setAdapter(pagerAdapter);
         pager.addOnPageChangeListener(pagerAdapter);
     }
