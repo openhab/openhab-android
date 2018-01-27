@@ -98,7 +98,9 @@ public class Util {
             try {
                 JSONObject sitemapJson = jsonArray.getJSONObject(i);
                 OpenHABSitemap openHABSitemap = new OpenHAB2Sitemap(sitemapJson);
-                sitemapList.add(openHABSitemap);
+                if(! (openHABSitemap.getName().equals("_default") && jsonArray.length() != 1)) {
+                    sitemapList.add(openHABSitemap);
+                }
             } catch (JSONException e) {
                 e.printStackTrace();
             }

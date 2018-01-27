@@ -1,0 +1,34 @@
+version: 2
+
+requirements:
+  signed_off_by:
+    required: true
+
+always_pending:
+  title_regex: '^(WIP|wip)'
+  explanation: 'Work in progress...'
+
+group_defaults:
+  approve_by_comment:
+    enabled: true
+    approve_regex: '^(Approved|LGTM|:shipit:|:\+1:|Engage)'
+    reject_regex: '^(Rejected|:-1:|Borg)'
+  reset_on_push:
+    enabled: true
+  reset_on_reopened:
+    enabled: true
+  author_approval:
+    ignored: true
+
+groups:
+  maintainers:
+    required: 1
+    teams:
+      - android-maintainers
+    conditions:
+      branches:
+        - master
+    reject_value: -100
+    author_approval:
+        auto: true
+        ignored: false

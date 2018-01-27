@@ -40,7 +40,7 @@
             android:key="iconFormatType"
             android:defaultValue="@string/settings_openhab_icon_format_png"
             android:summary="%s"
-            android:entries="@array/iconTypeValues"
+            android:entries="@array/iconTypeNames"
             android:entryValues="@array/iconTypeValues" />
         <Preference
             android:clickable="true"

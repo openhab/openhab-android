@@ -1,24 +1,23 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="org.openhab.habdroid.ui.OpenHABWriteTagActivity"
-    android:layout_gravity="center"
-    >
-    <ImageView
-        android:id="@+id/write_tag_image"
-        android:src="@drawable/nfc_logo"
-        android:layout_height="wrap_content"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:layout_gravity="center"
+              android:orientation="vertical"
+              tools:context="org.openhab.habdroid.ui.OpenHABWriteTagActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/openhab_toolbar"
         android:layout_width="match_parent"
-        android:adjustViewBounds="true"
-        />
-    <TextView
-        android:id="@+id/write_tag_message"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:elevation="8dp"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
+
+    <FrameLayout
+        android:id="@+id/writenfc_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/info_write_tag" 
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:gravity="center"
-        />
+        android:layout_height="match_parent"/>
 </LinearLayout>

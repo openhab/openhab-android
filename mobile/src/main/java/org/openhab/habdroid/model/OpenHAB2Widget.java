@@ -23,7 +23,7 @@ public class OpenHAB2Widget extends OpenHABWidget {
         if (widgetItem != null) {
             itemState = widgetItem.getState();
             if(itemState == null) {
-                Log.e(TAG, "itemState is null");
+                Log.d(TAG, "itemState is null");
             } else if (widgetItem.getType().equals("Color") || (widgetItem.getGroupType() != null && widgetItem.getGroupType().equals("Color"))) {
                 // For items that control a color item fetch the correct icon
                 if (getType().equals("Slider") || (getType().equals("Switch") && ! hasMappings())) {
@@ -40,7 +40,8 @@ public class OpenHAB2Widget extends OpenHABWidget {
                         itemState = "OFF";
                     }
                 }
-            } else if(getType().equals("Switch") && ! hasMappings()) {
+            } else if(getType().equals("Switch") && ! hasMappings() &&
+                    ! (widgetItem.getType().equals("Rollershutter") || (widgetItem.getGroupType() != null && widgetItem.getGroupType().equals("Rollershutter")))) {
                 // For switch items without mappings (just ON and OFF) that control a dimmer item
                 // set the state to "OFF" instead of 0 or to "ON" to fetch the correct icon
                 try {

@@ -37,10 +37,10 @@ public class AsyncServiceResolver extends Thread implements ServiceListener {
     private JmDNS mJmdns;
     private String mServiceType;
     private ServiceInfo mResolvedServiceInfo;
-    private static Thread mSleepingThread;
+    private Thread mSleepingThread;
     private boolean mIsResolved = false;
     private AsyncServiceResolverListener mListener;
-    private final static int mDefaultDiscoveryTimeout = 3000;
+    private final static int DEFAULT_DISCOVERY_TIMEOUT = 3000;
 
     public AsyncServiceResolver(Context context, String serviceType) {
         super();
@@ -83,7 +83,7 @@ public class AsyncServiceResolver extends Thread implements ServiceListener {
         }
         try {
             // Sleep for specified timeout
-            Thread.sleep(mDefaultDiscoveryTimeout);
+            Thread.sleep(DEFAULT_DISCOVERY_TIMEOUT);
             if (!mIsResolved) {
                 new Handler(Looper.getMainLooper()).post(new Runnable() {
                     @Override

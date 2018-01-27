@@ -16,26 +16,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.mikepenz.aboutlibraries.LibsBuilder;
+
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.core.OpenHABVoiceService;
 import org.openhab.habdroid.util.Util;
 
 public class OpenHABAboutActivity extends AppCompatActivity {
-
-    private static String openHABBaseUrl;
-    private static String openHABUsername;
-    private static String openHABPassword;
-    private static int openHABVersion;
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         Util.setActivityTheme(this);
-
-        Bundle extras = getIntent().getExtras();
-        openHABBaseUrl = extras.getString(OpenHABVoiceService.OPENHAB_BASE_URL_EXTRA);
-        openHABUsername = extras.getString("username");
-        openHABPassword = extras.getString("password");
-        openHABVersion = extras.getInt("openHABVersion");
 
         super.onCreate(savedInstanceState);
 
@@ -46,9 +36,11 @@ public class OpenHABAboutActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         if (savedInstanceState == null) {
+            AboutMainFragment f = new AboutMainFragment();
+            f.setArguments(getIntent().getExtras());
             getSupportFragmentManager()
                     .beginTransaction()
-                    .add(R.id.about_container, new AboutMainFragment())
+                    .add(R.id.about_container, f)
                     .commit();
         }
 
@@ -86,7 +78,8 @@ public class OpenHABAboutActivity extends AppCompatActivity {
             // don't recreate the fragments when changing tabs
             viewPager.setOffscreenPageLimit(1);
 
-            mPagerAdapter = new AboutPagerAdapter(getChildFragmentManager(), getActivity());
+            mPagerAdapter = new AboutPagerAdapter(getChildFragmentManager(),
+                    getActivity(), getArguments());
             viewPager.setAdapter(mPagerAdapter);
 
             final TabLayout tabLayout = (TabLayout) view.findViewById(R.id.tab_layout);
@@ -106,10 +99,12 @@ public class OpenHABAboutActivity extends AppCompatActivity {
 
     public static class AboutPagerAdapter extends FragmentPagerAdapter {
         private Context mContext;
+        private Bundle mExtras;
 
-        AboutPagerAdapter(FragmentManager fm, Context context) {
+        AboutPagerAdapter(FragmentManager fm, Context context, Bundle extras) {
             super(fm);
             mContext = context;
+            mExtras = extras;
         }
 
         @Override
@@ -118,21 +113,18 @@ public class OpenHABAboutActivity extends AppCompatActivity {
                 default:
                     return new AboutFragment();
                 case 1:
-                    Bundle bundle = new Bundle();
-                    bundle.putString(OpenHABVoiceService.OPENHAB_BASE_URL_EXTRA, openHABBaseUrl);
-                    bundle.putString("username", openHABUsername);
-                    bundle.putString("password", openHABPassword);
-                    bundle.putInt("openHABVersion", openHABVersion);
                     Fragment infoFragment = new OpenHABInfoFragment();
-                    infoFragment.setArguments(bundle);
+                    infoFragment.setArguments(new Bundle(mExtras));
 
                     return infoFragment;
+                case 2:
+                    return new LibsBuilder().supportFragment();
             }
         }
 
         @Override
         public int getCount() {
-            return 2;
+            return 3;
         }
 
         @Override
@@ -142,6 +134,8 @@ public class OpenHABAboutActivity extends AppCompatActivity {
                     return mContext.getString(R.string.about_title);
                 case 1:
                     return mContext.getString(R.string.title_activity_openhabinfo);
+                case 2:
+                    return mContext.getString(R.string.title_activity_libraries);
             }
         }
     }

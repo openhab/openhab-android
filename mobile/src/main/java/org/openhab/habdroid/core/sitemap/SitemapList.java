@@ -197,7 +197,10 @@ public class SitemapList implements Collection<OpenHABSitemap> {
                             SharedPreferences settings =
                                     PreferenceManager.getDefaultSharedPreferences(context);
                             SharedPreferences.Editor preferencesEditor = settings.edit();
-                            preferencesEditor.putString(Constants.PREFERENCE_SITEMAP, get(item).getName());
+                            preferencesEditor.putString(Constants.PREFERENCE_SITEMAP_NAME,
+                                    get(0).getName());
+                            preferencesEditor.putString(Constants.PREFERENCE_SITEMAP_LABEL,
+                                    get(0).getLabel());
                             preferencesEditor.apply();
                             cb.onSuccess(sitemaps.get(item));
                         }
@@ -215,11 +218,13 @@ public class SitemapList implements Collection<OpenHABSitemap> {
 
     public interface SitemapLoadCallback {
         void onFailure(int statusCode, Throwable error);
+
         void onSuccess(SitemapList list);
     }
 
     public interface SitemapSelectCallback {
         void onFailure(Throwable error);
+
         void onSuccess(OpenHABSitemap selectedSitemap);
     }
 }

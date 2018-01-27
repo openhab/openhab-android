@@ -32,9 +32,9 @@ class MyKeyManager implements X509KeyManager {
 
     private final static String TAG = MyKeyManager.class.getSimpleName();
 
-    private static String alias;
-    private static X509Certificate[] certificateChain;
-    private static PrivateKey privateKey;
+    private String alias;
+    private X509Certificate[] certificateChain;
+    private PrivateKey privateKey;
 
     private MyKeyManager(final Context ctx) {
 

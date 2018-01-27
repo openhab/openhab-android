@@ -14,5 +14,6 @@
     <color name="indigo_800">#283593</color>
     <color name="pink_a200">#ff4081</color>
     <color name="grey_300">#E0E0E0</color>
+    <color name="empty_list_text_color">#b2b2b2</color>
 
 </resources>

@@ -15,7 +15,8 @@ public class Constants {
     public static final String PREFERENCE_LOCAL_PASSWORD        = "default_openhab_password";
     public static final String PREFERENCE_REMOTE_PASSWORD       = "default_openhab_remote_password";
     public static final String PREFERENCE_REMOTE_USERNAME       = "default_openhab_remote_username";
-    public static final String PREFERENCE_SITEMAP               = "default_openhab_sitemap";
+    public static final String PREFERENCE_SITEMAP_NAME          = "default_openhab_sitemap";
+    public static final String PREFERENCE_SITEMAP_LABEL         = "default_openhab_sitemap_label";
     public static final String PREFERENCE_SSLCERT               = "default_openhab_sslcert";
     public static final String PREFERENCE_SSLHOST               = "default_openhab_sslhost";
     public static final String PREFERENCE_ALTURL                = "default_openhab_alturl";
@@ -34,6 +35,7 @@ public class Constants {
             "default_openhab_clear_default_sitemap";
     public static final String DEFAULT_GCM_SENDER_ID            = "737820980945";
     public static final String PREFERENCE_COMPAREABLEVERSION    = "versionAsInt";
+    public static final String PREFERENCE_FIRST_START           = "firstStart";
 
     public static final String SUBSCREEN_LOCAL_CONNECTION     = "default_openhab_local_connection";
     public static final String SUBSCREEN_REMOTE_CONNECTION    = "default_openhab_remote_connection";

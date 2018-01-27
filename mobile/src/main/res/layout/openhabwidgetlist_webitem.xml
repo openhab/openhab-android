@@ -6,7 +6,8 @@
     android:paddingLeft="@dimen/widgetlist_item_left_margin"
     android:paddingRight="@dimen/widgetlist_item_right_margin"
     android:background="?android:activatedBackgroundIndicator"
-    >
+    android:paddingStart="@dimen/widgetlist_item_left_margin"
+    android:paddingEnd="@dimen/widgetlist_item_right_margin">
 
     <WebView
         android:id="@+id/webweb"
@@ -23,5 +24,7 @@
         android:orientation="horizontal"
         android:layout_below="@+id/webweb"
         android:layout_marginLeft="@dimen/widgetlist_divider_left_margin"
-        android:layout_marginRight="@dimen/widgetlist_divider_right_margin" />
+        android:layout_marginRight="@dimen/widgetlist_divider_right_margin"
+        android:layout_marginStart="@dimen/widgetlist_divider_left_margin"
+        android:layout_marginEnd="@dimen/widgetlist_divider_right_margin" />
 </RelativeLayout>
