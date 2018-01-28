@@ -111,6 +111,7 @@ import static org.openhab.habdroid.util.Constants.MESSAGES.LOGLEVEL.ALWAYS;
 import static org.openhab.habdroid.util.Constants.MESSAGES.LOGLEVEL.DEBUG;
 import static org.openhab.habdroid.util.Constants.MESSAGES.LOGLEVEL.NO_DEBUG;
 import static org.openhab.habdroid.util.Util.exceptionHasCause;
+import static org.openhab.habdroid.util.Util.removeProtocolFromUrl;
 
 public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSelectedListener,
         OpenHABTrackerReceiver, MemorizingResponder {
@@ -147,7 +148,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
                     message = getString(R.string.error_certificate_revoked);
                 } else if (exceptionHasCause(error, SSLPeerUnverifiedException.class)) {
                     message = String.format(getString(R.string.error_certificate_wrong_host),
-                            openHABBaseUrl);
+                            removeProtocolFromUrl(openHABBaseUrl));
                 } else {
                     message = getString(R.string.error_connection_sslhandshake_failed);
                 }

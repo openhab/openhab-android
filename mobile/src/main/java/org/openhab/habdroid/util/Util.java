@@ -11,6 +11,7 @@ package org.openhab.habdroid.util;
 
 import android.app.Activity;
 import android.content.Context;
+import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.util.Log;
@@ -64,6 +65,11 @@ public class Util {
             Log.e(TAG, "normalizeUrl: invalid URL");
         }
         return normalizedUrl;
+    }
+
+    public static String removeProtocolFromUrl(String url) {
+        Uri uri = Uri.parse(url);
+        return uri.getHost();
     }
 
     public static List<OpenHABSitemap> parseSitemapList(Document document) {
