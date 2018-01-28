@@ -71,6 +71,7 @@
   <string name="error_certificate_expired">SSL-Zertifikat abgelaufen. Bitte erstellen Sie ein neues Zertifikat oder deaktivieren Sie die Zertifikatsvalidierung</string>
   <string name="error_certificate_not_valid_yet">SSL-Zertifikat noch nicht gültig. Bitte erstellen Sie ein gültiges Zertifikat oder deaktivieren Sie die Zertifikatsvalidierung. Überprüfen Sie auch die auf Ihrem Gerät eingestellte Uhrzeit</string>
   <string name="error_certificate_revoked">SSL-Zertifikat widerrufen. Bitte erstellen Sie ein neues Zertifikat oder deaktivieren Sie die Zertifikatsvalidierung</string>
+  <string name="error_certificate_wrong_host">Das Zertifikat ist nicht gültig für %s</string>
   <string name="error_http_code_401">Authentifizierung fehlgeschlagen. Bitte überprüfen Sie den konfigurierten Nutzer und das Passwort bzw. das bereitgestellte SSL-Client-Zertifikat (HTTP-Statuscode 401)</string>
   <string name="error_http_code_403">Authentifizierung fehlgeschlagen. Bitte überprüfen Sie den konfigurierten Nutzer und das Passwort bzw. das bereitgestellte SSL-Client-Zertifikat (HTTP-Statuscode 403)</string>
   <string name="error_http_code_407">Authentifizierung fehlgeschlagen. Bitte überprüfen Sie den konfigurierten Nutzer und das Passwort bzw. das bereitgestellte SSL-Client-Zertifikat (HTTP-Statuscode 407)</string>
