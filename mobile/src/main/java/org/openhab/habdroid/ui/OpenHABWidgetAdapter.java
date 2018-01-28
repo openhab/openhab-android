@@ -207,8 +207,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
             String iconUrl = openHABBaseUrl + Uri.encode(openHABWidget.getIconPath(), "/?=&");
 //                Log.d(TAG, "Will try to load icon from " + iconUrl);
             // Now set image URL
-            widgetImage.setImageUrl(iconUrl, R.drawable.blank_icon,
-                    openHABUsername, openHABPassword);
+            widgetImage.setImageUrl(iconUrl, openHABUsername, openHABPassword, R.drawable.blank_icon);
             if (iconColor != null) {
                 widgetImage.setColorFilter(iconColor);
             } else {
@@ -508,8 +507,8 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
                         && item.getState().startsWith("data:")) {
                    imageImage.setImageWithData(new MyImageFromItem(item.getState()));
                 } else {
-                    imageImage.setImageUrl(ensureAbsoluteURL(openHABBaseUrl, openHABWidget.getUrl()), false,
-                        openHABUsername, openHABPassword);
+                    imageImage.setImageUrl(ensureAbsoluteURL(openHABBaseUrl, openHABWidget.getUrl()),
+                        openHABUsername, openHABPassword, false);
                     if (openHABWidget.getRefresh() > 0) {
                         imageImage.setRefreshRate(openHABWidget.getRefresh());
                         refreshImageList.add(imageImage);
@@ -562,7 +561,7 @@ public class OpenHABWidgetAdapter extends ArrayAdapter<OpenHABWidget> {
                     chartImage.setLayoutParams(chartLayoutParams);
                     chartUrl += "&w=" + String.valueOf(fragmentWidth);
                     chartUrl += "&h=" + String.valueOf(fragmentWidth / 2);
-                    chartImage.setImageUrl(chartUrl, false, openHABUsername, openHABPassword);
+                    chartImage.setImageUrl(chartUrl, openHABUsername, openHABPassword, false);
                     // TODO: This is quite dirty fix to make charts look full screen width on all displays
                     if (openHABWidget.getRefresh() > 0) {
                         chartImage.setRefreshRate(openHABWidget.getRefresh());
