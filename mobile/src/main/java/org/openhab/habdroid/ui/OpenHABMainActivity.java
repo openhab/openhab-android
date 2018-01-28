@@ -1249,8 +1249,10 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         if (isFullscreenEnabled()) {
             int uiOptions = getWindow().getDecorView().getSystemUiVisibility();
             uiOptions |= View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
-            uiOptions |= View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
-            uiOptions |= View.SYSTEM_UI_FLAG_FULLSCREEN;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                uiOptions |= View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
+                uiOptions |= View.SYSTEM_UI_FLAG_FULLSCREEN;
+            }
             getWindow().getDecorView().setSystemUiVisibility(uiOptions);
         }
     }
@@ -1283,7 +1285,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         );
         if (getNotificationSettings() != null) {
             mDrawerItemList.add(OpenHABDrawerItem.menuItem(
-                    "Notifications",
+                    getString(R.string.app_notifications),
                     notificationDrawable,
                     DRAWER_NOTIFICATIONS
             ));

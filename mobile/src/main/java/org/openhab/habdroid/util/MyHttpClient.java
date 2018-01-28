@@ -9,6 +9,7 @@
 
 package org.openhab.habdroid.util;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.Log;
@@ -54,6 +55,7 @@ public abstract class MyHttpClient<T> {
     protected void clientSSLSetup(Context ctx, Boolean ignoreSSLHostname, Boolean ignoreCertTrust) {
         if (ignoreSSLHostname) {
             clientBuilder.hostnameVerifier(new HostnameVerifier() {
+                @SuppressLint("BadHostnameVerifier")
                 @Override
                 public boolean verify(String hostname, SSLSession session) {
                     return true;
