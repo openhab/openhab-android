@@ -94,7 +94,8 @@ import java.security.cert.CertificateRevokedException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.net.ssl.SSLHandshakeException;
+import javax.net.ssl.SSLException;
+import javax.net.ssl.SSLPeerUnverifiedException;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -109,6 +110,8 @@ import static org.openhab.habdroid.util.Constants.MESSAGES.DIALOG;
 import static org.openhab.habdroid.util.Constants.MESSAGES.LOGLEVEL.ALWAYS;
 import static org.openhab.habdroid.util.Constants.MESSAGES.LOGLEVEL.DEBUG;
 import static org.openhab.habdroid.util.Constants.MESSAGES.LOGLEVEL.NO_DEBUG;
+import static org.openhab.habdroid.util.Util.exceptionHasCause;
+import static org.openhab.habdroid.util.Util.removeProtocolFromUrl;
 
 public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSelectedListener,
         OpenHABTrackerReceiver, MemorizingResponder {
@@ -132,16 +135,20 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
             } else if (error instanceof UnknownHostException) {
                 Log.e(TAG, "Unable to resolve hostname");
                 message = getString(R.string.error_unable_to_resolve_hostname);
-            } else if (error instanceof SSLHandshakeException) {
+            } else if (error instanceof SSLException) {
                 // if ssl exception, check for some common problems
-                if (error.getCause() instanceof CertPathValidatorException) {
+                if (exceptionHasCause(error, CertPathValidatorException.class)) {
                     message = getString(R.string.error_certificate_not_trusted);
-                } else if (error.getCause() instanceof CertificateExpiredException) {
+                } else if (exceptionHasCause(error, CertificateExpiredException.class)) {
                     message = getString(R.string.error_certificate_expired);
-                } else if (error.getCause() instanceof CertificateNotYetValidException) {
+                } else if (exceptionHasCause(error, CertificateNotYetValidException.class)) {
                     message = getString(R.string.error_certificate_not_valid_yet);
-                } else if (error.getCause() instanceof CertificateRevokedException) {
+                } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N
+                        && exceptionHasCause(error, CertificateRevokedException.class)) {
                     message = getString(R.string.error_certificate_revoked);
+                } else if (exceptionHasCause(error, SSLPeerUnverifiedException.class)) {
+                    message = String.format(getString(R.string.error_certificate_wrong_host),
+                            removeProtocolFromUrl(openHABBaseUrl));
                 } else {
                     message = getString(R.string.error_connection_sslhandshake_failed);
                 }
