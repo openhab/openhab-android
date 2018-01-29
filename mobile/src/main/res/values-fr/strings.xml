@@ -26,6 +26,7 @@
   <string name="settings_openhab_sslcert_summary">Ne vérifie pas le certificat SSL pendant la connexion</string>
   <string name="settings_openhab_sslhost">Ignorer le domaine SSL</string>
   <string name="settings_openhab_sslhost_summary">Ne vérifie pas la pertinence du nom de domaine lors de la connexion</string>
+  <string name="settings_openhab_fullscreen">Plein écran</string>
   <string name="settings_openhab_fullscreen_summary">Afficher l\'app openHAB en mode plein écran</string>
   <string name="settings_openhab_icon_format">Format des icônes</string>
   <string name="settings_ringtone">Sonnerie</string>
@@ -45,6 +46,7 @@
   <string name="error_no_uuid">Récupération de l\'UUID openHAB impossible. La connexion a échoué</string>
   <string name="error_connection_failed">Connexion au domaine échouée</string>
   <string name="error_unable_to_resolve_hostname">Impossible de résoudre le nom d\'hôte</string>
+  <string name="error_connection_sslhandshake_failed">Echec de la négotiation SSL</string>
   <string name="error_certificate_not_trusted">Le certificat SSL n\'est pas un certificat de confiance. Veuillez importer le certificat racine ou désactiver la validation du certificat</string>
   <string name="error_certificate_expired">Le certificat SSL a expiré. Veuillez obtenir un nouveau certificat ou désactiver la validation du certificat</string>
   <string name="error_certificate_revoked">Le certificat SSL a été révoqué. Veuillez obtenir un nouveau certificat ou désactiver la validation du certificat</string>
