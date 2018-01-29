@@ -18,9 +18,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:layout_marginRight="5dp"
+        android:layout_marginRight="4dp"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_alignParentEnd="true"
-        android:layout_marginEnd="5dp" />
+        android:layout_marginEnd="4dp" />
 
 </RelativeLayout>

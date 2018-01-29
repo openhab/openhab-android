@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="?android:activatedBackgroundIndicator"
     android:paddingLeft="@dimen/widgetlist_item_left_margin"
@@ -12,7 +12,7 @@
         android:id="@+id/imageimage"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="5dip"
+        android:layout_margin="4dip"
         android:adjustViewBounds="true" />
 
-</RelativeLayout>
+</FrameLayout>
