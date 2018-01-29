@@ -67,14 +67,14 @@ public class Util {
         return uri.getHost();
     }
 
-    public static List<? extends Sitemap> parseSitemapList(String json) {
+    public static List<? extends Sitemap> parseSitemapList(String serializedString) {
         ObjectMapper mapper = new ObjectMapper();
-        if (json.startsWith("<?xml")) {
+        if (serializedString.startsWith("<?xml")) {
             mapper = new XmlMapper();
         }
         List<SitemapImpl> sitemapList = new ArrayList<>();
         try {
-            sitemapList = Arrays.asList(mapper.readValue(json, SitemapImpl[].class));
+            sitemapList = Arrays.asList(mapper.readValue(serializedString, SitemapImpl[].class));
         } catch (IOException e) {
             Log.d(TAG, "Could not de-serialize sitemap.", e);
         }
