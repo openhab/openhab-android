@@ -105,24 +105,21 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
     private @ColorInt int mPrimaryForegroundColor;
     private CharSequence mChartTheme;
     private int mSelectedPosition = -1;
-    private final boolean mSelectionEnabled;
     private Connection mConnection;
 
-    public OpenHABWidgetAdapter(Context context, ItemClickListener itemClickListener, boolean
-            selectionEnabled, Connection conn) {
+    public OpenHABWidgetAdapter(Context context, Connection connection,
+            ItemClickListener itemClickListener) {
         super();
 
         mInflater = LayoutInflater.from(context);
         mItemClickListener = itemClickListener;
-        mSelectionEnabled = selectionEnabled;
+        mConnection = connection;
 
         TypedValue tv = new TypedValue();
         context.getTheme().resolveAttribute(R.attr.colorControlNormal, tv, false);
         mPrimaryForegroundColor = ContextCompat.getColor(context, tv.data);
         context.getTheme().resolveAttribute(R.attr.chartTheme, tv, true);
         mChartTheme = tv.string;
-
-        mConnection = conn;
     }
 
     public void update(List<OpenHABWidget> widgets) {
@@ -196,7 +193,7 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.stop();
         holder.bind(mItems.get(position));
-        holder.itemView.setActivated(mSelectedPosition == position && mSelectionEnabled);
+        holder.itemView.setActivated(mSelectedPosition == position);
         holder.itemView.setOnClickListener(mItemClickListener != null ? this : null);
         holder.itemView.setOnLongClickListener(mItemClickListener != null ? this : null);
         holder.itemView.setClickable(mItemClickListener != null);
@@ -217,6 +214,10 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
     @Override
     public int getItemCount() {
         return mItems.size();
+    }
+
+    public OpenHABWidget getItem(int position) {
+        return mItems.get(position);
     }
 
     @Override

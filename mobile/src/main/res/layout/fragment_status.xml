@@ -5,7 +5,7 @@
               android:gravity="center_horizontal|center_vertical"
               android:orientation="vertical">
     <ImageView
-        android:id="@+id/network_error_image"
+        android:id="@+id/image"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -16,7 +16,7 @@
         tools:ignore="contentDescription"/>
 
     <TextView
-        android:id="@+id/network_error_description"
+        android:id="@+id/description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -27,7 +27,7 @@
         android:textColor="@color/empty_list_text_color"/>
 
     <Button
-        android:id="@+id/network_error_try_again"
+        android:id="@+id/button"
         style="?android:attr/buttonBarButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -35,6 +35,7 @@
         android:clickable="true"
         android:focusable="true"
         android:gravity="center"
-        android:text="@string/try_again_button"
+        android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="?android:attr/textColorLink"/>
+
 </LinearLayout>

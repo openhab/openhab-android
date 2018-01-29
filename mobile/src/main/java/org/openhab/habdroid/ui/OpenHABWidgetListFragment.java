@@ -35,6 +35,7 @@ import org.json.JSONObject;
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.core.connection.Connection;
 import org.openhab.habdroid.model.OpenHABItem;
+import org.openhab.habdroid.model.OpenHABLinkedPage;
 import org.openhab.habdroid.model.OpenHABNFCActionList;
 import org.openhab.habdroid.model.OpenHABWidget;
 import org.openhab.habdroid.model.OpenHABWidgetDataSource;
@@ -93,7 +94,6 @@ public class OpenHABWidgetListFragment extends Fragment
     private OpenHABMainActivity mActivity;
     // Am I visible?
     private boolean mIsVisible = false;
-    private int mPosition;
     private String mTitle;
     private String mAtmosphereTrackingId;
     // keeps track of current request to cancel it in onPause
@@ -109,7 +109,6 @@ public class OpenHABWidgetListFragment extends Fragment
 
         if (getArguments() != null) {
             displayPageUrl = getArguments().getString("displayPageUrl");
-            mPosition = getArguments().getInt("position");
             mTitle = getArguments().getString("title");
         }
         if (savedInstanceState != null) {
@@ -131,12 +130,9 @@ public class OpenHABWidgetListFragment extends Fragment
         SharedPreferences prefs = PreferenceManager
                 .getDefaultSharedPreferences(mActivity);
 
-        openHABWidgetAdapter = new OpenHABWidgetAdapter(getActivity(), this,
-                getResources().getInteger(R.integer.pager_columns) > 1, mConnection);
+        openHABWidgetAdapter = new OpenHABWidgetAdapter(getActivity(),
+                mActivity.getConnection(), this);
 
-        if (savedInstanceState != null) {
-            openHABWidgetAdapter.setSelectedPosition(savedInstanceState.getInt("selection", -1));
-        }
         mLayoutManager = new LinearLayoutManager(mActivity);
         mLayoutManager.setRecycleChildrenOnDetach(true);
 
@@ -179,7 +175,6 @@ public class OpenHABWidgetListFragment extends Fragment
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putString("title", mTitle);
-        outState.putInt("selection", openHABWidgetAdapter.getSelectedPosition());
     }
 
     @Override
@@ -304,16 +299,31 @@ public class OpenHABWidgetListFragment extends Fragment
         Log.d(TAG, String.format("isVisibleToUser(%B)", isVisibleToUser));
     }
 
-    public static OpenHABWidgetListFragment withPage(String pageUrl, String pageTitle,
-                                                     int position) {
+    public static OpenHABWidgetListFragment withPage(String pageUrl, String pageTitle) {
         Log.d(TAG, "withPage(" + pageUrl + ")");
         OpenHABWidgetListFragment fragment = new OpenHABWidgetListFragment();
         Bundle args = new Bundle();
         args.putString("displayPageUrl", pageUrl);
         args.putString("title", pageTitle);
-        args.putInt("position", position);
         fragment.setArguments(args);
         return fragment;
+    }
+
+    public void setHighlightedPageLink(String highlightedPageLink) {
+        getArguments().putString("highlightedPageLink", highlightedPageLink);
+        if (openHABWidgetAdapter == null) {
+            return;
+        }
+        openHABWidgetAdapter.setSelectedPosition(-1);
+        if (highlightedPageLink != null) {
+            for (int i = 0; i < openHABWidgetAdapter.getItemCount(); i++) {
+                OpenHABLinkedPage page = openHABWidgetAdapter.getItem(i).getLinkedPage();
+                if (page != null && highlightedPageLink.equals(page.getLink())) {
+                    openHABWidgetAdapter.setSelectedPosition(i);
+                    break;
+                }
+            }
+        }
     }
 
     /**
@@ -478,6 +488,8 @@ public class OpenHABWidgetListFragment extends Fragment
         }
 
         openHABWidgetAdapter.update(widgetList);
+        setHighlightedPageLink(getArguments().getString("highlightedPageLink"));
+
         mTitle = openHABWidgetDataSource.getTitle();
         if (mActivity != null && mIsVisible) {
             mActivity.updateTitle();
@@ -542,7 +554,10 @@ public class OpenHABWidgetListFragment extends Fragment
     }
 
     public String getTitle() {
-        return mTitle;
+        if (mTitle != null) {
+            return mTitle;
+        }
+        return getArguments().getString("title");
     }
 
     public void clearSelection() {
@@ -551,10 +566,6 @@ public class OpenHABWidgetListFragment extends Fragment
         if (openHABWidgetAdapter != null) {
             openHABWidgetAdapter.setSelectedPosition(-1);
         }
-    }
-
-    public int getPosition() {
-        return mPosition;
     }
 
     private void stopVisibleViewHolders() {

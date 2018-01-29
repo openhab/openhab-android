@@ -11,7 +11,6 @@ package org.openhab.habdroid.ui;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.Fragment;
 import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
@@ -34,11 +33,8 @@ import android.provider.Settings;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
 import android.support.annotation.StringRes;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
-import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -48,19 +44,15 @@ import android.text.TextUtils;
 import android.util.Base64;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
+import android.view.ViewStub;
 import android.view.WindowManager;
 import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 
@@ -68,7 +60,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.core.GcmIntentService;
-import org.openhab.habdroid.core.NetworkConnectivityInfo;
 import org.openhab.habdroid.core.NotificationDeletedBroadcastReceiver;
 import org.openhab.habdroid.core.OnUpdateBroadcastReceiver;
 import org.openhab.habdroid.core.OpenHABVoiceService;
@@ -83,6 +74,7 @@ import org.openhab.habdroid.core.notifications.GoogleCloudMessageConnector;
 import org.openhab.habdroid.core.notifications.NotificationSettings;
 import org.openhab.habdroid.model.OpenHABLinkedPage;
 import org.openhab.habdroid.model.OpenHABSitemap;
+import org.openhab.habdroid.ui.activity.FragmentController;
 import org.openhab.habdroid.ui.drawer.OpenHABDrawerAdapter;
 import org.openhab.habdroid.ui.drawer.OpenHABDrawerItem;
 import org.openhab.habdroid.util.AsyncServiceResolver;
@@ -96,6 +88,7 @@ import org.xml.sax.SAXException;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Constructor;
 import java.net.ConnectException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -107,6 +100,7 @@ import java.security.cert.CertificateNotYetValidException;
 import java.security.cert.CertificateRevokedException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import javax.jmdns.ServiceInfo;
 import javax.net.ssl.SSLException;
@@ -214,17 +208,6 @@ public class OpenHABMainActivity extends AppCompatActivity implements
     private static final String EXTRA_DEMO_FIRST_TIME = "firstDemo";
     private static final String NO_NETWORK_TAG = "noNetwork";
 
-    // openHAB Bonjour service name
-    private String openHABServiceType;
-
-    // view pager for widgetlist fragments
-    private ViewPager pager;
-    // view pager adapter for widgetlist fragments
-    private OpenHABFragmentPagerAdapter pagerAdapter;
-    // root URL of the current sitemap
-    private String sitemapRootUrl;
-    // A fragment which retains it's state through configuration changes to keep the current state of the app
-    private StateRetainFragment stateFragment;
     // preferences
     private SharedPreferences mSettings;
     // Progress dialog
@@ -232,10 +215,6 @@ public class OpenHABMainActivity extends AppCompatActivity implements
     private AsyncServiceResolver mServiceResolver;
     // NFC Launch data
     private String mNfcData;
-    // Pending NFC page
-    private String mPendingNfcPage;
-    // Pending Notification page
-    private Integer mNotificationPosition;
     // Toolbar / Actionbar
     private Toolbar mToolbar;
     // Drawer Layout
@@ -247,16 +226,18 @@ public class OpenHABMainActivity extends AppCompatActivity implements
     private OpenHABDrawerAdapter mDrawerAdapter;
     private RecyclerView.RecycledViewPool mViewPool;
     private ArrayList<OpenHABSitemap> mSitemapList;
-    private NetworkConnectivityInfo mStartedWithNetworkConnectivityInfo;
     private int mOpenHABVersion;
     private List<OpenHABDrawerItem> mDrawerItemList;
     private ProgressBar mProgressBar;
     private NotificationSettings mNotifySettings = null;
     // select sitemap dialog
     private Dialog selectSitemapDialog;
-    private boolean mShowNetworkDrawerItems = true;
     public static String GCM_SENDER_ID;
     private MessageHandler mMessageHandler;
+    private Connection mConnection;
+
+    private OpenHABSitemap mSelectedSitemap;
+    private FragmentController mController;
 
     /**
      * Daydreaming gets us into a funk when in fullscreen, this allows us to
@@ -296,30 +277,49 @@ public class OpenHABMainActivity extends AppCompatActivity implements
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         }
 
-        // Fetch openHAB service type name from strings.xml
-        openHABServiceType = getString(R.string.openhab_service_type);
-
         Util.setActivityTheme(this);
         mMessageHandler = new MessageHandler(this);
         super.onCreate(savedInstanceState);
 
+        String controllerClassName = getResources().getString(R.string.controller_class);
+        try {
+            Class<?> controllerClass = Class.forName(controllerClassName);
+            Constructor<?> constructor = controllerClass.getConstructor(OpenHABMainActivity.class);
+            mController = (FragmentController) constructor.newInstance(this);
+        } catch (Exception e) {
+            Log.wtf(TAG, "Could not instantiate activity controller class '"
+                    + controllerClassName + "'");
+            throw new RuntimeException(e);
+        }
+
         setContentView(R.layout.activity_main);
 
-        setupToolbar();
+        // inflate the controller dependent content view
+        ViewStub contentStub = findViewById(R.id.content_stub);
+        contentStub.setLayoutResource(mController.getContentLayoutResource());
+        mController.initViews(contentStub.inflate());
 
+        setupToolbar();
         setupDrawer();
         gcmRegisterBackground();
-        setupPager();
 
         mViewPool = new RecyclerView.RecycledViewPool();
         MemorizingTrustManager.setResponder(this);
 
         // Check if we have openHAB page url in saved instance state?
         if (savedInstanceState != null) {
-            sitemapRootUrl = savedInstanceState.getString("sitemapRootUrl");
-            mStartedWithNetworkConnectivityInfo = savedInstanceState.getParcelable("startedWithNetworkConnectivityInfo");
             mOpenHABVersion = savedInstanceState.getInt("openHABVersion");
             mSitemapList = savedInstanceState.getParcelableArrayList("sitemapList");
+            mSelectedSitemap = savedInstanceState.getParcelable("sitemap");
+            mController.onRestoreInstanceState(savedInstanceState);
+            String lastControllerClass = savedInstanceState.getString("controller");
+            if (mSelectedSitemap != null
+                    && !mController.getClass().getCanonicalName().equals(lastControllerClass)) {
+                // Our controller type changed, so we need to make the new controller aware of the
+                // page hierarchy. If the controller didn't change, the hierarchy will be restored
+                // via the fragment state restoration.
+                mController.updateFragmentState();
+            }
         }
 
         if (mSitemapList == null) {
@@ -353,92 +353,8 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         prefsEdit.apply();
     }
 
-    public Connection getConnection() {
-        try {
-            Connection c = ConnectionFactory.getUsableConnection();
-            hideNoNetworkFragment();
-            return c;
-        } catch (ConnectionException e) {
-            if (e instanceof NoUrlInformationException) {
-                if (!isFinishing()) {
-                    DialogInterface.OnClickListener clickCb = new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            Intent preferencesIntent = new Intent(
-                                    OpenHABMainActivity.this,
-                                    OpenHABPreferencesActivity.class);
-                            TaskStackBuilder.create(OpenHABMainActivity.this)
-                                    .addNextIntentWithParentStack(preferencesIntent)
-                                    .startActivities();
-                        }
-                    };
-                    new AlertDialog.Builder(this)
-                            .setMessage(R.string.error_no_url)
-                            .setPositiveButton(R.string.go_to_settings_button, clickCb)
-                            .show();
-                }
-            } else if (e instanceof NetworkNotSupportedException) {
-                String message = getString(R.string.error_network_type_unsupported,
-                        ((NetworkNotSupportedException) e).getNetworkInfo().getTypeName());
-                showNoNetworkFragment(message);
-            } else {
-                showNoNetworkFragment(getString(R.string.error_network_not_available));
-            }
-        }
-        return null;
-    }
-
-    private void showNoNetworkFragment(String message) {
-        Fragment noNetworkFrament = new NoNetworkFragment();
-        Bundle bundle = new Bundle();
-        bundle.putString(NoNetworkFragment.NO_NETWORK_MESSAGE, message);
-        noNetworkFrament.setArguments(bundle);
-
-        ViewPager pager = findViewById(R.id.pager);
-        if (pager != null) {
-            pager.removeAllViews();
-        }
-
-        mShowNetworkDrawerItems = false;
-        mDrawerToggle.setDrawerIndicatorEnabled(true);
-        loadDrawerItems();
-        mProgressBar.setVisibility(View.GONE);
-        invalidateOptionsMenu();
-        mMessageHandler.closeAllMessages();
-
-        getFragmentManager()
-                .beginTransaction()
-                .replace(android.R.id.content, noNetworkFrament, NO_NETWORK_TAG)
-                .commit();
-
-        setTitle(R.string.app_name);
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-        }
-    }
-
-    private void hideNoNetworkFragment() {
-        Fragment fragment = getFragmentManager().findFragmentByTag(NO_NETWORK_TAG);
-        if (fragment != null) {
-            getFragmentManager().beginTransaction().remove(fragment).commit();
-            if (getSupportActionBar() != null) {
-                getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            }
-
-            mShowNetworkDrawerItems = true;
-            mDrawerToggle.setDrawerIndicatorEnabled(pager.getCurrentItem() == 0);
-            loadDrawerItems();
-
-            invalidateOptionsMenu();
-        }
-    }
-
-    private void initializeConnectivity() throws ConnectionException {
-        final Connection conn = ConnectionFactory.getUsableConnection();
-        if (conn == null) {
-            return;
-        }
-        if (conn instanceof DemoConnection) {
+    private void handleConnectionChange() {
+        if (mConnection instanceof DemoConnection) {
             mMessageHandler.showMessageToUser(
                     getString(R.string.info_demo_mode_short), TYPE_SNACKBAR, LOGLEVEL_ALWAYS);
             if (getIntent().hasExtra(EXTRA_DEMO_FIRST_TIME)) {
@@ -450,7 +366,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
             boolean hasLocalAndRemote =
                     ConnectionFactory.getConnection(Connection.TYPE_LOCAL) != null &&
                     ConnectionFactory.getConnection(Connection.TYPE_REMOTE) != null;
-            int type = conn.getConnectionType();
+            int type = mConnection.getConnectionType();
             @StringRes int noticeResId =
                     hasLocalAndRemote && type == Connection.TYPE_LOCAL ? R.string.info_conn_url :
                     hasLocalAndRemote && type == Connection.TYPE_REMOTE ? R.string.info_conn_rem_url :
@@ -462,13 +378,13 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         }
 
         final String url = "/rest/bindings";
-        conn.getAsyncHttpClient().get(url, new DefaultHttpResponseHandler() {
+        mConnection.getAsyncHttpClient().get(url, new DefaultHttpResponseHandler() {
             @Override
             public void onFailure(Call call, int statusCode, Headers headers, byte[] responseBody, Throwable error) {
                 if (statusCode == 404) {
                     // no bindings endpoint; we're likely talking to an OH1 instance
                     mOpenHABVersion = 1;
-                    conn.getAsyncHttpClient().addHeader("Accept", "application/xml");
+                    mConnection.getAsyncHttpClient().addHeader("Accept", "application/xml");
                     selectSitemap();
                 } else {
                     // other error -> use default handling
@@ -479,24 +395,11 @@ public class OpenHABMainActivity extends AppCompatActivity implements
             @Override
             public void onSuccess(Call call, int statusCode, Headers headers, byte[] responseBody) {
                 mOpenHABVersion = 2;
-                conn.getAsyncHttpClient().removeHeader("Accept");
+                mConnection.getAsyncHttpClient().removeHeader("Accept");
                 Log.d(TAG, "openHAB version 2");
                 selectSitemap();
             }
         });
-    }
-
-    private void discoverOpenHAB() {
-        if (mServiceResolver != null && mServiceResolver.isAlive()) {
-            Log.d(TAG, "openHAB is already being discovered, another start of discovery refused.");
-            return;
-        }
-        mProgressDialog = ProgressDialog.show(this, "",
-                getString(R.string.info_discovery), true);
-
-        mServiceResolver = new AsyncServiceResolver(
-                this, this, openHABServiceType);
-        mServiceResolver.start();
     }
 
     @Override
@@ -568,42 +471,13 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         }
     }
 
-    /**
-     * Restore the fragment, which was saved in the onSaveInstanceState handler, if there's any.
-     *
-     * @param savedInstanceState
-     */
-    @Override
-    public void onRestoreInstanceState(Bundle savedInstanceState) {
-        int savedFragment = savedInstanceState.getInt("currentFragment", 0);
-        if (savedFragment != 0) {
-            pager.setCurrentItem(savedFragment);
-            Log.d(TAG, String.format("Loaded current page = %d", savedFragment));
-        }
-    }
-
     @Override
     public void onResume() {
         Log.d(TAG, "onResume()");
 
         super.onResume();
         ConnectionFactory.addListener(this);
-
-        try {
-            initializeConnectivity();
-        } catch (NoUrlInformationException e) {
-            NoUrlInformationException nuie = (NoUrlInformationException) e;
-            if (nuie.wouldHaveUsedLocalConnection()) {
-                Log.d(TAG, "No connection data available, start discovery.", nuie);
-                discoverOpenHAB();
-            } else {
-                Log.d(TAG, "No remote connection available");
-                onServiceResolveFailed();
-            }
-            return;
-        } catch (ConnectionException e) {
-            // will be handled by #getConnection if it is used later
-        }
+        onConnectionChanged();
 
         PendingIntent pendingIntent = PendingIntent.getActivity(
                 this, 0, new Intent(this, ((Object) this).getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
@@ -612,44 +486,8 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         if (!TextUtils.isEmpty(mNfcData)) {
             Log.d(TAG, "We have NFC data from launch");
         }
-        pagerAdapter.setColumnsNumber(getResources().getInteger(R.integer.pager_columns));
-        FragmentManager fm = getSupportFragmentManager();
-        stateFragment = (StateRetainFragment) fm.findFragmentByTag("stateFragment");
-        // If state fragment doesn't exist (which means fresh start of the app)
-        // or if state fragment returned 0 fragments (this happens sometimes and we don't yet
-        // know why, so this is a workaround
-        // start over the whole process
-        Boolean startOver = stateFragment == null || stateFragment.getFragmentList().size() == 0;
-        if (startOver || !NetworkConnectivityInfo.currentNetworkConnectivityInfo(this).equals(mStartedWithNetworkConnectivityInfo)) {
-            resetStateFragmentAfterResume(fm);
-        } else {
-            // If connectivity type changed while we were in background
-            // Restart the whole process
-            if (!NetworkConnectivityInfo.currentNetworkConnectivityInfo(this).equals(mStartedWithNetworkConnectivityInfo)) {
-                Log.d(TAG, "Connectivity type changed while I was out, or zero fragments found, need to restart");
-                resetStateFragmentAfterResume(fm);
-                // Clean up any existing fragments
-                pagerAdapter.clearFragmentList();
-                // Clean up title
-                this.setTitle(R.string.app_name);
-                return;
-            }
-            // If state fragment exists and contains something then just restore the fragments
-            Log.d(TAG, "State fragment found");
-            pagerAdapter.setFragmentList(stateFragment.getFragmentList());
-            Log.d(TAG, String.format("Loaded %d fragments", stateFragment.getFragmentList().size()));
-            pager.setCurrentItem(stateFragment.getCurrentPage());
-        }
-        if (!TextUtils.isEmpty(mPendingNfcPage)) {
-            openPageIfPending(mPendingNfcPage);
-            mPendingNfcPage = null;
-        }
 
-        if (mNotificationPosition != null) {
-            openPageIfPending(mNotificationPosition);
-            mNotificationPosition = null;
-        }
-
+        updateTitle();
         checkFullscreen();
     }
 
@@ -663,36 +501,41 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         ConnectionFactory.removeListener(this);
     }
 
-    /**
-     * Resets the state of the app and activity after a fresh start or network change was
-     * recognized. Helper method for onResume only.
-     *
-     * @param fm
-     */
-    private void resetStateFragmentAfterResume(FragmentManager fm) {
-        stateFragment = new StateRetainFragment();
-        fm.beginTransaction().add(stateFragment, "stateFragment").commit();
-        mStartedWithNetworkConnectivityInfo = NetworkConnectivityInfo.currentNetworkConnectivityInfo(this);
-
-        onConnectionChanged();
-    }
-
     @Override
     public void onConnectionChanged() {
         try {
-            initializeConnectivity();
+            Connection c = ConnectionFactory.getUsableConnection();
+            if (c != mConnection) {
+                mConnection = c;
+                mMessageHandler.closeAllMessages();
+                mController.updateConnection(c, null);
+                if (c != null) {
+                    handleConnectionChange();
+                }
+            }
         } catch (ConnectionException e) {
-            // will be handled by #getConnection() later
-        }
-
-        mViewPool.clear();
-        initDrawerAdapter();
-        setupPager();
-        selectSitemap();
-
-        if (!TextUtils.isEmpty(mNfcData)) {
-            onNfcTag(mNfcData);
-            openPageIfPending(mPendingNfcPage);
+            mConnection = null;
+            mMessageHandler.closeAllMessages();
+            if (e instanceof NoUrlInformationException) {
+                NoUrlInformationException nuie = (NoUrlInformationException) e;
+                if (nuie.wouldHaveUsedLocalConnection() && mServiceResolver == null) {
+                    mServiceResolver = new AsyncServiceResolver(this, this,
+                            getString(R.string.openhab_service_type));
+                    mServiceResolver.start();
+                    mController.updateConnection(null, getString(R.string.resolving_openhab));
+                } else {
+                    mController.indicateMissingConfiguration();
+                }
+            } else {
+                final String message;
+                if (e instanceof NetworkNotSupportedException) {
+                    message = getString(R.string.error_network_type_unsupported,
+                            ((NetworkNotSupportedException) e).getNetworkInfo().getTypeName());
+                } else {
+                    message = getString(R.string.error_network_not_available);
+                }
+                mController.indicateNoNetwork(message);
+            }
         }
     }
 
@@ -742,6 +585,9 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
 
         mDrawerItemList = new ArrayList<>();
+        mDrawerAdapter = new OpenHABDrawerAdapter(this, R.layout.openhabdrawer_sitemap_item,
+                mDrawerItemList, mConnection);
+        drawerList.setAdapter(mDrawerAdapter);
         drawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int item, long l) {
@@ -766,14 +612,6 @@ public class OpenHABMainActivity extends AppCompatActivity implements
                 }
             }
         });
-        initDrawerAdapter();
-    }
-
-    private void initDrawerAdapter() {
-        final ListView drawerList = (ListView) findViewById(R.id.left_drawer);
-        mDrawerAdapter = new OpenHABDrawerAdapter(this, R.layout.openhabdrawer_sitemap_item,
-                mDrawerItemList, getConnection());
-        drawerList.setAdapter(mDrawerAdapter);
         loadDrawerItems();
     }
 
@@ -785,39 +623,15 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         Util.overridePendingTransition(this, false);
     }
 
-    private void setupPager() {
-        pagerAdapter = new OpenHABFragmentPagerAdapter(getSupportFragmentManager());
-        pagerAdapter.setColumnsNumber(getResources().getInteger(R.integer.pager_columns));
-        pager = findViewById(R.id.pager);
-        pager.setAdapter(pagerAdapter);
-        pager.addOnPageChangeListener(pagerAdapter);
-    }
-
-    public void openPageIfPending(int pagePosition) {
-        pager.setCurrentItem(pagePosition);
-    }
-
-    public void openPageIfPending(String pendingPage) {
-        int possiblePosition = pagerAdapter.getPositionByUrl(pendingPage);
-        // If yes, then just switch to this page
-        if (possiblePosition >= 0) {
-            openPageIfPending(possiblePosition);
-            // If not, then open this page as new one
-        } else {
-            pagerAdapter.openPage(pendingPage, null);
-            pager.setCurrentItem(pagerAdapter.getCount() - 1);
-        }
-    }
-
     private void loadSitemapList() {
-        Connection conn = getConnection();
-        if (conn == null) {
+        if (mConnection == null) {
             return;
         }
+
         Log.d(TAG, "Loading sitemap list from /rest/sitemaps");
 
         setProgressIndicatorVisible(true);
-        conn.getAsyncHttpClient().get("/rest/sitemaps", new DefaultHttpResponseHandler() {
+        mConnection.getAsyncHttpClient().get("/rest/sitemaps", new DefaultHttpResponseHandler() {
             @Override
             public void onSuccess(Call call, int statusCode, Headers headers, byte[] responseBody) {
                 setProgressIndicatorVisible(false);
@@ -857,14 +671,14 @@ public class OpenHABMainActivity extends AppCompatActivity implements
      */
 
     private void selectSitemap() {
-        Connection conn = getConnection();
-        if (conn == null) {
+        if (mConnection == null) {
             return;
         }
+
         Log.d(TAG, "Loading sitemap list from /rest/sitemaps");
 
         setProgressIndicatorVisible(true);
-        conn.getAsyncHttpClient().get("/rest/sitemaps", new DefaultHttpResponseHandler() {
+        mConnection.getAsyncHttpClient().get("/rest/sitemaps", new DefaultHttpResponseHandler() {
             @Override
             public void onSuccess(Call call, int statusCode, Headers headers, byte[] responseBody) {
                 Log.d(TAG, new String(responseBody));
@@ -980,20 +794,19 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         }
     }
 
-    public void openNotifications() {
-        if (this.pagerAdapter != null) {
-            pagerAdapter.openNotifications();
-            pager.setCurrentItem(pagerAdapter.getCount() - 1);
-        }
+    private void openNotifications() {
+        mController.openNotifications();
         mDrawerToggle.setDrawerIndicatorEnabled(false);
     }
 
     private void openSitemap(OpenHABSitemap sitemap) {
         Log.i(TAG, "Opening sitemap at " + sitemap.getHomepageLink());
-        sitemapRootUrl = sitemap.getHomepageLink();
-        pagerAdapter.clearFragmentList();
-        pagerAdapter.openPage(sitemap.getHomepageLink(), sitemap.getLabel());
-        pager.setCurrentItem(0);
+        if (mSelectedSitemap != null && mSelectedSitemap.equals(sitemap)) {
+            return;
+        }
+        mSelectedSitemap = sitemap;
+        mController.openSitemap(sitemap);
+        updateTitle();
     }
 
     @Override
@@ -1025,9 +838,10 @@ public class OpenHABMainActivity extends AppCompatActivity implements
     public boolean onOptionsItemSelected(MenuItem item) {
 
         //clicking the back navigation arrow
-        if (pager.getCurrentItem() > 0 && item.getItemId() == android.R.id.home) {
-            onBackPressed();
-            return false;
+        if (item.getItemId() == android.R.id.home && mController.canGoBack()) {
+            mController.goBack();
+            updateTitle();
+            return true;
         }
 
         //clicking the hamburger menu
@@ -1086,22 +900,14 @@ public class OpenHABMainActivity extends AppCompatActivity implements
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
         Log.d(TAG, "onSaveInstanceState");
-        if (pagerAdapter == null || stateFragment == null) {
-            return;
-        }
-        // Save opened framents into state retaining fragment (I love Google! :-)
-        Log.d(TAG, String.format("Saving %d fragments", pagerAdapter.getFragmentList().size()));
-        Log.d(TAG, String.format("Saving current page = %d", pager.getCurrentItem()));
-        stateFragment.setFragmentList(pagerAdapter.getFragmentList());
-        stateFragment.setCurrentPage(pager.getCurrentItem());
         // Save UI state changes to the savedInstanceState.
         // This bundle will be passed to onCreate if the process is
         // killed and restarted.
-        savedInstanceState.putString("sitemapRootUrl", sitemapRootUrl);
-        savedInstanceState.putInt("currentFragment", pager.getCurrentItem());
-        savedInstanceState.putParcelable("startedWithNetworkConnectivityInfo", mStartedWithNetworkConnectivityInfo);
         savedInstanceState.putInt("openHABVersion", mOpenHABVersion);
         savedInstanceState.putParcelableArrayList("sitemapList", mSitemapList);
+        savedInstanceState.putParcelable("sitemap", mSelectedSitemap);
+        savedInstanceState.putString("controller", mController.getClass().getCanonicalName());
+        mController.onSaveInstanceState(savedInstanceState);
         super.onSaveInstanceState(savedInstanceState);
     }
 
@@ -1119,7 +925,6 @@ public class OpenHABMainActivity extends AppCompatActivity implements
 
         if (getNotificationSettings() != null) {
             openNotifications();
-            mNotificationPosition = pagerAdapter.getCount() - 1;
         }
 
         if (intent.hasExtra(GcmIntentService.EXTRA_MSG)) {
@@ -1139,8 +944,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
      * @param nfcData - a data which NFC subsystem got from the NFC tag
      */
     private void onNfcTag(String nfcData) {
-        Connection c = getConnection();
-        if (c == null) {
+        if (mConnection == null) {
             return;
         }
 
@@ -1155,12 +959,14 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         if (TextUtils.isEmpty(nfcItem)) {
             Log.d(TAG, "This is a sitemap tag without parameters");
             // Form the new sitemap page url
-            // Check if we have this page in stack?
-            mPendingNfcPage = c.getOpenHABUrl() + "rest/sitemaps" + openHABURI.getPath();
+            String newPageUrl = String.format(Locale.US, "%srest/sitemaps%s",
+                    mConnection.getOpenHABUrl(), openHABURI.getPath());
+            mController.openPage(newPageUrl);
         } else {
             Log.d(TAG, "Target item = " + nfcItem);
-            String url = c.getOpenHABUrl() + "rest/items/" + nfcItem;
-            Util.sendItemCommand(c.getAsyncHttpClient(), url, nfcCommand);
+            String url = String.format(Locale.US, "%srest/items/%s",
+                    mConnection.getOpenHABUrl(), nfcItem);
+            Util.sendItemCommand(mConnection.getAsyncHttpClient(), url, nfcCommand);
             // if mNfcData is not empty, this means we were launched with NFC touch
             // and thus need to autoexit after an item action
             if (!TextUtils.isEmpty(mNfcData))
@@ -1171,35 +977,29 @@ public class OpenHABMainActivity extends AppCompatActivity implements
 
     public void onWidgetSelected(OpenHABLinkedPage linkedPage, OpenHABWidgetListFragment source) {
         Log.i(TAG, "Got widget link = " + linkedPage.getLink());
-        Log.i(TAG, String.format("Link came from fragment on position %d", source.getPosition()));
-        pagerAdapter.openPage(linkedPage, source.getPosition() + 1);
-        pager.setCurrentItem(pagerAdapter.getCount() - 1);
+        mController.openPage(linkedPage, source);
         updateTitle();
-        //set the drawer icon to a back arrow when not on the rook menu
-        mDrawerToggle.setDrawerIndicatorEnabled(pager.getCurrentItem() == 0);
     }
 
-    public void updateTitle() {
-        int indexToUse = Math.max(0, pager.getCurrentItem() + 1 - pagerAdapter.getActualColumnsNumber());
-        CharSequence title = pagerAdapter.getPageTitle(indexToUse);
-        Log.d(TAG, "updateTitle: current " + pager.getCurrentItem() + " shown "
-                + pagerAdapter.getActualColumnsNumber() + " index " + indexToUse + " -> title " + title);
-        setTitle(title);
+    void updateTitle() {
+        String title = mController.getCurrentTitle();
+        if (title != null) {
+            setTitle(title);
+        } else if (mSelectedSitemap != null) {
+            setTitle(mSelectedSitemap.getLabel());
+        } else {
+            setTitle(R.string.app_name);
+        }
+        mDrawerToggle.setDrawerIndicatorEnabled(!mController.canGoBack());
     }
 
     @Override
     public void onBackPressed() {
-        Log.d(TAG, String.format("onBackPressed() I'm at the %d page", pager.getCurrentItem()));
-        if (pager.getCurrentItem() == 0) {
-            //in fullscreen don't continue back which would exit the app
-            if (!isFullscreenEnabled()) {
-                super.onBackPressed();
-            }
-        } else {
-            pager.setCurrentItem(pager.getCurrentItem() - 1, true);
+        if (mController.canGoBack()) {
+            mController.goBack();
             updateTitle();
-            //set the drawer icon back to to hamburger menu if on the root menu
-            mDrawerToggle.setDrawerIndicatorEnabled(pager.getCurrentItem() == 0);
+        } else if (!isFullscreenEnabled()) { //in fullscreen don't continue back which would exit the app
+            super.onBackPressed();
         }
     }
 
@@ -1298,6 +1098,10 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         return this.mOpenHABVersion;
     }
 
+    public Connection getConnection() {
+        return mConnection;
+    }
+
     public void gcmRegisterBackground() {
         OpenHABMainActivity.GCM_SENDER_ID = null;
         // if no notification settings can be constructed, no GCM registration can be made.
@@ -1342,13 +1146,13 @@ public class OpenHABMainActivity extends AppCompatActivity implements
             }
 
             try {
-                new URL(conn.getOpenHABUrl());
+                new URL(mConnection.getOpenHABUrl());
             } catch(MalformedURLException ex) {
                 Log.d(TAG, "Could not parse the baseURL to an URL: " + ex.getMessage());
                 return null;
             }
 
-            mNotifySettings = new NotificationSettings(conn);
+            mNotifySettings = new NotificationSettings(mConnection);
         }
         return mNotifySettings;
     }
@@ -1383,7 +1187,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
 
     private void loadDrawerItems() {
         mDrawerItemList.clear();
-        if (mShowNetworkDrawerItems && mSitemapList != null) {
+        if (mConnection != null && mSitemapList != null) {
             mDrawerItemList.add(OpenHABDrawerItem.headerItem(getString(R.string.mainmenu_openhab_sitemaps)));
             for (OpenHABSitemap sitemap : mSitemapList) {
                 mDrawerItemList.add(new OpenHABDrawerItem(sitemap));
@@ -1397,7 +1201,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
                 iconColor,
                 PorterDuff.Mode.SRC_IN
         );
-        if (mShowNetworkDrawerItems && getNotificationSettings() != null) {
+        if (mConnection != null && getNotificationSettings() != null) {
             mDrawerItemList.add(OpenHABDrawerItem.menuItem(
                     getString(R.string.app_notifications),
                     notificationDrawable,
@@ -1432,41 +1236,4 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         }
     }
 
-    public static class NoNetworkFragment extends Fragment {
-        public static final String NO_NETWORK_MESSAGE = "message";
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            Bundle arguments = getArguments();
-
-            View view = inflater.inflate(R.layout.fragment_no_network, container, false);
-
-            TextView descriptionText = view.findViewById(R.id.network_error_description);
-            String message = arguments.getString(NO_NETWORK_MESSAGE);
-            if (!TextUtils.isEmpty(message)) {
-                descriptionText.setText(message);
-            } else {
-                descriptionText.setVisibility(View.GONE);
-            }
-
-            final ImageView watermark = view.findViewById(R.id.network_error_image);
-
-            Drawable errorImage = getResources().getDrawable(R.drawable.ic_signal_cellular_off_black_24dp);
-            errorImage.setColorFilter(
-                    ContextCompat.getColor(getActivity(), R.color.empty_list_text_color),
-                    PorterDuff.Mode.SRC_IN);
-            watermark.setImageDrawable(errorImage);
-
-            final Button restartButton = view.findViewById(R.id.network_error_try_again);
-            restartButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    getActivity().recreate();
-                }
-            });
-
-            return view;
-        }
-    }
 }
