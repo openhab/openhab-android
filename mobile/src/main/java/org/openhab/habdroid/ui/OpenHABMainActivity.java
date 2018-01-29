@@ -32,6 +32,7 @@ import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
+import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
@@ -610,6 +611,9 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
         showMessageToUser(error, DIALOG, ALWAYS);
     }
 
+    public void showMessageToUser(String message, int messageType, int logLevel) {
+        showMessageToUser(message, messageType, logLevel, 0, null);
+    }
     /**
      * Shows a message to the user.
      * You might want to send two messages: One detailed one with
@@ -619,8 +623,12 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
      * @param message message to show
      * @param messageType can be one of Constants.MESSAGES.*
      * @param logLevel can be on of Constants.MESSAGES.LOGLEVEL.*
+     * @param actionMessage A StringRes to use as a message for an action, if supported by the
+     *                      messageType (can be 0)
+     * @param actionListener A listener that should be executed when the action message is clicked.
      */
-    public void showMessageToUser(String message, int messageType, int logLevel) {
+    public void showMessageToUser(String message, int messageType, int logLevel,
+                                  int actionMessage, @Nullable View.OnClickListener actionListener) {
         if (isFinishing() || message == null) {
             return;
         }
@@ -665,6 +673,10 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
                 break;
             case Constants.MESSAGES.SNACKBAR:
                 Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG);
+                if (actionListener != null && actionMessage != 0) {
+                    snackbar.setAction(actionMessage, actionListener);
+                    snackbar.setDuration(Snackbar.LENGTH_INDEFINITE);
+                }
                 snackbar.show();
                 break;
             case Constants.MESSAGES.TOAST:

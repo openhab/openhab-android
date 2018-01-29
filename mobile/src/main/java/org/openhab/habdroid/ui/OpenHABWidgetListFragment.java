@@ -31,6 +31,7 @@ import android.widget.ListView;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.openhab.habdroid.R;
+import org.openhab.habdroid.core.OpenHABTrackerReceiver;
 import org.openhab.habdroid.model.OpenHABItem;
 import org.openhab.habdroid.model.OpenHABNFCActionList;
 import org.openhab.habdroid.model.OpenHABWidget;
@@ -57,6 +58,8 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import okhttp3.Call;
 import okhttp3.Headers;
+
+import static org.openhab.habdroid.util.Constants.PREFERENCE_SWIPE_REFRESH_EXPLAINED;
 
 /**
  * This class is apps' main fragment which displays list of openHAB
@@ -217,11 +220,35 @@ public class OpenHABWidgetListFragment extends ListFragment {
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                if (shouldShowSwipeToRefreshDescriptionSnackbar()) {
+                    showSwipeToRefreshDescriptionSnackbar((OpenHABTrackerReceiver) getActivity());
+                }
                 if (displayPageUrl != null) {
                     showPage(displayPageUrl, false);
                 }
             }
         });
+    }
+
+    private void showSwipeToRefreshDescriptionSnackbar(OpenHABTrackerReceiver context) {
+        context.showMessageToUser(getString(R.string.swipe_to_refresh_description),
+                Constants.MESSAGES.SNACKBAR, Constants.MESSAGES.LOGLEVEL.ALWAYS,
+                R.string.swipe_to_refresh_dismiss, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        PreferenceManager
+                                .getDefaultSharedPreferences(
+                                        OpenHABWidgetListFragment.this.getActivity())
+                                .edit()
+                                .putBoolean(PREFERENCE_SWIPE_REFRESH_EXPLAINED, true)
+                                .apply();
+                    }
+                });
+    }
+
+    private boolean shouldShowSwipeToRefreshDescriptionSnackbar() {
+        return !PreferenceManager.getDefaultSharedPreferences(getActivity()).getBoolean
+                (PREFERENCE_SWIPE_REFRESH_EXPLAINED, false);
     }
 
     @NonNull

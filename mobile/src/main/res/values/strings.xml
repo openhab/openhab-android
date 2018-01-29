@@ -183,4 +183,6 @@
     <string name="content_description_open_number_picker">Open number picker</string>
     <string name="content_description_video">Video</string>
     <string name="content_description_open_openhab">Open openHAB</string>
+    <string name="swipe_to_refresh_description">The app refreshes widgets regularly, you mostly do not need to do it yourself.</string>
+    <string name="swipe_to_refresh_dismiss">Got it!</string>
 </resources>
