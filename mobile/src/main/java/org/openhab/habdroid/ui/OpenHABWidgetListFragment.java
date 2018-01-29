@@ -17,6 +17,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ListFragment;
 import android.text.TextUtils;
 import android.util.Log;
@@ -127,8 +128,7 @@ public class OpenHABWidgetListFragment extends ListFragment {
         Log.d(TAG, "onActivityCreated()");
         Log.d(TAG, "isAdded = " + isAdded());
         mActivity = (OpenHABMainActivity)getActivity();
-        final String iconFormat = PreferenceManager.getDefaultSharedPreferences(mActivity).getString("iconFormatType","PNG");
-        openHABWidgetDataSource = new OpenHABWidgetDataSource(iconFormat);
+        openHABWidgetDataSource = new OpenHABWidgetDataSource(getIconFormat());
         openHABWidgetAdapter = new OpenHABWidgetAdapter(getActivity(),
                 R.layout.openhabwidgetlist_genericitem, widgetList);
         getListView().setAdapter(openHABWidgetAdapter);
@@ -208,6 +208,11 @@ public class OpenHABWidgetListFragment extends ListFragment {
             Log.d(TAG, "More then 1 column, setting selector on");
             getListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
         }
+    }
+
+    @NonNull
+    private String getIconFormat() {
+        return PreferenceManager.getDefaultSharedPreferences(mActivity).getString("iconFormatType","PNG");
     }
 
     @Override

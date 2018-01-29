@@ -82,6 +82,7 @@
     <string name="error_certificate_expired">SSL certificate has been expired. Please get a new certificate or disable certificate validation during SSL handshake</string>
     <string name="error_certificate_not_valid_yet">SSL certificate is not valid yet. Please get a correct certificate or disable certificate validation during SSL handshake. Also check if the clock on your device is set correctly</string>
     <string name="error_certificate_revoked">SSL certificate has been revoked. Please get a new certificate or disable certificate validation during SSL handshake</string>
+    <string name="error_certificate_wrong_host">SSL certificate is not valid for %s</string>
     <string name="error_http_code_401">Authentication failed. Please check the configured username and password respectively the provided SSL client certificate (HTTP response code 401)</string>
     <string name="error_http_code_403">Authentication failed. Please check the configured username and password respectively the provided SSL client certificate (HTTP response code 403)</string>
     <string name="error_http_code_407">Authentication failed. Please check the configured username and password respectively the provided SSL client certificate (HTTP response code 407)</string>

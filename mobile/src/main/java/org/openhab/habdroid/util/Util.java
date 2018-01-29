@@ -10,6 +10,7 @@
 package org.openhab.habdroid.util;
 
 import android.app.Activity;
+import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.util.Log;
@@ -18,8 +19,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 
 import org.openhab.habdroid.R;
-import org.openhab.habdroid.model.SitemapImpl;
 import org.openhab.habdroid.model.Sitemap;
+import org.openhab.habdroid.model.SitemapImpl;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -59,6 +60,11 @@ public class Util {
             Log.e(TAG, "normalizeUrl: invalid URL");
         }
         return normalizedUrl;
+    }
+
+    public static String removeProtocolFromUrl(String url) {
+        Uri uri = Uri.parse(url);
+        return uri.getHost();
     }
 
     public static List<? extends Sitemap> parseSitemapList(String json) {
@@ -124,5 +130,15 @@ public class Util {
             themeRes = R.style.HABDroid_Light;
         }
         activity.setTheme(themeRes);
+    }
+
+    public static boolean exceptionHasCause(Throwable error, Class<? extends Throwable> cause) {
+        while (error != null) {
+            if (error.getClass().equals(cause)) {
+                return true;
+            }
+            error = error.getCause();
+        }
+        return false;
     }
 }
