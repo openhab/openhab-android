@@ -70,17 +70,4 @@
         android:layout_marginRight="0dp"
         android:contentDescription="@string/content_description_color_down" />
 
-
-    <LinearLayout
-        android:id="@+id/listdivider"
-        android:layout_width="match_parent"
-        android:layout_height="1dip"
-        android:layout_marginLeft="0dp"
-        android:layout_marginRight="0dp"
-        android:layout_marginTop="0dp"
-        android:background="?android:attr/listDivider"
-        android:orientation="horizontal"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/colorleftlayout" />
 </android.support.constraint.ConstraintLayout>

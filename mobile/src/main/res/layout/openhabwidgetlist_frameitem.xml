@@ -11,7 +11,6 @@
     android:paddingEnd="@dimen/widgetlist_item_right_margin">
 
     <LinearLayout
-        android:id="@+id/listdivider"
         android:layout_width="fill_parent"
         android:layout_height="8dip"
         android:layout_marginBottom="7dip"

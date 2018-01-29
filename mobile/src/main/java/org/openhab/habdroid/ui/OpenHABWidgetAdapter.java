@@ -51,6 +51,7 @@ import org.openhab.habdroid.model.OpenHABItem;
 import org.openhab.habdroid.model.OpenHABWidget;
 import org.openhab.habdroid.model.OpenHABWidgetMapping;
 import org.openhab.habdroid.ui.widget.ColorPickerDialog;
+import org.openhab.habdroid.ui.widget.DividerItemDecoration;
 import org.openhab.habdroid.ui.widget.OnColorChangedListener;
 import org.openhab.habdroid.ui.widget.SegmentedControlButton;
 import org.openhab.habdroid.util.MjpegStreamer;
@@ -205,11 +206,6 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         holder.itemView.setOnClickListener(mItemClickListener != null ? this : null);
         holder.itemView.setOnLongClickListener(mItemClickListener != null ? this : null);
         holder.itemView.setClickable(mItemClickListener != null);
-
-        // hide dividers before frame widgets
-        boolean nextIsFrame = position < mItems.size() - 1
-                && getItemViewType(position + 1) == TYPE_FRAME;
-        holder.updateDivider(!nextIsFrame);
     }
 
     @Override
@@ -326,14 +322,12 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
     }
 
     public abstract static class ViewHolder extends RecyclerView.ViewHolder {
-        private final View mDivider;
         protected final MyAsyncHttpClient mHttpClient;
         protected final ConnectionInfo mConnectionInfo;
 
         ViewHolder(LayoutInflater inflater, ViewGroup parent, @LayoutRes int layoutResId,
                 MyAsyncHttpClient httpClient, ConnectionInfo connection) {
             super(inflater.inflate(layoutResId, parent, false));
-            mDivider = itemView.findViewById(R.id.listdivider);
             mHttpClient = httpClient;
             mConnectionInfo = connection;
         }
@@ -341,12 +335,6 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         public abstract void bind(OpenHABWidget widget);
         public void start() {}
         public void stop() {}
-
-        public void updateDivider(boolean show) {
-            if (mDivider != null) {
-                mDivider.setVisibility(show ? View.VISIBLE : View.GONE);
-            }
-        }
 
         protected static void updateTextViewColor(TextView view, Integer color) {
             view.setTextColor(color != null ? color : view.getTextColors().getDefaultColor());
@@ -1102,6 +1090,36 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
             if (mStreamer != null) {
                 mStreamer.stop();
             }
+        }
+    }
+
+    public static class WidgetItemDecoration extends DividerItemDecoration {
+        public WidgetItemDecoration(Context context) {
+            super(context);
+        }
+
+        @Override
+        protected boolean suppressDividerForChild(View child, RecyclerView parent) {
+            if (super.suppressDividerForChild(child, parent)) {
+                return true;
+            }
+
+            int position = parent.getChildAdapterPosition(child);
+            if (position == RecyclerView.NO_POSITION) {
+                return false;
+            }
+
+            // hide dividers before and after frame widgets
+            if (parent.getAdapter().getItemViewType(position) == TYPE_FRAME) {
+                return true;
+            }
+            if (position < parent.getAdapter().getItemCount() - 1) {
+                if (parent.getAdapter().getItemViewType(position + 1) == TYPE_FRAME) {
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }

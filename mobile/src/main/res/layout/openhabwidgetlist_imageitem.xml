@@ -15,15 +15,4 @@
         android:layout_margin="5dip"
         android:adjustViewBounds="true" />
 
-    <LinearLayout
-        android:id="@+id/listdivider"
-        android:layout_width="fill_parent"
-        android:layout_height="1dip"
-        android:layout_below="@+id/imageimage"
-        android:layout_marginLeft="@dimen/widgetlist_divider_left_margin"
-        android:layout_marginRight="@dimen/widgetlist_divider_right_margin"
-        android:background="?android:attr/listDivider"
-        android:orientation="horizontal"
-        android:layout_marginStart="@dimen/widgetlist_divider_left_margin"
-        android:layout_marginEnd="@dimen/widgetlist_divider_right_margin" />
 </RelativeLayout>
