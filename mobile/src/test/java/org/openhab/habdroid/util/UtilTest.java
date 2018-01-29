@@ -45,15 +45,15 @@ public class UtilTest {
         assertEquals(8, sitemapList.size());
 
         // Should be sorted
-        assertEquals("i AM DEfault", sitemapList.get(0).getLabel());
-
+        assertEquals("Garden", sitemapList.get(0).getLabel());
         assertEquals("Heating", sitemapList.get(1).getLabel());
-        assertEquals("Lighting", sitemapList.get(2).getLabel());
-        assertEquals("Heatpump", sitemapList.get(3).getLabel());
-        assertEquals("Schedule", sitemapList.get(4).getLabel());
-        assertEquals("outside", sitemapList.get(5).getLabel());
-        assertEquals("Garden", sitemapList.get(6).getLabel());
-        assertEquals("Scenes", sitemapList.get(7).getLabel());
+        assertEquals("Heatpump", sitemapList.get(2).getLabel());
+        assertEquals("Lighting", sitemapList.get(3).getLabel());
+        assertEquals("Scenes", sitemapList.get(4).getLabel());
+        assertEquals("Schedule", sitemapList.get(5).getLabel());
+        assertEquals("i AM DEfault", sitemapList.get(6).getLabel());
+        assertEquals("outside", sitemapList.get(7).getLabel());
+
     }
 
     @Test
@@ -70,8 +70,8 @@ public class UtilTest {
         List<? extends Sitemap> sitemapList  = Util.parseSitemapList(createJsonArrayString(2));
         assertFalse(sitemapList.isEmpty());
 
-        assertEquals("Main Menu", sitemapList.get(0).getLabel());
-        assertEquals("HOME", sitemapList.get(1).getLabel());
+        assertEquals("HOME", sitemapList.get(0).getLabel());
+        assertEquals("Main Menu", sitemapList.get(1).getLabel());
         assertEquals(2, sitemapList.size());
     }
 

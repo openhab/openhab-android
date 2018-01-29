@@ -27,6 +27,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class Util {
@@ -90,7 +92,18 @@ public class Util {
             sitemapList = newSitemapList;
         }
 
+        sortSitemapByLabel(sitemapList);
+
         return sitemapList;
+    }
+
+    private static void sortSitemapByLabel(List<? extends Sitemap> sitemapList) {
+        Collections.sort(sitemapList, new Comparator<Sitemap>() {
+            @Override
+            public int compare(Sitemap sitemap1, Sitemap sitemap2) {
+                return  sitemap1.getLabel().compareTo(sitemap2.getLabel());
+            }
+        });
     }
 
     public static boolean sitemapExists(List<? extends Sitemap> sitemapList, String sitemapName) {

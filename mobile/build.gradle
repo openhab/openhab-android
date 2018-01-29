@@ -51,6 +51,12 @@ android {
     }
 }
 
+configurations {
+    compile.exclude module: 'stax'
+    compile.exclude module: 'stax-api'
+    compile.exclude module: 'xpp3'
+}
+
 repositories {
     jcenter()
     mavenCentral()
@@ -79,7 +85,7 @@ dependencies {
     compileOnly "org.projectlombok:lombok:1.16.20"
     annotationProcessor 'org.projectlombok:lombok:1.16.20'
 
-    compile 'javax.xml.stream:stax-api:1.0-2'
+    compile "javax.xml.stream:stax-api:jar:1.0-2"
     compile 'com.fasterxml.jackson.core:jackson-core:2.9.3'
     compile 'com.fasterxml.jackson.core:jackson-annotations:2.9.3'
     compile 'com.fasterxml.jackson.core:jackson-databind:2.9.3'
