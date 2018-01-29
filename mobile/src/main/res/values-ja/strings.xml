@@ -15,9 +15,6 @@
   <string name="mainmenu_openhab_selectsitemap">デフォルトのサイトマップを選択</string>
   <string name="mainmenu_openhab_clearcache">画像キャッシュをクリア</string>
   <!-- App settings strings -->
-  <string name="settings_connection_title">接続設定</string>
-  <string name="settings_display_title">表示設定</string>
-  <string name="settings_misc_title">その他の設定</string>
   <string name="settings_openhab_url">ローカルサーバー URL</string>
   <string name="settings_openhab_url_summary">(ホスト名または IP アドレスに基づく) openHAB ダッシュ ボードの URL です。設定した場合、自動検出は無効になります。現在の設定: %s</string>
   <string name="settings_openhab_alturl">リモートサーバー URL</string>
@@ -45,9 +42,6 @@
   <string name="settings_clear_default_sitemap">デフォルトのサイトマップをクリア</string>
   <string name="settings_no_default_sitemap">デフォルトのサイトマップが選択されていません</string>
   <string name="settings_current_default_sitemap">現在のデフォルトサイトマップ: %1$s</string>
-  <string name="settings_openhab_sslsettings">暗号化の設定</string>
-  <string name="settings_openhab_alt_connection">リモートサーバーの設定</string>
-  <string name="settings_openhab_connection">ローカルサーバーの設定</string>
   <!-- App messages strings -->
   <string name="title_voice_widget">openHAB 音声コマンド</string>
   <string name="info_voice_input">"openHAB, お話ください!"</string>
@@ -57,30 +51,18 @@
   <string name="info_conn_url">設定した URL に接続しています</string>
   <string name="info_conn_rem_url">リモート URL に接続しています</string>
   <string name="info_discovery">openHAB を探索しています。 しばらくお待ちください\u2026</string>
+  <!-- Error messages -->
   <string name="error_no_url">openHAB が実行中か確認するか、openHAB URL またはリモート URL を設定してください</string>
   <string name="error_empty_sitemap_list">openHAB は空のサイトマップリストを返しました</string>
   <string name="error_network_not_available">ネットワークが利用できません</string>
-  <string name="error_http_connection_failed">OpenHAB から無効な応答を受信しました。OpenHAB が正常に機能しているかどうかを確認してください (HTTP 応答コード %d)</string>
   <string name="error_no_uuid">openHAB UUID を取得できませんでした。接続に失敗しました</string>
   <string name="error_connection_failed">ホストへの接続に失敗しました</string>
   <string name="error_unable_to_resolve_hostname">ホスト名を解決できません</string>
-  <string name="error_connection_sslhandshake_failed">SSL ハンドシェイクに失敗しました - 有効なクライアント証明書が必要かもしれません</string>
   <string name="error_certificate_not_trusted">SSL 証明書は信頼されていません。ルート証明書をインポートするか、SSL ハンドシェイクの際に証明書の検証を無効にしてください。</string>
   <string name="error_certificate_expired">SSL 証明書が有効期限切れです。新しい証明書を取得するか、SSL ハンドシェイクの際に証明書の検証を無効にしてください。</string>
-  <string name="error_certificate_not_valid_yet">SSL 証明書がまだ有効ではありません。正しい証明書を取得するか、SSL ハンドシェイクの際に証明書の検証を無効にしてください。また、お使いの携帯電話の時計が正しく設定されているかを確認してください。</string>
   <string name="error_certificate_revoked">SSL 証明書が失効しています。新しい証明書を取得するか、SSL ハンドシェイクの際に証明書の検証を無効にしてください。</string>
-  <string name="error_http_code_401">ユーザー認証に失敗しました。ユーザー名、パスワード、SSL クライアント証明書を確認してください (HTTP 応答コード 401)</string>
-  <string name="error_http_code_403">ユーザー認証に失敗しました。ユーザー名、パスワード、SSL クライアント証明書を確認してください (HTTP 応答コード 403)</string>
-  <string name="error_http_code_407">ユーザー認証に失敗しました。ユーザー名、パスワード、SSL クライアント証明書を確認してください (HTTP 応答コード 407)</string>
-  <string name="error_http_code_414">openHAB URL が長すぎます (HTTP 応答コード 414)</string>
-  <string name="error_http_code_426">HTTPS が必要です。openHAB URL を変更してください (HTTP 応答コード 426)</string>
   <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
-  <string name="error_http_code_495">SSL クライアント証明書が無効 (HTTP 応答コード 495)</string>
   <string name="error_http_code_496">SSL クライアント証明書が必要 (HTTP 応答コード 496)</string>
-  <string name="error_http_code_502">リバースプロキシが openHAB から無効な応答を受け取りました (HTTP 応答コード 502)</string>
-  <string name="error_http_code_503">openHAB は一時的に利用できません (HTTP 応答コード 503)</string>
-  <string name="error_http_code_504">ゲートウェイ タイムアウト。リバースプロキシが実行中ですが、openHAB から回答を受け取ることができなかったようです (HTTP 応答コード 504)</string>
-  <string name="error_http_code_507">openHAB に十分な空き容量がありません (HTTP 応答コード 507)</string>
   <string name="error_http_code_511">ネットワーク認証が必要 (HTTP 応答コード 511)</string>
   <string name="title_activity_openhabwritetag">NFC タグを書き込み</string>
   <string name="title_activity_openhabinfo">openHAB 情報</string>
@@ -137,4 +119,5 @@
   <string name="intro_whatis">ホーム用、ベンダーや技術に依存しないオープンソースのオートメーションソフトウェア</string>
   <string name="intro_themes">テーマ</string>
   <string name="intro_themes_description">いくつかのテーマから選択してください</string>
+  <!-- Content description for images -->
 </resources>

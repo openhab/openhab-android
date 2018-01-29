@@ -82,6 +82,7 @@
     <string name="error_certificate_expired">SSL certificate has been expired. Please get a new certificate or disable certificate validation during SSL handshake</string>
     <string name="error_certificate_not_valid_yet">SSL certificate is not valid yet. Please get a correct certificate or disable certificate validation during SSL handshake. Also check if the clock on your device is set correctly</string>
     <string name="error_certificate_revoked">SSL certificate has been revoked. Please get a new certificate or disable certificate validation during SSL handshake</string>
+    <string name="error_certificate_wrong_host">SSL certificate is not valid for %s</string>
     <string name="error_http_code_401">Authentication failed. Please check the configured username and password respectively the provided SSL client certificate (HTTP response code 401)</string>
     <string name="error_http_code_403">Authentication failed. Please check the configured username and password respectively the provided SSL client certificate (HTTP response code 403)</string>
     <string name="error_http_code_407">Authentication failed. Please check the configured username and password respectively the provided SSL client certificate (HTTP response code 407)</string>
@@ -171,4 +172,15 @@
     <string name="intro_whatis">A vendor and technology agnostic open source automation software for your home</string>
     <string name="intro_themes">Themes</string>
     <string name="intro_themes_description">Choose between several themes</string>
+
+    <!-- Content description for images -->
+    <string name="content_description_open_roller_shutter">Open roller shutter</string>
+    <string name="content_description_stop_roller_shutter">Stop roller shutter</string>
+    <string name="content_description_close_roller_shutter">Close roller shutter</string>
+    <string name="content_description_open_color_wheel">Open color wheel</string>
+    <string name="content_description_color_up">On or hold to increase brightness</string>
+    <string name="content_description_color_down">Off or hold to decrease brightness</string>
+    <string name="content_description_open_number_picker">Open number picker</string>
+    <string name="content_description_video">Video</string>
+    <string name="content_description_open_openhab">Open openHAB</string>
 </resources>

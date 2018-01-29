@@ -13,7 +13,8 @@
         android:layout_height="wrap_content"
         android:id="@+id/mjpegimage"
         android:adjustViewBounds="true"
-        android:layout_margin="5dip" />
+        android:layout_margin="5dip"
+        android:contentDescription="@string/content_description_video" />
 
     <LinearLayout
         android:id="@+id/listdivider"

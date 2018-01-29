@@ -17,7 +17,6 @@ import android.support.v4.view.ViewPager;
 import android.util.Log;
 
 import org.openhab.habdroid.core.notifications.NotificationSettings;
-import org.openhab.habdroid.model.thing.ThingType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -158,7 +157,7 @@ public class OpenHABFragmentPagerAdapter extends FragmentStatePagerAdapter imple
     }
 
     private OpenHABNotificationFragment getNewNotificationFragment(NotificationSettings notificationSettings) {
-        return new OpenHABNotificationFragment().newInstance(
+        return OpenHABNotificationFragment.newInstance(
                 notificationSettings.getOpenHABCloudURL().toString(),
                 notificationSettings.getOpenHABCloudUsername(),
                 notificationSettings.getOpenHABCloudPassword()

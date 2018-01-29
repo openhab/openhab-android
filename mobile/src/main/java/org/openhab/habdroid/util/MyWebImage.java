@@ -37,7 +37,7 @@ public class MyWebImage implements SmartImage {
     private static final int CONNECT_TIMEOUT = 5000;
     private static final int READ_TIMEOUT = 10000;
 
-    private static WebImageCache webImageCache;
+    private static WebImageCache sWebImageCache;
 
     private String url;
     private boolean useCache = true;
@@ -46,14 +46,15 @@ public class MyWebImage implements SmartImage {
     private String authPassword;
     private boolean shouldAuth = false;
 
-    public MyWebImage(String url, String username, String password) {
-        this(url, true, username, password);
-    }
-
     public MyWebImage(String url, boolean useCache, String username, String password) {
     	this.url = url;
     	this.useCache = useCache;
         this.setAuthentication(username, password);
+    }
+
+    public Bitmap getCachedBitmap() {
+        WebImageCache cache = useCache ? getWebImageCache() : null;
+        return cache != null ? cache.get(url) : null;
     }
 
     /**
@@ -63,7 +64,7 @@ public class MyWebImage implements SmartImage {
      * @return WebImageCache|null
      */
     public static WebImageCache getWebImageCache() {
-        return webImageCache;
+        return sWebImageCache;
     }
 
     /**
@@ -74,11 +75,11 @@ public class MyWebImage implements SmartImage {
      * @return WebImageCache
      */
     public static WebImageCache getWebImageCache(Context ctx) {
-        if (webImageCache == null) {
-            webImageCache = new WebImageCache(ctx);
+        if (sWebImageCache == null) {
+            sWebImageCache = new WebImageCache(ctx);
         }
 
-        return webImageCache;
+        return sWebImageCache;
     }
 
     public Bitmap getBitmap(Context context) {
@@ -186,8 +187,9 @@ public class MyWebImage implements SmartImage {
     }
 
     public static void removeFromCache(String url) {
-        if(getWebImageCache() != null) {
-            webImageCache.remove(url);
+        WebImageCache cache = getWebImageCache();
+        if (cache != null) {
+            cache.remove(url);
         }
     }
     

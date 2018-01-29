@@ -36,6 +36,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -93,7 +94,8 @@ import java.security.cert.CertificateRevokedException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.net.ssl.SSLHandshakeException;
+import javax.net.ssl.SSLException;
+import javax.net.ssl.SSLPeerUnverifiedException;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -108,6 +110,8 @@ import static org.openhab.habdroid.util.Constants.MESSAGES.DIALOG;
 import static org.openhab.habdroid.util.Constants.MESSAGES.LOGLEVEL.ALWAYS;
 import static org.openhab.habdroid.util.Constants.MESSAGES.LOGLEVEL.DEBUG;
 import static org.openhab.habdroid.util.Constants.MESSAGES.LOGLEVEL.NO_DEBUG;
+import static org.openhab.habdroid.util.Util.exceptionHasCause;
+import static org.openhab.habdroid.util.Util.removeProtocolFromUrl;
 
 public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSelectedListener,
         OpenHABTrackerReceiver, MemorizingResponder {
@@ -131,16 +135,20 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
             } else if (error instanceof UnknownHostException) {
                 Log.e(TAG, "Unable to resolve hostname");
                 message = getString(R.string.error_unable_to_resolve_hostname);
-            } else if (error instanceof SSLHandshakeException) {
+            } else if (error instanceof SSLException) {
                 // if ssl exception, check for some common problems
-                if (error.getCause() instanceof CertPathValidatorException) {
+                if (exceptionHasCause(error, CertPathValidatorException.class)) {
                     message = getString(R.string.error_certificate_not_trusted);
-                } else if (error.getCause() instanceof CertificateExpiredException) {
+                } else if (exceptionHasCause(error, CertificateExpiredException.class)) {
                     message = getString(R.string.error_certificate_expired);
-                } else if (error.getCause() instanceof CertificateNotYetValidException) {
+                } else if (exceptionHasCause(error, CertificateNotYetValidException.class)) {
                     message = getString(R.string.error_certificate_not_valid_yet);
-                } else if (error.getCause() instanceof CertificateRevokedException) {
+                } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N
+                        && exceptionHasCause(error, CertificateRevokedException.class)) {
                     message = getString(R.string.error_certificate_revoked);
+                } else if (exceptionHasCause(error, SSLPeerUnverifiedException.class)) {
+                    message = String.format(getString(R.string.error_certificate_wrong_host),
+                            removeProtocolFromUrl(openHABBaseUrl));
                 } else {
                     message = getString(R.string.error_connection_sslhandshake_failed);
                 }
@@ -171,8 +179,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
     private static final int DRAWER_PREFERENCES = 102;
 
     // Loopj
-//    private static MyAsyncHttpClient mAsyncHttpClient;
-    private static MyAsyncHttpClient mAsyncHttpClient;
+    private MyAsyncHttpClient mAsyncHttpClient;
     // Base URL of current openHAB connection
     private String openHABBaseUrl = "http://demo.openhab.org:8080/";
     // openHAB username
@@ -182,7 +189,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
     // openHAB Bonjour service name
     private String openHABServiceType;
     // view pager for widgetlist fragments
-    private OpenHABViewPager pager;
+    private ViewPager pager;
     // view pager adapter for widgetlist fragments
     private OpenHABFragmentPagerAdapter pagerAdapter;
     // root URL of the current sitemap
@@ -233,7 +240,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
         }
     };
 
-    public static MyAsyncHttpClient getAsyncHttpClient() {
+    public MyAsyncHttpClient getAsyncHttpClient() {
         return mAsyncHttpClient;
     }
 
@@ -534,9 +541,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
         pagerAdapter.setColumnsNumber(getResources().getInteger(R.integer.pager_columns));
         pagerAdapter.setOpenHABUsername(openHABUsername);
         pagerAdapter.setOpenHABPassword(openHABPassword);
-        pager = (OpenHABViewPager) findViewById(R.id.pager);
-        pager.setScrollDurationFactor(2.5);
-        pager.setOffscreenPageLimit(1);
+        pager = findViewById(R.id.pager);
         pager.setAdapter(pagerAdapter);
         pager.addOnPageChangeListener(pagerAdapter);
     }
@@ -779,7 +784,8 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
                     // Configured sitemap is on the list we got, open it!
                     if (Util.sitemapExists(mSitemapList, configuredSitemap)) {
                         Log.d(TAG, "Configured sitemap is on the list");
-                        OpenHABSitemap selectedSitemap = Util.getSitemapByName(mSitemapList, configuredSitemap);
+                        OpenHABSitemap selectedSitemap = Util.getSitemapByName(mSitemapList,
+                                configuredSitemap);
                         openSitemap(selectedSitemap.getHomepageLink());
                         // Configured sitemap is not on the list we got!
                     } else {
@@ -787,7 +793,10 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
                         if (mSitemapList.size() == 1) {
                             Log.d(TAG, "Got only one sitemap");
                             SharedPreferences.Editor preferencesEditor = settings.edit();
-                            preferencesEditor.putString(Constants.PREFERENCE_SITEMAP_NAME, mSitemapList.get(0).getName());
+                            preferencesEditor.putString(Constants.PREFERENCE_SITEMAP_NAME,
+                                    mSitemapList.get(0).getName());
+                            preferencesEditor.putString(Constants.PREFERENCE_SITEMAP_LABEL,
+                                    mSitemapList.get(0).getLabel());
                             preferencesEditor.apply();
                             openSitemap(mSitemapList.get(0).getHomepageLink());
                         } else {
@@ -801,7 +810,10 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
                     if (mSitemapList.size() == 1) {
                         Log.d(TAG, "Got only one sitemap");
                         SharedPreferences.Editor preferencesEditor = settings.edit();
-                        preferencesEditor.putString(Constants.PREFERENCE_SITEMAP_NAME, mSitemapList.get(0).getName());
+                        preferencesEditor.putString(Constants.PREFERENCE_SITEMAP_NAME,
+                                mSitemapList.get(0).getName());
+                        preferencesEditor.putString(Constants.PREFERENCE_SITEMAP_LABEL,
+                                mSitemapList.get(0).getLabel());
                         preferencesEditor.apply();
                         openSitemap(mSitemapList.get(0).getHomepageLink());
                     } else {
@@ -845,6 +857,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
             pagerAdapter.openNotifications(getNotificationSettings());
             pager.setCurrentItem(pagerAdapter.getCount() - 1);
         }
+        mDrawerToggle.setDrawerIndicatorEnabled(false);
     }
 
     private void openSitemap(String sitemapUrl) {

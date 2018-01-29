@@ -10,8 +10,10 @@ import org.xml.sax.SAXException;
 
 import java.io.IOException;
 import java.io.StringReader;
+import java.security.cert.CertPathValidatorException;
 import java.util.List;
 
+import javax.net.ssl.SSLException;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -151,5 +153,16 @@ public class UtilTest {
                     throw new IllegalArgumentException("Wrong id");
         }
         return new JSONArray(jsonString);
+    }
+
+    @Test
+    public void testexceptionHasCause() {
+        Exception cause = new CertPathValidatorException();
+        Exception e = new SSLException(cause);
+
+        assertTrue("The exception is caused by CertPathValidatorException, so testexceptionHasCause() should return true",
+                Util.exceptionHasCause(e, CertPathValidatorException.class));
+        assertFalse("The exception is not caused by ArrayIndexOutOfBoundsException, so testexceptionHasCause() should return false",
+                Util.exceptionHasCause(e, ArrayIndexOutOfBoundsException.class));
     }
 }
