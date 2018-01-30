@@ -11,19 +11,21 @@ package org.openhab.habdroid.ui;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.support.v4.app.ListFragment;
+import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.model.OpenHABNotification;
+import org.openhab.habdroid.ui.widget.DividerItemDecoration;
 import org.openhab.habdroid.util.MyAsyncHttpClient;
 import org.openhab.habdroid.util.MyHttpClient;
 
@@ -33,14 +35,7 @@ import java.util.ArrayList;
 import okhttp3.Call;
 import okhttp3.Headers;
 
-/**
- * A fragment representing a list of Items.
- * <p/>
- * <p/>
- * Activities containing this fragment MUST implement the {@link OnFragmentInteractionListener}
- * interface.
- */
-public class OpenHABNotificationFragment extends ListFragment implements SwipeRefreshLayout.OnRefreshListener {
+public class OpenHABNotificationFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 
     private static final String TAG = OpenHABNotificationFragment.class.getSimpleName();
 
@@ -61,6 +56,7 @@ public class OpenHABNotificationFragment extends ListFragment implements SwipeRe
     private OpenHABNotificationAdapter mNotificationAdapter;
     private ArrayList<OpenHABNotification> mNotifications;
 
+    private RecyclerView mRecyclerView;
     private SwipeRefreshLayout mSwipeLayout;
 
     public static OpenHABNotificationFragment newInstance(String baseURL, String username, String password) {
@@ -101,6 +97,7 @@ public class OpenHABNotificationFragment extends ListFragment implements SwipeRe
         View view = inflater.inflate(R.layout.openhabnotificationlist_fragment, container, false);
         mSwipeLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_container);
         mSwipeLayout.setOnRefreshListener(this);
+        mRecyclerView = view.findViewById(android.R.id.list);
         return view;
     }
 
@@ -121,11 +118,12 @@ public class OpenHABNotificationFragment extends ListFragment implements SwipeRe
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mNotificationAdapter = new OpenHABNotificationAdapter(this.getActivity(), R.layout.openhabnotificationlist_item, mNotifications);
-        mNotificationAdapter.setOpenHABBaseUrl(openHABBaseURL);
-        mNotificationAdapter.setOpenHABUsername(openHABUsername);
-        mNotificationAdapter.setOpenHABPassword(openHABPassword);
-        getListView().setAdapter(mNotificationAdapter);
+        mNotificationAdapter = new OpenHABNotificationAdapter(mActivity, mNotifications,
+                openHABBaseURL, openHABUsername, openHABPassword);
+
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
+        mRecyclerView.addItemDecoration(new DividerItemDecoration(mActivity));
+        mRecyclerView.setAdapter(mNotificationAdapter);
         Log.d(TAG, "onActivityCreated()");
         Log.d(TAG, "isAdded = " + isAdded());
     }
@@ -232,24 +230,4 @@ public class OpenHABNotificationFragment extends ListFragment implements SwipeRe
         }
         mSwipeLayout.setRefreshing(false);
     }
-
-    @Override
-    public void onListItemClick(ListView l, View v, int position, long id) {
-        super.onListItemClick(l, v, position, id);
-    }
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        public void onFragmentInteraction(String id);
-    }
-
 }
