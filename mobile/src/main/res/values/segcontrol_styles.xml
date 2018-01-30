@@ -1,35 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="buttonStyle1">
-        <item name="android:layout_margin">0px</item><item name="textColorSelected">@color/light</item>
-        <item name="textColorUnselected">?attr/colorPrimary</item>
-        <item name="lineColor">?attr/colorPrimary</item>
-        <item name="lineHeightUnselected">2dp</item>
-        <item name="lineHeightSelected">7dp</item>
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:textSize">14dp</item>
-        <item name="textDistanceFromLine">5dp</item>
-        <item name="android:stretchColumns">10</item>
-        <item name="android:orientation">horizontal</item>
-        <item name="android:gravity">center_vertical|center_horizontal</item>
-        <item name="android:layout_gravity">center_vertical|center_horizontal</item>
-    </style>
-    <style name="buttonStyle2">
-        <item name="textColorUnselected">@color/normal</item>
-        <item name="textColorSelected">#ffffff</item>
+    <style name="sectionButtonStyle">
+        <item name="android:textColor">@color/sectionswitch_text</item>
+        <item name="android:background">@drawable/sectionswitch_bg</item>
         <item name="android:minWidth">48dp</item>
-        <item name="android:background">#00000000</item>
-        <item name="backgroundSelected">?attr/colorAccent</item>
-        <item name="lineColor">?attr/colorAccent</item>
-        <item name="lineHeightUnselected">2dp</item>
-        <item name="lineHeightSelected">2dp</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">14dp</item>
-        <item name="textDistanceFromLine">12dp</item>
         <item name="android:stretchColumns">0</item>
         <item name="android:padding">8dip</item>
+        <item name="lineHeight">2dp</item>
+        <item name="lineColor">?attr/colorAccent</item>
+        <item name="textDistanceFromLine">12dp</item>
     </style>
     <style name="whiteText">
         <item name="android:textColor">#ffffff</item>

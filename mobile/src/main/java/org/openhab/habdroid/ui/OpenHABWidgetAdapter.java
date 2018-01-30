@@ -680,8 +680,7 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         }
     }
 
-    public static class SectionSwitchViewHolder extends ViewHolder
-            implements RadioGroup.OnCheckedChangeListener, View.OnClickListener {
+    public static class SectionSwitchViewHolder extends ViewHolder implements View.OnClickListener {
         private final LayoutInflater mInflater;
         private final TextView mLabelView;
         private final TextView mValueView;
@@ -728,18 +727,7 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
 
         @Override
         public void onClick(View view) {
-            Log.i(TAG, "Button clicked");
             Util.sendItemCommand(mHttpClient, mBoundItem, (String) view.getTag());
-        }
-
-        @Override
-        public void onCheckedChanged(RadioGroup group, int checkedId) {
-            SegmentedControlButton selectedButton = group.findViewById(checkedId);
-            if (selectedButton != null) {
-                Log.d(TAG, "Selected " + selectedButton.getText());
-                Log.d(TAG, "Command = " + (String) selectedButton.getTag());
-                Util.sendItemCommand(mHttpClient, mBoundItem, (String) selectedButton.getTag());
-            }
         }
     }
 
