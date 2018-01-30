@@ -17,7 +17,9 @@ import android.os.Handler;
 import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.speech.RecognizerIntent;
+import android.support.annotation.Nullable;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import org.openhab.habdroid.R;
@@ -113,12 +115,17 @@ public class OpenHABVoiceService extends ContinuingIntentService implements Open
         stopSelf(getLastStartId());
     }
 
+    @Override
+    public void showMessageToUser(String message, int messageType, int logLevel) {
+        showMessageToUser(message, messageType, logLevel);
+    }
+
     /**
      * @param message message to show
      * @param messageType must be Constants.MESSAGES.DIALOG or Constants.MESSAGES.TOAST
      * @param logLevel not implemented
      */
-    public void showMessageToUser(String message, int messageType, int logLevel) {
+    public void showMessageToUser(String message, int messageType, int logLevel, int actionMessage, @Nullable View.OnClickListener actionListener) {
         if(message == null) {
             return;
         }

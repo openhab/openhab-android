@@ -14,13 +14,17 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ListFragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +34,7 @@ import android.widget.ListView;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.openhab.habdroid.R;
+import org.openhab.habdroid.core.OpenHABTrackerReceiver;
 import org.openhab.habdroid.model.OpenHABItem;
 import org.openhab.habdroid.model.OpenHABNFCActionList;
 import org.openhab.habdroid.model.OpenHABWidget;
@@ -56,6 +61,8 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import okhttp3.Call;
 import okhttp3.Headers;
+
+import static org.openhab.habdroid.util.Constants.PREFERENCE_SWIPE_REFRESH_EXPLAINED;
 
 /**
  * This class is apps' main fragment which displays list of openHAB
@@ -105,6 +112,7 @@ public class OpenHABWidgetListFragment extends ListFragment {
     private Runnable networkRunnable;
     // keeps track of current request to cancel it in onPause
     private Call mRequestHandle;
+    private SwipeRefreshLayout refreshLayout;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -208,6 +216,53 @@ public class OpenHABWidgetListFragment extends ListFragment {
             Log.d(TAG, "More then 1 column, setting selector on");
             getListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
         }
+        refreshLayout = getView().findViewById(R.id.swiperefresh);
+        if (refreshLayout == null) {
+            return;
+        }
+
+        TypedValue typedValue = new TypedValue();
+        Resources.Theme theme = getActivity().getTheme();
+
+        theme.resolveAttribute(R.attr.colorPrimary, typedValue, true);
+        @ColorInt int colorPrimary = typedValue.data;
+
+        theme.resolveAttribute(R.attr.colorAccent, typedValue, true);
+        @ColorInt int colorAccent = typedValue.data;
+
+        refreshLayout.setColorSchemeColors(colorPrimary, colorAccent);
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                if (shouldShowSwipeToRefreshDescriptionSnackbar()) {
+                    showSwipeToRefreshDescriptionSnackbar((OpenHABTrackerReceiver) getActivity());
+                }
+                if (displayPageUrl != null) {
+                    showPage(displayPageUrl, false);
+                }
+            }
+        });
+    }
+
+    private void showSwipeToRefreshDescriptionSnackbar(OpenHABTrackerReceiver context) {
+        context.showMessageToUser(getString(R.string.swipe_to_refresh_description),
+                Constants.MESSAGES.SNACKBAR, Constants.MESSAGES.LOGLEVEL.ALWAYS,
+                R.string.swipe_to_refresh_dismiss, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        PreferenceManager
+                                .getDefaultSharedPreferences(
+                                        OpenHABWidgetListFragment.this.getActivity())
+                                .edit()
+                                .putBoolean(PREFERENCE_SWIPE_REFRESH_EXPLAINED, true)
+                                .apply();
+                    }
+                });
+    }
+
+    private boolean shouldShowSwipeToRefreshDescriptionSnackbar() {
+        return !PreferenceManager.getDefaultSharedPreferences(getActivity()).getBoolean
+                (PREFERENCE_SWIPE_REFRESH_EXPLAINED, false);
     }
 
     @NonNull
@@ -385,7 +440,6 @@ public class OpenHABWidgetListFragment extends ListFragment {
                             stopProgressIndicator();
                         String responseString = new String(responseBody);
                         processContent(responseString, longPolling);
-                        // Log.d(TAG, responseString);
                     }
                 });
     }
@@ -519,10 +573,14 @@ public class OpenHABWidgetListFragment extends ListFragment {
             Log.d(TAG, "Stop progress indicator");
             mActivity.setProgressIndicatorVisible(false);
         }
+        if (refreshLayout != null)
+            refreshLayout.setRefreshing(false);
     }
 
     private void startProgressIndicator() {
-        if (mActivity != null) {
+        boolean swipeAlreadyLoading = refreshLayout != null && refreshLayout.isRefreshing();
+
+        if (mActivity != null && !swipeAlreadyLoading) {
             Log.d(TAG, "Start progress indicator");
             mActivity.setProgressIndicatorVisible(true);
         }
