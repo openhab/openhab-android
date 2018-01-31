@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string-array name="pin_modes">
-        <item>Never</item>
-        <item>OnEnable</item>
-        <item>OnDisable</item>
-        <item>OnEnableAndDisable</item>
-    </string-array>
-</resources>
