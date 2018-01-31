@@ -16,7 +16,6 @@
 
         <item name="themedDrawerBackground">?android:colorBackground</item>
         <item name="themedHeaderTextColor">@color/colorAccent_themeDark</item>
-        <item name="themedAboutTextColor">@color/black</item>
 
         <item name="chartTheme">white</item>
     </style>
@@ -38,7 +37,6 @@
 
         <item name="themedDrawerBackground">?android:colorBackground</item>
         <item name="themedHeaderTextColor">@color/colorAccent_themeDark</item>
-        <item name="themedAboutTextColor">@color/light</item>
 
         <item name="about_libraries_window_background">
             @color/about_libraries_window_background_dark
@@ -71,7 +69,6 @@
 
         <item name="themedDrawerBackground">@color/black</item>
         <item name="themedHeaderTextColor">@color/colorAccent_themeDark</item>
-        <item name="themedAboutTextColor">@color/light</item>
 
         <item name="about_libraries_window_background">
             @color/about_libraries_window_background_dark
@@ -102,7 +99,6 @@
 
         <item name="themedDrawerBackground">?android:colorBackground</item>
         <item name="themedHeaderTextColor">@color/colorAccent_themeDark</item>
-        <item name="themedAboutTextColor">@color/black</item>
 
         <item name="chartTheme">white</item>
     </style>
@@ -124,7 +120,6 @@
 
         <item name="themedDrawerBackground">?android:colorBackground</item>
         <item name="themedHeaderTextColor">@color/colorAccent_themeDark</item>
-        <item name="themedAboutTextColor">@color/light</item>
 
         <item name="about_libraries_window_background">
             @color/about_libraries_window_background_dark

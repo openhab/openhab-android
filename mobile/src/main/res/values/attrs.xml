@@ -25,6 +25,5 @@
 
     <attr name="themedDrawerBackground" format="reference|color" />
     <attr name="themedHeaderTextColor" format="reference|color" />
-    <attr name="themedAboutTextColor" format="reference|color" />
 
 </resources>
