@@ -33,6 +33,8 @@ public class GcmIntentService extends IntentService {
     private static final String TAG = GcmIntentService.class.getSimpleName();
 
     public static final String EXTRA_MSG = "message";
+    public static final String EXTRA_TIMESTAMP = "timestamp";
+    public static final String EXTRA_GCM_TIMESTAMP = "google.sent_time";
     public static final String EXTRA_NOTIFICATION_ID = "notificationId";
     public static final String ACTION_NOTIFICATION_SELECTED = "org.openhab.notification.selected";
     public static final String ACTION_NOTIFICATION_DELETED = "org.openhab.notification.deleted";
@@ -66,14 +68,14 @@ public class GcmIntentService extends IntentService {
                 if ("notification".equals(intent.getExtras().getString("type"))) {
                     //we use local time as fallback
                     long timestamp = System.currentTimeMillis();
-                    if(intent.getExtras().containsKey("timestamp")){
+                    if(intent.getExtras().containsKey(EXTRA_TIMESTAMP)){
                         //in case timestamp is passed by cloud service in later versions
-                        timestamp = intent.getExtras().getLong("timestamp");
-                    }else if(intent.getExtras().containsKey("google.sent_time")){
+                        timestamp = intent.getExtras().getLong(EXTRA_TIMESTAMP);
+                    }else if(intent.getExtras().containsKey(EXTRA_GCM_TIMESTAMP)){
                         //use google.sent_time for now as it is the only source
                         //of the event time available right now
                         //(or rather the time cloud service forwareded it to gcm)
-                        timestamp = intent.getExtras().getLong("google.sent_time");
+                        timestamp = intent.getExtras().getLong(EXTRA_GCM_TIMESTAMP);
                     }
 
                     sendNotification(intent.getExtras().getString(EXTRA_MSG), timestamp, notificationId);
