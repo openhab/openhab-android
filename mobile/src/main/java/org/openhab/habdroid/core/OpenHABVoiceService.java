@@ -26,14 +26,11 @@ import org.openhab.habdroid.R;
 import org.openhab.habdroid.util.Constants;
 import org.openhab.habdroid.util.ContinuingIntentService;
 import org.openhab.habdroid.util.MyAsyncHttpClient;
-import org.openhab.habdroid.util.MyHttpClient;
+import org.openhab.habdroid.util.Util;
 
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
-
-import okhttp3.Call;
-import okhttp3.Headers;
 
 /**
  * This service handles voice commands and sends them to OpenHAB.
@@ -201,18 +198,8 @@ public class OpenHABVoiceService extends ContinuingIntentService implements Open
         new Handler(Looper.getMainLooper()).post(new Runnable() {
             @Override
             public void run() {
-                mAsyncHttpClient.post(mOpenHABBaseUrl + "rest/items/" + itemName,
-                        command, "text/plain;charset=UTF-8", new MyHttpClient.ResponseHandler() {
-                            @Override
-                            public void onSuccess(Call call, int statusCode, Headers headers, byte[] responseBody) {
-                                Log.d(TAG, "Command was sent successfully");
-                            }
-
-                            @Override
-                            public void onFailure(Call call, int statusCode, Headers headers, byte[] responseBody, Throwable error) {
-                                Log.e(TAG, "Got command error " + statusCode, error);
-                            }
-                        });
+                String url = mOpenHABBaseUrl + "rest/items/" + itemName;
+                Util.sendItemCommand(mAsyncHttpClient, url, command);
             }
         });
     }

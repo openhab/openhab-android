@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingLeft="@dimen/widgetlist_item_left_margin"
     android:paddingRight="@dimen/widgetlist_item_right_margin"
@@ -9,22 +9,11 @@
     android:paddingEnd="@dimen/widgetlist_item_right_margin">
 
     <ImageView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
         android:id="@+id/mjpegimage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:adjustViewBounds="true"
-        android:layout_margin="5dip"
+        android:layout_margin="4dip"
         android:contentDescription="@string/content_description_video" />
 
-    <LinearLayout
-        android:id="@+id/listdivider"
-        android:layout_width="fill_parent"
-        android:layout_height="1dip"
-        android:background="?android:attr/listDivider"
-        android:orientation="horizontal"
-        android:layout_below="@+id/imageimage"
-        android:layout_marginLeft="@dimen/widgetlist_divider_left_margin"
-        android:layout_marginRight="@dimen/widgetlist_divider_right_margin"
-        android:layout_marginStart="@dimen/widgetlist_divider_left_margin"
-        android:layout_marginEnd="@dimen/widgetlist_divider_right_margin" />
-</RelativeLayout>
+</FrameLayout>

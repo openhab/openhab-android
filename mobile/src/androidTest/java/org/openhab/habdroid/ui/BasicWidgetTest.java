@@ -1,15 +1,21 @@
 package org.openhab.habdroid.ui;
 
 
-import android.support.constraint.ConstraintLayout;
+import android.support.annotation.IdRes;
 import android.support.test.espresso.DataInteraction;
+import android.support.test.espresso.UiController;
+import android.support.test.espresso.ViewAction;
 import android.support.test.espresso.ViewInteraction;
+import android.support.test.espresso.contrib.RecyclerViewActions;
+import android.support.test.espresso.matcher.BoundedMatcher;
 import android.support.test.runner.AndroidJUnit4;
+import android.support.v7.widget.RecyclerView;
 import android.test.suitebuilder.annotation.LargeTest;
 import android.view.View;
 
-import org.hamcrest.Matchers;
-import org.hamcrest.core.IsInstanceOf;
+import org.hamcrest.Description;
+import org.hamcrest.Matcher;
+import org.hamcrest.TypeSafeMatcher;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openhab.habdroid.R;
@@ -19,17 +25,12 @@ import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
-import static android.support.test.espresso.matcher.ViewMatchers.hasSibling;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static android.support.test.espresso.matcher.ViewMatchers.withChild;
 import static android.support.test.espresso.matcher.ViewMatchers.withClassName;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static android.support.test.espresso.matcher.ViewMatchers.withResourceName;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static org.hamcrest.CoreMatchers.allOf;
 import static org.hamcrest.Matchers.anything;
 import static org.hamcrest.Matchers.is;
-import static org.openhab.habdroid.TestUtils.childAtPosition;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
@@ -37,49 +38,38 @@ public class BasicWidgetTest extends TestWithoutIntro {
 
     @Test
     public void openHABMainActivityTest() throws InterruptedException {
-        ViewInteraction firstfloor = onView(
-                allOf(withId(R.id.widgetlabel), withText("First Floor"),
-                        childAtPosition(
-                                withId(R.id.groupleftlayout), 1),
-                        isDisplayed()));
-        firstfloor.check(matches(withText("First Floor")));
+        ViewInteraction firstRecyclerView = onView(withId(R.id.recyclerview));
+        firstRecyclerView
+                .perform(RecyclerViewActions.scrollToPosition(0))
+                .check(matches(atPositionOnView(0, isDisplayed(), R.id.widgetlabel)))
+                .check(matches(atPositionOnView(0, withText("First Floor"), R.id.widgetlabel)));
 
-        ViewInteraction astro = onView(
-                allOf(withId(R.id.widgetlabel), withText("Astronomical Data"),
-                        childAtPosition(
-                                allOf(withId(R.id.textleftlayout),
-                                        childAtPosition(
-                                                IsInstanceOf.<View>instanceOf(ConstraintLayout.class),
-                                                0)),
-                                1),
-                        isDisplayed()));
-        astro.check(matches(withText("Astronomical Data")));
+        firstRecyclerView
+                .perform(RecyclerViewActions.scrollToPosition(6))
+                .check(matches(atPositionOnView(6, isDisplayed(), R.id.widgetlabel)))
+                .check(matches(atPositionOnView(6, withText("Astronomical Data"), R.id.widgetlabel)));
 
         // does it show "garden"?
-        ViewInteraction garden = onView(
-                allOf(withId(R.id.widgetlabel), withText("Garden"),
-                        childAtPosition(
-                                allOf(withId(R.id.groupleftlayout),
-                                        childAtPosition(
-                                                IsInstanceOf.<View>instanceOf(android.widget.RelativeLayout.class),
-                                                0)),
-                                1),
-                        isDisplayed()));
-        garden.check(matches(withText("Garden")));
+        firstRecyclerView
+                .perform(RecyclerViewActions.scrollToPosition(3))
+                .check(matches(atPositionOnView(3, isDisplayed(), R.id.widgetlabel)))
+                .check(matches(atPositionOnView(3, withText("Garden"), R.id.widgetlabel)));
 
+        // open widget overview
+        firstRecyclerView
+                .perform(RecyclerViewActions.actionOnItemAtPosition(10, click()));
 
-        DataInteraction relativeLayout = onData(anything())
-                .inAdapterView(withId(android.R.id.list))
-                .atPosition(10);
-        relativeLayout.perform(click());
+        // FIXME: is there a more elegant way to wait for the new fragment?
+        Thread.sleep(1000);
 
-        ViewInteraction appCompatSpinner = onView(Matchers.allOf(withId(R.id.selectionspinner),
-                        isDisplayed()));
-        appCompatSpinner.perform(click());
+        // check whether selection widget appears and click on it
+        ViewInteraction secondRecyclerView = onView(withIndex(withId(R.id.recyclerview), 1));
 
-        ViewInteraction textView3 = onView(
-                Matchers.allOf(IsInstanceOf.<View>instanceOf(android.widget.TextView.class), withText("Scene Selection"), isDisplayed()));
-        textView3.check(matches(withText("Scene Selection")));
+        secondRecyclerView
+                .perform(RecyclerViewActions.scrollToPosition(4))
+                .check(matches(atPositionOnView(4, withText("Scene Selection"), R.id.widgetlabel)))
+                .check(matches(atPositionOnView(4, isDisplayed(), R.id.selectionspinner)))
+                .perform(RecyclerViewActions.actionOnItemAtPosition(4, onChildView(click(), R.id.selectionspinner)));
 
         DataInteraction appCompatCheckedTextView = onData(anything())
                 .inAdapterView(withClassName(
@@ -88,30 +78,89 @@ public class BasicWidgetTest extends TestWithoutIntro {
         appCompatCheckedTextView.check(matches(withText("off")));
         appCompatCheckedTextView.perform(click());
 
-        ViewInteraction switch_ = onView(
-                Matchers.allOf(withId(R.id.switchswitch), isDisplayed()));
-        switch_.check(matches(isDisplayed()));
+        // check whether scene radio button group is present
+        secondRecyclerView
+                .perform(RecyclerViewActions.scrollToPosition(5))
+                .check(matches(atPositionOnView(5, isDisplayed(), R.id.sectionswitchradiogroup)));
 
-        ViewInteraction seekBar = onView(
-                Matchers.allOf(withId(R.id.sliderseekbar),
-                        hasSibling(
-                                allOf(
-                                        withResourceName("sliderleftlayout"),
-                                        withChild(
-                                                allOf(withId(R.id.widgetlabel), withText("Dimmer "))
-                                        )
-                                )
-                        ),
-                        isDisplayed()));
-        seekBar.check(matches(isDisplayed()));
+        // check whether switch is displayed
+        secondRecyclerView
+                .perform(RecyclerViewActions.scrollToPosition(1))
+                .check(matches(atPositionOnView(1, isDisplayed(), R.id.switchswitch)));
 
+        // check whether slider is displayed
+        secondRecyclerView
+                .perform(RecyclerViewActions.scrollToPosition(8))
+                .check(matches(atPositionOnView(8, isDisplayed(), R.id.sliderseekbar)));
 
-        ViewInteraction imageButton = onView(
-                Matchers.allOf(withId(R.id.colorbutton_color), isDisplayed()));
-        imageButton.check(matches(isDisplayed()));
+        // check whether color control button is displayed
+        secondRecyclerView
+                .perform(RecyclerViewActions.scrollToPosition(9))
+                .check(matches(atPositionOnView(9, isDisplayed(), R.id.colorbutton_color)));
 
-        ViewInteraction imageButton2 = onView(
-                Matchers.allOf(withId(R.id.rollershutterbutton_stop), isDisplayed()));
-        imageButton2.check(matches(isDisplayed()));
+        // check whether roller shutter button is displayed
+        secondRecyclerView
+                .perform(RecyclerViewActions.scrollToPosition(10))
+                .check(matches(atPositionOnView(10, isDisplayed(), R.id.rollershutterbutton_stop)));
+    }
+
+    public static Matcher<View> withIndex(final Matcher<View> matcher, final int index) {
+        return new TypeSafeMatcher<View>() {
+            int mCurrentIndex = 0;
+            View mMatchedView = null;
+
+            @Override
+            public void describeTo(Description description) {
+                description.appendText("with index: ");
+                description.appendValue(index);
+                description.appendText(" ");
+                matcher.describeTo(description);
+            }
+
+            @Override
+            public boolean matchesSafely(View view) {
+                if (mMatchedView == null && matcher.matches(view) && mCurrentIndex++ == index) {
+                    mMatchedView = view;
+                }
+                return view == mMatchedView;
+            }
+        };
+    }
+
+    private static Matcher<View> atPositionOnView(final int position,
+            final Matcher<View> itemMatcher, @IdRes final int targetViewId) {
+        return new BoundedMatcher<View, RecyclerView>(RecyclerView.class) {
+            @Override
+            public void describeTo(Description description) {
+                description.appendText("has view id " + itemMatcher + " at position " + position);
+            }
+
+            @Override
+            public boolean matchesSafely(final RecyclerView recyclerView) {
+                RecyclerView.ViewHolder viewHolder = recyclerView.findViewHolderForAdapterPosition(position);
+                View targetView = viewHolder.itemView.findViewById(targetViewId);
+                return itemMatcher.matches(targetView);
+            }
+        };
+    }
+
+    private static ViewAction onChildView(final ViewAction action, @IdRes final int targetViewId) {
+        return new ViewAction() {
+            @Override
+            public Matcher<View> getConstraints() {
+                return null;
+            }
+
+            @Override
+            public String getDescription() {
+                return null;
+            }
+
+            @Override
+            public void perform(UiController uiController, View view) {
+                View v = view.findViewById(targetViewId);
+                action.perform(uiController, v);
+            }
+        };
     }
 }
