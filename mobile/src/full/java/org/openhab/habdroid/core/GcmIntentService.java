@@ -68,10 +68,10 @@ public class GcmIntentService extends IntentService {
                 if ("notification".equals(intent.getExtras().getString("type"))) {
                     //we use local time as fallback
                     long timestamp = System.currentTimeMillis();
-                    if(intent.getExtras().containsKey(EXTRA_TIMESTAMP)){
+                    if (intent.getExtras().containsKey(EXTRA_TIMESTAMP)) {
                         //in case timestamp is passed by cloud service in later versions
                         timestamp = intent.getExtras().getLong(EXTRA_TIMESTAMP);
-                    }else if(intent.getExtras().containsKey(EXTRA_GCM_TIMESTAMP)){
+                    } else if(intent.getExtras().containsKey(EXTRA_GCM_TIMESTAMP)) {
                         //use google.sent_time for now as it is the only source
                         //of the event time available right now
                         //(or rather the time cloud service forwareded it to gcm)
