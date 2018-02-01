@@ -80,6 +80,8 @@
   <string name="theme_name_black">Noir/AMOLED</string>
   <string name="theme_name_basic_ui_dark">Basic UI sombre</string>
   <!-- NFC toggle -->
+  <string name="nfc_action_down">Descendre</string>
+  <string name="nfc_action_to_sitemap_page">Aller à la page du Sitemap</string>
   <!-- Drawer -->
   <string name="drawer_open">Menu sitemap ouvert</string>
   <string name="drawer_close">Menu sitemap fermé</string>
@@ -100,4 +102,11 @@
   <string name="intro_themes">Thêmes</string>
   <string name="intro_themes_description">Choisir parmi ces thêmes</string>
   <!-- Content description for images -->
+  <string name="content_description_close_roller_shutter">Fermer le volet</string>
+  <string name="content_description_open_color_wheel">Ouvrir le contrôle de couleur</string>
+  <string name="content_description_color_up">Marche ou maintenir pour augmenter la luminosité</string>
+  <string name="content_description_color_down">Arrêt ou maintenir pour diminuer la luminosité</string>
+  <string name="content_description_open_number_picker">Ouvrir le sélecteur numérique</string>
+  <string name="swipe_to_refresh_description">L\'actualisation se fait automatiquement, vous n\'avez normalement rien à faire</string>
+  <string name="swipe_to_refresh_dismiss">Compris !</string>
 </resources>
