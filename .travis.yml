@@ -70,15 +70,15 @@ before_deploy:
 - jarsigner -verify mobile-full-release-unsigned.apk
 - jarsigner -verify mobile-foss-release-unsigned.apk
 # Zipalign apks
-- ${ANDROID_HOME}/build-tools/25.0.2/zipalign -v 4 mobile-full-release-unsigned.apk mobile-full-release.apk
-- ${ANDROID_HOME}/build-tools/25.0.2/zipalign -v 4 mobile-foss-release-unsigned.apk mobile-foss-release.apk
+- ${ANDROID_HOME}/build-tools/25.0.2/zipalign -v 4 mobile-full-release-unsigned.apk openhab-android.apk
+- ${ANDROID_HOME}/build-tools/25.0.2/zipalign -v 4 mobile-foss-release-unsigned.apk openhab-android-foss.apk
 
 deploy:
   provider: releases
   prerelease: true
   file:
-    - mobile-full-release.apk
-    - mobile-foss-release.apk
+    - openhab-android.apk
+    - openhab-android-foss.apk
   skip_cleanup: true
   overwrite: true
   on:
