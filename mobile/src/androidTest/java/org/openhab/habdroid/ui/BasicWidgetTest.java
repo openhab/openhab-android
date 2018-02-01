@@ -38,34 +38,33 @@ public class BasicWidgetTest extends TestWithoutIntro {
 
     @Test
     public void openHABMainActivityTest() throws InterruptedException {
-        ViewInteraction firstRecyclerView = onView(withId(R.id.recyclerview));
-        firstRecyclerView
+        ViewInteraction recyclerView = onView(withId(R.id.recyclerview));
+
+        recyclerView
                 .perform(RecyclerViewActions.scrollToPosition(0))
                 .check(matches(atPositionOnView(0, isDisplayed(), R.id.widgetlabel)))
                 .check(matches(atPositionOnView(0, withText("First Floor"), R.id.widgetlabel)));
 
-        firstRecyclerView
+        recyclerView
                 .perform(RecyclerViewActions.scrollToPosition(6))
                 .check(matches(atPositionOnView(6, isDisplayed(), R.id.widgetlabel)))
                 .check(matches(atPositionOnView(6, withText("Astronomical Data"), R.id.widgetlabel)));
 
         // does it show "garden"?
-        firstRecyclerView
+        recyclerView
                 .perform(RecyclerViewActions.scrollToPosition(3))
                 .check(matches(atPositionOnView(3, isDisplayed(), R.id.widgetlabel)))
                 .check(matches(atPositionOnView(3, withText("Garden"), R.id.widgetlabel)));
 
         // open widget overview
-        firstRecyclerView
+        recyclerView
                 .perform(RecyclerViewActions.actionOnItemAtPosition(10, click()));
 
         // FIXME: is there a more elegant way to wait for the new fragment?
         Thread.sleep(1000);
 
         // check whether selection widget appears and click on it
-        ViewInteraction secondRecyclerView = onView(withIndex(withId(R.id.recyclerview), 1));
-
-        secondRecyclerView
+        recyclerView
                 .perform(RecyclerViewActions.scrollToPosition(4))
                 .check(matches(atPositionOnView(4, withText("Scene Selection"), R.id.widgetlabel)))
                 .check(matches(atPositionOnView(4, isDisplayed(), R.id.selectionspinner)))
@@ -79,52 +78,29 @@ public class BasicWidgetTest extends TestWithoutIntro {
         appCompatCheckedTextView.perform(click());
 
         // check whether scene radio button group is present
-        secondRecyclerView
+        recyclerView
                 .perform(RecyclerViewActions.scrollToPosition(5))
                 .check(matches(atPositionOnView(5, isDisplayed(), R.id.sectionswitchradiogroup)));
 
         // check whether switch is displayed
-        secondRecyclerView
+        recyclerView
                 .perform(RecyclerViewActions.scrollToPosition(1))
                 .check(matches(atPositionOnView(1, isDisplayed(), R.id.switchswitch)));
 
         // check whether slider is displayed
-        secondRecyclerView
+        recyclerView
                 .perform(RecyclerViewActions.scrollToPosition(8))
                 .check(matches(atPositionOnView(8, isDisplayed(), R.id.sliderseekbar)));
 
         // check whether color control button is displayed
-        secondRecyclerView
+        recyclerView
                 .perform(RecyclerViewActions.scrollToPosition(9))
                 .check(matches(atPositionOnView(9, isDisplayed(), R.id.colorbutton_color)));
 
         // check whether roller shutter button is displayed
-        secondRecyclerView
+        recyclerView
                 .perform(RecyclerViewActions.scrollToPosition(10))
                 .check(matches(atPositionOnView(10, isDisplayed(), R.id.rollershutterbutton_stop)));
-    }
-
-    public static Matcher<View> withIndex(final Matcher<View> matcher, final int index) {
-        return new TypeSafeMatcher<View>() {
-            int mCurrentIndex = 0;
-            View mMatchedView = null;
-
-            @Override
-            public void describeTo(Description description) {
-                description.appendText("with index: ");
-                description.appendValue(index);
-                description.appendText(" ");
-                matcher.describeTo(description);
-            }
-
-            @Override
-            public boolean matchesSafely(View view) {
-                if (mMatchedView == null && matcher.matches(view) && mCurrentIndex++ == index) {
-                    mMatchedView = view;
-                }
-                return view == mMatchedView;
-            }
-        };
     }
 
     private static Matcher<View> atPositionOnView(final int position,
