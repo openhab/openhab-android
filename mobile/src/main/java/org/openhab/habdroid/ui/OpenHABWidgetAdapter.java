@@ -16,7 +16,6 @@ import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Point;
 import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.support.annotation.ColorInt;
@@ -541,26 +540,20 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
 
     public static class ImageViewHolder extends ViewHolder {
         private final MySmartImageView mImageView;
-        private final Point mScreenSize = new Point();
+        private final View mParentView;
         private int mRefreshRate;
 
         ImageViewHolder(LayoutInflater inflater, ViewGroup parent,
                 MyAsyncHttpClient httpClient, ConnectionInfo connection) {
             super(inflater, parent, R.layout.openhabwidgetlist_imageitem, httpClient, connection);
             mImageView = itemView.findViewById(R.id.imageimage);
-
-            WindowManager wm = (WindowManager) parent.getContext().getSystemService(Context.WINDOW_SERVICE);
-            wm.getDefaultDisplay().getSize(mScreenSize);
+            mParentView = parent;
         }
 
         @Override
         public void bind(OpenHABWidget widget) {
-            View parent = (View) itemView.getParent();
             // We scale the image at max 90% of the available height
-            int parentWidth = parent != null ? parent.getWidth() : 0;
-            int parentHeight = parent != null ? parent.getHeight() : 0;
-            mImageView.setMaxSize(parentWidth > 0 ? parentWidth : mScreenSize.x,
-                    (parentHeight > 0 ? parentHeight : mScreenSize.y) * 90 / 100);
+            mImageView.setMaxSize(mParentView.getWidth(), mParentView.getHeight() * 90 / 100);
 
             OpenHABItem item = widget.getItem();
             final String state = item != null ? item.getState() : null;
@@ -871,32 +864,32 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
 
     public static class ChartViewHolder extends ViewHolder {
         private final MySmartImageView mImageView;
-        private final DisplayMetrics mMetrics = new DisplayMetrics();
+        private final View mParentView;
         private final String mChartTheme;
         private final Random mRandom = new Random();
         private int mRefreshRate = 0;
+        private int mDensity;
 
         ChartViewHolder(LayoutInflater inflater, ViewGroup parent, String theme,
                 MyAsyncHttpClient httpClient, ConnectionInfo connection) {
             super(inflater, parent, R.layout.openhabwidgetlist_chartitem, httpClient, connection);
             mImageView = itemView.findViewById(R.id.chartimage);
+            mParentView = parent;
 
             WindowManager wm = (WindowManager) itemView.getContext().getSystemService(Context.WINDOW_SERVICE);
-            wm.getDefaultDisplay().getMetrics(mMetrics);
+            DisplayMetrics metrics = new DisplayMetrics();
+            wm.getDefaultDisplay().getMetrics(metrics);
 
+            mDensity = metrics.densityDpi;
             mChartTheme = theme;
         }
 
         @Override
         public void bind(OpenHABWidget widget) {
-            View parent = (View) itemView.getParent();
             OpenHABItem item = widget.getItem();
 
             if (item != null) {
                 StringBuilder chartUrl = new StringBuilder(mConnectionInfo.baseUrl);
-                int parentWidth = parent != null && parent.getWidth() > 0
-                        ? parent.getWidth() : mMetrics.widthPixels;
-                Log.d(TAG, "Chart width = " + parentWidth + " - screen width " + mMetrics.widthPixels);
 
                 if ("GroupItem".equals(item.getType()) || "Group".equals(item.getType())) {
                     chartUrl.append("chart?groups=").append(item.getName());
@@ -905,7 +898,7 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
                 }
                 chartUrl.append("&period=").append(widget.getPeriod())
                         .append("&random=").append(mRandom.nextInt())
-                        .append("&dpi=").append(mMetrics.densityDpi);
+                        .append("&dpi=").append(mDensity);
                 if (!TextUtils.isEmpty(widget.getService())) {
                     chartUrl.append("&service=").append(widget.getService());
                 }
@@ -915,15 +908,19 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
                 if (widget.getLegend() != null) {
                     chartUrl.append("&legend=").append(widget.getLegend());
                 }
-                Log.d(TAG, "Chart url = " + chartUrl);
 
                 // TODO: This is quite dirty fix to make charts look full screen width on all displays
-                ViewGroup.LayoutParams chartLayoutParams = mImageView.getLayoutParams();
-                chartLayoutParams.height = (int) (parentWidth / 2);
-                mImageView.setLayoutParams(chartLayoutParams);
+                int parentWidth = mParentView.getWidth();
+                if (parentWidth > 0) {
+                    ViewGroup.LayoutParams chartLayoutParams = mImageView.getLayoutParams();
+                    chartLayoutParams.height = parentWidth / 2;
+                    mImageView.setLayoutParams(chartLayoutParams);
 
-                chartUrl.append("&w=").append(parentWidth);
-                chartUrl.append("&h=").append(parentWidth / 2);
+                    chartUrl.append("&w=").append(parentWidth);
+                    chartUrl.append("&h=").append(parentWidth / 2);
+                }
+
+                Log.d(TAG, "Chart url = " + chartUrl);
 
                 mImageView.setImageUrl(chartUrl.toString(), mConnectionInfo.userName,
                         mConnectionInfo.password, false);
@@ -952,20 +949,13 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
 
     public static class VideoViewHolder extends ViewHolder {
         private final VideoView mVideoView;
+        private final View mParentView;
 
         VideoViewHolder(LayoutInflater inflater, ViewGroup parent,
                 MyAsyncHttpClient httpClient, ConnectionInfo connection) {
             super(inflater, parent, R.layout.openhabwidgetlist_videoitem, httpClient, connection);
             mVideoView = itemView.findViewById(R.id.videovideo);
-
-            WindowManager wm = (WindowManager) itemView.getContext().getSystemService(Context.WINDOW_SERVICE);
-            Point screenSize = new Point();
-            wm.getDefaultDisplay().getSize(screenSize);
-
-            // TODO: This is quite dirty fix to make video look maximum available size on all screens
-            ViewGroup.LayoutParams videoLayoutParams = mVideoView.getLayoutParams();
-            videoLayoutParams.height = (int) (screenSize.x / 1.77);
-            mVideoView.setLayoutParams(videoLayoutParams);
+            mParentView = parent;
         }
 
         @Override
@@ -983,6 +973,14 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
                 }
                 Log.d(TAG, "Opening video at " + videoUrl);
                 mVideoView.setVideoURI(Uri.parse(videoUrl));
+            }
+
+            // TODO: This is quite dirty fix to make video look maximum available size on all screens
+            int parentWidth = mParentView.getWidth();
+            if (parentWidth > 0) {
+                ViewGroup.LayoutParams videoLayoutParams = mVideoView.getLayoutParams();
+                videoLayoutParams.height = (int) (parentWidth / 1.77);
+                mVideoView.setLayoutParams(videoLayoutParams);
             }
         }
 
