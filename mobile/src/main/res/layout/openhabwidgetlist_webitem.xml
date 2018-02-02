@@ -1,18 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<WebView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/webweb"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:adjustViewBounds="true"
+    android:layout_margin="4dp"
     android:paddingLeft="@dimen/widgetlist_item_left_margin"
     android:paddingRight="@dimen/widgetlist_item_right_margin"
-    android:background="?android:activatedBackgroundIndicator"
     android:paddingStart="@dimen/widgetlist_item_left_margin"
-    android:paddingEnd="@dimen/widgetlist_item_right_margin">
-
-    <WebView
-        android:id="@+id/webweb"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="4dip" />
-
-</FrameLayout>
+    android:paddingEnd="@dimen/widgetlist_item_right_margin" />

@@ -13,6 +13,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.ColorStateList;
+import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -909,13 +910,8 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
                     chartUrl.append("&legend=").append(widget.getLegend());
                 }
 
-                // TODO: This is quite dirty fix to make charts look full screen width on all displays
                 int parentWidth = mParentView.getWidth();
                 if (parentWidth > 0) {
-                    ViewGroup.LayoutParams chartLayoutParams = mImageView.getLayoutParams();
-                    chartLayoutParams.height = parentWidth / 2;
-                    mImageView.setLayoutParams(chartLayoutParams);
-
                     chartUrl.append("&w=").append(parentWidth);
                     chartUrl.append("&h=").append(parentWidth / 2);
                 }
@@ -949,13 +945,11 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
 
     public static class VideoViewHolder extends ViewHolder {
         private final VideoView mVideoView;
-        private final View mParentView;
 
         VideoViewHolder(LayoutInflater inflater, ViewGroup parent,
                 MyAsyncHttpClient httpClient, ConnectionInfo connection) {
             super(inflater, parent, R.layout.openhabwidgetlist_videoitem, httpClient, connection);
             mVideoView = itemView.findViewById(R.id.videovideo);
-            mParentView = parent;
         }
 
         @Override
@@ -974,14 +968,6 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
                 Log.d(TAG, "Opening video at " + videoUrl);
                 mVideoView.setVideoURI(Uri.parse(videoUrl));
             }
-
-            // TODO: This is quite dirty fix to make video look maximum available size on all screens
-            int parentWidth = mParentView.getWidth();
-            if (parentWidth > 0) {
-                ViewGroup.LayoutParams videoLayoutParams = mVideoView.getLayoutParams();
-                videoLayoutParams.height = (int) (parentWidth / 1.77);
-                mVideoView.setLayoutParams(videoLayoutParams);
-            }
         }
 
         @Override
@@ -997,20 +983,27 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
 
     public static class WebViewHolder extends ViewHolder {
         private final WebView mWebView;
+        private final int mRowHeightPixels;
 
         WebViewHolder(LayoutInflater inflater, ViewGroup parent,
                 MyAsyncHttpClient httpClient, ConnectionInfo connection) {
             super(inflater, parent, R.layout.openhabwidgetlist_webitem, httpClient, connection);
             mWebView = itemView.findViewById(R.id.webweb);
+
+            final Resources res = itemView.getContext().getResources();
+            mRowHeightPixels = res.getDimensionPixelSize(R.dimen.webview_row_height);
         }
 
         @Override
         public void bind(OpenHABWidget widget) {
-            if (widget.getHeight() > 0) {
-                ViewGroup.LayoutParams webLayoutParams = mWebView.getLayoutParams();
-                webLayoutParams.height = widget.getHeight() * 80;
-                mWebView.setLayoutParams(webLayoutParams);
+            ViewGroup.LayoutParams lp = mWebView.getLayoutParams();
+            int desiredHeightPixels = widget.getHeight() > 0
+                    ? widget.getHeight() * mRowHeightPixels : ViewGroup.LayoutParams.WRAP_CONTENT;
+            if (lp.height != desiredHeightPixels) {
+                lp.height = desiredHeightPixels;
+                mWebView.setLayoutParams(lp);
             }
+
             mWebView.setWebViewClient(new AnchorWebViewClient(widget.getUrl(),
                     mConnectionInfo.userName, mConnectionInfo.password));
             mWebView.getSettings().setDomStorageEnabled(true);
