@@ -44,7 +44,9 @@ import org.openhab.habdroid.ui.OpenHABPreferencesActivity;
 import org.openhab.habdroid.ui.OpenHABWidgetListFragment;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.Stack;
 
 public abstract class FragmentController {
@@ -54,6 +56,7 @@ public abstract class FragmentController {
     protected OpenHABSitemap mCurrentSitemap;
     protected OpenHABWidgetListFragment mSitemapFragment;
     protected final Stack<Pair<OpenHABLinkedPage, OpenHABWidgetListFragment>> mPageStack = new Stack<>();
+    private Set<String> mPendingDataLoadUrls = new HashSet<>();
     private PageConnectionHolderFragment mConnectionFragment;
 
     protected FragmentController(OpenHABMainActivity activity) {
@@ -99,7 +102,9 @@ public abstract class FragmentController {
 
     public void openPage(OpenHABLinkedPage page, OpenHABWidgetListFragment source) {
         mPageStack.push(Pair.create(page, makePageFragment(page)));
-        updateFragmentState(FragmentUpdateReason.PAGE_ENTER);
+        mPendingDataLoadUrls.add(page.getLink());
+        // no fragment update yet; fragment state will be updated when data arrives
+        mActivity.setProgressIndicatorVisible(true);
         updateConnectionState();
     }
 
@@ -153,6 +158,11 @@ public abstract class FragmentController {
                     break;
                 }
             }
+        }
+        mPendingDataLoadUrls.remove(pageUrl);
+        if (mPendingDataLoadUrls.isEmpty()) {
+            mActivity.setProgressIndicatorVisible(false);
+            updateFragmentState(FragmentUpdateReason.PAGE_ENTER);
         }
     }
 

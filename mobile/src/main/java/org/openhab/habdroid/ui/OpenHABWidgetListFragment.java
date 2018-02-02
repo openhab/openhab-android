@@ -61,8 +61,7 @@ public class OpenHABWidgetListFragment extends Fragment
     // Am I visible?
     private boolean mIsVisible = false;
     private String mTitle;
-    private String mAtmosphereTrackingId;
-    // keeps track of current request to cancel it in onPause
+    private List<OpenHABWidget> mWidgets;
     private SwipeRefreshLayout refreshLayout;
 
     @Override
@@ -71,13 +70,15 @@ public class OpenHABWidgetListFragment extends Fragment
         Log.d(TAG, "isAdded = " + isAdded());
         super.onCreate(savedInstanceState);
 
-        if (getArguments() != null) {
-            displayPageUrl = getArguments().getString("displayPageUrl");
-            mTitle = getArguments().getString("title");
+        Bundle args = getArguments();
+        if (mTitle == null) {
+            if (savedInstanceState != null) {
+                mTitle = savedInstanceState.getString("title");
+            } else {
+                mTitle = args.getString("title");
+            }
         }
-        if (savedInstanceState != null) {
-            mTitle = savedInstanceState.getString("title");
-        }
+        displayPageUrl = args.getString("displayPageUrl");
     }
 
     @Override
@@ -103,34 +104,9 @@ public class OpenHABWidgetListFragment extends Fragment
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(openHABWidgetAdapter);
 
-
-        refreshLayout = getView().findViewById(R.id.swiperefresh);
-        if (refreshLayout == null) {
-            return;
+        if (mWidgets != null) {
+            update(mTitle, mWidgets);
         }
-
-        TypedValue typedValue = new TypedValue();
-        Resources.Theme theme = getActivity().getTheme();
-
-        theme.resolveAttribute(R.attr.colorPrimary, typedValue, true);
-        @ColorInt int colorPrimary = typedValue.data;
-
-        theme.resolveAttribute(R.attr.colorAccent, typedValue, true);
-        @ColorInt int colorAccent = typedValue.data;
-
-        refreshLayout.setColorSchemeColors(colorPrimary, colorAccent);
-        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                if (shouldShowSwipeToRefreshDescriptionSnackbar()) {
-                    showSwipeToRefreshDescriptionSnackbar();
-                }
-                if (displayPageUrl != null) {
-                    mActivity.triggerPageUpdate(displayPageUrl, true);
-                }
-            }
-        });
-
     }
 
     @Override
@@ -221,6 +197,29 @@ public class OpenHABWidgetListFragment extends Fragment
         Log.d(TAG, "isAdded = " + isAdded());
         super.onViewCreated(view, savedInstanceState);
         mRecyclerView = view.findViewById(R.id.recyclerview);
+        refreshLayout = getView().findViewById(R.id.swiperefresh);
+
+        TypedValue typedValue = new TypedValue();
+        Resources.Theme theme = getActivity().getTheme();
+
+        theme.resolveAttribute(R.attr.colorPrimary, typedValue, true);
+        @ColorInt int colorPrimary = typedValue.data;
+
+        theme.resolveAttribute(R.attr.colorAccent, typedValue, true);
+        @ColorInt int colorAccent = typedValue.data;
+
+        refreshLayout.setColorSchemeColors(colorPrimary, colorAccent);
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                if (shouldShowSwipeToRefreshDescriptionSnackbar()) {
+                    showSwipeToRefreshDescriptionSnackbar();
+                }
+                if (displayPageUrl != null) {
+                    mActivity.triggerPageUpdate(displayPageUrl, true);
+                }
+            }
+        });
     }
 
     @Override
@@ -233,7 +232,6 @@ public class OpenHABWidgetListFragment extends Fragment
     public void onStart() {
         Log.d(TAG, "onStart");
         super.onStart();
-        startProgressIndicator();
         mActivity.triggerPageUpdate(displayPageUrl, false);
     }
 
@@ -288,30 +286,16 @@ public class OpenHABWidgetListFragment extends Fragment
     }
 
     public void update(String pageTitle, List<OpenHABWidget> widgets) {
-        openHABWidgetAdapter.update(widgets);
-        setHighlightedPageLink(getArguments().getString("highlightedPageLink"));
         mTitle = pageTitle;
+        mWidgets = widgets;
+
+        if (openHABWidgetAdapter != null) {
+            openHABWidgetAdapter.update(widgets);
+            setHighlightedPageLink(getArguments().getString("highlightedPageLink"));
+            refreshLayout.setRefreshing(false);
+        }
         if (mActivity != null && mIsVisible) {
             mActivity.updateTitle();
-        }
-        stopProgressIndicator();
-    }
-
-    private void stopProgressIndicator() {
-        if (mActivity != null) {
-            Log.d(TAG, "Stop progress indicator");
-            mActivity.setProgressIndicatorVisible(false);
-        }
-        if (refreshLayout != null)
-            refreshLayout.setRefreshing(false);
-    }
-
-    private void startProgressIndicator() {
-        boolean swipeAlreadyLoading = refreshLayout != null && refreshLayout.isRefreshing();
-
-        if (mActivity != null && !swipeAlreadyLoading) {
-            Log.d(TAG, "Start progress indicator");
-            mActivity.setProgressIndicatorVisible(true);
         }
     }
 

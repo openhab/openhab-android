@@ -1028,7 +1028,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         return mMessageHandler;
     }
 
-    protected void setProgressIndicatorVisible(boolean visible) {
+    public void setProgressIndicatorVisible(boolean visible) {
         if (mProgressBar != null) {
             mProgressBar.setVisibility(visible ? View.VISIBLE : View.INVISIBLE);
         }
