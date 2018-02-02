@@ -279,6 +279,7 @@ public class OpenHABWidgetListFragment extends Fragment
                 OpenHABLinkedPage page = openHABWidgetAdapter.getItem(i).getLinkedPage();
                 if (page != null && highlightedPageLink.equals(page.getLink())) {
                     openHABWidgetAdapter.setSelectedPosition(i);
+                    mLayoutManager.scrollToPosition(i);
                     break;
                 }
             }
