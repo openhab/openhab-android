@@ -12,6 +12,7 @@ package org.openhab.habdroid.ui;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -337,7 +338,16 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         public void stop() {}
 
         protected static void updateTextViewColor(TextView view, Integer color) {
-            view.setTextColor(color != null ? color : view.getTextColors().getDefaultColor());
+            ColorStateList origColor = (ColorStateList) view.getTag(R.id.originalColor);
+            if (color != null) {
+                if (origColor == null) {
+                    view.setTag(R.id.originalColor, view.getTextColors());
+                }
+                view.setTextColor(color);
+            } else if (origColor != null) {
+                view.setTextColor(origColor);
+                view.setTag(R.id.originalColor, null);
+            }
         }
 
         protected void updateIcon(MySmartImageView iconView, OpenHABWidget widget) {
