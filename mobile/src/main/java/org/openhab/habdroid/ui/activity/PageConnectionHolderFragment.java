@@ -42,6 +42,7 @@ public class PageConnectionHolderFragment extends Fragment {
 
     private Map<String, ConnectionHandler> mConnections = new HashMap<>();
     private ParentCallback mCallback;
+    private boolean mStarted;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -50,18 +51,37 @@ public class PageConnectionHolderFragment extends Fragment {
     }
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        mCallback = (ParentCallback) context;
+    public void onStart() {
+        super.onStart();
+        if (!mStarted) {
+            for (ConnectionHandler handler : mConnections.values()) {
+                handler.load();
+            }
+            mStarted = true;
+        }
     }
 
     @Override
-    public void onDetach() {
-        super.onDetach();
-        for (ConnectionHandler handler : mConnections.values()) {
-            handler.cancel();
+    public void onStop() {
+        super.onStop();
+        // If the activity is only changing configuration (e.g. orientation or locale)
+        // we know it'll be immediately recreated, thus there's no point in shutting down
+        // the connections in that case
+        if (!getActivity().isChangingConfigurations()) {
+            for (ConnectionHandler handler : mConnections.values()) {
+                handler.cancel();
+            }
+            mStarted = false;
         }
-        mConnections.clear();
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mCallback = (ParentCallback) context;
+        for (ConnectionHandler handler : mConnections.values()) {
+            handler.mCallback = mCallback;
+        }
     }
 
     public void updateActiveConnections(List<String> urls) {
@@ -82,6 +102,9 @@ public class PageConnectionHolderFragment extends Fragment {
                         prefs.getBoolean(Constants.PREFERENCE_SSLCERT, false));
                 ConnectionHandler handler = new ConnectionHandler(url, httpClient, mCallback);
                 mConnections.put(url, handler);
+                if (mStarted) {
+                    handler.load();
+                }
             }
         }
     }
@@ -96,7 +119,7 @@ public class PageConnectionHolderFragment extends Fragment {
     private static class ConnectionHandler implements MyHttpClient.ResponseHandler {
         private final String mUrl;
         private final MyAsyncHttpClient mHttpClient;
-        private final ParentCallback mCallback;
+        private ParentCallback mCallback;
         private Call mRequestHandle;
         private boolean mLongPolling;
         private String mAtmosphereTrackingId;
@@ -107,7 +130,6 @@ public class PageConnectionHolderFragment extends Fragment {
             mUrl = pageUrl;
             mHttpClient = httpClient;
             mCallback = cb;
-            load();
         }
 
         public void cancel() {
@@ -115,6 +137,7 @@ public class PageConnectionHolderFragment extends Fragment {
                 mRequestHandle.cancel();
                 mRequestHandle = null;
             }
+            mLongPolling = false;
         }
 
         public void triggerUpdate(boolean forceReload) {
@@ -127,8 +150,6 @@ public class PageConnectionHolderFragment extends Fragment {
         }
 
         private void load() {
-            cancel();
-
             Map<String, String> headers = new HashMap<String, String>();
             if (!mCallback.serverReturnsJson()) {
                 headers.put("Accept", "application/xml");
@@ -146,6 +167,9 @@ public class PageConnectionHolderFragment extends Fragment {
             headers.put("X-Atmosphere-tracking-id",
                     mAtmosphereTrackingId != null ? mAtmosphereTrackingId : "0");
 
+            if (mRequestHandle != null) {
+                mRequestHandle.cancel();
+            }
             mRequestHandle = mHttpClient.get(mUrl, headers, this);
         }
 
