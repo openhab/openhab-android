@@ -74,21 +74,33 @@ public abstract class FragmentController {
         ArrayList<OpenHABLinkedPage> pages = new ArrayList<>();
         for (Pair<OpenHABLinkedPage, OpenHABWidgetListFragment> item : mPageStack) {
             pages.add(item.first);
+            if (item.second.isAdded()) {
+                mFm.putFragment(state, "pageFragment-" + item.first.getLink(), item.second);
+            }
         }
         state.putParcelable("controllerSitemap", mCurrentSitemap);
+        if (mSitemapFragment != null && mSitemapFragment.isAdded()) {
+            mFm.putFragment(state, "sitemapFragment", mSitemapFragment);
+        }
         state.putParcelableArrayList("controllerPages", pages);
     }
 
     public void onRestoreInstanceState(Bundle state) {
         mCurrentSitemap = state.getParcelable("controllerSitemap");
         if (mCurrentSitemap != null) {
-            mSitemapFragment = makeSitemapFragment(mCurrentSitemap);
+            mSitemapFragment = (OpenHABWidgetListFragment)
+                    mFm.getFragment(state, "sitemapFragment");
+            if (mSitemapFragment == null) {
+                mSitemapFragment = makeSitemapFragment(mCurrentSitemap);
+            }
         }
 
         ArrayList<OpenHABLinkedPage> oldStack = state.getParcelableArrayList("controllerPages");
         mPageStack.clear();
         for (OpenHABLinkedPage page : oldStack) {
-            mPageStack.add(Pair.create(page, makePageFragment(page)));
+            OpenHABWidgetListFragment f = (OpenHABWidgetListFragment)
+                    mFm.getFragment(state, "pageFragment-" + page.getLink());
+            mPageStack.add(Pair.create(page, f != null ? f : makePageFragment(page)));
         }
     }
 
@@ -159,8 +171,7 @@ public abstract class FragmentController {
                 }
             }
         }
-        mPendingDataLoadUrls.remove(pageUrl);
-        if (mPendingDataLoadUrls.isEmpty()) {
+        if (mPendingDataLoadUrls.remove(pageUrl) && mPendingDataLoadUrls.isEmpty()) {
             mActivity.setProgressIndicatorVisible(false);
             updateFragmentState(FragmentUpdateReason.PAGE_ENTER);
         }
