@@ -103,6 +103,7 @@ public class OpenHABWidgetListFragment extends Fragment
     // keeps track of current request to cancel it in onPause
     private Call mRequestHandle;
     private SwipeRefreshLayout refreshLayout;
+    private Connection mConnection;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -117,6 +118,13 @@ public class OpenHABWidgetListFragment extends Fragment
         }
         if (savedInstanceState != null) {
             mTitle = savedInstanceState.getString("title");
+        }
+
+        if (getActivity() instanceof ConnectionAvailabilityAwareActivity) {
+            mConnection = ((ConnectionAvailabilityAwareActivity) getActivity())
+                    .getConnection(TYPE_ANY);
+        } else {
+            mConnection = ConnectionFactory.getConnection(TYPE_ANY);
         }
     }
 
@@ -134,7 +142,7 @@ public class OpenHABWidgetListFragment extends Fragment
                 .getDefaultSharedPreferences(mActivity);
 
         openHABWidgetAdapter = new OpenHABWidgetAdapter(getActivity(), this,
-                getResources().getInteger(R.integer.pager_columns) > 1);
+                getResources().getInteger(R.integer.pager_columns) > 1, mConnection);
 
         if (savedInstanceState != null) {
             openHABWidgetAdapter.setSelectedPosition(savedInstanceState.getInt("selection", -1));
@@ -341,19 +349,8 @@ public class OpenHABWidgetListFragment extends Fragment
         if (mActivity.getOpenHABVersion() == 1) {
             headers.put("Accept", "application/xml");
         }
-        Connection conn;
-        if (getContext() instanceof ConnectionAvailabilityAwareActivity) {
-            conn = ((ConnectionAvailabilityAwareActivity) getContext())
-                    .getConnection(TYPE_ANY);
-            // if no connection could be created, the ConnectionAvailabilityAwareActivity will
-            // handle that but returns null in this case
-            if (conn == null) {
-                return;
-            }
-        } else {
-            conn = ConnectionFactory.getConnection(TYPE_ANY);
-        }
-        MyAsyncHttpClient asyncHttpClient = conn.getAsyncHttpClient();
+
+        MyAsyncHttpClient asyncHttpClient = mConnection.getAsyncHttpClient();
         headers.put("X-Atmosphere-Framework", "1.0");
         if (longPolling) {
             asyncHttpClient.setTimeout(300000);
@@ -504,7 +501,7 @@ public class OpenHABWidgetListFragment extends Fragment
             // Found widget with id from nfc tag and it has an item
             if (nfcWidget != null && nfcItem != null) {
                 // TODO: Perform nfc widget action here
-                MyAsyncHttpClient client = ConnectionFactory.getConnection(TYPE_ANY).getAsyncHttpClient();
+                MyAsyncHttpClient client = mConnection.getAsyncHttpClient();
                 if (this.nfcCommand.equals("TOGGLE")) {
                     //RollerShutterItem changed to RollerShutter in later builds of OH2
                     if (nfcItem.getType().startsWith("Rollershutter")) {

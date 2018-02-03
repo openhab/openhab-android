@@ -590,6 +590,15 @@ public class OpenHABMainActivity extends ConnectionAvailabilityAwareActivity
         invalidateOptionsMenu();
     }
 
+    @Override
+    public void onConnectivityChanged() {
+        super.onConnectivityChanged();
+
+        setupDrawer();
+        setupPager();
+        selectSitemap();
+    }
+
     /**
      * Overriding onStop to enable Google Analytics stats collection
      */
@@ -633,7 +642,8 @@ public class OpenHABMainActivity extends ConnectionAvailabilityAwareActivity
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
 
         mDrawerItemList = new ArrayList<>();
-        mDrawerAdapter = new OpenHABDrawerAdapter(this, R.layout.openhabdrawer_sitemap_item, mDrawerItemList);
+        mDrawerAdapter = new OpenHABDrawerAdapter(this, R.layout.openhabdrawer_sitemap_item,
+                mDrawerItemList, getConnection(TYPE_ANY));
         drawerList.setAdapter(mDrawerAdapter);
         drawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

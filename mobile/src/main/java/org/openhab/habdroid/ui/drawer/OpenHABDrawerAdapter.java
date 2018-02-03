@@ -22,8 +22,6 @@ import android.widget.TextView;
 
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.core.connection.Connection;
-import org.openhab.habdroid.core.connection.ConnectionAvailabilityAwareActivity;
-import org.openhab.habdroid.core.connection.ConnectionFactory;
 import org.openhab.habdroid.model.OpenHABSitemap;
 import org.openhab.habdroid.util.MySmartImageView;
 
@@ -39,9 +37,12 @@ public class OpenHABDrawerAdapter extends ArrayAdapter<OpenHABDrawerItem> {
     public static final int TYPES_COUNT = 5;
     private static final String TAG = OpenHABDrawerAdapter.class.getSimpleName();
 
+    private Connection connection;
+
     public OpenHABDrawerAdapter(Context context, int resource,
-                                List<OpenHABDrawerItem> objects) {
+                                List<OpenHABDrawerItem> objects, Connection conn) {
         super(context, resource, objects);
+        this.connection = conn;
     }
 
     @SuppressWarnings("deprecation")
@@ -89,13 +90,6 @@ public class OpenHABDrawerAdapter extends ArrayAdapter<OpenHABDrawerItem> {
         drawerItemCountLabelTextView = (TextView)drawerItemView.findViewById(R.id.itemcountlabel);
         drawerItemImage = (MySmartImageView)drawerItemView.findViewById(R.id.itemimage);
 
-        Connection conn;
-        if (getContext() instanceof ConnectionAvailabilityAwareActivity) {
-            conn = ((ConnectionAvailabilityAwareActivity) getContext())
-                    .getConnection(Connection.TYPE_ANY);
-        } else {
-            conn = ConnectionFactory.getConnection(Connection.TYPE_ANY);
-        }
         switch (this.getItemViewType(position)) {
             case TYPE_SITEMAPITEM:
                 OpenHABSitemap siteMap = drawerItem.getSiteMap();
@@ -105,8 +99,9 @@ public class OpenHABDrawerAdapter extends ArrayAdapter<OpenHABDrawerItem> {
                     drawerItemLabelTextView.setText(siteMap.getName());
                 }
                 if (siteMap.getIcon() != null && drawerItemImage != null) {
-                    String iconUrl = conn.getOpenHABUrl() + Uri.encode(siteMap.getIconPath(),"/?=");
-                    drawerItemImage.setImageUrl(iconUrl, conn.getUsername(), conn.getPassword(), R.mipmap.icon);
+                    String iconUrl = connection.getOpenHABUrl() + Uri.encode(siteMap.getIconPath(),
+                            "/?=");
+                    drawerItemImage.setImageUrl(iconUrl, connection.getUsername(), connection.getPassword(), R.mipmap.icon);
                 } else {
                     drawerItemImage.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.icon));
                 }

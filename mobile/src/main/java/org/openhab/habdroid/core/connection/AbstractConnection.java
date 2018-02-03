@@ -2,6 +2,7 @@ package org.openhab.habdroid.core.connection;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
@@ -13,6 +14,7 @@ import org.openhab.habdroid.util.MySyncHttpClient;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.URL;
+import java.util.concurrent.ExecutionException;
 
 public abstract class AbstractConnection implements Connection {
     private static final String TAG = AbstractConnection.class.getSimpleName();
@@ -99,22 +101,36 @@ public abstract class AbstractConnection implements Connection {
     @Override
     public boolean isReachable() {
         Log.d(TAG, "Checking reachability of " + getOpenHABUrl());
-
         try {
-            URL url = new URL(getOpenHABUrl());
-            int checkPort = url.getPort();
-            if (url.getProtocol().equals("http") && checkPort == -1)
-                checkPort = 80;
-            if (url.getProtocol().equals("https") && checkPort == -1)
-                checkPort = 443;
-            Socket s = new Socket();
-            s.connect(new InetSocketAddress(url.getHost(), checkPort), 1000);
-            Log.d(TAG, "Socket connected");
-            s.close();
-            return true;
-        } catch (Exception e) {
-            Log.e(TAG, "Error checking if URL is reachable", e);
+            return new AsyncTask<String, Void, Boolean>() {
+                @Override
+                protected Boolean doInBackground(String... strings) {
+                    try {
+                        URL url = new URL(strings[0]);
+                        int checkPort = url.getPort();
+                        if (url.getProtocol().equals("http") && checkPort == -1)
+                            checkPort = 80;
+                        if (url.getProtocol().equals("https") && checkPort == -1)
+                            checkPort = 443;
+                        Socket s = new Socket();
+                        s.connect(new InetSocketAddress(url.getHost(), checkPort), 1000);
+                        Log.d(TAG, "Socket connected");
+                        s.close();
+                        return true;
+                    } catch (Exception e) {
+                        Log.e(TAG, e.getMessage());
+                        return false;
+                    }
+                }
+            }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, getOpenHABUrl()).get();
+        } catch (InterruptedException e) {
+            Log.e(TAG, e.getMessage());
+            return false;
+        } catch (ExecutionException e) {
+            Log.e(TAG, e.getMessage());
             return false;
         }
     }
+
+
 }

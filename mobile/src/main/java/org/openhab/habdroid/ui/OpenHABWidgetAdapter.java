@@ -49,7 +49,6 @@ import com.loopj.android.image.SmartImage;
 
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.core.connection.Connection;
-import org.openhab.habdroid.core.connection.ConnectionFactory;
 import org.openhab.habdroid.model.OpenHABItem;
 import org.openhab.habdroid.model.OpenHABWidget;
 import org.openhab.habdroid.model.OpenHABWidgetMapping;
@@ -105,8 +104,10 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
     private String mChartTheme;
     private int mSelectedPosition = -1;
     private final boolean mSelectionEnabled;
+    private Connection mConnection;
 
-    public OpenHABWidgetAdapter(Context context, ItemClickListener itemClickListener, boolean selectionEnabled) {
+    public OpenHABWidgetAdapter(Context context, ItemClickListener itemClickListener, boolean
+            selectionEnabled, Connection conn) {
         super();
 
         mInflater = LayoutInflater.from(context);
@@ -119,6 +120,7 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         });
         mPrimaryForegroundColor = a.getColor(0, 0);
         mChartTheme = a.getString(1);
+        mConnection = conn;
 
         a.recycle();
     }
@@ -131,56 +133,55 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        final Connection conn = ConnectionFactory.getConnection(Connection.TYPE_ANY);
         final ViewHolder holder;
         switch (viewType) {
             case TYPE_GENERICITEM:
-                holder = new GenericViewHolder(mInflater, parent, conn);
+                holder = new GenericViewHolder(mInflater, parent, mConnection);
                 break;
             case TYPE_FRAME:
-                holder = new FrameViewHolder(mInflater, parent, conn);
+                holder = new FrameViewHolder(mInflater, parent, mConnection);
                 break;
             case TYPE_GROUP:
-                holder = new GroupViewHolder(mInflater, parent, conn);
+                holder = new GroupViewHolder(mInflater, parent, mConnection);
                 break;
             case TYPE_SWITCH:
-                holder = new SwitchViewHolder(mInflater, parent, conn);
+                holder = new SwitchViewHolder(mInflater, parent, mConnection);
                 break;
             case TYPE_TEXT:
-                holder = new TextViewHolder(mInflater, parent, conn);
+                holder = new TextViewHolder(mInflater, parent, mConnection);
                 break;
             case TYPE_SLIDER:
-                holder = new SliderViewHolder(mInflater, parent, conn);
+                holder = new SliderViewHolder(mInflater, parent, mConnection);
                 break;
             case TYPE_IMAGE:
-                holder = new ImageViewHolder(mInflater, parent, conn);
+                holder = new ImageViewHolder(mInflater, parent, mConnection);
                 break;
             case TYPE_SELECTION:
-                holder = new SelectionViewHolder(mInflater, parent, conn);
+                holder = new SelectionViewHolder(mInflater, parent, mConnection);
                 break;
             case TYPE_SECTIONSWITCH:
-                holder = new SectionSwitchViewHolder(mInflater, parent, conn);
+                holder = new SectionSwitchViewHolder(mInflater, parent, mConnection);
                 break;
             case TYPE_ROLLERSHUTTER:
-                holder = new RollerShutterViewHolder(mInflater, parent, conn);
+                holder = new RollerShutterViewHolder(mInflater, parent, mConnection);
                 break;
             case TYPE_SETPOINT:
-                holder = new SetpointViewHolder(mInflater, parent, mPrimaryForegroundColor, conn);
+                holder = new SetpointViewHolder(mInflater, parent, mPrimaryForegroundColor, mConnection);
                 break;
             case TYPE_CHART:
-                holder = new ChartViewHolder(mInflater, parent, mChartTheme, conn);
+                holder = new ChartViewHolder(mInflater, parent, mChartTheme, mConnection);
                 break;
             case TYPE_VIDEO:
-                holder = new VideoViewHolder(mInflater, parent, conn);
+                holder = new VideoViewHolder(mInflater, parent, mConnection);
                 break;
             case TYPE_WEB:
-                holder = new WebViewHolder(mInflater, parent, conn);
+                holder = new WebViewHolder(mInflater, parent, mConnection);
                 break;
             case TYPE_COLOR:
-                holder = new ColorViewHolder(mInflater, parent, conn);
+                holder = new ColorViewHolder(mInflater, parent, mConnection);
                 break;
             case TYPE_VIDEO_MJPEG:
-                holder = new MjpegVideoViewHolder(mInflater, parent, conn);
+                holder = new MjpegVideoViewHolder(mInflater, parent, mConnection);
                 break;
             default:
                 throw new IllegalArgumentException("View type " + viewType + " is not known");
@@ -300,18 +301,6 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
             mItemClickListener.onItemLongClicked(mItems.get(position));
         }
         return false;
-    }
-
-    private static class ConnectionInfo {
-        private final String baseUrl;
-        private final String userName;
-        private final String password;
-
-        private ConnectionInfo(String baseUrl, String userName, String password) {
-            this.baseUrl = baseUrl;
-            this.userName = userName;
-            this.password = password;
-        }
     }
 
     public abstract static class ViewHolder extends RecyclerView.ViewHolder {

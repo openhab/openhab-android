@@ -1,7 +1,10 @@
 package org.openhab.habdroid.core.connection;
 
 import android.app.Fragment;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -31,6 +34,8 @@ import static org.openhab.habdroid.ui.OpenHABPreferencesActivity.NO_URL_INFO_EXC
 public abstract class ConnectionAvailabilityAwareActivity extends AppCompatActivity {
     private static final String TAG = ConnectionAvailabilityAwareActivity.class.getSimpleName();
     public static final String NO_NETWORK_TAG = "noNetwork";
+
+    private final ConnectionChangeListener mConnectionChangeListener = new ConnectionChangeListener();
 
     public Connection getConnection(int connectionType) {
         try {
@@ -87,6 +92,9 @@ public abstract class ConnectionAvailabilityAwareActivity extends AppCompatActiv
     @Override
     protected void onResume() {
         super.onResume();
+        registerReceiver(mConnectionChangeListener,
+                new IntentFilter(ConnectionFactory.NETWORK_CHANGED));
+
         Fragment fragment = getFragmentManager().findFragmentByTag(NO_NETWORK_TAG);
         if (fragment == null || !fragment.isVisible()) {
             return;
@@ -105,8 +113,22 @@ public abstract class ConnectionAvailabilityAwareActivity extends AppCompatActiv
         }
     }
 
-    public final void onConnectivityChanged() {
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unregisterReceiver(mConnectionChangeListener);
+    }
+
+    public void onConnectivityChanged() {
         ConnectionFactory.getInstance().cachedConnections.clear();
+    }
+
+    public class ConnectionChangeListener extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            onConnectivityChanged();
+        }
     }
 
     public static class NoNetworkFragment extends Fragment {
