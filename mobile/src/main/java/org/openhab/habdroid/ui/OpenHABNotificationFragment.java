@@ -11,13 +11,14 @@ package org.openhab.habdroid.ui;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.support.v4.app.ListFragment;
+import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -27,6 +28,7 @@ import org.openhab.habdroid.core.connection.Connection;
 import org.openhab.habdroid.core.connection.ConnectionFactory;
 import org.openhab.habdroid.core.connection.exception.ConnectionException;
 import org.openhab.habdroid.model.OpenHABNotification;
+import org.openhab.habdroid.ui.widget.DividerItemDecoration;
 import org.openhab.habdroid.util.MyHttpClient;
 
 import java.io.UnsupportedEncodingException;
@@ -35,10 +37,7 @@ import java.util.ArrayList;
 import okhttp3.Call;
 import okhttp3.Headers;
 
-/**
- * A fragment representing a list of Items.
- */
-public class OpenHABNotificationFragment extends ListFragment implements SwipeRefreshLayout.OnRefreshListener {
+public class OpenHABNotificationFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 
     private static final String TAG = OpenHABNotificationFragment.class.getSimpleName();
 
@@ -49,6 +48,7 @@ public class OpenHABNotificationFragment extends ListFragment implements SwipeRe
     private OpenHABNotificationAdapter mNotificationAdapter;
     private ArrayList<OpenHABNotification> mNotifications;
 
+    private RecyclerView mRecyclerView;
     private SwipeRefreshLayout mSwipeLayout;
 
     public static OpenHABNotificationFragment newInstance() {
@@ -81,6 +81,7 @@ public class OpenHABNotificationFragment extends ListFragment implements SwipeRe
         View view = inflater.inflate(R.layout.openhabnotificationlist_fragment, container, false);
         mSwipeLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_container);
         mSwipeLayout.setOnRefreshListener(this);
+        mRecyclerView = view.findViewById(android.R.id.list);
         return view;
     }
 
@@ -93,8 +94,11 @@ public class OpenHABNotificationFragment extends ListFragment implements SwipeRe
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mNotificationAdapter = new OpenHABNotificationAdapter(this.getActivity(), R.layout.openhabnotificationlist_item, mNotifications);
-        getListView().setAdapter(mNotificationAdapter);
+        mNotificationAdapter = new OpenHABNotificationAdapter(this.getActivity(), mNotifications);
+
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
+        mRecyclerView.addItemDecoration(new DividerItemDecoration(mActivity));
+        mRecyclerView.setAdapter(mNotificationAdapter);
         Log.d(TAG, "onActivityCreated()");
         Log.d(TAG, "isAdded = " + isAdded());
     }
@@ -206,10 +210,5 @@ public class OpenHABNotificationFragment extends ListFragment implements SwipeRe
             mActivity.setProgressIndicatorVisible(true);
         }
         mSwipeLayout.setRefreshing(false);
-    }
-
-    @Override
-    public void onListItemClick(ListView l, View v, int position, long id) {
-        super.onListItemClick(l, v, position, id);
     }
 }

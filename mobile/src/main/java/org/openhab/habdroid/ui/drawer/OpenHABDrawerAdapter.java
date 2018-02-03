@@ -106,8 +106,7 @@ public class OpenHABDrawerAdapter extends ArrayAdapter<OpenHABDrawerItem> {
                 }
                 if (siteMap.getIcon() != null && drawerItemImage != null) {
                     String iconUrl = conn.getOpenHABUrl() + Uri.encode(siteMap.getIconPath(),"/?=");
-                    drawerItemImage.setImageUrl(iconUrl, R.mipmap.icon,
-                            conn.getUsername(), conn.getPassword());
+                    drawerItemImage.setImageUrl(iconUrl, conn.getUsername(), conn.getPassword(), R.mipmap.icon);
                 } else {
                     drawerItemImage.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.icon));
                 }

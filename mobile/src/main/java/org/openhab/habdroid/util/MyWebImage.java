@@ -46,14 +46,15 @@ public class MyWebImage implements SmartImage {
     private String authPassword;
     private boolean shouldAuth = false;
 
-    public MyWebImage(String url, String username, String password) {
-        this(url, true, username, password);
-    }
-
     public MyWebImage(String url, boolean useCache, String username, String password) {
     	this.url = url;
     	this.useCache = useCache;
         this.setAuthentication(username, password);
+    }
+
+    public Bitmap getCachedBitmap() {
+        WebImageCache cache = useCache ? getWebImageCache() : null;
+        return cache != null ? cache.get(url) : null;
     }
 
     /**

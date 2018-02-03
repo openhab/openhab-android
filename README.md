@@ -6,7 +6,7 @@
     <img src="https://d322cqt584bo4o.cloudfront.net/openhab-android/localized.svg">
   </a>
     <a href="https://codecov.io/gh/openhab/openhab-android/branch/master">
-    <img src="https://img.shields.io/codecov/c/github/openhab/openhab-android.svg">
+    <img src="https://codecov.io/gh/openhab/openhab-android/branch/master/graph/badge.svg">
   </a>
   <a href="https://www.bountysource.com/teams/openhab/issues?tracker_ids=968858">
     <img src="https://www.bountysource.com/badge/tracker?tracker_id=968858">

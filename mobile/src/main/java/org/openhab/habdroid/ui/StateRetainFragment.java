@@ -11,14 +11,13 @@ package org.openhab.habdroid.ui;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.ListFragment;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class StateRetainFragment extends Fragment {
 
-    private List<ListFragment> fragmentList = new ArrayList<ListFragment>(0);
+    private List<Fragment> fragmentList = new ArrayList<>();
     private int mCurrentPage;
 
     @Override
@@ -27,11 +26,11 @@ public class StateRetainFragment extends Fragment {
         setRetainInstance(true);
     }
 
-    public List<ListFragment> getFragmentList() {
+    public List<Fragment> getFragmentList() {
         return fragmentList;
     }
 
-    public void setFragmentList(List<ListFragment> fragmentList) {
+    public void setFragmentList(List<Fragment> fragmentList) {
         this.fragmentList = fragmentList;
     }
 

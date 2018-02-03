@@ -5,8 +5,10 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import org.openhab.habdroid.util.Constants;
@@ -40,6 +42,11 @@ public class MessageHandler {
             toast.cancel();
         }
     }
+
+    public static void showMessageToUser(Activity ctx, String message, int messageType, int logLevel) {
+        showMessageToUser(ctx, message, messageType, logLevel, 0, null);
+    }
+
     /**
      * Shows a message to the user.
      * You might want to send two messages: One detailed one with
@@ -49,9 +56,13 @@ public class MessageHandler {
      * @param message message to show
      * @param messageType can be one of MessageHandler.TYPE_*
      * @param logLevel can be on of MessageHandler.LOGLEVEL.*
+     * @param actionMessage A StringRes to use as a message for an action, if supported by the
+     *                      messageType (can be 0)
+     * @param actionListener A listener that should be executed when the action message is clicked.
      */
     public static void showMessageToUser(Activity ctx, String message, int messageType,
-                                         int logLevel) {
+                                         int logLevel, int actionMessage,
+                                         @Nullable View.OnClickListener actionListener) {
         if (ctx.isFinishing() || message == null) {
             return;
         }
@@ -100,6 +111,10 @@ public class MessageHandler {
             case TYPE_SNACKBAR:
                 snackbar = Snackbar.make(ctx.findViewById(android.R.id.content),
                         message, Snackbar.LENGTH_LONG);
+                if (actionListener != null && actionMessage != 0) {
+                    snackbar.setAction(actionMessage, actionListener);
+                    snackbar.setDuration(Snackbar.LENGTH_INDEFINITE);
+                }
                 snackbar.show();
                 break;
             case TYPE_TOAST:

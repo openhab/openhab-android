@@ -36,6 +36,7 @@ public class Constants {
     public static final String DEFAULT_GCM_SENDER_ID            = "737820980945";
     public static final String PREFERENCE_COMPAREABLEVERSION    = "versionAsInt";
     public static final String PREFERENCE_FIRST_START           = "firstStart";
+    public static final String PREFERENCE_SWIPE_REFRESH_EXPLAINED = "swipToRefreshExplained";
 
     public static final String SUBSCREEN_LOCAL_CONNECTION     = "default_openhab_local_connection";
     public static final String SUBSCREEN_REMOTE_CONNECTION    = "default_openhab_remote_connection";

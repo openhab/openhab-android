@@ -11,63 +11,74 @@ package org.openhab.habdroid.ui;
 
 import android.content.Context;
 import android.net.Uri;
-import android.os.Build;
+import android.support.v7.widget.RecyclerView;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.core.connection.Connection;
-import org.openhab.habdroid.core.connection.ConnectionAvailabilityAwareActivity;
 import org.openhab.habdroid.core.connection.ConnectionFactory;
 import org.openhab.habdroid.model.OpenHABNotification;
 import org.openhab.habdroid.util.MySmartImageView;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
-public class OpenHABNotificationAdapter extends ArrayAdapter<OpenHABNotification> {
-    private int mResource;
+public class OpenHABNotificationAdapter extends
+        RecyclerView.Adapter<OpenHABNotificationAdapter.NotificationViewHolder> {
+    private final ArrayList<OpenHABNotification> mItems;
+    private final LayoutInflater mInflater;
+    private final Context mContext;
 
-    public OpenHABNotificationAdapter(Context context, int resource, ArrayList<OpenHABNotification> objects) {
-        super(context, resource, objects);
-        mResource = resource;
+    public OpenHABNotificationAdapter(Context context, ArrayList<OpenHABNotification> items) {
+        super();
+        mItems = items;
+        mContext = context;
+        mInflater = LayoutInflater.from(context);
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        OpenHABNotification notification = getItem(position);
-        if (convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(mResource, parent, false);
+    public int getItemCount() {
+        return mItems.size();
+    }
+
+    @Override
+    public NotificationViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        return new NotificationViewHolder(mInflater, parent);
+    }
+
+    @Override
+    public void onBindViewHolder(NotificationViewHolder holder, int position) {
+        OpenHABNotification notification = mItems.get(position);
+
+        holder.mCreatedView.setText(DateUtils.getRelativeDateTimeString(mContext,
+                notification.getCreated().getTime(),
+                DateUtils.MINUTE_IN_MILLIS, DateUtils.WEEK_IN_MILLIS, 0));
+        holder.mMessageView.setText(notification.getMessage());
+
+        if (notification.getIcon() != null) {
+            Connection conn = ConnectionFactory.getConnection(Connection.TYPE_CLOUD);
+            String iconUrl = String.format(Locale.US, "%s/images/%s.png",
+                    conn.getOpenHABUrl(), Uri.encode(notification.getIcon()));
+            holder.mIconView.setImageUrl(iconUrl, conn.getUsername(), conn.getPassword(),
+                    R.drawable.ic_openhab_appicon_24dp);
+        } else {
+            holder.mIconView.setImageResource(R.drawable.ic_openhab_appicon_24dp);
         }
-        TextView createdView = (TextView)convertView.findViewById(R.id.notificationCreated);
-        TextView messageView = (TextView)convertView.findViewById(R.id.notificationMessage);
-        MySmartImageView imageView = (MySmartImageView)convertView.findViewById(R.id.notificationImage);
-        if (imageView != null) {
-            if (notification.getIcon() != null && imageView != null) {
-                Connection conn;
-                if (getContext() instanceof ConnectionAvailabilityAwareActivity) {
-                    conn = ((ConnectionAvailabilityAwareActivity) getContext())
-                            .getConnection(Connection.TYPE_CLOUD);
-                } else {
-                    conn = ConnectionFactory.getConnection(Connection.TYPE_CLOUD);
-                }
-                String iconUrl = conn.getOpenHABUrl() + "/images/" + Uri.encode(notification
-                        .getIcon() + ".png");
-                imageView.setImageUrl(iconUrl, R.drawable.ic_openhab_appicon_24dp,
-                        conn.getUsername(), conn.getPassword());
-            } else {
-                if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    imageView.setImageDrawable(getContext().getDrawable(R.drawable.ic_openhab_appicon_24dp));
-                } else {
-                    imageView.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_openhab_appicon_24dp));
-                }
-            }
+    }
+
+    public static class NotificationViewHolder extends RecyclerView.ViewHolder {
+        final TextView mCreatedView;
+        final TextView mMessageView;
+        final MySmartImageView mIconView;
+
+        public NotificationViewHolder(LayoutInflater inflater, ViewGroup parent) {
+            super(inflater.inflate(R.layout.openhabnotificationlist_item, parent, false));
+            mCreatedView = itemView.findViewById(R.id.notificationCreated);
+            mMessageView = itemView.findViewById(R.id.notificationMessage);
+            mIconView = itemView.findViewById(R.id.notificationImage);
         }
-        createdView.setText(DateUtils.getRelativeDateTimeString(this.getContext(), notification.getCreated().getTime(), DateUtils.MINUTE_IN_MILLIS, DateUtils.WEEK_IN_MILLIS, 0));
-        messageView.setText(notification.getMessage());
-        return convertView;
     }
 }

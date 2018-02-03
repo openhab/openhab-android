@@ -18,20 +18,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:layout_marginRight="5dp"
+        android:layout_marginRight="4dp"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_alignParentEnd="true"
-        android:layout_marginEnd="5dp" />
+        android:layout_marginEnd="4dp" />
 
-    <LinearLayout
-        android:id="@+id/listdivider"
-        android:layout_width="fill_parent"
-        android:layout_height="1dip"
-        android:layout_below="@+id/groupleftlayout"
-        android:layout_marginLeft="@dimen/widgetlist_divider_left_margin"
-        android:layout_marginRight="@dimen/widgetlist_divider_right_margin"
-        android:background="?attr/widgetlistItemDivider"
-        android:orientation="horizontal"
-        android:layout_marginStart="@dimen/widgetlist_divider_left_margin"
-        android:layout_marginEnd="@dimen/widgetlist_divider_right_margin" />
 </RelativeLayout>
