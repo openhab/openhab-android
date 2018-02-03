@@ -580,7 +580,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         // because it doesn't work through layout file :-(
         mProgressBar = (ProgressBar) mToolbar.findViewById(R.id.toolbar_progress_bar);
         mProgressBar.setLayoutParams(new Toolbar.LayoutParams(Gravity.END | Gravity.CENTER_VERTICAL));
-        setProgressIndicatorVisible(true);
+        setProgressIndicatorVisible(false);
     }
 
     private void setupDrawer() {
