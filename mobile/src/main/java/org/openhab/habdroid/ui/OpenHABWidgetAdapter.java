@@ -21,6 +21,7 @@ import android.net.Uri;
 import android.support.annotation.ColorInt;
 import android.support.annotation.IdRes;
 import android.support.annotation.LayoutRes;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SwitchCompat;
 import android.text.TextUtils;
@@ -120,8 +121,8 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         mSelectionEnabled = selectionEnabled;
 
         TypedValue tv = new TypedValue();
-        context.getTheme().resolveAttribute(R.attr.colorControlNormal, tv, true);
-        mPrimaryForegroundColor = tv.data;
+        context.getTheme().resolveAttribute(R.attr.colorControlNormal, tv, false);
+        mPrimaryForegroundColor = ContextCompat.getColor(context, tv.data);
         context.getTheme().resolveAttribute(R.attr.chartTheme, tv, true);
         mChartTheme = tv.string;
     }
