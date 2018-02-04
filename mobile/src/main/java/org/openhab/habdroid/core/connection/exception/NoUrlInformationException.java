@@ -4,8 +4,4 @@ public class NoUrlInformationException extends ConnectionException {
     public NoUrlInformationException(String reason) {
         super(reason);
     }
-
-    public NoUrlInformationException() {
-        super("");
-    }
 }

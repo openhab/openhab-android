@@ -172,7 +172,7 @@ final public class ConnectionFactory
                 if (activeNetworkInfo.getType() == ConnectivityManager.TYPE_MOBILE) {
                     Connection remoteConnection = getRemoteConnection();
                     if (remoteConnection == null) {
-                        throw new NoUrlInformationException();
+                        throw new NoUrlInformationException(ctx.getString(R.string.error_no_url));
                     }
                     return remoteConnection;
 

@@ -9,10 +9,6 @@ public class NetworkNotSupportedException extends ConnectionException {
         super(message);
     }
 
-    public NetworkNotSupportedException() {
-        super("");
-    }
-
     public void setNetworkInfo(NetworkInfo networkInfo) {
         this.networkInfo = networkInfo;
     }

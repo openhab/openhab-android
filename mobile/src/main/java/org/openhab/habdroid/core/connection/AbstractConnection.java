@@ -69,7 +69,9 @@ public abstract class AbstractConnection implements Connection {
 
     private Boolean ignoreSslHostname() {
         return settings.getBoolean(Constants.PREFERENCE_SSLHOST, false);
-    };
+    }
+
+    ;
 
     public MySyncHttpClient getSyncHttpClient() {
         syncHttpClient.setBaseUrl(getOpenHABUrl());
@@ -102,7 +104,7 @@ public abstract class AbstractConnection implements Connection {
     public boolean isReachable() {
         Log.d(TAG, "Checking reachability of " + getOpenHABUrl());
         try {
-            return new AsyncTask<String, Void, Boolean>() {
+            AsyncTask task = new AsyncTask<String, Void, Boolean>() {
                 @Override
                 protected Boolean doInBackground(String... strings) {
                     try {
@@ -122,7 +124,9 @@ public abstract class AbstractConnection implements Connection {
                         return false;
                     }
                 }
-            }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, getOpenHABUrl()).get();
+            }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, getOpenHABUrl());
+
+            return task == null || (boolean) task.get();
         } catch (InterruptedException e) {
             Log.e(TAG, e.getMessage());
             return false;
