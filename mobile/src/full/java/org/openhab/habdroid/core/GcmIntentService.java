@@ -96,9 +96,6 @@ public class GcmIntentService extends IntentService {
                 deleteIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         Uri alarmSound = Uri.parse(PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString(Constants.PREFERENCE_TONE, ""));
-        if (alarmSound.toString().equals("")) {
-            alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        }
 
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(this)
