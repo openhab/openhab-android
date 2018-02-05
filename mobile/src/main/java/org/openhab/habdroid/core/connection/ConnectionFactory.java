@@ -3,6 +3,7 @@ package org.openhab.habdroid.core.connection;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -48,11 +49,7 @@ final public class ConnectionFactory
     private Connection mLocalConnection;
     private Connection mRemoteConnection;
 
-    public static ConnectionFactory sInstance;
-
-    public static ConnectionFactory getInstance() {
-        return sInstance;
-    }
+    private static ConnectionFactory sInstance;
 
     ConnectionFactory(Context ctx, SharedPreferences settings) {
         if (Build.VERSION.SDK_INT >= 21) {
@@ -63,6 +60,8 @@ final public class ConnectionFactory
         this.settings = settings;
         this.settings.registerOnSharedPreferenceChangeListener(this);
 
+        ctx.registerReceiver(this,
+                new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
         updateConnections();
     }
 
@@ -74,6 +73,10 @@ final public class ConnectionFactory
         sInstance = new ConnectionFactory(ctx, settings);
     }
 
+    public static void shutdown() {
+        sInstance.ctx.unregisterReceiver(sInstance);
+    }
+
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         if (needInvalidateCachePreferenceKeys.contains(key)) {
@@ -82,7 +85,7 @@ final public class ConnectionFactory
     }
 
     public static Connection getConnection(int connectionType) {
-        return getInstance().getConnectionInternal(connectionType);
+        return sInstance.getConnectionInternal(connectionType);
     }
 
     private Connection getConnectionInternal(int connectionType) {
