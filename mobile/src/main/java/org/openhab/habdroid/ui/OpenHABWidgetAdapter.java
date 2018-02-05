@@ -680,8 +680,7 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         }
     }
 
-    public static class SectionSwitchViewHolder extends ViewHolder
-            implements RadioGroup.OnCheckedChangeListener, View.OnClickListener {
+    public static class SectionSwitchViewHolder extends ViewHolder implements View.OnClickListener {
         private final LayoutInflater mInflater;
         private final TextView mLabelView;
         private final TextView mValueView;
@@ -708,38 +707,35 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
             updateTextViewColor(mValueView, widget.getValueColor());
             updateIcon(mIconView, widget);
 
-            mRadioGroup.removeAllViews();
-            for (OpenHABWidgetMapping mapping : widget.getMappings()) {
-                SegmentedControlButton button = (SegmentedControlButton)
-                        mInflater.inflate(R.layout.openhabwidgetlist_sectionswitchitem_button,
-                                mRadioGroup, false);
-
-                button.setText(mapping.getLabel());
-                button.setTag(mapping.getCommand());
-                button.setChecked(widget.getItem() != null
-                        && mapping.getCommand() != null
-                        && mapping.getCommand().equals(widget.getItem().getState()));
-                button.setOnClickListener(this);
-                mRadioGroup.addView(button);
-            }
-
             mBoundItem = widget.getItem();
+
+            List<OpenHABWidgetMapping> mappings = widget.getMappings();
+            // inflate missing views
+            for (int i = mRadioGroup.getChildCount(); i < mappings.size(); i++) {
+                View view = mInflater.inflate(R.layout.openhabwidgetlist_sectionswitchitem_button,
+                        mRadioGroup, false);
+                view.setOnClickListener(this);
+                mRadioGroup.addView(view);
+            }
+            // bind views
+            for (int i = 0; i < mappings.size(); i++) {
+                SegmentedControlButton button = (SegmentedControlButton) mRadioGroup.getChildAt(i);
+                String command = mappings.get(i).getCommand();
+                button.setText(mappings.get(i).getLabel());
+                button.setTag(command);
+                button.setChecked(mBoundItem != null && command != null
+                        && command.equals(mBoundItem.getState()));
+                button.setVisibility(View.VISIBLE);
+            }
+            // hide spare views
+            for (int i = mappings.size(); i < mRadioGroup.getChildCount(); i++) {
+                mRadioGroup.getChildAt(i).setVisibility(View.GONE);
+            }
         }
 
         @Override
         public void onClick(View view) {
-            Log.i(TAG, "Button clicked");
             Util.sendItemCommand(mHttpClient, mBoundItem, (String) view.getTag());
-        }
-
-        @Override
-        public void onCheckedChanged(RadioGroup group, int checkedId) {
-            SegmentedControlButton selectedButton = group.findViewById(checkedId);
-            if (selectedButton != null) {
-                Log.d(TAG, "Selected " + selectedButton.getText());
-                Log.d(TAG, "Command = " + (String) selectedButton.getTag());
-                Util.sendItemCommand(mHttpClient, mBoundItem, (String) selectedButton.getTag());
-            }
         }
     }
 
