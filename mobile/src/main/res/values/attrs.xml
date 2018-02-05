@@ -16,7 +16,7 @@
         <attr name="customMicIcon" format="reference" />
         <attr name="widgetlistItemDivider" format="reference" />
         <attr name="frameWidgetDividerBackground" format="reference" />
-        <attr name="chartTheme" format="string|reference" />
+        <attr name="chartTheme" format="string" />
     </declare-styleable>
 
     <attr name="themedDrawerBackground" format="reference|color" />
