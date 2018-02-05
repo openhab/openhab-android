@@ -26,8 +26,7 @@ import org.json.JSONObject;
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.core.connection.Connection;
 import org.openhab.habdroid.core.connection.ConnectionFactory;
-import org.openhab.habdroid.core.connection.exception.NetworkNotAvailableException;
-import org.openhab.habdroid.core.connection.exception.NetworkNotSupportedException;
+import org.openhab.habdroid.core.connection.exception.ConnectionException;
 import org.openhab.habdroid.util.MyHttpClient;
 
 import okhttp3.Call;
@@ -44,7 +43,6 @@ public class OpenHABInfoFragment extends Fragment {
     private TextView mOpenHABSecretText;
     private LinearLayout mOpenHABSecretLayout;
     private TextView mOpenHABNotificationText;
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -73,20 +71,25 @@ public class OpenHABInfoFragment extends Fragment {
     public void onResume() {
         Log.d(TAG, "onResume()");
         super.onResume();
-        setVersionText();
-        setUuidText();
-        setSecretText();
+
+        Connection conn = null;
+        try {
+            conn = ConnectionFactory.getConnection(Connection.TYPE_ANY);
+        } catch (ConnectionException e) {
+            // ignored
+        }
+
+        setVersionText(conn);
+        setUuidText(conn);
+        setSecretText(conn);
         setGcmText();
     }
 
-    private void setSecretText() {
-        Connection conn;
-        try {
-            conn = ConnectionFactory.getConnection(Connection.TYPE_ANY);
-        } catch (NetworkNotSupportedException | NetworkNotAvailableException e) {
+    private void setSecretText(Connection conn) {
+        if (conn == null) {
+            mOpenHABSecretLayout.setVisibility(View.GONE);
             return;
         }
-
         conn.getAsyncHttpClient().get("/static/secret", new MyHttpClient.TextResponseHandler() {
             @Override
             public void onFailure(Call call, int statusCode, Headers headers, String responseString, Throwable error) {
@@ -105,11 +108,9 @@ public class OpenHABInfoFragment extends Fragment {
         });
     }
 
-    private void setUuidText() {
-        Connection conn;
-        try {
-            conn = ConnectionFactory.getConnection(Connection.TYPE_ANY);
-        } catch (NetworkNotSupportedException | NetworkNotAvailableException e) {
+    private void setUuidText(Connection conn) {
+        if (conn == null) {
+            mOpenHABUUIDText.setText(R.string.unknown);
             return;
         }
 
@@ -136,11 +137,9 @@ public class OpenHABInfoFragment extends Fragment {
         });
     }
 
-    private void setVersionText() {
-        Connection conn;
-        try {
-            conn = ConnectionFactory.getConnection(Connection.TYPE_ANY);
-        } catch (NetworkNotSupportedException | NetworkNotAvailableException e) {
+    private void setVersionText(Connection conn) {
+        if (conn == null) {
+            mOpenHABVersionText.setText(R.string.unknown);
             return;
         }
 

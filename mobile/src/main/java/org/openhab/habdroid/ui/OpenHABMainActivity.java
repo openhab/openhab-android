@@ -68,8 +68,6 @@ import org.openhab.habdroid.core.connection.ConnectionAvailabilityAwareActivity;
 import org.openhab.habdroid.core.connection.ConnectionFactory;
 import org.openhab.habdroid.core.connection.DemoConnection;
 import org.openhab.habdroid.core.connection.exception.ConnectionException;
-import org.openhab.habdroid.core.connection.exception.NetworkNotAvailableException;
-import org.openhab.habdroid.core.connection.exception.NetworkNotSupportedException;
 import org.openhab.habdroid.core.connection.exception.NoUrlInformationException;
 import org.openhab.habdroid.core.message.MessageHandler;
 import org.openhab.habdroid.core.notifications.GoogleCloudMessageConnector;
@@ -318,7 +316,7 @@ public class OpenHABMainActivity extends ConnectionAvailabilityAwareActivity
             Log.d(TAG, "No connection data available, start discovery.", e);
             discoverOpenHAB();
             return;
-        } catch (NetworkNotSupportedException | NetworkNotAvailableException e) {
+        } catch (ConnectionException e) {
             // will be handled by #getConnection if it is used later
         }
 
@@ -355,8 +353,7 @@ public class OpenHABMainActivity extends ConnectionAvailabilityAwareActivity
         prefsEdit.apply();
     }
 
-    private void initializeConnectivity() throws NoUrlInformationException,
-            NetworkNotAvailableException, NetworkNotSupportedException {
+    private void initializeConnectivity() throws ConnectionException {
         final Connection conn = ConnectionFactory.getConnection(TYPE_ANY);
         if (conn instanceof DemoConnection) {
             showMessageToUser(

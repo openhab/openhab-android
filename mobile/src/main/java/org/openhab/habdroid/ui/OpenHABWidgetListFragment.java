@@ -34,8 +34,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.core.connection.Connection;
-import org.openhab.habdroid.core.connection.ConnectionAvailabilityAwareActivity;
-import org.openhab.habdroid.core.connection.ConnectionFactory;
 import org.openhab.habdroid.model.OpenHABItem;
 import org.openhab.habdroid.model.OpenHABNFCActionList;
 import org.openhab.habdroid.model.OpenHABWidget;
@@ -119,13 +117,6 @@ public class OpenHABWidgetListFragment extends Fragment
         if (savedInstanceState != null) {
             mTitle = savedInstanceState.getString("title");
         }
-
-        if (getActivity() instanceof ConnectionAvailabilityAwareActivity) {
-            mConnection = ((ConnectionAvailabilityAwareActivity) getActivity())
-                    .getConnection(TYPE_ANY);
-        } else {
-            mConnection = ConnectionFactory.getConnection(TYPE_ANY);
-        }
     }
 
     @Override
@@ -134,6 +125,7 @@ public class OpenHABWidgetListFragment extends Fragment
         Log.d(TAG, "onActivityCreated()");
         Log.d(TAG, "isAdded = " + isAdded());
         mActivity = (OpenHABMainActivity) getActivity();
+        mConnection = mActivity.getConnection(TYPE_ANY);
         final String iconFormat = getIconFormat();
         openHABWidgetDataSource = new OpenHABWidgetDataSource(iconFormat);
 

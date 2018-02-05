@@ -47,18 +47,16 @@ import static org.openhab.habdroid.core.message.MessageHandler.showMessageToUser
  * This is a class to provide preferences activity for application.
  */
 public class OpenHABPreferencesActivity extends AppCompatActivity {
-    public static final String NO_URL_INFO_EXCEPTION_EXTRA = "no_url_information";
-    public static final String NO_URL_INFO_EXCEPTION_MESSAGE = "no_url_information_message";
+    public static final String EXTRA_INITIAL_MESSAGE = "no_url_information_message";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         Util.setActivityTheme(this);
         super.onCreate(savedInstanceState);
-        if (getIntent().hasExtra(NO_URL_INFO_EXCEPTION_EXTRA)) {
-            showMessageToUser(this,
-                    getIntent().getStringExtra(NO_URL_INFO_EXCEPTION_MESSAGE),
-                    MessageHandler.TYPE_DIALOG,
-                    MessageHandler.LOGLEVEL_ALWAYS);
+        String initialMessage = getIntent().getStringExtra(EXTRA_INITIAL_MESSAGE);
+        if (initialMessage != null) {
+            showMessageToUser(this, initialMessage,
+                    MessageHandler.TYPE_DIALOG, MessageHandler.LOGLEVEL_ALWAYS);
         }
 
         setContentView(R.layout.activity_prefs);
@@ -81,7 +79,7 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                if (getIntent().hasExtra(NO_URL_INFO_EXCEPTION_EXTRA)) {
+                if (getIntent().hasExtra(EXTRA_INITIAL_MESSAGE)) {
                     Intent upIntent = NavUtils.getParentActivityIntent(this);
                     TaskStackBuilder.create(this)
                             .addNextIntentWithParentStack(upIntent)

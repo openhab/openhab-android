@@ -23,14 +23,10 @@ import android.widget.TextView;
 
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.core.connection.exception.ConnectionException;
-import org.openhab.habdroid.core.connection.exception.NetworkNotAvailableException;
 import org.openhab.habdroid.core.connection.exception.NetworkNotSupportedException;
 import org.openhab.habdroid.core.connection.exception.NoUrlInformationException;
 import org.openhab.habdroid.core.message.MessageHandler;
 import org.openhab.habdroid.ui.OpenHABPreferencesActivity;
-
-import static org.openhab.habdroid.ui.OpenHABPreferencesActivity.NO_URL_INFO_EXCEPTION_EXTRA;
-import static org.openhab.habdroid.ui.OpenHABPreferencesActivity.NO_URL_INFO_EXCEPTION_MESSAGE;
 
 public abstract class ConnectionAvailabilityAwareActivity extends AppCompatActivity {
     private static final String TAG = ConnectionAvailabilityAwareActivity.class.getSimpleName();
@@ -46,16 +42,22 @@ public abstract class ConnectionAvailabilityAwareActivity extends AppCompatActiv
     public Connection getConnection(int connectionType) {
         try {
             return ConnectionFactory.getConnection(connectionType);
-        } catch (NetworkNotAvailableException | NetworkNotSupportedException e) {
-            showNoNetworkFragment(e.getMessage());
-        } catch (NoUrlInformationException e) {
-            Intent preferencesIntent = new Intent(this, OpenHABPreferencesActivity.class);
-            preferencesIntent.putExtra(NO_URL_INFO_EXCEPTION_EXTRA, true);
-            preferencesIntent.putExtra(NO_URL_INFO_EXCEPTION_MESSAGE, e.getMessage());
+        } catch (ConnectionException e) {
+            if (e instanceof NoUrlInformationException) {
+                Intent preferencesIntent = new Intent(this, OpenHABPreferencesActivity.class);
+                preferencesIntent.putExtra(OpenHABPreferencesActivity.EXTRA_INITIAL_MESSAGE,
+                        getString(R.string.error_no_url));
 
-            TaskStackBuilder.create(this)
-                    .addNextIntentWithParentStack(preferencesIntent)
-                    .startActivities();
+                TaskStackBuilder.create(this)
+                        .addNextIntentWithParentStack(preferencesIntent)
+                        .startActivities();
+            } else if (e instanceof NetworkNotSupportedException) {
+                String message = getString(R.string.error_network_type_unsupported,
+                        ((NetworkNotSupportedException) e).getNetworkInfo().getTypeName());
+                showNoNetworkFragment(message);
+            } else {
+                showNoNetworkFragment(getString(R.string.error_network_not_available));
+            }
         }
         return null;
     }

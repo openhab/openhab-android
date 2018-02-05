@@ -107,11 +107,11 @@ final public class ConnectionFactory extends BroadcastReceiver implements
         }
     }
 
-    public static Connection getConnection(int connectionType) {
+    public static Connection getConnection(int connectionType) throws ConnectionException {
         return sInstance.getConnectionInternal(connectionType);
     }
 
-    private Connection getConnectionInternal(int connectionType) {
+    private Connection getConnectionInternal(int connectionType) throws ConnectionException {
         switch (connectionType) {
             case Connection.TYPE_LOCAL:
                 return mLocalConnection;
@@ -185,14 +185,13 @@ final public class ConnectionFactory extends BroadcastReceiver implements
 
         if (info == null) {
             Log.e(TAG, "Network is not available");
-            throw new NetworkNotAvailableException(
-                    context.getString(R.string.error_network_not_available));
+            throw new NetworkNotAvailableException();
         }
 
         // If we are on a mobile network go directly to remote URL from settings
         if (info.getType() == ConnectivityManager.TYPE_MOBILE) {
             if (remote == null) {
-                throw new NoUrlInformationException(context.getString(R.string.error_no_url));
+                throw new NoUrlInformationException();
             }
             return remote;
         }
@@ -210,14 +209,12 @@ final public class ConnectionFactory extends BroadcastReceiver implements
                 Log.d(TAG, "Connecting to remote URL");
                 return remote;
             } else {
-                throw new NoUrlInformationException(context.getString(R.string.error_no_url));
+                throw new NoUrlInformationException();
             }
             // Else we treat other networks types as unsupported
         } else {
             Log.e(TAG, "Network type (" + info.getTypeName() + ") is unsupported");
-            String message = context.getString(R.string.error_network_type_unsupported,
-                    info.getTypeName());
-            throw new NetworkNotSupportedException(message, info);
+            throw new NetworkNotSupportedException(info);
         }
     }
 

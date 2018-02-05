@@ -14,6 +14,7 @@ import org.junit.Test;
 import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
+import org.openhab.habdroid.core.connection.exception.ConnectionException;
 import org.openhab.habdroid.core.connection.exception.NetworkNotAvailableException;
 import org.openhab.habdroid.core.connection.exception.NetworkNotSupportedException;
 import org.openhab.habdroid.core.connection.exception.NoUrlInformationException;
@@ -53,7 +54,7 @@ public class ConnectionFactoryTest {
     }
 
     @Test
-    public void testGetConnectionRemoteWithUrl() {
+    public void testGetConnectionRemoteWithUrl() throws ConnectionException {
         Mockito.when(mockSettings.getString(eq(Constants.PREFERENCE_REMOTE_URL), anyString()))
                 .thenReturn("https://myopenhab.org:8443");
         ConnectionFactory.sInstance.updateConnections();
@@ -66,7 +67,7 @@ public class ConnectionFactoryTest {
     }
 
     @Test
-    public void testGetConnectionRemoteWithoutUrl() {
+    public void testGetConnectionRemoteWithoutUrl() throws ConnectionException {
         Mockito.when(mockSettings.getString(eq(Constants.PREFERENCE_REMOTE_URL), anyString()))
                 .thenReturn("");
         ConnectionFactory.sInstance.updateConnections();
@@ -77,7 +78,7 @@ public class ConnectionFactoryTest {
     }
 
     @Test
-    public void testGetConnectionLocalWithUrl() {
+    public void testGetConnectionLocalWithUrl() throws ConnectionException {
         Mockito.when(mockSettings.getString(eq(Constants.PREFERENCE_LOCAL_URL), anyString()))
                 .thenReturn("https://openhab.local:8080");
         ConnectionFactory.sInstance.updateConnections();
@@ -90,7 +91,7 @@ public class ConnectionFactoryTest {
     }
 
     @Test
-    public void testGetConnectionLocalWithoutUrl() {
+    public void testGetConnectionLocalWithoutUrl() throws ConnectionException {
         Mockito.when(mockSettings.getString(eq(Constants.PREFERENCE_LOCAL_URL), anyString()))
                 .thenReturn("");
         ConnectionFactory.sInstance.updateConnections();
@@ -101,7 +102,7 @@ public class ConnectionFactoryTest {
     }
 
     @Test
-    public void testGetConnectionCloudWithUrl() {
+    public void testGetConnectionCloudWithUrl() throws ConnectionException {
         Mockito.when(mockSettings.getString(eq(Constants.PREFERENCE_REMOTE_URL), anyString()))
                 .thenReturn("https://myopenhab.org:8443");
         ConnectionFactory.sInstance.updateConnections();
@@ -114,21 +115,21 @@ public class ConnectionFactoryTest {
     }
 
     @Test(expected = NetworkNotAvailableException.class)
-    public void testGetAnyConnectionNoNetwork() {
+    public void testGetAnyConnectionNoNetwork() throws ConnectionException {
         triggerNetworkUpdate(null);
 
         ConnectionFactory.getConnection(Connection.TYPE_ANY);
     }
 
     @Test(expected = NetworkNotSupportedException.class)
-    public void testGetAnyConnectionUnsupportedNetwork() {
+    public void testGetAnyConnectionUnsupportedNetwork() throws ConnectionException {
         triggerNetworkUpdate(ConnectivityManager.TYPE_BLUETOOTH);
 
         ConnectionFactory.getConnection(Connection.TYPE_ANY);
     }
 
     @Test
-    public void testGetAnyConnectionWifiRemoteOnly() {
+    public void testGetAnyConnectionWifiRemoteOnly() throws ConnectionException {
         Mockito.when(mockSettings.getString(eq(Constants.PREFERENCE_REMOTE_URL), anyString()))
                 .thenReturn("https://myopenhab.org:8443");
         ConnectionFactory.sInstance.updateConnections();
@@ -144,7 +145,7 @@ public class ConnectionFactoryTest {
     }
 
     @Test
-    public void testGetAnyConnectionWifiLocalRemote() {
+    public void testGetAnyConnectionWifiLocalRemote() throws ConnectionException {
         Mockito.when(mockSettings.getString(eq(Constants.PREFERENCE_REMOTE_URL), anyString()))
                 .thenReturn("https://openhab.remote");
         Mockito.when(mockSettings.getString(eq(Constants.PREFERENCE_LOCAL_URL), anyString()))
@@ -161,7 +162,7 @@ public class ConnectionFactoryTest {
     }
 
     @Test(expected = NoUrlInformationException.class)
-    public void testGetAnyConnectionWifiNoLocalNoRemote() {
+    public void testGetAnyConnectionWifiNoLocalNoRemote() throws ConnectionException {
         Mockito.when(mockSettings.getString(anyString(), anyString())).thenReturn(null);
         triggerNetworkUpdate(ConnectivityManager.TYPE_WIFI);
 
