@@ -30,32 +30,36 @@ public class IntroActivity extends AppIntro {
         }
     }
 
+    /**
+     * Must be overridden to ensure that the intro will be closed when clicking on "SKIP"
+     * @param currentFragment
+     */
     @Override
     public void onSkipPressed(Fragment currentFragment) {
         super.onSkipPressed(currentFragment);
         finish();
     }
 
+    /**
+     * Must be overridden to ensure that the intro will be closed when clicking on "DONE"
+     * @param currentFragment
+     */
     @Override
     public void onDonePressed(Fragment currentFragment) {
         super.onDonePressed(currentFragment);
         finish();
     }
 
-    @Override
-    public void onSlideChanged(@Nullable Fragment oldFragment, @Nullable Fragment newFragment) {
-        super.onSlideChanged(oldFragment, newFragment);
-        // Do something when the slide changes.
-    }
-
     private void addOHSlide(int title, int description, @DrawableRes int imageDrawable) {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-            addSlide(AppIntroFragment.newInstance(getString(title), "Helvetica",
-                    getString(description), "Helvetica", imageDrawable, getColor(R.color.grey_300),
-                    getColor(R.color.openhab_orange), getColor(R.color.openhab_orange)));
+            addSlide(AppIntroFragment.newInstance(getString(title), null,
+                    getString(description), null, imageDrawable,
+                    getColor(R.color.grey_300),
+                    getColor(R.color.openhab_orange),
+                    getColor(R.color.openhab_orange)));
         } else {
-            addSlide(AppIntroFragment.newInstance(getString(title), "Helvetica",
-                    getString(description), "Helvetica", imageDrawable,
+            addSlide(AppIntroFragment.newInstance(getString(title), null,
+                    getString(description), null, imageDrawable,
                     getResources().getColor(R.color.grey_300),
                     getResources().getColor(R.color.openhab_orange),
                     getResources().getColor(R.color.openhab_orange)));
