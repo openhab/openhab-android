@@ -44,9 +44,6 @@ before_script:
 script:
 - ./gradlew build connectedCheck test jacocoTestReport
 - bash assets/store_descriptions/generate_and_validate.sh
-- ls -laR $HOME/.gradle/caches/
-- ls -laR $HOME/.gradle/wrapper/
-- ls -laR $HOME/.android/build-cache
 
 after_success:
 - bash <(curl -s https://codecov.io/bash)
