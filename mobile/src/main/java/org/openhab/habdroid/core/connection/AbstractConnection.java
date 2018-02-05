@@ -69,8 +69,6 @@ public abstract class AbstractConnection implements Connection {
         return settings.getBoolean(Constants.PREFERENCE_SSLHOST, false);
     }
 
-    ;
-
     public MySyncHttpClient getSyncHttpClient() {
         syncHttpClient.setBaseUrl(getOpenHABUrl());
 
