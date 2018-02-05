@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 
 import org.junit.Before;
@@ -40,6 +41,8 @@ public class ConnectionFactoryTest {
         Mockito.when(mockContext.getString(anyInt())).thenReturn("");
         Mockito.when(mockContext.getSystemService(eq(Context.CONNECTIVITY_SERVICE)))
                 .thenReturn(mockConnectivityService);
+        Mockito.when(mockContext.getApplicationContext()).thenReturn(mockContext);
+        Mockito.when(mockContext.getMainLooper()).thenReturn(Looper.getMainLooper());
 
         mockSettings = Mockito.mock(SharedPreferences.class);
 

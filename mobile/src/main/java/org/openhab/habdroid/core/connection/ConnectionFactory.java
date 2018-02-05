@@ -14,6 +14,7 @@ import android.os.Looper;
 import android.os.Message;
 import android.preference.PreferenceManager;
 import android.support.annotation.VisibleForTesting;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import org.openhab.habdroid.R;
@@ -35,8 +36,8 @@ import java.util.List;
  */
 final public class ConnectionFactory extends BroadcastReceiver implements
         SharedPreferences.OnSharedPreferenceChangeListener, Handler.Callback {
-    public static final String NETWORK_CHANGED = "org.openhab.habdroid.core" +
-            ".connection.NETWORK_CHANGED";
+    public static final String ACTION_NETWORK_CHANGED =
+            "org.openhab.habdroid.core.connection.NETWORK_CHANGED";
 
     private static final String TAG = ConnectionFactory.class.getSimpleName();
     private static final List<Integer> localConnectionTypes = new ArrayList<>(
@@ -165,8 +166,8 @@ final public class ConnectionFactory extends BroadcastReceiver implements
                         mConnectionFailureReason = null;
                         if (mAvailableConnection != msg.obj) {
                             mAvailableConnection = (Connection) msg.obj;
-                            Intent networkChangedIntent = new Intent(NETWORK_CHANGED);
-                            ctx.sendBroadcast(networkChangedIntent);
+                            LocalBroadcastManager lbm = LocalBroadcastManager.getInstance(ctx);
+                            lbm.sendBroadcast(new Intent(ACTION_NETWORK_CHANGED));
                         }
                     }
                 }

@@ -10,6 +10,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
@@ -35,7 +36,12 @@ public abstract class ConnectionAvailabilityAwareActivity extends AppCompatActiv
     private static final String TAG = ConnectionAvailabilityAwareActivity.class.getSimpleName();
     public static final String NO_NETWORK_TAG = "noNetwork";
 
-    private final ConnectionChangeListener mConnectionChangeListener = new ConnectionChangeListener();
+    private final BroadcastReceiver mConnectionChangeListener = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            onConnectivityChanged();
+        }
+    };
 
     public Connection getConnection(int connectionType) {
         try {
@@ -92,8 +98,9 @@ public abstract class ConnectionAvailabilityAwareActivity extends AppCompatActiv
     @Override
     protected void onResume() {
         super.onResume();
-        registerReceiver(mConnectionChangeListener,
-                new IntentFilter(ConnectionFactory.NETWORK_CHANGED));
+        LocalBroadcastManager lbm = LocalBroadcastManager.getInstance(this);
+        lbm.registerReceiver(mConnectionChangeListener,
+                new IntentFilter(ConnectionFactory.ACTION_NETWORK_CHANGED));
 
         Fragment fragment = getFragmentManager().findFragmentByTag(NO_NETWORK_TAG);
         if (fragment == null || !fragment.isVisible()) {
@@ -116,18 +123,11 @@ public abstract class ConnectionAvailabilityAwareActivity extends AppCompatActiv
     @Override
     protected void onPause() {
         super.onPause();
-        unregisterReceiver(mConnectionChangeListener);
+        LocalBroadcastManager lbm = LocalBroadcastManager.getInstance(this);
+        lbm.unregisterReceiver(mConnectionChangeListener);
     }
 
     public void onConnectivityChanged() {
-    }
-
-    public class ConnectionChangeListener extends BroadcastReceiver {
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            onConnectivityChanged();
-        }
     }
 
     public static class NoNetworkFragment extends Fragment {
