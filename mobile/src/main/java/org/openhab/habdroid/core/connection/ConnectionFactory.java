@@ -156,24 +156,32 @@ final public class ConnectionFactory extends BroadcastReceiver implements
                 return true;
             case MSG_UPDATE_DONE: // main thread
                 if (msg.obj instanceof ConnectionException) {
-                    mAvailableConnection = null;
-                    mConnectionFailureReason = (ConnectionException) msg.obj;
+                    updateAvailableConnection(null, (ConnectionException) msg.obj);
                 } else {
                     // Check whether the passed connection matches a known one. If not, the
                     // connections were updated while the thread was processing and we'll get
                     // a new callback.
                     if (msg.obj == mLocalConnection || msg.obj == mRemoteConnection) {
-                        mConnectionFailureReason = null;
-                        if (mAvailableConnection != msg.obj) {
-                            mAvailableConnection = (Connection) msg.obj;
-                            LocalBroadcastManager lbm = LocalBroadcastManager.getInstance(ctx);
-                            lbm.sendBroadcast(new Intent(ACTION_NETWORK_CHANGED));
-                        }
+                        updateAvailableConnection((Connection) msg.obj, null);
                     }
                 }
                 return true;
         }
         return false;
+    }
+
+    private void updateAvailableConnection(Connection c, ConnectionException failureReason) {
+        if (failureReason != null) {
+            mConnectionFailureReason = failureReason;
+            mAvailableConnection = null;
+        } else if (c == mAvailableConnection) {
+            return;
+        } else {
+            mConnectionFailureReason = null;
+            mAvailableConnection = c;
+        }
+        LocalBroadcastManager lbm = LocalBroadcastManager.getInstance(ctx);
+        lbm.sendBroadcast(new Intent(ACTION_NETWORK_CHANGED));
     }
 
     // called in update thread
@@ -183,7 +191,7 @@ final public class ConnectionFactory extends BroadcastReceiver implements
                 (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo info = connectivityManager.getActiveNetworkInfo();
 
-        if (info == null) {
+        if (info == null || !info.isConnected()) {
             Log.e(TAG, "Network is not available");
             throw new NetworkNotAvailableException();
         }
