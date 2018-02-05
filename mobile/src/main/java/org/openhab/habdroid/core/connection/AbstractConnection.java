@@ -29,8 +29,8 @@ public abstract class AbstractConnection implements Connection {
     private final MyAsyncHttpClient asyncHttpClient;
     private final MySyncHttpClient syncHttpClient;
 
-    AbstractConnection(Context ctx, SharedPreferences settings, int connectionType, String
-            username, String password, String baseUrl) {
+    AbstractConnection(Context ctx, SharedPreferences settings, int connectionType, String baseUrl,
+            String username, String password) {
         this.settings = settings;
         this.username = username;
         this.password = password;

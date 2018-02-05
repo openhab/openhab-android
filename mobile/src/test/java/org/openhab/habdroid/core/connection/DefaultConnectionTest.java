@@ -39,7 +39,7 @@ public class DefaultConnectionTest {
         mockContext = Mockito.mock(Context.class);
         mockSettings = Mockito.mock(SharedPreferences.class);
         testConnection = new DefaultConnection(mockContext, mockSettings, Connection.TYPE_LOCAL,
-                null, null, TEST_BASE_URL);
+                TEST_BASE_URL, null, null);
         testConnectionNoUrl = new DefaultConnection(mockContext, mockSettings, Connection.TYPE_LOCAL,
                 null, null, null);
         testConnectionRemote = new DefaultConnection(mockContext, mockSettings,
@@ -86,14 +86,14 @@ public class DefaultConnectionTest {
     @Test
     public void testGetUsernameSet() {
         Connection connection = new DefaultConnection(mockContext, mockSettings, Connection.TYPE_LOCAL,
-                "Test-User", null, TEST_BASE_URL);
+                TEST_BASE_URL, "Test-User", null);
         assertEquals("Test-User", connection.getUsername());
     }
 
     @Test
     public void testGetPasswordSet() {
         Connection connection = new DefaultConnection(mockContext, mockSettings, Connection.TYPE_LOCAL,
-                null, "Test-Password", TEST_BASE_URL);
+                TEST_BASE_URL, null, "Test-Password");
         assertEquals("Test-Password", connection.getPassword());
     }
 
@@ -134,7 +134,7 @@ public class DefaultConnectionTest {
     @Test
     public void testAsyncHasUsernamePassword() {
         Connection connection = new DefaultConnection(mockContext, mockSettings, Connection.TYPE_LOCAL,
-                "Test-User", "Test-Password", TEST_BASE_URL);
+                TEST_BASE_URL, "Test-User", "Test-Password");
         MyHttpClient httpClient = connection.getAsyncHttpClient();
 
         assertTrue(httpClient.getHeaders().containsKey("Authorization"));
@@ -145,7 +145,7 @@ public class DefaultConnectionTest {
     @Test
     public void testSyncHasUsernamePassword() {
         Connection connection = new DefaultConnection(mockContext, mockSettings, Connection.TYPE_LOCAL,
-                "Test-User", "Test-Password", TEST_BASE_URL);
+                TEST_BASE_URL, "Test-User", "Test-Password");
         MyHttpClient httpClient = connection.getSyncHttpClient();
 
         assertTrue(httpClient.getHeaders().containsKey("Authorization"));

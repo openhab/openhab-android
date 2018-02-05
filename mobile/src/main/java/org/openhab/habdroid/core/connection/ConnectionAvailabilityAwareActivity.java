@@ -120,7 +120,6 @@ public abstract class ConnectionAvailabilityAwareActivity extends AppCompatActiv
     }
 
     public void onConnectivityChanged() {
-        ConnectionFactory.getInstance().cachedConnections.clear();
     }
 
     public class ConnectionChangeListener extends BroadcastReceiver {

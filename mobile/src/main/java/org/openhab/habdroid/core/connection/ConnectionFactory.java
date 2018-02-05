@@ -8,6 +8,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
 import android.preference.PreferenceManager;
+import android.support.annotation.VisibleForTesting;
 import android.util.Log;
 
 import org.openhab.habdroid.R;
@@ -19,9 +20,7 @@ import org.openhab.habdroid.util.Util;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * A factory class, which is the main entry point to get a Connection to a specific openHAB
@@ -46,7 +45,8 @@ final public class ConnectionFactory
     private SharedPreferences settings;
     private NetworkInfo activeNetworkInfo;
 
-    Map<Integer, Connection> cachedConnections = new HashMap<>();
+    private Connection mLocalConnection;
+    private Connection mRemoteConnection;
 
     public static ConnectionFactory sInstance;
 
@@ -62,6 +62,8 @@ final public class ConnectionFactory
         this.ctx = ctx;
         this.settings = settings;
         this.settings.registerOnSharedPreferenceChangeListener(this);
+
+        updateConnections();
     }
 
     public static void initialize(Context ctx) {
@@ -75,86 +77,30 @@ final public class ConnectionFactory
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         if (needInvalidateCachePreferenceKeys.contains(key)) {
-            cachedConnections.clear();
+            updateConnections();
         }
     }
 
     public static Connection getConnection(int connectionType) {
-        ConnectionFactory factory = getInstance();
+        return getInstance().getConnectionInternal(connectionType);
+    }
 
-        Connection cached = factory.cachedConnections.get(connectionType);
-        if (cached != null) {
-            return cached;
-        }
-
-        Connection conn;
+    private Connection getConnectionInternal(int connectionType) {
         switch (connectionType) {
             case Connection.TYPE_LOCAL:
-                conn = factory.getLocalConnection();
-                break;
+                return mLocalConnection;
             case Connection.TYPE_REMOTE:
-                conn = factory.getRemoteConnection();
-                break;
+                return mRemoteConnection;
             case Connection.TYPE_CLOUD:
                 // TODO: Need a proper way of finding if the connection supports openHAB cloud
                 // things, e.g. by checking if the /api/v1/settings/notifications endpoint works,
                 // but currently does not work for myopenhab.org
-                conn = factory.getRemoteConnection();
-                break;
+                return mRemoteConnection;
             case Connection.TYPE_ANY:
-                conn = factory.getAvailableConnection();
-                break;
+                return getAvailableConnection();
             default:
                 throw new IllegalArgumentException("Invalid Connection type requested.");
         }
-
-        if (conn != null) {
-            factory.cachedConnections.put(connectionType, conn);
-        }
-
-        return conn;
-    }
-
-    private Connection getLocalConnection() {
-        String openHABUrl = Util.normalizeUrl(settings.getString(Constants
-                .PREFERENCE_LOCAL_URL, ""));
-        // If local URL is configured
-        if (openHABUrl.length() > 0) {
-            Log.d(TAG, "Connecting to local URL " + openHABUrl);
-            return new DefaultConnection(ctx, settings, Connection.TYPE_LOCAL, getUsername(),
-                    getPassword(), openHABUrl);
-        } else {
-            return null;
-        }
-    }
-
-    private String getPassword() {
-        return settings.getString(Constants.PREFERENCE_LOCAL_PASSWORD, null);
-    }
-
-    private String getUsername() {
-        return settings.getString(Constants.PREFERENCE_LOCAL_USERNAME, null);
-    }
-
-    private Connection getRemoteConnection() {
-        String openHABUrl = Util.normalizeUrl(settings.getString(Constants
-                .PREFERENCE_REMOTE_URL, ""));
-        // If remote URL is configured
-        if (openHABUrl.length() > 0) {
-            Log.d(TAG, "Connecting to remote URL " + openHABUrl);
-            return new DefaultConnection(ctx, settings, Connection.TYPE_REMOTE, getRemoteUsername
-                    (), getRemotePassword(), openHABUrl);
-        } else {
-            return null;
-        }
-    }
-
-    private String getRemotePassword() {
-        return settings.getString(Constants.PREFERENCE_REMOTE_PASSWORD, null);
-    }
-
-    private String getRemoteUsername() {
-        return settings.getString(Constants.PREFERENCE_REMOTE_USERNAME, null);
     }
 
     private Connection getAvailableConnection() {
@@ -162,55 +108,45 @@ final public class ConnectionFactory
                 (ConnectivityManager) ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
 
         activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-        if (activeNetworkInfo != null) {
-            if (settings.getBoolean(Constants.PREFERENCE_DEMOMODE, false)) {
-                Log.d(TAG, "Demo mode");
-
-                return new DemoConnection(ctx, settings);
-            } else {
-                // If we are on a mobile network go directly to remote URL from settings
-                if (activeNetworkInfo.getType() == ConnectivityManager.TYPE_MOBILE) {
-                    Connection remoteConnection = getRemoteConnection();
-                    if (remoteConnection == null) {
-                        throw new NoUrlInformationException(ctx.getString(R.string.error_no_url));
-                    }
-                    return remoteConnection;
-
-                    // Else if we are on Wifi, Ethernet, WIMAX or VPN network
-                } else if (localConnectionTypes.contains(activeNetworkInfo.getType())) {
-                    // See if we have a local URL configured in settings
-                    Connection localConnection = getLocalConnection();
-
-                    // If local URL is configured and rechable
-                    if (localConnection != null && localConnection.isReachable()) {
-                        Log.d(TAG, "Connecting to local URL");
-
-                        return localConnection;
-                    }
-                    // If local URL is not reachable or not configured, try with remote URL
-                    Connection remoteConnection = getRemoteConnection();
-                    if (remoteConnection != null) {
-                        Log.d(TAG, "Connecting to remote URL");
-                        return getRemoteConnection();
-                    } else {
-                        throw new NoUrlInformationException(ctx.getString(R.string.error_no_url));
-                    }
-                    // Else we treat other networks types as unsupported
-                } else {
-                    Log.e(TAG, "Network type (" + activeNetworkInfo.getTypeName() + ") is unsupported");
-                    NetworkNotSupportedException ex = new NetworkNotSupportedException(
-                            String.format(ctx.getString(R.string.error_network_type_unsupported),
-                            activeNetworkInfo.getTypeName()));
-
-                    ex.setNetworkInfo(activeNetworkInfo);
-
-                    throw ex;
-                }
-            }
-        } else {
+        if (activeNetworkInfo == null) {
             Log.e(TAG, "Network is not available");
             throw new NetworkNotAvailableException(
                     ctx.getString(R.string.error_network_not_available));
+        }
+
+        // If we are on a mobile network go directly to remote URL from settings
+        if (activeNetworkInfo.getType() == ConnectivityManager.TYPE_MOBILE) {
+            if (mRemoteConnection == null) {
+                throw new NoUrlInformationException(ctx.getString(R.string.error_no_url));
+            }
+            return mRemoteConnection;
+        }
+
+        // Else if we are on Wifi, Ethernet, WIMAX or VPN network
+        if (localConnectionTypes.contains(activeNetworkInfo.getType())) {
+            // If local URL is configured and rechable
+            if (mLocalConnection != null && mLocalConnection.isReachable()) {
+                Log.d(TAG, "Connecting to local URL");
+
+                return mLocalConnection;
+            }
+            // If local URL is not reachable or not configured, try with remote URL
+            if (mRemoteConnection != null) {
+                Log.d(TAG, "Connecting to remote URL");
+                return mRemoteConnection;
+            } else {
+                throw new NoUrlInformationException(ctx.getString(R.string.error_no_url));
+            }
+            // Else we treat other networks types as unsupported
+        } else {
+            Log.e(TAG, "Network type (" + activeNetworkInfo.getTypeName() + ") is unsupported");
+            NetworkNotSupportedException ex = new NetworkNotSupportedException(
+                    String.format(ctx.getString(R.string.error_network_type_unsupported),
+                            activeNetworkInfo.getTypeName()));
+
+            ex.setNetworkInfo(activeNetworkInfo);
+
+            throw ex;
         }
     }
 
@@ -230,6 +166,27 @@ final public class ConnectionFactory
 
         Intent networkChangedIntent = new Intent(NETWORK_CHANGED);
         ctx.sendBroadcast(networkChangedIntent);
-        cachedConnections.clear();
+    }
+
+    @VisibleForTesting
+    public void updateConnections() {
+        if (settings.getBoolean(Constants.PREFERENCE_DEMOMODE, false)) {
+            mLocalConnection = mRemoteConnection = new DemoConnection(ctx, settings);
+            return;
+        }
+        mLocalConnection = makeConnection(Connection.TYPE_LOCAL, Constants.PREFERENCE_LOCAL_URL,
+                Constants.PREFERENCE_LOCAL_USERNAME, Constants.PREFERENCE_LOCAL_USERNAME);
+        mRemoteConnection = makeConnection(Connection.TYPE_REMOTE, Constants.PREFERENCE_REMOTE_URL,
+                Constants.PREFERENCE_REMOTE_USERNAME, Constants.PREFERENCE_REMOTE_USERNAME);
+    }
+
+    private Connection makeConnection(int type, String urlKey,
+            String userNameKey, String passwordKey) {
+        String url = Util.normalizeUrl(settings.getString(urlKey, ""));
+        if (url.isEmpty()) {
+            return null;
+        }
+        return new DefaultConnection(ctx, settings, type, url,
+                settings.getString(userNameKey, null), settings.getString(passwordKey, null));
     }
 }
