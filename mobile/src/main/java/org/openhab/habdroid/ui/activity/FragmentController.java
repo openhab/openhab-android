@@ -49,7 +49,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.Stack;
 
-public abstract class FragmentController {
+public abstract class FragmentController implements PageConnectionHolderFragment.ParentCallback {
     private final OpenHABMainActivity mActivity;
     protected final FragmentManager mFm;
     protected Fragment mNoConnectionFragment;
@@ -68,6 +68,7 @@ public abstract class FragmentController {
             mConnectionFragment = new PageConnectionHolderFragment();
             mFm.beginTransaction().add(mConnectionFragment, "connections").commit();
         }
+        mConnectionFragment.setCallback(this);
     }
 
     public void onSaveInstanceState(Bundle state) {
@@ -160,6 +161,12 @@ public abstract class FragmentController {
         showTemporaryPage(OpenHABNotificationFragment.newInstance());
     }
 
+    @Override
+    public boolean serverReturnsJson() {
+        return mActivity.getOpenHABVersion() != 1;
+    }
+
+    @Override
     public void onPageUpdated(String pageUrl, String pageTitle, List<OpenHABWidget> widgets) {
         if (mSitemapFragment != null && pageUrl.equals(mSitemapFragment.getDisplayPageUrl())) {
             mSitemapFragment.update(pageTitle, widgets);

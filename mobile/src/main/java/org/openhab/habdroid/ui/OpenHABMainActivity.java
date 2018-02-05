@@ -126,8 +126,7 @@ import static org.openhab.habdroid.util.Util.exceptionHasCause;
 import static org.openhab.habdroid.util.Util.removeProtocolFromUrl;
 
 public class OpenHABMainActivity extends AppCompatActivity implements
-        MemorizingResponder, AsyncServiceResolverListener, ConnectionFactory.UpdateListener,
-        PageConnectionHolderFragment.ParentCallback {
+        MemorizingResponder, AsyncServiceResolverListener, ConnectionFactory.UpdateListener {
 
     private abstract class DefaultHttpResponseHandler implements MyHttpClient.ResponseHandler {
 
@@ -552,16 +551,6 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         if(selectSitemapDialog != null && selectSitemapDialog.isShowing()) {
             selectSitemapDialog.dismiss();
         }
-    }
-
-    @Override
-    public boolean serverReturnsJson() {
-        return mOpenHABVersion != 1;
-    }
-
-    @Override
-    public void onPageUpdated(String pageUrl, String pageTitle, List<OpenHABWidget> widgets) {
-        mController.onPageUpdated(pageUrl, pageTitle, widgets);
     }
 
     public void triggerPageUpdate(String pageUrl, boolean forceReload) {
@@ -1112,7 +1101,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
     }
 
     public int getOpenHABVersion() {
-        return this.mOpenHABVersion;
+        return mOpenHABVersion;
     }
 
     public Connection getConnection() {

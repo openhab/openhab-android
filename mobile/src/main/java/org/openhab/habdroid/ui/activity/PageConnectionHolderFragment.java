@@ -1,6 +1,5 @@
 package org.openhab.habdroid.ui.activity;
 
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -75,10 +74,8 @@ public class PageConnectionHolderFragment extends Fragment {
         }
     }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        mCallback = (ParentCallback) context;
+    public void setCallback(ParentCallback callback) {
+        mCallback = callback;
         for (ConnectionHandler handler : mConnections.values()) {
             handler.mCallback = mCallback;
         }
