@@ -3,6 +3,7 @@ package org.openhab.habdroid.ui;
 import android.os.Bundle;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.Nullable;
+import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
 
 import com.github.paolorotolo.appintro.AppIntro;
@@ -50,7 +51,8 @@ public class IntroActivity extends AppIntro {
         finish();
     }
 
-    private void addOHSlide(int title, int description, @DrawableRes int imageDrawable) {
+    private void addOHSlide(@StringRes int title, @StringRes int description,
+                            @DrawableRes int imageDrawable) {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
             addSlide(AppIntroFragment.newInstance(getString(title), null,
                     getString(description), null, imageDrawable,
