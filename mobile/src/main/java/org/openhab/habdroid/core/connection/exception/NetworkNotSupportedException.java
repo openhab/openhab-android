@@ -3,14 +3,11 @@ package org.openhab.habdroid.core.connection.exception;
 import android.net.NetworkInfo;
 
 public class NetworkNotSupportedException extends ConnectionException {
-    private NetworkInfo networkInfo;
+    private final NetworkInfo networkInfo;
 
-    public NetworkNotSupportedException(String message) {
+    public NetworkNotSupportedException(String message, NetworkInfo info) {
         super(message);
-    }
-
-    public void setNetworkInfo(NetworkInfo networkInfo) {
-        this.networkInfo = networkInfo;
+        networkInfo = info;
     }
 
     public NetworkInfo getNetworkInfo() {

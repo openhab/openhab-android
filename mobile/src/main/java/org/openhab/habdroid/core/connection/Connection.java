@@ -72,5 +72,8 @@ public interface Connection {
      */
     int getConnectionType();
 
-    boolean isReachable();
+    /**
+     * @return Whether the this connection is currently reachable.
+     */
+    boolean checkReachabilityInBackground();
 }

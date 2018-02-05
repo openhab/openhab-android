@@ -1,13 +1,18 @@
 package org.openhab.habdroid.core.connection;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Handler;
+import android.os.Message;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 import org.openhab.habdroid.core.connection.exception.NetworkNotAvailableException;
 import org.openhab.habdroid.core.connection.exception.NetworkNotSupportedException;
 import org.openhab.habdroid.core.connection.exception.NoUrlInformationException;
@@ -16,7 +21,7 @@ import org.openhab.habdroid.util.Constants;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertNull;
-import static org.junit.Assert.assertNotEquals;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
@@ -39,6 +44,9 @@ public class ConnectionFactoryTest {
         mockSettings = Mockito.mock(SharedPreferences.class);
 
         ConnectionFactory.initialize(mockContext, mockSettings);
+
+        ConnectionFactory.sInstance.mMainHandler = makeMockedHandler();
+        ConnectionFactory.sInstance.mUpdateHandler = makeMockedHandler();
     }
 
     @Test
@@ -104,18 +112,14 @@ public class ConnectionFactoryTest {
 
     @Test(expected = NetworkNotAvailableException.class)
     public void testGetAnyConnectionNoNetwork() {
-        Mockito.when(mockConnectivityService.getActiveNetworkInfo()).thenReturn(null);
+        triggerNetworkUpdate(null);
 
         ConnectionFactory.getConnection(Connection.TYPE_ANY);
     }
 
     @Test(expected = NetworkNotSupportedException.class)
     public void testGetAnyConnectionUnsupportedNetwork() {
-        NetworkInfo mockNetworkInfo = Mockito.mock(NetworkInfo.class);
-        Mockito.when(mockNetworkInfo.getType()).thenReturn(ConnectivityManager.TYPE_BLUETOOTH);
-        Mockito.when(mockNetworkInfo.getTypeName()).thenReturn("");
-
-        Mockito.when(mockConnectivityService.getActiveNetworkInfo()).thenReturn(mockNetworkInfo);
+        triggerNetworkUpdate(ConnectivityManager.TYPE_BLUETOOTH);
 
         ConnectionFactory.getConnection(Connection.TYPE_ANY);
     }
@@ -125,10 +129,7 @@ public class ConnectionFactoryTest {
         Mockito.when(mockSettings.getString(eq(Constants.PREFERENCE_REMOTE_URL), anyString()))
                 .thenReturn("https://myopenhab.org:8443");
         ConnectionFactory.sInstance.updateConnections();
-        NetworkInfo mockNetworkInfo = Mockito.mock(NetworkInfo.class);
-        Mockito.when(mockNetworkInfo.getType()).thenReturn(ConnectivityManager.TYPE_WIFI);
-
-        Mockito.when(mockConnectivityService.getActiveNetworkInfo()).thenReturn(mockNetworkInfo);
+        triggerNetworkUpdate(ConnectivityManager.TYPE_WIFI);
 
         Connection conn = ConnectionFactory.getConnection(Connection.TYPE_ANY);
 
@@ -146,10 +147,7 @@ public class ConnectionFactoryTest {
         Mockito.when(mockSettings.getString(eq(Constants.PREFERENCE_LOCAL_URL), anyString()))
                 .thenReturn("https://myopenhab.org:443");
         ConnectionFactory.sInstance.updateConnections();
-        NetworkInfo mockNetworkInfo = Mockito.mock(NetworkInfo.class);
-        Mockito.when(mockNetworkInfo.getType()).thenReturn(ConnectivityManager.TYPE_WIFI);
-
-        Mockito.when(mockConnectivityService.getActiveNetworkInfo()).thenReturn(mockNetworkInfo);
+        triggerNetworkUpdate(ConnectivityManager.TYPE_WIFI);
 
         Connection conn = ConnectionFactory.getConnection(Connection.TYPE_ANY);
 
@@ -162,11 +160,51 @@ public class ConnectionFactoryTest {
     @Test(expected = NoUrlInformationException.class)
     public void testGetAnyConnectionWifiNoLocalNoRemote() {
         Mockito.when(mockSettings.getString(anyString(), anyString())).thenReturn(null);
-        NetworkInfo mockNetworkInfo = Mockito.mock(NetworkInfo.class);
-        Mockito.when(mockNetworkInfo.getType()).thenReturn(ConnectivityManager.TYPE_WIFI);
-
-        Mockito.when(mockConnectivityService.getActiveNetworkInfo()).thenReturn(mockNetworkInfo);
+        triggerNetworkUpdate(ConnectivityManager.TYPE_WIFI);
 
         ConnectionFactory.getConnection(Connection.TYPE_ANY);
+    }
+
+    private void triggerNetworkUpdate(int type) {
+        NetworkInfo mockNetworkInfo = Mockito.mock(NetworkInfo.class);
+        Mockito.when(mockNetworkInfo.getType()).thenReturn(type);
+        triggerNetworkUpdate(mockNetworkInfo);
+    }
+
+    private void triggerNetworkUpdate(NetworkInfo info) {
+        Mockito.when(mockConnectivityService.getActiveNetworkInfo()).thenReturn(info);
+
+        ConnectionFactory.sInstance.onReceive(mockContext,
+                new Intent(ConnectivityManager.CONNECTIVITY_ACTION));
+    }
+
+    private Handler makeMockedHandler() {
+        final Handler h = Mockito.mock(Handler.class);
+        Mockito.when(h.sendEmptyMessage(anyInt())).thenAnswer(new Answer<Boolean>() {
+            @Override
+            public Boolean answer(InvocationOnMock invocationOnMock) throws Throwable {
+                Message msg = new Message();
+                msg.what = invocationOnMock.getArgument(0);
+                ConnectionFactory.sInstance.handleMessage(msg);
+                return Boolean.TRUE;
+            }
+        });
+        Mockito.when(h.sendMessage(any(Message.class))).thenAnswer(new Answer<Boolean>() {
+            @Override
+            public Boolean answer(InvocationOnMock invocationOnMock) throws Throwable {
+                Message msg = invocationOnMock.getArgument(0);
+                ConnectionFactory.sInstance.handleMessage(msg);
+                return Boolean.TRUE;
+            }
+        });
+        Mockito.when(h.obtainMessage(anyInt())).thenAnswer(new Answer<Message>() {
+            @Override
+            public Message answer(InvocationOnMock invocationOnMock) throws Throwable {
+                Message msg = new Message();
+                msg.what = invocationOnMock.getArgument(0);
+                return msg;
+            }
+        });
+        return h;
     }
 }
