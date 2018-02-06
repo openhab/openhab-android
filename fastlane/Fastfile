@@ -20,11 +20,6 @@ opt_out_crash_reporting
 default_platform :android
 
 platform :android do
-  desc "Runs all the tests"
-  lane :test do
-    gradle(task: "test")
-  end
-
   desc "Deploy a new version to the Google Play"
   lane :deploy do
     gradle(task: "assembleRelease")
