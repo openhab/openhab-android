@@ -22,8 +22,18 @@ default_platform :android
 platform :android do
   desc "Deploy a new version to the Google Play"
   lane :deploy do
-    gradle(task: "assembleRelease")
-    upload_to_play_store
+    upload_to_play_store(
+      track: 'production',
+      apk: "$HOME/apks_to_deploy/openhab-android.apk"
+    )
+  end
+
+  desc "Deploy a new beta version to the Google Play"
+  lane :betaDeploy do
+    upload_to_play_store(
+      track: 'beta',
+      apk: "$HOME/apks_to_deploy/openhab-android.apk"
+    )
   end
 end
 
