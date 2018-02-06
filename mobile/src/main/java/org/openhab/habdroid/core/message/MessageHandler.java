@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -19,8 +18,6 @@ public class MessageHandler {
     public static final int TYPE_TOAST = 3;
 
     public static final int LOGLEVEL_DEBUG = 0;
-    public static final int LOGLEVEL_REMOTE = 1;
-    public static final int LOGLEVEL_LOCAL = 2;
     public static final int LOGLEVEL_NO_DEBUG = 4;
     public static final int LOGLEVEL_ALWAYS = 5;
 
@@ -71,32 +68,11 @@ public class MessageHandler {
         }
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(mActivity);
         boolean debugEnabled = settings.getBoolean(Constants.PREFERENCE_DEBUG_MESSAGES, false);
-        String remoteUrl = settings.getString(Constants.PREFERENCE_REMOTE_URL, "");
-        String localUrl = settings.getString(Constants.PREFERENCE_LOCAL_URL, "");
 
         // if debug mode is enabled, show all messages, except those with logLevel 4
         if((debugEnabled && logLevel == LOGLEVEL_NO_DEBUG) ||
                 (!debugEnabled && logLevel == LOGLEVEL_DEBUG)) {
             return;
-        }
-
-        switch (logLevel) {
-            case LOGLEVEL_REMOTE:
-                if (remoteUrl.length() > 1) {
-                    Log.d(TAG, "Remote URL set, show message: " + message);
-                } else {
-                    Log.d(TAG, "No remote URL set, don't show message: " + message);
-                    return;
-                }
-                break;
-            case LOGLEVEL_LOCAL:
-                if (localUrl.length() > 1) {
-                    Log.d(TAG, "Local URL set, show message: " + message);
-                } else {
-                    Log.d(TAG, "No local URL set, don't show message: " + message);
-                    return;
-                }
-                break;
         }
 
         switch (messageType) {
