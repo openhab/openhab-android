@@ -9,9 +9,7 @@
 
 package org.openhab.habdroid.core;
 
-import android.app.AlertDialog;
 import android.app.Service;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.IBinder;
@@ -25,7 +23,6 @@ import org.openhab.habdroid.R;
 import org.openhab.habdroid.core.connection.Connection;
 import org.openhab.habdroid.core.connection.ConnectionFactory;
 import org.openhab.habdroid.core.connection.exception.ConnectionException;
-import org.openhab.habdroid.core.message.MessageHandler;
 import org.openhab.habdroid.util.MyHttpClient;
 
 import java.util.List;
@@ -65,33 +62,6 @@ public class OpenHABVoiceService extends Service {
     @Override
     public IBinder onBind(Intent intent) {
         return null;
-    }
-
-    /**
-     * @param message     message to show
-     * @param messageType must be MessageHandler.TYPE_DIALOG or MessageHandler.TYPE_TOAST
-     * @param logLevel    not implemented
-     */
-    public void showMessageToUser(String message, int messageType, int logLevel) {
-        if (message == null) {
-            return;
-        }
-        switch (messageType) {
-            case MessageHandler.TYPE_DIALOG:
-                AlertDialog.Builder builder = new AlertDialog.Builder(OpenHABVoiceService.this);
-                builder.setMessage(message)
-                        .setPositiveButton(getString(android.R.string.ok), new DialogInterface
-                                .OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                            }
-                        });
-                AlertDialog alert = builder.create();
-                alert.show();
-                break;
-            default:
-                Toast.makeText(this, message, Toast.LENGTH_LONG).show();
-                break;
-        }
     }
 
     private String extractVoiceCommand(Intent data) {
@@ -146,7 +116,7 @@ public class OpenHABVoiceService extends Service {
         new Handler(Looper.getMainLooper()).post(new Runnable() {
             @Override
             public void run() {
-                showMessageToUser(message, MessageHandler.TYPE_TOAST, MessageHandler.LOGLEVEL_ALWAYS);
+                Toast.makeText(OpenHABVoiceService.this, message, Toast.LENGTH_LONG).show();
             }
         });
     }

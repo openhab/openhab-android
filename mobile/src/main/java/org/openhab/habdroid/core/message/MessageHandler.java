@@ -7,7 +7,6 @@ import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.view.View;
-import android.widget.Toast;
 
 import org.openhab.habdroid.util.Constants;
 
@@ -15,7 +14,6 @@ public class MessageHandler {
     private static final String TAG = MessageHandler.class.getSimpleName();
     public static final int TYPE_DIALOG = 1;
     public static final int TYPE_SNACKBAR = 2;
-    public static final int TYPE_TOAST = 3;
 
     public static final int LOGLEVEL_DEBUG = 0;
     public static final int LOGLEVEL_NO_DEBUG = 4;
@@ -24,7 +22,6 @@ public class MessageHandler {
     private Activity mActivity;
     private Snackbar snackbar;
     private AlertDialog alertDialog;
-    private Toast toast;
 
     public MessageHandler(Activity activity) {
         mActivity = activity;
@@ -37,10 +34,6 @@ public class MessageHandler {
 
         if (alertDialog != null) {
             alertDialog.dismiss();
-        }
-
-        if (toast != null) {
-            toast.cancel();
         }
     }
 
@@ -90,10 +83,6 @@ public class MessageHandler {
                     snackbar.setDuration(Snackbar.LENGTH_INDEFINITE);
                 }
                 snackbar.show();
-                break;
-            case TYPE_TOAST:
-                toast = Toast.makeText(mActivity, message, Toast.LENGTH_LONG);
-                toast.show();
                 break;
             default:
                 throw new IllegalArgumentException("Wrong message type");
