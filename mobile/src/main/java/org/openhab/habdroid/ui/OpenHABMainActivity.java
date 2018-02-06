@@ -118,7 +118,6 @@ import static org.openhab.habdroid.core.message.MessageHandler.LOGLEVEL_DEBUG;
 import static org.openhab.habdroid.core.message.MessageHandler.LOGLEVEL_NO_DEBUG;
 import static org.openhab.habdroid.core.message.MessageHandler.TYPE_DIALOG;
 import static org.openhab.habdroid.core.message.MessageHandler.TYPE_SNACKBAR;
-import static org.openhab.habdroid.core.message.MessageHandler.showMessageToUser;
 import static org.openhab.habdroid.util.Util.exceptionHasCause;
 import static org.openhab.habdroid.util.Util.removeProtocolFromUrl;
 
@@ -167,14 +166,14 @@ public class OpenHABMainActivity extends ConnectionAvailabilityAwareActivity
                 Log.e(TAG, error.getClass().toString());
                 message = error.getMessage();
             }
-            showMessageToUser(OpenHABMainActivity.this, message, TYPE_DIALOG, LOGLEVEL_NO_DEBUG);
+            mMessageHandler.showMessageToUser(message, TYPE_DIALOG, LOGLEVEL_NO_DEBUG);
 
             message += "\nURL: " + call.request().url();
             if (call.request().header("Authorization") != null)
                 message += "\n" + getUserPasswordFromAuthorization(call.request().header
                         ("Authorization"));
             message += "\nStacktrace:\n" + Log.getStackTraceString(error);
-            showMessageToUser(OpenHABMainActivity.this, message, TYPE_DIALOG, LOGLEVEL_DEBUG);
+            mMessageHandler.showMessageToUser(message, TYPE_DIALOG, LOGLEVEL_DEBUG);
         }
 
         private String getUserPasswordFromAuthorization(String authorizationString) {
@@ -356,19 +355,19 @@ public class OpenHABMainActivity extends ConnectionAvailabilityAwareActivity
     private void initializeConnectivity() throws ConnectionException {
         final Connection conn = ConnectionFactory.getConnection(TYPE_ANY);
         if (conn instanceof DemoConnection) {
-            showMessageToUser(
-                    this, getString(R.string.info_demo_mode_short), TYPE_SNACKBAR, LOGLEVEL_ALWAYS);
+            mMessageHandler.showMessageToUser(
+                    getString(R.string.info_demo_mode_short), TYPE_SNACKBAR, LOGLEVEL_ALWAYS);
             if (getIntent().hasExtra(EXTRA_DEMO_FIRST_TIME)) {
                 getIntent().removeExtra(EXTRA_DEMO_FIRST_TIME);
-                showMessageToUser(this, getString(R.string.error_no_url_start_demo_mode),
+                mMessageHandler.showMessageToUser(getString(R.string.error_no_url_start_demo_mode),
                         TYPE_DIALOG, LOGLEVEL_ALWAYS);
             }
         } else if (conn.getConnectionType() == Connection.TYPE_LOCAL) {
-            showMessageToUser(
-                    this, getString(R.string.info_conn_url), TYPE_SNACKBAR, LOGLEVEL_ALWAYS);
+            mMessageHandler.showMessageToUser(
+                    getString(R.string.info_conn_url), TYPE_SNACKBAR, LOGLEVEL_ALWAYS);
         } else if (conn.getConnectionType() == Connection.TYPE_REMOTE) {
-            showMessageToUser(
-                    this, getString(R.string.info_conn_rem_url), TYPE_SNACKBAR, LOGLEVEL_ALWAYS);
+            mMessageHandler.showMessageToUser(
+                    getString(R.string.info_conn_rem_url), TYPE_SNACKBAR, LOGLEVEL_ALWAYS);
         }
 
         final String url = "/rest/bindings";
@@ -1092,6 +1091,10 @@ public class OpenHABMainActivity extends ConnectionAvailabilityAwareActivity
         return mViewPool;
     }
 
+    public MessageHandler getMessageHandler() {
+        return mMessageHandler;
+    }
+
     protected void setProgressIndicatorVisible(boolean visible) {
         if (mProgressBar != null) {
             mProgressBar.setVisibility(visible ? View.VISIBLE : View.INVISIBLE);
@@ -1122,9 +1125,10 @@ public class OpenHABMainActivity extends ConnectionAvailabilityAwareActivity
     }
 
     private void showAlertDialog(String alertMessage) {
-        if (this.isFinishing())
-            return;
-       showMessageToUser(OpenHABMainActivity.this, alertMessage, MessageHandler.TYPE_DIALOG, MessageHandler.LOGLEVEL_ALWAYS);
+        if (!isFinishing()) {
+            mMessageHandler.showMessageToUser(alertMessage,
+                    MessageHandler.TYPE_DIALOG, MessageHandler.LOGLEVEL_ALWAYS);
+        }
     }
 
     private void showCertificateDialog(final int decisionId, String certMessage) {

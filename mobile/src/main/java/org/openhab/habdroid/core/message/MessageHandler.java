@@ -2,7 +2,6 @@ package org.openhab.habdroid.core.message;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
@@ -25,11 +24,16 @@ public class MessageHandler {
     public static final int LOGLEVEL_NO_DEBUG = 4;
     public static final int LOGLEVEL_ALWAYS = 5;
 
-    private static Snackbar snackbar;
-    private static AlertDialog alertDialog;
-    private static Toast toast;
+    private Activity mActivity;
+    private Snackbar snackbar;
+    private AlertDialog alertDialog;
+    private Toast toast;
 
-    public static void closeAllMessages() {
+    public MessageHandler(Activity activity) {
+        mActivity = activity;
+    }
+
+    public void closeAllMessages() {
         if (snackbar != null) {
             snackbar.dismiss();
         }
@@ -43,8 +47,8 @@ public class MessageHandler {
         }
     }
 
-    public static void showMessageToUser(Activity ctx, String message, int messageType, int logLevel) {
-        showMessageToUser(ctx, message, messageType, logLevel, 0, null);
+    public void showMessageToUser(String message, int messageType, int logLevel) {
+        showMessageToUser(message, messageType, logLevel, 0, null);
     }
 
     /**
@@ -60,13 +64,12 @@ public class MessageHandler {
      *                      messageType (can be 0)
      * @param actionListener A listener that should be executed when the action message is clicked.
      */
-    public static void showMessageToUser(Activity ctx, String message, int messageType,
-                                         int logLevel, int actionMessage,
-                                         @Nullable View.OnClickListener actionListener) {
-        if (ctx.isFinishing() || message == null) {
+    public void showMessageToUser(String message, int messageType, int logLevel,
+            int actionMessage, @Nullable View.OnClickListener actionListener) {
+        if (mActivity.isFinishing() || message == null) {
             return;
         }
-        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(ctx);
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(mActivity);
         boolean debugEnabled = settings.getBoolean(Constants.PREFERENCE_DEBUG_MESSAGES, false);
         String remoteUrl = settings.getString(Constants.PREFERENCE_REMOTE_URL, "");
         String localUrl = settings.getString(Constants.PREFERENCE_LOCAL_URL, "");
@@ -98,18 +101,13 @@ public class MessageHandler {
 
         switch (messageType) {
             case TYPE_DIALOG:
-                AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
-                builder.setMessage(message)
-                        .setPositiveButton(ctx.getText(android.R.string.ok), new DialogInterface
-                                .OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                            }
-                        });
-                alertDialog = builder.create();
-                alertDialog.show();
+                alertDialog = new AlertDialog.Builder(mActivity)
+                        .setMessage(message)
+                        .setPositiveButton(android.R.string.ok, null)
+                        .show();
                 break;
             case TYPE_SNACKBAR:
-                snackbar = Snackbar.make(ctx.findViewById(android.R.id.content),
+                snackbar = Snackbar.make(mActivity.findViewById(android.R.id.content),
                         message, Snackbar.LENGTH_LONG);
                 if (actionListener != null && actionMessage != 0) {
                     snackbar.setAction(actionMessage, actionListener);
@@ -118,7 +116,7 @@ public class MessageHandler {
                 snackbar.show();
                 break;
             case TYPE_TOAST:
-                toast = Toast.makeText(ctx, message, Toast.LENGTH_LONG);
+                toast = Toast.makeText(mActivity, message, Toast.LENGTH_LONG);
                 toast.show();
                 break;
             default:

@@ -8,6 +8,7 @@ import android.content.IntentFilter;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
@@ -31,6 +32,7 @@ import org.openhab.habdroid.ui.OpenHABPreferencesActivity;
 public abstract class ConnectionAvailabilityAwareActivity extends AppCompatActivity {
     private static final String TAG = ConnectionAvailabilityAwareActivity.class.getSimpleName();
     public static final String NO_NETWORK_TAG = "noNetwork";
+    protected MessageHandler mMessageHandler;
 
     private final BroadcastReceiver mConnectionChangeListener = new BroadcastReceiver() {
         @Override
@@ -38,6 +40,12 @@ public abstract class ConnectionAvailabilityAwareActivity extends AppCompatActiv
             onConnectivityChanged();
         }
     };
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        mMessageHandler = new MessageHandler(this);
+        super.onCreate(savedInstanceState);
+    }
 
     public Connection getConnection(int connectionType) {
         try {
@@ -70,7 +78,7 @@ public abstract class ConnectionAvailabilityAwareActivity extends AppCompatActiv
 
         onEnterNoNetwork();
 
-        MessageHandler.closeAllMessages();
+        mMessageHandler.closeAllMessages();
 
         getFragmentManager()
                 .beginTransaction()

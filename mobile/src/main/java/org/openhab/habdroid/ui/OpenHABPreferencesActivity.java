@@ -41,8 +41,6 @@ import org.openhab.habdroid.util.Util;
 
 import java.security.cert.X509Certificate;
 
-import static org.openhab.habdroid.core.message.MessageHandler.showMessageToUser;
-
 /**
  * This is a class to provide preferences activity for application.
  */
@@ -55,7 +53,8 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         String initialMessage = getIntent().getStringExtra(EXTRA_INITIAL_MESSAGE);
         if (initialMessage != null) {
-            showMessageToUser(this, initialMessage,
+            MessageHandler handler = new MessageHandler(this);
+            handler.showMessageToUser(initialMessage,
                     MessageHandler.TYPE_DIALOG, MessageHandler.LOGLEVEL_ALWAYS);
         }
 

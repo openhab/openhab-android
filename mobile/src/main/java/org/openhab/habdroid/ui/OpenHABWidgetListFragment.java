@@ -64,7 +64,6 @@ import okhttp3.Headers;
 import static org.openhab.habdroid.core.connection.Connection.TYPE_ANY;
 import static org.openhab.habdroid.core.message.MessageHandler.LOGLEVEL_ALWAYS;
 import static org.openhab.habdroid.core.message.MessageHandler.TYPE_SNACKBAR;
-import static org.openhab.habdroid.core.message.MessageHandler.showMessageToUser;
 import static org.openhab.habdroid.util.Constants.PREFERENCE_SWIPE_REFRESH_EXPLAINED;
 
 /**
@@ -167,7 +166,7 @@ public class OpenHABWidgetListFragment extends Fragment
             @Override
             public void onRefresh() {
                 if (shouldShowSwipeToRefreshDescriptionSnackbar()) {
-                    showSwipeToRefreshDescriptionSnackbar(getActivity());
+                    showSwipeToRefreshDescriptionSnackbar();
                 }
                 if (displayPageUrl != null) {
                     showPage(displayPageUrl, false);
@@ -225,8 +224,9 @@ public class OpenHABWidgetListFragment extends Fragment
         builder.show();
     }
 
-    private void showSwipeToRefreshDescriptionSnackbar(Activity context) {
-        showMessageToUser(context, getString(R.string.swipe_to_refresh_description),
+    private void showSwipeToRefreshDescriptionSnackbar() {
+        mActivity.getMessageHandler().showMessageToUser(
+                getString(R.string.swipe_to_refresh_description),
                 TYPE_SNACKBAR, LOGLEVEL_ALWAYS,
                 R.string.swipe_to_refresh_dismiss, new View.OnClickListener() {
                     @Override
