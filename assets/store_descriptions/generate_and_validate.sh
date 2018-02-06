@@ -24,7 +24,7 @@ do
     if [ -f "${folder}/strings.sh" ]
     then
         lang=${folder#${string_base}/}
-        if egrep '\||;|http:' "${folder}/strings.sh" --color=always
+        if egrep '\||;|http:|\\' "${folder}/strings.sh" --color=always || [ $(grep '#' "${folder}/strings.sh" | wc -l) -gt 2 ]
         then
             echo "Prohibited char found in $lang, exiting" 1>&2
             exit 1
