@@ -86,15 +86,10 @@ public class OpenHABNotificationFragment extends Fragment implements SwipeRefres
     }
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        Log.d(TAG, "onAttach()");
-    }
-
-    @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mNotificationAdapter = new OpenHABNotificationAdapter(this.getActivity(), mNotifications);
+        mActivity = (OpenHABMainActivity) getActivity();
+        mNotificationAdapter = new OpenHABNotificationAdapter(mActivity, mNotifications);
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
         mRecyclerView.addItemDecoration(new DividerItemDecoration(mActivity));
