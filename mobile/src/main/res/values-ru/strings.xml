@@ -13,7 +13,6 @@
   <string name="mainmenu_openhab_sitemaps">Sitemap\'ы</string>
   <string name="mainmenu_openhab_preferences">Параметры</string>
   <string name="mainmenu_openhab_selectsitemap">Выбрать sitemap по умолчанию</string>
-  <string name="mainmenu_openhab_clearcache">Очистить кеш картинок</string>
   <!-- App settings strings -->
   <string name="settings_openhab_url">URL адрес локального openHAB</string>
   <string name="settings_openhab_url_summary">URL-адрес панели openHAB (на основании имени хоста или IP). Если введено, автообнаружение отключен. Текущие настройки: %s</string>

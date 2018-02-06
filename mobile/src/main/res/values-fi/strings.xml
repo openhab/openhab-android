@@ -71,6 +71,7 @@
   <string name="error_certificate_expired">SSL serifikaatti on vanhentunut. Hanki uusi sertifikaatti tai poista käytöstä sertifikaatin vahvistus SSL kättelyn aikana</string>
   <string name="error_certificate_not_valid_yet">SSL sertifikaatti ei ole vielä kelvollinen. Hanki sopiva sertifikaatti tai poista käytöstä sertifikaatin vahvistus SSL kättelyn aikana. Tarkista myös, että laitteessasi on oikea kellonaika</string>
   <string name="error_certificate_revoked">SSL serifikaatti on kumottu. Hanki uusi sertifikaatti tai poista käytöstä sertifikaatin vahvistus SSL kättelyn aikana</string>
+  <string name="error_certificate_wrong_host">Isäntä %s ei hyväksy SSL sertifikaattia</string>
   <string name="error_http_code_401">Todennus epäonnistui. Tarkista määritetty käyttäjänimi, salasana sekä SSL sertifikaatti(HTTP vastaus 401)</string>
   <string name="error_http_code_403">Todennus epäonnistui. Tarkista määritetty käyttäjänimi, salasana sekä SSL sertifikaatti (HTTP vastaus 403)</string>
   <string name="error_http_code_407">Todennus epäonnistui. Tarkista määritetty käyttäjänimi, salasana sekä SSL sertifikaatti (HTTP vastaus 407)</string>
