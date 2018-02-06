@@ -87,7 +87,6 @@ public class OpenHABWidgetListFragment extends Fragment
         Log.d(TAG, "onActivityCreated()");
         Log.d(TAG, "isAdded = " + isAdded());
         mActivity = (OpenHABMainActivity) getActivity();
-        final String iconFormat = getIconFormat();
 
         // We're using atmosphere so create an own client to not block the others
         SharedPreferences prefs = PreferenceManager

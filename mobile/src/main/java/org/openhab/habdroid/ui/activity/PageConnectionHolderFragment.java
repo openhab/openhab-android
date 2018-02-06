@@ -36,6 +36,7 @@ import okhttp3.Headers;
 public class PageConnectionHolderFragment extends Fragment {
     public interface ParentCallback {
         boolean serverReturnsJson();
+        String getIconFormat();
         void onPageUpdated(String pageUrl, String pageTitle, List<OpenHABWidget> widgets);
     }
 
@@ -201,7 +202,8 @@ public class PageConnectionHolderFragment extends Fragment {
                 return;
             }
 
-            OpenHABWidgetDataSource dataSource = new OpenHABWidgetDataSource("PNG"); // XXX
+            OpenHABWidgetDataSource dataSource =
+                    new OpenHABWidgetDataSource(mCallback.getIconFormat());
             final boolean hasUpdate;
             if (mCallback.serverReturnsJson()) {
                 hasUpdate = parseResponseJson(dataSource, responseString);

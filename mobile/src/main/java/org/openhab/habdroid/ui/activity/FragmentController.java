@@ -11,9 +11,11 @@ package org.openhab.habdroid.ui.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.AnimRes;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.LayoutRes;
@@ -164,6 +166,12 @@ public abstract class FragmentController implements PageConnectionHolderFragment
     @Override
     public boolean serverReturnsJson() {
         return mActivity.getOpenHABVersion() != 1;
+    }
+
+    @Override
+    public String getIconFormat() {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(mActivity);
+        return prefs.getString("iconFormatType","PNG");
     }
 
     @Override
