@@ -11,6 +11,7 @@ package org.openhab.habdroid.ui;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.Fragment;
 import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
@@ -34,25 +35,32 @@ import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
 import android.support.annotation.StringRes;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Base64;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 
@@ -65,10 +73,10 @@ import org.openhab.habdroid.core.NotificationDeletedBroadcastReceiver;
 import org.openhab.habdroid.core.OnUpdateBroadcastReceiver;
 import org.openhab.habdroid.core.OpenHABVoiceService;
 import org.openhab.habdroid.core.connection.Connection;
-import org.openhab.habdroid.core.connection.ConnectionAvailabilityAwareActivity;
 import org.openhab.habdroid.core.connection.ConnectionFactory;
 import org.openhab.habdroid.core.connection.DemoConnection;
 import org.openhab.habdroid.core.connection.exception.ConnectionException;
+import org.openhab.habdroid.core.connection.exception.NetworkNotSupportedException;
 import org.openhab.habdroid.core.connection.exception.NoUrlInformationException;
 import org.openhab.habdroid.core.message.MessageHandler;
 import org.openhab.habdroid.core.notifications.GoogleCloudMessageConnector;
@@ -121,8 +129,8 @@ import static org.openhab.habdroid.core.message.MessageHandler.TYPE_SNACKBAR;
 import static org.openhab.habdroid.util.Util.exceptionHasCause;
 import static org.openhab.habdroid.util.Util.removeProtocolFromUrl;
 
-public class OpenHABMainActivity extends ConnectionAvailabilityAwareActivity
-        implements MemorizingResponder, AsyncServiceResolverListener {
+public class OpenHABMainActivity extends AppCompatActivity implements
+        MemorizingResponder, AsyncServiceResolverListener, ConnectionFactory.UpdateListener {
 
     private abstract class DefaultHttpResponseHandler implements MyHttpClient.ResponseHandler {
 
@@ -204,6 +212,7 @@ public class OpenHABMainActivity extends ConnectionAvailabilityAwareActivity
     private static final int DRAWER_ABOUT = 101;
     private static final int DRAWER_PREFERENCES = 102;
     private static final String EXTRA_DEMO_FIRST_TIME = "firstDemo";
+    private static final String NO_NETWORK_TAG = "noNetwork";
 
     // openHAB Bonjour service name
     private String openHABServiceType;
@@ -247,6 +256,7 @@ public class OpenHABMainActivity extends ConnectionAvailabilityAwareActivity
     private Dialog selectSitemapDialog;
     private boolean mShowNetworkDrawerItems = true;
     public static String GCM_SENDER_ID;
+    private MessageHandler mMessageHandler;
 
     /**
      * Daydreaming gets us into a funk when in fullscreen, this allows us to
@@ -290,6 +300,7 @@ public class OpenHABMainActivity extends ConnectionAvailabilityAwareActivity
         openHABServiceType = getString(R.string.openhab_service_type);
 
         Util.setActivityTheme(this);
+        mMessageHandler = new MessageHandler(this);
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
@@ -340,6 +351,86 @@ public class OpenHABMainActivity extends ConnectionAvailabilityAwareActivity
         }
         OnUpdateBroadcastReceiver.updateComparableVersion(prefsEdit);
         prefsEdit.apply();
+    }
+
+    public Connection getConnection() {
+        try {
+            Connection c = ConnectionFactory.getUsableConnection();
+            hideNoNetworkFragment();
+            return c;
+        } catch (ConnectionException e) {
+            if (e instanceof NoUrlInformationException) {
+                if (!isFinishing()) {
+                    DialogInterface.OnClickListener clickCb = new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Intent preferencesIntent = new Intent(
+                                    OpenHABMainActivity.this,
+                                    OpenHABPreferencesActivity.class);
+                            TaskStackBuilder.create(OpenHABMainActivity.this)
+                                    .addNextIntentWithParentStack(preferencesIntent)
+                                    .startActivities();
+                        }
+                    };
+                    new AlertDialog.Builder(this)
+                            .setMessage(R.string.error_no_url)
+                            .setPositiveButton(R.string.go_to_settings_button, clickCb)
+                            .show();
+                }
+            } else if (e instanceof NetworkNotSupportedException) {
+                String message = getString(R.string.error_network_type_unsupported,
+                        ((NetworkNotSupportedException) e).getNetworkInfo().getTypeName());
+                showNoNetworkFragment(message);
+            } else {
+                showNoNetworkFragment(getString(R.string.error_network_not_available));
+            }
+        }
+        return null;
+    }
+
+    private void showNoNetworkFragment(String message) {
+        Fragment noNetworkFrament = new NoNetworkFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString(NoNetworkFragment.NO_NETWORK_MESSAGE, message);
+        noNetworkFrament.setArguments(bundle);
+
+        ViewPager pager = findViewById(R.id.pager);
+        if (pager != null) {
+            pager.removeAllViews();
+        }
+
+        mShowNetworkDrawerItems = false;
+        mDrawerToggle.setDrawerIndicatorEnabled(true);
+        loadDrawerItems();
+        mProgressBar.setVisibility(View.GONE);
+        invalidateOptionsMenu();
+        mMessageHandler.closeAllMessages();
+
+        getFragmentManager()
+                .beginTransaction()
+                .replace(android.R.id.content, noNetworkFrament, NO_NETWORK_TAG)
+                .commit();
+
+        setTitle(R.string.app_name);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        }
+    }
+
+    private void hideNoNetworkFragment() {
+        Fragment fragment = getFragmentManager().findFragmentByTag(NO_NETWORK_TAG);
+        if (fragment != null) {
+            getFragmentManager().beginTransaction().remove(fragment).commit();
+            if (getSupportActionBar() != null) {
+                getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            }
+
+            mShowNetworkDrawerItems = true;
+            mDrawerToggle.setDrawerIndicatorEnabled(pager.getCurrentItem() == 0);
+            loadDrawerItems();
+
+            invalidateOptionsMenu();
+        }
     }
 
     private void initializeConnectivity() throws ConnectionException {
@@ -494,7 +585,9 @@ public class OpenHABMainActivity extends ConnectionAvailabilityAwareActivity
     @Override
     public void onResume() {
         Log.d(TAG, "onResume()");
+
         super.onResume();
+        ConnectionFactory.addListener(this);
 
         try {
             initializeConnectivity();
@@ -567,6 +660,7 @@ public class OpenHABMainActivity extends ConnectionAvailabilityAwareActivity
             mServiceResolver.interrupt();
             mServiceResolver = null;
         }
+        ConnectionFactory.removeListener(this);
     }
 
     /**
@@ -584,35 +678,7 @@ public class OpenHABMainActivity extends ConnectionAvailabilityAwareActivity
     }
 
     @Override
-    protected void onEnterNoNetwork() {
-        super.onEnterNoNetwork();
-        ViewPager pager = findViewById(R.id.pager);
-        if (pager != null) {
-            pager.removeAllViews();
-        }
-
-        mDrawerToggle.setDrawerIndicatorEnabled(true);
-        mShowNetworkDrawerItems = false;
-        loadDrawerItems();
-
-        mProgressBar.setVisibility(View.GONE);
-        invalidateOptionsMenu();
-    }
-
-    @Override
-    protected void onLeaveNoNetwork() {
-        super.onLeaveNoNetwork();
-        mShowNetworkDrawerItems = true;
-        mDrawerToggle.setDrawerIndicatorEnabled(pager.getCurrentItem() == 0);
-        loadDrawerItems();
-
-        invalidateOptionsMenu();
-    }
-
-    @Override
     public void onConnectionChanged() {
-        super.onConnectionChanged();
-
         try {
             initializeConnectivity();
         } catch (ConnectionException e) {
@@ -1363,6 +1429,44 @@ public class OpenHABMainActivity extends ConnectionAvailabilityAwareActivity
 
         if (mDrawerAdapter != null) {
             mDrawerAdapter.notifyDataSetChanged();
+        }
+    }
+
+    public static class NoNetworkFragment extends Fragment {
+        public static final String NO_NETWORK_MESSAGE = "message";
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            Bundle arguments = getArguments();
+
+            View view = inflater.inflate(R.layout.fragment_no_network, container, false);
+
+            TextView descriptionText = view.findViewById(R.id.network_error_description);
+            String message = arguments.getString(NO_NETWORK_MESSAGE);
+            if (!TextUtils.isEmpty(message)) {
+                descriptionText.setText(message);
+            } else {
+                descriptionText.setVisibility(View.GONE);
+            }
+
+            final ImageView watermark = view.findViewById(R.id.network_error_image);
+
+            Drawable errorImage = getResources().getDrawable(R.drawable.ic_signal_cellular_off_black_24dp);
+            errorImage.setColorFilter(
+                    ContextCompat.getColor(getActivity(), R.color.empty_list_text_color),
+                    PorterDuff.Mode.SRC_IN);
+            watermark.setImageDrawable(errorImage);
+
+            final Button restartButton = view.findViewById(R.id.network_error_try_again);
+            restartButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    getActivity().recreate();
+                }
+            });
+
+            return view;
         }
     }
 }
