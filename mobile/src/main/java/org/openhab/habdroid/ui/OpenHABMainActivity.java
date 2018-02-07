@@ -530,7 +530,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
                 } else if (!mServiceResolver.isAlive()) {
                     mController.indicateMissingConfiguration();
                 }
-            } else {
+            } else if (failureReason != null) {
                 final String message;
                 if (failureReason instanceof NetworkNotSupportedException) {
                     NetworkInfo info = ((NetworkNotSupportedException) failureReason).getNetworkInfo();
@@ -539,6 +539,8 @@ public class OpenHABMainActivity extends AppCompatActivity implements
                     message = getString(R.string.error_network_not_available);
                 }
                 mController.indicateNoNetwork(message);
+            } else {
+                mController.updateConnection(null, null);
             }
         }
         invalidateOptionsMenu();
