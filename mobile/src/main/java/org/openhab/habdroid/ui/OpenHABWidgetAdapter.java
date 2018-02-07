@@ -14,7 +14,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
-import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.PorterDuff;
@@ -22,12 +21,14 @@ import android.net.Uri;
 import android.support.annotation.ColorInt;
 import android.support.annotation.IdRes;
 import android.support.annotation.LayoutRes;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SwitchCompat;
 import android.text.TextUtils;
 import android.util.Base64;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -103,7 +104,7 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
     private MyAsyncHttpClient mAsyncHttpClient;
     private ItemClickListener mItemClickListener;
     private @ColorInt int mPrimaryForegroundColor;
-    private String mChartTheme;
+    private CharSequence mChartTheme;
     private int mSelectedPosition = -1;
     private final boolean mSelectionEnabled;
 
@@ -119,14 +120,11 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         mItemClickListener = itemClickListener;
         mSelectionEnabled = selectionEnabled;
 
-        TypedArray a = context.obtainStyledAttributes(new int[] {
-            R.attr.colorControlNormal,
-            R.attr.chartTheme
-        });
-        mPrimaryForegroundColor = a.getColor(0, 0);
-        mChartTheme = a.getString(1);
-
-        a.recycle();
+        TypedValue tv = new TypedValue();
+        context.getTheme().resolveAttribute(R.attr.colorControlNormal, tv, false);
+        mPrimaryForegroundColor = ContextCompat.getColor(context, tv.data);
+        context.getTheme().resolveAttribute(R.attr.chartTheme, tv, true);
+        mChartTheme = tv.string;
     }
 
     public void update(List<OpenHABWidget> widgets) {
@@ -674,8 +672,7 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         }
     }
 
-    public static class SectionSwitchViewHolder extends ViewHolder
-            implements RadioGroup.OnCheckedChangeListener, View.OnClickListener {
+    public static class SectionSwitchViewHolder extends ViewHolder implements View.OnClickListener {
         private final LayoutInflater mInflater;
         private final TextView mLabelView;
         private final TextView mValueView;
@@ -702,38 +699,35 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
             updateTextViewColor(mValueView, widget.getValueColor());
             updateIcon(mIconView, widget);
 
-            mRadioGroup.removeAllViews();
-            for (OpenHABWidgetMapping mapping : widget.getMappings()) {
-                SegmentedControlButton button = (SegmentedControlButton)
-                        mInflater.inflate(R.layout.openhabwidgetlist_sectionswitchitem_button,
-                                mRadioGroup, false);
-
-                button.setText(mapping.getLabel());
-                button.setTag(mapping.getCommand());
-                button.setChecked(widget.getItem() != null
-                        && mapping.getCommand() != null
-                        && mapping.getCommand().equals(widget.getItem().getState()));
-                button.setOnClickListener(this);
-                mRadioGroup.addView(button);
-            }
-
             mBoundItem = widget.getItem();
+
+            List<OpenHABWidgetMapping> mappings = widget.getMappings();
+            // inflate missing views
+            for (int i = mRadioGroup.getChildCount(); i < mappings.size(); i++) {
+                View view = mInflater.inflate(R.layout.openhabwidgetlist_sectionswitchitem_button,
+                        mRadioGroup, false);
+                view.setOnClickListener(this);
+                mRadioGroup.addView(view);
+            }
+            // bind views
+            for (int i = 0; i < mappings.size(); i++) {
+                SegmentedControlButton button = (SegmentedControlButton) mRadioGroup.getChildAt(i);
+                String command = mappings.get(i).getCommand();
+                button.setText(mappings.get(i).getLabel());
+                button.setTag(command);
+                button.setChecked(mBoundItem != null && command != null
+                        && command.equals(mBoundItem.getState()));
+                button.setVisibility(View.VISIBLE);
+            }
+            // hide spare views
+            for (int i = mappings.size(); i < mRadioGroup.getChildCount(); i++) {
+                mRadioGroup.getChildAt(i).setVisibility(View.GONE);
+            }
         }
 
         @Override
         public void onClick(View view) {
-            Log.i(TAG, "Button clicked");
             Util.sendItemCommand(mHttpClient, mBoundItem, (String) view.getTag());
-        }
-
-        @Override
-        public void onCheckedChanged(RadioGroup group, int checkedId) {
-            SegmentedControlButton selectedButton = group.findViewById(checkedId);
-            if (selectedButton != null) {
-                Log.d(TAG, "Selected " + selectedButton.getText());
-                Log.d(TAG, "Command = " + (String) selectedButton.getTag());
-                Util.sendItemCommand(mHttpClient, mBoundItem, (String) selectedButton.getTag());
-            }
         }
     }
 
@@ -866,12 +860,12 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
     public static class ChartViewHolder extends ViewHolder {
         private final MySmartImageView mImageView;
         private final View mParentView;
-        private final String mChartTheme;
+        private final CharSequence mChartTheme;
         private final Random mRandom = new Random();
         private int mRefreshRate = 0;
         private int mDensity;
 
-        ChartViewHolder(LayoutInflater inflater, ViewGroup parent, String theme,
+        ChartViewHolder(LayoutInflater inflater, ViewGroup parent, CharSequence theme,
                 MyAsyncHttpClient httpClient, ConnectionInfo connection) {
             super(inflater, parent, R.layout.openhabwidgetlist_chartitem, httpClient, connection);
             mImageView = itemView.findViewById(R.id.chartimage);
