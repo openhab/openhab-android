@@ -411,7 +411,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
                     // no bindings endpoint; we're likely talking to an OH1 instance
                     mOpenHABVersion = 1;
                     mConnection.getAsyncHttpClient().addHeader("Accept", "application/xml");
-                    selectSitemap();
+                    loadSitemapList(true);
                 } else {
                     // other error -> use default handling
                     super.onFailure(call, statusCode, headers, responseBody, error);
@@ -425,7 +425,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
                 mOpenHABVersion = 2;
                 mConnection.getAsyncHttpClient().removeHeader("Accept");
                 Log.d(TAG, "openHAB version 2");
-                selectSitemap();
+                loadSitemapList(true);
             }
         });
     }
@@ -585,7 +585,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
             if (mInitState == InitState.QUERY_SERVER_PROPS) {
                 queryServerProperties();
             } else if (mInitState == InitState.LOAD_SITEMAPS) {
-                selectSitemap();
+                loadSitemapList(true);
             }
         }
     }
@@ -625,21 +625,19 @@ public class OpenHABMainActivity extends AppCompatActivity implements
     }
 
     private void setupDrawer() {
-
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         final ListView drawerList = (ListView) findViewById(R.id.left_drawer);
-        mDrawerToggle = new ActionBarDrawerToggle(OpenHABMainActivity.this, mDrawerLayout,
-                R.string.drawer_open, R.string.drawer_close) {
+        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
+                R.string.drawer_open, R.string.drawer_close);
+        mDrawerLayout.addDrawerListener(mDrawerToggle);
+        mDrawerLayout.addDrawerListener(new DrawerLayout.SimpleDrawerListener() {
             @Override
             public void onDrawerOpened(View drawerView) {
-                if (mSitemapList == null)
-                    return;
-
-                loadSitemapList();
-                super.onDrawerOpened(drawerView);
+                if (mInitState == InitState.DONE) {
+                    loadSitemapList(false);
+                }
             }
-        };
-        mDrawerLayout.addDrawerListener(mDrawerToggle);
+        });
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
 
         mDrawerItemList = new ArrayList<>();
@@ -681,61 +679,19 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         Util.overridePendingTransition(this, false);
     }
 
-    private void loadSitemapList() {
-        if (mConnection == null) {
-            return;
-        }
-
-        Log.d(TAG, "Loading sitemap list from /rest/sitemaps");
-
-        setProgressIndicatorVisible(true);
-        mConnection.getAsyncHttpClient().get("/rest/sitemaps", new DefaultHttpResponseHandler() {
-            @Override
-            public void onSuccess(Call call, int statusCode, Headers headers, byte[] responseBody) {
-                setProgressIndicatorVisible(false);
-                mSitemapList.clear();
-                // If openHAB's version is 1, get sitemap list from XML
-                if (mOpenHABVersion == 1) {
-                    DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-                    try {
-                        DocumentBuilder builder = dbf.newDocumentBuilder();
-                        Document sitemapsXml = builder.parse(new ByteArrayInputStream(responseBody));
-                        mSitemapList.addAll(Util.parseSitemapList(sitemapsXml));
-                    } catch (ParserConfigurationException | SAXException | IOException e) {
-                        Log.e(TAG, e.getMessage(), e);
-                    }
-                    // Later versions work with JSON
-                } else {
-                    try {
-                        String jsonString = new String(responseBody, "UTF-8");
-                        JSONArray jsonArray = new JSONArray(jsonString);
-                        mSitemapList.addAll(Util.parseSitemapList(jsonArray));
-                        Log.d(TAG, jsonArray.toString());
-                    } catch (UnsupportedEncodingException | JSONException e) {
-                        Log.e(TAG, e.getMessage(), e);
-                    }
-                }
-                if (mSitemapList.size() == 0) {
-                    return;
-                }
-                loadDrawerItems();
-            }
-        });
-    }
-
     /**
      * Get sitemaps from openHAB, if user already configured preffered sitemap
      * just open it. If no preffered sitemap is configured - let user select one.
      */
 
-    private void selectSitemap() {
+    private void loadSitemapList(final boolean selectSitemapAfterLoad) {
         if (mConnection == null) {
             return;
         }
 
         Log.d(TAG, "Loading sitemap list from /rest/sitemaps");
 
-        setProgressIndicatorVisible(true);
+        setProgressIndicatorVisible(selectSitemapAfterLoad);
         mInitState = InitState.LOAD_SITEMAPS;
         mPendingCall = mConnection.getAsyncHttpClient().get("/rest/sitemaps", new DefaultHttpResponseHandler() {
             @Override
@@ -744,116 +700,125 @@ public class OpenHABMainActivity extends AppCompatActivity implements
                 setProgressIndicatorVisible(false);
                 mPendingCall = null;
                 mInitState = InitState.DONE;
+
+                // OH1 returns XML, later versions return JSON
+                List<OpenHABSitemap> result = mOpenHABVersion == 1
+                        ? loadSitemapsFromXml(responseBody)
+                        : loadSitemapsFromJson(responseBody);
                 mSitemapList.clear();
-                // If openHAB's version is 1, get sitemap list from XML
-                if (mOpenHABVersion == 1) {
-                    DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-                    try {
-                        DocumentBuilder builder = dbf.newDocumentBuilder();
-                        Document sitemapsXml = builder.parse(new ByteArrayInputStream(responseBody));
-                        mSitemapList.addAll(Util.parseSitemapList(sitemapsXml));
-                    } catch (ParserConfigurationException | SAXException | IOException e) {
-                        Log.e(TAG, e.getMessage(), e);
-                    }
-                    // Later versions work with JSON
-                } else {
-                    try {
-                        String jsonString = new String(responseBody, "UTF-8");
-                        JSONArray jsonArray = new JSONArray(jsonString);
-                        mSitemapList.addAll(Util.parseSitemapList(jsonArray));
-                        Log.d(TAG, jsonArray.toString());
-                    } catch (UnsupportedEncodingException | JSONException e) {
-                        Log.e(TAG, e.getMessage(), e);
-                    }
-                }
-                // Now work with sitemaps list
-                if (mSitemapList.size() == 0) {
-                    // Got an empty sitemap list!
-                    Log.e(TAG, "openHAB returned empty sitemap list");
-                    mController.indicateServerCommunicationFailure(
-                            getString(R.string.error_empty_sitemap_list));
-                    return;
+                if (result != null) {
+                    mSitemapList.addAll(result);
                 }
                 loadDrawerItems();
 
-                // Check if we have a sitemap configured to use
-                SharedPreferences settings =
-                        PreferenceManager.getDefaultSharedPreferences(OpenHABMainActivity.this);
-                String configuredSitemap = settings.getString(Constants.PREFERENCE_SITEMAP_NAME, "");
-                // If we have sitemap configured
-                if (configuredSitemap.length() > 0) {
-                    // Configured sitemap is on the list we got, open it!
-                    if (Util.sitemapExists(mSitemapList, configuredSitemap)) {
-                        Log.d(TAG, "Configured sitemap is on the list");
-                        OpenHABSitemap selectedSitemap = Util.getSitemapByName(mSitemapList,
-                                configuredSitemap);
-                        openSitemap(selectedSitemap);
-                        // Configured sitemap is not on the list we got!
-                    } else {
-                        Log.d(TAG, "Configured sitemap is not on the list");
-                        if (mSitemapList.size() == 1) {
-                            Log.d(TAG, "Got only one sitemap");
-                            SharedPreferences.Editor preferencesEditor = settings.edit();
-                            preferencesEditor.putString(Constants.PREFERENCE_SITEMAP_NAME,
-                                    mSitemapList.get(0).getName());
-                            preferencesEditor.putString(Constants.PREFERENCE_SITEMAP_LABEL,
-                                    mSitemapList.get(0).getLabel());
-                            preferencesEditor.apply();
-                            openSitemap(mSitemapList.get(0));
-                        } else {
-                            Log.d(TAG, "Got multiply sitemaps, user have to select one");
-                            showSitemapSelectionDialog(mSitemapList);
-                        }
-                    }
-                    // No sitemap is configured to use
+                if (!selectSitemapAfterLoad) {
+                    return;
+                }
+
+                if (mSitemapList.isEmpty()) {
+                    Log.e(TAG, "openHAB returned empty sitemap list");
+                    mController.indicateServerCommunicationFailure(
+                            getString(R.string.error_empty_sitemap_list));
                 } else {
-                    // We got only one single sitemap from openHAB, use it
-                    if (mSitemapList.size() == 1) {
-                        Log.d(TAG, "Got only one sitemap");
-                        SharedPreferences.Editor preferencesEditor = settings.edit();
-                        preferencesEditor.putString(Constants.PREFERENCE_SITEMAP_NAME,
-                                mSitemapList.get(0).getName());
-                        preferencesEditor.putString(Constants.PREFERENCE_SITEMAP_LABEL,
-                                mSitemapList.get(0).getLabel());
-                        preferencesEditor.apply();
-                        openSitemap(mSitemapList.get(0));
+                    OpenHABSitemap sitemap = selectConfiguredSitemapFromList();
+                    if (sitemap != null) {
+                        openSitemap(sitemap);
                     } else {
-                        Log.d(TAG, "Got multiply sitemaps, user have to select one");
-                        showSitemapSelectionDialog(mSitemapList);
+                        showSitemapSelectionDialog();
                     }
                 }
             }
         });
     }
 
-    private void showSitemapSelectionDialog(final List<OpenHABSitemap> sitemapList) {
+    private static List<OpenHABSitemap> loadSitemapsFromXml(byte[] response) {
+        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+        try {
+            DocumentBuilder builder = dbf.newDocumentBuilder();
+            Document sitemapsXml = builder.parse(new ByteArrayInputStream(response));
+            return Util.parseSitemapList(sitemapsXml);
+        } catch (ParserConfigurationException | SAXException | IOException e) {
+            Log.e(TAG, "Failed parsing sitemap XML", e);
+            return null;
+        }
+    }
+
+    private static List<OpenHABSitemap> loadSitemapsFromJson(byte[] response) {
+        try {
+            String jsonString = new String(response, "UTF-8");
+            JSONArray jsonArray = new JSONArray(jsonString);
+            return Util.parseSitemapList(jsonArray);
+        } catch (UnsupportedEncodingException | JSONException e) {
+            Log.e(TAG, "Failed parsing sitemap JSON", e);
+            return null;
+        }
+    }
+
+    private OpenHABSitemap selectConfiguredSitemapFromList() {
+        SharedPreferences settings =
+                PreferenceManager.getDefaultSharedPreferences(this);
+        String configuredSitemap = settings.getString(Constants.PREFERENCE_SITEMAP_NAME, "");
+        final OpenHABSitemap result;
+
+        if (mSitemapList.size() == 1) {
+            // We only have one sitemap, use it
+            result = mSitemapList.get(0);
+        } else if (!configuredSitemap.isEmpty()) {
+            // Select configured sitemap if still present, nothing otherwise
+            result = Util.getSitemapByName(mSitemapList, configuredSitemap);
+        } else {
+            // Nothing configured -> can't auto-select anything
+            result = null;
+        }
+
+        boolean hasResult = result != null;
+        boolean hasConfigured = !configuredSitemap.isEmpty();
+        if (!hasResult && hasConfigured) {
+            // clear old configuration
+            settings.edit()
+                    .remove(Constants.PREFERENCE_SITEMAP_LABEL)
+                    .remove(Constants.PREFERENCE_SITEMAP_NAME)
+                    .apply();
+        } else if (hasResult && (!hasConfigured || !configuredSitemap.equals(result.getName()))) {
+            // update result
+            settings.edit()
+                    .putString(Constants.PREFERENCE_SITEMAP_NAME, result.getName())
+                    .putString(Constants.PREFERENCE_SITEMAP_LABEL, result.getLabel())
+                    .apply();
+        }
+
+        return result;
+    }
+
+    private void showSitemapSelectionDialog() {
         Log.d(TAG, "Opening sitemap selection dialog");
         if (selectSitemapDialog != null && selectSitemapDialog.isShowing()) {
+            selectSitemapDialog.dismiss();
+        }
+        if (isFinishing()) {
             return;
         }
-        final List<String> sitemapLabelList = new ArrayList<String>();
-        for (int i = 0; i < sitemapList.size(); i++) {
-            sitemapLabelList.add(sitemapList.get(i).getLabel());
+
+        final String[] sitemapLabels = new String[mSitemapList.size()];
+        for (int i = 0; i < mSitemapList.size(); i++) {
+            sitemapLabels[i] = mSitemapList.get(i).getLabel();
         }
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(OpenHABMainActivity.this);
-        dialogBuilder.setTitle(getString(R.string.mainmenu_openhab_selectsitemap));
-        try {
-            selectSitemapDialog = dialogBuilder.setItems(sitemapLabelList.toArray(new CharSequence[sitemapLabelList.size()]),
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int item) {
-                            Log.d(TAG, "Selected sitemap " + sitemapList.get(item).getName());
-                            SharedPreferences settings =
-                                    PreferenceManager.getDefaultSharedPreferences(OpenHABMainActivity.this);
-                            SharedPreferences.Editor preferencesEditor = settings.edit();
-                            preferencesEditor.putString(Constants.PREFERENCE_SITEMAP_NAME, sitemapList.get(item).getName());
-                            preferencesEditor.putString(Constants.PREFERENCE_SITEMAP_LABEL, sitemapList.get(item).getLabel());
-                            preferencesEditor.apply();
-                            openSitemap(sitemapList.get(item));
-                        }
-                    }).show();
-        } catch (WindowManager.BadTokenException e) {
-            Log.e(TAG, e.getMessage(), e);
-        }
+        selectSitemapDialog = new AlertDialog.Builder(this)
+                .setTitle(R.string.mainmenu_openhab_selectsitemap)
+                .setItems(sitemapLabels, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int item) {
+                        OpenHABSitemap sitemap = mSitemapList.get(item);
+                        Log.d(TAG, "Selected sitemap " + sitemap.getName());
+                        PreferenceManager.getDefaultSharedPreferences(OpenHABMainActivity.this)
+                                .edit()
+                                .putString(Constants.PREFERENCE_SITEMAP_NAME, sitemap.getName())
+                                .putString(Constants.PREFERENCE_SITEMAP_LABEL, sitemap.getLabel())
+                                .apply();
+                        openSitemap(sitemap);
+                    }
+                })
+                .show();
     }
 
     private void openNotifications() {
