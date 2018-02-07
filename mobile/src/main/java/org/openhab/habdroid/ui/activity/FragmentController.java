@@ -160,7 +160,8 @@ public abstract class FragmentController implements
 
     public void updateConnection(Connection connection, String progressMessage) {
         if (connection == null) {
-            mNoConnectionFragment = ProgressFragment.newInstance(progressMessage);
+            mNoConnectionFragment = ProgressFragment.newInstance(progressMessage,
+                    progressMessage != null);
         } else {
             mNoConnectionFragment = null;
         }
@@ -296,29 +297,18 @@ public abstract class FragmentController implements
         }
     }
 
-    public static class ProgressFragment extends Fragment {
-        public static ProgressFragment newInstance(String message) {
+    public static class ProgressFragment extends StatusFragment {
+        public static ProgressFragment newInstance(String message, boolean showImage) {
             ProgressFragment f = new ProgressFragment();
-            Bundle args = new Bundle();
-            args.putString("message", message);
-            f.setArguments(args);
+            f.setArguments(buildArgs(message,
+                    showImage ? R.drawable.ic_openhab_appicon_24dp : 0,
+                    0, true));
             return f;
         }
 
-        @Nullable
         @Override
-        public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
-                @Nullable Bundle savedInstanceState) {
-            View view = inflater.inflate(R.layout.fragment_progress, container, false);
-
-            TextView messageView = view.findViewById(R.id.message);
-            String message = getArguments().getString("message");
-            if (!TextUtils.isEmpty(message)) {
-                messageView.setText(message);
-            } else {
-                messageView.setVisibility(View.GONE);
-            }
-            return view;
+        public void onClick(View view) {
+            // no-op, we don't show the button
         }
     }
 
@@ -326,7 +316,7 @@ public abstract class FragmentController implements
         public static NoNetworkFragment newInstance(String message) {
             NoNetworkFragment f = new NoNetworkFragment();
             f.setArguments(buildArgs(message, R.drawable.ic_signal_cellular_off_black_24dp,
-                    R.string.try_again_button));
+                    R.string.try_again_button, false));
             return f;
         }
 
@@ -342,7 +332,7 @@ public abstract class FragmentController implements
             MissingConfigurationFragment f = new MissingConfigurationFragment();
             f.setArguments(buildArgs(context.getString(R.string.configuration_missing),
                     R.drawable.ic_openhab_appicon_24dp, /* FIXME? */
-                    R.string.go_to_settings_button));
+                    R.string.go_to_settings_button, false));
             return f;
         }
 
@@ -357,11 +347,12 @@ public abstract class FragmentController implements
 
     private abstract static class StatusFragment extends Fragment implements View.OnClickListener {
         protected static Bundle buildArgs(String message, @DrawableRes int drawableResId,
-                @StringRes int buttonTextResId) {
+                @StringRes int buttonTextResId, boolean showProgress) {
             Bundle args = new Bundle();
             args.putString("message", message);
             args.putInt("drawable", drawableResId);
             args.putInt("buttontext", buttonTextResId);
+            args.putBoolean("progress", showProgress);
             return args;
         }
 
@@ -380,18 +371,29 @@ public abstract class FragmentController implements
                 descriptionText.setVisibility(View.GONE);
             }
 
-            final ImageView watermark = view.findViewById(R.id.image);
+            view.findViewById(R.id.progress).setVisibility(
+                    arguments.getBoolean("progress") ? View.VISIBLE : View.GONE);
 
-            Drawable errorImage = ContextCompat.getDrawable(getActivity(),
-                    arguments.getInt("drawable"));
-            errorImage.setColorFilter(
-                    ContextCompat.getColor(getActivity(), R.color.empty_list_text_color),
-                    PorterDuff.Mode.SRC_IN);
-            watermark.setImageDrawable(errorImage);
+            final ImageView watermark = view.findViewById(R.id.image);
+            @DrawableRes int drawableResId = arguments.getInt("drawable");
+            if (drawableResId != 0) {
+                Drawable drawable = ContextCompat.getDrawable(getActivity(), drawableResId);
+                drawable.setColorFilter(
+                        ContextCompat.getColor(getActivity(), R.color.empty_list_text_color),
+                        PorterDuff.Mode.SRC_IN);
+                watermark.setImageDrawable(drawable);
+            } else {
+                watermark.setVisibility(View.GONE);
+            }
 
             final Button button = view.findViewById(R.id.button);
-            button.setText(arguments.getInt("buttontext"));
-            button.setOnClickListener(this);
+            int buttonTextResId = arguments.getInt("buttontext");
+            if (buttonTextResId != 0) {
+                button.setText(buttonTextResId);
+                button.setOnClickListener(this);
+            } else {
+                button.setVisibility(View.GONE);
+            }
 
             return view;
         }

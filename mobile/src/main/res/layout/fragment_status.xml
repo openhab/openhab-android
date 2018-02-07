@@ -21,21 +21,28 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:gravity="center"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
+        android:padding="16dp"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="@color/empty_list_text_color"/>
+        android:textColor="@color/empty_list_text_color"
+        tools:text="Some status message" />
+
+    <ProgressBar
+        android:id="@+id/progress"
+        style="?attr/indeterminateProgressStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:layout_gravity="center_horizontal" />
 
     <Button
         android:id="@+id/button"
-        style="?android:attr/buttonBarButtonStyle"
+        style="?attr/buttonBarButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:clickable="true"
         android:focusable="true"
         android:gravity="center"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="?android:attr/textColorLink"/>
+        tools:text="Some action" />
 
 </LinearLayout>
