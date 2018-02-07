@@ -523,9 +523,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         if (newConnection != null) {
             handleConnectionChange();
             mController.updateConnection(newConnection, null);
-            setupDrawer();
         } else {
-            loadDrawerItems();
             if (failureReason instanceof NoUrlInformationException) {
                 NoUrlInformationException nuie = (NoUrlInformationException) failureReason;
                 if (nuie.wouldHaveUsedLocalConnection() && mServiceResolver == null) {
@@ -549,6 +547,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
                 mController.updateConnection(null, null);
             }
         }
+        setupDrawer();
         invalidateOptionsMenu();
         updateTitle();
     }
