@@ -84,7 +84,7 @@ public class OpenHABWidgetDataSource {
             if (jsonObject.has("link"))
                 this.setLink(jsonObject.getString("link"));
         } catch (JSONException e) {
-            e.printStackTrace();
+            Log.d(TAG, e.getMessage(), e);
         }
     }
 	

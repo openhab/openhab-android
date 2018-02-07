@@ -84,7 +84,7 @@ public class MjpegStreamer {
             Message m = mHandler.obtainMessage(mId, mBitmap);
             m.sendToTarget();
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.e(TAG, e.getMessage(), e);
         }
     }
 
@@ -117,8 +117,7 @@ public class MjpegStreamer {
             }
             return response.body().byteStream();
         } catch (IOException e) {
-            e.printStackTrace();
-            Log.d(TAG, "Request failed-IOException", e);
+            Log.e(TAG, "Request failed-IOException", e);
             //Error connecting to camera
         }
 

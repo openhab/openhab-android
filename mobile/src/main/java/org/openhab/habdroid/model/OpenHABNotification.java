@@ -14,6 +14,8 @@
 
 package org.openhab.habdroid.model;
 
+import android.util.Log;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -23,6 +25,7 @@ import java.util.Date;
 import java.util.TimeZone;
 
 public class OpenHABNotification {
+    private final static String TAG = OpenHABNotification.class.getSimpleName();
     private String mMessage;
     private Date mCreated;
     private String mIcon;
@@ -40,10 +43,8 @@ public class OpenHABNotification {
                 format.setTimeZone(TimeZone.getTimeZone("UTC"));
                 this.setCreated(format.parse(jsonObject.getString("created")));
             }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace();
+        } catch (JSONException | ParseException e) {
+            Log.d(TAG, "Error while parsing openHAB notification", e);
         }
     }
 

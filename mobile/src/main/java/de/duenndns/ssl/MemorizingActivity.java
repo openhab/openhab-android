@@ -113,7 +113,7 @@ public class MemorizingActivity extends AppCompatActivity
 		    if(desireClass != null)
 		        id = desireClass.getField(name).getInt(desireClass);
 		} catch (ClassNotFoundException | IllegalArgumentException | SecurityException | IllegalAccessException | NoSuchFieldException e) {
-		    e.printStackTrace();
+		    Log.e(TAG, e.getMessage(), e);
 		}
 		return id;
 	}

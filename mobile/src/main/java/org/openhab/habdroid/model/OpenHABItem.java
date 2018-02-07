@@ -10,6 +10,7 @@
 package org.openhab.habdroid.model;
 
 import android.graphics.Color;
+import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -76,7 +77,7 @@ public class OpenHABItem {
                 if (jsonObject.has("link"))
                     this.setLink(jsonObject.getString("link"));
             } catch (JSONException e) {
-                e.printStackTrace();
+                Log.d(TAG, "Error while parsing openHAB item", e);
             }
     }
 	
@@ -151,7 +152,6 @@ public class OpenHABItem {
 			try {
 				result = Float.parseFloat(state);
 			} catch (NumberFormatException e) {
-				e.printStackTrace();
 				result = 0f;
 			}
 		}

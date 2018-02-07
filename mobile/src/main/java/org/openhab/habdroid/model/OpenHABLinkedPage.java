@@ -9,6 +9,8 @@
 
 package org.openhab.habdroid.model;
 
+import android.util.Log;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.w3c.dom.Node;
@@ -54,7 +56,7 @@ public class OpenHABLinkedPage {
             if (jsonObject.has("link"))
                 this.setLink(jsonObject.getString("link"));
         } catch (JSONException e) {
-            e.printStackTrace();
+            Log.d(TAG, "Error while parsing openHAB linked page", e);
         }
     }
 

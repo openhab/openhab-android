@@ -195,16 +195,13 @@ public class OpenHABNotificationFragment extends Fragment implements SwipeRefres
                                 OpenHABNotification notification = new OpenHABNotification(sitemapJson);
                                 mNotifications.add(notification);
                             } catch (JSONException e) {
-                                e.printStackTrace();
+                                Log.d(TAG, e.getMessage(), e);
                             }
                         }
                         mNotificationAdapter.notifyDataSetChanged();
-                    } catch (UnsupportedEncodingException e) {
-                        e.printStackTrace();
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+                    } catch (UnsupportedEncodingException | JSONException e) {
+                        Log.d(TAG, e.getMessage(), e);
                     }
-
                 }
 
                 @Override

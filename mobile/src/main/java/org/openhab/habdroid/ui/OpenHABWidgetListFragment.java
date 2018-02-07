@@ -496,7 +496,7 @@ public class OpenHABWidgetListFragment extends Fragment
                     widgetList.add(w);
                 }
             } catch (JSONException e) {
-                e.printStackTrace();
+                Log.d(TAG, e.getMessage(), e);
             }
         }
 
