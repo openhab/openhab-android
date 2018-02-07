@@ -116,4 +116,14 @@ public abstract class AbstractConnection implements Connection {
             return false;
         }
     }
+
+    @Override
+    public int hashCode() {
+        int result = 17;
+        result = 31 * result + connectionType;
+        result = 31 * result + baseUrl.hashCode();
+        result = 31 * result + (username != null ? username.hashCode() : 0);
+        result = 31 * result + (password != null ? password.hashCode() : 0);
+        return result;
+    }
 }

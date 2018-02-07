@@ -19,6 +19,7 @@ import android.preference.PreferenceManager;
 import android.support.annotation.AnimRes;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.LayoutRes;
+import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -51,7 +52,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.Stack;
 
-public abstract class FragmentController implements PageConnectionHolderFragment.ParentCallback {
+public abstract class FragmentController implements
+        FragmentManager.OnBackStackChangedListener, PageConnectionHolderFragment.ParentCallback {
     private final OpenHABMainActivity mActivity;
     protected final FragmentManager mFm;
     protected Fragment mNoConnectionFragment;
@@ -65,6 +67,7 @@ public abstract class FragmentController implements PageConnectionHolderFragment
         mActivity = activity;
         mFm = activity.getSupportFragmentManager();
 
+        mFm.addOnBackStackChangedListener(this);
         mConnectionFragment = (PageConnectionHolderFragment) mFm.findFragmentByTag("connections");
         if (mConnectionFragment == null) {
             mConnectionFragment = new PageConnectionHolderFragment();
@@ -139,7 +142,7 @@ public abstract class FragmentController implements PageConnectionHolderFragment
             updateFragmentState();
         } else {
             // we didn't find it
-            showTemporaryPage(OpenHABWidgetListFragment.withPage(url, null));
+            showTemporaryPage(OpenHABWidgetListFragment.withPage(url, null), null);
         }
     }
 
@@ -156,11 +159,18 @@ public abstract class FragmentController implements PageConnectionHolderFragment
     }
 
     public void updateConnection(Connection connection, String progressMessage) {
-        // XXX: show pro
+        if (connection == null) {
+            mNoConnectionFragment = ProgressFragment.newInstance(progressMessage);
+        } else {
+            mNoConnectionFragment = null;
+        }
+        updateFragmentState();
+        updateConnectionState();
     }
 
     public final void openNotifications() {
-        showTemporaryPage(OpenHABNotificationFragment.newInstance());
+        showTemporaryPage(OpenHABNotificationFragment.newInstance(),
+                mActivity.getString(R.string.app_notifications));
     }
 
     @Override
@@ -202,10 +212,10 @@ public abstract class FragmentController implements PageConnectionHolderFragment
         updateConnectionState();
     }
 
-    public abstract String getCurrentTitle();
+    public abstract CharSequence getCurrentTitle();
     public abstract @LayoutRes int getContentLayoutResource();
     protected abstract void updateFragmentState(FragmentUpdateReason reason);
-    protected abstract void showTemporaryPage(Fragment page);
+    protected abstract void showTemporaryPage(Fragment page, CharSequence title);
 
     public boolean canGoBack() {
         return !mPageStack.empty() || mFm.getBackStackEntryCount() > 0;
@@ -225,6 +235,11 @@ public abstract class FragmentController implements PageConnectionHolderFragment
         return false;
     }
 
+    @Override
+    public void onBackStackChanged() {
+        mActivity.updateTitle();
+    }
+
     private void resetState() {
         mCurrentSitemap = null;
         mSitemapFragment = null;
@@ -239,7 +254,7 @@ public abstract class FragmentController implements PageConnectionHolderFragment
         for (Pair<OpenHABLinkedPage, OpenHABWidgetListFragment> item : mPageStack) {
             pageUrls.add(item.second.getDisplayPageUrl());
         }
-        mConnectionFragment.updateActiveConnections(pageUrls);
+        mConnectionFragment.updateActiveConnections(pageUrls, mActivity.getConnection());
     }
 
     private OpenHABWidgetListFragment makeSitemapFragment(OpenHABSitemap sitemap) {
@@ -281,6 +296,32 @@ public abstract class FragmentController implements PageConnectionHolderFragment
         }
     }
 
+    public static class ProgressFragment extends Fragment {
+        public static ProgressFragment newInstance(String message) {
+            ProgressFragment f = new ProgressFragment();
+            Bundle args = new Bundle();
+            args.putString("message", message);
+            f.setArguments(args);
+            return f;
+        }
+
+        @Nullable
+        @Override
+        public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
+                @Nullable Bundle savedInstanceState) {
+            View view = inflater.inflate(R.layout.fragment_progress, container, false);
+
+            TextView messageView = view.findViewById(R.id.message);
+            String message = getArguments().getString("message");
+            if (!TextUtils.isEmpty(message)) {
+                messageView.setText(message);
+            } else {
+                messageView.setVisibility(View.GONE);
+            }
+            return view;
+        }
+    }
+
     public static class NoNetworkFragment extends StatusFragment {
         public static NoNetworkFragment newInstance(String message) {
             NoNetworkFragment f = new NoNetworkFragment();
@@ -308,9 +349,6 @@ public abstract class FragmentController implements PageConnectionHolderFragment
         @Override
         public void onClick(View view) {
             Intent preferencesIntent = new Intent(getActivity(), OpenHABPreferencesActivity.class);
-            preferencesIntent.putExtra(OpenHABPreferencesActivity.EXTRA_INITIAL_MESSAGE,
-                    getString(R.string.error_no_url));
-
             TaskStackBuilder.create(getActivity())
                     .addNextIntentWithParentStack(preferencesIntent)
                     .startActivities();

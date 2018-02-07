@@ -9,6 +9,7 @@ import android.text.TextUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.openhab.habdroid.core.connection.Connection;
 import org.openhab.habdroid.model.OpenHABWidget;
 import org.openhab.habdroid.model.OpenHABWidgetDataSource;
 import org.openhab.habdroid.util.Constants;
@@ -32,6 +33,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import okhttp3.Call;
 import okhttp3.Headers;
+import okhttp3.HttpUrl;
 
 public class PageConnectionHolderFragment extends Fragment {
     public interface ParentCallback {
@@ -82,7 +84,15 @@ public class PageConnectionHolderFragment extends Fragment {
         }
     }
 
-    public void updateActiveConnections(List<String> urls) {
+    public void updateActiveConnections(List<String> urls, Connection connection) {
+        if (connection == null) {
+            for (ConnectionHandler handler : mConnections.values()) {
+                handler.cancel();
+            }
+            mConnections.clear();
+            return;
+        }
+
         List<String> toRemove = new ArrayList<>();
         for (String url : mConnections.keySet()) {
             if (!urls.contains(url)) {
@@ -93,16 +103,20 @@ public class PageConnectionHolderFragment extends Fragment {
             mConnections.remove(url).cancel();
         }
         for (String url : urls) {
-            if (!mConnections.containsKey(url)) {
+            ConnectionHandler handler = mConnections.get(url);
+            if (handler == null) {
                 SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
                 MyAsyncHttpClient httpClient = new MyAsyncHttpClient(getActivity(),
                         prefs.getBoolean(Constants.PREFERENCE_SSLHOST, false),
                         prefs.getBoolean(Constants.PREFERENCE_SSLCERT, false));
-                ConnectionHandler handler = new ConnectionHandler(url, httpClient, mCallback);
+                httpClient.setBaseUrl(connection.getOpenHABUrl());
+                handler = new ConnectionHandler(url, httpClient, mCallback);
                 mConnections.put(url, handler);
                 if (mStarted) {
                     handler.load();
                 }
+            } else if (handler.updateFromConnection(connection) && mStarted) {
+                handler.load();
             }
         }
     }
@@ -128,6 +142,12 @@ public class PageConnectionHolderFragment extends Fragment {
             mUrl = pageUrl;
             mHttpClient = httpClient;
             mCallback = cb;
+        }
+
+        public boolean updateFromConnection(Connection c) {
+            HttpUrl oldBaseUrl = mHttpClient.getBaseUrl();
+            mHttpClient.setBaseUrl(c.getOpenHABUrl());
+            return !oldBaseUrl.equals(mHttpClient.getBaseUrl());
         }
 
         public void cancel() {

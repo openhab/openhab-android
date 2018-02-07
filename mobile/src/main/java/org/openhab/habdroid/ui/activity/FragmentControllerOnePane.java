@@ -42,15 +42,20 @@ public class FragmentControllerOnePane extends FragmentController {
     }
 
     @Override
-    protected void showTemporaryPage(Fragment page) {
+    protected void showTemporaryPage(Fragment page, CharSequence title) {
         mFm.beginTransaction()
                 .replace(R.id.content, page)
+                .setBreadCrumbTitle(title)
                 .addToBackStack(null)
                 .commit();
     }
 
     @Override
-    public String getCurrentTitle() {
+    public CharSequence getCurrentTitle() {
+        int count = mFm.getBackStackEntryCount();
+        if (count > 0) {
+            return mFm.getBackStackEntryAt(count - 1).getBreadCrumbTitle();
+        }
         return mPageStack.empty() ? null : mPageStack.peek().second.getTitle();
     }
 

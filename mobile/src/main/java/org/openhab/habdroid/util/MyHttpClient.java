@@ -127,7 +127,7 @@ public abstract class MyHttpClient<T> {
         this.baseUrl = HttpUrl.parse(baseUrl);
     }
 
-    protected HttpUrl getBaseUrl() {
+    public HttpUrl getBaseUrl() {
         if (baseUrl == null) {
             throw new IllegalStateException("No baseUrl was set so far.");
         }

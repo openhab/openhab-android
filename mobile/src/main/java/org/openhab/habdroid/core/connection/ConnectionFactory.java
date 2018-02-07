@@ -298,6 +298,7 @@ final public class ConnectionFactory extends BroadcastReceiver implements
     public synchronized void updateConnections() {
         if (settings.getBoolean(Constants.PREFERENCE_DEMOMODE, false)) {
             mAvailableConnection = new DemoConnection(ctx, settings);
+            mConnectionFailureReason = null;
             mLocalConnection = mRemoteConnection = mAvailableConnection;
             mConnectionFailureReason = null;
             return;
@@ -306,6 +307,8 @@ final public class ConnectionFactory extends BroadcastReceiver implements
                 Constants.PREFERENCE_LOCAL_USERNAME, Constants.PREFERENCE_LOCAL_PASSWORD);
         mRemoteConnection = makeConnection(Connection.TYPE_REMOTE, Constants.PREFERENCE_REMOTE_URL,
                 Constants.PREFERENCE_REMOTE_USERNAME, Constants.PREFERENCE_REMOTE_PASSWORD);
+        mAvailableConnection = null;
+        mConnectionFailureReason = null;
         mUpdateHandler.sendEmptyMessage(MSG_TRIGGER_UPDATE);
     }
 

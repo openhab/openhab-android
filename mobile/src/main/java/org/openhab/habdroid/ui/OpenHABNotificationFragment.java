@@ -86,13 +86,6 @@ public class OpenHABNotificationFragment extends Fragment implements SwipeRefres
     }
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-
-        getActivity().setTitle(R.string.app_notifications);
-    }
-
-    @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mActivity = (OpenHABMainActivity) getActivity();

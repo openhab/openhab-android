@@ -100,16 +100,21 @@ public class FragmentControllerTwoPane extends FragmentController {
     }
 
     @Override
-    protected void showTemporaryPage(Fragment page) {
+    protected void showTemporaryPage(Fragment page, CharSequence title) {
         mFm.beginTransaction()
                 .replace(R.id.content_left, page)
+                .setBreadCrumbTitle(title)
                 .addToBackStack(null)
                 .commit();
         mRightContentView.setVisibility(View.GONE);
     }
 
     @Override
-    public String getCurrentTitle() {
+    public CharSequence getCurrentTitle() {
+        int count = mFm.getBackStackEntryCount();
+        if (count > 0) {
+            return mFm.getBackStackEntryAt(count - 1).getBreadCrumbTitle();
+        }
         return mPageStack.size() > 1 ? mPageStack.get(mPageStack.size() - 2).second.getTitle() : null;
     }
 
