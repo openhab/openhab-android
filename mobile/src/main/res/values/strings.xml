@@ -176,7 +176,6 @@
     <string name="configuration_missing">Your OpenHAB server could not be discovered automatically. Please configure its IP address or host name in the server settings.</string>
     <string name="resolving_openhab">Trying to discover OpenHAB server instance\u2026</string>
 
-    <string name="error_no_url_start_demo_mode">Please configure the server IP address or host name in the server settings. For now, demo mode will be used.</string>
     <string name="intro_discovery">Discovery</string>
     <string name="intro_discovery_summary">Please note this will work only if authentication is not enforced by the server</string>
 

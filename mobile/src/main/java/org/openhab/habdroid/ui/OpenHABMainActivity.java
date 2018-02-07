@@ -206,8 +206,6 @@ public class OpenHABMainActivity extends AppCompatActivity implements
     private static final int DRAWER_NOTIFICATIONS = 100;
     private static final int DRAWER_ABOUT = 101;
     private static final int DRAWER_PREFERENCES = 102;
-    private static final String EXTRA_DEMO_FIRST_TIME = "firstDemo";
-    private static final String NO_NETWORK_TAG = "noNetwork";
 
     // preferences
     private SharedPreferences mSettings;
@@ -369,11 +367,6 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         if (mConnection instanceof DemoConnection) {
             mMessageHandler.showMessageToUser(
                     getString(R.string.info_demo_mode_short), TYPE_SNACKBAR, LOGLEVEL_ALWAYS);
-            if (getIntent().hasExtra(EXTRA_DEMO_FIRST_TIME)) {
-                getIntent().removeExtra(EXTRA_DEMO_FIRST_TIME);
-                mMessageHandler.showMessageToUser(getString(R.string.error_no_url_start_demo_mode),
-                        TYPE_DIALOG, LOGLEVEL_ALWAYS);
-            }
         } else {
             boolean hasLocalAndRemote =
                     ConnectionFactory.getConnection(Connection.TYPE_LOCAL) != null &&
