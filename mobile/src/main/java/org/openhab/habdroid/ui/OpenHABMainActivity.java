@@ -590,6 +590,7 @@ public class OpenHABMainActivity extends ConnectionAvailabilityAwareActivity
     public void onConnectivityChanged() {
         super.onConnectivityChanged();
 
+        mViewPool.clear();
         setupDrawer();
         setupPager();
         selectSitemap();
