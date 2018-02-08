@@ -10,4 +10,5 @@
     <dimen name="widgetlist_item_left_margin">0dp</dimen>
     <dimen name="widgetlist_item_right_margin">0dp</dimen>
     <dimen name="widget_margin">0dp</dimen>
+    <dimen name="webview_row_height">36dp</dimen>
 </resources>

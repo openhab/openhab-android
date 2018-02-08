@@ -1,7 +1,7 @@
 #X-Generator: crowdin.com
 # Strings for store descriptions. Sourced by generate_and_validate.sh
 
-intro='openHAB - "empowering the smart home" - \nTeknologia- ja valmistajariippumatonta, avoimen lähdekoodin kotiautomaatiota'
+intro='openHAB - "empowering the smart home" - Teknologia- ja valmistajariippumatonta, avoimen lähdekoodin kotiautomaatiota'
 
 whatis='openHAB on Java-pohjainen avoimen lähdekoodin kotiautomaatioalusta. Se yhdistää laajan valikoiman useiden valmistajien älykotilaitteita ja eri teknologioita yhdeksi ratkaisuksi.'
 rules='Kaikki yhdistetyt laitteet ovat käytettävissä erilaisissa käyttöliittymissä sekä ohjelmoitaessa automaatiologiikkaa.'

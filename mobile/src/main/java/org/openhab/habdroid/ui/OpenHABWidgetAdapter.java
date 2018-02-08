@@ -13,21 +13,22 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.ColorStateList;
-import android.content.res.TypedArray;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Point;
 import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.support.annotation.ColorInt;
 import android.support.annotation.IdRes;
 import android.support.annotation.LayoutRes;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SwitchCompat;
 import android.text.TextUtils;
 import android.util.Base64;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -101,7 +102,7 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
     private final LayoutInflater mInflater;
     private ItemClickListener mItemClickListener;
     private @ColorInt int mPrimaryForegroundColor;
-    private String mChartTheme;
+    private CharSequence mChartTheme;
     private int mSelectedPosition = -1;
     private final boolean mSelectionEnabled;
     private Connection mConnection;
@@ -114,15 +115,13 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         mItemClickListener = itemClickListener;
         mSelectionEnabled = selectionEnabled;
 
-        TypedArray a = context.obtainStyledAttributes(new int[] {
-            R.attr.colorControlNormal,
-            R.attr.chartTheme
-        });
-        mPrimaryForegroundColor = a.getColor(0, 0);
-        mChartTheme = a.getString(1);
-        mConnection = conn;
+        TypedValue tv = new TypedValue();
+        context.getTheme().resolveAttribute(R.attr.colorControlNormal, tv, false);
+        mPrimaryForegroundColor = ContextCompat.getColor(context, tv.data);
+        context.getTheme().resolveAttribute(R.attr.chartTheme, tv, true);
+        mChartTheme = tv.string;
 
-        a.recycle();
+        mConnection = conn;
     }
 
     public void update(List<OpenHABWidget> widgets) {
@@ -516,25 +515,19 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
 
     public static class ImageViewHolder extends ViewHolder {
         private final MySmartImageView mImageView;
-        private final Point mScreenSize = new Point();
+        private final View mParentView;
         private int mRefreshRate;
 
         ImageViewHolder(LayoutInflater inflater, ViewGroup parent, Connection conn) {
             super(inflater, parent, R.layout.openhabwidgetlist_imageitem, conn);
             mImageView = itemView.findViewById(R.id.imageimage);
-
-            WindowManager wm = (WindowManager) parent.getContext().getSystemService(Context.WINDOW_SERVICE);
-            wm.getDefaultDisplay().getSize(mScreenSize);
+            mParentView = parent;
         }
 
         @Override
         public void bind(OpenHABWidget widget) {
-            View parent = (View) itemView.getParent();
             // We scale the image at max 90% of the available height
-            int parentWidth = parent != null ? parent.getWidth() : 0;
-            int parentHeight = parent != null ? parent.getHeight() : 0;
-            mImageView.setMaxSize(parentWidth > 0 ? parentWidth : mScreenSize.x,
-                    (parentHeight > 0 ? parentHeight : mScreenSize.y) * 90 / 100);
+            mImageView.setMaxSize(mParentView.getWidth(), mParentView.getHeight() * 90 / 100);
 
             OpenHABItem item = widget.getItem();
             final String state = item != null ? item.getState() : null;
@@ -654,8 +647,7 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         }
     }
 
-    public static class SectionSwitchViewHolder extends ViewHolder
-            implements RadioGroup.OnCheckedChangeListener, View.OnClickListener {
+    public static class SectionSwitchViewHolder extends ViewHolder implements View.OnClickListener {
         private final LayoutInflater mInflater;
         private final TextView mLabelView;
         private final TextView mValueView;
@@ -681,38 +673,35 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
             updateTextViewColor(mValueView, widget.getValueColor());
             updateIcon(mIconView, widget);
 
-            mRadioGroup.removeAllViews();
-            for (OpenHABWidgetMapping mapping : widget.getMappings()) {
-                SegmentedControlButton button = (SegmentedControlButton)
-                        mInflater.inflate(R.layout.openhabwidgetlist_sectionswitchitem_button,
-                                mRadioGroup, false);
-
-                button.setText(mapping.getLabel());
-                button.setTag(mapping.getCommand());
-                button.setChecked(widget.getItem() != null
-                        && mapping.getCommand() != null
-                        && mapping.getCommand().equals(widget.getItem().getState()));
-                button.setOnClickListener(this);
-                mRadioGroup.addView(button);
-            }
-
             mBoundItem = widget.getItem();
+
+            List<OpenHABWidgetMapping> mappings = widget.getMappings();
+            // inflate missing views
+            for (int i = mRadioGroup.getChildCount(); i < mappings.size(); i++) {
+                View view = mInflater.inflate(R.layout.openhabwidgetlist_sectionswitchitem_button,
+                        mRadioGroup, false);
+                view.setOnClickListener(this);
+                mRadioGroup.addView(view);
+            }
+            // bind views
+            for (int i = 0; i < mappings.size(); i++) {
+                SegmentedControlButton button = (SegmentedControlButton) mRadioGroup.getChildAt(i);
+                String command = mappings.get(i).getCommand();
+                button.setText(mappings.get(i).getLabel());
+                button.setTag(command);
+                button.setChecked(mBoundItem != null && command != null
+                        && command.equals(mBoundItem.getState()));
+                button.setVisibility(View.VISIBLE);
+            }
+            // hide spare views
+            for (int i = mappings.size(); i < mRadioGroup.getChildCount(); i++) {
+                mRadioGroup.getChildAt(i).setVisibility(View.GONE);
+            }
         }
 
         @Override
         public void onClick(View view) {
-            Log.i(TAG, "Button clicked");
             Util.sendItemCommand(mConnection.getAsyncHttpClient(), mBoundItem, (String) view.getTag());
-        }
-
-        @Override
-        public void onCheckedChanged(RadioGroup group, int checkedId) {
-            SegmentedControlButton selectedButton = group.findViewById(checkedId);
-            if (selectedButton != null) {
-                Log.d(TAG, "Selected " + selectedButton.getText());
-                Log.d(TAG, "Command = " + (String) selectedButton.getTag());
-                Util.sendItemCommand(mConnection.getAsyncHttpClient(), mBoundItem, (String) selectedButton.getTag());
-            }
         }
     }
 
@@ -842,31 +831,31 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
 
     public static class ChartViewHolder extends ViewHolder {
         private final MySmartImageView mImageView;
-        private final DisplayMetrics mMetrics = new DisplayMetrics();
-        private final String mChartTheme;
+        private final View mParentView;
+        private final CharSequence mChartTheme;
         private final Random mRandom = new Random();
         private int mRefreshRate = 0;
+        private int mDensity;
 
-        ChartViewHolder(LayoutInflater inflater, ViewGroup parent, String theme, Connection conn) {
+        ChartViewHolder(LayoutInflater inflater, ViewGroup parent, CharSequence theme, Connection conn) {
             super(inflater, parent, R.layout.openhabwidgetlist_chartitem, conn);
             mImageView = itemView.findViewById(R.id.chartimage);
+            mParentView = parent;
 
             WindowManager wm = (WindowManager) itemView.getContext().getSystemService(Context.WINDOW_SERVICE);
-            wm.getDefaultDisplay().getMetrics(mMetrics);
+            DisplayMetrics metrics = new DisplayMetrics();
+            wm.getDefaultDisplay().getMetrics(metrics);
 
+            mDensity = metrics.densityDpi;
             mChartTheme = theme;
         }
 
         @Override
         public void bind(OpenHABWidget widget) {
-            View parent = (View) itemView.getParent();
             OpenHABItem item = widget.getItem();
 
             if (item != null) {
                 StringBuilder chartUrl = new StringBuilder(mConnection.getOpenHABUrl());
-                int parentWidth = parent != null && parent.getWidth() > 0
-                        ? parent.getWidth() : mMetrics.widthPixels;
-                Log.d(TAG, "Chart width = " + parentWidth + " - screen width " + mMetrics.widthPixels);
 
                 if ("GroupItem".equals(item.getType()) || "Group".equals(item.getType())) {
                     chartUrl.append("chart?groups=").append(item.getName());
@@ -875,7 +864,7 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
                 }
                 chartUrl.append("&period=").append(widget.getPeriod())
                         .append("&random=").append(mRandom.nextInt())
-                        .append("&dpi=").append(mMetrics.densityDpi);
+                        .append("&dpi=").append(mDensity);
                 if (!TextUtils.isEmpty(widget.getService())) {
                     chartUrl.append("&service=").append(widget.getService());
                 }
@@ -885,15 +874,14 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
                 if (widget.getLegend() != null) {
                     chartUrl.append("&legend=").append(widget.getLegend());
                 }
+
+                int parentWidth = mParentView.getWidth();
+                if (parentWidth > 0) {
+                    chartUrl.append("&w=").append(parentWidth);
+                    chartUrl.append("&h=").append(parentWidth / 2);
+                }
+
                 Log.d(TAG, "Chart url = " + chartUrl);
-
-                // TODO: This is quite dirty fix to make charts look full screen width on all displays
-                ViewGroup.LayoutParams chartLayoutParams = mImageView.getLayoutParams();
-                chartLayoutParams.height = (int) (parentWidth / 2);
-                mImageView.setLayoutParams(chartLayoutParams);
-
-                chartUrl.append("&w=").append(parentWidth);
-                chartUrl.append("&h=").append(parentWidth / 2);
 
                 mImageView.setImageUrl(chartUrl.toString(), mConnection.getUsername(),
                         mConnection.getPassword(), false);
@@ -926,15 +914,6 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         VideoViewHolder(LayoutInflater inflater, ViewGroup parent, Connection conn) {
             super(inflater, parent, R.layout.openhabwidgetlist_videoitem, conn);
             mVideoView = itemView.findViewById(R.id.videovideo);
-
-            WindowManager wm = (WindowManager) itemView.getContext().getSystemService(Context.WINDOW_SERVICE);
-            Point screenSize = new Point();
-            wm.getDefaultDisplay().getSize(screenSize);
-
-            // TODO: This is quite dirty fix to make video look maximum available size on all screens
-            ViewGroup.LayoutParams videoLayoutParams = mVideoView.getLayoutParams();
-            videoLayoutParams.height = (int) (screenSize.x / 1.77);
-            mVideoView.setLayoutParams(videoLayoutParams);
         }
 
         @Override
@@ -968,19 +947,26 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
 
     public static class WebViewHolder extends ViewHolder {
         private final WebView mWebView;
+        private final int mRowHeightPixels;
 
         WebViewHolder(LayoutInflater inflater, ViewGroup parent, Connection conn) {
             super(inflater, parent, R.layout.openhabwidgetlist_webitem, conn);
             mWebView = itemView.findViewById(R.id.webweb);
+
+            final Resources res = itemView.getContext().getResources();
+            mRowHeightPixels = res.getDimensionPixelSize(R.dimen.webview_row_height);
         }
 
         @Override
         public void bind(OpenHABWidget widget) {
-            if (widget.getHeight() > 0) {
-                ViewGroup.LayoutParams webLayoutParams = mWebView.getLayoutParams();
-                webLayoutParams.height = widget.getHeight() * 80;
-                mWebView.setLayoutParams(webLayoutParams);
+            ViewGroup.LayoutParams lp = mWebView.getLayoutParams();
+            int desiredHeightPixels = widget.getHeight() > 0
+                    ? widget.getHeight() * mRowHeightPixels : ViewGroup.LayoutParams.WRAP_CONTENT;
+            if (lp.height != desiredHeightPixels) {
+                lp.height = desiredHeightPixels;
+                mWebView.setLayoutParams(lp);
             }
+
             mWebView.setWebViewClient(new AnchorWebViewClient(widget.getUrl(),
                     mConnection.getUsername(), mConnection.getPassword()));
             mWebView.getSettings().setDomStorageEnabled(true);

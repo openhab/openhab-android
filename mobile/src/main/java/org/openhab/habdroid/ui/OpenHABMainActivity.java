@@ -425,7 +425,7 @@ public class OpenHABMainActivity extends ConnectionAvailabilityAwareActivity
                 .edit()
                 .putBoolean(Constants.PREFERENCE_DEMOMODE, true)
                 .apply();
-        restartAfterSettingsUpdate(true);
+        restartAfterSettingsUpdate();
     }
 
     private void stopProgressDialog() {
@@ -594,6 +594,11 @@ public class OpenHABMainActivity extends ConnectionAvailabilityAwareActivity
         setupDrawer();
         setupPager();
         selectSitemap();
+
+        if (!TextUtils.isEmpty(mNfcData)) {
+            onNfcTag(mNfcData);
+            openPageIfPending(mPendingNfcPage);
+        }
     }
 
     /**

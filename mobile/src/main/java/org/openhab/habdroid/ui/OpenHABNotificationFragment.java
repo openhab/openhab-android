@@ -9,7 +9,7 @@
 
 package org.openhab.habdroid.ui;
 
-import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -83,6 +83,13 @@ public class OpenHABNotificationFragment extends Fragment implements SwipeRefres
         mSwipeLayout.setOnRefreshListener(this);
         mRecyclerView = view.findViewById(android.R.id.list);
         return view;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        getActivity().setTitle(R.string.app_notifications);
     }
 
     @Override

@@ -36,6 +36,5 @@
         android:focusable="true"
         android:gravity="center"
         android:text="@string/try_again_button"
-        android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="?android:attr/textColorLink"/>
 </LinearLayout>
