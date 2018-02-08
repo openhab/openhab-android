@@ -82,13 +82,10 @@ public abstract class ConnectionAvailabilityAwareActivity extends AppCompatActiv
 
         getFragmentManager()
                 .beginTransaction()
-                .replace(android.R.id.content, noNetworkFrament, NO_NETWORK_TAG)
+                .replace(R.id.main_content, noNetworkFrament, NO_NETWORK_TAG)
                 .commit();
 
         setTitle(R.string.app_name);
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-        }
     }
 
     /**

@@ -187,10 +187,11 @@ public class OpenHABMainActivity extends ConnectionAvailabilityAwareActivity
             }
             return "";
         }
-    }
 
+    }
     // GCM Registration expiration
     public static final long REGISTRATION_EXPIRY_TIME_MS = 1000 * 3600 * 24 * 7;
+
     // Logging TAG
     private static final String TAG = OpenHABMainActivity.class.getSimpleName();
     // Activities request codes
@@ -202,11 +203,11 @@ public class OpenHABMainActivity extends ConnectionAvailabilityAwareActivity
     private static final int DRAWER_NOTIFICATIONS = 100;
     private static final int DRAWER_ABOUT = 101;
     private static final int DRAWER_PREFERENCES = 102;
-
     private static final String EXTRA_DEMO_FIRST_TIME = "firstDemo";
 
     // openHAB Bonjour service name
     private String openHABServiceType;
+
     // view pager for widgetlist fragments
     private ViewPager pager;
     // view pager adapter for widgetlist fragments
@@ -244,6 +245,7 @@ public class OpenHABMainActivity extends ConnectionAvailabilityAwareActivity
     private NotificationSettings mNotifySettings = null;
     // select sitemap dialog
     private Dialog selectSitemapDialog;
+    private boolean mShowNetworkDrawerItems = true;
     public static String GCM_SENDER_ID;
 
     /**
@@ -567,10 +569,8 @@ public class OpenHABMainActivity extends ConnectionAvailabilityAwareActivity
             pager.removeAllViews();
         }
 
-        if (mDrawerLayout != null) {
-            mDrawerLayout.closeDrawers();
-            mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
-        }
+        mShowNetworkDrawerItems = false;
+        loadDrawerItems();
 
         mProgressBar.setVisibility(View.GONE);
         invalidateOptionsMenu();
@@ -579,9 +579,8 @@ public class OpenHABMainActivity extends ConnectionAvailabilityAwareActivity
     @Override
     protected void onLeaveNoNetwork() {
         super.onLeaveNoNetwork();
-        if (mDrawerLayout != null) {
-            mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
-        }
+        mShowNetworkDrawerItems = true;
+        loadDrawerItems();
 
         invalidateOptionsMenu();
     }
@@ -636,6 +635,9 @@ public class OpenHABMainActivity extends ConnectionAvailabilityAwareActivity
                 R.string.drawer_open, R.string.drawer_close) {
             @Override
             public void onDrawerOpened(View drawerView) {
+                if (mSitemapList == null)
+                    return;
+
                 loadSitemapList();
                 super.onDrawerOpened(drawerView);
             }
@@ -1273,13 +1275,13 @@ public class OpenHABMainActivity extends ConnectionAvailabilityAwareActivity
 
     private void loadDrawerItems() {
         mDrawerItemList.clear();
-        if (mSitemapList != null) {
+        if (mShowNetworkDrawerItems && mSitemapList != null) {
             mDrawerItemList.add(OpenHABDrawerItem.headerItem(getString(R.string.mainmenu_openhab_sitemaps)));
             for (OpenHABSitemap sitemap : mSitemapList) {
                 mDrawerItemList.add(new OpenHABDrawerItem(sitemap));
             }
+            mDrawerItemList.add(OpenHABDrawerItem.dividerItem());
         }
-        mDrawerItemList.add(OpenHABDrawerItem.dividerItem());
         int iconColor = ContextCompat.getColor(this, R.color.colorAccent_themeDark);
         Drawable notificationDrawable = getResources().getDrawable(R.drawable
                 .ic_notifications_black_24dp);
@@ -1287,7 +1289,7 @@ public class OpenHABMainActivity extends ConnectionAvailabilityAwareActivity
                 iconColor,
                 PorterDuff.Mode.SRC_IN
         );
-        if (getNotificationSettings() != null) {
+        if (mShowNetworkDrawerItems && getNotificationSettings() != null) {
             mDrawerItemList.add(OpenHABDrawerItem.menuItem(
                     "Notifications",
                     notificationDrawable,
