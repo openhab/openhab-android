@@ -62,4 +62,18 @@ public class OpenHABItemTest {
         String statePart = state != null ? ", state: '" + state + "'" : "";
         return new JSONObject("{ 'name': 'foo', 'type': Dummy'" + statePart + " }");
     }
+
+    @Test
+    public void isReadOnly() throws Exception {
+        JSONObject object = new JSONObject();
+        object.put("name", "TestItem");
+        object.put("type",  "Dummy");
+        assertFalse(OpenHABItem.fromJson(object).readOnly());
+
+        object.put("stateDescription", new JSONObject().put("readOnly", true));
+        assertTrue(OpenHABItem.fromJson(object).readOnly());
+
+        object.put("stateDescription", new JSONObject().put("readOnly", false));
+        assertFalse(OpenHABItem.fromJson(object).readOnly());
+    }
 }

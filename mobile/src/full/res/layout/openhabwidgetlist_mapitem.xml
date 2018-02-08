@@ -34,11 +34,13 @@
 
     </LinearLayout>
 
+    <!-- tag used by unit test, don't remove -->
     <com.google.android.gms.maps.MapView
         android:id="@+id/mapView"
         android:layout_width="match_parent"
         android:layout_height="180dp"
         android:layout_margin="4dp"
+        android:tag="MapView"
         app:liteMode="true" />
 
 </LinearLayout>
