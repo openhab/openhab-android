@@ -251,8 +251,7 @@ public class OpenHABWidgetListFragment extends Fragment
                     @Override
                     public void onClick(View v) {
                         PreferenceManager
-                                .getDefaultSharedPreferences(
-                                        OpenHABWidgetListFragment.this.getActivity())
+                                .getDefaultSharedPreferences(v.getContext())
                                 .edit()
                                 .putBoolean(PREFERENCE_SWIPE_REFRESH_EXPLAINED, true)
                                 .apply();
