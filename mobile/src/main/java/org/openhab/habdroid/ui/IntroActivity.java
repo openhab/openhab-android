@@ -59,6 +59,12 @@ public class IntroActivity extends AppIntro {
         finish();
     }
 
+    /**
+     * Add slide with fixed fonts and colors
+     * @param title
+     * @param description
+     * @param imageDrawable
+     */
     private void addOHSlide(@StringRes int title, @StringRes int description,
                             @DrawableRes int imageDrawable) {
             addSlide(AppIntroFragment.newInstance(getString(title),
