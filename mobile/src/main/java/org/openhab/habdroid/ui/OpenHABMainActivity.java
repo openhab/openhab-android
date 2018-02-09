@@ -296,31 +296,6 @@ public class OpenHABMainActivity extends ConnectionAvailabilityAwareActivity
 
         setupToolbar();
 
-        //  Create a new boolean and preference and set it to true
-        boolean isFirstStart = mSettings.getBoolean("firstStart", true);
-
-        SharedPreferences.Editor prefsEdit = sharedPrefs.edit();
-        //  If the activity has never started before...
-        if (isFirstStart) {
-
-            //  Launch app intro
-            final Intent i = new Intent(OpenHABMainActivity.this, IntroActivity.class);
-            startActivityForResult(i, INTRO_REQUEST_CODE);
-
-            prefsEdit.putBoolean("firstStart", false).apply();
-            return;
-        }
-
-        try {
-            initializeConnectivity();
-        } catch (NoUrlInformationException e) {
-            Log.d(TAG, "No connection data available, start discovery.", e);
-            discoverOpenHAB();
-            return;
-        } catch (ConnectionException e) {
-            // will be handled by #getConnection if it is used later
-        }
-
         setupDrawer();
         gcmRegisterBackground();
         setupPager();
@@ -350,6 +325,19 @@ public class OpenHABMainActivity extends ConnectionAvailabilityAwareActivity
             checkFullscreen();
         }
 
+        //  Create a new boolean and preference and set it to true
+        boolean isFirstStart = mSettings.getBoolean("firstStart", true);
+
+        SharedPreferences.Editor prefsEdit = sharedPrefs.edit();
+        //  If the activity has never started before...
+        if (isFirstStart) {
+
+            //  Launch app intro
+            final Intent i = new Intent(OpenHABMainActivity.this, IntroActivity.class);
+            startActivityForResult(i, INTRO_REQUEST_CODE);
+
+            prefsEdit.putBoolean("firstStart", false).apply();
+        }
         OnUpdateBroadcastReceiver.updateComparableVersion(prefsEdit);
         prefsEdit.apply();
     }
@@ -494,9 +482,17 @@ public class OpenHABMainActivity extends ConnectionAvailabilityAwareActivity
     public void onResume() {
         Log.d(TAG, "onResume()");
         super.onResume();
-        if ((mServiceResolver != null && mServiceResolver.isAlive()) || pagerAdapter == null) {
+
+        try {
+            initializeConnectivity();
+        } catch (NoUrlInformationException e) {
+            Log.d(TAG, "No connection data available, start discovery.", e);
+            discoverOpenHAB();
             return;
+        } catch (ConnectionException e) {
+            // will be handled by #getConnection if it is used later
         }
+
         PendingIntent pendingIntent = PendingIntent.getActivity(
                 this, 0, new Intent(this, ((Object) this).getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
         if (NfcAdapter.getDefaultAdapter(this) != null)
@@ -543,6 +539,15 @@ public class OpenHABMainActivity extends ConnectionAvailabilityAwareActivity
         }
 
         checkFullscreen();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (mServiceResolver != null && mServiceResolver.isAlive()) {
+            mServiceResolver.interrupt();
+            mServiceResolver = null;
+        }
     }
 
     /**
@@ -950,8 +955,9 @@ public class OpenHABMainActivity extends ConnectionAvailabilityAwareActivity
         Log.d(TAG, String.format("onActivityResult requestCode = %d, resultCode = %d", requestCode, resultCode));
         switch (requestCode) {
             case SETTINGS_REQUEST_CODE:
-            case INTRO_REQUEST_CODE:
                 restartAfterSettingsUpdate();
+                break;
+            case INTRO_REQUEST_CODE:
                 break;
             case WRITE_NFC_TAG_REQUEST_CODE:
                 Log.d(TAG, "Got back from Write NFC tag");
