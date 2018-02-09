@@ -33,6 +33,7 @@ public abstract class ConnectionAvailabilityAwareActivity extends AppCompatActiv
     private static final String TAG = ConnectionAvailabilityAwareActivity.class.getSimpleName();
     public static final String NO_NETWORK_TAG = "noNetwork";
     protected MessageHandler mMessageHandler;
+    private Connection mConnectionOnPause;
 
     private final BroadcastReceiver mConnectionChangeListener = new BroadcastReceiver() {
         @Override
@@ -49,7 +50,9 @@ public abstract class ConnectionAvailabilityAwareActivity extends AppCompatActiv
 
     public Connection getConnection(int connectionType) {
         try {
-            return ConnectionFactory.getConnection(connectionType);
+            Connection c = ConnectionFactory.getConnection(connectionType);
+            hideNoNetworkFragment();
+            return c;
         } catch (ConnectionException e) {
             if (e instanceof NoUrlInformationException) {
                 Intent preferencesIntent = new Intent(this, OpenHABPreferencesActivity.class);
@@ -88,6 +91,18 @@ public abstract class ConnectionAvailabilityAwareActivity extends AppCompatActiv
         setTitle(R.string.app_name);
     }
 
+    private void hideNoNetworkFragment() {
+        Fragment fragment = getFragmentManager().findFragmentByTag(NO_NETWORK_TAG);
+        if (fragment != null) {
+            getFragmentManager().beginTransaction().remove(fragment).commit();
+            if (getSupportActionBar() != null) {
+                getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            }
+
+            onLeaveNoNetwork();
+        }
+    }
+
     /**
      * This method is called whenever this abstract class will replace the whole content with
      * other information, such as error fragments or something like that. A class extending from
@@ -109,21 +124,15 @@ public abstract class ConnectionAvailabilityAwareActivity extends AppCompatActiv
         lbm.registerReceiver(mConnectionChangeListener,
                 new IntentFilter(ConnectionFactory.ACTION_NETWORK_CHANGED));
 
-        Fragment fragment = getFragmentManager().findFragmentByTag(NO_NETWORK_TAG);
-        if (fragment == null || !fragment.isVisible()) {
-            return;
-        }
         try {
-            ConnectionFactory.getConnection(Connection.TYPE_ANY);
-            getFragmentManager().beginTransaction().remove(fragment).commit();
-            onConnectivityChanged();
-            if (getSupportActionBar() != null) {
-                getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            Connection c = ConnectionFactory.getConnection(Connection.TYPE_ANY);
+            if (c != mConnectionOnPause) {
+                onConnectivityChanged();
             }
-
-            onLeaveNoNetwork();
         } catch (ConnectionException e) {
-            Log.d(TAG, "After resuming the app, there's still no network available.", e);
+            if (mConnectionOnPause != null) {
+                onConnectivityChanged();
+            }
         }
     }
 
@@ -132,6 +141,12 @@ public abstract class ConnectionAvailabilityAwareActivity extends AppCompatActiv
         super.onPause();
         LocalBroadcastManager lbm = LocalBroadcastManager.getInstance(this);
         lbm.unregisterReceiver(mConnectionChangeListener);
+
+        try {
+            mConnectionOnPause = ConnectionFactory.getConnection(Connection.TYPE_ANY);
+        } catch (ConnectionException e) {
+            mConnectionOnPause = null;
+        }
     }
 
     public void onConnectivityChanged() {
