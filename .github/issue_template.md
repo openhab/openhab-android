@@ -1,3 +1,5 @@
+<!-- Please search the issue, if there is one with your issue -->
+
 ### Actual behaviour
 Describe us what happens
 
@@ -13,7 +15,7 @@ Describe us what should happen
 
 ### Can you reproduce the issue in demo mode?
 <!-- You dont need to fill all server related information, when you can reproduce the bug in demo mode -->
-<!-- If so, only on a specific subpage? -->
+<!-- Only on a specific subpage? -->
 
 
 ### Environment data
