@@ -41,7 +41,9 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
+import android.text.style.RelativeSizeSpan;
 import android.util.Base64;
 import android.util.Log;
 import android.view.Gravity;
@@ -129,7 +131,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
             setProgressIndicatorVisible(false);
             Log.e(TAG, "Error: " + error.toString());
             Log.e(TAG, "HTTP status code: " + statusCode);
-            String message;
+            CharSequence message;
             if (statusCode >= 400){
                 int resourceID;
                 try {
@@ -168,28 +170,35 @@ public class OpenHABMainActivity extends AppCompatActivity implements
             SharedPreferences settings =
                     PreferenceManager.getDefaultSharedPreferences(OpenHABMainActivity.this);
             if (settings.getBoolean(Constants.PREFERENCE_DEBUG_MESSAGES, false)) {
-                message += "\nURL: " + call.request().url();
-                if (call.request().header("Authorization") != null)
-                    message += "\n" + getUserPasswordFromAuthorization(call.request().header
-                            ("Authorization"));
-                message += "\nStacktrace:\n" + Log.getStackTraceString(error);
+                SpannableStringBuilder builder = new SpannableStringBuilder(message);
+                int detailsStart = builder.length();
+
+                builder.append("\nURL: ").append(call.request().url().toString());
+
+                String authHeader = call.request().header("Authorization");
+                if (authHeader != null && authHeader.startsWith("Basic")) {
+                    String base64Credentials = authHeader.substring("Basic".length()).trim();
+                    String credentials = new String(Base64.decode(base64Credentials, Base64.DEFAULT),
+                            Charset.forName("UTF-8"));
+                    String[] usernameAndPassword = credentials.split(":", 2);
+                    builder.append("\nUsername: ").append(usernameAndPassword[0]);
+                    builder.append("\nPassword: ").append(usernameAndPassword[1]);
+                }
+
+                builder.append("\nStacktrace:\n");
+
+                int stacktraceStart = builder.length();
+                builder.append(Log.getStackTraceString(error));
+
+                builder.setSpan(new RelativeSizeSpan(0.8f), detailsStart, stacktraceStart,
+                        SpannableStringBuilder.SPAN_INCLUSIVE_EXCLUSIVE);
+                builder.setSpan(new RelativeSizeSpan(0.6f), stacktraceStart, builder.length(),
+                        SpannableStringBuilder.SPAN_INCLUSIVE_EXCLUSIVE);
+                message = builder;
             }
 
             mController.indicateServerCommunicationFailure(message);
         }
-
-        private String getUserPasswordFromAuthorization(String authorizationString) {
-            if (authorizationString != null && authorizationString.startsWith("Basic")) {
-                String base64Credentials = authorizationString.substring("Basic".length()).trim();
-                String credentials = new String(Base64.decode(base64Credentials, Base64.DEFAULT),
-                        Charset.forName("UTF-8"));
-                final String[] values = credentials.split(":", 2);
-
-                return "Username: " + values[0] + "\nPassword: " + values[1];
-            }
-            return "";
-        }
-
     }
     // GCM Registration expiration
     public static final long REGISTRATION_EXPIRY_TIME_MS = 1000 * 3600 * 24 * 7;

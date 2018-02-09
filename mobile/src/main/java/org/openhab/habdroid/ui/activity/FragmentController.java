@@ -19,7 +19,6 @@ import android.preference.PreferenceManager;
 import android.support.annotation.AnimRes;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.LayoutRes;
-import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -146,7 +145,7 @@ public abstract class FragmentController implements
         }
     }
 
-    public void indicateNoNetwork(String message) {
+    public void indicateNoNetwork(CharSequence message) {
         resetState();
         mNoConnectionFragment = NoNetworkFragment.newInstance(message);
         updateFragmentState();
@@ -158,12 +157,12 @@ public abstract class FragmentController implements
         updateFragmentState();
     }
 
-    public void indicateServerCommunicationFailure(String message) {
+    public void indicateServerCommunicationFailure(CharSequence message) {
         mNoConnectionFragment = CommunicationFailureFragment.newInstance(message);
         updateFragmentState();
     }
 
-    public void updateConnection(Connection connection, String progressMessage) {
+    public void updateConnection(Connection connection, CharSequence progressMessage) {
         if (connection == null) {
             mNoConnectionFragment = ProgressFragment.newInstance(progressMessage,
                     progressMessage != null);
@@ -303,7 +302,7 @@ public abstract class FragmentController implements
     }
 
     public static class CommunicationFailureFragment extends StatusFragment {
-        public static CommunicationFailureFragment newInstance(String message) {
+        public static CommunicationFailureFragment newInstance(CharSequence message) {
             CommunicationFailureFragment f = new CommunicationFailureFragment();
             f.setArguments(buildArgs(message, R.drawable.ic_openhab_appicon_24dp /* FIXME */,
                     R.string.try_again_button, false));
@@ -317,7 +316,7 @@ public abstract class FragmentController implements
     }
 
     public static class ProgressFragment extends StatusFragment {
-        public static ProgressFragment newInstance(String message, boolean showImage) {
+        public static ProgressFragment newInstance(CharSequence message, boolean showImage) {
             ProgressFragment f = new ProgressFragment();
             f.setArguments(buildArgs(message,
                     showImage ? R.drawable.ic_openhab_appicon_24dp : 0,
@@ -332,7 +331,7 @@ public abstract class FragmentController implements
     }
 
     public static class NoNetworkFragment extends StatusFragment {
-        public static NoNetworkFragment newInstance(String message) {
+        public static NoNetworkFragment newInstance(CharSequence message) {
             NoNetworkFragment f = new NoNetworkFragment();
             f.setArguments(buildArgs(message, R.drawable.ic_signal_cellular_off_black_24dp,
                     R.string.try_again_button, false));
@@ -365,10 +364,10 @@ public abstract class FragmentController implements
     }
 
     private abstract static class StatusFragment extends Fragment implements View.OnClickListener {
-        protected static Bundle buildArgs(String message, @DrawableRes int drawableResId,
+        protected static Bundle buildArgs(CharSequence message, @DrawableRes int drawableResId,
                 @StringRes int buttonTextResId, boolean showProgress) {
             Bundle args = new Bundle();
-            args.putString("message", message);
+            args.putCharSequence("message", message);
             args.putInt("drawable", drawableResId);
             args.putInt("buttontext", buttonTextResId);
             args.putBoolean("progress", showProgress);
@@ -383,7 +382,7 @@ public abstract class FragmentController implements
             View view = inflater.inflate(R.layout.fragment_status, container, false);
 
             TextView descriptionText = view.findViewById(R.id.description);
-            String message = arguments.getString("message");
+            CharSequence message = arguments.getCharSequence("message");
             if (!TextUtils.isEmpty(message)) {
                 descriptionText.setText(message);
             } else {
