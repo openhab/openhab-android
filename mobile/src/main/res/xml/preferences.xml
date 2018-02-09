@@ -31,7 +31,7 @@
         <ListPreference
             android:key="default_openhab_theme"
             android:title="@string/settings_openhab_theme"
-            android:defaultValue="@string/theme_value_light"
+            android:defaultValue="@string/theme_value_basic_ui"
             android:summary="%s"
             android:entries="@array/themeArray"
             android:entryValues="@array/themeValues" />
