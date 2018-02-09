@@ -10,10 +10,16 @@
 package org.openhab.habdroid.util;
 
 import android.app.Activity;
+import android.app.ActivityManager;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.preference.PreferenceManager;
+import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
 import android.util.Log;
+import android.util.TypedValue;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -140,7 +146,7 @@ public class Util {
 
     public static void setActivityTheme(@NonNull final Activity activity, String theme) {
         if (theme == null) {
-            theme = PreferenceManager.getDefaultSharedPreferences(activity).getString(Constants.PREFERENCE_THEME, activity.getString(R.string.theme_value_dark));
+            theme = PreferenceManager.getDefaultSharedPreferences(activity).getString(Constants.PREFERENCE_THEME, activity.getString(R.string.theme_value_light));
         }
         int themeRes;
         if (theme.equals(activity.getString(R.string.theme_value_dark))) {
@@ -155,6 +161,17 @@ public class Util {
             themeRes = R.style.HABDroid_Light;
         }
         activity.setTheme(themeRes);
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            Bitmap icon = BitmapFactory.decodeResource(activity.getResources(), R.mipmap.icon_round);
+            TypedValue typedValue = new TypedValue();
+            Resources.Theme themeActivity = activity.getTheme();
+            themeActivity.resolveAttribute(R.attr.colorPrimary, typedValue, true);
+            @ColorInt int color = typedValue.data;
+            String name = activity.getString(R.string.app_name);
+            ActivityManager.TaskDescription description = new ActivityManager.TaskDescription(name, icon, color);
+            activity.setTaskDescription(description);
+        }
     }
 
     public static boolean exceptionHasCause(Throwable error, Class<? extends Throwable> cause) {
