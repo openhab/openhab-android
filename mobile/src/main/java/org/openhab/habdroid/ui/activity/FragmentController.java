@@ -158,6 +158,11 @@ public abstract class FragmentController implements
         updateFragmentState();
     }
 
+    public void indicateServerCommunicationFailure(String message) {
+        mNoConnectionFragment = CommunicationFailureFragment.newInstance(message);
+        updateFragmentState();
+    }
+
     public void updateConnection(Connection connection, String progressMessage) {
         if (connection == null) {
             mNoConnectionFragment = ProgressFragment.newInstance(progressMessage,
@@ -294,6 +299,20 @@ public abstract class FragmentController implements
             case PAGE_ENTER: return FragmentTransaction.TRANSIT_FRAGMENT_OPEN;
             case BACK_NAVIGATION: return FragmentTransaction.TRANSIT_FRAGMENT_CLOSE;
             default: return FragmentTransaction.TRANSIT_FRAGMENT_FADE;
+        }
+    }
+
+    public static class CommunicationFailureFragment extends StatusFragment {
+        public static CommunicationFailureFragment newInstance(String message) {
+            CommunicationFailureFragment f = new CommunicationFailureFragment();
+            f.setArguments(buildArgs(message, R.drawable.ic_openhab_appicon_24dp /* FIXME */,
+                    R.string.try_again_button, false));
+            return f;
+        }
+
+        @Override
+        public void onClick(View view) {
+            ((OpenHABMainActivity) getActivity()).queryServerProperties();
         }
     }
 

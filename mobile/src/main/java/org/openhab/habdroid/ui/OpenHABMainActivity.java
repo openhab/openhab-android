@@ -169,14 +169,18 @@ public class OpenHABMainActivity extends AppCompatActivity implements
                 Log.e(TAG, error.getClass().toString());
                 message = error.getMessage();
             }
-            mMessageHandler.showMessageToUser(message, TYPE_DIALOG, LOGLEVEL_NO_DEBUG);
 
-            message += "\nURL: " + call.request().url();
-            if (call.request().header("Authorization") != null)
-                message += "\n" + getUserPasswordFromAuthorization(call.request().header
-                        ("Authorization"));
-            message += "\nStacktrace:\n" + Log.getStackTraceString(error);
-            mMessageHandler.showMessageToUser(message, TYPE_DIALOG, LOGLEVEL_DEBUG);
+            SharedPreferences settings =
+                    PreferenceManager.getDefaultSharedPreferences(OpenHABMainActivity.this);
+            if (settings.getBoolean(Constants.PREFERENCE_DEBUG_MESSAGES, false)) {
+                message += "\nURL: " + call.request().url();
+                if (call.request().header("Authorization") != null)
+                    message += "\n" + getUserPasswordFromAuthorization(call.request().header
+                            ("Authorization"));
+                message += "\nStacktrace:\n" + Log.getStackTraceString(error);
+            }
+
+            mController.indicateServerCommunicationFailure(message);
         }
 
         private String getUserPasswordFromAuthorization(String authorizationString) {
@@ -381,7 +385,10 @@ public class OpenHABMainActivity extends AppCompatActivity implements
                         TYPE_SNACKBAR, LOGLEVEL_ALWAYS);
             }
         }
+        queryServerProperties();
+    }
 
+    public void queryServerProperties() {
         final String url = "/rest/bindings";
         mConnection.getAsyncHttpClient().get(url, new DefaultHttpResponseHandler() {
             @Override
@@ -721,7 +728,8 @@ public class OpenHABMainActivity extends AppCompatActivity implements
                 if (mSitemapList.size() == 0) {
                     // Got an empty sitemap list!
                     Log.e(TAG, "openHAB returned empty sitemap list");
-                    showAlertDialog(getString(R.string.error_empty_sitemap_list));
+                    mController.indicateServerCommunicationFailure(
+                            getString(R.string.error_empty_sitemap_list));
                     return;
                 }
                 loadDrawerItems();
