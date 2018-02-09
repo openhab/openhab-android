@@ -356,6 +356,9 @@ public class OpenHABMainActivity extends ConnectionAvailabilityAwareActivity
 
     private void initializeConnectivity() throws ConnectionException {
         final Connection conn = ConnectionFactory.getConnection(TYPE_ANY);
+        if (conn == null) {
+            return;
+        }
         if (conn instanceof DemoConnection) {
             mMessageHandler.showMessageToUser(
                     getString(R.string.info_demo_mode_short), TYPE_SNACKBAR, LOGLEVEL_ALWAYS);
@@ -427,7 +430,7 @@ public class OpenHABMainActivity extends ConnectionAvailabilityAwareActivity
                 .edit()
                 .putBoolean(Constants.PREFERENCE_DEMOMODE, true)
                 .apply();
-        restartAfterSettingsUpdate();
+        restartAfterSettingsUpdate(true);
     }
 
     private void stopProgressDialog() {
@@ -554,11 +557,6 @@ public class OpenHABMainActivity extends ConnectionAvailabilityAwareActivity
         mStartedWithNetworkConnectivityInfo = NetworkConnectivityInfo.currentNetworkConnectivityInfo(this);
 
         onConnectivityChanged();
-        try {
-            initializeConnectivity();
-        } catch (ConnectionException e) {
-            // will be handled by #getConnection() later
-        }
     }
 
     @Override
@@ -588,6 +586,12 @@ public class OpenHABMainActivity extends ConnectionAvailabilityAwareActivity
     @Override
     public void onConnectivityChanged() {
         super.onConnectivityChanged();
+
+        try {
+            initializeConnectivity();
+        } catch (ConnectionException e) {
+            // will be handled by #getConnection() later
+        }
 
         mViewPool.clear();
         setupDrawer();

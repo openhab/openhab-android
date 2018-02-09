@@ -231,6 +231,7 @@ final public class ConnectionFactory extends BroadcastReceiver implements
         if (settings.getBoolean(Constants.PREFERENCE_DEMOMODE, false)) {
             mAvailableConnection = new DemoConnection(ctx, settings);
             mLocalConnection = mRemoteConnection = mAvailableConnection;
+            mConnectionFailureReason = null;
             return;
         }
         mLocalConnection = makeConnection(Connection.TYPE_LOCAL, Constants.PREFERENCE_LOCAL_URL,

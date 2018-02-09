@@ -295,7 +295,7 @@ public class OpenHABWidgetListFragment extends Fragment
         super.onResume();
         Log.d(TAG, "onResume() " + displayPageUrl);
         Log.d(TAG, "isAdded = " + isAdded());
-        if (displayPageUrl != null)
+        if (displayPageUrl != null && mConnection != null)
             showPage(displayPageUrl, false);
     }
 
