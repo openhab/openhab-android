@@ -33,6 +33,7 @@ import android.provider.Settings;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
 import android.support.annotation.StringRes;
+import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -69,7 +70,6 @@ import org.openhab.habdroid.core.connection.DemoConnection;
 import org.openhab.habdroid.core.connection.exception.ConnectionException;
 import org.openhab.habdroid.core.connection.exception.NetworkNotSupportedException;
 import org.openhab.habdroid.core.connection.exception.NoUrlInformationException;
-import org.openhab.habdroid.core.message.MessageHandler;
 import org.openhab.habdroid.core.notifications.GoogleCloudMessageConnector;
 import org.openhab.habdroid.core.notifications.NotificationSettings;
 import org.openhab.habdroid.model.OpenHABLinkedPage;
@@ -116,11 +116,6 @@ import okhttp3.Call;
 import okhttp3.Headers;
 
 import static org.openhab.habdroid.core.connection.Connection.TYPE_CLOUD;
-import static org.openhab.habdroid.core.message.MessageHandler.LOGLEVEL_ALWAYS;
-import static org.openhab.habdroid.core.message.MessageHandler.LOGLEVEL_DEBUG;
-import static org.openhab.habdroid.core.message.MessageHandler.LOGLEVEL_NO_DEBUG;
-import static org.openhab.habdroid.core.message.MessageHandler.TYPE_DIALOG;
-import static org.openhab.habdroid.core.message.MessageHandler.TYPE_SNACKBAR;
 import static org.openhab.habdroid.util.Util.exceptionHasCause;
 import static org.openhab.habdroid.util.Util.removeProtocolFromUrl;
 
@@ -234,7 +229,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
     // select sitemap dialog
     private Dialog selectSitemapDialog;
     public static String GCM_SENDER_ID;
-    private MessageHandler mMessageHandler;
+    private Snackbar mLastSnackbar;
     private Connection mConnection;
 
     private OpenHABSitemap mSelectedSitemap;
@@ -279,7 +274,6 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         }
 
         Util.setActivityTheme(this);
-        mMessageHandler = new MessageHandler(this);
         super.onCreate(savedInstanceState);
 
         String controllerClassName = getResources().getString(R.string.controller_class);
@@ -369,20 +363,16 @@ public class OpenHABMainActivity extends AppCompatActivity implements
 
     private void handleConnectionChange() {
         if (mConnection instanceof DemoConnection) {
-            mMessageHandler.showMessageToUser(
-                    getString(R.string.info_demo_mode_short), TYPE_SNACKBAR, LOGLEVEL_ALWAYS);
+            showSnackbar(R.string.info_demo_mode_short);
         } else {
             boolean hasLocalAndRemote =
                     ConnectionFactory.getConnection(Connection.TYPE_LOCAL) != null &&
                     ConnectionFactory.getConnection(Connection.TYPE_REMOTE) != null;
             int type = mConnection.getConnectionType();
-            @StringRes int noticeResId =
-                    hasLocalAndRemote && type == Connection.TYPE_LOCAL ? R.string.info_conn_url :
-                    hasLocalAndRemote && type == Connection.TYPE_REMOTE ? R.string.info_conn_rem_url :
-                    0;
-            if (noticeResId != 0) {
-                mMessageHandler.showMessageToUser(getString(noticeResId),
-                        TYPE_SNACKBAR, LOGLEVEL_ALWAYS);
+            if (hasLocalAndRemote && type == Connection.TYPE_LOCAL) {
+                showSnackbar(R.string.info_conn_url);
+            } else if (hasLocalAndRemote && type == Connection.TYPE_REMOTE) {
+                showSnackbar(R.string.info_conn_rem_url);
             }
         }
         queryServerProperties();
@@ -517,7 +507,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
 
         mConnection = newConnection;
         mNotifySettings = null;
-        mMessageHandler.closeAllMessages();
+        hideSnackbar();
         mSitemapList.clear();
         mSelectedSitemap = null;
 
@@ -1003,10 +993,6 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         return mViewPool;
     }
 
-    public MessageHandler getMessageHandler() {
-        return mMessageHandler;
-    }
-
     public void setProgressIndicatorVisible(boolean visible) {
         if (mProgressBar != null) {
             mProgressBar.setVisibility(visible ? View.VISIBLE : View.INVISIBLE);
@@ -1036,10 +1022,35 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         }
     }
 
-    private void showAlertDialog(String alertMessage) {
-        if (!isFinishing()) {
-            mMessageHandler.showMessageToUser(alertMessage,
-                    MessageHandler.TYPE_DIALOG, MessageHandler.LOGLEVEL_ALWAYS);
+    public void showRefreshHintSnackbarIfNeeded() {
+        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        if (prefs.getBoolean(Constants.PREFERENCE_SWIPE_REFRESH_EXPLAINED, false)) {
+            return;
+        }
+
+        mLastSnackbar = Snackbar.make(findViewById(android.R.id.content),
+                R.string.swipe_to_refresh_description, Snackbar.LENGTH_LONG);
+        mLastSnackbar.setAction(R.string.swipe_to_refresh_dismiss, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                prefs.edit()
+                        .putBoolean(Constants.PREFERENCE_SWIPE_REFRESH_EXPLAINED, true)
+                        .apply();
+            }
+        });
+        mLastSnackbar.show();
+    }
+
+    private void showSnackbar(@StringRes int messageResId) {
+        mLastSnackbar = Snackbar.make(findViewById(android.R.id.content),
+                messageResId, Snackbar.LENGTH_LONG);
+        mLastSnackbar.show();
+    }
+
+    private void hideSnackbar() {
+        if (mLastSnackbar != null) {
+            mLastSnackbar.dismiss();
+            mLastSnackbar = null;
         }
     }
 

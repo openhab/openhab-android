@@ -36,10 +36,6 @@ import org.openhab.habdroid.util.Util;
 
 import java.util.List;
 
-import static org.openhab.habdroid.core.message.MessageHandler.LOGLEVEL_ALWAYS;
-import static org.openhab.habdroid.core.message.MessageHandler.TYPE_SNACKBAR;
-import static org.openhab.habdroid.util.Constants.PREFERENCE_SWIPE_REFRESH_EXPLAINED;
-
 /**
  * This class is apps' main fragment which displays list of openHAB
  * widgets from sitemap page with further navigation through sitemap and everything else!
@@ -155,27 +151,6 @@ public class OpenHABWidgetListFragment extends Fragment
         builder.show();
     }
 
-    private void showSwipeToRefreshDescriptionSnackbar() {
-        mActivity.getMessageHandler().showMessageToUser(
-                getString(R.string.swipe_to_refresh_description),
-                TYPE_SNACKBAR, LOGLEVEL_ALWAYS,
-                R.string.swipe_to_refresh_dismiss, new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        PreferenceManager
-                                .getDefaultSharedPreferences(v.getContext())
-                                .edit()
-                                .putBoolean(PREFERENCE_SWIPE_REFRESH_EXPLAINED, true)
-                                .apply();
-                    }
-                });
-    }
-
-    private boolean shouldShowSwipeToRefreshDescriptionSnackbar() {
-        return !PreferenceManager.getDefaultSharedPreferences(getActivity()).getBoolean
-                (PREFERENCE_SWIPE_REFRESH_EXPLAINED, false);
-    }
-
     @NonNull
     private String getIconFormat() {
         return PreferenceManager.getDefaultSharedPreferences(mActivity).getString("iconFormatType","PNG");
@@ -211,9 +186,7 @@ public class OpenHABWidgetListFragment extends Fragment
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                if (shouldShowSwipeToRefreshDescriptionSnackbar()) {
-                    showSwipeToRefreshDescriptionSnackbar();
-                }
+                mActivity.showRefreshHintSnackbarIfNeeded();
                 if (displayPageUrl != null) {
                     mActivity.triggerPageUpdate(displayPageUrl, true);
                 }
