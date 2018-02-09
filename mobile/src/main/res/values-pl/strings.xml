@@ -61,7 +61,6 @@
   <string name="error_no_url">Proszę sprawdzić czy openHAB jest uruchomione lub skonfiguruj adres URL openHAB lub zdalny adres URL</string>
   <string name="error_empty_sitemap_list">openHAB zwrócił pustą listę map witryn</string>
   <string name="error_network_not_available">Sieć jest niedostępna</string>
-  <string name="error_http_connection_failed">Otrzymano nieprawidłową odpowiedź od openHAB. Proszę sprawdzić, czy openHAB działa poprawnie (HTTP response code %d)</string>
   <string name="error_no_uuid">Nie można otrzymać UUID openHAB, połączenie nie powiodło się</string>
   <string name="error_invalid_url">Proszę wprowadź poprawny adres URL w formie \'protokół://host:port/\'</string>
   <string name="error_connection_failed">Połączenie z hostem nie powiodło się</string>
@@ -71,16 +70,7 @@
   <string name="error_certificate_expired">Certyfikat SSL jest przestarzały. Proszę uzyskaj nowy certyfikat lub wyłącz sprawdzanie poprawności certyfikatu podczas uzgadniania SSL</string>
   <string name="error_certificate_not_valid_yet">Certyfikat SSL nie jest jeszcze poprawny. Proszę uzyskaj poprawny certyfikat lub wyłącz sprawdzanie poprawności certyfikatu podczas uzgadniania SSL. Sprawdź również, czy twój telefon jest poprawnie ustawiony</string>
   <string name="error_certificate_revoked">Certyfikat SSL został unieważniony. Proszę uzyskaj nowy certyfikat lub wyłącz sprawdzanie poprawności certyfikatu podczas uzgadniania SSL</string>
-  <string name="error_http_code_401">Autoryzacja użytkownika nie powiodła się. Sprawdź nazwę użytkownika, hasło i certyfikat klienta SSL (HTTP response code 401)</string>
-  <string name="error_http_code_403">Autoryzacja użytkownika nie powiodła się. Sprawdź nazwę użytkownika, hasło i certyfikat klienta SSL (HTTP response code 403)</string>
-  <string name="error_http_code_407">Autoryzacja użytkownika nie powiodła się. Sprawdź nazwę użytkownika, hasło i certyfikat klienta SSL (HTTP response code 407)</string>
-  <string name="error_http_code_414">Adres URL jest zbyt długi (HTTP response code 414)</string>
-  <string name="error_http_code_426">HTTPS jest wymagany. Zmień adres URL openHAB (HTTP response code 426)</string>
   <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
-  <string name="error_http_code_495">Nieprawidłowy certyfikat klienta SSL (HTTP response code 495)</string>
-  <string name="error_http_code_496">Certyfikat klienta SSL jest wymagany (HTTP response code 496)</string>
-  <string name="error_http_code_502">Twój odwrócony serwer proxy otrzymał nieprawidłową odpowiedź od openHAB (HTTP response code 502)</string>
-  <string name="error_http_code_503">openHAB jest tymczasowo niedostępny (HTTP response code 504)</string>
   <string name="error_http_code_504">Przekroczenie czasu oczekiwania bramki. Wygląda na to, że Twój odwrócony serwer proxy jest włączony, ale nie mógł otrzymać odpowiedzi od openHAB (Kod HTTP - 504)</string>
   <string name="error_http_code_507">openHAB nie ma wystarczająco wolnego miejsca (Kod HTTP - 507)</string>
   <string name="error_http_code_511">Autoryzacja sieci jest wymagana (Kod HTTP - 511)</string>
