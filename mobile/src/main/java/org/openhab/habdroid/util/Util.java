@@ -43,6 +43,8 @@ import java.util.List;
 import okhttp3.Call;
 import okhttp3.Headers;
 
+import static android.os.Build.*;
+
 public class Util {
 
     private final static String TAG = Util.class.getSimpleName();
@@ -162,15 +164,14 @@ public class Util {
         }
         activity.setTheme(themeRes);
 
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-            Bitmap icon = BitmapFactory.decodeResource(activity.getResources(), R.mipmap.icon_round);
+        if (VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP) {
             TypedValue typedValue = new TypedValue();
-            Resources.Theme themeActivity = activity.getTheme();
-            themeActivity.resolveAttribute(R.attr.colorPrimary, typedValue, true);
-            @ColorInt int color = typedValue.data;
-            String name = activity.getString(R.string.app_name);
-            ActivityManager.TaskDescription description = new ActivityManager.TaskDescription(name, icon, color);
-            activity.setTaskDescription(description);
+            activity.getTheme().resolveAttribute(R.attr.colorPrimary, typedValue, true);
+            activity.setTaskDescription(
+                    new ActivityManager.TaskDescription(activity.getString(R.string.app_name),
+                            BitmapFactory.decodeResource(activity.getResources(),
+                                    R.mipmap.icon_round),
+                            typedValue.data));
         }
     }
 
