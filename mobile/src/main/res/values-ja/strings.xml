@@ -120,4 +120,7 @@
   <string name="intro_themes">テーマ</string>
   <string name="intro_themes_description">いくつかのテーマから選択してください</string>
   <!-- Content description for images -->
+  <!-- Intro strings -->
+  <!-- Intro "SKIP" button -->
+  <!-- Intro "DONE" button -->
 </resources>
