@@ -10,10 +10,16 @@
 package org.openhab.habdroid.util;
 
 import android.app.Activity;
+import android.app.ActivityManager;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.preference.PreferenceManager;
+import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
 import android.util.Log;
+import android.util.TypedValue;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -36,6 +42,9 @@ import java.util.List;
 
 import okhttp3.Call;
 import okhttp3.Headers;
+
+import android.os.Build.VERSION;
+import android.os.Build.VERSION_CODES;
 
 public class Util {
 
@@ -140,7 +149,7 @@ public class Util {
 
     public static void setActivityTheme(@NonNull final Activity activity, String theme) {
         if (theme == null) {
-            theme = PreferenceManager.getDefaultSharedPreferences(activity).getString(Constants.PREFERENCE_THEME, activity.getString(R.string.theme_value_dark));
+            theme = PreferenceManager.getDefaultSharedPreferences(activity).getString(Constants.PREFERENCE_THEME, activity.getString(R.string.theme_value_light));
         }
         int themeRes;
         if (theme.equals(activity.getString(R.string.theme_value_dark))) {
@@ -155,6 +164,15 @@ public class Util {
             themeRes = R.style.HABDroid_Light;
         }
         activity.setTheme(themeRes);
+
+        if (VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP) {
+            TypedValue typedValue = new TypedValue();
+            activity.getTheme().resolveAttribute(R.attr.colorPrimary, typedValue, true);
+            activity.setTaskDescription(new ActivityManager.TaskDescription(
+                    activity.getString(R.string.app_name),
+                    BitmapFactory.decodeResource(activity.getResources(), R.mipmap.icon_round),
+                    typedValue.data));
+        }
     }
 
     public static boolean exceptionHasCause(Throwable error, Class<? extends Throwable> cause) {
