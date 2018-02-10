@@ -126,4 +126,7 @@
   <string name="intro_themes">Temos</string>
   <string name="intro_themes_description">Galite pasirinkti vieną iš kelių temų</string>
   <!-- Content description for images -->
+  <!-- Intro strings -->
+  <!-- Intro "SKIP" button -->
+  <!-- Intro "DONE" button -->
 </resources>
