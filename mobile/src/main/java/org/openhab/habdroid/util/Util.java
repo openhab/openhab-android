@@ -43,7 +43,8 @@ import java.util.List;
 import okhttp3.Call;
 import okhttp3.Headers;
 
-import static android.os.Build.*;
+import android.os.Build.VERSION;
+import android.os.Build.VERSION_CODES;
 
 public class Util {
 
@@ -167,11 +168,10 @@ public class Util {
         if (VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP) {
             TypedValue typedValue = new TypedValue();
             activity.getTheme().resolveAttribute(R.attr.colorPrimary, typedValue, true);
-            activity.setTaskDescription(
-                    new ActivityManager.TaskDescription(activity.getString(R.string.app_name),
-                            BitmapFactory.decodeResource(activity.getResources(),
-                                    R.mipmap.icon_round),
-                            typedValue.data));
+            activity.setTaskDescription(new ActivityManager.TaskDescription(
+                    activity.getString(R.string.app_name),
+                    BitmapFactory.decodeResource(activity.getResources(), R.mipmap.icon_round),
+                    typedValue.data));
         }
     }
 
