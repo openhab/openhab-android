@@ -17,7 +17,6 @@ import android.support.annotation.VisibleForTesting;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
-import org.openhab.habdroid.R;
 import org.openhab.habdroid.core.connection.exception.ConnectionException;
 import org.openhab.habdroid.core.connection.exception.NetworkNotAvailableException;
 import org.openhab.habdroid.core.connection.exception.NetworkNotSupportedException;
@@ -112,6 +111,9 @@ final public class ConnectionFactory extends BroadcastReceiver implements
     }
 
     private Connection getConnectionInternal(int connectionType) throws ConnectionException {
+        if (mConnectionFailureReason != null) {
+            throw mConnectionFailureReason;
+        }
         switch (connectionType) {
             case Connection.TYPE_LOCAL:
                 return mLocalConnection;
@@ -123,9 +125,6 @@ final public class ConnectionFactory extends BroadcastReceiver implements
                 // but currently does not work for myopenhab.org
                 return mRemoteConnection;
             case Connection.TYPE_ANY:
-                if (mConnectionFailureReason != null) {
-                    throw mConnectionFailureReason;
-                }
                 return mAvailableConnection;
             default:
                 throw new IllegalArgumentException("Invalid Connection type requested.");

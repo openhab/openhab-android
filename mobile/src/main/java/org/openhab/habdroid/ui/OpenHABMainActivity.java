@@ -1328,6 +1328,9 @@ public class OpenHABMainActivity extends ConnectionAvailabilityAwareActivity
                 aboutDrawable,
                 DRAWER_ABOUT
         ));
-        mDrawerAdapter.notifyDataSetChanged();
+
+        if (mDrawerAdapter != null) {
+            mDrawerAdapter.notifyDataSetChanged();
+        }
     }
 }

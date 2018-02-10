@@ -14,7 +14,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -95,6 +94,7 @@ public abstract class ConnectionAvailabilityAwareActivity extends AppCompatActiv
         Fragment fragment = getFragmentManager().findFragmentByTag(NO_NETWORK_TAG);
         if (fragment != null) {
             getFragmentManager().beginTransaction().remove(fragment).commit();
+            getFragmentManager().executePendingTransactions();
             if (getSupportActionBar() != null) {
                 getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             }
