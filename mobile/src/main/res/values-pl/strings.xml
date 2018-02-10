@@ -146,4 +146,7 @@
   <string name="content_description_open_number_picker">Otwórz klawiaturę numeryczną</string>
   <string name="content_description_video">Wideo</string>
   <string name="content_description_open_openhab">Otwórz openHAB</string>
+  <!-- Intro strings -->
+  <!-- Intro "SKIP" button -->
+  <!-- Intro "DONE" button -->
 </resources>
