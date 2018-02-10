@@ -157,4 +157,7 @@
   <string name="content_description_open_openhab">Ouvrir openHAB</string>
   <string name="swipe_to_refresh_description">L\'actualisation se fait automatiquement, vous n\'avez normalement rien à faire</string>
   <string name="swipe_to_refresh_dismiss">Compris !</string>
+  <!-- Intro strings -->
+  <!-- Intro "SKIP" button -->
+  <!-- Intro "DONE" button -->
 </resources>
