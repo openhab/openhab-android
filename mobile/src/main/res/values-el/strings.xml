@@ -135,4 +135,7 @@
   <!-- Content description for images -->
   <string name="content_description_video">Βίντεο</string>
   <string name="content_description_open_openhab">Άνοιγμα openHAB</string>
+  <!-- Intro strings -->
+  <!-- Intro "SKIP" button -->
+  <!-- Intro "DONE" button -->
 </resources>
