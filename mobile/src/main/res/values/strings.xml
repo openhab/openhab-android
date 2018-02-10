@@ -185,4 +185,10 @@
     <string name="content_description_open_openhab">Open openHAB</string>
     <string name="swipe_to_refresh_description">The app also refreshes automatically, you normally do not need to do it manually</string>
     <string name="swipe_to_refresh_dismiss">Got it!</string>
+
+    <!-- Intro strings -->
+    <!-- Intro "SKIP" button -->
+    <string name="app_intro_skip_button">SKIP</string>
+    <!-- Intro "DONE" button -->
+    <string name="app_intro_done_button">DONE</string>
 </resources>
