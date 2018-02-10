@@ -93,8 +93,7 @@ public class AsyncServiceResolver extends Thread implements ServiceListener {
                 });
                 shutdown();
             }
-        } catch (InterruptedException e) {
-        }
+        } catch (InterruptedException ignored) {}
     }
 
     public void serviceAdded(ServiceEvent event) {
