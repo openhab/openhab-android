@@ -70,6 +70,9 @@ public class MessageHandler {
 
         switch (messageType) {
             case TYPE_DIALOG:
+                if (alertDialog != null && alertDialog.isShowing()) {
+                    return;
+                }
                 alertDialog = new AlertDialog.Builder(mActivity)
                         .setMessage(message)
                         .setPositiveButton(android.R.string.ok, null)
