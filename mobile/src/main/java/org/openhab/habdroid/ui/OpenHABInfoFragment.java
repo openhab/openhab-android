@@ -74,7 +74,7 @@ public class OpenHABInfoFragment extends Fragment {
 
         Connection conn = null;
         try {
-            conn = ConnectionFactory.getConnection(Connection.TYPE_ANY);
+            conn = ConnectionFactory.getUsableConnection();
         } catch (ConnectionException e) {
             // ignored
         }

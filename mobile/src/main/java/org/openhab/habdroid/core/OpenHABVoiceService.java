@@ -45,7 +45,7 @@ public class OpenHABVoiceService extends Service {
         String voiceCommand = extractVoiceCommand(intent);
         if (!voiceCommand.isEmpty()) {
             try {
-                Connection conn = ConnectionFactory.getConnection(Connection.TYPE_ANY);
+                Connection conn = ConnectionFactory.getUsableConnection();
                 sendItemCommand("VoiceCommand", voiceCommand, conn, startId);
             } catch (ConnectionException e) {
                 Log.w(TAG, "Couldn't determine OpenHAB URL", e);

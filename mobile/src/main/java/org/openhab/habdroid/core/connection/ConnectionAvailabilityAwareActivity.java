@@ -47,9 +47,9 @@ public abstract class ConnectionAvailabilityAwareActivity extends AppCompatActiv
         super.onCreate(savedInstanceState);
     }
 
-    public Connection getConnection(int connectionType) {
+    public Connection getConnection() {
         try {
-            Connection c = ConnectionFactory.getConnection(connectionType);
+            Connection c = ConnectionFactory.getUsableConnection();
             hideNoNetworkFragment();
             return c;
         } catch (ConnectionException e) {
@@ -125,7 +125,7 @@ public abstract class ConnectionAvailabilityAwareActivity extends AppCompatActiv
                 new IntentFilter(ConnectionFactory.ACTION_NETWORK_CHANGED));
 
         try {
-            Connection c = ConnectionFactory.getConnection(Connection.TYPE_ANY);
+            Connection c = ConnectionFactory.getUsableConnection();
             if (c != mConnectionOnPause) {
                 onConnectivityChanged();
             }
@@ -143,7 +143,7 @@ public abstract class ConnectionAvailabilityAwareActivity extends AppCompatActiv
         lbm.unregisterReceiver(mConnectionChangeListener);
 
         try {
-            mConnectionOnPause = ConnectionFactory.getConnection(Connection.TYPE_ANY);
+            mConnectionOnPause = ConnectionFactory.getUsableConnection();
         } catch (ConnectionException e) {
             mConnectionOnPause = null;
         }

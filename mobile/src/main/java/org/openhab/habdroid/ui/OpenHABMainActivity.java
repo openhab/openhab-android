@@ -112,7 +112,6 @@ import de.duenndns.ssl.MemorizingTrustManager;
 import okhttp3.Call;
 import okhttp3.Headers;
 
-import static org.openhab.habdroid.core.connection.Connection.TYPE_ANY;
 import static org.openhab.habdroid.core.message.MessageHandler.LOGLEVEL_ALWAYS;
 import static org.openhab.habdroid.core.message.MessageHandler.LOGLEVEL_DEBUG;
 import static org.openhab.habdroid.core.message.MessageHandler.LOGLEVEL_NO_DEBUG;
@@ -343,10 +342,7 @@ public class OpenHABMainActivity extends ConnectionAvailabilityAwareActivity
     }
 
     private void initializeConnectivity() throws ConnectionException {
-        final Connection conn = ConnectionFactory.getConnection(TYPE_ANY);
-        if (conn == null) {
-            return;
-        }
+        final Connection conn = ConnectionFactory.getUsableConnection();
         if (conn instanceof DemoConnection) {
             mMessageHandler.showMessageToUser(
                     getString(R.string.info_demo_mode_short), TYPE_SNACKBAR, LOGLEVEL_ALWAYS);
@@ -662,7 +658,7 @@ public class OpenHABMainActivity extends ConnectionAvailabilityAwareActivity
 
         mDrawerItemList = new ArrayList<>();
         mDrawerAdapter = new OpenHABDrawerAdapter(this, R.layout.openhabdrawer_sitemap_item,
-                mDrawerItemList, getConnection(TYPE_ANY));
+                mDrawerItemList, getConnection());
         drawerList.setAdapter(mDrawerAdapter);
         drawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -725,7 +721,7 @@ public class OpenHABMainActivity extends ConnectionAvailabilityAwareActivity
 
     private void loadSitemapList() {
         setProgressIndicatorVisible(true);
-        Connection conn = getConnection(TYPE_ANY);
+        Connection conn = getConnection();
         if (conn == null) {
             return;
         }
@@ -772,7 +768,7 @@ public class OpenHABMainActivity extends ConnectionAvailabilityAwareActivity
 
     private void selectSitemap() {
         setProgressIndicatorVisible(true);
-        Connection conn = getConnection(TYPE_ANY);
+        Connection conn = getConnection();
         if (conn == null) {
             return;
         }
@@ -925,7 +921,7 @@ public class OpenHABMainActivity extends ConnectionAvailabilityAwareActivity
                 .setColorFilter(ContextCompat.getColor(this, R.color.light), PorterDuff.Mode.SRC_IN);
 
         try {
-            ConnectionFactory.getConnection(TYPE_ANY);
+            ConnectionFactory.getUsableConnection();
         } catch (ConnectionException e) {
             voiceRecognitionItem.setVisible(false);
         }
@@ -1062,11 +1058,11 @@ public class OpenHABMainActivity extends ConnectionAvailabilityAwareActivity
             Log.d(TAG, "This is a sitemap tag without parameters");
             // Form the new sitemap page url
             // Check if we have this page in stack?
-            mPendingNfcPage = getConnection(TYPE_ANY).getOpenHABUrl() +
+            mPendingNfcPage = getConnection().getOpenHABUrl() +
                     "rest/sitemaps" + openHABURI.getPath();
         } else {
             Log.d(TAG, "Target item = " + nfcItem);
-            Connection conn = getConnection(TYPE_ANY);
+            Connection conn = getConnection();
             String url = conn.getOpenHABUrl() + "rest/items/" + nfcItem;
             Util.sendItemCommand(conn.getAsyncHttpClient(), url, nfcCommand);
             // if mNfcData is not empty, this means we were launched with NFC touch
@@ -1243,9 +1239,7 @@ public class OpenHABMainActivity extends ConnectionAvailabilityAwareActivity
             if (mSettings == null)
                 return null;
 
-            Connection conn;
-            conn = getConnection(Connection.TYPE_CLOUD);
-
+            Connection conn = ConnectionFactory.getConnection(Connection.TYPE_CLOUD);
             if (conn == null) {
                 Log.d(TAG, "Remote URL, username or password are empty, no GCM registration will be made");
                 return null;

@@ -110,14 +110,34 @@ final public class ConnectionFactory extends BroadcastReceiver implements
         sInstance.mUpdateHandler.sendEmptyMessage(MSG_TRIGGER_UPDATE);
     }
 
-    public static Connection getConnection(int connectionType) throws ConnectionException {
+    /**
+     * Returns any openHAB connection that is most likely to work on the current network. The
+     * connections available will be tried in the following order:
+     *  - TYPE_LOCAL
+     *  - TYPE_REMOTE
+     *  - TYPE_CLOUD
+     *
+     * The connection type TYPE_ANY guarantees to return a Connection object,
+     * however, it may throw an exception of type ConnectionException
+     */
+    public static Connection getUsableConnection() throws ConnectionException {
+        if (sInstance.mConnectionFailureReason != null) {
+            throw sInstance.mConnectionFailureReason;
+        }
+        return sInstance.mAvailableConnection;
+    }
+
+    /**
+     * Returns a Connection of the specified type.
+     *
+     * May return null if no such connection is available
+     * (in case the respective server isn't configured in settings)
+     */
+    public static Connection getConnection(int connectionType) {
         return sInstance.getConnectionInternal(connectionType);
     }
 
-    private Connection getConnectionInternal(int connectionType) throws ConnectionException {
-        if (mConnectionFailureReason != null) {
-            throw mConnectionFailureReason;
-        }
+    private Connection getConnectionInternal(int connectionType) {
         switch (connectionType) {
             case Connection.TYPE_LOCAL:
                 return mLocalConnection;
@@ -128,8 +148,6 @@ final public class ConnectionFactory extends BroadcastReceiver implements
                 // things, e.g. by checking if the /api/v1/settings/notifications endpoint works,
                 // but currently does not work for myopenhab.org
                 return mRemoteConnection;
-            case Connection.TYPE_ANY:
-                return mAvailableConnection;
             default:
                 throw new IllegalArgumentException("Invalid Connection type requested.");
         }

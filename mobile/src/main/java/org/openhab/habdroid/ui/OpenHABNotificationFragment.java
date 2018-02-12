@@ -154,11 +154,8 @@ public class OpenHABNotificationFragment extends Fragment implements SwipeRefres
     }
 
     private void loadNotifications() {
-        Connection conn;
-
-        try {
-            conn = ConnectionFactory.getConnection(Connection.TYPE_CLOUD);
-        } catch (ConnectionException e) {
+        Connection conn = ConnectionFactory.getConnection(Connection.TYPE_CLOUD);
+        if (conn == null) {
             return;
         }
         startProgressIndicator();

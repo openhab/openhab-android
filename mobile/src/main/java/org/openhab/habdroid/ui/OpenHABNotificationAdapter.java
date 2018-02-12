@@ -60,16 +60,11 @@ public class OpenHABNotificationAdapter extends
         holder.mMessageView.setText(notification.getMessage());
 
         if (notification.getIcon() != null) {
-            try {
-                Connection conn = ConnectionFactory.getConnection(Connection.TYPE_CLOUD);
-                String iconUrl = String.format(Locale.US, "%s/images/%s.png",
-                        conn.getOpenHABUrl(), Uri.encode(notification.getIcon()));
-                holder.mIconView.setImageUrl(iconUrl, conn.getUsername(), conn.getPassword(),
-                        R.drawable.ic_openhab_appicon_24dp);
-            } catch (ConnectionException e) {
-                // won't happen, but better safe than sorry
-                holder.mIconView.setImageResource(R.drawable.ic_openhab_appicon_24dp);
-            }
+            Connection conn = ConnectionFactory.getConnection(Connection.TYPE_CLOUD);
+            String iconUrl = String.format(Locale.US, "%s/images/%s.png",
+                    conn.getOpenHABUrl(), Uri.encode(notification.getIcon()));
+            holder.mIconView.setImageUrl(iconUrl, conn.getUsername(), conn.getPassword(),
+                    R.drawable.ic_openhab_appicon_24dp);
         } else {
             holder.mIconView.setImageResource(R.drawable.ic_openhab_appicon_24dp);
         }

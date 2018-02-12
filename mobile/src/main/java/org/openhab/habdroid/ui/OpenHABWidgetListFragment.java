@@ -61,7 +61,6 @@ import javax.xml.parsers.ParserConfigurationException;
 import okhttp3.Call;
 import okhttp3.Headers;
 
-import static org.openhab.habdroid.core.connection.Connection.TYPE_ANY;
 import static org.openhab.habdroid.core.message.MessageHandler.LOGLEVEL_ALWAYS;
 import static org.openhab.habdroid.core.message.MessageHandler.TYPE_SNACKBAR;
 import static org.openhab.habdroid.util.Constants.PREFERENCE_SWIPE_REFRESH_EXPLAINED;
@@ -124,7 +123,7 @@ public class OpenHABWidgetListFragment extends Fragment
         Log.d(TAG, "onActivityCreated()");
         Log.d(TAG, "isAdded = " + isAdded());
         mActivity = (OpenHABMainActivity) getActivity();
-        mConnection = mActivity.getConnection(TYPE_ANY);
+        mConnection = mActivity.getConnection();
         final String iconFormat = getIconFormat();
         openHABWidgetDataSource = new OpenHABWidgetDataSource(iconFormat);
 
