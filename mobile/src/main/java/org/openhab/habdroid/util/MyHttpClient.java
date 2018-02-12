@@ -11,6 +11,7 @@ package org.openhab.habdroid.util;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.annotation.VisibleForTesting;
 import android.util.Log;
 
 import java.io.UnsupportedEncodingException;
@@ -140,7 +141,12 @@ public abstract class MyHttpClient<T> {
         headers.put(key, value);
     }
 
-    public Map<String, String> getHeaders() {
+    public void removeHeader(String key) {
+        headers.remove(key);
+    }
+
+    @VisibleForTesting
+    private Map<String, String> getHeaders() {
         return headers;
     }
 

@@ -364,18 +364,24 @@ public class OpenHABMainActivity extends ConnectionAvailabilityAwareActivity
         }
 
         final String url = "/rest/bindings";
-        conn.getAsyncHttpClient().get(url, new MyHttpClient.TextResponseHandler() {
+        conn.getAsyncHttpClient().get(url, new DefaultHttpResponseHandler() {
             @Override
-            public void onFailure(Call call, int statusCode, Headers headers, String responseString, Throwable throwable) {
-                mOpenHABVersion = 1;
-                Log.d(TAG, "openHAB version 1 - got error " + throwable + " accessing " + url);
-                conn.getAsyncHttpClient().addHeader("Accept", "application/xml");
-                selectSitemap();
+            public void onFailure(Call call, int statusCode, Headers headers, byte[] responseBody, Throwable error) {
+                if (statusCode == 404) {
+                    // no bindings endpoint; we're likely talking to an OH1 instance
+                    mOpenHABVersion = 1;
+                    conn.getAsyncHttpClient().addHeader("Accept", "application/xml");
+                    selectSitemap();
+                } else {
+                    // other error -> use default handling
+                    super.onFailure(call, statusCode, headers, responseBody, error);
+                }
             }
 
             @Override
-            public void onSuccess(Call call, int statusCode, Headers headers, String responseString) {
+            public void onSuccess(Call call, int statusCode, Headers headers, byte[] responseBody) {
                 mOpenHABVersion = 2;
+                conn.getAsyncHttpClient().removeHeader("Accept");
                 Log.d(TAG, "openHAB version 2");
                 selectSitemap();
             }
