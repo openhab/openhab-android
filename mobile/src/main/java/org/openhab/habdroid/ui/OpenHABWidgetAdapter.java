@@ -9,6 +9,7 @@
 
 package org.openhab.habdroid.ui;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -957,6 +958,7 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
             mRowHeightPixels = res.getDimensionPixelSize(R.dimen.webview_row_height);
         }
 
+        @SuppressLint("SetJavaScriptEnabled")
         @Override
         public void bind(OpenHABWidget widget) {
             ViewGroup.LayoutParams lp = mWebView.getLayoutParams();
