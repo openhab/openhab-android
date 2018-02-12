@@ -106,6 +106,10 @@ final public class ConnectionFactory extends BroadcastReceiver implements
         }
     }
 
+    public static void restartNetworkCheck() {
+        sInstance.mUpdateHandler.sendEmptyMessage(MSG_TRIGGER_UPDATE);
+    }
+
     public static Connection getConnection(int connectionType) throws ConnectionException {
         return sInstance.getConnectionInternal(connectionType);
     }

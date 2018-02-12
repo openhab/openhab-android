@@ -182,6 +182,7 @@ public abstract class ConnectionAvailabilityAwareActivity extends AppCompatActiv
             restartButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    ConnectionFactory.restartNetworkCheck();
                     getActivity().recreate();
                 }
             });
