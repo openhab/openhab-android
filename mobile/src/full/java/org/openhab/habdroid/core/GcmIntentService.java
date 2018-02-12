@@ -33,7 +33,6 @@ public class GcmIntentService extends IntentService {
     private static final String TAG = GcmIntentService.class.getSimpleName();
 
     public static final String EXTRA_MSG = "message";
-    public static final String EXTRA_TIMESTAMP = "timestamp";
     public static final String EXTRA_GCM_TIMESTAMP = "google.sent_time";
     public static final String EXTRA_NOTIFICATION_ID = "notificationId";
     public static final String ACTION_NOTIFICATION_SELECTED = "org.openhab.notification.selected";
@@ -66,18 +65,10 @@ public class GcmIntentService extends IntentService {
                     notificationId = Integer.parseInt(intent.getExtras().getString(EXTRA_NOTIFICATION_ID));
                 }
                 if ("notification".equals(intent.getExtras().getString("type"))) {
-                    //we use local time as fallback
-                    long timestamp = System.currentTimeMillis();
-                    if(intent.getExtras().containsKey(EXTRA_TIMESTAMP)){
-                        //in case timestamp is passed by cloud service in later versions
-                        timestamp = intent.getExtras().getLong(EXTRA_TIMESTAMP);
-                    }else if(intent.getExtras().containsKey(EXTRA_GCM_TIMESTAMP)){
-                        //use google.sent_time for now as it is the only source
-                        //of the event time available right now
-                        //(or rather the time cloud service forwareded it to gcm)
-                        timestamp = intent.getExtras().getLong(EXTRA_GCM_TIMESTAMP);
-                    }
-
+                    //for now we use google.sent_time as a time reference for our notification as the gcm
+                    //message does not contain the actual event time from the openhab instance at the moment,
+                    //in case gcm time is also missing, we fall back to the reception time which may be delayed (old behaviour)
+                    long timestamp = intent.getLongExtra(EXTRA_GCM_TIMESTAMP, System.currentTimeMillis());
                     sendNotification(intent.getExtras().getString(EXTRA_MSG), timestamp, notificationId);
                 // If this is hideNotification, cancel existing notification with it's id
                 } else if ("hideNotification".equals(intent.getExtras().getString("type"))) {
