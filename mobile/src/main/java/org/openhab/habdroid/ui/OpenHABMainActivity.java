@@ -723,13 +723,13 @@ public class OpenHABMainActivity extends ConnectionAvailabilityAwareActivity
     }
 
     private void loadSitemapList() {
-        setProgressIndicatorVisible(true);
         Connection conn = getConnection();
         if (conn == null) {
             return;
         }
         Log.d(TAG, "Loading sitemap list from /rest/sitemaps");
 
+        setProgressIndicatorVisible(true);
         conn.getAsyncHttpClient().get("/rest/sitemaps", new DefaultHttpResponseHandler() {
             @Override
             public void onSuccess(Call call, int statusCode, Headers headers, byte[] responseBody) {
@@ -770,13 +770,13 @@ public class OpenHABMainActivity extends ConnectionAvailabilityAwareActivity
      */
 
     private void selectSitemap() {
-        setProgressIndicatorVisible(true);
         Connection conn = getConnection();
         if (conn == null) {
             return;
         }
         Log.d(TAG, "Loading sitemap list from /rest/sitemaps");
 
+        setProgressIndicatorVisible(true);
         conn.getAsyncHttpClient().get("/rest/sitemaps", new DefaultHttpResponseHandler() {
             @Override
             public void onSuccess(Call call, int statusCode, Headers headers, byte[] responseBody) {
