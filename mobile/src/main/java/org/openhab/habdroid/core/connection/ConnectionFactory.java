@@ -117,8 +117,9 @@ final public class ConnectionFactory extends BroadcastReceiver implements
      *  - TYPE_REMOTE
      *  - TYPE_CLOUD
      *
-     * This guarantees to return a Connection object, however, it may throw an exception of type
-     * ConnectionException
+     * May return null if the available connection has not been initially determined yet.
+     * Otherwise a Connection object is returned or, if there's an issue in configuration or
+     * network connectivity, the respective exception is thrown.
      */
     public static Connection getUsableConnection() throws ConnectionException {
         if (sInstance.mConnectionFailureReason != null) {

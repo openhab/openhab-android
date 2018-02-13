@@ -43,16 +43,20 @@ public class OpenHABVoiceService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         String voiceCommand = extractVoiceCommand(intent);
+        boolean hasSentCommand = false;
         if (!voiceCommand.isEmpty()) {
             try {
                 Connection conn = ConnectionFactory.getUsableConnection();
-                sendItemCommand("VoiceCommand", voiceCommand, conn, startId);
+                if (conn != null) {
+                    sendItemCommand("VoiceCommand", voiceCommand, conn, startId);
+                    hasSentCommand = true;
+                }
             } catch (ConnectionException e) {
                 Log.w(TAG, "Couldn't determine OpenHAB URL", e);
                 showToast(getString(R.string.error_couldnt_determine_openhab_url));
-                stopSelf(startId);
             }
-        } else {
+        }
+        if (!hasSentCommand) {
             stopSelf(startId);
         }
         return START_NOT_STICKY;

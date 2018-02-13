@@ -343,6 +343,9 @@ public class OpenHABMainActivity extends ConnectionAvailabilityAwareActivity
 
     private void initializeConnectivity() throws ConnectionException {
         final Connection conn = ConnectionFactory.getUsableConnection();
+        if (conn == null) {
+            return;
+        }
         if (conn instanceof DemoConnection) {
             mMessageHandler.showMessageToUser(
                     getString(R.string.info_demo_mode_short), TYPE_SNACKBAR, LOGLEVEL_ALWAYS);
@@ -915,16 +918,19 @@ public class OpenHABMainActivity extends ConnectionAvailabilityAwareActivity
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
+        Connection c = null;
+        try {
+            c = ConnectionFactory.getUsableConnection();
+        } catch (ConnectionException e) {
+            // keep c at null
+        }
+
         MenuItem voiceRecognitionItem = menu.findItem(R.id.mainmenu_voice_recognition);
-        voiceRecognitionItem.setVisible(SpeechRecognizer.isRecognitionAvailable(this));
+        voiceRecognitionItem.setVisible(
+                c != null && SpeechRecognizer.isRecognitionAvailable(this));
         voiceRecognitionItem.getIcon()
                 .setColorFilter(ContextCompat.getColor(this, R.color.light), PorterDuff.Mode.SRC_IN);
 
-        try {
-            ConnectionFactory.getUsableConnection();
-        } catch (ConnectionException e) {
-            voiceRecognitionItem.setVisible(false);
-        }
         return true;
     }
 
@@ -1045,7 +1051,12 @@ public class OpenHABMainActivity extends ConnectionAvailabilityAwareActivity
      *
      * @param nfcData - a data which NFC subsystem got from the NFC tag
      */
-    public void onNfcTag(String nfcData) {
+    private void onNfcTag(String nfcData) {
+        Connection c = getConnection();
+        if (c == null) {
+            return;
+        }
+
         Log.d(TAG, "onNfcTag()");
         Uri openHABURI = Uri.parse(nfcData);
         Log.d(TAG, "NFC Scheme = " + openHABURI.getScheme());
@@ -1058,13 +1069,11 @@ public class OpenHABMainActivity extends ConnectionAvailabilityAwareActivity
             Log.d(TAG, "This is a sitemap tag without parameters");
             // Form the new sitemap page url
             // Check if we have this page in stack?
-            mPendingNfcPage = getConnection().getOpenHABUrl() +
-                    "rest/sitemaps" + openHABURI.getPath();
+            mPendingNfcPage = c.getOpenHABUrl() + "rest/sitemaps" + openHABURI.getPath();
         } else {
             Log.d(TAG, "Target item = " + nfcItem);
-            Connection conn = getConnection();
-            String url = conn.getOpenHABUrl() + "rest/items/" + nfcItem;
-            Util.sendItemCommand(conn.getAsyncHttpClient(), url, nfcCommand);
+            String url = c.getOpenHABUrl() + "rest/items/" + nfcItem;
+            Util.sendItemCommand(c.getAsyncHttpClient(), url, nfcCommand);
             // if mNfcData is not empty, this means we were launched with NFC touch
             // and thus need to autoexit after an item action
             if (!TextUtils.isEmpty(mNfcData))
