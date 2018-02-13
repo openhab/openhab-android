@@ -21,7 +21,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import org.openhab.habdroid.R;
-import org.openhab.habdroid.model.OpenHABSitemap;
+import org.openhab.habdroid.model.Sitemap;
 import org.openhab.habdroid.util.MySmartImageView;
 
 import java.util.List;
@@ -90,7 +90,7 @@ public class OpenHABDrawerAdapter extends ArrayAdapter<OpenHABDrawerItem> {
         drawerItemImage = (MySmartImageView)drawerItemView.findViewById(R.id.itemimage);
         switch (this.getItemViewType(position)) {
             case TYPE_SITEMAPITEM:
-                OpenHABSitemap siteMap = drawerItem.getSiteMap();
+                Sitemap siteMap = drawerItem.getSiteMap();
                 if (siteMap.getLabel() != null && drawerItemLabelTextView != null) {
                     drawerItemLabelTextView.setText(siteMap.getLabel());
                 } else {

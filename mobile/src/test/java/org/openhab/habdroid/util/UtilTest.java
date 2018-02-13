@@ -1,21 +1,14 @@
 package org.openhab.habdroid.util;
 
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.junit.Test;
-import org.openhab.habdroid.model.OpenHABSitemap;
-import org.w3c.dom.Document;
-import org.xml.sax.InputSource;
+import org.openhab.habdroid.model.Sitemap;
 import org.xml.sax.SAXException;
 
 import java.io.IOException;
-import java.io.StringReader;
 import java.security.cert.CertPathValidatorException;
 import java.util.List;
 
 import javax.net.ssl.SSLException;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import static junit.framework.Assert.assertFalse;
@@ -46,8 +39,10 @@ public class UtilTest {
 
     @Test
     public void parseOH1SitemapList() throws Exception {
-        List<OpenHABSitemap> sitemapList = Util.parseSitemapList(getSitemapOH1Document());
+        List<? extends Sitemap> sitemapList = Util.parseSitemapList(getSitemapOH1Document());
         assertFalse(sitemapList.isEmpty());
+
+        assertEquals(8, sitemapList.size());
 
         // Should be sorted
         assertEquals("Garden", sitemapList.get(0).getLabel());
@@ -59,12 +54,11 @@ public class UtilTest {
         assertEquals("i AM DEfault", sitemapList.get(6).getLabel());
         assertEquals("outside", sitemapList.get(7).getLabel());
 
-        assertEquals(8, sitemapList.size());
     }
 
     @Test
     public void parseOH2SitemapListWithId1() throws Exception {
-        List<OpenHABSitemap> sitemapList = Util.parseSitemapList(createJsonArray(1));
+        List<? extends Sitemap> sitemapList = Util.parseSitemapList(createJsonArrayString(1));
         assertFalse(sitemapList.isEmpty());
 
         assertEquals("Main Menu", sitemapList.get(0).getLabel());
@@ -73,25 +67,26 @@ public class UtilTest {
 
     @Test
     public void parseOH2SitemapListWithId2() throws Exception {
-        List<OpenHABSitemap> sitemapList  = Util.parseSitemapList(createJsonArray(2));
+        List<? extends Sitemap> sitemapList  = Util.parseSitemapList(createJsonArrayString(2));
         assertFalse(sitemapList.isEmpty());
 
-        assertEquals("Main Menu", sitemapList.get(0).getLabel());
-        assertEquals("HOME", sitemapList.get(1).getLabel());
+        assertEquals("HOME", sitemapList.get(0).getLabel());
+        assertEquals("Main Menu", sitemapList.get(1).getLabel());
         assertEquals(2, sitemapList.size());
     }
 
     @Test
     public void parseOH2SitemapListWithId3() throws Exception {
-        List<OpenHABSitemap> sitemapList = Util.parseSitemapList(createJsonArray(3));
+        List<? extends Sitemap> sitemapList = Util.parseSitemapList(createJsonArrayString(3));
         assertFalse(sitemapList.isEmpty());
 
         assertEquals("Home", sitemapList.get(0).getLabel());
         assertEquals(1, sitemapList.size());
     }
 
-    private Document getSitemapOH1Document() throws ParserConfigurationException, IOException, SAXException {
-        String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>" +
+    private String getSitemapOH1Document() throws ParserConfigurationException, IOException,
+            SAXException {
+        return "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>" +
                 "<sitemaps><sitemap><name>default</name><label>i AM DEfault</label><link>http://myopenhab/rest/sitemaps/default</link><homepage><link>http://myopenhab/rest/sitemaps/default/default</link><leaf>false</leaf></homepage></sitemap>" +
                 "<sitemap><name>heating</name><label>Heating</label><link>http://myopenhab/rest/sitemaps/heating</link><homepage><link>http://myopenhab/rest/sitemaps/heating/heating</link><leaf>false</leaf></homepage></sitemap>" +
                 "<sitemap><name>lighting</name><label>Lighting</label><link>http://myopenhab/rest/sitemaps/lighting</link><homepage><link>http://myopenhab/rest/sitemaps/lighting/lighting</link><leaf>false</leaf></homepage></sitemap>" +
@@ -100,9 +95,6 @@ public class UtilTest {
                 "<sitemap><name>outside</name><link>http://myopenhab/rest/sitemaps/outside</link><homepage><link>http://myopenhab/rest/sitemaps/outside/outside</link><leaf>false</leaf></homepage></sitemap>" +
                 "<sitemap><name>garden</name><label>Garden</label><link>http://myopenhab/rest/sitemaps/garden</link><homepage><link>http://myopenhab/rest/sitemaps/garden/garden</link><leaf>false</leaf></homepage></sitemap>" +
                 "<sitemap><name>scenes</name><label>Scenes</label><link>http://myopenhab/rest/sitemaps/scenes</link><homepage><link>http://myopenhab/rest/sitemaps/scenes/scenes</link><leaf>false</leaf></homepage></sitemap></sitemaps>";
-        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-        DocumentBuilder builder = dbf.newDocumentBuilder();
-        return builder.parse(new InputSource(new StringReader(xml)));
     }
 
 
@@ -110,13 +102,14 @@ public class UtilTest {
     public void sitemapExists() throws Exception {
         assertTrue(Util.sitemapExists(sitemapList(), "garden"));
         assertFalse(Util.sitemapExists(sitemapList(), "monkies"));
-        assertTrue("Sitemap \"demo\" is a \"normal\" one and exists",Util.sitemapExists(Util.parseSitemapList(createJsonArray(1)), "demo"));
-        assertFalse("Sitemap \"_default\" exists on the server, but isn't the only one => don't display it in the app.", Util.sitemapExists(Util.parseSitemapList(createJsonArray(1)), "_default"));
-        assertFalse("Sitemap \"_default\" exists on the server, but isn't the only one => don't display it in the app.", Util.sitemapExists(Util.parseSitemapList(createJsonArray(2)), "_default"));
-        assertTrue("Sitemap \"_default\" exists on the server and is the only one => display it in the app.", Util.sitemapExists(Util.parseSitemapList(createJsonArray(3)), "_default"));
+        assertTrue("Sitemap \"demo\" is a \"normal\" one and exists",Util.sitemapExists(Util.parseSitemapList(createJsonArrayString(1)), "demo"));
+        assertFalse("Sitemap \"_default\" exists on the server, but isn't the only one => don't display it in the app.", Util.sitemapExists(Util.parseSitemapList(createJsonArrayString(1)), "_default"));
+        assertFalse("Sitemap \"_default\" exists on the server, but isn't the only one => don't display it in the app.", Util.sitemapExists(Util.parseSitemapList(createJsonArrayString(2)), "_default"));
+        assertTrue("Sitemap \"_default\" exists on the server and is the only one => display it in the app.", Util.sitemapExists(Util.parseSitemapList(createJsonArrayString(3)), "_default"));
     }
 
-    private List<OpenHABSitemap> sitemapList() throws IOException, SAXException, ParserConfigurationException {
+    private List<? extends Sitemap> sitemapList() throws IOException, SAXException,
+            ParserConfigurationException {
         return Util.parseSitemapList(getSitemapOH1Document());
     }
 
@@ -132,9 +125,8 @@ public class UtilTest {
      *             2: Three sitemaps, two "normal", one "_default"
      *             3: One "_default"
      * @return Sitemaps as jsonArray
-     * @throws JSONException
      */
-    private JSONArray createJsonArray(int id) throws JSONException {
+    private String createJsonArrayString(int id) {
         String jsonString;
         switch (id) {
             case 1:
@@ -152,7 +144,7 @@ public class UtilTest {
                 default:
                     throw new IllegalArgumentException("Wrong id");
         }
-        return new JSONArray(jsonString);
+        return jsonString;
     }
 
     @Test

@@ -11,7 +11,7 @@ package org.openhab.habdroid.ui.drawer;
 
 import android.graphics.drawable.Drawable;
 
-import org.openhab.habdroid.model.OpenHABSitemap;
+import org.openhab.habdroid.model.Sitemap;
 
 /**
  * Created by belovictor on 28/01/15.
@@ -28,7 +28,7 @@ public class OpenHABDrawerItem {
     private String mLabelText;
     private Drawable mIcon;
     private DrawerItemType mItemType;
-    private OpenHABSitemap mSiteMap;
+    private Sitemap mSiteMap;
     private int mCount = 0;
     private int mTag;
 
@@ -36,7 +36,7 @@ public class OpenHABDrawerItem {
     }
 
     // A constructor to create a SITEMAP_ITEM
-    public OpenHABDrawerItem(OpenHABSitemap sitemap) {
+    public OpenHABDrawerItem(Sitemap sitemap) {
         this.mSiteMap = sitemap;
         this.mLabelText = sitemap.getLabel();
         this.mItemType = DrawerItemType.SITEMAP_ITEM;
@@ -106,11 +106,11 @@ public class OpenHABDrawerItem {
         this.mItemType = itemType;
     }
 
-    public OpenHABSitemap getSiteMap() {
+    public Sitemap getSiteMap() {
         return mSiteMap;
     }
 
-    public void setSiteMap(OpenHABSitemap siteMap) {
+    public void setSiteMap(Sitemap siteMap) {
         this.mSiteMap = siteMap;
     }
 

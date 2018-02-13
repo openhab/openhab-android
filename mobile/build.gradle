@@ -51,6 +51,12 @@ android {
     }
 }
 
+configurations {
+    compile.exclude module: 'stax'
+    compile.exclude module: 'stax-api'
+    compile.exclude module: 'xpp3'
+}
+
 repositories {
     jcenter()
     mavenCentral()
@@ -77,6 +83,14 @@ dependencies {
     //androidsvg commit as of July 16th 2017
     compile 'com.github.BigBadaboom:androidsvg:418cf676849b200cacf3465478079f39709fe5b1'
     compile 'com.github.apl-devs:appintro:v4.2.2'
+    compileOnly "org.projectlombok:lombok:1.16.20"
+    annotationProcessor 'org.projectlombok:lombok:1.16.20'
+
+    compile "javax.xml.stream:stax-api:jar:1.0-2"
+    compile 'com.fasterxml.jackson.core:jackson-core:2.9.3'
+    compile 'com.fasterxml.jackson.core:jackson-annotations:2.9.3'
+    compile 'com.fasterxml.jackson.core:jackson-databind:2.9.3'
+    compile 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.9.3'
 
     // This should already be included in the aboutlibraries dependency, however, it somehow isn't
     compile "com.android.support:cardview-v7:26.1.0"

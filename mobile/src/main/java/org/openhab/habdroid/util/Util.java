@@ -11,40 +11,34 @@ package org.openhab.habdroid.util;
 
 import android.app.Activity;
 import android.app.ActivityManager;
-import android.content.res.Resources;
-import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build.VERSION;
+import android.os.Build.VERSION_CODES;
 import android.preference.PreferenceManager;
-import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.util.TypedValue;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.openhab.habdroid.R;
-import org.openhab.habdroid.model.OpenHAB1Sitemap;
-import org.openhab.habdroid.model.OpenHAB2Sitemap;
-import org.openhab.habdroid.model.OpenHABItem;
-import org.openhab.habdroid.model.OpenHABSitemap;
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 
+import org.openhab.habdroid.R;
+import org.openhab.habdroid.model.OpenHABItem;
+import org.openhab.habdroid.model.Sitemap;
+import org.openhab.habdroid.model.SitemapImpl;
+
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
 import okhttp3.Call;
 import okhttp3.Headers;
-
-import android.os.Build.VERSION;
-import android.os.Build.VERSION_CODES;
 
 public class Util {
 
@@ -84,50 +78,44 @@ public class Util {
         return uri.getHost();
     }
 
-    public static List<OpenHABSitemap> parseSitemapList(Document document) {
-        List<OpenHABSitemap> sitemapList = new ArrayList<OpenHABSitemap>();
-        NodeList sitemapNodes = document.getElementsByTagName("sitemap");
-        if (sitemapNodes.getLength() > 0) {
-            for (int i = 0; i < sitemapNodes.getLength(); i++) {
-                Node sitemapNode = sitemapNodes.item(i);
-                OpenHABSitemap openhabSitemap = new OpenHAB1Sitemap(sitemapNode);
-                sitemapList.add(openhabSitemap);
-            }
+    public static List<? extends Sitemap> parseSitemapList(String serializedString) {
+        ObjectMapper mapper = new ObjectMapper();
+        if (serializedString.startsWith("<?xml")) {
+            mapper = new XmlMapper();
         }
-        // Sort by sitename label
-        Collections.sort(sitemapList, new Comparator<OpenHABSitemap>() {
+        List<SitemapImpl> sitemapList = new ArrayList<>();
+        try {
+            sitemapList = Arrays.asList(mapper.readValue(serializedString, SitemapImpl[].class));
+        } catch (IOException e) {
+            Log.d(TAG, "Could not de-serialize sitemap.", e);
+        }
+
+        if (sitemapList.size() != 1) {
+            List<SitemapImpl> newSitemapList = new ArrayList<>(sitemapList);
+            for (Sitemap sitemap : sitemapList) {
+                if (sitemap.getName().equals("_default")) {
+                    newSitemapList.remove(sitemap);
+                }
+            }
+
+            sitemapList = newSitemapList;
+        }
+
+        sortSitemapByLabel(sitemapList);
+
+        return sitemapList;
+    }
+
+    private static void sortSitemapByLabel(List<? extends Sitemap> sitemapList) {
+        Collections.sort(sitemapList, new Comparator<Sitemap>() {
             @Override
-            public int compare(OpenHABSitemap sitemap1, OpenHABSitemap sitemap2) {
-                if (sitemap1.getLabel() == null) {
-                    return sitemap2.getLabel() == null ? 0 : -1;
-                }
-                if (sitemap2.getLabel() == null) {
-                    return 1;
-                }
-                return sitemap1.getLabel().compareTo(sitemap2.getLabel());
+            public int compare(Sitemap sitemap1, Sitemap sitemap2) {
+                return  sitemap1.getLabel().compareTo(sitemap2.getLabel());
             }
         });
-
-        return sitemapList;
     }
 
-    public static List<OpenHABSitemap> parseSitemapList(JSONArray jsonArray) {
-        List<OpenHABSitemap> sitemapList = new ArrayList<OpenHABSitemap>();
-        for (int i = 0; i < jsonArray.length(); i++) {
-            try {
-                JSONObject sitemapJson = jsonArray.getJSONObject(i);
-                OpenHABSitemap openHABSitemap = new OpenHAB2Sitemap(sitemapJson);
-                if (!(openHABSitemap.getName().equals("_default") && jsonArray.length() != 1)) {
-                    sitemapList.add(openHABSitemap);
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-        return sitemapList;
-    }
-
-    public static boolean sitemapExists(List<OpenHABSitemap> sitemapList, String sitemapName) {
+    public static boolean sitemapExists(List<? extends Sitemap> sitemapList, String sitemapName) {
         for (int i = 0; i < sitemapList.size(); i++) {
             if (sitemapList.get(i).getName().equals(sitemapName))
                 return true;
@@ -135,7 +123,8 @@ public class Util {
         return false;
     }
 
-    public static OpenHABSitemap getSitemapByName(List<OpenHABSitemap> sitemapList, String sitemapName) {
+    public static Sitemap getSitemapByName(List<? extends Sitemap> sitemapList, String
+            sitemapName) {
         for (int i = 0; i < sitemapList.size(); i++) {
             if (sitemapList.get(i).getName().equals(sitemapName))
                 return sitemapList.get(i);
