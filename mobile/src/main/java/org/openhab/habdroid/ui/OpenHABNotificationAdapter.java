@@ -11,12 +11,10 @@ package org.openhab.habdroid.ui;
 
 import android.content.Context;
 import android.net.Uri;
-import android.os.Build;
+import android.support.v7.widget.RecyclerView;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import org.openhab.habdroid.R;
@@ -24,69 +22,70 @@ import org.openhab.habdroid.model.OpenHABNotification;
 import org.openhab.habdroid.util.MySmartImageView;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 /**
  * Created by belovictor on 03/04/15.
  */
-public class OpenHABNotificationAdapter extends ArrayAdapter<OpenHABNotification> {
-    private int mResource;
-    private String mOpenHABUsername;
-    private String mOpenHABPassword;
-    private String mOpenHABBaseUrl;
+public class OpenHABNotificationAdapter extends
+        RecyclerView.Adapter<OpenHABNotificationAdapter.NotificationViewHolder> {
+    private final String mOpenHABUsername;
+    private final String mOpenHABPassword;
+    private final String mOpenHABBaseUrl;
+    private final ArrayList<OpenHABNotification> mItems;
+    private final LayoutInflater mInflater;
+    private final Context mContext;
 
-    public OpenHABNotificationAdapter(Context context, int resource, ArrayList<OpenHABNotification> objects) {
-        super(context, resource, objects);
-        mResource = resource;
+    public OpenHABNotificationAdapter(Context context, ArrayList<OpenHABNotification> items,
+            String baseUrl, String userName, String password) {
+        super();
+        mItems = items;
+        mOpenHABBaseUrl = baseUrl;
+        mOpenHABUsername = userName;
+        mOpenHABPassword = password;
+        mContext = context;
+        mInflater = LayoutInflater.from(context);
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        OpenHABNotification notification = getItem(position);
-        if (convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(mResource, parent, false);
+    public int getItemCount() {
+        return mItems.size();
+    }
+
+    @Override
+    public NotificationViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        return new NotificationViewHolder(mInflater, parent);
+    }
+
+    @Override
+    public void onBindViewHolder(NotificationViewHolder holder, int position) {
+        OpenHABNotification notification = mItems.get(position);
+
+        holder.mCreatedView.setText(DateUtils.getRelativeDateTimeString(mContext,
+                notification.getCreated().getTime(),
+                DateUtils.MINUTE_IN_MILLIS, DateUtils.WEEK_IN_MILLIS, 0));
+        holder.mMessageView.setText(notification.getMessage());
+
+        if (notification.getIcon() != null) {
+            String iconUrl = String.format(Locale.US, "%s/images/%s.png",
+                    mOpenHABBaseUrl, Uri.encode(notification.getIcon()));
+            holder.mIconView.setImageUrl(iconUrl, mOpenHABUsername, mOpenHABPassword,
+                    R.drawable.ic_openhab_appicon_24dp);
+        } else {
+            holder.mIconView.setImageResource(R.drawable.ic_openhab_appicon_24dp);
         }
-        TextView createdView = (TextView)convertView.findViewById(R.id.notificationCreated);
-        TextView messageView = (TextView)convertView.findViewById(R.id.notificationMessage);
-        MySmartImageView imageView = (MySmartImageView)convertView.findViewById(R.id.notificationImage);
-        if (imageView != null) {
-            if (notification.getIcon() != null && imageView != null) {
-                String iconUrl = mOpenHABBaseUrl + "/images/" + Uri.encode(notification.getIcon() + ".png");
-                imageView.setImageUrl(iconUrl, mOpenHABUsername, mOpenHABPassword,
-                        R.drawable.ic_openhab_appicon_24dp);
-            } else {
-                if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    imageView.setImageDrawable(getContext().getDrawable(R.drawable.ic_openhab_appicon_24dp));
-                } else {
-                    imageView.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_openhab_appicon_24dp));
-                }
-            }
+    }
+
+    public static class NotificationViewHolder extends RecyclerView.ViewHolder {
+        final TextView mCreatedView;
+        final TextView mMessageView;
+        final MySmartImageView mIconView;
+
+        public NotificationViewHolder(LayoutInflater inflater, ViewGroup parent) {
+            super(inflater.inflate(R.layout.openhabnotificationlist_item, parent, false));
+            mCreatedView = itemView.findViewById(R.id.notificationCreated);
+            mMessageView = itemView.findViewById(R.id.notificationMessage);
+            mIconView = itemView.findViewById(R.id.notificationImage);
         }
-        createdView.setText(DateUtils.getRelativeDateTimeString(this.getContext(), notification.getCreated().getTime(), DateUtils.MINUTE_IN_MILLIS, DateUtils.WEEK_IN_MILLIS, 0));
-        messageView.setText(notification.getMessage());
-        return convertView;
-    }
-
-    public String getOpenHABUsername() {
-        return mOpenHABUsername;
-    }
-
-    public void setOpenHABUsername(String openHABUsername) {
-        this.mOpenHABUsername = openHABUsername;
-    }
-
-    public String getOpenHABPassword() {
-        return mOpenHABPassword;
-    }
-
-    public void setOpenHABPassword(String openHABPassword) {
-        this.mOpenHABPassword = openHABPassword;
-    }
-
-    public String getOpenHABBaseUrl() {
-        return mOpenHABBaseUrl;
-    }
-
-    public void setOpenHABBaseUrl(String mOpenHABBaseUrl) {
-        this.mOpenHABBaseUrl = mOpenHABBaseUrl;
     }
 }

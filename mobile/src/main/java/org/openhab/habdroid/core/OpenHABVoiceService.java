@@ -17,21 +17,20 @@ import android.os.Handler;
 import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.speech.RecognizerIntent;
+import android.support.annotation.Nullable;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.util.Constants;
 import org.openhab.habdroid.util.ContinuingIntentService;
 import org.openhab.habdroid.util.MyAsyncHttpClient;
-import org.openhab.habdroid.util.MyHttpClient;
+import org.openhab.habdroid.util.Util;
 
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
-
-import okhttp3.Call;
-import okhttp3.Headers;
 
 /**
  * This service handles voice commands and sends them to OpenHAB.
@@ -113,12 +112,17 @@ public class OpenHABVoiceService extends ContinuingIntentService implements Open
         stopSelf(getLastStartId());
     }
 
+    @Override
+    public void showMessageToUser(String message, int messageType, int logLevel) {
+        showMessageToUser(message, messageType, logLevel);
+    }
+
     /**
      * @param message message to show
      * @param messageType must be Constants.MESSAGES.DIALOG or Constants.MESSAGES.TOAST
      * @param logLevel not implemented
      */
-    public void showMessageToUser(String message, int messageType, int logLevel) {
+    public void showMessageToUser(String message, int messageType, int logLevel, int actionMessage, @Nullable View.OnClickListener actionListener) {
         if(message == null) {
             return;
         }
@@ -194,18 +198,8 @@ public class OpenHABVoiceService extends ContinuingIntentService implements Open
         new Handler(Looper.getMainLooper()).post(new Runnable() {
             @Override
             public void run() {
-                mAsyncHttpClient.post(mOpenHABBaseUrl + "rest/items/" + itemName,
-                        command, "text/plain;charset=UTF-8", new MyHttpClient.ResponseHandler() {
-                            @Override
-                            public void onSuccess(Call call, int statusCode, Headers headers, byte[] responseBody) {
-                                Log.d(TAG, "Command was sent successfully");
-                            }
-
-                            @Override
-                            public void onFailure(Call call, int statusCode, Headers headers, byte[] responseBody, Throwable error) {
-                                Log.e(TAG, "Got command error " + statusCode, error);
-                            }
-                        });
+                String url = mOpenHABBaseUrl + "rest/items/" + itemName;
+                Util.sendItemCommand(mAsyncHttpClient, url, command);
             }
         });
     }

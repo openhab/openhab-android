@@ -32,6 +32,7 @@ import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
+import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
@@ -40,6 +41,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
@@ -104,7 +106,7 @@ import static org.openhab.habdroid.util.Constants.MESSAGES.LOGLEVEL.NO_DEBUG;
 import static org.openhab.habdroid.util.Util.exceptionHasCause;
 import static org.openhab.habdroid.util.Util.removeProtocolFromUrl;
 
-public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSelectedListener,
+public class OpenHABMainActivity extends AppCompatActivity implements
         OpenHABTrackerReceiver, MemorizingResponder {
 
     private abstract class DefaultHttpResponseHandler implements MyHttpClient.ResponseHandler {
@@ -208,6 +210,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
     // Google Cloud Messaging
     private GoogleCloudMessaging mGcm;
     private OpenHABDrawerAdapter mDrawerAdapter;
+    private RecyclerView.RecycledViewPool mViewPool;
     private ArrayList<Sitemap> mSitemapList;
     private NetworkConnectivityInfo mStartedWithNetworkConnectivityInfo;
     private int mOpenHABVersion;
@@ -283,6 +286,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
         gcmRegisterBackground();
         setupPager();
 
+        mViewPool = new RecyclerView.RecycledViewPool();
         MemorizingTrustManager.setResponder(this);
 
         // Check if we have openHAB page url in saved instance state?
@@ -496,7 +500,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
                 if (mDrawerItemList != null && mDrawerItemList.get(item).getItemType() == OpenHABDrawerItem.DrawerItemType.SITEMAP_ITEM) {
                     Log.d(TAG, "This is sitemap " + mDrawerItemList.get(item).getSiteMap().getLink());
                     mDrawerLayout.closeDrawers();
-                    openSitemap(mDrawerItemList.get(item).getSiteMap().getHomepageLink());
+                    openSitemap(mDrawerItemList.get(item).getSiteMap());
                 } else {
                     Log.d(TAG, "This is not sitemap");
                     if (mDrawerItemList.get(item).getTag() == DRAWER_NOTIFICATIONS) {
@@ -548,7 +552,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
             openPageIfPending(possiblePosition);
             // If not, then open this page as new one
         } else {
-            pagerAdapter.openPage(pendingPage);
+            pagerAdapter.openPage(pendingPage, null);
             pager.setCurrentItem(pagerAdapter.getCount() - 1);
         }
     }
@@ -601,6 +605,9 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
         showMessageToUser(error, DIALOG, ALWAYS);
     }
 
+    public void showMessageToUser(String message, int messageType, int logLevel) {
+        showMessageToUser(message, messageType, logLevel, 0, null);
+    }
     /**
      * Shows a message to the user.
      * You might want to send two messages: One detailed one with
@@ -610,8 +617,12 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
      * @param message message to show
      * @param messageType can be one of Constants.MESSAGES.*
      * @param logLevel can be on of Constants.MESSAGES.LOGLEVEL.*
+     * @param actionMessage A StringRes to use as a message for an action, if supported by the
+     *                      messageType (can be 0)
+     * @param actionListener A listener that should be executed when the action message is clicked.
      */
-    public void showMessageToUser(String message, int messageType, int logLevel) {
+    public void showMessageToUser(String message, int messageType, int logLevel,
+                                  int actionMessage, @Nullable View.OnClickListener actionListener) {
         if (isFinishing() || message == null) {
             return;
         }
@@ -656,6 +667,10 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
                 break;
             case Constants.MESSAGES.SNACKBAR:
                 Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG);
+                if (actionListener != null && actionMessage != 0) {
+                    snackbar.setAction(actionMessage, actionListener);
+                    snackbar.setDuration(Snackbar.LENGTH_INDEFINITE);
+                }
                 snackbar.show();
                 break;
             case Constants.MESSAGES.TOAST:
@@ -757,7 +772,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
                         Log.d(TAG, "Configured sitemap is on the list");
                         Sitemap selectedSitemap = Util.getSitemapByName(mSitemapList,
                                 configuredSitemap);
-                        openSitemap(selectedSitemap.getHomepageLink());
+                        openSitemap(selectedSitemap);
                         // Configured sitemap is not on the list we got!
                     } else {
                         Log.d(TAG, "Configured sitemap is not on the list");
@@ -769,7 +784,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
                             preferencesEditor.putString(Constants.PREFERENCE_SITEMAP_LABEL,
                                     mSitemapList.get(0).getLabel());
                             preferencesEditor.apply();
-                            openSitemap(mSitemapList.get(0).getHomepageLink());
+                            openSitemap(mSitemapList.get(0));
                         } else {
                             Log.d(TAG, "Got multiply sitemaps, user have to select one");
                             showSitemapSelectionDialog(mSitemapList);
@@ -786,7 +801,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
                         preferencesEditor.putString(Constants.PREFERENCE_SITEMAP_LABEL,
                                 mSitemapList.get(0).getLabel());
                         preferencesEditor.apply();
-                        openSitemap(mSitemapList.get(0).getHomepageLink());
+                        openSitemap(mSitemapList.get(0));
                     } else {
                         Log.d(TAG, "Got multiply sitemaps, user have to select one");
                         showSitemapSelectionDialog(mSitemapList);
@@ -815,7 +830,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
                             preferencesEditor.putString(Constants.PREFERENCE_SITEMAP_NAME, sitemapList.get(item).getName());
                             preferencesEditor.putString(Constants.PREFERENCE_SITEMAP_LABEL, sitemapList.get(item).getLabel());
                             preferencesEditor.apply();
-                            openSitemap(sitemapList.get(item).getHomepageLink());
+                            openSitemap(sitemapList.get(item));
                         }
                     }).show();
         } catch (WindowManager.BadTokenException e) {
@@ -831,11 +846,11 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
         mDrawerToggle.setDrawerIndicatorEnabled(false);
     }
 
-    private void openSitemap(String sitemapUrl) {
-        Log.i(TAG, "Opening sitemap at " + sitemapUrl);
-        sitemapRootUrl = sitemapUrl;
+    private void openSitemap(Sitemap sitemap) {
+        Log.i(TAG, "Opening sitemap at " + sitemap.getHomepageLink());
+        sitemapRootUrl = sitemap.getHomepageLink();
         pagerAdapter.clearFragmentList();
-        pagerAdapter.openPage(sitemapRootUrl);
+        pagerAdapter.openPage(sitemap.getHomepageLink(), sitemap.getLabel());
         pager.setCurrentItem(0);
     }
 
@@ -973,7 +988,8 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
             mPendingNfcPage = newPageUrl;
         } else {
             Log.d(TAG, "Target item = " + nfcItem);
-            sendItemCommand(nfcItem, nfcCommand);
+            String url = openHABBaseUrl + "rest/items/" + nfcItem;
+            Util.sendItemCommand(mAsyncHttpClient, url, nfcCommand);
             // if mNfcData is not empty, this means we were launched with NFC touch
             // and thus need to autoexit after an item action
             if (!TextUtils.isEmpty(mNfcData))
@@ -982,35 +998,22 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
         mNfcData = "";
     }
 
-    public void sendItemCommand(String itemName, String command) {
-        try {
-            mAsyncHttpClient.post(openHABBaseUrl + "rest/items/" + itemName, command, "text/plain;charset=UTF-8", new MyHttpClient.TextResponseHandler() {
-                @Override
-                public void onFailure(Call call, int statusCode, Headers headers, String responseString, Throwable error) {
-                    Log.e(TAG, "Got command error " + error.getMessage());
-                    if (responseString != null)
-                        Log.e(TAG, "Error response = " + responseString);
-                }
-
-                @Override
-                public void onSuccess(Call call, int statusCode, Headers headers, String responseString) {
-                    Log.d(TAG, "Command was sent successfully");
-                }
-            });
-        } catch (RuntimeException e) {
-            if (e.getMessage() != null)
-                Log.e(TAG, e.getMessage());
-        }
-    }
-
-    public void onWidgetSelectedListener(OpenHABLinkedPage linkedPage, OpenHABWidgetListFragment source) {
+    public void onWidgetSelected(OpenHABLinkedPage linkedPage, OpenHABWidgetListFragment source) {
         Log.i(TAG, "Got widget link = " + linkedPage.getLink());
         Log.i(TAG, String.format("Link came from fragment on position %d", source.getPosition()));
-        pagerAdapter.openPage(linkedPage.getLink(), source.getPosition() + 1);
+        pagerAdapter.openPage(linkedPage, source.getPosition() + 1);
         pager.setCurrentItem(pagerAdapter.getCount() - 1);
-        setTitle(linkedPage.getTitle());
+        updateTitle();
         //set the drawer icon to a back arrow when not on the rook menu
         mDrawerToggle.setDrawerIndicatorEnabled(pager.getCurrentItem() == 0);
+    }
+
+    public void updateTitle() {
+        int indexToUse = Math.max(0, pager.getCurrentItem() + 1 - pagerAdapter.getActualColumnsNumber());
+        CharSequence title = pagerAdapter.getPageTitle(indexToUse);
+        Log.d(TAG, "updateTitle: current " + pager.getCurrentItem() + " shown "
+                + pagerAdapter.getActualColumnsNumber() + " index " + indexToUse + " -> title " + title);
+        setTitle(title);
     }
 
     @Override
@@ -1023,10 +1026,14 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
             }
         } else {
             pager.setCurrentItem(pager.getCurrentItem() - 1, true);
-            setTitle(pagerAdapter.getPageTitle(pager.getCurrentItem()));
+            updateTitle();
             //set the drawer icon back to to hamburger menu if on the root menu
             mDrawerToggle.setDrawerIndicatorEnabled(pager.getCurrentItem() == 0);
         }
+    }
+
+    public RecyclerView.RecycledViewPool getViewPool() {
+        return mViewPool;
     }
 
     protected void setProgressIndicatorVisible(boolean visible) {
@@ -1213,8 +1220,10 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
         if (isFullscreenEnabled()) {
             int uiOptions = getWindow().getDecorView().getSystemUiVisibility();
             uiOptions |= View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
-            uiOptions |= View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
-            uiOptions |= View.SYSTEM_UI_FLAG_FULLSCREEN;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                uiOptions |= View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
+                uiOptions |= View.SYSTEM_UI_FLAG_FULLSCREEN;
+            }
             getWindow().getDecorView().setSystemUiVisibility(uiOptions);
         }
     }
@@ -1247,7 +1256,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements OnWidgetSe
         );
         if (getNotificationSettings() != null) {
             mDrawerItemList.add(OpenHABDrawerItem.menuItem(
-                    "Notifications",
+                    getString(R.string.app_notifications),
                     notificationDrawable,
                     DRAWER_NOTIFICATIONS
             ));

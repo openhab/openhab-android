@@ -10,15 +10,21 @@
 package org.openhab.habdroid.util;
 
 import android.app.Activity;
+import android.app.ActivityManager;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build.VERSION;
+import android.os.Build.VERSION_CODES;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.util.Log;
+import android.util.TypedValue;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 
 import org.openhab.habdroid.R;
+import org.openhab.habdroid.model.OpenHABItem;
 import org.openhab.habdroid.model.Sitemap;
 import org.openhab.habdroid.model.SitemapImpl;
 
@@ -30,6 +36,9 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+
+import okhttp3.Call;
+import okhttp3.Headers;
 
 public class Util {
 
@@ -126,9 +135,10 @@ public class Util {
     public static void setActivityTheme(@NonNull final Activity activity) {
         setActivityTheme(activity, null);
     }
+
     public static void setActivityTheme(@NonNull final Activity activity, String theme) {
         if (theme == null) {
-            theme = PreferenceManager.getDefaultSharedPreferences(activity).getString(Constants.PREFERENCE_THEME, activity.getString(R.string.theme_value_dark));
+            theme = PreferenceManager.getDefaultSharedPreferences(activity).getString(Constants.PREFERENCE_THEME, activity.getString(R.string.theme_value_light));
         }
         int themeRes;
         if (theme.equals(activity.getString(R.string.theme_value_dark))) {
@@ -143,6 +153,15 @@ public class Util {
             themeRes = R.style.HABDroid_Light;
         }
         activity.setTheme(themeRes);
+
+        if (VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP) {
+            TypedValue typedValue = new TypedValue();
+            activity.getTheme().resolveAttribute(R.attr.colorPrimary, typedValue, true);
+            activity.setTaskDescription(new ActivityManager.TaskDescription(
+                    activity.getString(R.string.app_name),
+                    BitmapFactory.decodeResource(activity.getResources(), R.mipmap.icon_round),
+                    typedValue.data));
+        }
     }
 
     public static boolean exceptionHasCause(Throwable error, Class<? extends Throwable> cause) {
@@ -153,5 +172,31 @@ public class Util {
             error = error.getCause();
         }
         return false;
+    }
+
+    public static void sendItemCommand(MyAsyncHttpClient client, OpenHABItem item, String command) {
+        if (item == null) {
+            return;
+        }
+        sendItemCommand(client, item.getLink(), command);
+    }
+
+    public static void sendItemCommand(MyAsyncHttpClient client, String itemUrl, String command) {
+        if (itemUrl == null || command == null) {
+            return;
+        }
+        client.post(itemUrl, command, "text/plain;charset=UTF-8", new MyHttpClient.TextResponseHandler() {
+            @Override
+            public void onFailure(Call call, int statusCode, Headers headers, String responseString, Throwable error) {
+                Log.e(TAG, "Got command error " + error.getMessage());
+                if (responseString != null)
+                    Log.e(TAG, "Error response = " + responseString);
+            }
+
+            @Override
+            public void onSuccess(Call call, int statusCode, Headers headers, String responseString) {
+                Log.d(TAG, "Command was sent successfully");
+            }
+        });
     }
 }

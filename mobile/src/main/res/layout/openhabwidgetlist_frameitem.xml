@@ -1,18 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:focusable="false"
+    android:orientation="vertical"
     android:minHeight="50dp"
     android:paddingLeft="@dimen/widgetlist_item_left_margin"
     android:paddingRight="@dimen/widgetlist_item_right_margin"
     android:paddingStart="@dimen/widgetlist_item_left_margin"
     android:paddingEnd="@dimen/widgetlist_item_right_margin">
 
-    <LinearLayout
-        android:id="@+id/listdivider"
-        android:layout_width="fill_parent"
+    <View
+        android:layout_width="match_parent"
         android:layout_height="8dip"
         android:layout_marginBottom="7dip"
         android:layout_marginLeft="@dimen/widgetlist_divider_left_margin"
@@ -25,20 +24,15 @@
 
     <TextView
         android:id="@+id/widgetlabel"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="5dp"
-        android:gravity="center_vertical"
-        android:paddingLeft="5dp"
+        android:layout_weight="1"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
         android:ellipsize="end"
         android:maxLines="2"
-        android:paddingRight="5dp"
         android:textColor="?attr/themedHeaderTextColor"
         android:textStyle="bold"
-        android:layout_marginStart="5dp"
-        android:paddingStart="5dp"
-        android:paddingEnd="5dp"
         tools:ignore="SelectableText" />
 
-</RelativeLayout>
+</LinearLayout>
