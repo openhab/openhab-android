@@ -9,97 +9,89 @@
 
 package org.openhab.habdroid.model;
 
-import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
+import com.google.auto.value.AutoValue;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+
+@AutoValue
 public abstract class OpenHABSitemap implements Parcelable {
-	private String name;
-    private String label;
-	private String link;
-    private String icon;
-	private String homepageLink;
-    private boolean leaf = false;
+	public abstract String name();
+    public abstract String label();
+	public abstract String link();
+	@Nullable
+    public abstract String icon();
+    public abstract String iconPath();
+	public abstract String homepageLink();
 
-    OpenHABSitemap(Parcel in) {
-        this.name = in.readString();
-        this.label = in.readString();
-        this.link = in.readString();
-        this.icon = in.readString();
-        this.homepageLink = in.readString();
+	@AutoValue.Builder
+	static abstract class Builder {
+        public abstract Builder name(String name);
+        public abstract Builder label(String label);
+        public abstract Builder link(String link);
+        public abstract Builder icon(@Nullable String icon);
+        public abstract Builder iconPath(String iconPath);
+        public abstract Builder homepageLink(String homepageLink);
+
+        public abstract OpenHABSitemap build();
     }
 
-    protected OpenHABSitemap() {
-    }
+    public static OpenHABSitemap fromXml(Node startNode) {
+        String label = null, name = null, icon = null, link = null, homepageLink = null;
 
-    public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
-	public String getLink() {
-		return link;
-	}
-	public void setLink(String link) {
-		this.link = link;
-	}
-	public String getHomepageLink() {
-		return homepageLink;
-	}
-	public void setHomepageLink(String homepageLink) {
-		this.homepageLink = homepageLink;
-	}
-    public String getIcon() {
-        return icon;
-    }
-    public void setIcon(String icon) {
-        this.icon = icon;
-    }
-
-    public @NonNull String getLabel() {
-        return (label == null) ? getName() : label;
-    }
-
-    public void setLabel(String label) {
-        this.label = label;
-    }
-
-    public boolean isLeaf() {
-        return leaf;
-    }
-
-    public void setLeaf(boolean isLeaf) {
-        leaf = isLeaf;
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(name);
-        dest.writeString(label);
-        dest.writeString(link);
-        dest.writeString(icon);
-        dest.writeString(homepageLink);
-    }
-
-    public abstract String getIconPath();
-
-    @Override
-    public boolean equals(Object obj) {
-        if (obj instanceof OpenHABSitemap) {
-            return link.equals(((OpenHABSitemap) obj).link);
+        if (startNode.hasChildNodes()) {
+            NodeList childNodes = startNode.getChildNodes();
+            for (int i = 0; i < childNodes.getLength(); i++) {
+                Node childNode = childNodes.item(i);
+                switch (childNode.getNodeName()) {
+                    case "name": name = childNode.getTextContent(); break;
+                    case "label": label = childNode.getTextContent(); break;
+                    case "link": link = childNode.getTextContent(); break;
+                    case "icon": icon = childNode.getTextContent(); break;
+                    case "homepage":
+                        if (childNode.hasChildNodes()) {
+                            NodeList homepageNodes = childNode.getChildNodes();
+                            for (int j = 0; j < homepageNodes.getLength(); j++) {
+                                Node homepageChildNode = homepageNodes.item(j);
+                                if (homepageChildNode.getNodeName().equals("link")) {
+                                    homepageLink = homepageChildNode.getTextContent();
+                                    break;
+                                }
+                            }
+                        }
+                        break;
+                }
+            }
         }
-        return false;
+
+        return new AutoValue_OpenHABSitemap.Builder()
+                .name(name)
+                .label(label != null ? label : name)
+                .link(link)
+                .homepageLink(homepageLink)
+                .icon(icon)
+                .iconPath(String.format("images/%s.png", icon))
+                .build();
     }
 
-    @Override
-    public String toString() {
-        return "Sitemap[name=" + name + ", label=" + label
-                + ", link=" + link + ", homepageLink=" + homepageLink + "]";
+    public static OpenHABSitemap fromJson(JSONObject jsonObject) throws JSONException {
+        String name = jsonObject.optString("name", null);
+        String label = jsonObject.optString("label", null);
+        String icon = jsonObject.optString("icon", null);
+        JSONObject homepageObject = jsonObject.optJSONObject("homepage");
+
+        return new AutoValue_OpenHABSitemap.Builder()
+                .name(name)
+                .label(label != null ? label : name)
+                .icon(icon)
+                .iconPath(String.format("icon/%s", icon))
+                .link(jsonObject.optString("link", null))
+                .homepageLink(homepageObject != null ? homepageObject.optString("link", null) : null)
+                .build();
     }
 }

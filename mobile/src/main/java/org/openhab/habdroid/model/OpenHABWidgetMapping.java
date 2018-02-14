@@ -9,24 +9,24 @@
 
 package org.openhab.habdroid.model;
 
-public class OpenHABWidgetMapping {
-	private String command;
-	private String label;
-	
-	public OpenHABWidgetMapping(String command, String label) {
-		this.command = command;
-		this.label = label;
-	}
-	public String getCommand() {
-		return command;
-	}
-	public void setCommand(String command) {
-		this.command = command;
-	}
-	public String getLabel() {
-		return label;
-	}
-	public void setLabel(String label) {
-		this.label = label;
-	}
+import android.os.Parcelable;
+
+import com.google.auto.value.AutoValue;
+
+@AutoValue
+public abstract class OpenHABWidgetMapping implements Parcelable {
+    public abstract String command();
+    public abstract String label();
+
+    public static Builder newBuilder() {
+        return new AutoValue_OpenHABWidgetMapping.Builder();
+    }
+
+    @AutoValue.Builder
+    public static abstract class Builder {
+        public abstract Builder command(String command);
+        public abstract Builder label(String label);
+
+        public abstract OpenHABWidgetMapping build();
+    }
 }

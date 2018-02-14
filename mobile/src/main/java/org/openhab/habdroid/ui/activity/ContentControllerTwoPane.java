@@ -80,7 +80,7 @@ public class ContentControllerTwoPane extends ContentController {
             ft.replace(R.id.content_left, leftFragment);
             if (leftFragment instanceof OpenHABWidgetListFragment) {
                 OpenHABWidgetListFragment llf = (OpenHABWidgetListFragment) leftFragment;
-                llf.setHighlightedPageLink(rightPair != null ? rightPair.first.getLink() : null);
+                llf.setHighlightedPageLink(rightPair != null ? rightPair.first.link() : null);
             }
         }
         if (rightFragment != null) {

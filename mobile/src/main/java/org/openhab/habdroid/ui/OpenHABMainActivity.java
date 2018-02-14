@@ -706,8 +706,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
 
             for (int i = 0; i < mSitemapList.size(); i++) {
                 OpenHABSitemap sitemap = mSitemapList.get(i);
-                String label = sitemap.getLabel() != null ? sitemap.getLabel() : sitemap.getName();
-                MenuItem item = menu.add(GROUP_ID_SITEMAPS, i, i, label);
+                MenuItem item = menu.add(GROUP_ID_SITEMAPS, i, i, sitemap.label());
                 loadSitemapIcon(sitemap, item);
             }
         }
@@ -715,7 +714,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
 
     private void loadSitemapIcon(final OpenHABSitemap sitemap, final MenuItem item) {
         final WebImageCache imageCache = MyWebImage.getWebImageCache(this);
-        final String url = sitemap.getIcon() != null ? Uri.encode(sitemap.getIconPath(), "/?=") : null;
+        final String url = sitemap.icon() != null ? Uri.encode(sitemap.iconPath(), "/?=") : null;
         Bitmap cached = url != null ? imageCache.get(url) : null;
 
         if (cached != null) {
@@ -730,7 +729,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
             mConnection.getAsyncHttpClient().get(url, new MyHttpClient.ResponseHandler() {
                 @Override
                 public void onFailure(Call call, int statusCode, Headers headers, byte[] responseBody, Throwable error) {
-                    Log.w(TAG, "Could not fetch icon for sitemap " + sitemap.getName());
+                    Log.w(TAG, "Could not fetch icon for sitemap " + sitemap.name());
                 }
                 @Override
                 public void onSuccess(Call call, int statusCode, Headers headers, byte[] responseBody) {
@@ -861,11 +860,11 @@ public class OpenHABMainActivity extends AppCompatActivity implements
                     .remove(Constants.PREFERENCE_SITEMAP_LABEL)
                     .remove(Constants.PREFERENCE_SITEMAP_NAME)
                     .apply();
-        } else if (hasResult && (!hasConfigured || !configuredSitemap.equals(result.getName()))) {
+        } else if (hasResult && (!hasConfigured || !configuredSitemap.equals(result.name()))) {
             // update result
             settings.edit()
-                    .putString(Constants.PREFERENCE_SITEMAP_NAME, result.getName())
-                    .putString(Constants.PREFERENCE_SITEMAP_LABEL, result.getLabel())
+                    .putString(Constants.PREFERENCE_SITEMAP_NAME, result.name())
+                    .putString(Constants.PREFERENCE_SITEMAP_LABEL, result.label())
                     .apply();
         }
 
@@ -883,7 +882,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
 
         final String[] sitemapLabels = new String[mSitemapList.size()];
         for (int i = 0; i < mSitemapList.size(); i++) {
-            sitemapLabels[i] = mSitemapList.get(i).getLabel();
+            sitemapLabels[i] = mSitemapList.get(i).label();
         }
         selectSitemapDialog = new AlertDialog.Builder(this)
                 .setTitle(R.string.mainmenu_openhab_selectsitemap)
@@ -894,8 +893,8 @@ public class OpenHABMainActivity extends AppCompatActivity implements
                         Log.d(TAG, "Selected sitemap " + sitemap);
                         PreferenceManager.getDefaultSharedPreferences(OpenHABMainActivity.this)
                                 .edit()
-                                .putString(Constants.PREFERENCE_SITEMAP_NAME, sitemap.getName())
-                                .putString(Constants.PREFERENCE_SITEMAP_LABEL, sitemap.getLabel())
+                                .putString(Constants.PREFERENCE_SITEMAP_NAME, sitemap.name())
+                                .putString(Constants.PREFERENCE_SITEMAP_LABEL, sitemap.label())
                                 .apply();
                         openSitemap(sitemap);
                     }
@@ -1062,7 +1061,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
     }
 
     public void onWidgetSelected(OpenHABLinkedPage linkedPage, OpenHABWidgetListFragment source) {
-        Log.i(TAG, "Got widget link = " + linkedPage.getLink());
+        Log.i(TAG, "Got widget link = " + linkedPage.link());
         mController.openPage(linkedPage, source);
     }
 

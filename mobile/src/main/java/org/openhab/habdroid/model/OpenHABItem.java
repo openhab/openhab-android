@@ -9,8 +9,10 @@
 
 package org.openhab.habdroid.model;
 
-import android.graphics.Color;
-import android.util.Log;
+import android.os.Parcelable;
+import android.support.annotation.Nullable;
+
+import com.google.auto.value.AutoValue;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -24,174 +26,162 @@ import java.util.regex.Pattern;
  * This is a class to hold basic information about openHAB Item.
  */
 
-public class OpenHABItem {
-	private String name;
-	private String type;
-	private String groupType;
-	private String state = "";
-	private String link;
-	private final static String TAG = OpenHABItem.class.getSimpleName();
-	private final static Pattern HSB_PATTERN = Pattern.compile("^([0-9]*\\.?[0-9]+),([0-9]*\\.?[0-9]+),([0-9]*\\.?[0-9]+)$");
+@AutoValue
+public abstract class OpenHABItem implements Parcelable {
+    public abstract String name();
+    public abstract String type();
+    @Nullable
+    public abstract String groupType();
+    @Nullable
+    public abstract String link();
+    @Nullable
+    public abstract String state();
+    public abstract boolean stateAsBoolean();
+    public abstract float stateAsFloat();
+    @SuppressWarnings("mutable")
+    public abstract float[] stateAsHSV();
+    @Nullable
+    public abstract Integer stateAsBrightness();
 
-	public OpenHABItem(Node startNode) {
-		if (startNode.hasChildNodes()) {
-			NodeList childNodes = startNode.getChildNodes();
-			for (int i = 0; i < childNodes.getLength(); i ++) {
-				Node childNode = childNodes.item(i);
-				if (childNode.getNodeName().equals("type")) {
-					this.setType(childNode.getTextContent());
-				} else if (childNode.getNodeName().equals("groupType")) {
-					this.setGroupType(childNode.getTextContent());
-				} else if (childNode.getNodeName().equals("name")) {
-					this.setName(childNode.getTextContent());
-				} else if (childNode.getNodeName().equals("state")) {
-					if (childNode.getTextContent().equals("Uninitialized")) {
-						this.setState(null);
-					} else {
-						this.setState(childNode.getTextContent());
-					}
-				} else if (childNode.getNodeName().equals("link")) {					
-					this.setLink(childNode.getTextContent());
-				}
-			}
-		}
-	}
+    @AutoValue.Builder
+    abstract static class Builder {
+        public abstract Builder name(String name);
+        public abstract Builder type(String type);
+        public abstract Builder groupType(@Nullable String type);
+        public abstract Builder state(@Nullable String state);
+        public abstract Builder link(@Nullable String link);
 
-    public OpenHABItem(JSONObject jsonObject) {
+        public OpenHABItem build() {
+            String state = state();
+            return stateAsBoolean(parseAsBoolean(state))
+                    .stateAsFloat(parseAsFloat(state))
+                    .stateAsHSV(parseAsHSV(state))
+                    .stateAsBrightness(parseAsBrightness(state))
+                    .autoBuild();
+        }
+
+        abstract String state();
+        abstract Builder stateAsBoolean(boolean state);
+        abstract Builder stateAsFloat(float state);
+        abstract Builder stateAsHSV(float[] hsv);
+        abstract Builder stateAsBrightness(@Nullable Integer brightness);
+        abstract OpenHABItem autoBuild();
+
+        private static boolean parseAsBoolean(String state) {
+            // For uninitialized/null state return false
+            if (state == null) {
+                return false;
+            }
+            // If state is ON for switches return True
+            if (state.equals("ON")) {
+                return true;
+            }
+
+            Integer brightness = parseAsBrightness(state);
+            if (brightness != null) {
+                return brightness != 0;
+            }
             try {
-                if (jsonObject.has("type"))
-                    this.setType(jsonObject.getString("type"));
-				if (jsonObject.has("groupType"))
-					this.setGroupType(jsonObject.getString("groupType"));
-                if (jsonObject.has("name"))
-                    this.setName(jsonObject.getString("name"));
-                if (jsonObject.has("state")) {
-                    if (jsonObject.getString("state").equals("NULL") ||
-                            jsonObject.getString("state").equals("UNDEF") ||
-                            jsonObject.getString("state").equalsIgnoreCase("undefined")) {
-                        this.setState(null);
-                    } else {
-                        this.setState(jsonObject.getString("state"));
+                int decimalValue = Integer.valueOf(state);
+                return decimalValue > 0;
+            } catch (NumberFormatException e) {
+                return false;
+            }
+        }
+
+        private static float parseAsFloat(String state) {
+            // For uninitialized/null state return zero
+            if (state == null) {
+                return 0f;
+            } else if ("ON".equals(state)) {
+                return 100f;
+            } else if ("OFF".equals(state)) {
+                return 0f;
+            } else {
+                try {
+                    return Float.parseFloat(state);
+                } catch (NumberFormatException e) {
+                    return 0f;
+                }
+            }
+        }
+
+        private static float[] parseAsHSV(String state) {
+            if (state != null) {
+                String[] stateSplit = state.split(",");
+                if (stateSplit.length == 3) { // We need exactly 3 numbers to operate this
+                    try {
+                        return new float[]{
+                                Float.parseFloat(stateSplit[0]),
+                                Float.parseFloat(stateSplit[1]) / 100,
+                                Float.parseFloat(stateSplit[2]) / 100
+                        };
+                    } catch (NumberFormatException e) {
+                        // fall through to returning 0
                     }
                 }
-                if (jsonObject.has("link"))
-                    this.setLink(jsonObject.getString("link"));
-            } catch (JSONException e) {
-                Log.d(TAG, "Error while parsing openHAB item", e);
             }
-    }
-	
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getType() {
-		return type;
-	}
-
-	public void setType(String type) {
-		this.type = type;
-	}
-
-	public String getGroupType() {
-		return groupType;
-	}
-
-	public void setGroupType(String groupType) {
-		this.groupType = groupType;
-	}
-
-	public String getState() {
-		return state;
-	}
-
-	public void setState(String state) {
-		this.state = state;
-	}
-
-	public boolean getStateAsBoolean() {
-		// For uninitialized/null state return false
-		if (state == null) {
-			return false;
-		}
-		// If state is ON for switches return True
-		if (state.equals("ON")) {
-			return true;
-		}
-
-        try {
-            return getStateAsBrightness() != 0;
-        } catch (Exception ignored) {
-            return isValueDecimalIntegerAndGreaterThanZero(state);
-        }
-	}
-
-	private Boolean isValueDecimalIntegerAndGreaterThanZero(String value) {
-		try {
-			int decimalValue = Integer.valueOf(value);
-			return decimalValue > 0;
-		} catch (NumberFormatException e) {
-			return false;
-		}
-	}
-
-	public Float getStateAsFloat() {
-		Float result;
-		// For uninitialized/null state return zero
-		if (state == null) {
-			result = 0f;
-		} else if ("ON".equals(state)) {
-			result = 100f;
-		} else if ("OFF".equals(state)) {
-			result = 0f;
-		} else {
-			try {
-				result = Float.parseFloat(state);
-			} catch (NumberFormatException e) {
-				result = 0f;
-			}
-		}
-		return result;
-	}
-
-	public float[] getStateAsHSV() {
-		if (state == null) {
-			return new float[]{0, 0, 0};
-		}
-		String[] stateSplit = state.split(",");
-		if (stateSplit.length == 3) { // We need exactly 3 numbers to operate this
-			return new float[]{Float.parseFloat(stateSplit[0]), Float.parseFloat(stateSplit[1])/100,
-					Float.parseFloat(stateSplit[2])/100};
-		} else {
             return new float[]{0, 0, 0};
-		}
-	}
+        }
 
-	public int getStateAsColor() {
-		return Color.HSVToColor(getStateAsHSV());
-	}
+        public static Integer parseAsBrightness(String state) {
+            if (state != null) {
+                Matcher hsbMatcher = HSB_PATTERN.matcher(state);
+                if (hsbMatcher.find()) {
+                    try {
+                        return Float.valueOf(hsbMatcher.group(3)).intValue();
+                    } catch (NumberFormatException e) {
+                        // fall through
+                    }
+                }
+            }
+            return null;
+        }
 
-	public String getLink() {
-		return link;
-	}
+        private final static Pattern HSB_PATTERN = Pattern.compile("^([0-9]*\\.?[0-9]+),([0-9]*\\.?[0-9]+),([0-9]*\\.?[0-9]+)$");
+    }
 
-	public void setLink(String link) {
-		this.link = link;
-	}
-
-	public int getStateAsBrightness() {
-        Matcher hsbMatcher = HSB_PATTERN.matcher(state);
-        if(hsbMatcher.find()) {
-            try {
-                return Float.valueOf(hsbMatcher.group(3)).intValue();
-            } catch (Exception e) {
-                throw new IllegalStateException("No brightness");
+    public static OpenHABItem fromXml(Node startNode) {
+        String type = null, groupType = null, name = null, state = null, link = null;
+        if (startNode.hasChildNodes()) {
+            NodeList childNodes = startNode.getChildNodes();
+            for (int i = 0; i < childNodes.getLength(); i++) {
+                Node childNode = childNodes.item(i);
+                switch (childNode.getNodeName()) {
+                    case "type": type = childNode.getTextContent(); break;
+                    case "groupType": groupType = childNode.getTextContent(); break;
+                    case "name": name = childNode.getTextContent(); break;
+                    case "state": state = childNode.getTextContent(); break;
+                    case "link": link = childNode.getTextContent(); break;
+                }
             }
         }
-        throw new IllegalStateException("No brightness");
+
+        return new AutoValue_OpenHABItem.Builder()
+                .type(type)
+                .groupType(groupType)
+                .name(name)
+                .state("Unitialized".equals(state) ? null : state)
+                .link(link)
+                .build();
+    }
+
+    public static OpenHABItem fromJson(JSONObject jsonObject) throws JSONException {
+        if (jsonObject == null) {
+            return null;
+        }
+
+        String state = jsonObject.optString("state", "");
+        if ("NULL".equals(state) || "UNDEF".equals(state) || "undefined".equalsIgnoreCase(state)) {
+            state = null;
+        }
+
+        return new AutoValue_OpenHABItem.Builder()
+                .type(jsonObject.getString("type"))
+                .groupType(jsonObject.optString("groupType", null))
+                .name(jsonObject.getString("name"))
+                .link(jsonObject.optString("link", null))
+                .state(state)
+                .build();
     }
 }

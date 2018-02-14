@@ -116,20 +116,16 @@ public class OpenHABWidgetListFragment extends Fragment
 
     @Override
     public boolean onItemClicked(OpenHABWidget openHABWidget) {
-        if (!openHABWidget.hasLinkedPage()) {
-            return false;
+        OpenHABLinkedPage linkedPage = openHABWidget.linkedPage();
+        if (mActivity != null && linkedPage != null) {
+            mActivity.onWidgetSelected(linkedPage, OpenHABWidgetListFragment.this);
         }
-
-        // Widget have a page linked to it
-        if (mActivity != null) {
-            mActivity.onWidgetSelected(openHABWidget.getLinkedPage(), OpenHABWidgetListFragment.this);
-        }
-        return true;
+        return linkedPage != null;
     }
 
     @Override
     public void onItemLongClicked(OpenHABWidget openHABWidget) {
-        Log.d(TAG, "Widget type = " + openHABWidget.getType());
+        Log.d(TAG, "Widget type = " + openHABWidget.type());
 
         selectedOpenHABWidget = openHABWidget;
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -143,8 +139,8 @@ public class OpenHABWidgetListFragment extends Fragment
                 writeTagIntent.putExtra("sitemapPage", displayPageUrl);
 
                 if (nfcActionList.getCommands().length > which) {
-                    writeTagIntent.putExtra("item", selectedOpenHABWidget.getItem().getName());
-                    writeTagIntent.putExtra("itemType", selectedOpenHABWidget.getItem().getType());
+                    writeTagIntent.putExtra("item", selectedOpenHABWidget.item().name());
+                    writeTagIntent.putExtra("itemType", selectedOpenHABWidget.item().type());
                     writeTagIntent.putExtra("command", nfcActionList.getCommands()[which]);
                 }
                 startActivityForResult(writeTagIntent, 0);
@@ -252,8 +248,8 @@ public class OpenHABWidgetListFragment extends Fragment
         openHABWidgetAdapter.setSelectedPosition(-1);
         if (highlightedPageLink != null) {
             for (int i = 0; i < openHABWidgetAdapter.getItemCount(); i++) {
-                OpenHABLinkedPage page = openHABWidgetAdapter.getItem(i).getLinkedPage();
-                if (page != null && highlightedPageLink.equals(page.getLink())) {
+                OpenHABLinkedPage page = openHABWidgetAdapter.getItem(i).linkedPage();
+                if (page != null && highlightedPageLink.equals(page.link())) {
                     openHABWidgetAdapter.setSelectedPosition(i);
                     mLayoutManager.scrollToPosition(i);
                     break;
@@ -279,7 +275,7 @@ public class OpenHABWidgetListFragment extends Fragment
     public boolean onWidgetUpdated(OpenHABWidget widget) {
         if (mWidgets != null) {
             for (int i = 0; i < mWidgets.size(); i++) {
-                if (mWidgets.get(i).getId().equals(widget.getId())) {
+                if (mWidgets.get(i).id().equals(widget.id())) {
                     mWidgets.set(i, widget);
                     if (openHABWidgetAdapter != null) {
                         openHABWidgetAdapter.updateAtPosition(i, widget);

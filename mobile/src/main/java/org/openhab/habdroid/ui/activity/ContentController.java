@@ -99,7 +99,7 @@ public abstract class ContentController implements PageConnectionHolderFragment.
         for (Pair<OpenHABLinkedPage, OpenHABWidgetListFragment> item : mPageStack) {
             pages.add(item.first);
             if (item.second.isAdded()) {
-                mFm.putFragment(state, "pageFragment-" + item.first.getLink(), item.second);
+                mFm.putFragment(state, "pageFragment-" + item.first.link(), item.second);
             }
         }
         state.putParcelable("controllerSitemap", mCurrentSitemap);
@@ -139,7 +139,7 @@ public abstract class ContentController implements PageConnectionHolderFragment.
         mPageStack.clear();
         for (OpenHABLinkedPage page : oldStack) {
             OpenHABWidgetListFragment f = (OpenHABWidgetListFragment)
-                    mFm.getFragment(state, "pageFragment-" + page.getLink());
+                    mFm.getFragment(state, "pageFragment-" + page.link());
             mPageStack.add(Pair.create(page, f != null ? f : makePageFragment(page)));
         }
         mTemporaryPage = mFm.getFragment(state, "temporaryPage");
@@ -192,7 +192,7 @@ public abstract class ContentController implements PageConnectionHolderFragment.
     public final void openPage(String url) {
         int toPop = -1;
         for (int i = 0; i < mPageStack.size(); i++) {
-            if (mPageStack.get(i).first.getLink().equals(url)) {
+            if (mPageStack.get(i).first.link().equals(url)) {
                 // page is already present
                 toPop = mPageStack.size() - i - 1;
                 break;
@@ -472,11 +472,11 @@ public abstract class ContentController implements PageConnectionHolderFragment.
     }
 
     private OpenHABWidgetListFragment makeSitemapFragment(OpenHABSitemap sitemap) {
-        return OpenHABWidgetListFragment.withPage(sitemap.getHomepageLink(), sitemap.getLabel());
+        return OpenHABWidgetListFragment.withPage(sitemap.homepageLink(), sitemap.label());
     }
 
     private OpenHABWidgetListFragment makePageFragment(OpenHABLinkedPage page) {
-        return OpenHABWidgetListFragment.withPage(page.getLink(), page.getTitle());
+        return OpenHABWidgetListFragment.withPage(page.link(), page.title());
     }
 
     protected enum FragmentUpdateReason {

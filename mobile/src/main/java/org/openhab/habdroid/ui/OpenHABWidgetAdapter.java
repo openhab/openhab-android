@@ -228,7 +228,7 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
     @Override
     public int getItemViewType(int position) {
         OpenHABWidget openHABWidget = mItems.get(position);
-        switch (openHABWidget.getType()) {
+        switch (openHABWidget.type()) {
             case "Frame":
                 return TYPE_FRAME;
             case "Group":
@@ -237,12 +237,12 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
                 if (openHABWidget.hasMappings()) {
                     return TYPE_SECTIONSWITCH;
                 } else {
-                    OpenHABItem item = openHABWidget.getItem();
+                    OpenHABItem item = openHABWidget.item();
                     if (item != null) {
                         //RollerShutterItem changed to RollerShutter in later builds of OH2
-                        if ("RollershutterItem".equals(item.getType()) ||
-                                "Rollershutter".equals(item.getType()) ||
-                                "Rollershutter".equals(item.getGroupType())) {
+                        if ("RollershutterItem".equals(item.type()) ||
+                                "Rollershutter".equals(item.type()) ||
+                                "Rollershutter".equals(item.groupType())) {
                             return TYPE_ROLLERSHUTTER;
                         }
                     }
@@ -261,7 +261,7 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
             case "Chart":
                 return TYPE_CHART;
             case "Video":
-                if ("mjpeg".equalsIgnoreCase(openHABWidget.getEncoding())) {
+                if ("mjpeg".equalsIgnoreCase(openHABWidget.encoding())) {
                     return TYPE_VIDEO_MJPEG;
                 }
                 return TYPE_VIDEO;
@@ -337,10 +337,10 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
 
         protected void updateIcon(MySmartImageView iconView, OpenHABWidget widget) {
             // This is needed to escape possible spaces and everything according to rfc2396
-            String iconUrl = mConnection.getOpenHABUrl() + Uri.encode(widget.getIconPath(), "/?=&");
+            String iconUrl = mConnection.getOpenHABUrl() + Uri.encode(widget.iconPath(), "/?=&");
             iconView.setImageUrl(iconUrl, mConnection.getUsername(), mConnection.getPassword(),
                     R.drawable.blank_icon);
-            Integer iconColor = widget.getIconColor();
+            Integer iconColor = widget.iconColor();
             if (iconColor != null) {
                 iconView.setColorFilter(iconColor);
             } else {
@@ -361,8 +361,8 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
 
         @Override
         public void bind(OpenHABWidget widget) {
-            mLabelView.setText(widget.getLabel());
-            updateTextViewColor(mLabelView, widget.getLabelColor());
+            mLabelView.setText(widget.label());
+            updateTextViewColor(mLabelView, widget.labelColor());
             updateIcon(mIconView, widget);
         }
     }
@@ -378,10 +378,10 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
 
         @Override
         public void bind(OpenHABWidget widget) {
-            mLabelView.setText(widget.getLabel());
-            updateTextViewColor(mLabelView, widget.getValueColor());
+            mLabelView.setText(widget.label());
+            updateTextViewColor(mLabelView, widget.valueColor());
             // hide empty frames
-            itemView.setVisibility(widget.getLabel().isEmpty() ? View.GONE : View.VISIBLE);
+            itemView.setVisibility(widget.label().isEmpty() ? View.GONE : View.VISIBLE);
         }
     }
 
@@ -399,11 +399,11 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
 
         @Override
         public void bind(OpenHABWidget widget) {
-            String[] splitString = widget.getLabel().split("\\[|\\]");
+            String[] splitString = widget.label().split("\\[|\\]");
             mLabelView.setText(splitString.length > 0 ? splitString[0] : null);
-            updateTextViewColor(mLabelView, widget.getLabelColor());
+            updateTextViewColor(mLabelView, widget.labelColor());
             mValueView.setText(splitString.length > 1 ? splitString[1] : null);
-            updateTextViewColor(mValueView, widget.getValueColor());
+            updateTextViewColor(mValueView, widget.valueColor());
             updateIcon(mIconView, widget);
         }
     }
@@ -424,11 +424,11 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
 
         @Override
         public void bind(OpenHABWidget widget) {
-            mLabelView.setText(widget.getLabel());
-            updateTextViewColor(mLabelView, widget.getLabelColor());
+            mLabelView.setText(widget.label());
+            updateTextViewColor(mLabelView, widget.labelColor());
             updateIcon(mIconView, widget);
-            mSwitch.setChecked(widget.hasItem() && widget.getItem().getStateAsBoolean());
-            mBoundItem = widget.getItem();
+            mBoundItem = widget.item();
+            mSwitch.setChecked(mBoundItem != null && mBoundItem.stateAsBoolean());
         }
 
         @Override
@@ -455,12 +455,12 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
 
         @Override
         public void bind(OpenHABWidget widget) {
-            String[] splitString = widget.getLabel().split("\\[|\\]");
-            mLabelView.setText(splitString.length > 0 ? splitString[0] : widget.getLabel());
-            updateTextViewColor(mLabelView, widget.getLabelColor());
+            String[] splitString = widget.label().split("\\[|\\]");
+            mLabelView.setText(splitString.length > 0 ? splitString[0] : widget.label());
+            updateTextViewColor(mLabelView, widget.labelColor());
             mValueView.setText(splitString.length > 1 ? splitString[1] : null);
             mValueView.setVisibility(splitString.length > 1 ? View.VISIBLE : View.GONE);
-            updateTextViewColor(mValueView, widget.getValueColor());
+            updateTextViewColor(mValueView, widget.valueColor());
             updateIcon(mIconView, widget);
         }
     }
@@ -481,26 +481,23 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
 
         @Override
         public void bind(OpenHABWidget widget) {
-            String[] splitString = widget.getLabel().split("\\[|\\]");
+            String[] splitString = widget.label().split("\\[|\\]");
             mLabelView.setText(splitString.length > 0 ? splitString[0] : null);
-            updateTextViewColor(mLabelView, widget.getLabelColor());
+            updateTextViewColor(mLabelView, widget.labelColor());
             updateIcon(mIconView, widget);
-            if (widget.hasItem()) {
+            mBoundItem = widget.item();
+            if (mBoundItem != null) {
                 int progress;
-                if (widget.getItem().getType().equals("Color") || "Color".equals(widget.getItem().getGroupType())) {
-                    try {
-                        progress = widget.getItem().getStateAsBrightness();
-                    } catch (IllegalStateException e) {
-                        progress = 0;
-                    }
+                if (mBoundItem.type().equals("Color") || "Color".equals(mBoundItem.groupType())) {
+                    Integer brightness = mBoundItem.stateAsBrightness();
+                    progress = brightness != null ? brightness : 0;
                 } else {
-                    progress = widget.getItem().getStateAsFloat().intValue();
+                    progress = (int) mBoundItem.stateAsFloat();
                 }
                 mSeekBar.setProgress(progress);
             } else {
                 mSeekBar.setProgress(0);
             }
-            mBoundItem = widget.getItem();
         }
 
         @Override
@@ -536,8 +533,8 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
             // We scale the image at max 90% of the available height
             mImageView.setMaxSize(mParentView.getWidth(), mParentView.getHeight() * 90 / 100);
 
-            OpenHABItem item = widget.getItem();
-            final String state = item != null ? item.getState() : null;
+            OpenHABItem item = widget.item();
+            final String state = item != null ? item.state() : null;
 
             if (state != null && state.matches("data:image/.*;base64,.*")) {
                 mImageView.setImageWithData(new SmartImage() {
@@ -550,13 +547,13 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
                 mRefreshRate = 0;
             } else {
                 // Widget URL may be relative, add base URL if that's the case
-                Uri uri = Uri.parse(widget.getUrl());
+                Uri uri = Uri.parse(widget.url());
                 if (uri.getScheme() == null) {
-                    uri = Uri.parse(mConnection.getOpenHABUrl() + widget.getUrl());
+                    uri = Uri.parse(mConnection.getOpenHABUrl() + widget.url());
                 }
                 mImageView.setImageUrl(uri.toString(), mConnection.getUsername(),
                         mConnection.getPassword(), false);
-                mRefreshRate = widget.getRefresh();
+                mRefreshRate = widget.refresh();
             }
         }
 
@@ -590,19 +587,19 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         @Override
         public void bind(OpenHABWidget widget) {
             int spinnerSelectedIndex = -1;
-            String[] splitString = widget.getLabel().split("\\[|\\]");
+            String[] splitString = widget.label().split("\\[|\\]");
 
-            mLabelView.setText(splitString.length > 0 ? splitString[0] : widget.getLabel());
-            updateTextViewColor(mLabelView, widget.getLabelColor());
+            mLabelView.setText(splitString.length > 0 ? splitString[0] : widget.label());
+            updateTextViewColor(mLabelView, widget.labelColor());
 
             updateIcon(mIconView, widget);
 
             ArrayList<String> spinnerArray = new ArrayList<String>();
-            String state = widget.getItem() != null ? widget.getItem().getState() : null;
+            String state = widget.item() != null ? widget.item().state() : null;
 
-            for (OpenHABWidgetMapping mapping : widget.getMappings()) {
-                String command = mapping.getCommand();
-                spinnerArray.add(mapping.getLabel());
+            for (OpenHABWidgetMapping mapping : widget.mappings()) {
+                String command = mapping.command();
+                spinnerArray.add(mapping.label());
                 if (command != null && command.equals(state)) {
                     spinnerSelectedIndex = spinnerArray.size() - 1;
                 }
@@ -633,13 +630,13 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
             Log.d(TAG, "Spinner onItemSelected selected label = " + selectedLabel);
 
             OpenHABWidget widget = (OpenHABWidget) parent.getTag();
-            if (index < widget.getMappings().size()) {
-                Log.d(TAG, "Label selected = " + widget.getMapping(index).getLabel());
-                for (OpenHABWidgetMapping mapping : widget.getMappings()) {
-                    if (mapping.getLabel().equals(selectedLabel)) {
-                        Log.d(TAG, "Spinner onItemSelected found match with " + mapping.getCommand());
-                        Util.sendItemCommand(mConnection.getAsyncHttpClient(), widget.getItem(),
-                                mapping.getCommand());
+            if (index < widget.mappings().size()) {
+                Log.d(TAG, "Label selected = " + widget.mappings().get(index).label());
+                for (OpenHABWidgetMapping mapping : widget.mappings()) {
+                    if (mapping.label().equals(selectedLabel)) {
+                        Log.d(TAG, "Spinner onItemSelected found match with " + mapping.command());
+                        Util.sendItemCommand(mConnection.getAsyncHttpClient(), widget.item(),
+                                mapping.command());
                     }
                 }
             }
@@ -673,16 +670,16 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
 
         @Override
         public void bind(OpenHABWidget widget) {
-            String[] splitString = widget.getLabel().split("\\[|\\]");
-            mLabelView.setText(splitString.length > 0 ? splitString[0] : widget.getLabel());
-            updateTextViewColor(mLabelView, widget.getLabelColor());
+            String[] splitString = widget.label().split("\\[|\\]");
+            mLabelView.setText(splitString.length > 0 ? splitString[0] : widget.label());
+            updateTextViewColor(mLabelView, widget.labelColor());
             mValueView.setText(splitString.length > 1 ? splitString[1] : null);
-            updateTextViewColor(mValueView, widget.getValueColor());
+            updateTextViewColor(mValueView, widget.valueColor());
             updateIcon(mIconView, widget);
 
-            mBoundItem = widget.getItem();
+            mBoundItem = widget.item();
 
-            List<OpenHABWidgetMapping> mappings = widget.getMappings();
+            List<OpenHABWidgetMapping> mappings = widget.mappings();
             // inflate missing views
             for (int i = mRadioGroup.getChildCount(); i < mappings.size(); i++) {
                 View view = mInflater.inflate(R.layout.openhabwidgetlist_sectionswitchitem_button,
@@ -693,11 +690,11 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
             // bind views
             for (int i = 0; i < mappings.size(); i++) {
                 SegmentedControlButton button = (SegmentedControlButton) mRadioGroup.getChildAt(i);
-                String command = mappings.get(i).getCommand();
-                button.setText(mappings.get(i).getLabel());
+                String command = mappings.get(i).command();
+                button.setText(mappings.get(i).label());
                 button.setTag(command);
                 button.setChecked(mBoundItem != null && command != null
-                        && command.equals(mBoundItem.getState()));
+                        && command.equals(mBoundItem.state()));
                 button.setVisibility(View.VISIBLE);
             }
             // hide spare views
@@ -734,10 +731,10 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
 
         @Override
         public void bind(OpenHABWidget widget) {
-            mLabelView.setText(widget.getLabel());
-            updateTextViewColor(mLabelView, widget.getLabelColor());
+            mLabelView.setText(widget.label());
+            updateTextViewColor(mLabelView, widget.labelColor());
             updateIcon(mIconView, widget);
-            mBoundItem = widget.getItem();
+            mBoundItem = widget.item();
         }
 
         @Override
@@ -770,22 +767,22 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
 
         @Override
         public void bind(OpenHABWidget widget) {
-            String[] splitString = widget.getLabel().split("\\[|\\]");
-            mLabelView.setText(splitString.length > 0 ? splitString[0] : widget.getLabel());
-            updateTextViewColor(mLabelView, widget.getLabelColor());
+            String[] splitString = widget.label().split("\\[|\\]");
+            mLabelView.setText(splitString.length > 0 ? splitString[0] : widget.label());
+            updateTextViewColor(mLabelView, widget.labelColor());
             mValueView.setText(splitString.length > 1 ? splitString[1] : null);
             mValueView.setVisibility(splitString.length > 1 ? View.VISIBLE : View.GONE);
-            updateTextViewColor(mValueView, widget.getValueColor());
+            updateTextViewColor(mValueView, widget.valueColor());
             updateIcon(mIconView, widget);
             mBoundWidget = widget;
         }
 
         @Override
         public void onClick(final View view) {
-            float minValue = mBoundWidget.getMinValue();
+            float minValue = mBoundWidget.minValue();
             //This prevents an exception below. But could lead to user confusion if this case is ever encountered.
-            float maxValue = Math.max(minValue, mBoundWidget.getMaxValue());
-            float stepSize = minValue == maxValue ? 1 : mBoundWidget.getStep();
+            float maxValue = Math.max(minValue, mBoundWidget.maxValue());
+            float stepSize = minValue == maxValue ? 1 : mBoundWidget.step();
 
             final String[] stepValues = new String[((int) (Math.abs(maxValue - minValue) / stepSize)) + 1];
             for (int i = 0; i < stepValues.length; i++) {
@@ -806,7 +803,7 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
             numberPicker.setDisplayedValues(stepValues);
 
             // Find the closest value in the calculated step value
-            String stateString = Float.toString(mBoundWidget.getItem().getStateAsFloat());
+            String stateString = Float.toString(mBoundWidget.item().stateAsFloat());
             int stepIndex = Arrays.binarySearch(stepValues, stateString, new Comparator<CharSequence>() {
                 @Override
                 public int compare(CharSequence t1, CharSequence t2) {
@@ -825,7 +822,7 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
                     .setPositiveButton(R.string.set, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int id) {
-                            Util.sendItemCommand(mConnection.getAsyncHttpClient(), mBoundWidget.getItem(),
+                            Util.sendItemCommand(mConnection.getAsyncHttpClient(), mBoundWidget.item(),
                                     stepValues[numberPicker.getValue()]);
                         }
                     })
@@ -857,27 +854,27 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
 
         @Override
         public void bind(OpenHABWidget widget) {
-            OpenHABItem item = widget.getItem();
+            OpenHABItem item = widget.item();
 
             if (item != null) {
                 StringBuilder chartUrl = new StringBuilder(mConnection.getOpenHABUrl());
 
-                if ("GroupItem".equals(item.getType()) || "Group".equals(item.getType())) {
-                    chartUrl.append("chart?groups=").append(item.getName());
+                if ("GroupItem".equals(item.type()) || "Group".equals(item.type())) {
+                    chartUrl.append("chart?groups=").append(item.name());
                 } else {
-                    chartUrl.append("chart?items=").append(item.getName());
+                    chartUrl.append("chart?items=").append(item.name());
                 }
-                chartUrl.append("&period=").append(widget.getPeriod())
+                chartUrl.append("&period=").append(widget.period())
                         .append("&random=").append(mRandom.nextInt())
                         .append("&dpi=").append(mDensity);
-                if (!TextUtils.isEmpty(widget.getService())) {
-                    chartUrl.append("&service=").append(widget.getService());
+                if (!TextUtils.isEmpty(widget.service())) {
+                    chartUrl.append("&service=").append(widget.service());
                 }
                 if (mChartTheme != null) {
                     chartUrl.append("&theme=").append(mChartTheme);
                 }
-                if (widget.getLegend() != null) {
-                    chartUrl.append("&legend=").append(widget.getLegend());
+                if (widget.legend() != null) {
+                    chartUrl.append("&legend=").append(widget.legend());
                 }
 
                 int parentWidth = mParentView.getWidth();
@@ -890,7 +887,7 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
 
                 mImageView.setImageUrl(chartUrl.toString(), mConnection.getUsername(),
                         mConnection.getPassword(), false);
-                mRefreshRate = widget.getRefresh();
+                mRefreshRate = widget.refresh();
             } else {
                 Log.e(TAG, "Chart item is null");
                 mImageView.setImageDrawable(null);
@@ -926,13 +923,13 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
             // FIXME: check for URL changes here
             if (!mVideoView.isPlaying()) {
                 final String videoUrl;
-                OpenHABItem videoItem = widget.getItem();
-                if ("hls".equalsIgnoreCase(widget.getEncoding())
-                        && videoItem != null && videoItem.getType().equals("String")
-                        && !"UNDEF".equals(videoItem.getState())) {
-                    videoUrl = videoItem.getState();
+                OpenHABItem videoItem = widget.item();
+                if ("hls".equalsIgnoreCase(widget.encoding())
+                        && videoItem != null && videoItem.type().equals("String")
+                        && !"UNDEF".equals(videoItem.state())) {
+                    videoUrl = videoItem.state();
                 } else {
-                    videoUrl = widget.getUrl();
+                    videoUrl = widget.url();
                 }
                 Log.d(TAG, "Opening video at " + videoUrl);
                 mVideoView.setVideoURI(Uri.parse(videoUrl));
@@ -966,18 +963,18 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         @Override
         public void bind(OpenHABWidget widget) {
             ViewGroup.LayoutParams lp = mWebView.getLayoutParams();
-            int desiredHeightPixels = widget.getHeight() > 0
-                    ? widget.getHeight() * mRowHeightPixels : ViewGroup.LayoutParams.WRAP_CONTENT;
+            int desiredHeightPixels = widget.height() > 0
+                    ? widget.height() * mRowHeightPixels : ViewGroup.LayoutParams.WRAP_CONTENT;
             if (lp.height != desiredHeightPixels) {
                 lp.height = desiredHeightPixels;
                 mWebView.setLayoutParams(lp);
             }
 
-            mWebView.setWebViewClient(new AnchorWebViewClient(widget.getUrl(),
+            mWebView.setWebViewClient(new AnchorWebViewClient(widget.url(),
                     mConnection.getUsername(), mConnection.getPassword()));
             mWebView.getSettings().setDomStorageEnabled(true);
             mWebView.getSettings().setJavaScriptEnabled(true);
-            mWebView.loadUrl(widget.getUrl());
+            mWebView.loadUrl(widget.url());
         }
     }
 
@@ -1003,10 +1000,10 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
 
         @Override
         public void bind(OpenHABWidget widget) {
-            mLabelView.setText(widget.getLabel());
-            updateTextViewColor(mLabelView, widget.getLabelColor());
+            mLabelView.setText(widget.label());
+            updateTextViewColor(mLabelView, widget.labelColor());
             updateIcon(mIconView, widget);
-            mBoundItem = widget.getItem();
+            mBoundItem = widget.item();
         }
 
         @Override
@@ -1022,7 +1019,7 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
                             String newColor = String.valueOf(hsv[0]) + "," + String.valueOf(hsv[1] * 100) + "," + String.valueOf(hsv[2] * 100);
                             Util.sendItemCommand(mConnection.getAsyncHttpClient(), mBoundItem, newColor);
                         }
-                    }, mBoundItem.getStateAsHSV());
+                    }, mBoundItem.stateAsHSV());
                     colorDialog.show();
                 }
             }
@@ -1041,7 +1038,7 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
 
         @Override
         public void bind(OpenHABWidget widget) {
-            mStreamer = new MjpegStreamer(widget.getUrl(),
+            mStreamer = new MjpegStreamer(widget.url(),
                     mConnection.getUsername(), mConnection.getPassword(), mImageView.getContext());
             mStreamer.setTargetImageView(mImageView);
         }

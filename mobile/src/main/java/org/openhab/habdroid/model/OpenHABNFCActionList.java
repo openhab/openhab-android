@@ -29,20 +29,20 @@ public class OpenHABNFCActionList {
     public OpenHABNFCActionList(OpenHABWidget openHABWidget, Context ctx) {
         actionNames = new ArrayList<>();
         actionCommands = new ArrayList<>();
-        if (openHABWidget.getItem() != null) {
+        if (openHABWidget.item() != null) {
             // If widget have mappings, we will populate names and commands with values
             // from this mappings
             if (openHABWidget.hasMappings()) {
                 // Else we only can do it for Switch widget with On/Off/Toggle commands
-                for (int i = 0; i < openHABWidget.getMappings().size(); i++) {
-                    actionNames.add(openHABWidget.getMappings().get(i).getLabel());
-                    actionCommands.add(openHABWidget.getMappings().get(i).getCommand());
+                for (OpenHABWidgetMapping mapping : openHABWidget.mappings()) {
+                    actionNames.add(mapping.label());
+                    actionCommands.add(mapping.command());
                 }
-            } else if (openHABWidget.getType().equals("Switch")) {
+            } else if (openHABWidget.type().equals("Switch")) {
                 //SwitchItem changed to Switch in later builds of OH2
-                if (openHABWidget.getItem().getType().equals("SwitchItem")
-                        || "Switch".equals(openHABWidget.getItem().getType())
-                        || "Switch".equals(openHABWidget.getItem().getGroupType())) {
+                if (openHABWidget.item().type().equals("SwitchItem")
+                        || "Switch".equals(openHABWidget.item().type())
+                        || "Switch".equals(openHABWidget.item().groupType())) {
                     actionNames.add(ctx.getString(R.string.nfc_action_on));
                     actionCommands.add("ON");
                     actionNames.add(ctx.getString(R.string.nfc_action_off));
@@ -50,9 +50,9 @@ public class OpenHABNFCActionList {
                     actionNames.add(ctx.getString(R.string.nfc_action_toggle));
                     actionCommands.add("TOGGLE");
                     //RollerShutterItem changed to RollerShutter in later builds of OH2
-                } else if ("RollershutterItem".equals(openHABWidget.getItem().getType())
-                        || "Rollershutter".equals(openHABWidget.getItem().getType())
-                        || "Rollershutter".equals(openHABWidget.getItem().getGroupType())) {
+                } else if ("RollershutterItem".equals(openHABWidget.item().type())
+                        || "Rollershutter".equals(openHABWidget.item().type())
+                        || "Rollershutter".equals(openHABWidget.item().groupType())) {
                     actionNames.add(ctx.getString(R.string.nfc_action_up));
                     actionCommands.add("UP");
                     actionNames.add(ctx.getString(R.string.nfc_action_down));
@@ -60,16 +60,16 @@ public class OpenHABNFCActionList {
                     actionNames.add(ctx.getString(R.string.nfc_action_toggle));
                     actionCommands.add("TOGGLE");
                 }
-            } else if (openHABWidget.getType().equals("Colorpicker")) {
+            } else if (openHABWidget.type().equals("Colorpicker")) {
                 actionNames.add(ctx.getString(R.string.nfc_action_on));
                 actionCommands.add("ON");
                 actionNames.add(ctx.getString(R.string.nfc_action_off));
                 actionCommands.add("OFF");
                 actionNames.add(ctx.getString(R.string.nfc_action_toggle));
                 actionCommands.add("TOGGLE");
-                if (openHABWidget.getItem() != null) {
+                if (openHABWidget.item() != null) {
                     actionNames.add(ctx.getString(R.string.nfc_action_current_color));
-                    actionCommands.add(openHABWidget.getItem().getState());
+                    actionCommands.add(openHABWidget.item().state());
                 }
             }
         }
