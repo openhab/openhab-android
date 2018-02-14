@@ -118,14 +118,14 @@ public class ConnectionFactoryTest {
     public void testGetAnyConnectionNoNetwork() throws ConnectionException {
         triggerNetworkUpdate(null);
 
-        ConnectionFactory.getConnection(Connection.TYPE_ANY);
+        ConnectionFactory.getUsableConnection();
     }
 
     @Test(expected = NetworkNotSupportedException.class)
     public void testGetAnyConnectionUnsupportedNetwork() throws ConnectionException {
         triggerNetworkUpdate(ConnectivityManager.TYPE_BLUETOOTH);
 
-        ConnectionFactory.getConnection(Connection.TYPE_ANY);
+        ConnectionFactory.getUsableConnection();
     }
 
     @Test
@@ -135,7 +135,7 @@ public class ConnectionFactoryTest {
         ConnectionFactory.sInstance.updateConnections();
         triggerNetworkUpdate(ConnectivityManager.TYPE_WIFI);
 
-        Connection conn = ConnectionFactory.getConnection(Connection.TYPE_ANY);
+        Connection conn = ConnectionFactory.getUsableConnection();
 
         assertNotNull("Requesting any connection in WIFI when only a remote url is set, should " +
                 "return" +
@@ -153,7 +153,7 @@ public class ConnectionFactoryTest {
         ConnectionFactory.sInstance.updateConnections();
         triggerNetworkUpdate(ConnectivityManager.TYPE_WIFI);
 
-        Connection conn = ConnectionFactory.getConnection(Connection.TYPE_ANY);
+        Connection conn = ConnectionFactory.getUsableConnection();
 
         assertNotNull("Requesting any connection in WIFI when a local url is set, should return" +
                 " a connection.", conn);
@@ -166,7 +166,7 @@ public class ConnectionFactoryTest {
         Mockito.when(mockSettings.getString(anyString(), anyString())).thenReturn(null);
         triggerNetworkUpdate(ConnectivityManager.TYPE_WIFI);
 
-        ConnectionFactory.getConnection(Connection.TYPE_ANY);
+        ConnectionFactory.getUsableConnection();
     }
 
     private void triggerNetworkUpdate(int type) {

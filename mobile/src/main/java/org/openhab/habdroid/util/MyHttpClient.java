@@ -148,7 +148,7 @@ public abstract class MyHttpClient<T> {
     }
 
     @VisibleForTesting
-    private Map<String, String> getHeaders() {
+    public Map<String, String> getHeaders() {
         return headers;
     }
 
