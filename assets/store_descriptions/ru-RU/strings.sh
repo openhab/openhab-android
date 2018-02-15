@@ -12,7 +12,6 @@ heating='Обогрев'
 home_entertainment='Домашние развлечения'
 security='Безопасность'
 open_protocols='Открытые протоколы'
-special_useCases='Специальные сценарии использования'
 
 
 report_issues='Если вы найдете ошибку, пожалуйста, сообщите об этом на форуме или на https://github.com/openhab/openhab-android/issues'
