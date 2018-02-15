@@ -27,6 +27,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.when;
 
 public class ConnectionFactoryTest {
 
@@ -39,11 +40,11 @@ public class ConnectionFactoryTest {
         mockConnectivityService = Mockito.mock(ConnectivityManager.class);
 
         mockContext = Mockito.mock(Context.class);
-        Mockito.when(mockContext.getString(anyInt())).thenReturn("");
-        Mockito.when(mockContext.getSystemService(eq(Context.CONNECTIVITY_SERVICE)))
+        when(mockContext.getString(anyInt())).thenReturn("");
+        when(mockContext.getSystemService(eq(Context.CONNECTIVITY_SERVICE)))
                 .thenReturn(mockConnectivityService);
-        Mockito.when(mockContext.getApplicationContext()).thenReturn(mockContext);
-        Mockito.when(mockContext.getMainLooper()).thenReturn(Looper.getMainLooper());
+        when(mockContext.getApplicationContext()).thenReturn(mockContext);
+        when(mockContext.getMainLooper()).thenReturn(Looper.getMainLooper());
 
         mockSettings = Mockito.mock(SharedPreferences.class);
 
@@ -55,7 +56,7 @@ public class ConnectionFactoryTest {
 
     @Test
     public void testGetConnectionRemoteWithUrl() throws ConnectionException {
-        Mockito.when(mockSettings.getString(eq(Constants.PREFERENCE_REMOTE_URL), anyString()))
+        when(mockSettings.getString(eq(Constants.PREFERENCE_REMOTE_URL), anyString()))
                 .thenReturn("https://myopenhab.org:8443");
         ConnectionFactory.sInstance.updateConnections();
         Connection conn = ConnectionFactory.getConnection(Connection.TYPE_REMOTE);
@@ -68,7 +69,7 @@ public class ConnectionFactoryTest {
 
     @Test
     public void testGetConnectionRemoteWithoutUrl() throws ConnectionException {
-        Mockito.when(mockSettings.getString(eq(Constants.PREFERENCE_REMOTE_URL), anyString()))
+        when(mockSettings.getString(eq(Constants.PREFERENCE_REMOTE_URL), anyString()))
                 .thenReturn("");
         ConnectionFactory.sInstance.updateConnections();
         Connection conn = ConnectionFactory.getConnection(Connection.TYPE_REMOTE);
@@ -79,7 +80,7 @@ public class ConnectionFactoryTest {
 
     @Test
     public void testGetConnectionLocalWithUrl() throws ConnectionException {
-        Mockito.when(mockSettings.getString(eq(Constants.PREFERENCE_LOCAL_URL), anyString()))
+        when(mockSettings.getString(eq(Constants.PREFERENCE_LOCAL_URL), anyString()))
                 .thenReturn("https://openhab.local:8080");
         ConnectionFactory.sInstance.updateConnections();
         Connection conn = ConnectionFactory.getConnection(Connection.TYPE_LOCAL);
@@ -92,7 +93,7 @@ public class ConnectionFactoryTest {
 
     @Test
     public void testGetConnectionLocalWithoutUrl() throws ConnectionException {
-        Mockito.when(mockSettings.getString(eq(Constants.PREFERENCE_LOCAL_URL), anyString()))
+        when(mockSettings.getString(eq(Constants.PREFERENCE_LOCAL_URL), anyString()))
                 .thenReturn("");
         ConnectionFactory.sInstance.updateConnections();
         Connection conn = ConnectionFactory.getConnection(Connection.TYPE_LOCAL);
@@ -103,7 +104,7 @@ public class ConnectionFactoryTest {
 
     @Test
     public void testGetConnectionCloudWithUrl() throws ConnectionException {
-        Mockito.when(mockSettings.getString(eq(Constants.PREFERENCE_REMOTE_URL), anyString()))
+        when(mockSettings.getString(eq(Constants.PREFERENCE_REMOTE_URL), anyString()))
                 .thenReturn("https://myopenhab.org:8443");
         ConnectionFactory.sInstance.updateConnections();
         Connection conn = ConnectionFactory.getConnection(Connection.TYPE_CLOUD);
@@ -130,7 +131,7 @@ public class ConnectionFactoryTest {
 
     @Test
     public void testGetAnyConnectionWifiRemoteOnly() throws ConnectionException {
-        Mockito.when(mockSettings.getString(eq(Constants.PREFERENCE_REMOTE_URL), anyString()))
+        when(mockSettings.getString(eq(Constants.PREFERENCE_REMOTE_URL), anyString()))
                 .thenReturn("https://myopenhab.org:8443");
         ConnectionFactory.sInstance.updateConnections();
         triggerNetworkUpdate(ConnectivityManager.TYPE_WIFI);
@@ -146,9 +147,9 @@ public class ConnectionFactoryTest {
 
     @Test
     public void testGetAnyConnectionWifiLocalRemote() throws ConnectionException {
-        Mockito.when(mockSettings.getString(eq(Constants.PREFERENCE_REMOTE_URL), anyString()))
+        when(mockSettings.getString(eq(Constants.PREFERENCE_REMOTE_URL), anyString()))
                 .thenReturn("https://openhab.remote");
-        Mockito.when(mockSettings.getString(eq(Constants.PREFERENCE_LOCAL_URL), anyString()))
+        when(mockSettings.getString(eq(Constants.PREFERENCE_LOCAL_URL), anyString()))
                 .thenReturn("https://myopenhab.org:443");
         ConnectionFactory.sInstance.updateConnections();
         triggerNetworkUpdate(ConnectivityManager.TYPE_WIFI);
@@ -163,7 +164,7 @@ public class ConnectionFactoryTest {
 
     @Test(expected = NoUrlInformationException.class)
     public void testGetAnyConnectionWifiNoLocalNoRemote() throws ConnectionException {
-        Mockito.when(mockSettings.getString(anyString(), anyString())).thenReturn(null);
+        when(mockSettings.getString(anyString(), anyString())).thenReturn(null);
         triggerNetworkUpdate(ConnectivityManager.TYPE_WIFI);
 
         ConnectionFactory.getUsableConnection();
@@ -171,12 +172,13 @@ public class ConnectionFactoryTest {
 
     private void triggerNetworkUpdate(int type) {
         NetworkInfo mockNetworkInfo = Mockito.mock(NetworkInfo.class);
-        Mockito.when(mockNetworkInfo.getType()).thenReturn(type);
+        when(mockNetworkInfo.getType()).thenReturn(type);
+        when(mockNetworkInfo.isConnected()).thenReturn(true);
         triggerNetworkUpdate(mockNetworkInfo);
     }
 
     private void triggerNetworkUpdate(NetworkInfo info) {
-        Mockito.when(mockConnectivityService.getActiveNetworkInfo()).thenReturn(info);
+        when(mockConnectivityService.getActiveNetworkInfo()).thenReturn(info);
 
         ConnectionFactory.sInstance.onReceive(mockContext,
                 new Intent(ConnectivityManager.CONNECTIVITY_ACTION));
@@ -184,7 +186,7 @@ public class ConnectionFactoryTest {
 
     private Handler makeMockedHandler() {
         final Handler h = Mockito.mock(Handler.class);
-        Mockito.when(h.sendEmptyMessage(anyInt())).thenAnswer(new Answer<Boolean>() {
+        when(h.sendEmptyMessage(anyInt())).thenAnswer(new Answer<Boolean>() {
             @Override
             public Boolean answer(InvocationOnMock invocationOnMock) throws Throwable {
                 Message msg = new Message();
@@ -193,7 +195,7 @@ public class ConnectionFactoryTest {
                 return Boolean.TRUE;
             }
         });
-        Mockito.when(h.sendMessage(any(Message.class))).thenAnswer(new Answer<Boolean>() {
+        when(h.sendMessage(any(Message.class))).thenAnswer(new Answer<Boolean>() {
             @Override
             public Boolean answer(InvocationOnMock invocationOnMock) throws Throwable {
                 Message msg = invocationOnMock.getArgument(0);
@@ -201,7 +203,7 @@ public class ConnectionFactoryTest {
                 return Boolean.TRUE;
             }
         });
-        Mockito.when(h.obtainMessage(anyInt())).thenAnswer(new Answer<Message>() {
+        when(h.obtainMessage(anyInt())).thenAnswer(new Answer<Message>() {
             @Override
             public Message answer(InvocationOnMock invocationOnMock) throws Throwable {
                 Message msg = new Message();
