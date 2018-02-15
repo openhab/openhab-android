@@ -145,6 +145,7 @@
   <string name="content_description_open_color_wheel">Открыть цветовой круг</string>
   <string name="content_description_color_up">Включить или удерживайте чтобы увеличить яркость</string>
   <string name="content_description_color_down">Выключить или удерживайте чтобы уменьшить яркость</string>
+  <string name="content_description_open_number_picker">Открыть выбор числа</string>
   <string name="content_description_video">Видео</string>
   <string name="content_description_open_openhab">Открыть openHAB</string>
   <string name="swipe_to_refresh_description">Приложение также обновляется автоматически, обычно нет нужды делать это вручную</string>
