@@ -1,8 +1,6 @@
 package org.openhab.habdroid.ui;
 
 
-import android.app.Activity;
-import android.app.Instrumentation;
 import android.support.test.espresso.IdlingRegistry;
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.runner.AndroidJUnit4;
@@ -10,21 +8,16 @@ import android.test.suitebuilder.annotation.LargeTest;
 import android.view.View;
 
 import org.hamcrest.CoreMatchers;
-import org.hamcrest.Matchers;
 import org.hamcrest.core.IsInstanceOf;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.TestWithIntro;
 
-import static android.content.Intent.FLAG_ACTIVITY_CLEAR_TASK;
 import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.Espresso.registerIdlingResources;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
-import static android.support.test.espresso.intent.Intents.intended;
-import static android.support.test.espresso.intent.Intents.intending;
-import static android.support.test.espresso.intent.matcher.IntentMatchers.hasFlag;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withParent;
@@ -38,9 +31,6 @@ public class IntroActivityTest extends TestWithIntro {
 
     @Test
     public void appShowsIntro() {
-        intending(hasFlag(FLAG_ACTIVITY_CLEAR_TASK))
-                .respondWith(new Instrumentation.ActivityResult(Activity.RESULT_OK, null));
-
         ViewInteraction textView = onView(
                 allOf(withId(R.id.title), withText("Welcome to openHAB"),
                         childAtPosition(
@@ -88,7 +78,7 @@ public class IntroActivityTest extends TestWithIntro {
                         isDisplayed()));
         appCompatButton.perform(click());
 
-        intended(hasFlag(FLAG_ACTIVITY_CLEAR_TASK));
+        appCompatButton.check(doesNotExist());
 
         mActivityTestRule.finishActivity();
         mActivityTestRule.launchActivity(null);
@@ -110,9 +100,6 @@ public class IntroActivityTest extends TestWithIntro {
 
     @Test
     public void goThroughIntro() {
-        intending(hasFlag(FLAG_ACTIVITY_CLEAR_TASK))
-                .respondWith(new Instrumentation.ActivityResult(Activity.RESULT_OK, null));
-
         // click next
         ViewInteraction appCompatImageButton = onView(
                 CoreMatchers.allOf(withId(R.id.next),
@@ -149,7 +136,7 @@ public class IntroActivityTest extends TestWithIntro {
                         isDisplayed()));
         appCompatButton.perform(click());
 
-        intended(hasFlag(FLAG_ACTIVITY_CLEAR_TASK));
+        appCompatButton.check(doesNotExist());
 
         mActivityTestRule.finishActivity();
         mActivityTestRule.launchActivity(null);
