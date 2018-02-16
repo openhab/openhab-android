@@ -3,7 +3,13 @@
 
 
 
+supported='Produtos suportados'
 
+lighting='Iluminação'
+heating='Aquecimento'
+home_entertainment='Entretenimento doméstico'
+security='Segurança'
+open_protocols='Protocolos abertos'
 
 
 
