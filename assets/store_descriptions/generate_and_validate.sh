@@ -15,27 +15,28 @@ find fastlane/metadata/android/ -name "*_description.txt" -delete
 error=0
 
 full_description_template="assets/store_descriptions/full-description.txt.template"
-string_base="assets/store_descriptions"
+store_string_base="assets/store_descriptions"
+app_string_base="mobile/src/main/res"
 resource_base="fastlane/metadata/android"
 
-for folder in ${string_base}/*
+for folder in ${store_string_base}/*
 do
     [ ! -d "$folder" ] && continue
     if [ -f "${folder}/strings.sh" ]
     then
-        lang=${folder#${string_base}/}
+        lang=${folder#${store_string_base}/}
+        echo "Validate and generate $lang store description"
         if egrep '\||;|http:|\\' "${folder}/strings.sh" --color=always || [ $(grep '#' "${folder}/strings.sh" | wc -l) -gt 2 ]
         then
-            echo "Prohibited char found in $lang, exiting" 1>&2
+            echo "Prohibited char found in $lang store description, exiting" 1>&2
             exit 1
         fi
-        source "${string_base}/en-US/strings.sh"
+        source "${store_string_base}/en-US/strings.sh"
         source "${folder}/strings.sh"
         if [ ! -d "${resource_base}/${lang}" ]
         then
             mkdir "${resource_base}/${lang}"
         fi
-        echo "Generate $lang"
         sed -e "s|\$intro|$intro|" \
             -e "s|\$whatis|$whatis|" \
             -e "s|\$rules|$rules|" \
@@ -64,21 +65,38 @@ do
         if [ "$chars" -gt 4000 ]
         then
             echo "Full descriptions exceeds 4000 char limit" 1>&2
-            let error++
+            let error++ || true
         fi
         chars=$(wc -m "${resource_base}/${lang}/short_description.txt" | cut -d " " -f 1)
         if [ "$chars" -gt 80 ]
         then
             echo "Short descriptions exceeds 80 char limit" 1>&2
-            let error++
+            let error++ || true
         fi
     fi
 done
 
+
+for folder in ${app_string_base}/values-*
+do
+    [ ! -d "$folder" ] && continue
+    if [ -f "${folder}/strings.xml" ]
+    then
+        lang=${folder#${app_string_base}/values-}
+        echo "Validate $lang app strings"
+        if egrep 'HTTP response code' "${folder}/strings.xml" --color=always
+        then
+            echo "Prohibited chars found in $lang app strings" 1>&2
+            let error++ || true
+        fi
+    fi
+done
+
+
 if [ "$error" -eq 0 ]
 then
-    echo "All Play Store descriptions are valid!"
+    echo "All translations are valid!"
 else
-    echo "$error errors occured when validating Play Store descriptions!" 1>&2
+    echo "$error errors occured while validating translations" 1>&2
     exit 1
 fi
