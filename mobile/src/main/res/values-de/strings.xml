@@ -158,4 +158,9 @@
   <string name="content_description_video">Video</string>
   <string name="content_description_open_openhab">openHAB öffnen</string>
   <string name="swipe_to_refresh_dismiss">Verstanden!</string>
+  <!-- Intro strings -->
+  <!-- Intro "SKIP" button -->
+  <string name="app_intro_skip_button">ÜBERSPRINGEN</string>
+  <!-- Intro "DONE" button -->
+  <string name="app_intro_done_button">FERTIG</string>
 </resources>

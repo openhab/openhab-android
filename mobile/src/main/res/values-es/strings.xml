@@ -93,4 +93,7 @@
   <string name="intro_themes">Temas</string>
   <string name="intro_themes_description">Elegir entre varios temas</string>
   <!-- Content description for images -->
+  <!-- Intro strings -->
+  <!-- Intro "SKIP" button -->
+  <!-- Intro "DONE" button -->
 </resources>
