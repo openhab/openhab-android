@@ -157,6 +157,7 @@
   <string name="content_description_open_number_picker">Zahlenauswahl öffnen</string>
   <string name="content_description_video">Video</string>
   <string name="content_description_open_openhab">openHAB öffnen</string>
+  <string name="swipe_to_refresh_description">Die Inhalte werden automatisch aktualisiert, Sie müssen das normalerweise nicht manuell tun</string>
   <string name="swipe_to_refresh_dismiss">Verstanden!</string>
   <!-- Intro strings -->
   <!-- Intro "SKIP" button -->
