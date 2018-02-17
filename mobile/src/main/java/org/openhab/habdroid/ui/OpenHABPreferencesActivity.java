@@ -27,6 +27,7 @@ import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 
 import com.loopj.android.image.WebImageCache;
@@ -41,6 +42,7 @@ import java.security.cert.X509Certificate;
  * This is a class to provide preferences activity for application.
  */
 public class OpenHABPreferencesActivity extends AppCompatActivity {
+    private final static String TAG = OpenHABPreferencesActivity.class.getSimpleName();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -348,7 +350,7 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
                         }
                         return null;
                     } catch (KeyChainException | InterruptedException e) {
-                        e.printStackTrace();
+                        Log.e(TAG, e.getMessage(), e);
                         return null;
                     }
                 }

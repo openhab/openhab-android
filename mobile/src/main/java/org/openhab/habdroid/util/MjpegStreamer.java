@@ -84,7 +84,7 @@ public class MjpegStreamer {
             Message m = mHandler.obtainMessage(mId, mBitmap);
             m.sendToTarget();
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.e(TAG, e.getMessage(), e);
         }
     }
 
@@ -96,8 +96,8 @@ public class MjpegStreamer {
                 .authenticator(new Authenticator() {
                     @Override
                     public Request authenticate(Route route, Response response) throws IOException {
-                        System.out.println("Authenticating for response: " + response);
-                        System.out.println("Challenges: " + response.challenges());
+                        Log.d(TAG, "Authenticating for response: " + response);
+                        Log.d(TAG, "Challenges: " + response.challenges());
                         // Get username/password from preferences
                         String credential = Credentials.basic(usr, pwd);
                         return response.request().newBuilder()
@@ -117,8 +117,7 @@ public class MjpegStreamer {
             }
             return response.body().byteStream();
         } catch (IOException e) {
-            e.printStackTrace();
-            Log.d(TAG, "Request failed-IOException", e);
+            Log.e(TAG, "Request failed-IOException", e);
             //Error connecting to camera
         }
 

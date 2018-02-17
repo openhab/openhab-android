@@ -181,7 +181,7 @@ public class MyWebImage implements SmartImage {
             canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);//drawARGB(0,0,0,0);//drawRGB(255, 255, 255);
             svg.renderToCanvas(canvas);
         } catch (SVGParseException e) {
-            e.printStackTrace();
+            Log.e(TAG, e.getMessage(), e);
         }
         return bitmap;
     }

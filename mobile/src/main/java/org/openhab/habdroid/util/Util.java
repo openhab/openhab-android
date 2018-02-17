@@ -121,7 +121,7 @@ public class Util {
                     sitemapList.add(openHABSitemap);
                 }
             } catch (JSONException e) {
-                e.printStackTrace();
+                Log.d(TAG, "Error while parsing sitemap", e);
             }
         }
         return sitemapList;

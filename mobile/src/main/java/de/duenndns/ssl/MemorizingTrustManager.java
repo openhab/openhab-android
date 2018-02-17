@@ -421,7 +421,7 @@ public class MemorizingTrustManager implements X509TrustManager {
                 choice.wait();
             }
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            Log.e(TAG, e.getMessage(), e);
         }
         master.unregisterReceiver(decisionReceiver);
         Log.d(TAG, "finished wait on " + myId + ": " + choice.state);
