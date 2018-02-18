@@ -69,11 +69,21 @@
   <string name="error_connection_sslhandshake_failed">Handshake SSL falhado</string>
   <string name="error_certificate_not_trusted">Certificado SSL não é confiável. Por favor, importe o certificado de raiz ou deabilite a validação de certificados durante o hanshake SSL</string>
   <string name="error_certificate_expired">Certificado SLL expirou. Por favor, obter um novo certificado ousesabilitar a validação de certificado durante o handshake SSL</string>
+  <string name="error_certificate_not_valid_yet">Certificado SSL ainda não é válido. Por favor, obtenha um certificado correto ou desabilite a validação de certificados durante o handshake SSL. Verifique também se o relógio no seu telefone está configurado corretamente</string>
   <string name="error_certificate_revoked">Certificado SLL foi revogado. Por favor, obter um novo certificado ou desabilitar a validação de certificado durante o handshake SSL</string>
   <string name="error_certificate_wrong_host">Certificado SSL não é válido para %s</string>
+  <string name="error_http_code_401">Falha de autenticação. Por favor, verifique o usuário e senha configurada e o certificado SSL do cliente fornecido (código de resposta HTTP 401)</string>
+  <string name="error_http_code_403">Falha de autenticação. Por favor, verifique o usuário e senha configurada e o certificado SSL do cliente fornecido (código de resposta HTTP 403)</string>
+  <string name="error_http_code_407">Falha de autenticação. Por favor, verifique o usuário e senha configurada e o certificado SSL do cliente fornecido (código de resposta HTTP 407)</string>
+  <string name="error_http_code_414">URL é muito longo. Por favor, use o endereço IP ou um URL mais curto (código de resposta HTTP 414)</string>
+  <string name="error_http_code_426">É necessário utilizar HTTPS. Por favor, altere o URL openHAB (HTTP código de resposta 426)</string>
   <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
+  <string name="error_http_code_495">Autenticação de usuário falhou. Por favor, verifique o nome de usuário, senha e certificado de cliente SSL (HTTP código de resposta 495)</string>
   <string name="error_http_code_496">Certificado de cliente SSL é necessário (HTTP código de resposta 496)</string>
   <string name="error_http_code_502">O seu reverse proxy tem uma resposta inválida de openHAB (HTTP código de resposta 502)</string>
+  <string name="error_http_code_503">O Servidor openHAB está temporariamente indisponível (HTTP código de resposta 503)</string>
+  <string name="error_http_code_504">Acabou o tempo do gateway. Parece que o seu reverse proxy está a executar, mas não foi possível obter uma resposta do servidor openHAB (HTTP código de resposta 504)</string>
+  <string name="error_http_code_507">O servidor openHAB não tem espaço livre suficiente (HTTP código de resposta 507)</string>
   <string name="error_http_code_511">Autenticação de rede é necessária (HTTP código de resposta 511)</string>
   <string name="title_activity_openhabwritetag">Escrever na etiqueta NFC</string>
   <string name="title_activity_openhabinfo">openHAB Informação</string>
@@ -142,9 +152,12 @@
   <string name="content_description_stop_roller_shutter">Parar estore</string>
   <string name="content_description_close_roller_shutter">Fechar estore</string>
   <string name="content_description_open_color_wheel">Abrir cores</string>
+  <string name="content_description_color_up">Ligar ou mantenha para aumentar o brilho</string>
+  <string name="content_description_color_down">Desligar ou mantenha para diminuir o brilho</string>
   <string name="content_description_open_number_picker">Abrir selecção de valor</string>
   <string name="content_description_video">Vídeo</string>
   <string name="content_description_open_openhab">Abrir openHAB</string>
+  <string name="swipe_to_refresh_description">A aplicação também atualiza automaticamente, normalmente não necessita de fazê-lo manualmente</string>
   <string name="swipe_to_refresh_dismiss">Percebi!</string>
   <!-- Intro strings -->
   <!-- Intro "SKIP" button -->
