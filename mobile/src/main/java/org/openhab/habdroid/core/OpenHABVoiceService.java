@@ -114,16 +114,6 @@ public class OpenHABVoiceService extends Service {
     private void sendItemCommand(final String itemName, final String command,
                                  final Connection conn, final int startId) {
         Log.d(TAG, "sendItemCommand(): itemName=" + itemName + ", command=" + command);
-        try {
-            performHttpPost(itemName, command, conn, startId);
-        } catch (RuntimeException e) {
-            Log.e(TAG, "Unable to encode command " + command, e);
-            stopSelf(startId);
-        }
-    }
-
-    private void performHttpPost(final String itemName, final String command,
-                                 final Connection conn, final int startId) {
         conn.getAsyncHttpClient().post("/rest/items/" + itemName,
                 command, "text/plain;charset=UTF-8", new MyHttpClient.ResponseHandler() {
                     @Override
