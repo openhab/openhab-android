@@ -17,11 +17,14 @@ import android.support.annotation.VisibleForTesting;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
+import com.loopj.android.image.WebImageCache;
+
 import org.openhab.habdroid.core.connection.exception.ConnectionException;
 import org.openhab.habdroid.core.connection.exception.NetworkNotAvailableException;
 import org.openhab.habdroid.core.connection.exception.NetworkNotSupportedException;
 import org.openhab.habdroid.core.connection.exception.NoUrlInformationException;
 import org.openhab.habdroid.util.Constants;
+import org.openhab.habdroid.util.MyWebImage;
 import org.openhab.habdroid.util.Util;
 
 import java.util.ArrayList;
@@ -201,6 +204,10 @@ final public class ConnectionFactory extends BroadcastReceiver implements
         } else {
             mConnectionFailureReason = null;
             mAvailableConnection = c;
+        }
+        WebImageCache imageCache = MyWebImage.getWebImageCache();
+        if (imageCache != null) {
+            imageCache.clear();
         }
         LocalBroadcastManager lbm = LocalBroadcastManager.getInstance(ctx);
         lbm.sendBroadcast(new Intent(ACTION_NETWORK_CHANGED));
