@@ -577,6 +577,7 @@ public class OpenHABMainActivity extends ConnectionAvailabilityAwareActivity
             pager.removeAllViews();
         }
 
+        mDrawerToggle.setDrawerIndicatorEnabled(true);
         mShowNetworkDrawerItems = false;
         loadDrawerItems();
 
@@ -588,6 +589,7 @@ public class OpenHABMainActivity extends ConnectionAvailabilityAwareActivity
     protected void onLeaveNoNetwork() {
         super.onLeaveNoNetwork();
         mShowNetworkDrawerItems = true;
+        mDrawerToggle.setDrawerIndicatorEnabled(pager.getCurrentItem() == 0);
         loadDrawerItems();
 
         invalidateOptionsMenu();
@@ -604,7 +606,7 @@ public class OpenHABMainActivity extends ConnectionAvailabilityAwareActivity
         }
 
         mViewPool.clear();
-        setupDrawer();
+        initDrawerAdapter();
         setupPager();
         selectSitemap();
 
@@ -660,9 +662,6 @@ public class OpenHABMainActivity extends ConnectionAvailabilityAwareActivity
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
 
         mDrawerItemList = new ArrayList<>();
-        mDrawerAdapter = new OpenHABDrawerAdapter(this, R.layout.openhabdrawer_sitemap_item,
-                mDrawerItemList, getConnection());
-        drawerList.setAdapter(mDrawerAdapter);
         drawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int item, long l) {
@@ -687,6 +686,14 @@ public class OpenHABMainActivity extends ConnectionAvailabilityAwareActivity
                 }
             }
         });
+        initDrawerAdapter();
+    }
+
+    private void initDrawerAdapter() {
+        final ListView drawerList = (ListView) findViewById(R.id.left_drawer);
+        mDrawerAdapter = new OpenHABDrawerAdapter(this, R.layout.openhabdrawer_sitemap_item,
+                mDrawerItemList, getConnection());
+        drawerList.setAdapter(mDrawerAdapter);
         loadDrawerItems();
     }
 
