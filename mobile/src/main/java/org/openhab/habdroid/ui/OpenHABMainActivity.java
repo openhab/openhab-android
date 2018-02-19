@@ -1012,7 +1012,7 @@ public class OpenHABMainActivity extends ConnectionAvailabilityAwareActivity
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
         Log.d(TAG, "onSaveInstanceState");
-        if (pagerAdapter == null) {
+        if (pagerAdapter == null || stateFragment == null) {
             return;
         }
         // Save opened framents into state retaining fragment (I love Google! :-)
