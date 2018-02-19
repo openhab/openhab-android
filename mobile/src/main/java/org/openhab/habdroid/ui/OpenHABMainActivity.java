@@ -32,6 +32,7 @@ import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
+import android.support.annotation.StringRes;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
@@ -354,12 +355,19 @@ public class OpenHABMainActivity extends ConnectionAvailabilityAwareActivity
                 mMessageHandler.showMessageToUser(getString(R.string.error_no_url_start_demo_mode),
                         TYPE_DIALOG, LOGLEVEL_ALWAYS);
             }
-        } else if (conn.getConnectionType() == Connection.TYPE_LOCAL) {
-            mMessageHandler.showMessageToUser(
-                    getString(R.string.info_conn_url), TYPE_SNACKBAR, LOGLEVEL_ALWAYS);
-        } else if (conn.getConnectionType() == Connection.TYPE_REMOTE) {
-            mMessageHandler.showMessageToUser(
-                    getString(R.string.info_conn_rem_url), TYPE_SNACKBAR, LOGLEVEL_ALWAYS);
+        } else {
+            boolean hasLocalAndRemote =
+                    ConnectionFactory.getConnection(Connection.TYPE_LOCAL) != null &&
+                    ConnectionFactory.getConnection(Connection.TYPE_REMOTE) != null;
+            int type = conn.getConnectionType();
+            @StringRes int noticeResId =
+                    hasLocalAndRemote && type == Connection.TYPE_LOCAL ? R.string.info_conn_url :
+                    hasLocalAndRemote && type == Connection.TYPE_REMOTE ? R.string.info_conn_rem_url :
+                    0;
+            if (noticeResId != 0) {
+                mMessageHandler.showMessageToUser(getString(noticeResId),
+                        TYPE_SNACKBAR, LOGLEVEL_ALWAYS);
+            }
         }
 
         final String url = "/rest/bindings";
