@@ -221,7 +221,7 @@ final public class ConnectionFactory extends BroadcastReceiver implements
         // If we are on a mobile network go directly to remote URL from settings
         if (info.getType() == ConnectivityManager.TYPE_MOBILE) {
             if (remote == null) {
-                throw new NoUrlInformationException();
+                throw new NoUrlInformationException(false);
             }
             return remote;
         }
@@ -239,7 +239,7 @@ final public class ConnectionFactory extends BroadcastReceiver implements
                 Log.d(TAG, "Connecting to remote URL");
                 return remote;
             } else {
-                throw new NoUrlInformationException();
+                throw new NoUrlInformationException(true);
             }
             // Else we treat other networks types as unsupported
         } else {

@@ -491,8 +491,14 @@ public class OpenHABMainActivity extends ConnectionAvailabilityAwareActivity
         try {
             initializeConnectivity();
         } catch (NoUrlInformationException e) {
-            Log.d(TAG, "No connection data available, start discovery.", e);
-            discoverOpenHAB();
+            NoUrlInformationException nuie = (NoUrlInformationException) e;
+            if (nuie.wouldHaveUsedLocalConnection()) {
+                Log.d(TAG, "No connection data available, start discovery.", nuie);
+                discoverOpenHAB();
+            } else {
+                Log.d(TAG, "No remote connection available");
+                onServiceResolveFailed();
+            }
             return;
         } catch (ConnectionException e) {
             // will be handled by #getConnection if it is used later
