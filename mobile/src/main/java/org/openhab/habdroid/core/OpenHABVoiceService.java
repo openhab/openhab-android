@@ -58,7 +58,9 @@ public class OpenHABVoiceService extends Service {
                 mListenerRegistered = false;
             } catch (ConnectionException e) {
                 Log.w(TAG, "Couldn't determine OpenHAB URL", e);
-                showToast(getString(R.string.error_couldnt_determine_openhab_url));
+                Toast.makeText(OpenHABVoiceService.this,
+                        R.string.error_couldnt_determine_openhab_url, Toast.LENGTH_SHORT)
+                        .show();
             }
         }
     };
@@ -87,7 +89,9 @@ public class OpenHABVoiceService extends Service {
                 hasSentCommand = true;
             } catch (ConnectionException e) {
                 Log.w(TAG, "Couldn't determine OpenHAB URL", e);
-                showToast(getString(R.string.error_couldnt_determine_openhab_url));
+                Toast.makeText(this,
+                        R.string.error_couldnt_determine_openhab_url, Toast.LENGTH_SHORT)
+                        .show();
             }
         }
         if (!hasSentCommand) {
@@ -109,7 +113,8 @@ public class OpenHABVoiceService extends Service {
             voiceCommand = textMatchList.get(0);
         }
         Log.i(TAG, "Recognized text: " + voiceCommand);
-        showToast(getString(R.string.info_voice_recognized_text, voiceCommand));
+        final String message = getString(R.string.info_voice_recognized_text, voiceCommand);
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
         return voiceCommand;
     }
 
@@ -131,21 +136,5 @@ public class OpenHABVoiceService extends Service {
                         stopSelf(startId);
                     }
                 });
-    }
-
-    /**
-     * Displays the given message as a toast
-     *
-     * @param message The message to be displayed.
-     */
-    private void showToast(final String message) {
-        // Display toast on main looper because OpenHABVoiceService might be destroyed
-        // before to toast has finished displaying
-        new Handler(Looper.getMainLooper()).post(new Runnable() {
-            @Override
-            public void run() {
-                Toast.makeText(OpenHABVoiceService.this, message, Toast.LENGTH_LONG).show();
-            }
-        });
     }
 }
