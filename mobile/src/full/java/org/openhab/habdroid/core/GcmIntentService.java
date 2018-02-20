@@ -65,7 +65,7 @@ public class GcmIntentService extends IntentService {
                     notificationId = Integer.parseInt(intent.getExtras().getString(EXTRA_NOTIFICATION_ID));
                 }
                 if ("notification".equals(intent.getExtras().getString("type"))) {
-                    //for now we use google.sent_time as a time reference for our notification as the gcm
+                    //for now we use google.sent_time as a time reference for our notifications as the gcm
                     //message does not contain the actual event time from the openhab instance at the moment,
                     //in case gcm time is also missing, we fall back to the reception time which may be delayed (old behaviour)
                     long timestamp = intent.getLongExtra(EXTRA_GCM_TIMESTAMP, System.currentTimeMillis());
