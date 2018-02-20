@@ -13,7 +13,6 @@ import android.os.Looper;
 import android.os.Message;
 import android.preference.PreferenceManager;
 import android.support.annotation.VisibleForTesting;
-import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import com.loopj.android.image.WebImageCache;
@@ -27,6 +26,7 @@ import org.openhab.habdroid.util.MyWebImage;
 import org.openhab.habdroid.util.Util;
 
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -36,9 +36,6 @@ import java.util.List;
  */
 final public class ConnectionFactory extends BroadcastReceiver implements
         SharedPreferences.OnSharedPreferenceChangeListener, Handler.Callback {
-    public static final String ACTION_NETWORK_CHANGED =
-            "org.openhab.habdroid.core.connection.NETWORK_CHANGED";
-
     private static final String TAG = ConnectionFactory.class.getSimpleName();
     private static final List<Integer> LOCAL_CONNECTION_TYPES = Arrays.asList(
             ConnectivityManager.TYPE_ETHERNET, ConnectivityManager.TYPE_WIFI,
@@ -48,6 +45,10 @@ final public class ConnectionFactory extends BroadcastReceiver implements
             Constants.PREFERENCE_LOCAL_USERNAME, Constants.PREFERENCE_LOCAL_PASSWORD,
             Constants.PREFERENCE_REMOTE_USERNAME, Constants.PREFERENCE_REMOTE_PASSWORD,
             Constants.PREFERENCE_DEMOMODE);
+
+    public interface UpdateListener {
+        void onConnectionChanged();
+    }
 
     private static final int MSG_TRIGGER_UPDATE = 0;
     private static final int MSG_UPDATE_DONE = 1;
@@ -59,6 +60,8 @@ final public class ConnectionFactory extends BroadcastReceiver implements
     private Connection mRemoteConnection;
     private Connection mAvailableConnection;
     private ConnectionException mConnectionFailureReason;
+    private HashSet<UpdateListener> mListeners = new HashSet<>();
+    private boolean mNeedsUpdate;
 
     private HandlerThread mUpdateThread;
     @VisibleForTesting
@@ -97,6 +100,34 @@ final public class ConnectionFactory extends BroadcastReceiver implements
         sInstance.mUpdateThread.quit();
     }
 
+    public static void addListener(UpdateListener l) {
+        sInstance.addListenerInternal(l);
+    }
+
+    private void addListenerInternal(UpdateListener l) {
+        if (mListeners.add(l)) {
+            if (mNeedsUpdate) {
+                mUpdateHandler.sendEmptyMessage(MSG_TRIGGER_UPDATE);
+                mNeedsUpdate = false;
+            } else if (mLocalConnection != null && mListeners.size() == 1) {
+                // When coming back from background, re-do connectivity check for
+                // local connections, as the reachability of the local server might have
+                // changed since we went to background
+                NoUrlInformationException nuie = mConnectionFailureReason instanceof NoUrlInformationException
+                        ? (NoUrlInformationException) mConnectionFailureReason : null;
+                boolean local = mAvailableConnection == mLocalConnection
+                        || (nuie != null && nuie.wouldHaveUsedLocalConnection());
+                if (local) {
+                    mUpdateHandler.sendEmptyMessage(MSG_TRIGGER_UPDATE);
+                }
+            }
+        }
+    }
+
+    public static void removeListener(UpdateListener l) {
+        sInstance.mListeners.remove(l);
+    }
+
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         if (UPDATE_TRIGGERING_KEYS.contains(key)) {
@@ -120,6 +151,10 @@ final public class ConnectionFactory extends BroadcastReceiver implements
      * network connectivity, the respective exception is thrown.
      */
     public static Connection getUsableConnection() throws ConnectionException {
+        if (sInstance.mNeedsUpdate) {
+            restartNetworkCheck();
+            sInstance.mNeedsUpdate = false;
+        }
         if (sInstance.mConnectionFailureReason != null) {
             throw sInstance.mConnectionFailureReason;
         }
@@ -154,7 +189,15 @@ final public class ConnectionFactory extends BroadcastReceiver implements
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        mUpdateHandler.sendEmptyMessage(MSG_TRIGGER_UPDATE);
+        if (mListeners.isEmpty()) {
+            // We're running in background. Clear current state and postpone update for next
+            // listener registration.
+            mAvailableConnection = null;
+            mConnectionFailureReason = null;
+            mNeedsUpdate = true;
+        } else {
+            mUpdateHandler.sendEmptyMessage(MSG_TRIGGER_UPDATE);
+        }
     }
 
     @Override
@@ -204,8 +247,9 @@ final public class ConnectionFactory extends BroadcastReceiver implements
         if (imageCache != null) {
             imageCache.clear();
         }
-        LocalBroadcastManager lbm = LocalBroadcastManager.getInstance(ctx);
-        lbm.sendBroadcast(new Intent(ACTION_NETWORK_CHANGED));
+        for (UpdateListener l : mListeners) {
+            l.onConnectionChanged();
+        }
     }
 
     // called in update thread

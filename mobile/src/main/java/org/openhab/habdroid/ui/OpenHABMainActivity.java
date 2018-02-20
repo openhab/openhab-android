@@ -580,7 +580,7 @@ public class OpenHABMainActivity extends ConnectionAvailabilityAwareActivity
         fm.beginTransaction().add(stateFragment, "stateFragment").commit();
         mStartedWithNetworkConnectivityInfo = NetworkConnectivityInfo.currentNetworkConnectivityInfo(this);
 
-        onConnectivityChanged();
+        onConnectionChanged();
     }
 
     @Override
@@ -610,8 +610,8 @@ public class OpenHABMainActivity extends ConnectionAvailabilityAwareActivity
     }
 
     @Override
-    public void onConnectivityChanged() {
-        super.onConnectivityChanged();
+    public void onConnectionChanged() {
+        super.onConnectionChanged();
 
         try {
             initializeConnectivity();
