@@ -7,7 +7,6 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.Build;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Looper;
@@ -27,7 +26,6 @@ import org.openhab.habdroid.util.Constants;
 import org.openhab.habdroid.util.MyWebImage;
 import org.openhab.habdroid.util.Util;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -42,13 +40,14 @@ final public class ConnectionFactory extends BroadcastReceiver implements
             "org.openhab.habdroid.core.connection.NETWORK_CHANGED";
 
     private static final String TAG = ConnectionFactory.class.getSimpleName();
-    private static final List<Integer> localConnectionTypes = new ArrayList<>(
-            Arrays.asList(ConnectivityManager.TYPE_ETHERNET, ConnectivityManager.TYPE_WIFI,
-                    ConnectivityManager.TYPE_WIMAX));
-    private static final List<String> needInvalidateCachePreferenceKeys = Arrays.asList(Constants
-            .PREFERENCE_REMOTE_URL, Constants.PREFERENCE_LOCAL_USERNAME, Constants
-            .PREFERENCE_LOCAL_PASSWORD, Constants.PREFERENCE_REMOTE_PASSWORD, Constants
-            .PREFERENCE_REMOTE_USERNAME, Constants.PREFERENCE_LOCAL_URL, Constants.PREFERENCE_DEMOMODE);
+    private static final List<Integer> LOCAL_CONNECTION_TYPES = Arrays.asList(
+            ConnectivityManager.TYPE_ETHERNET, ConnectivityManager.TYPE_WIFI,
+            ConnectivityManager.TYPE_WIMAX, ConnectivityManager.TYPE_VPN);
+    private static final List<String> UPDATE_TRIGGERING_KEYS = Arrays.asList(
+            Constants.PREFERENCE_LOCAL_URL, Constants.PREFERENCE_REMOTE_URL,
+            Constants.PREFERENCE_LOCAL_USERNAME, Constants.PREFERENCE_LOCAL_PASSWORD,
+            Constants.PREFERENCE_REMOTE_USERNAME, Constants.PREFERENCE_REMOTE_PASSWORD,
+            Constants.PREFERENCE_DEMOMODE);
 
     private static final int MSG_TRIGGER_UPDATE = 0;
     private static final int MSG_UPDATE_DONE = 1;
@@ -71,10 +70,6 @@ final public class ConnectionFactory extends BroadcastReceiver implements
     public static ConnectionFactory sInstance;
 
     ConnectionFactory(Context ctx, SharedPreferences settings) {
-        if (Build.VERSION.SDK_INT >= 21) {
-            localConnectionTypes.add(ConnectivityManager.TYPE_VPN);
-        }
-
         this.ctx = ctx;
         this.settings = settings;
         this.settings.registerOnSharedPreferenceChangeListener(this);
@@ -104,7 +99,7 @@ final public class ConnectionFactory extends BroadcastReceiver implements
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        if (needInvalidateCachePreferenceKeys.contains(key)) {
+        if (UPDATE_TRIGGERING_KEYS.contains(key)) {
             updateConnections();
         }
     }
@@ -234,7 +229,7 @@ final public class ConnectionFactory extends BroadcastReceiver implements
         }
 
         // Else if we are on Wifi, Ethernet, WIMAX or VPN network
-        if (localConnectionTypes.contains(info.getType())) {
+        if (LOCAL_CONNECTION_TYPES.contains(info.getType())) {
             // If local URL is configured and rechable
             if (local != null && local.checkReachabilityInBackground()) {
                 Log.d(TAG, "Connecting to local URL");
