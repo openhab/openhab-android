@@ -218,8 +218,6 @@ public class OpenHABMainActivity extends AppCompatActivity implements
     // preferences
     private SharedPreferences mSettings;
     private AsyncServiceResolver mServiceResolver;
-    // NFC Launch data
-    private String mNfcData;
     // Toolbar / Actionbar
     private Toolbar mToolbar;
     // Drawer Layout
@@ -241,6 +239,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
     private Snackbar mLastSnackbar;
     private Connection mConnection;
 
+    private Uri mPendingNfcData;
     private OpenHABSitemap mSelectedSitemap;
     private FragmentController mController;
 
@@ -432,21 +431,13 @@ public class OpenHABMainActivity extends AppCompatActivity implements
     }
 
     private void processIntent(Intent intent) {
-        Log.d(TAG, "Intent != null");
-        if (intent.getAction() != null) {
-            Log.d(TAG, "Intent action = " + intent.getAction());
-            if (intent.getAction().equals("android.nfc.action.NDEF_DISCOVERED")) {
-                Log.d(TAG, "This is NFC action");
-                if (intent.getDataString() != null) {
-                    Log.d(TAG, "NFC data = " + intent.getDataString());
-                    mNfcData = intent.getDataString();
-                }
-            } else if (intent.getAction().equals(GcmIntentService.ACTION_NOTIFICATION_SELECTED)) {
-                onNotificationSelected(intent);
-            } else if (intent.getAction().equals("android.intent.action.VIEW")) {
-                Log.d(TAG, "This is URL Action");
-                mNfcData = intent.getDataString();
-            }
+        Log.d(TAG, "Got intent: " + intent);
+        if (NfcAdapter.ACTION_NDEF_DISCOVERED.equals(intent.getAction())) {
+            onNfcTag(intent.getData());
+        } else if (GcmIntentService.ACTION_NOTIFICATION_SELECTED.equals(intent.getAction())) {
+            onNotificationSelected(intent);
+        } else if (Intent.ACTION_VIEW.equals(intent.getAction())) {
+            onNfcTag(intent.getData());
         }
     }
 
@@ -475,12 +466,12 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         ConnectionFactory.addListener(this);
         onConnectionChanged();
 
-        PendingIntent pendingIntent = PendingIntent.getActivity(
-                this, 0, new Intent(this, ((Object) this).getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
-        if (NfcAdapter.getDefaultAdapter(this) != null)
-            NfcAdapter.getDefaultAdapter(this).enableForegroundDispatch(this, pendingIntent, null, null);
-        if (!TextUtils.isEmpty(mNfcData)) {
-            Log.d(TAG, "We have NFC data from launch");
+        NfcAdapter nfcAdapter = NfcAdapter.getDefaultAdapter(this);
+        if (nfcAdapter != null) {
+            Intent intent = new Intent(this, getClass())
+                    .addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            PendingIntent pi = PendingIntent.getActivity(this, 0, intent, 0);
+            nfcAdapter.enableForegroundDispatch(this, pi, null, null);
         }
 
         updateTitle();
@@ -495,6 +486,10 @@ public class OpenHABMainActivity extends AppCompatActivity implements
             mServiceResolver = null;
         }
         ConnectionFactory.removeListener(this);
+        NfcAdapter nfcAdapter = NfcAdapter.getDefaultAdapter(this);
+        if (nfcAdapter != null) {
+            nfcAdapter.disableForegroundDispatch(this);
+        }
     }
 
     @Override
@@ -519,6 +514,12 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         hideSnackbar();
         mSitemapList.clear();
         mSelectedSitemap = null;
+
+        // Execute pending NFC action if initial connection determination finished
+        if (mPendingNfcData != null && (mConnection != null || failureReason != null)) {
+            onNfcTag(mPendingNfcData);
+            mPendingNfcData = null;
+        }
 
         if (newConnection != null) {
             handleConnectionChange();
@@ -937,36 +938,35 @@ public class OpenHABMainActivity extends AppCompatActivity implements
      *
      * @param nfcData - a data which NFC subsystem got from the NFC tag
      */
-    private void onNfcTag(String nfcData) {
+    private void onNfcTag(Uri nfcData) {
+        if (nfcData == null) {
+            return;
+        }
         if (mConnection == null) {
+            mPendingNfcData = nfcData;
             return;
         }
 
-        Log.d(TAG, "onNfcTag()");
-        Uri openHABURI = Uri.parse(nfcData);
-        Log.d(TAG, "NFC Scheme = " + openHABURI.getScheme());
-        Log.d(TAG, "NFC Host = " + openHABURI.getHost());
-        Log.d(TAG, "NFC Path = " + openHABURI.getPath());
-        String nfcItem = openHABURI.getQueryParameter("item");
-        String nfcCommand = openHABURI.getQueryParameter("command");
+        Log.d(TAG, "NFC Scheme = " + nfcData.getScheme());
+        Log.d(TAG, "NFC Host = " + nfcData.getHost());
+        Log.d(TAG, "NFC Path = " + nfcData.getPath());
+        String nfcItem = nfcData.getQueryParameter("item");
+        String nfcCommand = nfcData.getQueryParameter("command");
+
         // If there is no item parameter it means tag contains only sitemap page url
         if (TextUtils.isEmpty(nfcItem)) {
             Log.d(TAG, "This is a sitemap tag without parameters");
             // Form the new sitemap page url
             String newPageUrl = String.format(Locale.US, "%srest/sitemaps%s",
-                    mConnection.getOpenHABUrl(), openHABURI.getPath());
+                    mConnection.getOpenHABUrl(), nfcData.getPath());
             mController.openPage(newPageUrl);
         } else {
             Log.d(TAG, "Target item = " + nfcItem);
             String url = String.format(Locale.US, "%srest/items/%s",
                     mConnection.getOpenHABUrl(), nfcItem);
             Util.sendItemCommand(mConnection.getAsyncHttpClient(), url, nfcCommand);
-            // if mNfcData is not empty, this means we were launched with NFC touch
-            // and thus need to autoexit after an item action
-            if (!TextUtils.isEmpty(mNfcData))
-                finish();
+            finish();
         }
-        mNfcData = "";
     }
 
     public void onWidgetSelected(OpenHABLinkedPage linkedPage, OpenHABWidgetListFragment source) {
