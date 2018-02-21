@@ -303,9 +303,9 @@ final public class ConnectionFactory extends BroadcastReceiver implements
             return;
         }
         mLocalConnection = makeConnection(Connection.TYPE_LOCAL, Constants.PREFERENCE_LOCAL_URL,
-                Constants.PREFERENCE_LOCAL_USERNAME, Constants.PREFERENCE_LOCAL_USERNAME);
+                Constants.PREFERENCE_LOCAL_USERNAME, Constants.PREFERENCE_LOCAL_PASSWORD);
         mRemoteConnection = makeConnection(Connection.TYPE_REMOTE, Constants.PREFERENCE_REMOTE_URL,
-                Constants.PREFERENCE_REMOTE_USERNAME, Constants.PREFERENCE_REMOTE_USERNAME);
+                Constants.PREFERENCE_REMOTE_USERNAME, Constants.PREFERENCE_REMOTE_PASSWORD);
         mUpdateHandler.sendEmptyMessage(MSG_TRIGGER_UPDATE);
     }
 
