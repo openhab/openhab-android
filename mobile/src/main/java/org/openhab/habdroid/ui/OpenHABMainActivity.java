@@ -29,11 +29,9 @@ import android.graphics.drawable.Drawable;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.nfc.NfcAdapter;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.provider.Settings;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
 import android.support.annotation.NonNull;
@@ -69,8 +67,7 @@ import com.loopj.android.image.WebImageCache;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.openhab.habdroid.R;
-import org.openhab.habdroid.core.GcmIntentService;
-import org.openhab.habdroid.core.NotificationDeletedBroadcastReceiver;
+import org.openhab.habdroid.core.CloudMessagingHelper;
 import org.openhab.habdroid.core.OnUpdateBroadcastReceiver;
 import org.openhab.habdroid.core.OpenHABVoiceService;
 import org.openhab.habdroid.core.connection.Connection;
@@ -79,8 +76,6 @@ import org.openhab.habdroid.core.connection.DemoConnection;
 import org.openhab.habdroid.core.connection.exception.ConnectionException;
 import org.openhab.habdroid.core.connection.exception.NetworkNotSupportedException;
 import org.openhab.habdroid.core.connection.exception.NoUrlInformationException;
-import org.openhab.habdroid.core.notifications.GoogleCloudMessageConnector;
-import org.openhab.habdroid.core.notifications.NotificationSettings;
 import org.openhab.habdroid.model.OpenHABLinkedPage;
 import org.openhab.habdroid.model.OpenHABSitemap;
 import org.openhab.habdroid.ui.activity.ContentController;
@@ -98,9 +93,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Constructor;
 import java.net.ConnectException;
-import java.net.MalformedURLException;
 import java.net.SocketTimeoutException;
-import java.net.URL;
 import java.net.UnknownHostException;
 import java.nio.charset.Charset;
 import java.security.cert.CertPathValidatorException;
@@ -124,12 +117,14 @@ import de.duenndns.ssl.MemorizingTrustManager;
 import okhttp3.Call;
 import okhttp3.Headers;
 
-import static org.openhab.habdroid.core.connection.Connection.TYPE_CLOUD;
 import static org.openhab.habdroid.util.Util.exceptionHasCause;
 import static org.openhab.habdroid.util.Util.removeProtocolFromUrl;
 
 public class OpenHABMainActivity extends AppCompatActivity implements
         MemorizingResponder, AsyncServiceResolverListener, ConnectionFactory.UpdateListener {
+    public static final String ACTION_NOTIFICATION_SELECTED =
+            "org.openhab.habdroid.action.NOTIFICATION_SELECTED";
+    public static final String EXTRA_MESSAGE = "message";
 
     private abstract class DefaultHttpResponseHandler implements MyHttpClient.ResponseHandler {
 
@@ -213,9 +208,6 @@ public class OpenHABMainActivity extends AppCompatActivity implements
             mInitState = InitState.DONE;
         }
     }
-    // GCM Registration expiration
-    public static final long REGISTRATION_EXPIRY_TIME_MS = 1000 * 3600 * 24 * 7;
-
     // Logging TAG
     private static final String TAG = OpenHABMainActivity.class.getSimpleName();
     // Activities request codes
@@ -243,16 +235,12 @@ public class OpenHABMainActivity extends AppCompatActivity implements
     private ActionBarDrawerToggle mDrawerToggle;
     private Menu mDrawerMenu;
     private ColorStateList mDrawerIconTintList;
-    // Google Cloud Messaging
-    private GoogleCloudMessaging mGcm;
     private RecyclerView.RecycledViewPool mViewPool;
     private ArrayList<OpenHABSitemap> mSitemapList;
     private int mOpenHABVersion;
     private ProgressBar mProgressBar;
-    private NotificationSettings mNotifySettings = null;
     // select sitemap dialog
     private Dialog selectSitemapDialog;
-    public static String GCM_SENDER_ID;
     private Snackbar mLastSnackbar;
     private Connection mConnection;
 
@@ -321,7 +309,6 @@ public class OpenHABMainActivity extends AppCompatActivity implements
 
         setupToolbar();
         setupDrawer();
-        gcmRegisterBackground();
 
         mViewPool = new RecyclerView.RecycledViewPool();
         MemorizingTrustManager.setResponder(this);
@@ -463,7 +450,8 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         Log.d(TAG, "Got intent: " + intent);
         if (NfcAdapter.ACTION_NDEF_DISCOVERED.equals(intent.getAction())) {
             onNfcTag(intent.getData());
-        } else if (GcmIntentService.ACTION_NOTIFICATION_SELECTED.equals(intent.getAction())) {
+        } else if (ACTION_NOTIFICATION_SELECTED.equals(intent.getAction())) {
+            CloudMessagingHelper.onNotificationSelected(this, intent);
             onNotificationSelected(intent);
         } else if (Intent.ACTION_VIEW.equals(intent.getAction())) {
             onNfcTag(intent.getData());
@@ -539,7 +527,6 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         }
 
         mConnection = newConnection;
-        mNotifySettings = null;
         hideSnackbar();
         mSitemapList.clear();
         mSelectedSitemap = null;
@@ -695,7 +682,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         MenuItem sitemapItem = mDrawerMenu.findItem(R.id.sitemaps);
         MenuItem notificationsItem = mDrawerMenu.findItem(R.id.notifications);
 
-        notificationsItem.setVisible(getNotificationSettings() != null);
+        notificationsItem.setVisible(ConnectionFactory.getConnection(Connection.TYPE_CLOUD) != null);
 
         if (mSitemapList.isEmpty()) {
             sitemapItem.setVisible(false);
@@ -999,28 +986,17 @@ public class OpenHABMainActivity extends AppCompatActivity implements
 
     private void onNotificationSelected(Intent intent) {
         Log.d(TAG, "Notification was selected");
-        if (intent.hasExtra(GcmIntentService.EXTRA_NOTIFICATION_ID)) {
-            Log.d(TAG, String.format("Notification id = %d",
-                    intent.getExtras().getInt(GcmIntentService.EXTRA_NOTIFICATION_ID)));
-            // Make a fake broadcast intent to hide intent on other devices
-            Intent deleteIntent = new Intent(this, NotificationDeletedBroadcastReceiver.class);
-            deleteIntent.setAction(GcmIntentService.ACTION_NOTIFICATION_DELETED);
-            deleteIntent.putExtra(GcmIntentService.EXTRA_NOTIFICATION_ID, intent.getExtras().getInt(GcmIntentService.EXTRA_NOTIFICATION_ID));
-            sendBroadcast(deleteIntent);
-        }
 
-        if (getNotificationSettings() != null) {
+        if (ConnectionFactory.getConnection(Connection.TYPE_CLOUD) != null) {
             openNotifications();
         }
 
-        if (intent.hasExtra(GcmIntentService.EXTRA_MSG)) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle(getString(R.string.dlg_notification_title));
-            builder.setMessage(intent.getExtras().getString(GcmIntentService.EXTRA_MSG));
-            builder.setPositiveButton(getString(android.R.string.ok), null);
-            AlertDialog dialog = builder.create();
-            dialog.show();
-
+        if (intent.hasExtra(EXTRA_MESSAGE)) {
+            new AlertDialog.Builder(this)
+                    .setTitle(getString(R.string.dlg_notification_title))
+                    .setMessage(intent.getStringExtra(EXTRA_MESSAGE))
+                    .setPositiveButton(getString(android.R.string.ok), null)
+                    .show();
         }
     }
 
@@ -1198,56 +1174,6 @@ public class OpenHABMainActivity extends AppCompatActivity implements
 
     public Connection getConnection() {
         return mConnection;
-    }
-
-    public void gcmRegisterBackground() {
-        OpenHABMainActivity.GCM_SENDER_ID = null;
-        // if no notification settings can be constructed, no GCM registration can be made.
-        if (getNotificationSettings() == null)
-            return;
-
-        if (mGcm == null)
-            mGcm = GoogleCloudMessaging.getInstance(this);
-
-        new AsyncTask<Void, Void, String>() {
-            @Override
-            protected String doInBackground(Void... params) {
-                String deviceId = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
-                GoogleCloudMessageConnector connector =
-                        new GoogleCloudMessageConnector(getNotificationSettings(), deviceId, mGcm);
-
-                if (connector.register()) {
-                    OpenHABMainActivity.GCM_SENDER_ID = getNotificationSettings().getSenderId();
-                }
-                return null;
-            }
-
-            @Override
-            protected void onPostExecute(String regId) {}
-        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, null, null, null);
-    }
-
-    /**
-     * Returns the notification settings object
-     * @return Returns the NotificationSettings or null, if openHAB-cloud isn't used
-     */
-    public NotificationSettings getNotificationSettings() {
-        if (mNotifySettings != null) {
-            return mNotifySettings;
-        }
-        Connection cloudConnection = ConnectionFactory.getConnection(TYPE_CLOUD);
-        if (cloudConnection == null) {
-            return null;
-        }
-
-        // check whether URL is valid
-        try {
-            new URL(cloudConnection.getOpenHABUrl());
-            mNotifySettings = new NotificationSettings(cloudConnection);
-            return mNotifySettings;
-        } catch (MalformedURLException e) {
-            return null;
-        }
     }
 
     /**

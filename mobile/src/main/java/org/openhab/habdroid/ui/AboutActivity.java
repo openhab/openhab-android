@@ -29,6 +29,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.openhab.habdroid.BuildConfig;
 import org.openhab.habdroid.R;
+import org.openhab.habdroid.core.CloudMessagingHelper;
 import org.openhab.habdroid.core.connection.Connection;
 import org.openhab.habdroid.core.connection.ConnectionFactory;
 import org.openhab.habdroid.core.connection.exception.ConnectionException;
@@ -274,11 +275,11 @@ public class AboutActivity extends AppCompatActivity implements
         }
 
         private String getGcmText(Context context) {
-            if (OpenHABMainActivity.GCM_SENDER_ID == null) {
+            String senderId = CloudMessagingHelper.getSenderId();
+            if (senderId == null) {
                 return context.getString(R.string.info_openhab_gcm_not_connected);
             } else {
-                return context.getString(R.string.info_openhab_gcm_connected,
-                        OpenHABMainActivity.GCM_SENDER_ID);
+                return context.getString(R.string.info_openhab_gcm_connected, senderId);
             }
         }
 

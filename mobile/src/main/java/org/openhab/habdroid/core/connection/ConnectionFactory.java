@@ -17,6 +17,7 @@ import android.util.Log;
 
 import com.loopj.android.image.WebImageCache;
 
+import org.openhab.habdroid.core.CloudMessagingHelper;
 import org.openhab.habdroid.core.connection.exception.ConnectionException;
 import org.openhab.habdroid.core.connection.exception.NetworkNotAvailableException;
 import org.openhab.habdroid.core.connection.exception.NetworkNotSupportedException;
@@ -309,6 +310,8 @@ final public class ConnectionFactory extends BroadcastReceiver implements
             mConnectionFailureReason = null;
             mUpdateHandler.sendEmptyMessage(MSG_TRIGGER_UPDATE);
         }
+
+        CloudMessagingHelper.onConnectionUpdated(ctx, mRemoteConnection);
     }
 
     private Connection makeConnection(int type, String urlKey,
