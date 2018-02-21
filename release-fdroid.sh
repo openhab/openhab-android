@@ -26,4 +26,4 @@ git add fastlane/*
 git add $manifest
 git commit -m "Bump version to $TRAVIS_TAG and update fastlane metadata"
 git tag -a "${TRAVIS_TAG}-fdroid" -m "${TRAVIS_TAG} for F-Droid"
-#git push origin :refs/heads/master
+git push origin :refs/heads/master # Add github token here
