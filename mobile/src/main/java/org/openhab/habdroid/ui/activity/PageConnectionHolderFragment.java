@@ -294,7 +294,7 @@ public class PageConnectionHolderFragment extends Fragment {
                 List<OpenHABWidget> widgetList = new ArrayList<>();
                 for (OpenHABWidget w : dataSource.getWidgets()) {
                     // Remove frame widgets with no label text
-                    if (w.type().equals("Frame") && TextUtils.isEmpty(w.label())) {
+                    if (w.type() == OpenHABWidget.Type.Frame && TextUtils.isEmpty(w.label())) {
                         continue;
                     }
                     widgetList.add(w);

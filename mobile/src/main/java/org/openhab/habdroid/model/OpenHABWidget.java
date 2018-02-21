@@ -31,6 +31,24 @@ import java.util.List;
 
 @AutoValue
 public abstract class OpenHABWidget implements Parcelable {
+    public enum Type {
+        Chart,
+        Colorpicker,
+        Default,
+        Frame,
+        Group,
+        Image,
+        Mapview,
+        Selection,
+        Setpoint,
+        Slider,
+        Switch,
+        Text,
+        Video,
+        Webview,
+        Unknown
+    }
+
     public abstract String id();
     @Nullable
     public abstract String parentId();
@@ -39,7 +57,7 @@ public abstract class OpenHABWidget implements Parcelable {
     @Nullable
     public abstract String icon();
     public abstract String iconPath();
-    public abstract String type();
+    public abstract Type type();
     @Nullable
     public abstract String url();
     @Nullable
@@ -77,7 +95,7 @@ public abstract class OpenHABWidget implements Parcelable {
         public abstract Builder label(@Nullable String label);
         public abstract Builder icon(@Nullable String icon);
         public abstract Builder iconPath(String iconPath);
-        public abstract Builder type(String type);
+        public abstract Builder type(Type type);
         public abstract Builder url(@Nullable String url);
         public abstract Builder item(@Nullable OpenHABItem item);
         public abstract Builder linkedPage(@Nullable OpenHABLinkedPage linkedPage);
@@ -113,8 +131,9 @@ public abstract class OpenHABWidget implements Parcelable {
     public static void parseXml(List<OpenHABWidget> allWidgets, OpenHABWidget parent, Node startNode) {
         OpenHABItem item = null;
         OpenHABLinkedPage linkedPage = null;
-        String id = null, type = null, label = null, icon = null, url = null;
+        String id = null, label = null, icon = null, url = null;
         String period = "", service = "", encoding = null;
+        Type type = Type.Unknown;
         float minValue = 0f, maxValue = 100f, step = 1f;
         int refresh = 0, height = 0;
         Integer iconColor = null, labelColor = null, valueColor = null;
@@ -129,7 +148,7 @@ public abstract class OpenHABWidget implements Parcelable {
                     case "item": item = OpenHABItem.fromXml(childNode); break;
                     case "linkedPage": linkedPage = OpenHABLinkedPage.fromXml(childNode); break;
                     case "widget": childWidgetNodes.add(childNode); break;
-                    case "type": type = childNode.getTextContent(); break;
+                    case "type": type = parseType(childNode.getTextContent()); break;
                     case "widgetId": id = childNode.getTextContent(); break;
                     case "label": label = childNode.getTextContent(); break;
                     case "icon": icon = childNode.getTextContent(); break;
@@ -212,7 +231,7 @@ public abstract class OpenHABWidget implements Parcelable {
         }
 
         OpenHABItem item = OpenHABItem.fromJson(widgetJson.optJSONObject("item"));
-        String type = widgetJson.getString("type");
+        Type type = parseType(widgetJson.getString("type"));
         String icon = widgetJson.optString("icon", null);
 
         OpenHABWidget widget = new AutoValue_OpenHABWidget.Builder()
@@ -250,16 +269,16 @@ public abstract class OpenHABWidget implements Parcelable {
         }
     }
 
-    private static String determineOH2IconPath(OpenHABItem item, String type, String icon,
+    private static String determineOH2IconPath(OpenHABItem item, Type type, String icon,
             String iconFormat, boolean hasMappings) {
         String itemState = item != null ? item.state() : null;
         if (itemState != null) {
-            if (item.type().equals("Color") || (item.groupType() != null && item.groupType().equals("Color"))) {
+            if (item.isOfTypeOrGroupType(OpenHABItem.Type.Color)) {
                 // For items that control a color item fetch the correct icon
-                if (type.equals("Slider") || (type.equals("Switch") && !hasMappings)) {
+                if (type == Type.Slider || (type == Type.Switch && !hasMappings)) {
                     try {
                         itemState = String.valueOf(item.stateAsBrightness());
-                        if (type.equals("Switch")) {
+                        if (type == Type.Switch) {
                             if (itemState.equals("0")) {
                                 itemState = "OFF";
                             } else {
@@ -270,8 +289,8 @@ public abstract class OpenHABWidget implements Parcelable {
                         itemState = "OFF";
                     }
                 }
-            } else if (type.equals("Switch") && !hasMappings &&
-                    !(item.type().equals("Rollershutter") || (item.groupType() != null && item.groupType().equals("Rollershutter")))) {
+            } else if (type == Type.Switch && !hasMappings
+                    && !item.isOfTypeOrGroupType(OpenHABItem.Type.Rollershutter)) {
                 // For switch items without mappings (just ON and OFF) that control a dimmer item
                 // set the state to "OFF" instead of 0 or to "ON" to fetch the correct icon
                 try {
@@ -288,6 +307,17 @@ public abstract class OpenHABWidget implements Parcelable {
         }
 
         return String.format("icon/%s?state=%s&format=%s", icon, itemState, iconFormat);
+    }
+
+    private static Type parseType(String type) {
+        if (type != null) {
+            try {
+                return Type.valueOf(type);
+            } catch (IllegalArgumentException e) {
+                // fall through
+            }
+        }
+        return Type.Unknown;
     }
 
     private static Integer parseColor(String color) {

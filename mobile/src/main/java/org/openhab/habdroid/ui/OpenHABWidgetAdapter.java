@@ -229,45 +229,40 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
     public int getItemViewType(int position) {
         OpenHABWidget openHABWidget = mItems.get(position);
         switch (openHABWidget.type()) {
-            case "Frame":
+            case Frame:
                 return TYPE_FRAME;
-            case "Group":
+            case Group:
                 return TYPE_GROUP;
-            case "Switch":
+            case Switch:
                 if (openHABWidget.hasMappings()) {
                     return TYPE_SECTIONSWITCH;
                 } else {
                     OpenHABItem item = openHABWidget.item();
-                    if (item != null) {
-                        //RollerShutterItem changed to RollerShutter in later builds of OH2
-                        if ("RollershutterItem".equals(item.type()) ||
-                                "Rollershutter".equals(item.type()) ||
-                                "Rollershutter".equals(item.groupType())) {
-                            return TYPE_ROLLERSHUTTER;
-                        }
+                    if (item != null && item.isOfTypeOrGroupType(OpenHABItem.Type.Rollershutter)) {
+                        return TYPE_ROLLERSHUTTER;
                     }
                     return TYPE_SWITCH;
                 }
-            case "Text":
+            case Text:
                 return TYPE_TEXT;
-            case "Slider":
+            case Slider:
                 return TYPE_SLIDER;
-            case "Image":
+            case Image:
                 return TYPE_IMAGE;
-            case "Selection":
+            case Selection:
                 return TYPE_SELECTION;
-            case "Setpoint":
+            case Setpoint:
                 return TYPE_SETPOINT;
-            case "Chart":
+            case Chart:
                 return TYPE_CHART;
-            case "Video":
+            case Video:
                 if ("mjpeg".equalsIgnoreCase(openHABWidget.encoding())) {
                     return TYPE_VIDEO_MJPEG;
                 }
                 return TYPE_VIDEO;
-            case "Webview":
+            case Webview:
                 return TYPE_WEB;
-            case "Colorpicker":
+            case Colorpicker:
                 return TYPE_COLOR;
             default:
                 return TYPE_GENERICITEM;
@@ -488,7 +483,7 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
             mBoundItem = widget.item();
             if (mBoundItem != null) {
                 int progress;
-                if (mBoundItem.type().equals("Color") || "Color".equals(mBoundItem.groupType())) {
+                if (mBoundItem.isOfTypeOrGroupType(OpenHABItem.Type.Color)) {
                     Integer brightness = mBoundItem.stateAsBrightness();
                     progress = brightness != null ? brightness : 0;
                 } else {
@@ -859,7 +854,7 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
             if (item != null) {
                 StringBuilder chartUrl = new StringBuilder(mConnection.getOpenHABUrl());
 
-                if ("GroupItem".equals(item.type()) || "Group".equals(item.type())) {
+                if (item.type() == OpenHABItem.Type.Group) {
                     chartUrl.append("chart?groups=").append(item.name());
                 } else {
                     chartUrl.append("chart?items=").append(item.name());
@@ -925,7 +920,7 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
                 final String videoUrl;
                 OpenHABItem videoItem = widget.item();
                 if ("hls".equalsIgnoreCase(widget.encoding())
-                        && videoItem != null && videoItem.type().equals("String")
+                        && videoItem != null && videoItem.type() == OpenHABItem.Type.StringItem
                         && !"UNDEF".equals(videoItem.state())) {
                     videoUrl = videoItem.state();
                 } else {

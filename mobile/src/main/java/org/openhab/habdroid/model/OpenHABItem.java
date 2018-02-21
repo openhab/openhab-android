@@ -28,10 +28,26 @@ import java.util.regex.Pattern;
 
 @AutoValue
 public abstract class OpenHABItem implements Parcelable {
+    public enum Type {
+        None,
+        Color,
+        Contact,
+        DateTime,
+        Dimmer,
+        Group,
+        Image,
+        Location,
+        Number,
+        Player,
+        Rollershutter,
+        StringItem,
+        Switch
+    }
+
     public abstract String name();
-    public abstract String type();
+    public abstract Type type();
     @Nullable
-    public abstract String groupType();
+    public abstract Type groupType();
     @Nullable
     public abstract String link();
     @Nullable
@@ -43,11 +59,15 @@ public abstract class OpenHABItem implements Parcelable {
     @Nullable
     public abstract Integer stateAsBrightness();
 
+    public boolean isOfTypeOrGroupType(Type type) {
+        return type() == type || groupType() == type;
+    }
+
     @AutoValue.Builder
     abstract static class Builder {
         public abstract Builder name(String name);
-        public abstract Builder type(String type);
-        public abstract Builder groupType(@Nullable String type);
+        public abstract Builder type(Type type);
+        public abstract Builder groupType(Type type);
         public abstract Builder state(@Nullable String state);
         public abstract Builder link(@Nullable String link);
 
@@ -141,15 +161,34 @@ public abstract class OpenHABItem implements Parcelable {
         private final static Pattern HSB_PATTERN = Pattern.compile("^([0-9]*\\.?[0-9]+),([0-9]*\\.?[0-9]+),([0-9]*\\.?[0-9]+)$");
     }
 
+    private static Type parseType(String type) {
+        if (type == null) {
+            return Type.None;
+        }
+        // Earlier OH2 versions returned e.g. 'Switch' as 'SwitchItem'
+        if (type.endsWith("Item")) {
+            type = type.substring(0, type.length() - 4);
+        }
+        if ("String".equals(type)) {
+            return Type.StringItem;
+        }
+        try {
+            return Type.valueOf(type);
+        } catch (IllegalArgumentException e) {
+            return Type.None;
+        }
+    }
+
     public static OpenHABItem fromXml(Node startNode) {
-        String type = null, groupType = null, name = null, state = null, link = null;
+        String name = null, state = null, link = null;
+        Type type = Type.None, groupType = Type.None;
         if (startNode.hasChildNodes()) {
             NodeList childNodes = startNode.getChildNodes();
             for (int i = 0; i < childNodes.getLength(); i++) {
                 Node childNode = childNodes.item(i);
                 switch (childNode.getNodeName()) {
-                    case "type": type = childNode.getTextContent(); break;
-                    case "groupType": groupType = childNode.getTextContent(); break;
+                    case "type": type = parseType(childNode.getTextContent()); break;
+                    case "groupType": groupType = parseType(childNode.getTextContent()); break;
                     case "name": name = childNode.getTextContent(); break;
                     case "state": state = childNode.getTextContent(); break;
                     case "link": link = childNode.getTextContent(); break;
@@ -177,8 +216,8 @@ public abstract class OpenHABItem implements Parcelable {
         }
 
         return new AutoValue_OpenHABItem.Builder()
-                .type(jsonObject.getString("type"))
-                .groupType(jsonObject.optString("groupType", null))
+                .type(parseType(jsonObject.getString("type")))
+                .groupType(parseType(jsonObject.optString("groupType")))
                 .name(jsonObject.getString("name"))
                 .link(jsonObject.optString("link", null))
                 .state(state)

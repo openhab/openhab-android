@@ -122,11 +122,11 @@ public class OpenHABWidgetTest {
 
     @Test
     public void testGetType() throws Exception {
-        assertEquals("Group", sut1.get(0).type());
-        assertEquals("Group", sut2.get(0).type());
-        assertEquals("Frame", sut3.get(0).type());
-        assertEquals("Switch", sut3.get(2).type());
-        assertEquals("Group", sut3.get(3).type());
+        assertEquals(OpenHABWidget.Type.Group, sut1.get(0).type());
+        assertEquals(OpenHABWidget.Type.Group, sut2.get(0).type());
+        assertEquals(OpenHABWidget.Type.Frame, sut3.get(0).type());
+        assertEquals(OpenHABWidget.Type.Switch, sut3.get(2).type());
+        assertEquals(OpenHABWidget.Type.Group, sut3.get(3).type());
     }
 
     @Test
