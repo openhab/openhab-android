@@ -920,8 +920,9 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
                 final String videoUrl;
                 OpenHABItem videoItem = widget.item();
                 if ("hls".equalsIgnoreCase(widget.encoding())
-                        && videoItem != null && videoItem.type() == OpenHABItem.Type.StringItem
-                        && !"UNDEF".equals(videoItem.state())) {
+                        && videoItem != null
+                        && videoItem.type() == OpenHABItem.Type.StringItem
+                        && videoItem.state() != null) {
                     videoUrl = videoItem.state();
                 } else {
                     videoUrl = widget.url();
