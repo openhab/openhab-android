@@ -104,7 +104,6 @@ dependencies {
     compile 'com.github.apl-devs:appintro:v4.2.2'
     // GCM
     fullCompile 'com.google.android.gms:play-services-gcm:11.4.2'
-    fossCompile project(':gcmdummy')
 
     // About screen
     compile 'com.github.daniel-stoneuk:material-about-library:2.2.3-support26.1.0'
