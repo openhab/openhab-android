@@ -81,7 +81,7 @@
   <string name="error_http_code_495">Nieprawidłowy certyfikat klienta SSL (kod odpowiedzi HTTP 495)</string>
   <string name="error_http_code_496">Certyfikat klienta SSL jest wymagany (kod odpowiedzi HTTP 496)</string>
   <string name="error_http_code_502">Twój odwrócony serwer proxy otrzymał nieprawidłową odpowiedź od openHAB (kod odpowiedzi HTTP 502)</string>
-  <string name="error_http_code_503">openHAB jest tymczasowo niedostępny (kod odpowiedzi HTTP 504)</string>
+  <string name="error_http_code_503">openHAB jest tymczasowo niedostępny (kod odpowiedzi HTTP 503)</string>
   <string name="error_http_code_504">Przekroczenie czasu oczekiwania bramki. Wygląda na to, że Twój odwrócony serwer proxy jest włączony, ale nie mógł otrzymać odpowiedzi od openHAB (Kod HTTP - 504)</string>
   <string name="error_http_code_507">openHAB nie ma wystarczająco wolnego miejsca (Kod HTTP - 507)</string>
   <string name="error_http_code_511">Autoryzacja sieci jest wymagana (Kod HTTP - 511)</string>
