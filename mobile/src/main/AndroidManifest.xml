@@ -37,7 +37,12 @@
         android:supportsRtl="true">
         <activity
             android:name="org.openhab.habdroid.ui.OpenHABPreferencesActivity"
-            android:label="@string/app_preferences_name" />
+            android:label="@string/app_preferences_name">
+            <intent-filter>
+                <action android:name="android.intent.action.APPLICATION_PREFERENCES" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
         <activity
             android:name="org.openhab.habdroid.ui.OpenHABAboutActivity"
             android:label="@string/about_title" />
