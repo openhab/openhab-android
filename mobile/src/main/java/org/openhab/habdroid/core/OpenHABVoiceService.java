@@ -10,17 +10,12 @@
 package org.openhab.habdroid.core;
 
 import android.app.Service;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.os.Handler;
 import android.os.IBinder;
-import android.os.Looper;
 import android.speech.RecognizerIntent;
 import android.support.annotation.Nullable;
-import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
+import android.util.Pair;
 import android.widget.Toast;
 
 import org.openhab.habdroid.R;
@@ -29,6 +24,7 @@ import org.openhab.habdroid.core.connection.ConnectionFactory;
 import org.openhab.habdroid.core.connection.exception.ConnectionException;
 import org.openhab.habdroid.util.MyHttpClient;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import okhttp3.Call;
@@ -38,10 +34,10 @@ import okhttp3.Headers;
  * This service handles voice commands and sends them to OpenHAB.
  * It will use the openHAB base URL if passed in the intent's extra.
  */
-public class OpenHABVoiceService extends Service {
+public class OpenHABVoiceService extends Service implements ConnectionFactory.UpdateListener {
     private static final String TAG = OpenHABVoiceService.class.getSimpleName();
 
-    private BroadcastReceiver mConnectionChangeListener;
+    private final List<Pair<String, Integer>> mPendingCommands = new ArrayList<>();
 
     public OpenHABVoiceService() {
     }
@@ -55,27 +51,16 @@ public class OpenHABVoiceService extends Service {
                 Connection conn = ConnectionFactory.getUsableConnection();
                 if (conn != null) {
                     sendItemCommand("VoiceCommand", voiceCommand, conn, startId);
-                    hasSentCommand = true;
                 } else {
-                    LocalBroadcastManager lbm = LocalBroadcastManager.getInstance(this);
-                    mConnectionChangeListener = new BroadcastReceiver() {
-                        @Override
-                        public void onReceive(Context context, Intent intent) {
-                            try {
-                                Connection conn = ConnectionFactory.getUsableConnection();
-                                sendItemCommand("VoiceCommand", voiceCommand, conn, startId);
-                            } catch (ConnectionException e) {
-                                Log.w(TAG, "Couldn't determine OpenHAB URL", e);
-                                showToast(getString(R.string.error_couldnt_determine_openhab_url));
-                            }
-                        }
-                    };
-                    lbm.registerReceiver(mConnectionChangeListener,
-                            new IntentFilter(ConnectionFactory.ACTION_NETWORK_CHANGED));
+                    mPendingCommands.add(Pair.create(voiceCommand, startId));
+                    ConnectionFactory.addListener(this);
                 }
+                hasSentCommand = true;
             } catch (ConnectionException e) {
                 Log.w(TAG, "Couldn't determine OpenHAB URL", e);
-                showToast(getString(R.string.error_couldnt_determine_openhab_url));
+                Toast.makeText(this,
+                        R.string.error_couldnt_determine_openhab_url, Toast.LENGTH_SHORT)
+                        .show();
             }
         }
         if (!hasSentCommand) {
@@ -85,18 +70,33 @@ public class OpenHABVoiceService extends Service {
     }
 
     @Override
-    public boolean onUnbind(Intent intent) {
-        if (mConnectionChangeListener != null) {
-            LocalBroadcastManager lbm = LocalBroadcastManager.getInstance(this);
-            lbm.unregisterReceiver(mConnectionChangeListener);
-        }
-        return super.onUnbind(intent);
+    public void onDestroy() {
+        super.onDestroy();
+        ConnectionFactory.removeListener(this);
     }
 
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
         return null;
+    }
+
+    @Override
+    public void onConnectionChanged() {
+        try {
+            Connection conn = ConnectionFactory.getUsableConnection();
+            for (Pair<String, Integer> entry : mPendingCommands) {
+                sendItemCommand("VoiceCommand", entry.first, conn, entry.second);
+            }
+        } catch (ConnectionException e) {
+            Log.w(TAG, "Couldn't determine OpenHAB URL", e);
+            Toast.makeText(OpenHABVoiceService.this,
+                    R.string.error_couldnt_determine_openhab_url, Toast.LENGTH_SHORT)
+                    .show();
+        } finally {
+            ConnectionFactory.removeListener(this);
+            mPendingCommands.clear();
+        }
     }
 
     private String extractVoiceCommand(Intent data) {
@@ -106,7 +106,8 @@ public class OpenHABVoiceService extends Service {
             voiceCommand = textMatchList.get(0);
         }
         Log.i(TAG, "Recognized text: " + voiceCommand);
-        showToast(getString(R.string.info_voice_recognized_text, voiceCommand));
+        final String message = getString(R.string.info_voice_recognized_text, voiceCommand);
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
         return voiceCommand;
     }
 
@@ -128,21 +129,5 @@ public class OpenHABVoiceService extends Service {
                         stopSelf(startId);
                     }
                 });
-    }
-
-    /**
-     * Displays the given message as a toast
-     *
-     * @param message The message to be displayed.
-     */
-    private void showToast(final String message) {
-        // Display toast on main looper because OpenHABVoiceService might be destroyed
-        // before to toast has finished displaying
-        new Handler(Looper.getMainLooper()).post(new Runnable() {
-            @Override
-            public void run() {
-                Toast.makeText(OpenHABVoiceService.this, message, Toast.LENGTH_LONG).show();
-            }
-        });
     }
 }

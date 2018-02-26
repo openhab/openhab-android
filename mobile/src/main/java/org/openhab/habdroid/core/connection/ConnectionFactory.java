@@ -7,25 +7,26 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.Build;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Looper;
 import android.os.Message;
 import android.preference.PreferenceManager;
 import android.support.annotation.VisibleForTesting;
-import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
+
+import com.loopj.android.image.WebImageCache;
 
 import org.openhab.habdroid.core.connection.exception.ConnectionException;
 import org.openhab.habdroid.core.connection.exception.NetworkNotAvailableException;
 import org.openhab.habdroid.core.connection.exception.NetworkNotSupportedException;
 import org.openhab.habdroid.core.connection.exception.NoUrlInformationException;
 import org.openhab.habdroid.util.Constants;
+import org.openhab.habdroid.util.MyWebImage;
 import org.openhab.habdroid.util.Util;
 
-import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -35,17 +36,19 @@ import java.util.List;
  */
 final public class ConnectionFactory extends BroadcastReceiver implements
         SharedPreferences.OnSharedPreferenceChangeListener, Handler.Callback {
-    public static final String ACTION_NETWORK_CHANGED =
-            "org.openhab.habdroid.core.connection.NETWORK_CHANGED";
-
     private static final String TAG = ConnectionFactory.class.getSimpleName();
-    private static final List<Integer> localConnectionTypes = new ArrayList<>(
-            Arrays.asList(ConnectivityManager.TYPE_ETHERNET, ConnectivityManager.TYPE_WIFI,
-                    ConnectivityManager.TYPE_WIMAX));
-    private static final List<String> needInvalidateCachePreferenceKeys = Arrays.asList(Constants
-            .PREFERENCE_REMOTE_URL, Constants.PREFERENCE_LOCAL_USERNAME, Constants
-            .PREFERENCE_LOCAL_PASSWORD, Constants.PREFERENCE_REMOTE_PASSWORD, Constants
-            .PREFERENCE_REMOTE_USERNAME, Constants.PREFERENCE_LOCAL_URL, Constants.PREFERENCE_DEMOMODE);
+    private static final List<Integer> LOCAL_CONNECTION_TYPES = Arrays.asList(
+            ConnectivityManager.TYPE_ETHERNET, ConnectivityManager.TYPE_WIFI,
+            ConnectivityManager.TYPE_WIMAX, ConnectivityManager.TYPE_VPN);
+    private static final List<String> UPDATE_TRIGGERING_KEYS = Arrays.asList(
+            Constants.PREFERENCE_LOCAL_URL, Constants.PREFERENCE_REMOTE_URL,
+            Constants.PREFERENCE_LOCAL_USERNAME, Constants.PREFERENCE_LOCAL_PASSWORD,
+            Constants.PREFERENCE_REMOTE_USERNAME, Constants.PREFERENCE_REMOTE_PASSWORD,
+            Constants.PREFERENCE_DEMOMODE);
+
+    public interface UpdateListener {
+        void onConnectionChanged();
+    }
 
     private static final int MSG_TRIGGER_UPDATE = 0;
     private static final int MSG_UPDATE_DONE = 1;
@@ -57,6 +60,8 @@ final public class ConnectionFactory extends BroadcastReceiver implements
     private Connection mRemoteConnection;
     private Connection mAvailableConnection;
     private ConnectionException mConnectionFailureReason;
+    private HashSet<UpdateListener> mListeners = new HashSet<>();
+    private boolean mNeedsUpdate;
 
     private HandlerThread mUpdateThread;
     @VisibleForTesting
@@ -68,10 +73,6 @@ final public class ConnectionFactory extends BroadcastReceiver implements
     public static ConnectionFactory sInstance;
 
     ConnectionFactory(Context ctx, SharedPreferences settings) {
-        if (Build.VERSION.SDK_INT >= 21) {
-            localConnectionTypes.add(ConnectivityManager.TYPE_VPN);
-        }
-
         this.ctx = ctx;
         this.settings = settings;
         this.settings.registerOnSharedPreferenceChangeListener(this);
@@ -99,9 +100,37 @@ final public class ConnectionFactory extends BroadcastReceiver implements
         sInstance.mUpdateThread.quit();
     }
 
+    public static void addListener(UpdateListener l) {
+        sInstance.addListenerInternal(l);
+    }
+
+    private void addListenerInternal(UpdateListener l) {
+        if (mListeners.add(l)) {
+            if (mNeedsUpdate) {
+                mUpdateHandler.sendEmptyMessage(MSG_TRIGGER_UPDATE);
+                mNeedsUpdate = false;
+            } else if (mLocalConnection != null && mListeners.size() == 1) {
+                // When coming back from background, re-do connectivity check for
+                // local connections, as the reachability of the local server might have
+                // changed since we went to background
+                NoUrlInformationException nuie = mConnectionFailureReason instanceof NoUrlInformationException
+                        ? (NoUrlInformationException) mConnectionFailureReason : null;
+                boolean local = mAvailableConnection == mLocalConnection
+                        || (nuie != null && nuie.wouldHaveUsedLocalConnection());
+                if (local) {
+                    mUpdateHandler.sendEmptyMessage(MSG_TRIGGER_UPDATE);
+                }
+            }
+        }
+    }
+
+    public static void removeListener(UpdateListener l) {
+        sInstance.mListeners.remove(l);
+    }
+
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        if (needInvalidateCachePreferenceKeys.contains(key)) {
+        if (UPDATE_TRIGGERING_KEYS.contains(key)) {
             updateConnections();
         }
     }
@@ -122,6 +151,10 @@ final public class ConnectionFactory extends BroadcastReceiver implements
      * network connectivity, the respective exception is thrown.
      */
     public static Connection getUsableConnection() throws ConnectionException {
+        if (sInstance.mNeedsUpdate) {
+            restartNetworkCheck();
+            sInstance.mNeedsUpdate = false;
+        }
         if (sInstance.mConnectionFailureReason != null) {
             throw sInstance.mConnectionFailureReason;
         }
@@ -156,7 +189,15 @@ final public class ConnectionFactory extends BroadcastReceiver implements
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        mUpdateHandler.sendEmptyMessage(MSG_TRIGGER_UPDATE);
+        if (mListeners.isEmpty()) {
+            // We're running in background. Clear current state and postpone update for next
+            // listener registration.
+            mAvailableConnection = null;
+            mConnectionFailureReason = null;
+            mNeedsUpdate = true;
+        } else {
+            mUpdateHandler.sendEmptyMessage(MSG_TRIGGER_UPDATE);
+        }
     }
 
     @Override
@@ -202,8 +243,13 @@ final public class ConnectionFactory extends BroadcastReceiver implements
             mConnectionFailureReason = null;
             mAvailableConnection = c;
         }
-        LocalBroadcastManager lbm = LocalBroadcastManager.getInstance(ctx);
-        lbm.sendBroadcast(new Intent(ACTION_NETWORK_CHANGED));
+        WebImageCache imageCache = MyWebImage.getWebImageCache();
+        if (imageCache != null) {
+            imageCache.clear();
+        }
+        for (UpdateListener l : mListeners) {
+            l.onConnectionChanged();
+        }
     }
 
     // called in update thread
@@ -221,13 +267,13 @@ final public class ConnectionFactory extends BroadcastReceiver implements
         // If we are on a mobile network go directly to remote URL from settings
         if (info.getType() == ConnectivityManager.TYPE_MOBILE) {
             if (remote == null) {
-                throw new NoUrlInformationException();
+                throw new NoUrlInformationException(false);
             }
             return remote;
         }
 
         // Else if we are on Wifi, Ethernet, WIMAX or VPN network
-        if (localConnectionTypes.contains(info.getType())) {
+        if (LOCAL_CONNECTION_TYPES.contains(info.getType())) {
             // If local URL is configured and rechable
             if (local != null && local.checkReachabilityInBackground()) {
                 Log.d(TAG, "Connecting to local URL");
@@ -239,7 +285,7 @@ final public class ConnectionFactory extends BroadcastReceiver implements
                 Log.d(TAG, "Connecting to remote URL");
                 return remote;
             } else {
-                throw new NoUrlInformationException();
+                throw new NoUrlInformationException(true);
             }
             // Else we treat other networks types as unsupported
         } else {
@@ -257,9 +303,9 @@ final public class ConnectionFactory extends BroadcastReceiver implements
             return;
         }
         mLocalConnection = makeConnection(Connection.TYPE_LOCAL, Constants.PREFERENCE_LOCAL_URL,
-                Constants.PREFERENCE_LOCAL_USERNAME, Constants.PREFERENCE_LOCAL_USERNAME);
+                Constants.PREFERENCE_LOCAL_USERNAME, Constants.PREFERENCE_LOCAL_PASSWORD);
         mRemoteConnection = makeConnection(Connection.TYPE_REMOTE, Constants.PREFERENCE_REMOTE_URL,
-                Constants.PREFERENCE_REMOTE_USERNAME, Constants.PREFERENCE_REMOTE_USERNAME);
+                Constants.PREFERENCE_REMOTE_USERNAME, Constants.PREFERENCE_REMOTE_PASSWORD);
         mUpdateHandler.sendEmptyMessage(MSG_TRIGGER_UPDATE);
     }
 

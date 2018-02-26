@@ -32,6 +32,7 @@ import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
+import android.support.annotation.StringRes;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
@@ -354,12 +355,19 @@ public class OpenHABMainActivity extends ConnectionAvailabilityAwareActivity
                 mMessageHandler.showMessageToUser(getString(R.string.error_no_url_start_demo_mode),
                         TYPE_DIALOG, LOGLEVEL_ALWAYS);
             }
-        } else if (conn.getConnectionType() == Connection.TYPE_LOCAL) {
-            mMessageHandler.showMessageToUser(
-                    getString(R.string.info_conn_url), TYPE_SNACKBAR, LOGLEVEL_ALWAYS);
-        } else if (conn.getConnectionType() == Connection.TYPE_REMOTE) {
-            mMessageHandler.showMessageToUser(
-                    getString(R.string.info_conn_rem_url), TYPE_SNACKBAR, LOGLEVEL_ALWAYS);
+        } else {
+            boolean hasLocalAndRemote =
+                    ConnectionFactory.getConnection(Connection.TYPE_LOCAL) != null &&
+                    ConnectionFactory.getConnection(Connection.TYPE_REMOTE) != null;
+            int type = conn.getConnectionType();
+            @StringRes int noticeResId =
+                    hasLocalAndRemote && type == Connection.TYPE_LOCAL ? R.string.info_conn_url :
+                    hasLocalAndRemote && type == Connection.TYPE_REMOTE ? R.string.info_conn_rem_url :
+                    0;
+            if (noticeResId != 0) {
+                mMessageHandler.showMessageToUser(getString(noticeResId),
+                        TYPE_SNACKBAR, LOGLEVEL_ALWAYS);
+            }
         }
 
         final String url = "/rest/bindings";
@@ -491,8 +499,14 @@ public class OpenHABMainActivity extends ConnectionAvailabilityAwareActivity
         try {
             initializeConnectivity();
         } catch (NoUrlInformationException e) {
-            Log.d(TAG, "No connection data available, start discovery.", e);
-            discoverOpenHAB();
+            NoUrlInformationException nuie = (NoUrlInformationException) e;
+            if (nuie.wouldHaveUsedLocalConnection()) {
+                Log.d(TAG, "No connection data available, start discovery.", nuie);
+                discoverOpenHAB();
+            } else {
+                Log.d(TAG, "No remote connection available");
+                onServiceResolveFailed();
+            }
             return;
         } catch (ConnectionException e) {
             // will be handled by #getConnection if it is used later
@@ -566,7 +580,7 @@ public class OpenHABMainActivity extends ConnectionAvailabilityAwareActivity
         fm.beginTransaction().add(stateFragment, "stateFragment").commit();
         mStartedWithNetworkConnectivityInfo = NetworkConnectivityInfo.currentNetworkConnectivityInfo(this);
 
-        onConnectivityChanged();
+        onConnectionChanged();
     }
 
     @Override
@@ -577,6 +591,7 @@ public class OpenHABMainActivity extends ConnectionAvailabilityAwareActivity
             pager.removeAllViews();
         }
 
+        mDrawerToggle.setDrawerIndicatorEnabled(true);
         mShowNetworkDrawerItems = false;
         loadDrawerItems();
 
@@ -588,14 +603,15 @@ public class OpenHABMainActivity extends ConnectionAvailabilityAwareActivity
     protected void onLeaveNoNetwork() {
         super.onLeaveNoNetwork();
         mShowNetworkDrawerItems = true;
+        mDrawerToggle.setDrawerIndicatorEnabled(pager.getCurrentItem() == 0);
         loadDrawerItems();
 
         invalidateOptionsMenu();
     }
 
     @Override
-    public void onConnectivityChanged() {
-        super.onConnectivityChanged();
+    public void onConnectionChanged() {
+        super.onConnectionChanged();
 
         try {
             initializeConnectivity();
@@ -604,7 +620,7 @@ public class OpenHABMainActivity extends ConnectionAvailabilityAwareActivity
         }
 
         mViewPool.clear();
-        setupDrawer();
+        initDrawerAdapter();
         setupPager();
         selectSitemap();
 
@@ -660,9 +676,6 @@ public class OpenHABMainActivity extends ConnectionAvailabilityAwareActivity
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
 
         mDrawerItemList = new ArrayList<>();
-        mDrawerAdapter = new OpenHABDrawerAdapter(this, R.layout.openhabdrawer_sitemap_item,
-                mDrawerItemList, getConnection());
-        drawerList.setAdapter(mDrawerAdapter);
         drawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int item, long l) {
@@ -687,6 +700,14 @@ public class OpenHABMainActivity extends ConnectionAvailabilityAwareActivity
                 }
             }
         });
+        initDrawerAdapter();
+    }
+
+    private void initDrawerAdapter() {
+        final ListView drawerList = (ListView) findViewById(R.id.left_drawer);
+        mDrawerAdapter = new OpenHABDrawerAdapter(this, R.layout.openhabdrawer_sitemap_item,
+                mDrawerItemList, getConnection());
+        drawerList.setAdapter(mDrawerAdapter);
         loadDrawerItems();
     }
 
@@ -999,7 +1020,7 @@ public class OpenHABMainActivity extends ConnectionAvailabilityAwareActivity
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
         Log.d(TAG, "onSaveInstanceState");
-        if (pagerAdapter == null) {
+        if (pagerAdapter == null || stateFragment == null) {
             return;
         }
         // Save opened framents into state retaining fragment (I love Google! :-)

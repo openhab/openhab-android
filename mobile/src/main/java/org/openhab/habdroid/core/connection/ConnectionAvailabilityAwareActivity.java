@@ -1,17 +1,13 @@
 package org.openhab.habdroid.core.connection;
 
 import android.app.Fragment;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -28,18 +24,12 @@ import org.openhab.habdroid.core.connection.exception.NoUrlInformationException;
 import org.openhab.habdroid.core.message.MessageHandler;
 import org.openhab.habdroid.ui.OpenHABPreferencesActivity;
 
-public abstract class ConnectionAvailabilityAwareActivity extends AppCompatActivity {
+public abstract class ConnectionAvailabilityAwareActivity extends AppCompatActivity
+        implements ConnectionFactory.UpdateListener {
     private static final String TAG = ConnectionAvailabilityAwareActivity.class.getSimpleName();
     public static final String NO_NETWORK_TAG = "noNetwork";
     protected MessageHandler mMessageHandler;
     private Connection mConnectionOnPause;
-
-    private final BroadcastReceiver mConnectionChangeListener = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            onConnectivityChanged();
-        }
-    };
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -120,18 +110,16 @@ public abstract class ConnectionAvailabilityAwareActivity extends AppCompatActiv
     @Override
     protected void onResume() {
         super.onResume();
-        LocalBroadcastManager lbm = LocalBroadcastManager.getInstance(this);
-        lbm.registerReceiver(mConnectionChangeListener,
-                new IntentFilter(ConnectionFactory.ACTION_NETWORK_CHANGED));
+        ConnectionFactory.addListener(this);
 
         try {
             Connection c = ConnectionFactory.getUsableConnection();
             if (c != mConnectionOnPause) {
-                onConnectivityChanged();
+                onConnectionChanged();
             }
         } catch (ConnectionException e) {
             if (mConnectionOnPause != null) {
-                onConnectivityChanged();
+                onConnectionChanged();
             }
         }
     }
@@ -139,8 +127,7 @@ public abstract class ConnectionAvailabilityAwareActivity extends AppCompatActiv
     @Override
     protected void onPause() {
         super.onPause();
-        LocalBroadcastManager lbm = LocalBroadcastManager.getInstance(this);
-        lbm.unregisterReceiver(mConnectionChangeListener);
+        ConnectionFactory.removeListener(this);
 
         try {
             mConnectionOnPause = ConnectionFactory.getUsableConnection();
@@ -149,7 +136,8 @@ public abstract class ConnectionAvailabilityAwareActivity extends AppCompatActiv
         }
     }
 
-    public void onConnectivityChanged() {
+    @Override
+    public void onConnectionChanged() {
     }
 
     public static class NoNetworkFragment extends Fragment {
