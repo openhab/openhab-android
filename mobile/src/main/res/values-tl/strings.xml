@@ -13,7 +13,13 @@
   <string name="mainmenu_openhab_sitemaps">Sitemaps</string>
   <string name="mainmenu_openhab_preferences">Mga Setting</string>
   <string name="mainmenu_openhab_selectsitemap">Pumili ng default na sitemap</string>
+  <string name="mainmenu_openhab_clearcache">Burahin ang mga imaheng naka-cache</string>
   <!-- App settings strings -->
+  <string name="settings_connection_title">Koneksyon</string>
+  <string name="settings_display_title">Display</string>
+  <string name="settings_misc_title">Samut-sari</string>
+  <string name="settings_openhab_url">URL ng lokal server</string>
+  <string name="settings_openhab_url_summary">Ang URL ng openHAB dashboard (batay sa hostname o IP). Kung ito man ay na-configure, ang autodiscovery ay hindi gagana. Kasalukuyang setting: %s</string>
   <!-- App messages strings -->
   <!-- Error messages -->
   <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
