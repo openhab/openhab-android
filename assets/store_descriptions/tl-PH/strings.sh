@@ -10,8 +10,10 @@ lighting='Pag-iilaw'
 heating='Pampainit'
 home_entertainment='Pang-aliw sa tahanan'
 security='Ang Seguridad'
-open_protocols='Bukas na mga protokol'
+open_protocols='Mga Open Protokol'
+special_useCases='Espesyal na UseCases'
 
+oss_community='Komunidad ng Open Source'
 
 
 
