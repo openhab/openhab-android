@@ -19,5 +19,6 @@ translation='Kung nais mong isalin ang app sa iyong wika sumali ka amin sa https
 
 foundation='pundasyon ng openHAB'
 
+oh_server='Kailangan mo ng openHab server para sa app na ito'
 
 
