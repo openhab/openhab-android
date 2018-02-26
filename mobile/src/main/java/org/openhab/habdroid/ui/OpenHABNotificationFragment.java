@@ -154,39 +154,33 @@ public class OpenHABNotificationFragment extends Fragment implements SwipeRefres
     }
 
     private void loadNotifications() {
-        Connection conn = ConnectionFactory.getConnection(Connection.TYPE_CLOUD);
-        if (conn == null) {
+        Connection conn = ConnectionFactory.getConnection(Connection.TYPE_CLOUD);if (conn == null) {
             return;
-        }
-        startProgressIndicator();
-        mRequestHandle = conn.getAsyncHttpClient().get("/api/v1/notifications?limit=20",
-                new MyHttpClient.ResponseHandler() {
-            @Override
-            public void onSuccess(Call call, int statusCode, Headers headers, byte[] responseBody) {
-                stopProgressIndicator();
-                Log.d(TAG, "Notifications request success");
-                try {
-                    String jsonString = new String(responseBody, "UTF-8");
-                    JSONArray jsonArray = new JSONArray(jsonString);
-                    Log.d(TAG, jsonArray.toString());
-                    mNotifications.clear();
-                    for (int i = 0; i < jsonArray.length(); i++) {
-                        try {
-                            JSONObject sitemapJson = jsonArray.getJSONObject(i);
-                            OpenHABNotification notification = new OpenHABNotification(sitemapJson);
-                            mNotifications.add(notification);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+        }startProgressIndicator();
+            mRequestHandle = conn.getAsyncHttpClient().get( "/api/v1/notifications?limit=20", new MyHttpClient.ResponseHandler() {
+                @Override
+                public void onSuccess(Call call, int statusCode, Headers headers, byte[] responseBody) {
+                    stopProgressIndicator();
+                    Log.d(TAG, "Notifications request success");
+                    try {
+                        String jsonString = new String(responseBody, "UTF-8");
+                        JSONArray jsonArray = new JSONArray(jsonString);
+                        Log.d(TAG, jsonArray.toString());
+                        mNotifications.clear();
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            try {
+                                JSONObject sitemapJson = jsonArray.getJSONObject(i);
+                                OpenHABNotification notification = new OpenHABNotification(sitemapJson);
+                                mNotifications.add(notification);
+                            } catch (JSONException e) {
+                                Log.d(TAG,e.getMessage(), e);
+                            }
                         }
-                    }
-                    mNotificationAdapter.notifyDataSetChanged();
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                        mNotificationAdapter.notifyDataSetChanged();
+                    } catch (UnsupportedEncodingException |JSONException e) {
+                        Log.d(TAG,e.getMessage(), e);
+}
                 }
-
-            }
 
             @Override
             public void onFailure(Call call, int statusCode, Headers headers, byte[] responseBody, Throwable error) {

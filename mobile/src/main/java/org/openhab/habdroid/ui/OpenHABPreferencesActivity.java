@@ -29,6 +29,7 @@ import android.support.v4.app.NavUtils;
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 
 import com.loopj.android.image.WebImageCache;
@@ -46,6 +47,7 @@ import java.security.cert.X509Certificate;
  */
 public class OpenHABPreferencesActivity extends AppCompatActivity {
     public static final String EXTRA_INITIAL_MESSAGE = "no_url_information_message";
+    private final static String TAG = OpenHABPreferencesActivity.class.getSimpleName();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -372,7 +374,7 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
                         }
                         return null;
                     } catch (KeyChainException | InterruptedException e) {
-                        e.printStackTrace();
+                        Log.e(TAG, e.getMessage(), e);
                         return null;
                     }
                 }

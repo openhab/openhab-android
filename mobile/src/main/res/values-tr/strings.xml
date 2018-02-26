@@ -126,4 +126,7 @@
   <string name="intro_themes">Temalar</string>
   <string name="intro_themes_description">Çeşitli temalar arasından seçim yap</string>
   <!-- Content description for images -->
+  <!-- Intro strings -->
+  <!-- Intro "SKIP" button -->
+  <!-- Intro "DONE" button -->
 </resources>

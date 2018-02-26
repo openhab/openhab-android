@@ -119,7 +119,7 @@ public class OpenHAB2Widget extends OpenHABWidget {
                 this.setEncoding(widgetJson.getString("encoding"));
 
         } catch (JSONException e) {
-            e.printStackTrace();
+            Log.e(TAG, "Error while parsing openHAB 2 Widget", e);
         }
         if (widgetJson.has("widgets")) {
             try {
@@ -128,7 +128,7 @@ public class OpenHAB2Widget extends OpenHABWidget {
                     createOpenHABWidgetFromJson(this, childWidgetJsonArray.getJSONObject(i), iconFormat);
                 }
             } catch (JSONException e) {
-                e.printStackTrace();
+                Log.d(TAG, "Error while parsing openHAB 2 widget child-widgets", e);
             }
         }
         this.parent.addChildWidget(this);

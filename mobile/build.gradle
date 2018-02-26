@@ -1,6 +1,24 @@
+def taskRequests = getGradle().getStartParameter().getTaskRequests().toString()
+def isFoss = taskRequests.contains("Foss") || taskRequests.contains("foss")
+
+buildscript {
+    repositories {
+        maven {
+            url 'https://maven.fabric.io/public'
+        }
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.google.gms:google-services:3.1.0'
+        classpath 'io.fabric.tools:gradle:1.24.4'
+    }
+}
+
 apply plugin: 'com.android.application'
-apply plugin: 'io.fabric'
 apply plugin: 'jacoco-android'
+if(!isFoss) {
+    apply plugin: 'io.fabric'
+}
 
 android {
     buildToolsVersion '26.0.2'
@@ -38,8 +56,6 @@ android {
         }
         foss {
             dimension "main"
-//            applicationIdSuffix ".foss"
-//            versionNameSuffix "-foss"
         }
     }
     testOptions {
@@ -67,9 +83,8 @@ dependencies {
     compile "com.android.support:recyclerview-v7:26.1.0"
     compile "com.android.support:design:26.1.0"
     compile 'com.android.support:multidex:1.0.2'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.google.code.gson:gson:2.8.0'
-    fullCompile 'com.google.android.gms:play-services-gcm:11.4.2'
-    fossCompile project(':gcmdummy')
     compile 'org.jmdns:jmdns:3.5.1'
     compile 'com.squareup.okhttp3:okhttp:3.6.0'
     compile 'com.github.loopj:android-smart-image-view:d09783b9508af5996361437a54cc234b662e4c78'
@@ -77,6 +92,9 @@ dependencies {
     //androidsvg commit as of July 16th 2017
     compile 'com.github.BigBadaboom:androidsvg:418cf676849b200cacf3465478079f39709fe5b1'
     compile 'com.github.apl-devs:appintro:v4.2.2'
+    // GCM
+    fullCompile 'com.google.android.gms:play-services-gcm:11.4.2'
+    fossCompile project(':gcmdummy')
 
     // This should already be included in the aboutlibraries dependency, however, it somehow isn't
     compile "com.android.support:cardview-v7:26.1.0"
@@ -85,11 +103,11 @@ dependencies {
     }
 
     //crash reporting
-    compile('com.crashlytics.sdk.android:crashlytics:2.7.1@aar') {
+    fullCompile('com.crashlytics.sdk.android:crashlytics:2.7.1@aar') {
         transitive = true
     }
 
-    compile 'com.google.firebase:firebase-core:11.4.2'
+    fullCompile 'com.google.firebase:firebase-core:11.4.2'
 
     testCompile 'org.mockito:mockito-core:2.7.6'
     testCompile 'junit:junit:4.12'
@@ -99,7 +117,8 @@ dependencies {
     testCompile 'org.powermock:powermock-core:1.7.0'
     testCompile 'org.powermock:powermock-api-mockito2:1.7.0'
     testCompile 'org.powermock:powermock-module-junit4:1.7.0'
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+
+    // Espresso UI tests
     androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     }
@@ -110,4 +129,7 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     }
 }
-apply plugin: 'com.google.gms.google-services'
+
+if(!isFoss) {
+    apply plugin: 'com.google.gms.google-services'
+}

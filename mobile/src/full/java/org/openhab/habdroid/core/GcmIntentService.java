@@ -33,6 +33,7 @@ public class GcmIntentService extends IntentService {
     private static final String TAG = GcmIntentService.class.getSimpleName();
 
     public static final String EXTRA_MSG = "message";
+    public static final String EXTRA_GCM_TIMESTAMP = "google.sent_time";
     public static final String EXTRA_NOTIFICATION_ID = "notificationId";
     public static final String ACTION_NOTIFICATION_SELECTED = "org.openhab.notification.selected";
     public static final String ACTION_NOTIFICATION_DELETED = "org.openhab.notification.deleted";
@@ -64,7 +65,11 @@ public class GcmIntentService extends IntentService {
                     notificationId = Integer.parseInt(intent.getExtras().getString(EXTRA_NOTIFICATION_ID));
                 }
                 if ("notification".equals(intent.getExtras().getString("type"))) {
-                    sendNotification(intent.getExtras().getString(EXTRA_MSG), notificationId);
+                    //for now we use google.sent_time as a time reference for our notifications as the gcm
+                    //message does not contain the actual event time from the openhab instance at the moment,
+                    //in case gcm time is also missing, we fall back to the reception time which may be delayed (old behaviour)
+                    long timestamp = intent.getLongExtra(EXTRA_GCM_TIMESTAMP, System.currentTimeMillis());
+                    sendNotification(intent.getExtras().getString(EXTRA_MSG), timestamp, notificationId);
                 // If this is hideNotification, cancel existing notification with it's id
                 } else if ("hideNotification".equals(intent.getExtras().getString("type"))) {
                     mNotificationManager.cancel(Integer.parseInt(intent.getExtras().getString(EXTRA_NOTIFICATION_ID)));
@@ -75,7 +80,7 @@ public class GcmIntentService extends IntentService {
         GcmBroadcastReceiver.completeWakefulIntent(intent);
     }
 
-    private void sendNotification(String msg, int notificationId) {
+    private void sendNotification(String msg, long timestamp, int notificationId) {
         if (mNotificationManager == null)
             mNotificationManager = (NotificationManager)
                     this.getSystemService(Context.NOTIFICATION_SERVICE);
@@ -96,9 +101,6 @@ public class GcmIntentService extends IntentService {
                 deleteIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         Uri alarmSound = Uri.parse(PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString(Constants.PREFERENCE_TONE, ""));
-        if (alarmSound.toString().equals("")) {
-            alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        }
 
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(this)
@@ -108,6 +110,7 @@ public class GcmIntentService extends IntentService {
                                 .bigText(msg))
                         .setColor(ContextCompat.getColor(this, R.color.openhab_orange))
                         .setAutoCancel(true)
+                        .setWhen(timestamp)
                         .setSound(alarmSound)
                         .setContentText(msg)
                         .setContentIntent(pendingNotificationIntent)

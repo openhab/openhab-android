@@ -125,4 +125,7 @@
   <string name="intro_themes">Thema</string>
   <string name="intro_themes_description">Pilih di antara beberapa tema</string>
   <!-- Content description for images -->
+  <!-- Intro strings -->
+  <!-- Intro "SKIP" button -->
+  <!-- Intro "DONE" button -->
 </resources>

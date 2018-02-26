@@ -157,4 +157,7 @@
   <string name="content_description_open_number_picker">Avaa numerovalitsin</string>
   <string name="content_description_video">Video</string>
   <string name="content_description_open_openhab">Avaa openHAB</string>
+  <!-- Intro strings -->
+  <!-- Intro "SKIP" button -->
+  <!-- Intro "DONE" button -->
 </resources>

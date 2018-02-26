@@ -2,11 +2,13 @@ package org.openhab.habdroid.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 public class OpenHAB2Sitemap extends OpenHABSitemap {
+    private final static String TAG = OpenHAB2Sitemap.class.getSimpleName();
     public OpenHAB2Sitemap(JSONObject jsonObject) {
         try {
             if (jsonObject.has("name"))
@@ -22,7 +24,7 @@ public class OpenHAB2Sitemap extends OpenHABSitemap {
                 this.setHomepageLink(homepageObject.getString("link"));
             }
         } catch (JSONException e) {
-            e.printStackTrace();
+            Log.d(TAG, "Error while parsing openHAB 2 sitemap", e);
         }
     }
 

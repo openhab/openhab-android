@@ -743,7 +743,7 @@ public class OpenHABMainActivity extends ConnectionAvailabilityAwareActivity
                         Document sitemapsXml = builder.parse(new ByteArrayInputStream(responseBody));
                         mSitemapList.addAll(Util.parseSitemapList(sitemapsXml));
                     } catch (ParserConfigurationException | SAXException | IOException e) {
-                        e.printStackTrace();
+                        Log.e(TAG, e.getMessage(), e);
                     }
                     // Later versions work with JSON
                 } else {
@@ -753,7 +753,7 @@ public class OpenHABMainActivity extends ConnectionAvailabilityAwareActivity
                         mSitemapList.addAll(Util.parseSitemapList(jsonArray));
                         Log.d(TAG, jsonArray.toString());
                     } catch (UnsupportedEncodingException | JSONException e) {
-                        e.printStackTrace();
+                        Log.e(TAG, e.getMessage(), e);
                     }
                 }
                 if (mSitemapList.size() == 0) {
@@ -791,7 +791,7 @@ public class OpenHABMainActivity extends ConnectionAvailabilityAwareActivity
                         Document sitemapsXml = builder.parse(new ByteArrayInputStream(responseBody));
                         mSitemapList.addAll(Util.parseSitemapList(sitemapsXml));
                     } catch (ParserConfigurationException | SAXException | IOException e) {
-                        e.printStackTrace();
+                        Log.e(TAG, e.getMessage(), e);
                     }
                     // Later versions work with JSON
                 } else {
@@ -801,7 +801,7 @@ public class OpenHABMainActivity extends ConnectionAvailabilityAwareActivity
                         mSitemapList.addAll(Util.parseSitemapList(jsonArray));
                         Log.d(TAG, jsonArray.toString());
                     } catch (UnsupportedEncodingException | JSONException e) {
-                        e.printStackTrace();
+                        Log.e(TAG, e.getMessage(), e);
                     }
                 }
                 // Now work with sitemaps list
@@ -889,7 +889,7 @@ public class OpenHABMainActivity extends ConnectionAvailabilityAwareActivity
                         }
                     }).show();
         } catch (WindowManager.BadTokenException e) {
-            e.printStackTrace();
+            Log.e(TAG, e.getMessage(), e);
         }
     }
 
