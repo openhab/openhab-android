@@ -15,7 +15,9 @@ special_useCases='Espesyal na UseCases'
 
 oss_community='Komunidad ng Open Source'
 
+translation='Kung nais mong isalin ang app sa iyong wika sumali ka amin sa https://crowdin.com/project/openhab-android'
 
+foundation='pundasyon ng openHAB'
 
 
 
