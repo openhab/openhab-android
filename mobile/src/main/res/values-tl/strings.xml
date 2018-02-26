@@ -20,6 +20,7 @@
   <string name="settings_misc_title">Samut-sari</string>
   <string name="settings_openhab_url">URL ng lokal server</string>
   <string name="settings_openhab_url_summary">Ang URL ng openHAB dashboard (batay sa hostname o IP). Kung ito man ay na-configure, ang autodiscovery ay hindi gagana. Kasalukuyang setting: %s</string>
+  <string name="settings_openhab_alturl">URL ng Malayuang server</string>
   <!-- App messages strings -->
   <!-- Error messages -->
   <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
