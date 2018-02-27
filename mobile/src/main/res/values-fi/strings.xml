@@ -52,7 +52,6 @@
   <string name="title_voice_widget">openHAB äänikomennot</string>
   <string name="info_voice_input">"openHAB, komennossasi!"</string>
   <string name="info_voice_recognized_text">"Tunnistettu komento: %1$s"</string>
-  <string name="info_demo_mode">Sovellus esittelytilassa. Yhdistääksesi openHAB palvelimelle, ole hyvä ja mene asetusvalikkoon.</string>
   <string name="info_demo_mode_short">Sovellus esittelytilassa</string>
   <string name="info_conn_url">Yhdistetään paikalliskäytön URL osoitteeseen</string>
   <string name="info_conn_rem_url">Yhdistetään etäkäytön URL osoitteeseen</string>
