@@ -1,6 +1,7 @@
 package org.openhab.habdroid.core.connection;
 
 import android.app.Fragment;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
@@ -8,6 +9,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -44,13 +46,23 @@ public abstract class ConnectionAvailabilityAwareActivity extends AppCompatActiv
             return c;
         } catch (ConnectionException e) {
             if (e instanceof NoUrlInformationException) {
-                Intent preferencesIntent = new Intent(this, OpenHABPreferencesActivity.class);
-                preferencesIntent.putExtra(OpenHABPreferencesActivity.EXTRA_INITIAL_MESSAGE,
-                        getString(R.string.error_no_url));
-
-                TaskStackBuilder.create(this)
-                        .addNextIntentWithParentStack(preferencesIntent)
-                        .startActivities();
+                if (!isFinishing()) {
+                    DialogInterface.OnClickListener clickCb = new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Intent preferencesIntent = new Intent(
+                                    ConnectionAvailabilityAwareActivity.this,
+                                    OpenHABPreferencesActivity.class);
+                            TaskStackBuilder.create(ConnectionAvailabilityAwareActivity.this)
+                                    .addNextIntentWithParentStack(preferencesIntent)
+                                    .startActivities();
+                        }
+                    };
+                    new AlertDialog.Builder(this)
+                            .setMessage(R.string.error_no_url)
+                            .setPositiveButton(R.string.go_to_settings_button, clickCb)
+                            .show();
+                }
             } else if (e instanceof NetworkNotSupportedException) {
                 String message = getString(R.string.error_network_type_unsupported,
                         ((NetworkNotSupportedException) e).getNetworkInfo().getTypeName());

@@ -26,7 +26,6 @@ import android.security.keystore.KeyProperties;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.v4.app.NavUtils;
-import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -35,7 +34,6 @@ import android.view.MenuItem;
 import com.loopj.android.image.WebImageCache;
 
 import org.openhab.habdroid.R;
-import org.openhab.habdroid.core.message.MessageHandler;
 import org.openhab.habdroid.util.Constants;
 import org.openhab.habdroid.util.MyWebImage;
 import org.openhab.habdroid.util.Util;
@@ -46,19 +44,12 @@ import java.security.cert.X509Certificate;
  * This is a class to provide preferences activity for application.
  */
 public class OpenHABPreferencesActivity extends AppCompatActivity {
-    public static final String EXTRA_INITIAL_MESSAGE = "no_url_information_message";
     private final static String TAG = OpenHABPreferencesActivity.class.getSimpleName();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         Util.setActivityTheme(this);
         super.onCreate(savedInstanceState);
-        String initialMessage = getIntent().getStringExtra(EXTRA_INITIAL_MESSAGE);
-        if (initialMessage != null) {
-            MessageHandler handler = new MessageHandler(this);
-            handler.showMessageToUser(initialMessage,
-                    MessageHandler.TYPE_DIALOG, MessageHandler.LOGLEVEL_ALWAYS);
-        }
 
         setContentView(R.layout.activity_prefs);
 
@@ -80,14 +71,7 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                if (getIntent().hasExtra(EXTRA_INITIAL_MESSAGE)) {
-                    Intent upIntent = NavUtils.getParentActivityIntent(this);
-                    TaskStackBuilder.create(this)
-                            .addNextIntentWithParentStack(upIntent)
-                            .startActivities();
-                } else {
-                    NavUtils.navigateUpFromSameTask(this);
-                }
+                NavUtils.navigateUpFromSameTask(this);
                 return true;
         }
         return super.onOptionsItemSelected(item);

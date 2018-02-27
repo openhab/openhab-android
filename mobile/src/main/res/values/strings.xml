@@ -172,6 +172,7 @@
     <string name="intro_themes_description">Choose between several themes</string>
     <string name="try_again_button">Try again</string>
     <string name="network_error">Network error</string>
+    <string name="go_to_settings_button">Go to settings</string>
 
     <string name="error_no_url_start_demo_mode">Please configure the server IP address or host name in the server settings. For now, demo mode will be used.</string>
     <string name="intro_discovery">Discovery</string>
