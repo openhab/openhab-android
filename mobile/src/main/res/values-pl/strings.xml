@@ -52,7 +52,6 @@
   <string name="title_voice_widget">komendy głosowe openHAB</string>
   <string name="info_voice_input">"openHAB, na twoje wezwanie!"</string>
   <string name="info_voice_recognized_text">"Rozpoznana komenda: %1$s"</string>
-  <string name="info_demo_mode">Uruchomiono w trybie demonstracyjnym. Aby połączyć się z serwerem openHAB przejdź do ustawień menu.</string>
   <string name="info_demo_mode_short">Uruchomiono w trybie demonstracyjnym</string>
   <string name="info_conn_url">Łączenie z lokalnym URL</string>
   <string name="info_conn_rem_url">Łączenie ze zdalnym adresem URL</string>
