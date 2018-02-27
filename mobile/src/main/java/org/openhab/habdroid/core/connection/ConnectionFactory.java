@@ -17,18 +17,25 @@ import android.util.Log;
 
 import com.loopj.android.image.WebImageCache;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.openhab.habdroid.core.CloudMessagingHelper;
 import org.openhab.habdroid.core.connection.exception.ConnectionException;
 import org.openhab.habdroid.core.connection.exception.NetworkNotAvailableException;
 import org.openhab.habdroid.core.connection.exception.NetworkNotSupportedException;
 import org.openhab.habdroid.core.connection.exception.NoUrlInformationException;
 import org.openhab.habdroid.util.Constants;
+import org.openhab.habdroid.util.MyAsyncHttpClient;
+import org.openhab.habdroid.util.MyHttpClient;
 import org.openhab.habdroid.util.MyWebImage;
 import org.openhab.habdroid.util.Util;
 
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
+
+import okhttp3.Call;
+import okhttp3.Headers;
 
 /**
  * A factory class, which is the main entry point to get a Connection to a specific openHAB
@@ -48,7 +55,8 @@ final public class ConnectionFactory extends BroadcastReceiver implements
             Constants.PREFERENCE_DEMOMODE);
 
     public interface UpdateListener {
-        void onConnectionChanged();
+        void onAvailableConnectionChanged();
+        void onConnectionSetChanged();
     }
 
     private static final int MSG_TRIGGER_UPDATE = 0;
@@ -59,11 +67,13 @@ final public class ConnectionFactory extends BroadcastReceiver implements
 
     private Connection mLocalConnection;
     private Connection mRemoteConnection;
+    private CloudConnection mCloudConnection;
     private Connection mAvailableConnection;
     private ConnectionException mConnectionFailureReason;
     private HashSet<UpdateListener> mListeners = new HashSet<>();
     private boolean mNeedsUpdate;
 
+    private Call mCloudConnectionCheckHandle;
     private HandlerThread mUpdateThread;
     @VisibleForTesting
     public Handler mUpdateHandler;
@@ -98,6 +108,9 @@ final public class ConnectionFactory extends BroadcastReceiver implements
 
     public static void shutdown() {
         sInstance.ctx.unregisterReceiver(sInstance);
+        if (sInstance.mCloudConnectionCheckHandle != null) {
+            sInstance.mCloudConnectionCheckHandle.cancel();
+        }
         sInstance.mUpdateThread.quit();
     }
 
@@ -179,10 +192,7 @@ final public class ConnectionFactory extends BroadcastReceiver implements
             case Connection.TYPE_REMOTE:
                 return mRemoteConnection;
             case Connection.TYPE_CLOUD:
-                // TODO: Need a proper way of finding if the connection supports openHAB cloud
-                // things, e.g. by checking if the /api/v1/settings/notifications endpoint works,
-                // but currently does not work for myopenhab.org
-                return mRemoteConnection;
+                return mCloudConnection;
             default:
                 throw new IllegalArgumentException("Invalid Connection type requested.");
         }
@@ -249,7 +259,7 @@ final public class ConnectionFactory extends BroadcastReceiver implements
             imageCache.clear();
         }
         for (UpdateListener l : mListeners) {
-            l.onConnectionChanged();
+            l.onAvailableConnectionChanged();
         }
     }
 
@@ -297,21 +307,59 @@ final public class ConnectionFactory extends BroadcastReceiver implements
 
     @VisibleForTesting
     public synchronized void updateConnections() {
+        mCloudConnection = null;
+        if (mCloudConnectionCheckHandle != null) {
+            mCloudConnectionCheckHandle.cancel();
+            mCloudConnectionCheckHandle = null;
+        }
+
         if (settings.getBoolean(Constants.PREFERENCE_DEMOMODE, false)) {
             mLocalConnection = mRemoteConnection = new DemoConnection(ctx, settings);
             updateAvailableConnection(mLocalConnection, null);
+            CloudMessagingHelper.onConnectionUpdated(ctx, null);
         } else {
             mLocalConnection = makeConnection(Connection.TYPE_LOCAL, Constants.PREFERENCE_LOCAL_URL,
                     Constants.PREFERENCE_LOCAL_USERNAME, Constants.PREFERENCE_LOCAL_PASSWORD);
             mRemoteConnection = makeConnection(Connection.TYPE_REMOTE, Constants.PREFERENCE_REMOTE_URL,
                     Constants.PREFERENCE_REMOTE_USERNAME, Constants.PREFERENCE_REMOTE_PASSWORD);
 
+            if (mRemoteConnection != null) {
+                final MyAsyncHttpClient client = mRemoteConnection.getAsyncHttpClient();
+                mCloudConnectionCheckHandle = client.get(CloudConnection.SETTINGS_ROUTE, new MyHttpClient.TextResponseHandler() {
+                    @Override
+                    public void onFailure(Call call, int statusCode, Headers headers, String responseBody, Throwable error) {
+                        Log.e(TAG, "Error loading notification settings: " + error.getMessage());
+                        mCloudConnectionCheckHandle = null;
+                        CloudMessagingHelper.onConnectionUpdated(ctx, null);
+                    }
+
+                    @Override
+                    public void onSuccess(Call call, int statusCode, Headers headers, String responseBody) {
+                        try {
+                            JSONObject json = new JSONObject(responseBody);
+                            mCloudConnection = new CloudConnection(ctx, settings, mRemoteConnection, json);
+                            for (UpdateListener l : mListeners) {
+                                l.onConnectionSetChanged();
+                            }
+                        } catch (JSONException e) {
+                            Log.d(TAG, "Unable to parse notification settings JSON", e);
+                        }
+                        mCloudConnectionCheckHandle = null;
+                        CloudMessagingHelper.onConnectionUpdated(ctx, mCloudConnection);
+                    }
+                });
+            } else {
+                CloudMessagingHelper.onConnectionUpdated(ctx, null);
+            }
+
             mAvailableConnection = null;
             mConnectionFailureReason = null;
             mUpdateHandler.sendEmptyMessage(MSG_TRIGGER_UPDATE);
         }
 
-        CloudMessagingHelper.onConnectionUpdated(ctx, mRemoteConnection);
+        for (UpdateListener l : mListeners) {
+            l.onConnectionSetChanged();
+        }
     }
 
     private Connection makeConnection(int type, String urlKey,

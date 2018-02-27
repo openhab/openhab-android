@@ -12,18 +12,15 @@ package org.openhab.habdroid.core;
 import android.content.Context;
 import android.content.Intent;
 
+import org.openhab.habdroid.core.connection.CloudConnection;
 import org.openhab.habdroid.core.connection.Connection;
 
 public class CloudMessagingHelper {
-    static String sLastSenderId;
-
-    public static void onConnectionUpdated(Context context, Connection connection) {
+    public static void onConnectionUpdated(Context context, CloudConnection connection) {
         if (connection != null) {
             Intent intent = new Intent(context, GcmRegistrationService.class)
                     .setAction(GcmRegistrationService.ACTION_REGISTER);
             context.startService(intent);
-        } else {
-            sLastSenderId = null;
         }
     }
 
@@ -35,9 +32,5 @@ public class CloudMessagingHelper {
                     .putExtra(GcmRegistrationService.EXTRA_NOTIFICATION_ID, notificationId);
             context.startService(serviceIntent);
         }
-    }
-
-    public static String getSenderId() {
-        return sLastSenderId;
     }
 }

@@ -111,8 +111,8 @@ public class ConnectionFactoryTest {
 
         assertNotNull("Requesting a cloud connection when a remote url is set, should return a " +
                 "connection.", conn);
-        assertEquals("The connection type of a cloud connection should be LOGLEVEL_REMOTE.",
-                Connection.TYPE_REMOTE, conn.getConnectionType());
+        assertEquals("The connection type of a cloud connection should be TYPE_CLOUD.",
+                Connection.TYPE_CLOUD, conn.getConnectionType());
     }
 
     @Test(expected = NetworkNotAvailableException.class)

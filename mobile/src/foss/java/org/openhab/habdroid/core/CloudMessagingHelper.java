@@ -12,16 +12,12 @@ package org.openhab.habdroid.core;
 import android.content.Context;
 import android.content.Intent;
 
-import org.openhab.habdroid.core.connection.Connection;
+import org.openhab.habdroid.core.connection.CloudConnection;
 
 public class CloudMessagingHelper {
-    public static void onConnectionUpdated(Context context, Connection connection) {
+    public static void onConnectionUpdated(Context context, CloudConnection connection) {
     }
 
     public static void onNotificationSelected(Context context, Intent intent) {
-    }
-
-    public static String getSenderId() {
-        return null;
     }
 }

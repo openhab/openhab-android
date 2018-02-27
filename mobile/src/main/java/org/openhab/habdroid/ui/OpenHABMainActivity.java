@@ -61,7 +61,6 @@ import android.view.ViewStub;
 import android.view.WindowManager;
 import android.widget.ProgressBar;
 
-import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.loopj.android.image.WebImageCache;
 
 import org.json.JSONArray;
@@ -481,7 +480,8 @@ public class OpenHABMainActivity extends AppCompatActivity implements
 
         super.onResume();
         ConnectionFactory.addListener(this);
-        onConnectionChanged();
+        updateNotificationDrawerItem();
+        onAvailableConnectionChanged();
 
         NfcAdapter nfcAdapter = NfcAdapter.getDefaultAdapter(this);
         if (nfcAdapter != null) {
@@ -510,7 +510,12 @@ public class OpenHABMainActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onConnectionChanged() {
+    public void onConnectionSetChanged() {
+        updateNotificationDrawerItem();
+    }
+
+    @Override
+    public void onAvailableConnectionChanged() {
         Connection newConnection;
         ConnectionException failureReason;
 
@@ -678,11 +683,13 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         });
     }
 
+    private void updateNotificationDrawerItem() {
+        MenuItem notificationsItem = mDrawerMenu.findItem(R.id.notifications);
+        notificationsItem.setVisible(ConnectionFactory.getConnection(Connection.TYPE_CLOUD) != null);
+    }
+
     private void updateSitemapDrawerItems() {
         MenuItem sitemapItem = mDrawerMenu.findItem(R.id.sitemaps);
-        MenuItem notificationsItem = mDrawerMenu.findItem(R.id.notifications);
-
-        notificationsItem.setVisible(ConnectionFactory.getConnection(Connection.TYPE_CLOUD) != null);
 
         if (mSitemapList.isEmpty()) {
             sitemapItem.setVisible(false);

@@ -33,7 +33,6 @@ public class Constants {
     public static final String PREFERENCE_DEBUG_MESSAGES        = "default_openhab_debug_messages";
     public static final String PREFERENCE_CLEAR_DEFAULT_SITEMAP =
             "default_openhab_clear_default_sitemap";
-    public static final String DEFAULT_GCM_SENDER_ID            = "737820980945";
     public static final String PREFERENCE_COMPAREABLEVERSION    = "versionAsInt";
     public static final String PREFERENCE_FIRST_START           = "firstStart";
     public static final String PREFERENCE_SWIPE_REFRESH_EXPLAINED = "swipToRefreshExplained";

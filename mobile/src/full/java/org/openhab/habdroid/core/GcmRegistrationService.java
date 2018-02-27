@@ -20,9 +20,9 @@ import android.util.Log;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.android.gms.iid.InstanceID;
 
+import org.openhab.habdroid.core.connection.CloudConnection;
 import org.openhab.habdroid.core.connection.Connection;
 import org.openhab.habdroid.core.connection.ConnectionFactory;
-import org.openhab.habdroid.model.NotificationSettings;
 import org.openhab.habdroid.util.MyHttpClient;
 
 import java.io.IOException;
@@ -45,20 +45,17 @@ public class GcmRegistrationService extends IntentService {
 
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
-        Connection connection = ConnectionFactory.getConnection(Connection.TYPE_CLOUD);
+        CloudConnection connection =
+                (CloudConnection) ConnectionFactory.getConnection(Connection.TYPE_CLOUD);
         if (connection == null) {
             return;
         }
-        NotificationSettings ns = NotificationSettings.forConnection(connection);
-        String senderId = ns.senderId();
 
         if (ACTION_REGISTER.equals(intent.getAction())) {
             try {
-                registerGcm(connection, senderId);
-                CloudMessagingHelper.sLastSenderId = senderId;
+                registerGcm(connection, connection.getMessagingSenderId());
             } catch (IOException e) {
                 Log.e(TAG, "GCM registration failed", e);
-                CloudMessagingHelper.sLastSenderId = null;
             }
         } else if (ACTION_HIDE_NOTIFICATION.equals(intent.getAction())) {
             int notificationId = intent.getIntExtra(EXTRA_NOTIFICATION_ID, -1);
@@ -68,6 +65,7 @@ public class GcmRegistrationService extends IntentService {
                 sendBundle.putString("type", "hideNotification");
                 sendBundle.putString("notificationId", String.valueOf(notificationId));
                 try {
+                    String senderId = connection.getMessagingSenderId();
                     gcm.send(senderId + "@gcm.googleapis.com", "1", sendBundle);
                 } catch (IOException e) {
                     Log.e(TAG, "Failed sending notification hide message", e);
