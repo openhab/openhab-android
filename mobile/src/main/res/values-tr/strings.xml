@@ -46,7 +46,6 @@
   <string name="title_voice_widget">openHAB Ses Komutları</string>
   <string name="info_voice_input">"openHAB Emrinizdedir!"</string>
   <string name="info_voice_recognized_text">"Tanımlanmış Emir: %1$s"</string>
-  <string name="info_demo_mode">Demo modunda çalışıyor. openHAB sunucunuza bağlanmak için lütfen ayarlar menüsüne gidin.</string>
   <string name="info_demo_mode_short">Demo modunda çalışıyor</string>
   <string name="info_conn_url">Yerel Sunucuya Bağlanıyor</string>
   <string name="info_conn_rem_url">Uzak URL\'ye Bağlanıyor</string>
