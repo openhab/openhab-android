@@ -46,7 +46,6 @@
   <string name="title_voice_widget">openHAB comandos de voz</string>
   <string name="info_voice_input">"openhab, às suas ordens!"</string>
   <string name="info_voice_recognized_text">"Comando reconhecido: %1$s"</string>
-  <string name="info_demo_mode">A executar em modo de demonstração. Para se conectar ao seu servidor openHAB por favor, vá ao menu de configurações.</string>
   <string name="info_demo_mode_short">A executar em modo de demonstração</string>
   <string name="info_conn_url">Conectando a URL local</string>
   <string name="info_conn_rem_url">Conectando a URL local</string>
