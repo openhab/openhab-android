@@ -46,7 +46,6 @@
   <string name="title_voice_widget">openHAB balso komandos</string>
   <string name="info_voice_input">"openHAB, jūsų paliepimu!"</string>
   <string name="info_voice_recognized_text">"Neatpažinta komanda: %1$s"</string>
-  <string name="info_demo_mode">openHAB programėlė veikia demonstraciniu režimu. Norėdami prisijungti prie savo openHAB serverio, eikite į nustatymų meniu.</string>
   <string name="info_demo_mode_short">Veikia demo režimu</string>
   <string name="info_conn_url">Jungiamasi prie sukonfigūruoto URL</string>
   <string name="info_conn_rem_url">Jungiamasi prie nuotolinio URL</string>
