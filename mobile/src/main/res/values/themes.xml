@@ -17,6 +17,10 @@
         <item name="themedDrawerBackground">?android:colorBackground</item>
         <item name="themedHeaderTextColor">@color/colorAccent_themeDark</item>
 
+        <item name="mal_card_background">@color/about_libraries_window_background</item>
+        <item name="mal_color_primary">@color/about_libraries_title_openSource</item>
+        <item name="mal_color_secondary">@color/about_libraries_text_openSource</item>
+
         <item name="chartTheme">white</item>
     </style>
 
@@ -48,6 +52,10 @@
         <item name="about_libraries_text_openSource">
             @color/about_libraries_text_openSource_dark
         </item>
+
+        <item name="mal_card_background">@color/about_libraries_window_background_dark</item>
+        <item name="mal_color_primary">@color/about_libraries_title_openSource_dark</item>
+        <item name="mal_color_secondary">@color/about_libraries_text_openSource_dark</item>
 
         <item name="chartTheme">dark</item>
     </style>
@@ -81,6 +89,10 @@
             @color/about_libraries_text_openSource_dark
         </item>
 
+        <item name="mal_card_background">@color/about_libraries_window_background_dark</item>
+        <item name="mal_color_primary">@color/about_libraries_title_openSource_dark</item>
+        <item name="mal_color_secondary">@color/about_libraries_text_openSource_dark</item>
+
         <item name="chartTheme">black</item>
     </style>
 
@@ -99,6 +111,10 @@
 
         <item name="themedDrawerBackground">?android:colorBackground</item>
         <item name="themedHeaderTextColor">@color/colorAccent_themeDark</item>
+
+        <item name="mal_card_background">@color/about_libraries_window_background</item>
+        <item name="mal_color_primary">@color/about_libraries_title_openSource</item>
+        <item name="mal_color_secondary">@color/about_libraries_text_openSource</item>
 
         <item name="chartTheme">white</item>
     </style>
@@ -132,7 +148,10 @@
             @color/about_libraries_text_openSource_dark
         </item>
 
+        <item name="mal_card_background">@color/about_libraries_window_background_dark</item>
+        <item name="mal_color_primary">@color/about_libraries_title_openSource_dark</item>
+        <item name="mal_color_secondary">@color/about_libraries_text_openSource_dark</item>
+
         <item name="chartTheme">dark</item>
     </style>
-
 </resources>

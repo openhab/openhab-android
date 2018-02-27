@@ -18,6 +18,7 @@ import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
+import android.support.annotation.StyleRes;
 import android.util.Log;
 import android.util.TypedValue;
 
@@ -148,22 +149,7 @@ public class Util {
     }
 
     public static void setActivityTheme(@NonNull final Activity activity, String theme) {
-        if (theme == null) {
-            theme = PreferenceManager.getDefaultSharedPreferences(activity).getString(Constants.PREFERENCE_THEME, activity.getString(R.string.theme_value_light));
-        }
-        int themeRes;
-        if (theme.equals(activity.getString(R.string.theme_value_dark))) {
-            themeRes = R.style.HABDroid_Dark;
-        } else if (theme.equals(activity.getString(R.string.theme_value_black))) {
-            themeRes = R.style.HABDroid_Black;
-        } else if (theme.equals(activity.getString(R.string.theme_value_basic_ui))) {
-            themeRes = R.style.HABDroid_Basic_ui;
-        } else if (theme.equals(activity.getString(R.string.theme_value_basic_ui_dark))) {
-            themeRes = R.style.HABDroid_Basic_ui_dark;
-        } else {
-            themeRes = R.style.HABDroid_Light;
-        }
-        activity.setTheme(themeRes);
+        activity.setTheme(getActivityThemeID(activity, theme));
 
         if (VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP) {
             TypedValue typedValue = new TypedValue();
@@ -173,6 +159,32 @@ public class Util {
                     BitmapFactory.decodeResource(activity.getResources(), R.mipmap.icon_round),
                     typedValue.data));
         }
+    }
+
+    public static @StyleRes int getActivityThemeID(@NonNull final Activity activity) {
+        return getActivityThemeID(activity, null);
+    }
+
+    public static @StyleRes int getActivityThemeID(@NonNull final Activity activity, String theme) {
+        if (theme == null) {
+            theme = PreferenceManager.getDefaultSharedPreferences(activity).getString(
+                    Constants.PREFERENCE_THEME, activity.getString(R.string.theme_value_light));
+        }
+
+        if (theme.equals(activity.getString(R.string.theme_value_dark))) {
+            return R.style.HABDroid_Dark;
+        }
+        if (theme.equals(activity.getString(R.string.theme_value_black))) {
+            return R.style.HABDroid_Black;
+        }
+        if (theme.equals(activity.getString(R.string.theme_value_basic_ui))) {
+            return R.style.HABDroid_Basic_ui;
+        }
+        if (theme.equals(activity.getString(R.string.theme_value_basic_ui_dark))) {
+            return R.style.HABDroid_Basic_ui_dark;
+        }
+
+        return R.style.HABDroid_Light;
     }
 
     public static boolean exceptionHasCause(Throwable error, Class<? extends Throwable> cause) {

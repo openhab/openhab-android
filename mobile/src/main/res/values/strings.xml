@@ -153,11 +153,21 @@
     <!-- About -->
     <string name="about_title">About</string>
     <string name="about_license_title">License</string>
-    <string name="about_license" translatable="false"><![CDATA[<a href="https://raw.githubusercontent.com/openhab/openhab.android/master/LICENSE">Eclipse Public License - v 1.0</a>]]></string>
+    <string name="about_license" translatable="false">Eclipse Public License - v 1.0</string>
     <string name="about_links">Links</string>
     <string name="about_links_list"><![CDATA[\u00B7 <a href="https://github.com/openhab/openhab.android">openHAB App source code</a><br><br> \u00B7 <a href="https://github.com/openhab/openhab.android/issues">Report a problem</a><br><br> \u00B7 <a href="http://docs.openhab.org/">openHAB Documentation</a><br><br> \u00B7 <a href="https://community.openhab.org/">Community Forum</a>]]></string>
     <string name="about_copyright" translatable="false">© 2012 - %s openHAB Foundation</string>
     <string name="about_version_string" translatable="false">%1$s - %2$s</string>
+    <string name="about_changelog">Changelog</string>
+    <string name="about_source_code">Fork us on GitHub!</string>
+    <string name="about_issues">Report an issue</string>
+    <string name="about_docs">Documentation</string>
+    <string name="about_community_forum">Community forum</string>
+    <string name="about_foundation">openHAB Foundation</string>
+    <string name="about_community">openHAB community</string>
+    <string name="about_server">openHAB server</string>
+    <string name="about_translation">Help us to translate!</string>
+
     <string name="settings_debug_messages_summary">Passwords will be shown in clear text!</string>
     <string name="settings_debug_messages_title">Show debug messages</string>
     <string name="error_couldnt_determine_openhab_url">Couldn\'t determine openHAB URL</string>
@@ -196,4 +206,5 @@
     <string name="app_intro_skip_button">SKIP</string>
     <!-- Intro "DONE" button -->
     <string name="app_intro_done_button">DONE</string>
+    <string name="error_about_no_conn">Error while fetching openHAB server information</string>
 </resources>

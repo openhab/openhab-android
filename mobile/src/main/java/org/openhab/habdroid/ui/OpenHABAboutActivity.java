@@ -1,27 +1,49 @@
 package org.openhab.habdroid.ui;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.res.Resources;
+import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 
+import com.danielstone.materialaboutlibrary.MaterialAboutFragment;
+import com.danielstone.materialaboutlibrary.items.MaterialAboutActionItem;
+import com.danielstone.materialaboutlibrary.items.MaterialAboutItemOnClickAction;
+import com.danielstone.materialaboutlibrary.items.MaterialAboutTitleItem;
+import com.danielstone.materialaboutlibrary.model.MaterialAboutCard;
+import com.danielstone.materialaboutlibrary.model.MaterialAboutList;
 import com.mikepenz.aboutlibraries.LibsBuilder;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.openhab.habdroid.BuildConfig;
 import org.openhab.habdroid.R;
+import org.openhab.habdroid.core.connection.Connection;
+import org.openhab.habdroid.core.connection.ConnectionFactory;
+import org.openhab.habdroid.core.connection.exception.ConnectionException;
+import org.openhab.habdroid.util.Constants;
+import org.openhab.habdroid.util.MyHttpClient;
 import org.openhab.habdroid.util.Util;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Locale;
+
+import okhttp3.Call;
+import okhttp3.Headers;
+
 public class OpenHABAboutActivity extends AppCompatActivity {
+    private final static String TAG = OpenHABAboutActivity.class.getSimpleName();
+    private static Connection conn = null;
+    private static int openHabVersion;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -30,7 +52,7 @@ public class OpenHABAboutActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_about);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.openhab_toolbar);
+        Toolbar toolbar = findViewById(R.id.openhab_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -43,7 +65,19 @@ public class OpenHABAboutActivity extends AppCompatActivity {
                     .commit();
         }
 
+        openHabVersion = 2;
+
         setResult(RESULT_OK);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        try {
+            conn = ConnectionFactory.getUsableConnection();
+        } catch (ConnectionException e) {
+            // ignored
+        }
     }
 
     @Override
@@ -61,81 +95,234 @@ public class OpenHABAboutActivity extends AppCompatActivity {
         Util.overridePendingTransition(this, true);
     }
 
-    public static class AboutMainFragment extends Fragment {
-
+    public static class AboutMainFragment extends MaterialAboutFragment {
         private final String TAG = AboutMainFragment.class.getSimpleName();
-
-        private PagerAdapter mPagerAdapter;
+        private final static String URL_TO_GITHUB = "https://github.com/openhab/openhab-android";
 
         @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            final View view = inflater.inflate(R.layout.fragment_about, container, false);
+        protected MaterialAboutList getMaterialAboutList(final Context context) {
+            String year = new SimpleDateFormat("yyyy", Locale.US)
+                    .format(Calendar.getInstance().getTime());
 
-            final ViewPager viewPager = (ViewPager) view.findViewById(R.id.pager);
+            MaterialAboutCard.Builder appCard = new MaterialAboutCard.Builder();
+            appCard.addItem(new MaterialAboutTitleItem.Builder()
+                    .text(R.string.app_name)
+                    .desc(String.format(getString(R.string.about_copyright),year))
+                    .icon(R.mipmap.icon)
+                    .build());
+            appCard.addItem(new MaterialAboutActionItem.Builder()
+                    .text(R.string.version)
+                    .subText(getString(R.string.about_version_string,
+                            BuildConfig.VERSION_NAME,
+                            DateFormat.getDateTimeInstance().format(BuildConfig.buildTime)))
+                    .icon(R.drawable.ic_update_grey_24dp)
+                    .build());
+            appCard.addItem(new MaterialAboutActionItem.Builder()
+                    .text(R.string.about_changelog)
+                    .icon(R.drawable.ic_track_changes_grey_24dp)
+                    .setOnClickAction(MaterialAboutItemOnClickRedirect(URL_TO_GITHUB + "/releases"))
+                    .build());
+            appCard.addItem(new MaterialAboutActionItem.Builder()
+                    .text(R.string.about_source_code)
+                    .icon(R.drawable.ic_github)
+                    .setOnClickAction(MaterialAboutItemOnClickRedirect(URL_TO_GITHUB))
+                    .build());
+            appCard.addItem(new MaterialAboutActionItem.Builder()
+                    .text(R.string.about_issues)
+                    .icon(R.drawable.ic_bug_report_grey_24dp)
+                    .setOnClickAction(MaterialAboutItemOnClickRedirect(URL_TO_GITHUB + "/issues"))
+                    .build());
+            appCard.addItem(new MaterialAboutActionItem.Builder()
+                    .text(R.string.about_license_title)
+                    .subText(R.string.about_license)
+                    .icon(R.drawable.ic_account_balance_grey_24dp)
+                    .setOnClickAction(MaterialAboutItemOnClickRedirect(URL_TO_GITHUB + "/blob/master/LICENSE"))
+                    .build());
+            appCard.addItem(new MaterialAboutActionItem.Builder()
+                    .text(R.string.title_activity_libraries)
+                    .icon(R.drawable.ic_developer_mode_grey_24dp)
+                    .setOnClickAction(() -> new LibsBuilder()
+                            .withActivityTheme(getTheme())
+                            .withFields(R.string.class.getFields())
+                            .withLicenseShown(true)
+                            .withAutoDetect(true)
+                            .start(context))
+                    .build());
 
-            // don't recreate the fragments when changing tabs
-            viewPager.setOffscreenPageLimit(1);
+            MaterialAboutCard.Builder ohServerCard = new MaterialAboutCard.Builder();
+            ohServerCard.title(R.string.about_server);
+            if(conn == null || openHabVersion == 0) {
+                ohServerCard.addItem(new MaterialAboutActionItem.Builder()
+                        .text(R.string.error_about_no_conn)
+                        .icon(R.drawable.ic_info_outline)
+                        .build());
+            } else {
+                String apiVersion = getApiVersion(conn);
+                if(TextUtils.isEmpty(apiVersion)) {
+                    apiVersion = getString(R.string.unknown);
+                }
+                ohServerCard.addItem(new MaterialAboutActionItem.Builder()
+                        .text(R.string.info_openhab_apiversion_label)
+                        .subText(apiVersion)
+                        .icon(R.drawable.ic_info_outline)
+                        .build());
 
-            mPagerAdapter = new AboutPagerAdapter(getChildFragmentManager(),
-                    getActivity(), getArguments());
-            viewPager.setAdapter(mPagerAdapter);
+                String uuid = getServerUuid(conn);
+                if(TextUtils.isEmpty(uuid)) {
+                    uuid = getString(R.string.unknown);
+                }
+                ohServerCard.addItem(new MaterialAboutActionItem.Builder()
+                        .text(R.string.info_openhab_uuid_label)
+                        .subText(uuid)
+                        .icon(R.drawable.ic_info_outline)
+                        .build());
 
-            final TabLayout tabLayout = (TabLayout) view.findViewById(R.id.tab_layout);
-            tabLayout.setupWithViewPager(viewPager);
-            tabLayout.setTabsFromPagerAdapter(mPagerAdapter);
-            tabLayout.setTabMode(TabLayout.MODE_FIXED);
+                String secret = getServerSecret(conn);
+                if(!TextUtils.isEmpty(secret)) {
+                    ohServerCard.addItem(new MaterialAboutActionItem.Builder()
+                            .text(R.string.info_openhab_secret_label)
+                            .subText(secret)
+                            .icon(R.drawable.ic_info_outline)
+                            .build());
+                }
+            }
+            ohServerCard.addItem(new MaterialAboutActionItem.Builder()
+                    .text(R.string.info_openhab_gcm_label)
+                    .subText(getGcmText())
+                    .icon(R.drawable.ic_info_outline)
+                    .build());
 
-            return view;
+            MaterialAboutCard.Builder ohCommunityCard = new MaterialAboutCard.Builder();
+            ohCommunityCard.title(R.string.about_community);
+            ohCommunityCard.addItem(new MaterialAboutActionItem.Builder()
+                    .text(R.string.about_docs)
+                    .icon(R.drawable.ic_collections_bookmark_grey_24dp)
+                    .setOnClickAction(MaterialAboutItemOnClickRedirect("https://docs.openhab.org/"))
+                    .build());
+            ohCommunityCard.addItem(new MaterialAboutActionItem.Builder()
+                    .text(R.string.about_community_forum)
+                    .icon(R.drawable.ic_forum_grey_24dp)
+                    .setOnClickAction(MaterialAboutItemOnClickRedirect("https://community.openhab.org/"))
+                    .build());
+            ohCommunityCard.addItem(new MaterialAboutActionItem.Builder()
+                    .text(R.string.about_translation)
+                    .icon(R.drawable.ic_language_grey_24dp)
+                    .setOnClickAction(MaterialAboutItemOnClickRedirect("https://crowdin.com/profile/openhab-bot"))
+                    .build());
+            ohCommunityCard.addItem(new MaterialAboutActionItem.Builder()
+                    .text(R.string.about_foundation)
+                    .icon(R.drawable.ic_people_grey_24dp)
+                    .setOnClickAction(MaterialAboutItemOnClickRedirect("http://www.openhabfoundation.org/"))
+                    .build());
+
+            return new MaterialAboutList.Builder()
+                    .addCard(appCard.build())
+                    .addCard(ohServerCard.build())
+                    .addCard(ohCommunityCard.build())
+                    .build();
         }
 
         @Override
-        public void onResume() {
-            Log.d(TAG, "onResume()");
-            super.onResume();
-        }
-    }
-
-    public static class AboutPagerAdapter extends FragmentPagerAdapter {
-        private Context mContext;
-        private Bundle mExtras;
-
-        AboutPagerAdapter(FragmentManager fm, Context context, Bundle extras) {
-            super(fm);
-            mContext = context;
-            mExtras = extras;
+        protected int getTheme() {
+            return Util.getActivityThemeID(getActivity());
         }
 
-        @Override
-        public Fragment getItem(int i) {
-            switch(i) {
-                default:
-                    return new AboutFragment();
-                case 1:
-                    Fragment infoFragment = new OpenHABInfoFragment();
-                    infoFragment.setArguments(new Bundle(mExtras));
+        private MaterialAboutItemOnClickAction MaterialAboutItemOnClickRedirect(final String url) {
+            return new MaterialAboutItemOnClickAction() {
+                @Override
+                public void onClick() {
+                    Uri uri = Uri.parse(url);
+                    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                    startActivity(intent);
+                }
+            };
+        }
 
-                    return infoFragment;
-                case 2:
-                    return new LibsBuilder().supportFragment();
+        private String getGcmText() {
+            if (OpenHABMainActivity.GCM_SENDER_ID == null) {
+                return getString(R.string.info_openhab_gcm_not_connected);
+            } else {
+                return getString(R.string.info_openhab_gcm_connected, OpenHABMainActivity.GCM_SENDER_ID);
             }
         }
 
-        @Override
-        public int getCount() {
-            return 3;
+        private String getServerSecret(Connection conn) {
+            final String[] secret = {null};
+            conn.getAsyncHttpClient().get("/static/secret", new MyHttpClient.TextResponseHandler() {
+                @Override
+                public void onFailure(Call call, int statusCode, Headers headers, String responseString, Throwable error) {
+                    if (error.getMessage() != null) {
+                        Log.e(TAG, error.getMessage());
+                    }
+                }
+
+                @Override
+                public void onSuccess(Call call, int statusCode, Headers headers, String responseString) {
+                    Log.d(TAG, "Got secret"); // Don't show secret in log file
+                    secret[0] = responseString;
+                }
+            });
+            return secret[0];
         }
 
-        @Override
-        public CharSequence getPageTitle(int position) {
-            switch (position) {
-                default:
-                    return mContext.getString(R.string.about_title);
-                case 1:
-                    return mContext.getString(R.string.title_activity_openhabinfo);
-                case 2:
-                    return mContext.getString(R.string.title_activity_libraries);
+        private String getServerUuid(Connection conn) {
+            final String uuidUrl;
+            final String[] uuid = new String[1];
+            if (openHabVersion == 1) {
+                uuidUrl = "/static/uuid";
+            } else {
+                uuidUrl = "/rest/uuid";
             }
+            conn.getAsyncHttpClient().get(uuidUrl, new MyHttpClient.TextResponseHandler() {
+                @Override
+                public void onFailure(Call call, int statusCode, Headers headers, String responseString, Throwable error) {
+                    if (error.getMessage() != null) {
+                        Log.e(TAG, error.getMessage());
+                    }
+                }
+
+                @Override
+                public void onSuccess(Call call, int statusCode, Headers headers, String responseString) {
+                    Log.d(TAG, "Got uuid = " + responseString);
+                    uuid[0] = responseString;
+                }
+            });
+            return uuid[0];
+        }
+
+        private String getApiVersion(Connection conn) {
+            String versionUrl;
+            final String[] version = new String[1];
+            if (openHabVersion == 1) {
+                versionUrl = "/static/version";
+            } else {
+                versionUrl = "/rest";
+            }
+            Log.d(TAG, "url = " + versionUrl);
+            conn.getAsyncHttpClient().get(versionUrl, new MyHttpClient.TextResponseHandler() {
+                @Override
+                public void onFailure(Call call, int statusCode, Headers headers, String responseString, Throwable error) {
+                    if (error.getMessage() != null) {
+                        Log.e(TAG, error.getMessage());
+                    }
+                }
+
+                @Override
+                public void onSuccess(Call call, int statusCode, Headers headers, String responseString) {
+                    if(openHabVersion == 1) {
+                        version[0] = responseString;
+                    } else {
+                        try {
+                            JSONObject pageJson = new JSONObject(responseString);
+                            version[0] = pageJson.getString("version");
+                        } catch (JSONException e) {
+                            Log.e(TAG, "Problem fetching version string");
+                        }
+                    }
+                    Log.d(TAG, "Got version = " + version[0]);
+                }
+            });
+            return version[0];
         }
     }
 }
