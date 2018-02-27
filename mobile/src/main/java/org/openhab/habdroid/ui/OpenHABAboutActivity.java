@@ -2,16 +2,13 @@ package org.openhab.habdroid.ui;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.danielstone.materialaboutlibrary.MaterialAboutFragment;
 import com.danielstone.materialaboutlibrary.items.MaterialAboutActionItem;
@@ -28,7 +25,6 @@ import org.openhab.habdroid.R;
 import org.openhab.habdroid.core.connection.Connection;
 import org.openhab.habdroid.core.connection.ConnectionFactory;
 import org.openhab.habdroid.core.connection.exception.ConnectionException;
-import org.openhab.habdroid.util.Constants;
 import org.openhab.habdroid.util.MyHttpClient;
 import org.openhab.habdroid.util.Util;
 
@@ -43,7 +39,7 @@ import okhttp3.Headers;
 public class OpenHABAboutActivity extends AppCompatActivity {
     private final static String TAG = OpenHABAboutActivity.class.getSimpleName();
     private static Connection conn = null;
-    private static int openHabVersion;
+    private static int mOpenHABVersion;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -65,7 +61,7 @@ public class OpenHABAboutActivity extends AppCompatActivity {
                     .commit();
         }
 
-        openHabVersion = 2;
+        mOpenHABVersion = Integer.valueOf(getIntent().getExtras().get("openHABVersion").toString());
 
         setResult(RESULT_OK);
     }
@@ -151,7 +147,7 @@ public class OpenHABAboutActivity extends AppCompatActivity {
 
             MaterialAboutCard.Builder ohServerCard = new MaterialAboutCard.Builder();
             ohServerCard.title(R.string.about_server);
-            if(conn == null || openHabVersion == 0) {
+            if(conn == null || mOpenHABVersion == 0) {
                 ohServerCard.addItem(new MaterialAboutActionItem.Builder()
                         .text(R.string.error_about_no_conn)
                         .icon(R.drawable.ic_info_outline)
@@ -268,7 +264,7 @@ public class OpenHABAboutActivity extends AppCompatActivity {
         private String getServerUuid(Connection conn) {
             final String uuidUrl;
             final String[] uuid = new String[1];
-            if (openHabVersion == 1) {
+            if (mOpenHABVersion == 1) {
                 uuidUrl = "/static/uuid";
             } else {
                 uuidUrl = "/rest/uuid";
@@ -293,7 +289,7 @@ public class OpenHABAboutActivity extends AppCompatActivity {
         private String getApiVersion(Connection conn) {
             String versionUrl;
             final String[] version = new String[1];
-            if (openHabVersion == 1) {
+            if (mOpenHABVersion == 1) {
                 versionUrl = "/static/version";
             } else {
                 versionUrl = "/rest";
@@ -309,7 +305,7 @@ public class OpenHABAboutActivity extends AppCompatActivity {
 
                 @Override
                 public void onSuccess(Call call, int statusCode, Headers headers, String responseString) {
-                    if(openHabVersion == 1) {
+                    if(mOpenHABVersion == 1) {
                         version[0] = responseString;
                     } else {
                         try {
