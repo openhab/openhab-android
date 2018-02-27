@@ -222,4 +222,14 @@ public class Util {
             }
         });
     }
+
+    public static String makeStringIrrecognizable(String string) {
+        return makeStringIrrecognizable(string, 3);
+    }
+
+    public static String makeStringIrrecognizable(String string, int showClearTextChars) {
+        showClearTextChars = Math.min(string.length(), showClearTextChars);
+        return string.substring(0, showClearTextChars) +
+                string.substring(showClearTextChars).replaceAll("(.)", "*");
+    }
 }

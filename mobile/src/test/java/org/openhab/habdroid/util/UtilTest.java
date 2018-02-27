@@ -1,5 +1,7 @@
 package org.openhab.habdroid.util;
 
+import junit.framework.Assert;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.junit.Test;
@@ -164,5 +166,14 @@ public class UtilTest {
                 Util.exceptionHasCause(e, CertPathValidatorException.class));
         assertFalse("The exception is not caused by ArrayIndexOutOfBoundsException, so testexceptionHasCause() should return false",
                 Util.exceptionHasCause(e, ArrayIndexOutOfBoundsException.class));
+    }
+
+    @Test
+    public void testMakeStringIrrecognizable() {
+        assertEquals("abc***", Util.makeStringIrrecognizable("abcdef"));
+        assertEquals("abc", Util.makeStringIrrecognizable("abc"));
+        assertEquals("a", Util.makeStringIrrecognizable("a"));
+        assertEquals("a**", Util.makeStringIrrecognizable("abc", 1));
+        assertEquals("***", Util.makeStringIrrecognizable("abc", 0));
     }
 }

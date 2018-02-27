@@ -36,6 +36,8 @@ import java.util.Locale;
 import okhttp3.Call;
 import okhttp3.Headers;
 
+import static org.openhab.habdroid.util.Util.makeStringIrrecognizable;
+
 public class OpenHABAboutActivity extends AppCompatActivity {
     private final static String TAG = OpenHABAboutActivity.class.getSimpleName();
     private static Connection conn = null;
@@ -248,13 +250,13 @@ public class OpenHABAboutActivity extends AppCompatActivity {
                 @Override
                 public void onFailure(Call call, int statusCode, Headers headers, String responseString, Throwable error) {
                     if (error.getMessage() != null) {
-                        Log.e(TAG, error.getMessage());
+                        Log.d(TAG, error.getMessage());
                     }
                 }
 
                 @Override
                 public void onSuccess(Call call, int statusCode, Headers headers, String responseString) {
-                    Log.d(TAG, "Got secret"); // Don't show secret in log file
+                    Log.d(TAG, "Got secret" + makeStringIrrecognizable(responseString));
                     secret[0] = responseString;
                 }
             });
@@ -279,7 +281,7 @@ public class OpenHABAboutActivity extends AppCompatActivity {
 
                 @Override
                 public void onSuccess(Call call, int statusCode, Headers headers, String responseString) {
-                    Log.d(TAG, "Got uuid = " + responseString);
+                    Log.d(TAG, "Got uuid = " + makeStringIrrecognizable(responseString));
                     uuid[0] = responseString;
                 }
             });
