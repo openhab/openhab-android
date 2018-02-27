@@ -55,12 +55,15 @@ public abstract class FragmentController implements
         FragmentManager.OnBackStackChangedListener, PageConnectionHolderFragment.ParentCallback {
     private final OpenHABMainActivity mActivity;
     protected final FragmentManager mFm;
+
     protected Fragment mNoConnectionFragment;
+    protected Fragment mDefaultProgressFragment;
+    private PageConnectionHolderFragment mConnectionFragment;
+
     protected OpenHABSitemap mCurrentSitemap;
     protected OpenHABWidgetListFragment mSitemapFragment;
     protected final Stack<Pair<OpenHABLinkedPage, OpenHABWidgetListFragment>> mPageStack = new Stack<>();
     private Set<String> mPendingDataLoadUrls = new HashSet<>();
-    private PageConnectionHolderFragment mConnectionFragment;
 
     protected FragmentController(OpenHABMainActivity activity) {
         mActivity = activity;
@@ -72,6 +75,7 @@ public abstract class FragmentController implements
             mConnectionFragment = new PageConnectionHolderFragment();
             mFm.beginTransaction().add(mConnectionFragment, "connections").commit();
         }
+        mDefaultProgressFragment = ProgressFragment.newInstance(null, false);
         mConnectionFragment.setCallback(this);
     }
 
@@ -87,6 +91,9 @@ public abstract class FragmentController implements
         if (mSitemapFragment != null && mSitemapFragment.isAdded()) {
             mFm.putFragment(state, "sitemapFragment", mSitemapFragment);
         }
+        if (mDefaultProgressFragment.isAdded()) {
+            mFm.putFragment(state, "progressFragment", mDefaultProgressFragment);
+        }
         state.putParcelableArrayList("controllerPages", pages);
     }
 
@@ -98,6 +105,10 @@ public abstract class FragmentController implements
             if (mSitemapFragment == null) {
                 mSitemapFragment = makeSitemapFragment(mCurrentSitemap);
             }
+        }
+        Fragment progressFragment = mFm.getFragment(state, "progressFragment");
+        if (progressFragment != null) {
+            mDefaultProgressFragment = progressFragment;
         }
 
         ArrayList<OpenHABLinkedPage> oldStack = state.getParcelableArrayList("controllerPages");

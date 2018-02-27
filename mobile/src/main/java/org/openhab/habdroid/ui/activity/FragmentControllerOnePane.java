@@ -9,10 +9,8 @@
 
 package org.openhab.habdroid.ui.activity;
 
-import android.support.annotation.AnimRes;
 import android.support.annotation.LayoutRes;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.ui.OpenHABMainActivity;
@@ -26,19 +24,21 @@ public class FragmentControllerOnePane extends FragmentController {
     @Override
     protected void updateFragmentState(FragmentUpdateReason reason) {
         Fragment currentFragment = mFm.findFragmentById(R.id.content);
-        Fragment fragment = mNoConnectionFragment != null
-                ? mNoConnectionFragment
-                : mPageStack.empty() ? mSitemapFragment : mPageStack.peek().second;
-        if (fragment != null) {
-            mFm.beginTransaction()
-                    .setCustomAnimations(determineEnterAnim(reason), determineExitAnim(reason))
-                    .replace(R.id.content, fragment)
-                    .commit();
-        } else if (currentFragment != null) {
-            mFm.beginTransaction()
-                    .remove(currentFragment)
-                    .commit();
+        final Fragment fragment;
+        if (mNoConnectionFragment != null) {
+            fragment = mNoConnectionFragment;
+        } else if (!mPageStack.empty()) {
+            fragment = mPageStack.peek().second;
+        } else if (mSitemapFragment != null) {
+            fragment = mSitemapFragment;
+        } else {
+            fragment = mDefaultProgressFragment;
         }
+
+        mFm.beginTransaction()
+                .setCustomAnimations(determineEnterAnim(reason), determineExitAnim(reason))
+                .replace(R.id.content, fragment)
+                .commit();
     }
 
     @Override

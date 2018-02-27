@@ -45,11 +45,15 @@ public class FragmentControllerTwoPane extends FragmentController {
             leftFragment = mNoConnectionFragment;
             rightFragment = null;
             rightPair = null;
-        } else {
+        } else if (mSitemapFragment != null) {
             rightPair = mPageStack.empty() ? null : mPageStack.peek();
             leftFragment = mPageStack.size() > 1
                     ? mPageStack.get(mPageStack.size() - 2).second : mSitemapFragment;
             rightFragment = rightPair != null ? rightPair.second : null;
+        } else {
+            leftFragment = mDefaultProgressFragment;
+            rightFragment = null;
+            rightPair = null;
         }
 
         Fragment currentLeftFragment = mFm.findFragmentById(R.id.content_left);
