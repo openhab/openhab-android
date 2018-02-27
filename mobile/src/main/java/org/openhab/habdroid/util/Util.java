@@ -230,6 +230,6 @@ public class Util {
     public static String makeStringIrrecognizable(String string, int showClearTextChars) {
         showClearTextChars = Math.min(string.length(), showClearTextChars);
         return string.substring(0, showClearTextChars) +
-                string.substring(showClearTextChars).replaceAll("(.)", "*");
+                string.substring(showClearTextChars).replaceAll(".", "*");
     }
 }

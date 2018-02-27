@@ -63,9 +63,7 @@ public class OpenHABAboutActivity extends AppCompatActivity {
                     .commit();
         }
 
-        try {
-            mOpenHABVersion = Integer.valueOf(getIntent().getExtras().get("openHABVersion").toString());
-        } catch (Exception ignored) {}
+        mOpenHABVersion = getIntent().getIntExtra("openHABVersion", 0);
 
         setResult(RESULT_OK);
     }
