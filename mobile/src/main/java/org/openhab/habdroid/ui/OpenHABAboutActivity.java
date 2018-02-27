@@ -39,7 +39,7 @@ import okhttp3.Headers;
 public class OpenHABAboutActivity extends AppCompatActivity {
     private final static String TAG = OpenHABAboutActivity.class.getSimpleName();
     private static Connection conn = null;
-    private static int mOpenHABVersion;
+    private static int mOpenHABVersion = 0;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -61,7 +61,9 @@ public class OpenHABAboutActivity extends AppCompatActivity {
                     .commit();
         }
 
-        mOpenHABVersion = Integer.valueOf(getIntent().getExtras().get("openHABVersion").toString());
+        try {
+            mOpenHABVersion = Integer.valueOf(getIntent().getExtras().get("openHABVersion").toString());
+        } catch (Exception ignored) {}
 
         setResult(RESULT_OK);
     }
@@ -71,9 +73,7 @@ public class OpenHABAboutActivity extends AppCompatActivity {
         super.onResume();
         try {
             conn = ConnectionFactory.getUsableConnection();
-        } catch (ConnectionException e) {
-            // ignored
-        }
+        } catch (ConnectionException ignored) {}
     }
 
     @Override
