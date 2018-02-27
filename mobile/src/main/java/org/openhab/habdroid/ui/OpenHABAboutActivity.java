@@ -19,14 +19,13 @@ import android.view.ViewGroup;
 import com.mikepenz.aboutlibraries.LibsBuilder;
 
 import org.openhab.habdroid.R;
-import org.openhab.habdroid.core.OpenHABVoiceService;
 import org.openhab.habdroid.util.Util;
 
 public class OpenHABAboutActivity extends AppCompatActivity {
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         Util.setActivityTheme(this);
-
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_about);

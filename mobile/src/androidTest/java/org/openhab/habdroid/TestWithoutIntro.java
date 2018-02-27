@@ -8,6 +8,7 @@ import org.junit.Before;
 import org.openhab.habdroid.util.Constants;
 
 public abstract class TestWithoutIntro extends ProgressbarAwareTest {
+    @Override
     @Before
     public void setup() {
         SharedPreferences.Editor edit = PreferenceManager
@@ -20,6 +21,7 @@ public abstract class TestWithoutIntro extends ProgressbarAwareTest {
             edit.putString(Constants.PREFERENCE_SITEMAP_LABEL, "Main Menu");
         }
 
+        edit.putBoolean(Constants.PREFERENCE_DEMOMODE, true);
         edit.putBoolean(Constants.PREFERENCE_FIRST_START, false).commit();
 
         super.setup();

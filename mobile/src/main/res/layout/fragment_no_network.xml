@@ -1,0 +1,40 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:gravity="center_horizontal|center_vertical"
+              android:orientation="vertical">
+    <ImageView
+        android:id="@+id/network_error_image"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:adjustViewBounds="true"
+        android:gravity="center"
+        android:scaleType="fitXY"
+        android:src="@drawable/ic_signal_cellular_off_black_24dp"
+        tools:ignore="contentDescription"/>
+
+    <TextView
+        android:id="@+id/network_error_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/empty_list_text_color"/>
+
+    <Button
+        android:id="@+id/network_error_try_again"
+        style="?android:attr/buttonBarButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:clickable="true"
+        android:focusable="true"
+        android:gravity="center"
+        android:text="@string/try_again_button"
+        android:textColor="?android:attr/textColorLink"/>
+</LinearLayout>

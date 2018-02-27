@@ -12,6 +12,7 @@ package org.openhab.habdroid.util;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.annotation.VisibleForTesting;
 import android.util.Log;
 
 import java.io.UnsupportedEncodingException;
@@ -32,11 +33,13 @@ import javax.net.ssl.X509TrustManager;
 import okhttp3.Call;
 import okhttp3.Credentials;
 import okhttp3.Headers;
+import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 
 public abstract class MyHttpClient<T> {
-
     private static final String TAG = MyHttpClient.class.getSimpleName();
+
+    private HttpUrl baseUrl;
 
     public interface ResponseHandler {
         void onFailure(Call call, int statusCode, Headers headers, byte[] responseBody, Throwable error);
@@ -120,6 +123,17 @@ public abstract class MyHttpClient<T> {
         headers.put("Authorization", credential);
     }
 
+    public void setBaseUrl(String baseUrl) {
+        this.baseUrl = HttpUrl.parse(baseUrl);
+    }
+
+    protected HttpUrl getBaseUrl() {
+        if (baseUrl == null) {
+            throw new IllegalStateException("No baseUrl was set so far.");
+        }
+        return this.baseUrl;
+    }
+
     public void setTimeout(int timeout) {
         clientBuilder.readTimeout(timeout, TimeUnit.MILLISECONDS);
         client = clientBuilder.build();
@@ -127,6 +141,15 @@ public abstract class MyHttpClient<T> {
 
     public void addHeader(String key, String value) {
         headers.put(key, value);
+    }
+
+    public void removeHeader(String key) {
+        headers.remove(key);
+    }
+
+    @VisibleForTesting
+    public Map<String, String> getHeaders() {
+        return headers;
     }
 
     public T get(String url, ResponseHandler responseHandler) {

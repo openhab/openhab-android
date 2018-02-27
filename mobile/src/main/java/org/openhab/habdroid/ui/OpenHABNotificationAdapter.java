@@ -18,31 +18,24 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import org.openhab.habdroid.R;
+import org.openhab.habdroid.core.connection.Connection;
+import org.openhab.habdroid.core.connection.ConnectionFactory;
+import org.openhab.habdroid.core.connection.exception.ConnectionException;
 import org.openhab.habdroid.model.OpenHABNotification;
 import org.openhab.habdroid.util.MySmartImageView;
 
 import java.util.ArrayList;
 import java.util.Locale;
 
-/**
- * Created by belovictor on 03/04/15.
- */
 public class OpenHABNotificationAdapter extends
         RecyclerView.Adapter<OpenHABNotificationAdapter.NotificationViewHolder> {
-    private final String mOpenHABUsername;
-    private final String mOpenHABPassword;
-    private final String mOpenHABBaseUrl;
     private final ArrayList<OpenHABNotification> mItems;
     private final LayoutInflater mInflater;
     private final Context mContext;
 
-    public OpenHABNotificationAdapter(Context context, ArrayList<OpenHABNotification> items,
-            String baseUrl, String userName, String password) {
+    public OpenHABNotificationAdapter(Context context, ArrayList<OpenHABNotification> items) {
         super();
         mItems = items;
-        mOpenHABBaseUrl = baseUrl;
-        mOpenHABUsername = userName;
-        mOpenHABPassword = password;
         mContext = context;
         mInflater = LayoutInflater.from(context);
     }
@@ -67,9 +60,10 @@ public class OpenHABNotificationAdapter extends
         holder.mMessageView.setText(notification.getMessage());
 
         if (notification.getIcon() != null) {
+            Connection conn = ConnectionFactory.getConnection(Connection.TYPE_CLOUD);
             String iconUrl = String.format(Locale.US, "%s/images/%s.png",
-                    mOpenHABBaseUrl, Uri.encode(notification.getIcon()));
-            holder.mIconView.setImageUrl(iconUrl, mOpenHABUsername, mOpenHABPassword,
+                    conn.getOpenHABUrl(), Uri.encode(notification.getIcon()));
+            holder.mIconView.setImageUrl(iconUrl, conn.getUsername(), conn.getPassword(),
                     R.drawable.ic_openhab_appicon_24dp);
         } else {
             holder.mIconView.setImageResource(R.drawable.ic_openhab_appicon_24dp);

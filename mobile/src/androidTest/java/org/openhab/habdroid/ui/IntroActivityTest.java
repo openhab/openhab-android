@@ -1,13 +1,13 @@
 package org.openhab.habdroid.ui;
 
 
+import android.support.test.espresso.IdlingRegistry;
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.LargeTest;
 import android.view.View;
 
 import org.hamcrest.CoreMatchers;
-import org.hamcrest.Matchers;
 import org.hamcrest.core.IsInstanceOf;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,6 +16,7 @@ import org.openhab.habdroid.TestWithIntro;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
@@ -77,6 +78,13 @@ public class IntroActivityTest extends TestWithIntro {
                         isDisplayed()));
         appCompatButton.perform(click());
 
+        appCompatButton.check(doesNotExist());
+
+        mActivityTestRule.finishActivity();
+        mActivityTestRule.launchActivity(null);
+
+        IdlingRegistry.getInstance().register(getProgressbarIdlingResource());
+
         // Do we see the sitemap?
         ViewInteraction firstfloor = onView(
                 CoreMatchers.allOf(withId(R.id.widgetlabel), withText("First Floor"),
@@ -91,7 +99,7 @@ public class IntroActivityTest extends TestWithIntro {
     }
 
     @Test
-    public void goThroughInto() {
+    public void goThroughIntro() {
         // click next
         ViewInteraction appCompatImageButton = onView(
                 CoreMatchers.allOf(withId(R.id.next),
@@ -127,6 +135,13 @@ public class IntroActivityTest extends TestWithIntro {
                                 4),
                         isDisplayed()));
         appCompatButton.perform(click());
+
+        appCompatButton.check(doesNotExist());
+
+        mActivityTestRule.finishActivity();
+        mActivityTestRule.launchActivity(null);
+
+        IdlingRegistry.getInstance().register(getProgressbarIdlingResource());
 
         // Do we see the sitemap?
         ViewInteraction firstfloor = onView(
