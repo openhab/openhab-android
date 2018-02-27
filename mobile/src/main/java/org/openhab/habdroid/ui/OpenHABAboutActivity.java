@@ -244,7 +244,7 @@ public class OpenHABAboutActivity extends AppCompatActivity {
 
         private String getServerSecret(Connection conn) {
             final String[] secret = {null};
-            conn.getAsyncHttpClient().get("/static/secret", new MyHttpClient.TextResponseHandler() {
+            conn.getSyncHttpClient().get("/static/secret", new MyHttpClient.TextResponseHandler() {
                 @Override
                 public void onFailure(Call call, int statusCode, Headers headers, String responseString, Throwable error) {
                     if (error.getMessage() != null) {
@@ -269,7 +269,7 @@ public class OpenHABAboutActivity extends AppCompatActivity {
             } else {
                 uuidUrl = "/rest/uuid";
             }
-            conn.getAsyncHttpClient().get(uuidUrl, new MyHttpClient.TextResponseHandler() {
+            conn.getSyncHttpClient().get(uuidUrl, new MyHttpClient.TextResponseHandler() {
                 @Override
                 public void onFailure(Call call, int statusCode, Headers headers, String responseString, Throwable error) {
                     if (error.getMessage() != null) {
@@ -295,7 +295,7 @@ public class OpenHABAboutActivity extends AppCompatActivity {
                 versionUrl = "/rest";
             }
             Log.d(TAG, "url = " + versionUrl);
-            conn.getAsyncHttpClient().get(versionUrl, new MyHttpClient.TextResponseHandler() {
+            conn.getSyncHttpClient().get(versionUrl, new MyHttpClient.TextResponseHandler() {
                 @Override
                 public void onFailure(Call call, int statusCode, Headers headers, String responseString, Throwable error) {
                     if (error.getMessage() != null) {
