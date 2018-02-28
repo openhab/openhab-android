@@ -94,6 +94,7 @@
     <string name="error_http_code_504">Gateway Time-out. Seems that your reverse proxy is running, but couldn\'t get an answer from the openHAB server (HTTP response code 504)</string>
     <string name="error_http_code_507">The openHAB server hasn\'t enough free space (HTTP response code 507)</string>
     <string name="error_http_code_511">Network authentication is required (HTTP response code 511)</string>
+    <string name="error_about_no_conn">Error while fetching openHAB server information</string>
     <string name="title_activity_openhabwritetag">Write NFC tag</string>
     <string name="title_activity_openhabinfo">openHAB Information</string>
     <string name="title_activity_libraries">Used Libraries</string>
@@ -154,8 +155,6 @@
     <string name="about_title">About</string>
     <string name="about_license_title">License</string>
     <string name="about_license" translatable="false">Eclipse Public License - v 1.0</string>
-    <string name="about_links">Links</string>
-    <string name="about_links_list"><![CDATA[\u00B7 <a href="https://github.com/openhab/openhab.android">openHAB App source code</a><br><br> \u00B7 <a href="https://github.com/openhab/openhab.android/issues">Report a problem</a><br><br> \u00B7 <a href="http://docs.openhab.org/">openHAB Documentation</a><br><br> \u00B7 <a href="https://community.openhab.org/">Community Forum</a>]]></string>
     <string name="about_copyright" translatable="false">© 2012 - %s openHAB Foundation</string>
     <string name="about_version_string" translatable="false">%1$s - %2$s</string>
     <string name="about_changelog">Changelog</string>
@@ -206,5 +205,4 @@
     <string name="app_intro_skip_button">SKIP</string>
     <!-- Intro "DONE" button -->
     <string name="app_intro_done_button">DONE</string>
-    <string name="error_about_no_conn">Error while fetching openHAB server information</string>
 </resources>
