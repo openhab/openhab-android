@@ -40,8 +40,6 @@ import static org.openhab.habdroid.util.Util.makeStringIrrecognizable;
 
 public class OpenHABAboutActivity extends AppCompatActivity {
     private final static String TAG = OpenHABAboutActivity.class.getSimpleName();
-    private static Connection conn = null;
-    private static int mOpenHABVersion = 0;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -63,17 +61,8 @@ public class OpenHABAboutActivity extends AppCompatActivity {
                     .commit();
         }
 
-        mOpenHABVersion = getIntent().getIntExtra("openHABVersion", 0);
 
         setResult(RESULT_OK);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        try {
-            conn = ConnectionFactory.getUsableConnection();
-        } catch (ConnectionException ignored) {}
     }
 
     @Override
@@ -92,11 +81,23 @@ public class OpenHABAboutActivity extends AppCompatActivity {
     }
 
     public static class AboutMainFragment extends MaterialAboutFragment {
-        private final String TAG = AboutMainFragment.class.getSimpleName();
+        private final static String TAG = AboutMainFragment.class.getSimpleName();
         private final static String URL_TO_GITHUB = "https://github.com/openhab/openhab-android";
+        private int mOpenHABVersion = 0;
+        private Connection conn;
+
+        @Override
+        public void onResume() {
+            super.onResume();
+            try {
+                conn = ConnectionFactory.getUsableConnection();
+            } catch (ConnectionException ignored) {}
+        }
 
         @Override
         protected MaterialAboutList getMaterialAboutList(final Context context) {
+            mOpenHABVersion = getArguments().getInt("openHABVersion", 0);
+
             String year = new SimpleDateFormat("yyyy", Locale.US)
                     .format(Calendar.getInstance().getTime());
 
