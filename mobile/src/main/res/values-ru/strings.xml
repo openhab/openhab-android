@@ -7,12 +7,10 @@
   <string name="main_menu">Главное меню</string>
   <string name="app_preferences_name">Настройки</string>
   <string name="app_notifications">Уведомления</string>
-  <string name="dlg_notification_title">Уведомление</string>
-  <string name="favorites">Избранное</string>
   <!-- Main menu items -->
-  <string name="mainmenu_openhab_sitemaps">Sitemap\'ы</string>
   <string name="mainmenu_openhab_preferences">Параметры</string>
   <string name="mainmenu_openhab_selectsitemap">Выбрать sitemap по умолчанию</string>
+  <string name="mainmenu_openhab_clearcache">Очистить кэш изображений</string>
   <!-- App settings strings -->
   <string name="settings_connection_title">Параметры подключения</string>
   <string name="settings_display_title">Параметры дисплея</string>
