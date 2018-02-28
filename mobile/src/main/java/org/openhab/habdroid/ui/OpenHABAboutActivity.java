@@ -248,9 +248,7 @@ public class OpenHABAboutActivity extends AppCompatActivity {
             conn.getSyncHttpClient().get("/static/secret", new MyHttpClient.TextResponseHandler() {
                 @Override
                 public void onFailure(Call call, int statusCode, Headers headers, String responseString, Throwable error) {
-                    if (error.getMessage() != null) {
-                        Log.d(TAG, error.getMessage());
-                    }
+                    Log.d(TAG, "Could not fetch server secret", error);
                 }
 
                 @Override
@@ -273,9 +271,7 @@ public class OpenHABAboutActivity extends AppCompatActivity {
             conn.getSyncHttpClient().get(uuidUrl, new MyHttpClient.TextResponseHandler() {
                 @Override
                 public void onFailure(Call call, int statusCode, Headers headers, String responseString, Throwable error) {
-                    if (error.getMessage() != null) {
-                        Log.e(TAG, error.getMessage());
-                    }
+                    Log.e(TAG, "Could not fetch server uuid", error);
                 }
 
                 @Override
@@ -299,9 +295,7 @@ public class OpenHABAboutActivity extends AppCompatActivity {
             conn.getSyncHttpClient().get(versionUrl, new MyHttpClient.TextResponseHandler() {
                 @Override
                 public void onFailure(Call call, int statusCode, Headers headers, String responseString, Throwable error) {
-                    if (error.getMessage() != null) {
-                        Log.e(TAG, error.getMessage());
-                    }
+                    Log.e(TAG, "Could not fetch rest API version", error);
                 }
 
                 @Override
