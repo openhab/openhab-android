@@ -1,7 +1,5 @@
 package org.openhab.habdroid.util;
 
-import junit.framework.Assert;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.junit.Test;
@@ -169,11 +167,12 @@ public class UtilTest {
     }
 
     @Test
-    public void testMakeStringIrrecognizable() {
-        assertEquals("abc***", Util.makeStringIrrecognizable("abcdef"));
-        assertEquals("abc", Util.makeStringIrrecognizable("abc"));
-        assertEquals("a", Util.makeStringIrrecognizable("a"));
-        assertEquals("a**", Util.makeStringIrrecognizable("abc", 1));
-        assertEquals("***", Util.makeStringIrrecognizable("abc", 0));
+    public void testobfuscateString() {
+        assertEquals("abc***", Util.obfuscateString("abcdef"));
+        assertEquals("abc", Util.obfuscateString("abc"));
+        assertEquals("The function should not throw an exception, when string length is shorter than clearTextCharCount",
+                "a", Util.obfuscateString("a", 10));
+        assertEquals("a**", Util.obfuscateString("abc", 1));
+        assertEquals("***", Util.obfuscateString("abc", 0));
     }
 }

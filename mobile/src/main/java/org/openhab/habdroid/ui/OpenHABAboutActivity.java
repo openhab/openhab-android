@@ -36,7 +36,7 @@ import java.util.Locale;
 import okhttp3.Call;
 import okhttp3.Headers;
 
-import static org.openhab.habdroid.util.Util.makeStringIrrecognizable;
+import static org.openhab.habdroid.util.Util.obfuscateString;
 
 public class OpenHABAboutActivity extends AppCompatActivity {
     private final static String TAG = OpenHABAboutActivity.class.getSimpleName();
@@ -255,7 +255,7 @@ public class OpenHABAboutActivity extends AppCompatActivity {
 
                 @Override
                 public void onSuccess(Call call, int statusCode, Headers headers, String responseString) {
-                    Log.d(TAG, "Got secret" + makeStringIrrecognizable(responseString));
+                    Log.d(TAG, "Got secret" + obfuscateString(responseString));
                     secret[0] = responseString;
                 }
             });
@@ -280,7 +280,7 @@ public class OpenHABAboutActivity extends AppCompatActivity {
 
                 @Override
                 public void onSuccess(Call call, int statusCode, Headers headers, String responseString) {
-                    Log.d(TAG, "Got uuid = " + makeStringIrrecognizable(responseString));
+                    Log.d(TAG, "Got uuid = " + obfuscateString(responseString));
                     uuid[0] = responseString;
                 }
             });

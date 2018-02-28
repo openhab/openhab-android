@@ -11,12 +11,9 @@ package org.openhab.habdroid.util;
 
 import android.app.Activity;
 import android.app.ActivityManager;
-import android.content.res.Resources;
-import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.preference.PreferenceManager;
-import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
 import android.support.annotation.StyleRes;
 import android.util.Log;
@@ -223,13 +220,24 @@ public class Util {
         });
     }
 
-    public static String makeStringIrrecognizable(String string) {
-        return makeStringIrrecognizable(string, 3);
+    /**
+     * Replaces everything after the first 3 chars with asterisks
+     * @param string to obfuscate
+     * @return obfuscated string
+     */
+    public static String obfuscateString(String string) {
+        return obfuscateString(string, 3);
     }
 
-    public static String makeStringIrrecognizable(String string, int showClearTextChars) {
-        showClearTextChars = Math.min(string.length(), showClearTextChars);
-        return string.substring(0, showClearTextChars) +
-                string.substring(showClearTextChars).replaceAll(".", "*");
+    /**
+     * Replaces everything after the first clearTextCharCount chars with asterisks
+     * @param string to obfuscate
+     * @param clearTextCharCount leave the first clearTextCharCount in clear text
+     * @return obfuscated string
+     */
+    public static String obfuscateString(String string, int clearTextCharCount) {
+        clearTextCharCount = Math.min(string.length(), clearTextCharCount);
+        return string.substring(0, clearTextCharCount) +
+                string.substring(clearTextCharCount).replaceAll(".", "*");
     }
 }
