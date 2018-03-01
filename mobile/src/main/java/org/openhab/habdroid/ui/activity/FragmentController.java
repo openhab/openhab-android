@@ -79,6 +79,12 @@ public abstract class FragmentController implements
         mConnectionFragment.setCallback(this);
     }
 
+    /**
+     * Saves the controller's instance state
+     * To be called from the onSaveInstanceState callback of the activity
+     *
+     * @param state Bundle to save state into
+     */
     public void onSaveInstanceState(Bundle state) {
         ArrayList<OpenHABLinkedPage> pages = new ArrayList<>();
         for (Pair<OpenHABLinkedPage, OpenHABWidgetListFragment> item : mPageStack) {
@@ -97,6 +103,12 @@ public abstract class FragmentController implements
         state.putParcelableArrayList("controllerPages", pages);
     }
 
+    /**
+     * Restore instance state previously saved by onSaveInstanceState
+     * To be called from the onRestoreInstanceState or onCreate callbacks of the activity
+     *
+     * @param state Bundle including previously saved state
+     */
     public void onRestoreInstanceState(Bundle state) {
         mCurrentSitemap = state.getParcelable("controllerSitemap");
         if (mCurrentSitemap != null) {
@@ -120,6 +132,12 @@ public abstract class FragmentController implements
         }
     }
 
+    /**
+     * Show contents of a sitemap
+     * Sets up UI to show the sitemap's contents
+     *
+     * @param sitemap Sitemap to show
+     */
     public void openSitemap(OpenHABSitemap sitemap) {
         mCurrentSitemap = sitemap;
         mSitemapFragment = makeSitemapFragment(sitemap);
@@ -128,6 +146,13 @@ public abstract class FragmentController implements
         updateConnectionState();
     }
 
+    /**
+     * Follow a link in a sitemap page
+     * Sets up UI to show the contents of the given page
+     *
+     * @param page Page link to follow
+     * @param source Fragment this action was triggered from
+     */
     public void openPage(OpenHABLinkedPage page, OpenHABWidgetListFragment source) {
         mPageStack.push(Pair.create(page, makePageFragment(page)));
         mPendingDataLoadUrls.add(page.getLink());
@@ -136,6 +161,14 @@ public abstract class FragmentController implements
         updateConnectionState();
     }
 
+    /**
+     * Follow a sitemap page link via URL
+     * If a page with the given URL is already present in the back stack,
+     * that page is brought to the front; otherwise a temporary page with showing
+     * the contents of the linked page is opened.
+     *
+     * @param url URL to follow
+     */
     public final void openPage(String url) {
         int toPop = -1;
         for (int i = 0; i < mPageStack.size(); i++) {
@@ -156,23 +189,43 @@ public abstract class FragmentController implements
         }
     }
 
+    /**
+     * Indicate to the user that no network connectivity is present
+     *
+     * @param message Error message to show
+     */
     public void indicateNoNetwork(CharSequence message) {
         resetState();
         mNoConnectionFragment = NoNetworkFragment.newInstance(message);
         updateFragmentState();
     }
 
+    /**
+     * Indicate to the user that server configuration is missing
+     */
     public void indicateMissingConfiguration() {
         resetState();
         mNoConnectionFragment = MissingConfigurationFragment.newInstance(mActivity);
         updateFragmentState();
     }
 
+    /**
+     * Indicate to the user that there was a failure in talking to the server
+     *
+     * @param message Error message to show
+     */
     public void indicateServerCommunicationFailure(CharSequence message) {
         mNoConnectionFragment = CommunicationFailureFragment.newInstance(message);
         updateFragmentState();
     }
 
+    /**
+     * Update the used connection.
+     * To be called when the available connection changes.
+     *
+     * @param connection New connection to use; might be null if none is currently available
+     * @param progressMessage Message to show to the user if no connection is available
+     */
     public void updateConnection(Connection connection, CharSequence progressMessage) {
         if (connection == null) {
             mNoConnectionFragment = ProgressFragment.newInstance(progressMessage,
@@ -184,11 +237,18 @@ public abstract class FragmentController implements
         updateConnectionState();
     }
 
+    /**
+     * Open a temporary page showing the notification list
+     */
     public final void openNotifications() {
         showTemporaryPage(OpenHABNotificationFragment.newInstance(),
                 mActivity.getString(R.string.app_notifications));
     }
 
+    /**
+     * Recreate all UI state
+     * To be called from the activity's onCreate callback if the used controller changes
+     */
     public void recreateFragmentState() {
         FragmentTransaction ft = mFm.beginTransaction();
         if (mSitemapFragment != null) {
@@ -206,6 +266,67 @@ public abstract class FragmentController implements
         ft.commitNow();
 
         updateFragmentState();
+    }
+
+    /**
+     * Initialize controller views
+     * To be called after activity content view inflation
+     *
+     * @param contentView Activity's content view
+     */
+    public void initViews(View contentView) {}
+
+    /**
+     * Ask the connection controller to deliver content updates for a given page
+     *
+     * @param pageUrl URL of the content page
+     * @param forceReload Whether to discard previously cached state
+     */
+    public void triggerPageUpdate(String pageUrl, boolean forceReload) {
+        mConnectionFragment.triggerUpdate(pageUrl, forceReload);
+    }
+
+    /**
+     * Get title describing current UI state
+     *
+     * @return Title to show in action bar, or null if none can be determined
+     */
+    public abstract CharSequence getCurrentTitle();
+
+    /**
+     * Get the layout resource used as content layout for this controller
+     *
+     * @return Layout resource ID
+     */
+    public abstract @LayoutRes int getContentLayoutResource();
+
+    /**
+     * Checks whether the controller currently can consume the back key
+     *
+     * @return true if back key can be consumed, false otherwise
+     */
+    public boolean canGoBack() {
+        return !mPageStack.empty() || mFm.getBackStackEntryCount() > 0;
+    }
+
+    /**
+     * Consumes the back key
+     * To be called from activity onBackKeyPressed callback
+     *
+     * @return true if back key was consumed, false otherwise
+     */
+    public boolean goBack() {
+        if (mFm.getBackStackEntryCount() > 0) {
+            mFm.popBackStackImmediate();
+            return true;
+        }
+        if (!mPageStack.empty()) {
+            mPageStack.pop();
+            updateFragmentState(FragmentUpdateReason.BACK_NAVIGATION);
+            updateConnectionState();
+            return true;
+        }
+        return false;
     }
 
     @Override
@@ -249,49 +370,17 @@ public abstract class FragmentController implements
         }
     }
 
-    public void triggerPageUpdate(String pageUrl, boolean forceReload) {
-        mConnectionFragment.triggerUpdate(pageUrl, forceReload);
-    }
-
-    public void initViews(View contentView) {}
-
-    public abstract CharSequence getCurrentTitle();
-    public abstract @LayoutRes int getContentLayoutResource();
-    protected abstract void updateFragmentState(FragmentUpdateReason reason);
-    protected abstract void showTemporaryPage(Fragment page, CharSequence title);
-
-    public boolean canGoBack() {
-        return !mPageStack.empty() || mFm.getBackStackEntryCount() > 0;
-    }
-
-    public boolean goBack() {
-        if (mFm.getBackStackEntryCount() > 0) {
-            mFm.popBackStackImmediate();
-            return true;
-        }
-        if (!mPageStack.empty()) {
-            mPageStack.pop();
-            updateFragmentState(FragmentUpdateReason.BACK_NAVIGATION);
-            updateConnectionState();
-            return true;
-        }
-        return false;
-    }
-
     @Override
     public void onBackStackChanged() {
         mActivity.updateTitle();
     }
 
+    protected abstract void updateFragmentState(FragmentUpdateReason reason);
+    protected abstract void showTemporaryPage(Fragment page, CharSequence title);
+
     private void updateFragmentState() {
         updateFragmentState(FragmentUpdateReason.PAGE_UPDATE);
         updateConnectionState();
-    }
-
-    private void resetState() {
-        mCurrentSitemap = null;
-        mSitemapFragment = null;
-        mPageStack.clear();
     }
 
     protected void updateConnectionState() {
@@ -303,6 +392,12 @@ public abstract class FragmentController implements
             pageUrls.add(item.second.getDisplayPageUrl());
         }
         mConnectionFragment.updateActiveConnections(pageUrls, mActivity.getConnection());
+    }
+
+    private void resetState() {
+        mCurrentSitemap = null;
+        mSitemapFragment = null;
+        mPageStack.clear();
     }
 
     private OpenHABWidgetListFragment makeSitemapFragment(OpenHABSitemap sitemap) {
@@ -318,7 +413,6 @@ public abstract class FragmentController implements
         BACK_NAVIGATION,
         PAGE_UPDATE
     }
-
 
     protected static @AnimRes int determineEnterAnim(FragmentUpdateReason reason) {
         switch (reason) {
