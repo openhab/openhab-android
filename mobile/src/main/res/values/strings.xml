@@ -173,8 +173,8 @@
     <string name="try_again_button">Try again</string>
     <string name="network_error">Network error</string>
     <string name="go_to_settings_button">Go to settings</string>
-    <string name="configuration_missing">Your OpenHAB server could not be discovered automatically. Please configure its IP address or host name in the server settings.</string>
-    <string name="resolving_openhab">Trying to discover OpenHAB server instance\u2026</string>
+    <string name="configuration_missing">Your openHAB server could not be discovered automatically. Please configure its IP address or host name in the server settings.</string>
+    <string name="resolving_openhab">Trying to discover openHAB server instance\u2026</string>
 
     <string name="intro_discovery">Discovery</string>
     <string name="intro_discovery_summary">Please note this will work only if authentication is not enforced by the server</string>
