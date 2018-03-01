@@ -14,6 +14,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Pair;
 import android.view.View;
+import android.view.ViewStub;
 
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.model.OpenHABLinkedPage;
@@ -26,13 +27,6 @@ public class FragmentControllerTwoPane extends FragmentController {
 
     public FragmentControllerTwoPane(OpenHABMainActivity activity) {
         super(activity);
-    }
-
-    @Override
-    public void initViews(View contentView) {
-        super.initViews(contentView);
-        mRightContentView = contentView.findViewById(R.id.content_right);
-        mRightContentView.setVisibility(View.GONE);
     }
 
     @Override
@@ -123,7 +117,10 @@ public class FragmentControllerTwoPane extends FragmentController {
     }
 
     @Override
-    public @LayoutRes int getContentLayoutResource() {
-        return R.layout.content_twopane;
+    public void inflateViews(ViewStub stub) {
+        stub.setLayoutResource(R.layout.content_twopane);
+        View view = stub.inflate();
+        mRightContentView = view.findViewById(R.id.content_right);
+        mRightContentView.setVisibility(View.GONE);
     }
 }

@@ -296,11 +296,9 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         }
 
         setContentView(R.layout.activity_main);
-
         // inflate the controller dependent content view
         ViewStub contentStub = findViewById(R.id.content_stub);
-        contentStub.setLayoutResource(mController.getContentLayoutResource());
-        mController.initViews(contentStub.inflate());
+        mController.inflateViews(contentStub);
 
         setupToolbar();
         gcmRegisterBackground();

@@ -11,6 +11,7 @@ package org.openhab.habdroid.ui.activity;
 
 import android.support.annotation.LayoutRes;
 import android.support.v4.app.Fragment;
+import android.view.ViewStub;
 
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.ui.OpenHABMainActivity;
@@ -60,7 +61,8 @@ public class FragmentControllerOnePane extends FragmentController {
     }
 
     @Override
-    public @LayoutRes int getContentLayoutResource() {
-        return R.layout.content_onepane;
+    public void inflateViews(ViewStub stub) {
+        stub.setLayoutResource(R.layout.content_onepane);
+        stub.inflate();
     }
 }

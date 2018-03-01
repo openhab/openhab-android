@@ -30,6 +30,7 @@ import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewStub;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -269,12 +270,12 @@ public abstract class FragmentController implements
     }
 
     /**
-     * Initialize controller views
+     * Inflate controller views
      * To be called after activity content view inflation
      *
-     * @param contentView Activity's content view
+     * @param stub View stub to inflate controller views into
      */
-    public void initViews(View contentView) {}
+    public abstract void inflateViews(ViewStub stub);
 
     /**
      * Ask the connection controller to deliver content updates for a given page
@@ -292,13 +293,6 @@ public abstract class FragmentController implements
      * @return Title to show in action bar, or null if none can be determined
      */
     public abstract CharSequence getCurrentTitle();
-
-    /**
-     * Get the layout resource used as content layout for this controller
-     *
-     * @return Layout resource ID
-     */
-    public abstract @LayoutRes int getContentLayoutResource();
 
     /**
      * Checks whether the controller currently can consume the back key
