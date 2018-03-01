@@ -189,6 +189,25 @@ public abstract class FragmentController implements
                 mActivity.getString(R.string.app_notifications));
     }
 
+    public void recreateFragmentState() {
+        FragmentTransaction ft = mFm.beginTransaction();
+        if (mSitemapFragment != null) {
+            mSitemapFragment.setHighlightedPageLink(null);
+            ft.remove(mSitemapFragment);
+        }
+        for (Pair<OpenHABLinkedPage, OpenHABWidgetListFragment> item : mPageStack) {
+            item.second.setHighlightedPageLink(null);
+            ft.remove(item.second);
+        }
+        if (mNoConnectionFragment != null) {
+            ft.remove(mNoConnectionFragment);
+        }
+        ft.remove(mDefaultProgressFragment);
+        ft.commitNow();
+
+        updateFragmentState();
+    }
+
     @Override
     public boolean serverReturnsJson() {
         return mActivity.getOpenHABVersion() != 1;
@@ -235,10 +254,6 @@ public abstract class FragmentController implements
     }
 
     public void initViews(View contentView) {}
-    public void updateFragmentState() {
-        updateFragmentState(FragmentUpdateReason.PAGE_UPDATE);
-        updateConnectionState();
-    }
 
     public abstract CharSequence getCurrentTitle();
     public abstract @LayoutRes int getContentLayoutResource();
@@ -266,6 +281,11 @@ public abstract class FragmentController implements
     @Override
     public void onBackStackChanged() {
         mActivity.updateTitle();
+    }
+
+    private void updateFragmentState() {
+        updateFragmentState(FragmentUpdateReason.PAGE_UPDATE);
+        updateConnectionState();
     }
 
     private void resetState() {

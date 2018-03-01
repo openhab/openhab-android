@@ -333,7 +333,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
                 // Our controller type changed, so we need to make the new controller aware of the
                 // page hierarchy. If the controller didn't change, the hierarchy will be restored
                 // via the fragment state restoration.
-                mController.updateFragmentState();
+                mController.recreateFragmentState();
             }
         }
 
