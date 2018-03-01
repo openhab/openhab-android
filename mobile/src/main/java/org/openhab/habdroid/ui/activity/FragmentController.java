@@ -60,6 +60,7 @@ public abstract class FragmentController implements
     protected Fragment mNoConnectionFragment;
     protected Fragment mDefaultProgressFragment;
     private PageConnectionHolderFragment mConnectionFragment;
+    private List<OpenHABWidgetListFragment> mTemporaryPages = new ArrayList<>();
 
     protected OpenHABSitemap mCurrentSitemap;
     protected OpenHABWidgetListFragment mSitemapFragment;
@@ -102,6 +103,10 @@ public abstract class FragmentController implements
             mFm.putFragment(state, "progressFragment", mDefaultProgressFragment);
         }
         state.putParcelableArrayList("controllerPages", pages);
+        state.putInt("temporaryCount", mTemporaryPages.size());
+        for (int i = 0; i < mTemporaryPages.size(); i++) {
+            mFm.putFragment(state, "temporaryPage-" + i, mTemporaryPages.get(i));
+        }
     }
 
     /**
@@ -130,6 +135,14 @@ public abstract class FragmentController implements
             OpenHABWidgetListFragment f = (OpenHABWidgetListFragment)
                     mFm.getFragment(state, "pageFragment-" + page.getLink());
             mPageStack.add(Pair.create(page, f != null ? f : makePageFragment(page)));
+        }
+        int temporaryCount = state.getInt("temporaryCount");
+        for (int i = 0; i < temporaryCount; i++) {
+            OpenHABWidgetListFragment f = (OpenHABWidgetListFragment)
+                    mFm.getFragment(state, "temporaryPage-" + i);
+            if (f != null) {
+                mTemporaryPages.add(f);
+            }
         }
     }
 
@@ -186,7 +199,10 @@ public abstract class FragmentController implements
             updateFragmentState();
         } else {
             // we didn't find it
-            showTemporaryPage(OpenHABWidgetListFragment.withPage(url, null), null);
+            OpenHABWidgetListFragment f = OpenHABWidgetListFragment.withPage(url, null);
+            mTemporaryPages.add(f);
+            showTemporaryPage(f, null);
+            updateConnectionState();
         }
     }
 
@@ -345,6 +361,12 @@ public abstract class FragmentController implements
                     break;
                 }
             }
+            for (OpenHABWidgetListFragment f : mTemporaryPages) {
+                if (pageUrl.equals(f.getDisplayPageUrl())) {
+                    f.update(pageTitle, widgets);
+                    break;
+                }
+            }
         }
         if (mPendingDataLoadUrls.remove(pageUrl) && mPendingDataLoadUrls.isEmpty()) {
             mActivity.setProgressIndicatorVisible(false);
@@ -367,6 +389,10 @@ public abstract class FragmentController implements
     @Override
     public void onBackStackChanged() {
         mActivity.updateTitle();
+        if (mTemporaryPages.size() > mFm.getBackStackEntryCount()) {
+            mTemporaryPages = mTemporaryPages.subList(0, mFm.getBackStackEntryCount());
+            updateConnectionState();
+        }
     }
 
     protected abstract void updateFragmentState(FragmentUpdateReason reason);
@@ -384,6 +410,9 @@ public abstract class FragmentController implements
         }
         for (Pair<OpenHABLinkedPage, OpenHABWidgetListFragment> item : mPageStack) {
             pageUrls.add(item.second.getDisplayPageUrl());
+        }
+        for (OpenHABWidgetListFragment f : mTemporaryPages) {
+            pageUrls.add(f.getDisplayPageUrl());
         }
         mConnectionFragment.updateActiveConnections(pageUrls, mActivity.getConnection());
     }
