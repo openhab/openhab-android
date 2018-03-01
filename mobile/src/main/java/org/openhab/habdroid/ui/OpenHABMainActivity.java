@@ -598,7 +598,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
                 super.onDrawerOpened(drawerView);
             }
         };
-        mDrawerLayout.setDrawerListener(mDrawerToggle);
+        mDrawerLayout.addDrawerListener(mDrawerToggle);
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
 
         mDrawerItemList = new ArrayList<>();
