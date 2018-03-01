@@ -248,12 +248,12 @@ public class OpenHABAboutActivity extends AppCompatActivity {
             conn.getSyncHttpClient().get("/static/secret", new MyHttpClient.TextResponseHandler() {
                 @Override
                 public void onFailure(Call call, int statusCode, Headers headers, String responseString, Throwable error) {
-                    Log.d(TAG, "Could not fetch server secret", error);
+                    Log.d(TAG, "Could not fetch server secret " + error.getMessage());
                 }
 
                 @Override
                 public void onSuccess(Call call, int statusCode, Headers headers, String responseString) {
-                    Log.d(TAG, "Got secret" + obfuscateString(responseString));
+                    Log.d(TAG, "Got secret " + obfuscateString(responseString));
                     secret[0] = responseString;
                 }
             });
@@ -271,12 +271,12 @@ public class OpenHABAboutActivity extends AppCompatActivity {
             conn.getSyncHttpClient().get(uuidUrl, new MyHttpClient.TextResponseHandler() {
                 @Override
                 public void onFailure(Call call, int statusCode, Headers headers, String responseString, Throwable error) {
-                    Log.e(TAG, "Could not fetch server uuid", error);
+                    Log.e(TAG, "Could not fetch server uuid " + error.getMessage());
                 }
 
                 @Override
                 public void onSuccess(Call call, int statusCode, Headers headers, String responseString) {
-                    Log.d(TAG, "Got uuid = " + obfuscateString(responseString));
+                    Log.d(TAG, "Got uuid " + obfuscateString(responseString));
                     uuid[0] = responseString;
                 }
             });
@@ -295,7 +295,7 @@ public class OpenHABAboutActivity extends AppCompatActivity {
             conn.getSyncHttpClient().get(versionUrl, new MyHttpClient.TextResponseHandler() {
                 @Override
                 public void onFailure(Call call, int statusCode, Headers headers, String responseString, Throwable error) {
-                    Log.e(TAG, "Could not fetch rest API version", error);
+                    Log.e(TAG, "Could not fetch rest API version " + error.getMessage());
                 }
 
                 @Override
@@ -307,10 +307,10 @@ public class OpenHABAboutActivity extends AppCompatActivity {
                             JSONObject pageJson = new JSONObject(responseString);
                             version[0] = pageJson.getString("version");
                         } catch (JSONException e) {
-                            Log.e(TAG, "Problem fetching version string");
+                            Log.e(TAG, "Problem fetching version string", e);
                         }
                     }
-                    Log.d(TAG, "Got version = " + version[0]);
+                    Log.d(TAG, "Got version " + version[0]);
                 }
             });
             return version[0];
