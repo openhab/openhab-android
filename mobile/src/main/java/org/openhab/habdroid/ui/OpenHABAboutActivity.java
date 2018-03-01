@@ -174,8 +174,11 @@ public class OpenHABAboutActivity extends AppCompatActivity {
                         .icon(R.drawable.ic_info_outline)
                         .build());
 
-                String secret = getServerSecret(conn);
-                if(!TextUtils.isEmpty(secret)) {
+                if (mOpenHABVersion == 1) {
+                    String secret = getServerSecret(conn);
+                    if (!TextUtils.isEmpty(secret)) {
+                        secret = getString(R.string.unknown);
+                    }
                     ohServerCard.addItem(new MaterialAboutActionItem.Builder()
                             .text(R.string.info_openhab_secret_label)
                             .subText(secret)
@@ -248,7 +251,7 @@ public class OpenHABAboutActivity extends AppCompatActivity {
             conn.getSyncHttpClient().get("/static/secret", new MyHttpClient.TextResponseHandler() {
                 @Override
                 public void onFailure(Call call, int statusCode, Headers headers, String responseString, Throwable error) {
-                    Log.d(TAG, "Could not fetch server secret " + error.getMessage());
+                    Log.e(TAG, "Could not fetch server secret " + error.getMessage());
                 }
 
                 @Override
