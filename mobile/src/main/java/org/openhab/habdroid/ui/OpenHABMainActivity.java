@@ -198,6 +198,8 @@ public class OpenHABMainActivity extends AppCompatActivity implements
             }
 
             mController.indicateServerCommunicationFailure(message);
+            mPendingCall = null;
+            mInitState = InitState.DONE;
         }
     }
     // GCM Registration expiration
@@ -214,6 +216,12 @@ public class OpenHABMainActivity extends AppCompatActivity implements
     private static final int DRAWER_NOTIFICATIONS = 100;
     private static final int DRAWER_ABOUT = 101;
     private static final int DRAWER_PREFERENCES = 102;
+
+    private enum InitState {
+        QUERY_SERVER_PROPS,
+        LOAD_SITEMAPS,
+        DONE
+    }
 
     // preferences
     private SharedPreferences mSettings;
@@ -242,6 +250,8 @@ public class OpenHABMainActivity extends AppCompatActivity implements
     private Uri mPendingNfcData;
     private OpenHABSitemap mSelectedSitemap;
     private FragmentController mController;
+    private InitState mInitState = InitState.QUERY_SERVER_PROPS;
+    private Call mPendingCall;
 
     /**
      * Daydreaming gets us into a funk when in fullscreen, this allows us to
@@ -311,7 +321,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
             mOpenHABVersion = savedInstanceState.getInt("openHABVersion");
             mSitemapList = savedInstanceState.getParcelableArrayList("sitemapList");
             mSelectedSitemap = savedInstanceState.getParcelable("sitemap");
-
+            mInitState = InitState.values()[savedInstanceState.getInt("initState")];
             int lastConnectionHash = savedInstanceState.getInt("connectionHash");
             if (lastConnectionHash != -1) {
                 try {
@@ -387,7 +397,8 @@ public class OpenHABMainActivity extends AppCompatActivity implements
 
     public void queryServerProperties() {
         final String url = "/rest/bindings";
-        mConnection.getAsyncHttpClient().get(url, new DefaultHttpResponseHandler() {
+        mInitState = InitState.QUERY_SERVER_PROPS;
+        mPendingCall = mConnection.getAsyncHttpClient().get(url, new DefaultHttpResponseHandler() {
             @Override
             public void onFailure(Call call, int statusCode, Headers headers, byte[] responseBody, Throwable error) {
                 if (statusCode == 404) {
@@ -398,6 +409,8 @@ public class OpenHABMainActivity extends AppCompatActivity implements
                 } else {
                     // other error -> use default handling
                     super.onFailure(call, statusCode, headers, responseBody, error);
+                    mInitState = InitState.DONE;
+                    mPendingCall = null;
                 }
             }
 
@@ -552,6 +565,18 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         updateTitle();
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (mConnection != null) {
+            if (mInitState == InitState.QUERY_SERVER_PROPS) {
+                queryServerProperties();
+            } else if (mInitState == InitState.LOAD_SITEMAPS) {
+                selectSitemap();
+            }
+        }
+    }
+
     /**
      * Overriding onStop to enable Google Analytics stats collection
      */
@@ -561,6 +586,9 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         super.onStop();
         if(selectSitemapDialog != null && selectSitemapDialog.isShowing()) {
             selectSitemapDialog.dismiss();
+        }
+        if (mPendingCall != null) {
+            mPendingCall.cancel();
         }
     }
 
@@ -695,11 +723,14 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         Log.d(TAG, "Loading sitemap list from /rest/sitemaps");
 
         setProgressIndicatorVisible(true);
-        mConnection.getAsyncHttpClient().get("/rest/sitemaps", new DefaultHttpResponseHandler() {
+        mInitState = InitState.LOAD_SITEMAPS;
+        mPendingCall = mConnection.getAsyncHttpClient().get("/rest/sitemaps", new DefaultHttpResponseHandler() {
             @Override
             public void onSuccess(Call call, int statusCode, Headers headers, byte[] responseBody) {
                 Log.d(TAG, new String(responseBody));
                 setProgressIndicatorVisible(false);
+                mPendingCall = null;
+                mInitState = InitState.DONE;
                 mSitemapList.clear();
                 // If openHAB's version is 1, get sitemap list from XML
                 if (mOpenHABVersion == 1) {
@@ -901,6 +932,10 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         savedInstanceState.putString("controller", mController.getClass().getCanonicalName());
         savedInstanceState.putInt("connectionHash",
                 mConnection != null ? mConnection.hashCode() : -1);
+        savedInstanceState.putInt("initState", mInitState.ordinal());
+        if (mPendingCall != null) {
+            mPendingCall.cancel();
+        }
         mController.onSaveInstanceState(savedInstanceState);
         super.onSaveInstanceState(savedInstanceState);
     }
