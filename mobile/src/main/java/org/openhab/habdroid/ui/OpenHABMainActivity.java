@@ -401,7 +401,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         mPendingCall = mConnection.getAsyncHttpClient().get(url, new DefaultHttpResponseHandler() {
             @Override
             public void onFailure(Call call, int statusCode, Headers headers, byte[] responseBody, Throwable error) {
-                if (statusCode == 404) {
+                if (statusCode == 404 && mConnection != null) {
                     // no bindings endpoint; we're likely talking to an OH1 instance
                     mOpenHABVersion = 1;
                     mConnection.getAsyncHttpClient().addHeader("Accept", "application/xml");
