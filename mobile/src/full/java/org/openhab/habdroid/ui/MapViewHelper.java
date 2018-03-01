@@ -14,6 +14,7 @@ import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -24,6 +25,7 @@ import org.openhab.habdroid.model.OpenHABWidget;
 import org.openhab.habdroid.util.MySmartImageView;
 import org.openhab.habdroid.util.Util;
 
+import java.util.ArrayList;
 import java.util.Locale;
 
 public class MapViewHelper {
@@ -130,7 +132,8 @@ public class MapViewHelper {
         public void onMarkerDragEnd(Marker marker) {
             String newState = String.format(Locale.US, "%f,%f",
                     marker.getPosition().latitude, marker.getPosition().longitude);
-            Util.sendItemCommand(mConnection.getAsyncHttpClient(), mBoundItem, newState);
+            OpenHABItem item = (OpenHABItem) marker.getTag();
+            Util.sendItemCommand(mConnection.getAsyncHttpClient(), item, newState);
         }
 
         @Override
@@ -172,20 +175,43 @@ public class MapViewHelper {
         }
 
         private void applyPositionAndLabel(GoogleMap map, float zoomLevel, boolean allowDrag) {
-            LatLng position = parseLocation(mBoundItem.state());
-            if (position != null) {
-                setMarker(map, position, mLabelView.getText(), !mBoundItem.readOnly() && allowDrag);
-                map.moveCamera(CameraUpdateFactory.newLatLngZoom(position, zoomLevel));
+            boolean canDragMarker = allowDrag && !mBoundItem.readOnly();
+            if (!mBoundItem.members().isEmpty()) {
+                ArrayList<LatLng> positions = new ArrayList<>();
+                for (OpenHABItem item : mBoundItem.members()) {
+                    LatLng position = parseLocation(item.state());
+                    if (position != null) {
+                        setMarker(map, position, item, item.label(), canDragMarker);
+                        positions.add(position);
+                    }
+                }
+                if (!positions.isEmpty()) {
+                    LatLngBounds.Builder boundsBuilder = new LatLngBounds.Builder();
+                    for (LatLng position : positions) {
+                        boundsBuilder.include(position);
+                    }
+                    map.moveCamera(CameraUpdateFactory.newLatLngBounds(boundsBuilder.build(), 0));
+                    float zoom = map.getCameraPosition().zoom;
+                    if (zoom > zoomLevel) {
+                        map.moveCamera(CameraUpdateFactory.zoomTo(zoomLevel));
+                    }
+                }
+            } else {
+                LatLng position = parseLocation(mBoundItem.state());
+                if (position != null) {
+                    setMarker(map, position, mBoundItem, mLabelView.getText(), canDragMarker);
+                    map.moveCamera(CameraUpdateFactory.newLatLngZoom(position, zoomLevel));
+                }
             }
         }
 
-        private static void setMarker(GoogleMap map, LatLng position,
+        private static void setMarker(GoogleMap map, LatLng position, OpenHABItem item,
                 CharSequence label, boolean canDrag) {
             MarkerOptions marker = new MarkerOptions()
                     .draggable(canDrag)
                     .position(position)
                     .title(label != null ? label.toString() : null);
-            map.addMarker(marker);
+            map.addMarker(marker).setTag(item);
         }
 
         private static LatLng parseLocation(String state) {

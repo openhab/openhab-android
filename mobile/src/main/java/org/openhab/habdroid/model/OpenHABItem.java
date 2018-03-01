@@ -14,11 +14,14 @@ import android.support.annotation.Nullable;
 
 import com.google.auto.value.AutoValue;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -45,12 +48,14 @@ public abstract class OpenHABItem implements Parcelable {
     }
 
     public abstract String name();
+    public abstract String label();
     public abstract Type type();
     @Nullable
     public abstract Type groupType();
     @Nullable
     public abstract String link();
     public abstract boolean readOnly();
+    public abstract List<OpenHABItem> members();
     @Nullable
     public abstract String state();
     public abstract boolean stateAsBoolean();
@@ -67,11 +72,13 @@ public abstract class OpenHABItem implements Parcelable {
     @AutoValue.Builder
     abstract static class Builder {
         public abstract Builder name(String name);
+        public abstract Builder label(String label);
         public abstract Builder type(Type type);
         public abstract Builder groupType(Type type);
         public abstract Builder state(@Nullable String state);
         public abstract Builder link(@Nullable String link);
         public abstract Builder readOnly(boolean readOnly);
+        public abstract Builder members(List<OpenHABItem> members);
 
         public OpenHABItem build() {
             String state = state();
@@ -202,7 +209,9 @@ public abstract class OpenHABItem implements Parcelable {
                 .type(type)
                 .groupType(groupType)
                 .name(name)
+                .label(name)
                 .state("Unitialized".equals(state) ? null : state)
+                .members(new ArrayList<OpenHABItem>())
                 .link(link)
                 .readOnly(false)
                 .build();
@@ -213,6 +222,7 @@ public abstract class OpenHABItem implements Parcelable {
             return null;
         }
 
+        String name = jsonObject.getString("name");
         String state = jsonObject.optString("state", "");
         if ("NULL".equals(state) || "UNDEF".equals(state) || "undefined".equalsIgnoreCase(state)) {
             state = null;
@@ -223,11 +233,21 @@ public abstract class OpenHABItem implements Parcelable {
                 ? stateDescription.optBoolean("readOnly", false)
                 : false;
 
+        List<OpenHABItem> members = new ArrayList<>();
+        JSONArray membersJson = jsonObject.optJSONArray("members");
+        if (membersJson != null) {
+            for (int i = 0; i < membersJson.length(); i++) {
+                members.add(fromJson(membersJson.getJSONObject(i)));
+            }
+        }
+
         return new AutoValue_OpenHABItem.Builder()
                 .type(parseType(jsonObject.getString("type")))
                 .groupType(parseType(jsonObject.optString("groupType")))
-                .name(jsonObject.getString("name"))
+                .name(name)
+                .label(jsonObject.optString("label", name))
                 .link(jsonObject.optString("link", null))
+                .members(members)
                 .state(state)
                 .readOnly(readOnly)
                 .build();
