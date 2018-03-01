@@ -194,9 +194,6 @@ public class PageConnectionHolderFragment extends Fragment {
 
         @Override
         public void onFailure(Call call, int statusCode, Headers headers, byte[] responseBody, Throwable error) {
-            if (call.isCanceled()) {
-                return;
-            }
             mAtmosphereTrackingId = null;
             mLongPolling = false;
             load();
@@ -204,9 +201,6 @@ public class PageConnectionHolderFragment extends Fragment {
 
         @Override
         public void onSuccess(Call call, int statusCode, Headers headers, byte[] responseBody) {
-            if (call.isCanceled()) {
-                return;
-            }
             String id = headers.get("X-Atmosphere-tracking-id");
             if (id != null) {
                 mAtmosphereTrackingId = id;

@@ -49,16 +49,21 @@ public class MyAsyncHttpClient extends MyHttpClient<Call> {
         call.enqueue(new Callback() {
             @Override
             public void onFailure(final Call call, final IOException e) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        responseHandler.onFailure(call, 0, new Headers.Builder().build(), null, e);
-                    }
-                });
+                if (!call.isCanceled()) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            responseHandler.onFailure(call, 0, new Headers.Builder().build(), null, e);
+                        }
+                    });
+                }
             }
 
             @Override
             public void onResponse(final Call call, Response response) throws IOException {
+                if (call.isCanceled()) {
+                    return;
+                }
                 final int code = response.code();
                 final byte[] body = response.body().bytes();
                 final boolean success = response.isSuccessful();
