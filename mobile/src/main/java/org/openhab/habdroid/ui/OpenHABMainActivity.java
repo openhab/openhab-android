@@ -303,7 +303,6 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         mController.initViews(contentStub.inflate());
 
         setupToolbar();
-        setupDrawer();
         gcmRegisterBackground();
 
         mViewPool = new RecyclerView.RecycledViewPool();
@@ -341,6 +340,8 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         if (mSitemapList == null) {
             mSitemapList = new ArrayList<>();
         }
+
+        setupDrawer();
 
         if (getIntent() != null) {
             processIntent(getIntent());
