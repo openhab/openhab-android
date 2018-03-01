@@ -50,6 +50,7 @@ import android.widget.VideoView;
 import com.loopj.android.image.SmartImage;
 
 import org.openhab.habdroid.R;
+import org.openhab.habdroid.core.connection.Connection;
 import org.openhab.habdroid.model.OpenHABItem;
 import org.openhab.habdroid.model.OpenHABWidget;
 import org.openhab.habdroid.model.OpenHABWidgetMapping;
@@ -58,7 +59,6 @@ import org.openhab.habdroid.ui.widget.DividerItemDecoration;
 import org.openhab.habdroid.ui.widget.OnColorChangedListener;
 import org.openhab.habdroid.ui.widget.SegmentedControlButton;
 import org.openhab.habdroid.util.MjpegStreamer;
-import org.openhab.habdroid.util.MyAsyncHttpClient;
 import org.openhab.habdroid.util.MySmartImageView;
 import org.openhab.habdroid.util.Util;
 
@@ -100,24 +100,19 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
     private static final int TYPE_VIDEO_MJPEG = 15;
 
     private final ArrayList<OpenHABWidget> mItems = new ArrayList<>();
-    private final ConnectionInfo mConnection;
     private final LayoutInflater mInflater;
-    private MyAsyncHttpClient mAsyncHttpClient;
     private ItemClickListener mItemClickListener;
     private @ColorInt int mPrimaryForegroundColor;
     private CharSequence mChartTheme;
     private int mSelectedPosition = -1;
     private final boolean mSelectionEnabled;
+    private Connection mConnection;
 
-    public OpenHABWidgetAdapter(Context context, MyAsyncHttpClient httpClient,
-            String openHABBaseUrl, String openHABUsername, String openHABPassword,
-            ItemClickListener itemClickListener, boolean selectionEnabled) {
+    public OpenHABWidgetAdapter(Context context, ItemClickListener itemClickListener, boolean
+            selectionEnabled, Connection conn) {
         super();
 
         mInflater = LayoutInflater.from(context);
-
-        mAsyncHttpClient = httpClient;
-        mConnection = new ConnectionInfo(openHABBaseUrl, openHABUsername, openHABPassword);
         mItemClickListener = itemClickListener;
         mSelectionEnabled = selectionEnabled;
 
@@ -126,6 +121,8 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         mPrimaryForegroundColor = ContextCompat.getColor(context, tv.data);
         context.getTheme().resolveAttribute(R.attr.chartTheme, tv, true);
         mChartTheme = tv.string;
+
+        mConnection = conn;
     }
 
     public void update(List<OpenHABWidget> widgets) {
@@ -139,55 +136,52 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         final ViewHolder holder;
         switch (viewType) {
             case TYPE_GENERICITEM:
-                holder = new GenericViewHolder(mInflater, parent, mAsyncHttpClient, mConnection);
+                holder = new GenericViewHolder(mInflater, parent, mConnection);
                 break;
             case TYPE_FRAME:
-                holder = new FrameViewHolder(mInflater, parent, mAsyncHttpClient, mConnection);
+                holder = new FrameViewHolder(mInflater, parent, mConnection);
                 break;
             case TYPE_GROUP:
-                holder = new GroupViewHolder(mInflater, parent, mAsyncHttpClient, mConnection);
+                holder = new GroupViewHolder(mInflater, parent, mConnection);
                 break;
             case TYPE_SWITCH:
-                holder = new SwitchViewHolder(mInflater, parent, mAsyncHttpClient, mConnection);
+                holder = new SwitchViewHolder(mInflater, parent, mConnection);
                 break;
             case TYPE_TEXT:
-                holder = new TextViewHolder(mInflater, parent, mAsyncHttpClient, mConnection);
+                holder = new TextViewHolder(mInflater, parent, mConnection);
                 break;
             case TYPE_SLIDER:
-                holder = new SliderViewHolder(mInflater, parent, mAsyncHttpClient, mConnection);
+                holder = new SliderViewHolder(mInflater, parent, mConnection);
                 break;
             case TYPE_IMAGE:
-                holder = new ImageViewHolder(mInflater, parent, mAsyncHttpClient, mConnection);
+                holder = new ImageViewHolder(mInflater, parent, mConnection);
                 break;
             case TYPE_SELECTION:
-                holder = new SelectionViewHolder(mInflater, parent, mAsyncHttpClient, mConnection);
+                holder = new SelectionViewHolder(mInflater, parent, mConnection);
                 break;
             case TYPE_SECTIONSWITCH:
-                holder = new SectionSwitchViewHolder(mInflater, parent, mAsyncHttpClient, mConnection);
+                holder = new SectionSwitchViewHolder(mInflater, parent, mConnection);
                 break;
             case TYPE_ROLLERSHUTTER:
-                holder = new RollerShutterViewHolder(mInflater, parent,
-                        mAsyncHttpClient, mConnection);
+                holder = new RollerShutterViewHolder(mInflater, parent, mConnection);
                 break;
             case TYPE_SETPOINT:
-                holder = new SetpointViewHolder(mInflater, parent,
-                        mPrimaryForegroundColor, mAsyncHttpClient, mConnection);
+                holder = new SetpointViewHolder(mInflater, parent, mPrimaryForegroundColor, mConnection);
                 break;
             case TYPE_CHART:
-                holder = new ChartViewHolder(mInflater, parent,
-                        mChartTheme, mAsyncHttpClient, mConnection);
+                holder = new ChartViewHolder(mInflater, parent, mChartTheme, mConnection);
                 break;
             case TYPE_VIDEO:
-                holder = new VideoViewHolder(mInflater, parent, mAsyncHttpClient, mConnection);
+                holder = new VideoViewHolder(mInflater, parent, mConnection);
                 break;
             case TYPE_WEB:
-                holder = new WebViewHolder(mInflater, parent, mAsyncHttpClient, mConnection);
+                holder = new WebViewHolder(mInflater, parent, mConnection);
                 break;
             case TYPE_COLOR:
-                holder = new ColorViewHolder(mInflater, parent, mAsyncHttpClient, mConnection);
+                holder = new ColorViewHolder(mInflater, parent, mConnection);
                 break;
             case TYPE_VIDEO_MJPEG:
-                holder = new MjpegVideoViewHolder(mInflater, parent, mAsyncHttpClient, mConnection);
+                holder = new MjpegVideoViewHolder(mInflater, parent, mConnection);
                 break;
             default:
                 throw new IllegalArgumentException("View type " + viewType + " is not known");
@@ -309,27 +303,13 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         return false;
     }
 
-    private static class ConnectionInfo {
-        private final String baseUrl;
-        private final String userName;
-        private final String password;
-
-        private ConnectionInfo(String baseUrl, String userName, String password) {
-            this.baseUrl = baseUrl;
-            this.userName = userName;
-            this.password = password;
-        }
-    }
-
     public abstract static class ViewHolder extends RecyclerView.ViewHolder {
-        protected final MyAsyncHttpClient mHttpClient;
-        protected final ConnectionInfo mConnectionInfo;
+        protected final Connection mConnection;
 
         ViewHolder(LayoutInflater inflater, ViewGroup parent, @LayoutRes int layoutResId,
-                MyAsyncHttpClient httpClient, ConnectionInfo connection) {
+                   Connection conn) {
             super(inflater.inflate(layoutResId, parent, false));
-            mHttpClient = httpClient;
-            mConnectionInfo = connection;
+            mConnection = conn;
         }
 
         public abstract void bind(OpenHABWidget widget);
@@ -351,8 +331,8 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
 
         protected void updateIcon(MySmartImageView iconView, OpenHABWidget widget) {
             // This is needed to escape possible spaces and everything according to rfc2396
-            String iconUrl = mConnectionInfo.baseUrl + Uri.encode(widget.getIconPath(), "/?=&");
-            iconView.setImageUrl(iconUrl, mConnectionInfo.userName, mConnectionInfo.password,
+            String iconUrl = mConnection.getOpenHABUrl() + Uri.encode(widget.getIconPath(), "/?=&");
+            iconView.setImageUrl(iconUrl, mConnection.getUsername(), mConnection.getPassword(),
                     R.drawable.blank_icon);
             Integer iconColor = widget.getIconColor();
             if (iconColor != null) {
@@ -367,9 +347,8 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         private final TextView mLabelView;
         private final MySmartImageView mIconView;
 
-        GenericViewHolder(LayoutInflater inflater, ViewGroup parent,
-                MyAsyncHttpClient httpClient, ConnectionInfo connection) {
-            super(inflater, parent, R.layout.openhabwidgetlist_genericitem, httpClient, connection);
+        GenericViewHolder(LayoutInflater inflater, ViewGroup parent, Connection conn) {
+            super(inflater, parent, R.layout.openhabwidgetlist_genericitem, conn);
             mLabelView = itemView.findViewById(R.id.widgetlabel);
             mIconView = itemView.findViewById(R.id.widgetimage);
         }
@@ -385,9 +364,8 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
     public static class FrameViewHolder extends ViewHolder {
         private final TextView mLabelView;
 
-        FrameViewHolder(LayoutInflater inflater, ViewGroup parent,
-                MyAsyncHttpClient httpClient, ConnectionInfo connection) {
-            super(inflater, parent, R.layout.openhabwidgetlist_frameitem, httpClient, connection);
+        FrameViewHolder(LayoutInflater inflater, ViewGroup parent, Connection conn) {
+            super(inflater, parent, R.layout.openhabwidgetlist_frameitem, conn);
             mLabelView = itemView.findViewById(R.id.widgetlabel);
             itemView.setClickable(false);
         }
@@ -406,9 +384,8 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         private final TextView mValueView;
         private final MySmartImageView mIconView;
 
-        GroupViewHolder(LayoutInflater inflater, ViewGroup parent,
-                MyAsyncHttpClient httpClient, ConnectionInfo connection) {
-            super(inflater, parent, R.layout.openhabwidgetlist_groupitem, httpClient, connection);
+        GroupViewHolder(LayoutInflater inflater, ViewGroup parent, Connection conn) {
+            super(inflater, parent, R.layout.openhabwidgetlist_groupitem, conn);
             mLabelView = itemView.findViewById(R.id.widgetlabel);
             mValueView = itemView.findViewById(R.id.widgetvalue);
             mIconView = itemView.findViewById(R.id.widgetimage);
@@ -431,9 +408,8 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         private final SwitchCompat mSwitch;
         private OpenHABItem mBoundItem;
 
-        SwitchViewHolder(LayoutInflater inflater, ViewGroup parent,
-                MyAsyncHttpClient httpClient, ConnectionInfo connection) {
-            super(inflater, parent, R.layout.openhabwidgetlist_switchitem, httpClient, connection);
+        SwitchViewHolder(LayoutInflater inflater, ViewGroup parent, Connection conn) {
+            super(inflater, parent, R.layout.openhabwidgetlist_switchitem, conn);
             mLabelView = itemView.findViewById(R.id.widgetlabel);
             mIconView = itemView.findViewById(R.id.widgetimage);
             mSwitch = itemView.findViewById(R.id.switchswitch);
@@ -452,7 +428,8 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         @Override
         public boolean onTouch(View v, MotionEvent motionEvent) {
             if (motionEvent.getActionMasked() == MotionEvent.ACTION_UP) {
-                Util.sendItemCommand(mHttpClient, mBoundItem, mSwitch.isChecked() ? "OFF" : "ON");
+                Util.sendItemCommand(mConnection.getAsyncHttpClient(), mBoundItem,
+                        mSwitch.isChecked() ? "OFF" : "ON");
             }
             return false;
         }
@@ -463,9 +440,8 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         private final TextView mValueView;
         private final MySmartImageView mIconView;
 
-        TextViewHolder(LayoutInflater inflater, ViewGroup parent,
-                MyAsyncHttpClient httpClient, ConnectionInfo connection) {
-            super(inflater, parent, R.layout.openhabwidgetlist_textitem, httpClient, connection);
+        TextViewHolder(LayoutInflater inflater, ViewGroup parent, Connection conn) {
+            super(inflater, parent, R.layout.openhabwidgetlist_textitem, conn);
             mLabelView = itemView.findViewById(R.id.widgetlabel);
             mValueView = itemView.findViewById(R.id.widgetvalue);
             mIconView = itemView.findViewById(R.id.widgetimage);
@@ -489,9 +465,8 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         private final SeekBar mSeekBar;
         private OpenHABItem mBoundItem;
 
-        SliderViewHolder(LayoutInflater inflater, ViewGroup parent,
-                MyAsyncHttpClient httpClient, ConnectionInfo connection) {
-            super(inflater, parent, R.layout.openhabwidgetlist_slideritem, httpClient, connection);
+        SliderViewHolder(LayoutInflater inflater, ViewGroup parent, Connection conn) {
+            super(inflater, parent, R.layout.openhabwidgetlist_slideritem, conn);
             mLabelView = itemView.findViewById(R.id.widgetlabel);
             mIconView = itemView.findViewById(R.id.widgetimage);
             mSeekBar = itemView.findViewById(R.id.sliderseekbar);
@@ -534,7 +509,8 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         @Override
         public void onStopTrackingTouch(SeekBar seekBar) {
             Log.d(TAG, "onStopTrackingTouch position = " + seekBar.getProgress());
-            Util.sendItemCommand(mHttpClient, mBoundItem, String.valueOf(seekBar.getProgress()));
+            Util.sendItemCommand(mConnection.getAsyncHttpClient(), mBoundItem,
+                    String.valueOf(seekBar.getProgress()));
         }
     }
 
@@ -543,9 +519,8 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         private final View mParentView;
         private int mRefreshRate;
 
-        ImageViewHolder(LayoutInflater inflater, ViewGroup parent,
-                MyAsyncHttpClient httpClient, ConnectionInfo connection) {
-            super(inflater, parent, R.layout.openhabwidgetlist_imageitem, httpClient, connection);
+        ImageViewHolder(LayoutInflater inflater, ViewGroup parent, Connection conn) {
+            super(inflater, parent, R.layout.openhabwidgetlist_imageitem, conn);
             mImageView = itemView.findViewById(R.id.imageimage);
             mParentView = parent;
         }
@@ -571,10 +546,10 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
                 // Widget URL may be relative, add base URL if that's the case
                 Uri uri = Uri.parse(widget.getUrl());
                 if (uri.getScheme() == null) {
-                    uri = Uri.parse(mConnectionInfo.baseUrl + widget.getUrl());
+                    uri = Uri.parse(mConnection.getOpenHABUrl() + widget.getUrl());
                 }
-                mImageView.setImageUrl(uri.toString(), mConnectionInfo.userName,
-                        mConnectionInfo.password, false);
+                mImageView.setImageUrl(uri.toString(), mConnection.getUsername(),
+                        mConnection.getPassword(), false);
                 mRefreshRate = widget.getRefresh();
             }
         }
@@ -599,9 +574,8 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         private final MySmartImageView mIconView;
         private final Spinner mSpinner;
 
-        SelectionViewHolder(LayoutInflater inflater, ViewGroup parent,
-                MyAsyncHttpClient httpClient, ConnectionInfo connection) {
-            super(inflater, parent, R.layout.openhabwidgetlist_selectionitem, httpClient, connection);
+        SelectionViewHolder(LayoutInflater inflater, ViewGroup parent, Connection conn) {
+            super(inflater, parent, R.layout.openhabwidgetlist_selectionitem, conn);
             mLabelView = itemView.findViewById(R.id.widgetlabel);
             mSpinner = itemView.findViewById(R.id.selectionspinner);
             mIconView = itemView.findViewById(R.id.widgetimage);
@@ -658,7 +632,8 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
                 for (OpenHABWidgetMapping mapping : widget.getMappings()) {
                     if (mapping.getLabel().equals(selectedLabel)) {
                         Log.d(TAG, "Spinner onItemSelected found match with " + mapping.getCommand());
-                        Util.sendItemCommand(mHttpClient, widget.getItem(), mapping.getCommand());
+                        Util.sendItemCommand(mConnection.getAsyncHttpClient(), widget.getItem(),
+                                mapping.getCommand());
                     }
                 }
             }
@@ -681,9 +656,8 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         private final RadioGroup mRadioGroup;
         private OpenHABItem mBoundItem;
 
-        SectionSwitchViewHolder(LayoutInflater inflater, ViewGroup parent,
-                MyAsyncHttpClient httpClient, ConnectionInfo connection) {
-            super(inflater, parent, R.layout.openhabwidgetlist_sectionswitchitem, httpClient, connection);
+        SectionSwitchViewHolder(LayoutInflater inflater, ViewGroup parent, Connection conn) {
+            super(inflater, parent, R.layout.openhabwidgetlist_sectionswitchitem, conn);
             mInflater = inflater;
             mLabelView = itemView.findViewById(R.id.widgetlabel);
             mValueView = itemView.findViewById(R.id.widgetvalue);
@@ -728,7 +702,7 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
 
         @Override
         public void onClick(View view) {
-            Util.sendItemCommand(mHttpClient, mBoundItem, (String) view.getTag());
+            Util.sendItemCommand(mConnection.getAsyncHttpClient(), mBoundItem, (String) view.getTag());
         }
     }
 
@@ -737,9 +711,8 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         private final MySmartImageView mIconView;
         private OpenHABItem mBoundItem;
 
-        RollerShutterViewHolder(LayoutInflater inflater, ViewGroup parent,
-                MyAsyncHttpClient httpClient, ConnectionInfo connection) {
-            super(inflater, parent, R.layout.openhabwidgetlist_rollershutteritem, httpClient, connection);
+        RollerShutterViewHolder(LayoutInflater inflater, ViewGroup parent, Connection conn) {
+            super(inflater, parent, R.layout.openhabwidgetlist_rollershutteritem, conn);
             mLabelView = itemView.findViewById(R.id.widgetlabel);
             mIconView = itemView.findViewById(R.id.widgetimage);
             initButton(R.id.rollershutterbutton_up, "UP");
@@ -764,7 +737,7 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         @Override
         public boolean onTouch(View v, MotionEvent motionEvent) {
             if (motionEvent.getActionMasked() == MotionEvent.ACTION_UP) {
-                Util.sendItemCommand(mHttpClient, mBoundItem, (String) v.getTag());
+                Util.sendItemCommand(mConnection.getAsyncHttpClient(), mBoundItem, (String) v.getTag());
             }
             return false;
         }
@@ -778,9 +751,8 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         private OpenHABWidget mBoundWidget;
 
         SetpointViewHolder(LayoutInflater inflater, ViewGroup parent,
-                @ColorInt int primaryForegroundColor,
-                MyAsyncHttpClient httpClient, ConnectionInfo connection) {
-            super(inflater, parent, R.layout.openhabwidgetlist_setpointitem, httpClient, connection);
+                @ColorInt int primaryForegroundColor, Connection conn) {
+            super(inflater, parent, R.layout.openhabwidgetlist_setpointitem, conn);
             mLabelView = itemView.findViewById(R.id.widgetlabel);
             mValueView = itemView.findViewById(R.id.widgetvalue);
             mValueView.setOnClickListener(this);
@@ -849,7 +821,7 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
                     .setPositiveButton(R.string.set, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int id) {
-                            Util.sendItemCommand(mHttpClient, mBoundWidget.getItem(),
+                            Util.sendItemCommand(mConnection.getAsyncHttpClient(), mBoundWidget.getItem(),
                                     stepValues[numberPicker.getValue()]);
                         }
                     })
@@ -866,9 +838,8 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         private int mRefreshRate = 0;
         private int mDensity;
 
-        ChartViewHolder(LayoutInflater inflater, ViewGroup parent, CharSequence theme,
-                MyAsyncHttpClient httpClient, ConnectionInfo connection) {
-            super(inflater, parent, R.layout.openhabwidgetlist_chartitem, httpClient, connection);
+        ChartViewHolder(LayoutInflater inflater, ViewGroup parent, CharSequence theme, Connection conn) {
+            super(inflater, parent, R.layout.openhabwidgetlist_chartitem, conn);
             mImageView = itemView.findViewById(R.id.chartimage);
             mParentView = parent;
 
@@ -885,7 +856,7 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
             OpenHABItem item = widget.getItem();
 
             if (item != null) {
-                StringBuilder chartUrl = new StringBuilder(mConnectionInfo.baseUrl);
+                StringBuilder chartUrl = new StringBuilder(mConnection.getOpenHABUrl());
 
                 if ("GroupItem".equals(item.getType()) || "Group".equals(item.getType())) {
                     chartUrl.append("chart?groups=").append(item.getName());
@@ -913,8 +884,8 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
 
                 Log.d(TAG, "Chart url = " + chartUrl);
 
-                mImageView.setImageUrl(chartUrl.toString(), mConnectionInfo.userName,
-                        mConnectionInfo.password, false);
+                mImageView.setImageUrl(chartUrl.toString(), mConnection.getUsername(),
+                        mConnection.getPassword(), false);
                 mRefreshRate = widget.getRefresh();
             } else {
                 Log.e(TAG, "Chart item is null");
@@ -941,9 +912,8 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
     public static class VideoViewHolder extends ViewHolder {
         private final VideoView mVideoView;
 
-        VideoViewHolder(LayoutInflater inflater, ViewGroup parent,
-                MyAsyncHttpClient httpClient, ConnectionInfo connection) {
-            super(inflater, parent, R.layout.openhabwidgetlist_videoitem, httpClient, connection);
+        VideoViewHolder(LayoutInflater inflater, ViewGroup parent, Connection conn) {
+            super(inflater, parent, R.layout.openhabwidgetlist_videoitem, conn);
             mVideoView = itemView.findViewById(R.id.videovideo);
         }
 
@@ -980,9 +950,8 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         private final WebView mWebView;
         private final int mRowHeightPixels;
 
-        WebViewHolder(LayoutInflater inflater, ViewGroup parent,
-                MyAsyncHttpClient httpClient, ConnectionInfo connection) {
-            super(inflater, parent, R.layout.openhabwidgetlist_webitem, httpClient, connection);
+        WebViewHolder(LayoutInflater inflater, ViewGroup parent, Connection conn) {
+            super(inflater, parent, R.layout.openhabwidgetlist_webitem, conn);
             mWebView = itemView.findViewById(R.id.webweb);
 
             final Resources res = itemView.getContext().getResources();
@@ -1001,7 +970,7 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
             }
 
             mWebView.setWebViewClient(new AnchorWebViewClient(widget.getUrl(),
-                    mConnectionInfo.userName, mConnectionInfo.password));
+                    mConnection.getUsername(), mConnection.getPassword()));
             mWebView.getSettings().setDomStorageEnabled(true);
             mWebView.getSettings().setJavaScriptEnabled(true);
             mWebView.loadUrl(widget.getUrl());
@@ -1013,9 +982,8 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         private final MySmartImageView mIconView;
         private OpenHABItem mBoundItem;
 
-        ColorViewHolder(LayoutInflater inflater, ViewGroup parent,
-                MyAsyncHttpClient httpClient, ConnectionInfo connection) {
-            super(inflater, parent, R.layout.openhabwidgetlist_coloritem, httpClient, connection);
+        ColorViewHolder(LayoutInflater inflater, ViewGroup parent, Connection conn) {
+            super(inflater, parent, R.layout.openhabwidgetlist_coloritem, conn);
             mLabelView = itemView.findViewById(R.id.widgetlabel);
             mIconView = itemView.findViewById(R.id.widgetimage);
             initButton(R.id.colorbutton_up, "ON");
@@ -1041,14 +1009,14 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         public boolean onTouch(View v, MotionEvent motionEvent) {
             if (motionEvent.getActionMasked() == MotionEvent.ACTION_UP) {
                 if (v.getTag() instanceof String) {
-                    Util.sendItemCommand(mHttpClient, mBoundItem, (String) v.getTag());
+                    Util.sendItemCommand(mConnection.getAsyncHttpClient(), mBoundItem, (String) v.getTag());
                 } else {
                     ColorPickerDialog colorDialog = new ColorPickerDialog(v.getContext(), new OnColorChangedListener() {
                         @Override
                         public void colorChanged(float[] hsv, View v) {
                             Log.d(TAG, "New color HSV = " + hsv[0] + ", " + hsv[1] + ", " + hsv[2]);
                             String newColor = String.valueOf(hsv[0]) + "," + String.valueOf(hsv[1] * 100) + "," + String.valueOf(hsv[2] * 100);
-                            Util.sendItemCommand(mHttpClient, mBoundItem, newColor);
+                            Util.sendItemCommand(mConnection.getAsyncHttpClient(), mBoundItem, newColor);
                         }
                     }, mBoundItem.getStateAsHSV());
                     colorDialog.show();
@@ -1062,16 +1030,15 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         private final ImageView mImageView;
         private MjpegStreamer mStreamer;
 
-        MjpegVideoViewHolder(LayoutInflater inflater, ViewGroup parent,
-                MyAsyncHttpClient httpClient, ConnectionInfo connection) {
-            super(inflater, parent, R.layout.openhabwidgetlist_videomjpegitem, httpClient, connection);
+        MjpegVideoViewHolder(LayoutInflater inflater, ViewGroup parent, Connection conn) {
+            super(inflater, parent, R.layout.openhabwidgetlist_videomjpegitem, conn);
             mImageView = itemView.findViewById(R.id.mjpegimage);
         }
 
         @Override
         public void bind(OpenHABWidget widget) {
             mStreamer = new MjpegStreamer(widget.getUrl(),
-                    mConnectionInfo.userName, mConnectionInfo.password, mImageView.getContext());
+                    mConnection.getUsername(), mConnection.getPassword(), mImageView.getContext());
             mStreamer.setTargetImageView(mImageView);
         }
 

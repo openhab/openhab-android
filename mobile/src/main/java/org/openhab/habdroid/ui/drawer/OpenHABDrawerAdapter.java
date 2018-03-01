@@ -21,6 +21,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import org.openhab.habdroid.R;
+import org.openhab.habdroid.core.connection.Connection;
 import org.openhab.habdroid.model.OpenHABSitemap;
 import org.openhab.habdroid.util.MySmartImageView;
 
@@ -35,13 +36,13 @@ public class OpenHABDrawerAdapter extends ArrayAdapter<OpenHABDrawerItem> {
     public static final int TYPE_DIVIDER_ITEM = 4;
     public static final int TYPES_COUNT = 5;
     private static final String TAG = OpenHABDrawerAdapter.class.getSimpleName();
-    private String openHABBaseUrl = "http://demo.openhab.org:8080/";
-    private String openHABUsername = "";
-    private String openHABPassword = "";
+
+    private Connection connection;
 
     public OpenHABDrawerAdapter(Context context, int resource,
-                                List<OpenHABDrawerItem> objects) {
+                                List<OpenHABDrawerItem> objects, Connection conn) {
         super(context, resource, objects);
+        this.connection = conn;
     }
 
     @SuppressWarnings("deprecation")
@@ -88,6 +89,7 @@ public class OpenHABDrawerAdapter extends ArrayAdapter<OpenHABDrawerItem> {
         drawerItemLabelTextView = (TextView)drawerItemView.findViewById(R.id.itemlabel);
         drawerItemCountLabelTextView = (TextView)drawerItemView.findViewById(R.id.itemcountlabel);
         drawerItemImage = (MySmartImageView)drawerItemView.findViewById(R.id.itemimage);
+
         switch (this.getItemViewType(position)) {
             case TYPE_SITEMAPITEM:
                 OpenHABSitemap siteMap = drawerItem.getSiteMap();
@@ -97,8 +99,9 @@ public class OpenHABDrawerAdapter extends ArrayAdapter<OpenHABDrawerItem> {
                     drawerItemLabelTextView.setText(siteMap.getName());
                 }
                 if (siteMap.getIcon() != null && drawerItemImage != null) {
-                    String iconUrl = openHABBaseUrl + Uri.encode(siteMap.getIconPath(),"/?=");
-                    drawerItemImage.setImageUrl(iconUrl, openHABUsername, openHABPassword, R.mipmap.icon);
+                    String iconUrl = connection.getOpenHABUrl() + Uri.encode(siteMap.getIconPath(),
+                            "/?=");
+                    drawerItemImage.setImageUrl(iconUrl, connection.getUsername(), connection.getPassword(), R.mipmap.icon);
                 } else {
                     drawerItemImage.setImageDrawable(getContext().getResources().getDrawable(R.mipmap.icon));
                 }
@@ -159,30 +162,4 @@ public class OpenHABDrawerAdapter extends ArrayAdapter<OpenHABDrawerItem> {
             return false;
         return true;
     }
-
-    public String getOpenHABBaseUrl() {
-        return openHABBaseUrl;
-    }
-
-    public void setOpenHABBaseUrl(String openHABBaseUrl) {
-        this.openHABBaseUrl = openHABBaseUrl;
-    }
-
-    public String getOpenHABUsername() {
-        return openHABUsername;
-    }
-
-    public void setOpenHABUsername(String openHABUsername) {
-        this.openHABUsername = openHABUsername;
-    }
-
-    public String getOpenHABPassword() {
-        return openHABPassword;
-    }
-
-    public void setOpenHABPassword(String openHABPassword) {
-        this.openHABPassword = openHABPassword;
-    }
-
-
 }

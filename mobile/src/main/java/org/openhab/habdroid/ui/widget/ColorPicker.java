@@ -551,7 +551,8 @@ public class ColorPicker extends View {
 	 * <p>
 	 * This will set the lowest value of R,G,B to 0, the highest to 255, and will keep the middle
 	 * value.<br>
-	 * For values close to those on the color wheel this will result in close matches. For other
+	 * For values close to those on the color wheel this will result in close matches.
+	 * For other
 	 * values, especially shades of grey this will produce funny results.
 	 * </p>
 	 *

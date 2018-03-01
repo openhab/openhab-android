@@ -9,7 +9,7 @@
 
 package org.openhab.habdroid.ui;
 
-import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -24,9 +24,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.openhab.habdroid.R;
+import org.openhab.habdroid.core.connection.Connection;
+import org.openhab.habdroid.core.connection.ConnectionFactory;
+import org.openhab.habdroid.core.connection.exception.ConnectionException;
 import org.openhab.habdroid.model.OpenHABNotification;
 import org.openhab.habdroid.ui.widget.DividerItemDecoration;
-import org.openhab.habdroid.util.MyAsyncHttpClient;
 import org.openhab.habdroid.util.MyHttpClient;
 
 import java.io.UnsupportedEncodingException;
@@ -39,17 +41,7 @@ public class OpenHABNotificationFragment extends Fragment implements SwipeRefres
 
     private static final String TAG = OpenHABNotificationFragment.class.getSimpleName();
 
-    private static final String ARG_USERNAME = "openHABUsername";
-    private static final String ARG_PASSWORD = "openHABPassword";
-    private static final String ARG_BASEURL = "openHABBaseUrl";
-
-    private String openHABUsername = "";
-    private String openHABPassword = "";
-    private String openHABBaseURL = "";
-
     private OpenHABMainActivity mActivity;
-    // loopj
-    private MyAsyncHttpClient mAsyncHttpClient;
     // keeps track of current request to cancel it in onPause
     private Call mRequestHandle;
 
@@ -59,12 +51,9 @@ public class OpenHABNotificationFragment extends Fragment implements SwipeRefres
     private RecyclerView mRecyclerView;
     private SwipeRefreshLayout mSwipeLayout;
 
-    public static OpenHABNotificationFragment newInstance(String baseURL, String username, String password) {
+    public static OpenHABNotificationFragment newInstance() {
         OpenHABNotificationFragment fragment = new OpenHABNotificationFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_USERNAME, username);
-        args.putString(ARG_PASSWORD, password);
-        args.putString(ARG_BASEURL, baseURL);
         fragment.setArguments(args);
         return fragment;
     }
@@ -81,11 +70,6 @@ public class OpenHABNotificationFragment extends Fragment implements SwipeRefres
         super.onCreate(savedInstanceState);
         Log.d(TAG, "onCreate()");
         mNotifications = new ArrayList<OpenHABNotification>();
-        if (getArguments() != null) {
-            openHABUsername = getArguments().getString(ARG_USERNAME);
-            openHABPassword = getArguments().getString(ARG_PASSWORD);
-            openHABBaseURL =  getArguments().getString(ARG_BASEURL);
-        }
     }
 
     @Override
@@ -102,24 +86,17 @@ public class OpenHABNotificationFragment extends Fragment implements SwipeRefres
     }
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        Log.d(TAG, "onAttach()");
-        try {
-            mActivity = (OpenHABMainActivity) activity;
-            mAsyncHttpClient = mActivity.getAsyncHttpClient();
-            mActivity.setTitle(R.string.app_notifications);
-        } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()
-                    + " must be OpenHABMainActivity");
-        }
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        getActivity().setTitle(R.string.app_notifications);
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mNotificationAdapter = new OpenHABNotificationAdapter(mActivity, mNotifications,
-                openHABBaseURL, openHABUsername, openHABPassword);
+        mActivity = (OpenHABMainActivity) getActivity();
+        mNotificationAdapter = new OpenHABNotificationAdapter(mActivity, mNotifications);
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
         mRecyclerView.addItemDecoration(new DividerItemDecoration(mActivity));
@@ -177,9 +154,10 @@ public class OpenHABNotificationFragment extends Fragment implements SwipeRefres
     }
 
     private void loadNotifications() {
-        if (mAsyncHttpClient != null) {
-            startProgressIndicator();
-            mRequestHandle = mAsyncHttpClient.get(openHABBaseURL + "/api/v1/notifications?limit=20", new MyHttpClient.ResponseHandler() {
+        Connection conn = ConnectionFactory.getConnection(Connection.TYPE_CLOUD);if (conn == null) {
+            return;
+        }startProgressIndicator();
+            mRequestHandle = conn.getAsyncHttpClient().get( "/api/v1/notifications?limit=20", new MyHttpClient.ResponseHandler() {
                 @Override
                 public void onSuccess(Call call, int statusCode, Headers headers, byte[] responseBody) {
                     stopProgressIndicator();
@@ -195,22 +173,21 @@ public class OpenHABNotificationFragment extends Fragment implements SwipeRefres
                                 OpenHABNotification notification = new OpenHABNotification(sitemapJson);
                                 mNotifications.add(notification);
                             } catch (JSONException e) {
-                                Log.d(TAG, e.getMessage(), e);
+                                Log.d(TAG,e.getMessage(), e);
                             }
                         }
                         mNotificationAdapter.notifyDataSetChanged();
-                    } catch (UnsupportedEncodingException | JSONException e) {
-                        Log.d(TAG, e.getMessage(), e);
-                    }
+                    } catch (UnsupportedEncodingException |JSONException e) {
+                        Log.d(TAG,e.getMessage(), e);
+}
                 }
 
-                @Override
-                public void onFailure(Call call, int statusCode, Headers headers, byte[] responseBody, Throwable error) {
-                    stopProgressIndicator();
-                    Log.d(TAG, "Notifications request failure");
-                }
-            });
-        }
+            @Override
+            public void onFailure(Call call, int statusCode, Headers headers, byte[] responseBody, Throwable error) {
+                stopProgressIndicator();
+                Log.e(TAG, "Notifications request failure");
+            }
+        });
     }
 
     private void stopProgressIndicator() {

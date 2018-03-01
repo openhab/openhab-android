@@ -5,8 +5,7 @@
 
     <!-- General app strings -->
     <string name="app_name" translatable="false">openHAB</string>
-    <string name="openhab_service_type" translatable="false">_openhab-server-ssl._tcp.local.</string>
-    <string name="openhab_demo_url" translatable="false">http://demo.openhab.org:8080/</string>
+    <string name="openhab_service_type" translatable="false">_openhab-server._tcp.local.</string>
     <string name="main_menu">Main menu</string>
     <string name="app_preferences_name">Settings</string>
     <string name="app_notifications">Notifications</string>
@@ -62,7 +61,6 @@
     <string name="title_voice_widget">openHAB Voice Commands</string>
     <string name="info_voice_input">"openHAB, at your command!"</string>
     <string name="info_voice_recognized_text">"Recognized command: %1$s"</string>
-    <string name="info_demo_mode">Running in demo mode. To connect to your openHAB server please go to settings menu.</string>
     <string name="info_demo_mode_short">Running in demo mode</string>
     <string name="info_conn_url">Connecting to local URL</string>
     <string name="info_conn_rem_url">Connecting to remote URL</string>
@@ -172,6 +170,13 @@
     <string name="intro_whatis">A vendor and technology agnostic open source automation software for your home</string>
     <string name="intro_themes">Themes</string>
     <string name="intro_themes_description">Choose between several themes</string>
+    <string name="try_again_button">Try again</string>
+    <string name="network_error">Network error</string>
+    <string name="go_to_settings_button">Go to settings</string>
+
+    <string name="error_no_url_start_demo_mode">Please configure the server IP address or host name in the server settings. For now, demo mode will be used.</string>
+    <string name="intro_discovery">Discovery</string>
+    <string name="intro_discovery_summary">Please note this will work only if authentication is not enforced by the server</string>
 
     <!-- Content description for images -->
     <string name="content_description_open_roller_shutter">Open roller shutter</string>

@@ -110,6 +110,7 @@ public class MyWebImage implements SmartImage {
         MyAsyncHttpClient client = new MyAsyncHttpClient(context, prefs.getBoolean(Constants
                 .PREFERENCE_SSLHOST, false), prefs.getBoolean(Constants.PREFERENCE_SSLCERT, false));
         client.setTimeout(READ_TIMEOUT);
+        client.setBaseUrl(url);
         if (shouldAuth) {
             client.setBasicAuth(authUsername, authPassword);
         }

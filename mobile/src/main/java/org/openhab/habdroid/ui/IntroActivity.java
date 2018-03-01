@@ -31,8 +31,8 @@ public class IntroActivity extends AppIntro {
         addOHSlide(R.string.intro_themes,
                 R.string.intro_themes_description,
                 R.drawable.themes);
-        addOHSlide(R.string.settings_openhab_demomode,
-                R.string.info_demo_mode,
+        addOHSlide(R.string.intro_discovery,
+                R.string.intro_discovery_summary,
                 R.drawable.demo_mode);
         // Change bar color
         setBarColor(colorOpenHABOrange);

@@ -9,13 +9,13 @@
 
 package org.openhab.habdroid.ui;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
@@ -33,12 +33,11 @@ import android.view.ViewGroup;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.openhab.habdroid.R;
-import org.openhab.habdroid.core.OpenHABTrackerReceiver;
+import org.openhab.habdroid.core.connection.Connection;
 import org.openhab.habdroid.model.OpenHABItem;
 import org.openhab.habdroid.model.OpenHABNFCActionList;
 import org.openhab.habdroid.model.OpenHABWidget;
 import org.openhab.habdroid.model.OpenHABWidgetDataSource;
-import org.openhab.habdroid.util.Constants;
 import org.openhab.habdroid.util.MyAsyncHttpClient;
 import org.openhab.habdroid.util.MyHttpClient;
 import org.openhab.habdroid.util.Util;
@@ -62,6 +61,8 @@ import javax.xml.parsers.ParserConfigurationException;
 import okhttp3.Call;
 import okhttp3.Headers;
 
+import static org.openhab.habdroid.core.message.MessageHandler.LOGLEVEL_ALWAYS;
+import static org.openhab.habdroid.core.message.MessageHandler.TYPE_SNACKBAR;
 import static org.openhab.habdroid.util.Constants.PREFERENCE_SWIPE_REFRESH_EXPLAINED;
 
 /**
@@ -79,15 +80,7 @@ public class OpenHABWidgetListFragment extends Fragment
     private RecyclerView mRecyclerView;
     private LinearLayoutManager mLayoutManager;
     // Url of current sitemap page displayed
-    // Url of current sitemap page displayed
     private String displayPageUrl;
-    // sitemap root url
-    private String sitemapRootUrl = "";
-    // openHAB base url
-    private String openHABBaseUrl = "http://demo.openhab.org:8080/";
-    // Username/password for authentication
-    private String openHABUsername = "";
-    private String openHABPassword = "";
     // selected openhab widget
     private OpenHABWidget selectedOpenHABWidget;
     // widget Id which we got from nfc tag
@@ -98,19 +91,15 @@ public class OpenHABWidgetListFragment extends Fragment
     private boolean nfcAutoClose = false;
     // parent activity
     private OpenHABMainActivity mActivity;
-    // loopj
-    private MyAsyncHttpClient mAsyncHttpClient;
     // Am I visible?
     private boolean mIsVisible = false;
     private int mPosition;
     private String mTitle;
     private String mAtmosphereTrackingId;
-    //handlers will reconnect the network during outages
-    private Handler networkHandler = new Handler();
-    private Runnable networkRunnable;
     // keeps track of current request to cancel it in onPause
     private Call mRequestHandle;
     private SwipeRefreshLayout refreshLayout;
+    private Connection mConnection;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -120,10 +109,6 @@ public class OpenHABWidgetListFragment extends Fragment
 
         if (getArguments() != null) {
             displayPageUrl = getArguments().getString("displayPageUrl");
-            openHABBaseUrl = getArguments().getString("openHABBaseUrl");
-            sitemapRootUrl = getArguments().getString("sitemapRootUrl");
-            openHABUsername = getArguments().getString("openHABUsername");
-            openHABPassword = getArguments().getString("openHABPassword");
             mPosition = getArguments().getInt("position");
             mTitle = getArguments().getString("title");
         }
@@ -138,22 +123,16 @@ public class OpenHABWidgetListFragment extends Fragment
         Log.d(TAG, "onActivityCreated()");
         Log.d(TAG, "isAdded = " + isAdded());
         mActivity = (OpenHABMainActivity) getActivity();
+        mConnection = mActivity.getConnection();
         final String iconFormat = getIconFormat();
         openHABWidgetDataSource = new OpenHABWidgetDataSource(iconFormat);
 
         // We're using atmosphere so create an own client to not block the others
         SharedPreferences prefs = PreferenceManager
                 .getDefaultSharedPreferences(mActivity);
-        mAsyncHttpClient = new MyAsyncHttpClient(mActivity, prefs.getBoolean(Constants.PREFERENCE_SSLHOST,
-                false), prefs.getBoolean(Constants.PREFERENCE_SSLCERT, false));
-        openHABBaseUrl = mActivity.getOpenHABBaseUrl();
-        openHABUsername = mActivity.getOpenHABUsername();
-        openHABPassword = mActivity.getOpenHABPassword();
-        mAsyncHttpClient.setBasicAuth(openHABUsername, openHABPassword);
 
-        openHABWidgetAdapter = new OpenHABWidgetAdapter(getActivity(), mAsyncHttpClient,
-                openHABBaseUrl, openHABUsername, openHABPassword, this,
-                getResources().getInteger(R.integer.pager_columns) > 1);
+        openHABWidgetAdapter = new OpenHABWidgetAdapter(getActivity(), this,
+                getResources().getInteger(R.integer.pager_columns) > 1, mConnection);
 
         if (savedInstanceState != null) {
             openHABWidgetAdapter.setSelectedPosition(savedInstanceState.getInt("selection", -1));
@@ -186,7 +165,7 @@ public class OpenHABWidgetListFragment extends Fragment
             @Override
             public void onRefresh() {
                 if (shouldShowSwipeToRefreshDescriptionSnackbar()) {
-                    showSwipeToRefreshDescriptionSnackbar((OpenHABTrackerReceiver) getActivity());
+                    showSwipeToRefreshDescriptionSnackbar();
                 }
                 if (displayPageUrl != null) {
                     showPage(displayPageUrl, false);
@@ -244,9 +223,10 @@ public class OpenHABWidgetListFragment extends Fragment
         builder.show();
     }
 
-    private void showSwipeToRefreshDescriptionSnackbar(OpenHABTrackerReceiver context) {
-        context.showMessageToUser(getString(R.string.swipe_to_refresh_description),
-                Constants.MESSAGES.SNACKBAR, Constants.MESSAGES.LOGLEVEL.ALWAYS,
+    private void showSwipeToRefreshDescriptionSnackbar() {
+        mActivity.getMessageHandler().showMessageToUser(
+                getString(R.string.swipe_to_refresh_description),
+                TYPE_SNACKBAR, LOGLEVEL_ALWAYS,
                 R.string.swipe_to_refresh_dismiss, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -313,7 +293,7 @@ public class OpenHABWidgetListFragment extends Fragment
         super.onResume();
         Log.d(TAG, "onResume() " + displayPageUrl);
         Log.d(TAG, "isAdded = " + isAdded());
-        if (displayPageUrl != null)
+        if (displayPageUrl != null && mConnection != null)
             showPage(displayPageUrl, false);
     }
 
@@ -325,15 +305,11 @@ public class OpenHABWidgetListFragment extends Fragment
     }
 
     public static OpenHABWidgetListFragment withPage(String pageUrl, String pageTitle,
-            String baseUrl, String rootUrl, String username, String password, int position) {
+                                                     int position) {
         Log.d(TAG, "withPage(" + pageUrl + ")");
         OpenHABWidgetListFragment fragment = new OpenHABWidgetListFragment();
         Bundle args = new Bundle();
         args.putString("displayPageUrl", pageUrl);
-        args.putString("openHABBaseUrl", baseUrl);
-        args.putString("sitemapRootUrl", rootUrl);
-        args.putString("openHABUsername", username);
-        args.putString("openHABPassword", password);
         args.putString("title", pageTitle);
         args.putInt("position", position);
         fragment.setArguments(args);
@@ -363,9 +339,11 @@ public class OpenHABWidgetListFragment extends Fragment
         if (mActivity.getOpenHABVersion() == 1) {
             headers.put("Accept", "application/xml");
         }
+
+        MyAsyncHttpClient asyncHttpClient = mConnection.getAsyncHttpClient();
         headers.put("X-Atmosphere-Framework", "1.0");
         if (longPolling) {
-            mAsyncHttpClient.setTimeout(300000);
+            asyncHttpClient.setTimeout(300000);
             headers.put("X-Atmosphere-Transport", "long-polling");
             if (this.mAtmosphereTrackingId == null) {
                 headers.put("X-Atmosphere-tracking-id", "0");
@@ -374,9 +352,9 @@ public class OpenHABWidgetListFragment extends Fragment
             }
         } else {
             headers.put("X-Atmosphere-tracking-id", "0");
-            mAsyncHttpClient.setTimeout(10000);
+            asyncHttpClient.setTimeout(10000);
         }
-        mRequestHandle = mAsyncHttpClient.get(pageUrl, headers, new MyHttpClient.ResponseHandler() {
+        mRequestHandle = asyncHttpClient.get(pageUrl, headers, new MyHttpClient.ResponseHandler() {
                     @Override
                     public void onFailure(Call call, int statusCode, Headers headers, byte[] responseBody, Throwable error) {
                         if (call.isCanceled()) {
@@ -513,21 +491,22 @@ public class OpenHABWidgetListFragment extends Fragment
             // Found widget with id from nfc tag and it has an item
             if (nfcWidget != null && nfcItem != null) {
                 // TODO: Perform nfc widget action here
+                MyAsyncHttpClient client = mConnection.getAsyncHttpClient();
                 if (this.nfcCommand.equals("TOGGLE")) {
                     //RollerShutterItem changed to RollerShutter in later builds of OH2
                     if (nfcItem.getType().startsWith("Rollershutter")) {
                         if (nfcItem.getStateAsBoolean())
-                            Util.sendItemCommand(mAsyncHttpClient, nfcItem, "UP");
+                            Util.sendItemCommand(client, nfcItem, "UP");
                         else
-                            Util.sendItemCommand(mAsyncHttpClient, nfcItem, "DOWN");
+                            Util.sendItemCommand(client, nfcItem, "DOWN");
                     } else {
                         if (nfcItem.getStateAsBoolean())
-                            Util.sendItemCommand(mAsyncHttpClient, nfcItem, "OFF");
+                            Util.sendItemCommand(client, nfcItem, "OFF");
                         else
-                            Util.sendItemCommand(mAsyncHttpClient, nfcItem, "ON");
+                            Util.sendItemCommand(client, nfcItem, "ON");
                     }
                 } else {
-                    Util.sendItemCommand(mAsyncHttpClient, nfcItem, this.nfcCommand);
+                    Util.sendItemCommand(client, nfcItem, this.nfcCommand);
                 }
             }
             this.nfcWidgetId = null;

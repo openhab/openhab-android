@@ -15,7 +15,6 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 
-import org.openhab.habdroid.core.notifications.NotificationSettings;
 import org.openhab.habdroid.model.OpenHABLinkedPage;
 
 import java.util.ArrayList;
@@ -28,11 +27,7 @@ public class OpenHABFragmentPagerAdapter extends FragmentStatePagerAdapter imple
     private FragmentManager fragmentManager;
     private boolean notifyDataSetChangedPending = false;
     private int columnsNumber = 1;
-    private String openHABBaseUrl;
     private String sitemapRootUrl;
-    private String openHABUsername;
-    private String openHABPassword;
-    private boolean actualColumnCountChanged = false;
     private int mSelectedPage;
 
     public OpenHABFragmentPagerAdapter(FragmentManager fm) {
@@ -43,8 +38,6 @@ public class OpenHABFragmentPagerAdapter extends FragmentStatePagerAdapter imple
     @Override
     public Fragment getItem(int position) {
         Log.d(TAG, String.format("getItem(%d)", position));
-//        OpenHABWidgetListFragment fragment = fragmentList.get(position);
-//        return fragment;
         return fragmentList.get(position);
     }
 
@@ -138,35 +131,31 @@ public class OpenHABFragmentPagerAdapter extends FragmentStatePagerAdapter imple
      * remote url, if there's any. However, the caller of this method must ensure, that this
      * method is not called, when no openHAB remote URL is set.
      */
-    public void openNotifications(NotificationSettings notificationSettings) {
+    public void openNotifications() {
         if (fragmentList.size() > 0) {
             if (!(fragmentList.get(fragmentList.size() - 1) instanceof OpenHABNotificationFragment)) {
                 removeLastFragmentIfNotWidgetList();
-                OpenHABNotificationFragment fragment = getNewNotificationFragment(notificationSettings);
+                OpenHABNotificationFragment fragment = getNewNotificationFragment();
                 fragmentList.add(fragment);
                 notifyDataSetChanged();
             } else {
                 ((OpenHABNotificationFragment) fragmentList.get(fragmentList.size() - 1)).refresh();
             }
         } else {
-            OpenHABNotificationFragment fragment = getNewNotificationFragment(notificationSettings);
+            OpenHABNotificationFragment fragment = getNewNotificationFragment();
             fragmentList.add(fragment);
             notifyDataSetChanged();
         }
     }
 
-    private OpenHABNotificationFragment getNewNotificationFragment(NotificationSettings notificationSettings) {
-        return OpenHABNotificationFragment.newInstance(
-                notificationSettings.getOpenHABCloudURL().toString(),
-                notificationSettings.getOpenHABCloudUsername(),
-                notificationSettings.getOpenHABCloudPassword()
-        );
+    private OpenHABNotificationFragment getNewNotificationFragment() {
+        return OpenHABNotificationFragment.newInstance();
     }
 
     public void openPage(String pageUrl, String pageTitle) {
         Log.d(TAG, "openPage(" + pageUrl + ")");
         OpenHABWidgetListFragment fragment = OpenHABWidgetListFragment.withPage(pageUrl, pageTitle,
-                openHABBaseUrl, sitemapRootUrl, openHABUsername, openHABPassword, fragmentList.size());
+                fragmentList.size());
         fragmentList.add(fragment);
         notifyDataSetChanged();
     }
@@ -182,16 +171,13 @@ public class OpenHABFragmentPagerAdapter extends FragmentStatePagerAdapter imple
             notifyDataSetChanged();
         }
         OpenHABWidgetListFragment fragment = OpenHABWidgetListFragment.withPage(page.getLink(),
-                page.getTitle(), openHABBaseUrl, sitemapRootUrl,
-                openHABUsername, openHABPassword, position);
+                page.getTitle(), position);
         fragmentList.add(fragment);
         Log.d(TAG, String.format("Old columns = %d, new columns = %d", oldColumnCount, getActualColumnsNumber()));
-//        if (getActualColumnsNumber() != oldColumnCount)
-            actualColumnCountChanged = true;
+
         Log.d(TAG, "Before notifyDataSetChanged");
         notifyDataSetChanged();
         Log.d(TAG, "After notifyDataSetChanged");
-        actualColumnCountChanged = false;
     }
 
     public void onPageScrolled(int i, float v, int i2) {
@@ -262,35 +248,11 @@ public class OpenHABFragmentPagerAdapter extends FragmentStatePagerAdapter imple
         this.columnsNumber = columnsNumber;
     }
 
-    public String getOpenHABBaseUrl() {
-        return openHABBaseUrl;
-    }
-
-    public void setOpenHABBaseUrl(String openHABBaseUrl) {
-        this.openHABBaseUrl = openHABBaseUrl;
-    }
-
     public String getSitemapRootUrl() {
         return sitemapRootUrl;
     }
 
     public void setSitemapRootUrl(String sitemapRootUrl) {
         this.sitemapRootUrl = sitemapRootUrl;
-    }
-
-    public String getOpenHABUsername() {
-        return openHABUsername;
-    }
-
-    public void setOpenHABUsername(String openHABUsername) {
-        this.openHABUsername = openHABUsername;
-    }
-
-    public String getOpenHABPassword() {
-        return openHABPassword;
-    }
-
-    public void setOpenHABPassword(String openHABPassword) {
-        this.openHABPassword = openHABPassword;
     }
 }

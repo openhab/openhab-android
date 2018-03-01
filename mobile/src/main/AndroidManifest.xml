@@ -26,7 +26,6 @@
         android:required="false" />
 
     <application
-        android:name="android.support.multidex.MultiDexApplication"
         android:allowBackup="true"
         android:fullBackupContent="true"
         android:icon="@mipmap/icon"
@@ -34,7 +33,8 @@
         android:resizeableActivity="true"
         android:supportsPictureInPicture="false"
         android:theme="@style/HABDroid.Light"
-        android:supportsRtl="true">
+        android:supportsRtl="true"
+        android:name=".core.OpenHABApplication">
         <activity
             android:name="org.openhab.habdroid.ui.OpenHABPreferencesActivity"
             android:label="@string/app_preferences_name">
@@ -42,6 +42,9 @@
                 <action android:name="android.intent.action.APPLICATION_PREFERENCES" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="org.openhab.habdroid.ui.OpenHABMainActivity" />
         </activity>
         <activity
             android:name="org.openhab.habdroid.ui.OpenHABAboutActivity"

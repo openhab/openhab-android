@@ -9,8 +9,8 @@ import org.openhab.habdroid.util.MyHttpClient;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.net.URISyntaxException;
 import java.net.URLEncoder;
+import java.util.Locale;
 
 import okhttp3.Call;
 import okhttp3.Headers;
@@ -48,25 +48,19 @@ public class GoogleCloudMessageConnector {
             return false;
         }
 
-        String deviceModel = null;
+        String deviceModel;
         try {
             deviceModel = URLEncoder.encode(Build.MODEL, "UTF-8");
         } catch (UnsupportedEncodingException ex) {
             Log.d(TAG, "Could not encode device model: " + ex.getMessage());
             return false;
         }
-        String regUrl;
-
-        try {
-            regUrl = mSettings.getOpenHABCloudURL().toURI().resolve("/addAndroidRegistration?deviceId=" + mDeviceId +
-                    "&deviceModel=" + deviceModel + "&regId=" + registrationId).toString();
-        } catch (URISyntaxException ex) {
-            Log.d(TAG, "Could not resolve registration path to openHAB URI: " + ex.getMessage());
-            return false;
-        }
+        String regUrl = String.format(Locale.US,
+                "/addAndroidRegistration?deviceId=%s&deviceModel=%s&regId=%s",
+                mDeviceId, deviceModel, registrationId);
 
         Log.d(TAG, "Register device at openHAB-cloud with URL: " + regUrl);
-        mSettings.getHttpClient().get(regUrl, new MyHttpClient.ResponseHandler() {
+        mSettings.getConnection().getSyncHttpClient().get(regUrl, new MyHttpClient.ResponseHandler() {
             @Override
             public void onFailure(Call call, int statusCode, Headers headers, byte[] responseBody, Throwable error) {
                 Log.e(TAG, "GCM reg id error: " + error.getMessage());
