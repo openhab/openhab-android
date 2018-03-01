@@ -22,6 +22,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -270,6 +271,21 @@ public class OpenHABWidgetListFragment extends Fragment
         if (mActivity != null && mIsVisible) {
             mActivity.updateTitle();
         }
+    }
+
+    public boolean onWidgetUpdated(OpenHABWidget widget) {
+        if (mWidgets != null) {
+            for (int i = 0; i < mWidgets.size(); i++) {
+                if (mWidgets.get(i).getId().equals(widget.getId())) {
+                    mWidgets.set(i, widget);
+                    if (openHABWidgetAdapter != null) {
+                        openHABWidgetAdapter.updateAtPosition(i, widget);
+                    }
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     public String getDisplayPageUrl() {

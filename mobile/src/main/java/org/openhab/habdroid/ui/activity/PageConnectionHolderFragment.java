@@ -40,6 +40,7 @@ public class PageConnectionHolderFragment extends Fragment {
         boolean serverReturnsJson();
         String getIconFormat();
         void onPageUpdated(String pageUrl, String pageTitle, List<OpenHABWidget> widgets);
+        void onWidgetUpdated(OpenHABWidget widget);
     }
 
     private Map<String, ConnectionHandler> mConnections = new HashMap<>();

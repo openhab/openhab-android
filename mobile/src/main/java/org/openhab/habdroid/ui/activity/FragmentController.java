@@ -218,6 +218,18 @@ public abstract class FragmentController implements
         }
     }
 
+    @Override
+    public void onWidgetUpdated(OpenHABWidget widget) {
+        if (mSitemapFragment != null && mSitemapFragment.onWidgetUpdated(widget)) {
+            return;
+        }
+        for (Pair<OpenHABLinkedPage, OpenHABWidgetListFragment> item : mPageStack) {
+            if (item.second.onWidgetUpdated(widget)) {
+                break;
+            }
+        }
+    }
+
     public void triggerPageUpdate(String pageUrl, boolean forceReload) {
         mConnectionFragment.triggerUpdate(pageUrl, forceReload);
     }

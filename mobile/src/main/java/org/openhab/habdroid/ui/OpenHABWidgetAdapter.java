@@ -128,6 +128,14 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         notifyDataSetChanged();
     }
 
+    public void updateAtPosition(int position, OpenHABWidget widget) {
+        if (position >= mItems.size()) {
+            return;
+        }
+        mItems.set(position, widget);
+        notifyItemChanged(position);
+    }
+
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         final ViewHolder holder;
