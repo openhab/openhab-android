@@ -352,20 +352,10 @@ public abstract class FragmentController implements PageConnectionHolderFragment
 
     @Override
     public void onPageUpdated(String pageUrl, String pageTitle, List<OpenHABWidget> widgets) {
-        if (mSitemapFragment != null && pageUrl.equals(mSitemapFragment.getDisplayPageUrl())) {
-            mSitemapFragment.update(pageTitle, widgets);
-        } else {
-            for (Pair<OpenHABLinkedPage, OpenHABWidgetListFragment> item : mPageStack) {
-                if (pageUrl.equals(item.second.getDisplayPageUrl())) {
-                    item.second.update(pageTitle, widgets);
-                    break;
-                }
-            }
-            if (mTemporaryPage instanceof OpenHABWidgetListFragment) {
-                OpenHABWidgetListFragment f = (OpenHABWidgetListFragment) mTemporaryPage;
-                if (pageUrl.equals(f.getDisplayPageUrl())) {
-                    f.update(pageTitle, widgets);
-                }
+        for (OpenHABWidgetListFragment f : collectWidgetFragments()) {
+            if (pageUrl.equals(f.getDisplayPageUrl())) {
+                f.update(pageTitle, widgets);
+                break;
             }
         }
         if (mPendingDataLoadUrls.remove(pageUrl) && mPendingDataLoadUrls.isEmpty()) {
@@ -376,11 +366,8 @@ public abstract class FragmentController implements PageConnectionHolderFragment
 
     @Override
     public void onWidgetUpdated(OpenHABWidget widget) {
-        if (mSitemapFragment != null && mSitemapFragment.onWidgetUpdated(widget)) {
-            return;
-        }
-        for (Pair<OpenHABLinkedPage, OpenHABWidgetListFragment> item : mPageStack) {
-            if (item.second.onWidgetUpdated(widget)) {
+        for (OpenHABWidgetListFragment f : collectWidgetFragments()) {
+            if (f.onWidgetUpdated(widget)) {
                 break;
             }
         }
@@ -408,14 +395,8 @@ public abstract class FragmentController implements PageConnectionHolderFragment
 
     protected void updateConnectionState() {
         List<String> pageUrls = new ArrayList<>();
-        if (mSitemapFragment != null) {
-            pageUrls.add(mSitemapFragment.getDisplayPageUrl());
-        }
-        for (Pair<OpenHABLinkedPage, OpenHABWidgetListFragment> item : mPageStack) {
-            pageUrls.add(item.second.getDisplayPageUrl());
-        }
-        if (mTemporaryPage instanceof OpenHABWidgetListFragment) {
-            pageUrls.add(((OpenHABWidgetListFragment) mTemporaryPage).getDisplayPageUrl());
+        for (OpenHABWidgetListFragment f : collectWidgetFragments()) {
+            pageUrls.add(f.getDisplayPageUrl());
         }
         mConnectionFragment.updateActiveConnections(pageUrls, mActivity.getConnection());
     }
@@ -425,6 +406,20 @@ public abstract class FragmentController implements PageConnectionHolderFragment
         mSitemapFragment = null;
         mPageStack.clear();
         updateConnectionState();
+    }
+
+    private List<OpenHABWidgetListFragment> collectWidgetFragments() {
+        List<OpenHABWidgetListFragment> result = new ArrayList<>();
+        if (mSitemapFragment != null) {
+            result.add(mSitemapFragment);
+        }
+        for (Pair<OpenHABLinkedPage, OpenHABWidgetListFragment> item : mPageStack) {
+            result.add(item.second);
+        }
+        if (mTemporaryPage instanceof OpenHABWidgetListFragment) {
+            result.add((OpenHABWidgetListFragment) mTemporaryPage);
+        }
+        return result;
     }
 
     private OpenHABWidgetListFragment makeSitemapFragment(OpenHABSitemap sitemap) {
