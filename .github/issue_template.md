@@ -24,7 +24,7 @@ Describe us what should happen
 * Device model: 
 * Stock or customized ROM: 
 * App version <!-- Can be found under "About" -->: 
-* Installation source <!--(Play Store, F-Droid or Github)-->: 
+* Build Flavor <!-- Play Store = "Full", F-Droid = "Foss", GitHub has both apks. If self-built and you haven't changed the flavor, it's Foss -->: 
 * Device language: 
 
 #### Server
