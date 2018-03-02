@@ -712,7 +712,7 @@ public class OpenHABMainActivity extends ConnectionAvailabilityAwareActivity
     }
 
     private void openAbout() {
-        Intent aboutIntent = new Intent(this, OpenHABAboutActivity.class);
+        Intent aboutIntent = new Intent(this, AboutActivity.class);
         aboutIntent.putExtra("openHABVersion", mOpenHABVersion);
 
         startActivityForResult(aboutIntent, INFO_REQUEST_CODE);

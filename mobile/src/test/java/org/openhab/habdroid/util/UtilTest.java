@@ -165,4 +165,14 @@ public class UtilTest {
         assertFalse("The exception is not caused by ArrayIndexOutOfBoundsException, so testexceptionHasCause() should return false",
                 Util.exceptionHasCause(e, ArrayIndexOutOfBoundsException.class));
     }
+
+    @Test
+    public void testobfuscateString() {
+        assertEquals("abc***", Util.obfuscateString("abcdef"));
+        assertEquals("abc", Util.obfuscateString("abc"));
+        assertEquals("The function should not throw an exception, when string length is shorter than clearTextCharCount",
+                "a", Util.obfuscateString("a", 10));
+        assertEquals("a**", Util.obfuscateString("abc", 1));
+        assertEquals("***", Util.obfuscateString("abc", 0));
+    }
 }

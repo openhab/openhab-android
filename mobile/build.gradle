@@ -65,6 +65,10 @@ android {
         lintConfig file("lint.xml")
         abortOnError false
     }
+    compileOptions {
+        targetCompatibility 1.8
+        sourceCompatibility 1.8
+    }
 }
 
 repositories {
@@ -95,6 +99,9 @@ dependencies {
     // GCM
     fullCompile 'com.google.android.gms:play-services-gcm:11.4.2'
     fossCompile project(':gcmdummy')
+
+    // About screen
+    compile 'com.github.daniel-stoneuk:material-about-library:2.2.3-support26.1.0'
 
     // This should already be included in the aboutlibraries dependency, however, it somehow isn't
     compile "com.android.support:cardview-v7:26.1.0"
