@@ -79,8 +79,6 @@
   <!-- About -->
   <string name="about_title">Acerca de</string>
   <string name="about_license_title">Licencia</string>
-  <string name="about_links">Enlaces</string>
-  <string name="about_links_list"><![CDATA[\u00B7 <a href="https://github.com/openhab/openhab.android">Código fuente de openHAB App</a><br><br> \u00B7 <a href="https://github.com/openhab/openhab.android/issues">Informar de un error</a><br><br> \u00B7 <a href="http://docs.openhab.org/">Documentación de openHAB</a><br><br> \u00B7 <a href="https://community.openhab.org/">Foro de la Comunidad</a>]]></string>
   <string name="settings_debug_messages_title">Mostrar mensajes de depuración</string>
   <string name="error_couldnt_determine_openhab_url">No se pudo determinar la URL de openHAB</string>
   <string name="unknown">Desconocido</string>
