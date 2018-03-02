@@ -110,8 +110,6 @@
   <!-- About -->
   <string name="about_title">Apie</string>
   <string name="about_license_title">Licencija</string>
-  <string name="about_links">Nuorodos</string>
-  <string name="about_links_list"><![CDATA[\u00B7 <a href="https://github.com/openhab/openhab.android">openHAB programėlės išeities kodas</a><br><br> \u00B7 <a href="https://github.com/openhab/openhab.android/issues">Pranešti apie klaidą</a><br><br> \u00B7 <a href="http://docs.openhab.org/">openHAB dokumentacija</a><br><br> \u00B7 <a href="https://community.openhab.org/">Diskusijų forumas</a>]]></string>
   <string name="settings_debug_messages_summary">Slaptažodžiai bus rodomi atviru tekstu!</string>
   <string name="settings_debug_messages_title">Rodyti derinimo žinutes</string>
   <string name="error_couldnt_determine_openhab_url">Nepavyko nustatyti openHAB URL</string>
