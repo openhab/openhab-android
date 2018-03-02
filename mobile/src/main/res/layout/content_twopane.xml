@@ -13,6 +13,7 @@
         android:id="@+id/content_right"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="2" />
+        android:layout_weight="2"
+        android:foreground="@drawable/vertical_shadow_start_2dp" />
 
 </LinearLayout>
