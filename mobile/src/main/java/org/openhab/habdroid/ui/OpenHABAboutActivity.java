@@ -177,13 +177,12 @@ public class OpenHABAboutActivity extends AppCompatActivity {
                 if (mOpenHABVersion == 1) {
                     String secret = getServerSecret(conn);
                     if (!TextUtils.isEmpty(secret)) {
-                        secret = getString(R.string.unknown);
+                        ohServerCard.addItem(new MaterialAboutActionItem.Builder()
+                                .text(R.string.info_openhab_secret_label)
+                                .subText(secret)
+                                .icon(R.drawable.ic_info_outline)
+                                .build());
                     }
-                    ohServerCard.addItem(new MaterialAboutActionItem.Builder()
-                            .text(R.string.info_openhab_secret_label)
-                            .subText(secret)
-                            .icon(R.drawable.ic_info_outline)
-                            .build());
                 }
             }
             ohServerCard.addItem(new MaterialAboutActionItem.Builder()
