@@ -132,8 +132,6 @@
   <!-- About -->
   <string name="about_title">Über</string>
   <string name="about_license_title">Lizenz</string>
-  <string name="about_links">Links</string>
-  <string name="about_links_list"><![CDATA[\u00B7 <a href="https://github.com/openhab/openhab.android">openHAB-App-Quellcode</a><br><br> \u00B7 <a href="https://github.com/openhab/openhab.android/issues">Ein Problem berichten</a><br><br> \u00B7 <a href="http://docs.openhab.org/">openHAB-Dokumentation</a><br><br> \u00B7 <a href="https://community.openhab.org/">Community-Forum</a>]]></string>
   <string name="settings_debug_messages_summary">Passwörter werden in Klartext angezeigt!</string>
   <string name="settings_debug_messages_title">Debug-Meldungen anzeigen</string>
   <string name="error_couldnt_determine_openhab_url">Konnte openHAB-URL nicht ermitteln</string>
