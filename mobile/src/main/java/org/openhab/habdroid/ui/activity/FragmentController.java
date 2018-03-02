@@ -18,7 +18,6 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.AnimRes;
 import android.support.annotation.DrawableRes;
-import android.support.annotation.LayoutRes;
 import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -52,15 +51,14 @@ import java.util.List;
 import java.util.Set;
 import java.util.Stack;
 
-public abstract class FragmentController implements
-        FragmentManager.OnBackStackChangedListener, PageConnectionHolderFragment.ParentCallback {
+public abstract class FragmentController implements PageConnectionHolderFragment.ParentCallback {
     private final OpenHABMainActivity mActivity;
     protected final FragmentManager mFm;
 
     protected Fragment mNoConnectionFragment;
     protected Fragment mDefaultProgressFragment;
     private PageConnectionHolderFragment mConnectionFragment;
-    private List<OpenHABWidgetListFragment> mTemporaryPages = new ArrayList<>();
+    private Fragment mTemporaryPage;
 
     protected OpenHABSitemap mCurrentSitemap;
     protected OpenHABWidgetListFragment mSitemapFragment;
@@ -71,7 +69,6 @@ public abstract class FragmentController implements
         mActivity = activity;
         mFm = activity.getSupportFragmentManager();
 
-        mFm.addOnBackStackChangedListener(this);
         mConnectionFragment = (PageConnectionHolderFragment) mFm.findFragmentByTag("connections");
         if (mConnectionFragment == null) {
             mConnectionFragment = new PageConnectionHolderFragment();
@@ -103,9 +100,8 @@ public abstract class FragmentController implements
             mFm.putFragment(state, "progressFragment", mDefaultProgressFragment);
         }
         state.putParcelableArrayList("controllerPages", pages);
-        state.putInt("temporaryCount", mTemporaryPages.size());
-        for (int i = 0; i < mTemporaryPages.size(); i++) {
-            mFm.putFragment(state, "temporaryPage-" + i, mTemporaryPages.get(i));
+        if (mTemporaryPage != null) {
+            mFm.putFragment(state, "temporaryPage", mTemporaryPage);
         }
     }
 
@@ -136,14 +132,7 @@ public abstract class FragmentController implements
                     mFm.getFragment(state, "pageFragment-" + page.getLink());
             mPageStack.add(Pair.create(page, f != null ? f : makePageFragment(page)));
         }
-        int temporaryCount = state.getInt("temporaryCount");
-        for (int i = 0; i < temporaryCount; i++) {
-            OpenHABWidgetListFragment f = (OpenHABWidgetListFragment)
-                    mFm.getFragment(state, "temporaryPage-" + i);
-            if (f != null) {
-                mTemporaryPages.add(f);
-            }
-        }
+        mTemporaryPage = mFm.getFragment(state, "temporaryPage");
     }
 
     /**
@@ -156,8 +145,9 @@ public abstract class FragmentController implements
         mCurrentSitemap = sitemap;
         mSitemapFragment = makeSitemapFragment(sitemap);
         mPageStack.clear();
-        updateFragmentState();
+        updateFragmentState(FragmentUpdateReason.PAGE_UPDATE);
         updateConnectionState();
+        mActivity.updateTitle();
     }
 
     /**
@@ -196,13 +186,12 @@ public abstract class FragmentController implements
             while (toPop-- > 0) {
                 mPageStack.pop();
             }
-            updateFragmentState();
+            updateFragmentState(FragmentUpdateReason.PAGE_UPDATE);
+            updateConnectionState();
+            mActivity.updateTitle();
         } else {
             // we didn't find it
-            OpenHABWidgetListFragment f = OpenHABWidgetListFragment.withPage(url, null);
-            mTemporaryPages.add(f);
-            showTemporaryPage(f, null);
-            updateConnectionState();
+            showTemporaryPage(OpenHABWidgetListFragment.withPage(url, null));
         }
     }
 
@@ -214,7 +203,8 @@ public abstract class FragmentController implements
     public void indicateNoNetwork(CharSequence message) {
         resetState();
         mNoConnectionFragment = NoNetworkFragment.newInstance(message);
-        updateFragmentState();
+        updateFragmentState(FragmentUpdateReason.PAGE_UPDATE);
+        mActivity.updateTitle();
     }
 
     /**
@@ -223,7 +213,8 @@ public abstract class FragmentController implements
     public void indicateMissingConfiguration() {
         resetState();
         mNoConnectionFragment = MissingConfigurationFragment.newInstance(mActivity);
-        updateFragmentState();
+        updateFragmentState(FragmentUpdateReason.PAGE_UPDATE);
+        mActivity.updateTitle();
     }
 
     /**
@@ -233,7 +224,8 @@ public abstract class FragmentController implements
      */
     public void indicateServerCommunicationFailure(CharSequence message) {
         mNoConnectionFragment = CommunicationFailureFragment.newInstance(message);
-        updateFragmentState();
+        updateFragmentState(FragmentUpdateReason.PAGE_UPDATE);
+        mActivity.updateTitle();
     }
 
     /**
@@ -250,7 +242,7 @@ public abstract class FragmentController implements
         } else {
             mNoConnectionFragment = null;
         }
-        updateFragmentState();
+        updateFragmentState(FragmentUpdateReason.PAGE_UPDATE);
         updateConnectionState();
     }
 
@@ -258,8 +250,7 @@ public abstract class FragmentController implements
      * Open a temporary page showing the notification list
      */
     public final void openNotifications() {
-        showTemporaryPage(OpenHABNotificationFragment.newInstance(),
-                mActivity.getString(R.string.app_notifications));
+        showTemporaryPage(OpenHABNotificationFragment.newInstance());
     }
 
     /**
@@ -268,21 +259,12 @@ public abstract class FragmentController implements
      */
     public void recreateFragmentState() {
         FragmentTransaction ft = mFm.beginTransaction();
-        if (mSitemapFragment != null) {
-            mSitemapFragment.setHighlightedPageLink(null);
-            ft.remove(mSitemapFragment);
+        for (Fragment f : mFm.getFragments()) {
+            ft.remove(f);
         }
-        for (Pair<OpenHABLinkedPage, OpenHABWidgetListFragment> item : mPageStack) {
-            item.second.setHighlightedPageLink(null);
-            ft.remove(item.second);
-        }
-        if (mNoConnectionFragment != null) {
-            ft.remove(mNoConnectionFragment);
-        }
-        ft.remove(mDefaultProgressFragment);
         ft.commitNow();
 
-        updateFragmentState();
+        updateFragmentState(FragmentUpdateReason.PAGE_UPDATE);
     }
 
     /**
@@ -308,7 +290,21 @@ public abstract class FragmentController implements
      *
      * @return Title to show in action bar, or null if none can be determined
      */
-    public abstract CharSequence getCurrentTitle();
+    public CharSequence getCurrentTitle() {
+        if (mNoConnectionFragment != null) {
+            return null;
+        } else if (mTemporaryPage != null) {
+            if (mTemporaryPage instanceof OpenHABNotificationFragment) {
+                return mActivity.getString(R.string.app_notifications);
+            } else if (mTemporaryPage instanceof OpenHABWidgetListFragment) {
+                return ((OpenHABWidgetListFragment) mTemporaryPage).getTitle();
+            }
+            return null;
+        } else {
+            OpenHABWidgetListFragment f = getFragmentForTitle();
+            return f != null ? f.getTitle() : null;
+        }
+    }
 
     /**
      * Checks whether the controller currently can consume the back key
@@ -316,7 +312,7 @@ public abstract class FragmentController implements
      * @return true if back key can be consumed, false otherwise
      */
     public boolean canGoBack() {
-        return !mPageStack.empty() || mFm.getBackStackEntryCount() > 0;
+        return mTemporaryPage != null || !mPageStack.empty();
     }
 
     /**
@@ -326,12 +322,16 @@ public abstract class FragmentController implements
      * @return true if back key was consumed, false otherwise
      */
     public boolean goBack() {
-        if (mFm.getBackStackEntryCount() > 0) {
-            mFm.popBackStackImmediate();
+        if (mTemporaryPage != null) {
+            mTemporaryPage = null;
+            mActivity.updateTitle();
+            updateFragmentState(FragmentUpdateReason.PAGE_UPDATE);
+            updateConnectionState();
             return true;
         }
         if (!mPageStack.empty()) {
             mPageStack.pop();
+            mActivity.updateTitle();
             updateFragmentState(FragmentUpdateReason.BACK_NAVIGATION);
             updateConnectionState();
             return true;
@@ -361,10 +361,10 @@ public abstract class FragmentController implements
                     break;
                 }
             }
-            for (OpenHABWidgetListFragment f : mTemporaryPages) {
+            if (mTemporaryPage instanceof OpenHABWidgetListFragment) {
+                OpenHABWidgetListFragment f = (OpenHABWidgetListFragment) mTemporaryPage;
                 if (pageUrl.equals(f.getDisplayPageUrl())) {
                     f.update(pageTitle, widgets);
-                    break;
                 }
             }
         }
@@ -386,21 +386,24 @@ public abstract class FragmentController implements
         }
     }
 
-    @Override
-    public void onBackStackChanged() {
+    protected abstract void updateFragmentState(FragmentUpdateReason reason);
+    protected abstract OpenHABWidgetListFragment getFragmentForTitle();
+
+    private void showTemporaryPage(Fragment page) {
+        mTemporaryPage = page;
+        updateFragmentState(FragmentUpdateReason.TEMPORARY_PAGE);
+        updateConnectionState();
         mActivity.updateTitle();
-        if (mTemporaryPages.size() > mFm.getBackStackEntryCount()) {
-            mTemporaryPages = mTemporaryPages.subList(0, mFm.getBackStackEntryCount());
-            updateConnectionState();
-        }
     }
 
-    protected abstract void updateFragmentState(FragmentUpdateReason reason);
-    protected abstract void showTemporaryPage(Fragment page, CharSequence title);
-
-    private void updateFragmentState() {
-        updateFragmentState(FragmentUpdateReason.PAGE_UPDATE);
-        updateConnectionState();
+    protected Fragment getOverridingFragment() {
+        if (mNoConnectionFragment != null) {
+            return mNoConnectionFragment;
+        }
+        if (mTemporaryPage != null) {
+            return mTemporaryPage;
+        }
+        return null;
     }
 
     protected void updateConnectionState() {
@@ -411,8 +414,8 @@ public abstract class FragmentController implements
         for (Pair<OpenHABLinkedPage, OpenHABWidgetListFragment> item : mPageStack) {
             pageUrls.add(item.second.getDisplayPageUrl());
         }
-        for (OpenHABWidgetListFragment f : mTemporaryPages) {
-            pageUrls.add(f.getDisplayPageUrl());
+        if (mTemporaryPage instanceof OpenHABWidgetListFragment) {
+            pageUrls.add(((OpenHABWidgetListFragment) mTemporaryPage).getDisplayPageUrl());
         }
         mConnectionFragment.updateActiveConnections(pageUrls, mActivity.getConnection());
     }
@@ -421,6 +424,7 @@ public abstract class FragmentController implements
         mCurrentSitemap = null;
         mSitemapFragment = null;
         mPageStack.clear();
+        updateConnectionState();
     }
 
     private OpenHABWidgetListFragment makeSitemapFragment(OpenHABSitemap sitemap) {
@@ -434,12 +438,14 @@ public abstract class FragmentController implements
     protected enum FragmentUpdateReason {
         PAGE_ENTER,
         BACK_NAVIGATION,
+        TEMPORARY_PAGE,
         PAGE_UPDATE
     }
 
     protected static @AnimRes int determineEnterAnim(FragmentUpdateReason reason) {
         switch (reason) {
             case PAGE_ENTER: return R.anim.slide_in_right;
+            case TEMPORARY_PAGE: return R.anim.slide_in_bottom;
             case BACK_NAVIGATION: return R.anim.slide_in_left;
             default: return 0;
         }
@@ -448,6 +454,7 @@ public abstract class FragmentController implements
     protected static @AnimRes int determineExitAnim(FragmentUpdateReason reason) {
         switch (reason) {
             case PAGE_ENTER: return R.anim.slide_out_left;
+            case TEMPORARY_PAGE: return R.anim.slide_out_bottom;
             case BACK_NAVIGATION: return R.anim.slide_out_right;
             default: return 0;
         }

@@ -9,12 +9,12 @@
 
 package org.openhab.habdroid.ui.activity;
 
-import android.support.annotation.LayoutRes;
 import android.support.v4.app.Fragment;
 import android.view.ViewStub;
 
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.ui.OpenHABMainActivity;
+import org.openhab.habdroid.ui.OpenHABWidgetListFragment;
 
 @SuppressWarnings("unused") // instantiated via reflection
 public class FragmentControllerOnePane extends FragmentController {
@@ -25,39 +25,23 @@ public class FragmentControllerOnePane extends FragmentController {
     @Override
     protected void updateFragmentState(FragmentUpdateReason reason) {
         Fragment currentFragment = mFm.findFragmentById(R.id.content);
-        final Fragment fragment;
-        if (mNoConnectionFragment != null) {
-            fragment = mNoConnectionFragment;
-        } else if (!mPageStack.empty()) {
+        Fragment fragment = getOverridingFragment();
+        if (fragment == null && !mPageStack.isEmpty()) {
             fragment = mPageStack.peek().second;
-        } else if (mSitemapFragment != null) {
+        }
+        if (fragment == null) {
             fragment = mSitemapFragment;
-        } else {
-            fragment = mDefaultProgressFragment;
         }
 
         mFm.beginTransaction()
                 .setCustomAnimations(determineEnterAnim(reason), determineExitAnim(reason))
-                .replace(R.id.content, fragment)
+                .replace(R.id.content, fragment != null ? fragment : mDefaultProgressFragment)
                 .commit();
     }
 
     @Override
-    protected void showTemporaryPage(Fragment page, CharSequence title) {
-        mFm.beginTransaction()
-                .replace(R.id.content, page)
-                .setBreadCrumbTitle(title)
-                .addToBackStack(null)
-                .commit();
-    }
-
-    @Override
-    public CharSequence getCurrentTitle() {
-        int count = mFm.getBackStackEntryCount();
-        if (count > 0) {
-            return mFm.getBackStackEntryAt(count - 1).getBreadCrumbTitle();
-        }
-        return mPageStack.empty() ? null : mPageStack.peek().second.getTitle();
+    protected OpenHABWidgetListFragment getFragmentForTitle() {
+        return mPageStack.empty() ? mSitemapFragment : mPageStack.peek().second;
     }
 
     @Override

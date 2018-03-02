@@ -9,7 +9,6 @@
 
 package org.openhab.habdroid.ui.activity;
 
-import android.support.annotation.LayoutRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Pair;
@@ -31,12 +30,11 @@ public class FragmentControllerTwoPane extends FragmentController {
 
     @Override
     protected void updateFragmentState(FragmentUpdateReason reason) {
-        final Fragment leftFragment;
+        Fragment leftFragment = getOverridingFragment();
         final OpenHABWidgetListFragment rightFragment;
         final Pair<OpenHABLinkedPage, OpenHABWidgetListFragment> rightPair;
 
-        if (mNoConnectionFragment != null) {
-            leftFragment = mNoConnectionFragment;
+        if (leftFragment != null) {
             rightFragment = null;
             rightPair = null;
         } else if (mSitemapFragment != null) {
@@ -79,7 +77,6 @@ public class FragmentControllerTwoPane extends FragmentController {
         }
         if (rightFragment != null) {
             ft.setCustomAnimations(0, 0);
-            ft.setTransition(determineTransition(reason));
             ft.replace(R.id.content_right, rightFragment);
             rightFragment.setHighlightedPageLink(null);
         }
@@ -98,22 +95,10 @@ public class FragmentControllerTwoPane extends FragmentController {
     }
 
     @Override
-    protected void showTemporaryPage(Fragment page, CharSequence title) {
-        mFm.beginTransaction()
-                .replace(R.id.content_left, page)
-                .setBreadCrumbTitle(title)
-                .addToBackStack(null)
-                .commit();
-        mRightContentView.setVisibility(View.GONE);
-    }
-
-    @Override
-    public CharSequence getCurrentTitle() {
-        int count = mFm.getBackStackEntryCount();
-        if (count > 0) {
-            return mFm.getBackStackEntryAt(count - 1).getBreadCrumbTitle();
-        }
-        return mPageStack.size() > 1 ? mPageStack.get(mPageStack.size() - 2).second.getTitle() : null;
+    protected OpenHABWidgetListFragment getFragmentForTitle() {
+        return mPageStack.size() > 1
+                ? mPageStack.get(mPageStack.size() - 2).second
+                : mSitemapFragment;
     }
 
     @Override

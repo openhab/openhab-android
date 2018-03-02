@@ -855,7 +855,6 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         }
         mSelectedSitemap = sitemap;
         mController.openSitemap(sitemap);
-        updateTitle();
     }
 
     @Override
@@ -882,7 +881,6 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         //clicking the back navigation arrow
         if (item.getItemId() == android.R.id.home && mController.canGoBack()) {
             mController.goBack();
-            updateTitle();
             return true;
         }
 
@@ -1006,18 +1004,11 @@ public class OpenHABMainActivity extends AppCompatActivity implements
     public void onWidgetSelected(OpenHABLinkedPage linkedPage, OpenHABWidgetListFragment source) {
         Log.i(TAG, "Got widget link = " + linkedPage.getLink());
         mController.openPage(linkedPage, source);
-        updateTitle();
     }
 
     public void updateTitle() {
         CharSequence title = mController.getCurrentTitle();
-        if (title != null) {
-            setTitle(title);
-        } else if (mSelectedSitemap != null) {
-            setTitle(mSelectedSitemap.getLabel());
-        } else {
-            setTitle(R.string.app_name);
-        }
+        setTitle(title != null ? title : getString(R.string.app_name));
         mDrawerToggle.setDrawerIndicatorEnabled(!mController.canGoBack());
     }
 
@@ -1025,7 +1016,6 @@ public class OpenHABMainActivity extends AppCompatActivity implements
     public void onBackPressed() {
         if (mController.canGoBack()) {
             mController.goBack();
-            updateTitle();
         } else if (!isFullscreenEnabled()) { //in fullscreen don't continue back which would exit the app
             super.onBackPressed();
         }
