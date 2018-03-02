@@ -110,8 +110,6 @@
   <!-- About -->
   <string name="about_title">Hakkında</string>
   <string name="about_license_title">Lisans</string>
-  <string name="about_links">Bağlantılar</string>
-  <string name="about_links_list"><![CDATA[\u00B7 <a href="https://github.com/openhab/openhab.android">openHAB Uygulaması kaynak kodu</a><br><br> \u00B7 <a href="https://github.com/openhab/openhab.android/issues">Sorun Rapor Et</a><br><br> \u00B7 <a href="http://docs.openhab.org/">openHAB Belgeleme</a><br><br> \u00B7 <a href="https://community.openhab.org/">Topluluk Forum'u</a>]]></string>
   <string name="settings_debug_messages_summary">Şifreler açık bir metinde görüntülenecek!</string>
   <string name="settings_debug_messages_title">Hata ayıklama mesajlarını göster</string>
   <string name="error_couldnt_determine_openhab_url">openHAB URL\'si belirlenemedi</string>
