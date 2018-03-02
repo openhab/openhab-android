@@ -27,13 +27,13 @@ import org.openhab.habdroid.core.connection.Connection;
 import org.openhab.habdroid.core.connection.ConnectionFactory;
 import org.openhab.habdroid.model.OpenHABNotification;
 import org.openhab.habdroid.ui.widget.DividerItemDecoration;
-import org.openhab.habdroid.util.MyHttpClient;
+import org.openhab.habdroid.util.MyAsyncHttpClient;
 
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
 import okhttp3.Call;
 import okhttp3.Headers;
+import okhttp3.Request;
 
 public class OpenHABNotificationFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 
@@ -150,14 +150,13 @@ public class OpenHABNotificationFragment extends Fragment implements SwipeRefres
         }
         startProgressIndicator();
         mRequestHandle = conn.getAsyncHttpClient().get("/api/v1/notifications?limit=20",
-                new MyHttpClient.ResponseHandler() {
+                new MyAsyncHttpClient.StringResponseHandler() {
             @Override
-            public void onSuccess(Call call, int statusCode, Headers headers, byte[] responseBody) {
+            public void onSuccess(String responseBody, Headers headers) {
                 stopProgressIndicator();
                 Log.d(TAG, "Notifications request success");
                 try {
-                    String jsonString = new String(responseBody, "UTF-8");
-                    JSONArray jsonArray = new JSONArray(jsonString);
+                    JSONArray jsonArray = new JSONArray(responseBody);
                     Log.d(TAG, jsonArray.toString());
                     mNotifications.clear();
                     for (int i = 0; i < jsonArray.length(); i++) {
@@ -169,13 +168,13 @@ public class OpenHABNotificationFragment extends Fragment implements SwipeRefres
                         }
                     }
                     mNotificationAdapter.notifyDataSetChanged();
-                } catch(UnsupportedEncodingException | JSONException e){
+                } catch(JSONException e) {
                     Log.d(TAG, e.getMessage(), e);
                 }
             }
 
             @Override
-            public void onFailure(Call call, int statusCode, Headers headers, byte[] responseBody, Throwable error) {
+            public void onFailure(Request request, int statusCode, Throwable error) {
                 stopProgressIndicator();
                 Log.e(TAG, "Notifications request failure");
             }

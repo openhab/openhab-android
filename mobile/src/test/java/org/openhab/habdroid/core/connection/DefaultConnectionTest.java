@@ -10,16 +10,13 @@ import org.openhab.habdroid.util.MyAsyncHttpClient;
 import org.openhab.habdroid.util.MyHttpClient;
 import org.openhab.habdroid.util.MySyncHttpClient;
 
-import okhttp3.Call;
 import okhttp3.Credentials;
-import okhttp3.Headers;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertNull;
 import static junit.framework.Assert.assertTrue;
-import static junit.framework.Assert.fail;
 import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.ArgumentMatchers.anyString;
 
@@ -155,36 +152,16 @@ public class DefaultConnectionTest {
 
     @Test
     public void testSyncResolveRelativeUrl() {
-        MyHttpClient httpClient = testConnection.getSyncHttpClient();
-
-        httpClient.get("/rest/test", new MyHttpClient.TextResponseHandler() {
-            @Override
-            public void onFailure(Call call, int statusCode, Headers headers, String responseBody, Throwable error) {
-                assertEquals(TEST_BASE_URL + "/rest/test", call.request().url().toString());
-            }
-
-            @Override
-            public void onSuccess(Call call, int statusCode, Headers headers, String responseBody) {
-                fail("The request should never succeed in tests.");
-            }
-        });
+        MySyncHttpClient.HttpResult result = testConnection.getSyncHttpClient().get("/rest/test");
+        assertTrue("The request should never succeed in tests", result.error != null);
+        assertEquals(TEST_BASE_URL + "/rest/test", result.request.url().toString());
     }
 
     @Test
     public void testSyncResolveAbsoluteUrl() {
-        MyHttpClient httpClient = testConnection.getSyncHttpClient();
-
-        httpClient.get("http://mylocalmachine.local/rest/test",
-                new MyHttpClient.TextResponseHandler() {
-                    @Override
-                    public void onFailure(Call call, int statusCode, Headers headers, String responseBody, Throwable error) {
-                        assertEquals("http://mylocalmachine.local/rest/test", call.request().url().toString());
-                    }
-
-                    @Override
-                    public void onSuccess(Call call, int statusCode, Headers headers, String responseBody) {
-                        fail("The request should never succeed in tests.");
-                    }
-                });
+        MySyncHttpClient.HttpResult result =
+                testConnection.getSyncHttpClient().get("http://mylocalmachine.local/rest/test");
+        assertTrue("The request should never succeed in tests", result.error != null);
+        assertEquals("http://mylocalmachine.local/rest/test", result.request.url().toString());
     }
 }

@@ -10,94 +10,93 @@
 package org.openhab.habdroid.util;
 
 import android.content.Context;
-import android.os.Handler;
-import android.os.Looper;
-import android.support.annotation.NonNull;
+import android.util.Pair;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.util.Map;
 
 import okhttp3.Call;
-import okhttp3.Headers;
-import okhttp3.MediaType;
-import okhttp3.Protocol;
 import okhttp3.Request;
-import okhttp3.RequestBody;
 import okhttp3.Response;
+import okhttp3.ResponseBody;
 
-public class MySyncHttpClient extends MyHttpClient<Response> {
+public class MySyncHttpClient extends MyHttpClient {
+    public static class HttpResult {
+        public final Request request;
+        public final ResponseBody response;
+        public final Throwable error;
+        public final int statusCode;
 
-    public MySyncHttpClient(Context ctx, Boolean ignoreSSLHostname, Boolean ignoreCertTrust) {
-        clientSSLSetup(ctx, ignoreSSLHostname, ignoreCertTrust);
+        private HttpResult(Call call) {
+            ResponseBody result = null;
+            Throwable error = null;
+            int code = 500;
+
+            try {
+                Response response = call.execute();
+                code = response.code();
+                result = response.body();
+                if (!response.isSuccessful()) {
+                    error = new IOException(response.code() + ": " + response.message());
+                }
+            } catch (IOException e) {
+                error = e;
+            }
+
+            this.statusCode = code;
+            this.request = call.request();
+            this.response = result;
+            this.error = error;
+        }
+
+        public HttpTextResult asText() {
+            return new HttpTextResult(this);
+        }
     }
 
-    protected Response method(String url, String method, Map<String, String> addHeaders, String
-            requestBody, String mediaType, final ResponseHandler responseHandler) {
-        Request.Builder requestBuilder = new Request.Builder();
-        requestBuilder.url(getBaseUrl().newBuilder(url).build());
-        for (Map.Entry<String, String> entry : headers.entrySet()) {
-            requestBuilder.addHeader(entry.getKey(), entry.getValue());
-        }
-        if (addHeaders != null) {
-            for (Map.Entry<String, String> entry : addHeaders.entrySet()) {
-                requestBuilder.addHeader(entry.getKey(), entry.getValue());
-            }
-        }
-        if (requestBody != null) {
-            requestBuilder.method(method, RequestBody.create(MediaType.parse(mediaType), requestBody));
-        }
-        Request request = requestBuilder.build();
-        Call call = client.newCall(request);
-        try {
-            Response resp = call.execute();
-            if (resp.isSuccessful()) {
-                responseHandler.onSuccess(call, resp.code(), resp.headers(), resp.body().bytes());
+    public static class HttpTextResult {
+        public final Request request;
+        public final String response;
+        public final Throwable error;
+        public final int statusCode;
+
+        HttpTextResult(HttpResult result) {
+            this.request = result.request;
+            this.statusCode = result.statusCode;
+            if (result.response == null) {
+                this.response = null;
+                this.error = result.error;
             } else {
-                responseHandler.onFailure(call, resp.code(), resp.headers(), resp.body().bytes(),
-                        new IOException(resp.code() + ": " + resp.message()));
+                String response = null;
+                Throwable error = result.error;
+                try {
+                    response = result.response.string();
+                } catch (IOException e) {
+                    error = e;
+                }
+                this.response = response;
+                this.error = error;
             }
-            return resp;
-        } catch(IOException ex) {
-            responseHandler.onFailure(call, 0, new Headers.Builder().build(), null, ex);
-            return new Response
-                    .Builder()
-                    .code(500)
-                    .message(ex.getClass().getName() + ": " + ex.getMessage())
-                    .request(request)
-                    .protocol(Protocol.HTTP_1_0)
-                    .build();
         }
     }
-
-    @NonNull
-    private ResponseHandler getResponseHandler(final TextResponseHandler textResponseHandler) {
-        return new ResponseHandler() {
-            @Override
-            public void onFailure(Call call, int statusCode, Headers headers, byte[] responseBody, Throwable error) {
-                try {
-                    String responseString = responseBody == null ? null : new String(responseBody, "UTF-8");
-                    textResponseHandler.onFailure(call, statusCode, headers, responseString, error);
-                } catch (UnsupportedEncodingException e) {
-                    textResponseHandler.onFailure(call, statusCode, headers, null, e);
-                }
-            }
-
-            @Override
-            public void onSuccess(Call call, int statusCode, Headers headers, byte[] responseBody) {
-                try {
-                    String responseString = responseBody == null ? null : new String(responseBody, "UTF-8");
-                    textResponseHandler.onSuccess(call, statusCode, headers, responseString);
-                } catch (UnsupportedEncodingException e) {
-                    textResponseHandler.onFailure(call, statusCode, headers, null, e);
-                }
-            }
-        };
+    public MySyncHttpClient(Context ctx, Boolean ignoreSSLHostname, Boolean ignoreCertTrust) {
+        super(ctx, ignoreSSLHostname, ignoreCertTrust);
     }
 
-    private void runOnUiThread(Runnable runnable) {
-        new Handler(Looper.getMainLooper()).post(runnable);
+    public HttpResult get(String url) {
+        return get(url, null);
     }
 
+    public HttpResult get(String url, Map<String, String> headers) {
+        return method(url, "GET", headers, null, null);
+    }
 
+    public HttpResult post(String url, String requestBody, String mediaType) {
+        return method(url, "POST", null, requestBody, mediaType);
+    }
+
+    protected HttpResult method(String url, String method, Map<String, String> headers,
+            String requestBody, String mediaType) {
+        return new HttpResult(prepareCall(url, method, headers, requestBody, mediaType));
+    }
 }

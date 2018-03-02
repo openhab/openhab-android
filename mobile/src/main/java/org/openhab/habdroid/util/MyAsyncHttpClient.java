@@ -19,43 +19,48 @@ import java.util.Map;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Headers;
-import okhttp3.MediaType;
 import okhttp3.Request;
-import okhttp3.RequestBody;
 import okhttp3.Response;
+import okhttp3.ResponseBody;
 
-public class MyAsyncHttpClient extends MyHttpClient<Call> {
+public class MyAsyncHttpClient extends MyHttpClient {
+    public interface ResponseHandler<T> {
+        T convertBodyInBackground(ResponseBody body) throws IOException; // called in background thread
+        void onFailure(Request request, int statusCode, Throwable error);
+        void onSuccess(T body, Headers headers);
+    }
+
+    public static abstract class StringResponseHandler implements ResponseHandler<String> {
+        @Override
+        public String convertBodyInBackground(ResponseBody body) throws IOException {
+            return body.string();
+        }
+    }
 
     public MyAsyncHttpClient(Context ctx, Boolean ignoreSSLHostname, Boolean ignoreCertTrust) {
-        clientSSLSetup(ctx, ignoreSSLHostname, ignoreCertTrust);
+        super(ctx, ignoreSSLHostname, ignoreCertTrust);
 	}
 
-    protected Call method(String url, String method, Map<String, String> addHeaders, String
-            requestBody, String mediaType, final MyHttpClient.ResponseHandler responseHandler) {
-        Request.Builder requestBuilder = new Request.Builder();
-        requestBuilder.url(getBaseUrl().newBuilder(url).build());
-        for (Map.Entry<String, String> entry : headers.entrySet()) {
-            requestBuilder.addHeader(entry.getKey(), entry.getValue());
-        }
-        if (addHeaders != null) {
-            for (Map.Entry<String, String> entry : addHeaders.entrySet()) {
-                requestBuilder.addHeader(entry.getKey(), entry.getValue());
-            }
-        }
-        if (requestBody != null) {
-            requestBuilder.method(method, RequestBody.create(MediaType.parse(mediaType), requestBody));
-        }
-        Call call = client.newCall(requestBuilder.build());
+    public <T> Call get(String url, ResponseHandler<T> responseHandler) {
+        return get(url, null, responseHandler);
+    }
+
+    public <T> Call get(String url, Map<String, String> headers, ResponseHandler<T> responseHandler) {
+        return method(url, "GET", headers, null, null, responseHandler);
+    }
+
+    public Call post(String url, String requestBody, String mediaType, StringResponseHandler responseHandler) {
+        return method(url, "POST", null, requestBody, mediaType, responseHandler);
+    }
+
+    private <T> Call method(String url, String method, Map<String, String> headers,
+            String requestBody, String mediaType, final ResponseHandler<T> responseHandler) {
+        Call call = prepareCall(url, method, headers, requestBody, mediaType);
         call.enqueue(new Callback() {
             @Override
             public void onFailure(final Call call, final IOException e) {
                 if (!call.isCanceled()) {
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            responseHandler.onFailure(call, 0, new Headers.Builder().build(), null, e);
-                        }
-                    });
+                    runOnUiThread(() -> responseHandler.onFailure(call.request(), 0, e));
                 }
             }
 
@@ -65,18 +70,15 @@ public class MyAsyncHttpClient extends MyHttpClient<Call> {
                     return;
                 }
                 final int code = response.code();
-                final byte[] body = response.body().bytes();
+                final T result = responseHandler.convertBodyInBackground(response.body());
                 final boolean success = response.isSuccessful();
                 final Headers headers = response.headers();
                 final String message = response.message();
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (success) {
-                            responseHandler.onSuccess(call, code, headers, body);
-                        } else {
-                            responseHandler.onFailure(call, code, headers, body, new IOException(message));
-                        }
+                runOnUiThread(() -> {
+                    if (success) {
+                        responseHandler.onSuccess(result, headers);
+                    } else {
+                        responseHandler.onFailure(call.request(), code, new IOException(message));
                     }
                 });
             }
@@ -87,6 +89,4 @@ public class MyAsyncHttpClient extends MyHttpClient<Call> {
     private void runOnUiThread(Runnable runnable) {
         new Handler(Looper.getMainLooper()).post(runnable);
     }
-
-
 }

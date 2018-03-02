@@ -81,15 +81,15 @@ import org.openhab.habdroid.model.OpenHABSitemap;
 import org.openhab.habdroid.ui.activity.ContentController;
 import org.openhab.habdroid.util.AsyncServiceResolver;
 import org.openhab.habdroid.util.Constants;
-import org.openhab.habdroid.util.MyHttpClient;
+import org.openhab.habdroid.util.MyAsyncHttpClient;
 import org.openhab.habdroid.util.MyWebImage;
 import org.openhab.habdroid.util.Util;
 import org.w3c.dom.Document;
+import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
+import java.io.StringReader;
 import java.lang.reflect.Constructor;
 import java.net.ConnectException;
 import java.net.SocketTimeoutException;
@@ -115,6 +115,8 @@ import de.duenndns.ssl.MemorizingResponder;
 import de.duenndns.ssl.MemorizingTrustManager;
 import okhttp3.Call;
 import okhttp3.Headers;
+import okhttp3.Request;
+import okhttp3.ResponseBody;
 
 import static org.openhab.habdroid.util.Util.exceptionHasCause;
 import static org.openhab.habdroid.util.Util.removeProtocolFromUrl;
@@ -125,88 +127,6 @@ public class OpenHABMainActivity extends AppCompatActivity implements
             "org.openhab.habdroid.action.NOTIFICATION_SELECTED";
     public static final String EXTRA_MESSAGE = "message";
 
-    private abstract class DefaultHttpResponseHandler implements MyHttpClient.ResponseHandler {
-
-        @Override
-        public void onFailure(Call call, int statusCode, Headers headers, byte[] responseBody, Throwable error) {
-            Log.e(TAG, "Error: " + error.toString());
-            Log.e(TAG, "HTTP status code: " + statusCode);
-            CharSequence message;
-            if (statusCode >= 400){
-                int resourceID;
-                try {
-                    resourceID = getResources().getIdentifier("error_http_code_" + statusCode, "string", getPackageName());
-                    message = getString(resourceID);
-                } catch (android.content.res.Resources.NotFoundException e) {
-                    message = String.format(getString(R.string.error_http_connection_failed), statusCode);
-                }
-            } else if (error instanceof UnknownHostException) {
-                Log.e(TAG, "Unable to resolve hostname");
-                message = getString(R.string.error_unable_to_resolve_hostname);
-            } else if (error instanceof SSLException) {
-                // if ssl exception, check for some common problems
-                if (exceptionHasCause(error, CertPathValidatorException.class)) {
-                    message = getString(R.string.error_certificate_not_trusted);
-                } else if (exceptionHasCause(error, CertificateExpiredException.class)) {
-                    message = getString(R.string.error_certificate_expired);
-                } else if (exceptionHasCause(error, CertificateNotYetValidException.class)) {
-                    message = getString(R.string.error_certificate_not_valid_yet);
-                } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N
-                        && exceptionHasCause(error, CertificateRevokedException.class)) {
-                    message = getString(R.string.error_certificate_revoked);
-                } else if (exceptionHasCause(error, SSLPeerUnverifiedException.class)) {
-                    message = String.format(getString(R.string.error_certificate_wrong_host),
-                            removeProtocolFromUrl(call.request().url().toString()));
-                } else {
-                    message = getString(R.string.error_connection_sslhandshake_failed);
-                }
-            } else if (error instanceof ConnectException || error instanceof SocketTimeoutException) {
-                message = getString(R.string.error_connection_failed);
-            } else {
-                Log.e(TAG, "REST call to " + call.request().url() + " failed", error);
-                message = error.getMessage();
-            }
-
-            SharedPreferences settings =
-                    PreferenceManager.getDefaultSharedPreferences(OpenHABMainActivity.this);
-            if (settings.getBoolean(Constants.PREFERENCE_DEBUG_MESSAGES, false)) {
-                SpannableStringBuilder builder = new SpannableStringBuilder(message);
-                int detailsStart = builder.length();
-
-                builder.append("\n\nURL: ").append(call.request().url().toString());
-
-                String authHeader = call.request().header("Authorization");
-                if (authHeader != null && authHeader.startsWith("Basic")) {
-                    String base64Credentials = authHeader.substring("Basic".length()).trim();
-                    String credentials = new String(Base64.decode(base64Credentials, Base64.DEFAULT),
-                            Charset.forName("UTF-8"));
-                    String[] usernameAndPassword = credentials.split(":", 2);
-                    builder.append("\nUsername: ").append(usernameAndPassword[0]);
-                    builder.append("\nPassword: ").append(usernameAndPassword[1]);
-                }
-
-                builder.append("\nException stack:\n");
-
-                int exceptionStart = builder.length();
-                Throwable cause = error;
-                do {
-                    builder.append(cause.toString()).append('\n');
-                    error = cause;
-                    cause = error.getCause();
-                } while (cause != null && error != cause);
-
-                builder.setSpan(new RelativeSizeSpan(0.8f), detailsStart, exceptionStart,
-                        SpannableStringBuilder.SPAN_INCLUSIVE_EXCLUSIVE);
-                builder.setSpan(new RelativeSizeSpan(0.6f), exceptionStart, builder.length(),
-                        SpannableStringBuilder.SPAN_INCLUSIVE_EXCLUSIVE);
-                message = builder;
-            }
-
-            mController.indicateServerCommunicationFailure(message);
-            mPendingCall = null;
-            mInitState = InitState.DONE;
-        }
-    }
     // Logging TAG
     private static final String TAG = OpenHABMainActivity.class.getSimpleName();
     // Activities request codes
@@ -398,9 +318,9 @@ public class OpenHABMainActivity extends AppCompatActivity implements
     private void queryServerProperties() {
         final String url = "/rest/bindings";
         mInitState = InitState.QUERY_SERVER_PROPS;
-        mPendingCall = mConnection.getAsyncHttpClient().get(url, new DefaultHttpResponseHandler() {
+        mPendingCall = mConnection.getAsyncHttpClient().get(url, new MyAsyncHttpClient.StringResponseHandler() {
             @Override
-            public void onFailure(Call call, int statusCode, Headers headers, byte[] responseBody, Throwable error) {
+            public void onFailure(Request request, int statusCode, Throwable error) {
                 if (statusCode == 404 && mConnection != null) {
                     // no bindings endpoint; we're likely talking to an OH1 instance
                     mOpenHABVersion = 1;
@@ -408,14 +328,12 @@ public class OpenHABMainActivity extends AppCompatActivity implements
                     loadSitemapList(true);
                 } else {
                     // other error -> use default handling
-                    super.onFailure(call, statusCode, headers, responseBody, error);
-                    mInitState = InitState.DONE;
-                    mPendingCall = null;
+                    handleHttpFailure(request, statusCode, error);
                 }
             }
 
             @Override
-            public void onSuccess(Call call, int statusCode, Headers headers, byte[] responseBody) {
+            public void onSuccess(String response, Headers headers) {
                 mOpenHABVersion = 2;
                 mConnection.getAsyncHttpClient().removeHeader("Accept");
                 Log.d(TAG, "openHAB version 2");
@@ -734,14 +652,17 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         item.setIcon(applyDrawerIconTint(defaultIcon));
 
         if (url != null) {
-            mConnection.getAsyncHttpClient().get(url, new MyHttpClient.ResponseHandler() {
+            mConnection.getAsyncHttpClient().get(url, new MyAsyncHttpClient.ResponseHandler<Bitmap>() {
                 @Override
-                public void onFailure(Call call, int statusCode, Headers headers, byte[] responseBody, Throwable error) {
+                public Bitmap convertBodyInBackground(ResponseBody body) throws IOException {
+                    return BitmapFactory.decodeStream(body.byteStream());
+                }
+                @Override
+                public void onFailure(Request request, int statusCode, Throwable error) {
                     Log.w(TAG, "Could not fetch icon for sitemap " + sitemap.name());
                 }
                 @Override
-                public void onSuccess(Call call, int statusCode, Headers headers, byte[] responseBody) {
-                    Bitmap bitmap = BitmapFactory.decodeByteArray(responseBody, 0, responseBody.length);
+                public void onSuccess(Bitmap bitmap, Headers headers) {
                     if (bitmap != null) {
                         imageCache.put(url, bitmap);
                         item.setIcon(new BitmapDrawable(bitmap));
@@ -781,17 +702,21 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         Log.d(TAG, "Loading sitemap list from /rest/sitemaps");
 
         mInitState = InitState.LOAD_SITEMAPS;
-        mPendingCall = mConnection.getAsyncHttpClient().get("/rest/sitemaps", new DefaultHttpResponseHandler() {
+        mPendingCall = mConnection.getAsyncHttpClient().get("/rest/sitemaps", new MyAsyncHttpClient.StringResponseHandler() {
             @Override
-            public void onSuccess(Call call, int statusCode, Headers headers, byte[] responseBody) {
-                Log.d(TAG, new String(responseBody));
+            public void onFailure(Request request, int statusCode, Throwable error) {
+                handleHttpFailure(request, statusCode, error);
+            }
+
+            @Override
+            public void onSuccess(String response, Headers headers) {
                 mPendingCall = null;
                 mInitState = InitState.DONE;
 
                 // OH1 returns XML, later versions return JSON
                 List<OpenHABSitemap> result = mOpenHABVersion == 1
-                        ? loadSitemapsFromXml(responseBody)
-                        : loadSitemapsFromJson(responseBody);
+                        ? loadSitemapsFromXml(response)
+                        : loadSitemapsFromJson(response);
                 Log.d(TAG, "Server returned sitemaps: " + result);
                 mSitemapList.clear();
                 if (result != null) {
@@ -819,11 +744,11 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         });
     }
 
-    private static List<OpenHABSitemap> loadSitemapsFromXml(byte[] response) {
+    private static List<OpenHABSitemap> loadSitemapsFromXml(String response) {
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         try {
             DocumentBuilder builder = dbf.newDocumentBuilder();
-            Document sitemapsXml = builder.parse(new ByteArrayInputStream(response));
+            Document sitemapsXml = builder.parse(new InputSource(new StringReader(response)));
             return Util.parseSitemapList(sitemapsXml);
         } catch (ParserConfigurationException | SAXException | IOException e) {
             Log.e(TAG, "Failed parsing sitemap XML", e);
@@ -831,12 +756,11 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         }
     }
 
-    private static List<OpenHABSitemap> loadSitemapsFromJson(byte[] response) {
+    private static List<OpenHABSitemap> loadSitemapsFromJson(String response) {
         try {
-            String jsonString = new String(response, "UTF-8");
-            JSONArray jsonArray = new JSONArray(jsonString);
+            JSONArray jsonArray = new JSONArray(response);
             return Util.parseSitemapList(jsonArray);
-        } catch (UnsupportedEncodingException | JSONException e) {
+        } catch (JSONException e) {
             Log.e(TAG, "Failed parsing sitemap JSON", e);
             return null;
         }
@@ -1142,6 +1066,85 @@ public class OpenHABMainActivity extends AppCompatActivity implements
             mLastSnackbar.dismiss();
             mLastSnackbar = null;
         }
+    }
+
+    private void handleHttpFailure(Request request, int statusCode, Throwable error) {
+        Log.e(TAG, "Error: " + error.toString());
+        Log.e(TAG, "HTTP status code: " + statusCode);
+        CharSequence message;
+        if (statusCode >= 400){
+            int resourceID;
+            try {
+                resourceID = getResources().getIdentifier("error_http_code_" + statusCode, "string", getPackageName());
+                message = getString(resourceID);
+            } catch (android.content.res.Resources.NotFoundException e) {
+                message = String.format(getString(R.string.error_http_connection_failed), statusCode);
+            }
+        } else if (error instanceof UnknownHostException) {
+            Log.e(TAG, "Unable to resolve hostname");
+            message = getString(R.string.error_unable_to_resolve_hostname);
+        } else if (error instanceof SSLException) {
+            // if ssl exception, check for some common problems
+            if (exceptionHasCause(error, CertPathValidatorException.class)) {
+                message = getString(R.string.error_certificate_not_trusted);
+            } else if (exceptionHasCause(error, CertificateExpiredException.class)) {
+                message = getString(R.string.error_certificate_expired);
+            } else if (exceptionHasCause(error, CertificateNotYetValidException.class)) {
+                message = getString(R.string.error_certificate_not_valid_yet);
+            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N
+                    && exceptionHasCause(error, CertificateRevokedException.class)) {
+                message = getString(R.string.error_certificate_revoked);
+            } else if (exceptionHasCause(error, SSLPeerUnverifiedException.class)) {
+                message = String.format(getString(R.string.error_certificate_wrong_host),
+                        removeProtocolFromUrl(request.url().toString()));
+            } else {
+                message = getString(R.string.error_connection_sslhandshake_failed);
+            }
+        } else if (error instanceof ConnectException || error instanceof SocketTimeoutException) {
+            message = getString(R.string.error_connection_failed);
+        } else {
+            Log.e(TAG, "REST call to " + request.url() + " failed", error);
+            message = error.getMessage();
+        }
+
+        SharedPreferences settings =
+                PreferenceManager.getDefaultSharedPreferences(OpenHABMainActivity.this);
+        if (settings.getBoolean(Constants.PREFERENCE_DEBUG_MESSAGES, false)) {
+            SpannableStringBuilder builder = new SpannableStringBuilder(message);
+            int detailsStart = builder.length();
+
+            builder.append("\n\nURL: ").append(request.url().toString());
+
+            String authHeader = request.header("Authorization");
+            if (authHeader != null && authHeader.startsWith("Basic")) {
+                String base64Credentials = authHeader.substring("Basic".length()).trim();
+                String credentials = new String(Base64.decode(base64Credentials, Base64.DEFAULT),
+                        Charset.forName("UTF-8"));
+                String[] usernameAndPassword = credentials.split(":", 2);
+                builder.append("\nUsername: ").append(usernameAndPassword[0]);
+                builder.append("\nPassword: ").append(usernameAndPassword[1]);
+            }
+
+            builder.append("\nException stack:\n");
+
+            int exceptionStart = builder.length();
+            Throwable cause = error;
+            do {
+                builder.append(cause.toString()).append('\n');
+                error = cause;
+                cause = error.getCause();
+            } while (cause != null && error != cause);
+
+            builder.setSpan(new RelativeSizeSpan(0.8f), detailsStart, exceptionStart,
+                    SpannableStringBuilder.SPAN_INCLUSIVE_EXCLUSIVE);
+            builder.setSpan(new RelativeSizeSpan(0.6f), exceptionStart, builder.length(),
+                    SpannableStringBuilder.SPAN_INCLUSIVE_EXCLUSIVE);
+            message = builder;
+        }
+
+        mController.indicateServerCommunicationFailure(message);
+        mPendingCall = null;
+        mInitState = InitState.DONE;
     }
 
     private void showCertificateDialog(final int decisionId, String certMessage) {

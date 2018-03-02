@@ -26,7 +26,6 @@ import org.openhab.habdroid.R;
 import org.openhab.habdroid.model.OpenHABItem;
 import org.openhab.habdroid.model.OpenHABSitemap;
 import org.w3c.dom.Document;
-import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import java.net.MalformedURLException;
@@ -36,8 +35,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import okhttp3.Call;
 import okhttp3.Headers;
+import okhttp3.Request;
 
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
@@ -201,16 +200,14 @@ public class Util {
         if (itemUrl == null || command == null) {
             return;
         }
-        client.post(itemUrl, command, "text/plain;charset=UTF-8", new MyHttpClient.TextResponseHandler() {
+        client.post(itemUrl, command, "text/plain;charset=UTF-8", new MyAsyncHttpClient.StringResponseHandler() {
             @Override
-            public void onFailure(Call call, int statusCode, Headers headers, String responseString, Throwable error) {
+            public void onFailure(Request request, int statusCode, Throwable error) {
                 Log.e(TAG, "Got command error " + error.getMessage());
-                if (responseString != null)
-                    Log.e(TAG, "Error response = " + responseString);
             }
 
             @Override
-            public void onSuccess(Call call, int statusCode, Headers headers, String responseString) {
+            public void onSuccess(String response, Headers headers) {
                 Log.d(TAG, "Command was sent successfully");
             }
         });

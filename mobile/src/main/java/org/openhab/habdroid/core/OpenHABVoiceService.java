@@ -20,12 +20,9 @@ import org.openhab.habdroid.R;
 import org.openhab.habdroid.core.connection.Connection;
 import org.openhab.habdroid.core.connection.ConnectionFactory;
 import org.openhab.habdroid.core.connection.exception.ConnectionException;
-import org.openhab.habdroid.util.MyHttpClient;
+import org.openhab.habdroid.util.MySyncHttpClient;
 
 import java.util.List;
-
-import okhttp3.Call;
-import okhttp3.Headers;
 
 /**
  * This service handles voice commands and sends them to OpenHAB.
@@ -77,17 +74,12 @@ public class OpenHABVoiceService extends IntentService {
 
     private void sendItemCommand(final String itemName, final String command, final Connection conn) {
         Log.d(TAG, "sendItemCommand(): itemName=" + itemName + ", command=" + command);
-        conn.getSyncHttpClient().post("/rest/items/" + itemName,
-                command, "text/plain;charset=UTF-8", new MyHttpClient.ResponseHandler() {
-                    @Override
-                    public void onSuccess(Call call, int statusCode, Headers headers, byte[] responseBody) {
-                        Log.d(TAG, "Command was sent successfully");
-                    }
-
-                    @Override
-                    public void onFailure(Call call, int statusCode, Headers headers, byte[] responseBody, Throwable error) {
-                        Log.e(TAG, "Got command error " + statusCode, error);
-                    }
-                });
+        MySyncHttpClient.HttpResult result = conn.getSyncHttpClient().post(
+                "/rest/items/" + itemName, command, "text/plain;charset=UTF-8");
+        if (result.error != null) {
+            Log.e(TAG, "Got command error " + result.statusCode, result.error);
+        } else {
+            Log.d(TAG, "Command was sent successfully");
+        }
     }
 }

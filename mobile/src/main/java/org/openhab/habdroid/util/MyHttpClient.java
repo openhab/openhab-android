@@ -11,13 +11,13 @@ package org.openhab.habdroid.util;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 import android.util.Log;
 
-import java.io.UnsupportedEncodingException;
 import java.security.KeyStore;
+import java.security.SecureRandom;
 import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -32,32 +32,23 @@ import javax.net.ssl.X509TrustManager;
 
 import okhttp3.Call;
 import okhttp3.Credentials;
-import okhttp3.Headers;
 import okhttp3.HttpUrl;
+import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
 
-public abstract class MyHttpClient<T> {
+public abstract class MyHttpClient {
     private static final String TAG = MyHttpClient.class.getSimpleName();
 
     private HttpUrl baseUrl;
+    private Map<String, String> headers = new HashMap<>();
+    private OkHttpClient client;
 
-    public interface ResponseHandler {
-        void onFailure(Call call, int statusCode, Headers headers, byte[] responseBody, Throwable error);
-        void onSuccess(Call call, int statusCode, Headers headers, byte[] responseBody);
-    }
-
-    public interface TextResponseHandler {
-        void onFailure(Call call, int statusCode, Headers headers, String responseBody, Throwable error);
-        void onSuccess(Call call, int statusCode, Headers headers, String responseBody);
-    }
-
-    protected Map<String, String> headers = new HashMap<String, String>();
-    protected OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder();
-    protected OkHttpClient client = clientBuilder.build();
-
-    protected void clientSSLSetup(Context ctx, Boolean ignoreSSLHostname, Boolean ignoreCertTrust) {
+    protected MyHttpClient(Context ctx, Boolean ignoreSSLHostname, Boolean ignoreCertTrust) {
+        OkHttpClient.Builder builder = new OkHttpClient.Builder();
         if (ignoreSSLHostname) {
-            clientBuilder.hostnameVerifier(new HostnameVerifier() {
+            builder.hostnameVerifier(new HostnameVerifier() {
                 @SuppressLint("BadHostnameVerifier")
                 @Override
                 public boolean verify(String hostname, SSLSession session) {
@@ -69,26 +60,26 @@ public abstract class MyHttpClient<T> {
         X509TrustManager x509TrustManager = null;
 
         if (ignoreCertTrust) {
-            x509TrustManager =
-                new X509TrustManager() {
-                    @Override
-                    public void checkClientTrusted(java.security.cert.X509Certificate[] chain, String authType) throws CertificateException {
-                    }
+            x509TrustManager = new X509TrustManager() {
+                @Override
+                public void checkClientTrusted(X509Certificate[] chain, String authType) throws CertificateException {
+                }
 
-                    @Override
-                    public void checkServerTrusted(java.security.cert.X509Certificate[] chain, String authType) throws CertificateException {
-                    }
+                @Override
+                public void checkServerTrusted(X509Certificate[] chain, String authType) throws CertificateException {
+                }
 
-                    @Override
-                    public java.security.cert.X509Certificate[] getAcceptedIssuers() {
-                        return new java.security.cert.X509Certificate[]{};
-                    }
-                };
+                @Override
+                public X509Certificate[] getAcceptedIssuers() {
+                    return new X509Certificate[0];
+                }
+            };
         } else {
             // get default trust manager
             try {
-                TrustManagerFactory trustManagerFactory = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
-                trustManagerFactory.init((KeyStore)null);
+                TrustManagerFactory trustManagerFactory =
+                        TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
+                trustManagerFactory.init((KeyStore) null);
                 TrustManager[] trustManagers = trustManagerFactory.getTrustManagers();
 
                 for (TrustManager trustManager : trustManagers) {
@@ -104,14 +95,15 @@ public abstract class MyHttpClient<T> {
 
         try {
             final SSLContext sslContext = SSLContext.getInstance("TLS");
-            sslContext.init( MyKeyManager.getInstance(ctx), new TrustManager[]{x509TrustManager}, new java.security.SecureRandom());
+            sslContext.init(MyKeyManager.getInstance(ctx),
+                    new TrustManager[]{ x509TrustManager }, new SecureRandom());
             final SSLSocketFactory sslSocketFactory = sslContext.getSocketFactory();
-                clientBuilder.sslSocketFactory(sslSocketFactory, x509TrustManager);
+            builder.sslSocketFactory(sslSocketFactory, x509TrustManager);
         } catch (Exception e) {
             Log.d(TAG, "Applying certificate trust settings failed", e);
         }
 
-        client = clientBuilder.build();
+        client = builder.build();
     }
 
     public void setBasicAuth(String username, String password) {
@@ -135,8 +127,9 @@ public abstract class MyHttpClient<T> {
     }
 
     public void setTimeout(int timeout) {
-        clientBuilder.readTimeout(timeout, TimeUnit.MILLISECONDS);
-        client = clientBuilder.build();
+        client = client.newBuilder()
+                .readTimeout(timeout, TimeUnit.MILLISECONDS)
+                .build();
     }
 
     public void addHeader(String key, String value) {
@@ -152,56 +145,22 @@ public abstract class MyHttpClient<T> {
         return headers;
     }
 
-    public T get(String url, ResponseHandler responseHandler) {
-        return method(url, "GET", null, null, null, responseHandler);
-    }
-
-    public T get(String url, TextResponseHandler textResponseHandler) {
-        return get(url, getResponseHandler(textResponseHandler));
-    }
-
-    public T get(String url, Map<String, String> headers, ResponseHandler responseHandler) {
-        return method(url, "GET", headers, null, null, responseHandler);
-    }
-
-    public T post(String url, String requestBody, String mediaType, ResponseHandler responseHandler) {
-        return method(url, "POST", null, requestBody, mediaType, responseHandler);
-    }
-
-    public T post(String url, String requestBody, String mediaType, TextResponseHandler textResponseHandler) {
-        return post(url, requestBody, mediaType, getResponseHandler(textResponseHandler));
-    }
-
-    public T delete(String url, ResponseHandler responseHandler) {
-        return method(url, "DELETE", null, null, null, responseHandler);
-    }
-
-    protected abstract T method(String url, String method, Map<String, String> addHeaders,
-                                   String requestBody, String mediaType, final ResponseHandler
-                                           responseHandler);
-
-    @NonNull
-    private ResponseHandler getResponseHandler(final TextResponseHandler textResponseHandler) {
-        return new ResponseHandler() {
-            @Override
-            public void onFailure(Call call, int statusCode, Headers headers, byte[] responseBody, Throwable error) {
-                try {
-                    String responseString = responseBody == null ? null : new String(responseBody, "UTF-8");
-                    textResponseHandler.onFailure(call, statusCode, headers, responseString, error);
-                } catch (UnsupportedEncodingException e) {
-                    textResponseHandler.onFailure(call, statusCode, headers, null, e);
-                }
+    protected Call prepareCall(String url, String method, Map<String, String> additionalHeaders,
+                               String requestBody, String mediaType) {
+        Request.Builder requestBuilder = new Request.Builder();
+        requestBuilder.url(getBaseUrl().newBuilder(url).build());
+        for (Map.Entry<String, String> entry : headers.entrySet()) {
+            requestBuilder.addHeader(entry.getKey(), entry.getValue());
+        }
+        if (additionalHeaders != null) {
+            for (Map.Entry<String, String> entry : additionalHeaders.entrySet()) {
+                requestBuilder.addHeader(entry.getKey(), entry.getValue());
             }
-
-            @Override
-            public void onSuccess(Call call, int statusCode, Headers headers, byte[] responseBody) {
-                try {
-                    String responseString = responseBody == null ? null : new String(responseBody, "UTF-8");
-                    textResponseHandler.onSuccess(call, statusCode, headers, responseString);
-                } catch (UnsupportedEncodingException e) {
-                    textResponseHandler.onFailure(call, statusCode, headers, null, e);
-                }
-            }
-        };
+        }
+        if (requestBody != null) {
+            requestBuilder.method(method, RequestBody.create(MediaType.parse(mediaType), requestBody));
+        }
+        Request request = requestBuilder.build();
+        return client.newCall(request);
     }
 }

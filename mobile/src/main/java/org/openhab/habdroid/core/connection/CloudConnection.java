@@ -5,11 +5,7 @@ import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.openhab.habdroid.util.MyHttpClient;
 import org.openhab.habdroid.util.MySyncHttpClient;
-
-import okhttp3.Call;
-import okhttp3.Headers;
 
 public class CloudConnection extends DefaultConnection {
     private static final String TAG = CloudConnection.class.getSimpleName();
@@ -38,25 +34,19 @@ public class CloudConnection extends DefaultConnection {
      */
     public static CloudConnection fromConnection(AbstractConnection connection) {
         final MySyncHttpClient client = connection.getSyncHttpClient();
-        CloudConnection[] holder = new CloudConnection[1];
+        MySyncHttpClient.HttpTextResult result = client.get("/api/v1/settings/notifications").asText();
+        if (result.error != null) {
+            Log.e(TAG, "Error loading notification settings: " + result.error.getMessage());
+            return null;
+        }
 
-        client.get("/api/v1/settings/notifications", new MyHttpClient.TextResponseHandler() {
-            @Override
-            public void onFailure(Call call, int statusCode, Headers headers, String responseBody, Throwable error) {
-                Log.e(TAG, "Error loading notification settings: " + error.getMessage());
-            }
-
-            @Override
-            public void onSuccess(Call call, int statusCode, Headers headers, String responseBody) {
-                try {
-                    JSONObject json = new JSONObject(responseBody);
-                    String senderId = json.getJSONObject("gcm").getString("senderId");
-                    holder[0] = new CloudConnection(connection, senderId);
-                } catch (JSONException e) {
-                    Log.d(TAG, "Unable to parse notification settings JSON", e);
-                }
-            }
-        });
-        return holder[0];
+        try {
+            JSONObject json = new JSONObject(result.response);
+            String senderId = json.getJSONObject("gcm").getString("senderId");
+            return new CloudConnection(connection, senderId);
+        } catch (JSONException e) {
+            Log.d(TAG, "Unable to parse notification settings JSON", e);
+            return null;
+        }
     }
 }

@@ -23,14 +23,11 @@ import com.google.android.gms.iid.InstanceID;
 import org.openhab.habdroid.core.connection.CloudConnection;
 import org.openhab.habdroid.core.connection.Connection;
 import org.openhab.habdroid.core.connection.ConnectionFactory;
-import org.openhab.habdroid.util.MyHttpClient;
+import org.openhab.habdroid.util.MySyncHttpClient;
 
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.Locale;
-
-import okhttp3.Call;
-import okhttp3.Headers;
 
 public class GcmRegistrationService extends IntentService {
     private static final String TAG = GcmRegistrationService.class.getSimpleName();
@@ -91,22 +88,13 @@ public class GcmRegistrationService extends IntentService {
                 deviceId, deviceModel, token);
 
         Log.d(TAG, "Register device at openHAB-cloud with URL: " + regUrl);
-        connection.getSyncHttpClient().get(regUrl, new MyHttpClient.ResponseHandler() {
-            @Override
-            public void onFailure(Call call, int statusCode, Headers headers, byte[] responseBody, Throwable error) {
-                Log.e(TAG, "GCM reg id error: " + error.getMessage());
-                if (responseBody != null) {
-                    Log.e(TAG, "Error response = " + responseBody);
-                }
-                CloudMessagingHelper.sRegistrationFailureReason = error;
-            }
-
-            @Override
-            public void onSuccess(Call call, int statusCode, Headers headers, byte[] responseBody) {
-                Log.d(TAG, "GCM reg id success");
-                CloudMessagingHelper.sRegistrationFailureReason = null;
-            }
-        });
+        MySyncHttpClient.HttpResult result = connection.getSyncHttpClient().get(regUrl);
+        if (result.error == null) {
+            Log.d(TAG, "GCM reg id success");
+        } else {
+            Log.e(TAG, "GCM reg id error: " + result.error.getMessage());
+        }
+        CloudMessagingHelper.sRegistrationFailureReason = result.error;
     }
 
     private void sendHideNotificationRequest(int notificationId, String senderId) throws IOException {

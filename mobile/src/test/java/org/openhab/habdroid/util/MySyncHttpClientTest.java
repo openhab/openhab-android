@@ -49,21 +49,9 @@ public class MySyncHttpClientTest {
         httpClient.setBaseUrl("https://demo.test");
 
         String host = "just.a.local.url.local";
-        Response resp = httpClient.method(
-                "https://" + host,
-                "GET",
-                new HashMap<String, String>(),
-                null,
-                "",
-                new MyHttpClient.ResponseHandler() {
-                    public void onFailure(Call call, int statusCode, Headers headers, byte[] responseBody,
-                                          Throwable error) {}
+        MySyncHttpClient.HttpResult resp = httpClient.get("https://" + host);
 
-                    public void onSuccess(Call call, int statusCode, Headers headers, byte[]
-                            responseBody) {}
-                });
-
-        assertEquals(500, resp.code());
-        assertTrue(resp.message().startsWith(UnknownHostException.class.getName()));
+        assertEquals(500, resp.statusCode);
+        assertTrue(resp.error instanceof UnknownHostException);
     }
 }

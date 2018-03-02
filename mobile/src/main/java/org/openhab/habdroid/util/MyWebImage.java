@@ -24,13 +24,9 @@ import com.caverock.androidsvg.SVGParseException;
 import com.loopj.android.image.SmartImage;
 import com.loopj.android.image.WebImageCache;
 
-import java.io.ByteArrayInputStream;
 import java.io.InputStream;
-import java.util.HashMap;
-import java.util.Map;
 
-import okhttp3.Call;
-import okhttp3.Headers;
+import okhttp3.MediaType;
 
 public class MyWebImage implements SmartImage {
     private static final String TAG = "MyWebImage";
@@ -101,66 +97,29 @@ public class MyWebImage implements SmartImage {
     }
 
     private Bitmap getBitmapFromUrl(Context context, final String url) {
-        final Map<String, Object> result = new HashMap<String, Object>();
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-        MyAsyncHttpClient client = new MyAsyncHttpClient(context, prefs.getBoolean(Constants
+        MySyncHttpClient client = new MySyncHttpClient(context, prefs.getBoolean(Constants
                 .PREFERENCE_SSLHOST, false), prefs.getBoolean(Constants.PREFERENCE_SSLCERT, false));
         client.setTimeout(READ_TIMEOUT);
         client.setBaseUrl(url);
+        client.setTimeout(60000);
         if (shouldAuth) {
             client.setBasicAuth(authUsername, authPassword);
         }
 
-        client.get(url, new MyHttpClient.ResponseHandler() {
-            @Override
-            public void onFailure(Call call, int statusCode, Headers headers, byte[] responseBody, Throwable error) {
-                Log.e(TAG, "Failed to get " + url + " with code " + statusCode + ":" + error);
-                synchronized (result) {
-                    result.put("error", error);
-                    result.notify();
-                }
-            }
-
-            @Override
-            public void onSuccess(Call call, int statusCode, Headers headers, byte[] responseBody) {
-                InputStream is = new ByteArrayInputStream(responseBody);
-                Map headersMap = headers.toMultimap();
-                boolean isSVG = headersMap.containsKey("content-type") &&
-                        headersMap.get("content-type").toString().contains("svg");
-                synchronized (result) {
-                    result.put("bitmap", getBitmapFromInputStream(isSVG, is));
-                    result.notify();
-                }
-            }
-        });
-
-        synchronized (result) {
-            try {
-                result.wait(60000);
-            } catch (InterruptedException e) {
-                Log.e(TAG, "Timeout fetching " + url);
-                return null;
-            }
-
-            if (result.containsKey("error")) {
-                return null;
-            }
-
+        MySyncHttpClient.HttpResult result = client.get(url);
+        if (result.error != null) {
+            Log.e(TAG, "Failed to get " + url + " with code " + result.statusCode + ":" + result.error);
+            return null;
         }
 
-        Log.i(TAG, "fetched bitmap for " + url);
+        MediaType contentType = result.response.contentType();
+        boolean isSVG = contentType  != null
+                && contentType.type().equals("image")
+                && contentType.subtype().contains("svg");
+        InputStream is = result.response.byteStream();
 
-        return (Bitmap)result.get("bitmap");
-    }
-
-    private Bitmap getBitmapFromInputStream(boolean isSVG, InputStream is) {
-        Bitmap bitmap;
-        if(isSVG) {
-            bitmap = getBitmapFromSvgInputstream(is);
-        } else {
-            bitmap = BitmapFactory.decodeStream(is);
-        }
-        return bitmap;
+        return isSVG ? getBitmapFromSvgInputstream(is) : BitmapFactory.decodeStream(is);
     }
 
     private Bitmap getBitmapFromSvgInputstream(InputStream is) {
