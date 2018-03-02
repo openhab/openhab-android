@@ -43,7 +43,7 @@
                 android:value="org.openhab.habdroid.ui.OpenHABMainActivity" />
         </activity>
         <activity
-            android:name="org.openhab.habdroid.ui.OpenHABAboutActivity"
+            android:name="org.openhab.habdroid.ui.AboutActivity"
             android:label="@string/about_title"/>
         <activity
             android:name="org.openhab.habdroid.ui.OpenHABMainActivity"

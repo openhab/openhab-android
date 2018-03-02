@@ -38,8 +38,8 @@ import okhttp3.Headers;
 
 import static org.openhab.habdroid.util.Util.obfuscateString;
 
-public class OpenHABAboutActivity extends AppCompatActivity {
-    private final static String TAG = OpenHABAboutActivity.class.getSimpleName();
+public class AboutActivity extends AppCompatActivity {
+    private final static String TAG = AboutActivity.class.getSimpleName();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
