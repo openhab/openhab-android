@@ -132,8 +132,6 @@
   <!-- About -->
   <string name="about_title">Tietoja</string>
   <string name="about_license_title">Lisenssi</string>
-  <string name="about_links">Linkit</string>
-  <string name="about_links_list"><![CDATA[\u00B7 <a href="https://github.com/openhab/openhab.android">openHAB Android sovelluksen lähdekoodi</a><br><br> \u00B7 <a href="https://github.com/openhab/openhab.android/issues">Ilmoita ongelmasta</a><br><br> \u00B7 <a href="http://docs.openhab.org/">openHAB dokumentointi</a><br><br> \u00B7 <a href="https://community.openhab.org/">Keskustelufoorumi</a>]]></string>
   <string name="settings_debug_messages_summary">Salasanat näkyvät salaamattomana tekstinä!</string>
   <string name="settings_debug_messages_title">Näytä debug viestit</string>
   <string name="error_couldnt_determine_openhab_url">openHAB palvelimen URL osoitetta ei löytynyt</string>
