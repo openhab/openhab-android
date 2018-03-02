@@ -36,6 +36,7 @@ import org.openhab.habdroid.model.OpenHABWidget;
 import org.openhab.habdroid.util.Util;
 
 import java.util.List;
+import java.util.Locale;
 
 /**
  * This class is apps' main fragment which displays list of openHAB
@@ -317,5 +318,11 @@ public class OpenHABWidgetListFragment extends Fragment
                 holder.stop();
             }
         }
+    }
+
+    @Override
+    public String toString() {
+        return String.format(Locale.US, "%s [url=%s, title=%s]",
+                super.toString(), displayPageUrl, mTitle);
     }
 }

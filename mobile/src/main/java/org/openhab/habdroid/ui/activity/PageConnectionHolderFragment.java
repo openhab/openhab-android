@@ -25,6 +25,7 @@ import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -127,6 +128,12 @@ public class PageConnectionHolderFragment extends Fragment {
         if (handler != null) {
             handler.triggerUpdate(forceReload);
         }
+    }
+
+    @Override
+    public String toString() {
+        return String.format(Locale.US, "%s [%d connections, started=%s]",
+                super.toString(), mConnections.size(), mStarted);
     }
 
     private static class ConnectionHandler implements MyHttpClient.ResponseHandler {
