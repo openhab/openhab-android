@@ -146,6 +146,7 @@
   <string name="intro_whatis">Eine technologie- und herstellerunabhängige, quelloffene Automatisierungslösung für Ihr Zuhause</string>
   <string name="intro_themes">Designs</string>
   <string name="intro_themes_description">Wählen Sie zwischen verschiedenen Designs</string>
+  <string name="network_error">Netzwerkfehler</string>
   <!-- Content description for images -->
   <string name="content_description_open_roller_shutter">Rollladen öffnen</string>
   <string name="content_description_stop_roller_shutter">Rollladenbewegung stoppen</string>
