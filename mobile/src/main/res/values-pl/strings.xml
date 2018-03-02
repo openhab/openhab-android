@@ -132,8 +132,6 @@
   <!-- About -->
   <string name="about_title">O</string>
   <string name="about_license_title">Licencja</string>
-  <string name="about_links">Linki</string>
-  <string name="about_links_list"><![CDATA[\u00B7 <a href="https://github.com/openhab/openhab.android">Kod źródłowy aplikacji openHAB</a><br><br> \u00B7 <a href="https://github.com/openhab/openhab.android/issues">Zgłoś problem</a><br><br> \u00B7 <a href="http://docs.openhab.org/">Dokumentacja openHAB</a><br><br> \u00B7 <a href="https://community.openhab.org/">Forum użytkowników</a>]]></string>
   <string name="settings_debug_messages_summary">Hasła będą wyświetlane w postaci zwykłego tekstu!</string>
   <string name="settings_debug_messages_title">Pokaż komunikaty debugowania</string>
   <string name="error_couldnt_determine_openhab_url">Nie można określić adresu URL openHAB</string>
