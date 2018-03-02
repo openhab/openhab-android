@@ -52,7 +52,6 @@
   <string name="title_voice_widget">openHAB äänikomennot</string>
   <string name="info_voice_input">"openHAB, komennossasi!"</string>
   <string name="info_voice_recognized_text">"Tunnistettu komento: %1$s"</string>
-  <string name="info_demo_mode">Sovellus esittelytilassa. Yhdistääksesi openHAB palvelimelle, ole hyvä ja mene asetusvalikkoon.</string>
   <string name="info_demo_mode_short">Sovellus esittelytilassa</string>
   <string name="info_conn_url">Yhdistetään paikalliskäytön URL osoitteeseen</string>
   <string name="info_conn_rem_url">Yhdistetään etäkäytön URL osoitteeseen</string>
@@ -133,8 +132,6 @@
   <!-- About -->
   <string name="about_title">Tietoja</string>
   <string name="about_license_title">Lisenssi</string>
-  <string name="about_links">Linkit</string>
-  <string name="about_links_list"><![CDATA[\u00B7 <a href="https://github.com/openhab/openhab.android">openHAB Android sovelluksen lähdekoodi</a><br><br> \u00B7 <a href="https://github.com/openhab/openhab.android/issues">Ilmoita ongelmasta</a><br><br> \u00B7 <a href="http://docs.openhab.org/">openHAB dokumentointi</a><br><br> \u00B7 <a href="https://community.openhab.org/">Keskustelufoorumi</a>]]></string>
   <string name="settings_debug_messages_summary">Salasanat näkyvät salaamattomana tekstinä!</string>
   <string name="settings_debug_messages_title">Näytä debug viestit</string>
   <string name="error_couldnt_determine_openhab_url">openHAB palvelimen URL osoitetta ei löytynyt</string>
@@ -147,6 +144,12 @@
   <string name="intro_whatis">Valmistaja- ja teknologiariippumaton avoimen lähdekoodin automaatio-ohjelmisto kotiasi varten</string>
   <string name="intro_themes">Teemat</string>
   <string name="intro_themes_description">Valitse useista teemoista</string>
+  <string name="try_again_button">Yritä uudelleen</string>
+  <string name="network_error">Verkkovirhe</string>
+  <string name="go_to_settings_button">Mene asetuksiin</string>
+  <string name="error_no_url_start_demo_mode">Ole hyvä ja aseta palvelimen IP osoite tai isäntänimi palvelimen asetuksissa. Demotila on nyt käytössä.</string>
+  <string name="intro_discovery">Haku</string>
+  <string name="intro_discovery_summary">Ota huomioon, että tämä toimii vain jos palvelin ei vaadi kirjautumista</string>
   <!-- Content description for images -->
   <string name="content_description_open_roller_shutter">Avaa rullaverho</string>
   <string name="content_description_stop_roller_shutter">Pysäytä rullaverho</string>
@@ -157,7 +160,11 @@
   <string name="content_description_open_number_picker">Avaa numerovalitsin</string>
   <string name="content_description_video">Video</string>
   <string name="content_description_open_openhab">Avaa openHAB</string>
+  <string name="swipe_to_refresh_description">Sovellus päivittää automaattisesti joten sitä ei tavallisesti tarvitse tehdä itse</string>
+  <string name="swipe_to_refresh_dismiss">Selvä!</string>
   <!-- Intro strings -->
   <!-- Intro "SKIP" button -->
+  <string name="app_intro_skip_button">OHITA</string>
   <!-- Intro "DONE" button -->
+  <string name="app_intro_done_button">VALMIS</string>
 </resources>

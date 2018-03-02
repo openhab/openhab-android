@@ -7,12 +7,10 @@
   <string name="main_menu">Главное меню</string>
   <string name="app_preferences_name">Настройки</string>
   <string name="app_notifications">Уведомления</string>
-  <string name="dlg_notification_title">Уведомление</string>
-  <string name="favorites">Избранное</string>
   <!-- Main menu items -->
-  <string name="mainmenu_openhab_sitemaps">Sitemap\'ы</string>
   <string name="mainmenu_openhab_preferences">Параметры</string>
   <string name="mainmenu_openhab_selectsitemap">Выбрать sitemap по умолчанию</string>
+  <string name="mainmenu_openhab_clearcache">Очистить кэш изображений</string>
   <!-- App settings strings -->
   <string name="settings_connection_title">Параметры подключения</string>
   <string name="settings_display_title">Параметры дисплея</string>
@@ -49,7 +47,6 @@
   <string name="title_voice_widget">openHAB Голосовые команды</string>
   <string name="info_voice_input">"openHAB, Ваша команда!"</string>
   <string name="info_voice_recognized_text">"Принятая команда: %1$s"</string>
-  <string name="info_demo_mode">Запущен демо режим. Что бы подключиться к Вашему openHAB серверу пожалуйста зайдите в меню настройки.</string>
   <string name="info_demo_mode_short">Запущен демо режим</string>
   <string name="info_conn_url">Подключение к локальному URL</string>
   <string name="info_conn_rem_url">Подключение к удаленному URL</string>
@@ -124,8 +121,6 @@
   <!-- About -->
   <string name="about_title">О программе</string>
   <string name="about_license_title">Лицензия</string>
-  <string name="about_links">Ссылки</string>
-  <string name="about_links_list"><![CDATA[\u00B7 <a href="https://github.com/openhab/openhab.android">Иходный код приложения openHAB</a><br><br> \u00B7 <a href="https://github.com/openhab/openhab.android/issues">Сообщить о проблеме</a><br><br> \u00B7 <a href="http://docs.openhab.org/">Документация openHAB</a><br><br> \u00B7 <a href="https://community.openhab.org/">Сообщество openHAB</a>]]></string>
   <string name="settings_debug_messages_summary">Пароль будет показан в текстовом!</string>
   <string name="settings_debug_messages_title">Показать debug сообщения</string>
   <string name="error_couldnt_determine_openhab_url">Не удалось определить адрес openHAB</string>

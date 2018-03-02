@@ -52,7 +52,6 @@
   <string name="title_voice_widget">openHAB-Sprachbefehle</string>
   <string name="info_voice_input">"openHAB, zu Ihren Diensten!"</string>
   <string name="info_voice_recognized_text">"Erkannter Befehl: %1$s"</string>
-  <string name="info_demo_mode">openHAB startet im Demomodus. In den Einstellungen kann ein eigener openHAB-Server konfiguriert werden.</string>
   <string name="info_demo_mode_short">Läuft im Demomodus</string>
   <string name="info_conn_url">Verbinde mit lokaler URL</string>
   <string name="info_conn_rem_url">Verbinde mit Remote-URL</string>
@@ -133,8 +132,6 @@
   <!-- About -->
   <string name="about_title">Über</string>
   <string name="about_license_title">Lizenz</string>
-  <string name="about_links">Links</string>
-  <string name="about_links_list"><![CDATA[\u00B7 <a href="https://github.com/openhab/openhab.android">openHAB-App-Quellcode</a><br><br> \u00B7 <a href="https://github.com/openhab/openhab.android/issues">Ein Problem berichten</a><br><br> \u00B7 <a href="http://docs.openhab.org/">openHAB-Dokumentation</a><br><br> \u00B7 <a href="https://community.openhab.org/">Community-Forum</a>]]></string>
   <string name="settings_debug_messages_summary">Passwörter werden in Klartext angezeigt!</string>
   <string name="settings_debug_messages_title">Debug-Meldungen anzeigen</string>
   <string name="error_couldnt_determine_openhab_url">Konnte openHAB-URL nicht ermitteln</string>
@@ -147,6 +144,7 @@
   <string name="intro_whatis">Eine technologie- und herstellerunabhängige, quelloffene Automatisierungslösung für Ihr Zuhause</string>
   <string name="intro_themes">Designs</string>
   <string name="intro_themes_description">Wählen Sie zwischen verschiedenen Designs</string>
+  <string name="network_error">Netzwerkfehler</string>
   <!-- Content description for images -->
   <string name="content_description_open_roller_shutter">Rollladen öffnen</string>
   <string name="content_description_stop_roller_shutter">Rollladenbewegung stoppen</string>
@@ -157,6 +155,7 @@
   <string name="content_description_open_number_picker">Zahlenauswahl öffnen</string>
   <string name="content_description_video">Video</string>
   <string name="content_description_open_openhab">openHAB öffnen</string>
+  <string name="swipe_to_refresh_description">Die Inhalte werden automatisch aktualisiert, Sie müssen das normalerweise nicht manuell tun</string>
   <string name="swipe_to_refresh_dismiss">Verstanden!</string>
   <!-- Intro strings -->
   <!-- Intro "SKIP" button -->

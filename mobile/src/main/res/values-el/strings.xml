@@ -52,7 +52,6 @@
   <string name="title_voice_widget">Φωνητικές εντολές openHAB</string>
   <string name="info_voice_input">"openHAB, στις προσταγές σας!"</string>
   <string name="info_voice_recognized_text">"Αναγνωρισμένη εντολή: %1$s"</string>
-  <string name="info_demo_mode">Εκτέλεση σε κατάσταση παρουσίασης (demo). Για να συνδεθείτε στον διακομιστή openHAB σας παρακαλώ πηγαίνετε στο μενού των ρυθμίσεων.</string>
   <string name="info_demo_mode_short">Εκτέλεση σε κατάσταση παρουσίασης (demo)</string>
   <string name="info_conn_url">Σύνδεση στην τοπική διεύθυνση</string>
   <string name="info_conn_rem_url">Σύνδεση στην απομακρυσμένη διεύθυνση</string>
@@ -118,8 +117,6 @@
   <!-- About -->
   <string name="about_title">Σχετικά</string>
   <string name="about_license_title">Άδεια</string>
-  <string name="about_links">Σύνδεσμοι</string>
-  <string name="about_links_list"><![CDATA[\u00B7 <a href="https://github.com/openhab/openhab.android">Πηγαίος κώδικας εφαρμογής openHAB</a><br><br> \u00B7 <a href="https://github.com/openhab/openhab.android/issues">Αναφορά Προβλήματος</a><br><br> \u00B7 <a href="http://docs.openhab.org/">Έγγραφα τεκμηρίωσης του openHAB</a><br><br> \u00B7 <a href="https://community.openhab.org/">Τόπος συζητήσεως κοινότητας</a>]]></string>
   <string name="settings_debug_messages_summary">Οι κωδικοί θα εμφανιστούν σε απλό κείμενο!</string>
   <string name="settings_debug_messages_title">Προβολή μηνυμάτων αποσφαλμάτωσης</string>
   <string name="error_couldnt_determine_openhab_url">Αδυναμία προσδιορισμού του openHAB URL</string>

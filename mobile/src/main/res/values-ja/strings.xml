@@ -46,7 +46,6 @@
   <string name="title_voice_widget">openHAB 音声コマンド</string>
   <string name="info_voice_input">"openHAB, お話ください!"</string>
   <string name="info_voice_recognized_text">"認識したコマンド: %1$s"</string>
-  <string name="info_demo_mode">openHAB はデモモードで実行中です。 お使いの openHAB に接続するには、設定メニューに移動してください。</string>
   <string name="info_demo_mode_short">デモ モードで実行しています</string>
   <string name="info_conn_url">設定した URL に接続しています</string>
   <string name="info_conn_rem_url">リモート URL に接続しています</string>
@@ -106,8 +105,6 @@
   <!-- About -->
   <string name="about_title">アプリついて</string>
   <string name="about_license_title">ライセンス</string>
-  <string name="about_links">リンク</string>
-  <string name="about_links_list"><![CDATA[\u00B7 <a href="https://github.com/openhab/openhab.android">openHAB アプリ ソースコード</a><br><br> \u00B7 <a href="https://github.com/openhab/openhab.android/issues">問題を報告</a><br><br> \u00B7 <a href="http://docs.openhab.org/">openHAB ドキュメント</a><br><br> \u00B7 <a href="https://community.openhab.org/">コミュニティ フォーラム</a>]]></string>
   <string name="settings_debug_messages_title">デバッグメッセージを表示</string>
   <string name="error_couldnt_determine_openhab_url">OpenHAB URL を特定できませんでした</string>
   <string name="unknown">不明</string>
