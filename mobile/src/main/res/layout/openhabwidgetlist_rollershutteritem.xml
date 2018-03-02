@@ -23,7 +23,8 @@
     <ImageButton
         android:id="@+id/rollershutterbutton_up"
         android:layout_width="46dip"
-        android:layout_height="wrap_content"
+        android:layout_height="46dip"
+        android:contentDescription="@string/content_description_open_roller_shutter"
         android:focusable="false"
         android:focusableInTouchMode="false"
         android:paddingLeft="3dip"
@@ -31,13 +32,13 @@
         android:src="@drawable/ic_action_up"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/rollershutterbutton_stop"
-        app:layout_constraintTop_toTopOf="parent"
-        android:contentDescription="@string/content_description_open_roller_shutter" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
         android:id="@+id/rollershutterbutton_stop"
         android:layout_width="46dip"
-        android:layout_height="wrap_content"
+        android:layout_height="46dip"
+        android:contentDescription="@string/content_description_stop_roller_shutter"
         android:focusable="false"
         android:focusableInTouchMode="false"
         android:paddingLeft="7dip"
@@ -45,13 +46,13 @@
         android:src="@drawable/ic_action_cancel"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/rollershutterbutton_down"
-        app:layout_constraintTop_toTopOf="parent"
-        android:contentDescription="@string/content_description_stop_roller_shutter" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
         android:id="@+id/rollershutterbutton_down"
         android:layout_width="46dip"
-        android:layout_height="wrap_content"
+        android:layout_height="46dip"
+        android:contentDescription="@string/content_description_close_roller_shutter"
         android:focusable="false"
         android:focusableInTouchMode="false"
         android:paddingLeft="3dip"
@@ -59,7 +60,6 @@
         android:src="@drawable/ic_action_down"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:contentDescription="@string/content_description_close_roller_shutter" />
+        app:layout_constraintTop_toTopOf="parent" />
 
 </android.support.constraint.ConstraintLayout>
