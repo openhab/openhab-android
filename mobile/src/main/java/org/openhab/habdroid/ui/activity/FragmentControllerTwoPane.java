@@ -9,6 +9,7 @@
 
 package org.openhab.habdroid.ui.activity;
 
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Pair;
@@ -26,6 +27,13 @@ public class FragmentControllerTwoPane extends FragmentController {
 
     public FragmentControllerTwoPane(OpenHABMainActivity activity) {
         super(activity);
+    }
+
+    @Override
+    public void onRestoreInstanceState(Bundle state) {
+        super.onRestoreInstanceState(state);
+        boolean rightPaneVisible = mFm.findFragmentById(R.id.content_right) != null;
+        mRightContentView.setVisibility(rightPaneVisible ? View.VISIBLE : View.GONE);
     }
 
     @Override
