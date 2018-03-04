@@ -30,6 +30,8 @@
         android:paddingLeft="3dip"
         android:paddingRight="3dip"
         android:src="@drawable/ic_keyboard_arrow_up_white_24dp"
+        android:tint="@color/colorAccent"
+        android:background="?attr/selectableItemBackgroundBorderless"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/rollershutterbutton_stop"
         app:layout_constraintTop_toTopOf="parent" />
@@ -44,6 +46,8 @@
         android:paddingLeft="7dip"
         android:paddingRight="7dip"
         android:src="@drawable/ic_clear_white_24dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:tint="@color/colorAccent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/rollershutterbutton_down"
         app:layout_constraintTop_toTopOf="parent" />
@@ -58,6 +62,8 @@
         android:paddingLeft="3dip"
         android:paddingRight="3dip"
         android:src="@drawable/ic_keyboard_arrow_down_white_24dp"
+        android:tint="@color/colorAccent"
+        android:background="?attr/selectableItemBackgroundBorderless"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
