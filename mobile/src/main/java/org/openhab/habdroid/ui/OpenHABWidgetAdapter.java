@@ -499,7 +499,7 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
             mSeekBar.setProgress(progress);
             mBoundItem = widget.getItem();
             if(widget.getSwitchSupport()) {
-                mSliderSwitch.setChecked(progress != 0 ? true : false);
+                mSliderSwitch.setChecked(progress != 0);
                 mSliderSwitch.setVisibility(View.VISIBLE);
             }
         }
@@ -524,7 +524,7 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         public boolean onTouch(View v, MotionEvent motionEvent) {
             if (motionEvent.getActionMasked() == MotionEvent.ACTION_UP) {
                 Util.sendItemCommand(mConnection.getAsyncHttpClient(), mBoundItem,
-                        mSliderSwitch.isChecked() ? "0" : "100");
+                        mSliderSwitch.isChecked() ? "OFF" : "ON");
             }
             return false;
         }
