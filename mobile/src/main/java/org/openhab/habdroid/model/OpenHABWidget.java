@@ -27,6 +27,7 @@ public abstract class OpenHABWidget {
 	private String period = "";
 	private String service = "";
 	private Boolean legend = null;
+	private boolean switchSupport = false;
 	private float minValue =0;
 	private float maxValue = 100;
 	private float step = 1;
@@ -197,6 +198,10 @@ public abstract class OpenHABWidget {
 	public Boolean getLegend() { return legend; }
 
 	public void setLegend(Boolean legend) { this.legend = legend; }
+
+    public boolean getSwitchSupport() { return switchSupport; }
+
+    public void setSwitchSupport(boolean switchSupport) { this.switchSupport = switchSupport; }
 
 	public int getHeight() {
 		return height;
