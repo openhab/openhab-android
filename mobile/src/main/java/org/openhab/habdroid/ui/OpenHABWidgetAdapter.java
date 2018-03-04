@@ -501,6 +501,8 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
             if(widget.getSwitchSupport()) {
                 mSliderSwitch.setChecked(progress != 0);
                 mSliderSwitch.setVisibility(View.VISIBLE);
+            } else {
+                mSliderSwitch.setVisibility(View.GONE);
             }
         }
 
