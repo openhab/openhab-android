@@ -84,6 +84,7 @@
   <string name="error_http_code_504">Przekroczenie czasu oczekiwania bramki. Wygląda na to, że Twój odwrócony serwer proxy jest włączony, ale nie mógł otrzymać odpowiedzi od openHAB (Kod HTTP - 504)</string>
   <string name="error_http_code_507">openHAB nie ma wystarczająco wolnego miejsca (Kod HTTP - 507)</string>
   <string name="error_http_code_511">Autoryzacja sieci jest wymagana (Kod HTTP - 511)</string>
+  <string name="error_about_no_conn">Wystąpił błąd podczas pobierania informacji o serwerze openHAB</string>
   <string name="title_activity_openhabwritetag">Napisz tag NFC</string>
   <string name="title_activity_openhabinfo">informacje o openHAB</string>
   <string name="title_activity_libraries">Użyte biblioteki</string>
@@ -132,6 +133,15 @@
   <!-- About -->
   <string name="about_title">O</string>
   <string name="about_license_title">Licencja</string>
+  <string name="about_changelog">Lista zmian</string>
+  <string name="about_source_code">Forkuj nas na GitHub!</string>
+  <string name="about_issues">Zgłoś problem</string>
+  <string name="about_docs">Dokumentacja</string>
+  <string name="about_community_forum">Forum społeczności</string>
+  <string name="about_foundation">Fundacja openHAB</string>
+  <string name="about_community">Społeczność openHAB</string>
+  <string name="about_server">Serwer openHAB</string>
+  <string name="about_translation">Pomóż nam tłumaczyć openHAB</string>
   <string name="settings_debug_messages_summary">Hasła będą wyświetlane w postaci zwykłego tekstu!</string>
   <string name="settings_debug_messages_title">Pokaż komunikaty debugowania</string>
   <string name="error_couldnt_determine_openhab_url">Nie można określić adresu URL openHAB</string>
@@ -144,6 +154,12 @@
   <string name="intro_whatis">Otwarte oprogramowanie do automatyzacji Twojego domu</string>
   <string name="intro_themes">Motywy</string>
   <string name="intro_themes_description">Wybierz spośród wielu motywów</string>
+  <string name="try_again_button">Spróbuj ponownie</string>
+  <string name="network_error">Błąd sieci</string>
+  <string name="go_to_settings_button">Przejdź do ustawień</string>
+  <string name="error_no_url_start_demo_mode">Skonfiguruj nazwę hosta lub adres IP serwera w ustawieniach serwera. Do tego czasu używany będzie tryb demo.</string>
+  <string name="intro_discovery">Wykrywanie</string>
+  <string name="intro_discovery_summary">Należy pamiętać, że to będzie działać tylko, jeśli uwierzytelnianie nie jest wymuszana przez serwer</string>
   <!-- Content description for images -->
   <string name="content_description_open_roller_shutter">Otwórz roletę</string>
   <string name="content_description_stop_roller_shutter">Zatrzymaj roletę</string>
