@@ -134,9 +134,11 @@
   <string name="about_title">О программе</string>
   <string name="about_license_title">Лицензия</string>
   <string name="about_changelog">Список изменений</string>
+  <string name="about_source_code">Найдите нас на GitHub!</string>
   <string name="about_issues">Сообщить об ошибке</string>
   <string name="about_docs">Документация</string>
   <string name="about_community_forum">Форум сообщества</string>
+  <string name="about_foundation">Фонд openHAB</string>
   <string name="about_community">Сообщество openHAB</string>
   <string name="about_server">Сервер openHAB</string>
   <string name="about_translation">Помогите нам перевести openHAB</string>
