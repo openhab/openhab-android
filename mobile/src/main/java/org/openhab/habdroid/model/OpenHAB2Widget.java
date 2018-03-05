@@ -107,6 +107,8 @@ public class OpenHAB2Widget extends OpenHABWidget {
                 this.setService(widgetJson.getString("service"));
             if (widgetJson.has("legend"))
                 this.setLegend(widgetJson.getBoolean("legend"));
+            if (widgetJson.has("switchSupport"))
+                this.setSwitchSupport(widgetJson.getBoolean("switchSupport"));
             if (widgetJson.has("height"))
                 this.setHeight(widgetJson.getInt("height"));
             if (widgetJson.has("iconcolor"))

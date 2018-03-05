@@ -459,9 +459,10 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         }
     }
 
-    public static class SliderViewHolder extends ViewHolder implements SeekBar.OnSeekBarChangeListener {
+    public static class SliderViewHolder extends ViewHolder implements SeekBar.OnSeekBarChangeListener, View.OnTouchListener {
         private final TextView mLabelView;
         private final MySmartImageView mIconView;
+        private final SwitchCompat mSliderSwitch;
         private final SeekBar mSeekBar;
         private OpenHABItem mBoundItem;
 
@@ -469,6 +470,8 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
             super(inflater, parent, R.layout.openhabwidgetlist_slideritem, conn);
             mLabelView = itemView.findViewById(R.id.widgetlabel);
             mIconView = itemView.findViewById(R.id.widgetimage);
+            mSliderSwitch = itemView.findViewById(R.id.sliderswitch);
+            mSliderSwitch.setOnTouchListener(this);
             mSeekBar = itemView.findViewById(R.id.sliderseekbar);
             mSeekBar.setOnSeekBarChangeListener(this);
         }
@@ -479,8 +482,8 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
             mLabelView.setText(splitString.length > 0 ? splitString[0] : null);
             updateTextViewColor(mLabelView, widget.getLabelColor());
             updateIcon(mIconView, widget);
+            int progress;
             if (widget.hasItem()) {
-                int progress;
                 if (widget.getItem().getType().equals("Color") || "Color".equals(widget.getItem().getGroupType())) {
                     try {
                         progress = widget.getItem().getStateAsBrightness();
@@ -490,11 +493,17 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
                 } else {
                     progress = widget.getItem().getStateAsFloat().intValue();
                 }
-                mSeekBar.setProgress(progress);
             } else {
-                mSeekBar.setProgress(0);
+                progress = 0;
             }
+            mSeekBar.setProgress(progress);
             mBoundItem = widget.getItem();
+            if(widget.getSwitchSupport()) {
+                mSliderSwitch.setChecked(progress != 0);
+                mSliderSwitch.setVisibility(View.VISIBLE);
+            } else {
+                mSliderSwitch.setVisibility(View.GONE);
+            }
         }
 
         @Override
@@ -511,6 +520,15 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
             Log.d(TAG, "onStopTrackingTouch position = " + seekBar.getProgress());
             Util.sendItemCommand(mConnection.getAsyncHttpClient(), mBoundItem,
                     String.valueOf(seekBar.getProgress()));
+        }
+
+        @Override
+        public boolean onTouch(View v, MotionEvent motionEvent) {
+            if (motionEvent.getActionMasked() == MotionEvent.ACTION_UP) {
+                Util.sendItemCommand(mConnection.getAsyncHttpClient(), mBoundItem,
+                        mSliderSwitch.isChecked() ? "OFF" : "ON");
+            }
+            return false;
         }
     }
 
