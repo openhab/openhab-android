@@ -12,7 +12,6 @@
         <item name="themedDrawerBackground">?android:colorBackground</item>
         <item name="themedHeaderTextColor">@color/colorAccent_themeDark</item>
 
-
         <item name="frameWidgetDividerBackground">@drawable/material_divider</item>
 
         <item name="mal_card_background">@color/about_libraries_window_background</item>
@@ -33,7 +32,6 @@
 
         <item name="themedDrawerBackground">?android:colorBackground</item>
         <item name="themedHeaderTextColor">@color/colorAccent_themeDark</item>
-
 
         <item name="frameWidgetDividerBackground">@drawable/material_divider_dark</item>
 
