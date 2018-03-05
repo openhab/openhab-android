@@ -66,7 +66,7 @@ public class AboutActivity extends AppCompatActivity implements
                     .commit();
         }
 
-
+        updateTitle();
         setResult(RESULT_OK);
     }
 
@@ -87,6 +87,10 @@ public class AboutActivity extends AppCompatActivity implements
 
     @Override
     public void onBackStackChanged() {
+        updateTitle();
+    }
+
+    private void updateTitle() {
         FragmentManager fm = getSupportFragmentManager();
         int count = fm.getBackStackEntryCount();
         @StringRes int titleResId = count > 0
