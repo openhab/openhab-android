@@ -4,7 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -39,7 +41,8 @@ import okhttp3.Headers;
 
 import static org.openhab.habdroid.util.Util.obfuscateString;
 
-public class AboutActivity extends AppCompatActivity {
+public class AboutActivity extends AppCompatActivity implements
+        FragmentManager.OnBackStackChangedListener{
     private final static String TAG = AboutActivity.class.getSimpleName();
 
     @Override
@@ -48,6 +51,7 @@ public class AboutActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_about);
+        getSupportFragmentManager().addOnBackStackChangedListener(this);
 
         Toolbar toolbar = findViewById(R.id.openhab_toolbar);
         setSupportActionBar(toolbar);
@@ -79,6 +83,16 @@ public class AboutActivity extends AppCompatActivity {
     public void finish() {
         super.finish();
         Util.overridePendingTransition(this, true);
+    }
+
+    @Override
+    public void onBackStackChanged() {
+        FragmentManager fm = getSupportFragmentManager();
+        int count = fm.getBackStackEntryCount();
+        @StringRes int titleResId = count > 0
+                ? fm.getBackStackEntryAt(count - 1).getBreadCrumbTitleRes()
+                : R.string.about_title;
+        setTitle(titleResId);
     }
 
     public static class AboutMainFragment extends MaterialAboutFragment {
@@ -152,6 +166,7 @@ public class AboutActivity extends AppCompatActivity {
                                     .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left,
                                             R.anim.slide_in_left, R.anim.slide_out_right)
                                     .replace(R.id.about_container, f)
+                                    .setBreadCrumbTitle(R.string.title_activity_libraries)
                                     .addToBackStack(null)
                                     .commit();
                         }
