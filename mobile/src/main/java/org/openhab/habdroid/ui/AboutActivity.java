@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -138,12 +139,23 @@ public class AboutActivity extends AppCompatActivity {
             appCard.addItem(new MaterialAboutActionItem.Builder()
                     .text(R.string.title_activity_libraries)
                     .icon(R.drawable.ic_developer_mode_grey_24dp)
-                    .setOnClickAction(() -> new LibsBuilder()
-                            .withActivityTheme(getTheme())
-                            .withFields(R.string.class.getFields())
-                            .withLicenseShown(true)
-                            .withAutoDetect(true)
-                            .start(context))
+                    .setOnClickAction(new MaterialAboutItemOnClickAction() {
+                        @Override
+                        public void onClick() {
+                            Fragment f = new LibsBuilder()
+                                    .withFields(R.string.class.getFields())
+                                    .withLicenseShown(true)
+                                    .withAutoDetect(true)
+                                    .supportFragment();
+                            getFragmentManager()
+                                    .beginTransaction()
+                                    .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left,
+                                            R.anim.slide_in_left, R.anim.slide_out_right)
+                                    .replace(R.id.about_container, f)
+                                    .addToBackStack(null)
+                                    .commit();
+                        }
+                    })
                     .build());
 
             MaterialAboutCard.Builder ohServerCard = new MaterialAboutCard.Builder();
