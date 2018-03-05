@@ -435,11 +435,13 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         PreferenceManager.getDefaultSharedPreferences(this).edit()
                 .putString(Constants.PREFERENCE_LOCAL_URL, openHABUrl).apply();
         // We'll get a connection update later
+        mServiceResolver = null;
     }
 
     @Override
     public void onServiceResolveFailed() {
         mController.indicateMissingConfiguration();
+        mServiceResolver = null;
     }
 
     private void processIntent(Intent intent) {
@@ -539,12 +541,17 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         } else {
             if (failureReason instanceof NoUrlInformationException) {
                 NoUrlInformationException nuie = (NoUrlInformationException) failureReason;
-                if (nuie.wouldHaveUsedLocalConnection() && mServiceResolver == null) {
-                    mServiceResolver = new AsyncServiceResolver(this, this,
-                            getString(R.string.openhab_service_type));
-                    mServiceResolver.start();
-                    mController.updateConnection(null, getString(R.string.resolving_openhab));
-                } else if (!mServiceResolver.isAlive()) {
+                // Attempt resolving only if we're connected locally and
+                // no local connection is configured yes
+                if (nuie.wouldHaveUsedLocalConnection()
+                        && ConnectionFactory.getConnection(Connection.TYPE_LOCAL) == null) {
+                    if (mServiceResolver == null) {
+                        mServiceResolver = new AsyncServiceResolver(this, this,
+                                getString(R.string.openhab_service_type));
+                        mServiceResolver.start();
+                        mController.updateConnection(null, getString(R.string.resolving_openhab));
+                    }
+                } else {
                     mController.indicateMissingConfiguration();
                 }
             } else if (failureReason != null) {
