@@ -19,6 +19,11 @@
         <item name="mal_color_secondary">@color/about_libraries_text_openSource</item>
 
         <item name="chartTheme">white</item>
+
+        <item name="themedArrowDownIcon">@drawable/ic_keyboard_arrow_down_black_24dp</item>
+        <item name="themedArrowUpIcon">@drawable/ic_keyboard_arrow_up_black_24dp</item>
+        <item name="themedColorIcon">@drawable/ic_color_lens_black_24dp</item>
+        <item name="themedClearIcon">@drawable/ic_clear_black_24dp</item>
     </style>
 
     <!-- Parent theme for all openHAB themes with dark background -->
@@ -54,6 +59,11 @@
         <item name="mal_color_secondary">@color/about_libraries_text_openSource_dark</item>
 
         <item name="chartTheme">dark</item>
+
+        <item name="themedArrowDownIcon">@drawable/ic_keyboard_arrow_down_white_24dp</item>
+        <item name="themedArrowUpIcon">@drawable/ic_keyboard_arrow_up_white_24dp</item>
+        <item name="themedColorIcon">@drawable/ic_color_lens_white_24dp</item>
+        <item name="themedClearIcon">@drawable/ic_clear_white_24dp</item>
     </style>
 
     <!-- Default theme -->
