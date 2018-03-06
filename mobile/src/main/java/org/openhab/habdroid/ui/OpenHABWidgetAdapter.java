@@ -332,8 +332,7 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         protected void updateIcon(MySmartImageView iconView, OpenHABWidget widget) {
             // This is needed to escape possible spaces and everything according to rfc2396
             String iconUrl = mConnection.getOpenHABUrl() + Uri.encode(widget.getIconPath(), "/?=&");
-            iconView.setImageUrl(iconUrl, mConnection.getUsername(), mConnection.getPassword(),
-                    R.drawable.blank_icon);
+            iconView.setImageUrl(iconUrl, mConnection.getUsername(), mConnection.getPassword());
             Integer iconColor = widget.getIconColor();
             if (iconColor != null) {
                 iconView.setColorFilter(iconColor);
