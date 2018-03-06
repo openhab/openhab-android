@@ -58,8 +58,8 @@
                 android:defaultHeight="500dp"
                 android:defaultWidth="600dp"
                 android:gravity="top|end"
-                android:minHeight="320dp"
-                android:minWidth="480dp" />
+                android:minHeight="80dp"
+                android:minWidth="80dp" />
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
