@@ -30,7 +30,7 @@
         android:fullBackupContent="true"
         android:icon="@mipmap/icon"
         android:label="@string/app_name"
-        android:resizeableActivity="true"
+        android:resizeableActivity="false"
         android:supportsPictureInPicture="false"
         android:theme="@style/HABDroid.Light"
         android:supportsRtl="true"
