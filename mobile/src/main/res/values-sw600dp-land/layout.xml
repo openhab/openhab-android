@@ -1,3 +1,3 @@
 <resources>
-    <item name="controller_class" type="string">org.openhab.habdroid.ui.activity.FragmentControllerTwoPane</item>
+    <item name="controller_class" type="string">org.openhab.habdroid.ui.activity.ContentControllerTwoPane</item>
 </resources>

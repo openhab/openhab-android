@@ -6,7 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 
 import org.openhab.habdroid.ui.OpenHABWidgetListFragment;
-import org.openhab.habdroid.ui.activity.FragmentController;
+import org.openhab.habdroid.ui.activity.ContentController;
 import org.openhab.habdroid.ui.activity.PageConnectionHolderFragment;
 
 public class FragmentStatusIdlingResource implements IdlingResource {
@@ -40,7 +40,7 @@ public class FragmentStatusIdlingResource implements IdlingResource {
         }
         mFm.executePendingTransactions();
         for (Fragment f : mFm.getFragments()) {
-            if (f instanceof FragmentController.ProgressFragment) {
+            if (f instanceof ContentController.ProgressFragment) {
                 return true;
             }
             if (f instanceof PageConnectionHolderFragment) {

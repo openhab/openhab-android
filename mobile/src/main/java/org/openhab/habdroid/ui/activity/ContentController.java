@@ -51,7 +51,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.Stack;
 
-public abstract class FragmentController implements PageConnectionHolderFragment.ParentCallback {
+public abstract class ContentController implements PageConnectionHolderFragment.ParentCallback {
     private final OpenHABMainActivity mActivity;
     protected final FragmentManager mFm;
 
@@ -65,7 +65,7 @@ public abstract class FragmentController implements PageConnectionHolderFragment
     protected final Stack<Pair<OpenHABLinkedPage, OpenHABWidgetListFragment>> mPageStack = new Stack<>();
     private Set<String> mPendingDataLoadUrls = new HashSet<>();
 
-    protected FragmentController(OpenHABMainActivity activity) {
+    protected ContentController(OpenHABMainActivity activity) {
         mActivity = activity;
         mFm = activity.getSupportFragmentManager();
 

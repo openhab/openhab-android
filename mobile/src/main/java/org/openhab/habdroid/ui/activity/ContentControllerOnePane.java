@@ -17,8 +17,8 @@ import org.openhab.habdroid.ui.OpenHABMainActivity;
 import org.openhab.habdroid.ui.OpenHABWidgetListFragment;
 
 @SuppressWarnings("unused") // instantiated via reflection
-public class FragmentControllerOnePane extends FragmentController {
-    public FragmentControllerOnePane(OpenHABMainActivity activity) {
+public class ContentControllerOnePane extends ContentController {
+    public ContentControllerOnePane(OpenHABMainActivity activity) {
         super(activity);
     }
 

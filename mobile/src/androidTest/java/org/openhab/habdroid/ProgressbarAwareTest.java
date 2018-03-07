@@ -12,7 +12,7 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.openhab.habdroid.ui.OpenHABMainActivity;
 import org.openhab.habdroid.ui.OpenHABWidgetListFragment;
-import org.openhab.habdroid.ui.activity.FragmentController;
+import org.openhab.habdroid.ui.activity.ContentController;
 import org.openhab.habdroid.ui.activity.PageConnectionHolderFragment;
 
 public abstract class ProgressbarAwareTest {

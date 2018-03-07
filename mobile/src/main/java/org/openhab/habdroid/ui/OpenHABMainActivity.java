@@ -76,7 +76,7 @@ import org.openhab.habdroid.core.notifications.GoogleCloudMessageConnector;
 import org.openhab.habdroid.core.notifications.NotificationSettings;
 import org.openhab.habdroid.model.OpenHABLinkedPage;
 import org.openhab.habdroid.model.OpenHABSitemap;
-import org.openhab.habdroid.ui.activity.FragmentController;
+import org.openhab.habdroid.ui.activity.ContentController;
 import org.openhab.habdroid.ui.drawer.OpenHABDrawerAdapter;
 import org.openhab.habdroid.ui.drawer.OpenHABDrawerItem;
 import org.openhab.habdroid.util.AsyncServiceResolver;
@@ -254,7 +254,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
 
     private Uri mPendingNfcData;
     private OpenHABSitemap mSelectedSitemap;
-    private FragmentController mController;
+    private ContentController mController;
     private InitState mInitState = InitState.QUERY_SERVER_PROPS;
     private Call mPendingCall;
 
@@ -303,7 +303,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         try {
             Class<?> controllerClass = Class.forName(controllerClassName);
             Constructor<?> constructor = controllerClass.getConstructor(OpenHABMainActivity.class);
-            mController = (FragmentController) constructor.newInstance(this);
+            mController = (ContentController) constructor.newInstance(this);
         } catch (Exception e) {
             Log.wtf(TAG, "Could not instantiate activity controller class '"
                     + controllerClassName + "'");
