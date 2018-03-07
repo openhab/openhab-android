@@ -198,6 +198,9 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.stop();
         holder.bind(mItems.get(position));
+        if (holder instanceof FrameViewHolder) {
+            ((FrameViewHolder) holder).setShownAsFirst(position == 0);
+        }
         holder.itemView.setActivated(mSelectedPosition == position);
         holder.itemView.setOnClickListener(mItemClickListener != null ? this : null);
         holder.itemView.setOnLongClickListener(mItemClickListener != null ? this : null);
@@ -363,11 +366,15 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
     }
 
     public static class FrameViewHolder extends ViewHolder {
+        private final View mDivider;
+        private final View mSpacer;
         private final TextView mLabelView;
 
         FrameViewHolder(LayoutInflater inflater, ViewGroup parent, Connection conn) {
             super(inflater, parent, R.layout.openhabwidgetlist_frameitem, conn);
             mLabelView = itemView.findViewById(R.id.widgetlabel);
+            mDivider = itemView.findViewById(R.id.divider);
+            mSpacer = itemView.findViewById(R.id.spacer);
             itemView.setClickable(false);
         }
 
@@ -377,6 +384,11 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
             updateTextViewColor(mLabelView, widget.valueColor());
             // hide empty frames
             itemView.setVisibility(widget.label().isEmpty() ? View.GONE : View.VISIBLE);
+        }
+
+        public void setShownAsFirst(boolean shownAsFirst) {
+            mDivider.setVisibility(shownAsFirst ? View.GONE : View.VISIBLE);
+            mSpacer.setVisibility(shownAsFirst ? View.VISIBLE : View.GONE);
         }
     }
 

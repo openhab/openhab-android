@@ -1,34 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="fill_parent"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:minHeight="50dp"
     android:paddingLeft="@dimen/widgetlist_item_left_margin"
     android:paddingRight="@dimen/widgetlist_item_right_margin"
     android:paddingStart="@dimen/widgetlist_item_left_margin"
     android:paddingEnd="@dimen/widgetlist_item_right_margin">
 
+    <android.support.v4.widget.Space
+        android:id="@+id/spacer"
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        tools:visibility="gone" />
+
     <View
+        android:id="@+id/divider"
         android:layout_width="match_parent"
         android:layout_height="8dip"
-        android:layout_marginBottom="7dip"
         android:layout_marginLeft="@dimen/widgetlist_divider_left_margin"
         android:layout_marginRight="@dimen/widgetlist_divider_right_margin"
-        android:background="?attr/frameWidgetDividerBackground"
-        android:gravity="top"
-        android:orientation="horizontal"
         android:layout_marginStart="@dimen/widgetlist_divider_left_margin"
-        android:layout_marginEnd="@dimen/widgetlist_divider_right_margin" />
+        android:layout_marginEnd="@dimen/widgetlist_divider_right_margin"
+        android:background="?attr/frameWidgetDividerBackground" />
 
     <TextView
         android:id="@+id/widgetlabel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
         android:paddingLeft="8dp"
         android:paddingRight="8dp"
+        android:gravity="center_vertical"
+        android:minHeight="36dp"
         android:ellipsize="end"
         android:maxLines="2"
         android:textColor="?attr/themedHeaderTextColor"
