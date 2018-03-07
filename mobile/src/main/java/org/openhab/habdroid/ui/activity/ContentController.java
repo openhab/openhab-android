@@ -25,6 +25,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -58,6 +59,8 @@ import java.util.Stack;
  * The layout of the content area is up to the respective subclasses.
  */
 public abstract class ContentController implements PageConnectionHolderFragment.ParentCallback {
+    private static final String TAG = ContentController.class.getSimpleName();
+
     private final OpenHABMainActivity mActivity;
     protected final FragmentManager mFm;
 
@@ -148,6 +151,7 @@ public abstract class ContentController implements PageConnectionHolderFragment.
      * @param sitemap Sitemap to show
      */
     public void openSitemap(OpenHABSitemap sitemap) {
+        Log.d(TAG, "Opening sitemap " + sitemap);
         mCurrentSitemap = sitemap;
         mSitemapFragment = makeSitemapFragment(sitemap);
         mPageStack.clear();
@@ -164,6 +168,7 @@ public abstract class ContentController implements PageConnectionHolderFragment.
      * @param source Fragment this action was triggered from
      */
     public void openPage(OpenHABLinkedPage page, OpenHABWidgetListFragment source) {
+        Log.d(TAG, "Opening page " + page);
         mPageStack.push(Pair.create(page, makePageFragment(page)));
         mPendingDataLoadUrls.add(page.getLink());
         // no fragment update yet; fragment state will be updated when data arrives
@@ -188,6 +193,7 @@ public abstract class ContentController implements PageConnectionHolderFragment.
                 break;
             }
         }
+        Log.d(TAG, "Opening page " + url + " (pop count " + toPop + ")");
         if (toPop >= 0) {
             while (toPop-- > 0) {
                 mPageStack.pop();
@@ -207,6 +213,7 @@ public abstract class ContentController implements PageConnectionHolderFragment.
      * @param message Error message to show
      */
     public void indicateNoNetwork(CharSequence message) {
+        Log.d(TAG, "Indicate no network (message " + message + ")");
         resetState();
         mNoConnectionFragment = NoNetworkFragment.newInstance(message);
         updateFragmentState(FragmentUpdateReason.PAGE_UPDATE);
@@ -217,6 +224,7 @@ public abstract class ContentController implements PageConnectionHolderFragment.
      * Indicate to the user that server configuration is missing
      */
     public void indicateMissingConfiguration() {
+        Log.d(TAG, "Indicate missing configuration");
         resetState();
         mNoConnectionFragment = MissingConfigurationFragment.newInstance(mActivity);
         updateFragmentState(FragmentUpdateReason.PAGE_UPDATE);
@@ -229,6 +237,7 @@ public abstract class ContentController implements PageConnectionHolderFragment.
      * @param message Error message to show
      */
     public void indicateServerCommunicationFailure(CharSequence message) {
+        Log.d(TAG, "Indicate server failure (message " + message + ")");
         mNoConnectionFragment = CommunicationFailureFragment.newInstance(message);
         updateFragmentState(FragmentUpdateReason.PAGE_UPDATE);
         mActivity.updateTitle();
@@ -253,6 +262,7 @@ public abstract class ContentController implements PageConnectionHolderFragment.
      * @param progressMessage Message to show to the user if no connection is available
      */
     public void updateConnection(Connection connection, CharSequence progressMessage) {
+        Log.d(TAG, "Update to connection " + connection + " (message " + progressMessage + ")");
         if (connection == null) {
             mNoConnectionFragment = ProgressFragment.newInstance(progressMessage,
                     progressMessage != null);
@@ -371,6 +381,7 @@ public abstract class ContentController implements PageConnectionHolderFragment.
 
     @Override
     public void onPageUpdated(String pageUrl, String pageTitle, List<OpenHABWidget> widgets) {
+        Log.d(TAG, "Got update for URL " + pageUrl + ", pending " + mPendingDataLoadUrls);
         for (OpenHABWidgetListFragment f : collectWidgetFragments()) {
             if (pageUrl.equals(f.getDisplayPageUrl())) {
                 f.update(pageTitle, widgets);

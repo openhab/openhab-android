@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
+import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -45,6 +46,8 @@ import okhttp3.HttpUrl;
  * and restarting connections if needed.
  */
 public class PageConnectionHolderFragment extends Fragment {
+    private static final String TAG = PageConnectionHolderFragment.class.getSimpleName();
+
     public interface ParentCallback {
         /**
          * Ask parent whether server returns JSON or XML
@@ -130,6 +133,7 @@ public class PageConnectionHolderFragment extends Fragment {
      * @param connection Connection to use, or null if none is available
      */
     public void updateActiveConnections(List<String> urls, Connection connection) {
+        Log.d(TAG, "updateActiveConnections: URL list " + urls + ", connection " + connection);
         if (connection == null) {
             for (ConnectionHandler handler : mConnections.values()) {
                 handler.cancel();
@@ -155,6 +159,7 @@ public class PageConnectionHolderFragment extends Fragment {
                         prefs.getBoolean(Constants.PREFERENCE_SSLHOST, false),
                         prefs.getBoolean(Constants.PREFERENCE_SSLCERT, false));
                 httpClient.setBaseUrl(connection.getOpenHABUrl());
+                Log.d(TAG, "Creating new handler for URL " + url);
                 handler = new ConnectionHandler(url, httpClient, mCallback);
                 mConnections.put(url, handler);
                 if (mStarted) {
@@ -209,6 +214,7 @@ public class PageConnectionHolderFragment extends Fragment {
         }
 
         public void cancel() {
+            Log.d(TAG, "Canceling connection for URL " + mUrl);
             if (mRequestHandle != null) {
                 mRequestHandle.cancel();
                 mRequestHandle = null;
@@ -217,6 +223,7 @@ public class PageConnectionHolderFragment extends Fragment {
         }
 
         public void triggerUpdate(boolean forceReload) {
+            Log.d(TAG, "Trigger update for URL " + mUrl + ", force " + forceReload);
             if (forceReload) {
                 mLongPolling = false;
                 load();
@@ -293,6 +300,7 @@ public class PageConnectionHolderFragment extends Fragment {
                     widgetList.add(w);
                 }
 
+                Log.d(TAG, "Updated page data for URL " + mUrl + ": widget list " + widgetList);
                 mLastPageTitle = dataSource.getTitle();
                 mLastWidgetList = widgetList;
                 mCallback.onPageUpdated(mUrl, mLastPageTitle, mLastWidgetList);

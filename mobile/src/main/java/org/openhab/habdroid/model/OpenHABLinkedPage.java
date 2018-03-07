@@ -109,6 +109,11 @@ public class OpenHABLinkedPage implements Parcelable {
 	}
 
 	@Override
+	public String toString() {
+		return "LinkedPage[title=" + title + ", link=" + link + "]";
+	}
+
+	@Override
 	public int describeContents() {
 		return 0;
 	}
