@@ -93,6 +93,7 @@ import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Constructor;
 import java.net.ConnectException;
 import java.net.MalformedURLException;
+import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.net.UnknownHostException;
 import java.nio.charset.Charset;
@@ -160,10 +161,10 @@ public class OpenHABMainActivity extends AppCompatActivity implements
                 } else {
                     message = getString(R.string.error_connection_sslhandshake_failed);
                 }
-            } else if (error instanceof ConnectException) {
+            } else if (error instanceof ConnectException || error instanceof SocketTimeoutException) {
                 message = getString(R.string.error_connection_failed);
             } else {
-                Log.e(TAG, error.getClass().toString());
+                Log.e(TAG, "REST call to " + call.request().url() + " failed", error);
                 message = error.getMessage();
             }
 
@@ -173,7 +174,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
                 SpannableStringBuilder builder = new SpannableStringBuilder(message);
                 int detailsStart = builder.length();
 
-                builder.append("\nURL: ").append(call.request().url().toString());
+                builder.append("\n\nURL: ").append(call.request().url().toString());
 
                 String authHeader = call.request().header("Authorization");
                 if (authHeader != null && authHeader.startsWith("Basic")) {
@@ -185,14 +186,19 @@ public class OpenHABMainActivity extends AppCompatActivity implements
                     builder.append("\nPassword: ").append(usernameAndPassword[1]);
                 }
 
-                builder.append("\nStacktrace:\n");
+                builder.append("\nException stack:\n");
 
-                int stacktraceStart = builder.length();
-                builder.append(Log.getStackTraceString(error));
+                int exceptionStart = builder.length();
+                Throwable cause = error;
+                do {
+                    builder.append(cause.toString()).append('\n');
+                    error = cause;
+                    cause = error.getCause();
+                } while (cause != null && error != cause);
 
-                builder.setSpan(new RelativeSizeSpan(0.8f), detailsStart, stacktraceStart,
+                builder.setSpan(new RelativeSizeSpan(0.8f), detailsStart, exceptionStart,
                         SpannableStringBuilder.SPAN_INCLUSIVE_EXCLUSIVE);
-                builder.setSpan(new RelativeSizeSpan(0.6f), stacktraceStart, builder.length(),
+                builder.setSpan(new RelativeSizeSpan(0.6f), exceptionStart, builder.length(),
                         SpannableStringBuilder.SPAN_INCLUSIVE_EXCLUSIVE);
                 message = builder;
             }
