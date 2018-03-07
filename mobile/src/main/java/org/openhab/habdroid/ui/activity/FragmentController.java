@@ -373,6 +373,7 @@ public abstract class FragmentController implements PageConnectionHolderFragment
         }
         if (mPendingDataLoadUrls.remove(pageUrl) && mPendingDataLoadUrls.isEmpty()) {
             mActivity.setProgressIndicatorVisible(false);
+            mActivity.updateTitle();
             updateFragmentState(FragmentUpdateReason.PAGE_ENTER);
         }
     }
