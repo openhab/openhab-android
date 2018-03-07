@@ -51,6 +51,12 @@ import java.util.List;
 import java.util.Set;
 import java.util.Stack;
 
+/**
+ * Controller class for the content area of {@link OpenHABMainActivity}
+ *
+ * It manages the stack of widget lists shown, and shows error UI if needed.
+ * The layout of the content area is up to the respective subclasses.
+ */
 public abstract class ContentController implements PageConnectionHolderFragment.ParentCallback {
     private final OpenHABMainActivity mActivity;
     protected final FragmentManager mFm;

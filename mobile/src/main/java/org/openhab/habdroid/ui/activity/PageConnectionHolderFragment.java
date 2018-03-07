@@ -37,11 +37,39 @@ import okhttp3.Call;
 import okhttp3.Headers;
 import okhttp3.HttpUrl;
 
+/**
+ * Fragment that manages connections for active instances of
+ * {@link org.openhab.habdroid.ui.OpenHABWidgetListFragment}
+ *
+ * It retains the connections over activity recreations, and takes care of stopping
+ * and restarting connections if needed.
+ */
 public class PageConnectionHolderFragment extends Fragment {
     public interface ParentCallback {
+        /**
+         * Ask parent whether server returns JSON or XML
+         * @return true if server returns JSON, false if it returns XML
+         */
         boolean serverReturnsJson();
+
+        /**
+         * Ask parent for the icon format to use
+         * @return Icon format ('PNG' or 'SVG')
+         */
         String getIconFormat();
+
+        /**
+         * Let parent know about an update to the widget list for a given URL.
+         * @param pageUrl URL of the updated page
+         * @param pageTitle Updated page title
+         * @param widgets Updated list of widgets for the given page
+         */
         void onPageUpdated(String pageUrl, String pageTitle, List<OpenHABWidget> widgets);
+
+        /**
+         * Let parent know about an update to the contents of a single widget.
+         * @param widget Updated widget
+         */
         void onWidgetUpdated(OpenHABWidget widget);
     }
 
@@ -80,6 +108,14 @@ public class PageConnectionHolderFragment extends Fragment {
         }
     }
 
+    /**
+     * Assign parent callback
+     *
+     * To be called by the parent as early as possible,
+     * as it's expected to be non-null at all times
+     *
+     * @param callback Callback for parent
+     */
     public void setCallback(ParentCallback callback) {
         mCallback = callback;
         for (ConnectionHandler handler : mConnections.values()) {
@@ -87,6 +123,12 @@ public class PageConnectionHolderFragment extends Fragment {
         }
     }
 
+    /**
+     * Update list of page URLs to track
+     *
+     * @param urls New list of URLs to track
+     * @param connection Connection to use, or null if none is available
+     */
     public void updateActiveConnections(List<String> urls, Connection connection) {
         if (connection == null) {
             for (ConnectionHandler handler : mConnections.values()) {
@@ -124,6 +166,13 @@ public class PageConnectionHolderFragment extends Fragment {
         }
     }
 
+    /**
+     * Ask for new data to be delivered for a given page
+     *
+     * @param pageUrl URL of page to trigger update for
+     * @param forceReload true if existing data should be discarded and new data be loaded,
+     *                    false if only existing data should be delivered, if it exists
+     */
     public void triggerUpdate(String pageUrl, boolean forceReload) {
         ConnectionHandler handler = mConnections.get(pageUrl);
         if (handler != null) {
