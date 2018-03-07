@@ -38,13 +38,17 @@
         <activity
             android:name="org.openhab.habdroid.ui.OpenHABPreferencesActivity"
             android:label="@string/app_preferences_name">
+            <intent-filter>
+                <action android:name="android.intent.action.APPLICATION_PREFERENCES" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="org.openhab.habdroid.ui.OpenHABMainActivity" />
         </activity>
         <activity
-            android:name="org.openhab.habdroid.ui.OpenHABAboutActivity"
-            android:label="@string/about_title" />
+            android:name="org.openhab.habdroid.ui.AboutActivity"
+            android:label="@string/about_title"/>
         <activity
             android:name="org.openhab.habdroid.ui.OpenHABMainActivity"
             android:label="@string/app_name"
@@ -54,8 +58,8 @@
                 android:defaultHeight="500dp"
                 android:defaultWidth="600dp"
                 android:gravity="top|end"
-                android:minHeight="320dp"
-                android:minWidth="480dp" />
+                android:minHeight="80dp"
+                android:minWidth="80dp" />
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

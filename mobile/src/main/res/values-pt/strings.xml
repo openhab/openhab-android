@@ -46,7 +46,6 @@
   <string name="title_voice_widget">openHAB comandos de voz</string>
   <string name="info_voice_input">"openhab, às suas ordens!"</string>
   <string name="info_voice_recognized_text">"Comando reconhecido: %1$s"</string>
-  <string name="info_demo_mode">A executar em modo de demonstração. Para se conectar ao seu servidor openHAB por favor, vá ao menu de configurações.</string>
   <string name="info_demo_mode_short">A executar em modo de demonstração</string>
   <string name="info_conn_url">Conectando a URL local</string>
   <string name="info_conn_rem_url">Conectando a URL local</string>
@@ -112,8 +111,6 @@
   <!-- About -->
   <string name="about_title">Sobre</string>
   <string name="about_license_title">Licença</string>
-  <string name="about_links">Ligações</string>
-  <string name="about_links_list"><![CDATA[\u00B7 <a href="https://github.com/openhab/openhab.android"> openHAB código da fonte do App</a> <br><br>\u00B7 <a href="https://github.com/openhab/openhab.android/issues"> reportar um problema</a> <br><br>\u00B7 <a href="http://docs.openhab.org/"> openHAB Documentação</a> <br><br>\u00B7 <a href="https://community.openhab.org/"> Fórum da Comunidade</a>]]></string>
   <string name="settings_debug_messages_summary">As senhas serão mostradas em texto não criptografado!</string>
   <string name="settings_debug_messages_title">Mostrar mensagens de depuração</string>
   <string name="error_couldnt_determine_openhab_url">Não consegui determinar o URL openHAB</string>

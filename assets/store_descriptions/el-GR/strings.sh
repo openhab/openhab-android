@@ -4,9 +4,11 @@
 
 
 
+security='Ασφάλεια'
 
 
 
 
+important_note='Σημαντική Σημείωση'
 
 

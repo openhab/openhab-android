@@ -673,7 +673,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
     }
 
     private void openAbout() {
-        Intent aboutIntent = new Intent(this, OpenHABAboutActivity.class);
+        Intent aboutIntent = new Intent(this, AboutActivity.class);
         aboutIntent.putExtra("openHABVersion", mOpenHABVersion);
 
         startActivityForResult(aboutIntent, INFO_REQUEST_CODE);

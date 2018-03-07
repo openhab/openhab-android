@@ -15,38 +15,43 @@
   <string name="mainmenu_openhab_selectsitemap">Selecione o mapa do site padrão</string>
   <string name="mainmenu_openhab_clearcache">Limpar cache das imagens</string>
   <!-- App settings strings -->
+  <string name="settings_connection_title">Ligação</string>
+  <string name="settings_display_title">Definições de Visualização</string>
+  <string name="settings_misc_title">Diversos</string>
   <string name="settings_openhab_url">URL do servidor local</string>
   <string name="settings_openhab_url_summary">A URL do painel openHAB (baseado no nome do host ou IP). Se configurado, está desativada a detecção automática. Configuração atual %s</string>
-  <string name="settings_openhab_alturl">URL do servidor remoto</string>
-  <string name="settings_openhab_alturl_summary">A URL do painel openHAB usado quando o endereço local não está disponível. Configuração atual: %s</string>
-  <string name="settings_openhab_username">Nome de utilizador</string>
-  <string name="settings_openhab_password">Palavra passe</string>
-  <string name="settings_openhab_sslclientcert">Certificado de cliente SSL</string>
-  <string name="settings_openhab_sslclientcert_howto">Certificado de cliente SSL How-to</string>
-  <string name="settings_openhab_sslclientcert_howto_summary">Toque aqui para obter algumas dicas e explicações sobre como configurar a autenticação de certificado de cliente SSL</string>
+  <string name="settings_openhab_alturl">URL de servidor remoto</string>
+  <string name="settings_openhab_alturl_summary">A URL do painel openHAB usado quando endereço local não está disponível. Configuração atual: %s</string>
+  <string name="settings_openhab_username">Nome de usuário</string>
+  <string name="settings_openhab_password">Senha</string>
+  <string name="settings_openhab_sslclientcert">Certificado cliente SSL</string>
+  <string name="settings_openhab_sslclientcert_howto">Certificado cliente SSL How-to</string>
+  <string name="settings_openhab_sslclientcert_howto_summary">Toque aqui para obter algumas dicas e explicações sobre como configurar a autenticação de certificado cliente SSL</string>
   <string name="settings_openhab_screentimeroff">Desativar a exibição do temporizador</string>
-  <string name="settings_openhab_screentimeroff_summary">Desativar exibição do interruptor de temporização quando openHAB está a ser executado</string>
+  <string name="settings_openhab_screentimeroff_summary">Desativar exibição de interruptor de temporização quando openHAB está sendo executado</string>
   <string name="settings_openhab_demomode">Modo de demonstração</string>
   <string name="settings_openhab_demomode_summary">Executar em modo de demonstração</string>
   <string name="settings_openhab_theme">Tema</string>
   <string name="settings_openhab_sslcert">Ignorar o certificado SSL</string>
-  <string name="settings_openhab_sslcert_summary">Ignorar a validação de certificados durante o handshake SSL</string>
+  <string name="settings_openhab_sslcert_summary">Ignorar validação de certificados durante o handshake SSL</string>
   <string name="settings_openhab_sslhost">Ignorar o nome de host SSL</string>
   <string name="settings_openhab_sslhost_summary">Ignorar verificação de hostname durante o handshake SSL</string>
-  <string name="settings_openhab_fullscreen">Ecrã inteiro</string>
-  <string name="settings_openhab_fullscreen_summary">Exibir no modo de ecrã inteiro</string>
-  <string name="settings_openhab_icon_format">Formato de icone</string>
+  <string name="settings_openhab_fullscreen">Tela cheia</string>
+  <string name="settings_openhab_fullscreen_summary">Exibir no modo de tela cheia</string>
+  <string name="settings_openhab_icon_format">Formato de ícone</string>
   <string name="settings_openhab_icon_format_png">Bitmap</string>
   <string name="settings_openhab_icon_format_svg">Vetor</string>
   <string name="settings_ringtone">Toque</string>
-  <string name="settings_clear_default_sitemap">Selecione o mapa do site padrão</string>
-  <string name="settings_no_default_sitemap">Mapa do site padrão não selecionado</string>
-  <string name="settings_current_default_sitemap">Mapa do site padrão atual: %1$s</string>
+  <string name="settings_clear_default_sitemap">Selecione o mapa de site padrão</string>
+  <string name="settings_no_default_sitemap">Mapa de site padrão não selecionado</string>
+  <string name="settings_current_default_sitemap">Mapa de site padrão atual: %1$s</string>
+  <string name="settings_openhab_sslsettings">Criptografia</string>
+  <string name="settings_openhab_alt_connection">Remoto</string>
+  <string name="settings_openhab_connection">Local</string>
   <!-- App messages strings -->
   <string name="title_voice_widget">openHAB comandos de voz</string>
   <string name="info_voice_input">"openhab, às suas ordens!"</string>
   <string name="info_voice_recognized_text">"Comando reconhecido: %1$s"</string>
-  <string name="info_demo_mode">A executar em modo de demonstração. Para se conectar ao seu servidor openHAB por favor, vá ao menu de configurações.</string>
   <string name="info_demo_mode_short">A executar em modo de demonstração</string>
   <string name="info_conn_url">Conectando a URL local</string>
   <string name="info_conn_rem_url">Conectando a URL local</string>
@@ -55,14 +60,29 @@
   <string name="error_no_url">Por favor verifique que o openHAB está sendo executado ou configurar openHAB ou URL remoto</string>
   <string name="error_empty_sitemap_list">openhab lista do mapa do site retornou vazia</string>
   <string name="error_network_not_available">Rede não está disponivel</string>
+  <string name="error_http_connection_failed">Ligação sem sucesso. Foi recebida uma resposta inesperada ao ligar com servidor configurado openHAB (código de resposta HTTP recebido: %d)</string>
   <string name="error_no_uuid">Não é possível obter openHAB UUID, conexão falhou</string>
+  <string name="error_invalid_url">Por favor introduza um URL válido num padrão \'http(s)://endereço(:porto)/\'</string>
   <string name="error_connection_failed">Conexão ao host falhado</string>
   <string name="error_unable_to_resolve_hostname">Não foi possível resolver nome de anfitrião</string>
+  <string name="error_connection_sslhandshake_failed">Handshake SSL falhado</string>
   <string name="error_certificate_not_trusted">Certificado SSL não é confiável. Por favor, importe o certificado de raiz ou deabilite a validação de certificados durante o hanshake SSL</string>
   <string name="error_certificate_expired">Certificado SLL expirou. Por favor, obter um novo certificado ousesabilitar a validação de certificado durante o handshake SSL</string>
+  <string name="error_certificate_not_valid_yet">Certificado SSL ainda não é válido. Por favor, obtenha um certificado correto ou desabilite a validação de certificados durante o handshake SSL. Verifique também se o relógio no seu telefone está configurado corretamente</string>
   <string name="error_certificate_revoked">Certificado SLL foi revogado. Por favor, obter um novo certificado ou desabilitar a validação de certificado durante o handshake SSL</string>
+  <string name="error_certificate_wrong_host">Certificado SSL não é válido para %s</string>
+  <string name="error_http_code_401">Falha de autenticação. Por favor, verifique o usuário e senha configurada e o certificado SSL do cliente fornecido (código de resposta HTTP 401)</string>
+  <string name="error_http_code_403">Falha de autenticação. Por favor, verifique o usuário e senha configurada e o certificado SSL do cliente fornecido (código de resposta HTTP 403)</string>
+  <string name="error_http_code_407">Falha de autenticação. Por favor, verifique o usuário e senha configurada e o certificado SSL do cliente fornecido (código de resposta HTTP 407)</string>
+  <string name="error_http_code_414">URL é muito longo. Por favor, use o endereço IP ou um URL mais curto (código de resposta HTTP 414)</string>
+  <string name="error_http_code_426">É necessário utilizar HTTPS. Por favor, altere o URL openHAB (HTTP código de resposta 426)</string>
   <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
+  <string name="error_http_code_495">Autenticação de usuário falhou. Por favor, verifique o nome de usuário, senha e certificado de cliente SSL (HTTP código de resposta 495)</string>
   <string name="error_http_code_496">Certificado de cliente SSL é necessário (HTTP código de resposta 496)</string>
+  <string name="error_http_code_502">O seu reverse proxy tem uma resposta inválida de openHAB (HTTP código de resposta 502)</string>
+  <string name="error_http_code_503">O Servidor openHAB está temporariamente indisponível (HTTP código de resposta 503)</string>
+  <string name="error_http_code_504">Acabou o tempo do gateway. Parece que o seu reverse proxy está a executar, mas não foi possível obter uma resposta do servidor openHAB (HTTP código de resposta 504)</string>
+  <string name="error_http_code_507">O servidor openHAB não tem espaço livre suficiente (HTTP código de resposta 507)</string>
   <string name="error_http_code_511">Autenticação de rede é necessária (HTTP código de resposta 511)</string>
   <string name="title_activity_openhabwritetag">Escrever na etiqueta NFC</string>
   <string name="title_activity_openhabinfo">openHAB Informação</string>
@@ -102,7 +122,7 @@
   <string name="nfc_action_off">Desligar</string>
   <string name="nfc_action_down">Para baixo</string>
   <string name="nfc_action_toggle">Alternar</string>
-  <string name="nfc_activate">Activar</string>
+  <string name="nfc_activate">Ativar</string>
   <string name="nfc_action_current_color">Cor atual</string>
   <string name="nfc_action_to_sitemap_page">Navegar para a página do mapa do site</string>
   <!-- Drawer -->
@@ -112,8 +132,6 @@
   <!-- About -->
   <string name="about_title">Sobre</string>
   <string name="about_license_title">Licença</string>
-  <string name="about_links">Ligações</string>
-  <string name="about_links_list"><![CDATA[\u00B7 <a href="https://github.com/openhab/openhab.android"> openHAB código da fonte do App</a> <br><br>\u00B7 <a href="https://github.com/openhab/openhab.android/issues"> reportar um problema</a> <br><br>\u00B7 <a href="http://docs.openhab.org/"> openHAB Documentação</a> <br><br>\u00B7 <a href="https://community.openhab.org/"> Fórum da Comunidade</a>]]></string>
   <string name="settings_debug_messages_summary">As senhas serão mostradas em texto não criptografado!</string>
   <string name="settings_debug_messages_title">Mostrar mensagens de depuração</string>
   <string name="error_couldnt_determine_openhab_url">Não consegui determinar o URL openHAB</string>
@@ -127,7 +145,20 @@
   <string name="intro_themes">Temas</string>
   <string name="intro_themes_description">Escolha entre vários temas</string>
   <!-- Content description for images -->
+  <string name="content_description_open_roller_shutter">Abrir estore</string>
+  <string name="content_description_stop_roller_shutter">Parar estore</string>
+  <string name="content_description_close_roller_shutter">Fechar estore</string>
+  <string name="content_description_open_color_wheel">Abrir cores</string>
+  <string name="content_description_color_up">Ligar ou mantenha para aumentar o brilho</string>
+  <string name="content_description_color_down">Desligar ou mantenha para diminuir o brilho</string>
+  <string name="content_description_open_number_picker">Abrir selecção de valor</string>
+  <string name="content_description_video">Vídeo</string>
+  <string name="content_description_open_openhab">Abrir openHAB</string>
+  <string name="swipe_to_refresh_description">A aplicação também atualiza automaticamente, normalmente não necessita de fazê-lo manualmente</string>
+  <string name="swipe_to_refresh_dismiss">Percebi!</string>
   <!-- Intro strings -->
   <!-- Intro "SKIP" button -->
+  <string name="app_intro_skip_button">Pular</string>
   <!-- Intro "DONE" button -->
+  <string name="app_intro_done_button">Concluído</string>
 </resources>

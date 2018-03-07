@@ -46,7 +46,6 @@
   <string name="title_voice_widget">openHAB Perintah suara</string>
   <string name="info_voice_input">"openHAB, atas perintahmu!"</string>
   <string name="info_voice_recognized_text">"Perintah yang Diakui: %1$s"</string>
-  <string name="info_demo_mode">Berjalan dalam mode demo. Untuk terhubung ke server openHAB anda silahkan masuk ke menu pengaturan.</string>
   <string name="info_demo_mode_short">Berjalan dalam mode demo</string>
   <string name="info_conn_url">Menghubungkan ke URL lokal</string>
   <string name="info_conn_rem_url">Menghubungkan ke URL jauh</string>
@@ -110,8 +109,6 @@
   <!-- About -->
   <string name="about_title">Tentang</string>
   <string name="about_license_title">Izin</string>
-  <string name="about_links">Tautan</string>
-  <string name="about_links_list"><![CDATA[\u00B7 <a href="https://github.com/openhab/openhab.android">openHAB Sumber aplikasi kode</a><br><br> \u00B7 <a href="https://github.com/openhab/openhab.android/issues">Laporkan masalah</a><br><br> \u00B7 <a href="http://docs.openhab.org/">openHAB Dokumentasi</a><br><br> \u00B7 <a href="https://community.openhab.org/">Forum Komunitas</a>]]></string>
   <string name="settings_debug_messages_summary">Kata sandi akan ditampilkan dalam teks yang jelas!</string>
   <string name="settings_debug_messages_title">Tampilkan pesan debug</string>
   <string name="error_couldnt_determine_openhab_url">Tidak dapat menentukan URL openHAB</string>

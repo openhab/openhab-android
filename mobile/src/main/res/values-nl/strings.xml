@@ -29,7 +29,6 @@
   <!-- App messages strings -->
   <string name="title_voice_widget">openHAB stem commando\'s</string>
   <string name="info_voice_recognized_text">"Herkend commando: %1$s"</string>
-  <string name="info_demo_mode">openHAB App draait in demo mode. Gebruik het instellingenmenu om met je eigen systeem te verbinden.</string>
   <string name="info_conn_url">Verbinden met ingestelde URL</string>
   <string name="info_conn_rem_url">Verbinden naar externe URL</string>
   <string name="info_discovery">Ontdekken van openHAB. Moment geduld\u2026</string>
