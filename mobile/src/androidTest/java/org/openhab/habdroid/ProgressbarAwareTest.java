@@ -3,12 +3,17 @@ package org.openhab.habdroid;
 import android.support.test.espresso.IdlingRegistry;
 import android.support.test.espresso.IdlingResource;
 import android.support.test.espresso.intent.rule.IntentsTestRule;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.View;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.openhab.habdroid.ui.OpenHABMainActivity;
+import org.openhab.habdroid.ui.OpenHABWidgetListFragment;
+import org.openhab.habdroid.ui.activity.FragmentController;
+import org.openhab.habdroid.ui.activity.PageConnectionHolderFragment;
 
 public abstract class ProgressbarAwareTest {
 
@@ -17,16 +22,16 @@ public abstract class ProgressbarAwareTest {
             (OpenHABMainActivity.class,  true, false);
 
     private IdlingResource mProgressbarIdlingResource;
+    private IdlingResource mFragmentIdlingResource;
 
     @Before
     public void setup() {
         mActivityTestRule.launchActivity(null);
-
-        setupRegisterIdlingResources();
     }
 
     protected void setupRegisterIdlingResources() {
         IdlingRegistry.getInstance().register(getProgressbarIdlingResource());
+        IdlingRegistry.getInstance().register(getFragmentIdlingResource());
     }
 
     protected IdlingResource getProgressbarIdlingResource() {
@@ -38,11 +43,24 @@ public abstract class ProgressbarAwareTest {
         return mProgressbarIdlingResource;
     }
 
+    protected IdlingResource getFragmentIdlingResource() {
+        if (mFragmentIdlingResource == null) {
+            mFragmentIdlingResource = new FragmentStatusIdlingResource("FragmentIdleResource",
+                    mActivityTestRule.getActivity().getSupportFragmentManager());
+        }
+        return mFragmentIdlingResource;
+    }
+
     @After
     public void unregisterIdlingResource() {
-        if (mProgressbarIdlingResource != null)
+        if (mProgressbarIdlingResource != null) {
             IdlingRegistry.getInstance().unregister(mProgressbarIdlingResource);
+        }
+        if (mFragmentIdlingResource != null) {
+            IdlingRegistry.getInstance().unregister(mFragmentIdlingResource);
+        }
 
         mProgressbarIdlingResource = null;
+        mFragmentIdlingResource = null;
     }
 }

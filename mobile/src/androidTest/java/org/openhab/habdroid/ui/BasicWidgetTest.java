@@ -60,9 +60,6 @@ public class BasicWidgetTest extends TestWithoutIntro {
         recyclerView
                 .perform(RecyclerViewActions.actionOnItemAtPosition(10, click()));
 
-        // FIXME: is there a more elegant way to wait for the new fragment?
-        Thread.sleep(1000);
-
         // check whether selection widget appears and click on it
         recyclerView
                 .perform(RecyclerViewActions.scrollToPosition(4))

@@ -4,6 +4,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 
@@ -84,6 +85,19 @@ public class PageConnectionHolderFragment extends Fragment {
         for (ConnectionHandler handler : mConnections.values()) {
             handler.mCallback = mCallback;
         }
+    }
+
+    @VisibleForTesting
+    public boolean hasConnectionsWithPendingDataLoad() {
+        if (!mStarted) {
+            return false;
+        }
+        for (ConnectionHandler handler : mConnections.values()) {
+            if (handler.hasNoDataAndPendingLoad()) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public void updateActiveConnections(List<String> urls, Connection connection) {
@@ -173,6 +187,11 @@ public class PageConnectionHolderFragment extends Fragment {
             } else if (mLastWidgetList != null) {
                 mCallback.onPageUpdated(mUrl, mLastPageTitle, mLastWidgetList);
             }
+        }
+
+        @VisibleForTesting
+        public boolean hasNoDataAndPendingLoad() {
+            return mRequestHandle != null && mLastWidgetList == null;
         }
 
         private void load() {

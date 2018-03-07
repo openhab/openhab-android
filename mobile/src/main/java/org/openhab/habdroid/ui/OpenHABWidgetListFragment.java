@@ -18,6 +18,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
+import android.support.annotation.VisibleForTesting;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -48,7 +49,8 @@ public class OpenHABWidgetListFragment extends Fragment
     private static final String TAG = OpenHABWidgetListFragment.class.getSimpleName();
     // List adapter for list view of openHAB widgets
     private OpenHABWidgetAdapter openHABWidgetAdapter;
-    private RecyclerView mRecyclerView;
+    @VisibleForTesting
+    public RecyclerView mRecyclerView;
     private LinearLayoutManager mLayoutManager;
     // Url of current sitemap page displayed
     private String displayPageUrl;
