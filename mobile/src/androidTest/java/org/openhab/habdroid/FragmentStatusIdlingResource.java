@@ -43,11 +43,6 @@ public class FragmentStatusIdlingResource implements IdlingResource {
             if (f instanceof ContentController.ProgressFragment) {
                 return true;
             }
-            if (f instanceof PageConnectionHolderFragment) {
-                if (((PageConnectionHolderFragment) f).hasConnectionsWithPendingDataLoad()) {
-                    return true;
-                }
-            }
             if (f instanceof OpenHABWidgetListFragment) {
                 if (((OpenHABWidgetListFragment) f).mRecyclerView.hasPendingAdapterUpdates()) {
                     return true;

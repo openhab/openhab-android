@@ -87,19 +87,6 @@ public class PageConnectionHolderFragment extends Fragment {
         }
     }
 
-    @VisibleForTesting
-    public boolean hasConnectionsWithPendingDataLoad() {
-        if (!mStarted) {
-            return false;
-        }
-        for (ConnectionHandler handler : mConnections.values()) {
-            if (handler.hasNoDataAndPendingLoad()) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     public void updateActiveConnections(List<String> urls, Connection connection) {
         if (connection == null) {
             for (ConnectionHandler handler : mConnections.values()) {
@@ -187,11 +174,6 @@ public class PageConnectionHolderFragment extends Fragment {
             } else if (mLastWidgetList != null) {
                 mCallback.onPageUpdated(mUrl, mLastPageTitle, mLastWidgetList);
             }
-        }
-
-        @VisibleForTesting
-        public boolean hasNoDataAndPendingLoad() {
-            return mRequestHandle != null && mLastWidgetList == null;
         }
 
         private void load() {
