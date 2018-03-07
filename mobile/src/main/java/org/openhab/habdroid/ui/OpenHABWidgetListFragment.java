@@ -31,11 +31,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import org.openhab.habdroid.R;
+import org.openhab.habdroid.model.OpenHABItem;
 import org.openhab.habdroid.model.OpenHABLinkedPage;
-import org.openhab.habdroid.model.OpenHABNFCActionList;
 import org.openhab.habdroid.model.OpenHABWidget;
+import org.openhab.habdroid.model.OpenHABWidgetMapping;
 import org.openhab.habdroid.util.Util;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -54,8 +56,6 @@ public class OpenHABWidgetListFragment extends Fragment
     private LinearLayoutManager mLayoutManager;
     // Url of current sitemap page displayed
     private String displayPageUrl;
-    // selected openhab widget
-    private OpenHABWidget selectedOpenHABWidget;
     // parent activity
     private OpenHABMainActivity mActivity;
     // Am I visible?
@@ -124,31 +124,70 @@ public class OpenHABWidgetListFragment extends Fragment
     }
 
     @Override
-    public void onItemLongClicked(OpenHABWidget openHABWidget) {
-        Log.d(TAG, "Widget type = " + openHABWidget.type());
+    public void onItemLongClicked(final OpenHABWidget widget) {
+        Log.d(TAG, "Widget type = " + widget.type());
 
-        selectedOpenHABWidget = openHABWidget;
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle(R.string.nfc_dialog_title);
-        final OpenHABNFCActionList nfcActionList = new OpenHABNFCActionList
-                (selectedOpenHABWidget, getContext());
-        builder.setItems(nfcActionList.getNames(), new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-                Intent writeTagIntent = new Intent(getActivity().getApplicationContext(),
-                        OpenHABWriteTagActivity.class);
-                writeTagIntent.putExtra("sitemapPage", displayPageUrl);
+        ArrayList<String> labels = new ArrayList<>();
+        ArrayList<String> commands = new ArrayList<>();
 
-                if (nfcActionList.getCommands().length > which) {
-                    writeTagIntent.putExtra("item", selectedOpenHABWidget.item().name());
-                    writeTagIntent.putExtra("itemType", selectedOpenHABWidget.item().type());
-                    writeTagIntent.putExtra("command", nfcActionList.getCommands()[which]);
+        if (widget.item() != null) {
+            // If the widget has mappings, we will populate names and commands with
+            // values from those mappings
+            if (widget.hasMappings()) {
+                for (OpenHABWidgetMapping mapping : widget.mappings()) {
+                    labels.add(mapping.label());
+                    commands.add(mapping.command());
                 }
-                startActivityForResult(writeTagIntent, 0);
-                Util.overridePendingTransition(getActivity(), false);
-                selectedOpenHABWidget = null;
+                // Else we only can do it for Switch widget with On/Off/Toggle commands
+            } else if (widget.type() == OpenHABWidget.Type.Switch) {
+                OpenHABItem item = widget.item();
+                if (item.isOfTypeOrGroupType(OpenHABItem.Type.Switch)) {
+                    labels.add(getString(R.string.nfc_action_on));
+                    commands.add("ON");
+                    labels.add(getString(R.string.nfc_action_off));
+                    commands.add("OFF");
+                    labels.add(getString(R.string.nfc_action_toggle));
+                    commands.add("TOGGLE");
+                } else if (item.isOfTypeOrGroupType(OpenHABItem.Type.Rollershutter)) {
+                    labels.add(getString(R.string.nfc_action_up));
+                    commands.add("UP");
+                    labels.add(getString(R.string.nfc_action_down));
+                    commands.add("DOWN");
+                    labels.add(getString(R.string.nfc_action_toggle));
+                    commands.add("TOGGLE");
+                }
+            } else if (widget.type() == OpenHABWidget.Type.Colorpicker) {
+                labels.add(getString(R.string.nfc_action_on));
+                commands.add("ON");
+                labels.add(getString(R.string.nfc_action_off));
+                commands.add("OFF");
+                labels.add(getString(R.string.nfc_action_toggle));
+                commands.add("TOGGLE");
+                labels.add(getString(R.string.nfc_action_current_color));
+                commands.add(widget.item().state());
             }
-        });
-        builder.show();
+        }
+        labels.add(getString(R.string.nfc_action_to_sitemap_page));
+
+        final String[] labelArray = labels.toArray(new String[labels.size()]);
+        new AlertDialog.Builder(getActivity())
+                .setTitle(R.string.nfc_dialog_title)
+                .setItems(labelArray, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent writeTagIntent = new Intent(getActivity(), OpenHABWriteTagActivity.class);
+                        writeTagIntent.putExtra("sitemapPage", displayPageUrl);
+
+                        if (which < labelArray.length - 1) {
+                            writeTagIntent.putExtra("item", widget.item().name());
+                            writeTagIntent.putExtra("itemType", widget.item().type());
+                            writeTagIntent.putExtra("command", commands.get(which));
+                        }
+                        startActivityForResult(writeTagIntent, 0);
+                        Util.overridePendingTransition(getActivity(), false);
+                    }
+                })
+                .show();
     }
 
     @NonNull
