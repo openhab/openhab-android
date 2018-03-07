@@ -704,6 +704,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
                 List<OpenHABSitemap> result = mOpenHABVersion == 1
                         ? loadSitemapsFromXml(responseBody)
                         : loadSitemapsFromJson(responseBody);
+                Log.d(TAG, "Server returned sitemaps: " + result);
                 mSitemapList.clear();
                 if (result != null) {
                     mSitemapList.addAll(result);
@@ -770,6 +771,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
             result = null;
         }
 
+        Log.d(TAG, "Configured sitemap is '" + configuredSitemap + "', selected " + result);
         boolean hasResult = result != null;
         boolean hasConfigured = !configuredSitemap.isEmpty();
         if (!hasResult && hasConfigured) {
@@ -808,7 +810,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
                     @Override
                     public void onClick(DialogInterface dialog, int item) {
                         OpenHABSitemap sitemap = mSitemapList.get(item);
-                        Log.d(TAG, "Selected sitemap " + sitemap.getName());
+                        Log.d(TAG, "Selected sitemap " + sitemap);
                         PreferenceManager.getDefaultSharedPreferences(OpenHABMainActivity.this)
                                 .edit()
                                 .putString(Constants.PREFERENCE_SITEMAP_NAME, sitemap.getName())
@@ -826,7 +828,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
     }
 
     private void openSitemap(OpenHABSitemap sitemap) {
-        Log.i(TAG, "Opening sitemap at " + sitemap.getHomepageLink());
+        Log.i(TAG, "Opening sitemap " + sitemap + ", currently selected " + mSelectedSitemap);
         if (mSelectedSitemap != null && mSelectedSitemap.equals(sitemap)) {
             return;
         }

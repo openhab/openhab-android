@@ -96,4 +96,10 @@ public abstract class OpenHABSitemap implements Parcelable {
         }
         return false;
     }
+
+    @Override
+    public String toString() {
+        return "Sitemap[name=" + name + ", label=" + label
+                + ", link=" + link + ", homepageLink=" + homepageLink + "]";
+    }
 }
