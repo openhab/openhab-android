@@ -129,7 +129,6 @@ public class OpenHABMainActivity extends AppCompatActivity implements
 
         @Override
         public void onFailure(Call call, int statusCode, Headers headers, byte[] responseBody, Throwable error) {
-            setProgressIndicatorVisible(false);
             Log.e(TAG, "Error: " + error.toString());
             Log.e(TAG, "HTTP status code: " + statusCode);
             CharSequence message;
@@ -693,13 +692,11 @@ public class OpenHABMainActivity extends AppCompatActivity implements
 
         Log.d(TAG, "Loading sitemap list from /rest/sitemaps");
 
-        setProgressIndicatorVisible(selectSitemapAfterLoad);
         mInitState = InitState.LOAD_SITEMAPS;
         mPendingCall = mConnection.getAsyncHttpClient().get("/rest/sitemaps", new DefaultHttpResponseHandler() {
             @Override
             public void onSuccess(Call call, int statusCode, Headers headers, byte[] responseBody) {
                 Log.d(TAG, new String(responseBody));
-                setProgressIndicatorVisible(false);
                 mPendingCall = null;
                 mInitState = InitState.DONE;
 
