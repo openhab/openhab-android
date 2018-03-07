@@ -271,7 +271,9 @@ public abstract class FragmentController implements PageConnectionHolderFragment
     public void recreateFragmentState() {
         FragmentTransaction ft = mFm.beginTransaction();
         for (Fragment f : mFm.getFragments()) {
-            ft.remove(f);
+            if (!f.getRetainInstance()) {
+                ft.remove(f);
+            }
         }
         ft.commitNow();
 
