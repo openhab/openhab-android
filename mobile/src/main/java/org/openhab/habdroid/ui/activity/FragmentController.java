@@ -229,6 +229,17 @@ public abstract class FragmentController implements PageConnectionHolderFragment
     }
 
     /**
+     * Clear the error previously set by {@link #indicateServerCommunicationFailure}
+     */
+    public void clearServerCommunicationFailure() {
+        if (mNoConnectionFragment instanceof CommunicationFailureFragment) {
+            mNoConnectionFragment = null;
+            updateFragmentState(FragmentUpdateReason.PAGE_UPDATE);
+            mActivity.updateTitle();
+        }
+    }
+
+    /**
      * Update the used connection.
      * To be called when the available connection changes.
      *

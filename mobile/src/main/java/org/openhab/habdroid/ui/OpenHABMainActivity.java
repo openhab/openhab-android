@@ -583,8 +583,10 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         super.onStart();
         if (mConnection != null) {
             if (mInitState == InitState.QUERY_SERVER_PROPS) {
+                mController.clearServerCommunicationFailure();
                 queryServerProperties();
             } else if (mInitState == InitState.LOAD_SITEMAPS) {
+                mController.clearServerCommunicationFailure();
                 loadSitemapList(true);
             }
         }
