@@ -522,7 +522,7 @@ public abstract class ContentController implements PageConnectionHolderFragment.
 
         @Override
         public void onClick(View view) {
-            ((OpenHABMainActivity) getActivity()).queryServerProperties();
+            ((OpenHABMainActivity) getActivity()).retryServerPropertyQuery();
         }
     }
 
