@@ -90,11 +90,7 @@ public class MyWebImage implements SmartImage {
             	bitmap = getWebImageCache(context).get(url);
             if(bitmap == null) {
             	Log.i("MyWebImage", "Cache for " + url + " is empty, getting image");
-                String iconFormat = "PNG";
-                if (url.contains("format=SVG")) {
-                    iconFormat = "SVG";
-                }
-                bitmap = getBitmapFromUrl(context, url, iconFormat);
+                bitmap = getBitmapFromUrl(context, url);
                 if(bitmap != null && this.useCache) {
                     getWebImageCache(context).put(url, bitmap);
                 }
@@ -104,7 +100,7 @@ public class MyWebImage implements SmartImage {
         return bitmap;
     }
 
-    private Bitmap getBitmapFromUrl(Context context, final String url, final String iconFormat) {
+    private Bitmap getBitmapFromUrl(Context context, final String url) {
         final Map<String, Object> result = new HashMap<String, Object>();
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         MyAsyncHttpClient client = new MyAsyncHttpClient(context, prefs.getBoolean(Constants
@@ -128,8 +124,11 @@ public class MyWebImage implements SmartImage {
             @Override
             public void onSuccess(Call call, int statusCode, Headers headers, byte[] responseBody) {
                 InputStream is = new ByteArrayInputStream(responseBody);
+                Map headersMap = headers.toMultimap();
+                boolean isSVG = headersMap.containsKey("content-type") &&
+                        headersMap.get("content-type").toString().contains("svg");
                 synchronized (result) {
-                    result.put("bitmap", getBitmapFromInputStream(iconFormat, is));
+                    result.put("bitmap", getBitmapFromInputStream(isSVG, is));
                     result.notify();
                 }
             }
@@ -154,11 +153,11 @@ public class MyWebImage implements SmartImage {
         return (Bitmap)result.get("bitmap");
     }
 
-    private Bitmap getBitmapFromInputStream(String iconFormat, InputStream is) {
+    private Bitmap getBitmapFromInputStream(boolean isSVG, InputStream is) {
         Bitmap bitmap;
-        if("SVG".equals(iconFormat)) {
+        if(isSVG) {
             bitmap = getBitmapFromSvgInputstream(is);
-        }else {
+        } else {
             bitmap = BitmapFactory.decodeStream(is);
         }
         return bitmap;

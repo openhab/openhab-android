@@ -24,6 +24,7 @@
         <item name="themedArrowUpIcon">@drawable/ic_keyboard_arrow_up_black_24dp</item>
         <item name="themedColorIcon">@drawable/ic_color_lens_black_24dp</item>
         <item name="themedClearIcon">@drawable/ic_clear_black_24dp</item>
+        <item name="themedSpinnerCaret">@drawable/ic_spinner_caret_black</item>
     </style>
 
     <!-- Parent theme for all openHAB themes with dark background -->
@@ -64,6 +65,7 @@
         <item name="themedArrowUpIcon">@drawable/ic_keyboard_arrow_up_white_24dp</item>
         <item name="themedColorIcon">@drawable/ic_color_lens_white_24dp</item>
         <item name="themedClearIcon">@drawable/ic_clear_white_24dp</item>
+        <item name="themedSpinnerCaret">@drawable/ic_spinner_caret_white</item>
     </style>
 
     <!-- Default theme -->
