@@ -147,7 +147,6 @@
   <string name="try_again_button">Yritä uudelleen</string>
   <string name="network_error">Verkkovirhe</string>
   <string name="go_to_settings_button">Mene asetuksiin</string>
-  <string name="error_no_url_start_demo_mode">Ole hyvä ja aseta palvelimen IP osoite tai isäntänimi palvelimen asetuksissa. Demotila on nyt käytössä.</string>
   <string name="intro_discovery">Haku</string>
   <string name="intro_discovery_summary">Ota huomioon, että tämä toimii vain jos palvelin ei vaadi kirjautumista</string>
   <!-- Content description for images -->
