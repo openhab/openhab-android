@@ -157,7 +157,6 @@
   <string name="try_again_button">Попробуйте еще раз</string>
   <string name="network_error">Ошибка сети</string>
   <string name="go_to_settings_button">Перейдите к настройкам</string>
-  <string name="error_no_url_start_demo_mode">Пожалуйста, укажите IP-адрес или имя сервера в настройках. В противном случае будет использоваться демо-режим.</string>
   <string name="intro_discovery">Обнаружить</string>
   <string name="intro_discovery_summary">Заметьте, что это будет работать, только если проверка подлинности не обеспечивается сервером</string>
   <!-- Content description for images -->
