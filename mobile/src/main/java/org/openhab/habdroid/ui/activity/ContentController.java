@@ -153,11 +153,13 @@ public abstract class ContentController implements PageConnectionHolderFragment.
     public void openSitemap(OpenHABSitemap sitemap) {
         Log.d(TAG, "Opening sitemap " + sitemap);
         mCurrentSitemap = sitemap;
-        mSitemapFragment = makeSitemapFragment(sitemap);
+        // First clear the old fragment stack to show the progress spinner...
         mPageStack.clear();
+        mSitemapFragment = null;
         updateFragmentState(FragmentUpdateReason.PAGE_UPDATE);
-        updateConnectionState();
-        mActivity.updateTitle();
+        // ...then create the new sitemap fragment and trigger data loading.
+        mSitemapFragment = makeSitemapFragment(sitemap);
+        handleNewWidgetFragment(mSitemapFragment);
     }
 
     /**
@@ -169,11 +171,10 @@ public abstract class ContentController implements PageConnectionHolderFragment.
      */
     public void openPage(OpenHABLinkedPage page, OpenHABWidgetListFragment source) {
         Log.d(TAG, "Opening page " + page);
-        mPageStack.push(Pair.create(page, makePageFragment(page)));
-        mPendingDataLoadUrls.add(page.getLink());
-        // no fragment update yet; fragment state will be updated when data arrives
+        OpenHABWidgetListFragment f = makePageFragment(page);
+        mPageStack.push(Pair.create(page, f));
+        handleNewWidgetFragment(f);
         mActivity.setProgressIndicatorVisible(true);
-        updateConnectionState();
     }
 
     /**
@@ -391,7 +392,8 @@ public abstract class ContentController implements PageConnectionHolderFragment.
         if (mPendingDataLoadUrls.remove(pageUrl) && mPendingDataLoadUrls.isEmpty()) {
             mActivity.setProgressIndicatorVisible(false);
             mActivity.updateTitle();
-            updateFragmentState(FragmentUpdateReason.PAGE_ENTER);
+            updateFragmentState(mPageStack.isEmpty()
+                    ? FragmentUpdateReason.PAGE_UPDATE : FragmentUpdateReason.PAGE_ENTER);
         }
     }
 
@@ -406,6 +408,12 @@ public abstract class ContentController implements PageConnectionHolderFragment.
 
     protected abstract void updateFragmentState(FragmentUpdateReason reason);
     protected abstract OpenHABWidgetListFragment getFragmentForTitle();
+
+    private void handleNewWidgetFragment(OpenHABWidgetListFragment f) {
+        mPendingDataLoadUrls.add(f.getDisplayPageUrl());
+        // no fragment update yet; fragment state will be updated when data arrives
+        updateConnectionState();
+    }
 
     private void showTemporaryPage(Fragment page) {
         mTemporaryPage = page;
