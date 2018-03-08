@@ -48,6 +48,7 @@ import org.openhab.habdroid.ui.OpenHABWidgetListFragment;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.Stack;
@@ -172,6 +173,9 @@ public abstract class ContentController implements PageConnectionHolderFragment.
     public void openPage(OpenHABLinkedPage page, OpenHABWidgetListFragment source) {
         Log.d(TAG, "Opening page " + page);
         OpenHABWidgetListFragment f = makePageFragment(page);
+        while (!mPageStack.isEmpty() && mPageStack.peek().second != source) {
+            mPageStack.pop();
+        }
         mPageStack.push(Pair.create(page, f));
         handleNewWidgetFragment(f);
         mActivity.setProgressIndicatorVisible(true);
@@ -436,6 +440,12 @@ public abstract class ContentController implements PageConnectionHolderFragment.
         List<String> pageUrls = new ArrayList<>();
         for (OpenHABWidgetListFragment f : collectWidgetFragments()) {
             pageUrls.add(f.getDisplayPageUrl());
+        }
+        Iterator<String> pendingIter = mPendingDataLoadUrls.iterator();
+        while (pendingIter.hasNext()) {
+            if (!pageUrls.contains(pendingIter.next())) {
+                pendingIter.remove();
+            }
         }
         mConnectionFragment.updateActiveConnections(pageUrls, mActivity.getConnection());
     }
