@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -11,7 +12,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.danielstone.materialaboutlibrary.MaterialAboutFragment;
 import com.danielstone.materialaboutlibrary.items.MaterialAboutActionItem;
@@ -102,21 +106,22 @@ public class AboutActivity extends AppCompatActivity implements
     public static class AboutMainFragment extends MaterialAboutFragment {
         private final static String TAG = AboutMainFragment.class.getSimpleName();
         private final static String URL_TO_GITHUB = "https://github.com/openhab/openhab-android";
-        private int mOpenHABVersion = 0;
-        private Connection conn;
+        private int mOpenHABVersion;
+        private Connection mConnection;
 
+        @Nullable
         @Override
-        public void onResume() {
-            super.onResume();
+        public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
+                @Nullable Bundle savedInstanceState) {
+            mOpenHABVersion = getArguments().getInt("openHABVersion", 0);
             try {
-                conn = ConnectionFactory.getUsableConnection();
+                mConnection = ConnectionFactory.getUsableConnection();
             } catch (ConnectionException ignored) {}
+            return super.onCreateView(inflater, container, savedInstanceState);
         }
 
         @Override
         protected MaterialAboutList getMaterialAboutList(final Context context) {
-            mOpenHABVersion = getArguments().getInt("openHABVersion", 0);
-
             String year = new SimpleDateFormat("yyyy", Locale.US)
                     .format(Calendar.getInstance().getTime());
 
@@ -179,13 +184,13 @@ public class AboutActivity extends AppCompatActivity implements
 
             MaterialAboutCard.Builder ohServerCard = new MaterialAboutCard.Builder();
             ohServerCard.title(R.string.about_server);
-            if(conn == null || mOpenHABVersion == 0) {
+            if (mConnection == null || mOpenHABVersion == 0) {
                 ohServerCard.addItem(new MaterialAboutActionItem.Builder()
                         .text(R.string.error_about_no_conn)
                         .icon(R.drawable.ic_info_outline)
                         .build());
             } else {
-                String apiVersion = getApiVersion(conn);
+                String apiVersion = getApiVersion();
                 if (TextUtils.isEmpty(apiVersion)) {
                     apiVersion = context.getString(R.string.unknown);
                 }
@@ -195,7 +200,7 @@ public class AboutActivity extends AppCompatActivity implements
                         .icon(R.drawable.ic_info_outline)
                         .build());
 
-                String uuid = getServerUuid(conn);
+                String uuid = getServerUuid();
                 if (TextUtils.isEmpty(uuid)) {
                     uuid = context.getString(R.string.unknown);
                 }
@@ -206,7 +211,7 @@ public class AboutActivity extends AppCompatActivity implements
                         .build());
 
                 if (mOpenHABVersion == 1) {
-                    String secret = getServerSecret(conn);
+                    String secret = getServerSecret();
                     if (!TextUtils.isEmpty(secret)) {
                         ohServerCard.addItem(new MaterialAboutActionItem.Builder()
                                 .text(R.string.info_openhab_secret_label)
@@ -277,9 +282,9 @@ public class AboutActivity extends AppCompatActivity implements
             }
         }
 
-        private String getServerSecret(Connection conn) {
+        private String getServerSecret() {
             final String[] secret = {null};
-            conn.getSyncHttpClient().get("/static/secret", new MyHttpClient.TextResponseHandler() {
+            mConnection.getSyncHttpClient().get("/static/secret", new MyHttpClient.TextResponseHandler() {
                 @Override
                 public void onFailure(Call call, int statusCode, Headers headers, String responseString, Throwable error) {
                     Log.e(TAG, "Could not fetch server secret " + error.getMessage());
@@ -294,7 +299,7 @@ public class AboutActivity extends AppCompatActivity implements
             return secret[0];
         }
 
-        private String getServerUuid(Connection conn) {
+        private String getServerUuid() {
             final String uuidUrl;
             final String[] uuid = new String[1];
             if (mOpenHABVersion == 1) {
@@ -302,7 +307,7 @@ public class AboutActivity extends AppCompatActivity implements
             } else {
                 uuidUrl = "/rest/uuid";
             }
-            conn.getSyncHttpClient().get(uuidUrl, new MyHttpClient.TextResponseHandler() {
+            mConnection.getSyncHttpClient().get(uuidUrl, new MyHttpClient.TextResponseHandler() {
                 @Override
                 public void onFailure(Call call, int statusCode, Headers headers, String responseString, Throwable error) {
                     Log.e(TAG, "Could not fetch server uuid " + error.getMessage());
@@ -317,7 +322,7 @@ public class AboutActivity extends AppCompatActivity implements
             return uuid[0];
         }
 
-        private String getApiVersion(Connection conn) {
+        private String getApiVersion() {
             String versionUrl;
             final String[] version = new String[1];
             if (mOpenHABVersion == 1) {
@@ -326,7 +331,7 @@ public class AboutActivity extends AppCompatActivity implements
                 versionUrl = "/rest";
             }
             Log.d(TAG, "url = " + versionUrl);
-            conn.getSyncHttpClient().get(versionUrl, new MyHttpClient.TextResponseHandler() {
+            mConnection.getSyncHttpClient().get(versionUrl, new MyHttpClient.TextResponseHandler() {
                 @Override
                 public void onFailure(Call call, int statusCode, Headers headers, String responseString, Throwable error) {
                     Log.e(TAG, "Could not fetch rest API version " + error.getMessage());
