@@ -42,6 +42,7 @@ before_script:
 - android list target
 
 script:
+- bash travis/bump-versioncode.sh
 - ./gradlew build connectedCheck test jacocoTestReport
 - bash assets/store_descriptions/generate_and_validate.sh
 
@@ -49,8 +50,7 @@ after_success:
 - bash <(curl -s https://codecov.io/bash)
 
 before_deploy:
-- ./release-fdroid.sh
-- ./gradlew assembleRelease # Build apks with bumped version name and code
+- bash travis/commit-version-and-metadata.sh
 - openssl aes-256-cbc -K $encrypted_903a93ed2309_key -iv $encrypted_903a93ed2309_iv
   -in keystore.enc -out keystore -d
 - cp $TRAVIS_BUILD_DIR/keystore $HOME
