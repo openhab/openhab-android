@@ -11,6 +11,8 @@ package org.openhab.habdroid.util;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.annotation.VisibleForTesting;
 import android.util.Log;
 
@@ -45,9 +47,14 @@ public abstract class MyHttpClient {
     private Map<String, String> headers = new HashMap<>();
     private OkHttpClient client;
 
-    protected MyHttpClient(Context ctx, Boolean ignoreSSLHostname, Boolean ignoreCertTrust) {
+    protected MyHttpClient(Context context) {
+        this(context, PreferenceManager.getDefaultSharedPreferences(context));
+    }
+
+    protected MyHttpClient(Context context, SharedPreferences prefs) {
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
-        if (ignoreSSLHostname) {
+
+        if (prefs.getBoolean(Constants.PREFERENCE_SSLHOST, false)) {
             builder.hostnameVerifier(new HostnameVerifier() {
                 @SuppressLint("BadHostnameVerifier")
                 @Override
@@ -59,7 +66,7 @@ public abstract class MyHttpClient {
 
         X509TrustManager x509TrustManager = null;
 
-        if (ignoreCertTrust) {
+        if (prefs.getBoolean(Constants.PREFERENCE_SSLCERT, false)) {
             x509TrustManager = new X509TrustManager() {
                 @Override
                 public void checkClientTrusted(X509Certificate[] chain, String authType) throws CertificateException {
@@ -95,7 +102,7 @@ public abstract class MyHttpClient {
 
         try {
             final SSLContext sslContext = SSLContext.getInstance("TLS");
-            sslContext.init(MyKeyManager.getInstance(ctx),
+            sslContext.init(MyKeyManager.getInstance(context),
                     new TrustManager[]{ x509TrustManager }, new SecureRandom());
             final SSLSocketFactory sslSocketFactory = sslContext.getSocketFactory();
             builder.sslSocketFactory(sslSocketFactory, x509TrustManager);

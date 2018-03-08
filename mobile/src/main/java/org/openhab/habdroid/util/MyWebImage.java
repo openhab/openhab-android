@@ -10,13 +10,11 @@
 package org.openhab.habdroid.util;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
-import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.caverock.androidsvg.SVG;
@@ -97,9 +95,7 @@ public class MyWebImage implements SmartImage {
     }
 
     private Bitmap getBitmapFromUrl(Context context, final String url) {
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-        MySyncHttpClient client = new MySyncHttpClient(context, prefs.getBoolean(Constants
-                .PREFERENCE_SSLHOST, false), prefs.getBoolean(Constants.PREFERENCE_SSLCERT, false));
+        MySyncHttpClient client = new MySyncHttpClient(context);
         client.setTimeout(READ_TIMEOUT);
         client.setBaseUrl(url);
         client.setTimeout(60000);

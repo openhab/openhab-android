@@ -24,6 +24,8 @@ import okhttp3.Response;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyBoolean;
+import static org.mockito.ArgumentMatchers.anyString;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(PreferenceManager.class)
@@ -37,6 +39,7 @@ public class MySyncHttpClientTest {
     public void setupContext() {
         PowerMockito.mockStatic(PreferenceManager.class);
 
+        PowerMockito.when(mSharedPreferences.getBoolean(anyString(), anyBoolean())).thenReturn(true);
         PowerMockito.when(PreferenceManager.getDefaultSharedPreferences(any(Context.class))).thenReturn(mSharedPreferences);
     }
 
@@ -45,7 +48,7 @@ public class MySyncHttpClientTest {
      */
     @Test
     public void testMethodErrorResponse() {
-        MySyncHttpClient httpClient = new MySyncHttpClient(null,false, true);
+        MySyncHttpClient httpClient = new MySyncHttpClient(null, mSharedPreferences);
         httpClient.setBaseUrl("https://demo.test");
 
         String host = "just.a.local.url.local";

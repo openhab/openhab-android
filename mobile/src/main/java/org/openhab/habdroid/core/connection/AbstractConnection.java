@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import org.openhab.habdroid.util.Constants;
 import org.openhab.habdroid.util.MyAsyncHttpClient;
 import org.openhab.habdroid.util.MyHttpClient;
 import org.openhab.habdroid.util.MySyncHttpClient;
@@ -35,10 +34,10 @@ public abstract class AbstractConnection implements Connection {
         this.baseUrl = baseUrl;
         this.connectionType = connectionType;
 
-        asyncHttpClient = new MyAsyncHttpClient(ctx, ignoreSslHostname(), ignoreCertTrust());
+        asyncHttpClient = new MyAsyncHttpClient(ctx, settings);
         asyncHttpClient.setTimeout(30000);
 
-        syncHttpClient = new MySyncHttpClient(ctx, ignoreSslHostname(), ignoreCertTrust());
+        syncHttpClient = new MySyncHttpClient(ctx, settings);
 
         updateHttpClientAuth(asyncHttpClient);
         updateHttpClientAuth(syncHttpClient);
@@ -70,14 +69,6 @@ public abstract class AbstractConnection implements Connection {
         asyncHttpClient.setBaseUrl(getOpenHABUrl());
 
         return asyncHttpClient;
-    }
-
-    private Boolean ignoreCertTrust() {
-        return settings.getBoolean(Constants.PREFERENCE_SSLCERT, false);
-    }
-
-    private Boolean ignoreSslHostname() {
-        return settings.getBoolean(Constants.PREFERENCE_SSLHOST, false);
     }
 
     public MySyncHttpClient getSyncHttpClient() {

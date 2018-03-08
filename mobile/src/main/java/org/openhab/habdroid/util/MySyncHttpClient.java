@@ -10,6 +10,7 @@
 package org.openhab.habdroid.util;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Pair;
 
 import java.io.IOException;
@@ -79,8 +80,13 @@ public class MySyncHttpClient extends MyHttpClient {
             }
         }
     }
-    public MySyncHttpClient(Context ctx, Boolean ignoreSSLHostname, Boolean ignoreCertTrust) {
-        super(ctx, ignoreSSLHostname, ignoreCertTrust);
+
+    public MySyncHttpClient(Context context) {
+        super(context);
+    }
+
+    public MySyncHttpClient(Context context, SharedPreferences prefs) {
+        super(context, prefs);
     }
 
     public HttpResult get(String url) {
