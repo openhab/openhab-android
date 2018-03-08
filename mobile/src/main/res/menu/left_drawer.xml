@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/sitemaps"
+        android:title="@string/mainmenu_openhab_sitemaps">
+        <menu />
+    </item>
+    <item
+        android:id="@+id/notifications"
+        android:icon="@drawable/ic_notifications_black_24dp"
+        android:title="@string/app_notifications" />
+    <item
+        android:id="@+id/settings"
+        android:icon="@drawable/ic_settings_black_24dp"
+        android:title="@string/mainmenu_openhab_preferences" />
+    <item
+        android:id="@+id/about"
+        android:icon="@drawable/ic_info_outline"
+        android:title="@string/about_title" />
+</menu>

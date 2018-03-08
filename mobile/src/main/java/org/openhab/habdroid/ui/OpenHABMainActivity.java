@@ -19,8 +19,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.PorterDuff;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -32,9 +36,12 @@ import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
+import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -50,14 +57,14 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.SubMenu;
 import android.view.View;
 import android.view.ViewStub;
 import android.view.WindowManager;
-import android.widget.AdapterView;
-import android.widget.ListView;
 import android.widget.ProgressBar;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
+import com.loopj.android.image.WebImageCache;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -77,12 +84,11 @@ import org.openhab.habdroid.core.notifications.NotificationSettings;
 import org.openhab.habdroid.model.OpenHABLinkedPage;
 import org.openhab.habdroid.model.OpenHABSitemap;
 import org.openhab.habdroid.ui.activity.ContentController;
-import org.openhab.habdroid.ui.drawer.OpenHABDrawerAdapter;
-import org.openhab.habdroid.ui.drawer.OpenHABDrawerItem;
 import org.openhab.habdroid.util.AsyncServiceResolver;
 import org.openhab.habdroid.util.AsyncServiceResolverListener;
 import org.openhab.habdroid.util.Constants;
 import org.openhab.habdroid.util.MyHttpClient;
+import org.openhab.habdroid.util.MyWebImage;
 import org.openhab.habdroid.util.Util;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
@@ -218,9 +224,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
     private static final int WRITE_NFC_TAG_REQUEST_CODE = 1003;
     private static final int INFO_REQUEST_CODE = 1004;
     // Drawer item codes
-    private static final int DRAWER_NOTIFICATIONS = 100;
-    private static final int DRAWER_ABOUT = 101;
-    private static final int DRAWER_PREFERENCES = 102;
+    private static final int GROUP_ID_SITEMAPS = 1;
 
     private enum InitState {
         QUERY_SERVER_PROPS,
@@ -237,13 +241,13 @@ public class OpenHABMainActivity extends AppCompatActivity implements
     private DrawerLayout mDrawerLayout;
     // Drawer Toggler
     private ActionBarDrawerToggle mDrawerToggle;
+    private Menu mDrawerMenu;
+    private ColorStateList mDrawerIconTintList;
     // Google Cloud Messaging
     private GoogleCloudMessaging mGcm;
-    private OpenHABDrawerAdapter mDrawerAdapter;
     private RecyclerView.RecycledViewPool mViewPool;
     private ArrayList<OpenHABSitemap> mSitemapList;
     private int mOpenHABVersion;
-    private List<OpenHABDrawerItem> mDrawerItemList;
     private ProgressBar mProgressBar;
     private NotificationSettings mNotifySettings = null;
     // select sitemap dialog
@@ -316,6 +320,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         mController.inflateViews(contentStub);
 
         setupToolbar();
+        setupDrawer();
         gcmRegisterBackground();
 
         mViewPool = new RecyclerView.RecycledViewPool();
@@ -348,13 +353,10 @@ public class OpenHABMainActivity extends AppCompatActivity implements
                 // via the fragment state restoration.
                 mController.recreateFragmentState();
             }
-        }
-
-        if (mSitemapList == null) {
+            updateSitemapDrawerItems();
+        } else {
             mSitemapList = new ArrayList<>();
         }
-
-        setupDrawer();
 
         if (getIntent() != null) {
             processIntent(getIntent());
@@ -572,7 +574,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
                 mController.updateConnection(null, null);
             }
         }
-        setupDrawer();
+        updateSitemapDrawerItems();
         invalidateOptionsMenu();
         updateTitle();
     }
@@ -626,8 +628,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
     }
 
     private void setupDrawer() {
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        final ListView drawerList = (ListView) findViewById(R.id.left_drawer);
+        mDrawerLayout = findViewById(R.id.drawer_layout);
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
                 R.string.drawer_open, R.string.drawer_close);
         mDrawerLayout.addDrawerListener(mDrawerToggle);
@@ -641,35 +642,107 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         });
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
 
-        mDrawerItemList = new ArrayList<>();
-        mDrawerAdapter = new OpenHABDrawerAdapter(this, R.layout.openhabdrawer_sitemap_item,
-                mDrawerItemList, mConnection);
-        drawerList.setAdapter(mDrawerAdapter);
-        drawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        NavigationView drawerMenu = findViewById(R.id.left_drawer);
+        drawerMenu.inflateMenu(R.menu.left_drawer);
+        mDrawerMenu = drawerMenu.getMenu();
+
+        // We only want to tint the menu icons, but not our loaded sitemap icons. NavigationView
+        // unfortunately doesn't support this directly, so we tint the icon drawables manually
+        // instead of letting NavigationView do it.
+        mDrawerIconTintList = drawerMenu.getItemIconTintList();
+        drawerMenu.setItemIconTintList(null);
+        for (int i = 0; i < mDrawerMenu.size(); i++) {
+            MenuItem item = mDrawerMenu.getItem(i);
+            item.setIcon(applyDrawerIconTint(item.getIcon()));
+        }
+
+        drawerMenu.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int item, long l) {
-                Log.d(TAG, "Drawer selected item " + String.valueOf(item));
-                if (mDrawerItemList != null && mDrawerItemList.get(item).getItemType() == OpenHABDrawerItem.DrawerItemType.SITEMAP_ITEM) {
-                    Log.d(TAG, "This is sitemap " + mDrawerItemList.get(item).getSiteMap().getLink());
-                    openSitemap(mDrawerItemList.get(item).getSiteMap());
-                } else {
-                    Log.d(TAG, "This is not sitemap");
-                    if (mDrawerItemList.get(item).getTag() == DRAWER_NOTIFICATIONS) {
-                        Log.d(TAG, "Notifications selected");
-                        mDrawerLayout.closeDrawers();
-                        OpenHABMainActivity.this.openNotifications();
-                    } else if (mDrawerItemList.get(item).getTag() == DRAWER_PREFERENCES) {
-                        Intent settingsIntent = new Intent(OpenHABMainActivity.this, OpenHABPreferencesActivity.class);
-                        startActivityForResult(settingsIntent, SETTINGS_REQUEST_CODE);
-                        Util.overridePendingTransition(OpenHABMainActivity.this, false);
-                    } else if (mDrawerItemList.get(item).getTag() == DRAWER_ABOUT) {
-                        OpenHABMainActivity.this.openAbout();
-                    }
-                }
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 mDrawerLayout.closeDrawers();
+                switch (item.getItemId()) {
+                    case R.id.notifications:
+                        openNotifications();
+                        return true;
+                    case R.id.settings:
+                        Intent settingsIntent = new Intent(OpenHABMainActivity.this,
+                                OpenHABPreferencesActivity.class);
+                        startActivityForResult(settingsIntent, SETTINGS_REQUEST_CODE);
+                        return true;
+                    case R.id.about:
+                        openAbout();
+                        return true;
+                }
+                if (item.getGroupId() == GROUP_ID_SITEMAPS) {
+                    OpenHABSitemap sitemap = mSitemapList.get(item.getItemId());
+                    openSitemap(sitemap);
+                    return true;
+                }
+                return false;
             }
         });
-        loadDrawerItems();
+    }
+
+    private void updateSitemapDrawerItems() {
+        MenuItem sitemapItem = mDrawerMenu.findItem(R.id.sitemaps);
+        MenuItem notificationsItem = mDrawerMenu.findItem(R.id.notifications);
+
+        notificationsItem.setVisible(getNotificationSettings() != null);
+
+        if (mSitemapList.isEmpty()) {
+            sitemapItem.setVisible(false);
+        } else {
+            sitemapItem.setVisible(true);
+            SubMenu menu = sitemapItem.getSubMenu();
+            menu.clear();
+
+            for (int i = 0; i < mSitemapList.size(); i++) {
+                OpenHABSitemap sitemap = mSitemapList.get(i);
+                String label = sitemap.getLabel() != null ? sitemap.getLabel() : sitemap.getName();
+                MenuItem item = menu.add(GROUP_ID_SITEMAPS, i, i, label);
+                loadSitemapIcon(sitemap, item);
+            }
+        }
+    }
+
+    private void loadSitemapIcon(final OpenHABSitemap sitemap, final MenuItem item) {
+        final WebImageCache imageCache = MyWebImage.getWebImageCache(this);
+        final String url = sitemap.getIcon() != null ? Uri.encode(sitemap.getIconPath(), "/?=") : null;
+        Bitmap cached = url != null ? imageCache.get(url) : null;
+
+        if (cached != null) {
+            item.setIcon(new BitmapDrawable(cached));
+            return;
+        }
+
+        Drawable defaultIcon = ContextCompat.getDrawable(this, R.drawable.ic_openhab_appicon_24dp);
+        item.setIcon(applyDrawerIconTint(defaultIcon));
+
+        if (url != null) {
+            mConnection.getAsyncHttpClient().get(url, new MyHttpClient.ResponseHandler() {
+                @Override
+                public void onFailure(Call call, int statusCode, Headers headers, byte[] responseBody, Throwable error) {
+                    Log.w(TAG, "Could not fetch icon for sitemap " + sitemap.getName());
+                }
+                @Override
+                public void onSuccess(Call call, int statusCode, Headers headers, byte[] responseBody) {
+                    Bitmap bitmap = BitmapFactory.decodeByteArray(responseBody, 0, responseBody.length);
+                    if (bitmap != null) {
+                        imageCache.put(url, bitmap);
+                        item.setIcon(new BitmapDrawable(bitmap));
+                    }
+                }
+            });
+        }
+    }
+
+    private Drawable applyDrawerIconTint(Drawable icon) {
+        if (icon == null) {
+            return null;
+        }
+        Drawable wrapped = DrawableCompat.wrap(icon);
+        DrawableCompat.setTintList(wrapped, mDrawerIconTintList);
+        return wrapped;
     }
 
     private void openAbout() {
@@ -709,7 +782,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
                 if (result != null) {
                     mSitemapList.addAll(result);
                 }
-                loadDrawerItems();
+                updateSitemapDrawerItems();
 
                 if (!selectSitemapAfterLoad) {
                     return;
@@ -1195,57 +1268,5 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         boolean supportsKitKat = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
         boolean fullScreen = mSettings.getBoolean("default_openhab_fullscreen", false);
         return supportsKitKat && fullScreen;
-    }
-
-
-    private void loadDrawerItems() {
-        mDrawerItemList.clear();
-        if (!mSitemapList.isEmpty()) {
-            mDrawerItemList.add(OpenHABDrawerItem.headerItem(getString(R.string.mainmenu_openhab_sitemaps)));
-            for (OpenHABSitemap sitemap : mSitemapList) {
-                mDrawerItemList.add(new OpenHABDrawerItem(sitemap));
-            }
-            mDrawerItemList.add(OpenHABDrawerItem.dividerItem());
-        }
-        int iconColor = ContextCompat.getColor(this, R.color.colorAccent_themeDark);
-        Drawable notificationDrawable = getResources().getDrawable(R.drawable
-                .ic_notifications_black_24dp);
-        notificationDrawable.setColorFilter(
-                iconColor,
-                PorterDuff.Mode.SRC_IN
-        );
-        if (mConnection != null && getNotificationSettings() != null) {
-            mDrawerItemList.add(OpenHABDrawerItem.menuItem(
-                    getString(R.string.app_notifications),
-                    notificationDrawable,
-                    DRAWER_NOTIFICATIONS
-            ));
-        }
-
-        Drawable settingsDrawable = getResources().getDrawable(R.drawable
-                .ic_settings_black_24dp);
-        settingsDrawable.setColorFilter(
-                iconColor,
-                PorterDuff.Mode.SRC_IN
-        );
-        mDrawerItemList.add(OpenHABDrawerItem.menuItem(
-                getString(R.string.mainmenu_openhab_preferences),
-                settingsDrawable,
-                DRAWER_PREFERENCES
-        ));
-
-        Drawable aboutDrawable = getResources().getDrawable(R.drawable.ic_info_outline);
-        aboutDrawable.setColorFilter(
-                iconColor,
-                PorterDuff.Mode.SRC_IN);
-        mDrawerItemList.add(OpenHABDrawerItem.menuItem(
-                getString(R.string.about_title),
-                aboutDrawable,
-                DRAWER_ABOUT
-        ));
-
-        if (mDrawerAdapter != null) {
-            mDrawerAdapter.notifyDataSetChanged();
-        }
     }
 }
