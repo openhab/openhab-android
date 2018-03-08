@@ -157,7 +157,6 @@
   <string name="try_again_button">Spróbuj ponownie</string>
   <string name="network_error">Błąd sieci</string>
   <string name="go_to_settings_button">Przejdź do ustawień</string>
-  <string name="error_no_url_start_demo_mode">Skonfiguruj nazwę hosta lub adres IP serwera w ustawieniach serwera. Do tego czasu używany będzie tryb demo.</string>
   <string name="intro_discovery">Wykrywanie</string>
   <string name="intro_discovery_summary">Należy pamiętać, że to będzie działać tylko, jeśli uwierzytelnianie nie jest wymuszana przez serwer</string>
   <!-- Content description for images -->
