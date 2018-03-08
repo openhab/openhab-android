@@ -18,14 +18,17 @@ import android.util.Log;
 import android.util.Pair;
 import android.widget.Toast;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.core.connection.Connection;
 import org.openhab.habdroid.core.connection.ConnectionFactory;
 import org.openhab.habdroid.core.connection.exception.ConnectionException;
-import org.openhab.habdroid.util.MyHttpClient;
+import org.openhab.habdroid.util.MyAsyncHttpClient;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import okhttp3.Call;
 import okhttp3.Headers;
@@ -50,7 +53,7 @@ public class OpenHABVoiceService extends Service implements ConnectionFactory.Up
             try {
                 Connection conn = ConnectionFactory.getUsableConnection();
                 if (conn != null) {
-                    sendItemCommand("VoiceCommand", voiceCommand, conn, startId);
+                    sendVoiceCommand(conn, voiceCommand, startId);
                 } else {
                     mPendingCommands.add(Pair.create(voiceCommand, startId));
                     ConnectionFactory.addListener(this);
@@ -86,7 +89,7 @@ public class OpenHABVoiceService extends Service implements ConnectionFactory.Up
         try {
             Connection conn = ConnectionFactory.getUsableConnection();
             for (Pair<String, Integer> entry : mPendingCommands) {
-                sendItemCommand("VoiceCommand", entry.first, conn, entry.second);
+                sendVoiceCommand(conn, entry.first, entry.second);
             }
         } catch (ConnectionException e) {
             Log.w(TAG, "Couldn't determine OpenHAB URL", e);
@@ -112,22 +115,53 @@ public class OpenHABVoiceService extends Service implements ConnectionFactory.Up
     }
 
 
-    private void sendItemCommand(final String itemName, final String command,
-                                 final Connection conn, final int startId) {
-        Log.d(TAG, "sendItemCommand(): itemName=" + itemName + ", command=" + command);
-        conn.getAsyncHttpClient().post("/rest/items/" + itemName,
-                command, "text/plain;charset=UTF-8", new MyHttpClient.ResponseHandler() {
-                    @Override
-                    public void onSuccess(Call call, int statusCode, Headers headers, byte[] responseBody) {
-                        Log.d(TAG, "Command was sent successfully");
-                        stopSelf(startId);
-                    }
+    private void sendVoiceCommand(final Connection conn, final String command, final int startId) {
+        final String commandJson;
+        try {
+            JSONObject commandJsonObject = new JSONObject();
+            commandJsonObject.put("body", command);
+            commandJsonObject.put("Accept-Language", Locale.getDefault().getLanguage());
+            commandJson = commandJsonObject.toString();
+        } catch (JSONException e) {
+            Log.e(TAG, "Could not prepare voice command JSON", e);
+            return;
+        }
 
-                    @Override
-                    public void onFailure(Call call, int statusCode, Headers headers, byte[] responseBody, Throwable error) {
-                        Log.e(TAG, "Got command error " + statusCode, error);
-                        stopSelf(startId);
-                    }
-                });
+        conn.getAsyncHttpClient().post("/voice/interpreters", commandJson,
+                "application/json", new MyAsyncHttpClient.ResponseHandler() {
+            @Override
+            public void onFailure(Call call, int statusCode, Headers headers, byte[] body, Throwable error) {
+                if (statusCode == 404) {
+                    Log.d(TAG, "Voice interpreter endpoint returned 404, falling back to item");
+                    sendRawVoiceCommand(conn, command, startId);
+                } else {
+                    Log.e(TAG, "Sending voice command to new endpoint failed: " + statusCode, error);
+                    stopSelf(startId);
+                }
+            }
+
+            @Override
+            public void onSuccess(Call call, int statusCode, Headers headers, byte[] body) {
+                Log.d(TAG, "Command was sent successfully");
+                stopSelf(startId);
+            }
+        });
+    }
+
+    private void sendRawVoiceCommand(final Connection conn, final String command, final int startId) {
+        conn.getAsyncHttpClient().post("/rest/items/VoiceCommand", command,
+                "text/plain;charset=UTF-8", new MyAsyncHttpClient.ResponseHandler() {
+            @Override
+            public void onSuccess(Call call, int statusCode, Headers headers, byte[] body) {
+                Log.d(TAG, "Command was sent successfully");
+                stopSelf(startId);
+            }
+
+            @Override
+            public void onFailure(Call call, int statusCode, Headers headers, byte[] body, Throwable error) {
+                Log.e(TAG, "Sending voice command to item failed: " + statusCode, error);
+                stopSelf(startId);
+            }
+        });
     }
 }
