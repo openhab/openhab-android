@@ -123,12 +123,12 @@ public class AboutActivity extends AppCompatActivity implements
             MaterialAboutCard.Builder appCard = new MaterialAboutCard.Builder();
             appCard.addItem(new MaterialAboutTitleItem.Builder()
                     .text(R.string.app_name)
-                    .desc(String.format(getString(R.string.about_copyright),year))
+                    .desc(context.getString(R.string.about_copyright, year))
                     .icon(R.mipmap.icon)
                     .build());
             appCard.addItem(new MaterialAboutActionItem.Builder()
                     .text(R.string.version)
-                    .subText(getString(R.string.about_version_string,
+                    .subText(context.getString(R.string.about_version_string,
                             BuildConfig.VERSION_NAME,
                             DateFormat.getDateTimeInstance().format(BuildConfig.buildTime)))
                     .icon(R.drawable.ic_update_grey_24dp)
@@ -186,8 +186,8 @@ public class AboutActivity extends AppCompatActivity implements
                         .build());
             } else {
                 String apiVersion = getApiVersion(conn);
-                if(TextUtils.isEmpty(apiVersion)) {
-                    apiVersion = getString(R.string.unknown);
+                if (TextUtils.isEmpty(apiVersion)) {
+                    apiVersion = context.getString(R.string.unknown);
                 }
                 ohServerCard.addItem(new MaterialAboutActionItem.Builder()
                         .text(R.string.info_openhab_apiversion_label)
@@ -196,8 +196,8 @@ public class AboutActivity extends AppCompatActivity implements
                         .build());
 
                 String uuid = getServerUuid(conn);
-                if(TextUtils.isEmpty(uuid)) {
-                    uuid = getString(R.string.unknown);
+                if (TextUtils.isEmpty(uuid)) {
+                    uuid = context.getString(R.string.unknown);
                 }
                 ohServerCard.addItem(new MaterialAboutActionItem.Builder()
                         .text(R.string.info_openhab_uuid_label)
@@ -218,7 +218,7 @@ public class AboutActivity extends AppCompatActivity implements
             }
             ohServerCard.addItem(new MaterialAboutActionItem.Builder()
                     .text(R.string.info_openhab_gcm_label)
-                    .subText(getGcmText())
+                    .subText(getGcmText(context))
                     .icon(R.drawable.ic_info_outline)
                     .build());
 
@@ -268,11 +268,12 @@ public class AboutActivity extends AppCompatActivity implements
             };
         }
 
-        private String getGcmText() {
+        private String getGcmText(Context context) {
             if (OpenHABMainActivity.GCM_SENDER_ID == null) {
-                return getString(R.string.info_openhab_gcm_not_connected);
+                return context.getString(R.string.info_openhab_gcm_not_connected);
             } else {
-                return getString(R.string.info_openhab_gcm_connected, OpenHABMainActivity.GCM_SENDER_ID);
+                return context.getString(R.string.info_openhab_gcm_connected,
+                        OpenHABMainActivity.GCM_SENDER_ID);
             }
         }
 
