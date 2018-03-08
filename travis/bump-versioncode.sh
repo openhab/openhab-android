@@ -13,9 +13,9 @@ let currentVersionCode++
 
 if [ -z "$currentVersionCode" ] || [ -z "$TRAVIS_TAG" ]
 then
-    echo "Code or tag are empty! Exiting..."
-    exit 2
+    echo "Code or tag are empty! Don't bump anything"
+else
+    echo "New version code is $currentVersionCode and name $TRAVIS_TAG"
+    sed --in-place -r "s/android:versionCode=\"(.*)\"/android:versionCode=\"${currentVersionCode}\"/" $manifest
+    sed --in-place -r "s/android:versionName=\"(.*)\"/android:versionName=\"${TRAVIS_TAG}\"/" $manifest
 fi
-sed --in-place -r "s/android:versionCode=\"(.*)\"/android:versionCode=\"${currentVersionCode}\"/" $manifest
-sed --in-place -r "s/android:versionName=\"(.*)\"/android:versionName=\"${TRAVIS_TAG}\"/" $manifest
-echo "New version code is $currentVersionCode and name $TRAVIS_TAG"
