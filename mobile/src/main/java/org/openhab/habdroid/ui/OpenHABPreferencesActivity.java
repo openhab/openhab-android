@@ -9,6 +9,7 @@
 
 package org.openhab.habdroid.ui;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -45,6 +46,10 @@ import java.security.cert.X509Certificate;
  */
 public class OpenHABPreferencesActivity extends AppCompatActivity {
     private final static String TAG = OpenHABPreferencesActivity.class.getSimpleName();
+    public static final String RESULT_EXTRA_THEME_CHANGED = "theme_changed";
+    private static final String STATE_KEY_RESULT = "result";
+
+    private Intent mResultIntent;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -58,13 +63,21 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         if (savedInstanceState == null) {
+            mResultIntent = new Intent();
             getFragmentManager()
                     .beginTransaction()
                     .add(R.id.prefs_container, new MainSettingsFragment())
                     .commit();
+        } else {
+            mResultIntent = savedInstanceState.getParcelable(STATE_KEY_RESULT);
         }
+        setResult(RESULT_OK, mResultIntent);
+    }
 
-        setResult(RESULT_OK);
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable(STATE_KEY_RESULT, mResultIntent);
     }
 
     @Override
@@ -86,6 +99,11 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
     public void finish() {
         super.finish();
         Util.overridePendingTransition(this, true);
+    }
+
+    public void handleThemeChange() {
+        mResultIntent.putExtra(RESULT_EXTRA_THEME_CHANGED, true);
+        recreate();
     }
 
     public void openSubScreen(AbstractSettingsFragment subScreenFragment) {
@@ -214,8 +232,7 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
             themePreference.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object newValue) {
-                    Util.setActivityTheme(getActivity(), (String) newValue);
-                    getActivity().recreate();
+                    getParentActivity().handleThemeChange();
                     return true;
                 }
             });

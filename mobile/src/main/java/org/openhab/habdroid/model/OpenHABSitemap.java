@@ -89,4 +89,17 @@ public abstract class OpenHABSitemap implements Parcelable {
 
     public abstract String getIconPath();
 
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof OpenHABSitemap) {
+            return link.equals(((OpenHABSitemap) obj).link);
+        }
+        return false;
+    }
+
+    @Override
+    public String toString() {
+        return "Sitemap[name=" + name + ", label=" + label
+                + ", link=" + link + ", homepageLink=" + homepageLink + "]";
+    }
 }

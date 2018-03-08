@@ -297,16 +297,18 @@ final public class ConnectionFactory extends BroadcastReceiver implements
     @VisibleForTesting
     public synchronized void updateConnections() {
         if (settings.getBoolean(Constants.PREFERENCE_DEMOMODE, false)) {
-            mAvailableConnection = new DemoConnection(ctx, settings);
-            mLocalConnection = mRemoteConnection = mAvailableConnection;
+            mLocalConnection = mRemoteConnection = new DemoConnection(ctx, settings);
+            updateAvailableConnection(mLocalConnection, null);
+        } else {
+            mLocalConnection = makeConnection(Connection.TYPE_LOCAL, Constants.PREFERENCE_LOCAL_URL,
+                    Constants.PREFERENCE_LOCAL_USERNAME, Constants.PREFERENCE_LOCAL_PASSWORD);
+            mRemoteConnection = makeConnection(Connection.TYPE_REMOTE, Constants.PREFERENCE_REMOTE_URL,
+                    Constants.PREFERENCE_REMOTE_USERNAME, Constants.PREFERENCE_REMOTE_PASSWORD);
+
+            mAvailableConnection = null;
             mConnectionFailureReason = null;
-            return;
+            mUpdateHandler.sendEmptyMessage(MSG_TRIGGER_UPDATE);
         }
-        mLocalConnection = makeConnection(Connection.TYPE_LOCAL, Constants.PREFERENCE_LOCAL_URL,
-                Constants.PREFERENCE_LOCAL_USERNAME, Constants.PREFERENCE_LOCAL_PASSWORD);
-        mRemoteConnection = makeConnection(Connection.TYPE_REMOTE, Constants.PREFERENCE_REMOTE_URL,
-                Constants.PREFERENCE_REMOTE_USERNAME, Constants.PREFERENCE_REMOTE_PASSWORD);
-        mUpdateHandler.sendEmptyMessage(MSG_TRIGGER_UPDATE);
     }
 
     private Connection makeConnection(int type, String urlKey,
