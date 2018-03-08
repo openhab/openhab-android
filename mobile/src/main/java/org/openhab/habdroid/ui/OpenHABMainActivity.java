@@ -400,7 +400,15 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         queryServerProperties();
     }
 
-    public void queryServerProperties() {
+    public void retryServerPropertyQuery() {
+        mController.clearServerCommunicationFailure();
+        if (mPendingCall != null) {
+            mPendingCall.cancel();
+        }
+        queryServerProperties();
+    }
+
+    private void queryServerProperties() {
         final String url = "/rest/bindings";
         mInitState = InitState.QUERY_SERVER_PROPS;
         mPendingCall = mConnection.getAsyncHttpClient().get(url, new DefaultHttpResponseHandler() {
