@@ -19,6 +19,8 @@ openssl aes-256-cbc -K $encrypted_c0c05d762590_key -iv $encrypted_c0c05d762590_i
 echo "Copy ssh config"
 cp travis/ssh-config ~/.ssh/config
 echo "Git add remote"
-git remote add github git@github.com:openhab/openhab-android > /dev/null 2>&1
+git remote add github git@github.com:openhab/openhab-android
+echo "Git fetch"
+git fetch github
 echo "Git push"
 git push --quiet --set-upstream github :refs/heads/master > /dev/null 2>&1
