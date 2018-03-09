@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -e
+
 if $(echo "$TRAVIS_TAG" | grep -q "fdroid")
 then
     echo "Tag for F-Droid detected. Nothing to do"
