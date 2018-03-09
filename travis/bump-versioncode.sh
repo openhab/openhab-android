@@ -24,6 +24,8 @@ then
     echo "Code ($currentVersionCode) or tag ($TRAVIS_TAG) are empty! Don't bump anything."
 else
     echo "New version code is $currentVersionCode and name $TRAVIS_TAG"
+    echo "Replace versionCode"
     sed --in-place -r "s/android:versionCode=\"(.*)\"/android:versionCode=\"${currentVersionCode}\"/" $manifest
+    echo "Replace versionName"
     sed --in-place -r "s/android:versionName=\"(.*)\"/android:versionName=\"${TRAVIS_TAG}\"/" $manifest
 fi
