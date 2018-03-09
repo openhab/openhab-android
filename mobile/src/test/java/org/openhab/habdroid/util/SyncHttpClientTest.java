@@ -15,11 +15,6 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import java.net.UnknownHostException;
-import java.util.HashMap;
-
-import okhttp3.Call;
-import okhttp3.Headers;
-import okhttp3.Response;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -30,7 +25,7 @@ import static org.mockito.ArgumentMatchers.anyString;
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(PreferenceManager.class)
 @PowerMockIgnore("javax.net.ssl.*")
-public class MySyncHttpClientTest {
+public class SyncHttpClientTest {
 
     @Mock
     SharedPreferences mSharedPreferences;
@@ -48,11 +43,11 @@ public class MySyncHttpClientTest {
      */
     @Test
     public void testMethodErrorResponse() {
-        MySyncHttpClient httpClient = new MySyncHttpClient(null, mSharedPreferences);
+        SyncHttpClient httpClient = new SyncHttpClient(null, mSharedPreferences);
         httpClient.setBaseUrl("https://demo.test");
 
         String host = "just.a.local.url.local";
-        MySyncHttpClient.HttpResult resp = httpClient.get("https://" + host);
+        SyncHttpClient.HttpResult resp = httpClient.get("https://" + host);
 
         assertEquals(500, resp.statusCode);
         assertTrue(resp.error instanceof UnknownHostException);

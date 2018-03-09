@@ -81,7 +81,7 @@ import org.openhab.habdroid.model.OpenHABSitemap;
 import org.openhab.habdroid.ui.activity.ContentController;
 import org.openhab.habdroid.util.AsyncServiceResolver;
 import org.openhab.habdroid.util.Constants;
-import org.openhab.habdroid.util.MyAsyncHttpClient;
+import org.openhab.habdroid.util.AsyncHttpClient;
 import org.openhab.habdroid.util.MyWebImage;
 import org.openhab.habdroid.util.Util;
 import org.w3c.dom.Document;
@@ -318,7 +318,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
     private void queryServerProperties() {
         final String url = "/rest/bindings";
         mInitState = InitState.QUERY_SERVER_PROPS;
-        mPendingCall = mConnection.getAsyncHttpClient().get(url, new MyAsyncHttpClient.StringResponseHandler() {
+        mPendingCall = mConnection.getAsyncHttpClient().get(url, new AsyncHttpClient.StringResponseHandler() {
             @Override
             public void onFailure(Request request, int statusCode, Throwable error) {
                 if (statusCode == 404 && mConnection != null) {
@@ -652,7 +652,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         item.setIcon(applyDrawerIconTint(defaultIcon));
 
         if (url != null) {
-            mConnection.getAsyncHttpClient().get(url, new MyAsyncHttpClient.ResponseHandler<Bitmap>() {
+            mConnection.getAsyncHttpClient().get(url, new AsyncHttpClient.ResponseHandler<Bitmap>() {
                 @Override
                 public Bitmap convertBodyInBackground(ResponseBody body) throws IOException {
                     return BitmapFactory.decodeStream(body.byteStream());
@@ -702,7 +702,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         Log.d(TAG, "Loading sitemap list from /rest/sitemaps");
 
         mInitState = InitState.LOAD_SITEMAPS;
-        mPendingCall = mConnection.getAsyncHttpClient().get("/rest/sitemaps", new MyAsyncHttpClient.StringResponseHandler() {
+        mPendingCall = mConnection.getAsyncHttpClient().get("/rest/sitemaps", new AsyncHttpClient.StringResponseHandler() {
             @Override
             public void onFailure(Request request, int statusCode, Throwable error) {
                 handleHttpFailure(request, statusCode, error);

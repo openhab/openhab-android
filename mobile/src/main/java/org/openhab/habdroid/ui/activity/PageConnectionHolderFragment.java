@@ -11,7 +11,7 @@ import org.json.JSONObject;
 import org.openhab.habdroid.core.connection.Connection;
 import org.openhab.habdroid.model.OpenHABWidget;
 import org.openhab.habdroid.model.OpenHABWidgetDataSource;
-import org.openhab.habdroid.util.MyAsyncHttpClient;
+import org.openhab.habdroid.util.AsyncHttpClient;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
@@ -183,9 +183,9 @@ public class PageConnectionHolderFragment extends Fragment {
                 super.toString(), mConnections.size(), mStarted);
     }
 
-    private static class ConnectionHandler extends MyAsyncHttpClient.StringResponseHandler {
+    private static class ConnectionHandler extends AsyncHttpClient.StringResponseHandler {
         private final String mUrl;
-        private MyAsyncHttpClient mHttpClient;
+        private AsyncHttpClient mHttpClient;
         private ParentCallback mCallback;
         private Call mRequestHandle;
         private boolean mLongPolling;
@@ -200,7 +200,7 @@ public class PageConnectionHolderFragment extends Fragment {
         }
 
         public boolean updateFromConnection(Connection c) {
-            MyAsyncHttpClient oldClient = mHttpClient;
+            AsyncHttpClient oldClient = mHttpClient;
             mHttpClient = c.getAsyncHttpClient();
             return oldClient != mHttpClient;
         }

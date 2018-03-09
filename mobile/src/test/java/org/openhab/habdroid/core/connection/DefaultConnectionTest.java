@@ -6,9 +6,9 @@ import android.content.SharedPreferences;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
-import org.openhab.habdroid.util.MyAsyncHttpClient;
-import org.openhab.habdroid.util.MyHttpClient;
-import org.openhab.habdroid.util.MySyncHttpClient;
+import org.openhab.habdroid.util.AsyncHttpClient;
+import org.openhab.habdroid.util.HttpClient;
+import org.openhab.habdroid.util.SyncHttpClient;
 
 import okhttp3.Credentials;
 
@@ -97,8 +97,8 @@ public class DefaultConnectionTest {
     @Test
     public void testGetSyncHttpClientCached() {
         Mockito.when(mockSettings.getBoolean(anyString(), anyBoolean())).thenReturn(true);
-        MySyncHttpClient client1 = testConnection.getSyncHttpClient();
-        MySyncHttpClient client2 = testConnection.getSyncHttpClient();
+        SyncHttpClient client1 = testConnection.getSyncHttpClient();
+        SyncHttpClient client2 = testConnection.getSyncHttpClient();
 
         assertNotNull(client1);
         assertEquals(client1, client2);
@@ -107,8 +107,8 @@ public class DefaultConnectionTest {
     @Test
     public void testGetAsyncHttpClientCached() {
         Mockito.when(mockSettings.getBoolean(anyString(), anyBoolean())).thenReturn(true);
-        MyAsyncHttpClient client1 = testConnection.getAsyncHttpClient();
-        MyAsyncHttpClient client2 = testConnection.getAsyncHttpClient();
+        AsyncHttpClient client1 = testConnection.getAsyncHttpClient();
+        AsyncHttpClient client2 = testConnection.getAsyncHttpClient();
 
         assertNotNull(client1);
         assertEquals(client1, client2);
@@ -116,14 +116,14 @@ public class DefaultConnectionTest {
 
     @Test
     public void testAsyncHasNoUsernamePassword() {
-        MyHttpClient httpClient = testConnection.getAsyncHttpClient();
+        HttpClient httpClient = testConnection.getAsyncHttpClient();
 
         assertFalse(httpClient.getHeaders().containsKey("Authorization"));
     }
 
     @Test
     public void testSyncHasNoUsernamePassword() {
-        MyHttpClient httpClient = testConnection.getSyncHttpClient();
+        HttpClient httpClient = testConnection.getSyncHttpClient();
 
         assertFalse(httpClient.getHeaders().containsKey("Authorization"));
     }
@@ -132,7 +132,7 @@ public class DefaultConnectionTest {
     public void testAsyncHasUsernamePassword() {
         Connection connection = new DefaultConnection(mockContext, mockSettings, Connection.TYPE_LOCAL,
                 TEST_BASE_URL, "Test-User", "Test-Password");
-        MyHttpClient httpClient = connection.getAsyncHttpClient();
+        HttpClient httpClient = connection.getAsyncHttpClient();
 
         assertTrue(httpClient.getHeaders().containsKey("Authorization"));
         assertEquals(Credentials.basic("Test-User", "Test-Password"),
@@ -143,7 +143,7 @@ public class DefaultConnectionTest {
     public void testSyncHasUsernamePassword() {
         Connection connection = new DefaultConnection(mockContext, mockSettings, Connection.TYPE_LOCAL,
                 TEST_BASE_URL, "Test-User", "Test-Password");
-        MyHttpClient httpClient = connection.getSyncHttpClient();
+        HttpClient httpClient = connection.getSyncHttpClient();
 
         assertTrue(httpClient.getHeaders().containsKey("Authorization"));
         assertEquals(Credentials.basic("Test-User", "Test-Password"),
@@ -152,14 +152,14 @@ public class DefaultConnectionTest {
 
     @Test
     public void testSyncResolveRelativeUrl() {
-        MySyncHttpClient.HttpResult result = testConnection.getSyncHttpClient().get("/rest/test");
+        SyncHttpClient.HttpResult result = testConnection.getSyncHttpClient().get("/rest/test");
         assertTrue("The request should never succeed in tests", result.error != null);
         assertEquals(TEST_BASE_URL + "/rest/test", result.request.url().toString());
     }
 
     @Test
     public void testSyncResolveAbsoluteUrl() {
-        MySyncHttpClient.HttpResult result =
+        SyncHttpClient.HttpResult result =
                 testConnection.getSyncHttpClient().get("http://mylocalmachine.local/rest/test");
         assertTrue("The request should never succeed in tests", result.error != null);
         assertEquals("http://mylocalmachine.local/rest/test", result.request.url().toString());

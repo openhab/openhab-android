@@ -189,18 +189,18 @@ public class Util {
         return false;
     }
 
-    public static void sendItemCommand(MyAsyncHttpClient client, OpenHABItem item, String command) {
+    public static void sendItemCommand(AsyncHttpClient client, OpenHABItem item, String command) {
         if (item == null) {
             return;
         }
         sendItemCommand(client, item.link(), command);
     }
 
-    public static void sendItemCommand(MyAsyncHttpClient client, String itemUrl, String command) {
+    public static void sendItemCommand(AsyncHttpClient client, String itemUrl, String command) {
         if (itemUrl == null || command == null) {
             return;
         }
-        client.post(itemUrl, command, "text/plain;charset=UTF-8", new MyAsyncHttpClient.StringResponseHandler() {
+        client.post(itemUrl, command, "text/plain;charset=UTF-8", new AsyncHttpClient.StringResponseHandler() {
             @Override
             public void onFailure(Request request, int statusCode, Throwable error) {
                 Log.e(TAG, "Got command error " + error.getMessage());

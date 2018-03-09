@@ -33,7 +33,7 @@ import org.openhab.habdroid.core.CloudMessagingHelper;
 import org.openhab.habdroid.core.connection.Connection;
 import org.openhab.habdroid.core.connection.ConnectionFactory;
 import org.openhab.habdroid.core.connection.exception.ConnectionException;
-import org.openhab.habdroid.util.MySyncHttpClient;
+import org.openhab.habdroid.util.SyncHttpClient;
 import org.openhab.habdroid.util.Util;
 
 import java.text.DateFormat;
@@ -273,7 +273,7 @@ public class AboutActivity extends AppCompatActivity implements
         }
 
         private String getServerSecret() {
-            MySyncHttpClient.HttpTextResult result =
+            SyncHttpClient.HttpTextResult result =
                     mConnection.getSyncHttpClient().get("/static/secret").asText();
             if (result.error != null) {
                 Log.e(TAG, "Could not fetch server secret " + result.error.getMessage());
@@ -286,7 +286,7 @@ public class AboutActivity extends AppCompatActivity implements
 
         private String getServerUuid() {
             final String uuidUrl = mOpenHABVersion == 1 ? "/static/uuid" : "/rest/uuid";
-            MySyncHttpClient.HttpTextResult result =
+            SyncHttpClient.HttpTextResult result =
                     mConnection.getSyncHttpClient().get(uuidUrl).asText();
             if (result.error != null) {
                 Log.e(TAG, "Could not fetch server uuid " + result.error.getMessage());
@@ -300,7 +300,7 @@ public class AboutActivity extends AppCompatActivity implements
         private String getApiVersion() {
             String versionUrl = mOpenHABVersion == 1 ? "/static/version" : "/rest";
             Log.d(TAG, "url = " + versionUrl);
-            MySyncHttpClient.HttpTextResult result =
+            SyncHttpClient.HttpTextResult result =
                     mConnection.getSyncHttpClient().get(versionUrl).asText();
             if (result.error != null) {
                 Log.e(TAG, "Could not fetch rest API version " + result.error.getMessage());

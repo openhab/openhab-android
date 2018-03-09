@@ -11,7 +11,6 @@ package org.openhab.habdroid.util;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Pair;
 
 import java.io.IOException;
 import java.util.Map;
@@ -21,7 +20,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
 
-public class MySyncHttpClient extends MyHttpClient {
+public class SyncHttpClient extends HttpClient {
     public static class HttpResult {
         public final Request request;
         public final ResponseBody response;
@@ -81,11 +80,11 @@ public class MySyncHttpClient extends MyHttpClient {
         }
     }
 
-    public MySyncHttpClient(Context context) {
+    public SyncHttpClient(Context context) {
         super(context);
     }
 
-    public MySyncHttpClient(Context context, SharedPreferences prefs) {
+    public SyncHttpClient(Context context, SharedPreferences prefs) {
         super(context, prefs);
     }
 

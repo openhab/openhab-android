@@ -40,18 +40,18 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 
-public abstract class MyHttpClient {
-    private static final String TAG = MyHttpClient.class.getSimpleName();
+public abstract class HttpClient {
+    private static final String TAG = HttpClient.class.getSimpleName();
 
     private HttpUrl baseUrl;
     private Map<String, String> headers = new HashMap<>();
     private OkHttpClient client;
 
-    protected MyHttpClient(Context context) {
+    protected HttpClient(Context context) {
         this(context, PreferenceManager.getDefaultSharedPreferences(context));
     }
 
-    protected MyHttpClient(Context context, SharedPreferences prefs) {
+    protected HttpClient(Context context, SharedPreferences prefs) {
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
 
         if (prefs.getBoolean(Constants.PREFERENCE_SSLHOST, false)) {

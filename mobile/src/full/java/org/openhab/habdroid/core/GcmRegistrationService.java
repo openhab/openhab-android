@@ -23,7 +23,7 @@ import com.google.android.gms.iid.InstanceID;
 import org.openhab.habdroid.core.connection.CloudConnection;
 import org.openhab.habdroid.core.connection.Connection;
 import org.openhab.habdroid.core.connection.ConnectionFactory;
-import org.openhab.habdroid.util.MySyncHttpClient;
+import org.openhab.habdroid.util.SyncHttpClient;
 
 import java.io.IOException;
 import java.net.URLEncoder;
@@ -88,7 +88,7 @@ public class GcmRegistrationService extends IntentService {
                 deviceId, deviceModel, token);
 
         Log.d(TAG, "Register device at openHAB-cloud with URL: " + regUrl);
-        MySyncHttpClient.HttpResult result = connection.getSyncHttpClient().get(regUrl);
+        SyncHttpClient.HttpResult result = connection.getSyncHttpClient().get(regUrl);
         if (result.error == null) {
             Log.d(TAG, "GCM reg id success");
         } else {

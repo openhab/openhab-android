@@ -5,9 +5,9 @@ import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import org.openhab.habdroid.util.MyAsyncHttpClient;
-import org.openhab.habdroid.util.MyHttpClient;
-import org.openhab.habdroid.util.MySyncHttpClient;
+import org.openhab.habdroid.util.AsyncHttpClient;
+import org.openhab.habdroid.util.HttpClient;
+import org.openhab.habdroid.util.SyncHttpClient;
 
 import java.net.InetSocketAddress;
 import java.net.Socket;
@@ -23,8 +23,8 @@ public abstract class AbstractConnection implements Connection {
     private String password;
     private String baseUrl;
 
-    private final MyAsyncHttpClient asyncHttpClient;
-    private final MySyncHttpClient syncHttpClient;
+    private final AsyncHttpClient asyncHttpClient;
+    private final SyncHttpClient syncHttpClient;
 
     AbstractConnection(Context ctx, SharedPreferences settings, int connectionType, String baseUrl,
             String username, String password) {
@@ -34,10 +34,10 @@ public abstract class AbstractConnection implements Connection {
         this.baseUrl = baseUrl;
         this.connectionType = connectionType;
 
-        asyncHttpClient = new MyAsyncHttpClient(ctx, settings);
+        asyncHttpClient = new AsyncHttpClient(ctx, settings);
         asyncHttpClient.setTimeout(30000);
 
-        syncHttpClient = new MySyncHttpClient(ctx, settings);
+        syncHttpClient = new SyncHttpClient(ctx, settings);
 
         updateHttpClientAuth(asyncHttpClient);
         updateHttpClientAuth(syncHttpClient);
@@ -54,7 +54,7 @@ public abstract class AbstractConnection implements Connection {
         syncHttpClient = base.getSyncHttpClient();
     }
 
-    private void updateHttpClientAuth(MyHttpClient httpClient) {
+    private void updateHttpClientAuth(HttpClient httpClient) {
         if (hasUsernameAndPassword()) {
             httpClient.setBasicAuth(getUsername(), getPassword());
         }
@@ -65,13 +65,13 @@ public abstract class AbstractConnection implements Connection {
                 !getPassword().isEmpty();
     }
 
-    public MyAsyncHttpClient getAsyncHttpClient() {
+    public AsyncHttpClient getAsyncHttpClient() {
         asyncHttpClient.setBaseUrl(getOpenHABUrl());
 
         return asyncHttpClient;
     }
 
-    public MySyncHttpClient getSyncHttpClient() {
+    public SyncHttpClient getSyncHttpClient() {
         syncHttpClient.setBaseUrl(getOpenHABUrl());
 
         return syncHttpClient;

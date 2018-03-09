@@ -5,7 +5,7 @@ import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.openhab.habdroid.util.MySyncHttpClient;
+import org.openhab.habdroid.util.SyncHttpClient;
 
 public class CloudConnection extends DefaultConnection {
     private static final String TAG = CloudConnection.class.getSimpleName();
@@ -33,8 +33,8 @@ public class CloudConnection extends DefaultConnection {
      *          HTTP endpoints, or null otherwise.
      */
     public static CloudConnection fromConnection(AbstractConnection connection) {
-        final MySyncHttpClient client = connection.getSyncHttpClient();
-        MySyncHttpClient.HttpTextResult result = client.get("/api/v1/settings/notifications").asText();
+        final SyncHttpClient client = connection.getSyncHttpClient();
+        SyncHttpClient.HttpTextResult result = client.get("/api/v1/settings/notifications").asText();
         if (result.error != null) {
             Log.e(TAG, "Error loading notification settings: " + result.error.getMessage());
             return null;

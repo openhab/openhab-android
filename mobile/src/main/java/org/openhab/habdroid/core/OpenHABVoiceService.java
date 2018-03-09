@@ -20,7 +20,7 @@ import org.openhab.habdroid.R;
 import org.openhab.habdroid.core.connection.Connection;
 import org.openhab.habdroid.core.connection.ConnectionFactory;
 import org.openhab.habdroid.core.connection.exception.ConnectionException;
-import org.openhab.habdroid.util.MySyncHttpClient;
+import org.openhab.habdroid.util.SyncHttpClient;
 
 import java.util.List;
 
@@ -74,8 +74,9 @@ public class OpenHABVoiceService extends IntentService {
 
     private void sendItemCommand(final String itemName, final String command, final Connection conn) {
         Log.d(TAG, "sendItemCommand(): itemName=" + itemName + ", command=" + command);
-        MySyncHttpClient.HttpResult result = conn.getSyncHttpClient().post(
+        SyncHttpClient.HttpResult result = conn.getSyncHttpClient().post(
                 "/rest/items/" + itemName, command, "text/plain;charset=UTF-8");
+
         if (result.error != null) {
             Log.e(TAG, "Got command error " + result.statusCode, result.error);
         } else {

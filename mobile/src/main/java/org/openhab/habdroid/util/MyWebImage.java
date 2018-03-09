@@ -95,7 +95,7 @@ public class MyWebImage implements SmartImage {
     }
 
     private Bitmap getBitmapFromUrl(Context context, final String url) {
-        MySyncHttpClient client = new MySyncHttpClient(context);
+        SyncHttpClient client = new SyncHttpClient(context);
         client.setTimeout(READ_TIMEOUT);
         client.setBaseUrl(url);
         client.setTimeout(60000);
@@ -103,7 +103,7 @@ public class MyWebImage implements SmartImage {
             client.setBasicAuth(authUsername, authPassword);
         }
 
-        MySyncHttpClient.HttpResult result = client.get(url);
+        SyncHttpClient.HttpResult result = client.get(url);
         if (result.error != null) {
             Log.e(TAG, "Failed to get " + url + " with code " + result.statusCode + ":" + result.error);
             return null;

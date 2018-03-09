@@ -27,7 +27,7 @@ import org.openhab.habdroid.core.connection.Connection;
 import org.openhab.habdroid.core.connection.ConnectionFactory;
 import org.openhab.habdroid.model.OpenHABNotification;
 import org.openhab.habdroid.ui.widget.DividerItemDecoration;
-import org.openhab.habdroid.util.MyAsyncHttpClient;
+import org.openhab.habdroid.util.AsyncHttpClient;
 
 import java.util.ArrayList;
 
@@ -150,7 +150,7 @@ public class OpenHABNotificationFragment extends Fragment implements SwipeRefres
         }
         startProgressIndicator();
         mRequestHandle = conn.getAsyncHttpClient().get("/api/v1/notifications?limit=20",
-                new MyAsyncHttpClient.StringResponseHandler() {
+                new AsyncHttpClient.StringResponseHandler() {
             @Override
             public void onSuccess(String responseBody, Headers headers) {
                 stopProgressIndicator();

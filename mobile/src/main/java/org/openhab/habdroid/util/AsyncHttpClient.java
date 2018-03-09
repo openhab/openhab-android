@@ -24,7 +24,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
 
-public class MyAsyncHttpClient extends MyHttpClient {
+public class AsyncHttpClient extends HttpClient {
     public interface ResponseHandler<T> {
         T convertBodyInBackground(ResponseBody body) throws IOException; // called in background thread
         void onFailure(Request request, int statusCode, Throwable error);
@@ -38,11 +38,11 @@ public class MyAsyncHttpClient extends MyHttpClient {
         }
     }
 
-    public MyAsyncHttpClient(Context context) {
+    public AsyncHttpClient(Context context) {
         super(context);
     }
 
-    public MyAsyncHttpClient(Context context, SharedPreferences prefs) {
+    public AsyncHttpClient(Context context, SharedPreferences prefs) {
         super(context, prefs);
 	}
 
