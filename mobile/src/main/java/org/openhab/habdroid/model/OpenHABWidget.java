@@ -88,6 +88,8 @@ public abstract class OpenHABWidget implements Parcelable {
         return mappings != null && !mappings.isEmpty();
     }
 
+    abstract Builder toBuilder();
+
     @AutoValue.Builder
     abstract static class Builder {
         public abstract Builder id(String id);
