@@ -156,6 +156,7 @@
   <string name="try_again_button">Erneut versuchen</string>
   <string name="network_error">Netzwerkfehler</string>
   <string name="go_to_settings_button">Einstellungen öffnen</string>
+  <string name="intro_discovery">Automatische Konfiguration</string>
   <!-- Content description for images -->
   <string name="content_description_open_roller_shutter">Rollladen öffnen</string>
   <string name="content_description_stop_roller_shutter">Rollladenbewegung stoppen</string>
