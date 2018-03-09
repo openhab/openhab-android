@@ -24,6 +24,7 @@ import android.nfc.tech.Ndef;
 import android.nfc.tech.NdefFormatable;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -45,16 +46,14 @@ import org.openhab.habdroid.util.Util;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class OpenHABWriteTagActivity extends AppCompatActivity {
-
-    // Logging TAG
     private static final String TAG = OpenHABWriteTagActivity.class.getSimpleName();
-    private String sitemapPage = "";
-    private String item = "";
-    private String command = "";
+
+    private NfcAdapter mNfcAdapter;
+    private String mSitemapPage;
+    private String mItem;
+    private String mCommand;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,9 +61,12 @@ public class OpenHABWriteTagActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.openhabwritetag);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.openhab_toolbar);
+        Toolbar toolbar = findViewById(R.id.openhab_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        NfcManager manager = (NfcManager) getSystemService(Context.NFC_SERVICE);
+        mNfcAdapter = manager.getDefaultAdapter();
 
         if (savedInstanceState == null) {
             getSupportFragmentManager()
@@ -75,31 +77,21 @@ public class OpenHABWriteTagActivity extends AppCompatActivity {
 
         setResult(RESULT_OK);
 
-        if (getIntent().hasExtra("sitemapPage")) {
-            sitemapPage = getIntent().getExtras().getString("sitemapPage");
-            Log.d(TAG, "Got sitemapPage = " + sitemapPage);
-        }
-        if (getIntent().hasExtra("item")) {
-            item = getIntent().getExtras().getString("item");
-            Log.d(TAG, "Got item = " + item);
-        }
-        if (getIntent().hasExtra("command")) {
-            command = getIntent().getExtras().getString("command");
-            Log.d(TAG, "Got command = " + command);
-        }
+        mSitemapPage = getIntent().getStringExtra("sitemapPage");
+        Log.d(TAG, "Got sitemapPage = " + mSitemapPage);
+        mItem = getIntent().getStringExtra("item");
+        Log.d(TAG, "Got item = " + mItem);
+        mCommand = getIntent().getStringExtra("command");
+        Log.d(TAG, "Got command = " + mCommand);
     }
 
     private Fragment getFragment() {
-        NfcManager manager =
-                (NfcManager) getSystemService(Context.NFC_SERVICE);
-        NfcAdapter adapter = manager.getDefaultAdapter();
-
-        if (adapter == null) {
+        if (mNfcAdapter == null) {
             return new NFCUnsupportedFragment();
-        } else if (!adapter.isEnabled()) {
+        } else if (!mNfcAdapter.isEnabled()) {
             return new NFCDisabledFragment();
         } else {
-            return new NFCWriteTageFragment();
+            return new NFCWriteTagFragment();
         }
     }
 
@@ -116,10 +108,13 @@ public class OpenHABWriteTagActivity extends AppCompatActivity {
     public void onResume() {
         Log.d(TAG, "onResume()");
         super.onResume();
-        PendingIntent pendingIntent = PendingIntent.getActivity(
-                this, 0, new Intent(this, getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
-        if (NfcAdapter.getDefaultAdapter(this) != null)
-            NfcAdapter.getDefaultAdapter(this).enableForegroundDispatch(this, pendingIntent, null, null);
+
+        if (mNfcAdapter != null) {
+            Intent intent = new Intent(this, getClass())
+                    .addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
+            mNfcAdapter.enableForegroundDispatch(this, pendingIntent, null, null);
+        }
 
         getSupportFragmentManager()
                 .beginTransaction()
@@ -131,53 +126,50 @@ public class OpenHABWriteTagActivity extends AppCompatActivity {
     public void onPause() {
         Log.d(TAG, "onPause()");
         super.onPause();
-        if (NfcAdapter.getDefaultAdapter(this) != null)
-            NfcAdapter.getDefaultAdapter(this).disableForegroundDispatch(this);
+        if (mNfcAdapter != null) {
+            mNfcAdapter.disableForegroundDispatch(this);
+        }
     }
 
+    @Override
     public void onNewIntent(Intent intent) {
+        if (mSitemapPage == null) {
+            return;
+        }
+
         Tag tagFromIntent = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
-        String openhabURI = "";
         //do something with tagFromIntent
         Log.d(TAG, "NFC TAG = " + tagFromIntent.toString());
-        Log.d(TAG, "Writing page " + sitemapPage + " to TAG");
-        TextView writeTagMessage = (TextView) findViewById(R.id.write_tag_message);
+        Log.d(TAG, "Writing page " + mSitemapPage + " to TAG");
+
+        TextView writeTagMessage = findViewById(R.id.write_tag_message);
+
         try {
-            URI sitemapURI = new URI(sitemapPage);
-            if (sitemapURI.getPath().startsWith("/rest/sitemaps")) {
-                openhabURI = "openhab://sitemaps" + sitemapURI.getPath().substring(14, sitemapURI.getPath().length());
-                if (!TextUtils.isEmpty(item)) {
-                    openhabURI = openhabURI + "?item=" + item;
-                }
-                if (!TextUtils.isEmpty(command)) {
-                    openhabURI = openhabURI + "&command=" + command;
-                }
+            URI sitemapURI = new URI(mSitemapPage);
+            if (!sitemapURI.getPath().startsWith("/rest/sitemaps")) {
+                throw new URISyntaxException(mSitemapPage, "Expected a sitemap URL");
             }
-            Log.d(TAG, "URI = " + openhabURI);
+            StringBuilder uriToWrite = new StringBuilder("openhab://sitemaps");
+            uriToWrite.append(sitemapURI.getPath().substring(14));
+            if (!TextUtils.isEmpty(mItem) && !TextUtils.isEmpty(mCommand)) {
+                uriToWrite.append("?item=").append(mItem).append("&command=").append(mCommand);
+            }
             writeTagMessage.setText(R.string.info_write_tag_progress);
-            writeTag(tagFromIntent, openhabURI);
+            writeTag(tagFromIntent, uriToWrite.toString());
         } catch (URISyntaxException e) {
             Log.e(TAG, e.getMessage());
             writeTagMessage.setText(R.string.info_write_failed);
         }
     }
 
-    public void writeTag(Tag tag, String openhabUri) {
-        Log.d(TAG, "Creating tag object");
-        TextView writeTagMessage = (TextView) findViewById(R.id.write_tag_message);
-        if (openhabUri == null) {
-            writeTagMessage.setText(R.string.info_write_failed);
-            return;
-        }
-        if (openhabUri.length() == 0) {
-            writeTagMessage.setText(R.string.info_write_failed);
-            return;
-        }
-        NdefRecord[] ndefRecords;
-        ndefRecords = new NdefRecord[1];
-        ndefRecords[0] = NdefRecord.createUri(openhabUri);
+    private void writeTag(Tag tag, String uri) {
+        Log.d(TAG, "Creating tag object for URI " + uri);
+        TextView writeTagMessage = findViewById(R.id.write_tag_message);
+
+        NdefRecord[] ndefRecords = new NdefRecord[] { NdefRecord.createUri(uri) };
         NdefMessage message = new NdefMessage(ndefRecords);
         NdefFormatable ndefFormatable = NdefFormatable.get(tag);
+
         if (ndefFormatable != null) {
             Log.d(TAG, "Tag is uninitialized, formating");
             try {
@@ -187,8 +179,7 @@ public class OpenHABWriteTagActivity extends AppCompatActivity {
                 writeTagMessage.setText(R.string.info_write_tag_finished);
                 autoCloseActivity();
             } catch (IOException | FormatException e) {
-                if (e.getMessage() != null)
-                    Log.e(TAG, e.getMessage());
+                Log.e(TAG, "Writing to unformatted tag failed: " + e);
                 writeTagMessage.setText(R.string.info_write_failed);
             }
         } else {
@@ -206,14 +197,8 @@ public class OpenHABWriteTagActivity extends AppCompatActivity {
                     ndef.close();
                     writeTagMessage.setText(R.string.info_write_tag_finished);
                     autoCloseActivity();
-                } catch (IOException e) {
-                    // TODO Auto-generated catch block
-                    if (e != null)
-                        Log.e(TAG, e.getClass().getCanonicalName());
-                    writeTagMessage.setText(R.string.info_write_failed);
-                } catch (FormatException e) {
-                    // TODO Auto-generated catch block
-                    Log.e(TAG, e.getMessage());
+                } catch (IOException | FormatException e) {
+                    Log.e(TAG, "Writing to formatted tag failed: " + e);
                     writeTagMessage.setText(R.string.info_write_failed);
                 }
             } else {
@@ -230,26 +215,13 @@ public class OpenHABWriteTagActivity extends AppCompatActivity {
     }
 
     private void autoCloseActivity() {
-        Timer autoCloseTimer = new Timer();
-        autoCloseTimer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                OpenHABWriteTagActivity.this.runOnUiThread(new Runnable() {
-                    public void run() {
-                        OpenHABWriteTagActivity.this.finish();
-                    }
-                });
-                Log.d(TAG, "Autoclosing tag write activity");
-            }
-
-        }, 2000);
+        new Handler().postDelayed(() -> finish(), 2000);
     }
 
     public static abstract class AbstractNFCFragment extends Fragment {
         @Override
-        public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-            super.onCreateView(inflater, container, savedInstanceState);
-
+        public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
+                @Nullable Bundle savedInstanceState) {
             final View view = inflater.inflate(R.layout.fragment_writenfc, container, false);
             final ImageView watermark = view.findViewById(R.id.nfc_watermark);
 
@@ -269,7 +241,8 @@ public class OpenHABWriteTagActivity extends AppCompatActivity {
 
     public static class NFCUnsupportedFragment extends AbstractNFCFragment {
         @Override
-        public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
+                @Nullable Bundle savedInstanceState) {
             View view = super.onCreateView(inflater, container, savedInstanceState);
 
             getMessageTextView(view).setText(R.string.info_write_tag_unsupported);
@@ -279,22 +252,19 @@ public class OpenHABWriteTagActivity extends AppCompatActivity {
 
     public static class NFCDisabledFragment extends AbstractNFCFragment {
         @Override
-        public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
+                @Nullable Bundle savedInstanceState) {
             View view = super.onCreateView(inflater, container, savedInstanceState);
 
-            TextView writeTagMessage = getMessageTextView(view);
+            getMessageTextView(view).setText(R.string.info_write_tag_disabled);
 
-            writeTagMessage.setText(R.string.info_write_tag_disabled);
             TextView nfcActivate = view.findViewById(R.id.nfc_activate);
             nfcActivate.setVisibility(View.VISIBLE);
-            nfcActivate.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                        startActivity(new Intent(Settings.ACTION_NFC_SETTINGS));
-                    } else {
-                        startActivity(new Intent(Settings.ACTION_WIRELESS_SETTINGS));
-                    }
+            nfcActivate.setOnClickListener(v -> {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                    startActivity(new Intent(Settings.ACTION_NFC_SETTINGS));
+                } else {
+                    startActivity(new Intent(Settings.ACTION_WIRELESS_SETTINGS));
                 }
             });
 
@@ -302,9 +272,10 @@ public class OpenHABWriteTagActivity extends AppCompatActivity {
         }
     }
 
-    public static class NFCWriteTageFragment extends AbstractNFCFragment {
+    public static class NFCWriteTagFragment extends AbstractNFCFragment {
         @Override
-        public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
+                @Nullable Bundle savedInstanceState) {
             View view = super.onCreateView(inflater, container, savedInstanceState);
 
             view.findViewById(R.id.nfc_wait_progress).setVisibility(View.VISIBLE);
