@@ -17,3 +17,7 @@ local.properties
 
 # macOS clutter
 .DS_Store
+
+# Fastlane docs and logs
+fastlane/README.md
+fastlane/report.xml
