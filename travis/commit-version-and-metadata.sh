@@ -18,6 +18,8 @@ echo "Git decrypt key"
 openssl aes-256-cbc -K $encrypted_c0c05d762590_key -iv $encrypted_c0c05d762590_iv -in travis/key.enc -out travis/key -d > /dev/null 2>&1
 echo "Copy ssh config"
 cp travis/ssh-config ~/.ssh/config
+echo "Change key permissions"
+chmod 400 travis/key
 echo "Git add remote"
 git remote add github git@github.com:openhab/openhab-android
 echo "Git fetch"
