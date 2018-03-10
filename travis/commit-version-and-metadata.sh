@@ -25,4 +25,4 @@ git remote add github git@github.com:openhab/openhab-android
 echo "Git fetch"
 git fetch github
 echo "Git push"
-git push --quiet --set-upstream github :refs/heads/master > /dev/null 2>&1
+git push --quiet --set-upstream github :refs/heads/master
