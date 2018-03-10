@@ -1,10 +1,7 @@
 package org.openhab.habdroid.ui.activity;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
-import android.support.annotation.VisibleForTesting;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.util.Log;
@@ -14,7 +11,6 @@ import org.json.JSONObject;
 import org.openhab.habdroid.core.connection.Connection;
 import org.openhab.habdroid.model.OpenHABWidget;
 import org.openhab.habdroid.model.OpenHABWidgetDataSource;
-import org.openhab.habdroid.util.Constants;
 import org.openhab.habdroid.util.MyAsyncHttpClient;
 import org.openhab.habdroid.util.MyHttpClient;
 import org.w3c.dom.Document;
@@ -36,7 +32,6 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import okhttp3.Call;
 import okhttp3.Headers;
-import okhttp3.HttpUrl;
 
 /**
  * Fragment that manages connections for active instances of
@@ -89,6 +84,7 @@ public class PageConnectionHolderFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+        Log.d(TAG, "onStart(), started " + mStarted);
         if (!mStarted) {
             for (ConnectionHandler handler : mConnections.values()) {
                 handler.load();
@@ -100,6 +96,7 @@ public class PageConnectionHolderFragment extends Fragment {
     @Override
     public void onStop() {
         super.onStop();
+        Log.d(TAG, "onStop()");
         // If the activity is only changing configuration (e.g. orientation or locale)
         // we know it'll be immediately recreated, thus there's no point in shutting down
         // the connections in that case
@@ -154,13 +151,8 @@ public class PageConnectionHolderFragment extends Fragment {
         for (String url : urls) {
             ConnectionHandler handler = mConnections.get(url);
             if (handler == null) {
-                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-                MyAsyncHttpClient httpClient = new MyAsyncHttpClient(getActivity(),
-                        prefs.getBoolean(Constants.PREFERENCE_SSLHOST, false),
-                        prefs.getBoolean(Constants.PREFERENCE_SSLCERT, false));
-                httpClient.setBaseUrl(connection.getOpenHABUrl());
                 Log.d(TAG, "Creating new handler for URL " + url);
-                handler = new ConnectionHandler(url, httpClient, mCallback);
+                handler = new ConnectionHandler(url, connection, mCallback);
                 mConnections.put(url, handler);
                 if (mStarted) {
                     handler.load();
@@ -193,7 +185,7 @@ public class PageConnectionHolderFragment extends Fragment {
 
     private static class ConnectionHandler implements MyHttpClient.ResponseHandler {
         private final String mUrl;
-        private final MyAsyncHttpClient mHttpClient;
+        private MyAsyncHttpClient mHttpClient;
         private ParentCallback mCallback;
         private Call mRequestHandle;
         private boolean mLongPolling;
@@ -201,16 +193,16 @@ public class PageConnectionHolderFragment extends Fragment {
         private String mLastPageTitle;
         private List<OpenHABWidget> mLastWidgetList;
 
-        public ConnectionHandler(String pageUrl, MyAsyncHttpClient httpClient, ParentCallback cb) {
+        public ConnectionHandler(String pageUrl, Connection connection, ParentCallback cb) {
             mUrl = pageUrl;
-            mHttpClient = httpClient;
+            mHttpClient = connection.getAsyncHttpClient();
             mCallback = cb;
         }
 
         public boolean updateFromConnection(Connection c) {
-            HttpUrl oldBaseUrl = mHttpClient.getBaseUrl();
-            mHttpClient.setBaseUrl(c.getOpenHABUrl());
-            return !oldBaseUrl.equals(mHttpClient.getBaseUrl());
+            MyAsyncHttpClient oldClient = mHttpClient;
+            mHttpClient = c.getAsyncHttpClient();
+            return oldClient != mHttpClient;
         }
 
         public void cancel() {
@@ -233,6 +225,7 @@ public class PageConnectionHolderFragment extends Fragment {
         }
 
         private void load() {
+            Log.d(TAG, "Loading data for " + mUrl);
             Map<String, String> headers = new HashMap<String, String>();
             if (!mCallback.serverReturnsJson()) {
                 headers.put("Accept", "application/xml");
@@ -258,6 +251,7 @@ public class PageConnectionHolderFragment extends Fragment {
 
         @Override
         public void onFailure(Call call, int statusCode, Headers headers, byte[] responseBody, Throwable error) {
+            Log.d(TAG, "Data load for " + mUrl + " failed", error);
             mAtmosphereTrackingId = null;
             mLongPolling = false;
             load();
@@ -276,6 +270,7 @@ public class PageConnectionHolderFragment extends Fragment {
             // We can receive empty response, probably when no items was changed
             // so we needn't process it
             if (responseString == null || responseString.isEmpty()) {
+                Log.d(TAG, "Got empty data response for " + mUrl);
                 mLongPolling = true;
                 load();
                 return;
@@ -315,6 +310,7 @@ public class PageConnectionHolderFragment extends Fragment {
                 DocumentBuilder builder = dbf.newDocumentBuilder();
                 Document document = builder.parse(new InputSource(new StringReader(response)));
                 if (document == null) {
+                    Log.d(TAG, "Got empty XML document for " + mUrl);
                     mLongPolling = false;
                     return false;
                 }
@@ -323,6 +319,7 @@ public class PageConnectionHolderFragment extends Fragment {
                 mLongPolling = true;
                 return true;
             } catch (ParserConfigurationException | SAXException | IOException e) {
+                Log.d(TAG, "Parsing data for " + mUrl + " failed", e);
                 mLongPolling = false;
                 return false;
             }
@@ -334,12 +331,14 @@ public class PageConnectionHolderFragment extends Fragment {
                 // In case of a server timeout in the long polling request, nothing is done
                 // and the request is restarted
                 if (mLongPolling && pageJson.optBoolean("timeout", false)) {
+                    Log.d(TAG, "Long polling timeout for " + mUrl);
                     return false;
                 }
                 dataSource.setSourceJson(pageJson);
                 mLongPolling = true;
                 return true;
             } catch (JSONException e) {
+                Log.d(TAG, "Parsing data for " + mUrl + " failed", e);
                 mLongPolling = false;
                 return false;
             }
