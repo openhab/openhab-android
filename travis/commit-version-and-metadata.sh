@@ -5,8 +5,8 @@ set -e
 manifest="mobile/src/main/AndroidManifest.xml"
 
 echo "Configure git"
-git config --local user.name "TravisCI"
-git config --local user.email "support@openhab.org"
+git config --local user.name "openhab-bot"
+git config --local user.email "bot@openhab.org"
 echo "Git add"
 git add fastlane/*
 git add $manifest
