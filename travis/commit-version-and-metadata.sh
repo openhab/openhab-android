@@ -20,6 +20,8 @@ echo "Copy ssh config"
 cp travis/ssh-config ~/.ssh/config
 echo "Change key permissions"
 chmod 400 travis/key
+echo "Git create master branch"
+git checkout -b master
 echo "Git add remote"
 git remote add github git@github.com:openhab/openhab-android
 echo "Git fetch"
