@@ -1,10 +1,7 @@
 package org.openhab.habdroid.ui.activity;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
-import android.support.annotation.VisibleForTesting;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.util.Log;
@@ -14,7 +11,6 @@ import org.json.JSONObject;
 import org.openhab.habdroid.core.connection.Connection;
 import org.openhab.habdroid.model.OpenHABWidget;
 import org.openhab.habdroid.model.OpenHABWidgetDataSource;
-import org.openhab.habdroid.util.Constants;
 import org.openhab.habdroid.util.MyAsyncHttpClient;
 import org.openhab.habdroid.util.MyHttpClient;
 import org.w3c.dom.Document;
@@ -36,7 +32,6 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import okhttp3.Call;
 import okhttp3.Headers;
-import okhttp3.HttpUrl;
 
 /**
  * Fragment that manages connections for active instances of
@@ -156,13 +151,8 @@ public class PageConnectionHolderFragment extends Fragment {
         for (String url : urls) {
             ConnectionHandler handler = mConnections.get(url);
             if (handler == null) {
-                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-                MyAsyncHttpClient httpClient = new MyAsyncHttpClient(getActivity(),
-                        prefs.getBoolean(Constants.PREFERENCE_SSLHOST, false),
-                        prefs.getBoolean(Constants.PREFERENCE_SSLCERT, false));
-                httpClient.setBaseUrl(connection.getOpenHABUrl());
                 Log.d(TAG, "Creating new handler for URL " + url);
-                handler = new ConnectionHandler(url, httpClient, mCallback);
+                handler = new ConnectionHandler(url, connection, mCallback);
                 mConnections.put(url, handler);
                 if (mStarted) {
                     handler.load();
@@ -195,7 +185,7 @@ public class PageConnectionHolderFragment extends Fragment {
 
     private static class ConnectionHandler implements MyHttpClient.ResponseHandler {
         private final String mUrl;
-        private final MyAsyncHttpClient mHttpClient;
+        private MyAsyncHttpClient mHttpClient;
         private ParentCallback mCallback;
         private Call mRequestHandle;
         private boolean mLongPolling;
@@ -203,16 +193,16 @@ public class PageConnectionHolderFragment extends Fragment {
         private String mLastPageTitle;
         private List<OpenHABWidget> mLastWidgetList;
 
-        public ConnectionHandler(String pageUrl, MyAsyncHttpClient httpClient, ParentCallback cb) {
+        public ConnectionHandler(String pageUrl, Connection connection, ParentCallback cb) {
             mUrl = pageUrl;
-            mHttpClient = httpClient;
+            mHttpClient = connection.getAsyncHttpClient();
             mCallback = cb;
         }
 
         public boolean updateFromConnection(Connection c) {
-            HttpUrl oldBaseUrl = mHttpClient.getBaseUrl();
-            mHttpClient.setBaseUrl(c.getOpenHABUrl());
-            return !oldBaseUrl.equals(mHttpClient.getBaseUrl());
+            MyAsyncHttpClient oldClient = mHttpClient;
+            mHttpClient = c.getAsyncHttpClient();
+            return oldClient != mHttpClient;
         }
 
         public void cancel() {
