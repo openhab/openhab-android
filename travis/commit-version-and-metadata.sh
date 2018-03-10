@@ -26,5 +26,7 @@ echo "Git add remote"
 git remote add github git@github.com:openhab/openhab-android
 echo "Git fetch"
 git fetch github
-echo "Git push"
+echo "Git push master"
 git push --quiet github master
+echo "Git push F-Droid tag"
+git push --quiet github ${TRAVIS_TAG}-fdroid
