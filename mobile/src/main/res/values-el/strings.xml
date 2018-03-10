@@ -66,8 +66,15 @@
   <string name="error_certificate_not_trusted">Το πιστοποιητικό SSL δεν είναι έμπιστο. Παρακαλώ εισάγετε το κεντρικό πιστοποιητικό (root certificate) ή απενεργοποιήστε τον έλεγχο του πιστοποιητικού κατά την διάρκεια της διαδικασίας εγκαθίδρυσης SSL.</string>
   <string name="error_certificate_expired">Το πιστοποιητικό SSL έχει λήξει. Παρακαλώ λάβετε καινούριο πιστοποιητικό ή απενεργοποιήστε τον έλεγχο του πιστοποιητικού κατά την διάρκεια της διαδικασίας εγκαθίδρυσης SSL.</string>
   <string name="error_certificate_revoked">Το πιστοποιητικό SSL έχει ανακληθεί. Παρακαλώ λάβετε καινούριο πιστοποιητικό ή απενεργοποιήστε τον έλεγχο του πιστοποιητικού κατά την διάρκεια της διαδικασίας εγκαθίδρυσης SSL.</string>
+  <string name="error_http_code_414">Το URL είναι πολύ μακρύ. Παρακαλώ χρησιμοποιήστε το IP ή ένα πιο μικρό URL (κωδικός απόκρισης HTTP 414)</string>
+  <string name="error_http_code_426">Απαιτείται χρήση HTTPS. Παρακαλώ αλλάξτε το URL (κωδικός απόκρισης HTTP 426)</string>
   <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
+  <string name="error_http_code_495">Η πιστοποίηση του χρήστη απέτυχε. Παρακαλώ ελέγξτε το SSL πιστοποιητικό πελάτη (κωδικός απόκρισης HTTP 495)</string>
   <string name="error_http_code_496">Απαιτείται SSL πιστοποιητικό πελάτη (κωδικός απόκρισης HTTP 496)</string>
+  <string name="error_http_code_502">Ο reverse proxy σας έλαβε λάθος απάντηση από το openHAB (κωδικός απόκρισης HTTP 502)</string>
+  <string name="error_http_code_503">Το openHAB είναι προσωρινά μη διαθέσιμο (κωδικός απόκρισης HTTP 503)</string>
+  <string name="error_http_code_504">Τέλος χρόνου Πύλης (Gateway). Φαίνεται ότι ο reverse proxy είναι σε λειτουργία αλλά δε μπορούσε να λάβει απάντηση από το openHAB (κωδικός απόκρισης HTTP 504)</string>
+  <string name="error_http_code_507">Tο openHAB δεν έχει αρκετό ελεύθερο χώρο (κωδικός απόκρισης HTTP 507)</string>
   <string name="error_http_code_511">Απαιτείται πιστοποίηση δικτύου (κωδικός απόκρισης HTTP 511)</string>
   <string name="title_activity_openhabwritetag">Εγγραφή ετικέτας NFC</string>
   <string name="title_activity_openhabinfo">Πληροφορίες για το openHAB</string>
