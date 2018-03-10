@@ -15,6 +15,16 @@ find fastlane/metadata/android/ -name "*_description.txt" -delete
 error=0
 
 full_description_template="assets/store_descriptions/full-description.txt.template"
+if [[ "$1" == "fdroid" ]]
+then
+    echo "Using template for F-Droid"
+    full_description_template="assets/store_descriptions/full-description-fdroid.txt.template"
+elif [[ "$1" == "fdroidBeta" ]]
+then
+    echo "Using template for F-Droid Beta"
+    full_description_template="assets/store_descriptions/full-description-fdroidbeta.txt.template"
+fi
+
 store_string_base="assets/store_descriptions"
 app_string_base="mobile/src/main/res"
 resource_base="fastlane/metadata/android"
@@ -57,6 +67,8 @@ do
             -e "s|\$about_foundation|$about_foundation|" \
             -e "s|\$important_note|$important_note|" \
             -e "s|\$oh_server|$oh_server|" \
+            -e "s|\$fdroid|$fdroid|" \
+            -e "s|\$beta|$beta|" \
             "$full_description_template" > "${resource_base}/${lang}/full_description.txt"
         echo $short_description > "${resource_base}/${lang}/short_description.txt"
 
