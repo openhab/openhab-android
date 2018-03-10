@@ -89,6 +89,7 @@ public class PageConnectionHolderFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+        Log.d(TAG, "onStart(), started " + mStarted);
         if (!mStarted) {
             for (ConnectionHandler handler : mConnections.values()) {
                 handler.load();
@@ -100,6 +101,7 @@ public class PageConnectionHolderFragment extends Fragment {
     @Override
     public void onStop() {
         super.onStop();
+        Log.d(TAG, "onStop()");
         // If the activity is only changing configuration (e.g. orientation or locale)
         // we know it'll be immediately recreated, thus there's no point in shutting down
         // the connections in that case
@@ -233,6 +235,7 @@ public class PageConnectionHolderFragment extends Fragment {
         }
 
         private void load() {
+            Log.d(TAG, "Loading data for " + mUrl);
             Map<String, String> headers = new HashMap<String, String>();
             if (!mCallback.serverReturnsJson()) {
                 headers.put("Accept", "application/xml");
@@ -258,6 +261,7 @@ public class PageConnectionHolderFragment extends Fragment {
 
         @Override
         public void onFailure(Call call, int statusCode, Headers headers, byte[] responseBody, Throwable error) {
+            Log.d(TAG, "Data load for " + mUrl + " failed", error);
             mAtmosphereTrackingId = null;
             mLongPolling = false;
             load();
@@ -276,6 +280,7 @@ public class PageConnectionHolderFragment extends Fragment {
             // We can receive empty response, probably when no items was changed
             // so we needn't process it
             if (responseString == null || responseString.isEmpty()) {
+                Log.d(TAG, "Got empty data response for " + mUrl);
                 mLongPolling = true;
                 load();
                 return;
@@ -315,6 +320,7 @@ public class PageConnectionHolderFragment extends Fragment {
                 DocumentBuilder builder = dbf.newDocumentBuilder();
                 Document document = builder.parse(new InputSource(new StringReader(response)));
                 if (document == null) {
+                    Log.d(TAG, "Got empty XML document for " + mUrl);
                     mLongPolling = false;
                     return false;
                 }
@@ -323,6 +329,7 @@ public class PageConnectionHolderFragment extends Fragment {
                 mLongPolling = true;
                 return true;
             } catch (ParserConfigurationException | SAXException | IOException e) {
+                Log.d(TAG, "Parsing data for " + mUrl + " failed", e);
                 mLongPolling = false;
                 return false;
             }
@@ -334,12 +341,14 @@ public class PageConnectionHolderFragment extends Fragment {
                 // In case of a server timeout in the long polling request, nothing is done
                 // and the request is restarted
                 if (mLongPolling && pageJson.optBoolean("timeout", false)) {
+                    Log.d(TAG, "Long polling timeout for " + mUrl);
                     return false;
                 }
                 dataSource.setSourceJson(pageJson);
                 mLongPolling = true;
                 return true;
             } catch (JSONException e) {
+                Log.d(TAG, "Parsing data for " + mUrl + " failed", e);
                 mLongPolling = false;
                 return false;
             }
