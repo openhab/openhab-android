@@ -23,6 +23,8 @@ if [ -z "$currentVersionCode" ] || [ -z "$TRAVIS_TAG" ]
 then
     echo "Code ($currentVersionCode) or tag ($TRAVIS_TAG) are empty! Don't bump anything."
 else
+    # Remove -release from version name for stable versions
+    TRAVIS_TAG="${TRAVIS_TAG%-release}"
     echo "New version code is $currentVersionCode and name $TRAVIS_TAG"
     echo "Replace versionCode"
     sed --in-place -r "s/android:versionCode=\"(.*)\"/android:versionCode=\"${currentVersionCode}\"/" $manifest
