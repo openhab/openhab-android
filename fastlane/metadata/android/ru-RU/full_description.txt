@@ -1,11 +1,11 @@
-openHAB - "empowering the smart home" - vendor and technology agnostic open source home automation
+openHAB - "empowering the smart home" - не зависящая от производителей и технологий домашняя автоматизация с открытым исходным кодом
 
 openHAB это основанная на Java платформа домашней автоматизации с открытым исходным кодом которая интегрирует и комбинирует большое разнообразие различных систем умного дома и технологий в единое решение.
 На вершине единой абстракции все подключенные устройства доступны для общих движков правил автоматизации и различных пользовательских интерфейсов.
 
 <b>Поддерживаемые продукты</b>
 
-Over 200 specific add-ons provide support for brands, devices, technologies and communication protocols. Examples are Z-Wave, Philips Hue, Amazon Echo, Chromecast and Sonos. Discover all available add-ons and supported devices and/or functions at: https://docs.openhab.org/addons/bindings.html
+Более 200 определенных дополнений обеспечивают поддержку марок, устройств, технологий и протоколов связи. Примеры: Z-Wave, Philips Hue, Amazon Echo, Chromecast и Sonos. Откройте для себя все доступные дополнения и поддерживаемые устройства и/или функции на: https://docs.openhab.org/addons/bindings.html
 
 • Решения для домашней автоматизации: Z-Wave, EnOcean, Netatmo, Homematic, Insteon, ...
 • Освещение: Philips Hue, Ikea Trådfri, LIFX, Lutron, Milight, ...
@@ -16,15 +16,15 @@ Over 200 specific add-ons provide support for brands, devices, technologies and 
 • Особые сценарии использования: Minecraft, Tesla Car, Weather Services, ...
 • ...
 
-<b>Open Source Community</b>
+<b>Сообщество свободного программного обеспечения</b>
 
 openHAB сильно поддерживает его активное сообщество. Форум более чем c 13,000 зарегистрированных пользователей это место для поиска руководств, помощи и вдохновения. Присоединяйтесь к форуму сообщества openHAB на https://community.openhab.org
 Если вы найдете ошибку, пожалуйста, сообщите об этом на форуме или на https://github.com/openhab/openhab-android/issues
 Если Вы хотите перевести приложение на свой язык, то присоединяйтесь к нам на https://crowdin.com/project/openhab-android
 
-<b>openHAB Foundation</b>
+<b>Фонд openHAB</b>
 
-The openHAB Foundation e.V. is a nonprofit organization with the mission to educate the public about the possibilities and benefits of free and open smart home solutions. Learn about the mission and the services of the foundation under https://www.openhabfoundation.org
+openHAB Foundation e.V. это некоммерческая организация, миссия которой научить людей о возможностях и преимуществах свободных и открытых решений умного дома. Узнайте о миссии и сервисах фонда на https://www.openhabfoundation.org
 
 <b>Важное примечание</b>
 
