@@ -58,7 +58,7 @@ android {
             dimension "license"
         }
 
-        releae {
+        stable {
             dimension "release"
         }
         beta {
