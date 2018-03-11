@@ -775,8 +775,8 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         @Override
         public void onClick(final View view) {
             float minValue = mBoundWidget.minValue();
+            float maxValue = mBoundWidget.maxValue();
             //This prevents an exception below. But could lead to user confusion if this case is ever encountered.
-            float maxValue = Math.max(minValue, mBoundWidget.maxValue());
             float stepSize = minValue == maxValue ? 1 : mBoundWidget.step();
 
             final String[] stepValues = new String[((int) (Math.abs(maxValue - minValue) / stepSize)) + 1];

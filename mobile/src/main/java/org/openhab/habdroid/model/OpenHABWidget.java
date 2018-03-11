@@ -122,11 +122,18 @@ public abstract class OpenHABWidget implements Parcelable {
             if (period() == null || period().isEmpty()) {
                 period("D");
             }
+            // Sanitize minValue, maxValue and step: min <= max, step >= 0
+            maxValue(Math.max(minValue(), maxValue()));
+            step(Math.abs(step()));
+
             return autoBuild();
         }
 
         abstract int refresh();
         abstract String period();
+        abstract float minValue();
+        abstract float maxValue();
+        abstract float step();
         abstract OpenHABWidget autoBuild();
     }
 

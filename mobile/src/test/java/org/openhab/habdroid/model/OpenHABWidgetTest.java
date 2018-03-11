@@ -74,6 +74,7 @@ public class OpenHABWidgetTest {
     @Test
     public void testGetStep() throws Exception {
         assertEquals(1F, sut1.get(0).step());
+        // this is invalid in JSON (< 0), expected to be adjusted
         assertEquals(0.1F, sut2.get(0).step());
     }
 
@@ -149,7 +150,8 @@ public class OpenHABWidgetTest {
     @Test
     public void testGetMaxValue() throws Exception {
         assertEquals(10.0F, sut1.get(0).maxValue());
-        assertEquals(-10.0F, sut2.get(0).maxValue());
+        // this is invalid in JSON (max < min), expected to be adjusted
+        assertEquals(99.7F, sut2.get(0).maxValue());
     }
 
     @Test
@@ -298,7 +300,7 @@ public class OpenHABWidgetTest {
                         "    \"url\": \"http://localhost/url\",\n" +
                         "    \"minValue\": \"99.7\",\n" +
                         "    \"maxValue\": \"-10.0\",\n" +
-                        "    \"step\": \"0.1\",\n" +
+                        "    \"step\": \"-0.1\",\n" +
                         "    \"refresh\": \"10\",\n" +
                         "    \"service\": \"XYZ\",\n" +
                         "    \"legend\": \"false\",\n" +
