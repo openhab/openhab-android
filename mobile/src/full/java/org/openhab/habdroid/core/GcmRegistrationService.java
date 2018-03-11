@@ -45,6 +45,7 @@ public class GcmRegistrationService extends IntentService {
 
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
+        ConnectionFactory.blockingWaitForInitialization();
         CloudConnection connection =
                 (CloudConnection) ConnectionFactory.getConnection(Connection.TYPE_CLOUD);
         if (connection == null) {

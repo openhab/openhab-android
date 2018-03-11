@@ -72,6 +72,8 @@ final public class ConnectionFactory extends BroadcastReceiver implements
     private ConnectionException mConnectionFailureReason;
     private HashSet<UpdateListener> mListeners = new HashSet<>();
     private boolean mNeedsUpdate;
+    private boolean mIsInitialized;
+    private Object mInitializationLock = new Object();
 
     private HandlerThread mUpdateThread;
     @VisibleForTesting
@@ -108,6 +110,18 @@ final public class ConnectionFactory extends BroadcastReceiver implements
     public static void shutdown() {
         sInstance.ctx.unregisterReceiver(sInstance);
         sInstance.mUpdateThread.quit();
+    }
+
+    public static void blockingWaitForInitialization() {
+        synchronized (sInstance.mInitializationLock) {
+            while (!sInstance.mIsInitialized) {
+                try {
+                    sInstance.mInitializationLock.wait();
+                } catch (InterruptedException e) {
+                    // ignored
+                }
+            }
+        }
     }
 
     public static void addListener(UpdateListener l) {
@@ -278,6 +292,10 @@ final public class ConnectionFactory extends BroadcastReceiver implements
                         l.onConnectionChanged();
                     }
                 }
+                synchronized (mInitializationLock) {
+                    mIsInitialized = true;
+                    mInitializationLock.notifyAll();
+                }
                 return true;
             }
         }
@@ -357,6 +375,9 @@ final public class ConnectionFactory extends BroadcastReceiver implements
             mRemoteConnection = makeConnection(Connection.TYPE_REMOTE, Constants.PREFERENCE_REMOTE_URL,
                     Constants.PREFERENCE_REMOTE_USERNAME, Constants.PREFERENCE_REMOTE_PASSWORD);
 
+            synchronized (mInitializationLock) {
+                mIsInitialized = false;
+            }
             mAvailableConnection = null;
             mConnectionFailureReason = null;
             mUpdateHandler.sendEmptyMessage(MSG_TRIGGER_UPDATE);
