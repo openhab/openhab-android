@@ -9,9 +9,9 @@
 
 package org.openhab.habdroid.model;
 
-import android.util.Log;
-import android.os.Parcel;
 import android.os.Parcelable;
+
+import com.google.auto.value.AutoValue;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -22,119 +22,65 @@ import org.w3c.dom.NodeList;
  * This is a class to hold information about openHAB linked page.
  */
 
-public class OpenHABLinkedPage implements Parcelable {
-	private String id;
-	private String title;
-	private String icon;
-	private String link;
-	private static final String TAG = OpenHABLinkedPage.class.getSimpleName();
-	
-	public OpenHABLinkedPage(Node startNode) {
-		if (startNode.hasChildNodes()) {
-			NodeList childNodes = startNode.getChildNodes();
-			for (int i = 0; i < childNodes.getLength(); i ++) {
-				Node childNode = childNodes.item(i);
-				if (childNode.getNodeName().equals("id")) {
-					this.setId(childNode.getTextContent());
-				} else if (childNode.getNodeName().equals("title")) {
-					this.setTitle(childNode.getTextContent());
-				} else if (childNode.getNodeName().equals("icon")) {
-					this.setIcon(childNode.getTextContent());
-				} else if (childNode.getNodeName().equals("link")) {
-					this.setLink(childNode.getTextContent());
-				}
-			}
-		}
-	}
+@AutoValue
+public abstract class OpenHABLinkedPage implements Parcelable {
+    public abstract String id();
+    public abstract String title();
+    public abstract String icon();
+    public abstract String link();
 
-    public OpenHABLinkedPage(JSONObject jsonObject) {
-        try {
-            if (jsonObject.has("id"))
-                this.setId(jsonObject.getString("id"));
-            if (jsonObject.has("title"))
-                this.setTitle(jsonObject.getString("title"));
-            if (jsonObject.has("icon"))
-                this.setIcon(jsonObject.getString("icon"));
-            if (jsonObject.has("link"))
-                this.setLink(jsonObject.getString("link"));
-        } catch (JSONException e) {
-            Log.d(TAG, "Error while parsing openHAB linked page", e);
+    @AutoValue.Builder
+    abstract static class Builder {
+        public abstract Builder id(String id);
+        public abstract Builder title(String title);
+        public abstract Builder icon(String icon);
+        public abstract Builder link(String link);
+
+        public OpenHABLinkedPage build() {
+            String title = title();
+            if (title.indexOf('[') > 0) {
+                title(title.substring(0, title.indexOf('[')));
+            }
+            return autoBuild();
         }
+
+        abstract String title();
+        abstract OpenHABLinkedPage autoBuild();
     }
 
-    public OpenHABLinkedPage(Parcel p) {
-		id = p.readString();
-		title = p.readString();
-		icon = p.readString();
-		link = p.readString();
-	}
+    public static OpenHABLinkedPage fromXml(Node startNode) {
+        String id = null, title = null, icon = null, link = null;
 
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
-
-	public String getTitle() {
-        if (title.indexOf('[') > 0) {
-            return title.substring(0, title.indexOf('['));
+        if (startNode.hasChildNodes()) {
+            NodeList childNodes = startNode.getChildNodes();
+            for (int i = 0; i < childNodes.getLength(); i++) {
+                Node childNode = childNodes.item(i);
+                switch (childNode.getNodeName()) {
+                    case "id": id = childNode.getTextContent(); break;
+                    case "title": title = childNode.getTextContent(); break;
+                    case "icon": icon = childNode.getTextContent(); break;
+                    case "link": link = childNode.getTextContent(); break;
+                }
+            }
         }
-		return title;
-	}
 
-	public void setTitle(String title) {
-		this.title = title;
-	}
+        return new AutoValue_OpenHABLinkedPage.Builder()
+                .id(id)
+                .title(title)
+                .icon(icon)
+                .link(link)
+                .build();
+    }
 
-	public String getIcon() {
-		return icon;
-	}
-
-	public void setIcon(String icon) {
-		this.icon = icon;
-	}
-
-	public String getLink() {
-		return link;
-	}
-
-	public void setLink(String link) {
-		this.link = link;
-	}
-
-	public static String getTag() {
-		return TAG;
-	}
-
-	@Override
-	public String toString() {
-		return "LinkedPage[title=" + title + ", link=" + link + "]";
-	}
-
-	@Override
-	public int describeContents() {
-		return 0;
-	}
-
-	@Override
-	public void writeToParcel(Parcel parcel, int flags) {
-		parcel.writeString(id);
-		parcel.writeString(title);
-		parcel.writeString(icon);
-		parcel.writeString(link);
-	}
-
-	public static Parcelable.Creator<OpenHABLinkedPage> CREATOR = new Parcelable.Creator<OpenHABLinkedPage>() {
-		@Override
-		public OpenHABLinkedPage createFromParcel(Parcel parcel) {
-			return new OpenHABLinkedPage(parcel);
-		}
-
-		@Override
-		public OpenHABLinkedPage[] newArray(int size) {
-			return new OpenHABLinkedPage[size];
-		}
-	};
+    public static OpenHABLinkedPage fromJson(JSONObject jsonObject) throws JSONException {
+        if (jsonObject == null) {
+            return null;
+        }
+        return new AutoValue_OpenHABLinkedPage.Builder()
+                .id(jsonObject.optString("id", null))
+                .title(jsonObject.optString("title", null))
+                .icon(jsonObject.optString("icon", null))
+                .link(jsonObject.optString("link", null))
+                .build();
+    }
 }
