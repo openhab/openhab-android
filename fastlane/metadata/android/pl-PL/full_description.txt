@@ -1,0 +1,31 @@
+openHAB - "empowering the smart home" - niezależnie i otwarte oprogramowanie dla automatyki domowej
+
+openHAB jest otwartą platformą dla automatyki domowej, która integruje szeroki zakres różnych systemów "smart home" w jedno rozwiązanie.
+Nad ujednoliconą warstwa abstrakcji wszystkie połączone urządzenia są dostępne dla silników reguł automatyki a także różnych interfejsów użytkownika.
+
+<b>Wspierane Produkty</b>
+
+Ponad dwieście dodatków zapewnia wsparcie dla marek, urządzeń, technologii i protokołów komunikacyjnych. Przykładem są: Z-Wave, Philips Hue, Amazon Echo, Chromecast czy Sonos. Odkryj wszystkie dostępne dodatki i wspierane urządzenia na https://docs.openhab.org/addons/bindings.html
+
+• Rozwiązania Automatyki Domowej: Z-Wave, EnOcean, Netatmo, Homematic, Insteon, ...
+• Oświetlenie: Philips Hue, Ikea Trådfri, LIFX, Lutron, Milight, ...
+• Ogrzewanie: Max!, Nest, Vitotronic, Heatmiser, ...
+• Domowa Rozrywka: Samsung TV, LG TV, Sonos, Pioneer AVR, Squeezebox, Kodi, Plex, ...
+• Systemy alarmowe: ZoneMinder, DSC, ...
+• Otwarte protokoły: HTTP, TCP/UDP, MQTT, Serial, ...
+• Specjalne Zastosowania: Minecraft, Tesla Car, Weather Services, ...
+• ...
+
+<b>Społeczność Open Source</b>
+
+Inicjatywę openHAB popiera jego żywa społeczność. Forum, które tworzy ponad 13 000 zarejestrowanych użytkowników, jest miejscem gdzie znajdziesz wskazówki, pomoc i inspirację. Dołącz do forum społeczności openHAB na https://community.openhab.org
+Jeśli znalazłeś problem, napisz na forum lub na https://github.com/openhab/openhab-android/issues
+Jeśli chcesz przetłumaczyć tę aplikację na swój język, dołącz do nas na https://crowdin.com/project/openhab-android
+
+<b>Fundacja openHAB</b>
+
+Fundacja openHAB jest organizacją non-profit z misją do informowania opinii publicznej o możliwościach i korzyściach z używania wolnego i otwartego rozwiązania dla inteligentnego domu. Dowiedz się więcej o misji i usługach fundacji pod adresem https://www.openhabfoundation.org
+
+<b>Istotne kwestie</b>
+
+Potrzebujesz serwera openHAB dla tej aplikacji

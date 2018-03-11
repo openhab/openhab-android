@@ -1,0 +1,1 @@
+klient openHAB dla systemu Android
