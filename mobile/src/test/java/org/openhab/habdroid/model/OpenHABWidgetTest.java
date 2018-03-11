@@ -1,9 +1,6 @@
 package org.openhab.habdroid.model;
 
-import android.graphics.Color;
-
 import org.json.JSONObject;
-import org.junit.Assume;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,9 +20,6 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertNull;
-import static junit.framework.Assert.assertTrue;
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.mockito.Mockito.mock;
 
 @RunWith(MockitoJUnitRunner.class)
 public class OpenHABWidgetTest {
@@ -109,8 +103,6 @@ public class OpenHABWidgetTest {
 
     @Test
     public void testGetColors() throws Exception {
-        Assume.assumeThat(Color.parseColor("blue"), equalTo(Color.BLUE));
-        // Doesn't seem to work via Android Studio
         Integer i = new Integer(0);
         assertEquals(i, sut1.get(0).labelColor());
         assertEquals(i, sut1.get(0).iconColor());
