@@ -56,8 +56,8 @@ deploy:
   provider: releases
   prerelease: true
   file:
-    - openhab-android.apk
-    - openhab-android-foss.apk
+    - $HOME/apks_to_deploy/openhab-android.apk
+    - $HOME/apks_to_deploy/openhab-android-foss.apk
   skip_cleanup: true
   overwrite: true
   on:
