@@ -25,8 +25,6 @@ android {
     compileSdkVersion 26
     useLibrary 'org.apache.http.legacy'
 
-    flavorDimensions "main"
-
     defaultConfig {
         applicationId "org.openhab.habdroid"
         minSdkVersion 14
@@ -50,12 +48,22 @@ android {
             testCoverageEnabled true
         }
     }
+
+    flavorDimensions "license", "release"
     productFlavors {
         full {
-            dimension "main"
+            dimension "license"
         }
         foss {
-            dimension "main"
+            dimension "license"
+        }
+
+        releae {
+            dimension "release"
+        }
+        beta {
+            dimension "release"
+            applicationIdSuffix ".beta"
         }
     }
     testOptions {
