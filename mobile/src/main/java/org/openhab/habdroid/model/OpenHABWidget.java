@@ -281,11 +281,7 @@ public abstract class OpenHABWidget implements Parcelable {
                     try {
                         itemState = String.valueOf(item.stateAsBrightness());
                         if (type == Type.Switch) {
-                            if (itemState.equals("0")) {
-                                itemState = "OFF";
-                            } else {
-                                itemState = "ON";
-                            }
+                            itemState = itemState.equals("0") ? "OFF" : "ON";
                         }
                     } catch (Exception e) {
                         itemState = "OFF";
@@ -295,16 +291,7 @@ public abstract class OpenHABWidget implements Parcelable {
                     && !item.isOfTypeOrGroupType(OpenHABItem.Type.Rollershutter)) {
                 // For switch items without mappings (just ON and OFF) that control a dimmer item
                 // set the state to "OFF" instead of 0 or to "ON" to fetch the correct icon
-                try {
-                    int itemStateNumber = Integer.valueOf(itemState);
-                    if (itemStateNumber == 0) {
-                        itemState = "OFF";
-                    } else {
-                        itemState = "ON";
-                    }
-                } catch (java.lang.NumberFormatException e) {
-                    // Item state is not a number, not sure if that can happen, but good to catch
-                }
+                itemState = itemState.equals("0") ? "OFF" : "ON";
             }
         }
 
@@ -328,7 +315,7 @@ public abstract class OpenHABWidget implements Parcelable {
                 color = "#FFA500";
             }
             try {
-                return new Integer(Color.parseColor(color));
+                return Integer.valueOf(Color.parseColor(color));
             } catch (IllegalArgumentException e) {
                 Log.e("OpenHABWidget", "Could not parse color '" + color + "'", e);
             }
