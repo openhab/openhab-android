@@ -82,12 +82,7 @@ public class OpenHABVoiceService extends Service implements ConnectionFactory.Up
     }
 
     @Override
-    public void onConnectionSetChanged() {
-        // We're not interested
-    }
-
-    @Override
-    public void onAvailableConnectionChanged() {
+    public void onConnectionChanged() {
         try {
             Connection conn = ConnectionFactory.getUsableConnection();
             for (Pair<String, Integer> entry : mPendingCommands) {

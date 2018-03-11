@@ -480,8 +480,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
 
         super.onResume();
         ConnectionFactory.addListener(this);
-        updateNotificationDrawerItem();
-        onAvailableConnectionChanged();
+        onConnectionChanged();
 
         NfcAdapter nfcAdapter = NfcAdapter.getDefaultAdapter(this);
         if (nfcAdapter != null) {
@@ -510,12 +509,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onConnectionSetChanged() {
-        updateNotificationDrawerItem();
-    }
-
-    @Override
-    public void onAvailableConnectionChanged() {
+    public void onConnectionChanged() {
         Connection newConnection;
         ConnectionException failureReason;
 
@@ -526,6 +520,8 @@ public class OpenHABMainActivity extends AppCompatActivity implements
             newConnection = null;
             failureReason = e;
         }
+
+        updateNotificationDrawerItem();
 
         if (newConnection != null && newConnection == mConnection) {
             return;
