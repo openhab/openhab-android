@@ -135,7 +135,7 @@ final public class ConnectionFactory extends BroadcastReceiver implements
     private void addListenerInternal(UpdateListener l) {
         if (mListeners.add(l)) {
             if (mNeedsUpdate) {
-                mUpdateHandler.sendEmptyMessage(MSG_TRIGGER_UPDATE);
+                triggerConnectionUpdateIfNeeded();
                 mNeedsUpdate = false;
             } else if (mLocalConnection != null && mListeners.size() == 1) {
                 // When coming back from background, re-do connectivity check for
@@ -146,7 +146,7 @@ final public class ConnectionFactory extends BroadcastReceiver implements
                 boolean local = mAvailableConnection == mLocalConnection
                         || (nuie != null && nuie.wouldHaveUsedLocalConnection());
                 if (local) {
-                    mUpdateHandler.sendEmptyMessage(MSG_TRIGGER_UPDATE);
+                    triggerConnectionUpdateIfNeeded();
                 }
             }
         }
@@ -164,7 +164,7 @@ final public class ConnectionFactory extends BroadcastReceiver implements
     }
 
     public static void restartNetworkCheck() {
-        sInstance.mUpdateHandler.sendEmptyMessage(MSG_TRIGGER_UPDATE);
+        sInstance.triggerConnectionUpdateIfNeeded();
     }
 
     /**
@@ -225,7 +225,7 @@ final public class ConnectionFactory extends BroadcastReceiver implements
             mConnectionFailureReason = null;
             mNeedsUpdate = true;
         } else {
-            mUpdateHandler.sendEmptyMessage(MSG_TRIGGER_UPDATE);
+            triggerConnectionUpdateIfNeeded();
         }
     }
 
@@ -395,6 +395,13 @@ final public class ConnectionFactory extends BroadcastReceiver implements
         synchronized (mInitializationLock) {
             mIsInitialized = true;
             mInitializationLock.notifyAll();
+        }
+    }
+
+    private void triggerConnectionUpdateIfNeeded() {
+        if (mLocalConnection instanceof DefaultConnection
+                || mRemoteConnection instanceof DefaultConnection) {
+            mUpdateHandler.sendEmptyMessage(MSG_TRIGGER_UPDATE);
         }
     }
 
