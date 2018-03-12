@@ -72,6 +72,7 @@ final public class ConnectionFactory extends BroadcastReceiver implements
     private ConnectionException mConnectionFailureReason;
     private HashSet<UpdateListener> mListeners = new HashSet<>();
     private boolean mNeedsUpdate;
+    private boolean mIgnoreNextConnectivityChange;
     private boolean mIsInitialized;
     private Object mInitializationLock = new Object();
 
@@ -89,8 +90,11 @@ final public class ConnectionFactory extends BroadcastReceiver implements
         this.settings = settings;
         this.settings.registerOnSharedPreferenceChangeListener(this);
 
-        ctx.registerReceiver(this,
-                new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
+        IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+        // Make sure to ignore the initial sticky broadcast, as we're only interested in changes
+        mIgnoreNextConnectivityChange = ctx.registerReceiver(null, filter) != null;
+        ctx.registerReceiver(this, filter);
+
         mUpdateThread = new HandlerThread("ConnectionUpdate");
         mUpdateThread.start();
         mUpdateHandler = new Handler(mUpdateThread.getLooper(), this);
@@ -210,6 +214,10 @@ final public class ConnectionFactory extends BroadcastReceiver implements
 
     @Override
     public void onReceive(Context context, Intent intent) {
+        if (mIgnoreNextConnectivityChange) {
+            mIgnoreNextConnectivityChange = false;
+            return;
+        }
         if (mListeners.isEmpty()) {
             // We're running in background. Clear current state and postpone update for next
             // listener registration.
