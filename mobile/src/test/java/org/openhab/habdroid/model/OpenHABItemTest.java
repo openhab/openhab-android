@@ -76,4 +76,20 @@ public class OpenHABItemTest {
         object.put("stateDescription", new JSONObject().put("readOnly", false));
         assertFalse(OpenHABItem.fromJson(object).readOnly());
     }
+
+    @Test
+    public void getMembers() throws Exception {
+        OpenHABItem sut = OpenHABItem.fromJson(new JSONObject("{ 'members': ["
+                + "{ 'state': '52.5200066,13.4029540', 'type': 'Location',"
+                + "'name': 'GroupDemoLocation', 'label': 'Location 1',"
+                + "'groupNames': [ 'LocationGroup' ] },"
+                + "{ 'state': '52.5200066,13.4029540', 'type': 'Location',"
+                + "'name': 'GroupDemoLocation', 'label': 'Location 2',"
+                + "'groupNames': [ 'LocationGroup' ] },"
+                + "], 'state': 'NULL', 'type': 'Group',"
+                + "'name': 'LocationGroup', 'label': 'Location Group' }"));
+        assertEquals(2, sut.members().size());
+        assertEquals(OpenHABItem.Type.Location, sut.members().get(0).type());
+        assertEquals("Location 2", sut.members().get(1).label());
+    }
 }
