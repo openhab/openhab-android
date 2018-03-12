@@ -13,7 +13,6 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -64,6 +63,9 @@ public class GcmListenerService extends com.google.android.gms.gcm.GcmListenerSe
         PendingIntent deletePi = PendingIntent.getBroadcast(this, notificationId,
                 deleteIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        String toneSetting = prefs.getString(Constants.PREFERENCE_TONE, "");
+
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.drawable.ic_openhab_appicon_24dp)
                 .setContentTitle(getString(R.string.app_name))
@@ -72,17 +74,10 @@ public class GcmListenerService extends com.google.android.gms.gcm.GcmListenerSe
                 .setColor(ContextCompat.getColor(this, R.color.openhab_orange))
                 .setAutoCancel(true)
                 .setWhen(timestamp)
+                .setSound(Uri.parse(toneSetting))
                 .setContentText(msg)
                 .setContentIntent(contentPi)
                 .setDeleteIntent(deletePi);
-
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        String toneSetting = prefs.getString(Constants.PREFERENCE_TONE, "");
-        if (toneSetting.isEmpty()) {
-            builder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
-        } else {
-            builder.setSound(Uri.parse(toneSetting));
-        }
 
         nm.notify(notificationId, builder.build());
     }
