@@ -121,7 +121,7 @@ final public class ConnectionFactory extends BroadcastReceiver implements
             while (!sInstance.mIsInitialized) {
                 try {
                     sInstance.mInitializationLock.wait();
-                } catch (InterruptedException e) {
+                } catch (InterruptedException ignored) {
                     // ignored
                 }
             }

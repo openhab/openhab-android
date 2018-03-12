@@ -35,10 +35,10 @@ public class GcmListenerService extends com.google.android.gms.gcm.GcmListenerSe
         if ("notification".equals(data.getString("type"))) {
             //for now we use google.sent_time as a time reference for our notifications as the gcm
             //message does not contain the actual event time from the openhab instance at the moment,
-            //in case gcm time is also missing, we fall back to the reception time which may be delayed (old behaviour)
+            //in case gcm time is also missing, we fall back to the reception time which may be delayed
             long timestamp = data.getLong("google.sent_time", System.currentTimeMillis());
             sendNotification(data.getString("message"), timestamp, notificationId);
-            // If this is hideNotification, cancel existing notification with it's id
+            // If this is hideNotification, cancel existing notification with its id
         } else if ("hideNotification".equals(data.getString("type"))) {
             NotificationManager nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
             nm.cancel(notificationId);
