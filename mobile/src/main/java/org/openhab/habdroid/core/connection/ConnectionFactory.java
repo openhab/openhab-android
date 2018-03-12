@@ -66,7 +66,7 @@ final public class ConnectionFactory extends BroadcastReceiver implements
     private SharedPreferences settings;
 
     private Connection mLocalConnection;
-    private Connection mRemoteConnection;
+    private AbstractConnection mRemoteConnection;
     private CloudConnection mCloudConnection;
     private Connection mAvailableConnection;
     private ConnectionException mConnectionFailureReason;
@@ -245,12 +245,12 @@ final public class ConnectionFactory extends BroadcastReceiver implements
             }
             case MSG_UPDATE_CLOUD_CONNECTION: { // update thread
                 ConnectionUpdateResult result = (ConnectionUpdateResult) msg.obj;
-                final MySyncHttpClient client;
+                final AbstractConnection remote;
                 synchronized (this) {
-                    client = mRemoteConnection != null
-                            ? mRemoteConnection.getSyncHttpClient() : null;
+                    remote = mRemoteConnection;
                 }
-                if (client != null) {
+                if (remote != null) {
+                    final MySyncHttpClient client = remote.getSyncHttpClient();
                     client.get(CloudConnection.SETTINGS_ROUTE, new MyHttpClient.TextResponseHandler() {
                         @Override
                         public void onFailure(Call call, int statusCode, Headers headers, String responseBody, Throwable error) {
@@ -261,7 +261,8 @@ final public class ConnectionFactory extends BroadcastReceiver implements
                         public void onSuccess(Call call, int statusCode, Headers headers, String responseBody) {
                             try {
                                 JSONObject json = new JSONObject(responseBody);
-                                result.cloud = new CloudConnection(ctx, settings, mRemoteConnection, json);
+                                String senderId = json.getJSONObject("gcm").getString("senderId");
+                                result.cloud = new CloudConnection(remote, senderId);
                             } catch (JSONException e) {
                                 Log.d(TAG, "Unable to parse notification settings JSON", e);
                             }
@@ -384,7 +385,7 @@ final public class ConnectionFactory extends BroadcastReceiver implements
         }
     }
 
-    private Connection makeConnection(int type, String urlKey,
+    private AbstractConnection makeConnection(int type, String urlKey,
             String userNameKey, String passwordKey) {
         String url = Util.normalizeUrl(settings.getString(urlKey, ""));
         if (url.isEmpty()) {

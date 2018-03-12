@@ -44,6 +44,17 @@ public abstract class AbstractConnection implements Connection {
         updateHttpClientAuth(syncHttpClient);
     }
 
+    AbstractConnection(@NonNull AbstractConnection base, int connectionType) {
+        this.settings = base.settings;
+        this.username = base.username;
+        this.password = base.password;
+        this.baseUrl = base.baseUrl;
+        this.connectionType = connectionType;
+
+        asyncHttpClient = base.getAsyncHttpClient();
+        syncHttpClient = base.getSyncHttpClient();
+    }
+
     private void updateHttpClientAuth(MyHttpClient httpClient) {
         if (hasUsernameAndPassword()) {
             httpClient.setBasicAuth(getUsername(), getPassword());
