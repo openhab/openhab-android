@@ -140,7 +140,7 @@ public class OpenHABWriteTagActivity extends AppCompatActivity {
         Tag tagFromIntent = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
         //do something with tagFromIntent
         Log.d(TAG, "NFC TAG = " + tagFromIntent.toString());
-        Log.d(TAG, "Writing page " + mSitemapPage + " to TAG");
+        Log.d(TAG, "Writing page " + mSitemapPage + " to tag");
 
         TextView writeTagMessage = findViewById(R.id.write_tag_message);
 
