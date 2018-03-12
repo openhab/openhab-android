@@ -128,6 +128,7 @@ dependencies {
     testCompile 'org.mockito:mockito-core:2.7.6'
     testCompile 'junit:junit:4.12'
     testCompile 'org.json:json:20160810'
+    testCompile 'com.squareup.okhttp3:mockwebserver:3.6.0'
 
     // PowerMock
     testCompile 'org.powermock:powermock-core:1.7.0'

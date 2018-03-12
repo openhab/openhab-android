@@ -20,6 +20,12 @@ import org.openhab.habdroid.core.connection.exception.NetworkNotSupportedExcepti
 import org.openhab.habdroid.core.connection.exception.NoUrlInformationException;
 import org.openhab.habdroid.util.Constants;
 
+import java.io.IOException;
+
+import okhttp3.HttpUrl;
+import okhttp3.mockwebserver.MockResponse;
+import okhttp3.mockwebserver.MockWebServer;
+
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertNull;
@@ -27,6 +33,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.when;
 
 public class ConnectionFactoryTest {
@@ -55,15 +62,19 @@ public class ConnectionFactoryTest {
     }
 
     @Test
-    public void testGetConnectionRemoteWithUrl() throws ConnectionException {
+    public void testGetConnectionRemoteWithUrl() throws ConnectionException, IOException {
+        MockWebServer server = new MockWebServer();
+        server.enqueue(new MockResponse().setResponseCode(404));
+        server.start();
+
         when(mockSettings.getString(eq(Constants.PREFERENCE_REMOTE_URL), anyString()))
-                .thenReturn("https://myopenhab.org:8443");
+                .thenReturn(server.url("/").toString());
         ConnectionFactory.sInstance.updateConnections();
         Connection conn = ConnectionFactory.getConnection(Connection.TYPE_REMOTE);
 
-        assertNotNull("Requesting a remote connection when a remote url is set, should return a " +
-                "connection.", conn);
-        assertEquals("The connection type of a remote connection should be LOGLEVEL_REMOTE.",
+        assertNotNull("Requesting a remote connection when a remote url is set, " +
+                " should return a connection.", conn);
+        assertEquals("The connection type of a remote connection should be TYPE_REMOTE.",
                 Connection.TYPE_REMOTE, conn.getConnectionType());
     }
 
@@ -103,16 +114,26 @@ public class ConnectionFactoryTest {
     }
 
     @Test
-    public void testGetConnectionCloudWithUrl() throws ConnectionException {
+    public void testGetConnectionCloudWithUrl() throws ConnectionException, IOException {
+        MockWebServer server = new MockWebServer();
+        server.enqueue(new MockResponse().setBody("{'gcm': { 'senderId': '12345'} }"));
+        server.start();
+
         when(mockSettings.getString(eq(Constants.PREFERENCE_REMOTE_URL), anyString()))
-                .thenReturn("https://myopenhab.org:8443");
+                .thenReturn(server.url("/").toString());
+
         ConnectionFactory.sInstance.updateConnections();
         Connection conn = ConnectionFactory.getConnection(Connection.TYPE_CLOUD);
 
-        assertNotNull("Requesting a cloud connection when a remote url is set, should return a " +
-                "connection.", conn);
+        assertNotNull("Requesting a cloud connection when a remote url is set, "
+                + "should return a connection.", conn);
+        assertEquals(CloudConnection.class, conn.getClass());
         assertEquals("The connection type of a cloud connection should be TYPE_CLOUD.",
                 Connection.TYPE_CLOUD, conn.getConnectionType());
+        assertEquals("The sender ID of the cloud connection should be '12345'",
+                "12345", ((CloudConnection) conn).getMessagingSenderId());
+
+        server.shutdown();
     }
 
     @Test(expected = NetworkNotAvailableException.class)
@@ -130,25 +151,34 @@ public class ConnectionFactoryTest {
     }
 
     @Test
-    public void testGetAnyConnectionWifiRemoteOnly() throws ConnectionException {
+    public void testGetAnyConnectionWifiRemoteOnly() throws ConnectionException, IOException {
+        MockWebServer server = new MockWebServer();
+        server.enqueue(new MockResponse().setResponseCode(404));
+        server.start();
+
         when(mockSettings.getString(eq(Constants.PREFERENCE_REMOTE_URL), anyString()))
-                .thenReturn("https://myopenhab.org:8443");
+                .thenReturn(server.url("/").toString());
         ConnectionFactory.sInstance.updateConnections();
         triggerNetworkUpdate(ConnectivityManager.TYPE_WIFI);
 
         Connection conn = ConnectionFactory.getUsableConnection();
 
-        assertNotNull("Requesting any connection in WIFI when only a remote url is set, should " +
-                "return" +
-                " a connection.", conn);
+        assertNotNull("Requesting any connection in WIFI when only a remote url is set, "
+                + "should return a connection.", conn);
         assertEquals("The connection type of the connection should be TYPE_REMOTE.",
                 Connection.TYPE_REMOTE, conn.getConnectionType());
+
+        server.shutdown();
     }
 
     @Test
-    public void testGetAnyConnectionWifiLocalRemote() throws ConnectionException {
+    public void testGetAnyConnectionWifiLocalRemote() throws ConnectionException, IOException {
+        MockWebServer server = new MockWebServer();
+        server.enqueue(new MockResponse().setResponseCode(404));
+        server.start();
+
         when(mockSettings.getString(eq(Constants.PREFERENCE_REMOTE_URL), anyString()))
-                .thenReturn("https://openhab.remote");
+                .thenReturn(server.url("/").toString());
         when(mockSettings.getString(eq(Constants.PREFERENCE_LOCAL_URL), anyString()))
                 .thenReturn("https://myopenhab.org:443");
         ConnectionFactory.sInstance.updateConnections();
@@ -156,10 +186,12 @@ public class ConnectionFactoryTest {
 
         Connection conn = ConnectionFactory.getUsableConnection();
 
-        assertNotNull("Requesting any connection in WIFI when a local url is set, should return" +
-                " a connection.", conn);
+        assertNotNull("Requesting any connection in WIFI when a local url is set, "
+                + "should return a connection.", conn);
         assertEquals("The connection type of the connection should be TYPE_LOCAL.",
                 Connection.TYPE_LOCAL, conn.getConnectionType());
+
+        server.shutdown();
     }
 
     @Test(expected = NoUrlInformationException.class)
@@ -206,11 +238,25 @@ public class ConnectionFactoryTest {
         when(h.obtainMessage(anyInt())).thenAnswer(new Answer<Message>() {
             @Override
             public Message answer(InvocationOnMock invocationOnMock) throws Throwable {
-                Message msg = new Message();
-                msg.what = invocationOnMock.getArgument(0);
-                return msg;
+                return makeMockedMessage(h, invocationOnMock.getArgument(0), null);
+            }
+        });
+        when(h.obtainMessage(anyInt(), any())).thenAnswer(new Answer<Message>() {
+            @Override
+            public Message answer(InvocationOnMock invocationOnMock) throws Throwable {
+                return makeMockedMessage(h,
+                        invocationOnMock.getArgument(0),
+                        invocationOnMock.getArgument(1));
             }
         });
         return h;
+    }
+
+    private Message makeMockedMessage(Handler h, int what, Object obj) {
+        Message msg = Mockito.mock(Message.class);
+        msg.what = what;
+        msg.obj = obj;
+        doAnswer(invocationOnMock -> h.sendMessage(msg)).when(msg).sendToTarget();
+        return msg;
     }
 }
