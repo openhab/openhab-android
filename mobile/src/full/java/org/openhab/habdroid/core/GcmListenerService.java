@@ -50,16 +50,16 @@ public class GcmListenerService extends com.google.android.gms.gcm.GcmListenerSe
         NotificationManager nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 
         Intent contentIntent = new Intent(this, OpenHABMainActivity.class)
-            .setAction(OpenHABMainActivity.ACTION_NOTIFICATION_SELECTED)
-            .setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP)
-            .putExtra(EXTRA_NOTIFICATION_ID, notificationId)
-            .putExtra(OpenHABMainActivity.EXTRA_MESSAGE, msg);
+                .setAction(OpenHABMainActivity.ACTION_NOTIFICATION_SELECTED)
+                .setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                .putExtra(EXTRA_NOTIFICATION_ID, notificationId)
+                .putExtra(OpenHABMainActivity.EXTRA_MESSAGE, msg);
         PendingIntent contentPi = PendingIntent.getActivity(this, notificationId,
                 contentIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         Intent deleteIntent = new Intent(this, GcmRegistrationService.class)
-            .setAction(GcmRegistrationService.ACTION_HIDE_NOTIFICATION)
-            .putExtra(GcmRegistrationService.EXTRA_NOTIFICATION_ID, notificationId);
+                .setAction(GcmRegistrationService.ACTION_HIDE_NOTIFICATION)
+                .putExtra(GcmRegistrationService.EXTRA_NOTIFICATION_ID, notificationId);
 
         PendingIntent deletePi = PendingIntent.getBroadcast(this, notificationId,
                 deleteIntent, PendingIntent.FLAG_UPDATE_CURRENT);
