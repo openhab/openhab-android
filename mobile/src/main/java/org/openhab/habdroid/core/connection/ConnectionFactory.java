@@ -282,29 +282,7 @@ final public class ConnectionFactory extends BroadcastReceiver implements
             }
             case MSG_UPDATE_DONE: { // main thread
                 ConnectionUpdateResult result = (ConnectionUpdateResult) msg.obj;
-                boolean changed = false;
-                // Check whether the passed connection matches a known one. If not, the
-                // connections were updated while the thread was processing and we'll get
-                // a new callback.
-                if (result.availableFailureReason != null
-                        || result.available == mLocalConnection
-                        || result.available == mRemoteConnection) {
-                    changed = updateAvailableConnection(result.available, result.availableFailureReason);
-                }
-                if (result.cloud != mCloudConnection) {
-                    mCloudConnection = result.cloud;
-                    CloudMessagingHelper.onConnectionUpdated(ctx, mCloudConnection);
-                    changed = true;
-                }
-                if (changed) {
-                    for (UpdateListener l : mListeners) {
-                        l.onConnectionChanged();
-                    }
-                }
-                synchronized (mInitializationLock) {
-                    mIsInitialized = true;
-                    mInitializationLock.notifyAll();
-                }
+                callListenersAndSignalInitializationDone(result);
                 return true;
             }
         }
@@ -376,8 +354,9 @@ final public class ConnectionFactory extends BroadcastReceiver implements
 
         if (settings.getBoolean(Constants.PREFERENCE_DEMOMODE, false)) {
             mLocalConnection = mRemoteConnection = new DemoConnection(ctx, settings);
-            updateAvailableConnection(mLocalConnection, null);
-            CloudMessagingHelper.onConnectionUpdated(ctx, null);
+            ConnectionUpdateResult result = new ConnectionUpdateResult();
+            result.available = mLocalConnection;
+            callListenersAndSignalInitializationDone(result);
         } else {
             mLocalConnection = makeConnection(Connection.TYPE_LOCAL, Constants.PREFERENCE_LOCAL_URL,
                     Constants.PREFERENCE_LOCAL_USERNAME, Constants.PREFERENCE_LOCAL_PASSWORD);
@@ -390,6 +369,32 @@ final public class ConnectionFactory extends BroadcastReceiver implements
             mAvailableConnection = null;
             mConnectionFailureReason = null;
             mUpdateHandler.sendEmptyMessage(MSG_TRIGGER_UPDATE);
+        }
+    }
+
+    private void callListenersAndSignalInitializationDone(ConnectionUpdateResult result) {
+        boolean changed = false;
+        // Check whether the passed connection matches a known one. If not, the
+        // connections were updated while the thread was processing and we'll get
+        // a new callback.
+        if (result.availableFailureReason != null
+                || result.available == mLocalConnection
+                || result.available == mRemoteConnection) {
+            changed = updateAvailableConnection(result.available, result.availableFailureReason);
+        }
+        if (result.cloud != mCloudConnection) {
+            mCloudConnection = result.cloud;
+            CloudMessagingHelper.onConnectionUpdated(ctx, mCloudConnection);
+            changed = true;
+        }
+        if (changed) {
+            for (UpdateListener l : mListeners) {
+                l.onConnectionChanged();
+            }
+        }
+        synchronized (mInitializationLock) {
+            mIsInitialized = true;
+            mInitializationLock.notifyAll();
         }
     }
 
