@@ -54,5 +54,5 @@ public interface Connection {
     /**
      * @return Whether the this connection is currently reachable.
      */
-    boolean checkReachabilityInBackground();
+    boolean checkReachability();
 }

@@ -10,15 +10,16 @@ import org.openhab.habdroid.util.MyAsyncHttpClient;
 import org.openhab.habdroid.util.MyHttpClient;
 import org.openhab.habdroid.util.MySyncHttpClient;
 
+import java.io.IOException;
 import java.net.InetSocketAddress;
+import java.net.MalformedURLException;
 import java.net.Socket;
 import java.net.URL;
 
 public abstract class AbstractConnection implements Connection {
     private static final String TAG = AbstractConnection.class.getSimpleName();
-
+    private static final int MAX_CONNECT_TRIES = 10;
     private SharedPreferences settings;
-
     private int connectionType;
     private String username;
     private String password;
@@ -97,24 +98,60 @@ public abstract class AbstractConnection implements Connection {
     }
 
     @Override
-    public boolean checkReachabilityInBackground() {
+    public boolean checkReachability() {
         Log.d(TAG, "Checking reachability of " + getOpenHABUrl());
+
+        Socket s;
         try {
-            URL url = new URL(getOpenHABUrl());
-            int checkPort = url.getPort();
-            if (url.getProtocol().equals("http") && checkPort == -1)
-                checkPort = 80;
-            if (url.getProtocol().equals("https") && checkPort == -1)
-                checkPort = 443;
-            Socket s = new Socket();
-            s.connect(new InetSocketAddress(url.getHost(), checkPort), 1000);
-            Log.d(TAG, "Socket connected");
-            s.close();
-            return true;
-        } catch (Exception e) {
-            Log.e(TAG, e.getMessage());
+            s = createConnectedSocket();
+        } catch (MalformedURLException e) {
+            Log.d(TAG, "URL could not be parsed", e);
             return false;
         }
+
+        if (s == null) {
+            return false;
+        }
+
+        Log.d(TAG, "Socket connected");
+        try {
+            s.close();
+        } catch (IOException e) {
+            Log.d(TAG, "Could not close socket connection.", e);
+        }
+        return true;
+    }
+
+    private Socket createConnectedSocket() throws MalformedURLException {
+        for (int retries = 0; retries < MAX_CONNECT_TRIES; retries++) {
+            Socket s = new Socket();
+            InetSocketAddress socketAddress = getReachabilitySocketAddress();
+            try {
+                s.connect(socketAddress, 1000);
+            } catch (IOException e) {
+                Log.d(TAG, "Socket connection failed at the " + retries + ". try.", e);
+            }
+            if (s.isConnected()) {
+                return s;
+            }
+            try {
+                Thread.sleep(200);
+            } catch (InterruptedException ignored) {
+            }
+        }
+        return null;
+    }
+
+    @NonNull
+    private InetSocketAddress getReachabilitySocketAddress() throws MalformedURLException {
+        URL url = new URL(getOpenHABUrl());
+        int checkPort = url.getPort();
+        if (url.getProtocol().equals("http") && checkPort == -1)
+            checkPort = 80;
+        if (url.getProtocol().equals("https") && checkPort == -1)
+            checkPort = 443;
+
+        return new InetSocketAddress(url.getHost(), checkPort);
     }
 
     @Override
