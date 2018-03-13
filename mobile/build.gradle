@@ -166,11 +166,9 @@ dependencyVerification {
             'com.android.support:recyclerview-v7:389cb47a7dabca4fb8c23657ff7c85ebc651428580d3a5ea0349eeb43ddea94b',
             'com.android.support:multidex:7cd48755c7cfdb6dd2d21cbb02236ec390f6ac91cde87eb62f475b259ab5301d',
             'com.android.support.constraint:constraint-layout:b0c688cc2b7172608f8153a689d746da40f71e52d7e2fe2bfd9df2f92db77085',
-            'com.google.code.gson:gson:c6221763bd79c4f1c3dc7f750b5f29a0bb38b367b81314c4f71896e340c40825',
             'org.jmdns:jmdns:33d3ace453d303fe103350be963d45aad9e405c9a30758aa588ccce00a4d5bde',
             'com.squareup.okhttp3:okhttp:a992938d7203ca557cd7a116f002e8c427ec9cdae7ea852441abb8aec891f948',
             'com.github.loopj:android-smart-image-view:2437b0e868e8296e1578c25cf7aa0d125c72539e29e45d08ba01a41bfbd969fa',
-            'com.github.shell-software:fab:7c30030fd0080ba0e59872a54b0dde5de48b53f8835afdee12b9f57730c9eaa5',
             'com.github.BigBadaboom:androidsvg:cef17e77b14a1b8579eab045c74bc97d9aa7ef48624b45bce80f943c2248b0a0',
             'com.android.support:cardview-v7:7ea56ed5560b629ee1c0f24af6693e32974fbc8b91b544052cd2c14b176c85e0',
             'com.mikepenz:aboutlibraries:8cc8aec1760f785f65bfe40bb164f963e59d3f7a1f829b2763ece15c3c883206',
@@ -183,8 +181,6 @@ dependencyVerification {
             'com.android.support:support-compat:7d6da01cf9766b1705c6c80cfc12274a895b406c4c287900b07a56145ca6c030',
             'com.android.support:support-annotations:99d6199ad5a09a0e5e8a49a4cc08f818483ddcfd7eedea2f9923412daf982309',
             'com.android.support.constraint:constraint-layout-solver:8c62525a9bc5cff5633a96cb9b32fffeccaf41b8841aa87fc22607070dea9b8d',
-            'com.github.shell-software:viewmover:6d582d555db30074b350c91e57e260aeda8654a25052ddcea54bbb0f563870e5',
-            'com.github.shell-software:uitools:8c970e67f0bfced5c99ae7869e8206dd348c53dc0216e9fe5de3a4453efbb365',
             'org.slf4j:slf4j-api:e56288031f5e60652c06e7bb6e9fa410a61231ab54890f7b708fc6adc4107c5b',
             'com.squareup.okio:okio:8c5436cadfab36bbd97db5f5c43b7bfdb5bf2f5f894ec8709b1929f14bdd010c',
             'com.mikepenz:iconics-core:fa2cb91e1fba0a89e05705290edba6c9bca5c9d8a939b634ede35f12fae23b1a',
@@ -200,6 +196,7 @@ dependencyVerification {
             'com.google.firebase:firebase-iid-license:a004447dd3dd1da712dede2815afd537384f23c746167a9246df50307596a906',
     ]
 }
+
 
 if(!isFoss) {
     apply plugin: 'com.google.gms.google-services'
