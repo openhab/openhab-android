@@ -321,18 +321,4 @@ public abstract class OpenHABWidget implements Parcelable {
         }
         return Type.Unknown;
     }
-
-    private static Integer parseColor(String color) {
-        if (color != null && !color.isEmpty()) {
-            if (color.equals("orange")) {
-                color = "#FFA500";
-            }
-            try {
-                return Integer.valueOf(Color.parseColor(color));
-            } catch (IllegalArgumentException e) {
-                Log.e("OpenHABWidget", "Could not parse color '" + color + "'", e);
-            }
-        }
-        return null;
-    }
 }
