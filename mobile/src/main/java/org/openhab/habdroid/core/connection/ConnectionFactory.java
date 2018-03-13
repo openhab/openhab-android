@@ -17,25 +17,18 @@ import android.util.Log;
 
 import com.loopj.android.image.WebImageCache;
 
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.openhab.habdroid.core.CloudMessagingHelper;
 import org.openhab.habdroid.core.connection.exception.ConnectionException;
 import org.openhab.habdroid.core.connection.exception.NetworkNotAvailableException;
 import org.openhab.habdroid.core.connection.exception.NetworkNotSupportedException;
 import org.openhab.habdroid.core.connection.exception.NoUrlInformationException;
 import org.openhab.habdroid.util.Constants;
-import org.openhab.habdroid.util.MyHttpClient;
-import org.openhab.habdroid.util.MySyncHttpClient;
 import org.openhab.habdroid.util.MyWebImage;
 import org.openhab.habdroid.util.Util;
 
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
-
-import okhttp3.Call;
-import okhttp3.Headers;
 
 /**
  * A factory class, which is the main entry point to get a Connection to a specific openHAB
@@ -258,24 +251,7 @@ final public class ConnectionFactory extends BroadcastReceiver implements
                     remote = mRemoteConnection;
                 }
                 if (remote != null) {
-                    final MySyncHttpClient client = remote.getSyncHttpClient();
-                    client.get(CloudConnection.SETTINGS_ROUTE, new MyHttpClient.TextResponseHandler() {
-                        @Override
-                        public void onFailure(Call call, int statusCode, Headers headers, String responseBody, Throwable error) {
-                            Log.e(TAG, "Error loading notification settings: " + error.getMessage());
-                        }
-
-                        @Override
-                        public void onSuccess(Call call, int statusCode, Headers headers, String responseBody) {
-                            try {
-                                JSONObject json = new JSONObject(responseBody);
-                                String senderId = json.getJSONObject("gcm").getString("senderId");
-                                result.cloud = new CloudConnection(remote, senderId);
-                            } catch (JSONException e) {
-                                Log.d(TAG, "Unable to parse notification settings JSON", e);
-                            }
-                        }
-                    });
+                    result.cloud = CloudConnection.fromConnection(remote);
                 }
                 mMainHandler.obtainMessage(MSG_UPDATE_DONE, result).sendToTarget();
                 return true;
