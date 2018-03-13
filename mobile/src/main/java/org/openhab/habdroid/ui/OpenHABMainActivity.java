@@ -79,7 +79,6 @@ import org.openhab.habdroid.model.OpenHABLinkedPage;
 import org.openhab.habdroid.model.OpenHABSitemap;
 import org.openhab.habdroid.ui.activity.ContentController;
 import org.openhab.habdroid.util.AsyncServiceResolver;
-import org.openhab.habdroid.util.AsyncServiceResolverListener;
 import org.openhab.habdroid.util.Constants;
 import org.openhab.habdroid.util.MyHttpClient;
 import org.openhab.habdroid.util.MyWebImage;
@@ -120,7 +119,7 @@ import static org.openhab.habdroid.util.Util.exceptionHasCause;
 import static org.openhab.habdroid.util.Util.removeProtocolFromUrl;
 
 public class OpenHABMainActivity extends AppCompatActivity implements
-        MemorizingResponder, AsyncServiceResolverListener, ConnectionFactory.UpdateListener {
+        MemorizingResponder, AsyncServiceResolver.Listener, ConnectionFactory.UpdateListener {
     public static final String ACTION_NOTIFICATION_SELECTED =
             "org.openhab.habdroid.action.NOTIFICATION_SELECTED";
     public static final String EXTRA_MESSAGE = "message";
