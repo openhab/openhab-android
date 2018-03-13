@@ -297,8 +297,9 @@ public abstract class OpenHABWidget implements Parcelable {
             } else if (type == Type.Switch && !hasMappings
                     && !item.isOfTypeOrGroupType(OpenHABItem.Type.Rollershutter)) {
                 // For switch items without mappings (just ON and OFF) that control a dimmer item
-                // set the state to "OFF" instead of 0 or to "ON" to fetch the correct icon
-                itemState = itemState.equals("0") ? "OFF" : "ON";
+                // and which are not ON or OFF already, set the state to "OFF" instead of 0
+                // or to "ON" to fetch the correct icon
+                itemState = itemState.equals("0") || itemState.equals("OFF") ? "OFF" : "ON";
             }
         }
 
