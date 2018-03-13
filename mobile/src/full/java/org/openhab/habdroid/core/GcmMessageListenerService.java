@@ -9,6 +9,7 @@
 
 package org.openhab.habdroid.core;
 
+import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
@@ -19,35 +20,41 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
 
+import com.google.android.gms.gcm.GcmListenerService;
+
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.ui.OpenHABMainActivity;
 import org.openhab.habdroid.util.Constants;
 
-public class GcmListenerService extends com.google.android.gms.gcm.GcmListenerService {
+public class GcmMessageListenerService extends GcmListenerService {
     static final String EXTRA_NOTIFICATION_ID = "notificationId";
 
     @Override
     public void onMessageReceived(String from, Bundle data) {
+        NotificationManager nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        String messageType = data.getString("type", "");
         String notificationIdString = data.getString(EXTRA_NOTIFICATION_ID);
         int notificationId = notificationIdString != null
                 ? Integer.parseInt(notificationIdString) : 1;
 
-        if ("notification".equals(data.getString("type"))) {
-            //for now we use google.sent_time as a time reference for our notifications as the gcm
-            //message does not contain the actual event time from the openhab instance at the moment,
-            //in case gcm time is also missing, we fall back to the reception time which may be delayed
-            long timestamp = data.getLong("google.sent_time", System.currentTimeMillis());
-            sendNotification(data.getString("message"), timestamp, notificationId);
-            // If this is hideNotification, cancel existing notification with its id
-        } else if ("hideNotification".equals(data.getString("type"))) {
-            NotificationManager nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-            nm.cancel(notificationId);
+        switch (messageType) {
+            case "notification":
+                // As the GCM message payload sent by OH cloud does not include the notification
+                // timestamp, use the (undocumented) google.sent_time as a time reference for our
+                // notifications. In case GCM stops sending that timestamp, use the current time
+                // as fallback.
+                long timestamp = data.getLong("google.sent_time", System.currentTimeMillis());
+                Notification n =
+                        makeNotification(data.getString("message"), timestamp, notificationId);
+                nm.notify(notificationId, n);
+                break;
+            case "hideNotification":
+                nm.cancel(notificationId);
+                break;
         }
     }
 
-    private void sendNotification(String msg, long timestamp, int notificationId) {
-        NotificationManager nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-
+    private Notification makeNotification(String msg, long timestamp, int notificationId) {
         Intent contentIntent = new Intent(this, OpenHABMainActivity.class)
                 .setAction(OpenHABMainActivity.ACTION_NOTIFICATION_SELECTED)
                 .setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP)
@@ -66,7 +73,7 @@ public class GcmListenerService extends com.google.android.gms.gcm.GcmListenerSe
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         String toneSetting = prefs.getString(Constants.PREFERENCE_TONE, "");
 
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
+        return new NotificationCompat.Builder(this)
                 .setSmallIcon(R.drawable.ic_openhab_appicon_24dp)
                 .setContentTitle(getString(R.string.app_name))
                 .setStyle(new NotificationCompat.BigTextStyle()
@@ -77,8 +84,7 @@ public class GcmListenerService extends com.google.android.gms.gcm.GcmListenerSe
                 .setSound(Uri.parse(toneSetting))
                 .setContentText(msg)
                 .setContentIntent(contentPi)
-                .setDeleteIntent(deletePi);
-
-        nm.notify(notificationId, builder.build());
+                .setDeleteIntent(deletePi)
+                .build();
     }
 }

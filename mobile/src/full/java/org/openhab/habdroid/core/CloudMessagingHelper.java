@@ -13,7 +13,6 @@ import android.content.Context;
 import android.content.Intent;
 
 import org.openhab.habdroid.core.connection.CloudConnection;
-import org.openhab.habdroid.core.connection.Connection;
 
 public class CloudMessagingHelper {
     public static void onConnectionUpdated(Context context, CloudConnection connection) {
@@ -25,7 +24,7 @@ public class CloudMessagingHelper {
     }
 
     public static void onNotificationSelected(Context context, Intent intent) {
-        int notificationId = intent.getIntExtra(GcmListenerService.EXTRA_NOTIFICATION_ID, -1);
+        int notificationId = intent.getIntExtra(GcmMessageListenerService.EXTRA_NOTIFICATION_ID, -1);
         if (notificationId >= 0) {
             Intent serviceIntent = new Intent(context, GcmRegistrationService.class)
                     .setAction(GcmRegistrationService.ACTION_HIDE_NOTIFICATION)

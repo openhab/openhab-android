@@ -447,13 +447,16 @@ public class OpenHABMainActivity extends AppCompatActivity implements
 
     private void processIntent(Intent intent) {
         Log.d(TAG, "Got intent: " + intent);
-        if (NfcAdapter.ACTION_NDEF_DISCOVERED.equals(intent.getAction())) {
-            onNfcTag(intent.getData());
-        } else if (ACTION_NOTIFICATION_SELECTED.equals(intent.getAction())) {
-            CloudMessagingHelper.onNotificationSelected(this, intent);
-            onNotificationSelected(intent);
-        } else if (Intent.ACTION_VIEW.equals(intent.getAction())) {
-            onNfcTag(intent.getData());
+        String action = intent.getAction() != null ? intent.getAction() : "";
+        switch (action) {
+            case NfcAdapter.ACTION_NDEF_DISCOVERED:
+            case Intent.ACTION_VIEW:
+                onNfcTag(intent.getData());
+                break;
+            case ACTION_NOTIFICATION_SELECTED:
+                CloudMessagingHelper.onNotificationSelected(this, intent);
+                onNotificationSelected(intent);
+                break;
         }
     }
 

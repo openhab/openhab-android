@@ -109,7 +109,16 @@ final public class ConnectionFactory extends BroadcastReceiver implements
         sInstance.mUpdateThread.quit();
     }
 
-    public static void blockingWaitForInitialization() {
+    /**
+     * Wait for initialization of the factory.
+     *
+     * This method blocks until all asynchronous work (that is, determination of
+     * available and cloud connection) is ready, so that {@link #getConnection(int)}
+     * and {@link #getUsableConnection()} can safely be used.
+     *
+     * It MUST NOT be called from the main thread.
+     */
+    public static void waitForInitialization() {
         synchronized (sInstance.mInitializationLock) {
             while (!sInstance.mIsInitialized) {
                 try {

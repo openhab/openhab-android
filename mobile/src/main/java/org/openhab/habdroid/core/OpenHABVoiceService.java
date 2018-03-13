@@ -45,7 +45,7 @@ public class OpenHABVoiceService extends IntentService {
             return;
         }
 
-        ConnectionFactory.blockingWaitForInitialization();
+        ConnectionFactory.waitForInitialization();
         Connection connection = null;
 
         try {

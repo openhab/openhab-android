@@ -24,6 +24,7 @@ import org.openhab.habdroid.core.connection.CloudConnection;
 import org.openhab.habdroid.core.connection.Connection;
 import org.openhab.habdroid.core.connection.ConnectionFactory;
 import org.openhab.habdroid.util.MyHttpClient;
+import org.openhab.habdroid.util.MySyncHttpClient;
 
 import java.io.IOException;
 import java.net.URLEncoder;
@@ -45,37 +46,39 @@ public class GcmRegistrationService extends IntentService {
 
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
-        ConnectionFactory.blockingWaitForInitialization();
+        ConnectionFactory.waitForInitialization();
         CloudConnection connection =
                 (CloudConnection) ConnectionFactory.getConnection(Connection.TYPE_CLOUD);
         if (connection == null) {
             return;
         }
+        String action = intent.getAction();
+        if (action == null) {
+            return;
+        }
 
-        if (ACTION_REGISTER.equals(intent.getAction())) {
-            try {
-                registerGcm(connection, connection.getMessagingSenderId());
-            } catch (IOException e) {
-                Log.e(TAG, "GCM registration failed", e);
-            }
-        } else if (ACTION_HIDE_NOTIFICATION.equals(intent.getAction())) {
-            int notificationId = intent.getIntExtra(EXTRA_NOTIFICATION_ID, -1);
-            if (notificationId >= 0) {
-                GoogleCloudMessaging gcm = GoogleCloudMessaging.getInstance(this);
-                Bundle sendBundle = new Bundle();
-                sendBundle.putString("type", "hideNotification");
-                sendBundle.putString("notificationId", String.valueOf(notificationId));
+        switch (action) {
+            case ACTION_REGISTER:
                 try {
-                    String senderId = connection.getMessagingSenderId();
-                    gcm.send(senderId + "@gcm.googleapis.com", "1", sendBundle);
+                    registerGcm(connection.getSyncHttpClient(), connection.getMessagingSenderId());
                 } catch (IOException e) {
-                    Log.e(TAG, "Failed sending notification hide message", e);
+                    Log.e(TAG, "GCM registration failed", e);
                 }
-            }
+                break;
+            case ACTION_HIDE_NOTIFICATION:
+                int notificationId = intent.getIntExtra(EXTRA_NOTIFICATION_ID, -1);
+                if (notificationId >= 0) {
+                    try {
+                        sendHideNotificationRequest(notificationId, connection.getMessagingSenderId());
+                    } catch (IOException e) {
+                        Log.e(TAG, "Failed sending notification hide message", e);
+                    }
+                }
+                break;
         }
     }
 
-    private void registerGcm(Connection connection, String senderId) throws IOException {
+    private void registerGcm(MySyncHttpClient client, String senderId) throws IOException {
         InstanceID instanceID = InstanceID.getInstance(this);
         String token = instanceID.getToken(senderId,
                 GoogleCloudMessaging.INSTANCE_ID_SCOPE, null);
@@ -87,12 +90,13 @@ public class GcmRegistrationService extends IntentService {
                 deviceId, deviceModel, token);
 
         Log.d(TAG, "Register device at openHAB-cloud with URL: " + regUrl);
-        connection.getSyncHttpClient().get(regUrl, new MyHttpClient.ResponseHandler() {
+        client.get(regUrl, new MyHttpClient.ResponseHandler() {
             @Override
             public void onFailure(Call call, int statusCode, Headers headers, byte[] responseBody, Throwable error) {
                 Log.e(TAG, "GCM reg id error: " + error.getMessage());
-                if (responseBody != null)
+                if (responseBody != null) {
                     Log.e(TAG, "Error response = " + responseBody);
+                }
             }
 
             @Override
@@ -100,5 +104,13 @@ public class GcmRegistrationService extends IntentService {
                 Log.d(TAG, "GCM reg id success");
             }
         });
+    }
+
+    private void sendHideNotificationRequest(int notificationId, String senderId) throws IOException {
+        GoogleCloudMessaging gcm = GoogleCloudMessaging.getInstance(this);
+        Bundle sendBundle = new Bundle();
+        sendBundle.putString("type", "hideNotification");
+        sendBundle.putString("notificationId", String.valueOf(notificationId));
+        gcm.send(senderId + "@gcm.googleapis.com", "1", sendBundle);
     }
 }
