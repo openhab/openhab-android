@@ -384,10 +384,10 @@ final public class ConnectionFactory extends BroadcastReceiver implements
     }
 
     private void triggerConnectionUpdateIfNeeded() {
-        if (mLocalConnection instanceof DefaultConnection
-                || mRemoteConnection instanceof DefaultConnection) {
-            mUpdateHandler.sendEmptyMessage(MSG_TRIGGER_UPDATE);
+        if (mLocalConnection instanceof DemoConnection) {
+            return;
         }
+        mUpdateHandler.sendEmptyMessage(MSG_TRIGGER_UPDATE);
     }
 
     private AbstractConnection makeConnection(int type, String urlKey,
