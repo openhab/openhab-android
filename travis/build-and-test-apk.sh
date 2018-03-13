@@ -10,10 +10,10 @@ then
 fi
 
 echo "Build"
-time ./gradlew :mobile:assembleFoss${releaseFlavor} :mobile:assembleFull${releaseFlavor}
+time ./gradlew :mobile:assemble{Foss,Full}${releaseFlavor}{Debug,Release}
 echo "Unit tests"
-time ./gradlew :mobile:testFoss${releaseFlavor}ReleaseUnitTest :mobile:testFull${releaseFlavor}ReleaseUnitTest
+time ./gradlew :mobile:test{Foss,Full}${releaseFlavor}ReleaseUnitTest
 echo "Android tests"
-time ./gradlew :mobile:connectedFoss${releaseFlavor}DebugAndroidTest :mobile:connectedFull${releaseFlavor}DebugAndroidTest
+time ./gradlew :mobile:connected{Foss,Full}${releaseFlavor}DebugAndroidTest
 echo "Jacoco coverage reports"
-time ./gradlew :mobile:jacocoTestFoss${releaseFlavor}DebugUnitTestReport :mobile:jacocoTestFull${releaseFlavor}DebugUnitTestReport
+time ./gradlew :mobile:jacocoTest{Foss,Full}${releaseFlavor}DebugUnitTestReport
