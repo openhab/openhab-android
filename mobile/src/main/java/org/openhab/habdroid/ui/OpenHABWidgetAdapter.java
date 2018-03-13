@@ -15,8 +15,10 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
+import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.support.annotation.ColorInt;
@@ -105,6 +107,7 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
     private CharSequence mChartTheme;
     private int mSelectedPosition = -1;
     private Connection mConnection;
+    private Context context;
 
     public OpenHABWidgetAdapter(Context context, Connection connection,
             ItemClickListener itemClickListener) {
@@ -117,6 +120,8 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         TypedValue tv = new TypedValue();
         context.getTheme().resolveAttribute(R.attr.chartTheme, tv, true);
         mChartTheme = tv.string;
+
+        this.context = context;
     }
 
     public void update(List<OpenHABWidget> widgets) {
@@ -138,37 +143,37 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         final ViewHolder holder;
         switch (viewType) {
             case TYPE_GENERICITEM:
-                holder = new GenericViewHolder(mInflater, parent, mConnection);
+                holder = new GenericViewHolder(mInflater, parent, mConnection, context);
                 break;
             case TYPE_FRAME:
-                holder = new FrameViewHolder(mInflater, parent, mConnection);
+                holder = new FrameViewHolder(mInflater, parent, mConnection, context);
                 break;
             case TYPE_GROUP:
-                holder = new GroupViewHolder(mInflater, parent, mConnection);
+                holder = new GroupViewHolder(mInflater, parent, mConnection, context);
                 break;
             case TYPE_SWITCH:
-                holder = new SwitchViewHolder(mInflater, parent, mConnection);
+                holder = new SwitchViewHolder(mInflater, parent, mConnection, context);
                 break;
             case TYPE_TEXT:
-                holder = new TextViewHolder(mInflater, parent, mConnection);
+                holder = new TextViewHolder(mInflater, parent, mConnection, context);
                 break;
             case TYPE_SLIDER:
-                holder = new SliderViewHolder(mInflater, parent, mConnection);
+                holder = new SliderViewHolder(mInflater, parent, mConnection, context);
                 break;
             case TYPE_IMAGE:
                 holder = new ImageViewHolder(mInflater, parent, mConnection);
                 break;
             case TYPE_SELECTION:
-                holder = new SelectionViewHolder(mInflater, parent, mConnection);
+                holder = new SelectionViewHolder(mInflater, parent, mConnection, context);
                 break;
             case TYPE_SECTIONSWITCH:
-                holder = new SectionSwitchViewHolder(mInflater, parent, mConnection);
+                holder = new SectionSwitchViewHolder(mInflater, parent, mConnection, context);
                 break;
             case TYPE_ROLLERSHUTTER:
-                holder = new RollerShutterViewHolder(mInflater, parent, mConnection);
+                holder = new RollerShutterViewHolder(mInflater, parent, mConnection, context);
                 break;
             case TYPE_SETPOINT:
-                holder = new SetpointViewHolder(mInflater, parent, mConnection);
+                holder = new SetpointViewHolder(mInflater, parent, mConnection, context);
                 break;
             case TYPE_CHART:
                 holder = new ChartViewHolder(mInflater, parent, mChartTheme, mConnection);
@@ -180,7 +185,7 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
                 holder = new WebViewHolder(mInflater, parent, mConnection);
                 break;
             case TYPE_COLOR:
-                holder = new ColorViewHolder(mInflater, parent, mConnection);
+                holder = new ColorViewHolder(mInflater, parent, mConnection, context);
                 break;
             case TYPE_VIDEO_MJPEG:
                 holder = new MjpegVideoViewHolder(mInflater, parent, mConnection);
@@ -284,6 +289,39 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         return mSelectedPosition;
     }
 
+    private static Integer mapColor(String colorName, Context context) {
+        if(colorName == null) {
+            return null;
+        }
+        if(colorName.startsWith("#")) {
+            try {
+                return Color.parseColor(colorName);
+            } catch (IllegalArgumentException e) {
+                return null;
+            }
+        }
+        String[] colorNames = context.getResources().getStringArray(R.array.valueColorNames);
+        int index = -1;
+        for (int i = 0; i < colorNames.length; i++) {
+            if (colorNames[i].equals(colorName)) {
+                index = i;
+                break;
+            }
+        }
+
+        TypedValue tv = new TypedValue();
+        context.getTheme().resolveAttribute(R.attr.valueColors, tv, false);
+        TypedArray ta = context.getResources().obtainTypedArray(tv.data);
+        Integer color = null;
+
+        if (index >= 0 && index < ta.length()) {
+            color = ta.getColor(index, 0);
+        }
+
+        ta.recycle();
+        return color;
+    }
+
     @Override
     public void onClick(View view) {
         ViewHolder holder = (ViewHolder) view.getTag();
@@ -333,12 +371,12 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
             }
         }
 
-        protected void updateIcon(MySmartImageView iconView, OpenHABWidget widget) {
+        protected void updateIcon(MySmartImageView iconView, OpenHABWidget widget, Context context) {
             // This is needed to escape possible spaces and everything according to rfc2396
             String iconUrl = mConnection.getOpenHABUrl() + Uri.encode(widget.iconPath(), "/?=&");
             iconView.setImageUrl(iconUrl, mConnection.getUsername(), mConnection.getPassword(),
                     R.drawable.blank_icon);
-            Integer iconColor = widget.iconColor();
+            Integer iconColor = mapColor(widget.iconColor(), context);
             if (iconColor != null) {
                 iconView.setColorFilter(iconColor);
             } else {
@@ -350,18 +388,20 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
     public static class GenericViewHolder extends ViewHolder {
         private final TextView mLabelView;
         private final MySmartImageView mIconView;
+        private final Context context;
 
-        GenericViewHolder(LayoutInflater inflater, ViewGroup parent, Connection conn) {
+        GenericViewHolder(LayoutInflater inflater, ViewGroup parent, Connection conn, Context context) {
             super(inflater, parent, R.layout.openhabwidgetlist_genericitem, conn);
             mLabelView = itemView.findViewById(R.id.widgetlabel);
             mIconView = itemView.findViewById(R.id.widgetimage);
+            this.context = context;
         }
 
         @Override
         public void bind(OpenHABWidget widget) {
             mLabelView.setText(widget.label());
-            updateTextViewColor(mLabelView, widget.labelColor());
-            updateIcon(mIconView, widget);
+            updateTextViewColor(mLabelView, mapColor(widget.labelColor(), context));
+            updateIcon(mIconView, widget, context);
         }
     }
 
@@ -369,19 +409,21 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         private final View mDivider;
         private final View mSpacer;
         private final TextView mLabelView;
+        private final Context context;
 
-        FrameViewHolder(LayoutInflater inflater, ViewGroup parent, Connection conn) {
+        FrameViewHolder(LayoutInflater inflater, ViewGroup parent, Connection conn, Context context) {
             super(inflater, parent, R.layout.openhabwidgetlist_frameitem, conn);
             mLabelView = itemView.findViewById(R.id.widgetlabel);
             mDivider = itemView.findViewById(R.id.divider);
             mSpacer = itemView.findViewById(R.id.spacer);
             itemView.setClickable(false);
+            this.context = context;
         }
 
         @Override
         public void bind(OpenHABWidget widget) {
             mLabelView.setText(widget.label());
-            updateTextViewColor(mLabelView, widget.valueColor());
+            updateTextViewColor(mLabelView, mapColor(widget.valueColor(), context));
             // hide empty frames
             itemView.setVisibility(widget.label().isEmpty() ? View.GONE : View.VISIBLE);
         }
@@ -396,22 +438,24 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         private final TextView mLabelView;
         private final TextView mValueView;
         private final MySmartImageView mIconView;
+        private final Context context;
 
-        GroupViewHolder(LayoutInflater inflater, ViewGroup parent, Connection conn) {
+        GroupViewHolder(LayoutInflater inflater, ViewGroup parent, Connection conn, Context context) {
             super(inflater, parent, R.layout.openhabwidgetlist_groupitem, conn);
             mLabelView = itemView.findViewById(R.id.widgetlabel);
             mValueView = itemView.findViewById(R.id.widgetvalue);
             mIconView = itemView.findViewById(R.id.widgetimage);
+            this.context = context;
         }
 
         @Override
         public void bind(OpenHABWidget widget) {
             String[] splitString = widget.label().split("\\[|\\]");
             mLabelView.setText(splitString.length > 0 ? splitString[0] : null);
-            updateTextViewColor(mLabelView, widget.labelColor());
+            updateTextViewColor(mLabelView, mapColor(widget.labelColor(), context));
             mValueView.setText(splitString.length > 1 ? splitString[1] : null);
-            updateTextViewColor(mValueView, widget.valueColor());
-            updateIcon(mIconView, widget);
+            updateTextViewColor(mValueView, mapColor(widget.valueColor(), context));
+            updateIcon(mIconView, widget, context);
         }
     }
 
@@ -420,20 +464,22 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         private final MySmartImageView mIconView;
         private final SwitchCompat mSwitch;
         private OpenHABItem mBoundItem;
+        private final Context context;
 
-        SwitchViewHolder(LayoutInflater inflater, ViewGroup parent, Connection conn) {
+        SwitchViewHolder(LayoutInflater inflater, ViewGroup parent, Connection conn, Context context) {
             super(inflater, parent, R.layout.openhabwidgetlist_switchitem, conn);
             mLabelView = itemView.findViewById(R.id.widgetlabel);
             mIconView = itemView.findViewById(R.id.widgetimage);
             mSwitch = itemView.findViewById(R.id.switchswitch);
             mSwitch.setOnTouchListener(this);
+            this.context = context;
         }
 
         @Override
         public void bind(OpenHABWidget widget) {
             mLabelView.setText(widget.label());
-            updateTextViewColor(mLabelView, widget.labelColor());
-            updateIcon(mIconView, widget);
+            updateTextViewColor(mLabelView, mapColor(widget.labelColor(), context));
+            updateIcon(mIconView, widget, context);
             mBoundItem = widget.item();
             mSwitch.setChecked(mBoundItem != null && mBoundItem.stateAsBoolean());
         }
@@ -452,23 +498,25 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         private final TextView mLabelView;
         private final TextView mValueView;
         private final MySmartImageView mIconView;
+        private final Context context;
 
-        TextViewHolder(LayoutInflater inflater, ViewGroup parent, Connection conn) {
+        TextViewHolder(LayoutInflater inflater, ViewGroup parent, Connection conn, Context context) {
             super(inflater, parent, R.layout.openhabwidgetlist_textitem, conn);
             mLabelView = itemView.findViewById(R.id.widgetlabel);
             mValueView = itemView.findViewById(R.id.widgetvalue);
             mIconView = itemView.findViewById(R.id.widgetimage);
+            this.context = context;
         }
 
         @Override
         public void bind(OpenHABWidget widget) {
             String[] splitString = widget.label().split("\\[|\\]");
             mLabelView.setText(splitString.length > 0 ? splitString[0] : widget.label());
-            updateTextViewColor(mLabelView, widget.labelColor());
+            updateTextViewColor(mLabelView, mapColor(widget.labelColor(), context));
             mValueView.setText(splitString.length > 1 ? splitString[1] : null);
             mValueView.setVisibility(splitString.length > 1 ? View.VISIBLE : View.GONE);
-            updateTextViewColor(mValueView, widget.valueColor());
-            updateIcon(mIconView, widget);
+            updateTextViewColor(mValueView, mapColor(widget.valueColor(), context));
+            updateIcon(mIconView, widget, context);
         }
     }
 
@@ -477,21 +525,23 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         private final MySmartImageView mIconView;
         private final SeekBar mSeekBar;
         private OpenHABItem mBoundItem;
+        private final Context context;
 
-        SliderViewHolder(LayoutInflater inflater, ViewGroup parent, Connection conn) {
+        SliderViewHolder(LayoutInflater inflater, ViewGroup parent, Connection conn, Context context) {
             super(inflater, parent, R.layout.openhabwidgetlist_slideritem, conn);
             mLabelView = itemView.findViewById(R.id.widgetlabel);
             mIconView = itemView.findViewById(R.id.widgetimage);
             mSeekBar = itemView.findViewById(R.id.sliderseekbar);
             mSeekBar.setOnSeekBarChangeListener(this);
+            this.context = context;
         }
 
         @Override
         public void bind(OpenHABWidget widget) {
             String[] splitString = widget.label().split("\\[|\\]");
             mLabelView.setText(splitString.length > 0 ? splitString[0] : null);
-            updateTextViewColor(mLabelView, widget.labelColor());
-            updateIcon(mIconView, widget);
+            updateTextViewColor(mLabelView, mapColor(widget.labelColor(), context));
+            updateIcon(mIconView, widget, context);
             mBoundItem = widget.item();
             if (mBoundItem != null) {
                 int progress;
@@ -583,12 +633,14 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         private final TextView mLabelView;
         private final MySmartImageView mIconView;
         private final Spinner mSpinner;
+        private final Context context;
 
-        SelectionViewHolder(LayoutInflater inflater, ViewGroup parent, Connection conn) {
+        SelectionViewHolder(LayoutInflater inflater, ViewGroup parent, Connection conn, Context context) {
             super(inflater, parent, R.layout.openhabwidgetlist_selectionitem, conn);
             mLabelView = itemView.findViewById(R.id.widgetlabel);
             mSpinner = itemView.findViewById(R.id.selectionspinner);
             mIconView = itemView.findViewById(R.id.widgetimage);
+            this.context = context;
         }
 
         @Override
@@ -597,9 +649,9 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
             String[] splitString = widget.label().split("\\[|\\]");
 
             mLabelView.setText(splitString.length > 0 ? splitString[0] : widget.label());
-            updateTextViewColor(mLabelView, widget.labelColor());
+            updateTextViewColor(mLabelView, mapColor(widget.labelColor(), context));
 
-            updateIcon(mIconView, widget);
+            updateIcon(mIconView, widget, context);
 
             ArrayList<String> spinnerArray = new ArrayList<String>();
             String state = widget.item() != null ? widget.item().state() : null;
@@ -665,24 +717,26 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         private final MySmartImageView mIconView;
         private final RadioGroup mRadioGroup;
         private OpenHABItem mBoundItem;
+        private final Context context;
 
-        SectionSwitchViewHolder(LayoutInflater inflater, ViewGroup parent, Connection conn) {
+        SectionSwitchViewHolder(LayoutInflater inflater, ViewGroup parent, Connection conn, Context context) {
             super(inflater, parent, R.layout.openhabwidgetlist_sectionswitchitem, conn);
             mInflater = inflater;
             mLabelView = itemView.findViewById(R.id.widgetlabel);
             mValueView = itemView.findViewById(R.id.widgetvalue);
             mIconView = itemView.findViewById(R.id.widgetimage);
             mRadioGroup = itemView.findViewById(R.id.sectionswitchradiogroup);
+            this.context = context;
         }
 
         @Override
         public void bind(OpenHABWidget widget) {
             String[] splitString = widget.label().split("\\[|\\]");
             mLabelView.setText(splitString.length > 0 ? splitString[0] : widget.label());
-            updateTextViewColor(mLabelView, widget.labelColor());
+            updateTextViewColor(mLabelView, mapColor(widget.labelColor(), context));
             mValueView.setText(splitString.length > 1 ? splitString[1] : null);
-            updateTextViewColor(mValueView, widget.valueColor());
-            updateIcon(mIconView, widget);
+            updateTextViewColor(mValueView, mapColor(widget.valueColor(), context));
+            updateIcon(mIconView, widget, context);
 
             mBoundItem = widget.item();
 
@@ -720,14 +774,16 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         private final TextView mLabelView;
         private final MySmartImageView mIconView;
         private OpenHABItem mBoundItem;
+        private final Context context;
 
-        RollerShutterViewHolder(LayoutInflater inflater, ViewGroup parent, Connection conn) {
+        RollerShutterViewHolder(LayoutInflater inflater, ViewGroup parent, Connection conn, Context context) {
             super(inflater, parent, R.layout.openhabwidgetlist_rollershutteritem, conn);
             mLabelView = itemView.findViewById(R.id.widgetlabel);
             mIconView = itemView.findViewById(R.id.widgetimage);
             initButton(R.id.rollershutterbutton_up, "UP");
             initButton(R.id.rollershutterbutton_down, "DOWN");
             initButton(R.id.rollershutterbutton_stop, "STOP");
+            this.context = context;
         }
 
         private void initButton(@IdRes int resId, String command) {
@@ -739,8 +795,8 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         @Override
         public void bind(OpenHABWidget widget) {
             mLabelView.setText(widget.label());
-            updateTextViewColor(mLabelView, widget.labelColor());
-            updateIcon(mIconView, widget);
+            updateTextViewColor(mLabelView, mapColor(widget.labelColor(), context));
+            updateIcon(mIconView, widget, context);
             mBoundItem = widget.item();
         }
 
@@ -759,8 +815,9 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         private final MySmartImageView mIconView;
         private final LayoutInflater mInflater;
         private OpenHABWidget mBoundWidget;
+        private final Context context;
 
-        SetpointViewHolder(LayoutInflater inflater, ViewGroup parent, Connection conn) {
+        SetpointViewHolder(LayoutInflater inflater, ViewGroup parent, Connection conn, Context context) {
             super(inflater, parent, R.layout.openhabwidgetlist_setpointitem, conn);
             mLabelView = itemView.findViewById(R.id.widgetlabel);
             mValueView = itemView.findViewById(R.id.widgetvalue);
@@ -770,17 +827,18 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
 
             ImageView dropdownArrow = itemView.findViewById(R.id.imageViewDownArrow);
             dropdownArrow.setOnClickListener(this);
+            this.context = context;
         }
 
         @Override
         public void bind(OpenHABWidget widget) {
             String[] splitString = widget.label().split("\\[|\\]");
             mLabelView.setText(splitString.length > 0 ? splitString[0] : widget.label());
-            updateTextViewColor(mLabelView, widget.labelColor());
+            updateTextViewColor(mLabelView, mapColor(widget.labelColor(), context));
             mValueView.setText(splitString.length > 1 ? splitString[1] : null);
             mValueView.setVisibility(splitString.length > 1 ? View.VISIBLE : View.GONE);
-            updateTextViewColor(mValueView, widget.valueColor());
-            updateIcon(mIconView, widget);
+            updateTextViewColor(mValueView, mapColor(widget.valueColor(), context));
+            updateIcon(mIconView, widget, context);
             mBoundWidget = widget;
         }
 
@@ -990,14 +1048,16 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         private final TextView mLabelView;
         private final MySmartImageView mIconView;
         private OpenHABItem mBoundItem;
+        private final Context context;
 
-        ColorViewHolder(LayoutInflater inflater, ViewGroup parent, Connection conn) {
+        ColorViewHolder(LayoutInflater inflater, ViewGroup parent, Connection conn, Context context) {
             super(inflater, parent, R.layout.openhabwidgetlist_coloritem, conn);
             mLabelView = itemView.findViewById(R.id.widgetlabel);
             mIconView = itemView.findViewById(R.id.widgetimage);
             initButton(R.id.colorbutton_up, "ON");
             initButton(R.id.colorbutton_down, "OFF");
             itemView.findViewById(R.id.colorbutton_color).setOnTouchListener(this);
+            this.context = context;
         }
 
         private void initButton(@IdRes int resId, String command) {
@@ -1009,8 +1069,8 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         @Override
         public void bind(OpenHABWidget widget) {
             mLabelView.setText(widget.label());
-            updateTextViewColor(mLabelView, widget.labelColor());
-            updateIcon(mIconView, widget);
+            updateTextViewColor(mLabelView, mapColor(widget.labelColor(), context));
+            updateIcon(mIconView, widget, context);
             mBoundItem = widget.item();
         }
 
