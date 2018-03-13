@@ -24,6 +24,7 @@ import org.w3c.dom.NodeList;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * This is a class to hold basic information about openHAB widget.
@@ -293,6 +294,10 @@ public abstract class OpenHABWidget implements Parcelable {
                     } catch (Exception e) {
                         itemState = "OFF";
                     }
+                } else {
+                    int color = Color.HSVToColor(item.stateAsHSV());
+                    itemState = String.format(Locale.US, "#%02x%02x%02x",
+                            Color.red(color), Color.green(color), Color.blue(color));
                 }
             } else if (type == Type.Switch && !hasMappings
                     && !item.isOfTypeOrGroupType(OpenHABItem.Type.Rollershutter)) {
