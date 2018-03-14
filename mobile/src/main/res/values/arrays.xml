@@ -38,7 +38,7 @@
         <item>#ff0000</item> <!-- red -->
         <item>#ffa500</item> <!-- orange -->
         <item>#808000</item> <!-- olive -->
-        <item>#f9a825</item> <!-- yellow => use material yellow 800 -->
+        <item>#fdd835</item> <!-- yellow => use material yellow 600 -->
         <item>#800080</item> <!-- purple -->
         <item>#ff00ff</item> <!-- fuchsia -->
         <item>#000000</item> <!-- white => use black -->
@@ -54,7 +54,7 @@
     </array>
 
     <array name="valueColorsDarkBackground">
-        <item>#800000</item> <!-- maroon => TODO too dark -->
+        <item>#b23939</item> <!-- maroon => use brighter maroon -->
         <item>#ff0000</item> <!-- red -->
         <item>#ffa500</item> <!-- orange -->
         <item>#808000</item> <!-- olive -->
@@ -64,8 +64,8 @@
         <item>#ffffff</item> <!-- white -->
         <item>#00ff00</item> <!-- lime -->
         <item>#4CAF50</item> <!-- green => use material green 500 -->
-        <item>#303F9F</item> <!-- navy => use material indigo 700 -->
-        <item>#0000ff</item> <!-- blue -->
+        <item>#3F51B5</item> <!-- navy => use material indigo 500 -->
+        <item>#2196F3</item> <!-- blue => use material blue 500 -->
         <item>#008080</item> <!-- teal -->
         <item>#00ffff</item> <!-- aqua -->
         <item>#ffffff</item> <!-- black => use white -->
