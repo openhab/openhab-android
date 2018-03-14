@@ -22,6 +22,7 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.support.annotation.IdRes;
 import android.support.annotation.LayoutRes;
+import android.support.annotation.VisibleForTesting;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SwitchCompat;
 import android.text.TextUtils;
@@ -1118,7 +1119,8 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         }
     }
 
-    private static class ColorMapper {
+    @VisibleForTesting
+    public static class ColorMapper {
         private final Map<String, Integer> mColorMap = new HashMap<>();
 
         ColorMapper(Context context) {
