@@ -24,7 +24,6 @@ import org.openhab.habdroid.core.connection.CloudConnection;
 import org.openhab.habdroid.core.connection.Connection;
 import org.openhab.habdroid.core.connection.ConnectionFactory;
 import org.openhab.habdroid.util.MyHttpClient;
-import org.openhab.habdroid.util.MySyncHttpClient;
 
 import java.io.IOException;
 import java.net.URLEncoder;
@@ -60,10 +59,12 @@ public class GcmRegistrationService extends IntentService {
         switch (action) {
             case ACTION_REGISTER:
                 try {
-                    registerGcm(connection.getSyncHttpClient(), connection.getMessagingSenderId());
+                    registerGcm(connection);
                 } catch (IOException e) {
+                    CloudMessagingHelper.sRegistrationFailureReason = e;
                     Log.e(TAG, "GCM registration failed", e);
                 }
+                CloudMessagingHelper.sRegistrationDone = true;
                 break;
             case ACTION_HIDE_NOTIFICATION:
                 int notificationId = intent.getIntExtra(EXTRA_NOTIFICATION_ID, -1);
@@ -78,9 +79,9 @@ public class GcmRegistrationService extends IntentService {
         }
     }
 
-    private void registerGcm(MySyncHttpClient client, String senderId) throws IOException {
+    private void registerGcm(CloudConnection connection) throws IOException {
         InstanceID instanceID = InstanceID.getInstance(this);
-        String token = instanceID.getToken(senderId,
+        String token = instanceID.getToken(connection.getMessagingSenderId(),
                 GoogleCloudMessaging.INSTANCE_ID_SCOPE, null);
         String deviceModel = URLEncoder.encode(Build.MODEL, "UTF-8");
         String deviceId = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
@@ -90,18 +91,20 @@ public class GcmRegistrationService extends IntentService {
                 deviceId, deviceModel, token);
 
         Log.d(TAG, "Register device at openHAB-cloud with URL: " + regUrl);
-        client.get(regUrl, new MyHttpClient.ResponseHandler() {
+        connection.getSyncHttpClient().get(regUrl, new MyHttpClient.ResponseHandler() {
             @Override
             public void onFailure(Call call, int statusCode, Headers headers, byte[] responseBody, Throwable error) {
                 Log.e(TAG, "GCM reg id error: " + error.getMessage());
                 if (responseBody != null) {
                     Log.e(TAG, "Error response = " + responseBody);
                 }
+                CloudMessagingHelper.sRegistrationFailureReason = error;
             }
 
             @Override
             public void onSuccess(Call call, int statusCode, Headers headers, byte[] responseBody) {
                 Log.d(TAG, "GCM reg id success");
+                CloudMessagingHelper.sRegistrationFailureReason = null;
             }
         });
     }

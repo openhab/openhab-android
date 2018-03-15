@@ -12,6 +12,8 @@ package org.openhab.habdroid.core;
 import android.content.Context;
 import android.content.Intent;
 
+import com.danielstone.materialaboutlibrary.items.MaterialAboutActionItem;
+
 import org.openhab.habdroid.core.connection.CloudConnection;
 
 public class CloudMessagingHelper {
@@ -19,5 +21,9 @@ public class CloudMessagingHelper {
     }
 
     public static void onNotificationSelected(Context context, Intent intent) {
+    }
+
+    public static MaterialAboutActionItem buildAboutItem(Context context) {
+        return null;
     }
 }

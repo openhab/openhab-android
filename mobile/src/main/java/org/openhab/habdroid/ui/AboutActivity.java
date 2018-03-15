@@ -30,7 +30,6 @@ import org.json.JSONObject;
 import org.openhab.habdroid.BuildConfig;
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.core.CloudMessagingHelper;
-import org.openhab.habdroid.core.connection.CloudConnection;
 import org.openhab.habdroid.core.connection.Connection;
 import org.openhab.habdroid.core.connection.ConnectionFactory;
 import org.openhab.habdroid.core.connection.exception.ConnectionException;
@@ -223,11 +222,11 @@ public class AboutActivity extends AppCompatActivity implements
                     }
                 }
             }
-            ohServerCard.addItem(new MaterialAboutActionItem.Builder()
-                    .text(R.string.info_openhab_gcm_label)
-                    .subText(getGcmText(context))
-                    .icon(R.drawable.ic_info_outline)
-                    .build());
+
+            MaterialAboutActionItem cloudMessagingItem = CloudMessagingHelper.buildAboutItem(context);
+            if (cloudMessagingItem != null) {
+                ohServerCard.addItem(cloudMessagingItem);
+            }
 
             MaterialAboutCard.Builder ohCommunityCard = new MaterialAboutCard.Builder();
             ohCommunityCard.title(R.string.about_community);
@@ -273,17 +272,6 @@ public class AboutActivity extends AppCompatActivity implements
                     startActivity(intent);
                 }
             };
-        }
-
-        private String getGcmText(Context context) {
-            CloudConnection cloudConnection = (CloudConnection)
-                    ConnectionFactory.getConnection(Connection.TYPE_CLOUD);
-            if (cloudConnection == null) {
-                return context.getString(R.string.info_openhab_gcm_not_connected);
-            } else {
-                return context.getString(R.string.info_openhab_gcm_connected,
-                        cloudConnection.getMessagingSenderId());
-            }
         }
 
         private String getServerSecret() {
