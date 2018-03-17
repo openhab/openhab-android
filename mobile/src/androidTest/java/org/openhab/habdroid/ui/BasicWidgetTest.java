@@ -47,7 +47,7 @@ public class BasicWidgetTest extends TestWithoutIntro {
     public void openHABMainActivityTest() throws InterruptedException {
         ViewInteraction recyclerView = onView(withId(R.id.recyclerview));
 
-        Screengrab.setDefaultScreenshotStrategy(new UiAutomatorScreenshotStrategy());
+        //Screengrab.setDefaultScreenshotStrategy(new UiAutomatorScreenshotStrategy());
         Screengrab.screenshot("menu");
 
         recyclerView
