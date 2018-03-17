@@ -27,6 +27,7 @@ android:
   - sys-img-armeabi-v7a-android-22
   
 install:
+- sed -i 's/org.gradle.daemon=false/org.gradle.daemon=true/' ~/.gradle/gradle.properties
 - type -a ruby
 - gem --version
 - ruby --version
