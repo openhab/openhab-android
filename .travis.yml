@@ -1,5 +1,6 @@
 language: android
 jdk: oraclejdk8
+sudo: enabled
 env:
   global:
   - secure: fMBUkSsCBTw/U907w7Xm/yNzw4lq9yt7zFy0JyEZrA543LI7zQRIclIOtsDTUs0bwY+4KI08MNoYPLJ4TQhSJaH4wQ8b9C5TRsqXNfc0V718TcuYqSXqU6VPRVtX46/fCEWv/HAs0ksUKrHIlpWOwLPQpYDcKxwwlUndaakYKJ8=
@@ -27,6 +28,10 @@ android:
   - sys-img-armeabi-v7a-android-22
   
 install:
+- type -a ruby
+- gem --version
+- ruby --version
+- gem install fastlane screengrab
 - echo yes | sdkmanager "extras;m2repository;com;android;support;constraint;constraint-layout;1.0.2"
 - echo yes | sdkmanager "extras;m2repository;com;android;support;constraint;constraint-layout-solver;1.0.2"
 - ./gradlew --version

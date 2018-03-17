@@ -17,3 +17,8 @@ echo "Android tests"
 time ./gradlew :mobile:connected{Foss,Full}${releaseFlavor}DebugAndroidTest
 echo "Jacoco coverage reports"
 time ./gradlew :mobile:jacocoTest{Foss,Full}${releaseFlavor}DebugUnitTestReport
+
+echo "Screengrab"
+time fastlane screengrab
+
+git add . && git diff --staged

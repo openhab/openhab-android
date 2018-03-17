@@ -1,0 +1,5 @@
+app_package_name 'org.openhab.habdroid'
+
+locales ['en-US', 'de-DE']
+
+clear_previous_screenshots true

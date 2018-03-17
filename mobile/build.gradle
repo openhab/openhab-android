@@ -146,6 +146,8 @@ dependencies {
     androidTestCompile 'com.android.support.test.espresso:espresso-contrib:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     }
+
+    androidTestCompile 'tools.fastlane:screengrab:1.0.0'
 }
 
 dependencyVerification {
