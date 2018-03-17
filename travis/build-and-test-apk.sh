@@ -25,7 +25,7 @@ time ./gradlew :mobile:jacocoTest{Foss,Full}${releaseFlavorCapital}DebugUnitTest
 
 echo "app_package_name('${packageName}')" >> fastlane/Screengrabfile
 echo "app_apk_path('mobile/build/outputs/apk/full${releaseFlavorCapital}/debug/mobile-full-${releaseFlavor}-debug.apk')" >> fastlane/Screengrabfile
-echo "test_apk_path('mobile/build/outputs/apk/full${releaseFlavorCapital}/debug/mobile-full-${releaseFlavor}-debug.apk')" >> fastlane/Screengrabfile
+echo "tests_apk_path('mobile/build/outputs/apk/full${releaseFlavorCapital}/debug/mobile-full-${releaseFlavor}-debug.apk')" >> fastlane/Screengrabfile
 echo "Screengrab"
 time fastlane screengrab
 
