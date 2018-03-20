@@ -256,6 +256,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
     private Connection mConnection;
 
     private Uri mPendingNfcData;
+    private boolean mPendingOpenNotifications;
     private OpenHABSitemap mSelectedSitemap;
     private ContentController mController;
     private InitState mInitState = InitState.QUERY_SERVER_PROPS;
@@ -357,9 +358,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
             mSitemapList = new ArrayList<>();
         }
 
-        if (getIntent() != null) {
-            processIntent(getIntent());
-        }
+        processIntent(getIntent());
 
         if (isFullscreenEnabled()) {
             registerReceiver(dreamReceiver, new IntentFilter("android.intent.action.DREAMING_STARTED"));
@@ -543,10 +542,18 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         mSitemapList.clear();
         mSelectedSitemap = null;
 
-        // Execute pending NFC action if initial connection determination finished
-        if (mPendingNfcData != null && (mConnection != null || failureReason != null)) {
-            onNfcTag(mPendingNfcData);
-            mPendingNfcData = null;
+        // Execute pending actions if initial connection determination finished
+        if (mConnection != null || failureReason != null) {
+            if (mPendingNfcData != null) {
+                onNfcTag(mPendingNfcData);
+                mPendingNfcData = null;
+            }
+            if (mPendingOpenNotifications) {
+                if (getNotificationSettings() != null) {
+                    openNotifications();
+                }
+                mPendingOpenNotifications = false;
+            }
         }
 
         if (newConnection != null) {
@@ -1010,6 +1017,8 @@ public class OpenHABMainActivity extends AppCompatActivity implements
 
         if (getNotificationSettings() != null) {
             openNotifications();
+        } else {
+            mPendingOpenNotifications = true;
         }
 
         if (intent.hasExtra(GcmIntentService.EXTRA_MSG)) {
