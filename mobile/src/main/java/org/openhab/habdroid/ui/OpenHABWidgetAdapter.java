@@ -80,7 +80,7 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
     private static final String TAG = "OpenHABWidgetAdapter";
 
     public interface ItemClickListener {
-        boolean onItemClicked(OpenHABWidget item); // true -> select position
+        void onItemClicked(OpenHABWidget item);
         void onItemLongClicked(OpenHABWidget item);
     }
 
@@ -284,20 +284,12 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         notifyItemChanged(position);
     }
 
-    public int getSelectedPosition() {
-        return mSelectedPosition;
-    }
-
     @Override
     public void onClick(View view) {
         ViewHolder holder = (ViewHolder) view.getTag();
         int position = holder.getAdapterPosition();
         if (position != RecyclerView.NO_POSITION) {
-            int oldSelectedPosition = mSelectedPosition;
-            setSelectedPosition(position);
-            if (!mItemClickListener.onItemClicked(mItems.get(position))) {
-                setSelectedPosition(oldSelectedPosition);
-            }
+            mItemClickListener.onItemClicked(mItems.get(position));
         }
     }
 
