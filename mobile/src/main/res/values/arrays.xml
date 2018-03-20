@@ -32,4 +32,64 @@
         <item>@string/settings_openhab_icon_format_value_png</item>
         <item>@string/settings_openhab_icon_format_value_svg</item>
     </string-array>
+
+    <array name="valueColorsBrightBackground">
+        <item>#800000</item> <!-- maroon -->
+        <item>#ff0000</item> <!-- red -->
+        <item>#ffa500</item> <!-- orange -->
+        <item>#808000</item> <!-- olive -->
+        <item>#fdd835</item> <!-- yellow => use material yellow 600 -->
+        <item>#800080</item> <!-- purple -->
+        <item>#ff00ff</item> <!-- fuchsia -->
+        <item>#000000</item> <!-- white => use black -->
+        <item>#827717</item> <!-- lime => use material lime 900-->
+        <item>#008000</item> <!-- green -->
+        <item>#000080</item> <!-- navy -->
+        <item>#0000ff</item> <!-- blue -->
+        <item>#008080</item> <!-- teal -->
+        <item>#0097a7</item> <!-- aqua => use material cyan 700-->
+        <item>#000000</item> <!-- black -->
+        <item>#838996</item> <!-- silver => use darker silver -->
+        <item>#808080</item> <!-- grey -->
+    </array>
+
+    <array name="valueColorsDarkBackground">
+        <item>#b23939</item> <!-- maroon => use brighter maroon -->
+        <item>#ff0000</item> <!-- red -->
+        <item>#ffa500</item> <!-- orange -->
+        <item>#808000</item> <!-- olive -->
+        <item>#ffff00</item> <!-- yellow -->
+        <item>#ce93d8</item> <!-- purple => use material purple 200 -->
+        <item>#ff00ff</item> <!-- fuchsia -->
+        <item>#ffffff</item> <!-- white -->
+        <item>#00ff00</item> <!-- lime -->
+        <item>#4CAF50</item> <!-- green => use material green 500 -->
+        <item>#3F51B5</item> <!-- navy => use material indigo 500 -->
+        <item>#2196F3</item> <!-- blue => use material blue 500 -->
+        <item>#008080</item> <!-- teal -->
+        <item>#00ffff</item> <!-- aqua -->
+        <item>#ffffff</item> <!-- black => use white -->
+        <item>#c0c0c0</item> <!-- silver -->
+        <item>#808080</item> <!-- grey -->
+    </array>
+
+    <string-array name="valueColorNames" translatable="false">
+        <item>maroon</item>
+        <item>red</item>
+        <item>orange</item>
+        <item>olive</item>
+        <item>yellow</item>
+        <item>purple</item>
+        <item>fuchsia</item>
+        <item>white</item>
+        <item>lime</item>
+        <item>green</item>
+        <item>navy</item>
+        <item>blue</item>
+        <item>teal</item>
+        <item>aqua</item>
+        <item>black</item>
+        <item>silver</item>
+        <item>grey</item>
+    </string-array>
 </resources>

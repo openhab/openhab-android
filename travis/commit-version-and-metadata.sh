@@ -7,6 +7,13 @@ manifest="mobile/src/main/AndroidManifest.xml"
 echo "Configure git"
 git config --local user.name "openhab-bot"
 git config --local user.email "bot@openhab.org"
+echo "Check for beta version"
+if $(echo "$TRAVIS_TAG" | grep -q "beta")
+then
+    bash assets/store_descriptions/generate_and_validate.sh fdroidBeta
+else
+    bash assets/store_descriptions/generate_and_validate.sh fdroid
+fi
 echo "Git add"
 git add fastlane/*
 git add $manifest

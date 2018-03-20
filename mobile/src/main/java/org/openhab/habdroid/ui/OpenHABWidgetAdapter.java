@@ -15,14 +15,14 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
+import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.PorterDuff;
+import android.graphics.Color;
 import android.net.Uri;
-import android.support.annotation.ColorInt;
 import android.support.annotation.IdRes;
 import android.support.annotation.LayoutRes;
-import android.support.v4.content.ContextCompat;
+import android.support.annotation.VisibleForTesting;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SwitchCompat;
 import android.text.TextUtils;
@@ -66,7 +66,9 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 /**
@@ -105,6 +107,7 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
     private CharSequence mChartTheme;
     private int mSelectedPosition = -1;
     private Connection mConnection;
+    private ColorMapper mColorMapper;
 
     public OpenHABWidgetAdapter(Context context, Connection connection,
             ItemClickListener itemClickListener) {
@@ -113,6 +116,7 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         mInflater = LayoutInflater.from(context);
         mItemClickListener = itemClickListener;
         mConnection = connection;
+        mColorMapper = new ColorMapper(context);
 
         TypedValue tv = new TypedValue();
         context.getTheme().resolveAttribute(R.attr.chartTheme, tv, true);
@@ -138,52 +142,52 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         final ViewHolder holder;
         switch (viewType) {
             case TYPE_GENERICITEM:
-                holder = new GenericViewHolder(mInflater, parent, mConnection);
+                holder = new GenericViewHolder(mInflater, parent, mConnection, mColorMapper);
                 break;
             case TYPE_FRAME:
-                holder = new FrameViewHolder(mInflater, parent, mConnection);
+                holder = new FrameViewHolder(mInflater, parent, mConnection, mColorMapper);
                 break;
             case TYPE_GROUP:
-                holder = new GroupViewHolder(mInflater, parent, mConnection);
+                holder = new GroupViewHolder(mInflater, parent, mConnection, mColorMapper);
                 break;
             case TYPE_SWITCH:
-                holder = new SwitchViewHolder(mInflater, parent, mConnection);
+                holder = new SwitchViewHolder(mInflater, parent, mConnection, mColorMapper);
                 break;
             case TYPE_TEXT:
-                holder = new TextViewHolder(mInflater, parent, mConnection);
+                holder = new TextViewHolder(mInflater, parent, mConnection, mColorMapper);
                 break;
             case TYPE_SLIDER:
-                holder = new SliderViewHolder(mInflater, parent, mConnection);
+                holder = new SliderViewHolder(mInflater, parent, mConnection, mColorMapper);
                 break;
             case TYPE_IMAGE:
-                holder = new ImageViewHolder(mInflater, parent, mConnection);
+                holder = new ImageViewHolder(mInflater, parent, mConnection, mColorMapper);
                 break;
             case TYPE_SELECTION:
-                holder = new SelectionViewHolder(mInflater, parent, mConnection);
+                holder = new SelectionViewHolder(mInflater, parent, mConnection, mColorMapper);
                 break;
             case TYPE_SECTIONSWITCH:
-                holder = new SectionSwitchViewHolder(mInflater, parent, mConnection);
+                holder = new SectionSwitchViewHolder(mInflater, parent, mConnection, mColorMapper);
                 break;
             case TYPE_ROLLERSHUTTER:
-                holder = new RollerShutterViewHolder(mInflater, parent, mConnection);
+                holder = new RollerShutterViewHolder(mInflater, parent, mConnection, mColorMapper);
                 break;
             case TYPE_SETPOINT:
-                holder = new SetpointViewHolder(mInflater, parent, mConnection);
+                holder = new SetpointViewHolder(mInflater, parent, mConnection, mColorMapper);
                 break;
             case TYPE_CHART:
-                holder = new ChartViewHolder(mInflater, parent, mChartTheme, mConnection);
+                holder = new ChartViewHolder(mInflater, parent, mChartTheme, mConnection, mColorMapper);
                 break;
             case TYPE_VIDEO:
-                holder = new VideoViewHolder(mInflater, parent, mConnection);
+                holder = new VideoViewHolder(mInflater, parent, mConnection, mColorMapper);
                 break;
             case TYPE_WEB:
-                holder = new WebViewHolder(mInflater, parent, mConnection);
+                holder = new WebViewHolder(mInflater, parent, mConnection, mColorMapper);
                 break;
             case TYPE_COLOR:
-                holder = new ColorViewHolder(mInflater, parent, mConnection);
+                holder = new ColorViewHolder(mInflater, parent, mConnection, mColorMapper);
                 break;
             case TYPE_VIDEO_MJPEG:
-                holder = new MjpegVideoViewHolder(mInflater, parent, mConnection);
+                holder = new MjpegVideoViewHolder(mInflater, parent, mConnection, mColorMapper);
                 break;
             default:
                 throw new IllegalArgumentException("View type " + viewType + " is not known");
@@ -309,19 +313,22 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
 
     public abstract static class ViewHolder extends RecyclerView.ViewHolder {
         protected final Connection mConnection;
+        private final ColorMapper mColorMapper;
 
         ViewHolder(LayoutInflater inflater, ViewGroup parent, @LayoutRes int layoutResId,
-                   Connection conn) {
+                Connection conn, ColorMapper colorMapper) {
             super(inflater.inflate(layoutResId, parent, false));
             mConnection = conn;
+            mColorMapper = colorMapper;
         }
 
         public abstract void bind(OpenHABWidget widget);
         public void start() {}
         public void stop() {}
 
-        protected static void updateTextViewColor(TextView view, Integer color) {
+        protected void updateTextViewColor(TextView view, String colorName) {
             ColorStateList origColor = (ColorStateList) view.getTag(R.id.originalColor);
+            Integer color = mColorMapper.mapColor(colorName);
             if (color != null) {
                 if (origColor == null) {
                     view.setTag(R.id.originalColor, view.getTextColors());
@@ -338,7 +345,7 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
             String iconUrl = mConnection.getOpenHABUrl() + Uri.encode(widget.iconPath(), "/?=&");
             iconView.setImageUrl(iconUrl, mConnection.getUsername(), mConnection.getPassword(),
                     R.drawable.blank_icon);
-            Integer iconColor = widget.iconColor();
+            Integer iconColor = mColorMapper.mapColor(widget.iconColor());
             if (iconColor != null) {
                 iconView.setColorFilter(iconColor);
             } else {
@@ -351,8 +358,9 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         private final TextView mLabelView;
         private final MySmartImageView mIconView;
 
-        GenericViewHolder(LayoutInflater inflater, ViewGroup parent, Connection conn) {
-            super(inflater, parent, R.layout.openhabwidgetlist_genericitem, conn);
+        GenericViewHolder(LayoutInflater inflater, ViewGroup parent,
+                Connection conn, ColorMapper colorMapper) {
+            super(inflater, parent, R.layout.openhabwidgetlist_genericitem, conn, colorMapper);
             mLabelView = itemView.findViewById(R.id.widgetlabel);
             mIconView = itemView.findViewById(R.id.widgetimage);
         }
@@ -370,8 +378,9 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         private final View mSpacer;
         private final TextView mLabelView;
 
-        FrameViewHolder(LayoutInflater inflater, ViewGroup parent, Connection conn) {
-            super(inflater, parent, R.layout.openhabwidgetlist_frameitem, conn);
+        FrameViewHolder(LayoutInflater inflater, ViewGroup parent,
+                Connection conn, ColorMapper colorMapper) {
+            super(inflater, parent, R.layout.openhabwidgetlist_frameitem, conn, colorMapper);
             mLabelView = itemView.findViewById(R.id.widgetlabel);
             mDivider = itemView.findViewById(R.id.divider);
             mSpacer = itemView.findViewById(R.id.spacer);
@@ -397,8 +406,9 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         private final TextView mValueView;
         private final MySmartImageView mIconView;
 
-        GroupViewHolder(LayoutInflater inflater, ViewGroup parent, Connection conn) {
-            super(inflater, parent, R.layout.openhabwidgetlist_groupitem, conn);
+        GroupViewHolder(LayoutInflater inflater, ViewGroup parent,
+                Connection conn, ColorMapper colorMapper) {
+            super(inflater, parent, R.layout.openhabwidgetlist_groupitem, conn, colorMapper);
             mLabelView = itemView.findViewById(R.id.widgetlabel);
             mValueView = itemView.findViewById(R.id.widgetvalue);
             mIconView = itemView.findViewById(R.id.widgetimage);
@@ -421,8 +431,9 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         private final SwitchCompat mSwitch;
         private OpenHABItem mBoundItem;
 
-        SwitchViewHolder(LayoutInflater inflater, ViewGroup parent, Connection conn) {
-            super(inflater, parent, R.layout.openhabwidgetlist_switchitem, conn);
+        SwitchViewHolder(LayoutInflater inflater, ViewGroup parent,
+                Connection conn, ColorMapper colorMapper) {
+            super(inflater, parent, R.layout.openhabwidgetlist_switchitem, conn, colorMapper);
             mLabelView = itemView.findViewById(R.id.widgetlabel);
             mIconView = itemView.findViewById(R.id.widgetimage);
             mSwitch = itemView.findViewById(R.id.switchswitch);
@@ -453,8 +464,9 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         private final TextView mValueView;
         private final MySmartImageView mIconView;
 
-        TextViewHolder(LayoutInflater inflater, ViewGroup parent, Connection conn) {
-            super(inflater, parent, R.layout.openhabwidgetlist_textitem, conn);
+        TextViewHolder(LayoutInflater inflater, ViewGroup parent,
+                Connection conn, ColorMapper colorMapper) {
+            super(inflater, parent, R.layout.openhabwidgetlist_textitem, conn, colorMapper);
             mLabelView = itemView.findViewById(R.id.widgetlabel);
             mValueView = itemView.findViewById(R.id.widgetvalue);
             mIconView = itemView.findViewById(R.id.widgetimage);
@@ -478,8 +490,9 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         private final SeekBar mSeekBar;
         private OpenHABItem mBoundItem;
 
-        SliderViewHolder(LayoutInflater inflater, ViewGroup parent, Connection conn) {
-            super(inflater, parent, R.layout.openhabwidgetlist_slideritem, conn);
+        SliderViewHolder(LayoutInflater inflater, ViewGroup parent,
+                Connection conn, ColorMapper colorMapper) {
+            super(inflater, parent, R.layout.openhabwidgetlist_slideritem, conn, colorMapper);
             mLabelView = itemView.findViewById(R.id.widgetlabel);
             mIconView = itemView.findViewById(R.id.widgetimage);
             mSeekBar = itemView.findViewById(R.id.sliderseekbar);
@@ -529,8 +542,9 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         private final View mParentView;
         private int mRefreshRate;
 
-        ImageViewHolder(LayoutInflater inflater, ViewGroup parent, Connection conn) {
-            super(inflater, parent, R.layout.openhabwidgetlist_imageitem, conn);
+        ImageViewHolder(LayoutInflater inflater, ViewGroup parent,
+                Connection conn, ColorMapper colorMapper) {
+            super(inflater, parent, R.layout.openhabwidgetlist_imageitem, conn, colorMapper);
             mImageView = itemView.findViewById(R.id.imageimage);
             mParentView = parent;
         }
@@ -584,8 +598,9 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         private final MySmartImageView mIconView;
         private final Spinner mSpinner;
 
-        SelectionViewHolder(LayoutInflater inflater, ViewGroup parent, Connection conn) {
-            super(inflater, parent, R.layout.openhabwidgetlist_selectionitem, conn);
+        SelectionViewHolder(LayoutInflater inflater, ViewGroup parent,
+                Connection conn, ColorMapper colorMapper) {
+            super(inflater, parent, R.layout.openhabwidgetlist_selectionitem, conn, colorMapper);
             mLabelView = itemView.findViewById(R.id.widgetlabel);
             mSpinner = itemView.findViewById(R.id.selectionspinner);
             mIconView = itemView.findViewById(R.id.widgetimage);
@@ -666,8 +681,9 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         private final RadioGroup mRadioGroup;
         private OpenHABItem mBoundItem;
 
-        SectionSwitchViewHolder(LayoutInflater inflater, ViewGroup parent, Connection conn) {
-            super(inflater, parent, R.layout.openhabwidgetlist_sectionswitchitem, conn);
+        SectionSwitchViewHolder(LayoutInflater inflater, ViewGroup parent,
+                Connection conn, ColorMapper colorMapper) {
+            super(inflater, parent, R.layout.openhabwidgetlist_sectionswitchitem, conn, colorMapper);
             mInflater = inflater;
             mLabelView = itemView.findViewById(R.id.widgetlabel);
             mValueView = itemView.findViewById(R.id.widgetvalue);
@@ -721,8 +737,9 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         private final MySmartImageView mIconView;
         private OpenHABItem mBoundItem;
 
-        RollerShutterViewHolder(LayoutInflater inflater, ViewGroup parent, Connection conn) {
-            super(inflater, parent, R.layout.openhabwidgetlist_rollershutteritem, conn);
+        RollerShutterViewHolder(LayoutInflater inflater, ViewGroup parent,
+                Connection conn, ColorMapper colorMapper) {
+            super(inflater, parent, R.layout.openhabwidgetlist_rollershutteritem, conn, colorMapper);
             mLabelView = itemView.findViewById(R.id.widgetlabel);
             mIconView = itemView.findViewById(R.id.widgetimage);
             initButton(R.id.rollershutterbutton_up, "UP");
@@ -760,8 +777,9 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         private final LayoutInflater mInflater;
         private OpenHABWidget mBoundWidget;
 
-        SetpointViewHolder(LayoutInflater inflater, ViewGroup parent, Connection conn) {
-            super(inflater, parent, R.layout.openhabwidgetlist_setpointitem, conn);
+        SetpointViewHolder(LayoutInflater inflater, ViewGroup parent,
+                Connection conn, ColorMapper colorMapper) {
+            super(inflater, parent, R.layout.openhabwidgetlist_setpointitem, conn, colorMapper);
             mLabelView = itemView.findViewById(R.id.widgetlabel);
             mValueView = itemView.findViewById(R.id.widgetvalue);
             mValueView.setOnClickListener(this);
@@ -846,8 +864,9 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         private int mRefreshRate = 0;
         private int mDensity;
 
-        ChartViewHolder(LayoutInflater inflater, ViewGroup parent, CharSequence theme, Connection conn) {
-            super(inflater, parent, R.layout.openhabwidgetlist_chartitem, conn);
+        ChartViewHolder(LayoutInflater inflater, ViewGroup parent, CharSequence theme,
+                Connection conn, ColorMapper colorMapper) {
+            super(inflater, parent, R.layout.openhabwidgetlist_chartitem, conn, colorMapper);
             mImageView = itemView.findViewById(R.id.chartimage);
             mParentView = parent;
 
@@ -920,8 +939,9 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
     public static class VideoViewHolder extends ViewHolder {
         private final VideoView mVideoView;
 
-        VideoViewHolder(LayoutInflater inflater, ViewGroup parent, Connection conn) {
-            super(inflater, parent, R.layout.openhabwidgetlist_videoitem, conn);
+        VideoViewHolder(LayoutInflater inflater, ViewGroup parent,
+                Connection conn, ColorMapper colorMapper) {
+            super(inflater, parent, R.layout.openhabwidgetlist_videoitem, conn, colorMapper);
             mVideoView = itemView.findViewById(R.id.videovideo);
         }
 
@@ -959,8 +979,9 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         private final WebView mWebView;
         private final int mRowHeightPixels;
 
-        WebViewHolder(LayoutInflater inflater, ViewGroup parent, Connection conn) {
-            super(inflater, parent, R.layout.openhabwidgetlist_webitem, conn);
+        WebViewHolder(LayoutInflater inflater, ViewGroup parent,
+                Connection conn, ColorMapper colorMapper) {
+            super(inflater, parent, R.layout.openhabwidgetlist_webitem, conn, colorMapper);
             mWebView = itemView.findViewById(R.id.webweb);
 
             final Resources res = itemView.getContext().getResources();
@@ -991,8 +1012,9 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         private final MySmartImageView mIconView;
         private OpenHABItem mBoundItem;
 
-        ColorViewHolder(LayoutInflater inflater, ViewGroup parent, Connection conn) {
-            super(inflater, parent, R.layout.openhabwidgetlist_coloritem, conn);
+        ColorViewHolder(LayoutInflater inflater, ViewGroup parent,
+                Connection conn, ColorMapper colorMapper) {
+            super(inflater, parent, R.layout.openhabwidgetlist_coloritem, conn, colorMapper);
             mLabelView = itemView.findViewById(R.id.widgetlabel);
             mIconView = itemView.findViewById(R.id.widgetimage);
             initButton(R.id.colorbutton_up, "ON");
@@ -1039,8 +1061,9 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         private final ImageView mImageView;
         private MjpegStreamer mStreamer;
 
-        MjpegVideoViewHolder(LayoutInflater inflater, ViewGroup parent, Connection conn) {
-            super(inflater, parent, R.layout.openhabwidgetlist_videomjpegitem, conn);
+        MjpegVideoViewHolder(LayoutInflater inflater, ViewGroup parent,
+                Connection conn, ColorMapper colorMapper) {
+            super(inflater, parent, R.layout.openhabwidgetlist_videomjpegitem, conn, colorMapper);
             mImageView = itemView.findViewById(R.id.mjpegimage);
         }
 
@@ -1093,6 +1116,40 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
             }
 
             return false;
+        }
+    }
+
+    @VisibleForTesting
+    public static class ColorMapper {
+        private final Map<String, Integer> mColorMap = new HashMap<>();
+
+        ColorMapper(Context context) {
+            String[] colorNames = context.getResources().getStringArray(R.array.valueColorNames);
+
+            TypedValue tv = new TypedValue();
+            context.getTheme().resolveAttribute(R.attr.valueColors, tv, false);
+            TypedArray ta = context.getResources().obtainTypedArray(tv.data);
+
+            for (int i = 0; i < ta.length() && i < colorNames.length; i++) {
+                mColorMap.put(colorNames[i], ta.getColor(i, 0));
+            }
+
+            ta.recycle();
+        }
+
+        public Integer mapColor(String colorName) {
+            if (colorName == null) {
+                return null;
+            }
+            if (colorName.startsWith("#")) {
+                try {
+                    return Color.parseColor(colorName);
+                } catch (IllegalArgumentException e) {
+                    return null;
+                }
+            } else {
+                return mColorMap.get(colorName);
+            }
         }
     }
 }
