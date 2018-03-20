@@ -115,12 +115,11 @@ public class OpenHABWidgetListFragment extends Fragment
     }
 
     @Override
-    public boolean onItemClicked(OpenHABWidget openHABWidget) {
+    public void onItemClicked(OpenHABWidget openHABWidget) {
         OpenHABLinkedPage linkedPage = openHABWidget.linkedPage();
         if (mActivity != null && linkedPage != null) {
             mActivity.onWidgetSelected(linkedPage, OpenHABWidgetListFragment.this);
         }
-        return linkedPage != null;
     }
 
     @Override
@@ -335,14 +334,6 @@ public class OpenHABWidgetListFragment extends Fragment
             return mTitle;
         }
         return getArguments().getString("title");
-    }
-
-    public void clearSelection() {
-        Log.d(TAG, "clearSelection() " + this.displayPageUrl);
-        Log.d(TAG, "isAdded = " + isAdded());
-        if (openHABWidgetAdapter != null) {
-            openHABWidgetAdapter.setSelectedPosition(-1);
-        }
     }
 
     private void stopVisibleViewHolders() {
