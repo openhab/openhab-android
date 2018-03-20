@@ -11,9 +11,11 @@ package org.openhab.habdroid.core;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.StringRes;
 
 import com.danielstone.materialaboutlibrary.items.MaterialAboutActionItem;
 
+import org.openhab.habdroid.R;
 import org.openhab.habdroid.core.connection.CloudConnection;
 
 public class CloudMessagingHelper {
@@ -23,7 +25,7 @@ public class CloudMessagingHelper {
     public static void onNotificationSelected(Context context, Intent intent) {
     }
 
-    public static MaterialAboutActionItem buildAboutItem(Context context) {
-        return null;
+    public static @StringRes int getPushNotificationStatusResId() {
+        return R.string.info_openhab_notification_status_unavailable;
     }
 }

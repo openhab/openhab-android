@@ -11,8 +11,7 @@ package org.openhab.habdroid.core;
 
 import android.content.Context;
 import android.content.Intent;
-
-import com.danielstone.materialaboutlibrary.items.MaterialAboutActionItem;
+import android.support.annotation.StringRes;
 
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.core.connection.CloudConnection;
@@ -42,28 +41,21 @@ public class CloudMessagingHelper {
         }
     }
 
-    public static MaterialAboutActionItem buildAboutItem(Context context) {
+    public static @StringRes int getPushNotificationStatusResId() {
         CloudConnection cloudConnection = (CloudConnection)
                 ConnectionFactory.getConnection(Connection.TYPE_CLOUD);
-        final String text;
         if (cloudConnection == null) {
             if (ConnectionFactory.getConnection(Connection.TYPE_REMOTE) == null) {
-                text = context.getString(R.string.info_openhab_gcm_no_remote);
+                return R.string.info_openhab_gcm_no_remote;
             } else {
-                text = context.getString(R.string.info_openhab_gcm_unsupported);
+                return R.string.info_openhab_gcm_unsupported;
             }
         } else if (!sRegistrationDone) {
-            text = context.getString(R.string.info_openhab_gcm_in_progress);
+            return R.string.info_openhab_gcm_in_progress;
         } else if (sRegistrationFailureReason != null) {
-            text = context.getString(R.string.info_openhab_gcm_failed);
+            return R.string.info_openhab_gcm_failed;
         } else {
-            text = context.getString(R.string.info_openhab_gcm_connected,
-                    cloudConnection.getMessagingSenderId());
+            return R.string.info_openhab_gcm_connected;
         }
-        return new MaterialAboutActionItem.Builder()
-                .text(R.string.info_openhab_gcm_label)
-                .subText(text)
-                .icon(R.drawable.ic_info_outline)
-                .build();
     }
 }

@@ -223,10 +223,11 @@ public class AboutActivity extends AppCompatActivity implements
                 }
             }
 
-            MaterialAboutActionItem cloudMessagingItem = CloudMessagingHelper.buildAboutItem(context);
-            if (cloudMessagingItem != null) {
-                ohServerCard.addItem(cloudMessagingItem);
-            }
+            ohServerCard.addItem(new MaterialAboutActionItem.Builder()
+                    .text(R.string.info_openhab_push_notification_label)
+                    .subText(CloudMessagingHelper.getPushNotificationStatusResId())
+                    .icon(R.drawable.ic_info_outline)
+                    .build());
 
             MaterialAboutCard.Builder ohCommunityCard = new MaterialAboutCard.Builder();
             ohCommunityCard.title(R.string.about_community);
