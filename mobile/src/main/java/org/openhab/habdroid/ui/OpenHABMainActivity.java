@@ -69,6 +69,7 @@ import org.openhab.habdroid.R;
 import org.openhab.habdroid.core.CloudMessagingHelper;
 import org.openhab.habdroid.core.OnUpdateBroadcastReceiver;
 import org.openhab.habdroid.core.OpenHABVoiceService;
+import org.openhab.habdroid.core.connection.CloudConnection;
 import org.openhab.habdroid.core.connection.Connection;
 import org.openhab.habdroid.core.connection.ConnectionFactory;
 import org.openhab.habdroid.core.connection.DemoConnection;
@@ -482,7 +483,9 @@ public class OpenHABMainActivity extends AppCompatActivity implements
 
         super.onResume();
         ConnectionFactory.addListener(this);
-        onConnectionChanged();
+
+        onAvailableConnectionChanged();
+        updateNotificationDrawerItem();
 
         NfcAdapter nfcAdapter = NfcAdapter.getDefaultAdapter(this);
         if (nfcAdapter != null) {
@@ -511,7 +514,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onConnectionChanged() {
+    public void onAvailableConnectionChanged() {
         Connection newConnection;
         ConnectionException failureReason;
 
@@ -575,6 +578,11 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         updateSitemapDrawerItems();
         invalidateOptionsMenu();
         updateTitle();
+    }
+
+    @Override
+    public void onCloudConnectionChanged(CloudConnection connection) {
+        updateNotificationDrawerItem();
     }
 
     @Override
