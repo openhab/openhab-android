@@ -9,25 +9,41 @@
 
 package org.openhab.habdroid.core;
 
+import android.annotation.TargetApi;
 import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.service.notification.StatusBarNotification;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
+import android.text.TextUtils;
 
 import com.google.android.gms.gcm.GcmListenerService;
 
 import org.openhab.habdroid.R;
+import org.openhab.habdroid.core.connection.Connection;
+import org.openhab.habdroid.core.connection.ConnectionFactory;
 import org.openhab.habdroid.ui.OpenHABMainActivity;
 import org.openhab.habdroid.util.Constants;
+import org.openhab.habdroid.util.SyncHttpClient;
+
+import java.util.Locale;
 
 public class GcmMessageListenerService extends GcmListenerService {
     static final String EXTRA_NOTIFICATION_ID = "notificationId";
+
+    private static final String CHANNEL_ID_DEFAULT = "default";
+    private static final String CHANNEL_ID_FORMAT_SEVERITY = "severity-%s";
+    private static final int SUMMARY_NOTIFICATION_ID = 0;
 
     @Override
     public void onMessageReceived(String from, Bundle data) {
@@ -39,52 +55,156 @@ public class GcmMessageListenerService extends GcmListenerService {
 
         switch (messageType) {
             case "notification":
+                String message = data.getString("message");
+                String severity = data.getString("severity");
+                String icon = data.getString("icon");
                 // As the GCM message payload sent by OH cloud does not include the notification
                 // timestamp, use the (undocumented) google.sent_time as a time reference for our
                 // notifications. In case GCM stops sending that timestamp, use the current time
                 // as fallback.
                 long timestamp = data.getLong("google.sent_time", System.currentTimeMillis());
-                Notification n =
-                        makeNotification(data.getString("message"), timestamp, notificationId);
-                nm.notify(notificationId, n);
+
+                final String channelId = TextUtils.isEmpty(severity)
+                        ? CHANNEL_ID_DEFAULT
+                        : String.format(Locale.US, CHANNEL_ID_FORMAT_SEVERITY, severity);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    final CharSequence name = TextUtils.isEmpty(severity)
+                            ? getString(R.string.notification_channel_default)
+                            : getString(R.string.notification_channel_severity_value, severity);
+                    NotificationChannel channel = new NotificationChannel(
+                            channelId, name, NotificationManager.IMPORTANCE_DEFAULT);
+                    channel.setShowBadge(true);
+                    nm.createNotificationChannel(channel);
+                }
+
+                nm.notify(notificationId,
+                        makeNotification(message, channelId, icon, timestamp, notificationId));
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    int count = getGcmNotificationCount(nm.getActiveNotifications());
+                    nm.notify(SUMMARY_NOTIFICATION_ID, makeSummaryNotification(count));
+                }
                 break;
             case "hideNotification":
                 nm.cancel(notificationId);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    StatusBarNotification[] active = nm.getActiveNotifications();
+                    if (notificationId != SUMMARY_NOTIFICATION_ID
+                            && getGcmNotificationCount(active) == 0) {
+                        // Cancel summary when removing the last sub-notification
+                        nm.cancel(SUMMARY_NOTIFICATION_ID);
+                    } else if (notificationId == SUMMARY_NOTIFICATION_ID) {
+                        // Cancel all sub-notifications when removing the summary
+                        for (StatusBarNotification n : active) {
+                            nm.cancel(n.getId());
+                        }
+                    }
+                }
                 break;
         }
     }
 
-    private Notification makeNotification(String msg, long timestamp, int notificationId) {
+    private PendingIntent makeNotificationClickIntent(String msg, int notificationId) {
         Intent contentIntent = new Intent(this, OpenHABMainActivity.class)
                 .setAction(OpenHABMainActivity.ACTION_NOTIFICATION_SELECTED)
                 .setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                .putExtra(EXTRA_NOTIFICATION_ID, notificationId)
-                .putExtra(OpenHABMainActivity.EXTRA_MESSAGE, msg);
-        PendingIntent contentPi = PendingIntent.getActivity(this, notificationId,
+                .putExtra(EXTRA_NOTIFICATION_ID, notificationId);
+        if (msg != null) {
+            contentIntent.putExtra(OpenHABMainActivity.EXTRA_MESSAGE, msg);
+        }
+        return PendingIntent.getActivity(this, notificationId,
                 contentIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+    }
 
+    private PendingIntent makeDeleteIntent(int notificationId) {
         Intent deleteIntent = new Intent(this, GcmRegistrationService.class)
                 .setAction(GcmRegistrationService.ACTION_HIDE_NOTIFICATION)
                 .putExtra(GcmRegistrationService.EXTRA_NOTIFICATION_ID, notificationId);
 
-        PendingIntent deletePi = PendingIntent.getBroadcast(this, notificationId,
+        return PendingIntent.getService(this, notificationId,
                 deleteIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+    }
 
+    private Notification makeNotification(String msg, String channelId, String icon,
+                long timestamp, int notificationId) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         String toneSetting = prefs.getString(Constants.PREFERENCE_TONE, "");
+        Bitmap iconBitmap = null;
 
-        return new NotificationCompat.Builder(this)
-                .setSmallIcon(R.drawable.ic_openhab_appicon_24dp)
-                .setContentTitle(getString(R.string.app_name))
-                .setStyle(new NotificationCompat.BigTextStyle()
-                        .bigText(msg))
-                .setColor(ContextCompat.getColor(this, R.color.openhab_orange))
-                .setAutoCancel(true)
+        if (icon != null) {
+            Connection connection = ConnectionFactory.getConnection(Connection.TYPE_CLOUD);
+            if (connection != null) {
+                final String url = String.format(Locale.US, "images/%s.png", icon);
+                SyncHttpClient.HttpResult result = connection.getSyncHttpClient().get(url);
+                if (result.response != null) {
+                    iconBitmap = BitmapFactory.decodeStream(result.response.byteStream());
+                }
+            }
+        }
+
+        PendingIntent contentIntent = makeNotificationClickIntent(msg, notificationId);
+
+        CharSequence publicText = getResources().getQuantityString(
+                R.plurals.summary_notification_text, 1, 1);
+        Notification publicVersion = makeNotificationBuilder(channelId)
+                .setContentText(publicText)
+                .setWhen(timestamp)
+                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                .setContentIntent(contentIntent)
+                .build();
+
+        return makeNotificationBuilder(channelId)
+                .setLargeIcon(iconBitmap)
+                .setStyle(new NotificationCompat.BigTextStyle().bigText(msg))
                 .setWhen(timestamp)
                 .setSound(Uri.parse(toneSetting))
                 .setContentText(msg)
-                .setContentIntent(contentPi)
-                .setDeleteIntent(deletePi)
+                .setContentIntent(contentIntent)
+                .setDeleteIntent(makeDeleteIntent(notificationId))
+                .setVisibility(NotificationCompat.VISIBILITY_PRIVATE)
+                .setPublicVersion(publicVersion)
                 .build();
+    }
+
+    @TargetApi(23)
+    private Notification makeSummaryNotification(int subNotificationCount) {
+        CharSequence text = getResources().getQuantityString(R.plurals.summary_notification_text,
+                subNotificationCount, subNotificationCount);
+        PendingIntent clickIntent = makeNotificationClickIntent(null, SUMMARY_NOTIFICATION_ID);
+        Notification publicVersion = makeNotificationBuilder(CHANNEL_ID_DEFAULT)
+                .setGroupSummary(true)
+                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                .setContentText(text)
+                .setContentIntent(clickIntent)
+                .build();
+        return makeNotificationBuilder(CHANNEL_ID_DEFAULT)
+                .setGroupSummary(true)
+                .setContentText(text)
+                .setPublicVersion(publicVersion)
+                .setContentIntent(clickIntent)
+                .setDeleteIntent(makeDeleteIntent(SUMMARY_NOTIFICATION_ID))
+                .build();
+    }
+
+    private NotificationCompat.Builder makeNotificationBuilder(String channelId) {
+        return new NotificationCompat.Builder(this, channelId)
+                .setSmallIcon(R.drawable.ic_openhab_appicon_24dp)
+                .setContentTitle(getString(R.string.app_name))
+                .setColor(ContextCompat.getColor(this, R.color.openhab_orange))
+                .setCategory(NotificationCompat.CATEGORY_EVENT)
+                .setAutoCancel(true)
+                .setGroup("gcm");
+    }
+
+    @TargetApi(23)
+    private int getGcmNotificationCount(StatusBarNotification[] active) {
+        int count = 0;
+        for (int i = 0; i < active.length; i++) {
+            String groupKey = active[i].getGroupKey();
+            if (active[i].getId() != 0 && groupKey != null && groupKey.endsWith("gcm")) {
+                count++;
+            }
+        }
+        return count;
     }
 }
