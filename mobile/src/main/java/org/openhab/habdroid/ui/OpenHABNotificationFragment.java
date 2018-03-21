@@ -18,6 +18,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -35,7 +37,8 @@ import okhttp3.Call;
 import okhttp3.Headers;
 import okhttp3.Request;
 
-public class OpenHABNotificationFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
+public class OpenHABNotificationFragment extends Fragment implements
+        View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
 
     private static final String TAG = OpenHABNotificationFragment.class.getSimpleName();
 
@@ -48,12 +51,13 @@ public class OpenHABNotificationFragment extends Fragment implements SwipeRefres
 
     private RecyclerView mRecyclerView;
     private SwipeRefreshLayout mSwipeLayout;
+    private View mEmptyView;
+    private ImageView mEmptyWatermark;
+    private TextView mEmptyMessage;
+    private View mRetryButton;
 
     public static OpenHABNotificationFragment newInstance() {
-        OpenHABNotificationFragment fragment = new OpenHABNotificationFragment();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
-        return fragment;
+        return new OpenHABNotificationFragment();
     }
 
     /**
@@ -67,7 +71,7 @@ public class OpenHABNotificationFragment extends Fragment implements SwipeRefres
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d(TAG, "onCreate()");
-        mNotifications = new ArrayList<OpenHABNotification>();
+        mNotifications = new ArrayList<>();
     }
 
     @Override
@@ -75,11 +79,15 @@ public class OpenHABNotificationFragment extends Fragment implements SwipeRefres
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         Log.i(TAG, "onCreateView");
-        Log.d(TAG, "isAdded = " + isAdded());
         View view = inflater.inflate(R.layout.openhabnotificationlist_fragment, container, false);
-        mSwipeLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_container);
+        mSwipeLayout = view.findViewById(R.id.swipe_container);
         mSwipeLayout.setOnRefreshListener(this);
         mRecyclerView = view.findViewById(android.R.id.list);
+        mEmptyView = view.findViewById(android.R.id.empty);
+        mEmptyMessage = view.findViewById(R.id.empty_message);
+        mEmptyWatermark = view.findViewById(R.id.watermark);
+        mRetryButton = view.findViewById(R.id.retry_button);
+        mRetryButton.setOnClickListener(this);
         return view;
     }
 
@@ -93,13 +101,11 @@ public class OpenHABNotificationFragment extends Fragment implements SwipeRefres
         mRecyclerView.addItemDecoration(new DividerItemDecoration(mActivity));
         mRecyclerView.setAdapter(mNotificationAdapter);
         Log.d(TAG, "onActivityCreated()");
-        Log.d(TAG, "isAdded = " + isAdded());
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         Log.d(TAG, "onViewCreated");
-        Log.d(TAG, "isAdded = " + isAdded());
         super.onViewCreated(view, savedInstanceState);
     }
 
@@ -116,20 +122,14 @@ public class OpenHABNotificationFragment extends Fragment implements SwipeRefres
         Log.d(TAG, "onPause()");
         // Cancel request for notifications if there was any
         if (mRequestHandle != null) {
-            Thread thread = new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    mRequestHandle.cancel();
-                }
-            });
-            thread.start();
+            new Thread(() -> mRequestHandle.cancel()).start();
         }
     }
 
     @Override
     public void onRefresh() {
         Log.d(TAG, "onRefresh()");
-        refresh();
+        loadNotifications();
     }
 
     @Override
@@ -139,60 +139,58 @@ public class OpenHABNotificationFragment extends Fragment implements SwipeRefres
         mActivity = null;
     }
 
-    public void refresh() {
-        Log.d(TAG, "refresh()");
-        loadNotifications();
+    @Override
+    public void onClick(View view) {
+        if (view == mRetryButton) {
+            loadNotifications();
+        }
     }
 
     private void loadNotifications() {
-        Connection conn = ConnectionFactory.getConnection(Connection.TYPE_CLOUD);if (conn == null) {
+        Connection conn = ConnectionFactory.getConnection(Connection.TYPE_CLOUD);
+        if (conn == null) {
+            updateViewVisibility(false, true);
             return;
         }
-        startProgressIndicator();
+        updateViewVisibility(true, false);
         mRequestHandle = conn.getAsyncHttpClient().get("/api/v1/notifications?limit=20",
                 new AsyncHttpClient.StringResponseHandler() {
             @Override
             public void onSuccess(String responseBody, Headers headers) {
-                stopProgressIndicator();
                 Log.d(TAG, "Notifications request success");
                 try {
                     JSONArray jsonArray = new JSONArray(responseBody);
                     Log.d(TAG, jsonArray.toString());
                     mNotifications.clear();
                     for (int i = 0; i < jsonArray.length(); i++) {
-                        try {
-                            JSONObject sitemapJson = jsonArray.getJSONObject(i);
-                            mNotifications.add(OpenHABNotification.fromJson(sitemapJson));
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
+                        JSONObject sitemapJson = jsonArray.getJSONObject(i);
+                        mNotifications.add(OpenHABNotification.fromJson(sitemapJson));
                     }
                     mNotificationAdapter.notifyDataSetChanged();
-                } catch(JSONException e) {
+                    updateViewVisibility(false, false);
+                } catch (JSONException e) {
                     Log.d(TAG, e.getMessage(), e);
+                    updateViewVisibility(false, true);
                 }
             }
 
             @Override
             public void onFailure(Request request, int statusCode, Throwable error) {
-                stopProgressIndicator();
+                updateViewVisibility(false, true);
                 Log.e(TAG, "Notifications request failure");
             }
         });
     }
 
-    private void stopProgressIndicator() {
-        if (mActivity != null) {
-            Log.d(TAG, "Stop progress indicator");
-            mActivity.setProgressIndicatorVisible(false);
-        }
-    }
-
-    private void startProgressIndicator() {
-        if (mActivity != null) {
-            Log.d(TAG, "Start progress indicator");
-            mActivity.setProgressIndicatorVisible(true);
-        }
-        mSwipeLayout.setRefreshing(false);
+    private void updateViewVisibility(boolean loading, boolean loadError) {
+        boolean showEmpty = !loading && (mNotificationAdapter.getItemCount() == 0 || loadError);
+        mRecyclerView.setVisibility(showEmpty ? View.GONE : View.VISIBLE);
+        mEmptyView.setVisibility(showEmpty ? View.VISIBLE : View.GONE);
+        mSwipeLayout.setRefreshing(loading);
+        mEmptyMessage.setText(
+                loadError ? R.string.notification_list_error : R.string.notification_list_empty);
+        mEmptyWatermark.setImageResource(
+                loadError ? R.drawable.ic_connection_error : R.drawable.ic_no_notifications);
+        mRetryButton.setVisibility(loadError ? View.VISIBLE : View.GONE);
     }
 }

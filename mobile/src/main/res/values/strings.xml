@@ -113,6 +113,10 @@
     <string name="info_not_set">Not set</string>
     <string name="password_placeholder" translatable="false">\u25cf\u25cf\u25cf\u25cf\u25cf\u25cf</string>
 
+    <!-- Notification list strings -->
+    <string name="notification_list_empty">No notifications were sent so far</string>
+    <string name="notification_list_error">An error occurred while loading notifications</string>
+
     <!-- Strings for MemorizingTrustManager activity -->
     <string name="mtm_accept_cert">Accept unknown Certificate?</string>
     <string name="mtm_decision_always">Always</string>
