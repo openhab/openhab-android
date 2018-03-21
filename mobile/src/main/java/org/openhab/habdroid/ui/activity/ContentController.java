@@ -433,11 +433,11 @@ public abstract class ContentController implements PageConnectionHolderFragment.
     }
 
     protected Fragment getOverridingFragment() {
-        if (mNoConnectionFragment != null) {
-            return mNoConnectionFragment;
-        }
         if (mTemporaryPage != null) {
             return mTemporaryPage;
+        }
+        if (mNoConnectionFragment != null) {
+            return mNoConnectionFragment;
         }
         return null;
     }
