@@ -22,12 +22,3 @@ echo "Android tests"
 time ./gradlew :mobile:connected{Foss,Full}${releaseFlavorCapital}DebugAndroidTest
 echo "Jacoco coverage reports"
 time ./gradlew :mobile:jacocoTest{Foss,Full}${releaseFlavorCapital}DebugUnitTestReport
-
-echo "app_package_name('${packageName}')" >> fastlane/Screengrabfile
-echo "tests_package_name('${packageName}')" >> fastlane/Screengrabfile
-echo "app_apk_path('mobile/build/outputs/apk/full${releaseFlavorCapital}/debug/mobile-full-${releaseFlavor}-debug.apk')" >> fastlane/Screengrabfile
-echo "tests_apk_path('mobile/build/outputs/apk/full${releaseFlavorCapital}/debug/mobile-full-${releaseFlavor}-debug.apk')" >> fastlane/Screengrabfile
-echo "Screengrab"
-time fastlane screengrab
-
-git add . && git diff --staged
