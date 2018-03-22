@@ -1,2 +1,8 @@
 locales ['en-US', 'de-DE']
 clear_previous_screenshots true
+
+app_package_name('org.openhab.habdroid')
+app_apk_path('mobile/build/outputs/apk/fullStable/debug/mobile-full-stable-debug.apk')
+
+tests_package_name('org.openhab.habdroid')
+tests_apk_path('mobile/build/outputs/apk/androidTest/fullStable/debug/mobile-full-stable-debug-androidTest.apk')
