@@ -1,5 +1,5 @@
 locales ['en-US', 'de-DE']
-clear_previous_screenshots true
+clear_previous_screenshots false
 
 app_package_name('org.openhab.habdroid')
 app_apk_path('mobile/build/outputs/apk/fullStable/debug/mobile-full-stable-debug.apk')
