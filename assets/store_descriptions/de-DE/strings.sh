@@ -31,3 +31,4 @@ oh_server='Um diese App zu nutzen, benötigen Sie einen openHAB-Server'
 
 short_description='openHAB-Android-Client'
 
+
