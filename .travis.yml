@@ -48,7 +48,6 @@ before_script:
 
 script:
 - bash travis/bump-versioncode.sh
-- bash travis/screengrab.sh
 - bash travis/build-and-test-apk.sh
 - bash assets/store_descriptions/generate_and_validate.sh
 
