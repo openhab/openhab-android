@@ -16,11 +16,16 @@ import android.view.View;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
+import org.junit.ClassRule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openhab.habdroid.BuildConfig;
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.TestWithoutIntro;
+
+import tools.fastlane.screengrab.Screengrab;
+import tools.fastlane.screengrab.UiAutomatorScreenshotStrategy;
+import tools.fastlane.screengrab.locale.LocaleTestRule;
 
 import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
@@ -36,10 +41,15 @@ import static org.hamcrest.Matchers.is;
 @LargeTest
 @RunWith(AndroidJUnit4.class)
 public class BasicWidgetTest extends TestWithoutIntro {
+    @ClassRule
+    public static final LocaleTestRule localeTestRule = new LocaleTestRule();
 
     @Test
     public void openHABMainActivityTest() throws InterruptedException {
         ViewInteraction recyclerView = onView(withId(R.id.recyclerview));
+
+        //Screengrab.setDefaultScreenshotStrategy(new UiAutomatorScreenshotStrategy());
+        Screengrab.screenshot("menu");
 
         recyclerView
                 .perform(RecyclerViewActions.scrollToPosition(0))
@@ -74,6 +84,8 @@ public class BasicWidgetTest extends TestWithoutIntro {
                 .atPosition(0);
         appCompatCheckedTextView.check(matches(withText("off")));
         appCompatCheckedTextView.perform(click());
+
+        Screengrab.screenshot("widget_overview");
 
         // check whether scene radio button group is present
         recyclerView
