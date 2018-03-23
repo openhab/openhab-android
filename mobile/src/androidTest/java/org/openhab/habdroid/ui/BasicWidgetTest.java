@@ -114,22 +114,12 @@ public class BasicWidgetTest extends TestWithoutIntro {
 
     private static Matcher<View> atPositionOnView(final int position,
             final Matcher<View> itemMatcher, @IdRes final int targetViewId) {
-        return atPositionOnView(position, itemMatcher, new ChildViewCallback() {
-            @Override
-            public View findChild(View parent) {
-                return parent.findViewById(targetViewId);
-            }
-        });
+        return atPositionOnView(position, itemMatcher, parent -> parent.findViewById(targetViewId));
     }
 
     private static Matcher<View> atPositionOnView(final int position,
             final Matcher<View> itemMatcher, final String tag) {
-        return atPositionOnView(position, itemMatcher, new ChildViewCallback() {
-            @Override
-            public View findChild(View parent) {
-                return parent.findViewWithTag(tag);
-            }
-        });
+        return atPositionOnView(position, itemMatcher, parent -> parent.findViewWithTag(tag));
     }
 
     private static Matcher<View> atPositionOnView(final int position,

@@ -1,7 +1,6 @@
 package org.openhab.habdroid.ui;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.res.Resources;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -11,7 +10,6 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
-import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
@@ -35,9 +33,8 @@ public class MapViewHelper {
         return new GoogleMapsViewHolder(inflater, parent, connection, colorMapper);
     }
 
-    private static class GoogleMapsViewHolder extends OpenHABWidgetAdapter.ViewHolder implements
-            GoogleMap.OnMapClickListener, GoogleMap.OnMarkerClickListener,
-            GoogleMap.OnMarkerDragListener {
+    private static class GoogleMapsViewHolder extends OpenHABWidgetAdapter.ViewHolder
+            implements GoogleMap.OnMarkerDragListener {
         private final TextView mLabelView;
         private final MySmartImageView mIconView;
         private final MapView mMapView;
@@ -55,17 +52,14 @@ public class MapViewHelper {
             mMapView = itemView.findViewById(R.id.mapView);
 
             mMapView.onCreate(null);
-            mMapView.getMapAsync(new OnMapReadyCallback() {
-                @Override
-                public void onMapReady(GoogleMap map) {
-                    mMap = map;
-                    UiSettings settings = map.getUiSettings();
-                    settings.setAllGesturesEnabled(false);
-                    settings.setMapToolbarEnabled(false);
-                    map.setOnMarkerClickListener(GoogleMapsViewHolder.this);
-                    map.setOnMapClickListener(GoogleMapsViewHolder.this);
-                    applyPositionAndLabel(map, 15.0f, false);
-                }
+            mMapView.getMapAsync(map -> {
+                mMap = map;
+                UiSettings settings = map.getUiSettings();
+                settings.setAllGesturesEnabled(false);
+                settings.setMapToolbarEnabled(false);
+                map.setOnMarkerClickListener(marker -> { openPopup(); return true; });
+                map.setOnMapClickListener(position -> openPopup());
+                applyPositionAndLabel(map, 15.0f, false);
             });
 
             final Resources res = itemView.getContext().getResources();
@@ -114,11 +108,6 @@ public class MapViewHelper {
         }
 
         @Override
-        public void onMapClick(LatLng latLng) {
-            openPopup();
-        }
-
-        @Override
         public void onMarkerDragStart(Marker marker) {
             // no-op, we're interested in drag end only
         }
@@ -136,12 +125,6 @@ public class MapViewHelper {
             Util.sendItemCommand(mConnection.getAsyncHttpClient(), item, newState);
         }
 
-        @Override
-        public boolean onMarkerClick(Marker marker) {
-            openPopup();
-            return true;
-        }
-
         private void openPopup() {
             final MapView mapView = new MapView(itemView.getContext());
             mapView.onCreate(null);
@@ -152,25 +135,19 @@ public class MapViewHelper {
                     .setNegativeButton(R.string.close, null)
                     .create();
 
-            dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                @Override
-                public void onDismiss(DialogInterface dialogInterface) {
-                    mapView.onPause();
-                    mapView.onStop();
-                    mapView.onDestroy();
-                }
+            dialog.setOnDismissListener(dialogInterface -> {
+                mapView.onPause();
+                mapView.onStop();
+                mapView.onDestroy();
             });
             dialog.setCanceledOnTouchOutside(true);
             dialog.show();
 
             mapView.onStart();
             mapView.onResume();
-            mapView.getMapAsync(new OnMapReadyCallback() {
-                @Override
-                public void onMapReady(GoogleMap map) {
-                    map.setOnMarkerDragListener(GoogleMapsViewHolder.this);
-                    applyPositionAndLabel(map, 16.0f, true);
-                }
+            mapView.getMapAsync(map -> {
+                map.setOnMarkerDragListener(GoogleMapsViewHolder.this);
+                applyPositionAndLabel(map, 16.0f, true);
             });
         }
 
