@@ -274,8 +274,10 @@ public abstract class ContentController implements PageConnectionHolderFragment.
         } else {
             mNoConnectionFragment = null;
         }
+        resetState();
         updateFragmentState(FragmentUpdateReason.PAGE_UPDATE);
-        updateConnectionState();
+        // Make sure dropped fragments are destroyed immediately to get their views recycled
+        mFm.executePendingTransactions();
     }
 
     /**
