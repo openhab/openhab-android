@@ -1,4 +1,4 @@
-locales ['en-US', 'de-DE']
+locales ['af-ZA', 'ar-SA', 'bg-BG', 'ca-ES', 'cs-CZ', 'da-DK', 'de-DE', 'el-GR', 'en-US', 'es-ES', 'fi-FI', 'fr-FR', 'he-IL', 'hu-HU', 'id-ID', 'it-IT', 'ja-JP', 'ko-KR', 'lt-LT', 'nl-NL', 'no-NO', 'pl-PL', 'pt-BR', 'pt-PT', 'ro-RO', 'ru-RU', 'sr-SP', 'sv-SE', 'tl-PH', 'tr-TR', 'uk-UA', 'vi-VN', 'zh-CN']
 clear_previous_screenshots false
 
 app_package_name('org.openhab.habdroid')
