@@ -23,10 +23,6 @@ import org.openhab.habdroid.BuildConfig;
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.TestWithoutIntro;
 
-import tools.fastlane.screengrab.Screengrab;
-import tools.fastlane.screengrab.UiAutomatorScreenshotStrategy;
-import tools.fastlane.screengrab.locale.LocaleTestRule;
-
 import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -41,15 +37,9 @@ import static org.hamcrest.Matchers.is;
 @LargeTest
 @RunWith(AndroidJUnit4.class)
 public class BasicWidgetTest extends TestWithoutIntro {
-    @ClassRule
-    public static final LocaleTestRule localeTestRule = new LocaleTestRule();
-
     @Test
     public void openHABMainActivityTest() throws InterruptedException {
         ViewInteraction recyclerView = onView(withId(R.id.recyclerview));
-
-        //Screengrab.setDefaultScreenshotStrategy(new UiAutomatorScreenshotStrategy());
-        Screengrab.screenshot("menu");
 
         recyclerView
                 .perform(RecyclerViewActions.scrollToPosition(0))
@@ -85,8 +75,6 @@ public class BasicWidgetTest extends TestWithoutIntro {
         appCompatCheckedTextView.check(matches(withText("off")));
         appCompatCheckedTextView.perform(click());
 
-        Screengrab.screenshot("widget_overview");
-
         // check whether scene radio button group is present
         recyclerView
                 .perform(RecyclerViewActions.scrollToPosition(5))
@@ -120,21 +108,21 @@ public class BasicWidgetTest extends TestWithoutIntro {
         }
     }
 
-    private interface ChildViewCallback {
+    public interface ChildViewCallback {
         View findChild(View parent);
     }
 
-    private static Matcher<View> atPositionOnView(final int position,
+    public static Matcher<View> atPositionOnView(final int position,
             final Matcher<View> itemMatcher, @IdRes final int targetViewId) {
         return atPositionOnView(position, itemMatcher, parent -> parent.findViewById(targetViewId));
     }
 
-    private static Matcher<View> atPositionOnView(final int position,
+    public static Matcher<View> atPositionOnView(final int position,
             final Matcher<View> itemMatcher, final String tag) {
         return atPositionOnView(position, itemMatcher, parent -> parent.findViewWithTag(tag));
     }
 
-    private static Matcher<View> atPositionOnView(final int position,
+    public static Matcher<View> atPositionOnView(final int position,
             final Matcher<View> itemMatcher, final ChildViewCallback childCb) {
         return new BoundedMatcher<View, RecyclerView>(RecyclerView.class) {
             @Override
@@ -151,7 +139,7 @@ public class BasicWidgetTest extends TestWithoutIntro {
         };
     }
 
-    private static ViewAction onChildView(final ViewAction action, @IdRes final int targetViewId) {
+    public static ViewAction onChildView(final ViewAction action, @IdRes final int targetViewId) {
         return new ViewAction() {
             @Override
             public Matcher<View> getConstraints() {
