@@ -14,9 +14,6 @@ import org.junit.runner.RunWith;
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.TestWithoutIntro;
 
-import tools.fastlane.screengrab.Screengrab;
-import tools.fastlane.screengrab.locale.LocaleTestRule;
-
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.longClick;
@@ -30,16 +27,12 @@ import static org.hamcrest.Matchers.allOf;
 @LargeTest
 @RunWith(AndroidJUnit4.class)
 public class NfcTest extends TestWithoutIntro {
-    @ClassRule
-    public static final LocaleTestRule localeTestRule = new LocaleTestRule();
-
     @Test
     public void nfcTest() throws InterruptedException {
         ViewInteraction recyclerView = onView(withId(R.id.recyclerview));
         Context context = InstrumentationRegistry.getTargetContext();
 
-        recyclerView
-                .perform(RecyclerViewActions.actionOnItemAtPosition(10, click()));
+        recyclerView.perform(RecyclerViewActions.actionOnItemAtPosition(10, click()));
 
         recyclerView.perform(actionOnItemAtPosition(10, click()));
 
@@ -62,11 +55,7 @@ public class NfcTest extends TestWithoutIntro {
         ViewInteraction sitemapButton = onView(withText(context.getString(R.string.nfc_action_to_sitemap_page)));
         sitemapButton.check(matches(withText(context.getString(R.string.nfc_action_to_sitemap_page))));
 
-        Screengrab.screenshot("nfc_select");
-
         onButton.perform(click());
-
-        Screengrab.screenshot("nfc_activity");
 
         ViewInteraction imageView = onView(withId(R.id.nfc_watermark));
         imageView.check(matches(isDisplayed()));
