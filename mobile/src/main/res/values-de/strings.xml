@@ -149,6 +149,7 @@
   <string name="error_network_type_unsupported">Netzwerktyp (%s) wird nicht unterstützt</string>
   <string name="set">Setzen</string>
   <string name="cancel">Abbrechen</string>
+  <string name="close">Schließen</string>
   <string name="app_intro">Einführung</string>
   <string name="intro_welcome">Willkommen bei openHAB</string>
   <string name="intro_whatis">Eine technologie- und herstellerunabhängige, quelloffene Automatisierungslösung für Ihr Zuhause</string>
