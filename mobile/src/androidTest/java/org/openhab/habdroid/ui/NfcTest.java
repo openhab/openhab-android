@@ -1,5 +1,7 @@
 package org.openhab.habdroid.ui;
 
+import android.content.Context;
+import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.support.test.runner.AndroidJUnit4;
@@ -34,6 +36,7 @@ public class NfcTest extends TestWithoutIntro {
     @Test
     public void nfcTest() throws InterruptedException {
         ViewInteraction recyclerView = onView(withId(R.id.recyclerview));
+        Context context = InstrumentationRegistry.getTargetContext();
 
         recyclerView
                 .perform(RecyclerViewActions.actionOnItemAtPosition(10, click()));
@@ -44,20 +47,20 @@ public class NfcTest extends TestWithoutIntro {
 
         ViewInteraction title = onView(allOf(
                 IsInstanceOf.instanceOf(android.widget.TextView.class),
-                withText("Write NFC tag action for this element")));
-        title.check(matches(withText("Write NFC tag action for this element")));
+                withText(context.getString(R.string.nfc_dialog_title))));
+        title.check(matches(withText(context.getString(R.string.nfc_dialog_title))));
 
-        ViewInteraction onButton = onView(withText("On"));
-        onButton.check(matches(withText("On")));
+        ViewInteraction onButton = onView(withText(context.getString(R.string.nfc_action_on)));
+        onButton.check(matches(withText(context.getString(R.string.nfc_action_on))));
 
-        ViewInteraction offButton = onView(withText("Off"));
-        offButton.check(matches(withText("Off")));
+        ViewInteraction offButton = onView(withText(context.getString(R.string.nfc_action_off)));
+        offButton.check(matches(withText(context.getString(R.string.nfc_action_off))));
 
-        ViewInteraction toggleButton = onView(withText("Toggle"));
-        toggleButton.check(matches(withText("Toggle")));
+        ViewInteraction toggleButton = onView(withText(context.getString(R.string.nfc_action_toggle)));
+        toggleButton.check(matches(withText(context.getString(R.string.nfc_action_toggle))));
 
-        ViewInteraction sitemapButton = onView(withText("Navigate to Sitemap page"));
-        sitemapButton.check(matches(withText("Navigate to Sitemap page")));
+        ViewInteraction sitemapButton = onView(withText(context.getString(R.string.nfc_action_to_sitemap_page)));
+        sitemapButton.check(matches(withText(context.getString(R.string.nfc_action_to_sitemap_page))));
 
         Screengrab.screenshot("nfc_select");
 

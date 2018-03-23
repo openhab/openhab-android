@@ -28,9 +28,9 @@ android:
   
 install:
 - sed -i 's/org.gradle.daemon=false/org.gradle.daemon=true/' ~/.gradle/gradle.properties
+- echo "mapsApiKey=AIzaSyA2t2893e9wccs9EnlnauJRgtqFNYQSp-o" >> ~/.gradle/gradle.properties
 - echo yes | sdkmanager "extras;m2repository;com;android;support;constraint;constraint-layout;1.0.2"
 - echo yes | sdkmanager "extras;m2repository;com;android;support;constraint;constraint-layout-solver;1.0.2"
-- echo "mapsApiKey=AIzaSyA2t2893e9wccs9EnlnauJRgtqFNYQSp-o" >> ~/.gradle/gradle.properties
 - ./gradlew --version
 - sdkmanager --list || true
 
@@ -44,6 +44,10 @@ before_script:
 - android list target
 
 script:
+- sed -i -e 's|maven.fabric.io/public|repo1.maven.org/maven2|' -e /fabric/d -e '/google-services/d' mobile/build.gradle
+- ./gradlew assembleFullStable assembleAndroidTest
+- gem install fastlane screengrab
+- fastlane screengrab
 - bash travis/bump-versioncode.sh
 - bash travis/build-and-test-apk.sh
 - bash assets/store_descriptions/generate_and_validate.sh
