@@ -100,6 +100,7 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
     private static final int TYPE_WEB = 13;
     private static final int TYPE_COLOR = 14;
     private static final int TYPE_VIDEO_MJPEG = 15;
+    private static final int TYPE_LOCATION = 16;
 
     private final ArrayList<OpenHABWidget> mItems = new ArrayList<>();
     private final LayoutInflater mInflater;
@@ -189,6 +190,9 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
             case TYPE_VIDEO_MJPEG:
                 holder = new MjpegVideoViewHolder(mInflater, parent, mConnection, mColorMapper);
                 break;
+            case TYPE_LOCATION:
+                holder = MapViewHelper.createViewHolder(mInflater, parent, mConnection, mColorMapper);
+                break;
             default:
                 throw new IllegalArgumentException("View type " + viewType + " is not known");
         }
@@ -271,6 +275,8 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
                 return TYPE_WEB;
             case Colorpicker:
                 return TYPE_COLOR;
+            case Mapview:
+                return TYPE_LOCATION;
             default:
                 return TYPE_GENERICITEM;
         }
@@ -977,7 +983,7 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
             mWebView = itemView.findViewById(R.id.webweb);
 
             final Resources res = itemView.getContext().getResources();
-            mRowHeightPixels = res.getDimensionPixelSize(R.dimen.webview_row_height);
+            mRowHeightPixels = res.getDimensionPixelSize(R.dimen.row_height);
         }
 
         @SuppressLint("SetJavaScriptEnabled")

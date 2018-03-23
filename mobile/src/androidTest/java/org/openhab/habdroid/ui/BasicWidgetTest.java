@@ -18,6 +18,7 @@ import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.openhab.habdroid.BuildConfig;
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.TestWithoutIntro;
 
@@ -98,10 +99,31 @@ public class BasicWidgetTest extends TestWithoutIntro {
         recyclerView
                 .perform(RecyclerViewActions.scrollToPosition(10))
                 .check(matches(atPositionOnView(10, isDisplayed(), R.id.rollershutterbutton_stop)));
+
+        if (BuildConfig.FLAVOR.equals("full")) {
+            // check whether map view is displayed
+            recyclerView
+                    .perform(RecyclerViewActions.scrollToPosition(13))
+                    .check(matches(atPositionOnView(13, isDisplayed(), "MapView")));
+        }
+    }
+
+    private interface ChildViewCallback {
+        View findChild(View parent);
     }
 
     private static Matcher<View> atPositionOnView(final int position,
             final Matcher<View> itemMatcher, @IdRes final int targetViewId) {
+        return atPositionOnView(position, itemMatcher, parent -> parent.findViewById(targetViewId));
+    }
+
+    private static Matcher<View> atPositionOnView(final int position,
+            final Matcher<View> itemMatcher, final String tag) {
+        return atPositionOnView(position, itemMatcher, parent -> parent.findViewWithTag(tag));
+    }
+
+    private static Matcher<View> atPositionOnView(final int position,
+            final Matcher<View> itemMatcher, final ChildViewCallback childCb) {
         return new BoundedMatcher<View, RecyclerView>(RecyclerView.class) {
             @Override
             public void describeTo(Description description) {
@@ -111,7 +133,7 @@ public class BasicWidgetTest extends TestWithoutIntro {
             @Override
             public boolean matchesSafely(final RecyclerView recyclerView) {
                 RecyclerView.ViewHolder viewHolder = recyclerView.findViewHolderForAdapterPosition(position);
-                View targetView = viewHolder.itemView.findViewById(targetViewId);
+                View targetView = childCb.findChild(viewHolder.itemView);
                 return itemMatcher.matches(targetView);
             }
         };

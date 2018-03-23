@@ -55,6 +55,7 @@ android {
     productFlavors {
         full {
             dimension "license"
+            manifestPlaceholders = [ maps_api_key : project.findProperty("mapsApiKey") ?: "" ]
         }
         foss {
             dimension "license"
@@ -103,6 +104,8 @@ dependencies {
     //androidsvg commit as of July 16th 2017
     compile 'com.github.BigBadaboom:androidsvg:418cf676849b200cacf3465478079f39709fe5b1'
     compile 'com.github.apl-devs:appintro:v4.2.2'
+    // Google Maps
+    fullCompile 'com.google.android.gms:play-services-maps:11.4.2'
     // GCM
     fullCompile 'com.google.android.gms:play-services-gcm:11.4.2'
     fossCompile project(':gcmdummy')
@@ -155,6 +158,8 @@ dependencyVerification {
             'com.github.apl-devs:appintro:065392fdd1b93fcde233ddb9005321153b41b78e126b04e0a903b563e5d24bad',
             'com.android.support:appcompat-v7:9d44e7bf343dfd19a55e3e6f4c4e733b68d32509e0b0af5b32f2981f4f1dedd8',
             'com.android.support:transition:c5d3d1204997f80af1f4a3a315a54b1a23543c554963cef831da726aac34b56f',
+            'com.google.android.gms:play-services-maps:b97d7b6e3ec3aa22d32dd45308e7dd7ff775c4dee76cbdcd8190f107e5d887d6',
+            'com.google.android.gms:play-services-base:cb00603165e8c2e985bdcc4f4d0a754cdb19c39545e44d86487659d664057759',
             'com.google.firebase:firebase-core:3b44624c7511f5b463b9d7eaffc6f090667d68dcb881908308980f20de0e4cc5',
             'com.google.firebase:firebase-analytics:d0abd6f4c0155ada397dd573e537af142bf792bdf61d3c559094b179077a85a4',
             'com.google.firebase:firebase-analytics-impl:f470dbb8ed9df8a958fa9ec73ec06e53b02ade2af6d3e665ce5895cfb3f495b9',
@@ -183,6 +188,7 @@ dependencyVerification {
             'com.android.support.constraint:constraint-layout-solver:8c62525a9bc5cff5633a96cb9b32fffeccaf41b8841aa87fc22607070dea9b8d',
             'org.slf4j:slf4j-api:e56288031f5e60652c06e7bb6e9fa410a61231ab54890f7b708fc6adc4107c5b',
             'com.squareup.okio:okio:8c5436cadfab36bbd97db5f5c43b7bfdb5bf2f5f894ec8709b1929f14bdd010c',
+            'com.google.android.gms:play-services-maps-license:67f7ac4331c112828f2bf071caa46d769104f03f3c1d89bdee8670cd44edb1aa',
             'com.mikepenz:iconics-core:fa2cb91e1fba0a89e05705290edba6c9bca5c9d8a939b634ede35f12fae23b1a',
             'com.mikepenz:fastadapter:7cd322d4d700dbd6f02f27965872694ec7903f5ddafef88ee5afc2d4e498016a',
             'android.arch.lifecycle:runtime:e4e34e5d02bd102e8d39ddbc29f9ead8a15a61e367993d02238196ac48509ad8',
