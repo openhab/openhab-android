@@ -25,6 +25,7 @@ jarsigner -verify mobile-full-${releaseFlavor}-release-unsigned.apk > /dev/null
 jarsigner -verify mobile-foss-${releaseFlavor}-release-unsigned.apk > /dev/null
 ${ANDROID_HOME}/build-tools/25.0.2/zipalign -v 4 mobile-full-${releaseFlavor}-release-unsigned.apk openhab-android.apk > /dev/null
 ${ANDROID_HOME}/build-tools/25.0.2/zipalign -v 4 mobile-foss-${releaseFlavor}-release-unsigned.apk openhab-android-foss.apk > /dev/null
+cd -
 
 echo "Configure git"
 git config --local user.name "openhab-bot"
@@ -68,3 +69,5 @@ echo "Git push master"
 git push --quiet github master > /dev/null 2>&1
 echo "Git push F-Droid tag"
 git push --quiet github ${TRAVIS_TAG}-fdroid > /dev/null 2>&1
+
+cd $HOME/apks_to_deploy
