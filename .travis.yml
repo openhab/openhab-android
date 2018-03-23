@@ -28,10 +28,6 @@ android:
   
 install:
 - sed -i 's/org.gradle.daemon=false/org.gradle.daemon=true/' ~/.gradle/gradle.properties
-- type -a ruby
-- gem --version
-- ruby --version
-- gem install fastlane screengrab
 - echo yes | sdkmanager "extras;m2repository;com;android;support;constraint;constraint-layout;1.0.2"
 - echo yes | sdkmanager "extras;m2repository;com;android;support;constraint;constraint-layout-solver;1.0.2"
 - ./gradlew --version
@@ -50,12 +46,10 @@ script:
 - bash travis/bump-versioncode.sh
 - bash travis/build-and-test-apk.sh
 - bash assets/store_descriptions/generate_and_validate.sh
-
-after_success:
 - bash <(curl -s https://codecov.io/bash)
 
 before_deploy:
-- bash travis/commit-version-and-metadata.sh
+- bash travis/prepare-deploy.sh
 
 deploy:
   provider: releases

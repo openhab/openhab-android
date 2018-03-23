@@ -41,6 +41,8 @@ fi
 sed -i -e 's|maven.fabric.io/public|repo1.maven.org/maven2|' -e /fabric/d -e '/google-services/d' mobile/build.gradle
 echo "Build apks for screengrab"
 time ./gradlew assembleFullStable assembleAndroidTest
+echo "Install fastlane"
+gem install fastlane screengrab
 echo "Run screengrab"
 time fastlane screengrab
 
