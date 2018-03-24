@@ -4,11 +4,17 @@
   <!-- Attention translators! Do NOT submit localized strings through GitHub Pull Request. -->
   <!-- See: https://github.com/openhab/openhab-android/blob/master/README.md#localization -->
   <!-- General app strings -->
+  <string name="main_menu">תפריט ראשי</string>
+  <string name="app_preferences_name">הגדרות</string>
+  <string name="app_notifications">התראות</string>
   <!-- Main menu items -->
   <!-- App settings strings -->
   <!-- App messages strings -->
   <!-- Error messages -->
   <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
+  <string name="title_activity_openhabwritetag">כתיבה לתגית NFC</string>
+  <string name="title_activity_openhabinfo">מידע על openHAB</string>
+  <string name="title_activity_libraries">סיפריות בשימוש</string>
   <!-- Strings for MemorizingTrustManager activity -->
   <!-- Themes -->
   <!-- NFC toggle -->
