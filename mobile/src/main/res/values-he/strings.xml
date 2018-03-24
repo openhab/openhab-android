@@ -9,12 +9,23 @@
   <string name="app_notifications">התראות</string>
   <!-- Main menu items -->
   <!-- App settings strings -->
+  <string name="settings_openhab_theme">ערכת עיצוב</string>
+  <string name="settings_openhab_sslcert">התעלם מאישור SSL</string>
+  <string name="settings_openhab_sslcert_summary">התעלם מאימות אישורים בעת חיבור SSL</string>
+  <string name="settings_openhab_sslhost">התעלם משם שרת SSL</string>
   <!-- App messages strings -->
   <!-- Error messages -->
   <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
+  <string name="error_http_code_507">אין מספיק שטח פנוי לשרת openHAB (קוד תגובה HTTP 507)</string>
   <string name="title_activity_openhabwritetag">כתיבה לתגית NFC</string>
   <string name="title_activity_openhabinfo">מידע על openHAB</string>
   <string name="title_activity_libraries">סיפריות בשימוש</string>
+  <string name="info_write_tag_progress">כותב לתגית</string>
+  <string name="info_write_tag_unsupported">התקן זה אינו תומך ב-NFC</string>
+  <string name="info_write_tag_disabled">NFC אינו זמין. אנא הפעל אותו מתפריט הגדרות המכשיר.</string>
+  <string name="info_openhab_version_label">גרסת openHAB</string>
+  <string name="info_openhab_apiversion_label">גרסת ממשק תכנות יישומי REST של openHAB</string>
+  <string name="info_openhab_uuid_label">מזהה UUID של openHAB</string>
   <!-- Strings for MemorizingTrustManager activity -->
   <!-- Themes -->
   <!-- NFC toggle -->
