@@ -13,6 +13,8 @@
   <string name="settings_openhab_sslcert">התעלם מאישור SSL</string>
   <string name="settings_openhab_sslcert_summary">התעלם מאימות אישורים בעת חיבור SSL</string>
   <string name="settings_openhab_sslhost">התעלם משם שרת SSL</string>
+  <string name="settings_openhab_sslhost_summary">התעלם מבדיקת שם השרת בעת חיבור SSL</string>
+  <string name="settings_openhab_fullscreen">מסך מלא</string>
   <!-- App messages strings -->
   <!-- Error messages -->
   <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
@@ -31,8 +33,25 @@
   <!-- NFC toggle -->
   <!-- Drawer -->
   <!-- About -->
+  <string name="about_changelog">יומן שינויים</string>
+  <string name="unknown">לא ידוע</string>
+  <string name="cancel">ביטול</string>
+  <string name="close">סגור</string>
+  <string name="app_intro">הקדמה</string>
+  <string name="intro_welcome">ברוכים הבאים ל openHAB</string>
+  <string name="intro_themes">ערכות עיצוב</string>
+  <string name="intro_themes_description">בחר בין מספר ערכות עיצוב</string>
+  <string name="try_again_button">נסה שוב</string>
+  <string name="network_error">שגיאת רשת</string>
+  <string name="go_to_settings_button">עבור להגדרות</string>
+  <string name="configuration_missing">השרת של openHAB לא ניתן לגילוי באופן אוטומטי. נא להגדיר את כתובת ה IP של השרת או את שמו בתפריט הגדרות שרת.</string>
   <!-- Content description for images -->
+  <string name="content_description_video">סרטון</string>
+  <string name="content_description_open_openhab">פתח OpenHAB</string>
+  <string name="swipe_to_refresh_dismiss">הבנתי!</string>
   <!-- Intro strings -->
   <!-- Intro "SKIP" button -->
+  <string name="app_intro_skip_button">דלג</string>
   <!-- Intro "DONE" button -->
+  <string name="app_intro_done_button">בוצע</string>
 </resources>
