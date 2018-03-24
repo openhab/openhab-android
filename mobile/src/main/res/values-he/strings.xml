@@ -34,6 +34,13 @@
   <!-- Drawer -->
   <!-- About -->
   <string name="about_changelog">יומן שינויים</string>
+  <string name="about_issues">דווח על בעיה</string>
+  <string name="about_docs">תיעוד</string>
+  <string name="about_community_forum">פורום הקהילה</string>
+  <string name="about_foundation">קרן openHAB</string>
+  <string name="about_community">קהילת openHAB</string>
+  <string name="about_server">שרת openHAB</string>
+  <string name="about_translation">עזור לנו לתרגם את openHAB</string>
   <string name="unknown">לא ידוע</string>
   <string name="cancel">ביטול</string>
   <string name="close">סגור</string>
@@ -46,6 +53,12 @@
   <string name="go_to_settings_button">עבור להגדרות</string>
   <string name="configuration_missing">השרת של openHAB לא ניתן לגילוי באופן אוטומטי. נא להגדיר את כתובת ה IP של השרת או את שמו בתפריט הגדרות שרת.</string>
   <!-- Content description for images -->
+  <string name="content_description_open_roller_shutter">פתח תריס גלילה</string>
+  <string name="content_description_stop_roller_shutter">עצור תריס גלילה</string>
+  <string name="content_description_close_roller_shutter">סגור תריס גלילה</string>
+  <string name="content_description_open_color_wheel">פתח גלגל צבעים</string>
+  <string name="content_description_color_up">הדלק או החזק כדי להגדיל את הבהירות</string>
+  <string name="content_description_color_down">כבה או החזק כדי להפחית את הבהירות</string>
   <string name="content_description_video">סרטון</string>
   <string name="content_description_open_openhab">פתח OpenHAB</string>
   <string name="swipe_to_refresh_dismiss">הבנתי!</string>
