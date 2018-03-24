@@ -2,7 +2,7 @@ openHAB - "empowering the smart home" - niezależnie i otwarte oprogramowanie dl
 
 You can install the beta version alongside the stable version: [org.openhab.habdroid]
 
-The builds on F-Droid have GCM and crash reporting removed and will not be able to receive push notifications from openHAB Cloud.
+The builds on F-Droid have map view support, GCM and crash reporting removed and will not be able to receive push notifications from openHAB Cloud.
 
 openHAB jest otwartą platformą dla automatyki domowej, która integruje szeroki zakres różnych systemów "smart home" w jedno rozwiązanie.
 Nad ujednoliconą warstwa abstrakcji wszystkie połączone urządzenia są dostępne dla silników reguł automatyki a także różnych interfejsów użytkownika.

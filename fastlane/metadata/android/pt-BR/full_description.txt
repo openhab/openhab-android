@@ -2,7 +2,7 @@ openHAB - "capacitando a casa inteligente" - vendedor e domótica de tecnologia 
 
 You can install the beta version alongside the stable version: [org.openhab.habdroid]
 
-The builds on F-Droid have GCM and crash reporting removed and will not be able to receive push notifications from openHAB Cloud.
+The builds on F-Droid have map view support, GCM and crash reporting removed and will not be able to receive push notifications from openHAB Cloud.
 
 o openHab é uma plataforma de automação residencial de código aberto, desenvolvida no qual integra um grande número de dispositivos e tecnologias em uma única solução.
 Além da camada de abstração unificada, todos os dispositivos conectados estão disponíveis para mecanismos de regras gerais de automação e diferentes interfaces de usuário.

@@ -2,7 +2,7 @@ openHAB - "empowering the smart home" - Teknologia- ja valmistajariippumatonta, 
 
 You can install the beta version alongside the stable version: [org.openhab.habdroid]
 
-The builds on F-Droid have GCM and crash reporting removed and will not be able to receive push notifications from openHAB Cloud.
+The builds on F-Droid have map view support, GCM and crash reporting removed and will not be able to receive push notifications from openHAB Cloud.
 
 openHAB on Java-pohjainen avoimen lähdekoodin kotiautomaatioalusta. Se yhdistää laajan valikoiman useiden valmistajien älykotilaitteita ja eri teknologioita yhdeksi ratkaisuksi.
 Kaikki yhdistetyt laitteet ovat käytettävissä erilaisissa käyttöliittymissä sekä ohjelmoitaessa automaatiologiikkaa.
