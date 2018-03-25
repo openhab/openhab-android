@@ -60,7 +60,7 @@
   <string name="content_description_color_up">הדלק או החזק כדי להגדיל את הבהירות</string>
   <string name="content_description_color_down">כבה או החזק כדי להפחית את הבהירות</string>
   <string name="content_description_video">סרטון</string>
-  <string name="content_description_open_openhab">פתח OpenHAB</string>
+  <string name="content_description_open_openhab">פתח openHAB</string>
   <string name="swipe_to_refresh_dismiss">הבנתי!</string>
   <!-- Intro strings -->
   <!-- Intro "SKIP" button -->
