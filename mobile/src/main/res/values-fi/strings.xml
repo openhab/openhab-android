@@ -84,6 +84,7 @@
   <string name="error_http_code_504">Välityspalvelimen aikakatkaisu. Näyttää siltä että sinun käänteinen välityspalvelin on toiminnassa, mutta ei saanut vastausta openHAB palvelimelta (HTTP vastaus 504)</string>
   <string name="error_http_code_507">openHAB palvelimella ei ole tarpeeksi tilaa (HTTP vastaus 507)</string>
   <string name="error_http_code_511">Verkkoon kirjautuminen vaaditaan (HTTP vastaus 511)</string>
+  <string name="error_about_no_conn">Virhe haettaessa openHAB palvelimen tietoja</string>
   <string name="title_activity_openhabwritetag">Kirjoita uusi NFC tagi</string>
   <string name="title_activity_openhabinfo">openHAB tietoja</string>
   <string name="title_activity_libraries">Käytetyt kirjastot</string>
@@ -132,6 +133,15 @@
   <!-- About -->
   <string name="about_title">Tietoja</string>
   <string name="about_license_title">Lisenssi</string>
+  <string name="about_changelog">Muutosloki</string>
+  <string name="about_source_code">Muokkaa meitä GitHubissa!</string>
+  <string name="about_issues">Ilmoita ongelmasta</string>
+  <string name="about_docs">Dokumentointi</string>
+  <string name="about_community_forum">Yhteisön foorumi</string>
+  <string name="about_foundation">openHAB Säätiö</string>
+  <string name="about_community">openHAB yhteisö</string>
+  <string name="about_server">openHAB palvelin</string>
+  <string name="about_translation">Auta meitä kääntämään openHAB</string>
   <string name="settings_debug_messages_summary">Salasanat näkyvät salaamattomana tekstinä!</string>
   <string name="settings_debug_messages_title">Näytä debug viestit</string>
   <string name="error_couldnt_determine_openhab_url">openHAB palvelimen URL osoitetta ei löytynyt</string>
@@ -139,6 +149,7 @@
   <string name="error_network_type_unsupported">Verkon tyyppi (%s) ei tuettu</string>
   <string name="set">Aseta</string>
   <string name="cancel">Peruuta</string>
+  <string name="close">Sulje</string>
   <string name="app_intro">Esittely</string>
   <string name="intro_welcome">Tervetuloa openHABiin</string>
   <string name="intro_whatis">Valmistaja- ja teknologiariippumaton avoimen lähdekoodin automaatio-ohjelmisto kotiasi varten</string>
@@ -147,6 +158,8 @@
   <string name="try_again_button">Yritä uudelleen</string>
   <string name="network_error">Verkkovirhe</string>
   <string name="go_to_settings_button">Mene asetuksiin</string>
+  <string name="configuration_missing">Sinun openHAB palvelinta ei löydetty automaattisesti. Ole hyvä ja ja aseta sen IP osoite tai isäntänimi palvelinasetuksiin.</string>
+  <string name="resolving_openhab">Etsitään openHAB palvelinta\u2026</string>
   <string name="intro_discovery">Haku</string>
   <string name="intro_discovery_summary">Ota huomioon, että tämä toimii vain jos palvelin ei vaadi kirjautumista</string>
   <!-- Content description for images -->

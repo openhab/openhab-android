@@ -4,18 +4,67 @@
   <!-- Attention translators! Do NOT submit localized strings through GitHub Pull Request. -->
   <!-- See: https://github.com/openhab/openhab-android/blob/master/README.md#localization -->
   <!-- General app strings -->
+  <string name="main_menu">תפריט ראשי</string>
+  <string name="app_preferences_name">הגדרות</string>
+  <string name="app_notifications">התראות</string>
   <!-- Main menu items -->
   <!-- App settings strings -->
+  <string name="settings_openhab_theme">ערכת עיצוב</string>
+  <string name="settings_openhab_sslcert">התעלם מאישור SSL</string>
+  <string name="settings_openhab_sslcert_summary">התעלם מאימות אישורים בעת חיבור SSL</string>
+  <string name="settings_openhab_sslhost">התעלם משם שרת SSL</string>
+  <string name="settings_openhab_sslhost_summary">התעלם מבדיקת שם השרת בעת חיבור SSL</string>
+  <string name="settings_openhab_fullscreen">מסך מלא</string>
   <!-- App messages strings -->
   <!-- Error messages -->
   <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
+  <string name="error_http_code_507">אין מספיק שטח פנוי לשרת openHAB (קוד תגובה HTTP 507)</string>
+  <string name="title_activity_openhabwritetag">כתיבה לתגית NFC</string>
+  <string name="title_activity_openhabinfo">מידע על openHAB</string>
+  <string name="title_activity_libraries">סיפריות בשימוש</string>
+  <string name="info_write_tag_progress">כותב לתגית</string>
+  <string name="info_write_tag_unsupported">התקן זה אינו תומך ב-NFC</string>
+  <string name="info_write_tag_disabled">NFC אינו זמין. אנא הפעל אותו מתפריט הגדרות המכשיר.</string>
+  <string name="info_openhab_version_label">גרסת openHAB</string>
+  <string name="info_openhab_apiversion_label">גרסת ממשק תכנות יישומי REST של openHAB</string>
+  <string name="info_openhab_uuid_label">מזהה UUID של openHAB</string>
   <!-- Strings for MemorizingTrustManager activity -->
   <!-- Themes -->
   <!-- NFC toggle -->
   <!-- Drawer -->
   <!-- About -->
+  <string name="about_changelog">יומן שינויים</string>
+  <string name="about_issues">דווח על בעיה</string>
+  <string name="about_docs">תיעוד</string>
+  <string name="about_community_forum">פורום הקהילה</string>
+  <string name="about_foundation">קרן openHAB</string>
+  <string name="about_community">קהילת openHAB</string>
+  <string name="about_server">שרת openHAB</string>
+  <string name="about_translation">עזור לנו לתרגם את openHAB</string>
+  <string name="unknown">לא ידוע</string>
+  <string name="cancel">ביטול</string>
+  <string name="close">סגור</string>
+  <string name="app_intro">הקדמה</string>
+  <string name="intro_welcome">ברוכים הבאים ל openHAB</string>
+  <string name="intro_themes">ערכות עיצוב</string>
+  <string name="intro_themes_description">בחר בין מספר ערכות עיצוב</string>
+  <string name="try_again_button">נסה שוב</string>
+  <string name="network_error">שגיאת רשת</string>
+  <string name="go_to_settings_button">עבור להגדרות</string>
+  <string name="configuration_missing">השרת של openHAB לא ניתן לגילוי באופן אוטומטי. נא להגדיר את כתובת ה IP של השרת או את שמו בתפריט הגדרות שרת.</string>
   <!-- Content description for images -->
+  <string name="content_description_open_roller_shutter">פתח תריס גלילה</string>
+  <string name="content_description_stop_roller_shutter">עצור תריס גלילה</string>
+  <string name="content_description_close_roller_shutter">סגור תריס גלילה</string>
+  <string name="content_description_open_color_wheel">פתח גלגל צבעים</string>
+  <string name="content_description_color_up">הדלק או החזק כדי להגדיל את הבהירות</string>
+  <string name="content_description_color_down">כבה או החזק כדי להפחית את הבהירות</string>
+  <string name="content_description_video">סרטון</string>
+  <string name="content_description_open_openhab">פתח openHAB</string>
+  <string name="swipe_to_refresh_dismiss">הבנתי!</string>
   <!-- Intro strings -->
   <!-- Intro "SKIP" button -->
+  <string name="app_intro_skip_button">דלג</string>
   <!-- Intro "DONE" button -->
+  <string name="app_intro_done_button">בוצע</string>
 </resources>
