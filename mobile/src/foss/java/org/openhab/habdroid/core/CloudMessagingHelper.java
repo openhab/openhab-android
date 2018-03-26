@@ -18,8 +18,11 @@ import org.openhab.habdroid.core.connection.AbstractConnection;
 import org.openhab.habdroid.core.connection.Connection;
 
 public class CloudMessagingHelper {
-    public static Connection createConnection(Context context, AbstractConnection remoteConnection) {
+    public static Connection createConnection(AbstractConnection remoteConnection) {
         return null;
+    }
+
+    public static void onCloudConnectionUpdated(Context context, Connection cloudConnection) {
     }
 
     public static void onNotificationSelected(Context context, Intent intent) {

@@ -23,15 +23,17 @@ public class CloudMessagingHelper {
     static boolean sRegistrationDone;
     static Throwable sRegistrationFailureReason;
 
-    public static Connection createConnection(Context context, AbstractConnection remoteConnection) {
-        Connection cloudConnection = GcmCloudConnection.fromConnection(remoteConnection);
+    public static Connection createConnection(AbstractConnection remoteConnection) {
         sRegistrationDone = false;
+        return GcmCloudConnection.fromConnection(remoteConnection);
+    }
+
+    public static void onCloudConnectionUpdated(Context context, Connection cloudConnection) {
         if (cloudConnection != null) {
             Intent intent = new Intent(context, GcmRegistrationService.class)
                     .setAction(GcmRegistrationService.ACTION_REGISTER);
             context.startService(intent);
         }
-        return cloudConnection;
     }
 
     public static void onNotificationSelected(Context context, Intent intent) {

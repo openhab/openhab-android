@@ -252,7 +252,7 @@ final public class ConnectionFactory extends BroadcastReceiver implements
             }
             case MSG_UPDATE_CLOUD: { // update thread
                 AbstractConnection remote = (AbstractConnection) msg.obj;
-                Connection cloudConnection = CloudMessagingHelper.createConnection(ctx, remote);
+                Connection cloudConnection = CloudMessagingHelper.createConnection(remote);
                 mMainHandler.obtainMessage(MSG_CLOUD_DONE, cloudConnection).sendToTarget();
                 return true;
             }
@@ -379,6 +379,7 @@ final public class ConnectionFactory extends BroadcastReceiver implements
             for (UpdateListener l : mListeners) {
                 l.onCloudConnectionChanged();
             }
+            CloudMessagingHelper.onCloudConnectionUpdated(ctx, connection);
         }
         synchronized (mInitializationLock) {
             mCloudInitialized = true;
