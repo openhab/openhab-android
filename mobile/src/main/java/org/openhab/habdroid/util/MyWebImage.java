@@ -15,6 +15,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.caverock.androidsvg.SVG;
@@ -23,7 +24,10 @@ import com.loopj.android.image.SmartImage;
 import com.loopj.android.image.WebImageCache;
 
 import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
 
+import okhttp3.Credentials;
 import okhttp3.MediaType;
 
 public class MyWebImage implements SmartImage {
@@ -32,18 +36,22 @@ public class MyWebImage implements SmartImage {
     private static final int READ_TIMEOUT = 10000;
 
     private static WebImageCache sWebImageCache;
+    private static SyncHttpClient sHttpClient;
 
     private String url;
     private boolean useCache = true;
-    
-    private String authUsername;
-    private String authPassword;
-    private boolean shouldAuth = false;
+    private final Map<String, String> mAuthHeaders;
 
     public MyWebImage(String url, boolean useCache, String username, String password) {
     	this.url = url;
     	this.useCache = useCache;
-        this.setAuthentication(username, password);
+
+        if (!TextUtils.isEmpty(username) && !TextUtils.isEmpty(password)) {
+            mAuthHeaders = new HashMap<>();
+            mAuthHeaders.put("Authorization", Credentials.basic(username, password));
+        } else {
+            mAuthHeaders = null;
+        }
     }
 
     public Bitmap getCachedBitmap() {
@@ -95,14 +103,17 @@ public class MyWebImage implements SmartImage {
     }
 
     private Bitmap getBitmapFromUrl(Context context, final String url) {
-        SyncHttpClient client = new SyncHttpClient(context, null);
-        client.setTimeout(READ_TIMEOUT);
-        client.setTimeout(60000);
-        if (shouldAuth) {
-            client.setBasicAuth(authUsername, authPassword);
+        SyncHttpClient client;
+        synchronized (MyWebImage.class) {
+            if (sHttpClient == null) {
+                sHttpClient = new SyncHttpClient(context, null);
+                sHttpClient.setTimeout(READ_TIMEOUT);
+                sHttpClient.setTimeout(60000);
+            }
+            client = sHttpClient;
         }
 
-        SyncHttpClient.HttpResult result = client.get(url);
+        SyncHttpClient.HttpResult result = client.get(url, mAuthHeaders);
         if (result.error != null) {
             Log.e(TAG, "Failed to get " + url + " with code " + result.statusCode + ":" + result.error);
             return null;
@@ -145,12 +156,5 @@ public class MyWebImage implements SmartImage {
         if (cache != null) {
             cache.remove(url);
         }
-    }
-    
-    public void setAuthentication(String username, String password) {
-    	this.authUsername = username;
-    	this.authPassword = password;
-    	if (this.authUsername != null && (this.authUsername.length() > 0 && this.authPassword.length() > 0))
-    		this.shouldAuth = true;
     }
 }
