@@ -9,27 +9,34 @@
 
 package org.openhab.habdroid.util;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.security.KeyChain;
+import android.security.KeyChainException;
 import android.support.annotation.VisibleForTesting;
 import android.util.Log;
 
+import java.net.Socket;
 import java.security.KeyStore;
+import java.security.Principal;
+import java.security.PrivateKey;
 import java.security.SecureRandom;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.KeyManager;
 import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLSession;
 import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.TrustManagerFactory;
+import javax.net.ssl.X509KeyManager;
 import javax.net.ssl.X509TrustManager;
 
 import okhttp3.Call;
@@ -45,79 +52,36 @@ public abstract class HttpClient {
 
     private HttpUrl baseUrl;
     private Map<String, String> headers = new HashMap<>();
-    private OkHttpClient client;
+
+    private OkHttpClient mClient;
+    private HostnameVerifier mDefaultHostnameVerifier;
+    private SSLSocketFactory mDefaultSocketFactory;
+
+    private static final List<String> SSL_RELEVANT_KEYS = Arrays.asList(
+            Constants.PREFERENCE_SSLHOST, Constants.PREFERENCE_SSLCERT,
+            Constants.PREFERENCE_SSLCLIENTCERT
+    );
 
     protected HttpClient(Context context) {
         this(context, PreferenceManager.getDefaultSharedPreferences(context));
     }
 
     protected HttpClient(Context context, SharedPreferences prefs) {
-        OkHttpClient.Builder builder = new OkHttpClient.Builder();
+        final Context appContext = context.getApplicationContext();
+        mClient = new OkHttpClient.Builder().build();
 
-        if (prefs.getBoolean(Constants.PREFERENCE_SSLHOST, false)) {
-            builder.hostnameVerifier(new HostnameVerifier() {
-                @SuppressLint("BadHostnameVerifier")
-                @Override
-                public boolean verify(String hostname, SSLSession session) {
-                    return true;
-                }
-            });
-        }
+        mDefaultHostnameVerifier = mClient.hostnameVerifier();
+        mDefaultSocketFactory = mClient.sslSocketFactory();
 
-        X509TrustManager x509TrustManager = null;
-
-        if (prefs.getBoolean(Constants.PREFERENCE_SSLCERT, false)) {
-            x509TrustManager = new X509TrustManager() {
-                @Override
-                public void checkClientTrusted(X509Certificate[] chain, String authType) throws CertificateException {
-                }
-
-                @Override
-                public void checkServerTrusted(X509Certificate[] chain, String authType) throws CertificateException {
-                }
-
-                @Override
-                public X509Certificate[] getAcceptedIssuers() {
-                    return new X509Certificate[0];
-                }
-            };
-        } else {
-            // get default trust manager
-            try {
-                TrustManagerFactory trustManagerFactory =
-                        TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
-                trustManagerFactory.init((KeyStore) null);
-                TrustManager[] trustManagers = trustManagerFactory.getTrustManagers();
-
-                for (TrustManager trustManager : trustManagers) {
-                    if (trustManager instanceof X509TrustManager) {
-                        x509TrustManager = (X509TrustManager) trustManager;
-                        break;
-                    }
-                }
-            } catch (Exception e) {
-                Log.d(TAG, "Getting default trust manager failed", e);
+        applySslProperties(appContext, prefs);
+        prefs.registerOnSharedPreferenceChangeListener((prefsInstance, key) -> {
+            if (SSL_RELEVANT_KEYS.contains(key)) {
+                applySslProperties(appContext, prefs);
             }
-        }
-
-        try {
-            final SSLContext sslContext = SSLContext.getInstance("TLS");
-            sslContext.init(MyKeyManager.getInstance(context),
-                    new TrustManager[]{ x509TrustManager }, new SecureRandom());
-            final SSLSocketFactory sslSocketFactory = sslContext.getSocketFactory();
-            builder.sslSocketFactory(sslSocketFactory, x509TrustManager);
-        } catch (Exception e) {
-            Log.d(TAG, "Applying certificate trust settings failed", e);
-        }
-
-        client = builder.build();
+        });
     }
 
     public void setBasicAuth(String username, String password) {
-        setBasicAuth(username, password, false);
-    }
-
-    public void setBasicAuth(final String username, final String password, boolean preemtive) {
         String credential = Credentials.basic(username, password);
         headers.put("Authorization", credential);
     }
@@ -134,7 +98,7 @@ public abstract class HttpClient {
     }
 
     public void setTimeout(int timeout) {
-        client = client.newBuilder()
+        mClient = mClient.newBuilder()
                 .readTimeout(timeout, TimeUnit.MILLISECONDS)
                 .build();
     }
@@ -168,6 +132,129 @@ public abstract class HttpClient {
             requestBuilder.method(method, RequestBody.create(MediaType.parse(mediaType), requestBody));
         }
         Request request = requestBuilder.build();
-        return client.newCall(request);
+        return mClient.newCall(request);
+    }
+
+    private void applySslProperties(Context context, SharedPreferences prefs) {
+        OkHttpClient.Builder builder = mClient.newBuilder();
+
+        if (prefs.getBoolean(Constants.PREFERENCE_SSLHOST, false)) {
+            builder.hostnameVerifier((hostname, session) -> true);
+        } else {
+            builder.hostnameVerifier(mDefaultHostnameVerifier);
+        }
+
+        X509TrustManager trustManager = prefs.getBoolean(Constants.PREFERENCE_SSLCERT, false)
+                ? new DummyTrustManager()
+                : getDefaultTrustManager();
+
+        String clientCertAlias = prefs.getString(Constants.PREFERENCE_SSLCLIENTCERT, null);
+        KeyManager[] keyManagers = clientCertAlias != null
+                ? new KeyManager[] { new ClientKeyManager(context, clientCertAlias) }
+                : new KeyManager[0];
+
+        try {
+            final SSLContext sslContext = SSLContext.getInstance("TLS");
+            sslContext.init(keyManagers, new TrustManager[] { trustManager }, new SecureRandom());
+            final SSLSocketFactory sslSocketFactory = sslContext.getSocketFactory();
+            builder.sslSocketFactory(sslSocketFactory, trustManager);
+        } catch (Exception e) {
+            Log.d(TAG, "Applying certificate trust settings failed", e);
+            builder.sslSocketFactory(mDefaultSocketFactory, trustManager);
+        }
+
+        mClient = builder.build();
+    }
+
+    private static X509TrustManager getDefaultTrustManager() {
+        try {
+            TrustManagerFactory trustManagerFactory =
+                    TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
+            trustManagerFactory.init((KeyStore) null);
+            TrustManager[] trustManagers = trustManagerFactory.getTrustManagers();
+
+            for (TrustManager trustManager : trustManagers) {
+                if (trustManager instanceof X509TrustManager) {
+                    return (X509TrustManager) trustManager;
+                }
+            }
+        } catch (Exception e) {
+            Log.d(TAG, "Getting default trust manager failed", e);
+        }
+
+        return null;
+    }
+
+    private static class DummyTrustManager implements X509TrustManager {
+        @Override
+        public void checkClientTrusted(X509Certificate[] chain, String authType) throws CertificateException {
+        }
+
+        @Override
+        public void checkServerTrusted(X509Certificate[] chain, String authType) throws CertificateException {
+        }
+
+        @Override
+        public X509Certificate[] getAcceptedIssuers() {
+            return new X509Certificate[0];
+        }
+    }
+
+    private static class ClientKeyManager implements X509KeyManager {
+        private final static String TAG = ClientKeyManager.class.getSimpleName();
+
+        private Context mContext;
+        private String mAlias;
+
+        public ClientKeyManager(Context context, String alias) {
+            mContext = context.getApplicationContext();
+            mAlias = alias;
+        }
+
+        @Override
+        public String chooseClientAlias(String[] keyType, Principal[] issuers, Socket socket) {
+            Log.d(TAG, "chooseClientAlias - alias: " + mAlias);
+            return mAlias;
+        }
+
+        @Override
+        public String chooseServerAlias(String keyType, Principal[] issuers, Socket socket) {
+            Log.d(TAG, "chooseServerAlias");
+            return null;
+        }
+
+        @Override
+        public X509Certificate[] getCertificateChain(String alias) {
+            Log.d(TAG, "getCertificateChain", new Throwable());
+            try {
+                return KeyChain.getCertificateChain(mContext, alias);
+            } catch (KeyChainException | InterruptedException e) {
+                Log.e(TAG, "Failed loading certificate chain", e);
+                return null;
+            }
+        }
+
+        @Override
+        public String[] getClientAliases(String keyType, Principal[] issuers) {
+            Log.d(TAG, "getClientAliases");
+            return mAlias != null ? new String[] { mAlias } : null;
+        }
+
+        @Override
+        public String[] getServerAliases(String keyType, Principal[] issuers) {
+            Log.d(TAG, "getServerAliases");
+            return null;
+        }
+
+        @Override
+        public PrivateKey getPrivateKey(String alias) {
+            Log.d(TAG, "getPrivateKey", new Throwable());
+            try {
+                return KeyChain.getPrivateKey(mContext, mAlias);
+            } catch (KeyChainException | InterruptedException e) {
+                Log.e(TAG, "Failed loading private key", e);
+                return null;
+            }
+        }
     }
 }

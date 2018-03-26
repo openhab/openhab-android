@@ -28,12 +28,15 @@ import static org.mockito.ArgumentMatchers.anyString;
 public class SyncHttpClientTest {
 
     @Mock
+    Context mContext;
+    @Mock
     SharedPreferences mSharedPreferences;
 
     @Before
     public void setupContext() {
         PowerMockito.mockStatic(PreferenceManager.class);
 
+        PowerMockito.when(mContext.getApplicationContext()).thenReturn(mContext);
         PowerMockito.when(mSharedPreferences.getBoolean(anyString(), anyBoolean())).thenReturn(true);
         PowerMockito.when(PreferenceManager.getDefaultSharedPreferences(any(Context.class))).thenReturn(mSharedPreferences);
     }
@@ -43,7 +46,7 @@ public class SyncHttpClientTest {
      */
     @Test
     public void testMethodErrorResponse() {
-        SyncHttpClient httpClient = new SyncHttpClient(null, mSharedPreferences);
+        SyncHttpClient httpClient = new SyncHttpClient(mContext, mSharedPreferences);
         httpClient.setBaseUrl("https://demo.test");
 
         String host = "just.a.local.url.local";
