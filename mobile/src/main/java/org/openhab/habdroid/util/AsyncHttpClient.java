@@ -38,12 +38,12 @@ public class AsyncHttpClient extends HttpClient {
         }
     }
 
-    public AsyncHttpClient(Context context) {
-        super(context);
+    public AsyncHttpClient(Context context, String baseUrl) {
+        super(context, baseUrl);
     }
 
-    public AsyncHttpClient(Context context, SharedPreferences prefs) {
-        super(context, prefs);
+    public AsyncHttpClient(Context context, SharedPreferences prefs, String baseUrl) {
+        super(context, prefs, baseUrl);
 	}
 
     public <T> Call get(String url, ResponseHandler<T> responseHandler) {

@@ -34,10 +34,10 @@ public abstract class AbstractConnection implements Connection {
         this.baseUrl = baseUrl;
         this.connectionType = connectionType;
 
-        asyncHttpClient = new AsyncHttpClient(ctx, settings);
+        asyncHttpClient = new AsyncHttpClient(ctx, settings, baseUrl);
         asyncHttpClient.setTimeout(30000);
 
-        syncHttpClient = new SyncHttpClient(ctx, settings);
+        syncHttpClient = new SyncHttpClient(ctx, settings, baseUrl);
 
         updateHttpClientAuth(asyncHttpClient);
         updateHttpClientAuth(syncHttpClient);
@@ -66,14 +66,10 @@ public abstract class AbstractConnection implements Connection {
     }
 
     public AsyncHttpClient getAsyncHttpClient() {
-        asyncHttpClient.setBaseUrl(getOpenHABUrl());
-
         return asyncHttpClient;
     }
 
     public SyncHttpClient getSyncHttpClient() {
-        syncHttpClient.setBaseUrl(getOpenHABUrl());
-
         return syncHttpClient;
     }
 

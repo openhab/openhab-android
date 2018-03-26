@@ -80,12 +80,12 @@ public class SyncHttpClient extends HttpClient {
         }
     }
 
-    public SyncHttpClient(Context context) {
-        super(context);
+    public SyncHttpClient(Context context, String baseUrl) {
+        super(context, baseUrl);
     }
 
-    public SyncHttpClient(Context context, SharedPreferences prefs) {
-        super(context, prefs);
+    public SyncHttpClient(Context context, SharedPreferences prefs, String baseUrl) {
+        super(context, prefs, baseUrl);
     }
 
     public HttpResult get(String url) {

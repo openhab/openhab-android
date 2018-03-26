@@ -50,8 +50,8 @@ import okhttp3.RequestBody;
 public abstract class HttpClient {
     private static final String TAG = HttpClient.class.getSimpleName();
 
-    private HttpUrl baseUrl;
-    private Map<String, String> headers = new HashMap<>();
+    private final HttpUrl mBaseUrl;
+    private final Map<String, String> headers = new HashMap<>();
 
     private OkHttpClient mClient;
     private HostnameVerifier mDefaultHostnameVerifier;
@@ -62,13 +62,14 @@ public abstract class HttpClient {
             Constants.PREFERENCE_SSLCLIENTCERT
     );
 
-    protected HttpClient(Context context) {
-        this(context, PreferenceManager.getDefaultSharedPreferences(context));
+    protected HttpClient(Context context, String baseUrl) {
+        this(context, PreferenceManager.getDefaultSharedPreferences(context), baseUrl);
     }
 
-    protected HttpClient(Context context, SharedPreferences prefs) {
+    protected HttpClient(Context context, SharedPreferences prefs, String baseUrl) {
         final Context appContext = context.getApplicationContext();
         mClient = new OkHttpClient.Builder().build();
+        mBaseUrl = baseUrl != null ? HttpUrl.parse(baseUrl) : null;
 
         mDefaultHostnameVerifier = mClient.hostnameVerifier();
         mDefaultSocketFactory = mClient.sslSocketFactory();
@@ -84,17 +85,6 @@ public abstract class HttpClient {
     public void setBasicAuth(String username, String password) {
         String credential = Credentials.basic(username, password);
         headers.put("Authorization", credential);
-    }
-
-    public void setBaseUrl(String baseUrl) {
-        this.baseUrl = HttpUrl.parse(baseUrl);
-    }
-
-    public HttpUrl getBaseUrl() {
-        if (baseUrl == null) {
-            throw new IllegalStateException("No baseUrl was set so far.");
-        }
-        return this.baseUrl;
     }
 
     public void setTimeout(int timeout) {
@@ -119,7 +109,11 @@ public abstract class HttpClient {
     protected Call prepareCall(String url, String method, Map<String, String> additionalHeaders,
                                String requestBody, String mediaType) {
         Request.Builder requestBuilder = new Request.Builder();
-        requestBuilder.url(getBaseUrl().newBuilder(url).build());
+        if (mBaseUrl == null) {
+            requestBuilder.url(url);
+        } else {
+            requestBuilder.url(mBaseUrl.newBuilder(url).build());
+        }
         for (Map.Entry<String, String> entry : headers.entrySet()) {
             requestBuilder.addHeader(entry.getKey(), entry.getValue());
         }

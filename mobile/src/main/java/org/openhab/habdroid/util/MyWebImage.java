@@ -95,9 +95,8 @@ public class MyWebImage implements SmartImage {
     }
 
     private Bitmap getBitmapFromUrl(Context context, final String url) {
-        SyncHttpClient client = new SyncHttpClient(context);
+        SyncHttpClient client = new SyncHttpClient(context, null);
         client.setTimeout(READ_TIMEOUT);
-        client.setBaseUrl(url);
         client.setTimeout(60000);
         if (shouldAuth) {
             client.setBasicAuth(authUsername, authPassword);

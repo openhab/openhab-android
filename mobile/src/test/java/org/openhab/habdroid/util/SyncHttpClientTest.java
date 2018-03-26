@@ -46,8 +46,7 @@ public class SyncHttpClientTest {
      */
     @Test
     public void testMethodErrorResponse() {
-        SyncHttpClient httpClient = new SyncHttpClient(mContext, mSharedPreferences);
-        httpClient.setBaseUrl("https://demo.test");
+        SyncHttpClient httpClient = new SyncHttpClient(mContext, mSharedPreferences, "https://demo.test");
 
         String host = "just.a.local.url.local";
         SyncHttpClient.HttpResult resp = httpClient.get("https://" + host);
