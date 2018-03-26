@@ -84,6 +84,7 @@
   <string name="error_http_code_504">Gateway Time-out. Ihr Reverse-Proxy läuft, aber bekam keine Antwort vom openHAB-Server (HTTP-Statuscode 504)</string>
   <string name="error_http_code_507">Der openHAB-Server hat nicht genug freien Speicher (HTTP-Statuscode 507)</string>
   <string name="error_http_code_511">Netzwerkauthentifizierung wird gefordert (HTTP-Statuscode 511)</string>
+  <string name="error_about_no_conn">Fehler beim Abrufen der openHAB-Server-Informationen</string>
   <string name="title_activity_openhabwritetag">NFC-Tag beschreiben</string>
   <string name="title_activity_openhabinfo">openHAB-Informationen</string>
   <string name="title_activity_libraries">Verwendete Bibliotheken</string>
@@ -148,6 +149,7 @@
   <string name="error_network_type_unsupported">Netzwerktyp (%s) wird nicht unterstützt</string>
   <string name="set">Setzen</string>
   <string name="cancel">Abbrechen</string>
+  <string name="close">Schließen</string>
   <string name="app_intro">Einführung</string>
   <string name="intro_welcome">Willkommen bei openHAB</string>
   <string name="intro_whatis">Eine technologie- und herstellerunabhängige, quelloffene Automatisierungslösung für Ihr Zuhause</string>
@@ -156,7 +158,10 @@
   <string name="try_again_button">Erneut versuchen</string>
   <string name="network_error">Netzwerkfehler</string>
   <string name="go_to_settings_button">Einstellungen öffnen</string>
+  <string name="configuration_missing">Ihr openHAB-Server konnte nicht automatisch ermittelt werden. Konfigurieren Sie in den Servereinstellungen die IP-Adresse oder den Host-Namen.</string>
+  <string name="resolving_openhab">Versuche openHAB-Server-Instanz zu finden\u2026</string>
   <string name="intro_discovery">Automatische Konfiguration</string>
+  <string name="intro_discovery_summary">Bitte beachten Sie, dass dies nur funktionieren wird, wenn Sie sich nicht am Server authentifizieren müssen.</string>
   <!-- Content description for images -->
   <string name="content_description_open_roller_shutter">Rollladen öffnen</string>
   <string name="content_description_stop_roller_shutter">Rollladenbewegung stoppen</string>

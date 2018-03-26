@@ -31,3 +31,5 @@ oh_server='Tarvitset openHAB palvelimen tätä sovellusta varten'
 
 short_description='openHAB asiakassovellus Android-laitteille'
 
+beta='Voit asentaa beta version vakaan version rinnalle:'
+

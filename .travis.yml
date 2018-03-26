@@ -27,6 +27,8 @@ android:
   - sys-img-armeabi-v7a-android-22
   
 install:
+- sed -i 's/org.gradle.daemon=false/org.gradle.daemon=true/' ~/.gradle/gradle.properties
+- echo "mapsApiKey=AIzaSyA2t2893e9wccs9EnlnauJRgtqFNYQSp-o" >> ~/.gradle/gradle.properties
 - echo yes | sdkmanager "extras;m2repository;com;android;support;constraint;constraint-layout;1.0.2"
 - echo yes | sdkmanager "extras;m2repository;com;android;support;constraint;constraint-layout-solver;1.0.2"
 - ./gradlew --version
@@ -45,12 +47,10 @@ script:
 - bash travis/bump-versioncode.sh
 - bash travis/build-and-test-apk.sh
 - bash assets/store_descriptions/generate_and_validate.sh
-
-after_success:
 - bash <(curl -s https://codecov.io/bash)
 
 before_deploy:
-- bash travis/commit-version-and-metadata.sh
+- bash travis/prepare-deploy.sh
 
 deploy:
   provider: releases

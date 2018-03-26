@@ -2,7 +2,7 @@ openHAB - "empowering the smart home" - не зависящая от произ�
 
 You can install the beta version alongside the stable version: [org.openhab.habdroid]
 
-The builds on F-Droid have GCM and crash reporting removed and will not be able to receive push notifications from openHAB Cloud.
+The builds on F-Droid have map view support, GCM and crash reporting removed and will not be able to receive push notifications from openHAB Cloud.
 
 openHAB это основанная на Java платформа домашней автоматизации с открытым исходным кодом которая интегрирует и комбинирует большое разнообразие различных систем умного дома и технологий в единое решение.
 На вершине единой абстракции все подключенные устройства доступны для общих движков правил автоматизации и различных пользовательских интерфейсов.

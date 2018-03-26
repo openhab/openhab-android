@@ -575,6 +575,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
                 mController.updateConnection(null, null);
             }
         }
+        mViewPool.clear();
         updateSitemapDrawerItems();
         invalidateOptionsMenu();
         updateTitle();

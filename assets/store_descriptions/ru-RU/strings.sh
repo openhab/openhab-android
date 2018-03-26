@@ -31,3 +31,4 @@ oh_server='Вам нужен сервер openHAB для этого прилож
 
 short_description='openHAB Android клиент'
 
+

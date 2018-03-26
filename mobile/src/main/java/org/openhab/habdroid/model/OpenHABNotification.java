@@ -14,6 +14,8 @@
 
 package org.openhab.habdroid.model;
 
+import android.support.annotation.Nullable;
+
 import com.google.auto.value.AutoValue;
 
 import org.json.JSONException;
@@ -27,15 +29,17 @@ import java.util.TimeZone;
 public abstract class OpenHABNotification {
     public abstract String message();
     public abstract long createdTimestamp();
+    @Nullable
     public abstract String icon();
+    @Nullable
     public abstract String severity();
 
     @AutoValue.Builder
     abstract static class Builder {
         abstract Builder message(String message);
         abstract Builder createdTimestamp(long created);
-        abstract Builder icon(String icon);
-        abstract Builder severity(String severity);
+        abstract Builder icon(@Nullable String icon);
+        abstract Builder severity(@Nullable String severity);
 
         abstract OpenHABNotification build();
     }
@@ -48,14 +52,14 @@ public abstract class OpenHABNotification {
             try {
                 created = format.parse(jsonObject.getString("created")).getTime();
             } catch (ParseException e) {
-                // keep created at null
+                // keep created at 0
             }
         }
 
         return new AutoValue_OpenHABNotification.Builder()
                 .icon(jsonObject.optString("icon", null))
                 .severity(jsonObject.optString("severity", null))
-                .message(jsonObject.optString("message", null))
+                .message(jsonObject.getString("message"))
                 .createdTimestamp(created)
                 .build();
     }

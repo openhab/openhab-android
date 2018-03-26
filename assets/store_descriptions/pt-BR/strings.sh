@@ -31,3 +31,4 @@ oh_server='Necessitas de um servidor de openHAB para esta aplicação'
 
 short_description='cliente de Android openHAB'
 
+

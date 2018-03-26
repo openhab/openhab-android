@@ -61,7 +61,7 @@ public class OpenHABNotificationAdapter extends
 
         if (notification.icon() != null) {
             Connection conn = ConnectionFactory.getConnection(Connection.TYPE_CLOUD);
-            String iconUrl = String.format(Locale.US, "%s/images/%s.png",
+            String iconUrl = String.format(Locale.US, "%simages/%s.png",
                     conn.getOpenHABUrl(), Uri.encode(notification.icon()));
             holder.mIconView.setImageUrl(iconUrl, conn.getUsername(), conn.getPassword(),
                     R.drawable.ic_openhab_appicon_24dp);
