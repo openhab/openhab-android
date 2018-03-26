@@ -20,9 +20,9 @@ import android.util.Log;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.android.gms.iid.InstanceID;
 
-import org.openhab.habdroid.core.connection.CloudConnection;
 import org.openhab.habdroid.core.connection.Connection;
 import org.openhab.habdroid.core.connection.ConnectionFactory;
+import org.openhab.habdroid.core.connection.GcmCloudConnection;
 import org.openhab.habdroid.util.MyHttpClient;
 
 import java.io.IOException;
@@ -46,8 +46,8 @@ public class GcmRegistrationService extends IntentService {
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
         ConnectionFactory.waitForInitialization();
-        CloudConnection connection =
-                (CloudConnection) ConnectionFactory.getConnection(Connection.TYPE_CLOUD);
+        GcmCloudConnection connection =
+                (GcmCloudConnection) ConnectionFactory.getConnection(Connection.TYPE_CLOUD);
         if (connection == null) {
             return;
         }
@@ -70,7 +70,7 @@ public class GcmRegistrationService extends IntentService {
                 int notificationId = intent.getIntExtra(EXTRA_NOTIFICATION_ID, -1);
                 if (notificationId >= 0) {
                     try {
-                        sendHideNotificationRequest(notificationId, connection.getMessagingSenderId());
+                        sendHideNotificationRequest(notificationId, connection.getGcmSenderId());
                     } catch (IOException e) {
                         Log.e(TAG, "Failed sending notification hide message", e);
                     }
@@ -79,9 +79,9 @@ public class GcmRegistrationService extends IntentService {
         }
     }
 
-    private void registerGcm(CloudConnection connection) throws IOException {
+    private void registerGcm(GcmCloudConnection connection) throws IOException {
         InstanceID instanceID = InstanceID.getInstance(this);
-        String token = instanceID.getToken(connection.getMessagingSenderId(),
+        String token = instanceID.getToken(connection.getGcmSenderId(),
                 GoogleCloudMessaging.INSTANCE_ID_SCOPE, null);
         String deviceModel = URLEncoder.encode(Build.MODEL, "UTF-8");
         String deviceId = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);

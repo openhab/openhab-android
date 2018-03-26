@@ -50,7 +50,7 @@ final public class ConnectionFactory extends BroadcastReceiver implements
 
     public interface UpdateListener {
         void onAvailableConnectionChanged();
-        void onCloudConnectionChanged(CloudConnection connection);
+        void onCloudConnectionChanged();
     }
 
     private static final int MSG_UPDATE_AVAILABLE = 0;
@@ -63,7 +63,7 @@ final public class ConnectionFactory extends BroadcastReceiver implements
 
     private Connection mLocalConnection;
     private AbstractConnection mRemoteConnection;
-    private CloudConnection mCloudConnection;
+    private Connection mCloudConnection;
     private Connection mAvailableConnection;
     private ConnectionException mConnectionFailureReason;
     private HashSet<UpdateListener> mListeners = new HashSet<>();
@@ -252,8 +252,7 @@ final public class ConnectionFactory extends BroadcastReceiver implements
             }
             case MSG_UPDATE_CLOUD: { // update thread
                 AbstractConnection remote = (AbstractConnection) msg.obj;
-                CloudConnection cloudConnection = remote != null
-                        ? CloudConnection.fromConnection(remote) : null;
+                Connection cloudConnection = CloudMessagingHelper.createConnection(ctx, remote);
                 mMainHandler.obtainMessage(MSG_CLOUD_DONE, cloudConnection).sendToTarget();
                 return true;
             }
@@ -266,7 +265,7 @@ final public class ConnectionFactory extends BroadcastReceiver implements
                 return true;
             }
             case MSG_CLOUD_DONE: { // main thread
-                handleCloudCheckDone((CloudConnection) msg.obj);
+                handleCloudCheckDone((Connection) msg.obj);
                 return true;
             }
         }
@@ -374,12 +373,11 @@ final public class ConnectionFactory extends BroadcastReceiver implements
         }
     }
 
-    private void handleCloudCheckDone(CloudConnection connection) {
+    private void handleCloudCheckDone(Connection connection) {
         if (connection != mCloudConnection) {
             mCloudConnection = connection;
-            CloudMessagingHelper.onConnectionUpdated(ctx, connection);
             for (UpdateListener l : mListeners) {
-                l.onCloudConnectionChanged(connection);
+                l.onCloudConnectionChanged();
             }
         }
         synchronized (mInitializationLock) {

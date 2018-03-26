@@ -14,6 +14,7 @@ import org.junit.Test;
 import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
+import org.openhab.habdroid.BuildConfig;
 import org.openhab.habdroid.core.connection.exception.ConnectionException;
 import org.openhab.habdroid.core.connection.exception.NetworkNotAvailableException;
 import org.openhab.habdroid.core.connection.exception.NetworkNotSupportedException;
@@ -21,8 +22,8 @@ import org.openhab.habdroid.core.connection.exception.NoUrlInformationException;
 import org.openhab.habdroid.util.Constants;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 
-import okhttp3.HttpUrl;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
 
@@ -114,7 +115,9 @@ public class ConnectionFactoryTest {
     }
 
     @Test
-    public void testGetConnectionCloudWithUrl() throws ConnectionException, IOException {
+    public void testGetConnectionCloudWithUrl() throws ConnectionException,
+            IOException, ClassNotFoundException, NoSuchMethodException,
+            InvocationTargetException, IllegalAccessException {
         MockWebServer server = new MockWebServer();
         server.enqueue(new MockResponse().setBody("{'gcm': { 'senderId': '12345'} }"));
         server.start();
@@ -125,13 +128,20 @@ public class ConnectionFactoryTest {
         ConnectionFactory.sInstance.updateConnections();
         Connection conn = ConnectionFactory.getConnection(Connection.TYPE_CLOUD);
 
-        assertNotNull("Requesting a cloud connection when a remote url is set, "
-                + "should return a connection.", conn);
-        assertEquals(CloudConnection.class, conn.getClass());
-        assertEquals("The connection type of a cloud connection should be TYPE_CLOUD.",
-                Connection.TYPE_CLOUD, conn.getConnectionType());
-        assertEquals("The sender ID of the cloud connection should be '12345'",
-                "12345", ((CloudConnection) conn).getMessagingSenderId());
+        if ("full".equals(BuildConfig.FLAVOR_license)) {
+            assertNotNull("Requesting a cloud connection when a remote url is set, "
+                    + "should return a connection.", conn);
+            assertEquals("The connection type of a cloud connection should be TYPE_CLOUD.",
+                    Connection.TYPE_CLOUD, conn.getConnectionType());
+
+            // Using reflection here as the class isn't present in foss flavor. If the reflection
+            // call succeeds we implicitly test for the right class being returned as well.
+            Class<?> cls = Class.forName("org.openhab.habdroid.core.connection.GcmCloudConnection");
+            Object senderId = cls.getDeclaredMethod("getGcmSenderId").invoke(conn);
+            assertEquals("The sender ID of the cloud connection should be '12345'", "12345", senderId);
+        } else {
+            assertNull("FOSS build should not return a cloud connection.", conn);
+        }
 
         server.shutdown();
     }

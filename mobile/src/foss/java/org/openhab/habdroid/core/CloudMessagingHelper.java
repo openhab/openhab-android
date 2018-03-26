@@ -13,13 +13,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.StringRes;
 
-import com.danielstone.materialaboutlibrary.items.MaterialAboutActionItem;
-
 import org.openhab.habdroid.R;
-import org.openhab.habdroid.core.connection.CloudConnection;
+import org.openhab.habdroid.core.connection.AbstractConnection;
+import org.openhab.habdroid.core.connection.Connection;
 
 public class CloudMessagingHelper {
-    public static void onConnectionUpdated(Context context, CloudConnection connection) {
+    public static Connection createConnection(Context context, AbstractConnection remoteConnection) {
+        return null;
     }
 
     public static void onNotificationSelected(Context context, Intent intent) {

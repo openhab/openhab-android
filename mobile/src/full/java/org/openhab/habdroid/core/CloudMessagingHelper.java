@@ -14,21 +14,24 @@ import android.content.Intent;
 import android.support.annotation.StringRes;
 
 import org.openhab.habdroid.R;
-import org.openhab.habdroid.core.connection.CloudConnection;
+import org.openhab.habdroid.core.connection.AbstractConnection;
 import org.openhab.habdroid.core.connection.Connection;
 import org.openhab.habdroid.core.connection.ConnectionFactory;
+import org.openhab.habdroid.core.connection.GcmCloudConnection;
 
 public class CloudMessagingHelper {
     static boolean sRegistrationDone;
     static Throwable sRegistrationFailureReason;
 
-    public static void onConnectionUpdated(Context context, CloudConnection connection) {
+    public static Connection createConnection(Context context, AbstractConnection remoteConnection) {
+        Connection cloudConnection = GcmCloudConnection.fromConnection(remoteConnection);
         sRegistrationDone = false;
-        if (connection != null) {
+        if (cloudConnection != null) {
             Intent intent = new Intent(context, GcmRegistrationService.class)
                     .setAction(GcmRegistrationService.ACTION_REGISTER);
             context.startService(intent);
         }
+        return cloudConnection;
     }
 
     public static void onNotificationSelected(Context context, Intent intent) {
@@ -42,7 +45,7 @@ public class CloudMessagingHelper {
     }
 
     public static @StringRes int getPushNotificationStatusResId() {
-        CloudConnection cloudConnection = (CloudConnection)
+        GcmCloudConnection cloudConnection = (GcmCloudConnection)
                 ConnectionFactory.getConnection(Connection.TYPE_CLOUD);
         if (cloudConnection == null) {
             if (ConnectionFactory.getConnection(Connection.TYPE_REMOTE) == null) {
