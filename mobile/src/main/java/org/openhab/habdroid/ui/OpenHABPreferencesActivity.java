@@ -9,7 +9,6 @@
 
 package org.openhab.habdroid.ui;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -324,24 +323,11 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
             sslClientCert.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
-                    sslClientCert.getSharedPreferences().edit().putString(sslClientCert.getKey(), null).apply();
-
-                    if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.M) {
-                        KeyChain.choosePrivateKeyAlias(getActivity(),
-                                keyChainAliasCallback,
-                                new String[]{"RSA", "DSA"},
-                                null,
-                                getPreferenceString(Constants.PREFERENCE_REMOTE_URL, null),
-                                -1, null);
-                    } else {
-                        KeyChain.choosePrivateKeyAlias(getActivity(),
-                                keyChainAliasCallback,
-                                new String[]{KeyProperties.KEY_ALGORITHM_RSA, KeyProperties.KEY_ALGORITHM_EC},
-                                null,
-                                Uri.parse(getPreferenceString(Constants.PREFERENCE_REMOTE_URL, null)),
-                                null);
-                    }
-
+                    final String[] keyTypes = Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
+                            ? new String[] { KeyProperties.KEY_ALGORITHM_RSA, KeyProperties.KEY_ALGORITHM_EC }
+                            : new String[] { "RSA", "DSA"};
+                    KeyChain.choosePrivateKeyAlias(getActivity(), keyChainAliasCallback,
+                            keyTypes, null, null, -1, null);
                     return true;
                 }
             });
