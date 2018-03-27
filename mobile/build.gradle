@@ -99,7 +99,8 @@ dependencies {
     compile 'com.android.support:multidex:1.0.2'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'org.jmdns:jmdns:3.5.1'
-    compile 'com.squareup.okhttp3:okhttp:3.6.0'
+    compile 'com.squareup.okhttp3:okhttp:3.9.1'
+    compile 'com.github.heremaps:oksse:master-SNAPSHOT'
     compile 'com.github.loopj:android-smart-image-view:d09783b9508af5996361437a54cc234b662e4c78'
     //androidsvg commit as of July 16th 2017
     compile 'com.github.BigBadaboom:androidsvg:418cf676849b200cacf3465478079f39709fe5b1'
@@ -132,7 +133,7 @@ dependencies {
     testCompile 'org.mockito:mockito-core:2.7.6'
     testCompile 'junit:junit:4.12'
     testCompile 'org.json:json:20160810'
-    testCompile 'com.squareup.okhttp3:mockwebserver:3.6.0'
+    testCompile 'com.squareup.okhttp3:mockwebserver:3.9.1'
 
     // PowerMock
     testCompile 'org.powermock:powermock-core:1.7.0'
@@ -174,7 +175,8 @@ dependencyVerification {
             'com.android.support:multidex:7cd48755c7cfdb6dd2d21cbb02236ec390f6ac91cde87eb62f475b259ab5301d',
             'com.android.support.constraint:constraint-layout:b0c688cc2b7172608f8153a689d746da40f71e52d7e2fe2bfd9df2f92db77085',
             'org.jmdns:jmdns:33d3ace453d303fe103350be963d45aad9e405c9a30758aa588ccce00a4d5bde',
-            'com.squareup.okhttp3:okhttp:a992938d7203ca557cd7a116f002e8c427ec9cdae7ea852441abb8aec891f948',
+            'com.github.heremaps:oksse:07d01834029587e094ff758e5edf1ae48697de4f751e6963135893ab68b93c5f',
+            'com.squareup.okhttp3:okhttp:a0d01017a42bba26e507fc6d448bb36e536f4b6e612f7c42de30bbdac2b7785e',
             'com.github.loopj:android-smart-image-view:2437b0e868e8296e1578c25cf7aa0d125c72539e29e45d08ba01a41bfbd969fa',
             'com.github.BigBadaboom:androidsvg:cef17e77b14a1b8579eab045c74bc97d9aa7ef48624b45bce80f943c2248b0a0',
             'com.android.support:cardview-v7:7ea56ed5560b629ee1c0f24af6693e32974fbc8b91b544052cd2c14b176c85e0',
@@ -189,7 +191,7 @@ dependencyVerification {
             'com.android.support:support-annotations:99d6199ad5a09a0e5e8a49a4cc08f818483ddcfd7eedea2f9923412daf982309',
             'com.android.support.constraint:constraint-layout-solver:8c62525a9bc5cff5633a96cb9b32fffeccaf41b8841aa87fc22607070dea9b8d',
             'org.slf4j:slf4j-api:e56288031f5e60652c06e7bb6e9fa410a61231ab54890f7b708fc6adc4107c5b',
-            'com.squareup.okio:okio:8c5436cadfab36bbd97db5f5c43b7bfdb5bf2f5f894ec8709b1929f14bdd010c',
+            'com.squareup.okio:okio:734269c3ebc5090e3b23566db558f421f0b4027277c79ad5d176b8ec168bb850',
             'com.google.android.gms:play-services-maps-license:67f7ac4331c112828f2bf071caa46d769104f03f3c1d89bdee8670cd44edb1aa',
             'com.mikepenz:iconics-core:fa2cb91e1fba0a89e05705290edba6c9bca5c9d8a939b634ede35f12fae23b1a',
             'com.mikepenz:fastadapter:7cd322d4d700dbd6f02f27965872694ec7903f5ddafef88ee5afc2d4e498016a',

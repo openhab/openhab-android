@@ -387,6 +387,12 @@ public abstract class ContentController implements PageConnectionHolderFragment.
     }
 
     @Override
+    public boolean serverSupportsSse() {
+        ServerProperties props = mActivity.getServerProperties();
+        return props != null && props.hasSseSupport();
+    }
+
+    @Override
     public String getIconFormat() {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(mActivity);
         return prefs.getString("iconFormatType","PNG");

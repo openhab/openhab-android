@@ -33,6 +33,7 @@ public abstract class ServerProperties implements Parcelable {
     private static final String TAG = ServerProperties.class.getSimpleName();
 
     public static final int SERVER_FLAG_JSON_REST_API = 1 << 0;
+    public static final int SERVER_FLAG_SSE_SUPPORT   = 1 << 1;
 
     public static class UpdateHandle {
         public void cancel() {
@@ -58,6 +59,10 @@ public abstract class ServerProperties implements Parcelable {
 
     public boolean hasJsonApi() {
         return (flags() & SERVER_FLAG_JSON_REST_API) != 0;
+    }
+
+    public boolean hasSseSupport() {
+        return (flags() & SERVER_FLAG_SSE_SUPPORT) != 0;
     }
 
     abstract Builder toBuilder();
@@ -100,8 +105,17 @@ public abstract class ServerProperties implements Parcelable {
                 try {
                     JSONObject result = new JSONObject(response);
                     // If this succeeded, we're talking to OH2
+                    int flags = SERVER_FLAG_JSON_REST_API;
                     client.removeHeader("Accept");
-                    handle.builder.flags(SERVER_FLAG_JSON_REST_API);
+                    try {
+                        String versionString = result.getString("version");
+                        int versionNumber = Integer.parseInt(versionString);
+                        // all versions that return a number here have full SSE support
+                        flags |= SERVER_FLAG_SSE_SUPPORT;
+                    } catch (NumberFormatException nfe) {
+                        // ignored: older versions without SSE support didn't return a number
+                    }
+                    handle.builder.flags(flags);
                     fetchSitemaps(client, handle, successCb, failureCb);
                 } catch (JSONException e) {
                     if (response.startsWith("<?xml")) {

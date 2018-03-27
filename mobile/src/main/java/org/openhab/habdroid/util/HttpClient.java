@@ -17,6 +17,8 @@ import android.security.KeyChainException;
 import android.support.annotation.VisibleForTesting;
 import android.util.Log;
 
+import com.here.oksse.OkSse;
+
 import java.net.Socket;
 import java.security.KeyStore;
 import java.security.Principal;
@@ -105,6 +107,10 @@ public abstract class HttpClient {
     @VisibleForTesting
     public Map<String, String> getHeaders() {
         return headers;
+    }
+
+    public OkSse makeSseClient() {
+        return new OkSse(mClient);
     }
 
     protected Call prepareCall(String url, String method, Map<String, String> additionalHeaders,
