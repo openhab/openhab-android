@@ -15,7 +15,9 @@ public class GcmCloudConnection extends DefaultConnection {
     private static final String TAG = GcmCloudConnection.class.getSimpleName();
     private static final String SETTINGS_ROUTE = "/api/v1/settings/notifications";
 
-    private String mSenderId;
+    private final String mSenderId;
+    private boolean mRegistrationDone;
+    private boolean mRegistrationSuccessful;
 
     private GcmCloudConnection(@NonNull AbstractConnection baseConnection, @NonNull String senderId) {
         super(baseConnection, TYPE_CLOUD);
@@ -25,6 +27,28 @@ public class GcmCloudConnection extends DefaultConnection {
     @NonNull
     public String getGcmSenderId() {
         return mSenderId;
+    }
+
+    /**
+     * Checks whether GCM registration was finished
+     * @return true if finished, false if still in progress
+     */
+    public boolean registrationDone() {
+        return mRegistrationDone;
+    }
+
+    /**
+     * Checks whether GCM registration was successful
+     * Only valid if {@link #registrationDone()} returns true
+     * @return true if registration was successful, false if it failed
+     */
+    public boolean registrationSuccessful() {
+        return mRegistrationSuccessful;
+    }
+
+    public void handleRegistrationDone(Throwable failureReason) {
+        mRegistrationDone = true;
+        mRegistrationSuccessful = failureReason == null;
     }
 
     /**

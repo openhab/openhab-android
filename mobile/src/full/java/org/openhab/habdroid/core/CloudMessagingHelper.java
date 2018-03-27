@@ -20,11 +20,7 @@ import org.openhab.habdroid.core.connection.ConnectionFactory;
 import org.openhab.habdroid.core.connection.GcmCloudConnection;
 
 public class CloudMessagingHelper {
-    static boolean sRegistrationDone;
-    static Throwable sRegistrationFailureReason;
-
     public static Connection createConnection(AbstractConnection remoteConnection) {
-        sRegistrationDone = false;
         return GcmCloudConnection.fromConnection(remoteConnection);
     }
 
@@ -55,9 +51,9 @@ public class CloudMessagingHelper {
             } else {
                 return R.string.info_openhab_gcm_unsupported;
             }
-        } else if (!sRegistrationDone) {
+        } else if (!cloudConnection.registrationDone()) {
             return R.string.info_openhab_gcm_in_progress;
-        } else if (sRegistrationFailureReason != null) {
+        } else if (!cloudConnection.registrationSuccessful()) {
             return R.string.info_openhab_gcm_failed;
         } else {
             return R.string.info_openhab_gcm_connected;

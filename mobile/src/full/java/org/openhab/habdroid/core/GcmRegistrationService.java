@@ -61,10 +61,9 @@ public class GcmRegistrationService extends IntentService {
                 try {
                     registerGcm(connection);
                 } catch (IOException e) {
-                    CloudMessagingHelper.sRegistrationFailureReason = e;
+                    connection.handleRegistrationDone(e);
                     Log.e(TAG, "GCM registration failed", e);
                 }
-                CloudMessagingHelper.sRegistrationDone = true;
                 break;
             case ACTION_HIDE_NOTIFICATION:
                 int notificationId = intent.getIntExtra(EXTRA_NOTIFICATION_ID, -1);
@@ -98,13 +97,13 @@ public class GcmRegistrationService extends IntentService {
                 if (responseBody != null) {
                     Log.e(TAG, "Error response = " + responseBody);
                 }
-                CloudMessagingHelper.sRegistrationFailureReason = error;
+                connection.handleRegistrationDone(error);
             }
 
             @Override
             public void onSuccess(Call call, int statusCode, Headers headers, byte[] responseBody) {
                 Log.d(TAG, "GCM reg id success");
-                CloudMessagingHelper.sRegistrationFailureReason = null;
+                connection.handleRegistrationDone(null);
             }
         });
     }
