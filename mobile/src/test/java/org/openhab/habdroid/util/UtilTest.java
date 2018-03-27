@@ -94,7 +94,7 @@ public class UtilTest {
     public void testSortSitemapList() throws IOException, SAXException, ParserConfigurationException {
         List<OpenHABSitemap> sitemapList = Util.parseSitemapList(getSitemapOH1Document());
 
-        sitemapList = Util.sortSitemapList(Util.parseSitemapList(getSitemapOH1Document()), "");
+        Util.sortSitemapList(sitemapList, "");
         // Should be sorted
         assertEquals("Garden", sitemapList.get(0).label());
         assertEquals("Heating", sitemapList.get(1).label());
@@ -105,7 +105,7 @@ public class UtilTest {
         assertEquals("Scenes", sitemapList.get(6).label());
         assertEquals("Schedule", sitemapList.get(7).label());
 
-        sitemapList = Util.sortSitemapList(Util.parseSitemapList(getSitemapOH1Document()), "schedule");
+        Util.sortSitemapList(sitemapList, "schedule");
         // Should be sorted, but "Schedule" should be the first one
         assertEquals("Schedule", sitemapList.get(0).label());
         assertEquals("Garden", sitemapList.get(1).label());
