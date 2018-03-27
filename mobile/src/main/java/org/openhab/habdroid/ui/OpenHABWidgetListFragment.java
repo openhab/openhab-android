@@ -63,6 +63,7 @@ public class OpenHABWidgetListFragment extends Fragment
     private String mTitle;
     private List<OpenHABWidget> mWidgets;
     private SwipeRefreshLayout refreshLayout;
+    private String mHighlightedPageLink;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -279,7 +280,7 @@ public class OpenHABWidgetListFragment extends Fragment
     }
 
     public void setHighlightedPageLink(String highlightedPageLink) {
-        getArguments().putString("highlightedPageLink", highlightedPageLink);
+        mHighlightedPageLink = highlightedPageLink;
         if (openHABWidgetAdapter == null) {
             return;
         }
@@ -302,7 +303,7 @@ public class OpenHABWidgetListFragment extends Fragment
 
         if (openHABWidgetAdapter != null) {
             openHABWidgetAdapter.update(widgets);
-            setHighlightedPageLink(getArguments().getString("highlightedPageLink"));
+            setHighlightedPageLink(mHighlightedPageLink);
             refreshLayout.setRefreshing(false);
         }
         if (mActivity != null && mIsVisible) {
