@@ -49,7 +49,7 @@ public class SyncHttpClientTest {
         SyncHttpClient httpClient = new SyncHttpClient(mContext, mSharedPreferences, "https://demo.test");
 
         String host = "just.a.local.url.local";
-        SyncHttpClient.HttpResult resp = httpClient.get("https://" + host);
+        SyncHttpClient.HttpStatusResult resp = httpClient.get("https://" + host).asStatus();
 
         assertEquals(500, resp.statusCode);
         assertTrue(resp.error instanceof UnknownHostException);

@@ -155,6 +155,7 @@ public class DefaultConnectionTest {
         SyncHttpClient.HttpResult result = testConnection.getSyncHttpClient().get("/rest/test");
         assertTrue("The request should never succeed in tests", result.error != null);
         assertEquals(TEST_BASE_URL + "/rest/test", result.request.url().toString());
+        result.close();
     }
 
     @Test
@@ -163,5 +164,6 @@ public class DefaultConnectionTest {
                 testConnection.getSyncHttpClient().get("http://mylocalmachine.local/rest/test");
         assertTrue("The request should never succeed in tests", result.error != null);
         assertEquals("http://mylocalmachine.local/rest/test", result.request.url().toString());
+        result.close();
     }
 }

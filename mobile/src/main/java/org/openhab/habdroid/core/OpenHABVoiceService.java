@@ -74,8 +74,8 @@ public class OpenHABVoiceService extends IntentService {
 
     private void sendItemCommand(final String itemName, final String command, final Connection conn) {
         Log.d(TAG, "sendItemCommand(): itemName=" + itemName + ", command=" + command);
-        SyncHttpClient.HttpResult result = conn.getSyncHttpClient().post(
-                "/rest/items/" + itemName, command, "text/plain;charset=UTF-8");
+        SyncHttpClient.HttpStatusResult result = conn.getSyncHttpClient().post(
+                "/rest/items/" + itemName, command, "text/plain;charset=UTF-8").asStatus();
 
         if (result.error != null) {
             Log.e(TAG, "Got command error " + result.statusCode, result.error);

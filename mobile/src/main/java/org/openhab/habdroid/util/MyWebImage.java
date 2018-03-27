@@ -120,12 +120,15 @@ public class MyWebImage implements SmartImage {
         }
 
         MediaType contentType = result.response.contentType();
-        boolean isSVG = contentType  != null
+        boolean isSVG = contentType != null
                 && contentType.type().equals("image")
                 && contentType.subtype().contains("svg");
         InputStream is = result.response.byteStream();
+        Bitmap bitmap = isSVG ? getBitmapFromSvgInputstream(is) : BitmapFactory.decodeStream(is);
 
-        return isSVG ? getBitmapFromSvgInputstream(is) : BitmapFactory.decodeStream(is);
+        result.close();
+
+        return bitmap;
     }
 
     private Bitmap getBitmapFromSvgInputstream(InputStream is) {

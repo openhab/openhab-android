@@ -49,8 +49,28 @@ public class SyncHttpClient extends HttpClient {
             this.error = error;
         }
 
+        public void close() {
+            if (response != null) {
+                response.close();
+            }
+        }
+
         public HttpTextResult asText() {
             return new HttpTextResult(this);
+        }
+        public HttpStatusResult asStatus() {
+            return new HttpStatusResult(this);
+        }
+    }
+
+    public static class HttpStatusResult {
+        public final Throwable error;
+        public final int statusCode;
+
+        HttpStatusResult(HttpResult result) {
+            this.error = result.error;
+            this.statusCode = result.statusCode;
+            result.close();
         }
     }
 
@@ -77,6 +97,7 @@ public class SyncHttpClient extends HttpClient {
                 this.response = response;
                 this.error = error;
             }
+            result.close();
         }
     }
 

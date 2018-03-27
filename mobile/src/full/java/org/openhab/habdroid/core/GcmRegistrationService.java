@@ -88,7 +88,7 @@ public class GcmRegistrationService extends IntentService {
                 deviceId, deviceModel, token);
 
         Log.d(TAG, "Register device at openHAB-cloud with URL: " + regUrl);
-        SyncHttpClient.HttpResult result = connection.getSyncHttpClient().get(regUrl);
+        SyncHttpClient.HttpStatusResult result = connection.getSyncHttpClient().get(regUrl).asStatus();
         if (result.error == null) {
             Log.d(TAG, "GCM reg id success");
         } else {

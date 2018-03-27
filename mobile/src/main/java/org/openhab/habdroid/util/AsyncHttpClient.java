@@ -75,7 +75,14 @@ public class AsyncHttpClient extends HttpClient {
                     return;
                 }
                 final int code = response.code();
-                final T result = responseHandler.convertBodyInBackground(response.body());
+                final ResponseBody body = response.body();
+                final T result;
+                if (body != null) {
+                    result = responseHandler.convertBodyInBackground(body);
+                    body.close();
+                } else {
+                    result = null;
+                }
                 final boolean success = response.isSuccessful();
                 final Headers headers = response.headers();
                 final String message = response.message();
