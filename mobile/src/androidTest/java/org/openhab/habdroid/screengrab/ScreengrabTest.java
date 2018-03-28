@@ -74,7 +74,7 @@ public class ScreengrabTest extends TestWithoutIntro {
         recyclerView.perform(RecyclerViewActions.actionOnItemAtPosition(10, click()));
         screenshot("widget-overview");
 
-        // open nfc selection
+        /*// open nfc selection
         recyclerView.perform(actionOnItemAtPosition(1, longClick()));
         screenshot("nfc-selection");
         pressBack();
@@ -99,6 +99,6 @@ public class ScreengrabTest extends TestWithoutIntro {
                     .perform(RecyclerViewActions.scrollToPosition(13))
                     .check(matches(atPositionOnView(13, isDisplayed(), "MapView")));
             screenshot("mapview");
-        }
+        }*/
     }
 }
