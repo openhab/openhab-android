@@ -4,7 +4,6 @@
     <!-- See: https://github.com/openhab/openhab-android/blob/master/README.md#localization -->
 
     <!-- General app strings -->
-    <string name="app_name" translatable="false">openHAB</string>
     <string name="openhab_service_type" translatable="false">_openhab-server._tcp.local.</string>
     <string name="main_menu">Main menu</string>
     <string name="app_preferences_name">Settings</string>
