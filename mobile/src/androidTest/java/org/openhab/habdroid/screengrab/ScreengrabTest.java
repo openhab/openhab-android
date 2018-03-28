@@ -22,6 +22,8 @@ import org.openhab.habdroid.R;
 import org.openhab.habdroid.TestWithoutIntro;
 import org.openhab.habdroid.ui.BasicWidgetTest;
 
+import tools.fastlane.screengrab.Screengrab;
+import tools.fastlane.screengrab.UiAutomatorScreenshotStrategy;
 import tools.fastlane.screengrab.locale.LocaleTestRule;
 
 import static android.support.test.espresso.Espresso.onData;
@@ -49,38 +51,47 @@ public class ScreengrabTest extends TestWithoutIntro {
 
     @Test
     public void test() {
+        //Screengrab.setDefaultScreenshotStrategy(new UiAutomatorScreenshotStrategy());
+
         ViewInteraction recyclerView = onView(withId(R.id.recyclerview));
 
-        screenshot("menu");
+        screenshot("main-menu");
+
+        // open first floor => Office
+        recyclerView.perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+        recyclerView.perform(RecyclerViewActions.actionOnItemAtPosition(1, click()));
+        screenshot("office");
+
+        pressBack();
+        pressBack();
+
+        // open "Outside Temperature"
+        recyclerView.perform(RecyclerViewActions.actionOnItemAtPosition(5, click()));
+        screenshot("chart");
+        pressBack();
 
         // open widget overview
         recyclerView.perform(RecyclerViewActions.actionOnItemAtPosition(10, click()));
-
-        screenshot("widget_overview");
+        screenshot("widget-overview");
 
         // open nfc selection
         recyclerView.perform(actionOnItemAtPosition(1, longClick()));
-
-        screenshot("nfc_selection");
-
-        // close nfc selection
+        screenshot("nfc-selection");
         pressBack();
 
-        // check whether selection widget appears and click on it
+        // click on selection widget
         recyclerView
                 .perform(RecyclerViewActions.scrollToPosition(4))
-                .check(matches(atPositionOnView(4, withText("Scene Selection"), R.id.widgetlabel)))
-                .check(matches(atPositionOnView(4, isDisplayed(), R.id.selectionspinner)))
                 .perform(RecyclerViewActions.actionOnItemAtPosition(4, onChildView(click(), R.id.selectionspinner)));
-
         screenshot("selection");
+        pressBack();
 
-        DataInteraction appCompatCheckedTextView = onData(anything())
-                .inAdapterView(withClassName(
-                        is("com.android.internal.app.AlertController$RecycleListView")))
-                .atPosition(0);
-        appCompatCheckedTextView.check(matches(withText("off")));
-        appCompatCheckedTextView.perform(click());
+        // open color picker
+        recyclerView
+                .perform(RecyclerViewActions.scrollToPosition(9))
+                .perform(RecyclerViewActions.actionOnItemAtPosition(9, onChildView(click(), R.id.colorbutton_color)));
+        screenshot("color");
+        pressBack();
 
         if (BuildConfig.FLAVOR.equals("full")) {
             // check whether map view is displayed
