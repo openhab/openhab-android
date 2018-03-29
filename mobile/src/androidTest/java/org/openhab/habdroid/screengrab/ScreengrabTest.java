@@ -51,8 +51,6 @@ public class ScreengrabTest extends TestWithoutIntro {
 
     @Test
     public void test() {
-        //Screengrab.setDefaultScreenshotStrategy(new UiAutomatorScreenshotStrategy());
-
         ViewInteraction recyclerView = onView(withId(R.id.recyclerview));
 
         screenshot("main-menu");
@@ -73,32 +71,5 @@ public class ScreengrabTest extends TestWithoutIntro {
         // open widget overview
         recyclerView.perform(RecyclerViewActions.actionOnItemAtPosition(10, click()));
         screenshot("widget-overview");
-
-        /*// open nfc selection
-        recyclerView.perform(actionOnItemAtPosition(1, longClick()));
-        screenshot("nfc-selection");
-        pressBack();
-
-        // click on selection widget
-        recyclerView
-                .perform(RecyclerViewActions.scrollToPosition(4))
-                .perform(RecyclerViewActions.actionOnItemAtPosition(4, onChildView(click(), R.id.selectionspinner)));
-        screenshot("selection");
-        pressBack();
-
-        // open color picker
-        recyclerView
-                .perform(RecyclerViewActions.scrollToPosition(9))
-                .perform(RecyclerViewActions.actionOnItemAtPosition(9, onChildView(click(), R.id.colorbutton_color)));
-        screenshot("color");
-        pressBack();
-
-        if (BuildConfig.FLAVOR.equals("full")) {
-            // check whether map view is displayed
-            recyclerView
-                    .perform(RecyclerViewActions.scrollToPosition(13))
-                    .check(matches(atPositionOnView(13, isDisplayed(), "MapView")));
-            screenshot("mapview");
-        }*/
     }
 }
