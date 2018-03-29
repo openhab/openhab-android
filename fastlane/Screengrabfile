@@ -7,3 +7,4 @@ tests_package_name('org.openhab.habdroid.test')
 tests_apk_path('mobile/build/outputs/apk/androidTest/fullStable/debug/mobile-full-stable-debug-androidTest.apk')
 
 use_tests_in_packages(['org.openhab.habdroid.screengrab'])
+device_type('tenInch')
