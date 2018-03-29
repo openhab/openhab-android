@@ -62,7 +62,6 @@ jobs:
             prerelease: true
             file:
                 - $HOME/apks_to_deploy/openhab-android.apk
-                - $HOME/apks_to_deploy/openhab-android-foss.apk
             skip_cleanup: true
             overwrite: true
             on:
