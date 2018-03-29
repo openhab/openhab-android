@@ -51,7 +51,7 @@ public class ScreengrabTest extends TestWithoutIntro {
 
     @Test
     public void test() {
-        //Screengrab.setDefaultScreenshotStrategy(new UiAutomatorScreenshotStrategy());
+        Screengrab.setDefaultScreenshotStrategy(new UiAutomatorScreenshotStrategy());
 
         ViewInteraction recyclerView = onView(withId(R.id.recyclerview));
 
