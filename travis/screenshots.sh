@@ -28,9 +28,21 @@ echo $locales >> fastlane/Screengrabfile
 echo "Install fastlane"
 gem install fastlane screengrab
 
-bash travis/start-emulator.sh phone
-echo "Run screengrab on a phone"
+patch=$(echo "$TRAVIS_TAG" | sed -r 's/([0-9]+)\.([0-9]+)\.([0-9]+)-(.*)/\3/')
+patch=9
+if [ $((patch%3)) -eq 0 ]
+then
+    bash travis/start-emulator.sh phone
+    echo "Run screengrab on a phone"
+elif [ $((patch%3)) -eq 1 ]
+    bash travis/start-emulator.sh tenInch
+    echo "Run screengrab on a tenInch"
+else
+    bash travis/start-emulator.sh sevenInch
+    echo "Run screengrab on a sevenInch"
+fi
 time fastlane screengrab
+
 
 #bash travis/start-emulator.sh tenInch
 #echo "Run screengrab on a tablet"
