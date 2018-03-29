@@ -57,6 +57,7 @@ jobs:
               - desc="Validate strings"
         - stage: deploy
           script: bash travis/prepare-deploy.sh
+          if: tag IS present
           deploy:
             provider: releases
             prerelease: true
