@@ -23,6 +23,10 @@ android:
   - build-tools-25.0.2
   - android-22
   - sys-img-armeabi-v7a-android-22
+
+before_install:
+  - sudo apt-get -qq update
+  - sudo apt-get install -y xvfb
   
 install:
 - sed -i 's/org.gradle.daemon=false/org.gradle.daemon=true/' ~/.gradle/gradle.properties
