@@ -35,6 +35,7 @@ then
     bash travis/start-emulator.sh phone
     echo "Run screengrab on a phone"
 elif [ $((patch%3)) -eq 1 ]
+then
     bash travis/start-emulator.sh tenInch
     echo "Run screengrab on a tenInch"
 else
