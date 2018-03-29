@@ -24,10 +24,6 @@ android:
   - android-22
   - sys-img-armeabi-v7a-android-22
 
-before_install:
-  - sudo apt-get -qq update
-  - sudo apt-get install -y xvfb
-  
 install:
 - sed -i 's/org.gradle.daemon=false/org.gradle.daemon=true/' ~/.gradle/gradle.properties
 - echo "mapsApiKey=AIzaSyA2t2893e9wccs9EnlnauJRgtqFNYQSp-o" >> ~/.gradle/gradle.properties
@@ -44,7 +40,7 @@ stages:
 jobs:
     include:
         - stage: test
-          script: xvfb-run -e /dev/null --server-args="-screen 0 1024x768x24" bash travis/test.sh
+          script: bash travis/test.sh
           env:
               - desc="Build & test"
         - stage: test
@@ -53,7 +49,7 @@ jobs:
               - desc="Codecov"
           if: branch != l10n-crowdin
         - stage: test
-          script: xvfb-run -e /dev/null --server-args="-screen 0 1024x768x24" bash travis/screenshots.sh
+          script: bash travis/screenshots.sh
           env:
               - desc="Screenshots"
           if: branch != l10n-crowdin
