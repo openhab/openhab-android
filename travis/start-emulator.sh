@@ -22,7 +22,7 @@ time adb devices | grep emulator | cut -f1 | while read line; do adb -s $line em
 
 echo "Start new $device emulator"
 echo no | android create avd --force -n emulator -t "android-22" --abi armeabi-v7a -d "$device"
-emulator -avd emulator -no-audio &
+emulator -avd emulator -no-audio -no-window &
 android-wait-for-emulator
 adb shell input keyevent 82 &
 adb shell settings put global sysui_demo_allowed 1
