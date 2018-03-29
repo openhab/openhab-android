@@ -84,9 +84,10 @@ public class PageConnectionHolderFragment extends Fragment {
         /**
          * Let parent know about an update to the contents of a single widget.
          *
-         * @param widget Updated widget
+         * @param pageUrl  URL of the page the updated widget belongs to
+         * @param widget   Updated widget
          */
-        void onWidgetUpdated(OpenHABWidget widget);
+        void onWidgetUpdated(String pageUrl, OpenHABWidget widget);
     }
 
     private Map<String, ConnectionHandler> mConnections = new HashMap<>();
@@ -393,7 +394,7 @@ public class PageConnectionHolderFragment extends Fragment {
                     if (widgetId.equals(widget.id())) {
                         OpenHABWidget updatedWidget = OpenHABWidget.updateFromEvent(widget, object);
                         mLastWidgetList.set(i, updatedWidget);
-                        mCallback.onWidgetUpdated(updatedWidget);
+                        mCallback.onWidgetUpdated(mUrl, updatedWidget);
                         return true;
                     }
                 }

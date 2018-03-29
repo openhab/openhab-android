@@ -416,9 +416,10 @@ public abstract class ContentController implements PageConnectionHolderFragment.
     }
 
     @Override
-    public void onWidgetUpdated(OpenHABWidget widget) {
+    public void onWidgetUpdated(String pageUrl, OpenHABWidget widget) {
         for (OpenHABWidgetListFragment f : collectWidgetFragments()) {
-            if (f.onWidgetUpdated(widget)) {
+            if (pageUrl.equals(f.getDisplayPageUrl())) {
+                f.updateWidget(widget);
                 break;
             }
         }
