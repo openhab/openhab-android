@@ -44,7 +44,7 @@ stages:
 jobs:
     include:
         - stage: test
-          script: bash travis/test.sh
+          script: xvfb-run -e /dev/null --server-args="-screen 0 1024x768x24" bash travis/test.sh
           env:
               - desc="Build & test"
         - stage: test
@@ -53,7 +53,7 @@ jobs:
               - desc="Codecov"
           if: branch != l10n-crowdin
         - stage: test
-          script: xvfb-run bash travis/screenshots.sh
+          script: xvfb-run -e /dev/null --server-args="-screen 0 1024x768x24" bash travis/screenshots.sh
           env:
               - desc="Screenshots"
           if: branch != l10n-crowdin
