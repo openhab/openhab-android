@@ -32,9 +32,9 @@ bash travis/start-emulator.sh phone
 echo "Run screengrab on a phone"
 time fastlane screengrab
 
-bash travis/start-emulator.sh tenInch
-echo "Run screengrab on a tablet"
-time fastlane screengrab
+#bash travis/start-emulator.sh tenInch
+#echo "Run screengrab on a tablet"
+#time fastlane screengrab
 
 shopt -s globstar
 rename -n "s/(.*)_(.*).png$/\$1.png/" fastlane/metadata/android/**
