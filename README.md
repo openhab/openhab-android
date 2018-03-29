@@ -33,7 +33,9 @@ openHAB Android application is a native client for openHAB. It uses REST API of 
 * Discover devices and add them as items
 * Supports wall mounted tablets
 
-<img src="https://raw.githubusercontent.com/openhab/openhab-android/master/fastlane/metadata/android/en-US/phoneScreenshots/main_menu.png" width="200px"> <img src="https://raw.githubusercontent.com/openhab/openhab-android/master/fastlane/metadata/android/en-US/phoneScreenshots/widget_overview.png" width="200px"> <img src="https://raw.githubusercontent.com/openhab/openhab-android/master/fastlane/metadata/android/en-US/phoneScreenshots/astro_binding.png" width="200px">
+<img src="https://raw.githubusercontent.com/openhab/openhab-android/master/fastlane/metadata/android/en-US/images/phoneScreenshots/main-menu.png" width="200px">
+<img src="https://raw.githubusercontent.com/openhab/openhab-android/master/fastlane/metadata/android/en-US/images/phoneScreenshots/widget-overview.png" width="200px">
+<img src="https://raw.githubusercontent.com/openhab/openhab-android/master/fastlane/metadata/android/en-US/images/phoneScreenshots/chart.png" width="200px">
 
 ## Localization
 
