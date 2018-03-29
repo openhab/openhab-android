@@ -14,15 +14,10 @@ import android.content.Intent;
 import android.support.annotation.StringRes;
 
 import org.openhab.habdroid.R;
-import org.openhab.habdroid.core.connection.AbstractConnection;
-import org.openhab.habdroid.core.connection.Connection;
+import org.openhab.habdroid.core.connection.CloudConnection;
 
 public class CloudMessagingHelper {
-    public static Connection createConnection(AbstractConnection remoteConnection) {
-        return null;
-    }
-
-    public static void onCloudConnectionUpdated(Context context, Connection cloudConnection) {
+    public static void onConnectionUpdated(Context context, CloudConnection connection) {
     }
 
     public static void onNotificationSelected(Context context, Intent intent) {

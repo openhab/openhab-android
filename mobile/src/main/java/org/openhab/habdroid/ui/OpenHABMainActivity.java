@@ -69,6 +69,7 @@ import org.openhab.habdroid.R;
 import org.openhab.habdroid.core.CloudMessagingHelper;
 import org.openhab.habdroid.core.OnUpdateBroadcastReceiver;
 import org.openhab.habdroid.core.OpenHABVoiceService;
+import org.openhab.habdroid.core.connection.CloudConnection;
 import org.openhab.habdroid.core.connection.Connection;
 import org.openhab.habdroid.core.connection.ConnectionFactory;
 import org.openhab.habdroid.core.connection.DemoConnection;
@@ -581,7 +582,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onCloudConnectionChanged() {
+    public void onCloudConnectionChanged(CloudConnection connection) {
         updateNotificationDrawerItem();
     }
 

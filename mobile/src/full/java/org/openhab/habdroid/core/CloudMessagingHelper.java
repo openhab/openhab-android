@@ -14,18 +14,17 @@ import android.content.Intent;
 import android.support.annotation.StringRes;
 
 import org.openhab.habdroid.R;
-import org.openhab.habdroid.core.connection.AbstractConnection;
+import org.openhab.habdroid.core.connection.CloudConnection;
 import org.openhab.habdroid.core.connection.Connection;
 import org.openhab.habdroid.core.connection.ConnectionFactory;
-import org.openhab.habdroid.core.connection.GcmCloudConnection;
 
 public class CloudMessagingHelper {
-    public static Connection createConnection(AbstractConnection remoteConnection) {
-        return GcmCloudConnection.fromConnection(remoteConnection);
-    }
+    static boolean sRegistrationDone;
+    static Throwable sRegistrationFailureReason;
 
-    public static void onCloudConnectionUpdated(Context context, Connection cloudConnection) {
-        if (cloudConnection != null) {
+    public static void onConnectionUpdated(Context context, CloudConnection connection) {
+        sRegistrationDone = false;
+        if (connection != null) {
             Intent intent = new Intent(context, GcmRegistrationService.class)
                     .setAction(GcmRegistrationService.ACTION_REGISTER);
             context.startService(intent);
@@ -43,7 +42,7 @@ public class CloudMessagingHelper {
     }
 
     public static @StringRes int getPushNotificationStatusResId() {
-        GcmCloudConnection cloudConnection = (GcmCloudConnection)
+        CloudConnection cloudConnection = (CloudConnection)
                 ConnectionFactory.getConnection(Connection.TYPE_CLOUD);
         if (cloudConnection == null) {
             if (ConnectionFactory.getConnection(Connection.TYPE_REMOTE) == null) {
@@ -51,9 +50,9 @@ public class CloudMessagingHelper {
             } else {
                 return R.string.info_openhab_gcm_unsupported;
             }
-        } else if (!cloudConnection.registrationDone()) {
+        } else if (!sRegistrationDone) {
             return R.string.info_openhab_gcm_in_progress;
-        } else if (!cloudConnection.registrationSuccessful()) {
+        } else if (sRegistrationFailureReason != null) {
             return R.string.info_openhab_gcm_failed;
         } else {
             return R.string.info_openhab_gcm_connected;
