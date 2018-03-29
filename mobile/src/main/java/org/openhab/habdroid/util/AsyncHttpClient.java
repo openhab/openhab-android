@@ -11,15 +11,26 @@ package org.openhab.habdroid.util;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.RectF;
 import android.os.Handler;
 import android.os.Looper;
 
+import com.caverock.androidsvg.SVG;
+import com.caverock.androidsvg.SVGParseException;
+
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Map;
 
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Headers;
+import okhttp3.MediaType;
 import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
@@ -35,6 +46,41 @@ public class AsyncHttpClient extends HttpClient {
         @Override
         public String convertBodyInBackground(ResponseBody body) throws IOException {
             return body.string();
+        }
+    }
+
+    public static abstract class BitmapResponseHandler implements ResponseHandler<Bitmap> {
+        private final int mDefaultSize;
+
+        public BitmapResponseHandler(int defaultSizePx) {
+            mDefaultSize = defaultSizePx;
+        }
+
+        @Override
+        public Bitmap convertBodyInBackground(ResponseBody body) {
+            MediaType contentType = body.contentType();
+            boolean isSVG = contentType != null
+                    && contentType.type().equals("image")
+                    && contentType.subtype().contains("svg");
+            InputStream is = body.byteStream();
+            return isSVG ? getBitmapFromSvgInputstream(is) : BitmapFactory.decodeStream(is);
+        }
+
+        private Bitmap getBitmapFromSvgInputstream(InputStream is) {
+            Bitmap bitmap = null;
+            try {
+                SVG svg = SVG.getFromInputStream(is);
+                RectF viewBox = svg.getDocumentViewBox();
+                double width = viewBox != null ? viewBox.width() : mDefaultSize;
+                double height = viewBox != null ? viewBox.height() : mDefaultSize;
+
+                bitmap = Bitmap.createBitmap((int) Math.ceil(width), (int) Math.ceil(height), Bitmap.Config.ARGB_8888);
+                Canvas canvas = new Canvas(bitmap);
+                canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
+                svg.renderToCanvas(canvas);
+            } catch (SVGParseException ignored) {
+            }
+            return bitmap;
         }
     }
 

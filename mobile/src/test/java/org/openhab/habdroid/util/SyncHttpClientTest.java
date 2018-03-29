@@ -10,6 +10,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.openhab.habdroid.TestUtils;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PowerMockIgnore;
 import org.powermock.core.classloader.annotations.PrepareForTest;
@@ -28,8 +29,7 @@ import static org.mockito.ArgumentMatchers.anyString;
 @PowerMockIgnore("javax.net.ssl.*")
 public class SyncHttpClientTest {
 
-    @Mock
-    Application mContext;
+    Context mContext;
     @Mock
     SharedPreferences mSharedPreferences;
 
@@ -37,7 +37,7 @@ public class SyncHttpClientTest {
     public void setupContext() {
         PowerMockito.mockStatic(PreferenceManager.class);
 
-        PowerMockito.when(mContext.getApplicationContext()).thenReturn(mContext);
+        mContext = TestUtils.makeMockedAppContext();
         PowerMockito.when(mSharedPreferences.getBoolean(anyString(), anyBoolean())).thenReturn(true);
         PowerMockito.when(PreferenceManager.getDefaultSharedPreferences(any(Context.class))).thenReturn(mSharedPreferences);
     }

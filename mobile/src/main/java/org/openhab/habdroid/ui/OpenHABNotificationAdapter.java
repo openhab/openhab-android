@@ -20,9 +20,8 @@ import android.widget.TextView;
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.core.connection.Connection;
 import org.openhab.habdroid.core.connection.ConnectionFactory;
-import org.openhab.habdroid.core.connection.exception.ConnectionException;
 import org.openhab.habdroid.model.OpenHABNotification;
-import org.openhab.habdroid.util.MySmartImageView;
+import org.openhab.habdroid.ui.widget.WidgetImageView;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -61,10 +60,9 @@ public class OpenHABNotificationAdapter extends
 
         if (notification.icon() != null) {
             Connection conn = ConnectionFactory.getConnection(Connection.TYPE_CLOUD);
-            String iconUrl = String.format(Locale.US, "%simages/%s.png",
-                    conn.getOpenHABUrl(), Uri.encode(notification.icon()));
-            holder.mIconView.setImageUrl(iconUrl, conn.getUsername(), conn.getPassword(),
-                    R.drawable.ic_openhab_appicon_24dp);
+            String iconUrl = String.format(Locale.US, "images/%s.png",
+                    Uri.encode(notification.icon()));
+            holder.mIconView.setImageUrl(conn, iconUrl);
         } else {
             holder.mIconView.setImageResource(R.drawable.ic_openhab_appicon_24dp);
         }
@@ -73,7 +71,7 @@ public class OpenHABNotificationAdapter extends
     public static class NotificationViewHolder extends RecyclerView.ViewHolder {
         final TextView mCreatedView;
         final TextView mMessageView;
-        final MySmartImageView mIconView;
+        final WidgetImageView mIconView;
 
         public NotificationViewHolder(LayoutInflater inflater, ViewGroup parent) {
             super(inflater.inflate(R.layout.openhabnotificationlist_item, parent, false));

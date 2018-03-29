@@ -6,6 +6,13 @@
         <attr name="pointer_size" format="integer" />
     </declare-styleable>
 
+    <declare-styleable name="WidgetImageView">
+        <attr name="fallback" format="reference" />
+        <attr name="progressIndicator" format="reference" />
+        <attr name="emptyHeightToWidthRatio" format="fraction" />
+        <attr name="maxHeightToWidthRatio" format="fraction" />
+    </declare-styleable>
+
     <declare-styleable name="SegmentedControlButton">
         <attr name="lineColor" format="color" />
         <attr name="textDistanceFromLine" format="dimension" />
@@ -21,6 +28,7 @@
         <attr name="themedSpinnerCaret" format="reference" />
         <attr name="widgetlistItemDivider" format="reference" />
         <attr name="frameWidgetDividerBackground" format="reference" />
+        <attr name="imageLoadingIndicator" format="reference" />
         <attr name="chartTheme" format="string" />
         <attr name="valueColors" format="reference" />
     </declare-styleable>

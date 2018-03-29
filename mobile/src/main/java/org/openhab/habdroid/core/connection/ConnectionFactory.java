@@ -16,15 +16,13 @@ import android.support.annotation.VisibleForTesting;
 import android.support.v4.util.Pair;
 import android.util.Log;
 
-import com.loopj.android.image.WebImageCache;
-
 import org.openhab.habdroid.core.CloudMessagingHelper;
 import org.openhab.habdroid.core.connection.exception.ConnectionException;
 import org.openhab.habdroid.core.connection.exception.NetworkNotAvailableException;
 import org.openhab.habdroid.core.connection.exception.NetworkNotSupportedException;
 import org.openhab.habdroid.core.connection.exception.NoUrlInformationException;
+import org.openhab.habdroid.util.CacheManager;
 import org.openhab.habdroid.util.Constants;
-import org.openhab.habdroid.util.MyWebImage;
 import org.openhab.habdroid.util.Util;
 
 import java.util.Arrays;
@@ -283,10 +281,7 @@ final public class ConnectionFactory extends BroadcastReceiver implements
             mConnectionFailureReason = null;
             mAvailableConnection = c;
         }
-        WebImageCache imageCache = MyWebImage.getWebImageCache();
-        if (imageCache != null) {
-            imageCache.clear();
-        }
+        CacheManager.getInstance(ctx).clearCache();
         return true;
     }
 

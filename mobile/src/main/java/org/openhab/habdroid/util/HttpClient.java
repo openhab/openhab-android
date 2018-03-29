@@ -69,7 +69,9 @@ public abstract class HttpClient {
 
     protected HttpClient(Context context, SharedPreferences prefs, String baseUrl) {
         final Context appContext = context.getApplicationContext();
-        mClient = new OkHttpClient.Builder().build();
+        mClient = new OkHttpClient.Builder()
+                .cache(CacheManager.getInstance(context).getHttpCache())
+                .build();
         mBaseUrl = baseUrl != null ? HttpUrl.parse(baseUrl) : null;
 
         mDefaultHostnameVerifier = mClient.hostnameVerifier();
@@ -107,14 +109,14 @@ public abstract class HttpClient {
         return headers;
     }
 
+    public HttpUrl buildUrl(String url) {
+        return mBaseUrl.newBuilder(url).build();
+    }
+
     protected Call prepareCall(String url, String method, Map<String, String> additionalHeaders,
                                String requestBody, String mediaType) {
         Request.Builder requestBuilder = new Request.Builder();
-        if (mBaseUrl == null) {
-            requestBuilder.url(url);
-        } else {
-            requestBuilder.url(mBaseUrl.newBuilder(url).build());
-        }
+        requestBuilder.url(buildUrl(url));
         for (Map.Entry<String, String> entry : headers.entrySet()) {
             requestBuilder.addHeader(entry.getKey(), entry.getValue());
         }

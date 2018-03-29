@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
+import org.openhab.habdroid.TestUtils;
 import org.openhab.habdroid.util.AsyncHttpClient;
 import org.openhab.habdroid.util.HttpClient;
 import org.openhab.habdroid.util.SyncHttpClient;
@@ -34,8 +35,7 @@ public class DefaultConnectionTest {
 
     @Before
     public void setup() {
-        mockContext = Mockito.mock(Application.class);
-        Mockito.when(mockContext.getApplicationContext()).thenReturn(mockContext);
+        mockContext = TestUtils.makeMockedAppContext();
         mockSettings = Mockito.mock(SharedPreferences.class);
         testConnection = new DefaultConnection(mockContext, mockSettings, Connection.TYPE_LOCAL,
                 TEST_BASE_URL, null, null);

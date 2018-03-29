@@ -20,7 +20,7 @@ import org.openhab.habdroid.R;
 import org.openhab.habdroid.core.connection.Connection;
 import org.openhab.habdroid.model.OpenHABItem;
 import org.openhab.habdroid.model.OpenHABWidget;
-import org.openhab.habdroid.util.MySmartImageView;
+import org.openhab.habdroid.ui.widget.WidgetImageView;
 import org.openhab.habdroid.util.Util;
 
 import java.util.ArrayList;
@@ -36,7 +36,7 @@ public class MapViewHelper {
     private static class GoogleMapsViewHolder extends OpenHABWidgetAdapter.ViewHolder
             implements GoogleMap.OnMarkerDragListener {
         private final TextView mLabelView;
-        private final MySmartImageView mIconView;
+        private final WidgetImageView mIconView;
         private final MapView mMapView;
         private final int mRowHeightPixels;
         private GoogleMap mMap;
