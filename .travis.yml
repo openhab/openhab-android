@@ -49,7 +49,7 @@ jobs:
               - desc="Codecov"
           if: branch != l10n-crowdin
         - stage: test
-          script: bash travis/screenshots.sh
+          script: xvfb-run bash travis/screenshots.sh
           env:
               - desc="Screenshots"
           if: branch != l10n-crowdin
