@@ -47,10 +47,12 @@ jobs:
           script: bash travis/coverage.sh
           env:
               - desc="Codecov"
+          if: branch != l10n-crowdin
         - stage: test
           script: bash travis/screenshots.sh
           env:
               - desc="Screenshots"
+          if: branch != l10n-crowdin
         - stage: test
           script: bash assets/store_descriptions/generate_and_validate.sh
           env:
