@@ -3,7 +3,7 @@
 if [ -z "$TRAVIS_TAG" ]
 then
     echo "No tag present, do nothing"
-    #exit
+    exit
 fi
 
 bash travis/bump-versioncode.sh
@@ -29,7 +29,6 @@ echo "Install fastlane"
 gem install fastlane screengrab
 
 patch=$(echo "$TRAVIS_TAG" | sed -r 's/([0-9]+)\.([0-9]+)\.([0-9]+)-(.*)/\3/')
-patch=11
 if [ $((patch%3)) -eq 0 ]
 then
     bash travis/start-emulator.sh phone
