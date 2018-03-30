@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 if [ -z "$TRAVIS_TAG" ]
 then
     echo "No tag present, do nothing"
@@ -52,11 +54,12 @@ shopt -s globstar
 rename -n "s/(.*)_(.*).png$/\$1.png/" fastlane/metadata/android/**
 rename "s/(.*)_(.*).png$/\$1.png/" fastlane/metadata/android/**
 cp fastlane/metadata/android/en-US/images/phoneScreenshots/{main-menu,widget-overview}.png docs/images
+rm fastlane/metadata/android/screenshots.html
 
 git config --local user.name "openhab-bot"
 git config --local user.email "bot@openhab.org"
 echo "Git add"
-git add fastlane/* docs/* "mobile/src/main/AndroidManifest.xml"
+git add fastlane/metadata/* docs/* "mobile/src/main/AndroidManifest.xml"
 echo "Git commit"
 git commit -m "Bump version to $TRAVIS_TAG and update fastlane metadata"
 echo "Git tag"
