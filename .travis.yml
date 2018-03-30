@@ -41,23 +41,25 @@ jobs:
           script: bash travis/test.sh
           env:
               - desc="Build & test"
+          if: tag != "-fdroid$"
         - stage: test
           script: bash travis/coverage.sh
           env:
               - desc="Codecov"
-          if: branch != l10n-crowdin
+          if: branch != l10n-crowdin AND tag != "-fdroid$"
         - stage: test
           script: bash travis/screenshots.sh
           env:
               - desc="Screenshots"
-          if: branch != l10n-crowdin
+          if: branch != l10n-crowdin AND tag != "-fdroid$"
         - stage: test
           script: bash assets/store_descriptions/generate_and_validate.sh
           env:
               - desc="Validate strings"
+          if: tag != "-fdroid$"
         - stage: deploy
           script: bash travis/prepare-deploy.sh
-          if: tag IS present
+          if: tag IS present AND tag != "-fdroid$"
           deploy:
             provider: releases
             prerelease: true
