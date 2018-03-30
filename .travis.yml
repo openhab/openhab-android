@@ -51,7 +51,7 @@ jobs:
           script: bash travis/screenshots.sh
           env:
               - desc="Screenshots"
-          if: branch != l10n-crowdin AND tag != "-fdroid$"
+          if: branch != l10n-crowdin AND tag != "-fdroid$" AND tag IS present
         - stage: test
           script: bash assets/store_descriptions/generate_and_validate.sh
           env:
