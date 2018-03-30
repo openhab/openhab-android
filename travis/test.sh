@@ -17,4 +17,4 @@ fi
 bash travis/bump-versioncode.sh
 bash travis/start-emulator.sh phone
 
-./gradlew --debug --stacktrace :mobile:assemble{Foss,Full}${releaseFlavorCapital}{Debug,Release} :mobile:test{Foss,Full}${releaseFlavorCapital}ReleaseUnitTest :mobile:connected{Foss,Full}${releaseFlavorCapital}DebugAndroidTest
+./gradlew --info --stacktrace :mobile:assemble{Foss,Full}${releaseFlavorCapital}{Debug,Release} :mobile:test{Foss,Full}${releaseFlavorCapital}ReleaseUnitTest :mobile:connected{Foss,Full}${releaseFlavorCapital}DebugAndroidTest
