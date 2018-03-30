@@ -20,7 +20,7 @@ notifications:
 
 android:
   components:
-  - build-tools-25.0.2
+  - build-tools-27.0.3
   - android-22
   - sys-img-armeabi-v7a-android-22
 
