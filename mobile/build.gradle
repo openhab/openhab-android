@@ -99,7 +99,7 @@ dependencies {
     compile 'com.android.support:multidex:1.0.3'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'org.jmdns:jmdns:3.5.1'
-    compile 'com.squareup.okhttp3:okhttp:3.9.0'
+    compile 'com.squareup.okhttp3:okhttp:3.9.1'
     compile 'com.github.loopj:android-smart-image-view:d09783b9508af5996361437a54cc234b662e4c78'
     //androidsvg commit as of July 16th 2017
     compile 'com.github.BigBadaboom:androidsvg:418cf676849b200cacf3465478079f39709fe5b1'
@@ -169,7 +169,7 @@ dependencyVerification {
             'com.android.support:multidex:ecf6098572e23b5155bab3b9a82b2fd1530eda6c6c157745e0f5287c66eec60c',
             'com.android.support.constraint:constraint-layout:b0c688cc2b7172608f8153a689d746da40f71e52d7e2fe2bfd9df2f92db77085',
             'org.jmdns:jmdns:33d3ace453d303fe103350be963d45aad9e405c9a30758aa588ccce00a4d5bde',
-            'com.squareup.okhttp3:okhttp:7265adbd6f028aade307f58569d814835cd02bc9beffb70c25f72c9de50d61c4',
+            'com.squareup.okhttp3:okhttp:a0d01017a42bba26e507fc6d448bb36e536f4b6e612f7c42de30bbdac2b7785e',
             'com.github.loopj:android-smart-image-view:2437b0e868e8296e1578c25cf7aa0d125c72539e29e45d08ba01a41bfbd969fa',
             'com.github.BigBadaboom:androidsvg:cef17e77b14a1b8579eab045c74bc97d9aa7ef48624b45bce80f943c2248b0a0',
             'com.mikepenz:aboutlibraries:2185034d931afe0a086115b7c200865402a28a8841635791d88195988c43d260',
@@ -181,6 +181,7 @@ dependencyVerification {
             'com.android.support:transition:4c67b4ab242128de2ec05e237e49efc0e195d9f9d4e760445aa7fc30a5ef4017',
             'com.android.support:support-media-compat:897d37f263c16a15fd284e70ab5c9a987d3f60d2026294819c7f597bb5f3bb14',
             'com.android.support:support-compat:8369a3258c190a33929709b5ef2da4069ed74e753594e8336d624f1c06962708',
+            'com.android.support:cardview-v7:7ea56ed5560b629ee1c0f24af6693e32974fbc8b91b544052cd2c14b176c85e0',
             'com.android.support:support-annotations:3365960206c3d2b09e845f555e7f88f8effc8d2f00b369e66c4be384029299cf',
             'com.android.support.constraint:constraint-layout-solver:8c62525a9bc5cff5633a96cb9b32fffeccaf41b8841aa87fc22607070dea9b8d',
             'org.slf4j:slf4j-api:e56288031f5e60652c06e7bb6e9fa410a61231ab54890f7b708fc6adc4107c5b',
@@ -201,6 +202,7 @@ dependencyVerification {
             'com.google.firebase:firebase-iid-license:cd0df76dabb5bf1a2409373900ebf13f1fad8888b33cf193ddf59a765a800d27',
     ]
 }
+
 
 
 if(!isFoss) {
