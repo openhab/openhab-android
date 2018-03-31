@@ -69,6 +69,11 @@ public class PageConnectionHolderFragment extends Fragment {
          * @param widget Updated widget
          */
         void onWidgetUpdated(OpenHABWidget widget);
+
+        /**
+         * Let parent know about a failure during the load of data.
+         */
+        void onLoadFailure(int statusCode, Headers headers, byte[] responseBody, Throwable error);
     }
 
     private Map<String, ConnectionHandler> mConnections = new HashMap<>();
@@ -254,7 +259,8 @@ public class PageConnectionHolderFragment extends Fragment {
             Log.d(TAG, "Data load for " + mUrl + " failed", error);
             mAtmosphereTrackingId = null;
             mLongPolling = false;
-            load();
+
+            mCallback.onLoadFailure(statusCode, headers, responseBody, error);
         }
 
         @Override

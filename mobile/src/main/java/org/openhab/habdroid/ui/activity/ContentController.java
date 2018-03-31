@@ -46,12 +46,15 @@ import org.openhab.habdroid.ui.OpenHABNotificationFragment;
 import org.openhab.habdroid.ui.OpenHABPreferencesActivity;
 import org.openhab.habdroid.ui.OpenHABWidgetListFragment;
 
+import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.Stack;
+
+import okhttp3.Headers;
 
 /**
  * Controller class for the content area of {@link OpenHABMainActivity}
@@ -412,6 +415,18 @@ public abstract class ContentController implements PageConnectionHolderFragment.
         }
     }
 
+    @Override
+    public void onLoadFailure(int statusCode, Headers headers, byte[] responseBody, Throwable e) {
+        int errorMsgRes = R.string.error_sitemap_generic_load_error;
+        if (statusCode == HttpURLConnection.HTTP_NOT_FOUND) {
+            errorMsgRes = R.string.error_sitemap_not_found;
+        }
+        mNoConnectionFragment = SitemapLoadFailureFragment
+                .newInstance(mActivity.getString(errorMsgRes, e.getMessage()));
+        updateFragmentState(FragmentUpdateReason.PAGE_UPDATE);
+        mActivity.updateTitle();
+    }
+
     protected abstract void updateFragmentState(FragmentUpdateReason reason);
     protected abstract OpenHABWidgetListFragment getFragmentForTitle();
 
@@ -511,6 +526,20 @@ public abstract class ContentController implements PageConnectionHolderFragment.
             case PAGE_ENTER: return FragmentTransaction.TRANSIT_FRAGMENT_OPEN;
             case BACK_NAVIGATION: return FragmentTransaction.TRANSIT_FRAGMENT_CLOSE;
             default: return FragmentTransaction.TRANSIT_FRAGMENT_FADE;
+        }
+    }
+
+    public static class SitemapLoadFailureFragment extends StatusFragment {
+        public static SitemapLoadFailureFragment newInstance(CharSequence message) {
+            SitemapLoadFailureFragment f = new SitemapLoadFailureFragment();
+            f.setArguments(buildArgs(message, R.drawable.ic_openhab_appicon_24dp /* FIXME */,
+                    R.string.select_another_sitemap, false));
+            return f;
+        }
+
+        @Override
+        public void onClick(View view) {
+            ((OpenHABMainActivity) getActivity()).openNavigationDrawer();
         }
     }
 

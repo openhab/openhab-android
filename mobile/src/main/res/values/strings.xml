@@ -68,6 +68,8 @@
     <!-- Error messages -->
     <string name="error_no_url">Please check that openHAB is running or configure openHAB URL or remote URL</string>
     <string name="error_empty_sitemap_list">openHAB returned empty sitemap list</string>
+    <string name="error_sitemap_generic_load_error">The sitemap could not be loaded. The following error occurred: %1$s</string>
+    <string name="error_sitemap_not_found">The sitemap could not be found on the server. Please select another one from the left navigation menu.</string>
     <string name="error_network_not_available">Network is not available</string>
     <string name="error_http_connection_failed">Connection unsuccessful. An unexpected response was received while trying to connect to the configured openHAB server (Received HTTP response code: %d)</string>
     <string name="error_no_uuid">Unable to get openHAB UUID, connection failed</string>
@@ -180,6 +182,7 @@
     <string name="intro_themes">Themes</string>
     <string name="intro_themes_description">Choose between several themes</string>
     <string name="try_again_button">Try again</string>
+    <string name="select_another_sitemap">Select another sitemap</string>
     <string name="network_error">Network error</string>
     <string name="go_to_settings_button">Go to settings</string>
     <string name="configuration_missing">Your openHAB server could not be discovered automatically. Please configure its IP address or host name in the server settings.</string>

@@ -635,6 +635,10 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         setProgressIndicatorVisible(false);
     }
 
+    public void openNavigationDrawer() {
+        mDrawerLayout.openDrawer(Gravity.START);
+    }
+
     private void setupDrawer() {
         mDrawerLayout = findViewById(R.id.drawer_layout);
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
