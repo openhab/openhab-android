@@ -3,10 +3,11 @@ jdk: oraclejdk8
 env:
   global:
   - secure: fMBUkSsCBTw/U907w7Xm/yNzw4lq9yt7zFy0JyEZrA543LI7zQRIclIOtsDTUs0bwY+4KI08MNoYPLJ4TQhSJaH4wQ8b9C5TRsqXNfc0V718TcuYqSXqU6VPRVtX46/fCEWv/HAs0ksUKrHIlpWOwLPQpYDcKxwwlUndaakYKJ8=
+  - ADB_INSTALL_TIMEOUT=8
 
 before_cache:
 - find $HOME/.gradle/caches/ -name "*.lock" -exec rm -rfv {} \;
-- rm -rf $HOME/.gradle/caches/*/plugin-resolution/
+- rm -rfv $HOME/.gradle/caches/*/plugin-resolution/
 
 cache:
   directories:
@@ -19,51 +20,57 @@ notifications:
 
 android:
   components:
-  - tools
   - build-tools-25.0.2
-  - platform-tools
-  - tools
   - android-22
   - sys-img-armeabi-v7a-android-22
-  
+
 install:
+- echo "mapsApiKey=AIzaSyA2t2893e9wccs9EnlnauJRgtqFNYQSp-o" >> ~/.gradle/gradle.properties
 - echo yes | sdkmanager "extras;m2repository;com;android;support;constraint;constraint-layout;1.0.2"
 - echo yes | sdkmanager "extras;m2repository;com;android;support;constraint;constraint-layout-solver;1.0.2"
 - ./gradlew --version
 - sdkmanager --list || true
 
-# Emulator Management: Create, Start and Wait
-before_script:
-- android list device
-- echo no | android create avd --force -n test -t android-22 --abi armeabi-v7a -d "5.4in FWVGA"
-- emulator -avd test -no-audio -no-window &
-- android-wait-for-emulator
-- adb shell input keyevent 82 &
-- android list target
+stages:
+    - test
+    - deploy
 
-script:
-- bash travis/bump-versioncode.sh
-- bash travis/build-and-test-apk.sh
-- bash assets/store_descriptions/generate_and_validate.sh
-
-after_success:
-- bash <(curl -s https://codecov.io/bash)
-
-before_deploy:
-- bash travis/commit-version-and-metadata.sh
-
-deploy:
-  provider: releases
-  prerelease: true
-  file:
-    - $HOME/apks_to_deploy/openhab-android.apk
-    - $HOME/apks_to_deploy/openhab-android-foss.apk
-  skip_cleanup: true
-  overwrite: true
-  on:
-    repo: openhab/openhab-android
-    jdk: oraclejdk8
-    branch: master
-    tags: true
-  api_key:
-    secure: JaDHY9PaBF625dfulN8ygmOvBk3ZDmnZZDr7IPwqJ9hZ+4WzS85om8F9+bgQlZTDDVUeaNZ03ZkfRZ81g9D0EEHF5WSFqgN8aUcNoAa8ViBFAQUeO1uTjVkiP0G7JOVRyW59HTTk6Cjr5eiGKkmeIGT9KgUUi+4Bw/6Quag8f8Y=
+jobs:
+    include:
+        - stage: test
+          script: bash travis/test.sh
+          env:
+              - desc="Build & test"
+          if: tag != "-fdroid$"
+        - stage: test
+          script: bash travis/coverage.sh
+          env:
+              - desc="Codecov"
+          if: branch != l10n-crowdin AND tag != "-fdroid$"
+        - stage: test
+          script: bash travis/screenshots.sh
+          env:
+              - desc="Screenshots"
+          if: branch != l10n-crowdin AND tag != "-fdroid$" AND tag IS present
+        - stage: test
+          script: bash assets/store_descriptions/generate_and_validate.sh
+          env:
+              - desc="Validate strings"
+          if: tag != "-fdroid$"
+        - stage: deploy
+          script: bash travis/prepare-deploy.sh
+          if: tag IS present AND tag != "-fdroid$"
+          deploy:
+            provider: releases
+            prerelease: true
+            file:
+                - $HOME/apks_to_deploy/openhab-android.apk
+            skip_cleanup: true
+            overwrite: true
+            on:
+                repo: openhab/openhab-android
+                jdk: oraclejdk8
+                branch: master
+                tags: true
+            api_key:
+                secure: JaDHY9PaBF625dfulN8ygmOvBk3ZDmnZZDr7IPwqJ9hZ+4WzS85om8F9+bgQlZTDDVUeaNZ03ZkfRZ81g9D0EEHF5WSFqgN8aUcNoAa8ViBFAQUeO1uTjVkiP0G7JOVRyW59HTTk6Cjr5eiGKkmeIGT9KgUUi+4Bw/6Quag8f8Y=

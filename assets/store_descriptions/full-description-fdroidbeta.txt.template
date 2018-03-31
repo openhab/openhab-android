@@ -1,0 +1,37 @@
+$intro
+
+$beta [org.openhab.habdroid]
+
+$fdroid
+
+$whatis
+$rules
+
+'''$supported'''
+
+$bindings
+
+• $home_automation_solutions: Z-Wave, EnOcean, Netatmo, Homematic, Insteon, ...
+• $lighting: Philips Hue, Ikea Trådfri, LIFX, Lutron, Milight, ...
+• $heating: Max!, Nest, Vitotronic, Heatmiser, ...
+• $home_entertainment: Samsung TV, LG TV, Sonos, Pioneer AVR, Squeezebox, Kodi, Plex, ...
+• $security: ZoneMinder, DSC, ...
+• $open_protocols: HTTP, TCP/UDP, MQTT, Serial, ...
+• $special_useCases: Minecraft, Tesla Car, Weather Services, ...
+• ...
+
+'''$oss_community'''
+
+$forum
+
+$report_issues
+
+$translation
+
+'''$foundation'''
+
+$about_foundation
+
+'''$important_note'''
+
+$oh_server

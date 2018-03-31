@@ -26,8 +26,8 @@ The app follows the basic principles of the other openHAB UIs, like Basic UI, an
 * Supports wall mounted tablets
 
 <div class="row">
-  <div class="col s12 m6"><img src="images/main_menu.png" alt="Demo Overview"></div>
-  <div class="col s12 m6"><img src="images/widget_overview.png" alt="Demo Widget Overview"></div>
+  <div class="col s12 m6"><img src="images/main-menu.png" alt="Demo Overview"></div>
+  <div class="col s12 m6"><img src="images/widget-overview.png" alt="Demo Widget Overview"></div>
 </div>
 
 ## Getting Started

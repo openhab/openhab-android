@@ -31,3 +31,6 @@ oh_server='Tarvitset openHAB palvelimen tätä sovellusta varten'
 
 short_description='openHAB asiakassovellus Android-laitteille'
 
+fdroid='F-Droid sovelluskaupasta ladatuissa koontiversioissa on tuki karttanäytölle, mutta GCM ja kaatumisilmoitukset ovat pois käytöstä eikä ilmoitukset openHAB pilvestä ole käytettävissä.'
+beta='Voit asentaa beta version vakaan version rinnalle:'
+

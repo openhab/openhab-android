@@ -16,8 +16,10 @@ import android.view.View;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
+import org.junit.ClassRule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.openhab.habdroid.BuildConfig;
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.TestWithoutIntro;
 
@@ -35,7 +37,6 @@ import static org.hamcrest.Matchers.is;
 @LargeTest
 @RunWith(AndroidJUnit4.class)
 public class BasicWidgetTest extends TestWithoutIntro {
-
     @Test
     public void openHABMainActivityTest() throws InterruptedException {
         ViewInteraction recyclerView = onView(withId(R.id.recyclerview));
@@ -98,10 +99,31 @@ public class BasicWidgetTest extends TestWithoutIntro {
         recyclerView
                 .perform(RecyclerViewActions.scrollToPosition(10))
                 .check(matches(atPositionOnView(10, isDisplayed(), R.id.rollershutterbutton_stop)));
+
+        if (BuildConfig.FLAVOR.equals("full")) {
+            // check whether map view is displayed
+            recyclerView
+                    .perform(RecyclerViewActions.scrollToPosition(13))
+                    .check(matches(atPositionOnView(13, isDisplayed(), "MapView")));
+        }
     }
 
-    private static Matcher<View> atPositionOnView(final int position,
+    public interface ChildViewCallback {
+        View findChild(View parent);
+    }
+
+    public static Matcher<View> atPositionOnView(final int position,
             final Matcher<View> itemMatcher, @IdRes final int targetViewId) {
+        return atPositionOnView(position, itemMatcher, parent -> parent.findViewById(targetViewId));
+    }
+
+    public static Matcher<View> atPositionOnView(final int position,
+            final Matcher<View> itemMatcher, final String tag) {
+        return atPositionOnView(position, itemMatcher, parent -> parent.findViewWithTag(tag));
+    }
+
+    public static Matcher<View> atPositionOnView(final int position,
+            final Matcher<View> itemMatcher, final ChildViewCallback childCb) {
         return new BoundedMatcher<View, RecyclerView>(RecyclerView.class) {
             @Override
             public void describeTo(Description description) {
@@ -111,13 +133,13 @@ public class BasicWidgetTest extends TestWithoutIntro {
             @Override
             public boolean matchesSafely(final RecyclerView recyclerView) {
                 RecyclerView.ViewHolder viewHolder = recyclerView.findViewHolderForAdapterPosition(position);
-                View targetView = viewHolder.itemView.findViewById(targetViewId);
+                View targetView = childCb.findChild(viewHolder.itemView);
                 return itemMatcher.matches(targetView);
             }
         };
     }
 
-    private static ViewAction onChildView(final ViewAction action, @IdRes final int targetViewId) {
+    public static ViewAction onChildView(final ViewAction action, @IdRes final int targetViewId) {
         return new ViewAction() {
             @Override
             public Matcher<View> getConstraints() {

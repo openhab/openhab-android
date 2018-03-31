@@ -31,3 +31,6 @@ oh_server='Um diese App zu nutzen, benötigen Sie einen openHAB-Server'
 
 short_description='openHAB-Android-Client'
 
+fdroid='In der F-Droid-Version wurden die Unterstützung für Mapview-Elemente, GCM und die Übermittlung von Absturzberichten entfernt. Mit dieser Version können keine Nachrichten von einer openHAB-Cloud-Instanz empfangen werden.'
+beta='Sie können die Betaversion neben der stabilen Version installieren:'
+

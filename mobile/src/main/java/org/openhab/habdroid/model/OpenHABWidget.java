@@ -24,6 +24,7 @@ import org.w3c.dom.NodeList;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * This is a class to hold basic information about openHAB widget.
@@ -68,11 +69,11 @@ public abstract class OpenHABWidget implements Parcelable {
     @Nullable
     public abstract String encoding();
     @Nullable
-    public abstract Integer iconColor();
+    public abstract String iconColor();
     @Nullable
-    public abstract Integer labelColor();
+    public abstract String labelColor();
     @Nullable
-    public abstract Integer valueColor();
+    public abstract String valueColor();
     public abstract int refresh();
     public abstract float minValue();
     public abstract float maxValue();
@@ -103,9 +104,9 @@ public abstract class OpenHABWidget implements Parcelable {
         public abstract Builder linkedPage(@Nullable OpenHABLinkedPage linkedPage);
         public abstract Builder mappings(List<OpenHABWidgetMapping> mappings);
         public abstract Builder encoding(@Nullable String encoding);
-        public abstract Builder iconColor(@Nullable Integer iconColor);
-        public abstract Builder labelColor(@Nullable Integer labelColor);
-        public abstract Builder valueColor(@Nullable Integer valueColor);
+        public abstract Builder iconColor(@Nullable String iconColor);
+        public abstract Builder labelColor(@Nullable String labelColor);
+        public abstract Builder valueColor(@Nullable String valueColor);
         public abstract Builder refresh(int refresh);
         public abstract Builder minValue(float minValue);
         public abstract Builder maxValue(float maxValue);
@@ -142,10 +143,10 @@ public abstract class OpenHABWidget implements Parcelable {
         OpenHABLinkedPage linkedPage = null;
         String id = null, label = null, icon = null, url = null;
         String period = "", service = "", encoding = null;
+        String iconColor = null, labelColor = null, valueColor = null;
         Type type = Type.Unknown;
         float minValue = 0f, maxValue = 100f, step = 1f;
         int refresh = 0, height = 0;
-        Integer iconColor = null, labelColor = null, valueColor = null;
         List<OpenHABWidgetMapping> mappings = new ArrayList<>();
         List<Node> childWidgetNodes = new ArrayList<>();
 
@@ -169,9 +170,9 @@ public abstract class OpenHABWidget implements Parcelable {
                     case "period": period = childNode.getTextContent(); break;
                     case "service": service = childNode.getTextContent(); break;
                     case "height": height = Integer.valueOf(childNode.getTextContent()); break;
-                    case "iconcolor": iconColor = parseColor(childNode.getTextContent()); break;
-                    case "valuecolor": valueColor = parseColor(childNode.getTextContent()); break;
-                    case "labelcolor": labelColor = parseColor(childNode.getTextContent()); break;
+                    case "iconcolor": iconColor = childNode.getTextContent(); break;
+                    case "valuecolor": valueColor = childNode.getTextContent(); break;
+                    case "labelcolor": labelColor = childNode.getTextContent(); break;
                     case "encoding": encoding = childNode.getTextContent(); break;
                     case "mapping":
                         NodeList mappingChildNodes = childNode.getChildNodes();
@@ -262,9 +263,9 @@ public abstract class OpenHABWidget implements Parcelable {
                 .service(widgetJson.optString("service", ""))
                 .legend(widgetJson.has("legend") ? widgetJson.getBoolean("legend") : null)
                 .height(widgetJson.optInt("height"))
-                .iconColor(parseColor(widgetJson.optString("iconcolor", null)))
-                .labelColor(parseColor(widgetJson.optString("labelcolor", null)))
-                .valueColor(parseColor(widgetJson.optString("valuecolor", null)))
+                .iconColor(widgetJson.optString("iconcolor", null))
+                .labelColor(widgetJson.optString("labelcolor", null))
+                .valueColor(widgetJson.optString("valuecolor", null))
                 .encoding(widgetJson.optString("encoding", null))
                 .build();
 
@@ -293,12 +294,17 @@ public abstract class OpenHABWidget implements Parcelable {
                     } catch (Exception e) {
                         itemState = "OFF";
                     }
+                } else {
+                    int color = Color.HSVToColor(item.stateAsHSV());
+                    itemState = String.format(Locale.US, "#%02x%02x%02x",
+                            Color.red(color), Color.green(color), Color.blue(color));
                 }
             } else if (type == Type.Switch && !hasMappings
                     && !item.isOfTypeOrGroupType(OpenHABItem.Type.Rollershutter)) {
                 // For switch items without mappings (just ON and OFF) that control a dimmer item
-                // set the state to "OFF" instead of 0 or to "ON" to fetch the correct icon
-                itemState = itemState.equals("0") ? "OFF" : "ON";
+                // and which are not ON or OFF already, set the state to "OFF" instead of 0
+                // or to "ON" to fetch the correct icon
+                itemState = itemState.equals("0") || itemState.equals("OFF") ? "OFF" : "ON";
             }
         }
 
@@ -314,19 +320,5 @@ public abstract class OpenHABWidget implements Parcelable {
             }
         }
         return Type.Unknown;
-    }
-
-    private static Integer parseColor(String color) {
-        if (color != null && !color.isEmpty()) {
-            if (color.equals("orange")) {
-                color = "#FFA500";
-            }
-            try {
-                return Integer.valueOf(Color.parseColor(color));
-            } catch (IllegalArgumentException e) {
-                Log.e("OpenHABWidget", "Could not parse color '" + color + "'", e);
-            }
-        }
-        return null;
     }
 }

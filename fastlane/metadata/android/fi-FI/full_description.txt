@@ -1,9 +1,13 @@
 openHAB - "empowering the smart home" - Teknologia- ja valmistajariippumatonta, avoimen lähdekoodin kotiautomaatiota
 
+Voit asentaa beta version vakaan version rinnalle: [org.openhab.habdroid]
+
+The builds on F-Droid have map view support, GCM and crash reporting removed and will not be able to receive push notifications from openHAB Cloud.
+
 openHAB on Java-pohjainen avoimen lähdekoodin kotiautomaatioalusta. Se yhdistää laajan valikoiman useiden valmistajien älykotilaitteita ja eri teknologioita yhdeksi ratkaisuksi.
 Kaikki yhdistetyt laitteet ovat käytettävissä erilaisissa käyttöliittymissä sekä ohjelmoitaessa automaatiologiikkaa.
 
-<b>Tuetut laitteet ja tuotteet</b>
+'''Tuetut laitteet ja tuotteet'''
 
 Yli 200 erillistä lisäosaa tarjoaa tuen eri tuotteille, laitteille, teknologioille sekä yhteysprotokollille. Esimerkkeinä Z-Wave, Philips Hue, Amazon Echo, Chromecast ja Sonos. Löydät kaikki saatavilla olevat lisäosat, tuetut laitteet ja/tai toiminnot osoitteesta: https://docs.openhab.org/addons/bindings.html
 
@@ -16,16 +20,18 @@ Yli 200 erillistä lisäosaa tarjoaa tuen eri tuotteille, laitteille, teknologio
 • Erityiset käyttökohteet: Minecraft, Tesla Car, Weather Services, ...
 • ...
 
-<b>Avoimen lähdekoodin yhteisö</b>
+'''Avoimen lähdekoodin yhteisö'''
 
 openHABin avoimen lähdekoodin ratkaisu tukee voimakkaasti sen eläväistä yhteisöä. Yli 13000 rekisteröityneen käyttäjän foorumi on paikka josta löydät ohjausta, apua ja inspiraatiota. Liity openHAB yhteisön foorumille osoitteessa https://community.openhab.org
+
 Löytäessäsi ongelman ilmoita siitä foorumilla tai https://github.com/openhab/openhab-android/issues
+
 Jos haluat kääntää tämän sovelluksen omalle kielellesi niin liity mukaan osoitteessa https://crowdin.com/project/openhab-android
 
-<b>openHAB Säätiö</b>
+'''openHAB Säätiö'''
 
 openHAB Säätiö on voittoa tavoittelematon järjestö, jonka tavoitteena on kertoa yleisölle ilmaisten ja avoimien älykotisovellusten mahdollisuuksista ja eduista. Lisätietoja järjestön tavoitteesta ja palveluista löydät osoitteesta https://www.openhabfoundation.org
 
-<b>Tärkeä huomautus</b>
+'''Tärkeä huomautus'''
 
 Tarvitset openHAB palvelimen tätä sovellusta varten

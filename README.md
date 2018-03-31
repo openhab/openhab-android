@@ -21,7 +21,9 @@
 
 openHAB Android application is a native client for openHAB. It uses REST API of openHAB to render sitemaps of your openHAB.
 
-<a href="https://play.google.com/store/apps/details?id=org.openhab.habdroid"><img src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" height="80"></a>
+<a href="https://play.google.com/store/apps/details?id=org.openhab.habdroid"><img src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" alt="Get it on Play Store" height="80"></a>
+<a href="https://f-droid.org/app/org.openhab.habdroid"><img src="https://f-droid.org/badge/get-it-on.png" alt="Get it on F-Droid" height="80"></a>
+<a href="https://github.com/openhab/openhab-android/releases"><img src="https://raw.githubusercontent.com/openhab/openhab-android/master/assets/direct-apk-download.png" alt="Get it on GitHub" height="80"></a>
 
 ## Features
 * Control your openHAB server and [openHAB Cloud instance](https://github.com/openhab/openhab-cloud)
@@ -31,7 +33,9 @@ openHAB Android application is a native client for openHAB. It uses REST API of 
 * Discover devices and add them as items
 * Supports wall mounted tablets
 
-<img src="https://raw.githubusercontent.com/openhab/openhab.android/master/fastlane/metadata/android/en-US/phoneScreenshots/main_menu.png" width="200px"> <img src="https://raw.githubusercontent.com/openhab/openhab.android/master/fastlane/metadata/android/en-US/phoneScreenshots/widget_overview.png" width="200px"> <img src="https://raw.githubusercontent.com/openhab/openhab.android/master/fastlane/metadata/android/en-US/phoneScreenshots/astro_binding.png" width="200px">
+<img src="https://raw.githubusercontent.com/openhab/openhab-android/master/fastlane/metadata/android/en-US/images/phoneScreenshots/main-menu.png" width="200px">
+<img src="https://raw.githubusercontent.com/openhab/openhab-android/master/fastlane/metadata/android/en-US/images/phoneScreenshots/widget-overview.png" width="200px">
+<img src="https://raw.githubusercontent.com/openhab/openhab-android/master/fastlane/metadata/android/en-US/images/phoneScreenshots/chart.png" width="200px">
 
 ## Localization
 
@@ -55,11 +59,13 @@ If you want to contribute to Android application we are here to help you to set 
 
 You are ready to contribute!
 
-Before producing any amount of code please have a look at [contribution guidelines](https://github.com/openhab/openhab.android/blob/master/CONTRIBUTING.md)
+Before producing any amount of code please have a look at [contribution guidelines](https://github.com/openhab/openhab-android/blob/master/CONTRIBUTING.md)
 
 ## Build flavors
 
-An optional build flavor "foss" is available for distribution through F-Droid. This build has GCM and crash reporting removed and will not be able to receive push notifications from openHAB Cloud.
+An optional build flavor "foss" is available for distribution through F-Droid. This build has map view, GCM and crash reporting removed and will not be able to receive push notifications from openHAB Cloud.
+
+For using map view support in the "full" build flavor, you need to visit the [Maps API page](https://developers.google.com/maps/android) and generate an API key via the 'Get a key' button at the top. Then add a line in the following format to the 'gradle.properties' file (either in the same directory as this readme file, or in $HOME/.gradle): `mapsApiKey=<key>`, replacing `<key>` with the API key you just obtained.
 
 ## Trademark Disclaimer
 

@@ -29,3 +29,6 @@ important_note='Important note'
 oh_server='You need a openHAB server for this app'
 
 short_description='openHAB Android client'
+
+fdroid='The builds on F-Droid have map view support, GCM and crash reporting removed and will not be able to receive push notifications from openHAB Cloud.'
+beta='You can install the beta version alongside the stable version:'

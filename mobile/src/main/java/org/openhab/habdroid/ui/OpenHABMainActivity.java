@@ -85,7 +85,6 @@ import org.openhab.habdroid.model.OpenHABLinkedPage;
 import org.openhab.habdroid.model.OpenHABSitemap;
 import org.openhab.habdroid.ui.activity.ContentController;
 import org.openhab.habdroid.util.AsyncServiceResolver;
-import org.openhab.habdroid.util.AsyncServiceResolverListener;
 import org.openhab.habdroid.util.Constants;
 import org.openhab.habdroid.util.MyHttpClient;
 import org.openhab.habdroid.util.MyWebImage;
@@ -129,7 +128,7 @@ import static org.openhab.habdroid.util.Util.exceptionHasCause;
 import static org.openhab.habdroid.util.Util.removeProtocolFromUrl;
 
 public class OpenHABMainActivity extends AppCompatActivity implements
-        MemorizingResponder, AsyncServiceResolverListener, ConnectionFactory.UpdateListener {
+        MemorizingResponder, AsyncServiceResolver.Listener, ConnectionFactory.UpdateListener {
 
     private abstract class DefaultHttpResponseHandler implements MyHttpClient.ResponseHandler {
 
@@ -582,6 +581,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
                 mController.updateConnection(null, null);
             }
         }
+        mViewPool.clear();
         updateSitemapDrawerItems();
         invalidateOptionsMenu();
         updateTitle();

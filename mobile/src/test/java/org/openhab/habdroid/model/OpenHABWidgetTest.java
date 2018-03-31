@@ -104,13 +104,12 @@ public class OpenHABWidgetTest {
 
     @Test
     public void testGetColors() throws Exception {
-        Integer i = new Integer(0);
-        assertEquals(i, sut1.get(0).labelColor());
-        assertEquals(i, sut1.get(0).iconColor());
-        assertEquals(i, sut1.get(0).valueColor());
-        assertEquals(i, sut2.get(0).labelColor());
-        assertEquals(i, sut2.get(0).iconColor());
-        assertEquals(i, sut2.get(0).valueColor());
+        assertEquals("white", sut1.get(0).iconColor());
+        assertEquals("#ff0000", sut1.get(0).labelColor());
+        assertEquals("#00ffff", sut1.get(0).valueColor());
+        assertEquals("orange", sut2.get(0).iconColor());
+        assertEquals("blue", sut2.get(0).labelColor());
+        assertEquals("red", sut2.get(0).valueColor());
     }
 
     @Test
@@ -268,8 +267,8 @@ public class OpenHABWidgetTest {
                         "    \"height\": \"10\",\n" +
                         "    \"legend\": \"true\",\n" +
                         "    \"iconcolor\": \"white\",\n" +
-                        "    \"labelcolor\": \"white\",\n" +
-                        "    \"valuecolor\": \"white\",\n" +
+                        "    \"labelcolor\": \"#ff0000\",\n" +
+                        "    \"valuecolor\": \"#00ffff\",\n" +
                         "    \"encoding\": \"mpeg\",\n" +
                         "    \"mappings\": [{\n" +
                         "      \"command\": \"ON\",\n" +

@@ -30,48 +30,44 @@ import javax.jmdns.ServiceListener;
 
 public class AsyncServiceResolver extends Thread implements ServiceListener {
     private final static String TAG = AsyncServiceResolver.class.getSimpleName();
-    private Context mCtx;
+
+    public interface Listener {
+        void onServiceResolved(ServiceInfo serviceInfo);
+        void onServiceResolveFailed();
+    }
+
     // Multicast lock for mDNS
     private MulticastLock mMulticastLock;
     // mDNS service
     private JmDNS mJmdns;
     private String mServiceType;
     private ServiceInfo mResolvedServiceInfo;
-    private Thread mSleepingThread;
-    private boolean mIsResolved = false;
-    private AsyncServiceResolverListener mListener;
+    private Listener mListener;
+    private Handler mHandler;
+
     private final static int DEFAULT_DISCOVERY_TIMEOUT = 3000;
 
-    public AsyncServiceResolver(Context context, String serviceType) {
+    public AsyncServiceResolver(Context context, Listener listener, String serviceType) {
         super();
-        mCtx = context;
-        mServiceType = serviceType;
-        if (context instanceof AsyncServiceResolverListener)
-            mListener = (AsyncServiceResolverListener)context;
-    }
-
-    public AsyncServiceResolver(Context context, AsyncServiceResolverListener listener, String serviceType) {
-        super();
-        mCtx = context;
         mServiceType = serviceType;
         mListener = listener;
+        mHandler = new Handler(Looper.getMainLooper());
+
+        WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+        mMulticastLock = wifiManager.createMulticastLock("HABDroidMulticastLock");
+        mMulticastLock.setReferenceCounted(true);
     }
 
+    @Override
     public void run() {
-        WifiManager wifi =
-                   (android.net.wifi.WifiManager)
-                      mCtx.getApplicationContext().getSystemService(android.content.Context.WIFI_SERVICE);
-        mMulticastLock = wifi.createMulticastLock("HABDroidMulticastLock");
-        mMulticastLock.setReferenceCounted(true);
         try {
             mMulticastLock.acquire();
         } catch (SecurityException e) {
-            Log.i(TAG, "Security exception during multicast lock");
+            Log.i(TAG, "Could not acquire multicast lock", e);
         }
-        mSleepingThread = Thread.currentThread();
+
         Log.i(TAG, "Discovering service " + mServiceType);
         try {
-            //Log.i(TAG, "Local IP:"  + getLocalIpv4Address().getHostAddress().toString());
             /* TODO: This is a dirty fix of some crazy ipv6 incompatibility
                This workaround makes JMDNS work on local ipv4 address an thus
                discover openHAB on ipv4 address. This should be fixed to fully
@@ -81,51 +77,43 @@ public class AsyncServiceResolver extends Thread implements ServiceListener {
         } catch (IOException e) {
             Log.e(TAG, e.getMessage());
         }
+
         try {
             // Sleep for specified timeout
             Thread.sleep(DEFAULT_DISCOVERY_TIMEOUT);
-            if (!mIsResolved) {
-                new Handler(Looper.getMainLooper()).post(new Runnable() {
-                    @Override
-                    public void run() {
-                        mListener.onServiceResolveFailed();
-                    }
-                });
+            if (mResolvedServiceInfo == null) {
+                mHandler.post(() -> mListener.onServiceResolveFailed());
                 shutdown();
             }
         } catch (InterruptedException ignored) {}
     }
 
+    @Override
     public void serviceAdded(ServiceEvent event) {
-       Log.d(TAG, "Service Added " + event.getName());
+       Log.d(TAG, "Service added " + event.getName());
         mJmdns.requestServiceInfo(event.getType(), event.getName(), 1);
     }
 
+    @Override
     public void serviceRemoved(ServiceEvent event) {
     }
 
+    @Override
     public void serviceResolved(ServiceEvent event) {
         mResolvedServiceInfo = event.getInfo();
-        mIsResolved = true;
-        new Handler(Looper.getMainLooper()).post(new Runnable() {
-            @Override
-            public void run() {
-                mListener.onServiceResolved(mResolvedServiceInfo);
-            }
-        });
+        mHandler.post(() -> mListener.onServiceResolved(mResolvedServiceInfo));
         shutdown();
-        mSleepingThread.interrupt();
+        interrupt();
     }
 
     private void shutdown() {
-        if (mMulticastLock != null)
-            mMulticastLock.release();
+        mMulticastLock.release();
         if (mJmdns != null) {
             mJmdns.removeServiceListener(mServiceType, this);
             try {
                 mJmdns.close();
             } catch (IOException e) {
-                Log.e(TAG, e.getMessage());
+                // ignore
             }
         }
     }

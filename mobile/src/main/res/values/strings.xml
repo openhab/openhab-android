@@ -4,7 +4,6 @@
     <!-- See: https://github.com/openhab/openhab-android/blob/master/README.md#localization -->
 
     <!-- General app strings -->
-    <string name="app_name" translatable="false">openHAB</string>
     <string name="openhab_service_type" translatable="false">_openhab-server._tcp.local.</string>
     <string name="main_menu">Main menu</string>
     <string name="app_preferences_name">Settings</string>
@@ -174,6 +173,7 @@
     <string name="error_network_type_unsupported">Network type (%s) is unsupported</string>
     <string name="set">Set</string>
     <string name="cancel">Cancel</string>
+    <string name="close">Close</string>
     <string name="app_intro">Intro</string>
     <string name="intro_welcome">Welcome to openHAB</string>
     <string name="intro_whatis">A vendor and technology agnostic open source automation software for your home</string>

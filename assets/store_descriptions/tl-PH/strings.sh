@@ -22,3 +22,4 @@ foundation='pundasyon ng openHAB'
 oh_server='Kailangan mo ng openHab server para sa app na ito'
 
 
+
