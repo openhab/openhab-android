@@ -52,6 +52,8 @@ public interface Connection {
     int getConnectionType();
 
     /**
+     * Do not call this from the main thread.
+     *
      * @return Whether the this connection is currently reachable.
      */
     boolean checkReachability();
