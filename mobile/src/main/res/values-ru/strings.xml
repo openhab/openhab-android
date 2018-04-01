@@ -98,9 +98,6 @@
   <string name="info_openhab_apiversion_label">openHAB Rest API Версия</string>
   <string name="info_openhab_uuid_label">openHAB UUID</string>
   <string name="info_openhab_secret_label">openHAB секрет</string>
-  <string name="info_openhab_gcm_label">Google Cloud Статус Сообщения</string>
-  <string name="info_openhab_gcm_not_connected">Ошибка регистрации устройства</string>
-  <string name="info_openhab_gcm_connected">Устройство зарегистрировано с отправленным ID %s</string>
   <string name="action_settings">Параметры</string>
   <string name="nfc_dialog_title">Выберите действие тега NFC</string>
   <string name="info_not_set">Не задано</string>
