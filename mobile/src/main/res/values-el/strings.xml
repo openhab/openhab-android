@@ -89,9 +89,6 @@
   <string name="info_openhab_apiversion_label">Έκδοση openHAB Rest API</string>
   <string name="info_openhab_uuid_label">openHAB UUID</string>
   <string name="info_openhab_secret_label">Μυστικό openHAB</string>
-  <string name="info_openhab_gcm_label">Κατάσταση υπηρεσίας Google Cloud Messaging</string>
-  <string name="info_openhab_gcm_not_connected">Η εγγραφή συσκευής απέτυχε</string>
-  <string name="info_openhab_gcm_connected">Εγγραφή συσκευής με ID αποστολέα %s</string>
   <string name="action_settings">Ρυθμίσεις</string>
   <string name="nfc_dialog_title">Παρακαλώ επιλέξτε ενέργεια για την ετικέτα NFC</string>
   <string name="info_not_set">Δεν έχει ρυθμιστεί</string>
