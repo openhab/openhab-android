@@ -97,9 +97,6 @@
   <string name="info_openhab_apiversion_label">openHAB versão Rest API</string>
   <string name="info_openhab_uuid_label">openHAB UUID</string>
   <string name="info_openhab_secret_label">openHAB Segredo</string>
-  <string name="info_openhab_gcm_label">Google Cloud Mensagens de Status</string>
-  <string name="info_openhab_gcm_not_connected">Registo de dispositivo falhou</string>
-  <string name="info_openhab_gcm_connected">Dispositivo registrado com remetente ID %s</string>
   <string name="action_settings">Definições</string>
   <string name="nfc_dialog_title">Escrever a ação de marca NFC para este elemento</string>
   <string name="info_not_set">Não definido</string>
