@@ -76,8 +76,6 @@
   <string name="info_openhab_apiversion_label">versi openHAB Jeda API</string>
   <string name="info_openhab_uuid_label">openHAB UUID</string>
   <string name="info_openhab_secret_label">rahasia openHAB</string>
-  <string name="info_openhab_gcm_not_connected">Pendaftaran perangkat gagal</string>
-  <string name="info_openhab_gcm_connected">Perangkat terdaftar dengan ID Pengirim %s</string>
   <string name="action_settings">Pengaturan</string>
   <string name="nfc_dialog_title">Tuliskan tag NFC untuk elemen ini</string>
   <string name="info_not_set">Tidak diatur</string>
