@@ -46,7 +46,7 @@ public class UtilTest {
 
     @Test
     public void parseOH1SitemapList() throws Exception {
-        List<OpenHABSitemap> sitemapList = Util.parseSitemapList(getSitemapOH1Document());
+        List<OpenHABSitemap> sitemapList = Util.parseSitemapList(getSitemapOH1Document(), "no default");
         assertFalse(sitemapList.isEmpty());
 
         // Should be sorted
@@ -60,11 +60,22 @@ public class UtilTest {
         assertEquals("outside", sitemapList.get(7).label());
 
         assertEquals(8, sitemapList.size());
+
+        sitemapList = Util.parseSitemapList(getSitemapOH1Document(), "Schedule");
+        // Should be sorted, but "Schedule" should be the first one
+        assertEquals("Schedule", sitemapList.get(0).label());
+        assertEquals("Garden", sitemapList.get(1).label());
+        assertEquals("Heating", sitemapList.get(2).label());
+        assertEquals("Heatpump", sitemapList.get(3).label());
+        assertEquals("Lighting", sitemapList.get(4).label());
+        assertEquals("Scenes", sitemapList.get(5).label());
+        assertEquals("i AM DEfault", sitemapList.get(6).label());
+        assertEquals("outside", sitemapList.get(7).label());
     }
 
     @Test
     public void parseOH2SitemapListWithId1() throws Exception {
-        List<OpenHABSitemap> sitemapList = Util.parseSitemapList(createJsonArray(1));
+        List<OpenHABSitemap> sitemapList = Util.parseSitemapList(createJsonArray(1), "");
         assertFalse(sitemapList.isEmpty());
 
         assertEquals("Main Menu", sitemapList.get(0).label());
@@ -73,17 +84,18 @@ public class UtilTest {
 
     @Test
     public void parseOH2SitemapListWithId2() throws Exception {
-        List<OpenHABSitemap> sitemapList  = Util.parseSitemapList(createJsonArray(2));
+        List<OpenHABSitemap> sitemapList  = Util.parseSitemapList(createJsonArray(2), "");
         assertFalse(sitemapList.isEmpty());
 
-        assertEquals("Main Menu", sitemapList.get(0).label());
-        assertEquals("HOME", sitemapList.get(1).label());
-        assertEquals(2, sitemapList.size());
+        assertEquals("HOME", sitemapList.get(0).label());
+        assertEquals("Main Menu", sitemapList.get(1).label());
+        assertEquals("test", sitemapList.get(2).label());
+        assertEquals(3, sitemapList.size());
     }
 
     @Test
     public void parseOH2SitemapListWithId3() throws Exception {
-        List<OpenHABSitemap> sitemapList = Util.parseSitemapList(createJsonArray(3));
+        List<OpenHABSitemap> sitemapList = Util.parseSitemapList(createJsonArray(3), "");
         assertFalse(sitemapList.isEmpty());
 
         assertEquals("Home", sitemapList.get(0).label());
@@ -110,14 +122,14 @@ public class UtilTest {
     public void sitemapExists() throws Exception {
         assertTrue(Util.sitemapExists(sitemapList(), "garden"));
         assertFalse(Util.sitemapExists(sitemapList(), "monkies"));
-        assertTrue("Sitemap \"demo\" is a \"normal\" one and exists",Util.sitemapExists(Util.parseSitemapList(createJsonArray(1)), "demo"));
-        assertFalse("Sitemap \"_default\" exists on the server, but isn't the only one => don't display it in the app.", Util.sitemapExists(Util.parseSitemapList(createJsonArray(1)), "_default"));
-        assertFalse("Sitemap \"_default\" exists on the server, but isn't the only one => don't display it in the app.", Util.sitemapExists(Util.parseSitemapList(createJsonArray(2)), "_default"));
-        assertTrue("Sitemap \"_default\" exists on the server and is the only one => display it in the app.", Util.sitemapExists(Util.parseSitemapList(createJsonArray(3)), "_default"));
+        assertTrue("Sitemap \"demo\" is a \"normal\" one and exists",Util.sitemapExists(Util.parseSitemapList(createJsonArray(1), ""), "demo"));
+        assertFalse("Sitemap \"_default\" exists on the server, but isn't the only one => don't display it in the app.", Util.sitemapExists(Util.parseSitemapList(createJsonArray(1), ""), "_default"));
+        assertFalse("Sitemap \"_default\" exists on the server, but isn't the only one => don't display it in the app.", Util.sitemapExists(Util.parseSitemapList(createJsonArray(2), ""), "_default"));
+        assertTrue("Sitemap \"_default\" exists on the server and is the only one => display it in the app.", Util.sitemapExists(Util.parseSitemapList(createJsonArray(3), ""), "_default"));
     }
 
     private List<OpenHABSitemap> sitemapList() throws IOException, SAXException, ParserConfigurationException {
-        return Util.parseSitemapList(getSitemapOH1Document());
+        return Util.parseSitemapList(getSitemapOH1Document(), "");
     }
 
     @Test
@@ -144,6 +156,7 @@ public class UtilTest {
             case 2:
                 jsonString = "[{\"name\":\"demo\",\"label\":\"Main Menu\",\"link\":\"http://demo.openhab.org:8080/rest/sitemaps/demo\",\"homepage\":{\"link\":\"http://demo.openhab.org:8080/rest/sitemaps/demo/demo\",\"leaf\":false,\"timeout\":false,\"widgets\":[]}}," +
                         "{\"name\":\"home\",\"label\":\"HOME\",\"link\":\"http://demo.openhab.org:8080/rest/sitemaps/home\",\"homepage\":{\"link\":\"http://demo.openhab.org:8080/rest/sitemaps/home/home\",\"leaf\":false,\"timeout\":false,\"widgets\":[]}}," +
+                        "{\"name\":\"test\",\"link\":\"http://demo.openhab.org:8080/rest/sitemaps/test\",\"homepage\":{\"link\":\"http://demo.openhab.org:8080/rest/sitemaps/test/test\",\"leaf\":false,\"timeout\":false,\"widgets\":[]}}," +
                         "{\"name\":\"_default\",\"label\":\"Home\",\"link\":\"http://demo.openhab.org:8080/rest/sitemaps/_default\",\"homepage\":{\"link\":\"http://demo.openhab.org:8080/rest/sitemaps/_default/_default\",\"leaf\":false,\"timeout\":false,\"widgets\":[]}}]";
                 break;
             case 3:
@@ -167,7 +180,7 @@ public class UtilTest {
     }
 
     @Test
-    public void testobfuscateString() {
+    public void testObfuscateString() {
         assertEquals("abc***", Util.obfuscateString("abcdef"));
         assertEquals("abc", Util.obfuscateString("abc"));
         assertEquals("The function should not throw an exception, when string length is shorter than clearTextCharCount",

@@ -80,7 +80,7 @@ public class Util {
         return uri.getHost();
     }
 
-    public static List<OpenHABSitemap> parseSitemapList(Document document) {
+    public static List<OpenHABSitemap> parseSitemapList(Document document, String defaultSitemapLabel) {
         List<OpenHABSitemap> sitemapList = new ArrayList<OpenHABSitemap>();
         NodeList sitemapNodes = document.getElementsByTagName("sitemap");
         if (sitemapNodes.getLength() > 0) {
@@ -88,24 +88,10 @@ public class Util {
                 sitemapList.add(OpenHABSitemap.fromXml(sitemapNodes.item(i)));
             }
         }
-        // Sort by sitename label
-        Collections.sort(sitemapList, new Comparator<OpenHABSitemap>() {
-            @Override
-            public int compare(OpenHABSitemap sitemap1, OpenHABSitemap sitemap2) {
-                if (sitemap1.label() == null) {
-                    return sitemap2.label() == null ? 0 : -1;
-                }
-                if (sitemap2.label() == null) {
-                    return 1;
-                }
-                return sitemap1.label().compareTo(sitemap2.label());
-            }
-        });
-
-        return sitemapList;
+        return sortSitemapList(sitemapList, defaultSitemapLabel);
     }
 
-    public static List<OpenHABSitemap> parseSitemapList(JSONArray jsonArray) {
+    public static List<OpenHABSitemap> parseSitemapList(JSONArray jsonArray, String defaultSitemapLabel) {
         List<OpenHABSitemap> sitemapList = new ArrayList<OpenHABSitemap>();
         for (int i = 0; i < jsonArray.length(); i++) {
             try {
@@ -118,6 +104,24 @@ public class Util {
                 Log.d(TAG, "Error while parsing sitemap", e);
             }
         }
+        return sortSitemapList(sitemapList, defaultSitemapLabel);
+    }
+
+    private static List<OpenHABSitemap> sortSitemapList(List<OpenHABSitemap> sitemapList, String defaultSitemapLabel) {
+        // Sort by sitename label, the default sitemap should be the first one
+        Collections.sort(sitemapList, new Comparator<OpenHABSitemap>() {
+            @Override
+            public int compare(OpenHABSitemap sitemap1, OpenHABSitemap sitemap2) {
+                if (sitemap1.label().equals(defaultSitemapLabel)) {
+                    return -1;
+                }
+                if (sitemap2.label().equals(defaultSitemapLabel)) {
+                    return 1;
+                }
+                return sitemap1.label().compareTo(sitemap2.label());
+            }
+        });
+
         return sitemapList;
     }
 

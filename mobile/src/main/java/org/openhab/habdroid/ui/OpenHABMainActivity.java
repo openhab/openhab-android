@@ -784,10 +784,12 @@ public class OpenHABMainActivity extends AppCompatActivity implements
                 mPendingCall = null;
                 mInitState = InitState.DONE;
 
+                String defaultSitemapLabel = mSettings.getString(Constants.PREFERENCE_SITEMAP_LABEL, "");
+
                 // OH1 returns XML, later versions return JSON
                 List<OpenHABSitemap> result = mOpenHABVersion == 1
-                        ? loadSitemapsFromXml(responseBody)
-                        : loadSitemapsFromJson(responseBody);
+                        ? loadSitemapsFromXml(responseBody, defaultSitemapLabel)
+                        : loadSitemapsFromJson(responseBody, defaultSitemapLabel);
                 Log.d(TAG, "Server returned sitemaps: " + result);
                 mSitemapList.clear();
                 if (result != null) {
@@ -815,23 +817,23 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         });
     }
 
-    private static List<OpenHABSitemap> loadSitemapsFromXml(byte[] response) {
+    private static List<OpenHABSitemap> loadSitemapsFromXml(byte[] response, String defaultSitemapLabel) {
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         try {
             DocumentBuilder builder = dbf.newDocumentBuilder();
             Document sitemapsXml = builder.parse(new ByteArrayInputStream(response));
-            return Util.parseSitemapList(sitemapsXml);
+            return Util.parseSitemapList(sitemapsXml, defaultSitemapLabel);
         } catch (ParserConfigurationException | SAXException | IOException e) {
             Log.e(TAG, "Failed parsing sitemap XML", e);
             return null;
         }
     }
 
-    private static List<OpenHABSitemap> loadSitemapsFromJson(byte[] response) {
+    private static List<OpenHABSitemap> loadSitemapsFromJson(byte[] response, String defaultSitemapLabel) {
         try {
             String jsonString = new String(response, "UTF-8");
             JSONArray jsonArray = new JSONArray(jsonString);
-            return Util.parseSitemapList(jsonArray);
+            return Util.parseSitemapList(jsonArray, defaultSitemapLabel);
         } catch (UnsupportedEncodingException | JSONException e) {
             Log.e(TAG, "Failed parsing sitemap JSON", e);
             return null;
