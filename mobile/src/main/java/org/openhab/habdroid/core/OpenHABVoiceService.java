@@ -9,13 +9,11 @@
 
 package org.openhab.habdroid.core;
 
-import android.app.Service;
+import android.app.IntentService;
 import android.content.Intent;
-import android.os.IBinder;
 import android.speech.RecognizerIntent;
 import android.support.annotation.Nullable;
 import android.util.Log;
-import android.util.Pair;
 import android.widget.Toast;
 
 import org.openhab.habdroid.R;
@@ -24,7 +22,6 @@ import org.openhab.habdroid.core.connection.ConnectionFactory;
 import org.openhab.habdroid.core.connection.exception.ConnectionException;
 import org.openhab.habdroid.util.MyHttpClient;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import okhttp3.Call;
@@ -34,68 +31,35 @@ import okhttp3.Headers;
  * This service handles voice commands and sends them to OpenHAB.
  * It will use the openHAB base URL if passed in the intent's extra.
  */
-public class OpenHABVoiceService extends Service implements ConnectionFactory.UpdateListener {
+public class OpenHABVoiceService extends IntentService {
     private static final String TAG = OpenHABVoiceService.class.getSimpleName();
 
-    private final List<Pair<String, Integer>> mPendingCommands = new ArrayList<>();
-
     public OpenHABVoiceService() {
+        super("OpenHABVoiceService");
     }
 
     @Override
-    public int onStartCommand(Intent intent, int flags, final int startId) {
+    protected void onHandleIntent(@Nullable Intent intent) {
         final String voiceCommand = extractVoiceCommand(intent);
-        boolean hasSentCommand = false;
-        if (!voiceCommand.isEmpty()) {
-            try {
-                Connection conn = ConnectionFactory.getUsableConnection();
-                if (conn != null) {
-                    sendItemCommand("VoiceCommand", voiceCommand, conn, startId);
-                } else {
-                    mPendingCommands.add(Pair.create(voiceCommand, startId));
-                    ConnectionFactory.addListener(this);
-                }
-                hasSentCommand = true;
-            } catch (ConnectionException e) {
-                Log.w(TAG, "Couldn't determine OpenHAB URL", e);
-                Toast.makeText(this,
-                        R.string.error_couldnt_determine_openhab_url, Toast.LENGTH_SHORT)
-                        .show();
-            }
+        if (voiceCommand.isEmpty()) {
+            return;
         }
-        if (!hasSentCommand) {
-            stopSelf(startId);
-        }
-        return START_NOT_STICKY;
-    }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        ConnectionFactory.removeListener(this);
-    }
+        ConnectionFactory.waitForInitialization();
+        Connection connection = null;
 
-    @Nullable
-    @Override
-    public IBinder onBind(Intent intent) {
-        return null;
-    }
-
-    @Override
-    public void onConnectionChanged() {
         try {
-            Connection conn = ConnectionFactory.getUsableConnection();
-            for (Pair<String, Integer> entry : mPendingCommands) {
-                sendItemCommand("VoiceCommand", entry.first, conn, entry.second);
-            }
+            connection = ConnectionFactory.getUsableConnection();
         } catch (ConnectionException e) {
             Log.w(TAG, "Couldn't determine OpenHAB URL", e);
-            Toast.makeText(OpenHABVoiceService.this,
+        }
+
+        if (connection != null) {
+            sendItemCommand("VoiceCommand", voiceCommand, connection);
+        } else {
+            Toast.makeText(this,
                     R.string.error_couldnt_determine_openhab_url, Toast.LENGTH_SHORT)
                     .show();
-        } finally {
-            ConnectionFactory.removeListener(this);
-            mPendingCommands.clear();
         }
     }
 
@@ -111,22 +75,18 @@ public class OpenHABVoiceService extends Service implements ConnectionFactory.Up
         return voiceCommand;
     }
 
-
-    private void sendItemCommand(final String itemName, final String command,
-                                 final Connection conn, final int startId) {
+    private void sendItemCommand(final String itemName, final String command, final Connection conn) {
         Log.d(TAG, "sendItemCommand(): itemName=" + itemName + ", command=" + command);
-        conn.getAsyncHttpClient().post("/rest/items/" + itemName,
+        conn.getSyncHttpClient().post("/rest/items/" + itemName,
                 command, "text/plain;charset=UTF-8", new MyHttpClient.ResponseHandler() {
                     @Override
                     public void onSuccess(Call call, int statusCode, Headers headers, byte[] responseBody) {
                         Log.d(TAG, "Command was sent successfully");
-                        stopSelf(startId);
                     }
 
                     @Override
                     public void onFailure(Call call, int statusCode, Headers headers, byte[] responseBody, Throwable error) {
                         Log.e(TAG, "Got command error " + statusCode, error);
-                        stopSelf(startId);
                     }
                 });
     }

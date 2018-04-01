@@ -108,7 +108,6 @@ dependencies {
     fullCompile 'com.google.android.gms:play-services-maps:11.4.2'
     // GCM
     fullCompile 'com.google.android.gms:play-services-gcm:11.4.2'
-    fossCompile project(':gcmdummy')
 
     // About screen
     compile 'com.github.daniel-stoneuk:material-about-library:2.2.3-support26.1.0'
@@ -133,6 +132,7 @@ dependencies {
     testCompile 'org.mockito:mockito-core:2.7.6'
     testCompile 'junit:junit:4.12'
     testCompile 'org.json:json:20160810'
+    testCompile 'com.squareup.okhttp3:mockwebserver:3.6.0'
 
     // PowerMock
     testCompile 'org.powermock:powermock-core:1.7.0'
