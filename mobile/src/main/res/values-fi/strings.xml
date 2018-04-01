@@ -98,9 +98,6 @@
   <string name="info_openhab_apiversion_label">openHAB Rest APIn versio</string>
   <string name="info_openhab_uuid_label">openHAB UUID</string>
   <string name="info_openhab_secret_label">openHAB salanimi</string>
-  <string name="info_openhab_gcm_label">Google Cloud viestinnän tila</string>
-  <string name="info_openhab_gcm_not_connected">Laitteen rekisteröinti epäonnistui</string>
-  <string name="info_openhab_gcm_connected">Laite rekisteröity lähettäjä IDllä %s</string>
   <string name="action_settings">Asetukset</string>
   <string name="nfc_dialog_title">Kirjoita NFC tagin toiminto tälle elementille</string>
   <string name="info_not_set">Ei määritetty</string>
