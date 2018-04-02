@@ -101,7 +101,6 @@ dependencies {
     implementation 'org.jmdns:jmdns:3.5.3'
     implementation 'com.squareup.okhttp3:okhttp:3.9.1'
     implementation 'com.github.loopj:android-smart-image-view:d09783b9508af5996361437a54cc234b662e4c78'
-    // Androidsvg
     implementation 'com.github.BigBadaboom:androidsvg:3511e136498da94018ef9fa438895984ea9b99db'
     implementation 'com.github.apl-devs:appintro:v4.2.2'
     // Google Maps
@@ -111,8 +110,8 @@ dependencies {
 
     // About screen
     implementation 'com.github.daniel-stoneuk:material-about-library:2.2.5'
-
-    implementation('com.mikepenz:aboutlibraries:6.0.6@aar') {
+    // Used libraries
+    implementation('com.mikepenz:aboutlibraries:6.0.8@aar') {
         transitive = true
     }
 
