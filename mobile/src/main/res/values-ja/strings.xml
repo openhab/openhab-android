@@ -75,8 +75,6 @@
   <string name="info_openhab_apiversion_label">openHAB Rest API バージョン</string>
   <string name="info_openhab_uuid_label">openHAB UUID</string>
   <string name="info_openhab_secret_label">openHAB シークレット</string>
-  <string name="info_openhab_gcm_not_connected">デバイス登録に失敗しました</string>
-  <string name="info_openhab_gcm_connected">送信者 ID %s でデバイスを登録しました</string>
   <string name="action_settings">設定</string>
   <string name="nfc_dialog_title">この要素の NFC タグアクションを作成</string>
   <string name="info_not_set">未設定</string>

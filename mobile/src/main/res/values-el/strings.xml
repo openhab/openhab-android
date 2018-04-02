@@ -60,12 +60,20 @@
   <string name="error_no_url">Παρακαλώ ελέξτε ότι το openHAB τρέχει ή ρυθμίστε σωστά την διεύθυνση απομακρυσμένης διεύθυνσης του openHAB</string>
   <string name="error_empty_sitemap_list">Το openHAB επέστρεψε μια άδεια λίστα χαρτών χώρου</string>
   <string name="error_network_not_available">Το δίκτυο δεν είναι διαθέσιμο</string>
+  <string name="error_http_connection_failed">Η σύνδεση απέτυχε. Λήψη μη αναμενόμενης απάντησης κατά την προσπάθεια σύνδεσης με το διακομιστή openHAB (κωδικός απόκρισης HTTP: %d)</string>
   <string name="error_no_uuid">Αδυναμία λήψης του openHAB UUID, η σύνδεση απέτυχε</string>
+  <string name="error_invalid_url">Παρακαλώ εισάγετε ενα σωστό URL της μορφής \'πρωτόκολλο://διακομιστής:πόρτα/\'</string>
   <string name="error_connection_failed">Η σύνδεση στον διακομιστή απέτυχε</string>
   <string name="error_unable_to_resolve_hostname">Αδυναμία ανεύρεσης ονόματος διακομιστή</string>
+  <string name="error_connection_sslhandshake_failed">Η διαδικασία SSL Handshake απέτυχε</string>
   <string name="error_certificate_not_trusted">Το πιστοποιητικό SSL δεν είναι έμπιστο. Παρακαλώ εισάγετε το κεντρικό πιστοποιητικό (root certificate) ή απενεργοποιήστε τον έλεγχο του πιστοποιητικού κατά την διάρκεια της διαδικασίας εγκαθίδρυσης SSL.</string>
   <string name="error_certificate_expired">Το πιστοποιητικό SSL έχει λήξει. Παρακαλώ λάβετε καινούριο πιστοποιητικό ή απενεργοποιήστε τον έλεγχο του πιστοποιητικού κατά την διάρκεια της διαδικασίας εγκαθίδρυσης SSL.</string>
+  <string name="error_certificate_not_valid_yet">Το πιστοποιητικό SSL δεν είναι έγκυρο ακόμα. Παρακαλώ λάβετε ένα ορθό πιστοποιητικό ή απενεργοποιήστε τον έλεγχο του πιστοποιητικού κατά την διάρκεια της διαδικασίας εγκαθίδρυσης SSL. Επίσης, ελέγξτε ότι το ρολόι στην συσκευή σας είναι ρυθμισμένο σωστά.</string>
   <string name="error_certificate_revoked">Το πιστοποιητικό SSL έχει ανακληθεί. Παρακαλώ λάβετε καινούριο πιστοποιητικό ή απενεργοποιήστε τον έλεγχο του πιστοποιητικού κατά την διάρκεια της διαδικασίας εγκαθίδρυσης SSL.</string>
+  <string name="error_certificate_wrong_host">Το πιστοποιητικό SSL δεν είναι έγκυρο για %s</string>
+  <string name="error_http_code_401">Η πιστοποίηση του χρήστη απέτυχε. Παρακαλώ ελέγξτε το όνομα χρήστη, κωδικό και SSL πιστοποιητικό πελάτη (κωδικός απόκρισης HTTP 401)</string>
+  <string name="error_http_code_403">Η πιστοποίηση του χρήστη απέτυχε. Παρακαλώ ελέγξτε το όνομα χρήστη, κωδικό και SSL πιστοποιητικό πελάτη (κωδικός απόκρισης HTTP 403)</string>
+  <string name="error_http_code_407">Η πιστοποίηση του χρήστη απέτυχε. Παρακαλώ ελέγξτε το όνομα χρήστη, κωδικό και SSL πιστοποιητικό πελάτη (κωδικός απόκρισης HTTP 407)</string>
   <string name="error_http_code_414">Το URL είναι πολύ μακρύ. Παρακαλώ χρησιμοποιήστε το IP ή ένα πιο μικρό URL (κωδικός απόκρισης HTTP 414)</string>
   <string name="error_http_code_426">Απαιτείται χρήση HTTPS. Παρακαλώ αλλάξτε το URL (κωδικός απόκρισης HTTP 426)</string>
   <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
@@ -76,6 +84,7 @@
   <string name="error_http_code_504">Τέλος χρόνου Πύλης (Gateway). Φαίνεται ότι ο reverse proxy είναι σε λειτουργία αλλά δε μπορούσε να λάβει απάντηση από το openHAB (κωδικός απόκρισης HTTP 504)</string>
   <string name="error_http_code_507">Tο openHAB δεν έχει αρκετό ελεύθερο χώρο (κωδικός απόκρισης HTTP 507)</string>
   <string name="error_http_code_511">Απαιτείται πιστοποίηση δικτύου (κωδικός απόκρισης HTTP 511)</string>
+  <string name="error_about_no_conn">Σφάλμα κατά τη λήψη των πληροφοριών διακομιστή openHAB</string>
   <string name="title_activity_openhabwritetag">Εγγραφή ετικέτας NFC</string>
   <string name="title_activity_openhabinfo">Πληροφορίες για το openHAB</string>
   <string name="title_activity_libraries">Χρησιμοποιηθέντες βιβλιοθήκες</string>
@@ -89,9 +98,7 @@
   <string name="info_openhab_apiversion_label">Έκδοση openHAB Rest API</string>
   <string name="info_openhab_uuid_label">openHAB UUID</string>
   <string name="info_openhab_secret_label">Μυστικό openHAB</string>
-  <string name="info_openhab_gcm_label">Κατάσταση υπηρεσίας Google Cloud Messaging</string>
-  <string name="info_openhab_gcm_not_connected">Η εγγραφή συσκευής απέτυχε</string>
-  <string name="info_openhab_gcm_connected">Εγγραφή συσκευής με ID αποστολέα %s</string>
+  <string name="info_openhab_push_notification_label">Κατάσταση ειδοποιήσεων</string>
   <string name="action_settings">Ρυθμίσεις</string>
   <string name="nfc_dialog_title">Παρακαλώ επιλέξτε ενέργεια για την ετικέτα NFC</string>
   <string name="info_not_set">Δεν έχει ρυθμιστεί</string>
@@ -124,6 +131,15 @@
   <!-- About -->
   <string name="about_title">Σχετικά</string>
   <string name="about_license_title">Άδεια</string>
+  <string name="about_changelog">Αρχείο αλλαγών</string>
+  <string name="about_source_code">Ξεκινήστε μία διακλάδωση (fork) στο GitHub!</string>
+  <string name="about_issues">Αναφορά προβλήματος</string>
+  <string name="about_docs">Τεκμηρίωση</string>
+  <string name="about_community_forum">Φόρουμ κοινότητας</string>
+  <string name="about_foundation">Ίδρυμα openHAB</string>
+  <string name="about_community">Κοινότητα openHAB</string>
+  <string name="about_server">Διακομιστής openHAB</string>
+  <string name="about_translation">Βοηθείστε μας να μεταφράσουμε το openHAB</string>
   <string name="settings_debug_messages_summary">Οι κωδικοί θα εμφανιστούν σε απλό κείμενο!</string>
   <string name="settings_debug_messages_title">Προβολή μηνυμάτων αποσφαλμάτωσης</string>
   <string name="error_couldnt_determine_openhab_url">Αδυναμία προσδιορισμού του openHAB URL</string>
@@ -131,15 +147,34 @@
   <string name="error_network_type_unsupported">Ο τύπος δικτύου (%s) δεν υποστηρίζεται</string>
   <string name="set">Ορισμός</string>
   <string name="cancel">Άκυρο</string>
+  <string name="close">Κλείσιμο</string>
   <string name="app_intro">Εισαγωγή</string>
   <string name="intro_welcome">Καλώς ήρθατε στο openHAB</string>
   <string name="intro_whatis">Λογισμικό ανοιχτού κώδικα αυτοματοποίησης, ανεξάρτητο κατασκευαστή και τεχνολογίας, για το σπίτι σας.</string>
   <string name="intro_themes">Θέματα</string>
   <string name="intro_themes_description">Επιλέξτε μεταξύ διαφόρων θεμάτων</string>
+  <string name="try_again_button">Προσπαθήστε ξανά</string>
+  <string name="network_error">Σφάλμα Δικτύου</string>
+  <string name="go_to_settings_button">Μετάβαση στις ρυθμίσεις</string>
+  <string name="configuration_missing">Δεν ήταν δυνατό να γίνει αυτόματη εύρεση του διακομιστή openHAB. Παρακαλώ ρυθμίστε την IP διεύθυνση ή το όνομα υπολογιστή στις ρυθμίσεις διακομιστή.</string>
+  <string name="resolving_openhab">Προσπάθεια εύρεσης του διακομιστή openHAB</string>
+  <string name="intro_discovery">Εύρεση</string>
+  <string name="intro_discovery_summary">Σημειώστε ότι αυτό θα λειτουργήσει μόνο εάν ο έλεγχος ταυτότητας δεν επιβάλλεται από το διακομιστή</string>
   <!-- Content description for images -->
+  <string name="content_description_open_roller_shutter">Άνοιγμα ρολών</string>
+  <string name="content_description_stop_roller_shutter">Σταμάτημα ρολών</string>
+  <string name="content_description_close_roller_shutter">Κλείσιμο ρολών</string>
+  <string name="content_description_open_color_wheel">Άνοιγμα επιλογέα χρώματος</string>
+  <string name="content_description_color_up">Ενεργοποίηση ή κράτηστε για την αύξηση της φωτεινότητας</string>
+  <string name="content_description_color_down">Απενενεργοποίηση ή κράτηστε για την μείωση της φωτεινότητας</string>
+  <string name="content_description_open_number_picker">Άνοιγμα επιλογέα αριθμών</string>
   <string name="content_description_video">Βίντεο</string>
   <string name="content_description_open_openhab">Άνοιγμα openHAB</string>
+  <string name="swipe_to_refresh_description">Η εφαρμογή ανανεώνεται αυτόματα, κανονικά δε χρειάζεται να το κάνετε με το χέρι.</string>
+  <string name="swipe_to_refresh_dismiss">Το κατάλαβα!</string>
   <!-- Intro strings -->
   <!-- Intro "SKIP" button -->
+  <string name="app_intro_skip_button">ΠΑΡΑΛΕΙΨΗ</string>
   <!-- Intro "DONE" button -->
+  <string name="app_intro_done_button">ETOIMO</string>
 </resources>
