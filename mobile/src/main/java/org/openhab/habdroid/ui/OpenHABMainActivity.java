@@ -400,6 +400,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
 
         super.onResume();
         ConnectionFactory.addListener(this);
+        MemorizingTrustManager.getInstance(this).bindDisplayActivity(this);
 
         onAvailableConnectionChanged();
         updateNotificationDrawerItem();
@@ -424,6 +425,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
             mServiceResolver = null;
         }
         ConnectionFactory.removeListener(this);
+        MemorizingTrustManager.getInstance(this).unbindDisplayActivity(this);
         NfcAdapter nfcAdapter = NfcAdapter.getDefaultAdapter(this);
         if (nfcAdapter != null) {
             nfcAdapter.disableForegroundDispatch(this);

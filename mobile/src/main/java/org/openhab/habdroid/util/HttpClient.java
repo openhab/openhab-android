@@ -39,6 +39,7 @@ import javax.net.ssl.TrustManagerFactory;
 import javax.net.ssl.X509KeyManager;
 import javax.net.ssl.X509TrustManager;
 
+import de.duenndns.ssl.MemorizingTrustManager;
 import okhttp3.Call;
 import okhttp3.Credentials;
 import okhttp3.HttpUrl;
@@ -140,7 +141,7 @@ public abstract class HttpClient {
 
         X509TrustManager trustManager = prefs.getBoolean(Constants.PREFERENCE_SSLCERT, false)
                 ? new DummyTrustManager()
-                : getDefaultTrustManager();
+                : MemorizingTrustManager.getInstance(context);
 
         String clientCertAlias = prefs.getString(Constants.PREFERENCE_SSLCLIENTCERT, null);
         KeyManager[] keyManagers = clientCertAlias != null
