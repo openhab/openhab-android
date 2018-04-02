@@ -83,18 +83,11 @@ public class IntroActivityTest extends TestWithIntro {
         mActivityTestRule.finishActivity();
         mActivityTestRule.launchActivity(null);
 
-        IdlingRegistry.getInstance().register(getProgressbarIdlingResource());
+        setupRegisterIdlingResources();
 
         // Do we see the sitemap?
         ViewInteraction firstfloor = onView(
-                CoreMatchers.allOf(withId(R.id.widgetlabel), withText("First Floor"),
-                        childAtPosition(
-                                CoreMatchers.allOf(withId(R.id.groupleftlayout),
-                                        childAtPosition(
-                                                IsInstanceOf.<View>instanceOf(android.widget.RelativeLayout.class),
-                                                0)),
-                                1),
-                        isDisplayed()));
+                CoreMatchers.allOf(withId(R.id.widgetlabel), withText("First Floor"), isDisplayed()));
         firstfloor.check(matches(withText("First Floor")));
     }
 
@@ -141,18 +134,11 @@ public class IntroActivityTest extends TestWithIntro {
         mActivityTestRule.finishActivity();
         mActivityTestRule.launchActivity(null);
 
-        IdlingRegistry.getInstance().register(getProgressbarIdlingResource());
+        setupRegisterIdlingResources();
 
         // Do we see the sitemap?
         ViewInteraction firstfloor = onView(
-                CoreMatchers.allOf(withId(R.id.widgetlabel), withText("First Floor"),
-                        childAtPosition(
-                                CoreMatchers.allOf(withId(R.id.groupleftlayout),
-                                        childAtPosition(
-                                                IsInstanceOf.<View>instanceOf(android.widget.RelativeLayout.class),
-                                                0)),
-                                1),
-                        isDisplayed()));
+                CoreMatchers.allOf(withId(R.id.widgetlabel), withText("First Floor"), isDisplayed()));
         firstfloor.check(matches(withText("First Floor")));
     }
 }

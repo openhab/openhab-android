@@ -1,0 +1,3 @@
+Host github.com
+    HostName github.com
+    IdentityFile /home/travis/build/openhab/openhab-android/travis/key

@@ -44,6 +44,17 @@ public abstract class AbstractConnection implements Connection {
         updateHttpClientAuth(syncHttpClient);
     }
 
+    AbstractConnection(@NonNull AbstractConnection base, int connectionType) {
+        this.settings = base.settings;
+        this.username = base.username;
+        this.password = base.password;
+        this.baseUrl = base.baseUrl;
+        this.connectionType = connectionType;
+
+        asyncHttpClient = base.getAsyncHttpClient();
+        syncHttpClient = base.getSyncHttpClient();
+    }
+
     private void updateHttpClientAuth(MyHttpClient httpClient) {
         if (hasUsernameAndPassword()) {
             httpClient.setBasicAuth(getUsername(), getPassword());
@@ -115,5 +126,15 @@ public abstract class AbstractConnection implements Connection {
             Log.e(TAG, e.getMessage());
             return false;
         }
+    }
+
+    @Override
+    public int hashCode() {
+        int result = 17;
+        result = 31 * result + connectionType;
+        result = 31 * result + baseUrl.hashCode();
+        result = 31 * result + (username != null ? username.hashCode() : 0);
+        result = 31 * result + (password != null ? password.hashCode() : 0);
+        return result;
     }
 }

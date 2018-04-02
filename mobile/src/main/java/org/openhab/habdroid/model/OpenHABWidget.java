@@ -10,293 +10,315 @@
 package org.openhab.habdroid.model;
 
 import android.graphics.Color;
+import android.os.Parcelable;
+import android.support.annotation.Nullable;
 import android.util.Log;
 
+import com.google.auto.value.AutoValue;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 /**
  * This is a class to hold basic information about openHAB widget.
  */
 
-public abstract class OpenHABWidget {
-	private String id;
-	private String label;
-	private String icon;
-	private String type;
-	private String url;
-	private String period = "";
-	private String service = "";
-	private Boolean legend = null;
-	private float minValue =0;
-	private float maxValue = 100;
-	private float step = 1;
-	private int refresh = 0;
-	private int height = 0;
-	private String state;
-	OpenHABWidget parent;
-	private OpenHABItem item;
-	private OpenHABLinkedPage linkedPage;
-	ArrayList<OpenHABWidget> children;
-	ArrayList<OpenHABWidgetMapping> mappings;
-    private boolean mChildrenHasLinkedPages = false;
-    private Integer iconcolor;
-    private Integer labelcolor;
-    private Integer valuecolor;
-    private String encoding;
+@AutoValue
+public abstract class OpenHABWidget implements Parcelable {
+    public enum Type {
+        Chart,
+        Colorpicker,
+        Default,
+        Frame,
+        Group,
+        Image,
+        Mapview,
+        Selection,
+        Setpoint,
+        Slider,
+        Switch,
+        Text,
+        Video,
+        Webview,
+        Unknown
+    }
 
-	public OpenHABWidget() {
-		this.children = new ArrayList<OpenHABWidget>();
-		this.mappings = new ArrayList<OpenHABWidgetMapping>();
-	}
+    public abstract String id();
+    @Nullable
+    public abstract String parentId();
+    @Nullable
+    public abstract String label();
+    @Nullable
+    public abstract String icon();
+    public abstract String iconPath();
+    public abstract Type type();
+    @Nullable
+    public abstract String url();
+    @Nullable
+    public abstract OpenHABItem item();
+    @Nullable
+    public abstract OpenHABLinkedPage linkedPage();
+    public abstract List<OpenHABWidgetMapping> mappings();
+    @Nullable
+    public abstract String encoding();
+    @Nullable
+    public abstract String iconColor();
+    @Nullable
+    public abstract String labelColor();
+    @Nullable
+    public abstract String valueColor();
+    public abstract int refresh();
+    public abstract float minValue();
+    public abstract float maxValue();
+    public abstract float step();
+    public abstract String period();
+    public abstract String service();
+    @Nullable
+    public abstract Boolean legend();
+    public abstract int height();
 
-	public void addChildWidget(OpenHABWidget child) {
-		if (child != null) {
-			this.children.add(child);
-		}
-	}
+    public boolean hasMappings() {
+        List<OpenHABWidgetMapping> mappings = mappings();
+        return mappings != null && !mappings.isEmpty();
+    }
 
-	public boolean hasChildren() {
-		if (this.children.size() > 0) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-	
-	public ArrayList<OpenHABWidget> getChildren() {
-		return this.children;
-	}
-	
-	public boolean hasItem() {
-		if (this.getItem() != null) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-	
-	public boolean hasLinkedPage() {
-		if (this.linkedPage != null) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-	
-	public String getType() {
-		return type;
-	}
+    abstract Builder toBuilder();
 
-	public void setType(String type) {
-		this.type = type;
-	}
+    @AutoValue.Builder
+    abstract static class Builder {
+        public abstract Builder id(String id);
+        public abstract Builder parentId(@Nullable String parentId);
+        public abstract Builder label(@Nullable String label);
+        public abstract Builder icon(@Nullable String icon);
+        public abstract Builder iconPath(String iconPath);
+        public abstract Builder type(Type type);
+        public abstract Builder url(@Nullable String url);
+        public abstract Builder item(@Nullable OpenHABItem item);
+        public abstract Builder linkedPage(@Nullable OpenHABLinkedPage linkedPage);
+        public abstract Builder mappings(List<OpenHABWidgetMapping> mappings);
+        public abstract Builder encoding(@Nullable String encoding);
+        public abstract Builder iconColor(@Nullable String iconColor);
+        public abstract Builder labelColor(@Nullable String labelColor);
+        public abstract Builder valueColor(@Nullable String valueColor);
+        public abstract Builder refresh(int refresh);
+        public abstract Builder minValue(float minValue);
+        public abstract Builder maxValue(float maxValue);
+        public abstract Builder step(float step);
+        public abstract Builder period(String period);
+        public abstract Builder service(String service);
+        public abstract Builder legend(@Nullable Boolean legend);
+        public abstract Builder height(int height);
 
-	public OpenHABItem getItem() {
-		return item;
-	}
+        public OpenHABWidget build() {
+            // Consider a minimal refresh rate of 100 ms
+            refresh(Math.max(refresh(), 100));
+            // Default period to 'D'
+            if (period() == null || period().isEmpty()) {
+                period("D");
+            }
+            // Sanitize minValue, maxValue and step: min <= max, step >= 0
+            maxValue(Math.max(minValue(), maxValue()));
+            step(Math.abs(step()));
 
-	public void setItem(OpenHABItem item) {
-		this.item = item;
-	}
+            return autoBuild();
+        }
 
-	public String getLabel() {
-		return label;
-	}
+        abstract int refresh();
+        abstract String period();
+        abstract float minValue();
+        abstract float maxValue();
+        abstract float step();
+        abstract OpenHABWidget autoBuild();
+    }
 
-	public void setLabel(String label) {
-		this.label = label;
-	}
+    public static void parseXml(List<OpenHABWidget> allWidgets, OpenHABWidget parent, Node startNode) {
+        OpenHABItem item = null;
+        OpenHABLinkedPage linkedPage = null;
+        String id = null, label = null, icon = null, url = null;
+        String period = "", service = "", encoding = null;
+        String iconColor = null, labelColor = null, valueColor = null;
+        Type type = Type.Unknown;
+        float minValue = 0f, maxValue = 100f, step = 1f;
+        int refresh = 0, height = 0;
+        List<OpenHABWidgetMapping> mappings = new ArrayList<>();
+        List<Node> childWidgetNodes = new ArrayList<>();
 
-	public String getIcon() {
-		return icon;
-	}
-
-	public void setIcon(String icon) {
-		this.icon = icon;
-	}
-
-	public OpenHABLinkedPage getLinkedPage() {
-		return linkedPage;
-	}
-
-	public void setLinkedPage(OpenHABLinkedPage linkedPage) {
-		this.linkedPage = linkedPage;
-	}
-
-	public String getUrl() {
-		return url;
-	}
-
-	public void setUrl(String url) {
-		this.url = url;
-	}
-	
-	public boolean hasMappings() {
-		if (mappings.size() > 0) {
-			return true;
-		}
-		return false;
-	}
-	
-	public OpenHABWidgetMapping getMapping(int index) {
-		return mappings.get(index);
-	}
-	
-	public ArrayList<OpenHABWidgetMapping> getMappings() {
-		return mappings;
-	}
-
-	public float getMinValue() {
-		return minValue;
-	}
-
-	public void setMinValue(float minValue) {
-		this.minValue = minValue;
-	}
-
-	public float getMaxValue() {
-		return maxValue;
-	}
-
-	public void setMaxValue(float maxValue) {
-		this.maxValue = maxValue;
-	}
-
-	public float getStep() {
-		return step;
-	}
-
-	public void setStep(float step) {
-		this.step = step;
-	}
-
-	public int getRefresh() {
-		return refresh;
-	}
-
-	public void setRefresh(int refresh) {
-		// Consider a minimal refresh rate of 100 ms
-		this.refresh = Math.max(100, refresh);
-	}
-
-	public String getPeriod() {
-		if (period.length() == 0) {
-			return "D";
-		}
-		return period;
-	}
-
-	public void setPeriod(String period) {
-		this.period = period;
-	}
-
-    public String getService() { return service; }
-
-    public void setService(String service) { this.service = service; }
-
-	public Boolean getLegend() { return legend; }
-
-	public void setLegend(Boolean legend) { this.legend = legend; }
-
-	public int getHeight() {
-		return height;
-	}
-
-	public void setHeight(int height) {
-		this.height = height;
-	}
-
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
-
-    public boolean childrenHasLinkedPages() {
-        if (this.hasChildren()) {
-            for (OpenHABWidget w : this.getChildren()) {
-                if (w.hasLinkedPage())
-                    return true;
+        if (startNode.hasChildNodes()) {
+            NodeList childNodes = startNode.getChildNodes();
+            for (int i = 0; i < childNodes.getLength(); i++) {
+                Node childNode = childNodes.item(i);
+                switch (childNode.getNodeName()) {
+                    case "item": item = OpenHABItem.fromXml(childNode); break;
+                    case "linkedPage": linkedPage = OpenHABLinkedPage.fromXml(childNode); break;
+                    case "widget": childWidgetNodes.add(childNode); break;
+                    case "type": type = parseType(childNode.getTextContent()); break;
+                    case "widgetId": id = childNode.getTextContent(); break;
+                    case "label": label = childNode.getTextContent(); break;
+                    case "icon": icon = childNode.getTextContent(); break;
+                    case "url": url = childNode.getTextContent(); break;
+                    case "minValue": minValue = Float.valueOf(childNode.getTextContent()); break;
+                    case "maxValue": maxValue = Float.valueOf(childNode.getTextContent()); break;
+                    case "step": step = Float.valueOf(childNode.getTextContent()); break;
+                    case "refresh": refresh = Integer.valueOf(childNode.getTextContent()); break;
+                    case "period": period = childNode.getTextContent(); break;
+                    case "service": service = childNode.getTextContent(); break;
+                    case "height": height = Integer.valueOf(childNode.getTextContent()); break;
+                    case "iconcolor": iconColor = childNode.getTextContent(); break;
+                    case "valuecolor": valueColor = childNode.getTextContent(); break;
+                    case "labelcolor": labelColor = childNode.getTextContent(); break;
+                    case "encoding": encoding = childNode.getTextContent(); break;
+                    case "mapping":
+                        NodeList mappingChildNodes = childNode.getChildNodes();
+                        String mappingCommand = "";
+                        String mappingLabel = "";
+                        for (int k = 0; k < mappingChildNodes.getLength(); k++) {
+                            Node mappingNode = mappingChildNodes.item(k);
+                            switch (mappingNode.getNodeName()) {
+                                case "command": mappingCommand = mappingNode.getTextContent(); break;
+                                case "label": mappingLabel = mappingNode.getTextContent(); break;
+                            }
+                        }
+                        OpenHABWidgetMapping mapping = OpenHABWidgetMapping.newBuilder()
+                                .command(mappingCommand)
+                                .label(mappingLabel)
+                                .build();
+                        mappings.add(mapping);
+                        break;
+                }
             }
         }
-        return false;
+
+        OpenHABWidget widget = new AutoValue_OpenHABWidget.Builder()
+                .id(id)
+                .parentId(parent != null ? parent.id() : null)
+                .type(type)
+                .label(label)
+                .icon(icon)
+                .iconPath(String.format("images/%s.png", icon))
+                .item(item)
+                .linkedPage(linkedPage)
+                .url(url)
+                .minValue(minValue)
+                .maxValue(maxValue)
+                .step(step)
+                .refresh(refresh)
+                .period(period)
+                .service(service)
+                .height(height)
+                .iconColor(iconColor)
+                .labelColor(labelColor)
+                .valueColor(valueColor)
+                .encoding(encoding)
+                .mappings(mappings)
+                .build();
+        allWidgets.add(widget);
+
+        for (Node childNode : childWidgetNodes) {
+            parseXml(allWidgets, widget, childNode);
+        }
     }
 
-    public boolean childrenHasNonlinkedPages() {
-        if (this.hasChildren()) {
-            for (OpenHABWidget w : this.getChildren()) {
-                if (!w.hasLinkedPage())
-                    return true;
+    public static void parseJson(List<OpenHABWidget> allWidgets, OpenHABWidget parent,
+            JSONObject widgetJson, String iconFormat) throws JSONException {
+        List<OpenHABWidgetMapping> mappings = new ArrayList<>();
+        if (widgetJson.has("mappings")) {
+            JSONArray mappingsJsonArray = widgetJson.getJSONArray("mappings");
+            for (int i = 0; i < mappingsJsonArray.length(); i++) {
+                JSONObject mappingObject = mappingsJsonArray.getJSONObject(i);
+                OpenHABWidgetMapping mapping = OpenHABWidgetMapping.newBuilder()
+                        .command(mappingObject.getString("command"))
+                        .label(mappingObject.getString("label"))
+                        .build();
+                mappings.add(mapping);
             }
         }
-        return false;
-    }
 
-    public Integer getLabelColor() {
-        return labelcolor;
-    }
+        OpenHABItem item = OpenHABItem.fromJson(widgetJson.optJSONObject("item"));
+        Type type = parseType(widgetJson.getString("type"));
+        String icon = widgetJson.optString("icon", null);
 
-    public void setLabelColor(String color) {
-        try {
-            this.labelcolor = new Integer(Color.parseColor(fixColorName(color)));
-        } catch(IllegalArgumentException e) {
-            Log.e("OpenHABWidget", "Color was " + color);
-            Log.e("OpenHABWidget", e.getMessage());
-            this.labelcolor = null;
+        OpenHABWidget widget = new AutoValue_OpenHABWidget.Builder()
+                .id(widgetJson.getString("widgetId"))
+                .parentId(parent != null ? parent.id() : null)
+                .item(item)
+                .linkedPage(OpenHABLinkedPage.fromJson(widgetJson.optJSONObject("linkedPage")))
+                .mappings(mappings)
+                .type(type)
+                .label(widgetJson.optString("label", null))
+                .icon(icon)
+                .iconPath(determineOH2IconPath(item, type, icon, iconFormat, !mappings.isEmpty()))
+                .url(widgetJson.optString("url", null))
+                .minValue((float) widgetJson.optDouble("minValue", 0))
+                .maxValue((float) widgetJson.optDouble("maxValue", 100))
+                .step((float) widgetJson.optDouble("step", 1))
+                .refresh(Math.max(widgetJson.optInt("refresh"), 100))
+                .period(widgetJson.optString("period", "D"))
+                .service(widgetJson.optString("service", ""))
+                .legend(widgetJson.has("legend") ? widgetJson.getBoolean("legend") : null)
+                .height(widgetJson.optInt("height"))
+                .iconColor(widgetJson.optString("iconcolor", null))
+                .labelColor(widgetJson.optString("labelcolor", null))
+                .valueColor(widgetJson.optString("valuecolor", null))
+                .encoding(widgetJson.optString("encoding", null))
+                .build();
+
+        allWidgets.add(widget);
+
+        JSONArray childWidgetJson = widgetJson.optJSONArray("widgets");
+        if (childWidgetJson != null) {
+            for (int i = 0; i < childWidgetJson.length(); i++) {
+                parseJson(allWidgets, widget, childWidgetJson.getJSONObject(i), iconFormat);
+            }
         }
     }
 
-    public Integer getValueColor() {
-        return valuecolor;
-    }
-
-    public void setValueColor(String color) {
-        try {
-            this.valuecolor = new Integer(Color.parseColor(fixColorName(color)));
-        } catch(IllegalArgumentException e) {
-            Log.e("OpenHABWidget", "Color was " + color);
-            Log.e("OpenHABWidget", e.getMessage());
-            this.valuecolor = null;
+    private static String determineOH2IconPath(OpenHABItem item, Type type, String icon,
+            String iconFormat, boolean hasMappings) {
+        String itemState = item != null ? item.state() : null;
+        if (itemState != null) {
+            if (item.isOfTypeOrGroupType(OpenHABItem.Type.Color)) {
+                // For items that control a color item fetch the correct icon
+                if (type == Type.Slider || (type == Type.Switch && !hasMappings)) {
+                    try {
+                        itemState = String.valueOf(item.stateAsBrightness());
+                        if (type == Type.Switch) {
+                            itemState = itemState.equals("0") ? "OFF" : "ON";
+                        }
+                    } catch (Exception e) {
+                        itemState = "OFF";
+                    }
+                } else {
+                    int color = Color.HSVToColor(item.stateAsHSV());
+                    itemState = String.format(Locale.US, "#%02x%02x%02x",
+                            Color.red(color), Color.green(color), Color.blue(color));
+                }
+            } else if (type == Type.Switch && !hasMappings
+                    && !item.isOfTypeOrGroupType(OpenHABItem.Type.Rollershutter)) {
+                // For switch items without mappings (just ON and OFF) that control a dimmer item
+                // and which are not ON or OFF already, set the state to "OFF" instead of 0
+                // or to "ON" to fetch the correct icon
+                itemState = itemState.equals("0") || itemState.equals("OFF") ? "OFF" : "ON";
+            }
         }
+
+        return String.format("icon/%s?state=%s&format=%s", icon, itemState, iconFormat);
     }
 
-    public Integer getIconColor() {
-        return iconcolor;
-    }
-
-    public void setIconColor(String color) {
-        try {
-            this.iconcolor = new Integer(Color.parseColor(fixColorName(color)));
-        } catch(IllegalArgumentException e) {
-            Log.e("OpenHABWidget", "Color was " + color);
-            Log.e("OpenHABWidget", e.getMessage());
-            this.iconcolor = null;
+    private static Type parseType(String type) {
+        if (type != null) {
+            try {
+                return Type.valueOf(type);
+            } catch (IllegalArgumentException e) {
+                // fall through
+            }
         }
+        return Type.Unknown;
     }
-
-    private String fixColorName(String colorName) {
-        if (colorName.equals("orange"))
-            return "#FFA500";
-        return colorName;
-    }
-
-    public String getEncoding() {
-        return encoding;
-    }
-
-    public void setEncoding(String encoding) {
-        this.encoding = encoding;
-    }
-
-	public void setState(String state) {
-		this.state = state;
-	}
-
-	public String getState() {
-		return state;
-	}
-
-	public abstract String getIconPath();
 }

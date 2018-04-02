@@ -11,6 +11,7 @@ buildscript {
     dependencies {
         classpath 'com.google.gms:google-services:3.1.0'
         classpath 'io.fabric.tools:gradle:1.24.4'
+        classpath files('libs/gradle-witness.jar')
     }
 }
 
@@ -19,13 +20,12 @@ apply plugin: 'jacoco-android'
 if(!isFoss) {
     apply plugin: 'io.fabric'
 }
+apply plugin: 'witness'
 
 android {
     buildToolsVersion '26.0.2'
     compileSdkVersion 26
     useLibrary 'org.apache.http.legacy'
-
-    flavorDimensions "main"
 
     defaultConfig {
         applicationId "org.openhab.habdroid"
@@ -50,12 +50,23 @@ android {
             testCoverageEnabled true
         }
     }
+
+    flavorDimensions "license", "release"
     productFlavors {
         full {
-            dimension "main"
+            dimension "license"
+            manifestPlaceholders = [ maps_api_key : project.findProperty("mapsApiKey") ?: "" ]
         }
         foss {
-            dimension "main"
+            dimension "license"
+        }
+
+        stable {
+            dimension "release"
+        }
+        beta {
+            dimension "release"
+            applicationIdSuffix ".beta"
         }
     }
     testOptions {
@@ -81,24 +92,22 @@ repositories {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
     compile "com.android.support:appcompat-v7:26.1.0"
     compile "com.android.support:support-v4:26.1.0"
     compile "com.android.support:recyclerview-v7:26.1.0"
     compile "com.android.support:design:26.1.0"
     compile 'com.android.support:multidex:1.0.2'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    compile 'com.google.code.gson:gson:2.8.0'
     compile 'org.jmdns:jmdns:3.5.1'
     compile 'com.squareup.okhttp3:okhttp:3.6.0'
     compile 'com.github.loopj:android-smart-image-view:d09783b9508af5996361437a54cc234b662e4c78'
-    compile 'com.github.shell-software:fab:1.1.2'
     //androidsvg commit as of July 16th 2017
     compile 'com.github.BigBadaboom:androidsvg:418cf676849b200cacf3465478079f39709fe5b1'
     compile 'com.github.apl-devs:appintro:v4.2.2'
+    // Google Maps
+    fullCompile 'com.google.android.gms:play-services-maps:11.4.2'
     // GCM
     fullCompile 'com.google.android.gms:play-services-gcm:11.4.2'
-    fossCompile project(':gcmdummy')
 
     // About screen
     compile 'com.github.daniel-stoneuk:material-about-library:2.2.3-support26.1.0'
@@ -116,9 +125,14 @@ dependencies {
 
     fullCompile 'com.google.firebase:firebase-core:11.4.2'
 
+    provided 'com.google.auto.value:auto-value:1.5.3'
+    annotationProcessor 'com.google.auto.value:auto-value:1.5.3'
+    annotationProcessor 'com.ryanharter.auto.value:auto-value-parcel:0.2.6'
+
     testCompile 'org.mockito:mockito-core:2.7.6'
     testCompile 'junit:junit:4.12'
     testCompile 'org.json:json:20160810'
+    testCompile 'com.squareup.okhttp3:mockwebserver:3.6.0'
 
     // PowerMock
     testCompile 'org.powermock:powermock-core:1.7.0'
@@ -135,7 +149,62 @@ dependencies {
     androidTestCompile 'com.android.support.test.espresso:espresso-contrib:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     }
+
+    androidTestCompile 'tools.fastlane:screengrab:1.1.0'
 }
+
+dependencyVerification {
+    verify = [
+            'com.github.daniel-stoneuk:material-about-library:505a4eced4e73c20288342b46304c6c343dc5ffebc158893868534d00d115d34',
+            'com.android.support:design:76f5fbb365bf2d622af5df8a4205904409250305685e38670bf654ac90c2494d',
+            'com.github.apl-devs:appintro:065392fdd1b93fcde233ddb9005321153b41b78e126b04e0a903b563e5d24bad',
+            'com.android.support:appcompat-v7:9d44e7bf343dfd19a55e3e6f4c4e733b68d32509e0b0af5b32f2981f4f1dedd8',
+            'com.android.support:transition:c5d3d1204997f80af1f4a3a315a54b1a23543c554963cef831da726aac34b56f',
+            'com.google.android.gms:play-services-maps:b97d7b6e3ec3aa22d32dd45308e7dd7ff775c4dee76cbdcd8190f107e5d887d6',
+            'com.google.android.gms:play-services-base:cb00603165e8c2e985bdcc4f4d0a754cdb19c39545e44d86487659d664057759',
+            'com.google.firebase:firebase-core:3b44624c7511f5b463b9d7eaffc6f090667d68dcb881908308980f20de0e4cc5',
+            'com.google.firebase:firebase-analytics:d0abd6f4c0155ada397dd573e537af142bf792bdf61d3c559094b179077a85a4',
+            'com.google.firebase:firebase-analytics-impl:f470dbb8ed9df8a958fa9ec73ec06e53b02ade2af6d3e665ce5895cfb3f495b9',
+            'com.google.firebase:firebase-iid:1214796476f2e8e944639785f1402d41d3aca0ae3278ec90acd441689b782491',
+            'com.google.firebase:firebase-common:f83d28083ccd407dd17f4d008dfba666dc58262dc6318eec58c517ea382dff44',
+            'com.google.android.gms:play-services-tasks:b504ad0a9043e2cbe4ea7581f8cda087e9deb773bcf78aa1a78fcc5403f967bc',
+            'com.google.android.gms:play-services-basement:e835ef2a6aa4e498b36239dc65afd46e870cb69a1b28cb8e0e33095f5251a7e2',
+            'com.android.support:support-v4:36d8385de1be7791231acb933b757198f97cb53bc7d046e8c4bc403d214caaca',
+            'com.android.support:recyclerview-v7:389cb47a7dabca4fb8c23657ff7c85ebc651428580d3a5ea0349eeb43ddea94b',
+            'com.android.support:multidex:7cd48755c7cfdb6dd2d21cbb02236ec390f6ac91cde87eb62f475b259ab5301d',
+            'com.android.support.constraint:constraint-layout:b0c688cc2b7172608f8153a689d746da40f71e52d7e2fe2bfd9df2f92db77085',
+            'org.jmdns:jmdns:33d3ace453d303fe103350be963d45aad9e405c9a30758aa588ccce00a4d5bde',
+            'com.squareup.okhttp3:okhttp:a992938d7203ca557cd7a116f002e8c427ec9cdae7ea852441abb8aec891f948',
+            'com.github.loopj:android-smart-image-view:2437b0e868e8296e1578c25cf7aa0d125c72539e29e45d08ba01a41bfbd969fa',
+            'com.github.BigBadaboom:androidsvg:cef17e77b14a1b8579eab045c74bc97d9aa7ef48624b45bce80f943c2248b0a0',
+            'com.android.support:cardview-v7:7ea56ed5560b629ee1c0f24af6693e32974fbc8b91b544052cd2c14b176c85e0',
+            'com.mikepenz:aboutlibraries:8cc8aec1760f785f65bfe40bb164f963e59d3f7a1f829b2763ece15c3c883206',
+            'com.android.support:animated-vector-drawable:d5905aee3c8a4ac75e069a73b914c0a41b9b36b0e6b04126719fca22659d3cc8',
+            'com.android.support:support-fragment:a0ab3369ef40fe199160692f0463a5f63f1277ebfb64dd587c76fdb128d76b32',
+            'com.android.support:support-core-ui:82f538051599335ea881ec264407547cab52be750f16ce099cfb27754fc755ff',
+            'com.android.support:support-vector-drawable:1151b7f0ea29c9a9a8fee042a1dbe82f196632d801c438d08b279e131c767118',
+            'com.android.support:support-media-compat:9d8cee7cd40eff22ebdeb90c8e70f5ee96c5bd25cb2c3e3b3940e27285a3e98a',
+            'com.android.support:support-core-utils:4fda6d4eb430971e3b1dad7456988333f374b0f4ba15f99839ca1a0ab5155c8a',
+            'com.android.support:support-compat:7d6da01cf9766b1705c6c80cfc12274a895b406c4c287900b07a56145ca6c030',
+            'com.android.support:support-annotations:99d6199ad5a09a0e5e8a49a4cc08f818483ddcfd7eedea2f9923412daf982309',
+            'com.android.support.constraint:constraint-layout-solver:8c62525a9bc5cff5633a96cb9b32fffeccaf41b8841aa87fc22607070dea9b8d',
+            'org.slf4j:slf4j-api:e56288031f5e60652c06e7bb6e9fa410a61231ab54890f7b708fc6adc4107c5b',
+            'com.squareup.okio:okio:8c5436cadfab36bbd97db5f5c43b7bfdb5bf2f5f894ec8709b1929f14bdd010c',
+            'com.google.android.gms:play-services-maps-license:67f7ac4331c112828f2bf071caa46d769104f03f3c1d89bdee8670cd44edb1aa',
+            'com.mikepenz:iconics-core:fa2cb91e1fba0a89e05705290edba6c9bca5c9d8a939b634ede35f12fae23b1a',
+            'com.mikepenz:fastadapter:7cd322d4d700dbd6f02f27965872694ec7903f5ddafef88ee5afc2d4e498016a',
+            'android.arch.lifecycle:runtime:e4e34e5d02bd102e8d39ddbc29f9ead8a15a61e367993d02238196ac48509ad8',
+            'com.google.firebase:firebase-analytics-license:d86746a61e441026e3b8440e3c087cbb5814f41430e09cc7c0ba88f17e890fdf',
+            'android.arch.lifecycle:common:86bf301a20ad0cd0a391e22a52e6fbf90575c096ff83233fa9fd0d52b3219121',
+            'android.arch.core:common:5192934cd73df32e2c15722ed7fc488dde90baaec9ae030010dd1a80fb4e74e1',
+            'com.google.android.gms:play-services-basement-license:0b2f783d853c01fa3a6d14b2cff4af0afe5201389b83def00e25e1e2d15c8d3b',
+            'com.google.firebase:firebase-common-license:42de998a0a327408407484196d00f96ab46f9f2d278160bfe25f898cf6072358',
+            'com.google.firebase:firebase-analytics-impl-license:89d35a7bfffd3c0711439cca36770a16c7a242a150001e92ee56627f6142396a',
+            'com.google.android.gms:play-services-tasks-license:f98cdb23612d27eb49e87b3907c2d8c6384a9a3914a326423b8b3e7d2b8f456b',
+            'com.google.firebase:firebase-iid-license:a004447dd3dd1da712dede2815afd537384f23c746167a9246df50307596a906',
+    ]
+}
+
 
 if(!isFoss) {
     apply plugin: 'com.google.gms.google-services'

@@ -18,6 +18,8 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 
 /**
  * This class provides datasource for openHAB widgets from sitemap page.
@@ -25,187 +27,95 @@ import java.util.ArrayList;
  */
 
 public class OpenHABWidgetDataSource {
-	private static final String TAG = OpenHABWidgetDataSource.class.getSimpleName();
-	private final String iconFormat;
-	private OpenHABWidget rootWidget;
-	private String title;
-	private String id;
-	private String icon;
-	private String link;
+    private static final String TAG = OpenHABWidgetDataSource.class.getSimpleName();
+    private final String iconFormat;
+    private List<OpenHABWidget> allWidgets = new ArrayList<>();
+    private String title;
+    private String id;
+    private String icon;
+    private String link;
 
-	public OpenHABWidgetDataSource(String iconFormat) {
-		this.iconFormat = iconFormat;
-	}
+    public OpenHABWidgetDataSource(String iconFormat) {
+        this.iconFormat = iconFormat;
+    }
 
-	public void setSourceNode(Node rootNode) {
-		Log.i(TAG, "Loading new data");
+    public void setSourceNode(Node rootNode) {
+        Log.i(TAG, "Loading new data");
         if (rootNode == null)
             return;
-		rootWidget = new OpenHAB1Widget();
-		rootWidget.setType("root");
-		if (rootNode.hasChildNodes()) {
-			NodeList childNodes = rootNode.getChildNodes();
-			for (int i = 0; i < childNodes.getLength(); i ++) {
-				Node childNode = childNodes.item(i);
-				if (childNode.getNodeName().equals("widget")) {
-					OpenHAB1Widget.createOpenHABWidgetFromNode(rootWidget, childNode);
-				} else if (childNode.getNodeName().equals("title")) {
-					this.setTitle(childNode.getTextContent());
-				} else if (childNode.getNodeName().equals("id")) {
-					this.setId(childNode.getTextContent());
-				} else if (childNode.getNodeName().equals("icon")) {
-					this.setIcon(childNode.getTextContent());
-				} else if (childNode.getNodeName().equals("link")) {
-					this.setLink(childNode.getTextContent());
-				}
-			}
-		}
-	}
+        if (rootNode.hasChildNodes()) {
+            NodeList childNodes = rootNode.getChildNodes();
+            for (int i = 0; i < childNodes.getLength(); i++) {
+                Node childNode = childNodes.item(i);
+                switch (childNode.getNodeName()) {
+                    case "widget": OpenHABWidget.parseXml(allWidgets, null, childNode); break;
+                    case "title": title = childNode.getTextContent(); break;
+                    case "id": id = childNode.getTextContent(); break;
+                    case "icon": icon = childNode.getTextContent(); break;
+                    case "link": link = childNode.getTextContent(); break;
+                }
+            }
+        }
+    }
 
     public void setSourceJson(JSONObject jsonObject) {
         Log.d(TAG, jsonObject.toString());
         if (!jsonObject.has("widgets"))
             return;
-        rootWidget = new OpenHAB2Widget();
-        rootWidget.setType("root");
         try {
             JSONArray jsonWidgetArray = jsonObject.getJSONArray("widgets");
-            for (int i=0; i<jsonWidgetArray.length(); i++) {
+            for (int i = 0; i < jsonWidgetArray.length(); i++) {
                 JSONObject widgetJson = jsonWidgetArray.getJSONObject(i);
-                // Log.d(TAG, widgetJson.toString());
-                OpenHAB2Widget.createOpenHABWidgetFromJson(rootWidget, widgetJson, iconFormat);
+                OpenHABWidget.parseJson(allWidgets, null, widgetJson, iconFormat);
             }
-            if (jsonObject.has("title"))
-                this.setTitle(jsonObject.getString("title"));
-            if (jsonObject.has("id"))
-                this.setId(jsonObject.getString("id"));
-            if (jsonObject.has("icon"))
-                this.setIcon(jsonObject.getString("icon"));
-            if (jsonObject.has("link"))
-                this.setLink(jsonObject.getString("link"));
+            title = jsonObject.optString("title", null);
+            id = jsonObject.optString("id", null);
+            icon = jsonObject.optString("icon", null);
+            link = jsonObject.optString("link", null);
         } catch (JSONException e) {
             Log.d(TAG, e.getMessage(), e);
         }
     }
-	
-	public OpenHABWidget getRootWidget() {
-		return this.rootWidget;
-	}
 
-	public OpenHABWidget getWidgetById(String widgetId) {
-		ArrayList<OpenHABWidget> widgets = this.getWidgets();
-		for (int i = 0; i < widgets.size(); i++) {
-			if (widgets.get(i).getId().equals(widgetId))
-				return widgets.get(i);
-		}
-		return null;
-	}
-	
-	public ArrayList<OpenHABWidget> getWidgets() {
-		ArrayList<OpenHABWidget> result = new ArrayList<OpenHABWidget>();
-		if (rootWidget != null)
-		if (this.rootWidget.hasChildren()) {
-			for (int i = 0; i < rootWidget.getChildren().size(); i++) {
-				OpenHABWidget openHABWidget = this.rootWidget.getChildren().get(i);
-				result.add(openHABWidget);
-				if (openHABWidget.hasChildren()) {
-					for (int j = 0; j < openHABWidget.getChildren().size(); j++) {
-						result.add(openHABWidget.getChildren().get(j));
-					}
-				}
-			}
-		}
-		return result;
-	}
-
-    public ArrayList<OpenHABWidget> getLinkWidgets() {
+    public ArrayList<OpenHABWidget> getWidgets() {
         ArrayList<OpenHABWidget> result = new ArrayList<OpenHABWidget>();
-        if (rootWidget != null)
-            if (this.rootWidget.hasChildren()) {
-                for (int i = 0; i < rootWidget.getChildren().size(); i++) {
-                    OpenHABWidget openHABWidget = this.rootWidget.getChildren().get(i);
-                    if (openHABWidget.hasLinkedPage() || openHABWidget.childrenHasLinkedPages())
-                    result.add(openHABWidget);
-                    if (openHABWidget.hasChildren()) {
-                        for (int j = 0; j < openHABWidget.getChildren().size(); j++) {
-                            if (openHABWidget.getChildren().get(j).hasLinkedPage())
-                                result.add(openHABWidget.getChildren().get(j));
-                        }
-                    }
-                }
+        HashSet<String> firstLevelWidgetIds = new HashSet<>();
+        for (OpenHABWidget widget : allWidgets) {
+            if (widget.parentId() == null) {
+                firstLevelWidgetIds.add(widget.id());
             }
+        }
+        for (OpenHABWidget widget : allWidgets) {
+            String parentId = widget.parentId();
+            if (parentId == null || firstLevelWidgetIds.contains(parentId)) {
+                result.add(widget);
+            }
+        }
         return result;
     }
 
-    public ArrayList<OpenHABWidget> getNonlinkWidgets() {
-        ArrayList<OpenHABWidget> result = new ArrayList<OpenHABWidget>();
-        if (rootWidget != null)
-            if (this.rootWidget.hasChildren()) {
-                for (int i = 0; i < rootWidget.getChildren().size(); i++) {
-                    OpenHABWidget openHABWidget = this.rootWidget.getChildren().get(i);
-                    if ((openHABWidget.getType().equals("Frame") && openHABWidget.childrenHasNonlinkedPages()) ||
-                            (!openHABWidget.getType().equals("Frame") && !openHABWidget.hasLinkedPage()))
-                        result.add(openHABWidget);
-                    if (openHABWidget.hasChildren()) {
-                        for (int j = 0; j < openHABWidget.getChildren().size(); j++) {
-                            if (!openHABWidget.getChildren().get(j).hasLinkedPage())
-                                result.add(openHABWidget.getChildren().get(j));
-                        }
-                    }
-                }
-            }
-        return result;
-    }
-
-
-    public void logWidget(OpenHABWidget widget) {
-		Log.i(TAG, "Widget <" + widget.getLabel() + "> (" + widget.getType() + ")");
-		if (widget.hasChildren()) {
-			for (int i = 0; i < widget.getChildren().size(); i++) {
-				logWidget(widget.getChildren().get(i));
-			}
-		}
-	}
-
-	public String getTitle() {
-		String[] splitString;
+    public String getTitle() {
+        String[] splitString;
         if (title != null) {
-    		splitString = title.split("\\[|\\]");
-            if (splitString.length>0) {
+            splitString = title.split("\\[|\\]");
+            if (splitString.length > 0) {
                 return splitString[0];
             } else {
                 return title;
             }
         }
         return "";
-	}
+    }
 
-	public void setTitle(String title) {
-		this.title = title;
-	}
+    public String getId() {
+        return id;
+    }
 
-	public String getId() {
-		return id;
-	}
+    public String getIcon() {
+        return icon;
+    }
 
-	public void setId(String id) {
-		this.id = id;
-	}
-
-	public String getIcon() {
-		return icon;
-	}
-
-	public void setIcon(String icon) {
-		this.icon = icon;
-	}
-
-	public String getLink() {
-		return link;
-	}
-
-	public void setLink(String link) {
-		this.link = link;
-	}
-	
+    public String getLink() {
+        return link;
+    }
 }

@@ -23,8 +23,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.openhab.habdroid.R;
-import org.openhab.habdroid.model.OpenHAB1Sitemap;
-import org.openhab.habdroid.model.OpenHAB2Sitemap;
 import org.openhab.habdroid.model.OpenHABItem;
 import org.openhab.habdroid.model.OpenHABSitemap;
 import org.w3c.dom.Document;
@@ -87,22 +85,20 @@ public class Util {
         NodeList sitemapNodes = document.getElementsByTagName("sitemap");
         if (sitemapNodes.getLength() > 0) {
             for (int i = 0; i < sitemapNodes.getLength(); i++) {
-                Node sitemapNode = sitemapNodes.item(i);
-                OpenHABSitemap openhabSitemap = new OpenHAB1Sitemap(sitemapNode);
-                sitemapList.add(openhabSitemap);
+                sitemapList.add(OpenHABSitemap.fromXml(sitemapNodes.item(i)));
             }
         }
         // Sort by sitename label
         Collections.sort(sitemapList, new Comparator<OpenHABSitemap>() {
             @Override
             public int compare(OpenHABSitemap sitemap1, OpenHABSitemap sitemap2) {
-                if (sitemap1.getLabel() == null) {
-                    return sitemap2.getLabel() == null ? 0 : -1;
+                if (sitemap1.label() == null) {
+                    return sitemap2.label() == null ? 0 : -1;
                 }
-                if (sitemap2.getLabel() == null) {
+                if (sitemap2.label() == null) {
                     return 1;
                 }
-                return sitemap1.getLabel().compareTo(sitemap2.getLabel());
+                return sitemap1.label().compareTo(sitemap2.label());
             }
         });
 
@@ -114,8 +110,8 @@ public class Util {
         for (int i = 0; i < jsonArray.length(); i++) {
             try {
                 JSONObject sitemapJson = jsonArray.getJSONObject(i);
-                OpenHABSitemap openHABSitemap = new OpenHAB2Sitemap(sitemapJson);
-                if (!(openHABSitemap.getName().equals("_default") && jsonArray.length() != 1)) {
+                OpenHABSitemap openHABSitemap = OpenHABSitemap.fromJson(sitemapJson);
+                if (!(openHABSitemap.name().equals("_default") && jsonArray.length() != 1)) {
                     sitemapList.add(openHABSitemap);
                 }
             } catch (JSONException e) {
@@ -127,7 +123,7 @@ public class Util {
 
     public static boolean sitemapExists(List<OpenHABSitemap> sitemapList, String sitemapName) {
         for (int i = 0; i < sitemapList.size(); i++) {
-            if (sitemapList.get(i).getName().equals(sitemapName))
+            if (sitemapList.get(i).name().equals(sitemapName))
                 return true;
         }
         return false;
@@ -135,7 +131,7 @@ public class Util {
 
     public static OpenHABSitemap getSitemapByName(List<OpenHABSitemap> sitemapList, String sitemapName) {
         for (int i = 0; i < sitemapList.size(); i++) {
-            if (sitemapList.get(i).getName().equals(sitemapName))
+            if (sitemapList.get(i).name().equals(sitemapName))
                 return sitemapList.get(i);
         }
         return null;
@@ -198,7 +194,7 @@ public class Util {
         if (item == null) {
             return;
         }
-        sendItemCommand(client, item.getLink(), command);
+        sendItemCommand(client, item.link(), command);
     }
 
     public static void sendItemCommand(MyAsyncHttpClient client, String itemUrl, String command) {

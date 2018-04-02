@@ -1,1 +1,1 @@
-include ':mobile', ':gcmdummy'
+include ':mobile'

@@ -13,10 +13,12 @@ import android.os.Looper;
 import android.os.Message;
 import android.preference.PreferenceManager;
 import android.support.annotation.VisibleForTesting;
+import android.support.v4.util.Pair;
 import android.util.Log;
 
 import com.loopj.android.image.WebImageCache;
 
+import org.openhab.habdroid.core.CloudMessagingHelper;
 import org.openhab.habdroid.core.connection.exception.ConnectionException;
 import org.openhab.habdroid.core.connection.exception.NetworkNotAvailableException;
 import org.openhab.habdroid.core.connection.exception.NetworkNotSupportedException;
@@ -47,21 +49,29 @@ final public class ConnectionFactory extends BroadcastReceiver implements
             Constants.PREFERENCE_DEMOMODE);
 
     public interface UpdateListener {
-        void onConnectionChanged();
+        void onAvailableConnectionChanged();
+        void onCloudConnectionChanged(CloudConnection connection);
     }
 
-    private static final int MSG_TRIGGER_UPDATE = 0;
-    private static final int MSG_UPDATE_DONE = 1;
+    private static final int MSG_UPDATE_AVAILABLE = 0;
+    private static final int MSG_UPDATE_CLOUD = 1;
+    private static final int MSG_AVAILABLE_DONE = 2;
+    private static final int MSG_CLOUD_DONE = 3;
 
     private Context ctx;
     private SharedPreferences settings;
 
     private Connection mLocalConnection;
-    private Connection mRemoteConnection;
+    private AbstractConnection mRemoteConnection;
+    private CloudConnection mCloudConnection;
     private Connection mAvailableConnection;
     private ConnectionException mConnectionFailureReason;
     private HashSet<UpdateListener> mListeners = new HashSet<>();
     private boolean mNeedsUpdate;
+    private boolean mIgnoreNextConnectivityChange;
+    private boolean mAvailableInitialized;
+    private boolean mCloudInitialized;
+    private Object mInitializationLock = new Object();
 
     private HandlerThread mUpdateThread;
     @VisibleForTesting
@@ -77,20 +87,23 @@ final public class ConnectionFactory extends BroadcastReceiver implements
         this.settings = settings;
         this.settings.registerOnSharedPreferenceChangeListener(this);
 
-        ctx.registerReceiver(this,
-                new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
+        IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+        // Make sure to ignore the initial sticky broadcast, as we're only interested in changes
+        mIgnoreNextConnectivityChange = ctx.registerReceiver(null, filter) != null;
+        ctx.registerReceiver(this, filter);
+
         mUpdateThread = new HandlerThread("ConnectionUpdate");
         mUpdateThread.start();
         mUpdateHandler = new Handler(mUpdateThread.getLooper(), this);
         mMainHandler = new Handler(Looper.getMainLooper(), this);
-
-        updateConnections();
     }
 
     public static void initialize(Context ctx) {
-        initialize(ctx, PreferenceManager.getDefaultSharedPreferences(ctx));
+        sInstance = new ConnectionFactory(ctx, PreferenceManager.getDefaultSharedPreferences(ctx));
+        sInstance.updateConnections();
     }
 
+    @VisibleForTesting
     public static void initialize(Context ctx, SharedPreferences settings) {
         sInstance = new ConnectionFactory(ctx, settings);
     }
@@ -100,6 +113,27 @@ final public class ConnectionFactory extends BroadcastReceiver implements
         sInstance.mUpdateThread.quit();
     }
 
+    /**
+     * Wait for initialization of the factory.
+     *
+     * This method blocks until all asynchronous work (that is, determination of
+     * available and cloud connection) is ready, so that {@link #getConnection(int)}
+     * and {@link #getUsableConnection()} can safely be used.
+     *
+     * It MUST NOT be called from the main thread.
+     */
+    public static void waitForInitialization() {
+        synchronized (sInstance.mInitializationLock) {
+            while (!sInstance.mAvailableInitialized || !sInstance.mCloudInitialized) {
+                try {
+                    sInstance.mInitializationLock.wait();
+                } catch (InterruptedException ignored) {
+                    // ignored
+                }
+            }
+        }
+    }
+
     public static void addListener(UpdateListener l) {
         sInstance.addListenerInternal(l);
     }
@@ -107,7 +141,7 @@ final public class ConnectionFactory extends BroadcastReceiver implements
     private void addListenerInternal(UpdateListener l) {
         if (mListeners.add(l)) {
             if (mNeedsUpdate) {
-                mUpdateHandler.sendEmptyMessage(MSG_TRIGGER_UPDATE);
+                triggerConnectionUpdateIfNeeded();
                 mNeedsUpdate = false;
             } else if (mLocalConnection != null && mListeners.size() == 1) {
                 // When coming back from background, re-do connectivity check for
@@ -118,7 +152,7 @@ final public class ConnectionFactory extends BroadcastReceiver implements
                 boolean local = mAvailableConnection == mLocalConnection
                         || (nuie != null && nuie.wouldHaveUsedLocalConnection());
                 if (local) {
-                    mUpdateHandler.sendEmptyMessage(MSG_TRIGGER_UPDATE);
+                    triggerConnectionUpdateIfNeeded();
                 }
             }
         }
@@ -136,7 +170,7 @@ final public class ConnectionFactory extends BroadcastReceiver implements
     }
 
     public static void restartNetworkCheck() {
-        sInstance.mUpdateHandler.sendEmptyMessage(MSG_TRIGGER_UPDATE);
+        sInstance.triggerConnectionUpdateIfNeeded();
     }
 
     /**
@@ -178,10 +212,7 @@ final public class ConnectionFactory extends BroadcastReceiver implements
             case Connection.TYPE_REMOTE:
                 return mRemoteConnection;
             case Connection.TYPE_CLOUD:
-                // TODO: Need a proper way of finding if the connection supports openHAB cloud
-                // things, e.g. by checking if the /api/v1/settings/notifications endpoint works,
-                // but currently does not work for myopenhab.org
-                return mRemoteConnection;
+                return mCloudConnection;
             default:
                 throw new IllegalArgumentException("Invalid Connection type requested.");
         }
@@ -189,6 +220,10 @@ final public class ConnectionFactory extends BroadcastReceiver implements
 
     @Override
     public void onReceive(Context context, Intent intent) {
+        if (mIgnoreNextConnectivityChange) {
+            mIgnoreNextConnectivityChange = false;
+            return;
+        }
         if (mListeners.isEmpty()) {
             // We're running in background. Clear current state and postpone update for next
             // listener registration.
@@ -196,49 +231,54 @@ final public class ConnectionFactory extends BroadcastReceiver implements
             mConnectionFailureReason = null;
             mNeedsUpdate = true;
         } else {
-            mUpdateHandler.sendEmptyMessage(MSG_TRIGGER_UPDATE);
+            triggerConnectionUpdateIfNeeded();
         }
     }
 
     @Override
     public boolean handleMessage(Message msg) {
         switch (msg.what) {
-            case MSG_TRIGGER_UPDATE: // update thread
-                Message result = mMainHandler.obtainMessage(MSG_UPDATE_DONE);
-                Connection local, remote;
-                synchronized (this) {
-                    local = mLocalConnection;
-                    remote = mRemoteConnection;
-                }
+            case MSG_UPDATE_AVAILABLE: { // update thread
+                Pair<Connection, Connection> connections = (Pair<Connection, Connection>) msg.obj;
+                Message result = mMainHandler.obtainMessage(MSG_AVAILABLE_DONE);
                 try {
-                    result.obj = determineAvailableConnection(ctx, local, remote);
+                    result.obj = determineAvailableConnection(ctx,
+                            connections.first, connections.second);
                 } catch (ConnectionException e) {
                     result.obj = e;
                 }
-                mMainHandler.sendMessage(result);
+                result.sendToTarget();
                 return true;
-            case MSG_UPDATE_DONE: // main thread
-                if (msg.obj instanceof ConnectionException) {
-                    updateAvailableConnection(null, (ConnectionException) msg.obj);
-                } else {
-                    // Check whether the passed connection matches a known one. If not, the
-                    // connections were updated while the thread was processing and we'll get
-                    // a new callback.
-                    if (msg.obj == mLocalConnection || msg.obj == mRemoteConnection) {
-                        updateAvailableConnection((Connection) msg.obj, null);
-                    }
-                }
+            }
+            case MSG_UPDATE_CLOUD: { // update thread
+                AbstractConnection remote = (AbstractConnection) msg.obj;
+                CloudConnection cloudConnection = remote != null
+                        ? CloudConnection.fromConnection(remote) : null;
+                mMainHandler.obtainMessage(MSG_CLOUD_DONE, cloudConnection).sendToTarget();
                 return true;
+            }
+            case MSG_AVAILABLE_DONE: { // main thread
+                Connection available = msg.obj instanceof Connection
+                        ? (Connection) msg.obj : null;
+                ConnectionException failureReason = msg.obj instanceof ConnectionException
+                        ? (ConnectionException) msg.obj : null;
+                handleAvailableCheckDone(available, failureReason);
+                return true;
+            }
+            case MSG_CLOUD_DONE: { // main thread
+                handleCloudCheckDone((CloudConnection) msg.obj);
+                return true;
+            }
         }
         return false;
     }
 
-    private void updateAvailableConnection(Connection c, ConnectionException failureReason) {
+    private boolean updateAvailableConnection(Connection c, ConnectionException failureReason) {
         if (failureReason != null) {
             mConnectionFailureReason = failureReason;
             mAvailableConnection = null;
         } else if (c == mAvailableConnection) {
-            return;
+            return false;
         } else {
             mConnectionFailureReason = null;
             mAvailableConnection = c;
@@ -247,9 +287,7 @@ final public class ConnectionFactory extends BroadcastReceiver implements
         if (imageCache != null) {
             imageCache.clear();
         }
-        for (UpdateListener l : mListeners) {
-            l.onConnectionChanged();
-        }
+        return true;
     }
 
     // called in update thread
@@ -295,21 +333,78 @@ final public class ConnectionFactory extends BroadcastReceiver implements
     }
 
     @VisibleForTesting
-    public synchronized void updateConnections() {
+    public void updateConnections() {
         if (settings.getBoolean(Constants.PREFERENCE_DEMOMODE, false)) {
-            mAvailableConnection = new DemoConnection(ctx, settings);
-            mLocalConnection = mRemoteConnection = mAvailableConnection;
+            mLocalConnection = mRemoteConnection = new DemoConnection(ctx, settings);
+            handleAvailableCheckDone(mLocalConnection, null);
+            handleCloudCheckDone(null);
+        } else {
+            mLocalConnection = makeConnection(Connection.TYPE_LOCAL, Constants.PREFERENCE_LOCAL_URL,
+                    Constants.PREFERENCE_LOCAL_USERNAME, Constants.PREFERENCE_LOCAL_PASSWORD);
+            mRemoteConnection = makeConnection(Connection.TYPE_REMOTE, Constants.PREFERENCE_REMOTE_URL,
+                    Constants.PREFERENCE_REMOTE_USERNAME, Constants.PREFERENCE_REMOTE_PASSWORD);
+
+            synchronized (mInitializationLock) {
+                mAvailableInitialized = false;
+                mCloudInitialized = false;
+            }
+            mAvailableConnection = null;
+            mCloudConnection = null;
             mConnectionFailureReason = null;
-            return;
+            triggerConnectionUpdateIfNeeded();
         }
-        mLocalConnection = makeConnection(Connection.TYPE_LOCAL, Constants.PREFERENCE_LOCAL_URL,
-                Constants.PREFERENCE_LOCAL_USERNAME, Constants.PREFERENCE_LOCAL_PASSWORD);
-        mRemoteConnection = makeConnection(Connection.TYPE_REMOTE, Constants.PREFERENCE_REMOTE_URL,
-                Constants.PREFERENCE_REMOTE_USERNAME, Constants.PREFERENCE_REMOTE_PASSWORD);
-        mUpdateHandler.sendEmptyMessage(MSG_TRIGGER_UPDATE);
     }
 
-    private Connection makeConnection(int type, String urlKey,
+    private void handleAvailableCheckDone(Connection available, ConnectionException failureReason) {
+        // Check whether the passed connection matches a known one. If not, the
+        // connections were updated while the thread was processing and we'll get
+        // a new callback.
+        if (failureReason != null
+                || available == mLocalConnection
+                || available == mRemoteConnection) {
+            if (updateAvailableConnection(available, failureReason)) {
+                for (UpdateListener l : mListeners) {
+                    l.onAvailableConnectionChanged();
+                }
+            }
+            synchronized (mInitializationLock) {
+                mAvailableInitialized = true;
+                mInitializationLock.notifyAll();
+            }
+        }
+    }
+
+    private void handleCloudCheckDone(CloudConnection connection) {
+        if (connection != mCloudConnection) {
+            mCloudConnection = connection;
+            CloudMessagingHelper.onConnectionUpdated(ctx, connection);
+            for (UpdateListener l : mListeners) {
+                l.onCloudConnectionChanged(connection);
+            }
+        }
+        synchronized (mInitializationLock) {
+            mCloudInitialized = true;
+            mInitializationLock.notifyAll();
+        }
+    }
+
+    private void triggerConnectionUpdateIfNeeded() {
+        mUpdateHandler.removeMessages(MSG_UPDATE_AVAILABLE);
+        mUpdateHandler.removeMessages(MSG_UPDATE_CLOUD);
+
+        if (mLocalConnection instanceof DemoConnection) {
+            return;
+        }
+        Pair<Connection, Connection> connections = Pair.create(mLocalConnection, mRemoteConnection);
+        mUpdateHandler.obtainMessage(MSG_UPDATE_AVAILABLE, connections).sendToTarget();
+        if (mRemoteConnection != null) {
+            mUpdateHandler.obtainMessage(MSG_UPDATE_CLOUD, mRemoteConnection).sendToTarget();
+        } else {
+            mMainHandler.obtainMessage(MSG_CLOUD_DONE, null).sendToTarget();
+        }
+    }
+
+    private AbstractConnection makeConnection(int type, String urlKey,
             String userNameKey, String passwordKey) {
         String url = Util.normalizeUrl(settings.getString(urlKey, ""));
         if (url.isEmpty()) {

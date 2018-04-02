@@ -1,0 +1,44 @@
+# Customize this file, documentation can be found here:
+# https://docs.fastlane.tools/actions/
+# All available actions: https://docs.fastlane.tools/actions
+# can also be listed using the `fastlane actions` command
+
+# Change the syntax highlighting to Ruby
+# All lines starting with a # are ignored when running `fastlane`
+
+# If you want to automatically update fastlane if a new version is available:
+# update_fastlane
+
+# This is the minimum version number required.
+# Update this, if you use features of a newer version
+fastlane_version "2.69.3"
+
+# Opt out of sending metrics and crash reports
+opt_out_usage
+opt_out_crash_reporting
+
+default_platform :android
+
+platform :android do
+  desc "Deploy a new version to the Google Play"
+  lane :deploy do
+    upload_to_play_store(
+      track: 'production',
+      apk: "$HOME/apks_to_deploy/openhab-android.apk"
+    )
+  end
+
+  desc "Deploy a new beta version to the Google Play"
+  lane :betaDeploy do
+    upload_to_play_store(
+      track: 'beta',
+      apk: "$HOME/apks_to_deploy/openhab-android.apk"
+    )
+  end
+end
+
+# More information about multiple platforms in fastlane: https://docs.fastlane.tools/advanced/#control-configuration-by-lane-and-by-platform
+# All available actions: https://docs.fastlane.tools/actions
+
+# fastlane reports which actions are used. No personal data is recorded.
+# Learn more at https://docs.fastlane.tools/#metrics

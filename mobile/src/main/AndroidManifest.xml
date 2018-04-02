@@ -1,22 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.openhab.habdroid"
-    android:versionCode="27"
-    android:versionName="2.0.0" >
+    android:versionCode="45"
+    android:versionName="2.0.44-beta" >
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_MULTICAST_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.NFC" />
-    <!-- Keeps the processor from sleeping when a message is received. -->
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
-
-    <permission
-        android:name="org.openhab.habdroid.gcm.permission.C2D_MESSAGE"
-        android:protectionLevel="signature" />
-
-    <uses-permission android:name="org.openhab.habdroid.gcm.permission.C2D_MESSAGE" />
 
     <uses-feature
         android:name="android.hardware.location.gps"
@@ -88,22 +80,6 @@
             android:name=".core.OpenHABVoiceService"
             android:exported="false" />
 
-        <receiver
-            android:name="org.openhab.habdroid.core.GcmBroadcastReceiver"
-            android:permission="com.google.android.c2dm.permission.SEND">
-            <intent-filter>
-                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
-                <category android:name="org.openhab.habdroid" />
-            </intent-filter>
-        </receiver>
-        <receiver android:name=".core.NotificationDeletedBroadcastReceiver">
-            <intent-filter>
-                <action android:name="org.openhab.habdroid.notification.deleted" />
-                <category android:name="org.openhab.habdroid" />
-            </intent-filter>
-        </receiver>
-
-        <service android:name="org.openhab.habdroid.core.GcmIntentService" />
         <receiver
             android:name=".ui.VoiceWidget"
             android:label="@string/title_voice_widget">

@@ -21,6 +21,7 @@
         <attr name="widgetlistItemDivider" format="reference" />
         <attr name="frameWidgetDividerBackground" format="reference" />
         <attr name="chartTheme" format="string" />
+        <attr name="valueColors" format="reference" />
     </declare-styleable>
 
     <attr name="themedDrawerBackground" format="reference|color" />

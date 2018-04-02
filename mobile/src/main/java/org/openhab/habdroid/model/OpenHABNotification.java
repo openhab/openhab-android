@@ -14,70 +14,54 @@
 
 package org.openhab.habdroid.model;
 
-import android.util.Log;
+import android.support.annotation.Nullable;
+
+import com.google.auto.value.AutoValue;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.TimeZone;
 
-public class OpenHABNotification {
-    private final static String TAG = OpenHABNotification.class.getSimpleName();
-    private String mMessage;
-    private Date mCreated;
-    private String mIcon;
-    private String mSeverity;
-    public OpenHABNotification(JSONObject jsonObject) {
-        try {
-            if (jsonObject.has("icon"))
-                this.setIcon(jsonObject.getString("icon"));
-            if (jsonObject.has("severity"))
-                this.setSeverity(jsonObject.getString("severity"));
-            if (jsonObject.has("message"))
-                this.setMessage(jsonObject.getString("message"));
-            if (jsonObject.has("created")) {
-                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.S'Z'");
-                format.setTimeZone(TimeZone.getTimeZone("UTC"));
-                this.setCreated(format.parse(jsonObject.getString("created")));
+@AutoValue
+public abstract class OpenHABNotification {
+    public abstract String message();
+    public abstract long createdTimestamp();
+    @Nullable
+    public abstract String icon();
+    @Nullable
+    public abstract String severity();
+
+    @AutoValue.Builder
+    abstract static class Builder {
+        abstract Builder message(String message);
+        abstract Builder createdTimestamp(long created);
+        abstract Builder icon(@Nullable String icon);
+        abstract Builder severity(@Nullable String severity);
+
+        abstract OpenHABNotification build();
+    }
+
+    public static OpenHABNotification fromJson(JSONObject jsonObject) throws JSONException {
+        long created = 0;
+        if (jsonObject.has("created")) {
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.S'Z'");
+            format.setTimeZone(TimeZone.getTimeZone("UTC"));
+            try {
+                created = format.parse(jsonObject.getString("created")).getTime();
+            } catch (ParseException e) {
+                // keep created at 0
             }
-        } catch (JSONException | ParseException e) {
-            Log.d(TAG, "Error while parsing openHAB notification", e);
         }
-    }
 
-    public String getMessage() {
-        return mMessage;
-    }
-
-    public void setMessage(String message) {
-        this.mMessage = message;
-    }
-
-    public Date getCreated() {
-        return mCreated;
-    }
-
-    public void setCreated(Date created) {
-        this.mCreated = created;
-    }
-
-    public String getIcon() {
-        return mIcon;
-    }
-
-    public void setIcon(String icon) {
-        this.mIcon = icon;
-    }
-
-    public String getSeverity() {
-        return mSeverity;
-    }
-
-    public void setSeverity(String severity) {
-        this.mSeverity = severity;
+        return new AutoValue_OpenHABNotification.Builder()
+                .icon(jsonObject.optString("icon", null))
+                .severity(jsonObject.optString("severity", null))
+                .message(jsonObject.getString("message"))
+                .createdTimestamp(created)
+                .build();
     }
 }
 

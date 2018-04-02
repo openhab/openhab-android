@@ -25,6 +25,7 @@ public abstract class TestWithoutIntro extends ProgressbarAwareTest {
         edit.putBoolean(Constants.PREFERENCE_FIRST_START, false).commit();
 
         super.setup();
+        setupRegisterIdlingResources();
     }
 
     protected boolean preselectSitemap() {

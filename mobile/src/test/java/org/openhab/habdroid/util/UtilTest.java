@@ -50,14 +50,14 @@ public class UtilTest {
         assertFalse(sitemapList.isEmpty());
 
         // Should be sorted
-        assertEquals("Garden", sitemapList.get(0).getLabel());
-        assertEquals("Heating", sitemapList.get(1).getLabel());
-        assertEquals("Heatpump", sitemapList.get(2).getLabel());
-        assertEquals("Lighting", sitemapList.get(3).getLabel());
-        assertEquals("Scenes", sitemapList.get(4).getLabel());
-        assertEquals("Schedule", sitemapList.get(5).getLabel());
-        assertEquals("i AM DEfault", sitemapList.get(6).getLabel());
-        assertEquals("outside", sitemapList.get(7).getLabel());
+        assertEquals("Garden", sitemapList.get(0).label());
+        assertEquals("Heating", sitemapList.get(1).label());
+        assertEquals("Heatpump", sitemapList.get(2).label());
+        assertEquals("Lighting", sitemapList.get(3).label());
+        assertEquals("Scenes", sitemapList.get(4).label());
+        assertEquals("Schedule", sitemapList.get(5).label());
+        assertEquals("i AM DEfault", sitemapList.get(6).label());
+        assertEquals("outside", sitemapList.get(7).label());
 
         assertEquals(8, sitemapList.size());
     }
@@ -67,7 +67,7 @@ public class UtilTest {
         List<OpenHABSitemap> sitemapList = Util.parseSitemapList(createJsonArray(1));
         assertFalse(sitemapList.isEmpty());
 
-        assertEquals("Main Menu", sitemapList.get(0).getLabel());
+        assertEquals("Main Menu", sitemapList.get(0).label());
         assertEquals(1, sitemapList.size());
     }
 
@@ -76,8 +76,8 @@ public class UtilTest {
         List<OpenHABSitemap> sitemapList  = Util.parseSitemapList(createJsonArray(2));
         assertFalse(sitemapList.isEmpty());
 
-        assertEquals("Main Menu", sitemapList.get(0).getLabel());
-        assertEquals("HOME", sitemapList.get(1).getLabel());
+        assertEquals("Main Menu", sitemapList.get(0).label());
+        assertEquals("HOME", sitemapList.get(1).label());
         assertEquals(2, sitemapList.size());
     }
 
@@ -86,7 +86,7 @@ public class UtilTest {
         List<OpenHABSitemap> sitemapList = Util.parseSitemapList(createJsonArray(3));
         assertFalse(sitemapList.isEmpty());
 
-        assertEquals("Home", sitemapList.get(0).getLabel());
+        assertEquals("Home", sitemapList.get(0).label());
         assertEquals(1, sitemapList.size());
     }
 
@@ -122,8 +122,8 @@ public class UtilTest {
 
     @Test
     public void getSitemapByName() throws Exception {
-        assertEquals("i AM DEfault", Util.getSitemapByName(sitemapList(), "default").getLabel());
-        assertEquals("outside", Util.getSitemapByName(sitemapList(), "outside").getLabel());
+        assertEquals("i AM DEfault", Util.getSitemapByName(sitemapList(), "default").label());
+        assertEquals("outside", Util.getSitemapByName(sitemapList(), "outside").label());
     }
 
     /**

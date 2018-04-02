@@ -19,7 +19,4 @@ public abstract class TestWithIntro extends ProgressbarAwareTest {
 
         super.setup();
     }
-
-    @Override
-    protected void setupRegisterIdlingResources() {}
 }

@@ -1,4 +1,3 @@
 <resources>
-    <item name="activity_main" type="layout">@layout/activity_main_onepane</item>
-    <integer name="pager_columns">1</integer>
+    <string name="controller_class" translatable="false">org.openhab.habdroid.ui.activity.ContentControllerOnePane</string>
 </resources>

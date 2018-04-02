@@ -45,6 +45,10 @@ import java.security.cert.X509Certificate;
  */
 public class OpenHABPreferencesActivity extends AppCompatActivity {
     private final static String TAG = OpenHABPreferencesActivity.class.getSimpleName();
+    public static final String RESULT_EXTRA_THEME_CHANGED = "theme_changed";
+    private static final String STATE_KEY_RESULT = "result";
+
+    private Intent mResultIntent;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -58,13 +62,21 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         if (savedInstanceState == null) {
+            mResultIntent = new Intent();
             getFragmentManager()
                     .beginTransaction()
                     .add(R.id.prefs_container, new MainSettingsFragment())
                     .commit();
+        } else {
+            mResultIntent = savedInstanceState.getParcelable(STATE_KEY_RESULT);
         }
+        setResult(RESULT_OK, mResultIntent);
+    }
 
-        setResult(RESULT_OK);
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable(STATE_KEY_RESULT, mResultIntent);
     }
 
     @Override
@@ -86,6 +98,11 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
     public void finish() {
         super.finish();
         Util.overridePendingTransition(this, true);
+    }
+
+    public void handleThemeChange() {
+        mResultIntent.putExtra(RESULT_EXTRA_THEME_CHANGED, true);
+        recreate();
     }
 
     public void openSubScreen(AbstractSettingsFragment subScreenFragment) {
@@ -214,8 +231,7 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
             themePreference.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object newValue) {
-                    Util.setActivityTheme(getActivity(), (String) newValue);
-                    getActivity().recreate();
+                    getParentActivity().handleThemeChange();
                     return true;
                 }
             });
@@ -307,24 +323,11 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
             sslClientCert.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
-                    sslClientCert.getSharedPreferences().edit().putString(sslClientCert.getKey(), null).apply();
-
-                    if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.M) {
-                        KeyChain.choosePrivateKeyAlias(getActivity(),
-                                keyChainAliasCallback,
-                                new String[]{"RSA", "DSA"},
-                                null,
-                                getPreferenceString(Constants.PREFERENCE_REMOTE_URL, null),
-                                -1, null);
-                    } else {
-                        KeyChain.choosePrivateKeyAlias(getActivity(),
-                                keyChainAliasCallback,
-                                new String[]{KeyProperties.KEY_ALGORITHM_RSA, KeyProperties.KEY_ALGORITHM_EC},
-                                null,
-                                Uri.parse(getPreferenceString(Constants.PREFERENCE_REMOTE_URL, null)),
-                                null);
-                    }
-
+                    final String[] keyTypes = Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
+                            ? new String[] { KeyProperties.KEY_ALGORITHM_RSA, KeyProperties.KEY_ALGORITHM_EC }
+                            : new String[] { "RSA", "DSA"};
+                    KeyChain.choosePrivateKeyAlias(getActivity(), keyChainAliasCallback,
+                            keyTypes, null, null, -1, null);
                     return true;
                 }
             });

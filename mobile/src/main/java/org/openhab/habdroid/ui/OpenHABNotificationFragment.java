@@ -9,7 +9,6 @@
 
 package org.openhab.habdroid.ui;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -26,7 +25,6 @@ import org.json.JSONObject;
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.core.connection.Connection;
 import org.openhab.habdroid.core.connection.ConnectionFactory;
-import org.openhab.habdroid.core.connection.exception.ConnectionException;
 import org.openhab.habdroid.model.OpenHABNotification;
 import org.openhab.habdroid.ui.widget.DividerItemDecoration;
 import org.openhab.habdroid.util.MyHttpClient;
@@ -83,13 +81,6 @@ public class OpenHABNotificationFragment extends Fragment implements SwipeRefres
         mSwipeLayout.setOnRefreshListener(this);
         mRecyclerView = view.findViewById(android.R.id.list);
         return view;
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-
-        getActivity().setTitle(R.string.app_notifications);
     }
 
     @Override
@@ -156,31 +147,32 @@ public class OpenHABNotificationFragment extends Fragment implements SwipeRefres
     private void loadNotifications() {
         Connection conn = ConnectionFactory.getConnection(Connection.TYPE_CLOUD);if (conn == null) {
             return;
-        }startProgressIndicator();
-            mRequestHandle = conn.getAsyncHttpClient().get( "/api/v1/notifications?limit=20", new MyHttpClient.ResponseHandler() {
-                @Override
-                public void onSuccess(Call call, int statusCode, Headers headers, byte[] responseBody) {
-                    stopProgressIndicator();
-                    Log.d(TAG, "Notifications request success");
-                    try {
-                        String jsonString = new String(responseBody, "UTF-8");
-                        JSONArray jsonArray = new JSONArray(jsonString);
-                        Log.d(TAG, jsonArray.toString());
-                        mNotifications.clear();
-                        for (int i = 0; i < jsonArray.length(); i++) {
-                            try {
-                                JSONObject sitemapJson = jsonArray.getJSONObject(i);
-                                OpenHABNotification notification = new OpenHABNotification(sitemapJson);
-                                mNotifications.add(notification);
-                            } catch (JSONException e) {
-                                Log.d(TAG,e.getMessage(), e);
-                            }
+        }
+        startProgressIndicator();
+        mRequestHandle = conn.getAsyncHttpClient().get("/api/v1/notifications?limit=20",
+                new MyHttpClient.ResponseHandler() {
+            @Override
+            public void onSuccess(Call call, int statusCode, Headers headers, byte[] responseBody) {
+                stopProgressIndicator();
+                Log.d(TAG, "Notifications request success");
+                try {
+                    String jsonString = new String(responseBody, "UTF-8");
+                    JSONArray jsonArray = new JSONArray(jsonString);
+                    Log.d(TAG, jsonArray.toString());
+                    mNotifications.clear();
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        try {
+                            JSONObject sitemapJson = jsonArray.getJSONObject(i);
+                            mNotifications.add(OpenHABNotification.fromJson(sitemapJson));
+                        } catch (JSONException e) {
+                            e.printStackTrace();
                         }
-                        mNotificationAdapter.notifyDataSetChanged();
-                    } catch (UnsupportedEncodingException |JSONException e) {
-                        Log.d(TAG,e.getMessage(), e);
-}
+                    }
+                    mNotificationAdapter.notifyDataSetChanged();
+                } catch(UnsupportedEncodingException | JSONException e){
+                    Log.d(TAG, e.getMessage(), e);
                 }
+            }
 
             @Override
             public void onFailure(Call call, int statusCode, Headers headers, byte[] responseBody, Throwable error) {

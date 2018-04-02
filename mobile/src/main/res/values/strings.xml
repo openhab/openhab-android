@@ -4,7 +4,6 @@
     <!-- See: https://github.com/openhab/openhab-android/blob/master/README.md#localization -->
 
     <!-- General app strings -->
-    <string name="app_name" translatable="false">openHAB</string>
     <string name="openhab_service_type" translatable="false">_openhab-server._tcp.local.</string>
     <string name="main_menu">Main menu</string>
     <string name="app_preferences_name">Settings</string>
@@ -108,9 +107,7 @@
     <string name="info_openhab_apiversion_label">openHAB Rest API version</string>
     <string name="info_openhab_uuid_label">openHAB UUID</string>
     <string name="info_openhab_secret_label">openHAB Secret</string>
-    <string name="info_openhab_gcm_label">Google Cloud Messaging Status</string>
-    <string name="info_openhab_gcm_not_connected">Device registration failed</string>
-    <string name="info_openhab_gcm_connected">Registered device with Sender ID %s</string>
+    <string name="info_openhab_push_notification_label">Push notification status</string>
     <string name="action_settings">Settings</string>
     <string name="nfc_dialog_title">Write NFC tag action for this element</string>
     <string name="info_not_set">Not set</string>
@@ -174,6 +171,7 @@
     <string name="error_network_type_unsupported">Network type (%s) is unsupported</string>
     <string name="set">Set</string>
     <string name="cancel">Cancel</string>
+    <string name="close">Close</string>
     <string name="app_intro">Intro</string>
     <string name="intro_welcome">Welcome to openHAB</string>
     <string name="intro_whatis">A vendor and technology agnostic open source automation software for your home</string>
@@ -182,8 +180,9 @@
     <string name="try_again_button">Try again</string>
     <string name="network_error">Network error</string>
     <string name="go_to_settings_button">Go to settings</string>
+    <string name="configuration_missing">Your openHAB server could not be discovered automatically. Please configure its IP address or host name in the server settings.</string>
+    <string name="resolving_openhab">Trying to discover openHAB server instance\u2026</string>
 
-    <string name="error_no_url_start_demo_mode">Please configure the server IP address or host name in the server settings. For now, demo mode will be used.</string>
     <string name="intro_discovery">Discovery</string>
     <string name="intro_discovery_summary">Please note this will work only if authentication is not enforced by the server</string>
 
