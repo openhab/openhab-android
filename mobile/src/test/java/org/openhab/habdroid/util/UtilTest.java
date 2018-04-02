@@ -53,24 +53,24 @@ public class UtilTest {
         assertEquals("Garden", sitemapList.get(0).label());
         assertEquals("Heating", sitemapList.get(1).label());
         assertEquals("Heatpump", sitemapList.get(2).label());
-        assertEquals("Lighting", sitemapList.get(3).label());
-        assertEquals("Scenes", sitemapList.get(4).label());
-        assertEquals("Schedule", sitemapList.get(5).label());
-        assertEquals("i AM DEfault", sitemapList.get(6).label());
-        assertEquals("outside", sitemapList.get(7).label());
+        assertEquals("i AM DEfault", sitemapList.get(3).label());
+        assertEquals("Lighting", sitemapList.get(4).label());
+        assertEquals("outside", sitemapList.get(5).label());
+        assertEquals("Scenes", sitemapList.get(6).label());
+        assertEquals("Schedule", sitemapList.get(7).label());
 
         assertEquals(8, sitemapList.size());
 
-        sitemapList = Util.parseSitemapList(getSitemapOH1Document(), "Schedule");
+        sitemapList = Util.parseSitemapList(getSitemapOH1Document(), "schedule");
         // Should be sorted, but "Schedule" should be the first one
         assertEquals("Schedule", sitemapList.get(0).label());
         assertEquals("Garden", sitemapList.get(1).label());
         assertEquals("Heating", sitemapList.get(2).label());
         assertEquals("Heatpump", sitemapList.get(3).label());
-        assertEquals("Lighting", sitemapList.get(4).label());
-        assertEquals("Scenes", sitemapList.get(5).label());
-        assertEquals("i AM DEfault", sitemapList.get(6).label());
-        assertEquals("outside", sitemapList.get(7).label());
+        assertEquals("i AM DEfault", sitemapList.get(4).label());
+        assertEquals("Lighting", sitemapList.get(5).label());
+        assertEquals("outside", sitemapList.get(6).label());
+        assertEquals("Scenes", sitemapList.get(7).label());
     }
 
     @Test

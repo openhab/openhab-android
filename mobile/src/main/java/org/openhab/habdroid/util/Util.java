@@ -80,7 +80,7 @@ public class Util {
         return uri.getHost();
     }
 
-    public static List<OpenHABSitemap> parseSitemapList(Document document, String defaultSitemapLabel) {
+    public static List<OpenHABSitemap> parseSitemapList(Document document, String defaultSitemapName) {
         List<OpenHABSitemap> sitemapList = new ArrayList<OpenHABSitemap>();
         NodeList sitemapNodes = document.getElementsByTagName("sitemap");
         if (sitemapNodes.getLength() > 0) {
@@ -88,10 +88,10 @@ public class Util {
                 sitemapList.add(OpenHABSitemap.fromXml(sitemapNodes.item(i)));
             }
         }
-        return sortSitemapList(sitemapList, defaultSitemapLabel);
+        return sortSitemapList(sitemapList, defaultSitemapName);
     }
 
-    public static List<OpenHABSitemap> parseSitemapList(JSONArray jsonArray, String defaultSitemapLabel) {
+    public static List<OpenHABSitemap> parseSitemapList(JSONArray jsonArray, String defaultSitemapName) {
         List<OpenHABSitemap> sitemapList = new ArrayList<OpenHABSitemap>();
         for (int i = 0; i < jsonArray.length(); i++) {
             try {
@@ -104,21 +104,21 @@ public class Util {
                 Log.d(TAG, "Error while parsing sitemap", e);
             }
         }
-        return sortSitemapList(sitemapList, defaultSitemapLabel);
+        return sortSitemapList(sitemapList, defaultSitemapName);
     }
 
-    private static List<OpenHABSitemap> sortSitemapList(List<OpenHABSitemap> sitemapList, String defaultSitemapLabel) {
+    private static List<OpenHABSitemap> sortSitemapList(List<OpenHABSitemap> sitemapList, String defaultSitemapName) {
         // Sort by sitename label, the default sitemap should be the first one
         Collections.sort(sitemapList, new Comparator<OpenHABSitemap>() {
             @Override
             public int compare(OpenHABSitemap sitemap1, OpenHABSitemap sitemap2) {
-                if (sitemap1.label().equals(defaultSitemapLabel)) {
+                if (sitemap1.name().equals(defaultSitemapName)) {
                     return -1;
                 }
-                if (sitemap2.label().equals(defaultSitemapLabel)) {
+                if (sitemap2.name().equals(defaultSitemapName)) {
                     return 1;
                 }
-                return sitemap1.label().compareTo(sitemap2.label());
+                return sitemap1.label().compareToIgnoreCase(sitemap2.label());
             }
         });
 
