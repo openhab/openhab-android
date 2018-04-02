@@ -13,6 +13,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Handler;
 import android.os.Message;
+import android.os.SystemClock;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -23,28 +24,24 @@ import com.loopj.android.image.SmartImageTask;
 import com.loopj.android.image.SmartImage;
 
 import java.lang.ref.WeakReference;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class MySmartImageView extends SmartImageView {
-
     public static final String TAG = MySmartImageView.class.getSimpleName();
 
     // Handler classes should be static or leaks might occur.
     private static class RefreshHandler extends Handler {
-
-        private final WeakReference<MySmartImageView> viewWeakReference;
+        private final WeakReference<MySmartImageView> mViewRef;
 
         RefreshHandler(MySmartImageView smartImageView) {
-            viewWeakReference = new WeakReference<>(smartImageView);
+            mViewRef = new WeakReference<>(smartImageView);
         }
 
+        @Override
         public void handleMessage(Message msg) {
-            MySmartImageView imageView = viewWeakReference.get();
-            if (imageView != null && !imageView.refreshDisabled && imageView.myImageUrl != null) {
+            MySmartImageView imageView = mViewRef.get();
+            if (imageView != null && imageView.myImageUrl != null) {
                 Log.i(TAG, "Refreshing image at " + imageView.myImageUrl);
-                imageView.refreshDisabled = true;
-                imageView.setImage(new MyWebImage(imageView.myImageUrl, false, imageView.username, imageView.password), imageView.imageCompletionListener);
+                imageView.doRefresh();
             }
         }
     }
@@ -56,10 +53,11 @@ public class MySmartImageView extends SmartImageView {
             viewWeakReference = new WeakReference<>(smartImageView);
         }
 
-        public void onComplete(){
+        public void onComplete() {
             MySmartImageView imageView = viewWeakReference.get();
-            if (imageView != null) {
-                imageView.refreshDisabled = false;
+            if (imageView != null && imageView.mRefreshInterval != 0) {
+                imageView.mRefreshHandler.sendEmptyMessageAtTime(0,
+                        imageView.mLastRefreshTimestamp + imageView.mRefreshInterval);
             }
         }
     }
@@ -69,23 +67,19 @@ public class MySmartImageView extends SmartImageView {
     private String password;
     private int maxWidth;
     private int maxHeight;
-    private boolean refreshDisabled;
 
-    private Timer imageRefreshTimer;
+    private long mRefreshInterval;
+    private long mLastRefreshTimestamp;
+    private Handler mRefreshHandler;
+
     private OnCompleteListener imageCompletionListener;
 
     public MySmartImageView(Context context) {
-        super(context);
-        this.maxWidth = -1;
-        this.maxHeight = -1;
-        this.imageCompletionListener = new OnCompleteListener(this);
+        this(context, null);
     }
 
     public MySmartImageView(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        this.maxWidth = -1;
-        this.maxHeight = -1;
-        this.imageCompletionListener = new OnCompleteListener(this);
+        this(context, attrs, 0);
     }
 
     public MySmartImageView(Context context, AttributeSet attrs, int defStyle) {
@@ -93,6 +87,7 @@ public class MySmartImageView extends SmartImageView {
         this.maxWidth = -1;
         this.maxHeight = -1;
         this.imageCompletionListener = new OnCompleteListener(this);
+        mRefreshHandler = new RefreshHandler(this);
     }
 
     public void setImageUrl(String url, String username, String password) {
@@ -128,13 +123,13 @@ public class MySmartImageView extends SmartImageView {
         this.myImageUrl = url;
         this.username = username;
         this.password = password;
-        this.refreshDisabled = true;
 
         MyWebImage image = new MyWebImage(url, useImageCache, username, password);
         Bitmap cachedBitmap = image.getCachedBitmap();
         if (cachedBitmap != null) {
             setImageBitmap(cachedBitmap);
         } else {
+            mRefreshHandler.removeMessages(0);
             setImage(image, fallbackResource, loadingResource, imageCompletionListener);
         }
     }
@@ -143,7 +138,7 @@ public class MySmartImageView extends SmartImageView {
         this.myImageUrl = null;
         this.username = null;
         this.password = null;
-        this.refreshDisabled = true;
+        mRefreshHandler.removeMessages(0);
         setImage(image, imageCompletionListener);
     }
 
@@ -156,24 +151,14 @@ public class MySmartImageView extends SmartImageView {
         Log.i(TAG, "Setting image refresh rate to " + msec + " msec for " + myImageUrl);
 
         cancelRefresh();
-
-        this.imageRefreshTimer = new Timer();
-        final Handler timerHandler = new RefreshHandler(this);
-
-        imageRefreshTimer.scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                timerHandler.sendEmptyMessage(0);
-            }
-        }, msec, msec);
+        mRefreshInterval = msec;
+        mRefreshHandler.sendEmptyMessageDelayed(0, msec);
     }
 
     public void cancelRefresh() {
         Log.i(TAG, "Cancel image Refresh for " + myImageUrl);
-        if (this.imageRefreshTimer != null) {
-            this.imageRefreshTimer.cancel();
-            this.refreshDisabled = false;
-        }
+        mRefreshHandler.removeMessages(0);
+        mRefreshInterval = 0;
     }
 
     @Override
@@ -187,5 +172,10 @@ public class MySmartImageView extends SmartImageView {
             }
         }
         super.setImageBitmap(bm);
+    }
+
+    private void doRefresh() {
+        mLastRefreshTimestamp = SystemClock.uptimeMillis();
+        setImage(new MyWebImage(myImageUrl, false, username, password), imageCompletionListener);
     }
 }
