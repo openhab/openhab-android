@@ -27,7 +27,6 @@ foundation='openHAB Foundation e.V.'
 about_foundation='Die openHAB Foundation e.V. ist eine gemeinnützige Organisation mit dem Ziel die Öffentlichkeit über die Möglichkeiten und Vorteile von freien und offenen Smart-Home-Lösungen zu informieren. Erfahren Sie mehr über die Ziele und Angebote der Foundation unter https://www.openhabfoundation.org'
 
 important_note='Wichtiger Hinweis'
-oh_server='Um diese App zu nutzen, benötigen Sie einen openHAB-Server'
 
 short_description='openHAB-Android-Client'
 
