@@ -16,6 +16,8 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 import android.widget.Toast;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.core.connection.Connection;
 import org.openhab.habdroid.core.connection.ConnectionFactory;
@@ -23,6 +25,7 @@ import org.openhab.habdroid.core.connection.exception.ConnectionException;
 import org.openhab.habdroid.util.SyncHttpClient;
 
 import java.util.List;
+import java.util.Locale;
 
 /**
  * This service handles voice commands and sends them to OpenHAB.
@@ -52,7 +55,7 @@ public class OpenHABVoiceService extends IntentService {
         }
 
         if (connection != null) {
-            sendItemCommand("VoiceCommand", voiceCommand, connection);
+            sendVoiceCommand(connection.getSyncHttpClient(), voiceCommand);
         } else {
             Toast.makeText(this,
                     R.string.error_couldnt_determine_openhab_url, Toast.LENGTH_SHORT)
@@ -72,15 +75,29 @@ public class OpenHABVoiceService extends IntentService {
         return voiceCommand;
     }
 
-    private void sendItemCommand(final String itemName, final String command, final Connection conn) {
-        Log.d(TAG, "sendItemCommand(): itemName=" + itemName + ", command=" + command);
-        SyncHttpClient.HttpStatusResult result = conn.getSyncHttpClient().post(
-                "/rest/items/" + itemName, command, "text/plain;charset=UTF-8").asStatus();
+    private void sendVoiceCommand(final SyncHttpClient client, final String command) {
+        final String commandJson;
+        try {
+            JSONObject commandJsonObject = new JSONObject();
+            commandJsonObject.put("body", command);
+            commandJsonObject.put("Accept-Language", Locale.getDefault().getLanguage());
+            commandJson = commandJsonObject.toString();
+        } catch (JSONException e) {
+            Log.e(TAG, "Could not prepare voice command JSON", e);
+            return;
+        }
 
+        SyncHttpClient.HttpStatusResult result = client.post("/voice/interpreters",
+                commandJson, "application/json").asStatus();
+        if (result.statusCode == 404) {
+            Log.d(TAG, "Voice interpreter endpoint returned 404, falling back to item");
+            result = client.post("/rest/items/VoiceCommand",
+                    command, "text/plain;charset=UTF-8").asStatus();
+        }
         if (result.error != null) {
-            Log.e(TAG, "Got command error " + result.statusCode, result.error);
+            Log.e(TAG, "Sending voice command failed", result.error);
         } else {
-            Log.d(TAG, "Command was sent successfully");
+            Log.d(TAG, "Voice command was sent successfully");
         }
     }
 }

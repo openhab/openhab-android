@@ -1,1 +1,1 @@
-openHAB Android client
+Εφαρμογή Android για το openHAB

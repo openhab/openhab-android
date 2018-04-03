@@ -59,8 +59,6 @@
   <string name="info_write_tag_disabled">NFC está deshabilitado. Por favor, activar en el menú de configuración del dispositivo.</string>
   <string name="info_openhab_version_label">Versión openHAB</string>
   <string name="info_openhab_apiversion_label">Versión Rest API openHAB</string>
-  <string name="info_openhab_gcm_not_connected">Registro del dispositivo fallido</string>
-  <string name="info_openhab_gcm_connected">Dispositivo registrado con Sender ID %s</string>
   <string name="action_settings">Configuración</string>
   <string name="info_not_set">Sin establecer</string>
   <!-- Strings for MemorizingTrustManager activity -->

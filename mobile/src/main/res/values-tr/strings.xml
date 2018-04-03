@@ -76,9 +76,6 @@
   <string name="info_openhab_apiversion_label">openHAB Rest API versiyon</string>
   <string name="info_openhab_uuid_label">openHAB UUID</string>
   <string name="info_openhab_secret_label">openHAB Parola</string>
-  <string name="info_openhab_gcm_label">Google Bulut Mesajlaşma Durumu</string>
-  <string name="info_openhab_gcm_not_connected">Cihaz kaydı başarısız oldu</string>
-  <string name="info_openhab_gcm_connected">%s Gönderici Kimliği ile kayıtlı cihaz</string>
   <string name="action_settings">Ayarlar</string>
   <string name="nfc_dialog_title">Bu element için NFC eylem etiketi yazınız</string>
   <string name="info_not_set">Ayarlı değil</string>

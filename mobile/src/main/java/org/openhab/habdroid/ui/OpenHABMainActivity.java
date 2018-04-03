@@ -456,18 +456,10 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         mSitemapList.clear();
         mSelectedSitemap = null;
 
-        // Execute pending actions if initial connection determination finished
-        if (mConnection != null || failureReason != null) {
-            if (mPendingNfcData != null) {
-                onNfcTag(mPendingNfcData);
-                mPendingNfcData = null;
-            }
-            if (mPendingOpenNotifications) {
-                if (getNotificationSettings() != null) {
-                    openNotifications();
-                }
-                mPendingOpenNotifications = false;
-            }
+        // Handle pending NFC tag if initial connection determination finished
+        if (mPendingNfcData != null && (mConnection != null || failureReason != null)) {
+            onNfcTag(mPendingNfcData);
+            mPendingNfcData = null;
         }
 
         if (newConnection != null) {
@@ -511,6 +503,10 @@ public class OpenHABMainActivity extends AppCompatActivity implements
     @Override
     public void onCloudConnectionChanged(CloudConnection connection) {
         updateNotificationDrawerItem();
+        if (mPendingOpenNotifications && connection != null) {
+            openNotifications();
+            mPendingOpenNotifications = false;
+        }
     }
 
     @Override
