@@ -105,18 +105,6 @@ public class IntroActivityTest extends TestWithIntro {
                         isDisplayed()));
         appCompatImageButton.perform(click());
 
-        // click next
-        ViewInteraction appCompatImageButton2 = onView(
-                CoreMatchers.allOf(withId(R.id.next),
-                        childAtPosition(
-                                CoreMatchers.allOf(withId(R.id.bottomContainer),
-                                        childAtPosition(
-                                                withId(R.id.bottom),
-                                                1)),
-                                3),
-                        isDisplayed()));
-        appCompatImageButton2.perform(click());
-
         // close intro
         ViewInteraction appCompatButton = onView(
                 CoreMatchers.allOf(withId(R.id.done), withText("DONE"),
