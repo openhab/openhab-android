@@ -36,6 +36,8 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.text.SpannableStringBuilder;
+import android.text.style.RelativeSizeSpan;
 import android.util.SparseArray;
 import android.os.Build;
 import android.os.Handler;
@@ -496,7 +498,7 @@ public class MemorizingTrustManager implements X509TrustManager {
         }
     }
 
-    private static void certDetails(StringBuilder si, X509Certificate c) {
+    private static void certDetails(SpannableStringBuilder si, X509Certificate c) {
         SimpleDateFormat validityDateFormater = new SimpleDateFormat("yyyy-MM-dd");
         si.append("\n");
         si.append(c.getSubjectDN().toString());
@@ -513,10 +515,10 @@ public class MemorizingTrustManager implements X509TrustManager {
         si.append("\n");
     }
 
-    private String certChainMessage(final X509Certificate[] chain, CertificateException cause) {
+    private CharSequence certChainMessage(final X509Certificate[] chain, CertificateException cause) {
         Throwable e = cause;
         LOGGER.log(Level.FINE, "certChainMessage for " + e);
-        StringBuilder si = new StringBuilder();
+        SpannableStringBuilder si = new SpannableStringBuilder();
         if (isPathException(e))
             si.append(master.getString(R.string.mtm_trust_anchor));
         else if (isExpiredException(e))
@@ -531,29 +533,33 @@ public class MemorizingTrustManager implements X509TrustManager {
         si.append(master.getString(R.string.mtm_connect_anyway));
         si.append("\n\n");
         si.append(master.getString(R.string.mtm_cert_details));
+
+        int start = si.length();
         for (X509Certificate c : chain) {
             certDetails(si, c);
         }
-        return si.toString();
+        si.setSpan(new RelativeSizeSpan(0.8f), start, si.length(), 0);
+
+        return si;
     }
 
-    private String hostNameMessage(X509Certificate cert, String hostname) {
-        StringBuilder si = new StringBuilder();
+    private CharSequence hostNameMessage(X509Certificate cert, String hostname) {
+        SpannableStringBuilder si = new SpannableStringBuilder();
 
         si.append(master.getString(R.string.mtm_hostname_mismatch, hostname));
         si.append("\n\n");
         try {
             Collection<List<?>> sans = cert.getSubjectAlternativeNames();
             if (sans == null) {
-                si.append(cert.getSubjectDN());
+                si.append(cert.getSubjectDN().toString());
                 si.append("\n");
             } else for (List<?> altName : sans) {
                 Object name = altName.get(1);
                 if (name instanceof String) {
                     si.append("[");
-                    si.append(altName.get(0));
+                    si.append(altName.get(0).toString());
                     si.append("] ");
-                    si.append(name);
+                    si.append((String) name);
                     si.append("\n");
                 }
             }
@@ -567,8 +573,10 @@ public class MemorizingTrustManager implements X509TrustManager {
         si.append(master.getString(R.string.mtm_connect_anyway));
         si.append("\n\n");
         si.append(master.getString(R.string.mtm_cert_details));
+        int start = si.length();
         certDetails(si, cert);
-        return si.toString();
+        si.setSpan(new RelativeSizeSpan(0.8f), start, si.length(), 0);
+        return si;
     }
 
     /**
@@ -604,7 +612,7 @@ public class MemorizingTrustManager implements X509TrustManager {
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    void startActivityNotification(Intent intent, int decisionId, String certName) {
+    void startActivityNotification(Intent intent, int decisionId, CharSequence certName) {
         Notification notification;
         final PendingIntent call = PendingIntent.getActivity(master, 0, intent,
                 0);
@@ -647,7 +655,7 @@ public class MemorizingTrustManager implements X509TrustManager {
         return (foregroundAct != null) ? foregroundAct : master;
     }
 
-    int interact(final String message, final int titleId) {
+    int interact(final CharSequence message, final int titleId) {
         /* prepare the MTMDecision blocker object */
         MTMDecision choice = new MTMDecision();
         final int myId = createDecisionId(choice);

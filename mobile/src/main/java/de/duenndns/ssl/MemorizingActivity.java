@@ -28,13 +28,15 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.*;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
+import android.view.ContextThemeWrapper;
 
 import org.openhab.habdroid.R;
+import org.openhab.habdroid.util.Util;
 
 public class MemorizingActivity extends Activity
 		implements OnClickListener,OnCancelListener {
@@ -57,9 +59,12 @@ public class MemorizingActivity extends Activity
 		Intent i = getIntent();
 		decisionId = i.getIntExtra(MemorizingTrustManager.DECISION_INTENT_ID, MTMDecision.DECISION_INVALID);
 		int titleId = i.getIntExtra(MemorizingTrustManager.DECISION_TITLE_ID, R.string.mtm_accept_cert);
-		String cert = i.getStringExtra(MemorizingTrustManager.DECISION_INTENT_CERT);
+		CharSequence cert = i.getCharSequenceExtra(MemorizingTrustManager.DECISION_INTENT_CERT);
 		LOGGER.log(Level.FINE, "onResume with " + i.getExtras() + " decId=" + decisionId + " data: " + i.getData());
-		dialog = new AlertDialog.Builder(this).setTitle(titleId)
+
+		ContextThemeWrapper themedContext =
+				new ContextThemeWrapper(this, Util.getActivityThemeID(this));
+		dialog = new AlertDialog.Builder(themedContext).setTitle(titleId)
 				.setMessage(cert)
 				.setPositiveButton(R.string.mtm_decision_always, this)
 				.setNeutralButton(R.string.mtm_decision_once, this)
