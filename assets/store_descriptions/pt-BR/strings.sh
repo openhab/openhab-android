@@ -27,7 +27,6 @@ foundation='fundação openHAB'
 about_foundation='A fundação openHAB e.V é uma organização sem fins lucrativos, com a missão de educar o público sobre as possibilidades e benefícios do início gratuito e aberto de soluções inteligentes. Saiba mais sobre a missão e os serviços da fundação através de https://www.openhabfoundation.org'
 
 important_note='Nota importante'
-oh_server='Necessitas de um servidor de openHAB para esta aplicação'
 
 short_description='cliente de Android openHAB'
 
