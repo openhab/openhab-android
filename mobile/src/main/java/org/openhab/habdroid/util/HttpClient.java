@@ -18,7 +18,6 @@ import android.support.annotation.VisibleForTesting;
 import android.util.Log;
 
 import java.net.Socket;
-import java.security.KeyStore;
 import java.security.Principal;
 import java.security.PrivateKey;
 import java.security.SecureRandom;
@@ -35,7 +34,6 @@ import javax.net.ssl.KeyManager;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
-import javax.net.ssl.TrustManagerFactory;
 import javax.net.ssl.X509KeyManager;
 import javax.net.ssl.X509TrustManager;
 
@@ -51,6 +49,7 @@ import okhttp3.RequestBody;
 public abstract class HttpClient {
     private static final String TAG = HttpClient.class.getSimpleName();
 
+    private static MemorizingTrustManager sTrustManagerInstance;
     private final HttpUrl mBaseUrl;
     private final Map<String, String> headers = new HashMap<>();
 
@@ -107,6 +106,13 @@ public abstract class HttpClient {
         return headers;
     }
 
+    public static MemorizingTrustManager getTrustManagerInstance(Context c) {
+        if (sTrustManagerInstance == null) {
+            sTrustManagerInstance = new MemorizingTrustManager(c.getApplicationContext());
+        }
+        return sTrustManagerInstance;
+    }
+
     protected Call prepareCall(String url, String method, Map<String, String> additionalHeaders,
                                String requestBody, String mediaType) {
         Request.Builder requestBuilder = new Request.Builder();
@@ -131,17 +137,16 @@ public abstract class HttpClient {
     }
 
     private void applySslProperties(Context context, SharedPreferences prefs) {
+        MemorizingTrustManager mtm = getTrustManagerInstance(context);
         OkHttpClient.Builder builder = mClient.newBuilder();
 
-        if (prefs.getBoolean(Constants.PREFERENCE_SSLHOST, false)) {
-            builder.hostnameVerifier((hostname, session) -> true);
-        } else {
-            builder.hostnameVerifier(mDefaultHostnameVerifier);
-        }
+        HostnameVerifier nameVerifier = prefs.getBoolean(Constants.PREFERENCE_SSLHOST, false)
+                ? ((hostname, session) -> true)
+                : mtm.wrapHostnameVerifier(mDefaultHostnameVerifier);
 
         X509TrustManager trustManager = prefs.getBoolean(Constants.PREFERENCE_SSLCERT, false)
                 ? new DummyTrustManager()
-                : MemorizingTrustManager.getInstance(context);
+                : mtm;
 
         String clientCertAlias = prefs.getString(Constants.PREFERENCE_SSLCLIENTCERT, null);
         KeyManager[] keyManagers = clientCertAlias != null
@@ -153,31 +158,13 @@ public abstract class HttpClient {
             sslContext.init(keyManagers, new TrustManager[] { trustManager }, new SecureRandom());
             final SSLSocketFactory sslSocketFactory = sslContext.getSocketFactory();
             builder.sslSocketFactory(sslSocketFactory, trustManager);
+            builder.hostnameVerifier(nameVerifier);
         } catch (Exception e) {
             Log.d(TAG, "Applying certificate trust settings failed", e);
             builder.sslSocketFactory(mDefaultSocketFactory, trustManager);
         }
 
         mClient = builder.build();
-    }
-
-    private static X509TrustManager getDefaultTrustManager() {
-        try {
-            TrustManagerFactory trustManagerFactory =
-                    TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
-            trustManagerFactory.init((KeyStore) null);
-            TrustManager[] trustManagers = trustManagerFactory.getTrustManagers();
-
-            for (TrustManager trustManager : trustManagers) {
-                if (trustManager instanceof X509TrustManager) {
-                    return (X509TrustManager) trustManager;
-                }
-            }
-        } catch (Exception e) {
-            Log.d(TAG, "Getting default trust manager failed", e);
-        }
-
-        return null;
     }
 
     private static class DummyTrustManager implements X509TrustManager {

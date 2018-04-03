@@ -114,11 +114,20 @@
     <string name="password_placeholder" translatable="false">\u25cf\u25cf\u25cf\u25cf\u25cf\u25cf</string>
 
     <!-- Strings for MemorizingTrustManager activity -->
-    <string name="mtm_accept_cert">Accept unknown Certificate?</string>
+    <string name="mtm_accept_cert">Accept Unknown Certificate?</string>
+    <string name="mtm_trust_anchor">The server certificate is not signed by a known Certificate Authority.</string>
+    <string name="mtm_cert_expired">The server certificate is expired.</string>
+    <string name="mtm_accept_servername">Accept Mismatching Server Name?</string>
+    <string name="mtm_hostname_mismatch">Server could not authenticate as \&quot;%s\&quot;. The certificate is only valid for:</string>
+
+    <string name="mtm_connect_anyway">Do you want to connect anyway?</string>
+    <string name="mtm_cert_details">Certificate details:</string>
+
     <string name="mtm_decision_always">Always</string>
     <string name="mtm_decision_once">Once</string>
     <string name="mtm_decision_abort">Abort</string>
-    <string name="mtm_notification">Certificate verification</string>
+
+    <string name="mtm_notification">Certificate Verification</string>
     <string name="settings_openhab_none">none</string>
     
     <!-- Themes -->

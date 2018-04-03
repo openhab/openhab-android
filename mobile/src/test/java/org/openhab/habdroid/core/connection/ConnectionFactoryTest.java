@@ -1,6 +1,5 @@
 package org.openhab.habdroid.core.connection;
 
-import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -11,10 +10,13 @@ import android.os.Looper;
 import android.os.Message;
 
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TemporaryFolder;
 import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
+import org.openhab.habdroid.TestUtils;
 import org.openhab.habdroid.core.connection.exception.ConnectionException;
 import org.openhab.habdroid.core.connection.exception.NetworkNotAvailableException;
 import org.openhab.habdroid.core.connection.exception.NetworkNotSupportedException;
@@ -23,7 +25,6 @@ import org.openhab.habdroid.util.Constants;
 
 import java.io.IOException;
 
-import okhttp3.HttpUrl;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
 
@@ -38,16 +39,18 @@ import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.when;
 
 public class ConnectionFactoryTest {
+    @Rule
+    public TemporaryFolder tempFolder = new TemporaryFolder();
 
     private Context mockContext;
     private ConnectivityManager mockConnectivityService;
     private SharedPreferences mockSettings;
 
     @Before
-    public void setup() {
+    public void setup() throws IOException {
         mockConnectivityService = Mockito.mock(ConnectivityManager.class);
 
-        mockContext = Mockito.mock(Application.class);
+        mockContext = TestUtils.makeMockedAppContext(tempFolder);
         when(mockContext.getString(anyInt())).thenReturn("");
         when(mockContext.getSystemService(eq(Context.CONNECTIVITY_SERVICE)))
                 .thenReturn(mockConnectivityService);

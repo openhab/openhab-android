@@ -5,11 +5,16 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TemporaryFolder;
 import org.mockito.Mockito;
+import org.openhab.habdroid.TestUtils;
 import org.openhab.habdroid.util.AsyncHttpClient;
 import org.openhab.habdroid.util.HttpClient;
 import org.openhab.habdroid.util.SyncHttpClient;
+
+import java.io.IOException;
 
 import okhttp3.Credentials;
 
@@ -24,6 +29,9 @@ import static org.mockito.ArgumentMatchers.anyString;
 public class DefaultConnectionTest {
     private static final String TEST_BASE_URL = "https://demo.local:8443";
 
+    @Rule
+    public TemporaryFolder tempFolder = new TemporaryFolder();
+
     private Connection testConnection;
     private Connection testConnectionNoUrl;
     private Connection testConnectionRemote;
@@ -33,9 +41,8 @@ public class DefaultConnectionTest {
     private Context mockContext;
 
     @Before
-    public void setup() {
-        mockContext = Mockito.mock(Application.class);
-        Mockito.when(mockContext.getApplicationContext()).thenReturn(mockContext);
+    public void setup() throws IOException {
+        mockContext = TestUtils.makeMockedAppContext(tempFolder);
         mockSettings = Mockito.mock(SharedPreferences.class);
         testConnection = new DefaultConnection(mockContext, mockSettings, Connection.TYPE_LOCAL,
                 TEST_BASE_URL, null, null);

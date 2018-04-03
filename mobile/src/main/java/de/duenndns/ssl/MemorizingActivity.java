@@ -24,25 +24,30 @@
 package de.duenndns.ssl;
 
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.DialogInterface.OnCancelListener;
-import android.content.DialogInterface.OnClickListener;
+import android.content.DialogInterface.*;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 
-public class MemorizingActivity extends AppCompatActivity
+import org.openhab.habdroid.R;
+
+public class MemorizingActivity extends Activity
 		implements OnClickListener,OnCancelListener {
-	final static String TAG = "MemorizingActivity";
+
+	private final static Logger LOGGER = Logger.getLogger(MemorizingActivity.class.getName());
 
 	int decisionId;
-	String app;
-	
+
+	AlertDialog dialog;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		Log.d(TAG, "onCreate");
+		LOGGER.log(Level.FINE, "onCreate");
 		super.onCreate(savedInstanceState);
 	}
 
@@ -50,42 +55,46 @@ public class MemorizingActivity extends AppCompatActivity
 	public void onResume() {
 		super.onResume();
 		Intent i = getIntent();
-		app = i.getStringExtra(MemorizingTrustManager.DECISION_INTENT_APP);
 		decisionId = i.getIntExtra(MemorizingTrustManager.DECISION_INTENT_ID, MTMDecision.DECISION_INVALID);
+		int titleId = i.getIntExtra(MemorizingTrustManager.DECISION_TITLE_ID, R.string.mtm_accept_cert);
 		String cert = i.getStringExtra(MemorizingTrustManager.DECISION_INTENT_CERT);
-		Log.d(TAG, "onResume with " + i.getExtras() + " decId=" + decisionId);
-		Log.d(TAG, "data: " + i.getData());
-		new AlertDialog.Builder(this).setTitle(getResourceIdByName(this.getPackageName(), "string", "mtm_accept_cert"))
-			.setMessage(cert)
-			.setPositiveButton(getResourceIdByName(this.getPackageName(), "string", "mtm_decision_always"), this)
-			.setNeutralButton(getResourceIdByName(this.getPackageName(), "string", "mtm_decision_once"), this)
-			.setNegativeButton(getResourceIdByName(this.getPackageName(), "string", "mtm_decision_abort"), this)
-			.setOnCancelListener(this)
-			.create().show();
+		LOGGER.log(Level.FINE, "onResume with " + i.getExtras() + " decId=" + decisionId + " data: " + i.getData());
+		dialog = new AlertDialog.Builder(this).setTitle(titleId)
+				.setMessage(cert)
+				.setPositiveButton(R.string.mtm_decision_always, this)
+				.setNeutralButton(R.string.mtm_decision_once, this)
+				.setNegativeButton(R.string.mtm_decision_abort, this)
+				.setOnCancelListener(this)
+				.create();
+		dialog.show();
+	}
+
+	@Override
+	protected void onPause() {
+		if (dialog.isShowing())
+			dialog.dismiss();
+		super.onPause();
 	}
 
 	void sendDecision(int decision) {
-		Log.d(TAG, "Sending decision to " + app + ": " + decision);
-		Intent i = new Intent(MemorizingTrustManager.DECISION_INTENT + "/" + app);
-		i.putExtra(MemorizingTrustManager.DECISION_INTENT_ID, decisionId);
-		i.putExtra(MemorizingTrustManager.DECISION_INTENT_CHOICE, decision);
-		sendBroadcast(i);
+		LOGGER.log(Level.FINE, "Sending decision: " + decision);
+		MemorizingTrustManager.interactResult(decisionId, decision);
 		finish();
 	}
-	
+
 	// react on AlertDialog button press
 	public void onClick(DialogInterface dialog, int btnId) {
 		int decision;
 		dialog.dismiss();
 		switch (btnId) {
-		case DialogInterface.BUTTON_POSITIVE:
-			decision = MTMDecision.DECISION_ALWAYS;
-			break;
-		case DialogInterface.BUTTON_NEUTRAL:
-			decision = MTMDecision.DECISION_ONCE;
-			break;
-		default:
-			decision = MTMDecision.DECISION_ABORT;
+			case DialogInterface.BUTTON_POSITIVE:
+				decision = MTMDecision.DECISION_ALWAYS;
+				break;
+			case DialogInterface.BUTTON_NEUTRAL:
+				decision = MTMDecision.DECISION_ONCE;
+				break;
+			default:
+				decision = MTMDecision.DECISION_ABORT;
 		}
 		sendDecision(decision);
 	}
@@ -93,29 +102,4 @@ public class MemorizingActivity extends AppCompatActivity
 	public void onCancel(DialogInterface dialog) {
 		sendDecision(MTMDecision.DECISION_ABORT);
 	}
-	
-	public static int getResourceIdByName(String packageName, String className, String name) {
-		   Class r = null;
-		   int id = 0;
-		try {
-		    r = Class.forName(packageName + ".R");
-
-		    Class[] classes = r.getClasses();
-		    Class desireClass = null;
-
-		    for (int i = 0; i < classes.length; i++) {
-		        if(classes[i].getName().split("\\$")[1].equals(className)) {
-		            desireClass = classes[i];
-
-		            break;
-		        }
-		    }
-		    if(desireClass != null)
-		        id = desireClass.getField(name).getInt(desireClass);
-		} catch (ClassNotFoundException | IllegalArgumentException | SecurityException | IllegalAccessException | NoSuchFieldException e) {
-		    Log.e(TAG, e.getMessage(), e);
-		}
-		return id;
-	}
-
 }
