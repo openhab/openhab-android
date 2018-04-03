@@ -1,5 +1,6 @@
 package org.openhab.habdroid.core.connection;
 
+import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -46,7 +47,7 @@ public class ConnectionFactoryTest {
     public void setup() {
         mockConnectivityService = Mockito.mock(ConnectivityManager.class);
 
-        mockContext = Mockito.mock(Context.class);
+        mockContext = Mockito.mock(Application.class);
         when(mockContext.getString(anyInt())).thenReturn("");
         when(mockContext.getSystemService(eq(Context.CONNECTIVITY_SERVICE)))
                 .thenReturn(mockConnectivityService);
