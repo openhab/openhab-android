@@ -27,7 +27,6 @@ foundation='Ίδρυμα openHAB'
 about_foundation='Το openHAB Foundation Europe e.V. είναι ένας μη κερδοσκοπικός οργανισμός με αποστολή να εκπαιδεύσει το κοινό σχετικά με τις δυνατότητες και τα οφέλη του ελεύθερου και ανοικτού λογισμικού για λύσεις έξυπνων σπιτιών. Μάθετε περισσότερα για την αποστολή και τις υπηρεσίες του Ιδρύματος στο https://www.openhabfoundation.org'
 
 important_note='Σημαντική Σημείωση'
-oh_server='Χρειάζεστε έναν διακομιστή openHAB για αυτό το app'
 
 short_description='Εφαρμογή Android για το openHAB'
 
