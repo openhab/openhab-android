@@ -27,7 +27,6 @@ foundation='openHAB Säätiö'
 about_foundation='openHAB Säätiö on voittoa tavoittelematon järjestö, jonka tavoitteena on kertoa yleisölle ilmaisten ja avoimien älykotisovellusten mahdollisuuksista ja eduista. Lisätietoja järjestön tavoitteesta ja palveluista löydät osoitteesta https://www.openhabfoundation.org'
 
 important_note='Tärkeä huomautus'
-oh_server='Tarvitset openHAB palvelimen tätä sovellusta varten'
 
 short_description='openHAB asiakassovellus Android-laitteille'
 
