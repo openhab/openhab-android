@@ -26,7 +26,7 @@ foundation='openHAB Foundation'
 about_foundation='The openHAB Foundation e.V. is a nonprofit organization with the mission to educate the public about the possibilities and benefits of free and open smart home solutions. Learn about the mission and the services of the foundation under https://www.openhabfoundation.org'
 
 important_note='Important note'
-oh_server='You need a openHAB server for this app'
+oh_server='You need an openHAB server for this app'
 
 short_description='openHAB Android client'
 
