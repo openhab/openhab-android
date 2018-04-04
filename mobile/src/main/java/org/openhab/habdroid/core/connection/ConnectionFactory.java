@@ -46,7 +46,7 @@ final public class ConnectionFactory extends BroadcastReceiver implements
             Constants.PREFERENCE_LOCAL_URL, Constants.PREFERENCE_REMOTE_URL,
             Constants.PREFERENCE_LOCAL_USERNAME, Constants.PREFERENCE_LOCAL_PASSWORD,
             Constants.PREFERENCE_REMOTE_USERNAME, Constants.PREFERENCE_REMOTE_PASSWORD,
-            Constants.PREFERENCE_DEMOMODE);
+            Constants.PREFERENCE_SSLCLIENTCERT, Constants.PREFERENCE_DEMOMODE);
 
     public interface UpdateListener {
         void onAvailableConnectionChanged();
@@ -335,14 +335,16 @@ final public class ConnectionFactory extends BroadcastReceiver implements
     @VisibleForTesting
     public void updateConnections() {
         if (settings.getBoolean(Constants.PREFERENCE_DEMOMODE, false)) {
-            mLocalConnection = mRemoteConnection = new DemoConnection(ctx, settings);
+            mLocalConnection = mRemoteConnection = new DemoConnection(ctx);
             handleAvailableCheckDone(mLocalConnection, null);
             handleCloudCheckDone(null);
         } else {
             mLocalConnection = makeConnection(Connection.TYPE_LOCAL, Constants.PREFERENCE_LOCAL_URL,
-                    Constants.PREFERENCE_LOCAL_USERNAME, Constants.PREFERENCE_LOCAL_PASSWORD);
+                    Constants.PREFERENCE_LOCAL_USERNAME, Constants.PREFERENCE_LOCAL_PASSWORD,
+                    Constants.PREFERENCE_SSLCLIENTCERT);
             mRemoteConnection = makeConnection(Connection.TYPE_REMOTE, Constants.PREFERENCE_REMOTE_URL,
-                    Constants.PREFERENCE_REMOTE_USERNAME, Constants.PREFERENCE_REMOTE_PASSWORD);
+                    Constants.PREFERENCE_REMOTE_USERNAME, Constants.PREFERENCE_REMOTE_PASSWORD,
+                    Constants.PREFERENCE_SSLCLIENTCERT);
 
             synchronized (mInitializationLock) {
                 mAvailableInitialized = false;
@@ -405,12 +407,14 @@ final public class ConnectionFactory extends BroadcastReceiver implements
     }
 
     private AbstractConnection makeConnection(int type, String urlKey,
-            String userNameKey, String passwordKey) {
+            String userNameKey, String passwordKey, String clientCertAliasKey) {
         String url = Util.normalizeUrl(settings.getString(urlKey, ""));
         if (url.isEmpty()) {
             return null;
         }
-        return new DefaultConnection(ctx, settings, type, url,
-                settings.getString(userNameKey, null), settings.getString(passwordKey, null));
+        return new DefaultConnection(ctx, type, url,
+                settings.getString(userNameKey, null),
+                settings.getString(passwordKey, null),
+                settings.getString(clientCertAliasKey, null));
     }
 }

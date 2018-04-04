@@ -10,7 +10,6 @@
 package org.openhab.habdroid.util;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.Looper;
 
@@ -40,13 +39,9 @@ public class AsyncHttpClient extends HttpClient {
 
     private Handler mHandler = new Handler(Looper.getMainLooper());
 
-    public AsyncHttpClient(Context context, String baseUrl) {
-        super(context, baseUrl);
+    public AsyncHttpClient(Context context, String baseUrl, String clientCertAlias) {
+        super(context, baseUrl, clientCertAlias);
     }
-
-    public AsyncHttpClient(Context context, SharedPreferences prefs, String baseUrl) {
-        super(context, prefs, baseUrl);
-	}
 
     public <T> Call get(String url, ResponseHandler<T> responseHandler) {
         return get(url, null, responseHandler);

@@ -112,12 +112,8 @@ public class SyncHttpClient extends HttpClient {
         }
     }
 
-    public SyncHttpClient(Context context, String baseUrl) {
-        super(context, baseUrl);
-    }
-
-    public SyncHttpClient(Context context, SharedPreferences prefs, String baseUrl) {
-        super(context, prefs, baseUrl);
+    public SyncHttpClient(Context context, String baseUrl, String clientCertAlias) {
+        super(context, baseUrl, clientCertAlias);
     }
 
     public HttpResult get(String url) {

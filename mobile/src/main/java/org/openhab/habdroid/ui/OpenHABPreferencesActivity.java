@@ -9,6 +9,7 @@
 
 package org.openhab.habdroid.ui;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -143,35 +144,6 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
         protected String getPreferenceString(String prefKey, String defValue) {
             return getPreferenceScreen().getSharedPreferences().getString(prefKey, defValue);
         }
-
-        private void updateTextPreferenceSummary(Preference textPreference,
-                                                 @StringRes int summaryFormatResId,
-                                                 String newValue, boolean isPassword) {
-            if (newValue == null) {
-                newValue = getPreferenceString(textPreference, "");
-            }
-            if (newValue.isEmpty()) {
-                newValue = getString(R.string.info_not_set);
-            } else if (isPassword) {
-                newValue = getString(R.string.password_placeholder);
-            }
-
-            textPreference.setSummary(summaryFormatResId != 0
-                    ? getString(summaryFormatResId, newValue) : newValue);
-        }
-
-        protected void initEditorPreference(String key, @StringRes final int summaryFormatResId,
-                                            final boolean isPassword) {
-            Preference pref = getPreferenceScreen().findPreference(key);
-            pref.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
-                @Override
-                public boolean onPreferenceChange(Preference preference, Object newValue) {
-                    updateTextPreferenceSummary(preference, summaryFormatResId, (String) newValue, isPassword);
-                    return true;
-                }
-            });
-            updateTextPreferenceSummary(pref, summaryFormatResId, null, isPassword);
-        }
     }
 
     public static class MainSettingsFragment extends AbstractSettingsFragment {
@@ -185,14 +157,16 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
         protected void updateAndInitPreferences() {
             addPreferencesFromResource(R.xml.preferences);
 
+            initClientCertPreference(Constants.PREFERENCE_SSLCLIENTCERT);
+
             final Preference subScreenLocalConn = findPreference(Constants.SUBSCREEN_LOCAL_CONNECTION);
             final Preference subScreenRemoteConn = findPreference(Constants.SUBSCREEN_REMOTE_CONNECTION);
-            final Preference subScreenSsl = findPreference(Constants.SUBSCREEN_SSL_SETTINGS);
             final Preference themePreference = getPreferenceScreen().findPreference(Constants.PREFERENCE_THEME);
             final Preference clearCachePreference = getPreferenceScreen().findPreference(Constants
                     .PREFERENCE_CLEAR_CACHE);
             final Preference clearDefaultSitemapPreference = getPreferenceScreen().findPreference
                     (Constants.PREFERENCE_CLEAR_DEFAULT_SITEMAP);
+            final Preference clientCertHowToPref = findPreference(Constants.PREFERENCE_SSLCLIENTCERT_HOWTO);
 
             String currentDefaultSitemap = clearDefaultSitemapPreference.getSharedPreferences().getString(Constants
                     .PREFERENCE_SITEMAP_NAME, "");
@@ -216,14 +190,6 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
                     getParentActivity().openSubScreen(new RemoteConnectionSettingsFragment());
-                    return false;
-                }
-            });
-
-            subScreenSsl.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                @Override
-                public boolean onPreferenceClick(Preference preference) {
-                    getParentActivity().openSubScreen(new SslSettingsFragment());
                     return false;
                 }
             });
@@ -269,6 +235,15 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
                 }
             });
 
+            clientCertHowToPref.setOnPreferenceClickListener(preference -> {
+                Uri howToUri = Uri.parse(getString(R.string.settings_openhab_sslclientcert_howto_url));
+                Intent intent = new Intent(Intent.ACTION_VIEW, howToUri);
+                if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
+                    startActivity(intent);
+                }
+                return true;
+            });
+
             //fullscreen is not supoorted in builds < 4.4
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
                 final PreferenceScreen ps = getPreferenceScreen();
@@ -276,85 +251,36 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
             }
         }
 
-        private void onNoDefaultSitemap(Preference pref) {
-            pref.setEnabled(false);
-            pref.setSummary(R.string.settings_no_default_sitemap);
-        }
-    }
+        private void initClientCertPreference(String key) {
+            final Preference pref = findPreference(key);
+            updateSslClientCertSummary(pref);
 
-    public static class LocalConnectionSettingsFragment extends AbstractSettingsFragment {
-        @Override
-        protected @StringRes int getTitleResId() {
-            return R.string.settings_openhab_connection;
-        }
-
-        @Override
-        protected void updateAndInitPreferences() {
-            addPreferencesFromResource(R.xml.local_connection_preferences);
-
-            initEditorPreference(Constants.PREFERENCE_LOCAL_URL, R.string.settings_openhab_url_summary, false);
-            initEditorPreference(Constants.PREFERENCE_LOCAL_USERNAME, 0, false);
-            initEditorPreference(Constants.PREFERENCE_LOCAL_PASSWORD, 0, true);
-        }
-    }
-
-    public static class SslSettingsFragment extends AbstractSettingsFragment {
-        @Override
-        protected @StringRes int getTitleResId() {
-            return R.string.settings_openhab_sslsettings;
-        }
-
-        protected void updateAndInitPreferences() {
-            addPreferencesFromResource(R.xml.ssl_preferences);
-
-            final Preference sslClientCert = findPreference(Constants.PREFERENCE_SSLCLIENTCERT);
-            final Preference sslClientCertHowTo = findPreference(Constants.PREFERENCE_SSLCLIENTCERT_HOWTO);
-
-            updateSslClientCertSummary(sslClientCert);
-
-            final KeyChainAliasCallback keyChainAliasCallback = new KeyChainAliasCallback() {
-                @Override
-                public void alias(String alias) {
-                    sslClientCert.getSharedPreferences().edit().putString(sslClientCert.getKey(), alias).apply();
-                    updateSslClientCertSummary(sslClientCert);
-                }
+            final KeyChainAliasCallback keyChainAliasCallback = alias -> {
+                pref.getSharedPreferences().edit().putString(key, alias).apply();
+                updateSslClientCertSummary(pref);
             };
 
-            sslClientCert.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                @Override
-                public boolean onPreferenceClick(Preference preference) {
-                    final String[] keyTypes = Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
-                            ? new String[] { KeyProperties.KEY_ALGORITHM_RSA, KeyProperties.KEY_ALGORITHM_EC }
-                            : new String[] { "RSA", "DSA"};
-                    KeyChain.choosePrivateKeyAlias(getActivity(), keyChainAliasCallback,
-                            keyTypes, null, null, -1, null);
-                    return true;
-                }
-            });
-
-            sslClientCertHowTo.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                @Override
-                public boolean onPreferenceClick(Preference preference) {
-                    Uri howToUri = Uri.parse(getString(R.string.settings_openhab_sslclientcert_howto_url));
-                    Intent intent = new Intent(Intent.ACTION_VIEW, howToUri);
-                    if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
-                        startActivity(intent);
-                    }
-                    return true;
-                }
+            pref.setOnPreferenceClickListener(preference -> {
+                final String[] keyTypes = Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
+                        ? new String[] { KeyProperties.KEY_ALGORITHM_RSA, KeyProperties.KEY_ALGORITHM_EC }
+                        : new String[] { "RSA", "DSA"};
+                KeyChain.choosePrivateKeyAlias(getActivity(), keyChainAliasCallback,
+                        keyTypes, null, null, -1, null);
+                return true;
             });
         }
 
         private void updateSslClientCertSummary(final Preference sslClientCert) {
             final String certAlias = getPreferenceString(sslClientCert, null);
+            final Context context = getActivity().getApplicationContext();
 
             new AsyncTask<Preference, Void, X509Certificate>() {
                 @Override
                 protected X509Certificate doInBackground(Preference... preferences) {
                     try {
                         if (certAlias != null) {
-                            X509Certificate[] certificates = KeyChain.getCertificateChain(
-                                    getActivity(), certAlias);
+                            X509Certificate[] certificates =
+                                    KeyChain.getCertificateChain(context, certAlias);
                             if (certificates != null && certificates.length > 0) {
                                 return certificates[0];
                             }
@@ -376,9 +302,61 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
                 }
             }.execute(sslClientCert);
         }
+
+        private void onNoDefaultSitemap(Preference pref) {
+            pref.setEnabled(false);
+            pref.setSummary(R.string.settings_no_default_sitemap);
+        }
     }
 
-    public static class RemoteConnectionSettingsFragment extends AbstractSettingsFragment {
+    private static abstract class ConnectionSettingsFragment extends AbstractSettingsFragment {
+        private void updateTextPreferenceSummary(Preference textPreference,
+                                                 @StringRes int summaryFormatResId,
+                                                 String newValue, boolean isPassword) {
+            if (newValue == null) {
+                newValue = getPreferenceString(textPreference, "");
+            }
+            if (newValue.isEmpty()) {
+                newValue = getString(R.string.info_not_set);
+            } else if (isPassword) {
+                newValue = getString(R.string.password_placeholder);
+            }
+
+            textPreference.setSummary(summaryFormatResId != 0
+                    ? getString(summaryFormatResId, newValue) : newValue);
+        }
+
+        protected void initEditorPreference(String key, @StringRes final int summaryFormatResId,
+                                            final boolean isPassword) {
+            Preference pref = getPreferenceScreen().findPreference(key);
+            pref.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object newValue) {
+                    updateTextPreferenceSummary(preference, summaryFormatResId, (String) newValue, isPassword);
+                    return true;
+                }
+            });
+            updateTextPreferenceSummary(pref, summaryFormatResId, null, isPassword);
+        }
+    }
+
+    public static class LocalConnectionSettingsFragment extends ConnectionSettingsFragment {
+        @Override
+        protected @StringRes int getTitleResId() {
+            return R.string.settings_openhab_connection;
+        }
+
+        @Override
+        protected void updateAndInitPreferences() {
+            addPreferencesFromResource(R.xml.local_connection_preferences);
+
+            initEditorPreference(Constants.PREFERENCE_LOCAL_URL, R.string.settings_openhab_url_summary, false);
+            initEditorPreference(Constants.PREFERENCE_LOCAL_USERNAME, 0, false);
+            initEditorPreference(Constants.PREFERENCE_LOCAL_PASSWORD, 0, true);
+        }
+    }
+
+    public static class RemoteConnectionSettingsFragment extends ConnectionSettingsFragment {
         @Override
         protected @StringRes int getTitleResId() {
             return R.string.settings_openhab_alt_connection;

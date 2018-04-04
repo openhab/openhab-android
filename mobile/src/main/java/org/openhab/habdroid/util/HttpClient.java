@@ -10,8 +10,6 @@
 package org.openhab.habdroid.util;
 
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.security.KeyChain;
 import android.security.KeyChainException;
 import android.support.annotation.VisibleForTesting;
@@ -20,19 +18,13 @@ import android.util.Log;
 import java.net.Socket;
 import java.security.Principal;
 import java.security.PrivateKey;
-import java.security.SecureRandom;
-import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.KeyManager;
 import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509KeyManager;
 import javax.net.ssl.X509TrustManager;
@@ -45,6 +37,7 @@ import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
+import okhttp3.internal.tls.OkHostnameVerifier;
 
 public abstract class HttpClient {
     private static final String TAG = HttpClient.class.getSimpleName();
@@ -52,34 +45,15 @@ public abstract class HttpClient {
     private static MemorizingTrustManager sTrustManagerInstance;
     private final HttpUrl mBaseUrl;
     private final Map<String, String> headers = new HashMap<>();
-
     private OkHttpClient mClient;
-    private HostnameVerifier mDefaultHostnameVerifier;
-    private SSLSocketFactory mDefaultSocketFactory;
 
-    private static final List<String> SSL_RELEVANT_KEYS = Arrays.asList(
-            Constants.PREFERENCE_SSLHOST, Constants.PREFERENCE_SSLCERT,
-            Constants.PREFERENCE_SSLCLIENTCERT
-    );
+    protected HttpClient(Context context, String baseUrl, String clientCertAlias) {
+        MemorizingTrustManager mtm = getTrustManagerInstance(context);
 
-    protected HttpClient(Context context, String baseUrl) {
-        this(context, PreferenceManager.getDefaultSharedPreferences(context), baseUrl);
-    }
-
-    protected HttpClient(Context context, SharedPreferences prefs, String baseUrl) {
-        final Context appContext = context.getApplicationContext();
-        mClient = new OkHttpClient.Builder().build();
         mBaseUrl = baseUrl != null ? HttpUrl.parse(baseUrl) : null;
-
-        mDefaultHostnameVerifier = mClient.hostnameVerifier();
-        mDefaultSocketFactory = mClient.sslSocketFactory();
-
-        applySslProperties(appContext, prefs);
-        prefs.registerOnSharedPreferenceChangeListener((prefsInstance, key) -> {
-            if (SSL_RELEVANT_KEYS.contains(key)) {
-                applySslProperties(appContext, prefs);
-            }
-        });
+        mClient = applyClientCert(new OkHttpClient.Builder(), context, clientCertAlias, mtm)
+                .hostnameVerifier(mtm.wrapHostnameVerifier(OkHostnameVerifier.INSTANCE))
+                .build();
     }
 
     public void setBasicAuth(String username, String password) {
@@ -136,50 +110,21 @@ public abstract class HttpClient {
         return mClient.newCall(request);
     }
 
-    private void applySslProperties(Context context, SharedPreferences prefs) {
-        MemorizingTrustManager mtm = getTrustManagerInstance(context);
-        OkHttpClient.Builder builder = mClient.newBuilder();
-
-        HostnameVerifier nameVerifier = prefs.getBoolean(Constants.PREFERENCE_SSLHOST, false)
-                ? ((hostname, session) -> true)
-                : mtm.wrapHostnameVerifier(mDefaultHostnameVerifier);
-
-        X509TrustManager trustManager = prefs.getBoolean(Constants.PREFERENCE_SSLCERT, false)
-                ? new DummyTrustManager()
-                : mtm;
-
-        String clientCertAlias = prefs.getString(Constants.PREFERENCE_SSLCLIENTCERT, null);
+    private static OkHttpClient.Builder applyClientCert(OkHttpClient.Builder builder,
+            Context context, String clientCertAlias, X509TrustManager trustManager) {
         KeyManager[] keyManagers = clientCertAlias != null
                 ? new KeyManager[] { new ClientKeyManager(context, clientCertAlias) }
-                : new KeyManager[0];
+                : null;
 
         try {
             final SSLContext sslContext = SSLContext.getInstance("TLS");
-            sslContext.init(keyManagers, new TrustManager[] { trustManager }, new SecureRandom());
-            final SSLSocketFactory sslSocketFactory = sslContext.getSocketFactory();
-            builder.sslSocketFactory(sslSocketFactory, trustManager);
-            builder.hostnameVerifier(nameVerifier);
+            sslContext.init(keyManagers, new TrustManager[] { trustManager }, null);
+            builder.sslSocketFactory(sslContext.getSocketFactory(), trustManager);
         } catch (Exception e) {
             Log.d(TAG, "Applying certificate trust settings failed", e);
-            builder.sslSocketFactory(mDefaultSocketFactory, trustManager);
         }
 
-        mClient = builder.build();
-    }
-
-    private static class DummyTrustManager implements X509TrustManager {
-        @Override
-        public void checkClientTrusted(X509Certificate[] chain, String authType) throws CertificateException {
-        }
-
-        @Override
-        public void checkServerTrusted(X509Certificate[] chain, String authType) throws CertificateException {
-        }
-
-        @Override
-        public X509Certificate[] getAcceptedIssuers() {
-            return new X509Certificate[0];
-        }
+        return builder;
     }
 
     private static class ClientKeyManager implements X509KeyManager {

@@ -17,8 +17,6 @@ public class Constants {
     public static final String PREFERENCE_REMOTE_USERNAME       = "default_openhab_remote_username";
     public static final String PREFERENCE_SITEMAP_NAME          = "default_openhab_sitemap";
     public static final String PREFERENCE_SITEMAP_LABEL         = "default_openhab_sitemap_label";
-    public static final String PREFERENCE_SSLCERT               = "default_openhab_sslcert";
-    public static final String PREFERENCE_SSLHOST               = "default_openhab_sslhost";
     public static final String PREFERENCE_REMOTE_URL            = "default_openhab_alturl";
     public static final String PREFERENCE_LOCAL_URL             = "default_openhab_url";
     public static final String PREFERENCE_THEME                 = "default_openhab_theme";
@@ -39,5 +37,4 @@ public class Constants {
 
     public static final String SUBSCREEN_LOCAL_CONNECTION     = "default_openhab_local_connection";
     public static final String SUBSCREEN_REMOTE_CONNECTION    = "default_openhab_remote_connection";
-    public static final String SUBSCREEN_SSL_SETTINGS         = "default_openhab_ssl";
 }

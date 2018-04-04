@@ -16,8 +16,6 @@ import java.net.URL;
 public abstract class AbstractConnection implements Connection {
     private static final String TAG = AbstractConnection.class.getSimpleName();
 
-    private SharedPreferences settings;
-
     private int connectionType;
     private String username;
     private String password;
@@ -26,25 +24,23 @@ public abstract class AbstractConnection implements Connection {
     private final AsyncHttpClient asyncHttpClient;
     private final SyncHttpClient syncHttpClient;
 
-    AbstractConnection(Context ctx, SharedPreferences settings, int connectionType, String baseUrl,
-            String username, String password) {
-        this.settings = settings;
+    AbstractConnection(Context ctx, int connectionType, String baseUrl,
+            String username, String password, String clientCertAlias) {
         this.username = username;
         this.password = password;
         this.baseUrl = baseUrl;
         this.connectionType = connectionType;
 
-        asyncHttpClient = new AsyncHttpClient(ctx, settings, baseUrl);
+        asyncHttpClient = new AsyncHttpClient(ctx, baseUrl, clientCertAlias);
         asyncHttpClient.setTimeout(30000);
 
-        syncHttpClient = new SyncHttpClient(ctx, settings, baseUrl);
+        syncHttpClient = new SyncHttpClient(ctx, baseUrl, clientCertAlias);
 
         updateHttpClientAuth(asyncHttpClient);
         updateHttpClientAuth(syncHttpClient);
     }
 
     AbstractConnection(@NonNull AbstractConnection base, int connectionType) {
-        this.settings = base.settings;
         this.username = base.username;
         this.password = base.password;
         this.baseUrl = base.baseUrl;

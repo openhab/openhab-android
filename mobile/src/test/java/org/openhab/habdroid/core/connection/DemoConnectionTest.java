@@ -1,13 +1,11 @@
 package org.openhab.habdroid.core.connection;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
-import org.mockito.Mockito;
 import org.openhab.habdroid.TestUtils;
 
 import java.io.IOException;
@@ -24,8 +22,7 @@ public class DemoConnectionTest {
     @Before
     public void setup() throws IOException {
         Context mockContext = TestUtils.makeMockedAppContext(tempFolder);
-        SharedPreferences mockSettings = Mockito.mock(SharedPreferences.class);
-        testConnection = new DemoConnection(mockContext, mockSettings);
+        testConnection = new DemoConnection(mockContext);
     }
 
     @Test

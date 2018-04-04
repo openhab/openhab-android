@@ -18,10 +18,18 @@
             android:title="@string/settings_openhab_alt_connection"
             android:dependency="default_openhab_demomode"/>
         <Preference
-            android:key="default_openhab_ssl"
-            android:persistent="false"
-            android:title="@string/settings_openhab_sslsettings"
-            android:dependency="default_openhab_demomode"/>
+            android:clickable="true"
+            android:defaultValue="@string/settings_openhab_none"
+            android:key="default_openhab_sslclientcert"
+            android:summary=""
+            android:title="@string/settings_openhab_sslclientcert"
+            android:dependency="default_openhab_demomode" />
+        <Preference
+            android:clickable="true"
+            android:key="default_openhab_sslclientcert_howto"
+            android:title="@string/settings_openhab_sslclientcert_howto"
+            android:summary="@string/settings_openhab_sslclientcert_howto_summary"
+            android:dependency="default_openhab_demomode" />
         <Preference
             android:clickable="true"
             android:key="default_openhab_clear_default_sitemap"
