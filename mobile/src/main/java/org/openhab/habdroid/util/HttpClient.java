@@ -214,13 +214,12 @@ public abstract class HttpClient {
 
         @Override
         public String chooseServerAlias(String keyType, Principal[] issuers, Socket socket) {
-            Log.d(TAG, "chooseServerAlias");
             return null;
         }
 
         @Override
         public X509Certificate[] getCertificateChain(String alias) {
-            Log.d(TAG, "getCertificateChain", new Throwable());
+            Log.d(TAG, "getCertificateChain(" + alias + ")");
             try {
                 return KeyChain.getCertificateChain(mContext, alias);
             } catch (KeyChainException | InterruptedException e) {
@@ -231,19 +230,17 @@ public abstract class HttpClient {
 
         @Override
         public String[] getClientAliases(String keyType, Principal[] issuers) {
-            Log.d(TAG, "getClientAliases");
             return mAlias != null ? new String[] { mAlias } : null;
         }
 
         @Override
         public String[] getServerAliases(String keyType, Principal[] issuers) {
-            Log.d(TAG, "getServerAliases");
             return null;
         }
 
         @Override
         public PrivateKey getPrivateKey(String alias) {
-            Log.d(TAG, "getPrivateKey", new Throwable());
+            Log.d(TAG, "getPrivateKey(" + alias + ")");
             try {
                 return KeyChain.getPrivateKey(mContext, mAlias);
             } catch (KeyChainException | InterruptedException e) {
