@@ -328,7 +328,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
                     loadSitemapList(true);
                 } else {
                     // other error -> use default handling
-                    handleHttpFailure(request, statusCode, error);
+                    handleServerCommunicationFailure(request, statusCode, error);
                 }
             }
 
@@ -703,7 +703,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         mPendingCall = mConnection.getAsyncHttpClient().get("/rest/sitemaps", new AsyncHttpClient.StringResponseHandler() {
             @Override
             public void onFailure(Request request, int statusCode, Throwable error) {
-                handleHttpFailure(request, statusCode, error);
+                handleServerCommunicationFailure(request, statusCode, error);
             }
 
             @Override
@@ -1066,7 +1066,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         }
     }
 
-    private void handleHttpFailure(Request request, int statusCode, Throwable error) {
+    private void handleServerCommunicationFailure(Request request, int statusCode, Throwable error) {
         Log.e(TAG, "Error: " + error.toString());
         Log.e(TAG, "HTTP status code: " + statusCode);
         CharSequence message;
