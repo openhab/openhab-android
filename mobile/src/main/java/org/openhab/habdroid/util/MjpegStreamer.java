@@ -16,26 +16,21 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 import android.widget.ImageView;
 
-import java.io.IOException;
+import org.openhab.habdroid.core.connection.Connection;
 
-import okhttp3.Credentials;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
+import java.io.IOException;
 
 public class MjpegStreamer {
     private static final String TAG = MjpegStreamer.class.getSimpleName();
 
-    private String mSourceUrl;
-    private String mUsername;
-    private String mPassword;
+    private SyncHttpClient mHttpClient;
+    private String mUrl;
     private Handler mHandler;
     private DownloadImageTask mDownloadImageTask;
 
-    public MjpegStreamer(ImageView view, String sourceUrl, String username, String password) {
-        mSourceUrl = sourceUrl;
-        mUsername = username;
-        mPassword = password;
+    public MjpegStreamer(ImageView view, Connection connection, String url) {
+        mHttpClient = connection.getSyncHttpClient();
+        mUrl = url;
         mHandler = new Handler(msg -> {
             if (mDownloadImageTask != null) {
                 Bitmap bmp = (Bitmap) msg.obj;
@@ -59,31 +54,18 @@ public class MjpegStreamer {
 
     @NonNull
     private MjpegInputStream startStream() throws IOException {
-        Request request = new Request.Builder()
-                .url(mSourceUrl)
-                .build();
-        OkHttpClient client = new OkHttpClient.Builder()
-                .authenticator((route, response) -> {
-                    Log.d(TAG, "Authenticating for response: " + response);
-                    Log.d(TAG, "Challenges: " + response.challenges());
-                    String credential = Credentials.basic(mUsername, mPassword);
-                    return response.request().newBuilder()
-                            .header("Authorization", credential)
-                            .build();
-                })
-                .build();
-
-        Response response = client.newCall(request).execute();
-        Log.d(TAG, "MJPEG request finished, status = " + response.code());
-        if (!response.isSuccessful()) {
-            throw new HttpException(response.code());
+        SyncHttpClient.HttpResult result = mHttpClient.get(mUrl);
+        Log.d(TAG, "MJPEG request finished, status = " + result.statusCode);
+        if (result.error != null) {
+            throw new HttpException(result.statusCode, result.error);
         }
-        return new MjpegInputStream(response.body().byteStream());
+        return new MjpegInputStream(result.response.byteStream());
     }
 
     private static class HttpException extends IOException {
-        public HttpException(int code) {
+        public HttpException(int code, Throwable cause) {
             super("HTTP failure code " + code);
+            initCause(cause);
         }
     }
 
@@ -94,7 +76,7 @@ public class MjpegStreamer {
                 try {
                     doStreamOnce();
                 } catch (IOException e) {
-                    Log.e(TAG, "MJPEG streaming from " + mSourceUrl + " failed", e);
+                    Log.e(TAG, "MJPEG streaming from " + mUrl + " failed", e);
                     if (e instanceof HttpException) {
                         // no point in continuing if the server returned failure
                         break;

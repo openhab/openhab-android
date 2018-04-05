@@ -1045,8 +1045,7 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
 
         @Override
         public void bind(OpenHABWidget widget) {
-            mStreamer = new MjpegStreamer(mImageView, widget.url(),
-                    mConnection.getUsername(), mConnection.getPassword());
+            mStreamer = new MjpegStreamer(mImageView, mConnection, widget.url());
         }
 
         @Override
