@@ -215,7 +215,7 @@ public class OpenHABWriteTagActivity extends AppCompatActivity {
     }
 
     private void autoCloseActivity() {
-        new Handler().postDelayed(() -> finish(), 2000);
+        new Handler().postDelayed(this::finish, 2000);
     }
 
     public static abstract class AbstractNFCFragment extends Fragment {

@@ -256,75 +256,54 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
             updateVibrationPreferenceIcon(vibrationPreference, vibrationPreference
                     .getSharedPreferences().getString(Constants.PREFERENCE_NOTIFICATION_VIBRATION, ""));
 
-            subScreenLocalConn.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                @Override
-                public boolean onPreferenceClick(Preference preference) {
-                    getParentActivity().openSubScreen(new LocalConnectionSettingsFragment());
-                    return false;
-                }
+            subScreenLocalConn.setOnPreferenceClickListener(preference -> {
+                getParentActivity().openSubScreen(new LocalConnectionSettingsFragment());
+                return false;
             });
 
-            subScreenRemoteConn.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                @Override
-                public boolean onPreferenceClick(Preference preference) {
-                    getParentActivity().openSubScreen(new RemoteConnectionSettingsFragment());
-                    return false;
-                }
+            subScreenRemoteConn.setOnPreferenceClickListener(preference -> {
+                getParentActivity().openSubScreen(new RemoteConnectionSettingsFragment());
+                return false;
             });
 
-            themePreference.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
-                @Override
-                public boolean onPreferenceChange(Preference preference, Object newValue) {
-                    getParentActivity().handleThemeChange();
-                    return true;
-                }
+            themePreference.setOnPreferenceChangeListener((preference, newValue) -> {
+                getParentActivity().handleThemeChange();
+                return true;
             });
 
-            clearCachePreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                @Override
-                public boolean onPreferenceClick(Preference preference) {
-                    // Get launch intent for application
-                    Intent restartIntent = getActivity().getPackageManager()
-                            .getLaunchIntentForPackage(getActivity().getBaseContext().getPackageName());
-                    restartIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    // Finish current activity
-                    getActivity().finish();
-                    CacheManager.getInstance(getActivity()).clearCache();
-                    // Start launch activity
-                    startActivity(restartIntent);
-                    // Start launch activity
-                    return true;
-                }
+            clearCachePreference.setOnPreferenceClickListener(preference -> {
+                // Get launch intent for application
+                Intent restartIntent = getActivity().getPackageManager()
+                        .getLaunchIntentForPackage(getActivity().getBaseContext().getPackageName());
+                restartIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                // Finish current activity
+                getActivity().finish();
+                CacheManager.getInstance(getActivity()).clearCache();
+                // Start launch activity
+                startActivity(restartIntent);
+                // Start launch activity
+                return true;
             });
 
-            clearDefaultSitemapPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                @Override
-                public boolean onPreferenceClick(Preference preference) {
-                    SharedPreferences.Editor edit = preference.getSharedPreferences().edit();
-                    edit.putString(Constants.PREFERENCE_SITEMAP_NAME, "");
-                    edit.putString(Constants.PREFERENCE_SITEMAP_LABEL, "");
-                    edit.apply();
+            clearDefaultSitemapPreference.setOnPreferenceClickListener(preference -> {
+                SharedPreferences.Editor edit = preference.getSharedPreferences().edit();
+                edit.putString(Constants.PREFERENCE_SITEMAP_NAME, "");
+                edit.putString(Constants.PREFERENCE_SITEMAP_LABEL, "");
+                edit.apply();
 
-                    onNoDefaultSitemap(preference);
-                    getParentActivity().mResultIntent.putExtra(RESULT_EXTRA_SITEMAP_CLEARED, true);
-                    return true;
-                }
+                onNoDefaultSitemap(preference);
+                getParentActivity().mResultIntent.putExtra(RESULT_EXTRA_SITEMAP_CLEARED, true);
+                return true;
             });
 
-            ringtonePreference.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
-                @Override
-                public boolean onPreferenceChange(Preference preference, Object newValue) {
-                    updateRingtonePreferenceSummary(preference, newValue);
-                    return true;
-                }
+            ringtonePreference.setOnPreferenceChangeListener((pref, newValue) -> {
+                updateRingtonePreferenceSummary(pref, newValue);
+                return true;
             });
 
-            vibrationPreference.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
-                @Override
-                public boolean onPreferenceChange(Preference preference, Object newValue) {
-                    updateVibrationPreferenceIcon(preference, newValue);
-                    return true;
-                }
+            vibrationPreference.setOnPreferenceChangeListener((pref, newValue) -> {
+                updateVibrationPreferenceIcon(pref, newValue);
+                return true;
             });
 
             final PreferenceScreen ps = getPreferenceScreen();

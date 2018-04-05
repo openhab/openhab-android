@@ -554,32 +554,29 @@ public class OpenHABMainActivity extends AppCompatActivity implements
             item.setIcon(applyDrawerIconTint(item.getIcon()));
         }
 
-        drawerMenu.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                mDrawerLayout.closeDrawers();
-                switch (item.getItemId()) {
-                    case R.id.notifications:
-                        openNotifications(null);
-                        return true;
-                    case R.id.settings:
-                        Intent settingsIntent = new Intent(OpenHABMainActivity.this,
-                                OpenHABPreferencesActivity.class);
-                        settingsIntent.putExtra(OpenHABPreferencesActivity.START_EXTRA_SERVER_PROPERTIES,
-                                mServerProperties);
-                        startActivityForResult(settingsIntent, SETTINGS_REQUEST_CODE);
-                        return true;
-                    case R.id.about:
-                        openAbout();
-                        return true;
-                }
-                if (item.getGroupId() == GROUP_ID_SITEMAPS) {
-                    OpenHABSitemap sitemap = mServerProperties.sitemaps().get(item.getItemId());
-                    openSitemap(sitemap);
+        drawerMenu.setNavigationItemSelectedListener(item -> {
+            mDrawerLayout.closeDrawers();
+            switch (item.getItemId()) {
+                case R.id.notifications:
+                    openNotifications(null);
                     return true;
-                }
-                return false;
+                case R.id.settings:
+                    Intent settingsIntent = new Intent(OpenHABMainActivity.this,
+                            OpenHABPreferencesActivity.class);
+                    settingsIntent.putExtra(OpenHABPreferencesActivity.START_EXTRA_SERVER_PROPERTIES,
+                            mServerProperties);
+                    startActivityForResult(settingsIntent, SETTINGS_REQUEST_CODE);
+                    return true;
+                case R.id.about:
+                    openAbout();
+                    return true;
             }
+            if (item.getGroupId() == GROUP_ID_SITEMAPS) {
+                OpenHABSitemap sitemap = mServerProperties.sitemaps().get(item.getItemId());
+                openSitemap(sitemap);
+                return true;
+            }
+            return false;
         });
     }
 
@@ -742,18 +739,15 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         }
         mSelectSitemapDialog = new AlertDialog.Builder(this)
                 .setTitle(R.string.mainmenu_openhab_selectsitemap)
-                .setItems(sitemapLabels, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int item) {
-                        OpenHABSitemap sitemap = sitemaps.get(item);
-                        Log.d(TAG, "Selected sitemap " + sitemap);
-                        PreferenceManager.getDefaultSharedPreferences(OpenHABMainActivity.this)
-                                .edit()
-                                .putString(Constants.PREFERENCE_SITEMAP_NAME, sitemap.name())
-                                .putString(Constants.PREFERENCE_SITEMAP_LABEL, sitemap.label())
-                                .apply();
-                        openSitemap(sitemap);
-                    }
+                .setItems(sitemapLabels, (dialog, which) -> {
+                    OpenHABSitemap sitemap = sitemaps.get(which);
+                    Log.d(TAG, "Selected sitemap " + sitemap);
+                    PreferenceManager.getDefaultSharedPreferences(OpenHABMainActivity.this)
+                            .edit()
+                            .putString(Constants.PREFERENCE_SITEMAP_NAME, sitemap.name())
+                            .putString(Constants.PREFERENCE_SITEMAP_LABEL, sitemap.label())
+                            .apply();
+                    openSitemap(sitemap);
                 })
                 .show();
     }
@@ -934,13 +928,10 @@ public class OpenHABMainActivity extends AppCompatActivity implements
 
         mLastSnackbar = Snackbar.make(findViewById(android.R.id.content),
                 R.string.swipe_to_refresh_description, Snackbar.LENGTH_LONG);
-        mLastSnackbar.setAction(R.string.swipe_to_refresh_dismiss, new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                prefs.edit()
-                        .putBoolean(Constants.PREFERENCE_SWIPE_REFRESH_EXPLAINED, true)
-                        .apply();
-            }
+        mLastSnackbar.setAction(R.string.swipe_to_refresh_dismiss, v -> {
+            prefs.edit()
+                    .putBoolean(Constants.PREFERENCE_SWIPE_REFRESH_EXPLAINED, true)
+                    .apply();
         });
         mLastSnackbar.show();
     }

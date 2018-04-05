@@ -812,12 +812,8 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
 
             // Find the closest value in the calculated step value
             String stateString = Float.toString(mBoundWidget.item().stateAsFloat());
-            int stepIndex = Arrays.binarySearch(stepValues, stateString, new Comparator<CharSequence>() {
-                @Override
-                public int compare(CharSequence t1, CharSequence t2) {
-                    return Float.valueOf(t1.toString()).compareTo(Float.valueOf(t2.toString()));
-                }
-            });
+            int stepIndex = Arrays.binarySearch(stepValues, stateString,
+                    (lhs, rhs) -> Float.valueOf(lhs.toString()).compareTo(Float.valueOf(rhs.toString())));
             if (stepIndex < 0) {
                 stepIndex = (-(stepIndex + 1)); // Use the returned insertion point if value is not found and select the closest value.
                 stepIndex = Math.min(stepIndex, stepValues.length - 1);  //handle case where insertion would be larger than the array
@@ -827,12 +823,9 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
             new AlertDialog.Builder(view.getContext())
                     .setTitle(mLabelView.getText())
                     .setView(dialogView)
-                    .setPositiveButton(R.string.set, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int id) {
-                            Util.sendItemCommand(mConnection.getAsyncHttpClient(), mBoundWidget.item(),
-                                    stepValues[numberPicker.getValue()]);
-                        }
+                    .setPositiveButton(R.string.set, (dialog, which) -> {
+                        Util.sendItemCommand(mConnection.getAsyncHttpClient(), mBoundWidget.item(),
+                                stepValues[numberPicker.getValue()]);
                     })
                     .setNegativeButton(R.string.cancel, null)
                     .show();

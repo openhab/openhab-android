@@ -164,20 +164,17 @@ public class OpenHABWidgetListFragment extends Fragment
         final String[] labelArray = labels.toArray(new String[labels.size()]);
         new AlertDialog.Builder(getActivity())
                 .setTitle(R.string.nfc_dialog_title)
-                .setItems(labelArray, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Intent writeTagIntent = new Intent(getActivity(), OpenHABWriteTagActivity.class);
-                        writeTagIntent.putExtra("sitemapPage", displayPageUrl);
+                .setItems(labelArray, (dialog, which) -> {
+                    Intent writeTagIntent = new Intent(getActivity(), OpenHABWriteTagActivity.class);
+                    writeTagIntent.putExtra("sitemapPage", displayPageUrl);
 
-                        if (which < labelArray.length - 1) {
-                            writeTagIntent.putExtra("item", widget.item().name());
-                            writeTagIntent.putExtra("itemType", widget.item().type());
-                            writeTagIntent.putExtra("command", commands.get(which));
-                        }
-                        startActivityForResult(writeTagIntent, 0);
-                        Util.overridePendingTransition(getActivity(), false);
+                    if (which < labelArray.length - 1) {
+                        writeTagIntent.putExtra("item", widget.item().name());
+                        writeTagIntent.putExtra("itemType", widget.item().type());
+                        writeTagIntent.putExtra("command", commands.get(which));
                     }
+                    startActivityForResult(writeTagIntent, 0);
+                    Util.overridePendingTransition(getActivity(), false);
                 })
                 .show();
     }
@@ -205,14 +202,11 @@ public class OpenHABWidgetListFragment extends Fragment
         refreshLayout = getView().findViewById(R.id.swiperefresh);
 
         Util.applySwipeLayoutColors(refreshLayout, R.attr.colorPrimary, R.attr.colorAccent);
-        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                mActivity.showRefreshHintSnackbarIfNeeded();
-                CacheManager.getInstance(getActivity()).clearCache();
-                if (displayPageUrl != null) {
-                    mActivity.triggerPageUpdate(displayPageUrl, true);
-                }
+        refreshLayout.setOnRefreshListener(() -> {
+            mActivity.showRefreshHintSnackbarIfNeeded();
+            CacheManager.getInstance(getActivity()).clearCache();
+            if (displayPageUrl != null) {
+                mActivity.triggerPageUpdate(displayPageUrl, true);
             }
         });
     }

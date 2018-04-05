@@ -112,17 +112,14 @@ public class Util {
 
     public static void sortSitemapList(List<OpenHABSitemap> sitemapList, String defaultSitemapName) {
         // Sort by sitename label, the default sitemap should be the first one
-        Collections.sort(sitemapList, new Comparator<OpenHABSitemap>() {
-            @Override
-            public int compare(OpenHABSitemap sitemap1, OpenHABSitemap sitemap2) {
-                if (sitemap1.name().equals(defaultSitemapName)) {
-                    return -1;
-                }
-                if (sitemap2.name().equals(defaultSitemapName)) {
-                    return 1;
-                }
-                return sitemap1.label().compareToIgnoreCase(sitemap2.label());
+        Collections.sort(sitemapList, (lhs, rhs) -> {
+            if (lhs.name().equals(defaultSitemapName)) {
+                return -1;
             }
+            if (rhs.name().equals(defaultSitemapName)) {
+                return 1;
+            }
+            return lhs.label().compareToIgnoreCase(rhs.label());
         });
     }
 

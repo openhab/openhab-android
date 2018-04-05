@@ -161,23 +161,20 @@ public class AboutActivity extends AppCompatActivity implements
             appCard.addItem(new MaterialAboutActionItem.Builder()
                     .text(R.string.title_activity_libraries)
                     .icon(R.drawable.ic_developer_mode_grey_24dp)
-                    .setOnClickAction(new MaterialAboutItemOnClickAction() {
-                        @Override
-                        public void onClick() {
-                            Fragment f = new LibsBuilder()
-                                    .withFields(R.string.class.getFields())
-                                    .withLicenseShown(true)
-                                    .withAutoDetect(true)
-                                    .supportFragment();
-                            getFragmentManager()
-                                    .beginTransaction()
-                                    .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left,
-                                            R.anim.slide_in_left, R.anim.slide_out_right)
-                                    .replace(R.id.about_container, f)
-                                    .setBreadCrumbTitle(R.string.title_activity_libraries)
-                                    .addToBackStack(null)
-                                    .commit();
-                        }
+                    .setOnClickAction(() -> {
+                        Fragment f = new LibsBuilder()
+                                .withFields(R.string.class.getFields())
+                                .withLicenseShown(true)
+                                .withAutoDetect(true)
+                                .supportFragment();
+                        getFragmentManager()
+                                .beginTransaction()
+                                .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left,
+                                        R.anim.slide_in_left, R.anim.slide_out_right)
+                                .replace(R.id.about_container, f)
+                                .setBreadCrumbTitle(R.string.title_activity_libraries)
+                                .addToBackStack(null)
+                                .commit();
                     })
                     .build());
             appCard.addItem(new MaterialAboutActionItem.Builder()
@@ -268,13 +265,10 @@ public class AboutActivity extends AppCompatActivity implements
         }
 
         private MaterialAboutItemOnClickAction MaterialAboutItemOnClickRedirect(final String url) {
-            return new MaterialAboutItemOnClickAction() {
-                @Override
-                public void onClick() {
-                    Uri uri = Uri.parse(url);
-                    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                    startActivity(intent);
-                }
+            return () -> {
+                Uri uri = Uri.parse(url);
+                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                startActivity(intent);
             };
         }
 

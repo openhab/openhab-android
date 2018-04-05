@@ -229,37 +229,21 @@ public class ConnectionFactoryTest {
 
     private Handler makeMockedHandler() {
         final Handler h = Mockito.mock(Handler.class);
-        when(h.sendEmptyMessage(anyInt())).thenAnswer(new Answer<Boolean>() {
-            @Override
-            public Boolean answer(InvocationOnMock invocationOnMock) throws Throwable {
-                Message msg = new Message();
-                msg.what = invocationOnMock.getArgument(0);
-                ConnectionFactory.sInstance.handleMessage(msg);
-                return Boolean.TRUE;
-            }
+        when(h.sendEmptyMessage(anyInt())).thenAnswer(invocation -> {
+            Message msg = new Message();
+            msg.what = invocation.getArgument(0);
+            ConnectionFactory.sInstance.handleMessage(msg);
+            return Boolean.TRUE;
         });
-        when(h.sendMessage(any(Message.class))).thenAnswer(new Answer<Boolean>() {
-            @Override
-            public Boolean answer(InvocationOnMock invocationOnMock) throws Throwable {
-                Message msg = invocationOnMock.getArgument(0);
-                ConnectionFactory.sInstance.handleMessage(msg);
-                return Boolean.TRUE;
-            }
+        when(h.sendMessage(any(Message.class))).thenAnswer(invocation -> {
+            Message msg = invocation.getArgument(0);
+            ConnectionFactory.sInstance.handleMessage(msg);
+            return Boolean.TRUE;
         });
-        when(h.obtainMessage(anyInt())).thenAnswer(new Answer<Message>() {
-            @Override
-            public Message answer(InvocationOnMock invocationOnMock) throws Throwable {
-                return makeMockedMessage(h, invocationOnMock.getArgument(0), null);
-            }
-        });
-        when(h.obtainMessage(anyInt(), any())).thenAnswer(new Answer<Message>() {
-            @Override
-            public Message answer(InvocationOnMock invocationOnMock) throws Throwable {
-                return makeMockedMessage(h,
-                        invocationOnMock.getArgument(0),
-                        invocationOnMock.getArgument(1));
-            }
-        });
+        when(h.obtainMessage(anyInt()))
+                .thenAnswer(invocation -> makeMockedMessage(h, invocation.getArgument(0), null));
+        when(h.obtainMessage(anyInt(), any()))
+                .thenAnswer(invocation -> makeMockedMessage(h, invocation.getArgument(0), invocation.getArgument(1)));
         return h;
     }
 
