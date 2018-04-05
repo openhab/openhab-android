@@ -26,11 +26,6 @@ public class DemoConnectionTest {
     }
 
     @Test
-    public void testGetOpenHABUrl() {
-        assertEquals("https://demo.openhab.org:8443/", testConnection.getOpenHABUrl());
-    }
-
-    @Test
     public void testGetConnectionType() {
         assertEquals(Connection.TYPE_REMOTE, testConnection.getConnectionType());
     }

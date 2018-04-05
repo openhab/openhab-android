@@ -28,7 +28,6 @@ public class DefaultConnectionTest {
     public TemporaryFolder tempFolder = new TemporaryFolder();
 
     private Connection testConnection;
-    private Connection testConnectionNoUrl;
     private Connection testConnectionRemote;
     private Connection testConnectionCloud;
 
@@ -39,22 +38,10 @@ public class DefaultConnectionTest {
         mockContext = TestUtils.makeMockedAppContext(tempFolder);
         testConnection = new DefaultConnection(mockContext, Connection.TYPE_LOCAL,
                 TEST_BASE_URL, null, null, null);
-        testConnectionNoUrl = new DefaultConnection(mockContext, Connection.TYPE_LOCAL,
-                null, null, null, null);
         testConnectionRemote = new DefaultConnection(mockContext,
                 Connection.TYPE_REMOTE, null, null, null, null);
         testConnectionCloud = new DefaultConnection(mockContext,
                 Connection.TYPE_CLOUD, null, null, null, null);
-    }
-
-    @Test
-    public void testGetOpenHABUrlNotSet() {
-        assertNull(testConnectionNoUrl.getOpenHABUrl());
-    }
-
-    @Test
-    public void testGetOpenHABUrlSet() {
-        assertEquals(TEST_BASE_URL, testConnection.getOpenHABUrl());
     }
 
     @Test

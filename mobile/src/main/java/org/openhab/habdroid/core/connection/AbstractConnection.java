@@ -87,16 +87,10 @@ public abstract class AbstractConnection implements Connection {
     }
 
     @Override
-    @NonNull
-    public String getOpenHABUrl() {
-        return baseUrl;
-    }
-
-    @Override
     public boolean checkReachabilityInBackground() {
-        Log.d(TAG, "Checking reachability of " + getOpenHABUrl());
+        Log.d(TAG, "Checking reachability of " + baseUrl);
         try {
-            URL url = new URL(getOpenHABUrl());
+            URL url = new URL(baseUrl);
             int checkPort = url.getPort();
             if (url.getProtocol().equals("http") && checkPort == -1)
                 checkPort = 80;

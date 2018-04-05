@@ -43,7 +43,6 @@ public interface Connection {
      */
     @Nullable String getUsername();
     @Nullable String getPassword();
-    @NonNull String getOpenHABUrl();
 
     /**
      * @return The type of this connection represented by one of the TYPE_* constants of the

@@ -684,13 +684,12 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         if (TextUtils.isEmpty(nfcItem)) {
             Log.d(TAG, "This is a sitemap tag without parameters");
             // Form the new sitemap page url
-            String newPageUrl = String.format(Locale.US, "%srest/sitemaps%s",
-                    mConnection.getOpenHABUrl(), mPendingNfcData.getPath());
+            String newPageUrl = String.format(Locale.US,
+                    "/rest/sitemaps%s", mPendingNfcData.getPath());
             mController.openPage(newPageUrl);
         } else {
             Log.d(TAG, "Target item = " + nfcItem);
-            String url = String.format(Locale.US, "%srest/items/%s",
-                    mConnection.getOpenHABUrl(), nfcItem);
+            String url = String.format(Locale.US, "/rest/items/%s", nfcItem);
             Util.sendItemCommand(mConnection.getAsyncHttpClient(), url, nfcCommand);
             finish();
         }
