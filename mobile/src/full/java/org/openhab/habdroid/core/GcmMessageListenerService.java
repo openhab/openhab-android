@@ -206,9 +206,9 @@ public class GcmMessageListenerService extends GcmListenerService {
     @TargetApi(23)
     private int getGcmNotificationCount(StatusBarNotification[] active) {
         int count = 0;
-        for (int i = 0; i < active.length; i++) {
-            String groupKey = active[i].getGroupKey();
-            if (active[i].getId() != 0 && groupKey != null && groupKey.endsWith("gcm")) {
+        for (StatusBarNotification n : active) {
+            String groupKey = n.getGroupKey();
+            if (n.getId() != 0 && groupKey != null && groupKey.endsWith("gcm")) {
                 count++;
             }
         }
