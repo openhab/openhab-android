@@ -13,6 +13,8 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.URL;
 
+import okhttp3.OkHttpClient;
+
 public abstract class AbstractConnection implements Connection {
     private static final String TAG = AbstractConnection.class.getSimpleName();
 
@@ -24,20 +26,17 @@ public abstract class AbstractConnection implements Connection {
     private final AsyncHttpClient asyncHttpClient;
     private final SyncHttpClient syncHttpClient;
 
-    AbstractConnection(Context ctx, int connectionType, String baseUrl,
-            String username, String password, String clientCertAlias) {
+    AbstractConnection(OkHttpClient httpClient, int connectionType,
+            String baseUrl, String username, String password) {
         this.username = username;
         this.password = password;
         this.baseUrl = baseUrl;
         this.connectionType = connectionType;
 
-        asyncHttpClient = new AsyncHttpClient(ctx, baseUrl, clientCertAlias);
+        asyncHttpClient = new AsyncHttpClient(httpClient, baseUrl, username, password);
         asyncHttpClient.setTimeout(30000);
 
-        syncHttpClient = new SyncHttpClient(ctx, baseUrl, clientCertAlias);
-
-        updateHttpClientAuth(asyncHttpClient);
-        updateHttpClientAuth(syncHttpClient);
+        syncHttpClient = new SyncHttpClient(httpClient, baseUrl, username, password);
     }
 
     AbstractConnection(@NonNull AbstractConnection base, int connectionType) {
@@ -48,12 +47,6 @@ public abstract class AbstractConnection implements Connection {
 
         asyncHttpClient = base.getAsyncHttpClient();
         syncHttpClient = base.getSyncHttpClient();
-    }
-
-    private void updateHttpClientAuth(HttpClient httpClient) {
-        if (hasUsernameAndPassword()) {
-            httpClient.setBasicAuth(getUsername(), getPassword());
-        }
     }
 
     private boolean hasUsernameAndPassword() {

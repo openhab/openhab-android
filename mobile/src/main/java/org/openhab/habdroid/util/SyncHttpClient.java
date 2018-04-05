@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.util.Map;
 
 import okhttp3.Call;
+import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
@@ -112,8 +113,8 @@ public class SyncHttpClient extends HttpClient {
         }
     }
 
-    public SyncHttpClient(Context context, String baseUrl, String clientCertAlias) {
-        super(context, baseUrl, clientCertAlias);
+    public SyncHttpClient(OkHttpClient client, String baseUrl, String username, String password) {
+        super(client, baseUrl, username, password);
     }
 
     public HttpResult get(String url) {

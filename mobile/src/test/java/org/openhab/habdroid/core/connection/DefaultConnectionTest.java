@@ -1,19 +1,13 @@
 package org.openhab.habdroid.core.connection;
 
-import android.content.Context;
-
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
-import org.openhab.habdroid.TestUtils;
 import org.openhab.habdroid.util.AsyncHttpClient;
 import org.openhab.habdroid.util.HttpClient;
 import org.openhab.habdroid.util.SyncHttpClient;
 
-import java.io.IOException;
-
 import okhttp3.Credentials;
+import okhttp3.OkHttpClient;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
@@ -24,24 +18,21 @@ import static junit.framework.Assert.assertTrue;
 public class DefaultConnectionTest {
     private static final String TEST_BASE_URL = "https://demo.local:8443";
 
-    @Rule
-    public TemporaryFolder tempFolder = new TemporaryFolder();
+    private OkHttpClient client;
 
     private Connection testConnection;
     private Connection testConnectionRemote;
     private Connection testConnectionCloud;
 
-    private Context mockContext;
-
     @Before
-    public void setup() throws IOException {
-        mockContext = TestUtils.makeMockedAppContext(tempFolder);
-        testConnection = new DefaultConnection(mockContext, Connection.TYPE_LOCAL,
-                TEST_BASE_URL, null, null, null);
-        testConnectionRemote = new DefaultConnection(mockContext,
-                Connection.TYPE_REMOTE, null, null, null, null);
-        testConnectionCloud = new DefaultConnection(mockContext,
-                Connection.TYPE_CLOUD, null, null, null, null);
+    public void setup() {
+        client = new OkHttpClient.Builder().build();
+        testConnection = new DefaultConnection(client, Connection.TYPE_LOCAL,
+                TEST_BASE_URL, null, null);
+        testConnectionRemote = new DefaultConnection(client, Connection.TYPE_REMOTE,
+                null, null, null);
+        testConnectionCloud = new DefaultConnection(client,
+                Connection.TYPE_CLOUD, null, null, null);
     }
 
     @Test
@@ -71,15 +62,15 @@ public class DefaultConnectionTest {
 
     @Test
     public void testGetUsernameSet() {
-        Connection connection = new DefaultConnection(mockContext, Connection.TYPE_LOCAL,
-                TEST_BASE_URL, "Test-User", null, null);
+        Connection connection = new DefaultConnection(client, Connection.TYPE_LOCAL,
+                TEST_BASE_URL, "Test-User", null);
         assertEquals("Test-User", connection.getUsername());
     }
 
     @Test
     public void testGetPasswordSet() {
-        Connection connection = new DefaultConnection(mockContext, Connection.TYPE_LOCAL,
-                TEST_BASE_URL, null, "Test-Password", null);
+        Connection connection = new DefaultConnection(client, Connection.TYPE_LOCAL,
+                TEST_BASE_URL, null, "Test-Password");
         assertEquals("Test-Password", connection.getPassword());
     }
 
@@ -117,8 +108,8 @@ public class DefaultConnectionTest {
 
     @Test
     public void testAsyncHasUsernamePassword() {
-        Connection connection = new DefaultConnection(mockContext, Connection.TYPE_LOCAL,
-                TEST_BASE_URL, "Test-User", "Test-Password", null);
+        Connection connection = new DefaultConnection(client, Connection.TYPE_LOCAL,
+                TEST_BASE_URL, "Test-User", "Test-Password");
         HttpClient httpClient = connection.getAsyncHttpClient();
 
         assertTrue(httpClient.getHeaders().containsKey("Authorization"));
@@ -128,8 +119,8 @@ public class DefaultConnectionTest {
 
     @Test
     public void testSyncHasUsernamePassword() {
-        Connection connection = new DefaultConnection(mockContext, Connection.TYPE_LOCAL,
-                TEST_BASE_URL, "Test-User", "Test-Password", null);
+        Connection connection = new DefaultConnection(client, Connection.TYPE_LOCAL,
+                TEST_BASE_URL, "Test-User", "Test-Password");
         HttpClient httpClient = connection.getSyncHttpClient();
 
         assertTrue(httpClient.getHeaders().containsKey("Authorization"));

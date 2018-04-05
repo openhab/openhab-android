@@ -1,19 +1,14 @@
 package org.openhab.habdroid.util;
 
-
-import android.content.Context;
-
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
 import org.junit.runner.RunWith;
-import org.openhab.habdroid.TestUtils;
 import org.powermock.core.classloader.annotations.PowerMockIgnore;
 import org.powermock.modules.junit4.PowerMockRunner;
 
-import java.io.IOException;
 import java.net.UnknownHostException;
+
+import okhttp3.OkHttpClient;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -21,14 +16,11 @@ import static org.junit.Assert.assertTrue;
 @RunWith(PowerMockRunner.class)
 @PowerMockIgnore("javax.net.ssl.*")
 public class SyncHttpClientTest {
-    @Rule
-    public TemporaryFolder tempFolder = new TemporaryFolder();
-
-    Context mContext;
+    OkHttpClient mClient;
 
     @Before
-    public void setupContext() throws IOException {
-        mContext = TestUtils.makeMockedAppContext(tempFolder);
+    public void setupClient() {
+        mClient = new OkHttpClient.Builder().build();
     }
 
     /**
@@ -36,7 +28,8 @@ public class SyncHttpClientTest {
      */
     @Test
     public void testMethodErrorResponse() {
-        SyncHttpClient httpClient = new SyncHttpClient(mContext, "https://demo.test", null);
+        SyncHttpClient httpClient = new SyncHttpClient(mClient, "https://demo.test",
+                null, null);
 
         String host = "just.a.local.url.local";
         SyncHttpClient.HttpStatusResult resp = httpClient.get("https://" + host).asStatus();

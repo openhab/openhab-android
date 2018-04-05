@@ -80,7 +80,6 @@ import org.openhab.habdroid.ui.activity.ContentController;
 import org.openhab.habdroid.util.AsyncServiceResolver;
 import org.openhab.habdroid.util.Constants;
 import org.openhab.habdroid.util.AsyncHttpClient;
-import org.openhab.habdroid.util.HttpClient;
 import org.openhab.habdroid.util.Util;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
@@ -395,10 +394,6 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         Log.d(TAG, "onResume()");
 
         super.onResume();
-        ConnectionFactory.addListener(this);
-
-        onAvailableConnectionChanged();
-        updateNotificationDrawerItem();
 
         NfcAdapter nfcAdapter = NfcAdapter.getDefaultAdapter(this);
         if (nfcAdapter != null) {
@@ -415,11 +410,6 @@ public class OpenHABMainActivity extends AppCompatActivity implements
     @Override
     protected void onPause() {
         super.onPause();
-        if (mServiceResolver != null && mServiceResolver.isAlive()) {
-            mServiceResolver.interrupt();
-            mServiceResolver = null;
-        }
-        ConnectionFactory.removeListener(this);
         NfcAdapter nfcAdapter = NfcAdapter.getDefaultAdapter(this);
         if (nfcAdapter != null) {
             nfcAdapter.disableForegroundDispatch(this);
@@ -500,8 +490,13 @@ public class OpenHABMainActivity extends AppCompatActivity implements
     @Override
     protected void onStart() {
         super.onStart();
-        HttpClient.getTrustManagerInstance(this).bindDisplayActivity(this);
         mStarted = true;
+
+        ConnectionFactory.addListener(this);
+
+        onAvailableConnectionChanged();
+        updateNotificationDrawerItem();
+
         if (mConnection != null) {
             if (mInitState == InitState.QUERY_SERVER_PROPS) {
                 mController.clearServerCommunicationFailure();
@@ -523,7 +518,11 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         Log.d(TAG, "onStop()");
         mStarted = false;
         super.onStop();
-        HttpClient.getTrustManagerInstance(this).unbindDisplayActivity(this);
+        ConnectionFactory.removeListener(this);
+        if (mServiceResolver != null && mServiceResolver.isAlive()) {
+            mServiceResolver.interrupt();
+            mServiceResolver = null;
+        }
         if(selectSitemapDialog != null && selectSitemapDialog.isShowing()) {
             selectSitemapDialog.dismiss();
         }
