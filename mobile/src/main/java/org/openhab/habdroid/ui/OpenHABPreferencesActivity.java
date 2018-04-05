@@ -65,7 +65,7 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_prefs);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.openhab_toolbar);
+        Toolbar toolbar = findViewById(R.id.openhab_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
