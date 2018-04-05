@@ -10,6 +10,7 @@
         <attr name="lineColor" format="color" />
         <attr name="textDistanceFromLine" format="dimension" />
         <attr name="lineHeight" format="dimension" />
+        <attr name="backgroundColor" format="color" />
     </declare-styleable>
 
     <declare-styleable name="customAttrs">
