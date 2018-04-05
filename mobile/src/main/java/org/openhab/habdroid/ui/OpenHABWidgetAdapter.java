@@ -662,7 +662,7 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
                 spinnerSelectedIndex = spinnerArray.size() - 1;
             }
 
-            ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(itemView.getContext(),
+            ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(itemView.getContext(),
                     android.R.layout.simple_spinner_item, spinnerArray);
             spinnerAdapter.setDropDownViewResource(android.R.layout.select_dialog_singlechoice);
 

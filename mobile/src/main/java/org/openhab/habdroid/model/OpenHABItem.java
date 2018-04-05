@@ -215,7 +215,7 @@ public abstract class OpenHABItem implements Parcelable {
                 .name(name)
                 .label(name)
                 .state("Unitialized".equals(state) ? null : state)
-                .members(new ArrayList<OpenHABItem>())
+                .members(new ArrayList<>())
                 .link(link)
                 .readOnly(false)
                 .build();

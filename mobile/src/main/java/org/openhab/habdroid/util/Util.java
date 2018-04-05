@@ -84,7 +84,7 @@ public class Util {
     }
 
     public static List<OpenHABSitemap> parseSitemapList(Document document) {
-        List<OpenHABSitemap> sitemapList = new ArrayList<OpenHABSitemap>();
+        List<OpenHABSitemap> sitemapList = new ArrayList<>();
         NodeList sitemapNodes = document.getElementsByTagName("sitemap");
         if (sitemapNodes.getLength() > 0) {
             for (int i = 0; i < sitemapNodes.getLength(); i++) {
@@ -95,7 +95,7 @@ public class Util {
     }
 
     public static List<OpenHABSitemap> parseSitemapList(JSONArray jsonArray) {
-        List<OpenHABSitemap> sitemapList = new ArrayList<OpenHABSitemap>();
+        List<OpenHABSitemap> sitemapList = new ArrayList<>();
         for (int i = 0; i < jsonArray.length(); i++) {
             try {
                 JSONObject sitemapJson = jsonArray.getJSONObject(i);

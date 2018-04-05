@@ -264,7 +264,7 @@ public class PageConnectionHolderFragment extends Fragment {
             }
 
             Log.d(TAG, "Loading data for " + mUrl);
-            Map<String, String> headers = new HashMap<String, String>();
+            Map<String, String> headers = new HashMap<>();
             if (!mCallback.serverReturnsJson()) {
                 headers.put("Accept", "application/xml");
             }

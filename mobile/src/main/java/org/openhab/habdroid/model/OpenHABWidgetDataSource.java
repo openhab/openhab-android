@@ -78,7 +78,7 @@ public class OpenHABWidgetDataSource {
     }
 
     public ArrayList<OpenHABWidget> getWidgets() {
-        ArrayList<OpenHABWidget> result = new ArrayList<OpenHABWidget>();
+        ArrayList<OpenHABWidget> result = new ArrayList<>();
         HashSet<String> firstLevelWidgetIds = new HashSet<>();
         for (OpenHABWidget widget : allWidgets) {
             if (widget.parentId() == null) {
