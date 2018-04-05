@@ -15,7 +15,6 @@ import android.app.PendingIntent;
 import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
@@ -33,7 +32,6 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.design.widget.NavigationView;
@@ -82,7 +80,6 @@ import org.openhab.habdroid.util.Constants;
 import org.openhab.habdroid.util.AsyncHttpClient;
 import org.openhab.habdroid.util.Util;
 
-import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.net.ConnectException;
 import java.net.SocketTimeoutException;
@@ -100,7 +97,6 @@ import javax.net.ssl.SSLException;
 import javax.net.ssl.SSLPeerUnverifiedException;
 
 import es.dmoral.toasty.Toasty;
-import okhttp3.Call;
 import okhttp3.Headers;
 import okhttp3.Request;
 

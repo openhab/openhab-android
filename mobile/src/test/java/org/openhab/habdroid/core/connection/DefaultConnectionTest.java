@@ -13,7 +13,6 @@ import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertNull;
-import static junit.framework.Assert.assertTrue;
 
 public class DefaultConnectionTest {
     private static final String TEST_BASE_URL = "https://demo.local:8443";

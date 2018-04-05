@@ -7,7 +7,6 @@ import android.support.v4.app.FragmentManager;
 
 import org.openhab.habdroid.ui.OpenHABWidgetListFragment;
 import org.openhab.habdroid.ui.activity.ContentController;
-import org.openhab.habdroid.ui.activity.PageConnectionHolderFragment;
 
 public class FragmentStatusIdlingResource implements IdlingResource {
     private final String mName;

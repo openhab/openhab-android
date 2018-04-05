@@ -1,12 +1,9 @@
 package org.openhab.habdroid.core.connection;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
 import org.openhab.habdroid.util.AsyncHttpClient;
-import org.openhab.habdroid.util.HttpClient;
 import org.openhab.habdroid.util.SyncHttpClient;
 
 import java.net.InetSocketAddress;

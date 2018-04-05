@@ -1,6 +1,5 @@
 package org.openhab.habdroid.core.connection;
 
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import org.openhab.habdroid.util.AsyncHttpClient;

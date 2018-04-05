@@ -12,7 +12,6 @@ package org.openhab.habdroid.model;
 import android.graphics.Color;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
-import android.util.Log;
 
 import com.google.auto.value.AutoValue;
 

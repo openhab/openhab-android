@@ -11,7 +11,6 @@ package org.openhab.habdroid.util;
 
 import android.app.Activity;
 import android.app.ActivityManager;
-import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -36,7 +35,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import okhttp3.Headers;
