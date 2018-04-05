@@ -275,12 +275,12 @@ public class AboutActivity extends AppCompatActivity implements
         private String getServerSecret() {
             SyncHttpClient.HttpTextResult result =
                     mConnection.getSyncHttpClient().get("/static/secret").asText();
-            if (result.error != null) {
-                Log.e(TAG, "Could not fetch server secret " + result.error.getMessage());
-                return null;
-            } else {
+            if (result.isSuccessful()) {
                 Log.d(TAG, "Got secret " + obfuscateString(result.response));
                 return result.response;
+            } else {
+                Log.e(TAG, "Could not fetch server secret " + result.error);
+                return null;
             }
         }
 
@@ -288,12 +288,12 @@ public class AboutActivity extends AppCompatActivity implements
             final String uuidUrl = mOpenHABVersion == 1 ? "/static/uuid" : "/rest/uuid";
             SyncHttpClient.HttpTextResult result =
                     mConnection.getSyncHttpClient().get(uuidUrl).asText();
-            if (result.error != null) {
-                Log.e(TAG, "Could not fetch server uuid " + result.error.getMessage());
-                return null;
-            } else {
+            if (result.isSuccessful()) {
                 Log.d(TAG, "Got uuid " + obfuscateString(result.response));
                 return result.response;
+            } else {
+                Log.e(TAG, "Could not fetch server uuid " + result.error);
+                return null;
             }
         }
 
@@ -302,8 +302,8 @@ public class AboutActivity extends AppCompatActivity implements
             Log.d(TAG, "url = " + versionUrl);
             SyncHttpClient.HttpTextResult result =
                     mConnection.getSyncHttpClient().get(versionUrl).asText();
-            if (result.error != null) {
-                Log.e(TAG, "Could not fetch rest API version " + result.error.getMessage());
+            if (!result.isSuccessful()) {
+                Log.e(TAG, "Could not fetch rest API version " + result.error);
             } else {
                 if (mOpenHABVersion == 1) {
                     return result.response;

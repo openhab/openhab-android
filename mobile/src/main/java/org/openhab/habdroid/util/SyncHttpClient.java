@@ -49,6 +49,9 @@ public class SyncHttpClient extends HttpClient {
             this.error = error;
         }
 
+        public boolean isSuccessful() {
+            return error == null;
+        }
         public void close() {
             if (response != null) {
                 response.close();
@@ -71,6 +74,10 @@ public class SyncHttpClient extends HttpClient {
             this.error = result.error;
             this.statusCode = result.statusCode;
             result.close();
+        }
+
+        public boolean isSuccessful() {
+            return error == null;
         }
     }
 
@@ -98,6 +105,10 @@ public class SyncHttpClient extends HttpClient {
                 this.error = error;
             }
             result.close();
+        }
+
+        public boolean isSuccessful() {
+            return error == null;
         }
     }
 

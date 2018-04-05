@@ -94,10 +94,10 @@ public class OpenHABVoiceService extends IntentService {
             result = client.post("/rest/items/VoiceCommand",
                     command, "text/plain;charset=UTF-8").asStatus();
         }
-        if (result.error != null) {
-            Log.e(TAG, "Sending voice command failed", result.error);
-        } else {
+        if (result.isSuccessful()) {
             Log.d(TAG, "Voice command was sent successfully");
+        } else {
+            Log.e(TAG, "Sending voice command failed", result.error);
         }
     }
 }

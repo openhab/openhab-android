@@ -153,7 +153,7 @@ public class DefaultConnectionTest {
     @Test
     public void testSyncResolveRelativeUrl() {
         SyncHttpClient.HttpResult result = testConnection.getSyncHttpClient().get("/rest/test");
-        assertTrue("The request should never succeed in tests", result.error != null);
+        assertFalse("The request should never succeed in tests", result.isSuccessful());
         assertEquals(TEST_BASE_URL + "/rest/test", result.request.url().toString());
         result.close();
     }
@@ -162,7 +162,7 @@ public class DefaultConnectionTest {
     public void testSyncResolveAbsoluteUrl() {
         SyncHttpClient.HttpResult result =
                 testConnection.getSyncHttpClient().get("http://mylocalmachine.local/rest/test");
-        assertTrue("The request should never succeed in tests", result.error != null);
+        assertFalse("The request should never succeed in tests", result.isSuccessful());
         assertEquals("http://mylocalmachine.local/rest/test", result.request.url().toString());
         result.close();
     }

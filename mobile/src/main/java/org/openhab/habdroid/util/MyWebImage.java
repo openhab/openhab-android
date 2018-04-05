@@ -114,7 +114,7 @@ public class MyWebImage implements SmartImage {
         }
 
         SyncHttpClient.HttpResult result = client.get(url, mAuthHeaders);
-        if (result.error != null) {
+        if (!result.isSuccessful()) {
             Log.e(TAG, "Failed to get " + url + " with code " + result.statusCode + ":" + result.error);
             return null;
         }
