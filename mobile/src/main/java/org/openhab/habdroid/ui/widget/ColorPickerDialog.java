@@ -9,18 +9,27 @@
 
 package org.openhab.habdroid.ui.widget;
 
-import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.app.AppCompatDialog;
 import android.view.View;
 
-public class ColorPickerDialog extends Dialog {
+import com.larswerkman.holocolorpicker.ColorPicker;
+import com.larswerkman.holocolorpicker.SaturationBar;
+import com.larswerkman.holocolorpicker.ValueBar;
 
-	private static final String TAG = ColorPickerDialog.class.getSimpleName();
-    private OnColorChangedListener mListener;
+import org.openhab.habdroid.R;
+
+
+public class ColorPickerDialog extends AppCompatDialog implements ColorPicker.OnColorSelectedListener {
+    public interface OnColorChangedListener {
+        void onColorChanged(float[] hsv);
+    };
+
+    private final OnColorChangedListener mListener;
     private float[] mInitialColor;
-    private ColorPicker colorPickerView;
+    private ColorPicker mColorPickerView;
     private Object tag;
 
 
@@ -28,42 +37,41 @@ public class ColorPickerDialog extends Dialog {
                              OnColorChangedListener listener,
                              float[] initialColor) {
         super(context);
- 
+
         mListener = listener;
         mInitialColor = initialColor;
     }
- 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        OnColorChangedListener l = new OnColorChangedListener() {
-            public void colorChanged(float[] color, View v) {
-                mListener.colorChanged(color, v);
-                Log.d(TAG, String.format("New color = %f %f %f", color[0], color[1], color[2]));
-//                dismiss();
-            }
-        };
-        // TODO: add initial color
-        this.colorPickerView = new ColorPicker(getContext(), l);
-        this.colorPickerView.setHSVColor(mInitialColor);
-        if (this.tag != null)
-        	this.colorPickerView.setTag(this.tag);
-        setContentView(this.colorPickerView);
-        setTitle("Pick a Color");
+
+        View contentView = getLayoutInflater().inflate(R.layout.color_picker_dialog, null);
+
+        SaturationBar saturationBar = contentView.findViewById(R.id.saturation_bar);
+        ValueBar valueBar = contentView.findViewById(R.id.value_bar);
+
+        mColorPickerView = contentView.findViewById(R.id.picker);
+        mColorPickerView.addSaturationBar(saturationBar);
+        mColorPickerView.addValueBar(valueBar);
+        mColorPickerView.setOnColorSelectedListener(this);
+
+        if (mInitialColor != null) {
+            int color = Color.HSVToColor(mInitialColor);
+            mColorPickerView.setColor(color);
+            mColorPickerView.setOldCenterColor(color);
+            mColorPickerView.setShowOldCenterColor(true);
+        } else {
+            mColorPickerView.setShowOldCenterColor(false);
+        }
+
+        setContentView(contentView);
     }
 
-	public View getView() {
-		return colorPickerView;
-	}
-
-	public Object getTag() {
-		return tag;
-	}
-
-	public void setTag(Object tag) {
-		this.tag = tag;
-		if (this.colorPickerView != null) {
-			this.colorPickerView.setTag(this.tag);
-		}
-	}
+    @Override
+    public void onColorSelected(int color) {
+        float[] hsv = new float[3];
+        Color.RGBToHSV(Color.red(color), Color.green(color), Color.blue(color), hsv);
+        mListener.onColorChanged(hsv);
+    }
 }

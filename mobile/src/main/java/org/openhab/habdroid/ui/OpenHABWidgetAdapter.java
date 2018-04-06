@@ -56,7 +56,6 @@ import org.openhab.habdroid.model.OpenHABWidget;
 import org.openhab.habdroid.model.OpenHABWidgetMapping;
 import org.openhab.habdroid.ui.widget.ColorPickerDialog;
 import org.openhab.habdroid.ui.widget.DividerItemDecoration;
-import org.openhab.habdroid.ui.widget.OnColorChangedListener;
 import org.openhab.habdroid.ui.widget.SegmentedControlButton;
 import org.openhab.habdroid.ui.widget.WidgetImageView;
 import org.openhab.habdroid.util.Constants;
@@ -1044,13 +1043,10 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
                 if (v.getTag() instanceof String) {
                     Util.sendItemCommand(mConnection.getAsyncHttpClient(), mBoundItem, (String) v.getTag());
                 } else {
-                    ColorPickerDialog colorDialog = new ColorPickerDialog(v.getContext(), new OnColorChangedListener() {
-                        @Override
-                        public void colorChanged(float[] hsv, View v) {
-                            Log.d(TAG, "New color HSV = " + hsv[0] + ", " + hsv[1] + ", " + hsv[2]);
-                            String newColor = String.valueOf(hsv[0]) + "," + String.valueOf(hsv[1] * 100) + "," + String.valueOf(hsv[2] * 100);
-                            Util.sendItemCommand(mConnection.getAsyncHttpClient(), mBoundItem, newColor);
-                        }
+                    ColorPickerDialog colorDialog = new ColorPickerDialog(v.getContext(), hsv -> {
+                        Log.d(TAG, "New color HSV = " + hsv[0] + ", " + hsv[1] + ", " + hsv[2]);
+                        String newColor = String.valueOf(hsv[0]) + "," + String.valueOf(hsv[1] * 100) + "," + String.valueOf(hsv[2] * 100);
+                        Util.sendItemCommand(mConnection.getAsyncHttpClient(), mBoundItem, newColor);
                     }, mBoundItem.stateAsHSV());
                     colorDialog.show();
                 }
