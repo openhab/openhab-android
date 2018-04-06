@@ -11,47 +11,47 @@ import static org.junit.Assert.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class OpenHABSitemapTest {
-    OpenHABSitemap demoSitemapWithLabel;
-    OpenHABSitemap homeSitemapWithoutLabel;
+    private OpenHABSitemap mDemoSitemapWithLabel;
+    private OpenHABSitemap mHomeSitemapWithoutLabel;
 
     @Before
     public void initSitemaps() throws JSONException {
         String jsonString = "{\"name\":\"demo\",\"label\":\"Main Menu\",\"link\":\"http://demo.openhab.org:8080/rest/sitemaps/demo\",\"homepage\":{\"link\":\"http://demo.openhab.org:8080/rest/sitemaps/demo/demo\",\"leaf\":false,\"timeout\":false,\"widgets\":[]}}";
         JSONObject jsonObject = new JSONObject(jsonString);
-        demoSitemapWithLabel = OpenHABSitemap.fromJson(jsonObject);
+        mDemoSitemapWithLabel = OpenHABSitemap.fromJson(jsonObject);
 
         jsonString = "{\"name\":\"home\",\"icon\":\"home\",\"link\":\"http://demo.openhab.org:8080/rest/sitemaps/home\",\"homepage\":{\"link\":\"http://demo.openhab.org:8080/rest/sitemaps/home/home\",\"leaf\":true,\"timeout\":false,\"widgets\":[]}}";
         jsonObject = new JSONObject(jsonString);
-        homeSitemapWithoutLabel = OpenHABSitemap.fromJson(jsonObject);
+        mHomeSitemapWithoutLabel = OpenHABSitemap.fromJson(jsonObject);
     }
 
     @Test
     public void sitemapLabelNonNull() {
-        assertEquals("Main Menu", demoSitemapWithLabel.label());
-        assertEquals("Sitemap without explicit label should return name for getLabel","home", homeSitemapWithoutLabel.label());
+        assertEquals("Main Menu", mDemoSitemapWithLabel.label());
+        assertEquals("Sitemap without explicit label should return name for getLabel","home", mHomeSitemapWithoutLabel.label());
     }
 
     @Test
     public void testGetLink() {
-        assertEquals("http://demo.openhab.org:8080/rest/sitemaps/demo", demoSitemapWithLabel.link());
-        assertEquals("http://demo.openhab.org:8080/rest/sitemaps/home", homeSitemapWithoutLabel.link());
+        assertEquals("http://demo.openhab.org:8080/rest/sitemaps/demo", mDemoSitemapWithLabel.link());
+        assertEquals("http://demo.openhab.org:8080/rest/sitemaps/home", mHomeSitemapWithoutLabel.link());
     }
 
     @Test
     public void testGetHomepageLink() {
-        assertEquals("http://demo.openhab.org:8080/rest/sitemaps/demo/demo", demoSitemapWithLabel.homepageLink());
-        assertEquals("http://demo.openhab.org:8080/rest/sitemaps/home/home", homeSitemapWithoutLabel.homepageLink());
+        assertEquals("http://demo.openhab.org:8080/rest/sitemaps/demo/demo", mDemoSitemapWithLabel.homepageLink());
+        assertEquals("http://demo.openhab.org:8080/rest/sitemaps/home/home", mHomeSitemapWithoutLabel.homepageLink());
     }
 
     @Test
     public void testGetIcon() {
-        assertNull(demoSitemapWithLabel.icon());
-        assertEquals("home", homeSitemapWithoutLabel.icon());
+        assertNull(mDemoSitemapWithLabel.icon());
+        assertEquals("home", mHomeSitemapWithoutLabel.icon());
     }
 
     @Test
     public void testGetName() {
-        assertEquals("demo", demoSitemapWithLabel.name());
-        assertEquals("home", homeSitemapWithoutLabel.name());
+        assertEquals("demo", mDemoSitemapWithLabel.name());
+        assertEquals("home", mHomeSitemapWithoutLabel.name());
     }
 }

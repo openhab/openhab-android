@@ -249,9 +249,7 @@ public abstract class OpenHABItem implements Parcelable {
         }
 
         JSONObject stateDescription = jsonObject.optJSONObject("stateDescription");
-        boolean readOnly = stateDescription != null
-                ? stateDescription.optBoolean("readOnly", false)
-                : false;
+        boolean readOnly = stateDescription != null && stateDescription.optBoolean("readOnly", false);
 
         List<OpenHABLabeledValue> options = null;
         if (stateDescription != null && stateDescription.has("options")) {

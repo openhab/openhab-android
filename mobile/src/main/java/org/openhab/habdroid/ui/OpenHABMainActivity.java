@@ -109,8 +109,8 @@ public class OpenHABMainActivity extends AppCompatActivity implements
             "org.openhab.habdroid.action.NOTIFICATION_SELECTED";
     public static final String EXTRA_PERSISTED_NOTIFICATION_ID = "persistedNotificationId";
 
-    // Logging TAG
     private static final String TAG = OpenHABMainActivity.class.getSimpleName();
+
     // Activities request codes
     private static final int INTRO_REQUEST_CODE = 1001;
     private static final int SETTINGS_REQUEST_CODE = 1002;
@@ -119,19 +119,15 @@ public class OpenHABMainActivity extends AppCompatActivity implements
     // Drawer item codes
     private static final int GROUP_ID_SITEMAPS = 1;
 
-    // preferences
-    private SharedPreferences mSettings;
+    private SharedPreferences mPrefs;
     private AsyncServiceResolver mServiceResolver;
-    // Drawer Layout
     private DrawerLayout mDrawerLayout;
-    // Drawer Toggler
     private ActionBarDrawerToggle mDrawerToggle;
     private Menu mDrawerMenu;
     private ColorStateList mDrawerIconTintList;
     private RecyclerView.RecycledViewPool mViewPool;
     private ProgressBar mProgressBar;
-    // select sitemap dialog
-    private Dialog mSelectSitemapDialog;
+    private Dialog mSitemapSelectionDialog;
     private Snackbar mLastSnackbar;
     private Connection mConnection;
 
@@ -148,7 +144,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
      * reset ourselves to fullscreen.
      * @author Dan Cunningham
      */
-    private BroadcastReceiver dreamReceiver = new BroadcastReceiver() {
+    private BroadcastReceiver mDreamReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             Log.i("INTENTFILTER", "Recieved intent: " + intent.toString());
@@ -172,10 +168,10 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         // Set default values, false means do it one time during the very first launch
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
 
-        mSettings = PreferenceManager.getDefaultSharedPreferences(this);
+        mPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 
         // Disable screen timeout if set in preferences
-        if (mSettings.getBoolean(Constants.PREFERENCE_SCREENTIMEROFF, false)) {
+        if (mPrefs.getBoolean(Constants.PREFERENCE_SCREENTIMEROFF, false)) {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         }
 
@@ -231,32 +227,31 @@ public class OpenHABMainActivity extends AppCompatActivity implements
             if (savedInstanceState.getBoolean("isSitemapSelectionDialogShown")) {
                 showSitemapSelectionDialog();
             }
-        } else {
         }
 
         processIntent(getIntent());
 
         if (isFullscreenEnabled()) {
-            registerReceiver(dreamReceiver, new IntentFilter("android.intent.action.DREAMING_STARTED"));
-            registerReceiver(dreamReceiver, new IntentFilter("android.intent.action.DREAMING_STOPPED"));
+            IntentFilter filter = new IntentFilter(Intent.ACTION_DREAMING_STARTED);
+            filter.addAction(Intent.ACTION_DREAMING_STOPPED);
+            registerReceiver(mDreamReceiver, filter);
             checkFullscreen();
         }
 
         //  Create a new boolean and preference and set it to true
-        boolean isFirstStart = mSettings.getBoolean("firstStart", true);
+        boolean isFirstStart = mPrefs.getBoolean("firstStart", true);
 
-        SharedPreferences.Editor prefsEdit = mSettings.edit();
+        SharedPreferences.Editor prefsEditor = mPrefs.edit();
         //  If the activity has never started before...
         if (isFirstStart) {
-
             //  Launch app intro
             final Intent i = new Intent(OpenHABMainActivity.this, IntroActivity.class);
             startActivityForResult(i, INTRO_REQUEST_CODE);
 
-            prefsEdit.putBoolean("firstStart", false).apply();
+            prefsEditor.putBoolean("firstStart", false);
         }
-        OnUpdateBroadcastReceiver.updateComparableVersion(prefsEdit);
-        prefsEdit.apply();
+        OnUpdateBroadcastReceiver.updateComparableVersion(prefsEditor);
+        prefsEditor.apply();
     }
 
     private void handleConnectionChange() {
@@ -490,8 +485,8 @@ public class OpenHABMainActivity extends AppCompatActivity implements
             mServiceResolver.interrupt();
             mServiceResolver = null;
         }
-        if (mSelectSitemapDialog != null && mSelectSitemapDialog.isShowing()) {
-            mSelectSitemapDialog.dismiss();
+        if (mSitemapSelectionDialog != null && mSitemapSelectionDialog.isShowing()) {
+            mSitemapSelectionDialog.dismiss();
         }
         if (mPropsUpdateHandle != null) {
             mPropsUpdateHandle.cancel();
@@ -585,7 +580,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
             sitemapItem.setVisible(false);
         } else {
             final String defaultSitemapName =
-                    mSettings.getString(Constants.PREFERENCE_SITEMAP_NAME, "");
+                    mPrefs.getString(Constants.PREFERENCE_SITEMAP_NAME, "");
             final List<OpenHABSitemap> sitemaps = mServerProperties.sitemaps();
             Util.sortSitemapList(sitemaps, defaultSitemapName);
 
@@ -719,8 +714,8 @@ public class OpenHABMainActivity extends AppCompatActivity implements
 
     private void showSitemapSelectionDialog() {
         Log.d(TAG, "Opening sitemap selection dialog");
-        if (mSelectSitemapDialog != null && mSelectSitemapDialog.isShowing()) {
-            mSelectSitemapDialog.dismiss();
+        if (mSitemapSelectionDialog != null && mSitemapSelectionDialog.isShowing()) {
+            mSitemapSelectionDialog.dismiss();
         }
         if (isFinishing()) {
             return;
@@ -731,7 +726,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         for (int i = 0; i < sitemaps.size(); i++) {
             sitemapLabels[i] = sitemaps.get(i).label();
         }
-        mSelectSitemapDialog = new AlertDialog.Builder(this)
+        mSitemapSelectionDialog = new AlertDialog.Builder(this)
                 .setTitle(R.string.mainmenu_openhab_selectsitemap)
                 .setItems(sitemapLabels, (dialog, which) -> {
                     OpenHABSitemap sitemap = sitemaps.get(which);
@@ -839,8 +834,8 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         mStarted = false;
         savedInstanceState.putParcelable("serverProperties", mServerProperties);
         savedInstanceState.putParcelable("sitemap", mSelectedSitemap);
-        savedInstanceState.putBoolean("isSitemapSelectionDialogShown", mSelectSitemapDialog != null &&
-                mSelectSitemapDialog.isShowing());
+        savedInstanceState.putBoolean("isSitemapSelectionDialogShown",
+                mSitemapSelectionDialog != null && mSitemapSelectionDialog.isShowing());
         savedInstanceState.putString("controller", mController.getClass().getCanonicalName());
         savedInstanceState.putInt("connectionHash",
                 mConnection != null ? mConnection.hashCode() : -1);
@@ -1043,12 +1038,10 @@ public class OpenHABMainActivity extends AppCompatActivity implements
      */
     protected void checkFullscreen() {
         if (isFullscreenEnabled()) {
-            int uiOptions = getWindow().getDecorView().getSystemUiVisibility();
-            uiOptions |= View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                uiOptions |= View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
-                uiOptions |= View.SYSTEM_UI_FLAG_FULLSCREEN;
-            }
+            int uiOptions = getWindow().getDecorView().getSystemUiVisibility()
+                    | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                    | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+                    | View.SYSTEM_UI_FLAG_FULLSCREEN;
             getWindow().getDecorView().setSystemUiVisibility(uiOptions);
         }
     }
@@ -1057,8 +1050,9 @@ public class OpenHABMainActivity extends AppCompatActivity implements
      * If we are 4.4 we can use fullscreen mode and Daydream features
      */
     protected boolean isFullscreenEnabled() {
-        boolean supportsKitKat = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
-        boolean fullScreen = mSettings.getBoolean("default_openhab_fullscreen", false);
-        return supportsKitKat && fullScreen;
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
+            return false;
+        }
+        return mPrefs.getBoolean(Constants.PREFERENCE_FULLSCREEN, false);
     }
 }

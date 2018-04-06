@@ -27,7 +27,7 @@ import static org.hamcrest.Matchers.allOf;
 @RunWith(AndroidJUnit4.class)
 public class NfcTest extends TestWithoutIntro {
     @Test
-    public void nfcTest() throws InterruptedException {
+    public void nfcTest() {
         ViewInteraction recyclerView = onView(withId(R.id.recyclerview));
         Context context = InstrumentationRegistry.getTargetContext();
 

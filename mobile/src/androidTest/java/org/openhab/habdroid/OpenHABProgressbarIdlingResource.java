@@ -5,31 +5,31 @@ import android.support.test.espresso.IdlingResource;
 import android.view.View;
 
 public class OpenHABProgressbarIdlingResource implements IdlingResource {
-    private String name;
-    private View progressBar;
-    private ResourceCallback callback;
+    private String mName;
+    private View mProgressBar;
+    private ResourceCallback mCallback;
 
     public OpenHABProgressbarIdlingResource(@NonNull String name, @NonNull View progressBar) {
-        this.name = name;
-        this.progressBar = progressBar;
+        mName = name;
+        mProgressBar = progressBar;
     }
 
     @Override
     public String getName() {
-        return this.name;
+        return mName;
     }
 
     @Override
     public boolean isIdleNow() {
-        boolean idle = progressBar.getVisibility() == View.INVISIBLE;
-        if (idle && callback != null)
-            callback.onTransitionToIdle();
+        boolean idle = mProgressBar.getVisibility() == View.INVISIBLE;
+        if (idle && mCallback != null)
+            mCallback.onTransitionToIdle();
 
         return idle;
     }
 
     @Override
     public void registerIdleTransitionCallback(ResourceCallback callback) {
-        this.callback = callback;
+        mCallback = callback;
     }
 }

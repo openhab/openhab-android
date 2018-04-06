@@ -12,6 +12,7 @@ package org.openhab.habdroid.util;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.res.Resources;
+import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.preference.PreferenceManager;
@@ -44,12 +45,12 @@ import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 
 public class Util {
-
     private final static String TAG = Util.class.getSimpleName();
 
     public static void overridePendingTransition(Activity activity, boolean reverse) {
-        if (!PreferenceManager.getDefaultSharedPreferences(activity).getString(Constants.PREFERENCE_ANIMATION, "android").equals("android")) {
-            if (PreferenceManager.getDefaultSharedPreferences(activity).getString(Constants.PREFERENCE_ANIMATION, "android").equals("ios")) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(activity);
+        if (!prefs.getString(Constants.PREFERENCE_ANIMATION, "android").equals("android")) {
+            if (prefs.getString(Constants.PREFERENCE_ANIMATION, "android").equals("ios")) {
                 if (reverse) {
                     activity.overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
                 } else {

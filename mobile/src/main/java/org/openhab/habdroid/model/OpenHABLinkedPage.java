@@ -13,7 +13,6 @@ import android.os.Parcelable;
 
 import com.google.auto.value.AutoValue;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -72,7 +71,7 @@ public abstract class OpenHABLinkedPage implements Parcelable {
                 .build();
     }
 
-    public static OpenHABLinkedPage fromJson(JSONObject jsonObject) throws JSONException {
+    public static OpenHABLinkedPage fromJson(JSONObject jsonObject) {
         if (jsonObject == null) {
             return null;
         }

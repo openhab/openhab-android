@@ -14,7 +14,6 @@ import android.support.annotation.Nullable;
 
 import com.google.auto.value.AutoValue;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -79,7 +78,7 @@ public abstract class OpenHABSitemap implements Parcelable {
                 .build();
     }
 
-    public static OpenHABSitemap fromJson(JSONObject jsonObject) throws JSONException {
+    public static OpenHABSitemap fromJson(JSONObject jsonObject) {
         String name = jsonObject.optString("name", null);
         String label = jsonObject.optString("label", null);
         String icon = jsonObject.optString("icon", null);

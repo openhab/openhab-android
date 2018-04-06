@@ -20,7 +20,6 @@ import static org.hamcrest.CoreMatchers.allOf;
 import static org.junit.Assume.assumeTrue;
 
 public class VoiceRecognitionTest extends TestWithoutIntro {
-
     @Rule
     public ActivityTestRule<OpenHABMainActivity> mActivityTestRule = new ActivityTestRule<>
             (OpenHABMainActivity.class, true, false);

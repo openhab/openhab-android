@@ -24,7 +24,6 @@ import org.openhab.habdroid.core.OpenHABVoiceService;
  * Implementation of App Widget functionality.
  */
 public class VoiceWidget extends AppWidgetProvider {
-
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         // There may be multiple widgets active, so update all of them
@@ -49,7 +48,8 @@ public class VoiceWidget extends AppWidgetProvider {
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.voice_widget);
 
         Intent callbackIntent = new Intent(context, OpenHABVoiceService.class);
-        PendingIntent openhabPendingIntent = PendingIntent.getService(context, 9, callbackIntent, 0);
+        PendingIntent callbackPendingIntent = PendingIntent.getService(context,
+                9, callbackIntent, 0);
 
         Intent speechIntent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         // Display an hint to the user about what he should say.
@@ -57,10 +57,9 @@ public class VoiceWidget extends AppWidgetProvider {
         speechIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
         speechIntent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 1);
         speechIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        speechIntent.putExtra(RecognizerIntent.EXTRA_RESULTS_PENDINGINTENT, openhabPendingIntent);
+        speechIntent.putExtra(RecognizerIntent.EXTRA_RESULTS_PENDINGINTENT, callbackPendingIntent);
 
         PendingIntent speechPendingIntent = PendingIntent.getActivity(context, 6, speechIntent, 0);
-
         views.setOnClickPendingIntent(R.id.btn_mic, speechPendingIntent);
 
         Intent mainIntent = new Intent(context, OpenHABMainActivity.class);

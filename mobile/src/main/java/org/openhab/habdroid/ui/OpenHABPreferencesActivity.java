@@ -224,19 +224,17 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
 
             final Preference subScreenLocalConn = findPreference(Constants.SUBSCREEN_LOCAL_CONNECTION);
             final Preference subScreenRemoteConn = findPreference(Constants.SUBSCREEN_REMOTE_CONNECTION);
-            final Preference themePreference = getPreferenceScreen().findPreference(Constants.PREFERENCE_THEME);
-            final Preference clearCachePreference = getPreferenceScreen().findPreference(Constants
-                    .PREFERENCE_CLEAR_CACHE);
-            final Preference clearDefaultSitemapPreference = getPreferenceScreen().findPreference
-                    (Constants.PREFERENCE_CLEAR_DEFAULT_SITEMAP);
-            final Preference ringtonePreference = getPreferenceScreen().findPreference(Constants.PREFERENCE_TONE);
+            final Preference themePreference = findPreference(Constants.PREFERENCE_THEME);
+            final Preference clearCachePreference = findPreference(Constants.PREFERENCE_CLEAR_CACHE);
+            final Preference clearDefaultSitemapPreference =
+                    findPreference(Constants.PREFERENCE_CLEAR_DEFAULT_SITEMAP);
+            final Preference ringtonePreference = findPreference(Constants.PREFERENCE_TONE);
             final Preference vibrationPreference =
-                    getPreferenceScreen().findPreference(Constants.PREFERENCE_NOTIFICATION_VIBRATION);
+                    findPreference(Constants.PREFERENCE_NOTIFICATION_VIBRATION);
 
-            String currentDefaultSitemap = clearDefaultSitemapPreference.getSharedPreferences().getString(Constants
-                    .PREFERENCE_SITEMAP_NAME, "");
-            String currentDefaultSitemapLabel = clearDefaultSitemapPreference.getSharedPreferences().getString(Constants
-                    .PREFERENCE_SITEMAP_LABEL, "");
+            SharedPreferences prefs = getPreferenceScreen().getSharedPreferences();
+            String currentDefaultSitemap = prefs.getString(Constants.PREFERENCE_SITEMAP_NAME, "");
+            String currentDefaultSitemapLabel = prefs.getString(Constants.PREFERENCE_SITEMAP_LABEL, "");
             if (currentDefaultSitemap.isEmpty()) {
                 onNoDefaultSitemap(clearDefaultSitemapPreference);
             } else {

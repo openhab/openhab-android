@@ -46,8 +46,6 @@ import static org.openhab.habdroid.util.Util.obfuscateString;
 
 public class AboutActivity extends AppCompatActivity implements
         FragmentManager.OnBackStackChangedListener{
-    private final static String TAG = AboutActivity.class.getSimpleName();
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         Util.setActivityTheme(this);

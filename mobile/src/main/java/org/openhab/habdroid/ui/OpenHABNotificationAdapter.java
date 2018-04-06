@@ -11,6 +11,7 @@ package org.openhab.habdroid.ui;
 
 import android.content.Context;
 import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -40,7 +41,6 @@ public class OpenHABNotificationAdapter extends RecyclerView.Adapter<RecyclerVie
 
     private final ArrayList<OpenHABNotification> mItems = new ArrayList<>();
     private final LayoutInflater mInflater;
-    private final Context mContext;
     private final LoadMoreListener mLoadMoreListener;
     private boolean mHasMoreItems;
     private boolean mWaitingForMoreData;
@@ -48,7 +48,6 @@ public class OpenHABNotificationAdapter extends RecyclerView.Adapter<RecyclerVie
 
     public OpenHABNotificationAdapter(Context context, LoadMoreListener loadMoreListener) {
         super();
-        mContext = context;
         mInflater = LayoutInflater.from(context);
         mLoadMoreListener = loadMoreListener;
         mHasMoreItems = false;
@@ -92,6 +91,7 @@ public class OpenHABNotificationAdapter extends RecyclerView.Adapter<RecyclerVie
         return position == mItems.size() ? VIEW_TYPE_LOADING : VIEW_TYPE_NOTIFICATION;
     }
 
+    @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == VIEW_TYPE_LOADING) {

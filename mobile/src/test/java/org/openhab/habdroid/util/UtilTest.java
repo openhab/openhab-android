@@ -24,12 +24,7 @@ import static org.junit.Assert.assertEquals;
 
 public class UtilTest {
     @Test
-    public void overridePendingTransition() throws Exception {
-
-    }
-
-    @Test
-    public void normalizeUrl() throws Exception {
+    public void normalizeUrl() {
         assertEquals("http://localhost/", Util.normalizeUrl("http://localhost/"));
         assertEquals("http://localhost/", Util.normalizeUrl("http://localhost"));
         assertEquals("http://127.0.0.1/", Util.normalizeUrl("http://127.0.0.1/"));

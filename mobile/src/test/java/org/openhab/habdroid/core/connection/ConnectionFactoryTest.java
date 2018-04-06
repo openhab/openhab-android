@@ -39,44 +39,44 @@ import static org.mockito.Mockito.when;
 
 public class ConnectionFactoryTest {
     @Rule
-    public TemporaryFolder tempFolder = new TemporaryFolder();
+    public TemporaryFolder mTempFolder = new TemporaryFolder();
 
-    private Context mockContext;
-    private ConnectivityManager mockConnectivityService;
-    private SharedPreferences mockSettings;
+    private Context mMockContext;
+    private ConnectivityManager mMockConnectivityService;
+    private SharedPreferences mMockPrefs;
 
     @Before
     public void setup() throws IOException {
-        mockConnectivityService = Mockito.mock(ConnectivityManager.class);
+        mMockConnectivityService = Mockito.mock(ConnectivityManager.class);
 
-        File cacheFolder = tempFolder.newFolder("cache");
-        File appDir = tempFolder.newFolder();
+        File cacheFolder = mTempFolder.newFolder("cache");
+        File appDir = mTempFolder.newFolder();
 
-        mockContext = Mockito.mock(Application.class);
-        Mockito.when(mockContext.getApplicationContext()).thenReturn(mockContext);
-        Mockito.when(mockContext.getCacheDir()).thenReturn(cacheFolder);
-        Mockito.when(mockContext.getDir(anyString(), anyInt()))
+        mMockContext = Mockito.mock(Application.class);
+        Mockito.when(mMockContext.getApplicationContext()).thenReturn(mMockContext);
+        Mockito.when(mMockContext.getCacheDir()).thenReturn(cacheFolder);
+        Mockito.when(mMockContext.getDir(anyString(), anyInt()))
                 .then(invocation -> new File(appDir, invocation.getArgument(0).toString()));
-        when(mockContext.getString(anyInt())).thenReturn("");
-        when(mockContext.getSystemService(eq(Context.CONNECTIVITY_SERVICE)))
-                .thenReturn(mockConnectivityService);
-        when(mockContext.getMainLooper()).thenReturn(Looper.getMainLooper());
+        when(mMockContext.getString(anyInt())).thenReturn("");
+        when(mMockContext.getSystemService(eq(Context.CONNECTIVITY_SERVICE)))
+                .thenReturn(mMockConnectivityService);
+        when(mMockContext.getMainLooper()).thenReturn(Looper.getMainLooper());
 
-        mockSettings = Mockito.mock(SharedPreferences.class);
+        mMockPrefs = Mockito.mock(SharedPreferences.class);
 
-        ConnectionFactory.initialize(mockContext, mockSettings);
+        ConnectionFactory.initialize(mMockContext, mMockPrefs);
 
         ConnectionFactory.sInstance.mMainHandler = makeMockedHandler();
         ConnectionFactory.sInstance.mUpdateHandler = makeMockedHandler();
     }
 
     @Test
-    public void testGetConnectionRemoteWithUrl() throws ConnectionException, IOException {
+    public void testGetConnectionRemoteWithUrl() throws IOException {
         MockWebServer server = new MockWebServer();
         server.enqueue(new MockResponse().setResponseCode(404));
         server.start();
 
-        when(mockSettings.getString(eq(Constants.PREFERENCE_REMOTE_URL), anyString()))
+        when(mMockPrefs.getString(eq(Constants.PREFERENCE_REMOTE_URL), anyString()))
                 .thenReturn(server.url("/").toString());
         ConnectionFactory.sInstance.updateConnections();
         Connection conn = ConnectionFactory.getConnection(Connection.TYPE_REMOTE);
@@ -88,8 +88,8 @@ public class ConnectionFactoryTest {
     }
 
     @Test
-    public void testGetConnectionRemoteWithoutUrl() throws ConnectionException {
-        when(mockSettings.getString(eq(Constants.PREFERENCE_REMOTE_URL), anyString()))
+    public void testGetConnectionRemoteWithoutUrl() {
+        when(mMockPrefs.getString(eq(Constants.PREFERENCE_REMOTE_URL), anyString()))
                 .thenReturn("");
         ConnectionFactory.sInstance.updateConnections();
         Connection conn = ConnectionFactory.getConnection(Connection.TYPE_REMOTE);
@@ -99,8 +99,8 @@ public class ConnectionFactoryTest {
     }
 
     @Test
-    public void testGetConnectionLocalWithUrl() throws ConnectionException {
-        when(mockSettings.getString(eq(Constants.PREFERENCE_LOCAL_URL), anyString()))
+    public void testGetConnectionLocalWithUrl() {
+        when(mMockPrefs.getString(eq(Constants.PREFERENCE_LOCAL_URL), anyString()))
                 .thenReturn("https://openhab.local:8080");
         ConnectionFactory.sInstance.updateConnections();
         Connection conn = ConnectionFactory.getConnection(Connection.TYPE_LOCAL);
@@ -112,8 +112,8 @@ public class ConnectionFactoryTest {
     }
 
     @Test
-    public void testGetConnectionLocalWithoutUrl() throws ConnectionException {
-        when(mockSettings.getString(eq(Constants.PREFERENCE_LOCAL_URL), anyString()))
+    public void testGetConnectionLocalWithoutUrl() {
+        when(mMockPrefs.getString(eq(Constants.PREFERENCE_LOCAL_URL), anyString()))
                 .thenReturn("");
         ConnectionFactory.sInstance.updateConnections();
         Connection conn = ConnectionFactory.getConnection(Connection.TYPE_LOCAL);
@@ -123,12 +123,12 @@ public class ConnectionFactoryTest {
     }
 
     @Test
-    public void testGetConnectionCloudWithUrl() throws ConnectionException, IOException {
+    public void testGetConnectionCloudWithUrl() throws IOException {
         MockWebServer server = new MockWebServer();
         server.enqueue(new MockResponse().setBody("{'gcm': { 'senderId': '12345'} }"));
         server.start();
 
-        when(mockSettings.getString(eq(Constants.PREFERENCE_REMOTE_URL), anyString()))
+        when(mMockPrefs.getString(eq(Constants.PREFERENCE_REMOTE_URL), anyString()))
                 .thenReturn(server.url("/").toString());
 
         ConnectionFactory.sInstance.updateConnections();
@@ -165,7 +165,7 @@ public class ConnectionFactoryTest {
         server.enqueue(new MockResponse().setResponseCode(404));
         server.start();
 
-        when(mockSettings.getString(eq(Constants.PREFERENCE_REMOTE_URL), anyString()))
+        when(mMockPrefs.getString(eq(Constants.PREFERENCE_REMOTE_URL), anyString()))
                 .thenReturn(server.url("/").toString());
         ConnectionFactory.sInstance.updateConnections();
         triggerNetworkUpdate(ConnectivityManager.TYPE_WIFI);
@@ -186,9 +186,9 @@ public class ConnectionFactoryTest {
         server.enqueue(new MockResponse().setResponseCode(404));
         server.start();
 
-        when(mockSettings.getString(eq(Constants.PREFERENCE_REMOTE_URL), anyString()))
+        when(mMockPrefs.getString(eq(Constants.PREFERENCE_REMOTE_URL), anyString()))
                 .thenReturn(server.url("/").toString());
-        when(mockSettings.getString(eq(Constants.PREFERENCE_LOCAL_URL), anyString()))
+        when(mMockPrefs.getString(eq(Constants.PREFERENCE_LOCAL_URL), anyString()))
                 .thenReturn("https://myopenhab.org:443");
         ConnectionFactory.sInstance.updateConnections();
         triggerNetworkUpdate(ConnectivityManager.TYPE_WIFI);
@@ -205,7 +205,7 @@ public class ConnectionFactoryTest {
 
     @Test(expected = NoUrlInformationException.class)
     public void testGetAnyConnectionWifiNoLocalNoRemote() throws ConnectionException {
-        when(mockSettings.getString(anyString(), anyString())).thenReturn(null);
+        when(mMockPrefs.getString(anyString(), anyString())).thenReturn(null);
         triggerNetworkUpdate(ConnectivityManager.TYPE_WIFI);
 
         ConnectionFactory.getUsableConnection();
@@ -219,9 +219,9 @@ public class ConnectionFactoryTest {
     }
 
     private void triggerNetworkUpdate(NetworkInfo info) {
-        when(mockConnectivityService.getActiveNetworkInfo()).thenReturn(info);
+        when(mMockConnectivityService.getActiveNetworkInfo()).thenReturn(info);
 
-        ConnectionFactory.sInstance.onReceive(mockContext,
+        ConnectionFactory.sInstance.onReceive(mMockContext,
                 new Intent(ConnectivityManager.CONNECTIVITY_ACTION));
     }
 

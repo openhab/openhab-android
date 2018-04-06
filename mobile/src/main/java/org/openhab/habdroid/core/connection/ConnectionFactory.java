@@ -75,9 +75,9 @@ final public class ConnectionFactory extends BroadcastReceiver implements
     private static final int MSG_AVAILABLE_DONE = 2;
     private static final int MSG_CLOUD_DONE = 3;
 
-    private Context ctx;
-    private SharedPreferences settings;
-    private MemorizingTrustManager mTrustManager;
+    private final Context mContext;
+    private final SharedPreferences mPrefs;
+    private final MemorizingTrustManager mTrustManager;
     private OkHttpClient mHttpClient;
     private String mLastClientCertAlias;
 
@@ -86,12 +86,12 @@ final public class ConnectionFactory extends BroadcastReceiver implements
     private CloudConnection mCloudConnection;
     private Connection mAvailableConnection;
     private ConnectionException mConnectionFailureReason;
-    private HashSet<UpdateListener> mListeners = new HashSet<>();
+    private final HashSet<UpdateListener> mListeners = new HashSet<>();
     private boolean mNeedsUpdate;
     private boolean mIgnoreNextConnectivityChange;
     private boolean mAvailableInitialized;
     private boolean mCloudInitialized;
-    private Object mInitializationLock = new Object();
+    private final Object mInitializationLock = new Object();
 
     private HandlerThread mUpdateThread;
     @VisibleForTesting
@@ -102,22 +102,22 @@ final public class ConnectionFactory extends BroadcastReceiver implements
     @VisibleForTesting
     public static ConnectionFactory sInstance;
 
-    ConnectionFactory(Context ctx, SharedPreferences settings) {
-        this.ctx = ctx;
-        this.settings = settings;
-        this.settings.registerOnSharedPreferenceChangeListener(this);
+    ConnectionFactory(Context context, SharedPreferences prefs) {
+        mContext = context;
+        mPrefs = prefs;
+        prefs.registerOnSharedPreferenceChangeListener(this);
 
-        mTrustManager = new MemorizingTrustManager(ctx);
+        mTrustManager = new MemorizingTrustManager(context);
         mHttpClient = new OkHttpClient.Builder()
-                .cache(CacheManager.getInstance(ctx).getHttpCache())
+                .cache(CacheManager.getInstance(context).getHttpCache())
                 .hostnameVerifier(mTrustManager.wrapHostnameVerifier(OkHostnameVerifier.INSTANCE))
                 .build();
         updateHttpClientForClientCert(true);
 
         IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
         // Make sure to ignore the initial sticky broadcast, as we're only interested in changes
-        mIgnoreNextConnectivityChange = ctx.registerReceiver(null, filter) != null;
-        ctx.registerReceiver(this, filter);
+        mIgnoreNextConnectivityChange = context.registerReceiver(null, filter) != null;
+        context.registerReceiver(this, filter);
 
         mUpdateThread = new HandlerThread("ConnectionUpdate");
         mUpdateThread.start();
@@ -136,7 +136,7 @@ final public class ConnectionFactory extends BroadcastReceiver implements
     }
 
     public static void shutdown() {
-        sInstance.ctx.unregisterReceiver(sInstance);
+        sInstance.mContext.unregisterReceiver(sInstance);
         sInstance.mUpdateThread.quit();
     }
 
@@ -274,10 +274,11 @@ final public class ConnectionFactory extends BroadcastReceiver implements
     public boolean handleMessage(Message msg) {
         switch (msg.what) {
             case MSG_UPDATE_AVAILABLE: { // update thread
+                //noinspection unchecked
                 Pair<Connection, Connection> connections = (Pair<Connection, Connection>) msg.obj;
                 Message result = mMainHandler.obtainMessage(MSG_AVAILABLE_DONE);
                 try {
-                    result.obj = determineAvailableConnection(ctx,
+                    result.obj = determineAvailableConnection(mContext,
                             connections.first, connections.second);
                 } catch (ConnectionException e) {
                     result.obj = e;
@@ -365,7 +366,7 @@ final public class ConnectionFactory extends BroadcastReceiver implements
 
     @VisibleForTesting
     public void updateConnections() {
-        if (settings.getBoolean(Constants.PREFERENCE_DEMOMODE, false)) {
+        if (mPrefs.getBoolean(Constants.PREFERENCE_DEMOMODE, false)) {
             mLocalConnection = mRemoteConnection = new DemoConnection(mHttpClient);
             handleAvailableCheckDone(mLocalConnection, null);
             handleCloudCheckDone(null);
@@ -387,11 +388,11 @@ final public class ConnectionFactory extends BroadcastReceiver implements
     }
 
     private void updateHttpClientForClientCert(boolean forceUpdate) {
-        String clientCertAlias = settings.getBoolean(Constants.PREFERENCE_DEMOMODE, false)
+        String clientCertAlias = mPrefs.getBoolean(Constants.PREFERENCE_DEMOMODE, false)
                 ? null // No client cert in demo mode
-                : settings.getString(Constants.PREFERENCE_SSLCLIENTCERT, null);
+                : mPrefs.getString(Constants.PREFERENCE_SSLCLIENTCERT, null);
         KeyManager[] keyManagers = clientCertAlias != null
-                ? new KeyManager[] { new ClientKeyManager(ctx, clientCertAlias) }
+                ? new KeyManager[] { new ClientKeyManager(mContext, clientCertAlias) }
                 : null;
 
         // Updating the SSL socket factory is an expensive call;
@@ -441,7 +442,7 @@ final public class ConnectionFactory extends BroadcastReceiver implements
     private void handleCloudCheckDone(CloudConnection connection) {
         if (connection != mCloudConnection) {
             mCloudConnection = connection;
-            CloudMessagingHelper.onConnectionUpdated(ctx, connection);
+            CloudMessagingHelper.onConnectionUpdated(mContext, connection);
             for (UpdateListener l : mListeners) {
                 l.onCloudConnectionChanged(connection);
             }
@@ -470,13 +471,13 @@ final public class ConnectionFactory extends BroadcastReceiver implements
 
     private AbstractConnection makeConnection(int type, String urlKey,
             String userNameKey, String passwordKey) {
-        String url = Util.normalizeUrl(settings.getString(urlKey, ""));
+        String url = Util.normalizeUrl(mPrefs.getString(urlKey, ""));
         if (url.isEmpty()) {
             return null;
         }
         return new DefaultConnection(mHttpClient, type, url,
-                settings.getString(userNameKey, null),
-                settings.getString(passwordKey, null));
+                mPrefs.getString(userNameKey, null),
+                mPrefs.getString(passwordKey, null));
     }
 
     private static class ClientKeyManager implements X509KeyManager {

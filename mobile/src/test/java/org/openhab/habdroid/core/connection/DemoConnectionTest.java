@@ -9,26 +9,26 @@ import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNull;
 
 public class DemoConnectionTest {
-    private Connection testConnection;
+    private Connection mTestConnection;
 
     @Before
     public void setup() {
         OkHttpClient client = new OkHttpClient.Builder().build();
-        testConnection = new DemoConnection(client);
+        mTestConnection = new DemoConnection(client);
     }
 
     @Test
     public void testGetConnectionType() {
-        assertEquals(Connection.TYPE_REMOTE, testConnection.getConnectionType());
+        assertEquals(Connection.TYPE_REMOTE, mTestConnection.getConnectionType());
     }
 
     @Test
     public void testGetUsername() {
-        assertNull(testConnection.getUsername());
+        assertNull(mTestConnection.getUsername());
     }
 
     @Test
     public void testGetPassword() {
-        assertNull(testConnection.getPassword());
+        assertNull(mTestConnection.getPassword());
     }
 }

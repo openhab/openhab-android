@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (c) 2010-2016, openHAB.org and others.
  *
  * All rights reserved. This program and the accompanying materials
@@ -23,12 +23,13 @@ import android.graphics.Paint;
 import android.graphics.Paint.Style;
 import android.graphics.drawable.Drawable;
 import android.support.v7.content.res.AppCompatResources;
+import android.support.v7.widget.AppCompatRadioButton;
 import android.util.AttributeSet;
 
 import org.openhab.habdroid.R;
 
 /** @author benjamin ferrari */
-public class SegmentedControlButton extends android.support.v7.widget.AppCompatRadioButton {
+public class SegmentedControlButton extends AppCompatRadioButton {
     private int mLineHeight;
 
     private float mX;
@@ -42,23 +43,20 @@ public class SegmentedControlButton extends android.support.v7.widget.AppCompatR
     private Paint mBackgroundPaint;
 
     public SegmentedControlButton(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        init(attrs);
+        this(context, attrs, 0);
     }
 
     public SegmentedControlButton(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        init(attrs);
-    }
-
-    private void init(AttributeSet attrs) {
         setButtonDrawable(null);
-        if (attrs != null) {
-            TypedArray attributes = this.getContext().obtainStyledAttributes(attrs, R.styleable.SegmentedControlButton);
 
-            int lineColor = attributes.getColor(R.styleable.SegmentedControlButton_lineColor, 0);
-            mLineHeight = attributes.getDimensionPixelSize(R.styleable.SegmentedControlButton_lineHeight, 0);
-            mTextDistanceFromLine = attributes.getDimensionPixelSize(R.styleable.SegmentedControlButton_textDistanceFromLine, 0);
+        if (attrs != null) {
+            TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.SegmentedControlButton);
+
+            int lineColor = a.getColor(R.styleable.SegmentedControlButton_lineColor, 0);
+            mLineHeight = a.getDimensionPixelSize(R.styleable.SegmentedControlButton_lineHeight, 0);
+            mTextDistanceFromLine = a.getDimensionPixelSize(
+                    R.styleable.SegmentedControlButton_textDistanceFromLine, 0);
 
             mTextPaint = new Paint();
             mTextPaint.setAntiAlias(true);
@@ -69,13 +67,13 @@ public class SegmentedControlButton extends android.support.v7.widget.AppCompatR
             mLinePaint.setColor(lineColor);
             mLinePaint.setStyle(Style.FILL);
 
-            int bgColorResId = attributes.getResourceId(R.styleable.SegmentedControlButton_backgroundColor, 0);
+            int bgColorResId = a.getResourceId(R.styleable.SegmentedControlButton_backgroundColor, 0);
             if (bgColorResId != 0) {
                 mBackgroundColorList = AppCompatResources.getColorStateList(getContext(), bgColorResId);
                 mBackgroundPaint = new Paint();
             }
 
-            attributes.recycle();
+            a.recycle();
         }
     }
 

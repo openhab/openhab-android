@@ -15,33 +15,33 @@ import okhttp3.OkHttpClient;
 public abstract class AbstractConnection implements Connection {
     private static final String TAG = AbstractConnection.class.getSimpleName();
 
-    private int connectionType;
-    private String username;
-    private String password;
-    private String baseUrl;
+    private final int mConnectionType;
+    private final String mUserName;
+    private final String mPassword;
+    private final String mBaseUrl;
 
-    private final AsyncHttpClient asyncHttpClient;
-    private final SyncHttpClient syncHttpClient;
+    private final AsyncHttpClient mAsyncHttpClient;
+    private final SyncHttpClient mSyncHttpClient;
 
     AbstractConnection(OkHttpClient httpClient, int connectionType,
             String baseUrl, String username, String password) {
-        this.username = username;
-        this.password = password;
-        this.baseUrl = baseUrl;
-        this.connectionType = connectionType;
+        mUserName = username;
+        mPassword = password;
+        mBaseUrl = baseUrl;
+        mConnectionType = connectionType;
 
-        asyncHttpClient = new AsyncHttpClient(httpClient, baseUrl, username, password);
-        syncHttpClient = new SyncHttpClient(httpClient, baseUrl, username, password);
+        mAsyncHttpClient = new AsyncHttpClient(httpClient, baseUrl, username, password);
+        mSyncHttpClient = new SyncHttpClient(httpClient, baseUrl, username, password);
     }
 
     AbstractConnection(@NonNull AbstractConnection base, int connectionType) {
-        this.username = base.username;
-        this.password = base.password;
-        this.baseUrl = base.baseUrl;
-        this.connectionType = connectionType;
+        mUserName = base.mUserName;
+        mPassword = base.mPassword;
+        mBaseUrl = base.mBaseUrl;
+        mConnectionType = connectionType;
 
-        asyncHttpClient = base.getAsyncHttpClient();
-        syncHttpClient = base.getSyncHttpClient();
+        mAsyncHttpClient = base.getAsyncHttpClient();
+        mSyncHttpClient = base.getSyncHttpClient();
     }
 
     private boolean hasUsernameAndPassword() {
@@ -51,34 +51,34 @@ public abstract class AbstractConnection implements Connection {
 
     @Override
     public AsyncHttpClient getAsyncHttpClient() {
-        return asyncHttpClient;
+        return mAsyncHttpClient;
     }
 
     @Override
     public SyncHttpClient getSyncHttpClient() {
-        return syncHttpClient;
+        return mSyncHttpClient;
     }
 
     @Override
     public String getUsername() {
-        return username;
+        return mUserName;
     }
 
     @Override
     public String getPassword() {
-        return password;
+        return mPassword;
     }
 
     @Override
     public int getConnectionType() {
-        return connectionType;
+        return mConnectionType;
     }
 
     @Override
     public boolean checkReachabilityInBackground() {
-        Log.d(TAG, "Checking reachability of " + baseUrl);
+        Log.d(TAG, "Checking reachability of " + mBaseUrl);
         try {
-            URL url = new URL(baseUrl);
+            URL url = new URL(mBaseUrl);
             int checkPort = url.getPort();
             if (url.getProtocol().equals("http") && checkPort == -1)
                 checkPort = 80;
@@ -98,10 +98,10 @@ public abstract class AbstractConnection implements Connection {
     @Override
     public int hashCode() {
         int result = 17;
-        result = 31 * result + connectionType;
-        result = 31 * result + baseUrl.hashCode();
-        result = 31 * result + (username != null ? username.hashCode() : 0);
-        result = 31 * result + (password != null ? password.hashCode() : 0);
+        result = 31 * result + mConnectionType;
+        result = 31 * result + mBaseUrl.hashCode();
+        result = 31 * result + (mUserName != null ? mUserName.hashCode() : 0);
+        result = 31 * result + (mPassword != null ? mPassword.hashCode() : 0);
         return result;
     }
 }

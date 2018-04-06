@@ -7,11 +7,6 @@
  *   http://www.eclipse.org/legal/epl-v10.html
  */
 
-/**
- * Created by belovictor on 03/04/15.
- * This class represents a my.openHAB notification
- */
-
 package org.openhab.habdroid.model;
 
 import android.support.annotation.Nullable;

@@ -127,7 +127,7 @@ public class AsyncServiceResolver extends Thread implements ServiceListener {
                     Log.i(TAG, "IP: " + inetAddress.getHostAddress().toString());
                     Log.i(TAG, "Is IPV4 = " + (inetAddress instanceof Inet4Address));
                     if (!inetAddress.isLoopbackAddress() && (inetAddress instanceof Inet4Address)) {
-                        Log.i(TAG, "Selected " + inetAddress.getHostAddress().toString());
+                        Log.i(TAG, "Selected " + inetAddress.getHostAddress());
                         return inetAddress;
                     }
                 }

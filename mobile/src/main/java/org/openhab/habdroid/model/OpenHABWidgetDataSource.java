@@ -28,15 +28,16 @@ import java.util.List;
 
 public class OpenHABWidgetDataSource {
     private static final String TAG = OpenHABWidgetDataSource.class.getSimpleName();
-    private final String iconFormat;
-    private List<OpenHABWidget> allWidgets = new ArrayList<>();
-    private String title;
-    private String id;
-    private String icon;
-    private String link;
+
+    private final String mIconFormat;
+    private final List<OpenHABWidget> mAllWidgets = new ArrayList<>();
+    private String mTitle;
+    private String mId;
+    private String mIcon;
+    private String mLink;
 
     public OpenHABWidgetDataSource(String iconFormat) {
-        this.iconFormat = iconFormat;
+        mIconFormat = iconFormat;
     }
 
     public void setSourceNode(Node rootNode) {
@@ -48,11 +49,11 @@ public class OpenHABWidgetDataSource {
             for (int i = 0; i < childNodes.getLength(); i++) {
                 Node childNode = childNodes.item(i);
                 switch (childNode.getNodeName()) {
-                    case "widget": OpenHABWidget.parseXml(allWidgets, null, childNode); break;
-                    case "title": title = childNode.getTextContent(); break;
-                    case "id": id = childNode.getTextContent(); break;
-                    case "icon": icon = childNode.getTextContent(); break;
-                    case "link": link = childNode.getTextContent(); break;
+                    case "widget": OpenHABWidget.parseXml(mAllWidgets, null, childNode); break;
+                    case "title": mTitle = childNode.getTextContent(); break;
+                    case "id": mId = childNode.getTextContent(); break;
+                    case "icon": mIcon = childNode.getTextContent(); break;
+                    case "link": mLink = childNode.getTextContent(); break;
                 }
             }
         }
@@ -66,12 +67,12 @@ public class OpenHABWidgetDataSource {
             JSONArray jsonWidgetArray = jsonObject.getJSONArray("widgets");
             for (int i = 0; i < jsonWidgetArray.length(); i++) {
                 JSONObject widgetJson = jsonWidgetArray.getJSONObject(i);
-                OpenHABWidget.parseJson(allWidgets, null, widgetJson, iconFormat);
+                OpenHABWidget.parseJson(mAllWidgets, null, widgetJson, mIconFormat);
             }
-            title = jsonObject.optString("title", null);
-            id = jsonObject.optString("id", null);
-            icon = jsonObject.optString("icon", null);
-            link = jsonObject.optString("link", null);
+            mTitle = jsonObject.optString("title", null);
+            mId = jsonObject.optString("id", null);
+            mIcon = jsonObject.optString("icon", null);
+            mLink = jsonObject.optString("link", null);
         } catch (JSONException e) {
             Log.d(TAG, e.getMessage(), e);
         }
@@ -80,12 +81,12 @@ public class OpenHABWidgetDataSource {
     public ArrayList<OpenHABWidget> getWidgets() {
         ArrayList<OpenHABWidget> result = new ArrayList<>();
         HashSet<String> firstLevelWidgetIds = new HashSet<>();
-        for (OpenHABWidget widget : allWidgets) {
+        for (OpenHABWidget widget : mAllWidgets) {
             if (widget.parentId() == null) {
                 firstLevelWidgetIds.add(widget.id());
             }
         }
-        for (OpenHABWidget widget : allWidgets) {
+        for (OpenHABWidget widget : mAllWidgets) {
             String parentId = widget.parentId();
             if (parentId == null || firstLevelWidgetIds.contains(parentId)) {
                 result.add(widget);
@@ -95,27 +96,22 @@ public class OpenHABWidgetDataSource {
     }
 
     public String getTitle() {
-        String[] splitString;
-        if (title != null) {
-            splitString = title.split("\\[|\\]");
-            if (splitString.length > 0) {
-                return splitString[0];
-            } else {
-                return title;
-            }
+        if (mTitle != null) {
+            String[] splitString = mTitle.split("\\[|\\]");
+            return splitString.length > 0 ? splitString[0] : mTitle;
         }
         return "";
     }
 
     public String getId() {
-        return id;
+        return mId;
     }
 
     public String getIcon() {
-        return icon;
+        return mIcon;
     }
 
     public String getLink() {
-        return link;
+        return mLink;
     }
 }

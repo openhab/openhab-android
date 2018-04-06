@@ -26,6 +26,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
@@ -220,8 +221,8 @@ public class OpenHABWriteTagActivity extends AppCompatActivity {
 
     public static abstract class AbstractNFCFragment extends Fragment {
         @Override
-        public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
-                @Nullable Bundle savedInstanceState) {
+        public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                                 @Nullable Bundle savedInstanceState) {
             final View view = inflater.inflate(R.layout.fragment_writenfc, container, false);
             final ImageView watermark = view.findViewById(R.id.nfc_watermark);
 

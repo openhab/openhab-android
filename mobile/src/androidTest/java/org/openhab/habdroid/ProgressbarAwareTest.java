@@ -11,7 +11,6 @@ import org.junit.Rule;
 import org.openhab.habdroid.ui.OpenHABMainActivity;
 
 public abstract class ProgressbarAwareTest {
-
     @Rule
     public IntentsTestRule<OpenHABMainActivity> mActivityTestRule = new IntentsTestRule<>
             (OpenHABMainActivity.class,  true, false);

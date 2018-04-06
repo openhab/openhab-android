@@ -17,6 +17,7 @@ import android.graphics.PorterDuff;
 import android.graphics.RectF;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.annotation.NonNull;
 
 import com.caverock.androidsvg.SVG;
 import com.caverock.androidsvg.SVGParseException;
@@ -135,7 +136,7 @@ public class AsyncHttpClient extends HttpClient {
         Call call = prepareCall(url, method, headers, requestBody, mediaType, timeoutMillis, caching);
         call.enqueue(new Callback() {
             @Override
-            public void onFailure(final Call call, final IOException e) {
+            public void onFailure(@NonNull final Call call, final IOException e) {
                 mHandler.post(() -> {
                     if (!call.isCanceled()) {
                         responseHandler.onFailure(call.request(), 0, e);

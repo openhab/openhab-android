@@ -25,7 +25,6 @@ import static org.openhab.habdroid.TestUtils.childAtPosition;
 @LargeTest
 @RunWith(AndroidJUnit4.class)
 public class IntroActivityTest extends TestWithIntro {
-
     @Test
     public void appShowsIntro() {
         ViewInteraction textView = onView(

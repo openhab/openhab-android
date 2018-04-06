@@ -23,173 +23,173 @@ import static junit.framework.Assert.assertNull;
 
 @RunWith(MockitoJUnitRunner.class)
 public class OpenHABWidgetTest {
-    List<OpenHABWidget> sutXml = new ArrayList<>();
-    List<OpenHABWidget> sut1 = new ArrayList<>();
-    List<OpenHABWidget> sut2 = new ArrayList<>();
-    List<OpenHABWidget> sut3 = new ArrayList<>();
+    private List<OpenHABWidget> mSutXml = new ArrayList<>();
+    private List<OpenHABWidget> mSut1 = new ArrayList<>();
+    private List<OpenHABWidget> mSut2 = new ArrayList<>();
+    private List<OpenHABWidget> mSut3 = new ArrayList<>();
 
     @Test
     @Before
     public void parse_createsOpenHABWidget() throws Exception {
-        OpenHABWidget.parseXml(sutXml, null, createXmlNode());
-        OpenHABWidget.parseJson(sut1, null, createJSONObject(1), "PNG");
-        OpenHABWidget.parseJson(sut2, null, createJSONObject(2), "SVG");
-        OpenHABWidget.parseJson(sut3, null, createJSONObject(3), "SVG");
+        OpenHABWidget.parseXml(mSutXml, null, createXmlNode());
+        OpenHABWidget.parseJson(mSut1, null, createJSONObject(1), "PNG");
+        OpenHABWidget.parseJson(mSut2, null, createJSONObject(2), "SVG");
+        OpenHABWidget.parseJson(mSut3, null, createJSONObject(3), "SVG");
     }
 
     @Test
-    public void testCountInstances() throws Exception {
-        assertEquals(sutXml.size(), 2);
-        assertEquals(sut1.size(), 2);
-        assertEquals(sut2.size(), 1);
-        assertEquals(sut3.size(), 4);
+    public void testCountInstances() {
+        assertEquals(mSutXml.size(), 2);
+        assertEquals(mSut1.size(), 2);
+        assertEquals(mSut2.size(), 1);
+        assertEquals(mSut3.size(), 4);
     }
 
     @Test
-    public void getIconPath_iconExists_returnIconUrlfromImages() throws Exception {
-        assertEquals("images/groupicon.png", sutXml.get(0).iconPath());
+    public void getIconPath_iconExists_returnIconUrlfromImages() {
+        assertEquals("images/groupicon.png", mSutXml.get(0).iconPath());
     }
 
     @Test
-    public void testGetIconPath() throws Exception {
-        assertEquals("icon/groupicon?state=OFF&format=PNG", sut1.get(0).iconPath());
-        assertEquals("icon/groupicon?state=ON&format=SVG", sut2.get(0).iconPath());
-        assertEquals("icon/slider?state=81&format=SVG", sut3.get(1).iconPath());
-        assertEquals("Rollersutter icon must always be 0 to 100, not ON/OFF", "icon/rollershutter?state=0&format=SVG", sut3.get(2).iconPath());
-        assertEquals("icon/rollershutter?state=42&format=SVG", sut3.get(3).iconPath());
+    public void testGetIconPath() {
+        assertEquals("icon/groupicon?state=OFF&format=PNG", mSut1.get(0).iconPath());
+        assertEquals("icon/groupicon?state=ON&format=SVG", mSut2.get(0).iconPath());
+        assertEquals("icon/slider?state=81&format=SVG", mSut3.get(1).iconPath());
+        assertEquals("Rollersutter icon must always be 0 to 100, not ON/OFF", "icon/rollershutter?state=0&format=SVG", mSut3.get(2).iconPath());
+        assertEquals("icon/rollershutter?state=42&format=SVG", mSut3.get(3).iconPath());
     }
 
     @Test
-    public void testGetChildren() throws Exception {
-        assertEquals("demo11", sut1.get(1).id());
-        assertEquals("0202_0_0_1", sut3.get(2).id());
+    public void testGetChildren() {
+        assertEquals("demo11", mSut1.get(1).id());
+        assertEquals("0202_0_0_1", mSut3.get(2).id());
     }
 
     @Test
-    public void testGetPeriod() throws Exception {
-        assertEquals("M", sut1.get(0).period());
-        assertEquals("Object has no period, should default to 'D'", "D", sut2.get(0).period());
+    public void testGetPeriod() {
+        assertEquals("M", mSut1.get(0).period());
+        assertEquals("Object has no period, should default to 'D'", "D", mSut2.get(0).period());
     }
 
     @Test
-    public void testGetStep() throws Exception {
-        assertEquals(1F, sut1.get(0).step());
+    public void testGetStep() {
+        assertEquals(1F, mSut1.get(0).step());
         // this is invalid in JSON (< 0), expected to be adjusted
-        assertEquals(0.1F, sut2.get(0).step());
+        assertEquals(0.1F, mSut2.get(0).step());
     }
 
     @Test
-    public void testGetRefresh() throws Exception {
-        assertEquals(1000, sut1.get(0).refresh());
-        assertEquals("Min refresh is 100, object has set refresh to 10", 100, sut2.get(0).refresh());
-        assertEquals("Missing refresh should equal 0", 0, sut3.get(0).refresh());
+    public void testGetRefresh() {
+        assertEquals(1000, mSut1.get(0).refresh());
+        assertEquals("Min refresh is 100, object has set refresh to 10", 100, mSut2.get(0).refresh());
+        assertEquals("Missing refresh should equal 0", 0, mSut3.get(0).refresh());
     }
 
     @Test
-    public void testHasItem() throws Exception {
-        assertNotNull(sut1.get(0).item());
-        assertNotNull(sut2.get(0).item());
+    public void testHasItem() {
+        assertNotNull(mSut1.get(0).item());
+        assertNotNull(mSut2.get(0).item());
     }
 
     @Test
-    public void testHasLinkedPage() throws Exception {
-        assertNotNull(sut1.get(0).linkedPage());
-        assertNull(sut2.get(0).linkedPage());
+    public void testHasLinkedPage() {
+        assertNotNull(mSut1.get(0).linkedPage());
+        assertNull(mSut2.get(0).linkedPage());
     }
 
     @Test
-    public void testHasMappings() throws Exception {
-        assertEquals(true, sut1.get(0).hasMappings());
-        assertEquals(true, sut2.get(0).hasMappings());
+    public void testHasMappings() {
+        assertEquals(true, mSut1.get(0).hasMappings());
+        assertEquals(true, mSut2.get(0).hasMappings());
     }
 
     @Test
-    public void testGetColors() throws Exception {
-        assertEquals("white", sut1.get(0).iconColor());
-        assertEquals("#ff0000", sut1.get(0).labelColor());
-        assertEquals("#00ffff", sut1.get(0).valueColor());
-        assertEquals("orange", sut2.get(0).iconColor());
-        assertEquals("blue", sut2.get(0).labelColor());
-        assertEquals("red", sut2.get(0).valueColor());
+    public void testGetColors() {
+        assertEquals("white", mSut1.get(0).iconColor());
+        assertEquals("#ff0000", mSut1.get(0).labelColor());
+        assertEquals("#00ffff", mSut1.get(0).valueColor());
+        assertEquals("orange", mSut2.get(0).iconColor());
+        assertEquals("blue", mSut2.get(0).labelColor());
+        assertEquals("red", mSut2.get(0).valueColor());
     }
 
     @Test
-    public void testGetType() throws Exception {
-        assertEquals(OpenHABWidget.Type.Group, sut1.get(0).type());
-        assertEquals(OpenHABWidget.Type.Group, sut2.get(0).type());
-        assertEquals(OpenHABWidget.Type.Frame, sut3.get(0).type());
-        assertEquals(OpenHABWidget.Type.Switch, sut3.get(2).type());
-        assertEquals(OpenHABWidget.Type.Group, sut3.get(3).type());
+    public void testGetType() {
+        assertEquals(OpenHABWidget.Type.Group, mSut1.get(0).type());
+        assertEquals(OpenHABWidget.Type.Group, mSut2.get(0).type());
+        assertEquals(OpenHABWidget.Type.Frame, mSut3.get(0).type());
+        assertEquals(OpenHABWidget.Type.Switch, mSut3.get(2).type());
+        assertEquals(OpenHABWidget.Type.Group, mSut3.get(3).type());
     }
 
     @Test
-    public void testGetLabel() throws Exception {
-        assertEquals("Group1", sut1.get(0).label());
-        assertEquals("Group1", sut2.get(0).label());
-        assertEquals("Dimmer [81 %]", sut3.get(1).label());
+    public void testGetLabel() {
+        assertEquals("Group1", mSut1.get(0).label());
+        assertEquals("Group1", mSut2.get(0).label());
+        assertEquals("Dimmer [81 %]", mSut3.get(1).label());
     }
 
     @Test
     public void testGetMappings() throws Exception {
-        assertEquals("ON", sut1.get(0).mappings().get(0).value());
-        assertEquals("On", sut1.get(0).mappings().get(0).label());
-        assertEquals("abcäöüßẞèéóò\uD83D\uDE03", sut2.get(0).mappings().get(0).label());
+        assertEquals("ON", mSut1.get(0).mappings().get(0).value());
+        assertEquals("On", mSut1.get(0).mappings().get(0).label());
+        assertEquals("abcäöüßẞèéóò\uD83D\uDE03", mSut2.get(0).mappings().get(0).label());
     }
 
     @Test(expected = IndexOutOfBoundsException.class)
-    public void testGetMappingNoMapping() throws Exception {
-        sut3.get(1).mappings().get(0);
+    public void testGetMappingNoMapping() {
+        mSut3.get(1).mappings().get(0);
     }
 
     @Test
-    public void testGetMinValue() throws Exception {
-        assertEquals(0.0F, sut1.get(0).minValue());
-        assertEquals(99.7F, sut2.get(0).minValue());
+    public void testGetMinValue() {
+        assertEquals(0.0F, mSut1.get(0).minValue());
+        assertEquals(99.7F, mSut2.get(0).minValue());
     }
 
     @Test
-    public void testGetMaxValue() throws Exception {
-        assertEquals(10.0F, sut1.get(0).maxValue());
+    public void testGetMaxValue() {
+        assertEquals(10.0F, mSut1.get(0).maxValue());
         // this is invalid in JSON (max < min), expected to be adjusted
-        assertEquals(99.7F, sut2.get(0).maxValue());
+        assertEquals(99.7F, mSut2.get(0).maxValue());
     }
 
     @Test
-    public void testGetUrl() throws Exception {
-        assertEquals("http://localhost/url", sut1.get(0).url());
-        assertEquals("http://localhost/url", sut2.get(0).url());
-        assertEquals(null, sut3.get(1).url());
+    public void testGetUrl() {
+        assertEquals("http://localhost/url", mSut1.get(0).url());
+        assertEquals("http://localhost/url", mSut2.get(0).url());
+        assertEquals(null, mSut3.get(1).url());
     }
 
     @Test
-    public void testGetLegend() throws Exception {
-        assertEquals(new Boolean(true), sut1.get(0).legend());
-        assertEquals(new Boolean(false), sut2.get(0).legend());
-        assertEquals(null, sut3.get(1).legend());
+    public void testGetLegend() {
+        assertEquals(new Boolean(true), mSut1.get(0).legend());
+        assertEquals(new Boolean(false), mSut2.get(0).legend());
+        assertEquals(null, mSut3.get(1).legend());
     }
 
     @Test
-    public void testGetHeight() throws Exception {
-        assertEquals(10, sut1.get(0).height());
-        assertEquals(42, sut2.get(0).height());
+    public void testGetHeight() {
+        assertEquals(10, mSut1.get(0).height());
+        assertEquals(42, mSut2.get(0).height());
     }
 
     @Test
-    public void testGetService() throws Exception {
-        assertEquals("D", sut1.get(0).service());
-        assertEquals("XYZ", sut2.get(0).service());
+    public void testGetService() {
+        assertEquals("D", mSut1.get(0).service());
+        assertEquals("XYZ", mSut2.get(0).service());
     }
 
     @Test
-    public void testGetId() throws Exception {
-        assertEquals("demo", sut1.get(0).id());
-        assertEquals("demo", sut2.get(0).id());
+    public void testGetId() {
+        assertEquals("demo", mSut1.get(0).id());
+        assertEquals("demo", mSut2.get(0).id());
     }
 
     @Test
-    public void testGetEncoding() throws Exception {
-        assertEquals("mpeg", sut1.get(0).encoding());
-        assertEquals(null, sut2.get(0).encoding());
+    public void testGetEncoding() {
+        assertEquals("mpeg", mSut1.get(0).encoding());
+        assertEquals(null, mSut2.get(0).encoding());
     }
 
     private Node createXmlNode() throws Exception {
@@ -236,8 +236,7 @@ public class OpenHABWidgetTest {
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = dbf.newDocumentBuilder();
         Document document = builder.parse(new InputSource(new StringReader(xml)));
-        Node rootNode = document.getFirstChild();
-        return rootNode;
+        return document.getFirstChild();
     }
 
     /**

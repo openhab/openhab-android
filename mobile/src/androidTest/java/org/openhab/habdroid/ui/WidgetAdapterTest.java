@@ -12,11 +12,11 @@ import org.openhab.habdroid.R;
 import org.openhab.habdroid.ui.OpenHABWidgetAdapter.ColorMapper;
 
 public class WidgetAdapterTest {
-    private Context context = InstrumentationRegistry.getTargetContext();
+    private Context mContext = InstrumentationRegistry.getTargetContext();
 
     @Test
     public void testColorMappingDarkTheme() {
-        ColorMapper colorMapper = new ColorMapper(new ContextThemeWrapper(context, R.style.HABDroid_Basic_ui_dark));
+        ColorMapper colorMapper = new ColorMapper(new ContextThemeWrapper(mContext, R.style.HABDroid_Basic_ui_dark));
         assertEquals("Map #ffffff", Integer.valueOf(0xffffffff), colorMapper.mapColor("#ffffff"));
         assertEquals("Must return \"null\" for invalid colors", null, colorMapper.mapColor("#fffzzz"));
         assertEquals("Map white => #ffffff in dark themes", Integer.valueOf(0xffffffff), colorMapper.mapColor("white"));
@@ -26,7 +26,7 @@ public class WidgetAdapterTest {
 
     @Test
     public void testColorMappingBrightTheme() {
-        ColorMapper colorMapper = new ColorMapper(new ContextThemeWrapper(context, R.style.HABDroid_Basic_ui));
+        ColorMapper colorMapper = new ColorMapper(new ContextThemeWrapper(mContext, R.style.HABDroid_Basic_ui));
         assertEquals("Map #ffffff", Integer.valueOf(0xffffffff), colorMapper.mapColor("#ffffff"));
         assertEquals("Must return \"null\" for invalid colors", null, colorMapper.mapColor("#fffzzz"));
         assertEquals("Map white => #000000 in bright themes", Integer.valueOf(0xff000000), colorMapper.mapColor("white"));

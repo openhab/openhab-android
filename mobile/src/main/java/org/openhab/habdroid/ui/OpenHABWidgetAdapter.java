@@ -24,6 +24,7 @@ import android.os.Message;
 import android.preference.PreferenceManager;
 import android.support.annotation.IdRes;
 import android.support.annotation.LayoutRes;
+import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
@@ -166,6 +167,7 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         }
     }
 
+    @NonNull
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         final ViewHolder holder;
@@ -810,7 +812,7 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
             // Find the closest value in the calculated step value
             String stateString = Float.toString(mBoundWidget.item().stateAsFloat());
             int stepIndex = Arrays.binarySearch(stepValues, stateString,
-                    (lhs, rhs) -> Float.valueOf(lhs.toString()).compareTo(Float.valueOf(rhs.toString())));
+                    (lhs, rhs) -> Float.valueOf(lhs).compareTo(Float.valueOf(rhs)));
             if (stepIndex < 0) {
                 stepIndex = (-(stepIndex + 1)); // Use the returned insertion point if value is not found and select the closest value.
                 stepIndex = Math.min(stepIndex, stepValues.length - 1);  //handle case where insertion would be larger than the array
