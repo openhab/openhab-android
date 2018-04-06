@@ -2,7 +2,6 @@
 <resources>
     <style name="sectionButtonStyle">
         <item name="android:textColor">@color/sectionswitch_text</item>
-        <item name="android:background">@drawable/sectionswitch_bg</item>
         <item name="android:minWidth">48dp</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -12,6 +11,10 @@
         <item name="lineHeight">2dp</item>
         <item name="lineColor">?attr/colorAccent</item>
         <item name="textDistanceFromLine">12dp</item>
+        <!-- Our background uses theme attributes which doesn't work when inflated as
+             a drawable on API < 21. This is why we use that custom attribute which has
+             special handling in code. -->
+        <item name="backgroundColor">@color/sectionswitch_bg</item>
     </style>
     <style name="whiteText">
         <item name="android:textColor">#ffffff</item>
