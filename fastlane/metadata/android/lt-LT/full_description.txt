@@ -34,4 +34,4 @@ The openHAB Foundation e.V. is a nonprofit organization with the mission to educ
 
 '''Important note'''
 
-You need a openHAB server for this app
+You need an openHAB server for this app
