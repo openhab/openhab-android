@@ -92,10 +92,10 @@ repositories {
 }
 
 dependencies {
-    implementation "com.android.support:appcompat-v7:27.1.0"
-    implementation "com.android.support:support-v4:27.1.0"
-    implementation "com.android.support:recyclerview-v7:27.1.0"
-    implementation "com.android.support:design:27.1.0"
+    implementation "com.android.support:appcompat-v7:27.1.1"
+    implementation "com.android.support:support-v4:27.1.1"
+    implementation "com.android.support:recyclerview-v7:27.1.1"
+    implementation "com.android.support:design:27.1.1"
     implementation 'com.android.support:multidex:1.0.3'
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     implementation 'org.jmdns:jmdns:3.5.3'
