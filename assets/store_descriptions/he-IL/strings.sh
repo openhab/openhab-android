@@ -19,11 +19,18 @@ special_useCases='שימושים מיוחדים'
 
 oss_community='קהילת הקוד הפתוח'
 
+forum='יוזמת קוד פתוח openHAB נתמכת על ידי חברי הקהילה התוססים שלה. הפורום הכולל מעל ל-13,000 משתמשים רשומים הוא מקום מצויין למצוא הדרכה, עזרה והשראה. הצטרפו לפורום openHAB דרך https://community.openhab.org'
+report_issues='אם מצאת תקלה אנא דווח על כך בפורום או ב- https://github.com/openhab/openhab-android/issues'
+translation='אם את או אתה רוצים לעזור לתרגם את היישום לשפתך הצטרפו אלינו https://crowdin.com/project/openhab-android'
 
 foundation='קרן openHAB'
+about_foundation='ֿopenHAB הוא ארגון ללא מטרות רווח השם לעצמו למטרה ללמד את הציבור על האפשרויות והיתרונות של פתרונות בית חכם בקוד פתוח ובחינם.\nכדי ללמוד עוד על הארגון ושירותיו אפשר לקרוא באתר https://www.openhabfoundation.org'
 
 important_note='הערה חשובה'
 oh_server='יש צורך בשרת openHAB עבור יישום זה'
 
+short_description='openHAB באנדרואיד'
 
+fdroid='תוכנות עבור F-Droid מכילות תצוגת מיפוי, GCM ודיווחי שגיאה על התרסקות הוסרו ולא יוכלו לקבל התראות בדחיפה מענן openHAB.'
+beta='באפשרותך להתקין את גירסת הבטא לצד הגרסה היציבה:'
 
