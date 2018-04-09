@@ -27,7 +27,6 @@ foundation='Фонд openHAB'
 about_foundation='openHAB Foundation e.V. это некоммерческая организация, миссия которой научить людей о возможностях и преимуществах свободных и открытых решений умного дома. Узнайте о миссии и сервисах фонда на https://www.openhabfoundation.org'
 
 important_note='Важное примечание'
-oh_server='Вам нужен сервер openHAB для этого приложения'
 
 short_description='openHAB Android клиент'
 
