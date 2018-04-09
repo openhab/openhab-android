@@ -9,27 +9,19 @@
 
 package org.openhab.habdroid.ui;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceScreen;
-import android.security.KeyChain;
-import android.security.KeyChainAliasCallback;
-import android.security.KeyChainException;
-import android.security.keystore.KeyProperties;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 
 import com.loopj.android.image.WebImageCache;
@@ -39,13 +31,10 @@ import org.openhab.habdroid.util.Constants;
 import org.openhab.habdroid.util.MyWebImage;
 import org.openhab.habdroid.util.Util;
 
-import java.security.cert.X509Certificate;
-
 /**
  * This is a class to provide preferences activity for application.
  */
 public class OpenHABPreferencesActivity extends AppCompatActivity {
-    private final static String TAG = OpenHABPreferencesActivity.class.getSimpleName();
     public static final String RESULT_EXTRA_THEME_CHANGED = "theme_changed";
     private static final String STATE_KEY_RESULT = "result";
 
@@ -157,8 +146,6 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
         protected void updateAndInitPreferences() {
             addPreferencesFromResource(R.xml.preferences);
 
-            initClientCertPreference(Constants.PREFERENCE_SSLCLIENTCERT);
-
             final Preference subScreenLocalConn = findPreference(Constants.SUBSCREEN_LOCAL_CONNECTION);
             final Preference subScreenRemoteConn = findPreference(Constants.SUBSCREEN_REMOTE_CONNECTION);
             final Preference themePreference = getPreferenceScreen().findPreference(Constants.PREFERENCE_THEME);
@@ -166,7 +153,6 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
                     .PREFERENCE_CLEAR_CACHE);
             final Preference clearDefaultSitemapPreference = getPreferenceScreen().findPreference
                     (Constants.PREFERENCE_CLEAR_DEFAULT_SITEMAP);
-            final Preference clientCertHowToPref = findPreference(Constants.PREFERENCE_SSLCLIENTCERT_HOWTO);
 
             String currentDefaultSitemap = clearDefaultSitemapPreference.getSharedPreferences().getString(Constants
                     .PREFERENCE_SITEMAP_NAME, "");
@@ -235,72 +221,11 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
                 }
             });
 
-            clientCertHowToPref.setOnPreferenceClickListener(preference -> {
-                Uri howToUri = Uri.parse(getString(R.string.settings_openhab_sslclientcert_howto_url));
-                Intent intent = new Intent(Intent.ACTION_VIEW, howToUri);
-                if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
-                    startActivity(intent);
-                }
-                return true;
-            });
-
             //fullscreen is not supoorted in builds < 4.4
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
                 final PreferenceScreen ps = getPreferenceScreen();
                 ps.removePreference(ps.findPreference(Constants.PREFERENCE_FULLSCREEN));
             }
-        }
-
-        private void initClientCertPreference(String key) {
-            final Preference pref = findPreference(key);
-            updateSslClientCertSummary(pref);
-
-            final KeyChainAliasCallback keyChainAliasCallback = alias -> {
-                pref.getSharedPreferences().edit().putString(key, alias).apply();
-                updateSslClientCertSummary(pref);
-            };
-
-            pref.setOnPreferenceClickListener(preference -> {
-                final String[] keyTypes = Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
-                        ? new String[] { KeyProperties.KEY_ALGORITHM_RSA, KeyProperties.KEY_ALGORITHM_EC }
-                        : new String[] { "RSA", "DSA"};
-                KeyChain.choosePrivateKeyAlias(getActivity(), keyChainAliasCallback,
-                        keyTypes, null, null, -1, null);
-                return true;
-            });
-        }
-
-        private void updateSslClientCertSummary(final Preference sslClientCert) {
-            final String certAlias = getPreferenceString(sslClientCert, null);
-            final Context context = getActivity().getApplicationContext();
-
-            new AsyncTask<Preference, Void, X509Certificate>() {
-                @Override
-                protected X509Certificate doInBackground(Preference... preferences) {
-                    try {
-                        if (certAlias != null) {
-                            X509Certificate[] certificates =
-                                    KeyChain.getCertificateChain(context, certAlias);
-                            if (certificates != null && certificates.length > 0) {
-                                return certificates[0];
-                            }
-                        }
-                        return null;
-                    } catch (KeyChainException | InterruptedException e) {
-                        Log.e(TAG, e.getMessage(), e);
-                        return null;
-                    }
-                }
-
-                @Override
-                protected void onPostExecute(X509Certificate x509Certificate) {
-                    if (x509Certificate != null) {
-                        sslClientCert.setSummary(x509Certificate.getSubjectDN().toString());
-                    } else {
-                        sslClientCert.setSummary(getString(R.string.settings_openhab_none));
-                    }
-                }
-            }.execute(sslClientCert);
         }
 
         private void onNoDefaultSitemap(Preference pref) {

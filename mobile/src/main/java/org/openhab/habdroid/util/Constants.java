@@ -26,8 +26,6 @@ public class Constants {
     public static final String PREFERENCE_TONE                  = "default_openhab_alertringtone";
     public static final String PREFERENCE_CLEAR_CACHE           = "default_openhab_cleacache";
     public static final String PREFERENCE_SSLCLIENTCERT         = "default_openhab_sslclientcert";
-    public static final String PREFERENCE_SSLCLIENTCERT_HOWTO   =
-            "default_openhab_sslclientcert_howto";
     public static final String PREFERENCE_DEBUG_MESSAGES        = "default_openhab_debug_messages";
     public static final String PREFERENCE_CLEAR_DEFAULT_SITEMAP =
             "default_openhab_clear_default_sitemap";
