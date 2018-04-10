@@ -113,6 +113,9 @@ public abstract class ContentController implements PageConnectionHolderFragment.
         if (mTemporaryPage != null) {
             mFm.putFragment(state, "temporaryPage", mTemporaryPage);
         }
+        if (mNoConnectionFragment != null && mNoConnectionFragment.isAdded()) {
+            mFm.putFragment(state, "errorFragment", mNoConnectionFragment);
+        }
     }
 
     /**
@@ -143,6 +146,7 @@ public abstract class ContentController implements PageConnectionHolderFragment.
             mPageStack.add(Pair.create(page, f != null ? f : makePageFragment(page)));
         }
         mTemporaryPage = mFm.getFragment(state, "temporaryPage");
+        mNoConnectionFragment = mFm.getFragment(state, "errorFragment");
     }
 
     /**
