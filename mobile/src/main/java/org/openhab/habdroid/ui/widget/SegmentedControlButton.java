@@ -16,11 +16,13 @@
 package org.openhab.habdroid.ui.widget;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Paint.Style;
 import android.graphics.drawable.Drawable;
+import android.support.v7.content.res.AppCompatResources;
 import android.util.AttributeSet;
 
 import org.openhab.habdroid.R;
@@ -35,7 +37,10 @@ public class SegmentedControlButton extends android.support.v7.widget.AppCompatR
 
     private Paint mTextPaint;
     private Paint mLinePaint;
-    
+
+    private ColorStateList mBackgroundColorList;
+    private Paint mBackgroundPaint;
+
     public SegmentedControlButton(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(attrs);
@@ -63,6 +68,22 @@ public class SegmentedControlButton extends android.support.v7.widget.AppCompatR
             mLinePaint = new Paint();
             mLinePaint.setColor(lineColor);
             mLinePaint.setStyle(Style.FILL);
+
+            int bgColorResId = attributes.getResourceId(R.styleable.SegmentedControlButton_backgroundColor, 0);
+            if (bgColorResId != 0) {
+                mBackgroundColorList = AppCompatResources.getColorStateList(getContext(), bgColorResId);
+                mBackgroundPaint = new Paint();
+            }
+
+            attributes.recycle();
+        }
+    }
+
+    @Override
+    protected void drawableStateChanged() {
+        super.drawableStateChanged();
+        if (mBackgroundColorList != null) {
+            mBackgroundPaint.setColor(mBackgroundColorList.getColorForState(getDrawableState(), 0));
         }
     }
 
@@ -77,9 +98,15 @@ public class SegmentedControlButton extends android.support.v7.widget.AppCompatR
         int textHeightPos = getHeight() - mLineHeight - mTextDistanceFromLine;
         float x = mX;
 
+        if (mBackgroundPaint != null) {
+            canvas.drawRect(0, 0, getWidth(), getHeight(), mBackgroundPaint);
+        }
+
         Drawable background = getBackground();
-        background.setBounds(0, 0, getWidth(), getHeight());
-        background.draw(canvas);
+        if (background != null) {
+            background.setBounds(0, 0, getWidth(), getHeight());
+            background.draw(canvas);
+        }
 
         mTextPaint.setColor(getCurrentTextColor());
         canvas.drawText(text, x, textHeightPos, mTextPaint);

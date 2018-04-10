@@ -7,15 +7,39 @@
   <string name="main_menu">תפריט ראשי</string>
   <string name="app_preferences_name">הגדרות</string>
   <string name="app_notifications">התראות</string>
+  <string name="favorites">מועדפים</string>
   <!-- Main menu items -->
+  <string name="mainmenu_openhab_preferences">הגדרות</string>
+  <string name="mainmenu_openhab_clearcache">נקה מטמון תמונות</string>
   <!-- App settings strings -->
+  <string name="settings_connection_title">חיבור</string>
+  <string name="settings_display_title">תצוגה</string>
+  <string name="settings_misc_title">שונות</string>
+  <string name="settings_openhab_url">כתובת URL של השרת המקומי</string>
+  <string name="settings_openhab_alturl">כתובת URL של השרת המרוחק</string>
+  <string name="settings_openhab_username">שם משתמש</string>
+  <string name="settings_openhab_password">סיסמה</string>
+  <string name="settings_openhab_screentimeroff">ביטול כיבוי מסך אוטומטי</string>
+  <string name="settings_openhab_demomode">מצב הדגמה</string>
+  <string name="settings_openhab_demomode_summary">הפעל במצב הדגמה</string>
   <string name="settings_openhab_theme">ערכת עיצוב</string>
   <string name="settings_openhab_sslcert">התעלם מאישור SSL</string>
   <string name="settings_openhab_sslcert_summary">התעלם מאימות אישורים בעת חיבור SSL</string>
   <string name="settings_openhab_sslhost">התעלם משם שרת SSL</string>
   <string name="settings_openhab_sslhost_summary">התעלם מבדיקת שם השרת בעת חיבור SSL</string>
   <string name="settings_openhab_fullscreen">מסך מלא</string>
+  <string name="settings_openhab_fullscreen_summary">הצג במסך מלא</string>
+  <string name="settings_openhab_icon_format">סוג קובץ צלמית</string>
+  <string name="settings_openhab_icon_format_png">מפת סיביות PNG</string>
+  <string name="settings_openhab_icon_format_svg">וקטורי SVG</string>
+  <string name="settings_ringtone">סוג צלצול</string>
+  <string name="settings_openhab_sslsettings">הצפנה</string>
+  <string name="settings_openhab_alt_connection">מרוחק</string>
+  <string name="settings_openhab_connection">מקומי</string>
   <!-- App messages strings -->
+  <string name="title_voice_widget">פקודות קוליות openHAB</string>
+  <string name="info_voice_input">"openHAB, לפקודתך!"</string>
+  <string name="info_demo_mode_short">פועל במצב הדגמה</string>
   <!-- Error messages -->
   <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
   <string name="error_http_code_507">אין מספיק שטח פנוי לשרת openHAB (קוד תגובה HTTP 507)</string>
@@ -28,12 +52,33 @@
   <string name="info_openhab_version_label">גרסת openHAB</string>
   <string name="info_openhab_apiversion_label">גרסת ממשק תכנות יישומי REST של openHAB</string>
   <string name="info_openhab_uuid_label">מזהה UUID של openHAB</string>
+  <string name="action_settings">הגדרות</string>
+  <string name="info_not_set">לא מוגדר</string>
   <!-- Strings for MemorizingTrustManager activity -->
+  <string name="mtm_decision_once">חד פעמי</string>
+  <string name="mtm_notification">אימות אישורים</string>
+  <string name="settings_openhab_none">ללא</string>
   <!-- Themes -->
+  <string name="theme_name_light">בהיר</string>
+  <string name="theme_name_dark">כהה</string>
+  <string name="theme_name_black">שחור/AMOLED</string>
+  <string name="theme_name_basic_ui">ממשק משתמש בסיסי</string>
+  <string name="theme_name_basic_ui_dark">ממשק משתמש בסיסי כהה</string>
   <!-- NFC toggle -->
+  <string name="nfc_action_on">הפעל</string>
+  <string name="nfc_action_up">העלה</string>
+  <string name="nfc_action_off">כבה</string>
+  <string name="nfc_action_down">הורד</string>
+  <string name="nfc_action_toggle">החלף מצב</string>
+  <string name="nfc_activate">הפעל</string>
+  <string name="nfc_action_current_color">צבע נוכחי</string>
   <!-- Drawer -->
+  <string name="mainmenu_openhab_voice_recognition">זיהוי קולי</string>
   <!-- About -->
+  <string name="about_title">מידע כללי</string>
+  <string name="about_license_title">רשיון</string>
   <string name="about_changelog">יומן שינויים</string>
+  <string name="about_source_code">פיצול ב-GitHub!</string>
   <string name="about_issues">דווח על בעיה</string>
   <string name="about_docs">תיעוד</string>
   <string name="about_community_forum">פורום הקהילה</string>
