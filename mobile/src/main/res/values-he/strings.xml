@@ -19,10 +19,16 @@
   <string name="settings_display_title">תצוגה</string>
   <string name="settings_misc_title">שונות</string>
   <string name="settings_openhab_url">כתובת URL של השרת המקומי</string>
+  <string name="settings_openhab_url_summary">כתובת ה-URL של לוח השליטה ב openHAB (בהתבסס על שם מחשב מארח או IP). אם הוגדרה, הגילוי האוטומטי לא יופעל. הגדרה נוכחית: %s</string>
   <string name="settings_openhab_alturl">כתובת URL של השרת המרוחק</string>
+  <string name="settings_openhab_alturl_summary">כתובת ה-URL של לוח השליטה ב openHAB כאשר הכתובת המקומית אינה זמינה. הגדרה נוכחית: %s</string>
   <string name="settings_openhab_username">שם משתמש</string>
   <string name="settings_openhab_password">סיסמה</string>
+  <string name="settings_openhab_sslclientcert">אישור לקוח SSL</string>
+  <string name="settings_openhab_sslclientcert_howto">אישור לקוח SSL \' כיצד להגדיר \'</string>
+  <string name="settings_openhab_sslclientcert_howto_summary">הקש כאן כדי לקבל כמה רמזים והסברים על איך להגדיר אימות אישורי לקוח SSL</string>
   <string name="settings_openhab_screentimeroff">ביטול כיבוי מסך אוטומטי</string>
+  <string name="settings_openhab_screentimeroff_summary">בטל את קוצב הזמן לכיבוי המסך כאשר אפליקצית openHAB פועלת</string>
   <string name="settings_openhab_demomode">מצב הדגמה</string>
   <string name="settings_openhab_demomode_summary">הפעל במצב הדגמה</string>
   <string name="settings_openhab_theme">ערכת עיצוב</string>
@@ -36,6 +42,8 @@
   <string name="settings_openhab_icon_format_png">מפת סיביות PNG</string>
   <string name="settings_openhab_icon_format_svg">וקטורי SVG</string>
   <string name="settings_ringtone">סוג צלצול</string>
+  <string name="settings_clear_default_sitemap">נקה את הגדרת ברירת מחדל של תצורת המערכת</string>
+  <string name="settings_no_default_sitemap">לא נבחרה תצורת מערכת ברירת מחדל</string>
   <string name="settings_openhab_sslsettings">הצפנה</string>
   <string name="settings_openhab_alt_connection">מרוחק</string>
   <string name="settings_openhab_connection">מקומי</string>
