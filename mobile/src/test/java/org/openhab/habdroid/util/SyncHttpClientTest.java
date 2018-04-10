@@ -1,6 +1,7 @@
 package org.openhab.habdroid.util;
 
 
+import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
@@ -28,7 +29,7 @@ import static org.mockito.ArgumentMatchers.anyString;
 public class SyncHttpClientTest {
 
     @Mock
-    Context mContext;
+    Application mContext;
     @Mock
     SharedPreferences mSharedPreferences;
 
