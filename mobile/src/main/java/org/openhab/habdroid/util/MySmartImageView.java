@@ -22,6 +22,7 @@ import android.view.ViewGroup;
 import com.loopj.android.image.SmartImageView;
 import com.loopj.android.image.SmartImageTask;
 import com.loopj.android.image.SmartImage;
+import com.loopj.android.image.WebImageCache;
 
 import java.lang.ref.WeakReference;
 
@@ -124,12 +125,15 @@ public class MySmartImageView extends SmartImageView {
         this.username = username;
         this.password = password;
 
-        MyWebImage image = new MyWebImage(url, useImageCache, username, password);
-        Bitmap cachedBitmap = image.getCachedBitmap();
+        WebImageCache cache = MyWebImage.getWebImageCache();
+        Bitmap cachedBitmap = cache != null ? cache.get(url) : null;
+
         if (cachedBitmap != null) {
             setImageBitmap(cachedBitmap);
-        } else {
+        }
+        if (!useImageCache || cachedBitmap == null) {
             mRefreshHandler.removeMessages(0);
+            MyWebImage image = new MyWebImage(url, useImageCache, username, password);
             setImage(image, fallbackResource, loadingResource, imageCompletionListener);
         }
     }

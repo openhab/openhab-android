@@ -52,11 +52,6 @@ public class MyWebImage implements SmartImage {
         this.setAuthentication(username, password);
     }
 
-    public Bitmap getCachedBitmap() {
-        WebImageCache cache = useCache ? getWebImageCache() : null;
-        return cache != null ? cache.get(url) : null;
-    }
-
     /**
      * Returns the already initialized WebImageCache, if there's any. This method may return
      * null if {@link MyWebImage#getWebImageCache(Context ctx)} was not called so far.
