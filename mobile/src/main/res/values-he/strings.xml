@@ -62,9 +62,15 @@
   <string name="error_network_not_available">הרשת לא זמינה</string>
   <string name="error_http_connection_failed">החיבור נכשל. תקלה בלתי צפויה בעת חיבור לשרת openHAB המוגדר (שגיאת HTTP מספר: %d)</string>
   <string name="error_no_uuid">אין אפשרות לקבל openHAB UUID, החיבור נכשל</string>
+  <string name="error_invalid_url">אנא הזן כתובת URL חוקית בתבנית \'/http(s)://host(:port)\'</string>
   <string name="error_connection_failed">החיבור למחשב המארח נכשל</string>
   <string name="error_unable_to_resolve_hostname">אין אפשרות לאתר את שם המחשב המארח</string>
   <string name="error_connection_sslhandshake_failed">חיבור SSL נכשל</string>
+  <string name="error_certificate_not_trusted">אישור SSL אינו מהימן. אנא ייבא אישורי בסיס או בטל אימות אישור במהלך חיבור SSL</string>
+  <string name="error_certificate_expired">אישור SSL פג תוקף. אנא ייבא אישורי בסיס או בטל אימות אישור במהלך חיבור SSL</string>
+  <string name="error_certificate_not_valid_yet">אישור SSL עדיין אינו חוקי. נא קבל אישור מתאים או בטל אישור אימות במהלך לחיצת יד של SSL. כמו כן יש לבדוק אם השעון במכשיר מוגדר כראוי</string>
+  <string name="error_certificate_revoked">אישור SSL נשלל. אנא ייבא אישור חדש או בטל אימות אישור במהלך חיבור SSL</string>
+  <string name="error_certificate_wrong_host">אישור SSL אינו חוקי עבור %s</string>
   <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
   <string name="error_http_code_504">Gateway Time-out. נראה כי שרת ה-reverse proxy פעיל, אך לא נתקבלה תשובה משרת openHAB (קוד תגובה HTTP 504)</string>
   <string name="error_http_code_507">אין מספיק שטח פנוי לשרת openHAB (קוד תגובה HTTP 507)</string>
