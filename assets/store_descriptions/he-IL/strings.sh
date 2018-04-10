@@ -24,6 +24,7 @@ report_issues='אם מצאת תקלה אנא דווח על כך בפורום א�
 translation='אם את או אתה רוצים לעזור לתרגם את היישום לשפתך הצטרפו אלינו https://crowdin.com/project/openhab-android'
 
 foundation='קרן openHAB'
+about_foundation='ֿopenHAB הוא ארגון ללא מטרות רווח השם לעצמו למטרה ללמד את הציבור על האפשרויות והיתרונות של פתרונות בית חכם בקוד פתוח ובחינם. כדי ללמוד עוד על הארגון ושירותיו אפשר לקרוא באתר https://www.openhabfoundation.org'
 
 important_note='הערה חשובה'
 oh_server='יש צורך בשרת openHAB עבור יישום זה'
