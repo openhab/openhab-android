@@ -22,7 +22,7 @@
 This app is a native client for openHAB. It uses REST API of openHAB to render sitemaps of your openHAB.
 
 <a href="https://play.google.com/store/apps/details?id=org.openhab.habdroid"><img src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" alt="Get it on Play Store" height="80"></a>
-<a href="https://f-droid.org/app/org.openhab.habdroid"><img src="assets/get-it-on-fdroid.png" alt="Get it on F-Droid" height="80"></a>
+<a href="https://f-droid.org/app/org.openhab.habdroid"><img src="docs/images/get-it-on-fdroid.png" alt="Get it on F-Droid" height="80"></a>
 <a href="https://github.com/openhab/openhab-android/releases"><img src="assets/direct-apk-download.png" alt="Get it on GitHub" height="80"></a>
 
 ## Features
