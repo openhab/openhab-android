@@ -10,7 +10,9 @@
   <string name="dlg_notification_title">התראה</string>
   <string name="favorites">מועדפים</string>
   <!-- Main menu items -->
+  <string name="mainmenu_openhab_sitemaps">תצורות מערכת</string>
   <string name="mainmenu_openhab_preferences">הגדרות</string>
+  <string name="mainmenu_openhab_selectsitemap">בחר את ברירת המחדל של תצורת המערכת</string>
   <string name="mainmenu_openhab_clearcache">נקה מטמון תמונות</string>
   <!-- App settings strings -->
   <string name="settings_connection_title">חיבור</string>
