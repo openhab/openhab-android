@@ -44,15 +44,24 @@
   <string name="settings_ringtone">סוג צלצול</string>
   <string name="settings_clear_default_sitemap">נקה את הגדרת ברירת מחדל של תצורת המערכת</string>
   <string name="settings_no_default_sitemap">לא נבחרה תצורת מערכת ברירת מחדל</string>
+  <string name="settings_current_default_sitemap">ברירת המחדל הנוכחית של תצורת המערכת: %1$s</string>
   <string name="settings_openhab_sslsettings">הצפנה</string>
   <string name="settings_openhab_alt_connection">מרוחק</string>
   <string name="settings_openhab_connection">מקומי</string>
   <!-- App messages strings -->
   <string name="title_voice_widget">פקודות קוליות openHAB</string>
   <string name="info_voice_input">"openHAB, לפקודתך!"</string>
+  <string name="info_voice_recognized_text">"הפקודה שזוהתה היא : %1$s"</string>
   <string name="info_demo_mode_short">פועל במצב הדגמה</string>
+  <string name="info_conn_url">מתחבר ל URL מקומי</string>
+  <string name="info_conn_rem_url">מתחבר ל URL מרוחק</string>
+  <string name="info_discovery">מזהה שרת openHAB. אנא המתן\u2026</string>
   <!-- Error messages -->
+  <string name="error_no_url">אנא בדוק ש-openHAB פעיל או הגדר URL מקומי או URL מרוחק</string>
+  <string name="error_empty_sitemap_list">openHAB החזיר רשימה ריקה של תצורות מערכת</string>
   <string name="error_network_not_available">הרשת לא זמינה</string>
+  <string name="error_http_connection_failed">החיבור נכשל. תקלה בלתי צפויה בעת חיבור לשרת openHAB המוגדר (שגיאת HTTP מספר: %d)</string>
+  <string name="error_no_uuid">אין אפשרות לקבל openHAB UUID, החיבור נכשל</string>
   <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
   <string name="error_http_code_504">Gateway Time-out. נראה כי שרת ה-reverse proxy פעיל, אך לא נתקבלה תשובה משרת openHAB (קוד תגובה HTTP 504)</string>
   <string name="error_http_code_507">אין מספיק שטח פנוי לשרת openHAB (קוד תגובה HTTP 507)</string>
@@ -112,6 +121,8 @@
   <string name="network_error">שגיאת רשת</string>
   <string name="go_to_settings_button">עבור להגדרות</string>
   <string name="configuration_missing">השרת של openHAB לא ניתן לגילוי באופן אוטומטי. נא להגדיר את כתובת ה IP של השרת או את שמו בתפריט הגדרות שרת.</string>
+  <string name="intro_discovery">איתור</string>
+  <string name="intro_discovery_summary">הערה: זה יעבוד רק אם אימות אינו נאכף על ידי השרת</string>
   <!-- Content description for images -->
   <string name="content_description_open_roller_shutter">פתח תריס גלילה</string>
   <string name="content_description_stop_roller_shutter">עצור תריס גלילה</string>
@@ -119,6 +130,7 @@
   <string name="content_description_open_color_wheel">פתח גלגל צבעים</string>
   <string name="content_description_color_up">הדלק או החזק כדי להגדיל את הבהירות</string>
   <string name="content_description_color_down">כבה או החזק כדי להפחית את הבהירות</string>
+  <string name="content_description_open_number_picker">פתח לבחירת ערך</string>
   <string name="content_description_video">סרטון</string>
   <string name="content_description_open_openhab">פתח openHAB</string>
   <string name="swipe_to_refresh_dismiss">הבנתי!</string>
