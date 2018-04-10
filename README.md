@@ -35,6 +35,10 @@ This app is a native client for openHAB. It uses REST API of openHAB to render s
 
 <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/main-menu.png" width="200px"> <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/widget-overview.png" width="200px"> <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/chart.png" width="200px">
 
+## Beta builds
+
+Beta builds are distributed via [GitHub](https://github.com/openhab/openhab-android/releases) and [F-Droid](https://f-droid.org/packages/org.openhab.habdroid.beta). Those builds can be installed alongside the stable version.
+
 ## Localization
 
 Concerning all `strings.xml` files at [mobile/src/\*/res/values-\*/](mobile/src/main/res/)
