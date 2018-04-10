@@ -333,8 +333,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
 
             mController.onRestoreInstanceState(savedInstanceState);
             String lastControllerClass = savedInstanceState.getString("controller");
-            if (mSelectedSitemap != null
-                    && !mController.getClass().getCanonicalName().equals(lastControllerClass)) {
+            if (!mController.getClass().getCanonicalName().equals(lastControllerClass)) {
                 // Our controller type changed, so we need to make the new controller aware of the
                 // page hierarchy. If the controller didn't change, the hierarchy will be restored
                 // via the fragment state restoration.
