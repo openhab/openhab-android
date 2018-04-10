@@ -37,10 +37,10 @@ This app is a native client for openHAB. It uses REST API of openHAB to render s
 
 ## Localization
 
-Concerning all `values-*` folders at [mobile/src/main/res](mobile/src/main/res/)
+Concerning all `strings.xml` files at [mobile/src/\*/res/values-\*/](mobile/src/main/res/)
 
 All language/regional translations are managed with [Crowdin](https://crowdin.com/).
-Please do NOT contribute translations as pull requests against the `mobile/src/main/res/values-*` folders directly, but submit them through the Crowdin web service:
+Please do NOT contribute translations as pull requests against the `mobile/src/*/res/values-*/strings.xml` files directly, but submit them through the Crowdin web service:
 
 - [https://crowdin.com/project/openhab-android](https://crowdin.com/project/openhab-android)
 
