@@ -71,6 +71,11 @@
   <string name="error_certificate_not_valid_yet">אישור SSL עדיין אינו חוקי. נא קבל אישור מתאים או בטל אישור אימות במהלך לחיצת יד של SSL. כמו כן יש לבדוק אם השעון במכשיר מוגדר כראוי</string>
   <string name="error_certificate_revoked">אישור SSL נשלל. אנא ייבא אישור חדש או בטל אימות אישור במהלך חיבור SSL</string>
   <string name="error_certificate_wrong_host">אישור SSL אינו חוקי עבור %s</string>
+  <string name="error_http_code_401">האימות נכשל. נא בדוק את שם המשתמש והסיסמה שהוגדרו בהתאמה עם אישור ה-SSL (קוד תגובה HTTP 401)</string>
+  <string name="error_http_code_403">האימות נכשל. נא בדוק את שם המשתמש והסיסמה שהוגדרו בהתאמה עם אישור ה-SSL (קוד תגובה HTTP 403)</string>
+  <string name="error_http_code_407">האימות נכשל. נא בדוק את שם המשתמש והסיסמה שהוגדרו בהתאמה עם אישור ה-SSL (קוד תגובה HTTP 407)</string>
+  <string name="error_http_code_414">שורת הכתובת URL ארוכה מדי. נא השתמש בכתובת IP או ב-URL קצר יותר (קוד תגובה HTTP 414)</string>
+  <string name="error_http_code_426">HTTPS נדרש. יש לשנות את כתובת ה-URL (קוד תגובה HTTP 426)</string>
   <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
   <string name="error_http_code_504">Gateway Time-out. נראה כי שרת ה-reverse proxy פעיל, אך לא נתקבלה תשובה משרת openHAB (קוד תגובה HTTP 504)</string>
   <string name="error_http_code_507">אין מספיק שטח פנוי לשרת openHAB (קוד תגובה HTTP 507)</string>
