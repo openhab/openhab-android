@@ -14,12 +14,12 @@
   <br>
   <img alt="Logo" src="fastlane/metadata/android/en-US/images/icon.png" width="100">
   <br>
-  <b>openHAB Android Client</b>
+  <b>openHAB client for Android</b>
 </p>
 
 ## Introduction
 
-openHAB Android application is a native client for openHAB. It uses REST API of openHAB to render sitemaps of your openHAB.
+This app is a native client for openHAB. It uses REST API of openHAB to render sitemaps of your openHAB.
 
 <a href="https://play.google.com/store/apps/details?id=org.openhab.habdroid"><img src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" alt="Get it on Play Store" height="80"></a>
 <a href="https://f-droid.org/app/org.openhab.habdroid"><img src="assets/get-it-on-fdroid.png" alt="Get it on F-Droid" height="80"></a>
@@ -48,7 +48,7 @@ Thanks for your consideration and contribution!
 
 ## Setting up development environment
 
-If you want to contribute to Android application we are here to help you to set up development environment. openHAB Android app is developed using Android Studio and also can be build with maven.
+If you want to contribute to Android application we are here to help you to set up development environment. openHAB client for Android is developed using Android Studio and also can be build with maven.
 
 - Download and install [Android Studio](https://developer.android.com/sdk/installing/studio.html) Android -> SDK Manager
 - Check out the latest code from Github via Android Studio
