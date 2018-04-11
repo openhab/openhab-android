@@ -4,8 +4,29 @@
   <!-- Attention translators! Do NOT submit localized strings through GitHub Pull Request. -->
   <!-- See: https://github.com/openhab/openhab-android/blob/master/README.md#localization -->
   <!-- General app strings -->
+  <string name="main_menu">Hlavní nabídka</string>
+  <string name="app_preferences_name">Nastavení</string>
+  <string name="app_notifications">Oznámení</string>
+  <string name="dlg_notification_title">Oznámení</string>
+  <string name="favorites">Oblíbené</string>
   <!-- Main menu items -->
+  <string name="mainmenu_openhab_sitemaps">Sitemaps</string>
+  <string name="mainmenu_openhab_preferences">Nastavení</string>
+  <string name="mainmenu_openhab_selectsitemap">Vyberte výchozí Sitemap</string>
+  <string name="mainmenu_openhab_clearcache">Vyčistit vyrovnávací paměť obrázků</string>
   <!-- App settings strings -->
+  <string name="settings_connection_title">Připojení</string>
+  <string name="settings_display_title">Zobrazení</string>
+  <string name="settings_misc_title">Různé</string>
+  <string name="settings_openhab_url">URL adresa lokálního serveru</string>
+  <string name="settings_openhab_url_summary">Adresa URL Vašeho openHAB serveru (název hostitele nebo IP). Je-li adresa zvolena ručně, automatické hledání adresy je vypnuto. Aktuální nastavení: %s</string>
+  <string name="settings_openhab_alturl">URL adresa vzdáleného serveru</string>
+  <string name="settings_openhab_alturl_summary">Tato adresa openHAB serveru se použije, pokud server na lokální adrese není k dispozici. Aktuální nastavení: %s</string>
+  <string name="settings_openhab_username">Uživatelské jméno</string>
+  <string name="settings_openhab_password">Heslo</string>
+  <string name="settings_openhab_sslclientcert">Klientský certifikát SSL</string>
+  <string name="settings_openhab_sslclientcert_howto">Klientský certifikát SSL - jak na to</string>
+  <string name="settings_openhab_sslclientcert_howto_summary">Klepnutím sem získáte informace o tom, jak nastavit ověřování klientských certifikátů SSL</string>
   <!-- App messages strings -->
   <!-- Error messages -->
   <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
