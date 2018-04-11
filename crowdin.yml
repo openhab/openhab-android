@@ -4,7 +4,7 @@ files:
     languages_mapping:
       two_letters_code:
         pt-BR: pt-rBR
-  - source: /assets/store_descriptions/en-US/strings.sh
+  - source: /assets/store_descriptions/en-US/strings.xml
     translation: /assets/store_descriptions/%locale%/%original_file_name%
   - source: /mobile/src/beta/res/values/strings.xml
     translation: /mobile/src/beta/res/values-%two_letters_code%/%original_file_name%
