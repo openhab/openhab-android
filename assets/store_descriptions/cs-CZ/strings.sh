@@ -19,12 +19,12 @@ special_useCases='Vlastní způsoby využití'
 
 oss_community='Open Source komunita'
 
-forum='OpenHAB open source projekt je silně podporován aktivní komunitou. Fórum s více než 13.000 registrovanými uživateli je místo, kde najdete pomoc, radu a inspiraci. Připojte se k diskuznímu fóru openHAB na https://community.openhab.org'
+forum='openHAB open source projekt je silně podporován aktivní komunitou. Fórum s více než 13.000 registrovanými uživateli je místo, kde najdete pomoc, radu a inspiraci. Připojte se k diskuznímu fóru openHAB na https://community.openhab.org'
 report_issues='Případné nalezené chyby či problémy je možné oznámit ve fóru nebo na https://github.com/openhab/openhab-android/issues'
 translation='Pokud chcete aplikaci přeložit do vašeho jazyka připojte se k nám na https://crowdin.com/project/openhab-android'
 
 foundation='openHAB Foundation'
-about_foundation='OpenHAB Foundation e.V. je nezisková organizace s cílem vzdělávat veřejnost o možnostech a výhodách svobodných a otevřených řešeních pro chytrou domácnost. Další informace na https://www.openhabfoundation.org'
+about_foundation='openHAB Foundation e.V. je nezisková organizace s cílem vzdělávat veřejnost o možnostech a výhodách svobodných a otevřených řešeních pro chytrou domácnost. Další informace na https://www.openhabfoundation.org'
 
 important_note='Důležitá poznámka'
 oh_server='Pro správné fungování aplikace budete potřebovat openHAB server'
