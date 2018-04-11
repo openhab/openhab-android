@@ -27,6 +27,8 @@ for file in strings_files:
     elif sys.argv[1] == "fdroidBeta":
         full_description+= getString('fdroid') + "\n"
         full_description+= getString('fdroid_beta') + "\n\n"
+    full_description+= "<b>" + getString('important_note') + "</b>\n\n"
+    full_description+= getString('oh_server') + "\n\n"
     full_description+= getString('whatis') + "\n"
     full_description+= getString('rules') + "\n\n"
     full_description+="<b>" + getString('supported') + "</b>\n\n"
@@ -44,9 +46,7 @@ for file in strings_files:
     full_description+= getString('report_issues') + "\n"
     full_description+= getString('translation') + "\n\n"
     full_description+= "<b>" + getString('foundation') + "</b>\n\n"
-    full_description+= getString('about_foundation') + "\n\n"
-    full_description+= "<b>" + getString('important_note') + "</b>\n\n"
-    full_description+= getString('oh_server') + "\n"
+    full_description+= getString('about_foundation') + "\n"
 
     if len(full_description) > 4000:
         print("Description of " + lang + " too long!")
