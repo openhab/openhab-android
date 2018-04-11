@@ -134,6 +134,9 @@ public class MySmartImageView extends SmartImageView {
         if (!useImageCache || cachedBitmap == null) {
             mRefreshHandler.removeMessages(0);
             MyWebImage image = new MyWebImage(url, useImageCache, username, password);
+            if (fallbackResource == null) {
+                setImageDrawable(null);
+            }
             setImage(image, fallbackResource, loadingResource, imageCompletionListener);
         }
     }
