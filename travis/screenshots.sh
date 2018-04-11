@@ -12,9 +12,9 @@ bash travis/bump-versioncode.sh
 
 if $(echo "$TRAVIS_TAG" | grep -q "beta")
 then
-    bash assets/store_descriptions/generate_and_validate.sh fdroidBeta
+    bash assets/store_descriptions/generate_and_validate.py fdroidBeta
 else
-    bash assets/store_descriptions/generate_and_validate.sh fdroid
+    bash assets/store_descriptions/generate_and_validate.py fdroid
 fi
 
 # Workaround for #794: Remove crashalytics

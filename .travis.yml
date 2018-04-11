@@ -53,7 +53,7 @@ jobs:
               - desc="Screenshots"
           if: branch != l10n-crowdin AND tag != "-fdroid$" AND tag IS present
         - stage: test
-          script: bash assets/store_descriptions/generate_and_validate.sh
+          script: bash assets/store_descriptions/generate_and_validate.py fdroidBeta
           env:
               - desc="Validate strings"
           if: tag != "-fdroid$"
