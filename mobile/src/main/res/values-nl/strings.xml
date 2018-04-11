@@ -15,6 +15,12 @@
   <string name="mainmenu_openhab_selectsitemap">Selecteer standaard sitemap</string>
   <string name="mainmenu_openhab_clearcache">Verwijder afbeeldingscache</string>
   <!-- App settings strings -->
+  <string name="settings_connection_title">Verbindingsinstellingen</string>
+  <string name="settings_display_title">Weergave Instellingen</string>
+  <string name="settings_misc_title">Overige Instellingen</string>
+  <string name="settings_openhab_url">Lokale server URL</string>
+  <string name="settings_openhab_url_summary">De URL van het dashboard van de openHAB (gebaseerd op hostnaam of IP). Indien geconfigureerd, is automatische detectie uitgeschakeld. Huidige instelling: %s</string>
+  <string name="settings_openhab_alturl">Externe server-URL</string>
   <string name="settings_openhab_username">Gebruikersnaam</string>
   <string name="settings_openhab_password">Wachtwoord</string>
   <string name="settings_openhab_screentimeroff">Uitschakelen weergave timer</string>
