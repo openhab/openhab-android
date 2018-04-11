@@ -88,6 +88,7 @@
   <string name="title_activity_openhabwritetag">כתיבה לתגית NFC</string>
   <string name="title_activity_openhabinfo">מידע על openHAB</string>
   <string name="title_activity_libraries">סיפריות בשימוש</string>
+  <string name="info_write_tag">הצמד תגית והשאר אותה קרובה עד להופעת הודעת אישור</string>
   <string name="info_write_tag_progress">כותב לתגית</string>
   <string name="info_write_tag_finished">הכתיבה הסתימה בהצלחה</string>
   <string name="info_write_failed">הכתיבה לתגית נכשלה</string>
