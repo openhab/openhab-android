@@ -80,7 +80,7 @@ public class Util {
         return uri.getHost();
     }
 
-    public static List<OpenHABSitemap> parseSitemapList(Document document, String defaultSitemapName) {
+    public static List<OpenHABSitemap> parseSitemapList(Document document) {
         List<OpenHABSitemap> sitemapList = new ArrayList<OpenHABSitemap>();
         NodeList sitemapNodes = document.getElementsByTagName("sitemap");
         if (sitemapNodes.getLength() > 0) {
@@ -88,10 +88,10 @@ public class Util {
                 sitemapList.add(OpenHABSitemap.fromXml(sitemapNodes.item(i)));
             }
         }
-        return sortSitemapList(sitemapList, defaultSitemapName);
+        return sitemapList;
     }
 
-    public static List<OpenHABSitemap> parseSitemapList(JSONArray jsonArray, String defaultSitemapName) {
+    public static List<OpenHABSitemap> parseSitemapList(JSONArray jsonArray) {
         List<OpenHABSitemap> sitemapList = new ArrayList<OpenHABSitemap>();
         for (int i = 0; i < jsonArray.length(); i++) {
             try {
@@ -104,10 +104,10 @@ public class Util {
                 Log.d(TAG, "Error while parsing sitemap", e);
             }
         }
-        return sortSitemapList(sitemapList, defaultSitemapName);
+        return sitemapList;
     }
 
-    private static List<OpenHABSitemap> sortSitemapList(List<OpenHABSitemap> sitemapList, String defaultSitemapName) {
+    public static List<OpenHABSitemap> sortSitemapList(List<OpenHABSitemap> sitemapList, String defaultSitemapName) {
         // Sort by sitename label, the default sitemap should be the first one
         Collections.sort(sitemapList, new Comparator<OpenHABSitemap>() {
             @Override

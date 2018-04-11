@@ -784,17 +784,16 @@ public class OpenHABMainActivity extends AppCompatActivity implements
                 mPendingCall = null;
                 mInitState = InitState.DONE;
 
-                String defaultSitemapName =
-                        mSettings.getString(Constants.PREFERENCE_SITEMAP_NAME, "");
-
                 // OH1 returns XML, later versions return JSON
                 List<OpenHABSitemap> result = mOpenHABVersion == 1
-                        ? loadSitemapsFromXml(responseBody, defaultSitemapName)
-                        : loadSitemapsFromJson(responseBody, defaultSitemapName);
+                        ? loadSitemapsFromXml(responseBody)
+                        : loadSitemapsFromJson(responseBody);
                 Log.d(TAG, "Server returned sitemaps: " + result);
                 mSitemapList.clear();
                 if (result != null) {
-                    mSitemapList.addAll(result);
+                    String defaultSitemapName =
+                            mSettings.getString(Constants.PREFERENCE_SITEMAP_NAME, "");
+                    mSitemapList.addAll(Util.sortSitemapList(result, defaultSitemapName));
                 }
                 updateSitemapDrawerItems();
 
@@ -818,25 +817,23 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         });
     }
 
-    private static List<OpenHABSitemap> loadSitemapsFromXml(byte[] response,
-                                                            String defaultSitemapName) {
+    private static List<OpenHABSitemap> loadSitemapsFromXml(byte[] response) {
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         try {
             DocumentBuilder builder = dbf.newDocumentBuilder();
             Document sitemapsXml = builder.parse(new ByteArrayInputStream(response));
-            return Util.parseSitemapList(sitemapsXml, defaultSitemapName);
+            return Util.parseSitemapList(sitemapsXml);
         } catch (ParserConfigurationException | SAXException | IOException e) {
             Log.e(TAG, "Failed parsing sitemap XML", e);
             return null;
         }
     }
 
-    private static List<OpenHABSitemap> loadSitemapsFromJson(byte[] response,
-                                                             String defaultSitemapName) {
+    private static List<OpenHABSitemap> loadSitemapsFromJson(byte[] response) {
         try {
             String jsonString = new String(response, "UTF-8");
             JSONArray jsonArray = new JSONArray(jsonString);
-            return Util.parseSitemapList(jsonArray, defaultSitemapName);
+            return Util.parseSitemapList(jsonArray);
         } catch (UnsupportedEncodingException | JSONException e) {
             Log.e(TAG, "Failed parsing sitemap JSON", e);
             return null;
