@@ -14,7 +14,6 @@ heating='Chauffage'
 home_entertainment='Divertissement à domicile'
 security='Sécurité'
 open_protocols='Protocoles ouverts'
-special_useCases='Cas d'utilisation spéciaux'
 
 
 report_issues='Si vous rencontrez un problème, veuillez nous en faire part sur le forum ou sur https://github.com/openhab/openhab-android/issues'
