@@ -16,12 +16,10 @@ def getString(key):
     return(string)
 
 strings_files=glob.glob('assets/store_descriptions/*/strings.xml')
-print(strings_files)
 for file in strings_files:
     tree = ET.parse(file)
     root = tree.getroot()
     lang=file[26:-12]
-    print(lang)
 
     full_description = getString('intro') + "\n\n"
     if sys.argv[1] == "fdroid":
