@@ -78,8 +78,13 @@
   <string name="error_http_code_426">HTTPS נדרש. יש לשנות את כתובת ה-URL (קוד תגובה HTTP 426)</string>
   <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
   <string name="error_http_code_495">האימות נכשל. בדוק את תעודת אישור לקוח SSL (קוד תגובה HTTP 495)</string>
+  <string name="error_http_code_496">נדרשת תעודת אישור לקוח SSL (קוד תגובה HTTP 496)</string>
+  <string name="error_http_code_502">שרת ה-reverse proxy קיבל תשובה שגויה משרת ה-openHAB (קוד תגובה HTTP 502)</string>
+  <string name="error_http_code_503">שרת openHAB אינו זמין באופן זמני (קוד תגובה HTTP 503)</string>
   <string name="error_http_code_504">Gateway Time-out. נראה כי שרת ה-reverse proxy פעיל, אך לא נתקבלה תשובה משרת openHAB (קוד תגובה HTTP 504)</string>
   <string name="error_http_code_507">אין מספיק שטח פנוי לשרת openHAB (קוד תגובה HTTP 507)</string>
+  <string name="error_http_code_511">נדרש אימות רשת (קוד תגובה HTTP 551)</string>
+  <string name="error_about_no_conn">אירעה שגיאה בעת בקשת מידע משרת openHAB</string>
   <string name="title_activity_openhabwritetag">כתיבה לתגית NFC</string>
   <string name="title_activity_openhabinfo">מידע על openHAB</string>
   <string name="title_activity_libraries">סיפריות בשימוש</string>
