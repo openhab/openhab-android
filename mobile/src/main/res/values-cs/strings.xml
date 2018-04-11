@@ -156,7 +156,7 @@
   <string name="try_again_button">Zkusit znovu</string>
   <string name="network_error">Chyba sítě</string>
   <string name="go_to_settings_button">Přejít do nastavení</string>
-  <string name="configuration_missing">Nepodařilo se automaticky nalézt OpenHAB server. V nastavení serveru nakonfigurujte jeho IP adresu nebo název hostitele.</string>
+  <string name="configuration_missing">Nepodařilo se automaticky nalézt openHAB server. V nastavení serveru nakonfigurujte jeho IP adresu nebo název hostitele.</string>
   <string name="resolving_openhab">Hledám openHAB server\u2026</string>
   <string name="intro_discovery">Automatické nalezení serveru</string>
   <string name="intro_discovery_summary">Bude fungovat pouze v případě, že ověřování není serverem vynuceno</string>
