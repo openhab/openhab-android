@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <strings>
-    <intro></intro>
-    <whatis></whatis>
-    <rules></rules>
-    <supported></supported>
+    <intro>openHAB - "empowering the smart home" - eine technologie- und herstellerunabh&#xE4;ngige, quelloffene Automatisierungsl&#xF6;sung f&#xFC;r Ihr Zuhause</intro>
+    <whatis>openHAB ist eine auf Java basierende quelloffene Plattform zur Heimautomatisierung, welche eine gro&#xDF;e Bandbreite verschiedenster Smart-Home-Systeme und -Technologien in eine einzige L&#xF6;sung integriert und kombiniert.</whatis>
+    <rules>Aufbauend auf einer vereinheitlichten Abstraktionsschicht sind alle Ger&#xE4;te f&#xFC;r die &#xFC;bergreifenden Automatisierungs- bzw. Regelm&#xF6;glichkeiten und die verschiedenen Benutzeroberfl&#xE4;chen verf&#xFC;gbar.</rules>
+    <supported>Unterst&#xFC;tzte Produkte</supported>
     <bindings>  </bindings>
 
     <home_automation_solutions></home_automation_solutions>
@@ -13,18 +13,18 @@
     <security></security>
     <open_protocols></open_protocols>
     <special_useCases></special_useCases>
-    <empty_point></empty_point>
+    <empty_point>&#x2022; ...</empty_point>
 
-    <oss_community></oss_community>
+    <oss_community>Open-Source-Community</oss_community>
     <forum>  </forum>
 
-    <report_issues></report_issues>
-    <translation></translation>
-    <foundation></foundation>
+    <report_issues>Wenn Sie einen Fehler gefunden haben, melden Sie diesen bitte im Forum oder unter https://github.com/openhab/openhab-android/issues</report_issues>
+    <translation>Helfen Sie uns, diese App in Ihre Sprache zu &#xFC;bersetzen: https://crowdin.com/project/openhab-android</translation>
+    <foundation>openHAB Foundation e.V.</foundation>
     <about_foundation> </about_foundation>
-    <important_note></important_note>
-    <oh_server></oh_server>
-    <short_description></short_description>
-    <fdroid></fdroid>
-    <fdroid_beta></fdroid_beta>
+    <important_note>Wichtiger Hinweis</important_note>
+    <oh_server>Um diese App zu nutzen, ben&#xF6;tigen Sie einen openHAB-Server</oh_server>
+    <short_description>openHAB-Client f&#xFC;r Android</short_description>
+    <fdroid>In der F-Droid-Version wurden die Unterst&#xFC;tzung f&#xFC;r Mapview-Elemente, GCM und die &#xDC;bermittlung von Absturzberichten entfernt. Mit dieser Version k&#xF6;nnen keine Nachrichten von einer openHAB-Cloud-Instanz empfangen werden.</fdroid>
+    <fdroid_beta>Sie k&#xF6;nnen die Betaversion neben der stabilen Version installieren: [[org.openhab.habdroid]]</fdroid_beta>
 </strings>
