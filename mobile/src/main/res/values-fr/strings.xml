@@ -46,6 +46,8 @@
   <string name="settings_no_default_sitemap">Pas de sitemap sélectionné</string>
   <string name="settings_current_default_sitemap">Sitemap par défaut actuel : %1$s</string>
   <string name="settings_openhab_sslsettings">Chiffrement</string>
+  <string name="settings_openhab_alt_connection">Distant</string>
+  <string name="settings_openhab_connection">Local</string>
   <!-- App messages strings -->
   <string name="title_voice_widget">Commandes vocales openHAB</string>
   <string name="info_voice_input">"openHAB, à vos ordres!"</string>
@@ -82,6 +84,7 @@
   <string name="error_http_code_504">Expiration du délai d\'attente de la passerelle. Votre proxy inversé fonctionne, mais il n\'a pas pu recevoir une réponse du serveur openHAB (code de réponse HTTP 504)</string>
   <string name="error_http_code_507">Le serveur openHAB n\'a pas assez d\'espace disque (code de réponse HTTP 507)</string>
   <string name="error_http_code_511">L’authentification réseau est obligatoire (code de réponse HTTP 511)</string>
+  <string name="error_about_no_conn">Erreur lors de la lecture d’informations sur le serveur openHAB</string>
   <string name="title_activity_openhabwritetag">Écrire un tag NFC</string>
   <string name="title_activity_openhabinfo">Informations openHAB</string>
   <string name="title_activity_libraries">Bibliothèques utilisées</string>
@@ -95,6 +98,7 @@
   <string name="info_openhab_apiversion_label">Version API Rest openHAB</string>
   <string name="info_openhab_uuid_label">UUID openHAB</string>
   <string name="info_openhab_secret_label">Phrase secrète openHAB</string>
+  <string name="info_openhab_push_notification_label">Statut des notifications push</string>
   <string name="action_settings">Paramétrage</string>
   <string name="nfc_dialog_title">Sélectionner une action pour le tag NFC</string>
   <string name="info_not_set">Non paramétré</string>
@@ -127,6 +131,15 @@
   <!-- About -->
   <string name="about_title">A propos</string>
   <string name="about_license_title">Licence</string>
+  <string name="about_changelog">Journal des modifications</string>
+  <string name="about_source_code">Forkez-moi sur GitHub!</string>
+  <string name="about_issues">Signaler un problème</string>
+  <string name="about_docs">Documentation</string>
+  <string name="about_community_forum">Forum communautaire</string>
+  <string name="about_foundation">openHAB Foundation</string>
+  <string name="about_community">Communauté openHAB</string>
+  <string name="about_server">Serveur openHAB</string>
+  <string name="about_translation">Aidez-nous à traduire openHAB</string>
   <string name="settings_debug_messages_summary">Les mots de passe s’affichent en clair !</string>
   <string name="settings_debug_messages_title">Afficher des messages de debug</string>
   <string name="error_couldnt_determine_openhab_url">Impossible de détermine l\'URL openHAB</string>
@@ -134,11 +147,19 @@
   <string name="error_network_type_unsupported">Type de réseau (%s) non supporté</string>
   <string name="set">Définir</string>
   <string name="cancel">Annuler</string>
+  <string name="close">Fermer</string>
   <string name="app_intro">Introduction</string>
   <string name="intro_welcome">Bienvenue dans openHAB</string>
   <string name="intro_whatis">Un logiciel open source de domotique pour votre maison non lié à un vendeur ou à une technologie particulière</string>
   <string name="intro_themes">Thêmes</string>
   <string name="intro_themes_description">Choisir parmi ces thêmes</string>
+  <string name="try_again_button">Réessayer</string>
+  <string name="network_error">Erreur réseau</string>
+  <string name="go_to_settings_button">Ouvrir les paramètres</string>
+  <string name="configuration_missing">Votre serveur openHAB n\'a pas pu être découvert automatiquement. Veuillez configurer son adresse IP ou nom d\'hôte dans les paramètres du serveur.</string>
+  <string name="resolving_openhab">Tentative de découverte automatique du serveur openHAB\u2026</string>
+  <string name="intro_discovery">Configuration automatique</string>
+  <string name="intro_discovery_summary">Veuillez noter que cela ne fonctionnera que si le serveur ne demande pas d’authentification</string>
   <!-- Content description for images -->
   <string name="content_description_open_roller_shutter">Ouvrir le volet</string>
   <string name="content_description_stop_roller_shutter">Stopper le volet</string>
@@ -153,5 +174,7 @@
   <string name="swipe_to_refresh_dismiss">Compris !</string>
   <!-- Intro strings -->
   <!-- Intro "SKIP" button -->
+  <string name="app_intro_skip_button">PASSER</string>
   <!-- Intro "DONE" button -->
+  <string name="app_intro_done_button">OK</string>
 </resources>
