@@ -116,6 +116,12 @@
   <string name="error_couldnt_determine_openhab_url">OpenHAB URL kon niet worden vastgesteld</string>
   <string name="unknown">Onbekend</string>
   <string name="error_network_type_unsupported">Netwerktype (%s) wordt niet ondersteund</string>
+  <string name="set">Stel in</string>
+  <string name="cancel">Annuleer</string>
+  <string name="app_intro">Introductie</string>
+  <string name="intro_welcome">Welkom bij openHAB</string>
+  <string name="intro_themes">Thema\'s</string>
+  <string name="intro_themes_description">Kies tussen de verschillende thema\'s</string>
   <!-- Content description for images -->
   <!-- Intro strings -->
   <!-- Intro "SKIP" button -->
