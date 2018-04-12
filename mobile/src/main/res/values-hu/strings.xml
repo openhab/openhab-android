@@ -100,7 +100,15 @@
   <string name="info_openhab_secret_label">openHAB titkos cimke</string>
   <string name="info_openhab_push_notification_label">Azonnal értesítés állapota</string>
   <string name="action_settings">Beállítások</string>
+  <string name="nfc_dialog_title">NFC címke írása ehhez az elemhez</string>
+  <string name="info_not_set">Nincs beállítva</string>
   <!-- Strings for MemorizingTrustManager activity -->
+  <string name="mtm_accept_cert">Elfogad ismeretlen tanúsítványt?</string>
+  <string name="mtm_decision_always">Mindig</string>
+  <string name="mtm_decision_once">Egyszer</string>
+  <string name="mtm_decision_abort">Megszakítás</string>
+  <string name="mtm_notification">Tanúsítvány ellenőrzése</string>
+  <string name="settings_openhab_none">nincs</string>
   <!-- Themes -->
   <string name="theme_name_light">Világos</string>
   <string name="theme_name_dark">Sötét</string>
@@ -149,6 +157,7 @@
   <string name="network_error">Hálózati hiba</string>
   <string name="go_to_settings_button">Beállítások megnyitása</string>
   <string name="configuration_missing">Az openHAB szervert nem tudta automatikusan felderíteni. Állítsd be manuálisan az IP címet vagy host nevet a szerver beállításokban.</string>
+  <string name="resolving_openhab">Megpróbálja felderíteni az openHAB szerver példányt\u2026</string>
   <string name="intro_discovery">Felderítés</string>
   <string name="intro_discovery_summary">Kérjük vedd figyelembe, hogy ez csak akkor működik, ha az authentikációt nem a szerver hajtja végre</string>
   <!-- Content description for images -->
@@ -156,7 +165,16 @@
   <string name="content_description_stop_roller_shutter">Redőny megállítása</string>
   <string name="content_description_close_roller_shutter">Redőny lezárása</string>
   <string name="content_description_open_color_wheel">Színválasztás megnyitása</string>
+  <string name="content_description_color_up">Fényerő növeléséhez tartsa nyomva</string>
+  <string name="content_description_color_down">Fényerő csökkentéséhez tartsa nyomva</string>
+  <string name="content_description_open_number_picker">Szám megadása</string>
+  <string name="content_description_video">Video</string>
+  <string name="content_description_open_openhab">OpenHAB megnyitása</string>
+  <string name="swipe_to_refresh_description">Az alkalmazás is frissíti automatikusan, általában nem kell saját kezűleg</string>
+  <string name="swipe_to_refresh_dismiss">Értettem!</string>
   <!-- Intro strings -->
   <!-- Intro "SKIP" button -->
+  <string name="app_intro_skip_button">Kihagyás</string>
   <!-- Intro "DONE" button -->
+  <string name="app_intro_done_button">Kész</string>
 </resources>
