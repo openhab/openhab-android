@@ -19,7 +19,7 @@
 
 ## Introduction
 
-This app is a native client for openHAB. It uses REST API of openHAB to render sitemaps of your openHAB.
+This app is a native client for the openHAB home automation system which allows easy access to your sitemaps.
 
 <a href="https://play.google.com/store/apps/details?id=org.openhab.habdroid"><img src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" alt="Get it on Play Store" height="80"></a>
 <a href="https://f-droid.org/app/org.openhab.habdroid"><img src="docs/images/get-it-on-fdroid.png" alt="Get it on F-Droid" height="80"></a>
