@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <strings>
-    <intro></intro>
+    <intro>openHAB - "&#x5D4;&#x5E2;&#x5E6;&#x5DE;&#x5EA; &#x5D4;&#x5D1;&#x5D9;&#x5EA; &#x5D4;&#x5D7;&#x5DB;&#x5DD;" - &#x5E4;&#x5E8;&#x5D5;&#x5D9;&#x5D9;&#x5E7;&#x5D8; &#x5E7;&#x5D5;&#x5D3; &#x5E4;&#x5EA;&#x5D5;&#x5D7; &#x5DC;&#x5D1;&#x5D9;&#x5EA; &#x5D7;&#x5DB;&#x5DD; &#x5DC;&#x5D0;&#x5E0;&#x5E9;&#x5D9;&#x5DD; &#x5D5;&#x5D7;&#x5D1;&#x5E8;&#x5D5;&#x5EA; &#x5D1;&#x5E8;&#x5D0;&#x5D9;&#x5D9;&#x5D4; &#x5D8;&#x5DB;&#x5E0;&#x5D5;&#x5DC;&#x5D5;&#x5D2;&#x5D9;&#x5EA; &#x5DE;&#x5EA;&#x5E7;&#x5D3;&#x5DE;&#x5EA;</intro>
     <whatis></whatis>
     <rules></rules>
     <supported>&#x5DE;&#x5D5;&#x5E6;&#x5E8;&#x5D9;&#x5DD; &#x5E0;&#x5EA;&#x5DE;&#x5DB;&#x5D9;&#x5DD;</supported>
@@ -11,20 +11,20 @@
     <heating></heating>
     <home_entertainment></home_entertainment>
     <security>&#x2022; &#x5D0;&#x5D1;&#x5D8;&#x5D7;&#x5D4;: ZoneMinder, DSC,...</security>
-    <open_protocols></open_protocols>
+    <open_protocols>&#x2022; &#x5E4;&#x5E8;&#x5D5;&#x5D8;&#x5D5;&#x5E7;&#x5D5;&#x5DC;&#x5D9;&#x5DD; &#x5E4;&#x5EA;&#x5D5;&#x5D7;&#x5D9;&#x5DD;: HTTP, TCP/UDP, MQTT, &#x5D9;&#x5E6;&#x5D9;&#x5D0;&#x5D4; &#x5D8;&#x5D5;&#x5E8;&#x5D9;&#x5EA;,...</open_protocols>
     <special_useCases></special_useCases>
-    <empty_point></empty_point>
+    <empty_point>&#x2022; ...</empty_point>
 
-    <oss_community></oss_community>
+    <oss_community>&#x5E7;&#x5D4;&#x5D9;&#x5DC;&#x5EA; &#x5D4;&#x5E7;&#x5D5;&#x5D3; &#x5D4;&#x5E4;&#x5EA;&#x5D5;&#x5D7;</oss_community>
     <forum>  </forum>
 
     <report_issues></report_issues>
     <translation></translation>
-    <foundation></foundation>
+    <foundation>&#x5D0;&#x5E8;&#x5D2;&#x5D5;&#x5DF; openHAB</foundation>
     <about_foundation> </about_foundation>
     <important_note></important_note>
     <oh_server></oh_server>
-    <short_description></short_description>
+    <short_description>&#x5DC;&#x5E7;&#x5D5;&#x5D7; openHAB &#x5E2;&#x5D1;&#x5D5;&#x5E8; &#x5D0;&#x5E0;&#x5D3;&#x5E8;&#x5D5;&#x5D0;&#x5D9;&#x5D3;</short_description>
     <fdroid></fdroid>
-    <fdroid_beta></fdroid_beta>
+    <fdroid_beta>&#x5D1;&#x5D0;&#x5E4;&#x5E9;&#x5E8;&#x5D5;&#x5EA;&#x5DA; &#x5DC;&#x5D4;&#x5EA;&#x5E7;&#x5D9;&#x5DF; &#x5D0;&#x5EA; &#x5D2;&#x5D9;&#x5E8;&#x5E1;&#x5EA; &#x5D4;&#x5D1;&#x5D8;&#x5D0; &#x5DC;&#x5E6;&#x5D3; &#x5D4;&#x5D2;&#x5E8;&#x5E1;&#x5D4; &#x5D4;&#x5D9;&#x5E6;&#x5D9;&#x5D1;&#x5D4;: [[org.openhab.habdroid]]</fdroid_beta>
 </strings>
