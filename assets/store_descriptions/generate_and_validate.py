@@ -16,6 +16,11 @@ def getString(key):
         string = en_root.findall(".//string[@name='" + key + "']")[0].text
     return(string)
 
+def unescapeString(string):
+    string = string.replace('\\"', '"')
+    string = string.replace("\\'", "'")
+    return(string)
+
 strings_files=glob.glob('assets/store_descriptions/*/strings.xml')
 for file in strings_files:
     print(file)
@@ -63,9 +68,9 @@ for file in strings_files:
             os.makedirs(newpath)
 
     f = open('fastlane/metadata/android/' + lang + '/full_description.txt', 'w')
-    f.write(full_description)
+    f.write(unescapeString(full_description))
     f.close()
     f = open('fastlane/metadata/android/' + lang + '/short_description.txt', 'w')
-    f.write(short_description)
+    f.write(unescapeString(short_description))
     f.close()
 
