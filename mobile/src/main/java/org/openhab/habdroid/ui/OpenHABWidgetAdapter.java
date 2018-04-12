@@ -571,7 +571,7 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
                     uri = Uri.parse(mConnection.getOpenHABUrl() + widget.url());
                 }
                 mImageView.setImageUrl(uri.toString(), mConnection.getUsername(),
-                        mConnection.getPassword(), false);
+                        mConnection.getPassword(), true);
                 mRefreshRate = widget.refresh();
             }
         }
@@ -910,7 +910,7 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
                 Log.d(TAG, "Chart url = " + chartUrl);
 
                 mImageView.setImageUrl(chartUrl.toString(), mConnection.getUsername(),
-                        mConnection.getPassword(), false);
+                        mConnection.getPassword(), true);
                 mRefreshRate = widget.refresh();
             } else {
                 Log.e(TAG, "Chart item is null");

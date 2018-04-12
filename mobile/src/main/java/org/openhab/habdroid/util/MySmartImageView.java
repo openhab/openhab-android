@@ -95,25 +95,25 @@ public class MySmartImageView extends SmartImageView {
         setImageUrl(url, username, password, true);
     }
 
-    public void setImageUrl(String url, String username, String password, boolean useImageCache) {
-        setImageUrl(url, username, password, useImageCache, null);
+    public void setImageUrl(String url, String username, String password, boolean forceLoad) {
+        setImageUrl(url, username, password, forceLoad, null);
     }
 
     public void setImageUrl(String url, String username, String password, Integer fallbackResource) {
-        setImageUrl(url, username, password, true, fallbackResource);
+        setImageUrl(url, username, password, false, fallbackResource);
     }
 
     public void setImageUrl(String url, String username, String password,
-            boolean useImageCache, Integer fallbackResource) {
-        setImageUrl(url, username, password, useImageCache, fallbackResource, fallbackResource);
+            boolean forceLoad, Integer fallbackResource) {
+        setImageUrl(url, username, password, forceLoad, fallbackResource, fallbackResource);
     }
 
     public void setImageUrl(String url, String username, String password,
             Integer fallbackResource, Integer loadingResource) {
-        setImageUrl(url, username, password, true, fallbackResource, loadingResource);
+        setImageUrl(url, username, password, false, fallbackResource, loadingResource);
     }
 
-    private void setImageUrl(String url, String username, String password, boolean useImageCache,
+    private void setImageUrl(String url, String username, String password, boolean forceLoad,
             Integer fallbackResource, Integer loadingResource) {
         if (TextUtils.equals(myImageUrl, url)
                 && TextUtils.equals(this.username, username)
@@ -131,9 +131,9 @@ public class MySmartImageView extends SmartImageView {
         if (cachedBitmap != null) {
             setImageBitmap(cachedBitmap);
         }
-        if (!useImageCache || cachedBitmap == null) {
+        if (forceLoad || cachedBitmap == null) {
             mRefreshHandler.removeMessages(0);
-            MyWebImage image = new MyWebImage(url, useImageCache, username, password);
+            MyWebImage image = new MyWebImage(url, forceLoad, username, password);
             if (fallbackResource == null) {
                 setImageDrawable(null);
             }
