@@ -3,6 +3,7 @@
 import xml.etree.ElementTree as ET
 import glob
 import sys
+import os
 
 
 en_tree = ET.parse('assets/store_descriptions/en-US/strings.xml')
@@ -56,6 +57,10 @@ for file in strings_files:
     short_description = getString('short_description')
     if len(short_description) > 80:
         print("Description of " + lang + " too long!")
+
+    newpath = r'fastlane/metadata/android/' + lang + '/'
+    if not os.path.exists(newpath):
+            os.makedirs(newpath)
 
     f = open('fastlane/metadata/android/' + lang + '/full_description.txt', 'w')
     f.write(full_description)
