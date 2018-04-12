@@ -18,7 +18,7 @@
     <string name="oss_community">Open Source Community</string>
     <string name="forum">The openHAB open source initiative strongly supports its vibrant community. The forum with over 13,000 registered users is a place to find guidance, help and inspiration. Join the openHAB community forum over at https://community.openhab.org</string>
 
-    <string name="report_issues">When you found an issue please report it in the forum or at https://github.com/openhab/openhab-android/issues</string>
+    <string name="report_issues">When you find an issue please report it in the forum or at https://github.com/openhab/openhab-android/issues</string>
     <string name="translation">If you want to translate the app into your language join us at https://crowdin.com/project/openhab-android</string>
     <string name="foundation">openHAB Foundation</string>
     <string name="about_foundation">The openHAB Foundation e.V. is a nonprofit organization with the mission to educate the public about the possibilities and benefits of free and open smart home solutions. Learn about the mission and the services of the foundation under https://www.openhabfoundation.org</string>
