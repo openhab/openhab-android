@@ -75,9 +75,45 @@
   <string name="nfc_action_current_color">Aktuális szín</string>
   <string name="nfc_action_to_sitemap_page">Ugrás az oldaltérkép oldalra</string>
   <!-- Drawer -->
+  <string name="drawer_open">Oldaltérkép tervező nyitva</string>
+  <string name="drawer_close">Oldaltérkép tervező zárva</string>
+  <string name="mainmenu_openhab_voice_recognition">Hangfelsimerés</string>
   <!-- About -->
+  <string name="about_title">Névjegy</string>
+  <string name="about_license_title">Licensz</string>
+  <string name="about_changelog">Változásnapló</string>
+  <string name="about_source_code">Fork-olj minket a GitHub-on!</string>
+  <string name="about_issues">Hiba jelentése</string>
+  <string name="about_docs">Dokumentáció</string>
+  <string name="about_community_forum">Közösségi fórum</string>
+  <string name="about_foundation">openHAB Alapítvány</string>
+  <string name="about_community">openHAB közösség</string>
+  <string name="about_server">openHAB server</string>
+  <string name="about_translation">Segíts nekünk az openHAB fordításában</string>
+  <string name="settings_debug_messages_summary">Jelszavakat egyszerű szövegként jeleníti meg!</string>
+  <string name="settings_debug_messages_title">Hibakeresési üzenetek megjelenítése</string>
+  <string name="error_couldnt_determine_openhab_url">OpenHAB URL nem található</string>
+  <string name="unknown">Ismeretlen</string>
+  <string name="error_network_type_unsupported">Hálózat típusa (%s) nem támogatott</string>
+  <string name="set">Beállít</string>
+  <string name="cancel">Mégse</string>
   <string name="close">Bezár</string>
+  <string name="app_intro">Intro</string>
+  <string name="intro_welcome">Üdvözöljük openHAB-ban</string>
+  <string name="intro_whatis">Szállító- és technológia független nyílt forráskódú automatizálási szoftver az Ön otthonába</string>
+  <string name="intro_themes">Témák</string>
+  <string name="intro_themes_description">Választhat számos téma közül</string>
+  <string name="try_again_button">Próbáld újra</string>
+  <string name="network_error">Hálózati hiba</string>
+  <string name="go_to_settings_button">Beállítások megnyitása</string>
+  <string name="configuration_missing">Az openHAB szervert nem tudta automatikusan felderíteni. Állítsd be manuálisan az IP címet vagy host nevet a szerver beállításokban.</string>
+  <string name="intro_discovery">Felderítés</string>
+  <string name="intro_discovery_summary">Kérjük vedd figyelembe, hogy ez csak akkor működik, ha az authentikációt nem a szerver hajtja végre</string>
   <!-- Content description for images -->
+  <string name="content_description_open_roller_shutter">Redőny nyitása</string>
+  <string name="content_description_stop_roller_shutter">Redőny megállítása</string>
+  <string name="content_description_close_roller_shutter">Redőny lezárása</string>
+  <string name="content_description_open_color_wheel">Színválasztás megnyitása</string>
   <!-- Intro strings -->
   <!-- Intro "SKIP" button -->
   <!-- Intro "DONE" button -->
