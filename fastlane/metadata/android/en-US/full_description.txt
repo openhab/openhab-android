@@ -3,6 +3,10 @@ openHAB - "empowering the smart home" - vendor and technology agnostic open sour
 The builds on F-Droid have map view support, GCM and crash reporting removed and will not be able to receive push notifications from openHAB Cloud.
 You can install the beta version alongside the stable version: [[org.openhab.habdroid]]
 
+<b>Important note</b>
+
+You need an openHAB server for this app
+
 openHAB is a Java-based open-source home automation platform that integrates and combines a vast range of different smart home systems and technologies into one single solution.
 On top of the unified abstraction layer all connected devices are available for the overarching automation rule engines and different user interfaces.
 
@@ -28,7 +32,3 @@ If you want to translate the app into your language join us at https://crowdin.c
 <b>openHAB Foundation</b>
 
 The openHAB Foundation e.V. is a nonprofit organization with the mission to educate the public about the possibilities and benefits of free and open smart home solutions. Learn about the mission and the services of the foundation under https://www.openhabfoundation.org
-
-<b>Important note</b>
-
-You need an openHAB server for this app
