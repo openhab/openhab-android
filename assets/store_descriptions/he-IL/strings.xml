@@ -3,14 +3,14 @@
     <intro></intro>
     <whatis></whatis>
     <rules></rules>
-    <supported></supported>
+    <supported>&#x5DE;&#x5D5;&#x5E6;&#x5E8;&#x5D9;&#x5DD; &#x5E0;&#x5EA;&#x5DE;&#x5DB;&#x5D9;&#x5DD;</supported>
     <bindings>  </bindings>
 
     <home_automation_solutions></home_automation_solutions>
     <lighting></lighting>
     <heating></heating>
     <home_entertainment></home_entertainment>
-    <security></security>
+    <security>&#x2022; &#x5D0;&#x5D1;&#x5D8;&#x5D7;&#x5D4;: ZoneMinder, DSC,...</security>
     <open_protocols></open_protocols>
     <special_useCases></special_useCases>
     <empty_point></empty_point>
