@@ -87,20 +87,6 @@ public class Util {
                 sitemapList.add(OpenHABSitemap.fromXml(sitemapNodes.item(i)));
             }
         }
-        // Sort by sitename label
-        Collections.sort(sitemapList, new Comparator<OpenHABSitemap>() {
-            @Override
-            public int compare(OpenHABSitemap sitemap1, OpenHABSitemap sitemap2) {
-                if (sitemap1.label() == null) {
-                    return sitemap2.label() == null ? 0 : -1;
-                }
-                if (sitemap2.label() == null) {
-                    return 1;
-                }
-                return sitemap1.label().compareTo(sitemap2.label());
-            }
-        });
-
         return sitemapList;
     }
 
@@ -117,6 +103,24 @@ public class Util {
                 Log.d(TAG, "Error while parsing sitemap", e);
             }
         }
+        return sitemapList;
+    }
+
+    public static List<OpenHABSitemap> sortSitemapList(List<OpenHABSitemap> sitemapList, String defaultSitemapName) {
+        // Sort by sitename label, the default sitemap should be the first one
+        Collections.sort(sitemapList, new Comparator<OpenHABSitemap>() {
+            @Override
+            public int compare(OpenHABSitemap sitemap1, OpenHABSitemap sitemap2) {
+                if (sitemap1.name().equals(defaultSitemapName)) {
+                    return -1;
+                }
+                if (sitemap2.name().equals(defaultSitemapName)) {
+                    return 1;
+                }
+                return sitemap1.label().compareToIgnoreCase(sitemap2.label());
+            }
+        });
+
         return sitemapList;
     }
 
