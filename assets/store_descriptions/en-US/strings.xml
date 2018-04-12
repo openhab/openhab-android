@@ -1,5 +1,5 @@
-<?xml version="1.0"?>
-<strings>
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="intro">openHAB - "empowering the smart home" - vendor and technology agnostic open source home automation</string>
     <string name="whatis">openHAB is a Java-based open-source home automation platform that integrates and combines a vast range of different smart home systems and technologies into one single solution.</string>
     <string name="rules">On top of the unified abstraction layer all connected devices are available for the overarching automation rule engines and different user interfaces.</string>
@@ -27,4 +27,4 @@
     <string name="short_description">openHAB client for Android</string>
     <string name="fdroid">The builds on F-Droid have map view support, GCM and crash reporting removed and will not be able to receive push notifications from openHAB Cloud.</string>
     <string name="fdroid_beta">You can install the beta version alongside the stable version: [[org.openhab.habdroid]]</string>
-</strings>
+</resources>
