@@ -58,8 +58,48 @@
   <string name="info_discovery">OpenHAB kiszolgáló keresése. Kérjük, várjon\u2026</string>
   <!-- Error messages -->
   <string name="error_no_url">Kérjük, ellenőrizze, hogy a openHAB fut, vagy állítsa be a openHAB helyi vagy távoli URL-ét</string>
+  <string name="error_empty_sitemap_list">openHAB üres oldaltérképet adott vissza</string>
+  <string name="error_network_not_available">Hálózat nem elérhető</string>
+  <string name="error_http_connection_failed">Kapcsolódás sikertelen. Egy nem várt válasz érkezett, míg kapcsolódni próbált openHAB szolgálóhoz ( HTTP válasz-kód: %d)</string>
+  <string name="error_no_uuid">OpenHAB UUID nem található, kapcsolódás sikertelen</string>
+  <string name="error_invalid_url">Adjon meg egy érvényes URL-cím \' http(s)://kiszolgáló(:port)/\' formában</string>
+  <string name="error_connection_failed">Sikertelen kapcsolódás</string>
+  <string name="error_unable_to_resolve_hostname">Névfeloldás sikertelen</string>
+  <string name="error_connection_sslhandshake_failed">SSL ellenőrzés sikertelen</string>
+  <string name="error_certificate_not_trusted">Az SSL-tanúsítvány nem megbízható. Kérjük, importálja a gyökér tanúsítványt, vagy tiltsa le a tanúsítvány érvényesítése során az SSL ellenőrzést</string>
+  <string name="error_certificate_expired">SSL-tanúsítvány már lejárt. Kérjük, szerezzen be új tanúsítványt, vagy tiltsa le a tanúsítvány érvényesítése során az SSL ellenőrzést</string>
+  <string name="error_certificate_not_valid_yet">SSL-tanúsítvány még nem érvényes. Kérjük, szerezzen be egy megfelelő tanúsítványt, vagy tiltsa le a tanúsítvány érvényesítése során az SSL ellenőrzést. Illetve, ellenőrizze készülékén megfelelően van e beállítva az idő</string>
+  <string name="error_certificate_revoked">SSL-tanúsítvány már lejárt. Kérjük, szerezzen be új tanúsítványt, vagy tiltsa le a tanúsítvány érvényesítése során az SSL ellenőrzést</string>
+  <string name="error_certificate_wrong_host">SSL-tanúsítvány érvénytelen %s</string>
+  <string name="error_http_code_401">A hitelesítés sikertelen. Kérjük, ellenőrizze a beállított felhasználónevet és jelszót, illetve az SSL ügyféltanúsítványt (HTTP-válaszkód 401)</string>
+  <string name="error_http_code_403">A hitelesítés sikertelen. Kérjük, ellenőrizze a beállított felhasználónevet és jelszót, illetve az SSL ügyféltanúsítványt (HTTP-válaszkód 403)</string>
+  <string name="error_http_code_407">A hitelesítés sikertelen. Kérjük, ellenőrizze a beállított felhasználónevet és jelszót, illetve az SSL ügyféltanúsítványt (HTTP-válaszkód 407)</string>
+  <string name="error_http_code_414">URL túl hosszú. Kérjük, használja az IP-címet vagy egy rövidebb URL-t (HTTP-válaszkód 414)</string>
+  <string name="error_http_code_426">Kötelező a HTTPS használata. Módosítsa az URL-t (HTTP válaszkód, 426.)</string>
   <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
+  <string name="error_http_code_495">A hitelesítés sikertelen. Kérjük, ellenőrizze a megadott SSL ügyféltanúsítvány (HTTP-válaszkód 495)</string>
+  <string name="error_http_code_496">SSL ügyfél-tanúsítvány szükség (HTTP válasz-kód 496)</string>
+  <string name="error_http_code_502">Az átjáró érvénytelen választ kapott a openHAB szervertől (HTTP válaszkód, 502.)</string>
+  <string name="error_http_code_503">A openHAB szerver ideiglenesen nem érhető el (HTTP válasz-kód 503)</string>
+  <string name="error_http_code_504">Átjáró időtúllépés. Úgy tűnik, hogy a átjáró fut, de nem kap választ a openHAB szervertől (HTTP-válaszkód 504)</string>
+  <string name="error_http_code_507">A openHAB kiszolgálón nincs elég szabad hely (HTTP-válaszkód 507)</string>
+  <string name="error_http_code_511">Hálózati hitelesítésre van szükség (HTTP válasz-kód 511)</string>
+  <string name="error_about_no_conn">Hiba történt az openHAB szerver adatok lekérése közben</string>
+  <string name="title_activity_openhabwritetag">NFC-címke írása</string>
+  <string name="title_activity_openhabinfo">openHAB információk</string>
+  <string name="title_activity_libraries">Használt könyvtárak</string>
+  <string name="info_write_tag">Érintse meg a címkét, és tartsa közel, amíg meg nem jelenik a visszaigazoló üzenet</string>
+  <string name="info_write_tag_progress">Címke írása</string>
+  <string name="info_write_tag_finished">Sikeresen befejezve</string>
+  <string name="info_write_failed">Címke írása sikertelen</string>
+  <string name="info_write_tag_unsupported">Ez az eszköz nem rendelkezik NFC támogatással</string>
+  <string name="info_write_tag_disabled">NFC le van tiltva. Kérjük, engedélyezze a készüléken a beállítások menüpontban.</string>
+  <string name="info_openhab_version_label">openHAB verziója</string>
+  <string name="info_openhab_apiversion_label">openHAB Rest API verziója</string>
+  <string name="info_openhab_uuid_label">openHAB UUID</string>
+  <string name="info_openhab_secret_label">openHAB titkos cimke</string>
   <string name="info_openhab_push_notification_label">Azonnal értesítés állapota</string>
+  <string name="action_settings">Beállítások</string>
   <!-- Strings for MemorizingTrustManager activity -->
   <!-- Themes -->
   <string name="theme_name_light">Világos</string>
