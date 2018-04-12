@@ -4,16 +4,30 @@
   <!-- Attention translators! Do NOT submit localized strings through GitHub Pull Request. -->
   <!-- See: https://github.com/openhab/openhab-android/blob/master/README.md#localization -->
   <!-- General app strings -->
+  <string name="main_menu">Főmenü</string>
+  <string name="app_preferences_name">Beállítások</string>
+  <string name="app_notifications">Értesítések</string>
+  <string name="dlg_notification_title">Értesítési üzenet</string>
+  <string name="favorites">Kedvencek</string>
   <!-- Main menu items -->
+  <string name="mainmenu_openhab_sitemaps">Oldaltérképek</string>
+  <string name="mainmenu_openhab_preferences">Beállítások</string>
+  <string name="mainmenu_openhab_clearcache">Gyorsítótári képek törlése</string>
   <!-- App settings strings -->
+  <string name="settings_connection_title">Kapcsolat</string>
+  <string name="settings_display_title">Kijelző</string>
+  <string name="settings_openhab_theme">Sablonok</string>
+  <string name="settings_current_default_sitemap">Alapértelmezett felületet</string>
   <!-- App messages strings -->
   <!-- Error messages -->
   <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
+  <string name="info_openhab_push_notification_label">Azonnal értesítés állapota</string>
   <!-- Strings for MemorizingTrustManager activity -->
   <!-- Themes -->
   <!-- NFC toggle -->
   <!-- Drawer -->
   <!-- About -->
+  <string name="close">Bezár</string>
   <!-- Content description for images -->
   <!-- Intro strings -->
   <!-- Intro "SKIP" button -->
