@@ -98,6 +98,7 @@
   <string name="info_openhab_apiversion_label">openHAB Rest API Версия</string>
   <string name="info_openhab_uuid_label">openHAB UUID</string>
   <string name="info_openhab_secret_label">openHAB секрет</string>
+  <string name="info_openhab_push_notification_label">Статус Push-уведомлений</string>
   <string name="action_settings">Параметры</string>
   <string name="nfc_dialog_title">Выберите действие тега NFC</string>
   <string name="info_not_set">Не задано</string>
@@ -146,6 +147,7 @@
   <string name="error_network_type_unsupported">Тип сети (%s) не поддерживается</string>
   <string name="set">Установить</string>
   <string name="cancel">Отмена</string>
+  <string name="close">Закрыть</string>
   <string name="app_intro">Введение</string>
   <string name="intro_welcome">Добро пожаловать в openHAB</string>
   <string name="intro_whatis">Независимое программное обеспечение автоматизации Вашего дома</string>
@@ -154,6 +156,8 @@
   <string name="try_again_button">Попробуйте еще раз</string>
   <string name="network_error">Ошибка сети</string>
   <string name="go_to_settings_button">Перейдите к настройкам</string>
+  <string name="configuration_missing">Ваш сервер OpenHAB не был обнаружен автоматически. Пожалуйста, настройте его IP адрес или имя хоста в настройках сервера.</string>
+  <string name="resolving_openhab">Пытаюсь обнаружить сервер openHAB\u2026</string>
   <string name="intro_discovery">Обнаружить</string>
   <string name="intro_discovery_summary">Заметьте, что это будет работать, только если проверка подлинности не обеспечивается сервером</string>
   <!-- Content description for images -->
