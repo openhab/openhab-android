@@ -1,30 +1,30 @@
 <?xml version="1.0"?>
 <strings>
-    <intro></intro>
-    <whatis></whatis>
-    <rules></rules>
-    <supported></supported>
-    <bindings>  </bindings>
+    <intro>openHAB - "empowering the smart home" - open source program pro dom&#xE1;c&#xED; automatizaci, kter&#xFD;m m&#x16F;&#x17E;ete spravovat nap&#x159;. IoT za&#x159;&#xED;zen&#xED; od r&#x16F;zn&#xFD;ch v&#xFD;robc&#x16F;, bez ohledu na jimi pou&#x17E;itou technologii</intro>
+    <whatis>openHAB je open source platforma pro automatizaci dom&#xE1;cnosti, zalo&#x17E;en&#xE1; na Java, kter&#xE1; integruje a kombinuje &#x161;irokou &#x161;k&#xE1;lu r&#x16F;zn&#xFD;ch syst&#xE9;m&#x16F; a technologi&#xED; pro automatizaci dom&#xE1;cnosti do jedin&#xE9;ho &#x159;e&#x161;en&#xED;.</whatis>
+    <rules>V&#x161;echna p&#x159;ipojen&#xE1; za&#x159;&#xED;zen&#xED; je mo&#x17E;n&#xE9; spravovat, ovl&#xE1;dat a automatizovat pomoc&#xED; vlastn&#xED;ch pravidel a r&#x16F;zn&#xFD;ch u&#x17E;ivatelsk&#xFD;ch rozhran&#xED;.</rules>
+    <supported>Podporovan&#xE9; produkty</supported>
+    <bindings>V&#xED;ce ne&#x17E; 200 dopl&#x148;k&#x16F; p&#x159;id&#xE1;v&#xE1; podporu pro zna&#x10D;ky, za&#x159;&#xED;zen&#xED;, technologie a komunika&#x10D;n&#xED; protokoly. Nap&#x159;&#xED;klad Z-Wave, Philips Hue, Amazon Echo, Chromecast a Sonos. V&#x161;echny dostupn&#xE9; dopl&#x148;ky a podporovan&#xE1; za&#x159;&#xED;zen&#xED; a/nebo funkce najdete na: https://docs.openhab.org/addons/bindings.html</bindings>
 
-    <home_automation_solutions></home_automation_solutions>
-    <lighting></lighting>
-    <heating></heating>
-    <home_entertainment></home_entertainment>
-    <security></security>
-    <open_protocols></open_protocols>
-    <special_useCases></special_useCases>
-    <empty_point></empty_point>
+    <home_automation_solutions>&#x2022; &#x158;e&#x161;en&#xED; dom&#xE1;c&#xED; automatizace: Z-Wave, Banaba, Netatmo, Homematic, Insteon,...</home_automation_solutions>
+    <lighting>&#x2022; Osv&#x11B;tlen&#xED;: Philips Hue, Ikea Tr&#xE5;dfri, LIFX, Lutron, Milight,...</lighting>
+    <heating>&#x2022; Vyt&#xE1;p&#x11B;n&#xED;: Max!, Nest, Vitotronic, Heatmiser,...</heating>
+    <home_entertainment>&#x2022; Dom&#xE1;c&#xED; z&#xE1;bava: Samsung TV, LG TV, Sonos, Pioneer AVR, Squeezebox, Kodi, Plex,...</home_entertainment>
+    <security>&#x2022; Bezpe&#x10D;nost: ZoneMinder, DSC,...</security>
+    <open_protocols>&#x2022; Otev&#x159;en&#xE9; protokoly: HTTP, TCP/UDP, MQTT, s&#xE9;riov&#xFD;,...</open_protocols>
+    <special_useCases>&#x2022; Speci&#xE1;ln&#xED; pou&#x17E;it&#xED;: Minecraft, automobil Tesla, meteorologick&#xE9; slu&#x17E;by,...</special_useCases>
+    <empty_point>&#x2022; ...</empty_point>
 
-    <oss_community></oss_community>
-    <forum>  </forum>
+    <oss_community>Open Source komunita</oss_community>
+    <forum>openHAB open source iniciativa je siln&#x11B; podporov&#xE1;na jeho &#x17E;ivou komunitou. F&#xF3;rum s v&#xED;ce ne&#x17E; 13 000 registrovan&#xFD;ch u&#x17E;ivatel&#x16F; je m&#xED;sto, kde najdete n&#xE1;vod, pomoc a inspiraci. P&#x159;ipojte se k diskuzn&#xED;mu f&#xF3;ru openHAB na https://community.openhab.org</forum>
 
-    <report_issues></report_issues>
-    <translation></translation>
-    <foundation></foundation>
-    <about_foundation> </about_foundation>
-    <important_note></important_note>
-    <oh_server></oh_server>
-    <short_description></short_description>
-    <fdroid></fdroid>
-    <fdroid_beta></fdroid_beta>
+    <report_issues>P&#x159;&#xED;padn&#xE9; nalezen&#xE9; chyby &#x10D;i probl&#xE9;my je mo&#x17E;n&#xE9; ozn&#xE1;mit ve f&#xF3;ru nebo na https://github.com/openhab/openhab-android/issues</report_issues>
+    <translation>Pokud chcete aplikaci p&#x159;elo&#x17E;it do va&#x161;eho jazyka p&#x159;ipojte se k n&#xE1;m na https://crowdin.com/project/openhab-android</translation>
+    <foundation>openHAB Foundation</foundation>
+    <about_foundation>OpenHAB Foundation e.V. je neziskov&#xE1; organizace s posl&#xE1;n&#xED;m vzd&#x11B;l&#xE1;vat ve&#x159;ejnost o mo&#x17E;nostech a v&#xFD;hod&#xE1;ch svobodn&#xFD;ch a otev&#x159;en&#xFD;ch chytr&#xFD;ch &#x159;e&#x161;en&#xED;ch pro dom&#xE1;c&#xED; automatizaci. Dal&#x161;&#xED; informace o posl&#xE1;n&#xED; a slu&#x17E;b&#xE1;ch nadace naleznete na https://www.openhabfoundation.org</about_foundation>
+    <important_note>D&#x16F;le&#x17E;it&#xE1; pozn&#xE1;mka</important_note>
+    <oh_server>Pro spr&#xE1;vn&#xE9; fungov&#xE1;n&#xED; aplikace budete pot&#x159;ebovat openHAB server</oh_server>
+    <short_description>openHAB klient pro Android</short_description>
+    <fdroid>F-Droid podporuje zobrazen&#xED; mapy, GCM a notifikace byly odebr&#xE1;ny a tedy nelze p&#x159;ij&#xED;mat push notifikace z openHAB cloudu.</fdroid>
+    <fdroid_beta>M&#x16F;&#x17E;ete nainstalovat beta verzi vedle stabiln&#xED; verze: [[org.openhab.habdroid]]</fdroid_beta>
 </strings>
