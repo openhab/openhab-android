@@ -10,13 +10,14 @@ en_root = en_tree.getroot()
 
 def getString(key):
     try:
-        string = root.findall(key)[0].text
+        string = root.findall(".//string[@name='" + key + "']")[0].text
     except:
-        string = en_root.findall(key)[0].text
+        string = en_root.findall(".//string[@name='" + key + "']")[0].text
     return(string)
 
 strings_files=glob.glob('assets/store_descriptions/*/strings.xml')
 for file in strings_files:
+    print(file)
     tree = ET.parse(file)
     root = tree.getroot()
     lang=file[26:-12]
