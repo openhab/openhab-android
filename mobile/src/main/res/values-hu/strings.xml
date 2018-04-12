@@ -12,19 +12,68 @@
   <!-- Main menu items -->
   <string name="mainmenu_openhab_sitemaps">Oldaltérképek</string>
   <string name="mainmenu_openhab_preferences">Beállítások</string>
+  <string name="mainmenu_openhab_selectsitemap">Válassza ki az alapértelmezett felületet</string>
   <string name="mainmenu_openhab_clearcache">Gyorsítótári képek törlése</string>
   <!-- App settings strings -->
   <string name="settings_connection_title">Kapcsolat</string>
   <string name="settings_display_title">Kijelző</string>
+  <string name="settings_misc_title">Egyéb</string>
+  <string name="settings_openhab_url">Helyi kiszolgáló URL-címe</string>
+  <string name="settings_openhab_url_summary">Az OpenHAB felülete URL-e(gépnev vagy IP alapján). Ha be van állítva, az automatikus keresés tiltva lesz. Jelenlegi beállítás: %s</string>
+  <string name="settings_openhab_alturl">Távoli kiszolgáló URL-címe</string>
+  <string name="settings_openhab_alturl_summary">Távoli URL megadása(Mikor a helyi URL nem elérhető): %s</string>
+  <string name="settings_openhab_username">Felhasználónév</string>
+  <string name="settings_openhab_password">Jelszó</string>
+  <string name="settings_openhab_sslclientcert">SSL ügyfél-tanúsítvány</string>
+  <string name="settings_openhab_sslclientcert_howto">SSL ügyféltanúsítvány útmutató</string>
+  <string name="settings_openhab_sslclientcert_howto_summary">Koppintson ide, hogy többet tudhasson meg a SSL ügyféltanúsítvány-hitelesítés beállításáról</string>
+  <string name="settings_openhab_screentimeroff">Időzített kijelző tiltása</string>
+  <string name="settings_openhab_screentimeroff_summary">Ha openHAB fut. Tiltsa le a kijelzővel kapcsolatos időzítőket</string>
+  <string name="settings_openhab_demomode">Bemutató mód</string>
+  <string name="settings_openhab_demomode_summary">Demo módban fut</string>
   <string name="settings_openhab_theme">Sablonok</string>
+  <string name="settings_openhab_sslcert">SSL-tanúsítvány figyelmen kívül hagyása</string>
+  <string name="settings_openhab_sslcert_summary">Tanúsítvány figyelmen kívül hagyása SSL érvényesít során</string>
+  <string name="settings_openhab_sslhost">SSL - gépnév figyelmen kívül hagyása</string>
+  <string name="settings_openhab_sslhost_summary">SSL - gépnév figyelmen kívül hagyása érvényesít során</string>
+  <string name="settings_openhab_fullscreen">Teljes képernyő</string>
+  <string name="settings_openhab_fullscreen_summary">Megjelenítése teljes képernyős módban</string>
+  <string name="settings_openhab_icon_format">Ikon formátum</string>
+  <string name="settings_openhab_icon_format_png">Bitkép</string>
+  <string name="settings_openhab_icon_format_svg">Vektor</string>
+  <string name="settings_ringtone">Csengőhang</string>
+  <string name="settings_clear_default_sitemap">Alapértelmezett felületet eltávolítása</string>
+  <string name="settings_no_default_sitemap">Nincs alapértelmezett felületet kiválasztva</string>
   <string name="settings_current_default_sitemap">Alapértelmezett felületet</string>
+  <string name="settings_openhab_sslsettings">Titkosítás</string>
+  <string name="settings_openhab_alt_connection">Távoli</string>
+  <string name="settings_openhab_connection">Helyi</string>
   <!-- App messages strings -->
+  <string name="title_voice_widget">openHAB hangvezérlésére szolgáló parancsok</string>
+  <string name="info_voice_input">"openHAB, szolgálatodra!"</string>
+  <string name="info_voice_recognized_text">"Felismert parancs: %1$s"</string>
+  <string name="info_demo_mode_short">Demo módban fut</string>
+  <string name="info_conn_url">Kapcsolódás a helyi URL-hez</string>
+  <string name="info_conn_rem_url">Kapcsolódás a távoli URL-hez</string>
   <!-- Error messages -->
   <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
   <string name="info_openhab_push_notification_label">Azonnal értesítés állapota</string>
   <!-- Strings for MemorizingTrustManager activity -->
   <!-- Themes -->
+  <string name="theme_name_light">Világos</string>
+  <string name="theme_name_dark">Sötét</string>
+  <string name="theme_name_black">Fekete/AMOLED</string>
+  <string name="theme_name_basic_ui">Egyszerű felhasználói Felületet</string>
+  <string name="theme_name_basic_ui_dark">Egyszerű felhasználói Felületet - sötét</string>
   <!-- NFC toggle -->
+  <string name="nfc_action_on">Be</string>
+  <string name="nfc_action_up">Fel</string>
+  <string name="nfc_action_off">Ki</string>
+  <string name="nfc_action_down">Le</string>
+  <string name="nfc_action_toggle">Átvált</string>
+  <string name="nfc_activate">Aktiválás</string>
+  <string name="nfc_action_current_color">Aktuális szín</string>
+  <string name="nfc_action_to_sitemap_page">Ugrás az oldaltérkép oldalra</string>
   <!-- Drawer -->
   <!-- About -->
   <string name="close">Bezár</string>
