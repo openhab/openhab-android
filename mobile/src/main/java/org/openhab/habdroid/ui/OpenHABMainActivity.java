@@ -790,7 +790,9 @@ public class OpenHABMainActivity extends AppCompatActivity implements
                 Log.d(TAG, "Server returned sitemaps: " + result);
                 mSitemapList.clear();
                 if (result != null) {
-                    mSitemapList.addAll(result);
+                    String defaultSitemapName =
+                            mSettings.getString(Constants.PREFERENCE_SITEMAP_NAME, "");
+                    mSitemapList.addAll(Util.sortSitemapList(result, defaultSitemapName));
                 }
                 updateSitemapDrawerItems();
 
