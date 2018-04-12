@@ -55,7 +55,9 @@
   <string name="info_demo_mode_short">Demo módban fut</string>
   <string name="info_conn_url">Kapcsolódás a helyi URL-hez</string>
   <string name="info_conn_rem_url">Kapcsolódás a távoli URL-hez</string>
+  <string name="info_discovery">OpenHAB kiszolgáló keresése. Kérjük, várjon\u2026</string>
   <!-- Error messages -->
+  <string name="error_no_url">Kérjük, ellenőrizze, hogy a openHAB fut, vagy állítsa be a openHAB helyi vagy távoli URL-ét</string>
   <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
   <string name="info_openhab_push_notification_label">Azonnal értesítés állapota</string>
   <!-- Strings for MemorizingTrustManager activity -->
