@@ -131,7 +131,7 @@
   <!-- About -->
   <string name="about_title">מידע כללי</string>
   <string name="about_license_title">רשיון</string>
-  <string name="about_changelog">יומן שינויים</string>
+  <string name="about_changelog">רשימת שינויים</string>
   <string name="about_source_code">פיצול ב-GitHub!</string>
   <string name="about_issues">דווח על בעיה</string>
   <string name="about_docs">תיעוד</string>
