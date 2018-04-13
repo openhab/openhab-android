@@ -1,15 +1,15 @@
 <?xml version="1.0"?>
 <strings>
     <intro></intro>
-    <whatis></whatis>
-    <rules></rules>
-    <supported></supported>
-    <bindings>  </bindings>
+    <whatis>openHAB is een Java gebaseerd open-source domotica platform dat een breed scala aan verschillende smart home systemen en technologie&#xEB;n integreert en combineert in &#xE9;&#xE9;n enkele oplossing.</whatis>
+    <rules>Via de uniforme abstractie laag zijn alle aangesloten apparaten beschikbaar voor de generieke automatiserings regels en de verschillende gebruikersinterfaces.</rules>
+    <supported>Ondersteunde producten</supported>
+    <bindings>Meer dan 200 specifieke add-ons bieden ondersteuning voor merken, apparaten, technologie&#xEB;n en communicatieprotocollen. Voorbeelden zijn Z-Wave, Philips Hue, Amazon Echo, Chromecast en Sonos. Ontdek alle beschikbare invoegtoepassingen en ondersteunde apparaten en/of functies op: https://docs.openhab.org/addons/bindings.html</bindings>
 
-    <home_automation_solutions></home_automation_solutions>
-    <lighting></lighting>
-    <heating></heating>
-    <home_entertainment></home_entertainment>
+    <home_automation_solutions>&#x2022; Domotica oplossingen: Z-Wave, EnOcean, Netatmo, Homematic, Insteon,...</home_automation_solutions>
+    <lighting>&#x2022; Verlichting: Philips Hue, Ikea Tr&#xE5;dfri, LIFX, Lutron, Milight,...</lighting>
+    <heating>&#x2022; Verwarming: Max!, Nest, Vitotronic, Heatmiser,...</heating>
+    <home_entertainment>&#x2022; Home Entertainment: Samsung TV LG TV, Sonos, Pioneer AVR, Squeezebox, Kodi, Plex, ...</home_entertainment>
     <security></security>
     <open_protocols></open_protocols>
     <special_useCases></special_useCases>
@@ -20,11 +20,11 @@
 
     <report_issues></report_issues>
     <translation></translation>
-    <foundation></foundation>
-    <about_foundation> </about_foundation>
-    <important_note></important_note>
-    <oh_server></oh_server>
-    <short_description></short_description>
+    <foundation>openHAB Foundation</foundation>
+    <about_foundation>De openHAB Foundation e.V. is een non-profit organisatie met als doel het publiek inzicht te geven in de mogelijkheden en voordelen van gratis en open smart home oplossingen. </about_foundation>
+    <important_note>Belangrijke opmerking</important_note>
+    <oh_server>U heeft een eigen openHAB server nodig voor deze app</oh_server>
+    <short_description>openHAB client voor Android</short_description>
     <fdroid></fdroid>
-    <fdroid_beta></fdroid_beta>
+    <fdroid_beta>De beta versie kan ge&#xEF;nstalleerd worden naast de stabiele versie: [[org.openhab.habdroid]]</fdroid_beta>
 </strings>
