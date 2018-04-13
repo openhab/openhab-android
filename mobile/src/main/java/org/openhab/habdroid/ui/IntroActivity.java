@@ -30,7 +30,13 @@ public class IntroActivity extends AppIntro {
                 R.drawable.ic_openhab_appicon_340dp);
         addOHSlide(R.string.intro_themes,
                 R.string.intro_themes_description,
-                R.drawable.themes);
+                R.drawable.intro_themes);
+        addOHSlide(R.string.mainmenu_openhab_voice_recognition,
+                R.string.intro_voice_description,
+                R.drawable.intro_voice);
+        addOHSlide(R.string.intro_nfc,
+                R.string.intro_nfc_description,
+                R.drawable.intro_nfc);
         // Change bar color
         setBarColor(colorOpenHABOrange);
         setSeparatorColor(colorOpenHABOrangeDark);
