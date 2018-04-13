@@ -9,17 +9,17 @@
     <home_automation_solutions>&#x2022; Domotica oplossingen: Z-Wave, EnOcean, Netatmo, Homematic, Insteon,...</home_automation_solutions>
     <lighting>&#x2022; Verlichting: Philips Hue, Ikea Tr&#xE5;dfri, LIFX, Lutron, Milight,...</lighting>
     <heating>&#x2022; Verwarming: Max!, Nest, Vitotronic, Heatmiser,...</heating>
-    <home_entertainment>&#x2022; Home Entertainment: Samsung TV LG TV, Sonos, Pioneer AVR, Squeezebox, Kodi, Plex, ...</home_entertainment>
-    <security></security>
-    <open_protocols></open_protocols>
-    <special_useCases></special_useCases>
-    <empty_point></empty_point>
+    <home_entertainment>&#x2022; Home Entertainment: Samsung TV, LG TV, Sonos, Pioneer AVR, Squeezebox, Kodi, Plex, ...</home_entertainment>
+    <security>&#x2022; Beveiliging: ZoneMinder, DSC,...</security>
+    <open_protocols>&#x2022; Open protocollen: HTTP, TCP/UDP, MQTT, serieel, ...</open_protocols>
+    <special_useCases>&#x2022; Speciale toepassingen: Minecraft, Tesla auto, weerdiensten,...</special_useCases>
+    <empty_point>&#x2022;...</empty_point>
 
-    <oss_community></oss_community>
-    <forum>  </forum>
+    <oss_community>Open Source Community</oss_community>
+    <forum>Het openHAB open source initiatief steunt haar levendige community. Het forum met meer dan 13.000 geregistreerde gebruikers is een plek om hulp, begeleiding en inspiratie te vinden. </forum>
 
-    <report_issues></report_issues>
-    <translation></translation>
+    <report_issues>Wanneer u een probleem gevonden heeft, rapporteer deze dan in het forum of op https://github.com/openhab/openhab-android/issues</report_issues>
+    <translation>Als u de app wilt vertalen in uw taal bezoek ons dan op https://crowdin.com/project/openhab-android</translation>
     <foundation>openHAB Foundation</foundation>
     <about_foundation>De openHAB Foundation e.V. is een non-profit organisatie met als doel het publiek inzicht te geven in de mogelijkheden en voordelen van gratis en open smart home oplossingen. </about_foundation>
     <important_note>Belangrijke opmerking</important_note>
