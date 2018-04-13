@@ -25,6 +25,6 @@
     <important_note>Belangrijke opmerking</important_note>
     <oh_server>U heeft een eigen openHAB server nodig voor deze app</oh_server>
     <short_description>openHAB client voor Android</short_description>
-    <fdroid></fdroid>
+    <fdroid>Bij de F-Droid versie is kaartweergave ondersteuning, GCM en crash rapportage verwijderd en de app zal geen push-meldingen kunnen ontvangen van de openHAB Cloud.</fdroid>
     <fdroid_beta>De beta versie kan ge&#xEF;nstalleerd worden naast de stabiele versie: [[org.openhab.habdroid]]</fdroid_beta>
 </strings>
