@@ -59,15 +59,31 @@
   <string name="error_no_url">Controleer of openHAB draait, of configureer je openHAB URL of externe URL</string>
   <string name="error_empty_sitemap_list">openHAB heeft een lege sitemap geladen</string>
   <string name="error_network_not_available">Netwerk is niet beschikbaar</string>
+  <string name="error_http_connection_failed">Verbinding mislukt. Een onverwachte reactie werd ontvangen tijdens het maken van een verbinding met de geconfigureerde openHAB server (ontvangen HTTP-reactiecode: %d)</string>
   <string name="error_no_uuid">openHAB UUID kan niet opgevraagd worden, connectie mislukt</string>
+  <string name="error_invalid_url">Voer een geldige URL in, formaat \'http(s)://host(:port)/\'</string>
   <string name="error_connection_failed">Verbinding met host mislukt</string>
   <string name="error_unable_to_resolve_hostname">Hostnaam niet gevonden</string>
+  <string name="error_connection_sslhandshake_failed">SSL-handshake mislukt</string>
   <string name="error_certificate_not_trusted">SSL certificaat wordt niet vertrouwd. Importeer het basiscertificaat of schakel de validatie tijdens SSL handshake uit</string>
   <string name="error_certificate_expired">SSL-certificaat is verlopen. Voeg een nieuw certificaat toe of schakel validatie tijdens SSL handshake uit</string>
+  <string name="error_certificate_not_valid_yet">SSL-certificaat is nog niet geldig. Voeg een correct certificaat toe of schakel controle tijdens SSL handshake uit. Controleer ook of de klok op je apparaat correct is ingesteld</string>
   <string name="error_certificate_revoked">SSL-certificaat is ingetrokken. Voeg een nieuw certificaat toe of schakel de validatie tijdens de SSL handdruk uit</string>
+  <string name="error_certificate_wrong_host">SSL-certificaat is niet geldig voor %s</string>
+  <string name="error_http_code_401">Verificatie is mislukt. Controleer de geconfigureerde gebruikersnaam en wachtwoord respectievelijk het verstrekte SSL-clientcertificaat (HTTP-reactiecode 401)</string>
+  <string name="error_http_code_403">Verificatie is mislukt. Controleer de geconfigureerde gebruikersnaam en wachtwoord respectievelijk het verstrekte SSL-clientcertificaat (HTTP-reactiecode 403)</string>
+  <string name="error_http_code_407">Verificatie is mislukt. Controleer de geconfigureerde gebruikersnaam en wachtwoord respectievelijk het verstrekte SSL-clientcertificaat (HTTP-reactiecode 407)</string>
+  <string name="error_http_code_414">URL is te lang. Gebruik het IP-adres of een kortere URL (HTTP-reactiecode 414)</string>
+  <string name="error_http_code_426">HTTPS is vereist. Wijzig de URL (HTTP-reactiecode 426)</string>
   <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
+  <string name="error_http_code_495">Verificatie is mislukt. Controleer het verstrekte SSL-clientcertificaat (HTTP-reactiecode 495)</string>
   <string name="error_http_code_496">SSL-clientcertificaat is vereist (HTTP responscode 496)</string>
+  <string name="error_http_code_502">De reverse proxy heeft een ongeldig antwoord van de openHAB server ontvangen (HTTP-reactiecode 502)</string>
+  <string name="error_http_code_503">De openHAB server is tijdelijk niet beschikbaar (HTTP-reactiecode 503)</string>
+  <string name="error_http_code_504">Gateway Time-out. Het lijkt erop dat uw reverse-proxy actief is, maar er is geen antwoord ontvangen van de openHAB server (HTTP-reactiecode 504 krijgen)</string>
+  <string name="error_http_code_507">De openHAB-server heeft onvoldoende vrije ruimte (HTTP-reactiecode 507)</string>
   <string name="error_http_code_511">Netwerkverificatie is vereist (HTTP responscode 511)</string>
+  <string name="error_about_no_conn">Fout bij het ophalen van openHAB serverinformatie</string>
   <string name="title_activity_openhabwritetag">Schrijf NFC-tag</string>
   <string name="title_activity_openhabinfo">openHAB Informatie</string>
   <string name="title_activity_libraries">Gebruikte bibliotheken</string>
@@ -81,6 +97,7 @@
   <string name="info_openhab_apiversion_label">openHAB Rest API versie</string>
   <string name="info_openhab_uuid_label">openHAB UUID</string>
   <string name="info_openhab_secret_label">openHAB geheim</string>
+  <string name="info_openhab_push_notification_label">Push meldingen status</string>
   <string name="action_settings">Instellingen</string>
   <string name="nfc_dialog_title">Selecteer een actie voor de NFC-tag</string>
   <string name="info_not_set">Niet ingesteld</string>
@@ -107,10 +124,21 @@
   <string name="nfc_action_current_color">Huidige kleur</string>
   <string name="nfc_action_to_sitemap_page">Ga naar Sitemap pagina</string>
   <!-- Drawer -->
+  <string name="drawer_open">Sitemap drawer geopend</string>
+  <string name="drawer_close">Sitemap drawer gesloten</string>
   <string name="mainmenu_openhab_voice_recognition">Stemherkenning</string>
   <!-- About -->
   <string name="about_title">Over deze app</string>
   <string name="about_license_title">Licentie</string>
+  <string name="about_changelog">Changelog</string>
+  <string name="about_source_code">Kopieer (Fork) de broncode op GitHub!</string>
+  <string name="about_issues">Een probleem melden</string>
+  <string name="about_docs">Documentatie</string>
+  <string name="about_community_forum">Community forum</string>
+  <string name="about_foundation">openHAB Foundation</string>
+  <string name="about_community">openHAB community</string>
+  <string name="about_server">openHAB server</string>
+  <string name="about_translation">Help ons met het vertalen van openHAB</string>
   <string name="settings_debug_messages_summary">Wachtwoorden worden in leesbare tekst getoond!</string>
   <string name="settings_debug_messages_title">Foutopsporingsberichten weergeven</string>
   <string name="error_couldnt_determine_openhab_url">openHAB URL kon niet worden vastgesteld</string>
@@ -118,12 +146,33 @@
   <string name="error_network_type_unsupported">Netwerktype (%s) wordt niet ondersteund</string>
   <string name="set">Stel in</string>
   <string name="cancel">Annuleer</string>
+  <string name="close">Sluiten</string>
   <string name="app_intro">Introductie</string>
   <string name="intro_welcome">Welkom bij openHAB</string>
   <string name="intro_themes">Thema\'s</string>
   <string name="intro_themes_description">Kies tussen de verschillende thema\'s</string>
+  <string name="try_again_button">Opnieuw proberen</string>
+  <string name="network_error">Netwerkfout</string>
+  <string name="go_to_settings_button">Ga naar instellingen</string>
+  <string name="configuration_missing">Uw openHAB server kon niet automatisch worden gevonden. Gelieve het IP-adres of de hostnaam in de serverinstellingen te configureren.</string>
+  <string name="resolving_openhab">Proberen om openHAB server automatisch te vinden\u2026</string>
+  <string name="intro_discovery">Automatische configuratie</string>
+  <string name="intro_discovery_summary">Let op: dit werkt alleen als de verificatie niet wordt afgedwongen door de server</string>
   <!-- Content description for images -->
+  <string name="content_description_open_roller_shutter">Open rolluik</string>
+  <string name="content_description_stop_roller_shutter">Stop rolluik</string>
+  <string name="content_description_close_roller_shutter">Sluit rolluik</string>
+  <string name="content_description_open_color_wheel">Open kleurenwiel</string>
+  <string name="content_description_color_up">Aan of ingedrukt houden om feller te maken</string>
+  <string name="content_description_color_down">Uit of ingedrukt houden om minder fel te maken</string>
+  <string name="content_description_open_number_picker">Open nummer kiezer</string>
+  <string name="content_description_video">Video</string>
+  <string name="content_description_open_openhab">Open openHAB</string>
+  <string name="swipe_to_refresh_description">De app wordt ook automatisch vernieuwd, het is meestal niet nodig om dit handmatig te doen</string>
+  <string name="swipe_to_refresh_dismiss">Begrepen!</string>
   <!-- Intro strings -->
   <!-- Intro "SKIP" button -->
+  <string name="app_intro_skip_button">OVERSLAAN</string>
   <!-- Intro "DONE" button -->
+  <string name="app_intro_done_button">GEREED</string>
 </resources>
