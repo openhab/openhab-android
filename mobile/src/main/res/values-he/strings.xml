@@ -150,7 +150,7 @@
   <string name="close">סגור</string>
   <string name="app_intro">הקדמה</string>
   <string name="intro_welcome">ברוכים הבאים ל openHAB</string>
-  <string name="intro_whatis">תוכנת קוד פתוח, בלתי תלויה בייצרנים וטכולוגיות, לאוטומציה שליטה ובקרה לבית שלך</string>
+  <string name="intro_whatis">תוכנת קוד פתוח, בלתי תלויה ביצרנים וטכולוגיות, לאוטומציה שליטה ובקרה לבית שלך</string>
   <string name="intro_themes">ערכות עיצוב</string>
   <string name="intro_themes_description">בחר בין מספר ערכות עיצוב</string>
   <string name="try_again_button">נסה שוב</string>
