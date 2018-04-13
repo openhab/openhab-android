@@ -30,5 +30,5 @@ groups:
         - master
     reject_value: -100
     author_approval:
-        auto: true
-        ignored: false
+      auto: true
+      ignored: false
