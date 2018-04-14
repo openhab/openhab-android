@@ -4,7 +4,7 @@
     <whatis>openHAB ist eine auf Java basierende quelloffene Plattform zur Heimautomatisierung, welche eine gro&#xDF;e Bandbreite verschiedenster Smart-Home-Systeme und -Technologien in eine einzige L&#xF6;sung integriert und kombiniert.</whatis>
     <rules>Aufbauend auf einer vereinheitlichten Abstraktionsschicht sind alle Ger&#xE4;te f&#xFC;r die &#xFC;bergreifenden Automatisierungs- bzw. Regelm&#xF6;glichkeiten und die verschiedenen Benutzeroberfl&#xE4;chen verf&#xFC;gbar.</rules>
     <supported>Unterst&#xFC;tzte Produkte</supported>
-    <bindings>  </bindings>
+    <bindings>  Entdecken Sie alle verf&#xFC;gbaren Erweiterungen und unterst&#xFC;tzte Ger&#xE4;te und/oder Funktionen auf: https://docs.openhab.org/addons/bindings.html</bindings>
 
     <home_automation_solutions></home_automation_solutions>
     <lighting></lighting>
