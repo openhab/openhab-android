@@ -83,6 +83,7 @@
   <string name="error_http_code_503">שרת openHAB אינו זמין באופן זמני (קוד תגובה HTTP 503)</string>
   <string name="error_http_code_504">Gateway Time-out. נראה כי שרת ה-reverse proxy פעיל, אך לא נתקבלה תשובה משרת openHAB (קוד תגובה HTTP 504)</string>
   <string name="error_http_code_507">אין מספיק שטח פנוי לשרת openHAB (קוד תגובה HTTP 507)</string>
+  <string name="error_http_code_511">נדרש אימות רשת (קוד תגובה HTTP 511)</string>
   <string name="error_about_no_conn">אירעה שגיאה בעת בקשת מידע משרת openHAB</string>
   <string name="title_activity_openhabwritetag">כתיבה לתגית NFC</string>
   <string name="title_activity_openhabinfo">מידע על openHAB</string>
