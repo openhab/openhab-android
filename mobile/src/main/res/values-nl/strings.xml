@@ -21,6 +21,7 @@
   <string name="settings_openhab_url">Lokale server URL</string>
   <string name="settings_openhab_url_summary">De URL van het dashboard van de openHAB (gebaseerd op hostnaam of IP). Indien geconfigureerd, is automatische detectie uitgeschakeld. Huidige instelling: %s</string>
   <string name="settings_openhab_alturl">Externe server-URL</string>
+  <string name="settings_openhab_alturl_summary">Externe openHAB URL (wordt alleen gebruikt wanneer het lokale adres niet beschikbaar is). Huidige instelling: %s</string>
   <string name="settings_openhab_username">Gebruikersnaam</string>
   <string name="settings_openhab_password">Wachtwoord</string>
   <string name="settings_openhab_sslclientcert">SSL-clientcertificaat</string>
@@ -149,6 +150,7 @@
   <string name="close">Sluiten</string>
   <string name="app_intro">Introductie</string>
   <string name="intro_welcome">Welkom bij openHAB</string>
+  <string name="intro_whatis">Leverancier en technologie onafhankelijke open source domotica software voor jouw huis</string>
   <string name="intro_themes">Thema\'s</string>
   <string name="intro_themes_description">Kies tussen de verschillende thema\'s</string>
   <string name="try_again_button">Opnieuw proberen</string>
