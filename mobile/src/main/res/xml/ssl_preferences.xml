@@ -10,7 +10,8 @@
     <Preference
         android:clickable="true"
         android:key="default_openhab_sslclientcert_howto"
-        android:title="@string/settings_openhab_sslclientcert_howto" />
+        android:title="@string/settings_openhab_sslclientcert_howto"
+        android:summary="@string/settings_openhab_sslclientcert_howto_summary"/>
     <CheckBoxPreference
         android:defaultValue="false"
         android:key="default_openhab_sslcert"
