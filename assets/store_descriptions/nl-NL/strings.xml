@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <strings>
-    <intro></intro>
+    <intro>openHAB - "empowering the smart home" - leverancier en technologie onafhankelijke open source domotica software</intro>
     <whatis>openHAB is een Java gebaseerd open-source domotica platform dat een breed scala aan verschillende smart home systemen en technologie&#xEB;n integreert en combineert in &#xE9;&#xE9;n enkele oplossing.</whatis>
     <rules>Via de uniforme abstractie laag zijn alle aangesloten apparaten beschikbaar voor de generieke automatiserings regels en de verschillende gebruikersinterfaces.</rules>
     <supported>Ondersteunde producten</supported>
@@ -16,7 +16,7 @@
     <empty_point>&#x2022;...</empty_point>
 
     <oss_community>Open Source Community</oss_community>
-    <forum>Het openHAB open source initiatief steunt haar levendige community. Het forum met meer dan 13.000 geregistreerde gebruikers is een plek om hulp, begeleiding en inspiratie te vinden. </forum>
+    <forum>Het openHAB open source initiatief steunt haar levendige community. Het forum met meer dan 13.000 geregistreerde gebruikers is een plek om hulp, begeleiding en inspiratie te vinden. Neem deel aan het openHAB community forum op https://community.openhab.org</forum>
 
     <report_issues>Wanneer u een probleem gevonden heeft, rapporteer deze dan in het forum of op https://github.com/openhab/openhab-android/issues</report_issues>
     <translation>Als u de app wilt vertalen in uw taal bezoek ons dan op https://crowdin.com/project/openhab-android</translation>
