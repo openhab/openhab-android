@@ -21,7 +21,7 @@
     <report_issues>Wanneer u een probleem gevonden heeft, rapporteer deze dan in het forum of op https://github.com/openhab/openhab-android/issues</report_issues>
     <translation>Als u de app wilt vertalen in uw taal bezoek ons dan op https://crowdin.com/project/openhab-android</translation>
     <foundation>openHAB Foundation</foundation>
-    <about_foundation>De openHAB Foundation e.V. is een non-profit organisatie met als doel het publiek inzicht te geven in de mogelijkheden en voordelen van gratis en open smart home oplossingen. </about_foundation>
+    <about_foundation>De openHAB Foundation e.V. is een non-profit organisatie met als doel het publiek inzicht te geven in de mogelijkheden en voordelen van gratis en open smart home oplossingen. Lees meer over de missie en de diensten van de foundation op https://www.openhabfoundation.org</about_foundation>
     <important_note>Belangrijke opmerking</important_note>
     <oh_server>U heeft een eigen openHAB server nodig voor deze app</oh_server>
     <short_description>openHAB client voor Android</short_description>
