@@ -11,19 +11,13 @@ en_root = en_tree.getroot()
 
 def getString(key):
     try:
-        string = root.findall(".//string[@name='" + key + "']")[0].text
+        string = root.findall(key)[0].text
     except:
-        string = en_root.findall(".//string[@name='" + key + "']")[0].text
-    return(string)
-
-def unescapeString(string):
-    string = string.replace('\\"', '"')
-    string = string.replace("\\'", "'")
+        string = en_root.findall(key)[0].text
     return(string)
 
 strings_files=glob.glob('assets/store_descriptions/*/strings.xml')
 for file in strings_files:
-    print(file)
     tree = ET.parse(file)
     root = tree.getroot()
     lang=file[26:-12]
@@ -68,9 +62,9 @@ for file in strings_files:
             os.makedirs(newpath)
 
     f = open('fastlane/metadata/android/' + lang + '/full_description.txt', 'w')
-    f.write(unescapeString(full_description))
+    f.write(full_description)
     f.close()
     f = open('fastlane/metadata/android/' + lang + '/short_description.txt', 'w')
-    f.write(unescapeString(short_description))
+    f.write(short_description)
     f.close()
 
