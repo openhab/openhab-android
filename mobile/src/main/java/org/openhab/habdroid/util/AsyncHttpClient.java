@@ -38,6 +38,8 @@ public class AsyncHttpClient extends HttpClient {
         }
     }
 
+    private Handler mHandler = new Handler(Looper.getMainLooper());
+
     public AsyncHttpClient(Context context, String baseUrl) {
         super(context, baseUrl);
     }
@@ -64,18 +66,17 @@ public class AsyncHttpClient extends HttpClient {
         call.enqueue(new Callback() {
             @Override
             public void onFailure(final Call call, final IOException e) {
-                if (!call.isCanceled()) {
-                    runOnUiThread(() -> responseHandler.onFailure(call.request(), 0, e));
-                }
+                mHandler.post(() -> {
+                    if (!call.isCanceled()) {
+                        responseHandler.onFailure(call.request(), 0, e);
+                    }
+                });
             }
 
             @Override
             public void onResponse(final Call call, Response response) throws IOException {
-                if (call.isCanceled()) {
-                    return;
-                }
-                final int code = response.code();
                 final ResponseBody body = response.body();
+                final int code = response.code();
                 final T result;
                 if (body != null) {
                     result = responseHandler.convertBodyInBackground(body);
@@ -86,19 +87,17 @@ public class AsyncHttpClient extends HttpClient {
                 final boolean success = response.isSuccessful();
                 final Headers headers = response.headers();
                 final String message = response.message();
-                runOnUiThread(() -> {
-                    if (success) {
-                        responseHandler.onSuccess(result, headers);
-                    } else {
-                        responseHandler.onFailure(call.request(), code, new IOException(message));
+                mHandler.post(() -> {
+                    if (!call.isCanceled()) {
+                        if (success) {
+                            responseHandler.onSuccess(result, headers);
+                        } else {
+                            responseHandler.onFailure(call.request(), code, new IOException(message));
+                        }
                     }
                 });
             }
         });
         return call;
-    }
-
-    private void runOnUiThread(Runnable runnable) {
-        new Handler(Looper.getMainLooper()).post(runnable);
     }
 }
