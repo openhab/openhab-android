@@ -9,11 +9,19 @@ import os
 en_tree = ET.parse('assets/store_descriptions/en-US/strings.xml')
 en_root = en_tree.getroot()
 
+def getEnglishString(key):
+    return(en_root.findall(key)[0].text)
+
 def getString(key):
     try:
         string = root.findall(key)[0].text
+        if string == None:
+            string = getEnglishString(key)
+        string = " ".join(string.split())
+        if not string:
+            string = getEnglishString(key)
     except:
-        string = en_root.findall(key)[0].text
+        string = getEnglishString(key)
     return(string)
 
 strings_files=glob.glob('assets/store_descriptions/*/strings.xml')
