@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="utf-8"?>
 <strings>
     <intro>openHAB - "empowering the smart home" - vendor and technology agnostic open source home automation</intro>
     <whatis>openHAB is a Java-based open-source home automation platform that integrates and combines a vast range of different smart home systems and technologies into one single solution.</whatis>
