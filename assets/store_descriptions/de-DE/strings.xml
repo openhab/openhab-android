@@ -16,12 +16,12 @@
     <empty_point>&#x2022; ...</empty_point>
 
     <oss_community>Open-Source-Community</oss_community>
-    <forum>  </forum>
+    <forum>Die quelloffene openHAB Initiative unterst&#xFC;tzt nachdr&#xFC;cklich ihre lebhafte Community. Das Forum (mit &#xFC;ber 13.000 registrierten Mitgliedern) ist ein Ort an dem man Anleitung, Hilfe und Inspiration findet. Besuchen Sie das openHAB-Community-Forum auf https://community.openhab.org</forum>
 
     <report_issues>Wenn Sie einen Fehler gefunden haben, melden Sie diesen bitte im Forum oder unter https://github.com/openhab/openhab-android/issues</report_issues>
     <translation>Helfen Sie uns, diese App in Ihre Sprache zu &#xFC;bersetzen: https://crowdin.com/project/openhab-android</translation>
     <foundation>openHAB Foundation e.V.</foundation>
-    <about_foundation> </about_foundation>
+    <about_foundation> Erfahren Sie mehr &#xFC;ber die Ziele und Angebote der Foundation unter https://www.openhabfoundation.org</about_foundation>
     <important_note>Wichtiger Hinweis</important_note>
     <oh_server>Um diese App zu nutzen, ben&#xF6;tigen Sie einen openHAB-Server</oh_server>
     <short_description>openHAB-Client f&#xFC;r Android</short_description>
