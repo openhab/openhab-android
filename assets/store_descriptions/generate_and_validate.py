@@ -11,6 +11,8 @@ enRoot = enTree.getroot()
 
 emptyStringPattern = re.compile("^([ ]+)+$")
 
+exitCode = 0
+
 def getEnglishString(key):
     return(enRoot.findall(key)[0].text)
 
@@ -58,11 +60,12 @@ for file in stringsFiles:
 
     if len(fullDescription) > 4000:
         print("Description of " + lang + " too long!")
-
+        exitCode += 1
 
     shortDescription = getString('short_description')
     if len(shortDescription) > 80:
         print("Description of " + lang + " too long!")
+        exitCode += 1
 
     newpath = r'fastlane/metadata/android/' + lang + '/'
     if not os.path.exists(newpath):
@@ -75,3 +78,4 @@ for file in stringsFiles:
     f.write(shortDescription)
     f.close()
 
+exit(exitCode)
