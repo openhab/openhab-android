@@ -30,6 +30,7 @@ for file in stringsFiles:
     tree = ET.parse(file)
     root = tree.getroot()
     lang = file[26:-12]
+    print("Processing " + lang)
 
     fullDescription = getString('intro') + "\n\n"
     if sys.argv[1] == "fdroid":
@@ -59,12 +60,12 @@ for file in stringsFiles:
     fullDescription += getString('about_foundation') + "\n"
 
     if len(fullDescription) > 4000:
-        print("Description of " + lang + " too long!")
+        print("Full description of " + lang + " is too long: " + str(len(fullDescription)) + " chars")
         exitCode += 1
 
     shortDescription = getString('short_description')
     if len(shortDescription) > 80:
-        print("Description of " + lang + " too long!")
+        print("Short description of " + lang + " is too long: " + str(len(fullDescription)) + " chars")
         exitCode += 1
 
     newpath = r'fastlane/metadata/android/' + lang + '/'
