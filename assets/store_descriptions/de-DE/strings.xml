@@ -4,15 +4,15 @@
     <whatis>openHAB ist eine auf Java basierende quelloffene Plattform zur Heimautomatisierung, welche eine gro&#xDF;e Bandbreite verschiedenster Smart-Home-Systeme und -Technologien in eine einzige L&#xF6;sung integriert und kombiniert.</whatis>
     <rules>Aufbauend auf einer vereinheitlichten Abstraktionsschicht sind alle Ger&#xE4;te f&#xFC;r die &#xFC;bergreifenden Automatisierungs- bzw. Regelm&#xF6;glichkeiten und die verschiedenen Benutzeroberfl&#xE4;chen verf&#xFC;gbar.</rules>
     <supported>Unterst&#xFC;tzte Produkte</supported>
-    <bindings>  Entdecken Sie alle verf&#xFC;gbaren Erweiterungen und unterst&#xFC;tzte Ger&#xE4;te und/oder Funktionen auf: https://docs.openhab.org/addons/bindings.html</bindings>
+    <bindings>&#xDC;ber 200 spezifische Add-Ons stellen Unterst&#xFC;tzung f&#xFC;r Marken, Ger&#xE4;te, Technologien und Kommunikations-Protokolle zur Verf&#xFC;gung. Beispiele hierf&#xFC;r sind unter anderem Z-Wave, Philips Hue, Amazon Echo, Chromecast, Sonos und FRITZ!Box. Entdecken Sie alle verf&#xFC;gbaren Erweiterungen und unterst&#xFC;tzte Ger&#xE4;te und/oder Funktionen auf: https://docs.openhab.org/addons/bindings.html</bindings>
 
-    <home_automation_solutions></home_automation_solutions>
-    <lighting></lighting>
-    <heating></heating>
-    <home_entertainment></home_entertainment>
-    <security></security>
-    <open_protocols></open_protocols>
-    <special_useCases></special_useCases>
+    <home_automation_solutions>&#x2022; Heimautomatisierungsl&#xF6;sungen: Z-Wave, EnOcean, Netatmo, Homematic, Insteon, ...</home_automation_solutions>
+    <lighting>&#x2022; Licht: Philips Hue, Ikea Tr&#xE5;dfri, LIFX, Lutron, Milight, ...</lighting>
+    <heating>&#x2022; Heizung: Max!, Nest, Vitotronic, Heatmiser, ...</heating>
+    <home_entertainment>&#x2022; Heimunterhaltung: Samsung TV, LG TV, Sonos, Pioneer AVR, Squeezebox, Kodi, Plex, ...</home_entertainment>
+    <security>&#x2022; Sicherheitstechnik: ZoneMinder, DSC, ...</security>
+    <open_protocols>&#x2022; Offene Protokolle: HTTP, TCP/UDP, MQTT, Serial, ...</open_protocols>
+    <special_useCases>&#x2022; Spezielle Anwendungsf&#xE4;lle: Minecraft, Tesla Auto, Wetterdienste,...</special_useCases>
     <empty_point>&#x2022; ...</empty_point>
 
     <oss_community>Open-Source-Community</oss_community>
@@ -21,7 +21,7 @@
     <report_issues>Wenn Sie einen Fehler gefunden haben, melden Sie diesen bitte im Forum oder unter https://github.com/openhab/openhab-android/issues</report_issues>
     <translation>Helfen Sie uns, diese App in Ihre Sprache zu &#xFC;bersetzen: https://crowdin.com/project/openhab-android</translation>
     <foundation>openHAB Foundation e.V.</foundation>
-    <about_foundation> Erfahren Sie mehr &#xFC;ber die Ziele und Angebote der Foundation unter https://www.openhabfoundation.org</about_foundation>
+    <about_foundation>Die openHAB Foundation e.V. ist ein gemeinn&#xFC;tziger Verein mit dem Ziel, die &#xD6;ffentlichkeit &#xFC;ber die M&#xF6;glichkeiten und den Nutzen von kostenlosen und offenen Smart Home L&#xF6;sungen aufzukl&#xE4;ren. Erfahren Sie mehr &#xFC;ber die Ziele und Angebote der Foundation unter https://www.openhabfoundation.org</about_foundation>
     <important_note>Wichtiger Hinweis</important_note>
     <oh_server>Um diese App zu nutzen, ben&#xF6;tigen Sie einen openHAB-Server</oh_server>
     <short_description>openHAB-Client f&#xFC;r Android</short_description>
