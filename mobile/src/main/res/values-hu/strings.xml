@@ -19,7 +19,7 @@
   <string name="settings_display_title">Kijelző</string>
   <string name="settings_misc_title">Egyéb</string>
   <string name="settings_openhab_url">Helyi kiszolgáló URL-címe</string>
-  <string name="settings_openhab_url_summary">Az OpenHAB felülete URL-e(gépnev vagy IP alapján). Ha be van állítva, az automatikus keresés tiltva lesz. Jelenlegi beállítás: %s</string>
+  <string name="settings_openhab_url_summary">Az openHAB felülete URL-e(gépnev vagy IP alapján). Ha be van állítva, az automatikus keresés tiltva lesz. Jelenlegi beállítás: %s</string>
   <string name="settings_openhab_alturl">Távoli kiszolgáló URL-címe</string>
   <string name="settings_openhab_alturl_summary">Távoli URL megadása(Mikor a helyi URL nem elérhető): %s</string>
   <string name="settings_openhab_username">Felhasználónév</string>
@@ -55,13 +55,13 @@
   <string name="info_demo_mode_short">Demo módban fut</string>
   <string name="info_conn_url">Kapcsolódás a helyi URL-hez</string>
   <string name="info_conn_rem_url">Kapcsolódás a távoli URL-hez</string>
-  <string name="info_discovery">OpenHAB kiszolgáló keresése. Kérjük, várjon\u2026</string>
+  <string name="info_discovery">openHAB kiszolgáló keresése. Kérjük, várjon\u2026</string>
   <!-- Error messages -->
   <string name="error_no_url">Kérjük, ellenőrizze, hogy a openHAB fut, vagy állítsa be a openHAB helyi vagy távoli URL-ét</string>
   <string name="error_empty_sitemap_list">openHAB üres oldaltérképet adott vissza</string>
   <string name="error_network_not_available">Hálózat nem elérhető</string>
-  <string name="error_http_connection_failed">Kapcsolódás sikertelen. Egy nem várt válasz érkezett, míg kapcsolódni próbált openHAB szolgálóhoz ( HTTP válasz-kód: %d)</string>
-  <string name="error_no_uuid">OpenHAB UUID nem található, kapcsolódás sikertelen</string>
+  <string name="error_http_connection_failed">Kapcsolódás sikertelen. Egy nem várt válasz érkezett, míg kapcsolódni próbált openHAB szolgálóhoz (HTTP válasz-kód: %d)</string>
+  <string name="error_no_uuid">openHAB UUID nem található, kapcsolódás sikertelen</string>
   <string name="error_invalid_url">Adjon meg egy érvényes URL-cím \' http(s)://kiszolgáló(:port)/\' formában</string>
   <string name="error_connection_failed">Sikertelen kapcsolódás</string>
   <string name="error_unable_to_resolve_hostname">Névfeloldás sikertelen</string>
@@ -142,7 +142,7 @@
   <string name="about_translation">Segíts nekünk az openHAB fordításában</string>
   <string name="settings_debug_messages_summary">Jelszavakat egyszerű szövegként jeleníti meg!</string>
   <string name="settings_debug_messages_title">Hibakeresési üzenetek megjelenítése</string>
-  <string name="error_couldnt_determine_openhab_url">OpenHAB URL nem található</string>
+  <string name="error_couldnt_determine_openhab_url">openHAB URL nem található</string>
   <string name="unknown">Ismeretlen</string>
   <string name="error_network_type_unsupported">Hálózat típusa (%s) nem támogatott</string>
   <string name="set">Beállít</string>
@@ -169,7 +169,7 @@
   <string name="content_description_color_down">Fényerő csökkentéséhez tartsa nyomva</string>
   <string name="content_description_open_number_picker">Szám megadása</string>
   <string name="content_description_video">Video</string>
-  <string name="content_description_open_openhab">OpenHAB megnyitása</string>
+  <string name="content_description_open_openhab">openHAB megnyitása</string>
   <string name="swipe_to_refresh_description">Az alkalmazás is frissíti automatikusan, általában nem kell saját kezűleg</string>
   <string name="swipe_to_refresh_dismiss">Értettem!</string>
   <!-- Intro strings -->
