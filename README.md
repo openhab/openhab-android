@@ -19,10 +19,10 @@
 
 ## Introduction
 
-This app is a native client for openHAB. It uses REST API of openHAB to render sitemaps of your openHAB.
+This app is a native client for openHAB which allows easy access to your sitemaps.
 
 <a href="https://play.google.com/store/apps/details?id=org.openhab.habdroid"><img src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" alt="Get it on Play Store" height="80"></a>
-<a href="https://f-droid.org/app/org.openhab.habdroid"><img src="assets/get-it-on-fdroid.png" alt="Get it on F-Droid" height="80"></a>
+<a href="https://f-droid.org/app/org.openhab.habdroid"><img src="docs/images/get-it-on-fdroid.png" alt="Get it on F-Droid" height="80"></a>
 <a href="https://github.com/openhab/openhab-android/releases"><img src="assets/direct-apk-download.png" alt="Get it on GitHub" height="80"></a>
 
 ## Features
@@ -35,12 +35,16 @@ This app is a native client for openHAB. It uses REST API of openHAB to render s
 
 <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/main-menu.png" width="200px"> <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/widget-overview.png" width="200px"> <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/chart.png" width="200px">
 
+## Beta builds
+
+Beta builds are distributed via [GitHub](https://github.com/openhab/openhab-android/releases) and [F-Droid](https://f-droid.org/packages/org.openhab.habdroid.beta). Those builds can be installed alongside the stable version.
+
 ## Localization
 
-Concerning all `values-*` folders at [mobile/src/main/res](mobile/src/main/res/)
+Concerning all `strings.xml` files at [mobile/src/\*/res/values-\*/](mobile/src/main/res/)
 
 All language/regional translations are managed with [Crowdin](https://crowdin.com/).
-Please do NOT contribute translations as pull requests against the `mobile/src/main/res/values-*` folders directly, but submit them through the Crowdin web service:
+Please do NOT contribute translations as pull requests against the `mobile/src/*/res/values-*/strings.xml` files directly, but submit them through the Crowdin web service:
 
 - [https://crowdin.com/project/openhab-android](https://crowdin.com/project/openhab-android)
 
