@@ -866,6 +866,7 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
                 Connection conn, ColorMapper colorMapper) {
             super(inflater, parent, R.layout.openhabwidgetlist_chartitem, conn, colorMapper);
             mImageView = itemView.findViewById(R.id.chartimage);
+            mImageView.setEmptyAspectRatio(2.0f);
             mParentView = parent;
 
             WindowManager wm = (WindowManager) itemView.getContext().getSystemService(Context.WINDOW_SERVICE);

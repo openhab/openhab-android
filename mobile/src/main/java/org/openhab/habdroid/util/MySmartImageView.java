@@ -68,6 +68,7 @@ public class MySmartImageView extends SmartImageView {
     private String password;
     private int maxWidth;
     private int maxHeight;
+    private float mEmptyAspectRatio = 0;
 
     private long mRefreshInterval;
     private long mLastRefreshTimestamp;
@@ -149,6 +150,13 @@ public class MySmartImageView extends SmartImageView {
         setImage(image, imageCompletionListener);
     }
 
+    public void setEmptyAspectRatio(float ratio) {
+        mEmptyAspectRatio = ratio;
+        if (getDrawable() == null) {
+            requestLayout();
+        }
+    }
+
     public void setMaxSize(int maxWidth, int maxHeight) {
         this.maxWidth = maxWidth;
         this.maxHeight = maxHeight;
@@ -166,6 +174,20 @@ public class MySmartImageView extends SmartImageView {
         Log.i(TAG, "Cancel image Refresh for " + myImageUrl);
         mRefreshHandler.removeMessages(0);
         mRefreshInterval = 0;
+    }
+
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        if (getMeasuredHeight() == 0 && mEmptyAspectRatio != 0) {
+            int specWidth = MeasureSpec.getSize(widthMeasureSpec);
+            switch (MeasureSpec.getMode(widthMeasureSpec)) {
+                case MeasureSpec.AT_MOST:
+                case MeasureSpec.EXACTLY:
+                    setMeasuredDimension(specWidth, (int) (1.0f * specWidth / mEmptyAspectRatio));
+                    break;
+            }
+        }
     }
 
     @Override
