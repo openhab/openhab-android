@@ -74,25 +74,31 @@ public class AsyncHttpClient extends HttpClient {
             }
 
             @Override
-            public void onResponse(final Call call, Response response) throws IOException {
+            public void onResponse(final Call call, Response response) {
                 final ResponseBody body = response.body();
                 final int code = response.code();
-                final T result;
+                T converted = null;
+                Throwable conversionError = null;
                 if (body != null) {
-                    result = responseHandler.convertBodyInBackground(body);
-                    body.close();
-                } else {
-                    result = null;
+                    try {
+                        converted = responseHandler.convertBodyInBackground(body);
+                    } catch (IOException e) {
+                        conversionError = e;
+                    } finally {
+                        body.close();
+                    }
                 }
-                final boolean success = response.isSuccessful();
-                final Headers headers = response.headers();
+                final T result = converted;
                 final String message = response.message();
+                final Throwable error = response.isSuccessful()
+                        ? conversionError : new IOException(message);
+                final Headers headers = response.headers();
                 mHandler.post(() -> {
                     if (!call.isCanceled()) {
-                        if (success) {
-                            responseHandler.onSuccess(result, headers);
+                        if (error != null) {
+                            responseHandler.onFailure(call.request(), code, error);
                         } else {
-                            responseHandler.onFailure(call.request(), code, new IOException(message));
+                            responseHandler.onSuccess(result, headers);
                         }
                     }
                 });
