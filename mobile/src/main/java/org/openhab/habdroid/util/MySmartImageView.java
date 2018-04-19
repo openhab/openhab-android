@@ -22,6 +22,7 @@ import android.view.ViewGroup;
 import com.loopj.android.image.SmartImageView;
 import com.loopj.android.image.SmartImageTask;
 import com.loopj.android.image.SmartImage;
+import com.loopj.android.image.WebImageCache;
 
 import java.lang.ref.WeakReference;
 
@@ -67,6 +68,7 @@ public class MySmartImageView extends SmartImageView {
     private String password;
     private int maxWidth;
     private int maxHeight;
+    private float mEmptyAspectRatio = 0;
 
     private long mRefreshInterval;
     private long mLastRefreshTimestamp;
@@ -94,25 +96,25 @@ public class MySmartImageView extends SmartImageView {
         setImageUrl(url, username, password, true);
     }
 
-    public void setImageUrl(String url, String username, String password, boolean useImageCache) {
-        setImageUrl(url, username, password, useImageCache, null);
+    public void setImageUrl(String url, String username, String password, boolean forceLoad) {
+        setImageUrl(url, username, password, forceLoad, null);
     }
 
     public void setImageUrl(String url, String username, String password, Integer fallbackResource) {
-        setImageUrl(url, username, password, true, fallbackResource);
+        setImageUrl(url, username, password, false, fallbackResource);
     }
 
     public void setImageUrl(String url, String username, String password,
-            boolean useImageCache, Integer fallbackResource) {
-        setImageUrl(url, username, password, useImageCache, fallbackResource, fallbackResource);
+            boolean forceLoad, Integer fallbackResource) {
+        setImageUrl(url, username, password, forceLoad, fallbackResource, fallbackResource);
     }
 
     public void setImageUrl(String url, String username, String password,
             Integer fallbackResource, Integer loadingResource) {
-        setImageUrl(url, username, password, true, fallbackResource, loadingResource);
+        setImageUrl(url, username, password, false, fallbackResource, loadingResource);
     }
 
-    private void setImageUrl(String url, String username, String password, boolean useImageCache,
+    private void setImageUrl(String url, String username, String password, boolean forceLoad,
             Integer fallbackResource, Integer loadingResource) {
         if (TextUtils.equals(myImageUrl, url)
                 && TextUtils.equals(this.username, username)
@@ -124,12 +126,18 @@ public class MySmartImageView extends SmartImageView {
         this.username = username;
         this.password = password;
 
-        MyWebImage image = new MyWebImage(url, useImageCache, username, password);
-        Bitmap cachedBitmap = image.getCachedBitmap();
+        WebImageCache cache = MyWebImage.getWebImageCache();
+        Bitmap cachedBitmap = cache != null ? cache.get(url) : null;
+
         if (cachedBitmap != null) {
             setImageBitmap(cachedBitmap);
-        } else {
+        }
+        if (forceLoad || cachedBitmap == null) {
             mRefreshHandler.removeMessages(0);
+            MyWebImage image = new MyWebImage(url, forceLoad, username, password);
+            if (fallbackResource == null) {
+                setImageDrawable(null);
+            }
             setImage(image, fallbackResource, loadingResource, imageCompletionListener);
         }
     }
@@ -140,6 +148,13 @@ public class MySmartImageView extends SmartImageView {
         this.password = null;
         mRefreshHandler.removeMessages(0);
         setImage(image, imageCompletionListener);
+    }
+
+    public void setEmptyAspectRatio(float ratio) {
+        mEmptyAspectRatio = ratio;
+        if (getDrawable() == null) {
+            requestLayout();
+        }
     }
 
     public void setMaxSize(int maxWidth, int maxHeight) {
@@ -159,6 +174,20 @@ public class MySmartImageView extends SmartImageView {
         Log.i(TAG, "Cancel image Refresh for " + myImageUrl);
         mRefreshHandler.removeMessages(0);
         mRefreshInterval = 0;
+    }
+
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        if (getMeasuredHeight() == 0 && mEmptyAspectRatio != 0) {
+            int specWidth = MeasureSpec.getSize(widthMeasureSpec);
+            switch (MeasureSpec.getMode(widthMeasureSpec)) {
+                case MeasureSpec.AT_MOST:
+                case MeasureSpec.EXACTLY:
+                    setMeasuredDimension(specWidth, (int) (1.0f * specWidth / mEmptyAspectRatio));
+                    break;
+            }
+        }
     }
 
     @Override

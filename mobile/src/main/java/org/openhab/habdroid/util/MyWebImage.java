@@ -40,21 +40,16 @@ public class MyWebImage implements SmartImage {
     private static WebImageCache sWebImageCache;
 
     private String url;
-    private boolean useCache = true;
+    private boolean forceLoad = false;
     
     private String authUsername;
     private String authPassword;
     private boolean shouldAuth = false;
 
-    public MyWebImage(String url, boolean useCache, String username, String password) {
-    	this.url = url;
-    	this.useCache = useCache;
+    public MyWebImage(String url, boolean forceLoad, String username, String password) {
+        this.url = url;
+        this.forceLoad = forceLoad;
         this.setAuthentication(username, password);
-    }
-
-    public Bitmap getCachedBitmap() {
-        WebImageCache cache = useCache ? getWebImageCache() : null;
-        return cache != null ? cache.get(url) : null;
     }
 
     /**
@@ -86,12 +81,12 @@ public class MyWebImage implements SmartImage {
                 // Try getting bitmap from cache first
         Bitmap bitmap = null;
         if(url != null) {
-            if (this.useCache)
+            if (!forceLoad)
             	bitmap = getWebImageCache(context).get(url);
-            if(bitmap == null) {
+            if (bitmap == null) {
             	Log.i("MyWebImage", "Cache for " + url + " is empty, getting image");
                 bitmap = getBitmapFromUrl(context, url);
-                if(bitmap != null && this.useCache) {
+                if (bitmap != null) {
                     getWebImageCache(context).put(url, bitmap);
                 }
             }
