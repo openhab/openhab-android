@@ -25,7 +25,7 @@ def getString(key):
         string = getEnglishString(key)
     return(string)
 
-stringsFiles=glob.glob('assets/store_descriptions/*/strings.xml')
+stringsFiles = glob.glob('assets/store_descriptions/*/strings.xml')
 for file in stringsFiles:
     tree = ET.parse(file)
     root = tree.getroot()
@@ -34,7 +34,7 @@ for file in stringsFiles:
 
     fullDescription = getString('intro') + "\n\n"
     if sys.argv[1] == "fdroid":
-        fullDescription+= getString('fdroid') + "\n\n"
+        fullDescription += getString('fdroid') + "\n\n"
     elif sys.argv[1] == "fdroidBeta":
         fullDescription += getString('fdroid') + "\n"
         fullDescription += getString('fdroid_beta') + "\n\n"
