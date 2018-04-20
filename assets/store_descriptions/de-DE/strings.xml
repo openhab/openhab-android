@@ -18,7 +18,7 @@
     <oss_community>Open-Source-Community</oss_community>
     <forum>Die quelloffene openHAB Initiative unterst&#xFC;tzt nachdr&#xFC;cklich ihre lebhafte Community. Das Forum (mit &#xFC;ber 13.000 registrierten Mitgliedern) ist ein Ort an dem man Anleitung, Hilfe und Inspiration findet. Besuchen Sie das openHAB-Community-Forum auf https://community.openhab.org</forum>
 
-    <report_issues></report_issues>
+    <report_issues>Wenn Sie einen Fehler finden, melden Sie diesen bitte im Forum oder unter https://github.com/openhab/openhab-android/issues</report_issues>
     <translation>Helfen Sie uns, diese App in Ihre Sprache zu &#xFC;bersetzen: https://crowdin.com/project/openhab-android</translation>
     <foundation>openHAB Foundation e.V.</foundation>
     <about_foundation>Die openHAB Foundation e.V. ist ein gemeinn&#xFC;tziger Verein mit dem Ziel, die &#xD6;ffentlichkeit &#xFC;ber die M&#xF6;glichkeiten und den Nutzen von kostenlosen und offenen Smart Home L&#xF6;sungen aufzukl&#xE4;ren. Erfahren Sie mehr &#xFC;ber die Ziele und Angebote der Foundation unter https://www.openhabfoundation.org</about_foundation>
