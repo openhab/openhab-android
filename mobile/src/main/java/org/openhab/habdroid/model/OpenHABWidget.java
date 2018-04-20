@@ -117,8 +117,10 @@ public abstract class OpenHABWidget implements Parcelable {
         public abstract Builder height(int height);
 
         public OpenHABWidget build() {
-            // Consider a minimal refresh rate of 100 ms
-            refresh(Math.max(refresh(), 100));
+            // Consider a minimal refresh rate of 100 ms, but 0 is special and means 'no refresh'
+            if (refresh() > 0 && refresh() < 100) {
+                refresh(100);
+            }
             // Default period to 'D'
             if (period() == null || period().isEmpty()) {
                 period("D");
@@ -258,7 +260,7 @@ public abstract class OpenHABWidget implements Parcelable {
                 .minValue((float) widgetJson.optDouble("minValue", 0))
                 .maxValue((float) widgetJson.optDouble("maxValue", 100))
                 .step((float) widgetJson.optDouble("step", 1))
-                .refresh(Math.max(widgetJson.optInt("refresh"), 100))
+                .refresh(widgetJson.optInt("refresh"))
                 .period(widgetJson.optString("period", "D"))
                 .service(widgetJson.optString("service", ""))
                 .legend(widgetJson.has("legend") ? widgetJson.getBoolean("legend") : null)
