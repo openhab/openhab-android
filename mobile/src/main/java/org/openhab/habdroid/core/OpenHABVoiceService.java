@@ -22,13 +22,10 @@ import org.openhab.habdroid.R;
 import org.openhab.habdroid.core.connection.Connection;
 import org.openhab.habdroid.core.connection.ConnectionFactory;
 import org.openhab.habdroid.core.connection.exception.ConnectionException;
-import org.openhab.habdroid.util.MyHttpClient;
+import org.openhab.habdroid.util.SyncHttpClient;
 
 import java.util.List;
 import java.util.Locale;
-
-import okhttp3.Call;
-import okhttp3.Headers;
 
 /**
  * This service handles voice commands and sends them to OpenHAB.
@@ -58,7 +55,7 @@ public class OpenHABVoiceService extends IntentService {
         }
 
         if (connection != null) {
-            sendVoiceCommand(connection, voiceCommand);
+            sendVoiceCommand(connection.getSyncHttpClient(), voiceCommand);
         } else {
             Toast.makeText(this,
                     R.string.error_couldnt_determine_openhab_url, Toast.LENGTH_SHORT)
@@ -78,7 +75,7 @@ public class OpenHABVoiceService extends IntentService {
         return voiceCommand;
     }
 
-    private void sendVoiceCommand(final Connection conn, final String command) {
+    private void sendVoiceCommand(final SyncHttpClient client, final String command) {
         final String commandJson;
         try {
             JSONObject commandJsonObject = new JSONObject();
@@ -90,37 +87,17 @@ public class OpenHABVoiceService extends IntentService {
             return;
         }
 
-        conn.getSyncHttpClient().post("/voice/interpreters", commandJson,
-                "application/json", new MyHttpClient.ResponseHandler() {
-            @Override
-            public void onFailure(Call call, int statusCode, Headers headers, byte[] body, Throwable error) {
-                if (statusCode == 404) {
-                    Log.d(TAG, "Voice interpreter endpoint returned 404, falling back to item");
-                    sendRawVoiceCommand(conn, command);
-                } else {
-                    Log.e(TAG, "Sending voice command to new endpoint failed: " + statusCode, error);
-                }
-            }
-
-            @Override
-            public void onSuccess(Call call, int statusCode, Headers headers, byte[] body) {
-                Log.d(TAG, "Command was sent successfully");
-            }
-        });
-    }
-
-    private void sendRawVoiceCommand(final Connection conn, final String command) {
-        conn.getSyncHttpClient().post("/rest/items/VoiceCommand", command,
-                "text/plain;charset=UTF-8", new MyHttpClient.ResponseHandler() {
-            @Override
-            public void onSuccess(Call call, int statusCode, Headers headers, byte[] body) {
-                Log.d(TAG, "Command was sent successfully");
-            }
-
-            @Override
-            public void onFailure(Call call, int statusCode, Headers headers, byte[] body, Throwable error) {
-                Log.e(TAG, "Sending voice command to item failed: " + statusCode, error);
-            }
-        });
+        SyncHttpClient.HttpStatusResult result = client.post("/voice/interpreters",
+                commandJson, "application/json").asStatus();
+        if (result.statusCode == 404) {
+            Log.d(TAG, "Voice interpreter endpoint returned 404, falling back to item");
+            result = client.post("/rest/items/VoiceCommand",
+                    command, "text/plain;charset=UTF-8").asStatus();
+        }
+        if (result.isSuccessful()) {
+            Log.d(TAG, "Voice command was sent successfully");
+        } else {
+            Log.e(TAG, "Sending voice command failed", result.error);
+        }
     }
 }

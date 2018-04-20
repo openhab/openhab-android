@@ -1,5 +1,6 @@
 package org.openhab.habdroid.core.connection;
 
+import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 
@@ -15,7 +16,8 @@ public class DemoConnectionTest {
 
     @Before
     public void setup() {
-        Context mockContext = Mockito.mock(Context.class);
+        Context mockContext = Mockito.mock(Application.class);
+        Mockito.when(mockContext.getApplicationContext()).thenReturn(mockContext);
         SharedPreferences mockSettings = Mockito.mock(SharedPreferences.class);
         testConnection = new DemoConnection(mockContext, mockSettings);
     }

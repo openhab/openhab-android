@@ -11,8 +11,7 @@ import org.json.JSONObject;
 import org.openhab.habdroid.core.connection.Connection;
 import org.openhab.habdroid.model.OpenHABWidget;
 import org.openhab.habdroid.model.OpenHABWidgetDataSource;
-import org.openhab.habdroid.util.MyAsyncHttpClient;
-import org.openhab.habdroid.util.MyHttpClient;
+import org.openhab.habdroid.util.AsyncHttpClient;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
@@ -32,6 +31,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import okhttp3.Call;
 import okhttp3.Headers;
+import okhttp3.Request;
 
 /**
  * Fragment that manages connections for active instances of
@@ -183,9 +183,9 @@ public class PageConnectionHolderFragment extends Fragment {
                 super.toString(), mConnections.size(), mStarted);
     }
 
-    private static class ConnectionHandler implements MyHttpClient.ResponseHandler {
+    private static class ConnectionHandler extends AsyncHttpClient.StringResponseHandler {
         private final String mUrl;
-        private MyAsyncHttpClient mHttpClient;
+        private AsyncHttpClient mHttpClient;
         private ParentCallback mCallback;
         private Call mRequestHandle;
         private boolean mLongPolling;
@@ -200,7 +200,7 @@ public class PageConnectionHolderFragment extends Fragment {
         }
 
         public boolean updateFromConnection(Connection c) {
-            MyAsyncHttpClient oldClient = mHttpClient;
+            AsyncHttpClient oldClient = mHttpClient;
             mHttpClient = c.getAsyncHttpClient();
             return oldClient != mHttpClient;
         }
@@ -250,7 +250,7 @@ public class PageConnectionHolderFragment extends Fragment {
         }
 
         @Override
-        public void onFailure(Call call, int statusCode, Headers headers, byte[] responseBody, Throwable error) {
+        public void onFailure(Request request, int statusCode, Throwable error) {
             Log.d(TAG, "Data load for " + mUrl + " failed", error);
             mAtmosphereTrackingId = null;
             mLongPolling = false;
@@ -258,18 +258,15 @@ public class PageConnectionHolderFragment extends Fragment {
         }
 
         @Override
-        public void onSuccess(Call call, int statusCode, Headers headers, byte[] responseBody) {
+        public void onSuccess(String response, Headers headers) {
             String id = headers.get("X-Atmosphere-tracking-id");
             if (id != null) {
                 mAtmosphereTrackingId = id;
             }
-            processContent(new String(responseBody));
-        }
 
-        private void processContent(String responseString) {
             // We can receive empty response, probably when no items was changed
             // so we needn't process it
-            if (responseString == null || responseString.isEmpty()) {
+            if (response == null || response.isEmpty()) {
                 Log.d(TAG, "Got empty data response for " + mUrl);
                 mLongPolling = true;
                 load();
@@ -280,9 +277,9 @@ public class PageConnectionHolderFragment extends Fragment {
                     new OpenHABWidgetDataSource(mCallback.getIconFormat());
             final boolean hasUpdate;
             if (mCallback.serverReturnsJson()) {
-                hasUpdate = parseResponseJson(dataSource, responseString);
+                hasUpdate = parseResponseJson(dataSource, response);
             } else {
-                hasUpdate = parseResponseXml(dataSource, responseString);
+                hasUpdate = parseResponseXml(dataSource, response);
             }
 
             if (hasUpdate) {

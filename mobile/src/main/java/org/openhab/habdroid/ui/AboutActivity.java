@@ -33,16 +33,13 @@ import org.openhab.habdroid.core.CloudMessagingHelper;
 import org.openhab.habdroid.core.connection.Connection;
 import org.openhab.habdroid.core.connection.ConnectionFactory;
 import org.openhab.habdroid.core.connection.exception.ConnectionException;
-import org.openhab.habdroid.util.MyHttpClient;
+import org.openhab.habdroid.util.SyncHttpClient;
 import org.openhab.habdroid.util.Util;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
-
-import okhttp3.Call;
-import okhttp3.Headers;
 
 import static org.openhab.habdroid.util.Util.obfuscateString;
 
@@ -276,76 +273,50 @@ public class AboutActivity extends AppCompatActivity implements
         }
 
         private String getServerSecret() {
-            final String[] secret = {null};
-            mConnection.getSyncHttpClient().get("/static/secret", new MyHttpClient.TextResponseHandler() {
-                @Override
-                public void onFailure(Call call, int statusCode, Headers headers, String responseString, Throwable error) {
-                    Log.e(TAG, "Could not fetch server secret " + error.getMessage());
-                }
-
-                @Override
-                public void onSuccess(Call call, int statusCode, Headers headers, String responseString) {
-                    Log.d(TAG, "Got secret " + obfuscateString(responseString));
-                    secret[0] = responseString;
-                }
-            });
-            return secret[0];
+            SyncHttpClient.HttpTextResult result =
+                    mConnection.getSyncHttpClient().get("/static/secret").asText();
+            if (result.isSuccessful()) {
+                Log.d(TAG, "Got secret " + obfuscateString(result.response));
+                return result.response;
+            } else {
+                Log.e(TAG, "Could not fetch server secret " + result.error);
+                return null;
+            }
         }
 
         private String getServerUuid() {
-            final String uuidUrl;
-            final String[] uuid = new String[1];
-            if (mOpenHABVersion == 1) {
-                uuidUrl = "/static/uuid";
+            final String uuidUrl = mOpenHABVersion == 1 ? "/static/uuid" : "/rest/uuid";
+            SyncHttpClient.HttpTextResult result =
+                    mConnection.getSyncHttpClient().get(uuidUrl).asText();
+            if (result.isSuccessful()) {
+                Log.d(TAG, "Got uuid " + obfuscateString(result.response));
+                return result.response;
             } else {
-                uuidUrl = "/rest/uuid";
+                Log.e(TAG, "Could not fetch server uuid " + result.error);
+                return null;
             }
-            mConnection.getSyncHttpClient().get(uuidUrl, new MyHttpClient.TextResponseHandler() {
-                @Override
-                public void onFailure(Call call, int statusCode, Headers headers, String responseString, Throwable error) {
-                    Log.e(TAG, "Could not fetch server uuid " + error.getMessage());
-                }
-
-                @Override
-                public void onSuccess(Call call, int statusCode, Headers headers, String responseString) {
-                    Log.d(TAG, "Got uuid " + obfuscateString(responseString));
-                    uuid[0] = responseString;
-                }
-            });
-            return uuid[0];
         }
 
         private String getApiVersion() {
-            String versionUrl;
-            final String[] version = new String[1];
-            if (mOpenHABVersion == 1) {
-                versionUrl = "/static/version";
-            } else {
-                versionUrl = "/rest";
-            }
+            String versionUrl = mOpenHABVersion == 1 ? "/static/version" : "/rest";
             Log.d(TAG, "url = " + versionUrl);
-            mConnection.getSyncHttpClient().get(versionUrl, new MyHttpClient.TextResponseHandler() {
-                @Override
-                public void onFailure(Call call, int statusCode, Headers headers, String responseString, Throwable error) {
-                    Log.e(TAG, "Could not fetch rest API version " + error.getMessage());
-                }
-
-                @Override
-                public void onSuccess(Call call, int statusCode, Headers headers, String responseString) {
-                    if(mOpenHABVersion == 1) {
-                        version[0] = responseString;
-                    } else {
-                        try {
-                            JSONObject pageJson = new JSONObject(responseString);
-                            version[0] = pageJson.getString("version");
-                        } catch (JSONException e) {
-                            Log.e(TAG, "Problem fetching version string", e);
-                        }
+            SyncHttpClient.HttpTextResult result =
+                    mConnection.getSyncHttpClient().get(versionUrl).asText();
+            if (!result.isSuccessful()) {
+                Log.e(TAG, "Could not fetch rest API version " + result.error);
+            } else {
+                if (mOpenHABVersion == 1) {
+                    return result.response;
+                } else {
+                    try {
+                        JSONObject pageJson = new JSONObject(result.response);
+                        return pageJson.getString("version");
+                    } catch (JSONException e) {
+                        Log.e(TAG, "Problem fetching version string", e);
                     }
-                    Log.d(TAG, "Got version " + version[0]);
                 }
-            });
-            return version[0];
+            }
+            return null;
         }
     }
 }

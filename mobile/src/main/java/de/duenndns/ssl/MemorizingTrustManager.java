@@ -78,6 +78,7 @@ public class MemorizingTrustManager implements X509TrustManager {
     Context master;
     AppCompatActivity foregroundAct;
     NotificationManager notificationManager;
+    private static MemorizingTrustManager sInstance;
     private static int decisionId = 0;
     private static HashMap<Integer, MTMDecision> openDecisions = new HashMap<Integer, MTMDecision>();
     private static MemorizingResponder mResponder;
@@ -122,6 +123,13 @@ public class MemorizingTrustManager implements X509TrustManager {
         appKeyStore = loadAppKeyStore();
         defaultTrustManager = getTrustManager(null);
         appTrustManager = getTrustManager(appKeyStore);
+    }
+
+    public static MemorizingTrustManager getInstance(Context c) {
+        if (sInstance == null) {
+            sInstance = new MemorizingTrustManager(c.getApplicationContext());
+        }
+        return sInstance;
     }
 
     /**

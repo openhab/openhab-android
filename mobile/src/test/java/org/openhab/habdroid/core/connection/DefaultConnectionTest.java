@@ -1,25 +1,23 @@
 package org.openhab.habdroid.core.connection;
 
+import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
-import org.openhab.habdroid.util.MyAsyncHttpClient;
-import org.openhab.habdroid.util.MyHttpClient;
-import org.openhab.habdroid.util.MySyncHttpClient;
+import org.openhab.habdroid.util.AsyncHttpClient;
+import org.openhab.habdroid.util.HttpClient;
+import org.openhab.habdroid.util.SyncHttpClient;
 
-import okhttp3.Call;
 import okhttp3.Credentials;
-import okhttp3.Headers;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertNull;
 import static junit.framework.Assert.assertTrue;
-import static junit.framework.Assert.fail;
 import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.ArgumentMatchers.anyString;
 
@@ -36,7 +34,8 @@ public class DefaultConnectionTest {
 
     @Before
     public void setup() {
-        mockContext = Mockito.mock(Context.class);
+        mockContext = Mockito.mock(Application.class);
+        Mockito.when(mockContext.getApplicationContext()).thenReturn(mockContext);
         mockSettings = Mockito.mock(SharedPreferences.class);
         testConnection = new DefaultConnection(mockContext, mockSettings, Connection.TYPE_LOCAL,
                 TEST_BASE_URL, null, null);
@@ -100,8 +99,8 @@ public class DefaultConnectionTest {
     @Test
     public void testGetSyncHttpClientCached() {
         Mockito.when(mockSettings.getBoolean(anyString(), anyBoolean())).thenReturn(true);
-        MySyncHttpClient client1 = testConnection.getSyncHttpClient();
-        MySyncHttpClient client2 = testConnection.getSyncHttpClient();
+        SyncHttpClient client1 = testConnection.getSyncHttpClient();
+        SyncHttpClient client2 = testConnection.getSyncHttpClient();
 
         assertNotNull(client1);
         assertEquals(client1, client2);
@@ -110,8 +109,8 @@ public class DefaultConnectionTest {
     @Test
     public void testGetAsyncHttpClientCached() {
         Mockito.when(mockSettings.getBoolean(anyString(), anyBoolean())).thenReturn(true);
-        MyAsyncHttpClient client1 = testConnection.getAsyncHttpClient();
-        MyAsyncHttpClient client2 = testConnection.getAsyncHttpClient();
+        AsyncHttpClient client1 = testConnection.getAsyncHttpClient();
+        AsyncHttpClient client2 = testConnection.getAsyncHttpClient();
 
         assertNotNull(client1);
         assertEquals(client1, client2);
@@ -119,14 +118,14 @@ public class DefaultConnectionTest {
 
     @Test
     public void testAsyncHasNoUsernamePassword() {
-        MyHttpClient httpClient = testConnection.getAsyncHttpClient();
+        HttpClient httpClient = testConnection.getAsyncHttpClient();
 
         assertFalse(httpClient.getHeaders().containsKey("Authorization"));
     }
 
     @Test
     public void testSyncHasNoUsernamePassword() {
-        MyHttpClient httpClient = testConnection.getSyncHttpClient();
+        HttpClient httpClient = testConnection.getSyncHttpClient();
 
         assertFalse(httpClient.getHeaders().containsKey("Authorization"));
     }
@@ -135,7 +134,7 @@ public class DefaultConnectionTest {
     public void testAsyncHasUsernamePassword() {
         Connection connection = new DefaultConnection(mockContext, mockSettings, Connection.TYPE_LOCAL,
                 TEST_BASE_URL, "Test-User", "Test-Password");
-        MyHttpClient httpClient = connection.getAsyncHttpClient();
+        HttpClient httpClient = connection.getAsyncHttpClient();
 
         assertTrue(httpClient.getHeaders().containsKey("Authorization"));
         assertEquals(Credentials.basic("Test-User", "Test-Password"),
@@ -146,7 +145,7 @@ public class DefaultConnectionTest {
     public void testSyncHasUsernamePassword() {
         Connection connection = new DefaultConnection(mockContext, mockSettings, Connection.TYPE_LOCAL,
                 TEST_BASE_URL, "Test-User", "Test-Password");
-        MyHttpClient httpClient = connection.getSyncHttpClient();
+        HttpClient httpClient = connection.getSyncHttpClient();
 
         assertTrue(httpClient.getHeaders().containsKey("Authorization"));
         assertEquals(Credentials.basic("Test-User", "Test-Password"),
@@ -155,36 +154,18 @@ public class DefaultConnectionTest {
 
     @Test
     public void testSyncResolveRelativeUrl() {
-        MyHttpClient httpClient = testConnection.getSyncHttpClient();
-
-        httpClient.get("/rest/test", new MyHttpClient.TextResponseHandler() {
-            @Override
-            public void onFailure(Call call, int statusCode, Headers headers, String responseBody, Throwable error) {
-                assertEquals(TEST_BASE_URL + "/rest/test", call.request().url().toString());
-            }
-
-            @Override
-            public void onSuccess(Call call, int statusCode, Headers headers, String responseBody) {
-                fail("The request should never succeed in tests.");
-            }
-        });
+        SyncHttpClient.HttpResult result = testConnection.getSyncHttpClient().get("/rest/test");
+        assertFalse("The request should never succeed in tests", result.isSuccessful());
+        assertEquals(TEST_BASE_URL + "/rest/test", result.request.url().toString());
+        result.close();
     }
 
     @Test
     public void testSyncResolveAbsoluteUrl() {
-        MyHttpClient httpClient = testConnection.getSyncHttpClient();
-
-        httpClient.get("http://mylocalmachine.local/rest/test",
-                new MyHttpClient.TextResponseHandler() {
-                    @Override
-                    public void onFailure(Call call, int statusCode, Headers headers, String responseBody, Throwable error) {
-                        assertEquals("http://mylocalmachine.local/rest/test", call.request().url().toString());
-                    }
-
-                    @Override
-                    public void onSuccess(Call call, int statusCode, Headers headers, String responseBody) {
-                        fail("The request should never succeed in tests.");
-                    }
-                });
+        SyncHttpClient.HttpResult result =
+                testConnection.getSyncHttpClient().get("http://mylocalmachine.local/rest/test");
+        assertFalse("The request should never succeed in tests", result.isSuccessful());
+        assertEquals("http://mylocalmachine.local/rest/test", result.request.url().toString());
+        result.close();
     }
 }

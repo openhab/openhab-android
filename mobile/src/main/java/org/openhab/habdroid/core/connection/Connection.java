@@ -3,8 +3,8 @@ package org.openhab.habdroid.core.connection;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import org.openhab.habdroid.util.MyAsyncHttpClient;
-import org.openhab.habdroid.util.MySyncHttpClient;
+import org.openhab.habdroid.util.AsyncHttpClient;
+import org.openhab.habdroid.util.SyncHttpClient;
 
 public interface Connection {
     /**
@@ -30,13 +30,13 @@ public interface Connection {
      * @return A fully setup asynchronous http client for requesting resources from the
      * server represented in this Connection object.
      */
-    MyAsyncHttpClient getAsyncHttpClient();
+    AsyncHttpClient getAsyncHttpClient();
 
     /**
      * @return A fully setup synchronous http client for requesting resources from the server
      * represented in this Connection object.
      */
-    MySyncHttpClient getSyncHttpClient();
+    SyncHttpClient getSyncHttpClient();
 
     /**
      * @return The username used for this connection.

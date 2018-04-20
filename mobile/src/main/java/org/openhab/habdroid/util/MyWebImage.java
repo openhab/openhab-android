@@ -10,13 +10,12 @@
 package org.openhab.habdroid.util;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
-import android.preference.PreferenceManager;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.caverock.androidsvg.SVG;
@@ -24,13 +23,12 @@ import com.caverock.androidsvg.SVGParseException;
 import com.loopj.android.image.SmartImage;
 import com.loopj.android.image.WebImageCache;
 
-import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
-import okhttp3.Call;
-import okhttp3.Headers;
+import okhttp3.Credentials;
+import okhttp3.MediaType;
 
 public class MyWebImage implements SmartImage {
     private static final String TAG = "MyWebImage";
@@ -38,18 +36,22 @@ public class MyWebImage implements SmartImage {
     private static final int READ_TIMEOUT = 10000;
 
     private static WebImageCache sWebImageCache;
+    private static SyncHttpClient sHttpClient;
 
     private String url;
     private boolean forceLoad = false;
-    
-    private String authUsername;
-    private String authPassword;
-    private boolean shouldAuth = false;
+    private final Map<String, String> mAuthHeaders;
 
     public MyWebImage(String url, boolean forceLoad, String username, String password) {
-        this.url = url;
-        this.forceLoad = forceLoad;
-        this.setAuthentication(username, password);
+    	this.url = url;
+    	this.forceLoad = forceLoad;
+
+        if (!TextUtils.isEmpty(username) && !TextUtils.isEmpty(password)) {
+            mAuthHeaders = new HashMap<>();
+            mAuthHeaders.put("Authorization", Credentials.basic(username, password));
+        } else {
+            mAuthHeaders = null;
+        }
     }
 
     /**
@@ -96,65 +98,31 @@ public class MyWebImage implements SmartImage {
     }
 
     private Bitmap getBitmapFromUrl(Context context, final String url) {
-        final Map<String, Object> result = new HashMap<String, Object>();
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-        MyAsyncHttpClient client = new MyAsyncHttpClient(context, prefs.getBoolean(Constants
-                .PREFERENCE_SSLHOST, false), prefs.getBoolean(Constants.PREFERENCE_SSLCERT, false));
-        client.setTimeout(READ_TIMEOUT);
-        client.setBaseUrl(url);
-        if (shouldAuth) {
-            client.setBasicAuth(authUsername, authPassword);
+        SyncHttpClient client;
+        synchronized (MyWebImage.class) {
+            if (sHttpClient == null) {
+                sHttpClient = new SyncHttpClient(context, null);
+                sHttpClient.setTimeout(READ_TIMEOUT);
+                sHttpClient.setTimeout(60000);
+            }
+            client = sHttpClient;
         }
 
-        client.get(url, new MyHttpClient.ResponseHandler() {
-            @Override
-            public void onFailure(Call call, int statusCode, Headers headers, byte[] responseBody, Throwable error) {
-                Log.e(TAG, "Failed to get " + url + " with code " + statusCode + ":" + error);
-                synchronized (result) {
-                    result.put("error", error);
-                    result.notify();
-                }
-            }
-
-            @Override
-            public void onSuccess(Call call, int statusCode, Headers headers, byte[] responseBody) {
-                InputStream is = new ByteArrayInputStream(responseBody);
-                Map headersMap = headers.toMultimap();
-                boolean isSVG = headersMap.containsKey("content-type") &&
-                        headersMap.get("content-type").toString().contains("svg");
-                synchronized (result) {
-                    result.put("bitmap", getBitmapFromInputStream(isSVG, is));
-                    result.notify();
-                }
-            }
-        });
-
-        synchronized (result) {
-            try {
-                result.wait(60000);
-            } catch (InterruptedException e) {
-                Log.e(TAG, "Timeout fetching " + url);
-                return null;
-            }
-
-            if (result.containsKey("error")) {
-                return null;
-            }
-
+        SyncHttpClient.HttpResult result = client.get(url, mAuthHeaders);
+        if (!result.isSuccessful()) {
+            Log.e(TAG, "Failed to get " + url + " with code " + result.statusCode + ":" + result.error);
+            return null;
         }
 
-        Log.i(TAG, "fetched bitmap for " + url);
+        MediaType contentType = result.response.contentType();
+        boolean isSVG = contentType != null
+                && contentType.type().equals("image")
+                && contentType.subtype().contains("svg");
+        InputStream is = result.response.byteStream();
+        Bitmap bitmap = isSVG ? getBitmapFromSvgInputstream(is) : BitmapFactory.decodeStream(is);
 
-        return (Bitmap)result.get("bitmap");
-    }
+        result.close();
 
-    private Bitmap getBitmapFromInputStream(boolean isSVG, InputStream is) {
-        Bitmap bitmap;
-        if(isSVG) {
-            bitmap = getBitmapFromSvgInputstream(is);
-        } else {
-            bitmap = BitmapFactory.decodeStream(is);
-        }
         return bitmap;
     }
 
@@ -186,12 +154,5 @@ public class MyWebImage implements SmartImage {
         if (cache != null) {
             cache.remove(url);
         }
-    }
-    
-    public void setAuthentication(String username, String password) {
-    	this.authUsername = username;
-    	this.authPassword = password;
-    	if (this.authUsername != null && (this.authUsername.length() > 0 && this.authPassword.length() > 0))
-    		this.shouldAuth = true;
     }
 }
