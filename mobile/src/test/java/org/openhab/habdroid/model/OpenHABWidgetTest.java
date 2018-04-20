@@ -82,6 +82,7 @@ public class OpenHABWidgetTest {
     public void testGetRefresh() throws Exception {
         assertEquals(1000, sut1.get(0).refresh());
         assertEquals("Min refresh is 100, object has set refresh to 10", 100, sut2.get(0).refresh());
+        assertEquals("Missing refresh should equal 0", 0, sut3.get(0).refresh());
     }
 
     @Test

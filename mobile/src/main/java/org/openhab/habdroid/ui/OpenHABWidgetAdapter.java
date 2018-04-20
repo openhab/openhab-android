@@ -571,7 +571,7 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
                     uri = Uri.parse(mConnection.getOpenHABUrl() + widget.url());
                 }
                 mImageView.setImageUrl(uri.toString(), mConnection.getUsername(),
-                        mConnection.getPassword(), false);
+                        mConnection.getPassword(), true);
                 mRefreshRate = widget.refresh();
             }
         }
@@ -866,6 +866,7 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
                 Connection conn, ColorMapper colorMapper) {
             super(inflater, parent, R.layout.openhabwidgetlist_chartitem, conn, colorMapper);
             mImageView = itemView.findViewById(R.id.chartimage);
+            mImageView.setEmptyAspectRatio(2.0f);
             mParentView = parent;
 
             WindowManager wm = (WindowManager) itemView.getContext().getSystemService(Context.WINDOW_SERVICE);
@@ -910,7 +911,7 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
                 Log.d(TAG, "Chart url = " + chartUrl);
 
                 mImageView.setImageUrl(chartUrl.toString(), mConnection.getUsername(),
-                        mConnection.getPassword(), false);
+                        mConnection.getPassword(), true);
                 mRefreshRate = widget.refresh();
             } else {
                 Log.e(TAG, "Chart item is null");

@@ -1,1 +1,1 @@
-openHAB-Android-Client
+openHAB-Client für Android

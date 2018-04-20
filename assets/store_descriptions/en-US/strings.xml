@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<strings>
+    <intro>openHAB - "empowering the smart home" - vendor and technology agnostic open source home automation</intro>
+    <whatis>openHAB is a Java-based open-source home automation platform that integrates and combines a vast range of different smart home systems and technologies into one single solution.</whatis>
+    <rules>On top of the unified abstraction layer all connected devices are available for the overarching automation rule engines and different user interfaces.</rules>
+    <supported>Supported Products</supported>
+    <bindings>Over 200 specific add-ons provide support for brands, devices, technologies and communication protocols. Examples are Z-Wave, Philips Hue, Amazon Echo, Chromecast and Sonos. Discover all available add-ons and supported devices and/or functions at: https://docs.openhab.org/addons/bindings.html</bindings>
+
+    <home_automation_solutions>• Home Automation Solutions: Z-Wave, EnOcean, Netatmo, Homematic, Insteon, ...</home_automation_solutions>
+    <lighting>• Lighting: Philips Hue, Ikea Trådfri, LIFX, Lutron, Milight, ...</lighting>
+    <heating>• Heating: Max!, Nest, Vitotronic, Heatmiser, ...</heating>
+    <home_entertainment>• Home Entertainment: Samsung TV, LG TV, Sonos, Pioneer AVR, Squeezebox, Kodi, Plex, ...</home_entertainment>
+    <security>• Security: ZoneMinder, DSC, ...</security>
+    <open_protocols>• Open Protocols: HTTP, TCP/UDP, MQTT, Serial, ...</open_protocols>
+    <special_useCases>• Special UseCases: Minecraft, Tesla Car, Weather Services, ...</special_useCases>
+    <empty_point>• ...</empty_point>
+
+    <oss_community>Open Source Community</oss_community>
+    <forum>The openHAB open source initiative strongly supports its vibrant community. The forum with over 13,000 registered users is a place to find guidance, help and inspiration. Join the openHAB community forum over at https://community.openhab.org</forum>
+
+    <report_issues>When you find an issue please report it in the forum or at https://github.com/openhab/openhab-android/issues</report_issues>
+    <translation>If you want to translate the app into your language join us at https://crowdin.com/project/openhab-android</translation>
+    <foundation>openHAB Foundation</foundation>
+    <about_foundation>The openHAB Foundation e.V. is a nonprofit organization with the mission to educate the public about the possibilities and benefits of free and open smart home solutions. Learn about the mission and the services of the foundation under https://www.openhabfoundation.org</about_foundation>
+    <important_note>Important note</important_note>
+    <oh_server>You need an openHAB server for this app</oh_server>
+    <short_description>openHAB client for Android</short_description>
+    <fdroid>The builds on F-Droid have map view support, GCM and crash reporting removed and will not be able to receive push notifications from openHAB Cloud.</fdroid>
+    <fdroid_beta>You can install the beta version alongside the stable version: [[org.openhab.habdroid]]</fdroid_beta>
+</strings>

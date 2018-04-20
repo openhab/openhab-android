@@ -16,6 +16,9 @@ The app follows the basic principles of the other openHAB UIs, like Basic UI, an
 <a href="https://play.google.com/store/apps/details?id=org.openhab.habdroid">
   <img alt="Get it on Google Play" src="images/en_badge_web_generic.png" width="240px">
 </a>
+<a href="https://f-droid.org/app/org.openhab.habdroid">
+  <img alt="Get it on F-Droid" src="images/get-it-on-fdroid.png" width="240px">
+</a>
 
 ## Features
 

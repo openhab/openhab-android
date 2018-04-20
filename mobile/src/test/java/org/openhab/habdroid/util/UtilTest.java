@@ -49,15 +49,14 @@ public class UtilTest {
         List<OpenHABSitemap> sitemapList = Util.parseSitemapList(getSitemapOH1Document());
         assertFalse(sitemapList.isEmpty());
 
-        // Should be sorted
-        assertEquals("Garden", sitemapList.get(0).label());
+        assertEquals("i AM DEfault", sitemapList.get(0).label());
         assertEquals("Heating", sitemapList.get(1).label());
-        assertEquals("Heatpump", sitemapList.get(2).label());
-        assertEquals("Lighting", sitemapList.get(3).label());
-        assertEquals("Scenes", sitemapList.get(4).label());
-        assertEquals("Schedule", sitemapList.get(5).label());
-        assertEquals("i AM DEfault", sitemapList.get(6).label());
-        assertEquals("outside", sitemapList.get(7).label());
+        assertEquals("Lighting", sitemapList.get(2).label());
+        assertEquals("Heatpump", sitemapList.get(3).label());
+        assertEquals("Schedule", sitemapList.get(4).label());
+        assertEquals("outside", sitemapList.get(5).label());
+        assertEquals("Garden", sitemapList.get(6).label());
+        assertEquals("Scenes", sitemapList.get(7).label());
 
         assertEquals(8, sitemapList.size());
     }
@@ -78,7 +77,8 @@ public class UtilTest {
 
         assertEquals("Main Menu", sitemapList.get(0).label());
         assertEquals("HOME", sitemapList.get(1).label());
-        assertEquals(2, sitemapList.size());
+        assertEquals("test", sitemapList.get(2).label());
+        assertEquals(3, sitemapList.size());
     }
 
     @Test
@@ -88,6 +88,33 @@ public class UtilTest {
 
         assertEquals("Home", sitemapList.get(0).label());
         assertEquals(1, sitemapList.size());
+    }
+
+    @Test
+    public void testSortSitemapList() throws IOException, SAXException, ParserConfigurationException {
+        List<OpenHABSitemap> sitemapList = Util.parseSitemapList(getSitemapOH1Document());
+
+        sitemapList = Util.sortSitemapList(Util.parseSitemapList(getSitemapOH1Document()), "");
+        // Should be sorted
+        assertEquals("Garden", sitemapList.get(0).label());
+        assertEquals("Heating", sitemapList.get(1).label());
+        assertEquals("Heatpump", sitemapList.get(2).label());
+        assertEquals("i AM DEfault", sitemapList.get(3).label());
+        assertEquals("Lighting", sitemapList.get(4).label());
+        assertEquals("outside", sitemapList.get(5).label());
+        assertEquals("Scenes", sitemapList.get(6).label());
+        assertEquals("Schedule", sitemapList.get(7).label());
+
+        sitemapList = Util.sortSitemapList(Util.parseSitemapList(getSitemapOH1Document()), "schedule");
+        // Should be sorted, but "Schedule" should be the first one
+        assertEquals("Schedule", sitemapList.get(0).label());
+        assertEquals("Garden", sitemapList.get(1).label());
+        assertEquals("Heating", sitemapList.get(2).label());
+        assertEquals("Heatpump", sitemapList.get(3).label());
+        assertEquals("i AM DEfault", sitemapList.get(4).label());
+        assertEquals("Lighting", sitemapList.get(5).label());
+        assertEquals("outside", sitemapList.get(6).label());
+        assertEquals("Scenes", sitemapList.get(7).label());
     }
 
     private Document getSitemapOH1Document() throws ParserConfigurationException, IOException, SAXException {
@@ -144,6 +171,7 @@ public class UtilTest {
             case 2:
                 jsonString = "[{\"name\":\"demo\",\"label\":\"Main Menu\",\"link\":\"http://demo.openhab.org:8080/rest/sitemaps/demo\",\"homepage\":{\"link\":\"http://demo.openhab.org:8080/rest/sitemaps/demo/demo\",\"leaf\":false,\"timeout\":false,\"widgets\":[]}}," +
                         "{\"name\":\"home\",\"label\":\"HOME\",\"link\":\"http://demo.openhab.org:8080/rest/sitemaps/home\",\"homepage\":{\"link\":\"http://demo.openhab.org:8080/rest/sitemaps/home/home\",\"leaf\":false,\"timeout\":false,\"widgets\":[]}}," +
+                        "{\"name\":\"test\",\"link\":\"http://demo.openhab.org:8080/rest/sitemaps/test\",\"homepage\":{\"link\":\"http://demo.openhab.org:8080/rest/sitemaps/test/test\",\"leaf\":false,\"timeout\":false,\"widgets\":[]}}," +
                         "{\"name\":\"_default\",\"label\":\"Home\",\"link\":\"http://demo.openhab.org:8080/rest/sitemaps/_default\",\"homepage\":{\"link\":\"http://demo.openhab.org:8080/rest/sitemaps/_default/_default\",\"leaf\":false,\"timeout\":false,\"widgets\":[]}}]";
                 break;
             case 3:
@@ -167,7 +195,7 @@ public class UtilTest {
     }
 
     @Test
-    public void testobfuscateString() {
+    public void testObfuscateString() {
         assertEquals("abc***", Util.obfuscateString("abcdef"));
         assertEquals("abc", Util.obfuscateString("abc"));
         assertEquals("The function should not throw an exception, when string length is shorter than clearTextCharCount",

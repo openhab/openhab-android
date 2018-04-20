@@ -1,1 +1,1 @@
-openHAB Android client
+عميل openHAB للأندرويد

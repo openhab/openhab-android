@@ -1,1 +1,1 @@
-openHAB asiakassovellus Android-laitteille
+openHAB client for Android

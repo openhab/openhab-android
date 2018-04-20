@@ -1,1 +1,1 @@
-openHAB Android клиент
+Клиент openHAB для Android

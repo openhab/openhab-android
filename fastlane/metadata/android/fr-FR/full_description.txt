@@ -1,13 +1,15 @@
-openHAB - "empowering the smart home" - vendor and technology agnostic open source home automation
+openHAB - "empowering the smart home" - une solution de domotique libre et indépendante de tout fournisseur ou technologie pour votre maison connectée
 
-You can install the beta version alongside the stable version: [org.openhab.habdroid]
+Les versions publiées via F-Droid n'incluent pas le système GCM et les rapports de plantage, et elles ne seront pas en mesure de recevoir les notifications push depuis l’openHAB Cloud.
 
-The builds on F-Droid have map view support, GCM and crash reporting removed and will not be able to receive push notifications from openHAB Cloud.
+<b>Remarque importante</b>
 
-openHAB is a Java-based open-source home automation platform that integrates and combines a vast range of different smart home systems and technologies into one single solution.
-On top of the unified abstraction layer all connected devices are available for the overarching automation rule engines and different user interfaces.
+Un serveur openHAB est nécessaire pour fonctionner avec cette app
 
-'''Supported Products'''
+openHAB est une plateforme de domotique open source basée sur Java qui intègre et combine une vaste gamme de produits et technologies pour la maison connectée dans une seule et même solution.
+S'appuyant sur une couche d'abstraction unifiée, tous les dispositifs connectés sont exposés au moteur de règles d'automatisation centralisé et à différentes interfaces utilisateur.
+
+<b>Produits pris en charge</b>
 
 Over 200 specific add-ons provide support for brands, devices, technologies and communication protocols. Examples are Z-Wave, Philips Hue, Amazon Echo, Chromecast and Sonos. Discover all available add-ons and supported devices and/or functions at: https://docs.openhab.org/addons/bindings.html
 
@@ -20,18 +22,12 @@ Over 200 specific add-ons provide support for brands, devices, technologies and 
 • Special UseCases: Minecraft, Tesla Car, Weather Services, ...
 • ...
 
-'''Open Source Community'''
+<b>Communauté open source</b>
 
 The openHAB open source initiative strongly supports its vibrant community. The forum with over 13,000 registered users is a place to find guidance, help and inspiration. Join the openHAB community forum over at https://community.openhab.org
+Si vous rencontrez un problème, veuillez nous en faire part sur le forum ou sur https://github.com/openhab/openhab-android/issues
+Si vous souhaitez traduire l'application dans votre langue, rejoignez-nous sur https://crowdin.com/project/openhab-android
 
-When you found an issue please report it in the forum or at https://github.com/openhab/openhab-android/issues
-
-If you want to translate the app into your language join us at https://crowdin.com/project/openhab-android
-
-'''openHAB Foundation'''
+<b>openHAB Foundation</b>
 
 The openHAB Foundation e.V. is a nonprofit organization with the mission to educate the public about the possibilities and benefits of free and open smart home solutions. Learn about the mission and the services of the foundation under https://www.openhabfoundation.org
-
-'''Important note'''
-
-You need an openHAB server for this app
