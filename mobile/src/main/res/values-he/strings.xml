@@ -24,16 +24,16 @@
   <string name="settings_openhab_alturl_summary">כתובת ה-URL של לוח השליטה ב openHAB כאשר הכתובת המקומית אינה זמינה. הגדרה נוכחית: %s</string>
   <string name="settings_openhab_username">שם משתמש</string>
   <string name="settings_openhab_password">סיסמה</string>
-  <string name="settings_openhab_sslclientcert">אישור לקוח SSL</string>
-  <string name="settings_openhab_sslclientcert_howto">אישור לקוח SSL \' כיצד להגדיר \'</string>
-  <string name="settings_openhab_sslclientcert_howto_summary">הקש כאן כדי לקבל כמה רמזים והסברים על איך להגדיר אימות אישורי לקוח SSL</string>
+  <string name="settings_openhab_sslclientcert">תעודת לקוח SSL</string>
+  <string name="settings_openhab_sslclientcert_howto">תעודת לקוח SSL \' כיצד להגדיר \'</string>
+  <string name="settings_openhab_sslclientcert_howto_summary">הקש כאן כדי לקבל כמה רמזים והסברים על איך להגדיר אימות תעודת לקוח SSL</string>
   <string name="settings_openhab_screentimeroff">ביטול כיבוי מסך אוטומטי</string>
   <string name="settings_openhab_screentimeroff_summary">בטל את קוצב הזמן לכיבוי המסך כאשר אפליקצית openHAB פועלת</string>
   <string name="settings_openhab_demomode">מצב הדגמה</string>
   <string name="settings_openhab_demomode_summary">הפעל במצב הדגמה</string>
   <string name="settings_openhab_theme">ערכת עיצוב</string>
-  <string name="settings_openhab_sslcert">התעלם מאישור SSL</string>
-  <string name="settings_openhab_sslcert_summary">התעלם מאימות אישורים בעת חיבור SSL</string>
+  <string name="settings_openhab_sslcert">התעלם מתעודת SSL</string>
+  <string name="settings_openhab_sslcert_summary">התעלם מאימות תעודה בעת חיבור SSL</string>
   <string name="settings_openhab_sslhost">התעלם משם שרת SSL</string>
   <string name="settings_openhab_sslhost_summary">התעלם מבדיקת שם השרת בעת חיבור SSL</string>
   <string name="settings_openhab_fullscreen">מסך מלא</string>
@@ -70,24 +70,24 @@
   <string name="error_certificate_expired">אישור SSL פג תוקף. אנא ייבא אישורי בסיס או בטל אימות אישור במהלך חיבור SSL</string>
   <string name="error_certificate_not_valid_yet">אישור SSL עדיין אינו חוקי. נא קבל אישור מתאים או בטל אישור אימות במהלך לחיצת יד של SSL. כמו כן יש לבדוק אם השעון במכשיר מוגדר כראוי</string>
   <string name="error_certificate_revoked">אישור SSL נשלל. אנא ייבא אישור חדש או בטל אימות אישור במהלך חיבור SSL</string>
-  <string name="error_certificate_wrong_host">אישור SSL אינו חוקי עבור %s</string>
-  <string name="error_http_code_401">האימות נכשל. נא בדוק את שם המשתמש והסיסמה שהוגדרו בהתאמה עם אישור ה-SSL (קוד תגובה HTTP 401)</string>
-  <string name="error_http_code_403">האימות נכשל. נא בדוק את שם המשתמש והסיסמה שהוגדרו בהתאמה עם אישור ה-SSL (קוד תגובה HTTP 403)</string>
-  <string name="error_http_code_407">האימות נכשל. נא בדוק את שם המשתמש והסיסמה שהוגדרו בהתאמה עם תעודת אישור ה-SSL (קוד תגובה HTTP 407)</string>
+  <string name="error_certificate_wrong_host">תעודת SSL אינה חוקית עבור %s</string>
+  <string name="error_http_code_401">האימות נכשל. נא בדוק את שם המשתמש והסיסמה שהוגדרו בהתאמה עם תעודת ה-SSL (קוד תגובה HTTP 401)</string>
+  <string name="error_http_code_403">האימות נכשל. נא בדוק את שם המשתמש והסיסמה שהוגדרו בהתאמה עם תעודת ה-SSL (קוד תגובה HTTP 403)</string>
+  <string name="error_http_code_407">האימות נכשל. נא בדוק את שם המשתמש והסיסמה שהוגדרו בהתאמה עם תעודת ה-SSL (קוד תגובה HTTP 407)</string>
   <string name="error_http_code_414">שורת הכתובת URL ארוכה מדי. נא השתמש בכתובת IP או ב-URL קצר יותר (קוד תגובה HTTP 414)</string>
   <string name="error_http_code_426">HTTPS נדרש. יש לשנות את כתובת ה-URL (קוד תגובה HTTP 426)</string>
   <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
   <string name="error_http_code_495">האימות נכשל. בדוק את תעודת אישור לקוח SSL (קוד תגובה HTTP 495)</string>
-  <string name="error_http_code_496">נדרשת תעודת אישור לקוח SSL (קוד תגובה HTTP 496)</string>
+  <string name="error_http_code_496">נדרשת תעודת לקוח SSL (קוד תגובה HTTP 496)</string>
   <string name="error_http_code_502">שרת ה-reverse proxy קיבל תשובה שגויה משרת ה-openHAB (קוד תגובה HTTP 502)</string>
   <string name="error_http_code_503">שרת openHAB אינו זמין באופן זמני (קוד תגובה HTTP 503)</string>
   <string name="error_http_code_504">Gateway Time-out. נראה כי שרת ה-reverse proxy פעיל, אך לא נתקבלה תשובה משרת openHAB (קוד תגובה HTTP 504)</string>
   <string name="error_http_code_507">אין מספיק שטח פנוי לשרת openHAB (קוד תגובה HTTP 507)</string>
-  <string name="error_http_code_511">נדרש אימות רשת (קוד תגובה HTTP 551)</string>
+  <string name="error_http_code_511">נדרש אימות רשת (קוד תגובה HTTP 511)</string>
   <string name="error_about_no_conn">אירעה שגיאה בעת בקשת מידע משרת openHAB</string>
   <string name="title_activity_openhabwritetag">כתיבה לתגית NFC</string>
   <string name="title_activity_openhabinfo">מידע על openHAB</string>
-  <string name="title_activity_libraries">סיפריות בשימוש</string>
+  <string name="title_activity_libraries">ספריות בשימוש</string>
   <string name="info_write_tag">הצמד תגית והשאר אותה קרובה עד להופעת הודעת אישור</string>
   <string name="info_write_tag_progress">כותב לתגית</string>
   <string name="info_write_tag_finished">הכתיבה הסתימה בהצלחה</string>
@@ -107,7 +107,7 @@
   <string name="mtm_decision_always">תמיד</string>
   <string name="mtm_decision_once">חד פעמי</string>
   <string name="mtm_decision_abort">בטל</string>
-  <string name="mtm_notification">אימות אישורים</string>
+  <string name="mtm_notification">אימות תעודה</string>
   <string name="settings_openhab_none">ללא</string>
   <!-- Themes -->
   <string name="theme_name_light">בהיר</string>
@@ -131,7 +131,7 @@
   <!-- About -->
   <string name="about_title">מידע כללי</string>
   <string name="about_license_title">רשיון</string>
-  <string name="about_changelog">יומן שינויים</string>
+  <string name="about_changelog">רשימת שינויים</string>
   <string name="about_source_code">פיצול ב-GitHub!</string>
   <string name="about_issues">דווח על בעיה</string>
   <string name="about_docs">תיעוד</string>
@@ -150,7 +150,7 @@
   <string name="close">סגור</string>
   <string name="app_intro">הקדמה</string>
   <string name="intro_welcome">ברוכים הבאים ל openHAB</string>
-  <string name="intro_whatis">תוכנת קוד פתוח, בלתי תלויה בייצרנים וטכולוגיות, לאוטומציה שליטה ובקרה לבית שלך</string>
+  <string name="intro_whatis">תוכנת קוד פתוח, בלתי תלויה בייצרנים וטכנולוגיות, לאוטומציה שליטה ובקרה לבית שלך</string>
   <string name="intro_themes">ערכות עיצוב</string>
   <string name="intro_themes_description">בחר בין מספר ערכות עיצוב</string>
   <string name="try_again_button">נסה שוב</string>
@@ -158,8 +158,8 @@
   <string name="go_to_settings_button">עבור להגדרות</string>
   <string name="configuration_missing">השרת של openHAB לא ניתן לגילוי באופן אוטומטי. נא להגדיר את כתובת ה IP של השרת או את שמו בתפריט הגדרות שרת.</string>
   <string name="resolving_openhab">מנסה לאתר שרת openHAB</string>
-  <string name="intro_discovery">איתור</string>
-  <string name="intro_discovery_summary">הערה: זה יעבוד רק אם אימות אינו נאכף על ידי השרת</string>
+  <string name="intro_discovery">איתור אוטומטי של שרת</string>
+  <string name="intro_discovery_summary">הערה: פעולה זו תתבצע רק אם אימות אינו נאכף על ידי השרת</string>
   <!-- Content description for images -->
   <string name="content_description_open_roller_shutter">פתח תריס גלילה</string>
   <string name="content_description_stop_roller_shutter">עצור תריס גלילה</string>
@@ -176,5 +176,5 @@
   <!-- Intro "SKIP" button -->
   <string name="app_intro_skip_button">דלג</string>
   <!-- Intro "DONE" button -->
-  <string name="app_intro_done_button">בוצע</string>
+  <string name="app_intro_done_button">סיים</string>
 </resources>
