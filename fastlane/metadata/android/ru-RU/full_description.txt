@@ -1,37 +1,33 @@
-openHAB - "empowering the smart home" - не зависящая от производителей и технологий домашняя автоматизация с открытым исходным кодом
+openHAB - "empowering the smart home" - vendor and technology agnostic open source home automation
 
-You can install the beta version alongside the stable version: [org.openhab.habdroid]
+Версия для F-Droid поддерживает просмотр карт. GCM и отчёты о сбоях удалены. Приложение не будет получать уведомления от openHub Cloud.
 
-The builds on F-Droid have map view support, GCM and crash reporting removed and will not be able to receive push notifications from openHAB Cloud.
+<b>Важное примечание</b>
 
-openHAB это основанная на Java платформа домашней автоматизации с открытым исходным кодом которая интегрирует и комбинирует большое разнообразие различных систем умного дома и технологий в единое решение.
-На вершине единой абстракции все подключенные устройства доступны для общих движков правил автоматизации и различных пользовательских интерфейсов.
+Для этого приложения необходим сервер openHAB
 
-'''Поддерживаемые продукты'''
+openHAB - это основанная на Java платформа домашней автоматизации с открытым исходным кодом, интегрирующая и комбинирующая в себе большое количество различных систем "умного дома" в единое решение.
+On top of the unified abstraction layer all connected devices are available for the overarching automation rule engines and different user interfaces.
 
-Более 200 определенных дополнений обеспечивают поддержку марок, устройств, технологий и протоколов связи. Примеры: Z-Wave, Philips Hue, Amazon Echo, Chromecast и Sonos. Откройте для себя все доступные дополнения и поддерживаемые устройства и/или функции на: https://docs.openhab.org/addons/bindings.html
+<b>Поддерживаемые продукты</b>
 
-• Решения для домашней автоматизации: Z-Wave, EnOcean, Netatmo, Homematic, Insteon, ...
-• Освещение: Philips Hue, Ikea Trådfri, LIFX, Lutron, Milight, ...
-• Обогрев: Max!, Nest, Vitotronic, Heatmiser, ...
-• Домашние развлечения: Samsung TV, LG TV, Sonos, Pioneer AVR, Squeezebox, Kodi, Plex, ...
-• Безопасность: ZoneMinder, DSC, ...
+ Для примера: Z-Wave, Philips Hue, Amazon Echo, Chromecast и Sonos. 
+
+• Решения для автоматизации: Z-Wave, EnOcean, Netatmo, Homematic, Insteon, ...
+• Освещение: Philips Hue, Ikea Trådfri, LIFX, Lutron, Milight,...
+• Отопление: Max!, Nest, Vitotronic, Heatmiser, ...
+• Домашняя электроника: Samsung TV, LG TV, Sonos, Pioner AVR, Squeezebox, Kodi, Plex, ...
+• Охранные системы: ZoneMinder, DSC, ...
 • Открытые протоколы: HTTP, TCP/UDP, MQTT, Serial, ...
-• Особые сценарии использования: Minecraft, Tesla Car, Weather Services, ...
+• Дополнительно: Minecraft, Tesla Car, Weather Services, ...
 • ...
 
-'''Сообщество свободного программного обеспечения'''
+<b>Сообщество Open Source</b>
 
-openHAB сильно поддерживает его активное сообщество. Форум более чем c 13,000 зарегистрированных пользователей это место для поиска руководств, помощи и вдохновения. Присоединяйтесь к форуму сообщества openHAB на https://community.openhab.org
+ Форум, с более чем 13 000 зарегистрированных пользователей, это место, где можно найти рекомендации, помощь и идеи для новых решений. Присоединяйтесь к сообществу openHAB на https://community.openhab.org
+Если вы нашли ошибку, пожалуйста, сообщите об этом на форуме или на https://github.com/openhab/openhab-android/issues
+Если Вы хотите перевести приложение на свой язык - присоединяйтесь к нам на https://crowdin.com/project/openhab-android
 
-Если вы найдете ошибку, пожалуйста, сообщите об этом на форуме или на https://github.com/openhab/openhab-android/issues
+<b>Cообщество openHAB</b>
 
-Если Вы хотите перевести приложение на свой язык, то присоединяйтесь к нам на https://crowdin.com/project/openhab-android
-
-'''Фонд openHAB'''
-
-openHAB Foundation e.V. это некоммерческая организация, миссия которой научить людей о возможностях и преимуществах свободных и открытых решений умного дома. Узнайте о миссии и сервисах фонда на https://www.openhabfoundation.org
-
-'''Важное примечание'''
-
-Вам нужен сервер openHAB для этого приложения
+ Узнайте о задачах openHAB Foundation на https://www.openhabfoundation.org

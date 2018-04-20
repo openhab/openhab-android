@@ -1,37 +1,35 @@
-openHAB - "empowering the smart home" - vendor and technology agnostic open source home automation
+openHAB - "empowering the smart home" - بغض النظر عن المزودين والتكنلوجيا ، أتمتة البيوت المفتوح المصدر
 
-You can install the beta version alongside the stable version: [org.openhab.habdroid]
+إصدارات F-Droid تدعم عرض الخريطة، تراسل سحابة جوجل GCM بينما حذفت تقارير الإنهيار ومن غير الممكن إستقبال الإشعارات من سحابة openHAB.
 
-The builds on F-Droid have map view support, GCM and crash reporting removed and will not be able to receive push notifications from openHAB Cloud.
+<b>ملاحظة هامة</b>
 
-openHAB is a Java-based open-source home automation platform that integrates and combines a vast range of different smart home systems and technologies into one single solution.
-On top of the unified abstraction layer all connected devices are available for the overarching automation rule engines and different user interfaces.
+أنت بحاجة إلى خادم openHAB لهذا التطبيق
 
-'''Supported Products'''
+openHAB مبنية على الجافا ومفتوحة المصدر ، منصة أتمتة البيوت اللتي تتكامل وتدمج نطاق كبير من أنظمة وتكنلوجيا البيوت الذكبة في حل واحد.
+على قمة الطبقات المجردة الموحدة، جميع الأجهزة المتصلة قابلة لقاعدة محركات أتمتة شاملة و واجهات مستخدم متوعة.
 
-Over 200 specific add-ons provide support for brands, devices, technologies and communication protocols. Examples are Z-Wave, Philips Hue, Amazon Echo, Chromecast and Sonos. Discover all available add-ons and supported devices and/or functions at: https://docs.openhab.org/addons/bindings.html
+<b>منتجات مدعومة</b>
 
-• Home Automation Solutions: Z-Wave, EnOcean, Netatmo, Homematic, Insteon, ...
-• Lighting: Philips Hue, Ikea Trådfri, LIFX, Lutron, Milight, ...
-• Heating: Max!, Nest, Vitotronic, Heatmiser, ...
-• Home Entertainment: Samsung TV, LG TV, Sonos, Pioneer AVR, Squeezebox, Kodi, Plex, ...
-• Security: ZoneMinder, DSC, ...
-• Open Protocols: HTTP, TCP/UDP, MQTT, Serial, ...
-• Special UseCases: Minecraft, Tesla Car, Weather Services, ...
+ما يزيد على 200 من إضافات محددة توفر الدعم لماركات أجهزة وتقنيات وبروتوكولات الاتصال. مثال زد-ويف، فيليبس هيو، أمازون إيكو، كرومكاست، و سونوس.
+https://docs. openhab. org/addons/bindings. html. أكتشف كل الإضافات المتوفرة والأجهزة المدعومة و/أو الوظائف عبر: 
+https://docs.openhab.org/addons/bindings.html
+
+• حلول أتمتة المنزل: زد-ويف، إنأوشن، نتانتو، هوميتريك، إنستون، ...
+• الإضاءة: فيليبس هوي ، ترادفري ، ايكيا، ليف، لوتون ، ميليت،...
+• تدفئة: ماكس!، نست، فيتوترونيك، هياتميسير،...
+• الترفيه المنزلي: تلفاز سامسونج، تلفاز ال جي، سونوس، بيونير إي في آر ، سكويزبوكس، كودي، بلكس ،...
+• الأمن: زونيميندير، دي أس سي،...
+البروتوكولات المفتوحة: HTTP, TCP/UDP, MQTT, Serial, ...
+حالات إستخدام خاصة: مينكرافت، سيارة تيسلا، خدمات الطقس، ...
 • ...
 
-'''Open Source Community'''
+<b>مجتمع المصدر المفتوح</b>
 
-The openHAB open source initiative strongly supports its vibrant community. The forum with over 13,000 registered users is a place to find guidance, help and inspiration. Join the openHAB community forum over at https://community.openhab.org
+openHAB مبادرة المصدر المفتوح مدعومة بقوة من مجتمع نابض بالحياة. منتدى مكون من أكثر من 13,000 مستخدم مسجل، مكان مناسب للحصول على إرشادات، مساعدات، والإلهام. الانضمام إلى منتدى المجتمع أوبينهاب عبر https://community.openhab.org
+نرجو أن تقوم بالإبلاغ عند وجود أي مشكلة عبر المنتدى أو على https://github.com/openhab/openhab-android/issues
+إذا كنت ترغب في ترجمة التطبيق إلى لغتك انظم إلينا في https://crowdin.com/project/openhab-android
 
-When you found an issue please report it in the forum or at https://github.com/openhab/openhab-android/issues
+<b>مؤسسة openHAB</b>
 
-If you want to translate the app into your language join us at https://crowdin.com/project/openhab-android
-
-'''openHAB Foundation'''
-
-The openHAB Foundation e.V. is a nonprofit organization with the mission to educate the public about the possibilities and benefits of free and open smart home solutions. Learn about the mission and the services of the foundation under https://www.openhabfoundation.org
-
-'''Important note'''
-
-You need an openHAB server for this app
+مؤسسة openHAB أ. ف. منظمة غير ربحية تحمل على عاتقها مهمة تثقيف الجمهور بخصوص إمكانيات ومزايا حلول المنازل الذكية الحرة والمفتوحة. معرفة المزيد عن المهمة وخدمات المؤسسة في https://www.openhabfoundation.org

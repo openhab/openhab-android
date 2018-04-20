@@ -1,37 +1,33 @@
-openHAB - "empowering the smart home" - vendor and technology agnostic open source home automation
+openHAB - "העצמת הבית החכם" - פרוייקט קוד פתוח לבית חכם לאנשים וחברות בראייה טכנולוגית מתקדמת
 
-You can install the beta version alongside the stable version: [org.openhab.habdroid]
+תוכנות עבור F-Droid מכילות תצוגת מיפוי, GCM ודיווחי שגיאה על התרסקות הוסרו ולא יוכלו לקבל התראות בדחיפה מענן openHAB.
 
-The builds on F-Droid have map view support, GCM and crash reporting removed and will not be able to receive push notifications from openHAB Cloud.
+<b>הערה חשובה</b>
 
-openHAB is a Java-based open-source home automation platform that integrates and combines a vast range of different smart home systems and technologies into one single solution.
-On top of the unified abstraction layer all connected devices are available for the overarching automation rule engines and different user interfaces.
+יש צורך בשרת openHAB עבור יישום זה
 
-'''Supported Products'''
+openHAB היא פלטפורמת אוטומציה ביתית מבוססת קוד פתוח מבוססת Java, המשלבת מגוון רחב של מערכות וטכנולוגיות ביתיות חכמות לפתרון אחד.
+קיימת אפשרות לבצע אוטומציה, להגדיר כללים וממשקי משתמש שונים ומגוונים על גבי שכבת הרכיבים המחוברים.
 
-Over 200 specific add-ons provide support for brands, devices, technologies and communication protocols. Examples are Z-Wave, Philips Hue, Amazon Echo, Chromecast and Sonos. Discover all available add-ons and supported devices and/or functions at: https://docs.openhab.org/addons/bindings.html
+<b>מוצרים נתמכים</b>
 
-• Home Automation Solutions: Z-Wave, EnOcean, Netatmo, Homematic, Insteon, ...
-• Lighting: Philips Hue, Ikea Trådfri, LIFX, Lutron, Milight, ...
-• Heating: Max!, Nest, Vitotronic, Heatmiser, ...
-• Home Entertainment: Samsung TV, LG TV, Sonos, Pioneer AVR, Squeezebox, Kodi, Plex, ...
-• Security: ZoneMinder, DSC, ...
-• Open Protocols: HTTP, TCP/UDP, MQTT, Serial, ...
-• Special UseCases: Minecraft, Tesla Car, Weather Services, ...
+למעלה מ-200 תוספים מספקים תמיכה עבור מותגים, התקנים, טכנולוגיות ופרוטוקולי תקשורת. כמה דוגמאות: Amazon Echo, Chromecast, Philips Hue, Z-Wave ו- Sonos. גלה את כל ההרחבות הזמינות, ההתקנים הנתמכים ו/או פונקציות ב: https://docs.openhab.org/addons/bindings.html
+
+• פתרונות אוטומציה ביתית: EnOcean, Netatmo, Homematic, Insteon, Z-Wave,...
+• תאורה: LIFX, Lutron, Milight, IKEA Trådfri ,Philips Hue,...
+• חימום: MAX!, NEST, Vitotronic, Heatmiser,...
+• בידור ביתי: טלוויזיות סמסונג, טלוויזיות אל-ג'י, Sonos ,AVR, פיוניר ,Squeezebox, Kodi, Plex,...
+• אבטחה: ZoneMinder, DSC,...
+• פרוטוקולים פתוחים: HTTP, TCP/UDP, MQTT, יציאה טורית,...
+• שימושים מיוחדים: Minecraft, מכוניות טסלה, שירותי מזג אוויר,...
 • ...
 
-'''Open Source Community'''
+<b>קהילת הקוד הפתוח</b>
 
-The openHAB open source initiative strongly supports its vibrant community. The forum with over 13,000 registered users is a place to find guidance, help and inspiration. Join the openHAB community forum over at https://community.openhab.org
+היוזמה הפתוחה של OpenHAB תומכת מאוד בקהילתה התוססת. הפורום עם יותר מ 13,000 משתמשים רשומים הוא מקום למצוא הדרכה, עזרה והשראה. הצטרף לפורום קהילת openHAB ב https://community.openhab.org
+אם מצאת תקלה אנא דווח על כך בפורום או ב- https://github.com/openhab/openhab-android/issues
+אם את או אתה רוצים לעזור לתרגם את היישום לשפתך הצטרפו אלינו https://crowdin.com/project/openhab-android
 
-When you found an issue please report it in the forum or at https://github.com/openhab/openhab-android/issues
+<b>ארגון openHAB</b>
 
-If you want to translate the app into your language join us at https://crowdin.com/project/openhab-android
-
-'''openHAB Foundation'''
-
-The openHAB Foundation e.V. is a nonprofit organization with the mission to educate the public about the possibilities and benefits of free and open smart home solutions. Learn about the mission and the services of the foundation under https://www.openhabfoundation.org
-
-'''Important note'''
-
-You need an openHAB server for this app
+קרן openHAB הוא ארגון ללא מטרות רווח שמשימתו היא לחנך את הציבור על האפשרויות והיתרונות של שימוש בפתרונות חופשיים ופתוחים של בית חכם. למד אודות משימתו ושירותיו של הארגון ב https://www.openhabfoundation.org

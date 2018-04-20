@@ -1,37 +1,33 @@
-openHAB - "empowering the smart home" - Teknologia- ja valmistajariippumatonta, avoimen lähdekoodin kotiautomaatiota
+openHAB - "empowering the smart home" - vendor and technology agnostic open source home automation
 
-Voit asentaa beta version vakaan version rinnalle: [org.openhab.habdroid]
+The builds on F-Droid have map view support, GCM and crash reporting removed and will not be able to receive push notifications from openHAB Cloud.
 
-F-Droid sovelluskaupasta ladatuissa koontiversioissa on tuki karttanäytölle, mutta GCM ja kaatumisilmoitukset ovat pois käytöstä eikä ilmoitukset openHAB pilvestä ole käytettävissä.
+<b>Important note</b>
 
-openHAB on Java-pohjainen avoimen lähdekoodin kotiautomaatioalusta. Se yhdistää laajan valikoiman useiden valmistajien älykotilaitteita ja eri teknologioita yhdeksi ratkaisuksi.
-Kaikki yhdistetyt laitteet ovat käytettävissä erilaisissa käyttöliittymissä sekä ohjelmoitaessa automaatiologiikkaa.
+You need an openHAB server for this app
 
-'''Tuetut laitteet ja tuotteet'''
+openHAB is a Java-based open-source home automation platform that integrates and combines a vast range of different smart home systems and technologies into one single solution.
+On top of the unified abstraction layer all connected devices are available for the overarching automation rule engines and different user interfaces.
 
-Yli 200 erillistä lisäosaa tarjoaa tuen eri tuotteille, laitteille, teknologioille sekä yhteysprotokollille. Esimerkkeinä Z-Wave, Philips Hue, Amazon Echo, Chromecast ja Sonos. Löydät kaikki saatavilla olevat lisäosat, tuetut laitteet ja/tai toiminnot osoitteesta: https://docs.openhab.org/addons/bindings.html
+<b>Supported Products</b>
 
-• Kotiautomaatioratkaisut: Z-Wave, EnOcean, Netatmo, Homematic, Insteon, ...
-• Valaistus: Philips Hue, Ikea Trådfri, LIFX, Lutron, Milight, ...
-• Lämmitys: Max!, Nest, Vitotronic, Heatmiser, ...
-• Viihdelaitteet: Samsung TV, LG TV, Sonos, Pioneer AVR, Squeezebox, Kodi, Plex, ...
-• Turvallisuus: ZoneMinder, DSC, ...
-• Avoimet protokollat: HTTP, TCP/UDP, MQTT, Serial, ...
-• Erityiset käyttökohteet: Minecraft, Tesla Car, Weather Services, ...
+Over 200 specific add-ons provide support for brands, devices, technologies and communication protocols. Examples are Z-Wave, Philips Hue, Amazon Echo, Chromecast and Sonos. Discover all available add-ons and supported devices and/or functions at: https://docs.openhab.org/addons/bindings.html
+
+• Home Automation Solutions: Z-Wave, EnOcean, Netatmo, Homematic, Insteon, ...
+• Lighting: Philips Hue, Ikea Trådfri, LIFX, Lutron, Milight, ...
+• Heating: Max!, Nest, Vitotronic, Heatmiser, ...
+• Home Entertainment: Samsung TV, LG TV, Sonos, Pioneer AVR, Squeezebox, Kodi, Plex, ...
+• Security: ZoneMinder, DSC, ...
+• Open Protocols: HTTP, TCP/UDP, MQTT, Serial, ...
+• Special UseCases: Minecraft, Tesla Car, Weather Services, ...
 • ...
 
-'''Avoimen lähdekoodin yhteisö'''
+<b>Open Source Community</b>
 
-openHABin avoimen lähdekoodin ratkaisu tukee voimakkaasti sen eläväistä yhteisöä. Yli 13000 rekisteröityneen käyttäjän foorumi on paikka josta löydät ohjausta, apua ja inspiraatiota. Liity openHAB yhteisön foorumille osoitteessa https://community.openhab.org
+The openHAB open source initiative strongly supports its vibrant community. The forum with over 13,000 registered users is a place to find guidance, help and inspiration. Join the openHAB community forum over at https://community.openhab.org
+When you find an issue please report it in the forum or at https://github.com/openhab/openhab-android/issues
+If you want to translate the app into your language join us at https://crowdin.com/project/openhab-android
 
-Löytäessäsi ongelman ilmoita siitä foorumilla tai https://github.com/openhab/openhab-android/issues
+<b>openHAB Foundation</b>
 
-Jos haluat kääntää tämän sovelluksen omalle kielellesi niin liity mukaan osoitteessa https://crowdin.com/project/openhab-android
-
-'''openHAB Säätiö'''
-
-openHAB Säätiö on voittoa tavoittelematon järjestö, jonka tavoitteena on kertoa yleisölle ilmaisten ja avoimien älykotisovellusten mahdollisuuksista ja eduista. Lisätietoja järjestön tavoitteesta ja palveluista löydät osoitteesta https://www.openhabfoundation.org
-
-'''Tärkeä huomautus'''
-
-Tarvitset openHAB palvelimen tätä sovellusta varten
+The openHAB Foundation e.V. is a nonprofit organization with the mission to educate the public about the possibilities and benefits of free and open smart home solutions. Learn about the mission and the services of the foundation under https://www.openhabfoundation.org

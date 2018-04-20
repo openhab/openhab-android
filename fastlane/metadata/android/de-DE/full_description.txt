@@ -1,15 +1,17 @@
 openHAB - "empowering the smart home" - eine technologie- und herstellerunabhängige, quelloffene Automatisierungslösung für Ihr Zuhause
 
-Sie können die Betaversion neben der stabilen Version installieren: [org.openhab.habdroid]
-
 In der F-Droid-Version wurden die Unterstützung für Mapview-Elemente, GCM und die Übermittlung von Absturzberichten entfernt. Mit dieser Version können keine Nachrichten von einer openHAB-Cloud-Instanz empfangen werden.
+
+<b>Wichtiger Hinweis</b>
+
+Um diese App zu nutzen, benötigen Sie einen openHAB-Server
 
 openHAB ist eine auf Java basierende quelloffene Plattform zur Heimautomatisierung, welche eine große Bandbreite verschiedenster Smart-Home-Systeme und -Technologien in eine einzige Lösung integriert und kombiniert.
 Aufbauend auf einer vereinheitlichten Abstraktionsschicht sind alle Geräte für die übergreifenden Automatisierungs- bzw. Regelmöglichkeiten und die verschiedenen Benutzeroberflächen verfügbar.
 
-'''Unterstützte Produkte'''
+<b>Unterstützte Produkte</b>
 
-Über 200 spezifische Add-Ons stellen Unterstützung für Marken, Geräte, Technologien und Kommunikations-Protokolle zur Verfügung. Beispiele hierfür sind unter anderem Z-Wave, Philips Hue, Amazon Echo, Chromecast und Sonos. Eine Übersicht aller verfügbaren Add-Ons und unterstützten Geräte finden Sie unter: https://docs.openhab.org/addons/bindings.html
+Über 200 spezifische Add-Ons stellen Unterstützung für Marken, Geräte, Technologien und Kommunikations-Protokolle zur Verfügung. Beispiele hierfür sind unter anderem Z-Wave, Philips Hue, Amazon Echo, Chromecast, Sonos und FRITZ!Box. Entdecken Sie alle verfügbaren Erweiterungen und unterstützte Geräte und/oder Funktionen auf: https://docs.openhab.org/addons/bindings.html
 
 • Heimautomatisierungslösungen: Z-Wave, EnOcean, Netatmo, Homematic, Insteon, ...
 • Licht: Philips Hue, Ikea Trådfri, LIFX, Lutron, Milight, ...
@@ -17,21 +19,15 @@ Aufbauend auf einer vereinheitlichten Abstraktionsschicht sind alle Geräte für
 • Heimunterhaltung: Samsung TV, LG TV, Sonos, Pioneer AVR, Squeezebox, Kodi, Plex, ...
 • Sicherheitstechnik: ZoneMinder, DSC, ...
 • Offene Protokolle: HTTP, TCP/UDP, MQTT, Serial, ...
-• Spezialfälle: Minecraft, Tesla Car, Weather Services, ...
+• Spezielle Anwendungsfälle: Minecraft, Tesla Auto, Wetterdienste,...
 • ...
 
-'''Open-Source-Community'''
+<b>Open-Source-Community</b>
 
-Die quelloffene openHAB Initiative unterstützt nachdrücklich ihre lebhafte Community. Das Forum (mit über 13.000 registrierten Mitgliedern) ist ein Ort an dem man Anleitung, Hilfe und Inspiration findet. Treten Sie dem openHAB-Community-Forum unter https://community.openhab.org bei.
-
+Die quelloffene openHAB Initiative unterstützt nachdrücklich ihre lebhafte Community. Das Forum (mit über 13.000 registrierten Mitgliedern) ist ein Ort an dem man Anleitung, Hilfe und Inspiration findet. Besuchen Sie das openHAB-Community-Forum auf https://community.openhab.org
 Wenn Sie einen Fehler gefunden haben, melden Sie diesen bitte im Forum oder unter https://github.com/openhab/openhab-android/issues
-
 Helfen Sie uns, diese App in Ihre Sprache zu übersetzen: https://crowdin.com/project/openhab-android
 
-'''openHAB Foundation e.V.'''
+<b>openHAB Foundation e.V.</b>
 
-Die openHAB Foundation e.V. ist eine gemeinnützige Organisation mit dem Ziel die Öffentlichkeit über die Möglichkeiten und Vorteile von freien und offenen Smart-Home-Lösungen zu informieren. Erfahren Sie mehr über die Ziele und Angebote der Foundation unter https://www.openhabfoundation.org
-
-'''Wichtiger Hinweis'''
-
-Um diese App zu nutzen, benötigen Sie einen openHAB-Server
+Die openHAB Foundation e.V. ist ein gemeinnütziger Verein mit dem Ziel, die Öffentlichkeit über die Möglichkeiten und den Nutzen von kostenlosen und offenen Smart Home Lösungen aufzuklären. Erfahren Sie mehr über die Ziele und Angebote der Foundation unter https://www.openhabfoundation.org
