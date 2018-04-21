@@ -170,7 +170,7 @@
   <string name="content_description_open_number_picker">فتح منتقي الرقم</string>
   <string name="content_description_video">فيديو</string>
   <string name="content_description_open_openhab">افتح openHAB</string>
-  <string name="swipe_to_refresh_description">التطبيق يتحدث تلقائيا، لست بحاجة إلا فعلها يدويا</string>
+  <string name="swipe_to_refresh_description">التطبيق يتحدث تلقائيا، لست بحاجة إلى تحديثه يدويا</string>
   <string name="swipe_to_refresh_dismiss">أعي ذلك!</string>
   <!-- Intro strings -->
   <!-- Intro "SKIP" button -->
