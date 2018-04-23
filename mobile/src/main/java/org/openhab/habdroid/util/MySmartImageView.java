@@ -205,6 +205,6 @@ public class MySmartImageView extends SmartImageView {
 
     private void doRefresh() {
         mLastRefreshTimestamp = SystemClock.uptimeMillis();
-        setImage(new MyWebImage(myImageUrl, false, username, password), imageCompletionListener);
+        setImage(new MyWebImage(myImageUrl, true, username, password), imageCompletionListener);
     }
 }
