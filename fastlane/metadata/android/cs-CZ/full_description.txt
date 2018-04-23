@@ -1,6 +1,7 @@
 openHAB - "empowering the smart home" - open source program pro domácí automatizaci, kterým můžete spravovat např. IoT zařízení od různých výrobců, bez ohledu na jimi použitou technologii
 
 F-Droid podporuje zobrazení mapy, GCM a notifikace byly odebrány a tedy nelze přijímat push notifikace z openHAB cloudu.
+Můžete nainstalovat beta verzi vedle stabilní verze: [[org.openhab.habdroid]]
 
 <b>Důležitá poznámka</b>
 
