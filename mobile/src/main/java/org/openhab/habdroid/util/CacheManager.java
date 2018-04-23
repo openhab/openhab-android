@@ -33,7 +33,13 @@ public class CacheManager {
 
     private CacheManager(Context appContext) {
         mHttpCache = new Cache(new File(appContext.getCacheDir(), "http"), 2 * 1024 * 1024);
-        mBitmapCache = new LruCache<HttpUrl, Bitmap>(2048) {
+
+        // Get max available VM memory, exceeding this amount will throw an
+        // OutOfMemory exception. Stored in kilobytes as LruCache takes an
+        // int in its constructor.
+        final int maxMemory = (int) (Runtime.getRuntime().maxMemory() / 1024);
+        // Use up to 1/8 of the available VM memory for the bitmap cache
+        mBitmapCache = new LruCache<HttpUrl, Bitmap>(maxMemory / 8) {
             @Override
             protected int sizeOf(HttpUrl key, Bitmap value) {
                 return value.getByteCount() / 1024;

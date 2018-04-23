@@ -281,11 +281,16 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
     }
 
     public void setSelectedPosition(int position) {
+        if (mSelectedPosition == position) {
+            return;
+        }
         if (mSelectedPosition >= 0) {
             notifyItemChanged(mSelectedPosition);
         }
         mSelectedPosition = position;
-        notifyItemChanged(position);
+        if (position >= 0) {
+            notifyItemChanged(position);
+        }
     }
 
     @Override
