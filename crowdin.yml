@@ -4,6 +4,9 @@ files:
     languages_mapping:
       two_letters_code:
         pt-BR: pt-rBR
+        he: iw
+        id: in
+    translate_content: '0'
   - source: /assets/store_descriptions/en-US/strings.xml
     translation: /assets/store_descriptions/%locale%/%original_file_name%
   - source: /mobile/src/beta/res/values/strings.xml
