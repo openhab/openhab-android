@@ -1,6 +1,7 @@
 openHAB - "empowering the smart home" - leverancier en technologie onafhankelijke open source domotica software
 
 Bij de F-Droid versie is kaartweergave ondersteuning, GCM en crash rapportage verwijderd en de app zal geen push-meldingen kunnen ontvangen van de openHAB Cloud.
+De beta versie kan geïnstalleerd worden naast de stabiele versie: [[org.openhab.habdroid]]
 
 <b>Belangrijke opmerking</b>
 
