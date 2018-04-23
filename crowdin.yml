@@ -6,6 +6,7 @@ files:
         pt-BR: pt-rBR
         he: iw
         id: in
+        yi: ji
     translate_content: '0'
   - source: /assets/store_descriptions/en-US/strings.xml
     translation: /assets/store_descriptions/%locale%/%original_file_name%
