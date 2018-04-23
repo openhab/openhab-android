@@ -15,13 +15,22 @@ files:
     languages_mapping:
       two_letters_code:
         pt-BR: pt-rBR
+        id: in
+        yi: ji
+        he: iw
   - source: /mobile/src/foss/res/values/strings.xml
     translation: /mobile/src/foss/res/values-%two_letters_code%/%original_file_name%
     languages_mapping:
       two_letters_code:
         pt-BR: pt-rBR
+        he: iw
+        id: in
+        yi: ji
   - source: /mobile/src/full/res/values/strings.xml
     translation: /mobile/src/full/res/values-%two_letters_code%/%original_file_name%
     languages_mapping:
       two_letters_code:
         pt-BR: pt-rBR
+        he: iw
+        id: in
+        yi: ji
