@@ -9,146 +9,113 @@
 
 package org.openhab.habdroid.util;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Handler;
-import android.os.Message;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import android.widget.ImageView;
 
 import java.io.IOException;
-import java.io.InputStream;
 
-import okhttp3.Authenticator;
 import okhttp3.Credentials;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-import okhttp3.Route;
 
 public class MjpegStreamer {
-
     private static final String TAG = MjpegStreamer.class.getSimpleName();
+
     private String mSourceUrl;
     private String mUsername;
     private String mPassword;
-    private MjpegInputStream mInputStream;
-    private boolean mRunning = false;
     private Handler mHandler;
-    private Context mCtx;
-    private int mId;
-    private ImageView mTargetImageView;
     private DownloadImageTask mDownloadImageTask;
 
-    public MjpegStreamer(String sourceUrl, String username, String password, Context ctx){
+    public MjpegStreamer(ImageView view, String sourceUrl, String username, String password) {
         mSourceUrl = sourceUrl;
         mUsername = username;
         mPassword = password;
-        mCtx = ctx;
-        mHandler = new Handler(new Handler.Callback() {
-            @Override
-            public boolean handleMessage(Message msg) {
+        mHandler = new Handler(msg -> {
+            if (mDownloadImageTask != null) {
                 Bitmap bmp = (Bitmap) msg.obj;
-                if (mTargetImageView != null)
-                    mTargetImageView.setImageBitmap(bmp);
-                return false;
+                view.setImageBitmap(bmp);
             }
+            return false;
         });
     }
 
     public void start() {
-        mDownloadImageTask = startTask(this, 1, false, mHandler);
+        mDownloadImageTask = new DownloadImageTask();
+        mDownloadImageTask.execute();
     }
 
     public void stop() {
-        if (mDownloadImageTask != null)
+        if (mDownloadImageTask != null) {
             mDownloadImageTask.cancel(true);
-    }
-
-    public void setTargetImageView(ImageView targetImageView) {
-        mTargetImageView = targetImageView;
-    }
-
-    public void startStream(Handler handler, int id){
-        mHandler = handler;
-        mId = id;
-        mInputStream = new MjpegInputStream(httpRequest(mSourceUrl, mUsername, mPassword));
-        mRunning = true;
-    }
-
-    public void getFrame(){
-        Bitmap mBitmap;
-        try {
-            mBitmap = mInputStream.readMjpegFrame();
-            Message m = mHandler.obtainMessage(mId, mBitmap);
-            m.sendToTarget();
-        } catch (IOException e) {
-            Log.e(TAG, e.getMessage(), e);
+            mDownloadImageTask = null;
         }
     }
 
-    public InputStream httpRequest(String url, final String usr, final String pwd){
+    @NonNull
+    private MjpegInputStream startStream() throws IOException {
         Request request = new Request.Builder()
-                .url(url)
+                .url(mSourceUrl)
                 .build();
         OkHttpClient client = new OkHttpClient.Builder()
-                .authenticator(new Authenticator() {
-                    @Override
-                    public Request authenticate(Route route, Response response) throws IOException {
-                        Log.d(TAG, "Authenticating for response: " + response);
-                        Log.d(TAG, "Challenges: " + response.challenges());
-                        // Get username/password from preferences
-                        String credential = Credentials.basic(usr, pwd);
-                        return response.request().newBuilder()
-                                .header("Authorization", credential)
-                                .build();
-                    }
+                .authenticator((route, response) -> {
+                    Log.d(TAG, "Authenticating for response: " + response);
+                    Log.d(TAG, "Challenges: " + response.challenges());
+                    String credential = Credentials.basic(mUsername, mPassword);
+                    return response.request().newBuilder()
+                            .header("Authorization", credential)
+                            .build();
                 })
                 .build();
 
-        try {
-            Log.d(TAG, "1. Sending http request");
-            Response response = client.newCall(request).execute();
-            Log.d(TAG, "2. Request finished, status = " + response.code());
-            if (response.code()==401){
-                //You must turn off camera User Access Control before this will work
-                return null;
-            }
-            return response.body().byteStream();
-        } catch (IOException e) {
-            Log.e(TAG, "Request failed-IOException", e);
-            //Error connecting to camera
+        Response response = client.newCall(request).execute();
+        Log.d(TAG, "MJPEG request finished, status = " + response.code());
+        if (!response.isSuccessful()) {
+            throw new HttpException(response.code());
         }
-
-        return null;
-
+        return new MjpegInputStream(response.body().byteStream());
     }
 
-    private DownloadImageTask startTask(MjpegStreamer cam, int id, boolean useParallelExecution, Handler h) {
-        DownloadImageTask task = new DownloadImageTask(cam, id);
-        if (useParallelExecution) {
-            task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-        } else {
-            task.execute(h);
+    private static class HttpException extends IOException {
+        public HttpException(int code) {
+            super("HTTP failure code " + code);
         }
-        return task;
     }
 
-    private class DownloadImageTask extends AsyncTask<Handler, Void, Void> {
-        MjpegStreamer cam;
-        int id;
-        DownloadImageTask(MjpegStreamer cam, int id){
-            this.cam = cam;
-            this.id = id;
-        }
-
-        protected Void doInBackground(Handler... h) {
-            cam.startStream(h[0], id);
+    private class DownloadImageTask extends AsyncTask<Void, Void, Void> {
+        @Override
+        protected Void doInBackground(Void... params) {
             while (!isCancelled()) {
-                cam.getFrame();
+                try {
+                    doStreamOnce();
+                } catch (IOException e) {
+                    Log.e(TAG, "MJPEG streaming from " + mSourceUrl + " failed", e);
+                    if (e instanceof HttpException) {
+                        // no point in continuing if the server returned failure
+                        break;
+                    }
+                }
             }
             return null;
+        }
+
+        private void doStreamOnce() throws IOException {
+            try (MjpegInputStream stream = startStream()) {
+                while (!isCancelled()) {
+                    Bitmap bitmap = stream.readMjpegFrame();
+                    mHandler.obtainMessage(0, bitmap).sendToTarget();
+                }
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            mDownloadImageTask = null;
         }
     }
 }
