@@ -211,10 +211,7 @@ public class WidgetImageView extends AppCompatImageView {
     }
 
     private void applyFallbackDrawable() {
-        // XXX: what if it's null?
-        if (mFallback != null) {
-            setImageDrawable(mFallback);
-        }
+        super.setImageDrawable(mFallback);
     }
 
     private void applyProgressDrawable() {
