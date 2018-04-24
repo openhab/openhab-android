@@ -52,7 +52,7 @@
     <string name="settings_chart_scaling_summary">Note: Smaller scaling shrinks fonts and line widths, so there\'s more space for the graph, but font readability may suffer.</string>
     <string name="settings_chart_scaling_value_xs">Very small</string>
     <string name="settings_chart_scaling_value_s">Small</string>
-    <string name="settings_chart_scaling_value_m">Medium</string>
+    <string name="settings_chart_scaling_value_m">Default</string>
     <string name="settings_chart_scaling_value_l">Large</string>
     <string name="settings_ringtone">Ring tone</string>
     <string name="settings_clear_default_sitemap">Clear default sitemap</string>
