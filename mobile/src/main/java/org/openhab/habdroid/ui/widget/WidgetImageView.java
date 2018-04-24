@@ -169,7 +169,7 @@ public class WidgetImageView extends AppCompatImageView {
             switch (MeasureSpec.getMode(widthMeasureSpec)) {
                 case MeasureSpec.AT_MOST:
                 case MeasureSpec.EXACTLY:
-                    setMeasuredDimension(specWidth, (int) (1.0f * specWidth / mEmptyHeightToWidthRatio));
+                    setMeasuredDimension(specWidth, (int) (mEmptyHeightToWidthRatio * specWidth));
                     break;
             }
         } else if (!isEmpty && mMaxHeightToWidthRatio > 0) {
