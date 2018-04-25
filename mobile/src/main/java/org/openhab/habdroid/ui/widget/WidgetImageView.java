@@ -20,12 +20,12 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.view.ViewGroup;
 
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.core.connection.Connection;
 import org.openhab.habdroid.util.AsyncHttpClient;
 import org.openhab.habdroid.util.CacheManager;
+import org.openhab.habdroid.util.HttpClient;
 
 import java.lang.ref.WeakReference;
 
@@ -123,7 +123,7 @@ public class WidgetImageView extends AppCompatImageView {
         }
 
         if (cached == null || forceLoad) {
-            mLastRequest = new HttpImageRequest(client, actualUrl);
+            mLastRequest = new HttpImageRequest(client, actualUrl, forceLoad);
             mLastRequest.execute();
         }
     }
@@ -234,12 +234,16 @@ public class WidgetImageView extends AppCompatImageView {
     private class HttpImageRequest extends AsyncHttpClient.BitmapResponseHandler {
         private final AsyncHttpClient mClient;
         private final HttpUrl mUrl;
+        private final HttpClient.CachingMode mCachingMode;
         private Call mCall;
 
-        public HttpImageRequest(AsyncHttpClient client, HttpUrl url) {
+        public HttpImageRequest(AsyncHttpClient client, HttpUrl url, boolean avoidCache) {
             super(mDefaultSvgSize);
             mClient = client;
             mUrl = url;
+            mCachingMode = avoidCache
+                    ? HttpClient.CachingMode.AVOID_CACHE
+                    : HttpClient.CachingMode.FORCE_CACHE_IF_POSSIBLE;
         }
 
         @Override
@@ -258,7 +262,7 @@ public class WidgetImageView extends AppCompatImageView {
 
         public void execute() {
             Log.i(TAG, "Refreshing image at " + mUrl);
-            mCall = mClient.get(mUrl.toString(), this);
+            mCall = mClient.get(mUrl.toString(), mCachingMode, this);
         }
 
         public void cancel() {

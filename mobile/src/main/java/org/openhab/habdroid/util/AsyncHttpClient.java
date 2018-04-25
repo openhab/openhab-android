@@ -104,20 +104,26 @@ public class AsyncHttpClient extends HttpClient {
 	}
 
     public <T> Call get(String url, ResponseHandler<T> responseHandler) {
-        return get(url, null, responseHandler);
+        return method(url, "GET", null, null, null, CachingMode.AVOID_CACHE, responseHandler);
     }
 
     public <T> Call get(String url, Map<String, String> headers, ResponseHandler<T> responseHandler) {
-        return method(url, "GET", headers, null, null, responseHandler);
+        return method(url, "GET", headers, null, null, CachingMode.AVOID_CACHE, responseHandler);
+    }
+
+    public <T> Call get(String url, CachingMode caching, ResponseHandler<T> responseHandler) {
+        return method(url, "GET", null, null, null, caching, responseHandler);
     }
 
     public Call post(String url, String requestBody, String mediaType, StringResponseHandler responseHandler) {
-        return method(url, "POST", null, requestBody, mediaType, responseHandler);
+        return method(url, "POST", null, requestBody,
+                mediaType, CachingMode.AVOID_CACHE, responseHandler);
     }
 
     private <T> Call method(String url, String method, Map<String, String> headers,
-            String requestBody, String mediaType, final ResponseHandler<T> responseHandler) {
-        Call call = prepareCall(url, method, headers, requestBody, mediaType);
+            String requestBody, String mediaType, CachingMode caching,
+            final ResponseHandler<T> responseHandler) {
+        Call call = prepareCall(url, method, headers, requestBody, mediaType, caching);
         call.enqueue(new Callback() {
             @Override
             public void onFailure(final Call call, final IOException e) {

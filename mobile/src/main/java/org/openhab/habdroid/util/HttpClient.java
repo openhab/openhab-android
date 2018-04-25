@@ -40,6 +40,7 @@ import javax.net.ssl.X509KeyManager;
 import javax.net.ssl.X509TrustManager;
 
 import de.duenndns.ssl.MemorizingTrustManager;
+import okhttp3.CacheControl;
 import okhttp3.Call;
 import okhttp3.Credentials;
 import okhttp3.HttpUrl;
@@ -50,6 +51,12 @@ import okhttp3.RequestBody;
 
 public abstract class HttpClient {
     private static final String TAG = HttpClient.class.getSimpleName();
+
+    public enum CachingMode {
+        DEFAULT,
+        AVOID_CACHE,
+        FORCE_CACHE_IF_POSSIBLE
+    }
 
     private final HttpUrl mBaseUrl;
     private final Map<String, String> headers = new HashMap<>();
@@ -114,7 +121,7 @@ public abstract class HttpClient {
     }
 
     protected Call prepareCall(String url, String method, Map<String, String> additionalHeaders,
-                               String requestBody, String mediaType) {
+                               String requestBody, String mediaType, CachingMode caching) {
         Request.Builder requestBuilder = new Request.Builder();
         requestBuilder.url(buildUrl(url));
         for (Map.Entry<String, String> entry : headers.entrySet()) {
@@ -127,6 +134,18 @@ public abstract class HttpClient {
         }
         if (requestBody != null) {
             requestBuilder.method(method, RequestBody.create(MediaType.parse(mediaType), requestBody));
+        }
+        switch (caching) {
+            case AVOID_CACHE:
+                requestBuilder.cacheControl(CacheControl.FORCE_NETWORK);
+                break;
+            case FORCE_CACHE_IF_POSSIBLE:
+                requestBuilder.cacheControl(new CacheControl.Builder()
+                        .maxStale(Integer.MAX_VALUE, TimeUnit.SECONDS)
+                        .build());
+                break;
+            default:
+                break;
         }
         Request request = requestBuilder.build();
         return mClient.newCall(request);
