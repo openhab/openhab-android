@@ -21,7 +21,6 @@ import org.openhab.habdroid.core.connection.exception.ConnectionException;
 import org.openhab.habdroid.core.connection.exception.NetworkNotAvailableException;
 import org.openhab.habdroid.core.connection.exception.NetworkNotSupportedException;
 import org.openhab.habdroid.core.connection.exception.NoUrlInformationException;
-import org.openhab.habdroid.util.CacheManager;
 import org.openhab.habdroid.util.Constants;
 import org.openhab.habdroid.util.Util;
 
@@ -281,7 +280,6 @@ final public class ConnectionFactory extends BroadcastReceiver implements
             mConnectionFailureReason = null;
             mAvailableConnection = c;
         }
-        CacheManager.getInstance(ctx).clearCache();
         return true;
     }
 
