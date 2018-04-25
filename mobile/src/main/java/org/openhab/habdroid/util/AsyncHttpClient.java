@@ -57,29 +57,38 @@ public class AsyncHttpClient extends HttpClient {
         }
 
         @Override
-        public Bitmap convertBodyInBackground(ResponseBody body) {
+        public Bitmap convertBodyInBackground(ResponseBody body) throws IOException {
             MediaType contentType = body.contentType();
             boolean isSVG = contentType != null
                     && contentType.type().equals("image")
                     && contentType.subtype().contains("svg");
             InputStream is = body.byteStream();
-            return isSVG ? getBitmapFromSvgInputstream(is) : BitmapFactory.decodeStream(is);
+            if (isSVG) {
+                try {
+                    return getBitmapFromSvgInputstream(is);
+                } catch (SVGParseException e) {
+                    throw new IOException("SVG decoding failed", e);
+                }
+            } else {
+                Bitmap bitmap = BitmapFactory.decodeStream(is);
+                if (bitmap != null) {
+                    return bitmap;
+                }
+                throw new IOException("Bitmap decoding failed");
+            }
         }
 
-        private Bitmap getBitmapFromSvgInputstream(InputStream is) {
-            Bitmap bitmap = null;
-            try {
-                SVG svg = SVG.getFromInputStream(is);
-                RectF viewBox = svg.getDocumentViewBox();
-                double width = viewBox != null ? viewBox.width() : mDefaultSize;
-                double height = viewBox != null ? viewBox.height() : mDefaultSize;
+        private Bitmap getBitmapFromSvgInputstream(InputStream is) throws SVGParseException {
+            SVG svg = SVG.getFromInputStream(is);
+            RectF viewBox = svg.getDocumentViewBox();
+            double width = viewBox != null ? viewBox.width() : mDefaultSize;
+            double height = viewBox != null ? viewBox.height() : mDefaultSize;
 
-                bitmap = Bitmap.createBitmap((int) Math.ceil(width), (int) Math.ceil(height), Bitmap.Config.ARGB_8888);
-                Canvas canvas = new Canvas(bitmap);
-                canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
-                svg.renderToCanvas(canvas);
-            } catch (SVGParseException ignored) {
-            }
+            Bitmap bitmap = Bitmap.createBitmap(
+                    (int) Math.ceil(width), (int) Math.ceil(height), Bitmap.Config.ARGB_8888);
+            Canvas canvas = new Canvas(bitmap);
+            canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
+            svg.renderToCanvas(canvas);
             return bitmap;
         }
     }
