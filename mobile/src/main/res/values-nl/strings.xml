@@ -41,7 +41,6 @@
   <string name="settings_openhab_icon_format">Pictogramindeling</string>
   <string name="settings_openhab_icon_format_png">Bitmap</string>
   <string name="settings_openhab_icon_format_svg">Vector</string>
-  <string name="settings_ringtone">Beltoon</string>
   <string name="settings_clear_default_sitemap">Vergeet standaard sitemap</string>
   <string name="settings_no_default_sitemap">Geen standaard sitemap geselecteerd</string>
   <string name="settings_current_default_sitemap">Huidige standaard sitemap: %1$s</string>
