@@ -274,7 +274,7 @@ public class AboutActivity extends AppCompatActivity implements
 
         private String getServerSecret() {
             SyncHttpClient.HttpTextResult result =
-                    mConnection.getSyncHttpClient().get("/static/secret").asText();
+                    mConnection.getSyncHttpClient().get("static/secret").asText();
             if (result.isSuccessful()) {
                 Log.d(TAG, "Got secret " + obfuscateString(result.response));
                 return result.response;
@@ -285,7 +285,7 @@ public class AboutActivity extends AppCompatActivity implements
         }
 
         private String getServerUuid() {
-            final String uuidUrl = mOpenHABVersion == 1 ? "/static/uuid" : "/rest/uuid";
+            final String uuidUrl = mOpenHABVersion == 1 ? "static/uuid" : "rest/uuid";
             SyncHttpClient.HttpTextResult result =
                     mConnection.getSyncHttpClient().get(uuidUrl).asText();
             if (result.isSuccessful()) {
@@ -298,7 +298,7 @@ public class AboutActivity extends AppCompatActivity implements
         }
 
         private String getApiVersion() {
-            String versionUrl = mOpenHABVersion == 1 ? "/static/version" : "/rest";
+            String versionUrl = mOpenHABVersion == 1 ? "static/version" : "rest";
             Log.d(TAG, "url = " + versionUrl);
             SyncHttpClient.HttpTextResult result =
                     mConnection.getSyncHttpClient().get(versionUrl).asText();

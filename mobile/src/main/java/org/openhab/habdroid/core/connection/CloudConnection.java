@@ -34,7 +34,7 @@ public class CloudConnection extends DefaultConnection {
      */
     public static CloudConnection fromConnection(AbstractConnection connection) {
         final SyncHttpClient client = connection.getSyncHttpClient();
-        SyncHttpClient.HttpTextResult result = client.get("/api/v1/settings/notifications").asText();
+        SyncHttpClient.HttpTextResult result = client.get("api/v1/settings/notifications").asText();
         if (!result.isSuccessful()) {
             Log.e(TAG, "Error loading notification settings: " + result.error);
             return null;
