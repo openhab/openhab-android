@@ -35,7 +35,7 @@ The app follows the basic principles of the other openHAB UIs, like Basic UI, an
 
 ## Getting Started
 
-On first start the app tries to discover your openHAB server. This will only work on local networks and when the server does not enforce whether authentication nor HTTPS. If it failes, you can click on `Go to settings` and manually enter the server settings.
+On first start the app tries to discover your openHAB server. This will only work on local networks and when the server does not enforce either authentication or HTTPS. If it fails, you can click on `Go to settings` and manually enter the server settings.
 
 The URL field(s) might look like one of the following examples:
 
