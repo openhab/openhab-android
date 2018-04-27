@@ -41,7 +41,6 @@
   <string name="settings_openhab_icon_format">Format ikon</string>
   <string name="settings_openhab_icon_format_png">Mapa bitowa</string>
   <string name="settings_openhab_icon_format_svg">Wektor</string>
-  <string name="settings_ringtone">Dźwięk dzwonka</string>
   <string name="settings_clear_default_sitemap">Wyczyść domyślną mapę witryn</string>
   <string name="settings_no_default_sitemap">Nie wybrano domyślnej mapy witryn</string>
   <string name="settings_current_default_sitemap">Obecna domyślna mapa witryn: %1$s</string>
