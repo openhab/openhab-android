@@ -41,7 +41,6 @@
   <string name="settings_openhab_icon_format">Μορφή εικονιδίου</string>
   <string name="settings_openhab_icon_format_png">Bitmap</string>
   <string name="settings_openhab_icon_format_svg">Διάνυσμα</string>
-  <string name="settings_ringtone">Ήχος κλήσης</string>
   <string name="settings_clear_default_sitemap">Καθαρισμός προκαθορισμένου sitemap</string>
   <string name="settings_no_default_sitemap">Δεν έχει επιλεγεί προκαθορισμένο sitemap</string>
   <string name="settings_current_default_sitemap">Τρέχον προκαθορισμένο sitemap: %1$s</string>

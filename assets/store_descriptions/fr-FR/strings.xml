@@ -18,7 +18,7 @@
     <oss_community>Communaut&#xE9; open source</oss_community>
     <forum>  </forum>
 
-    <report_issues>Si vous rencontrez un probl&#xE8;me, veuillez nous en faire part sur le forum ou sur https://github.com/openhab/openhab-android/issues</report_issues>
+    <report_issues></report_issues>
     <translation>Si vous souhaitez traduire l'application dans votre langue, rejoignez-nous sur https://crowdin.com/project/openhab-android</translation>
     <foundation>openHAB Foundation</foundation>
     <about_foundation> </about_foundation>
