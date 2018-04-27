@@ -38,7 +38,6 @@
   <string name="settings_openhab_icon_format">Simge formatı</string>
   <string name="settings_openhab_icon_format_png">Bitmap</string>
   <string name="settings_openhab_icon_format_svg">Vektör</string>
-  <string name="settings_ringtone">Zil Tonu</string>
   <string name="settings_clear_default_sitemap">Varsayılan site haritasını temizle</string>
   <string name="settings_no_default_sitemap">Varsayılan her hangi bir site haritası seçilmedi</string>
   <string name="settings_current_default_sitemap">Geçerli varsayılan site haritası: %1$s</string>
