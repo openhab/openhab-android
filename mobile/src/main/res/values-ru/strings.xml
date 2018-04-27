@@ -41,7 +41,6 @@
   <string name="settings_openhab_icon_format">Формат иконок</string>
   <string name="settings_openhab_icon_format_png">Растр</string>
   <string name="settings_openhab_icon_format_svg">Вектор</string>
-  <string name="settings_ringtone">Рингтон</string>
   <string name="settings_clear_default_sitemap">Очистить sitemap по умолчанию</string>
   <string name="settings_no_default_sitemap">Sitemap по умолчанию не выбран</string>
   <string name="settings_current_default_sitemap">Текущий sitemap по умолчанию: %1$s</string>
