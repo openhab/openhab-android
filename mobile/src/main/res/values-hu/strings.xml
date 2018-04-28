@@ -41,6 +41,7 @@
   <string name="settings_openhab_icon_format">Ikon formátum</string>
   <string name="settings_openhab_icon_format_png">Bitkép</string>
   <string name="settings_openhab_icon_format_svg">Vektor</string>
+  <string name="settings_ringtone">Értesítési csengőhang</string>
   <string name="settings_clear_default_sitemap">Alapértelmezett felületet eltávolítása</string>
   <string name="settings_no_default_sitemap">Nincs alapértelmezett felületet kiválasztva</string>
   <string name="settings_current_default_sitemap">Alapértelmezett felületet</string>
