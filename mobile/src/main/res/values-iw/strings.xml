@@ -41,6 +41,7 @@
   <string name="settings_openhab_icon_format">סוג קובץ צלמית</string>
   <string name="settings_openhab_icon_format_png">מפת סיביות PNG</string>
   <string name="settings_openhab_icon_format_svg">וקטורי SVG</string>
+  <string name="settings_ringtone">צליל התראה</string>
   <string name="settings_clear_default_sitemap">נקה את הגדרת ברירת מחדל של תצורת המערכת</string>
   <string name="settings_no_default_sitemap">לא נבחרה תצורת מערכת ברירת מחדל</string>
   <string name="settings_current_default_sitemap">ברירת המחדל הנוכחית של תצורת המערכת: %1$s</string>
