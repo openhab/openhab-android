@@ -26,7 +26,7 @@ Více než 200 doplňků přidává podporu pro značky, zařízení, technologi
 <b>Open Source komunita</b>
 
 openHAB open source iniciativa je silně podporována jeho živou komunitou. Fórum s více než 13 000 registrovaných uživatelů je místo, kde najdete návod, pomoc a inspiraci. Připojte se k diskuznímu fóru openHAB na https://community.openhab.org
-Případné nalezené chyby či problémy je možné oznámit ve fóru nebo na https://github.com/openhab/openhab-android/issues
+When you find an issue please report it in the forum or at https://github.com/openhab/openhab-android/issues
 Pokud chcete aplikaci přeložit do vašeho jazyka připojte se k nám na https://crowdin.com/project/openhab-android
 
 <b>openHAB Foundation</b>

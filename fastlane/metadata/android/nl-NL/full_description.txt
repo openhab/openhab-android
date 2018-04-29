@@ -26,7 +26,7 @@ Meer dan 200 specifieke add-ons bieden ondersteuning voor merken, apparaten, tec
 <b>Open Source Community</b>
 
 Het openHAB open source initiatief steunt haar levendige community. Het forum met meer dan 13.000 geregistreerde gebruikers is een plek om hulp, begeleiding en inspiratie te vinden. Neem deel aan het openHAB community forum op https://community.openhab.org
-Wanneer u een probleem gevonden heeft, rapporteer deze dan in het forum of op https://github.com/openhab/openhab-android/issues
+When you find an issue please report it in the forum or at https://github.com/openhab/openhab-android/issues
 Als u de app wilt vertalen in uw taal bezoek ons dan op https://crowdin.com/project/openhab-android
 
 <b>openHAB Foundation</b>

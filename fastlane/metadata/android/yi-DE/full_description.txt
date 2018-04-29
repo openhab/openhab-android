@@ -1,16 +1,16 @@
-openHAB - "empowering the smart home" - une solution de domotique libre et indépendante de tout fournisseur ou technologie pour votre maison connectée
+openHAB - "empowering the smart home" - vendor and technology agnostic open source home automation
 
-Les versions publiées via F-Droid n'incluent pas le système GCM et les rapports de plantage, et elles ne seront pas en mesure de recevoir les notifications push depuis l’openHAB Cloud.
+The builds on F-Droid have map view support, GCM and crash reporting removed and will not be able to receive push notifications from openHAB Cloud.
 You can install the beta version alongside the stable version: [[org.openhab.habdroid]]
 
-<b>Remarque importante</b>
+<b>Important note</b>
 
-Un serveur openHAB est nécessaire pour fonctionner avec cette app
+You need an openHAB server for this app
 
-openHAB est une plateforme de domotique open source basée sur Java qui intègre et combine une vaste gamme de produits et technologies pour la maison connectée dans une seule et même solution.
-S'appuyant sur une couche d'abstraction unifiée, tous les dispositifs connectés sont exposés au moteur de règles d'automatisation centralisé et à différentes interfaces utilisateur.
+openHAB is a Java-based open-source home automation platform that integrates and combines a vast range of different smart home systems and technologies into one single solution.
+On top of the unified abstraction layer all connected devices are available for the overarching automation rule engines and different user interfaces.
 
-<b>Produits pris en charge</b>
+<b>Supported Products</b>
 
 Over 200 specific add-ons provide support for brands, devices, technologies and communication protocols. Examples are Z-Wave, Philips Hue, Amazon Echo, Chromecast and Sonos. Discover all available add-ons and supported devices and/or functions at: https://docs.openhab.org/addons/bindings.html
 
@@ -23,11 +23,11 @@ Over 200 specific add-ons provide support for brands, devices, technologies and 
 • Special UseCases: Minecraft, Tesla Car, Weather Services, ...
 • ...
 
-<b>Communauté open source</b>
+<b>Open Source Community</b>
 
 The openHAB open source initiative strongly supports its vibrant community. The forum with over 13,000 registered users is a place to find guidance, help and inspiration. Join the openHAB community forum over at https://community.openhab.org
 When you find an issue please report it in the forum or at https://github.com/openhab/openhab-android/issues
-Si vous souhaitez traduire l'application dans votre langue, rejoignez-nous sur https://crowdin.com/project/openhab-android
+If you want to translate the app into your language join us at https://crowdin.com/project/openhab-android
 
 <b>openHAB Foundation</b>
 
