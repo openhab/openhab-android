@@ -111,13 +111,13 @@ public abstract class HttpClient {
                                String requestBody, String mediaType) {
         Request.Builder requestBuilder = new Request.Builder();
         HttpUrl absoluteUrl = HttpUrl.parse(url);
-        if (absoluteUrl != null) {
-            requestBuilder.url(absoluteUrl);
-        } else if (mBaseUrl != null) {
-            requestBuilder.url(mBaseUrl.newBuilder().addPathSegments(url).build());
-        } else {
-            throw new IllegalArgumentException("Can't use relative URLs without base URL");
+        if (absoluteUrl == null && mBaseUrl != null) {
+            absoluteUrl = HttpUrl.parse(mBaseUrl.toString() + url);
         }
+        if (absoluteUrl == null) {
+            throw new IllegalArgumentException("URL '" + url + " is invalid");
+        }
+        requestBuilder.url(absoluteUrl);
         for (Map.Entry<String, String> entry : headers.entrySet()) {
             requestBuilder.addHeader(entry.getKey(), entry.getValue());
         }
