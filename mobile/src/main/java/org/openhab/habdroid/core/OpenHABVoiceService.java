@@ -11,6 +11,8 @@ package org.openhab.habdroid.core;
 
 import android.app.IntentService;
 import android.content.Intent;
+import android.os.Handler;
+import android.os.Looper;
 import android.speech.RecognizerIntent;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -33,6 +35,7 @@ import java.util.Locale;
  */
 public class OpenHABVoiceService extends IntentService {
     private static final String TAG = OpenHABVoiceService.class.getSimpleName();
+    private Handler mHandler = new Handler(Looper.getMainLooper());
 
     public OpenHABVoiceService() {
         super("OpenHABVoiceService");
@@ -57,9 +60,7 @@ public class OpenHABVoiceService extends IntentService {
         if (connection != null) {
             sendVoiceCommand(connection.getSyncHttpClient(), voiceCommand);
         } else {
-            Toast.makeText(this,
-                    R.string.error_couldnt_determine_openhab_url, Toast.LENGTH_SHORT)
-                    .show();
+            showToast(getString(R.string.error_couldnt_determine_openhab_url));
         }
     }
 
@@ -70,8 +71,7 @@ public class OpenHABVoiceService extends IntentService {
             voiceCommand = textMatchList.get(0);
         }
         Log.i(TAG, "Recognized text: " + voiceCommand);
-        final String message = getString(R.string.info_voice_recognized_text, voiceCommand);
-        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+        showToast(getString(R.string.info_voice_recognized_text, voiceCommand));
         return voiceCommand;
     }
 
@@ -99,5 +99,9 @@ public class OpenHABVoiceService extends IntentService {
         } else {
             Log.e(TAG, "Sending voice command failed", result.error);
         }
+    }
+
+    private void showToast(CharSequence text) {
+        mHandler.post(() -> Toast.makeText(this, text, Toast.LENGTH_SHORT).show());
     }
 }
