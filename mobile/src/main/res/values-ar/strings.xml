@@ -41,6 +41,7 @@
   <string name="settings_openhab_icon_format">تنسيق الرمز</string>
   <string name="settings_openhab_icon_format_png">صورة نقطية</string>
   <string name="settings_openhab_icon_format_svg">صورة خطية</string>
+  <string name="settings_ringtone">نغمة الإشعار</string>
   <string name="settings_clear_default_sitemap">تصفية sitemap الإفتراضية</string>
   <string name="settings_no_default_sitemap">لا توجد sitemap إفتراضي محددة</string>
   <string name="settings_current_default_sitemap">sitemap الافتراضي الحالي: %1$s</string>
