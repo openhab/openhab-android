@@ -71,13 +71,18 @@ public class IntroActivity extends AppIntro {
     private void addOHSlide(@StringRes int title, @StringRes int description,
                             @DrawableRes int imageDrawable) {
             addSlide(AppIntroFragment.newInstance(getString(title),
-                    null,                                                    /* Title font: null => default */
-                    getString(description),                                             /* Description */
-                    null,                                                   /* Description font: null => default */
-                    imageDrawable,                                                      /* Image */
-                    colorGrey,                                                          /* Background color */
-                    ContextCompat.getColor(getApplicationContext(), R.color.black),     /* Title color */
-                    ContextCompat.getColor(getApplicationContext(), R.color.black)));   /* Description color */
+                    // Title font: null => default
+                    null,
+                    getString(description),
+                    // Description font: null => default
+                    null,
+                    imageDrawable,
+                    // Background color
+                    colorGrey,
+                    // Title color
+                    ContextCompat.getColor(getApplicationContext(), R.color.black),
+                    // Description color
+                    ContextCompat.getColor(getApplicationContext(), R.color.black)));
 
     }
 }
