@@ -95,7 +95,7 @@ public class IntroActivityTest extends TestWithIntro {
     public void goThroughIntro() {
         // click next
         ViewInteraction appCompatImageButton;
-        for(int i=0; i<3; i++) {
+        for (int i = 0; i < 3; i++) {
             appCompatImageButton = onView(
                     CoreMatchers.allOf(withId(R.id.next),
                             childAtPosition(
