@@ -188,7 +188,7 @@ public class GcmMessageListenerService extends GcmListenerService {
 
     private NotificationCompat.Builder makeNotificationBuilder(String channelId) {
         return new NotificationCompat.Builder(this, channelId)
-                .setSmallIcon(R.drawable.ic_openhab_appicon_24dp)
+                .setSmallIcon(R.drawable.ic_openhab_appicon_white_24dp)
                 .setContentTitle(getString(R.string.app_name))
                 .setColor(ContextCompat.getColor(this, R.color.openhab_orange))
                 .setCategory(NotificationCompat.CATEGORY_EVENT)
