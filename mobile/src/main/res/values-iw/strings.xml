@@ -18,10 +18,10 @@
   <string name="settings_connection_title">חיבור</string>
   <string name="settings_display_title">תצוגה</string>
   <string name="settings_misc_title">שונות</string>
-  <string name="settings_openhab_url">כתובת URL של השרת המקומי</string>
-  <string name="settings_openhab_url_summary">כתובת ה-URL של לוח השליטה ב openHAB (בהתבסס על שם מחשב מארח או IP). אם הוגדרה, הגילוי האוטומטי לא יופעל. הגדרה נוכחית: %s</string>
-  <string name="settings_openhab_alturl">כתובת URL של השרת המרוחק</string>
-  <string name="settings_openhab_alturl_summary">כתובת ה-URL של לוח השליטה ב openHAB כאשר הכתובת המקומית אינה זמינה. הגדרה נוכחית: %s</string>
+  <string name="settings_openhab_url">כתובת השרת המקומי</string>
+  <string name="settings_openhab_url_summary">כתובת לוח השליטה ב openHAB (בהתבסס על שם מחשב מארח או IP). אם הוגדרה, הגילוי האוטומטי לא יופעל. הגדרה נוכחית: %s</string>
+  <string name="settings_openhab_alturl">כתובת השרת המרוחק</string>
+  <string name="settings_openhab_alturl_summary">כתובת לוח השליטה ב openHAB כאשר הכתובת המקומית אינה זמינה. הגדרה נוכחית: %s</string>
   <string name="settings_openhab_username">שם משתמש</string>
   <string name="settings_openhab_password">סיסמה</string>
   <string name="settings_openhab_sslclientcert">תעודת לקוח SSL</string>
@@ -53,8 +53,8 @@
   <string name="info_voice_input">"openHAB, לפקודתך!"</string>
   <string name="info_voice_recognized_text">"הפקודה שזוהתה היא : %1$s"</string>
   <string name="info_demo_mode_short">פועל במצב הדגמה</string>
-  <string name="info_conn_url">מתחבר ל URL מקומי</string>
-  <string name="info_conn_rem_url">מתחבר ל URL מרוחק</string>
+  <string name="info_conn_url">מתחבר לכתובת מקומית</string>
+  <string name="info_conn_rem_url">מתחבר לכתובת מרוחקת</string>
   <string name="info_discovery">מזהה שרת openHAB. אנא המתן\u2026</string>
   <!-- Error messages -->
   <string name="error_no_url">אנא בדוק ש-openHAB פעיל או הגדר URL מקומי או URL מרוחק</string>
