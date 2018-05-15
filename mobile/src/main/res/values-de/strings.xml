@@ -47,6 +47,7 @@
   <string name="settings_openhab_alt_connection">Fernzugriff</string>
   <string name="settings_openhab_connection">Lokal</string>
   <!-- App messages strings -->
+  <string name="title_voice_widget">openHAB-Sprachbefehle</string>
   <string name="info_voice_input">openHAB, zu Ihren Diensten!</string>
   <string name="info_voice_recognized_text">Erkannter Befehl: %1$s</string>
   <string name="info_demo_mode_short">Läuft im Demomodus</string>
@@ -100,6 +101,7 @@
   <string name="mtm_decision_once">Einmalig</string>
   <string name="mtm_decision_abort">Abbrechen</string>
   <string name="mtm_notification">Unbekanntes Zertifikat</string>
+  <string name="settings_openhab_none">Keins</string>
   <!-- Themes -->
   <string name="theme_name_light">Hell</string>
   <string name="theme_name_dark">Dunkel</string>
@@ -114,6 +116,7 @@
   <string name="nfc_action_toggle">Umschalten</string>
   <string name="nfc_activate">Aktivieren</string>
   <string name="nfc_action_current_color">Momentane Farbe</string>
+  <string name="nfc_action_to_sitemap_page">Zur entsprechenden Sitemap navigieren</string>
   <!-- Drawer -->
   <string name="drawer_open">Sitemap-Bereich öffnen</string>
   <string name="drawer_close">Sitemap-Bereich schließen</string>
@@ -122,6 +125,7 @@
   <string name="about_title">Über</string>
   <string name="about_license_title">Lizenz</string>
   <string name="about_changelog">Änderungsprotokoll</string>
+  <string name="about_source_code">Quelltext</string>
   <string name="about_issues">Einen Fehler melden</string>
   <string name="about_docs">Dokumentation</string>
   <string name="about_community_forum">Community-Forum</string>
@@ -129,6 +133,7 @@
   <string name="about_community">openHAB-Community</string>
   <string name="about_server">openHAB-Server</string>
   <string name="about_translation">Helfen Sie uns bei der Übersetzung von openHAB</string>
+  <string name="about_privacy_policy">Datenschutzerklärung</string>
   <string name="settings_debug_messages_summary">Passwörter werden in Klartext angezeigt!</string>
   <string name="settings_debug_messages_title">Debug-Meldungen anzeigen</string>
   <string name="error_couldnt_determine_openhab_url">Konnte openHAB-URL nicht ermitteln</string>
