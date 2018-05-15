@@ -182,7 +182,7 @@ public class AboutActivity extends AppCompatActivity implements
             appCard.addItem(new MaterialAboutActionItem.Builder()
                     .text(R.string.about_privacy_policy)
                     .icon(R.drawable.ic_security_grey_24dp)
-                    .setOnClickAction(MaterialAboutItemOnClickRedirect("http://www.openhabfoundation.org/privacy"))
+                    .setOnClickAction(MaterialAboutItemOnClickRedirect("https://www.openhabfoundation.org/privacy"))
                     .build());
 
             MaterialAboutCard.Builder ohServerCard = new MaterialAboutCard.Builder();
@@ -251,7 +251,7 @@ public class AboutActivity extends AppCompatActivity implements
             ohCommunityCard.addItem(new MaterialAboutActionItem.Builder()
                     .text(R.string.about_foundation)
                     .icon(R.drawable.ic_people_grey_24dp)
-                    .setOnClickAction(MaterialAboutItemOnClickRedirect("http://www.openhabfoundation.org/"))
+                    .setOnClickAction(MaterialAboutItemOnClickRedirect("https://www.openhabfoundation.org/"))
                     .build());
 
             return new MaterialAboutList.Builder()
