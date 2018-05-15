@@ -179,6 +179,11 @@ public class AboutActivity extends AppCompatActivity implements
                         }
                     })
                     .build());
+            appCard.addItem(new MaterialAboutActionItem.Builder()
+                    .text(R.string.about_privacy_policy)
+                    .icon(R.drawable.ic_security_grey_24dp)
+                    .setOnClickAction(MaterialAboutItemOnClickRedirect("http://www.openhabfoundation.org/privacy"))
+                    .build());
 
             MaterialAboutCard.Builder ohServerCard = new MaterialAboutCard.Builder();
             ohServerCard.title(R.string.about_server);
