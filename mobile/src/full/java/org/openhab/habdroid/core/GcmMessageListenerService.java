@@ -58,11 +58,14 @@ public class GcmMessageListenerService extends GcmListenerService {
                 String message = data.getString("message");
                 String severity = data.getString("severity");
                 String icon = data.getString("icon");
-                // As the GCM message payload sent by OH cloud does not include the notification
-                // timestamp, use the (undocumented) google.sent_time as a time reference for our
-                // notifications. In case GCM stops sending that timestamp, use the current time
-                // as fallback.
-                long timestamp = data.getLong("google.sent_time", System.currentTimeMillis());
+                String persistedId = data.getString("persistedId");
+                // Older versions of openhab-cloud didn't send the notification generation
+                // timestamp, so use the (undocumented) google.sent_time as a time reference
+                // in that case. If that also isn't present. use the current time instead.
+                long timestamp = data.getLong("timestamp", 0);
+                if (timestamp == 0) {
+                    timestamp = data.getLong("google.sent_time", System.currentTimeMillis());
+                }
 
                 final String channelId = TextUtils.isEmpty(severity)
                         ? CHANNEL_ID_DEFAULT
