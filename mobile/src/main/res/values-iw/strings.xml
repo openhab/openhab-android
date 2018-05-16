@@ -47,6 +47,7 @@
   <string name="settings_openhab_alt_connection">מרוחק</string>
   <string name="settings_openhab_connection">מקומי</string>
   <!-- App messages strings -->
+  <string name="title_voice_widget">פקודות קוליות של openHAB</string>
   <string name="info_voice_input">openHAB, לפקודתך!</string>
   <string name="info_voice_recognized_text">הפקודה שזוהתה היא : %1$s</string>
   <string name="info_demo_mode_short">פועל במצב הדגמה</string>
@@ -100,6 +101,7 @@
   <string name="mtm_decision_once">חד פעמי</string>
   <string name="mtm_decision_abort">בטל</string>
   <string name="mtm_notification">אימות תעודה</string>
+  <string name="settings_openhab_none">ללא/כלום</string>
   <!-- Themes -->
   <string name="theme_name_light">בהיר</string>
   <string name="theme_name_dark">כהה</string>
@@ -114,6 +116,7 @@
   <string name="nfc_action_toggle">החלף מצב</string>
   <string name="nfc_activate">הפעל</string>
   <string name="nfc_action_current_color">צבע נוכחי</string>
+  <string name="nfc_action_to_sitemap_page">עבור אל דף תצורת המערכת</string>
   <!-- Drawer -->
   <string name="drawer_open">מגירת תצורת מערכת נפתחה</string>
   <string name="drawer_close">מגירת תצורת מערכת נסגרה</string>
@@ -122,6 +125,7 @@
   <string name="about_title">מידע כללי</string>
   <string name="about_license_title">רשיון</string>
   <string name="about_changelog">רשימת שינויים</string>
+  <string name="about_source_code">קוד מקור</string>
   <string name="about_issues">דווח על בעיה</string>
   <string name="about_docs">תיעוד</string>
   <string name="about_community_forum">פורום הקהילה</string>
@@ -129,6 +133,7 @@
   <string name="about_community">קהילת openHAB</string>
   <string name="about_server">שרת openHAB</string>
   <string name="about_translation">עזור לנו לתרגם את openHAB</string>
+  <string name="about_privacy_policy">מדיניות פרטיות</string>
   <string name="settings_debug_messages_summary">התווים בסיסמאות יוצגו כטקסט!</string>
   <string name="settings_debug_messages_title">הצג הודעות לאיתור באגים</string>
   <string name="error_couldnt_determine_openhab_url">לא מצליח לאתר את הכתובת של openHAB</string>
