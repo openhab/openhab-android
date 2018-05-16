@@ -169,6 +169,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
     private ContentController mController;
     private InitState mInitState = InitState.QUERY_SERVER_PROPS;
     private Call mPendingCall;
+    private boolean mStarted;
 
     /**
      * Daydreaming gets us into a funk when in fullscreen, this allows us to
@@ -315,7 +316,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
     }
 
     private void queryServerProperties() {
-        final String url = "/rest/bindings";
+        final String url = "rest/bindings";
         mInitState = InitState.QUERY_SERVER_PROPS;
         mPendingCall = mConnection.getAsyncHttpClient().get(url, new AsyncHttpClient.StringResponseHandler() {
             @Override
@@ -367,7 +368,8 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         switch (action) {
             case NfcAdapter.ACTION_NDEF_DISCOVERED:
             case Intent.ACTION_VIEW:
-                onNfcTag(intent.getData());
+                mPendingNfcData = intent.getData();
+                openPendingNfcPageIfNeeded();
                 break;
             case ACTION_NOTIFICATION_SELECTED:
                 CloudMessagingHelper.onNotificationSelected(this, intent);
@@ -456,10 +458,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         mSelectedSitemap = null;
 
         // Handle pending NFC tag if initial connection determination finished
-        if (mPendingNfcData != null && (mConnection != null || failureReason != null)) {
-            onNfcTag(mPendingNfcData);
-            mPendingNfcData = null;
-        }
+        openPendingNfcPageIfNeeded();
 
         if (newConnection != null) {
             handleConnectionChange();
@@ -502,15 +501,13 @@ public class OpenHABMainActivity extends AppCompatActivity implements
     @Override
     public void onCloudConnectionChanged(CloudConnection connection) {
         updateNotificationDrawerItem();
-        if (mPendingOpenNotifications && connection != null) {
-            openNotifications();
-            mPendingOpenNotifications = false;
-        }
+        openNotificationsPageIfNeeded();
     }
 
     @Override
     protected void onStart() {
         super.onStart();
+        mStarted = true;
         if (mConnection != null) {
             if (mInitState == InitState.QUERY_SERVER_PROPS) {
                 mController.clearServerCommunicationFailure();
@@ -520,6 +517,8 @@ public class OpenHABMainActivity extends AppCompatActivity implements
                 loadSitemapList(true);
             }
         }
+        openPendingNfcPageIfNeeded();
+        openNotificationsPageIfNeeded();
     }
 
     /**
@@ -528,6 +527,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
     @Override
     public void onStop() {
         Log.d(TAG, "onStop()");
+        mStarted = false;
         super.onStop();
         if(selectSitemapDialog != null && selectSitemapDialog.isShowing()) {
             selectSitemapDialog.dismiss();
@@ -678,6 +678,42 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         return wrapped;
     }
 
+    private void openNotificationsPageIfNeeded() {
+        if (mPendingOpenNotifications && mStarted &&
+                ConnectionFactory.getConnection(Connection.TYPE_CLOUD) != null) {
+            openNotifications();
+            mPendingOpenNotifications = false;
+        }
+    }
+
+    private void openPendingNfcPageIfNeeded() {
+        if (mPendingNfcData == null || mConnection == null || !mStarted) {
+            return;
+        }
+
+        Log.d(TAG, "NFC Scheme = " + mPendingNfcData.getScheme());
+        Log.d(TAG, "NFC Host = " + mPendingNfcData.getHost());
+        Log.d(TAG, "NFC Path = " + mPendingNfcData.getPath());
+        String nfcItem = mPendingNfcData.getQueryParameter("item");
+        String nfcCommand = mPendingNfcData.getQueryParameter("command");
+
+        // If there is no item parameter it means tag contains only sitemap page url
+        if (TextUtils.isEmpty(nfcItem)) {
+            Log.d(TAG, "This is a sitemap tag without parameters");
+            // Form the new sitemap page url
+            String newPageUrl = String.format(Locale.US, "%srest/sitemaps%s",
+                    mConnection.getOpenHABUrl(), mPendingNfcData.getPath());
+            mController.openPage(newPageUrl);
+        } else {
+            Log.d(TAG, "Target item = " + nfcItem);
+            String url = String.format(Locale.US, "%srest/items/%s",
+                    mConnection.getOpenHABUrl(), nfcItem);
+            Util.sendItemCommand(mConnection.getAsyncHttpClient(), url, nfcCommand);
+            finish();
+        }
+        mPendingNfcData = null;
+    }
+
     private void openAbout() {
         Intent aboutIntent = new Intent(this, AboutActivity.class);
         aboutIntent.putExtra("openHABVersion", mOpenHABVersion);
@@ -699,7 +735,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         Log.d(TAG, "Loading sitemap list from /rest/sitemaps");
 
         mInitState = InitState.LOAD_SITEMAPS;
-        mPendingCall = mConnection.getAsyncHttpClient().get("/rest/sitemaps", new AsyncHttpClient.StringResponseHandler() {
+        mPendingCall = mConnection.getAsyncHttpClient().get("rest/sitemaps", new AsyncHttpClient.StringResponseHandler() {
             @Override
             public void onFailure(Request request, int statusCode, Throwable error) {
                 handleServerCommunicationFailure(request, statusCode, error);
@@ -931,11 +967,8 @@ public class OpenHABMainActivity extends AppCompatActivity implements
     private void onNotificationSelected(Intent intent) {
         Log.d(TAG, "Notification was selected");
 
-        if (ConnectionFactory.getConnection(Connection.TYPE_CLOUD) != null) {
-            openNotifications();
-        } else {
-            mPendingOpenNotifications = true;
-        }
+        mPendingOpenNotifications = true;
+        openNotificationsPageIfNeeded();
 
         if (intent.hasExtra(EXTRA_MESSAGE)) {
             new AlertDialog.Builder(this)
@@ -943,42 +976,6 @@ public class OpenHABMainActivity extends AppCompatActivity implements
                     .setMessage(intent.getStringExtra(EXTRA_MESSAGE))
                     .setPositiveButton(getString(android.R.string.ok), null)
                     .show();
-        }
-    }
-
-    /**
-     * This method processes new intents generated by NFC subsystem
-     *
-     * @param nfcData - a data which NFC subsystem got from the NFC tag
-     */
-    private void onNfcTag(Uri nfcData) {
-        if (nfcData == null) {
-            return;
-        }
-        if (mConnection == null) {
-            mPendingNfcData = nfcData;
-            return;
-        }
-
-        Log.d(TAG, "NFC Scheme = " + nfcData.getScheme());
-        Log.d(TAG, "NFC Host = " + nfcData.getHost());
-        Log.d(TAG, "NFC Path = " + nfcData.getPath());
-        String nfcItem = nfcData.getQueryParameter("item");
-        String nfcCommand = nfcData.getQueryParameter("command");
-
-        // If there is no item parameter it means tag contains only sitemap page url
-        if (TextUtils.isEmpty(nfcItem)) {
-            Log.d(TAG, "This is a sitemap tag without parameters");
-            // Form the new sitemap page url
-            String newPageUrl = String.format(Locale.US, "%srest/sitemaps%s",
-                    mConnection.getOpenHABUrl(), nfcData.getPath());
-            mController.openPage(newPageUrl);
-        } else {
-            Log.d(TAG, "Target item = " + nfcItem);
-            String url = String.format(Locale.US, "%srest/items/%s",
-                    mConnection.getOpenHABUrl(), nfcItem);
-            Util.sendItemCommand(mConnection.getAsyncHttpClient(), url, nfcCommand);
-            finish();
         }
     }
 

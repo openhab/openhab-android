@@ -38,7 +38,6 @@
   <string name="settings_openhab_icon_format">Piktogramų formatas</string>
   <string name="settings_openhab_icon_format_png">Taškinis</string>
   <string name="settings_openhab_icon_format_svg">Vektorinis</string>
-  <string name="settings_ringtone">Skambėjimo melodija</string>
   <string name="settings_clear_default_sitemap">Išvalyti numatytą vietos išplanavimą</string>
   <string name="settings_no_default_sitemap">Nepasirinktas numatytas vietos išplanavimas</string>
   <string name="settings_current_default_sitemap">Dabartinis numatytas vietos išplanavimas: %1$s</string>

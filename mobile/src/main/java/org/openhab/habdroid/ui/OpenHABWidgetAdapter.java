@@ -891,7 +891,7 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
                 }
                 chartUrl.append("&period=").append(widget.period())
                         .append("&random=").append(mRandom.nextInt())
-                        .append("&dpi=").append(mDensity);
+                        .append("&dpi=").append(mDensity * 96 / 160);
                 if (!TextUtils.isEmpty(widget.service())) {
                     chartUrl.append("&service=").append(widget.service());
                 }

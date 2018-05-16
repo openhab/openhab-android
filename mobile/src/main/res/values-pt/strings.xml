@@ -38,7 +38,6 @@
   <string name="settings_openhab_icon_format">Formato de icone</string>
   <string name="settings_openhab_icon_format_png">Bitmap</string>
   <string name="settings_openhab_icon_format_svg">Vetor</string>
-  <string name="settings_ringtone">Toque</string>
   <string name="settings_clear_default_sitemap">Selecione o mapa do site padrão</string>
   <string name="settings_no_default_sitemap">Mapa do site padrão não selecionado</string>
   <string name="settings_current_default_sitemap">Mapa do site padrão atual: %1$s</string>

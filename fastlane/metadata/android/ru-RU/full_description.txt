@@ -1,6 +1,7 @@
 openHAB - "empowering the smart home" - vendor and technology agnostic open source home automation
 
 Версия для F-Droid поддерживает просмотр карт. GCM и отчёты о сбоях удалены. Приложение не будет получать уведомления от openHub Cloud.
+Вы можете установить бета-версию вместе со стабильной версией: [[org.openhab.habdroid]]
 
 <b>Важное примечание</b>
 
@@ -25,7 +26,7 @@ On top of the unified abstraction layer all connected devices are available for 
 <b>Сообщество Open Source</b>
 
  Форум, с более чем 13 000 зарегистрированных пользователей, это место, где можно найти рекомендации, помощь и идеи для новых решений. Присоединяйтесь к сообществу openHAB на https://community.openhab.org
-Если вы нашли ошибку, пожалуйста, сообщите об этом на форуме или на https://github.com/openhab/openhab-android/issues
+When you find an issue please report it in the forum or at https://github.com/openhab/openhab-android/issues
 Если Вы хотите перевести приложение на свой язык - присоединяйтесь к нам на https://crowdin.com/project/openhab-android
 
 <b>Cообщество openHAB</b>

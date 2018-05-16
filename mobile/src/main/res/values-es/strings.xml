@@ -27,7 +27,6 @@
   <string name="settings_openhab_sslhost_summary">No comprobar el nombre de dominio durante la conexión SSL</string>
   <string name="settings_openhab_fullscreen_summary">Mostrar a pantalla completa</string>
   <string name="settings_openhab_icon_format">Formato de los iconos</string>
-  <string name="settings_ringtone">Sonido</string>
   <!-- App messages strings -->
   <string name="title_voice_widget">Comandos de voz openHAB</string>
   <string name="info_voice_input">"openHAB, ¡a tus órdenes!"</string>
