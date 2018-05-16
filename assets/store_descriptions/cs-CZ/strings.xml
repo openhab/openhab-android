@@ -18,7 +18,7 @@
     <oss_community>Open Source komunita</oss_community>
     <forum>openHAB open source iniciativa je siln&#x11B; podporov&#xE1;na jeho &#x17E;ivou komunitou. F&#xF3;rum s v&#xED;ce ne&#x17E; 13 000 registrovan&#xFD;ch u&#x17E;ivatel&#x16F; je m&#xED;sto, kde najdete n&#xE1;vod, pomoc a inspiraci. P&#x159;ipojte se k diskuzn&#xED;mu f&#xF3;ru openHAB na https://community.openhab.org</forum>
 
-    <report_issues>P&#x159;&#xED;padn&#xE9; nalezen&#xE9; chyby &#x10D;i probl&#xE9;my je mo&#x17E;n&#xE9; ozn&#xE1;mit ve f&#xF3;ru nebo na https://github.com/openhab/openhab-android/issues</report_issues>
+    <report_issues></report_issues>
     <translation>Pokud chcete aplikaci p&#x159;elo&#x17E;it do va&#x161;eho jazyka p&#x159;ipojte se k n&#xE1;m na https://crowdin.com/project/openhab-android</translation>
     <foundation>openHAB Foundation</foundation>
     <about_foundation>OpenHAB Foundation e.V. je neziskov&#xE1; organizace s posl&#xE1;n&#xED;m vzd&#x11B;l&#xE1;vat ve&#x159;ejnost o mo&#x17E;nostech a v&#xFD;hod&#xE1;ch svobodn&#xFD;ch a otev&#x159;en&#xFD;ch chytr&#xFD;ch &#x159;e&#x161;en&#xED;ch pro dom&#xE1;c&#xED; automatizaci. Dal&#x161;&#xED; informace o posl&#xE1;n&#xED; a slu&#x17E;b&#xE1;ch nadace naleznete na https://www.openhabfoundation.org</about_foundation>

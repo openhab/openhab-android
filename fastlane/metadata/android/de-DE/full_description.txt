@@ -26,7 +26,7 @@ Aufbauend auf einer vereinheitlichten Abstraktionsschicht sind alle Geräte für
 <b>Open-Source-Community</b>
 
 Die quelloffene openHAB Initiative unterstützt nachdrücklich ihre lebhafte Community. Das Forum (mit über 13.000 registrierten Mitgliedern) ist ein Ort an dem man Anleitung, Hilfe und Inspiration findet. Besuchen Sie das openHAB-Community-Forum auf https://community.openhab.org
-Wenn Sie einen Fehler gefunden haben, melden Sie diesen bitte im Forum oder unter https://github.com/openhab/openhab-android/issues
+Wenn Sie einen Fehler finden, melden Sie diesen bitte im Forum oder unter https://github.com/openhab/openhab-android/issues
 Helfen Sie uns, diese App in Ihre Sprache zu übersetzen: https://crowdin.com/project/openhab-android
 
 <b>openHAB Foundation e.V.</b>

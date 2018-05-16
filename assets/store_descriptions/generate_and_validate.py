@@ -58,6 +58,10 @@ for file in stringsFiles:
     fullDescription += getString('translation') + "\n\n"
     fullDescription += "<b>" + getString('foundation') + "</b>\n\n"
     fullDescription += getString('about_foundation') + "\n"
+    if "fdroid" in sys.argv[1]:
+        fullDescription += "<b>" + getString('fdroid_anti_features') + "</b>\n\n"
+        fullDescription += getString('fdroid_anti_features_text') + "\n\n\n"
+        fullDescription += getString('fdroid_privacy_policy')
 
     if len(fullDescription) > 4000:
         print("Full description of " + lang + " is too long: " + str(len(fullDescription)) + " chars")

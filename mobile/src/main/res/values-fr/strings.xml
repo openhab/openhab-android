@@ -41,7 +41,6 @@
   <string name="settings_openhab_icon_format">Format des icônes</string>
   <string name="settings_openhab_icon_format_png">Image bitmap</string>
   <string name="settings_openhab_icon_format_svg">Image vectorielle</string>
-  <string name="settings_ringtone">Sonnerie</string>
   <string name="settings_clear_default_sitemap">Réinitialiser le sitemap par défaut</string>
   <string name="settings_no_default_sitemap">Pas de sitemap sélectionné</string>
   <string name="settings_current_default_sitemap">Sitemap par défaut actuel : %1$s</string>
