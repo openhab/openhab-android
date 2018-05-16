@@ -311,7 +311,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
     }
 
     private void queryServerProperties() {
-        final String url = "/rest/bindings";
+        final String url = "rest/bindings";
         mInitState = InitState.QUERY_SERVER_PROPS;
         mPendingCall = mConnection.getAsyncHttpClient().get(url, new AsyncHttpClient.StringResponseHandler() {
             @Override
@@ -718,7 +718,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         Log.d(TAG, "Loading sitemap list from /rest/sitemaps");
 
         mInitState = InitState.LOAD_SITEMAPS;
-        mPendingCall = mConnection.getAsyncHttpClient().get("/rest/sitemaps", new AsyncHttpClient.StringResponseHandler() {
+        mPendingCall = mConnection.getAsyncHttpClient().get("rest/sitemaps", new AsyncHttpClient.StringResponseHandler() {
             @Override
             public void onFailure(Request request, int statusCode, Throwable error) {
                 handleServerCommunicationFailure(request, statusCode, error);

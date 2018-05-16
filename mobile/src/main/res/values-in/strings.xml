@@ -38,7 +38,6 @@
   <string name="settings_openhab_icon_format">Format ikon</string>
   <string name="settings_openhab_icon_format_png">Bitmap</string>
   <string name="settings_openhab_icon_format_svg">Vektor</string>
-  <string name="settings_ringtone">Nada dering</string>
   <string name="settings_clear_default_sitemap">Hapus peta situs default</string>
   <string name="settings_no_default_sitemap">Tidak ada peta situs default yang dipilih</string>
   <string name="settings_current_default_sitemap">Peta Situs default saat ini: %1$s</string>

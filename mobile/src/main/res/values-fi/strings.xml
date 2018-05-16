@@ -41,7 +41,6 @@
   <string name="settings_openhab_icon_format">Kuvakkeiden tallennusmuoto</string>
   <string name="settings_openhab_icon_format_png">Bitmap</string>
   <string name="settings_openhab_icon_format_svg">SVG</string>
-  <string name="settings_ringtone">Soittoääni</string>
   <string name="settings_clear_default_sitemap">Poista oletussivukartta</string>
   <string name="settings_no_default_sitemap">Ei sivukarttaa oletuksena</string>
   <string name="settings_current_default_sitemap">Nykyinen oletussivukartta: %1$s</string>

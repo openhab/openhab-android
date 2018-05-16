@@ -117,7 +117,14 @@ public abstract class HttpClient {
     }
 
     public HttpUrl buildUrl(String url) {
-        return mBaseUrl.newBuilder(url).build();
+        HttpUrl absoluteUrl = HttpUrl.parse(url);
+        if (absoluteUrl != null) {
+            return absoluteUrl;
+        } else if (mBaseUrl != null) {
+            return mBaseUrl.newBuilder().addPathSegments(url).build();
+        } else {
+            throw new IllegalArgumentException("Can't use relative URLs without base URL");
+        }
     }
 
     protected Call prepareCall(String url, String method, Map<String, String> additionalHeaders,

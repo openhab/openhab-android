@@ -154,7 +154,7 @@ public class DefaultConnectionTest {
 
     @Test
     public void testSyncResolveRelativeUrl() {
-        SyncHttpClient.HttpResult result = testConnection.getSyncHttpClient().get("/rest/test");
+        SyncHttpClient.HttpResult result = testConnection.getSyncHttpClient().get("rest/test");
         assertFalse("The request should never succeed in tests", result.isSuccessful());
         assertEquals(TEST_BASE_URL + "/rest/test", result.request.url().toString());
         result.close();
