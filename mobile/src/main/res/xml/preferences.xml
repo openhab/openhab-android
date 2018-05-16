@@ -42,6 +42,11 @@
             android:summary="%s"
             android:entries="@array/iconTypeNames"
             android:entryValues="@array/iconTypeValues" />
+        <org.openhab.habdroid.ui.widget.ChartScalingPreference
+            android:title="@string/settings_chart_scaling"
+            android:summary="@string/settings_chart_scaling_summary"
+            android:key="chartScalingFactor"
+            android:defaultValue="1.5" />
         <Preference
             android:clickable="true"
             android:key="default_openhab_cleacache"
