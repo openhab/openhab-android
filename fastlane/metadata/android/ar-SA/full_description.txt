@@ -34,3 +34,9 @@ openHAB مبادرة المصدر المفتوح مدعومة بقوة من مج
 <b>مؤسسة openHAB</b>
 
 مؤسسة openHAB أ. ف. منظمة غير ربحية تحمل على عاتقها مهمة تثقيف الجمهور بخصوص إمكانيات ومزايا حلول المنازل الذكية الحرة والمفتوحة. معرفة المزيد عن المهمة وخدمات المؤسسة في https://www.openhabfoundation.org
+<b>Anti Features</b>
+
+The app is flagged with the "NonFreeAsset" flag, because the openHAB icon is not under a free license.
+
+
+Privacy policy: https://www.openhabfoundation.org/privacy

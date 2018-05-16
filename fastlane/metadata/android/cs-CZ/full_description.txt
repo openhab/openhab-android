@@ -32,3 +32,9 @@ Pokud chcete aplikaci přeložit do vašeho jazyka připojte se k nám na https:
 <b>openHAB Foundation</b>
 
 OpenHAB Foundation e.V. je nezisková organizace s posláním vzdělávat veřejnost o možnostech a výhodách svobodných a otevřených chytrých řešeních pro domácí automatizaci. Další informace o poslání a službách nadace naleznete na https://www.openhabfoundation.org
+<b>Anti Features</b>
+
+The app is flagged with the "NonFreeAsset" flag, because the openHAB icon is not under a free license.
+
+
+Privacy policy: https://www.openhabfoundation.org/privacy

@@ -32,3 +32,9 @@ openHAB היא פלטפורמת אוטומציה ביתית מבוססת קוד 
 <b>ארגון openHAB</b>
 
 קרן openHAB הוא ארגון ללא מטרות רווח שמשימתו היא לחנך את הציבור על האפשרויות והיתרונות של שימוש בפתרונות חופשיים ופתוחים של בית חכם. למד אודות משימתו ושירותיו של הארגון ב https://www.openhabfoundation.org
+<b>Anti Features</b>
+
+The app is flagged with the "NonFreeAsset" flag, because the openHAB icon is not under a free license.
+
+
+Privacy policy: https://www.openhabfoundation.org/privacy
