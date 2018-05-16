@@ -10,10 +10,12 @@
 package org.openhab.habdroid.ui;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -50,8 +52,10 @@ public class OpenHABNotificationFragment extends Fragment implements
     private Call mRequestHandle;
 
     private OpenHABNotificationAdapter mNotificationAdapter;
+    private String mInitiallyHighlightedId;
 
     private RecyclerView mRecyclerView;
+    private LinearLayoutManager mLayoutManager;
     private SwipeRefreshLayout mSwipeLayout;
     private View mEmptyView;
     private ImageView mEmptyWatermark;
@@ -59,8 +63,12 @@ public class OpenHABNotificationFragment extends Fragment implements
     private View mRetryButton;
     private int mLoadOffset;
 
-    public static OpenHABNotificationFragment newInstance() {
-        return new OpenHABNotificationFragment();
+    public static OpenHABNotificationFragment newInstance(@Nullable String highlightedId) {
+        OpenHABNotificationFragment f = new OpenHABNotificationFragment();
+        Bundle args = new Bundle();
+        args.putString("highlightedId", highlightedId);
+        f.setArguments(args);
+        return f;
     }
 
     /**
@@ -93,8 +101,9 @@ public class OpenHABNotificationFragment extends Fragment implements
         mActivity = (OpenHABMainActivity) getActivity();
         mNotificationAdapter = new OpenHABNotificationAdapter(mActivity,
                 () -> loadNotifications(false));
+        mLayoutManager = new LinearLayoutManager(mActivity);
 
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
+        mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.addItemDecoration(new DividerItemDecoration(mActivity));
         mRecyclerView.setAdapter(mNotificationAdapter);
         Log.d(TAG, "onActivityCreated()");
@@ -149,6 +158,10 @@ public class OpenHABNotificationFragment extends Fragment implements
             updateViewVisibility(true, false);
         }
 
+        // If we're passed an ID to be highlighted initially, we'd theoretically need to load all
+        // items instead of loading page-wise. As the initial highlight is only needed for
+        // notifications and a new notification is very likely to be contained in the first page,
+        // we skip that additional effort.
         final String url = String.format(Locale.US, "api/v1/notifications?limit=%d&skip=%d",
                 PAGE_SIZE, mLoadOffset);
         mRequestHandle = conn.getAsyncHttpClient().get(url, new AsyncHttpClient.StringResponseHandler() {
@@ -165,6 +178,7 @@ public class OpenHABNotificationFragment extends Fragment implements
                     }
                     mLoadOffset += items.size();
                     mNotificationAdapter.addLoadedItems(items, items.size() == PAGE_SIZE);
+                    handleInitialHighlight();
                     updateViewVisibility(false, false);
                 } catch (JSONException e) {
                     Log.d(TAG, e.getMessage(), e);
@@ -178,6 +192,23 @@ public class OpenHABNotificationFragment extends Fragment implements
                 Log.e(TAG, "Notifications request failure");
             }
         });
+    }
+
+    private void handleInitialHighlight() {
+        Bundle args = getArguments();
+        String highlightedId = args.getString("highlightedId");
+        if (TextUtils.isEmpty(highlightedId)) {
+            return;
+        }
+
+        final int position = mNotificationAdapter.findPositionForId(highlightedId);
+        if (position >= 0) {
+            mLayoutManager.scrollToPositionWithOffset(position, 0);
+            mRecyclerView.postDelayed(() -> mNotificationAdapter.highlightItem(position), 600);
+        }
+
+        // highlight only once
+        args.remove("highlightedId");
     }
 
     private void updateViewVisibility(boolean loading, boolean loadError) {

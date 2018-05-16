@@ -54,7 +54,7 @@ public class GcmMessageListenerService extends GcmListenerService {
                 ? Integer.parseInt(notificationIdString) : 1;
 
         switch (messageType) {
-            case "notification":
+            case "notification": {
                 String message = data.getString("message");
                 String severity = data.getString("severity");
                 String icon = data.getString("icon");
@@ -80,14 +80,16 @@ public class GcmMessageListenerService extends GcmListenerService {
                     nm.createNotificationChannel(channel);
                 }
 
-                nm.notify(notificationId,
-                        makeNotification(message, channelId, icon, timestamp, notificationId));
+                Notification n = makeNotification(message, channelId,
+                        icon, timestamp, persistedId, notificationId);
+                nm.notify(notificationId, n);
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     int count = getGcmNotificationCount(nm.getActiveNotifications());
                     nm.notify(SUMMARY_NOTIFICATION_ID, makeSummaryNotification(count));
                 }
                 break;
+            }
             case "hideNotification":
                 nm.cancel(notificationId);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -107,13 +109,13 @@ public class GcmMessageListenerService extends GcmListenerService {
         }
     }
 
-    private PendingIntent makeNotificationClickIntent(String msg, int notificationId) {
+    private PendingIntent makeNotificationClickIntent(String id, int notificationId) {
         Intent contentIntent = new Intent(this, OpenHABMainActivity.class)
                 .setAction(OpenHABMainActivity.ACTION_NOTIFICATION_SELECTED)
                 .setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP)
                 .putExtra(EXTRA_NOTIFICATION_ID, notificationId);
-        if (msg != null) {
-            contentIntent.putExtra(OpenHABMainActivity.EXTRA_MESSAGE, msg);
+        if (id != null) {
+            contentIntent.putExtra(OpenHABMainActivity.EXTRA_NOTIFICATION_ID, id);
         }
         return PendingIntent.getActivity(this, notificationId,
                 contentIntent, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -129,7 +131,7 @@ public class GcmMessageListenerService extends GcmListenerService {
     }
 
     private Notification makeNotification(String msg, String channelId, String icon,
-                long timestamp, int notificationId) {
+                long timestamp, String persistedId, int notificationId) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         String toneSetting = prefs.getString(Constants.PREFERENCE_TONE, "");
         Bitmap iconBitmap = null;
@@ -145,7 +147,7 @@ public class GcmMessageListenerService extends GcmListenerService {
             }
         }
 
-        PendingIntent contentIntent = makeNotificationClickIntent(msg, notificationId);
+        PendingIntent contentIntent = makeNotificationClickIntent(persistedId, notificationId);
 
         CharSequence publicText = getResources().getQuantityString(
                 R.plurals.summary_notification_text, 1, 1);
@@ -173,7 +175,8 @@ public class GcmMessageListenerService extends GcmListenerService {
     private Notification makeSummaryNotification(int subNotificationCount) {
         CharSequence text = getResources().getQuantityString(R.plurals.summary_notification_text,
                 subNotificationCount, subNotificationCount);
-        PendingIntent clickIntent = makeNotificationClickIntent(null, SUMMARY_NOTIFICATION_ID);
+        PendingIntent clickIntent =
+                makeNotificationClickIntent(null, SUMMARY_NOTIFICATION_ID);
         Notification publicVersion = makeNotificationBuilder(CHANNEL_ID_DEFAULT)
                 .setGroupSummary(true)
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)

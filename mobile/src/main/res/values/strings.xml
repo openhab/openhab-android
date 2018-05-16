@@ -7,7 +7,6 @@
     <string name="openhab_service_type" translatable="false">_openhab-server._tcp.local.</string>
     <string name="app_preferences_name">Settings</string>
     <string name="app_notifications">Notifications</string>
-    <string name="dlg_notification_title">Notification message</string>
     <string name="empty_string" translatable="false"></string>
 
     <!-- Main menu items -->

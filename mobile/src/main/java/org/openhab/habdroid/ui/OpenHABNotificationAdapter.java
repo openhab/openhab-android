@@ -11,7 +11,9 @@ package org.openhab.habdroid.ui;
 
 import android.content.Context;
 import android.net.Uri;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,6 +44,7 @@ public class OpenHABNotificationAdapter extends RecyclerView.Adapter<RecyclerVie
     private final LoadMoreListener mLoadMoreListener;
     private boolean mHasMoreItems;
     private boolean mWaitingForMoreData;
+    private int mHighlightedPosition;
 
     public OpenHABNotificationAdapter(Context context, LoadMoreListener loadMoreListener) {
         super();
@@ -63,6 +66,20 @@ public class OpenHABNotificationAdapter extends RecyclerView.Adapter<RecyclerVie
         mHasMoreItems = false;
         mWaitingForMoreData = false;
         notifyDataSetChanged();
+    }
+
+    public int findPositionForId(String id) {
+        for (int i = 0; i < mItems.size(); i++) {
+            if (TextUtils.equals(mItems.get(i).id(), id)) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    public void highlightItem(int position) {
+        mHighlightedPosition = position;
+        notifyItemChanged(position);
     }
 
     @Override
@@ -95,6 +112,20 @@ public class OpenHABNotificationAdapter extends RecyclerView.Adapter<RecyclerVie
                 mLoadMoreListener.loadMoreItems();
                 mWaitingForMoreData = true;
             }
+        }
+
+        if (position == mHighlightedPosition) {
+            final View v = holder.itemView;
+            v.post(() -> {
+                if (v.getBackground() != null) {
+                    final int centerX = v.getWidth() / 2;
+                    final int centerY = v.getHeight() / 2;
+                    DrawableCompat.setHotspot(v.getBackground(), centerX, centerY);
+                }
+                v.setPressed(true);
+                v.setPressed(false);
+                mHighlightedPosition = -1;
+            });
         }
     }
 

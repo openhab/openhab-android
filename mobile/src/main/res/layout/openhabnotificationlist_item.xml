@@ -4,6 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:minHeight="?attr/listPreferredItemHeight"
+    android:background="?attr/selectableItemBackground"
+    android:focusable="false"
     android:orientation="horizontal">
 
     <org.openhab.habdroid.util.MySmartImageView

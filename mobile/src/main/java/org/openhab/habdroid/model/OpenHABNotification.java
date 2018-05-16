@@ -27,6 +27,7 @@ import java.util.TimeZone;
 
 @AutoValue
 public abstract class OpenHABNotification {
+    public abstract String id();
     public abstract String message();
     public abstract long createdTimestamp();
     @Nullable
@@ -36,6 +37,7 @@ public abstract class OpenHABNotification {
 
     @AutoValue.Builder
     abstract static class Builder {
+        abstract Builder id(String id);
         abstract Builder message(String message);
         abstract Builder createdTimestamp(long created);
         abstract Builder icon(@Nullable String icon);
@@ -57,6 +59,7 @@ public abstract class OpenHABNotification {
         }
 
         return new AutoValue_OpenHABNotification.Builder()
+                .id(jsonObject.getString("_id"))
                 .icon(jsonObject.optString("icon", null))
                 .severity(jsonObject.optString("severity", null))
                 .message(jsonObject.getString("message"))
