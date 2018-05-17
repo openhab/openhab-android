@@ -14,46 +14,91 @@ import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.core.connection.Connection;
 import org.openhab.habdroid.core.connection.ConnectionFactory;
-import org.openhab.habdroid.core.connection.exception.ConnectionException;
 import org.openhab.habdroid.model.OpenHABNotification;
 import org.openhab.habdroid.util.MySmartImageView;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
-public class OpenHABNotificationAdapter extends
-        RecyclerView.Adapter<OpenHABNotificationAdapter.NotificationViewHolder> {
-    private final ArrayList<OpenHABNotification> mItems;
+public class OpenHABNotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    public interface LoadMoreListener {
+        void loadMoreItems();
+    }
+
+    private static final int VIEW_TYPE_NOTIFICATION = 0;
+    private static final int VIEW_TYPE_LOADING = 1;
+
+    private final ArrayList<OpenHABNotification> mItems = new ArrayList<>();
     private final LayoutInflater mInflater;
     private final Context mContext;
+    private final LoadMoreListener mLoadMoreListener;
+    private boolean mHasMoreItems;
+    private boolean mWaitingForMoreData;
 
-    public OpenHABNotificationAdapter(Context context, ArrayList<OpenHABNotification> items) {
+    public OpenHABNotificationAdapter(Context context, LoadMoreListener loadMoreListener) {
         super();
-        mItems = items;
         mContext = context;
         mInflater = LayoutInflater.from(context);
+        mLoadMoreListener = loadMoreListener;
+        mHasMoreItems = false;
+    }
+
+    public void addLoadedItems(List<OpenHABNotification> items, boolean hasMoreItems) {
+        mItems.addAll(items);
+        mHasMoreItems = hasMoreItems;
+        mWaitingForMoreData = false;
+        notifyDataSetChanged();
+    }
+
+    public void clear() {
+        mItems.clear();
+        mHasMoreItems = false;
+        mWaitingForMoreData = false;
+        notifyDataSetChanged();
     }
 
     @Override
     public int getItemCount() {
-        return mItems.size();
+        return mItems.size() + (mHasMoreItems ? 1 : 0);
     }
 
     @Override
-    public NotificationViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new NotificationViewHolder(mInflater, parent);
+    public int getItemViewType(int position) {
+        return position == mItems.size() ? VIEW_TYPE_LOADING : VIEW_TYPE_NOTIFICATION;
     }
 
     @Override
-    public void onBindViewHolder(NotificationViewHolder holder, int position) {
-        OpenHABNotification notification = mItems.get(position);
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        if (viewType == VIEW_TYPE_LOADING) {
+            return new LoadingIndicatorViewHolder(mInflater, parent);
+        } else {
+            return new NotificationViewHolder(mInflater, parent);
+        }
+    }
 
+    @Override
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        if (holder instanceof NotificationViewHolder) {
+            bindNotification((NotificationViewHolder) holder, mItems.get(position));
+        } else {
+            // loading indicator
+            holder.itemView.setVisibility(mHasMoreItems ? View.VISIBLE : View.GONE);
+            if (mHasMoreItems && !mWaitingForMoreData) {
+                mLoadMoreListener.loadMoreItems();
+                mWaitingForMoreData = true;
+            }
+        }
+    }
+
+    private void bindNotification(NotificationViewHolder holder, OpenHABNotification notification) {
         holder.mCreatedView.setText(DateUtils.getRelativeDateTimeString(mContext,
                 notification.createdTimestamp(),
                 DateUtils.MINUTE_IN_MILLIS, DateUtils.WEEK_IN_MILLIS, 0));
@@ -80,6 +125,12 @@ public class OpenHABNotificationAdapter extends
             mCreatedView = itemView.findViewById(R.id.notificationCreated);
             mMessageView = itemView.findViewById(R.id.notificationMessage);
             mIconView = itemView.findViewById(R.id.notificationImage);
+        }
+    }
+
+    public static class LoadingIndicatorViewHolder extends RecyclerView.ViewHolder {
+        public LoadingIndicatorViewHolder(LayoutInflater inflater, ViewGroup parent) {
+            super(inflater.inflate(R.layout.list_loading_item, parent, false));
         }
     }
 }

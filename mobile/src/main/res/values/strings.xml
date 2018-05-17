@@ -115,6 +115,7 @@
     <!-- Notification list strings -->
     <string name="notification_list_empty">No notifications were sent so far</string>
     <string name="notification_list_error">An error occurred while loading notifications</string>
+    <string name="list_loading_message">Loading\u2026</string>
 
     <!-- Strings for MemorizingTrustManager activity -->
     <string name="mtm_accept_cert">Accept unknown Certificate?</string>

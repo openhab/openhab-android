@@ -32,6 +32,7 @@ import org.openhab.habdroid.ui.widget.DividerItemDecoration;
 import org.openhab.habdroid.util.AsyncHttpClient;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 import okhttp3.Call;
 import okhttp3.Headers;
@@ -42,12 +43,13 @@ public class OpenHABNotificationFragment extends Fragment implements
 
     private static final String TAG = OpenHABNotificationFragment.class.getSimpleName();
 
+    private static final int PAGE_SIZE = 20;
+
     private OpenHABMainActivity mActivity;
     // keeps track of current request to cancel it in onPause
     private Call mRequestHandle;
 
     private OpenHABNotificationAdapter mNotificationAdapter;
-    private ArrayList<OpenHABNotification> mNotifications;
 
     private RecyclerView mRecyclerView;
     private SwipeRefreshLayout mSwipeLayout;
@@ -55,6 +57,7 @@ public class OpenHABNotificationFragment extends Fragment implements
     private ImageView mEmptyWatermark;
     private TextView mEmptyMessage;
     private View mRetryButton;
+    private int mLoadOffset;
 
     public static OpenHABNotificationFragment newInstance() {
         return new OpenHABNotificationFragment();
@@ -65,13 +68,6 @@ public class OpenHABNotificationFragment extends Fragment implements
      * fragment (e.g. upon screen orientation changes).
      */
     public OpenHABNotificationFragment() {
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        Log.d(TAG, "onCreate()");
-        mNotifications = new ArrayList<>();
     }
 
     @Override
@@ -95,7 +91,8 @@ public class OpenHABNotificationFragment extends Fragment implements
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mActivity = (OpenHABMainActivity) getActivity();
-        mNotificationAdapter = new OpenHABNotificationAdapter(mActivity, mNotifications);
+        mNotificationAdapter = new OpenHABNotificationAdapter(mActivity,
+                () -> loadNotifications(false));
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
         mRecyclerView.addItemDecoration(new DividerItemDecoration(mActivity));
@@ -104,16 +101,10 @@ public class OpenHABNotificationFragment extends Fragment implements
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        Log.d(TAG, "onViewCreated");
-        super.onViewCreated(view, savedInstanceState);
-    }
-
-    @Override
     public void onResume() {
         super.onResume();
         Log.d(TAG, "onResume()");
-        loadNotifications();
+        loadNotifications(true);
     }
 
     @Override
@@ -129,7 +120,7 @@ public class OpenHABNotificationFragment extends Fragment implements
     @Override
     public void onRefresh() {
         Log.d(TAG, "onRefresh()");
-        loadNotifications();
+        loadNotifications(true);
     }
 
     @Override
@@ -142,31 +133,38 @@ public class OpenHABNotificationFragment extends Fragment implements
     @Override
     public void onClick(View view) {
         if (view == mRetryButton) {
-            loadNotifications();
+            loadNotifications(true);
         }
     }
 
-    private void loadNotifications() {
+    private void loadNotifications(boolean clearExisting) {
         Connection conn = ConnectionFactory.getConnection(Connection.TYPE_CLOUD);
         if (conn == null) {
             updateViewVisibility(false, true);
             return;
         }
-        updateViewVisibility(true, false);
-        mRequestHandle = conn.getAsyncHttpClient().get("api/v1/notifications?limit=20",
-                new AsyncHttpClient.StringResponseHandler() {
+        if (clearExisting) {
+            mNotificationAdapter.clear();
+            mLoadOffset = 0;
+            updateViewVisibility(true, false);
+        }
+
+        final String url = String.format(Locale.US, "api/v1/notifications?limit=%d&skip=%d",
+                PAGE_SIZE, mLoadOffset);
+        mRequestHandle = conn.getAsyncHttpClient().get(url, new AsyncHttpClient.StringResponseHandler() {
             @Override
             public void onSuccess(String responseBody, Headers headers) {
                 Log.d(TAG, "Notifications request success");
                 try {
+                    ArrayList<OpenHABNotification> items = new ArrayList<>();
                     JSONArray jsonArray = new JSONArray(responseBody);
                     Log.d(TAG, jsonArray.toString());
-                    mNotifications.clear();
                     for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject sitemapJson = jsonArray.getJSONObject(i);
-                        mNotifications.add(OpenHABNotification.fromJson(sitemapJson));
+                        items.add(OpenHABNotification.fromJson(sitemapJson));
                     }
-                    mNotificationAdapter.notifyDataSetChanged();
+                    mLoadOffset += items.size();
+                    mNotificationAdapter.addLoadedItems(items, items.size() == PAGE_SIZE);
                     updateViewVisibility(false, false);
                 } catch (JSONException e) {
                     Log.d(TAG, e.getMessage(), e);
