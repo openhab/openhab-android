@@ -25,6 +25,8 @@ def getString(key):
         string = getEnglishString(key)
     return(string)
 
+playDevSiteDescription = "Play Store developer site description:\n"
+
 stringsFiles = glob.glob('assets/store_descriptions/*/strings.xml')
 for file in stringsFiles:
     tree = ET.parse(file)
@@ -73,8 +75,9 @@ for file in stringsFiles:
 
     shortDescription = getString('short_description')
     if len(shortDescription) > 80:
-        print("Short description of " + lang + " is too long: " + str(len(fullDescription)) + " chars")
+        print("Short description of " + lang + " is too long: " + str(len(shortDescription)) + " chars")
         exitCode += 1
+
 
     newpath = r'fastlane/metadata/android/' + lang + '/'
     if not os.path.exists(newpath):
@@ -87,4 +90,12 @@ for file in stringsFiles:
     f.write(shortDescription)
     f.close()
 
+    intro = getString('intro')
+    if intro != getEnglishString('intro'):
+        playDevSiteDescription += lang + ": " + intro + "\n"
+        if len(intro) > 140:
+            print("Intro string of " + lang + " is too long: " + str(len(getString('intro'))) + " chars")
+            exitCode += 1
+
+print("\n\n" + playDevSiteDescription)
 exit(exitCode)
