@@ -39,6 +39,10 @@
   <string name="settings_openhab_icon_format">Symbol-Format</string>
   <string name="settings_openhab_icon_format_png">Pixelgrafik</string>
   <string name="settings_openhab_icon_format_svg">Vektorgrafik</string>
+  <string name="settings_chart_scaling_value_xs">Sehr klein</string>
+  <string name="settings_chart_scaling_value_s">Klein</string>
+  <string name="settings_chart_scaling_value_m">Standard</string>
+  <string name="settings_chart_scaling_value_l">Groß</string>
   <string name="settings_ringtone">Benachrichtigungston</string>
   <string name="settings_clear_default_sitemap">Standard-Sitemap zurücksetzen</string>
   <string name="settings_no_default_sitemap">Keine Standard-Sitemap festgelegt</string>
