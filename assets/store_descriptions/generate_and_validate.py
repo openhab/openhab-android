@@ -37,7 +37,11 @@ for file in stringsFiles:
         fullDescription += getString('fdroid') + "\n\n"
     elif sys.argv[1] == "fdroidBeta":
         fullDescription += getString('fdroid') + "\n"
+        fullDescription += getString('beta') + "\n"
         fullDescription += getString('fdroid_beta') + "\n\n"
+    elif sys.argv[1] == "playBeta":
+        fullDescription += getString('beta') + "\n"
+        fullDescription += getString('play_beta') + "\n\n"
     fullDescription += "<b>" + getString('important_note') + "</b>\n\n"
     fullDescription += getString('oh_server') + "\n\n"
     fullDescription += getString('whatis') + "\n"
@@ -59,7 +63,7 @@ for file in stringsFiles:
     fullDescription += "<b>" + getString('foundation') + "</b>\n\n"
     fullDescription += getString('about_foundation') + "\n"
     if "fdroid" in sys.argv[1]:
-        fullDescription += "<b>" + getString('fdroid_anti_features') + "</b>\n\n"
+        fullDescription += "\n<b>" + getString('fdroid_anti_features') + "</b>\n\n"
         fullDescription += getString('fdroid_anti_features_text') + "\n\n\n"
         fullDescription += getString('fdroid_privacy_policy')
 
