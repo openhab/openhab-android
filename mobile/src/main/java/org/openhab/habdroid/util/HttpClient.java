@@ -116,10 +116,13 @@ public abstract class HttpClient {
     protected Call prepareCall(String url, String method, Map<String, String> additionalHeaders,
                                String requestBody, String mediaType) {
         Request.Builder requestBuilder = new Request.Builder();
-        if (mBaseUrl == null) {
-            requestBuilder.url(url);
+        HttpUrl absoluteUrl = HttpUrl.parse(url);
+        if (absoluteUrl != null) {
+            requestBuilder.url(absoluteUrl);
+        } else if (mBaseUrl != null) {
+            requestBuilder.url(mBaseUrl.newBuilder().addPathSegments(url).build());
         } else {
-            requestBuilder.url(mBaseUrl.newBuilder(url).build());
+            throw new IllegalArgumentException("Can't use relative URLs without base URL");
         }
         for (Map.Entry<String, String> entry : headers.entrySet()) {
             requestBuilder.addHeader(entry.getKey(), entry.getValue());

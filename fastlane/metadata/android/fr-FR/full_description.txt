@@ -26,9 +26,15 @@ Over 200 specific add-ons provide support for brands, devices, technologies and 
 <b>Communauté open source</b>
 
 The openHAB open source initiative strongly supports its vibrant community. The forum with over 13,000 registered users is a place to find guidance, help and inspiration. Join the openHAB community forum over at https://community.openhab.org
-Si vous rencontrez un problème, veuillez nous en faire part sur le forum ou sur https://github.com/openhab/openhab-android/issues
+When you find an issue please report it in the forum or at https://github.com/openhab/openhab-android/issues
 Si vous souhaitez traduire l'application dans votre langue, rejoignez-nous sur https://crowdin.com/project/openhab-android
 
 <b>openHAB Foundation</b>
 
 The openHAB Foundation e.V. is a nonprofit organization with the mission to educate the public about the possibilities and benefits of free and open smart home solutions. Learn about the mission and the services of the foundation under https://www.openhabfoundation.org
+<b>Anti Features</b>
+
+The app is flagged with the "NonFreeAsset" flag, because the openHAB icon is not under a free license.
+
+
+Privacy policy: https://www.openhabfoundation.org/privacy

@@ -13,6 +13,7 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
@@ -20,6 +21,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
+import android.preference.PreferenceManager;
 import android.support.annotation.IdRes;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.VisibleForTesting;
@@ -58,6 +60,7 @@ import org.openhab.habdroid.ui.widget.ColorPickerDialog;
 import org.openhab.habdroid.ui.widget.DividerItemDecoration;
 import org.openhab.habdroid.ui.widget.OnColorChangedListener;
 import org.openhab.habdroid.ui.widget.SegmentedControlButton;
+import org.openhab.habdroid.util.Constants;
 import org.openhab.habdroid.util.MjpegStreamer;
 import org.openhab.habdroid.util.MySmartImageView;
 import org.openhab.habdroid.util.Util;
@@ -861,6 +864,7 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         private final View mParentView;
         private final CharSequence mChartTheme;
         private final Random mRandom = new Random();
+        private final SharedPreferences mPrefs;
         private int mRefreshRate = 0;
         private int mDensity;
 
@@ -877,6 +881,7 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
 
             mDensity = metrics.densityDpi;
             mChartTheme = theme;
+            mPrefs = PreferenceManager.getDefaultSharedPreferences(itemView.getContext());
         }
 
         @Override
@@ -884,6 +889,9 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
             OpenHABItem item = widget.item();
 
             if (item != null) {
+                float scalingFactor = mPrefs.getFloat(Constants.PREFERENCE_CHART_SCALING, 1.0f);
+                float actualDensity = (float) mDensity / scalingFactor;
+
                 StringBuilder chartUrl = new StringBuilder(mConnection.getOpenHABUrl());
 
                 if (item.type() == OpenHABItem.Type.Group) {
@@ -893,7 +901,7 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
                 }
                 chartUrl.append("&period=").append(widget.period())
                         .append("&random=").append(mRandom.nextInt())
-                        .append("&dpi=").append(mDensity);
+                        .append("&dpi=").append((int) actualDensity);
                 if (!TextUtils.isEmpty(widget.service())) {
                     chartUrl.append("&service=").append(widget.service());
                 }

@@ -20,7 +20,7 @@ fi
 git config --local user.name "openhab-bot"
 git config --local user.email "bot@openhab.org"
 echo "Git add"
-git add fastlane/metadata/* "mobile/src/main/AndroidManifest.xml"
+git add fastlane/metadata/* "mobile/build.gradle"
 echo "Git commit"
 git commit -m "Bump version to $TRAVIS_TAG and update fastlane metadata"
 echo "Git tag"

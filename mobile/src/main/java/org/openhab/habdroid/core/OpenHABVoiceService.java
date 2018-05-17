@@ -87,11 +87,11 @@ public class OpenHABVoiceService extends IntentService {
             return;
         }
 
-        SyncHttpClient.HttpStatusResult result = client.post("/voice/interpreters",
+        SyncHttpClient.HttpStatusResult result = client.post("voice/interpreters",
                 commandJson, "application/json").asStatus();
         if (result.statusCode == 404) {
             Log.d(TAG, "Voice interpreter endpoint returned 404, falling back to item");
-            result = client.post("/rest/items/VoiceCommand",
+            result = client.post("rest/items/VoiceCommand",
                     command, "text/plain;charset=UTF-8").asStatus();
         }
         if (result.isSuccessful()) {

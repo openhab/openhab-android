@@ -180,6 +180,11 @@ public class AboutActivity extends AppCompatActivity implements
                         }
                     })
                     .build());
+            appCard.addItem(new MaterialAboutActionItem.Builder()
+                    .text(R.string.about_privacy_policy)
+                    .icon(R.drawable.ic_security_grey_24dp)
+                    .setOnClickAction(MaterialAboutItemOnClickRedirect("https://www.openhabfoundation.org/privacy"))
+                    .build());
 
             MaterialAboutCard.Builder ohServerCard = new MaterialAboutCard.Builder();
             ohServerCard.title(R.string.about_server);
@@ -247,7 +252,7 @@ public class AboutActivity extends AppCompatActivity implements
             ohCommunityCard.addItem(new MaterialAboutActionItem.Builder()
                     .text(R.string.about_foundation)
                     .icon(R.drawable.ic_people_grey_24dp)
-                    .setOnClickAction(MaterialAboutItemOnClickRedirect("http://www.openhabfoundation.org/"))
+                    .setOnClickAction(MaterialAboutItemOnClickRedirect("https://www.openhabfoundation.org/"))
                     .build());
 
             return new MaterialAboutList.Builder()
@@ -275,7 +280,7 @@ public class AboutActivity extends AppCompatActivity implements
 
         private String getServerSecret() {
             SyncHttpClient.HttpTextResult result =
-                    mConnection.getSyncHttpClient().get("/static/secret").asText();
+                    mConnection.getSyncHttpClient().get("static/secret").asText();
             if (result.isSuccessful()) {
                 Log.d(TAG, "Got secret " + obfuscateString(result.response));
                 return result.response;
@@ -290,7 +295,7 @@ public class AboutActivity extends AppCompatActivity implements
         }
 
         private String getServerUuid() {
-            final String uuidUrl = useJsonApi() ? "/rest/uuid" : "/static/uuid";
+            final String uuidUrl = useJsonApi() ? "rest/uuid" : "static/uuid";
             SyncHttpClient.HttpTextResult result =
                     mConnection.getSyncHttpClient().get(uuidUrl).asText();
             if (result.isSuccessful()) {
@@ -303,7 +308,7 @@ public class AboutActivity extends AppCompatActivity implements
         }
 
         private String getApiVersion() {
-            String versionUrl = useJsonApi() ? "/rest" : "/static/version";
+            String versionUrl = useJsonApi() ? "rest" : "static/version";
             Log.d(TAG, "url = " + versionUrl);
             SyncHttpClient.HttpTextResult result =
                     mConnection.getSyncHttpClient().get(versionUrl).asText();

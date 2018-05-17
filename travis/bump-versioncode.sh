@@ -8,9 +8,9 @@ then
     exit 1
 fi
 
-manifest="mobile/src/main/AndroidManifest.xml"
+gradle_file="mobile/build.gradle"
 
-currentVersionCode=$(grep 'android:versionCode' $manifest | sed -r 's/(.*)"(.*)"/\2/')
+currentVersionCode=$(grep 'versionCode' $gradle_file | sed -r 's/(.*) (.*)$/\2/')
 let currentVersionCode++
 
 if [ -z "$TRAVIS_TAG" ]
@@ -27,7 +27,7 @@ else
     TRAVIS_TAG="${TRAVIS_TAG%-release}"
     echo "New version code is $currentVersionCode and name $TRAVIS_TAG"
     echo "Replace versionCode"
-    sed --in-place -r "s/android:versionCode=\"(.*)\"/android:versionCode=\"${currentVersionCode}\"/" $manifest
+    sed --in-place -r "s/versionCode (.*)/versionCode ${currentVersionCode}/" $gradle_file
     echo "Replace versionName"
-    sed --in-place -r "s/android:versionName=\"(.*)\"/android:versionName=\"${TRAVIS_TAG}\"/" $manifest
+    sed --in-place -r "s/versionName \"(.*)\"/versionName \"${TRAVIS_TAG}\"/" $gradle_file
 fi

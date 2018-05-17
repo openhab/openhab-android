@@ -38,7 +38,6 @@
   <string name="settings_openhab_icon_format">アイコン形式</string>
   <string name="settings_openhab_icon_format_png">ビットマップ</string>
   <string name="settings_openhab_icon_format_svg">ベクター</string>
-  <string name="settings_ringtone">着信音</string>
   <string name="settings_clear_default_sitemap">デフォルトのサイトマップをクリア</string>
   <string name="settings_no_default_sitemap">デフォルトのサイトマップが選択されていません</string>
   <string name="settings_current_default_sitemap">現在のデフォルトサイトマップ: %1$s</string>

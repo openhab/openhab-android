@@ -94,7 +94,7 @@ public abstract class ServerProperties implements Parcelable {
 
     private static void fetchFlags(AsyncHttpClient client, UpdateHandle handle,
             UpdateSuccessCallback successCb, UpdateFailureCallback failureCb) {
-        handle.call = client.get("/rest", new AsyncHttpClient.StringResponseHandler() {
+        handle.call = client.get("rest", new AsyncHttpClient.StringResponseHandler() {
             @Override
             public void onFailure(Request request, int statusCode, Throwable error) {
                 failureCb.handleUpdateFailure(request, statusCode, error);
@@ -133,7 +133,7 @@ public abstract class ServerProperties implements Parcelable {
 
     private static void fetchSitemaps(AsyncHttpClient client, UpdateHandle handle,
             UpdateSuccessCallback successCb, UpdateFailureCallback failureCb) {
-        handle.call = client.get("/rest/sitemaps", new AsyncHttpClient.StringResponseHandler() {
+        handle.call = client.get("rest/sitemaps", new AsyncHttpClient.StringResponseHandler() {
             @Override
             public void onFailure(Request request, int statusCode, Throwable error) {
                 failureCb.handleUpdateFailure(request, statusCode, error);

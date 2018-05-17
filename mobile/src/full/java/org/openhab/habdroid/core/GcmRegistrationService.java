@@ -84,7 +84,7 @@ public class GcmRegistrationService extends IntentService {
         String deviceId = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
 
         String regUrl = String.format(Locale.US,
-                "/addAndroidRegistration?deviceId=%s&deviceModel=%s&regId=%s",
+                "addAndroidRegistration?deviceId=%s&deviceModel=%s&regId=%s",
                 deviceId, deviceModel, token);
 
         Log.d(TAG, "Register device at openHAB-cloud with URL: " + regUrl);

@@ -41,7 +41,6 @@
   <string name="settings_openhab_icon_format">Formát ikon</string>
   <string name="settings_openhab_icon_format_png">Bitmapa</string>
   <string name="settings_openhab_icon_format_svg">Vektor</string>
-  <string name="settings_ringtone">Tón oznámení</string>
   <string name="settings_clear_default_sitemap">Změnit výchozí sitemap</string>
   <string name="settings_no_default_sitemap">Žádná výchozí sitemap nebyla vybrána</string>
   <string name="settings_current_default_sitemap">Aktuální výchozí sitemap: %1$s</string>
