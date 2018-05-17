@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <strings>
-    <intro>openHAB - "empowering the smart home" - open source program pro domácí automatizaci, kterým můžete spravovat např. IoT zařízení od různých výrobců, bez ohledu na jimi použitou technologii</intro>
+    <intro/>
     <whatis>openHAB je open source platforma pro automatizaci domácnosti, založená na Java, která integruje a kombinuje širokou škálu různých systémů a technologií pro automatizaci domácnosti do jediného řešení.</whatis>
     <rules>Všechna připojená zařízení je možné spravovat, ovládat a automatizovat pomocí vlastních pravidel a různých uživatelských rozhraní.</rules>
     <supported>Podporované produkty</supported>
