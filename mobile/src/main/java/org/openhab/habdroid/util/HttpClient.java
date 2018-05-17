@@ -115,7 +115,7 @@ public abstract class HttpClient {
             absoluteUrl = HttpUrl.parse(mBaseUrl.toString() + url);
         }
         if (absoluteUrl == null) {
-            throw new IllegalArgumentException("URL '" + url + " is invalid");
+            throw new IllegalArgumentException("URL '" + url + "' is invalid");
         }
         requestBuilder.url(absoluteUrl);
         for (Map.Entry<String, String> entry : headers.entrySet()) {
