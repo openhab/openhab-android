@@ -92,4 +92,18 @@
         <item>silver</item>
         <item>grey</item>
     </string-array>
+
+    <string-array name="chartScalingEntries">
+        <item>@string/settings_chart_scaling_value_xs</item>
+        <item>@string/settings_chart_scaling_value_s</item>
+        <item>@string/settings_chart_scaling_value_m</item>
+        <item>@string/settings_chart_scaling_value_l</item>
+    </string-array>
+
+    <integer-array name="chartScalingValues">
+        <item>300</item>
+        <item>200</item>
+        <item>150</item>
+        <item>100</item>
+    </integer-array>
 </resources>

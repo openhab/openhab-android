@@ -46,6 +46,12 @@
     <string name="settings_openhab_icon_format_value_svg" translatable="false">SVG</string>
     <string name="settings_openhab_icon_format_png">Bitmap</string>
     <string name="settings_openhab_icon_format_svg">Vector</string>
+    <string name="settings_chart_scaling">Chart scaling</string>
+    <string name="settings_chart_scaling_summary">Note: Smaller scaling shrinks fonts and line widths, so there\'s more space for the graph, but font readability may suffer.</string>
+    <string name="settings_chart_scaling_value_xs">Very small</string>
+    <string name="settings_chart_scaling_value_s">Small</string>
+    <string name="settings_chart_scaling_value_m">Default</string>
+    <string name="settings_chart_scaling_value_l">Large</string>
     <string name="settings_ringtone">Notification ringtone</string>
     <string name="settings_clear_default_sitemap">Clear default sitemap</string>
     <string name="settings_no_default_sitemap">No default sitemap selected</string>
