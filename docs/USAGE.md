@@ -35,16 +35,13 @@ The app follows the basic principles of the other openHAB UIs, like Basic UI, an
 
 ## Getting Started
 
-When first installed the app is in "Demo Mode".
-To connect to your own openHAB server, navigate to the Settings menu and uncheck the "Demo Mode" option.
-Normally, after unchecking the Demo Mode, the app will be able to use multicast DNS to auto-detect your openHAB server if it is on the same network.
+On first start the app tries to discover your openHAB server. This will only work on local networks and when the server does not enforce either authentication or HTTPS. If it fails, you can click on `Go to settings` and manually enter the server settings.
 
-You also have the option to manually set the server URL in the settings.
 The URL field(s) might look like one of the following examples:
 
 * IP address: `http://192.168.1.3:8080`
 * Local hostname: `http://openhabianpi:8080` (depending on your network the suffix `.local` needs to be added to the hostname)
-* Remote domain name: `https://home.myopenhab.org` for an openHAB cloud account with [myopenHAB](http://www.myopenhab.org/)
+* Remote domain name: `https://myopenhab.org` for an openHAB cloud account with [myopenHAB](http://www.myopenhab.org/)
 
 **Local server settings:**
 Please enter the base URL of your openHAB server, as you would enter it in the browser to reach the openHAB dashboard.
