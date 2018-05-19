@@ -70,12 +70,12 @@ for file in stringsFiles:
         fullDescription += getString('fdroid_privacy_policy')
 
     if len(fullDescription) > 4000:
-        print("Full description of " + lang + " is too long: " + str(len(fullDescription)) + " chars")
+        print("Full description of " + lang + " is too long: " + str(len(fullDescription)) + " > 4000 chars")
         exitCode += 1
 
     shortDescription = getString('short_description')
     if len(shortDescription) > 80:
-        print("Short description of " + lang + " is too long: " + str(len(shortDescription)) + " chars")
+        print("Short description of " + lang + " is too long: " + str(len(shortDescription)) + " > 80 chars")
         exitCode += 1
 
 
@@ -94,7 +94,7 @@ for file in stringsFiles:
     if intro != getEnglishString('intro'):
         playDevSiteDescription += lang + ": " + intro + "\n"
         if len(intro) > 140:
-            print("Intro string of " + lang + " is too long: " + str(len(getString('intro'))) + " chars")
+            print("Intro string of " + lang + " is too long: " + str(len(getString('intro'))) + " > 140 chars")
             exitCode += 1
 
 print("\n\n" + playDevSiteDescription)
