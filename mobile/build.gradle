@@ -139,7 +139,7 @@ dependencies {
     testImplementation 'org.powermock:powermock-module-junit4:1.7.0'
 
     // Espresso UI tests
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:2.2.2', {
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     }
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
