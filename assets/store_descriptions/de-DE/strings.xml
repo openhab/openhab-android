@@ -27,7 +27,7 @@
     <short_description>openHAB-Client für Android</short_description>
     <fdroid>In der F-Droid-Version wurden die Unterstützung für Mapview-Elemente, GCM und die Übermittlung von Absturzberichten entfernt. Mit dieser Version können keine Nachrichten von einer openHAB-Cloud-Instanz empfangen werden.</fdroid>
     <fdroid_beta>Sie können die Betaversion neben der stabilen Version installieren: [[org.openhab.habdroid]]</fdroid_beta>
-    <fdroid_privacy_policy/>
+    <fdroid_privacy_policy>Datenschutzerklärung: https://www.openhabfoundation.org/privacy</fdroid_privacy_policy>
     <fdroid_anti_features/>
     <fdroid_anti_features_text/>
 </strings>
