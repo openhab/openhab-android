@@ -28,6 +28,7 @@
         android:label="@string/app_name"
         android:resizeableActivity="true"
         android:supportsPictureInPicture="false"
+        android:theme="@style/HABDroid.Light"
         android:supportsRtl="true"
         android:name=".core.OpenHABApplication">
         <activity
