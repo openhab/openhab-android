@@ -15,6 +15,10 @@
     <string name="mainmenu_openhab_preferences">Settings</string>
     <string name="mainmenu_openhab_selectsitemap">Select default sitemap</string>
     <string name="mainmenu_openhab_clearcache">Clear images cache</string>
+    <string name="mainmenu_openhab_ble_beacons">Test BLE Beacons</string>
+
+    <!-- TODO - debug useage BLE beacon activity name-->
+    <string name="title_activity_openhab_ble_beacons">BLE Beacons</string>
 
     <!-- App settings strings -->
     <string name="settings_connection_title">Connection</string>
@@ -119,7 +123,7 @@
     <string name="mtm_decision_abort">Abort</string>
     <string name="mtm_notification">Certificate verification</string>
     <string name="settings_openhab_none">None</string>
-    
+
     <!-- Themes -->
     <string name="theme_value_light" translatable="false">light</string>
     <string name="theme_value_dark" translatable="false">dark</string>

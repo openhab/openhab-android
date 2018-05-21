@@ -601,6 +601,11 @@ public class OpenHABMainActivity extends AppCompatActivity implements
                     case R.id.about:
                         openAbout();
                         return true;
+                    case R.id.beacons://TODO - temporarily add an entrance of BLE beacons for debugging usage
+                        Log.d(TAG, "beacons hit!");
+                        Intent bleBeaconIntent = new Intent(OpenHABMainActivity.this, OpenHABBleActivity.class);
+                        startActivity(bleBeaconIntent);
+                        return true;
                 }
                 if (item.getGroupId() == GROUP_ID_SITEMAPS) {
                     OpenHABSitemap sitemap = mSitemapList.get(item.getItemId());

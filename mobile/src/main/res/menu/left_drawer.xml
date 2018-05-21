@@ -9,6 +9,11 @@
         android:id="@+id/notifications"
         android:icon="@drawable/ic_notifications_black_24dp"
         android:title="@string/app_notifications" />
+    <!--TODO - temporarily add an entrance of BLE beacons for debugging usage-->
+    <item
+        android:id="@+id/beacons"
+        android:icon="@drawable/ic_nfc_black_180dp"
+        android:title="@string/mainmenu_openhab_ble_beacons" />
     <item
         android:id="@+id/settings"
         android:icon="@drawable/ic_settings_black_24dp"
