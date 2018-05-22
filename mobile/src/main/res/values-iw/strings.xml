@@ -39,6 +39,7 @@
   <string name="settings_openhab_icon_format">סוג קובץ צלמית</string>
   <string name="settings_openhab_icon_format_png">מפת סיביות PNG</string>
   <string name="settings_openhab_icon_format_svg">וקטורי SVG</string>
+  <string name="settings_chart_scaling">שינוי גודל התרשים</string>
   <string name="settings_chart_scaling_value_xs">קטן מאוד</string>
   <string name="settings_chart_scaling_value_s">קטן</string>
   <string name="settings_chart_scaling_value_m">ברירת מחדל</string>
