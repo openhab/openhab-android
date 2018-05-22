@@ -32,4 +32,6 @@ https://docs.openhab.org/addons/bindings.html</bindings>
     <fdroid_privacy_policy/>
     <fdroid_anti_features/>
     <fdroid_anti_features_text/>
+    <beta/>
+    <play_beta/>
 </strings>

@@ -39,6 +39,8 @@
   <string name="settings_openhab_icon_format">Symbol-Format</string>
   <string name="settings_openhab_icon_format_png">Pixelgrafik</string>
   <string name="settings_openhab_icon_format_svg">Vektorgrafik</string>
+  <string name="settings_chart_scaling">Diagrammskalierung</string>
+  <string name="settings_chart_scaling_summary">Hinweis: Kleinere Skalierungen verkleinern die Schrift- und Liniengröße, sodass mehr Platz für den Graphen entsteht. Allerdings wird die Schrift schlechter lesbar sein.</string>
   <string name="settings_chart_scaling_value_xs">Sehr klein</string>
   <string name="settings_chart_scaling_value_s">Klein</string>
   <string name="settings_chart_scaling_value_m">Standard</string>
