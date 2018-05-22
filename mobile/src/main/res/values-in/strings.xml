@@ -4,11 +4,9 @@
   <!-- Attention translators! Do NOT submit localized strings through GitHub Pull Request. -->
   <!-- See: https://github.com/openhab/openhab-android/blob/master/README.md#localization -->
   <!-- General app strings -->
-  <string name="main_menu">Main menu</string>
   <string name="app_preferences_name">Pengaturan</string>
   <string name="app_notifications">Pemberitahuan</string>
   <string name="dlg_notification_title">Pengaturan pesan</string>
-  <string name="favorites">Favorit</string>
   <!-- Main menu items -->
   <string name="mainmenu_openhab_sitemaps">Peta Situs</string>
   <string name="mainmenu_openhab_preferences">Pengaturan</string>
@@ -42,18 +40,14 @@
   <string name="settings_no_default_sitemap">Tidak ada peta situs default yang dipilih</string>
   <string name="settings_current_default_sitemap">Peta Situs default saat ini: %1$s</string>
   <!-- App messages strings -->
-  <string name="title_voice_widget">openHAB Perintah suara</string>
-  <string name="info_voice_input">"openHAB, atas perintahmu!"</string>
-  <string name="info_voice_recognized_text">"Perintah yang Diakui: %1$s"</string>
+  <string name="info_voice_input">openHAB, atas perintahmu!</string>
+  <string name="info_voice_recognized_text">Perintah yang Diakui: %1$s</string>
   <string name="info_demo_mode_short">Berjalan dalam mode demo</string>
   <string name="info_conn_url">Menghubungkan ke URL lokal</string>
   <string name="info_conn_rem_url">Menghubungkan ke URL jauh</string>
-  <string name="info_discovery">Menemukan openHAB Mohon tunggu\u2026</string>
   <!-- Error messages -->
-  <string name="error_no_url">Harap periksa apakah openHAB menjalankan atau mengkonfigurasi URL openHAB atau URL jauh</string>
   <string name="error_empty_sitemap_list">openHAB mengembalikan daftar peta situs kosong</string>
   <string name="error_network_not_available">Jaringan tidak tersedia</string>
-  <string name="error_no_uuid">Tidak dapat menerima openHAB UUID, koneksi gagal</string>
   <string name="error_connection_failed">Sambungan ke rumah gagal</string>
   <string name="error_unable_to_resolve_hostname">Tidak dapat menyelesaikan nama rumah</string>
   <string name="error_certificate_not_trusted">Sertifikat SSL tidak dipercaya. Harap impor sertifikat akar atau nonaktifkan sertifikat validasi selama SSL jabat tangan</string>
@@ -63,7 +57,6 @@
   <string name="error_http_code_496">Sertifikat relasi SSL diperlukan (kode tanggapan HTTP 496)</string>
   <string name="error_http_code_511">Otentikasi jaringan diperlukan (kode tanggapan HTTP 511)</string>
   <string name="title_activity_openhabwritetag">Tulis tag NFC</string>
-  <string name="title_activity_openhabinfo">informasi openHAB</string>
   <string name="title_activity_libraries">Perpustakaan yang Digunakan</string>
   <string name="info_write_tag">Sentuh tag dan tetap tutup sampai pesan konfirmasi muncul</string>
   <string name="info_write_tag_progress">Menulis tag</string>
@@ -71,7 +64,6 @@
   <string name="info_write_failed">Kesalahan penulisan tag</string>
   <string name="info_write_tag_unsupported">Perangkat ini tidak memiliki dukungan NFC</string>
   <string name="info_write_tag_disabled">NFC dinonaktifkan Aktifkan di menu setelan perangkat.</string>
-  <string name="info_openhab_version_label">versi openHAB</string>
   <string name="info_openhab_apiversion_label">versi openHAB Jeda API</string>
   <string name="info_openhab_uuid_label">openHAB UUID</string>
   <string name="info_openhab_secret_label">rahasia openHAB</string>
@@ -84,21 +76,19 @@
   <string name="mtm_decision_once">Sekali</string>
   <string name="mtm_decision_abort">Menggugurkan</string>
   <string name="mtm_notification">Verifikasi sertifikat</string>
-  <string name="settings_openhab_none">tidak ada</string>
   <!-- Themes -->
   <string name="theme_name_light">Cahaya</string>
   <string name="theme_name_dark">Gelap</string>
   <string name="theme_name_black">Hitam/AMOLED</string>
   <string name="theme_name_basic_ui">UI Dasar</string>
   <string name="theme_name_basic_ui_dark">Dasar UI gelap</string>
-  <!-- NFC toggle -->
+  <!-- NFC -->
   <string name="nfc_action_on">Di</string>
   <string name="nfc_action_up">Naik</string>
   <string name="nfc_action_off">Mati</string>
   <string name="nfc_action_down">Turun</string>
   <string name="nfc_action_toggle">Toggle</string>
   <string name="nfc_action_current_color">Warna sekarang</string>
-  <string name="nfc_action_to_sitemap_page">Navigasikan ke halaman Peta Situs</string>
   <!-- Drawer -->
   <string name="drawer_open">Laci peta dibuka</string>
   <string name="drawer_close">Peta Situs laci tertutup</string>

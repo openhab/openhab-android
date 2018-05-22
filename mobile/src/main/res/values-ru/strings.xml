@@ -4,11 +4,9 @@
   <!-- Attention translators! Do NOT submit localized strings through GitHub Pull Request. -->
   <!-- See: https://github.com/openhab/openhab-android/blob/master/README.md#localization -->
   <!-- General app strings -->
-  <string name="main_menu">Главное меню</string>
   <string name="app_preferences_name">Настройки</string>
   <string name="app_notifications">Уведомления</string>
   <string name="dlg_notification_title">Уведомление</string>
-  <string name="favorites">Избранное</string>
   <!-- Main menu items -->
   <string name="mainmenu_openhab_sitemaps">Карты сайта</string>
   <string name="mainmenu_openhab_preferences">Параметры</string>
@@ -48,19 +46,15 @@
   <string name="settings_openhab_alt_connection">Параметры удаленного сервера</string>
   <string name="settings_openhab_connection">Параметры локального сервера</string>
   <!-- App messages strings -->
-  <string name="title_voice_widget">openHAB Голосовые команды</string>
-  <string name="info_voice_input">"openHAB, Ваша команда!"</string>
-  <string name="info_voice_recognized_text">"Принятая команда: %1$s"</string>
+  <string name="info_voice_input">openHAB, Ваша команда!</string>
+  <string name="info_voice_recognized_text">Принятая команда: %1$s</string>
   <string name="info_demo_mode_short">Запущен демо режим</string>
   <string name="info_conn_url">Подключение к локальному URL</string>
   <string name="info_conn_rem_url">Подключение к удаленному URL</string>
-  <string name="info_discovery">Обнаружение openHAB. Пожалуйста подождите\u2026</string>
   <!-- Error messages -->
-  <string name="error_no_url">Убедитесь, что openHAB запущен и настроен локальный URL-адрес openHAB или удаленный URL-адрес</string>
   <string name="error_empty_sitemap_list">openHAB вернул пустой sitemap лист</string>
   <string name="error_network_not_available">Сеть недоступна</string>
   <string name="error_http_connection_failed">Ошибка подключения. Получен неверный ответ от openHAB. Пожалуйста, проверьте, работает ли openHAB правильно (код ответа HTTP %d)</string>
-  <string name="error_no_uuid">Не удалось получить OpenHAB UUID, соединение не выполнено</string>
   <string name="error_invalid_url">Пожалуйста напишите правильный URL в форме \'http(s)://хост(:порт)/\'</string>
   <string name="error_connection_failed">Ошибка подключения к хосту</string>
   <string name="error_unable_to_resolve_hostname">Не удалось разрешить имя хоста</string>
@@ -85,7 +79,6 @@
   <string name="error_http_code_511">Требуется сетевая аутентификация (код ответа HTTP 511)</string>
   <string name="error_about_no_conn">Ошибка при получении данных с сервера openHAB</string>
   <string name="title_activity_openhabwritetag">Запись NFC tag</string>
-  <string name="title_activity_openhabinfo">openHAB Информация</string>
   <string name="title_activity_libraries">Используемые библиотеки</string>
   <string name="info_write_tag">Прикоснитесь к тегу и удерживайте его, пока не появится сообщение подтверждения</string>
   <string name="info_write_tag_progress">Запись тега</string>
@@ -93,7 +86,6 @@
   <string name="info_write_failed">Ошибка записи Tag метки</string>
   <string name="info_write_tag_unsupported">Это устройство не поддерживает NFC</string>
   <string name="info_write_tag_disabled">NFC выключено. Пожалуйста включите в настройках устройства.</string>
-  <string name="info_openhab_version_label">Версия openHAB</string>
   <string name="info_openhab_apiversion_label">openHAB Rest API Версия</string>
   <string name="info_openhab_uuid_label">openHAB UUID</string>
   <string name="info_openhab_secret_label">openHAB секрет</string>
@@ -107,14 +99,13 @@
   <string name="mtm_decision_once">Один раз</string>
   <string name="mtm_decision_abort">Отмена</string>
   <string name="mtm_notification">Проверка сертификата</string>
-  <string name="settings_openhab_none">Нет</string>
   <!-- Themes -->
   <string name="theme_name_light">Светлая</string>
   <string name="theme_name_dark">Темная</string>
   <string name="theme_name_black">Чёрная/AMOLED</string>
   <string name="theme_name_basic_ui">Базовый UI</string>
   <string name="theme_name_basic_ui_dark">Черный базовый UI</string>
-  <!-- NFC toggle -->
+  <!-- NFC -->
   <string name="nfc_action_on">Вкл</string>
   <string name="nfc_action_up">Вверх</string>
   <string name="nfc_action_off">Выкл</string>
@@ -122,7 +113,6 @@
   <string name="nfc_action_toggle">Переключатель</string>
   <string name="nfc_activate">Включить</string>
   <string name="nfc_action_current_color">Текущий цвет</string>
-  <string name="nfc_action_to_sitemap_page">Перейти на страницу sitemap</string>
   <!-- Drawer -->
   <string name="drawer_open">Sitemap отрисовщик открыт</string>
   <string name="drawer_close">Sitemap отрисовщик закрыт</string>
@@ -131,7 +121,6 @@
   <string name="about_title">О программе</string>
   <string name="about_license_title">Лицензия</string>
   <string name="about_changelog">Список изменений</string>
-  <string name="about_source_code">Найдите нас на GitHub!</string>
   <string name="about_issues">Сообщить об ошибке</string>
   <string name="about_docs">Документация</string>
   <string name="about_community_forum">Форум сообщества</string>
@@ -153,7 +142,6 @@
   <string name="intro_themes">Темы</string>
   <string name="intro_themes_description">Выберите между несколькими темами</string>
   <string name="try_again_button">Попробуйте еще раз</string>
-  <string name="network_error">Ошибка сети</string>
   <string name="go_to_settings_button">Перейдите к настройкам</string>
   <string name="configuration_missing">Ваш сервер openHAB не был обнаружен автоматически. Пожалуйста, настройте его IP адрес или имя хоста в настройках сервера.</string>
   <string name="resolving_openhab">Пытаюсь обнаружить сервер openHAB\u2026</string>
