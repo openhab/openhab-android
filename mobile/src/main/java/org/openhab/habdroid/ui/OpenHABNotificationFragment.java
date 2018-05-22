@@ -122,7 +122,7 @@ public class OpenHABNotificationFragment extends Fragment implements
         Log.d(TAG, "onPause()");
         // Cancel request for notifications if there was any
         if (mRequestHandle != null) {
-            new Thread(() -> mRequestHandle.cancel()).start();
+            mRequestHandle.cancel();
         }
     }
 
