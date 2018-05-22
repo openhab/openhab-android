@@ -13,6 +13,7 @@
   <string name="mainmenu_openhab_selectsitemap">デフォルトのサイトマップを選択</string>
   <string name="mainmenu_openhab_clearcache">画像キャッシュをクリア</string>
   <!-- App settings strings -->
+  <string name="settings_connection_title">接続設定</string>
   <string name="settings_openhab_url">ローカルサーバー URL</string>
   <string name="settings_openhab_url_summary">(ホスト名または IP アドレスに基づく) openHAB ダッシュ ボードの URL です。設定した場合、自動検出は無効になります。現在の設定: %s</string>
   <string name="settings_openhab_alturl">リモートサーバー URL</string>
