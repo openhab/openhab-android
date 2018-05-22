@@ -28,8 +28,8 @@
     <fdroid>תוכנות עבור F-Droid מכילות תצוגת מיפוי, GCM ודיווחי שגיאה על התרסקות הוסרו ולא יוכלו לקבל התראות בדחיפה מענן openHAB.</fdroid>
     <fdroid_beta>באפשרותך להתקין את גירסת הבטא לצד הגרסה היציבה: [[org.openhab.habdroid]]</fdroid_beta>
     <fdroid_privacy_policy>מדיניות פרטיות: https://www.openhabfoundation.org/privacy</fdroid_privacy_policy>
-    <fdroid_anti_features/>
-    <fdroid_anti_features_text>האפליקציה מסומנת בדגל עם הדגל "NonFreeAsset", כי הצלמית של openHAB איננה תחת רישיון חופשי.</fdroid_anti_features_text>
-    <beta/>
-    <play_beta/>
+    <fdroid_anti_features>תכונות שצריך לשים לב אליהן</fdroid_anti_features>
+    <fdroid_anti_features_text>האפליקציה מסומנת בדגל עם הדגל "NonFreeAsset", כי הצלמית של openHAB אינה תחת רישיון חופשי.</fdroid_anti_features_text>
+    <beta>נסה תכונות חדשות וספר לנו מה דעתך!</beta>
+    <play_beta>באפשרותך להתקין את גירסת הבטא לצד הגרסה היציבה.</play_beta>
 </strings>
