@@ -674,7 +674,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         if (icon == null) {
             return null;
         }
-        Drawable wrapped = DrawableCompat.wrap(icon);
+        Drawable wrapped = DrawableCompat.wrap(icon.mutate());
         DrawableCompat.setTintList(wrapped, mDrawerIconTintList);
         return wrapped;
     }
