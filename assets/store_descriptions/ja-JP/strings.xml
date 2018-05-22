@@ -27,9 +27,9 @@
     <short_description>Android 用 openHAB クライアント</short_description>
     <fdroid>F-Droid のビルドは、マップビューのサポート、GCM、クラッシュレポートが削除されていて openHAB クラウドからプッシュ通知を受信することはできません。</fdroid>
     <fdroid_beta>安定版の他にベータ版をインストールできます: [[org.openhab.habdroid]]</fdroid_beta>
-    <fdroid_privacy_policy/>
-    <fdroid_anti_features/>
-    <fdroid_anti_features_text/>
-    <beta/>
-    <play_beta/>
+    <fdroid_privacy_policy>プライバシー ポリシー: https://www.openhabfoundation.org/privacy</fdroid_privacy_policy>
+    <fdroid_anti_features>アンチ機能</fdroid_anti_features>
+    <fdroid_anti_features_text>openHAB アイコンは自由ライセンスではないので、アプリは"非自由資産"にマークされています。</fdroid_anti_features_text>
+    <beta>新しい機能をお試しの上、フィードバックしてください!</beta>
+    <play_beta>安定版の他にベータ版をインストールできます.</play_beta>
 </strings>
