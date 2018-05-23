@@ -151,7 +151,7 @@
     <string name="about_title">About</string>
     <string name="about_license_title">License</string>
     <string name="about_license" translatable="false">Eclipse Public License - v 1.0</string>
-    <string name="about_copyright" translatable="false">© 2012 - %s openHAB Foundation</string>
+    <string name="about_copyright" translatable="false">© 2012 - %s openHAB community</string>
     <string name="about_version_string" translatable="false">%1$s - %2$s</string>
     <string name="about_changelog">Changelog</string>
     <string name="about_source_code">Source code</string>
