@@ -44,7 +44,7 @@ public class OpenHABNotificationAdapter extends RecyclerView.Adapter<RecyclerVie
     private final LoadMoreListener mLoadMoreListener;
     private boolean mHasMoreItems;
     private boolean mWaitingForMoreData;
-    private int mHighlightedPosition;
+    private int mHighlightedPosition = -1;
 
     public OpenHABNotificationAdapter(Context context, LoadMoreListener loadMoreListener) {
         super();
