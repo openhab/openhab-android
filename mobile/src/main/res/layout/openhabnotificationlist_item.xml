@@ -15,6 +15,7 @@
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:layout_gravity="center_vertical"
+        android:scaleType="centerInside"
         tools:src="@drawable/ic_openhab_appicon_24dp" />
 
     <LinearLayout
