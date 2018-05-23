@@ -167,21 +167,20 @@ public class OpenHABNotificationFragment extends Fragment implements
         mRequestHandle = conn.getAsyncHttpClient().get(url, new AsyncHttpClient.StringResponseHandler() {
             @Override
             public void onSuccess(String responseBody, Headers headers) {
-                Log.d(TAG, "Notifications request success");
                 try {
                     ArrayList<OpenHABNotification> items = new ArrayList<>();
                     JSONArray jsonArray = new JSONArray(responseBody);
-                    Log.d(TAG, jsonArray.toString());
                     for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject sitemapJson = jsonArray.getJSONObject(i);
                         items.add(OpenHABNotification.fromJson(sitemapJson));
                     }
+                    Log.d(TAG, "Notifications request success, got " + items.size() + " items");
                     mLoadOffset += items.size();
                     mNotificationAdapter.addLoadedItems(items, items.size() == PAGE_SIZE);
                     handleInitialHighlight();
                     updateViewVisibility(false, false);
                 } catch (JSONException e) {
-                    Log.d(TAG, e.getMessage(), e);
+                    Log.d(TAG, "Notification response could not be parsed", e);
                     updateViewVisibility(false, true);
                 }
             }
@@ -189,7 +188,7 @@ public class OpenHABNotificationFragment extends Fragment implements
             @Override
             public void onFailure(Request request, int statusCode, Throwable error) {
                 updateViewVisibility(false, true);
-                Log.e(TAG, "Notifications request failure");
+                Log.e(TAG, "Notifications request failure", error);
             }
         });
     }
