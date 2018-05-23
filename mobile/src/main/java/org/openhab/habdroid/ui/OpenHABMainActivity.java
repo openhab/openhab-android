@@ -126,7 +126,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         MemorizingResponder, AsyncServiceResolver.Listener, ConnectionFactory.UpdateListener {
     public static final String ACTION_NOTIFICATION_SELECTED =
             "org.openhab.habdroid.action.NOTIFICATION_SELECTED";
-    public static final String EXTRA_NOTIFICATION_ID = "notificationId";
+    public static final String EXTRA_PERSISTED_NOTIFICATION_ID = "persistedNotificationId";
 
     // Logging TAG
     private static final String TAG = OpenHABMainActivity.class.getSimpleName();
@@ -968,7 +968,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
     private void onNotificationSelected(Intent intent) {
         Log.d(TAG, "Notification was selected");
 
-        mPendingOpenedNotificationId = intent.getStringExtra(EXTRA_NOTIFICATION_ID);
+        mPendingOpenedNotificationId = intent.getStringExtra(EXTRA_PERSISTED_NOTIFICATION_ID);
         if (mPendingOpenedNotificationId == null) {
             // mPendingOpenedNotificationId being non-null is used as trigger for
             // opening the notifications page, so use a dummy if it's null

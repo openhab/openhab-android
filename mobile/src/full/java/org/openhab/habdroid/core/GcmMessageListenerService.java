@@ -106,14 +106,12 @@ public class GcmMessageListenerService extends GcmListenerService {
         }
     }
 
-    private PendingIntent makeNotificationClickIntent(String id, int notificationId) {
+    private PendingIntent makeNotificationClickIntent(String persistedId, int notificationId) {
         Intent contentIntent = new Intent(this, OpenHABMainActivity.class)
                 .setAction(OpenHABMainActivity.ACTION_NOTIFICATION_SELECTED)
                 .setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                .putExtra(EXTRA_NOTIFICATION_ID, notificationId);
-        if (id != null) {
-            contentIntent.putExtra(OpenHABMainActivity.EXTRA_NOTIFICATION_ID, id);
-        }
+                .putExtra(EXTRA_NOTIFICATION_ID, notificationId)
+                .putExtra(OpenHABMainActivity.EXTRA_PERSISTED_NOTIFICATION_ID, persistedId);
         return PendingIntent.getActivity(this, notificationId,
                 contentIntent, PendingIntent.FLAG_UPDATE_CURRENT);
     }
