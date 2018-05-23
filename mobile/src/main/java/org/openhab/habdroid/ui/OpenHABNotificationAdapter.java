@@ -133,12 +133,14 @@ public class OpenHABNotificationAdapter extends RecyclerView.Adapter<RecyclerVie
     public static class NotificationViewHolder extends RecyclerView.ViewHolder {
         final TextView mCreatedView;
         final TextView mMessageView;
+        final TextView mSeverityView;
         final MySmartImageView mIconView;
 
         public NotificationViewHolder(LayoutInflater inflater, ViewGroup parent) {
             super(inflater.inflate(R.layout.openhabnotificationlist_item, parent, false));
             mCreatedView = itemView.findViewById(R.id.notificationCreated);
             mMessageView = itemView.findViewById(R.id.notificationMessage);
+            mSeverityView = itemView.findViewById(R.id.notificationSeverity);
             mIconView = itemView.findViewById(R.id.notificationImage);
         }
 
@@ -157,6 +159,9 @@ public class OpenHABNotificationAdapter extends RecyclerView.Adapter<RecyclerVie
             } else {
                 mIconView.setImageResource(R.drawable.ic_openhab_appicon_24dp);
             }
+            mSeverityView.setText(notification.severity());
+            mSeverityView.setVisibility(
+                    TextUtils.isEmpty(notification.severity()) ? View.GONE : View.VISIBLE);
         }
     }
 

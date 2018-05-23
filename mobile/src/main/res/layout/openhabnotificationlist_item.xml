@@ -18,12 +18,11 @@
         android:scaleType="centerInside"
         tools:src="@drawable/ic_openhab_appicon_24dp" />
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:layout_gravity="center_vertical"
-        android:orientation="vertical"
         android:layout_marginRight="16dp"
         android:layout_marginEnd="16dp">
 
@@ -38,9 +37,26 @@
             android:id="@+id/notificationCreated"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@id/notificationMessage"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
             tools:text="6 hours ago" />
 
-    </LinearLayout>
+        <TextView
+            android:id="@+id/notificationSeverity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/notificationMessage"
+            android:layout_toEndOf="@id/notificationCreated"
+            android:layout_toRightOf="@id/notificationCreated"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:gravity="end|right"
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+            android:textStyle="bold"
+            tools:text="Important" />
+
+    </RelativeLayout>
 
 </LinearLayout>
