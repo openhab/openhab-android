@@ -104,7 +104,8 @@ public class OpenHABNotificationAdapter extends RecyclerView.Adapter<RecyclerVie
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof NotificationViewHolder) {
-            bindNotification((NotificationViewHolder) holder, mItems.get(position));
+            NotificationViewHolder nvh = (NotificationViewHolder) holder;
+            nvh.bind(mItems.get(position));
         } else {
             // loading indicator
             holder.itemView.setVisibility(mHasMoreItems ? View.VISIBLE : View.GONE);
@@ -129,23 +130,6 @@ public class OpenHABNotificationAdapter extends RecyclerView.Adapter<RecyclerVie
         }
     }
 
-    private void bindNotification(NotificationViewHolder holder, OpenHABNotification notification) {
-        holder.mCreatedView.setText(DateUtils.getRelativeDateTimeString(mContext,
-                notification.createdTimestamp(),
-                DateUtils.MINUTE_IN_MILLIS, DateUtils.WEEK_IN_MILLIS, 0));
-        holder.mMessageView.setText(notification.message());
-
-        if (notification.icon() != null) {
-            Connection conn = ConnectionFactory.getConnection(Connection.TYPE_CLOUD);
-            String iconUrl = String.format(Locale.US, "%simages/%s.png",
-                    conn.getOpenHABUrl(), Uri.encode(notification.icon()));
-            holder.mIconView.setImageUrl(iconUrl, conn.getUsername(), conn.getPassword(),
-                    R.drawable.ic_openhab_appicon_24dp);
-        } else {
-            holder.mIconView.setImageResource(R.drawable.ic_openhab_appicon_24dp);
-        }
-    }
-
     public static class NotificationViewHolder extends RecyclerView.ViewHolder {
         final TextView mCreatedView;
         final TextView mMessageView;
@@ -156,6 +140,23 @@ public class OpenHABNotificationAdapter extends RecyclerView.Adapter<RecyclerVie
             mCreatedView = itemView.findViewById(R.id.notificationCreated);
             mMessageView = itemView.findViewById(R.id.notificationMessage);
             mIconView = itemView.findViewById(R.id.notificationImage);
+        }
+
+        public void bind(OpenHABNotification notification) {
+            mCreatedView.setText(DateUtils.getRelativeDateTimeString(mCreatedView.getContext(),
+                    notification.createdTimestamp(),
+                    DateUtils.MINUTE_IN_MILLIS, DateUtils.WEEK_IN_MILLIS, 0));
+            mMessageView.setText(notification.message());
+
+            if (notification.icon() != null) {
+                Connection conn = ConnectionFactory.getConnection(Connection.TYPE_CLOUD);
+                String iconUrl = String.format(Locale.US, "%simages/%s.png",
+                        conn.getOpenHABUrl(), Uri.encode(notification.icon()));
+                mIconView.setImageUrl(iconUrl, conn.getUsername(), conn.getPassword(),
+                        R.drawable.ic_openhab_appicon_24dp);
+            } else {
+                mIconView.setImageResource(R.drawable.ic_openhab_appicon_24dp);
+            }
         }
     }
 
