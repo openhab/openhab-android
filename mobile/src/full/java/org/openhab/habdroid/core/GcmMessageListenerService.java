@@ -61,11 +61,8 @@ public class GcmMessageListenerService extends GcmListenerService {
                 String persistedId = data.getString("persistedId");
                 // Older versions of openhab-cloud didn't send the notification generation
                 // timestamp, so use the (undocumented) google.sent_time as a time reference
-                // in that case. If that also isn't present. use the current time instead.
-                long timestamp = data.getLong("timestamp", 0);
-                if (timestamp == 0) {
-                    timestamp = data.getLong("google.sent_time", System.currentTimeMillis());
-                }
+                // in that case. If that also isn't present, don't show time at all.
+                long timestamp = data.getLong("timestamp", data.getLong("google.sent_time", 0));
 
                 final String channelId = TextUtils.isEmpty(severity)
                         ? CHANNEL_ID_DEFAULT
@@ -154,6 +151,7 @@ public class GcmMessageListenerService extends GcmListenerService {
         Notification publicVersion = makeNotificationBuilder(channelId)
                 .setContentText(publicText)
                 .setWhen(timestamp)
+                .setShowWhen(timestamp != 0)
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                 .setContentIntent(contentIntent)
                 .build();
