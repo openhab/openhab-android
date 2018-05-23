@@ -179,6 +179,20 @@ public class WidgetImageView extends AppCompatImageView {
         }
     }
 
+    @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        if (mLastRequest != null && !mLastRequest.hasCompleted()) {
+            mLastRequest.execute();
+        }
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        cancelCurrentLoad();
+    }
+
     public void setRefreshRate(int msec) {
         cancelRefresh();
         mRefreshInterval = msec;
@@ -250,6 +264,7 @@ public class WidgetImageView extends AppCompatImageView {
         public void onFailure(Request request, int statusCode, Throwable error) {
             removeProgressDrawable();
             applyFallbackDrawable();
+            mCall = null;
         }
 
         @Override
@@ -258,11 +273,17 @@ public class WidgetImageView extends AppCompatImageView {
             removeProgressDrawable();
             CacheManager.getInstance(getContext()).cacheBitmap(mUrl, body);
             scheduleNextRefresh();
+            mCall = null;
+        }
+
+        public boolean hasCompleted() {
+            return mCall != null;
         }
 
         public void execute() {
             Log.i(TAG, "Refreshing image at " + mUrl);
             mCall = mClient.get(mUrl.toString(), mCachingMode, this);
+            //mRefreshHandler.post(() -> onFailure(null, 500, null));
         }
 
         public void cancel() {
