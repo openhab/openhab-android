@@ -1020,16 +1020,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         speechIntent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 1);
         speechIntent.putExtra(RecognizerIntent.EXTRA_RESULTS_PENDINGINTENT, openhabPendingIntent);
 
-        try {
-            startActivity(speechIntent);
-        } catch(ActivityNotFoundException e) {
-            // Speech not installed?
-            // todo url doesnt seem to work anymore
-            // not sure, if this is called
-            Intent browserIntent = new Intent(Intent.ACTION_VIEW,
-                    Uri.parse("https://market.android.com/details?id=com.google.android.voicesearch"));
-            startActivity(browserIntent);
-        }
+        startActivity(speechIntent);
     }
 
     public void showRefreshHintSnackbarIfNeeded() {
