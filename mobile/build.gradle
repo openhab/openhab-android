@@ -122,7 +122,7 @@ dependencies {
         transitive = true
     }
 
-    fullImplementation 'com.google.firebase:firebase-core:12.0.1'
+    fullImplementation 'com.google.firebase:firebase-core:16.0.0'
 
     compileOnly 'com.google.auto.value:auto-value:1.5.3'
     annotationProcessor 'com.google.auto.value:auto-value:1.5.3'
