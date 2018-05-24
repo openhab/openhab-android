@@ -1,0 +1,2 @@
+• Implement a preference controlling chart scaling
+• Stability and performance improvements

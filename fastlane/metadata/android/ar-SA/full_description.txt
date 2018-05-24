@@ -1,7 +1,6 @@
 openHAB - "empowering the smart home" - بغض النظر عن المزودين والتكنلوجيا ، أتمتة البيوت المفتوح المصدر
 
 إصدارات F-Droid تدعم عرض الخريطة، تراسل سحابة جوجل GCM بينما حذفت تقارير الإنهيار ومن غير الممكن إستقبال الإشعارات من سحابة openHAB.
-يمكنك تثبيت إصدار التجريبي جنبا إلى جنب مع إصدار مستقر: [[org.openhab.habdroid]]
 
 <b>ملاحظة هامة</b>
 
@@ -34,6 +33,7 @@ openHAB مبادرة المصدر المفتوح مدعومة بقوة من مج
 <b>مؤسسة openHAB</b>
 
 مؤسسة openHAB أ. ف. منظمة غير ربحية تحمل على عاتقها مهمة تثقيف الجمهور بخصوص إمكانيات ومزايا حلول المنازل الذكية الحرة والمفتوحة. معرفة المزيد عن المهمة وخدمات المؤسسة في https://www.openhabfoundation.org
+
 <b>Anti Features</b>
 
 The app is flagged with the "NonFreeAsset" flag, because the openHAB icon is not under a free license.

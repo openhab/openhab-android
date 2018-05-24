@@ -1,7 +1,6 @@
 openHAB - "empowering the smart home" - eine technologie- und herstellerunabhängige, quelloffene Automatisierungslösung für Ihr Zuhause
 
 In der F-Droid-Version wurden die Unterstützung für Mapview-Elemente, GCM und die Übermittlung von Absturzberichten entfernt. Mit dieser Version können keine Nachrichten von einer openHAB-Cloud-Instanz empfangen werden.
-Sie können die Betaversion neben der stabilen Version installieren: [[org.openhab.habdroid]]
 
 <b>Wichtiger Hinweis</b>
 
@@ -32,9 +31,10 @@ Helfen Sie uns, diese App in Ihre Sprache zu übersetzen: https://crowdin.com/pr
 <b>openHAB Foundation e.V.</b>
 
 Die openHAB Foundation e.V. ist ein gemeinnütziger Verein mit dem Ziel, die Öffentlichkeit über die Möglichkeiten und den Nutzen von kostenlosen und offenen Smart Home Lösungen aufzuklären. Erfahren Sie mehr über die Ziele und Angebote der Foundation unter https://www.openhabfoundation.org
-<b>Anti Features</b>
 
-The app is flagged with the "NonFreeAsset" flag, because the openHAB icon is not under a free license.
+<b>Anti-Features</b>
+
+Die App wurde mit dem "NonFreeAsset"-Anti-Feature markiert, da das openHAB-Icon nicht unter freier Lizenz steht.
 
 
-Privacy policy: https://www.openhabfoundation.org/privacy
+Datenschutzerklärung: https://www.openhabfoundation.org/privacy

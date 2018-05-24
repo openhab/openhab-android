@@ -1,7 +1,6 @@
 openHAB - "empowering the smart home" - vendor and technology agnostic open source home automation
 
 Версия для F-Droid поддерживает просмотр карт. GCM и отчёты о сбоях удалены. Приложение не будет получать уведомления от openHub Cloud.
-Вы можете установить бета-версию вместе со стабильной версией: [[org.openhab.habdroid]]
 
 <b>Важное примечание</b>
 
@@ -32,6 +31,7 @@ When you find an issue please report it in the forum or at https://github.com/op
 <b>Cообщество openHAB</b>
 
  Узнайте о задачах openHAB Foundation на https://www.openhabfoundation.org
+
 <b>Anti Features</b>
 
 The app is flagged with the "NonFreeAsset" flag, because the openHAB icon is not under a free license.
