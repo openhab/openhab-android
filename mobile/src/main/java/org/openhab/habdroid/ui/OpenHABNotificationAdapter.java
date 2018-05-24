@@ -154,7 +154,7 @@ public class OpenHABNotificationAdapter extends RecyclerView.Adapter<RecyclerVie
                 Connection conn = ConnectionFactory.getConnection(Connection.TYPE_CLOUD);
                 String iconUrl = String.format(Locale.US, "images/%s.png",
                         Uri.encode(notification.icon()));
-                mIconView.setImageUrl(conn, iconUrl);
+                mIconView.setImageUrl(conn, iconUrl, 2000);
             } else {
                 mIconView.setImageResource(R.drawable.ic_openhab_appicon_24dp);
             }

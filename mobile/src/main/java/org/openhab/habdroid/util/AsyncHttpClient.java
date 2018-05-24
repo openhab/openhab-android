@@ -95,7 +95,7 @@ public class AsyncHttpClient extends HttpClient {
         }
     }
 
-    private static final long DEFAULT_TIMEOUT_MS = 30000;
+    public static final long DEFAULT_TIMEOUT_MS = 30000;
 
     private Handler mHandler = new Handler(Looper.getMainLooper());
 
@@ -119,8 +119,9 @@ public class AsyncHttpClient extends HttpClient {
                 CachingMode.AVOID_CACHE, responseHandler);
     }
 
-    public <T> Call get(String url, CachingMode caching, ResponseHandler<T> responseHandler) {
-        return method(url, "GET", null, null, null, DEFAULT_TIMEOUT_MS, caching, responseHandler);
+    public <T> Call get(String url, long timeoutMillis, CachingMode caching,
+            ResponseHandler<T> responseHandler) {
+        return method(url, "GET", null, null, null, timeoutMillis, caching, responseHandler);
     }
 
     public Call post(String url, String requestBody, String mediaType, StringResponseHandler responseHandler) {

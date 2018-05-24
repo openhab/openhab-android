@@ -121,8 +121,12 @@ public class SyncHttpClient extends HttpClient {
         return get(url, null);
     }
 
+    public HttpResult get(String url, long timeoutMillis) {
+        return method(url, "GET", null, null, null, timeoutMillis);
+    }
+
     public HttpResult get(String url, Map<String, String> headers) {
-        return method(url, "GET", headers, null, null);
+        return method(url, "GET", headers, null, null, -1);
     }
 
     public HttpResult post(String url, String requestBody, String mediaType) {
@@ -131,13 +135,13 @@ public class SyncHttpClient extends HttpClient {
 
     public HttpResult post(String url, String requestBody,
             String mediaType, Map<String, String> headers) {
-        return method(url, "POST", headers, requestBody, mediaType);
+        return method(url, "POST", headers, requestBody, mediaType, -1);
     }
 
     protected HttpResult method(String url, String method, Map<String, String> headers,
-            String requestBody, String mediaType) {
+            String requestBody, String mediaType, long timeoutMillis) {
         final Call call = prepareCall(url, method, headers, requestBody,
-                mediaType, -1, CachingMode.AVOID_CACHE);
+                mediaType, timeoutMillis, CachingMode.AVOID_CACHE);
         return new HttpResult(call);
     }
 }
