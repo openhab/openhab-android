@@ -319,7 +319,6 @@ public class OpenHABMainActivity extends AppCompatActivity implements
                 if (statusCode == 404 && mConnection != null) {
                     // no bindings endpoint; we're likely talking to an OH1 instance
                     mOpenHABVersion = 1;
-                    mConnection.getAsyncHttpClient().addHeader("Accept", "application/xml");
                     loadSitemapList(true);
                 } else {
                     // other error -> use default handling
@@ -330,7 +329,6 @@ public class OpenHABMainActivity extends AppCompatActivity implements
             @Override
             public void onSuccess(String response, Headers headers) {
                 mOpenHABVersion = 2;
-                mConnection.getAsyncHttpClient().removeHeader("Accept");
                 Log.d(TAG, "openHAB version 2");
                 loadSitemapList(true);
             }

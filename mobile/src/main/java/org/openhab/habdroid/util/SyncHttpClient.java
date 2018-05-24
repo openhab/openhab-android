@@ -136,7 +136,8 @@ public class SyncHttpClient extends HttpClient {
 
     protected HttpResult method(String url, String method, Map<String, String> headers,
             String requestBody, String mediaType) {
-        return new HttpResult(
-                prepareCall(url, method, headers, requestBody, mediaType, CachingMode.AVOID_CACHE));
+        final Call call = prepareCall(url, method, headers, requestBody,
+                mediaType, -1, CachingMode.AVOID_CACHE);
+        return new HttpResult(call);
     }
 }
