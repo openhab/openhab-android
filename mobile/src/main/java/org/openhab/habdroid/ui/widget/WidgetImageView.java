@@ -283,7 +283,6 @@ public class WidgetImageView extends AppCompatImageView {
         public void execute() {
             Log.i(TAG, "Refreshing image at " + mUrl);
             mCall = mClient.get(mUrl.toString(), mCachingMode, this);
-            //mRefreshHandler.post(() -> onFailure(null, 500, null));
         }
 
         public void cancel() {
