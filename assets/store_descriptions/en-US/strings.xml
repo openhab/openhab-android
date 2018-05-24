@@ -30,4 +30,6 @@
     <fdroid_privacy_policy>Privacy policy: https://www.openhabfoundation.org/privacy</fdroid_privacy_policy>
     <fdroid_anti_features>Anti Features</fdroid_anti_features>
     <fdroid_anti_features_text>The app is flagged with the "NonFreeAsset" flag, because the openHAB icon is not under a free license.</fdroid_anti_features_text>
+    <beta>Try out new features and give early feedback!</beta>
+    <play_beta>You can install the beta version alongside the stable version.</play_beta>
 </strings>

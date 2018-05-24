@@ -118,13 +118,13 @@ public abstract class HttpClient {
 
     public HttpUrl buildUrl(String url) {
         HttpUrl absoluteUrl = HttpUrl.parse(url);
-        if (absoluteUrl != null) {
-            return absoluteUrl;
-        } else if (mBaseUrl != null) {
-            return mBaseUrl.newBuilder().addPathSegments(url).build();
-        } else {
-            throw new IllegalArgumentException("Can't use relative URLs without base URL");
+        if (absoluteUrl == null && mBaseUrl != null) {
+            absoluteUrl = HttpUrl.parse(mBaseUrl.toString() + url);
         }
+        if (absoluteUrl == null) {
+            throw new IllegalArgumentException("URL '" + url + "' is invalid");
+        }
+        return absoluteUrl;
     }
 
     protected Call prepareCall(String url, String method, Map<String, String> additionalHeaders,

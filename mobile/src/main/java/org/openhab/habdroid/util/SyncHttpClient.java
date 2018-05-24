@@ -129,7 +129,12 @@ public class SyncHttpClient extends HttpClient {
     }
 
     public HttpResult post(String url, String requestBody, String mediaType) {
-        return method(url, "POST", null, requestBody, mediaType);
+        return post(url, requestBody, mediaType, null);
+    }
+
+    public HttpResult post(String url, String requestBody,
+            String mediaType, Map<String, String> headers) {
+        return method(url, "POST", headers, requestBody, mediaType);
     }
 
     protected HttpResult method(String url, String method, Map<String, String> headers,

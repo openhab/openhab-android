@@ -1,7 +1,6 @@
 openHAB - "העצמת הבית החכם" - פרוייקט קוד פתוח לבית חכם לאנשים וחברות בראייה טכנולוגית מתקדמת
 
 תוכנות עבור F-Droid מכילות תצוגת מיפוי, GCM ודיווחי שגיאה על התרסקות הוסרו ולא יוכלו לקבל התראות בדחיפה מענן openHAB.
-באפשרותך להתקין את גירסת הבטא לצד הגרסה היציבה: [[org.openhab.habdroid]]
 
 <b>הערה חשובה</b>
 
@@ -32,9 +31,10 @@ openHAB היא פלטפורמת אוטומציה ביתית מבוססת קוד 
 <b>ארגון openHAB</b>
 
 קרן openHAB הוא ארגון ללא מטרות רווח שמשימתו היא לחנך את הציבור על האפשרויות והיתרונות של שימוש בפתרונות חופשיים ופתוחים של בית חכם. למד אודות משימתו ושירותיו של הארגון ב https://www.openhabfoundation.org
+
 <b>Anti Features</b>
 
-The app is flagged with the "NonFreeAsset" flag, because the openHAB icon is not under a free license.
+האפליקציה מסומנת בדגל עם הדגל "NonFreeAsset", כי הצלמית של openHAB איננה תחת רישיון חופשי.
 
 
-Privacy policy: https://www.openhabfoundation.org/privacy
+מדיניות פרטיות: https://www.openhabfoundation.org/privacy

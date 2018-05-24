@@ -25,6 +25,8 @@ def getString(key):
         string = getEnglishString(key)
     return(string)
 
+playDevSiteDescription = "Play Store developer site description:\n"
+
 stringsFiles = glob.glob('assets/store_descriptions/*/strings.xml')
 for file in stringsFiles:
     tree = ET.parse(file)
@@ -37,7 +39,11 @@ for file in stringsFiles:
         fullDescription += getString('fdroid') + "\n\n"
     elif sys.argv[1] == "fdroidBeta":
         fullDescription += getString('fdroid') + "\n"
+        fullDescription += getString('beta') + "\n"
         fullDescription += getString('fdroid_beta') + "\n\n"
+    elif sys.argv[1] == "playBeta":
+        fullDescription += getString('beta') + "\n"
+        fullDescription += getString('play_beta') + "\n\n"
     fullDescription += "<b>" + getString('important_note') + "</b>\n\n"
     fullDescription += getString('oh_server') + "\n\n"
     fullDescription += getString('whatis') + "\n"
@@ -59,18 +65,19 @@ for file in stringsFiles:
     fullDescription += "<b>" + getString('foundation') + "</b>\n\n"
     fullDescription += getString('about_foundation') + "\n"
     if "fdroid" in sys.argv[1]:
-        fullDescription += "<b>" + getString('fdroid_anti_features') + "</b>\n\n"
+        fullDescription += "\n<b>" + getString('fdroid_anti_features') + "</b>\n\n"
         fullDescription += getString('fdroid_anti_features_text') + "\n\n\n"
         fullDescription += getString('fdroid_privacy_policy')
 
     if len(fullDescription) > 4000:
-        print("Full description of " + lang + " is too long: " + str(len(fullDescription)) + " chars")
+        print("Full description of " + lang + " is too long: " + str(len(fullDescription)) + " > 4000 chars")
         exitCode += 1
 
     shortDescription = getString('short_description')
     if len(shortDescription) > 80:
-        print("Short description of " + lang + " is too long: " + str(len(fullDescription)) + " chars")
+        print("Short description of " + lang + " is too long: " + str(len(shortDescription)) + " > 80 chars")
         exitCode += 1
+
 
     newpath = r'fastlane/metadata/android/' + lang + '/'
     if not os.path.exists(newpath):
@@ -83,4 +90,12 @@ for file in stringsFiles:
     f.write(shortDescription)
     f.close()
 
+    intro = getString('intro')
+    if intro != getEnglishString('intro'):
+        playDevSiteDescription += lang + ": " + intro + "\n"
+        if len(intro) > 140:
+            print("Intro string of " + lang + " is too long: " + str(len(getString('intro'))) + " > 140 chars")
+            exitCode += 1
+
+print("\n\n" + playDevSiteDescription)
 exit(exitCode)

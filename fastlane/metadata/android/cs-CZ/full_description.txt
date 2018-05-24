@@ -1,7 +1,6 @@
-openHAB - "empowering the smart home" - open source program pro domácí automatizaci, kterým můžete spravovat např. IoT zařízení od různých výrobců, bez ohledu na jimi použitou technologii
+openHAB - "empowering the smart home" - vendor and technology agnostic open source home automation
 
 F-Droid podporuje zobrazení mapy, GCM a notifikace byly odebrány a tedy nelze přijímat push notifikace z openHAB cloudu.
-Můžete nainstalovat beta verzi vedle stabilní verze: [[org.openhab.habdroid]]
 
 <b>Důležitá poznámka</b>
 
@@ -32,6 +31,7 @@ Pokud chcete aplikaci přeložit do vašeho jazyka připojte se k nám na https:
 <b>openHAB Foundation</b>
 
 OpenHAB Foundation e.V. je nezisková organizace s posláním vzdělávat veřejnost o možnostech a výhodách svobodných a otevřených chytrých řešeních pro domácí automatizaci. Další informace o poslání a službách nadace naleznete na https://www.openhabfoundation.org
+
 <b>Anti Features</b>
 
 The app is flagged with the "NonFreeAsset" flag, because the openHAB icon is not under a free license.
