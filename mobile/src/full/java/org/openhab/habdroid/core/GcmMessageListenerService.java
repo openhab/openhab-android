@@ -186,6 +186,23 @@ public class GcmMessageListenerService extends GcmListenerService {
     }
 
     private NotificationCompat.Builder makeNotificationBuilder(String channelId, long timestamp) {
+        long[] vibrationPattern;
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        switch (prefs.getString(Constants.PREFERENCE_NOTIFICATION_VIBRATION, "")) {
+            case "short":
+                vibrationPattern = new long[] {0, 500, 500};
+                break;
+            case "long":
+                vibrationPattern = new long[] {0, 1000, 1000};
+                break;
+            case "twice":
+                vibrationPattern = new long[] {0, 1000, 1000, 1000, 1000};
+                break;
+            default:
+                vibrationPattern = new long[] {0};
+                break;
+        }
+
         return new NotificationCompat.Builder(this, channelId)
                 .setSmallIcon(R.drawable.ic_openhab_appicon_white_24dp)
                 .setContentTitle(getString(R.string.app_name))
@@ -194,6 +211,8 @@ public class GcmMessageListenerService extends GcmListenerService {
                 .setColor(ContextCompat.getColor(this, R.color.openhab_orange))
                 .setCategory(NotificationCompat.CATEGORY_EVENT)
                 .setAutoCancel(true)
+                .setLights(ContextCompat.getColor(this, R.color.openhab_orange), 3000, 3000)
+                .setVibrate(vibrationPattern)
                 .setGroup("gcm");
     }
 
