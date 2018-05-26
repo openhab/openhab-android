@@ -39,9 +39,13 @@ public class BleBeaconConnector {
         if (builder == null){//Not a beacon
             return;
         }
-        OpenHABBeacon beacon = builder.name(bluetoothDevice.getName()).address(bluetoothDevice.getAddress()).build();
+        OpenHABBeacon beacon = builder
+                .setName(bluetoothDevice.getName())
+                .setAddress(bluetoothDevice.getAddress())
+                .setRssi(i)
+                .build();
 
-        Log.i("TAG", beacon.toString());
+        Log.i(TAG, beacon.toString());
     };
 
     //Enforce singleton by using private constructors

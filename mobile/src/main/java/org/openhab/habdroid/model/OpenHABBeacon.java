@@ -1,5 +1,7 @@
 package org.openhab.habdroid.model;
 
+import android.support.annotation.Nullable;
+
 import com.google.auto.value.AutoValue;
 
 @AutoValue
@@ -13,21 +15,69 @@ public abstract class OpenHABBeacon {
 
     public abstract String name();
     public abstract String address();
-    public abstract String url();
     public abstract byte txPower();
+    public abstract int rssi();
+    public abstract double distance();
+    public abstract Type type();
 
-    public static Builder builder(){
-        return new AutoValue_OpenHABBeacon.Builder();
+    //Eddystone URL specified value
+    @Nullable
+    public abstract String url();
+
+    //Eddystone UID specified values
+    @Nullable
+    public abstract String nameSpace();
+    @Nullable
+    public abstract String instance();
+
+    //iBeacon specified values
+    @Nullable
+    public abstract String uuid();
+    @Nullable
+    public abstract String major();
+    @Nullable
+    public abstract String minor();
+
+    public static Builder builder(Type beaconType){
+        return new AutoValue_OpenHABBeacon.Builder()
+                .setType(beaconType);
     }
+    //TODO add more selective value here
 
     @AutoValue.Builder
     public abstract static class Builder {
-        public abstract Builder name(String name);
-        public abstract Builder address(String address);
-        public abstract Builder url(String url);
-        public abstract Builder txPower(byte txPower);
+        public abstract Builder setName(String name);
+        public abstract Builder setAddress(String address);
+        public abstract Builder setTxPower(byte txPower);
+        public abstract Builder setRssi(int rssi);
 
-        public abstract OpenHABBeacon build();
+        public abstract Builder setUrl(@Nullable String url);
+        public abstract Builder setNameSpace(@Nullable String nameSpace);
+        public abstract Builder setInstance(@Nullable String instance);
+        public abstract Builder setUuid(@Nullable String uuid);
+        public abstract Builder setMajor(@Nullable String major);
+        public abstract Builder setMinor(@Nullable String minor);
+        //TODO Nullable attribute go through here
+
+        abstract Builder setType(Type type);
+        abstract Builder setDistance(double distance);
+
+        abstract int rssi();
+        abstract byte txPower();
+
+        abstract OpenHABBeacon autoBuild();
+
+        public OpenHABBeacon build(){
+            if ((rssi() & txPower()) != 0){
+                setDistance(measureDistance(rssi(), txPower()));
+            }
+            return autoBuild();
+        }
+
+        private double measureDistance(int rssi, byte txPower){
+            return Math.pow(10, ((double)txPower - rssi) / (10 * 2.5));
+        }
     }
+
 }
 

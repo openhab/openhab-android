@@ -75,7 +75,7 @@ public class BeaconParser {
     }
 
     private static OpenHABBeacon.Builder parseEddystoneUrl(byte[] data){
-        byte txPower = data[12];
+        byte txPower = (byte)(data[12] - 41);
         StringBuilder url = new StringBuilder();
         url.append(EDDYSTONE_URL_PREFIX[data[13]]);
         int i = 14;
@@ -87,16 +87,41 @@ public class BeaconParser {
             }
             i++;
         }
-        return OpenHABBeacon.builder()
-                .txPower(txPower)
-                .url(url.toString());
+        return OpenHABBeacon.builder(OpenHABBeacon.Type.EddystoneUrl)
+                .setTxPower(txPower)
+                .setUrl(url.toString());
     }
 
     private static OpenHABBeacon.Builder parseEddystoneUid(byte[] data){
-        return null;
+        byte txPower = (byte)(data[12] - 41);
+        StringBuilder nameSpace = new StringBuilder();
+        for (int i = 13; i < 23; i++){
+            nameSpace.append(Integer.toHexString(data[i] & 0xff));
+        }
+        StringBuilder instance = new StringBuilder();
+        for (int i = 23; i < 29; i++){
+            instance.append(Integer.toHexString(data[i] & 0xff));
+        }
+
+        return OpenHABBeacon.builder(OpenHABBeacon.Type.EddystoneUid)
+                .setTxPower(txPower)
+                .setNameSpace(nameSpace.toString())
+                .setInstance(instance.toString());
     }
 
     private static OpenHABBeacon.Builder parseIBeacon(byte[] data){
-        return null;
+        byte txPower = data[29];
+        StringBuilder uuid = new StringBuilder();
+        for (int i = 9; i < 25; i++){
+            uuid.append(Integer.toHexString(data[i] & 0xff));
+        }
+
+        String major = Integer.toHexString(((data[25] << 8) & 0xffff) + (data[26] & 0xff));
+        String minor = Integer.toHexString(((data[27] << 8) & 0xffff) + (data[28] & 0xff));
+        return OpenHABBeacon.builder(OpenHABBeacon.Type.iBeacon)
+                .setTxPower(txPower)
+                .setUuid(uuid.toString())
+                .setMajor(major)
+                .setMinor(minor);
     }
 }
