@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/id_name"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:layout_marginTop="0dp"
+        android:text="name not valid"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toRightOf="parent"/>
+
+    <TextView
+        android:id="@+id/id_rssi"
+        android:layout_width="wrap_content"
+        android:layout_height="18dp"
+        android:text="rssi not valid"
+        app:layout_constraintLeft_toRightOf="@id/id_name"/>
+
+    <TextView
+        android:id="@+id/id_tx_power"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:text="tx power not valid"
+        app:layout_constraintLeft_toRightOf="@id/id_rssi" />
+
+    <TextView
+        android:id="@+id/id_distance"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:text="distance not valid"
+        app:layout_constraintTop_toBottomOf="@id/id_type" />
+
+    <TextView
+        android:id="@+id/id_url"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:text="URL not valid"
+        app:layout_constraintTop_toBottomOf="@id/id_mac"/>
+
+    <TextView
+        android:id="@+id/id_mac"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:text="mac address not valid"
+        app:layout_constraintTop_toBottomOf="@id/id_distance"/>
+
+    <TextView
+        android:id="@+id/id_type"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:text="mac address not valid"
+        app:layout_constraintTop_toBottomOf="@id/id_name"/>
+
+
+</android.support.constraint.ConstraintLayout>

@@ -2,8 +2,14 @@ package org.openhab.habdroid.util.bleBeaconUtil;
 
 import org.openhab.habdroid.model.OpenHABBeacon;
 
+/*
+  This is the BLE beacon parser to parse BLE advertisement data into specified beacon format.
+  The implementations are the shortcut to recognize only Eddystone beacons(both URL and UID) and iBeacons.
+  The official specification can go through here:
+  Eddystone beacon: https://github.com/google/eddystone/blob/master/protocol-specification.md
+  iBeacon: https://developer.apple.com/ibeacon/
+*/
 public class BeaconParser {
-
     private static final String[] EDDYSTONE_URL_PREFIX = {
             "http://www.",
             "https://www.",
@@ -11,7 +17,7 @@ public class BeaconParser {
             "https://"
     };
 
-    private static final String[] EDDYSTONE_URL_POSTFIX = {
+    private static final String[] EDDYSTONE_URL_SUFFIX = {
             ".com/",
             ".org/",
             ".edu/",
@@ -26,9 +32,9 @@ public class BeaconParser {
             ".info",
             ".biz",
             ".gov",
-
     };
 
+    //Return null if not a beacon.
     public static OpenHABBeacon.Builder parseToBeacon(byte[] data){
         OpenHABBeacon.Type type = whichBeacon(data);
         switch (type){
@@ -50,7 +56,7 @@ public class BeaconParser {
                     return OpenHABBeacon.Type.EddystoneUid;
                 case 0x10:
                     return OpenHABBeacon.Type.EddystoneUrl;
-                default://TODO Ignore Eddystone TLM and EID model for now
+                default://Ignore Eddystone TLM and EID model for now
                     return OpenHABBeacon.Type.NotABeacon;
             }
         }
@@ -77,15 +83,16 @@ public class BeaconParser {
     private static OpenHABBeacon.Builder parseEddystoneUrl(byte[] data){
         byte txPower = (byte)(data[12] - 41);
         StringBuilder url = new StringBuilder();
+        int urlLength = data[7] - 6;//data[7] is the total length of Service ids, Eddystone type, tx power, URL prefix and url length.
         url.append(EDDYSTONE_URL_PREFIX[data[13]]);
-        int i = 14;
-        while (data[i] != 0x13){
-            if (data[i] <= 0x0d) {
-                url.append(EDDYSTONE_URL_POSTFIX[data[i]]);
+        int offset = 14;
+        for (int i = 0; i < urlLength; i++){
+            if (data[offset] <= 0x0D) {
+                url.append(EDDYSTONE_URL_SUFFIX[data[offset]]);
             } else {
-                url.append((char)data[i]);
+                url.append((char)data[offset]);
             }
-            i++;
+            offset++;
         }
         return OpenHABBeacon.builder(OpenHABBeacon.Type.EddystoneUrl)
                 .setTxPower(txPower)
@@ -96,11 +103,12 @@ public class BeaconParser {
         byte txPower = (byte)(data[12] - 41);
         StringBuilder nameSpace = new StringBuilder();
         for (int i = 13; i < 23; i++){
-            nameSpace.append(Integer.toHexString(data[i] & 0xff));
+            nameSpace.append(Integer.toHexString(data[i] & 0xFF));
         }
+
         StringBuilder instance = new StringBuilder();
         for (int i = 23; i < 29; i++){
-            instance.append(Integer.toHexString(data[i] & 0xff));
+            instance.append(Integer.toHexString(data[i] & 0xFF));
         }
 
         return OpenHABBeacon.builder(OpenHABBeacon.Type.EddystoneUid)
@@ -113,11 +121,11 @@ public class BeaconParser {
         byte txPower = data[29];
         StringBuilder uuid = new StringBuilder();
         for (int i = 9; i < 25; i++){
-            uuid.append(Integer.toHexString(data[i] & 0xff));
+            uuid.append(Integer.toHexString(data[i] & 0xFF));
         }
 
-        String major = Integer.toHexString(((data[25] << 8) & 0xffff) + (data[26] & 0xff));
-        String minor = Integer.toHexString(((data[27] << 8) & 0xffff) + (data[28] & 0xff));
+        String major = Integer.toHexString(((data[25] << 8) & 0xFFFF) + (data[26] & 0xFF));
+        String minor = Integer.toHexString(((data[27] << 8) & 0xFFFF) + (data[28] & 0xFF));
         return OpenHABBeacon.builder(OpenHABBeacon.Type.iBeacon)
                 .setTxPower(txPower)
                 .setUuid(uuid.toString())

@@ -13,6 +13,7 @@ public abstract class OpenHABBeacon {
         NotABeacon
     }
 
+    //Common BLE beacon values. Must not be null for any type of beacon.
     public abstract String name();
     public abstract String address();
     public abstract byte txPower();
@@ -42,7 +43,7 @@ public abstract class OpenHABBeacon {
         return new AutoValue_OpenHABBeacon.Builder()
                 .setType(beaconType);
     }
-    //TODO add more selective value here
+    //Add more selective value here
 
     @AutoValue.Builder
     public abstract static class Builder {
@@ -57,7 +58,7 @@ public abstract class OpenHABBeacon {
         public abstract Builder setUuid(@Nullable String uuid);
         public abstract Builder setMajor(@Nullable String major);
         public abstract Builder setMinor(@Nullable String minor);
-        //TODO Nullable attribute go through here
+        //Nullable(selective) attribute go through here
 
         abstract Builder setType(Type type);
         abstract Builder setDistance(double distance);
@@ -78,6 +79,5 @@ public abstract class OpenHABBeacon {
             return Math.pow(10, ((double)txPower - rssi) / (10 * 2.5));
         }
     }
-
 }
 

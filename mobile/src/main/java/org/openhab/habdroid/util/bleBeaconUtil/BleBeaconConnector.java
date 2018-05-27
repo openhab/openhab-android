@@ -8,19 +8,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Handler;
-import android.os.ParcelUuid;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import org.openhab.habdroid.model.OpenHABBeacon;
-
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import org.openhab.habdroid.ui.OpenHABBleAdapter;
 
 @TargetApi(18)
 public class BleBeaconConnector {
@@ -31,40 +25,31 @@ public class BleBeaconConnector {
 
     private static BleBeaconConnector INSTANCE;
 
-    private BluetoothAdapter bluetoothAdapter;
-    private Handler handler;
+    private BluetoothAdapter mBluetoothAdapter;
+    private Handler mHandler;
     private boolean notSupport;
-    private BluetoothAdapter.LeScanCallback leScanCallback = (bluetoothDevice, i, bytes) -> {
-        OpenHABBeacon.Builder builder = BeaconParser.parseToBeacon(bytes);
-        if (builder == null){//Not a beacon
-            return;
-        }
-        OpenHABBeacon beacon = builder
-                .setName(bluetoothDevice.getName())
-                .setAddress(bluetoothDevice.getAddress())
-                .setRssi(i)
-                .build();
-
-        Log.i(TAG, beacon.toString());
-    };
+    private BluetoothAdapter.LeScanCallback mLeScanCallback;
 
     //Enforce singleton by using private constructors
     private BleBeaconConnector(){}
 
     private BleBeaconConnector(AppCompatActivity activity){
-        checkAndRequestPosPermission(activity);
-        handler = new Handler();
         final BluetoothManager manager = (BluetoothManager) activity.getSystemService(Context.BLUETOOTH_SERVICE);
-        bluetoothAdapter = manager.getAdapter();
+        mBluetoothAdapter = manager.getAdapter();
+
+        //If no bluetooth hardware, stopping the initialization
+        if (mBluetoothAdapter == null){
+            notSupport = true;
+            return;
+        }
 
         //Request to open bluetooth it's not enabled.
-        if (bluetoothAdapter == null){
-            notSupport = true;
-        }
-        if (!bluetoothAdapter.isEnabled()){//TODO - Crash on the devices don't have Bluetooth. Change this logic later.
+        if (!mBluetoothAdapter.isEnabled()){
             Intent enableBluetoothIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
             activity.startActivityForResult(enableBluetoothIntent, REQUEST_ENABLE_BT);
         }
+        checkAndRequestPosPermission(activity);
+        mHandler = new Handler();
     }
 
     private void checkAndRequestPosPermission(AppCompatActivity activity){
@@ -75,8 +60,8 @@ public class BleBeaconConnector {
     }
     @SuppressWarnings("deprecation")
     public void scanLeServiceCompact(){
-        handler.postDelayed(() -> bluetoothAdapter.stopLeScan(leScanCallback), SCAN_PERIOD);
-        bluetoothAdapter.startLeScan(leScanCallback);
+        mHandler.postDelayed(() -> mBluetoothAdapter.stopLeScan(mLeScanCallback), SCAN_PERIOD);
+        mBluetoothAdapter.startLeScan(mLeScanCallback);
     }
 
     public static BleBeaconConnector getInstance(AppCompatActivity activity) {
@@ -88,5 +73,23 @@ public class BleBeaconConnector {
 
     public boolean isNotSupport(){
         return notSupport;
+    }
+
+    public void bindLeScanCallback(OpenHABBleAdapter openHABBleAdapter){
+        mLeScanCallback = (bluetoothDevice, i, bytes) -> {
+            OpenHABBeacon.Builder builder = BeaconParser.parseToBeacon(bytes);
+            if (builder == null){//Not a beacon
+                return;
+            }
+            OpenHABBeacon beacon = builder
+                    .setName(bluetoothDevice.getName())
+                    .setAddress(bluetoothDevice.getAddress())
+                    .setRssi(i)
+                    .build();
+
+            //Add item to adapter
+            openHABBleAdapter.addBeacon(beacon);
+            Log.i(TAG, beacon.toString());
+        };
     }
 }
