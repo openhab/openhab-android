@@ -406,6 +406,7 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         private final TextView mLabelView;
         private final TextView mValueView;
         private final MySmartImageView mIconView;
+        private final ImageView mRightArrow;
 
         GroupViewHolder(LayoutInflater inflater, ViewGroup parent,
                 Connection conn, ColorMapper colorMapper) {
@@ -413,6 +414,7 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
             mLabelView = itemView.findViewById(R.id.widgetlabel);
             mValueView = itemView.findViewById(R.id.widgetvalue);
             mIconView = itemView.findViewById(R.id.widgetimage);
+            mRightArrow = itemView.findViewById(R.id.rightArrow);
         }
 
         @Override
@@ -423,6 +425,7 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
             mValueView.setText(splitString.length > 1 ? splitString[1] : null);
             updateTextViewColor(mValueView, widget.valueColor());
             updateIcon(mIconView, widget);
+            mRightArrow.setVisibility(widget.linkedPage() != null ? View.VISIBLE : View.GONE);
         }
     }
 
@@ -464,6 +467,7 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         private final TextView mLabelView;
         private final TextView mValueView;
         private final MySmartImageView mIconView;
+        private final ImageView mRightArrow;
 
         TextViewHolder(LayoutInflater inflater, ViewGroup parent,
                 Connection conn, ColorMapper colorMapper) {
@@ -471,6 +475,7 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
             mLabelView = itemView.findViewById(R.id.widgetlabel);
             mValueView = itemView.findViewById(R.id.widgetvalue);
             mIconView = itemView.findViewById(R.id.widgetimage);
+            mRightArrow = itemView.findViewById(R.id.rightArrow);
         }
 
         @Override
@@ -482,6 +487,7 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
             mValueView.setVisibility(splitString.length > 1 ? View.VISIBLE : View.GONE);
             updateTextViewColor(mValueView, widget.valueColor());
             updateIcon(mIconView, widget);
+            mRightArrow.setVisibility(widget.linkedPage() != null ? View.VISIBLE : View.GONE);
         }
     }
 
