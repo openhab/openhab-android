@@ -4,7 +4,7 @@
     <whatis>openHAB は、Java ベースのオープンソース ホームオートメーション プラットフォームで、広大な範囲の異なるスマートホームシステムや技術を組み合わせたり統合して 1 つのソリューションにします。</whatis>
     <rules>統一された抽象レイヤーの上で、包括的な自動化ルールエンジンと異なるユーザーインターフェイスの、すべての接続されてたデバイスが利用できます。</rules>
     <supported>サポートされている製品</supported>
-    <bindings>200 以上の特定のアドオンは、ブランド、デバイス ・技術・通信プロトコルをサポートします。 例えば、Z-Wave、Philips Hue、アマゾンエコー、Chromecast、Sonos です。 利用可能なアドオンやサポートされているデバイスの機能は: https://docs.openhab.org/addons/bindings.html</bindings>
+    <bindings>200 以上の特定のアドオンは、ブランド、デバイス ・技術・通信プロトコルをサポートします。 例えば、Z-Wave、Philips Hue、アマゾンエコー、Chromecast、Sonos です。 </bindings>
 
     <home_automation_solutions>• ホームオートメーション ソリューション: Z-Wave、EnOcean、Netatmo、Homematic、Insteon ...</home_automation_solutions>
     <lighting>• 照明: Philips Hue、Ikea Trådfri、LIFX、lutron社、Milight ...</lighting>
