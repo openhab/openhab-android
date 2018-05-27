@@ -5,8 +5,7 @@
     <rules>على قمة الطبقات المجردة الموحدة، جميع الأجهزة المتصلة قابلة لقاعدة محركات أتمتة شاملة و واجهات مستخدم متوعة.</rules>
     <supported>منتجات مدعومة</supported>
     <bindings>ما يزيد على 200 من إضافات محددة توفر الدعم لماركات أجهزة وتقنيات وبروتوكولات الاتصال. مثال زد-ويف، فيليبس هيو، أمازون إيكو، كرومكاست، و سونوس.
-https://docs. openhab. org/addons/bindings. html. أكتشف كل الإضافات المتوفرة والأجهزة المدعومة و/أو الوظائف عبر: 
-https://docs.openhab.org/addons/bindings.html</bindings>
+https://docs. openhab. org/addons/bindings. html. </bindings>
 
     <home_automation_solutions>• حلول أتمتة المنزل: زد-ويف، إنأوشن، نتانتو، هوميتريك، إنستون، ...</home_automation_solutions>
     <lighting>• الإضاءة: فيليبس هوي ، ترادفري ، ايكيا، ليف، لوتون ، ميليت،...</lighting>
