@@ -4,7 +4,7 @@
     <whatis>openHAB is een Java gebaseerd open-source domotica platform dat een breed scala aan verschillende smart home systemen en technologieën integreert en combineert in één enkele oplossing.</whatis>
     <rules>Via de uniforme abstractie laag zijn alle aangesloten apparaten beschikbaar voor de generieke automatiserings regels en de verschillende gebruikersinterfaces.</rules>
     <supported>Ondersteunde producten</supported>
-    <bindings>Meer dan 200 specifieke add-ons bieden ondersteuning voor merken, apparaten, technologieën en communicatieprotocollen. Voorbeelden zijn Z-Wave, Philips Hue, Amazon Echo, Chromecast en Sonos. Ontdek alle beschikbare invoegtoepassingen en ondersteunde apparaten en/of functies op: https://docs.openhab.org/addons/bindings.html</bindings>
+    <bindings>Meer dan 200 specifieke add-ons bieden ondersteuning voor merken, apparaten, technologieën en communicatieprotocollen. Voorbeelden zijn Z-Wave, Philips Hue, Amazon Echo, Chromecast en Sonos. </bindings>
 
     <home_automation_solutions>• Domotica oplossingen: Z-Wave, EnOcean, Netatmo, Homematic, Insteon,...</home_automation_solutions>
     <lighting>• Verlichting: Philips Hue, Ikea Trådfri, LIFX, Lutron, Milight,...</lighting>
