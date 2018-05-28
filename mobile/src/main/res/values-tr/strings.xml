@@ -50,14 +50,12 @@
   <string name="error_network_not_available">Network müsait değil</string>
   <string name="error_connection_failed">Ana cihaza bağlantı başarısız oldu</string>
   <string name="error_unable_to_resolve_hostname">Ana cihaz adı çözülemiyor</string>
-  <string name="error_certificate_not_trusted">SSL sertifikasına güvenilmiyor. Lütfen kök sertifikayı içe aktarın ya da SSL handshake esnasında sertifika doğrulaması etkisiz hale getirin</string>
   <string name="error_certificate_expired">SSL sertifikasının süresi doldu. Lütfen yeni bir sertifika edinin ya da SSL handshake esnasında sertifika doğrulamasını etkisiz hale getirin</string>
   <string name="error_certificate_revoked">SSL sertifikası iptal edildi. Lütfen yeni bir sertifika edinin ya da SSL handshake esnasında sertifika doğrulamasını etkisiz hale getirin</string>
   <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
   <string name="error_http_code_496">SSL müşteri sertifikası gereklidir (HTTP yanıt kodu 496)</string>
   <string name="error_http_code_511">Network kimlik doğrulaması gereklidir (HTTP yanıt kodu 511)</string>
   <string name="title_activity_openhabwritetag">NFC etiketini yazınız</string>
-  <string name="title_activity_libraries">Kullanılan Kütüphaneler</string>
   <string name="info_write_tag">Doğrulama mesajı gözükene kadar etikete dokunun ve kapalı halde tutunuz</string>
   <string name="info_write_tag_progress">Etkiket yazılıyor</string>
   <string name="info_write_tag_finished">Başarılı bir şekilde bitirildi</string>
