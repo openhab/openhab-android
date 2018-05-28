@@ -22,6 +22,7 @@
 
         <item name="themedArrowDownIcon">@drawable/ic_keyboard_arrow_down_black_24dp</item>
         <item name="themedArrowUpIcon">@drawable/ic_keyboard_arrow_up_black_24dp</item>
+        <item name="themedArrowRightIcon">@drawable/ic_keyboard_arrow_right_black_24dp</item>
         <item name="themedColorIcon">@drawable/ic_color_lens_black_24dp</item>
         <item name="themedClearIcon">@drawable/ic_clear_black_24dp</item>
         <item name="themedSpinnerCaret">@drawable/ic_spinner_caret_black</item>
@@ -65,6 +66,7 @@
 
         <item name="themedArrowDownIcon">@drawable/ic_keyboard_arrow_down_white_24dp</item>
         <item name="themedArrowUpIcon">@drawable/ic_keyboard_arrow_up_white_24dp</item>
+        <item name="themedArrowRightIcon">@drawable/ic_keyboard_arrow_right_white_24dp</item>
         <item name="themedColorIcon">@drawable/ic_color_lens_white_24dp</item>
         <item name="themedClearIcon">@drawable/ic_clear_white_24dp</item>
         <item name="themedSpinnerCaret">@drawable/ic_spinner_caret_white</item>
