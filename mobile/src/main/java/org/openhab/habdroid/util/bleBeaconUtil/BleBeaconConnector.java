@@ -21,7 +21,7 @@ public class BleBeaconConnector {
     private static final String TAG = BleBeaconConnector.class.getSimpleName();
 
     private static final int REQUEST_ENABLE_BT = 0;
-    private static final int SCAN_PERIOD = 10000;//Scan for 10s
+    public static final int SCAN_PERIOD = 10000;//Scan for 10s
 
     private static BleBeaconConnector INSTANCE;
 
@@ -29,6 +29,7 @@ public class BleBeaconConnector {
     private Handler mHandler;
     private boolean notSupport;
     private BluetoothAdapter.LeScanCallback mLeScanCallback;
+    private Runnable stopLeScan;
 
     //Enforce singleton by using private constructors
     private BleBeaconConnector(){}
@@ -50,6 +51,7 @@ public class BleBeaconConnector {
         }
         checkAndRequestPosPermission(activity);
         mHandler = new Handler();
+        stopLeScan = () -> mBluetoothAdapter.stopLeScan(mLeScanCallback);
     }
 
     private void checkAndRequestPosPermission(AppCompatActivity activity){
@@ -58,10 +60,16 @@ public class BleBeaconConnector {
             ActivityCompat.requestPermissions(activity, posPermission, REQUEST_ENABLE_BT);
         }
     }
+
     @SuppressWarnings("deprecation")
-    public void scanLeServiceCompact(){
-        mHandler.postDelayed(() -> mBluetoothAdapter.stopLeScan(mLeScanCallback), SCAN_PERIOD);
+    public void startLeScan(){
+        mHandler.postDelayed(stopLeScan, SCAN_PERIOD);
         mBluetoothAdapter.startLeScan(mLeScanCallback);
+    }
+
+    public void stopLeScan(){
+        mHandler.removeCallbacks(stopLeScan);
+        mBluetoothAdapter.stopLeScan(mLeScanCallback);
     }
 
     public static BleBeaconConnector getInstance(AppCompatActivity activity) {

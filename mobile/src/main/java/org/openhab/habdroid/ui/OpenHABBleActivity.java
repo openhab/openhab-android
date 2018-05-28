@@ -1,6 +1,8 @@
 package org.openhab.habdroid.ui;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,20 +15,24 @@ import org.openhab.habdroid.ui.widget.DividerItemDecoration;
 import org.openhab.habdroid.util.bleBeaconUtil.BleBeaconConnector;
 import org.openhab.habdroid.util.Util;
 
-public class OpenHABBleActivity extends AppCompatActivity {
-    BleBeaconConnector mBleBeaconConnector;
-    RecyclerView mRecyclerView;
+public class OpenHABBleActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener{
+    private BleBeaconConnector mBleBeaconConnector;
+    private RecyclerView mRecyclerView;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Util.setActivityTheme(this);
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_openhab_ble_beacons);
+        setContentView(R.layout.activity_ble_beacons);
 
         Toolbar toolbar = findViewById(R.id.openhab_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        mSwipeRefreshLayout = findViewById(R.id.swipe_container);
+        mSwipeRefreshLayout.setOnRefreshListener(this);
 
         mRecyclerView = findViewById(R.id.ble_recyclerview);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -37,11 +43,11 @@ public class OpenHABBleActivity extends AppCompatActivity {
 
         mBleBeaconConnector = BleBeaconConnector.getInstance(this);
         if (mBleBeaconConnector.isNotSupport()){
-            //TODO add a prompt later
             return;
         }
         mBleBeaconConnector.bindLeScanCallback(openHABBleAdapter);
-        mBleBeaconConnector.scanLeServiceCompact();
+        mSwipeRefreshLayout.setRefreshing(true);
+        onRefresh();
     }
 
     @Override
@@ -51,5 +57,14 @@ public class OpenHABBleActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onRefresh() {
+        if (mSwipeRefreshLayout.isRefreshing()) {
+            mBleBeaconConnector.stopLeScan();
+            mBleBeaconConnector.startLeScan();
+            mSwipeRefreshLayout.postDelayed(() -> mSwipeRefreshLayout.setRefreshing(false), BleBeaconConnector.SCAN_PERIOD);
+        }
     }
 }
