@@ -53,7 +53,7 @@ public class OpenHABVoiceService extends IntentService {
         try {
             connection = ConnectionFactory.getUsableConnection();
         } catch (ConnectionException e) {
-            Log.w(TAG, "Couldn't determine OpenHAB URL", e);
+            Log.w(TAG, "Couldn't determine openHAB URL", e);
         }
 
         if (connection != null) {
