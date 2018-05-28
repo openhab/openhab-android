@@ -50,14 +50,12 @@
   <string name="error_network_not_available">Tinklas nepasiekiamas</string>
   <string name="error_connection_failed">Nepavyko prisijungti prie serverio</string>
   <string name="error_unable_to_resolve_hostname">Nepavyko aptikti domeno vardo</string>
-  <string name="error_certificate_not_trusted">SSL sertifikatas nėra patikimas. Importuokite šakninį SSL sertifikatą arba išjunkite sertifikatų patvirtinimą</string>
   <string name="error_certificate_expired">SSL sertifikato galiojimas baigėsi. Gaukite naują sertifikatą arba išjunkite sertifikatų patvirtinimą</string>
   <string name="error_certificate_revoked">SSL sertifikatas buvo atšauktas. Gaukite naują sertifikatą arba išjunkite sertifikato patvirtinimą</string>
   <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
   <string name="error_http_code_496">Reikalingas SSL kliento sertifikatas (HTTP atsakymo kodas 496)</string>
   <string name="error_http_code_511">Reikalingas tinklo autentifikavimas (HTTP atsakymo kodas 511)</string>
   <string name="title_activity_openhabwritetag">Rašyti NFC žymą</string>
-  <string name="title_activity_libraries">Naudojamos bibliotekos</string>
   <string name="info_write_tag">Palieskite žymą ir laikykite ją arti kol bus parodyta patvirtinimo žinutė</string>
   <string name="info_write_tag_progress">Rašoma žyma</string>
   <string name="info_write_tag_finished">Sėkmingai baigta</string>
