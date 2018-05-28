@@ -59,9 +59,7 @@
   <string name="error_connection_failed">Připojení k serveru se nezdařilo</string>
   <string name="error_unable_to_resolve_hostname">Nelze zjistit název hostitele</string>
   <string name="error_connection_sslhandshake_failed">Ověření SSL metodou handshake se nezdařilo</string>
-  <string name="error_certificate_not_trusted">SSL certifikát není důvěryhodný. Importujte kořenový certifikát nebo zakažte ověření certifikátu během SSL handshake</string>
   <string name="error_certificate_expired">Vypršela platnost certifikátu SSL. Získejte nový certifikát nebo zakažte ověření certifikátu během SSL handshake</string>
-  <string name="error_certificate_not_valid_yet">SSL certifikát ještě není platný. Získejte správný certifikát nebo zakažte ověření certifikátu během ověření SSL metodou handshake. Také zkontrolujte, jestli je správně nastaven čas na vašem zařízení</string>
   <string name="error_certificate_revoked">Certifikát SSL byl odvolán. Získejte nový certifikát nebo zakažte ověření certifikátu během SSL handshake</string>
   <string name="error_certificate_wrong_host">Certifikát SSL není platný pro %s</string>
   <string name="error_http_code_401">Ověření se nezdařilo. Zkontrolujte uživatelské jméno a heslo, případně klientský certifikát SSL (kód odpovědi HTTP 401)</string>
@@ -74,12 +72,10 @@
   <string name="error_http_code_496">Vyžaduje se SSL certifikát (kód odpovědi HTTP 496)</string>
   <string name="error_http_code_502">Vaše reverse proxy obdržela chybnou odpověď ze serveru openHAB (kód odpovědi HTTP 502)</string>
   <string name="error_http_code_503">Server openHAB je dočasně nedostupný (kód odpovědi HTTP 503)</string>
-  <string name="error_http_code_504">Gateway time-out. Zdá se, že Vaše reverse proxy běží, ale nemůže získat odpověď od serveru openHAB (kód odpovědi HTTP 504)</string>
   <string name="error_http_code_507">Server openHAB má nedostatek volného místa (kód odpovědi HTTP 507)</string>
   <string name="error_http_code_511">Vyžaduje se síťové ověření (kód odpovědi HTTP 511)</string>
   <string name="error_about_no_conn">Chyba při získávání informací ze serveru openHAB</string>
   <string name="title_activity_openhabwritetag">Zapsat do NFC tagu</string>
-  <string name="title_activity_libraries">Použité knihovny</string>
   <string name="info_write_tag">Dotkněte se tagu a počkejte na potvrzovací zprávu</string>
   <string name="info_write_tag_progress">Zapisování do tagu</string>
   <string name="info_write_tag_finished">Úspěšně dokončeno</string>
@@ -143,10 +139,7 @@
   <string name="intro_themes_description">Vyberte si mezi několika motivy</string>
   <string name="try_again_button">Zkusit znovu</string>
   <string name="go_to_settings_button">Přejít do nastavení</string>
-  <string name="configuration_missing">Nepodařilo se automaticky nalézt openHAB server. V nastavení serveru nakonfigurujte jeho IP adresu nebo název hostitele.</string>
   <string name="resolving_openhab">Hledám openHAB server\u2026</string>
-  <string name="intro_discovery">Automatické nalezení serveru</string>
-  <string name="intro_discovery_summary">Bude fungovat pouze v případě, že ověřování není serverem vynuceno</string>
   <!-- Content description for images -->
   <string name="content_description_open_roller_shutter">Otevřít ovládání rolet</string>
   <string name="content_description_stop_roller_shutter">Zastavit roletu</string>
@@ -157,7 +150,6 @@
   <string name="content_description_open_number_picker">Otevřít výběr čísla</string>
   <string name="content_description_video">Video</string>
   <string name="content_description_open_openhab">Spustit openHAB</string>
-  <string name="swipe_to_refresh_description">Aplikace se aktualizuje automaticky, obvykle není třeba udělat to ručně</string>
   <string name="swipe_to_refresh_dismiss">Rozumím!</string>
   <!-- Intro strings -->
   <!-- Intro "SKIP" button -->
