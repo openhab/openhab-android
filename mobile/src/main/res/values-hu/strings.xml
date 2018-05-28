@@ -60,9 +60,7 @@
   <string name="error_connection_failed">Sikertelen kapcsolódás</string>
   <string name="error_unable_to_resolve_hostname">Névfeloldás sikertelen</string>
   <string name="error_connection_sslhandshake_failed">SSL ellenőrzés sikertelen</string>
-  <string name="error_certificate_not_trusted">Az SSL-tanúsítvány nem megbízható. Kérjük, importálja a gyökér tanúsítványt, vagy tiltsa le a tanúsítvány érvényesítése során az SSL ellenőrzést</string>
   <string name="error_certificate_expired">SSL-tanúsítvány már lejárt. Kérjük, szerezzen be új tanúsítványt, vagy tiltsa le a tanúsítvány érvényesítése során az SSL ellenőrzést</string>
-  <string name="error_certificate_not_valid_yet">SSL-tanúsítvány még nem érvényes. Kérjük, szerezzen be egy megfelelő tanúsítványt, vagy tiltsa le a tanúsítvány érvényesítése során az SSL ellenőrzést. Illetve, ellenőrizze készülékén megfelelően van e beállítva az idő</string>
   <string name="error_certificate_revoked">SSL-tanúsítvány már lejárt. Kérjük, szerezzen be új tanúsítványt, vagy tiltsa le a tanúsítvány érvényesítése során az SSL ellenőrzést</string>
   <string name="error_certificate_wrong_host">SSL-tanúsítvány érvénytelen %s</string>
   <string name="error_http_code_401">A hitelesítés sikertelen. Kérjük, ellenőrizze a beállított felhasználónevet és jelszót, illetve az SSL ügyféltanúsítványt (HTTP-válaszkód 401)</string>
@@ -75,12 +73,10 @@
   <string name="error_http_code_496">SSL ügyfél-tanúsítvány szükség (HTTP válasz-kód 496)</string>
   <string name="error_http_code_502">Az átjáró érvénytelen választ kapott a openHAB szervertől (HTTP válaszkód, 502.)</string>
   <string name="error_http_code_503">A openHAB szerver ideiglenesen nem érhető el (HTTP válasz-kód 503)</string>
-  <string name="error_http_code_504">Átjáró időtúllépés. Úgy tűnik, hogy a átjáró fut, de nem kap választ a openHAB szervertől (HTTP-válaszkód 504)</string>
   <string name="error_http_code_507">A openHAB kiszolgálón nincs elég szabad hely (HTTP-válaszkód 507)</string>
   <string name="error_http_code_511">Hálózati hitelesítésre van szükség (HTTP válasz-kód 511)</string>
   <string name="error_about_no_conn">Hiba történt az openHAB szerver adatok lekérése közben</string>
   <string name="title_activity_openhabwritetag">NFC-címke írása</string>
-  <string name="title_activity_libraries">Használt könyvtárak</string>
   <string name="info_write_tag">Érintse meg a címkét, és tartsa közel, amíg meg nem jelenik a visszaigazoló üzenet</string>
   <string name="info_write_tag_progress">Címke írása</string>
   <string name="info_write_tag_finished">Sikeresen befejezve</string>
@@ -144,10 +140,7 @@
   <string name="intro_themes_description">Választhat számos téma közül</string>
   <string name="try_again_button">Próbáld újra</string>
   <string name="go_to_settings_button">Beállítások megnyitása</string>
-  <string name="configuration_missing">Az openHAB szervert nem tudta automatikusan felderíteni. Állítsd be manuálisan az IP címet vagy host nevet a szerver beállításokban.</string>
   <string name="resolving_openhab">Megpróbálja felderíteni az openHAB szerver példányt\u2026</string>
-  <string name="intro_discovery">Felderítés</string>
-  <string name="intro_discovery_summary">Kérjük vedd figyelembe, hogy ez csak akkor működik, ha az authentikációt nem a szerver hajtja végre</string>
   <!-- Content description for images -->
   <string name="content_description_open_roller_shutter">Redőny nyitása</string>
   <string name="content_description_stop_roller_shutter">Redőny megállítása</string>
@@ -158,7 +151,6 @@
   <string name="content_description_open_number_picker">Szám megadása</string>
   <string name="content_description_video">Video</string>
   <string name="content_description_open_openhab">openHAB megnyitása</string>
-  <string name="swipe_to_refresh_description">Az alkalmazás is frissíti automatikusan, általában nem kell saját kezűleg</string>
   <string name="swipe_to_refresh_dismiss">Értettem!</string>
   <!-- Intro strings -->
   <!-- Intro "SKIP" button -->
