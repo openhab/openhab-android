@@ -59,9 +59,7 @@
   <string name="error_connection_failed">Connexion au domaine échouée</string>
   <string name="error_unable_to_resolve_hostname">Impossible de résoudre le nom d\'hôte</string>
   <string name="error_connection_sslhandshake_failed">Echec de la négotiation SSL</string>
-  <string name="error_certificate_not_trusted">Le certificat SSL n\'est pas un certificat de confiance. Veuillez importer le certificat racine ou désactiver la validation du certificat</string>
   <string name="error_certificate_expired">Le certificat SSL a expiré. Veuillez obtenir un nouveau certificat ou désactiver la validation du certificat</string>
-  <string name="error_certificate_not_valid_yet">Le certificat SSL n\'est pas encore valide. Veuillez obtenir un certificat valide ou désactiver la validation du certificat. Vérifiez également que votre appareil est à l\'heure</string>
   <string name="error_certificate_revoked">Le certificat SSL a été révoqué. Veuillez obtenir un nouveau certificat ou désactiver la validation du certificat</string>
   <string name="error_certificate_wrong_host">Le certificat SSL n\'est pas valide pour %s</string>
   <string name="error_http_code_401">L’authentification a échoué. Veuillez vérifier le nom d’utilisateur et mot de passe configurés, respectivement le certificat client SSL fourni (code de réponse HTTP 401)</string>
@@ -74,12 +72,10 @@
   <string name="error_http_code_496">Certificat SSL client requis (code de réponse HTTP 496)</string>
   <string name="error_http_code_502">Votre proxy inversé a obtenu une réponse non valide du serveur openHAB (code de réponse HTTP 502)</string>
   <string name="error_http_code_503">Le serveur openHAB est temporairement indisponible (code de réponse HTTP 503)</string>
-  <string name="error_http_code_504">Expiration du délai d\'attente de la passerelle. Votre proxy inversé fonctionne, mais il n\'a pas pu recevoir une réponse du serveur openHAB (code de réponse HTTP 504)</string>
   <string name="error_http_code_507">Le serveur openHAB n\'a pas assez d\'espace disque (code de réponse HTTP 507)</string>
   <string name="error_http_code_511">L’authentification réseau est obligatoire (code de réponse HTTP 511)</string>
   <string name="error_about_no_conn">Erreur lors de la lecture d’informations sur le serveur openHAB</string>
   <string name="title_activity_openhabwritetag">Écrire un tag NFC</string>
-  <string name="title_activity_libraries">Bibliothèques utilisées</string>
   <string name="info_write_tag">Approchez votre téléphone et gardez le proche du tag NFC jusqu\'à ce que le message de confirmation apparaisse</string>
   <string name="info_write_tag_progress">Écriture du tag en cours</string>
   <string name="info_write_tag_finished">Écriture du tag terminée</string>
@@ -143,10 +139,7 @@
   <string name="intro_themes_description">Choisir parmi ces thêmes</string>
   <string name="try_again_button">Réessayer</string>
   <string name="go_to_settings_button">Ouvrir les paramètres</string>
-  <string name="configuration_missing">Votre serveur openHAB n\'a pas pu être découvert automatiquement. Veuillez configurer son adresse IP ou nom d\'hôte dans les paramètres du serveur.</string>
   <string name="resolving_openhab">Tentative de découverte automatique du serveur openHAB\u2026</string>
-  <string name="intro_discovery">Configuration automatique</string>
-  <string name="intro_discovery_summary">Veuillez noter que cela ne fonctionnera que si le serveur ne demande pas d’authentification</string>
   <!-- Content description for images -->
   <string name="content_description_open_roller_shutter">Ouvrir le volet</string>
   <string name="content_description_stop_roller_shutter">Stopper le volet</string>
@@ -157,7 +150,6 @@
   <string name="content_description_open_number_picker">Ouvrir le sélecteur numérique</string>
   <string name="content_description_video">Vidéo</string>
   <string name="content_description_open_openhab">Ouvrir openHAB</string>
-  <string name="swipe_to_refresh_description">L\'actualisation se fait automatiquement, vous n\'avez normalement rien à faire</string>
   <string name="swipe_to_refresh_dismiss">Compris !</string>
   <!-- Intro strings -->
   <!-- Intro "SKIP" button -->
