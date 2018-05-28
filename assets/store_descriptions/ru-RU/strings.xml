@@ -16,9 +16,9 @@
     <empty_point>• ...</empty_point>
 
     <oss_community>Сообщество Open Source</oss_community>
-    <forum> Форум, с более чем 13 000 зарегистрированных пользователей, это место, где можно найти рекомендации, помощь и идеи для новых решений. Присоединяйтесь к сообществу openHAB на https://community.openhab.org</forum>
+    <forum>Сообщество openHAB строго придерживается принципов Open Source. Форум, с более чем 13 000 зарегистрированных пользователей, это место, где можно найти рекомендации, помощь и идеи для новых решений. Присоединяйтесь к сообществу openHAB на https://community.openhab.org</forum>
 
-    <report_issues/>
+    <report_issues>Если вы найдете ошибку, пожалуйста, сообщите об этом на форуме или на https://github.com/openhab/openhab-android/issues</report_issues>
     <translation>Если Вы хотите перевести приложение на свой язык - присоединяйтесь к нам на https://crowdin.com/project/openhab-android</translation>
     <foundation>Cообщество openHAB</foundation>
     <about_foundation>openHAB Foundation является некоммерческой организацией, информирующей общественность о возможностях и преимущества свободных и открытых решениях "умного дома". Узнайте о задачах openHAB Foundation на https://www.openhabfoundation.org</about_foundation>
@@ -29,7 +29,7 @@
     <fdroid_beta>Вы можете установить бета-версию вместе со стабильной версией: [[org.openhab.habdroid]]</fdroid_beta>
     <fdroid_privacy_policy/>
     <fdroid_anti_features/>
-    <fdroid_anti_features_text/>
-    <beta/>
-    <play_beta/>
+    <fdroid_anti_features_text>Приложение помечено флагом «NonFreeAsset», поскольку логотип openHAB не является свободно используемым.</fdroid_anti_features_text>
+    <beta>Попробуйте новые функции и быстрее оставьте о них отзыв!</beta>
+    <play_beta>Вы можете установить бета-версию вместе со стабильной версией.</play_beta>
 </strings>
