@@ -67,9 +67,7 @@
   <string name="error_connection_failed">ホストへの接続に失敗しました</string>
   <string name="error_unable_to_resolve_hostname">ホスト名を解決できません</string>
   <string name="error_connection_sslhandshake_failed">SSL ハンドシェイクに失敗しました - 有効なクライアント証明書が必要かもしれません</string>
-  <string name="error_certificate_not_trusted">SSL 証明書は信頼されていません。ルート証明書をインポートするか、SSL ハンドシェイクの際に証明書の検証を無効にしてください。</string>
   <string name="error_certificate_expired">SSL 証明書が有効期限切れです。新しい証明書を取得するか、SSL ハンドシェイクの際に証明書の検証を無効にしてください。</string>
-  <string name="error_certificate_not_valid_yet">SSL 証明書がまだ有効ではありません。正しい証明書を取得するか、SSL ハンドシェイクの際に証明書の検証を無効にしてください。また、お使いの携帯電話の時計が正しく設定されているかを確認してください。</string>
   <string name="error_certificate_revoked">SSL 証明書が失効しています。新しい証明書を取得するか、SSL ハンドシェイクの際に証明書の検証を無効にしてください。</string>
   <string name="error_certificate_wrong_host">%s の SSL 証明書が無効です</string>
   <string name="error_http_code_401">ユーザー認証に失敗しました。ユーザー名、パスワード、SSL クライアント証明書を確認してください (HTTP 応答コード 401)</string>
@@ -82,12 +80,10 @@
   <string name="error_http_code_496">SSL クライアント証明書が必要 (HTTP 応答コード 496)</string>
   <string name="error_http_code_502">リバースプロキシが openHAB から無効な応答を受け取りました (HTTP 応答コード 502)</string>
   <string name="error_http_code_503">openHAB は一時的に利用できません (HTTP 応答コード 503)</string>
-  <string name="error_http_code_504">ゲートウェイ タイムアウト。リバースプロキシが実行中ですが、openHAB から回答を受け取ることができなかったようです (HTTP 応答コード 504)</string>
   <string name="error_http_code_507">openHAB に十分な空き容量がありません (HTTP 応答コード 507)</string>
   <string name="error_http_code_511">ネットワーク認証が必要 (HTTP 応答コード 511)</string>
   <string name="error_about_no_conn">openHAB サーバー情報の取得時にエラーが発生しました</string>
   <string name="title_activity_openhabwritetag">NFC タグを書き込み</string>
-  <string name="title_activity_libraries">使用ライブラリー</string>
   <string name="info_write_tag">タグをタッチして、確認メッセージが表示されるまで近づけたままにしてください</string>
   <string name="info_write_tag_progress">タグを書き込んでいます</string>
   <string name="info_write_tag_finished">正常に完了しました</string>
@@ -155,10 +151,7 @@
   <string name="intro_themes_description">いくつかのテーマから選択してください</string>
   <string name="try_again_button">もう一度やり直す</string>
   <string name="go_to_settings_button">設定に移動</string>
-  <string name="configuration_missing">openHAB サーバーを自動で検出できませんでした。サーバー設定で、IP アドレスまたはホスト名を設定してください。</string>
   <string name="resolving_openhab">openHAB サーバーインスタンスの探索中\u2026</string>
-  <string name="intro_discovery">探索</string>
-  <string name="intro_discovery_summary">これは、サーバーで認証が実行されていない場合にのみ動作します</string>
   <!-- Content description for images -->
   <string name="content_description_open_roller_shutter">ロール シャッターを開く</string>
   <string name="content_description_stop_roller_shutter">ロール シャッターを停止</string>
@@ -169,7 +162,6 @@
   <string name="content_description_open_number_picker">数字選択を開く</string>
   <string name="content_description_video">ビデオ</string>
   <string name="content_description_open_openhab">openHAB を開く</string>
-  <string name="swipe_to_refresh_description">アプリも自動的に更新されます、通常、手動で行う必要はありません</string>
   <string name="swipe_to_refresh_dismiss">了解!</string>
   <!-- Intro strings -->
   <!-- Intro "SKIP" button -->
