@@ -40,9 +40,12 @@
   <string name="settings_openhab_icon_format_png">Растр</string>
   <string name="settings_openhab_icon_format_svg">Вектор</string>
   <string name="settings_chart_scaling">Масштабирование диаграммы</string>
+  <string name="settings_chart_scaling_summary">Примечание. Уменьшение масштаба сокращает размер шрифтов и толщину линий, поэтому для графика остается больше места, но может пострадать читаемость шрифтов.</string>
   <string name="settings_chart_scaling_value_xs">Очень маленький</string>
   <string name="settings_chart_scaling_value_s">Маленький</string>
   <string name="settings_chart_scaling_value_m">По умолчанию</string>
+  <string name="settings_chart_scaling_value_l">Большой</string>
+  <string name="settings_ringtone">Звук уведомления</string>
   <string name="settings_clear_default_sitemap">Очистить sitemap по умолчанию</string>
   <string name="settings_no_default_sitemap">Sitemap по умолчанию не выбран</string>
   <string name="settings_current_default_sitemap">Текущий sitemap по умолчанию: %1$s</string>
@@ -50,6 +53,7 @@
   <string name="settings_openhab_alt_connection">Параметры удаленного сервера</string>
   <string name="settings_openhab_connection">Параметры локального сервера</string>
   <!-- App messages strings -->
+  <string name="title_voice_widget">Голосовые команды openHAB</string>
   <string name="info_voice_input">openHAB, Ваша команда!</string>
   <string name="info_voice_recognized_text">Принятая команда: %1$s</string>
   <string name="info_demo_mode_short">Запущен демо режим</string>
@@ -103,6 +107,7 @@
   <string name="mtm_decision_once">Один раз</string>
   <string name="mtm_decision_abort">Отмена</string>
   <string name="mtm_notification">Проверка сертификата</string>
+  <string name="settings_openhab_none">Нет</string>
   <!-- Themes -->
   <string name="theme_name_light">Светлая</string>
   <string name="theme_name_dark">Темная</string>
@@ -117,6 +122,7 @@
   <string name="nfc_action_toggle">Переключатель</string>
   <string name="nfc_activate">Включить</string>
   <string name="nfc_action_current_color">Текущий цвет</string>
+  <string name="nfc_action_to_sitemap_page">Перейти на страницу sitemap</string>
   <!-- Drawer -->
   <string name="drawer_open">Sitemap отрисовщик открыт</string>
   <string name="drawer_close">Sitemap отрисовщик закрыт</string>
@@ -133,6 +139,7 @@
   <string name="about_community">Сообщество openHAB</string>
   <string name="about_server">Сервер openHAB</string>
   <string name="about_translation">Помогите нам перевести openHAB</string>
+  <string name="about_privacy_policy">Политика конфиденциальности</string>
   <string name="settings_debug_messages_summary">Пароль будет показан в текстовом!</string>
   <string name="settings_debug_messages_title">Показать debug сообщения</string>
   <string name="error_couldnt_determine_openhab_url">Не удалось определить адрес openHAB</string>
