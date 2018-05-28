@@ -89,7 +89,7 @@ public class BleBeaconConnector {
 
             //Add item to adapter
             openHABBleAdapter.addBeacon(beacon);
-            Log.i(TAG, beacon.toString());
+            Log.d(TAG, beacon.toString());
         };
     }
 }
