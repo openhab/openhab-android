@@ -59,9 +59,7 @@
   <string name="error_connection_failed">Połączenie z hostem nie powiodło się</string>
   <string name="error_unable_to_resolve_hostname">Nie można określić nazwy hosta</string>
   <string name="error_connection_sslhandshake_failed">Uzgadnianie SSL nie powiodło się - może potrzebujesz właściwego certyfikatu klienta</string>
-  <string name="error_certificate_not_trusted">Certyfikat SSL nie jest zaufany. Proszę zaimportuj certyfikat root lub wyłącz sprawdzanie poprawności certyfikatu podczas uzgadniania SSL</string>
   <string name="error_certificate_expired">Certyfikat SSL jest przestarzały. Proszę uzyskaj nowy certyfikat lub wyłącz sprawdzanie poprawności certyfikatu podczas uzgadniania SSL</string>
-  <string name="error_certificate_not_valid_yet">Certyfikat SSL nie jest jeszcze poprawny. Proszę uzyskaj poprawny certyfikat lub wyłącz sprawdzanie poprawności certyfikatu podczas uzgadniania SSL. Sprawdź również, czy twój telefon jest poprawnie ustawiony</string>
   <string name="error_certificate_revoked">Certyfikat SSL został unieważniony. Proszę uzyskaj nowy certyfikat lub wyłącz sprawdzanie poprawności certyfikatu podczas uzgadniania SSL</string>
   <string name="error_certificate_wrong_host">Certyfikat SSL dla %s jest nieprawidłowy</string>
   <string name="error_http_code_401">Autoryzacja użytkownika nie powiodła się. Sprawdź nazwę użytkownika, hasło i certyfikat klienta SSL (kod błędu HTTP 401)</string>
@@ -74,12 +72,10 @@
   <string name="error_http_code_496">Certyfikat klienta SSL jest wymagany (kod odpowiedzi HTTP 496)</string>
   <string name="error_http_code_502">Twój odwrócony serwer proxy otrzymał nieprawidłową odpowiedź od openHAB (kod odpowiedzi HTTP 502)</string>
   <string name="error_http_code_503">openHAB jest tymczasowo niedostępny (kod odpowiedzi HTTP 503)</string>
-  <string name="error_http_code_504">Przekroczenie czasu oczekiwania bramki. Wygląda na to, że Twój odwrócony serwer proxy jest włączony, ale nie mógł otrzymać odpowiedzi od openHAB (Kod HTTP - 504)</string>
   <string name="error_http_code_507">openHAB nie ma wystarczająco wolnego miejsca (Kod HTTP - 507)</string>
   <string name="error_http_code_511">Autoryzacja sieci jest wymagana (Kod HTTP - 511)</string>
   <string name="error_about_no_conn">Wystąpił błąd podczas pobierania informacji o serwerze openHAB</string>
   <string name="title_activity_openhabwritetag">Napisz tag NFC</string>
-  <string name="title_activity_libraries">Użyte biblioteki</string>
   <string name="info_write_tag">Kliknij na tag i przytrzymaj dopóki wiadomość informacyjna się nie pokaże</string>
   <string name="info_write_tag_progress">Pisanie tagu</string>
   <string name="info_write_tag_finished">Zakończono pomyślnie</string>
@@ -141,8 +137,6 @@
   <string name="intro_themes_description">Wybierz spośród wielu motywów</string>
   <string name="try_again_button">Spróbuj ponownie</string>
   <string name="go_to_settings_button">Przejdź do ustawień</string>
-  <string name="intro_discovery">Wykrywanie</string>
-  <string name="intro_discovery_summary">Należy pamiętać, że to będzie działać tylko, jeśli uwierzytelnianie nie jest wymuszana przez serwer</string>
   <!-- Content description for images -->
   <string name="content_description_open_roller_shutter">Otwórz roletę</string>
   <string name="content_description_stop_roller_shutter">Zatrzymaj roletę</string>
@@ -153,7 +147,6 @@
   <string name="content_description_open_number_picker">Otwórz klawiaturę numeryczną</string>
   <string name="content_description_video">Wideo</string>
   <string name="content_description_open_openhab">Otwórz openHAB</string>
-  <string name="swipe_to_refresh_description">Aplikacja odświeża się automatycznie, nie musisz robić tego ręcznie</string>
   <string name="swipe_to_refresh_dismiss">Rozumiem!</string>
   <!-- Intro strings -->
   <!-- Intro "SKIP" button -->
