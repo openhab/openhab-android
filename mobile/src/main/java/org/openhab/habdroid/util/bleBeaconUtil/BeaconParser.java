@@ -124,8 +124,8 @@ public class BeaconParser {
             uuid.append(Integer.toHexString(data[i] & 0xFF));
         }
 
-        String major = Integer.toHexString(((data[25] << 8) & 0xFFFF) + (data[26] & 0xFF));
-        String minor = Integer.toHexString(((data[27] << 8) & 0xFFFF) + (data[28] & 0xFF));
+        String major = Integer.toString(((data[25] << 8) & 0xFFFF) + (data[26] & 0xFF));
+        String minor = Integer.toString(((data[27] << 8) & 0xFFFF) + (data[28] & 0xFF));
         return OpenHABBeacon.builder(OpenHABBeacon.Type.iBeacon)
                 .setTxPower(txPower)
                 .setUuid(uuid.toString())

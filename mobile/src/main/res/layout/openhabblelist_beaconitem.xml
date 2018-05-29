@@ -9,55 +9,46 @@
     <TextView
         android:id="@+id/id_name"
         android:layout_width="wrap_content"
-        android:layout_height="20dp"
-        android:layout_marginTop="0dp"
-        android:text="name not valid"
+        android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toRightOf="parent"/>
 
     <TextView
         android:id="@+id/id_rssi"
         android:layout_width="wrap_content"
-        android:layout_height="18dp"
-        android:text="rssi not valid"
+        android:layout_height="wrap_content"
         app:layout_constraintLeft_toRightOf="@id/id_name"/>
 
     <TextView
         android:id="@+id/id_tx_power"
         android:layout_width="wrap_content"
-        android:layout_height="20dp"
-        android:text="tx power not valid"
+        android:layout_height="wrap_content"
         app:layout_constraintLeft_toRightOf="@id/id_rssi" />
+
+    <TextView
+        android:id="@+id/id_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/id_name"/>
 
     <TextView
         android:id="@+id/id_distance"
         android:layout_width="wrap_content"
-        android:layout_height="20dp"
-        android:text="distance not valid"
+        android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/id_type" />
 
     <TextView
-        android:id="@+id/id_extra"
-        android:layout_width="match_parent"
-        android:layout_height="20dp"
-        android:autoLink="web"
-        android:singleLine="false"
-        android:text="URL not valid"
-        app:layout_constraintTop_toBottomOf="@id/id_mac" />
-
-    <TextView
         android:id="@+id/id_mac"
-        android:layout_width="match_parent"
-        android:layout_height="20dp"
-        android:text="mac address not valid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/id_distance"/>
 
     <TextView
-        android:id="@+id/id_type"
-        android:layout_width="match_parent"
-        android:layout_height="20dp"
-        android:text="mac address not valid"
-        app:layout_constraintTop_toBottomOf="@id/id_name"/>
-
+        android:id="@+id/id_extra"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:autoLink="web"
+        android:singleLine="false"
+        app:layout_constraintTop_toBottomOf="@id/id_mac" />
 
 </android.support.constraint.ConstraintLayout>

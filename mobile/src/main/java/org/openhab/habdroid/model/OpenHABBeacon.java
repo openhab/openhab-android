@@ -1,5 +1,7 @@
 package org.openhab.habdroid.model;
 
+import android.graphics.Path;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.google.auto.value.AutoValue;
@@ -14,12 +16,13 @@ public abstract class OpenHABBeacon {
     }
 
     //Common BLE beacon values. Must not be null for any type of beacon.
-    public abstract String name();
     public abstract String address();
     public abstract byte txPower();
     public abstract int rssi();
     public abstract double distance();
     public abstract Type type();
+    @Nullable
+    public abstract String name();
 
     //Eddystone URL specified value
     @Nullable
@@ -47,11 +50,11 @@ public abstract class OpenHABBeacon {
 
     @AutoValue.Builder
     public abstract static class Builder {
-        public abstract Builder setName(String name);
         public abstract Builder setAddress(String address);
         public abstract Builder setTxPower(byte txPower);
         public abstract Builder setRssi(int rssi);
 
+        public abstract Builder setName(@Nullable String name);
         public abstract Builder setUrl(@Nullable String url);
         public abstract Builder setNameSpace(@Nullable String nameSpace);
         public abstract Builder setInstance(@Nullable String instance);

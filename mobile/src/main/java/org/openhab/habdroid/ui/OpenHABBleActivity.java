@@ -1,7 +1,6 @@
 package org.openhab.habdroid.ui;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -12,10 +11,11 @@ import android.view.MenuItem;
 
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.ui.widget.DividerItemDecoration;
-import org.openhab.habdroid.util.bleBeaconUtil.BleBeaconConnector;
 import org.openhab.habdroid.util.Util;
+import org.openhab.habdroid.util.bleBeaconUtil.BleBeaconConnector;
 
-public class OpenHABBleActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener{
+public class OpenHABBleActivity extends AppCompatActivity implements
+        SwipeRefreshLayout.OnRefreshListener{
     private BleBeaconConnector mBleBeaconConnector;
     private RecyclerView mRecyclerView;
     private SwipeRefreshLayout mSwipeRefreshLayout;
@@ -46,6 +46,7 @@ public class OpenHABBleActivity extends AppCompatActivity implements SwipeRefres
             return;
         }
         mBleBeaconConnector.bindLeScanCallback(openHABBleAdapter);
+
         mSwipeRefreshLayout.setRefreshing(true);
         onRefresh();
     }
@@ -62,9 +63,11 @@ public class OpenHABBleActivity extends AppCompatActivity implements SwipeRefres
     @Override
     public void onRefresh() {
         if (mSwipeRefreshLayout.isRefreshing()) {
+            ((OpenHABBleAdapter)mRecyclerView.getAdapter()).clearList();
             mBleBeaconConnector.stopLeScan();
             mBleBeaconConnector.startLeScan();
-            mSwipeRefreshLayout.postDelayed(() -> mSwipeRefreshLayout.setRefreshing(false), BleBeaconConnector.SCAN_PERIOD);
+            mSwipeRefreshLayout.postDelayed(() -> mSwipeRefreshLayout.setRefreshing(false)
+                    , BleBeaconConnector.SCAN_PERIOD);
         }
     }
 }

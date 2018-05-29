@@ -21,7 +21,7 @@ public class BleBeaconConnector {
     private static final String TAG = BleBeaconConnector.class.getSimpleName();
 
     private static final int REQUEST_ENABLE_BT = 0;
-    public static final int SCAN_PERIOD = 10000;//Scan for 10s
+    public static final int SCAN_PERIOD = 5000;//Scan for 3s
 
     private static BleBeaconConnector INSTANCE;
 
@@ -30,9 +30,6 @@ public class BleBeaconConnector {
     private boolean notSupport;
     private BluetoothAdapter.LeScanCallback mLeScanCallback;
     private Runnable stopLeScan;
-
-    //Enforce singleton by using private constructors
-    private BleBeaconConnector(){}
 
     private BleBeaconConnector(AppCompatActivity activity){
         final BluetoothManager manager = (BluetoothManager) activity.getSystemService(Context.BLUETOOTH_SERVICE);

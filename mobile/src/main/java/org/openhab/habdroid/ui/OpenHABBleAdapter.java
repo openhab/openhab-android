@@ -15,7 +15,6 @@ import org.openhab.habdroid.model.OpenHABBeacon;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Locale;
 
 public class OpenHABBleAdapter extends RecyclerView.Adapter<OpenHABBleAdapter.ViewHolder>{
 
@@ -89,11 +88,12 @@ public class OpenHABBleAdapter extends RecyclerView.Adapter<OpenHABBleAdapter.Vi
     public void addBeacon(OpenHABBeacon beacon){
         int index = indexOf(beacon.address());
         if (index >= 0){
-            mOpenHABBeacons.remove(index);
-            notifyItemRemoved(index);
+            mOpenHABBeacons.set(index, beacon);
+            notifyItemChanged(index);
+        } else {
+            mOpenHABBeacons.add(0, beacon);
+            notifyItemInserted(0);
         }
-        mOpenHABBeacons.add(0, beacon);
-        notifyItemInserted(0);
     }
 
     private int indexOf(String address){
@@ -103,5 +103,11 @@ public class OpenHABBleAdapter extends RecyclerView.Adapter<OpenHABBleAdapter.Vi
             }
         }
         return -1;
+    }
+
+    public void clearList(){
+        int size = mOpenHABBeacons.size();
+        mOpenHABBeacons.clear();
+        notifyItemRangeRemoved(0, size);
     }
 }
