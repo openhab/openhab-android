@@ -24,7 +24,7 @@
     <about_foundation>OpenHAB Foundation e.V. je nezisková organizace s posláním vzdělávat veřejnost o možnostech a výhodách svobodných a otevřených chytrých řešeních pro domácí automatizaci. Další informace o poslání a službách nadace naleznete na https://www.openhabfoundation.org</about_foundation>
     <important_note>Důležitá poznámka</important_note>
     <oh_server>Pro správné fungování aplikace budete potřebovat openHAB server</oh_server>
-    <short_description>openHAB klient pro Android</short_description>
+    <short_description/>
     <fdroid>F-Droid podporuje zobrazení mapy, GCM a notifikace byly odebrány a tedy nelze přijímat push notifikace z openHAB cloudu.</fdroid>
     <fdroid_beta>Můžete nainstalovat beta verzi vedle stabilní verze: [[org.openhab.habdroid]]</fdroid_beta>
     <fdroid_privacy_policy/>
