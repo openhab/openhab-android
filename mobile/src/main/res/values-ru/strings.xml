@@ -67,7 +67,9 @@
   <string name="error_connection_failed">Ошибка подключения к хосту</string>
   <string name="error_unable_to_resolve_hostname">Не удалось разрешить имя хоста</string>
   <string name="error_connection_sslhandshake_failed">Ошибка SSL соединения</string>
+  <string name="error_certificate_not_trusted">Сертификат SSL истек. Получите новый сертификат или отключите проверку сертификата SSL</string>
   <string name="error_certificate_expired">Сертификат SSL истек. Получите новый сертификат или отключите проверку допустимости сертификата во время квитирования SSL</string>
+  <string name="error_certificate_not_valid_yet">Сертификат SSL недопустим. Получите корректный сертификат или отключите проверку сертификата SSL. Также проверьте, правильно ли установлены часы и часовой пояс на вашем устройстве</string>
   <string name="error_certificate_revoked">Сертификат SSL был отменен. Получите новый сертификат или отключите проверку сертификата SSL</string>
   <string name="error_certificate_wrong_host">SSL сертификат не действителен для %s</string>
   <string name="error_http_code_401">Ошибка аутентификации пользователя. Проверьте имя пользователя, пароль и сертификат клиента SSL (код ответа HTTP 401)</string>
@@ -80,10 +82,12 @@
   <string name="error_http_code_496">Требуется сертификат SSL-клиента (код ответа HTTP 496)</string>
   <string name="error_http_code_502">Ваш обратный прокси получил неверный ответ от openHAB (код ответа HTTP 502)</string>
   <string name="error_http_code_503">openHAB временно недоступен (код ответа HTTP 503)</string>
+  <string name="error_http_code_504">Тайм-аут шлюза. Кажется, что ваш обратный прокси работает, но не смог получить ответ от сервера openHAB (код ответа HTTP 504)</string>
   <string name="error_http_code_507">Серверу openHAB недостаточно свободного места (код ответа HTTP 507)</string>
   <string name="error_http_code_511">Требуется сетевая аутентификация (код ответа HTTP 511)</string>
   <string name="error_about_no_conn">Ошибка при получении данных с сервера openHAB</string>
   <string name="title_activity_openhabwritetag">Запись NFC tag</string>
+  <string name="title_activity_libraries">Используемые библиотеки</string>
   <string name="info_write_tag">Прикоснитесь к тегу и удерживайте его, пока не появится сообщение подтверждения</string>
   <string name="info_write_tag_progress">Запись тега</string>
   <string name="info_write_tag_finished">Успешно завершено</string>
@@ -151,6 +155,7 @@
   <string name="intro_themes_description">Выберите между несколькими темами</string>
   <string name="try_again_button">Попробуйте еще раз</string>
   <string name="go_to_settings_button">Перейдите к настройкам</string>
+  <string name="configuration_missing">Ваш сервер openHAB не был обнаружен автоматически. Пожалуйста, настройте его IP адрес или имя хоста в настройках сервера.</string>
   <string name="resolving_openhab">Пытаюсь обнаружить сервер openHAB\u2026</string>
   <!-- Content description for images -->
   <string name="content_description_open_roller_shutter">Открыть рольставни</string>
