@@ -25,7 +25,7 @@ https://docs. openhab. org/addons/bindings. html. </bindings>
     <about_foundation>مؤسسة openHAB أ. ف. منظمة غير ربحية تحمل على عاتقها مهمة تثقيف الجمهور بخصوص إمكانيات ومزايا حلول المنازل الذكية الحرة والمفتوحة. معرفة المزيد عن المهمة وخدمات المؤسسة في https://www.openhabfoundation.org</about_foundation>
     <important_note>ملاحظة هامة</important_note>
     <oh_server>أنت بحاجة إلى خادم openHAB لهذا التطبيق</oh_server>
-    <short_description>عميل openHAB للأندرويد</short_description>
+    <short_description/>
     <fdroid>إصدارات F-Droid تدعم عرض الخريطة، تراسل سحابة جوجل GCM بينما حذفت تقارير الإنهيار ومن غير الممكن إستقبال الإشعارات من سحابة openHAB.</fdroid>
     <fdroid_beta>يمكنك تثبيت إصدار التجريبي جنبا إلى جنب مع إصدار مستقر: [[org.openhab.habdroid]]</fdroid_beta>
     <fdroid_privacy_policy/>
