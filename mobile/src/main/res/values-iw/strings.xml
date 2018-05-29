@@ -67,7 +67,9 @@
   <string name="error_connection_failed">החיבור למחשב המארח נכשל</string>
   <string name="error_unable_to_resolve_hostname">אין אפשרות לאתר את שם המחשב המארח</string>
   <string name="error_connection_sslhandshake_failed">חיבור SSL נכשל</string>
+  <string name="error_certificate_not_trusted">אישור SSL אינו מהימן. אנא ייבא אישור בסיסי או בטל אימות אישור במהלך חיבור SSL</string>
   <string name="error_certificate_expired">אישור SSL פג תוקף. אנא ייבא אישורי בסיס או בטל אימות אישור במהלך חיבור SSL</string>
+  <string name="error_certificate_not_valid_yet">אישור SSL עדיין אינו חוקי. נא קבל אישור מתאים או בטל אימות אישור בתהליך בדיקת SSL. כמו כן יש לבדוק אם השעון במכשיר מוגדר כראוי</string>
   <string name="error_certificate_revoked">אישור SSL נשלל. אנא ייבא אישור חדש או בטל אימות אישור במהלך חיבור SSL</string>
   <string name="error_certificate_wrong_host">תעודת SSL אינה חוקית עבור %s</string>
   <string name="error_http_code_401">האימות נכשל. נא בדוק את שם המשתמש והסיסמה שהוגדרו בהתאמה עם תעודת ה-SSL (קוד תגובה HTTP 401)</string>
@@ -80,6 +82,7 @@
   <string name="error_http_code_496">נדרשת תעודת לקוח SSL (קוד תגובה HTTP 496)</string>
   <string name="error_http_code_502">שרת ה-reverse proxy קיבל תשובה שגויה משרת ה-openHAB (קוד תגובה HTTP 502)</string>
   <string name="error_http_code_503">שרת openHAB אינו זמין באופן זמני (קוד תגובה HTTP 503)</string>
+  <string name="error_http_code_504">Gateway Time-out. נראה כי שרת ה-reverse proxy פעיל, אך לא נתקבלה תשובה משרת openHAB (קוד תגובה HTTP 504)</string>
   <string name="error_http_code_507">אין מספיק שטח פנוי לשרת openHAB (קוד תגובה HTTP 507)</string>
   <string name="error_http_code_511">נדרש אימות רשת (קוד תגובה HTTP 511)</string>
   <string name="error_about_no_conn">אירעה שגיאה בעת בקשת מידע משרת openHAB</string>
@@ -172,4 +175,6 @@
   <!-- Intro "DONE" button -->
   <string name="app_intro_done_button">סיים</string>
   <string name="intro_voice_description">שלוט בביתך בעזרת הקול שלך</string>
+  <string name="intro_nfc">NFC תקשורת לטווח קצר</string>
+  <string name="intro_nfc_description">השליטה בפריט יכולה להיות משוייכת לתגית NFC באמצעות לחיצה ממושכת על הפריט</string>
 </resources>
