@@ -67,7 +67,9 @@
   <string name="error_connection_failed">Verbindung fehlgeschlagen</string>
   <string name="error_unable_to_resolve_hostname">Fehler beim Auflösen des Hostnamens</string>
   <string name="error_connection_sslhandshake_failed">SSL-Handshake fehlgeschlagen</string>
+  <string name="error_certificate_not_trusted">SSL-Zertifikat nicht vertrauenswürdig. Bitte importieren Sie das Root-Zertifikat oder deaktivieren Sie die Zertifikatsvalidierung</string>
   <string name="error_certificate_expired">SSL-Zertifikat abgelaufen. Bitte erstellen Sie ein neues Zertifikat oder deaktivieren Sie die Zertifikatsvalidierung</string>
+  <string name="error_certificate_not_valid_yet">SSL-Zertifikat noch nicht gültig. Bitte erstellen Sie ein gültiges Zertifikat oder deaktivieren Sie die Zertifikatsvalidierung. Überprüfen Sie auch die auf Ihrem Gerät eingestellte Uhrzeit</string>
   <string name="error_certificate_revoked">SSL-Zertifikat widerrufen. Bitte erstellen Sie ein neues Zertifikat oder deaktivieren Sie die Zertifikatsvalidierung</string>
   <string name="error_certificate_wrong_host">Das Zertifikat ist nicht gültig für %s</string>
   <string name="error_http_code_401">Authentifizierung fehlgeschlagen. Bitte überprüfen Sie den konfigurierten Nutzer und das Passwort bzw. das bereitgestellte SSL-Client-Zertifikat (HTTP-Statuscode 401)</string>
@@ -80,10 +82,12 @@
   <string name="error_http_code_496">Client-Zertifikat wird gefordert (HTTP-Statuscode 496)</string>
   <string name="error_http_code_502">Ihr Reverse-Proxy bekam eine ungültige Antwort vom openHAB-Server (HTTP-Statuscode 502)</string>
   <string name="error_http_code_503">Der openHAB-Server steht temporär nicht zur Verfügung (HTTP-Statuscode 503)</string>
+  <string name="error_http_code_504">Gateway Time-out. Ihr Reverse-Proxy läuft, aber bekam keine Antwort vom openHAB-Server (HTTP-Statuscode 504)</string>
   <string name="error_http_code_507">Der openHAB-Server hat nicht genug freien Speicher (HTTP-Statuscode 507)</string>
   <string name="error_http_code_511">Netzwerkauthentifizierung wird gefordert (HTTP-Statuscode 511)</string>
   <string name="error_about_no_conn">Fehler beim Abrufen der openHAB-Server-Informationen</string>
   <string name="title_activity_openhabwritetag">NFC-Tag beschreiben</string>
+  <string name="title_activity_libraries">Verwendete Bibliotheken</string>
   <string name="info_write_tag">Berühren Sie den NFC-Tag und warten Sie auf die Bestätigungsmitteilung</string>
   <string name="info_write_tag_progress">Schreibe NFC-Tag</string>
   <string name="info_write_tag_finished">Erfolgreich abgeschlossen</string>
@@ -151,6 +155,7 @@
   <string name="intro_themes_description">Wählen Sie zwischen verschiedenen Designs</string>
   <string name="try_again_button">Erneut versuchen</string>
   <string name="go_to_settings_button">Einstellungen öffnen</string>
+  <string name="configuration_missing">Ihr openHAB-Server konnte nicht automatisch ermittelt werden. Konfigurieren Sie in den Servereinstellungen die IP-Adresse oder den Host-Namen.</string>
   <string name="resolving_openhab">Versuche openHAB-Server-Instanz zu finden\u2026</string>
   <!-- Content description for images -->
   <string name="content_description_open_roller_shutter">Rollladen öffnen</string>
@@ -162,10 +167,12 @@
   <string name="content_description_open_number_picker">Zahlenauswahl öffnen</string>
   <string name="content_description_video">Video</string>
   <string name="content_description_open_openhab">openHAB öffnen</string>
+  <string name="swipe_to_refresh_description">Die Inhalte werden automatisch aktualisiert, Sie müssen das normalerweise nicht manuell tun</string>
   <string name="swipe_to_refresh_dismiss">Verstanden!</string>
   <!-- Intro strings -->
   <!-- Intro "SKIP" button -->
   <string name="app_intro_skip_button">ÜBERSPRINGEN</string>
   <!-- Intro "DONE" button -->
   <string name="app_intro_done_button">FERTIG</string>
+  <string name="intro_nfc">NFC</string>
 </resources>
