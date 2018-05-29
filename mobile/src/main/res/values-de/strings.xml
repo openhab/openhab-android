@@ -174,5 +174,6 @@
   <string name="app_intro_skip_button">ÜBERSPRINGEN</string>
   <!-- Intro "DONE" button -->
   <string name="app_intro_done_button">FERTIG</string>
+  <string name="intro_voice_description">Steuern Sie Ihr Zuhause mit Ihrer Stimme</string>
   <string name="intro_nfc">NFC</string>
 </resources>
