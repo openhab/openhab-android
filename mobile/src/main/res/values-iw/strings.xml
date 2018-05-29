@@ -84,6 +84,7 @@
   <string name="error_http_code_511">נדרש אימות רשת (קוד תגובה HTTP 511)</string>
   <string name="error_about_no_conn">אירעה שגיאה בעת בקשת מידע משרת openHAB</string>
   <string name="title_activity_openhabwritetag">כתיבה לתגית NFC</string>
+  <string name="title_activity_libraries">ספריות בשימוש</string>
   <string name="info_write_tag">הצמד תגית והשאר אותה קרובה עד להופעת הודעת אישור</string>
   <string name="info_write_tag_progress">כותב לתגית</string>
   <string name="info_write_tag_finished">הכתיבה הסתימה בהצלחה</string>
@@ -151,6 +152,7 @@
   <string name="intro_themes_description">בחר בין מספר ערכות עיצוב</string>
   <string name="try_again_button">נסה שוב</string>
   <string name="go_to_settings_button">עבור להגדרות</string>
+  <string name="configuration_missing">השרת של openHAB לא ניתן לגילוי באופן אוטומטי. נא להגדיר את כתובת ה IP של השרת או את שמו בתפריט הגדרות שרת.</string>
   <string name="resolving_openhab">מנסה לאתר שרת openHAB</string>
   <!-- Content description for images -->
   <string name="content_description_open_roller_shutter">פתח תריס גלילה</string>
@@ -162,10 +164,12 @@
   <string name="content_description_open_number_picker">פתח לבחירת ערך</string>
   <string name="content_description_video">סרטון</string>
   <string name="content_description_open_openhab">פתח openHAB</string>
+  <string name="swipe_to_refresh_description">היישום מרענן באופן אוטומטי, בדרך כלל אין צורך לבצע זאת ידנית</string>
   <string name="swipe_to_refresh_dismiss">הבנתי!</string>
   <!-- Intro strings -->
   <!-- Intro "SKIP" button -->
   <string name="app_intro_skip_button">דלג</string>
   <!-- Intro "DONE" button -->
   <string name="app_intro_done_button">סיים</string>
+  <string name="intro_voice_description">שלוט בביתך בעזרת הקול שלך</string>
 </resources>
