@@ -167,10 +167,14 @@
   <string name="content_description_open_number_picker">Открыть выбор числа</string>
   <string name="content_description_video">Видео</string>
   <string name="content_description_open_openhab">Открыть openHAB</string>
+  <string name="swipe_to_refresh_description">Приложение также обновляется автоматически, обычно нет необходимости делать это вручную</string>
   <string name="swipe_to_refresh_dismiss">Ясно!</string>
   <!-- Intro strings -->
   <!-- Intro "SKIP" button -->
   <string name="app_intro_skip_button">ПРОПУСТИТЬ</string>
   <!-- Intro "DONE" button -->
   <string name="app_intro_done_button">ГОТОВО</string>
+  <string name="intro_voice_description">Управление домом вашим голосом</string>
+  <string name="intro_nfc">NFC</string>
+  <string name="intro_nfc_description">Элемент управления может быть привязан к NFC тегам долгим нажатием на элемент</string>
 </resources>
