@@ -24,7 +24,7 @@
     <about_foundation>קרן openHAB הוא ארגון ללא מטרות רווח שמשימתו היא לחנך את הציבור על האפשרויות והיתרונות של שימוש בפתרונות חופשיים ופתוחים של בית חכם. למד אודות משימתו ושירותיו של הארגון ב https://www.openhabfoundation.org</about_foundation>
     <important_note>הערה חשובה</important_note>
     <oh_server>יש צורך בשרת openHAB עבור יישום זה</oh_server>
-    <short_description>לקוח openHAB עבור אנדרואיד</short_description>
+    <short_description/>
     <fdroid>תוכנות עבור F-Droid מכילות תצוגת מיפוי, GCM ודיווחי שגיאה על התרסקות הוסרו ולא יוכלו לקבל התראות בדחיפה מענן openHAB.</fdroid>
     <fdroid_beta>באפשרותך להתקין את גירסת הבטא לצד הגרסה היציבה: [[org.openhab.habdroid]]</fdroid_beta>
     <fdroid_privacy_policy>מדיניות פרטיות: https://www.openhabfoundation.org/privacy</fdroid_privacy_policy>
