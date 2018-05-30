@@ -199,9 +199,6 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         // Set default values, false means do it one time during the very first launch
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
 
-        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-
-        // Set the theme to one from preferences
         mSettings = PreferenceManager.getDefaultSharedPreferences(this);
 
         // Disable screen timeout if set in preferences
@@ -209,6 +206,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         }
 
+        // Set the theme to one from preferences
         Util.setActivityTheme(this);
         super.onCreate(savedInstanceState);
 
@@ -276,7 +274,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         //  Create a new boolean and preference and set it to true
         boolean isFirstStart = mSettings.getBoolean("firstStart", true);
 
-        SharedPreferences.Editor prefsEdit = sharedPrefs.edit();
+        SharedPreferences.Editor prefsEdit = mSettings.edit();
         //  If the activity has never started before...
         if (isFirstStart) {
 
@@ -398,13 +396,17 @@ public class OpenHABMainActivity extends AppCompatActivity implements
     @Override
     public void onResume() {
         Log.d(TAG, "onResume()");
-
         super.onResume();
+
         ConnectionFactory.addListener(this);
         MemorizingTrustManager.getInstance(this).bindDisplayActivity(this);
 
         onAvailableConnectionChanged();
         updateNotificationDrawerItem();
+
+        if (TextUtils.isEmpty(mSettings.getString(Constants.PREFERENCE_SITEMAP_NAME, ""))) {
+            loadSitemapList(true);
+        }
 
         NfcAdapter nfcAdapter = NfcAdapter.getDefaultAdapter(this);
         if (nfcAdapter != null) {
@@ -723,8 +725,8 @@ public class OpenHABMainActivity extends AppCompatActivity implements
     }
 
     /**
-     * Get sitemaps from openHAB, if user already configured preffered sitemap
-     * just open it. If no preffered sitemap is configured - let user select one.
+     * Get sitemaps from openHAB. If user already configured preferred sitemap
+     * just open it. If no preferred sitemap is configured let user select one.
      */
 
     private void loadSitemapList(final boolean selectSitemapAfterLoad) {
