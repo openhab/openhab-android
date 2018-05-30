@@ -6,6 +6,7 @@
 .idea
 
 # Gradle files
+gradle.properties
 .gradle
 **/build/
 

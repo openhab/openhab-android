@@ -105,6 +105,9 @@ dependencies {
     implementation 'com.github.loopj:android-smart-image-view:d09783b9508af5996361437a54cc234b662e4c78'
     implementation 'com.github.BigBadaboom:androidsvg:3511e136498da94018ef9fa438895984ea9b99db'
     implementation 'com.github.apl-devs:appintro:v4.2.2'
+
+    // Location Services
+    fullImplementation 'com.google.android.gms:play-services-location:12.0.1'
     // Google Maps
     fullImplementation 'com.google.android.gms:play-services-maps:12.0.1'
     // GCM
