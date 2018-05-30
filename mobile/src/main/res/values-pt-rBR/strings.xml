@@ -25,8 +25,8 @@
   <string name="settings_openhab_sslclientcert">Certificado cliente SSL</string>
   <string name="settings_openhab_sslclientcert_howto">Certificado cliente SSL Ajuda</string>
   <string name="settings_openhab_sslclientcert_howto_summary">Toque aqui para obter algumas dicas e explicações sobre como configurar a autenticação de certificado cliente SSL</string>
-  <string name="settings_openhab_screentimeroff">Desativar a exibição do temporizador</string>
-  <string name="settings_openhab_screentimeroff_summary">Desativar exibição de interruptor de temporização quando openHAB está sendo executado</string>
+  <string name="settings_openhab_screentimeroff">Desativar a exibição do timer</string>
+  <string name="settings_openhab_screentimeroff_summary">Desativa a exibição de interruptor de temporização quando openHAB está sendo executado</string>
   <string name="settings_openhab_demomode">Modo de demonstração</string>
   <string name="settings_openhab_demomode_summary">Executar em modo de demonstração</string>
   <string name="settings_openhab_theme">Tema</string>
@@ -46,23 +46,23 @@
   <string name="settings_chart_scaling_value_m">Padrão</string>
   <string name="settings_chart_scaling_value_l">Grande</string>
   <string name="settings_ringtone">Toque de notificação</string>
-  <string name="settings_clear_default_sitemap">Selecione o mapa de site padrão</string>
-  <string name="settings_no_default_sitemap">Mapa de site padrão não selecionado</string>
-  <string name="settings_current_default_sitemap">Mapa de site padrão atual: %1$s</string>
+  <string name="settings_clear_default_sitemap">Selecione o sitemap padrão</string>
+  <string name="settings_no_default_sitemap">Sitemap padrão não selecionado</string>
+  <string name="settings_current_default_sitemap">Sitemap padrão atual: %1$s</string>
   <string name="settings_openhab_sslsettings">Criptografia</string>
   <string name="settings_openhab_alt_connection">Remoto</string>
   <string name="settings_openhab_connection">Local</string>
   <!-- App messages strings -->
-  <string name="title_voice_widget">comandos de voz do openHab</string>
-  <string name="info_voice_input">openhab, às suas ordens!</string>
+  <string name="title_voice_widget">comandos de voz do openHAB</string>
+  <string name="info_voice_input">openHAB, às suas ordens!</string>
   <string name="info_voice_recognized_text">Comando reconhecido: %1$s</string>
-  <string name="info_demo_mode_short">A executar em modo de demonstração</string>
+  <string name="info_demo_mode_short">Executando em modo de demonstração</string>
   <string name="info_conn_url">Conectando a URL local</string>
   <string name="info_conn_rem_url">Conectando a URL local</string>
   <!-- Error messages -->
-  <string name="error_empty_sitemap_list">openhab lista do mapa do site retornou vazia</string>
+  <string name="error_empty_sitemap_list">openHAB retornou uma lista de sitemap vazia</string>
   <string name="error_network_not_available">Rede não está disponivel</string>
-  <string name="error_http_connection_failed">Ligação sem sucesso. Foi recebida uma resposta inesperada ao ligar com servidor configurado openHAB (código de resposta HTTP recebido: %d)</string>
+  <string name="error_http_connection_failed">Conexão sem sucesso. Foi recebida uma resposta inesperada ao conectar com servidor openHAB configurado (código de resposta HTTP recebido: %d)</string>
   <string name="error_invalid_url">Por favor introduza um URL válido num padrão \'http(s)://endereço(:porto)/\'</string>
   <string name="error_connection_failed">Conexão ao host falhado</string>
   <string name="error_unable_to_resolve_hostname">Não foi possível resolver nome de anfitrião</string>
