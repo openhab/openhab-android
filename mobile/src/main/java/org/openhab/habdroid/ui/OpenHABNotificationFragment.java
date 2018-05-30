@@ -9,14 +9,17 @@
 
 package org.openhab.habdroid.ui;
 
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.annotation.ColorInt;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -86,6 +89,15 @@ public class OpenHABNotificationFragment extends Fragment implements
         View view = inflater.inflate(R.layout.openhabnotificationlist_fragment, container, false);
         mSwipeLayout = view.findViewById(R.id.swipe_container);
         mSwipeLayout.setOnRefreshListener(this);
+
+        TypedValue typedValue = new TypedValue();
+        Resources.Theme theme = getActivity().getTheme();
+        theme.resolveAttribute(R.attr.colorPrimary, typedValue, true);
+        @ColorInt int colorPrimary = typedValue.data;
+        theme.resolveAttribute(R.attr.colorAccent, typedValue, true);
+        @ColorInt int colorAccent = typedValue.data;
+        mSwipeLayout.setColorSchemeColors(colorPrimary, colorAccent);
+
         mRecyclerView = view.findViewById(android.R.id.list);
         mEmptyView = view.findViewById(android.R.id.empty);
         mEmptyMessage = view.findViewById(R.id.empty_message);
