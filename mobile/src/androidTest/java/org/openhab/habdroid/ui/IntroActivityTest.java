@@ -94,28 +94,19 @@ public class IntroActivityTest extends TestWithIntro {
     @Test
     public void goThroughIntro() {
         // click next
-        ViewInteraction appCompatImageButton = onView(
-                CoreMatchers.allOf(withId(R.id.next),
-                        childAtPosition(
-                                CoreMatchers.allOf(withId(R.id.bottomContainer),
-                                        childAtPosition(
-                                                withId(R.id.bottom),
-                                                1)),
-                                3),
-                        isDisplayed()));
-        appCompatImageButton.perform(click());
-
-        // click next
-        ViewInteraction appCompatImageButton2 = onView(
-                CoreMatchers.allOf(withId(R.id.next),
-                        childAtPosition(
-                                CoreMatchers.allOf(withId(R.id.bottomContainer),
-                                        childAtPosition(
-                                                withId(R.id.bottom),
-                                                1)),
-                                3),
-                        isDisplayed()));
-        appCompatImageButton2.perform(click());
+        ViewInteraction appCompatImageButton;
+        for (int i = 0; i < 3; i++) {
+            appCompatImageButton = onView(
+                    CoreMatchers.allOf(withId(R.id.next),
+                            childAtPosition(
+                                    CoreMatchers.allOf(withId(R.id.bottomContainer),
+                                            childAtPosition(
+                                                    withId(R.id.bottom),
+                                                    1)),
+                                    3),
+                            isDisplayed()));
+            appCompatImageButton.perform(click());
+        }
 
         // close intro
         ViewInteraction appCompatButton = onView(

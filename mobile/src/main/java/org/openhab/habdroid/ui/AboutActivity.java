@@ -236,7 +236,7 @@ public class AboutActivity extends AppCompatActivity implements
             ohCommunityCard.addItem(new MaterialAboutActionItem.Builder()
                     .text(R.string.about_docs)
                     .icon(R.drawable.ic_collections_bookmark_grey_24dp)
-                    .setOnClickAction(MaterialAboutItemOnClickRedirect("https://docs.openhab.org/"))
+                    .setOnClickAction(MaterialAboutItemOnClickRedirect("https://www.openhab.org/docs/"))
                     .build());
             ohCommunityCard.addItem(new MaterialAboutActionItem.Builder()
                     .text(R.string.about_community_forum)

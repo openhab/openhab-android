@@ -1,0 +1,9 @@
+<b>Added</b>
+* Add arrow to widget when clicking opens a sub page (#905) 
+
+<b>Fixed</b>
+* Update documentation links (#906) 
+* Use contraced words in English strings (#900)
+
+<b>Changed</b>
+* Change intro slides (#816)
