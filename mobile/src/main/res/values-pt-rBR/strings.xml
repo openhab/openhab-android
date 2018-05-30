@@ -99,7 +99,7 @@
   <string name="info_openhab_secret_label">openHAB Segredo</string>
   <string name="info_openhab_push_notification_label">Status da notificação por push</string>
   <string name="action_settings">Configurações</string>
-  <string name="nfc_dialog_title">Escrever a ação de marca NFC para este elemento</string>
+  <string name="nfc_dialog_title">Definir a ação da tag NFC para este elemento</string>
   <string name="info_not_set">Não definido</string>
   <!-- Strings for MemorizingTrustManager activity -->
   <string name="mtm_accept_cert">Aceitar Certificado desconhecido?</string>
@@ -112,8 +112,8 @@
   <string name="theme_name_light">Claro</string>
   <string name="theme_name_dark">Escuro</string>
   <string name="theme_name_black">Preto/AMOLED</string>
-  <string name="theme_name_basic_ui">Básica UI</string>
-  <string name="theme_name_basic_ui_dark">Básica UI escura</string>
+  <string name="theme_name_basic_ui">UI Básica</string>
+  <string name="theme_name_basic_ui_dark">UI Básica escura</string>
   <!-- NFC -->
   <string name="nfc_action_on">Ligar</string>
   <string name="nfc_action_up">Para cima</string>
@@ -124,8 +124,8 @@
   <string name="nfc_action_current_color">Cor atual</string>
   <string name="nfc_action_to_sitemap_page">Navegar para a página do sitemap</string>
   <!-- Drawer -->
-  <string name="drawer_open">Gaveta aberta do mapa do site</string>
-  <string name="drawer_close">Gaveta fechada do mapa do site</string>
+  <string name="drawer_open">Gaveta aberta do sitemap</string>
+  <string name="drawer_close">Gaveta fechada do sitemap</string>
   <string name="mainmenu_openhab_voice_recognition">Reconhecimento de voz</string>
   <!-- About -->
   <string name="about_title">Sobre</string>
@@ -142,24 +142,24 @@
   <string name="about_privacy_policy">Política de privacidade</string>
   <string name="settings_debug_messages_summary">As senhas serão mostradas em texto não criptografado!</string>
   <string name="settings_debug_messages_title">Mostrar mensagens de depuração</string>
-  <string name="error_couldnt_determine_openhab_url">Não consegui determinar o URL openHAB</string>
+  <string name="error_couldnt_determine_openhab_url">Não consegui determinar a URL do openHAB</string>
   <string name="unknown">Desconhecido</string>
   <string name="error_network_type_unsupported">Tipo de rede (%s) não suportado</string>
-  <string name="set">Conjunto</string>
+  <string name="set">Definir</string>
   <string name="cancel">Cancelar</string>
   <string name="close">Fechar</string>
   <string name="app_intro">Introdução</string>
   <string name="intro_welcome">Bem-vindo ao openHAB</string>
-  <string name="intro_whatis">Um software agnóstico e vendedor de automatização de software aberto para a sua casa</string>
+  <string name="intro_whatis">Um software agnóstico e fornecedor de automatização de software aberto para a sua casa</string>
   <string name="intro_themes">Temas</string>
   <string name="intro_themes_description">Escolha entre vários temas</string>
-  <string name="try_again_button">Tente Novamente</string>
+  <string name="try_again_button">Tente novamente</string>
   <string name="go_to_settings_button">Ir para Configurações</string>
   <string name="configuration_missing">Seu servidor openHAB não pôde ser descoberto automaticamente. Por favor, configure seu nome de host ou endereço IP nas configurações do servidor.</string>
   <string name="resolving_openhab">Tentando descobrir uma instância do servidor openHAB\u2026</string>
   <!-- Content description for images -->
-  <string name="content_description_open_roller_shutter">Abrir estore</string>
-  <string name="content_description_stop_roller_shutter">Parar estore</string>
+  <string name="content_description_open_roller_shutter">Abrir cortina</string>
+  <string name="content_description_stop_roller_shutter">Parar cortina</string>
   <string name="content_description_close_roller_shutter">Fechar estore</string>
   <string name="content_description_open_color_wheel">Abrir cores</string>
   <string name="content_description_color_up">Ligar ou mantenha para aumentar o brilho</string>
