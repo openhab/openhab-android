@@ -75,9 +75,9 @@
     <string name="error_connection_failed">Connection to host failed</string>
     <string name="error_unable_to_resolve_hostname">Unable to resolve hostname</string>
     <string name="error_connection_sslhandshake_failed">SSL handshake failed</string>
-    <string name="error_certificate_not_trusted">SSL certificate is not trusted. Please import the root certificate or disable certificate validation during SSL handshake</string>
+    <string name="error_certificate_not_trusted">SSL certificate isn\'t trusted. Please import the root certificate or disable certificate validation during SSL handshake</string>
     <string name="error_certificate_expired">SSL certificate has been expired. Please get a new certificate or disable certificate validation during SSL handshake</string>
-    <string name="error_certificate_not_valid_yet">SSL certificate is not valid yet. Please get a correct certificate or disable certificate validation during SSL handshake. Also check if the clock on your device is set correctly</string>
+    <string name="error_certificate_not_valid_yet">SSL certificate isn\'t valid yet. Please get a correct certificate or disable certificate validation during SSL handshake. Also check if the clock on your device is set correctly</string>
     <string name="error_certificate_revoked">SSL certificate has been revoked. Please get a new certificate or disable certificate validation during SSL handshake</string>
     <string name="error_certificate_wrong_host">SSL certificate is not valid for %s</string>
     <string name="error_http_code_401">Authentication failed. Please check the configured username and password respectively the provided SSL client certificate (HTTP response code 401)</string>
@@ -90,12 +90,12 @@
     <string name="error_http_code_496">SSL client certificate is required (HTTP response code 496)</string>
     <string name="error_http_code_502">Your reverse proxy got an invalid answer from the openHAB server (HTTP response code 502)</string>
     <string name="error_http_code_503">The openHAB server is temporarily unavailable (HTTP response code 503)</string>
-    <string name="error_http_code_504">Gateway Time-out. Seems that your reverse proxy is running, but couldn\'t get an answer from the openHAB server (HTTP response code 504)</string>
+    <string name="error_http_code_504">Gateway time-out. Seems that your reverse proxy is running, but couldn\'t get an answer from the openHAB server (HTTP response code 504)</string>
     <string name="error_http_code_507">The openHAB server hasn\'t enough free space (HTTP response code 507)</string>
     <string name="error_http_code_511">Network authentication is required (HTTP response code 511)</string>
     <string name="error_about_no_conn">Error while fetching openHAB server information</string>
     <string name="title_activity_openhabwritetag">Write NFC tag</string>
-    <string name="title_activity_libraries">Used Libraries</string>
+    <string name="title_activity_libraries">Used libraries</string>
     <string name="info_write_tag">Touch the tag and keep it close until the confirmation message appear</string>
     <string name="info_write_tag_progress">Writing the tag</string>
     <string name="info_write_tag_finished">Successfully finished</string>
@@ -155,7 +155,7 @@
     <string name="about_title">About</string>
     <string name="about_license_title">License</string>
     <string name="about_license" translatable="false">Eclipse Public License - v 1.0</string>
-    <string name="about_copyright" translatable="false">© 2012 - %s openHAB Foundation</string>
+    <string name="about_copyright" translatable="false">© 2012 - %s openHAB community</string>
     <string name="about_version_string" translatable="false">%1$s - %2$s</string>
     <string name="about_changelog">Changelog</string>
     <string name="about_source_code">Source code</string>
@@ -183,11 +183,8 @@
     <string name="intro_themes_description">Choose between several themes</string>
     <string name="try_again_button">Try again</string>
     <string name="go_to_settings_button">Go to settings</string>
-    <string name="configuration_missing">Your openHAB server could not be discovered automatically. Please configure its IP address or host name in the server settings.</string>
+    <string name="configuration_missing">Your openHAB server couldn\'t be discovered automatically. Please configure its IP address or host name in the server settings.</string>
     <string name="resolving_openhab">Trying to discover openHAB server instance\u2026</string>
-
-    <string name="intro_discovery">Discovery</string>
-    <string name="intro_discovery_summary">Please note this will work only if authentication is not enforced by the server</string>
 
     <!-- Content description for images -->
     <string name="content_description_open_roller_shutter">Open roller shutter</string>
@@ -199,7 +196,7 @@
     <string name="content_description_open_number_picker">Open number picker</string>
     <string name="content_description_video">Video</string>
     <string name="content_description_open_openhab">Open openHAB</string>
-    <string name="swipe_to_refresh_description">The app also refreshes automatically, you normally do not need to do it manually</string>
+    <string name="swipe_to_refresh_description">The app also refreshes automatically, you normally don\'t need to do it manually</string>
     <string name="swipe_to_refresh_dismiss">Got it!</string>
 
     <!-- Intro strings -->
@@ -207,4 +204,7 @@
     <string name="app_intro_skip_button">SKIP</string>
     <!-- Intro "DONE" button -->
     <string name="app_intro_done_button">DONE</string>
+    <string name="intro_voice_description">Control your home with your voice</string>
+    <string name="intro_nfc">NFC</string>
+    <string name="intro_nfc_description">Item control can be bound to NFC tags by long-pressing the item</string>
 </resources>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="info_openhab_gcm_no_remote">Unavailable, remote server is not configured</string>
-    <string name="info_openhab_gcm_unsupported">Unavailable, remote server is not an openHAB cloud instance</string>
+    <string name="info_openhab_gcm_no_remote">Unavailable, remote server isn\'t configured</string>
+    <string name="info_openhab_gcm_unsupported">Unavailable, remote server isn\'t an openHAB cloud instance</string>
     <string name="info_openhab_gcm_in_progress">Device registration is in progress</string>
     <string name="info_openhab_gcm_failed">Device registration failed</string>
     <string name="info_openhab_gcm_connected">Device successfully registered with Google Cloud Messaging</string>
