@@ -203,4 +203,5 @@
     <string name="intro_voice_description">Control your home with your voice</string>
     <string name="intro_nfc">NFC</string>
     <string name="intro_nfc_description">Item control can be bound to NFC tags by long-pressing the item</string>
+    <string name="error_cleartext_not_permitted">HTTP is not allowed for this server</string>
 </resources>
