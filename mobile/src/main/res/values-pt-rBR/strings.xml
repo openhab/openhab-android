@@ -160,15 +160,15 @@
   <!-- Content description for images -->
   <string name="content_description_open_roller_shutter">Abrir cortina</string>
   <string name="content_description_stop_roller_shutter">Parar cortina</string>
-  <string name="content_description_close_roller_shutter">Fechar estore</string>
-  <string name="content_description_open_color_wheel">Abrir cores</string>
+  <string name="content_description_close_roller_shutter">Fechar cortina</string>
+  <string name="content_description_open_color_wheel">Abrir roda de cores</string>
   <string name="content_description_color_up">Ligar ou mantenha para aumentar o brilho</string>
   <string name="content_description_color_down">Desligar ou mantenha para diminuir o brilho</string>
   <string name="content_description_open_number_picker">Abrir selecção de valor</string>
   <string name="content_description_video">Vídeo</string>
   <string name="content_description_open_openhab">Abrir openHAB</string>
   <string name="swipe_to_refresh_description">A aplicação também atualiza automaticamente, normalmente não necessita fazer manualmente</string>
-  <string name="swipe_to_refresh_dismiss">Percebi!</string>
+  <string name="swipe_to_refresh_dismiss">Entendido!</string>
   <!-- Intro strings -->
   <!-- Intro "SKIP" button -->
   <string name="app_intro_skip_button">Pular</string>
@@ -176,5 +176,5 @@
   <string name="app_intro_done_button">Concluído</string>
   <string name="intro_voice_description">Controle sua casa com a sua voz</string>
   <string name="intro_nfc">NFC</string>
-  <string name="intro_nfc_description">O controle de item pode ser vinculado a tags NFC pressionando-o por um longo tempo</string>
+  <string name="intro_nfc_description">O controle de item pode ser vinculado a tags NFC pressionando por um longo tempo</string>
 </resources>
