@@ -53,6 +53,7 @@
   <string name="settings_openhab_alt_connection">Remoto</string>
   <string name="settings_openhab_connection">Local</string>
   <!-- App messages strings -->
+  <string name="title_voice_widget">comandos de voz do openHab</string>
   <string name="info_voice_input">openhab, às suas ordens!</string>
   <string name="info_voice_recognized_text">Comando reconhecido: %1$s</string>
   <string name="info_demo_mode_short">A executar em modo de demonstração</string>
@@ -142,11 +143,15 @@
   <string name="error_network_type_unsupported">Tipo de rede (%s) não suportado</string>
   <string name="set">Conjunto</string>
   <string name="cancel">Cancelar</string>
+  <string name="close">Fechar</string>
   <string name="app_intro">Introdução</string>
   <string name="intro_welcome">Bem-vindo ao openHAB</string>
   <string name="intro_whatis">Um software agnóstico e vendedor de automatização de software aberto para a sua casa</string>
   <string name="intro_themes">Temas</string>
   <string name="intro_themes_description">Escolha entre vários temas</string>
+  <string name="try_again_button">Tente Novamente</string>
+  <string name="go_to_settings_button">Ir para Configurações</string>
+  <string name="resolving_openhab">Tentando descobrir uma instância do servidor openHAB\u2026</string>
   <!-- Content description for images -->
   <string name="content_description_open_roller_shutter">Abrir estore</string>
   <string name="content_description_stop_roller_shutter">Parar estore</string>
