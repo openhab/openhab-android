@@ -8,13 +8,13 @@
   <string name="app_notifications">Notificações</string>
   <string name="dlg_notification_title">Mensagem de notificação</string>
   <!-- Main menu items -->
-  <string name="mainmenu_openhab_sitemaps">Mapa do site</string>
+  <string name="mainmenu_openhab_sitemaps">Sitemaps</string>
   <string name="mainmenu_openhab_preferences">Configurações</string>
-  <string name="mainmenu_openhab_selectsitemap">Selecione o mapa do site padrão</string>
+  <string name="mainmenu_openhab_selectsitemap">Selecione o sitemap padrão</string>
   <string name="mainmenu_openhab_clearcache">Limpar cache das imagens</string>
   <!-- App settings strings -->
-  <string name="settings_connection_title">Ligação</string>
-  <string name="settings_display_title">Definições de Visualização</string>
+  <string name="settings_connection_title">Conexão</string>
+  <string name="settings_display_title">Configurações de visualização</string>
   <string name="settings_misc_title">Diversos</string>
   <string name="settings_openhab_url">URL do servidor local</string>
   <string name="settings_openhab_url_summary">A URL do painel openHAB (baseado no nome do host ou IP). Se configurado, está desativada a detecção automática. Configuração atual %s</string>
