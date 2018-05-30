@@ -565,7 +565,9 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
 
             // Make sure images fit into the content frame by scaling
             // them at max 90% of the available height
-            mImageView.setMaxHeight(Math.round(0.9f * mParentView.getHeight()));
+            int maxHeight = mParentView.getHeight() > 0
+                    ? Math.round(0.9f * mParentView.getHeight()) : Integer.MAX_VALUE;
+            mImageView.setMaxHeight(maxHeight);
 
             if (state != null && state.matches("data:image/.*;base64,.*")) {
                 byte[] data = Base64.decode(state.substring(state.indexOf(",") + 1), Base64.DEFAULT);
