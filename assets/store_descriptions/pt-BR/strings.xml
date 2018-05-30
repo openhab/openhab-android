@@ -4,7 +4,7 @@
     <whatis>openHAB é uma plataforma de automação residencial de código aberto baseada em Java que integra e combina uma vasta gama de diferentes sistemas e tecnologias domésticos inteligentes em uma única solução.</whatis>
     <rules>No topo da camada de abstração unificada, todos os dispositivos conectados estão disponíveis para os mecanismos de regras de automação abrangentes e diferentes interfaces de usuário.</rules>
     <supported>Produtos suportados</supported>
-    <bindings>Mais de 200 add-ons específicos fornecem suporte para marcas, dispositivos, tecnologias e protocolos de comunicação. Exemplos são o Z-Wave, Philips Hue, Amazon eco, Chromecast e Sonos. </bindings>
+    <bindings>Mais de 200 add-ons específicos fornecem suporte para marcas, dispositivos, tecnologias e protocolos de comunicação. Exemplos são o Z-Wave, Philips Hue, Amazon eco, Chromecast e Sonos. Descubra todos os add-ons disponíveis e dispositivos suportados e/ou funções em: https://www.openhab.org/addons/</bindings>
 
     <home_automation_solutions>• Soluções de automação residencial: Z-Wave Ocean, Netatmo, Homematic, Insteon,...</home_automation_solutions>
     <lighting>• Iluminação: Philips Hue, Ikea Trådfri, LIFX, Lutron, Milight,...</lighting>
@@ -24,7 +24,7 @@
     <about_foundation>A Fundação openHAB e.V. é uma organização sem fins lucrativos com a missão de educar o público sobre as possibilidades e benefícios de soluções de automação residencial gratuitas e abertas. Aprenda sobre a missão e os serviços da fundação em https://www.openhabfoundation.org</about_foundation>
     <important_note>Nota importante</important_note>
     <oh_server>É necessário um servidor openHAB para esse aplicativo</oh_server>
-    <short_description/>
+    <short_description>Fornecedor e tecnologia agnóstica de código aberto de automação residencial</short_description>
     <fdroid>As compilaçoes de F-Droid possuem suporte à visualização de mapas, GCM e relatórios de erros removidos não serão capazes de receber notificações do openHAB Cloud.</fdroid>
     <fdroid_beta>Você pode instalar a versão beta juntamente com a versão estável: [[org.openhab.habdroid]]</fdroid_beta>
     <fdroid_privacy_policy>Política de privacidade: https://www.openhabfoundation.org/privacy</fdroid_privacy_policy>
