@@ -61,7 +61,6 @@ public class WidgetImageView extends AppCompatImageView {
     private ScaleType mOriginalScaleType;
     private boolean mOriginalAdjustViewBounds;
     private float mEmptyHeightToWidthRatio;
-    private float mMaxHeightToWidthRatio;
 
     private HttpImageRequest mLastRequest;
 
@@ -86,8 +85,6 @@ public class WidgetImageView extends AppCompatImageView {
             mProgressDrawable = a.getDrawable(R.styleable.WidgetImageView_progressIndicator);
             mEmptyHeightToWidthRatio = a.getFraction(
                     R.styleable.WidgetImageView_emptyHeightToWidthRatio, 1, 1, 0f);
-            mMaxHeightToWidthRatio = a.getFraction(
-                    R.styleable.WidgetImageView_maxHeightToWidthRatio, 1, 1, 0f);
             a.recycle();
         }
 
@@ -172,10 +169,6 @@ public class WidgetImageView extends AppCompatImageView {
                     setMeasuredDimension(specWidth, (int) (mEmptyHeightToWidthRatio * specWidth));
                     break;
             }
-        } else if (!isEmpty && mMaxHeightToWidthRatio > 0) {
-            int width = getMeasuredWidth();
-            int height = Math.min(getMeasuredHeight(), (int) (mMaxHeightToWidthRatio * width));
-            setMeasuredDimension(width, height);
         }
     }
 

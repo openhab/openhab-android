@@ -542,18 +542,24 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
 
     public static class ImageViewHolder extends ViewHolder {
         private final WidgetImageView mImageView;
+        private final View mParentView;
         private int mRefreshRate;
 
         ImageViewHolder(LayoutInflater inflater, ViewGroup parent,
                 Connection conn, ColorMapper colorMapper) {
             super(inflater, parent, R.layout.openhabwidgetlist_imageitem, conn, colorMapper);
             mImageView = itemView.findViewById(R.id.imageimage);
+            mParentView = parent;
         }
 
         @Override
         public void bind(OpenHABWidget widget) {
             OpenHABItem item = widget.item();
             final String state = item != null ? item.state() : null;
+
+            // Make sure images fit into the content frame by scaling
+            // them at max 90% of the available height
+            mImageView.setMaxHeight(Math.round(0.9f * mParentView.getHeight()));
 
             if (state != null && state.matches("data:image/.*;base64,.*")) {
                 byte[] data = Base64.decode(state.substring(state.indexOf(",") + 1), Base64.DEFAULT);

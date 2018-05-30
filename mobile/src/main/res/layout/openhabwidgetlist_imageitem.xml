@@ -15,7 +15,6 @@
         android:layout_height="wrap_content"
         android:layout_margin="4dip"
         android:adjustViewBounds="true"
-        app:maxHeightToWidthRatio="90%"
         app:progressIndicator="?attr/imageLoadingIndicator" />
 
 </FrameLayout>

@@ -10,7 +10,6 @@
         <attr name="fallback" format="reference" />
         <attr name="progressIndicator" format="reference" />
         <attr name="emptyHeightToWidthRatio" format="fraction" />
-        <attr name="maxHeightToWidthRatio" format="fraction" />
     </declare-styleable>
 
     <declare-styleable name="SegmentedControlButton">
