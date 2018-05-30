@@ -83,7 +83,7 @@ public class GcmMessageListenerService extends GcmListenerService {
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     int count = getGcmNotificationCount(nm.getActiveNotifications());
-                    nm.notify(SUMMARY_NOTIFICATION_ID, makeSummaryNotification(count));
+                    nm.notify(SUMMARY_NOTIFICATION_ID, makeSummaryNotification(count, timestamp));
                 }
                 break;
             }
@@ -146,18 +146,15 @@ public class GcmMessageListenerService extends GcmListenerService {
 
         CharSequence publicText = getResources().getQuantityString(
                 R.plurals.summary_notification_text, 1, 1);
-        Notification publicVersion = makeNotificationBuilder(channelId)
+        Notification publicVersion = makeNotificationBuilder(channelId, timestamp)
                 .setContentText(publicText)
-                .setWhen(timestamp)
-                .setShowWhen(timestamp != 0)
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                 .setContentIntent(contentIntent)
                 .build();
 
-        return makeNotificationBuilder(channelId)
+        return makeNotificationBuilder(channelId, timestamp)
                 .setLargeIcon(iconBitmap)
                 .setStyle(new NotificationCompat.BigTextStyle().bigText(msg))
-                .setWhen(timestamp)
                 .setSound(Uri.parse(toneSetting))
                 .setContentText(msg)
                 .setContentIntent(contentIntent)
@@ -168,18 +165,18 @@ public class GcmMessageListenerService extends GcmListenerService {
     }
 
     @TargetApi(23)
-    private Notification makeSummaryNotification(int subNotificationCount) {
+    private Notification makeSummaryNotification(int subNotificationCount, long timestamp) {
         CharSequence text = getResources().getQuantityString(R.plurals.summary_notification_text,
                 subNotificationCount, subNotificationCount);
         PendingIntent clickIntent =
                 makeNotificationClickIntent(null, SUMMARY_NOTIFICATION_ID);
-        Notification publicVersion = makeNotificationBuilder(CHANNEL_ID_DEFAULT)
+        Notification publicVersion = makeNotificationBuilder(CHANNEL_ID_DEFAULT, timestamp)
                 .setGroupSummary(true)
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                 .setContentText(text)
                 .setContentIntent(clickIntent)
                 .build();
-        return makeNotificationBuilder(CHANNEL_ID_DEFAULT)
+        return makeNotificationBuilder(CHANNEL_ID_DEFAULT, timestamp)
                 .setGroupSummary(true)
                 .setContentText(text)
                 .setPublicVersion(publicVersion)
@@ -188,10 +185,12 @@ public class GcmMessageListenerService extends GcmListenerService {
                 .build();
     }
 
-    private NotificationCompat.Builder makeNotificationBuilder(String channelId) {
+    private NotificationCompat.Builder makeNotificationBuilder(String channelId, long timestamp) {
         return new NotificationCompat.Builder(this, channelId)
                 .setSmallIcon(R.drawable.ic_openhab_appicon_white_24dp)
                 .setContentTitle(getString(R.string.app_name))
+                .setWhen(timestamp)
+                .setShowWhen(timestamp != 0)
                 .setColor(ContextCompat.getColor(this, R.color.openhab_orange))
                 .setCategory(NotificationCompat.CATEGORY_EVENT)
                 .setAutoCancel(true)
