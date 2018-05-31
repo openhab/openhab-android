@@ -6,7 +6,6 @@
   <!-- General app strings -->
   <string name="app_preferences_name">Instellingen</string>
   <string name="app_notifications">Notificaties</string>
-  <string name="dlg_notification_title">Notificatie-bericht</string>
   <!-- Main menu items -->
   <string name="mainmenu_openhab_sitemaps">Sitemaps</string>
   <string name="mainmenu_openhab_preferences">Instellingen</string>
@@ -89,6 +88,7 @@
   <string name="action_settings">Instellingen</string>
   <string name="nfc_dialog_title">Selecteer een actie voor de NFC-tag</string>
   <string name="info_not_set">Niet ingesteld</string>
+  <!-- Notification list strings -->
   <!-- Strings for MemorizingTrustManager activity -->
   <string name="mtm_accept_cert">Onbekend certificaat accepteren?</string>
   <string name="mtm_decision_always">Altijd</string>
