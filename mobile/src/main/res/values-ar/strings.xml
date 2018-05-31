@@ -6,7 +6,6 @@
   <!-- General app strings -->
   <string name="app_preferences_name">إعدادات</string>
   <string name="app_notifications">إشعارات</string>
-  <string name="dlg_notification_title">رسالة الإشعار</string>
   <!-- Main menu items -->
   <string name="mainmenu_openhab_sitemaps">Sitemaps</string>
   <string name="mainmenu_openhab_preferences">إعدادات</string>
@@ -90,6 +89,7 @@
   <string name="action_settings">إعدادات</string>
   <string name="nfc_dialog_title">أكتب وسم فعل NFC لهذا العنصر</string>
   <string name="info_not_set">لم يُعين</string>
+  <!-- Notification list strings -->
   <!-- Strings for MemorizingTrustManager activity -->
   <string name="mtm_accept_cert">قبول شهادة غير معروفة؟</string>
   <string name="mtm_decision_always">دائماً</string>
