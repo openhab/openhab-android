@@ -404,8 +404,14 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         onAvailableConnectionChanged();
         updateNotificationDrawerItem();
 
-        if (TextUtils.isEmpty(mSettings.getString(Constants.PREFERENCE_SITEMAP_NAME, ""))) {
-            loadSitemapList(true);
+        if (mInitState == InitState.DONE &&
+                TextUtils.isEmpty(mSettings.getString(Constants.PREFERENCE_SITEMAP_NAME, ""))) {
+            OpenHABSitemap sitemap = selectConfiguredSitemapFromList();
+            if (sitemap != null) {
+                openSitemap(sitemap);
+            } else {
+                showSitemapSelectionDialog();
+            }
         }
 
         NfcAdapter nfcAdapter = NfcAdapter.getDefaultAdapter(this);
