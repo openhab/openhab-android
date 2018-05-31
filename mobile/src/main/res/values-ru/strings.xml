@@ -6,7 +6,6 @@
   <!-- General app strings -->
   <string name="app_preferences_name">Настройки</string>
   <string name="app_notifications">Уведомления</string>
-  <string name="dlg_notification_title">Уведомление</string>
   <!-- Main menu items -->
   <string name="mainmenu_openhab_sitemaps">Карты сайта</string>
   <string name="mainmenu_openhab_preferences">Параметры</string>
@@ -101,6 +100,7 @@
   <string name="action_settings">Параметры</string>
   <string name="nfc_dialog_title">Выберите действие тега NFC</string>
   <string name="info_not_set">Не задано</string>
+  <!-- Notification list strings -->
   <!-- Strings for MemorizingTrustManager activity -->
   <string name="mtm_accept_cert">Принять неизвестный Сертификат?</string>
   <string name="mtm_decision_always">Всегда</string>
