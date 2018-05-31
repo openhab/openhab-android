@@ -6,7 +6,6 @@
   <!-- General app strings -->
   <string name="app_preferences_name">הגדרות</string>
   <string name="app_notifications">התראות</string>
-  <string name="dlg_notification_title">התראה</string>
   <!-- Main menu items -->
   <string name="mainmenu_openhab_sitemaps">תצורות מערכת</string>
   <string name="mainmenu_openhab_preferences">הגדרות</string>
@@ -101,6 +100,7 @@
   <string name="action_settings">הגדרות</string>
   <string name="nfc_dialog_title">כתוב על תגית NFC את הפעולה עבור רכיב זה</string>
   <string name="info_not_set">לא מוגדר</string>
+  <!-- Notification list strings -->
   <!-- Strings for MemorizingTrustManager activity -->
   <string name="mtm_accept_cert">לקבל אישור/תעודה לא מזוהה?</string>
   <string name="mtm_decision_always">תמיד</string>
