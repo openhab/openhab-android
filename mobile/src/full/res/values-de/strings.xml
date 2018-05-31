@@ -6,4 +6,5 @@
   <string name="info_openhab_gcm_in_progress">Registriere Gerät</string>
   <string name="info_openhab_gcm_failed">Geräteregistrierung fehlgeschlagen</string>
   <string name="info_openhab_gcm_connected">Gerät erfolgreich bei Google Cloud Messaging registriert</string>
+  <string name="notification_channel_default">Standard</string>
 </resources>
