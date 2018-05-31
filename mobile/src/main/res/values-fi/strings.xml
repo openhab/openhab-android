@@ -6,7 +6,6 @@
   <!-- General app strings -->
   <string name="app_preferences_name">Asetukset</string>
   <string name="app_notifications">Ilmoitukset</string>
-  <string name="dlg_notification_title">Ilmoitusviesti</string>
   <!-- Main menu items -->
   <string name="mainmenu_openhab_sitemaps">Sivukartat</string>
   <string name="mainmenu_openhab_preferences">Asetukset</string>
@@ -89,6 +88,7 @@
   <string name="action_settings">Asetukset</string>
   <string name="nfc_dialog_title">Kirjoita NFC tagin toiminto tälle elementille</string>
   <string name="info_not_set">Ei määritetty</string>
+  <!-- Notification list strings -->
   <!-- Strings for MemorizingTrustManager activity -->
   <string name="mtm_accept_cert">Hyväksy tuntematon sertifikaatti?</string>
   <string name="mtm_decision_always">Aina</string>
