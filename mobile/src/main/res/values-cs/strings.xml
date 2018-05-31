@@ -6,7 +6,6 @@
   <!-- General app strings -->
   <string name="app_preferences_name">Nastavení</string>
   <string name="app_notifications">Oznámení</string>
-  <string name="dlg_notification_title">Oznámení</string>
   <!-- Main menu items -->
   <string name="mainmenu_openhab_sitemaps">Sitemaps</string>
   <string name="mainmenu_openhab_preferences">Nastavení</string>
@@ -89,6 +88,7 @@
   <string name="action_settings">Nastavení</string>
   <string name="nfc_dialog_title">Zapsat akci do NFC tagu</string>
   <string name="info_not_set">Není nastaveno</string>
+  <!-- Notification list strings -->
   <!-- Strings for MemorizingTrustManager activity -->
   <string name="mtm_accept_cert">Přijmout neznámý certifikát?</string>
   <string name="mtm_decision_always">Vždy</string>
