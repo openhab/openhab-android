@@ -30,7 +30,7 @@ android {
     defaultConfig {
         applicationId "org.openhab.habdroid"
         minSdkVersion 14
-        targetSdkVersion 25
+        targetSdkVersion 27
         versionCode 61
         versionName "2.2.2-beta"
         multiDexEnabled true
