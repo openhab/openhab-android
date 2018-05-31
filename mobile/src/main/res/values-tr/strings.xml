@@ -6,7 +6,6 @@
   <!-- General app strings -->
   <string name="app_preferences_name">Ayarlar</string>
   <string name="app_notifications">Bildirimler</string>
-  <string name="dlg_notification_title">Bildirim mesajı</string>
   <!-- Main menu items -->
   <string name="mainmenu_openhab_sitemaps">Site Haritası</string>
   <string name="mainmenu_openhab_preferences">Ayarlar</string>
@@ -68,6 +67,7 @@
   <string name="action_settings">Ayarlar</string>
   <string name="nfc_dialog_title">Bu element için NFC eylem etiketi yazınız</string>
   <string name="info_not_set">Ayarlı değil</string>
+  <!-- Notification list strings -->
   <!-- Strings for MemorizingTrustManager activity -->
   <string name="mtm_accept_cert">Bilinmeyen sertifika kabul edilsin mi?</string>
   <string name="mtm_decision_always">Her zaman</string>
