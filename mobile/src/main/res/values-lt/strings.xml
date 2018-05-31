@@ -6,7 +6,6 @@
   <!-- General app strings -->
   <string name="app_preferences_name">Nustatymai</string>
   <string name="app_notifications">Pranešimai</string>
-  <string name="dlg_notification_title">Pranešimo žinutė</string>
   <!-- Main menu items -->
   <string name="mainmenu_openhab_sitemaps">Vietų išplanavimai</string>
   <string name="mainmenu_openhab_preferences">Nustatymai</string>
@@ -68,6 +67,7 @@
   <string name="action_settings">Nustatymai</string>
   <string name="nfc_dialog_title">Prašome pasirinkti NFC žymos veiksmą</string>
   <string name="info_not_set">Nenustatyta</string>
+  <!-- Notification list strings -->
   <!-- Strings for MemorizingTrustManager activity -->
   <string name="mtm_accept_cert">Priimti nežinomą sertifikatą?</string>
   <string name="mtm_decision_always">Visada</string>
