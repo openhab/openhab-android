@@ -6,7 +6,6 @@
   <!-- General app strings -->
   <string name="app_preferences_name">設定</string>
   <string name="app_notifications">通知</string>
-  <string name="dlg_notification_title">通知メッセージ</string>
   <!-- Main menu items -->
   <string name="mainmenu_openhab_sitemaps">サイトマップ</string>
   <string name="mainmenu_openhab_preferences">設定</string>
@@ -97,6 +96,7 @@
   <string name="action_settings">設定</string>
   <string name="nfc_dialog_title">この要素の NFC タグアクションを作成</string>
   <string name="info_not_set">未設定</string>
+  <!-- Notification list strings -->
   <!-- Strings for MemorizingTrustManager activity -->
   <string name="mtm_accept_cert">不明な証明書を受け取りますか?</string>
   <string name="mtm_decision_always">常に</string>
