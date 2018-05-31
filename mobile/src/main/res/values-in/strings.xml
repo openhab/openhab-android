@@ -6,7 +6,6 @@
   <!-- General app strings -->
   <string name="app_preferences_name">Pengaturan</string>
   <string name="app_notifications">Pemberitahuan</string>
-  <string name="dlg_notification_title">Pengaturan pesan</string>
   <!-- Main menu items -->
   <string name="mainmenu_openhab_sitemaps">Peta Situs</string>
   <string name="mainmenu_openhab_preferences">Pengaturan</string>
@@ -68,6 +67,7 @@
   <string name="action_settings">Pengaturan</string>
   <string name="nfc_dialog_title">Tuliskan tag NFC untuk elemen ini</string>
   <string name="info_not_set">Tidak diatur</string>
+  <!-- Notification list strings -->
   <!-- Strings for MemorizingTrustManager activity -->
   <string name="mtm_accept_cert">Terima sertifikat yang tidak diketahui?</string>
   <string name="mtm_decision_always">Selalu</string>
