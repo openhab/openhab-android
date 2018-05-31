@@ -6,7 +6,6 @@
   <!-- General app strings -->
   <string name="app_preferences_name">Préférences</string>
   <string name="app_notifications">Notifications</string>
-  <string name="dlg_notification_title">Message de notification</string>
   <!-- Main menu items -->
   <string name="mainmenu_openhab_sitemaps">Sitemaps</string>
   <string name="mainmenu_openhab_preferences">Préférences</string>
@@ -89,6 +88,7 @@
   <string name="action_settings">Paramétrage</string>
   <string name="nfc_dialog_title">Sélectionner une action pour le tag NFC</string>
   <string name="info_not_set">Non paramétré</string>
+  <!-- Notification list strings -->
   <!-- Strings for MemorizingTrustManager activity -->
   <string name="mtm_accept_cert">Accepter ce certificat inconnu ?</string>
   <string name="mtm_decision_always">Toujours</string>
