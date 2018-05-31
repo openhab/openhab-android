@@ -6,7 +6,6 @@
   <!-- General app strings -->
   <string name="app_preferences_name">Beállítások</string>
   <string name="app_notifications">Értesítések</string>
-  <string name="dlg_notification_title">Értesítési üzenet</string>
   <!-- Main menu items -->
   <string name="mainmenu_openhab_sitemaps">Oldaltérképek</string>
   <string name="mainmenu_openhab_preferences">Beállítások</string>
@@ -90,6 +89,7 @@
   <string name="action_settings">Beállítások</string>
   <string name="nfc_dialog_title">NFC címke írása ehhez az elemhez</string>
   <string name="info_not_set">Nincs beállítva</string>
+  <!-- Notification list strings -->
   <!-- Strings for MemorizingTrustManager activity -->
   <string name="mtm_accept_cert">Elfogad ismeretlen tanúsítványt?</string>
   <string name="mtm_decision_always">Mindig</string>
