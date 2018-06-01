@@ -101,6 +101,8 @@
   <string name="nfc_dialog_title">Schreibe eine Aktion für dieses Element in einen NFC Tag</string>
   <string name="info_not_set">Nicht gesetzt</string>
   <!-- Notification list strings -->
+  <string name="notification_list_empty">Keine Benachrichtigungen bisher versendet</string>
+  <string name="notification_list_error">Beim Laden der Benachrichtigungen ist ein Fehler aufgetreten</string>
   <string name="list_loading_message">Wird geladen\u2026</string>
   <!-- Strings for MemorizingTrustManager activity -->
   <string name="mtm_accept_cert">Unbekanntes Zertifikat akzeptieren?</string>
