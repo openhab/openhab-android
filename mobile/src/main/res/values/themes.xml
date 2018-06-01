@@ -7,6 +7,8 @@
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
         <item name="windowActionBarOverlay">false</item>
+        <item name="windowActionModeOverlay">true</item>
+        <item name="actionModeStyle">@style/ContextActionMode</item>
         <item name="android:windowBackground">?android:colorBackground</item>
 
         <item name="themedDrawerBackground">?android:colorBackground</item>
@@ -37,6 +39,8 @@
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
         <item name="windowActionBarOverlay">false</item>
+        <item name="windowActionModeOverlay">true</item>
+        <item name="actionModeStyle">@style/ContextActionMode</item>
         <item name="android:windowBackground">?android:colorBackground</item>
 
         <item name="themedDrawerBackground">?android:colorBackground</item>
@@ -118,4 +122,10 @@
 
         <item name="chartTheme">black</item>
     </style>
+
+    <style name="ContextActionMode" parent="@style/Widget.AppCompat.ActionMode">
+        <item name="background">?attr/colorPrimary</item>
+        <item name="android:actionModeCloseDrawable">?android:actionModeCloseDrawable</item>
+    </style>
+
 </resources>

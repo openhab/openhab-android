@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
 
+    <!-- geofencing -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+
     <application>
         <receiver
             android:name="com.google.android.gms.gcm.GcmReceiver"
@@ -13,6 +16,13 @@
             </intent-filter>
         </receiver>
 
+        <activity android:name="org.openhab.habdroid.ui.OpenHABGeofenceFragment"
+            android:label="@string/geofencing_title">
+            android:parentActivityName="org.openhab.habdroid.ui.OpenHABMainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="org.openhab.habdroid.ui.OpenHABMainActivity" />
+        </activity>
         <service
             android:name="org.openhab.habdroid.core.GcmMessageListenerService"
             android:exported="false">
@@ -34,7 +44,7 @@
             android:exported="false" />
 
         <service
-            android:name="org.openhab.habdroid.core.OpenHABGeofencingService"
+            android:name="org.openhab.habdroid.core.GeofencingService"
             android:exported="false"/>
 
         <meta-data

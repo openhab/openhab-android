@@ -10,6 +10,10 @@
         android:icon="@drawable/ic_notifications_black_24dp"
         android:title="@string/app_notifications" />
     <item
+        android:id="@+id/geofencing"
+        android:icon="@drawable/ic_track_changes_grey_24dp"
+        android:title="@string/geofencing_title" />
+    <item
         android:id="@+id/settings"
         android:icon="@drawable/ic_settings_black_24dp"
         android:title="@string/mainmenu_openhab_preferences" />

@@ -9,6 +9,7 @@
     <string name="app_notifications">Notifications</string>
     <string name="dlg_notification_title">Notification message</string>
     <string name="empty_string" translatable="false"></string>
+    <string name="geofencing_title">Geofencing</string>
 
     <!-- Main menu items -->
     <string name="mainmenu_openhab_sitemaps">Sitemaps</string>

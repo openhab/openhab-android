@@ -13,6 +13,8 @@ import android.app.Activity;
 import android.app.ActivityManager;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build.VERSION;
+import android.os.Build.VERSION_CODES;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.StyleRes;
@@ -37,9 +39,6 @@ import java.util.List;
 
 import okhttp3.Headers;
 import okhttp3.Request;
-
-import android.os.Build.VERSION;
-import android.os.Build.VERSION_CODES;
 
 public class Util {
 
@@ -236,5 +235,29 @@ public class Util {
         clearTextCharCount = Math.min(string.length(), clearTextCharCount);
         return string.substring(0, clearTextCharCount) +
                 string.substring(clearTextCharCount).replaceAll(".", "*");
+    }
+
+    /**
+     * returns a string with the latitude and longitude
+     * @param latitude the latitude
+     * @param longitude the longitude
+     * @return
+     */
+    public static String coordinatesStringFromValues(double latitude,double longitude) {
+        String slat;        //String lat = latitude<0?-latitude+"°S":latitude+"°N";
+        String slon;        //String lon = longitude<0?-longitude+"°W":longitude+"°E";
+        if (latitude < 0) {
+            latitude = -latitude;
+            slat = "S";
+        } else slat = "N";
+        if (longitude < 0) {
+            longitude = -longitude;
+            slon = "W";
+        } else slon = "E";
+        int[] lat = {(int)latitude, (int)(latitude* 60) % 60,(int)(latitude* 3600) % 60};
+        int[] lon = {(int)longitude,(int)(longitude*60) % 60,(int)(longitude*3600) % 60};
+        slat = lat[0]+"°"+lat[1]+"'"+lat[2]+"\""+slat;
+        slon = lon[0]+"°"+lon[1]+"'"+lon[2]+"\""+slon;
+        return slat +"   "+ slon;
     }
 }

@@ -12,13 +12,13 @@ package org.openhab.habdroid.ui;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.PendingIntent;
-import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
@@ -67,6 +67,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.core.CloudMessagingHelper;
+import org.openhab.habdroid.core.GeofencingService;
 import org.openhab.habdroid.core.OnUpdateBroadcastReceiver;
 import org.openhab.habdroid.core.OpenHABVoiceService;
 import org.openhab.habdroid.core.connection.CloudConnection;
@@ -79,9 +80,9 @@ import org.openhab.habdroid.core.connection.exception.NoUrlInformationException;
 import org.openhab.habdroid.model.OpenHABLinkedPage;
 import org.openhab.habdroid.model.OpenHABSitemap;
 import org.openhab.habdroid.ui.activity.ContentController;
+import org.openhab.habdroid.util.AsyncHttpClient;
 import org.openhab.habdroid.util.AsyncServiceResolver;
 import org.openhab.habdroid.util.Constants;
-import org.openhab.habdroid.util.AsyncHttpClient;
 import org.openhab.habdroid.util.MyWebImage;
 import org.openhab.habdroid.util.Util;
 import org.w3c.dom.Document;
@@ -403,8 +404,10 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         ConnectionFactory.addListener(this);
         MemorizingTrustManager.getInstance(this).bindDisplayActivity(this);
 
+
         onAvailableConnectionChanged();
         updateNotificationDrawerItem();
+        updateGeofencingDrawerItem();
 
         NfcAdapter nfcAdapter = NfcAdapter.getDefaultAdapter(this);
         if (nfcAdapter != null) {
@@ -416,6 +419,13 @@ public class OpenHABMainActivity extends AppCompatActivity implements
 
         updateTitle();
         checkFullscreen();
+    }
+
+    private void updateGeofencingDrawerItem() {
+        if (!GeofencingService.isGeofenceFeatureAvailable()){
+            MenuItem geofencingItem = mDrawerMenu.findItem(R.id.geofencing);
+            geofencingItem.setVisible(ConnectionFactory.getConnection(Connection.TYPE_CLOUD) != null);
+        }
     }
 
     @Override
@@ -537,6 +547,25 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         }
     }
 
+    /**
+     * Used to get the result of the location-permission-request for geofencing
+     */
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case Constants.REQUEST_LOCATION_REQUEST_CODE: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    //Permission granted
+                } else {
+                    //Permission not granted
+                }
+                return;
+            }
+        }
+    }
+
+
     public void triggerPageUpdate(String pageUrl, boolean forceReload) {
         mController.triggerPageUpdate(pageUrl, forceReload);
     }
@@ -592,6 +621,9 @@ public class OpenHABMainActivity extends AppCompatActivity implements
                 switch (item.getItemId()) {
                     case R.id.notifications:
                         openNotifications();
+                        return true;
+                    case R.id.geofencing:
+                        openGeofences();
                         return true;
                     case R.id.settings:
                         Intent settingsIntent = new Intent(OpenHABMainActivity.this,
@@ -871,6 +903,11 @@ public class OpenHABMainActivity extends AppCompatActivity implements
 
     private void openNotifications() {
         mController.openNotifications();
+        mDrawerToggle.setDrawerIndicatorEnabled(false);
+    }
+
+    private void openGeofences() {
+        mController.openGeofences();
         mDrawerToggle.setDrawerIndicatorEnabled(false);
     }
 

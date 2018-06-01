@@ -41,6 +41,7 @@ import org.openhab.habdroid.core.connection.ConnectionFactory;
 import org.openhab.habdroid.model.OpenHABLinkedPage;
 import org.openhab.habdroid.model.OpenHABSitemap;
 import org.openhab.habdroid.model.OpenHABWidget;
+import org.openhab.habdroid.ui.OpenHABGeofenceFragment;
 import org.openhab.habdroid.ui.OpenHABMainActivity;
 import org.openhab.habdroid.ui.OpenHABNotificationFragment;
 import org.openhab.habdroid.ui.OpenHABPreferencesActivity;
@@ -289,6 +290,13 @@ public abstract class ContentController implements PageConnectionHolderFragment.
      */
     public final void openNotifications() {
         showTemporaryPage(OpenHABNotificationFragment.newInstance());
+    }
+
+    /**
+     * Open a temporary page showing the geofences list
+     */
+    public final void openGeofences() {
+        showTemporaryPage(OpenHABGeofenceFragment.newInstance());
     }
 
     /**
