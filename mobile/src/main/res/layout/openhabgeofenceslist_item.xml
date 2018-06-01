@@ -55,7 +55,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Label"
+                android:text="@string/geofence_label"
                 android:textAppearance="?android:attr/textAppearanceSmall" />
 
             <TextView
@@ -72,7 +72,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Name"
+                android:text="@string/geofence_name"
                 android:textAppearance="?android:attr/textAppearanceSmall" />
 
             <TextView
@@ -89,7 +89,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Coord."
+                android:text="@string/geofence_coordinates"
                 android:textAppearance="?android:attr/textAppearanceSmall" />
 
             <TextView
@@ -106,7 +106,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Radius"
+                android:text="@string/geofence_radius"
                 android:layout_marginRight="20dp"
                 android:textAppearance="?android:attr/textAppearanceSmall" />
 

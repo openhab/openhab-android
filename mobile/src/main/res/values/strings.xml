@@ -147,6 +147,15 @@
     <string name="nfc_action_current_color">Current color</string>
     <string name="nfc_action_to_sitemap_page">Navigate to sitemap page</string>
 
+    <!-- Geofencing -->
+    <string name="geofence_dialog_new">New Geofence</string>
+    <string name="geofence_label">Label</string>
+    <string name="geofence_name">Name</string>
+    <string name="geofence_coordinates">Coord.</string>
+    <string name="geofence_radius">Radius</string>
+    <string name="geofence_dialog_create">Create</string>
+    <string name="geofence_dialog_cancel">Cancel</string>
+
     <!-- Drawer -->
     <string name="drawer_open">Sitemap drawer opened</string>
     <string name="drawer_close">Sitemap drawer closed</string>

@@ -44,17 +44,12 @@ public class OpenHABGeofence {
         return new OpenHABGeofence(lat,lon,radius,label,name);
     }
 
-
-    public static final float DEFAULT_RADIUS = 100;
-
-    public OpenHABGeofence(double latitude, double longitude, float radius, String label,String name) {
+    public OpenHABGeofence(double latitude, double longitude, float radius,String name,String label) {
         set(latitude,longitude,radius);
-        this.mLabel = label;
         this.mName = name;
-    }
+        this.mLabel = label;
 
-    public OpenHABGeofence(double latitude, double longitude, String label,String name) {
-        this(latitude,longitude,DEFAULT_RADIUS,label,name);
+        //TODO create the openHABItem maybe ?
     }
 
     private void set(double latitude, double longitude, float radius) {

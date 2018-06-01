@@ -5,14 +5,11 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.IntentService;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.preference.PreferenceManager;
@@ -34,7 +31,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.openhab.habdroid.R;
-import org.openhab.habdroid.core.connection.CloudConnection;
 import org.openhab.habdroid.core.connection.Connection;
 import org.openhab.habdroid.core.connection.ConnectionFactory;
 import org.openhab.habdroid.core.connection.exception.ConnectionException;
@@ -42,6 +38,7 @@ import org.openhab.habdroid.model.OpenHABGeofence;
 import org.openhab.habdroid.ui.OpenHABGeofenceFragment;
 import org.openhab.habdroid.util.AsyncHttpClient;
 import org.openhab.habdroid.util.Constants;
+import org.openhab.habdroid.util.Util;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -52,10 +49,9 @@ import java.util.Locale;
 import okhttp3.Headers;
 import okhttp3.Request;
 
-public class GeofencingService extends IntentService implements ConnectionFactory.UpdateListener {
+public class GeofencingService extends IntentService {
     private static final String TAG = GeofencingService.class.getSimpleName();
     private static PendingIntent sGeofencePendingIntent;
-    //private static Collection<OpenHABGeofence> sGeofenceList;
     private static List<OpenHABGeofence> sGeofenceList;
 
     public static List<OpenHABGeofence> getGeofences(Context context) {
@@ -65,7 +61,6 @@ public class GeofencingService extends IntentService implements ConnectionFactor
     public static boolean isGeofenceFeatureAvailable() {
         return true;
     }
-    //asks for Location Permission when its not already granted
 
     public static class GeofenceNameNotUnique extends IllegalArgumentException {
 
@@ -184,6 +179,20 @@ public class GeofencingService extends IntentService implements ConnectionFactor
         return sGeofenceList;
     }
 
+    /**
+     * return the openhabgeofence with the google id (= name of geofence) or null if not found
+     * @param applicationContext
+     * @param requestId
+     */
+    private OpenHABGeofence getGeofenceByID(Context applicationContext, String requestId) {
+        for(OpenHABGeofence geo:loadOpenHABGeofencesFromMemory(applicationContext)) {
+            if(geo.getName().equals(requestId))
+                return geo;
+        }
+        return null;
+
+    }
+
     private static boolean hasLocationPermissions(Context context){
         return (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED);
     }
@@ -284,17 +293,8 @@ public class GeofencingService extends IntentService implements ConnectionFactor
         return sGeofencePendingIntent;
     }
 
-
-    private Handler mHandler = new Handler(Looper.getMainLooper());
-
-    private Connection mConnection;
-
     public GeofencingService() {super("GeofencingService");
         Log.d(TAG,"Geo Service Constructed ");}
-
-    int notiCounter = 0;
-    int errorCounter = 4200;
-    //private GeofencingClient mGeofencingClient;
 
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
@@ -305,42 +305,29 @@ public class GeofencingService extends IntentService implements ConnectionFactor
             connection = ConnectionFactory.getUsableConnection();
         } catch (ConnectionException e) {
             Log.w(TAG, "Couldn't determine openHAB URL", e);
-            makeNotification(this.getApplicationContext(),"Geo Error","Couldn't determine openHAB URL",errorCounter++);
+            makeNotification(this.getApplicationContext(),"Geo Error","Couldn't determine openHAB URL",notiCounter++);
         }
         Log.d(TAG, "Geofencing Intent");
-
-        // Create the NotificationChannel, but only on API 26+ because
-        // the NotificationChannel class is new and not in the support library
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            CharSequence name = getString(R.string.permission_location__geofencing_request_dialog_title);
-            String description = getString(R.string.permission_location__geofencing_request);
-            int importance = NotificationManager.IMPORTANCE_DEFAULT;
-            NotificationChannel channel = new NotificationChannel(getResources().getString(R.string.permission_location__geofencing_request), name, importance);
-            channel.setDescription(description);
-            // Register the channel with the system; you can't change the importance
-            // or other notification behaviors after this
-            NotificationManager notificationManager = getSystemService(NotificationManager.class);
-            notificationManager.createNotificationChannel(channel);
-        }
 
         GeofencingEvent geofencingEvent = GeofencingEvent.fromIntent(intent);
         // Get the transition type.
         int geofenceTransition = geofencingEvent.getGeofenceTransition();
 
         // Test that the reported transition was of interest.
-        if (geofenceTransition == Geofence.GEOFENCE_TRANSITION_ENTER)
+        if (geofenceTransition == Geofence.GEOFENCE_TRANSITION_ENTER) {
             makeNotification(getApplicationContext(),"Entered Fence",geofencingEvent.getTriggeringGeofences().get(0).getRequestId(),notiCounter++);
-        else if (geofenceTransition == Geofence.GEOFENCE_TRANSITION_EXIT)
-            makeNotification(getApplicationContext(),"Exited Fence",geofencingEvent.getTriggeringGeofences().get(0).getRequestId(),notiCounter++);
+            Util.sendItemCommand(connection.getAsyncHttpClient(),
+                    getGeofenceByID(getApplicationContext(),geofencingEvent.getTriggeringGeofences().get(0).getRequestId()).getOpenHABItem(),
+                    "ON");
 
-        if (connection != null) {
-            //Util.sendItemCommand(mConnection.getAsyncHttpClient(),"rest/items/lamp_room_desk","ON");
-            //sendVoiceCommand(connection.getSyncHttpClient(), voiceCommand);
-        } else {
-            //showToast(getString(R.string.error_couldnt_determine_openhab_url));
+        }
+        else if (geofenceTransition == Geofence.GEOFENCE_TRANSITION_EXIT) {
+            makeNotification(getApplicationContext(),"Exited Fence",geofencingEvent.getTriggeringGeofences().get(0).getRequestId(),notiCounter++);
         }
     }
+    private static int notiCounter = 0;
 
+    //TODO change this to send the new geofence status to the openHAB server as a item
     private static void makeNotification(Context c, String title, String text, int id) {
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(c, c.getResources().getString(R.string.permission_location__geofencing_request))
                 .setSmallIcon(R.drawable.ic_notifications_black_24dp)
@@ -348,7 +335,6 @@ public class GeofencingService extends IntentService implements ConnectionFactor
                 .setContentText(text)
                 .setPriority(NotificationCompat.PRIORITY_MAX);
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(c);
-        // notificationId is a unique int for each notification that you must define
         notificationManager.notify(id, mBuilder.build());
     }
 
@@ -386,23 +372,7 @@ public class GeofencingService extends IntentService implements ConnectionFactor
 
                         for(int i = 0;i<jsonArray.length();i++){
                             JSONObject jsonObject = jsonArray.getJSONObject(i);
-                            String requestID = jsonObject.optString("name");
-                            String [] loc = jsonObject.optString("state","0.0,0.0").split(",");
-                            double latitude  = Double.parseDouble(loc[0]);
-                            double longitude = Double.parseDouble(loc[1]);
-                            float radius = 100;// in meters
-                            geofenceList.add(new Geofence.Builder()
-                                    // Set the request ID of the geofence. This is a string to identify this geofence.
-                                    .setRequestId(requestID)
-                                    .setCircularRegion(
-                                            latitude,
-                                            longitude,
-                                            radius
-                                    )
-                                    .setExpirationDuration(Geofence.NEVER_EXPIRE)
-                                    .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER |
-                                            Geofence.GEOFENCE_TRANSITION_EXIT)
-                                    .build());
+                            //Do someting
                         }
 
                     } catch (JSONException e) {
@@ -414,65 +384,20 @@ public class GeofencingService extends IntentService implements ConnectionFactor
 
                 }
             });
-           // post("rest/voice/interpreters",command, "text/plain", headers).asStatus();
 
         } else {
             return false;
-            //showToast(getString(R.string.error_couldnt_determine_openhab_url));
         }
         return true;
     }
 
-
-    //@Override
-    public void onCreate(Bundle savedInstanceState) {
-        Log.d(TAG,"Geo Service Started");
-        //ConnectionFactory.initialize(this);
-        //ConnectionFactory.addListener(this);
-    }
-
     @Override
     public void onDestroy() {
-
         Log.d(TAG,"Geo Service Destroyed ");
         super.onDestroy();
     }
 
-    private void showToast(CharSequence text) {
-        showToast(getApplicationContext(),text);
-    }
-
     private static void showToast(Context context,CharSequence text) {
         new Handler(Looper.getMainLooper()).post(() -> Toast.makeText(context, text, Toast.LENGTH_SHORT).show());
-    }
-
-    @Override
-    public void onAvailableConnectionChanged() {
-
-        Log.d(TAG,"onAvailableConnectionChanged");
-        Connection newConnection;
-        ConnectionException failureReason;
-
-        try {
-            newConnection = ConnectionFactory.getUsableConnection();
-           // failureReason = null;
-        } catch (ConnectionException e) {
-            newConnection = null;
-            //failureReason = e;
-        }
-
-
-        if (newConnection != null && newConnection == mConnection) {
-            return;
-        }
-
-
-        mConnection = newConnection;
-        //setupGeofences();
-    }
-
-    @Override
-    public void onCloudConnectionChanged(CloudConnection connection) {
-
     }
 }

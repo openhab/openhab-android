@@ -1,20 +1,28 @@
 package org.openhab.habdroid.ui;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.InputFilter;
+import android.text.Spanned;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.core.GeofencingService;
@@ -22,6 +30,8 @@ import org.openhab.habdroid.model.OpenHABGeofence;
 import org.openhab.habdroid.ui.widget.DividerItemDecoration;
 
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import okhttp3.Call;
 
@@ -72,7 +82,10 @@ public class OpenHABGeofenceFragment extends Fragment implements SwipeRefreshLay
         mAddGeofenceFAB = view.findViewById(R.id.addGeofenceFAB);
         mAddGeofenceFAB.setOnClickListener(v -> {
             Log.i(TAG, "New Geofence");
-            GeofencingService.addGeofence(getActivity(),new OpenHABGeofence(42,42,"42","fortytwo"+i++));
+            FragmentManager fm = getActivity().getSupportFragmentManager();
+            NewGeofenceDialogFragment newGeofenceDialogFragment = NewGeofenceDialogFragment.newInstance(null);
+            newGeofenceDialogFragment.show(fm, getResources().getString(R.string.geofence_dialog_new));
+            //GeofencingService.addGeofence(getActivity(),new OpenHABGeofence(42,42,"42","fortytwo"+i++));
         });
         mSwipeLayout = view.findViewById(R.id.swipe_container);
         mSwipeLayout.setOnRefreshListener(this);
@@ -113,8 +126,6 @@ public class OpenHABGeofenceFragment extends Fragment implements SwipeRefreshLay
     @Override
     public void onResume() {
         super.onResume();
-        //Log.d(TAG, "onResume()");
-
         LocalBroadcastManager.getInstance(getActivity().getApplicationContext()).registerReceiver(updateViewBroadcastReceiver,new IntentFilter(ACTION_UPDATE_VIEW));
         loadGeofences();
     }
@@ -150,78 +161,100 @@ public class OpenHABGeofenceFragment extends Fragment implements SwipeRefreshLay
         mActivity = null;
     }
 
-    /*@Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-        super.onCreateContextMenu(menu, v, menuInfo);
-        MenuInflater inflater = getActivity().getMenuInflater();
-        inflater.inflate(R.menu.geofence_context_menu, menu);
-    }
-
-    @Override
-    public boolean onContextItemSelected(MenuItem item) {
-        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-        switch (item.getItemId()) {
-            case R.id.delete:
-                GeofencingService.removeGeofence(getActivity(),GeofencingService.getGeofences(getActivity()).get(info.position));
-                return true;
-            case R.id.copy:
-                showToast("Feature not implemented yet");
-                return true;
-            default:
-                return super.onContextItemSelected(item);
-        }
-    }*/
-
     private void loadGeofences() {
         mGeofences.clear();
         mGeofences.addAll(GeofencingService.getGeofences(getActivity()));
         //mGeofences.add(new OpenHABGeofence(30.897957, -77.036560,100,"White House"));
         mGeofenceAdapter.notifyDataSetChanged();
 
-//            mRequestHandle = conn.getAsyncHttpClient().get("api/v1/notifications?limit=20",
-//                    new AsyncHttpClient.StringResponseHandler() {
-//                        @Override
-//                        public void onSuccess(String responseBody, Headers headers) {
-//                            stopProgressIndicator();
-//                            Log.d(TAG, "Notifications request success");
-//                            try {
-//                                JSONArray jsonArray = new JSONArray(responseBody);
-//                                Log.d(TAG, jsonArray.toString());
-//                                mGeofences.clear();
-//                                for (int i = 0; i < jsonArray.length(); i++) {
-//                                    try {
-//                                        JSONObject sitemapJson = jsonArray.getJSONObject(i);
-//                                        mGeofences.add(OpenHABNotification.fromJson(sitemapJson));
-//                                    } catch (JSONException e) {
-//                                        e.printStackTrace();
-//                                    }
-//                                }
-//                                mGeofenceAdapter.notifyDataSetChanged();
-//                            } catch(JSONException e) {
-//                                Log.d(TAG, e.getMessage(), e);
-//                            }
-//                        }
-//
-//                        @Override
-//                        public void onFailure(Request request, int statusCode, Throwable error) {
-//                            stopProgressIndicator();
-//                            Log.e(TAG, "Notifications request failure");
-//                        }
-//                    });
+
     }
 
-    private void stopProgressIndicator() {
-        if (mActivity != null) {
-            //Log.d(TAG, "Stop progress indicator");
-            mActivity.setProgressIndicatorVisible(false);
+    // This is called when the dialog is completed and the results have been passed
+    public static class RegexInputFilter implements InputFilter {
+        private Pattern mPattern;
+        private static final String CLASS_NAME = RegexInputFilter.class.getSimpleName();
+        /**
+         * Convenience constructor, builds Pattern object from a String
+         * @param pattern Regex string to build pattern from.
+         */
+        public RegexInputFilter(String pattern) {
+            this(Pattern.compile(pattern));
+        }
+        public RegexInputFilter(Pattern pattern) {
+            if (pattern == null) {
+                throw new IllegalArgumentException(CLASS_NAME + " requires a regex.");
+            }
+
+            mPattern = pattern;
+        }
+        @Override
+        public CharSequence filter(CharSequence source, int start, int end,
+                                   Spanned dest, int dstart, int dend) {
+
+            Matcher matcher = mPattern.matcher(source);
+            if (!matcher.matches()) {
+                return "";
+            }
+
+            return null;
         }
     }
+    public static class NewGeofenceDialogFragment extends DialogFragment {
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
 
-    private void startProgressIndicator() {
-        if (mActivity != null) {
-            //Log.d(TAG, "Start progress indicator");
-            mActivity.setProgressIndicatorVisible(true);
+
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            // Get the layout inflater
+            LayoutInflater inflater = getActivity().getLayoutInflater();
+            // Inflate and set the layout for the dialog
+            // Pass null as the parent view because its going in the dialog layout
+            View view = inflater.inflate(R.layout.openhabgeofences_dialog, null);
+            EditText label = view.findViewById(R.id.geofencelabel);
+            EditText name = view.findViewById(R.id.geofencename);
+            name.setFilters(new InputFilter[]{
+                    new RegexInputFilter("[A-Za-z_\\-0-9]*")});
+            EditText radius = view.findViewById(R.id.geofenceradius);
+
+            if (savedInstanceState != null) {
+                label.setText(savedInstanceState.getCharSequence("label",""));
+                name.setText(savedInstanceState.getCharSequence("name",""));
+                radius.setText(savedInstanceState.getCharSequence("radius","100"));
+            }
+            builder.setView(view)
+                    // Add action buttons
+                    .setPositiveButton(R.string.geofence_dialog_create, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int id) {
+                            OpenHABGeofence geo = null;
+                            try {
+                                geo = new OpenHABGeofence(
+                                        42,
+                                        42,
+                                        Float.valueOf(radius.getText().toString()),
+                                        name.getText().toString(),
+                                        label.getText().toString());
+                            } catch (NumberFormatException e) {
+                            }
+                            if (geo != null)
+                                GeofencingService.addGeofence(getActivity(),geo);
+                        }
+                    })
+                    .setNegativeButton(R.string.geofence_dialog_cancel, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            NewGeofenceDialogFragment.this.getDialog().cancel();
+                        }
+                    });
+            return builder.create();
         }
-        mSwipeLayout.setRefreshing(false);
+
+        public static NewGeofenceDialogFragment newInstance(Bundle args) {
+            NewGeofenceDialogFragment frag = new NewGeofenceDialogFragment();
+
+            frag.setArguments(args);
+            return frag;
+        }
     }
 }

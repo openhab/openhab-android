@@ -62,13 +62,21 @@ class OpenHABGeofenceAdapter extends RecyclerView.Adapter<OpenHABGeofenceAdapter
         TypedValue value = new TypedValue();
         mActivity.getTheme().resolveAttribute(R.attr.colorAccent, value, true);
         holder.itemView.setBackgroundColor(value.data);
+        if(selectedItems.size() > 1) {
+            mActionMode.getMenu().findItem(R.id.copy).setVisible(false);
+        }
+
     }
 
-    public void unselectItem(OpenHABGeofenceAdapter.GeofenceViewHolder holder) {
+    public void deselectItem(OpenHABGeofenceAdapter.GeofenceViewHolder holder) {
         selectedItems.remove(holder);
         TypedValue value = new TypedValue();
         mActivity.getTheme().resolveAttribute(R.attr.backgroundColor, value, true);
         holder.itemView.setBackgroundColor(value.data);
+
+        if(!(selectedItems.size() > 1)) {
+            mActionMode.getMenu().findItem(R.id.copy).setVisible(true);
+        }
     }
 
     @Override
@@ -90,26 +98,12 @@ class OpenHABGeofenceAdapter extends RecyclerView.Adapter<OpenHABGeofenceAdapter
         holder.itemView.setOnClickListener(v -> {
             if (mActionMode != null) {
                 if (selectedItems.contains(holder))
-                    unselectItem(holder);
+                    deselectItem(holder);
                 else  selectItem(holder);
                 if(selectedItems.size() == 0)
                     mActionMode.finish();
             }
         });
-        /*holder.mCreatedView.setText(DateUtils.getRelativeDateTimeString(mContext,
-                notification.createdTimestamp(),
-                DateUtils.MINUTE_IN_MILLIS, DateUtils.WEEK_IN_MILLIS, 0));
-        holder.mMessageView.setText(notification.message());
-
-        if (notification.icon() != null) {
-            Connection conn = ConnectionFactory.getConnection(Connection.TYPE_CLOUD);
-            String iconUrl = String.format(Locale.US, "%simages/%s.png",
-                    conn.getOpenHABUrl(), Uri.encode(notification.icon()));
-            holder.mIconView.setImageUrl(iconUrl, conn.getUsername(), conn.getPassword(),
-                    R.drawable.ic_openhab_appicon_24dp);
-        } else {
-        }*/
-       // holder.mIconView.setImageResource(R.drawable.ic_openhab_appicon_24dp);
     }
 
     @Override
@@ -158,7 +152,7 @@ class OpenHABGeofenceAdapter extends RecyclerView.Adapter<OpenHABGeofenceAdapter
         // Called when the user exits the action mode
         @Override
         public void onDestroyActionMode(ActionMode mode) {
-            while (selectedItems.size() > 0) unselectItem(selectedItems.get(0));
+            while (selectedItems.size() > 0) deselectItem(selectedItems.get(0));
             mActionMode = null;
         }
     };
@@ -246,34 +240,7 @@ class OpenHABGeofenceAdapter extends RecyclerView.Adapter<OpenHABGeofenceAdapter
         }
 
         private void applyPositionAndLabel(GoogleMap map, float zoomLevel, boolean allowDrag) {
-            /*boolean canDragMarker = allowDrag && !mBoundItem.readOnly();
-            if (!mBoundItem.members().isEmpty()) {
-                ArrayList<LatLng> positions = new ArrayList<>();
-                for (OpenHABItem item : mBoundItem.members()) {
-                    LatLng position = parseLocation(item.state());
-                    if (position != null) {
-                        setMarker(map, position, item, item.label(), canDragMarker);
-                        positions.add(position);
-                    }
-                }
-                if (!positions.isEmpty()) {
-                    LatLngBounds.Builder boundsBuilder = new LatLngBounds.Builder();
-                    for (LatLng position : positions) {
-                        boundsBuilder.include(position);
-                    }
-                    map.moveCamera(CameraUpdateFactory.newLatLngBounds(boundsBuilder.build(), 0));
-                    float zoom = map.getCameraPosition().zoom;
-                    if (zoom > zoomLevel) {
-                        map.moveCamera(CameraUpdateFactory.zoomTo(zoomLevel));
-                    }
-                }
-            } else {
-                LatLng position = parseLocation(mBoundItem.state());
-                if (position != null) {
-                    setMarker(map, position, mBoundItem, mLabelView.getText(), canDragMarker);
-                    map.moveCamera(CameraUpdateFactory.newLatLngZoom(position, zoomLevel));
-                }
-            }*/
+
             LatLng position = null;
             if (mGeofence != null)
                 position = new LatLng(mGeofence.getLatitude(),mGeofence.getLongitude());
@@ -307,8 +274,6 @@ class OpenHABGeofenceAdapter extends RecyclerView.Adapter<OpenHABGeofenceAdapter
             String newState = String.format(Locale.US, "%f,%f",
                     marker.getPosition().latitude, marker.getPosition().longitude);
             OpenHABItem item = (OpenHABItem) marker.getTag();
-
-            //Util.sendItemCommand(mConnection.getAsyncHttpClient(), item, newState);
         }
     }
 }
