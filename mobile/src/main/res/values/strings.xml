@@ -7,7 +7,6 @@
     <string name="openhab_service_type" translatable="false">_openhab-server._tcp.local.</string>
     <string name="app_preferences_name">Settings</string>
     <string name="app_notifications">Notifications</string>
-    <string name="dlg_notification_title">Notification message</string>
     <string name="empty_string" translatable="false"></string>
 
     <!-- Main menu items -->
@@ -111,6 +110,11 @@
     <string name="nfc_dialog_title">Write NFC tag action for this element</string>
     <string name="info_not_set">Not set</string>
     <string name="password_placeholder" translatable="false">\u25cf\u25cf\u25cf\u25cf\u25cf\u25cf</string>
+
+    <!-- Notification list strings -->
+    <string name="notification_list_empty">No notifications were sent so far</string>
+    <string name="notification_list_error">An error occurred while loading notifications</string>
+    <string name="list_loading_message">Loading\u2026</string>
 
     <!-- Strings for MemorizingTrustManager activity -->
     <string name="mtm_accept_cert">Accept unknown Certificate?</string>

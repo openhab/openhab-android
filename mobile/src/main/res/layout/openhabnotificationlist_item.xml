@@ -3,40 +3,63 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="?attr/listPreferredItemHeight"
+    android:layout_height="wrap_content"
+    android:minHeight="?attr/listPreferredItemHeight"
+    android:background="?attr/selectableItemBackground"
+    android:focusable="false"
     android:orientation="horizontal">
 
     <org.openhab.habdroid.ui.widget.WidgetImageView
         android:id="@+id/notificationImage"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
         android:layout_gravity="center_vertical"
-        android:paddingTop="6dip"
-        android:paddingBottom="6dp"
+        android:scaleType="centerInside"
         app:progressIndicator="@drawable/ic_openhab_appicon_24dp"
         app:fallback="@drawable/ic_openhab_appicon_24dp"
         tools:src="@drawable/ic_openhab_appicon_24dp" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <RelativeLayout
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_weight="1"
         android:layout_gravity="center_vertical"
-        android:orientation="vertical"
-        android:layout_marginLeft="6dp"
-        android:layout_marginStart="6dp">
+        android:layout_marginRight="16dp"
+        android:layout_marginEnd="16dp">
 
         <TextView
             android:id="@+id/notificationMessage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            tools:text="Some notification" />
 
         <TextView
             android:id="@+id/notificationCreated"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall" />
+            android:layout_below="@id/notificationMessage"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+            tools:text="6 hours ago" />
 
-    </LinearLayout>
+        <TextView
+            android:id="@+id/notificationSeverity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/notificationMessage"
+            android:layout_toEndOf="@id/notificationCreated"
+            android:layout_toRightOf="@id/notificationCreated"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:gravity="end|right"
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+            android:textStyle="bold"
+            tools:text="Important" />
+
+    </RelativeLayout>
 
 </LinearLayout>

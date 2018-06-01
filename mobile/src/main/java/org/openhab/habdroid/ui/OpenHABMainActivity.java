@@ -34,6 +34,7 @@ import android.preference.PreferenceManager;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -120,7 +121,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         MemorizingResponder, AsyncServiceResolver.Listener, ConnectionFactory.UpdateListener {
     public static final String ACTION_NOTIFICATION_SELECTED =
             "org.openhab.habdroid.action.NOTIFICATION_SELECTED";
-    public static final String EXTRA_MESSAGE = "message";
+    public static final String EXTRA_PERSISTED_NOTIFICATION_ID = "persistedNotificationId";
 
     // Logging TAG
     private static final String TAG = OpenHABMainActivity.class.getSimpleName();
@@ -159,7 +160,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
     private Connection mConnection;
 
     private Uri mPendingNfcData;
-    private boolean mPendingOpenNotifications;
+    private String mPendingOpenedNotificationId;
     private OpenHABSitemap mSelectedSitemap;
     private ContentController mController;
     private InitState mInitState = InitState.QUERY_SERVER_PROPS;
@@ -586,7 +587,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
                 mDrawerLayout.closeDrawers();
                 switch (item.getItemId()) {
                     case R.id.notifications:
-                        openNotifications();
+                        openNotifications(null);
                         return true;
                     case R.id.settings:
                         Intent settingsIntent = new Intent(OpenHABMainActivity.this,
@@ -656,16 +657,16 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         if (icon == null) {
             return null;
         }
-        Drawable wrapped = DrawableCompat.wrap(icon);
+        Drawable wrapped = DrawableCompat.wrap(icon.mutate());
         DrawableCompat.setTintList(wrapped, mDrawerIconTintList);
         return wrapped;
     }
 
     private void openNotificationsPageIfNeeded() {
-        if (mPendingOpenNotifications && mStarted &&
+        if (mPendingOpenedNotificationId != null && mStarted &&
                 ConnectionFactory.getConnection(Connection.TYPE_CLOUD) != null) {
-            openNotifications();
-            mPendingOpenNotifications = false;
+            openNotifications(mPendingOpenedNotificationId);
+            mPendingOpenedNotificationId = null;
         }
     }
 
@@ -852,8 +853,8 @@ public class OpenHABMainActivity extends AppCompatActivity implements
                 .show();
     }
 
-    private void openNotifications() {
-        mController.openNotifications();
+    private void openNotifications(@Nullable String highlightedId) {
+        mController.openNotifications(highlightedId);
         mDrawerToggle.setDrawerIndicatorEnabled(false);
     }
 
@@ -950,16 +951,13 @@ public class OpenHABMainActivity extends AppCompatActivity implements
     private void onNotificationSelected(Intent intent) {
         Log.d(TAG, "Notification was selected");
 
-        mPendingOpenNotifications = true;
-        openNotificationsPageIfNeeded();
-
-        if (intent.hasExtra(EXTRA_MESSAGE)) {
-            new AlertDialog.Builder(this)
-                    .setTitle(getString(R.string.dlg_notification_title))
-                    .setMessage(intent.getStringExtra(EXTRA_MESSAGE))
-                    .setPositiveButton(getString(android.R.string.ok), null)
-                    .show();
+        mPendingOpenedNotificationId = intent.getStringExtra(EXTRA_PERSISTED_NOTIFICATION_ID);
+        if (mPendingOpenedNotificationId == null) {
+            // mPendingOpenedNotificationId being non-null is used as trigger for
+            // opening the notifications page, so use a dummy if it's null
+            mPendingOpenedNotificationId = "";
         }
+        openNotificationsPageIfNeeded();
     }
 
     public void onWidgetSelected(OpenHABLinkedPage linkedPage, OpenHABWidgetListFragment source) {
