@@ -6,11 +6,18 @@
     <string name="info_openhab_gcm_failed">Device registration failed</string>
     <string name="info_openhab_gcm_connected">Device successfully registered with Google Cloud Messaging</string>
 
+    <string name="notification_channel_default">Default</string>
+    <string name="notification_channel_severity_value">Severity \'%1$s\'</string>
+
+    <plurals name="summary_notification_text">
+        <item quantity="one">1 new notification</item>
+        <item quantity="other">%d new notifications</item>
+    </plurals>
+
     <!-- Geofencing and Permissions -->
     <string name="permission_location__geofencing_request">"To use the geofencing feature, openHAB needs access to location data."</string>
     <string name="permission_location__geofencing_request_dialog_title">Location Permission</string>
     <string name="geofencing_preferences">GEOFENCES_PREFERENCE</string>
     <string name="geofence_copy">copy geofence</string>
     <string name="geofence_delete">delete Geofence</string>
-
 </resources>

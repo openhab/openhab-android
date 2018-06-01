@@ -1,0 +1,2 @@
+## Changed
+* Improve notification UI (#848)
