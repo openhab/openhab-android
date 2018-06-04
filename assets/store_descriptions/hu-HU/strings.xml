@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <strings>
-    <intro/>
-    <whatis/>
-    <rules/>
-    <supported/>
-    <bindings>  </bindings>
+    <intro>openHAB - "empowering the smart home" - szállító és technológia független nyílt forráskódú okosotthon vezérlő szoftver</intro>
+    <whatis>openHAB, egy Java alapú, nyílt forráskódú otthon automatizálási platform. Mely integrálja és kombinálja a különböző okosotthon rendszereket és technológiákat egyetlen felületen.</whatis>
+    <rules>Az egyes eszközök fölött található, mely így összefogja, és vezérli illetve automatizálja az összes hozzá csatlakozott elemet.</rules>
+    <supported>Támogatott termékek</supported>
+    <bindings>104/5000
+Több mint 200 külön kiegészítő támogatja a márkákat, eszközöket, technológiákat és kommunikációs protokollokat. Például a Z-Wave, a Philips Hue, az Amazon Echo, a Chromecast és a Sonos. Fedezze fel az összes rendelkezésre álló bővítményt és támogatott eszközt és / vagy funkciót a következő címen: https://www.openhab.org/addons/</bindings>
 
-    <home_automation_solutions/>
-    <lighting/>
-    <heating/>
-    <home_entertainment/>
-    <security/>
+    <home_automation_solutions>Otthonautomatizálási megoldások: Z-Wave, EnOcean, Netatmo, Homematic, Insteon, ...</home_automation_solutions>
+    <lighting>Világítás: Philips Hue, Ikea Trådfri, LIFX, Lutron, Milight, ...</lighting>
+    <heating>Fűtés: Max!, Nest, Vitotronic, Heatmiser, ...</heating>
+    <home_entertainment>Otthoni szórakozás: Samsung TV, LG TV, Sonos, Pioneer AVR, Squeezebox, Kodi, Plex, ...</home_entertainment>
+    <security>Biztonság: ZoneMinder, DSC, ...</security>
     <open_protocols/>
     <special_useCases/>
     <empty_point/>
