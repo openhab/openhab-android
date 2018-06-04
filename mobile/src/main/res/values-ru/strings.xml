@@ -59,17 +59,17 @@
   <string name="info_conn_url">Подключение к локальному URL</string>
   <string name="info_conn_rem_url">Подключение к удаленному URL</string>
   <!-- Error messages -->
-  <string name="error_empty_sitemap_list">openHAB вернул пустой sitemap лист</string>
+  <string name="error_empty_sitemap_list">openHAB вернул пустой список sitemap</string>
   <string name="error_network_not_available">Сеть недоступна</string>
   <string name="error_http_connection_failed">Ошибка подключения. Получен неверный ответ от openHAB. Пожалуйста, проверьте, работает ли openHAB правильно (код ответа HTTP %d)</string>
-  <string name="error_invalid_url">Пожалуйста напишите правильный URL в форме \'http(s)://хост(:порт)/\'</string>
+  <string name="error_invalid_url">Пожалуйста, укажите правильный URL в формате \'http(s)://хост(:порт)/\'</string>
   <string name="error_connection_failed">Ошибка подключения к хосту</string>
   <string name="error_unable_to_resolve_hostname">Не удалось разрешить имя хоста</string>
   <string name="error_connection_sslhandshake_failed">Ошибка SSL соединения</string>
   <string name="error_certificate_not_trusted">Сертификат SSL истек. Получите новый сертификат или отключите проверку сертификата SSL</string>
-  <string name="error_certificate_expired">Сертификат SSL истек. Получите новый сертификат или отключите проверку допустимости сертификата во время квитирования SSL</string>
+  <string name="error_certificate_expired">Сертификат SSL истек. Получите новый сертификат или отключите проверку допустимости сертификата во время приовекри SSL</string>
   <string name="error_certificate_not_valid_yet">Сертификат SSL недопустим. Получите корректный сертификат или отключите проверку сертификата SSL. Также проверьте, правильно ли установлены часы и часовой пояс на вашем устройстве</string>
-  <string name="error_certificate_revoked">Сертификат SSL был отменен. Получите новый сертификат или отключите проверку сертификата SSL</string>
+  <string name="error_certificate_revoked">Сертификат SSL был отклонен. Получите новый сертификат или отключите проверку сертификата SSL</string>
   <string name="error_certificate_wrong_host">SSL сертификат не действителен для %s</string>
   <string name="error_http_code_401">Ошибка аутентификации пользователя. Проверьте имя пользователя, пароль и сертификат клиента SSL (код ответа HTTP 401)</string>
   <string name="error_http_code_403">Ошибка аутентификации пользователя. Проверьте имя пользователя, пароль и сертификат клиента SSL (код ответа HTTP 403)</string>
