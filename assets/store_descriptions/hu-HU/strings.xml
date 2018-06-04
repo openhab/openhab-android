@@ -12,25 +12,25 @@ Több mint 200 külön kiegészítő támogatja a márkákat, eszközöket, tech
     <heating>Fűtés: Max!, Nest, Vitotronic, Heatmiser, ...</heating>
     <home_entertainment>Otthoni szórakozás: Samsung TV, LG TV, Sonos, Pioneer AVR, Squeezebox, Kodi, Plex, ...</home_entertainment>
     <security>Biztonság: ZoneMinder, DSC, ...</security>
-    <open_protocols/>
-    <special_useCases/>
-    <empty_point/>
+    <open_protocols>Nyitott protokollok: HTTP, TCP/UDP, MQTT, Serial, ...</open_protocols>
+    <special_useCases>Speciális felhasználói lehetőségek: Minecraft, Tesla Car, Weather Services, ...</special_useCases>
+    <empty_point>...</empty_point>
 
-    <oss_community/>
-    <forum>  </forum>
+    <oss_community>Nyílt forráskódú közösség</oss_community>
+    <forum>Az openHAB egy nyílt forráskódú kezdeményezés, erős támogatottsággal és élénk, aktív közösséggel. A fórumunk egy olyan hely, aminek több mint 13,000 regisztrált felhasználója van, akiktől segítséget, leírásokat és inspirációkat lehet nyerni. Az openHAB közösség fórumához a https://community.openhab.org oldalon lehet csatlakozni</forum>
 
-    <report_issues/>
-    <translation/>
-    <foundation/>
-    <about_foundation> </about_foundation>
-    <important_note/>
-    <oh_server/>
-    <short_description/>
-    <fdroid/>
-    <fdroid_beta/>
-    <fdroid_privacy_policy/>
-    <fdroid_anti_features/>
-    <fdroid_anti_features_text/>
-    <beta/>
-    <play_beta/>
+    <report_issues>Amikor találsz valamilyen hibát vagy hiányosságot, kérlek jelezd a fórumon vagy a https://github.com/openhab/openhab-android/issues internet oldalon</report_issues>
+    <translation>Ha szeretnéd az alkamazást lefordítani a saját nyelvedre, akkor csatlakozz hozzánk https://crowdin.com/project/openhab-android</translation>
+    <foundation>openHAB alapítvány</foundation>
+    <about_foundation>A openHAB Alapítvány e.V. egy nonprofit szervezet, azzal a küldetéssel, hogy megismertesse a közvéleményt a nyílt és okos otthon megoldások előnyeivel és lehetőségeivel. Tudj meg többet az alapítvány küldetéséről és szolgáltatásairól: https://www.openhabfoundation.org</about_foundation>
+    <important_note>Fontos megjegyzés</important_note>
+    <oh_server>Szükséged van egy openHAB szerverre, hogy tudd használni ezt az alkalmazást</oh_server>
+    <short_description>Szabadgondolkozású technológia, nyílt forráskódú otthonautomatizálás</short_description>
+    <fdroid>A F-Droidra készült példány tartalmaz map nézetet is, GCM és hibajelentés el lett belőle távolítva és nem képes push értesítések fogadására az openHAB felhőről.</fdroid>
+    <fdroid_beta>Telepíthetsz béta verziót is a stabil mellé: [[org.openhab.habdroid]]</fdroid_beta>
+    <fdroid_privacy_policy>Adatvédelem: https://www.openhabfoundation.org/privacy</fdroid_privacy_policy>
+    <fdroid_anti_features>Anti funkciók</fdroid_anti_features>
+    <fdroid_anti_features_text>Az alkalmazás meg van jelölve a "NonFreeAsset" zászlóval, mert az openHAB ikon nincs szabad licensz alatt.</fdroid_anti_features_text>
+    <beta>Próbáld ki az új funkciókat és adj korai visszajelzést!</beta>
+    <play_beta>Telepíthetsz béta verziót is a stabil mellé.</play_beta>
 </strings>
