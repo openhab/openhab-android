@@ -14,7 +14,7 @@
   <!-- App settings strings -->
   <string name="settings_connection_title">Параметры подключения</string>
   <string name="settings_display_title">Параметры дисплея</string>
-  <string name="settings_misc_title">Другие параметры</string>
+  <string name="settings_misc_title">Прочее</string>
   <string name="settings_openhab_url">URL адрес локального openHAB</string>
   <string name="settings_openhab_url_summary">URL-адрес панели openHAB. Если указано имя хоста или IP-адрес, то автообнаружение будет отключено. Текущие настройки: %s</string>
   <string name="settings_openhab_alturl">URL-адрес удаленного openHAB</string>
