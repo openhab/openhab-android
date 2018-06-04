@@ -8,7 +8,7 @@
   <string name="app_notifications">Уведомления</string>
   <!-- Main menu items -->
   <string name="mainmenu_openhab_sitemaps">Sitemaps</string>
-  <string name="mainmenu_openhab_preferences">Параметры</string>
+  <string name="mainmenu_openhab_preferences">Настройки</string>
   <string name="mainmenu_openhab_selectsitemap">Выбрать sitemap по умолчанию</string>
   <string name="mainmenu_openhab_clearcache">Очистить кэш изображений</string>
   <!-- App settings strings -->
@@ -16,7 +16,7 @@
   <string name="settings_display_title">Параметры дисплея</string>
   <string name="settings_misc_title">Другие параметры</string>
   <string name="settings_openhab_url">URL адрес локального openHAB</string>
-  <string name="settings_openhab_url_summary">URL-адрес панели openHAB (на основании имени хоста или IP). Если введено, автообнаружение отключен. Текущие настройки: %s</string>
+  <string name="settings_openhab_url_summary">URL-адрес панели openHAB. Если указано имя хоста или IP-адрес, то автообнаружение будет отключено. Текущие настройки: %s</string>
   <string name="settings_openhab_alturl">URL-адрес удаленного openHAB</string>
   <string name="settings_openhab_alturl_summary">URL-адрес панели openHAB, используется, когда локальный адрес недоступен. Текущие настройки: %s</string>
   <string name="settings_openhab_username">Пользователь</string>
