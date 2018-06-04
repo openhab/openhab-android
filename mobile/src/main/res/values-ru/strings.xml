@@ -127,8 +127,6 @@
   <string name="nfc_action_current_color">Текущий цвет</string>
   <string name="nfc_action_to_sitemap_page">Перейти на страницу sitemap</string>
   <!-- Drawer -->
-  <string name="drawer_open">Sitemap отрисовщик открыт</string>
-  <string name="drawer_close">Sitemap отрисовщик закрыт</string>
   <string name="mainmenu_openhab_voice_recognition">Распознавание голоса</string>
   <!-- About -->
   <string name="about_title">О программе</string>
@@ -137,23 +135,22 @@
   <string name="about_source_code">Исходный код</string>
   <string name="about_issues">Сообщить об ошибке</string>
   <string name="about_docs">Документация</string>
-  <string name="about_community_forum">Форум сообщества</string>
+  <string name="about_community_forum">Форум</string>
   <string name="about_foundation">Фонд openHAB</string>
   <string name="about_community">Сообщество openHAB</string>
   <string name="about_server">Сервер openHAB</string>
-  <string name="about_translation">Помогите нам перевести openHAB</string>
+  <string name="about_translation">Помощь в переводе openHAB</string>
   <string name="about_privacy_policy">Политика конфиденциальности</string>
-  <string name="settings_debug_messages_summary">Пароль будет показан в текстовом!</string>
-  <string name="settings_debug_messages_title">Показать debug сообщения</string>
+  <string name="settings_debug_messages_summary">Пароль будет показан в открытом виде!</string>
+  <string name="settings_debug_messages_title">Показать отладочные сообщения</string>
   <string name="error_couldnt_determine_openhab_url">Не удалось определить адрес openHAB</string>
-  <string name="unknown">Неизвестный</string>
+  <string name="unknown">Неизвестно</string>
   <string name="error_network_type_unsupported">Тип сети (%s) не поддерживается</string>
   <string name="set">Установить</string>
-  <string name="cancel">Отмена</string>
+  <string name="cancel">Отменить</string>
   <string name="close">Закрыть</string>
   <string name="app_intro">Введение</string>
   <string name="intro_welcome">Добро пожаловать в openHAB</string>
-  <string name="intro_whatis">Независимое программное обеспечение автоматизации Вашего дома</string>
   <string name="intro_themes">Темы</string>
   <string name="intro_themes_description">Выберите между несколькими темами</string>
   <string name="try_again_button">Попробуйте еще раз</string>
