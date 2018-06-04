@@ -70,11 +70,6 @@ public class SSLClientCertificatePreference extends Preference {
     }
 
     @Override
-    protected void onAttachedToHierarchy(PreferenceManager preferenceManager) {
-        super.onAttachedToHierarchy(preferenceManager);
-    }
-
-    @Override
     protected void onSetInitialValue(boolean restorePersistedValue, Object defaultValue) {
         String defaultString = (String) defaultValue;
         setValue(restorePersistedValue ? getPersistedString(defaultString) : defaultString);
