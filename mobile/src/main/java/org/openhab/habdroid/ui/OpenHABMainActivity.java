@@ -22,7 +22,6 @@ import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -62,8 +61,6 @@ import android.view.ViewStub;
 import android.view.WindowManager;
 import android.widget.ProgressBar;
 
-import com.loopj.android.image.WebImageCache;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.openhab.habdroid.R;
@@ -83,7 +80,6 @@ import org.openhab.habdroid.ui.activity.ContentController;
 import org.openhab.habdroid.util.AsyncServiceResolver;
 import org.openhab.habdroid.util.Constants;
 import org.openhab.habdroid.util.AsyncHttpClient;
-import org.openhab.habdroid.util.MyWebImage;
 import org.openhab.habdroid.util.Util;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
@@ -117,7 +113,6 @@ import de.duenndns.ssl.MemorizingTrustManager;
 import okhttp3.Call;
 import okhttp3.Headers;
 import okhttp3.Request;
-import okhttp3.ResponseBody;
 
 import static org.openhab.habdroid.util.Util.exceptionHasCause;
 import static org.openhab.habdroid.util.Util.removeProtocolFromUrl;
@@ -637,24 +632,13 @@ public class OpenHABMainActivity extends AppCompatActivity implements
     }
 
     private void loadSitemapIcon(final OpenHABSitemap sitemap, final MenuItem item) {
-        final WebImageCache imageCache = MyWebImage.getWebImageCache(this);
         final String url = sitemap.icon() != null ? Uri.encode(sitemap.iconPath(), "/?=") : null;
-        Bitmap cached = url != null ? imageCache.get(url) : null;
-
-        if (cached != null) {
-            item.setIcon(new BitmapDrawable(cached));
-            return;
-        }
-
         Drawable defaultIcon = ContextCompat.getDrawable(this, R.drawable.ic_openhab_appicon_24dp);
         item.setIcon(applyDrawerIconTint(defaultIcon));
 
         if (url != null) {
-            mConnection.getAsyncHttpClient().get(url, new AsyncHttpClient.ResponseHandler<Bitmap>() {
-                @Override
-                public Bitmap convertBodyInBackground(ResponseBody body) throws IOException {
-                    return BitmapFactory.decodeStream(body.byteStream());
-                }
+            mConnection.getAsyncHttpClient().get(url,
+                    new AsyncHttpClient.BitmapResponseHandler(defaultIcon.getIntrinsicWidth()) {
                 @Override
                 public void onFailure(Request request, int statusCode, Throwable error) {
                     Log.w(TAG, "Could not fetch icon for sitemap " + sitemap.name());
@@ -662,7 +646,6 @@ public class OpenHABMainActivity extends AppCompatActivity implements
                 @Override
                 public void onSuccess(Bitmap bitmap, Headers headers) {
                     if (bitmap != null) {
-                        imageCache.put(url, bitmap);
                         item.setIcon(new BitmapDrawable(bitmap));
                     }
                 }

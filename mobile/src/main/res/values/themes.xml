@@ -13,6 +13,7 @@
         <item name="themedHeaderTextColor">@color/colorAccent_themeDark</item>
 
         <item name="frameWidgetDividerBackground">@drawable/material_divider</item>
+        <item name="imageLoadingIndicator">@drawable/ic_image_loading_black</item>
 
         <item name="mal_card_background">@color/about_libraries_window_background</item>
         <item name="mal_color_primary">@color/about_libraries_title_openSource</item>
@@ -43,6 +44,7 @@
         <item name="themedHeaderTextColor">@color/colorAccent_themeDark</item>
 
         <item name="frameWidgetDividerBackground">@drawable/material_divider_dark</item>
+        <item name="imageLoadingIndicator">@drawable/ic_image_loading_white</item>
 
         <item name="android:itemTextAppearance">@style/whiteText</item>
         <item name="android:itemBackground">#303030</item>
