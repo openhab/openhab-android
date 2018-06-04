@@ -172,7 +172,7 @@
   <string name="app_intro_skip_button">ПРОПУСТИТЬ</string>
   <!-- Intro "DONE" button -->
   <string name="app_intro_done_button">ГОТОВО</string>
-  <string name="intro_voice_description">Управление домом вашим голосом</string>
+  <string name="intro_voice_description">Управляйте домом своим голосом</string>
   <string name="intro_nfc">NFC</string>
-  <string name="intro_nfc_description">Элемент управления может быть привязан к NFC тегам долгим нажатием на элемент</string>
+  <string name="intro_nfc_description">Элемент управления может быть привязан к NFC тегам долгим нажатием на этот элемент</string>
 </resources>
