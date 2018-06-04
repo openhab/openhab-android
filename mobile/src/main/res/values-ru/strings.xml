@@ -151,6 +151,7 @@
   <string name="close">Закрыть</string>
   <string name="app_intro">Введение</string>
   <string name="intro_welcome">Добро пожаловать в openHAB</string>
+  <string name="intro_whatis">Поставщик технологий с открытым исходным кодом для автоматизации \"умного дома\"</string>
   <string name="intro_themes">Темы</string>
   <string name="intro_themes_description">Переключение между разными темами</string>
   <string name="try_again_button">Попробуйте снова</string>
@@ -162,7 +163,9 @@
   <string name="content_description_stop_roller_shutter">Остановить рольставни</string>
   <string name="content_description_close_roller_shutter">Закрыть рольставни</string>
   <string name="content_description_open_color_wheel">Открыть цветовой круг</string>
-  <string name="content_description_color_up">Включить или удерживайте чтобы увеличить яркость</string>
+  <string name="content_description_color_up">Нажимайте \'вверх\' или удерживайте, чтобы увеличить яркость</string>
+  <string name="content_description_color_down">Нажимайте \'ввниз\' или удерживайте, чтобы уменьшить яркость</string>
+  <string name="content_description_open_number_picker">Число</string>
   <string name="content_description_video">Видео</string>
   <string name="content_description_open_openhab">Открыть openHAB</string>
   <string name="swipe_to_refresh_description">Приложение также обновляется автоматически, обычно нет необходимости делать это вручную</string>
