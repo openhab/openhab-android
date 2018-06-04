@@ -30,10 +30,13 @@ public class IntroActivity extends AppIntro {
                 R.drawable.ic_openhab_appicon_340dp);
         addOHSlide(R.string.intro_themes,
                 R.string.intro_themes_description,
-                R.drawable.themes);
-        addOHSlide(R.string.intro_discovery,
-                R.string.intro_discovery_summary,
-                R.drawable.demo_mode);
+                R.drawable.ic_color_lens_orange_340dp);
+        addOHSlide(R.string.mainmenu_openhab_voice_recognition,
+                R.string.intro_voice_description,
+                R.drawable.ic_mic_orange_340dp);
+        addOHSlide(R.string.intro_nfc,
+                R.string.intro_nfc_description,
+                R.drawable.ic_nfc_orange_340dp);
         // Change bar color
         setBarColor(colorOpenHABOrange);
         setSeparatorColor(colorOpenHABOrangeDark);
@@ -68,13 +71,18 @@ public class IntroActivity extends AppIntro {
     private void addOHSlide(@StringRes int title, @StringRes int description,
                             @DrawableRes int imageDrawable) {
             addSlide(AppIntroFragment.newInstance(getString(title),
-                    null,       /* Title font: null => default */
-                    getString(description), /* Description */
-                    null,       /* Description font: null => default */
-                    imageDrawable,          /* Image */
-                    colorGrey,              /* Background color */
-                    colorOpenHABOrange,     /* Title color */
-                    colorOpenHABOrange));   /* Description color */
+                    // Title font: null => default
+                    null,
+                    getString(description),
+                    // Description font: null => default
+                    null,
+                    imageDrawable,
+                    // Background color
+                    colorGrey,
+                    // Title color
+                    ContextCompat.getColor(getApplicationContext(), R.color.black),
+                    // Description color
+                    ContextCompat.getColor(getApplicationContext(), R.color.black)));
 
     }
 }

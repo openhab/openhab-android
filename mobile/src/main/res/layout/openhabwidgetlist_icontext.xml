@@ -5,7 +5,7 @@
     android:layout_alignParentLeft="true"
     android:layout_alignParentStart="true">
 
-    <org.openhab.habdroid.util.MySmartImageView
+    <org.openhab.habdroid.ui.widget.WidgetImageView
         android:paddingTop="6dip"
         android:paddingBottom="6dip"
         android:layout_width="50dip"

@@ -54,7 +54,6 @@ public class ConnectionFactoryTest {
         when(mockContext.getString(anyInt())).thenReturn("");
         when(mockContext.getSystemService(eq(Context.CONNECTIVITY_SERVICE)))
                 .thenReturn(mockConnectivityService);
-        when(mockContext.getApplicationContext()).thenReturn(mockContext);
         when(mockContext.getMainLooper()).thenReturn(Looper.getMainLooper());
 
         mockSettings = Mockito.mock(SharedPreferences.class);

@@ -5,11 +5,8 @@
 
     <!-- General app strings -->
     <string name="openhab_service_type" translatable="false">_openhab-server._tcp.local.</string>
-    <string name="main_menu">Main menu</string>
     <string name="app_preferences_name">Settings</string>
     <string name="app_notifications">Notifications</string>
-    <string name="dlg_notification_title">Notification message</string>
-    <string name="favorites">Favorites</string>
     <string name="empty_string" translatable="false"></string>
 
     <!-- Main menu items -->
@@ -43,7 +40,13 @@
     <string name="settings_openhab_icon_format_value_svg" translatable="false">SVG</string>
     <string name="settings_openhab_icon_format_png">Bitmap</string>
     <string name="settings_openhab_icon_format_svg">Vector</string>
-    <string name="settings_ringtone">Ring tone</string>
+    <string name="settings_chart_scaling">Chart scaling</string>
+    <string name="settings_chart_scaling_summary">Note: Smaller scaling shrinks fonts and line widths, so there\'s more space for the graph, but font readability may suffer.</string>
+    <string name="settings_chart_scaling_value_xs">Very small</string>
+    <string name="settings_chart_scaling_value_s">Small</string>
+    <string name="settings_chart_scaling_value_m">Default</string>
+    <string name="settings_chart_scaling_value_l">Large</string>
+    <string name="settings_ringtone">Notification ringtone</string>
     <string name="settings_clear_default_sitemap">Clear default sitemap</string>
     <string name="settings_no_default_sitemap">No default sitemap selected</string>
     <string name="settings_current_default_sitemap">Current default sitemap: %1$s</string>
@@ -51,27 +54,24 @@
     <string name="settings_openhab_connection">Local</string>
 
     <!-- App messages strings -->
-    <string name="title_voice_widget">openHAB Voice Commands</string>
-    <string name="info_voice_input">"openHAB, at your command!"</string>
-    <string name="info_voice_recognized_text">"Recognized command: %1$s"</string>
+    <string name="title_voice_widget">openHAB voice commands</string>
+    <string name="info_voice_input">openHAB, at your command!</string>
+    <string name="info_voice_recognized_text">Recognized command: %1$s</string>
     <string name="info_demo_mode_short">Running in demo mode</string>
     <string name="info_conn_url">Connecting to local URL</string>
     <string name="info_conn_rem_url">Connecting to remote URL</string>
-    <string name="info_discovery">Discovering openHAB. Please wait\u2026</string>
 
     <!-- Error messages -->
-    <string name="error_no_url">Please check that openHAB is running or configure openHAB URL or remote URL</string>
     <string name="error_empty_sitemap_list">openHAB returned empty sitemap list</string>
     <string name="error_network_not_available">Network is not available</string>
     <string name="error_http_connection_failed">Connection unsuccessful. An unexpected response was received while trying to connect to the configured openHAB server (Received HTTP response code: %d)</string>
-    <string name="error_no_uuid">Unable to get openHAB UUID, connection failed</string>
     <string name="error_invalid_url">Please enter a valid URL in a \'http(s)://host(:port)/\' form</string>
     <string name="error_connection_failed">Connection to host failed</string>
     <string name="error_unable_to_resolve_hostname">Unable to resolve hostname</string>
     <string name="error_connection_sslhandshake_failed">SSL handshake failed</string>
-    <string name="error_certificate_not_trusted">SSL certificate is not trusted. Please import the root certificate or disable certificate validation during SSL handshake</string>
+    <string name="error_certificate_not_trusted">SSL certificate isn\'t trusted. Please import the root certificate or disable certificate validation during SSL handshake</string>
     <string name="error_certificate_expired">SSL certificate has been expired. Please get a new certificate or disable certificate validation during SSL handshake</string>
-    <string name="error_certificate_not_valid_yet">SSL certificate is not valid yet. Please get a correct certificate or disable certificate validation during SSL handshake. Also check if the clock on your device is set correctly</string>
+    <string name="error_certificate_not_valid_yet">SSL certificate isn\'t valid yet. Please get a correct certificate or disable certificate validation during SSL handshake. Also check if the clock on your device is set correctly</string>
     <string name="error_certificate_revoked">SSL certificate has been revoked. Please get a new certificate or disable certificate validation during SSL handshake</string>
     <string name="error_certificate_wrong_host">SSL certificate is not valid for %s</string>
     <string name="error_http_code_401">Authentication failed. Please check the configured username and password respectively the provided SSL client certificate (HTTP response code 401)</string>
@@ -84,20 +84,18 @@
     <string name="error_http_code_496">SSL client certificate is required (HTTP response code 496)</string>
     <string name="error_http_code_502">Your reverse proxy got an invalid answer from the openHAB server (HTTP response code 502)</string>
     <string name="error_http_code_503">The openHAB server is temporarily unavailable (HTTP response code 503)</string>
-    <string name="error_http_code_504">Gateway Time-out. Seems that your reverse proxy is running, but couldn\'t get an answer from the openHAB server (HTTP response code 504)</string>
+    <string name="error_http_code_504">Gateway time-out. Seems that your reverse proxy is running, but couldn\'t get an answer from the openHAB server (HTTP response code 504)</string>
     <string name="error_http_code_507">The openHAB server hasn\'t enough free space (HTTP response code 507)</string>
     <string name="error_http_code_511">Network authentication is required (HTTP response code 511)</string>
     <string name="error_about_no_conn">Error while fetching openHAB server information</string>
     <string name="title_activity_openhabwritetag">Write NFC tag</string>
-    <string name="title_activity_openhabinfo">openHAB Information</string>
-    <string name="title_activity_libraries">Used Libraries</string>
+    <string name="title_activity_libraries">Used libraries</string>
     <string name="info_write_tag">Touch the tag and keep it close until the confirmation message appear</string>
     <string name="info_write_tag_progress">Writing the tag</string>
     <string name="info_write_tag_finished">Successfully finished</string>
     <string name="info_write_failed">Tag write error</string>
     <string name="info_write_tag_unsupported">This device doesn\'t have NFC support</string>
     <string name="info_write_tag_disabled">NFC is disabled. Please enable it in device settings menu.</string>
-    <string name="info_openhab_version_label">openHAB Version</string>
     <string name="info_openhab_apiversion_label">openHAB Rest API version</string>
     <string name="info_openhab_uuid_label">openHAB UUID</string>
     <string name="info_openhab_secret_label">openHAB Secret</string>
@@ -106,6 +104,11 @@
     <string name="nfc_dialog_title">Write NFC tag action for this element</string>
     <string name="info_not_set">Not set</string>
     <string name="password_placeholder" translatable="false">\u25cf\u25cf\u25cf\u25cf\u25cf\u25cf</string>
+
+    <!-- Notification list strings -->
+    <string name="notification_list_empty">No notifications were sent so far</string>
+    <string name="notification_list_error">An error occurred while loading notifications</string>
+    <string name="list_loading_message">Loading\u2026</string>
 
     <!-- Strings for MemorizingTrustManager activity -->
     <string name="mtm_accept_cert">Accept Unknown Certificate?</string>
@@ -120,10 +123,9 @@
     <string name="mtm_decision_always">Always</string>
     <string name="mtm_decision_once">Once</string>
     <string name="mtm_decision_abort">Abort</string>
+    <string name="mtm_notification">Certificate verification</string>
+    <string name="settings_openhab_none">None</string>
 
-    <string name="mtm_notification">Certificate Verification</string>
-    <string name="settings_openhab_none">none</string>
-    
     <!-- Themes -->
     <string name="theme_value_light" translatable="false">light</string>
     <string name="theme_value_dark" translatable="false">dark</string>
@@ -136,7 +138,7 @@
     <string name="theme_name_basic_ui">Basic UI</string>
     <string name="theme_name_basic_ui_dark">Basic UI dark</string>
 
-    <!-- NFC toggle -->
+    <!-- NFC -->
     <string name="nfc_action_on">On</string>
     <string name="nfc_action_up">Up</string>
     <string name="nfc_action_off">Off</string>
@@ -144,7 +146,7 @@
     <string name="nfc_action_toggle">Toggle</string>
     <string name="nfc_activate">Activate</string>
     <string name="nfc_action_current_color">Current color</string>
-    <string name="nfc_action_to_sitemap_page">Navigate to Sitemap page</string>
+    <string name="nfc_action_to_sitemap_page">Navigate to sitemap page</string>
 
     <!-- Drawer -->
     <string name="drawer_open">Sitemap drawer opened</string>
@@ -155,10 +157,10 @@
     <string name="about_title">About</string>
     <string name="about_license_title">License</string>
     <string name="about_license" translatable="false">Eclipse Public License - v 1.0</string>
-    <string name="about_copyright" translatable="false">© 2012 - %s openHAB Foundation</string>
+    <string name="about_copyright" translatable="false">© 2012 - %s openHAB community</string>
     <string name="about_version_string" translatable="false">%1$s - %2$s</string>
     <string name="about_changelog">Changelog</string>
-    <string name="about_source_code">Fork us on GitHub!</string>
+    <string name="about_source_code">Source code</string>
     <string name="about_issues">Report an issue</string>
     <string name="about_docs">Documentation</string>
     <string name="about_community_forum">Community forum</string>
@@ -166,6 +168,7 @@
     <string name="about_community">openHAB community</string>
     <string name="about_server">openHAB server</string>
     <string name="about_translation">Help us translating openHAB</string>
+    <string name="about_privacy_policy">Privacy policy</string>
 
     <string name="settings_debug_messages_summary">Passwords will be shown in clear text!</string>
     <string name="settings_debug_messages_title">Show debug messages</string>
@@ -181,13 +184,9 @@
     <string name="intro_themes">Themes</string>
     <string name="intro_themes_description">Choose between several themes</string>
     <string name="try_again_button">Try again</string>
-    <string name="network_error">Network error</string>
     <string name="go_to_settings_button">Go to settings</string>
-    <string name="configuration_missing">Your openHAB server could not be discovered automatically. Please configure its IP address or host name in the server settings.</string>
+    <string name="configuration_missing">Your openHAB server couldn\'t be discovered automatically. Please configure its IP address or host name in the server settings.</string>
     <string name="resolving_openhab">Trying to discover openHAB server instance\u2026</string>
-
-    <string name="intro_discovery">Discovery</string>
-    <string name="intro_discovery_summary">Please note this will work only if authentication is not enforced by the server</string>
 
     <!-- Content description for images -->
     <string name="content_description_open_roller_shutter">Open roller shutter</string>
@@ -199,7 +198,7 @@
     <string name="content_description_open_number_picker">Open number picker</string>
     <string name="content_description_video">Video</string>
     <string name="content_description_open_openhab">Open openHAB</string>
-    <string name="swipe_to_refresh_description">The app also refreshes automatically, you normally do not need to do it manually</string>
+    <string name="swipe_to_refresh_description">The app also refreshes automatically, you normally don\'t need to do it manually</string>
     <string name="swipe_to_refresh_dismiss">Got it!</string>
 
     <!-- Intro strings -->
@@ -207,4 +206,7 @@
     <string name="app_intro_skip_button">SKIP</string>
     <!-- Intro "DONE" button -->
     <string name="app_intro_done_button">DONE</string>
+    <string name="intro_voice_description">Control your home with your voice</string>
+    <string name="intro_nfc">NFC</string>
+    <string name="intro_nfc_description">Item control can be bound to NFC tags by long-pressing the item</string>
 </resources>

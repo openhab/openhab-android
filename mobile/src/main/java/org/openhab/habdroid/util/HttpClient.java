@@ -30,6 +30,7 @@ import javax.net.ssl.X509KeyManager;
 import javax.net.ssl.X509TrustManager;
 
 import de.duenndns.ssl.MemorizingTrustManager;
+import okhttp3.CacheControl;
 import okhttp3.Call;
 import okhttp3.Credentials;
 import okhttp3.HttpUrl;
@@ -42,7 +43,14 @@ import okhttp3.internal.tls.OkHostnameVerifier;
 public abstract class HttpClient {
     private static final String TAG = HttpClient.class.getSimpleName();
 
+    public enum CachingMode {
+        DEFAULT,
+        AVOID_CACHE,
+        FORCE_CACHE_IF_POSSIBLE
+    }
+
     private static MemorizingTrustManager sTrustManagerInstance;
+
     private final HttpUrl mBaseUrl;
     private final Map<String, String> headers = new HashMap<>();
     private OkHttpClient mClient;
@@ -52,6 +60,7 @@ public abstract class HttpClient {
 
         mBaseUrl = baseUrl != null ? HttpUrl.parse(baseUrl) : null;
         mClient = applyClientCert(new OkHttpClient.Builder(), context, clientCertAlias, mtm)
+                .cache(CacheManager.getInstance(context).getHttpCache())
                 .hostnameVerifier(mtm.wrapHostnameVerifier(OkHostnameVerifier.INSTANCE))
                 .build();
     }
@@ -87,14 +96,21 @@ public abstract class HttpClient {
         return sTrustManagerInstance;
     }
 
-    protected Call prepareCall(String url, String method, Map<String, String> additionalHeaders,
-                               String requestBody, String mediaType) {
-        Request.Builder requestBuilder = new Request.Builder();
-        if (mBaseUrl == null) {
-            requestBuilder.url(url);
-        } else {
-            requestBuilder.url(mBaseUrl.newBuilder(url).build());
+    public HttpUrl buildUrl(String url) {
+        HttpUrl absoluteUrl = HttpUrl.parse(url);
+        if (absoluteUrl == null && mBaseUrl != null) {
+            absoluteUrl = HttpUrl.parse(mBaseUrl.toString() + url);
         }
+        if (absoluteUrl == null) {
+            throw new IllegalArgumentException("URL '" + url + "' is invalid");
+        }
+        return absoluteUrl;
+    }
+
+    protected Call prepareCall(String url, String method, Map<String, String> additionalHeaders,
+                               String requestBody, String mediaType, CachingMode caching) {
+        Request.Builder requestBuilder = new Request.Builder();
+        requestBuilder.url(buildUrl(url));
         for (Map.Entry<String, String> entry : headers.entrySet()) {
             requestBuilder.addHeader(entry.getKey(), entry.getValue());
         }
@@ -105,6 +121,18 @@ public abstract class HttpClient {
         }
         if (requestBody != null) {
             requestBuilder.method(method, RequestBody.create(MediaType.parse(mediaType), requestBody));
+        }
+        switch (caching) {
+            case AVOID_CACHE:
+                requestBuilder.cacheControl(CacheControl.FORCE_NETWORK);
+                break;
+            case FORCE_CACHE_IF_POSSIBLE:
+                requestBuilder.cacheControl(new CacheControl.Builder()
+                        .maxStale(Integer.MAX_VALUE, TimeUnit.SECONDS)
+                        .build());
+                break;
+            default:
+                break;
         }
         Request request = requestBuilder.build();
         return mClient.newCall(request);

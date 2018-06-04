@@ -1,24 +1,24 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="utf-8"?>
 <strings>
     <intro>openHAB - "empowering the smart home" - leverancier en technologie onafhankelijke open source domotica software</intro>
-    <whatis>openHAB is een Java gebaseerd open-source domotica platform dat een breed scala aan verschillende smart home systemen en technologie&#xEB;n integreert en combineert in &#xE9;&#xE9;n enkele oplossing.</whatis>
+    <whatis>openHAB is een Java gebaseerd open-source domotica platform dat een breed scala aan verschillende smart home systemen en technologieën integreert en combineert in één enkele oplossing.</whatis>
     <rules>Via de uniforme abstractie laag zijn alle aangesloten apparaten beschikbaar voor de generieke automatiserings regels en de verschillende gebruikersinterfaces.</rules>
     <supported>Ondersteunde producten</supported>
-    <bindings>Meer dan 200 specifieke add-ons bieden ondersteuning voor merken, apparaten, technologie&#xEB;n en communicatieprotocollen. Voorbeelden zijn Z-Wave, Philips Hue, Amazon Echo, Chromecast en Sonos. Ontdek alle beschikbare invoegtoepassingen en ondersteunde apparaten en/of functies op: https://docs.openhab.org/addons/bindings.html</bindings>
+    <bindings>Meer dan 200 specifieke add-ons bieden ondersteuning voor merken, apparaten, technologieën en communicatieprotocollen. Voorbeelden zijn Z-Wave, Philips Hue, Amazon Echo, Chromecast en Sonos. Ontdek alle beschikbare invoegtoepassingen en ondersteunde apparaten en/of functies op: https://docs.openhab.org/addons/bindings.html</bindings>
 
-    <home_automation_solutions>&#x2022; Domotica oplossingen: Z-Wave, EnOcean, Netatmo, Homematic, Insteon,...</home_automation_solutions>
-    <lighting>&#x2022; Verlichting: Philips Hue, Ikea Tr&#xE5;dfri, LIFX, Lutron, Milight,...</lighting>
-    <heating>&#x2022; Verwarming: Max!, Nest, Vitotronic, Heatmiser,...</heating>
-    <home_entertainment>&#x2022; Home Entertainment: Samsung TV, LG TV, Sonos, Pioneer AVR, Squeezebox, Kodi, Plex, ...</home_entertainment>
-    <security>&#x2022; Beveiliging: ZoneMinder, DSC,...</security>
-    <open_protocols>&#x2022; Open protocollen: HTTP, TCP/UDP, MQTT, serieel, ...</open_protocols>
-    <special_useCases>&#x2022; Speciale toepassingen: Minecraft, Tesla auto, weerdiensten,...</special_useCases>
-    <empty_point>&#x2022;...</empty_point>
+    <home_automation_solutions>• Domotica oplossingen: Z-Wave, EnOcean, Netatmo, Homematic, Insteon,...</home_automation_solutions>
+    <lighting>• Verlichting: Philips Hue, Ikea Trådfri, LIFX, Lutron, Milight,...</lighting>
+    <heating>• Verwarming: Max!, Nest, Vitotronic, Heatmiser,...</heating>
+    <home_entertainment>• Home Entertainment: Samsung TV, LG TV, Sonos, Pioneer AVR, Squeezebox, Kodi, Plex, ...</home_entertainment>
+    <security>• Beveiliging: ZoneMinder, DSC,...</security>
+    <open_protocols>• Open protocollen: HTTP, TCP/UDP, MQTT, serieel, ...</open_protocols>
+    <special_useCases>• Speciale toepassingen: Minecraft, Tesla auto, weerdiensten,...</special_useCases>
+    <empty_point>•...</empty_point>
 
     <oss_community>Open Source Community</oss_community>
     <forum>Het openHAB open source initiatief steunt haar levendige community. Het forum met meer dan 13.000 geregistreerde gebruikers is een plek om hulp, begeleiding en inspiratie te vinden. Neem deel aan het openHAB community forum op https://community.openhab.org</forum>
 
-    <report_issues>Wanneer u een probleem gevonden heeft, rapporteer deze dan in het forum of op https://github.com/openhab/openhab-android/issues</report_issues>
+    <report_issues/>
     <translation>Als u de app wilt vertalen in uw taal bezoek ons dan op https://crowdin.com/project/openhab-android</translation>
     <foundation>openHAB Foundation</foundation>
     <about_foundation>De openHAB Foundation e.V. is een non-profit organisatie met als doel het publiek inzicht te geven in de mogelijkheden en voordelen van gratis en open smart home oplossingen. Lees meer over de missie en de diensten van de foundation op https://www.openhabfoundation.org</about_foundation>
@@ -26,5 +26,10 @@
     <oh_server>U heeft een eigen openHAB server nodig voor deze app</oh_server>
     <short_description>openHAB client voor Android</short_description>
     <fdroid>Bij de F-Droid versie is kaartweergave ondersteuning, GCM en crash rapportage verwijderd en de app zal geen push-meldingen kunnen ontvangen van de openHAB Cloud.</fdroid>
-    <fdroid_beta>De beta versie kan ge&#xEF;nstalleerd worden naast de stabiele versie: [[org.openhab.habdroid]]</fdroid_beta>
+    <fdroid_beta>De beta versie kan geïnstalleerd worden naast de stabiele versie: [[org.openhab.habdroid]]</fdroid_beta>
+    <fdroid_privacy_policy/>
+    <fdroid_anti_features/>
+    <fdroid_anti_features_text/>
+    <beta/>
+    <play_beta/>
 </strings>

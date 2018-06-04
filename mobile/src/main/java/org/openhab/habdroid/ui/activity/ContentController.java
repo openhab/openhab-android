@@ -18,6 +18,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.AnimRes;
 import android.support.annotation.DrawableRes;
+import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -286,9 +287,11 @@ public abstract class ContentController implements PageConnectionHolderFragment.
 
     /**
      * Open a temporary page showing the notification list
+     *
+     * @param highlightedId ID of notification to be highlighted initially
      */
-    public final void openNotifications() {
-        showTemporaryPage(OpenHABNotificationFragment.newInstance());
+    public final void openNotifications(@Nullable String highlightedId) {
+        showTemporaryPage(OpenHABNotificationFragment.newInstance(highlightedId));
     }
 
     /**
@@ -433,11 +436,11 @@ public abstract class ContentController implements PageConnectionHolderFragment.
     }
 
     protected Fragment getOverridingFragment() {
-        if (mNoConnectionFragment != null) {
-            return mNoConnectionFragment;
-        }
         if (mTemporaryPage != null) {
             return mTemporaryPage;
+        }
+        if (mNoConnectionFragment != null) {
+            return mNoConnectionFragment;
         }
         return null;
     }

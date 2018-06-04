@@ -11,19 +11,20 @@ package org.openhab.habdroid.core;
 
 import android.app.IntentService;
 import android.content.Intent;
+import android.os.Handler;
+import android.os.Looper;
 import android.speech.RecognizerIntent;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.widget.Toast;
 
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.core.connection.Connection;
 import org.openhab.habdroid.core.connection.ConnectionFactory;
 import org.openhab.habdroid.core.connection.exception.ConnectionException;
 import org.openhab.habdroid.util.SyncHttpClient;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
@@ -33,6 +34,7 @@ import java.util.Locale;
  */
 public class OpenHABVoiceService extends IntentService {
     private static final String TAG = OpenHABVoiceService.class.getSimpleName();
+    private Handler mHandler = new Handler(Looper.getMainLooper());
 
     public OpenHABVoiceService() {
         super("OpenHABVoiceService");
@@ -51,15 +53,13 @@ public class OpenHABVoiceService extends IntentService {
         try {
             connection = ConnectionFactory.getUsableConnection();
         } catch (ConnectionException e) {
-            Log.w(TAG, "Couldn't determine OpenHAB URL", e);
+            Log.w(TAG, "Couldn't determine openHAB URL", e);
         }
 
         if (connection != null) {
             sendVoiceCommand(connection.getSyncHttpClient(), voiceCommand);
         } else {
-            Toast.makeText(this,
-                    R.string.error_couldnt_determine_openhab_url, Toast.LENGTH_SHORT)
-                    .show();
+            showToast(getString(R.string.error_couldnt_determine_openhab_url));
         }
     }
 
@@ -70,34 +70,28 @@ public class OpenHABVoiceService extends IntentService {
             voiceCommand = textMatchList.get(0);
         }
         Log.i(TAG, "Recognized text: " + voiceCommand);
-        final String message = getString(R.string.info_voice_recognized_text, voiceCommand);
-        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+        showToast(getString(R.string.info_voice_recognized_text, voiceCommand));
         return voiceCommand;
     }
 
     private void sendVoiceCommand(final SyncHttpClient client, final String command) {
-        final String commandJson;
-        try {
-            JSONObject commandJsonObject = new JSONObject();
-            commandJsonObject.put("body", command);
-            commandJsonObject.put("Accept-Language", Locale.getDefault().getLanguage());
-            commandJson = commandJsonObject.toString();
-        } catch (JSONException e) {
-            Log.e(TAG, "Could not prepare voice command JSON", e);
-            return;
-        }
+        final HashMap<String, String> headers = new HashMap<>();
+        headers.put("Accept-Language", Locale.getDefault().getLanguage());
 
-        SyncHttpClient.HttpStatusResult result = client.post("/voice/interpreters",
-                commandJson, "application/json").asStatus();
+        SyncHttpClient.HttpStatusResult result = client.post("rest/voice/interpreters",
+                command, "text/plain", headers).asStatus();
         if (result.statusCode == 404) {
             Log.d(TAG, "Voice interpreter endpoint returned 404, falling back to item");
-            result = client.post("/rest/items/VoiceCommand",
-                    command, "text/plain;charset=UTF-8").asStatus();
+            result = client.post("rest/items/VoiceCommand", command, "text/plain").asStatus();
         }
         if (result.isSuccessful()) {
             Log.d(TAG, "Voice command was sent successfully");
         } else {
             Log.e(TAG, "Sending voice command failed", result.error);
         }
+    }
+
+    private void showToast(CharSequence text) {
+        mHandler.post(() -> Toast.makeText(this, text, Toast.LENGTH_SHORT).show());
     }
 }

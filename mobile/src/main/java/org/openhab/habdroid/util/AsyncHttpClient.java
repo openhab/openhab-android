@@ -10,15 +10,26 @@
 package org.openhab.habdroid.util;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.RectF;
 import android.os.Handler;
 import android.os.Looper;
 
+import com.caverock.androidsvg.SVG;
+import com.caverock.androidsvg.SVGParseException;
+
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Map;
 
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Headers;
+import okhttp3.MediaType;
 import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
@@ -37,6 +48,50 @@ public class AsyncHttpClient extends HttpClient {
         }
     }
 
+    public static abstract class BitmapResponseHandler implements ResponseHandler<Bitmap> {
+        private final int mDefaultSize;
+
+        public BitmapResponseHandler(int defaultSizePx) {
+            mDefaultSize = defaultSizePx;
+        }
+
+        @Override
+        public Bitmap convertBodyInBackground(ResponseBody body) throws IOException {
+            MediaType contentType = body.contentType();
+            boolean isSVG = contentType != null
+                    && contentType.type().equals("image")
+                    && contentType.subtype().contains("svg");
+            InputStream is = body.byteStream();
+            if (isSVG) {
+                try {
+                    return getBitmapFromSvgInputstream(is);
+                } catch (SVGParseException e) {
+                    throw new IOException("SVG decoding failed", e);
+                }
+            } else {
+                Bitmap bitmap = BitmapFactory.decodeStream(is);
+                if (bitmap != null) {
+                    return bitmap;
+                }
+                throw new IOException("Bitmap decoding failed");
+            }
+        }
+
+        private Bitmap getBitmapFromSvgInputstream(InputStream is) throws SVGParseException {
+            SVG svg = SVG.getFromInputStream(is);
+            RectF viewBox = svg.getDocumentViewBox();
+            double width = viewBox != null ? viewBox.width() : mDefaultSize;
+            double height = viewBox != null ? viewBox.height() : mDefaultSize;
+
+            Bitmap bitmap = Bitmap.createBitmap(
+                    (int) Math.ceil(width), (int) Math.ceil(height), Bitmap.Config.ARGB_8888);
+            Canvas canvas = new Canvas(bitmap);
+            canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
+            svg.renderToCanvas(canvas);
+            return bitmap;
+        }
+    }
+
     private Handler mHandler = new Handler(Looper.getMainLooper());
 
     public AsyncHttpClient(Context context, String baseUrl, String clientCertAlias) {
@@ -44,20 +99,26 @@ public class AsyncHttpClient extends HttpClient {
     }
 
     public <T> Call get(String url, ResponseHandler<T> responseHandler) {
-        return get(url, null, responseHandler);
+        return method(url, "GET", null, null, null, CachingMode.AVOID_CACHE, responseHandler);
     }
 
     public <T> Call get(String url, Map<String, String> headers, ResponseHandler<T> responseHandler) {
-        return method(url, "GET", headers, null, null, responseHandler);
+        return method(url, "GET", headers, null, null, CachingMode.AVOID_CACHE, responseHandler);
+    }
+
+    public <T> Call get(String url, CachingMode caching, ResponseHandler<T> responseHandler) {
+        return method(url, "GET", null, null, null, caching, responseHandler);
     }
 
     public Call post(String url, String requestBody, String mediaType, StringResponseHandler responseHandler) {
-        return method(url, "POST", null, requestBody, mediaType, responseHandler);
+        return method(url, "POST", null, requestBody,
+                mediaType, CachingMode.AVOID_CACHE, responseHandler);
     }
 
     private <T> Call method(String url, String method, Map<String, String> headers,
-            String requestBody, String mediaType, final ResponseHandler<T> responseHandler) {
-        Call call = prepareCall(url, method, headers, requestBody, mediaType);
+            String requestBody, String mediaType, CachingMode caching,
+            final ResponseHandler<T> responseHandler) {
+        Call call = prepareCall(url, method, headers, requestBody, mediaType, caching);
         call.enqueue(new Callback() {
             @Override
             public void onFailure(final Call call, final IOException e) {

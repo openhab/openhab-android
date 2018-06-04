@@ -11,4 +11,5 @@
     <dimen name="widgetlist_item_right_margin">0dp</dimen>
     <dimen name="widget_margin">0dp</dimen>
     <dimen name="row_height">36dp</dimen>
+    <dimen name="svg_image_default_size">60dp</dimen>
 </resources>

@@ -61,10 +61,12 @@ public abstract class AbstractConnection implements Connection {
                 !getPassword().isEmpty();
     }
 
+    @Override
     public AsyncHttpClient getAsyncHttpClient() {
         return asyncHttpClient;
     }
 
+    @Override
     public SyncHttpClient getSyncHttpClient() {
         return syncHttpClient;
     }

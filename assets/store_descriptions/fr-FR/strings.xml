@@ -1,30 +1,35 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="utf-8"?>
 <strings>
-    <intro>openHAB - "empowering the smart home" - une solution de domotique libre et ind&#xE9;pendante de tout fournisseur ou technologie pour votre maison connect&#xE9;e</intro>
-    <whatis>openHAB est une plateforme de domotique open source bas&#xE9;e sur Java qui int&#xE8;gre et combine une vaste gamme de produits et technologies pour la maison connect&#xE9;e dans une seule et m&#xEA;me solution.</whatis>
-    <rules>S'appuyant sur une couche d'abstraction unifi&#xE9;e, tous les dispositifs connect&#xE9;s sont expos&#xE9;s au moteur de r&#xE8;gles d'automatisation centralis&#xE9; et &#xE0; diff&#xE9;rentes interfaces utilisateur.</rules>
+    <intro/>
+    <whatis>openHAB est une plateforme de domotique open source basée sur Java qui intègre et combine une vaste gamme de produits et technologies pour la maison connectée dans une seule et même solution.</whatis>
+    <rules>S'appuyant sur une couche d'abstraction unifiée, tous les dispositifs connectés sont exposés au moteur de règles d'automatisation centralisé et à différentes interfaces utilisateur.</rules>
     <supported>Produits pris en charge</supported>
     <bindings>  </bindings>
 
-    <home_automation_solutions></home_automation_solutions>
-    <lighting></lighting>
-    <heating></heating>
-    <home_entertainment></home_entertainment>
-    <security></security>
-    <open_protocols></open_protocols>
-    <special_useCases></special_useCases>
-    <empty_point></empty_point>
+    <home_automation_solutions/>
+    <lighting/>
+    <heating/>
+    <home_entertainment/>
+    <security/>
+    <open_protocols/>
+    <special_useCases/>
+    <empty_point/>
 
-    <oss_community>Communaut&#xE9; open source</oss_community>
+    <oss_community>Communauté open source</oss_community>
     <forum>  </forum>
 
-    <report_issues>Si vous rencontrez un probl&#xE8;me, veuillez nous en faire part sur le forum ou sur https://github.com/openhab/openhab-android/issues</report_issues>
+    <report_issues/>
     <translation>Si vous souhaitez traduire l'application dans votre langue, rejoignez-nous sur https://crowdin.com/project/openhab-android</translation>
     <foundation>openHAB Foundation</foundation>
     <about_foundation> </about_foundation>
     <important_note>Remarque importante</important_note>
-    <oh_server>Un serveur openHAB est n&#xE9;cessaire pour fonctionner avec cette app</oh_server>
-    <short_description></short_description>
-    <fdroid>Les versions publi&#xE9;es via F-Droid n'incluent pas le syst&#xE8;me GCM et les rapports de plantage, et elles ne seront pas en mesure de recevoir les notifications push depuis l&#x2019;openHAB Cloud.</fdroid>
-    <fdroid_beta></fdroid_beta>
+    <oh_server>Un serveur openHAB est nécessaire pour fonctionner avec cette app</oh_server>
+    <short_description/>
+    <fdroid>Les versions publiées via F-Droid n'incluent pas le système GCM et les rapports de plantage, et elles ne seront pas en mesure de recevoir les notifications push depuis l’openHAB Cloud.</fdroid>
+    <fdroid_beta/>
+    <fdroid_privacy_policy/>
+    <fdroid_anti_features/>
+    <fdroid_anti_features_text/>
+    <beta/>
+    <play_beta/>
 </strings>

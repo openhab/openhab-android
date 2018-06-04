@@ -9,6 +9,7 @@
 
 package org.openhab.habdroid.ui;
 
+import android.app.FragmentManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
@@ -24,11 +25,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
-import com.loopj.android.image.WebImageCache;
-
 import org.openhab.habdroid.R;
+import org.openhab.habdroid.util.CacheManager;
 import org.openhab.habdroid.util.Constants;
-import org.openhab.habdroid.util.MyWebImage;
 import org.openhab.habdroid.util.Util;
 
 /**
@@ -73,7 +72,12 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                NavUtils.navigateUpFromSameTask(this);
+                FragmentManager fm = getFragmentManager();
+                if (fm.getBackStackEntryCount() > 0) {
+                    fm.popBackStack();
+                } else {
+                    NavUtils.navigateUpFromSameTask(this);
+                }
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -197,10 +201,7 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
                     restartIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     // Finish current activity
                     getActivity().finish();
-                    WebImageCache cache = MyWebImage.getWebImageCache();
-                    if (cache != null) {
-                        cache.clear();
-                    }
+                    CacheManager.getInstance(getActivity()).clearCache();
                     // Start launch activity
                     startActivity(restartIntent);
                     // Start launch activity

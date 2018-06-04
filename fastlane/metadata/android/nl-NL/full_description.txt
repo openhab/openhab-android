@@ -1,6 +1,8 @@
 openHAB - "empowering the smart home" - leverancier en technologie onafhankelijke open source domotica software
 
 Bij de F-Droid versie is kaartweergave ondersteuning, GCM en crash rapportage verwijderd en de app zal geen push-meldingen kunnen ontvangen van de openHAB Cloud.
+Try out new features and give early feedback!
+De beta versie kan geïnstalleerd worden naast de stabiele versie: [[org.openhab.habdroid]]
 
 <b>Belangrijke opmerking</b>
 
@@ -25,9 +27,16 @@ Meer dan 200 specifieke add-ons bieden ondersteuning voor merken, apparaten, tec
 <b>Open Source Community</b>
 
 Het openHAB open source initiatief steunt haar levendige community. Het forum met meer dan 13.000 geregistreerde gebruikers is een plek om hulp, begeleiding en inspiratie te vinden. Neem deel aan het openHAB community forum op https://community.openhab.org
-Wanneer u een probleem gevonden heeft, rapporteer deze dan in het forum of op https://github.com/openhab/openhab-android/issues
+When you find an issue please report it in the forum or at https://github.com/openhab/openhab-android/issues
 Als u de app wilt vertalen in uw taal bezoek ons dan op https://crowdin.com/project/openhab-android
 
 <b>openHAB Foundation</b>
 
 De openHAB Foundation e.V. is een non-profit organisatie met als doel het publiek inzicht te geven in de mogelijkheden en voordelen van gratis en open smart home oplossingen. Lees meer over de missie en de diensten van de foundation op https://www.openhabfoundation.org
+
+<b>Anti Features</b>
+
+The app is flagged with the "NonFreeAsset" flag, because the openHAB icon is not under a free license.
+
+
+Privacy policy: https://www.openhabfoundation.org/privacy

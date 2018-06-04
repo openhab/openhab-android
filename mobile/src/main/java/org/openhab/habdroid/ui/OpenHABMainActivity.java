@@ -22,7 +22,6 @@ import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -35,6 +34,7 @@ import android.preference.PreferenceManager;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -61,8 +61,6 @@ import android.view.ViewStub;
 import android.view.WindowManager;
 import android.widget.ProgressBar;
 
-import com.loopj.android.image.WebImageCache;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.openhab.habdroid.R;
@@ -82,7 +80,6 @@ import org.openhab.habdroid.ui.activity.ContentController;
 import org.openhab.habdroid.util.AsyncServiceResolver;
 import org.openhab.habdroid.util.Constants;
 import org.openhab.habdroid.util.AsyncHttpClient;
-import org.openhab.habdroid.util.MyWebImage;
 import org.openhab.habdroid.util.HttpClient;
 import org.openhab.habdroid.util.Util;
 import org.w3c.dom.Document;
@@ -116,7 +113,6 @@ import de.duenndns.ssl.MemorizingTrustManager;
 import okhttp3.Call;
 import okhttp3.Headers;
 import okhttp3.Request;
-import okhttp3.ResponseBody;
 
 import static org.openhab.habdroid.util.Util.exceptionHasCause;
 import static org.openhab.habdroid.util.Util.removeProtocolFromUrl;
@@ -125,7 +121,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         AsyncServiceResolver.Listener, ConnectionFactory.UpdateListener {
     public static final String ACTION_NOTIFICATION_SELECTED =
             "org.openhab.habdroid.action.NOTIFICATION_SELECTED";
-    public static final String EXTRA_MESSAGE = "message";
+    public static final String EXTRA_PERSISTED_NOTIFICATION_ID = "persistedNotificationId";
 
     // Logging TAG
     private static final String TAG = OpenHABMainActivity.class.getSimpleName();
@@ -164,11 +160,12 @@ public class OpenHABMainActivity extends AppCompatActivity implements
     private Connection mConnection;
 
     private Uri mPendingNfcData;
-    private boolean mPendingOpenNotifications;
+    private String mPendingOpenedNotificationId;
     private OpenHABSitemap mSelectedSitemap;
     private ContentController mController;
     private InitState mInitState = InitState.QUERY_SERVER_PROPS;
     private Call mPendingCall;
+    private boolean mStarted;
 
     /**
      * Daydreaming gets us into a funk when in fullscreen, this allows us to
@@ -314,7 +311,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
     }
 
     private void queryServerProperties() {
-        final String url = "/rest/bindings";
+        final String url = "rest/bindings";
         mInitState = InitState.QUERY_SERVER_PROPS;
         mPendingCall = mConnection.getAsyncHttpClient().get(url, new AsyncHttpClient.StringResponseHandler() {
             @Override
@@ -366,7 +363,8 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         switch (action) {
             case NfcAdapter.ACTION_NDEF_DISCOVERED:
             case Intent.ACTION_VIEW:
-                onNfcTag(intent.getData());
+                mPendingNfcData = intent.getData();
+                openPendingNfcPageIfNeeded();
                 break;
             case ACTION_NOTIFICATION_SELECTED:
                 CloudMessagingHelper.onNotificationSelected(this, intent);
@@ -453,10 +451,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         mSelectedSitemap = null;
 
         // Handle pending NFC tag if initial connection determination finished
-        if (mPendingNfcData != null && (mConnection != null || failureReason != null)) {
-            onNfcTag(mPendingNfcData);
-            mPendingNfcData = null;
-        }
+        openPendingNfcPageIfNeeded();
 
         if (newConnection != null) {
             handleConnectionChange();
@@ -499,16 +494,14 @@ public class OpenHABMainActivity extends AppCompatActivity implements
     @Override
     public void onCloudConnectionChanged(CloudConnection connection) {
         updateNotificationDrawerItem();
-        if (mPendingOpenNotifications && connection != null) {
-            openNotifications();
-            mPendingOpenNotifications = false;
-        }
+        openNotificationsPageIfNeeded();
     }
 
     @Override
     protected void onStart() {
         super.onStart();
         HttpClient.getTrustManagerInstance(this).bindDisplayActivity(this);
+        mStarted = true;
         if (mConnection != null) {
             if (mInitState == InitState.QUERY_SERVER_PROPS) {
                 mController.clearServerCommunicationFailure();
@@ -518,6 +511,8 @@ public class OpenHABMainActivity extends AppCompatActivity implements
                 loadSitemapList(true);
             }
         }
+        openPendingNfcPageIfNeeded();
+        openNotificationsPageIfNeeded();
     }
 
     /**
@@ -526,6 +521,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
     @Override
     public void onStop() {
         Log.d(TAG, "onStop()");
+        mStarted = false;
         super.onStop();
         HttpClient.getTrustManagerInstance(this).unbindDisplayActivity(this);
         if(selectSitemapDialog != null && selectSitemapDialog.isShowing()) {
@@ -590,7 +586,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
                 mDrawerLayout.closeDrawers();
                 switch (item.getItemId()) {
                     case R.id.notifications:
-                        openNotifications();
+                        openNotifications(null);
                         return true;
                     case R.id.settings:
                         Intent settingsIntent = new Intent(OpenHABMainActivity.this,
@@ -635,24 +631,13 @@ public class OpenHABMainActivity extends AppCompatActivity implements
     }
 
     private void loadSitemapIcon(final OpenHABSitemap sitemap, final MenuItem item) {
-        final WebImageCache imageCache = MyWebImage.getWebImageCache(this);
         final String url = sitemap.icon() != null ? Uri.encode(sitemap.iconPath(), "/?=") : null;
-        Bitmap cached = url != null ? imageCache.get(url) : null;
-
-        if (cached != null) {
-            item.setIcon(new BitmapDrawable(cached));
-            return;
-        }
-
         Drawable defaultIcon = ContextCompat.getDrawable(this, R.drawable.ic_openhab_appicon_24dp);
         item.setIcon(applyDrawerIconTint(defaultIcon));
 
         if (url != null) {
-            mConnection.getAsyncHttpClient().get(url, new AsyncHttpClient.ResponseHandler<Bitmap>() {
-                @Override
-                public Bitmap convertBodyInBackground(ResponseBody body) throws IOException {
-                    return BitmapFactory.decodeStream(body.byteStream());
-                }
+            mConnection.getAsyncHttpClient().get(url,
+                    new AsyncHttpClient.BitmapResponseHandler(defaultIcon.getIntrinsicWidth()) {
                 @Override
                 public void onFailure(Request request, int statusCode, Throwable error) {
                     Log.w(TAG, "Could not fetch icon for sitemap " + sitemap.name());
@@ -660,7 +645,6 @@ public class OpenHABMainActivity extends AppCompatActivity implements
                 @Override
                 public void onSuccess(Bitmap bitmap, Headers headers) {
                     if (bitmap != null) {
-                        imageCache.put(url, bitmap);
                         item.setIcon(new BitmapDrawable(bitmap));
                     }
                 }
@@ -672,9 +656,45 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         if (icon == null) {
             return null;
         }
-        Drawable wrapped = DrawableCompat.wrap(icon);
+        Drawable wrapped = DrawableCompat.wrap(icon.mutate());
         DrawableCompat.setTintList(wrapped, mDrawerIconTintList);
         return wrapped;
+    }
+
+    private void openNotificationsPageIfNeeded() {
+        if (mPendingOpenedNotificationId != null && mStarted &&
+                ConnectionFactory.getConnection(Connection.TYPE_CLOUD) != null) {
+            openNotifications(mPendingOpenedNotificationId);
+            mPendingOpenedNotificationId = null;
+        }
+    }
+
+    private void openPendingNfcPageIfNeeded() {
+        if (mPendingNfcData == null || mConnection == null || !mStarted) {
+            return;
+        }
+
+        Log.d(TAG, "NFC Scheme = " + mPendingNfcData.getScheme());
+        Log.d(TAG, "NFC Host = " + mPendingNfcData.getHost());
+        Log.d(TAG, "NFC Path = " + mPendingNfcData.getPath());
+        String nfcItem = mPendingNfcData.getQueryParameter("item");
+        String nfcCommand = mPendingNfcData.getQueryParameter("command");
+
+        // If there is no item parameter it means tag contains only sitemap page url
+        if (TextUtils.isEmpty(nfcItem)) {
+            Log.d(TAG, "This is a sitemap tag without parameters");
+            // Form the new sitemap page url
+            String newPageUrl = String.format(Locale.US, "%srest/sitemaps%s",
+                    mConnection.getOpenHABUrl(), mPendingNfcData.getPath());
+            mController.openPage(newPageUrl);
+        } else {
+            Log.d(TAG, "Target item = " + nfcItem);
+            String url = String.format(Locale.US, "%srest/items/%s",
+                    mConnection.getOpenHABUrl(), nfcItem);
+            Util.sendItemCommand(mConnection.getAsyncHttpClient(), url, nfcCommand);
+            finish();
+        }
+        mPendingNfcData = null;
     }
 
     private void openAbout() {
@@ -698,7 +718,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         Log.d(TAG, "Loading sitemap list from /rest/sitemaps");
 
         mInitState = InitState.LOAD_SITEMAPS;
-        mPendingCall = mConnection.getAsyncHttpClient().get("/rest/sitemaps", new AsyncHttpClient.StringResponseHandler() {
+        mPendingCall = mConnection.getAsyncHttpClient().get("rest/sitemaps", new AsyncHttpClient.StringResponseHandler() {
             @Override
             public void onFailure(Request request, int statusCode, Throwable error) {
                 handleServerCommunicationFailure(request, statusCode, error);
@@ -832,8 +852,8 @@ public class OpenHABMainActivity extends AppCompatActivity implements
                 .show();
     }
 
-    private void openNotifications() {
-        mController.openNotifications();
+    private void openNotifications(@Nullable String highlightedId) {
+        mController.openNotifications(highlightedId);
         mDrawerToggle.setDrawerIndicatorEnabled(false);
     }
 
@@ -930,55 +950,13 @@ public class OpenHABMainActivity extends AppCompatActivity implements
     private void onNotificationSelected(Intent intent) {
         Log.d(TAG, "Notification was selected");
 
-        if (ConnectionFactory.getConnection(Connection.TYPE_CLOUD) != null) {
-            openNotifications();
-        } else {
-            mPendingOpenNotifications = true;
+        mPendingOpenedNotificationId = intent.getStringExtra(EXTRA_PERSISTED_NOTIFICATION_ID);
+        if (mPendingOpenedNotificationId == null) {
+            // mPendingOpenedNotificationId being non-null is used as trigger for
+            // opening the notifications page, so use a dummy if it's null
+            mPendingOpenedNotificationId = "";
         }
-
-        if (intent.hasExtra(EXTRA_MESSAGE)) {
-            new AlertDialog.Builder(this)
-                    .setTitle(getString(R.string.dlg_notification_title))
-                    .setMessage(intent.getStringExtra(EXTRA_MESSAGE))
-                    .setPositiveButton(getString(android.R.string.ok), null)
-                    .show();
-        }
-    }
-
-    /**
-     * This method processes new intents generated by NFC subsystem
-     *
-     * @param nfcData - a data which NFC subsystem got from the NFC tag
-     */
-    private void onNfcTag(Uri nfcData) {
-        if (nfcData == null) {
-            return;
-        }
-        if (mConnection == null) {
-            mPendingNfcData = nfcData;
-            return;
-        }
-
-        Log.d(TAG, "NFC Scheme = " + nfcData.getScheme());
-        Log.d(TAG, "NFC Host = " + nfcData.getHost());
-        Log.d(TAG, "NFC Path = " + nfcData.getPath());
-        String nfcItem = nfcData.getQueryParameter("item");
-        String nfcCommand = nfcData.getQueryParameter("command");
-
-        // If there is no item parameter it means tag contains only sitemap page url
-        if (TextUtils.isEmpty(nfcItem)) {
-            Log.d(TAG, "This is a sitemap tag without parameters");
-            // Form the new sitemap page url
-            String newPageUrl = String.format(Locale.US, "%srest/sitemaps%s",
-                    mConnection.getOpenHABUrl(), nfcData.getPath());
-            mController.openPage(newPageUrl);
-        } else {
-            Log.d(TAG, "Target item = " + nfcItem);
-            String url = String.format(Locale.US, "%srest/items/%s",
-                    mConnection.getOpenHABUrl(), nfcItem);
-            Util.sendItemCommand(mConnection.getAsyncHttpClient(), url, nfcCommand);
-            finish();
-        }
+        openNotificationsPageIfNeeded();
     }
 
     public void onWidgetSelected(OpenHABLinkedPage linkedPage, OpenHABWidgetListFragment source) {
@@ -1022,16 +1000,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         speechIntent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 1);
         speechIntent.putExtra(RecognizerIntent.EXTRA_RESULTS_PENDINGINTENT, openhabPendingIntent);
 
-        try {
-            startActivity(speechIntent);
-        } catch(ActivityNotFoundException e) {
-            // Speech not installed?
-            // todo url doesnt seem to work anymore
-            // not sure, if this is called
-            Intent browserIntent = new Intent(Intent.ACTION_VIEW,
-                    Uri.parse("https://market.android.com/details?id=com.google.android.voicesearch"));
-            startActivity(browserIntent);
-        }
+        startActivity(speechIntent);
     }
 
     public void showRefreshHintSnackbarIfNeeded() {
