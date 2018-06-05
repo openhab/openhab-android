@@ -1,11 +1,15 @@
 package org.openhab.habdroid.model;
 
-import android.graphics.Path;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.google.auto.value.AutoValue;
+import com.google.auto.value.extension.memoized.Memoized;
 
+/**
+ * This is the data storage class to store ble beacon info.
+ * The hashCode() and equals() methods are manually overridden based on MAC address.
+ * That means, if two objects held the same MAC address are treated as the same beacon.
+ */
 @AutoValue
 public abstract class OpenHABBeacon {
     public enum Type{
@@ -41,12 +45,12 @@ public abstract class OpenHABBeacon {
     public abstract String major();
     @Nullable
     public abstract String minor();
+    //Add more selective value here
 
     public static Builder builder(Type beaconType){
         return new AutoValue_OpenHABBeacon.Builder()
                 .setType(beaconType);
     }
-    //Add more selective value here
 
     @AutoValue.Builder
     public abstract static class Builder {

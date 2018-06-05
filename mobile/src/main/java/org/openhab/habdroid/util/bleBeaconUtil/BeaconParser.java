@@ -81,11 +81,15 @@ public class BeaconParser {
     }
 
     private static OpenHABBeacon.Builder parseEddystoneUrl(byte[] data){
-        byte txPower = (byte)(data[12] - 41);
         StringBuilder url = new StringBuilder();
         int urlLength = data[7] - 6;//data[7] is the total length of Service ids, Eddystone type, tx power, URL prefix and url length.
-        url.append(EDDYSTONE_URL_PREFIX[data[13]]);
+        byte txPower = (byte)(data[12] - 41);
         int offset = 14;
+
+        if (data[13] >= 0 && data[13] < EDDYSTONE_URL_PREFIX.length) {
+            url.append(EDDYSTONE_URL_PREFIX[data[13]]);
+        }
+
         for (int i = 0; i < urlLength; i++){
             if (data[offset] <= 0x0D) {
                 url.append(EDDYSTONE_URL_SUFFIX[data[offset]]);

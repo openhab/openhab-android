@@ -12,8 +12,6 @@ import android.widget.TextView;
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.model.OpenHABBeacon;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class OpenHABBleAdapter extends RecyclerView.Adapter<OpenHABBleAdapter.ViewHolder>{
@@ -39,12 +37,7 @@ public class OpenHABBleAdapter extends RecyclerView.Adapter<OpenHABBleAdapter.Vi
         }
     }
 
-    List<OpenHABBeacon> mOpenHABBeacons;
-
-
-    public OpenHABBleAdapter() {
-        mOpenHABBeacons = Collections.synchronizedList(new ArrayList<>());
-    }
+    private List<OpenHABBeacon> mBeaconList;
 
     @NonNull
     @Override
@@ -55,7 +48,7 @@ public class OpenHABBleAdapter extends RecyclerView.Adapter<OpenHABBleAdapter.Vi
 
     @Override
     public void onBindViewHolder(@NonNull OpenHABBleAdapter.ViewHolder holder, int position) {
-        OpenHABBeacon item = mOpenHABBeacons.get(position);
+        OpenHABBeacon item = mBeaconList.get(position);
         Resources  resources = holder.itemView.getResources();
         holder.mName.setText(Html.fromHtml(resources.getString(R.string.beacon_name, item.name())));
         holder.mMac.setText(Html.fromHtml(resources.getString(R.string.beacon_address, item.address())));
@@ -82,32 +75,11 @@ public class OpenHABBleAdapter extends RecyclerView.Adapter<OpenHABBleAdapter.Vi
 
     @Override
     public int getItemCount() {
-        return mOpenHABBeacons.size();
+        return mBeaconList == null ? 0 : mBeaconList.size();
     }
 
-    public void addBeacon(OpenHABBeacon beacon){
-        int index = indexOf(beacon.address());
-        if (index >= 0){
-            mOpenHABBeacons.set(index, beacon);
-            notifyItemChanged(index);
-        } else {
-            mOpenHABBeacons.add(0, beacon);
-            notifyItemInserted(0);
-        }
-    }
-
-    private int indexOf(String address){
-        for (int i = 0; i < mOpenHABBeacons.size(); i++){
-            if (address.equals(mOpenHABBeacons.get(i).address())){
-                return i;
-            }
-        }
-        return -1;
-    }
-
-    public void clearList(){
-        int size = mOpenHABBeacons.size();
-        mOpenHABBeacons.clear();
-        notifyItemRangeRemoved(0, size);
+    public void bindData(List<OpenHABBeacon> beaconList){
+        mBeaconList = beaconList;
+        notifyItemRangeChanged(0, mBeaconList.size());
     }
 }

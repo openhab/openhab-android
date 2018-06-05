@@ -17,7 +17,7 @@
     <string name="mainmenu_openhab_clearcache">Clear images cache</string>
     <string name="mainmenu_openhab_ble_beacons">Test BLE Beacons</string>
 
-    <!-- TODO - debug useage BLE beacon activity name-->
+    <!-- Ble beacons-->
     <string name="title_activity_openhab_ble_beacons">BLE Beacons</string>
     <string name="beacon_name">&lt;b>Beacon name:&lt;/b> %1$s &#160;</string>
     <string name="beacon_address">&lt;b>Mac: &lt;/b> %1$s</string>
@@ -29,6 +29,7 @@
     <string name="eddystone_url">&lt;b>URL: &lt;/b>%1$s</string>
     <string name="eddystone_uid">&lt;b>Namespace: &lt;/b>%1$s &#160; &lt;b>Instance: &lt;/b>%2$s</string>
     <string name="beacon_type_not_correct">Beacon type not correct! %1$s</string>
+    <string name="ble_service_start">BLE service started!</string>
 
     <!-- App settings strings -->
     <string name="settings_connection_title">Connection</string>

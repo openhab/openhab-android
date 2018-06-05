@@ -87,6 +87,8 @@
         <service
             android:name=".core.OpenHABVoiceService"
             android:exported="false" />
+        <service android:name=".core.OpenHABBleService"
+            android:exported="false" />
 
         <receiver
             android:name=".ui.VoiceWidget"

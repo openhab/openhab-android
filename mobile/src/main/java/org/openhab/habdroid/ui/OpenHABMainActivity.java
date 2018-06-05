@@ -14,10 +14,12 @@ import android.app.Dialog;
 import android.app.PendingIntent;
 import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.content.res.Configuration;
@@ -31,6 +33,7 @@ import android.net.Uri;
 import android.nfc.NfcAdapter;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
@@ -68,6 +71,7 @@ import org.json.JSONException;
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.core.CloudMessagingHelper;
 import org.openhab.habdroid.core.OnUpdateBroadcastReceiver;
+import org.openhab.habdroid.core.OpenHABBleService;
 import org.openhab.habdroid.core.OpenHABVoiceService;
 import org.openhab.habdroid.core.connection.CloudConnection;
 import org.openhab.habdroid.core.connection.Connection;
@@ -84,6 +88,7 @@ import org.openhab.habdroid.util.Constants;
 import org.openhab.habdroid.util.AsyncHttpClient;
 import org.openhab.habdroid.util.MyWebImage;
 import org.openhab.habdroid.util.Util;
+import org.openhab.habdroid.util.bleBeaconUtil.BleBeaconConnector;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -171,6 +176,11 @@ public class OpenHABMainActivity extends AppCompatActivity implements
     private Call mPendingCall;
     private boolean mStarted;
 
+    private OpenHABBleService mBleService;
+    private boolean mBound;
+    private Intent mBleServiceIntent;
+    private boolean mIsBleNotSupport;
+
     /**
      * Daydreaming gets us into a funk when in fullscreen, this allows us to
      * reset ourselves to fullscreen.
@@ -181,6 +191,19 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         public void onReceive(Context context, Intent intent) {
             Log.i("INTENTFILTER", "Recieved intent: " + intent.toString());
             checkFullscreen();
+        }
+    };
+
+    private ServiceConnection mBleServiceConnection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            mBleService = ((OpenHABBleService.LocalBinder)service).getService();
+            mBound = true;
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            mBound = false;
         }
     };
 
@@ -288,6 +311,14 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         }
         OnUpdateBroadcastReceiver.updateComparableVersion(prefsEdit);
         prefsEdit.apply();
+
+        BleBeaconConnector connector = BleBeaconConnector.initializeAndGetInstance(this);
+        if (mIsBleNotSupport = connector.isNotSupport()){
+            Log.d(TAG, "BLE not support on this device");
+        } else {
+            mBleServiceIntent = new Intent(this, OpenHABBleService.class);
+            startService(mBleServiceIntent);
+        }
     }
 
     private void handleConnectionChange() {
@@ -519,6 +550,9 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         }
         openPendingNfcPageIfNeeded();
         openNotificationsPageIfNeeded();
+        if (!mIsBleNotSupport) {
+            bindService(mBleServiceIntent, mBleServiceConnection, BIND_AUTO_CREATE);
+        }
     }
 
     /**
@@ -534,6 +568,9 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         }
         if (mPendingCall != null) {
             mPendingCall.cancel();
+        }
+        if (!mIsBleNotSupport){
+            unbindService(mBleServiceConnection);
         }
     }
 

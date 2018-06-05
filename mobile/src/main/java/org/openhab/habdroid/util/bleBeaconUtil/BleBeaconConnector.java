@@ -13,15 +13,15 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
+import org.openhab.habdroid.core.OpenHABBleService;
 import org.openhab.habdroid.model.OpenHABBeacon;
-import org.openhab.habdroid.ui.OpenHABBleAdapter;
 
 @TargetApi(18)
 public class BleBeaconConnector {
     private static final String TAG = BleBeaconConnector.class.getSimpleName();
 
     private static final int REQUEST_ENABLE_BT = 0;
-    public static final int SCAN_PERIOD = 5000;//Scan for 3s
+    public static final int SCAN_PERIOD = 5000;//Scan for 5s
 
     private static BleBeaconConnector INSTANCE;
 
@@ -69,10 +69,14 @@ public class BleBeaconConnector {
         mBluetoothAdapter.stopLeScan(mLeScanCallback);
     }
 
-    public static BleBeaconConnector getInstance(AppCompatActivity activity) {
+    public static BleBeaconConnector initializeAndGetInstance(AppCompatActivity activity) {
         if (INSTANCE == null){
             INSTANCE = new BleBeaconConnector(activity);
         }
+        return INSTANCE;
+    }
+
+    public static BleBeaconConnector getInstance(){
         return INSTANCE;
     }
 
@@ -80,7 +84,7 @@ public class BleBeaconConnector {
         return notSupport;
     }
 
-    public void bindLeScanCallback(OpenHABBleAdapter openHABBleAdapter){
+    public void bindLeScanCallback(OpenHABBleService bleService){
         mLeScanCallback = (bluetoothDevice, i, bytes) -> {
             OpenHABBeacon.Builder builder = BeaconParser.parseToBeacon(bytes);
             if (builder == null){//Not a beacon
@@ -92,8 +96,7 @@ public class BleBeaconConnector {
                     .setRssi(i)
                     .build();
 
-            //Add item to adapter
-            openHABBleAdapter.addBeacon(beacon);
+            bleService.addBeacon(beacon);
             Log.d(TAG, beacon.toString());
         };
     }
