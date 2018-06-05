@@ -127,6 +127,8 @@
   <string name="nfc_action_current_color">Текущий цвет</string>
   <string name="nfc_action_to_sitemap_page">Перейти на страницу sitemap</string>
   <!-- Drawer -->
+  <string name="drawer_open">Отображение Sitemap открыто</string>
+  <string name="drawer_close">Отображение Sitemap закрыто</string>
   <string name="mainmenu_openhab_voice_recognition">Распознавание голоса</string>
   <!-- About -->
   <string name="about_title">О программе</string>
