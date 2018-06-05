@@ -9,9 +9,7 @@
   <string name="notification_channel_default">Padrão</string>
   <string name="notification_channel_severity_value">Gravidade \'%1$s\'</string>
   <plurals name="summary_notification_text">
-    <item quantity="one">1 nova notificação
-%d novas notificações</item>
-    <item quantity="other">1 nova notificação
-%d novas notificações</item>
+    <item quantity="one">1 nova notificação</item>
+    <item quantity="other">%d novas notificações</item>
   </plurals>
 </resources>
