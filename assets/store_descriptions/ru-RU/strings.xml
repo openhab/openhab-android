@@ -4,7 +4,7 @@
     <whatis>openHAB - это платформа домашней автоматизации с открытым исходным кодом основанная на Java и интегрирующая в себе большое количество систем "умного дома" в единое решение.</whatis>
     <rules>На верхнем уровне абстракции все подключенные устройства доступны для правил автоматизации и различных пользовательских интерфейсов.</rules>
     <supported>Поддерживаемые продукты</supported>
-    <bindings>Более 200 дополнений обеспечивают поддержку устройств, технологий и протоколов связи различных производителей. Для примера: Z-Wave, Philips Hue, Amazon Echo, Chromecast и Sonos. Доступные дополнения для устройств и дополнительного функционала можно найти по адресу https://www.openhab.org/addons/</bindings>
+    <bindings>Более 200 надстроек обеспечивают поддержку устройств, технологий и протоколов связи различных производителей. Для примера: Z-Wave, Philips Hue, Amazon Echo, Chromecast и Sonos. Доступные дополнения для устройств и дополнительного функционала можно найти по адресу https://www.openhab.org/addons/</bindings>
 
     <home_automation_solutions>• Решения для автоматизации: Z-Wave, EnOcean, Netatmo, Homematic, Insteon, ...</home_automation_solutions>
     <lighting>• Освещение: Philips Hue, Ikea Trådfri, LIFX, Lutron, Milight,...</lighting>
