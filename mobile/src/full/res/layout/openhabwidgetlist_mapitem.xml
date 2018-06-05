@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <org.openhab.habdroid.util.MySmartImageView
+        <org.openhab.habdroid.ui.widget.WidgetImageView
             android:id="@+id/widgetimage"
             android:layout_width="32dp"
             android:layout_height="32dp"

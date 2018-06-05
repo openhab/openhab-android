@@ -24,7 +24,6 @@ import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -38,6 +37,7 @@ import android.preference.PreferenceManager;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -64,8 +64,6 @@ import android.view.ViewStub;
 import android.view.WindowManager;
 import android.widget.ProgressBar;
 
-import com.loopj.android.image.WebImageCache;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.openhab.habdroid.R;
@@ -86,7 +84,6 @@ import org.openhab.habdroid.ui.activity.ContentController;
 import org.openhab.habdroid.util.AsyncServiceResolver;
 import org.openhab.habdroid.util.Constants;
 import org.openhab.habdroid.util.AsyncHttpClient;
-import org.openhab.habdroid.util.MyWebImage;
 import org.openhab.habdroid.util.Util;
 import org.openhab.habdroid.util.bleBeaconUtil.BleBeaconConnector;
 import org.w3c.dom.Document;
@@ -121,7 +118,6 @@ import de.duenndns.ssl.MemorizingTrustManager;
 import okhttp3.Call;
 import okhttp3.Headers;
 import okhttp3.Request;
-import okhttp3.ResponseBody;
 
 import static org.openhab.habdroid.util.Util.exceptionHasCause;
 import static org.openhab.habdroid.util.Util.removeProtocolFromUrl;
@@ -130,7 +126,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         MemorizingResponder, AsyncServiceResolver.Listener, ConnectionFactory.UpdateListener {
     public static final String ACTION_NOTIFICATION_SELECTED =
             "org.openhab.habdroid.action.NOTIFICATION_SELECTED";
-    public static final String EXTRA_MESSAGE = "message";
+    public static final String EXTRA_PERSISTED_NOTIFICATION_ID = "persistedNotificationId";
 
     // Logging TAG
     private static final String TAG = OpenHABMainActivity.class.getSimpleName();
@@ -169,7 +165,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
     private Connection mConnection;
 
     private Uri mPendingNfcData;
-    private boolean mPendingOpenNotifications;
+    private String mPendingOpenedNotificationId;
     private OpenHABSitemap mSelectedSitemap;
     private ContentController mController;
     private InitState mInitState = InitState.QUERY_SERVER_PROPS;
@@ -628,7 +624,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
                 mDrawerLayout.closeDrawers();
                 switch (item.getItemId()) {
                     case R.id.notifications:
-                        openNotifications();
+                        openNotifications(null);
                         return true;
                     case R.id.settings:
                         Intent settingsIntent = new Intent(OpenHABMainActivity.this,
@@ -678,24 +674,13 @@ public class OpenHABMainActivity extends AppCompatActivity implements
     }
 
     private void loadSitemapIcon(final OpenHABSitemap sitemap, final MenuItem item) {
-        final WebImageCache imageCache = MyWebImage.getWebImageCache(this);
         final String url = sitemap.icon() != null ? Uri.encode(sitemap.iconPath(), "/?=") : null;
-        Bitmap cached = url != null ? imageCache.get(url) : null;
-
-        if (cached != null) {
-            item.setIcon(new BitmapDrawable(cached));
-            return;
-        }
-
         Drawable defaultIcon = ContextCompat.getDrawable(this, R.drawable.ic_openhab_appicon_24dp);
         item.setIcon(applyDrawerIconTint(defaultIcon));
 
         if (url != null) {
-            mConnection.getAsyncHttpClient().get(url, new AsyncHttpClient.ResponseHandler<Bitmap>() {
-                @Override
-                public Bitmap convertBodyInBackground(ResponseBody body) throws IOException {
-                    return BitmapFactory.decodeStream(body.byteStream());
-                }
+            mConnection.getAsyncHttpClient().get(url,
+                    new AsyncHttpClient.BitmapResponseHandler(defaultIcon.getIntrinsicWidth()) {
                 @Override
                 public void onFailure(Request request, int statusCode, Throwable error) {
                     Log.w(TAG, "Could not fetch icon for sitemap " + sitemap.name());
@@ -703,7 +688,6 @@ public class OpenHABMainActivity extends AppCompatActivity implements
                 @Override
                 public void onSuccess(Bitmap bitmap, Headers headers) {
                     if (bitmap != null) {
-                        imageCache.put(url, bitmap);
                         item.setIcon(new BitmapDrawable(bitmap));
                     }
                 }
@@ -715,16 +699,16 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         if (icon == null) {
             return null;
         }
-        Drawable wrapped = DrawableCompat.wrap(icon);
+        Drawable wrapped = DrawableCompat.wrap(icon.mutate());
         DrawableCompat.setTintList(wrapped, mDrawerIconTintList);
         return wrapped;
     }
 
     private void openNotificationsPageIfNeeded() {
-        if (mPendingOpenNotifications && mStarted &&
+        if (mPendingOpenedNotificationId != null && mStarted &&
                 ConnectionFactory.getConnection(Connection.TYPE_CLOUD) != null) {
-            openNotifications();
-            mPendingOpenNotifications = false;
+            openNotifications(mPendingOpenedNotificationId);
+            mPendingOpenedNotificationId = null;
         }
     }
 
@@ -911,8 +895,8 @@ public class OpenHABMainActivity extends AppCompatActivity implements
                 .show();
     }
 
-    private void openNotifications() {
-        mController.openNotifications();
+    private void openNotifications(@Nullable String highlightedId) {
+        mController.openNotifications(highlightedId);
         mDrawerToggle.setDrawerIndicatorEnabled(false);
     }
 
@@ -1009,16 +993,13 @@ public class OpenHABMainActivity extends AppCompatActivity implements
     private void onNotificationSelected(Intent intent) {
         Log.d(TAG, "Notification was selected");
 
-        mPendingOpenNotifications = true;
-        openNotificationsPageIfNeeded();
-
-        if (intent.hasExtra(EXTRA_MESSAGE)) {
-            new AlertDialog.Builder(this)
-                    .setTitle(getString(R.string.dlg_notification_title))
-                    .setMessage(intent.getStringExtra(EXTRA_MESSAGE))
-                    .setPositiveButton(getString(android.R.string.ok), null)
-                    .show();
+        mPendingOpenedNotificationId = intent.getStringExtra(EXTRA_PERSISTED_NOTIFICATION_ID);
+        if (mPendingOpenedNotificationId == null) {
+            // mPendingOpenedNotificationId being non-null is used as trigger for
+            // opening the notifications page, so use a dummy if it's null
+            mPendingOpenedNotificationId = "";
         }
+        openNotificationsPageIfNeeded();
     }
 
     public void onWidgetSelected(OpenHABLinkedPage linkedPage, OpenHABWidgetListFragment source) {

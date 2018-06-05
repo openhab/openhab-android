@@ -5,4 +5,11 @@
     <string name="info_openhab_gcm_in_progress">Device registration is in progress</string>
     <string name="info_openhab_gcm_failed">Device registration failed</string>
     <string name="info_openhab_gcm_connected">Device successfully registered with Google Cloud Messaging</string>
+    <string name="notification_channel_default">Default</string>
+    <string name="notification_channel_severity_value">Severity \'%1$s\'</string>
+
+    <plurals name="summary_notification_text">
+        <item quantity="one">1 new notification</item>
+        <item quantity="other">%d new notifications</item>
+    </plurals>
 </resources>
