@@ -67,7 +67,8 @@ public class MemorizingActivity extends Activity
 		dialog = new AlertDialog.Builder(themedContext).setTitle(titleId)
 				.setMessage(cert)
 				.setPositiveButton(R.string.mtm_decision_always, this)
-				.setNeutralButton(R.string.mtm_decision_once, this)
+				// Disable 'Once' for our usage, as its usage is not practical for the amount of HTTP requests we do
+				//.setNeutralButton(R.string.mtm_decision_once, this)
 				.setNegativeButton(R.string.mtm_decision_abort, this)
 				.setOnCancelListener(this)
 				.create();
