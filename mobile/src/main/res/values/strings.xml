@@ -69,10 +69,10 @@
     <string name="error_connection_failed">Connection to host failed</string>
     <string name="error_unable_to_resolve_hostname">Unable to resolve hostname</string>
     <string name="error_connection_sslhandshake_failed">SSL handshake failed</string>
-    <string name="error_certificate_not_trusted">SSL certificate isn\'t trusted. Please import the root certificate or disable certificate validation during SSL handshake</string>
-    <string name="error_certificate_expired">SSL certificate has been expired. Please get a new certificate or disable certificate validation during SSL handshake</string>
-    <string name="error_certificate_not_valid_yet">SSL certificate isn\'t valid yet. Please get a correct certificate or disable certificate validation during SSL handshake. Also check if the clock on your device is set correctly</string>
-    <string name="error_certificate_revoked">SSL certificate has been revoked. Please get a new certificate or disable certificate validation during SSL handshake</string>
+    <string name="error_certificate_not_trusted">SSL certificate isn\'t trusted. Please import the root certificate or accept the certificate during SSL handshake</string>
+    <string name="error_certificate_expired">SSL certificate has been expired. Please get a new certificate or accept the certificate during SSL handshake</string>
+    <string name="error_certificate_not_valid_yet">SSL certificate isn\'t valid yet. Please get a correct certificate or accept the certificate during SSL handshake. Also check if the clock on your device is set correctly</string>
+    <string name="error_certificate_revoked">SSL certificate has been revoked. Please get a new certificate or accept the certificate during SSL handshake</string>
     <string name="error_certificate_wrong_host">SSL certificate is not valid for %s</string>
     <string name="error_http_code_401">Authentication failed. Please check the configured username and password respectively the provided SSL client certificate (HTTP response code 401)</string>
     <string name="error_http_code_403">Authentication failed. Please check the configured username and password respectively the provided SSL client certificate (HTTP response code 403)</string>
@@ -120,7 +120,7 @@
     <string name="mtm_connect_anyway">Do you want to connect anyway?</string>
     <string name="mtm_cert_details">Certificate details:</string>
 
-    <string name="mtm_decision_always">Always</string>
+    <string name="mtm_decision_always">Accept</string>
     <string name="mtm_decision_once">Once</string>
     <string name="mtm_decision_abort">Abort</string>
     <string name="mtm_notification">Certificate verification</string>
