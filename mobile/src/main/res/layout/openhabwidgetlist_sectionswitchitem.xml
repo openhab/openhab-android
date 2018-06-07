@@ -7,7 +7,6 @@
     android:background="?android:activatedBackgroundIndicator">
 
     <include
-        android:id="@+id/switchleftlayout"
         layout="@layout/openhabwidgetlist_icontext"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -24,14 +23,14 @@
         android:paddingRight="8dp"
         android:textAppearance="?android:attr/textAppearanceMedium"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/sectionswitchradiogroup"
+        app:layout_constraintEnd_toStartOf="@+id/switchgroup"
         app:layout_constraintTop_toTopOf="parent"
         tools:layout_constraintLeft_creator="1"
         tools:layout_constraintRight_creator="1"
         tools:layout_constraintTop_creator="1" />
 
     <RadioGroup
-        android:id="@+id/sectionswitchradiogroup"
+        android:id="@+id/switchgroup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingLeft="8dp"

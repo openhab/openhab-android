@@ -7,7 +7,6 @@
     android:background="?android:activatedBackgroundIndicator">
 
     <include
-        android:id="@+id/sliderleftlayout"
         layout="@layout/openhabwidgetlist_icontext"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -26,14 +25,14 @@
         android:paddingRight="8dp"
         android:textAppearance="?android:attr/textAppearanceMedium"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/sliderseekbar"
+        app:layout_constraintEnd_toStartOf="@+id/seekbar"
         app:layout_constraintTop_toTopOf="parent"
         tools:layout_constraintLeft_creator="1"
         tools:layout_constraintRight_creator="1"
         tools:layout_constraintTop_creator="1" />
 
     <SeekBar
-        android:id="@+id/sliderseekbar"
+        android:id="@+id/seekbar"
         android:layout_width="130dp"
         android:layout_height="wrap_content"
         android:max="100"

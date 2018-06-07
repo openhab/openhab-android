@@ -367,7 +367,7 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
             super(inflater, parent, layoutResId, conn, colorMapper);
             mLabelView = itemView.findViewById(R.id.widgetlabel);
             mValueView = itemView.findViewById(R.id.widgetvalue);
-            mIconView = itemView.findViewById(R.id.widgetimage);
+            mIconView = itemView.findViewById(R.id.widgeticon);
         }
 
         @Override
@@ -392,7 +392,7 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
                 Connection conn, ColorMapper colorMapper) {
             super(inflater, parent, R.layout.openhabwidgetlist_genericitem, conn, colorMapper);
             mLabelView = itemView.findViewById(R.id.widgetlabel);
-            mIconView = itemView.findViewById(R.id.widgetimage);
+            mIconView = itemView.findViewById(R.id.widgeticon);
         }
 
         @Override
@@ -437,7 +437,7 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         GroupViewHolder(LayoutInflater inflater, ViewGroup parent,
                 Connection conn, ColorMapper colorMapper) {
             super(inflater, parent, R.layout.openhabwidgetlist_groupitem, conn, colorMapper);
-            mRightArrow = itemView.findViewById(R.id.rightArrow);
+            mRightArrow = itemView.findViewById(R.id.right_arrow);
         }
 
         @Override
@@ -455,7 +455,7 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         SwitchViewHolder(LayoutInflater inflater, ViewGroup parent,
                 Connection conn, ColorMapper colorMapper) {
             super(inflater, parent, R.layout.openhabwidgetlist_switchitem, conn, colorMapper);
-            mSwitch = itemView.findViewById(R.id.switchswitch);
+            mSwitch = itemView.findViewById(R.id.toggle);
             mSwitch.setOnTouchListener(this);
         }
 
@@ -482,7 +482,7 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         TextViewHolder(LayoutInflater inflater, ViewGroup parent,
                 Connection conn, ColorMapper colorMapper) {
             super(inflater, parent, R.layout.openhabwidgetlist_textitem, conn, colorMapper);
-            mRightArrow = itemView.findViewById(R.id.rightArrow);
+            mRightArrow = itemView.findViewById(R.id.right_arrow);
         }
 
         @Override
@@ -500,7 +500,7 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         SliderViewHolder(LayoutInflater inflater, ViewGroup parent,
                 Connection conn, ColorMapper colorMapper) {
             super(inflater, parent, R.layout.openhabwidgetlist_slideritem, conn, colorMapper);
-            mSeekBar = itemView.findViewById(R.id.sliderseekbar);
+            mSeekBar = itemView.findViewById(R.id.seekbar);
             mSeekBar.setOnSeekBarChangeListener(this);
         }
 
@@ -547,7 +547,7 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         ImageViewHolder(LayoutInflater inflater, ViewGroup parent,
                 Connection conn, ColorMapper colorMapper) {
             super(inflater, parent, R.layout.openhabwidgetlist_imageitem, conn, colorMapper);
-            mImageView = itemView.findViewById(R.id.imageimage);
+            mImageView = itemView.findViewById(R.id.image);
             mParentView = parent;
         }
 
@@ -595,7 +595,7 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         SelectionViewHolder(LayoutInflater inflater, ViewGroup parent,
                 Connection conn, ColorMapper colorMapper) {
             super(inflater, parent, R.layout.openhabwidgetlist_selectionitem, conn, colorMapper);
-            mSpinner = itemView.findViewById(R.id.selectionspinner);
+            mSpinner = itemView.findViewById(R.id.spinner);
         }
 
         @Override
@@ -670,7 +670,7 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
                 Connection conn, ColorMapper colorMapper) {
             super(inflater, parent, R.layout.openhabwidgetlist_sectionswitchitem, conn, colorMapper);
             mInflater = inflater;
-            mRadioGroup = itemView.findViewById(R.id.sectionswitchradiogroup);
+            mRadioGroup = itemView.findViewById(R.id.switchgroup);
         }
 
         @Override
@@ -715,9 +715,9 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         RollerShutterViewHolder(LayoutInflater inflater, ViewGroup parent,
                 Connection conn, ColorMapper colorMapper) {
             super(inflater, parent, R.layout.openhabwidgetlist_rollershutteritem, conn, colorMapper);
-            initButton(R.id.rollershutterbutton_up, "UP");
-            initButton(R.id.rollershutterbutton_down, "DOWN");
-            initButton(R.id.rollershutterbutton_stop, "STOP");
+            initButton(R.id.up_button, "UP");
+            initButton(R.id.down_button, "DOWN");
+            initButton(R.id.stop_button, "STOP");
         }
 
         private void initButton(@IdRes int resId, String command) {
@@ -752,7 +752,7 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
             mValueView.setOnClickListener(this);
             mInflater = inflater;
 
-            ImageView dropdownArrow = itemView.findViewById(R.id.imageViewDownArrow);
+            ImageView dropdownArrow = itemView.findViewById(R.id.down_arrow);
             dropdownArrow.setOnClickListener(this);
         }
 
@@ -828,7 +828,7 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         ChartViewHolder(LayoutInflater inflater, ViewGroup parent, CharSequence theme,
                 Connection conn, ColorMapper colorMapper) {
             super(inflater, parent, R.layout.openhabwidgetlist_chartitem, conn, colorMapper);
-            mImageView = itemView.findViewById(R.id.chartimage);
+            mImageView = itemView.findViewById(R.id.chart);
             mParentView = parent;
 
             WindowManager wm = (WindowManager) itemView.getContext().getSystemService(Context.WINDOW_SERVICE);
@@ -902,7 +902,7 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         VideoViewHolder(LayoutInflater inflater, ViewGroup parent,
                 Connection conn, ColorMapper colorMapper) {
             super(inflater, parent, R.layout.openhabwidgetlist_videoitem, conn, colorMapper);
-            mVideoView = itemView.findViewById(R.id.videovideo);
+            mVideoView = itemView.findViewById(R.id.video);
         }
 
         @Override
@@ -942,7 +942,7 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         WebViewHolder(LayoutInflater inflater, ViewGroup parent,
                 Connection conn, ColorMapper colorMapper) {
             super(inflater, parent, R.layout.openhabwidgetlist_webitem, conn, colorMapper);
-            mWebView = itemView.findViewById(R.id.webweb);
+            mWebView = itemView.findViewById(R.id.webview);
 
             final Resources res = itemView.getContext().getResources();
             mRowHeightPixels = res.getDimensionPixelSize(R.dimen.row_height);
@@ -976,10 +976,10 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
                 Connection conn, ColorMapper colorMapper) {
             super(inflater, parent, R.layout.openhabwidgetlist_coloritem, conn, colorMapper);
             mLabelView = itemView.findViewById(R.id.widgetlabel);
-            mIconView = itemView.findViewById(R.id.widgetimage);
-            initButton(R.id.colorbutton_up, "ON");
-            initButton(R.id.colorbutton_down, "OFF");
-            itemView.findViewById(R.id.colorbutton_color).setOnTouchListener(this);
+            mIconView = itemView.findViewById(R.id.widgeticon);
+            initButton(R.id.up_button, "ON");
+            initButton(R.id.down_button, "OFF");
+            itemView.findViewById(R.id.select_color_button).setOnTouchListener(this);
         }
 
         private void initButton(@IdRes int resId, String command) {

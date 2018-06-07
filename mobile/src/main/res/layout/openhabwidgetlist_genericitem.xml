@@ -9,13 +9,6 @@
     android:paddingEnd="@dimen/widgetlist_item_right_margin">
 
     <include
-        android:id="@+id/genericleftlayout"
         layout="@layout/openhabwidgetlist_icontext" />
-
-    <TextView
-        android:id="@+id/widgetvalue"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
 
 </RelativeLayout>

@@ -48,8 +48,8 @@ public class MapViewHelper {
             super(inflater, parent, R.layout.openhabwidgetlist_mapitem, connection, colorMapper);
 
             mLabelView = itemView.findViewById(R.id.widgetlabel);
-            mIconView = itemView.findViewById(R.id.widgetimage);
-            mMapView = itemView.findViewById(R.id.mapView);
+            mIconView = itemView.findViewById(R.id.widgeticon);
+            mMapView = itemView.findViewById(R.id.mapview);
 
             mMapView.onCreate(null);
             mMapView.getMapAsync(map -> {

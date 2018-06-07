@@ -7,16 +7,15 @@
     android:descendantFocusability="blocksDescendants">
 
     <include
-        android:id="@+id/selectionleftlayout"
         layout="@layout/openhabwidgetlist_icontext"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toStartOf="@+id/selectionspinner"
+        app:layout_constraintEnd_toStartOf="@+id/spinner"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Spinner
-        android:id="@+id/selectionspinner"
+        android:id="@+id/spinner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"

@@ -9,7 +9,6 @@
     tools:layout_editor_absoluteY="25dp">
 
     <include
-        android:id="@+id/rollershutterleftlayout"
         layout="@layout/openhabwidgetlist_icontext"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -28,14 +27,14 @@
         android:paddingRight="8dp"
         android:textAppearance="?android:attr/textAppearanceMedium"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/rollershutterbutton_up"
+        app:layout_constraintEnd_toStartOf="@+id/up_button"
         app:layout_constraintTop_toTopOf="parent"
         tools:layout_constraintLeft_creator="1"
         tools:layout_constraintRight_creator="1"
         tools:layout_constraintTop_creator="1" />
 
     <ImageButton
-        android:id="@+id/rollershutterbutton_up"
+        android:id="@+id/up_button"
         android:layout_width="46dip"
         android:layout_height="0dp"
         android:contentDescription="@string/content_description_open_roller_shutter"
@@ -46,11 +45,11 @@
         android:src="?themedArrowUpIcon"
         android:background="?attr/selectableItemBackgroundBorderless"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/rollershutterbutton_stop"
+        app:layout_constraintEnd_toStartOf="@+id/stop_button"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
-        android:id="@+id/rollershutterbutton_stop"
+        android:id="@+id/stop_button"
         android:layout_width="46dip"
         android:layout_height="0dp"
         android:contentDescription="@string/content_description_stop_roller_shutter"
@@ -61,11 +60,11 @@
         android:src="?themedClearIcon"
         android:background="?attr/selectableItemBackgroundBorderless"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/rollershutterbutton_down"
+        app:layout_constraintEnd_toStartOf="@+id/down_button"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
-        android:id="@+id/rollershutterbutton_down"
+        android:id="@+id/down_button"
         android:layout_width="46dip"
         android:layout_height="0dp"
         android:contentDescription="@string/content_description_close_roller_shutter"

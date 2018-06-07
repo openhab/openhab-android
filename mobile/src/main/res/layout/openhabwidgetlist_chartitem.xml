@@ -11,7 +11,7 @@
     android:paddingEnd="@dimen/widgetlist_item_right_margin">
 
     <org.openhab.habdroid.ui.widget.WidgetImageView
-        android:id="@+id/chartimage"
+        android:id="@+id/chart"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:adjustViewBounds="true"

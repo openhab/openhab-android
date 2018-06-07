@@ -7,7 +7,6 @@
     android:background="@drawable/list_selector">
 
     <include
-        android:id="@+id/setpointleftlayout"
         layout="@layout/openhabwidgetlist_icontext"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -24,12 +23,12 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toLeftOf="@id/imageViewDownArrow"
+        app:layout_constraintRight_toLeftOf="@id/down_arrow"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="SelectableText" />
 
     <ImageView
-        android:id="@+id/imageViewDownArrow"
+        android:id="@+id/down_arrow"
         android:layout_width="48dp"
         android:layout_height="30dp"
         android:scaleType="center"
