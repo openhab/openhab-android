@@ -341,7 +341,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         Log.d(TAG, "Service resolved: "
                 + serviceInfo.getHostAddresses()[0]
                 + " port:" + serviceInfo.getPort());
-        String openHABUrl = "http://" + serviceInfo.getHostAddresses()[0] + ":" +
+        String openHABUrl = "https://" + serviceInfo.getHostAddresses()[0] + ":" +
                 String.valueOf(serviceInfo.getPort()) + "/";
 
         PreferenceManager.getDefaultSharedPreferences(this).edit()
