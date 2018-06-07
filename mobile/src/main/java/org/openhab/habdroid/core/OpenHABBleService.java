@@ -1,8 +1,9 @@
 package org.openhab.habdroid.core;
 
-import android.app.IntentService;
+import android.app.Service;
 import android.content.Intent;
 import android.os.Binder;
+import android.os.Handler;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -10,18 +11,21 @@ import android.widget.Toast;
 
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.model.OpenHABBeacon;
-import org.openhab.habdroid.ui.OpenHABBleAdapter;
 import org.openhab.habdroid.util.bleBeaconUtil.BleBeaconConnector;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class OpenHABBleService extends IntentService{
+public class OpenHABBleService extends Service implements Runnable{
     private static final String TAG = OpenHABBleService.class.getSimpleName();
+
     private IBinder mBinder;
+    private Handler mMainHandler;
+    private Handler mScanHandler;
+    private UiUpdateListener mUiUpdateListener;
+
     private BleBeaconConnector mBleBeaconConnector;
     private List<OpenHABBeacon> mBeaconList;
-    private OpenHABBleAdapter mOpenHABBleAdapter;
     private OpenHABBeacon mMinBeacon;
 
     public class LocalBinder extends Binder {
@@ -30,30 +34,28 @@ public class OpenHABBleService extends IntentService{
         }
     }
 
-    public OpenHABBleService(){
-        super(TAG);
+    public interface UiUpdateListener {
+        void itemChange(int position);
+        void itemInsert(int position);
+        void bindItemList(List<OpenHABBeacon> beaconList);
     }
 
     @Override
-    protected void onHandleIntent(@Nullable Intent intent) {
-        while (true){
-            try {
-                mBleBeaconConnector.startLeScan();
-                Thread.sleep(BleBeaconConnector.SCAN_PERIOD);
-            } catch (InterruptedException e) {
-                Log.d(TAG, "Sleep failed!");
-                break;
-            }
-        }
+    public void onCreate() {
+        mBinder = new LocalBinder();
+        mBeaconList = new ArrayList<>();
     }
 
     @Override
     public int onStartCommand(@Nullable Intent intent, int flags, int startId) {
-        mBinder = new LocalBinder();
         mBleBeaconConnector = BleBeaconConnector.getInstance();
-        mBeaconList = new ArrayList<>();
+        mScanHandler = mBleBeaconConnector.getHandler();
+        mMainHandler = new Handler(getMainLooper());
         mBleBeaconConnector.bindLeScanCallback(this);
+        mScanHandler.post(this);//Start scanning
+
         Toast.makeText(this, R.string.ble_service_start, Toast.LENGTH_SHORT).show();
+
         return super.onStartCommand(intent, flags, startId);
     }
 
@@ -70,14 +72,15 @@ public class OpenHABBleService extends IntentService{
         if ((index = findBeaconByAddress(beacon.address())) >= 0){
             mBeaconList.set(index, beacon);
 
-            if (mOpenHABBleAdapter != null) {
-                mOpenHABBleAdapter.notifyItemChanged(index);
+            if (mUiUpdateListener != null) {
+                mMainHandler.post(() -> mUiUpdateListener.itemChange(index));
             }
         } else {
             mBeaconList.add(beacon);
 
-            if (mOpenHABBleAdapter != null) {
-                mOpenHABBleAdapter.notifyItemInserted(mBeaconList.size() - 1);
+            if (mUiUpdateListener != null) {
+                mMainHandler.post(() -> mUiUpdateListener
+                        .itemInsert(mBeaconList.size() - 1));
             }
         }
         updateMin(beacon);
@@ -92,20 +95,23 @@ public class OpenHABBleService extends IntentService{
         return -1;
     }
 
-    public void bindOpenHABBleAdapter(OpenHABBleAdapter openHABBleAdapter){
-        mOpenHABBleAdapter = openHABBleAdapter;
-        mOpenHABBleAdapter.bindData(mBeaconList);
-    }
-
-    public void unBindOpenHABBleAdapter(){
-        mOpenHABBleAdapter = null;
-    }
-
     private void updateMin(OpenHABBeacon beacon){
         if (mMinBeacon == null || mMinBeacon.address().equals(beacon.address())
                 || beacon.distance() < mMinBeacon.distance()){
             mMinBeacon = beacon;
             Log.d(TAG, "Min beacon changed to: " + mMinBeacon);
         }
+    }
+
+    //Scan for a period, wait for the same period and rescan.
+    @Override
+    public void run() {
+        mBleBeaconConnector.startPeriodLeScan();
+        mScanHandler.postDelayed(this, BleBeaconConnector.SCAN_PERIOD  << 1);
+    }
+
+    public void setUiUpdateListener(UiUpdateListener listener){
+        mUiUpdateListener = listener;
+        mUiUpdateListener.bindItemList(mBeaconList);
     }
 }

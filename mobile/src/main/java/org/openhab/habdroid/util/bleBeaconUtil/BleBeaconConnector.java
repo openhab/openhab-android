@@ -8,6 +8,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Handler;
+import android.os.HandlerThread;
+import android.os.Process;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -29,7 +31,6 @@ public class BleBeaconConnector {
     private Handler mHandler;
     private boolean notSupport;
     private BluetoothAdapter.LeScanCallback mLeScanCallback;
-    private Runnable stopLeScan;
 
     private BleBeaconConnector(AppCompatActivity activity){
         final BluetoothManager manager = (BluetoothManager) activity.getSystemService(Context.BLUETOOTH_SERVICE);
@@ -47,8 +48,11 @@ public class BleBeaconConnector {
             activity.startActivityForResult(enableBluetoothIntent, REQUEST_ENABLE_BT);
         }
         checkAndRequestPosPermission(activity);
-        mHandler = new Handler();
-        stopLeScan = () -> mBluetoothAdapter.stopLeScan(mLeScanCallback);
+
+        //Create a worker background thread
+        HandlerThread thread = new HandlerThread(TAG, Process.THREAD_PRIORITY_BACKGROUND);
+        thread.start();
+        mHandler = new Handler(thread.getLooper());
     }
 
     private void checkAndRequestPosPermission(AppCompatActivity activity){
@@ -59,14 +63,9 @@ public class BleBeaconConnector {
     }
 
     @SuppressWarnings("deprecation")
-    public void startLeScan(){
-        mHandler.postDelayed(stopLeScan, SCAN_PERIOD);
+    public void startPeriodLeScan(){
         mBluetoothAdapter.startLeScan(mLeScanCallback);
-    }
-
-    public void stopLeScan(){
-        mHandler.removeCallbacks(stopLeScan);
-        mBluetoothAdapter.stopLeScan(mLeScanCallback);
+        mHandler.postDelayed(() -> mBluetoothAdapter.stopLeScan(mLeScanCallback), SCAN_PERIOD);
     }
 
     public static BleBeaconConnector initializeAndGetInstance(AppCompatActivity activity) {
@@ -85,9 +84,9 @@ public class BleBeaconConnector {
     }
 
     public void bindLeScanCallback(OpenHABBleService bleService){
-        mLeScanCallback = (bluetoothDevice, i, bytes) -> {
+        mLeScanCallback = (bluetoothDevice, i, bytes) -> mHandler.post(() -> {
             OpenHABBeacon.Builder builder = BeaconParser.parseToBeacon(bytes);
-            if (builder == null){//Not a beacon
+            if (builder == null) {//Not a beacon
                 return;
             }
             OpenHABBeacon beacon = builder
@@ -98,6 +97,10 @@ public class BleBeaconConnector {
 
             bleService.addBeacon(beacon);
             Log.d(TAG, beacon.toString());
-        };
+        });
+    }
+
+    public Handler getHandler(){
+        return mHandler;
     }
 }

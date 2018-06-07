@@ -10,11 +10,13 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import org.openhab.habdroid.R;
+import org.openhab.habdroid.core.OpenHABBleService;
 import org.openhab.habdroid.model.OpenHABBeacon;
 
 import java.util.List;
 
-public class OpenHABBleAdapter extends RecyclerView.Adapter<OpenHABBleAdapter.ViewHolder>{
+public class OpenHABBleAdapter extends RecyclerView.Adapter<OpenHABBleAdapter.ViewHolder>
+        implements OpenHABBleService.UiUpdateListener{
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView mName;
@@ -78,8 +80,18 @@ public class OpenHABBleAdapter extends RecyclerView.Adapter<OpenHABBleAdapter.Vi
         return mBeaconList == null ? 0 : mBeaconList.size();
     }
 
-    public void bindData(List<OpenHABBeacon> beaconList){
+    @Override
+    public void itemChange(int position) {
+        notifyItemChanged(position);
+    }
+
+    @Override
+    public void itemInsert(int position) {
+        notifyItemInserted(position);
+    }
+
+    @Override
+    public void bindItemList(List<OpenHABBeacon> beaconList) {
         mBeaconList = beaconList;
-        notifyItemRangeChanged(0, mBeaconList.size());
     }
 }

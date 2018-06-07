@@ -5,11 +5,6 @@ import android.support.annotation.Nullable;
 import com.google.auto.value.AutoValue;
 import com.google.auto.value.extension.memoized.Memoized;
 
-/**
- * This is the data storage class to store ble beacon info.
- * The hashCode() and equals() methods are manually overridden based on MAC address.
- * That means, if two objects held the same MAC address are treated as the same beacon.
- */
 @AutoValue
 public abstract class OpenHABBeacon {
     public enum Type{
@@ -19,7 +14,7 @@ public abstract class OpenHABBeacon {
         NotABeacon
     }
 
-    //Common BLE beacon values. Must not be null for any type of beacon.
+    //Common BLE beacon features. Must not be null for any type of beacon.
     public abstract String address();
     public abstract byte txPower();
     public abstract int rssi();

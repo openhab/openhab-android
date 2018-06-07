@@ -18,7 +18,7 @@ import org.openhab.habdroid.ui.widget.DividerItemDecoration;
 import org.openhab.habdroid.util.Util;
 import org.openhab.habdroid.util.bleBeaconUtil.BleBeaconConnector;
 
-public class OpenHABBleActivity extends AppCompatActivity{
+public class OpenHABBleActivity extends AppCompatActivity {
     private OpenHABBleAdapter mOpenHABBleAdapter;
     private OpenHABBleService mBleService;
     private Intent mBleServiceIntent;
@@ -27,12 +27,12 @@ public class OpenHABBleActivity extends AppCompatActivity{
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
             mBleService = ((OpenHABBleService.LocalBinder)service).getService();
-            mBleService.bindOpenHABBleAdapter(mOpenHABBleAdapter);
+            mBleService.setUiUpdateListener(mOpenHABBleAdapter);
         }
 
         @Override
         public void onServiceDisconnected(ComponentName name) {
-            mBleService.unBindOpenHABBleAdapter();
+            mBleService.setUiUpdateListener(null);
             mBleService = null;
         }
     };
