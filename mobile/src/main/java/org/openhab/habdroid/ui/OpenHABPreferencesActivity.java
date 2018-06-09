@@ -47,6 +47,7 @@ import java.security.cert.X509Certificate;
 public class OpenHABPreferencesActivity extends AppCompatActivity {
     private final static String TAG = OpenHABPreferencesActivity.class.getSimpleName();
     public static final String RESULT_EXTRA_THEME_CHANGED = "theme_changed";
+    public static final String RESULT_EXTRA_SITEMAP_CLEARED = "sitemap_cleared";
     private static final String STATE_KEY_RESULT = "result";
 
     private Intent mResultIntent;
@@ -271,6 +272,7 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
                     edit.apply();
 
                     onNoDefaultSitemap(preference);
+                    getParentActivity().mResultIntent.putExtra(RESULT_EXTRA_SITEMAP_CLEARED, true);
                     return true;
                 }
             });

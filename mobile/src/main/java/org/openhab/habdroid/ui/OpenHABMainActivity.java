@@ -12,7 +12,6 @@ package org.openhab.habdroid.ui;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.PendingIntent;
-import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -159,7 +158,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
     private int mOpenHABVersion;
     private ProgressBar mProgressBar;
     // select sitemap dialog
-    private Dialog selectSitemapDialog;
+    private Dialog mSelectSitemapDialog;
     private Snackbar mLastSnackbar;
     private Connection mConnection;
 
@@ -404,16 +403,6 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         onAvailableConnectionChanged();
         updateNotificationDrawerItem();
 
-        if (mInitState == InitState.DONE &&
-                TextUtils.isEmpty(mSettings.getString(Constants.PREFERENCE_SITEMAP_NAME, ""))) {
-            OpenHABSitemap sitemap = selectConfiguredSitemapFromList();
-            if (sitemap != null) {
-                openSitemap(sitemap);
-            } else {
-                showSitemapSelectionDialog();
-            }
-        }
-
         NfcAdapter nfcAdapter = NfcAdapter.getDefaultAdapter(this);
         if (nfcAdapter != null) {
             Intent intent = new Intent(this, getClass())
@@ -537,8 +526,8 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         Log.d(TAG, "onStop()");
         mStarted = false;
         super.onStop();
-        if(selectSitemapDialog != null && selectSitemapDialog.isShowing()) {
-            selectSitemapDialog.dismiss();
+        if(mSelectSitemapDialog != null && mSelectSitemapDialog.isShowing()) {
+            mSelectSitemapDialog.dismiss();
         }
         if (mPendingCall != null) {
             mPendingCall.cancel();
@@ -848,8 +837,8 @@ public class OpenHABMainActivity extends AppCompatActivity implements
 
     private void showSitemapSelectionDialog() {
         Log.d(TAG, "Opening sitemap selection dialog");
-        if (selectSitemapDialog != null && selectSitemapDialog.isShowing()) {
-            selectSitemapDialog.dismiss();
+        if (mSelectSitemapDialog != null && mSelectSitemapDialog.isShowing()) {
+            mSelectSitemapDialog.dismiss();
         }
         if (isFinishing()) {
             return;
@@ -859,7 +848,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         for (int i = 0; i < mSitemapList.size(); i++) {
             sitemapLabels[i] = mSitemapList.get(i).label();
         }
-        selectSitemapDialog = new AlertDialog.Builder(this)
+        mSelectSitemapDialog = new AlertDialog.Builder(this)
                 .setTitle(R.string.mainmenu_openhab_selectsitemap)
                 .setItems(sitemapLabels, new DialogInterface.OnClickListener() {
                     @Override
@@ -938,8 +927,18 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         Log.d(TAG, String.format("onActivityResult requestCode = %d, resultCode = %d", requestCode, resultCode));
         switch (requestCode) {
             case SETTINGS_REQUEST_CODE:
-                if (data != null
-                        && data.getBooleanExtra(OpenHABPreferencesActivity.RESULT_EXTRA_THEME_CHANGED, false)) {
+                if (data == null) {
+                    break;
+                }
+                if (data.getBooleanExtra(OpenHABPreferencesActivity.RESULT_EXTRA_SITEMAP_CLEARED, false)) {
+                    OpenHABSitemap sitemap = selectConfiguredSitemapFromList();
+                    if (sitemap != null) {
+                        openSitemap(sitemap);
+                    } else {
+                        showSitemapSelectionDialog();
+                    }
+                }
+                if (data.getBooleanExtra(OpenHABPreferencesActivity.RESULT_EXTRA_THEME_CHANGED, false)) {
                     recreate();
                 }
                 break;
