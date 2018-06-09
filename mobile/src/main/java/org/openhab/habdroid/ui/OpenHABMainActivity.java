@@ -258,6 +258,9 @@ public class OpenHABMainActivity extends AppCompatActivity implements
                 mController.recreateFragmentState();
             }
             updateSitemapDrawerItems();
+            if (savedInstanceState.getBoolean("isSitemapSelectionDialogShown")) {
+                showSitemapSelectionDialog();
+            }
         } else {
             mSitemapList = new ArrayList<>();
         }
@@ -960,6 +963,8 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         savedInstanceState.putInt("openHABVersion", mOpenHABVersion);
         savedInstanceState.putParcelableArrayList("sitemapList", mSitemapList);
         savedInstanceState.putParcelable("sitemap", mSelectedSitemap);
+        savedInstanceState.putBoolean("isSitemapSelectionDialogShown", mSelectSitemapDialog != null &&
+                mSelectSitemapDialog.isShowing());
         savedInstanceState.putString("controller", mController.getClass().getCanonicalName());
         savedInstanceState.putInt("connectionHash",
                 mConnection != null ? mConnection.hashCode() : -1);
