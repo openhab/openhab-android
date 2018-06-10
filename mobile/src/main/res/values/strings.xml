@@ -184,6 +184,7 @@
     <string name="try_again_button">Try again</string>
     <string name="go_to_settings_button">Go to settings</string>
     <string name="configuration_missing">Your openHAB server couldn\'t be discovered automatically. Please configure its IP address or host name in the server settings.</string>
+    <string name="no_remote_server">Local network is unavailable and you haven\'t configured a remote server</string>
     <string name="resolving_openhab">Trying to discover openHAB server instance\u2026</string>
 
     <!-- Content description for images -->

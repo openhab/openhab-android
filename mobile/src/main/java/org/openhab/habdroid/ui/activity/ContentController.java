@@ -233,10 +233,10 @@ public abstract class ContentController implements PageConnectionHolderFragment.
     /**
      * Indicate to the user that server configuration is missing
      */
-    public void indicateMissingConfiguration() {
-        Log.d(TAG, "Indicate missing configuration");
+    public void indicateMissingConfiguration(boolean resolveAttempted) {
+        Log.d(TAG, "Indicate missing configuration (resolveAttempted " + resolveAttempted + ")");
         resetState();
-        mNoConnectionFragment = MissingConfigurationFragment.newInstance(mActivity);
+        mNoConnectionFragment = MissingConfigurationFragment.newInstance(mActivity, resolveAttempted);
         updateFragmentState(FragmentUpdateReason.PAGE_UPDATE);
         mActivity.updateTitle();
     }
@@ -566,9 +566,16 @@ public abstract class ContentController implements PageConnectionHolderFragment.
     }
 
     public static class MissingConfigurationFragment extends StatusFragment {
-        public static MissingConfigurationFragment newInstance(Context context) {
+        public static MissingConfigurationFragment newInstance(Context context,
+                                                               boolean resolveAttempted) {
             MissingConfigurationFragment f = new MissingConfigurationFragment();
-            f.setArguments(buildArgs(context.getString(R.string.configuration_missing),
+            String text;
+            if (resolveAttempted) {
+                text = context.getString(R.string.configuration_missing);
+            } else {
+                text = context.getString(R.string.no_remote_server);
+            }
+            f.setArguments(buildArgs(text,
                     R.drawable.ic_openhab_appicon_24dp, /* FIXME? */
                     R.string.go_to_settings_button, false));
             return f;
