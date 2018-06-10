@@ -119,6 +119,9 @@ public abstract class HttpClient {
     public HttpUrl buildUrl(String url) {
         HttpUrl absoluteUrl = HttpUrl.parse(url);
         if (absoluteUrl == null && mBaseUrl != null) {
+            if (url.indexOf("/") == 0 && url.length() > 1) {
+                url = url.substring(1);
+            }
             absoluteUrl = HttpUrl.parse(mBaseUrl.toString() + url);
         }
         if (absoluteUrl == null) {

@@ -1003,10 +1003,7 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
                 mWebView.setLayoutParams(lp);
             }
 
-            HttpUrl url = HttpUrl.parse(widget.url());
-            if (url == null && mConnection.getOpenHABUrl() != null) {
-                url = HttpUrl.parse(mConnection.getOpenHABUrl().toString() + widget.url());
-            }
+            HttpUrl url = mConnection.getAsyncHttpClient().buildUrl(widget.url());
 
             mWebView.setWebViewClient(new AnchorWebViewClient(url.toString(),
                     mConnection.getUsername(), mConnection.getPassword()));
