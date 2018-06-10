@@ -188,19 +188,15 @@ public class GcmMessageListenerService extends GcmListenerService {
     private NotificationCompat.Builder makeNotificationBuilder(String channelId, long timestamp) {
         long[] vibrationPattern;
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        switch (prefs.getString(Constants.PREFERENCE_NOTIFICATION_VIBRATION, "")) {
-            case "short":
-                vibrationPattern = new long[] {0, 500, 500};
-                break;
-            case "long":
-                vibrationPattern = new long[] {0, 1000, 1000};
-                break;
-            case "twice":
-                vibrationPattern = new long[] {0, 1000, 1000, 1000, 1000};
-                break;
-            default:
-                vibrationPattern = new long[] {0};
-                break;
+        String vibration = prefs.getString(Constants.PREFERENCE_NOTIFICATION_VIBRATION, "");
+        if (getString(R.string.settings_notification_vibration_value_short).equals(vibration)) {
+            vibrationPattern = new long[] {0, 500, 500};
+        } else if (getString(R.string.settings_notification_vibration_value_long).equals(vibration)) {
+            vibrationPattern = new long[] {0, 1000, 1000};
+        } else if (getString(R.string.settings_notification_vibration_value_twice).equals(vibration)) {
+            vibrationPattern = new long[] {0, 1000, 1000, 1000, 1000};
+        } else {
+            vibrationPattern = new long[] {0};
         }
 
         return new NotificationCompat.Builder(this, channelId)
