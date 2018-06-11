@@ -1,0 +1,3 @@
+## Fixed
+* Show sitemap selection dialog after clearing it in the settings (#909)
+* Fix scaling issue with svg icons (#919)
