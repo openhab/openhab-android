@@ -15,8 +15,8 @@ import org.openhab.habdroid.model.OpenHABBeacon;
 
 import java.util.List;
 
-public class OpenHABBleAdapter extends RecyclerView.Adapter<OpenHABBleAdapter.ViewHolder>
-        implements OpenHABBleService.UiUpdateListener{
+public class OpenHABBeaconConfigAdapter extends RecyclerView.Adapter<OpenHABBeaconConfigAdapter.ViewHolder>
+        implements OpenHABBleService.ConfigUiUpdateListener {
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView mName;
@@ -43,13 +43,13 @@ public class OpenHABBleAdapter extends RecyclerView.Adapter<OpenHABBleAdapter.Vi
 
     @NonNull
     @Override
-    public OpenHABBleAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public OpenHABBeaconConfigAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.openhabblelist_beaconitem, parent, false);
         return new ViewHolder(v);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull OpenHABBleAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull OpenHABBeaconConfigAdapter.ViewHolder holder, int position) {
         OpenHABBeacon item = mBeaconList.get(position);
         Resources  resources = holder.itemView.getResources();
         holder.mName.setText(Html.fromHtml(resources.getString(R.string.beacon_name, item.name())));

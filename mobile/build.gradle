@@ -179,6 +179,6 @@ dependencyVerification {
     ]
 }
 
-if(!isFoss) {
+if (!isFoss) {
     apply plugin: 'com.google.gms.google-services'
 }

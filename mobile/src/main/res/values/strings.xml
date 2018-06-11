@@ -17,7 +17,8 @@
     <string name="mainmenu_openhab_ble_beacons">Test BLE Beacons</string>
 
     <!-- Ble beacons-->
-    <string name="title_activity_openhab_ble_beacons">BLE Beacons</string>
+    <string name="title_activity_openhab_beacon">BLE Beacons</string>
+    <string name="title_activity_openhab_beacon_config">Beacon configs</string>
     <string name="beacon_name">&lt;b>Beacon name:&lt;/b> %1$s &#160;</string>
     <string name="beacon_address">&lt;b>Mac: &lt;/b> %1$s</string>
     <string name="beacon_type">&lt;b>Type: %1$s&lt;/b></string>
@@ -222,4 +223,7 @@
     <string name="intro_voice_description">Control your home with your voice</string>
     <string name="intro_nfc">NFC</string>
     <string name="intro_nfc_description">Item control can be bound to NFC tags by long-pressing the item</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

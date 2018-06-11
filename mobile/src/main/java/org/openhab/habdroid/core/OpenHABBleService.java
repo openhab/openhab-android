@@ -22,7 +22,8 @@ public class OpenHABBleService extends Service implements Runnable{
     private IBinder mBinder;
     private Handler mMainHandler;
     private Handler mScanHandler;
-    private UiUpdateListener mUiUpdateListener;
+    private ConfigUiUpdateListener mConfigUiUpdateListener;
+    private MinBeaconUiUpdateListener mMinBeaconUiUpdateListener;
 
     private BleBeaconConnector mBleBeaconConnector;
     private List<OpenHABBeacon> mBeaconList;
@@ -34,10 +35,14 @@ public class OpenHABBleService extends Service implements Runnable{
         }
     }
 
-    public interface UiUpdateListener {
+    public interface ConfigUiUpdateListener {
         void itemChange(int position);
         void itemInsert(int position);
         void bindItemList(List<OpenHABBeacon> beaconList);
+    }
+
+    public interface MinBeaconUiUpdateListener {
+        void itemChange(OpenHABBeacon beacon);
     }
 
     @Override
@@ -72,14 +77,14 @@ public class OpenHABBleService extends Service implements Runnable{
         if ((index = findBeaconByAddress(beacon.address())) >= 0){
             mBeaconList.set(index, beacon);
 
-            if (mUiUpdateListener != null) {
-                mMainHandler.post(() -> mUiUpdateListener.itemChange(index));
+            if (mConfigUiUpdateListener != null) {
+                mMainHandler.post(() -> mConfigUiUpdateListener.itemChange(index));
             }
         } else {
             mBeaconList.add(beacon);
 
-            if (mUiUpdateListener != null) {
-                mMainHandler.post(() -> mUiUpdateListener
+            if (mConfigUiUpdateListener != null) {
+                mMainHandler.post(() -> mConfigUiUpdateListener
                         .itemInsert(mBeaconList.size() - 1));
             }
         }
@@ -99,6 +104,11 @@ public class OpenHABBleService extends Service implements Runnable{
         if (mMinBeacon == null || mMinBeacon.address().equals(beacon.address())
                 || beacon.distance() < mMinBeacon.distance()){
             mMinBeacon = beacon;
+
+            if (mMinBeaconUiUpdateListener != null) {
+                mMainHandler.post(() -> mMinBeaconUiUpdateListener.itemChange(beacon));
+            }
+
             Log.d(TAG, "Min beacon changed to: " + mMinBeacon);
         }
     }
@@ -110,8 +120,12 @@ public class OpenHABBleService extends Service implements Runnable{
         mScanHandler.postDelayed(this, BleBeaconConnector.SCAN_PERIOD  << 1);
     }
 
-    public void setUiUpdateListener(UiUpdateListener listener){
-        mUiUpdateListener = listener;
-        mUiUpdateListener.bindItemList(mBeaconList);
+    public void setConfigUiUpdateListener(ConfigUiUpdateListener listener){
+        mConfigUiUpdateListener = listener;
+        mConfigUiUpdateListener.bindItemList(mBeaconList);
+    }
+
+    public void setMinBeaconUiUpdateListener(MinBeaconUiUpdateListener listener){
+        mMinBeaconUiUpdateListener = listener;
     }
 }

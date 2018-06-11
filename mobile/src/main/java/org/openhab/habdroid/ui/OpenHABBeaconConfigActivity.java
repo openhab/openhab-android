@@ -18,8 +18,8 @@ import org.openhab.habdroid.ui.widget.DividerItemDecoration;
 import org.openhab.habdroid.util.Util;
 import org.openhab.habdroid.util.bleBeaconUtil.BleBeaconConnector;
 
-public class OpenHABBleActivity extends AppCompatActivity {
-    private OpenHABBleAdapter mOpenHABBleAdapter;
+public class OpenHABBeaconConfigActivity extends AppCompatActivity {
+    private OpenHABBeaconConfigAdapter mOpenHABBeaconConfigAdapter;
     private OpenHABBleService mBleService;
     private Intent mBleServiceIntent;
 
@@ -27,12 +27,12 @@ public class OpenHABBleActivity extends AppCompatActivity {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
             mBleService = ((OpenHABBleService.LocalBinder)service).getService();
-            mBleService.setUiUpdateListener(mOpenHABBleAdapter);
+            mBleService.setConfigUiUpdateListener(mOpenHABBeaconConfigAdapter);
         }
 
         @Override
         public void onServiceDisconnected(ComponentName name) {
-            mBleService.setUiUpdateListener(null);
+            mBleService.setConfigUiUpdateListener(null);
             mBleService = null;
         }
     };
@@ -42,7 +42,7 @@ public class OpenHABBleActivity extends AppCompatActivity {
         Util.setActivityTheme(this);
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_ble_beacons);
+        setContentView(R.layout.activity_beacon_config);
 
         Toolbar toolbar = findViewById(R.id.openhab_toolbar);
         setSupportActionBar(toolbar);
@@ -50,8 +50,8 @@ public class OpenHABBleActivity extends AppCompatActivity {
 
         RecyclerView recyclerView = findViewById(R.id.ble_recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mOpenHABBleAdapter = new OpenHABBleAdapter();
-        recyclerView.setAdapter(mOpenHABBleAdapter);
+        mOpenHABBeaconConfigAdapter = new OpenHABBeaconConfigAdapter();
+        recyclerView.setAdapter(mOpenHABBeaconConfigAdapter);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.addItemDecoration(new DividerItemDecoration(this));
 

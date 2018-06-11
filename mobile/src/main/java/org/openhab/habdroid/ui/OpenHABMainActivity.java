@@ -12,7 +12,6 @@ package org.openhab.habdroid.ui;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.PendingIntent;
-import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
@@ -636,8 +635,8 @@ public class OpenHABMainActivity extends AppCompatActivity implements
                         return true;
                     case R.id.beacons://TODO - temporarily add an entrance of BLE beacons for debugging usage
                         Log.d(TAG, "beacons hit!");
-                        Intent bleBeaconIntent = new Intent(OpenHABMainActivity.this, OpenHABBleActivity.class);
-                        startActivity(bleBeaconIntent);
+                        Intent beaconIntent = new Intent(OpenHABMainActivity.this, OpenHABBeaconActivity.class);
+                        startActivity(beaconIntent);
                         return true;
                 }
                 if (item.getGroupId() == GROUP_ID_SITEMAPS) {
