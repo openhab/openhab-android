@@ -20,6 +20,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Handler;
+import android.os.Message;
 import android.preference.PreferenceManager;
 import android.support.annotation.IdRes;
 import android.support.annotation.LayoutRes;
@@ -1013,12 +1015,12 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
     }
 
     public static class ColorViewHolder extends ViewHolder implements
-            View.OnTouchListener, ColorPicker.OnColorSelectedListener {
+            View.OnTouchListener, Handler.Callback, ColorPicker.OnColorChangedListener {
         private final TextView mLabelView;
         private final WidgetImageView mIconView;
         private OpenHABItem mBoundItem;
         private final LayoutInflater mInflater;
-        private final float[] mTmpHsv = new float[3];
+        private final Handler mHandler = new Handler(this);
 
         ColorViewHolder(LayoutInflater inflater, ViewGroup parent,
                 Connection conn, ColorMapper colorMapper) {
@@ -1058,12 +1060,20 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         }
 
         @Override
-        public void onColorSelected(int color) {
-            Color.RGBToHSV(Color.red(color), Color.green(color), Color.blue(color), mTmpHsv);
-            Log.d(TAG, "New color HSV = " + mTmpHsv[0] + ", " + mTmpHsv[1] + ", " + mTmpHsv[2]);
+        public boolean handleMessage(Message msg) {
+            final float[] hsv = new float[3];
+            Color.RGBToHSV(Color.red(msg.arg1), Color.green(msg.arg1), Color.blue(msg.arg1), hsv);
+            Log.d(TAG, "New color HSV = " + hsv[0] + ", " + hsv[1] + ", " + hsv[2]);
             final String newColorValue = String.format(Locale.US, "%f,%f,%f",
-                    mTmpHsv[0], mTmpHsv[1] * 100, mTmpHsv[2] * 100);
+                    hsv[0], hsv[1] * 100, hsv[2] * 100);
             Util.sendItemCommand(mConnection.getAsyncHttpClient(), mBoundItem, newColorValue);
+            return true;
+        }
+
+        @Override
+        public void onColorChanged(int color) {
+            mHandler.removeMessages(0);
+            mHandler.sendMessageDelayed(mHandler.obtainMessage(0, color, 0), 100);
         }
 
         private void showColorPickerDialog() {
@@ -1074,7 +1084,7 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
 
             colorPicker.addSaturationBar(saturationBar);
             colorPicker.addValueBar(valueBar);
-            colorPicker.setOnColorSelectedListener(this);
+            colorPicker.setOnColorChangedListener(this);
             colorPicker.setShowOldCenterColor(false);
 
             float[] initialColor = mBoundItem.stateAsHSV();
