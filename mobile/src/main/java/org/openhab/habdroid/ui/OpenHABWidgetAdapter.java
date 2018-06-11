@@ -967,16 +967,13 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         }
     }
 
-    public static class ColorViewHolder extends ViewHolder implements View.OnTouchListener {
-        private final TextView mLabelView;
-        private final WidgetImageView mIconView;
+    public static class ColorViewHolder extends LabeledItemBaseViewHolder
+            implements View.OnTouchListener {
         private OpenHABItem mBoundItem;
 
         ColorViewHolder(LayoutInflater inflater, ViewGroup parent,
                 Connection conn, ColorMapper colorMapper) {
             super(inflater, parent, R.layout.openhabwidgetlist_coloritem, conn, colorMapper);
-            mLabelView = itemView.findViewById(R.id.widgetlabel);
-            mIconView = itemView.findViewById(R.id.widgeticon);
             initButton(R.id.up_button, "ON");
             initButton(R.id.down_button, "OFF");
             itemView.findViewById(R.id.select_color_button).setOnTouchListener(this);
@@ -990,9 +987,7 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
 
         @Override
         public void bind(OpenHABWidget widget) {
-            mLabelView.setText(widget.label());
-            updateTextViewColor(mLabelView, widget.labelColor());
-            updateIcon(mIconView, widget);
+            super.bind(widget);
             mBoundItem = widget.item();
         }
 
