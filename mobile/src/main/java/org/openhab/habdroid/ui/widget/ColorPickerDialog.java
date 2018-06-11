@@ -55,14 +55,9 @@ public class ColorPickerDialog extends AppCompatDialog implements ColorPicker.On
         mColorPickerView.addSaturationBar(saturationBar);
         mColorPickerView.addValueBar(valueBar);
         mColorPickerView.setOnColorSelectedListener(this);
-
+        mColorPickerView.setShowOldCenterColor(false);
         if (mInitialColor != null) {
-            int color = Color.HSVToColor(mInitialColor);
-            mColorPickerView.setColor(color);
-            mColorPickerView.setOldCenterColor(color);
-            mColorPickerView.setShowOldCenterColor(true);
-        } else {
-            mColorPickerView.setShowOldCenterColor(false);
+            mColorPickerView.setColor(Color.HSVToColor(mInitialColor));
         }
 
         setContentView(contentView);
