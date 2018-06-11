@@ -84,6 +84,9 @@ public class AsyncHttpClient extends HttpClient {
             double width = viewBox != null ? viewBox.width() : mDefaultSize;
             double height = viewBox != null ? viewBox.height() : mDefaultSize;
 
+            svg.setDocumentHeight("100%");
+            svg.setDocumentWidth("100%");
+
             Bitmap bitmap = Bitmap.createBitmap(
                     (int) Math.ceil(width), (int) Math.ceil(height), Bitmap.Config.ARGB_8888);
             Canvas canvas = new Canvas(bitmap);
