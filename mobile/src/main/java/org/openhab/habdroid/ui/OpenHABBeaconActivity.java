@@ -75,16 +75,12 @@ public class OpenHABBeaconActivity extends AppCompatActivity
     @Override
     protected void onStart() {
         super.onStart();
-        if (mBleService == null && mBleServiceIntent != null) {
-            bindService(mBleServiceIntent, mBleServiceConnection, BIND_AUTO_CREATE);
-        }
+        bindService(mBleServiceIntent, mBleServiceConnection, BIND_AUTO_CREATE);
     }
 
     @Override
     protected void onStop() {
-        if (mBleService != null){
-            unbindService(mBleServiceConnection);
-        }
+        unbindService(mBleServiceConnection);
         super.onStop();
     }
 

@@ -16,7 +16,7 @@ import org.openhab.habdroid.model.OpenHABBeacon;
 import java.util.List;
 
 public class OpenHABBeaconConfigAdapter extends RecyclerView.Adapter<OpenHABBeaconConfigAdapter.ViewHolder>
-        implements OpenHABBleService.ConfigUiUpdateListener {
+        implements OpenHABBleService.ConfigUiUpdateListener, View.OnClickListener {
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView mName;
@@ -39,19 +39,27 @@ public class OpenHABBeaconConfigAdapter extends RecyclerView.Adapter<OpenHABBeac
         }
     }
 
+    public interface ItemClickListener {
+        void onClick(int position);
+    }
+
     private List<OpenHABBeacon> mBeaconList;
+    private ItemClickListener mItemClickListener;
 
     @NonNull
     @Override
     public OpenHABBeaconConfigAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.openhabblelist_beaconitem, parent, false);
-        return new ViewHolder(v);
+        ViewHolder holder = new ViewHolder(v);
+        holder.itemView.setTag(holder);
+        return holder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull OpenHABBeaconConfigAdapter.ViewHolder holder, int position) {
         OpenHABBeacon item = mBeaconList.get(position);
-        Resources  resources = holder.itemView.getResources();
+        Resources resources = holder.itemView.getResources();
+        holder.itemView.setOnClickListener(this);
         holder.mName.setText(Html.fromHtml(resources.getString(R.string.beacon_name, item.name())));
         holder.mMac.setText(Html.fromHtml(resources.getString(R.string.beacon_address, item.address())));
         holder.mType.setText(Html.fromHtml(resources.getString(R.string.beacon_type, item.type())));
@@ -93,5 +101,18 @@ public class OpenHABBeaconConfigAdapter extends RecyclerView.Adapter<OpenHABBeac
     @Override
     public void bindItemList(List<OpenHABBeacon> beaconList) {
         mBeaconList = beaconList;
+    }
+
+    @Override
+    public void onClick(View v) {
+        ViewHolder holder = (ViewHolder)v.getTag();
+        int position = holder.getAdapterPosition();
+        if (position != RecyclerView.NO_POSITION) {
+            mItemClickListener.onClick(position);
+        }
+    }
+
+    public void setItemClickListener (ItemClickListener listener) {
+        mItemClickListener = listener;
     }
 }

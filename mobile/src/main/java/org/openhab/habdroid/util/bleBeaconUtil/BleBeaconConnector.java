@@ -63,9 +63,12 @@ public class BleBeaconConnector {
     }
 
     @SuppressWarnings("deprecation")
-    public void startPeriodLeScan(){
+    public void startLeScan(){
         mBluetoothAdapter.startLeScan(mLeScanCallback);
-        mHandler.postDelayed(() -> mBluetoothAdapter.stopLeScan(mLeScanCallback), SCAN_PERIOD);
+    }
+
+    public void stopLeScan(){
+        mBluetoothAdapter.stopLeScan(mLeScanCallback);
     }
 
     public static BleBeaconConnector initializeAndGetInstance(AppCompatActivity activity) {

@@ -17,7 +17,7 @@
     <string name="mainmenu_openhab_ble_beacons">Test BLE Beacons</string>
 
     <!-- Ble beacons-->
-    <string name="title_activity_openhab_beacon">BLE Beacons</string>
+    <string name="title_activity_openhab_beacon">Nearest Beacon</string>
     <string name="title_activity_openhab_beacon_config">Beacon configs</string>
     <string name="beacon_name">&lt;b>Beacon name:&lt;/b> %1$s &#160;</string>
     <string name="beacon_address">&lt;b>Mac: &lt;/b> %1$s</string>

@@ -116,7 +116,8 @@ public class OpenHABBleService extends Service implements Runnable{
     //Scan for a period, wait for the same period and rescan.
     @Override
     public void run() {
-        mBleBeaconConnector.startPeriodLeScan();
+        mBleBeaconConnector.startLeScan();
+        mScanHandler.postDelayed(() -> mBleBeaconConnector.stopLeScan(), BleBeaconConnector.SCAN_PERIOD);
         mScanHandler.postDelayed(this, BleBeaconConnector.SCAN_PERIOD  << 1);
     }
 
@@ -127,5 +128,9 @@ public class OpenHABBleService extends Service implements Runnable{
 
     public void setMinBeaconUiUpdateListener(MinBeaconUiUpdateListener listener){
         mMinBeaconUiUpdateListener = listener;
+    }
+
+    public OpenHABBeacon get(int index){
+        return mBeaconList.get(index);
     }
 }

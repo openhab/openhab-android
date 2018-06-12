@@ -11,14 +11,18 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Toast;
 
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.core.OpenHABBleService;
+import org.openhab.habdroid.model.OpenHABBeacon;
 import org.openhab.habdroid.ui.widget.DividerItemDecoration;
 import org.openhab.habdroid.util.Util;
 import org.openhab.habdroid.util.bleBeaconUtil.BleBeaconConnector;
 
-public class OpenHABBeaconConfigActivity extends AppCompatActivity {
+public class OpenHABBeaconConfigActivity extends AppCompatActivity
+        implements OpenHABBeaconConfigAdapter.ItemClickListener{
     private OpenHABBeaconConfigAdapter mOpenHABBeaconConfigAdapter;
     private OpenHABBleService mBleService;
     private Intent mBleServiceIntent;
@@ -51,6 +55,7 @@ public class OpenHABBeaconConfigActivity extends AppCompatActivity {
         RecyclerView recyclerView = findViewById(R.id.ble_recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         mOpenHABBeaconConfigAdapter = new OpenHABBeaconConfigAdapter();
+        mOpenHABBeaconConfigAdapter.setItemClickListener(this);
         recyclerView.setAdapter(mOpenHABBeaconConfigAdapter);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.addItemDecoration(new DividerItemDecoration(this));
@@ -64,16 +69,12 @@ public class OpenHABBeaconConfigActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        if (mBleService == null && mBleServiceIntent != null) {
-            bindService(mBleServiceIntent, mBleServiceConnection, BIND_AUTO_CREATE);
-        }
+        bindService(mBleServiceIntent, mBleServiceConnection, BIND_AUTO_CREATE);
     }
 
     @Override
     protected void onStop() {
-        if (mBleService != null){
-            unbindService(mBleServiceConnection);
-        }
+        unbindService(mBleServiceConnection);
         super.onStop();
     }
 
@@ -84,5 +85,11 @@ public class OpenHABBeaconConfigActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onClick(int position) {
+        OpenHABBeacon beaconClicked = mBleService.get(position);
+        Toast.makeText(this, position + " was touched", Toast.LENGTH_SHORT).show();
     }
 }
