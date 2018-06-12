@@ -30,6 +30,10 @@
     <string name="eddystone_uid">&lt;b>Namespace: &lt;/b>%1$s &#160; &lt;b>Instance: &lt;/b>%2$s</string>
     <string name="beacon_type_not_correct">Beacon type not correct! %1$s</string>
     <string name="ble_service_start">BLE service started!</string>
+    <string name="beacon_edit_name">Beacon name</string>
+    <string name="beacon_edit_url">Eddystone Beacon URL</string>
+    <string name="beacon_edit_url_unavailable_hint">URL not available for this beacon</string>
+    <string name="beacon_edit_bind_with_frames">Bind with which frame?</string>
 
     <!-- App settings strings -->
     <string name="settings_connection_title">Connection</string>

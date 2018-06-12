@@ -1,81 +1,36 @@
 package org.openhab.habdroid.ui;
 
-import android.content.ComponentName;
-import android.content.Intent;
-import android.content.ServiceConnection;
-import android.os.Bundle;
-import android.os.IBinder;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
+import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Toast;
+import android.widget.EditText;
 
 import org.openhab.habdroid.R;
-import org.openhab.habdroid.core.OpenHABBleService;
 import org.openhab.habdroid.model.OpenHABBeacon;
-import org.openhab.habdroid.ui.widget.DividerItemDecoration;
 import org.openhab.habdroid.util.Util;
-import org.openhab.habdroid.util.bleBeaconUtil.BleBeaconConnector;
 
-public class OpenHABBeaconConfigActivity extends AppCompatActivity
-        implements OpenHABBeaconConfigAdapter.ItemClickListener{
-    private OpenHABBeaconConfigAdapter mOpenHABBeaconConfigAdapter;
-    private OpenHABBleService mBleService;
-    private Intent mBleServiceIntent;
-
-    private ServiceConnection mBleServiceConnection = new ServiceConnection() {
-        @Override
-        public void onServiceConnected(ComponentName name, IBinder service) {
-            mBleService = ((OpenHABBleService.LocalBinder)service).getService();
-            mBleService.setConfigUiUpdateListener(mOpenHABBeaconConfigAdapter);
-        }
-
-        @Override
-        public void onServiceDisconnected(ComponentName name) {
-            mBleService.setConfigUiUpdateListener(null);
-            mBleService = null;
-        }
-    };
+public class OpenHABBeaconConfigActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Util.setActivityTheme(this);
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_beacon_config);
+        setContentView(R.layout.activity_open_habbeacon_config);
 
-        Toolbar toolbar = findViewById(R.id.openhab_toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        EditText beaconName = findViewById(R.id.beacon_name_edit_text);
+        EditText beaconUrl = findViewById(R.id.beacon_url_edit_text);
 
-        RecyclerView recyclerView = findViewById(R.id.ble_recyclerview);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mOpenHABBeaconConfigAdapter = new OpenHABBeaconConfigAdapter();
-        mOpenHABBeaconConfigAdapter.setItemClickListener(this);
-        recyclerView.setAdapter(mOpenHABBeaconConfigAdapter);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.addItemDecoration(new DividerItemDecoration(this));
+        OpenHABBeacon beacon = (OpenHABBeacon) getIntent().
+                getSerializableExtra(OpenHABBeaconConfigListActivity.BEACON_KEY);
 
-        boolean bleNotSupport = BleBeaconConnector.getInstance().isNotSupport();
-        if (!bleNotSupport){
-            mBleServiceIntent = new Intent(this, OpenHABBleService.class);
+        beaconName.setText(beacon.name());
+        if (beacon.type() != OpenHABBeacon.Type.EddystoneUrl) {
+            beaconUrl.setEnabled(false);
+            beaconUrl.setHint(R.string.beacon_edit_url_unavailable_hint);
+        } else {
+            beaconUrl.setText(beacon.url());
         }
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        bindService(mBleServiceIntent, mBleServiceConnection, BIND_AUTO_CREATE);
-    }
-
-    @Override
-    protected void onStop() {
-        unbindService(mBleServiceConnection);
-        super.onStop();
     }
 
     @Override
@@ -85,11 +40,5 @@ public class OpenHABBeaconConfigActivity extends AppCompatActivity
             return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onClick(int position) {
-        OpenHABBeacon beaconClicked = mBleService.get(position);
-        Toast.makeText(this, position + " was touched", Toast.LENGTH_SHORT).show();
     }
 }

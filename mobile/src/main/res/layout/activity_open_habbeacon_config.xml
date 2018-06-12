@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="org.openhab.habdroid.ui.OpenHABBeaconConfigActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/openhab_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:elevation="8dp"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:layout_constraintLeft_toRightOf="parent"/>
+
+    <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:id="@+id/beacon_name_text_view"
+        android:text="name"
+        app:layout_constraintTop_toBottomOf="@id/openhab_toolbar"/>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/beacon_name_edit_text"
+        android:hint="beacon name"
+        android:inputType="text"
+        app:layout_constraintTop_toBottomOf="@id/beacon_name_text_view"/>
+    <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:id="@+id/beacon_url_text_view"
+        android:text="URL"
+        app:layout_constraintTop_toBottomOf="@id/beacon_name_edit_text"
+        />
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/beacon_url_edit_text"
+        android:hint="beacon URL"
+        android:inputType="textUri"
+        app:layout_constraintTop_toBottomOf="@id/beacon_url_text_view"/>
+    <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:id="@+id/beacon_bind_frame_text_view"
+        android:text="Frame to bind with"
+        app:layout_constraintTop_toBottomOf="@id/beacon_url_edit_text"/>
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/beacon_frames_scroll"
+        app:layout_constraintTop_toBottomOf="@id/beacon_bind_frame_text_view"
+        />
+
+</android.support.constraint.ConstraintLayout>

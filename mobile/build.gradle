@@ -57,7 +57,7 @@ android {
     productFlavors {
         full {
             dimension "license"
-            manifestPlaceholders = [ maps_api_key : project.findProperty("mapsApiKey") ?: "" ]
+            manifestPlaceholders = [maps_api_key: project.findProperty("mapsApiKey") ?: ""]
         }
         foss {
             dimension "license"

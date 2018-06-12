@@ -5,8 +5,10 @@ import android.support.annotation.Nullable;
 import com.google.auto.value.AutoValue;
 import com.google.auto.value.extension.memoized.Memoized;
 
+import java.io.Serializable;
+
 @AutoValue
-public abstract class OpenHABBeacon {
+public abstract class OpenHABBeacon implements Serializable{
     public enum Type{
         EddystoneUrl,
         EddystoneUid,
