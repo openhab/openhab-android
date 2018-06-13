@@ -72,6 +72,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import okhttp3.HttpUrl;
+
 /**
  * This class provides openHAB widgets adapter for list view.
  */
@@ -1025,11 +1027,13 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
                 mWebView.setLayoutParams(lp);
             }
 
-            mWebView.setWebViewClient(new AnchorWebViewClient(widget.url(),
+            HttpUrl url = mConnection.getAsyncHttpClient().buildUrl(widget.url());
+
+            mWebView.setWebViewClient(new AnchorWebViewClient(url.toString(),
                     mConnection.getUsername(), mConnection.getPassword()));
             mWebView.getSettings().setDomStorageEnabled(true);
             mWebView.getSettings().setJavaScriptEnabled(true);
-            mWebView.loadUrl(widget.url());
+            mWebView.loadUrl(url.toString());
         }
     }
 
