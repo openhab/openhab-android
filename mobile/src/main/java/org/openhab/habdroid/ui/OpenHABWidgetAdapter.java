@@ -126,9 +126,30 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
     }
 
     public void update(List<OpenHABWidget> widgets) {
-        mItems.clear();
-        mItems.addAll(widgets);
-        notifyDataSetChanged();
+        boolean compatibleUpdate = true;
+
+        if (widgets.size() != mItems.size()) {
+            compatibleUpdate = false;
+        } else {
+            for (int i = 0; i < widgets.size(); i++) {
+                if (getItemViewType(mItems.get(i)) != getItemViewType(widgets.get(i))) {
+                    compatibleUpdate = false;
+                    break;
+                }
+            }
+        }
+
+        if (compatibleUpdate) {
+            for (int i = 0; i < widgets.size(); i++) {
+                if (!mItems.get(i).equals(widgets.get(i))) {
+                    updateAtPosition(i, widgets.get(i));
+                }
+            }
+        } else {
+            mItems.clear();
+            mItems.addAll(widgets);
+            notifyDataSetChanged();
+        }
     }
 
     public void updateAtPosition(int position, OpenHABWidget widget) {
@@ -239,17 +260,20 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
 
     @Override
     public int getItemViewType(int position) {
-        OpenHABWidget openHABWidget = mItems.get(position);
-        switch (openHABWidget.type()) {
+        return getItemViewType(mItems.get(position));
+    }
+
+    private int getItemViewType(OpenHABWidget widget) {
+        switch (widget.type()) {
             case Frame:
                 return TYPE_FRAME;
             case Group:
                 return TYPE_GROUP;
             case Switch:
-                if (openHABWidget.hasMappings()) {
+                if (widget.hasMappings()) {
                     return TYPE_SECTIONSWITCH;
                 } else {
-                    OpenHABItem item = openHABWidget.item();
+                    OpenHABItem item = widget.item();
                     if (item != null && item.isOfTypeOrGroupType(OpenHABItem.Type.Rollershutter)) {
                         return TYPE_ROLLERSHUTTER;
                     }
@@ -268,7 +292,7 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
             case Chart:
                 return TYPE_CHART;
             case Video:
-                if ("mjpeg".equalsIgnoreCase(openHABWidget.encoding())) {
+                if ("mjpeg".equalsIgnoreCase(widget.encoding())) {
                     return TYPE_VIDEO_MJPEG;
                 }
                 return TYPE_VIDEO;
