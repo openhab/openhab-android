@@ -51,6 +51,10 @@
   <string name="settings_openhab_sslsettings">Verschlüsselung</string>
   <string name="settings_openhab_alt_connection">Fernzugriff</string>
   <string name="settings_openhab_connection">Lokal</string>
+  <string name="settings_notification_vibration_off">Aus</string>
+  <string name="settings_notification_vibration_short">Kurz</string>
+  <string name="settings_notification_vibration_long">Lang</string>
+  <string name="settings_notification_vibration_twice">Zweimal</string>
   <!-- App messages strings -->
   <string name="title_voice_widget">openHAB-Sprachbefehle</string>
   <string name="info_voice_input">openHAB, zu Ihren Diensten!</string>
