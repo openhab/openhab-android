@@ -10,7 +10,6 @@
 package org.openhab.habdroid.ui;
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
@@ -21,10 +20,13 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Handler;
+import android.os.Message;
 import android.preference.PreferenceManager;
 import android.support.annotation.IdRes;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.VisibleForTesting;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SwitchCompat;
 import android.text.TextUtils;
@@ -49,14 +51,16 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.VideoView;
 
+import com.larswerkman.holocolorpicker.ColorPicker;
+import com.larswerkman.holocolorpicker.SaturationBar;
+import com.larswerkman.holocolorpicker.ValueBar;
+
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.core.connection.Connection;
 import org.openhab.habdroid.model.OpenHABItem;
 import org.openhab.habdroid.model.OpenHABWidget;
 import org.openhab.habdroid.model.OpenHABWidgetMapping;
-import org.openhab.habdroid.ui.widget.ColorPickerDialog;
 import org.openhab.habdroid.ui.widget.DividerItemDecoration;
-import org.openhab.habdroid.ui.widget.OnColorChangedListener;
 import org.openhab.habdroid.ui.widget.SegmentedControlButton;
 import org.openhab.habdroid.ui.widget.WidgetImageView;
 import org.openhab.habdroid.util.Constants;
@@ -69,6 +73,7 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Random;
 
@@ -1037,16 +1042,20 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         }
     }
 
-    public static class ColorViewHolder extends ViewHolder implements View.OnTouchListener {
+    public static class ColorViewHolder extends ViewHolder implements
+            View.OnTouchListener, Handler.Callback, ColorPicker.OnColorChangedListener {
         private final TextView mLabelView;
         private final WidgetImageView mIconView;
         private OpenHABItem mBoundItem;
+        private final LayoutInflater mInflater;
+        private final Handler mHandler = new Handler(this);
 
         ColorViewHolder(LayoutInflater inflater, ViewGroup parent,
                 Connection conn, ColorMapper colorMapper) {
             super(inflater, parent, R.layout.openhabwidgetlist_coloritem, conn, colorMapper);
             mLabelView = itemView.findViewById(R.id.widgetlabel);
             mIconView = itemView.findViewById(R.id.widgetimage);
+            mInflater = inflater;
             initButton(R.id.colorbutton_up, "ON");
             initButton(R.id.colorbutton_down, "OFF");
             itemView.findViewById(R.id.colorbutton_color).setOnTouchListener(this);
@@ -1072,18 +1081,49 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
                 if (v.getTag() instanceof String) {
                     Util.sendItemCommand(mConnection.getAsyncHttpClient(), mBoundItem, (String) v.getTag());
                 } else {
-                    ColorPickerDialog colorDialog = new ColorPickerDialog(v.getContext(), new OnColorChangedListener() {
-                        @Override
-                        public void colorChanged(float[] hsv, View v) {
-                            Log.d(TAG, "New color HSV = " + hsv[0] + ", " + hsv[1] + ", " + hsv[2]);
-                            String newColor = String.valueOf(hsv[0]) + "," + String.valueOf(hsv[1] * 100) + "," + String.valueOf(hsv[2] * 100);
-                            Util.sendItemCommand(mConnection.getAsyncHttpClient(), mBoundItem, newColor);
-                        }
-                    }, mBoundItem.stateAsHSV());
-                    colorDialog.show();
+                    showColorPickerDialog();
                 }
             }
             return false;
+        }
+
+        @Override
+        public boolean handleMessage(Message msg) {
+            final float[] hsv = new float[3];
+            Color.RGBToHSV(Color.red(msg.arg1), Color.green(msg.arg1), Color.blue(msg.arg1), hsv);
+            Log.d(TAG, "New color HSV = " + hsv[0] + ", " + hsv[1] + ", " + hsv[2]);
+            final String newColorValue = String.format(Locale.US, "%f,%f,%f",
+                    hsv[0], hsv[1] * 100, hsv[2] * 100);
+            Util.sendItemCommand(mConnection.getAsyncHttpClient(), mBoundItem, newColorValue);
+            return true;
+        }
+
+        @Override
+        public void onColorChanged(int color) {
+            mHandler.removeMessages(0);
+            mHandler.sendMessageDelayed(mHandler.obtainMessage(0, color, 0), 100);
+        }
+
+        private void showColorPickerDialog() {
+            View contentView = mInflater.inflate(R.layout.color_picker_dialog, null);
+            ColorPicker colorPicker = contentView.findViewById(R.id.picker);
+            SaturationBar saturationBar = contentView.findViewById(R.id.saturation_bar);
+            ValueBar valueBar = contentView.findViewById(R.id.value_bar);
+
+            colorPicker.addSaturationBar(saturationBar);
+            colorPicker.addValueBar(valueBar);
+            colorPicker.setOnColorChangedListener(this);
+            colorPicker.setShowOldCenterColor(false);
+
+            float[] initialColor = mBoundItem.stateAsHSV();
+            if (initialColor != null) {
+                colorPicker.setColor(Color.HSVToColor(initialColor));
+            }
+
+            new AlertDialog.Builder(contentView.getContext())
+                    .setView(contentView)
+                    .setNegativeButton(R.string.close, null)
+                    .show();
         }
     }
 
