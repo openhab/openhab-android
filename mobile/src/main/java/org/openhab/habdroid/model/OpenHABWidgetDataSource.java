@@ -80,10 +80,14 @@ public class OpenHABWidgetDataSource {
     public ArrayList<OpenHABWidget> getWidgets() {
         ArrayList<OpenHABWidget> result = new ArrayList<OpenHABWidget>();
         HashSet<String> firstLevelWidgetIds = new HashSet<>();
+
+        OpenHABFrameLabelList.getInstance().clear();
+
         for (OpenHABWidget widget : allWidgets) {
             if (widget.parentId() == null) {
                 firstLevelWidgetIds.add(widget.id());
             }
+            addFrameWidgetToGlobalList(widget);
         }
         for (OpenHABWidget widget : allWidgets) {
             String parentId = widget.parentId();
@@ -117,5 +121,12 @@ public class OpenHABWidgetDataSource {
 
     public String getLink() {
         return link;
+    }
+
+    private void addFrameWidgetToGlobalList(OpenHABWidget widget) {
+        OpenHABFrameLabelList list = OpenHABFrameLabelList.getInstance();
+        if (widget.type() == OpenHABWidget.Type.Frame) {
+            list.add(widget.label());
+        }
     }
 }

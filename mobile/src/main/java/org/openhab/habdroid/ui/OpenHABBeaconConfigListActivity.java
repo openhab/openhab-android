@@ -90,7 +90,6 @@ public class OpenHABBeaconConfigListActivity extends AppCompatActivity
     @Override
     public void onClick(int position) {
         OpenHABBeacon beaconClicked = mBleService.get(position);
-        //TODO open an activity
         Intent configActivity = new Intent(this, OpenHABBeaconConfigActivity.class);
         configActivity.putExtra(BEACON_KEY, beaconClicked);
         startActivity(configActivity);
