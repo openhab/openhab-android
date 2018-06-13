@@ -95,6 +95,9 @@
         <activity
             android:name=".ui.OpenHABBeaconActivity"
             android:label="@string/title_activity_openhab_beacon" />
+        <activity
+            android:name=".ui.OpenHABBeaconConfigActivity"
+            android:label="@string/title_activity_openhab_beacon_config"/>
 
         <service
             android:name=".core.OpenHABVoiceService"
@@ -124,7 +127,6 @@
                 <meta-data android:name="com.google.android.gms.analytics.globalConfigResource"
                     android:resource="@xml/global_tracker" />
         -->
-        <activity android:name=".ui.OpenHABBeaconConfigActivity"></activity>
     </application>
 
 </manifest>
