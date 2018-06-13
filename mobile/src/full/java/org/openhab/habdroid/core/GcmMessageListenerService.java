@@ -186,6 +186,19 @@ public class GcmMessageListenerService extends GcmListenerService {
     }
 
     private NotificationCompat.Builder makeNotificationBuilder(String channelId, long timestamp) {
+        long[] vibrationPattern;
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        String vibration = prefs.getString(Constants.PREFERENCE_NOTIFICATION_VIBRATION, "");
+        if (getString(R.string.settings_notification_vibration_value_short).equals(vibration)) {
+            vibrationPattern = new long[] {0, 500, 500};
+        } else if (getString(R.string.settings_notification_vibration_value_long).equals(vibration)) {
+            vibrationPattern = new long[] {0, 1000, 1000};
+        } else if (getString(R.string.settings_notification_vibration_value_twice).equals(vibration)) {
+            vibrationPattern = new long[] {0, 1000, 1000, 1000, 1000};
+        } else {
+            vibrationPattern = new long[] {0};
+        }
+
         return new NotificationCompat.Builder(this, channelId)
                 .setSmallIcon(R.drawable.ic_openhab_appicon_white_24dp)
                 .setContentTitle(getString(R.string.app_name))
@@ -194,6 +207,8 @@ public class GcmMessageListenerService extends GcmListenerService {
                 .setColor(ContextCompat.getColor(this, R.color.openhab_orange))
                 .setCategory(NotificationCompat.CATEGORY_EVENT)
                 .setAutoCancel(true)
+                .setLights(ContextCompat.getColor(this, R.color.openhab_orange), 3000, 3000)
+                .setVibrate(vibrationPattern)
                 .setGroup("gcm");
     }
 

@@ -106,4 +106,18 @@
         <item>150</item>
         <item>100</item>
     </integer-array>
+
+    <string-array name="notificationVibration">
+        <item>@string/settings_notification_vibration_off</item>
+        <item>@string/settings_notification_vibration_short</item>
+        <item>@string/settings_notification_vibration_long</item>
+        <item>@string/settings_notification_vibration_twice</item>
+    </string-array>
+
+    <string-array name="notificationVibrationValues">
+        <item>@string/settings_notification_vibration_value_off</item>
+        <item>@string/settings_notification_vibration_value_short</item>
+        <item>@string/settings_notification_vibration_value_long</item>
+        <item>@string/settings_notification_vibration_value_twice</item>
+    </string-array>
 </resources>
