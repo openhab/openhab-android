@@ -34,6 +34,8 @@
     <string name="beacon_url_hint">Eddystone Beacon URL</string>
     <string name="beacon_url_unavailable_hint">URL not available for this beacon</string>
     <string name="beacon_text_bind_with_frames">Bind with which frame?</string>
+    <string name="frame_label_not_available">No name</string>
+    <string name="beacon_no_name_found">Not in range</string>
 
     <!-- App settings strings -->
     <string name="settings_connection_title">Connection</string>

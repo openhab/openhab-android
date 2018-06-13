@@ -46,6 +46,10 @@ public class OpenHABBeaconConfigListAdapter extends RecyclerView.Adapter<OpenHAB
     private List<OpenHABBeacon> mBeaconList;
     private ItemClickListener mItemClickListener;
 
+    public OpenHABBeaconConfigListAdapter(ItemClickListener listener) {
+        mItemClickListener = listener;
+    }
+
     @NonNull
     @Override
     public OpenHABBeaconConfigListAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -110,9 +114,5 @@ public class OpenHABBeaconConfigListAdapter extends RecyclerView.Adapter<OpenHAB
         if (position != RecyclerView.NO_POSITION) {
             mItemClickListener.onClick(position);
         }
-    }
-
-    public void setItemClickListener (ItemClickListener listener) {
-        mItemClickListener = listener;
     }
 }

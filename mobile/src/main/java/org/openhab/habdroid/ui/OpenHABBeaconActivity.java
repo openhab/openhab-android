@@ -8,13 +8,17 @@ import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.widget.TextView;
 
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.core.OpenHABBleService;
 import org.openhab.habdroid.model.OpenHABBeacon;
+import org.openhab.habdroid.ui.widget.DividerItemDecoration;
+import org.openhab.habdroid.util.Constants;
 import org.openhab.habdroid.util.Util;
 import org.openhab.habdroid.util.bleBeaconUtil.BleBeaconConnector;
 
@@ -22,7 +26,7 @@ public class OpenHABBeaconActivity extends AppCompatActivity
         implements OpenHABBleService.MinBeaconUiUpdateListener{
     private OpenHABBleService mBleService;
     private Intent mBleServiceIntent;
-    private TextView mMinBeaconTextView;
+    OpenHABBeaconAdapter mAdapter;
 
     private ServiceConnection mBleServiceConnection = new ServiceConnection() {
         @Override
@@ -49,7 +53,13 @@ public class OpenHABBeaconActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        mMinBeaconTextView = findViewById(R.id.nearest_beacon_text);
+        RecyclerView recyclerView = findViewById(R.id.configured_beacon_recycler_view);
+        mAdapter =
+                new OpenHABBeaconAdapter(getSharedPreferences(Constants.PREFERENCE_BEACON_FRAME_PAIR_FILE, 0));
+        recyclerView.setAdapter(mAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.addItemDecoration(new DividerItemDecoration(this));
 
         FloatingActionButton fab = findViewById(R.id.ble_fab);
         fab.setOnClickListener((v) -> {
@@ -58,7 +68,7 @@ public class OpenHABBeaconActivity extends AppCompatActivity
         });
 
         boolean bleNotSupport = BleBeaconConnector.getInstance().isNotSupport();
-        if (!bleNotSupport){
+        if (!bleNotSupport) {
             mBleServiceIntent = new Intent(this, OpenHABBleService.class);
         }
     }
@@ -76,6 +86,8 @@ public class OpenHABBeaconActivity extends AppCompatActivity
     protected void onStart() {
         super.onStart();
         bindService(mBleServiceIntent, mBleServiceConnection, BIND_AUTO_CREATE);
+        mAdapter.updateList(getSharedPreferences(Constants.PREFERENCE_BEACON_FRAME_PAIR_FILE
+                , 0), mBleService);
     }
 
     @Override
@@ -86,6 +98,7 @@ public class OpenHABBeaconActivity extends AppCompatActivity
 
     @Override
     public void itemChange(OpenHABBeacon beacon) {
-        mMinBeaconTextView.setText(beacon.name());
+        String title = String.format("%s, %.1f m", beacon.name(), beacon.distance());
+        setTitle(title);
     }
 }

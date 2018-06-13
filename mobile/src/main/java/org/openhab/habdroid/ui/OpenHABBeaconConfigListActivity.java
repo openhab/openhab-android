@@ -54,8 +54,7 @@ public class OpenHABBeaconConfigListActivity extends AppCompatActivity
 
         RecyclerView recyclerView = findViewById(R.id.ble_recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mOpenHABBeaconConfigListAdapter = new OpenHABBeaconConfigListAdapter();
-        mOpenHABBeaconConfigListAdapter.setItemClickListener(this);
+        mOpenHABBeaconConfigListAdapter = new OpenHABBeaconConfigListAdapter(this);
         recyclerView.setAdapter(mOpenHABBeaconConfigListAdapter);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.addItemDecoration(new DividerItemDecoration(this));
