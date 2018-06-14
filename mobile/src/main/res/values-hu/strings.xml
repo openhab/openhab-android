@@ -51,6 +51,11 @@
   <string name="settings_openhab_sslsettings">Titkosítás</string>
   <string name="settings_openhab_alt_connection">Távoli</string>
   <string name="settings_openhab_connection">Helyi</string>
+  <string name="settings_notification_vibration">Rezgés értesítéskor</string>
+  <string name="settings_notification_vibration_off">Ki</string>
+  <string name="settings_notification_vibration_short">Rövid</string>
+  <string name="settings_notification_vibration_long">Hosszú</string>
+  <string name="settings_notification_vibration_twice">Kétszer</string>
   <!-- App messages strings -->
   <string name="title_voice_widget">openHAB hangvezérlésére szolgáló parancsok</string>
   <string name="info_voice_input">openHAB, szolgálatodra!</string>
