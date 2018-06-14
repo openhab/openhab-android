@@ -1,29 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:background="?android:activatedBackgroundIndicator">
 
-    <include
-        android:id="@+id/sliderleftlayout"
-        layout="@layout/openhabwidgetlist_icontext"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/sliderseekbar"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginRight="8dp" />
+    <include layout="@layout/openhabwidgetlist_iconsmallvaluetext" />
 
     <SeekBar
-        android:id="@+id/sliderseekbar"
+        android:id="@+id/seekbar"
         android:layout_width="130dp"
         android:layout_height="wrap_content"
-        android:max="100"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_gravity="center_vertical"
+        android:max="100" />
 
-</android.support.constraint.ConstraintLayout>
+</LinearLayout>

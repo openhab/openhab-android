@@ -388,6 +388,33 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         }
     }
 
+    public static abstract class LabeledItemBaseViewHolder extends ViewHolder {
+        protected final TextView mLabelView;
+        protected final TextView mValueView;
+        protected final WidgetImageView mIconView;
+
+        LabeledItemBaseViewHolder(LayoutInflater inflater, ViewGroup parent,
+                @LayoutRes int layoutResId, Connection conn, ColorMapper colorMapper) {
+            super(inflater, parent, layoutResId, conn, colorMapper);
+            mLabelView = itemView.findViewById(R.id.widgetlabel);
+            mValueView = itemView.findViewById(R.id.widgetvalue);
+            mIconView = itemView.findViewById(R.id.widgeticon);
+        }
+
+        @Override
+        public void bind(OpenHABWidget widget) {
+            String[] splitString = widget.label().split("\\[|\\]");
+            mLabelView.setText(splitString.length > 0 ? splitString[0] : null);
+            updateTextViewColor(mLabelView, widget.labelColor());
+            if (mValueView != null) {
+                mValueView.setText(splitString.length > 1 ? splitString[1] : null);
+                mValueView.setVisibility(splitString.length > 1 ? View.VISIBLE : View.GONE);
+                updateTextViewColor(mValueView, widget.valueColor());
+            }
+            updateIcon(mIconView, widget);
+        }
+    }
+
     public static class GenericViewHolder extends ViewHolder {
         private final TextView mLabelView;
         private final WidgetImageView mIconView;
@@ -396,7 +423,7 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
                 Connection conn, ColorMapper colorMapper) {
             super(inflater, parent, R.layout.openhabwidgetlist_genericitem, conn, colorMapper);
             mLabelView = itemView.findViewById(R.id.widgetlabel);
-            mIconView = itemView.findViewById(R.id.widgetimage);
+            mIconView = itemView.findViewById(R.id.widgeticon);
         }
 
         @Override
@@ -435,53 +462,37 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         }
     }
 
-    public static class GroupViewHolder extends ViewHolder {
-        private final TextView mLabelView;
-        private final TextView mValueView;
-        private final WidgetImageView mIconView;
+    public static class GroupViewHolder extends LabeledItemBaseViewHolder {
         private final ImageView mRightArrow;
 
         GroupViewHolder(LayoutInflater inflater, ViewGroup parent,
                 Connection conn, ColorMapper colorMapper) {
             super(inflater, parent, R.layout.openhabwidgetlist_groupitem, conn, colorMapper);
-            mLabelView = itemView.findViewById(R.id.widgetlabel);
-            mValueView = itemView.findViewById(R.id.widgetvalue);
-            mIconView = itemView.findViewById(R.id.widgetimage);
-            mRightArrow = itemView.findViewById(R.id.rightArrow);
+            mRightArrow = itemView.findViewById(R.id.right_arrow);
         }
 
         @Override
         public void bind(OpenHABWidget widget) {
-            String[] splitString = widget.label().split("\\[|\\]");
-            mLabelView.setText(splitString.length > 0 ? splitString[0] : null);
-            updateTextViewColor(mLabelView, widget.labelColor());
-            mValueView.setText(splitString.length > 1 ? splitString[1] : null);
-            updateTextViewColor(mValueView, widget.valueColor());
-            updateIcon(mIconView, widget);
+            super.bind(widget);
             mRightArrow.setVisibility(widget.linkedPage() != null ? View.VISIBLE : View.GONE);
         }
     }
 
-    public static class SwitchViewHolder extends ViewHolder implements View.OnTouchListener {
-        private final TextView mLabelView;
-        private final WidgetImageView mIconView;
+    public static class SwitchViewHolder extends LabeledItemBaseViewHolder
+            implements View.OnTouchListener {
         private final SwitchCompat mSwitch;
         private OpenHABItem mBoundItem;
 
         SwitchViewHolder(LayoutInflater inflater, ViewGroup parent,
                 Connection conn, ColorMapper colorMapper) {
             super(inflater, parent, R.layout.openhabwidgetlist_switchitem, conn, colorMapper);
-            mLabelView = itemView.findViewById(R.id.widgetlabel);
-            mIconView = itemView.findViewById(R.id.widgetimage);
-            mSwitch = itemView.findViewById(R.id.switchswitch);
+            mSwitch = itemView.findViewById(R.id.toggle);
             mSwitch.setOnTouchListener(this);
         }
 
         @Override
         public void bind(OpenHABWidget widget) {
-            mLabelView.setText(widget.label());
-            updateTextViewColor(mLabelView, widget.labelColor());
-            updateIcon(mIconView, widget);
+            super.bind(widget);
             mBoundItem = widget.item();
             mSwitch.setChecked(mBoundItem != null && mBoundItem.stateAsBoolean());
         }
@@ -496,55 +507,37 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         }
     }
 
-    public static class TextViewHolder extends ViewHolder {
-        private final TextView mLabelView;
-        private final TextView mValueView;
-        private final WidgetImageView mIconView;
+    public static class TextViewHolder extends LabeledItemBaseViewHolder {
         private final ImageView mRightArrow;
 
         TextViewHolder(LayoutInflater inflater, ViewGroup parent,
                 Connection conn, ColorMapper colorMapper) {
             super(inflater, parent, R.layout.openhabwidgetlist_textitem, conn, colorMapper);
-            mLabelView = itemView.findViewById(R.id.widgetlabel);
-            mValueView = itemView.findViewById(R.id.widgetvalue);
-            mIconView = itemView.findViewById(R.id.widgetimage);
-            mRightArrow = itemView.findViewById(R.id.rightArrow);
+            mRightArrow = itemView.findViewById(R.id.right_arrow);
         }
 
         @Override
         public void bind(OpenHABWidget widget) {
-            String[] splitString = widget.label().split("\\[|\\]");
-            mLabelView.setText(splitString.length > 0 ? splitString[0] : widget.label());
-            updateTextViewColor(mLabelView, widget.labelColor());
-            mValueView.setText(splitString.length > 1 ? splitString[1] : null);
-            mValueView.setVisibility(splitString.length > 1 ? View.VISIBLE : View.GONE);
-            updateTextViewColor(mValueView, widget.valueColor());
-            updateIcon(mIconView, widget);
+            super.bind(widget);
             mRightArrow.setVisibility(widget.linkedPage() != null ? View.VISIBLE : View.GONE);
         }
     }
 
-    public static class SliderViewHolder extends ViewHolder implements SeekBar.OnSeekBarChangeListener {
-        private final TextView mLabelView;
-        private final WidgetImageView mIconView;
+    public static class SliderViewHolder extends LabeledItemBaseViewHolder
+            implements SeekBar.OnSeekBarChangeListener {
         private final SeekBar mSeekBar;
         private OpenHABItem mBoundItem;
 
         SliderViewHolder(LayoutInflater inflater, ViewGroup parent,
                 Connection conn, ColorMapper colorMapper) {
             super(inflater, parent, R.layout.openhabwidgetlist_slideritem, conn, colorMapper);
-            mLabelView = itemView.findViewById(R.id.widgetlabel);
-            mIconView = itemView.findViewById(R.id.widgetimage);
-            mSeekBar = itemView.findViewById(R.id.sliderseekbar);
+            mSeekBar = itemView.findViewById(R.id.seekbar);
             mSeekBar.setOnSeekBarChangeListener(this);
         }
 
         @Override
         public void bind(OpenHABWidget widget) {
-            String[] splitString = widget.label().split("\\[|\\]");
-            mLabelView.setText(splitString.length > 0 ? splitString[0] : null);
-            updateTextViewColor(mLabelView, widget.labelColor());
-            updateIcon(mIconView, widget);
+            super.bind(widget);
             mBoundItem = widget.item();
             if (mBoundItem != null) {
                 int progress;
@@ -585,7 +578,7 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         ImageViewHolder(LayoutInflater inflater, ViewGroup parent,
                 Connection conn, ColorMapper colorMapper) {
             super(inflater, parent, R.layout.openhabwidgetlist_imageitem, conn, colorMapper);
-            mImageView = itemView.findViewById(R.id.imageimage);
+            mImageView = itemView.findViewById(R.id.image);
             mParentView = parent;
         }
 
@@ -626,30 +619,22 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         }
     }
 
-    public static class SelectionViewHolder extends ViewHolder implements AdapterView.OnItemClickListener {
-        private final TextView mLabelView;
-        private final WidgetImageView mIconView;
+    public static class SelectionViewHolder extends LabeledItemBaseViewHolder
+            implements AdapterView.OnItemClickListener {
         private final Spinner mSpinner;
 
         SelectionViewHolder(LayoutInflater inflater, ViewGroup parent,
                 Connection conn, ColorMapper colorMapper) {
             super(inflater, parent, R.layout.openhabwidgetlist_selectionitem, conn, colorMapper);
-            mLabelView = itemView.findViewById(R.id.widgetlabel);
-            mSpinner = itemView.findViewById(R.id.selectionspinner);
-            mIconView = itemView.findViewById(R.id.widgetimage);
+            mSpinner = itemView.findViewById(R.id.spinner);
         }
 
         @Override
         public void bind(OpenHABWidget widget) {
+            super.bind(widget);
+
             int spinnerSelectedIndex = -1;
-            String[] splitString = widget.label().split("\\[|\\]");
-
-            mLabelView.setText(splitString.length > 0 ? splitString[0] : widget.label());
-            updateTextViewColor(mLabelView, widget.labelColor());
-
-            updateIcon(mIconView, widget);
-
-            ArrayList<String> spinnerArray = new ArrayList<String>();
+            ArrayList<String> spinnerArray = new ArrayList<>();
             String state = widget.item() != null ? widget.item().state() : null;
 
             for (OpenHABWidgetMapping mapping : widget.mappings()) {
@@ -706,11 +691,9 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         }
     }
 
-    public static class SectionSwitchViewHolder extends ViewHolder implements View.OnClickListener {
+    public static class SectionSwitchViewHolder extends LabeledItemBaseViewHolder
+            implements View.OnClickListener {
         private final LayoutInflater mInflater;
-        private final TextView mLabelView;
-        private final TextView mValueView;
-        private final WidgetImageView mIconView;
         private final RadioGroup mRadioGroup;
         private OpenHABItem mBoundItem;
 
@@ -718,21 +701,12 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
                 Connection conn, ColorMapper colorMapper) {
             super(inflater, parent, R.layout.openhabwidgetlist_sectionswitchitem, conn, colorMapper);
             mInflater = inflater;
-            mLabelView = itemView.findViewById(R.id.widgetlabel);
-            mValueView = itemView.findViewById(R.id.widgetvalue);
-            mIconView = itemView.findViewById(R.id.widgetimage);
-            mRadioGroup = itemView.findViewById(R.id.sectionswitchradiogroup);
+            mRadioGroup = itemView.findViewById(R.id.switchgroup);
         }
 
         @Override
         public void bind(OpenHABWidget widget) {
-            String[] splitString = widget.label().split("\\[|\\]");
-            mLabelView.setText(splitString.length > 0 ? splitString[0] : widget.label());
-            updateTextViewColor(mLabelView, widget.labelColor());
-            mValueView.setText(splitString.length > 1 ? splitString[1] : null);
-            updateTextViewColor(mValueView, widget.valueColor());
-            updateIcon(mIconView, widget);
-
+            super.bind(widget);
             mBoundItem = widget.item();
 
             List<OpenHABWidgetMapping> mappings = widget.mappings();
@@ -765,19 +739,16 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         }
     }
 
-    public static class RollerShutterViewHolder extends ViewHolder implements View.OnTouchListener {
-        private final TextView mLabelView;
-        private final WidgetImageView mIconView;
+    public static class RollerShutterViewHolder extends LabeledItemBaseViewHolder
+            implements View.OnTouchListener {
         private OpenHABItem mBoundItem;
 
         RollerShutterViewHolder(LayoutInflater inflater, ViewGroup parent,
                 Connection conn, ColorMapper colorMapper) {
             super(inflater, parent, R.layout.openhabwidgetlist_rollershutteritem, conn, colorMapper);
-            mLabelView = itemView.findViewById(R.id.widgetlabel);
-            mIconView = itemView.findViewById(R.id.widgetimage);
-            initButton(R.id.rollershutterbutton_up, "UP");
-            initButton(R.id.rollershutterbutton_down, "DOWN");
-            initButton(R.id.rollershutterbutton_stop, "STOP");
+            initButton(R.id.up_button, "UP");
+            initButton(R.id.down_button, "DOWN");
+            initButton(R.id.stop_button, "STOP");
         }
 
         private void initButton(@IdRes int resId, String command) {
@@ -788,9 +759,7 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
 
         @Override
         public void bind(OpenHABWidget widget) {
-            mLabelView.setText(widget.label());
-            updateTextViewColor(mLabelView, widget.labelColor());
-            updateIcon(mIconView, widget);
+            super.bind(widget);
             mBoundItem = widget.item();
         }
 
@@ -803,35 +772,24 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         }
     }
 
-    public static class SetpointViewHolder extends ViewHolder implements View.OnClickListener {
-        private final TextView mLabelView;
-        private final TextView mValueView;
-        private final WidgetImageView mIconView;
+    public static class SetpointViewHolder extends LabeledItemBaseViewHolder
+            implements View.OnClickListener {
         private final LayoutInflater mInflater;
         private OpenHABWidget mBoundWidget;
 
         SetpointViewHolder(LayoutInflater inflater, ViewGroup parent,
                 Connection conn, ColorMapper colorMapper) {
             super(inflater, parent, R.layout.openhabwidgetlist_setpointitem, conn, colorMapper);
-            mLabelView = itemView.findViewById(R.id.widgetlabel);
-            mValueView = itemView.findViewById(R.id.widgetvalue);
             mValueView.setOnClickListener(this);
-            mIconView = itemView.findViewById(R.id.widgetimage);
             mInflater = inflater;
 
-            ImageView dropdownArrow = itemView.findViewById(R.id.imageViewDownArrow);
+            ImageView dropdownArrow = itemView.findViewById(R.id.down_arrow);
             dropdownArrow.setOnClickListener(this);
         }
 
         @Override
         public void bind(OpenHABWidget widget) {
-            String[] splitString = widget.label().split("\\[|\\]");
-            mLabelView.setText(splitString.length > 0 ? splitString[0] : widget.label());
-            updateTextViewColor(mLabelView, widget.labelColor());
-            mValueView.setText(splitString.length > 1 ? splitString[1] : null);
-            mValueView.setVisibility(splitString.length > 1 ? View.VISIBLE : View.GONE);
-            updateTextViewColor(mValueView, widget.valueColor());
-            updateIcon(mIconView, widget);
+            super.bind(widget);
             mBoundWidget = widget;
         }
 
@@ -901,7 +859,7 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         ChartViewHolder(LayoutInflater inflater, ViewGroup parent, CharSequence theme,
                 Connection conn, ColorMapper colorMapper) {
             super(inflater, parent, R.layout.openhabwidgetlist_chartitem, conn, colorMapper);
-            mImageView = itemView.findViewById(R.id.chartimage);
+            mImageView = itemView.findViewById(R.id.chart);
             mParentView = parent;
 
             WindowManager wm = (WindowManager) itemView.getContext().getSystemService(Context.WINDOW_SERVICE);
@@ -975,7 +933,7 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         VideoViewHolder(LayoutInflater inflater, ViewGroup parent,
                 Connection conn, ColorMapper colorMapper) {
             super(inflater, parent, R.layout.openhabwidgetlist_videoitem, conn, colorMapper);
-            mVideoView = itemView.findViewById(R.id.videovideo);
+            mVideoView = itemView.findViewById(R.id.video);
         }
 
         @Override
@@ -1015,7 +973,7 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         WebViewHolder(LayoutInflater inflater, ViewGroup parent,
                 Connection conn, ColorMapper colorMapper) {
             super(inflater, parent, R.layout.openhabwidgetlist_webitem, conn, colorMapper);
-            mWebView = itemView.findViewById(R.id.webweb);
+            mWebView = itemView.findViewById(R.id.webview);
 
             final Resources res = itemView.getContext().getResources();
             mRowHeightPixels = res.getDimensionPixelSize(R.dimen.row_height);
@@ -1042,10 +1000,8 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         }
     }
 
-    public static class ColorViewHolder extends ViewHolder implements
+    public static class ColorViewHolder extends LabeledItemBaseViewHolder implements
             View.OnTouchListener, Handler.Callback, ColorPicker.OnColorChangedListener {
-        private final TextView mLabelView;
-        private final WidgetImageView mIconView;
         private OpenHABItem mBoundItem;
         private final LayoutInflater mInflater;
         private final Handler mHandler = new Handler(this);
@@ -1053,12 +1009,10 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         ColorViewHolder(LayoutInflater inflater, ViewGroup parent,
                 Connection conn, ColorMapper colorMapper) {
             super(inflater, parent, R.layout.openhabwidgetlist_coloritem, conn, colorMapper);
-            mLabelView = itemView.findViewById(R.id.widgetlabel);
-            mIconView = itemView.findViewById(R.id.widgetimage);
             mInflater = inflater;
-            initButton(R.id.colorbutton_up, "ON");
-            initButton(R.id.colorbutton_down, "OFF");
-            itemView.findViewById(R.id.colorbutton_color).setOnTouchListener(this);
+            initButton(R.id.up_button, "ON");
+            initButton(R.id.down_button, "OFF");
+            itemView.findViewById(R.id.select_color_button).setOnTouchListener(this);
         }
 
         private void initButton(@IdRes int resId, String command) {
@@ -1069,9 +1023,7 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
 
         @Override
         public void bind(OpenHABWidget widget) {
-            mLabelView.setText(widget.label());
-            updateTextViewColor(mLabelView, widget.labelColor());
-            updateIcon(mIconView, widget);
+            super.bind(widget);
             mBoundItem = widget.item();
         }
 
