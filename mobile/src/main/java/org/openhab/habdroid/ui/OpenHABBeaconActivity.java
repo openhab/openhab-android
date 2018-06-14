@@ -16,14 +16,12 @@ import android.view.MenuItem;
 
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.core.OpenHABBleService;
-import org.openhab.habdroid.model.OpenHABBeacon;
 import org.openhab.habdroid.ui.widget.DividerItemDecoration;
 import org.openhab.habdroid.util.Constants;
 import org.openhab.habdroid.util.Util;
 import org.openhab.habdroid.util.bleBeaconUtil.BleBeaconConnector;
 
-public class OpenHABBeaconActivity extends AppCompatActivity
-        implements OpenHABBleService.MinBeaconUiUpdateListener{
+public class OpenHABBeaconActivity extends AppCompatActivity {
     private OpenHABBleService mBleService;
     private Intent mBleServiceIntent;
     OpenHABBeaconAdapter mAdapter;
@@ -32,12 +30,12 @@ public class OpenHABBeaconActivity extends AppCompatActivity
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
             mBleService = ((OpenHABBleService.LocalBinder)service).getService();
-            mBleService.setMinBeaconUiUpdateListener(OpenHABBeaconActivity.this);
+            mBleService.setConfigUiUpdateListener(mAdapter);
         }
 
         @Override
         public void onServiceDisconnected(ComponentName name) {
-            mBleService.setMinBeaconUiUpdateListener(null);
+            mBleService.setConfigUiUpdateListener(null);
             mBleService = null;
         }
     };
@@ -94,11 +92,5 @@ public class OpenHABBeaconActivity extends AppCompatActivity
     protected void onStop() {
         unbindService(mBleServiceConnection);
         super.onStop();
-    }
-
-    @Override
-    public void itemChange(OpenHABBeacon beacon) {
-        String title = String.format("%s, %.1f m", beacon.name(), beacon.distance());
-        setTitle(title);
     }
 }

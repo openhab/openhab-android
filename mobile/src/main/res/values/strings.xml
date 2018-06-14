@@ -17,7 +17,7 @@
     <string name="mainmenu_openhab_ble_beacons">Test BLE Beacons</string>
 
     <!-- Ble beacons-->
-    <string name="title_activity_openhab_beacon">Nearest Beacon</string>
+    <string name="title_activity_openhab_beacon">Location tracking</string>
     <string name="title_activity_openhab_beacon_config">Beacon configs</string>
     <string name="beacon_name">&lt;b>Beacon name:&lt;/b> %1$s &#160;</string>
     <string name="beacon_address">&lt;b>Mac: &lt;/b> %1$s</string>
@@ -36,6 +36,7 @@
     <string name="beacon_text_bind_with_frames">Bind with which frame?</string>
     <string name="frame_label_not_available">No name</string>
     <string name="beacon_no_name_found">Not in range</string>
+    <string name="type_icon_description">Type</string>
 
     <!-- App settings strings -->
     <string name="settings_connection_title">Connection</string>

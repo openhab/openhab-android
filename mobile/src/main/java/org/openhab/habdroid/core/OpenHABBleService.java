@@ -133,13 +133,4 @@ public class OpenHABBleService extends Service implements Runnable {
     public OpenHABBeacon get(int index){
         return mBeaconList.get(index);
     }
-
-    public String getNameByMac(String mac) {
-        for (OpenHABBeacon beacon : mBeaconList) {
-            if (beacon.address().equals(mac)) {
-                return beacon.name();
-            }
-        }
-        return getString(R.string.beacon_no_name_found);
-    }
 }
