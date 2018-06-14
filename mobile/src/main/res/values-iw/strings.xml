@@ -51,6 +51,10 @@
   <string name="settings_openhab_sslsettings">הצפנה</string>
   <string name="settings_openhab_alt_connection">מרוחק</string>
   <string name="settings_openhab_connection">מקומי</string>
+  <string name="settings_notification_vibration">רטט התראה</string>
+  <string name="settings_notification_vibration_off">כבוי</string>
+  <string name="settings_notification_vibration_short">קצר</string>
+  <string name="settings_notification_vibration_long">ארוך</string>
   <!-- App messages strings -->
   <string name="title_voice_widget">פקודות קוליות של openHAB</string>
   <string name="info_voice_input">openHAB, לפקודתך!</string>
