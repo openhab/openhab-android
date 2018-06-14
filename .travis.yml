@@ -26,6 +26,7 @@ android:
 
 install:
   - echo "mapsApiKey=AIzaSyA2t2893e9wccs9EnlnauJRgtqFNYQSp-o" >> ~/.gradle/gradle.properties
+  - echo yes | sdkmanager "platforms;android-27"
   - ./gradlew --version
   - sdkmanager --list || true
 
