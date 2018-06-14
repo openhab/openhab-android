@@ -55,6 +55,7 @@
   <string name="settings_notification_vibration_off">כבוי</string>
   <string name="settings_notification_vibration_short">קצר</string>
   <string name="settings_notification_vibration_long">ארוך</string>
+  <string name="settings_notification_vibration_twice">כפול</string>
   <!-- App messages strings -->
   <string name="title_voice_widget">פקודות קוליות של openHAB</string>
   <string name="info_voice_input">openHAB, לפקודתך!</string>
