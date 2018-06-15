@@ -949,9 +949,6 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         savedInstanceState.putInt("connectionHash",
                 mConnection != null ? mConnection.hashCode() : -1);
         savedInstanceState.putInt("initState", mInitState.ordinal());
-        if (mPendingCall != null) {
-            mPendingCall.cancel();
-        }
         mController.onSaveInstanceState(savedInstanceState);
         super.onSaveInstanceState(savedInstanceState);
     }
