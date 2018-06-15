@@ -419,8 +419,14 @@ public abstract class ContentController implements PageConnectionHolderFragment.
         }
     }
 
-    protected abstract void updateFragmentState(FragmentUpdateReason reason);
+    protected abstract void executeStateUpdate(FragmentUpdateReason reason, boolean allowStateLoss);
     protected abstract OpenHABWidgetListFragment getFragmentForTitle();
+
+    protected void updateFragmentState(FragmentUpdateReason reason) {
+        // Allow state loss if activity is still started, as we'll get
+        // another onSaveInstanceState() callback on activity stop
+        executeStateUpdate(reason, mActivity.isStarted());
+    }
 
     private void handleNewWidgetFragment(OpenHABWidgetListFragment f) {
         mPendingDataLoadUrls.add(f.getDisplayPageUrl());

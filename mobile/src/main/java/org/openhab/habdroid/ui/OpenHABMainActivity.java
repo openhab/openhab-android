@@ -1123,6 +1123,10 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         mInitState = InitState.DONE;
     }
 
+    public boolean isStarted() {
+        return mStarted;
+    }
+
     public int getOpenHABVersion() {
         return mOpenHABVersion;
     }
