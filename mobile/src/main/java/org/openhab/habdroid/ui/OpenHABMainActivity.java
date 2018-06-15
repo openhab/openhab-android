@@ -159,7 +159,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
     private int mOpenHABVersion;
     private ProgressBar mProgressBar;
     // select sitemap dialog
-    private Dialog selectSitemapDialog;
+    private Dialog mSelectSitemapDialog;
     private Snackbar mLastSnackbar;
     private Connection mConnection;
 
@@ -217,9 +217,6 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         // Set default values, false means do it one time during the very first launch
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
 
-        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-
-        // Set the theme to one from preferences
         mSettings = PreferenceManager.getDefaultSharedPreferences(this);
 
         // Disable screen timeout if set in preferences
@@ -227,6 +224,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         }
 
+        // Set the theme to one from preferences
         Util.setActivityTheme(this);
         super.onCreate(savedInstanceState);
 
@@ -279,6 +277,9 @@ public class OpenHABMainActivity extends AppCompatActivity implements
                 mController.recreateFragmentState();
             }
             updateSitemapDrawerItems();
+            if (savedInstanceState.getBoolean("isSitemapSelectionDialogShown")) {
+                showSitemapSelectionDialog();
+            }
         } else {
             mSitemapList = new ArrayList<>();
         }
@@ -294,7 +295,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         //  Create a new boolean and preference and set it to true
         boolean isFirstStart = mSettings.getBoolean("firstStart", true);
 
-        SharedPreferences.Editor prefsEdit = sharedPrefs.edit();
+        SharedPreferences.Editor prefsEdit = mSettings.edit();
         //  If the activity has never started before...
         if (isFirstStart) {
 
@@ -424,8 +425,8 @@ public class OpenHABMainActivity extends AppCompatActivity implements
     @Override
     public void onResume() {
         Log.d(TAG, "onResume()");
-
         super.onResume();
+
         ConnectionFactory.addListener(this);
         MemorizingTrustManager.getInstance(this).bindDisplayActivity(this);
 
@@ -558,8 +559,8 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         Log.d(TAG, "onStop()");
         mStarted = false;
         super.onStop();
-        if(selectSitemapDialog != null && selectSitemapDialog.isShowing()) {
-            selectSitemapDialog.dismiss();
+        if(mSelectSitemapDialog != null && mSelectSitemapDialog.isShowing()) {
+            mSelectSitemapDialog.dismiss();
         }
         if (mPendingCall != null) {
             mPendingCall.cancel();
@@ -748,8 +749,8 @@ public class OpenHABMainActivity extends AppCompatActivity implements
     }
 
     /**
-     * Get sitemaps from openHAB, if user already configured preffered sitemap
-     * just open it. If no preffered sitemap is configured - let user select one.
+     * Get sitemaps from openHAB. If user already configured preferred sitemap
+     * just open it. If no preferred sitemap is configured let user select one.
      */
 
     private void loadSitemapList(final boolean selectSitemapAfterLoad) {
@@ -865,8 +866,8 @@ public class OpenHABMainActivity extends AppCompatActivity implements
 
     private void showSitemapSelectionDialog() {
         Log.d(TAG, "Opening sitemap selection dialog");
-        if (selectSitemapDialog != null && selectSitemapDialog.isShowing()) {
-            selectSitemapDialog.dismiss();
+        if (mSelectSitemapDialog != null && mSelectSitemapDialog.isShowing()) {
+            mSelectSitemapDialog.dismiss();
         }
         if (isFinishing()) {
             return;
@@ -876,7 +877,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         for (int i = 0; i < mSitemapList.size(); i++) {
             sitemapLabels[i] = mSitemapList.get(i).label();
         }
-        selectSitemapDialog = new AlertDialog.Builder(this)
+        mSelectSitemapDialog = new AlertDialog.Builder(this)
                 .setTitle(R.string.mainmenu_openhab_selectsitemap)
                 .setItems(sitemapLabels, new DialogInterface.OnClickListener() {
                     @Override
@@ -955,8 +956,18 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         Log.d(TAG, String.format("onActivityResult requestCode = %d, resultCode = %d", requestCode, resultCode));
         switch (requestCode) {
             case SETTINGS_REQUEST_CODE:
-                if (data != null
-                        && data.getBooleanExtra(OpenHABPreferencesActivity.RESULT_EXTRA_THEME_CHANGED, false)) {
+                if (data == null) {
+                    break;
+                }
+                if (data.getBooleanExtra(OpenHABPreferencesActivity.RESULT_EXTRA_SITEMAP_CLEARED, false)) {
+                    OpenHABSitemap sitemap = selectConfiguredSitemapFromList();
+                    if (sitemap != null) {
+                        openSitemap(sitemap);
+                    } else {
+                        showSitemapSelectionDialog();
+                    }
+                }
+                if (data.getBooleanExtra(OpenHABPreferencesActivity.RESULT_EXTRA_THEME_CHANGED, false)) {
                     recreate();
                 }
                 break;
@@ -978,6 +989,8 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         savedInstanceState.putInt("openHABVersion", mOpenHABVersion);
         savedInstanceState.putParcelableArrayList("sitemapList", mSitemapList);
         savedInstanceState.putParcelable("sitemap", mSelectedSitemap);
+        savedInstanceState.putBoolean("isSitemapSelectionDialogShown", mSelectSitemapDialog != null &&
+                mSelectSitemapDialog.isShowing());
         savedInstanceState.putString("controller", mController.getClass().getCanonicalName());
         savedInstanceState.putInt("connectionHash",
                 mConnection != null ? mConnection.hashCode() : -1);

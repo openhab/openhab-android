@@ -10,7 +10,7 @@
     android:paddingEnd="@dimen/widgetlist_item_right_margin">
 
     <org.openhab.habdroid.ui.widget.WidgetImageView
-        android:id="@+id/imageimage"
+        android:id="@+id/image"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_margin="4dip"

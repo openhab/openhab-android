@@ -81,6 +81,15 @@
     <string name="settings_openhab_sslsettings">Encryption</string>
     <string name="settings_openhab_alt_connection">Remote</string>
     <string name="settings_openhab_connection">Local</string>
+    <string name="settings_notification_vibration">Notification vibration</string>
+    <string name="settings_notification_vibration_off">Off</string>
+    <string name="settings_notification_vibration_short">Short</string>
+    <string name="settings_notification_vibration_long">Long</string>
+    <string name="settings_notification_vibration_twice">Twice</string>
+    <string name="settings_notification_vibration_value_off" translatable="false">off</string>
+    <string name="settings_notification_vibration_value_short" translatable="false">short</string>
+    <string name="settings_notification_vibration_value_long" translatable="false">long</string>
+    <string name="settings_notification_vibration_value_twice" translatable="false">twice</string>
 
     <!-- App messages strings -->
     <string name="title_voice_widget">openHAB voice commands</string>

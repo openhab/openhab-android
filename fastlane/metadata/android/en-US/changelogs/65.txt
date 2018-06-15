@@ -1,0 +1,9 @@
+## Fixed
+* Optimize widget list update handling. (#924)
+* Add support for relative urls in webview (#921)
+
+## Added
+* Add vibration and led light to notifications (#920)
+
+## Changed
+* Use upstream HoloColorPicker instead of rolling our own. (#917)

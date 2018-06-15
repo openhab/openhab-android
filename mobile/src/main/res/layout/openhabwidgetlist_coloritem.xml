@@ -1,68 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="?android:activatedBackgroundIndicator"
-    android:descendantFocusability="blocksDescendants"
-    tools:layout_editor_absoluteY="25dp">
+    android:descendantFocusability="blocksDescendants">
 
-    <include
-        android:id="@+id/colorleftlayout"
-        layout="@layout/openhabwidgetlist_icontext"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/colorbutton_up"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginRight="8dp" />
+    <include layout="@layout/openhabwidgetlist_icontext" />
 
     <ImageButton
-        android:id="@+id/colorbutton_up"
-        android:layout_width="46dip"
-        android:layout_height="0dp"
+        style="@style/ActionButton"
+        android:id="@+id/up_button"
         android:contentDescription="@string/content_description_color_up"
-        android:focusable="false"
-        android:focusableInTouchMode="false"
-        android:paddingLeft="3dip"
-        android:paddingRight="3dip"
-        android:src="?themedArrowUpIcon"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/colorbutton_color"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:src="?themedArrowUpIcon" />
 
     <ImageButton
-        android:id="@+id/colorbutton_color"
-        android:layout_width="46dip"
-        android:layout_height="0dp"
+        style="@style/ActionButton"
+        android:id="@+id/select_color_button"
         android:contentDescription="@string/content_description_open_color_wheel"
-        android:focusable="false"
-        android:focusableInTouchMode="false"
-        android:paddingLeft="7dip"
-        android:paddingRight="7dip"
-        android:src="?themedColorIcon"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/colorbutton_down"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:src="?themedColorIcon" />
 
     <ImageButton
-        android:id="@+id/colorbutton_down"
-        android:layout_width="46dip"
-        android:layout_height="0dp"
+        style="@style/ActionButton"
+        android:id="@+id/down_button"
         android:contentDescription="@string/content_description_color_down"
-        android:focusable="false"
-        android:focusableInTouchMode="false"
-        android:paddingLeft="3dip"
-        android:paddingRight="3dip"
-        android:src="?themedArrowDownIcon"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:src="?themedArrowDownIcon" />
 
-</android.support.constraint.ConstraintLayout>
+</LinearLayout>
