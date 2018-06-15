@@ -16,7 +16,7 @@
         android:orientation="horizontal">
 
         <org.openhab.habdroid.ui.widget.WidgetImageView
-            android:id="@+id/widgetimage"
+            android:id="@+id/widgeticon"
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:padding="4dp" />
@@ -36,7 +36,7 @@
 
     <!-- tag used by unit test, don't remove -->
     <com.google.android.gms.maps.MapView
-        android:id="@+id/mapView"
+        android:id="@+id/mapview"
         android:layout_width="match_parent"
         android:layout_height="180dp"
         android:layout_margin="4dp"

@@ -296,7 +296,7 @@ public abstract class OpenHABWidget implements Parcelable {
                     } catch (Exception e) {
                         itemState = "OFF";
                     }
-                } else {
+                } else if (item.stateAsHSV() != null) {
                     int color = Color.HSVToColor(item.stateAsHSV());
                     itemState = String.format(Locale.US, "#%02x%02x%02x",
                             Color.red(color), Color.green(color), Color.blue(color));

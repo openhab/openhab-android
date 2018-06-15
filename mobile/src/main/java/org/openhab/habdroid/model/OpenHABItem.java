@@ -61,6 +61,7 @@ public abstract class OpenHABItem implements Parcelable {
     public abstract boolean stateAsBoolean();
     public abstract float stateAsFloat();
     @SuppressWarnings("mutable")
+    @Nullable
     public abstract float[] stateAsHSV();
     @Nullable
     public abstract Integer stateAsBrightness();
@@ -146,11 +147,11 @@ public abstract class OpenHABItem implements Parcelable {
                                 Float.parseFloat(stateSplit[2]) / 100
                         };
                     } catch (NumberFormatException e) {
-                        // fall through to returning 0
+                        // fall through to returning null
                     }
                 }
             }
-            return new float[]{0, 0, 0};
+            return null;
         }
 
         public static Integer parseAsBrightness(String state) {

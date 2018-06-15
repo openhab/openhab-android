@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.content.res.Resources;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -20,7 +19,6 @@ import org.openhab.habdroid.R;
 import org.openhab.habdroid.core.connection.Connection;
 import org.openhab.habdroid.model.OpenHABItem;
 import org.openhab.habdroid.model.OpenHABWidget;
-import org.openhab.habdroid.ui.widget.WidgetImageView;
 import org.openhab.habdroid.util.Util;
 
 import java.util.ArrayList;
@@ -33,10 +31,8 @@ public class MapViewHelper {
         return new GoogleMapsViewHolder(inflater, parent, connection, colorMapper);
     }
 
-    private static class GoogleMapsViewHolder extends OpenHABWidgetAdapter.ViewHolder
+    private static class GoogleMapsViewHolder extends OpenHABWidgetAdapter.LabeledItemBaseViewHolder
             implements GoogleMap.OnMarkerDragListener {
-        private final TextView mLabelView;
-        private final WidgetImageView mIconView;
         private final MapView mMapView;
         private final int mRowHeightPixels;
         private GoogleMap mMap;
@@ -47,9 +43,7 @@ public class MapViewHelper {
                 Connection connection, OpenHABWidgetAdapter.ColorMapper colorMapper) {
             super(inflater, parent, R.layout.openhabwidgetlist_mapitem, connection, colorMapper);
 
-            mLabelView = itemView.findViewById(R.id.widgetlabel);
-            mIconView = itemView.findViewById(R.id.widgetimage);
-            mMapView = itemView.findViewById(R.id.mapView);
+            mMapView = itemView.findViewById(R.id.mapview);
 
             mMapView.onCreate(null);
             mMapView.getMapAsync(map -> {
@@ -68,6 +62,8 @@ public class MapViewHelper {
 
         @Override
         public void bind(OpenHABWidget widget) {
+            super.bind(widget);
+
             ViewGroup.LayoutParams lp = mMapView.getLayoutParams();
             int rows = widget.height() > 0 ? widget.height() : 5;
             int desiredHeightPixels = rows * mRowHeightPixels;
@@ -75,10 +71,6 @@ public class MapViewHelper {
                 lp.height = desiredHeightPixels;
                 mMapView.setLayoutParams(lp);
             }
-
-            mLabelView.setText(widget.label());
-            updateTextViewColor(mLabelView, widget.labelColor());
-            updateIcon(mIconView, widget);
 
             mBoundItem = widget.item();
             if (mMap != null) {

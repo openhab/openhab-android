@@ -31,8 +31,8 @@ android {
         applicationId "org.openhab.habdroid"
         minSdkVersion 14
         targetSdkVersion 27
-        versionCode 62
-        versionName "2.2.3-beta"
+        versionCode 66
+        versionName "2.2.7-beta"
         multiDexEnabled true
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
     }
@@ -85,12 +85,15 @@ android {
 }
 
 repositories {
-    jcenter()
+    maven {
+        url 'https://maven.fabric.io/public'
+    }
     mavenCentral()
     maven {
         url 'https://jitpack.io'
     }
     google()
+    jcenter()
 }
 
 dependencies {
@@ -99,9 +102,9 @@ dependencies {
     implementation "com.android.support:recyclerview-v7:27.1.1"
     implementation "com.android.support:design:27.1.1"
     implementation 'com.android.support:multidex:1.0.3'
-    implementation 'com.android.support.constraint:constraint-layout:1.1.0'
     implementation 'org.jmdns:jmdns:3.5.3'
     implementation 'com.squareup.okhttp3:okhttp:3.9.1'
+    implementation 'com.larswerkman:HoloColorPicker:1.5'
     implementation 'com.github.BigBadaboom:androidsvg:3511e136498da94018ef9fa438895984ea9b99db'
     implementation 'com.github.apl-devs:appintro:v4.2.2'
     // Google Maps

@@ -35,6 +35,7 @@ import org.openhab.habdroid.util.Util;
  */
 public class OpenHABPreferencesActivity extends AppCompatActivity {
     public static final String RESULT_EXTRA_THEME_CHANGED = "theme_changed";
+    public static final String RESULT_EXTRA_SITEMAP_CLEARED = "sitemap_cleared";
     private static final String STATE_KEY_RESULT = "result";
 
     private Intent mResultIntent;
@@ -218,6 +219,7 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
                     edit.apply();
 
                     onNoDefaultSitemap(preference);
+                    getParentActivity().mResultIntent.putExtra(RESULT_EXTRA_SITEMAP_CLEARED, true);
                     return true;
                 }
             });
