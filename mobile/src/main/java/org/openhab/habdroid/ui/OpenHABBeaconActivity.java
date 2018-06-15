@@ -84,8 +84,7 @@ public class OpenHABBeaconActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         bindService(mBleServiceIntent, mBleServiceConnection, BIND_AUTO_CREATE);
-        mAdapter.updateList(getSharedPreferences(Constants.PREFERENCE_BEACON_FRAME_PAIR_FILE
-                , 0), mBleService);
+        mAdapter.updateList(getSharedPreferences(Constants.PREFERENCE_BEACON_FRAME_PAIR_FILE, 0));
     }
 
     @Override

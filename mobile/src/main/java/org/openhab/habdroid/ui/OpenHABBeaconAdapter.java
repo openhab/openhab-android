@@ -1,8 +1,6 @@
 package org.openhab.habdroid.ui;
 
-import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -82,7 +80,7 @@ public class OpenHABBeaconAdapter extends RecyclerView.Adapter<OpenHABBeaconAdap
         return mAddressFramePairList.size();
     }
 
-    public void updateList(SharedPreferences sharedPreferences, OpenHABBleService bleService) {
+    public void updateList(SharedPreferences sharedPreferences) {
         Map<String, ?> map = sharedPreferences.getAll();
         mAddressFramePairList = new ArrayList<>(map.entrySet());
         notifyItemRangeChanged(0, mAddressFramePairList.size());
