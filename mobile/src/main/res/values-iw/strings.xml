@@ -6,7 +6,6 @@
   <!-- General app strings -->
   <string name="app_preferences_name">הגדרות</string>
   <string name="app_notifications">התראות</string>
-  <string name="dlg_notification_title">התראה</string>
   <!-- Main menu items -->
   <string name="mainmenu_openhab_sitemaps">תצורות מערכת</string>
   <string name="mainmenu_openhab_preferences">הגדרות</string>
@@ -39,6 +38,8 @@
   <string name="settings_openhab_icon_format">סוג קובץ צלמית</string>
   <string name="settings_openhab_icon_format_png">מפת סיביות PNG</string>
   <string name="settings_openhab_icon_format_svg">וקטורי SVG</string>
+  <string name="settings_chart_scaling">שינוי גודל התרשים</string>
+  <string name="settings_chart_scaling_summary">הערה: בקנה מידה קטן עובי הקווים וגודל הטקסט קטנים כך שיש יותר מקום עבור התרשים אבל יכולת קריאת הטקסט עלולה להפגע.</string>
   <string name="settings_chart_scaling_value_xs">קטן מאוד</string>
   <string name="settings_chart_scaling_value_s">קטן</string>
   <string name="settings_chart_scaling_value_m">ברירת מחדל</string>
@@ -50,6 +51,11 @@
   <string name="settings_openhab_sslsettings">הצפנה</string>
   <string name="settings_openhab_alt_connection">מרוחק</string>
   <string name="settings_openhab_connection">מקומי</string>
+  <string name="settings_notification_vibration">רטט התראה</string>
+  <string name="settings_notification_vibration_off">כבוי</string>
+  <string name="settings_notification_vibration_short">קצר</string>
+  <string name="settings_notification_vibration_long">ארוך</string>
+  <string name="settings_notification_vibration_twice">כפול</string>
   <!-- App messages strings -->
   <string name="title_voice_widget">פקודות קוליות של openHAB</string>
   <string name="info_voice_input">openHAB, לפקודתך!</string>
@@ -65,9 +71,9 @@
   <string name="error_connection_failed">החיבור למחשב המארח נכשל</string>
   <string name="error_unable_to_resolve_hostname">אין אפשרות לאתר את שם המחשב המארח</string>
   <string name="error_connection_sslhandshake_failed">חיבור SSL נכשל</string>
-  <string name="error_certificate_not_trusted">אישור SSL אינו מהימן. אנא ייבא אישורי בסיס או בטל אימות אישור במהלך חיבור SSL</string>
+  <string name="error_certificate_not_trusted">אישור SSL אינו מהימן. אנא ייבא אישור בסיסי או בטל אימות אישור במהלך חיבור SSL</string>
   <string name="error_certificate_expired">אישור SSL פג תוקף. אנא ייבא אישורי בסיס או בטל אימות אישור במהלך חיבור SSL</string>
-  <string name="error_certificate_not_valid_yet">אישור SSL עדיין אינו חוקי. נא קבל אישור מתאים או בטל אישור אימות במהלך לחיצת יד של SSL. כמו כן יש לבדוק אם השעון במכשיר מוגדר כראוי</string>
+  <string name="error_certificate_not_valid_yet">אישור SSL עדיין אינו חוקי. נא קבל אישור מתאים או בטל אימות אישור בתהליך בדיקת SSL. כמו כן יש לבדוק אם השעון במכשיר מוגדר כראוי</string>
   <string name="error_certificate_revoked">אישור SSL נשלל. אנא ייבא אישור חדש או בטל אימות אישור במהלך חיבור SSL</string>
   <string name="error_certificate_wrong_host">תעודת SSL אינה חוקית עבור %s</string>
   <string name="error_http_code_401">האימות נכשל. נא בדוק את שם המשתמש והסיסמה שהוגדרו בהתאמה עם תעודת ה-SSL (קוד תגובה HTTP 401)</string>
@@ -99,6 +105,10 @@
   <string name="action_settings">הגדרות</string>
   <string name="nfc_dialog_title">כתוב על תגית NFC את הפעולה עבור רכיב זה</string>
   <string name="info_not_set">לא מוגדר</string>
+  <!-- Notification list strings -->
+  <string name="notification_list_empty">לא נשלחו התראות</string>
+  <string name="notification_list_error">אירעה שגיאה במהלך טעינת התראות</string>
+  <string name="list_loading_message">טוען...</string>
   <!-- Strings for MemorizingTrustManager activity -->
   <string name="mtm_accept_cert">לקבל אישור/תעודה לא מזוהה?</string>
   <string name="mtm_decision_always">תמיד</string>
@@ -155,8 +165,6 @@
   <string name="go_to_settings_button">עבור להגדרות</string>
   <string name="configuration_missing">השרת של openHAB לא ניתן לגילוי באופן אוטומטי. נא להגדיר את כתובת ה IP של השרת או את שמו בתפריט הגדרות שרת.</string>
   <string name="resolving_openhab">מנסה לאתר שרת openHAB</string>
-  <string name="intro_discovery">איתור אוטומטי של שרת</string>
-  <string name="intro_discovery_summary">הערה: פעולה זו תתבצע רק אם אימות אינו נאכף על ידי השרת</string>
   <!-- Content description for images -->
   <string name="content_description_open_roller_shutter">פתח תריס גלילה</string>
   <string name="content_description_stop_roller_shutter">עצור תריס גלילה</string>
@@ -174,4 +182,7 @@
   <string name="app_intro_skip_button">דלג</string>
   <!-- Intro "DONE" button -->
   <string name="app_intro_done_button">סיים</string>
+  <string name="intro_voice_description">שלוט בביתך בעזרת הקול שלך</string>
+  <string name="intro_nfc">NFC תקשורת לטווח קצר</string>
+  <string name="intro_nfc_description">השליטה בפריט יכולה להיות משוייכת לתגית NFC באמצעות לחיצה ממושכת על הפריט</string>
 </resources>

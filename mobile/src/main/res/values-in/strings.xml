@@ -6,7 +6,6 @@
   <!-- General app strings -->
   <string name="app_preferences_name">Pengaturan</string>
   <string name="app_notifications">Pemberitahuan</string>
-  <string name="dlg_notification_title">Pengaturan pesan</string>
   <!-- Main menu items -->
   <string name="mainmenu_openhab_sitemaps">Peta Situs</string>
   <string name="mainmenu_openhab_preferences">Pengaturan</string>
@@ -50,14 +49,12 @@
   <string name="error_network_not_available">Jaringan tidak tersedia</string>
   <string name="error_connection_failed">Sambungan ke rumah gagal</string>
   <string name="error_unable_to_resolve_hostname">Tidak dapat menyelesaikan nama rumah</string>
-  <string name="error_certificate_not_trusted">Sertifikat SSL tidak dipercaya. Harap impor sertifikat akar atau nonaktifkan sertifikat validasi selama SSL jabat tangan</string>
   <string name="error_certificate_expired">Sertifikat SSL tidak dipercaya. Harap impor sertifikat akar atau nonaktifkan sertifikat validasi selama SSL jabat tangan</string>
   <string name="error_certificate_revoked">Sertifikat SSL telah dicabut. Harap dapatkan sertifikat baru atau nonaktifkan validasi sertifikat selama SSL handshake</string>
   <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
   <string name="error_http_code_496">Sertifikat relasi SSL diperlukan (kode tanggapan HTTP 496)</string>
   <string name="error_http_code_511">Otentikasi jaringan diperlukan (kode tanggapan HTTP 511)</string>
   <string name="title_activity_openhabwritetag">Tulis tag NFC</string>
-  <string name="title_activity_libraries">Perpustakaan yang Digunakan</string>
   <string name="info_write_tag">Sentuh tag dan tetap tutup sampai pesan konfirmasi muncul</string>
   <string name="info_write_tag_progress">Menulis tag</string>
   <string name="info_write_tag_finished">Berhasil selesai</string>
@@ -70,6 +67,7 @@
   <string name="action_settings">Pengaturan</string>
   <string name="nfc_dialog_title">Tuliskan tag NFC untuk elemen ini</string>
   <string name="info_not_set">Tidak diatur</string>
+  <!-- Notification list strings -->
   <!-- Strings for MemorizingTrustManager activity -->
   <string name="mtm_accept_cert">Terima sertifikat yang tidak diketahui?</string>
   <string name="mtm_decision_always">Selalu</string>

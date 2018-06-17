@@ -6,7 +6,6 @@
   <!-- General app strings -->
   <string name="app_preferences_name">إعدادات</string>
   <string name="app_notifications">إشعارات</string>
-  <string name="dlg_notification_title">رسالة الإشعار</string>
   <!-- Main menu items -->
   <string name="mainmenu_openhab_sitemaps">Sitemaps</string>
   <string name="mainmenu_openhab_preferences">إعدادات</string>
@@ -60,9 +59,7 @@
   <string name="error_connection_failed">فشل الإتصال بالمضيف</string>
   <string name="error_unable_to_resolve_hostname">غير قادر على معالجة المضيف</string>
   <string name="error_connection_sslhandshake_failed">فشل مصافحة SSL</string>
-  <string name="error_certificate_not_trusted">شهادة SSL غير موثوق بها. الرجاء استيراد شهادة الجذر أو تعطيل التحقق من صحة الشهادة أثناء تعارف SSL</string>
   <string name="error_certificate_expired">انتهت مدة صلاحية شهادة SSL. الرجاء الحصول على شهادة جديدة أو تعطيل التحقق من صحة الشهادة أثناء تعارف SSL</string>
-  <string name="error_certificate_not_valid_yet">شهادة SSL غير صالحة. الرجاء الحصول على شهادة صحيحة أو تعطيل التحقق من صحة الشهادة أثناء تأكيد اتصال SSL. تحقق أيضا إذا تم تعيين الوقت على الجهاز الخاص بك بشكل صحيح</string>
   <string name="error_certificate_revoked">تم إبطال شهادة SSL. الرجاء الحصول على شهادة جديدة أو تعطيل التحقق من صحة الشهادة أثناء تعارف SSL</string>
   <string name="error_certificate_wrong_host">شهادة SSL غير صالح ل %s</string>
   <string name="error_http_code_401">فشلت المصادقة. الرجاء التحقق من ضبط اسم المستخدم وكلمة المرور أيضا قم بتوفير شهادة عميل SSL (رمز استجابة HTTP 401)</string>
@@ -75,12 +72,10 @@
   <string name="error_http_code_496">شهادة عميل SSL مطلوبة (رمز استجابة HTTP 496)</string>
   <string name="error_http_code_502">حصل الوكيل العكسي على رد خاطيء من openHAB (رمز استجابة HTTP 502)</string>
   <string name="error_http_code_503">خادم openHAB غير متوفر مؤقتاً (رمز استجابة HTTP 503)</string>
-  <string name="error_http_code_504">إنتهت مهلة البوابة، ربما يكون وكيلك العكسي يعمل، لكن لا يمكن الحصول على إستجابة من خادم openHAB (رمز إستجابة HTTP 504)</string>
   <string name="error_http_code_507">خادم openHAB لا يمتلك مساحة خالية كافية (رمز استجابة HTTP 507)</string>
   <string name="error_http_code_511">يتطلب مصادقة الشبكة (رمز استجابة HTTP 511)</string>
   <string name="error_about_no_conn">حدث خطأ أثناء جلب معلومات خادم openHAB</string>
   <string name="title_activity_openhabwritetag">أكتب وسم NFC</string>
-  <string name="title_activity_libraries">المكتبات المستعملة</string>
   <string name="info_write_tag">إلمس العلامة واجعله قريبا حتى تظهر رسالة التأكيد</string>
   <string name="info_write_tag_progress">كتابة الوسم</string>
   <string name="info_write_tag_finished">أنهاء بنجاح</string>
@@ -94,6 +89,7 @@
   <string name="action_settings">إعدادات</string>
   <string name="nfc_dialog_title">أكتب وسم فعل NFC لهذا العنصر</string>
   <string name="info_not_set">لم يُعين</string>
+  <!-- Notification list strings -->
   <!-- Strings for MemorizingTrustManager activity -->
   <string name="mtm_accept_cert">قبول شهادة غير معروفة؟</string>
   <string name="mtm_decision_always">دائماً</string>
@@ -144,10 +140,7 @@
   <string name="intro_themes_description">اختار من بين السمات</string>
   <string name="try_again_button">أعد المحاولة</string>
   <string name="go_to_settings_button">اذهب إلى الإعدادات</string>
-  <string name="configuration_missing">لا يمكن التعرف آليا على مزودك openHAB، رجاء إعداد عنوان IP او أسم المضيف في إعدادات الخادم.</string>
   <string name="resolving_openhab">يحاول إكتشاف نموذج خادم openHAB \u2026</string>
-  <string name="intro_discovery">استكشاف</string>
-  <string name="intro_discovery_summary">الرجاء ملاحظة أنه لن يعمل إلا في حالة عدم إجبار المصادقة من الخادم</string>
   <!-- Content description for images -->
   <string name="content_description_open_roller_shutter">إفتح الإسطوانة</string>
   <string name="content_description_stop_roller_shutter">أوقف الإسطوانة</string>
@@ -158,7 +151,6 @@
   <string name="content_description_open_number_picker">فتح منتقي الرقم</string>
   <string name="content_description_video">فيديو</string>
   <string name="content_description_open_openhab">افتح openHAB</string>
-  <string name="swipe_to_refresh_description">التطبيق يتحدث تلقائيا، لست بحاجة إلى تحديثه يدويا</string>
   <string name="swipe_to_refresh_dismiss">أعي ذلك!</string>
   <!-- Intro strings -->
   <!-- Intro "SKIP" button -->

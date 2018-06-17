@@ -4,7 +4,7 @@
     <whatis>openHAB je open source platforma pro automatizaci domácnosti, založená na Java, která integruje a kombinuje širokou škálu různých systémů a technologií pro automatizaci domácnosti do jediného řešení.</whatis>
     <rules>Všechna připojená zařízení je možné spravovat, ovládat a automatizovat pomocí vlastních pravidel a různých uživatelských rozhraní.</rules>
     <supported>Podporované produkty</supported>
-    <bindings>Více než 200 doplňků přidává podporu pro značky, zařízení, technologie a komunikační protokoly. Například Z-Wave, Philips Hue, Amazon Echo, Chromecast a Sonos. Všechny dostupné doplňky a podporovaná zařízení a/nebo funkce najdete na: https://docs.openhab.org/addons/bindings.html</bindings>
+    <bindings>Více než 200 doplňků přidává podporu pro značky, zařízení, technologie a komunikační protokoly. Například Z-Wave, Philips Hue, Amazon Echo, Chromecast a Sonos. </bindings>
 
     <home_automation_solutions>• Řešení domácí automatizace: Z-Wave, Banaba, Netatmo, Homematic, Insteon,...</home_automation_solutions>
     <lighting>• Osvětlení: Philips Hue, Ikea Trådfri, LIFX, Lutron, Milight,...</lighting>
@@ -24,9 +24,9 @@
     <about_foundation>OpenHAB Foundation e.V. je nezisková organizace s posláním vzdělávat veřejnost o možnostech a výhodách svobodných a otevřených chytrých řešeních pro domácí automatizaci. Další informace o poslání a službách nadace naleznete na https://www.openhabfoundation.org</about_foundation>
     <important_note>Důležitá poznámka</important_note>
     <oh_server>Pro správné fungování aplikace budete potřebovat openHAB server</oh_server>
-    <short_description>openHAB klient pro Android</short_description>
+    <short_description/>
     <fdroid>F-Droid podporuje zobrazení mapy, GCM a notifikace byly odebrány a tedy nelze přijímat push notifikace z openHAB cloudu.</fdroid>
-    <fdroid_beta>Můžete nainstalovat beta verzi vedle stabilní verze: [[org.openhab.habdroid]]</fdroid_beta>
+    <fdroid_beta> <a href=""/></fdroid_beta>
     <fdroid_privacy_policy/>
     <fdroid_anti_features/>
     <fdroid_anti_features_text/>
