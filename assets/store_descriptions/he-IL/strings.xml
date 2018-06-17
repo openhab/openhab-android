@@ -26,7 +26,7 @@
     <oh_server>יש צורך בשרת openHAB עבור יישום זה</oh_server>
     <short_description>אוטומציה לבית החכם מבוססת על קוד פתוח ובלתי מוגבלת לטכנולוגיה וחברה מסויימת</short_description>
     <fdroid>תוכנות עבור F-Droid מכילות תצוגת מיפוי, GCM ודיווחי שגיאה על התרסקות הוסרו ולא יוכלו לקבל התראות בדחיפה מענן openHAB.</fdroid>
-    <fdroid_beta>באפשרותך להתקין את גירסת הבטא לצד הגרסה היציבה: [[org.openhab.habdroid]]</fdroid_beta>
+    <fdroid_beta> <a href=""/></fdroid_beta>
     <fdroid_privacy_policy>מדיניות פרטיות: https://www.openhabfoundation.org/privacy</fdroid_privacy_policy>
     <fdroid_anti_features>תכונות שצריך לשים לב אליהן</fdroid_anti_features>
     <fdroid_anti_features_text>האפליקציה מסומנת בדגל עם הדגל "NonFreeAsset", כי הצלמית של openHAB אינה תחת רישיון חופשי.</fdroid_anti_features_text>
