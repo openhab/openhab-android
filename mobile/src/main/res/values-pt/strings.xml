@@ -19,17 +19,12 @@
   <string name="settings_openhab_username">Nome de utilizador</string>
   <string name="settings_openhab_password">Palavra passe</string>
   <string name="settings_openhab_sslclientcert">Certificado de cliente SSL</string>
-  <string name="settings_openhab_sslclientcert_howto">Certificado de cliente SSL How-to</string>
   <string name="settings_openhab_sslclientcert_howto_summary">Toque aqui para obter algumas dicas e explicações sobre como configurar a autenticação de certificado de cliente SSL</string>
   <string name="settings_openhab_screentimeroff">Desativar a exibição do temporizador</string>
   <string name="settings_openhab_screentimeroff_summary">Desativar exibição do interruptor de temporização quando openHAB está a ser executado</string>
   <string name="settings_openhab_demomode">Modo de demonstração</string>
   <string name="settings_openhab_demomode_summary">Executar em modo de demonstração</string>
   <string name="settings_openhab_theme">Tema</string>
-  <string name="settings_openhab_sslcert">Ignorar o certificado SSL</string>
-  <string name="settings_openhab_sslcert_summary">Ignorar a validação de certificados durante o handshake SSL</string>
-  <string name="settings_openhab_sslhost">Ignorar o nome de host SSL</string>
-  <string name="settings_openhab_sslhost_summary">Ignorar verificação de hostname durante o handshake SSL</string>
   <string name="settings_openhab_fullscreen">Ecrã inteiro</string>
   <string name="settings_openhab_fullscreen_summary">Exibir no modo de ecrã inteiro</string>
   <string name="settings_openhab_icon_format">Formato de icone</string>
@@ -49,8 +44,6 @@
   <string name="error_network_not_available">Rede não está disponivel</string>
   <string name="error_connection_failed">Conexão ao host falhado</string>
   <string name="error_unable_to_resolve_hostname">Não foi possível resolver nome de anfitrião</string>
-  <string name="error_certificate_expired">Certificado SLL expirou. Por favor, obter um novo certificado ousesabilitar a validação de certificado durante o handshake SSL</string>
-  <string name="error_certificate_revoked">Certificado SLL foi revogado. Por favor, obter um novo certificado ou desabilitar a validação de certificado durante o handshake SSL</string>
   <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
   <string name="error_http_code_496">Certificado de cliente SSL é necessário (HTTP código de resposta 496)</string>
   <string name="error_http_code_511">Autenticação de rede é necessária (HTTP código de resposta 511)</string>
@@ -69,8 +62,6 @@
   <string name="info_not_set">Não definido</string>
   <!-- Notification list strings -->
   <!-- Strings for MemorizingTrustManager activity -->
-  <string name="mtm_accept_cert">Aceitar Certificado desconhecido?</string>
-  <string name="mtm_decision_always">Sempre</string>
   <string name="mtm_decision_once">Uma só vez</string>
   <string name="mtm_decision_abort">Anular</string>
   <string name="mtm_notification">Verificação de certificado</string>
