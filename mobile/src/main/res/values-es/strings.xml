@@ -15,16 +15,11 @@
   <string name="settings_openhab_username">Nombre de usuario</string>
   <string name="settings_openhab_password">Contraseña</string>
   <string name="settings_openhab_sslclientcert">Certificado de cliente SSL</string>
-  <string name="settings_openhab_sslclientcert_howto">Certificado de cliente SSL how-to</string>
   <string name="settings_openhab_sslclientcert_howto_summary">Clic aquí para obtener sugerencias y explicaciones sobre cómo configurar la autenticación del certificado de cliente SSL</string>
   <string name="settings_openhab_screentimeroff">Deshabilitar apagado de pantalla</string>
   <string name="settings_openhab_screentimeroff_summary">Deshabilita el temporizador que apaga la pantalla mientras se está ejecutando</string>
   <string name="settings_openhab_demomode">Modo demo</string>
   <string name="settings_openhab_demomode_summary">Ejecutar openHAB App modo demo</string>
-  <string name="settings_openhab_sslcert">Ignorar certificado SSL</string>
-  <string name="settings_openhab_sslcert_summary">No comprobar el certificado durante la conexión SSL</string>
-  <string name="settings_openhab_sslhost">Ignorar dominio SSL</string>
-  <string name="settings_openhab_sslhost_summary">No comprobar el nombre de dominio durante la conexión SSL</string>
   <string name="settings_openhab_fullscreen_summary">Mostrar a pantalla completa</string>
   <string name="settings_openhab_icon_format">Formato de los iconos</string>
   <!-- App messages strings -->
@@ -38,8 +33,6 @@
   <string name="error_network_not_available">La conexión de red no está disponible</string>
   <string name="error_connection_failed">Ha fallado la conexión con el host</string>
   <string name="error_unable_to_resolve_hostname">No se puede resolver el nombre de host</string>
-  <string name="error_certificate_expired">El certificado SSL ha caducado. Por favor, obtén un nuevo certificado o deshabilita la validación del certificado durante la negociación SSL</string>
-  <string name="error_certificate_revoked">El certificado SSL ha sido revocado. Por favor, obtén un nuevo certificado o deshabilita la validación del certificado durante la negociación SSL</string>
   <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
   <string name="error_http_code_496">SSL client certificate is required (Código de respuesta HTTP 496)</string>
   <string name="error_http_code_511">Se requiere autenticación de red (Código de respuesta HTTP 511)</string>
@@ -55,8 +48,6 @@
   <string name="info_not_set">Sin establecer</string>
   <!-- Notification list strings -->
   <!-- Strings for MemorizingTrustManager activity -->
-  <string name="mtm_accept_cert">Aceptar este certificado desconocido?</string>
-  <string name="mtm_decision_always">Siempre</string>
   <string name="mtm_decision_once">Una vez</string>
   <string name="mtm_decision_abort">Cancelar</string>
   <string name="mtm_notification">Validación del certificado</string>
