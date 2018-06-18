@@ -24,10 +24,10 @@ then
     echo "Code ($currentVersionCode) or tag ($TRAVIS_TAG) are empty! Don't bump anything."
 else
     # Remove -release from version name for stable versions
-    TRAVIS_TAG="${TRAVIS_TAG%-release}"
-    echo "New version code is $currentVersionCode and name $TRAVIS_TAG"
+    VERSION_NAME="${TRAVIS_TAG%-release}"
+    echo "New version code is $currentVersionCode and name $VERSION_NAME"
     echo "Replace versionCode"
     sed --in-place -r "s/versionCode (.*)/versionCode ${currentVersionCode}/" $gradle_file
     echo "Replace versionName"
-    sed --in-place -r "s/versionName \"(.*)\"/versionName \"${TRAVIS_TAG}\"/" $gradle_file
+    sed --in-place -r "s/versionName \"(.*)\"/versionName \"${VERSION_NAME}\"/" $gradle_file
 fi

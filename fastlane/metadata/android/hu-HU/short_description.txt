@@ -1,1 +1,1 @@
-openHAB client for Android
+Szabadgondolkozású technológia, nyílt forráskódú otthonautomatizálás

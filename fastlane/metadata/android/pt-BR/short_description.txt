@@ -1,1 +1,1 @@
-openHAB client for Android
+Fornecedor e tecnologia agnóstica de código aberto de automação residencial

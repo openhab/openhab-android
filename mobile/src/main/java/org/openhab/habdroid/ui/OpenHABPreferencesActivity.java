@@ -32,11 +32,9 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 
-import com.loopj.android.image.WebImageCache;
-
 import org.openhab.habdroid.R;
+import org.openhab.habdroid.util.CacheManager;
 import org.openhab.habdroid.util.Constants;
-import org.openhab.habdroid.util.MyWebImage;
 import org.openhab.habdroid.util.Util;
 
 import java.security.cert.X509Certificate;
@@ -47,6 +45,7 @@ import java.security.cert.X509Certificate;
 public class OpenHABPreferencesActivity extends AppCompatActivity {
     private final static String TAG = OpenHABPreferencesActivity.class.getSimpleName();
     public static final String RESULT_EXTRA_THEME_CHANGED = "theme_changed";
+    public static final String RESULT_EXTRA_SITEMAP_CLEARED = "sitemap_cleared";
     private static final String STATE_KEY_RESULT = "result";
 
     private Intent mResultIntent;
@@ -251,10 +250,7 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
                     restartIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     // Finish current activity
                     getActivity().finish();
-                    WebImageCache cache = MyWebImage.getWebImageCache();
-                    if (cache != null) {
-                        cache.clear();
-                    }
+                    CacheManager.getInstance(getActivity()).clearCache();
                     // Start launch activity
                     startActivity(restartIntent);
                     // Start launch activity
@@ -271,6 +267,7 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
                     edit.apply();
 
                     onNoDefaultSitemap(preference);
+                    getParentActivity().mResultIntent.putExtra(RESULT_EXTRA_SITEMAP_CLEARED, true);
                     return true;
                 }
             });

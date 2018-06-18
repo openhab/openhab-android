@@ -1,26 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/relativeLayout"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/list_selector"
-    android:paddingLeft="@dimen/widgetlist_item_left_margin"
-    android:paddingRight="@dimen/widgetlist_item_right_margin"
-    android:paddingStart="@dimen/widgetlist_item_left_margin"
-    android:paddingEnd="@dimen/widgetlist_item_right_margin">
+    android:background="@drawable/list_selector">
 
-    <include
-        android:id="@+id/groupleftlayout"
-        layout="@layout/openhabwidgetlist_icontext" />
+    <include layout="@layout/openhabwidgetlist_iconvaluetext" />
 
-    <TextView
-        android:id="@+id/widgetvalue"
+    <ImageView
+        android:id="@+id/right_arrow"
+        android:visibility="gone"
+        android:src="?themedArrowRightIcon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:layout_marginRight="4dp"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="4dp" />
+        android:layout_gravity="center_vertical"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp" />
 
-</RelativeLayout>
+</LinearLayout>

@@ -65,8 +65,8 @@ public class BasicWidgetTest extends TestWithoutIntro {
         recyclerView
                 .perform(RecyclerViewActions.scrollToPosition(4))
                 .check(matches(atPositionOnView(4, withText("Scene Selection"), R.id.widgetlabel)))
-                .check(matches(atPositionOnView(4, isDisplayed(), R.id.selectionspinner)))
-                .perform(RecyclerViewActions.actionOnItemAtPosition(4, onChildView(click(), R.id.selectionspinner)));
+                .check(matches(atPositionOnView(4, isDisplayed(), R.id.spinner)))
+                .perform(RecyclerViewActions.actionOnItemAtPosition(4, onChildView(click(), R.id.spinner)));
 
         DataInteraction appCompatCheckedTextView = onData(anything())
                 .inAdapterView(withClassName(
@@ -78,27 +78,27 @@ public class BasicWidgetTest extends TestWithoutIntro {
         // check whether scene radio button group is present
         recyclerView
                 .perform(RecyclerViewActions.scrollToPosition(5))
-                .check(matches(atPositionOnView(5, isDisplayed(), R.id.sectionswitchradiogroup)));
+                .check(matches(atPositionOnView(5, isDisplayed(), R.id.switchgroup)));
 
         // check whether switch is displayed
         recyclerView
                 .perform(RecyclerViewActions.scrollToPosition(1))
-                .check(matches(atPositionOnView(1, isDisplayed(), R.id.switchswitch)));
+                .check(matches(atPositionOnView(1, isDisplayed(), R.id.toggle)));
 
         // check whether slider is displayed
         recyclerView
                 .perform(RecyclerViewActions.scrollToPosition(8))
-                .check(matches(atPositionOnView(8, isDisplayed(), R.id.sliderseekbar)));
+                .check(matches(atPositionOnView(8, isDisplayed(), R.id.seekbar)));
 
         // check whether color control button is displayed
         recyclerView
                 .perform(RecyclerViewActions.scrollToPosition(9))
-                .check(matches(atPositionOnView(9, isDisplayed(), R.id.colorbutton_color)));
+                .check(matches(atPositionOnView(9, isDisplayed(), R.id.select_color_button)));
 
         // check whether roller shutter button is displayed
         recyclerView
                 .perform(RecyclerViewActions.scrollToPosition(10))
-                .check(matches(atPositionOnView(10, isDisplayed(), R.id.rollershutterbutton_stop)));
+                .check(matches(atPositionOnView(10, isDisplayed(), R.id.stop_button)));
 
         if (BuildConfig.FLAVOR.equals("full")) {
             // check whether map view is displayed

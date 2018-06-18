@@ -30,9 +30,9 @@ android {
     defaultConfig {
         applicationId "org.openhab.habdroid"
         minSdkVersion 14
-        targetSdkVersion 25
-        versionCode 55
-        versionName "2.1.6-beta"
+        targetSdkVersion 27
+        versionCode 67
+        versionName "2.2.8-beta"
         multiDexEnabled true
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
     }
@@ -85,12 +85,15 @@ android {
 }
 
 repositories {
-    jcenter()
+    maven {
+        url 'https://maven.fabric.io/public'
+    }
     mavenCentral()
     maven {
         url 'https://jitpack.io'
     }
     google()
+    jcenter()
 }
 
 dependencies {
@@ -99,11 +102,10 @@ dependencies {
     implementation "com.android.support:recyclerview-v7:27.1.1"
     implementation "com.android.support:design:27.1.1"
     implementation 'com.android.support:multidex:1.0.3'
-    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     implementation 'org.jmdns:jmdns:3.5.3'
     implementation 'com.squareup.okhttp3:okhttp:3.9.1'
     implementation 'com.github.heremaps:oksse:c92d0556f01e769d7c06c650941107642ce98fb5'
-    implementation 'com.github.loopj:android-smart-image-view:d09783b9508af5996361437a54cc234b662e4c78'
+    implementation 'com.larswerkman:HoloColorPicker:1.5'
     implementation 'com.github.BigBadaboom:androidsvg:3511e136498da94018ef9fa438895984ea9b99db'
     implementation 'com.github.apl-devs:appintro:v4.2.2'
     // Google Maps
@@ -140,13 +142,13 @@ dependencies {
     testImplementation 'org.powermock:powermock-module-junit4:1.7.0'
 
     // Espresso UI tests
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:2.2.2', {
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     }
-    androidTestImplementation 'com.android.support.test:runner:1.0.1'
-    androidTestImplementation 'com.android.support.test:rules:1.0.1'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-intents:3.0.1'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-contrib:2.2.2', {
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test:rules:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-intents:3.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-contrib:3.0.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     }
 

@@ -1,30 +1,35 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="utf-8"?>
 <strings>
-    <intro></intro>
-    <whatis></whatis>
-    <rules></rules>
-    <supported></supported>
-    <bindings>  </bindings>
+    <intro>openHAB - "スマートホームに力を与える" - ベンダーや技術に依存しないオープンソースのホームオートメーション</intro>
+    <whatis>openHAB は、Java ベースのオープンソース ホームオートメーション プラットフォームで、広大な範囲の異なるスマートホームシステムや技術を組み合わせたり統合して 1 つのソリューションにします。</whatis>
+    <rules>統一された抽象レイヤーの上で、包括的な自動化ルールエンジンと異なるユーザーインターフェイスの、すべての接続されてたデバイスが利用できます。</rules>
+    <supported>サポートされている製品</supported>
+    <bindings>200 以上の特定のアドオンは、ブランド、デバイス ・技術・通信プロトコルをサポートします。 例えば、Z-Wave、Philips Hue、アマゾンエコー、Chromecast、Sonos です。 </bindings>
 
-    <home_automation_solutions></home_automation_solutions>
-    <lighting></lighting>
-    <heating></heating>
-    <home_entertainment></home_entertainment>
-    <security></security>
-    <open_protocols></open_protocols>
-    <special_useCases></special_useCases>
-    <empty_point></empty_point>
+    <home_automation_solutions>• ホームオートメーション ソリューション: Z-Wave、EnOcean、Netatmo、Homematic、Insteon ...</home_automation_solutions>
+    <lighting>• 照明: Philips Hue、Ikea Trådfri、LIFX、lutron社、Milight ...</lighting>
+    <heating>• 暖房: Max!、Nest、Vitotronic、Heatmiser ...</heating>
+    <home_entertainment>• ホーム エンターテインメント: サムスンのテレビ、LG のテレビ、Sonos、パイオニア AVR、Squeezebox、Kodi、Plex ...</home_entertainment>
+    <security>• セキュリティ: ZoneMinder、DSC ...</security>
+    <open_protocols>• オープンなプロトコル: HTTP、TCP/UDP、MQTT、シリアル ...</open_protocols>
+    <special_useCases>• 特別なユースケース: Minecraft, テスラ自動車, 天気サービス ...</special_useCases>
+    <empty_point>• ...</empty_point>
 
-    <oss_community></oss_community>
-    <forum>  </forum>
+    <oss_community>オープンソース コミュニティ</oss_community>
+    <forum>openHAB オープンソース イニシアチブは、その活気に満ちたコミュニティを強く支持します。 登録ユーザー数が13,000を超えるフォーラムは、ガイダンス、ヘルプ、インスピレーションが見つかる場所です。 openHAB コミュニティフォーラムにご参加ください https://community.openhab.org</forum>
 
-    <report_issues></report_issues>
-    <translation></translation>
-    <foundation></foundation>
-    <about_foundation> </about_foundation>
-    <important_note></important_note>
-    <oh_server></oh_server>
-    <short_description></short_description>
-    <fdroid></fdroid>
-    <fdroid_beta></fdroid_beta>
+    <report_issues>問題が見つかったときは、フォーラムまたは https://github.com/openhab/openhab-android/issues で報告してください</report_issues>
+    <translation>アプリをあなたの言語に翻訳したい場合は https://crowdin.com/project/openhab-android に参加してください。</translation>
+    <foundation>openHAB 財団</foundation>
+    <about_foundation>openHAB 財団は、フリーでオープンなスマートホームソリューションの可能性と利点について一般の人々に教育することを使命とする非営利組織です。 財団の使命とサービスについて学んでください https://www.openhabfoundation.org</about_foundation>
+    <important_note>重要な注意事項</important_note>
+    <oh_server>このアプリは openHAB サーバーが必要です</oh_server>
+    <short_description/>
+    <fdroid>F-Droid のビルドは、マップビューのサポート、GCM、クラッシュレポートが削除されていて openHAB クラウドからプッシュ通知を受信することはできません。</fdroid>
+    <fdroid_beta> <a href=""/></fdroid_beta>
+    <fdroid_privacy_policy>プライバシー ポリシー: https://www.openhabfoundation.org/privacy</fdroid_privacy_policy>
+    <fdroid_anti_features>アンチ機能</fdroid_anti_features>
+    <fdroid_anti_features_text>openHAB アイコンは自由ライセンスではないので、アプリは"非自由資産"にマークされています。</fdroid_anti_features_text>
+    <beta>新しい機能をお試しの上、フィードバックしてください!</beta>
+    <play_beta>安定版の他にベータ版をインストールできます.</play_beta>
 </strings>

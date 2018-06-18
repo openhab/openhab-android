@@ -6,4 +6,6 @@
   <string name="info_openhab_gcm_in_progress">מתבצע רישום ההתקן</string>
   <string name="info_openhab_gcm_failed">רישום ההתקן נכשל</string>
   <string name="info_openhab_gcm_connected">המכשיר נרשם בהצלחה לשירות העברת הודעות בענן של גוגל</string>
+  <string name="notification_channel_default">ברירת מחדל</string>
+  <string name="notification_channel_severity_value">דרגת חומרה \'%1$s \'</string>
 </resources>

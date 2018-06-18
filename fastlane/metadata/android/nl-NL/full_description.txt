@@ -1,7 +1,8 @@
 openHAB - "empowering the smart home" - leverancier en technologie onafhankelijke open source domotica software
 
 Bij de F-Droid versie is kaartweergave ondersteuning, GCM en crash rapportage verwijderd en de app zal geen push-meldingen kunnen ontvangen van de openHAB Cloud.
-De beta versie kan geïnstalleerd worden naast de stabiele versie: [[org.openhab.habdroid]]
+Try out new features and give early feedback!
+You can install the beta version alongside the 
 
 <b>Belangrijke opmerking</b>
 
@@ -12,7 +13,7 @@ Via de uniforme abstractie laag zijn alle aangesloten apparaten beschikbaar voor
 
 <b>Ondersteunde producten</b>
 
-Meer dan 200 specifieke add-ons bieden ondersteuning voor merken, apparaten, technologieën en communicatieprotocollen. Voorbeelden zijn Z-Wave, Philips Hue, Amazon Echo, Chromecast en Sonos. Ontdek alle beschikbare invoegtoepassingen en ondersteunde apparaten en/of functies op: https://docs.openhab.org/addons/bindings.html
+Meer dan 200 specifieke add-ons bieden ondersteuning voor merken, apparaten, technologieën en communicatieprotocollen. Voorbeelden zijn Z-Wave, Philips Hue, Amazon Echo, Chromecast en Sonos. 
 
 • Domotica oplossingen: Z-Wave, EnOcean, Netatmo, Homematic, Insteon,...
 • Verlichting: Philips Hue, Ikea Trådfri, LIFX, Lutron, Milight,...
@@ -32,6 +33,7 @@ Als u de app wilt vertalen in uw taal bezoek ons dan op https://crowdin.com/proj
 <b>openHAB Foundation</b>
 
 De openHAB Foundation e.V. is een non-profit organisatie met als doel het publiek inzicht te geven in de mogelijkheden en voordelen van gratis en open smart home oplossingen. Lees meer over de missie en de diensten van de foundation op https://www.openhabfoundation.org
+
 <b>Anti Features</b>
 
 The app is flagged with the "NonFreeAsset" flag, because the openHAB icon is not under a free license.

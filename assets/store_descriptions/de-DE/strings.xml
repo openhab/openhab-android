@@ -1,30 +1,35 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="utf-8"?>
 <strings>
-    <intro>openHAB - "empowering the smart home" - eine technologie- und herstellerunabh&#xE4;ngige, quelloffene Automatisierungsl&#xF6;sung f&#xFC;r Ihr Zuhause</intro>
-    <whatis>openHAB ist eine auf Java basierende quelloffene Plattform zur Heimautomatisierung, welche eine gro&#xDF;e Bandbreite verschiedenster Smart-Home-Systeme und -Technologien in eine einzige L&#xF6;sung integriert und kombiniert.</whatis>
-    <rules>Aufbauend auf einer vereinheitlichten Abstraktionsschicht sind alle Ger&#xE4;te f&#xFC;r die &#xFC;bergreifenden Automatisierungs- bzw. Regelm&#xF6;glichkeiten und die verschiedenen Benutzeroberfl&#xE4;chen verf&#xFC;gbar.</rules>
-    <supported>Unterst&#xFC;tzte Produkte</supported>
-    <bindings>&#xDC;ber 200 spezifische Add-Ons stellen Unterst&#xFC;tzung f&#xFC;r Marken, Ger&#xE4;te, Technologien und Kommunikations-Protokolle zur Verf&#xFC;gung. Beispiele hierf&#xFC;r sind unter anderem Z-Wave, Philips Hue, Amazon Echo, Chromecast, Sonos und FRITZ!Box. Entdecken Sie alle verf&#xFC;gbaren Erweiterungen und unterst&#xFC;tzte Ger&#xE4;te und/oder Funktionen auf: https://docs.openhab.org/addons/bindings.html</bindings>
+    <intro>openHAB - "empowering the smart home" - eine technologie- und herstellerunabhängige, quelloffene Automatisierungslösung für Ihr Zuhause</intro>
+    <whatis>openHAB ist eine auf Java basierende quelloffene Plattform zur Heimautomatisierung, welche eine große Bandbreite verschiedenster Smart-Home-Systeme und -Technologien in eine einzige Lösung integriert und kombiniert.</whatis>
+    <rules>Aufbauend auf einer vereinheitlichten Abstraktionsschicht sind alle Geräte für die übergreifenden Automatisierungs- bzw. Regelmöglichkeiten und die verschiedenen Benutzeroberflächen verfügbar.</rules>
+    <supported>Unterstützte Produkte</supported>
+    <bindings>Über 200 spezifische Add-Ons stellen Unterstützung für Marken, Geräte, Technologien und Kommunikations-Protokolle zur Verfügung. Beispiele hierfür sind unter anderem Z-Wave, Philips Hue, Amazon Echo, Chromecast, Sonos und FRITZ!Box. Entdecken Sie alle verfügbaren Erweiterungen und unterstützte Geräte und/oder Funktionen auf: https://www.openhab.org/addons/</bindings>
 
-    <home_automation_solutions>&#x2022; Heimautomatisierungsl&#xF6;sungen: Z-Wave, EnOcean, Netatmo, Homematic, Insteon, ...</home_automation_solutions>
-    <lighting>&#x2022; Licht: Philips Hue, Ikea Tr&#xE5;dfri, LIFX, Lutron, Milight, ...</lighting>
-    <heating>&#x2022; Heizung: Max!, Nest, Vitotronic, Heatmiser, ...</heating>
-    <home_entertainment>&#x2022; Heimunterhaltung: Samsung TV, LG TV, Sonos, Pioneer AVR, Squeezebox, Kodi, Plex, ...</home_entertainment>
-    <security>&#x2022; Sicherheitstechnik: ZoneMinder, DSC, ...</security>
-    <open_protocols>&#x2022; Offene Protokolle: HTTP, TCP/UDP, MQTT, Serial, ...</open_protocols>
-    <special_useCases>&#x2022; Spezielle Anwendungsf&#xE4;lle: Minecraft, Tesla Auto, Wetterdienste,...</special_useCases>
-    <empty_point>&#x2022; ...</empty_point>
+    <home_automation_solutions>• Heimautomatisierungslösungen: Z-Wave, EnOcean, Netatmo, Homematic, Insteon, ...</home_automation_solutions>
+    <lighting>• Licht: Philips Hue, Ikea Trådfri, LIFX, Lutron, Milight, ...</lighting>
+    <heating>• Heizung: Max!, Nest, Vitotronic, Heatmiser, ...</heating>
+    <home_entertainment>• Heimunterhaltung: Samsung TV, LG TV, Sonos, Pioneer AVR, Squeezebox, Kodi, Plex, ...</home_entertainment>
+    <security>• Sicherheitstechnik: ZoneMinder, DSC, ...</security>
+    <open_protocols>• Offene Protokolle: HTTP, TCP/UDP, MQTT, Serial, ...</open_protocols>
+    <special_useCases>• Spezielle Anwendungsfälle: Minecraft, Tesla Auto, Wetterdienste,...</special_useCases>
+    <empty_point>• ...</empty_point>
 
     <oss_community>Open-Source-Community</oss_community>
-    <forum>Die quelloffene openHAB Initiative unterst&#xFC;tzt nachdr&#xFC;cklich ihre lebhafte Community. Das Forum (mit &#xFC;ber 13.000 registrierten Mitgliedern) ist ein Ort an dem man Anleitung, Hilfe und Inspiration findet. Besuchen Sie das openHAB-Community-Forum auf https://community.openhab.org</forum>
+    <forum>Die quelloffene openHAB Initiative unterstützt nachdrücklich ihre lebhafte Community. Das Forum (mit über 13.000 registrierten Mitgliedern) ist ein Ort an dem man Anleitung, Hilfe und Inspiration findet. Besuchen Sie das openHAB-Community-Forum auf https://community.openhab.org</forum>
 
     <report_issues>Wenn Sie einen Fehler finden, melden Sie diesen bitte im Forum oder unter https://github.com/openhab/openhab-android/issues</report_issues>
-    <translation>Helfen Sie uns, diese App in Ihre Sprache zu &#xFC;bersetzen: https://crowdin.com/project/openhab-android</translation>
+    <translation>Helfen Sie uns, diese App in Ihre Sprache zu übersetzen: https://crowdin.com/project/openhab-android</translation>
     <foundation>openHAB Foundation e.V.</foundation>
-    <about_foundation>Die openHAB Foundation e.V. ist ein gemeinn&#xFC;tziger Verein mit dem Ziel, die &#xD6;ffentlichkeit &#xFC;ber die M&#xF6;glichkeiten und den Nutzen von kostenlosen und offenen Smart Home L&#xF6;sungen aufzukl&#xE4;ren. Erfahren Sie mehr &#xFC;ber die Ziele und Angebote der Foundation unter https://www.openhabfoundation.org</about_foundation>
+    <about_foundation>Die openHAB Foundation e.V. ist ein gemeinnütziger Verein mit dem Ziel, die Öffentlichkeit über die Möglichkeiten und den Nutzen von kostenlosen und offenen Smart Home Lösungen aufzuklären. Erfahren Sie mehr über die Ziele und Angebote der Foundation unter https://www.openhabfoundation.org</about_foundation>
     <important_note>Wichtiger Hinweis</important_note>
-    <oh_server>Um diese App zu nutzen, ben&#xF6;tigen Sie einen openHAB-Server</oh_server>
-    <short_description>openHAB-Client f&#xFC;r Android</short_description>
-    <fdroid>In der F-Droid-Version wurden die Unterst&#xFC;tzung f&#xFC;r Mapview-Elemente, GCM und die &#xDC;bermittlung von Absturzberichten entfernt. Mit dieser Version k&#xF6;nnen keine Nachrichten von einer openHAB-Cloud-Instanz empfangen werden.</fdroid>
-    <fdroid_beta>Sie k&#xF6;nnen die Betaversion neben der stabilen Version installieren: [[org.openhab.habdroid]]</fdroid_beta>
+    <oh_server>Um diese App zu nutzen, benötigen Sie einen openHAB-Server</oh_server>
+    <short_description>Technologie- und herstellerunabhängige, quelloffene Automatisierungslösung</short_description>
+    <fdroid>In der F-Droid-Version wurden die Unterstützung für Mapview-Elemente, GCM und die Übermittlung von Absturzberichten entfernt. Mit dieser Version können keine Nachrichten von einer openHAB-Cloud-Instanz empfangen werden.</fdroid>
+    <fdroid_beta> <a href=""/></fdroid_beta>
+    <fdroid_privacy_policy>Datenschutzerklärung: https://www.openhabfoundation.org/privacy</fdroid_privacy_policy>
+    <fdroid_anti_features>Anti-Features</fdroid_anti_features>
+    <fdroid_anti_features_text>Die App wurde mit dem "NonFreeAsset"-Anti-Feature markiert, da das openHAB-Icon nicht unter freier Lizenz steht.</fdroid_anti_features_text>
+    <beta>Testen Sie neue Features und geben Sie früh Feedback!</beta>
+    <play_beta>Sie können die Betaversion neben der stabilen Version installieren.</play_beta>
 </strings>

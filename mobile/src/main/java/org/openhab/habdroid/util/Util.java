@@ -11,11 +11,15 @@ package org.openhab.habdroid.util;
 
 import android.app.Activity;
 import android.app.ActivityManager;
+import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.preference.PreferenceManager;
+import android.support.annotation.AttrRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.StyleRes;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.util.TypedValue;
 
@@ -234,5 +238,24 @@ public class Util {
         clearTextCharCount = Math.min(string.length(), clearTextCharCount);
         return string.substring(0, clearTextCharCount) +
                 string.substring(clearTextCharCount).replaceAll(".", "*");
+    }
+
+    /**
+     * Sets {@link android.support.v4.widget.SwipeRefreshLayout} color scheme from
+     * a list of attributes pointing to color resources
+     *
+     * @param colorAttrIds color attributes to create color scheme from
+     */
+    public static void applySwipeLayoutColors(SwipeRefreshLayout swipeLayout,
+            @AttrRes int... colorAttrIds) {
+        TypedValue typedValue = new TypedValue();
+        Resources.Theme theme = swipeLayout.getContext().getTheme();
+        int[] colors = new int[colorAttrIds.length];
+
+        for (int i = 0; i < colorAttrIds.length; i++) {
+            theme.resolveAttribute(R.attr.colorPrimary, typedValue, true);
+            colors[i] = typedValue.data;
+        }
+        swipeLayout.setColorSchemeColors(colors);
     }
 }

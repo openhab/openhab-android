@@ -1,30 +1,36 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="utf-8"?>
 <strings>
-    <intro></intro>
-    <whatis></whatis>
-    <rules></rules>
-    <supported></supported>
-    <bindings>  </bindings>
+    <intro>openHAB - "empowering the smart home" - szállító és technológia független nyílt forráskódú okosotthon vezérlő szoftver</intro>
+    <whatis>openHAB, egy Java alapú, nyílt forráskódú otthon automatizálási platform. Mely integrálja és kombinálja a különböző okosotthon rendszereket és technológiákat egyetlen felületen.</whatis>
+    <rules>Az egyes eszközök fölött található, mely így összefogja, és vezérli illetve automatizálja az összes hozzá csatlakozott elemet.</rules>
+    <supported>Támogatott termékek</supported>
+    <bindings>104/5000
+Több mint 200 külön kiegészítő támogatja a márkákat, eszközöket, technológiákat és kommunikációs protokollokat. Például a Z-Wave, a Philips Hue, az Amazon Echo, a Chromecast és a Sonos. Fedezze fel az összes rendelkezésre álló bővítményt és támogatott eszközt és / vagy funkciót a következő címen: https://www.openhab.org/addons/</bindings>
 
-    <home_automation_solutions></home_automation_solutions>
-    <lighting></lighting>
-    <heating></heating>
-    <home_entertainment></home_entertainment>
-    <security></security>
-    <open_protocols></open_protocols>
-    <special_useCases></special_useCases>
-    <empty_point></empty_point>
+    <home_automation_solutions>• Otthonautomatizálási megoldások: Z-Wave, EnOcean, Netatmo, Homematic, Insteon, ...</home_automation_solutions>
+    <lighting>• Világítás: Philips Hue, Ikea Trådfri, LIFX, Lutron, Milight, ...</lighting>
+    <heating>• Fűtés: Max!, Nest, Vitotronic, Heatmiser, ...</heating>
+    <home_entertainment>• Otthoni szórakozás: Samsung TV, LG TV, Sonos, Pioneer AVR, Squeezebox, Kodi, Plex, ...</home_entertainment>
+    <security>• Biztonság: ZoneMinder, DSC, ...</security>
+    <open_protocols>• Nyitott protokollok: HTTP, TCP/UDP, MQTT, Serial, ...</open_protocols>
+    <special_useCases/>
+    <empty_point>• ...</empty_point>
 
-    <oss_community></oss_community>
-    <forum>  </forum>
+    <oss_community>Nyílt forráskódú közösség</oss_community>
+    <forum>Az openHAB egy nyílt forráskódú kezdeményezés, erős támogatottsággal és élénk, aktív közösséggel. A fórumunk egy olyan hely, aminek több mint 13,000 regisztrált felhasználója van, akiktől segítséget, leírásokat és inspirációkat lehet nyerni. Az openHAB közösség fórumához a https://community.openhab.org oldalon lehet csatlakozni</forum>
 
-    <report_issues></report_issues>
-    <translation></translation>
-    <foundation></foundation>
-    <about_foundation> </about_foundation>
-    <important_note></important_note>
-    <oh_server></oh_server>
-    <short_description></short_description>
-    <fdroid></fdroid>
-    <fdroid_beta></fdroid_beta>
+    <report_issues>Amikor találsz valamilyen hibát vagy hiányosságot, kérlek jelezd a fórumon vagy a https://github.com/openhab/openhab-android/issues internet oldalon</report_issues>
+    <translation>Ha szeretnéd az alkamazást lefordítani a saját nyelvedre, akkor csatlakozz hozzánk https://crowdin.com/project/openhab-android</translation>
+    <foundation>openHAB alapítvány</foundation>
+    <about_foundation>A openHAB Alapítvány e.V. egy nonprofit szervezet, azzal a küldetéssel, hogy megismertesse a közvéleményt a nyílt és okos otthon megoldások előnyeivel és lehetőségeivel. Tudj meg többet az alapítvány küldetéséről és szolgáltatásairól: https://www.openhabfoundation.org</about_foundation>
+    <important_note>Fontos megjegyzés</important_note>
+    <oh_server>Szükséged van egy openHAB szerverre, hogy tudd használni ezt az alkalmazást</oh_server>
+    <short_description>Szabadgondolkozású technológia, nyílt forráskódú otthonautomatizálás</short_description>
+    <fdroid>A F-Droidra készült példány tartalmaz map nézetet is, GCM és hibajelentés el lett belőle távolítva és nem képes push értesítések fogadására az openHAB felhőről.</fdroid>
+    <fdroid_beta> <a href=""/></fdroid_beta>
+    <fdroid_privacy_policy>Adatvédelem: https://www.openhabfoundation.org/privacy</fdroid_privacy_policy>
+    <fdroid_anti_features>Anti funkciók</fdroid_anti_features>
+    <fdroid_anti_features_text>Az alkalmazás meg van jelölve a "NonFreeAsset" zászlóval, mert az openHAB ikon nincs szabad licensz alatt.</fdroid_anti_features_text>
+    <beta>Próbáld ki az új funkciókat és adj korai visszajelzést!</beta>
+    <play_beta>Telepíthetsz béta verziót is a stabil mellé.</play_beta>
 </strings>

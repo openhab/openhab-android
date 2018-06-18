@@ -1,30 +1,35 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="utf-8"?>
 <strings>
-    <intro></intro>
-    <whatis></whatis>
-    <rules></rules>
-    <supported></supported>
+    <intro/>
+    <whatis/>
+    <rules/>
+    <supported/>
     <bindings>  </bindings>
 
-    <home_automation_solutions></home_automation_solutions>
-    <lighting></lighting>
-    <heating></heating>
-    <home_entertainment></home_entertainment>
-    <security></security>
-    <open_protocols></open_protocols>
-    <special_useCases></special_useCases>
-    <empty_point></empty_point>
+    <home_automation_solutions/>
+    <lighting/>
+    <heating/>
+    <home_entertainment/>
+    <security/>
+    <open_protocols/>
+    <special_useCases/>
+    <empty_point/>
 
-    <oss_community></oss_community>
+    <oss_community/>
     <forum>  </forum>
 
-    <report_issues></report_issues>
-    <translation></translation>
-    <foundation></foundation>
+    <report_issues/>
+    <translation/>
+    <foundation/>
     <about_foundation> </about_foundation>
-    <important_note></important_note>
-    <oh_server></oh_server>
-    <short_description></short_description>
-    <fdroid></fdroid>
-    <fdroid_beta></fdroid_beta>
+    <important_note/>
+    <oh_server/>
+    <short_description/>
+    <fdroid/>
+    <fdroid_beta> <a href=""/></fdroid_beta>
+    <fdroid_privacy_policy/>
+    <fdroid_anti_features/>
+    <fdroid_anti_features_text/>
+    <beta/>
+    <play_beta/>
 </strings>

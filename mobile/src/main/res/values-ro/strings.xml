@@ -9,9 +9,10 @@
   <!-- App messages strings -->
   <!-- Error messages -->
   <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
+  <!-- Notification list strings -->
   <!-- Strings for MemorizingTrustManager activity -->
   <!-- Themes -->
-  <!-- NFC toggle -->
+  <!-- NFC -->
   <!-- Drawer -->
   <!-- About -->
   <!-- Content description for images -->

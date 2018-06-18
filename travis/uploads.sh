@@ -8,7 +8,7 @@ then
     exit
 fi
 
-bash travis/bump-versioncode.sh
+source travis/bump-versioncode.sh
 
 if $(echo "$TRAVIS_TAG" | grep -q "beta")
 then
@@ -16,6 +16,8 @@ then
 else
     python3 assets/store_descriptions/generate_and_validate.py fdroid
 fi
+
+curl https://api.github.com/repos/openhab/openhab-android/releases | jq -r '.[0].body' > fastlane/metadata/android/en-US/changelogs/${currentVersionCode}.txt
 
 git config --local user.name "openhab-bot"
 git config --local user.email "bot@openhab.org"

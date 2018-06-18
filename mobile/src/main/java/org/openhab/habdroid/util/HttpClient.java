@@ -42,6 +42,7 @@ import javax.net.ssl.X509KeyManager;
 import javax.net.ssl.X509TrustManager;
 
 import de.duenndns.ssl.MemorizingTrustManager;
+import okhttp3.CacheControl;
 import okhttp3.Call;
 import okhttp3.Credentials;
 import okhttp3.HttpUrl;
@@ -52,6 +53,12 @@ import okhttp3.RequestBody;
 
 public abstract class HttpClient {
     private static final String TAG = HttpClient.class.getSimpleName();
+
+    public enum CachingMode {
+        DEFAULT,
+        AVOID_CACHE,
+        FORCE_CACHE_IF_POSSIBLE
+    }
 
     private final HttpUrl mBaseUrl;
     private final Map<String, String> headers = new HashMap<>();
@@ -71,7 +78,9 @@ public abstract class HttpClient {
 
     protected HttpClient(Context context, SharedPreferences prefs, String baseUrl) {
         final Context appContext = context.getApplicationContext();
-        mClient = new OkHttpClient.Builder().build();
+        mClient = new OkHttpClient.Builder()
+                .cache(CacheManager.getInstance(context).getHttpCache())
+                .build();
         mBaseUrl = baseUrl != null ? HttpUrl.parse(baseUrl) : null;
 
         mDefaultHostnameVerifier = mClient.hostnameVerifier();
@@ -113,17 +122,24 @@ public abstract class HttpClient {
         return new OkSse(mClient);
     }
 
-    protected Call prepareCall(String url, String method, Map<String, String> additionalHeaders,
-                               String requestBody, String mediaType) {
-        Request.Builder requestBuilder = new Request.Builder();
+    public HttpUrl buildUrl(String url) {
         HttpUrl absoluteUrl = HttpUrl.parse(url);
-        if (absoluteUrl != null) {
-            requestBuilder.url(absoluteUrl);
-        } else if (mBaseUrl != null) {
-            requestBuilder.url(mBaseUrl.newBuilder().addPathSegments(url).build());
-        } else {
-            throw new IllegalArgumentException("Can't use relative URLs without base URL");
+        if (absoluteUrl == null && mBaseUrl != null) {
+            if (url.startsWith("/")) {
+                url = url.substring(1);
+            }
+            absoluteUrl = HttpUrl.parse(mBaseUrl.toString() + url);
         }
+        if (absoluteUrl == null) {
+            throw new IllegalArgumentException("URL '" + url + "' is invalid");
+        }
+        return absoluteUrl;
+    }
+
+    protected Call prepareCall(String url, String method, Map<String, String> additionalHeaders,
+                               String requestBody, String mediaType, CachingMode caching) {
+        Request.Builder requestBuilder = new Request.Builder();
+        requestBuilder.url(buildUrl(url));
         for (Map.Entry<String, String> entry : headers.entrySet()) {
             requestBuilder.addHeader(entry.getKey(), entry.getValue());
         }
@@ -134,6 +150,18 @@ public abstract class HttpClient {
         }
         if (requestBody != null) {
             requestBuilder.method(method, RequestBody.create(MediaType.parse(mediaType), requestBody));
+        }
+        switch (caching) {
+            case AVOID_CACHE:
+                requestBuilder.cacheControl(CacheControl.FORCE_NETWORK);
+                break;
+            case FORCE_CACHE_IF_POSSIBLE:
+                requestBuilder.cacheControl(new CacheControl.Builder()
+                        .maxStale(Integer.MAX_VALUE, TimeUnit.SECONDS)
+                        .build());
+                break;
+            default:
+                break;
         }
         Request request = requestBuilder.build();
         return mClient.newCall(request);

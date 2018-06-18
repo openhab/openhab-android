@@ -1,1 +1,1 @@
-عميل openHAB للأندرويد
+Vendor and technology agnostic open source home automation

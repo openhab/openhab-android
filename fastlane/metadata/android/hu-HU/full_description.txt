@@ -1,40 +1,43 @@
-openHAB - "empowering the smart home" - vendor and technology agnostic open source home automation
+openHAB - "empowering the smart home" - szállító és technológia független nyílt forráskódú okosotthon vezérlő szoftver
 
-The builds on F-Droid have map view support, GCM and crash reporting removed and will not be able to receive push notifications from openHAB Cloud.
-You can install the beta version alongside the stable version: [[org.openhab.habdroid]]
+A F-Droidra készült példány tartalmaz map nézetet is, GCM és hibajelentés el lett belőle távolítva és nem képes push értesítések fogadására az openHAB felhőről.
+Próbáld ki az új funkciókat és adj korai visszajelzést!
+You can install the beta version alongside the 
 
-<b>Important note</b>
+<b>Fontos megjegyzés</b>
 
-You need an openHAB server for this app
+Szükséged van egy openHAB szerverre, hogy tudd használni ezt az alkalmazást
 
-openHAB is a Java-based open-source home automation platform that integrates and combines a vast range of different smart home systems and technologies into one single solution.
-On top of the unified abstraction layer all connected devices are available for the overarching automation rule engines and different user interfaces.
+openHAB, egy Java alapú, nyílt forráskódú otthon automatizálási platform. Mely integrálja és kombinálja a különböző okosotthon rendszereket és technológiákat egyetlen felületen.
+Az egyes eszközök fölött található, mely így összefogja, és vezérli illetve automatizálja az összes hozzá csatlakozott elemet.
 
-<b>Supported Products</b>
+<b>Támogatott termékek</b>
 
-Over 200 specific add-ons provide support for brands, devices, technologies and communication protocols. Examples are Z-Wave, Philips Hue, Amazon Echo, Chromecast and Sonos. Discover all available add-ons and supported devices and/or functions at: https://docs.openhab.org/addons/bindings.html
+104/5000
+Több mint 200 külön kiegészítő támogatja a márkákat, eszközöket, technológiákat és kommunikációs protokollokat. Például a Z-Wave, a Philips Hue, az Amazon Echo, a Chromecast és a Sonos. Fedezze fel az összes rendelkezésre álló bővítményt és támogatott eszközt és / vagy funkciót a következő címen: https://www.openhab.org/addons/
 
-• Home Automation Solutions: Z-Wave, EnOcean, Netatmo, Homematic, Insteon, ...
-• Lighting: Philips Hue, Ikea Trådfri, LIFX, Lutron, Milight, ...
-• Heating: Max!, Nest, Vitotronic, Heatmiser, ...
-• Home Entertainment: Samsung TV, LG TV, Sonos, Pioneer AVR, Squeezebox, Kodi, Plex, ...
-• Security: ZoneMinder, DSC, ...
-• Open Protocols: HTTP, TCP/UDP, MQTT, Serial, ...
+• Otthonautomatizálási megoldások: Z-Wave, EnOcean, Netatmo, Homematic, Insteon, ...
+• Világítás: Philips Hue, Ikea Trådfri, LIFX, Lutron, Milight, ...
+• Fűtés: Max!, Nest, Vitotronic, Heatmiser, ...
+• Otthoni szórakozás: Samsung TV, LG TV, Sonos, Pioneer AVR, Squeezebox, Kodi, Plex, ...
+• Biztonság: ZoneMinder, DSC, ...
+• Nyitott protokollok: HTTP, TCP/UDP, MQTT, Serial, ...
 • Special UseCases: Minecraft, Tesla Car, Weather Services, ...
 • ...
 
-<b>Open Source Community</b>
+<b>Nyílt forráskódú közösség</b>
 
-The openHAB open source initiative strongly supports its vibrant community. The forum with over 13,000 registered users is a place to find guidance, help and inspiration. Join the openHAB community forum over at https://community.openhab.org
-When you find an issue please report it in the forum or at https://github.com/openhab/openhab-android/issues
-If you want to translate the app into your language join us at https://crowdin.com/project/openhab-android
+Az openHAB egy nyílt forráskódú kezdeményezés, erős támogatottsággal és élénk, aktív közösséggel. A fórumunk egy olyan hely, aminek több mint 13,000 regisztrált felhasználója van, akiktől segítséget, leírásokat és inspirációkat lehet nyerni. Az openHAB közösség fórumához a https://community.openhab.org oldalon lehet csatlakozni
+Amikor találsz valamilyen hibát vagy hiányosságot, kérlek jelezd a fórumon vagy a https://github.com/openhab/openhab-android/issues internet oldalon
+Ha szeretnéd az alkamazást lefordítani a saját nyelvedre, akkor csatlakozz hozzánk https://crowdin.com/project/openhab-android
 
-<b>openHAB Foundation</b>
+<b>openHAB alapítvány</b>
 
-The openHAB Foundation e.V. is a nonprofit organization with the mission to educate the public about the possibilities and benefits of free and open smart home solutions. Learn about the mission and the services of the foundation under https://www.openhabfoundation.org
-<b>Anti Features</b>
+A openHAB Alapítvány e.V. egy nonprofit szervezet, azzal a küldetéssel, hogy megismertesse a közvéleményt a nyílt és okos otthon megoldások előnyeivel és lehetőségeivel. Tudj meg többet az alapítvány küldetéséről és szolgáltatásairól: https://www.openhabfoundation.org
 
-The app is flagged with the "NonFreeAsset" flag, because the openHAB icon is not under a free license.
+<b>Anti funkciók</b>
+
+Az alkalmazás meg van jelölve a "NonFreeAsset" zászlóval, mert az openHAB ikon nincs szabad licensz alatt.
 
 
-Privacy policy: https://www.openhabfoundation.org/privacy
+Adatvédelem: https://www.openhabfoundation.org/privacy
