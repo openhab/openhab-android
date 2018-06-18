@@ -22,17 +22,12 @@
   <string name="settings_openhab_username">Nazwa użytkownika</string>
   <string name="settings_openhab_password">Hasło</string>
   <string name="settings_openhab_sslclientcert">Certyfikat klienta SSL</string>
-  <string name="settings_openhab_sslclientcert_howto">Certyfikat klienta SSL pomoc</string>
   <string name="settings_openhab_sslclientcert_howto_summary">Naciśnij tutaj, aby uzyskać kilka wskazówek i wyjaśnień o tym, jak skonfigurować autoryzację certyfikatu klienta SSL</string>
   <string name="settings_openhab_screentimeroff">Wyłącz wyświetlanie zegara</string>
   <string name="settings_openhab_screentimeroff_summary">Wyłącz wyświetlanie wyłącznik zegara, kiedy openHAB jest włączony</string>
   <string name="settings_openhab_demomode">Wersja demonstracyjna</string>
   <string name="settings_openhab_demomode_summary">Uruchom w trybie demonstracyjnym</string>
   <string name="settings_openhab_theme">Motyw</string>
-  <string name="settings_openhab_sslcert">Ignoruj certyfikat SSL</string>
-  <string name="settings_openhab_sslcert_summary">Ignoruj sprawdzenie poprawności certyfikatu podczas uzgadniania SSL</string>
-  <string name="settings_openhab_sslhost">Ignoruj nazwę hosta SSL</string>
-  <string name="settings_openhab_sslhost_summary">Ignoruj sprawdzanie nazwy hosta podczas uzgadniania SSL</string>
   <string name="settings_openhab_fullscreen">Pełny ekran</string>
   <string name="settings_openhab_fullscreen_summary">Wyświetl w trybie pełnego ekranu</string>
   <string name="settings_openhab_icon_format">Format ikon</string>
@@ -41,7 +36,6 @@
   <string name="settings_clear_default_sitemap">Wyczyść domyślną mapę witryn</string>
   <string name="settings_no_default_sitemap">Nie wybrano domyślnej mapy witryn</string>
   <string name="settings_current_default_sitemap">Obecna domyślna mapa witryn: %1$s</string>
-  <string name="settings_openhab_sslsettings">Szyfrowanie</string>
   <string name="settings_openhab_alt_connection">Ustawienia serwera zdalnego</string>
   <string name="settings_openhab_connection">Ustawienia serwera lokalnego</string>
   <!-- App messages strings -->
@@ -58,8 +52,6 @@
   <string name="error_connection_failed">Połączenie z hostem nie powiodło się</string>
   <string name="error_unable_to_resolve_hostname">Nie można określić nazwy hosta</string>
   <string name="error_connection_sslhandshake_failed">Uzgadnianie SSL nie powiodło się - może potrzebujesz właściwego certyfikatu klienta</string>
-  <string name="error_certificate_expired">Certyfikat SSL jest przestarzały. Proszę uzyskaj nowy certyfikat lub wyłącz sprawdzanie poprawności certyfikatu podczas uzgadniania SSL</string>
-  <string name="error_certificate_revoked">Certyfikat SSL został unieważniony. Proszę uzyskaj nowy certyfikat lub wyłącz sprawdzanie poprawności certyfikatu podczas uzgadniania SSL</string>
   <string name="error_certificate_wrong_host">Certyfikat SSL dla %s jest nieprawidłowy</string>
   <string name="error_http_code_401">Autoryzacja użytkownika nie powiodła się. Sprawdź nazwę użytkownika, hasło i certyfikat klienta SSL (kod błędu HTTP 401)</string>
   <string name="error_http_code_403">Autoryzacja użytkownika nie powiodła się. Sprawdź nazwę użytkownika, hasło i certyfikat klienta SSL (kod odpowiedzi HTTP 403)</string>
@@ -89,8 +81,6 @@
   <string name="info_not_set">Nie ustawiono</string>
   <!-- Notification list strings -->
   <!-- Strings for MemorizingTrustManager activity -->
-  <string name="mtm_accept_cert">Akceptować nieznany Certyfikat?</string>
-  <string name="mtm_decision_always">Zawsze</string>
   <string name="mtm_decision_once">Jednorazowo</string>
   <string name="mtm_decision_abort">Anuluj</string>
   <string name="mtm_notification">Weryfikacja certyfikatu</string>
