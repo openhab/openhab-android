@@ -100,6 +100,14 @@
   <string name="notification_list_error">Beim Laden der Benachrichtigungen ist ein Fehler aufgetreten</string>
   <string name="list_loading_message">Wird geladen\u2026</string>
   <!-- Strings for MemorizingTrustManager activity -->
+  <string name="mtm_accept_cert">Unbekanntes Zertifikat akzeptieren?</string>
+  <string name="mtm_trust_anchor">Das Serverzertifikat wurde nicht von einer bekannten Zertifizierungsstelle signiert.</string>
+  <string name="mtm_cert_expired">Das Serverzertifikat ist abgelaufen.</string>
+  <string name="mtm_accept_servername">Nicht übereinstimmenden Servernamen akzeptieren?</string>
+  <string name="mtm_hostname_mismatch">Server konnte sich nicht als \&quot;%s\&quot; authentifizieren. Das Zertifikat ist nur gültig für:</string>
+  <string name="mtm_connect_anyway">Möchtest du trotzdem eine Verbindung herstellen?</string>
+  <string name="mtm_cert_details">Zertifikatdetails:</string>
+  <string name="mtm_decision_always">Akzeptieren</string>
   <string name="mtm_decision_once">Einmalig</string>
   <string name="mtm_decision_abort">Abbrechen</string>
   <string name="mtm_notification">Unbekanntes Zertifikat</string>
