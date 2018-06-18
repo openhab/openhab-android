@@ -22,17 +22,12 @@
   <string name="settings_openhab_username">Käyttäjänimi</string>
   <string name="settings_openhab_password">Salasana</string>
   <string name="settings_openhab_sslclientcert">Asiakkaan SSL sertifikaatti</string>
-  <string name="settings_openhab_sslclientcert_howto">Asiakkaan SSL sertifikaatti -opas</string>
   <string name="settings_openhab_sslclientcert_howto_summary">Näpäytä tästä nähdäksesi muutamia vinkkejä ja ohjeita kuinka asennat asiakkaan SSL todennuksen</string>
   <string name="settings_openhab_screentimeroff">Poista näytön sammutuksen ajastin</string>
   <string name="settings_openhab_screentimeroff_summary">Näytön sammutuksen ajastin pois päältä openHABin ollessa käynnissä</string>
   <string name="settings_openhab_demomode">Esittelytila</string>
   <string name="settings_openhab_demomode_summary">Käytä esittelytilassa</string>
   <string name="settings_openhab_theme">Teema</string>
-  <string name="settings_openhab_sslcert">Älä huomioi SSL sertifikaattia</string>
-  <string name="settings_openhab_sslcert_summary">Hylkää sertifikaatin vahvistaminen SSL kättelyn aikana</string>
-  <string name="settings_openhab_sslhost">Älä huomioi SSL isäntänimeä</string>
-  <string name="settings_openhab_sslhost_summary">Hylkää isäntänimen tarkastus SSL kättelyn aikana</string>
   <string name="settings_openhab_fullscreen">Kokonäyttö</string>
   <string name="settings_openhab_fullscreen_summary">Näytä koko näytöllä</string>
   <string name="settings_openhab_icon_format">Kuvakkeiden tallennusmuoto</string>
@@ -41,7 +36,6 @@
   <string name="settings_clear_default_sitemap">Poista oletussivukartta</string>
   <string name="settings_no_default_sitemap">Ei sivukarttaa oletuksena</string>
   <string name="settings_current_default_sitemap">Nykyinen oletussivukartta: %1$s</string>
-  <string name="settings_openhab_sslsettings">Salaus</string>
   <string name="settings_openhab_alt_connection">Etäkäyttö</string>
   <string name="settings_openhab_connection">Paikalliskäyttö</string>
   <!-- App messages strings -->
@@ -58,8 +52,6 @@
   <string name="error_connection_failed">Yhteys palvelimeen epäonnistui</string>
   <string name="error_unable_to_resolve_hostname">Isäntänimen selvitys epäonnistui</string>
   <string name="error_connection_sslhandshake_failed">SSL kättely epäonnistui</string>
-  <string name="error_certificate_expired">SSL serifikaatti on vanhentunut. Hanki uusi sertifikaatti tai poista käytöstä sertifikaatin vahvistus SSL kättelyn aikana</string>
-  <string name="error_certificate_revoked">SSL serifikaatti on kumottu. Hanki uusi sertifikaatti tai poista käytöstä sertifikaatin vahvistus SSL kättelyn aikana</string>
   <string name="error_certificate_wrong_host">Isäntä %s ei hyväksy SSL sertifikaattia</string>
   <string name="error_http_code_401">Todennus epäonnistui. Tarkista määritetty käyttäjänimi, salasana sekä SSL sertifikaatti(HTTP vastaus 401)</string>
   <string name="error_http_code_403">Todennus epäonnistui. Tarkista määritetty käyttäjänimi, salasana sekä SSL sertifikaatti (HTTP vastaus 403)</string>
@@ -90,8 +82,6 @@
   <string name="info_not_set">Ei määritetty</string>
   <!-- Notification list strings -->
   <!-- Strings for MemorizingTrustManager activity -->
-  <string name="mtm_accept_cert">Hyväksy tuntematon sertifikaatti?</string>
-  <string name="mtm_decision_always">Aina</string>
   <string name="mtm_decision_once">Kerran</string>
   <string name="mtm_decision_abort">Peruuta</string>
   <string name="mtm_notification">Sertifikaatin todennus</string>
