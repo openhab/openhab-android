@@ -121,7 +121,7 @@ public class WidgetImageView extends AppCompatImageView {
 
         if (cached == null || forceLoad) {
             mLastRequest = new HttpImageRequest(client, actualUrl, forceLoad);
-            mLastRequest.execute();
+            mLastRequest.execute(forceLoad);
         }
     }
 
@@ -176,7 +176,7 @@ public class WidgetImageView extends AppCompatImageView {
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
         if (mLastRequest != null && !mLastRequest.hasCompleted()) {
-            mLastRequest.execute();
+            mLastRequest.execute(false);
         }
     }
 
@@ -200,7 +200,7 @@ public class WidgetImageView extends AppCompatImageView {
     private void doRefresh() {
         mLastRefreshTimestamp = SystemClock.uptimeMillis();
         if (mLastRequest != null) {
-            mLastRequest.execute();
+            mLastRequest.execute(true);
         }
     }
 
@@ -241,16 +241,12 @@ public class WidgetImageView extends AppCompatImageView {
     private class HttpImageRequest extends AsyncHttpClient.BitmapResponseHandler {
         private final AsyncHttpClient mClient;
         private final HttpUrl mUrl;
-        private final HttpClient.CachingMode mCachingMode;
         private Call mCall;
 
         public HttpImageRequest(AsyncHttpClient client, HttpUrl url, boolean avoidCache) {
             super(mDefaultSvgSize);
             mClient = client;
             mUrl = url;
-            mCachingMode = avoidCache
-                    ? HttpClient.CachingMode.AVOID_CACHE
-                    : HttpClient.CachingMode.FORCE_CACHE_IF_POSSIBLE;
         }
 
         @Override
@@ -273,9 +269,12 @@ public class WidgetImageView extends AppCompatImageView {
             return mCall != null;
         }
 
-        public void execute() {
+        public void execute(boolean avoidCache) {
             Log.i(TAG, "Refreshing image at " + mUrl);
-            mCall = mClient.get(mUrl.toString(), mCachingMode, this);
+            HttpClient.CachingMode cachingMode = avoidCache
+                    ? HttpClient.CachingMode.AVOID_CACHE
+                    : HttpClient.CachingMode.FORCE_CACHE_IF_POSSIBLE;
+            mCall = mClient.get(mUrl.toString(), cachingMode, this);
         }
 
         public void cancel() {
