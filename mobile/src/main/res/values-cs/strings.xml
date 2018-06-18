@@ -22,17 +22,12 @@
   <string name="settings_openhab_username">Uživatelské jméno</string>
   <string name="settings_openhab_password">Heslo</string>
   <string name="settings_openhab_sslclientcert">Klientský certifikát SSL</string>
-  <string name="settings_openhab_sslclientcert_howto">Klientský certifikát SSL - jak na to</string>
   <string name="settings_openhab_sslclientcert_howto_summary">Klepnutím sem získáte informace o tom, jak nastavit ověřování klientských certifikátů SSL</string>
   <string name="settings_openhab_screentimeroff">Nezhasínat displej</string>
   <string name="settings_openhab_screentimeroff_summary">Zabránit systému zhasnout automaticky displej pokud je aplikace openHAB spuštěna</string>
   <string name="settings_openhab_demomode">Ukázkový režim</string>
   <string name="settings_openhab_demomode_summary">Spustit v ukázkovém režimu</string>
   <string name="settings_openhab_theme">Motivy vzhledu</string>
-  <string name="settings_openhab_sslcert">Ignorovat certifikát SSL</string>
-  <string name="settings_openhab_sslcert_summary">Ignorovat ověření certifikátu během SSL handshake</string>
-  <string name="settings_openhab_sslhost">Ignorovat SSL hostname</string>
-  <string name="settings_openhab_sslhost_summary">Ignorovat kontrolu hostname během SSL handshake</string>
   <string name="settings_openhab_fullscreen">Na celou obrazovku</string>
   <string name="settings_openhab_fullscreen_summary">Zobrazit v režimu celé obrazovky</string>
   <string name="settings_openhab_icon_format">Formát ikon</string>
@@ -41,7 +36,6 @@
   <string name="settings_clear_default_sitemap">Změnit výchozí sitemap</string>
   <string name="settings_no_default_sitemap">Žádná výchozí sitemap nebyla vybrána</string>
   <string name="settings_current_default_sitemap">Aktuální výchozí sitemap: %1$s</string>
-  <string name="settings_openhab_sslsettings">Šifrování</string>
   <string name="settings_openhab_alt_connection">Vzdálený</string>
   <string name="settings_openhab_connection">Lokální</string>
   <!-- App messages strings -->
@@ -58,8 +52,6 @@
   <string name="error_connection_failed">Připojení k serveru se nezdařilo</string>
   <string name="error_unable_to_resolve_hostname">Nelze zjistit název hostitele</string>
   <string name="error_connection_sslhandshake_failed">Ověření SSL metodou handshake se nezdařilo</string>
-  <string name="error_certificate_expired">Vypršela platnost certifikátu SSL. Získejte nový certifikát nebo zakažte ověření certifikátu během SSL handshake</string>
-  <string name="error_certificate_revoked">Certifikát SSL byl odvolán. Získejte nový certifikát nebo zakažte ověření certifikátu během SSL handshake</string>
   <string name="error_certificate_wrong_host">Certifikát SSL není platný pro %s</string>
   <string name="error_http_code_401">Ověření se nezdařilo. Zkontrolujte uživatelské jméno a heslo, případně klientský certifikát SSL (kód odpovědi HTTP 401)</string>
   <string name="error_http_code_403">Ověření se nezdařilo. Zkontrolujte uživatelské jméno a heslo, případně klientský certifikát SSL (kód odpovědi HTTP 403)</string>
@@ -90,8 +82,6 @@
   <string name="info_not_set">Není nastaveno</string>
   <!-- Notification list strings -->
   <!-- Strings for MemorizingTrustManager activity -->
-  <string name="mtm_accept_cert">Přijmout neznámý certifikát?</string>
-  <string name="mtm_decision_always">Vždy</string>
   <string name="mtm_decision_once">Jednou</string>
   <string name="mtm_decision_abort">Zrušit</string>
   <string name="mtm_notification">Ověření certifikátu</string>
