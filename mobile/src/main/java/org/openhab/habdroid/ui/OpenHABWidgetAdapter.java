@@ -47,7 +47,6 @@ import android.widget.ImageView;
 import android.widget.NumberPicker;
 import android.widget.RadioGroup;
 import android.widget.SeekBar;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.VideoView;
 
@@ -61,13 +60,13 @@ import org.openhab.habdroid.model.OpenHABItem;
 import org.openhab.habdroid.model.OpenHABLabeledValue;
 import org.openhab.habdroid.model.OpenHABWidget;
 import org.openhab.habdroid.ui.widget.DividerItemDecoration;
+import org.openhab.habdroid.ui.widget.ExtendedSpinner;
 import org.openhab.habdroid.ui.widget.SegmentedControlButton;
 import org.openhab.habdroid.ui.widget.WidgetImageView;
 import org.openhab.habdroid.util.Constants;
 import org.openhab.habdroid.util.MjpegStreamer;
 import org.openhab.habdroid.util.Util;
 
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -620,8 +619,8 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
     }
 
     public static class SelectionViewHolder extends LabeledItemBaseViewHolder
-            implements AdapterView.OnItemClickListener {
-        private final Spinner mSpinner;
+            implements ExtendedSpinner.OnSelectionUpdatedListener {
+        private final ExtendedSpinner mSpinner;
         private OpenHABItem mBoundItem;
         private List<OpenHABLabeledValue> mBoundMappings;
 
@@ -629,6 +628,7 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
                 Connection conn, ColorMapper colorMapper) {
             super(inflater, parent, R.layout.openhabwidgetlist_selectionitem, conn, colorMapper);
             mSpinner = itemView.findViewById(R.id.spinner);
+            mSpinner.setOnSelectionUpdatedListener(this);
         }
 
         @Override
@@ -654,38 +654,24 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
                 spinnerSelectedIndex = spinnerArray.size() - 1;
             }
 
-            ArrayAdapter<String> spinnerAdapter = new SpinnerClickAdapter<String>(itemView.getContext(),
-                    android.R.layout.simple_spinner_item, spinnerArray, widget, this);
+            ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(itemView.getContext(),
+                    android.R.layout.simple_spinner_item, spinnerArray);
             spinnerAdapter.setDropDownViewResource(android.R.layout.select_dialog_singlechoice);
 
             mSpinner.setPrompt(mLabelView.getText());
             mSpinner.setAdapter(spinnerAdapter);
-            if (spinnerSelectedIndex >= 0) {
-                Log.d(TAG, "Setting spinner selected index to " + String.valueOf(spinnerSelectedIndex));
-                mSpinner.setSelection(spinnerSelectedIndex);
-            } else {
-                Log.d(TAG, "Not setting spinner selected index");
-            }
+            mSpinner.setSelectionWithoutUpdateCallback(spinnerSelectedIndex);
         }
 
         @Override
-        public void onItemClick(AdapterView<?> parent, View view, int index, long id) {
-            Log.d(TAG, "Spinner item click on index " + index);
-            if (index >= mBoundMappings.size()) {
+        public void onSelectionUpdated(int position) {
+            Log.d(TAG, "Spinner item click on index " + position);
+            if (position >= mBoundMappings.size()) {
                 return;
             }
-            OpenHABLabeledValue item = mBoundMappings.get(index);
+            OpenHABLabeledValue item = mBoundMappings.get(position);
             Log.d(TAG, "Spinner onItemSelected found match with " + item.value());
             Util.sendItemCommand(mConnection.getAsyncHttpClient(), mBoundItem, item.value());
-
-            // TODO: there's probably a better solution...
-            try {
-                // Close the spinner programmatically
-                Method method = Spinner.class.getDeclaredMethod("onDetachedFromWindow");
-                method.setAccessible(true);
-                method.invoke(mSpinner);
-            } catch (Exception ignored) {
-            }
         }
     }
 
