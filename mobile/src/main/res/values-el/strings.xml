@@ -22,17 +22,12 @@
   <string name="settings_openhab_username">Όνομα χρήστη</string>
   <string name="settings_openhab_password">Κωδικός</string>
   <string name="settings_openhab_sslclientcert">Πιστοποιητικό SSL πελάτη</string>
-  <string name="settings_openhab_sslclientcert_howto">Πιστοποιητικό SSL πελάτη πώς-να</string>
   <string name="settings_openhab_sslclientcert_howto_summary">Πατήστε εδώ για να ενημερωθείτε για το πως θα ορίσετε πιστοποίηση με πιστοποιητικό SSL πελάτη</string>
   <string name="settings_openhab_screentimeroff">Απενεργοποίηση αδρανοποίησης</string>
   <string name="settings_openhab_screentimeroff_summary">Απενεργοποίηση σβησίματος οθόνης όταν τρέχει το openHAB</string>
   <string name="settings_openhab_demomode">Κατάσταση επίδειξης</string>
   <string name="settings_openhab_demomode_summary">Εκτέλεση σε κατάσταση επίδειξης</string>
   <string name="settings_openhab_theme">Θέμα</string>
-  <string name="settings_openhab_sslcert">Αγνόηση πιστοποιητικού SSL</string>
-  <string name="settings_openhab_sslcert_summary">Αγνόηση της επικύρωσης του πιστοποιητικού κατά την διαδικασία SSL Handshake</string>
-  <string name="settings_openhab_sslhost">Αγνόηση ονόματος διακομιστή SSL</string>
-  <string name="settings_openhab_sslhost_summary">Αγνόηση του ελέγχου ονόματος διακομιστή κατά την διαδικασία SSL Handshake</string>
   <string name="settings_openhab_fullscreen">Πλήρης Οθόνη</string>
   <string name="settings_openhab_fullscreen_summary">Προβολή σε πλήρη οθόνη</string>
   <string name="settings_openhab_icon_format">Μορφή εικονιδίου</string>
@@ -41,7 +36,6 @@
   <string name="settings_clear_default_sitemap">Καθαρισμός προκαθορισμένου sitemap</string>
   <string name="settings_no_default_sitemap">Δεν έχει επιλεγεί προκαθορισμένο sitemap</string>
   <string name="settings_current_default_sitemap">Τρέχον προκαθορισμένο sitemap: %1$s</string>
-  <string name="settings_openhab_sslsettings">Κρυπτογράφηση</string>
   <string name="settings_openhab_alt_connection">Απομακρυσμένo</string>
   <string name="settings_openhab_connection">Τοπικό</string>
   <!-- App messages strings -->
@@ -58,8 +52,6 @@
   <string name="error_connection_failed">Η σύνδεση στον διακομιστή απέτυχε</string>
   <string name="error_unable_to_resolve_hostname">Αδυναμία ανεύρεσης ονόματος διακομιστή</string>
   <string name="error_connection_sslhandshake_failed">Η διαδικασία SSL Handshake απέτυχε</string>
-  <string name="error_certificate_expired">Το πιστοποιητικό SSL έχει λήξει. Παρακαλώ λάβετε καινούριο πιστοποιητικό ή απενεργοποιήστε τον έλεγχο του πιστοποιητικού κατά την διάρκεια της διαδικασίας εγκαθίδρυσης SSL.</string>
-  <string name="error_certificate_revoked">Το πιστοποιητικό SSL έχει ανακληθεί. Παρακαλώ λάβετε καινούριο πιστοποιητικό ή απενεργοποιήστε τον έλεγχο του πιστοποιητικού κατά την διάρκεια της διαδικασίας εγκαθίδρυσης SSL.</string>
   <string name="error_certificate_wrong_host">Το πιστοποιητικό SSL δεν είναι έγκυρο για %s</string>
   <string name="error_http_code_401">Η πιστοποίηση του χρήστη απέτυχε. Παρακαλώ ελέγξτε το όνομα χρήστη, κωδικό και SSL πιστοποιητικό πελάτη (κωδικός απόκρισης HTTP 401)</string>
   <string name="error_http_code_403">Η πιστοποίηση του χρήστη απέτυχε. Παρακαλώ ελέγξτε το όνομα χρήστη, κωδικό και SSL πιστοποιητικό πελάτη (κωδικός απόκρισης HTTP 403)</string>
@@ -90,8 +82,6 @@
   <string name="info_not_set">Δεν έχει ρυθμιστεί</string>
   <!-- Notification list strings -->
   <!-- Strings for MemorizingTrustManager activity -->
-  <string name="mtm_accept_cert">Αποδοχή άγνωστου πιστοποιητικού;</string>
-  <string name="mtm_decision_always">Πάντα</string>
   <string name="mtm_decision_once">Μία φορά</string>
   <string name="mtm_decision_abort">Διακοπή</string>
   <string name="mtm_notification">Επιβεβαίωση πιστοποιητικού</string>
