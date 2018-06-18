@@ -22,17 +22,12 @@
   <string name="settings_openhab_username">Identifiant</string>
   <string name="settings_openhab_password">Mot de passe</string>
   <string name="settings_openhab_sslclientcert">Certificat SSL client</string>
-  <string name="settings_openhab_sslclientcert_howto">Certificat SSL client - comment faire</string>
   <string name="settings_openhab_sslclientcert_howto_summary">Taper ici pour avoir de l\'aide sur comment configurer l\'authentification par certificat SSL</string>
   <string name="settings_openhab_screentimeroff">Désactiver l\'extinction d\'écran</string>
   <string name="settings_openhab_screentimeroff_summary">Désactiver l\'extinction d\'écran lorsque l\'app openHAB fonctionne</string>
   <string name="settings_openhab_demomode">Mode démo</string>
   <string name="settings_openhab_demomode_summary">Lancer l\'app openHAB en mode démo</string>
   <string name="settings_openhab_theme">Thème</string>
-  <string name="settings_openhab_sslcert">Ignorer les certificats SSL</string>
-  <string name="settings_openhab_sslcert_summary">Ne vérifie pas le certificat SSL pendant la connexion</string>
-  <string name="settings_openhab_sslhost">Ignorer le domaine SSL</string>
-  <string name="settings_openhab_sslhost_summary">Ne vérifie pas la pertinence du nom de domaine lors de la connexion</string>
   <string name="settings_openhab_fullscreen">Plein écran</string>
   <string name="settings_openhab_fullscreen_summary">Afficher l\'app openHAB en mode plein écran</string>
   <string name="settings_openhab_icon_format">Format des icônes</string>
@@ -41,7 +36,6 @@
   <string name="settings_clear_default_sitemap">Réinitialiser le sitemap par défaut</string>
   <string name="settings_no_default_sitemap">Pas de sitemap sélectionné</string>
   <string name="settings_current_default_sitemap">Sitemap par défaut actuel : %1$s</string>
-  <string name="settings_openhab_sslsettings">Chiffrement</string>
   <string name="settings_openhab_alt_connection">Distant</string>
   <string name="settings_openhab_connection">Local</string>
   <!-- App messages strings -->
@@ -58,8 +52,6 @@
   <string name="error_connection_failed">Connexion au domaine échouée</string>
   <string name="error_unable_to_resolve_hostname">Impossible de résoudre le nom d\'hôte</string>
   <string name="error_connection_sslhandshake_failed">Echec de la négotiation SSL</string>
-  <string name="error_certificate_expired">Le certificat SSL a expiré. Veuillez obtenir un nouveau certificat ou désactiver la validation du certificat</string>
-  <string name="error_certificate_revoked">Le certificat SSL a été révoqué. Veuillez obtenir un nouveau certificat ou désactiver la validation du certificat</string>
   <string name="error_certificate_wrong_host">Le certificat SSL n\'est pas valide pour %s</string>
   <string name="error_http_code_401">L’authentification a échoué. Veuillez vérifier le nom d’utilisateur et mot de passe configurés, respectivement le certificat client SSL fourni (code de réponse HTTP 401)</string>
   <string name="error_http_code_403">L’authentification a échoué. Veuillez vérifier le nom d’utilisateur et mot de passe configurés, respectivement le certificat client SSL fourni (code de réponse HTTP 403)</string>
@@ -90,8 +82,6 @@
   <string name="info_not_set">Non paramétré</string>
   <!-- Notification list strings -->
   <!-- Strings for MemorizingTrustManager activity -->
-  <string name="mtm_accept_cert">Accepter ce certificat inconnu ?</string>
-  <string name="mtm_decision_always">Toujours</string>
   <string name="mtm_decision_once">Une fois</string>
   <string name="mtm_decision_abort">Abandonner</string>
   <string name="mtm_notification">Validation du certificat SSL</string>
