@@ -1,1 +1,1 @@
-openHAB klient pro Android
+Vendor and technology agnostic open source home automation

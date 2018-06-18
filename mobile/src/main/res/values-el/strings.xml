@@ -6,7 +6,6 @@
   <!-- General app strings -->
   <string name="app_preferences_name">Ρυθμίσεις</string>
   <string name="app_notifications">Ειδοποιήσεις</string>
-  <string name="dlg_notification_title">Μήνυμα Ειδοποίησης</string>
   <!-- Main menu items -->
   <string name="mainmenu_openhab_sitemaps">Χάρτες Χώρου</string>
   <string name="mainmenu_openhab_preferences">Ρυθμίσεις</string>
@@ -59,9 +58,7 @@
   <string name="error_connection_failed">Η σύνδεση στον διακομιστή απέτυχε</string>
   <string name="error_unable_to_resolve_hostname">Αδυναμία ανεύρεσης ονόματος διακομιστή</string>
   <string name="error_connection_sslhandshake_failed">Η διαδικασία SSL Handshake απέτυχε</string>
-  <string name="error_certificate_not_trusted">Το πιστοποιητικό SSL δεν είναι έμπιστο. Παρακαλώ εισάγετε το κεντρικό πιστοποιητικό (root certificate) ή απενεργοποιήστε τον έλεγχο του πιστοποιητικού κατά την διάρκεια της διαδικασίας εγκαθίδρυσης SSL.</string>
   <string name="error_certificate_expired">Το πιστοποιητικό SSL έχει λήξει. Παρακαλώ λάβετε καινούριο πιστοποιητικό ή απενεργοποιήστε τον έλεγχο του πιστοποιητικού κατά την διάρκεια της διαδικασίας εγκαθίδρυσης SSL.</string>
-  <string name="error_certificate_not_valid_yet">Το πιστοποιητικό SSL δεν είναι έγκυρο ακόμα. Παρακαλώ λάβετε ένα ορθό πιστοποιητικό ή απενεργοποιήστε τον έλεγχο του πιστοποιητικού κατά την διάρκεια της διαδικασίας εγκαθίδρυσης SSL. Επίσης, ελέγξτε ότι το ρολόι στην συσκευή σας είναι ρυθμισμένο σωστά.</string>
   <string name="error_certificate_revoked">Το πιστοποιητικό SSL έχει ανακληθεί. Παρακαλώ λάβετε καινούριο πιστοποιητικό ή απενεργοποιήστε τον έλεγχο του πιστοποιητικού κατά την διάρκεια της διαδικασίας εγκαθίδρυσης SSL.</string>
   <string name="error_certificate_wrong_host">Το πιστοποιητικό SSL δεν είναι έγκυρο για %s</string>
   <string name="error_http_code_401">Η πιστοποίηση του χρήστη απέτυχε. Παρακαλώ ελέγξτε το όνομα χρήστη, κωδικό και SSL πιστοποιητικό πελάτη (κωδικός απόκρισης HTTP 401)</string>
@@ -74,12 +71,10 @@
   <string name="error_http_code_496">Απαιτείται SSL πιστοποιητικό πελάτη (κωδικός απόκρισης HTTP 496)</string>
   <string name="error_http_code_502">Ο reverse proxy σας έλαβε λάθος απάντηση από το openHAB (κωδικός απόκρισης HTTP 502)</string>
   <string name="error_http_code_503">Το openHAB είναι προσωρινά μη διαθέσιμο (κωδικός απόκρισης HTTP 503)</string>
-  <string name="error_http_code_504">Τέλος χρόνου Πύλης (Gateway). Φαίνεται ότι ο reverse proxy είναι σε λειτουργία αλλά δε μπορούσε να λάβει απάντηση από το openHAB (κωδικός απόκρισης HTTP 504)</string>
   <string name="error_http_code_507">Tο openHAB δεν έχει αρκετό ελεύθερο χώρο (κωδικός απόκρισης HTTP 507)</string>
   <string name="error_http_code_511">Απαιτείται πιστοποίηση δικτύου (κωδικός απόκρισης HTTP 511)</string>
   <string name="error_about_no_conn">Σφάλμα κατά τη λήψη των πληροφοριών διακομιστή openHAB</string>
   <string name="title_activity_openhabwritetag">Εγγραφή ετικέτας NFC</string>
-  <string name="title_activity_libraries">Χρησιμοποιηθέντες βιβλιοθήκες</string>
   <string name="info_write_tag">Αγγίξτε την ετικέτα NFC και κρατήστε την κοντά μέχρι να εμφανιστεί το μήνυμα επιβεβαίωσης</string>
   <string name="info_write_tag_progress">Εγγραφή ετικέτας NFC</string>
   <string name="info_write_tag_finished">Ολοκληρώθηκε με επιτυχία</string>
@@ -93,6 +88,7 @@
   <string name="action_settings">Ρυθμίσεις</string>
   <string name="nfc_dialog_title">Παρακαλώ επιλέξτε ενέργεια για την ετικέτα NFC</string>
   <string name="info_not_set">Δεν έχει ρυθμιστεί</string>
+  <!-- Notification list strings -->
   <!-- Strings for MemorizingTrustManager activity -->
   <string name="mtm_accept_cert">Αποδοχή άγνωστου πιστοποιητικού;</string>
   <string name="mtm_decision_always">Πάντα</string>
@@ -143,10 +139,7 @@
   <string name="intro_themes_description">Επιλέξτε μεταξύ διαφόρων θεμάτων</string>
   <string name="try_again_button">Προσπαθήστε ξανά</string>
   <string name="go_to_settings_button">Μετάβαση στις ρυθμίσεις</string>
-  <string name="configuration_missing">Δεν ήταν δυνατό να γίνει αυτόματη εύρεση του διακομιστή openHAB. Παρακαλώ ρυθμίστε την IP διεύθυνση ή το όνομα υπολογιστή στις ρυθμίσεις διακομιστή.</string>
   <string name="resolving_openhab">Προσπάθεια εύρεσης του διακομιστή openHAB</string>
-  <string name="intro_discovery">Εύρεση</string>
-  <string name="intro_discovery_summary">Σημειώστε ότι αυτό θα λειτουργήσει μόνο εάν ο έλεγχος ταυτότητας δεν επιβάλλεται από το διακομιστή</string>
   <!-- Content description for images -->
   <string name="content_description_open_roller_shutter">Άνοιγμα ρολών</string>
   <string name="content_description_stop_roller_shutter">Σταμάτημα ρολών</string>
@@ -157,7 +150,6 @@
   <string name="content_description_open_number_picker">Άνοιγμα επιλογέα αριθμών</string>
   <string name="content_description_video">Βίντεο</string>
   <string name="content_description_open_openhab">Άνοιγμα openHAB</string>
-  <string name="swipe_to_refresh_description">Η εφαρμογή ανανεώνεται αυτόματα, κανονικά δε χρειάζεται να το κάνετε με το χέρι.</string>
   <string name="swipe_to_refresh_dismiss">Το κατάλαβα!</string>
   <!-- Intro strings -->
   <!-- Intro "SKIP" button -->

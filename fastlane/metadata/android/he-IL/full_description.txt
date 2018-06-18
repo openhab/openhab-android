@@ -1,8 +1,8 @@
 openHAB - "העצמת הבית החכם" - פרוייקט קוד פתוח לבית חכם לאנשים וחברות בראייה טכנולוגית מתקדמת
 
 תוכנות עבור F-Droid מכילות תצוגת מיפוי, GCM ודיווחי שגיאה על התרסקות הוסרו ולא יוכלו לקבל התראות בדחיפה מענן openHAB.
-Try out new features and give early feedback!
-באפשרותך להתקין את גירסת הבטא לצד הגרסה היציבה: [[org.openhab.habdroid]]
+נסה תכונות חדשות וספר לנו מה דעתך!
+You can install the beta version alongside the 
 
 <b>הערה חשובה</b>
 
@@ -13,7 +13,7 @@ openHAB היא פלטפורמת אוטומציה ביתית מבוססת קוד 
 
 <b>מוצרים נתמכים</b>
 
-למעלה מ-200 תוספים מספקים תמיכה עבור מותגים, התקנים, טכנולוגיות ופרוטוקולי תקשורת. כמה דוגמאות: Amazon Echo, Chromecast, Philips Hue, Z-Wave ו- Sonos. גלה את כל ההרחבות הזמינות, ההתקנים הנתמכים ו/או פונקציות ב: https://docs.openhab.org/addons/bindings.html
+למעלה מ-200 תוספים מספקים תמיכה עבור מותגים, התקנים, טכנולוגיות ופרוטוקולי תקשורת. כמה דוגמאות: Amazon Echo, Chromecast, Philips Hue, Z-Wave ו- Sonos. גלה את כל ההרחבות הזמינות, ההתקנים הנתמכים ו/או פונקציות ב: https://www.openhab.org/addons
 
 • פתרונות אוטומציה ביתית: EnOcean, Netatmo, Homematic, Insteon, Z-Wave,...
 • תאורה: LIFX, Lutron, Milight, IKEA Trådfri ,Philips Hue,...
@@ -34,9 +34,9 @@ openHAB היא פלטפורמת אוטומציה ביתית מבוססת קוד 
 
 קרן openHAB הוא ארגון ללא מטרות רווח שמשימתו היא לחנך את הציבור על האפשרויות והיתרונות של שימוש בפתרונות חופשיים ופתוחים של בית חכם. למד אודות משימתו ושירותיו של הארגון ב https://www.openhabfoundation.org
 
-<b>Anti Features</b>
+<b>תכונות שצריך לשים לב אליהן</b>
 
-האפליקציה מסומנת בדגל עם הדגל "NonFreeAsset", כי הצלמית של openHAB איננה תחת רישיון חופשי.
+האפליקציה מסומנת בדגל עם הדגל "NonFreeAsset", כי הצלמית של openHAB אינה תחת רישיון חופשי.
 
 
 מדיניות פרטיות: https://www.openhabfoundation.org/privacy

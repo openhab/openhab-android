@@ -2,7 +2,7 @@ openHAB - "empowering the smart home" - eine technologie- und herstellerunabhän
 
 In der F-Droid-Version wurden die Unterstützung für Mapview-Elemente, GCM und die Übermittlung von Absturzberichten entfernt. Mit dieser Version können keine Nachrichten von einer openHAB-Cloud-Instanz empfangen werden.
 Testen Sie neue Features und geben Sie früh Feedback!
-Sie können die Betaversion neben der stabilen Version installieren: [[org.openhab.habdroid]]
+You can install the beta version alongside the 
 
 <b>Wichtiger Hinweis</b>
 
@@ -13,7 +13,7 @@ Aufbauend auf einer vereinheitlichten Abstraktionsschicht sind alle Geräte für
 
 <b>Unterstützte Produkte</b>
 
-Über 200 spezifische Add-Ons stellen Unterstützung für Marken, Geräte, Technologien und Kommunikations-Protokolle zur Verfügung. Beispiele hierfür sind unter anderem Z-Wave, Philips Hue, Amazon Echo, Chromecast, Sonos und FRITZ!Box. Entdecken Sie alle verfügbaren Erweiterungen und unterstützte Geräte und/oder Funktionen auf: https://docs.openhab.org/addons/bindings.html
+Über 200 spezifische Add-Ons stellen Unterstützung für Marken, Geräte, Technologien und Kommunikations-Protokolle zur Verfügung. Beispiele hierfür sind unter anderem Z-Wave, Philips Hue, Amazon Echo, Chromecast, Sonos und FRITZ!Box. Entdecken Sie alle verfügbaren Erweiterungen und unterstützte Geräte und/oder Funktionen auf: https://www.openhab.org/addons/
 
 • Heimautomatisierungslösungen: Z-Wave, EnOcean, Netatmo, Homematic, Insteon, ...
 • Licht: Philips Hue, Ikea Trådfri, LIFX, Lutron, Milight, ...

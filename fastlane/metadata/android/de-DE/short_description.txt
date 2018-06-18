@@ -1,1 +1,1 @@
-openHAB-Client für Android
+Technologie- und herstellerunabhängige, quelloffene Automatisierungslösung

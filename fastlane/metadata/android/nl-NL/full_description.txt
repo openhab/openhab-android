@@ -2,7 +2,7 @@ openHAB - "empowering the smart home" - leverancier en technologie onafhankelijk
 
 Bij de F-Droid versie is kaartweergave ondersteuning, GCM en crash rapportage verwijderd en de app zal geen push-meldingen kunnen ontvangen van de openHAB Cloud.
 Try out new features and give early feedback!
-De beta versie kan geïnstalleerd worden naast de stabiele versie: [[org.openhab.habdroid]]
+You can install the beta version alongside the 
 
 <b>Belangrijke opmerking</b>
 
@@ -13,7 +13,7 @@ Via de uniforme abstractie laag zijn alle aangesloten apparaten beschikbaar voor
 
 <b>Ondersteunde producten</b>
 
-Meer dan 200 specifieke add-ons bieden ondersteuning voor merken, apparaten, technologieën en communicatieprotocollen. Voorbeelden zijn Z-Wave, Philips Hue, Amazon Echo, Chromecast en Sonos. Ontdek alle beschikbare invoegtoepassingen en ondersteunde apparaten en/of functies op: https://docs.openhab.org/addons/bindings.html
+Meer dan 200 specifieke add-ons bieden ondersteuning voor merken, apparaten, technologieën en communicatieprotocollen. Voorbeelden zijn Z-Wave, Philips Hue, Amazon Echo, Chromecast en Sonos. 
 
 • Domotica oplossingen: Z-Wave, EnOcean, Netatmo, Homematic, Insteon,...
 • Verlichting: Philips Hue, Ikea Trådfri, LIFX, Lutron, Milight,...

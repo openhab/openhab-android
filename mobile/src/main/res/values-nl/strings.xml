@@ -6,7 +6,6 @@
   <!-- General app strings -->
   <string name="app_preferences_name">Instellingen</string>
   <string name="app_notifications">Notificaties</string>
-  <string name="dlg_notification_title">Notificatie-bericht</string>
   <!-- Main menu items -->
   <string name="mainmenu_openhab_sitemaps">Sitemaps</string>
   <string name="mainmenu_openhab_preferences">Instellingen</string>
@@ -59,9 +58,7 @@
   <string name="error_connection_failed">Verbinding met host mislukt</string>
   <string name="error_unable_to_resolve_hostname">Hostnaam niet gevonden</string>
   <string name="error_connection_sslhandshake_failed">SSL-handshake mislukt</string>
-  <string name="error_certificate_not_trusted">SSL certificaat wordt niet vertrouwd. Importeer het basiscertificaat of schakel de validatie tijdens SSL handshake uit</string>
   <string name="error_certificate_expired">SSL-certificaat is verlopen. Voeg een nieuw certificaat toe of schakel validatie tijdens SSL handshake uit</string>
-  <string name="error_certificate_not_valid_yet">SSL-certificaat is nog niet geldig. Voeg een correct certificaat toe of schakel controle tijdens SSL handshake uit. Controleer ook of de klok op je apparaat correct is ingesteld</string>
   <string name="error_certificate_revoked">SSL-certificaat is ingetrokken. Voeg een nieuw certificaat toe of schakel de validatie tijdens de SSL handdruk uit</string>
   <string name="error_certificate_wrong_host">SSL-certificaat is niet geldig voor %s</string>
   <string name="error_http_code_401">Verificatie is mislukt. Controleer de geconfigureerde gebruikersnaam en wachtwoord respectievelijk het verstrekte SSL-clientcertificaat (HTTP-reactiecode 401)</string>
@@ -74,12 +71,10 @@
   <string name="error_http_code_496">SSL-clientcertificaat is vereist (HTTP responscode 496)</string>
   <string name="error_http_code_502">De reverse proxy heeft een ongeldig antwoord van de openHAB server ontvangen (HTTP-reactiecode 502)</string>
   <string name="error_http_code_503">De openHAB server is tijdelijk niet beschikbaar (HTTP-reactiecode 503)</string>
-  <string name="error_http_code_504">Gateway Time-out. Het lijkt erop dat uw reverse-proxy actief is, maar er is geen antwoord ontvangen van de openHAB server (HTTP-reactiecode 504 krijgen)</string>
   <string name="error_http_code_507">De openHAB-server heeft onvoldoende vrije ruimte (HTTP-reactiecode 507)</string>
   <string name="error_http_code_511">Netwerkverificatie is vereist (HTTP responscode 511)</string>
   <string name="error_about_no_conn">Fout bij het ophalen van openHAB serverinformatie</string>
   <string name="title_activity_openhabwritetag">Schrijf NFC-tag</string>
-  <string name="title_activity_libraries">Gebruikte bibliotheken</string>
   <string name="info_write_tag">Raak de tag aan en houd het dichtbij tot een bevestiging verschijnt</string>
   <string name="info_write_tag_progress">De tag wordt weggeschreven</string>
   <string name="info_write_tag_finished">Gelukt</string>
@@ -93,6 +88,7 @@
   <string name="action_settings">Instellingen</string>
   <string name="nfc_dialog_title">Selecteer een actie voor de NFC-tag</string>
   <string name="info_not_set">Niet ingesteld</string>
+  <!-- Notification list strings -->
   <!-- Strings for MemorizingTrustManager activity -->
   <string name="mtm_accept_cert">Onbekend certificaat accepteren?</string>
   <string name="mtm_decision_always">Altijd</string>
@@ -143,10 +139,7 @@
   <string name="intro_themes_description">Kies tussen de verschillende thema\'s</string>
   <string name="try_again_button">Opnieuw proberen</string>
   <string name="go_to_settings_button">Ga naar instellingen</string>
-  <string name="configuration_missing">Uw openHAB server kon niet automatisch worden gevonden. Gelieve het IP-adres of de hostnaam in de serverinstellingen te configureren.</string>
   <string name="resolving_openhab">Proberen om openHAB server automatisch te vinden\u2026</string>
-  <string name="intro_discovery">Automatische configuratie</string>
-  <string name="intro_discovery_summary">Let op: dit werkt alleen als de verificatie niet wordt afgedwongen door de server</string>
   <!-- Content description for images -->
   <string name="content_description_open_roller_shutter">Open rolluik</string>
   <string name="content_description_stop_roller_shutter">Stop rolluik</string>
@@ -157,7 +150,6 @@
   <string name="content_description_open_number_picker">Open nummer kiezer</string>
   <string name="content_description_video">Video</string>
   <string name="content_description_open_openhab">Open openHAB</string>
-  <string name="swipe_to_refresh_description">De app wordt ook automatisch vernieuwd, het is meestal niet nodig om dit handmatig te doen</string>
   <string name="swipe_to_refresh_dismiss">Begrepen!</string>
   <!-- Intro strings -->
   <!-- Intro "SKIP" button -->

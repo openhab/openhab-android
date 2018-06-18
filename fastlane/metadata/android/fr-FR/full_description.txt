@@ -2,7 +2,7 @@ openHAB - "empowering the smart home" - vendor and technology agnostic open sour
 
 Les versions publiées via F-Droid n'incluent pas le système GCM et les rapports de plantage, et elles ne seront pas en mesure de recevoir les notifications push depuis l’openHAB Cloud.
 Try out new features and give early feedback!
-You can install the beta version alongside the stable version: [[org.openhab.habdroid]]
+You can install the beta version alongside the 
 
 <b>Remarque importante</b>
 

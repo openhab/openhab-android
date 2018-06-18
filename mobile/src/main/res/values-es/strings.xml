@@ -38,7 +38,6 @@
   <string name="error_network_not_available">La conexión de red no está disponible</string>
   <string name="error_connection_failed">Ha fallado la conexión con el host</string>
   <string name="error_unable_to_resolve_hostname">No se puede resolver el nombre de host</string>
-  <string name="error_certificate_not_trusted">El certificado SSL no es de confianza. Por favor, importa el certificado raíz o deshabilita la validación del certificado durante la negociación SSL</string>
   <string name="error_certificate_expired">El certificado SSL ha caducado. Por favor, obtén un nuevo certificado o deshabilita la validación del certificado durante la negociación SSL</string>
   <string name="error_certificate_revoked">El certificado SSL ha sido revocado. Por favor, obtén un nuevo certificado o deshabilita la validación del certificado durante la negociación SSL</string>
   <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
@@ -54,6 +53,7 @@
   <string name="info_openhab_apiversion_label">Versión Rest API openHAB</string>
   <string name="action_settings">Configuración</string>
   <string name="info_not_set">Sin establecer</string>
+  <!-- Notification list strings -->
   <!-- Strings for MemorizingTrustManager activity -->
   <string name="mtm_accept_cert">Aceptar este certificado desconocido?</string>
   <string name="mtm_decision_always">Siempre</string>
