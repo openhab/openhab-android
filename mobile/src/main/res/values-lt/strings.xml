@@ -19,17 +19,12 @@
   <string name="settings_openhab_username">Vartotojo vardas</string>
   <string name="settings_openhab_password">Slaptažodis</string>
   <string name="settings_openhab_sslclientcert">Kliento SSL sertifikatas</string>
-  <string name="settings_openhab_sslclientcert_howto">Kaip naudoti kliento SSL sertifikatą</string>
   <string name="settings_openhab_sslclientcert_howto_summary">Paspauskite čia, kad gautumėte informacijos, kaip nustatyti SSL autentifikaciją</string>
   <string name="settings_openhab_screentimeroff">Neleisti išjungti ekrano</string>
   <string name="settings_openhab_screentimeroff_summary">Neleisti išjungti ekrano, kol paleista openHAB programėlė</string>
   <string name="settings_openhab_demomode">Demonstracinis režimas</string>
   <string name="settings_openhab_demomode_summary">Naudoti openHAB programėlę demonstraciniu režimu</string>
   <string name="settings_openhab_theme">openHAB tema</string>
-  <string name="settings_openhab_sslcert">Netikrinti SSL sertifikato</string>
-  <string name="settings_openhab_sslcert_summary">Netikrinti SSL sertifikato validumo</string>
-  <string name="settings_openhab_sslhost">Netikrinti SSL hostname</string>
-  <string name="settings_openhab_sslhost_summary">Netikrinti serverio pavadinimo (hostname) užmezgant SSL ryšį</string>
   <string name="settings_openhab_fullscreen">Pilnas ekranas</string>
   <string name="settings_openhab_fullscreen_summary">Rodyti pilno ekrano režimu</string>
   <string name="settings_openhab_icon_format">Piktogramų formatas</string>
@@ -49,8 +44,6 @@
   <string name="error_network_not_available">Tinklas nepasiekiamas</string>
   <string name="error_connection_failed">Nepavyko prisijungti prie serverio</string>
   <string name="error_unable_to_resolve_hostname">Nepavyko aptikti domeno vardo</string>
-  <string name="error_certificate_expired">SSL sertifikato galiojimas baigėsi. Gaukite naują sertifikatą arba išjunkite sertifikatų patvirtinimą</string>
-  <string name="error_certificate_revoked">SSL sertifikatas buvo atšauktas. Gaukite naują sertifikatą arba išjunkite sertifikato patvirtinimą</string>
   <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
   <string name="error_http_code_496">Reikalingas SSL kliento sertifikatas (HTTP atsakymo kodas 496)</string>
   <string name="error_http_code_511">Reikalingas tinklo autentifikavimas (HTTP atsakymo kodas 511)</string>
@@ -69,8 +62,6 @@
   <string name="info_not_set">Nenustatyta</string>
   <!-- Notification list strings -->
   <!-- Strings for MemorizingTrustManager activity -->
-  <string name="mtm_accept_cert">Priimti nežinomą sertifikatą?</string>
-  <string name="mtm_decision_always">Visada</string>
   <string name="mtm_decision_once">Vieną kartą</string>
   <string name="mtm_decision_abort">Atšaukti</string>
   <string name="mtm_notification">Sertifikato patikrinimas</string>
