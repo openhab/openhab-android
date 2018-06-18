@@ -22,17 +22,12 @@
   <string name="settings_openhab_username">Пользователь</string>
   <string name="settings_openhab_password">Пароль</string>
   <string name="settings_openhab_sslclientcert">SSL сертификат клиента</string>
-  <string name="settings_openhab_sslclientcert_howto">Руководство по SSL сертификату клиента</string>
   <string name="settings_openhab_sslclientcert_howto_summary">Коснитесь здесь, чтобы получить подсказки по настройке SSL-сертификата клиента</string>
   <string name="settings_openhab_screentimeroff">Отключить таймер дисплея</string>
   <string name="settings_openhab_screentimeroff_summary">Дисплей всегда включен при запущенном openHAB</string>
   <string name="settings_openhab_demomode">Демо режим</string>
   <string name="settings_openhab_demomode_summary">Запуск демо режима</string>
   <string name="settings_openhab_theme">Тема</string>
-  <string name="settings_openhab_sslcert">Игнорировать SSL сертификат</string>
-  <string name="settings_openhab_sslcert_summary">Игнорировать проверку сертификата во время установки SSL-соединения</string>
-  <string name="settings_openhab_sslhost">Игнорировать SSL-имя хоста</string>
-  <string name="settings_openhab_sslhost_summary">Игнорировать проверку имени хоста во время установления SSL-соединения</string>
   <string name="settings_openhab_fullscreen">Во весь экран</string>
   <string name="settings_openhab_fullscreen_summary">Показать во весь экран</string>
   <string name="settings_openhab_icon_format">Формат иконок</string>
@@ -48,7 +43,6 @@
   <string name="settings_clear_default_sitemap">Очистить sitemap по умолчанию</string>
   <string name="settings_no_default_sitemap">Sitemap по умолчанию не выбран</string>
   <string name="settings_current_default_sitemap">Текущий sitemap по умолчанию: %1$s</string>
-  <string name="settings_openhab_sslsettings">Параметры шифрования</string>
   <string name="settings_openhab_alt_connection">Удаленный сервер</string>
   <string name="settings_openhab_connection">Локальный сервер</string>
   <!-- App messages strings -->
@@ -66,10 +60,6 @@
   <string name="error_connection_failed">Ошибка подключения к хосту</string>
   <string name="error_unable_to_resolve_hostname">Не удалось разрешить имя хоста</string>
   <string name="error_connection_sslhandshake_failed">Ошибка SSL соединения</string>
-  <string name="error_certificate_not_trusted">Сертификат SSL истек. Получите новый сертификат или отключите проверку сертификата SSL</string>
-  <string name="error_certificate_expired">Сертификат SSL истек. Получите новый сертификат или отключите проверку допустимости сертификата во время приовекри SSL</string>
-  <string name="error_certificate_not_valid_yet">Сертификат SSL недопустим. Получите корректный сертификат или отключите проверку сертификата SSL. Также проверьте, правильно ли установлены часы и часовой пояс на вашем устройстве</string>
-  <string name="error_certificate_revoked">Сертификат SSL был отклонен. Получите новый сертификат или отключите проверку сертификата SSL</string>
   <string name="error_certificate_wrong_host">SSL сертификат не действителен для %s</string>
   <string name="error_http_code_401">Ошибка аутентификации пользователя. Проверьте имя пользователя, пароль и сертификат клиента SSL (код ответа HTTP 401)</string>
   <string name="error_http_code_403">Ошибка аутентификации пользователя. Проверьте имя пользователя, пароль и сертификат клиента SSL (код ответа HTTP 403)</string>
@@ -105,8 +95,6 @@
   <string name="notification_list_error">Ошибка при загрузке уведомлений</string>
   <string name="list_loading_message">Загрузка\u2026</string>
   <!-- Strings for MemorizingTrustManager activity -->
-  <string name="mtm_accept_cert">Принять неизвестный сертификат?</string>
-  <string name="mtm_decision_always">Всегда</string>
   <string name="mtm_decision_once">Один раз</string>
   <string name="mtm_decision_abort">Отмена</string>
   <string name="mtm_notification">Проверка сертификата</string>
