@@ -22,17 +22,12 @@
   <string name="settings_openhab_username">Usuário</string>
   <string name="settings_openhab_password">Senha</string>
   <string name="settings_openhab_sslclientcert">Certificado cliente SSL</string>
-  <string name="settings_openhab_sslclientcert_howto">Certificado cliente SSL Ajuda</string>
   <string name="settings_openhab_sslclientcert_howto_summary">Toque aqui para obter algumas dicas e explicações sobre como configurar a autenticação de certificado cliente SSL</string>
   <string name="settings_openhab_screentimeroff">Desativar a exibição do timer</string>
   <string name="settings_openhab_screentimeroff_summary">Desativa a exibição de interruptor de temporização quando openHAB está sendo executado</string>
   <string name="settings_openhab_demomode">Modo de demonstração</string>
   <string name="settings_openhab_demomode_summary">Executar em modo de demonstração</string>
   <string name="settings_openhab_theme">Tema</string>
-  <string name="settings_openhab_sslcert">Ignorar o certificado SSL</string>
-  <string name="settings_openhab_sslcert_summary">Ignorar validação de certificados durante o handshake SSL</string>
-  <string name="settings_openhab_sslhost">Ignorar o nome de host SSL</string>
-  <string name="settings_openhab_sslhost_summary">Ignorar verificação de hostname durante o handshake SSL</string>
   <string name="settings_openhab_fullscreen">Tela cheia</string>
   <string name="settings_openhab_fullscreen_summary">Exibir no modo de tela cheia</string>
   <string name="settings_openhab_icon_format">Formato de ícone</string>
@@ -48,7 +43,6 @@
   <string name="settings_clear_default_sitemap">Selecione o sitemap padrão</string>
   <string name="settings_no_default_sitemap">Sitemap padrão não selecionado</string>
   <string name="settings_current_default_sitemap">Sitemap padrão atual: %1$s</string>
-  <string name="settings_openhab_sslsettings">Criptografia</string>
   <string name="settings_openhab_alt_connection">Remoto</string>
   <string name="settings_openhab_connection">Local</string>
   <string name="settings_notification_vibration">Vibração de notificação</string>
@@ -71,10 +65,6 @@
   <string name="error_connection_failed">Conexão ao host falhou</string>
   <string name="error_unable_to_resolve_hostname">Não foi possível resolver o hostname</string>
   <string name="error_connection_sslhandshake_failed">Handshake SSL falhou</string>
-  <string name="error_certificate_not_trusted">Certificado SSL não é confiável. Por favor, importe o certificado raiz ou desabilite a validação de certificados durante o handshake SSL</string>
-  <string name="error_certificate_expired">Certificado SLL expirou. Por favor, obtenha um novo certificado ou desabilite a validação de certificado durante o handshake SSL</string>
-  <string name="error_certificate_not_valid_yet">Certificado SSL ainda não é válido. Por favor, obtenha um certificado correto ou desabilite a validação de certificados durante o handshake SSL. Verifique também se o relógio no seu telefone está configurado corretamente</string>
-  <string name="error_certificate_revoked">Certificado SLL foi revogado. Por favor, obter um novo certificado ou desabilitar a validação de certificado durante o handshake SSL</string>
   <string name="error_certificate_wrong_host">Certificado SSL não é válido para %s</string>
   <string name="error_http_code_401">Falha de autenticação. Por favor, verifique o usuário e senha configurada e o certificado SSL do cliente fornecido (código de resposta HTTP 401)</string>
   <string name="error_http_code_403">Falha de autenticação. Por favor, verifique o usuário e senha configurada e o certificado SSL do cliente fornecido (código de resposta HTTP 403)</string>
@@ -110,8 +100,6 @@
   <string name="notification_list_error">Um erro ocorreu enquanto carregava as notificações</string>
   <string name="list_loading_message">Carregando\u2026</string>
   <!-- Strings for MemorizingTrustManager activity -->
-  <string name="mtm_accept_cert">Aceitar Certificado desconhecido?</string>
-  <string name="mtm_decision_always">Sempre</string>
   <string name="mtm_decision_once">Uma só vez</string>
   <string name="mtm_decision_abort">Anular</string>
   <string name="mtm_notification">Verificação de certificado</string>
