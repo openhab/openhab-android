@@ -565,17 +565,18 @@ public abstract class ContentController implements PageConnectionHolderFragment.
         }
     }
 
+    /**
+     * Shows a fragment that indicates a missing configuration. Displays a hint about no remote
+     * connection when resolveAttempted is set to false.
+     * @param context
+     * @param resolveAttempted Indicate if discovery was attempted, but not successful
+     */
     public static class MissingConfigurationFragment extends StatusFragment {
         public static MissingConfigurationFragment newInstance(Context context,
                                                                boolean resolveAttempted) {
             MissingConfigurationFragment f = new MissingConfigurationFragment();
-            String text;
-            if (resolveAttempted) {
-                text = context.getString(R.string.configuration_missing);
-            } else {
-                text = context.getString(R.string.no_remote_server);
-            }
-            f.setArguments(buildArgs(text,
+            @StringRes int textResId = resolveAttempted ? R.string.configuration_missing : R.string.no_remote_server;
+            f.setArguments(buildArgs(context.getString(textResId),
                     R.drawable.ic_openhab_appicon_24dp, /* FIXME? */
                     R.string.go_to_settings_button, false));
             return f;
