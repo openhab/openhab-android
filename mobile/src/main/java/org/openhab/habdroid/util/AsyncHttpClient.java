@@ -9,8 +9,6 @@
 
 package org.openhab.habdroid.util;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -31,6 +29,7 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Headers;
 import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
@@ -98,13 +97,9 @@ public class AsyncHttpClient extends HttpClient {
 
     private Handler mHandler = new Handler(Looper.getMainLooper());
 
-    public AsyncHttpClient(Context context, String baseUrl) {
-        super(context, baseUrl);
+    public AsyncHttpClient(OkHttpClient client, String baseUrl, String username, String password) {
+        super(client, baseUrl, username, password);
     }
-
-    public AsyncHttpClient(Context context, SharedPreferences prefs, String baseUrl) {
-        super(context, prefs, baseUrl);
-	}
 
     public <T> Call get(String url, ResponseHandler<T> responseHandler) {
         return method(url, "GET", null, null, null, CachingMode.AVOID_CACHE, responseHandler);

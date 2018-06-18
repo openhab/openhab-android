@@ -17,11 +17,12 @@
             android:persistent="false"
             android:title="@string/settings_openhab_alt_connection"
             android:dependency="default_openhab_demomode"/>
-        <Preference
-            android:key="default_openhab_ssl"
-            android:persistent="false"
-            android:title="@string/settings_openhab_sslsettings"
-            android:dependency="default_openhab_demomode"/>
+        <org.openhab.habdroid.ui.widget.SSLClientCertificatePreference
+            android:defaultValue="@string/settings_openhab_none"
+            android:key="default_openhab_sslclientcert"
+            android:summary="@string/settings_openhab_none"
+            android:title="@string/settings_openhab_sslclientcert"
+            android:dependency="default_openhab_demomode" />
         <Preference
             android:clickable="true"
             android:key="default_openhab_clear_default_sitemap"

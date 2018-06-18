@@ -1,5 +1,6 @@
 package org.openhab.habdroid.core.connection;
 
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -12,6 +13,8 @@ import android.os.HandlerThread;
 import android.os.Looper;
 import android.os.Message;
 import android.preference.PreferenceManager;
+import android.security.KeyChain;
+import android.security.KeyChainException;
 import android.support.annotation.VisibleForTesting;
 import android.support.v4.util.Pair;
 import android.util.Log;
@@ -21,12 +24,26 @@ import org.openhab.habdroid.core.connection.exception.ConnectionException;
 import org.openhab.habdroid.core.connection.exception.NetworkNotAvailableException;
 import org.openhab.habdroid.core.connection.exception.NetworkNotSupportedException;
 import org.openhab.habdroid.core.connection.exception.NoUrlInformationException;
+import org.openhab.habdroid.util.CacheManager;
 import org.openhab.habdroid.util.Constants;
 import org.openhab.habdroid.util.Util;
 
+import java.net.Socket;
+import java.security.Principal;
+import java.security.PrivateKey;
+import java.security.cert.X509Certificate;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
+
+import javax.net.ssl.KeyManager;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509KeyManager;
+
+import de.duenndns.ssl.MemorizingTrustManager;
+import okhttp3.OkHttpClient;
+import okhttp3.internal.tls.OkHostnameVerifier;
 
 /**
  * A factory class, which is the main entry point to get a Connection to a specific openHAB
@@ -39,11 +56,14 @@ final public class ConnectionFactory extends BroadcastReceiver implements
     private static final List<Integer> LOCAL_CONNECTION_TYPES = Arrays.asList(
             ConnectivityManager.TYPE_ETHERNET, ConnectivityManager.TYPE_WIFI,
             ConnectivityManager.TYPE_WIMAX, ConnectivityManager.TYPE_VPN);
+    private static final List<String> CLIENT_CERT_UPDATE_TRIGGERING_KEYS = Arrays.asList(
+            Constants.PREFERENCE_DEMOMODE, Constants.PREFERENCE_SSLCLIENTCERT
+    );
     private static final List<String> UPDATE_TRIGGERING_KEYS = Arrays.asList(
             Constants.PREFERENCE_LOCAL_URL, Constants.PREFERENCE_REMOTE_URL,
             Constants.PREFERENCE_LOCAL_USERNAME, Constants.PREFERENCE_LOCAL_PASSWORD,
             Constants.PREFERENCE_REMOTE_USERNAME, Constants.PREFERENCE_REMOTE_PASSWORD,
-            Constants.PREFERENCE_DEMOMODE);
+            Constants.PREFERENCE_SSLCLIENTCERT, Constants.PREFERENCE_DEMOMODE);
 
     public interface UpdateListener {
         void onAvailableConnectionChanged();
@@ -57,6 +77,9 @@ final public class ConnectionFactory extends BroadcastReceiver implements
 
     private Context ctx;
     private SharedPreferences settings;
+    private MemorizingTrustManager mTrustManager;
+    private OkHttpClient mHttpClient;
+    private String mLastClientCertAlias;
 
     private Connection mLocalConnection;
     private AbstractConnection mRemoteConnection;
@@ -83,6 +106,13 @@ final public class ConnectionFactory extends BroadcastReceiver implements
         this.ctx = ctx;
         this.settings = settings;
         this.settings.registerOnSharedPreferenceChangeListener(this);
+
+        mTrustManager = new MemorizingTrustManager(ctx);
+        mHttpClient = new OkHttpClient.Builder()
+                .cache(CacheManager.getInstance(ctx).getHttpCache())
+                .hostnameVerifier(mTrustManager.wrapHostnameVerifier(OkHostnameVerifier.INSTANCE))
+                .build();
+        updateHttpClientForClientCert(true);
 
         IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
         // Make sure to ignore the initial sticky broadcast, as we're only interested in changes
@@ -137,6 +167,9 @@ final public class ConnectionFactory extends BroadcastReceiver implements
 
     private void addListenerInternal(UpdateListener l) {
         if (mListeners.add(l)) {
+            if (l instanceof Activity) {
+                mTrustManager.bindDisplayActivity((Activity) l);
+            }
             if (mNeedsUpdate) {
                 triggerConnectionUpdateIfNeeded();
                 mNeedsUpdate = false;
@@ -156,11 +189,16 @@ final public class ConnectionFactory extends BroadcastReceiver implements
     }
 
     public static void removeListener(UpdateListener l) {
-        sInstance.mListeners.remove(l);
+        if (sInstance.mListeners.remove(l) && l instanceof Activity) {
+            sInstance.mTrustManager.unbindDisplayActivity((Activity) l);
+        }
     }
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        if (CLIENT_CERT_UPDATE_TRIGGERING_KEYS.contains(key)) {
+            updateHttpClientForClientCert(false);
+        }
         if (UPDATE_TRIGGERING_KEYS.contains(key)) {
             updateConnections();
         }
@@ -328,7 +366,7 @@ final public class ConnectionFactory extends BroadcastReceiver implements
     @VisibleForTesting
     public void updateConnections() {
         if (settings.getBoolean(Constants.PREFERENCE_DEMOMODE, false)) {
-            mLocalConnection = mRemoteConnection = new DemoConnection(ctx, settings);
+            mLocalConnection = mRemoteConnection = new DemoConnection(mHttpClient);
             handleAvailableCheckDone(mLocalConnection, null);
             handleCloudCheckDone(null);
         } else {
@@ -347,6 +385,39 @@ final public class ConnectionFactory extends BroadcastReceiver implements
             triggerConnectionUpdateIfNeeded();
         }
     }
+
+    private void updateHttpClientForClientCert(boolean forceUpdate) {
+        String clientCertAlias = settings.getBoolean(Constants.PREFERENCE_DEMOMODE, false)
+                ? null // No client cert in demo mode
+                : settings.getString(Constants.PREFERENCE_SSLCLIENTCERT, null);
+        KeyManager[] keyManagers = clientCertAlias != null
+                ? new KeyManager[] { new ClientKeyManager(ctx, clientCertAlias) }
+                : null;
+
+        // Updating the SSL socket factory is an expensive call;
+        // make sure to only do this if really needed.
+        if (!forceUpdate) {
+            if (clientCertAlias == null && mLastClientCertAlias == null) {
+                // No change: no client cert at all
+                return;
+            } else if (clientCertAlias != null && clientCertAlias.equals(mLastClientCertAlias)) {
+                // No change: client cert stayed the same
+                return;
+            }
+        }
+
+        try {
+            final SSLContext sslContext = SSLContext.getInstance("TLS");
+            sslContext.init(keyManagers, new TrustManager[] { mTrustManager }, null);
+            mHttpClient = mHttpClient.newBuilder()
+                    .sslSocketFactory(sslContext.getSocketFactory(), mTrustManager)
+                    .build();
+            mLastClientCertAlias = clientCertAlias;
+        } catch (Exception e) {
+            Log.d(TAG, "Applying certificate trust settings failed", e);
+        }
+    }
+
 
     private void handleAvailableCheckDone(Connection available, ConnectionException failureReason) {
         // Check whether the passed connection matches a known one. If not, the
@@ -403,7 +474,67 @@ final public class ConnectionFactory extends BroadcastReceiver implements
         if (url.isEmpty()) {
             return null;
         }
-        return new DefaultConnection(ctx, settings, type, url,
-                settings.getString(userNameKey, null), settings.getString(passwordKey, null));
+        return new DefaultConnection(mHttpClient, type, url,
+                settings.getString(userNameKey, null),
+                settings.getString(passwordKey, null));
     }
+
+    private static class ClientKeyManager implements X509KeyManager {
+        private final static String TAG = ClientKeyManager.class.getSimpleName();
+
+        private Context mContext;
+        private String mAlias;
+
+        public ClientKeyManager(Context context, String alias) {
+            mContext = context.getApplicationContext();
+            mAlias = alias;
+        }
+
+        @Override
+        public String chooseClientAlias(String[] keyType, Principal[] issuers, Socket socket) {
+            Log.d(TAG, "chooseClientAlias - alias: " + mAlias);
+            return mAlias;
+        }
+
+        @Override
+        public String chooseServerAlias(String keyType, Principal[] issuers, Socket socket) {
+            Log.d(TAG, "chooseServerAlias");
+            return null;
+        }
+
+        @Override
+        public X509Certificate[] getCertificateChain(String alias) {
+            Log.d(TAG, "getCertificateChain", new Throwable());
+            try {
+                return KeyChain.getCertificateChain(mContext, alias);
+            } catch (KeyChainException | InterruptedException e) {
+                Log.e(TAG, "Failed loading certificate chain", e);
+                return null;
+            }
+        }
+
+        @Override
+        public String[] getClientAliases(String keyType, Principal[] issuers) {
+            Log.d(TAG, "getClientAliases");
+            return mAlias != null ? new String[] { mAlias } : null;
+        }
+
+        @Override
+        public String[] getServerAliases(String keyType, Principal[] issuers) {
+            Log.d(TAG, "getServerAliases");
+            return null;
+        }
+
+        @Override
+        public PrivateKey getPrivateKey(String alias) {
+            Log.d(TAG, "getPrivateKey", new Throwable());
+            try {
+                return KeyChain.getPrivateKey(mContext, mAlias);
+            } catch (KeyChainException | InterruptedException e) {
+                Log.e(TAG, "Failed loading private key", e);
+                return null;
+            }
+        }
+    }
+
 }
