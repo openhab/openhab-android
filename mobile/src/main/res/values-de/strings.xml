@@ -22,17 +22,12 @@
   <string name="settings_openhab_username">Benutzername</string>
   <string name="settings_openhab_password">Passwort</string>
   <string name="settings_openhab_sslclientcert">SSL-Client-Zertifikat</string>
-  <string name="settings_openhab_sslclientcert_howto">Erläuterungen zum Client-Zertifikat</string>
   <string name="settings_openhab_sslclientcert_howto_summary">Für Hinweise und Erläuterungen zur SSL-Authentifizierung mittels Client-Zertifikat hier tippen</string>
   <string name="settings_openhab_screentimeroff">Ruhezustand deaktivieren</string>
   <string name="settings_openhab_screentimeroff_summary">Schaltet das automatische Aktivieren des Ruhezustands nach Inaktivität ab, wenn die openHAB-App läuft</string>
   <string name="settings_openhab_demomode">Demomodus</string>
   <string name="settings_openhab_demomode_summary">Demo-Daten an Stelle von realen Server-Daten verwenden</string>
   <string name="settings_openhab_theme">Design</string>
-  <string name="settings_openhab_sslcert">SSL-Zertifikat ignorieren</string>
-  <string name="settings_openhab_sslcert_summary">Beim SSL-Handshake alle Zertifikate unabhängig von ihrer Gültigkeit akzeptieren</string>
-  <string name="settings_openhab_sslhost">SSL-Hostnamen ignorieren</string>
-  <string name="settings_openhab_sslhost_summary">Während des SSL-Handshakes keine Überprüfung des Hostnamens durchführen</string>
   <string name="settings_openhab_fullscreen">Vollbild</string>
   <string name="settings_openhab_fullscreen_summary">Geräte-Statusleiste während der Verwendung der App ausblenden</string>
   <string name="settings_openhab_icon_format">Symbol-Format</string>
@@ -48,7 +43,6 @@
   <string name="settings_clear_default_sitemap">Standard-Sitemap zurücksetzen</string>
   <string name="settings_no_default_sitemap">Keine Standard-Sitemap festgelegt</string>
   <string name="settings_current_default_sitemap">Aktuelle Standard-Sitemap: %1$s</string>
-  <string name="settings_openhab_sslsettings">Verschlüsselung</string>
   <string name="settings_openhab_alt_connection">Fernzugriff</string>
   <string name="settings_openhab_connection">Lokal</string>
   <string name="settings_notification_vibration">Benachrichtigungsvibration</string>
@@ -71,10 +65,6 @@
   <string name="error_connection_failed">Verbindung fehlgeschlagen</string>
   <string name="error_unable_to_resolve_hostname">Fehler beim Auflösen des Hostnamens</string>
   <string name="error_connection_sslhandshake_failed">SSL-Handshake fehlgeschlagen</string>
-  <string name="error_certificate_not_trusted">SSL-Zertifikat nicht vertrauenswürdig. Bitte importieren Sie das Root-Zertifikat oder deaktivieren Sie die Zertifikatsvalidierung</string>
-  <string name="error_certificate_expired">SSL-Zertifikat abgelaufen. Bitte erstellen Sie ein neues Zertifikat oder deaktivieren Sie die Zertifikatsvalidierung</string>
-  <string name="error_certificate_not_valid_yet">SSL-Zertifikat noch nicht gültig. Bitte erstellen Sie ein gültiges Zertifikat oder deaktivieren Sie die Zertifikatsvalidierung. Überprüfen Sie auch die auf Ihrem Gerät eingestellte Uhrzeit</string>
-  <string name="error_certificate_revoked">SSL-Zertifikat widerrufen. Bitte erstellen Sie ein neues Zertifikat oder deaktivieren Sie die Zertifikatsvalidierung</string>
   <string name="error_certificate_wrong_host">Das Zertifikat ist nicht gültig für %s</string>
   <string name="error_http_code_401">Authentifizierung fehlgeschlagen. Bitte überprüfen Sie den konfigurierten Nutzer und das Passwort bzw. das bereitgestellte SSL-Client-Zertifikat (HTTP-Statuscode 401)</string>
   <string name="error_http_code_403">Authentifizierung fehlgeschlagen. Bitte überprüfen Sie den konfigurierten Nutzer und das Passwort bzw. das bereitgestellte SSL-Client-Zertifikat (HTTP-Statuscode 403)</string>
@@ -110,8 +100,6 @@
   <string name="notification_list_error">Beim Laden der Benachrichtigungen ist ein Fehler aufgetreten</string>
   <string name="list_loading_message">Wird geladen\u2026</string>
   <!-- Strings for MemorizingTrustManager activity -->
-  <string name="mtm_accept_cert">Unbekanntes Zertifikat akzeptieren?</string>
-  <string name="mtm_decision_always">Immer</string>
   <string name="mtm_decision_once">Einmalig</string>
   <string name="mtm_decision_abort">Abbrechen</string>
   <string name="mtm_notification">Unbekanntes Zertifikat</string>
