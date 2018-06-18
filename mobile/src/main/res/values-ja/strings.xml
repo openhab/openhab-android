@@ -22,17 +22,12 @@
   <string name="settings_openhab_username">ユーザー名</string>
   <string name="settings_openhab_password">パスワード</string>
   <string name="settings_openhab_sslclientcert">SSL クライアント証明書</string>
-  <string name="settings_openhab_sslclientcert_howto">SSL クライアント証明書 how-to</string>
   <string name="settings_openhab_sslclientcert_howto_summary">ここをタップすると SSL クライアント証明書認証を設定する方法について、いくつかのヒントや説明を得ることができます</string>
   <string name="settings_openhab_screentimeroff">ディスプレイタイマーを無効にする</string>
   <string name="settings_openhab_screentimeroff_summary">openHAB が実行中のとき、ディスプレイがオフにならないようにします</string>
   <string name="settings_openhab_demomode">デモモード</string>
   <string name="settings_openhab_demomode_summary">デモモードで openHAB を実行します</string>
   <string name="settings_openhab_theme">テーマ</string>
-  <string name="settings_openhab_sslcert">SSL 証明書を無視する</string>
-  <string name="settings_openhab_sslcert_summary">SSL ハンドシェイクの間、証明書の検証を無効にします</string>
-  <string name="settings_openhab_sslhost">SSL ホスト名を無効にする</string>
-  <string name="settings_openhab_sslhost_summary">SSL ハンドシェイクの間、ホスト名のチェックを無視します</string>
   <string name="settings_openhab_fullscreen">フルスクリーン</string>
   <string name="settings_openhab_fullscreen_summary">全画面モードで表示します</string>
   <string name="settings_openhab_icon_format">アイコン形式</string>
@@ -48,7 +43,6 @@
   <string name="settings_clear_default_sitemap">デフォルトのサイトマップをクリア</string>
   <string name="settings_no_default_sitemap">デフォルトのサイトマップが選択されていません</string>
   <string name="settings_current_default_sitemap">現在のデフォルトサイトマップ: %1$s</string>
-  <string name="settings_openhab_sslsettings">暗号化の設定</string>
   <string name="settings_openhab_alt_connection">リモートサーバーの設定</string>
   <string name="settings_openhab_connection">ローカルサーバーの設定</string>
   <!-- App messages strings -->
@@ -66,8 +60,6 @@
   <string name="error_connection_failed">ホストへの接続に失敗しました</string>
   <string name="error_unable_to_resolve_hostname">ホスト名を解決できません</string>
   <string name="error_connection_sslhandshake_failed">SSL ハンドシェイクに失敗しました - 有効なクライアント証明書が必要かもしれません</string>
-  <string name="error_certificate_expired">SSL 証明書が有効期限切れです。新しい証明書を取得するか、SSL ハンドシェイクの際に証明書の検証を無効にしてください。</string>
-  <string name="error_certificate_revoked">SSL 証明書が失効しています。新しい証明書を取得するか、SSL ハンドシェイクの際に証明書の検証を無効にしてください。</string>
   <string name="error_certificate_wrong_host">%s の SSL 証明書が無効です</string>
   <string name="error_http_code_401">ユーザー認証に失敗しました。ユーザー名、パスワード、SSL クライアント証明書を確認してください (HTTP 応答コード 401)</string>
   <string name="error_http_code_403">ユーザー認証に失敗しました。ユーザー名、パスワード、SSL クライアント証明書を確認してください (HTTP 応答コード 403)</string>
@@ -98,8 +90,6 @@
   <string name="info_not_set">未設定</string>
   <!-- Notification list strings -->
   <!-- Strings for MemorizingTrustManager activity -->
-  <string name="mtm_accept_cert">不明な証明書を受け取りますか?</string>
-  <string name="mtm_decision_always">常に</string>
   <string name="mtm_decision_once">一度だけ</string>
   <string name="mtm_decision_abort">中断</string>
   <string name="mtm_notification">証明書の検証</string>
