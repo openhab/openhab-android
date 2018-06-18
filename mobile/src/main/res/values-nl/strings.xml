@@ -22,17 +22,12 @@
   <string name="settings_openhab_username">Gebruikersnaam</string>
   <string name="settings_openhab_password">Wachtwoord</string>
   <string name="settings_openhab_sslclientcert">SSL-clientcertificaat</string>
-  <string name="settings_openhab_sslclientcert_howto">SSL-clientcertificaat how-to</string>
   <string name="settings_openhab_sslclientcert_howto_summary">Tik hier voor enkele tips en uitleg over het instellen van SSL certificaat authenticatie</string>
   <string name="settings_openhab_screentimeroff">Uitschakelen weergave timer</string>
   <string name="settings_openhab_screentimeroff_summary">Zet het uitschakelen van het scherm uit als de openHAB App actief is</string>
   <string name="settings_openhab_demomode">Demonstratiemodus</string>
   <string name="settings_openhab_demomode_summary">Gebruik de openHAB App in demo modus</string>
   <string name="settings_openhab_theme">Thema</string>
-  <string name="settings_openhab_sslcert">Negeer SSL-certificaat</string>
-  <string name="settings_openhab_sslcert_summary">Negeer certificaatvalidatie tijdens SSL-verificatie</string>
-  <string name="settings_openhab_sslhost">Negeer SSL-hostnaam</string>
-  <string name="settings_openhab_sslhost_summary">Negeer hostnaam controller tijdens SSL-verificatie</string>
   <string name="settings_openhab_fullscreen">Volledig scherm</string>
   <string name="settings_openhab_fullscreen_summary">Gebruik volledige scherm</string>
   <string name="settings_openhab_icon_format">Pictogramindeling</string>
@@ -41,7 +36,6 @@
   <string name="settings_clear_default_sitemap">Vergeet standaard sitemap</string>
   <string name="settings_no_default_sitemap">Geen standaard sitemap geselecteerd</string>
   <string name="settings_current_default_sitemap">Huidige standaard sitemap: %1$s</string>
-  <string name="settings_openhab_sslsettings">Encryptie</string>
   <string name="settings_openhab_alt_connection">Extern</string>
   <string name="settings_openhab_connection">Lokaal</string>
   <!-- App messages strings -->
@@ -58,8 +52,6 @@
   <string name="error_connection_failed">Verbinding met host mislukt</string>
   <string name="error_unable_to_resolve_hostname">Hostnaam niet gevonden</string>
   <string name="error_connection_sslhandshake_failed">SSL-handshake mislukt</string>
-  <string name="error_certificate_expired">SSL-certificaat is verlopen. Voeg een nieuw certificaat toe of schakel validatie tijdens SSL handshake uit</string>
-  <string name="error_certificate_revoked">SSL-certificaat is ingetrokken. Voeg een nieuw certificaat toe of schakel de validatie tijdens de SSL handdruk uit</string>
   <string name="error_certificate_wrong_host">SSL-certificaat is niet geldig voor %s</string>
   <string name="error_http_code_401">Verificatie is mislukt. Controleer de geconfigureerde gebruikersnaam en wachtwoord respectievelijk het verstrekte SSL-clientcertificaat (HTTP-reactiecode 401)</string>
   <string name="error_http_code_403">Verificatie is mislukt. Controleer de geconfigureerde gebruikersnaam en wachtwoord respectievelijk het verstrekte SSL-clientcertificaat (HTTP-reactiecode 403)</string>
@@ -90,8 +82,6 @@
   <string name="info_not_set">Niet ingesteld</string>
   <!-- Notification list strings -->
   <!-- Strings for MemorizingTrustManager activity -->
-  <string name="mtm_accept_cert">Onbekend certificaat accepteren?</string>
-  <string name="mtm_decision_always">Altijd</string>
   <string name="mtm_decision_once">Eenmalig</string>
   <string name="mtm_decision_abort">Afbreken</string>
   <string name="mtm_notification">Certificaatverificatie</string>
