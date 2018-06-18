@@ -74,7 +74,8 @@
         <activity android:name="org.openhab.habdroid.ui.IntroActivity"
             android:label="@string/app_intro"/>
         <activity android:name="de.duenndns.ssl.MemorizingActivity"
-            android:theme="@style/Theme.AppCompat.Translucent" />
+            android:theme="@style/Theme.AppCompat.Translucent"
+            android:excludeFromRecents="true" />
         <service
             android:name=".core.OpenHABVoiceService"
             android:exported="false" />

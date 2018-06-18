@@ -28,11 +28,14 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.content.DialogInterface;
 import android.content.DialogInterface.*;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
+import android.util.TypedValue;
 import android.view.ContextThemeWrapper;
 
 import org.openhab.habdroid.R;
@@ -45,10 +48,19 @@ public class MemorizingActivity extends Activity
 
 	int decisionId;
 
+	ContextThemeWrapper mThemedContext;
 	AlertDialog dialog;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
+		mThemedContext = new ContextThemeWrapper(this, Util.getActivityThemeID(this));
+
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+			TypedValue typedValue = new TypedValue();
+			mThemedContext.getTheme().resolveAttribute(R.attr.colorPrimary, typedValue, true);
+			setTaskDescription(new ActivityManager.TaskDescription(null, null, typedValue.data));
+		}
+
 		LOGGER.log(Level.FINE, "onCreate");
 		super.onCreate(savedInstanceState);
 	}
@@ -62,9 +74,8 @@ public class MemorizingActivity extends Activity
 		CharSequence cert = i.getCharSequenceExtra(MemorizingTrustManager.DECISION_INTENT_CERT);
 		LOGGER.log(Level.FINE, "onResume with " + i.getExtras() + " decId=" + decisionId + " data: " + i.getData());
 
-		ContextThemeWrapper themedContext =
-				new ContextThemeWrapper(this, Util.getActivityThemeID(this));
-		dialog = new AlertDialog.Builder(themedContext).setTitle(titleId)
+		dialog = new AlertDialog.Builder(mThemedContext)
+				.setTitle(titleId)
 				.setMessage(cert)
 				.setPositiveButton(R.string.mtm_decision_always, this)
 				// Disable 'Once' for our usage, as its usage is not practical for the amount of HTTP requests we do
