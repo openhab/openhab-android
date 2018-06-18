@@ -622,6 +622,7 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
     public static class SelectionViewHolder extends LabeledItemBaseViewHolder
             implements AdapterView.OnItemClickListener {
         private final Spinner mSpinner;
+        private List<OpenHABLabeledValue> mBoundMappings;
 
         SelectionViewHolder(LayoutInflater inflater, ViewGroup parent,
                 Connection conn, ColorMapper colorMapper) {
@@ -633,11 +634,14 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         public void bind(OpenHABWidget widget) {
             super.bind(widget);
 
+            OpenHABItem item = widget.item();
+            mBoundMappings = widget.getMappingsOrItemOptions();
+
             int spinnerSelectedIndex = -1;
             ArrayList<String> spinnerArray = new ArrayList<>();
-            String state = widget.item() != null ? widget.item().state() : null;
+            String state = item != null ? item.state() : null;
 
-            for (OpenHABLabeledValue mapping : widget.mappings()) {
+            for (OpenHABLabeledValue mapping : mBoundMappings) {
                 String command = mapping.value();
                 spinnerArray.add(mapping.label());
                 if (command != null && command.equals(state)) {
@@ -670,9 +674,9 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
             Log.d(TAG, "Spinner onItemSelected selected label = " + selectedLabel);
 
             OpenHABWidget widget = (OpenHABWidget) parent.getTag();
-            if (index < widget.mappings().size()) {
-                Log.d(TAG, "Label selected = " + widget.mappings().get(index).label());
-                for (OpenHABLabeledValue mapping : widget.mappings()) {
+            if (index < mBoundMappings.size()) {
+                Log.d(TAG, "Label selected = " + mBoundMappings.get(index).label());
+                for (OpenHABLabeledValue mapping : mBoundMappings) {
                     if (mapping.label().equals(selectedLabel)) {
                         Log.d(TAG, "Spinner onItemSelected found match with " + mapping.value());
                         Util.sendItemCommand(mConnection.getAsyncHttpClient(), widget.item(),

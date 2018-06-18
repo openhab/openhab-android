@@ -85,8 +85,17 @@ public abstract class OpenHABWidget implements Parcelable {
     public abstract int height();
 
     public boolean hasMappings() {
+        return !mappings().isEmpty();
+    }
+
+    public boolean hasMappingsOrItemOptions() {
+        return !getMappingsOrItemOptions().isEmpty();
+    }
+
+    public List<OpenHABLabeledValue> getMappingsOrItemOptions() {
         List<OpenHABLabeledValue> mappings = mappings();
-        return mappings != null && !mappings.isEmpty();
+        List<OpenHABLabeledValue> options = item() != null ? item().options() : null;
+        return mappings.isEmpty() && options != null ? options : mappings;
     }
 
     abstract Builder toBuilder();

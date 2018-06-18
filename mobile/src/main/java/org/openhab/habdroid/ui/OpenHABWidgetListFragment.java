@@ -129,8 +129,8 @@ public class OpenHABWidgetListFragment extends Fragment
         if (widget.item() != null) {
             // If the widget has mappings, we will populate names and commands with
             // values from those mappings
-            if (widget.hasMappings()) {
-                for (OpenHABLabeledValue mapping : widget.mappings()) {
+            if (widget.hasMappingsOrItemOptions()) {
+                for (OpenHABLabeledValue mapping : widget.getMappingsOrItemOptions()) {
                     labels.add(mapping.label());
                     commands.add(mapping.value());
                 }
