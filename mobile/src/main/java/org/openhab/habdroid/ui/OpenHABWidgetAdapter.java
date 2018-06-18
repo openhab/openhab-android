@@ -58,8 +58,8 @@ import com.larswerkman.holocolorpicker.ValueBar;
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.core.connection.Connection;
 import org.openhab.habdroid.model.OpenHABItem;
+import org.openhab.habdroid.model.OpenHABLabeledValue;
 import org.openhab.habdroid.model.OpenHABWidget;
-import org.openhab.habdroid.model.OpenHABWidgetMapping;
 import org.openhab.habdroid.ui.widget.DividerItemDecoration;
 import org.openhab.habdroid.ui.widget.SegmentedControlButton;
 import org.openhab.habdroid.ui.widget.WidgetImageView;
@@ -637,8 +637,8 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
             ArrayList<String> spinnerArray = new ArrayList<>();
             String state = widget.item() != null ? widget.item().state() : null;
 
-            for (OpenHABWidgetMapping mapping : widget.mappings()) {
-                String command = mapping.command();
+            for (OpenHABLabeledValue mapping : widget.mappings()) {
+                String command = mapping.value();
                 spinnerArray.add(mapping.label());
                 if (command != null && command.equals(state)) {
                     spinnerSelectedIndex = spinnerArray.size() - 1;
@@ -672,11 +672,11 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
             OpenHABWidget widget = (OpenHABWidget) parent.getTag();
             if (index < widget.mappings().size()) {
                 Log.d(TAG, "Label selected = " + widget.mappings().get(index).label());
-                for (OpenHABWidgetMapping mapping : widget.mappings()) {
+                for (OpenHABLabeledValue mapping : widget.mappings()) {
                     if (mapping.label().equals(selectedLabel)) {
-                        Log.d(TAG, "Spinner onItemSelected found match with " + mapping.command());
+                        Log.d(TAG, "Spinner onItemSelected found match with " + mapping.value());
                         Util.sendItemCommand(mConnection.getAsyncHttpClient(), widget.item(),
-                                mapping.command());
+                                mapping.value());
                     }
                 }
             }
@@ -709,7 +709,7 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
             super.bind(widget);
             mBoundItem = widget.item();
 
-            List<OpenHABWidgetMapping> mappings = widget.mappings();
+            List<OpenHABLabeledValue> mappings = widget.mappings();
             // inflate missing views
             for (int i = mRadioGroup.getChildCount(); i < mappings.size(); i++) {
                 View view = mInflater.inflate(R.layout.openhabwidgetlist_sectionswitchitem_button,
@@ -720,7 +720,7 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
             // bind views
             for (int i = 0; i < mappings.size(); i++) {
                 SegmentedControlButton button = (SegmentedControlButton) mRadioGroup.getChildAt(i);
-                String command = mappings.get(i).command();
+                String command = mappings.get(i).value();
                 button.setText(mappings.get(i).label());
                 button.setTag(command);
                 button.setChecked(mBoundItem != null && command != null

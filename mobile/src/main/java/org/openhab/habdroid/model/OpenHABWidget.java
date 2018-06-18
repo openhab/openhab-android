@@ -65,7 +65,7 @@ public abstract class OpenHABWidget implements Parcelable {
     public abstract OpenHABItem item();
     @Nullable
     public abstract OpenHABLinkedPage linkedPage();
-    public abstract List<OpenHABWidgetMapping> mappings();
+    public abstract List<OpenHABLabeledValue> mappings();
     @Nullable
     public abstract String encoding();
     @Nullable
@@ -85,7 +85,7 @@ public abstract class OpenHABWidget implements Parcelable {
     public abstract int height();
 
     public boolean hasMappings() {
-        List<OpenHABWidgetMapping> mappings = mappings();
+        List<OpenHABLabeledValue> mappings = mappings();
         return mappings != null && !mappings.isEmpty();
     }
 
@@ -102,7 +102,7 @@ public abstract class OpenHABWidget implements Parcelable {
         public abstract Builder url(@Nullable String url);
         public abstract Builder item(@Nullable OpenHABItem item);
         public abstract Builder linkedPage(@Nullable OpenHABLinkedPage linkedPage);
-        public abstract Builder mappings(List<OpenHABWidgetMapping> mappings);
+        public abstract Builder mappings(List<OpenHABLabeledValue> mappings);
         public abstract Builder encoding(@Nullable String encoding);
         public abstract Builder iconColor(@Nullable String iconColor);
         public abstract Builder labelColor(@Nullable String labelColor);
@@ -149,7 +149,7 @@ public abstract class OpenHABWidget implements Parcelable {
         Type type = Type.Unknown;
         float minValue = 0f, maxValue = 100f, step = 1f;
         int refresh = 0, height = 0;
-        List<OpenHABWidgetMapping> mappings = new ArrayList<>();
+        List<OpenHABLabeledValue> mappings = new ArrayList<>();
         List<Node> childWidgetNodes = new ArrayList<>();
 
         if (startNode.hasChildNodes()) {
@@ -187,8 +187,8 @@ public abstract class OpenHABWidget implements Parcelable {
                                 case "label": mappingLabel = mappingNode.getTextContent(); break;
                             }
                         }
-                        OpenHABWidgetMapping mapping = OpenHABWidgetMapping.newBuilder()
-                                .command(mappingCommand)
+                        OpenHABLabeledValue mapping = OpenHABLabeledValue.newBuilder()
+                                .value(mappingCommand)
                                 .label(mappingLabel)
                                 .build();
                         mappings.add(mapping);
@@ -229,13 +229,13 @@ public abstract class OpenHABWidget implements Parcelable {
 
     public static void parseJson(List<OpenHABWidget> allWidgets, OpenHABWidget parent,
             JSONObject widgetJson, String iconFormat) throws JSONException {
-        List<OpenHABWidgetMapping> mappings = new ArrayList<>();
+        List<OpenHABLabeledValue> mappings = new ArrayList<>();
         if (widgetJson.has("mappings")) {
             JSONArray mappingsJsonArray = widgetJson.getJSONArray("mappings");
             for (int i = 0; i < mappingsJsonArray.length(); i++) {
                 JSONObject mappingObject = mappingsJsonArray.getJSONObject(i);
-                OpenHABWidgetMapping mapping = OpenHABWidgetMapping.newBuilder()
-                        .command(mappingObject.getString("command"))
+                OpenHABLabeledValue mapping = OpenHABLabeledValue.newBuilder()
+                        .value(mappingObject.getString("command"))
                         .label(mappingObject.getString("label"))
                         .build();
                 mappings.add(mapping);
