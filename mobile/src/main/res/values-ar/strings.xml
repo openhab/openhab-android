@@ -22,17 +22,12 @@
   <string name="settings_openhab_username">اسم المستخدم</string>
   <string name="settings_openhab_password">كلمة المرور</string>
   <string name="settings_openhab_sslclientcert">شهادة SSL العميل</string>
-  <string name="settings_openhab_sslclientcert_howto">شهادة SSL العميل الكيفية</string>
   <string name="settings_openhab_sslclientcert_howto_summary">اضغط هنا للحصول على بعض التلميحات والتوضيحات حول كيفية إعداد مصادقة شهادة عميل SSL</string>
   <string name="settings_openhab_screentimeroff">تعطيل عرض المؤقت</string>
   <string name="settings_openhab_screentimeroff_summary">تعطيل عرض إيقاف المؤقت عند تشغيل openHAB</string>
   <string name="settings_openhab_demomode">الوضع التجريبي</string>
   <string name="settings_openhab_demomode_summary">تشغيل في الوضع التجريبي</string>
   <string name="settings_openhab_theme">السمة</string>
-  <string name="settings_openhab_sslcert">تجاهل شهادة SSL</string>
-  <string name="settings_openhab_sslcert_summary">تجاهل تدقيق الشهادة عند مصافحة SSL</string>
-  <string name="settings_openhab_sslhost">تجاهل SSL اسم المضيف</string>
-  <string name="settings_openhab_sslhost_summary">تجاهل التحقق من اسم المضيف أثناء مصافحة SSL</string>
   <string name="settings_openhab_fullscreen">ملء الشاشة</string>
   <string name="settings_openhab_fullscreen_summary">عرض في وضع ملء الشاشة</string>
   <string name="settings_openhab_icon_format">تنسيق الرمز</string>
@@ -42,7 +37,6 @@
   <string name="settings_clear_default_sitemap">تصفية sitemap الإفتراضية</string>
   <string name="settings_no_default_sitemap">لا توجد sitemap إفتراضي محددة</string>
   <string name="settings_current_default_sitemap">sitemap الافتراضي الحالي: %1$s</string>
-  <string name="settings_openhab_sslsettings">التشفير</string>
   <string name="settings_openhab_alt_connection">بعيد</string>
   <string name="settings_openhab_connection">محلي</string>
   <!-- App messages strings -->
@@ -59,8 +53,6 @@
   <string name="error_connection_failed">فشل الإتصال بالمضيف</string>
   <string name="error_unable_to_resolve_hostname">غير قادر على معالجة المضيف</string>
   <string name="error_connection_sslhandshake_failed">فشل مصافحة SSL</string>
-  <string name="error_certificate_expired">انتهت مدة صلاحية شهادة SSL. الرجاء الحصول على شهادة جديدة أو تعطيل التحقق من صحة الشهادة أثناء تعارف SSL</string>
-  <string name="error_certificate_revoked">تم إبطال شهادة SSL. الرجاء الحصول على شهادة جديدة أو تعطيل التحقق من صحة الشهادة أثناء تعارف SSL</string>
   <string name="error_certificate_wrong_host">شهادة SSL غير صالح ل %s</string>
   <string name="error_http_code_401">فشلت المصادقة. الرجاء التحقق من ضبط اسم المستخدم وكلمة المرور أيضا قم بتوفير شهادة عميل SSL (رمز استجابة HTTP 401)</string>
   <string name="error_http_code_403">فشلت المصادقة. الرجاء التحقق من ضبط اسم المستخدم وكلمة المرور أيضا قم بتوفير شهادة عميل SSL (رمز استجابة HTTP 403)</string>
@@ -91,8 +83,6 @@
   <string name="info_not_set">لم يُعين</string>
   <!-- Notification list strings -->
   <!-- Strings for MemorizingTrustManager activity -->
-  <string name="mtm_accept_cert">قبول شهادة غير معروفة؟</string>
-  <string name="mtm_decision_always">دائماً</string>
   <string name="mtm_decision_once">مرة</string>
   <string name="mtm_decision_abort">انهاء</string>
   <string name="mtm_notification">التحقق من الشهادة</string>
