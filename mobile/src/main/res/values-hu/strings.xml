@@ -22,17 +22,12 @@
   <string name="settings_openhab_username">Felhasználónév</string>
   <string name="settings_openhab_password">Jelszó</string>
   <string name="settings_openhab_sslclientcert">SSL ügyfél-tanúsítvány</string>
-  <string name="settings_openhab_sslclientcert_howto">SSL ügyféltanúsítvány útmutató</string>
   <string name="settings_openhab_sslclientcert_howto_summary">Koppintson ide, hogy többet tudhasson meg a SSL ügyféltanúsítvány-hitelesítés beállításáról</string>
   <string name="settings_openhab_screentimeroff">Időzített kijelző tiltása</string>
   <string name="settings_openhab_screentimeroff_summary">Ha openHAB fut. Tiltsa le a kijelzővel kapcsolatos időzítőket</string>
   <string name="settings_openhab_demomode">Bemutató mód</string>
   <string name="settings_openhab_demomode_summary">Demo módban fut</string>
   <string name="settings_openhab_theme">Sablonok</string>
-  <string name="settings_openhab_sslcert">SSL-tanúsítvány figyelmen kívül hagyása</string>
-  <string name="settings_openhab_sslcert_summary">Tanúsítvány figyelmen kívül hagyása SSL érvényesít során</string>
-  <string name="settings_openhab_sslhost">SSL - gépnév figyelmen kívül hagyása</string>
-  <string name="settings_openhab_sslhost_summary">SSL - gépnév figyelmen kívül hagyása érvényesít során</string>
   <string name="settings_openhab_fullscreen">Teljes képernyő</string>
   <string name="settings_openhab_fullscreen_summary">Megjelenítése teljes képernyős módban</string>
   <string name="settings_openhab_icon_format">Ikon formátum</string>
@@ -48,7 +43,6 @@
   <string name="settings_clear_default_sitemap">Alapértelmezett felületet eltávolítása</string>
   <string name="settings_no_default_sitemap">Nincs alapértelmezett felületet kiválasztva</string>
   <string name="settings_current_default_sitemap">Alapértelmezett felületet</string>
-  <string name="settings_openhab_sslsettings">Titkosítás</string>
   <string name="settings_openhab_alt_connection">Távoli</string>
   <string name="settings_openhab_connection">Helyi</string>
   <string name="settings_notification_vibration">Rezgés értesítéskor</string>
@@ -71,10 +65,6 @@
   <string name="error_connection_failed">Sikertelen kapcsolódás</string>
   <string name="error_unable_to_resolve_hostname">Névfeloldás sikertelen</string>
   <string name="error_connection_sslhandshake_failed">SSL ellenőrzés sikertelen</string>
-  <string name="error_certificate_not_trusted">Az SSL-tanúsítvány nem megbízható. Kérjük, importálja a gyökér tanúsítványt, vagy tiltsa le a tanúsítvány ellenőrzést az SSL érvényesítése során</string>
-  <string name="error_certificate_expired">SSL-tanúsítvány már lejárt. Kérjük, szerezzen be új tanúsítványt, vagy tiltsa le a tanúsítvány érvényesítése során az SSL ellenőrzést</string>
-  <string name="error_certificate_not_valid_yet">SSL-tanúsítvány még nem érvényes. Kérjük, szerezzen be egy megfelelő tanúsítványt, vagy tiltsa le a tanúsítvány ellenőrzést az SSL érvényesítése során. Illetve, ellenőrizze készülékén megfelelően van e beállítva az idő</string>
-  <string name="error_certificate_revoked">SSL-tanúsítvány már lejárt. Kérjük, szerezzen be új tanúsítványt, vagy tiltsa le a tanúsítvány érvényesítése során az SSL ellenőrzést</string>
   <string name="error_certificate_wrong_host">SSL-tanúsítvány érvénytelen %s</string>
   <string name="error_http_code_401">A hitelesítés sikertelen. Kérjük, ellenőrizze a beállított felhasználónevet és jelszót, illetve az SSL ügyféltanúsítványt (HTTP-válaszkód 401)</string>
   <string name="error_http_code_403">A hitelesítés sikertelen. Kérjük, ellenőrizze a beállított felhasználónevet és jelszót, illetve az SSL ügyféltanúsítványt (HTTP-válaszkód 403)</string>
@@ -110,8 +100,6 @@
   <string name="notification_list_error">Értesítések betöltése közben hiba történt</string>
   <string name="list_loading_message">Betöltés\u2026</string>
   <!-- Strings for MemorizingTrustManager activity -->
-  <string name="mtm_accept_cert">Elfogad ismeretlen tanúsítványt?</string>
-  <string name="mtm_decision_always">Mindig</string>
   <string name="mtm_decision_once">Egyszer</string>
   <string name="mtm_decision_abort">Megszakítás</string>
   <string name="mtm_notification">Tanúsítvány ellenőrzése</string>
