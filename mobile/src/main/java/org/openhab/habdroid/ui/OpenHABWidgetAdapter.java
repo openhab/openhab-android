@@ -622,6 +622,7 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
     public static class SelectionViewHolder extends LabeledItemBaseViewHolder
             implements AdapterView.OnItemClickListener {
         private final Spinner mSpinner;
+        private OpenHABItem mBoundItem;
         private List<OpenHABLabeledValue> mBoundMappings;
 
         SelectionViewHolder(LayoutInflater inflater, ViewGroup parent,
@@ -634,12 +635,12 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         public void bind(OpenHABWidget widget) {
             super.bind(widget);
 
-            OpenHABItem item = widget.item();
+            mBoundItem = widget.item();
             mBoundMappings = widget.getMappingsOrItemOptions();
 
             int spinnerSelectedIndex = -1;
             ArrayList<String> spinnerArray = new ArrayList<>();
-            String state = item != null ? item.state() : null;
+            String state = mBoundItem != null ? mBoundItem.state() : null;
 
             for (OpenHABLabeledValue mapping : mBoundMappings) {
                 String command = mapping.value();
@@ -670,20 +671,13 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int index, long id) {
             Log.d(TAG, "Spinner item click on index " + index);
-            String selectedLabel = (String) parent.getAdapter().getItem(index);
-            Log.d(TAG, "Spinner onItemSelected selected label = " + selectedLabel);
-
-            OpenHABWidget widget = (OpenHABWidget) parent.getTag();
-            if (index < mBoundMappings.size()) {
-                Log.d(TAG, "Label selected = " + mBoundMappings.get(index).label());
-                for (OpenHABLabeledValue mapping : mBoundMappings) {
-                    if (mapping.label().equals(selectedLabel)) {
-                        Log.d(TAG, "Spinner onItemSelected found match with " + mapping.value());
-                        Util.sendItemCommand(mConnection.getAsyncHttpClient(), widget.item(),
-                                mapping.value());
-                    }
-                }
+            if (index >= mBoundMappings.size()) {
+                return;
             }
+            OpenHABLabeledValue item = mBoundMappings.get(index);
+            Log.d(TAG, "Spinner onItemSelected found match with " + item.value());
+            Util.sendItemCommand(mConnection.getAsyncHttpClient(), mBoundItem, item.value());
+
             // TODO: there's probably a better solution...
             try {
                 // Close the spinner programmatically
