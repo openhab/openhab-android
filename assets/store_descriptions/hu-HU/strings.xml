@@ -13,7 +13,7 @@ Több mint 200 külön kiegészítő támogatja a márkákat, eszközöket, tech
     <home_entertainment>• Otthoni szórakozás: Samsung TV, LG TV, Sonos, Pioneer AVR, Squeezebox, Kodi, Plex, ...</home_entertainment>
     <security>• Biztonság: ZoneMinder, DSC, ...</security>
     <open_protocols>• Nyitott protokollok: HTTP, TCP/UDP, MQTT, Serial, ...</open_protocols>
-    <special_useCases/>
+    <special_useCases>Speciális felhasználói lehetőségek: Minecraft, Tesla Car, Időjárási szolgáltatások, ...</special_useCases>
     <empty_point>• ...</empty_point>
 
     <oss_community>Nyílt forráskódú közösség</oss_community>
@@ -27,7 +27,7 @@ Több mint 200 külön kiegészítő támogatja a márkákat, eszközöket, tech
     <oh_server>Szükséged van egy openHAB szerverre, hogy tudd használni ezt az alkalmazást</oh_server>
     <short_description>Szabadgondolkozású technológia, nyílt forráskódú otthonautomatizálás</short_description>
     <fdroid>A F-Droidra készült példány tartalmaz map nézetet is, GCM és hibajelentés el lett belőle távolítva és nem képes push értesítések fogadására az openHAB felhőről.</fdroid>
-    <fdroid_beta> <a href=""/></fdroid_beta>
+    <fdroid_beta>Telepíthetsz béta verziót is a stabil mellé <a href="https://f-droid.org/packages/org.openhab.habdroid/">stabil verzió</a>.</fdroid_beta>
     <fdroid_privacy_policy>Adatvédelem: https://www.openhabfoundation.org/privacy</fdroid_privacy_policy>
     <fdroid_anti_features>Anti funkciók</fdroid_anti_features>
     <fdroid_anti_features_text>Az alkalmazás meg van jelölve a "NonFreeAsset" zászlóval, mert az openHAB ikon nincs szabad licensz alatt.</fdroid_anti_features_text>
