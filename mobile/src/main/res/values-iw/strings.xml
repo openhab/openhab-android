@@ -22,17 +22,12 @@
   <string name="settings_openhab_username">שם משתמש</string>
   <string name="settings_openhab_password">סיסמה</string>
   <string name="settings_openhab_sslclientcert">תעודת לקוח SSL</string>
-  <string name="settings_openhab_sslclientcert_howto">תעודת לקוח SSL \' כיצד להגדיר \'</string>
   <string name="settings_openhab_sslclientcert_howto_summary">הקש כאן כדי לקבל כמה רמזים והסברים על איך להגדיר אימות תעודת לקוח SSL</string>
   <string name="settings_openhab_screentimeroff">ביטול כיבוי מסך אוטומטי</string>
   <string name="settings_openhab_screentimeroff_summary">בטל את קוצב הזמן לכיבוי המסך כאשר אפליקצית openHAB פועלת</string>
   <string name="settings_openhab_demomode">מצב הדגמה</string>
   <string name="settings_openhab_demomode_summary">הפעל במצב הדגמה</string>
   <string name="settings_openhab_theme">ערכת עיצוב</string>
-  <string name="settings_openhab_sslcert">התעלם מתעודת SSL</string>
-  <string name="settings_openhab_sslcert_summary">התעלם מאימות תעודה בעת חיבור SSL</string>
-  <string name="settings_openhab_sslhost">התעלם משם שרת SSL</string>
-  <string name="settings_openhab_sslhost_summary">התעלם מבדיקת שם השרת בעת חיבור SSL</string>
   <string name="settings_openhab_fullscreen">מסך מלא</string>
   <string name="settings_openhab_fullscreen_summary">הצג במסך מלא</string>
   <string name="settings_openhab_icon_format">סוג קובץ צלמית</string>
@@ -48,7 +43,6 @@
   <string name="settings_clear_default_sitemap">נקה את הגדרת ברירת מחדל של תצורת המערכת</string>
   <string name="settings_no_default_sitemap">לא נבחרה תצורת מערכת ברירת מחדל</string>
   <string name="settings_current_default_sitemap">ברירת המחדל הנוכחית של תצורת המערכת: %1$s</string>
-  <string name="settings_openhab_sslsettings">הצפנה</string>
   <string name="settings_openhab_alt_connection">מרוחק</string>
   <string name="settings_openhab_connection">מקומי</string>
   <string name="settings_notification_vibration">רטט התראה</string>
@@ -71,10 +65,6 @@
   <string name="error_connection_failed">החיבור למחשב המארח נכשל</string>
   <string name="error_unable_to_resolve_hostname">אין אפשרות לאתר את שם המחשב המארח</string>
   <string name="error_connection_sslhandshake_failed">חיבור SSL נכשל</string>
-  <string name="error_certificate_not_trusted">אישור SSL אינו מהימן. אנא ייבא אישור בסיסי או בטל אימות אישור במהלך חיבור SSL</string>
-  <string name="error_certificate_expired">אישור SSL פג תוקף. אנא ייבא אישורי בסיס או בטל אימות אישור במהלך חיבור SSL</string>
-  <string name="error_certificate_not_valid_yet">אישור SSL עדיין אינו חוקי. נא קבל אישור מתאים או בטל אימות אישור בתהליך בדיקת SSL. כמו כן יש לבדוק אם השעון במכשיר מוגדר כראוי</string>
-  <string name="error_certificate_revoked">אישור SSL נשלל. אנא ייבא אישור חדש או בטל אימות אישור במהלך חיבור SSL</string>
   <string name="error_certificate_wrong_host">תעודת SSL אינה חוקית עבור %s</string>
   <string name="error_http_code_401">האימות נכשל. נא בדוק את שם המשתמש והסיסמה שהוגדרו בהתאמה עם תעודת ה-SSL (קוד תגובה HTTP 401)</string>
   <string name="error_http_code_403">האימות נכשל. נא בדוק את שם המשתמש והסיסמה שהוגדרו בהתאמה עם תעודת ה-SSL (קוד תגובה HTTP 403)</string>
@@ -110,8 +100,6 @@
   <string name="notification_list_error">אירעה שגיאה במהלך טעינת התראות</string>
   <string name="list_loading_message">טוען...</string>
   <!-- Strings for MemorizingTrustManager activity -->
-  <string name="mtm_accept_cert">לקבל אישור/תעודה לא מזוהה?</string>
-  <string name="mtm_decision_always">תמיד</string>
   <string name="mtm_decision_once">חד פעמי</string>
   <string name="mtm_decision_abort">בטל</string>
   <string name="mtm_notification">אימות תעודה</string>
