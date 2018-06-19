@@ -45,6 +45,11 @@
   <string name="settings_current_default_sitemap">Текущий sitemap по умолчанию: %1$s</string>
   <string name="settings_openhab_alt_connection">Удаленный сервер</string>
   <string name="settings_openhab_connection">Локальный сервер</string>
+  <string name="settings_notification_vibration">Вибрация при уведомлениях</string>
+  <string name="settings_notification_vibration_off">Выкл</string>
+  <string name="settings_notification_vibration_short">Коротко</string>
+  <string name="settings_notification_vibration_long">Длинно</string>
+  <string name="settings_notification_vibration_twice">Дважды</string>
   <!-- App messages strings -->
   <string name="title_voice_widget">Голосовые команды openHAB</string>
   <string name="info_voice_input">openHAB, Ваша команда!</string>
