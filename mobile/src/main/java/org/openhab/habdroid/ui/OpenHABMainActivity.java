@@ -352,7 +352,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
 
     @Override
     public void onServiceResolveFailed() {
-        mController.indicateMissingConfiguration();
+        mController.indicateMissingConfiguration(true);
         mServiceResolver = null;
     }
 
@@ -459,7 +459,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
                         mController.updateConnection(null, getString(R.string.resolving_openhab));
                     }
                 } else {
-                    mController.indicateMissingConfiguration();
+                    mController.indicateMissingConfiguration(false);
                 }
             } else if (failureReason != null) {
                 final String message;
