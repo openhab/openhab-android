@@ -73,27 +73,27 @@
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB returned empty sitemap list</string>
     <string name="error_network_not_available">Network is not available</string>
-    <string name="error_http_connection_failed">Connection unsuccessful. An unexpected response was received while trying to connect to the configured openHAB server (Received HTTP response code: %d)</string>
+    <string name="error_http_connection_failed">Connection unsuccessful. An unexpected response was received while trying to connect to the configured openHAB server (Received HTTP response code: %d).</string>
     <string name="error_invalid_url">Please enter a valid URL in a \'http(s)://host(:port)/\' form</string>
     <string name="error_connection_failed">Connection to host failed</string>
     <string name="error_unable_to_resolve_hostname">Unable to resolve hostname</string>
     <string name="error_connection_sslhandshake_failed">SSL handshake failed</string>
-    <string name="error_certificate_not_trusted">SSL certificate isn\'t trusted. Please import the root certificate or accept the certificate during SSL handshake</string>
-    <string name="error_certificate_expired">SSL certificate has been expired. Please get a new certificate or accept the certificate during SSL handshake</string>
-    <string name="error_certificate_not_valid_yet">SSL certificate isn\'t valid yet. Please get a correct certificate or accept the certificate during SSL handshake. Also check if the clock on your device is set correctly</string>
-    <string name="error_certificate_revoked">SSL certificate has been revoked. Please get a new certificate or accept the certificate during SSL handshake</string>
+    <string name="error_certificate_not_trusted">SSL certificate isn\'t trusted. Please import the root certificate or accept the certificate during SSL handshake.</string>
+    <string name="error_certificate_expired">SSL certificate has been expired. Please get a new certificate or accept the certificate during SSL handshake.</string>
+    <string name="error_certificate_not_valid_yet">SSL certificate isn\'t valid yet. Please get a correct certificate or accept the certificate during SSL handshake. Also check if the clock on your device is set correctly.</string>
+    <string name="error_certificate_revoked">SSL certificate has been revoked. Please get a new certificate or accept the certificate during SSL handshake.</string>
     <string name="error_certificate_wrong_host">SSL certificate is not valid for %s</string>
-    <string name="error_http_code_401">Authentication failed. Please check the configured username and password respectively the provided SSL client certificate (HTTP response code 401)</string>
-    <string name="error_http_code_403">Authentication failed. Please check the configured username and password respectively the provided SSL client certificate (HTTP response code 403)</string>
-    <string name="error_http_code_407">Authentication failed. Please check the configured username and password respectively the provided SSL client certificate (HTTP response code 407)</string>
-    <string name="error_http_code_414">URL is too long. Please use the IP address or a shorter URL (HTTP response code 414)</string>
-    <string name="error_http_code_426">HTTPS is required. Please change the URL (HTTP response code 426)</string>
+    <string name="error_http_code_401">Authentication failed. Please check the configured username and password respectively the provided SSL client certificate (HTTP response code 401).</string>
+    <string name="error_http_code_403">Authentication failed. Please check the configured username and password respectively the provided SSL client certificate (HTTP response code 403).</string>
+    <string name="error_http_code_407">Authentication failed. Please check the configured username and password respectively the provided SSL client certificate (HTTP response code 407).</string>
+    <string name="error_http_code_414">URL is too long. Please use the IP address or a shorter URL (HTTP response code 414).</string>
+    <string name="error_http_code_426">HTTPS is required. Please change the URL (HTTP response code 426).</string>
     <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
-    <string name="error_http_code_495">Authentication failed. Please check the provided SSL client certificate (HTTP response code 495)</string>
-    <string name="error_http_code_496">SSL client certificate is required (HTTP response code 496)</string>
+    <string name="error_http_code_495">Authentication failed. Please check the provided SSL client certificate (HTTP response code 495).</string>
+    <string name="error_http_code_496">SSL client certificate is required (HTTP response code 496).</string>
     <string name="error_http_code_502">Your reverse proxy got an invalid answer from the openHAB server (HTTP response code 502)</string>
     <string name="error_http_code_503">The openHAB server is temporarily unavailable (HTTP response code 503)</string>
-    <string name="error_http_code_504">Gateway time-out. Seems that your reverse proxy is running, but couldn\'t get an answer from the openHAB server (HTTP response code 504)</string>
+    <string name="error_http_code_504">Gateway time-out. Seems that your reverse proxy is running, but couldn\'t get an answer from the openHAB server (HTTP response code 504).</string>
     <string name="error_http_code_507">The openHAB server hasn\'t enough free space (HTTP response code 507)</string>
     <string name="error_http_code_511">Network authentication is required (HTTP response code 511)</string>
     <string name="error_about_no_conn">Error while fetching openHAB server information</string>
@@ -121,8 +121,8 @@
 
     <!-- Strings for MemorizingTrustManager activity -->
     <string name="mtm_accept_cert">Accept Unknown Certificate?</string>
-    <string name="mtm_trust_anchor">The server certificate is not signed by a known Certificate Authority.</string>
-    <string name="mtm_cert_expired">The server certificate is expired.</string>
+    <string name="mtm_trust_anchor">The server certificate is not signed by a known Certificate Authority</string>
+    <string name="mtm_cert_expired">The server certificate is expired</string>
     <string name="mtm_accept_servername">Accept Mismatching Server Name?</string>
     <string name="mtm_hostname_mismatch">Server could not authenticate as \&quot;%s\&quot;. The certificate is only valid for:</string>
 
