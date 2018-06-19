@@ -13,10 +13,10 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.URL;
 
+import okhttp3.OkHttpClient;
+
 public abstract class AbstractConnection implements Connection {
     private static final String TAG = AbstractConnection.class.getSimpleName();
-
-    private SharedPreferences settings;
 
     private int connectionType;
     private String username;
@@ -26,25 +26,20 @@ public abstract class AbstractConnection implements Connection {
     private final AsyncHttpClient asyncHttpClient;
     private final SyncHttpClient syncHttpClient;
 
-    AbstractConnection(Context ctx, SharedPreferences settings, int connectionType, String baseUrl,
-            String username, String password) {
-        this.settings = settings;
+    AbstractConnection(OkHttpClient httpClient, int connectionType,
+            String baseUrl, String username, String password) {
         this.username = username;
         this.password = password;
         this.baseUrl = baseUrl;
         this.connectionType = connectionType;
 
-        asyncHttpClient = new AsyncHttpClient(ctx, settings, baseUrl);
+        asyncHttpClient = new AsyncHttpClient(httpClient, baseUrl, username, password);
         asyncHttpClient.setTimeout(30000);
 
-        syncHttpClient = new SyncHttpClient(ctx, settings, baseUrl);
-
-        updateHttpClientAuth(asyncHttpClient);
-        updateHttpClientAuth(syncHttpClient);
+        syncHttpClient = new SyncHttpClient(httpClient, baseUrl, username, password);
     }
 
     AbstractConnection(@NonNull AbstractConnection base, int connectionType) {
-        this.settings = base.settings;
         this.username = base.username;
         this.password = base.password;
         this.baseUrl = base.baseUrl;
@@ -52,12 +47,6 @@ public abstract class AbstractConnection implements Connection {
 
         asyncHttpClient = base.getAsyncHttpClient();
         syncHttpClient = base.getSyncHttpClient();
-    }
-
-    private void updateHttpClientAuth(HttpClient httpClient) {
-        if (hasUsernameAndPassword()) {
-            httpClient.setBasicAuth(getUsername(), getPassword());
-        }
     }
 
     private boolean hasUsernameAndPassword() {
@@ -91,16 +80,10 @@ public abstract class AbstractConnection implements Connection {
     }
 
     @Override
-    @NonNull
-    public String getOpenHABUrl() {
-        return baseUrl;
-    }
-
-    @Override
     public boolean checkReachabilityInBackground() {
-        Log.d(TAG, "Checking reachability of " + getOpenHABUrl());
+        Log.d(TAG, "Checking reachability of " + baseUrl);
         try {
-            URL url = new URL(getOpenHABUrl());
+            URL url = new URL(baseUrl);
             int checkPort = url.getPort();
             if (url.getProtocol().equals("http") && checkPort == -1)
                 checkPort = 80;

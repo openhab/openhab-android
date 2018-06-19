@@ -4,7 +4,7 @@
     <whatis>openHAB ist eine auf Java basierende quelloffene Plattform zur Heimautomatisierung, welche eine große Bandbreite verschiedenster Smart-Home-Systeme und -Technologien in eine einzige Lösung integriert und kombiniert.</whatis>
     <rules>Aufbauend auf einer vereinheitlichten Abstraktionsschicht sind alle Geräte für die übergreifenden Automatisierungs- bzw. Regelmöglichkeiten und die verschiedenen Benutzeroberflächen verfügbar.</rules>
     <supported>Unterstützte Produkte</supported>
-    <bindings>Über 200 spezifische Add-Ons stellen Unterstützung für Marken, Geräte, Technologien und Kommunikations-Protokolle zur Verfügung. Beispiele hierfür sind unter anderem Z-Wave, Philips Hue, Amazon Echo, Chromecast, Sonos und FRITZ!Box. Entdecken Sie alle verfügbaren Erweiterungen und unterstützte Geräte und/oder Funktionen auf: https://docs.openhab.org/addons/bindings.html</bindings>
+    <bindings>Über 200 spezifische Add-Ons stellen Unterstützung für Marken, Geräte, Technologien und Kommunikations-Protokolle zur Verfügung. Beispiele hierfür sind unter anderem Z-Wave, Philips Hue, Amazon Echo, Chromecast, Sonos und FRITZ!Box. Entdecken Sie alle verfügbaren Erweiterungen und unterstützte Geräte und/oder Funktionen auf: https://www.openhab.org/addons/</bindings>
 
     <home_automation_solutions>• Heimautomatisierungslösungen: Z-Wave, EnOcean, Netatmo, Homematic, Insteon, ...</home_automation_solutions>
     <lighting>• Licht: Philips Hue, Ikea Trådfri, LIFX, Lutron, Milight, ...</lighting>
@@ -24,9 +24,9 @@
     <about_foundation>Die openHAB Foundation e.V. ist ein gemeinnütziger Verein mit dem Ziel, die Öffentlichkeit über die Möglichkeiten und den Nutzen von kostenlosen und offenen Smart Home Lösungen aufzuklären. Erfahren Sie mehr über die Ziele und Angebote der Foundation unter https://www.openhabfoundation.org</about_foundation>
     <important_note>Wichtiger Hinweis</important_note>
     <oh_server>Um diese App zu nutzen, benötigen Sie einen openHAB-Server</oh_server>
-    <short_description>openHAB-Client für Android</short_description>
+    <short_description>Technologie- und herstellerunabhängige, quelloffene Automatisierungslösung</short_description>
     <fdroid>In der F-Droid-Version wurden die Unterstützung für Mapview-Elemente, GCM und die Übermittlung von Absturzberichten entfernt. Mit dieser Version können keine Nachrichten von einer openHAB-Cloud-Instanz empfangen werden.</fdroid>
-    <fdroid_beta>Sie können die Betaversion neben der stabilen Version installieren: [[org.openhab.habdroid]]</fdroid_beta>
+    <fdroid_beta> <a href=""/></fdroid_beta>
     <fdroid_privacy_policy>Datenschutzerklärung: https://www.openhabfoundation.org/privacy</fdroid_privacy_policy>
     <fdroid_anti_features>Anti-Features</fdroid_anti_features>
     <fdroid_anti_features_text>Die App wurde mit dem "NonFreeAsset"-Anti-Feature markiert, da das openHAB-Icon nicht unter freier Lizenz steht.</fdroid_anti_features_text>

@@ -4,7 +4,7 @@
     <!-- See: https://github.com/openhab/openhab-android/blob/master/README.md#localization -->
 
     <!-- General app strings -->
-    <string name="openhab_service_type" translatable="false">_openhab-server._tcp.local.</string>
+    <string name="openhab_service_type" translatable="false">_openhab-server-ssl._tcp.local.</string>
     <string name="app_preferences_name">Settings</string>
     <string name="app_notifications">Notifications</string>
     <string name="empty_string" translatable="false"></string>
@@ -49,18 +49,13 @@
     <string name="settings_openhab_username">Username</string>
     <string name="settings_openhab_password">Password</string>
     <string name="settings_openhab_sslclientcert">SSL client certificate</string>
-    <string name="settings_openhab_sslclientcert_howto">SSL client certificate how-to</string>
     <string name="settings_openhab_sslclientcert_howto_summary">Tap here to get some hints and explanations on how to set up SSL client certificate authentication</string>
-    <string name="settings_openhab_sslclientcert_howto_url" translatable="false">https://github.com/openhab/openhab-android/blob/master/KeyAuth.md</string>
+    <string name="settings_openhab_sslclientcert_howto_url" translatable="false">https://community.openhab.org/t/using-nginx-reverse-proxy-for-client-certificate-authentication-start-discussion/43064</string>
     <string name="settings_openhab_screentimeroff">Disable display timer</string>
     <string name="settings_openhab_screentimeroff_summary">Disable display switch off timer when openHAB is running</string>
     <string name="settings_openhab_demomode">Demo mode</string>
     <string name="settings_openhab_demomode_summary">Run in demo mode</string>
     <string name="settings_openhab_theme">Theme</string>
-    <string name="settings_openhab_sslcert">Ignore SSL certificate</string>
-    <string name="settings_openhab_sslcert_summary">Ignore certificate validation during SSL handshake</string>
-    <string name="settings_openhab_sslhost">Ignore SSL hostname</string>
-    <string name="settings_openhab_sslhost_summary">Ignore hostname check during SSL handshake</string>
     <string name="settings_openhab_fullscreen">Fullscreen</string>
     <string name="settings_openhab_fullscreen_summary">Display in fullscreen mode</string>
     <string name="settings_openhab_icon_format">Icon format</string>
@@ -78,7 +73,6 @@
     <string name="settings_clear_default_sitemap">Clear default sitemap</string>
     <string name="settings_no_default_sitemap">No default sitemap selected</string>
     <string name="settings_current_default_sitemap">Current default sitemap: %1$s</string>
-    <string name="settings_openhab_sslsettings">Encryption</string>
     <string name="settings_openhab_alt_connection">Remote</string>
     <string name="settings_openhab_connection">Local</string>
     <string name="settings_notification_vibration">Notification vibration</string>
@@ -107,10 +101,10 @@
     <string name="error_connection_failed">Connection to host failed</string>
     <string name="error_unable_to_resolve_hostname">Unable to resolve hostname</string>
     <string name="error_connection_sslhandshake_failed">SSL handshake failed</string>
-    <string name="error_certificate_not_trusted">SSL certificate isn\'t trusted. Please import the root certificate or disable certificate validation during SSL handshake</string>
-    <string name="error_certificate_expired">SSL certificate has been expired. Please get a new certificate or disable certificate validation during SSL handshake</string>
-    <string name="error_certificate_not_valid_yet">SSL certificate isn\'t valid yet. Please get a correct certificate or disable certificate validation during SSL handshake. Also check if the clock on your device is set correctly</string>
-    <string name="error_certificate_revoked">SSL certificate has been revoked. Please get a new certificate or disable certificate validation during SSL handshake</string>
+    <string name="error_certificate_not_trusted">SSL certificate isn\'t trusted. Please import the root certificate or accept the certificate during SSL handshake</string>
+    <string name="error_certificate_expired">SSL certificate has been expired. Please get a new certificate or accept the certificate during SSL handshake</string>
+    <string name="error_certificate_not_valid_yet">SSL certificate isn\'t valid yet. Please get a correct certificate or accept the certificate during SSL handshake. Also check if the clock on your device is set correctly</string>
+    <string name="error_certificate_revoked">SSL certificate has been revoked. Please get a new certificate or accept the certificate during SSL handshake</string>
     <string name="error_certificate_wrong_host">SSL certificate is not valid for %s</string>
     <string name="error_http_code_401">Authentication failed. Please check the configured username and password respectively the provided SSL client certificate (HTTP response code 401)</string>
     <string name="error_http_code_403">Authentication failed. Please check the configured username and password respectively the provided SSL client certificate (HTTP response code 403)</string>
@@ -149,8 +143,16 @@
     <string name="list_loading_message">Loading\u2026</string>
 
     <!-- Strings for MemorizingTrustManager activity -->
-    <string name="mtm_accept_cert">Accept unknown Certificate?</string>
-    <string name="mtm_decision_always">Always</string>
+    <string name="mtm_accept_cert">Accept Unknown Certificate?</string>
+    <string name="mtm_trust_anchor">The server certificate is not signed by a known Certificate Authority.</string>
+    <string name="mtm_cert_expired">The server certificate is expired.</string>
+    <string name="mtm_accept_servername">Accept Mismatching Server Name?</string>
+    <string name="mtm_hostname_mismatch">Server could not authenticate as \&quot;%s\&quot;. The certificate is only valid for:</string>
+
+    <string name="mtm_connect_anyway">Do you want to connect anyway?</string>
+    <string name="mtm_cert_details">Certificate details:</string>
+
+    <string name="mtm_decision_always">Accept</string>
     <string name="mtm_decision_once">Once</string>
     <string name="mtm_decision_abort">Abort</string>
     <string name="mtm_notification">Certificate verification</string>

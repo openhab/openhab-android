@@ -6,7 +6,6 @@
   <!-- General app strings -->
   <string name="app_preferences_name">Asetukset</string>
   <string name="app_notifications">Ilmoitukset</string>
-  <string name="dlg_notification_title">Ilmoitusviesti</string>
   <!-- Main menu items -->
   <string name="mainmenu_openhab_sitemaps">Sivukartat</string>
   <string name="mainmenu_openhab_preferences">Asetukset</string>
@@ -59,9 +58,7 @@
   <string name="error_connection_failed">Yhteys palvelimeen epäonnistui</string>
   <string name="error_unable_to_resolve_hostname">Isäntänimen selvitys epäonnistui</string>
   <string name="error_connection_sslhandshake_failed">SSL kättely epäonnistui</string>
-  <string name="error_certificate_not_trusted">SSL sertifikaatti ei ole luotettu. Ole hyvä ja tuo root-sertifikaatti tai poista käytöstä sertifikaatin vahvistus SSL kättelyn aikana</string>
   <string name="error_certificate_expired">SSL serifikaatti on vanhentunut. Hanki uusi sertifikaatti tai poista käytöstä sertifikaatin vahvistus SSL kättelyn aikana</string>
-  <string name="error_certificate_not_valid_yet">SSL sertifikaatti ei ole vielä kelvollinen. Hanki sopiva sertifikaatti tai poista käytöstä sertifikaatin vahvistus SSL kättelyn aikana. Tarkista myös, että laitteessasi on oikea kellonaika</string>
   <string name="error_certificate_revoked">SSL serifikaatti on kumottu. Hanki uusi sertifikaatti tai poista käytöstä sertifikaatin vahvistus SSL kättelyn aikana</string>
   <string name="error_certificate_wrong_host">Isäntä %s ei hyväksy SSL sertifikaattia</string>
   <string name="error_http_code_401">Todennus epäonnistui. Tarkista määritetty käyttäjänimi, salasana sekä SSL sertifikaatti(HTTP vastaus 401)</string>
@@ -74,12 +71,10 @@
   <string name="error_http_code_496">SSL sertifikaatti on pakollinen (HTTP vastaus 496)</string>
   <string name="error_http_code_502">Sinun käänteinen välityspalvelin vastaanotti epäkelvon vastauksen openHAB palvelimelta (HTTP vastaus 502)</string>
   <string name="error_http_code_503">openHAB palvelin on väliaikaisesti pois käytöstä (HTTP vastaus 503)</string>
-  <string name="error_http_code_504">Välityspalvelimen aikakatkaisu. Näyttää siltä että sinun käänteinen välityspalvelin on toiminnassa, mutta ei saanut vastausta openHAB palvelimelta (HTTP vastaus 504)</string>
   <string name="error_http_code_507">openHAB palvelimella ei ole tarpeeksi tilaa (HTTP vastaus 507)</string>
   <string name="error_http_code_511">Verkkoon kirjautuminen vaaditaan (HTTP vastaus 511)</string>
   <string name="error_about_no_conn">Virhe haettaessa openHAB palvelimen tietoja</string>
   <string name="title_activity_openhabwritetag">Kirjoita uusi NFC tagi</string>
-  <string name="title_activity_libraries">Käytetyt kirjastot</string>
   <string name="info_write_tag">Kosketa tagia ja pidä se lähellä kunnes varmistusviesti ilmestyy näytölle</string>
   <string name="info_write_tag_progress">Kirjoittaa tagia</string>
   <string name="info_write_tag_finished">Onnistui</string>
@@ -93,6 +88,7 @@
   <string name="action_settings">Asetukset</string>
   <string name="nfc_dialog_title">Kirjoita NFC tagin toiminto tälle elementille</string>
   <string name="info_not_set">Ei määritetty</string>
+  <!-- Notification list strings -->
   <!-- Strings for MemorizingTrustManager activity -->
   <string name="mtm_accept_cert">Hyväksy tuntematon sertifikaatti?</string>
   <string name="mtm_decision_always">Aina</string>
@@ -143,10 +139,7 @@
   <string name="intro_themes_description">Valitse useista teemoista</string>
   <string name="try_again_button">Yritä uudelleen</string>
   <string name="go_to_settings_button">Mene asetuksiin</string>
-  <string name="configuration_missing">Sinun openHAB palvelinta ei löydetty automaattisesti. Ole hyvä ja ja aseta sen IP osoite tai isäntänimi palvelinasetuksiin.</string>
   <string name="resolving_openhab">Etsitään openHAB palvelinta\u2026</string>
-  <string name="intro_discovery">Haku</string>
-  <string name="intro_discovery_summary">Ota huomioon, että tämä toimii vain jos palvelin ei vaadi kirjautumista</string>
   <!-- Content description for images -->
   <string name="content_description_open_roller_shutter">Avaa rullaverho</string>
   <string name="content_description_stop_roller_shutter">Pysäytä rullaverho</string>
@@ -157,7 +150,6 @@
   <string name="content_description_open_number_picker">Avaa numerovalitsin</string>
   <string name="content_description_video">Video</string>
   <string name="content_description_open_openhab">Avaa openHAB</string>
-  <string name="swipe_to_refresh_description">Sovellus päivittää automaattisesti joten sitä ei tavallisesti tarvitse tehdä itse</string>
   <string name="swipe_to_refresh_dismiss">Selvä!</string>
   <!-- Intro strings -->
   <!-- Intro "SKIP" button -->

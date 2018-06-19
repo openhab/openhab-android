@@ -6,7 +6,6 @@
   <!-- General app strings -->
   <string name="app_preferences_name">Mga setting</string>
   <string name="app_notifications">Mga notipikasyon</string>
-  <string name="dlg_notification_title">Notipikasyong mensahe</string>
   <!-- Main menu items -->
   <string name="mainmenu_openhab_sitemaps">Sitemaps</string>
   <string name="mainmenu_openhab_preferences">Mga Setting</string>
@@ -23,6 +22,7 @@
   <!-- App messages strings -->
   <!-- Error messages -->
   <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
+  <!-- Notification list strings -->
   <!-- Strings for MemorizingTrustManager activity -->
   <!-- Themes -->
   <!-- NFC -->

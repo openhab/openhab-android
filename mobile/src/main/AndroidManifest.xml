@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.openhab.habdroid">
-
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_MULTICAST_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -23,36 +22,33 @@
         android:required="false" />
 
     <application
-        android:name=".core.OpenHABApplication"
         android:allowBackup="true"
         android:fullBackupContent="true"
         android:icon="@mipmap/icon"
         android:label="@string/app_name"
         android:resizeableActivity="true"
         android:supportsPictureInPicture="false"
+        android:theme="@style/HABDroid.Light"
         android:supportsRtl="true"
-        android:theme="@style/HABDroid.Light">
+        android:name=".core.OpenHABApplication">
         <activity
-            android:name=".ui.OpenHABPreferencesActivity"
+            android:name="org.openhab.habdroid.ui.OpenHABPreferencesActivity"
             android:label="@string/app_preferences_name">
             <intent-filter>
                 <action android:name="android.intent.action.APPLICATION_PREFERENCES" />
-
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
-
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="org.openhab.habdroid.ui.OpenHABMainActivity" />
         </activity>
         <activity
-            android:name=".ui.AboutActivity"
-            android:label="@string/about_title" />
+            android:name="org.openhab.habdroid.ui.AboutActivity"
+            android:label="@string/about_title"/>
         <activity
-            android:name=".ui.OpenHABMainActivity"
+            android:name="org.openhab.habdroid.ui.OpenHABMainActivity"
             android:label="@string/app_name"
             android:launchMode="singleTop">
-
             <!-- for Nougat -->
             <layout
                 android:defaultHeight="500dp"
@@ -60,17 +56,13 @@
                 android:gravity="top|end"
                 android:minHeight="80dp"
                 android:minWidth="80dp" />
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.nfc.action.NDEF_DISCOVERED" />
-
                 <category android:name="android.intent.category.DEFAULT" />
-
                 <data android:scheme="openhab" />
             </intent-filter>
             <intent-filter>
@@ -83,7 +75,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.OpenHABWriteTagActivity"
+            android:name="org.openhab.habdroid.ui.OpenHABWriteTagActivity"
             android:label="@string/title_activity_openhabwritetag" />
         <activity
             android:name=".ui.IntroActivity"
@@ -99,6 +91,11 @@
             android:name=".ui.OpenHABBeaconConfigActivity"
             android:label="@string/title_activity_openhab_beacon_config"/>
 
+        <activity android:name="org.openhab.habdroid.ui.IntroActivity"
+            android:label="@string/app_intro"/>
+        <activity android:name="de.duenndns.ssl.MemorizingActivity"
+            android:theme="@style/Theme.AppCompat.Translucent"
+            android:excludeFromRecents="true" />
         <service
             android:name=".core.OpenHABVoiceService"
             android:exported="false" />
@@ -112,7 +109,6 @@
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
-
             <meta-data
                 android:name="android.appwidget.provider"
                 android:resource="@xml/voice_widget_info" />
@@ -122,11 +118,8 @@
                 <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
             </intent-filter>
         </receiver>
-        <!--
-                This is temp disabled because of a bug in GMS 6.5
+        <!--    This is temp disabled because of a bug in GMS 6.5
                 <meta-data android:name="com.google.android.gms.analytics.globalConfigResource"
-                    android:resource="@xml/global_tracker" />
-        -->
+                    android:resource="@xml/global_tracker" /> -->
     </application>
-
 </manifest>

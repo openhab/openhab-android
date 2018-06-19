@@ -5,8 +5,7 @@
     <rules>على قمة الطبقات المجردة الموحدة، جميع الأجهزة المتصلة قابلة لقاعدة محركات أتمتة شاملة و واجهات مستخدم متوعة.</rules>
     <supported>منتجات مدعومة</supported>
     <bindings>ما يزيد على 200 من إضافات محددة توفر الدعم لماركات أجهزة وتقنيات وبروتوكولات الاتصال. مثال زد-ويف، فيليبس هيو، أمازون إيكو، كرومكاست، و سونوس.
-https://docs. openhab. org/addons/bindings. html. أكتشف كل الإضافات المتوفرة والأجهزة المدعومة و/أو الوظائف عبر: 
-https://docs.openhab.org/addons/bindings.html</bindings>
+https://docs.openhab.org/addons/bindings.html. </bindings>
 
     <home_automation_solutions>• حلول أتمتة المنزل: زد-ويف، إنأوشن، نتانتو، هوميتريك، إنستون، ...</home_automation_solutions>
     <lighting>• الإضاءة: فيليبس هوي ، ترادفري ، ايكيا، ليف، لوتون ، ميليت،...</lighting>
@@ -26,9 +25,9 @@ https://docs.openhab.org/addons/bindings.html</bindings>
     <about_foundation>مؤسسة openHAB أ. ف. منظمة غير ربحية تحمل على عاتقها مهمة تثقيف الجمهور بخصوص إمكانيات ومزايا حلول المنازل الذكية الحرة والمفتوحة. معرفة المزيد عن المهمة وخدمات المؤسسة في https://www.openhabfoundation.org</about_foundation>
     <important_note>ملاحظة هامة</important_note>
     <oh_server>أنت بحاجة إلى خادم openHAB لهذا التطبيق</oh_server>
-    <short_description>عميل openHAB للأندرويد</short_description>
+    <short_description/>
     <fdroid>إصدارات F-Droid تدعم عرض الخريطة، تراسل سحابة جوجل GCM بينما حذفت تقارير الإنهيار ومن غير الممكن إستقبال الإشعارات من سحابة openHAB.</fdroid>
-    <fdroid_beta>يمكنك تثبيت إصدار التجريبي جنبا إلى جنب مع إصدار مستقر: [[org.openhab.habdroid]]</fdroid_beta>
+    <fdroid_beta> <a href=""/></fdroid_beta>
     <fdroid_privacy_policy/>
     <fdroid_anti_features/>
     <fdroid_anti_features_text/>

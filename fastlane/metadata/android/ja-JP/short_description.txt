@@ -1,1 +1,1 @@
-Android 用 openHAB クライアント
+Vendor and technology agnostic open source home automation
