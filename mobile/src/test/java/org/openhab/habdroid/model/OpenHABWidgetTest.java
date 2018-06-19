@@ -131,7 +131,7 @@ public class OpenHABWidgetTest {
 
     @Test
     public void testGetMappings() throws Exception {
-        assertEquals("ON", sut1.get(0).mappings().get(0).command());
+        assertEquals("ON", sut1.get(0).mappings().get(0).value());
         assertEquals("On", sut1.get(0).mappings().get(0).label());
         assertEquals("abcäöüßẞèéóò\uD83D\uDE03", sut2.get(0).mappings().get(0).label());
     }

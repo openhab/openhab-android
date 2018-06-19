@@ -28,9 +28,9 @@ import android.view.ViewGroup;
 
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.model.OpenHABItem;
+import org.openhab.habdroid.model.OpenHABLabeledValue;
 import org.openhab.habdroid.model.OpenHABLinkedPage;
 import org.openhab.habdroid.model.OpenHABWidget;
-import org.openhab.habdroid.model.OpenHABWidgetMapping;
 import org.openhab.habdroid.util.Util;
 
 import java.util.ArrayList;
@@ -129,10 +129,10 @@ public class OpenHABWidgetListFragment extends Fragment
         if (widget.item() != null) {
             // If the widget has mappings, we will populate names and commands with
             // values from those mappings
-            if (widget.hasMappings()) {
-                for (OpenHABWidgetMapping mapping : widget.mappings()) {
+            if (widget.hasMappingsOrItemOptions()) {
+                for (OpenHABLabeledValue mapping : widget.getMappingsOrItemOptions()) {
                     labels.add(mapping.label());
-                    commands.add(mapping.command());
+                    commands.add(mapping.value());
                 }
                 // Else we only can do it for Switch widget with On/Off/Toggle commands
             } else if (widget.type() == OpenHABWidget.Type.Switch) {
