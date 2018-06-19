@@ -102,6 +102,7 @@
   <string name="notification_list_error">Ошибка при загрузке уведомлений</string>
   <string name="list_loading_message">Загрузка\u2026</string>
   <!-- Strings for MemorizingTrustManager activity -->
+  <string name="mtm_connect_anyway">Все равно подключиться?</string>
   <string name="mtm_cert_details">Данные сертификата:</string>
   <string name="mtm_decision_always">Принять</string>
   <string name="mtm_decision_once">Один раз</string>
