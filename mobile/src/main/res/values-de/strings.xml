@@ -65,6 +65,10 @@
   <string name="error_connection_failed">Verbindung fehlgeschlagen</string>
   <string name="error_unable_to_resolve_hostname">Fehler beim Auflösen des Hostnamens</string>
   <string name="error_connection_sslhandshake_failed">SSL-Handshake fehlgeschlagen</string>
+  <string name="error_certificate_not_trusted">Das SSL-Zertifikat ist nicht vertrauenswürdig. Bitte importieren Sie das Root-Zertifikat oder akzeptieren Sie das Zertifakt während des Verbindungsaufbaus.</string>
+  <string name="error_certificate_expired">SSL-Zertifikat abgelaufen. Bitte erstellen Sie ein neues Zertifikat oder akzeptieren Sie das Zertifakt während des Verbindungsaufbaus.</string>
+  <string name="error_certificate_not_valid_yet">SSL-Zertifikat noch nicht gültig. Bitte erstellen Sie ein gültiges Zertifikat oder akzeptieren Sie das Zertifakt während des Verbindungsaufbaus. Überprüfen Sie auch die auf Ihrem Gerät eingestellte Uhrzeit</string>
+  <string name="error_certificate_revoked">SSL-Zertifikat widerrufen. Bitte erstellen Sie ein neues Zertifikat oder akzeptieren Sie das Zertifakt während des Verbindungsaufbaus.</string>
   <string name="error_certificate_wrong_host">Das Zertifikat ist nicht gültig für %s</string>
   <string name="error_http_code_401">Authentifizierung fehlgeschlagen. Bitte überprüfen Sie den konfigurierten Nutzer und das Passwort bzw. das bereitgestellte SSL-Client-Zertifikat (HTTP-Statuscode 401)</string>
   <string name="error_http_code_403">Authentifizierung fehlgeschlagen. Bitte überprüfen Sie den konfigurierten Nutzer und das Passwort bzw. das bereitgestellte SSL-Client-Zertifikat (HTTP-Statuscode 403)</string>
