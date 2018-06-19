@@ -12,4 +12,7 @@
     <dimen name="widget_margin">0dp</dimen>
     <dimen name="row_height">36dp</dimen>
     <dimen name="svg_image_default_size">60dp</dimen>
+
+    <dimen name="beacon_item_left_padding">10dp</dimen>
+    <dimen name="beacon_item_right_padding">10dp</dimen>
 </resources>

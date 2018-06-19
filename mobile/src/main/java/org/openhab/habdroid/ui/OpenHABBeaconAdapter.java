@@ -1,6 +1,8 @@
 package org.openhab.habdroid.ui;
 
+import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Rect;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,6 +14,7 @@ import android.widget.TextView;
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.core.OpenHABBleService;
 import org.openhab.habdroid.model.OpenHABBeacon;
+import org.openhab.habdroid.ui.widget.DividerItemDecoration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +28,8 @@ public class OpenHABBeaconAdapter extends RecyclerView.Adapter<OpenHABBeaconAdap
         TextView mNameOrMac;
         TextView mFrame;
         TextView mDistance;
+        View mSpacer;
+        View mDivider;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -32,6 +37,13 @@ public class OpenHABBeaconAdapter extends RecyclerView.Adapter<OpenHABBeaconAdap
             mNameOrMac = itemView.findViewById(R.id.beacon_name_mac);
             mFrame = itemView.findViewById(R.id.frame_label);
             mDistance = itemView.findViewById(R.id.beacon_distance);
+            mSpacer = itemView.findViewById(R.id.spacer);
+            mDivider = itemView.findViewById(R.id.divider);
+        }
+
+        public void setShownAsFirst(boolean shownAsFirst) {
+            mDivider.setVisibility(shownAsFirst ? View.GONE : View.VISIBLE);
+            mSpacer.setVisibility(shownAsFirst ? View.VISIBLE : View.GONE);
         }
     }
 
@@ -56,6 +68,7 @@ public class OpenHABBeaconAdapter extends RecyclerView.Adapter<OpenHABBeaconAdap
         String mac = pair.getKey();
         OpenHABBeacon beacon = getBeaconByAddress(mac);
 
+        holder.setShownAsFirst(position == 0);
         //TODO currently only set for beacon icon directly. Modify the logic to set icon for geo-fence later.
         holder.mIcon.setImageResource(R.drawable.ic_nfc_black_180dp);
 
