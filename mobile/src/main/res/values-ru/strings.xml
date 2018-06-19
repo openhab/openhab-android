@@ -65,6 +65,8 @@
   <string name="error_connection_failed">Ошибка подключения к хосту</string>
   <string name="error_unable_to_resolve_hostname">Не удалось разрешить имя хоста</string>
   <string name="error_connection_sslhandshake_failed">Ошибка SSL соединения</string>
+  <string name="error_certificate_not_trusted">SSL-сертификат не является доверенным. Пожалуйста импортируйте корневой сертификат или подтвердите его во время SSL подключения</string>
+  <string name="error_certificate_expired">Сертификат SSL истек. Получите новый сертификат или отключите проверку подлинности во время SSL подключения</string>
   <string name="error_certificate_wrong_host">SSL сертификат не действителен для %s</string>
   <string name="error_http_code_401">Ошибка аутентификации пользователя. Проверьте имя пользователя, пароль и сертификат клиента SSL (код ответа HTTP 401)</string>
   <string name="error_http_code_403">Ошибка аутентификации пользователя. Проверьте имя пользователя, пароль и сертификат клиента SSL (код ответа HTTP 403)</string>
@@ -100,6 +102,8 @@
   <string name="notification_list_error">Ошибка при загрузке уведомлений</string>
   <string name="list_loading_message">Загрузка\u2026</string>
   <!-- Strings for MemorizingTrustManager activity -->
+  <string name="mtm_cert_details">Данные сертификата:</string>
+  <string name="mtm_decision_always">Принять</string>
   <string name="mtm_decision_once">Один раз</string>
   <string name="mtm_decision_abort">Отмена</string>
   <string name="mtm_notification">Проверка сертификата</string>
