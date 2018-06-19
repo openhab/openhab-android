@@ -231,7 +231,9 @@ public abstract class ContentController implements PageConnectionHolderFragment.
     }
 
     /**
-     * Indicate to the user that server configuration is missing
+     * Indicate to the user that server configuration is missing.
+     *
+     * @param resolveAttempted Indicate if discovery was attempted, but not successful
      */
     public void indicateMissingConfiguration(boolean resolveAttempted) {
         Log.d(TAG, "Indicate missing configuration (resolveAttempted " + resolveAttempted + ")");
@@ -565,12 +567,6 @@ public abstract class ContentController implements PageConnectionHolderFragment.
         }
     }
 
-    /**
-     * Shows a fragment that indicates a missing configuration. Displays a hint about no remote
-     * connection when resolveAttempted is set to false.
-     * @param context
-     * @param resolveAttempted Indicate if discovery was attempted, but not successful
-     */
     public static class MissingConfigurationFragment extends StatusFragment {
         public static MissingConfigurationFragment newInstance(Context context,
                                                                boolean resolveAttempted) {
