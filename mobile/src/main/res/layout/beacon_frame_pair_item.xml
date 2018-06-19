@@ -3,7 +3,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:minHeight="60dp"
-    android:layout_centerVertical="true"
     android:background="?android:activatedBackgroundIndicator"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
@@ -11,7 +10,6 @@
         android:id="@+id/spacer"
         android:layout_width="match_parent"
         android:layout_height="5dp" />
-
     <View
         android:id="@+id/divider"
         android:layout_width="match_parent"
@@ -22,6 +20,7 @@
         android:layout_marginEnd="@dimen/widgetlist_divider_right_margin"
         android:background="?attr/frameWidgetDividerBackground"
         app:layout_constraintTop_toBottomOf="@id/spacer"/>
+
     <ImageView
         android:layout_width="24dp"
         android:layout_height="24dp"
@@ -50,7 +49,6 @@
         android:layout_marginEnd="0dp"
         app:layout_constraintTop_toBottomOf="@id/divider"
         app:layout_constraintRight_toRightOf="parent" />
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

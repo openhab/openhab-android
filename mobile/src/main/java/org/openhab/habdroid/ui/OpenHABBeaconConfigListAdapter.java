@@ -26,6 +26,8 @@ public class OpenHABBeaconConfigListAdapter extends RecyclerView.Adapter<OpenHAB
         TextView mDistance;
         TextView mType;
         TextView mExtra;
+        View mSpacer;
+        View mDivider;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -36,6 +38,13 @@ public class OpenHABBeaconConfigListAdapter extends RecyclerView.Adapter<OpenHAB
             mDistance = itemView.findViewById(R.id.id_distance);
             mExtra = itemView.findViewById(R.id.id_extra);
             mType = itemView.findViewById(R.id.id_type);
+            mSpacer = itemView.findViewById(R.id.spacer);
+            mDivider = itemView.findViewById(R.id.divider);
+        }
+
+        public void setShownAsFirst(boolean shownAsFirst) {
+            mDivider.setVisibility(shownAsFirst ? View.GONE : View.VISIBLE);
+            mSpacer.setVisibility(shownAsFirst ? View.VISIBLE : View.GONE);
         }
     }
 
@@ -61,6 +70,7 @@ public class OpenHABBeaconConfigListAdapter extends RecyclerView.Adapter<OpenHAB
 
     @Override
     public void onBindViewHolder(@NonNull OpenHABBeaconConfigListAdapter.ViewHolder holder, int position) {
+        holder.setShownAsFirst(position == 0);
         OpenHABBeacon item = mBeaconList.get(position);
         Resources resources = holder.itemView.getResources();
         holder.itemView.setOnClickListener(this);

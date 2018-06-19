@@ -19,11 +19,11 @@
     <!-- Ble beacons-->
     <string name="title_activity_openhab_beacon">Location tracking</string>
     <string name="title_activity_openhab_beacon_config">Beacon configs</string>
-    <string name="beacon_name">&lt;b>Beacon name:&lt;/b> %1$s &#160;</string>
+    <string name="beacon_name">&lt;b>Beacon name:&lt;/b> %1$s</string>
     <string name="beacon_address">&lt;b>Mac: &lt;/b> %1$s</string>
     <string name="beacon_type">&lt;b>Type: %1$s&lt;/b></string>
     <string name="beacon_tx_power">&lt;b>TX power: &lt;/b>%1$d dBm</string>
-    <string name="beacon_rssi">&lt;b>RSSI: &lt;/b>%1$d dBm &#160;</string>
+    <string name="beacon_rssi">&lt;b>RSSI: &lt;/b>%1$d dBm</string>
     <string name="beacon_distance">&lt;b>Distance: &lt;/b> %1$.2f m</string>
     <string name="ibeacon_properties">&lt;b>UUID: &lt;/b>%1$s &#160; &lt;br>&lt;b>Major: &lt;/b>%2$s  &#160; &lt;b>Minor: &lt;/b>%3$s</string>
     <string name="eddystone_url">&lt;b>URL: &lt;/b>%1$s</string>
