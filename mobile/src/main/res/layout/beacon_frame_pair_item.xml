@@ -15,7 +15,7 @@
     <View
         android:id="@+id/divider"
         android:layout_width="match_parent"
-        android:layout_height="4dip"
+        android:layout_height="2dip"
         android:layout_marginLeft="@dimen/widgetlist_divider_left_margin"
         android:layout_marginRight="@dimen/widgetlist_divider_right_margin"
         android:layout_marginStart="@dimen/widgetlist_divider_left_margin"
@@ -37,7 +37,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="24sp"
-        android:textStyle="bold"
         android:layout_marginTop="5dp"
         app:layout_constraintTop_toBottomOf="@id/divider"
         app:layout_constraintLeft_toRightOf="@id/type_icon" />

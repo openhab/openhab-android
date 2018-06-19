@@ -1,8 +1,6 @@
 package org.openhab.habdroid.ui;
 
-import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.Rect;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -14,7 +12,6 @@ import android.widget.TextView;
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.core.OpenHABBleService;
 import org.openhab.habdroid.model.OpenHABBeacon;
-import org.openhab.habdroid.ui.widget.DividerItemDecoration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,7 +67,7 @@ public class OpenHABBeaconAdapter extends RecyclerView.Adapter<OpenHABBeaconAdap
 
         holder.setShownAsFirst(position == 0);
         //TODO currently only set for beacon icon directly. Modify the logic to set icon for geo-fence later.
-        holder.mIcon.setImageResource(R.drawable.ic_nfc_black_180dp);
+        holder.mIcon.setImageResource(R.drawable.ic_nfc_gray_24dp);
 
         //Display name. Or mac if BLE service not available.
         String nameOrMac = beacon == null ? mac : beacon.name();

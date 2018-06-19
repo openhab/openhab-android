@@ -77,10 +77,11 @@
         <activity
             android:name="org.openhab.habdroid.ui.OpenHABWriteTagActivity"
             android:label="@string/title_activity_openhabwritetag" />
-        <activity
-            android:name=".ui.IntroActivity"
-            android:label="@string/app_intro" />
-        <activity android:name="de.duenndns.ssl.MemorizingActivity" />
+        <activity android:name="org.openhab.habdroid.ui.IntroActivity"
+            android:label="@string/app_intro"/>
+        <activity android:name="de.duenndns.ssl.MemorizingActivity"
+            android:theme="@style/Theme.AppCompat.Translucent"
+            android:excludeFromRecents="true" />
         <activity
             android:name=".ui.OpenHABBeaconConfigListActivity"
             android:label="@string/title_activity_openhab_beacon_config" />
@@ -91,11 +92,6 @@
             android:name=".ui.OpenHABBeaconConfigActivity"
             android:label="@string/title_activity_openhab_beacon_config"/>
 
-        <activity android:name="org.openhab.habdroid.ui.IntroActivity"
-            android:label="@string/app_intro"/>
-        <activity android:name="de.duenndns.ssl.MemorizingActivity"
-            android:theme="@style/Theme.AppCompat.Translucent"
-            android:excludeFromRecents="true" />
         <service
             android:name=".core.OpenHABVoiceService"
             android:exported="false" />

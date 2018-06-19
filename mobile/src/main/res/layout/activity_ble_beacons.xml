@@ -17,10 +17,13 @@
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/ble_fab"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="end|bottom"
+        android:layout_width="wrap_content"
+        app:fabSize="normal"
         android:src="@drawable/ic_add_white_24dp"
+        android:elevation="6dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginRight="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
