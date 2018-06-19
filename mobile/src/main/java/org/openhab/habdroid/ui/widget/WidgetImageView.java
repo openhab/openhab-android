@@ -61,7 +61,7 @@ public class WidgetImageView extends AppCompatImageView {
     private ScaleType mOriginalScaleType;
     private boolean mOriginalAdjustViewBounds;
     private float mEmptyHeightToWidthRatio;
-
+    private boolean mInternalLoad;
     private HttpImageRequest mLastRequest;
 
     private long mRefreshInterval;
@@ -113,8 +113,7 @@ public class WidgetImageView extends AppCompatImageView {
         }
         Bitmap cached = CacheManager.getInstance(getContext()).getCachedBitmap(actualUrl);
         if (cached != null) {
-            removeProgressDrawable();
-            super.setImageBitmap(cached);
+            setBitmapInternal(cached);
         } else {
             applyProgressDrawable();
         }
@@ -135,9 +134,11 @@ public class WidgetImageView extends AppCompatImageView {
 
     @Override
     public void setImageDrawable(@Nullable Drawable drawable) {
-        cancelCurrentLoad();
-        mLastRequest = null;
-        removeProgressDrawable();
+        if (!mInternalLoad) {
+            cancelCurrentLoad();
+            mLastRequest = null;
+            removeProgressDrawable();
+        }
         super.setImageDrawable(drawable);
     }
 
@@ -195,6 +196,15 @@ public class WidgetImageView extends AppCompatImageView {
     public void cancelRefresh() {
         mRefreshHandler.removeMessages(0);
         mRefreshInterval = 0;
+    }
+
+    private void setBitmapInternal(Bitmap bitmap) {
+        removeProgressDrawable();
+        // Mark this call as being triggered by ourselves, as setImageBitmap()
+        // ultimately calls through to setImageDrawable().
+        mInternalLoad = true;
+        super.setImageBitmap(bitmap);
+        mInternalLoad = false;
     }
 
     private void doRefresh() {
@@ -258,8 +268,7 @@ public class WidgetImageView extends AppCompatImageView {
 
         @Override
         public void onSuccess(Bitmap body, Headers headers) {
-            WidgetImageView.super.setImageBitmap(body);
-            removeProgressDrawable();
+            setBitmapInternal(body);
             CacheManager.getInstance(getContext()).cacheBitmap(mUrl, body);
             scheduleNextRefresh();
             mCall = null;
