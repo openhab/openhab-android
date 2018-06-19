@@ -24,8 +24,8 @@ public class ExtendedSpinner extends AppCompatSpinner {
         super(context, attrs, defStyleAttr);
     }
 
-    public void setOnSelectionUpdatedListener(OnSelectionUpdatedListener l) {
-        mOnSelectionUpdatedListener = l;
+    public void setOnSelectionUpdatedListener(OnSelectionUpdatedListener listener) {
+        mOnSelectionUpdatedListener = listener;
     }
 
     public void setSelectionWithoutUpdateCallback(int position) {
