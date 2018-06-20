@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <strings>
-    <intro/>
-    <whatis/>
-    <rules/>
-    <supported/>
-    <bindings>  </bindings>
+    <intro>openHAB - "empowering the smart home" - Teknologia- ja valmistajariippumatonta, avoimen lähdekoodin kotiautomaatiota</intro>
+    <whatis>openHAB on Java-pohjainen avoimen lähdekoodin kotiautomaatioalusta. Se yhdistää laajan valikoiman useiden valmistajien älykotilaitteita ja eri teknologioita yhdeksi ratkaisuksi.</whatis>
+    <rules>Kaikki yhdistetyt laitteet ovat käytettävissä erilaisissa käyttöliittymissä sekä ohjelmoitaessa automaatiologiikkaa.</rules>
+    <supported>Tuetut laitteet ja tuotteet</supported>
+    <bindings>  Loydä kaikki saatavailla olevat lisäosat ja tuetut laitteet sekä toiminnot osoitteesta: https://www.openhab.org/addons/</bindings>
 
     <home_automation_solutions/>
     <lighting/>
@@ -13,23 +13,23 @@
     <security/>
     <open_protocols/>
     <special_useCases/>
-    <empty_point/>
+    <empty_point>• ...</empty_point>
 
-    <oss_community/>
+    <oss_community>Avoimen lähdekoodin yhteisö</oss_community>
     <forum>  </forum>
 
     <report_issues/>
-    <translation/>
-    <foundation/>
+    <translation>Jos haluat kääntää tämän sovelluksen omalle kielellesi niin liity mukaan osoitteessa https://crowdin.com/project/openhab-android</translation>
+    <foundation>openHAB Säätiö</foundation>
     <about_foundation> </about_foundation>
-    <important_note/>
-    <oh_server/>
+    <important_note>Tärkeä huomautus</important_note>
+    <oh_server>Tarvitset openHAB palvelimen tätä sovellusta varten</oh_server>
     <short_description/>
-    <fdroid/>
+    <fdroid>F-Droid sovelluskaupasta ladatuissa koontiversioissa on tuki karttanäytölle, mutta GCM ja kaatumisilmoitukset ovat pois käytöstä eikä ilmoitukset openHAB pilvestä ole käytettävissä.</fdroid>
     <fdroid_beta> <a href=""/></fdroid_beta>
-    <fdroid_privacy_policy/>
+    <fdroid_privacy_policy>Tietosuojakäytäntö: https://www.openhabfoundation.org/privacy</fdroid_privacy_policy>
     <fdroid_anti_features/>
     <fdroid_anti_features_text/>
     <beta/>
-    <play_beta/>
+    <play_beta>Voit asentaa beta version vakaan version rinnalle.</play_beta>
 </strings>
