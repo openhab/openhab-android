@@ -4,7 +4,7 @@
     <whatis>openHAB je open source platforma pro automatizaci domácnosti, založená na Java, která integruje a kombinuje širokou škálu různých systémů a technologií pro automatizaci domácnosti do jediného řešení.</whatis>
     <rules>Všechna připojená zařízení je možné spravovat, ovládat a automatizovat pomocí vlastních pravidel a různých uživatelských rozhraní.</rules>
     <supported>Podporované produkty</supported>
-    <bindings>Více než 200 doplňků přidává podporu pro značky, zařízení, technologie a komunikační protokoly. Například Z-Wave, Philips Hue, Amazon Echo, Chromecast a Sonos. </bindings>
+    <bindings>Více než 200 doplňků přidává podporu pro značky, zařízení, technologie a komunikační protokoly. Například Z-Wave, Philips Hue, Amazon Echo, Chromecast a Sonos. Všechny dostupné doplňky a podporovaná zařízení a/nebo funkce najdete na: https://www.openhab.org/addons/</bindings>
 
     <home_automation_solutions>• Řešení domácí automatizace: Z-Wave, Banaba, Netatmo, Homematic, Insteon,...</home_automation_solutions>
     <lighting>• Osvětlení: Philips Hue, Ikea Trådfri, LIFX, Lutron, Milight,...</lighting>
@@ -27,7 +27,7 @@
     <short_description/>
     <fdroid>F-Droid podporuje zobrazení mapy, GCM a notifikace byly odebrány a tedy nelze přijímat push notifikace z openHAB cloudu.</fdroid>
     <fdroid_beta> <a href=""/></fdroid_beta>
-    <fdroid_privacy_policy/>
+    <fdroid_privacy_policy>Ochrana osobních údajů: https://www.openhabfoundation.org/privacy</fdroid_privacy_policy>
     <fdroid_anti_features/>
     <fdroid_anti_features_text/>
     <beta/>
