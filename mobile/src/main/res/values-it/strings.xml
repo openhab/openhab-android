@@ -65,6 +65,10 @@
   <string name="error_connection_failed">Connessione al dispositivo non riuscita</string>
   <string name="error_unable_to_resolve_hostname">Impossibile risolvere il nome host</string>
   <string name="error_connection_sslhandshake_failed">Handshake SSL non riuscito</string>
+  <string name="error_certificate_not_trusted">Il certificato SSL non e\' attendibile. Importa un certidicato root o accetta il certificato durante l\'handshake SSL</string>
+  <string name="error_certificate_expired">Il certificato SSL e\' scaduto. Importa un nuovo certificato o accetta il certificato durante l\'handshake SSL</string>
+  <string name="error_certificate_not_valid_yet">Certificato SSL non ancora valido. Importa un certificato corretto o accetta Il certificato durante l\'handshake SSL. Verifica se l\'orologio del dispositivo e\' impostato correttamente</string>
+  <string name="error_certificate_revoked">Il certificato SSL e\' scaduto. Importa un nuovo certificato o accetta il certificato durante l\'handshake SSL</string>
   <string name="error_certificate_wrong_host">Il certificato SSL non e\' valido per %s</string>
   <string name="error_http_code_401">Autenticazione non riuscita. Controlla l\'utente e password configurati nel certificato SSL (codice risposta HTTP 401)</string>
   <string name="error_http_code_403">Autenticazione non riuscita. Controlla l\'utente e password configurati nel certificato SSL (codice risposta HTTP 403)</string>
@@ -100,6 +104,14 @@
   <string name="notification_list_error">E\' successo un error durante il caricamento delle notifiche</string>
   <string name="list_loading_message">Caricamento\u2026</string>
   <!-- Strings for MemorizingTrustManager activity -->
+  <string name="mtm_accept_cert">Accetti il certificato sconosciuto?</string>
+  <string name="mtm_trust_anchor">Il certificato del server non è firmato da un\'autorità di certificazione conosciuta.</string>
+  <string name="mtm_cert_expired">Il certificato del server è scaduto.</string>
+  <string name="mtm_accept_servername">Accettare Nome Server diverso?</string>
+  <string name="mtm_hostname_mismatch">Server non può autenticare come \&quot;%s\&quot;. Il certificato è solo valido per:</string>
+  <string name="mtm_connect_anyway">Vuoi collegarti comunque?</string>
+  <string name="mtm_cert_details">Dettagli certificato:</string>
+  <string name="mtm_decision_always">Accetta</string>
   <string name="mtm_decision_once">Una volta</string>
   <string name="mtm_decision_abort">Annulla</string>
   <string name="mtm_notification">Verifica del certificato</string>
@@ -152,6 +164,7 @@
   <string name="try_again_button">Riprova</string>
   <string name="go_to_settings_button">Vai alle impostazioni</string>
   <string name="configuration_missing">Il tuo server openHAB non puo\' essere individuato automaticamente. Per favore configura il suo indirizzo IP o il nome host nelle impostazioni server.</string>
+  <string name="no_remote_server">Rete locale non è disponibile e non è stato configurato un server remotol</string>
   <string name="resolving_openhab">Individuando l\'istanza openHAB\u2026</string>
   <!-- Content description for images -->
   <string name="content_description_open_roller_shutter">Apertura tapparella</string>
