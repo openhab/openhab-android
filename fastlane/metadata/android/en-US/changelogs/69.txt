@@ -1,0 +1,5 @@
+## Added
+* Support using item options for selection widget (#930)
+
+## Fixed
+* Don't show "Could not discover" message when on mobile data (#923)
