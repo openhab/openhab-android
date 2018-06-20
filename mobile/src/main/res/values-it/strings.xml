@@ -4,8 +4,20 @@
   <!-- Attention translators! Do NOT submit localized strings through GitHub Pull Request. -->
   <!-- See: https://github.com/openhab/openhab-android/blob/master/README.md#localization -->
   <!-- General app strings -->
+  <string name="app_preferences_name">Impostazioni</string>
+  <string name="app_notifications">Notifiche</string>
   <!-- Main menu items -->
+  <string name="mainmenu_openhab_sitemaps">Sitemaps</string>
+  <string name="mainmenu_openhab_preferences">Impostazioni</string>
+  <string name="mainmenu_openhab_selectsitemap">Seleziona sitemap predefinito</string>
+  <string name="mainmenu_openhab_clearcache">Pulisci cache immagini</string>
   <!-- App settings strings -->
+  <string name="settings_connection_title">Connessione</string>
+  <string name="settings_display_title">Display</string>
+  <string name="settings_misc_title">Altro</string>
+  <string name="settings_openhab_url">URL del server locale</string>
+  <string name="settings_openhab_url_summary">L\'URL del cruscotto openHAB (basato su IP o hostname). Se configurato, rilevamento automatico è disattivato. Impostazione corrente: %s</string>
+  <string name="settings_openhab_alturl">URL del server remoto</string>
   <!-- App messages strings -->
   <!-- Error messages -->
   <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
