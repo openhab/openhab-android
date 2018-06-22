@@ -66,6 +66,9 @@
   <string name="error_unable_to_resolve_hostname">אין אפשרות לאתר את שם המחשב המארח</string>
   <string name="error_connection_sslhandshake_failed">חיבור SSL נכשל</string>
   <string name="error_certificate_not_trusted">תעודת SSL אינה אמינה. בבקשה ייבא את התעודה הבסיסית או קבל את התעודה במהלך חיבור SSL</string>
+  <string name="error_certificate_expired">פג תוקפה של תעודת SSL. נא לייבא תעודה חדשה או קבל את התעודה במהלך חיבור SSL</string>
+  <string name="error_certificate_not_valid_yet">תעודת SSL עוד לא בתוקף. יש צורך בקבלת תעודה תקפה או לקבל את אימות התעודה בזמן תהליך SSL. כמו כן יש לבדוק אם השעון במכשיר מכוון כראוי</string>
+  <string name="error_certificate_revoked">תעודת SSL נשללה. נא לייבא תעודה חדשה או קבל את התעודה במהלך חיבור SSL</string>
   <string name="error_certificate_wrong_host">תעודת SSL אינה חוקית עבור %s</string>
   <string name="error_http_code_401">האימות נכשל. נא בדוק את שם המשתמש והסיסמה שהוגדרו בהתאמה עם תעודת ה-SSL (קוד תגובה HTTP 401)</string>
   <string name="error_http_code_403">האימות נכשל. נא בדוק את שם המשתמש והסיסמה שהוגדרו בהתאמה עם תעודת ה-SSL (קוד תגובה HTTP 403)</string>
@@ -104,7 +107,11 @@
   <string name="mtm_accept_cert">לקבל אישור/תעודה לא מזוהה?</string>
   <string name="mtm_trust_anchor">התעודה בשרת אינה חתומה על-ידי רשות אישורים ידועה.</string>
   <string name="mtm_cert_expired">פג תוקפה של תעודה/אישור השרת.</string>
+  <string name="mtm_accept_servername">האם לקבל את שם השרת הלא תואם?</string>
+  <string name="mtm_hostname_mismatch">השרת לא יכול להתחבר כ: \&quot;%s\&quot;. התעודה תקפה רק עבור:</string>
   <string name="mtm_connect_anyway">האם ברצונך להמשיך בהתחברות בכל מקרה?</string>
+  <string name="mtm_cert_details">פרטי התעודה:</string>
+  <string name="mtm_decision_always">קבל\י</string>
   <string name="mtm_decision_once">חד פעמי</string>
   <string name="mtm_decision_abort">בטל</string>
   <string name="mtm_notification">אימות תעודה</string>
