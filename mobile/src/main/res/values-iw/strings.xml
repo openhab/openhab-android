@@ -65,6 +65,7 @@
   <string name="error_connection_failed">החיבור למחשב המארח נכשל</string>
   <string name="error_unable_to_resolve_hostname">אין אפשרות לאתר את שם המחשב המארח</string>
   <string name="error_connection_sslhandshake_failed">חיבור SSL נכשל</string>
+  <string name="error_certificate_not_trusted">תעודת SSL אינה אמינה. בבקשה ייבא את התעודה הבסיסית או קבל את התעודה במהלך חיבור SSL</string>
   <string name="error_certificate_wrong_host">תעודת SSL אינה חוקית עבור %s</string>
   <string name="error_http_code_401">האימות נכשל. נא בדוק את שם המשתמש והסיסמה שהוגדרו בהתאמה עם תעודת ה-SSL (קוד תגובה HTTP 401)</string>
   <string name="error_http_code_403">האימות נכשל. נא בדוק את שם המשתמש והסיסמה שהוגדרו בהתאמה עם תעודת ה-SSL (קוד תגובה HTTP 403)</string>
@@ -156,6 +157,7 @@
   <string name="try_again_button">נסה שוב</string>
   <string name="go_to_settings_button">עבור להגדרות</string>
   <string name="configuration_missing">השרת של openHAB לא ניתן לגילוי באופן אוטומטי. נא להגדיר את כתובת ה IP של השרת או את שמו בתפריט הגדרות שרת.</string>
+  <string name="no_remote_server">הרשת המקומית אינה זמינה ולא הוגדר שרת מרוחק</string>
   <string name="resolving_openhab">מנסה לאתר שרת openHAB</string>
   <!-- Content description for images -->
   <string name="content_description_open_roller_shutter">פתח תריס גלילה</string>
