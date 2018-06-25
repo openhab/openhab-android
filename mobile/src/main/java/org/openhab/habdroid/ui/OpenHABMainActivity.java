@@ -90,6 +90,7 @@ import java.lang.reflect.Constructor;
 import java.net.ConnectException;
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
+import java.net.UnknownServiceException;
 import java.nio.charset.Charset;
 import java.security.cert.CertPathValidatorException;
 import java.security.cert.CertificateExpiredException;
@@ -1075,6 +1076,8 @@ public class OpenHABMainActivity extends AppCompatActivity implements
             }
         } else if (error instanceof ConnectException || error instanceof SocketTimeoutException) {
             message = getString(R.string.error_connection_failed);
+        } else if (error instanceof UnknownServiceException) {
+            message = getString(R.string.error_cleartext_not_permitted);
         } else {
             Log.e(TAG, "REST call to " + request.url() + " failed", error);
             message = error.getMessage();
