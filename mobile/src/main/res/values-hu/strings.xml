@@ -65,6 +65,10 @@
   <string name="error_connection_failed">Sikertelen kapcsolódás</string>
   <string name="error_unable_to_resolve_hostname">Névfeloldás sikertelen</string>
   <string name="error_connection_sslhandshake_failed">SSL ellenőrzés sikertelen</string>
+  <string name="error_certificate_not_trusted">Az SSL-tanúsítvány nem megbízható. Kérjük, importálja a gyökér tanúsítványt, vagy fogadja el a tanúsítványt az SSL handshake közben</string>
+  <string name="error_certificate_expired">Az SSL tanúsítvány lejárt. Kérjük, szerezzen be új tanúsítványt, vagy fogadja el a tanúsítványt az SSL handshake közben</string>
+  <string name="error_certificate_not_valid_yet">Az SSL tanúsítvány még nem érvényes. Kérjük, szerezzen be egy megfelelő tanúsítványt, vagy fogadja el a tanúsítványt az SSL handshake közben. Illetve, ellenőrizze készülékén megfelelően van e beállítva az idő</string>
+  <string name="error_certificate_revoked">Az SSL tanúsítvány vissza lett vonva. Kérjük, szerezzen be új tanúsítványt, vagy fogadja el a tanúsítványt az SSL handshake közben</string>
   <string name="error_certificate_wrong_host">SSL-tanúsítvány érvénytelen %s</string>
   <string name="error_http_code_401">A hitelesítés sikertelen. Kérjük, ellenőrizze a beállított felhasználónevet és jelszót, illetve az SSL ügyféltanúsítványt (HTTP-válaszkód 401)</string>
   <string name="error_http_code_403">A hitelesítés sikertelen. Kérjük, ellenőrizze a beállított felhasználónevet és jelszót, illetve az SSL ügyféltanúsítványt (HTTP-válaszkód 403)</string>
@@ -100,6 +104,14 @@
   <string name="notification_list_error">Értesítések betöltése közben hiba történt</string>
   <string name="list_loading_message">Betöltés\u2026</string>
   <!-- Strings for MemorizingTrustManager activity -->
+  <string name="mtm_accept_cert">Elfogad ismeretlen tanúsítványt?</string>
+  <string name="mtm_trust_anchor">A kiszolgáló tanúsítványa nincs aláírva egy ismert hitelesítésszolgáltató által.</string>
+  <string name="mtm_cert_expired">A szerver tanúsítvány lejárt.</string>
+  <string name="mtm_accept_servername">Elfogad nem egyező kiszolgáló nevet?</string>
+  <string name="mtm_hostname_mismatch">Kiszolgáló nem tudta hitelesíteni a \&quot;%s\&quot;. A tanúsítvány érvényessége:</string>
+  <string name="mtm_connect_anyway">Ennek ellenére szeretne csatlakozni?</string>
+  <string name="mtm_cert_details">Tanúsítvány részletei:</string>
+  <string name="mtm_decision_always">Elfogad</string>
   <string name="mtm_decision_once">Egyszer</string>
   <string name="mtm_decision_abort">Megszakítás</string>
   <string name="mtm_notification">Tanúsítvány ellenőrzése</string>
@@ -152,6 +164,7 @@
   <string name="try_again_button">Próbáld újra</string>
   <string name="go_to_settings_button">Beállítások megnyitása</string>
   <string name="configuration_missing">Az openHAB szervert nem tudta automatikusan felderíteni. Állítsd be manuálisan az IP címet vagy host nevet a szerver beállításokban.</string>
+  <string name="no_remote_server">Helyi hálózat nem érhető el, és a távoli kiszolgáló nincs konfigurálva</string>
   <string name="resolving_openhab">Megpróbálja felderíteni az openHAB szerver példányt\u2026</string>
   <!-- Content description for images -->
   <string name="content_description_open_roller_shutter">Redőny nyitása</string>
@@ -173,4 +186,5 @@
   <string name="intro_voice_description">Irányítsd az otthonod a hangoddal</string>
   <string name="intro_nfc">NFC</string>
   <string name="intro_nfc_description">Az elemek vezérlése az elem hosszú megnyomásával köthető az NFC címkékhez</string>
+  <string name="error_cleartext_not_permitted">HTTP nem engedélyezett ezen a szerveren</string>
 </resources>
