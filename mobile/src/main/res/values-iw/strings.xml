@@ -186,4 +186,5 @@
   <string name="intro_voice_description">שלוט בביתך בעזרת הקול שלך</string>
   <string name="intro_nfc">NFC תקשורת לטווח קצר</string>
   <string name="intro_nfc_description">השליטה בפריט יכולה להיות משוייכת לתגית NFC באמצעות לחיצה ממושכת על הפריט</string>
+  <string name="error_cleartext_not_permitted">HTTP אינו מורשה עבור שרת זה</string>
 </resources>
