@@ -164,6 +164,7 @@
   <string name="try_again_button">Попробуйте снова</string>
   <string name="go_to_settings_button">Перейти к настройкам</string>
   <string name="configuration_missing">Ваш сервер openHAB не был обнаружен автоматически. Пожалуйста, настройте его IP адрес или имя хоста в настройках сервера.</string>
+  <string name="no_remote_server">Локальная сеть недоступна и не настроен удаленный сервер</string>
   <string name="resolving_openhab">Пытаюсь обнаружить сервер openHAB\u2026</string>
   <!-- Content description for images -->
   <string name="content_description_open_roller_shutter">Открыть рольставни</string>
@@ -185,4 +186,5 @@
   <string name="intro_voice_description">Управляйте домом своим голосом</string>
   <string name="intro_nfc">NFC</string>
   <string name="intro_nfc_description">Элемент управления может быть привязан к NFC тегам долгим нажатием на этот элемент</string>
+  <string name="error_cleartext_not_permitted">Запросы HTTP не допустимы для этого сервера</string>
 </resources>
