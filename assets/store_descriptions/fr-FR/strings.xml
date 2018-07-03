@@ -26,7 +26,7 @@
     <oh_server>Un serveur openHAB est nécessaire pour fonctionner avec cette app</oh_server>
     <short_description/>
     <fdroid>Les versions publiées via F-Droid n'incluent pas le système GCM et les rapports de plantage, et elles ne seront pas en mesure de recevoir les notifications push depuis l’openHAB Cloud.</fdroid>
-    <fdroid_beta> <a href=""/></fdroid_beta>
+    <fdroid_beta><![CDATA[]]></fdroid_beta>
     <fdroid_privacy_policy/>
     <fdroid_anti_features/>
     <fdroid_anti_features_text/>
