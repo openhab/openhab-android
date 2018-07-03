@@ -12,7 +12,7 @@
     <!-- Main menu items -->
     <string name="mainmenu_openhab_sitemaps">Sitemaps</string>
     <string name="mainmenu_openhab_preferences">Settings</string>
-    <string name="mainmenu_openhab_selectsitemap">Select default sitemap</string>
+    <string name="mainmenu_openhab_selectsitemap">Select default Sitemap</string>
     <string name="mainmenu_openhab_clearcache">Clear images cache</string>
 
     <!-- App settings strings -->
@@ -47,9 +47,9 @@
     <string name="settings_chart_scaling_value_m">Default</string>
     <string name="settings_chart_scaling_value_l">Large</string>
     <string name="settings_ringtone">Notification ringtone</string>
-    <string name="settings_clear_default_sitemap">Clear default sitemap</string>
-    <string name="settings_no_default_sitemap">No default sitemap selected</string>
-    <string name="settings_current_default_sitemap">Current default sitemap: %1$s</string>
+    <string name="settings_clear_default_sitemap">Clear default Sitemap</string>
+    <string name="settings_no_default_sitemap">No default Sitemap selected</string>
+    <string name="settings_current_default_sitemap">Current default Sitemap: %1$s</string>
     <string name="settings_openhab_alt_connection">Remote</string>
     <string name="settings_openhab_connection">Local</string>
     <string name="settings_notification_vibration">Notification vibration</string>
@@ -71,7 +71,7 @@
     <string name="info_conn_rem_url">Connecting to remote URL</string>
 
     <!-- Error messages -->
-    <string name="error_empty_sitemap_list">openHAB returned empty sitemap list</string>
+    <string name="error_empty_sitemap_list">openHAB returned empty Sitemap list</string>
     <string name="error_network_not_available">Network is not available</string>
     <string name="error_http_connection_failed">Connection unsuccessful. An unexpected response was received while trying to connect to the configured openHAB server (Received HTTP response code: %d).</string>
     <string name="error_invalid_url">Please enter a valid URL in a \'http(s)://host(:port)/\' form</string>
@@ -90,7 +90,7 @@
     <string name="error_http_code_426">HTTPS is required. Please change the URL (HTTP response code 426).</string>
     <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
     <string name="error_http_code_495">Authentication failed. Please check the provided SSL client certificate (HTTP response code 495).</string>
-    <string name="error_http_code_496">SSL client certificate is required (HTTP response code 496).</string>
+    <string name="error_http_code_496">SSL client certificate is required (HTTP response code 496)</string>
     <string name="error_http_code_502">Your reverse proxy got an invalid answer from the openHAB server (HTTP response code 502)</string>
     <string name="error_http_code_503">The openHAB server is temporarily unavailable (HTTP response code 503)</string>
     <string name="error_http_code_504">Gateway time-out. Seems that your reverse proxy is running, but couldn\'t get an answer from the openHAB server (HTTP response code 504).</string>
@@ -155,7 +155,7 @@
     <string name="nfc_action_toggle">Toggle</string>
     <string name="nfc_activate">Activate</string>
     <string name="nfc_action_current_color">Current color</string>
-    <string name="nfc_action_to_sitemap_page">Navigate to sitemap page</string>
+    <string name="nfc_action_to_sitemap_page">Navigate to Sitemap page</string>
 
     <!-- Drawer -->
     <string name="drawer_open">Sitemap drawer opened</string>
@@ -220,4 +220,5 @@
     <string name="intro_nfc">NFC</string>
     <string name="intro_nfc_description">Item control can be bound to NFC tags by long-pressing the item</string>
     <string name="error_cleartext_not_permitted">HTTP is not allowed for this server</string>
+    <string name="intro_nfc_description">Item control can be bound to NFC tags by long-pressing the Item</string>
 </resources>
