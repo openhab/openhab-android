@@ -9,7 +9,6 @@
   <!-- Main menu items -->
   <string name="mainmenu_openhab_sitemaps">Sitemaps</string>
   <string name="mainmenu_openhab_preferences">Instellingen</string>
-  <string name="mainmenu_openhab_selectsitemap">Selecteer standaard sitemap</string>
   <string name="mainmenu_openhab_clearcache">Verwijder afbeeldingscache</string>
   <!-- App settings strings -->
   <string name="settings_connection_title">Verbindingsinstellingen</string>
@@ -33,9 +32,6 @@
   <string name="settings_openhab_icon_format">Pictogramindeling</string>
   <string name="settings_openhab_icon_format_png">Bitmap</string>
   <string name="settings_openhab_icon_format_svg">Vector</string>
-  <string name="settings_clear_default_sitemap">Vergeet standaard sitemap</string>
-  <string name="settings_no_default_sitemap">Geen standaard sitemap geselecteerd</string>
-  <string name="settings_current_default_sitemap">Huidige standaard sitemap: %1$s</string>
   <string name="settings_openhab_alt_connection">Extern</string>
   <string name="settings_openhab_connection">Lokaal</string>
   <!-- App messages strings -->
@@ -45,21 +41,13 @@
   <string name="info_conn_url">Verbinden met ingestelde URL</string>
   <string name="info_conn_rem_url">Verbinden naar externe URL</string>
   <!-- Error messages -->
-  <string name="error_empty_sitemap_list">openHAB heeft een lege sitemap geladen</string>
   <string name="error_network_not_available">Netwerk is niet beschikbaar</string>
-  <string name="error_http_connection_failed">Verbinding mislukt. Een onverwachte reactie werd ontvangen tijdens het maken van een verbinding met de geconfigureerde openHAB server (ontvangen HTTP-reactiecode: %d)</string>
   <string name="error_invalid_url">Voer een geldige URL in, formaat \'http(s)://host(:port)/\'</string>
   <string name="error_connection_failed">Verbinding met host mislukt</string>
   <string name="error_unable_to_resolve_hostname">Hostnaam niet gevonden</string>
   <string name="error_connection_sslhandshake_failed">SSL-handshake mislukt</string>
   <string name="error_certificate_wrong_host">SSL-certificaat is niet geldig voor %s</string>
-  <string name="error_http_code_401">Verificatie is mislukt. Controleer de geconfigureerde gebruikersnaam en wachtwoord respectievelijk het verstrekte SSL-clientcertificaat (HTTP-reactiecode 401)</string>
-  <string name="error_http_code_403">Verificatie is mislukt. Controleer de geconfigureerde gebruikersnaam en wachtwoord respectievelijk het verstrekte SSL-clientcertificaat (HTTP-reactiecode 403)</string>
-  <string name="error_http_code_407">Verificatie is mislukt. Controleer de geconfigureerde gebruikersnaam en wachtwoord respectievelijk het verstrekte SSL-clientcertificaat (HTTP-reactiecode 407)</string>
-  <string name="error_http_code_414">URL is te lang. Gebruik het IP-adres of een kortere URL (HTTP-reactiecode 414)</string>
-  <string name="error_http_code_426">HTTPS is vereist. Wijzig de URL (HTTP-reactiecode 426)</string>
   <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
-  <string name="error_http_code_495">Verificatie is mislukt. Controleer het verstrekte SSL-clientcertificaat (HTTP-reactiecode 495)</string>
   <string name="error_http_code_496">SSL-clientcertificaat is vereist (HTTP responscode 496)</string>
   <string name="error_http_code_502">De reverse proxy heeft een ongeldig antwoord van de openHAB server ontvangen (HTTP-reactiecode 502)</string>
   <string name="error_http_code_503">De openHAB server is tijdelijk niet beschikbaar (HTTP-reactiecode 503)</string>
@@ -122,11 +110,6 @@
   <string name="set">Stel in</string>
   <string name="cancel">Annuleer</string>
   <string name="close">Sluiten</string>
-  <string name="app_intro">Introductie</string>
-  <string name="intro_welcome">Welkom bij openHAB</string>
-  <string name="intro_whatis">Leverancier en technologie onafhankelijke open source domotica software voor jouw huis</string>
-  <string name="intro_themes">Thema\'s</string>
-  <string name="intro_themes_description">Kies tussen de verschillende thema\'s</string>
   <string name="try_again_button">Opnieuw proberen</string>
   <string name="go_to_settings_button">Ga naar instellingen</string>
   <string name="resolving_openhab">Proberen om openHAB server automatisch te vinden\u2026</string>
@@ -142,6 +125,11 @@
   <string name="content_description_open_openhab">Open openHAB</string>
   <string name="swipe_to_refresh_dismiss">Begrepen!</string>
   <!-- Intro strings -->
+  <string name="app_intro">Introductie</string>
+  <string name="intro_welcome">Welkom bij openHAB</string>
+  <string name="intro_whatis">Leverancier en technologie onafhankelijke open source domotica software voor jouw huis</string>
+  <string name="intro_themes">Thema\'s</string>
+  <string name="intro_themes_description">Kies tussen de verschillende thema\'s</string>
   <!-- Intro "SKIP" button -->
   <string name="app_intro_skip_button">OVERSLAAN</string>
   <!-- Intro "DONE" button -->
