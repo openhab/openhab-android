@@ -24,7 +24,8 @@
         android:supportsPictureInPicture="false"
         android:theme="@style/HABDroid.Light"
         android:supportsRtl="true"
-        android:name=".core.OpenHABApplication">
+        android:name=".core.OpenHABApplication"
+        android:networkSecurityConfig="@xml/network_security_config">
         <activity
             android:name="org.openhab.habdroid.ui.OpenHABPreferencesActivity"
             android:label="@string/app_preferences_name">
@@ -73,7 +74,9 @@
             android:label="@string/title_activity_openhabwritetag" />
         <activity android:name="org.openhab.habdroid.ui.IntroActivity"
             android:label="@string/app_intro"/>
-        <activity android:name="de.duenndns.ssl.MemorizingActivity" />
+        <activity android:name="de.duenndns.ssl.MemorizingActivity"
+            android:theme="@style/Theme.AppCompat.Translucent"
+            android:excludeFromRecents="true" />
         <service
             android:name=".core.OpenHABVoiceService"
             android:exported="false" />

@@ -1,12 +1,9 @@
 package org.openhab.habdroid.core.connection;
 
-import android.content.Context;
-import android.content.SharedPreferences;
-
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mockito;
-import org.openhab.habdroid.TestUtils;
+
+import okhttp3.OkHttpClient;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNull;
@@ -16,14 +13,8 @@ public class DemoConnectionTest {
 
     @Before
     public void setup() {
-        Context mockContext = TestUtils.makeMockedAppContext();
-        SharedPreferences mockSettings = Mockito.mock(SharedPreferences.class);
-        testConnection = new DemoConnection(mockContext, mockSettings);
-    }
-
-    @Test
-    public void testGetOpenHABUrl() {
-        assertEquals("https://demo.openhab.org:8443/", testConnection.getOpenHABUrl());
+        OkHttpClient client = new OkHttpClient.Builder().build();
+        testConnection = new DemoConnection(client);
     }
 
     @Test

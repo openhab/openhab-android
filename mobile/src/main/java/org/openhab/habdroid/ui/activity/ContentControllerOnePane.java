@@ -10,6 +10,7 @@
 package org.openhab.habdroid.ui.activity;
 
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.ViewStub;
 
 import org.openhab.habdroid.R;
@@ -23,7 +24,7 @@ public class ContentControllerOnePane extends ContentController {
     }
 
     @Override
-    protected void updateFragmentState(FragmentUpdateReason reason) {
+    protected void executeStateUpdate(FragmentUpdateReason reason, boolean allowStateLoss) {
         Fragment currentFragment = mFm.findFragmentById(R.id.content);
         Fragment fragment = getOverridingFragment();
         if (fragment == null && !mPageStack.isEmpty()) {
@@ -33,10 +34,14 @@ public class ContentControllerOnePane extends ContentController {
             fragment = mSitemapFragment;
         }
 
-        mFm.beginTransaction()
+        FragmentTransaction ft = mFm.beginTransaction()
                 .setCustomAnimations(determineEnterAnim(reason), determineExitAnim(reason))
-                .replace(R.id.content, fragment != null ? fragment : mDefaultProgressFragment)
-                .commit();
+                .replace(R.id.content, fragment != null ? fragment : mDefaultProgressFragment);
+        if (allowStateLoss) {
+            ft.commitAllowingStateLoss();
+        } else {
+            ft.commit();
+        }
     }
 
     @Override

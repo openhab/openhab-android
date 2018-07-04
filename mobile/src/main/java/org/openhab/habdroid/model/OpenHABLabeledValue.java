@@ -14,19 +14,19 @@ import android.os.Parcelable;
 import com.google.auto.value.AutoValue;
 
 @AutoValue
-public abstract class OpenHABWidgetMapping implements Parcelable {
-    public abstract String command();
+public abstract class OpenHABLabeledValue implements Parcelable {
+    public abstract String value();
     public abstract String label();
 
     public static Builder newBuilder() {
-        return new AutoValue_OpenHABWidgetMapping.Builder();
+        return new AutoValue_OpenHABLabeledValue.Builder();
     }
 
     @AutoValue.Builder
     public static abstract class Builder {
-        public abstract Builder command(String command);
+        public abstract Builder value(String value);
         public abstract Builder label(String label);
 
-        public abstract OpenHABWidgetMapping build();
+        public abstract OpenHABLabeledValue build();
     }
 }

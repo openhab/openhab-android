@@ -37,7 +37,7 @@ public class ContentControllerTwoPane extends ContentController {
     }
 
     @Override
-    protected void updateFragmentState(FragmentUpdateReason reason) {
+    protected void executeStateUpdate(FragmentUpdateReason reason, boolean allowStateLoss) {
         Fragment leftFragment = getOverridingFragment();
         final OpenHABWidgetListFragment rightFragment;
         final Pair<OpenHABLinkedPage, OpenHABWidgetListFragment> rightPair;
@@ -70,7 +70,11 @@ public class ContentControllerTwoPane extends ContentController {
             needRemove = true;
         }
         if (needRemove) {
-            removeTransaction.commitNow();
+            if (allowStateLoss) {
+                removeTransaction.commitNowAllowingStateLoss();
+            } else {
+                removeTransaction.commitNow();
+            }
         }
 
         FragmentTransaction ft = mFm.beginTransaction();
@@ -88,7 +92,11 @@ public class ContentControllerTwoPane extends ContentController {
             ft.replace(R.id.content_right, rightFragment);
             rightFragment.setHighlightedPageLink(null);
         }
-        ft.commit();
+        if (allowStateLoss) {
+            ft.commitAllowingStateLoss();
+        } else {
+            ft.commit();
+        }
 
         mRightContentView.setVisibility(rightFragment != null ? View.VISIBLE : View.GONE);
     }

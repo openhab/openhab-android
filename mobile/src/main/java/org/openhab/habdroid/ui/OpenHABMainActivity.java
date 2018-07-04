@@ -90,6 +90,7 @@ import java.lang.reflect.Constructor;
 import java.net.ConnectException;
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
+import java.net.UnknownServiceException;
 import java.nio.charset.Charset;
 import java.security.cert.CertPathValidatorException;
 import java.security.cert.CertificateExpiredException;
@@ -107,7 +108,6 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import de.duenndns.ssl.MTMDecision;
-import de.duenndns.ssl.MemorizingResponder;
 import de.duenndns.ssl.MemorizingTrustManager;
 import okhttp3.Call;
 import okhttp3.Headers;
@@ -117,7 +117,7 @@ import static org.openhab.habdroid.util.Util.exceptionHasCause;
 import static org.openhab.habdroid.util.Util.removeProtocolFromUrl;
 
 public class OpenHABMainActivity extends AppCompatActivity implements
-        MemorizingResponder, AsyncServiceResolver.Listener, ConnectionFactory.UpdateListener {
+        AsyncServiceResolver.Listener, ConnectionFactory.UpdateListener {
     public static final String ACTION_NOTIFICATION_SELECTED =
             "org.openhab.habdroid.action.NOTIFICATION_SELECTED";
     public static final String EXTRA_PERSISTED_NOTIFICATION_ID = "persistedNotificationId";
@@ -225,7 +225,6 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         setupDrawer();
 
         mViewPool = new RecyclerView.RecycledViewPool();
-        MemorizingTrustManager.setResponder(this);
 
         // Check if we have openHAB page url in saved instance state?
         if (savedInstanceState != null) {
@@ -343,7 +342,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         Log.d(TAG, "Service resolved: "
                 + serviceInfo.getHostAddresses()[0]
                 + " port:" + serviceInfo.getPort());
-        String openHABUrl = "http://" + serviceInfo.getHostAddresses()[0] + ":" +
+        String openHABUrl = "https://" + serviceInfo.getHostAddresses()[0] + ":" +
                 String.valueOf(serviceInfo.getPort()) + "/";
 
         PreferenceManager.getDefaultSharedPreferences(this).edit()
@@ -354,7 +353,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
 
     @Override
     public void onServiceResolveFailed() {
-        mController.indicateMissingConfiguration();
+        mController.indicateMissingConfiguration(true);
         mServiceResolver = null;
     }
 
@@ -396,12 +395,6 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         Log.d(TAG, "onResume()");
         super.onResume();
 
-        ConnectionFactory.addListener(this);
-        MemorizingTrustManager.getInstance(this).bindDisplayActivity(this);
-
-        onAvailableConnectionChanged();
-        updateNotificationDrawerItem();
-
         NfcAdapter nfcAdapter = NfcAdapter.getDefaultAdapter(this);
         if (nfcAdapter != null) {
             Intent intent = new Intent(this, getClass())
@@ -417,12 +410,6 @@ public class OpenHABMainActivity extends AppCompatActivity implements
     @Override
     protected void onPause() {
         super.onPause();
-        if (mServiceResolver != null && mServiceResolver.isAlive()) {
-            mServiceResolver.interrupt();
-            mServiceResolver = null;
-        }
-        ConnectionFactory.removeListener(this);
-        MemorizingTrustManager.getInstance(this).unbindDisplayActivity(this);
         NfcAdapter nfcAdapter = NfcAdapter.getDefaultAdapter(this);
         if (nfcAdapter != null) {
             nfcAdapter.disableForegroundDispatch(this);
@@ -473,7 +460,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
                         mController.updateConnection(null, getString(R.string.resolving_openhab));
                     }
                 } else {
-                    mController.indicateMissingConfiguration();
+                    mController.indicateMissingConfiguration(false);
                 }
             } else if (failureReason != null) {
                 final String message;
@@ -504,6 +491,12 @@ public class OpenHABMainActivity extends AppCompatActivity implements
     protected void onStart() {
         super.onStart();
         mStarted = true;
+
+        ConnectionFactory.addListener(this);
+
+        onAvailableConnectionChanged();
+        updateNotificationDrawerItem();
+
         if (mConnection != null) {
             if (mInitState == InitState.QUERY_SERVER_PROPS) {
                 mController.clearServerCommunicationFailure();
@@ -525,7 +518,12 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         Log.d(TAG, "onStop()");
         mStarted = false;
         super.onStop();
-        if(mSelectSitemapDialog != null && mSelectSitemapDialog.isShowing()) {
+        ConnectionFactory.removeListener(this);
+        if (mServiceResolver != null && mServiceResolver.isAlive()) {
+            mServiceResolver.interrupt();
+            mServiceResolver = null;
+        }
+        if (mSelectSitemapDialog != null && mSelectSitemapDialog.isShowing()) {
             mSelectSitemapDialog.dismiss();
         }
         if (mPendingCall != null) {
@@ -685,13 +683,12 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         if (TextUtils.isEmpty(nfcItem)) {
             Log.d(TAG, "This is a sitemap tag without parameters");
             // Form the new sitemap page url
-            String newPageUrl = String.format(Locale.US, "%srest/sitemaps%s",
-                    mConnection.getOpenHABUrl(), mPendingNfcData.getPath());
+            String newPageUrl = String.format(Locale.US,
+                    "rest/sitemaps%s", mPendingNfcData.getPath());
             mController.openPage(newPageUrl);
         } else {
             Log.d(TAG, "Target item = " + nfcItem);
-            String url = String.format(Locale.US, "%srest/items/%s",
-                    mConnection.getOpenHABUrl(), nfcItem);
+            String url = String.format(Locale.US, "rest/items/%s", nfcItem);
             Util.sendItemCommand(mConnection.getAsyncHttpClient(), url, nfcCommand);
             finish();
         }
@@ -953,9 +950,6 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         savedInstanceState.putInt("connectionHash",
                 mConnection != null ? mConnection.hashCode() : -1);
         savedInstanceState.putInt("initState", mInitState.ordinal());
-        if (mPendingCall != null) {
-            mPendingCall.cancel();
-        }
         mController.onSaveInstanceState(savedInstanceState);
         super.onSaveInstanceState(savedInstanceState);
     }
@@ -1082,6 +1076,8 @@ public class OpenHABMainActivity extends AppCompatActivity implements
             }
         } else if (error instanceof ConnectException || error instanceof SocketTimeoutException) {
             message = getString(R.string.error_connection_failed);
+        } else if (error instanceof UnknownServiceException) {
+            message = getString(R.string.error_cleartext_not_permitted);
         } else {
             Log.e(TAG, "REST call to " + request.url() + " failed", error);
             message = error.getMessage();
@@ -1127,51 +1123,8 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         mInitState = InitState.DONE;
     }
 
-    private void showCertificateDialog(final int decisionId, String certMessage) {
-        if (this.isFinishing())
-            return;
-        AlertDialog.Builder builder = new AlertDialog.Builder(OpenHABMainActivity.this);
-        builder.setMessage(certMessage)
-                .setTitle(R.string.mtm_accept_cert);
-        builder.setPositiveButton(R.string.mtm_decision_always, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialogInterface, int i) {
-                Log.d(TAG, "User decided to always accept unknown certificate");
-//                MemorizingTrustManager.interactResult(decisionId, MTMDecision.DECISION_ALWAYS);
-                sendMTMDecision(decisionId, MTMDecision.DECISION_ALWAYS);
-            }
-        });
-        builder.setNeutralButton(R.string.mtm_decision_once, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialogInterface, int i) {
-                Log.d(TAG, "User decided to accept unknown certificate once");
-//                MemorizingTrustManager.interactResult(decisionId, MTMDecision.DECISION_ONCE);
-                sendMTMDecision(decisionId, MTMDecision.DECISION_ONCE);
-            }
-        });
-        builder.setNegativeButton(R.string.mtm_decision_abort, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialogInterface, int i) {
-                Log.d(TAG, "User decided to abort unknown certificate");
-//                MemorizingTrustManager.interactResult(decisionId, MTMDecision.DECISION_ABORT);
-                sendMTMDecision(decisionId, MTMDecision.DECISION_ABORT);
-            }
-        });
-        AlertDialog certAlert = builder.create();
-        certAlert.show();
-    }
-
-    void sendMTMDecision(int decisionId, int decision) {
-        Log.d(TAG, "Sending decision to MTM");
-        Intent i = new Intent(MemorizingTrustManager.DECISION_INTENT + "/" + getPackageName());
-        i.putExtra(MemorizingTrustManager.DECISION_INTENT_ID, decisionId);
-        i.putExtra(MemorizingTrustManager.DECISION_INTENT_CHOICE, decision);
-        sendBroadcast(i);
-    }
-
-    public void makeDecision(int decisionId, String certMessage) {
-        Log.d(TAG, String.format("MTM is asking for decision on id = %d", decisionId));
-        if (mSettings.getBoolean(Constants.PREFERENCE_SSLCERT, false))
-            MemorizingTrustManager.interactResult(decisionId, MTMDecision.DECISION_ONCE);
-        else
-            showCertificateDialog(decisionId, certMessage);
+    public boolean isStarted() {
+        return mStarted;
     }
 
     public int getOpenHABVersion() {
