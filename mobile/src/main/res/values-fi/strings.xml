@@ -32,9 +32,18 @@
   <string name="settings_openhab_icon_format">Kuvakkeiden tallennusmuoto</string>
   <string name="settings_openhab_icon_format_png">Bitmap</string>
   <string name="settings_openhab_icon_format_svg">SVG</string>
+  <string name="settings_chart_scaling">Kuvaajan skaalaus</string>
+  <string name="settings_chart_scaling_value_s">Pieni</string>
+  <string name="settings_chart_scaling_value_m">Oletus</string>
+  <string name="settings_chart_scaling_value_l">Suuri</string>
+  <string name="settings_ringtone">Ilmoituksen merkkiääni</string>
   <string name="settings_openhab_alt_connection">Etäkäyttö</string>
   <string name="settings_openhab_connection">Paikalliskäyttö</string>
+  <string name="settings_notification_vibration">Ilmoituksen värinä</string>
+  <string name="settings_notification_vibration_short">Lyhyt</string>
+  <string name="settings_notification_vibration_long">Pitkä</string>
   <!-- App messages strings -->
+  <string name="title_voice_widget">openHAB äänikomennot</string>
   <string name="info_voice_input">openHAB, komennossasi!</string>
   <string name="info_voice_recognized_text">Tunnistettu komento: %1$s</string>
   <string name="info_demo_mode_short">Sovellus esittelytilassa</string>
@@ -55,6 +64,7 @@
   <string name="error_http_code_511">Verkkoon kirjautuminen vaaditaan (HTTP vastaus 511)</string>
   <string name="error_about_no_conn">Virhe haettaessa openHAB palvelimen tietoja</string>
   <string name="title_activity_openhabwritetag">Kirjoita uusi NFC tagi</string>
+  <string name="title_activity_libraries">Käytetyt kirjastot</string>
   <string name="info_write_tag">Kosketa tagia ja pidä se lähellä kunnes varmistusviesti ilmestyy näytölle</string>
   <string name="info_write_tag_progress">Kirjoittaa tagia</string>
   <string name="info_write_tag_finished">Onnistui</string>
@@ -69,7 +79,10 @@
   <string name="nfc_dialog_title">Kirjoita NFC tagin toiminto tälle elementille</string>
   <string name="info_not_set">Ei määritetty</string>
   <!-- Notification list strings -->
+  <string name="list_loading_message">Ladataan\u2026</string>
   <!-- Strings for MemorizingTrustManager activity -->
+  <string name="mtm_accept_cert">Hyväksy tuntematon sertifikaatti?</string>
+  <string name="mtm_decision_always">Hyväksy</string>
   <string name="mtm_decision_once">Kerran</string>
   <string name="mtm_decision_abort">Peruuta</string>
   <string name="mtm_notification">Sertifikaatin todennus</string>
@@ -95,6 +108,7 @@
   <string name="about_title">Tietoja</string>
   <string name="about_license_title">Lisenssi</string>
   <string name="about_changelog">Muutosloki</string>
+  <string name="about_source_code">Lähdekoodi</string>
   <string name="about_issues">Ilmoita ongelmasta</string>
   <string name="about_docs">Dokumentointi</string>
   <string name="about_community_forum">Yhteisön foorumi</string>
@@ -102,6 +116,7 @@
   <string name="about_community">openHAB yhteisö</string>
   <string name="about_server">openHAB palvelin</string>
   <string name="about_translation">Auta meitä kääntämään openHAB</string>
+  <string name="about_privacy_policy">Tietosuojakäytäntö</string>
   <string name="settings_debug_messages_summary">Salasanat näkyvät salaamattomana tekstinä!</string>
   <string name="settings_debug_messages_title">Näytä debug viestit</string>
   <string name="error_couldnt_determine_openhab_url">openHAB palvelimen URL osoitetta ei löytynyt</string>
@@ -130,6 +145,7 @@
   <string name="intro_whatis">Valmistaja- ja teknologiariippumaton avoimen lähdekoodin automaatio-ohjelmisto kotiasi varten</string>
   <string name="intro_themes">Teemat</string>
   <string name="intro_themes_description">Valitse useista teemoista</string>
+  <string name="intro_nfc">NFC</string>
   <!-- Intro "SKIP" button -->
   <string name="app_intro_skip_button">OHITA</string>
   <!-- Intro "DONE" button -->
