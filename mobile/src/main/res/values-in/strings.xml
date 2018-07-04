@@ -9,7 +9,6 @@
   <!-- Main menu items -->
   <string name="mainmenu_openhab_sitemaps">Peta Situs</string>
   <string name="mainmenu_openhab_preferences">Pengaturan</string>
-  <string name="mainmenu_openhab_selectsitemap">Pilih peta situs default</string>
   <string name="mainmenu_openhab_clearcache">Hapus cache gambar</string>
   <!-- App settings strings -->
   <string name="settings_openhab_url">URL server lokal</string>
@@ -30,9 +29,6 @@
   <string name="settings_openhab_icon_format">Format ikon</string>
   <string name="settings_openhab_icon_format_png">Bitmap</string>
   <string name="settings_openhab_icon_format_svg">Vektor</string>
-  <string name="settings_clear_default_sitemap">Hapus peta situs default</string>
-  <string name="settings_no_default_sitemap">Tidak ada peta situs default yang dipilih</string>
-  <string name="settings_current_default_sitemap">Peta Situs default saat ini: %1$s</string>
   <!-- App messages strings -->
   <string name="info_voice_input">openHAB, atas perintahmu!</string>
   <string name="info_voice_recognized_text">Perintah yang Diakui: %1$s</string>
@@ -40,7 +36,6 @@
   <string name="info_conn_url">Menghubungkan ke URL lokal</string>
   <string name="info_conn_rem_url">Menghubungkan ke URL jauh</string>
   <!-- Error messages -->
-  <string name="error_empty_sitemap_list">openHAB mengembalikan daftar peta situs kosong</string>
   <string name="error_network_not_available">Jaringan tidak tersedia</string>
   <string name="error_connection_failed">Sambungan ke rumah gagal</string>
   <string name="error_unable_to_resolve_hostname">Tidak dapat menyelesaikan nama rumah</string>
@@ -92,13 +87,13 @@
   <string name="error_network_type_unsupported">Tipe jaringan (%s) tidak didukung</string>
   <string name="set">Atur</string>
   <string name="cancel">Batalkan</string>
+  <!-- Content description for images -->
+  <!-- Intro strings -->
   <string name="app_intro">Intro</string>
   <string name="intro_welcome">Selamat Datang di openHAB</string>
   <string name="intro_whatis">Sebuah vendor dan teknologi agnostik perangkat lunak open source otomasi untuk rumah Anda</string>
   <string name="intro_themes">Thema</string>
   <string name="intro_themes_description">Pilih di antara beberapa tema</string>
-  <!-- Content description for images -->
-  <!-- Intro strings -->
   <!-- Intro "SKIP" button -->
   <!-- Intro "DONE" button -->
 </resources>
