@@ -97,6 +97,7 @@
     <string name="error_http_code_507">The openHAB server hasn\'t enough free space (HTTP response code 507)</string>
     <string name="error_http_code_511">Network authentication is required (HTTP response code 511)</string>
     <string name="error_about_no_conn">Error while fetching openHAB server information</string>
+    <string name="error_cleartext_not_permitted">HTTP is not allowed for this server</string>
     <string name="title_activity_openhabwritetag">Write NFC tag</string>
     <string name="title_activity_libraries">Used libraries</string>
     <string name="info_write_tag">Touch the tag and keep it close until the confirmation message appear</string>
@@ -187,11 +188,6 @@
     <string name="set">Set</string>
     <string name="cancel">Cancel</string>
     <string name="close">Close</string>
-    <string name="app_intro">Intro</string>
-    <string name="intro_welcome">Welcome to openHAB</string>
-    <string name="intro_whatis">A vendor and technology agnostic open source automation software for your home</string>
-    <string name="intro_themes">Themes</string>
-    <string name="intro_themes_description">Choose between several themes</string>
     <string name="try_again_button">Try again</string>
     <string name="go_to_settings_button">Go to settings</string>
     <string name="configuration_missing">Your openHAB server couldn\'t be discovered automatically. Please configure its IP address or host name in the server settings.</string>
@@ -212,13 +208,16 @@
     <string name="swipe_to_refresh_dismiss">Got it!</string>
 
     <!-- Intro strings -->
+    <string name="app_intro">Intro</string>
+    <string name="intro_welcome">Welcome to openHAB</string>
+    <string name="intro_whatis">A vendor and technology agnostic open source automation software for your home</string>
+    <string name="intro_themes">Themes</string>
+    <string name="intro_themes_description">Choose between several themes</string>
+    <string name="intro_voice_description">Control your home with your voice</string>
+    <string name="intro_nfc">NFC</string>
+    <string name="intro_nfc_description">Item control can be bound to NFC tags by long-pressing the Item</string>
     <!-- Intro "SKIP" button -->
     <string name="app_intro_skip_button">SKIP</string>
     <!-- Intro "DONE" button -->
     <string name="app_intro_done_button">DONE</string>
-    <string name="intro_voice_description">Control your home with your voice</string>
-    <string name="intro_nfc">NFC</string>
-    <string name="intro_nfc_description">Item control can be bound to NFC tags by long-pressing the item</string>
-    <string name="error_cleartext_not_permitted">HTTP is not allowed for this server</string>
-    <string name="intro_nfc_description">Item control can be bound to NFC tags by long-pressing the Item</string>
 </resources>
