@@ -9,7 +9,6 @@
   <!-- Main menu items -->
   <string name="mainmenu_openhab_sitemaps">תצורות מערכת</string>
   <string name="mainmenu_openhab_preferences">הגדרות</string>
-  <string name="mainmenu_openhab_selectsitemap">בחר את ברירת המחדל של תצורת המערכת</string>
   <string name="mainmenu_openhab_clearcache">נקה מטמון תמונות</string>
   <!-- App settings strings -->
   <string name="settings_connection_title">חיבור</string>
@@ -40,9 +39,6 @@
   <string name="settings_chart_scaling_value_m">ברירת מחדל</string>
   <string name="settings_chart_scaling_value_l">גדול</string>
   <string name="settings_ringtone">צליל התראה</string>
-  <string name="settings_clear_default_sitemap">נקה את הגדרת ברירת מחדל של תצורת המערכת</string>
-  <string name="settings_no_default_sitemap">לא נבחרה תצורת מערכת ברירת מחדל</string>
-  <string name="settings_current_default_sitemap">ברירת המחדל הנוכחית של תצורת המערכת: %1$s</string>
   <string name="settings_openhab_alt_connection">מרוחק</string>
   <string name="settings_openhab_connection">מקומי</string>
   <string name="settings_notification_vibration">רטט התראה</string>
@@ -58,32 +54,20 @@
   <string name="info_conn_url">מתחבר לכתובת מקומית</string>
   <string name="info_conn_rem_url">מתחבר לכתובת מרוחקת</string>
   <!-- Error messages -->
-  <string name="error_empty_sitemap_list">openHAB החזיר רשימה ריקה של תצורות מערכת</string>
   <string name="error_network_not_available">הרשת לא זמינה</string>
-  <string name="error_http_connection_failed">החיבור נכשל. תקלה בלתי צפויה בעת חיבור לשרת openHAB המוגדר (שגיאת HTTP מספר: %d)</string>
   <string name="error_invalid_url">אנא הזן כתובת שרת חוקית בתבנית \'/http(s)://host(:port)\'</string>
   <string name="error_connection_failed">החיבור למחשב המארח נכשל</string>
   <string name="error_unable_to_resolve_hostname">אין אפשרות לאתר את שם המחשב המארח</string>
   <string name="error_connection_sslhandshake_failed">חיבור SSL נכשל</string>
-  <string name="error_certificate_not_trusted">תעודת SSL אינה אמינה. בבקשה ייבא את התעודה הבסיסית או קבל את התעודה במהלך חיבור SSL</string>
-  <string name="error_certificate_expired">פג תוקפה של תעודת SSL. נא לייבא תעודה חדשה או קבל את התעודה במהלך חיבור SSL</string>
-  <string name="error_certificate_not_valid_yet">תעודת SSL עוד לא בתוקף. יש צורך בקבלת תעודה תקפה או לקבל את אימות התעודה בזמן תהליך SSL. כמו כן יש לבדוק אם השעון במכשיר מכוון כראוי</string>
-  <string name="error_certificate_revoked">תעודת SSL נשללה. נא לייבא תעודה חדשה או קבל את התעודה במהלך חיבור SSL</string>
   <string name="error_certificate_wrong_host">תעודת SSL אינה חוקית עבור %s</string>
-  <string name="error_http_code_401">האימות נכשל. נא בדוק את שם המשתמש והסיסמה שהוגדרו בהתאמה עם תעודת ה-SSL (קוד תגובה HTTP 401)</string>
-  <string name="error_http_code_403">האימות נכשל. נא בדוק את שם המשתמש והסיסמה שהוגדרו בהתאמה עם תעודת ה-SSL (קוד תגובה HTTP 403)</string>
-  <string name="error_http_code_407">האימות נכשל. נא בדוק את שם המשתמש והסיסמה שהוגדרו בהתאמה עם תעודת ה-SSL (קוד תגובה HTTP 407)</string>
-  <string name="error_http_code_414">שורת הכתובת ארוכה מדי. נא השתמש בכתובת IP או בכתובת קצרה יותר (קוד תגובה HTTP 414)</string>
-  <string name="error_http_code_426">HTTPS נדרש. יש לשנות את הכתובת (קוד תגובה HTTP 426)</string>
   <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
-  <string name="error_http_code_495">האימות נכשל. בדוק את תעודת אישור לקוח SSL (קוד תגובה HTTP 495)</string>
   <string name="error_http_code_496">נדרשת תעודת לקוח SSL (קוד תגובה HTTP 496)</string>
   <string name="error_http_code_502">שרת ה-reverse proxy קיבל תשובה שגויה משרת ה-openHAB (קוד תגובה HTTP 502)</string>
   <string name="error_http_code_503">שרת openHAB אינו זמין באופן זמני (קוד תגובה HTTP 503)</string>
-  <string name="error_http_code_504">Gateway Time-out. נראה כי שרת ה-reverse proxy פעיל, אך לא נתקבלה תשובה משרת openHAB (קוד תגובה HTTP 504)</string>
   <string name="error_http_code_507">אין מספיק שטח פנוי לשרת openHAB (קוד תגובה HTTP 507)</string>
   <string name="error_http_code_511">נדרש אימות רשת (קוד תגובה HTTP 511)</string>
   <string name="error_about_no_conn">אירעה שגיאה בעת בקשת מידע משרת openHAB</string>
+  <string name="error_cleartext_not_permitted">HTTP אינו מורשה עבור שרת זה</string>
   <string name="title_activity_openhabwritetag">כתיבה לתגית NFC</string>
   <string name="title_activity_libraries">ספריות בשימוש</string>
   <string name="info_write_tag">הצמד תגית והשאר אותה קרובה עד להופעת הודעת אישור</string>
@@ -105,8 +89,6 @@
   <string name="list_loading_message">טוען...</string>
   <!-- Strings for MemorizingTrustManager activity -->
   <string name="mtm_accept_cert">לקבל אישור/תעודה לא מזוהה?</string>
-  <string name="mtm_trust_anchor">התעודה בשרת אינה חתומה על-ידי רשות אישורים ידועה.</string>
-  <string name="mtm_cert_expired">פג תוקפה של תעודה/אישור השרת.</string>
   <string name="mtm_accept_servername">האם לקבל את שם השרת הלא תואם?</string>
   <string name="mtm_hostname_mismatch">השרת לא יכול להתחבר כ: \&quot;%s\&quot;. התעודה תקפה רק עבור:</string>
   <string name="mtm_connect_anyway">האם ברצונך להמשיך בהתחברות בכל מקרה?</string>
@@ -130,7 +112,6 @@
   <string name="nfc_action_toggle">החלף מצב</string>
   <string name="nfc_activate">הפעל</string>
   <string name="nfc_action_current_color">צבע נוכחי</string>
-  <string name="nfc_action_to_sitemap_page">עבור אל דף תצורת המערכת</string>
   <!-- Drawer -->
   <string name="drawer_open">מגירת תצורת מערכת נפתחה</string>
   <string name="drawer_close">מגירת תצורת מערכת נסגרה</string>
@@ -156,11 +137,6 @@
   <string name="set">קבע</string>
   <string name="cancel">ביטול</string>
   <string name="close">סגור</string>
-  <string name="app_intro">הקדמה</string>
-  <string name="intro_welcome">ברוכים הבאים ל openHAB</string>
-  <string name="intro_whatis">תוכנת קוד פתוח, בלתי תלויה בייצרנים וטכנולוגיות, לאוטומציה שליטה ובקרה לבית שלך</string>
-  <string name="intro_themes">ערכות עיצוב</string>
-  <string name="intro_themes_description">בחר בין מספר ערכות עיצוב</string>
   <string name="try_again_button">נסה שוב</string>
   <string name="go_to_settings_button">עבור להגדרות</string>
   <string name="configuration_missing">השרת של openHAB לא ניתן לגילוי באופן אוטומטי. נא להגדיר את כתובת ה IP של השרת או את שמו בתפריט הגדרות שרת.</string>
@@ -179,12 +155,15 @@
   <string name="swipe_to_refresh_description">היישום מרענן באופן אוטומטי, בדרך כלל אין צורך לבצע זאת ידנית</string>
   <string name="swipe_to_refresh_dismiss">הבנתי!</string>
   <!-- Intro strings -->
+  <string name="app_intro">הקדמה</string>
+  <string name="intro_welcome">ברוכים הבאים ל openHAB</string>
+  <string name="intro_whatis">תוכנת קוד פתוח, בלתי תלויה בייצרנים וטכנולוגיות, לאוטומציה שליטה ובקרה לבית שלך</string>
+  <string name="intro_themes">ערכות עיצוב</string>
+  <string name="intro_themes_description">בחר בין מספר ערכות עיצוב</string>
+  <string name="intro_voice_description">שלוט בביתך בעזרת הקול שלך</string>
+  <string name="intro_nfc">NFC תקשורת לטווח קצר</string>
   <!-- Intro "SKIP" button -->
   <string name="app_intro_skip_button">דלג</string>
   <!-- Intro "DONE" button -->
   <string name="app_intro_done_button">סיים</string>
-  <string name="intro_voice_description">שלוט בביתך בעזרת הקול שלך</string>
-  <string name="intro_nfc">NFC תקשורת לטווח קצר</string>
-  <string name="intro_nfc_description">השליטה בפריט יכולה להיות משוייכת לתגית NFC באמצעות לחיצה ממושכת על הפריט</string>
-  <string name="error_cleartext_not_permitted">HTTP אינו מורשה עבור שרת זה</string>
 </resources>
