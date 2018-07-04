@@ -9,7 +9,6 @@
   <!-- Main menu items -->
   <string name="mainmenu_openhab_sitemaps">Sitemaps</string>
   <string name="mainmenu_openhab_preferences">Nastavení</string>
-  <string name="mainmenu_openhab_selectsitemap">Vyberte výchozí Sitemap</string>
   <string name="mainmenu_openhab_clearcache">Vyčistit vyrovnávací paměť obrázků</string>
   <!-- App settings strings -->
   <string name="settings_connection_title">Připojení</string>
@@ -33,9 +32,6 @@
   <string name="settings_openhab_icon_format">Formát ikon</string>
   <string name="settings_openhab_icon_format_png">Bitmapa</string>
   <string name="settings_openhab_icon_format_svg">Vektor</string>
-  <string name="settings_clear_default_sitemap">Změnit výchozí sitemap</string>
-  <string name="settings_no_default_sitemap">Žádná výchozí sitemap nebyla vybrána</string>
-  <string name="settings_current_default_sitemap">Aktuální výchozí sitemap: %1$s</string>
   <string name="settings_openhab_alt_connection">Vzdálený</string>
   <string name="settings_openhab_connection">Lokální</string>
   <!-- App messages strings -->
@@ -45,21 +41,13 @@
   <string name="info_conn_url">Připojuji se k lokální URL</string>
   <string name="info_conn_rem_url">Připojuji se ke vzdálené URL</string>
   <!-- Error messages -->
-  <string name="error_empty_sitemap_list">openHAB předal prázdný seznam sitemaps</string>
   <string name="error_network_not_available">Síť není k dispozici</string>
-  <string name="error_http_connection_failed">Připojení se nezdařilo. Byla přijata neočekávaná odpověď při pokusu o připojení k serveru openHAB (HTTP kód odpovědi: %d)</string>
   <string name="error_invalid_url">Zadejte platnou adresu URL ve formátu \'http(s)://host(:port) /\'</string>
   <string name="error_connection_failed">Připojení k serveru se nezdařilo</string>
   <string name="error_unable_to_resolve_hostname">Nelze zjistit název hostitele</string>
   <string name="error_connection_sslhandshake_failed">Ověření SSL metodou handshake se nezdařilo</string>
   <string name="error_certificate_wrong_host">Certifikát SSL není platný pro %s</string>
-  <string name="error_http_code_401">Ověření se nezdařilo. Zkontrolujte uživatelské jméno a heslo, případně klientský certifikát SSL (kód odpovědi HTTP 401)</string>
-  <string name="error_http_code_403">Ověření se nezdařilo. Zkontrolujte uživatelské jméno a heslo, případně klientský certifikát SSL (kód odpovědi HTTP 403)</string>
-  <string name="error_http_code_407">Ověření se nezdařilo. Zkontrolujte uživatelské jméno a heslo, případně klientský certifikát SSL (kód odpovědi HTTP 407)</string>
-  <string name="error_http_code_414">Adresa URL je příliš dlouhá. Použijte IP adresu a nebo kratší adresu URL (kód odpovědi HTTP 414)</string>
-  <string name="error_http_code_426">Vyžaduje se HTTPS. Změňte adresu URL (kód odpovědi HTTP 426)</string>
   <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
-  <string name="error_http_code_495">Ověření se nezdařilo. Zkontrolujte klientský certifikát SSL (kód odpovědi HTTP 495)</string>
   <string name="error_http_code_496">Vyžaduje se SSL certifikát (kód odpovědi HTTP 496)</string>
   <string name="error_http_code_502">Vaše reverse proxy obdržela chybnou odpověď ze serveru openHAB (kód odpovědi HTTP 502)</string>
   <string name="error_http_code_503">Server openHAB je dočasně nedostupný (kód odpovědi HTTP 503)</string>
@@ -122,11 +110,6 @@
   <string name="set">Nastavit</string>
   <string name="cancel">Zrušit</string>
   <string name="close">Zavřít</string>
-  <string name="app_intro">Úvod</string>
-  <string name="intro_welcome">Vítejte v openHAB</string>
-  <string name="intro_whatis">Open source program pro domácí automatizaci</string>
-  <string name="intro_themes">Motivy vzhledu</string>
-  <string name="intro_themes_description">Vyberte si mezi několika motivy</string>
   <string name="try_again_button">Zkusit znovu</string>
   <string name="go_to_settings_button">Přejít do nastavení</string>
   <string name="resolving_openhab">Hledám openHAB server\u2026</string>
@@ -142,6 +125,11 @@
   <string name="content_description_open_openhab">Spustit openHAB</string>
   <string name="swipe_to_refresh_dismiss">Rozumím!</string>
   <!-- Intro strings -->
+  <string name="app_intro">Úvod</string>
+  <string name="intro_welcome">Vítejte v openHAB</string>
+  <string name="intro_whatis">Open source program pro domácí automatizaci</string>
+  <string name="intro_themes">Motivy vzhledu</string>
+  <string name="intro_themes_description">Vyberte si mezi několika motivy</string>
   <!-- Intro "SKIP" button -->
   <string name="app_intro_skip_button">PŘESKOČIT</string>
   <!-- Intro "DONE" button -->
