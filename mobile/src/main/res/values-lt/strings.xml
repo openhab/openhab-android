@@ -9,7 +9,6 @@
   <!-- Main menu items -->
   <string name="mainmenu_openhab_sitemaps">Vietų išplanavimai</string>
   <string name="mainmenu_openhab_preferences">Nustatymai</string>
-  <string name="mainmenu_openhab_selectsitemap">Pasirinkite numatytą vietos išplanavimą</string>
   <string name="mainmenu_openhab_clearcache">Išvalyti paveikslėlių podėlį</string>
   <!-- App settings strings -->
   <string name="settings_openhab_url">openHAB URL</string>
@@ -30,9 +29,6 @@
   <string name="settings_openhab_icon_format">Piktogramų formatas</string>
   <string name="settings_openhab_icon_format_png">Taškinis</string>
   <string name="settings_openhab_icon_format_svg">Vektorinis</string>
-  <string name="settings_clear_default_sitemap">Išvalyti numatytą vietos išplanavimą</string>
-  <string name="settings_no_default_sitemap">Nepasirinktas numatytas vietos išplanavimas</string>
-  <string name="settings_current_default_sitemap">Dabartinis numatytas vietos išplanavimas: %1$s</string>
   <!-- App messages strings -->
   <string name="info_voice_input">openHAB, jūsų paliepimu!</string>
   <string name="info_voice_recognized_text">Neatpažinta komanda: %1$s</string>
@@ -40,7 +36,6 @@
   <string name="info_conn_url">Jungiamasi prie sukonfigūruoto URL</string>
   <string name="info_conn_rem_url">Jungiamasi prie nuotolinio URL</string>
   <!-- Error messages -->
-  <string name="error_empty_sitemap_list">openHAB grąžino tuščią vietos išplanavimų sąrašą</string>
   <string name="error_network_not_available">Tinklas nepasiekiamas</string>
   <string name="error_connection_failed">Nepavyko prisijungti prie serverio</string>
   <string name="error_unable_to_resolve_hostname">Nepavyko aptikti domeno vardo</string>
@@ -92,13 +87,13 @@
   <string name="error_network_type_unsupported">Tinklo tipas (%s) nepalaikomas</string>
   <string name="set">Nustatyti</string>
   <string name="cancel">Atšaukti</string>
+  <!-- Content description for images -->
+  <!-- Intro strings -->
   <string name="app_intro">Intro</string>
   <string name="intro_welcome">Sveiki atvykę į openHAB</string>
   <string name="intro_whatis">Nepriklausomas atviro kodo išmanių namų sprendimas</string>
   <string name="intro_themes">Temos</string>
   <string name="intro_themes_description">Galite pasirinkti vieną iš kelių temų</string>
-  <!-- Content description for images -->
-  <!-- Intro strings -->
   <!-- Intro "SKIP" button -->
   <!-- Intro "DONE" button -->
 </resources>
