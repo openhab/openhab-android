@@ -1047,12 +1047,16 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         Log.e(TAG, "HTTP status code: " + statusCode);
         CharSequence message;
         if (statusCode >= 400){
-            int resourceID;
-            try {
-                resourceID = getResources().getIdentifier("error_http_code_" + statusCode, "string", getPackageName());
-                message = getString(resourceID);
-            } catch (android.content.res.Resources.NotFoundException e) {
-                message = String.format(getString(R.string.error_http_connection_failed), statusCode);
+            if (error.getMessage().equals("openHAB is offline")) {
+                message = getString(R.string.error_openhab_offline);
+            } else {
+                int resourceID;
+                try {
+                    resourceID = getResources().getIdentifier("error_http_code_" + statusCode, "string", getPackageName());
+                    message = getString(resourceID);
+                } catch (android.content.res.Resources.NotFoundException e) {
+                    message = String.format(getString(R.string.error_http_connection_failed), statusCode);
+                }
             }
         } else if (error instanceof UnknownHostException) {
             Log.e(TAG, "Unable to resolve hostname");
