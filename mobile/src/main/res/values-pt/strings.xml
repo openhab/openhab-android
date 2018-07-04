@@ -9,7 +9,6 @@
   <!-- Main menu items -->
   <string name="mainmenu_openhab_sitemaps">Mapa do site</string>
   <string name="mainmenu_openhab_preferences">Configurações</string>
-  <string name="mainmenu_openhab_selectsitemap">Selecione o mapa do site padrão</string>
   <string name="mainmenu_openhab_clearcache">Limpar cache das imagens</string>
   <!-- App settings strings -->
   <string name="settings_openhab_url">URL do servidor local</string>
@@ -30,9 +29,6 @@
   <string name="settings_openhab_icon_format">Formato de icone</string>
   <string name="settings_openhab_icon_format_png">Bitmap</string>
   <string name="settings_openhab_icon_format_svg">Vetor</string>
-  <string name="settings_clear_default_sitemap">Selecione o mapa do site padrão</string>
-  <string name="settings_no_default_sitemap">Mapa do site padrão não selecionado</string>
-  <string name="settings_current_default_sitemap">Mapa do site padrão atual: %1$s</string>
   <!-- App messages strings -->
   <string name="info_voice_input">openhab, às suas ordens!</string>
   <string name="info_voice_recognized_text">Comando reconhecido: %1$s</string>
@@ -40,7 +36,6 @@
   <string name="info_conn_url">Conectando a URL local</string>
   <string name="info_conn_rem_url">Conectando a URL local</string>
   <!-- Error messages -->
-  <string name="error_empty_sitemap_list">openhab lista do mapa do site retornou vazia</string>
   <string name="error_network_not_available">Rede não está disponivel</string>
   <string name="error_connection_failed">Conexão ao host falhado</string>
   <string name="error_unable_to_resolve_hostname">Não foi possível resolver nome de anfitrião</string>
@@ -93,13 +88,13 @@
   <string name="error_network_type_unsupported">Tipo de rede (%s) não suportado</string>
   <string name="set">Conjunto</string>
   <string name="cancel">Cancelar</string>
+  <!-- Content description for images -->
+  <!-- Intro strings -->
   <string name="app_intro">Introdução</string>
   <string name="intro_welcome">Bem-vindo ao openHAB</string>
   <string name="intro_whatis">Um software agnóstico e vendedor de automatização de software aberto para a sua casa</string>
   <string name="intro_themes">Temas</string>
   <string name="intro_themes_description">Escolha entre vários temas</string>
-  <!-- Content description for images -->
-  <!-- Intro strings -->
   <!-- Intro "SKIP" button -->
   <!-- Intro "DONE" button -->
 </resources>
