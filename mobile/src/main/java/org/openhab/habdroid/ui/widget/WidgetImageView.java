@@ -119,7 +119,7 @@ public class WidgetImageView extends AppCompatImageView {
         }
 
         if (cached == null || forceLoad) {
-            mLastRequest = new HttpImageRequest(client, actualUrl, forceLoad);
+            mLastRequest = new HttpImageRequest(client, actualUrl);
             mLastRequest.execute(forceLoad);
         }
     }
@@ -253,7 +253,7 @@ public class WidgetImageView extends AppCompatImageView {
         private final HttpUrl mUrl;
         private Call mCall;
 
-        public HttpImageRequest(AsyncHttpClient client, HttpUrl url, boolean avoidCache) {
+        public HttpImageRequest(AsyncHttpClient client, HttpUrl url) {
             super(mDefaultSvgSize);
             mClient = client;
             mUrl = url;
