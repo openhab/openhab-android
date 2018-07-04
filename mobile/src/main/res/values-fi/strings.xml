@@ -85,6 +85,7 @@
   <string name="error_http_code_511">Verkkoon kirjautuminen vaaditaan (HTTP vastaus 511)</string>
   <string name="error_about_no_conn">Virhe haettaessa openHAB palvelimen tietoja</string>
   <string name="error_cleartext_not_permitted">HTTP ei ole sallittu tälle palvelimelle</string>
+  <string name="error_openhab_offline">Sinun openHAB palvelin on offline tilassa, mutta pilvipalvelin toimii</string>
   <string name="title_activity_openhabwritetag">Kirjoita uusi NFC tagi</string>
   <string name="title_activity_libraries">Käytetyt kirjastot</string>
   <string name="info_write_tag">Kosketa tagia ja pidä se lähellä kunnes varmistusviesti ilmestyy näytölle</string>
