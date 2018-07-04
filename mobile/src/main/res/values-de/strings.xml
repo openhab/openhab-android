@@ -9,6 +9,7 @@
   <!-- Main menu items -->
   <string name="mainmenu_openhab_sitemaps">Sitemaps</string>
   <string name="mainmenu_openhab_preferences">Einstellungen</string>
+  <string name="mainmenu_openhab_selectsitemap">Standard-Sitemap auswählen</string>
   <string name="mainmenu_openhab_clearcache">Bilder-Cache leeren</string>
   <!-- App settings strings -->
   <string name="settings_connection_title">Verbindung</string>
@@ -39,6 +40,9 @@
   <string name="settings_chart_scaling_value_m">Standard</string>
   <string name="settings_chart_scaling_value_l">Groß</string>
   <string name="settings_ringtone">Benachrichtigungston</string>
+  <string name="settings_clear_default_sitemap">Standard-Sitemap zurücksetzen</string>
+  <string name="settings_no_default_sitemap">Keine Standard-Sitemap festgelegt</string>
+  <string name="settings_current_default_sitemap">Aktuelle Standard-Sitemap: %1$s</string>
   <string name="settings_openhab_alt_connection">Fernzugriff</string>
   <string name="settings_openhab_connection">Lokal</string>
   <string name="settings_notification_vibration">Benachrichtigungsvibration</string>
@@ -54,16 +58,29 @@
   <string name="info_conn_url">Verbinde mit lokaler URL</string>
   <string name="info_conn_rem_url">Verbinde mit Remote-URL</string>
   <!-- Error messages -->
+  <string name="error_empty_sitemap_list">openHAB lieferte eine leere Sitemap-Liste</string>
   <string name="error_network_not_available">Netzwerk nicht verfügbar</string>
+  <string name="error_http_connection_failed">Verbindung fehlgeschlagen. Es wurde eine unerwartete Antwort während des Verbindungsversuches mit dem konfigurierten openHAB-Server empfangen. (HTTP Statuscode: %d).</string>
   <string name="error_invalid_url">Bitte geben Sie eine gültige URL im Format \'http(s)://Adresse(:Port)/\' an</string>
   <string name="error_connection_failed">Verbindung fehlgeschlagen</string>
   <string name="error_unable_to_resolve_hostname">Fehler beim Auflösen des Hostnamens</string>
   <string name="error_connection_sslhandshake_failed">SSL-Handshake fehlgeschlagen</string>
+  <string name="error_certificate_not_trusted">Das SSL-Zertifikat ist nicht vertrauenswürdig. Bitte importieren Sie das Root-Zertifikat oder akzeptieren Sie das Zertifakt während des Verbindungsaufbaus.</string>
+  <string name="error_certificate_expired">SSL-Zertifikat abgelaufen. Bitte erstellen Sie ein neues Zertifikat oder akzeptieren Sie das Zertifakt während des Verbindungsaufbaus.</string>
+  <string name="error_certificate_not_valid_yet">SSL-Zertifikat noch nicht gültig. Bitte erstellen Sie ein gültiges Zertifikat oder akzeptieren Sie das Zertifakt während des Verbindungsaufbaus. Überprüfen Sie auch die auf Ihrem Gerät eingestellte Uhrzeit.</string>
+  <string name="error_certificate_revoked">SSL-Zertifikat widerrufen. Bitte erstellen Sie ein neues Zertifikat oder akzeptieren Sie das Zertifakt während des Verbindungsaufbaus.</string>
   <string name="error_certificate_wrong_host">Das Zertifikat ist nicht gültig für %s</string>
+  <string name="error_http_code_401">Authentifizierung fehlgeschlagen. Bitte überprüfen Sie den konfigurierten Nutzer und das Passwort bzw. das bereitgestellte SSL-Client-Zertifikat (HTTP-Statuscode 401).</string>
+  <string name="error_http_code_403">Authentifizierung fehlgeschlagen. Bitte überprüfen Sie den konfigurierten Nutzer und das Passwort bzw. das bereitgestellte SSL-Client-Zertifikat (HTTP-Statuscode 403).</string>
+  <string name="error_http_code_407">Authentifizierung fehlgeschlagen. Bitte überprüfen Sie den konfigurierten Nutzer und das Passwort bzw. das bereitgestellte SSL-Client-Zertifikat (HTTP-Statuscode 407).</string>
+  <string name="error_http_code_414">URL ist zu lang. Bitte verwenden Sie die IP-Adresse oder eine kürzere URL (HTTP-Statuscode 414).</string>
+  <string name="error_http_code_426">HTTPS wird gefordert. Bitte ändern Sie die openHAB-URL (HTTP-Statuscode 426).</string>
   <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
+  <string name="error_http_code_495">Authentifizierung fehlgeschlagen. Bitte überprüfen Sie das bereitgestellte SSL Client-Zertifikat (HTTP-Statuscode 495).</string>
   <string name="error_http_code_496">Client-Zertifikat wird gefordert (HTTP-Statuscode 496)</string>
   <string name="error_http_code_502">Ihr Reverse-Proxy bekam eine ungültige Antwort vom openHAB-Server (HTTP-Statuscode 502)</string>
   <string name="error_http_code_503">Der openHAB-Server steht temporär nicht zur Verfügung (HTTP-Statuscode 503)</string>
+  <string name="error_http_code_504">Gateway Time-out. Ihr Reverse-Proxy läuft, aber bekam keine Antwort vom openHAB-Server (HTTP-Statuscode 504).</string>
   <string name="error_http_code_507">Der openHAB-Server hat nicht genug freien Speicher (HTTP-Statuscode 507)</string>
   <string name="error_http_code_511">Netzwerkauthentifizierung wird gefordert (HTTP-Statuscode 511)</string>
   <string name="error_about_no_conn">Fehler beim Abrufen der openHAB-Server-Informationen</string>
@@ -89,6 +106,8 @@
   <string name="list_loading_message">Wird geladen\u2026</string>
   <!-- Strings for MemorizingTrustManager activity -->
   <string name="mtm_accept_cert">Unbekanntes Zertifikat akzeptieren?</string>
+  <string name="mtm_trust_anchor">Das Serverzertifikat wurde nicht von einer bekannten Zertifizierungsstelle signiert</string>
+  <string name="mtm_cert_expired">Das Serverzertifikat ist abgelaufen</string>
   <string name="mtm_accept_servername">Nicht übereinstimmenden Servernamen akzeptieren?</string>
   <string name="mtm_hostname_mismatch">Server konnte sich nicht als \&quot;%s\&quot; authentifizieren. Das Zertifikat ist nur gültig für:</string>
   <string name="mtm_connect_anyway">Möchtest du trotzdem eine Verbindung herstellen?</string>
@@ -112,6 +131,7 @@
   <string name="nfc_action_toggle">Umschalten</string>
   <string name="nfc_activate">Aktivieren</string>
   <string name="nfc_action_current_color">Momentane Farbe</string>
+  <string name="nfc_action_to_sitemap_page">Zur entsprechenden Sitemap navigieren</string>
   <!-- Drawer -->
   <string name="drawer_open">Sitemap-Bereich öffnen</string>
   <string name="drawer_close">Sitemap-Bereich schließen</string>
@@ -162,6 +182,7 @@
   <string name="intro_themes_description">Wählen Sie zwischen verschiedenen Designs</string>
   <string name="intro_voice_description">Steuern Sie Ihr Zuhause mit Ihrer Stimme</string>
   <string name="intro_nfc">NFC</string>
+  <string name="intro_nfc_description">Die Steuerung eines Items kann durch langes Tippen des Items an NFC-Tags gebunden werden</string>
   <!-- Intro "SKIP" button -->
   <string name="app_intro_skip_button">ÜBERSPRINGEN</string>
   <!-- Intro "DONE" button -->
