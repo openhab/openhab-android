@@ -9,7 +9,6 @@
   <!-- Main menu items -->
   <string name="mainmenu_openhab_sitemaps">Sitemaps</string>
   <string name="mainmenu_openhab_preferences">Préférences</string>
-  <string name="mainmenu_openhab_selectsitemap">Sélectionner la sitemap par défaut</string>
   <string name="mainmenu_openhab_clearcache">Effacer le cache image</string>
   <!-- App settings strings -->
   <string name="settings_connection_title">Connexion</string>
@@ -33,9 +32,6 @@
   <string name="settings_openhab_icon_format">Format des icônes</string>
   <string name="settings_openhab_icon_format_png">Image bitmap</string>
   <string name="settings_openhab_icon_format_svg">Image vectorielle</string>
-  <string name="settings_clear_default_sitemap">Réinitialiser le sitemap par défaut</string>
-  <string name="settings_no_default_sitemap">Pas de sitemap sélectionné</string>
-  <string name="settings_current_default_sitemap">Sitemap par défaut actuel : %1$s</string>
   <string name="settings_openhab_alt_connection">Distant</string>
   <string name="settings_openhab_connection">Local</string>
   <!-- App messages strings -->
@@ -45,21 +41,13 @@
   <string name="info_conn_url">Connexion à l\'adresse locale</string>
   <string name="info_conn_rem_url">Connexion à l\'adresse distante</string>
   <!-- Error messages -->
-  <string name="error_empty_sitemap_list">openHAB a renvoyé une liste vide de sitemaps</string>
   <string name="error_network_not_available">Aucune connexion réseau disponible</string>
-  <string name="error_http_connection_failed">Connexion échouée. Une réponse inattendue a été reçue en essayant de se connecter au serveur openHAB configuré (code de réponse HTTP reçu : %d)</string>
   <string name="error_invalid_url">Entrez une URL valide au format \'http(s)://hote(:port)/\'</string>
   <string name="error_connection_failed">Connexion au domaine échouée</string>
   <string name="error_unable_to_resolve_hostname">Impossible de résoudre le nom d\'hôte</string>
   <string name="error_connection_sslhandshake_failed">Echec de la négotiation SSL</string>
   <string name="error_certificate_wrong_host">Le certificat SSL n\'est pas valide pour %s</string>
-  <string name="error_http_code_401">L’authentification a échoué. Veuillez vérifier le nom d’utilisateur et mot de passe configurés, respectivement le certificat client SSL fourni (code de réponse HTTP 401)</string>
-  <string name="error_http_code_403">L’authentification a échoué. Veuillez vérifier le nom d’utilisateur et mot de passe configurés, respectivement le certificat client SSL fourni (code de réponse HTTP 403)</string>
-  <string name="error_http_code_407">L’authentification a échoué. Veuillez vérifier le nom d’utilisateur et mot de passe configurés, respectivement le certificat client SSL fourni (code de réponse HTTP 407)</string>
-  <string name="error_http_code_414">URL trop longue. Veuillez utiliser l’adresse IP ou une URL plus courte (code de réponse HTTP 414)</string>
-  <string name="error_http_code_426">HTTPS est requis. Veuillez modifier l’URL (code de réponse HTTP 426)</string>
   <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
-  <string name="error_http_code_495">L\'authentification a échoué. Veuillez vérifier l\'identifiant, le mot de passe et le certificat SSL client (code de réponse HTTP 495)</string>
   <string name="error_http_code_496">Certificat SSL client requis (code de réponse HTTP 496)</string>
   <string name="error_http_code_502">Votre proxy inversé a obtenu une réponse non valide du serveur openHAB (code de réponse HTTP 502)</string>
   <string name="error_http_code_503">Le serveur openHAB est temporairement indisponible (code de réponse HTTP 503)</string>
@@ -122,11 +110,6 @@
   <string name="set">Définir</string>
   <string name="cancel">Annuler</string>
   <string name="close">Fermer</string>
-  <string name="app_intro">Introduction</string>
-  <string name="intro_welcome">Bienvenue dans openHAB</string>
-  <string name="intro_whatis">Un logiciel open source de domotique pour votre maison non lié à un vendeur ou à une technologie particulière</string>
-  <string name="intro_themes">Thêmes</string>
-  <string name="intro_themes_description">Choisir parmi ces thêmes</string>
   <string name="try_again_button">Réessayer</string>
   <string name="go_to_settings_button">Ouvrir les paramètres</string>
   <string name="resolving_openhab">Tentative de découverte automatique du serveur openHAB\u2026</string>
@@ -142,6 +125,11 @@
   <string name="content_description_open_openhab">Ouvrir openHAB</string>
   <string name="swipe_to_refresh_dismiss">Compris !</string>
   <!-- Intro strings -->
+  <string name="app_intro">Introduction</string>
+  <string name="intro_welcome">Bienvenue dans openHAB</string>
+  <string name="intro_whatis">Un logiciel open source de domotique pour votre maison non lié à un vendeur ou à une technologie particulière</string>
+  <string name="intro_themes">Thêmes</string>
+  <string name="intro_themes_description">Choisir parmi ces thêmes</string>
   <!-- Intro "SKIP" button -->
   <string name="app_intro_skip_button">PASSER</string>
   <!-- Intro "DONE" button -->
