@@ -9,6 +9,7 @@
   <!-- Main menu items -->
   <string name="mainmenu_openhab_sitemaps">Sivukartat</string>
   <string name="mainmenu_openhab_preferences">Asetukset</string>
+  <string name="mainmenu_openhab_selectsitemap">Valitse oletussivukartta</string>
   <string name="mainmenu_openhab_clearcache">Tyhjennä kuvien välimuisti</string>
   <!-- App settings strings -->
   <string name="settings_connection_title">Yhteys</string>
@@ -33,15 +34,22 @@
   <string name="settings_openhab_icon_format_png">Bitmap</string>
   <string name="settings_openhab_icon_format_svg">SVG</string>
   <string name="settings_chart_scaling">Kuvaajan skaalaus</string>
+  <string name="settings_chart_scaling_summary">Huomautus: Pienempi skaalaus kutistaa fontit ja viivojen leveyden. Kuvaajalle on näin enemmän tilaa, mutta fonttien luettavuus voi kärsiä.</string>
+  <string name="settings_chart_scaling_value_xs">Hyvin pieni</string>
   <string name="settings_chart_scaling_value_s">Pieni</string>
   <string name="settings_chart_scaling_value_m">Oletus</string>
   <string name="settings_chart_scaling_value_l">Suuri</string>
   <string name="settings_ringtone">Ilmoituksen merkkiääni</string>
+  <string name="settings_clear_default_sitemap">Poista oletussivukartta</string>
+  <string name="settings_no_default_sitemap">Ei sivukarttaa oletuksena</string>
+  <string name="settings_current_default_sitemap">Nykyinen oletussivukartta: %1$s</string>
   <string name="settings_openhab_alt_connection">Etäkäyttö</string>
   <string name="settings_openhab_connection">Paikalliskäyttö</string>
   <string name="settings_notification_vibration">Ilmoituksen värinä</string>
+  <string name="settings_notification_vibration_off">Pois päältä</string>
   <string name="settings_notification_vibration_short">Lyhyt</string>
   <string name="settings_notification_vibration_long">Pitkä</string>
+  <string name="settings_notification_vibration_twice">Kaksi kertaa</string>
   <!-- App messages strings -->
   <string name="title_voice_widget">openHAB äänikomennot</string>
   <string name="info_voice_input">openHAB, komennossasi!</string>
@@ -50,12 +58,20 @@
   <string name="info_conn_url">Yhdistetään paikalliskäytön URL osoitteeseen</string>
   <string name="info_conn_rem_url">Yhdistetään etäkäytön URL osoitteeseen</string>
   <!-- Error messages -->
+  <string name="error_empty_sitemap_list">openHAB palautti tyhjän sivukarttojen luettelon</string>
   <string name="error_network_not_available">Verkko ei ole käytettävissä</string>
+  <string name="error_http_connection_failed">Yhteys epäonnistui. Odottamaton vastaus yhdistettäessä asetettuun openHAB palvelimeen (HTTP vastaus: %d).</string>
   <string name="error_invalid_url">Kirjoita kelvollinen URL osoite \'http(s)://isäntä(:portti)/\' muodossa</string>
   <string name="error_connection_failed">Yhteys palvelimeen epäonnistui</string>
   <string name="error_unable_to_resolve_hostname">Isäntänimen selvitys epäonnistui</string>
   <string name="error_connection_sslhandshake_failed">SSL kättely epäonnistui</string>
+  <string name="error_certificate_not_trusted">SSL sertifikaatti ei ole luotettu. Ole hyvä ja tuo root-sertifikaatti tai hyväksy sertifikaatti SSL kättelyn aikana.</string>
+  <string name="error_certificate_expired">SSL serifikaatti on vanhentunut. Hanki uusi sertifikaatti tai hyväksy sertifikaatti SSL kättelyn aikana.</string>
+  <string name="error_certificate_not_valid_yet">SSL sertifikaatti ei ole vielä kelvollinen. Hanki sopiva sertifikaatti tai hyväksy sertifikaatti SSL kättelyn aikana. Tarkista myös, että laitteessasi on oikea kellonaika.</string>
+  <string name="error_certificate_revoked">SSL serifikaatti on kumottu. Hanki uusi sertifikaatti tai hyväksy sertifikaatti SSL kättelyn aikana.</string>
   <string name="error_certificate_wrong_host">Isäntä %s ei hyväksy SSL sertifikaattia</string>
+  <string name="error_http_code_401">Todennus epäonnistui. Tarkista määritetty käyttäjänimi ja salasana annetusta SSL sertifikaatista (HTTP vastaus 401).</string>
+  <string name="error_http_code_403">Todennus epäonnistui. Tarkista määritetty käyttäjänimi ja salasana annetusta SSL sertifikaatista (HTTP vastaus 403).</string>
   <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
   <string name="error_http_code_496">SSL sertifikaatti on pakollinen (HTTP vastaus 496)</string>
   <string name="error_http_code_502">Sinun käänteinen välityspalvelin vastaanotti epäkelvon vastauksen openHAB palvelimelta (HTTP vastaus 502)</string>
