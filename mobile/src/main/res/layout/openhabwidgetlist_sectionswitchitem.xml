@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:background="?android:activatedBackgroundIndicator">
 
-    <include layout="@layout/openhabwidgetlist_icontext" />
+    <include layout="@layout/openhabwidgetlist_iconsmallvaluetext" />
 
     <RadioGroup
         android:id="@+id/switchgroup"
