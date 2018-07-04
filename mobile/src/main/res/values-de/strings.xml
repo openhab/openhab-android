@@ -186,4 +186,5 @@
   <string name="intro_voice_description">Steuern Sie Ihr Zuhause mit Ihrer Stimme</string>
   <string name="intro_nfc">NFC</string>
   <string name="intro_nfc_description">Die Steuerung eines Items kann durch langes Tippen des Items an NFC-Tags gebunden werden</string>
+  <string name="error_cleartext_not_permitted">HTTP ist für diesen Server nicht erlaubt</string>
 </resources>
