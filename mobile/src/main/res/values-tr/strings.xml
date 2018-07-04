@@ -9,7 +9,6 @@
   <!-- Main menu items -->
   <string name="mainmenu_openhab_sitemaps">Site Haritası</string>
   <string name="mainmenu_openhab_preferences">Ayarlar</string>
-  <string name="mainmenu_openhab_selectsitemap">Varsayılan site haritasını seç</string>
   <string name="mainmenu_openhab_clearcache">Resim önbelleğini temizle</string>
   <!-- App settings strings -->
   <string name="settings_openhab_url">Yerel sunucu URL\'si</string>
@@ -30,9 +29,6 @@
   <string name="settings_openhab_icon_format">Simge formatı</string>
   <string name="settings_openhab_icon_format_png">Bitmap</string>
   <string name="settings_openhab_icon_format_svg">Vektör</string>
-  <string name="settings_clear_default_sitemap">Varsayılan site haritasını temizle</string>
-  <string name="settings_no_default_sitemap">Varsayılan her hangi bir site haritası seçilmedi</string>
-  <string name="settings_current_default_sitemap">Geçerli varsayılan site haritası: %1$s</string>
   <!-- App messages strings -->
   <string name="info_voice_input">openHAB Emrinizdedir!</string>
   <string name="info_voice_recognized_text">Tanımlanmış Emir: %1$s</string>
@@ -40,7 +36,6 @@
   <string name="info_conn_url">Yerel Sunucuya Bağlanıyor</string>
   <string name="info_conn_rem_url">Uzak URL\'ye Bağlanıyor</string>
   <!-- Error messages -->
-  <string name="error_empty_sitemap_list">openHAB boş site haritası listesini geri getirdi</string>
   <string name="error_network_not_available">Network müsait değil</string>
   <string name="error_connection_failed">Ana cihaza bağlantı başarısız oldu</string>
   <string name="error_unable_to_resolve_hostname">Ana cihaz adı çözülemiyor</string>
@@ -92,13 +87,13 @@
   <string name="error_network_type_unsupported">(%s) Network tipi desteklenmiyor</string>
   <string name="set">Ayarla</string>
   <string name="cancel">İptal Et</string>
+  <!-- Content description for images -->
+  <!-- Intro strings -->
   <string name="app_intro">Giriş</string>
   <string name="intro_welcome">openHAB\'a Hoş geldiniz</string>
   <string name="intro_whatis">Eviniz için sağlayıcı ve yeni teknolojiye geçişlerden etkilenmeyen açık kaynak otomasyon yazılımı</string>
   <string name="intro_themes">Temalar</string>
   <string name="intro_themes_description">Çeşitli temalar arasından seçim yap</string>
-  <!-- Content description for images -->
-  <!-- Intro strings -->
   <!-- Intro "SKIP" button -->
   <!-- Intro "DONE" button -->
 </resources>
