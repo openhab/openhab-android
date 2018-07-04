@@ -9,7 +9,6 @@
   <!-- Main menu items -->
   <string name="mainmenu_openhab_sitemaps">Χάρτες Χώρου</string>
   <string name="mainmenu_openhab_preferences">Ρυθμίσεις</string>
-  <string name="mainmenu_openhab_selectsitemap">Προκαθορισμένο Sitemap</string>
   <string name="mainmenu_openhab_clearcache">Καθάρισμα κρυφής μνήμης</string>
   <!-- App settings strings -->
   <string name="settings_connection_title">Σύνδεση</string>
@@ -33,9 +32,6 @@
   <string name="settings_openhab_icon_format">Μορφή εικονιδίου</string>
   <string name="settings_openhab_icon_format_png">Bitmap</string>
   <string name="settings_openhab_icon_format_svg">Διάνυσμα</string>
-  <string name="settings_clear_default_sitemap">Καθαρισμός προκαθορισμένου sitemap</string>
-  <string name="settings_no_default_sitemap">Δεν έχει επιλεγεί προκαθορισμένο sitemap</string>
-  <string name="settings_current_default_sitemap">Τρέχον προκαθορισμένο sitemap: %1$s</string>
   <string name="settings_openhab_alt_connection">Απομακρυσμένo</string>
   <string name="settings_openhab_connection">Τοπικό</string>
   <!-- App messages strings -->
@@ -45,21 +41,13 @@
   <string name="info_conn_url">Σύνδεση στην τοπική διεύθυνση</string>
   <string name="info_conn_rem_url">Σύνδεση στην απομακρυσμένη διεύθυνση</string>
   <!-- Error messages -->
-  <string name="error_empty_sitemap_list">Το openHAB επέστρεψε μια άδεια λίστα χαρτών χώρου</string>
   <string name="error_network_not_available">Το δίκτυο δεν είναι διαθέσιμο</string>
-  <string name="error_http_connection_failed">Η σύνδεση απέτυχε. Λήψη μη αναμενόμενης απάντησης κατά την προσπάθεια σύνδεσης με το διακομιστή openHAB (κωδικός απόκρισης HTTP: %d)</string>
   <string name="error_invalid_url">Παρακαλώ εισάγετε ενα σωστό URL της μορφής \'πρωτόκολλο://διακομιστής:πόρτα/\'</string>
   <string name="error_connection_failed">Η σύνδεση στον διακομιστή απέτυχε</string>
   <string name="error_unable_to_resolve_hostname">Αδυναμία ανεύρεσης ονόματος διακομιστή</string>
   <string name="error_connection_sslhandshake_failed">Η διαδικασία SSL Handshake απέτυχε</string>
   <string name="error_certificate_wrong_host">Το πιστοποιητικό SSL δεν είναι έγκυρο για %s</string>
-  <string name="error_http_code_401">Η πιστοποίηση του χρήστη απέτυχε. Παρακαλώ ελέγξτε το όνομα χρήστη, κωδικό και SSL πιστοποιητικό πελάτη (κωδικός απόκρισης HTTP 401)</string>
-  <string name="error_http_code_403">Η πιστοποίηση του χρήστη απέτυχε. Παρακαλώ ελέγξτε το όνομα χρήστη, κωδικό και SSL πιστοποιητικό πελάτη (κωδικός απόκρισης HTTP 403)</string>
-  <string name="error_http_code_407">Η πιστοποίηση του χρήστη απέτυχε. Παρακαλώ ελέγξτε το όνομα χρήστη, κωδικό και SSL πιστοποιητικό πελάτη (κωδικός απόκρισης HTTP 407)</string>
-  <string name="error_http_code_414">Το URL είναι πολύ μακρύ. Παρακαλώ χρησιμοποιήστε το IP ή ένα πιο μικρό URL (κωδικός απόκρισης HTTP 414)</string>
-  <string name="error_http_code_426">Απαιτείται χρήση HTTPS. Παρακαλώ αλλάξτε το URL (κωδικός απόκρισης HTTP 426)</string>
   <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
-  <string name="error_http_code_495">Η πιστοποίηση του χρήστη απέτυχε. Παρακαλώ ελέγξτε το SSL πιστοποιητικό πελάτη (κωδικός απόκρισης HTTP 495)</string>
   <string name="error_http_code_496">Απαιτείται SSL πιστοποιητικό πελάτη (κωδικός απόκρισης HTTP 496)</string>
   <string name="error_http_code_502">Ο reverse proxy σας έλαβε λάθος απάντηση από το openHAB (κωδικός απόκρισης HTTP 502)</string>
   <string name="error_http_code_503">Το openHAB είναι προσωρινά μη διαθέσιμο (κωδικός απόκρισης HTTP 503)</string>
@@ -122,11 +110,6 @@
   <string name="set">Ορισμός</string>
   <string name="cancel">Άκυρο</string>
   <string name="close">Κλείσιμο</string>
-  <string name="app_intro">Εισαγωγή</string>
-  <string name="intro_welcome">Καλώς ήρθατε στο openHAB</string>
-  <string name="intro_whatis">Λογισμικό ανοιχτού κώδικα αυτοματοποίησης, ανεξάρτητο κατασκευαστή και τεχνολογίας, για το σπίτι σας.</string>
-  <string name="intro_themes">Θέματα</string>
-  <string name="intro_themes_description">Επιλέξτε μεταξύ διαφόρων θεμάτων</string>
   <string name="try_again_button">Προσπαθήστε ξανά</string>
   <string name="go_to_settings_button">Μετάβαση στις ρυθμίσεις</string>
   <string name="resolving_openhab">Προσπάθεια εύρεσης του διακομιστή openHAB</string>
@@ -142,6 +125,11 @@
   <string name="content_description_open_openhab">Άνοιγμα openHAB</string>
   <string name="swipe_to_refresh_dismiss">Το κατάλαβα!</string>
   <!-- Intro strings -->
+  <string name="app_intro">Εισαγωγή</string>
+  <string name="intro_welcome">Καλώς ήρθατε στο openHAB</string>
+  <string name="intro_whatis">Λογισμικό ανοιχτού κώδικα αυτοματοποίησης, ανεξάρτητο κατασκευαστή και τεχνολογίας, για το σπίτι σας.</string>
+  <string name="intro_themes">Θέματα</string>
+  <string name="intro_themes_description">Επιλέξτε μεταξύ διαφόρων θεμάτων</string>
   <!-- Intro "SKIP" button -->
   <string name="app_intro_skip_button">ΠΑΡΑΛΕΙΨΗ</string>
   <!-- Intro "DONE" button -->
