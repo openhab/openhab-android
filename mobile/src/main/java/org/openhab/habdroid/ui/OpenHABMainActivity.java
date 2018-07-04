@@ -1096,9 +1096,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
                 String base64Credentials = authHeader.substring("Basic".length()).trim();
                 String credentials = new String(Base64.decode(base64Credentials, Base64.DEFAULT),
                         Charset.forName("UTF-8"));
-                String[] usernameAndPassword = credentials.split(":", 2);
-                builder.append("\nUsername: ").append(usernameAndPassword[0]);
-                builder.append("\nPassword: ").append(usernameAndPassword[1]);
+                builder.append("\nUsername: ").append(credentials.substring(0, credentials.indexOf(":")));
             }
 
             builder.append("\nException stack:\n");

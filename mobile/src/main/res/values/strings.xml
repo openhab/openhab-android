@@ -180,8 +180,7 @@
     <string name="about_translation">Help us translating openHAB</string>
     <string name="about_privacy_policy">Privacy policy</string>
 
-    <string name="settings_debug_messages_summary">Passwords will be shown in clear text!</string>
-    <string name="settings_debug_messages_title">Show debug messages</string>
+    <string name="settings_debug_messages_title">Show information for troubleshooting</string>
     <string name="error_couldnt_determine_openhab_url">Couldn\'t determine openHAB URL</string>
     <string name="unknown">Unknown</string>
     <string name="error_network_type_unsupported">Network type (%s) is unsupported</string>
