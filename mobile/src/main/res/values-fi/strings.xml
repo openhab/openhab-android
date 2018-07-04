@@ -72,13 +72,19 @@
   <string name="error_certificate_wrong_host">Isäntä %s ei hyväksy SSL sertifikaattia</string>
   <string name="error_http_code_401">Todennus epäonnistui. Tarkista määritetty käyttäjänimi ja salasana annetusta SSL sertifikaatista (HTTP vastaus 401).</string>
   <string name="error_http_code_403">Todennus epäonnistui. Tarkista määritetty käyttäjänimi ja salasana annetusta SSL sertifikaatista (HTTP vastaus 403).</string>
+  <string name="error_http_code_407">Todennus epäonnistui. Tarkista määritetty käyttäjänimi ja salasana annetusta SSL sertifikaatista (HTTP vastaus 407).</string>
+  <string name="error_http_code_414">Liian pitkä URL osoite. Ole hyvä ja käytä IP osoitetta tai lyhyempää URL osoitetta (HTTP vastaus 414).</string>
+  <string name="error_http_code_426">HTTPS on pakollinen. Ole hyvä ja vaihda URL osoite (HTTP vastaus 426).</string>
   <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
+  <string name="error_http_code_495">Todennus epäonnistui. Ole hyvä ja tarkista annettu SSL sertifikaatti (HTTP vastaus 495).</string>
   <string name="error_http_code_496">SSL sertifikaatti on pakollinen (HTTP vastaus 496)</string>
   <string name="error_http_code_502">Sinun käänteinen välityspalvelin vastaanotti epäkelvon vastauksen openHAB palvelimelta (HTTP vastaus 502)</string>
   <string name="error_http_code_503">openHAB palvelin on väliaikaisesti pois käytöstä (HTTP vastaus 503)</string>
+  <string name="error_http_code_504">Välityspalvelimen aikakatkaisu. Näyttää siltä että sinun käänteinen välityspalvelin on toiminnassa, mutta ei saanut vastausta openHAB palvelimelta (HTTP vastaus 504).</string>
   <string name="error_http_code_507">openHAB palvelimella ei ole tarpeeksi tilaa (HTTP vastaus 507)</string>
   <string name="error_http_code_511">Verkkoon kirjautuminen vaaditaan (HTTP vastaus 511)</string>
   <string name="error_about_no_conn">Virhe haettaessa openHAB palvelimen tietoja</string>
+  <string name="error_cleartext_not_permitted">HTTP ei ole sallittu tälle palvelimelle</string>
   <string name="title_activity_openhabwritetag">Kirjoita uusi NFC tagi</string>
   <string name="title_activity_libraries">Käytetyt kirjastot</string>
   <string name="info_write_tag">Kosketa tagia ja pidä se lähellä kunnes varmistusviesti ilmestyy näytölle</string>
@@ -95,13 +101,22 @@
   <string name="nfc_dialog_title">Kirjoita NFC tagin toiminto tälle elementille</string>
   <string name="info_not_set">Ei määritetty</string>
   <!-- Notification list strings -->
+  <string name="notification_list_empty">Ilmoituksia ei toistaiseksi lähetetty</string>
+  <string name="notification_list_error">Virhe ladattaessa ilmoituksia</string>
   <string name="list_loading_message">Ladataan\u2026</string>
   <!-- Strings for MemorizingTrustManager activity -->
   <string name="mtm_accept_cert">Hyväksy tuntematon sertifikaatti?</string>
+  <string name="mtm_trust_anchor">Palvelinsertifikaatti ei ole tunnetun myöntäjän allekirjoittama</string>
+  <string name="mtm_cert_expired">Palvelinsertifikaatti on vanhentunut</string>
+  <string name="mtm_accept_servername">Hyväksy eriävä palvelimen nimi?</string>
+  <string name="mtm_hostname_mismatch">Palvelin ei voinut todentaa: \&quot;%s\&quot;. Sertifikaatti kelpaa vain:</string>
+  <string name="mtm_connect_anyway">Haluatko silti yhdistää?</string>
+  <string name="mtm_cert_details">Ssl sertifikaatin tiedot:</string>
   <string name="mtm_decision_always">Hyväksy</string>
   <string name="mtm_decision_once">Kerran</string>
   <string name="mtm_decision_abort">Peruuta</string>
   <string name="mtm_notification">Sertifikaatin todennus</string>
+  <string name="settings_openhab_none">Tyhjä</string>
   <!-- Themes -->
   <string name="theme_name_light">Valoisa</string>
   <string name="theme_name_dark">Tumma</string>
@@ -116,6 +131,7 @@
   <string name="nfc_action_toggle">Vaihda</string>
   <string name="nfc_activate">Aktivoi</string>
   <string name="nfc_action_current_color">Nykyinen väri</string>
+  <string name="nfc_action_to_sitemap_page">Mene sivukartalle</string>
   <!-- Drawer -->
   <string name="drawer_open">Sivukartan valitsin avattu</string>
   <string name="drawer_close">Sivukartan valitsin suljettu</string>
@@ -143,6 +159,8 @@
   <string name="close">Sulje</string>
   <string name="try_again_button">Yritä uudelleen</string>
   <string name="go_to_settings_button">Mene asetuksiin</string>
+  <string name="configuration_missing">Sinun openHAB palvelinta ei löydetty automaattisesti. Ole hyvä ja ja aseta sen IP osoite tai isäntänimi palvelinasetuksiin.</string>
+  <string name="no_remote_server">Paikallinen verkko ei ole käytettävissä etkä ole asettanut etäpalvelinta</string>
   <string name="resolving_openhab">Etsitään openHAB palvelinta\u2026</string>
   <!-- Content description for images -->
   <string name="content_description_open_roller_shutter">Avaa rullaverho</string>
@@ -154,6 +172,7 @@
   <string name="content_description_open_number_picker">Avaa numerovalitsin</string>
   <string name="content_description_video">Video</string>
   <string name="content_description_open_openhab">Avaa openHAB</string>
+  <string name="swipe_to_refresh_description">Sovellus päivittää automaattisesti joten sitä ei tavallisesti tarvitse tehdä itse</string>
   <string name="swipe_to_refresh_dismiss">Selvä!</string>
   <!-- Intro strings -->
   <string name="app_intro">Esittely</string>
@@ -161,7 +180,9 @@
   <string name="intro_whatis">Valmistaja- ja teknologiariippumaton avoimen lähdekoodin automaatio-ohjelmisto kotiasi varten</string>
   <string name="intro_themes">Teemat</string>
   <string name="intro_themes_description">Valitse useista teemoista</string>
+  <string name="intro_voice_description">Hallitse kotia äänelläsi</string>
   <string name="intro_nfc">NFC</string>
+  <string name="intro_nfc_description">Itemin käyttö voidaan sitoa NFC tägeihin painamalla Itemiä pitkään</string>
   <!-- Intro "SKIP" button -->
   <string name="app_intro_skip_button">OHITA</string>
   <!-- Intro "DONE" button -->
