@@ -24,7 +24,7 @@
     <about_foundation> </about_foundation>
     <important_note>Tärkeä huomautus</important_note>
     <oh_server>Tarvitset openHAB palvelimen tätä sovellusta varten</oh_server>
-    <short_description/>
+    <short_description>Toimittaja- ja teknologiariippumatonta avoimen lähdekoodin kotiautomaatiota</short_description>
     <fdroid>F-Droid sovelluskaupasta ladatuissa koontiversioissa on tuki karttanäytölle, mutta GCM ja kaatumisilmoitukset ovat pois käytöstä eikä ilmoitukset openHAB pilvestä ole käytettävissä.</fdroid>
     <fdroid_beta><![CDATA[]]></fdroid_beta>
     <fdroid_privacy_policy>Tietosuojakäytäntö: https://www.openhabfoundation.org/privacy</fdroid_privacy_policy>
