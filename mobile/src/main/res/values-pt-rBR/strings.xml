@@ -9,7 +9,6 @@
   <!-- Main menu items -->
   <string name="mainmenu_openhab_sitemaps">Sitemaps</string>
   <string name="mainmenu_openhab_preferences">Configurações</string>
-  <string name="mainmenu_openhab_selectsitemap">Selecione o sitemap padrão</string>
   <string name="mainmenu_openhab_clearcache">Limpar cache das imagens</string>
   <!-- App settings strings -->
   <string name="settings_connection_title">Conexão</string>
@@ -40,9 +39,6 @@
   <string name="settings_chart_scaling_value_m">Padrão</string>
   <string name="settings_chart_scaling_value_l">Grande</string>
   <string name="settings_ringtone">Toque de notificação</string>
-  <string name="settings_clear_default_sitemap">Selecione o sitemap padrão</string>
-  <string name="settings_no_default_sitemap">Sitemap padrão não selecionado</string>
-  <string name="settings_current_default_sitemap">Sitemap padrão atual: %1$s</string>
   <string name="settings_openhab_alt_connection">Remoto</string>
   <string name="settings_openhab_connection">Local</string>
   <string name="settings_notification_vibration">Vibração de notificação</string>
@@ -58,32 +54,20 @@
   <string name="info_conn_url">Conectando a URL local</string>
   <string name="info_conn_rem_url">Conectando a URL local</string>
   <!-- Error messages -->
-  <string name="error_empty_sitemap_list">openHAB retornou uma lista de sitemap vazia</string>
   <string name="error_network_not_available">Rede não está disponivel</string>
-  <string name="error_http_connection_failed">Conexão sem sucesso. Foi recebida uma resposta inesperada ao conectar com servidor openHAB configurado (código de resposta HTTP recebido: %d)</string>
   <string name="error_invalid_url">Por favor insira uma URL válida num padrão \'http(s)://endereço(:porta)/\'</string>
   <string name="error_connection_failed">Conexão ao host falhou</string>
   <string name="error_unable_to_resolve_hostname">Não foi possível resolver o hostname</string>
   <string name="error_connection_sslhandshake_failed">Handshake SSL falhou</string>
-  <string name="error_certificate_not_trusted">Certificado SSL não é confiável. Por favor, importe o certificado raiz ou desabilite a validação de certificados durante o handshake SSL</string>
-  <string name="error_certificate_expired">Certificado SLL expirou. Por favor, obtenha um novo certificado ou desabilite a validação de certificado durante o handshake SSL</string>
-  <string name="error_certificate_not_valid_yet">Certificado SSL não é válido ainda. Por favor, obtenha um certificado correto ou desabilite a validação de certificados durante o handshake SSL. Verifique também se o relógio no seu telefone está configurado corretamente</string>
-  <string name="error_certificate_revoked">Certificado SLL foi revogado. Por favor, obtenha um novo certificado ou aceite o certificado durante o handshake SSL</string>
   <string name="error_certificate_wrong_host">Certificado SSL não é válido para %s</string>
-  <string name="error_http_code_401">Falha de autenticação. Por favor, verifique o usuário e senha configurada e o certificado SSL do cliente fornecido (código de resposta HTTP 401)</string>
-  <string name="error_http_code_403">Falha de autenticação. Por favor, verifique o usuário e senha configurada e o certificado SSL do cliente fornecido (código de resposta HTTP 403)</string>
-  <string name="error_http_code_407">Falha de autenticação. Por favor, verifique o usuário e senha configurada e o certificado SSL do cliente fornecido (código de resposta HTTP 407)</string>
-  <string name="error_http_code_414">URL é muito longa. Por favor, use o endereço IP ou uma URL mais curta (código de resposta HTTP 414)</string>
-  <string name="error_http_code_426">É necessário utilizar HTTPS. Por favor, altere a URL (HTTP código de resposta 426)</string>
   <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
-  <string name="error_http_code_495">Autenticação de usuário falhou. Por favor, verifique o nome de usuário, senha e certificado de cliente SSL (HTTP código de resposta 495)</string>
   <string name="error_http_code_496">Certificado de cliente SSL é necessário (HTTP código de resposta 496)</string>
   <string name="error_http_code_502">O seu proxy reverso recebeu uma resposta inválida do servidor openHAB (HTTP código de resposta 502)</string>
   <string name="error_http_code_503">O servidor openHAB está temporariamente indisponível (HTTP código de resposta 503)</string>
-  <string name="error_http_code_504">Tempo expirado do gateway. Parece que o seu proxy reverso está rodando, mas não foi possível obter uma resposta do servidor openHAB (código de resposta HTTP 504)</string>
   <string name="error_http_code_507">O servidor openHAB não tem espaço livre suficiente (HTTP código de resposta 507)</string>
   <string name="error_http_code_511">Autenticação de rede é necessária (HTTP código de resposta 511)</string>
   <string name="error_about_no_conn">Erro ao buscar informações do servidor openHAB</string>
+  <string name="error_cleartext_not_permitted">HTTP não é permitido para este servidor</string>
   <string name="title_activity_openhabwritetag">Escrever na tag NFC</string>
   <string name="title_activity_libraries">Bibliotecas usadas</string>
   <string name="info_write_tag">Toque na tag e a mantenha perto até aparecer a mensagem de confirmação</string>
@@ -105,8 +89,6 @@
   <string name="list_loading_message">Carregando\u2026</string>
   <!-- Strings for MemorizingTrustManager activity -->
   <string name="mtm_accept_cert">Aceitar Certificado desconhecido?</string>
-  <string name="mtm_trust_anchor">O certificado do servidor não é assinado por uma autoridade de certificado rechonhecida.</string>
-  <string name="mtm_cert_expired">O certificado do servidor expirou.</string>
   <string name="mtm_accept_servername">Aceitar o nome do servidor incompatível?</string>
   <string name="mtm_hostname_mismatch">Servidor não pode autenticar como \&quot;%s\&quot;. O certificado é válido apenas para:</string>
   <string name="mtm_connect_anyway">Você deseja conectar mesmo assim?</string>
@@ -130,7 +112,6 @@
   <string name="nfc_action_toggle">Alternar</string>
   <string name="nfc_activate">Ativar</string>
   <string name="nfc_action_current_color">Cor atual</string>
-  <string name="nfc_action_to_sitemap_page">Navegar para a página do sitemap</string>
   <!-- Drawer -->
   <string name="drawer_open">Gaveta aberta do sitemap</string>
   <string name="drawer_close">Gaveta fechada do sitemap</string>
@@ -156,11 +137,6 @@
   <string name="set">Definir</string>
   <string name="cancel">Cancelar</string>
   <string name="close">Fechar</string>
-  <string name="app_intro">Introdução</string>
-  <string name="intro_welcome">Bem-vindo ao openHAB</string>
-  <string name="intro_whatis">Um software agnóstico e fornecedor de automatização de software aberto para a sua casa</string>
-  <string name="intro_themes">Temas</string>
-  <string name="intro_themes_description">Escolha entre vários temas</string>
   <string name="try_again_button">Tente novamente</string>
   <string name="go_to_settings_button">Ir para Configurações</string>
   <string name="configuration_missing">Seu servidor openHAB não pôde ser descoberto automaticamente. Por favor, configure seu nome de host ou endereço IP nas configurações do servidor.</string>
@@ -179,12 +155,15 @@
   <string name="swipe_to_refresh_description">A aplicação também atualiza automaticamente, normalmente não necessita fazer manualmente</string>
   <string name="swipe_to_refresh_dismiss">Entendido!</string>
   <!-- Intro strings -->
+  <string name="app_intro">Introdução</string>
+  <string name="intro_welcome">Bem-vindo ao openHAB</string>
+  <string name="intro_whatis">Um software agnóstico e fornecedor de automatização de software aberto para a sua casa</string>
+  <string name="intro_themes">Temas</string>
+  <string name="intro_themes_description">Escolha entre vários temas</string>
+  <string name="intro_voice_description">Controle sua casa com a sua voz</string>
+  <string name="intro_nfc">NFC</string>
   <!-- Intro "SKIP" button -->
   <string name="app_intro_skip_button">Pular</string>
   <!-- Intro "DONE" button -->
   <string name="app_intro_done_button">Concluído</string>
-  <string name="intro_voice_description">Controle sua casa com a sua voz</string>
-  <string name="intro_nfc">NFC</string>
-  <string name="intro_nfc_description">O controle de item pode ser vinculado a tags NFC pressionando por um longo tempo</string>
-  <string name="error_cleartext_not_permitted">HTTP não é permitido para este servidor</string>
 </resources>
