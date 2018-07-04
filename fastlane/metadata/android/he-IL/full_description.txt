@@ -2,7 +2,7 @@ openHAB - "העצמת הבית החכם" - פרוייקט קוד פתוח לבי
 
 תוכנות עבור F-Droid מכילות תצוגת מיפוי, GCM ודיווחי שגיאה על התרסקות הוסרו ולא יוכלו לקבל התראות בדחיפה מענן openHAB.
 נסה תכונות חדשות וספר לנו מה דעתך!
-You can install the beta version alongside the 
+You can install the beta version alongside the <a href="https://f-droid.org/packages/org.openhab.habdroid/">stable version</a>.
 
 <b>הערה חשובה</b>
 

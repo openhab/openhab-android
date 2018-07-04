@@ -2,7 +2,7 @@ openHAB - "empowering the smart home" - szállító és technológia független 
 
 A F-Droidra készült példány tartalmaz map nézetet is, GCM és hibajelentés el lett belőle távolítva és nem képes push értesítések fogadására az openHAB felhőről.
 Próbáld ki az új funkciókat és adj korai visszajelzést!
-You can install the beta version alongside the 
+You can install the beta version alongside the <a href="https://f-droid.org/packages/org.openhab.habdroid/">stable version</a>.
 
 <b>Fontos megjegyzés</b>
 
