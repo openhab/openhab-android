@@ -9,7 +9,6 @@
   <!-- Main menu items -->
   <string name="mainmenu_openhab_sitemaps">Sitemaps</string>
   <string name="mainmenu_openhab_preferences">Настройки</string>
-  <string name="mainmenu_openhab_selectsitemap">Выбрать sitemap по умолчанию</string>
   <string name="mainmenu_openhab_clearcache">Очистить кэш изображений</string>
   <!-- App settings strings -->
   <string name="settings_connection_title">Параметры подключения</string>
@@ -40,9 +39,6 @@
   <string name="settings_chart_scaling_value_m">По умолчанию</string>
   <string name="settings_chart_scaling_value_l">Большой</string>
   <string name="settings_ringtone">Звук уведомления</string>
-  <string name="settings_clear_default_sitemap">Очистить sitemap по умолчанию</string>
-  <string name="settings_no_default_sitemap">Sitemap по умолчанию не выбран</string>
-  <string name="settings_current_default_sitemap">Текущий sitemap по умолчанию: %1$s</string>
   <string name="settings_openhab_alt_connection">Удаленный сервер</string>
   <string name="settings_openhab_connection">Локальный сервер</string>
   <string name="settings_notification_vibration">Вибрация при уведомлениях</string>
@@ -58,32 +54,20 @@
   <string name="info_conn_url">Подключение к локальному URL</string>
   <string name="info_conn_rem_url">Подключение к удаленному URL</string>
   <!-- Error messages -->
-  <string name="error_empty_sitemap_list">openHAB вернул пустой список sitemap</string>
   <string name="error_network_not_available">Сеть недоступна</string>
-  <string name="error_http_connection_failed">Ошибка подключения. Получен неверный ответ от openHAB. Пожалуйста, проверьте, работает ли openHAB правильно (код ответа HTTP %d)</string>
   <string name="error_invalid_url">Пожалуйста, укажите правильный URL в формате \'http(s)://хост(:порт)/\'</string>
   <string name="error_connection_failed">Ошибка подключения к хосту</string>
   <string name="error_unable_to_resolve_hostname">Не удалось разрешить имя хоста</string>
   <string name="error_connection_sslhandshake_failed">Ошибка SSL соединения</string>
-  <string name="error_certificate_not_trusted">SSL-сертификат не является доверенным. Пожалуйста импортируйте корневой сертификат или подтвердите его во время SSL подключения</string>
-  <string name="error_certificate_expired">Сертификат SSL истек. Получите новый сертификат или отключите проверку подлинности во время SSL подключения</string>
-  <string name="error_certificate_not_valid_yet">Сертификат SSL недопустим. Получите корректный сертификат или отключите его проверку. Также проверьте, правильно ли установлены часы и часовой пояс на вашем устройстве</string>
-  <string name="error_certificate_revoked">Сертификат SSL отклонен. Получите новый сертификат или отключите его проверку</string>
   <string name="error_certificate_wrong_host">SSL сертификат не действителен для %s</string>
-  <string name="error_http_code_401">Ошибка аутентификации пользователя. Проверьте имя пользователя, пароль и сертификат клиента SSL (код ответа HTTP 401)</string>
-  <string name="error_http_code_403">Ошибка аутентификации пользователя. Проверьте имя пользователя, пароль и сертификат клиента SSL (код ответа HTTP 403)</string>
-  <string name="error_http_code_407">Ошибка аутентификации пользователя. Проверьте имя пользователя, пароль и сертификат клиента SSL (код ответа HTTP 407)</string>
-  <string name="error_http_code_414">URL-адрес openHAB слишком длинный. Пожалуйста используйте IP-адрес или сократите URL (код ответа HTTP 414)</string>
-  <string name="error_http_code_426">Требуется HTTPS. Измените URL адрес openHAB (код ответа HTTP 426)</string>
   <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
-  <string name="error_http_code_495">Ошибка авторизации. Неверный сертификат клиента SSL (код ответа HTTP 495)</string>
   <string name="error_http_code_496">Требуется сертификат SSL-клиента (код ответа HTTP 496)</string>
   <string name="error_http_code_502">Ваш прокси получил неверный ответ от openHAB (код ответа HTTP 502)</string>
   <string name="error_http_code_503">openHAB временно недоступен (код ответа HTTP 503)</string>
-  <string name="error_http_code_504">Тайм-аут шлюза. Кажется, что ваш обратный прокси работает, но не смог получить ответ от сервера openHAB (код ответа HTTP 504)</string>
   <string name="error_http_code_507">Серверу openHAB недостаточно свободного места (код ответа HTTP 507)</string>
   <string name="error_http_code_511">Требуется сетевая аутентификация (код ответа HTTP 511)</string>
   <string name="error_about_no_conn">Ошибка при получении данных с сервера openHAB</string>
+  <string name="error_cleartext_not_permitted">Запросы HTTP не допустимы для этого сервера</string>
   <string name="title_activity_openhabwritetag">Запись NFC tag</string>
   <string name="title_activity_libraries">Используемые библиотеки</string>
   <string name="info_write_tag">Прикоснитесь к тегу и удерживайте его, пока не появится сообщение подтверждения</string>
@@ -105,8 +89,6 @@
   <string name="list_loading_message">Загрузка\u2026</string>
   <!-- Strings for MemorizingTrustManager activity -->
   <string name="mtm_accept_cert">Принять неизвестный сертификат?</string>
-  <string name="mtm_trust_anchor">Сертификат не подписан авторизованным центром сертификации.</string>
-  <string name="mtm_cert_expired">Срок действия сертификата истёк.</string>
   <string name="mtm_accept_servername">Имя сервера не совпадает. Принять?</string>
   <string name="mtm_hostname_mismatch">Сервер не может проверить подлинность как \&quot;%s\&quot;. Сертификат действителен только для:</string>
   <string name="mtm_connect_anyway">Все равно подключиться?</string>
@@ -130,7 +112,6 @@
   <string name="nfc_action_toggle">Переключить</string>
   <string name="nfc_activate">Включить</string>
   <string name="nfc_action_current_color">Текущий цвет</string>
-  <string name="nfc_action_to_sitemap_page">Перейти на страницу sitemap</string>
   <!-- Drawer -->
   <string name="drawer_open">Отображение Sitemap открыто</string>
   <string name="drawer_close">Отображение Sitemap закрыто</string>
@@ -156,11 +137,6 @@
   <string name="set">Установить</string>
   <string name="cancel">Отменить</string>
   <string name="close">Закрыть</string>
-  <string name="app_intro">Введение</string>
-  <string name="intro_welcome">Добро пожаловать в openHAB</string>
-  <string name="intro_whatis">Поставщик технологий с открытым исходным кодом для автоматизации \"умного дома\"</string>
-  <string name="intro_themes">Темы</string>
-  <string name="intro_themes_description">Переключение между разными темами</string>
   <string name="try_again_button">Попробуйте снова</string>
   <string name="go_to_settings_button">Перейти к настройкам</string>
   <string name="configuration_missing">Ваш сервер openHAB не был обнаружен автоматически. Пожалуйста, настройте его IP адрес или имя хоста в настройках сервера.</string>
@@ -179,12 +155,15 @@
   <string name="swipe_to_refresh_description">Приложение также обновляется автоматически, обычно нет необходимости делать это вручную</string>
   <string name="swipe_to_refresh_dismiss">Ясно!</string>
   <!-- Intro strings -->
+  <string name="app_intro">Введение</string>
+  <string name="intro_welcome">Добро пожаловать в openHAB</string>
+  <string name="intro_whatis">Поставщик технологий с открытым исходным кодом для автоматизации \"умного дома\"</string>
+  <string name="intro_themes">Темы</string>
+  <string name="intro_themes_description">Переключение между разными темами</string>
+  <string name="intro_voice_description">Управляйте домом своим голосом</string>
+  <string name="intro_nfc">NFC</string>
   <!-- Intro "SKIP" button -->
   <string name="app_intro_skip_button">ПРОПУСТИТЬ</string>
   <!-- Intro "DONE" button -->
   <string name="app_intro_done_button">ГОТОВО</string>
-  <string name="intro_voice_description">Управляйте домом своим голосом</string>
-  <string name="intro_nfc">NFC</string>
-  <string name="intro_nfc_description">Элемент управления может быть привязан к NFC тегам долгим нажатием на этот элемент</string>
-  <string name="error_cleartext_not_permitted">Запросы HTTP не допустимы для этого сервера</string>
 </resources>
