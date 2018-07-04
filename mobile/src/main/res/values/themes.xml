@@ -76,6 +76,16 @@
         <item name="valueColors">@array/valueColorsDarkBackground</item>
     </style>
 
+    <style name="Theme.AppCompat.TranslucentBase">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowAnimationStyle">@null</item>
+    </style>
+
+    <style name="Theme.AppCompat.Translucent" parent="Theme.AppCompat.TranslucentBase" />
+
     <!-- Default theme -->
     <style name="HABDroid.Light" parent="openHAB.Common.Bright">
         <item name="colorPrimary">@color/openhab_orange</item>

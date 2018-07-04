@@ -57,6 +57,8 @@ public abstract class OpenHABItem implements Parcelable {
     public abstract boolean readOnly();
     public abstract List<OpenHABItem> members();
     @Nullable
+    public abstract List<OpenHABLabeledValue> options();
+    @Nullable
     public abstract String state();
     public abstract boolean stateAsBoolean();
     public abstract float stateAsFloat();
@@ -80,6 +82,7 @@ public abstract class OpenHABItem implements Parcelable {
         public abstract Builder link(@Nullable String link);
         public abstract Builder readOnly(boolean readOnly);
         public abstract Builder members(List<OpenHABItem> members);
+        public abstract Builder options(@Nullable List<OpenHABLabeledValue> options);
 
         public OpenHABItem build() {
             String state = state();
@@ -250,6 +253,19 @@ public abstract class OpenHABItem implements Parcelable {
                 ? stateDescription.optBoolean("readOnly", false)
                 : false;
 
+        List<OpenHABLabeledValue> options = null;
+        if (stateDescription != null && stateDescription.has("options")) {
+            JSONArray optionsJson = stateDescription.getJSONArray("options");
+            options = new ArrayList<>();
+            for (int i = 0; i < optionsJson.length(); i++) {
+                JSONObject optionJson = optionsJson.getJSONObject(i);
+                options.add(OpenHABLabeledValue.newBuilder()
+                        .value(optionJson.getString("value"))
+                        .label(optionJson.getString("label"))
+                        .build());
+            }
+        }
+
         List<OpenHABItem> members = new ArrayList<>();
         JSONArray membersJson = jsonObject.optJSONArray("members");
         if (membersJson != null) {
@@ -265,6 +281,7 @@ public abstract class OpenHABItem implements Parcelable {
                 .label(jsonObject.optString("label", name))
                 .link(jsonObject.optString("link", null))
                 .members(members)
+                .options(options)
                 .state(state)
                 .readOnly(readOnly);
     }
