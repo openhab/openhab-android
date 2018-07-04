@@ -9,7 +9,6 @@
   <!-- Main menu items -->
   <string name="mainmenu_openhab_sitemaps">Sitemaps</string>
   <string name="mainmenu_openhab_preferences">Configuración</string>
-  <string name="mainmenu_openhab_selectsitemap">Seleccionar el sitemap por defecto</string>
   <string name="mainmenu_openhab_clearcache">Borrar la caché de imágenes</string>
   <!-- App settings strings -->
   <string name="settings_openhab_username">Nombre de usuario</string>
@@ -29,7 +28,6 @@
   <string name="info_conn_url">Conectando a la URL local</string>
   <string name="info_conn_rem_url">Conectando a la URL remota</string>
   <!-- Error messages -->
-  <string name="error_empty_sitemap_list">openHAB devolvió una lista de sitemaps vacía</string>
   <string name="error_network_not_available">La conexión de red no está disponible</string>
   <string name="error_connection_failed">Ha fallado la conexión con el host</string>
   <string name="error_unable_to_resolve_hostname">No se puede resolver el nombre de host</string>
@@ -66,12 +64,12 @@
   <string name="error_network_type_unsupported">El tipo de red (%s) no está soportado</string>
   <string name="set">Establecer</string>
   <string name="cancel">Cancelar</string>
+  <!-- Content description for images -->
+  <!-- Intro strings -->
   <string name="intro_welcome">Bienvenido a openHAB</string>
   <string name="intro_whatis">Software de automatización de código abierto para tu hogar sin importar vendedores ni tecnologías</string>
   <string name="intro_themes">Temas</string>
   <string name="intro_themes_description">Elegir entre varios temas</string>
-  <!-- Content description for images -->
-  <!-- Intro strings -->
   <!-- Intro "SKIP" button -->
   <!-- Intro "DONE" button -->
 </resources>
