@@ -16,7 +16,7 @@
     <empty_point>• ...</empty_point>
 
     <oss_community>Сообщество Open Source</oss_community>
-    <forum>Сообщество openHAB строго придерживается принципов Open Source. Форум, с более чем 13 000 зарегистрированных пользователей, это место, где можно найти рекомендации, помощь и идеи для новых решений. Присоединяйтесь к сообществу openHAB на https://community.openhab.org</forum>
+    <forum>Сообщество openHAB строго придерживается принципов Open Source. Форум, с более чем 13 000 зарегистрированных пользователей - это место, где можно найти рекомендации, помощь и идеи для новых решений. Присоединяйтесь к сообществу openHAB на https://community.openhab.org</forum>
 
     <report_issues>Если вы найдете ошибку, пожалуйста, сообщите об этом на форуме или на https://github.com/openhab/openhab-android/issues</report_issues>
     <translation>Если Вы хотите перевести приложение на свой язык - присоединяйтесь к нам на https://crowdin.com/project/openhab-android</translation>
