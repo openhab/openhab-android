@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <strings>
-    <intro>openHAB - "Empowering the Smart Home" - открытое ПО для автоматизации "умного дома", не зависящая от производителей и технологий</intro>
-    <whatis>openHAB - это платформа домашней автоматизации с открытым исходным кодом основанная на Java и интегрирующая в себе большое количество систем "умного дома" в единое решение.</whatis>
+    <intro>openHAB - "Empowering the Smart Home" - открытое ПО для автоматизации "умного дома", не зависящее от производителей и технологий</intro>
+    <whatis>openHAB - это платформа домашней автоматизации с открытым исходным кодом, основанная на Java и интегрирующая в себе большое количество систем "умного дома" в единое решение.</whatis>
     <rules>На верхнем уровне абстракции все подключенные устройства доступны для правил автоматизации и различных пользовательских интерфейсов.</rules>
     <supported>Поддерживаемые продукты</supported>
     <bindings>Более 200 надстроек обеспечивают поддержку устройств, технологий и протоколов связи различных производителей. Для примера: Z-Wave, Philips Hue, Amazon Echo, Chromecast и Sonos. Доступные дополнения для устройств и дополнительного функционала можно найти по адресу https://www.openhab.org/addons/</bindings>
@@ -26,7 +26,7 @@
     <oh_server>Для этого приложения необходим сервер openHAB</oh_server>
     <short_description>Поставщик технологий с открытым исходным кодом для автоматизации "умного дома"</short_description>
     <fdroid>Версия для F-Droid поддерживает просмотр карт. GCM и отчёты о сбоях удалены. Приложение не будет получать уведомления от openHub Cloud.</fdroid>
-    <fdroid_beta><![CDATA[]]></fdroid_beta>
+    <fdroid_beta><![CDATA[Вы можете установить бета версию параллельно со <a href="https://f-droid.org/packages/org.openhab.habdroid/">стабильной версией</a>.]]></fdroid_beta>
     <fdroid_privacy_policy>Политика конфиденциальности: https://www.openhabfoundation.org/privacy</fdroid_privacy_policy>
     <fdroid_anti_features>AntiFeatures</fdroid_anti_features>
     <fdroid_anti_features_text>Приложение помечено флагом «NonFreeAsset», поскольку логотип openHAB не является свободно используемым.</fdroid_anti_features_text>
