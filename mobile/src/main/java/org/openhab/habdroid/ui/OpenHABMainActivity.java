@@ -107,14 +107,13 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import de.duenndns.ssl.MTMDecision;
-import de.duenndns.ssl.MemorizingTrustManager;
 import okhttp3.Call;
 import okhttp3.Headers;
 import okhttp3.Request;
 
+import static org.openhab.habdroid.ui.OpenHABPreferencesActivity.START_EXTRA_OPENHAB_VERSION;
 import static org.openhab.habdroid.util.Util.exceptionHasCause;
-import static org.openhab.habdroid.util.Util.removeProtocolFromUrl;
+import static org.openhab.habdroid.util.Util.getHostFromUrl;
 
 public class OpenHABMainActivity extends AppCompatActivity implements
         AsyncServiceResolver.Listener, ConnectionFactory.UpdateListener {
@@ -590,6 +589,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
                     case R.id.settings:
                         Intent settingsIntent = new Intent(OpenHABMainActivity.this,
                                 OpenHABPreferencesActivity.class);
+                        settingsIntent.putExtra(START_EXTRA_OPENHAB_VERSION, getOpenHABVersion());
                         startActivityForResult(settingsIntent, SETTINGS_REQUEST_CODE);
                         return true;
                     case R.id.about:
@@ -1074,7 +1074,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
                 message = getString(R.string.error_certificate_revoked);
             } else if (exceptionHasCause(error, SSLPeerUnverifiedException.class)) {
                 message = String.format(getString(R.string.error_certificate_wrong_host),
-                        removeProtocolFromUrl(request.url().toString()));
+                        getHostFromUrl(request.url().toString()));
             } else {
                 message = getString(R.string.error_connection_sslhandshake_failed);
             }
