@@ -392,7 +392,8 @@ public class PageConnectionHolderFragment extends Fragment {
                 for (int i = 0; i < mLastWidgetList.size(); i++) {
                     OpenHABWidget widget = mLastWidgetList.get(i);
                     if (widgetId.equals(widget.id())) {
-                        OpenHABWidget updatedWidget = OpenHABWidget.updateFromEvent(widget, object);
+                        OpenHABWidget updatedWidget = OpenHABWidget.updateFromEvent(widget,
+                                object, mCallback.getIconFormat());
                         mLastWidgetList.set(i, updatedWidget);
                         mCallback.onWidgetUpdated(mUrl, updatedWidget);
                         return true;
