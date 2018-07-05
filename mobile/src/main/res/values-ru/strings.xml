@@ -39,6 +39,9 @@
   <string name="settings_chart_scaling_value_m">По умолчанию</string>
   <string name="settings_chart_scaling_value_l">Большой</string>
   <string name="settings_ringtone">Звук уведомления</string>
+  <string name="settings_clear_default_sitemap">Очистить sitemap по умолчанию</string>
+  <string name="settings_no_default_sitemap">Не выбран Sitemap по умолчанию</string>
+  <string name="settings_current_default_sitemap">Текущий sitemap по умолчанию: %1$s</string>
   <string name="settings_openhab_alt_connection">Удаленный сервер</string>
   <string name="settings_openhab_connection">Локальный сервер</string>
   <string name="settings_notification_vibration">Вибрация при уведомлениях</string>
@@ -54,16 +57,29 @@
   <string name="info_conn_url">Подключение к локальному URL</string>
   <string name="info_conn_rem_url">Подключение к удаленному URL</string>
   <!-- Error messages -->
+  <string name="error_empty_sitemap_list">openHAB вернул пустой список sitemap</string>
   <string name="error_network_not_available">Сеть недоступна</string>
+  <string name="error_http_connection_failed">Ошибка подключения. Получен неверный ответ от openHAB. Пожалуйста, проверьте, работает ли openHAB правильно (код ответа HTTP %d).</string>
   <string name="error_invalid_url">Пожалуйста, укажите правильный URL в формате \'http(s)://хост(:порт)/\'</string>
   <string name="error_connection_failed">Ошибка подключения к хосту</string>
   <string name="error_unable_to_resolve_hostname">Не удалось разрешить имя хоста</string>
   <string name="error_connection_sslhandshake_failed">Ошибка SSL соединения</string>
+  <string name="error_certificate_not_trusted">SSL-сертификат не является доверенным. Пожалуйста импортируйте корневой сертификат или подтвердите его во время SSL подключения.</string>
+  <string name="error_certificate_expired">Сертификат SSL истек. Получите новый сертификат или отключите проверку подлинности во время SSL подключения.</string>
+  <string name="error_certificate_not_valid_yet">Сертификат SSL недопустим. Получите корректный сертификат или отключите его проверку. Также проверьте, правильно ли установлены часы и часовой пояс на вашем устройстве.</string>
+  <string name="error_certificate_revoked">Сертификат SSL отклонен. Получите новый сертификат или отключите его проверку.</string>
   <string name="error_certificate_wrong_host">SSL сертификат не действителен для %s</string>
+  <string name="error_http_code_401">Ошибка аутентификации пользователя. Проверьте имя пользователя, пароль и сертификат клиента SSL (код ответа HTTP 401).</string>
+  <string name="error_http_code_403">Ошибка аутентификации пользователя. Проверьте имя пользователя, пароль и сертификат клиента SSL (код ответа HTTP 403).</string>
+  <string name="error_http_code_407">Ошибка аутентификации пользователя. Проверьте имя пользователя, пароль и сертификат клиента SSL (код ответа HTTP 407).</string>
+  <string name="error_http_code_414">URL-адрес openHAB слишком длинный. Пожалуйста используйте IP-адрес или сократите URL (код ответа HTTP 414).</string>
+  <string name="error_http_code_426">Требуется HTTPS. Измените URL-адрес openHAB (код ответа HTTP 426).</string>
   <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
+  <string name="error_http_code_495">Ошибка авторизации. Неверный сертификат клиента SSL (код ответа HTTP 495).</string>
   <string name="error_http_code_496">Требуется сертификат SSL-клиента (код ответа HTTP 496)</string>
   <string name="error_http_code_502">Ваш прокси получил неверный ответ от openHAB (код ответа HTTP 502)</string>
   <string name="error_http_code_503">openHAB временно недоступен (код ответа HTTP 503)</string>
+  <string name="error_http_code_504">Тайм-аут шлюза. Возможно, что ваш прокси-сервер работает, но не может получить ответ от сервера openHAB (код ответа HTTP 504).</string>
   <string name="error_http_code_507">Серверу openHAB недостаточно свободного места (код ответа HTTP 507)</string>
   <string name="error_http_code_511">Требуется сетевая аутентификация (код ответа HTTP 511)</string>
   <string name="error_about_no_conn">Ошибка при получении данных с сервера openHAB</string>
