@@ -182,9 +182,12 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
                         R.string.settings_current_default_sitemap, currentDefaultSitemapLabel));
             }
 
-            updateConnectionSummary(false);
-            updateConnectionSummary(true);
-
+            updateConnectionSummary(Constants.SUBSCREEN_LOCAL_CONNECTION,
+                    Constants.PREFERENCE_LOCAL_URL, Constants.PREFERENCE_LOCAL_USERNAME,
+                    Constants.PREFERENCE_LOCAL_PASSWORD);
+            updateConnectionSummary(Constants.SUBSCREEN_REMOTE_CONNECTION,
+                    Constants.PREFERENCE_REMOTE_URL, Constants.PREFERENCE_REMOTE_USERNAME,
+                    Constants.PREFERENCE_REMOTE_PASSWORD);
             updateRingtonePreferenceSummary(ringtonePreference, ringtonePreference
                     .getSharedPreferences().getString(Constants.PREFERENCE_TONE, ""));
 
@@ -298,19 +301,12 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
             }
         }
 
-        public void updateConnectionSummary(boolean isRemote) {
-            String subscreenPrefValue = isRemote ? Constants.SUBSCREEN_REMOTE_CONNECTION
-                    : Constants.SUBSCREEN_LOCAL_CONNECTION;
-            String urlPrefValue = isRemote ? Constants.PREFERENCE_REMOTE_URL
-                    : Constants.PREFERENCE_LOCAL_URL;
-            String userPrefValue = isRemote ? Constants.PREFERENCE_REMOTE_USERNAME
-                    : Constants.PREFERENCE_LOCAL_USERNAME;
-            String passwordPrefValue = isRemote ? Constants.PREFERENCE_REMOTE_PASSWORD
-                    : Constants.PREFERENCE_LOCAL_PASSWORD;
-            Preference pref = findPreference(subscreenPrefValue);
-            String url = pref.getSharedPreferences().getString(urlPrefValue, "");
-            String user = pref.getSharedPreferences().getString(userPrefValue, "");
-            String password = pref.getSharedPreferences().getString(passwordPrefValue, "");
+        public void updateConnectionSummary(String subscreenPrefKey, String urlPrefKey,
+                                            String userPrefKey, String passwordPrefKey) {
+            Preference pref = findPreference(subscreenPrefKey);
+            String url = pref.getSharedPreferences().getString(urlPrefKey, "");
+            String user = pref.getSharedPreferences().getString(userPrefKey, "");
+            String password = pref.getSharedPreferences().getString(passwordPrefKey, "");
             String summary;
             if (TextUtils.isEmpty(url)) {
                 summary = getString(R.string.info_not_set);
