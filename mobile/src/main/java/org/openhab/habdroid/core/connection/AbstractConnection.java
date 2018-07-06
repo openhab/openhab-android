@@ -34,8 +34,6 @@ public abstract class AbstractConnection implements Connection {
         this.connectionType = connectionType;
 
         asyncHttpClient = new AsyncHttpClient(httpClient, baseUrl, username, password);
-        asyncHttpClient.setTimeout(30000);
-
         syncHttpClient = new SyncHttpClient(httpClient, baseUrl, username, password);
     }
 

@@ -232,11 +232,9 @@ public class PageConnectionHolderFragment extends Fragment {
             }
 
             if (mLongPolling) {
-                mHttpClient.setTimeout(300000);
                 headers.put("X-Atmosphere-Transport", "long-polling");
             } else {
                 mAtmosphereTrackingId = null;
-                mHttpClient.setTimeout(10000);
             }
 
             headers.put("X-Atmosphere-Framework", "1.0");
@@ -246,7 +244,8 @@ public class PageConnectionHolderFragment extends Fragment {
             if (mRequestHandle != null) {
                 mRequestHandle.cancel();
             }
-            mRequestHandle = mHttpClient.get(mUrl, headers, this);
+            final long timeoutMillis = mLongPolling ? 300000 : 10000;
+            mRequestHandle = mHttpClient.get(mUrl, headers, timeoutMillis, this);
         }
 
         @Override
