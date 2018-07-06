@@ -58,4 +58,8 @@ public class CloudMessagingHelper {
             return R.string.info_openhab_gcm_connected;
         }
     }
+
+    public static boolean isSupported() {
+        return true;
+    }
 }

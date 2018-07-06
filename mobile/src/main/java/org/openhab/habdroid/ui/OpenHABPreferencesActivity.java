@@ -30,11 +30,11 @@ import android.text.TextUtils;
 import android.view.MenuItem;
 
 import org.openhab.habdroid.R;
+import org.openhab.habdroid.core.CloudMessagingHelper;
 import org.openhab.habdroid.util.CacheManager;
 import org.openhab.habdroid.util.Constants;
 import org.openhab.habdroid.util.Util;
 
-import static org.openhab.habdroid.ui.PrefHelper.removeUnsupportedPrefs;
 import static org.openhab.habdroid.util.Util.getHostFromUrl;
 
 /**
@@ -260,7 +260,14 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
                 fullscreenPreference.setSummary(R.string.settings_disabled_kitkat);
             }
 
-            removeUnsupportedPrefs(ps);
+            if (CloudMessagingHelper.isSupported()) {
+                ringtonePreference.setEnabled(false);
+                ringtonePreference.setSummary(R.string.info_openhab_notification_status_unavailable);
+                Preference vibrationPreference =
+                        ps.findPreference(Constants.PREFERENCE_NOTIFICATION_VIBRATION);
+                vibrationPreference.setEnabled(false);
+                vibrationPreference.setSummary(R.string.info_openhab_notification_status_unavailable);
+            }
 
             if (mOpenhabVersion == 1) {
                 Preference iconFormatPreference =
