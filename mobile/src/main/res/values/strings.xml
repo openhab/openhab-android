@@ -62,7 +62,7 @@
     <string name="settings_disabled_kitkat">Fullscreen is only available in Android 4.4 and above</string>
     <string name="settings_disabled_openhab_1">Preference isn\'t available for openHAB 1</string>
     <string name="settings_connection_summary">Connected to %s</string>
-    <string name="settings_insecure_connection_summary">Insecurly connected to %s</string>
+    <string name="settings_insecure_connection_summary">Insecurely connected to %s</string>
 
     <!-- App messages strings -->
     <string name="title_voice_widget">openHAB voice commands</string>
