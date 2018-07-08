@@ -19,7 +19,9 @@ import android.os.Build;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
+import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
+import android.preference.PreferenceGroup;
 import android.preference.PreferenceScreen;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
@@ -27,6 +29,7 @@ import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.MenuItem;
 
 import org.openhab.habdroid.R;
@@ -46,6 +49,7 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
     public static final String START_EXTRA_OPENHAB_VERSION = "openhab_version";
     private static final String STATE_KEY_RESULT = "result";
 
+    private static final String TAG = OpenHABPreferencesActivity.class.getSimpleName();
     private Intent mResultIntent;
     private static int mOpenhabVersion;
 
@@ -256,32 +260,57 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
 
             final PreferenceScreen ps = getPreferenceScreen();
 
-            // Fullscreen is not supoorted in Android < 4.4
             if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT) {
+                Log.d(TAG, "Removing fullscreen pref as device isn't running Kitkat or higher");
                 Preference fullscreenPreference = ps.findPreference(Constants.PREFERENCE_FULLSCREEN);
-                fullscreenPreference.setEnabled(false);
-                fullscreenPreference.setSummary(R.string.settings_disabled_kitkat);
+                getParent(fullscreenPreference).removePreference(fullscreenPreference);
             }
 
-            if (CloudMessagingHelper.isSupported()) {
-                ringtonePreference.setEnabled(false);
-                ringtonePreference.setSummary(R.string.info_openhab_notification_status_unavailable);
+            if (!CloudMessagingHelper.isSupported()) {
+                Log.d(TAG, "Removing full-only prefs");
+                getParent(ringtonePreference).removePreference(ringtonePreference);
                 Preference vibrationPreference =
                         ps.findPreference(Constants.PREFERENCE_NOTIFICATION_VIBRATION);
-                vibrationPreference.setEnabled(false);
-                vibrationPreference.setSummary(R.string.info_openhab_notification_status_unavailable);
+                getParent(vibrationPreference).removePreference(vibrationPreference);
             }
 
             if (mOpenhabVersion == 1) {
+                Log.d(TAG, "Removing prefs that aren't available in openHAB 1");
                 Preference iconFormatPreference =
                         ps.findPreference(Constants.PREFERENCE_ICON_FORMAT);
-                iconFormatPreference.setEnabled(false);
-                iconFormatPreference.setSummary(R.string.settings_disabled_openhab_1);
+                getParent(iconFormatPreference).removePreference(iconFormatPreference);
                 Preference chartScalingPreference =
                         ps.findPreference(Constants.PREFERENCE_CHART_SCALING);
-                chartScalingPreference.setEnabled(false);
-                chartScalingPreference.setSummary(R.string.settings_disabled_openhab_1);
+                getParent(chartScalingPreference).removePreference(chartScalingPreference);
             }
+        }
+
+        /**
+         * @author https://stackoverflow.com/a/17633389
+         */
+        private PreferenceGroup getParent(Preference preference)
+        {
+            return getParent(getPreferenceScreen(), preference);
+        }
+
+        /**
+         * @author https://stackoverflow.com/a/17633389
+         */
+        private PreferenceGroup getParent(PreferenceGroup root, Preference preference)
+        {
+            for (int i = 0; i < root.getPreferenceCount(); i++)
+            {
+                Preference p = root.getPreference(i);
+                if (p == preference)
+                    return root;
+                if (PreferenceGroup.class.isInstance(p))
+                {
+                    PreferenceGroup parent = getParent((PreferenceGroup)p, preference);
+                    if (parent != null)
+                        return parent;
+                }
+            }
+            return null;
         }
 
         private void onNoDefaultSitemap(Preference pref) {

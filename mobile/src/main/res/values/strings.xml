@@ -59,8 +59,6 @@
     <string name="settings_notification_vibration_value_short" translatable="false">short</string>
     <string name="settings_notification_vibration_value_long" translatable="false">long</string>
     <string name="settings_notification_vibration_value_twice" translatable="false">twice</string>
-    <string name="settings_disabled_kitkat">Fullscreen is only available in Android 4.4 and above</string>
-    <string name="settings_disabled_openhab_1">Preference isn\'t available for openHAB 1</string>
     <string name="settings_connection_summary">Connected to %s</string>
     <string name="settings_insecure_connection_summary">Insecurely connected to %s</string>
 
@@ -113,7 +111,6 @@
     <string name="info_openhab_uuid_label">openHAB UUID</string>
     <string name="info_openhab_secret_label">openHAB Secret</string>
     <string name="info_openhab_push_notification_label">Push notification status</string>
-    <string name="info_openhab_notification_status_unavailable">Not available in the FOSS version</string>
 
     <string name="action_settings">Settings</string>
     <string name="nfc_dialog_title">Write NFC tag action for this element</string>
