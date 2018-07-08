@@ -100,11 +100,6 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-    }
-
-    @Override
     public void finish() {
         super.finish();
         Util.overridePendingTransition(this, true);
