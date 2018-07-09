@@ -122,14 +122,12 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
         @Override
         public void onCreate(@Nullable Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
-
             updateAndInitPreferences();
         }
 
         @Override
         public void onStart() {
             super.onStart();
-
             getParentActivity().getSupportActionBar().setTitle(getTitleResId());
         }
 
@@ -151,6 +149,17 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
     }
 
     public static class MainSettingsFragment extends AbstractSettingsFragment {
+        @Override
+        public void onStart() {
+            super.onStart();
+            updateConnectionSummary(Constants.SUBSCREEN_LOCAL_CONNECTION,
+                    Constants.PREFERENCE_LOCAL_URL, Constants.PREFERENCE_LOCAL_USERNAME,
+                    Constants.PREFERENCE_LOCAL_PASSWORD);
+            updateConnectionSummary(Constants.SUBSCREEN_REMOTE_CONNECTION,
+                    Constants.PREFERENCE_REMOTE_URL, Constants.PREFERENCE_REMOTE_USERNAME,
+                    Constants.PREFERENCE_REMOTE_PASSWORD);
+        }
+
         @Override
         protected @StringRes
         int getTitleResId() {
