@@ -283,26 +283,24 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
         /**
          * @author https://stackoverflow.com/a/17633389
          */
-        private PreferenceGroup getParent(Preference preference)
-        {
+        private PreferenceGroup getParent(Preference preference) {
             return getParent(getPreferenceScreen(), preference);
         }
 
         /**
          * @author https://stackoverflow.com/a/17633389
          */
-        private PreferenceGroup getParent(PreferenceGroup root, Preference preference)
-        {
-            for (int i = 0; i < root.getPreferenceCount(); i++)
-            {
+        private PreferenceGroup getParent(PreferenceGroup root, Preference preference) {
+            for (int i = 0; i < root.getPreferenceCount(); i++) {
                 Preference p = root.getPreference(i);
-                if (p == preference)
+                if (p == preference) {
                     return root;
-                if (PreferenceGroup.class.isInstance(p))
-                {
+                }
+                if (p instanceof PreferenceGroup) {
                     PreferenceGroup parent = getParent((PreferenceGroup)p, preference);
-                    if (parent != null)
+                    if (parent != null) {
                         return parent;
+                    }
                 }
             }
             return null;
