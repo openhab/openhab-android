@@ -9,6 +9,7 @@
   <!-- Main menu items -->
   <string name="mainmenu_openhab_sitemaps">Sitemaps</string>
   <string name="mainmenu_openhab_preferences">Nastavení</string>
+  <string name="mainmenu_openhab_selectsitemap">Vyberte výchozí Sitemap</string>
   <string name="mainmenu_openhab_clearcache">Vyčistit vyrovnávací paměť obrázků</string>
   <!-- App settings strings -->
   <string name="settings_connection_title">Připojení</string>
@@ -32,29 +33,61 @@
   <string name="settings_openhab_icon_format">Formát ikon</string>
   <string name="settings_openhab_icon_format_png">Bitmapa</string>
   <string name="settings_openhab_icon_format_svg">Vektor</string>
+  <string name="settings_chart_scaling">Měřítko grafu</string>
+  <string name="settings_chart_scaling_summary">Poznámka: Menší měřítko zmenší písmo a šířky čar, takže je více místa pro graf, ale čitelnost písma se může zhoršit.</string>
+  <string name="settings_chart_scaling_value_xs">Velmi malé</string>
+  <string name="settings_chart_scaling_value_s">Malé</string>
+  <string name="settings_chart_scaling_value_m">Výchozí</string>
+  <string name="settings_chart_scaling_value_l">Velké</string>
+  <string name="settings_ringtone">Tón oznámení</string>
+  <string name="settings_clear_default_sitemap">Vymazat výchozí Sitemap</string>
+  <string name="settings_no_default_sitemap">Žádná výchozí Sitemap nebyla vybrána</string>
+  <string name="settings_current_default_sitemap">Aktuální výchozí Sitemap: %1$s</string>
   <string name="settings_openhab_alt_connection">Vzdálený</string>
   <string name="settings_openhab_connection">Lokální</string>
+  <string name="settings_notification_vibration">Vibrace</string>
+  <string name="settings_notification_vibration_off">Vypnuto</string>
+  <string name="settings_notification_vibration_short">Krátce</string>
+  <string name="settings_notification_vibration_long">Dlouze</string>
+  <string name="settings_notification_vibration_twice">Dvakrát</string>
   <!-- App messages strings -->
+  <string name="title_voice_widget">openHAB hlasové příkazy</string>
   <string name="info_voice_input">openHAB, k Vašim službám!</string>
   <string name="info_voice_recognized_text">Rozpoznán příkaz: %1$s</string>
   <string name="info_demo_mode_short">Spuštěno v ukázkovém režimu</string>
   <string name="info_conn_url">Připojuji se k lokální URL</string>
   <string name="info_conn_rem_url">Připojuji se ke vzdálené URL</string>
   <!-- Error messages -->
+  <string name="error_empty_sitemap_list">openHAB vrátil prázdný seznam Sitemap</string>
   <string name="error_network_not_available">Síť není k dispozici</string>
+  <string name="error_http_connection_failed">Připojení se nezdařilo. Byla přijata neočekávaná odpověď při pokusu o připojení k serveru openHAB (HTTP kód odpovědi: %d).</string>
   <string name="error_invalid_url">Zadejte platnou adresu URL ve formátu \'http(s)://host(:port) /\'</string>
   <string name="error_connection_failed">Připojení k serveru se nezdařilo</string>
   <string name="error_unable_to_resolve_hostname">Nelze zjistit název hostitele</string>
   <string name="error_connection_sslhandshake_failed">Ověření SSL metodou handshake se nezdařilo</string>
+  <string name="error_certificate_not_trusted">SSL certifikát není důvěryhodný. Importujte kořenový certifikát nebo akceptujte certifikát během SSL handshake.</string>
+  <string name="error_certificate_expired">Vypršela platnost certifikátu SSL. Získejte nový certifikát nebo akceptujte ověření certifikátu během SSL handshake.</string>
+  <string name="error_certificate_not_valid_yet">SSL certifikát ještě není platný. Získejte správný certifikát nebo akceptujte ověření certifikátu během ověření SSL metodou handshake. Také zkontrolujte, jestli je správně nastaven čas na vašem zařízení.</string>
+  <string name="error_certificate_revoked">Certifikát SSL byl odvolán. Získejte nový certifikát nebo akceptujte ověření certifikátu během SSL handshake.</string>
   <string name="error_certificate_wrong_host">Certifikát SSL není platný pro %s</string>
+  <string name="error_http_code_401">Ověření se nezdařilo. Zkontrolujte uživatelské jméno a heslo, případně klientský certifikát SSL (kód odpovědi HTTP 401).</string>
+  <string name="error_http_code_403">Ověření se nezdařilo. Zkontrolujte uživatelské jméno a heslo, případně klientský certifikát SSL (kód odpovědi HTTP 403).</string>
+  <string name="error_http_code_407">Ověření se nezdařilo. Zkontrolujte uživatelské jméno a heslo, případně klientský certifikát SSL (kód odpovědi HTTP 407).</string>
+  <string name="error_http_code_414">Adresa URL je příliš dlouhá. Použijte IP adresu a nebo kratší adresu URL (kód odpovědi HTTP 414).</string>
+  <string name="error_http_code_426">Vyžaduje se HTTPS. Změňte adresu URL (kód odpovědi HTTP 426).</string>
   <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
+  <string name="error_http_code_495">Ověření se nezdařilo. Zkontrolujte klientský certifikát SSL (kód odpovědi HTTP 495).</string>
   <string name="error_http_code_496">Vyžaduje se SSL certifikát (kód odpovědi HTTP 496)</string>
   <string name="error_http_code_502">Vaše reverse proxy obdržela chybnou odpověď ze serveru openHAB (kód odpovědi HTTP 502)</string>
   <string name="error_http_code_503">Server openHAB je dočasně nedostupný (kód odpovědi HTTP 503)</string>
+  <string name="error_http_code_504">Gateway time-out. Zdá se, že Vaše reverse proxy běží, ale nemůže získat odpověď od serveru openHAB (kód odpovědi HTTP 504).</string>
   <string name="error_http_code_507">Server openHAB má nedostatek volného místa (kód odpovědi HTTP 507)</string>
   <string name="error_http_code_511">Vyžaduje se síťové ověření (kód odpovědi HTTP 511)</string>
   <string name="error_about_no_conn">Chyba při získávání informací ze serveru openHAB</string>
+  <string name="error_cleartext_not_permitted">HTTP není na tomto serveru povoleno</string>
+  <string name="error_openhab_offline">Váš openHAB server je offline, zatímco cloud funguje</string>
   <string name="title_activity_openhabwritetag">Zapsat do NFC tagu</string>
+  <string name="title_activity_libraries">Použité knihovny</string>
   <string name="info_write_tag">Dotkněte se tagu a počkejte na potvrzovací zprávu</string>
   <string name="info_write_tag_progress">Zapisování do tagu</string>
   <string name="info_write_tag_finished">Úspěšně dokončeno</string>
@@ -69,10 +102,22 @@
   <string name="nfc_dialog_title">Zapsat akci do NFC tagu</string>
   <string name="info_not_set">Není nastaveno</string>
   <!-- Notification list strings -->
+  <string name="notification_list_empty">Zatím nebylo zaslané žádné oznámení</string>
+  <string name="notification_list_error">Při načítání oznámení došlo k chybě</string>
+  <string name="list_loading_message">Načítá se\u2026</string>
   <!-- Strings for MemorizingTrustManager activity -->
+  <string name="mtm_accept_cert">Akceptovat neznámý certifikát?</string>
+  <string name="mtm_trust_anchor">Certifikát serveru nebyl podepsán známou certifikační autoritou</string>
+  <string name="mtm_cert_expired">Certifikát serveru vypršel</string>
+  <string name="mtm_accept_servername">Přijmout neodpovídající jméno serveru?</string>
+  <string name="mtm_hostname_mismatch">Server se nemohl prokázat jako \&quot;%s\&quot; Certifikát je platný jen pro:</string>
+  <string name="mtm_connect_anyway">Chcete se i přesto připojit?</string>
+  <string name="mtm_cert_details">Detaily certifikátu:</string>
+  <string name="mtm_decision_always">Přijmout</string>
   <string name="mtm_decision_once">Jednou</string>
   <string name="mtm_decision_abort">Zrušit</string>
   <string name="mtm_notification">Ověření certifikátu</string>
+  <string name="settings_openhab_none">Žádný</string>
   <!-- Themes -->
   <string name="theme_name_light">Světlý</string>
   <string name="theme_name_dark">Tmavý</string>
@@ -87,6 +132,7 @@
   <string name="nfc_action_toggle">Přepnout</string>
   <string name="nfc_activate">Aktivovat</string>
   <string name="nfc_action_current_color">Současná barva</string>
+  <string name="nfc_action_to_sitemap_page">Přejít na stránku Sitemap</string>
   <!-- Drawer -->
   <string name="drawer_open">Boční menu Sitemap vysunuté</string>
   <string name="drawer_close">Boční menu Sitemap zasunuté</string>
@@ -95,6 +141,7 @@
   <string name="about_title">O aplikaci</string>
   <string name="about_license_title">Licence</string>
   <string name="about_changelog">Seznam změn</string>
+  <string name="about_source_code">Zdrojový kód</string>
   <string name="about_issues">Nahlásit problém</string>
   <string name="about_docs">Dokumentace</string>
   <string name="about_community_forum">Komunitní fórum</string>
@@ -102,6 +149,7 @@
   <string name="about_community">komunita openHAB</string>
   <string name="about_server">openHAB server</string>
   <string name="about_translation">Pomozte nám přeložit openHAB</string>
+  <string name="about_privacy_policy">Ochrana osobních údajů</string>
   <string name="settings_debug_messages_summary">Hesla se zobrazí jako prostý text!</string>
   <string name="settings_debug_messages_title">Zobrazit zprávy ladění</string>
   <string name="error_couldnt_determine_openhab_url">Nemohu najít URL adresu openHAB</string>
@@ -112,6 +160,8 @@
   <string name="close">Zavřít</string>
   <string name="try_again_button">Zkusit znovu</string>
   <string name="go_to_settings_button">Přejít do nastavení</string>
+  <string name="configuration_missing">Nepodařilo se automaticky nalézt openHAB server. V nastavení serveru nakonfigurujte jeho IP adresu nebo název hostitele.</string>
+  <string name="no_remote_server">Připojení k místní síti je nedostupné a vzdálený server nemáte nastavený</string>
   <string name="resolving_openhab">Hledám openHAB server\u2026</string>
   <!-- Content description for images -->
   <string name="content_description_open_roller_shutter">Otevřít ovládání rolet</string>
@@ -123,6 +173,7 @@
   <string name="content_description_open_number_picker">Otevřít výběr čísla</string>
   <string name="content_description_video">Video</string>
   <string name="content_description_open_openhab">Spustit openHAB</string>
+  <string name="swipe_to_refresh_description">Aplikace se aktualizuje automaticky, obvykle není třeba to dělat ručně</string>
   <string name="swipe_to_refresh_dismiss">Rozumím!</string>
   <!-- Intro strings -->
   <string name="app_intro">Úvod</string>
@@ -130,6 +181,9 @@
   <string name="intro_whatis">Open source program pro domácí automatizaci</string>
   <string name="intro_themes">Motivy vzhledu</string>
   <string name="intro_themes_description">Vyberte si mezi několika motivy</string>
+  <string name="intro_voice_description">Ovládejte svůj domov hlasem</string>
+  <string name="intro_nfc">NFC</string>
+  <string name="intro_nfc_description">Ovládání Item můžete přiřadit k NFC tagu dlouhým podržením Item</string>
   <!-- Intro "SKIP" button -->
   <string name="app_intro_skip_button">PŘESKOČIT</string>
   <!-- Intro "DONE" button -->
