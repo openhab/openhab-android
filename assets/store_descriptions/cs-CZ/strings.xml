@@ -28,8 +28,8 @@
     <fdroid>F-Droid podporuje zobrazení mapy, GCM a notifikace byly odebrány a tedy nelze přijímat push notifikace z openHAB cloudu.</fdroid>
     <fdroid_beta><![CDATA[Můžete nainstalovat beta verzi vedle <a href="https://f-droid.org/packages/org.openhab.habdroid/">stabilní verze</a>.]]></fdroid_beta>
     <fdroid_privacy_policy>Ochrana osobních údajů: https://www.openhabfoundation.org/privacy</fdroid_privacy_policy>
-    <fdroid_anti_features/>
-    <fdroid_anti_features_text/>
-    <beta/>
-    <play_beta/>
+    <fdroid_anti_features>Potenciálně nechtěné vlastnosti</fdroid_anti_features>
+    <fdroid_anti_features_text>Aplikace je označena příznakem "NonFreeAsset", protože openHAB ikona není k dispozici pod svobodnou licencí.</fdroid_anti_features_text>
+    <beta>Vyzkoušejte nové funkce a dejte nám zpětnou vazbu!</beta>
+    <play_beta>Vedle stabilní verze můžete nainstalovat i beta verzi.</play_beta>
 </strings>
