@@ -338,12 +338,14 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
             String url = pref.getSharedPreferences().getString(urlPrefKey, "");
             String user = pref.getSharedPreferences().getString(userPrefKey, "");
             String password = pref.getSharedPreferences().getString(passwordPrefKey, "");
+            String clientCert = pref.getSharedPreferences().getString(Constants.PREFERENCE_SSLCLIENTCERT, "");
             String summary;
             if (TextUtils.isEmpty(url)) {
                 summary = getString(R.string.info_not_set);
             } else {
-                if (url.startsWith("https://") && ! TextUtils.isEmpty(user)
-                        && ! TextUtils.isEmpty(password)) {
+                if (url.startsWith("https://") &&
+                        (( ! TextUtils.isEmpty(user) && ! TextUtils.isEmpty(password))
+                        || ! TextUtils.isEmpty(clientCert))) {
                     summary = getString(R.string.settings_connection_summary,
                             beautifyUrl(getHostFromUrl(url)));
                 } else {
