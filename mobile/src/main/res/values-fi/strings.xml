@@ -150,8 +150,6 @@
   <string name="about_server">openHAB palvelin</string>
   <string name="about_translation">Auta meitä kääntämään openHAB</string>
   <string name="about_privacy_policy">Tietosuojakäytäntö</string>
-  <string name="settings_debug_messages_summary">Salasanat näkyvät salaamattomana tekstinä!</string>
-  <string name="settings_debug_messages_title">Näytä debug viestit</string>
   <string name="error_couldnt_determine_openhab_url">openHAB palvelimen URL osoitetta ei löytynyt</string>
   <string name="unknown">Tuntematon</string>
   <string name="error_network_type_unsupported">Verkon tyyppi (%s) ei tuettu</string>
