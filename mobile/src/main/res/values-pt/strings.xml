@@ -81,8 +81,6 @@
   <!-- About -->
   <string name="about_title">Sobre</string>
   <string name="about_license_title">Licença</string>
-  <string name="settings_debug_messages_summary">As senhas serão mostradas em texto não criptografado!</string>
-  <string name="settings_debug_messages_title">Mostrar mensagens de depuração</string>
   <string name="error_couldnt_determine_openhab_url">Não consegui determinar o URL openHAB</string>
   <string name="unknown">Desconhecido</string>
   <string name="error_network_type_unsupported">Tipo de rede (%s) não suportado</string>
