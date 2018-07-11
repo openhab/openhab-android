@@ -332,7 +332,7 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
             }
         }
 
-        public void updateConnectionSummary(String subscreenPrefKey, String urlPrefKey,
+        private void updateConnectionSummary(String subscreenPrefKey, String urlPrefKey,
                                             String userPrefKey, String passwordPrefKey) {
             Preference pref = findPreference(subscreenPrefKey);
             String url = pref.getSharedPreferences().getString(urlPrefKey, "");
