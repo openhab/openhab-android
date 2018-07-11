@@ -1,0 +1,13 @@
+<!--
+  * Copyright (c) 2010-2018, openHAB.org and others.
+  *
+  * All rights reserved. This program and the accompanying materials are made available under the
+  * terms of the Eclipse Public License v1.0 which accompanies this distribution, and is available
+  * at https://www.eclipse.org/legal/epl-v10.html
+  -->
+
+<vector android:height="24dp" android:tint="#757575"
+    android:viewportHeight="24.0" android:viewportWidth="24.0"
+    android:width="24dp" xmlns:android="http://schemas.android.com/apk/res/android">
+    <path android:fillColor="#FF000000" android:pathData="M5,13h14v-2L5,11v2zM3,17h14v-2L3,15v2zM7,7v2h14L21,7L7,7z"/>
+</vector>

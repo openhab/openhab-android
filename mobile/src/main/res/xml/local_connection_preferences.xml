@@ -6,15 +6,18 @@
         android:inputType="textNoSuggestions"
         android:key="default_openhab_url"
         android:summary="@string/settings_openhab_url_summary"
-        android:title="@string/settings_openhab_url"/>
+        android:title="@string/settings_openhab_url"
+        android:icon="@drawable/ic_earth_grey_24dp"/>
     <EditTextPreference
         android:defaultValue="@string/empty_string"
         android:inputType="textNoSuggestions"
         android:key="default_openhab_username"
-        android:title="@string/settings_openhab_username"/>
+        android:title="@string/settings_openhab_username"
+        android:icon="@drawable/ic_person_grey_24dp"/>
     <EditTextPreference
         android:defaultValue="@string/empty_string"
         android:inputType="textPassword"
         android:key="default_openhab_password"
-        android:title="@string/settings_openhab_password"/>
+        android:title="@string/settings_openhab_password"
+        android:icon="@drawable/ic_security_grey_24dp"/>
 </PreferenceScreen>
