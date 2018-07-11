@@ -47,6 +47,7 @@
     <string name="settings_chart_scaling_value_m">Default</string>
     <string name="settings_chart_scaling_value_l">Large</string>
     <string name="settings_ringtone">Notification ringtone</string>
+    <string name="settings_ringtone_none">None</string>
     <string name="settings_clear_default_sitemap">Clear default Sitemap</string>
     <string name="settings_no_default_sitemap">No default Sitemap selected</string>
     <string name="settings_current_default_sitemap">Current default Sitemap: %1$s</string>
@@ -61,6 +62,8 @@
     <string name="settings_notification_vibration_value_short" translatable="false">short</string>
     <string name="settings_notification_vibration_value_long" translatable="false">long</string>
     <string name="settings_notification_vibration_value_twice" translatable="false">twice</string>
+    <string name="settings_connection_summary">Connected to %s</string>
+    <string name="settings_insecure_connection_summary">Insecurely connected to %s</string>
 
     <!-- App messages strings -->
     <string name="title_voice_widget">openHAB voice commands</string>

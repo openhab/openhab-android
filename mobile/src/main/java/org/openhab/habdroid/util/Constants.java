@@ -35,6 +35,7 @@ public class Constants {
     public static final String PREFERENCE_FIRST_START           = "firstStart";
     public static final String PREFERENCE_SWIPE_REFRESH_EXPLAINED = "swipToRefreshExplained";
     public static final String PREFERENCE_CHART_SCALING       = "chartScalingFactor";
+    public static final String PREFERENCE_ICON_FORMAT         = "iconFormatType";
 
     public static final String SUBSCREEN_LOCAL_CONNECTION     = "default_openhab_local_connection";
     public static final String SUBSCREEN_REMOTE_CONNECTION    = "default_openhab_remote_connection";

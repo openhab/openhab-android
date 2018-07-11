@@ -26,4 +26,8 @@ public class CloudMessagingHelper {
     public static @StringRes int getPushNotificationStatusResId() {
         return R.string.info_openhab_notification_status_unavailable;
     }
+
+    public static boolean isSupported() {
+        return false;
+    }
 }
