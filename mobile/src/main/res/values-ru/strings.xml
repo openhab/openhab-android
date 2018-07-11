@@ -150,8 +150,6 @@
   <string name="about_server">Сервер openHAB</string>
   <string name="about_translation">Помощь в переводе openHAB</string>
   <string name="about_privacy_policy">Политика конфиденциальности</string>
-  <string name="settings_debug_messages_summary">Пароль будет показан в открытом виде!</string>
-  <string name="settings_debug_messages_title">Показать отладочные сообщения</string>
   <string name="error_couldnt_determine_openhab_url">Не удалось определить адрес openHAB</string>
   <string name="unknown">Неизвестно</string>
   <string name="error_network_type_unsupported">Тип сети (%s) не поддерживается</string>
