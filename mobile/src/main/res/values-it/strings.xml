@@ -128,8 +128,6 @@
   <string name="about_server">server openHAB</string>
   <string name="about_translation">Aiutaci a tradurre openHAB</string>
   <string name="about_privacy_policy">Informativa sulla privacy</string>
-  <string name="settings_debug_messages_summary">Le password verranno mostrate in chiaro!</string>
-  <string name="settings_debug_messages_title">Visualizza messaggi di debug</string>
   <string name="error_couldnt_determine_openhab_url">Non trovo openHAB URL</string>
   <string name="unknown">Sconosciuto</string>
   <string name="error_network_type_unsupported">Tipo di rete (%s) non supportata</string>
