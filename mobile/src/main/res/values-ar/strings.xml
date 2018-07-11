@@ -103,8 +103,6 @@
   <string name="about_community">مجتمع openHAB</string>
   <string name="about_server">خادم openHAB</string>
   <string name="about_translation">ساعدنا في ترجمة openHAB</string>
-  <string name="settings_debug_messages_summary">سيتم إظهار كلمات المرور في نص واضح!</string>
-  <string name="settings_debug_messages_title">عرض رسائل تصحيح الأخطاء</string>
   <string name="error_couldnt_determine_openhab_url">لا يمكن تحديد عنوان openHAB</string>
   <string name="unknown">غير معروف</string>
   <string name="error_network_type_unsupported">نوع الشبكة (%s) غير مدعوم</string>
