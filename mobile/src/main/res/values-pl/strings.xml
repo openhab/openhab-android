@@ -101,8 +101,6 @@
   <string name="about_community">Społeczność openHAB</string>
   <string name="about_server">Serwer openHAB</string>
   <string name="about_translation">Pomóż nam tłumaczyć openHAB</string>
-  <string name="settings_debug_messages_summary">Hasła będą wyświetlane w postaci zwykłego tekstu!</string>
-  <string name="settings_debug_messages_title">Pokaż komunikaty debugowania</string>
   <string name="error_couldnt_determine_openhab_url">Nie można określić adresu URL openHAB</string>
   <string name="unknown">Nieznane</string>
   <string name="error_network_type_unsupported">Typ sieci (%s) nie jest wspierany</string>
