@@ -48,6 +48,9 @@
     <string name="settings_chart_scaling_value_l">Large</string>
     <string name="settings_ringtone">Notification ringtone</string>
     <string name="settings_ringtone_none">None</string>
+    <string name="settings_clear_default_sitemap">Clear default Sitemap</string>
+    <string name="settings_no_default_sitemap">No default Sitemap selected</string>
+    <string name="settings_current_default_sitemap">Current default Sitemap: %1$s</string>
     <string name="settings_openhab_alt_connection">Remote</string>
     <string name="settings_openhab_connection">Local</string>
     <string name="settings_notification_vibration">Notification vibration</string>
