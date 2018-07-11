@@ -80,8 +80,6 @@
   <!-- About -->
   <string name="about_title">Tentang</string>
   <string name="about_license_title">Izin</string>
-  <string name="settings_debug_messages_summary">Kata sandi akan ditampilkan dalam teks yang jelas!</string>
-  <string name="settings_debug_messages_title">Tampilkan pesan debug</string>
   <string name="error_couldnt_determine_openhab_url">Tidak dapat menentukan URL openHAB</string>
   <string name="unknown">Tidak diketahui</string>
   <string name="error_network_type_unsupported">Tipe jaringan (%s) tidak didukung</string>
