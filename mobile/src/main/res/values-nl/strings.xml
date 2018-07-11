@@ -102,8 +102,6 @@
   <string name="about_community">openHAB community</string>
   <string name="about_server">openHAB server</string>
   <string name="about_translation">Help ons met het vertalen van openHAB</string>
-  <string name="settings_debug_messages_summary">Wachtwoorden worden in leesbare tekst getoond!</string>
-  <string name="settings_debug_messages_title">Foutopsporingsberichten weergeven</string>
   <string name="error_couldnt_determine_openhab_url">openHAB URL kon niet worden vastgesteld</string>
   <string name="unknown">Onbekend</string>
   <string name="error_network_type_unsupported">Netwerktype (%s) wordt niet ondersteund</string>
