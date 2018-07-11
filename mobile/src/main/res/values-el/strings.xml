@@ -102,8 +102,6 @@
   <string name="about_community">Κοινότητα openHAB</string>
   <string name="about_server">Διακομιστής openHAB</string>
   <string name="about_translation">Βοηθείστε μας να μεταφράσουμε το openHAB</string>
-  <string name="settings_debug_messages_summary">Οι κωδικοί θα εμφανιστούν σε απλό κείμενο!</string>
-  <string name="settings_debug_messages_title">Προβολή μηνυμάτων αποσφαλμάτωσης</string>
   <string name="error_couldnt_determine_openhab_url">Αδυναμία προσδιορισμού του openHAB URL</string>
   <string name="unknown">Άγνωστο</string>
   <string name="error_network_type_unsupported">Ο τύπος δικτύου (%s) δεν υποστηρίζεται</string>
