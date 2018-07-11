@@ -150,8 +150,6 @@
   <string name="about_server">שרת openHAB</string>
   <string name="about_translation">עזור לנו לתרגם את openHAB</string>
   <string name="about_privacy_policy">מדיניות פרטיות</string>
-  <string name="settings_debug_messages_summary">התווים בסיסמאות יוצגו כטקסט!</string>
-  <string name="settings_debug_messages_title">הצג הודעות לאיתור באגים</string>
   <string name="error_couldnt_determine_openhab_url">לא מצליח לאתר את הכתובת של openHAB</string>
   <string name="unknown">לא ידוע</string>
   <string name="error_network_type_unsupported">אין תמיכה בסוג הרשת (%s)</string>
