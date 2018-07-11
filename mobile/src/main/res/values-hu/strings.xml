@@ -150,8 +150,6 @@
   <string name="about_server">openHAB server</string>
   <string name="about_translation">Segíts nekünk az openHAB fordításában</string>
   <string name="about_privacy_policy">Adatvédelmi irányelvek</string>
-  <string name="settings_debug_messages_summary">Jelszavakat egyszerű szövegként jeleníti meg!</string>
-  <string name="settings_debug_messages_title">Hibakeresési üzenetek megjelenítése</string>
   <string name="error_couldnt_determine_openhab_url">openHAB URL nem található</string>
   <string name="unknown">Ismeretlen</string>
   <string name="error_network_type_unsupported">Hálózat típusa (%s) nem támogatott</string>
