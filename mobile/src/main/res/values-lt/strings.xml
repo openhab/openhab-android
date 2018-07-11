@@ -80,8 +80,6 @@
   <!-- About -->
   <string name="about_title">Apie</string>
   <string name="about_license_title">Licencija</string>
-  <string name="settings_debug_messages_summary">Slaptažodžiai bus rodomi atviru tekstu!</string>
-  <string name="settings_debug_messages_title">Rodyti derinimo žinutes</string>
   <string name="error_couldnt_determine_openhab_url">Nepavyko nustatyti openHAB URL</string>
   <string name="unknown">Nežinoma</string>
   <string name="error_network_type_unsupported">Tinklo tipas (%s) nepalaikomas</string>
