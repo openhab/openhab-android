@@ -178,6 +178,8 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
             final Preference clearDefaultSitemapPreference = getPreferenceScreen().findPreference
                     (Constants.PREFERENCE_CLEAR_DEFAULT_SITEMAP);
             final Preference ringtonePreference = getPreferenceScreen().findPreference(Constants.PREFERENCE_TONE);
+            final Preference vibrationPreference =
+                    getPreferenceScreen().findPreference(Constants.PREFERENCE_NOTIFICATION_VIBRATION);
 
             String currentDefaultSitemap = clearDefaultSitemapPreference.getSharedPreferences().getString(Constants
                     .PREFERENCE_SITEMAP_NAME, "");
@@ -198,6 +200,8 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
                     Constants.PREFERENCE_REMOTE_PASSWORD);
             updateRingtonePreferenceSummary(ringtonePreference, ringtonePreference
                     .getSharedPreferences().getString(Constants.PREFERENCE_TONE, ""));
+            updateVibrationPreferenceIcon(vibrationPreference, vibrationPreference
+                    .getSharedPreferences().getString(Constants.PREFERENCE_NOTIFICATION_VIBRATION, ""));
 
             subScreenLocalConn.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
@@ -262,9 +266,17 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
                 }
             });
 
+            vibrationPreference.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object newValue) {
+                    updateVibrationPreferenceIcon(preference, newValue);
+                    return true;
+                }
+            });
+
             final PreferenceScreen ps = getPreferenceScreen();
 
-            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT) {
+            /*if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT) {
                 Log.d(TAG, "Removing fullscreen pref as device isn't running Kitkat or higher");
                 Preference fullscreenPreference = ps.findPreference(Constants.PREFERENCE_FULLSCREEN);
                 getParent(fullscreenPreference).removePreference(fullscreenPreference);
@@ -286,7 +298,7 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
                 Preference chartScalingPreference =
                         ps.findPreference(Constants.PREFERENCE_CHART_SCALING);
                 getParent(chartScalingPreference).removePreference(chartScalingPreference);
-            }
+            }*/
         }
 
         /**
@@ -323,12 +335,23 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
         private void updateRingtonePreferenceSummary(Preference pref, Object newValue) {
             String value = (String) newValue;
             if (TextUtils.isEmpty(value)) {
+                pref.setIcon(R.drawable.ic_notifications_off_grey_24dp);
                 pref.setSummary(R.string.settings_ringtone_none);
             } else {
+                pref.setIcon(R.drawable.ic_notifications_active_grey_24dp);
                 Ringtone ringtone = RingtoneManager.getRingtone(getActivity(), Uri.parse(value));
                 if (ringtone != null) {
                     pref.setSummary(ringtone.getTitle(getActivity()));
                 }
+            }
+        }
+
+        private void updateVibrationPreferenceIcon(Preference pref, Object newValue) {
+            String value = (String) newValue;
+            if (value.equals(getString(R.string.settings_notification_vibration_value_off))) {
+                pref.setIcon(R.drawable.ic_smartphone_grey_24dp);
+            } else {
+                pref.setIcon(R.drawable.ic_vibration_grey_24dp);
             }
         }
 
