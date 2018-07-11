@@ -80,8 +80,6 @@
   <!-- About -->
   <string name="about_title">Hakkında</string>
   <string name="about_license_title">Lisans</string>
-  <string name="settings_debug_messages_summary">Şifreler açık bir metinde görüntülenecek!</string>
-  <string name="settings_debug_messages_title">Hata ayıklama mesajlarını göster</string>
   <string name="error_couldnt_determine_openhab_url">openHAB URL\'si belirlenemedi</string>
   <string name="unknown">Bilinmeyen</string>
   <string name="error_network_type_unsupported">(%s) Network tipi desteklenmiyor</string>
