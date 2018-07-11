@@ -150,8 +150,6 @@
   <string name="about_server">openHAB server</string>
   <string name="about_translation">Pomozte nám přeložit openHAB</string>
   <string name="about_privacy_policy">Ochrana osobních údajů</string>
-  <string name="settings_debug_messages_summary">Hesla se zobrazí jako prostý text!</string>
-  <string name="settings_debug_messages_title">Zobrazit zprávy ladění</string>
   <string name="error_couldnt_determine_openhab_url">Nemohu najít URL adresu openHAB</string>
   <string name="unknown">Neznámý</string>
   <string name="error_network_type_unsupported">Typ sítě (%s) není podporován</string>
