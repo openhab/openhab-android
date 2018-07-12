@@ -40,6 +40,7 @@
   <string name="settings_chart_scaling_value_m">ברירת מחדל</string>
   <string name="settings_chart_scaling_value_l">גדול</string>
   <string name="settings_ringtone">צליל התראה</string>
+  <string name="settings_ringtone_none">ללא</string>
   <string name="settings_clear_default_sitemap">נקה את הגדרת ברירת מחדל של תצורת המערכת</string>
   <string name="settings_no_default_sitemap">לא נבחרה תצורת מערכת ברירת מחדל</string>
   <string name="settings_current_default_sitemap">ברירת המחדל הנוכחית של תצורת המערכת: %1$s</string>
@@ -50,6 +51,8 @@
   <string name="settings_notification_vibration_short">קצר</string>
   <string name="settings_notification_vibration_long">ארוך</string>
   <string name="settings_notification_vibration_twice">כפול</string>
+  <string name="settings_connection_summary">מחובר ל- %s</string>
+  <string name="settings_insecure_connection_summary">חיבור לא מאובטח ל- %s</string>
   <!-- App messages strings -->
   <string name="title_voice_widget">פקודות קוליות של openHAB</string>
   <string name="info_voice_input">openHAB, לפקודתך!</string>
@@ -150,6 +153,7 @@
   <string name="about_server">שרת openHAB</string>
   <string name="about_translation">עזור לנו לתרגם את openHAB</string>
   <string name="about_privacy_policy">מדיניות פרטיות</string>
+  <string name="settings_debug_messages_title">הצג מידע לפתרון בעיות</string>
   <string name="error_couldnt_determine_openhab_url">לא מצליח לאתר את הכתובת של openHAB</string>
   <string name="unknown">לא ידוע</string>
   <string name="error_network_type_unsupported">אין תמיכה בסוג הרשת (%s)</string>
