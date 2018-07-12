@@ -40,6 +40,7 @@
   <string name="settings_chart_scaling_value_m">Alapértelmezett</string>
   <string name="settings_chart_scaling_value_l">Nagy</string>
   <string name="settings_ringtone">Értesítési csengőhang</string>
+  <string name="settings_ringtone_none">Nincs</string>
   <string name="settings_clear_default_sitemap">Alapértelmezett felületet eltávolítása</string>
   <string name="settings_no_default_sitemap">Nincs alapértelmezett felületet kiválasztva</string>
   <string name="settings_current_default_sitemap">Jelenlegi alapértelmezett felületet: %1$s</string>
@@ -50,6 +51,8 @@
   <string name="settings_notification_vibration_short">Rövid</string>
   <string name="settings_notification_vibration_long">Hosszú</string>
   <string name="settings_notification_vibration_twice">Kétszer</string>
+  <string name="settings_connection_summary">Csatlakoztatva a %s</string>
+  <string name="settings_insecure_connection_summary">Nembiztonságosan csatakoztatva a %s</string>
   <!-- App messages strings -->
   <string name="title_voice_widget">openHAB hangvezérlésére szolgáló parancsok</string>
   <string name="info_voice_input">openHAB, szolgálatodra!</string>
@@ -150,6 +153,7 @@
   <string name="about_server">openHAB server</string>
   <string name="about_translation">Segíts nekünk az openHAB fordításában</string>
   <string name="about_privacy_policy">Adatvédelmi irányelvek</string>
+  <string name="settings_debug_messages_title">Mutassa a hibaelhárítási információkat</string>
   <string name="error_couldnt_determine_openhab_url">openHAB URL nem található</string>
   <string name="unknown">Ismeretlen</string>
   <string name="error_network_type_unsupported">Hálózat típusa (%s) nem támogatott</string>
