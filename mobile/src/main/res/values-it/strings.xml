@@ -144,8 +144,8 @@
   <string name="content_description_stop_roller_shutter">Ferma tapparella</string>
   <string name="content_description_close_roller_shutter">Chiusura tapparella</string>
   <string name="content_description_open_color_wheel">Apri ruota dei colori</string>
-  <string name="content_description_color_up">On o ferma l\'automento luminosita\'</string>
-  <string name="content_description_color_down">Off o ferma l\'automento luminosita\'</string>
+  <string name="content_description_color_up">On o ferma l\'aumento luminosita\'</string>
+  <string name="content_description_color_down">Off o ferma l\'aumento luminosita\'</string>
   <string name="content_description_open_number_picker">Apri selezione numero</string>
   <string name="content_description_video">Video</string>
   <string name="content_description_open_openhab">Apri openHAB</string>
