@@ -301,7 +301,7 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
 
             final PreferenceScreen ps = getPreferenceScreen();
 
-            /*if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT) {
+            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT) {
                 Log.d(TAG, "Removing fullscreen pref as device isn't running Kitkat or higher");
                 Preference fullscreenPreference = ps.findPreference(Constants.PREFERENCE_FULLSCREEN);
                 getParent(fullscreenPreference).removePreference(fullscreenPreference);
@@ -323,7 +323,7 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
                 Preference chartScalingPreference =
                         ps.findPreference(Constants.PREFERENCE_CHART_SCALING);
                 getParent(chartScalingPreference).removePreference(chartScalingPreference);
-            }*/
+            }
         }
 
         /**
