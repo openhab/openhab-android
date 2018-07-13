@@ -40,6 +40,7 @@
   <string name="settings_chart_scaling_value_m">Standard</string>
   <string name="settings_chart_scaling_value_l">Groß</string>
   <string name="settings_ringtone">Benachrichtigungston</string>
+  <string name="settings_ringtone_none">Keiner</string>
   <string name="settings_clear_default_sitemap">Standard-Sitemap zurücksetzen</string>
   <string name="settings_no_default_sitemap">Keine Standard-Sitemap festgelegt</string>
   <string name="settings_current_default_sitemap">Aktuelle Standard-Sitemap: %1$s</string>
@@ -50,6 +51,8 @@
   <string name="settings_notification_vibration_short">Kurz</string>
   <string name="settings_notification_vibration_long">Lang</string>
   <string name="settings_notification_vibration_twice">Zweimal</string>
+  <string name="settings_connection_summary">Verbunden mit %s</string>
+  <string name="settings_insecure_connection_summary">Unsicher verbunden mit %s</string>
   <!-- App messages strings -->
   <string name="title_voice_widget">openHAB-Sprachbefehle</string>
   <string name="info_voice_input">openHAB, zu Ihren Diensten!</string>
