@@ -310,8 +310,6 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
             if (!CloudMessagingHelper.isSupported()) {
                 Log.d(TAG, "Removing full-only prefs");
                 getParent(ringtonePreference).removePreference(ringtonePreference);
-                Preference vibrationPreference =
-                        ps.findPreference(Constants.PREFERENCE_NOTIFICATION_VIBRATION);
                 getParent(vibrationPreference).removePreference(vibrationPreference);
             }
 
