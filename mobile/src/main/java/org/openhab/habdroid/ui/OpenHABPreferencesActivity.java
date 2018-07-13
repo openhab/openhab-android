@@ -10,6 +10,7 @@
 package org.openhab.habdroid.ui;
 
 import android.app.FragmentManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.Ringtone;
@@ -31,12 +32,14 @@ import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.TextureView;
 
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.core.CloudMessagingHelper;
 import org.openhab.habdroid.util.CacheManager;
 import org.openhab.habdroid.util.Constants;
 import org.openhab.habdroid.util.Util;
+import org.w3c.dom.Text;
 
 import static org.openhab.habdroid.util.Util.getHostFromUrl;
 
@@ -145,6 +148,28 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
 
         protected String getPreferenceString(String prefKey, String defValue) {
             return getPreferenceScreen().getSharedPreferences().getString(prefKey, defValue);
+        }
+
+        protected boolean isConnectionHttps(String url) {
+            return url.startsWith("https://");
+        }
+
+        protected boolean hasConnectionBasicAuthentication(String user, String password) {
+            return ! TextUtils.isEmpty(user) && ! TextUtils.isEmpty(password);
+        }
+
+        protected boolean hasClientCertificate() {
+            return ! TextUtils.isEmpty(getPreferenceScreen().findPreference(Constants.PREFERENCE_SSLCLIENTCERT)
+                    .getSharedPreferences().getString(Constants.PREFERENCE_SSLCLIENTCERT, ""));
+        }
+
+        protected boolean isConnectionSecure(String url, String user, String password) {
+            return isConnectionHttps(url) &&
+                    (hasConnectionBasicAuthentication(user, password) || hasClientCertificate());
+        }
+
+        protected boolean isWeakPassword(String password) {
+            return password.length() < 8;
         }
     }
 
@@ -359,14 +384,12 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
                                             String userPrefKey, String passwordPrefKey) {
             Preference pref = findPreference(subscreenPrefKey);
             String url = pref.getSharedPreferences().getString(urlPrefKey, "");
-            String user = pref.getSharedPreferences().getString(userPrefKey, "");
-            String password = pref.getSharedPreferences().getString(passwordPrefKey, "");
             String summary;
             if (TextUtils.isEmpty(url)) {
                 summary = getString(R.string.info_not_set);
             } else {
-                if (url.startsWith("https://") && ! TextUtils.isEmpty(user)
-                        && ! TextUtils.isEmpty(password)) {
+                if (isConnectionSecure(url, getPreferenceString(userPrefKey, ""),
+                        getPreferenceString(passwordPrefKey, ""))) {
                     summary = getString(R.string.settings_connection_summary,
                             beautifyUrl(getHostFromUrl(url)));
                 } else {
@@ -411,6 +434,43 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
             });
             updateTextPreferenceSummary(pref, summaryFormatResId, null, isPassword);
         }
+
+        protected void setUrlIconColor(String urlPrefKey) {
+            Preference pref = getPreferenceScreen().findPreference(urlPrefKey);
+            String url = getPreferenceString(pref, "");
+            if (TextUtils.isEmpty(url)) {
+                pref.setIcon(R.drawable.ic_earth_grey_24dp);
+            } else if (isConnectionHttps(url)) {
+                pref.setIcon(R.drawable.ic_earth_green_24dp);
+            } else {
+                pref.setIcon(R.drawable.ic_earth_red_24dp);
+            }
+        }
+
+        protected void setUserIconColor(String urlPrefKey, String userPrefKey) {
+            Preference userPref = getPreferenceScreen().findPreference(userPrefKey);
+            if (TextUtils.isEmpty(getPreferenceString(urlPrefKey, ""))) {
+                userPref.setIcon(R.drawable.ic_person_grey_24dp);
+            } else if (TextUtils.isEmpty(getPreferenceString(userPref, ""))) {
+                userPref.setIcon(R.drawable.ic_person_red_24dp);
+            } else {
+                userPref.setIcon(R.drawable.ic_person_green_24dp);
+            }
+        }
+
+        protected void setPasswordIconColor(String urlPrefKey, String passwordPrefKey) {
+            Preference passwordPref = getPreferenceScreen().findPreference(passwordPrefKey);
+            String password = getPreferenceString(passwordPref, "");
+            if (TextUtils.isEmpty(getPreferenceString(urlPrefKey, ""))) {
+                passwordPref.setIcon(R.drawable.ic_security_grey_24dp);
+            } else if (TextUtils.isEmpty(password)) {
+                passwordPref.setIcon(R.drawable.ic_security_red_24dp);
+            } else if (isWeakPassword(password)) {
+                passwordPref.setIcon(R.drawable.ic_security_orange_24dp);
+            } else {
+                passwordPref.setIcon(R.drawable.ic_security_green_24dp);
+            }
+        }
     }
 
     public static class LocalConnectionSettingsFragment extends ConnectionSettingsFragment {
@@ -424,8 +484,11 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
             addPreferencesFromResource(R.xml.local_connection_preferences);
 
             initEditorPreference(Constants.PREFERENCE_LOCAL_URL, R.string.settings_openhab_url_summary, false);
+            setUrlIconColor(Constants.PREFERENCE_LOCAL_URL);
             initEditorPreference(Constants.PREFERENCE_LOCAL_USERNAME, 0, false);
+            setUserIconColor(Constants.PREFERENCE_LOCAL_URL, Constants.PREFERENCE_LOCAL_USERNAME);
             initEditorPreference(Constants.PREFERENCE_LOCAL_PASSWORD, 0, true);
+            setPasswordIconColor(Constants.PREFERENCE_LOCAL_URL, Constants.PREFERENCE_LOCAL_PASSWORD);
         }
     }
 
