@@ -40,6 +40,7 @@
   <string name="settings_chart_scaling_value_m">Padrão</string>
   <string name="settings_chart_scaling_value_l">Grande</string>
   <string name="settings_ringtone">Toque de notificação</string>
+  <string name="settings_ringtone_none">Nenhum</string>
   <string name="settings_clear_default_sitemap">Limpar o sitemap padrão</string>
   <string name="settings_no_default_sitemap">Nenhum Sitemap selecionado</string>
   <string name="settings_current_default_sitemap">Atual Sitemap padrão: %1$s</string>
@@ -50,6 +51,8 @@
   <string name="settings_notification_vibration_short">Curta</string>
   <string name="settings_notification_vibration_long">Longa</string>
   <string name="settings_notification_vibration_twice">Dupla</string>
+  <string name="settings_connection_summary">Conectado a %s</string>
+  <string name="settings_insecure_connection_summary">Conectado de forma insegura a %s</string>
   <!-- App messages strings -->
   <string name="title_voice_widget">comandos de voz do openHAB</string>
   <string name="info_voice_input">openHAB, às suas ordens!</string>
@@ -150,6 +153,7 @@
   <string name="about_server">servidor openHAB</string>
   <string name="about_translation">Nos ajude a traduzir o openHAB</string>
   <string name="about_privacy_policy">Política de privacidade</string>
+  <string name="settings_debug_messages_title">Mostrar informações para solução de problemas</string>
   <string name="error_couldnt_determine_openhab_url">Não consegui determinar a URL do openHAB</string>
   <string name="unknown">Desconhecido</string>
   <string name="error_network_type_unsupported">Tipo de rede (%s) não suportado</string>
