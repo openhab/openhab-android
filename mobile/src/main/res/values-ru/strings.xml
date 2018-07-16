@@ -40,6 +40,7 @@
   <string name="settings_chart_scaling_value_m">По умолчанию</string>
   <string name="settings_chart_scaling_value_l">Большой</string>
   <string name="settings_ringtone">Звук уведомления</string>
+  <string name="settings_ringtone_none">Без рингтона</string>
   <string name="settings_clear_default_sitemap">Очистить sitemap по умолчанию</string>
   <string name="settings_no_default_sitemap">Не выбран Sitemap по умолчанию</string>
   <string name="settings_current_default_sitemap">Текущий sitemap по умолчанию: %1$s</string>
@@ -50,6 +51,8 @@
   <string name="settings_notification_vibration_short">Коротко</string>
   <string name="settings_notification_vibration_long">Длинно</string>
   <string name="settings_notification_vibration_twice">Дважды</string>
+  <string name="settings_connection_summary">Подключен к %s</string>
+  <string name="settings_insecure_connection_summary">Подключен к %s без проверки безопасности</string>
   <!-- App messages strings -->
   <string name="title_voice_widget">Голосовые команды openHAB</string>
   <string name="info_voice_input">openHAB, Ваша команда!</string>
@@ -150,6 +153,7 @@
   <string name="about_server">Сервер openHAB</string>
   <string name="about_translation">Помощь в переводе openHAB</string>
   <string name="about_privacy_policy">Политика конфиденциальности</string>
+  <string name="settings_debug_messages_title">Cведения об устранении неполадок</string>
   <string name="error_couldnt_determine_openhab_url">Не удалось определить адрес openHAB</string>
   <string name="unknown">Неизвестно</string>
   <string name="error_network_type_unsupported">Тип сети (%s) не поддерживается</string>
