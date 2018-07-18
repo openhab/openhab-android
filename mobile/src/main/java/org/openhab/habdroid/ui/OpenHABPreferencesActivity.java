@@ -475,7 +475,7 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
 
         private void setUrlIconColor(String urlPrefKey, String newValue) {
             Preference pref = getPreferenceScreen().findPreference(urlPrefKey);
-            Drawable icon = pref.getIcon();
+            Drawable icon = getResources().getDrawable(R.drawable.ic_earth_grey_24dp, null);
             if (TextUtils.isEmpty(newValue)) {
                 DrawableCompat.setTint(icon, ContextCompat.getColor(pref.getContext(), R.color.pref_icon_grey));
             } else if (isConnectionHttps(newValue)) {
@@ -488,7 +488,7 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
 
         private void setUserIconColor(String url, String userPrefKey, String newValue) {
             Preference userPref = getPreferenceScreen().findPreference(userPrefKey);
-            Drawable icon = userPref.getIcon();
+            Drawable icon = getResources().getDrawable(R.drawable.ic_person_grey_24dp, null);
             if (TextUtils.isEmpty(url)) {
                 DrawableCompat.setTint(icon, ContextCompat.getColor(userPref.getContext(), R.color.pref_icon_grey));
             } else if (TextUtils.isEmpty(newValue)) {
@@ -496,11 +496,12 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
             } else {
                 DrawableCompat.setTint(icon, ContextCompat.getColor(userPref.getContext(), R.color.pref_icon_green));
             }
+            userPref.setIcon(icon);
         }
 
         private void setPasswordIconColor(String url, String passwordPrefKey, String newValue) {
             Preference passwordPref = getPreferenceScreen().findPreference(passwordPrefKey);
-            Drawable icon = passwordPref.getIcon();
+            Drawable icon = getResources().getDrawable(R.drawable.ic_security_grey_24dp, null);
             if (TextUtils.isEmpty(url)) {
                 DrawableCompat.setTint(icon, ContextCompat.getColor(passwordPref.getContext(), R.color.pref_icon_grey));
             } else if (TextUtils.isEmpty(newValue)) {
@@ -510,6 +511,7 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
             } else {
                 DrawableCompat.setTint(icon, ContextCompat.getColor(passwordPref.getContext(), R.color.pref_icon_green));
             }
+            passwordPref.setIcon(icon);
         }
     }
 
