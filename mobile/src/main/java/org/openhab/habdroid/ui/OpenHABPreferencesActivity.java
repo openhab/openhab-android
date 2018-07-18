@@ -13,6 +13,7 @@ import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -27,6 +28,8 @@ import android.preference.PreferenceScreen;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.v4.app.NavUtils;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -40,6 +43,8 @@ import org.openhab.habdroid.util.CacheManager;
 import org.openhab.habdroid.util.Constants;
 import org.openhab.habdroid.util.Util;
 import org.w3c.dom.Text;
+
+import java.security.InvalidParameterException;
 
 import static org.openhab.habdroid.util.Util.getHostFromUrl;
 
@@ -427,46 +432,83 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object newValue) {
                     updateTextPreferenceSummary(preference, summaryFormatResId, (String) newValue, isPassword);
+                    setIconColor(preference.getKey(), (String) newValue);
                     return true;
                 }
             });
             updateTextPreferenceSummary(pref, summaryFormatResId, null, isPassword);
+            setIconColor(key);
         }
 
-        protected void setUrlIconColor(String urlPrefKey) {
+        protected void setIconColor(String prefKey, String newValue) {
+            switch (prefKey) {
+                case Constants.PREFERENCE_LOCAL_URL:
+                    setUrlIconColor(prefKey, newValue);
+                    setUserIconColor(newValue, Constants.PREFERENCE_LOCAL_USERNAME, getPreferenceString(Constants.PREFERENCE_LOCAL_USERNAME, ""));
+                    setPasswordIconColor(newValue, Constants.PREFERENCE_LOCAL_PASSWORD, getPreferenceString(Constants.PREFERENCE_LOCAL_PASSWORD, ""));
+                    break;
+                case Constants.PREFERENCE_REMOTE_URL:
+                    setUrlIconColor(prefKey, newValue);
+                    setUserIconColor(newValue, Constants.PREFERENCE_REMOTE_USERNAME, getPreferenceString(Constants.PREFERENCE_REMOTE_USERNAME, ""));
+                    setPasswordIconColor(newValue, Constants.PREFERENCE_REMOTE_PASSWORD, getPreferenceString(Constants.PREFERENCE_REMOTE_PASSWORD, ""));
+                    break;
+                case Constants.PREFERENCE_LOCAL_USERNAME:
+                    setUserIconColor(getPreferenceString(Constants.PREFERENCE_LOCAL_URL, ""), prefKey, newValue);
+                    break;
+                case Constants.PREFERENCE_REMOTE_USERNAME:
+                    setUserIconColor(getPreferenceString(Constants.PREFERENCE_REMOTE_URL, ""), prefKey, newValue);
+                    break;
+                case Constants.PREFERENCE_LOCAL_PASSWORD:
+                    setPasswordIconColor(getPreferenceString(Constants.PREFERENCE_LOCAL_URL, ""), prefKey, newValue);
+                    break;
+                case Constants.PREFERENCE_REMOTE_PASSWORD:
+                    setPasswordIconColor(getPreferenceString(Constants.PREFERENCE_REMOTE_URL, ""), prefKey, newValue);
+                    break;
+                default:
+                    throw new IllegalArgumentException("Preference key " +  prefKey + " is unknown");
+            }
+        }
+
+        protected void setIconColor(String prefKey) {
+            setIconColor(prefKey, getPreferenceString(prefKey, ""));
+        }
+
+        private void setUrlIconColor(String urlPrefKey, String newValue) {
             Preference pref = getPreferenceScreen().findPreference(urlPrefKey);
-            String url = getPreferenceString(pref, "");
-            if (TextUtils.isEmpty(url)) {
-                pref.setIcon(R.drawable.ic_earth_grey_24dp);
-            } else if (isConnectionHttps(url)) {
-                pref.setIcon(R.drawable.ic_earth_green_24dp);
+            Drawable icon = pref.getIcon();
+            if (TextUtils.isEmpty(newValue)) {
+                DrawableCompat.setTint(icon, ContextCompat.getColor(pref.getContext(), R.color.pref_icon_grey));
+            } else if (isConnectionHttps(newValue)) {
+                DrawableCompat.setTint(icon, ContextCompat.getColor(pref.getContext(), R.color.pref_icon_green));
             } else {
-                pref.setIcon(R.drawable.ic_earth_red_24dp);
+                DrawableCompat.setTint(icon, ContextCompat.getColor(pref.getContext(), R.color.pref_icon_red));
             }
+            pref.setIcon(icon);
         }
 
-        protected void setUserIconColor(String urlPrefKey, String userPrefKey) {
+        private void setUserIconColor(String url, String userPrefKey, String newValue) {
             Preference userPref = getPreferenceScreen().findPreference(userPrefKey);
-            if (TextUtils.isEmpty(getPreferenceString(urlPrefKey, ""))) {
-                userPref.setIcon(R.drawable.ic_person_grey_24dp);
-            } else if (TextUtils.isEmpty(getPreferenceString(userPref, ""))) {
-                userPref.setIcon(R.drawable.ic_person_red_24dp);
+            Drawable icon = userPref.getIcon();
+            if (TextUtils.isEmpty(url)) {
+                DrawableCompat.setTint(icon, ContextCompat.getColor(userPref.getContext(), R.color.pref_icon_grey));
+            } else if (TextUtils.isEmpty(newValue)) {
+                DrawableCompat.setTint(icon, ContextCompat.getColor(userPref.getContext(), R.color.pref_icon_red));
             } else {
-                userPref.setIcon(R.drawable.ic_person_green_24dp);
+                DrawableCompat.setTint(icon, ContextCompat.getColor(userPref.getContext(), R.color.pref_icon_green));
             }
         }
 
-        protected void setPasswordIconColor(String urlPrefKey, String passwordPrefKey) {
+        private void setPasswordIconColor(String url, String passwordPrefKey, String newValue) {
             Preference passwordPref = getPreferenceScreen().findPreference(passwordPrefKey);
-            String password = getPreferenceString(passwordPref, "");
-            if (TextUtils.isEmpty(getPreferenceString(urlPrefKey, ""))) {
-                passwordPref.setIcon(R.drawable.ic_security_grey_24dp);
-            } else if (TextUtils.isEmpty(password)) {
-                passwordPref.setIcon(R.drawable.ic_security_red_24dp);
-            } else if (isWeakPassword(password)) {
-                passwordPref.setIcon(R.drawable.ic_security_orange_24dp);
+            Drawable icon = passwordPref.getIcon();
+            if (TextUtils.isEmpty(url)) {
+                DrawableCompat.setTint(icon, ContextCompat.getColor(passwordPref.getContext(), R.color.pref_icon_grey));
+            } else if (TextUtils.isEmpty(newValue)) {
+                DrawableCompat.setTint(icon, ContextCompat.getColor(passwordPref.getContext(), R.color.pref_icon_red));
+            } else if (isWeakPassword(newValue)) {
+                DrawableCompat.setTint(icon, ContextCompat.getColor(passwordPref.getContext(), R.color.pref_icon_orange));
             } else {
-                passwordPref.setIcon(R.drawable.ic_security_green_24dp);
+                DrawableCompat.setTint(icon, ContextCompat.getColor(passwordPref.getContext(), R.color.pref_icon_green));
             }
         }
     }
@@ -482,11 +524,8 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
             addPreferencesFromResource(R.xml.local_connection_preferences);
 
             initEditorPreference(Constants.PREFERENCE_LOCAL_URL, R.string.settings_openhab_url_summary, false);
-            setUrlIconColor(Constants.PREFERENCE_LOCAL_URL);
             initEditorPreference(Constants.PREFERENCE_LOCAL_USERNAME, 0, false);
-            setUserIconColor(Constants.PREFERENCE_LOCAL_URL, Constants.PREFERENCE_LOCAL_USERNAME);
             initEditorPreference(Constants.PREFERENCE_LOCAL_PASSWORD, 0, true);
-            setPasswordIconColor(Constants.PREFERENCE_LOCAL_URL, Constants.PREFERENCE_LOCAL_PASSWORD);
         }
     }
 
