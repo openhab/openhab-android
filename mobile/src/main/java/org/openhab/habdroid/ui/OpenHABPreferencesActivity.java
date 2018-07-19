@@ -27,6 +27,7 @@ import android.preference.PreferenceGroup;
 import android.preference.PreferenceScreen;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
+import android.support.annotation.VisibleForTesting;
 import android.support.v4.app.NavUtils;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
@@ -126,7 +127,8 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
                 .commit();
     }
 
-    private static abstract class AbstractSettingsFragment extends PreferenceFragment {
+    @VisibleForTesting
+    public static abstract class AbstractSettingsFragment extends PreferenceFragment {
         @Override
         public void onCreate(@Nullable Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
@@ -173,8 +175,51 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
                     (hasConnectionBasicAuthentication(user, password) || hasClientCertificate());
         }
 
-        protected boolean isWeakPassword(String password) {
-            return password.length() < 8;
+
+        /**
+         * Password is considered strong when it is at least 8 chars long and contains 3 from those
+         * 4 categories:
+         *      * lowercase
+         *      * uppercase
+         *      * numerics
+         *      * other
+         * @param password
+         */
+        @VisibleForTesting
+        public static boolean isWeakPassword(String password) {
+            if (password.length() < 8) {
+                return true;
+            }
+            boolean hasLowercase = false, hasUppercase = false, hasNumerics = false, hasOther = false;
+            String alphabet = "abcdefghijklmnopqrstuvwxyz";
+            for (int i = 0; i < password.length(); i++) {
+                char c = password.charAt(i);
+                if (alphabet.contains(String.valueOf(c))) {
+                    hasLowercase = true;
+                } else if (alphabet.toUpperCase().contains(String.valueOf(c))) {
+                    hasUppercase = true;
+                } else if ("0123456789".contains(String.valueOf(c))) {
+                    hasNumerics = true;
+                } else {
+                    hasOther = true;
+                }
+            }
+
+            int countGroups = 0;
+            if (hasLowercase) {
+                countGroups++;
+            }
+            if (hasUppercase) {
+                countGroups++;
+            }
+            if (hasNumerics) {
+                countGroups++;
+            }
+            if (hasOther) {
+                countGroups++;
+            }
+
+            return countGroups < 3;
         }
     }
 
@@ -418,7 +463,11 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
             if (newValue.isEmpty()) {
                 newValue = getString(R.string.info_not_set);
             } else if (isPassword) {
-                newValue = getString(R.string.password_placeholder);
+                if (isWeakPassword(newValue)) {
+                    newValue = getString(R.string.settings_openhab_password_summary_weak);
+                } else {
+                    newValue = getString(R.string.settings_openhab_password_summary_strong);
+                }
             }
 
             textPreference.setSummary(summaryFormatResId != 0
