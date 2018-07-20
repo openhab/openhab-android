@@ -46,6 +46,7 @@ import org.openhab.habdroid.util.Util;
 import org.w3c.dom.Text;
 
 import java.security.InvalidParameterException;
+import java.util.BitSet;
 
 import static org.openhab.habdroid.util.Util.getHostFromUrl;
 
@@ -190,36 +191,21 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
             if (password.length() < 8) {
                 return true;
             }
-            boolean hasLowercase = false, hasUppercase = false, hasNumerics = false, hasOther = false;
-            String alphabet = "abcdefghijklmnopqrstuvwxyz";
+            BitSet groups = new BitSet();
             for (int i = 0; i < password.length(); i++) {
                 char c = password.charAt(i);
-                if (alphabet.contains(String.valueOf(c))) {
-                    hasLowercase = true;
-                } else if (alphabet.toUpperCase().contains(String.valueOf(c))) {
-                    hasUppercase = true;
-                } else if ("0123456789".contains(String.valueOf(c))) {
-                    hasNumerics = true;
+                if (Character.isLetter(c) && Character.isLowerCase(c)) {
+                    groups.set(0);
+                } else if (Character.isLetter(c) && Character.isUpperCase(c)) {
+                    groups.set(1);
+                } else if (Character.isDigit(c)) {
+                    groups.set(2);
                 } else {
-                    hasOther = true;
+                    groups.set(3);
                 }
             }
 
-            int countGroups = 0;
-            if (hasLowercase) {
-                countGroups++;
-            }
-            if (hasUppercase) {
-                countGroups++;
-            }
-            if (hasNumerics) {
-                countGroups++;
-            }
-            if (hasOther) {
-                countGroups++;
-            }
-
-            return countGroups < 3;
+            return groups.cardinality() < 3;
         }
     }
 
