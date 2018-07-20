@@ -10,7 +10,6 @@
 package org.openhab.habdroid.ui;
 
 import android.app.FragmentManager;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
@@ -21,7 +20,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
-import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceGroup;
 import android.preference.PreferenceScreen;
@@ -36,16 +34,13 @@ import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
-import android.view.TextureView;
 
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.core.CloudMessagingHelper;
 import org.openhab.habdroid.util.CacheManager;
 import org.openhab.habdroid.util.Constants;
 import org.openhab.habdroid.util.Util;
-import org.w3c.dom.Text;
 
-import java.security.InvalidParameterException;
 import java.util.BitSet;
 
 import static org.openhab.habdroid.util.Util.getHostFromUrl;
@@ -163,12 +158,11 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
         }
 
         protected boolean hasConnectionBasicAuthentication(String user, String password) {
-            return ! TextUtils.isEmpty(user) && ! TextUtils.isEmpty(password);
+            return !TextUtils.isEmpty(user) && !TextUtils.isEmpty(password);
         }
 
         protected boolean hasClientCertificate() {
-            return ! TextUtils.isEmpty(getPreferenceScreen().findPreference(Constants.PREFERENCE_SSLCLIENTCERT)
-                    .getSharedPreferences().getString(Constants.PREFERENCE_SSLCLIENTCERT, ""));
+            return !TextUtils.isEmpty(getPreferenceString(Constants.PREFERENCE_SSLCLIENTCERT, ""));
         }
 
         protected boolean isConnectionSecure(String url, String user, String password) {
@@ -222,8 +216,7 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
         }
 
         @Override
-        protected @StringRes
-        int getTitleResId() {
+        protected @StringRes int getTitleResId() {
             return R.string.action_settings;
         }
 
@@ -377,7 +370,7 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
                     return root;
                 }
                 if (p instanceof PreferenceGroup) {
-                    PreferenceGroup parent = getParent((PreferenceGroup)p, preference);
+                    PreferenceGroup parent = getParent((PreferenceGroup) p, preference);
                     if (parent != null) {
                         return parent;
                     }
@@ -406,147 +399,128 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
         }
 
         private void updateVibrationPreferenceIcon(Preference pref, Object newValue) {
-            String value = (String) newValue;
-            if (value.equals(getString(R.string.settings_notification_vibration_value_off))) {
-                pref.setIcon(R.drawable.ic_smartphone_grey_24dp);
-            } else {
-                pref.setIcon(R.drawable.ic_vibration_grey_24dp);
-            }
+            boolean noVibration = newValue.equals(
+                    getString(R.string.settings_notification_vibration_value_off));
+            pref.setIcon(noVibration
+                    ? R.drawable.ic_smartphone_grey_24dp : R.drawable.ic_vibration_grey_24dp);
         }
 
         private void updateConnectionSummary(String subscreenPrefKey, String urlPrefKey,
-                                            String userPrefKey, String passwordPrefKey) {
+                                             String userPrefKey, String passwordPrefKey) {
             Preference pref = findPreference(subscreenPrefKey);
-            String url = pref.getSharedPreferences().getString(urlPrefKey, "");
-            String summary;
+            String url = getPreferenceString(urlPrefKey, "");
+            final String summary;
             if (TextUtils.isEmpty(url)) {
                 summary = getString(R.string.info_not_set);
+            } else if (isConnectionSecure(url, getPreferenceString(userPrefKey, ""),
+                    getPreferenceString(passwordPrefKey, ""))) {
+                summary = getString(R.string.settings_connection_summary,
+                        beautifyUrl(getHostFromUrl(url)));
             } else {
-                if (isConnectionSecure(url, getPreferenceString(userPrefKey, ""),
-                        getPreferenceString(passwordPrefKey, ""))) {
-                    summary = getString(R.string.settings_connection_summary,
-                            beautifyUrl(getHostFromUrl(url)));
-                } else {
-                    summary = getString(R.string.settings_insecure_connection_summary,
-                            beautifyUrl(getHostFromUrl(url)));
-                }
+                summary = getString(R.string.settings_insecure_connection_summary,
+                        beautifyUrl(getHostFromUrl(url)));
             }
             pref.setSummary(summary);
         }
 
-        private String beautifyUrl(String url) {
+        private static String beautifyUrl(String url) {
             return url.contains("myopenhab.org") ? "myopenHAB" : url;
         }
     }
 
     private static abstract class ConnectionSettingsFragment extends AbstractSettingsFragment {
-        private void updateTextPreferenceSummary(Preference textPreference,
-                                                 @StringRes int summaryFormatResId,
-                                                 String newValue, boolean isPassword) {
-            if (newValue == null) {
-                newValue = getPreferenceString(textPreference, "");
-            }
-            if (newValue.isEmpty()) {
-                newValue = getString(R.string.info_not_set);
-            } else if (isPassword) {
-                if (isWeakPassword(newValue)) {
-                    newValue = getString(R.string.settings_openhab_password_summary_weak);
-                } else {
-                    newValue = getString(R.string.settings_openhab_password_summary_strong);
-                }
-            }
+        private Preference mUrlPreference;
+        private Preference mUserNamePreference;
+        private Preference mPasswordPreference;
 
-            textPreference.setSummary(summaryFormatResId != 0
-                    ? getString(summaryFormatResId, newValue) : newValue);
+        private interface IconColorGenerator {
+            Integer getIconColor();
+        }
+        private interface PrefSummaryGenerator {
+            CharSequence getSummary(String value);
         }
 
-        protected void initEditorPreference(String key, @StringRes final int summaryFormatResId,
-                                            final boolean isPassword) {
-            Preference pref = getPreferenceScreen().findPreference(key);
-            pref.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
-                @Override
-                public boolean onPreferenceChange(Preference preference, Object newValue) {
-                    updateTextPreferenceSummary(preference, summaryFormatResId, (String) newValue, isPassword);
-                    setIconColor(preference.getKey(), (String) newValue);
-                    return true;
+        protected void initPreferences(String urlPrefKey, String userNamePrefKey,
+                String passwordPrefKey, @StringRes int urlSummaryFormatResId) {
+            mUrlPreference = initEditorPreference(urlPrefKey, value -> {
+                if (TextUtils.isEmpty(value)) {
+                    return getString(R.string.info_not_set);
                 }
+                return getString(urlSummaryFormatResId, value);
             });
-            updateTextPreferenceSummary(pref, summaryFormatResId, null, isPassword);
-            setIconColor(key);
+            mUserNamePreference = initEditorPreference(userNamePrefKey, value -> {
+                @StringRes int resId = TextUtils.isEmpty(value) ? R.string.info_not_set
+                        : isWeakPassword(value) ? R.string.settings_openhab_password_summary_weak
+                        : R.string.settings_openhab_password_summary_strong;
+                return getString(resId);
+            });
+            mPasswordPreference = initEditorPreference(passwordPrefKey, value -> {
+                return TextUtils.isEmpty(value) ? getString(R.string.info_not_set) : value;
+            });
+
+            updateIconColors(getPreferenceString(urlPrefKey, ""),
+                    getPreferenceString(userNamePrefKey, ""),
+                    getPreferenceString(passwordPrefKey, ""));
         }
 
-        protected void setIconColor(String prefKey, String newValue) {
-            switch (prefKey) {
-                case Constants.PREFERENCE_LOCAL_URL:
-                    setUrlIconColor(prefKey, newValue);
-                    setUserIconColor(newValue, Constants.PREFERENCE_LOCAL_USERNAME, getPreferenceString(Constants.PREFERENCE_LOCAL_USERNAME, ""));
-                    setPasswordIconColor(newValue, Constants.PREFERENCE_LOCAL_PASSWORD, getPreferenceString(Constants.PREFERENCE_LOCAL_PASSWORD, ""));
-                    break;
-                case Constants.PREFERENCE_REMOTE_URL:
-                    setUrlIconColor(prefKey, newValue);
-                    setUserIconColor(newValue, Constants.PREFERENCE_REMOTE_USERNAME, getPreferenceString(Constants.PREFERENCE_REMOTE_USERNAME, ""));
-                    setPasswordIconColor(newValue, Constants.PREFERENCE_REMOTE_PASSWORD, getPreferenceString(Constants.PREFERENCE_REMOTE_PASSWORD, ""));
-                    break;
-                case Constants.PREFERENCE_LOCAL_USERNAME:
-                    setUserIconColor(getPreferenceString(Constants.PREFERENCE_LOCAL_URL, ""), prefKey, newValue);
-                    break;
-                case Constants.PREFERENCE_REMOTE_USERNAME:
-                    setUserIconColor(getPreferenceString(Constants.PREFERENCE_REMOTE_URL, ""), prefKey, newValue);
-                    break;
-                case Constants.PREFERENCE_LOCAL_PASSWORD:
-                    setPasswordIconColor(getPreferenceString(Constants.PREFERENCE_LOCAL_URL, ""), prefKey, newValue);
-                    break;
-                case Constants.PREFERENCE_REMOTE_PASSWORD:
-                    setPasswordIconColor(getPreferenceString(Constants.PREFERENCE_REMOTE_URL, ""), prefKey, newValue);
-                    break;
-                default:
-                    throw new IllegalArgumentException("Preference key " +  prefKey + " is unknown");
+        private Preference initEditorPreference(String key, PrefSummaryGenerator summaryGenerator) {
+            Preference preference = getPreferenceScreen().findPreference(key);
+            preference.setOnPreferenceChangeListener((pref, newValue) -> {
+                updateIconColors(getActualValue(pref, newValue, mUrlPreference),
+                        getActualValue(pref, newValue, mUserNamePreference),
+                        getActualValue(pref, newValue, mPasswordPreference));
+                pref.setSummary(summaryGenerator.getSummary((String) newValue));
+                return true;
+            });
+            preference.setSummary(summaryGenerator.getSummary(getPreferenceString(key, "")));
+            return preference;
+        }
+
+        private String getActualValue(Preference pref, Object newValue, Preference reference) {
+            return pref == reference ? (String) newValue : getPreferenceString(reference, "");
+        }
+
+        private void updateIconColors(String url, String userName, String password) {
+            updateIconColor(mUrlPreference, () -> {
+                if (!TextUtils.isEmpty(url)) {
+                    return isConnectionHttps(url) ? R.color.pref_icon_green : R.color.pref_icon_red;
+                }
+                return null;
+            });
+            updateIconColor(mUserNamePreference, () -> {
+                if (!TextUtils.isEmpty(url)) {
+                    return TextUtils.isEmpty(userName) ? R.color.pref_icon_red : R.color.pref_icon_green;
+                }
+                return null;
+            });
+            updateIconColor(mPasswordPreference, () -> {
+                if (!TextUtils.isEmpty(url)) {
+                    if (TextUtils.isEmpty(password)) {
+                        return R.color.pref_icon_red;
+                    } else if (isWeakPassword(password)) {
+                        return R.color.pref_icon_orange;
+                    } else {
+                        return R.color.pref_icon_green;
+                    }
+                }
+                return null;
+            });
+        }
+
+        private void updateIconColor(Preference pref, IconColorGenerator colorGenerator) {
+            Drawable icon = pref.getIcon();
+            if (icon == null) {
+                return;
             }
-        }
 
-        protected void setIconColor(String prefKey) {
-            setIconColor(prefKey, getPreferenceString(prefKey, ""));
-        }
-
-        private void setUrlIconColor(String urlPrefKey, String newValue) {
-            Preference pref = getPreferenceScreen().findPreference(urlPrefKey);
-            Drawable icon = getResources().getDrawable(R.drawable.ic_earth_grey_24dp, null);
-            if (TextUtils.isEmpty(newValue)) {
-                DrawableCompat.setTint(icon, ContextCompat.getColor(pref.getContext(), R.color.pref_icon_grey));
-            } else if (isConnectionHttps(newValue)) {
-                DrawableCompat.setTint(icon, ContextCompat.getColor(pref.getContext(), R.color.pref_icon_green));
+            Integer colorResId = colorGenerator.getIconColor();
+            if (colorResId != null) {
+                icon = DrawableCompat.wrap(icon);
+                DrawableCompat.setTint(icon, ContextCompat.getColor(pref.getContext(), colorResId));
             } else {
-                DrawableCompat.setTint(icon, ContextCompat.getColor(pref.getContext(), R.color.pref_icon_red));
+                DrawableCompat.setTintList(icon, null);
             }
             pref.setIcon(icon);
-        }
-
-        private void setUserIconColor(String url, String userPrefKey, String newValue) {
-            Preference userPref = getPreferenceScreen().findPreference(userPrefKey);
-            Drawable icon = getResources().getDrawable(R.drawable.ic_person_grey_24dp, null);
-            if (TextUtils.isEmpty(url)) {
-                DrawableCompat.setTint(icon, ContextCompat.getColor(userPref.getContext(), R.color.pref_icon_grey));
-            } else if (TextUtils.isEmpty(newValue)) {
-                DrawableCompat.setTint(icon, ContextCompat.getColor(userPref.getContext(), R.color.pref_icon_red));
-            } else {
-                DrawableCompat.setTint(icon, ContextCompat.getColor(userPref.getContext(), R.color.pref_icon_green));
-            }
-            userPref.setIcon(icon);
-        }
-
-        private void setPasswordIconColor(String url, String passwordPrefKey, String newValue) {
-            Preference passwordPref = getPreferenceScreen().findPreference(passwordPrefKey);
-            Drawable icon = getResources().getDrawable(R.drawable.ic_security_grey_24dp, null);
-            if (TextUtils.isEmpty(url)) {
-                DrawableCompat.setTint(icon, ContextCompat.getColor(passwordPref.getContext(), R.color.pref_icon_grey));
-            } else if (TextUtils.isEmpty(newValue)) {
-                DrawableCompat.setTint(icon, ContextCompat.getColor(passwordPref.getContext(), R.color.pref_icon_red));
-            } else if (isWeakPassword(newValue)) {
-                DrawableCompat.setTint(icon, ContextCompat.getColor(passwordPref.getContext(), R.color.pref_icon_orange));
-            } else {
-                DrawableCompat.setTint(icon, ContextCompat.getColor(passwordPref.getContext(), R.color.pref_icon_green));
-            }
-            passwordPref.setIcon(icon);
         }
     }
 
@@ -559,10 +533,8 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
         @Override
         protected void updateAndInitPreferences() {
             addPreferencesFromResource(R.xml.local_connection_preferences);
-
-            initEditorPreference(Constants.PREFERENCE_LOCAL_URL, R.string.settings_openhab_url_summary, false);
-            initEditorPreference(Constants.PREFERENCE_LOCAL_USERNAME, 0, false);
-            initEditorPreference(Constants.PREFERENCE_LOCAL_PASSWORD, 0, true);
+            initPreferences(Constants.PREFERENCE_LOCAL_URL, Constants.PREFERENCE_LOCAL_USERNAME,
+                    Constants.PREFERENCE_LOCAL_PASSWORD, R.string.settings_openhab_url_summary);
         }
     }
 
@@ -575,10 +547,8 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
         @Override
         protected void updateAndInitPreferences() {
             addPreferencesFromResource(R.xml.remote_connection_preferences);
-
-            initEditorPreference(Constants.PREFERENCE_REMOTE_URL, R.string.settings_openhab_alturl_summary, false);
-            initEditorPreference(Constants.PREFERENCE_REMOTE_USERNAME, 0, false);
-            initEditorPreference(Constants.PREFERENCE_REMOTE_PASSWORD, 0, true);
+            initPreferences(Constants.PREFERENCE_REMOTE_URL, Constants.PREFERENCE_REMOTE_USERNAME,
+                    Constants.PREFERENCE_REMOTE_PASSWORD, R.string.settings_openhab_alturl_summary);
         }
     }
 }
