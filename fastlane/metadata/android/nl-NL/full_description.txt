@@ -2,7 +2,7 @@ openHAB - "empowering the smart home" - leverancier en technologie onafhankelijk
 
 Bij de F-Droid versie is kaartweergave ondersteuning, GCM en crash rapportage verwijderd en de app zal geen push-meldingen kunnen ontvangen van de openHAB Cloud.
 Try out new features and give early feedback!
-You can install the beta version alongside the 
+You can install the beta version alongside the <a href="https://f-droid.org/packages/org.openhab.habdroid/">stable version</a>.
 
 <b>Belangrijke opmerking</b>
 

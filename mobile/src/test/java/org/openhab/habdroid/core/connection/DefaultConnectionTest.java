@@ -95,15 +95,13 @@ public class DefaultConnectionTest {
     @Test
     public void testAsyncHasNoUsernamePassword() {
         HttpClient httpClient = testConnection.getAsyncHttpClient();
-
-        assertFalse(httpClient.getHeaders().containsKey("Authorization"));
+        assertNull(httpClient.mAuthHeader);
     }
 
     @Test
     public void testSyncHasNoUsernamePassword() {
         HttpClient httpClient = testConnection.getSyncHttpClient();
-
-        assertFalse(httpClient.getHeaders().containsKey("Authorization"));
+        assertNull(httpClient.mAuthHeader);
     }
 
     @Test
@@ -112,9 +110,8 @@ public class DefaultConnectionTest {
                 TEST_BASE_URL, "Test-User", "Test-Password");
         HttpClient httpClient = connection.getAsyncHttpClient();
 
-        assertTrue(httpClient.getHeaders().containsKey("Authorization"));
         assertEquals(Credentials.basic("Test-User", "Test-Password"),
-                httpClient.getHeaders().get("Authorization"));
+                httpClient.mAuthHeader);
     }
 
     @Test
@@ -123,9 +120,8 @@ public class DefaultConnectionTest {
                 TEST_BASE_URL, "Test-User", "Test-Password");
         HttpClient httpClient = connection.getSyncHttpClient();
 
-        assertTrue(httpClient.getHeaders().containsKey("Authorization"));
         assertEquals(Credentials.basic("Test-User", "Test-Password"),
-                httpClient.getHeaders().get("Authorization"));
+                httpClient.mAuthHeader);
     }
 
     @Test

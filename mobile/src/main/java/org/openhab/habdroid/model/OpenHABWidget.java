@@ -126,6 +126,10 @@ public abstract class OpenHABWidget implements Parcelable {
         public abstract Builder height(int height);
 
         public OpenHABWidget build() {
+            // A 'none' icon equals no icon at all
+            if ("none".equals(icon())) {
+                icon(null);
+            }
             // Consider a minimal refresh rate of 100 ms, but 0 is special and means 'no refresh'
             if (refresh() > 0 && refresh() < 100) {
                 refresh(100);
@@ -141,6 +145,7 @@ public abstract class OpenHABWidget implements Parcelable {
             return autoBuild();
         }
 
+        abstract String icon();
         abstract int refresh();
         abstract String period();
         abstract float minValue();

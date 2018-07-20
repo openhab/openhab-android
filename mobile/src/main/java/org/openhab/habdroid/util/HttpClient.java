@@ -13,7 +13,6 @@ import android.support.annotation.VisibleForTesting;
 
 import com.here.oksse.OkSse;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -34,34 +33,17 @@ public abstract class HttpClient {
     }
 
     private final HttpUrl mBaseUrl;
-    private final Map<String, String> headers = new HashMap<>();
-    private OkHttpClient mClient;
+    private final OkHttpClient mClient;
+    @VisibleForTesting public final String mAuthHeader;
 
     protected HttpClient(OkHttpClient client, String baseUrl, String username, String password) {
         mBaseUrl = baseUrl != null ? HttpUrl.parse(baseUrl) : null;
         if (username != null && !username.isEmpty() && password != null && !password.isEmpty()) {
-            headers.put("Authorization", Credentials.basic(username, password));
+            mAuthHeader = Credentials.basic(username, password);
+        } else {
+            mAuthHeader = null;
         }
         mClient = client;
-    }
-
-    public void setTimeout(int timeout) {
-        mClient = mClient.newBuilder()
-                .readTimeout(timeout, TimeUnit.MILLISECONDS)
-                .build();
-    }
-
-    public void addHeader(String key, String value) {
-        headers.put(key, value);
-    }
-
-    public void removeHeader(String key) {
-        headers.remove(key);
-    }
-
-    @VisibleForTesting
-    public Map<String, String> getHeaders() {
-        return headers;
     }
 
     public OkSse makeSseClient() {
@@ -83,11 +65,12 @@ public abstract class HttpClient {
     }
 
     protected Call prepareCall(String url, String method, Map<String, String> additionalHeaders,
-                               String requestBody, String mediaType, CachingMode caching) {
+            String requestBody, String mediaType,
+            long timeoutMillis, CachingMode caching) {
         Request.Builder requestBuilder = new Request.Builder();
         requestBuilder.url(buildUrl(url));
-        for (Map.Entry<String, String> entry : headers.entrySet()) {
-            requestBuilder.addHeader(entry.getKey(), entry.getValue());
+        if (mAuthHeader != null) {
+            requestBuilder.addHeader("Authorization", mAuthHeader);
         }
         if (additionalHeaders != null) {
             for (Map.Entry<String, String> entry : additionalHeaders.entrySet()) {
@@ -110,6 +93,9 @@ public abstract class HttpClient {
                 break;
         }
         Request request = requestBuilder.build();
-        return mClient.newCall(request);
+        final OkHttpClient client = timeoutMillis > 0
+                ? mClient.newBuilder().readTimeout(timeoutMillis, TimeUnit.MILLISECONDS).build()
+                : mClient;
+        return client.newCall(request);
     }
 }

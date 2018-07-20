@@ -2,7 +2,7 @@ openHAB - "empowering the smart home" - vendor and technology agnostic open sour
 
 F-Droid podporuje zobrazení mapy, GCM a notifikace byly odebrány a tedy nelze přijímat push notifikace z openHAB cloudu.
 Try out new features and give early feedback!
-You can install the beta version alongside the 
+You can install the beta version alongside the <a href="https://f-droid.org/packages/org.openhab.habdroid/">stable version</a>.
 
 <b>Důležitá poznámka</b>
 

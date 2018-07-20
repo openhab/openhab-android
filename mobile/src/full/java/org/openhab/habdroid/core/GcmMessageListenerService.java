@@ -135,7 +135,7 @@ public class GcmMessageListenerService extends GcmListenerService {
             Connection connection = ConnectionFactory.getConnection(Connection.TYPE_CLOUD);
             if (connection != null) {
                 final String url = String.format(Locale.US, "images/%s.png", icon);
-                SyncHttpClient.HttpResult result = connection.getSyncHttpClient().get(url);
+                SyncHttpClient.HttpResult result = connection.getSyncHttpClient().get(url, 1000);
                 if (result.response != null) {
                     iconBitmap = BitmapFactory.decodeStream(result.response.byteStream());
                 }

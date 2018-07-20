@@ -78,7 +78,7 @@ public class Util {
         return normalizedUrl;
     }
 
-    public static String removeProtocolFromUrl(String url) {
+    public static String getHostFromUrl(String url) {
         Uri uri = Uri.parse(url);
         return uri.getHost();
     }

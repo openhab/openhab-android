@@ -12,23 +12,34 @@ package org.openhab.habdroid.ui;
 import android.app.FragmentManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
+import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
+import android.preference.PreferenceGroup;
 import android.preference.PreferenceScreen;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.MenuItem;
 
 import org.openhab.habdroid.R;
+import org.openhab.habdroid.core.CloudMessagingHelper;
+import org.openhab.habdroid.model.ServerProperties;
 import org.openhab.habdroid.util.CacheManager;
 import org.openhab.habdroid.util.Constants;
 import org.openhab.habdroid.util.Util;
+
+import static org.openhab.habdroid.util.Util.getHostFromUrl;
 
 /**
  * This is a class to provide preferences activity for application.
@@ -36,8 +47,10 @@ import org.openhab.habdroid.util.Util;
 public class OpenHABPreferencesActivity extends AppCompatActivity {
     public static final String RESULT_EXTRA_THEME_CHANGED = "theme_changed";
     public static final String RESULT_EXTRA_SITEMAP_CLEARED = "sitemap_cleared";
+    public static final String START_EXTRA_SERVER_PROPERTIES = "server_properties";
     private static final String STATE_KEY_RESULT = "result";
 
+    private static final String TAG = OpenHABPreferencesActivity.class.getSimpleName();
     private Intent mResultIntent;
 
     @Override
@@ -85,11 +98,6 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-    }
-
-    @Override
     public void finish() {
         super.finish();
         Util.overridePendingTransition(this, true);
@@ -112,14 +120,12 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
         @Override
         public void onCreate(@Nullable Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
-
             updateAndInitPreferences();
         }
 
         @Override
         public void onStart() {
             super.onStart();
-
             getParentActivity().getSupportActionBar().setTitle(getTitleResId());
         }
 
@@ -142,6 +148,17 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
 
     public static class MainSettingsFragment extends AbstractSettingsFragment {
         @Override
+        public void onStart() {
+            super.onStart();
+            updateConnectionSummary(Constants.SUBSCREEN_LOCAL_CONNECTION,
+                    Constants.PREFERENCE_LOCAL_URL, Constants.PREFERENCE_LOCAL_USERNAME,
+                    Constants.PREFERENCE_LOCAL_PASSWORD);
+            updateConnectionSummary(Constants.SUBSCREEN_REMOTE_CONNECTION,
+                    Constants.PREFERENCE_REMOTE_URL, Constants.PREFERENCE_REMOTE_USERNAME,
+                    Constants.PREFERENCE_REMOTE_PASSWORD);
+        }
+
+        @Override
         protected @StringRes
         int getTitleResId() {
             return R.string.action_settings;
@@ -158,6 +175,7 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
                     .PREFERENCE_CLEAR_CACHE);
             final Preference clearDefaultSitemapPreference = getPreferenceScreen().findPreference
                     (Constants.PREFERENCE_CLEAR_DEFAULT_SITEMAP);
+            final Preference ringtonePreference = getPreferenceScreen().findPreference(Constants.PREFERENCE_TONE);
 
             String currentDefaultSitemap = clearDefaultSitemapPreference.getSharedPreferences().getString(Constants
                     .PREFERENCE_SITEMAP_NAME, "");
@@ -166,8 +184,18 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
             if (currentDefaultSitemap.isEmpty()) {
                 onNoDefaultSitemap(clearDefaultSitemapPreference);
             } else {
-                clearDefaultSitemapPreference.setSummary(getString(R.string.settings_current_default_sitemap, currentDefaultSitemapLabel));
+                clearDefaultSitemapPreference.setSummary(getString(
+                        R.string.settings_current_default_sitemap, currentDefaultSitemapLabel));
             }
+
+            updateConnectionSummary(Constants.SUBSCREEN_LOCAL_CONNECTION,
+                    Constants.PREFERENCE_LOCAL_URL, Constants.PREFERENCE_LOCAL_USERNAME,
+                    Constants.PREFERENCE_LOCAL_PASSWORD);
+            updateConnectionSummary(Constants.SUBSCREEN_REMOTE_CONNECTION,
+                    Constants.PREFERENCE_REMOTE_URL, Constants.PREFERENCE_REMOTE_USERNAME,
+                    Constants.PREFERENCE_REMOTE_PASSWORD);
+            updateRingtonePreferenceSummary(ringtonePreference, ringtonePreference
+                    .getSharedPreferences().getString(Constants.PREFERENCE_TONE, ""));
 
             subScreenLocalConn.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
@@ -224,16 +252,111 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
                 }
             });
 
-            //fullscreen is not supoorted in builds < 4.4
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                final PreferenceScreen ps = getPreferenceScreen();
-                ps.removePreference(ps.findPreference(Constants.PREFERENCE_FULLSCREEN));
+            ringtonePreference.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object newValue) {
+                    updateRingtonePreferenceSummary(preference, newValue);
+                    return true;
+                }
+            });
+
+            final PreferenceScreen ps = getPreferenceScreen();
+
+            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT) {
+                Log.d(TAG, "Removing fullscreen pref as device isn't running Kitkat or higher");
+                Preference fullscreenPreference = ps.findPreference(Constants.PREFERENCE_FULLSCREEN);
+                getParent(fullscreenPreference).removePreference(fullscreenPreference);
             }
+
+            if (!CloudMessagingHelper.isSupported()) {
+                Log.d(TAG, "Removing full-only prefs");
+                getParent(ringtonePreference).removePreference(ringtonePreference);
+                Preference vibrationPreference =
+                        ps.findPreference(Constants.PREFERENCE_NOTIFICATION_VIBRATION);
+                getParent(vibrationPreference).removePreference(vibrationPreference);
+            }
+
+            ServerProperties props =
+                    getActivity().getIntent().getParcelableExtra(START_EXTRA_SERVER_PROPERTIES);
+            if (props != null && (props.flags() & ServerProperties.SERVER_FLAG_ICON_FORMAT_SUPPORT) == 0) {
+                Preference iconFormatPreference =
+                        ps.findPreference(Constants.PREFERENCE_ICON_FORMAT);
+                getParent(iconFormatPreference).removePreference(iconFormatPreference);
+            }
+            if (props != null && (props.flags() & ServerProperties.SERVER_FLAG_CHART_SCALING_SUPPORT) == 0) {
+                Preference chartScalingPreference =
+                        ps.findPreference(Constants.PREFERENCE_CHART_SCALING);
+                getParent(chartScalingPreference).removePreference(chartScalingPreference);
+            }
+        }
+
+        /**
+         * @author https://stackoverflow.com/a/17633389
+         */
+        private PreferenceGroup getParent(Preference preference) {
+            return getParent(getPreferenceScreen(), preference);
+        }
+
+        /**
+         * @author https://stackoverflow.com/a/17633389
+         */
+        private PreferenceGroup getParent(PreferenceGroup root, Preference preference) {
+            for (int i = 0; i < root.getPreferenceCount(); i++) {
+                Preference p = root.getPreference(i);
+                if (p == preference) {
+                    return root;
+                }
+                if (p instanceof PreferenceGroup) {
+                    PreferenceGroup parent = getParent((PreferenceGroup)p, preference);
+                    if (parent != null) {
+                        return parent;
+                    }
+                }
+            }
+            return null;
         }
 
         private void onNoDefaultSitemap(Preference pref) {
             pref.setEnabled(false);
             pref.setSummary(R.string.settings_no_default_sitemap);
+        }
+
+        private void updateRingtonePreferenceSummary(Preference pref, Object newValue) {
+            String value = (String) newValue;
+            if (TextUtils.isEmpty(value)) {
+                pref.setSummary(R.string.settings_ringtone_none);
+            } else {
+                Ringtone ringtone = RingtoneManager.getRingtone(getActivity(), Uri.parse(value));
+                if (ringtone != null) {
+                    pref.setSummary(ringtone.getTitle(getActivity()));
+                }
+            }
+        }
+
+        private void updateConnectionSummary(String subscreenPrefKey, String urlPrefKey,
+                                            String userPrefKey, String passwordPrefKey) {
+            Preference pref = findPreference(subscreenPrefKey);
+            String url = pref.getSharedPreferences().getString(urlPrefKey, "");
+            String user = pref.getSharedPreferences().getString(userPrefKey, "");
+            String password = pref.getSharedPreferences().getString(passwordPrefKey, "");
+            String summary;
+            if (TextUtils.isEmpty(url)) {
+                summary = getString(R.string.info_not_set);
+            } else {
+                if (url.startsWith("https://") && ! TextUtils.isEmpty(user)
+                        && ! TextUtils.isEmpty(password)) {
+                    summary = getString(R.string.settings_connection_summary,
+                            beautifyUrl(getHostFromUrl(url)));
+                } else {
+                    summary = getString(R.string.settings_insecure_connection_summary,
+                            beautifyUrl(getHostFromUrl(url)));
+                }
+            }
+            pref.setSummary(summary);
+        }
+
+        private String beautifyUrl(String url) {
+            return url.contains("myopenhab.org") ? "myopenHAB" : url;
         }
     }
 

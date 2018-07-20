@@ -32,8 +32,10 @@ import okhttp3.Request;
 public abstract class ServerProperties implements Parcelable {
     private static final String TAG = ServerProperties.class.getSimpleName();
 
-    public static final int SERVER_FLAG_JSON_REST_API = 1 << 0;
-    public static final int SERVER_FLAG_SSE_SUPPORT   = 1 << 1;
+    public static final int SERVER_FLAG_JSON_REST_API         = 1 << 0;
+    public static final int SERVER_FLAG_SSE_SUPPORT           = 1 << 1;
+    public static final int SERVER_FLAG_ICON_FORMAT_SUPPORT   = 1 << 2;
+    public static final int SERVER_FLAG_CHART_SCALING_SUPPORT = 1 << 3;
 
     public static class UpdateHandle {
         public void cancel() {
@@ -105,8 +107,9 @@ public abstract class ServerProperties implements Parcelable {
                 try {
                     JSONObject result = new JSONObject(response);
                     // If this succeeded, we're talking to OH2
-                    int flags = SERVER_FLAG_JSON_REST_API;
-                    client.removeHeader("Accept");
+                    int flags = SERVER_FLAG_JSON_REST_API
+                            | SERVER_FLAG_ICON_FORMAT_SUPPORT
+                            | SERVER_FLAG_CHART_SCALING_SUPPORT;
                     try {
                         String versionString = result.getString("version");
                         int versionNumber = Integer.parseInt(versionString);
@@ -120,7 +123,6 @@ public abstract class ServerProperties implements Parcelable {
                 } catch (JSONException e) {
                     if (response.startsWith("<?xml")) {
                         // We're talking to an OH1 instance
-                        client.addHeader("Accept", "application/xml");
                         handle.builder.flags(0);
                         fetchSitemaps(client, handle, successCb, failureCb);
                     } else {

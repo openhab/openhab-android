@@ -378,6 +378,10 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         }
 
         protected void updateIcon(WidgetImageView iconView, OpenHABWidget widget) {
+            if (widget.icon() == null) {
+                iconView.setImageDrawable(null);
+                return;
+            }
             // This is needed to escape possible spaces and everything according to rfc2396
             String iconUrl = Uri.encode(widget.iconPath(), "/?=&");
             iconView.setImageUrl(mConnection, iconUrl);

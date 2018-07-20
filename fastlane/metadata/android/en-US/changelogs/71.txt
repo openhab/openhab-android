@@ -1,0 +1,2 @@
+## Fixed
+* Small error message and string improvements (#932, #936)
