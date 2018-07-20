@@ -31,6 +31,7 @@ import org.openhab.habdroid.model.OpenHABItem;
 import org.openhab.habdroid.model.OpenHABLabeledValue;
 import org.openhab.habdroid.model.OpenHABLinkedPage;
 import org.openhab.habdroid.model.OpenHABWidget;
+import org.openhab.habdroid.util.CacheManager;
 import org.openhab.habdroid.util.Util;
 
 import java.util.ArrayList;
@@ -213,6 +214,7 @@ public class OpenHABWidgetListFragment extends Fragment
             @Override
             public void onRefresh() {
                 mActivity.showRefreshHintSnackbarIfNeeded();
+                CacheManager.getInstance(getActivity()).clearCache();
                 if (displayPageUrl != null) {
                     mActivity.triggerPageUpdate(displayPageUrl, true);
                 }
