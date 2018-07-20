@@ -96,7 +96,16 @@ public class WidgetImageView extends AppCompatImageView {
         setImageUrl(connection, url, false);
     }
 
+    public void setImageUrl(Connection connection, String url, long timeoutMillis) {
+        setImageUrl(connection, url, timeoutMillis, false);
+    }
+
     public void setImageUrl(Connection connection, String url, boolean forceLoad) {
+        setImageUrl(connection, url, AsyncHttpClient.DEFAULT_TIMEOUT_MS, forceLoad);
+    }
+
+    public void setImageUrl(Connection connection, String url,
+            long timeoutMillis, boolean forceLoad) {
         AsyncHttpClient client = connection.getAsyncHttpClient();
         HttpUrl actualUrl = client.buildUrl(url);
 
@@ -119,7 +128,7 @@ public class WidgetImageView extends AppCompatImageView {
         }
 
         if (cached == null || forceLoad) {
-            mLastRequest = new HttpImageRequest(client, actualUrl);
+            mLastRequest = new HttpImageRequest(client, actualUrl, timeoutMillis);
             mLastRequest.execute(forceLoad);
         }
     }
@@ -251,12 +260,14 @@ public class WidgetImageView extends AppCompatImageView {
     private class HttpImageRequest extends AsyncHttpClient.BitmapResponseHandler {
         private final AsyncHttpClient mClient;
         private final HttpUrl mUrl;
+        private final long mTimeoutMillis;
         private Call mCall;
 
-        public HttpImageRequest(AsyncHttpClient client, HttpUrl url) {
+        public HttpImageRequest(AsyncHttpClient client, HttpUrl url, long timeoutMillis) {
             super(mDefaultSvgSize);
             mClient = client;
             mUrl = url;
+            mTimeoutMillis = timeoutMillis;
         }
 
         @Override
@@ -283,7 +294,7 @@ public class WidgetImageView extends AppCompatImageView {
             HttpClient.CachingMode cachingMode = avoidCache
                     ? HttpClient.CachingMode.AVOID_CACHE
                     : HttpClient.CachingMode.FORCE_CACHE_IF_POSSIBLE;
-            mCall = mClient.get(mUrl.toString(), cachingMode, this);
+            mCall = mClient.get(mUrl.toString(), mTimeoutMillis, cachingMode, this);
         }
 
         public void cancel() {

@@ -2,7 +2,7 @@ openHAB - "Empowering the Smart Home" - открытое ПО для автом�
 
 Версия для F-Droid поддерживает просмотр карт. GCM и отчёты о сбоях удалены. Приложение не будет получать уведомления от openHub Cloud.
 Попробуйте новые функции и быстрее оставьте о них отзыв!
-You can install the beta version alongside the 
+You can install the beta version alongside the <a href="https://f-droid.org/packages/org.openhab.habdroid/">stable version</a>.
 
 <b>Важное примечание</b>
 

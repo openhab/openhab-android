@@ -1,0 +1,7 @@
+## Fixed
+* Some fixes for icon loading (#940)
+* Disable backups (#942)
+* Never show password in cleartext (#943)
+
+## Changed
+* Several preference screen improvements (#944)

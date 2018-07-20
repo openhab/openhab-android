@@ -107,14 +107,13 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import de.duenndns.ssl.MTMDecision;
-import de.duenndns.ssl.MemorizingTrustManager;
 import okhttp3.Call;
 import okhttp3.Headers;
 import okhttp3.Request;
 
+import static org.openhab.habdroid.ui.OpenHABPreferencesActivity.START_EXTRA_OPENHAB_VERSION;
 import static org.openhab.habdroid.util.Util.exceptionHasCause;
-import static org.openhab.habdroid.util.Util.removeProtocolFromUrl;
+import static org.openhab.habdroid.util.Util.getHostFromUrl;
 
 public class OpenHABMainActivity extends AppCompatActivity implements
         AsyncServiceResolver.Listener, ConnectionFactory.UpdateListener {
@@ -319,7 +318,6 @@ public class OpenHABMainActivity extends AppCompatActivity implements
                 if (statusCode == 404 && mConnection != null) {
                     // no bindings endpoint; we're likely talking to an OH1 instance
                     mOpenHABVersion = 1;
-                    mConnection.getAsyncHttpClient().addHeader("Accept", "application/xml");
                     loadSitemapList(true);
                 } else {
                     // other error -> use default handling
@@ -330,7 +328,6 @@ public class OpenHABMainActivity extends AppCompatActivity implements
             @Override
             public void onSuccess(String response, Headers headers) {
                 mOpenHABVersion = 2;
-                mConnection.getAsyncHttpClient().removeHeader("Accept");
                 Log.d(TAG, "openHAB version 2");
                 loadSitemapList(true);
             }
@@ -590,6 +587,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
                     case R.id.settings:
                         Intent settingsIntent = new Intent(OpenHABMainActivity.this,
                                 OpenHABPreferencesActivity.class);
+                        settingsIntent.putExtra(START_EXTRA_OPENHAB_VERSION, getOpenHABVersion());
                         startActivityForResult(settingsIntent, SETTINGS_REQUEST_CODE);
                         return true;
                     case R.id.about:
@@ -1047,12 +1045,16 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         Log.e(TAG, "HTTP status code: " + statusCode);
         CharSequence message;
         if (statusCode >= 400){
-            int resourceID;
-            try {
-                resourceID = getResources().getIdentifier("error_http_code_" + statusCode, "string", getPackageName());
-                message = getString(resourceID);
-            } catch (android.content.res.Resources.NotFoundException e) {
-                message = String.format(getString(R.string.error_http_connection_failed), statusCode);
+            if (error.getMessage().equals("openHAB is offline")) {
+                message = getString(R.string.error_openhab_offline);
+            } else {
+                int resourceID;
+                try {
+                    resourceID = getResources().getIdentifier("error_http_code_" + statusCode, "string", getPackageName());
+                    message = getString(resourceID);
+                } catch (android.content.res.Resources.NotFoundException e) {
+                    message = String.format(getString(R.string.error_http_connection_failed), statusCode);
+                }
             }
         } else if (error instanceof UnknownHostException) {
             Log.e(TAG, "Unable to resolve hostname");
@@ -1070,7 +1072,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
                 message = getString(R.string.error_certificate_revoked);
             } else if (exceptionHasCause(error, SSLPeerUnverifiedException.class)) {
                 message = String.format(getString(R.string.error_certificate_wrong_host),
-                        removeProtocolFromUrl(request.url().toString()));
+                        getHostFromUrl(request.url().toString()));
             } else {
                 message = getString(R.string.error_connection_sslhandshake_failed);
             }
@@ -1096,9 +1098,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
                 String base64Credentials = authHeader.substring("Basic".length()).trim();
                 String credentials = new String(Base64.decode(base64Credentials, Base64.DEFAULT),
                         Charset.forName("UTF-8"));
-                String[] usernameAndPassword = credentials.split(":", 2);
-                builder.append("\nUsername: ").append(usernameAndPassword[0]);
-                builder.append("\nPassword: ").append(usernameAndPassword[1]);
+                builder.append("\nUsername: ").append(credentials.substring(0, credentials.indexOf(":")));
             }
 
             builder.append("\nException stack:\n");
