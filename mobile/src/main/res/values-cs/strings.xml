@@ -84,7 +84,6 @@
   <string name="error_http_code_507">Server openHAB má nedostatek volného místa (kód odpovědi HTTP 507)</string>
   <string name="error_http_code_511">Vyžaduje se síťové ověření (kód odpovědi HTTP 511)</string>
   <string name="error_about_no_conn">Chyba při získávání informací ze serveru openHAB</string>
-  <string name="error_cleartext_not_permitted">HTTP není na tomto serveru povoleno</string>
   <string name="error_openhab_offline">Váš openHAB server je offline, zatímco cloud funguje</string>
   <string name="title_activity_openhabwritetag">Zapsat do NFC tagu</string>
   <string name="title_activity_libraries">Použité knihovny</string>
