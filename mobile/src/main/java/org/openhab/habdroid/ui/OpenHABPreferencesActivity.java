@@ -449,13 +449,13 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
                 return getString(urlSummaryFormatResId, value);
             });
             mUserNamePreference = initEditorPreference(userNamePrefKey, value -> {
+                return TextUtils.isEmpty(value) ? getString(R.string.info_not_set) : value;
+            });
+            mPasswordPreference = initEditorPreference(passwordPrefKey, value -> {
                 @StringRes int resId = TextUtils.isEmpty(value) ? R.string.info_not_set
                         : isWeakPassword(value) ? R.string.settings_openhab_password_summary_weak
                         : R.string.settings_openhab_password_summary_strong;
                 return getString(resId);
-            });
-            mPasswordPreference = initEditorPreference(passwordPrefKey, value -> {
-                return TextUtils.isEmpty(value) ? getString(R.string.info_not_set) : value;
             });
 
             updateIconColors(getPreferenceString(urlPrefKey, ""),
