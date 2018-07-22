@@ -87,7 +87,6 @@
   <string name="error_http_code_507">A openHAB kiszolgálón nincs elég szabad hely (HTTP-válaszkód 507)</string>
   <string name="error_http_code_511">Hálózati hitelesítésre van szükség (HTTP válasz-kód 511)</string>
   <string name="error_about_no_conn">Hiba történt az openHAB szerver adatok lekérése közben</string>
-  <string name="error_cleartext_not_permitted">HTTP nem engedélyezett ezen a szerveren</string>
   <string name="error_openhab_offline">A openHAB kiszolgálója offline állapotban van, de a felhő szolgáltatás fut</string>
   <string name="title_activity_openhabwritetag">NFC-címke írása</string>
   <string name="title_activity_libraries">Használt könyvtárak</string>
