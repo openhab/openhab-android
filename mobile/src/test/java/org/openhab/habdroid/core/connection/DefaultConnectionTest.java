@@ -130,6 +130,10 @@ public class DefaultConnectionTest {
         assertFalse("The request should never succeed in tests", result.isSuccessful());
         assertEquals(TEST_BASE_URL + "/rest/test", result.request.url().toString());
         result.close();
+
+        result = testConnection.getSyncHttpClient().get("/rest/test");
+        assertEquals(TEST_BASE_URL + "/rest/test", result.request.url().toString());
+        result.close();
     }
 
     @Test
