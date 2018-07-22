@@ -87,7 +87,6 @@
   <string name="error_http_code_507">Il server openHAB non ha abbastanza spazio disponibile (codice risposta HTTP 507)</string>
   <string name="error_http_code_511">E\' richiesta un\'autenticazione di rete (codice risposta HTTP 511)</string>
   <string name="error_about_no_conn">Errore nel recupero delle informazioni dal server openHAB</string>
-  <string name="error_cleartext_not_permitted">Questo server non permette HTTP</string>
   <string name="error_openhab_offline">Il server di openHAB è offline mentre è in esecuzione l\'istanza cloud</string>
   <string name="title_activity_openhabwritetag">Scrittura tag NFC</string>
   <string name="title_activity_libraries">Librerie usate</string>
