@@ -87,7 +87,6 @@
   <string name="error_http_code_507">אין מספיק שטח פנוי לשרת openHAB (קוד תגובה HTTP 507)</string>
   <string name="error_http_code_511">נדרש אימות רשת (קוד תגובה HTTP 511)</string>
   <string name="error_about_no_conn">אירעה שגיאה בעת בקשת מידע משרת openHAB</string>
-  <string name="error_cleartext_not_permitted">HTTP אינו מורשה עבור שרת זה</string>
   <string name="error_openhab_offline">שרת openHAB שלך אינו מקוון בזמן שהשרת בענן פעיל</string>
   <string name="title_activity_openhabwritetag">כתיבה לתגית NFC</string>
   <string name="title_activity_libraries">ספריות בשימוש</string>
