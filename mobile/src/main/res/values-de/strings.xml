@@ -87,7 +87,6 @@
   <string name="error_http_code_507">Der openHAB-Server hat nicht genug freien Speicher (HTTP-Statuscode 507)</string>
   <string name="error_http_code_511">Netzwerkauthentifizierung wird gefordert (HTTP-Statuscode 511)</string>
   <string name="error_about_no_conn">Fehler beim Abrufen der openHAB-Server-Informationen</string>
-  <string name="error_cleartext_not_permitted">HTTP ist für diesen Server nicht erlaubt</string>
   <string name="error_openhab_offline">Die openHAB-Cloud-Instanz funktioniert, aber Ihr openHAB-Server ist offline</string>
   <string name="title_activity_openhabwritetag">NFC-Tag beschreiben</string>
   <string name="title_activity_libraries">Verwendete Bibliotheken</string>
