@@ -63,6 +63,7 @@ public abstract class HttpClient {
             long timeoutMillis, CachingMode caching) {
         Request.Builder requestBuilder = new Request.Builder();
         requestBuilder.url(buildUrl(url));
+        requestBuilder.addHeader("User-Agent", "openHAB client for Android");
         if (mAuthHeader != null) {
             requestBuilder.addHeader("Authorization", mAuthHeader);
         }
