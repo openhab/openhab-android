@@ -138,7 +138,7 @@ dependencies {
     // PowerMock
     testImplementation 'org.powermock:powermock-core:1.7.4'
     testImplementation 'org.powermock:powermock-api-mockito2:1.7.0'
-    testImplementation 'org.powermock:powermock-module-junit4:1.7.0'
+    testImplementation 'org.powermock:powermock-module-junit4:1.7.4'
 
     // Espresso UI tests
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2', {
