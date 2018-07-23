@@ -23,6 +23,7 @@ import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceGroup;
 import android.preference.PreferenceScreen;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.annotation.VisibleForTesting;
@@ -442,29 +443,33 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
 
         protected void initPreferences(String urlPrefKey, String userNamePrefKey,
                 String passwordPrefKey, @StringRes int urlSummaryFormatResId) {
-            mUrlPreference = initEditorPreference(urlPrefKey, value -> {
+            mUrlPreference = initEditorPreference(urlPrefKey, R.drawable.ic_earth_grey_24dp, value -> {
                 if (TextUtils.isEmpty(value)) {
                     return getString(R.string.info_not_set);
                 }
                 return getString(urlSummaryFormatResId, value);
             });
-            mUserNamePreference = initEditorPreference(userNamePrefKey, value -> {
-                return TextUtils.isEmpty(value) ? getString(R.string.info_not_set) : value;
-            });
-            mPasswordPreference = initEditorPreference(passwordPrefKey, value -> {
-                @StringRes int resId = TextUtils.isEmpty(value) ? R.string.info_not_set
-                        : isWeakPassword(value) ? R.string.settings_openhab_password_summary_weak
-                        : R.string.settings_openhab_password_summary_strong;
-                return getString(resId);
-            });
+            mUserNamePreference = initEditorPreference(userNamePrefKey, R.drawable.ic_person_grey_24dp,
+                    value -> TextUtils.isEmpty(value) ? getString(R.string.info_not_set) : value);
+            mPasswordPreference = initEditorPreference(passwordPrefKey,
+                    R.drawable.ic_security_grey_24dp,
+                    value -> {
+                        @StringRes int resId = TextUtils.isEmpty(value) ? R.string.info_not_set
+                                : isWeakPassword(value) ? R.string.settings_openhab_password_summary_weak
+                                : R.string.settings_openhab_password_summary_strong;
+                        return getString(resId);
+                    });
 
             updateIconColors(getPreferenceString(urlPrefKey, ""),
                     getPreferenceString(userNamePrefKey, ""),
                     getPreferenceString(passwordPrefKey, ""));
         }
 
-        private Preference initEditorPreference(String key, PrefSummaryGenerator summaryGenerator) {
+        private Preference initEditorPreference(String key, @DrawableRes int iconResId,
+                PrefSummaryGenerator summaryGenerator) {
             Preference preference = getPreferenceScreen().findPreference(key);
+            preference.setIcon(DrawableCompat.wrap(
+                    ContextCompat.getDrawable(getActivity(), iconResId)));
             preference.setOnPreferenceChangeListener((pref, newValue) -> {
                 updateIconColors(getActualValue(pref, newValue, mUrlPreference),
                         getActualValue(pref, newValue, mUserNamePreference),
@@ -509,18 +514,12 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
 
         private void updateIconColor(Preference pref, IconColorGenerator colorGenerator) {
             Drawable icon = pref.getIcon();
-            if (icon == null) {
-                return;
-            }
-
             Integer colorResId = colorGenerator.getIconColor();
             if (colorResId != null) {
-                icon = DrawableCompat.wrap(icon);
                 DrawableCompat.setTint(icon, ContextCompat.getColor(pref.getContext(), colorResId));
             } else {
                 DrawableCompat.setTintList(icon, null);
             }
-            pref.setIcon(icon);
         }
     }
 
