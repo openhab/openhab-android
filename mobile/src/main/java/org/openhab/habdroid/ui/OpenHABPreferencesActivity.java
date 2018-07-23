@@ -452,8 +452,7 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
             mUserNamePreference = initEditorPreference(userNamePrefKey, R.drawable.ic_person_grey_24dp,
                     value -> TextUtils.isEmpty(value) ? getString(R.string.info_not_set) : value);
             mPasswordPreference = initEditorPreference(passwordPrefKey,
-                    R.drawable.ic_security_grey_24dp,
-                    value -> {
+                    R.drawable.ic_security_grey_24dp, value -> {
                         @StringRes int resId = TextUtils.isEmpty(value) ? R.string.info_not_set
                                 : isWeakPassword(value) ? R.string.settings_openhab_password_summary_weak
                                 : R.string.settings_openhab_password_summary_strong;
