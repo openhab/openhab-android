@@ -7,7 +7,7 @@
   <string name="app_preferences_name">Beállítások</string>
   <string name="app_notifications">Értesítések</string>
   <!-- Main menu items -->
-  <string name="mainmenu_openhab_sitemaps">Oldaltérképek</string>
+  <string name="mainmenu_openhab_sitemaps">Felületek</string>
   <string name="mainmenu_openhab_preferences">Beállítások</string>
   <string name="mainmenu_openhab_selectsitemap">Válassza ki az alapértelmezett felületet</string>
   <string name="mainmenu_openhab_clearcache">Gyorsítótári képek törlése</string>
@@ -22,17 +22,12 @@
   <string name="settings_openhab_username">Felhasználónév</string>
   <string name="settings_openhab_password">Jelszó</string>
   <string name="settings_openhab_sslclientcert">SSL ügyfél-tanúsítvány</string>
-  <string name="settings_openhab_sslclientcert_howto">SSL ügyféltanúsítvány útmutató</string>
   <string name="settings_openhab_sslclientcert_howto_summary">Koppintson ide, hogy többet tudhasson meg a SSL ügyféltanúsítvány-hitelesítés beállításáról</string>
   <string name="settings_openhab_screentimeroff">Időzített kijelző tiltása</string>
   <string name="settings_openhab_screentimeroff_summary">Ha openHAB fut. Tiltsa le a kijelzővel kapcsolatos időzítőket</string>
   <string name="settings_openhab_demomode">Bemutató mód</string>
   <string name="settings_openhab_demomode_summary">Demo módban fut</string>
   <string name="settings_openhab_theme">Sablonok</string>
-  <string name="settings_openhab_sslcert">SSL-tanúsítvány figyelmen kívül hagyása</string>
-  <string name="settings_openhab_sslcert_summary">Tanúsítvány figyelmen kívül hagyása SSL érvényesít során</string>
-  <string name="settings_openhab_sslhost">SSL - gépnév figyelmen kívül hagyása</string>
-  <string name="settings_openhab_sslhost_summary">SSL - gépnév figyelmen kívül hagyása érvényesít során</string>
   <string name="settings_openhab_fullscreen">Teljes képernyő</string>
   <string name="settings_openhab_fullscreen_summary">Megjelenítése teljes képernyős módban</string>
   <string name="settings_openhab_icon_format">Ikon formátum</string>
@@ -45,10 +40,10 @@
   <string name="settings_chart_scaling_value_m">Alapértelmezett</string>
   <string name="settings_chart_scaling_value_l">Nagy</string>
   <string name="settings_ringtone">Értesítési csengőhang</string>
+  <string name="settings_ringtone_none">Nincs</string>
   <string name="settings_clear_default_sitemap">Alapértelmezett felületet eltávolítása</string>
   <string name="settings_no_default_sitemap">Nincs alapértelmezett felületet kiválasztva</string>
-  <string name="settings_current_default_sitemap">Alapértelmezett felületet</string>
-  <string name="settings_openhab_sslsettings">Titkosítás</string>
+  <string name="settings_current_default_sitemap">Jelenlegi alapértelmezett felületet: %1$s</string>
   <string name="settings_openhab_alt_connection">Távoli</string>
   <string name="settings_openhab_connection">Helyi</string>
   <string name="settings_notification_vibration">Rezgés értesítéskor</string>
@@ -56,6 +51,8 @@
   <string name="settings_notification_vibration_short">Rövid</string>
   <string name="settings_notification_vibration_long">Hosszú</string>
   <string name="settings_notification_vibration_twice">Kétszer</string>
+  <string name="settings_connection_summary">Csatlakoztatva a %s</string>
+  <string name="settings_insecure_connection_summary">Nembiztonságosan csatakoztatva a %s</string>
   <!-- App messages strings -->
   <string name="title_voice_widget">openHAB hangvezérlésére szolgáló parancsok</string>
   <string name="info_voice_input">openHAB, szolgálatodra!</string>
@@ -64,32 +61,33 @@
   <string name="info_conn_url">Kapcsolódás a helyi URL-hez</string>
   <string name="info_conn_rem_url">Kapcsolódás a távoli URL-hez</string>
   <!-- Error messages -->
-  <string name="error_empty_sitemap_list">openHAB üres oldaltérképet adott vissza</string>
+  <string name="error_empty_sitemap_list">openHAB üres felületet adott vissza</string>
   <string name="error_network_not_available">Hálózat nem elérhető</string>
-  <string name="error_http_connection_failed">Kapcsolódás sikertelen. Egy nem várt válasz érkezett, míg kapcsolódni próbált openHAB szolgálóhoz (HTTP válasz-kód: %d)</string>
+  <string name="error_http_connection_failed">Kapcsolódás sikertelen. Egy nem várt válasz érkezett, míg kapcsolódni próbált az openHAB kiszolgálóhoz (HTTP válasz-kód: %d).</string>
   <string name="error_invalid_url">Adjon meg egy érvényes URL-cím \' http(s)://kiszolgáló(:port)/\' formában</string>
   <string name="error_connection_failed">Sikertelen kapcsolódás</string>
   <string name="error_unable_to_resolve_hostname">Névfeloldás sikertelen</string>
   <string name="error_connection_sslhandshake_failed">SSL ellenőrzés sikertelen</string>
-  <string name="error_certificate_not_trusted">Az SSL-tanúsítvány nem megbízható. Kérjük, importálja a gyökér tanúsítványt, vagy tiltsa le a tanúsítvány ellenőrzést az SSL érvényesítése során</string>
-  <string name="error_certificate_expired">SSL-tanúsítvány már lejárt. Kérjük, szerezzen be új tanúsítványt, vagy tiltsa le a tanúsítvány érvényesítése során az SSL ellenőrzést</string>
-  <string name="error_certificate_not_valid_yet">SSL-tanúsítvány még nem érvényes. Kérjük, szerezzen be egy megfelelő tanúsítványt, vagy tiltsa le a tanúsítvány ellenőrzést az SSL érvényesítése során. Illetve, ellenőrizze készülékén megfelelően van e beállítva az idő</string>
-  <string name="error_certificate_revoked">SSL-tanúsítvány már lejárt. Kérjük, szerezzen be új tanúsítványt, vagy tiltsa le a tanúsítvány érvényesítése során az SSL ellenőrzést</string>
+  <string name="error_certificate_not_trusted">Az SSL-tanúsítvány nem megbízható. Kérjük, importálja a gyökér tanúsítványt, vagy fogadja el a tanúsítványt az SSL handshake közben.</string>
+  <string name="error_certificate_expired">Az SSL tanúsítvány lejárt. Kérjük, szerezzen be új tanúsítványt, vagy fogadja el a tanúsítványt az SSL handshake közben.</string>
+  <string name="error_certificate_not_valid_yet">Az SSL tanúsítvány még nem érvényes. Kérjük, szerezzen be egy megfelelő tanúsítványt, vagy fogadja el a tanúsítványt az SSL handshake közben. Illetve, ellenőrizze készülékén megfelelően van e beállítva az idő.</string>
+  <string name="error_certificate_revoked">Az SSL tanúsítvány vissza lett vonva. Kérjük, szerezzen be új tanúsítványt, vagy fogadja el a tanúsítványt az SSL handshake közben.</string>
   <string name="error_certificate_wrong_host">SSL-tanúsítvány érvénytelen %s</string>
-  <string name="error_http_code_401">A hitelesítés sikertelen. Kérjük, ellenőrizze a beállított felhasználónevet és jelszót, illetve az SSL ügyféltanúsítványt (HTTP-válaszkód 401)</string>
-  <string name="error_http_code_403">A hitelesítés sikertelen. Kérjük, ellenőrizze a beállított felhasználónevet és jelszót, illetve az SSL ügyféltanúsítványt (HTTP-válaszkód 403)</string>
-  <string name="error_http_code_407">A hitelesítés sikertelen. Kérjük, ellenőrizze a beállított felhasználónevet és jelszót, illetve az SSL ügyféltanúsítványt (HTTP-válaszkód 407)</string>
-  <string name="error_http_code_414">URL túl hosszú. Kérjük, használja az IP-címet vagy egy rövidebb URL-t (HTTP-válaszkód 414)</string>
-  <string name="error_http_code_426">Kötelező a HTTPS használata. Módosítsa az URL-t (HTTP válaszkód, 426.)</string>
+  <string name="error_http_code_401">A hitelesítés sikertelen. Kérjük, ellenőrizze a beállított felhasználónevet és jelszót, illetve az SSL ügyféltanúsítványt (HTTP-válaszkód 401).</string>
+  <string name="error_http_code_403">A hitelesítés sikertelen. Kérjük, ellenőrizze a beállított felhasználónevet és jelszót, illetve az SSL ügyféltanúsítványt (HTTP-válaszkód 403).</string>
+  <string name="error_http_code_407">A hitelesítés sikertelen. Kérjük, ellenőrizze a beállított felhasználónevet és jelszót, illetve az SSL ügyféltanúsítványt (HTTP-válaszkód 407).</string>
+  <string name="error_http_code_414">URL túl hosszú. Kérjük, használja az IP-címet vagy egy rövidebb URL-t (HTTP-válaszkód 414).</string>
+  <string name="error_http_code_426">Kötelező a HTTPS használata. Módosítsa az URL-t (HTTP válaszkód, 426.).</string>
   <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
-  <string name="error_http_code_495">A hitelesítés sikertelen. Kérjük, ellenőrizze a megadott SSL ügyféltanúsítvány (HTTP-válaszkód 495)</string>
+  <string name="error_http_code_495">A hitelesítés sikertelen. Kérjük, ellenőrizze a megadott SSL ügyféltanúsítvány (HTTP-válaszkód 495).</string>
   <string name="error_http_code_496">SSL ügyfél-tanúsítvány szükség (HTTP válasz-kód 496)</string>
   <string name="error_http_code_502">Az átjáró érvénytelen választ kapott a openHAB szervertől (HTTP válaszkód, 502.)</string>
   <string name="error_http_code_503">A openHAB szerver ideiglenesen nem érhető el (HTTP válasz-kód 503)</string>
-  <string name="error_http_code_504">Átjáró időtúllépés. Úgy tűnik, hogy a átjáró fut, de nem kap választ a openHAB szervertől (HTTP-válaszkód 504)</string>
+  <string name="error_http_code_504">Átjáró időtúllépés. Úgy tűnik, hogy a átjáró fut, de nem kap választ a openHAB szervertől (HTTP-válaszkód 504).</string>
   <string name="error_http_code_507">A openHAB kiszolgálón nincs elég szabad hely (HTTP-válaszkód 507)</string>
   <string name="error_http_code_511">Hálózati hitelesítésre van szükség (HTTP válasz-kód 511)</string>
   <string name="error_about_no_conn">Hiba történt az openHAB szerver adatok lekérése közben</string>
+  <string name="error_openhab_offline">A openHAB kiszolgálója offline állapotban van, de a felhő szolgáltatás fut</string>
   <string name="title_activity_openhabwritetag">NFC-címke írása</string>
   <string name="title_activity_libraries">Használt könyvtárak</string>
   <string name="info_write_tag">Érintse meg a címkét, és tartsa közel, amíg meg nem jelenik a visszaigazoló üzenet</string>
@@ -111,7 +109,13 @@
   <string name="list_loading_message">Betöltés\u2026</string>
   <!-- Strings for MemorizingTrustManager activity -->
   <string name="mtm_accept_cert">Elfogad ismeretlen tanúsítványt?</string>
-  <string name="mtm_decision_always">Mindig</string>
+  <string name="mtm_trust_anchor">A kiszolgáló tanúsítványa nincs aláírva egy ismert hitelesítésszolgáltató által</string>
+  <string name="mtm_cert_expired">A szerver tanúsítvány lejárt</string>
+  <string name="mtm_accept_servername">Elfogad nem egyező kiszolgáló nevet?</string>
+  <string name="mtm_hostname_mismatch">Kiszolgáló nem tudta hitelesíteni a \&quot;%s\&quot;. A tanúsítvány érvényessége:</string>
+  <string name="mtm_connect_anyway">Ennek ellenére szeretne csatlakozni?</string>
+  <string name="mtm_cert_details">Tanúsítvány részletei:</string>
+  <string name="mtm_decision_always">Elfogad</string>
   <string name="mtm_decision_once">Egyszer</string>
   <string name="mtm_decision_abort">Megszakítás</string>
   <string name="mtm_notification">Tanúsítvány ellenőrzése</string>
@@ -130,10 +134,10 @@
   <string name="nfc_action_toggle">Átvált</string>
   <string name="nfc_activate">Aktiválás</string>
   <string name="nfc_action_current_color">Aktuális szín</string>
-  <string name="nfc_action_to_sitemap_page">Ugrás az oldaltérkép oldalra</string>
+  <string name="nfc_action_to_sitemap_page">Ugrás az felületekhez</string>
   <!-- Drawer -->
-  <string name="drawer_open">Oldaltérkép tervező nyitva</string>
-  <string name="drawer_close">Oldaltérkép tervező zárva</string>
+  <string name="drawer_open">Felület tervező nyitva</string>
+  <string name="drawer_close">Felület tervező zárva</string>
   <string name="mainmenu_openhab_voice_recognition">Hangfelsimerés</string>
   <!-- About -->
   <string name="about_title">Névjegy</string>
@@ -148,22 +152,17 @@
   <string name="about_server">openHAB server</string>
   <string name="about_translation">Segíts nekünk az openHAB fordításában</string>
   <string name="about_privacy_policy">Adatvédelmi irányelvek</string>
-  <string name="settings_debug_messages_summary">Jelszavakat egyszerű szövegként jeleníti meg!</string>
-  <string name="settings_debug_messages_title">Hibakeresési üzenetek megjelenítése</string>
+  <string name="settings_debug_messages_title">Mutassa a hibaelhárítási információkat</string>
   <string name="error_couldnt_determine_openhab_url">openHAB URL nem található</string>
   <string name="unknown">Ismeretlen</string>
   <string name="error_network_type_unsupported">Hálózat típusa (%s) nem támogatott</string>
   <string name="set">Beállít</string>
   <string name="cancel">Mégse</string>
   <string name="close">Bezár</string>
-  <string name="app_intro">Intro</string>
-  <string name="intro_welcome">Üdvözöljük openHAB-ban</string>
-  <string name="intro_whatis">Szállító- és technológia független nyílt forráskódú automatizálási szoftver az Ön otthonába</string>
-  <string name="intro_themes">Témák</string>
-  <string name="intro_themes_description">Választhat számos téma közül</string>
   <string name="try_again_button">Próbáld újra</string>
   <string name="go_to_settings_button">Beállítások megnyitása</string>
   <string name="configuration_missing">Az openHAB szervert nem tudta automatikusan felderíteni. Állítsd be manuálisan az IP címet vagy host nevet a szerver beállításokban.</string>
+  <string name="no_remote_server">Helyi hálózat nem érhető el, és a távoli kiszolgáló nincs konfigurálva</string>
   <string name="resolving_openhab">Megpróbálja felderíteni az openHAB szerver példányt\u2026</string>
   <!-- Content description for images -->
   <string name="content_description_open_roller_shutter">Redőny nyitása</string>
@@ -178,11 +177,16 @@
   <string name="swipe_to_refresh_description">Az alkalmazás frissül automatikusan, általában nem kell saját kezűleg ezt megtenni</string>
   <string name="swipe_to_refresh_dismiss">Értettem!</string>
   <!-- Intro strings -->
+  <string name="app_intro">Intro</string>
+  <string name="intro_welcome">Üdvözöljük openHAB-ban</string>
+  <string name="intro_whatis">Szállító- és technológia független nyílt forráskódú automatizálási szoftver az Ön otthonába</string>
+  <string name="intro_themes">Témák</string>
+  <string name="intro_themes_description">Választhat számos téma közül</string>
+  <string name="intro_voice_description">Irányítsd az otthonod a hangoddal</string>
+  <string name="intro_nfc">NFC</string>
+  <string name="intro_nfc_description">Az elemek vezérlése az elem hosszú megnyomásával összeköthető egy NFC címkékhez</string>
   <!-- Intro "SKIP" button -->
   <string name="app_intro_skip_button">Kihagyás</string>
   <!-- Intro "DONE" button -->
   <string name="app_intro_done_button">Kész</string>
-  <string name="intro_voice_description">Irányítsd az otthonod a hangoddal</string>
-  <string name="intro_nfc">NFC</string>
-  <string name="intro_nfc_description">Az elemek vezérlése az elem hosszú megnyomásával köthető az NFC címkékhez</string>
 </resources>

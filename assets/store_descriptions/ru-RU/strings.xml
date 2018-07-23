@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <strings>
-    <intro>openHAB - "Empowering the Smart Home" - открытое ПО для автоматизации "умного дома", не зависящая от производителей и технологий</intro>
-    <whatis>openHAB - это платформа домашней автоматизации с открытым исходным кодом основанная на Java и интегрирующая в себе большое количество систем "умного дома" в единое решение.</whatis>
+    <intro>openHAB - "Empowering the Smart Home" - открытое ПО для автоматизации "умного дома", не зависящее от производителей и технологий</intro>
+    <whatis>openHAB - это платформа домашней автоматизации с открытым исходным кодом, основанная на Java и интегрирующая в себе большое количество систем "умного дома" в единое решение.</whatis>
     <rules>На верхнем уровне абстракции все подключенные устройства доступны для правил автоматизации и различных пользовательских интерфейсов.</rules>
     <supported>Поддерживаемые продукты</supported>
     <bindings>Более 200 надстроек обеспечивают поддержку устройств, технологий и протоколов связи различных производителей. Для примера: Z-Wave, Philips Hue, Amazon Echo, Chromecast и Sonos. Доступные дополнения для устройств и дополнительного функционала можно найти по адресу https://www.openhab.org/addons/</bindings>
@@ -16,7 +16,7 @@
     <empty_point>• ...</empty_point>
 
     <oss_community>Сообщество Open Source</oss_community>
-    <forum>Сообщество openHAB строго придерживается принципов Open Source. Форум, с более чем 13 000 зарегистрированных пользователей, это место, где можно найти рекомендации, помощь и идеи для новых решений. Присоединяйтесь к сообществу openHAB на https://community.openhab.org</forum>
+    <forum>Сообщество openHAB строго придерживается принципов Open Source. Форум, с более чем 13 000 зарегистрированных пользователей - это место, где можно найти рекомендации, помощь и идеи для новых решений. Присоединяйтесь к сообществу openHAB на https://community.openhab.org</forum>
 
     <report_issues>Если вы найдете ошибку, пожалуйста, сообщите об этом на форуме или на https://github.com/openhab/openhab-android/issues</report_issues>
     <translation>Если Вы хотите перевести приложение на свой язык - присоединяйтесь к нам на https://crowdin.com/project/openhab-android</translation>
@@ -26,9 +26,9 @@
     <oh_server>Для этого приложения необходим сервер openHAB</oh_server>
     <short_description>Поставщик технологий с открытым исходным кодом для автоматизации "умного дома"</short_description>
     <fdroid>Версия для F-Droid поддерживает просмотр карт. GCM и отчёты о сбоях удалены. Приложение не будет получать уведомления от openHub Cloud.</fdroid>
-    <fdroid_beta> <a href=""/></fdroid_beta>
+    <fdroid_beta><![CDATA[Вы можете установить бета версию параллельно со <a href="https://f-droid.org/packages/org.openhab.habdroid/">стабильной версией</a>.]]></fdroid_beta>
     <fdroid_privacy_policy>Политика конфиденциальности: https://www.openhabfoundation.org/privacy</fdroid_privacy_policy>
-    <fdroid_anti_features/>
+    <fdroid_anti_features>AntiFeatures</fdroid_anti_features>
     <fdroid_anti_features_text>Приложение помечено флагом «NonFreeAsset», поскольку логотип openHAB не является свободно используемым.</fdroid_anti_features_text>
     <beta>Попробуйте новые функции и быстрее оставьте о них отзыв!</beta>
     <play_beta>Вы можете установить бета-версию вместе со стабильной версией.</play_beta>

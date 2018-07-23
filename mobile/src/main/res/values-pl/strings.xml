@@ -9,7 +9,6 @@
   <!-- Main menu items -->
   <string name="mainmenu_openhab_sitemaps">Mapy witryn</string>
   <string name="mainmenu_openhab_preferences">Ustawienia</string>
-  <string name="mainmenu_openhab_selectsitemap">Wybierz domyślną mapę witryny</string>
   <string name="mainmenu_openhab_clearcache">Wyczyść obrazy pamięci podręcznej</string>
   <!-- App settings strings -->
   <string name="settings_connection_title">Ustawienia połączenia</string>
@@ -22,26 +21,17 @@
   <string name="settings_openhab_username">Nazwa użytkownika</string>
   <string name="settings_openhab_password">Hasło</string>
   <string name="settings_openhab_sslclientcert">Certyfikat klienta SSL</string>
-  <string name="settings_openhab_sslclientcert_howto">Certyfikat klienta SSL pomoc</string>
   <string name="settings_openhab_sslclientcert_howto_summary">Naciśnij tutaj, aby uzyskać kilka wskazówek i wyjaśnień o tym, jak skonfigurować autoryzację certyfikatu klienta SSL</string>
   <string name="settings_openhab_screentimeroff">Wyłącz wyświetlanie zegara</string>
   <string name="settings_openhab_screentimeroff_summary">Wyłącz wyświetlanie wyłącznik zegara, kiedy openHAB jest włączony</string>
   <string name="settings_openhab_demomode">Wersja demonstracyjna</string>
   <string name="settings_openhab_demomode_summary">Uruchom w trybie demonstracyjnym</string>
   <string name="settings_openhab_theme">Motyw</string>
-  <string name="settings_openhab_sslcert">Ignoruj certyfikat SSL</string>
-  <string name="settings_openhab_sslcert_summary">Ignoruj sprawdzenie poprawności certyfikatu podczas uzgadniania SSL</string>
-  <string name="settings_openhab_sslhost">Ignoruj nazwę hosta SSL</string>
-  <string name="settings_openhab_sslhost_summary">Ignoruj sprawdzanie nazwy hosta podczas uzgadniania SSL</string>
   <string name="settings_openhab_fullscreen">Pełny ekran</string>
   <string name="settings_openhab_fullscreen_summary">Wyświetl w trybie pełnego ekranu</string>
   <string name="settings_openhab_icon_format">Format ikon</string>
   <string name="settings_openhab_icon_format_png">Mapa bitowa</string>
   <string name="settings_openhab_icon_format_svg">Wektor</string>
-  <string name="settings_clear_default_sitemap">Wyczyść domyślną mapę witryn</string>
-  <string name="settings_no_default_sitemap">Nie wybrano domyślnej mapy witryn</string>
-  <string name="settings_current_default_sitemap">Obecna domyślna mapa witryn: %1$s</string>
-  <string name="settings_openhab_sslsettings">Szyfrowanie</string>
   <string name="settings_openhab_alt_connection">Ustawienia serwera zdalnego</string>
   <string name="settings_openhab_connection">Ustawienia serwera lokalnego</string>
   <!-- App messages strings -->
@@ -51,23 +41,13 @@
   <string name="info_conn_url">Łączenie z lokalnym URL</string>
   <string name="info_conn_rem_url">Łączenie ze zdalnym adresem URL</string>
   <!-- Error messages -->
-  <string name="error_empty_sitemap_list">openHAB zwrócił pustą listę map witryn</string>
   <string name="error_network_not_available">Sieć jest niedostępna</string>
-  <string name="error_http_connection_failed">Otrzymano nieprawidłową odpowiedź od openHAB. Proszę sprawdzić, czy openHAB działa poprawnie (kod odpowiedzi HTTP %d)</string>
   <string name="error_invalid_url">Proszę wprowadź poprawny adres URL w formie \'protokół://host:port/\'</string>
   <string name="error_connection_failed">Połączenie z hostem nie powiodło się</string>
   <string name="error_unable_to_resolve_hostname">Nie można określić nazwy hosta</string>
   <string name="error_connection_sslhandshake_failed">Uzgadnianie SSL nie powiodło się - może potrzebujesz właściwego certyfikatu klienta</string>
-  <string name="error_certificate_expired">Certyfikat SSL jest przestarzały. Proszę uzyskaj nowy certyfikat lub wyłącz sprawdzanie poprawności certyfikatu podczas uzgadniania SSL</string>
-  <string name="error_certificate_revoked">Certyfikat SSL został unieważniony. Proszę uzyskaj nowy certyfikat lub wyłącz sprawdzanie poprawności certyfikatu podczas uzgadniania SSL</string>
   <string name="error_certificate_wrong_host">Certyfikat SSL dla %s jest nieprawidłowy</string>
-  <string name="error_http_code_401">Autoryzacja użytkownika nie powiodła się. Sprawdź nazwę użytkownika, hasło i certyfikat klienta SSL (kod błędu HTTP 401)</string>
-  <string name="error_http_code_403">Autoryzacja użytkownika nie powiodła się. Sprawdź nazwę użytkownika, hasło i certyfikat klienta SSL (kod odpowiedzi HTTP 403)</string>
-  <string name="error_http_code_407">Autoryzacja użytkownika nie powiodła się. Sprawdź nazwę użytkownika, hasło i certyfikat klienta SSL (kod odpowiedzi HTTP 407)</string>
-  <string name="error_http_code_414">Adres URL jest zbyt długi (kod odpowiedzi HTTP 414)</string>
-  <string name="error_http_code_426">HTTPS jest wymagany. Zmień adres URL openHAB (kod odpowiedzi HTTP 426)</string>
   <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
-  <string name="error_http_code_495">Nieprawidłowy certyfikat klienta SSL (kod odpowiedzi HTTP 495)</string>
   <string name="error_http_code_496">Certyfikat klienta SSL jest wymagany (kod odpowiedzi HTTP 496)</string>
   <string name="error_http_code_502">Twój odwrócony serwer proxy otrzymał nieprawidłową odpowiedź od openHAB (kod odpowiedzi HTTP 502)</string>
   <string name="error_http_code_503">openHAB jest tymczasowo niedostępny (kod odpowiedzi HTTP 503)</string>
@@ -89,8 +69,6 @@
   <string name="info_not_set">Nie ustawiono</string>
   <!-- Notification list strings -->
   <!-- Strings for MemorizingTrustManager activity -->
-  <string name="mtm_accept_cert">Akceptować nieznany Certyfikat?</string>
-  <string name="mtm_decision_always">Zawsze</string>
   <string name="mtm_decision_once">Jednorazowo</string>
   <string name="mtm_decision_abort">Anuluj</string>
   <string name="mtm_notification">Weryfikacja certyfikatu</string>
@@ -123,18 +101,11 @@
   <string name="about_community">Społeczność openHAB</string>
   <string name="about_server">Serwer openHAB</string>
   <string name="about_translation">Pomóż nam tłumaczyć openHAB</string>
-  <string name="settings_debug_messages_summary">Hasła będą wyświetlane w postaci zwykłego tekstu!</string>
-  <string name="settings_debug_messages_title">Pokaż komunikaty debugowania</string>
   <string name="error_couldnt_determine_openhab_url">Nie można określić adresu URL openHAB</string>
   <string name="unknown">Nieznane</string>
   <string name="error_network_type_unsupported">Typ sieci (%s) nie jest wspierany</string>
   <string name="set">Wybierz</string>
   <string name="cancel">Anuluj</string>
-  <string name="app_intro">Wprowadzenie</string>
-  <string name="intro_welcome">Witaj w openHAB</string>
-  <string name="intro_whatis">Otwarte oprogramowanie do automatyzacji Twojego domu</string>
-  <string name="intro_themes">Motywy</string>
-  <string name="intro_themes_description">Wybierz spośród wielu motywów</string>
   <string name="try_again_button">Spróbuj ponownie</string>
   <string name="go_to_settings_button">Przejdź do ustawień</string>
   <!-- Content description for images -->
@@ -149,6 +120,11 @@
   <string name="content_description_open_openhab">Otwórz openHAB</string>
   <string name="swipe_to_refresh_dismiss">Rozumiem!</string>
   <!-- Intro strings -->
+  <string name="app_intro">Wprowadzenie</string>
+  <string name="intro_welcome">Witaj w openHAB</string>
+  <string name="intro_whatis">Otwarte oprogramowanie do automatyzacji Twojego domu</string>
+  <string name="intro_themes">Motywy</string>
+  <string name="intro_themes_description">Wybierz spośród wielu motywów</string>
   <!-- Intro "SKIP" button -->
   <string name="app_intro_skip_button">POMIŃ</string>
   <!-- Intro "DONE" button -->
