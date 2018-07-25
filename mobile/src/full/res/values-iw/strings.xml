@@ -8,4 +8,10 @@
   <string name="info_openhab_gcm_connected">המכשיר נרשם בהצלחה לשירות העברת הודעות בענן של גוגל</string>
   <string name="notification_channel_default">ברירת מחדל</string>
   <string name="notification_channel_severity_value">דרגת חומרה \'%1$s \'</string>
+  <plurals name="summary_notification_text">
+    <item quantity="one">התראה חדשה d%</item>
+    <item quantity="two">d% התראות חדשות</item>
+    <item quantity="many">d% התראות חדשות</item>
+    <item quantity="other">d% התראות חדשות</item>
+  </plurals>
 </resources>
