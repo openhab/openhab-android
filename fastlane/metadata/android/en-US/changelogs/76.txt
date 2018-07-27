@@ -1,0 +1,2 @@
+## Added
+* Add icons to settings menu (#952)
