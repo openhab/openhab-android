@@ -21,6 +21,8 @@
   <string name="settings_openhab_alturl_summary">כתובת לוח השליטה ב openHAB כאשר הכתובת המקומית אינה זמינה. הגדרה נוכחית: %s</string>
   <string name="settings_openhab_username">שם משתמש</string>
   <string name="settings_openhab_password">סיסמה</string>
+  <string name="settings_openhab_password_summary_weak">סיסמא חלשה</string>
+  <string name="settings_openhab_password_summary_strong">סיסמא חזקה</string>
   <string name="settings_openhab_sslclientcert">תעודת לקוח SSL</string>
   <string name="settings_openhab_sslclientcert_howto_summary">הקש כאן כדי לקבל כמה רמזים והסברים על איך להגדיר אימות תעודת לקוח SSL</string>
   <string name="settings_openhab_screentimeroff">ביטול כיבוי מסך אוטומטי</string>
