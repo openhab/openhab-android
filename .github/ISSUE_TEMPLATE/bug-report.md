@@ -1,3 +1,9 @@
+---
+name: Bug report
+about: 'Create a report to help us improve '
+
+---
+
 <!-- Please search the issue, if there is one with your issue -->
 
 ### Actual behaviour
@@ -24,7 +30,7 @@ Describe us what should happen
 * Device model: 
 * Stock or customized ROM: 
 * App version <!-- Can be found under "About" -->: 
-* Build flavor <!-- Play Store = "Full", F-Droid = "Foss", GitHub has both apks. If self-built and you haven't changed the flavor, it's Foss -->: 
+* Build flavor <!-- Play Store and GitHub = "Full", F-Droid = "Foss". If self-built and you haven't changed the flavor, it's Foss -->: 
 * Device language: 
 
 #### Server
@@ -45,13 +51,17 @@ Insert your log here
 
 #### openHAB Server log
 ```
-Insert your log here
+Insert your log here. If you have installed openHAB via `apt-get`, the log is located under `/var/log/openhab2/openhab.log`
 ```
 
 #### Reverse Proxy log
 ```
-Insert your reverse proxy error log here
+Insert your reverse proxy error log here.
+For nginx: `/var/log/nginx/error.log`
+For Apache 2: `/var/log/apache2/error.log`
 ```
 ```
 Insert your reverse proxy access log here
+For nginx: `/var/log/nginx/access.log`
+For Apache 2: `/var/log/apache2/access.log`
 ```
