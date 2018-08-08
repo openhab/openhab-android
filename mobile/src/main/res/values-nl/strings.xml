@@ -9,6 +9,7 @@
   <!-- Main menu items -->
   <string name="mainmenu_openhab_sitemaps">Sitemaps</string>
   <string name="mainmenu_openhab_preferences">Instellingen</string>
+  <string name="mainmenu_openhab_selectsitemap">Selecteer standaard Sitemap</string>
   <string name="mainmenu_openhab_clearcache">Verwijder afbeeldingscache</string>
   <!-- App settings strings -->
   <string name="settings_connection_title">Verbindingsinstellingen</string>
@@ -32,20 +33,44 @@
   <string name="settings_openhab_icon_format">Pictogramindeling</string>
   <string name="settings_openhab_icon_format_png">Bitmap</string>
   <string name="settings_openhab_icon_format_svg">Vector</string>
+  <string name="settings_chart_scaling">Grafiek schalen</string>
+  <string name="settings_chart_scaling_summary">Opmerking: Kleiner schalen krimpt lettertypen en de breedte van de lijn, dus is er meer ruimte voor de grafiek, maar leesbaarheid zou er onder kunnen lijden.</string>
+  <string name="settings_chart_scaling_value_xs">Zeer klein</string>
+  <string name="settings_chart_scaling_value_s">Klein</string>
+  <string name="settings_chart_scaling_value_m">Standaard</string>
+  <string name="settings_chart_scaling_value_l">Groot</string>
+  <string name="settings_ringtone">Notficatiegeluid</string>
+  <string name="settings_ringtone_none">Geen</string>
+  <string name="settings_clear_default_sitemap">Verwijder standaard Sitemap</string>
+  <string name="settings_no_default_sitemap">Geen standaard Sitemap geselecteerd</string>
+  <string name="settings_current_default_sitemap">Standaard Sitemap: %1$s</string>
   <string name="settings_openhab_alt_connection">Extern</string>
   <string name="settings_openhab_connection">Lokaal</string>
+  <string name="settings_notification_vibration">Trillen bij notificatie</string>
+  <string name="settings_notification_vibration_off">Uit</string>
+  <string name="settings_notification_vibration_short">Kort</string>
+  <string name="settings_notification_vibration_long">Lang</string>
+  <string name="settings_notification_vibration_twice">Twee keer</string>
+  <string name="settings_connection_summary">Verbonden met %s</string>
+  <string name="settings_insecure_connection_summary">Onveilig verbonden met %s</string>
   <!-- App messages strings -->
+  <string name="title_voice_widget">openHAB stem commando\'s</string>
   <string name="info_voice_input">openHAB, tot uw dienst!</string>
   <string name="info_voice_recognized_text">Herkend commando: %1$s</string>
   <string name="info_demo_mode_short">Uitgevoerd in de demomodus</string>
   <string name="info_conn_url">Verbinden met ingestelde URL</string>
   <string name="info_conn_rem_url">Verbinden naar externe URL</string>
   <!-- Error messages -->
+  <string name="error_empty_sitemap_list">openHAB heeft een lege Sitemap geladen</string>
   <string name="error_network_not_available">Netwerk is niet beschikbaar</string>
+  <string name="error_http_connection_failed">Verbinding mislukt. Een onverwachte reactie werd ontvangen tijdens het verbinden met de openHAB server (Ontvangen HTTP response code: %d).</string>
   <string name="error_invalid_url">Voer een geldige URL in, formaat \'http(s)://host(:port)/\'</string>
   <string name="error_connection_failed">Verbinding met host mislukt</string>
   <string name="error_unable_to_resolve_hostname">Hostnaam niet gevonden</string>
   <string name="error_connection_sslhandshake_failed">SSL-handshake mislukt</string>
+  <string name="error_certificate_not_trusted">SSL certificaat is niet vertrouwd. Importeer alstublieft het root certificate of accepteer het certificaat tijdens de SSL handshake.</string>
+  <string name="error_certificate_expired">Het SSL certificaat is verlopen. Vernieuw alstublieft het certificaat of accepteer het certificaat tijdens de SSL handshake.</string>
+  <string name="error_certificate_not_valid_yet">Het SSL certificaat is nog niet geldig. Voeg een correct certificaat toe of accepteer het certificaat tijdens de SSL handshake. Controleer ook of de klok op uw apparaat correct is ingesteld.</string>
   <string name="error_certificate_wrong_host">SSL-certificaat is niet geldig voor %s</string>
   <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
   <string name="error_http_code_496">SSL-clientcertificaat is vereist (HTTP responscode 496)</string>
