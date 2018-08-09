@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <strings>
-    <intro/>
+    <intro>openHAB - "empowering the smart home" - une solution de domotique libre et indépendante de tout fournisseur ou technologie pour votre maison connectée</intro>
     <whatis>openHAB est une plateforme de domotique open source basée sur Java qui intègre et combine une vaste gamme de produits et technologies pour la maison connectée dans une seule et même solution.</whatis>
     <rules>S'appuyant sur une couche d'abstraction unifiée, tous les dispositifs connectés sont exposés au moteur de règles d'automatisation centralisé et à différentes interfaces utilisateur.</rules>
     <supported>Produits pris en charge</supported>
-    <bindings>  </bindings>
+    <bindings>Plus de 200 modules offrant le support de nombreuses marques, équipements, technologies et protocoles. Exemples : Z-Wave, Philips Hue, Amazon Echo, Chromecast and Sonos. </bindings>
 
-    <home_automation_solutions/>
-    <lighting/>
-    <heating/>
+    <home_automation_solutions>• Des solutions domotiques : Z-Wave, EnOcean, Netatmo, Homematic, Insteon, ...</home_automation_solutions>
+    <lighting>• Support des éclairages : Philips Hue, Ikea Trådfri, LIFX, Lutron, Milight, ...</lighting>
+    <heating>• Chauffage : Max!, Nest, Vitotronic, Heatmiser, ...</heating>
     <home_entertainment/>
     <security/>
     <open_protocols/>
