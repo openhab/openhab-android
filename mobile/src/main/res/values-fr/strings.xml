@@ -186,6 +186,7 @@
   <string name="intro_themes_description">Choisir parmi ces thêmes</string>
   <string name="intro_voice_description">Contrôler votre maison à l\'aide de commandes vocales</string>
   <string name="intro_nfc">NFC</string>
+  <string name="intro_nfc_description">Le contrôle d\'un équipement peut être associé à des tags NFC avec une pression longue sur celui-ci</string>
   <!-- Intro "SKIP" button -->
   <string name="app_intro_skip_button">PASSER</string>
   <!-- Intro "DONE" button -->
