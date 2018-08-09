@@ -9,6 +9,7 @@
   <!-- Main menu items -->
   <string name="mainmenu_openhab_sitemaps">Sitemaps</string>
   <string name="mainmenu_openhab_preferences">Préférences</string>
+  <string name="mainmenu_openhab_selectsitemap">Sélectionner la Sitemap par défaut</string>
   <string name="mainmenu_openhab_clearcache">Effacer le cache image</string>
   <!-- App settings strings -->
   <string name="settings_connection_title">Connexion</string>
