@@ -21,6 +21,8 @@
   <string name="settings_openhab_alturl_summary">Távoli URL megadása(Mikor a helyi URL nem elérhető): %s</string>
   <string name="settings_openhab_username">Felhasználónév</string>
   <string name="settings_openhab_password">Jelszó</string>
+  <string name="settings_openhab_password_summary_weak">Gyenge jelszó</string>
+  <string name="settings_openhab_password_summary_strong">Erős jelszó</string>
   <string name="settings_openhab_sslclientcert">SSL ügyfél-tanúsítvány</string>
   <string name="settings_openhab_sslclientcert_howto_summary">Koppintson ide, hogy többet tudhasson meg a SSL ügyféltanúsítvány-hitelesítés beállításáról</string>
   <string name="settings_openhab_screentimeroff">Időzített kijelző tiltása</string>
