@@ -9,7 +9,37 @@
   <string name="mainmenu_openhab_clearcache">Șterge imaginile din cache</string>
   <!-- App settings strings -->
   <string name="settings_connection_title">Conexiune</string>
+  <string name="settings_display_title">Afișaj</string>
   <string name="settings_misc_title">Diverse</string>
+  <string name="settings_openhab_url">Adresa URL a serverului local</string>
+  <string name="settings_openhab_url_summary">Adresa URL pentru panoul de control openHAB (pe baza numelui sau a adresei IP). Daca este configurat, functia de autodescoperire este dezactivata. Setarea curenta: %s</string>
+  <string name="settings_openhab_alturl">Adresa URL a serverului distant</string>
+  <string name="settings_openhab_alturl_summary">Adresa URL pentru panoul de control openHAB pentru cazul in care adresa locala nu este disponibila. Setarea curenta: %s</string>
+  <string name="settings_openhab_username">Nume utilizator</string>
+  <string name="settings_openhab_password">Parola</string>
+  <string name="settings_openhab_password_summary_weak">Ati ales o parola slaba</string>
+  <string name="settings_openhab_password_summary_strong">Ati ales o parola puternica</string>
+  <string name="settings_openhab_sslclientcert">Certificat SSL client</string>
+  <string name="settings_openhab_sslclientcert_howto_summary">Apasati aici pentru cateva instructiuni si explicatii descpre cum se seteaza autentificarea clientului prin certificat SSL</string>
+  <string name="settings_openhab_screentimeroff">Dezactiveaza afisarea cronometrului</string>
+  <string name="settings_openhab_screentimeroff_summary">Dezactiveaza afisarea comutatorului de oprire a cronometrului atunci cand openHAB este pornit</string>
+  <string name="settings_openhab_demomode">Modul demonstrativ</string>
+  <string name="settings_openhab_demomode_summary">Ruleaza in modul demonstrativ</string>
+  <string name="settings_openhab_theme">Tema</string>
+  <string name="settings_openhab_fullscreen">Ecran complet</string>
+  <string name="settings_openhab_fullscreen_summary">Afiseaza in modul ecran complet</string>
+  <string name="settings_openhab_icon_format">Format pictograma</string>
+  <string name="settings_openhab_icon_format_png">Bitmap</string>
+  <string name="settings_openhab_icon_format_svg">Vector</string>
+  <string name="settings_chart_scaling">Scalare grafic</string>
+  <string name="settings_chart_scaling_summary">Nota: O scara redusa micsoreaza scrisul si grosimile liniilor pentru a fi mai mult spatiu pe grafic, dar lizibilitatea textului poate suferi.</string>
+  <string name="settings_chart_scaling_value_xs">Foarte mic</string>
+  <string name="settings_chart_scaling_value_s">Mic</string>
+  <string name="settings_chart_scaling_value_m">Implicit</string>
+  <string name="settings_chart_scaling_value_l">Mare</string>
+  <string name="settings_ringtone">Sonerie de notificare</string>
+  <string name="settings_clear_default_sitemap">Sterge fisierul Sitemap implicit</string>
+  <string name="settings_no_default_sitemap">Niciun Sitemap implicit nu este selectat</string>
   <!-- App messages strings -->
   <!-- Error messages -->
   <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
