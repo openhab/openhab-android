@@ -5,7 +5,11 @@
   <!-- See: https://github.com/openhab/openhab-android/blob/master/README.md#localization -->
   <!-- General app strings -->
   <!-- Main menu items -->
+  <string name="mainmenu_openhab_preferences">Setări</string>
+  <string name="mainmenu_openhab_clearcache">Șterge imaginile din cache</string>
   <!-- App settings strings -->
+  <string name="settings_connection_title">Conexiune</string>
+  <string name="settings_misc_title">Diverse</string>
   <!-- App messages strings -->
   <!-- Error messages -->
   <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
