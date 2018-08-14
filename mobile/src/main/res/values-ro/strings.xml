@@ -4,8 +4,11 @@
   <!-- Attention translators! Do NOT submit localized strings through GitHub Pull Request. -->
   <!-- See: https://github.com/openhab/openhab-android/blob/master/README.md#localization -->
   <!-- General app strings -->
+  <string name="app_preferences_name">Setări</string>
+  <string name="app_notifications">Notificări</string>
   <!-- Main menu items -->
-  <string name="mainmenu_openhab_preferences">Setări</string>
+  <string name="mainmenu_openhab_sitemaps">Harta site-ului</string>
+  <string name="mainmenu_openhab_selectsitemap">Selecteaza fisierul Sitemap implicit</string>
   <string name="mainmenu_openhab_clearcache">Șterge imaginile din cache</string>
   <!-- App settings strings -->
   <string name="settings_connection_title">Conexiune</string>
@@ -40,7 +43,17 @@
   <string name="settings_ringtone">Sonerie de notificare</string>
   <string name="settings_clear_default_sitemap">Sterge fisierul Sitemap implicit</string>
   <string name="settings_no_default_sitemap">Niciun Sitemap implicit nu este selectat</string>
+  <string name="settings_openhab_alt_connection">Control de la distanţă</string>
+  <string name="settings_openhab_connection">Local</string>
+  <string name="settings_notification_vibration">Vibratie la notificare</string>
+  <string name="settings_notification_vibration_off">Oprit</string>
+  <string name="settings_notification_vibration_short">Scurt</string>
+  <string name="settings_notification_vibration_long">Lung</string>
+  <string name="settings_notification_vibration_twice">De doua ori</string>
+  <string name="settings_connection_summary">Conectat la %s</string>
+  <string name="settings_insecure_connection_summary">Conexiune nesigura la %s</string>
   <!-- App messages strings -->
+  <string name="title_voice_widget">Comenzi vocale openHAB</string>
   <!-- Error messages -->
   <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
   <!-- Notification list strings -->
