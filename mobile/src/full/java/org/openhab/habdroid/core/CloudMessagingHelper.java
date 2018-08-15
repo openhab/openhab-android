@@ -12,6 +12,7 @@ package org.openhab.habdroid.core;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.StringRes;
+import android.support.v4.app.JobIntentService;
 
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.core.connection.CloudConnection;
@@ -27,7 +28,7 @@ public class CloudMessagingHelper {
         if (connection != null) {
             Intent intent = new Intent(context, GcmRegistrationService.class)
                     .setAction(GcmRegistrationService.ACTION_REGISTER);
-            context.startService(intent);
+            JobIntentService.enqueueWork(context, GcmRegistrationService.class, 1, intent);
         }
     }
 

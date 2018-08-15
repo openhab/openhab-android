@@ -9,12 +9,12 @@
 
 package org.openhab.habdroid.core;
 
-import android.app.IntentService;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.support.annotation.Nullable;
+import android.support.annotation.NonNull;
+import android.support.v4.app.JobIntentService;
 import android.util.Log;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
@@ -29,19 +29,15 @@ import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.Locale;
 
-public class GcmRegistrationService extends IntentService {
+public class GcmRegistrationService extends JobIntentService {
     private static final String TAG = GcmRegistrationService.class.getSimpleName();
 
     static final String ACTION_REGISTER = "org.openhab.habdroid.action.REGISTER_GCM";
     static final String ACTION_HIDE_NOTIFICATION = "org.openhab.habdroid.action.HIDE_NOTIFICATION";
     static final String EXTRA_NOTIFICATION_ID = "notificationId";
 
-    public GcmRegistrationService() {
-        super("GcmRegistrationService");
-    }
-
     @Override
-    protected void onHandleIntent(@Nullable Intent intent) {
+    protected void onHandleWork(@NonNull Intent intent) {
         ConnectionFactory.waitForInitialization();
         CloudConnection connection =
                 (CloudConnection) ConnectionFactory.getConnection(Connection.TYPE_CLOUD);
