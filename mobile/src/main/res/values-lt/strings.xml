@@ -9,7 +9,6 @@
   <!-- Main menu items -->
   <string name="mainmenu_openhab_sitemaps">Vietų išplanavimai</string>
   <string name="mainmenu_openhab_preferences">Nustatymai</string>
-  <string name="mainmenu_openhab_selectsitemap">Pasirinkite numatytą vietos išplanavimą</string>
   <string name="mainmenu_openhab_clearcache">Išvalyti paveikslėlių podėlį</string>
   <!-- App settings strings -->
   <string name="settings_openhab_url">openHAB URL</string>
@@ -19,25 +18,17 @@
   <string name="settings_openhab_username">Vartotojo vardas</string>
   <string name="settings_openhab_password">Slaptažodis</string>
   <string name="settings_openhab_sslclientcert">Kliento SSL sertifikatas</string>
-  <string name="settings_openhab_sslclientcert_howto">Kaip naudoti kliento SSL sertifikatą</string>
   <string name="settings_openhab_sslclientcert_howto_summary">Paspauskite čia, kad gautumėte informacijos, kaip nustatyti SSL autentifikaciją</string>
   <string name="settings_openhab_screentimeroff">Neleisti išjungti ekrano</string>
   <string name="settings_openhab_screentimeroff_summary">Neleisti išjungti ekrano, kol paleista openHAB programėlė</string>
   <string name="settings_openhab_demomode">Demonstracinis režimas</string>
   <string name="settings_openhab_demomode_summary">Naudoti openHAB programėlę demonstraciniu režimu</string>
   <string name="settings_openhab_theme">openHAB tema</string>
-  <string name="settings_openhab_sslcert">Netikrinti SSL sertifikato</string>
-  <string name="settings_openhab_sslcert_summary">Netikrinti SSL sertifikato validumo</string>
-  <string name="settings_openhab_sslhost">Netikrinti SSL hostname</string>
-  <string name="settings_openhab_sslhost_summary">Netikrinti serverio pavadinimo (hostname) užmezgant SSL ryšį</string>
   <string name="settings_openhab_fullscreen">Pilnas ekranas</string>
   <string name="settings_openhab_fullscreen_summary">Rodyti pilno ekrano režimu</string>
   <string name="settings_openhab_icon_format">Piktogramų formatas</string>
   <string name="settings_openhab_icon_format_png">Taškinis</string>
   <string name="settings_openhab_icon_format_svg">Vektorinis</string>
-  <string name="settings_clear_default_sitemap">Išvalyti numatytą vietos išplanavimą</string>
-  <string name="settings_no_default_sitemap">Nepasirinktas numatytas vietos išplanavimas</string>
-  <string name="settings_current_default_sitemap">Dabartinis numatytas vietos išplanavimas: %1$s</string>
   <!-- App messages strings -->
   <string name="info_voice_input">openHAB, jūsų paliepimu!</string>
   <string name="info_voice_recognized_text">Neatpažinta komanda: %1$s</string>
@@ -45,12 +36,9 @@
   <string name="info_conn_url">Jungiamasi prie sukonfigūruoto URL</string>
   <string name="info_conn_rem_url">Jungiamasi prie nuotolinio URL</string>
   <!-- Error messages -->
-  <string name="error_empty_sitemap_list">openHAB grąžino tuščią vietos išplanavimų sąrašą</string>
   <string name="error_network_not_available">Tinklas nepasiekiamas</string>
   <string name="error_connection_failed">Nepavyko prisijungti prie serverio</string>
   <string name="error_unable_to_resolve_hostname">Nepavyko aptikti domeno vardo</string>
-  <string name="error_certificate_expired">SSL sertifikato galiojimas baigėsi. Gaukite naują sertifikatą arba išjunkite sertifikatų patvirtinimą</string>
-  <string name="error_certificate_revoked">SSL sertifikatas buvo atšauktas. Gaukite naują sertifikatą arba išjunkite sertifikato patvirtinimą</string>
   <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
   <string name="error_http_code_496">Reikalingas SSL kliento sertifikatas (HTTP atsakymo kodas 496)</string>
   <string name="error_http_code_511">Reikalingas tinklo autentifikavimas (HTTP atsakymo kodas 511)</string>
@@ -69,8 +57,6 @@
   <string name="info_not_set">Nenustatyta</string>
   <!-- Notification list strings -->
   <!-- Strings for MemorizingTrustManager activity -->
-  <string name="mtm_accept_cert">Priimti nežinomą sertifikatą?</string>
-  <string name="mtm_decision_always">Visada</string>
   <string name="mtm_decision_once">Vieną kartą</string>
   <string name="mtm_decision_abort">Atšaukti</string>
   <string name="mtm_notification">Sertifikato patikrinimas</string>
@@ -94,20 +80,18 @@
   <!-- About -->
   <string name="about_title">Apie</string>
   <string name="about_license_title">Licencija</string>
-  <string name="settings_debug_messages_summary">Slaptažodžiai bus rodomi atviru tekstu!</string>
-  <string name="settings_debug_messages_title">Rodyti derinimo žinutes</string>
   <string name="error_couldnt_determine_openhab_url">Nepavyko nustatyti openHAB URL</string>
   <string name="unknown">Nežinoma</string>
   <string name="error_network_type_unsupported">Tinklo tipas (%s) nepalaikomas</string>
   <string name="set">Nustatyti</string>
   <string name="cancel">Atšaukti</string>
+  <!-- Content description for images -->
+  <!-- Intro strings -->
   <string name="app_intro">Intro</string>
   <string name="intro_welcome">Sveiki atvykę į openHAB</string>
   <string name="intro_whatis">Nepriklausomas atviro kodo išmanių namų sprendimas</string>
   <string name="intro_themes">Temos</string>
   <string name="intro_themes_description">Galite pasirinkti vieną iš kelių temų</string>
-  <!-- Content description for images -->
-  <!-- Intro strings -->
   <!-- Intro "SKIP" button -->
   <!-- Intro "DONE" button -->
 </resources>

@@ -9,7 +9,6 @@
   <!-- Main menu items -->
   <string name="mainmenu_openhab_sitemaps">Sitemaps</string>
   <string name="mainmenu_openhab_preferences">Mga Setting</string>
-  <string name="mainmenu_openhab_selectsitemap">Pumili ng default na sitemap</string>
   <string name="mainmenu_openhab_clearcache">Burahin ang mga imaheng naka-cache</string>
   <!-- App settings strings -->
   <string name="settings_connection_title">Koneksyon</string>

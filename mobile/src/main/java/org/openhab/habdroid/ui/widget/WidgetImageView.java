@@ -61,7 +61,7 @@ public class WidgetImageView extends AppCompatImageView {
     private ScaleType mOriginalScaleType;
     private boolean mOriginalAdjustViewBounds;
     private float mEmptyHeightToWidthRatio;
-
+    private boolean mInternalLoad;
     private HttpImageRequest mLastRequest;
 
     private long mRefreshInterval;
@@ -122,15 +122,14 @@ public class WidgetImageView extends AppCompatImageView {
         }
         Bitmap cached = CacheManager.getInstance(getContext()).getCachedBitmap(actualUrl);
         if (cached != null) {
-            removeProgressDrawable();
-            super.setImageBitmap(cached);
+            setBitmapInternal(cached);
         } else {
             applyProgressDrawable();
         }
 
         if (cached == null || forceLoad) {
-            mLastRequest = new HttpImageRequest(client, actualUrl, timeoutMillis, forceLoad);
-            mLastRequest.execute();
+            mLastRequest = new HttpImageRequest(client, actualUrl, timeoutMillis);
+            mLastRequest.execute(forceLoad);
         }
     }
 
@@ -144,9 +143,11 @@ public class WidgetImageView extends AppCompatImageView {
 
     @Override
     public void setImageDrawable(@Nullable Drawable drawable) {
-        cancelCurrentLoad();
-        mLastRequest = null;
-        removeProgressDrawable();
+        if (!mInternalLoad) {
+            cancelCurrentLoad();
+            mLastRequest = null;
+            removeProgressDrawable();
+        }
         super.setImageDrawable(drawable);
     }
 
@@ -185,7 +186,7 @@ public class WidgetImageView extends AppCompatImageView {
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
         if (mLastRequest != null && !mLastRequest.hasCompleted()) {
-            mLastRequest.execute();
+            mLastRequest.execute(false);
         }
     }
 
@@ -206,10 +207,19 @@ public class WidgetImageView extends AppCompatImageView {
         mRefreshInterval = 0;
     }
 
+    private void setBitmapInternal(Bitmap bitmap) {
+        removeProgressDrawable();
+        // Mark this call as being triggered by ourselves, as setImageBitmap()
+        // ultimately calls through to setImageDrawable().
+        mInternalLoad = true;
+        super.setImageBitmap(bitmap);
+        mInternalLoad = false;
+    }
+
     private void doRefresh() {
         mLastRefreshTimestamp = SystemClock.uptimeMillis();
         if (mLastRequest != null) {
-            mLastRequest.execute();
+            mLastRequest.execute(true);
         }
     }
 
@@ -250,19 +260,14 @@ public class WidgetImageView extends AppCompatImageView {
     private class HttpImageRequest extends AsyncHttpClient.BitmapResponseHandler {
         private final AsyncHttpClient mClient;
         private final HttpUrl mUrl;
-        private final HttpClient.CachingMode mCachingMode;
         private final long mTimeoutMillis;
         private Call mCall;
 
-        public HttpImageRequest(AsyncHttpClient client, HttpUrl url,
-                long timeoutMillis, boolean avoidCache) {
+        public HttpImageRequest(AsyncHttpClient client, HttpUrl url, long timeoutMillis) {
             super(mDefaultSvgSize);
             mClient = client;
             mUrl = url;
             mTimeoutMillis = timeoutMillis;
-            mCachingMode = avoidCache
-                    ? HttpClient.CachingMode.AVOID_CACHE
-                    : HttpClient.CachingMode.FORCE_CACHE_IF_POSSIBLE;
         }
 
         @Override
@@ -274,8 +279,7 @@ public class WidgetImageView extends AppCompatImageView {
 
         @Override
         public void onSuccess(Bitmap body, Headers headers) {
-            WidgetImageView.super.setImageBitmap(body);
-            removeProgressDrawable();
+            setBitmapInternal(body);
             CacheManager.getInstance(getContext()).cacheBitmap(mUrl, body);
             scheduleNextRefresh();
             mCall = null;
@@ -285,9 +289,12 @@ public class WidgetImageView extends AppCompatImageView {
             return mCall != null;
         }
 
-        public void execute() {
+        public void execute(boolean avoidCache) {
             Log.i(TAG, "Refreshing image at " + mUrl);
-            mCall = mClient.get(mUrl.toString(), mTimeoutMillis, mCachingMode, this);
+            HttpClient.CachingMode cachingMode = avoidCache
+                    ? HttpClient.CachingMode.AVOID_CACHE
+                    : HttpClient.CachingMode.FORCE_CACHE_IF_POSSIBLE;
+            mCall = mClient.get(mUrl.toString(), mTimeoutMillis, cachingMode, this);
         }
 
         public void cancel() {

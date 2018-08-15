@@ -9,7 +9,6 @@
   <!-- Main menu items -->
   <string name="mainmenu_openhab_sitemaps">Sitemaps</string>
   <string name="mainmenu_openhab_preferences">إعدادات</string>
-  <string name="mainmenu_openhab_selectsitemap">حدد sitemap الافتراضي</string>
   <string name="mainmenu_openhab_clearcache">إزالة الصور المؤقته</string>
   <!-- App settings strings -->
   <string name="settings_connection_title">اتصال</string>
@@ -22,27 +21,18 @@
   <string name="settings_openhab_username">اسم المستخدم</string>
   <string name="settings_openhab_password">كلمة المرور</string>
   <string name="settings_openhab_sslclientcert">شهادة SSL العميل</string>
-  <string name="settings_openhab_sslclientcert_howto">شهادة SSL العميل الكيفية</string>
   <string name="settings_openhab_sslclientcert_howto_summary">اضغط هنا للحصول على بعض التلميحات والتوضيحات حول كيفية إعداد مصادقة شهادة عميل SSL</string>
   <string name="settings_openhab_screentimeroff">تعطيل عرض المؤقت</string>
   <string name="settings_openhab_screentimeroff_summary">تعطيل عرض إيقاف المؤقت عند تشغيل openHAB</string>
   <string name="settings_openhab_demomode">الوضع التجريبي</string>
   <string name="settings_openhab_demomode_summary">تشغيل في الوضع التجريبي</string>
   <string name="settings_openhab_theme">السمة</string>
-  <string name="settings_openhab_sslcert">تجاهل شهادة SSL</string>
-  <string name="settings_openhab_sslcert_summary">تجاهل تدقيق الشهادة عند مصافحة SSL</string>
-  <string name="settings_openhab_sslhost">تجاهل SSL اسم المضيف</string>
-  <string name="settings_openhab_sslhost_summary">تجاهل التحقق من اسم المضيف أثناء مصافحة SSL</string>
   <string name="settings_openhab_fullscreen">ملء الشاشة</string>
   <string name="settings_openhab_fullscreen_summary">عرض في وضع ملء الشاشة</string>
   <string name="settings_openhab_icon_format">تنسيق الرمز</string>
   <string name="settings_openhab_icon_format_png">صورة نقطية</string>
   <string name="settings_openhab_icon_format_svg">صورة خطية</string>
   <string name="settings_ringtone">نغمة الإشعار</string>
-  <string name="settings_clear_default_sitemap">تصفية sitemap الإفتراضية</string>
-  <string name="settings_no_default_sitemap">لا توجد sitemap إفتراضي محددة</string>
-  <string name="settings_current_default_sitemap">sitemap الافتراضي الحالي: %1$s</string>
-  <string name="settings_openhab_sslsettings">التشفير</string>
   <string name="settings_openhab_alt_connection">بعيد</string>
   <string name="settings_openhab_connection">محلي</string>
   <!-- App messages strings -->
@@ -52,23 +42,13 @@
   <string name="info_conn_url">الاتصال بالعنوان المحلي</string>
   <string name="info_conn_rem_url">الاتصال بالعنوان البعيد</string>
   <!-- Error messages -->
-  <string name="error_empty_sitemap_list">openHAB يُرجع قائمة sitemap خالية</string>
   <string name="error_network_not_available">شبكة غير متاحة</string>
-  <string name="error_http_connection_failed">اتصال غير ناجح. تم تلقي استجابة غير متوقعة أثناء محاولة الاتصال بخادم openHAB المُعد (رمز استجابة HTTP: %d)</string>
   <string name="error_invalid_url">الرجاء إدخال محدد موقع معلومات صالح في \'http(s)://host(:port)/\' النموذج</string>
   <string name="error_connection_failed">فشل الإتصال بالمضيف</string>
   <string name="error_unable_to_resolve_hostname">غير قادر على معالجة المضيف</string>
   <string name="error_connection_sslhandshake_failed">فشل مصافحة SSL</string>
-  <string name="error_certificate_expired">انتهت مدة صلاحية شهادة SSL. الرجاء الحصول على شهادة جديدة أو تعطيل التحقق من صحة الشهادة أثناء تعارف SSL</string>
-  <string name="error_certificate_revoked">تم إبطال شهادة SSL. الرجاء الحصول على شهادة جديدة أو تعطيل التحقق من صحة الشهادة أثناء تعارف SSL</string>
   <string name="error_certificate_wrong_host">شهادة SSL غير صالح ل %s</string>
-  <string name="error_http_code_401">فشلت المصادقة. الرجاء التحقق من ضبط اسم المستخدم وكلمة المرور أيضا قم بتوفير شهادة عميل SSL (رمز استجابة HTTP 401)</string>
-  <string name="error_http_code_403">فشلت المصادقة. الرجاء التحقق من ضبط اسم المستخدم وكلمة المرور أيضا قم بتوفير شهادة عميل SSL (رمز استجابة HTTP 403)</string>
-  <string name="error_http_code_407">فشلت المصادقة. الرجاء التحقق من ضبط اسم المستخدم وكلمة المرور أيضا قم بتوفير شهادة عميل SSL (رمز استجابة HTTP 407)</string>
-  <string name="error_http_code_414">عنوان URL طويل جداً. الرجاء استخدام عنوان IP أو عنوان URL أقصر (رمز استجابة HTTP 414)</string>
-  <string name="error_http_code_426">HTTPS مطلوب. الرجاء تغيير عنوان URL (رمز استجابة HTTP 426)</string>
   <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
-  <string name="error_http_code_495">فشلت المصادقة. الرجاء التحقق من شهادة عميل SSL المتوفرة(رمز استجابة HTTP 495)</string>
   <string name="error_http_code_496">شهادة عميل SSL مطلوبة (رمز استجابة HTTP 496)</string>
   <string name="error_http_code_502">حصل الوكيل العكسي على رد خاطيء من openHAB (رمز استجابة HTTP 502)</string>
   <string name="error_http_code_503">خادم openHAB غير متوفر مؤقتاً (رمز استجابة HTTP 503)</string>
@@ -91,8 +71,6 @@
   <string name="info_not_set">لم يُعين</string>
   <!-- Notification list strings -->
   <!-- Strings for MemorizingTrustManager activity -->
-  <string name="mtm_accept_cert">قبول شهادة غير معروفة؟</string>
-  <string name="mtm_decision_always">دائماً</string>
   <string name="mtm_decision_once">مرة</string>
   <string name="mtm_decision_abort">انهاء</string>
   <string name="mtm_notification">التحقق من الشهادة</string>
@@ -125,19 +103,12 @@
   <string name="about_community">مجتمع openHAB</string>
   <string name="about_server">خادم openHAB</string>
   <string name="about_translation">ساعدنا في ترجمة openHAB</string>
-  <string name="settings_debug_messages_summary">سيتم إظهار كلمات المرور في نص واضح!</string>
-  <string name="settings_debug_messages_title">عرض رسائل تصحيح الأخطاء</string>
   <string name="error_couldnt_determine_openhab_url">لا يمكن تحديد عنوان openHAB</string>
   <string name="unknown">غير معروف</string>
   <string name="error_network_type_unsupported">نوع الشبكة (%s) غير مدعوم</string>
   <string name="set">تعيين</string>
   <string name="cancel">إلغاء</string>
   <string name="close">إغلاق</string>
-  <string name="app_intro">مقدمة</string>
-  <string name="intro_welcome">مرحبا في openHAB</string>
-  <string name="intro_whatis">مهما تكن التكنلوجيا والمزود برنامج أتمتة مفتوح المصدر لأجل منزلك</string>
-  <string name="intro_themes">السمات</string>
-  <string name="intro_themes_description">اختار من بين السمات</string>
   <string name="try_again_button">أعد المحاولة</string>
   <string name="go_to_settings_button">اذهب إلى الإعدادات</string>
   <string name="resolving_openhab">يحاول إكتشاف نموذج خادم openHAB \u2026</string>
@@ -153,6 +124,11 @@
   <string name="content_description_open_openhab">افتح openHAB</string>
   <string name="swipe_to_refresh_dismiss">أعي ذلك!</string>
   <!-- Intro strings -->
+  <string name="app_intro">مقدمة</string>
+  <string name="intro_welcome">مرحبا في openHAB</string>
+  <string name="intro_whatis">مهما تكن التكنلوجيا والمزود برنامج أتمتة مفتوح المصدر لأجل منزلك</string>
+  <string name="intro_themes">السمات</string>
+  <string name="intro_themes_description">اختار من بين السمات</string>
   <!-- Intro "SKIP" button -->
   <string name="app_intro_skip_button">تخطي</string>
   <!-- Intro "DONE" button -->

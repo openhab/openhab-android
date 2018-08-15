@@ -1,8 +1,8 @@
-openHAB - "empowering the smart home" - vendor and technology agnostic open source home automation
+openHAB - "empowering the smart home" - open source program pro domácí automatizaci IoT zařízení od různých výrobců s různou technologií
 
 F-Droid podporuje zobrazení mapy, GCM a notifikace byly odebrány a tedy nelze přijímat push notifikace z openHAB cloudu.
-Try out new features and give early feedback!
-You can install the beta version alongside the <a href="https://f-droid.org/packages/org.openhab.habdroid/">stable version</a>.
+Vyzkoušejte nové funkce a dejte nám zpětnou vazbu!
+Můžete nainstalovat beta verzi vedle <a href="https://f-droid.org/packages/org.openhab.habdroid/">stabilní verze</a>.
 
 <b>Důležitá poznámka</b>
 
@@ -13,7 +13,7 @@ Všechna připojená zařízení je možné spravovat, ovládat a automatizovat 
 
 <b>Podporované produkty</b>
 
-Více než 200 doplňků přidává podporu pro značky, zařízení, technologie a komunikační protokoly. Například Z-Wave, Philips Hue, Amazon Echo, Chromecast a Sonos. 
+Více než 200 doplňků přidává podporu pro značky, zařízení, technologie a komunikační protokoly. Například Z-Wave, Philips Hue, Amazon Echo, Chromecast a Sonos. Všechny dostupné doplňky a podporovaná zařízení a/nebo funkce najdete na: https://www.openhab.org/addons/
 
 • Řešení domácí automatizace: Z-Wave, Banaba, Netatmo, Homematic, Insteon,...
 • Osvětlení: Philips Hue, Ikea Trådfri, LIFX, Lutron, Milight,...
@@ -27,16 +27,16 @@ Více než 200 doplňků přidává podporu pro značky, zařízení, technologi
 <b>Open Source komunita</b>
 
 openHAB open source iniciativa je silně podporována jeho živou komunitou. Fórum s více než 13 000 registrovaných uživatelů je místo, kde najdete návod, pomoc a inspiraci. Připojte se k diskuznímu fóru openHAB na https://community.openhab.org
-When you find an issue please report it in the forum or at https://github.com/openhab/openhab-android/issues
+Případné nalezené chyby či problémy nahlaste prosím, ve fóru nebo v https://github.com/openhab/openhab-android/issues
 Pokud chcete aplikaci přeložit do vašeho jazyka připojte se k nám na https://crowdin.com/project/openhab-android
 
 <b>openHAB Foundation</b>
 
 OpenHAB Foundation e.V. je nezisková organizace s posláním vzdělávat veřejnost o možnostech a výhodách svobodných a otevřených chytrých řešeních pro domácí automatizaci. Další informace o poslání a službách nadace naleznete na https://www.openhabfoundation.org
 
-<b>Anti Features</b>
+<b>Potenciálně nechtěné vlastnosti</b>
 
-The app is flagged with the "NonFreeAsset" flag, because the openHAB icon is not under a free license.
+Aplikace je označena příznakem "NonFreeAsset", protože openHAB ikona není k dispozici pod svobodnou licencí.
 
 
-Privacy policy: https://www.openhabfoundation.org/privacy
+Ochrana osobních údajů: https://www.openhabfoundation.org/privacy

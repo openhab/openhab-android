@@ -25,6 +25,8 @@
     <string name="settings_openhab_alturl_summary">The URL of the openHAB dashboard used when the local address is unavailable. Current setting: %s</string>
     <string name="settings_openhab_username">Username</string>
     <string name="settings_openhab_password">Password</string>
+    <string name="settings_openhab_password_summary_weak">Weak password set</string>
+    <string name="settings_openhab_password_summary_strong">Strong password set</string>
     <string name="settings_openhab_sslclientcert">SSL client certificate</string>
     <string name="settings_openhab_sslclientcert_howto_summary">Tap here to get some hints and explanations on how to set up SSL client certificate authentication</string>
     <string name="settings_openhab_sslclientcert_howto_url" translatable="false">https://community.openhab.org/t/using-nginx-reverse-proxy-for-client-certificate-authentication-start-discussion/43064</string>
@@ -100,7 +102,6 @@
     <string name="error_http_code_507">The openHAB server hasn\'t enough free space (HTTP response code 507)</string>
     <string name="error_http_code_511">Network authentication is required (HTTP response code 511)</string>
     <string name="error_about_no_conn">Error while fetching openHAB server information</string>
-    <string name="error_cleartext_not_permitted">HTTP is not allowed for this server</string>
     <string name="error_openhab_offline">Your openHAB server is offline while the cloud instance is running</string>
     <string name="title_activity_openhabwritetag">Write NFC tag</string>
     <string name="title_activity_libraries">Used libraries</string>
@@ -117,7 +118,6 @@
     <string name="action_settings">Settings</string>
     <string name="nfc_dialog_title">Write NFC tag action for this element</string>
     <string name="info_not_set">Not set</string>
-    <string name="password_placeholder" translatable="false">\u25cf\u25cf\u25cf\u25cf\u25cf\u25cf</string>
 
     <!-- Notification list strings -->
     <string name="notification_list_empty">No notifications were sent so far</string>

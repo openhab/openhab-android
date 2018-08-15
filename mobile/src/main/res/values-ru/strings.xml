@@ -22,17 +22,12 @@
   <string name="settings_openhab_username">Пользователь</string>
   <string name="settings_openhab_password">Пароль</string>
   <string name="settings_openhab_sslclientcert">SSL сертификат клиента</string>
-  <string name="settings_openhab_sslclientcert_howto">Руководство по SSL сертификату клиента</string>
   <string name="settings_openhab_sslclientcert_howto_summary">Коснитесь здесь, чтобы получить подсказки по настройке SSL-сертификата клиента</string>
   <string name="settings_openhab_screentimeroff">Отключить таймер дисплея</string>
   <string name="settings_openhab_screentimeroff_summary">Дисплей всегда включен при запущенном openHAB</string>
   <string name="settings_openhab_demomode">Демо режим</string>
   <string name="settings_openhab_demomode_summary">Запуск демо режима</string>
   <string name="settings_openhab_theme">Тема</string>
-  <string name="settings_openhab_sslcert">Игнорировать SSL сертификат</string>
-  <string name="settings_openhab_sslcert_summary">Игнорировать проверку сертификата во время установки SSL-соединения</string>
-  <string name="settings_openhab_sslhost">Игнорировать SSL-имя хоста</string>
-  <string name="settings_openhab_sslhost_summary">Игнорировать проверку имени хоста во время установления SSL-соединения</string>
   <string name="settings_openhab_fullscreen">Во весь экран</string>
   <string name="settings_openhab_fullscreen_summary">Показать во весь экран</string>
   <string name="settings_openhab_icon_format">Формат иконок</string>
@@ -45,12 +40,19 @@
   <string name="settings_chart_scaling_value_m">По умолчанию</string>
   <string name="settings_chart_scaling_value_l">Большой</string>
   <string name="settings_ringtone">Звук уведомления</string>
+  <string name="settings_ringtone_none">Без рингтона</string>
   <string name="settings_clear_default_sitemap">Очистить sitemap по умолчанию</string>
-  <string name="settings_no_default_sitemap">Sitemap по умолчанию не выбран</string>
+  <string name="settings_no_default_sitemap">Не выбран Sitemap по умолчанию</string>
   <string name="settings_current_default_sitemap">Текущий sitemap по умолчанию: %1$s</string>
-  <string name="settings_openhab_sslsettings">Параметры шифрования</string>
   <string name="settings_openhab_alt_connection">Удаленный сервер</string>
   <string name="settings_openhab_connection">Локальный сервер</string>
+  <string name="settings_notification_vibration">Вибрация при уведомлениях</string>
+  <string name="settings_notification_vibration_off">Выкл</string>
+  <string name="settings_notification_vibration_short">Коротко</string>
+  <string name="settings_notification_vibration_long">Длинно</string>
+  <string name="settings_notification_vibration_twice">Дважды</string>
+  <string name="settings_connection_summary">Подключен к %s</string>
+  <string name="settings_insecure_connection_summary">Подключен к %s без проверки безопасности</string>
   <!-- App messages strings -->
   <string name="title_voice_widget">Голосовые команды openHAB</string>
   <string name="info_voice_input">openHAB, Ваша команда!</string>
@@ -61,30 +63,31 @@
   <!-- Error messages -->
   <string name="error_empty_sitemap_list">openHAB вернул пустой список sitemap</string>
   <string name="error_network_not_available">Сеть недоступна</string>
-  <string name="error_http_connection_failed">Ошибка подключения. Получен неверный ответ от openHAB. Пожалуйста, проверьте, работает ли openHAB правильно (код ответа HTTP %d)</string>
+  <string name="error_http_connection_failed">Ошибка подключения. Получен неверный ответ от openHAB. Пожалуйста, проверьте, работает ли openHAB правильно (код ответа HTTP %d).</string>
   <string name="error_invalid_url">Пожалуйста, укажите правильный URL в формате \'http(s)://хост(:порт)/\'</string>
   <string name="error_connection_failed">Ошибка подключения к хосту</string>
   <string name="error_unable_to_resolve_hostname">Не удалось разрешить имя хоста</string>
   <string name="error_connection_sslhandshake_failed">Ошибка SSL соединения</string>
-  <string name="error_certificate_not_trusted">Сертификат SSL истек. Получите новый сертификат или отключите проверку сертификата SSL</string>
-  <string name="error_certificate_expired">Сертификат SSL истек. Получите новый сертификат или отключите проверку допустимости сертификата во время приовекри SSL</string>
-  <string name="error_certificate_not_valid_yet">Сертификат SSL недопустим. Получите корректный сертификат или отключите проверку сертификата SSL. Также проверьте, правильно ли установлены часы и часовой пояс на вашем устройстве</string>
-  <string name="error_certificate_revoked">Сертификат SSL был отклонен. Получите новый сертификат или отключите проверку сертификата SSL</string>
+  <string name="error_certificate_not_trusted">SSL-сертификат не является доверенным. Пожалуйста импортируйте корневой сертификат или подтвердите его во время SSL подключения.</string>
+  <string name="error_certificate_expired">Сертификат SSL истек. Получите новый сертификат или отключите проверку подлинности во время SSL подключения.</string>
+  <string name="error_certificate_not_valid_yet">Сертификат SSL недопустим. Получите корректный сертификат или отключите его проверку. Также проверьте, правильно ли установлены часы и часовой пояс на вашем устройстве.</string>
+  <string name="error_certificate_revoked">Сертификат SSL отклонен. Получите новый сертификат или отключите его проверку.</string>
   <string name="error_certificate_wrong_host">SSL сертификат не действителен для %s</string>
-  <string name="error_http_code_401">Ошибка аутентификации пользователя. Проверьте имя пользователя, пароль и сертификат клиента SSL (код ответа HTTP 401)</string>
-  <string name="error_http_code_403">Ошибка аутентификации пользователя. Проверьте имя пользователя, пароль и сертификат клиента SSL (код ответа HTTP 403)</string>
-  <string name="error_http_code_407">Ошибка аутентификации пользователя. Проверьте имя пользователя, пароль и сертификат клиента SSL (код ответа HTTP 407)</string>
-  <string name="error_http_code_414">URL-адрес openHAB слишком длинный. Пожалуйста используйте IP-адрес или сократите URL (код ответа HTTP 414)</string>
-  <string name="error_http_code_426">Требуется HTTPS. Измените URL адрес openHAB (код ответа HTTP 426)</string>
+  <string name="error_http_code_401">Ошибка аутентификации пользователя. Проверьте имя пользователя, пароль и сертификат клиента SSL (код ответа HTTP 401).</string>
+  <string name="error_http_code_403">Ошибка аутентификации пользователя. Проверьте имя пользователя, пароль и сертификат клиента SSL (код ответа HTTP 403).</string>
+  <string name="error_http_code_407">Ошибка аутентификации пользователя. Проверьте имя пользователя, пароль и сертификат клиента SSL (код ответа HTTP 407).</string>
+  <string name="error_http_code_414">URL-адрес openHAB слишком длинный. Пожалуйста используйте IP-адрес или сократите URL (код ответа HTTP 414).</string>
+  <string name="error_http_code_426">Требуется HTTPS. Измените URL-адрес openHAB (код ответа HTTP 426).</string>
   <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
-  <string name="error_http_code_495">Ошибка авторизации. Неверный сертификат клиента SSL (код ответа HTTP 495)</string>
+  <string name="error_http_code_495">Ошибка авторизации. Неверный сертификат клиента SSL (код ответа HTTP 495).</string>
   <string name="error_http_code_496">Требуется сертификат SSL-клиента (код ответа HTTP 496)</string>
   <string name="error_http_code_502">Ваш прокси получил неверный ответ от openHAB (код ответа HTTP 502)</string>
   <string name="error_http_code_503">openHAB временно недоступен (код ответа HTTP 503)</string>
-  <string name="error_http_code_504">Тайм-аут шлюза. Кажется, что ваш обратный прокси работает, но не смог получить ответ от сервера openHAB (код ответа HTTP 504)</string>
+  <string name="error_http_code_504">Тайм-аут шлюза. Возможно, что ваш прокси-сервер работает, но не может получить ответ от сервера openHAB (код ответа HTTP 504).</string>
   <string name="error_http_code_507">Серверу openHAB недостаточно свободного места (код ответа HTTP 507)</string>
   <string name="error_http_code_511">Требуется сетевая аутентификация (код ответа HTTP 511)</string>
   <string name="error_about_no_conn">Ошибка при получении данных с сервера openHAB</string>
+  <string name="error_openhab_offline">Ваш сервер OpenHAB не доступен, но его экземпляр в облаке работает</string>
   <string name="title_activity_openhabwritetag">Запись NFC tag</string>
   <string name="title_activity_libraries">Используемые библиотеки</string>
   <string name="info_write_tag">Прикоснитесь к тегу и удерживайте его, пока не появится сообщение подтверждения</string>
@@ -106,7 +109,13 @@
   <string name="list_loading_message">Загрузка\u2026</string>
   <!-- Strings for MemorizingTrustManager activity -->
   <string name="mtm_accept_cert">Принять неизвестный сертификат?</string>
-  <string name="mtm_decision_always">Всегда</string>
+  <string name="mtm_trust_anchor">Сертификат не подписан авторизованным центром сертификации</string>
+  <string name="mtm_cert_expired">Срок действия сертификата истёк</string>
+  <string name="mtm_accept_servername">Имя сервера не совпадает. Принять?</string>
+  <string name="mtm_hostname_mismatch">Сервер не может проверить подлинность как \&quot;%s\&quot;. Сертификат действителен только для:</string>
+  <string name="mtm_connect_anyway">Все равно подключиться?</string>
+  <string name="mtm_cert_details">Данные сертификата:</string>
+  <string name="mtm_decision_always">Принять</string>
   <string name="mtm_decision_once">Один раз</string>
   <string name="mtm_decision_abort">Отмена</string>
   <string name="mtm_notification">Проверка сертификата</string>
@@ -143,22 +152,17 @@
   <string name="about_server">Сервер openHAB</string>
   <string name="about_translation">Помощь в переводе openHAB</string>
   <string name="about_privacy_policy">Политика конфиденциальности</string>
-  <string name="settings_debug_messages_summary">Пароль будет показан в открытом виде!</string>
-  <string name="settings_debug_messages_title">Показать отладочные сообщения</string>
+  <string name="settings_debug_messages_title">Cведения об устранении неполадок</string>
   <string name="error_couldnt_determine_openhab_url">Не удалось определить адрес openHAB</string>
   <string name="unknown">Неизвестно</string>
   <string name="error_network_type_unsupported">Тип сети (%s) не поддерживается</string>
   <string name="set">Установить</string>
   <string name="cancel">Отменить</string>
   <string name="close">Закрыть</string>
-  <string name="app_intro">Введение</string>
-  <string name="intro_welcome">Добро пожаловать в openHAB</string>
-  <string name="intro_whatis">Поставщик технологий с открытым исходным кодом для автоматизации \"умного дома\"</string>
-  <string name="intro_themes">Темы</string>
-  <string name="intro_themes_description">Переключение между разными темами</string>
   <string name="try_again_button">Попробуйте снова</string>
   <string name="go_to_settings_button">Перейти к настройкам</string>
   <string name="configuration_missing">Ваш сервер openHAB не был обнаружен автоматически. Пожалуйста, настройте его IP адрес или имя хоста в настройках сервера.</string>
+  <string name="no_remote_server">Локальная сеть недоступна и не настроен удаленный сервер</string>
   <string name="resolving_openhab">Пытаюсь обнаружить сервер openHAB\u2026</string>
   <!-- Content description for images -->
   <string name="content_description_open_roller_shutter">Открыть рольставни</string>
@@ -173,11 +177,16 @@
   <string name="swipe_to_refresh_description">Приложение также обновляется автоматически, обычно нет необходимости делать это вручную</string>
   <string name="swipe_to_refresh_dismiss">Ясно!</string>
   <!-- Intro strings -->
+  <string name="app_intro">Введение</string>
+  <string name="intro_welcome">Добро пожаловать в openHAB</string>
+  <string name="intro_whatis">Поставщик технологий с открытым исходным кодом для автоматизации \"умного дома\"</string>
+  <string name="intro_themes">Темы</string>
+  <string name="intro_themes_description">Переключение между разными темами</string>
+  <string name="intro_voice_description">Управляйте домом своим голосом</string>
+  <string name="intro_nfc">NFC</string>
+  <string name="intro_nfc_description">Элемент управления может быть привязан к NFC тегам долгим нажатием на этот элемент</string>
   <!-- Intro "SKIP" button -->
   <string name="app_intro_skip_button">ПРОПУСТИТЬ</string>
   <!-- Intro "DONE" button -->
   <string name="app_intro_done_button">ГОТОВО</string>
-  <string name="intro_voice_description">Управляйте домом своим голосом</string>
-  <string name="intro_nfc">NFC</string>
-  <string name="intro_nfc_description">Элемент управления может быть привязан к NFC тегам долгим нажатием на этот элемент</string>
 </resources>

@@ -26,7 +26,7 @@
     <oh_server/>
     <short_description/>
     <fdroid/>
-    <fdroid_beta> <a href=""/></fdroid_beta>
+    <fdroid_beta><![CDATA[]]></fdroid_beta>
     <fdroid_privacy_policy/>
     <fdroid_anti_features/>
     <fdroid_anti_features_text/>

@@ -7,7 +7,7 @@
     </item>
     <item
         android:id="@+id/notifications"
-        android:icon="@drawable/ic_notifications_black_24dp"
+        android:icon="@drawable/ic_notifications_grey_24dp"
         android:title="@string/app_notifications" />
     <item
         android:id="@+id/settings"

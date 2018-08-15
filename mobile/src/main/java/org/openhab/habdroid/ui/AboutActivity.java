@@ -144,7 +144,7 @@ public class AboutActivity extends AppCompatActivity implements
                     .build());
             appCard.addItem(new MaterialAboutActionItem.Builder()
                     .text(R.string.about_source_code)
-                    .icon(R.drawable.ic_github)
+                    .icon(R.drawable.ic_github_grey_24dp)
                     .setOnClickAction(MaterialAboutItemOnClickRedirect(URL_TO_GITHUB))
                     .build());
             appCard.addItem(new MaterialAboutActionItem.Builder()

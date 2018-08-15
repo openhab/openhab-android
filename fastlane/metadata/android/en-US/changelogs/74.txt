@@ -1,0 +1,2 @@
+## Fixed
+* Fix HTTPS connections (#954)

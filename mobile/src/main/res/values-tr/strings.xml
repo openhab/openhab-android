@@ -9,7 +9,6 @@
   <!-- Main menu items -->
   <string name="mainmenu_openhab_sitemaps">Site Haritası</string>
   <string name="mainmenu_openhab_preferences">Ayarlar</string>
-  <string name="mainmenu_openhab_selectsitemap">Varsayılan site haritasını seç</string>
   <string name="mainmenu_openhab_clearcache">Resim önbelleğini temizle</string>
   <!-- App settings strings -->
   <string name="settings_openhab_url">Yerel sunucu URL\'si</string>
@@ -19,25 +18,17 @@
   <string name="settings_openhab_username">Kullanıcı Adı</string>
   <string name="settings_openhab_password">Şifre</string>
   <string name="settings_openhab_sslclientcert">SSL müşteri sertifikası</string>
-  <string name="settings_openhab_sslclientcert_howto">SSL müşteri sertifikası nasıl yapılır</string>
   <string name="settings_openhab_sslclientcert_howto_summary">SSL müşteri sertifikası yetkilendirilmesi kurulu hakkında ipuçları ve açıklamalar için buraya tıklayınız</string>
   <string name="settings_openhab_screentimeroff">Ekran Zamanlayıcısını devre dışı bırak</string>
   <string name="settings_openhab_screentimeroff_summary">openHAB çalışırken ekran kapatma zamanlayıcısını devre dışı bırakınız</string>
   <string name="settings_openhab_demomode">Deneme Modu</string>
   <string name="settings_openhab_demomode_summary">Deneme modunda çalıştır</string>
   <string name="settings_openhab_theme">Tema</string>
-  <string name="settings_openhab_sslcert">SSL sertifikasını yoksay</string>
-  <string name="settings_openhab_sslcert_summary">SSL handshake esnasında sertifika doğrulamasını yoksay</string>
-  <string name="settings_openhab_sslhost">SSL ana bilgisayar adını yoksay</string>
-  <string name="settings_openhab_sslhost_summary">SSL handshake esnasından ana bilgisayar adını yoksay</string>
   <string name="settings_openhab_fullscreen">Tam Ekran</string>
   <string name="settings_openhab_fullscreen_summary">Tam ekran modunda görüntüle</string>
   <string name="settings_openhab_icon_format">Simge formatı</string>
   <string name="settings_openhab_icon_format_png">Bitmap</string>
   <string name="settings_openhab_icon_format_svg">Vektör</string>
-  <string name="settings_clear_default_sitemap">Varsayılan site haritasını temizle</string>
-  <string name="settings_no_default_sitemap">Varsayılan her hangi bir site haritası seçilmedi</string>
-  <string name="settings_current_default_sitemap">Geçerli varsayılan site haritası: %1$s</string>
   <!-- App messages strings -->
   <string name="info_voice_input">openHAB Emrinizdedir!</string>
   <string name="info_voice_recognized_text">Tanımlanmış Emir: %1$s</string>
@@ -45,12 +36,9 @@
   <string name="info_conn_url">Yerel Sunucuya Bağlanıyor</string>
   <string name="info_conn_rem_url">Uzak URL\'ye Bağlanıyor</string>
   <!-- Error messages -->
-  <string name="error_empty_sitemap_list">openHAB boş site haritası listesini geri getirdi</string>
   <string name="error_network_not_available">Network müsait değil</string>
   <string name="error_connection_failed">Ana cihaza bağlantı başarısız oldu</string>
   <string name="error_unable_to_resolve_hostname">Ana cihaz adı çözülemiyor</string>
-  <string name="error_certificate_expired">SSL sertifikasının süresi doldu. Lütfen yeni bir sertifika edinin ya da SSL handshake esnasında sertifika doğrulamasını etkisiz hale getirin</string>
-  <string name="error_certificate_revoked">SSL sertifikası iptal edildi. Lütfen yeni bir sertifika edinin ya da SSL handshake esnasında sertifika doğrulamasını etkisiz hale getirin</string>
   <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
   <string name="error_http_code_496">SSL müşteri sertifikası gereklidir (HTTP yanıt kodu 496)</string>
   <string name="error_http_code_511">Network kimlik doğrulaması gereklidir (HTTP yanıt kodu 511)</string>
@@ -69,8 +57,6 @@
   <string name="info_not_set">Ayarlı değil</string>
   <!-- Notification list strings -->
   <!-- Strings for MemorizingTrustManager activity -->
-  <string name="mtm_accept_cert">Bilinmeyen sertifika kabul edilsin mi?</string>
-  <string name="mtm_decision_always">Her zaman</string>
   <string name="mtm_decision_once">Bir kez</string>
   <string name="mtm_decision_abort">Çık</string>
   <string name="mtm_notification">Sertifika doğrulama</string>
@@ -94,20 +80,18 @@
   <!-- About -->
   <string name="about_title">Hakkında</string>
   <string name="about_license_title">Lisans</string>
-  <string name="settings_debug_messages_summary">Şifreler açık bir metinde görüntülenecek!</string>
-  <string name="settings_debug_messages_title">Hata ayıklama mesajlarını göster</string>
   <string name="error_couldnt_determine_openhab_url">openHAB URL\'si belirlenemedi</string>
   <string name="unknown">Bilinmeyen</string>
   <string name="error_network_type_unsupported">(%s) Network tipi desteklenmiyor</string>
   <string name="set">Ayarla</string>
   <string name="cancel">İptal Et</string>
+  <!-- Content description for images -->
+  <!-- Intro strings -->
   <string name="app_intro">Giriş</string>
   <string name="intro_welcome">openHAB\'a Hoş geldiniz</string>
   <string name="intro_whatis">Eviniz için sağlayıcı ve yeni teknolojiye geçişlerden etkilenmeyen açık kaynak otomasyon yazılımı</string>
   <string name="intro_themes">Temalar</string>
   <string name="intro_themes_description">Çeşitli temalar arasından seçim yap</string>
-  <!-- Content description for images -->
-  <!-- Intro strings -->
   <!-- Intro "SKIP" button -->
   <!-- Intro "DONE" button -->
 </resources>

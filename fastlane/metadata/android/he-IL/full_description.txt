@@ -1,8 +1,8 @@
-openHAB - "העצמת הבית החכם" - פרוייקט קוד פתוח לבית חכם לאנשים וחברות בראייה טכנולוגית מתקדמת
+openHAB - "העצמת הבית החכם" - אוטומצית הבית החכם לאנשים וחברות בראייה טכנולוגית מתקדמת מבוסס קוד פתוח
 
 תוכנות עבור F-Droid מכילות תצוגת מיפוי, GCM ודיווחי שגיאה על התרסקות הוסרו ולא יוכלו לקבל התראות בדחיפה מענן openHAB.
 נסה תכונות חדשות וספר לנו מה דעתך!
-You can install the beta version alongside the <a href="https://f-droid.org/packages/org.openhab.habdroid/">stable version</a>.
+באפשרותך להתקין את גירסת הבטא לצד <a href="https://f-droid.org/packages/org.openhab.habdroid/">הגרסה היציבה</a>.
 
 <b>הערה חשובה</b>
 

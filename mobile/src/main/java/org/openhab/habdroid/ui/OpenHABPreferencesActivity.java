@@ -12,6 +12,7 @@ package org.openhab.habdroid.ui;
 import android.app.FragmentManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -19,13 +20,16 @@ import android.os.Build;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
-import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceGroup;
 import android.preference.PreferenceScreen;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
+import android.support.annotation.VisibleForTesting;
 import android.support.v4.app.NavUtils;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -38,6 +42,8 @@ import org.openhab.habdroid.model.ServerProperties;
 import org.openhab.habdroid.util.CacheManager;
 import org.openhab.habdroid.util.Constants;
 import org.openhab.habdroid.util.Util;
+
+import java.util.BitSet;
 
 import static org.openhab.habdroid.util.Util.getHostFromUrl;
 
@@ -116,7 +122,8 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
                 .commit();
     }
 
-    private static abstract class AbstractSettingsFragment extends PreferenceFragment {
+    @VisibleForTesting
+    public static abstract class AbstractSettingsFragment extends PreferenceFragment {
         @Override
         public void onCreate(@Nullable Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
@@ -144,6 +151,55 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
         protected String getPreferenceString(String prefKey, String defValue) {
             return getPreferenceScreen().getSharedPreferences().getString(prefKey, defValue);
         }
+
+        protected boolean isConnectionHttps(String url) {
+            return url.startsWith("https://");
+        }
+
+        protected boolean hasConnectionBasicAuthentication(String user, String password) {
+            return !TextUtils.isEmpty(user) && !TextUtils.isEmpty(password);
+        }
+
+        protected boolean hasClientCertificate() {
+            return !TextUtils.isEmpty(getPreferenceString(Constants.PREFERENCE_SSLCLIENTCERT, ""));
+        }
+
+        protected boolean isConnectionSecure(String url, String user, String password) {
+            return isConnectionHttps(url) &&
+                    (hasConnectionBasicAuthentication(user, password) || hasClientCertificate());
+        }
+
+
+        /**
+         * Password is considered strong when it is at least 8 chars long and contains 3 from those
+         * 4 categories:
+         *      * lowercase
+         *      * uppercase
+         *      * numerics
+         *      * other
+         * @param password
+         */
+        @VisibleForTesting
+        public static boolean isWeakPassword(String password) {
+            if (password.length() < 8) {
+                return true;
+            }
+            BitSet groups = new BitSet();
+            for (int i = 0; i < password.length(); i++) {
+                char c = password.charAt(i);
+                if (Character.isLetter(c) && Character.isLowerCase(c)) {
+                    groups.set(0);
+                } else if (Character.isLetter(c) && Character.isUpperCase(c)) {
+                    groups.set(1);
+                } else if (Character.isDigit(c)) {
+                    groups.set(2);
+                } else {
+                    groups.set(3);
+                }
+            }
+
+            return groups.cardinality() < 3;
+        }
     }
 
     public static class MainSettingsFragment extends AbstractSettingsFragment {
@@ -159,8 +215,7 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
         }
 
         @Override
-        protected @StringRes
-        int getTitleResId() {
+        protected @StringRes int getTitleResId() {
             return R.string.action_settings;
         }
 
@@ -176,6 +231,8 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
             final Preference clearDefaultSitemapPreference = getPreferenceScreen().findPreference
                     (Constants.PREFERENCE_CLEAR_DEFAULT_SITEMAP);
             final Preference ringtonePreference = getPreferenceScreen().findPreference(Constants.PREFERENCE_TONE);
+            final Preference vibrationPreference =
+                    getPreferenceScreen().findPreference(Constants.PREFERENCE_NOTIFICATION_VIBRATION);
 
             String currentDefaultSitemap = clearDefaultSitemapPreference.getSharedPreferences().getString(Constants
                     .PREFERENCE_SITEMAP_NAME, "");
@@ -196,6 +253,8 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
                     Constants.PREFERENCE_REMOTE_PASSWORD);
             updateRingtonePreferenceSummary(ringtonePreference, ringtonePreference
                     .getSharedPreferences().getString(Constants.PREFERENCE_TONE, ""));
+            updateVibrationPreferenceIcon(vibrationPreference, vibrationPreference
+                    .getSharedPreferences().getString(Constants.PREFERENCE_NOTIFICATION_VIBRATION, ""));
 
             subScreenLocalConn.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
@@ -260,6 +319,14 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
                 }
             });
 
+            vibrationPreference.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object newValue) {
+                    updateVibrationPreferenceIcon(preference, newValue);
+                    return true;
+                }
+            });
+
             final PreferenceScreen ps = getPreferenceScreen();
 
             if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT) {
@@ -271,8 +338,6 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
             if (!CloudMessagingHelper.isSupported()) {
                 Log.d(TAG, "Removing full-only prefs");
                 getParent(ringtonePreference).removePreference(ringtonePreference);
-                Preference vibrationPreference =
-                        ps.findPreference(Constants.PREFERENCE_NOTIFICATION_VIBRATION);
                 getParent(vibrationPreference).removePreference(vibrationPreference);
             }
 
@@ -307,7 +372,7 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
                     return root;
                 }
                 if (p instanceof PreferenceGroup) {
-                    PreferenceGroup parent = getParent((PreferenceGroup)p, preference);
+                    PreferenceGroup parent = getParent((PreferenceGroup) p, preference);
                     if (parent != null) {
                         return parent;
                     }
@@ -324,8 +389,10 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
         private void updateRingtonePreferenceSummary(Preference pref, Object newValue) {
             String value = (String) newValue;
             if (TextUtils.isEmpty(value)) {
+                pref.setIcon(R.drawable.ic_notifications_off_grey_24dp);
                 pref.setSummary(R.string.settings_ringtone_none);
             } else {
+                pref.setIcon(R.drawable.ic_notifications_active_grey_24dp);
                 Ringtone ringtone = RingtoneManager.getRingtone(getActivity(), Uri.parse(value));
                 if (ringtone != null) {
                     pref.setSummary(ringtone.getTitle(getActivity()));
@@ -333,61 +400,126 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
             }
         }
 
+        private void updateVibrationPreferenceIcon(Preference pref, Object newValue) {
+            boolean noVibration = newValue.equals(
+                    getString(R.string.settings_notification_vibration_value_off));
+            pref.setIcon(noVibration
+                    ? R.drawable.ic_smartphone_grey_24dp : R.drawable.ic_vibration_grey_24dp);
+        }
+
         private void updateConnectionSummary(String subscreenPrefKey, String urlPrefKey,
-                                            String userPrefKey, String passwordPrefKey) {
+                                             String userPrefKey, String passwordPrefKey) {
             Preference pref = findPreference(subscreenPrefKey);
-            String url = pref.getSharedPreferences().getString(urlPrefKey, "");
-            String user = pref.getSharedPreferences().getString(userPrefKey, "");
-            String password = pref.getSharedPreferences().getString(passwordPrefKey, "");
-            String summary;
+            String url = getPreferenceString(urlPrefKey, "");
+            final String summary;
             if (TextUtils.isEmpty(url)) {
                 summary = getString(R.string.info_not_set);
+            } else if (isConnectionSecure(url, getPreferenceString(userPrefKey, ""),
+                    getPreferenceString(passwordPrefKey, ""))) {
+                summary = getString(R.string.settings_connection_summary,
+                        beautifyUrl(getHostFromUrl(url)));
             } else {
-                if (url.startsWith("https://") && ! TextUtils.isEmpty(user)
-                        && ! TextUtils.isEmpty(password)) {
-                    summary = getString(R.string.settings_connection_summary,
-                            beautifyUrl(getHostFromUrl(url)));
-                } else {
-                    summary = getString(R.string.settings_insecure_connection_summary,
-                            beautifyUrl(getHostFromUrl(url)));
-                }
+                summary = getString(R.string.settings_insecure_connection_summary,
+                        beautifyUrl(getHostFromUrl(url)));
             }
             pref.setSummary(summary);
         }
 
-        private String beautifyUrl(String url) {
+        private static String beautifyUrl(String url) {
             return url.contains("myopenhab.org") ? "myopenHAB" : url;
         }
     }
 
     private static abstract class ConnectionSettingsFragment extends AbstractSettingsFragment {
-        private void updateTextPreferenceSummary(Preference textPreference,
-                                                 @StringRes int summaryFormatResId,
-                                                 String newValue, boolean isPassword) {
-            if (newValue == null) {
-                newValue = getPreferenceString(textPreference, "");
-            }
-            if (newValue.isEmpty()) {
-                newValue = getString(R.string.info_not_set);
-            } else if (isPassword) {
-                newValue = getString(R.string.password_placeholder);
-            }
+        private Preference mUrlPreference;
+        private Preference mUserNamePreference;
+        private Preference mPasswordPreference;
 
-            textPreference.setSummary(summaryFormatResId != 0
-                    ? getString(summaryFormatResId, newValue) : newValue);
+        private interface IconColorGenerator {
+            Integer getIconColor();
+        }
+        private interface PrefSummaryGenerator {
+            CharSequence getSummary(String value);
         }
 
-        protected void initEditorPreference(String key, @StringRes final int summaryFormatResId,
-                                            final boolean isPassword) {
-            Preference pref = getPreferenceScreen().findPreference(key);
-            pref.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
-                @Override
-                public boolean onPreferenceChange(Preference preference, Object newValue) {
-                    updateTextPreferenceSummary(preference, summaryFormatResId, (String) newValue, isPassword);
-                    return true;
+        protected void initPreferences(String urlPrefKey, String userNamePrefKey,
+                String passwordPrefKey, @StringRes int urlSummaryFormatResId) {
+            mUrlPreference = initEditorPreference(urlPrefKey, R.drawable.ic_earth_grey_24dp, value -> {
+                if (TextUtils.isEmpty(value)) {
+                    return getString(R.string.info_not_set);
                 }
+                return getString(urlSummaryFormatResId, value);
             });
-            updateTextPreferenceSummary(pref, summaryFormatResId, null, isPassword);
+            mUserNamePreference = initEditorPreference(userNamePrefKey, R.drawable.ic_person_grey_24dp,
+                    value -> TextUtils.isEmpty(value) ? getString(R.string.info_not_set) : value);
+            mPasswordPreference = initEditorPreference(passwordPrefKey,
+                    R.drawable.ic_security_grey_24dp, value -> {
+                        @StringRes int resId = TextUtils.isEmpty(value) ? R.string.info_not_set
+                                : isWeakPassword(value) ? R.string.settings_openhab_password_summary_weak
+                                : R.string.settings_openhab_password_summary_strong;
+                        return getString(resId);
+                    });
+
+            updateIconColors(getPreferenceString(urlPrefKey, ""),
+                    getPreferenceString(userNamePrefKey, ""),
+                    getPreferenceString(passwordPrefKey, ""));
+        }
+
+        private Preference initEditorPreference(String key, @DrawableRes int iconResId,
+                PrefSummaryGenerator summaryGenerator) {
+            Preference preference = getPreferenceScreen().findPreference(key);
+            preference.setIcon(DrawableCompat.wrap(
+                    ContextCompat.getDrawable(getActivity(), iconResId)));
+            preference.setOnPreferenceChangeListener((pref, newValue) -> {
+                updateIconColors(getActualValue(pref, newValue, mUrlPreference),
+                        getActualValue(pref, newValue, mUserNamePreference),
+                        getActualValue(pref, newValue, mPasswordPreference));
+                pref.setSummary(summaryGenerator.getSummary((String) newValue));
+                return true;
+            });
+            preference.setSummary(summaryGenerator.getSummary(getPreferenceString(key, "")));
+            return preference;
+        }
+
+        private String getActualValue(Preference pref, Object newValue, Preference reference) {
+            return pref == reference ? (String) newValue : getPreferenceString(reference, "");
+        }
+
+        private void updateIconColors(String url, String userName, String password) {
+            updateIconColor(mUrlPreference, () -> {
+                if (!TextUtils.isEmpty(url)) {
+                    return isConnectionHttps(url) ? R.color.pref_icon_green : R.color.pref_icon_red;
+                }
+                return null;
+            });
+            updateIconColor(mUserNamePreference, () -> {
+                if (!TextUtils.isEmpty(url)) {
+                    return TextUtils.isEmpty(userName) ? R.color.pref_icon_red : R.color.pref_icon_green;
+                }
+                return null;
+            });
+            updateIconColor(mPasswordPreference, () -> {
+                if (!TextUtils.isEmpty(url)) {
+                    if (TextUtils.isEmpty(password)) {
+                        return R.color.pref_icon_red;
+                    } else if (isWeakPassword(password)) {
+                        return R.color.pref_icon_orange;
+                    } else {
+                        return R.color.pref_icon_green;
+                    }
+                }
+                return null;
+            });
+        }
+
+        private void updateIconColor(Preference pref, IconColorGenerator colorGenerator) {
+            Drawable icon = pref.getIcon();
+            Integer colorResId = colorGenerator.getIconColor();
+            if (colorResId != null) {
+                DrawableCompat.setTint(icon, ContextCompat.getColor(pref.getContext(), colorResId));
+            } else {
+                DrawableCompat.setTintList(icon, null);
+            }
         }
     }
 
@@ -400,10 +532,8 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
         @Override
         protected void updateAndInitPreferences() {
             addPreferencesFromResource(R.xml.local_connection_preferences);
-
-            initEditorPreference(Constants.PREFERENCE_LOCAL_URL, R.string.settings_openhab_url_summary, false);
-            initEditorPreference(Constants.PREFERENCE_LOCAL_USERNAME, 0, false);
-            initEditorPreference(Constants.PREFERENCE_LOCAL_PASSWORD, 0, true);
+            initPreferences(Constants.PREFERENCE_LOCAL_URL, Constants.PREFERENCE_LOCAL_USERNAME,
+                    Constants.PREFERENCE_LOCAL_PASSWORD, R.string.settings_openhab_url_summary);
         }
     }
 
@@ -416,10 +546,8 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
         @Override
         protected void updateAndInitPreferences() {
             addPreferencesFromResource(R.xml.remote_connection_preferences);
-
-            initEditorPreference(Constants.PREFERENCE_REMOTE_URL, R.string.settings_openhab_alturl_summary, false);
-            initEditorPreference(Constants.PREFERENCE_REMOTE_USERNAME, 0, false);
-            initEditorPreference(Constants.PREFERENCE_REMOTE_PASSWORD, 0, true);
+            initPreferences(Constants.PREFERENCE_REMOTE_URL, Constants.PREFERENCE_REMOTE_USERNAME,
+                    Constants.PREFERENCE_REMOTE_PASSWORD, R.string.settings_openhab_alturl_summary);
         }
     }
 }

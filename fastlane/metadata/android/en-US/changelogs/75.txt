@@ -1,0 +1,4 @@
+## Fixed
+* Update dependencies
+* Use %d instead of 1 in plurals strings (#967)
+* Change user agent to "openHAB client for Android" (#945)
