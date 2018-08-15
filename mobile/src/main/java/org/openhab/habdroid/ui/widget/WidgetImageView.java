@@ -115,6 +115,9 @@ public class WidgetImageView extends AppCompatImageView {
         }
 
         cancelCurrentLoad();
+        // Make sure to discard last request (which was for a different URL) to ensure
+        // it's not re-triggered later, e.g. when being attached to the window
+        mLastRequest = null;
 
         if (actualUrl == null) {
             applyFallbackDrawable();
