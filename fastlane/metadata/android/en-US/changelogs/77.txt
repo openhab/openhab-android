@@ -1,0 +1,2 @@
+## Fixed
+* Fix wrong icons being loaded if views are re-used (#979) 
