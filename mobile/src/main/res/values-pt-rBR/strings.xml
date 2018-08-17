@@ -21,6 +21,8 @@
   <string name="settings_openhab_alturl_summary">A URL do painel openHAB é usada quando endereço local não está disponível. Configuração atual: %s</string>
   <string name="settings_openhab_username">Usuário</string>
   <string name="settings_openhab_password">Senha</string>
+  <string name="settings_openhab_password_summary_weak">Conjunto de senha fraca</string>
+  <string name="settings_openhab_password_summary_strong">Conjunto de senha forte</string>
   <string name="settings_openhab_sslclientcert">Certificado cliente SSL</string>
   <string name="settings_openhab_sslclientcert_howto_summary">Toque aqui para obter algumas dicas e explicações sobre como configurar a autenticação de certificado cliente SSL</string>
   <string name="settings_openhab_screentimeroff">Desativar a exibição do timer</string>
