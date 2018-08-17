@@ -9,6 +9,8 @@
 
 package org.openhab.habdroid.core;
 
+import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
@@ -47,10 +49,15 @@ public class GcmRegistrationService extends JobIntentService {
 
     static void scheduleHideNotification(Context context, int notificationId) {
         JobIntentService.enqueueWork(context, GcmRegistrationService.class, JOB_ID,
-                createHideNotificationIntent(context, notificationId));
+                makeHideNotificationIntent(context, notificationId));
     }
 
-    static Intent createHideNotificationIntent(Context context, int notificationId) {
+    static PendingIntent createHideNotificationIntent(Context context, int notificationId) {
+        return ProxyReceiver.wrap(context, makeHideNotificationIntent(context, notificationId),
+                notificationId);
+    }
+
+    private static Intent makeHideNotificationIntent(Context context, int notificationId) {
         return new Intent(context, GcmRegistrationService.class)
                 .setAction(GcmRegistrationService.ACTION_HIDE_NOTIFICATION)
                 .putExtra(GcmRegistrationService.EXTRA_NOTIFICATION_ID, notificationId);
@@ -119,5 +126,20 @@ public class GcmRegistrationService extends JobIntentService {
         sendBundle.putString("type", "hideNotification");
         sendBundle.putString("notificationId", String.valueOf(notificationId));
         gcm.send(senderId + "@gcm.googleapis.com", "1", sendBundle);
+    }
+
+    public static class ProxyReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Intent actual = intent.getParcelableExtra("intent");
+            JobIntentService.enqueueWork(context, GcmRegistrationService.class, JOB_ID, actual);
+        }
+
+        private static PendingIntent wrap(Context context, Intent intent, int id) {
+            Intent wrapped = new Intent(context, ProxyReceiver.class)
+                    .putExtra("intent", intent);
+            return PendingIntent.getBroadcast(context, id,
+                    wrapped, PendingIntent.FLAG_UPDATE_CURRENT);
+        }
     }
 }
