@@ -4,5 +4,4 @@
   <!-- Attention translators! Do NOT submit localized strings through GitHub Pull Request. -->
   <!-- See: https://github.com/openhab/openhab-android/blob/master/README.md#localization -->
   <!-- Name used for beta builds -->
-  <string name="app_name">openHAB تجريبي</string>
 </resources>
