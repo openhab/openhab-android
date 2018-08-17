@@ -117,12 +117,9 @@ public class GcmMessageListenerService extends GcmListenerService {
     }
 
     private PendingIntent makeDeleteIntent(int notificationId) {
-        Intent deleteIntent = new Intent(this, GcmRegistrationService.class)
-                .setAction(GcmRegistrationService.ACTION_HIDE_NOTIFICATION)
-                .putExtra(GcmRegistrationService.EXTRA_NOTIFICATION_ID, notificationId);
-
         return PendingIntent.getService(this, notificationId,
-                deleteIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                GcmRegistrationService.createHideNotificationIntent(this, notificationId),
+                PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
     private Notification makeNotification(String msg, String channelId, String icon,

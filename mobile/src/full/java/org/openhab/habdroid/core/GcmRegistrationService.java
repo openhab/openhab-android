@@ -9,6 +9,7 @@
 
 package org.openhab.habdroid.core;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -32,9 +33,28 @@ import java.util.Locale;
 public class GcmRegistrationService extends JobIntentService {
     private static final String TAG = GcmRegistrationService.class.getSimpleName();
 
-    static final String ACTION_REGISTER = "org.openhab.habdroid.action.REGISTER_GCM";
-    static final String ACTION_HIDE_NOTIFICATION = "org.openhab.habdroid.action.HIDE_NOTIFICATION";
-    static final String EXTRA_NOTIFICATION_ID = "notificationId";
+    private static final int JOB_ID = 1000;
+
+    private static final String ACTION_REGISTER = "org.openhab.habdroid.action.REGISTER_GCM";
+    private static final String ACTION_HIDE_NOTIFICATION = "org.openhab.habdroid.action.HIDE_NOTIFICATION";
+    private static final String EXTRA_NOTIFICATION_ID = "notificationId";
+
+    static void scheduleRegistration(Context context) {
+        Intent intent = new Intent(context, GcmRegistrationService.class)
+                .setAction(GcmRegistrationService.ACTION_REGISTER);
+        JobIntentService.enqueueWork(context, GcmRegistrationService.class, JOB_ID, intent);
+    }
+
+    static void scheduleHideNotification(Context context, int notificationId) {
+        JobIntentService.enqueueWork(context, GcmRegistrationService.class, JOB_ID,
+                createHideNotificationIntent(context, notificationId));
+    }
+
+    static Intent createHideNotificationIntent(Context context, int notificationId) {
+        return new Intent(context, GcmRegistrationService.class)
+                .setAction(GcmRegistrationService.ACTION_HIDE_NOTIFICATION)
+                .putExtra(GcmRegistrationService.EXTRA_NOTIFICATION_ID, notificationId);
+    }
 
     @Override
     protected void onHandleWork(@NonNull Intent intent) {
