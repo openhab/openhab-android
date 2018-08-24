@@ -12,6 +12,7 @@ package org.openhab.habdroid.ui;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.PendingIntent;
+import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -1004,7 +1005,18 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         speechIntent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 1);
         speechIntent.putExtra(RecognizerIntent.EXTRA_RESULTS_PENDINGINTENT, openhabPendingIntent);
 
-        startActivity(speechIntent);
+        try {
+            startActivity(speechIntent);
+        } catch (ActivityNotFoundException e) {
+            final String googleAppPackageName = "com.google.android.googlequicksearchbox";
+            try {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id="
+                        + googleAppPackageName)));
+            } catch (android.content.ActivityNotFoundException anfe) {
+                startActivity(new Intent(Intent.ACTION_VIEW,Uri.parse(
+                        "https://play.google.com/store/apps/details?id=" + googleAppPackageName)));
+            }
+        }
     }
 
     public void showRefreshHintSnackbarIfNeeded() {
