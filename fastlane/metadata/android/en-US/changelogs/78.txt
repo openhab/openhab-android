@@ -1,0 +1,2 @@
+## Fixed
+* Crash on network change if app is in background on API 24+ (#980)
