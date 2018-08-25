@@ -25,19 +25,14 @@ public class CloudMessagingHelper {
     public static void onConnectionUpdated(Context context, CloudConnection connection) {
         sRegistrationDone = false;
         if (connection != null) {
-            Intent intent = new Intent(context, GcmRegistrationService.class)
-                    .setAction(GcmRegistrationService.ACTION_REGISTER);
-            context.startService(intent);
+            GcmRegistrationService.scheduleRegistration(context);
         }
     }
 
     public static void onNotificationSelected(Context context, Intent intent) {
         int notificationId = intent.getIntExtra(GcmMessageListenerService.EXTRA_NOTIFICATION_ID, -1);
         if (notificationId >= 0) {
-            Intent serviceIntent = new Intent(context, GcmRegistrationService.class)
-                    .setAction(GcmRegistrationService.ACTION_HIDE_NOTIFICATION)
-                    .putExtra(GcmRegistrationService.EXTRA_NOTIFICATION_ID, notificationId);
-            context.startService(serviceIntent);
+            GcmRegistrationService.scheduleHideNotification(context, notificationId);
         }
     }
 

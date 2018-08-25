@@ -14,6 +14,13 @@
             </intent-filter>
         </receiver>
 
+        <receiver
+            android:name="org.openhab.habdroid.core.GcmRegistrationService$ProxyReceiver">
+            <intent-filter>
+                <action android:name="org.openhab.habdroid.action.HIDE_NOTIFICATION" />
+            </intent-filter>
+        </receiver>
+
         <service
             android:name="org.openhab.habdroid.core.GcmMessageListenerService"
             android:exported="false">
@@ -32,7 +39,7 @@
 
         <service
             android:name="org.openhab.habdroid.core.GcmRegistrationService"
-            android:exported="false" />
+            android:permission="android.permission.BIND_JOB_SERVICE" />
 
         <meta-data
             android:name="com.google.android.gms.version"
