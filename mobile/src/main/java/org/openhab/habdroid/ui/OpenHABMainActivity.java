@@ -60,6 +60,7 @@ import android.view.View;
 import android.view.ViewStub;
 import android.view.WindowManager;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -1007,14 +1008,13 @@ public class OpenHABMainActivity extends AppCompatActivity implements
 
         try {
             startActivity(speechIntent);
-        } catch (ActivityNotFoundException e) {
-            final String googleAppPackageName = "com.google.android.googlequicksearchbox";
+        } catch (ActivityNotFoundException speechRecognizerNotFoundException) {
             try {
-                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id="
-                        + googleAppPackageName)));
-            } catch (android.content.ActivityNotFoundException anfe) {
-                startActivity(new Intent(Intent.ACTION_VIEW,Uri.parse(
-                        "https://play.google.com/store/apps/details?id=" + googleAppPackageName)));
+                startActivity(new Intent(Intent.ACTION_VIEW,
+                        Uri.parse("market://details?id=com.google.android.googlequicksearchbox")));
+            } catch (ActivityNotFoundException appStoreNotFoundException) {
+                Toast.makeText(this, R.string.error_no_app_store_found,
+                        Toast.LENGTH_LONG).show();
             }
         }
     }
