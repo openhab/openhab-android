@@ -8,4 +8,8 @@
   <string name="info_openhab_gcm_connected">Enheten är nu registrerad i Google Cloud Messaging</string>
   <string name="notification_channel_default">Standard</string>
   <string name="notification_channel_severity_value">Felgrad \'%1$s\'</string>
+  <plurals name="summary_notification_text">
+    <item quantity="one">%d ny notifiering</item>
+    <item quantity="other">%d nya notifieringar</item>
+  </plurals>
 </resources>
