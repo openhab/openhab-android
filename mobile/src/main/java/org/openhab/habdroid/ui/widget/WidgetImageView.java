@@ -197,6 +197,7 @@ public class WidgetImageView extends AppCompatImageView {
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         cancelCurrentLoad();
+        mLastRequest = null;
     }
 
     public void setRefreshRate(int msec) {
