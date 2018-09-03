@@ -131,10 +131,10 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         mChartTheme = tv.string;
     }
 
-    public void update(List<OpenHABWidget> widgets) {
+    public void update(List<OpenHABWidget> widgets, boolean forceFullUpdate) {
         boolean compatibleUpdate = true;
 
-        if (widgets.size() != mItems.size()) {
+        if (widgets.size() != mItems.size() || forceFullUpdate) {
             compatibleUpdate = false;
         } else {
             for (int i = 0; i < widgets.size(); i++) {
