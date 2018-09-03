@@ -250,7 +250,6 @@ public class OpenHABMainActivity extends AppCompatActivity implements
                 // via the fragment state restoration.
                 mController.recreateFragmentState();
             }
-            updateSitemapDrawerItems();
             if (savedInstanceState.getBoolean("isSitemapSelectionDialogShown")) {
                 showSitemapSelectionDialog();
             }
