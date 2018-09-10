@@ -970,6 +970,7 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         @SuppressLint("SetJavaScriptEnabled")
         @Override
         public void bind(OpenHABWidget widget) {
+            mWebView.loadUrl("about:blank");
             ViewGroup.LayoutParams lp = mWebView.getLayoutParams();
             int desiredHeightPixels = widget.height() > 0
                     ? widget.height() * mRowHeightPixels : ViewGroup.LayoutParams.WRAP_CONTENT;
