@@ -12,6 +12,7 @@ package org.openhab.habdroid.ui;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.PendingIntent;
+import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -59,6 +60,7 @@ import android.view.View;
 import android.view.ViewStub;
 import android.view.WindowManager;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -1004,7 +1006,17 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         speechIntent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 1);
         speechIntent.putExtra(RecognizerIntent.EXTRA_RESULTS_PENDINGINTENT, openhabPendingIntent);
 
-        startActivity(speechIntent);
+        try {
+            startActivity(speechIntent);
+        } catch (ActivityNotFoundException speechRecognizerNotFoundException) {
+            try {
+                startActivity(new Intent(Intent.ACTION_VIEW,
+                        Uri.parse("market://details?id=com.google.android.googlequicksearchbox")));
+            } catch (ActivityNotFoundException appStoreNotFoundException) {
+                Toast.makeText(this, R.string.error_no_app_store_found,
+                        Toast.LENGTH_LONG).show();
+            }
+        }
     }
 
     public void showRefreshHintSnackbarIfNeeded() {
