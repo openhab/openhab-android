@@ -16,9 +16,9 @@
   <string name="settings_display_title">Display</string>
   <string name="settings_misc_title">Altro</string>
   <string name="settings_openhab_url">URL del server locale</string>
-  <string name="settings_openhab_url_summary">L\'URL dell\'interfaccia openHAB (basato su IP o hostname). Se configurato, rilevamento automatico è disattivato. Impostazione corrente: %s</string>
+  <string name="settings_openhab_url_summary">L\'URL dell\'interfaccia openHAB (inserire IP o hostname). Se configurato, il rilevamento automatico sarà disattivato. L’Impostazione corrente è: %s</string>
   <string name="settings_openhab_alturl">URL del server remoto</string>
-  <string name="settings_openhab_alturl_summary">L\'URL dell\'interfaccia openHAB utilizzato quando l\'indirizzo locale non è disponibile. Impostazione corrente: %s</string>
+  <string name="settings_openhab_alturl_summary">L\'URL utilizzato dell\'interfaccia openHAB quando l\'indirizzo locale non è disponibile. L’impostazione corrente è: %s</string>
   <string name="settings_openhab_username">Utente</string>
   <string name="settings_openhab_password">Password</string>
   <string name="settings_openhab_sslclientcert">Certificato SSL client</string>
@@ -34,12 +34,12 @@
   <string name="settings_openhab_icon_format_png">Bitmap</string>
   <string name="settings_openhab_icon_format_svg">Vettoriale</string>
   <string name="settings_chart_scaling">Scala del grafico</string>
-  <string name="settings_chart_scaling_summary">Nota: Con una scala piccola, c\'e\' piu\' spazio per il grafico, ma la leggibilita\' dei caratteri e linee puo\' essere compromessa.</string>
+  <string name="settings_chart_scaling_summary">Nota: Con una scala piccola, c\'è più\' spazio per il grafico, ma la leggibilita\' dei caratteri e linee puo\' essere compromessa.</string>
   <string name="settings_chart_scaling_value_xs">Molto piccolo</string>
   <string name="settings_chart_scaling_value_s">Piccolo</string>
   <string name="settings_chart_scaling_value_m">Predefinito</string>
   <string name="settings_chart_scaling_value_l">Grande</string>
-  <string name="settings_ringtone">Suono per Notifica</string>
+  <string name="settings_ringtone">Suono di Notifica</string>
   <string name="settings_ringtone_none">Nessuno</string>
   <string name="settings_clear_default_sitemap">Cancella Sitemap predefinito</string>
   <string name="settings_no_default_sitemap">Nessun Sitemap predefinito selezionato</string>
@@ -61,7 +61,7 @@
   <string name="info_conn_url">Connessione a URL locale</string>
   <string name="info_conn_rem_url">Connessione a URL remoto</string>
   <!-- Error messages -->
-  <string name="error_empty_sitemap_list">openHAB ha ritornato nessun Sitemap</string>
+  <string name="error_empty_sitemap_list">openHAB ha la lista di Sitemap vuota</string>
   <string name="error_network_not_available">Rete non disponibile</string>
   <string name="error_http_connection_failed">Connessione non riuscita. È stata ricevuta una risposta imprevista durante il tentativo di connessione al server openHAB configurato (codice di risposta HTTP ricevuto: %d).</string>
   <string name="error_invalid_url">Inserisci un URL valido nella forma \'http(s)://host(:port)/\'</string>
