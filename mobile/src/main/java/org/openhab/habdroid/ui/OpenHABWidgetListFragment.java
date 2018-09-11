@@ -293,7 +293,7 @@ public class OpenHABWidgetListFragment extends Fragment
         mWidgets = widgets;
 
         if (openHABWidgetAdapter != null) {
-            openHABWidgetAdapter.update(widgets);
+            openHABWidgetAdapter.update(widgets, refreshLayout.isRefreshing());
             setHighlightedPageLink(mHighlightedPageLink);
             refreshLayout.setRefreshing(false);
         }

@@ -109,21 +109,23 @@ public class WidgetImageView extends AppCompatImageView {
         AsyncHttpClient client = connection.getAsyncHttpClient();
         HttpUrl actualUrl = client.buildUrl(url);
 
-        if (mLastRequest != null && mLastRequest.isForUrl(actualUrl)) {
-            // Nothing to do
+        if (mLastRequest != null && mLastRequest.isActiveForUrl(actualUrl)) {
+            // We're already in the process of loading this image, thus there's nothing to do
             return;
         }
 
         cancelCurrentLoad();
-        // Make sure to discard last request (which was for a different URL) to ensure
-        // it's not re-triggered later, e.g. when being attached to the window
-        mLastRequest = null;
 
         if (actualUrl == null) {
             applyFallbackDrawable();
+            mLastRequest = null;
             return;
         }
+
         Bitmap cached = CacheManager.getInstance(getContext()).getCachedBitmap(actualUrl);
+
+        mLastRequest = new HttpImageRequest(client, actualUrl, timeoutMillis);
+
         if (cached != null) {
             setBitmapInternal(cached);
         } else {
@@ -131,7 +133,6 @@ public class WidgetImageView extends AppCompatImageView {
         }
 
         if (cached == null || forceLoad) {
-            mLastRequest = new HttpImageRequest(client, actualUrl, timeoutMillis);
             mLastRequest.execute(forceLoad);
         }
     }
@@ -188,8 +189,12 @@ public class WidgetImageView extends AppCompatImageView {
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
-        if (mLastRequest != null && !mLastRequest.hasCompleted()) {
-            mLastRequest.execute(false);
+        if (mLastRequest != null) {
+            if (!mLastRequest.hasCompleted()) {
+                mLastRequest.execute(false);
+            } else {
+                scheduleNextRefresh();
+            }
         }
     }
 
@@ -288,10 +293,6 @@ public class WidgetImageView extends AppCompatImageView {
             mCall = null;
         }
 
-        public boolean hasCompleted() {
-            return mCall != null;
-        }
-
         public void execute(boolean avoidCache) {
             Log.i(TAG, "Refreshing image at " + mUrl);
             HttpClient.CachingMode cachingMode = avoidCache
@@ -303,12 +304,15 @@ public class WidgetImageView extends AppCompatImageView {
         public void cancel() {
             if (mCall != null) {
                 mCall.cancel();
-                mCall = null;
             }
         }
 
-        public boolean isForUrl(HttpUrl url) {
-            return mCall != null && mCall.request().url().equals(url);
+        public boolean hasCompleted() {
+            return mCall == null;
+        }
+
+        public boolean isActiveForUrl(HttpUrl url) {
+            return mCall != null && mCall.request().url().equals(url) && !mCall.isCanceled();
         }
     }
 }
