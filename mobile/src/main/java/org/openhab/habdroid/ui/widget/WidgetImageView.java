@@ -293,10 +293,6 @@ public class WidgetImageView extends AppCompatImageView {
             mCall = null;
         }
 
-        public boolean hasCompleted() {
-            return mCall != null;
-        }
-
         public void execute(boolean avoidCache) {
             Log.i(TAG, "Refreshing image at " + mUrl);
             HttpClient.CachingMode cachingMode = avoidCache
@@ -308,12 +304,15 @@ public class WidgetImageView extends AppCompatImageView {
         public void cancel() {
             if (mCall != null) {
                 mCall.cancel();
-                mCall = null;
             }
         }
 
+        public boolean hasCompleted() {
+            return mCall == null;
+        }
+
         public boolean isActiveForUrl(HttpUrl url) {
-            return mCall != null && mCall.request().url().equals(url);
+            return mCall != null && mCall.request().url().equals(url) && !mCall.isCanceled();
         }
     }
 }
