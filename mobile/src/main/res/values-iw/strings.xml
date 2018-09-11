@@ -90,6 +90,7 @@
   <string name="error_http_code_511">נדרש אימות רשת (קוד תגובה HTTP 511)</string>
   <string name="error_about_no_conn">אירעה שגיאה בעת בקשת מידע משרת openHAB</string>
   <string name="error_openhab_offline">שרת openHAB שלך אינו מקוון בזמן שהשרת בענן פעיל</string>
+  <string name="error_no_app_store_found">לא נמצאה חנות יישומים להתקנת תוכנה לזיהוי דיבור</string>
   <string name="title_activity_openhabwritetag">כתיבה לתגית NFC</string>
   <string name="title_activity_libraries">ספריות בשימוש</string>
   <string name="info_write_tag">הצמד תגית והשאר אותה קרובה עד להופעת הודעת אישור</string>
