@@ -160,7 +160,7 @@ dependencyVerification {
             'com.google.firebase:firebase-analytics:83d08c5c8e58f2aaac8783ae42bc76bedb83435b696e654ecae1b753accced99',
             'com.google.firebase:firebase-analytics-impl:5a9f7c6d01df2fd1e270f812d13e31a72fc4006f548c65beb8370978b17a3732',
             'com.google.firebase:firebase-iid:42f75667d0d9df7c67d70cc0e0a58d2d2d7dbec331ad3c8c4a16945899c5e7dc',
-            'com.google.firebase:firebase-common:b36bf28d62fe95069b4eb19eb8ac75c66628bc5045e4b93a783212696b70c419',
+            'com.google.firebase:firebase-common:16.0.2',
             'com.google.android.gms:play-services-tasks:b4c454f75281202789ea244e8c9b4ed15f0c6a0aeed3531ff7bffd9f1d7c4a61',
             'com.google.android.gms:play-services-basement:bfcd288d82e871b626f6325955e80956062f3bcac8d2162216643402d6930c88',
             'com.google.firebase:firebase-analytics-license:4465a2d2b92bddcbc4aa44f5218bd6f700b512b82a4e46821fa768068026b3bb',
