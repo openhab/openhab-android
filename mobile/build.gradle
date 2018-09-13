@@ -158,7 +158,7 @@ dependencyVerification {
     verify = [
             'com.google.firebase:firebase-core:297f3c1f667e3a288ffcc2d017282679eaec4a54b98b3f538aeb7fbd7dac85a7',
             'com.google.firebase:firebase-analytics:83d08c5c8e58f2aaac8783ae42bc76bedb83435b696e654ecae1b753accced99',
-            'com.google.firebase:firebase-analytics-impl:5a9f7c6d01df2fd1e270f812d13e31a72fc4006f548c65beb8370978b17a3732',
+            'com.google.firebase:firebase-analytics-impl:16.2.1',
             'com.google.firebase:firebase-iid:42f75667d0d9df7c67d70cc0e0a58d2d2d7dbec331ad3c8c4a16945899c5e7dc',
             'com.google.firebase:firebase-common:b36bf28d62fe95069b4eb19eb8ac75c66628bc5045e4b93a783212696b70c419',
             'com.google.android.gms:play-services-tasks:b4c454f75281202789ea244e8c9b4ed15f0c6a0aeed3531ff7bffd9f1d7c4a61',
