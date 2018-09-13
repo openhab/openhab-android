@@ -166,7 +166,7 @@ dependencyVerification {
             'com.google.firebase:firebase-analytics-license:4465a2d2b92bddcbc4aa44f5218bd6f700b512b82a4e46821fa768068026b3bb',
             'com.android.support:support-v4:36d8385de1be7791231acb933b757198f97cb53bc7d046e8c4bc403d214caaca',
             'com.google.android.gms:play-services-basement-license:9b16c6e2dc0f9198a036f00f0c66534d5fefc26e94384381284aa867473fa173',
-            'com.google.firebase:firebase-common-license:9ebd022ec18e239055de52df77882623cda767734e010d20a70ac5c2ab8b598a',
+            'com.google.firebase:firebase-common-license:12.0.1',
             'com.google.firebase:firebase-analytics-impl-license:548b70375c927a6b19bc77300c6ed909b94a84417583797dd7b2827e0335a168',
             'com.android.support:support-media-compat:9d8cee7cd40eff22ebdeb90c8e70f5ee96c5bd25cb2c3e3b3940e27285a3e98a',
             'com.android.support:support-fragment:a0ab3369ef40fe199160692f0463a5f63f1277ebfb64dd587c76fdb128d76b32',
