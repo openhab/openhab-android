@@ -172,7 +172,7 @@ dependencyVerification {
             'com.android.support:support-fragment:a0ab3369ef40fe199160692f0463a5f63f1277ebfb64dd587c76fdb128d76b32',
             'com.android.support:support-core-utils:4fda6d4eb430971e3b1dad7456988333f374b0f4ba15f99839ca1a0ab5155c8a',
             'com.android.support:support-core-ui:82f538051599335ea881ec264407547cab52be750f16ce099cfb27754fc755ff',
-            'com.android.support:support-compat:7d6da01cf9766b1705c6c80cfc12274a895b406c4c287900b07a56145ca6c030',
+            'com.android.support:support-compat:28.0.0-rc02',
             'com.google.android.gms:play-services-tasks-license:2dc5a838b1ed8a373d5242dd97173ca6c355f7a6d59fae22c180fed85771b7af',
             'com.google.firebase:firebase-iid-license:cd0df76dabb5bf1a2409373900ebf13f1fad8888b33cf193ddf59a765a800d27',
             'com.android.support:support-annotations:99d6199ad5a09a0e5e8a49a4cc08f818483ddcfd7eedea2f9923412daf982309',
