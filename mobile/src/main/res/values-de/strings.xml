@@ -90,6 +90,7 @@
   <string name="error_http_code_511">Netzwerkauthentifizierung wird gefordert (HTTP-Statuscode 511)</string>
   <string name="error_about_no_conn">Fehler beim Abrufen der openHAB-Server-Informationen</string>
   <string name="error_openhab_offline">Die openHAB-Cloud-Instanz funktioniert, aber Ihr openHAB-Server ist offline</string>
+  <string name="error_no_app_store_found">Kein Appstore gefunden um eine Spracherkennungsapp zu installieren</string>
   <string name="title_activity_openhabwritetag">NFC-Tag beschreiben</string>
   <string name="title_activity_libraries">Verwendete Bibliotheken</string>
   <string name="info_write_tag">Berühren Sie den NFC-Tag und warten Sie auf die Bestätigungsmitteilung</string>
