@@ -4,10 +4,65 @@
   <!-- Attention translators! Do NOT submit localized strings through GitHub Pull Request. -->
   <!-- See: https://github.com/openhab/openhab-android/blob/master/README.md#localization -->
   <!-- General app strings -->
+  <string name="app_preferences_name">Innstillinger</string>
+  <string name="app_notifications">Varslinger</string>
   <!-- Main menu items -->
+  <string name="mainmenu_openhab_sitemaps">Lokasjonskart</string>
+  <string name="mainmenu_openhab_preferences">Innstillinger</string>
+  <string name="mainmenu_openhab_selectsitemap">Velg standard lokasjonskart</string>
+  <string name="mainmenu_openhab_clearcache">Tøm bildebuffer</string>
   <!-- App settings strings -->
+  <string name="settings_connection_title">Kobling</string>
+  <string name="settings_display_title">Skjerm</string>
+  <string name="settings_misc_title">Diverse</string>
+  <string name="settings_openhab_url">Lokal server adresse</string>
+  <string name="settings_openhab_alturl">Ekstern server adresse</string>
+  <string name="settings_openhab_alturl_summary">Adressen til openHAB dashbord som blir brukt når den lokale adressen ikke er tilgjengelig. Nåværende innstilling: %s</string>
+  <string name="settings_openhab_username">Brukernavn</string>
+  <string name="settings_openhab_password">Passord</string>
+  <string name="settings_openhab_sslclientcert">SSL klientsertifikat</string>
+  <string name="settings_openhab_sslclientcert_howto_summary">Trykk her for å få hint og forklaring på hvordan å sette opp SSL klientsertifikat autentisering</string>
+  <string name="settings_openhab_screentimeroff">Deaktiver skjermsparer</string>
+  <string name="settings_openhab_screentimeroff_summary">Deaktiver skjermsparer når openHAB kjører</string>
+  <string name="settings_openhab_demomode">Demomodus</string>
+  <string name="settings_openhab_demomode_summary">Kjør i demomodus</string>
+  <string name="settings_openhab_theme">Tema</string>
+  <string name="settings_openhab_fullscreen">Fullskjerm</string>
+  <string name="settings_openhab_fullscreen_summary">Visning i fullskjerm modus</string>
+  <string name="settings_openhab_icon_format_png">Bitmap</string>
+  <string name="settings_openhab_icon_format_svg">Vektor</string>
+  <string name="settings_chart_scaling">Kurveskalering</string>
+  <string name="settings_chart_scaling_summary">NB: Mindre skalering, forminsker tekst og linjebredde så det blir bedre plass for kurver, men lesbarhet kan forverres.</string>
+  <string name="settings_chart_scaling_value_xs">Veldig liten</string>
+  <string name="settings_chart_scaling_value_s">Liten</string>
+  <string name="settings_chart_scaling_value_m">Standard</string>
+  <string name="settings_chart_scaling_value_l">Stor</string>
+  <string name="settings_ringtone">Meldingstone</string>
+  <string name="settings_ringtone_none">Ingen</string>
+  <string name="settings_clear_default_sitemap">Tøm standard lokasjonskart</string>
+  <string name="settings_no_default_sitemap">Ingen standard lokasjonskart valgt</string>
+  <string name="settings_current_default_sitemap">Nåværende standard lokasjonskart: %1$s</string>
+  <string name="settings_openhab_alt_connection">Ekstern</string>
+  <string name="settings_openhab_connection">Lokal</string>
+  <string name="settings_notification_vibration">Meldingsvibrering</string>
+  <string name="settings_notification_vibration_off">Av</string>
+  <string name="settings_notification_vibration_short">Kort</string>
+  <string name="settings_notification_vibration_long">Lang</string>
+  <string name="settings_notification_vibration_twice">Dobbel</string>
+  <string name="settings_connection_summary">Koblet til %s</string>
+  <string name="settings_insecure_connection_summary">Usikkert koblet til %s</string>
   <!-- App messages strings -->
+  <string name="title_voice_widget">openHAB talekommandoer</string>
+  <string name="info_voice_input">openHAB, under din kommando!</string>
+  <string name="info_voice_recognized_text">Gjenkjent kommando: %1$s</string>
+  <string name="info_demo_mode_short">Kjører i demomodus</string>
+  <string name="info_conn_url">Kobler til lokal URL</string>
+  <string name="info_conn_rem_url">Kobler til ekstern URL</string>
   <!-- Error messages -->
+  <string name="error_empty_sitemap_list">openHAB returnerte tom lokasjonskart-liste</string>
+  <string name="error_network_not_available">Nettverk er ikke tilgjengelig</string>
+  <string name="error_invalid_url">Angi en gyldig URL-adresse i en \' http(s)://host(:port) / \" form</string>
+  <string name="error_connection_failed">Tilkobling til verten mislyktes</string>
   <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
   <!-- Notification list strings -->
   <!-- Strings for MemorizingTrustManager activity -->
