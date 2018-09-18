@@ -16,10 +16,13 @@
   <string name="settings_display_title">Skjerm</string>
   <string name="settings_misc_title">Diverse</string>
   <string name="settings_openhab_url">Lokal server adresse</string>
+  <string name="settings_openhab_url_summary">Adressen til openHAB dashbord (basert på vertsnavn eller IP). Hvis konfigurert, er automatisk gjenkjenning deaktivert. Nåværende innstilling: %s</string>
   <string name="settings_openhab_alturl">Ekstern server adresse</string>
   <string name="settings_openhab_alturl_summary">Adressen til openHAB dashbord som blir brukt når den lokale adressen ikke er tilgjengelig. Nåværende innstilling: %s</string>
   <string name="settings_openhab_username">Brukernavn</string>
   <string name="settings_openhab_password">Passord</string>
+  <string name="settings_openhab_password_summary_weak">Svakt passord satt</string>
+  <string name="settings_openhab_password_summary_strong">Sterkt passord satt</string>
   <string name="settings_openhab_sslclientcert">SSL klientsertifikat</string>
   <string name="settings_openhab_sslclientcert_howto_summary">Trykk her for å få hint og forklaring på hvordan å sette opp SSL klientsertifikat autentisering</string>
   <string name="settings_openhab_screentimeroff">Deaktiver skjermsparer</string>
@@ -29,6 +32,7 @@
   <string name="settings_openhab_theme">Tema</string>
   <string name="settings_openhab_fullscreen">Fullskjerm</string>
   <string name="settings_openhab_fullscreen_summary">Visning i fullskjerm modus</string>
+  <string name="settings_openhab_icon_format">Ikonformatering</string>
   <string name="settings_openhab_icon_format_png">Bitmap</string>
   <string name="settings_openhab_icon_format_svg">Vektor</string>
   <string name="settings_chart_scaling">Kurveskalering</string>
@@ -61,12 +65,68 @@
   <!-- Error messages -->
   <string name="error_empty_sitemap_list">openHAB returnerte tom lokasjonskart-liste</string>
   <string name="error_network_not_available">Nettverk er ikke tilgjengelig</string>
+  <string name="error_http_connection_failed">Tilkobling mislyktes. Mottok et uventet svar under forsøk på å koble til den konfigurerte openHAB-serveren (mottatt HTTP responskode: %d).</string>
   <string name="error_invalid_url">Angi en gyldig URL-adresse i en \' http(s)://host(:port) / \" form</string>
   <string name="error_connection_failed">Tilkobling til verten mislyktes</string>
+  <string name="error_unable_to_resolve_hostname">Kan ikke løse vertnavn</string>
+  <string name="error_connection_sslhandshake_failed">SSL-håndtrykk mislyktes</string>
+  <string name="error_certificate_not_trusted">SSL-sertifikatet er ikke klarert. Importer rotsertifikatet, eller godta sertifikatet under SSL-håndtrykk.</string>
+  <string name="error_certificate_expired">SSL-sertifikatet er utløpt. Hent et nytt sertifikat, eller godta sertifikatet under SSL-håndtrykk.</string>
+  <string name="error_certificate_not_valid_yet">SSL-sertifikatet er ikke gyldig ennå. Få et riktig sertifikat, eller godta sertifikatet under SSL-håndtrykk. Sjekk også om klokken på enheten er riktig angitt.</string>
+  <string name="error_certificate_revoked">SSL-sertifikatet er tilbakekalt. Hent et nytt sertifikat, eller godta sertifikatet under SSL-håndtrykk.</string>
+  <string name="error_certificate_wrong_host">Sertifikatet er ikke gyldig for %s</string>
+  <string name="error_http_code_401">Godkjenning mislyktes. Kontroller konfigurerte brukernavn og passord iht. angitt SSL-klientsertifikat (HTTP responskode 401).</string>
+  <string name="error_http_code_403">Godkjenning mislyktes. Kontroller konfigurerte brukernavn og passord iht. angitt SSL-klientsertifikat (HTTP responskode 403).</string>
+  <string name="error_http_code_407">Godkjenning mislyktes. Kontroller konfigurerte brukernavn og passord iht. angitt SSL-klientsertifikat (HTTP responskode 407).</string>
+  <string name="error_http_code_414">Nettadressen er for lang. Bruk IP-adressen eller en kortere URL (HTTP responskode 414).</string>
+  <string name="error_http_code_426">HTTPS er nødvendig. Endre URL-adressen (HTTP responskode 426).</string>
   <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
+  <string name="error_http_code_495">Godkjenning mislyktes. Kontroller det angitte SSL-klientsertifikatet (HTTP responskode 495).</string>
+  <string name="error_http_code_496">SSL klient sertifikat er påkrevd (HTTP respons kode 496)</string>
+  <string name="error_http_code_502">Din omvendte proxy fikk et ugyldig svar fra openHAB-serveren (HTTP-respons kode 502)</string>
+  <string name="error_http_code_503">OpenHAB-serveren er midlertidig utilgjengelig (HTTP-respons kode 503)</string>
+  <string name="error_http_code_504">Gateway tidsavbrudd. Det virker som din omvendte proxy er oppe, men den får ikke svar fra openHAB-serveren (HTTP-respons kode 504).</string>
+  <string name="error_http_code_507">OpenHAB-serveren har ikke nok ledig minne (HTTP-responskode 507)</string>
+  <string name="error_http_code_511">Nettverksautentisering påkrevd (HTTP-responskode 511)</string>
+  <string name="error_about_no_conn">Feil ved henting av informasjon fra openHAB-serveren</string>
+  <string name="error_openhab_offline">OpenHAB serveren er frakoblet mens cloud-instansen kjører</string>
+  <string name="error_no_app_store_found">Ingen app lager funnet for å installere stemme gjenkjenneren app</string>
+  <string name="title_activity_openhabwritetag">Skriv NFC tag</string>
+  <string name="title_activity_libraries">Brukte biblioteker</string>
+  <string name="info_write_tag">Berør tagen og hold den nær til bekreftelsesmeldingen vises</string>
+  <string name="info_write_tag_progress">Skriver tagen</string>
+  <string name="info_write_tag_finished">Fullført</string>
+  <string name="info_write_failed">Tag skrivefeil</string>
+  <string name="info_write_tag_unsupported">Denne enheten har ikke NFC støtte</string>
+  <string name="info_write_tag_disabled">NFC er deaktivert. Aktiver i enhetens innstillinger-meny.</string>
+  <string name="info_openhab_apiversion_label">openHAB Rest API versjon</string>
+  <string name="info_openhab_uuid_label">openHAB UUID</string>
+  <string name="info_openhab_secret_label">openHAB hemmelighet</string>
+  <string name="info_openhab_push_notification_label">Push melding status</string>
+  <string name="action_settings">Innstillinger</string>
+  <string name="nfc_dialog_title">Skriv NFC handlinger for dette elementet</string>
+  <string name="info_not_set">Ikke angitt</string>
   <!-- Notification list strings -->
+  <string name="notification_list_empty">Ingen meldinger ble sendt så langt</string>
+  <string name="notification_list_error">Det oppstod en feil under lasting av meldinger</string>
+  <string name="list_loading_message">Laster inn\u2026</string>
   <!-- Strings for MemorizingTrustManager activity -->
+  <string name="mtm_accept_cert">Godta ukjent sertifikat?</string>
+  <string name="mtm_trust_anchor">Serversertifikatet er ikke signert av en kjent sertifiseringsinstans</string>
+  <string name="mtm_cert_expired">Serversertifikatet er utgått</string>
+  <string name="mtm_accept_servername">Aksepter feilaktig Server Navn?</string>
+  <string name="mtm_hostname_mismatch">Server kunne ikke authentiseres som \&quot;%s\&quot;. Sertifikatet er kun gyldig for:</string>
+  <string name="mtm_connect_anyway">Vil du koble til uansett?</string>
+  <string name="mtm_cert_details">Sertifikatdetaljer:</string>
+  <string name="mtm_decision_always">Godta</string>
+  <string name="mtm_decision_once">En gang</string>
+  <string name="mtm_decision_abort">Avbryt</string>
+  <string name="mtm_notification">Sertifikatverifikasjon</string>
+  <string name="settings_openhab_none">Ingen</string>
   <!-- Themes -->
+  <string name="theme_name_light">Lyst</string>
+  <string name="theme_name_dark">Mørkt</string>
+  <string name="theme_name_black">Svart/AMOLED</string>
   <!-- NFC -->
   <!-- Drawer -->
   <!-- About -->
