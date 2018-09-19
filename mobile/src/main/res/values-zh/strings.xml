@@ -4,8 +4,20 @@
   <!-- Attention translators! Do NOT submit localized strings through GitHub Pull Request. -->
   <!-- See: https://github.com/openhab/openhab-android/blob/master/README.md#localization -->
   <!-- General app strings -->
+  <string name="app_preferences_name">设置</string>
+  <string name="app_notifications">通知</string>
   <!-- Main menu items -->
+  <string name="mainmenu_openhab_sitemaps">系统布局</string>
+  <string name="mainmenu_openhab_preferences">设置</string>
+  <string name="mainmenu_openhab_selectsitemap">选择默认系统布局</string>
+  <string name="mainmenu_openhab_clearcache">清除图像缓存</string>
   <!-- App settings strings -->
+  <string name="settings_connection_title">连接</string>
+  <string name="settings_display_title">显示</string>
+  <string name="settings_misc_title">其他</string>
+  <string name="settings_openhab_url">本地服务器 URL</string>
+  <string name="settings_openhab_url_summary">OpenHAB 仪表板的 URL (基于主机名或 IP)。如果已配置, 自动发现将被禁用。当前设置: %s</string>
+  <string name="settings_openhab_alturl">远程服务器 URL</string>
   <!-- App messages strings -->
   <!-- Error messages -->
   <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
