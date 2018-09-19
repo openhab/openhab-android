@@ -98,6 +98,12 @@
   <string name="info_write_tag_finished">已成功完成</string>
   <string name="info_write_failed">标签写入错误</string>
   <string name="info_write_tag_unsupported">此设备不支持 NFC</string>
+  <string name="info_write_tag_disabled">NFC 已被禁用。请在设备设置菜单中启用。</string>
+  <string name="info_openhab_apiversion_label">openHAB Rest API 版本</string>
+  <string name="info_openhab_uuid_label">openHAB UUID</string>
+  <string name="info_openhab_secret_label">openHAB 密钥</string>
+  <string name="info_openhab_push_notification_label">推送通知状态</string>
+  <string name="action_settings">设置</string>
   <!-- Notification list strings -->
   <string name="notification_list_error">加载通知时出错</string>
   <string name="list_loading_message">正在载入\u2026</string>
