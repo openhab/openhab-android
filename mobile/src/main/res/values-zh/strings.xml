@@ -18,15 +18,89 @@
   <string name="settings_openhab_url">本地服务器 URL</string>
   <string name="settings_openhab_url_summary">OpenHAB 仪表板的 URL (基于主机名或 IP)。如果已配置, 自动发现将被禁用。当前设置: %s</string>
   <string name="settings_openhab_alturl">远程服务器 URL</string>
+  <string name="settings_openhab_alturl_summary">本地地址时所使用的 openHAB 仪表板 URL。当前设置为: %s</string>
+  <string name="settings_openhab_username">用户名</string>
+  <string name="settings_openhab_password">密码</string>
+  <string name="settings_openhab_password_summary_weak">弱密码</string>
+  <string name="settings_openhab_password_summary_strong">强密码</string>
+  <string name="settings_openhab_sslclientcert">SSL 客户端证书</string>
+  <string name="settings_openhab_sslclientcert_howto_summary">点击此处获取设置 SSL 客户端证书认证的信息</string>
+  <string name="settings_openhab_screentimeroff">禁用显示计时器</string>
+  <string name="settings_openhab_screentimeroff_summary">在 OpenHAB 运行时禁用显示屏关闭定时器</string>
+  <string name="settings_openhab_demomode">演示模式</string>
+  <string name="settings_openhab_demomode_summary">以演示模式运行</string>
+  <string name="settings_openhab_theme">主题</string>
+  <string name="settings_openhab_fullscreen">全屏</string>
+  <string name="settings_openhab_fullscreen_summary">以全屏模式显示</string>
+  <string name="settings_openhab_icon_format">图标格式</string>
+  <string name="settings_openhab_icon_format_png">位图</string>
+  <string name="settings_openhab_icon_format_svg">矢量图</string>
+  <string name="settings_chart_scaling_value_xs">非常小</string>
+  <string name="settings_chart_scaling_value_s">小</string>
+  <string name="settings_chart_scaling_value_m">默认</string>
+  <string name="settings_chart_scaling_value_l">大</string>
+  <string name="settings_ringtone">通知铃声</string>
+  <string name="settings_ringtone_none">无</string>
+  <string name="settings_clear_default_sitemap">清除默认站点地图</string>
+  <string name="settings_no_default_sitemap">未选择默认站点地图</string>
+  <string name="settings_current_default_sitemap">当前默认站点地图: %1$s</string>
+  <string name="settings_openhab_alt_connection">远程</string>
+  <string name="settings_openhab_connection">本地</string>
+  <string name="settings_notification_vibration">通知振动</string>
+  <string name="settings_notification_vibration_off">关</string>
+  <string name="settings_notification_vibration_short">短</string>
+  <string name="settings_notification_vibration_long">长</string>
+  <string name="settings_notification_vibration_twice">两次</string>
+  <string name="settings_connection_summary">已连接至 %s</string>
+  <string name="settings_insecure_connection_summary">已通过不安全的方式连接至 %s</string>
   <!-- App messages strings -->
+  <string name="title_voice_widget">openHAB 语音命令</string>
   <!-- Error messages -->
   <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
   <!-- Notification list strings -->
+  <string name="notification_list_error">加载通知时出错</string>
+  <string name="list_loading_message">正在载入\u2026</string>
   <!-- Strings for MemorizingTrustManager activity -->
+  <string name="mtm_accept_cert">是否接受未知证书？</string>
+  <string name="mtm_trust_anchor">此证书未经权威证书商签名</string>
+  <string name="mtm_cert_expired">服务器证书已过期</string>
+  <string name="mtm_accept_servername">是否接受不匹配的服务器名称？</string>
+  <string name="mtm_connect_anyway">您是否仍想连接？</string>
+  <string name="mtm_cert_details">证书信息:</string>
+  <string name="mtm_decision_always">接受</string>
+  <string name="mtm_decision_once">仅一次</string>
+  <string name="mtm_decision_abort">取消</string>
+  <string name="mtm_notification">证书验证</string>
+  <string name="settings_openhab_none">无</string>
   <!-- Themes -->
+  <string name="theme_name_light">亮色</string>
+  <string name="theme_name_dark">暗色</string>
+  <string name="theme_name_black">黑色 / AMOLED</string>
+  <string name="theme_name_basic_ui">基本 UI</string>
+  <string name="theme_name_basic_ui_dark">基本暗色 UI</string>
   <!-- NFC -->
+  <string name="nfc_action_on">开启</string>
+  <string name="nfc_action_up">向上</string>
+  <string name="nfc_action_off">关闭</string>
+  <string name="nfc_action_down">向下</string>
+  <string name="nfc_action_toggle">切换开关</string>
+  <string name="nfc_activate">激活</string>
+  <string name="nfc_action_current_color">当前颜色</string>
+  <string name="nfc_action_to_sitemap_page">导航至系统布局页</string>
   <!-- Drawer -->
+  <string name="drawer_open">已开启系统布局抽屉</string>
+  <string name="drawer_close">已关闭系统布局抽屉</string>
+  <string name="mainmenu_openhab_voice_recognition">语音识别</string>
   <!-- About -->
+  <string name="about_title">关于</string>
+  <string name="about_license_title">许可协议</string>
+  <string name="about_changelog">更新日志</string>
+  <string name="about_source_code">开源代码</string>
+  <string name="about_issues">反馈问题</string>
+  <string name="about_docs">文档</string>
+  <string name="about_community_forum">社区论坛</string>
+  <string name="about_foundation">openHAB 基金会</string>
+  <string name="about_community">openHAB 社区</string>
   <!-- Content description for images -->
   <!-- Intro strings -->
   <!-- Intro "SKIP" button -->
