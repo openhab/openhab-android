@@ -105,7 +105,9 @@
   <string name="info_openhab_push_notification_label">推送通知状态</string>
   <string name="action_settings">设置</string>
   <string name="nfc_dialog_title">为此元素写入 NFC 标签行为</string>
+  <string name="info_not_set">未设置</string>
   <!-- Notification list strings -->
+  <string name="notification_list_empty">尚未发送通知</string>
   <string name="notification_list_error">加载通知时出错</string>
   <string name="list_loading_message">正在载入\u2026</string>
   <!-- Strings for MemorizingTrustManager activity -->
@@ -113,6 +115,7 @@
   <string name="mtm_trust_anchor">此证书未经权威证书商签名</string>
   <string name="mtm_cert_expired">服务器证书已过期</string>
   <string name="mtm_accept_servername">是否接受不匹配的服务器名称？</string>
+  <string name="mtm_hostname_mismatch">无法验证服务器为 \&quot;%s\&quot;。此证书仅可用于:</string>
   <string name="mtm_connect_anyway">您是否仍想连接？</string>
   <string name="mtm_cert_details">证书信息:</string>
   <string name="mtm_decision_always">接受</string>
@@ -160,8 +163,33 @@
   <string name="cancel">取消</string>
   <string name="close">关闭</string>
   <string name="try_again_button">重试</string>
+  <string name="go_to_settings_button">转到设置</string>
+  <string name="configuration_missing">您的 openHAB 服务器无法被自动发现。请在服务器设置中配置其 IP 地址或主机名。</string>
+  <string name="no_remote_server">本地网络不可用且您尚未配置远程服务器</string>
+  <string name="resolving_openhab">正在寻找 openHAB 服务器\u2026</string>
   <!-- Content description for images -->
+  <string name="content_description_open_roller_shutter">打开卷帘</string>
+  <string name="content_description_stop_roller_shutter">停止卷帘</string>
+  <string name="content_description_close_roller_shutter">关闭卷帘</string>
+  <string name="content_description_open_color_wheel">打开色轮</string>
+  <string name="content_description_color_up">开启或长按以增加亮度</string>
+  <string name="content_description_color_down">关闭或长按以降低亮度</string>
+  <string name="content_description_open_number_picker">打开数字选取器</string>
+  <string name="content_description_video">视频</string>
+  <string name="content_description_open_openhab">打开 openHAB</string>
+  <string name="swipe_to_refresh_description">此应用程序将自动刷新，您通常无需手动操作</string>
+  <string name="swipe_to_refresh_dismiss">知道了！</string>
   <!-- Intro strings -->
+  <string name="app_intro">介绍</string>
+  <string name="intro_welcome">欢迎来到 openHAB</string>
+  <string name="intro_whatis">开源家居自动化供应商与技术</string>
+  <string name="intro_themes">主题</string>
+  <string name="intro_themes_description">在多个主题之间进行选择</string>
+  <string name="intro_voice_description">使用声音控制您的家居</string>
+  <string name="intro_nfc">NFC</string>
+  <string name="intro_nfc_description">物品控制可通过长按物品写入 NFC 标签</string>
   <!-- Intro "SKIP" button -->
+  <string name="app_intro_skip_button">跳过</string>
   <!-- Intro "DONE" button -->
+  <string name="app_intro_done_button">完成</string>
 </resources>
