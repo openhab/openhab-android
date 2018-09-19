@@ -104,6 +104,7 @@
   <string name="info_openhab_secret_label">openHAB 密钥</string>
   <string name="info_openhab_push_notification_label">推送通知状态</string>
   <string name="action_settings">设置</string>
+  <string name="nfc_dialog_title">为此元素写入 NFC 标签行为</string>
   <!-- Notification list strings -->
   <string name="notification_list_error">加载通知时出错</string>
   <string name="list_loading_message">正在载入\u2026</string>
