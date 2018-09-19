@@ -63,7 +63,36 @@
   <string name="info_conn_url">正在连接到本地 URL</string>
   <string name="info_conn_rem_url">正在连接到远程 URL</string>
   <!-- Error messages -->
+  <string name="error_empty_sitemap_list">openHAB 返回了空系统布局列表</string>
+  <string name="error_network_not_available">网络不可用</string>
+  <string name="error_http_connection_failed">连接失败。在尝试连接至已配置的 openHAB 服务器时收到意外响应 (HTTP 代码为：%d)</string>
+  <string name="error_invalid_url">请以 \'http(s)://主机(:端口)/\' 格式输入有效网址</string>
+  <string name="error_connection_failed">连接至主机失败</string>
+  <string name="error_unable_to_resolve_hostname">无法解析主机名</string>
+  <string name="error_connection_sslhandshake_failed">SSL 握手失败</string>
+  <string name="error_certificate_not_trusted">SSL 证书不受信任。请导入根证书或在 SSL 握手时接受证书。</string>
+  <string name="error_certificate_expired">SSL 证书已过期。请获取新证书或在 SSL 握手时接受证书。</string>
+  <string name="error_certificate_not_valid_yet">SSL 证书尚未生效。请获取正确的证书或在 SSL 握手时接受证书。另外请检查您设备上的时间是否被正确设置。</string>
+  <string name="error_certificate_revoked">SSL 证书已被撤销。请获取新证书或在 SSL 握手时接受证书。</string>
+  <string name="error_certificate_wrong_host">%s 的 SSL 证书无效</string>
+  <string name="error_http_code_401">认证失败。请检查配置的用户名及密码及提供的 SSL 客户端证书 (HTTP 代码 401)</string>
+  <string name="error_http_code_403">认证失败。请检查配置的用户名及密码及提供的 SSL 客户端证书 (HTTP 代码 403)</string>
+  <string name="error_http_code_407">认证失败。请检查配置的用户名及密码及提供的 SSL 客户端证书 (HTTP 代码 407)</string>
+  <string name="error_http_code_414">URL 过长。请使用 IP 地址或更短的 URL (HTTP 代码 414)</string>
+  <string name="error_http_code_426">需要 HTTPS。请更改 URL (HTTP 代码 426)</string>
   <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
+  <string name="error_http_code_495">认证失败。请检查提供的 SSL 客户端证书 (HTTP 代码 495)。</string>
+  <string name="error_http_code_496">需要 SSL 证书 (HTTP 响应码 496)</string>
+  <string name="error_http_code_502">您的反向代理从 openHAB 服务器收到了无效回应 (HTTP 响应码 502)</string>
+  <string name="error_http_code_503">openHAB 服务器暂时不可用 (HTTP 响应码 503)</string>
+  <string name="error_http_code_504">网关超时。看似您的反向代理正在运行但无法从 openHAB 服务器获取回应 (HTTP 代码 504)。</string>
+  <string name="error_http_code_507">openHAB 服务器空间不足 (HTTP 响应码 507)</string>
+  <string name="error_http_code_511">需要网络认证 (HTTP 响应码 511)</string>
+  <string name="error_about_no_conn">获取 openHAB 服务器信息时出错</string>
+  <string name="error_openhab_offline">您的 openHAB 服务器将在云端实例运行时离线</string>
+  <string name="error_no_app_store_found">未找到可安装语音识别程序的应用商店</string>
+  <string name="title_activity_openhabwritetag">写入 NFC 标签</string>
+  <string name="title_activity_libraries">使用的库</string>
   <!-- Notification list strings -->
   <string name="notification_list_error">加载通知时出错</string>
   <string name="list_loading_message">正在载入\u2026</string>
