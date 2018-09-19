@@ -93,6 +93,11 @@
   <string name="error_no_app_store_found">未找到可安装语音识别程序的应用商店</string>
   <string name="title_activity_openhabwritetag">写入 NFC 标签</string>
   <string name="title_activity_libraries">使用的库</string>
+  <string name="info_write_tag">触摸标签并保持贴近直到出现确认信息为止</string>
+  <string name="info_write_tag_progress">正在写入标签</string>
+  <string name="info_write_tag_finished">已成功完成</string>
+  <string name="info_write_failed">标签写入错误</string>
+  <string name="info_write_tag_unsupported">此设备不支持 NFC</string>
   <!-- Notification list strings -->
   <string name="notification_list_error">加载通知时出错</string>
   <string name="list_loading_message">正在载入\u2026</string>
