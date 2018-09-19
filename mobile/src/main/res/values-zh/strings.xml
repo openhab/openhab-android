@@ -35,6 +35,8 @@
   <string name="settings_openhab_icon_format">图标格式</string>
   <string name="settings_openhab_icon_format_png">位图</string>
   <string name="settings_openhab_icon_format_svg">矢量图</string>
+  <string name="settings_chart_scaling">图表缩放</string>
+  <string name="settings_chart_scaling_summary">注意: 较小的缩放将缩小字体及行宽，故图表将会变得更大但字体可读性可能会受到影响。</string>
   <string name="settings_chart_scaling_value_xs">非常小</string>
   <string name="settings_chart_scaling_value_s">小</string>
   <string name="settings_chart_scaling_value_m">默认</string>
@@ -55,6 +57,11 @@
   <string name="settings_insecure_connection_summary">已通过不安全的方式连接至 %s</string>
   <!-- App messages strings -->
   <string name="title_voice_widget">openHAB 语音命令</string>
+  <string name="info_voice_input">openHAB，说出您的命令！</string>
+  <string name="info_voice_recognized_text">已识别命令: %1$s</string>
+  <string name="info_demo_mode_short">正以演示模式运行</string>
+  <string name="info_conn_url">正在连接到本地 URL</string>
+  <string name="info_conn_rem_url">正在连接到远程 URL</string>
   <!-- Error messages -->
   <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
   <!-- Notification list strings -->
@@ -101,6 +108,17 @@
   <string name="about_community_forum">社区论坛</string>
   <string name="about_foundation">openHAB 基金会</string>
   <string name="about_community">openHAB 社区</string>
+  <string name="about_server">openHAB 服务端</string>
+  <string name="about_translation">帮助我们翻译 openHAB</string>
+  <string name="about_privacy_policy">隐私条款</string>
+  <string name="settings_debug_messages_title">显示疑难解答信息</string>
+  <string name="error_couldnt_determine_openhab_url">无法确定 openHAB URL</string>
+  <string name="unknown">未知</string>
+  <string name="error_network_type_unsupported">不支持网络类型 (％s)</string>
+  <string name="set">设置</string>
+  <string name="cancel">取消</string>
+  <string name="close">关闭</string>
+  <string name="try_again_button">重试</string>
   <!-- Content description for images -->
   <!-- Intro strings -->
   <!-- Intro "SKIP" button -->
