@@ -102,7 +102,14 @@
   <string name="cancel">Anulează</string>
   <string name="configuration_missing">Serverul dumneavoastră openHAB nu a putut fi găsit automat. Vă rugăm configurați adresa IP sau numele în setările serverului.</string>
   <!-- Content description for images -->
+  <string name="content_description_open_color_wheel">Deschidere selector culoare</string>
+  <string name="content_description_open_number_picker">Deschide selectorul de numere</string>
+  <string name="content_description_video">Video</string>
+  <string name="content_description_open_openhab">Deschide openHAB</string>
+  <string name="swipe_to_refresh_dismiss">Am înțeles!</string>
   <!-- Intro strings -->
+  <string name="app_intro">Introducere</string>
+  <string name="intro_welcome">Bine ați venit la openHAB</string>
   <!-- Intro "SKIP" button -->
   <!-- Intro "DONE" button -->
 </resources>
