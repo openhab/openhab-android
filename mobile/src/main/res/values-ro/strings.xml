@@ -75,6 +75,7 @@
   <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
   <string name="error_http_code_496">Este necesar un certificat de client SSL (cod raspuns HTTP 496)</string>
   <string name="error_http_code_503">Serverul openHAB este temporar indisponibil (cod raspuns HTTP 503)</string>
+  <string name="error_no_app_store_found">Nu a fost găsit nici un magazin de aplicații pentru instalarea aplicației de recunoaştere vocală</string>
   <!-- Notification list strings -->
   <!-- Strings for MemorizingTrustManager activity -->
   <!-- Themes -->
