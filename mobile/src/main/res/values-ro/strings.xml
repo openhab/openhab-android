@@ -84,12 +84,18 @@
   <string name="info_openhab_uuid_label">openHAB UUID</string>
   <string name="info_openhab_secret_label">openHAB Secret</string>
   <string name="action_settings">Setări</string>
+  <string name="info_not_set">Nu este setat</string>
   <!-- Notification list strings -->
   <!-- Strings for MemorizingTrustManager activity -->
   <!-- Themes -->
   <!-- NFC -->
   <!-- Drawer -->
+  <string name="mainmenu_openhab_voice_recognition">Recunoaștere voce</string>
   <!-- About -->
+  <string name="about_title">Despre</string>
+  <string name="about_license_title">Licenţă</string>
+  <string name="about_community">Comunitatea openHAB</string>
+  <string name="about_server">Serverul openHAB</string>
   <!-- Content description for images -->
   <!-- Intro strings -->
   <!-- Intro "SKIP" button -->
