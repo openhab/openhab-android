@@ -7,15 +7,15 @@
     <bindings>  </bindings>
 
     <home_automation_solutions/>
-    <lighting/>
+    <lighting>Iluminat: Philips Hue, Ikea Trådfri, LIFX, Lutron, Milight, ...</lighting>
     <heating/>
-    <home_entertainment/>
-    <security/>
-    <open_protocols/>
-    <special_useCases/>
-    <empty_point/>
+    <home_entertainment>• Sisteme de divertisment: Samsung TV, LG TV, Sonos, Pioneer AVR, Squeezebox, Kodi, Plex, ...</home_entertainment>
+    <security>• Securitate: ZoneMinder, DSC, ...</security>
+    <open_protocols>• Protocoale deschise: HTTP, TCP/UDP, MQTT, Serial, ...</open_protocols>
+    <special_useCases>• Cazuri speciale de utilizare: Minecraft, Tesla Car, Weather Services, ...</special_useCases>
+    <empty_point>• ...</empty_point>
 
-    <oss_community/>
+    <oss_community>Comunitate open source</oss_community>
     <forum>  </forum>
 
     <report_issues/>
