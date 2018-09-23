@@ -96,6 +96,11 @@
   <string name="about_license_title">Licenţă</string>
   <string name="about_community">Comunitatea openHAB</string>
   <string name="about_server">Serverul openHAB</string>
+  <string name="unknown">Necunoscut</string>
+  <string name="error_network_type_unsupported">Tipul de reţea (%s) nu este acceptat</string>
+  <string name="set">Setează</string>
+  <string name="cancel">Anulează</string>
+  <string name="configuration_missing">Serverul dumneavoastră openHAB nu a putut fi găsit automat. Vă rugăm configurați adresa IP sau numele în setările serverului.</string>
   <!-- Content description for images -->
   <!-- Intro strings -->
   <!-- Intro "SKIP" button -->
