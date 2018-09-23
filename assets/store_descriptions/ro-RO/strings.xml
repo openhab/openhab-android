@@ -3,7 +3,7 @@
     <intro>openHAB - "empowering the smart home" - automatizare de locuințe open source, independent de producatori și tehnologii</intro>
     <whatis/>
     <rules/>
-    <supported/>
+    <supported>Produse suportate</supported>
     <bindings>  </bindings>
 
     <home_automation_solutions/>
