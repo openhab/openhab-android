@@ -168,17 +168,26 @@
   <string name="no_remote_server">Rețeaua locală nu este disponibilă și nu ați configurat un server distant</string>
   <string name="resolving_openhab">Se încearcă găsirea unui server openHAB\u2026</string>
   <!-- Content description for images -->
+  <string name="content_description_open_roller_shutter">Deschide oblonul</string>
+  <string name="content_description_stop_roller_shutter">Oprește oblonul</string>
+  <string name="content_description_close_roller_shutter">Închide oblonul</string>
   <string name="content_description_open_color_wheel">Deschidere selector culoare</string>
+  <string name="content_description_color_up">Pornit sau ține apăsat pentru a crește luminozitatea</string>
+  <string name="content_description_color_down">Oprit sau ține apăsat pentru a diminua luminozitatea</string>
   <string name="content_description_open_number_picker">Deschide selectorul de numere</string>
   <string name="content_description_video">Video</string>
   <string name="content_description_open_openhab">Deschide openHAB</string>
+  <string name="swipe_to_refresh_description">Aplicația se actualizează automat, în mod normal nu este necesar să faceți actualizarea manual</string>
   <string name="swipe_to_refresh_dismiss">Am înțeles!</string>
   <!-- Intro strings -->
   <string name="app_intro">Introducere</string>
   <string name="intro_welcome">Bine ați venit la openHAB</string>
+  <string name="intro_whatis">Un software open source de automatizare pentru locuința dumneavoastră, independent de producători și tehnologii</string>
   <string name="intro_themes">Teme</string>
   <string name="intro_themes_description">Alege dintre câteva teme</string>
+  <string name="intro_voice_description">Controlați-vă locuința cu vocea</string>
   <string name="intro_nfc">NFC</string>
+  <string name="intro_nfc_description">Controlul unui Item poate fi legat de NFC-tags apăsând lung pe Item</string>
   <!-- Intro "SKIP" button -->
   <string name="app_intro_skip_button">TRECI PESTE</string>
   <!-- Intro "DONE" button -->
