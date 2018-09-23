@@ -73,6 +73,8 @@
   <string name="error_certificate_not_trusted">Certificatul SSL nu este de încredere. Vă rugăm importați certificatul de bază sau acceptați certificatul în timpul etapei de conectare SSL.</string>
   <string name="error_certificate_wrong_host">Certificatul SSL nu este valid pentru %s</string>
   <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
+  <string name="error_http_code_496">Este necesar un certificat de client SSL (cod raspuns HTTP 496)</string>
+  <string name="error_http_code_503">Serverul openHAB este temporar indisponibil (cod raspuns HTTP 503)</string>
   <!-- Notification list strings -->
   <!-- Strings for MemorizingTrustManager activity -->
   <!-- Themes -->
