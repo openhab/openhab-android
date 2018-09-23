@@ -102,9 +102,12 @@
   <string name="info_openhab_apiversion_label">versiune openHAB Rest API</string>
   <string name="info_openhab_uuid_label">openHAB UUID</string>
   <string name="info_openhab_secret_label">openHAB Secret</string>
+  <string name="info_openhab_push_notification_label">Starea notificărilor Push</string>
   <string name="action_settings">Setări</string>
+  <string name="nfc_dialog_title">Scrie o actiune in tag-ul NFC pentru acest element</string>
   <string name="info_not_set">Nu este setat</string>
   <!-- Notification list strings -->
+  <string name="notification_list_empty">Nicio notificare nu a fost trimisă până acum</string>
   <!-- Strings for MemorizingTrustManager activity -->
   <!-- Themes -->
   <!-- NFC -->
