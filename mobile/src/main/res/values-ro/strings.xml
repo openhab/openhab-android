@@ -76,6 +76,14 @@
   <string name="error_http_code_496">Este necesar un certificat de client SSL (cod raspuns HTTP 496)</string>
   <string name="error_http_code_503">Serverul openHAB este temporar indisponibil (cod raspuns HTTP 503)</string>
   <string name="error_no_app_store_found">Nu a fost găsit nici un magazin de aplicații pentru instalarea aplicației de recunoaştere vocală</string>
+  <string name="info_write_tag">Atingeţi eticheta şi păstraţi tag-ul NFC aproape, până când apare mesajul de confirmare</string>
+  <string name="info_write_tag_finished">Terminat cu succes</string>
+  <string name="info_write_tag_unsupported">Acest aparat nu are suport NFC</string>
+  <string name="info_write_tag_disabled">NFC este dezactivat. Vă rugăm să-l activaţi în meniul de setări.</string>
+  <string name="info_openhab_apiversion_label">versiune openHAB Rest API</string>
+  <string name="info_openhab_uuid_label">openHAB UUID</string>
+  <string name="info_openhab_secret_label">openHAB Secret</string>
+  <string name="action_settings">Setări</string>
   <!-- Notification list strings -->
   <!-- Strings for MemorizingTrustManager activity -->
   <!-- Themes -->
