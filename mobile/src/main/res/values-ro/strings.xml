@@ -121,7 +121,13 @@
   <string name="mtm_decision_always">Acceptare</string>
   <string name="mtm_decision_once">O singură dată</string>
   <string name="mtm_decision_abort">Renunță</string>
+  <string name="mtm_notification">Verificare certificat</string>
+  <string name="settings_openhab_none">Niciunul</string>
   <!-- Themes -->
+  <string name="theme_name_light">Luminos</string>
+  <string name="theme_name_dark">Întunecat</string>
+  <string name="theme_name_black">Negru/AMOLED</string>
+  <string name="theme_name_basic_ui">Basic UI</string>
   <!-- NFC -->
   <!-- Drawer -->
   <string name="mainmenu_openhab_voice_recognition">Recunoaștere voce</string>
