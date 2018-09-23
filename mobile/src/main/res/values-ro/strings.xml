@@ -110,6 +110,11 @@
   <!-- Intro strings -->
   <string name="app_intro">Introducere</string>
   <string name="intro_welcome">Bine ați venit la openHAB</string>
+  <string name="intro_themes">Teme</string>
+  <string name="intro_themes_description">Alege dintre câteva teme</string>
+  <string name="intro_nfc">NFC</string>
   <!-- Intro "SKIP" button -->
+  <string name="app_intro_skip_button">TRECI PESTE</string>
   <!-- Intro "DONE" button -->
+  <string name="app_intro_done_button">GATA</string>
 </resources>
