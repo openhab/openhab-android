@@ -65,6 +65,9 @@
   <!-- Error messages -->
   <string name="error_empty_sitemap_list">openHAB a returnat lista Sitemap goală</string>
   <string name="error_network_not_available">Rețeaua nu este disponibilă</string>
+  <string name="error_http_connection_failed">Conexiune eșuată. Un răspuns neașteptat a fost primit în încercarea de conectare la serverul openHAB configurat (Received HTTP response code: %d).</string>
+  <string name="error_invalid_url">Introdu adresa URL în forma \'http(s)://host(:port)/\'</string>
+  <string name="error_connection_failed">Conectarea la dispozitiv a eșuat!</string>
   <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
   <!-- Notification list strings -->
   <!-- Strings for MemorizingTrustManager activity -->
