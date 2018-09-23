@@ -8,6 +8,7 @@
   <string name="app_notifications">Notificări</string>
   <!-- Main menu items -->
   <string name="mainmenu_openhab_sitemaps">Harta site-ului</string>
+  <string name="mainmenu_openhab_preferences">Setări</string>
   <string name="mainmenu_openhab_selectsitemap">Selecteaza fisierul Sitemap implicit</string>
   <string name="mainmenu_openhab_clearcache">Șterge imaginile din cache</string>
   <!-- App settings strings -->
@@ -41,8 +42,10 @@
   <string name="settings_chart_scaling_value_m">Implicit</string>
   <string name="settings_chart_scaling_value_l">Mare</string>
   <string name="settings_ringtone">Sonerie de notificare</string>
+  <string name="settings_ringtone_none">Nici unul</string>
   <string name="settings_clear_default_sitemap">Sterge fisierul Sitemap implicit</string>
   <string name="settings_no_default_sitemap">Niciun Sitemap implicit nu este selectat</string>
+  <string name="settings_current_default_sitemap">Predefiniție actuală Sitemap: %1$s</string>
   <string name="settings_openhab_alt_connection">Control de la distanţă</string>
   <string name="settings_openhab_connection">Local</string>
   <string name="settings_notification_vibration">Vibratie la notificare</string>
@@ -54,7 +57,14 @@
   <string name="settings_insecure_connection_summary">Conexiune nesigura la %s</string>
   <!-- App messages strings -->
   <string name="title_voice_widget">Comenzi vocale openHAB</string>
+  <string name="info_voice_input">openHAB, la comanda ta!</string>
+  <string name="info_voice_recognized_text">Comandă recunoscută: %1$s</string>
+  <string name="info_demo_mode_short">Rulează în modul demonstrativ</string>
+  <string name="info_conn_url">Se conectează la URL-ul local</string>
+  <string name="info_conn_rem_url">Conectare la adresa URL la distanță</string>
   <!-- Error messages -->
+  <string name="error_empty_sitemap_list">openHAB a returnat lista Sitemap goală</string>
+  <string name="error_network_not_available">Rețeaua nu este disponibilă</string>
   <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
   <!-- Notification list strings -->
   <!-- Strings for MemorizingTrustManager activity -->
