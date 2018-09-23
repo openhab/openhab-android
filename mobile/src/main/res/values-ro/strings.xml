@@ -108,7 +108,19 @@
   <string name="info_not_set">Nu este setat</string>
   <!-- Notification list strings -->
   <string name="notification_list_empty">Nicio notificare nu a fost trimisă până acum</string>
+  <string name="notification_list_error">A apărut o eroare în timpul încărcării notificărilor</string>
+  <string name="list_loading_message">Se încarcă\u2026</string>
   <!-- Strings for MemorizingTrustManager activity -->
+  <string name="mtm_accept_cert">Acceptare certificat necunoscut?</string>
+  <string name="mtm_trust_anchor">Certificatul serverului nu este semnat de o Autoritate de Certificare cunoscută</string>
+  <string name="mtm_cert_expired">Certificatul serverului a expirat</string>
+  <string name="mtm_accept_servername">Acceptați nepotrivirea numelui serverului?</string>
+  <string name="mtm_hostname_mismatch">Serverul nu a putut faca autentificarea ca \&quot;%s\&quot;. Certificatul este valid doar pentru:</string>
+  <string name="mtm_connect_anyway">Vreți să vă conectați oricum?</string>
+  <string name="mtm_cert_details">Detalii certificat:</string>
+  <string name="mtm_decision_always">Acceptare</string>
+  <string name="mtm_decision_once">O singură dată</string>
+  <string name="mtm_decision_abort">Renunță</string>
   <!-- Themes -->
   <!-- NFC -->
   <!-- Drawer -->
