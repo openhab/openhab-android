@@ -1,8 +1,6 @@
 openHAB - "empowering the smart home" - fornecedor e tecnologia agnóstica de código aberto de automação residencial
 
 As compilaçoes de F-Droid possuem suporte à visualização de mapas, GCM e relatórios de erros removidos não serão capazes de receber notificações do openHAB Cloud.
-Experimente novos recursos e dê feedback antecipado!
-Você pode instalar a versão beta junto da <a href="https://f-droid.org/packages/org.openhab.habdroid/">versão estável</a>.
 
 <b>Nota importante</b>
 

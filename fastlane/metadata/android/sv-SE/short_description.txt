@@ -1,1 +1,1 @@
-Vendor and technology agnostic open source home automation
+Hemautomatisering med öppen källkod oberoende av tillverkare eller teknologi

@@ -1,0 +1,2 @@
+• Enhanced security. You might get asked again to accept self-signed certificates.
+• UI improvements (App and notifications)
