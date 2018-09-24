@@ -9,7 +9,7 @@
   <string name="notification_channel_default">Standard</string>
   <string name="notification_channel_severity_value">Dringlichkeit \'%1$s\'</string>
   <plurals name="summary_notification_text">
-    <item quantity="one">1 neue Benachrichtigung</item>
+    <item quantity="one">%d neue Benachrichtigung</item>
     <item quantity="other">%d neue Benachrichtigungen</item>
   </plurals>
 </resources>

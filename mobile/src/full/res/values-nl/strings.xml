@@ -6,4 +6,6 @@
   <string name="info_openhab_gcm_in_progress">Apparaat-registratie is bezig</string>
   <string name="info_openhab_gcm_failed">Apparaat-registratie mislukt</string>
   <string name="info_openhab_gcm_connected">Apparaat registratie bij Google Cloud Messaging gelukt</string>
+  <string name="notification_channel_default">Standaard</string>
+  <string name="notification_channel_severity_value">Ernst \'%1$s\'</string>
 </resources>

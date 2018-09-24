@@ -21,6 +21,8 @@
   <string name="settings_openhab_alturl_summary">A URL do painel openHAB é usada quando endereço local não está disponível. Configuração atual: %s</string>
   <string name="settings_openhab_username">Usuário</string>
   <string name="settings_openhab_password">Senha</string>
+  <string name="settings_openhab_password_summary_weak">Conjunto de senha fraca</string>
+  <string name="settings_openhab_password_summary_strong">Conjunto de senha forte</string>
   <string name="settings_openhab_sslclientcert">Certificado cliente SSL</string>
   <string name="settings_openhab_sslclientcert_howto_summary">Toque aqui para obter algumas dicas e explicações sobre como configurar a autenticação de certificado cliente SSL</string>
   <string name="settings_openhab_screentimeroff">Desativar a exibição do timer</string>
@@ -88,6 +90,7 @@
   <string name="error_http_code_511">Autenticação de rede é necessária (HTTP código de resposta 511)</string>
   <string name="error_about_no_conn">Erro ao buscar informações do servidor openHAB</string>
   <string name="error_openhab_offline">Seu servidor openHAB está offline enquanto está executando a instância de nuvem</string>
+  <string name="error_no_app_store_found">Não foi encontrada a loja de aplicativos para instalar o app de reconhecimento de fala</string>
   <string name="title_activity_openhabwritetag">Escrever na tag NFC</string>
   <string name="title_activity_libraries">Bibliotecas usadas</string>
   <string name="info_write_tag">Toque na tag e a mantenha perto até aparecer a mensagem de confirmação</string>

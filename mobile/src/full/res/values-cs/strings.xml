@@ -9,7 +9,7 @@
   <string name="notification_channel_default">Výchozí</string>
   <string name="notification_channel_severity_value">Priorita \"%1$s\"</string>
   <plurals name="summary_notification_text">
-    <item quantity="one">1 nové oznámení</item>
+    <item quantity="one">%d nové oznámení</item>
     <item quantity="few">%d nová oznámení</item>
     <item quantity="many">%d nových oznámení</item>
     <item quantity="other">%d nových oznámení</item>

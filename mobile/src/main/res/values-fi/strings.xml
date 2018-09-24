@@ -21,6 +21,8 @@
   <string name="settings_openhab_alturl_summary">openHAB palvelimen URL osoite jota käytetään jos paikallinen osoite ei ole käytettävissä. Nykyinen asetus: %s</string>
   <string name="settings_openhab_username">Käyttäjänimi</string>
   <string name="settings_openhab_password">Salasana</string>
+  <string name="settings_openhab_password_summary_weak">Heikko salasana asetettu</string>
+  <string name="settings_openhab_password_summary_strong">Vahva salasana asetettu</string>
   <string name="settings_openhab_sslclientcert">Asiakkaan SSL sertifikaatti</string>
   <string name="settings_openhab_sslclientcert_howto_summary">Näpäytä tästä nähdäksesi muutamia vinkkejä ja ohjeita kuinka asennat asiakkaan SSL todennuksen</string>
   <string name="settings_openhab_screentimeroff">Poista näytön sammutuksen ajastin</string>
@@ -88,6 +90,7 @@
   <string name="error_http_code_511">Verkkoon kirjautuminen vaaditaan (HTTP vastaus 511)</string>
   <string name="error_about_no_conn">Virhe haettaessa openHAB palvelimen tietoja</string>
   <string name="error_openhab_offline">Sinun openHAB palvelin on offline tilassa, mutta pilvipalvelin toimii</string>
+  <string name="error_no_app_store_found">Äänentunnistussovellusta ei asennettu koska yhtään sovelluskauppaa ei löytynyt</string>
   <string name="title_activity_openhabwritetag">Kirjoita uusi NFC tagi</string>
   <string name="title_activity_libraries">Käytetyt kirjastot</string>
   <string name="info_write_tag">Kosketa tagia ja pidä se lähellä kunnes varmistusviesti ilmestyy näytölle</string>

@@ -21,6 +21,8 @@
   <string name="settings_openhab_alturl_summary">URL-адрес панели openHAB, используется, когда локальный адрес недоступен. Текущие настройки: %s</string>
   <string name="settings_openhab_username">Пользователь</string>
   <string name="settings_openhab_password">Пароль</string>
+  <string name="settings_openhab_password_summary_weak">Слабый пароль</string>
+  <string name="settings_openhab_password_summary_strong">Надежный пароль</string>
   <string name="settings_openhab_sslclientcert">SSL сертификат клиента</string>
   <string name="settings_openhab_sslclientcert_howto_summary">Коснитесь здесь, чтобы получить подсказки по настройке SSL-сертификата клиента</string>
   <string name="settings_openhab_screentimeroff">Отключить таймер дисплея</string>
