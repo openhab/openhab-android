@@ -21,7 +21,7 @@
     <report_issues>När du hittar ett problem vänligen rapportera det i forumet eller på https://github.com/openhab/openhab-android/issues</report_issues>
     <translation>Om du vill översätta appen till ditt språk gå med oss på https://crowdin.com/project/openhab-android</translation>
     <foundation>openHAB Foundation</foundation>
-    <about_foundation>OpenHAB Foundation är en icke vinstdrivande organisation som har som mål att utbilda allmänheten kring möjligheterna och fördelarna med friga och öppna hemautomatiseringslösningar. Lär dig mer om uppdraget och tjänsterna på https://www.openhabfoundation.org</about_foundation>
+    <about_foundation>openHAB Foundation är en icke vinstdrivande organisation som har som mål att utbilda allmänheten kring möjligheterna och fördelarna med friga och öppna hemautomatiseringslösningar. Lär dig mer om uppdraget och tjänsterna på https://www.openhabfoundation.org</about_foundation>
     <important_note>Viktigt meddelande</important_note>
     <oh_server>Du behöver en openHAB-server för denna app</oh_server>
     <short_description>Hemautomatisering med öppen källkod oberoende av tillverkare eller teknologi</short_description>
