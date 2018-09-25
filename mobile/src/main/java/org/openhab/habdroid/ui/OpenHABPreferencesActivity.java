@@ -38,6 +38,7 @@ import android.view.MenuItem;
 
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.core.CloudMessagingHelper;
+import org.openhab.habdroid.model.ServerProperties;
 import org.openhab.habdroid.util.CacheManager;
 import org.openhab.habdroid.util.Constants;
 import org.openhab.habdroid.util.Util;
@@ -52,12 +53,11 @@ import static org.openhab.habdroid.util.Util.getHostFromUrl;
 public class OpenHABPreferencesActivity extends AppCompatActivity {
     public static final String RESULT_EXTRA_THEME_CHANGED = "theme_changed";
     public static final String RESULT_EXTRA_SITEMAP_CLEARED = "sitemap_cleared";
-    public static final String START_EXTRA_OPENHAB_VERSION = "openhab_version";
+    public static final String START_EXTRA_SERVER_PROPERTIES = "server_properties";
     private static final String STATE_KEY_RESULT = "result";
 
     private static final String TAG = OpenHABPreferencesActivity.class.getSimpleName();
     private Intent mResultIntent;
-    private static int mOpenhabVersion;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -80,8 +80,6 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
             mResultIntent = savedInstanceState.getParcelable(STATE_KEY_RESULT);
         }
         setResult(RESULT_OK, mResultIntent);
-
-        mOpenhabVersion = getIntent().getIntExtra(START_EXTRA_OPENHAB_VERSION, 0);
     }
 
     @Override
@@ -343,11 +341,14 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
                 getParent(vibrationPreference).removePreference(vibrationPreference);
             }
 
-            if (mOpenhabVersion == 1) {
-                Log.d(TAG, "Removing prefs that aren't available in openHAB 1");
+            ServerProperties props =
+                    getActivity().getIntent().getParcelableExtra(START_EXTRA_SERVER_PROPERTIES);
+            if (props != null && (props.flags() & ServerProperties.SERVER_FLAG_ICON_FORMAT_SUPPORT) == 0) {
                 Preference iconFormatPreference =
                         ps.findPreference(Constants.PREFERENCE_ICON_FORMAT);
                 getParent(iconFormatPreference).removePreference(iconFormatPreference);
+            }
+            if (props != null && (props.flags() & ServerProperties.SERVER_FLAG_CHART_SCALING_SUPPORT) == 0) {
                 Preference chartScalingPreference =
                         ps.findPreference(Constants.PREFERENCE_CHART_SCALING);
                 getParent(chartScalingPreference).removePreference(chartScalingPreference);

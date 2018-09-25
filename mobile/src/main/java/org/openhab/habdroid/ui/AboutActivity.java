@@ -33,6 +33,7 @@ import org.openhab.habdroid.core.CloudMessagingHelper;
 import org.openhab.habdroid.core.connection.Connection;
 import org.openhab.habdroid.core.connection.ConnectionFactory;
 import org.openhab.habdroid.core.connection.exception.ConnectionException;
+import org.openhab.habdroid.model.ServerProperties;
 import org.openhab.habdroid.util.SyncHttpClient;
 import org.openhab.habdroid.util.Util;
 
@@ -104,14 +105,14 @@ public class AboutActivity extends AppCompatActivity implements
     public static class AboutMainFragment extends MaterialAboutFragment {
         private final static String TAG = AboutMainFragment.class.getSimpleName();
         private final static String URL_TO_GITHUB = "https://github.com/openhab/openhab-android";
-        private int mOpenHABVersion;
+        private ServerProperties mServerProperties;
         private Connection mConnection;
 
         @Nullable
         @Override
         public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                 @Nullable Bundle savedInstanceState) {
-            mOpenHABVersion = getArguments().getInt("openHABVersion", 0);
+            mServerProperties = getArguments().getParcelable("serverProperties");
             try {
                 mConnection = ConnectionFactory.getUsableConnection();
             } catch (ConnectionException ignored) {}
@@ -187,7 +188,7 @@ public class AboutActivity extends AppCompatActivity implements
 
             MaterialAboutCard.Builder ohServerCard = new MaterialAboutCard.Builder();
             ohServerCard.title(R.string.about_server);
-            if (mConnection == null || mOpenHABVersion == 0) {
+            if (mConnection == null || mServerProperties == null) {
                 ohServerCard.addItem(new MaterialAboutActionItem.Builder()
                         .text(R.string.error_about_no_conn)
                         .icon(R.drawable.ic_info_outline)
@@ -213,7 +214,7 @@ public class AboutActivity extends AppCompatActivity implements
                         .icon(R.drawable.ic_info_outline)
                         .build());
 
-                if (mOpenHABVersion == 1) {
+                if (!useJsonApi()) {
                     String secret = getServerSecret();
                     if (!TextUtils.isEmpty(secret)) {
                         ohServerCard.addItem(new MaterialAboutActionItem.Builder()
@@ -289,8 +290,12 @@ public class AboutActivity extends AppCompatActivity implements
             }
         }
 
+        private boolean useJsonApi() {
+            return mServerProperties != null && mServerProperties.hasJsonApi();
+        }
+
         private String getServerUuid() {
-            final String uuidUrl = mOpenHABVersion == 1 ? "static/uuid" : "rest/uuid";
+            final String uuidUrl = useJsonApi() ? "rest/uuid" : "static/uuid";
             SyncHttpClient.HttpTextResult result =
                     mConnection.getSyncHttpClient().get(uuidUrl).asText();
             if (result.isSuccessful()) {
@@ -303,14 +308,14 @@ public class AboutActivity extends AppCompatActivity implements
         }
 
         private String getApiVersion() {
-            String versionUrl = mOpenHABVersion == 1 ? "static/version" : "rest";
+            String versionUrl = useJsonApi() ? "rest" : "static/version";
             Log.d(TAG, "url = " + versionUrl);
             SyncHttpClient.HttpTextResult result =
                     mConnection.getSyncHttpClient().get(versionUrl).asText();
             if (!result.isSuccessful()) {
                 Log.e(TAG, "Could not fetch rest API version " + result.error);
             } else {
-                if (mOpenHABVersion == 1) {
+                if (!useJsonApi()) {
                     return result.response;
                 } else {
                     try {

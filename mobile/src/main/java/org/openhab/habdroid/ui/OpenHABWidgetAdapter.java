@@ -148,7 +148,8 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         if (compatibleUpdate) {
             for (int i = 0; i < widgets.size(); i++) {
                 if (!mItems.get(i).equals(widgets.get(i))) {
-                    updateAtPosition(i, widgets.get(i));
+                    mItems.set(i, widgets.get(i));
+                    notifyItemChanged(i);
                 }
             }
         } else {
@@ -158,12 +159,14 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         }
     }
 
-    public void updateAtPosition(int position, OpenHABWidget widget) {
-        if (position >= mItems.size()) {
-            return;
+    public void updateWidget(OpenHABWidget widget) {
+        for (int i = 0; i < mItems.size(); i++) {
+            if (mItems.get(i).id().equals(widget.id())) {
+                mItems.set(i, widget);
+                notifyItemChanged(i);
+                break;
+            }
         }
-        mItems.set(position, widget);
-        notifyItemChanged(position);
     }
 
     @Override

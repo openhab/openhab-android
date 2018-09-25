@@ -110,7 +110,7 @@ public class Util {
         return sitemapList;
     }
 
-    public static List<OpenHABSitemap> sortSitemapList(List<OpenHABSitemap> sitemapList, String defaultSitemapName) {
+    public static void sortSitemapList(List<OpenHABSitemap> sitemapList, String defaultSitemapName) {
         // Sort by sitename label, the default sitemap should be the first one
         Collections.sort(sitemapList, new Comparator<OpenHABSitemap>() {
             @Override
@@ -124,8 +124,6 @@ public class Util {
                 return sitemap1.label().compareToIgnoreCase(sitemap2.label());
             }
         });
-
-        return sitemapList;
     }
 
     public static boolean sitemapExists(List<OpenHABSitemap> sitemapList, String sitemapName) {

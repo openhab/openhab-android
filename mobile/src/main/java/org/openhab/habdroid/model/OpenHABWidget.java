@@ -295,6 +295,19 @@ public abstract class OpenHABWidget implements Parcelable {
         }
     }
 
+    public static OpenHABWidget updateFromEvent(OpenHABWidget source, JSONObject eventPayload,
+            String iconFormat) throws JSONException {
+        OpenHABItem item = OpenHABItem.updateFromEvent(
+                source.item(), eventPayload.getJSONObject("item"));
+        String iconPath = determineOH2IconPath(item, source.type(),
+                source.icon(), iconFormat, !source.mappings().isEmpty());
+        return source.toBuilder()
+                .label(eventPayload.optString("label", source.label()))
+                .item(item)
+                .iconPath(iconPath)
+                .build();
+    }
+
     private static String determineOH2IconPath(OpenHABItem item, Type type, String icon,
             String iconFormat, boolean hasMappings) {
         String itemState = item != null ? item.state() : null;

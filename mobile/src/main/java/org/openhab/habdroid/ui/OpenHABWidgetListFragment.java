@@ -58,7 +58,6 @@ public class OpenHABWidgetListFragment extends Fragment
     // Am I visible?
     private boolean mIsVisible = false;
     private String mTitle;
-    private List<OpenHABWidget> mWidgets;
     private SwipeRefreshLayout refreshLayout;
     private String mHighlightedPageLink;
 
@@ -100,10 +99,6 @@ public class OpenHABWidgetListFragment extends Fragment
         mRecyclerView.addItemDecoration(new OpenHABWidgetAdapter.WidgetItemDecoration(mActivity));
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(openHABWidgetAdapter);
-
-        if (mWidgets != null) {
-            update(mTitle, mWidgets);
-        }
     }
 
     @Override
@@ -290,7 +285,6 @@ public class OpenHABWidgetListFragment extends Fragment
 
     public void update(String pageTitle, List<OpenHABWidget> widgets) {
         mTitle = pageTitle;
-        mWidgets = widgets;
 
         if (openHABWidgetAdapter != null) {
             openHABWidgetAdapter.update(widgets, refreshLayout.isRefreshing());
@@ -302,19 +296,10 @@ public class OpenHABWidgetListFragment extends Fragment
         }
     }
 
-    public boolean onWidgetUpdated(OpenHABWidget widget) {
-        if (mWidgets != null) {
-            for (int i = 0; i < mWidgets.size(); i++) {
-                if (mWidgets.get(i).id().equals(widget.id())) {
-                    mWidgets.set(i, widget);
-                    if (openHABWidgetAdapter != null) {
-                        openHABWidgetAdapter.updateAtPosition(i, widget);
-                    }
-                    return true;
-                }
-            }
+    public void updateWidget(OpenHABWidget widget) {
+        if (openHABWidgetAdapter != null) {
+            openHABWidgetAdapter.updateWidget(widget);
         }
-        return false;
     }
 
     public String getDisplayPageUrl() {

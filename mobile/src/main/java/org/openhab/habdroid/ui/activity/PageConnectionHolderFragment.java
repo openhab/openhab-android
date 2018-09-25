@@ -1,10 +1,15 @@
 package org.openhab.habdroid.ui.activity;
 
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.util.Log;
+
+import com.here.oksse.ServerSentEvent;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -31,7 +36,9 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import okhttp3.Call;
 import okhttp3.Headers;
+import okhttp3.HttpUrl;
 import okhttp3.Request;
+import okhttp3.Response;
 
 /**
  * Fragment that manages connections for active instances of
@@ -46,29 +53,41 @@ public class PageConnectionHolderFragment extends Fragment {
     public interface ParentCallback {
         /**
          * Ask parent whether server returns JSON or XML
+         *
          * @return true if server returns JSON, false if it returns XML
          */
         boolean serverReturnsJson();
 
         /**
+         * Ask parent whether server has support for Server Sent Events
+         *
+         * @return true if server supports SSE, false otherwise
+         */
+        boolean serverSupportsSse();
+
+        /**
          * Ask parent for the icon format to use
+         *
          * @return Icon format ('PNG' or 'SVG')
          */
         String getIconFormat();
 
         /**
          * Let parent know about an update to the widget list for a given URL.
-         * @param pageUrl URL of the updated page
+         *
+         * @param pageUrl   URL of the updated page
          * @param pageTitle Updated page title
-         * @param widgets Updated list of widgets for the given page
+         * @param widgets   Updated list of widgets for the given page
          */
         void onPageUpdated(String pageUrl, String pageTitle, List<OpenHABWidget> widgets);
 
         /**
          * Let parent know about an update to the contents of a single widget.
-         * @param widget Updated widget
+         *
+         * @param pageUrl  URL of the page the updated widget belongs to
+         * @param widget   Updated widget
          */
-        void onWidgetUpdated(OpenHABWidget widget);
+        void onWidgetUpdated(String pageUrl, OpenHABWidget widget);
     }
 
     private Map<String, ConnectionHandler> mConnections = new HashMap<>();
@@ -110,7 +129,7 @@ public class PageConnectionHolderFragment extends Fragment {
 
     /**
      * Assign parent callback
-     *
+     * <p>
      * To be called by the parent as early as possible,
      * as it's expected to be non-null at all times
      *
@@ -126,7 +145,7 @@ public class PageConnectionHolderFragment extends Fragment {
     /**
      * Update list of page URLs to track
      *
-     * @param urls New list of URLs to track
+     * @param urls       New list of URLs to track
      * @param connection Connection to use, or null if none is available
      */
     public void updateActiveConnections(List<String> urls, Connection connection) {
@@ -166,7 +185,7 @@ public class PageConnectionHolderFragment extends Fragment {
     /**
      * Ask for new data to be delivered for a given page
      *
-     * @param pageUrl URL of page to trigger update for
+     * @param pageUrl     URL of page to trigger update for
      * @param forceReload true if existing data should be discarded and new data be loaded,
      *                    false if only existing data should be delivered, if it exists
      */
@@ -192,11 +211,22 @@ public class PageConnectionHolderFragment extends Fragment {
         private String mAtmosphereTrackingId;
         private String mLastPageTitle;
         private List<OpenHABWidget> mLastWidgetList;
+        private EventHelper mEventHelper;
 
         public ConnectionHandler(String pageUrl, Connection connection, ParentCallback cb) {
             mUrl = pageUrl;
             mHttpClient = connection.getAsyncHttpClient();
             mCallback = cb;
+            if (cb.serverSupportsSse()) {
+                Uri uri = Uri.parse(mUrl);
+                List<String> segments = uri.getPathSegments();
+                if (segments.size() > 2) {
+                    String sitemap = segments.get(segments.size() - 2);
+                    String pageId = segments.get(segments.size() - 1);
+                    mEventHelper = new EventHelper(mHttpClient, sitemap, pageId,
+                            this::handleUpdateEvent, this::handleSseSubscriptionFailure);
+                }
+            }
         }
 
         public boolean updateFromConnection(Connection c) {
@@ -210,6 +240,9 @@ public class PageConnectionHolderFragment extends Fragment {
             if (mRequestHandle != null) {
                 mRequestHandle.cancel();
                 mRequestHandle = null;
+            }
+            if (mEventHelper != null) {
+                mEventHelper.shutdown();
             }
             mLongPolling = false;
         }
@@ -225,6 +258,11 @@ public class PageConnectionHolderFragment extends Fragment {
         }
 
         private void load() {
+            if (mEventHelper != null && mLongPolling) {
+                // We update via events
+                return;
+            }
+
             Log.d(TAG, "Loading data for " + mUrl);
             Map<String, String> headers = new HashMap<String, String>();
             if (!mCallback.serverReturnsJson()) {
@@ -246,6 +284,9 @@ public class PageConnectionHolderFragment extends Fragment {
             }
             final long timeoutMillis = mLongPolling ? 300000 : 10000;
             mRequestHandle = mHttpClient.get(mUrl, headers, timeoutMillis, this);
+            if (mEventHelper != null) {
+                mEventHelper.connect();
+            }
         }
 
         @Override
@@ -337,6 +378,156 @@ public class PageConnectionHolderFragment extends Fragment {
                 Log.d(TAG, "Parsing data for " + mUrl + " failed", e);
                 mLongPolling = false;
                 return false;
+            }
+        }
+
+        boolean handleUpdateEvent(String payload) {
+            if (mLastWidgetList == null) {
+                return false;
+            }
+            try {
+                JSONObject object = new JSONObject(payload);
+                String widgetId = object.getString("widgetId");
+                for (int i = 0; i < mLastWidgetList.size(); i++) {
+                    OpenHABWidget widget = mLastWidgetList.get(i);
+                    if (widgetId.equals(widget.id())) {
+                        OpenHABWidget updatedWidget = OpenHABWidget.updateFromEvent(widget,
+                                object, mCallback.getIconFormat());
+                        mLastWidgetList.set(i, updatedWidget);
+                        mCallback.onWidgetUpdated(mUrl, updatedWidget);
+                        return true;
+                    }
+                }
+            } catch (JSONException e) {
+                Log.w(TAG, "Could not parse SSE event ('" + payload + "')", e);
+            }
+            return false;
+        }
+
+        void handleSseSubscriptionFailure() {
+            mEventHelper = null;
+            if (mLongPolling) {
+                load();
+            }
+        }
+
+        private static class EventHelper implements ServerSentEvent.Listener {
+            interface FailureCallback {
+                void handleFailure();
+            }
+            interface UpdateCallback {
+                void handleUpdateEvent(String message);
+            }
+
+            private static final int MAX_RETRIES = 10;
+
+            private final AsyncHttpClient mClient;
+            private final UpdateCallback mUpdateCb;
+            private final FailureCallback mFailureCb;
+            private final String mSitemap;
+            private final String mPageId;
+            private final Handler mHandler;
+            private Call mSubscribeHandle;
+            private ServerSentEvent mEventStream;
+            private int mRetries;
+
+            EventHelper(AsyncHttpClient client, String sitemap, String pageId,
+                    UpdateCallback updateCb, FailureCallback failureCb) {
+                mClient = client;
+                mUpdateCb = updateCb;
+                mFailureCb = failureCb;
+                mSitemap = sitemap;
+                mPageId = pageId;
+                mHandler = new Handler(Looper.getMainLooper());
+            }
+
+            void connect() {
+                shutdown();
+
+                mSubscribeHandle = mClient.post("/rest/sitemaps/events/subscribe",
+                        "{}", "application/json", new AsyncHttpClient.StringResponseHandler() {
+                    @Override
+                    public void onFailure(Request request, int statusCode, Throwable error) {
+                        if (statusCode == 404) {
+                            Log.d(TAG, "Server does not have SSE support");
+                        } else {
+                            Log.w(TAG, "Failed subscribing for SSE", error);
+                        }
+                        mFailureCb.handleFailure();
+                    }
+
+                    @Override
+                    public void onSuccess(String body, Headers headers) {
+                        try {
+                            JSONObject result = new JSONObject(body);
+                            String status = result.getString("status");
+                            if (!status.equals("CREATED")) {
+                                throw new JSONException("Unexpected status " + status);
+                            }
+                            JSONObject headerObject = result.getJSONObject("context").getJSONObject("headers");
+                            String url = headerObject.getJSONArray("Location").getString(0);
+                            HttpUrl u = HttpUrl.parse(url).newBuilder()
+                                    .addQueryParameter("sitemap", mSitemap)
+                                    .addQueryParameter("pageid", mPageId)
+                                    .build();
+                            Request request = new Request.Builder()
+                                    .url(u)
+                                    .build();
+                            mEventStream = mClient.makeSseClient()
+                                    .newServerSentEvent(request, EventHelper.this);
+                        } catch (JSONException e) {
+                            Log.w(TAG, "Failed parsing SSE subscription", e);
+                            mFailureCb.handleFailure();
+                        }
+                    }
+                });
+            }
+
+            void shutdown() {
+                if (mEventStream != null) {
+                    mEventStream.close();
+                    mEventStream = null;
+                }
+                if (mSubscribeHandle != null) {
+                    mSubscribeHandle.cancel();
+                    mSubscribeHandle = null;
+                }
+            }
+
+
+            @Override
+            public void onOpen(ServerSentEvent sse, Response response) {
+                mRetries = 0;
+            }
+
+            @Override
+            public void onMessage(ServerSentEvent sse, String id, String event, String message) {
+                mHandler.post(() -> mUpdateCb.handleUpdateEvent(message));
+            }
+
+            @Override
+            public void onComment(ServerSentEvent sse, String comment) {
+            }
+
+            @Override
+            public boolean onRetryTime(ServerSentEvent sse, long milliseconds) {
+                return true;
+            }
+
+            @Override
+            public boolean onRetryError(ServerSentEvent sse, Throwable throwable, Response response) {
+                // Stop retrying after maximum amount of subsequent retries is reached
+                return ++mRetries < MAX_RETRIES;
+            }
+
+            @Override
+            public void onClosed(ServerSentEvent sse) {
+                mFailureCb.handleFailure();
+            }
+
+            @Override
+            public Request onPreRetry(ServerSentEvent sse, Request originalRequest) {
+                return originalRequest;
             }
         }
     }

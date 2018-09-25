@@ -11,6 +11,8 @@ package org.openhab.habdroid.util;
 
 import android.support.annotation.VisibleForTesting;
 
+import com.here.oksse.OkSse;
+
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -42,6 +44,10 @@ public abstract class HttpClient {
             mAuthHeader = null;
         }
         mClient = client;
+    }
+
+    public OkSse makeSseClient() {
+        return new OkSse(mClient);
     }
 
     public HttpUrl buildUrl(String url) {

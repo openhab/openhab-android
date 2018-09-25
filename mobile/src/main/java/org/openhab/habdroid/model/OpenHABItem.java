@@ -221,11 +221,27 @@ public abstract class OpenHABItem implements Parcelable {
                 .build();
     }
 
+    public static OpenHABItem updateFromEvent(OpenHABItem item, JSONObject jsonObject)
+            throws JSONException {
+        if (jsonObject == null) {
+            return item;
+        }
+        Builder builder = parseFromJson(jsonObject);
+        // Events don't contain the link property, so preserve that if previously present
+        if (item != null) {
+            builder.link(item.link());
+        }
+        return builder.build();
+    }
+
     public static OpenHABItem fromJson(JSONObject jsonObject) throws JSONException {
         if (jsonObject == null) {
             return null;
         }
+        return parseFromJson(jsonObject).build();
+    }
 
+    private static OpenHABItem.Builder parseFromJson(JSONObject jsonObject) throws JSONException {
         String name = jsonObject.getString("name");
         String state = jsonObject.optString("state", "");
         if ("NULL".equals(state) || "UNDEF".equals(state) || "undefined".equalsIgnoreCase(state)) {
@@ -267,7 +283,6 @@ public abstract class OpenHABItem implements Parcelable {
                 .members(members)
                 .options(options)
                 .state(state)
-                .readOnly(readOnly)
-                .build();
+                .readOnly(readOnly);
     }
 }

@@ -62,8 +62,6 @@ import android.view.WindowManager;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.core.CloudMessagingHelper;
 import org.openhab.habdroid.core.OnUpdateBroadcastReceiver;
@@ -77,17 +75,14 @@ import org.openhab.habdroid.core.connection.exception.NetworkNotSupportedExcepti
 import org.openhab.habdroid.core.connection.exception.NoUrlInformationException;
 import org.openhab.habdroid.model.OpenHABLinkedPage;
 import org.openhab.habdroid.model.OpenHABSitemap;
+import org.openhab.habdroid.model.ServerProperties;
 import org.openhab.habdroid.ui.activity.ContentController;
 import org.openhab.habdroid.util.AsyncServiceResolver;
 import org.openhab.habdroid.util.Constants;
 import org.openhab.habdroid.util.AsyncHttpClient;
 import org.openhab.habdroid.util.Util;
-import org.w3c.dom.Document;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
 
 import java.io.IOException;
-import java.io.StringReader;
 import java.lang.reflect.Constructor;
 import java.net.ConnectException;
 import java.net.SocketTimeoutException;
@@ -97,23 +92,18 @@ import java.security.cert.CertPathValidatorException;
 import java.security.cert.CertificateExpiredException;
 import java.security.cert.CertificateNotYetValidException;
 import java.security.cert.CertificateRevokedException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
 import javax.jmdns.ServiceInfo;
 import javax.net.ssl.SSLException;
 import javax.net.ssl.SSLPeerUnverifiedException;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 
 import es.dmoral.toasty.Toasty;
 import okhttp3.Call;
 import okhttp3.Headers;
 import okhttp3.Request;
 
-import static org.openhab.habdroid.ui.OpenHABPreferencesActivity.START_EXTRA_OPENHAB_VERSION;
 import static org.openhab.habdroid.util.Util.exceptionHasCause;
 import static org.openhab.habdroid.util.Util.getHostFromUrl;
 
@@ -133,12 +123,6 @@ public class OpenHABMainActivity extends AppCompatActivity implements
     // Drawer item codes
     private static final int GROUP_ID_SITEMAPS = 1;
 
-    private enum InitState {
-        QUERY_SERVER_PROPS,
-        LOAD_SITEMAPS,
-        DONE
-    }
-
     // preferences
     private SharedPreferences mSettings;
     private AsyncServiceResolver mServiceResolver;
@@ -151,8 +135,6 @@ public class OpenHABMainActivity extends AppCompatActivity implements
     private Menu mDrawerMenu;
     private ColorStateList mDrawerIconTintList;
     private RecyclerView.RecycledViewPool mViewPool;
-    private ArrayList<OpenHABSitemap> mSitemapList;
-    private int mOpenHABVersion;
     private ProgressBar mProgressBar;
     // select sitemap dialog
     private Dialog mSelectSitemapDialog;
@@ -163,8 +145,8 @@ public class OpenHABMainActivity extends AppCompatActivity implements
     private String mPendingOpenedNotificationId;
     private OpenHABSitemap mSelectedSitemap;
     private ContentController mController;
-    private InitState mInitState = InitState.QUERY_SERVER_PROPS;
-    private Call mPendingCall;
+    private ServerProperties mServerProperties;
+    private ServerProperties.UpdateHandle mPropsUpdateHandle;
     private boolean mStarted;
 
     /**
@@ -229,10 +211,8 @@ public class OpenHABMainActivity extends AppCompatActivity implements
 
         // Check if we have openHAB page url in saved instance state?
         if (savedInstanceState != null) {
-            mOpenHABVersion = savedInstanceState.getInt("openHABVersion");
-            mSitemapList = savedInstanceState.getParcelableArrayList("sitemapList");
+            mServerProperties = savedInstanceState.getParcelable("serverProperties");
             mSelectedSitemap = savedInstanceState.getParcelable("sitemap");
-            mInitState = InitState.values()[savedInstanceState.getInt("initState")];
             int lastConnectionHash = savedInstanceState.getInt("connectionHash");
             if (lastConnectionHash != -1) {
                 try {
@@ -257,7 +237,6 @@ public class OpenHABMainActivity extends AppCompatActivity implements
                 showSitemapSelectionDialog();
             }
         } else {
-            mSitemapList = new ArrayList<>();
         }
 
         processIntent(getIntent());
@@ -304,35 +283,31 @@ public class OpenHABMainActivity extends AppCompatActivity implements
 
     public void retryServerPropertyQuery() {
         mController.clearServerCommunicationFailure();
-        if (mPendingCall != null) {
-            mPendingCall.cancel();
-        }
         queryServerProperties();
     }
 
     private void queryServerProperties() {
-        final String url = "rest/bindings";
-        mInitState = InitState.QUERY_SERVER_PROPS;
-        mPendingCall = mConnection.getAsyncHttpClient().get(url, new AsyncHttpClient.StringResponseHandler() {
-            @Override
-            public void onFailure(Request request, int statusCode, Throwable error) {
-                if (statusCode == 404 && mConnection != null) {
-                    // no bindings endpoint; we're likely talking to an OH1 instance
-                    mOpenHABVersion = 1;
-                    loadSitemapList(true);
+        if (mPropsUpdateHandle != null) {
+            mPropsUpdateHandle.cancel();
+        }
+        ServerProperties.UpdateSuccessCallback successCb = props -> {
+            mServerProperties = props;
+            updateSitemapDrawerItems();
+            if (props.sitemaps().isEmpty()) {
+                Log.e(TAG, "openHAB returned empty sitemap list");
+                mController.indicateServerCommunicationFailure(
+                        getString(R.string.error_empty_sitemap_list));
+            } else {
+                OpenHABSitemap sitemap = selectConfiguredSitemapFromList();
+                if (sitemap != null) {
+                    openSitemap(sitemap);
                 } else {
-                    // other error -> use default handling
-                    handleServerCommunicationFailure(request, statusCode, error);
+                    showSitemapSelectionDialog();
                 }
             }
-
-            @Override
-            public void onSuccess(String response, Headers headers) {
-                mOpenHABVersion = 2;
-                Log.d(TAG, "openHAB version 2");
-                loadSitemapList(true);
-            }
-        });
+        };
+        mPropsUpdateHandle = ServerProperties.fetch(mConnection,
+                successCb, this::handlePropertyFetchFailure);
     }
 
     @Override
@@ -435,7 +410,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
 
         mConnection = newConnection;
         hideSnackbar();
-        mSitemapList.clear();
+        mServerProperties = null;
         mSelectedSitemap = null;
 
         // Handle pending NFC tag if initial connection determination finished
@@ -495,14 +470,9 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         onAvailableConnectionChanged();
         updateNotificationDrawerItem();
 
-        if (mConnection != null) {
-            if (mInitState == InitState.QUERY_SERVER_PROPS) {
-                mController.clearServerCommunicationFailure();
-                queryServerProperties();
-            } else if (mInitState == InitState.LOAD_SITEMAPS) {
-                mController.clearServerCommunicationFailure();
-                loadSitemapList(true);
-            }
+        if (mConnection != null && mServerProperties == null) {
+            mController.clearServerCommunicationFailure();
+            queryServerProperties();
         }
         openPendingNfcPageIfNeeded();
         openNotificationsPageIfNeeded();
@@ -521,8 +491,8 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         if (mSelectSitemapDialog != null && mSelectSitemapDialog.isShowing()) {
             mSelectSitemapDialog.dismiss();
         }
-        if (mPendingCall != null) {
-            mPendingCall.cancel();
+        if (mPropsUpdateHandle != null) {
+            mPropsUpdateHandle.cancel();
         }
     }
 
@@ -553,8 +523,10 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         mDrawerLayout.addDrawerListener(new DrawerLayout.SimpleDrawerListener() {
             @Override
             public void onDrawerOpened(View drawerView) {
-                if (mInitState == InitState.DONE) {
-                    loadSitemapList(false);
+                if (mServerProperties != null && mPropsUpdateHandle == null) {
+                    mPropsUpdateHandle = ServerProperties.updateSitemaps(mServerProperties, mConnection,
+                            props -> { mServerProperties = props; updateSitemapDrawerItems(); },
+                            OpenHABMainActivity.this::handlePropertyFetchFailure);
                 }
             }
         });
@@ -585,7 +557,8 @@ public class OpenHABMainActivity extends AppCompatActivity implements
                     case R.id.settings:
                         Intent settingsIntent = new Intent(OpenHABMainActivity.this,
                                 OpenHABPreferencesActivity.class);
-                        settingsIntent.putExtra(START_EXTRA_OPENHAB_VERSION, getOpenHABVersion());
+                        settingsIntent.putExtra(OpenHABPreferencesActivity.START_EXTRA_SERVER_PROPERTIES,
+                                mServerProperties);
                         startActivityForResult(settingsIntent, SETTINGS_REQUEST_CODE);
                         return true;
                     case R.id.about:
@@ -593,7 +566,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
                         return true;
                 }
                 if (item.getGroupId() == GROUP_ID_SITEMAPS) {
-                    OpenHABSitemap sitemap = mSitemapList.get(item.getItemId());
+                    OpenHABSitemap sitemap = mServerProperties.sitemaps().get(item.getItemId());
                     openSitemap(sitemap);
                     return true;
                 }
@@ -609,18 +582,26 @@ public class OpenHABMainActivity extends AppCompatActivity implements
 
     private void updateSitemapDrawerItems() {
         MenuItem sitemapItem = mDrawerMenu.findItem(R.id.sitemaps);
-
-        if (mSitemapList.isEmpty()) {
+        if (mServerProperties == null) {
             sitemapItem.setVisible(false);
         } else {
-            sitemapItem.setVisible(true);
-            SubMenu menu = sitemapItem.getSubMenu();
-            menu.clear();
+            final String defaultSitemapName =
+                    mSettings.getString(Constants.PREFERENCE_SITEMAP_NAME, "");
+            final List<OpenHABSitemap> sitemaps = mServerProperties.sitemaps();
+            Util.sortSitemapList(sitemaps, defaultSitemapName);
 
-            for (int i = 0; i < mSitemapList.size(); i++) {
-                OpenHABSitemap sitemap = mSitemapList.get(i);
-                MenuItem item = menu.add(GROUP_ID_SITEMAPS, i, i, sitemap.label());
-                loadSitemapIcon(sitemap, item);
+            if (sitemaps.isEmpty()) {
+                sitemapItem.setVisible(false);
+            } else {
+                sitemapItem.setVisible(true);
+                SubMenu menu = sitemapItem.getSubMenu();
+                menu.clear();
+
+                for (int i = 0; i < sitemaps.size(); i++) {
+                    OpenHABSitemap sitemap = sitemaps.get(i);
+                    MenuItem item = menu.add(GROUP_ID_SITEMAPS, i, i, sitemap.label());
+                    loadSitemapIcon(sitemap, item);
+                }
             }
         }
     }
@@ -693,103 +674,25 @@ public class OpenHABMainActivity extends AppCompatActivity implements
 
     private void openAbout() {
         Intent aboutIntent = new Intent(this, AboutActivity.class);
-        aboutIntent.putExtra("openHABVersion", mOpenHABVersion);
+        aboutIntent.putExtra("serverProperties", mServerProperties);
 
         startActivityForResult(aboutIntent, INFO_REQUEST_CODE);
         Util.overridePendingTransition(this, false);
-    }
-
-    /**
-     * Get sitemaps from openHAB. If user already configured preferred sitemap
-     * just open it. If no preferred sitemap is configured let user select one.
-     */
-
-    private void loadSitemapList(final boolean selectSitemapAfterLoad) {
-        if (mConnection == null) {
-            return;
-        }
-
-        Log.d(TAG, "Loading sitemap list from /rest/sitemaps");
-
-        mInitState = InitState.LOAD_SITEMAPS;
-        mPendingCall = mConnection.getAsyncHttpClient().get("rest/sitemaps", new AsyncHttpClient.StringResponseHandler() {
-            @Override
-            public void onFailure(Request request, int statusCode, Throwable error) {
-                handleServerCommunicationFailure(request, statusCode, error);
-            }
-
-            @Override
-            public void onSuccess(String response, Headers headers) {
-                mPendingCall = null;
-                mInitState = InitState.DONE;
-
-                // OH1 returns XML, later versions return JSON
-                List<OpenHABSitemap> result = mOpenHABVersion == 1
-                        ? loadSitemapsFromXml(response)
-                        : loadSitemapsFromJson(response);
-                Log.d(TAG, "Server returned sitemaps: " + result);
-                mSitemapList.clear();
-                if (result != null) {
-                    String defaultSitemapName =
-                            mSettings.getString(Constants.PREFERENCE_SITEMAP_NAME, "");
-                    mSitemapList.addAll(Util.sortSitemapList(result, defaultSitemapName));
-                }
-                updateSitemapDrawerItems();
-
-                if (!selectSitemapAfterLoad) {
-                    return;
-                }
-
-                if (mSitemapList.isEmpty()) {
-                    Log.e(TAG, "openHAB returned empty sitemap list");
-                    mController.indicateServerCommunicationFailure(
-                            getString(R.string.error_empty_sitemap_list));
-                } else {
-                    OpenHABSitemap sitemap = selectConfiguredSitemapFromList();
-                    if (sitemap != null) {
-                        openSitemap(sitemap);
-                    } else {
-                        showSitemapSelectionDialog();
-                    }
-                }
-            }
-        });
-    }
-
-    private static List<OpenHABSitemap> loadSitemapsFromXml(String response) {
-        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-        try {
-            DocumentBuilder builder = dbf.newDocumentBuilder();
-            Document sitemapsXml = builder.parse(new InputSource(new StringReader(response)));
-            return Util.parseSitemapList(sitemapsXml);
-        } catch (ParserConfigurationException | SAXException | IOException e) {
-            Log.e(TAG, "Failed parsing sitemap XML", e);
-            return null;
-        }
-    }
-
-    private static List<OpenHABSitemap> loadSitemapsFromJson(String response) {
-        try {
-            JSONArray jsonArray = new JSONArray(response);
-            return Util.parseSitemapList(jsonArray);
-        } catch (JSONException e) {
-            Log.e(TAG, "Failed parsing sitemap JSON", e);
-            return null;
-        }
     }
 
     private OpenHABSitemap selectConfiguredSitemapFromList() {
         SharedPreferences settings =
                 PreferenceManager.getDefaultSharedPreferences(this);
         String configuredSitemap = settings.getString(Constants.PREFERENCE_SITEMAP_NAME, "");
+        List<OpenHABSitemap> sitemaps = mServerProperties.sitemaps();
         final OpenHABSitemap result;
 
-        if (mSitemapList.size() == 1) {
+        if (sitemaps.size() == 1) {
             // We only have one sitemap, use it
-            result = mSitemapList.get(0);
+            result = sitemaps.get(0);
         } else if (!configuredSitemap.isEmpty()) {
             // Select configured sitemap if still present, nothing otherwise
-            result = Util.getSitemapByName(mSitemapList, configuredSitemap);
+            result = Util.getSitemapByName(sitemaps, configuredSitemap);
         } else {
             // Nothing configured -> can't auto-select anything
             result = null;
@@ -824,16 +727,17 @@ public class OpenHABMainActivity extends AppCompatActivity implements
             return;
         }
 
-        final String[] sitemapLabels = new String[mSitemapList.size()];
-        for (int i = 0; i < mSitemapList.size(); i++) {
-            sitemapLabels[i] = mSitemapList.get(i).label();
+        List<OpenHABSitemap> sitemaps = mServerProperties.sitemaps();
+        final String[] sitemapLabels = new String[sitemaps.size()];
+        for (int i = 0; i < sitemaps.size(); i++) {
+            sitemapLabels[i] = sitemaps.get(i).label();
         }
         mSelectSitemapDialog = new AlertDialog.Builder(this)
                 .setTitle(R.string.mainmenu_openhab_selectsitemap)
                 .setItems(sitemapLabels, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int item) {
-                        OpenHABSitemap sitemap = mSitemapList.get(item);
+                        OpenHABSitemap sitemap = sitemaps.get(item);
                         Log.d(TAG, "Selected sitemap " + sitemap);
                         PreferenceManager.getDefaultSharedPreferences(OpenHABMainActivity.this)
                                 .edit()
@@ -937,15 +841,13 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         // Save UI state changes to the savedInstanceState.
         // This bundle will be passed to onCreate if the process is
         // killed and restarted.
-        savedInstanceState.putInt("openHABVersion", mOpenHABVersion);
-        savedInstanceState.putParcelableArrayList("sitemapList", mSitemapList);
+        savedInstanceState.putParcelable("serverProperties", mServerProperties);
         savedInstanceState.putParcelable("sitemap", mSelectedSitemap);
         savedInstanceState.putBoolean("isSitemapSelectionDialogShown", mSelectSitemapDialog != null &&
                 mSelectSitemapDialog.isShowing());
         savedInstanceState.putString("controller", mController.getClass().getCanonicalName());
         savedInstanceState.putInt("connectionHash",
                 mConnection != null ? mConnection.hashCode() : -1);
-        savedInstanceState.putInt("initState", mInitState.ordinal());
         mController.onSaveInstanceState(savedInstanceState);
         super.onSaveInstanceState(savedInstanceState);
     }
@@ -1048,7 +950,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         }
     }
 
-    private void handleServerCommunicationFailure(Request request, int statusCode, Throwable error) {
+    private void handlePropertyFetchFailure(Request request, int statusCode, Throwable error) {
         Log.e(TAG, "Error: " + error.toString());
         Log.e(TAG, "HTTP status code: " + statusCode);
         CharSequence message;
@@ -1125,16 +1027,15 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         }
 
         mController.indicateServerCommunicationFailure(message);
-        mPendingCall = null;
-        mInitState = InitState.DONE;
+        mPropsUpdateHandle = null;
     }
 
     public boolean isStarted() {
         return mStarted;
     }
 
-    public int getOpenHABVersion() {
-        return mOpenHABVersion;
+    public ServerProperties getServerProperties() {
+        return mServerProperties;
     }
 
     public Connection getConnection() {

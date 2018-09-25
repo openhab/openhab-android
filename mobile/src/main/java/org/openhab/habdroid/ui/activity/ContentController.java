@@ -42,6 +42,7 @@ import org.openhab.habdroid.core.connection.ConnectionFactory;
 import org.openhab.habdroid.model.OpenHABLinkedPage;
 import org.openhab.habdroid.model.OpenHABSitemap;
 import org.openhab.habdroid.model.OpenHABWidget;
+import org.openhab.habdroid.model.ServerProperties;
 import org.openhab.habdroid.ui.OpenHABMainActivity;
 import org.openhab.habdroid.ui.OpenHABNotificationFragment;
 import org.openhab.habdroid.ui.OpenHABPreferencesActivity;
@@ -386,7 +387,14 @@ public abstract class ContentController implements PageConnectionHolderFragment.
 
     @Override
     public boolean serverReturnsJson() {
-        return mActivity.getOpenHABVersion() != 1;
+        ServerProperties props = mActivity.getServerProperties();
+        return props != null && props.hasJsonApi();
+    }
+
+    @Override
+    public boolean serverSupportsSse() {
+        ServerProperties props = mActivity.getServerProperties();
+        return props != null && props.hasSseSupport();
     }
 
     @Override
@@ -413,9 +421,10 @@ public abstract class ContentController implements PageConnectionHolderFragment.
     }
 
     @Override
-    public void onWidgetUpdated(OpenHABWidget widget) {
+    public void onWidgetUpdated(String pageUrl, OpenHABWidget widget) {
         for (OpenHABWidgetListFragment f : collectWidgetFragments()) {
-            if (f.onWidgetUpdated(widget)) {
+            if (pageUrl.equals(f.getDisplayPageUrl())) {
+                f.updateWidget(widget);
                 break;
             }
         }
