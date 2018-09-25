@@ -108,6 +108,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import es.dmoral.toasty.Toasty;
 import okhttp3.Call;
 import okhttp3.Headers;
 import okhttp3.Request;
@@ -507,9 +508,6 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         openNotificationsPageIfNeeded();
     }
 
-    /**
-     * Overriding onStop to enable Google Analytics stats collection
-     */
     @Override
     public void onStop() {
         Log.d(TAG, "onStop()");
@@ -1012,8 +1010,8 @@ public class OpenHABMainActivity extends AppCompatActivity implements
                 startActivity(new Intent(Intent.ACTION_VIEW,
                         Uri.parse("market://details?id=com.google.android.googlequicksearchbox")));
             } catch (ActivityNotFoundException appStoreNotFoundException) {
-                Toast.makeText(this, R.string.error_no_app_store_found,
-                        Toast.LENGTH_LONG).show();
+                Toasty.error(this, getString(R.string.error_no_app_store_found),
+                        Toast.LENGTH_LONG, true).show();
             }
         }
     }
