@@ -9,12 +9,15 @@
 
 package org.openhab.habdroid.core;
 
-import android.app.IntentService;
+import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.support.annotation.Nullable;
+import android.support.annotation.NonNull;
+import android.support.v4.app.JobIntentService;
 import android.util.Log;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
@@ -29,19 +32,39 @@ import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.Locale;
 
-public class GcmRegistrationService extends IntentService {
+public class GcmRegistrationService extends JobIntentService {
     private static final String TAG = GcmRegistrationService.class.getSimpleName();
 
-    static final String ACTION_REGISTER = "org.openhab.habdroid.action.REGISTER_GCM";
-    static final String ACTION_HIDE_NOTIFICATION = "org.openhab.habdroid.action.HIDE_NOTIFICATION";
-    static final String EXTRA_NOTIFICATION_ID = "notificationId";
+    private static final int JOB_ID = 1000;
 
-    public GcmRegistrationService() {
-        super("GcmRegistrationService");
+    private static final String ACTION_REGISTER = "org.openhab.habdroid.action.REGISTER_GCM";
+    private static final String ACTION_HIDE_NOTIFICATION = "org.openhab.habdroid.action.HIDE_NOTIFICATION";
+    private static final String EXTRA_NOTIFICATION_ID = "notificationId";
+
+    static void scheduleRegistration(Context context) {
+        Intent intent = new Intent(context, GcmRegistrationService.class)
+                .setAction(GcmRegistrationService.ACTION_REGISTER);
+        JobIntentService.enqueueWork(context, GcmRegistrationService.class, JOB_ID, intent);
+    }
+
+    static void scheduleHideNotification(Context context, int notificationId) {
+        JobIntentService.enqueueWork(context, GcmRegistrationService.class, JOB_ID,
+                makeHideNotificationIntent(context, notificationId));
+    }
+
+    static PendingIntent createHideNotificationIntent(Context context, int notificationId) {
+        return ProxyReceiver.wrap(context, makeHideNotificationIntent(context, notificationId),
+                notificationId);
+    }
+
+    private static Intent makeHideNotificationIntent(Context context, int notificationId) {
+        return new Intent(context, GcmRegistrationService.class)
+                .setAction(GcmRegistrationService.ACTION_HIDE_NOTIFICATION)
+                .putExtra(GcmRegistrationService.EXTRA_NOTIFICATION_ID, notificationId);
     }
 
     @Override
-    protected void onHandleIntent(@Nullable Intent intent) {
+    protected void onHandleWork(@NonNull Intent intent) {
         ConnectionFactory.waitForInitialization();
         CloudConnection connection =
                 (CloudConnection) ConnectionFactory.getConnection(Connection.TYPE_CLOUD);
@@ -103,5 +126,20 @@ public class GcmRegistrationService extends IntentService {
         sendBundle.putString("type", "hideNotification");
         sendBundle.putString("notificationId", String.valueOf(notificationId));
         gcm.send(senderId + "@gcm.googleapis.com", "1", sendBundle);
+    }
+
+    public static class ProxyReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Intent actual = intent.getParcelableExtra("intent");
+            JobIntentService.enqueueWork(context, GcmRegistrationService.class, JOB_ID, actual);
+        }
+
+        private static PendingIntent wrap(Context context, Intent intent, int id) {
+            Intent wrapped = new Intent(context, ProxyReceiver.class)
+                    .putExtra("intent", intent);
+            return PendingIntent.getBroadcast(context, id,
+                    wrapped, PendingIntent.FLAG_UPDATE_CURRENT);
+        }
     }
 }

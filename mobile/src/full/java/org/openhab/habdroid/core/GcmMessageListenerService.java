@@ -116,15 +116,6 @@ public class GcmMessageListenerService extends GcmListenerService {
                 contentIntent, PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
-    private PendingIntent makeDeleteIntent(int notificationId) {
-        Intent deleteIntent = new Intent(this, GcmRegistrationService.class)
-                .setAction(GcmRegistrationService.ACTION_HIDE_NOTIFICATION)
-                .putExtra(GcmRegistrationService.EXTRA_NOTIFICATION_ID, notificationId);
-
-        return PendingIntent.getService(this, notificationId,
-                deleteIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-    }
-
     private Notification makeNotification(String msg, String channelId, String icon,
                 long timestamp, String persistedId, int notificationId) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
@@ -158,7 +149,7 @@ public class GcmMessageListenerService extends GcmListenerService {
                 .setSound(Uri.parse(toneSetting))
                 .setContentText(msg)
                 .setContentIntent(contentIntent)
-                .setDeleteIntent(makeDeleteIntent(notificationId))
+                .setDeleteIntent(GcmRegistrationService.createHideNotificationIntent(this, notificationId))
                 .setVisibility(NotificationCompat.VISIBILITY_PRIVATE)
                 .setPublicVersion(publicVersion)
                 .build();
@@ -181,7 +172,7 @@ public class GcmMessageListenerService extends GcmListenerService {
                 .setContentText(text)
                 .setPublicVersion(publicVersion)
                 .setContentIntent(clickIntent)
-                .setDeleteIntent(makeDeleteIntent(SUMMARY_NOTIFICATION_ID))
+                .setDeleteIntent(GcmRegistrationService.createHideNotificationIntent(this, SUMMARY_NOTIFICATION_ID))
                 .build();
     }
 

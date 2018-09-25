@@ -21,6 +21,8 @@
   <string name="settings_openhab_alturl_summary">Tato adresa openHAB serveru se použije, pokud server na lokální adrese není k dispozici. Aktuální nastavení: %s</string>
   <string name="settings_openhab_username">Uživatelské jméno</string>
   <string name="settings_openhab_password">Heslo</string>
+  <string name="settings_openhab_password_summary_weak">Slabé heslo</string>
+  <string name="settings_openhab_password_summary_strong">Silné heslo</string>
   <string name="settings_openhab_sslclientcert">Klientský certifikát SSL</string>
   <string name="settings_openhab_sslclientcert_howto_summary">Klepnutím sem získáte informace o tom, jak nastavit ověřování klientských certifikátů SSL</string>
   <string name="settings_openhab_screentimeroff">Nezhasínat displej</string>
@@ -40,6 +42,7 @@
   <string name="settings_chart_scaling_value_m">Výchozí</string>
   <string name="settings_chart_scaling_value_l">Velké</string>
   <string name="settings_ringtone">Tón oznámení</string>
+  <string name="settings_ringtone_none">Žádné</string>
   <string name="settings_clear_default_sitemap">Vymazat výchozí Sitemap</string>
   <string name="settings_no_default_sitemap">Žádná výchozí Sitemap nebyla vybrána</string>
   <string name="settings_current_default_sitemap">Aktuální výchozí Sitemap: %1$s</string>
@@ -50,6 +53,8 @@
   <string name="settings_notification_vibration_short">Krátce</string>
   <string name="settings_notification_vibration_long">Dlouze</string>
   <string name="settings_notification_vibration_twice">Dvakrát</string>
+  <string name="settings_connection_summary">Připojen k %s</string>
+  <string name="settings_insecure_connection_summary">Připojen k %s nezabezpečenou komunikací</string>
   <!-- App messages strings -->
   <string name="title_voice_widget">openHAB hlasové příkazy</string>
   <string name="info_voice_input">openHAB, k Vašim službám!</string>
@@ -85,6 +90,7 @@
   <string name="error_http_code_511">Vyžaduje se síťové ověření (kód odpovědi HTTP 511)</string>
   <string name="error_about_no_conn">Chyba při získávání informací ze serveru openHAB</string>
   <string name="error_openhab_offline">Váš openHAB server je offline, zatímco cloud funguje</string>
+  <string name="error_no_app_store_found">Nenalezen obchod s aplikacemi, kde by bylo možné nainstalovat aplikaci pro rozpoznávání hlasu</string>
   <string name="title_activity_openhabwritetag">Zapsat do NFC tagu</string>
   <string name="title_activity_libraries">Použité knihovny</string>
   <string name="info_write_tag">Dotkněte se tagu a počkejte na potvrzovací zprávu</string>
@@ -149,6 +155,7 @@
   <string name="about_server">openHAB server</string>
   <string name="about_translation">Pomozte nám přeložit openHAB</string>
   <string name="about_privacy_policy">Ochrana osobních údajů</string>
+  <string name="settings_debug_messages_title">Zobrazit informace pro řešení potíží</string>
   <string name="error_couldnt_determine_openhab_url">Nemohu najít URL adresu openHAB</string>
   <string name="unknown">Neznámý</string>
   <string name="error_network_type_unsupported">Typ sítě (%s) není podporován</string>

@@ -16,11 +16,13 @@
   <string name="settings_display_title">Display</string>
   <string name="settings_misc_title">Altro</string>
   <string name="settings_openhab_url">URL del server locale</string>
-  <string name="settings_openhab_url_summary">L\'URL dell\'interfaccia openHAB (basato su IP o hostname). Se configurato, rilevamento automatico è disattivato. Impostazione corrente: %s</string>
+  <string name="settings_openhab_url_summary">L\'URL dell\'interfaccia openHAB (inserire IP o hostname). Se configurato, il rilevamento automatico sarà disattivato. L’Impostazione corrente è: %s</string>
   <string name="settings_openhab_alturl">URL del server remoto</string>
-  <string name="settings_openhab_alturl_summary">L\'URL dell\'interfaccia openHAB utilizzato quando l\'indirizzo locale non è disponibile. Impostazione corrente: %s</string>
+  <string name="settings_openhab_alturl_summary">L\'URL utilizzato dell\'interfaccia openHAB quando l\'indirizzo locale non è disponibile. L’impostazione corrente è: %s</string>
   <string name="settings_openhab_username">Utente</string>
   <string name="settings_openhab_password">Password</string>
+  <string name="settings_openhab_password_summary_weak">Password non sicura</string>
+  <string name="settings_openhab_password_summary_strong">Password sicura</string>
   <string name="settings_openhab_sslclientcert">Certificato SSL client</string>
   <string name="settings_openhab_sslclientcert_howto_summary">Tocca qui per suggerimenti e spiegazioni su come configurare l\'autenticazione con certificato SSL client</string>
   <string name="settings_openhab_screentimeroff">Disattivare la visualizzazione del timer</string>
@@ -34,12 +36,12 @@
   <string name="settings_openhab_icon_format_png">Bitmap</string>
   <string name="settings_openhab_icon_format_svg">Vettoriale</string>
   <string name="settings_chart_scaling">Scala del grafico</string>
-  <string name="settings_chart_scaling_summary">Nota: Con una scala piccola, c\'e\' piu\' spazio per il grafico, ma la leggibilita\' dei caratteri e linee puo\' essere compromessa.</string>
+  <string name="settings_chart_scaling_summary">Nota: Con una scala piccola, c\'è più\' spazio per il grafico, ma la leggibilita\' dei caratteri e linee puo\' essere compromessa.</string>
   <string name="settings_chart_scaling_value_xs">Molto piccolo</string>
   <string name="settings_chart_scaling_value_s">Piccolo</string>
   <string name="settings_chart_scaling_value_m">Predefinito</string>
   <string name="settings_chart_scaling_value_l">Grande</string>
-  <string name="settings_ringtone">Suono per Notifica</string>
+  <string name="settings_ringtone">Suono di Notifica</string>
   <string name="settings_ringtone_none">Nessuno</string>
   <string name="settings_clear_default_sitemap">Cancella Sitemap predefinito</string>
   <string name="settings_no_default_sitemap">Nessun Sitemap predefinito selezionato</string>
@@ -61,7 +63,7 @@
   <string name="info_conn_url">Connessione a URL locale</string>
   <string name="info_conn_rem_url">Connessione a URL remoto</string>
   <!-- Error messages -->
-  <string name="error_empty_sitemap_list">openHAB ha ritornato nessun Sitemap</string>
+  <string name="error_empty_sitemap_list">openHAB ha la lista di Sitemap vuota</string>
   <string name="error_network_not_available">Rete non disponibile</string>
   <string name="error_http_connection_failed">Connessione non riuscita. È stata ricevuta una risposta imprevista durante il tentativo di connessione al server openHAB configurato (codice di risposta HTTP ricevuto: %d).</string>
   <string name="error_invalid_url">Inserisci un URL valido nella forma \'http(s)://host(:port)/\'</string>
@@ -79,15 +81,16 @@
   <string name="error_http_code_414">URL è troppo lungo. Utilizzare l\'indirizzo IP o un URL più corto (codice di risposta HTTP 414).</string>
   <string name="error_http_code_426">HTTPS è obbligatorio. Si prega di cambiare l\'URL (codice di risposta HTTP 426).</string>
   <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
-  <string name="error_http_code_495">Autenticazione non riuscita. Verificare il certificato client SSL fornito (codice di risposta HTTP 495).</string>
+  <string name="error_http_code_495">Autenticazione non riuscita. Verificare il certificato SSL client fornito (codice di risposta HTTP 495).</string>
   <string name="error_http_code_496">E\' richiesto un certificato SSL (codice risposta HTTP 496)</string>
   <string name="error_http_code_502">Il reverse proxy ha ricevuto una risposta non valida dal server openHAB (codice risposta HTTP 502)</string>
   <string name="error_http_code_503">Il server openHAB non e\' temporaneamente disponibile (codice risposta HTTP 503)</string>
   <string name="error_http_code_504">Gateway timeout. Sembra che il tuo reverse proxy e\' in esecuzione, ma non riceve una risposta dal server openHAB (codice risposta HTTP 504).</string>
   <string name="error_http_code_507">Il server openHAB non ha abbastanza spazio disponibile (codice risposta HTTP 507)</string>
-  <string name="error_http_code_511">E\' richiesta un\'autenticazione di rete (codice risposta HTTP 511)</string>
+  <string name="error_http_code_511">È richiesta un\'autenticazione di rete (codice risposta HTTP 511)</string>
   <string name="error_about_no_conn">Errore nel recupero delle informazioni dal server openHAB</string>
   <string name="error_openhab_offline">Il server di openHAB è offline mentre è in esecuzione l\'istanza cloud</string>
+  <string name="error_no_app_store_found">App di Voice Recognizer non trovata nell’app store</string>
   <string name="title_activity_openhabwritetag">Scrittura tag NFC</string>
   <string name="title_activity_libraries">Librerie usate</string>
   <string name="info_write_tag">Tocca il tag e tienilo premuto fino alla comparsa del messaggio di conferma</string>
@@ -104,8 +107,8 @@
   <string name="nfc_dialog_title">Salvare le azioni sul tag NFC per questo elemento</string>
   <string name="info_not_set">Non impostato</string>
   <!-- Notification list strings -->
-  <string name="notification_list_empty">Finora nessuna notifica spedita</string>
-  <string name="notification_list_error">E\' successo un error durante il caricamento delle notifiche</string>
+  <string name="notification_list_empty">Nessuna notifica spedita finora</string>
+  <string name="notification_list_error">È successo un errore durante il caricamento delle notifiche</string>
   <string name="list_loading_message">Caricamento\u2026</string>
   <!-- Strings for MemorizingTrustManager activity -->
   <string name="mtm_accept_cert">Accetti il certificato sconosciuto?</string>
@@ -162,7 +165,7 @@
   <string name="try_again_button">Riprova</string>
   <string name="go_to_settings_button">Vai alle impostazioni</string>
   <string name="configuration_missing">Il tuo server openHAB non puo\' essere individuato automaticamente. Per favore configura il suo indirizzo IP o il nome host nelle impostazioni server.</string>
-  <string name="no_remote_server">Rete locale non è disponibile e non è stato configurato un server remotol</string>
+  <string name="no_remote_server">Rete locale non è disponibile e non è stato configurato un server remoto</string>
   <string name="resolving_openhab">Individuando l\'istanza openHAB\u2026</string>
   <!-- Content description for images -->
   <string name="content_description_open_roller_shutter">Apertura tapparella</string>
@@ -179,12 +182,12 @@
   <!-- Intro strings -->
   <string name="app_intro">Intro</string>
   <string name="intro_welcome">Benvenuto in openHAB</string>
-  <string name="intro_whatis">Una soluzione domotica open source, indipendente dalla tecnologia e dai produttori per la tua casa</string>
+  <string name="intro_whatis">Una soluzione domotica open source per la tua casa, indipendente da tecnologia e da produttori</string>
   <string name="intro_themes">Temi</string>
   <string name="intro_themes_description">Scegli tra i diversi temi</string>
   <string name="intro_voice_description">Controlla la tua casa con la tua voce</string>
   <string name="intro_nfc">NFC</string>
-  <string name="intro_nfc_description">Il controllo dell\'item puo\' essere associato a un tag NFC premendo a lungo sull\'item</string>
+  <string name="intro_nfc_description">Il controllo dell\'item può essere associato a un tag NFC premendo a lungo sull\'item</string>
   <!-- Intro "SKIP" button -->
   <string name="app_intro_skip_button">SALTA</string>
   <!-- Intro "DONE" button -->

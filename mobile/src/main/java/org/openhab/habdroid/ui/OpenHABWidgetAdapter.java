@@ -131,10 +131,10 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         mChartTheme = tv.string;
     }
 
-    public void update(List<OpenHABWidget> widgets) {
+    public void update(List<OpenHABWidget> widgets, boolean forceFullUpdate) {
         boolean compatibleUpdate = true;
 
-        if (widgets.size() != mItems.size()) {
+        if (widgets.size() != mItems.size() || forceFullUpdate) {
             compatibleUpdate = false;
         } else {
             for (int i = 0; i < widgets.size(); i++) {
@@ -316,9 +316,9 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         }
     }
 
-    public void setSelectedPosition(int position) {
+    public boolean setSelectedPosition(int position) {
         if (mSelectedPosition == position) {
-            return;
+            return false;
         }
         if (mSelectedPosition >= 0) {
             notifyItemChanged(mSelectedPosition);
@@ -327,6 +327,7 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         if (position >= 0) {
             notifyItemChanged(position);
         }
+        return true;
     }
 
     @Override
@@ -973,6 +974,7 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         @SuppressLint("SetJavaScriptEnabled")
         @Override
         public void bind(OpenHABWidget widget) {
+            mWebView.loadUrl("about:blank");
             ViewGroup.LayoutParams lp = mWebView.getLayoutParams();
             int desiredHeightPixels = widget.height() > 0
                     ? widget.height() * mRowHeightPixels : ViewGroup.LayoutParams.WRAP_CONTENT;

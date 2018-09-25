@@ -1,0 +1,4 @@
+## Fixed
+* Don't scroll to selected list item if it didn't change. (#989)
+* Revert "Remove unneeded try catch in voice command funtionality (#899)" (#984)
+* Clear webviews before being re-used (#982)

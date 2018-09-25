@@ -1,42 +1,40 @@
-openHAB - "empowering the smart home" - vendor and technology agnostic open source home automation
+openHAB - ”empowering the smart home” - leverantörs- och teknikoberoende hemautomation med öppen källkod
 
-The builds on F-Droid have map view support, GCM and crash reporting removed and will not be able to receive push notifications from openHAB Cloud.
-Try out new features and give early feedback!
-You can install the beta version alongside the <a href="https://f-droid.org/packages/org.openhab.habdroid/">stable version</a>.
+Versionerna på F-Droid har stöd för kartvisning, GCM och kraschrapportering och kan inte ta emot pushnotifieringar ifrån openHAB Cloud.
 
-<b>Important note</b>
+<b>Viktigt meddelande</b>
 
-You need an openHAB server for this app
+Du behöver en openHAB-server för denna app
 
-openHAB is a Java-based open-source home automation platform that integrates and combines a vast range of different smart home systems and technologies into one single solution.
-On top of the unified abstraction layer all connected devices are available for the overarching automation rule engines and different user interfaces.
+openHAB är en Java-baserad hemautomationsplattform med öppen källkod som integrerar och kombinerar ett stort utbud av olika system och tekniker för smarta hem i en enda lösning.
+Ovanpå det enhetliga abstraktionslagret är alla anslutna enheter tillgängliga för den övergripande regelmotorn och olika användargränssnitt.
 
-<b>Supported Products</b>
+<b>Produkter som stöds</b>
 
-Over 200 specific add-ons provide support for brands, devices, technologies and communication protocols. Examples are Z-Wave, Philips Hue, Amazon Echo, Chromecast and Sonos. Discover all available add-ons and supported devices and/or functions at: https://www.openhab.org/addons/
+Över 200 tillägg ger support för varumärken, enheter, teknik och kommunikationsprotokoll. Exempel är Z-Wave, Philips Hue, Amazon Echo, Chromecast och Sonos. Upptäck alla tillgängliga tillägg och enheter som stöds och/eller fungerar på: https://www.openhab.org/addons/
 
-• Home Automation Solutions: Z-Wave, EnOcean, Netatmo, Homematic, Insteon, ...
-• Lighting: Philips Hue, Ikea Trådfri, LIFX, Lutron, Milight, ...
-• Heating: Max!, Nest, Vitotronic, Heatmiser, ...
-• Home Entertainment: Samsung TV, LG TV, Sonos, Pioneer AVR, Squeezebox, Kodi, Plex, ...
-• Security: ZoneMinder, DSC, ...
-• Open Protocols: HTTP, TCP/UDP, MQTT, Serial, ...
-• Special UseCases: Minecraft, Tesla Car, Weather Services, ...
-• ...
+• Hemautomationslösningar: EnOcean, Homematic, Netatmo, Z-Wave, Insteon,...
+• Belysning: Ikea Trådfri, Lutron, LIFX, Philips Hue, Milight,...
+• Värme: Max!, Nest, värmeregleringssystemet, Heatmiser,...
+• Hemunderhållning: Samsung TV, LG TV, Sonos, Pioneer AVR, Squeezebox, Kodi, Plex,...
+• Säkerhet: ZoneMinder, DSC,...
+• Öppna protokoll: HTTP, TCP/UDP, MQTT, seriell,...
+• Särskilda tillämpningar: Minecraft, Tesla, vädertjänster,...
+•...
 
-<b>Open Source Community</b>
+<b>Öppen källkods-gemenskapen</b>
 
-The openHAB open source initiative strongly supports its vibrant community. The forum with over 13,000 registered users is a place to find guidance, help and inspiration. Join the openHAB community forum over at https://community.openhab.org
-When you find an issue please report it in the forum or at https://github.com/openhab/openhab-android/issues
-If you want to translate the app into your language join us at https://crowdin.com/project/openhab-android
+Öppen källkods-initiativet openHAB är stark förespråkare för sitt levande community. Forumet med över 13 000 registrerade användare är ett ställe att hitta vägledning, hjälp och inspiration. Gå med i openHAB-forumet över på https://community.openhab.org
+När du hittar ett problem vänligen rapportera det i forumet eller på https://github.com/openhab/openhab-android/issues
+Om du vill översätta appen till ditt språk gå med oss på https://crowdin.com/project/openhab-android
 
 <b>openHAB Foundation</b>
 
-The openHAB Foundation e.V. is a nonprofit organization with the mission to educate the public about the possibilities and benefits of free and open smart home solutions. Learn about the mission and the services of the foundation under https://www.openhabfoundation.org
+OpenHAB Foundation är en icke vinstdrivande organisation som har som mål att utbilda allmänheten kring möjligheterna och fördelarna med friga och öppna hemautomatiseringslösningar. Lär dig mer om uppdraget och tjänsterna på https://www.openhabfoundation.org
 
-<b>Anti Features</b>
+<b>Anti-Features</b>
 
-The app is flagged with the "NonFreeAsset" flag, because the openHAB icon is not under a free license.
+Appen är markerad som "NonFreeAsset" eftersom ikonen för openHAB inte omfattas av någon fri licens.
 
 
-Privacy policy: https://www.openhabfoundation.org/privacy
+Integritetspolicy: https://www.openhabfoundation.org/privacy

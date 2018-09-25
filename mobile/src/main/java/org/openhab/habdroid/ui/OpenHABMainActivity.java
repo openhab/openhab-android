@@ -12,6 +12,7 @@ package org.openhab.habdroid.ui;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.PendingIntent;
+import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -59,6 +60,7 @@ import android.view.View;
 import android.view.ViewStub;
 import android.view.WindowManager;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.core.CloudMessagingHelper;
@@ -97,6 +99,8 @@ import javax.jmdns.ServiceInfo;
 import javax.net.ssl.SSLException;
 import javax.net.ssl.SSLPeerUnverifiedException;
 
+import es.dmoral.toasty.Toasty;
+import okhttp3.Call;
 import okhttp3.Headers;
 import okhttp3.Request;
 
@@ -229,7 +233,6 @@ public class OpenHABMainActivity extends AppCompatActivity implements
                 // via the fragment state restoration.
                 mController.recreateFragmentState();
             }
-            updateSitemapDrawerItems();
             if (savedInstanceState.getBoolean("isSitemapSelectionDialogShown")) {
                 showSitemapSelectionDialog();
             }
@@ -475,9 +478,6 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         openNotificationsPageIfNeeded();
     }
 
-    /**
-     * Overriding onStop to enable Google Analytics stats collection
-     */
     @Override
     public void onStop() {
         Log.d(TAG, "onStop()");
@@ -905,7 +905,17 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         speechIntent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 1);
         speechIntent.putExtra(RecognizerIntent.EXTRA_RESULTS_PENDINGINTENT, openhabPendingIntent);
 
-        startActivity(speechIntent);
+        try {
+            startActivity(speechIntent);
+        } catch (ActivityNotFoundException speechRecognizerNotFoundException) {
+            try {
+                startActivity(new Intent(Intent.ACTION_VIEW,
+                        Uri.parse("market://details?id=com.google.android.googlequicksearchbox")));
+            } catch (ActivityNotFoundException appStoreNotFoundException) {
+                Toasty.error(this, getString(R.string.error_no_app_store_found),
+                        Toast.LENGTH_LONG, true).show();
+            }
+        }
     }
 
     public void showRefreshHintSnackbarIfNeeded() {

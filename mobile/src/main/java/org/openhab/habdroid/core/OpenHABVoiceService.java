@@ -15,6 +15,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.speech.RecognizerIntent;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -28,9 +29,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
+import es.dmoral.toasty.Toasty;
+
 /**
- * This service handles voice commands and sends them to OpenHAB.
- * It will use the openHAB base URL if passed in the intent's extra.
+ * This service handles voice commands and sends them to openHAB.
  */
 public class OpenHABVoiceService extends IntentService {
     private static final String TAG = OpenHABVoiceService.class.getSimpleName();
@@ -92,6 +94,8 @@ public class OpenHABVoiceService extends IntentService {
     }
 
     private void showToast(CharSequence text) {
-        mHandler.post(() -> Toast.makeText(this, text, Toast.LENGTH_SHORT).show());
+        mHandler.post(() -> Toasty.custom(this, text, R.drawable.ic_openhab_appicon_24dp,
+                ContextCompat.getColor(this, R.color.openhab_orange), Toast.LENGTH_SHORT,
+                true, true).show());
     }
 }

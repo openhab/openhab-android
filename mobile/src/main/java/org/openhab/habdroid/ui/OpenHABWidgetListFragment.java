@@ -268,24 +268,26 @@ public class OpenHABWidgetListFragment extends Fragment
         if (openHABWidgetAdapter == null) {
             return;
         }
-        openHABWidgetAdapter.setSelectedPosition(-1);
         if (highlightedPageLink != null) {
             for (int i = 0; i < openHABWidgetAdapter.getItemCount(); i++) {
                 OpenHABLinkedPage page = openHABWidgetAdapter.getItem(i).linkedPage();
                 if (page != null && highlightedPageLink.equals(page.link())) {
-                    openHABWidgetAdapter.setSelectedPosition(i);
-                    mLayoutManager.scrollToPosition(i);
-                    break;
+                    if (openHABWidgetAdapter.setSelectedPosition(i)) {
+                        mLayoutManager.scrollToPosition(i);
+                    }
+                    return;
                 }
             }
         }
+        // We didn't find a matching page link, so unselect everything
+        openHABWidgetAdapter.setSelectedPosition(-1);
     }
 
     public void update(String pageTitle, List<OpenHABWidget> widgets) {
         mTitle = pageTitle;
 
         if (openHABWidgetAdapter != null) {
-            openHABWidgetAdapter.update(widgets);
+            openHABWidgetAdapter.update(widgets, refreshLayout.isRefreshing());
             setHighlightedPageLink(mHighlightedPageLink);
             refreshLayout.setRefreshing(false);
         }

@@ -7,10 +7,12 @@ buildscript {
             url 'https://maven.fabric.io/public'
         }
         mavenCentral()
+        google()
+        jcenter()
     }
     dependencies {
-        classpath 'com.google.gms:google-services:3.1.0'
-        classpath 'io.fabric.tools:gradle:1.24.4'
+        classpath 'com.google.gms:google-services:4.1.0'
+        classpath 'io.fabric.tools:gradle:1.26.0'
         classpath files('libs/gradle-witness.jar')
     }
 }
@@ -31,8 +33,8 @@ android {
         applicationId "org.openhab.habdroid"
         minSdkVersion 14
         targetSdkVersion 27
-        versionCode 76
-        versionName "2.2.18-beta"
+        versionCode 82
+        versionName "2.3.0"
         multiDexEnabled true
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
     }
@@ -107,18 +109,19 @@ dependencies {
     implementation 'com.github.heremaps:oksse:c92d0556f01e769d7c06c650941107642ce98fb5'
     implementation 'com.larswerkman:HoloColorPicker:1.5'
     implementation 'com.github.BigBadaboom:androidsvg:3511e136498da94018ef9fa438895984ea9b99db'
-    implementation 'com.github.apl-devs:appintro:v4.2.2'
+    implementation 'com.github.apl-devs:appintro:v4.2.3'
     // Google Maps
     fullImplementation 'com.google.android.gms:play-services-maps:12.0.1'
     // GCM
     fullImplementation 'com.google.android.gms:play-services-gcm:12.0.1'
 
     // About screen
-    implementation 'com.github.daniel-stoneuk:material-about-library:2.2.5'
+    implementation 'com.github.daniel-stoneuk:material-about-library:2.3.0'
     // Used libraries
     implementation('com.mikepenz:aboutlibraries:6.0.8@aar') {
         transitive = true
     }
+    implementation 'com.github.GrenderG:Toasty:1.3.0'
 
     // Crash reporting
     fullImplementation('com.crashlytics.sdk.android:crashlytics:2.7.1@aar') {
@@ -131,9 +134,9 @@ dependencies {
     annotationProcessor 'com.google.auto.value:auto-value:1.6.2'
     annotationProcessor 'com.ryanharter.auto.value:auto-value-parcel:0.2.6'
 
-    testImplementation 'org.mockito:mockito-core:2.19.1'
+    testImplementation 'org.mockito:mockito-core:2.22.0'
     testImplementation 'junit:junit:4.12'
-    testImplementation 'org.json:json:20180130'
+    testImplementation 'org.json:json:20180813'
     testImplementation 'com.squareup.okhttp3:mockwebserver:3.11.0'
 
     // PowerMock

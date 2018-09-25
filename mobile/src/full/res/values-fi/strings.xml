@@ -9,7 +9,7 @@
   <string name="notification_channel_default">Oletus</string>
   <string name="notification_channel_severity_value">Vakavuus \'%1$s\'</string>
   <plurals name="summary_notification_text">
-    <item quantity="one">1 uusi ilmoitus</item>
+    <item quantity="one">%d uusi ilmoitus</item>
     <item quantity="other">%d uutta ilmoitusta</item>
   </plurals>
 </resources>
