@@ -425,8 +425,8 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
             pref.setSummary(summary);
         }
 
-        private static String beautifyUrl(String url) {
-            return url.contains("myopenhab.org") ? "myopenHAB" : url;
+        public static @Nullable String beautifyUrl(@Nullable String url) {
+            return url != null && url.contains("myopenhab.org") ? "myopenHAB" : url;
         }
     }
 
