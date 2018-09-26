@@ -1,6 +1,8 @@
 openHAB - "empowering the smart home" - szállító és technológia független nyílt forráskódú okosotthon vezérlő szoftver
 
 A F-Droidra készült példány tartalmaz map nézetet is, GCM és hibajelentés el lett belőle távolítva és nem képes push értesítések fogadására az openHAB felhőről.
+Próbáld ki az új funkciókat és adj korai visszajelzést!
+A béta változatot a <a href="https://f-droid.org/packages/org.openhab.habdroid/">stabil verzió</a> mellé is telepítheted.
 
 <b>Fontos megjegyzés</b>
 

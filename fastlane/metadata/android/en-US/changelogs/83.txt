@@ -1,0 +1,6 @@
+## Added
+* Implement support for Server Sent Events (SSE) (#847) 
+
+## Changed
+* Bump dependencies
+* Beautify toasts (#991)

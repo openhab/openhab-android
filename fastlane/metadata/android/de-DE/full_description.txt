@@ -1,6 +1,8 @@
 openHAB - "empowering the smart home" - eine technologie- und herstellerunabhängige, quelloffene Automatisierungslösung für Ihr Zuhause
 
 In der F-Droid-Version wurden die Unterstützung für Mapview-Elemente, GCM und die Übermittlung von Absturzberichten entfernt. Mit dieser Version können keine Nachrichten von einer openHAB-Cloud-Instanz empfangen werden.
+Testen Sie neue Features und geben Sie früh Feedback!
+Sie können die Betaversion neben der <a href="https://f-droid.org/packages/org.openhab.habdroid/">stabilen Version</a> installieren.
 
 <b>Wichtiger Hinweis</b>
 

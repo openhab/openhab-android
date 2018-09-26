@@ -1,6 +1,8 @@
 openHAB - ”empowering the smart home” - leverandør- og teknikkuavhengig hjemmeautomasjon med åpen kildekode
 
 Builds på F-Droid har kartvisning-støtte, GCM og krasj-rapportering fjernet og vil ikke kunne motta push varsler fra openHAB Cloud.
+Prøv ut nye funksjoner og gi tidlig tilbakemelding!
+Du kan installere betaversjonen sammen med den <a href="https://f-droid.org/packages/org.openhab.habdroid/">stabile versjonen</a>.
 
 <b>Viktig merknad</b>
 
