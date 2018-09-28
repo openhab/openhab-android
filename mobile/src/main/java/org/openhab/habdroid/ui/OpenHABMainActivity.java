@@ -167,6 +167,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
      */
     @Override
     protected void onNewIntent(Intent intent) {
+        Log.d(TAG, "onNewIntent()");
         processIntent(intent);
     }
 
@@ -326,6 +327,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
 
     @Override
     public void onServiceResolveFailed() {
+        Log.d(TAG, "onServiceResolveFailed()");
         mController.indicateMissingConfiguration(true);
         mServiceResolver = null;
     }
@@ -348,6 +350,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
 
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
+        Log.d(TAG, "onPostCreate()");
         super.onPostCreate(savedInstanceState);
         if (mDrawerToggle != null) {
             // Sync the toggle state after onRestoreInstanceState has occurred.
@@ -357,6 +360,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
+        Log.d(TAG, "onConfigurationChanged()");
         super.onConfigurationChanged(newConfig);
         if (mDrawerToggle != null) {
             mDrawerToggle.onConfigurationChanged(newConfig);
@@ -382,6 +386,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
 
     @Override
     protected void onPause() {
+        Log.d(TAG, "onPause()");
         super.onPause();
         NfcAdapter nfcAdapter = NfcAdapter.getDefaultAdapter(this);
         if (nfcAdapter != null) {
@@ -391,6 +396,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
 
     @Override
     public void onAvailableConnectionChanged() {
+        Log.d(TAG, "onAvailableConnectionChanged()");
         Connection newConnection;
         ConnectionException failureReason;
 
@@ -456,12 +462,14 @@ public class OpenHABMainActivity extends AppCompatActivity implements
 
     @Override
     public void onCloudConnectionChanged(CloudConnection connection) {
+        Log.d(TAG, "onCloudConnectionChanged()");
         updateNotificationDrawerItem();
         openNotificationsPageIfNeeded();
     }
 
     @Override
     protected void onStart() {
+        Log.d(TAG, "onStart()");
         super.onStart();
         mStarted = true;
 
@@ -766,6 +774,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        Log.d(TAG, "onCreateOptionsMenu()");
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main_menu, menu);
         return true;
@@ -773,6 +782,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
+        Log.d(TAG, "onPrepareOptionsMenu()");
         MenuItem voiceRecognitionItem = menu.findItem(R.id.mainmenu_voice_recognition);
         voiceRecognitionItem.setVisible(
                 mConnection != null && SpeechRecognizer.isRecognitionAvailable(this));
@@ -784,7 +794,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
+        Log.d(TAG, "onOptionsItemSelected()");
         //clicking the back navigation arrow
         if (item.getItemId() == android.R.id.home && mController.canGoBack()) {
             mController.goBack();
@@ -808,7 +818,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Log.d(TAG, String.format("onActivityResult requestCode = %d, resultCode = %d", requestCode, resultCode));
+        Log.d(TAG, String.format("onActivityResult() requestCode = %d, resultCode = %d", requestCode, resultCode));
         switch (requestCode) {
             case SETTINGS_REQUEST_CODE:
                 if (data == null) {
@@ -837,10 +847,8 @@ public class OpenHABMainActivity extends AppCompatActivity implements
 
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
-        Log.d(TAG, "onSaveInstanceState");
-        // Save UI state changes to the savedInstanceState.
-        // This bundle will be passed to onCreate if the process is
-        // killed and restarted.
+        Log.d(TAG, "onSaveInstanceState()");
+        mStarted = false;
         savedInstanceState.putParcelable("serverProperties", mServerProperties);
         savedInstanceState.putParcelable("sitemap", mSelectedSitemap);
         savedInstanceState.putBoolean("isSitemapSelectionDialogShown", mSelectSitemapDialog != null &&
@@ -853,8 +861,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
     }
 
     private void onNotificationSelected(Intent intent) {
-        Log.d(TAG, "Notification was selected");
-
+        Log.d(TAG, "onNotificationSelected()");
         mPendingOpenedNotificationId = intent.getStringExtra(EXTRA_PERSISTED_NOTIFICATION_ID);
         if (mPendingOpenedNotificationId == null) {
             // mPendingOpenedNotificationId being non-null is used as trigger for
@@ -865,7 +872,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
     }
 
     public void onWidgetSelected(OpenHABLinkedPage linkedPage, OpenHABWidgetListFragment source) {
-        Log.i(TAG, "Got widget link = " + linkedPage.link());
+        Log.d(TAG, "Got widget link = " + linkedPage.link());
         mController.openPage(linkedPage, source);
     }
 
@@ -877,6 +884,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
 
     @Override
     public void onBackPressed() {
+        Log.d(TAG, "onBackPressed()");
         if (mController.canGoBack()) {
             mController.goBack();
         } else if (!isFullscreenEnabled()) { //in fullscreen don't continue back which would exit the app
