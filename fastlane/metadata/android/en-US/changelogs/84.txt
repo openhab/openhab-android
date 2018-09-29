@@ -1,0 +1,2 @@
+## Fixed
+* Fix IllegalStateException in ContentController (#1022) 
