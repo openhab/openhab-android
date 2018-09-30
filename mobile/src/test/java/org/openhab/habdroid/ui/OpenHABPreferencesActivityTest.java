@@ -10,8 +10,10 @@ package org.openhab.habdroid.ui;
 
 import org.junit.Test;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.openhab.habdroid.ui.OpenHABPreferencesActivity.AbstractSettingsFragment.isWeakPassword;
+import static org.openhab.habdroid.ui.OpenHABPreferencesActivity.MainSettingsFragment.beautifyUrl;
 
 public class OpenHABPreferencesActivityTest {
     @Test
@@ -24,5 +26,15 @@ public class OpenHABPreferencesActivityTest {
         assertTrue(!isWeakPassword("4BCd+-efgh"));
         assertTrue(!isWeakPassword("Mb2.r5oHf-0t"));
         assertTrue(!isWeakPassword("abcdefg1+"));
+    }
+
+    @Test
+    public void testBeautifyUrl() {
+        assertEquals("abc", beautifyUrl("abc"));
+        assertEquals("", beautifyUrl(""));
+        assertEquals("myopenHAB", beautifyUrl("myopenhab.org"));
+        assertEquals("myopenHAB", beautifyUrl("home.myopenhab.org"));
+        assertEquals("myopenhab.WRONG_TLD", beautifyUrl("myopenhab.WRONG_TLD"));
+        assertEquals(null, beautifyUrl(null));
     }
 }
