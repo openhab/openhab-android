@@ -1,6 +1,16 @@
-task:
-  container:
+container:
     image: python
     cpu: 1
     memory: 2G
-  script: python3 assets/store_descriptions/generate_and_validate.py fdroidBeta
+
+play-stable-description_task:
+    script: python3 assets/store_descriptions/generate_and_validate.py play
+
+play-beta-description_task:
+    script: python3 assets/store_descriptions/generate_and_validate.py playBeta
+
+fdroid-stable-description_task:
+    script: python3 assets/store_descriptions/generate_and_validate.py fdroid
+
+fdroid-beta-description_task:
+    script: python3 assets/store_descriptions/generate_and_validate.py fdroidBeta
