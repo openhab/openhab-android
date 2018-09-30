@@ -1,6 +1,6 @@
 task:
   container:
-    image: debian
+    image: python
     cpu: 1
     memory: 2G
   script: python3 assets/store_descriptions/generate_and_validate.py fdroidBeta
