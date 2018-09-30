@@ -6,10 +6,5 @@ container:
 
 task:
     name: Validate Play Store description
-    env:
-        matrix:
-            version: play
-            version: playBeta
-            version: fdroid
-            version: fdroidBeta
-    script: python3 assets/store_descriptions/generate_and_validate.py $version
+    play-script: python3 assets/store_descriptions/generate_and_validate.py play
+    play-beta-script: python3 assets/store_descriptions/generate_and_validate.py playBeta
