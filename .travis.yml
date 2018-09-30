@@ -51,11 +51,6 @@ jobs:
       env:
         - desc="Uploads to GitHub"
       if: branch != l10n-crowdin AND tag != "-fdroid$" AND tag IS present
-    - stage: test
-      script: python3 assets/store_descriptions/generate_and_validate.py fdroidBeta
-      env:
-        - desc="Validate strings"
-      if: tag != "-fdroid$"
     - stage: deploy
       script: bash travis/prepare-deploy.sh
       if: tag IS present AND tag != "-fdroid$"
