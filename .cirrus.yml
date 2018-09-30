@@ -7,11 +7,14 @@ task:
     name: Validate Play Store description
     script: python3 assets/store_descriptions/generate_and_validate.py play
 
-play-beta-description_task:
+task:
+    name: Validate Play Store Beta description
     script: python3 assets/store_descriptions/generate_and_validate.py playBeta
 
-fdroid-stable-description_task:
+task:
+    name: Validate F-Droid description
     script: python3 assets/store_descriptions/generate_and_validate.py fdroid
 
-fdroid-beta-description_task:
+task:
+    name: Validate F-Droid Beta description
     script: python3 assets/store_descriptions/generate_and_validate.py fdroidBeta
