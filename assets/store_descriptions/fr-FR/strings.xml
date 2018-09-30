@@ -27,7 +27,7 @@
     <short_description/>
     <fdroid>Les versions publiées via F-Droid n'incluent pas le système GCM et les rapports de plantage, et elles ne seront pas en mesure de recevoir les notifications push depuis l’openHAB Cloud.</fdroid>
     <fdroid_beta><![CDATA[Vous pouvez installer la version bêta en parallèle de la <a href="https://f-droid.org/packages/org.openhab.habdroid/">version stable</a>.]]></fdroid_beta>
-    <fdroid_privacy_policy>Politique de confidentialité : https://www.openhabfoundation.org/privacy</fdroid_privacy_policy>
+    <fdroid_privacy_policy/>
     <fdroid_anti_features>Fonctionnalités à usage réservé</fdroid_anti_features>
     <fdroid_anti_features_text>L'application est marquée comme "NonFreeAsset" car l'icône de openHAB n'est pas sous licence libre.</fdroid_anti_features_text>
     <beta>Essayer les nouvelles fonctionnalités et donner un premier retour d'expérience !</beta>
