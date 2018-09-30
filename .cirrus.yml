@@ -3,7 +3,8 @@ container:
     cpu: 1
     memory: 2G
 
-play-stable-description_task:
+task:
+    name: Validate Play Store description
     script: python3 assets/store_descriptions/generate_and_validate.py play
 
 play-beta-description_task:
