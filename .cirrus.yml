@@ -5,6 +5,8 @@ container:
 
 
 task:
-    name: Validate Play Store description
-    play-script: python3 assets/store_descriptions/generate_and_validate.py play
+    name: Validate Play Store and F-Droid descriptions
+    play-stable-script: python3 assets/store_descriptions/generate_and_validate.py play
     play-beta-script: python3 assets/store_descriptions/generate_and_validate.py playBeta
+    fdroid-stable-script: python3 assets/store_descriptions/generate_and_validate.py fdroid
+    fdroid-beta-script: python3 assets/store_descriptions/generate_and_validate.py fdroidBeta
