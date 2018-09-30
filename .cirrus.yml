@@ -3,18 +3,13 @@ container:
     cpu: 1
     memory: 2G
 
+
 task:
     name: Validate Play Store description
-    script: python3 assets/store_descriptions/generate_and_validate.py play
-
-task:
-    name: Validate Play Store Beta description
-    script: python3 assets/store_descriptions/generate_and_validate.py playBeta
-
-task:
-    name: Validate F-Droid description
-    script: python3 assets/store_descriptions/generate_and_validate.py fdroid
-
-task:
-    name: Validate F-Droid Beta description
-    script: python3 assets/store_descriptions/generate_and_validate.py fdroidBeta
+    env:
+        matrix:
+            version: play
+            version: playBeta
+            version: fdroid
+            version: fdroidBeta
+    script: python3 assets/store_descriptions/generate_and_validate.py $version
