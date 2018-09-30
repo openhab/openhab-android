@@ -1,7 +1,7 @@
 container:
     image: python
     cpu: 1
-    memory: 500M
+    memory: 100M
 
 task:
     name: Validate Play Store and F-Droid descriptions
