@@ -1,3 +1,5 @@
 linters:
+    checkstyle:
+        config: ./stickler/checkstyle.xml
     yamllint:
         config: ./stickler/yamllint.yml
