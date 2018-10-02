@@ -40,14 +40,14 @@ import android.widget.TextView;
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.core.connection.Connection;
 import org.openhab.habdroid.core.connection.ConnectionFactory;
-import org.openhab.habdroid.model.OpenHABLinkedPage;
-import org.openhab.habdroid.model.OpenHABSitemap;
-import org.openhab.habdroid.model.OpenHABWidget;
+import org.openhab.habdroid.model.LinkedPage;
+import org.openhab.habdroid.model.Sitemap;
+import org.openhab.habdroid.model.Widget;
 import org.openhab.habdroid.model.ServerProperties;
-import org.openhab.habdroid.ui.OpenHABMainActivity;
-import org.openhab.habdroid.ui.OpenHABNotificationFragment;
-import org.openhab.habdroid.ui.OpenHABPreferencesActivity;
-import org.openhab.habdroid.ui.OpenHABWidgetListFragment;
+import org.openhab.habdroid.ui.MainActivity;
+import org.openhab.habdroid.ui.CloudNotificationListFragment;
+import org.openhab.habdroid.ui.PreferencesActivity;
+import org.openhab.habdroid.ui.WidgetListFragment;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -57,7 +57,7 @@ import java.util.Set;
 import java.util.Stack;
 
 /**
- * Controller class for the content area of {@link OpenHABMainActivity}
+ * Controller class for the content area of {@link MainActivity}
  *
  * It manages the stack of widget lists shown, and shows error UI if needed.
  * The layout of the content area is up to the respective subclasses.
@@ -65,7 +65,7 @@ import java.util.Stack;
 public abstract class ContentController implements PageConnectionHolderFragment.ParentCallback {
     private static final String TAG = ContentController.class.getSimpleName();
 
-    private final OpenHABMainActivity mActivity;
+    private final MainActivity mActivity;
     protected final FragmentManager mFm;
 
     protected Fragment mNoConnectionFragment;
@@ -73,12 +73,12 @@ public abstract class ContentController implements PageConnectionHolderFragment.
     private PageConnectionHolderFragment mConnectionFragment;
     private Fragment mTemporaryPage;
 
-    protected OpenHABSitemap mCurrentSitemap;
-    protected OpenHABWidgetListFragment mSitemapFragment;
-    protected final Stack<Pair<OpenHABLinkedPage, OpenHABWidgetListFragment>> mPageStack = new Stack<>();
+    protected Sitemap mCurrentSitemap;
+    protected WidgetListFragment mSitemapFragment;
+    protected final Stack<Pair<LinkedPage, WidgetListFragment>> mPageStack = new Stack<>();
     private Set<String> mPendingDataLoadUrls = new HashSet<>();
 
-    protected ContentController(OpenHABMainActivity activity) {
+    protected ContentController(MainActivity activity) {
         mActivity = activity;
         mFm = activity.getSupportFragmentManager();
 
@@ -98,8 +98,8 @@ public abstract class ContentController implements PageConnectionHolderFragment.
      * @param state Bundle to save state into
      */
     public void onSaveInstanceState(Bundle state) {
-        ArrayList<OpenHABLinkedPage> pages = new ArrayList<>();
-        for (Pair<OpenHABLinkedPage, OpenHABWidgetListFragment> item : mPageStack) {
+        ArrayList<LinkedPage> pages = new ArrayList<>();
+        for (Pair<LinkedPage, WidgetListFragment> item : mPageStack) {
             pages.add(item.first);
             if (item.second.isAdded()) {
                 mFm.putFragment(state, "pageFragment-" + item.first.link(), item.second);
@@ -130,7 +130,7 @@ public abstract class ContentController implements PageConnectionHolderFragment.
     public void onRestoreInstanceState(Bundle state) {
         mCurrentSitemap = state.getParcelable("controllerSitemap");
         if (mCurrentSitemap != null) {
-            mSitemapFragment = (OpenHABWidgetListFragment)
+            mSitemapFragment = (WidgetListFragment)
                     mFm.getFragment(state, "sitemapFragment");
             if (mSitemapFragment == null) {
                 mSitemapFragment = makeSitemapFragment(mCurrentSitemap);
@@ -141,10 +141,10 @@ public abstract class ContentController implements PageConnectionHolderFragment.
             mDefaultProgressFragment = progressFragment;
         }
 
-        ArrayList<OpenHABLinkedPage> oldStack = state.getParcelableArrayList("controllerPages");
+        ArrayList<LinkedPage> oldStack = state.getParcelableArrayList("controllerPages");
         mPageStack.clear();
-        for (OpenHABLinkedPage page : oldStack) {
-            OpenHABWidgetListFragment f = (OpenHABWidgetListFragment)
+        for (LinkedPage page : oldStack) {
+            WidgetListFragment f = (WidgetListFragment)
                     mFm.getFragment(state, "pageFragment-" + page.link());
             mPageStack.add(Pair.create(page, f != null ? f : makePageFragment(page)));
         }
@@ -158,7 +158,7 @@ public abstract class ContentController implements PageConnectionHolderFragment.
      *
      * @param sitemap Sitemap to show
      */
-    public void openSitemap(OpenHABSitemap sitemap) {
+    public void openSitemap(Sitemap sitemap) {
         Log.d(TAG, "Opening sitemap " + sitemap);
         mCurrentSitemap = sitemap;
         // First clear the old fragment stack to show the progress spinner...
@@ -177,9 +177,9 @@ public abstract class ContentController implements PageConnectionHolderFragment.
      * @param page Page link to follow
      * @param source Fragment this action was triggered from
      */
-    public void openPage(OpenHABLinkedPage page, OpenHABWidgetListFragment source) {
+    public void openPage(LinkedPage page, WidgetListFragment source) {
         Log.d(TAG, "Opening page " + page);
-        OpenHABWidgetListFragment f = makePageFragment(page);
+        WidgetListFragment f = makePageFragment(page);
         while (!mPageStack.isEmpty() && mPageStack.peek().second != source) {
             mPageStack.pop();
         }
@@ -215,7 +215,7 @@ public abstract class ContentController implements PageConnectionHolderFragment.
             mActivity.updateTitle();
         } else {
             // we didn't find it
-            showTemporaryPage(OpenHABWidgetListFragment.withPage(url, null));
+            showTemporaryPage(WidgetListFragment.withPage(url, null));
         }
     }
 
@@ -295,7 +295,7 @@ public abstract class ContentController implements PageConnectionHolderFragment.
      * @param highlightedId ID of notification to be highlighted initially
      */
     public final void openNotifications(@Nullable String highlightedId) {
-        showTemporaryPage(OpenHABNotificationFragment.newInstance(highlightedId));
+        showTemporaryPage(CloudNotificationListFragment.newInstance(highlightedId));
     }
 
     /**
@@ -341,14 +341,14 @@ public abstract class ContentController implements PageConnectionHolderFragment.
         if (mNoConnectionFragment != null) {
             return null;
         } else if (mTemporaryPage != null) {
-            if (mTemporaryPage instanceof OpenHABNotificationFragment) {
+            if (mTemporaryPage instanceof CloudNotificationListFragment) {
                 return mActivity.getString(R.string.app_notifications);
-            } else if (mTemporaryPage instanceof OpenHABWidgetListFragment) {
-                return ((OpenHABWidgetListFragment) mTemporaryPage).getTitle();
+            } else if (mTemporaryPage instanceof WidgetListFragment) {
+                return ((WidgetListFragment) mTemporaryPage).getTitle();
             }
             return null;
         } else {
-            OpenHABWidgetListFragment f = getFragmentForTitle();
+            WidgetListFragment f = getFragmentForTitle();
             return f != null ? f.getTitle() : null;
         }
     }
@@ -405,9 +405,9 @@ public abstract class ContentController implements PageConnectionHolderFragment.
     }
 
     @Override
-    public void onPageUpdated(String pageUrl, String pageTitle, List<OpenHABWidget> widgets) {
+    public void onPageUpdated(String pageUrl, String pageTitle, List<Widget> widgets) {
         Log.d(TAG, "Got update for URL " + pageUrl + ", pending " + mPendingDataLoadUrls);
-        for (OpenHABWidgetListFragment f : collectWidgetFragments()) {
+        for (WidgetListFragment f : collectWidgetFragments()) {
             if (pageUrl.equals(f.getDisplayPageUrl())) {
                 f.update(pageTitle, widgets);
                 break;
@@ -422,8 +422,8 @@ public abstract class ContentController implements PageConnectionHolderFragment.
     }
 
     @Override
-    public void onWidgetUpdated(String pageUrl, OpenHABWidget widget) {
-        for (OpenHABWidgetListFragment f : collectWidgetFragments()) {
+    public void onWidgetUpdated(String pageUrl, Widget widget) {
+        for (WidgetListFragment f : collectWidgetFragments()) {
             if (pageUrl.equals(f.getDisplayPageUrl())) {
                 f.updateWidget(widget);
                 break;
@@ -432,7 +432,7 @@ public abstract class ContentController implements PageConnectionHolderFragment.
     }
 
     protected abstract void executeStateUpdate(FragmentUpdateReason reason, boolean allowStateLoss);
-    protected abstract OpenHABWidgetListFragment getFragmentForTitle();
+    protected abstract WidgetListFragment getFragmentForTitle();
 
     protected void updateFragmentState(FragmentUpdateReason reason) {
         // Allow state loss if activity is still started, as we'll get
@@ -440,7 +440,7 @@ public abstract class ContentController implements PageConnectionHolderFragment.
         executeStateUpdate(reason, mActivity.isStarted());
     }
 
-    private void handleNewWidgetFragment(OpenHABWidgetListFragment f) {
+    private void handleNewWidgetFragment(WidgetListFragment f) {
         mPendingDataLoadUrls.add(f.getDisplayPageUrl());
         // no fragment update yet; fragment state will be updated when data arrives
         updateConnectionState();
@@ -465,7 +465,7 @@ public abstract class ContentController implements PageConnectionHolderFragment.
 
     protected void updateConnectionState() {
         List<String> pageUrls = new ArrayList<>();
-        for (OpenHABWidgetListFragment f : collectWidgetFragments()) {
+        for (WidgetListFragment f : collectWidgetFragments()) {
             pageUrls.add(f.getDisplayPageUrl());
         }
         Iterator<String> pendingIter = mPendingDataLoadUrls.iterator();
@@ -484,26 +484,26 @@ public abstract class ContentController implements PageConnectionHolderFragment.
         updateConnectionState();
     }
 
-    private List<OpenHABWidgetListFragment> collectWidgetFragments() {
-        List<OpenHABWidgetListFragment> result = new ArrayList<>();
+    private List<WidgetListFragment> collectWidgetFragments() {
+        List<WidgetListFragment> result = new ArrayList<>();
         if (mSitemapFragment != null) {
             result.add(mSitemapFragment);
         }
-        for (Pair<OpenHABLinkedPage, OpenHABWidgetListFragment> item : mPageStack) {
+        for (Pair<LinkedPage, WidgetListFragment> item : mPageStack) {
             result.add(item.second);
         }
-        if (mTemporaryPage instanceof OpenHABWidgetListFragment) {
-            result.add((OpenHABWidgetListFragment) mTemporaryPage);
+        if (mTemporaryPage instanceof WidgetListFragment) {
+            result.add((WidgetListFragment) mTemporaryPage);
         }
         return result;
     }
 
-    private OpenHABWidgetListFragment makeSitemapFragment(OpenHABSitemap sitemap) {
-        return OpenHABWidgetListFragment.withPage(sitemap.homepageLink(), sitemap.label());
+    private WidgetListFragment makeSitemapFragment(Sitemap sitemap) {
+        return WidgetListFragment.withPage(sitemap.homepageLink(), sitemap.label());
     }
 
-    private OpenHABWidgetListFragment makePageFragment(OpenHABLinkedPage page) {
-        return OpenHABWidgetListFragment.withPage(page.link(), page.title());
+    private WidgetListFragment makePageFragment(LinkedPage page) {
+        return WidgetListFragment.withPage(page.link(), page.title());
     }
 
     protected enum FragmentUpdateReason {
@@ -549,7 +549,7 @@ public abstract class ContentController implements PageConnectionHolderFragment.
 
         @Override
         public void onClick(View view) {
-            ((OpenHABMainActivity) getActivity()).retryServerPropertyQuery();
+            ((MainActivity) getActivity()).retryServerPropertyQuery();
         }
     }
 
@@ -596,7 +596,7 @@ public abstract class ContentController implements PageConnectionHolderFragment.
 
         @Override
         public void onClick(View view) {
-            Intent preferencesIntent = new Intent(getActivity(), OpenHABPreferencesActivity.class);
+            Intent preferencesIntent = new Intent(getActivity(), PreferencesActivity.class);
             TaskStackBuilder.create(getActivity())
                     .addNextIntentWithParentStack(preferencesIntent)
                     .startActivities();

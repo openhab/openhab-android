@@ -21,8 +21,8 @@ import static org.junit.Assume.assumeTrue;
 
 public class VoiceRecognitionTest extends TestWithoutIntro {
     @Rule
-    public ActivityTestRule<OpenHABMainActivity> mActivityTestRule = new ActivityTestRule<>
-            (OpenHABMainActivity.class, true, false);
+    public ActivityTestRule<MainActivity> mActivityTestRule = new ActivityTestRule<>
+            (MainActivity.class, true, false);
 
     @Before
     public void checkVoiceRecognitionAvailableOnDevice() {

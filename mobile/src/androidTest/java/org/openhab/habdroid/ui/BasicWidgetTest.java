@@ -36,7 +36,7 @@ import static org.hamcrest.Matchers.is;
 @RunWith(AndroidJUnit4.class)
 public class BasicWidgetTest extends TestWithoutIntro {
     @Test
-    public void openHABMainActivityTest() {
+    public void mainActivityTest() {
         ViewInteraction recyclerView = onView(withId(R.id.recyclerview));
 
         recyclerView

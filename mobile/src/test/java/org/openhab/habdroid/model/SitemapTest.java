@@ -10,19 +10,19 @@ import org.mockito.runners.MockitoJUnitRunner;
 import static org.junit.Assert.*;
 
 @RunWith(MockitoJUnitRunner.class)
-public class OpenHABSitemapTest {
-    private OpenHABSitemap mDemoSitemapWithLabel;
-    private OpenHABSitemap mHomeSitemapWithoutLabel;
+public class SitemapTest {
+    private Sitemap mDemoSitemapWithLabel;
+    private Sitemap mHomeSitemapWithoutLabel;
 
     @Before
     public void initSitemaps() throws JSONException {
         String jsonString = "{\"name\":\"demo\",\"label\":\"Main Menu\",\"link\":\"http://demo.openhab.org:8080/rest/sitemaps/demo\",\"homepage\":{\"link\":\"http://demo.openhab.org:8080/rest/sitemaps/demo/demo\",\"leaf\":false,\"timeout\":false,\"widgets\":[]}}";
         JSONObject jsonObject = new JSONObject(jsonString);
-        mDemoSitemapWithLabel = OpenHABSitemap.fromJson(jsonObject);
+        mDemoSitemapWithLabel = Sitemap.fromJson(jsonObject);
 
         jsonString = "{\"name\":\"home\",\"icon\":\"home\",\"link\":\"http://demo.openhab.org:8080/rest/sitemaps/home\",\"homepage\":{\"link\":\"http://demo.openhab.org:8080/rest/sitemaps/home/home\",\"leaf\":true,\"timeout\":false,\"widgets\":[]}}";
         jsonObject = new JSONObject(jsonString);
-        mHomeSitemapWithoutLabel = OpenHABSitemap.fromJson(jsonObject);
+        mHomeSitemapWithoutLabel = Sitemap.fromJson(jsonObject);
     }
 
     @Test

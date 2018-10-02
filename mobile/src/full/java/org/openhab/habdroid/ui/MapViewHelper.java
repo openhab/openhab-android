@@ -17,30 +17,30 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.core.connection.Connection;
-import org.openhab.habdroid.model.OpenHABItem;
-import org.openhab.habdroid.model.OpenHABWidget;
+import org.openhab.habdroid.model.Item;
+import org.openhab.habdroid.model.Widget;
 import org.openhab.habdroid.util.Util;
 
 import java.util.ArrayList;
 import java.util.Locale;
 
 public class MapViewHelper {
-    public static OpenHABWidgetAdapter.ViewHolder createViewHolder(LayoutInflater inflater,
-            ViewGroup parent, Connection connection, OpenHABWidgetAdapter.ColorMapper colorMapper) {
+    public static WidgetAdapter.ViewHolder createViewHolder(LayoutInflater inflater,
+                                                            ViewGroup parent, Connection connection, WidgetAdapter.ColorMapper colorMapper) {
         MapsInitializer.initialize(inflater.getContext());
         return new GoogleMapsViewHolder(inflater, parent, connection, colorMapper);
     }
 
-    private static class GoogleMapsViewHolder extends OpenHABWidgetAdapter.LabeledItemBaseViewHolder
+    private static class GoogleMapsViewHolder extends WidgetAdapter.LabeledItemBaseViewHolder
             implements GoogleMap.OnMarkerDragListener {
         private final MapView mMapView;
         private final int mRowHeightPixels;
         private GoogleMap mMap;
-        private OpenHABItem mBoundItem;
+        private Item mBoundItem;
         private boolean mStarted;
 
         public GoogleMapsViewHolder(LayoutInflater inflater, ViewGroup parent,
-                Connection connection, OpenHABWidgetAdapter.ColorMapper colorMapper) {
+                Connection connection, WidgetAdapter.ColorMapper colorMapper) {
             super(inflater, parent, R.layout.openhabwidgetlist_mapitem, connection, colorMapper);
 
             mMapView = itemView.findViewById(R.id.mapview);
@@ -61,7 +61,7 @@ public class MapViewHelper {
         }
 
         @Override
-        public void bind(OpenHABWidget widget) {
+        public void bind(Widget widget) {
             super.bind(widget);
 
             ViewGroup.LayoutParams lp = mMapView.getLayoutParams();
@@ -113,7 +113,7 @@ public class MapViewHelper {
         public void onMarkerDragEnd(Marker marker) {
             String newState = String.format(Locale.US, "%f,%f",
                     marker.getPosition().latitude, marker.getPosition().longitude);
-            OpenHABItem item = (OpenHABItem) marker.getTag();
+            Item item = (Item) marker.getTag();
             Util.sendItemCommand(mConnection.getAsyncHttpClient(), item, newState);
         }
 
@@ -147,7 +147,7 @@ public class MapViewHelper {
             boolean canDragMarker = allowDrag && !mBoundItem.readOnly();
             if (!mBoundItem.members().isEmpty()) {
                 ArrayList<LatLng> positions = new ArrayList<>();
-                for (OpenHABItem item : mBoundItem.members()) {
+                for (Item item : mBoundItem.members()) {
                     LatLng position = parseLocation(item.state());
                     if (position != null) {
                         setMarker(map, position, item, item.label(), canDragMarker);
@@ -174,7 +174,7 @@ public class MapViewHelper {
             }
         }
 
-        private static void setMarker(GoogleMap map, LatLng position, OpenHABItem item,
+        private static void setMarker(GoogleMap map, LatLng position, Item item,
                 CharSequence label, boolean canDrag) {
             MarkerOptions marker = new MarkerOptions()
                     .draggable(canDrag)

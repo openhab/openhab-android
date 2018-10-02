@@ -4,12 +4,12 @@ import android.support.annotation.NonNull;
 import android.support.test.espresso.IdlingResource;
 import android.view.View;
 
-public class OpenHABProgressbarIdlingResource implements IdlingResource {
+public class ProgressbarIdlingResource implements IdlingResource {
     private String mName;
     private View mProgressBar;
     private ResourceCallback mCallback;
 
-    public OpenHABProgressbarIdlingResource(@NonNull String name, @NonNull View progressBar) {
+    public ProgressbarIdlingResource(@NonNull String name, @NonNull View progressBar) {
         mName = name;
         mProgressBar = progressBar;
     }

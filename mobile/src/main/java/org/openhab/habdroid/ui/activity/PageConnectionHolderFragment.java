@@ -14,8 +14,9 @@ import com.here.oksse.ServerSentEvent;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.openhab.habdroid.core.connection.Connection;
-import org.openhab.habdroid.model.OpenHABWidget;
-import org.openhab.habdroid.model.OpenHABWidgetDataSource;
+import org.openhab.habdroid.model.Widget;
+import org.openhab.habdroid.model.WidgetDataSource;
+import org.openhab.habdroid.ui.WidgetListFragment;
 import org.openhab.habdroid.util.AsyncHttpClient;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -42,7 +43,7 @@ import okhttp3.Response;
 
 /**
  * Fragment that manages connections for active instances of
- * {@link org.openhab.habdroid.ui.OpenHABWidgetListFragment}
+ * {@link WidgetListFragment}
  *
  * It retains the connections over activity recreations, and takes care of stopping
  * and restarting connections if needed.
@@ -79,7 +80,7 @@ public class PageConnectionHolderFragment extends Fragment {
          * @param pageTitle Updated page title
          * @param widgets   Updated list of widgets for the given page
          */
-        void onPageUpdated(String pageUrl, String pageTitle, List<OpenHABWidget> widgets);
+        void onPageUpdated(String pageUrl, String pageTitle, List<Widget> widgets);
 
         /**
          * Let parent know about an update to the contents of a single widget.
@@ -87,7 +88,7 @@ public class PageConnectionHolderFragment extends Fragment {
          * @param pageUrl  URL of the page the updated widget belongs to
          * @param widget   Updated widget
          */
-        void onWidgetUpdated(String pageUrl, OpenHABWidget widget);
+        void onWidgetUpdated(String pageUrl, Widget widget);
     }
 
     private Map<String, ConnectionHandler> mConnections = new HashMap<>();
@@ -210,7 +211,7 @@ public class PageConnectionHolderFragment extends Fragment {
         private boolean mLongPolling;
         private String mAtmosphereTrackingId;
         private String mLastPageTitle;
-        private List<OpenHABWidget> mLastWidgetList;
+        private List<Widget> mLastWidgetList;
         private EventHelper mEventHelper;
 
         public ConnectionHandler(String pageUrl, Connection connection, ParentCallback cb) {
@@ -313,8 +314,8 @@ public class PageConnectionHolderFragment extends Fragment {
                 return;
             }
 
-            OpenHABWidgetDataSource dataSource =
-                    new OpenHABWidgetDataSource(mCallback.getIconFormat());
+            WidgetDataSource dataSource =
+                    new WidgetDataSource(mCallback.getIconFormat());
             final boolean hasUpdate;
             if (mCallback.serverReturnsJson()) {
                 hasUpdate = parseResponseJson(dataSource, response);
@@ -323,10 +324,10 @@ public class PageConnectionHolderFragment extends Fragment {
             }
 
             if (hasUpdate) {
-                List<OpenHABWidget> widgetList = new ArrayList<>();
-                for (OpenHABWidget w : dataSource.getWidgets()) {
+                List<Widget> widgetList = new ArrayList<>();
+                for (Widget w : dataSource.getWidgets()) {
                     // Remove frame widgets with no label text
-                    if (w.type() == OpenHABWidget.Type.Frame && TextUtils.isEmpty(w.label())) {
+                    if (w.type() == Widget.Type.Frame && TextUtils.isEmpty(w.label())) {
                         continue;
                     }
                     widgetList.add(w);
@@ -341,7 +342,7 @@ public class PageConnectionHolderFragment extends Fragment {
             load();
         }
 
-        private boolean parseResponseXml(OpenHABWidgetDataSource dataSource, String response) {
+        private boolean parseResponseXml(WidgetDataSource dataSource, String response) {
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
             try {
                 DocumentBuilder builder = dbf.newDocumentBuilder();
@@ -362,7 +363,7 @@ public class PageConnectionHolderFragment extends Fragment {
             }
         }
 
-        private boolean parseResponseJson(OpenHABWidgetDataSource dataSource, String response) {
+        private boolean parseResponseJson(WidgetDataSource dataSource, String response) {
             try {
                 JSONObject pageJson = new JSONObject(response);
                 // In case of a server timeout in the long polling request, nothing is done
@@ -389,9 +390,9 @@ public class PageConnectionHolderFragment extends Fragment {
                 JSONObject object = new JSONObject(payload);
                 String widgetId = object.getString("widgetId");
                 for (int i = 0; i < mLastWidgetList.size(); i++) {
-                    OpenHABWidget widget = mLastWidgetList.get(i);
+                    Widget widget = mLastWidgetList.get(i);
                     if (widgetId.equals(widget.id())) {
-                        OpenHABWidget updatedWidget = OpenHABWidget.updateFromEvent(widget,
+                        Widget updatedWidget = Widget.updateFromEvent(widget,
                                 object, mCallback.getIconFormat());
                         mLastWidgetList.set(i, updatedWidget);
                         mCallback.onWidgetUpdated(mUrl, updatedWidget);

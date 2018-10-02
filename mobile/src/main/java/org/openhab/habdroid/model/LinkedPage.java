@@ -22,7 +22,7 @@ import org.w3c.dom.NodeList;
  */
 
 @AutoValue
-public abstract class OpenHABLinkedPage implements Parcelable {
+public abstract class LinkedPage implements Parcelable {
     public abstract String id();
     public abstract String title();
     public abstract String icon();
@@ -35,7 +35,7 @@ public abstract class OpenHABLinkedPage implements Parcelable {
         public abstract Builder icon(String icon);
         public abstract Builder link(String link);
 
-        public OpenHABLinkedPage build() {
+        public LinkedPage build() {
             String title = title();
             if (title.indexOf('[') > 0) {
                 title(title.substring(0, title.indexOf('[')));
@@ -44,10 +44,10 @@ public abstract class OpenHABLinkedPage implements Parcelable {
         }
 
         abstract String title();
-        abstract OpenHABLinkedPage autoBuild();
+        abstract LinkedPage autoBuild();
     }
 
-    public static OpenHABLinkedPage fromXml(Node startNode) {
+    public static LinkedPage fromXml(Node startNode) {
         String id = null, title = null, icon = null, link = null;
 
         if (startNode.hasChildNodes()) {
@@ -63,7 +63,7 @@ public abstract class OpenHABLinkedPage implements Parcelable {
             }
         }
 
-        return new AutoValue_OpenHABLinkedPage.Builder()
+        return new AutoValue_LinkedPage.Builder()
                 .id(id)
                 .title(title)
                 .icon(icon)
@@ -71,11 +71,11 @@ public abstract class OpenHABLinkedPage implements Parcelable {
                 .build();
     }
 
-    public static OpenHABLinkedPage fromJson(JSONObject jsonObject) {
+    public static LinkedPage fromJson(JSONObject jsonObject) {
         if (jsonObject == null) {
             return null;
         }
-        return new AutoValue_OpenHABLinkedPage.Builder()
+        return new AutoValue_LinkedPage.Builder()
                 .id(jsonObject.optString("id", null))
                 .title(jsonObject.optString("title", null))
                 .icon(jsonObject.optString("icon", null))

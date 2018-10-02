@@ -4,7 +4,7 @@ import android.support.multidex.MultiDexApplication;
 
 import org.openhab.habdroid.core.connection.ConnectionFactory;
 
-public class OpenHABApplication extends MultiDexApplication {
+public class HabDroidApplication extends MultiDexApplication {
     @Override
     public void onCreate() {
         super.onCreate();

@@ -22,19 +22,19 @@ import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertNull;
 
 @RunWith(MockitoJUnitRunner.class)
-public class OpenHABWidgetTest {
-    private List<OpenHABWidget> mSutXml = new ArrayList<>();
-    private List<OpenHABWidget> mSut1 = new ArrayList<>();
-    private List<OpenHABWidget> mSut2 = new ArrayList<>();
-    private List<OpenHABWidget> mSut3 = new ArrayList<>();
+public class WidgetTest {
+    private List<Widget> mSutXml = new ArrayList<>();
+    private List<Widget> mSut1 = new ArrayList<>();
+    private List<Widget> mSut2 = new ArrayList<>();
+    private List<Widget> mSut3 = new ArrayList<>();
 
     @Test
     @Before
-    public void parse_createsOpenHABWidget() throws Exception {
-        OpenHABWidget.parseXml(mSutXml, null, createXmlNode());
-        OpenHABWidget.parseJson(mSut1, null, createJSONObject(1), "PNG");
-        OpenHABWidget.parseJson(mSut2, null, createJSONObject(2), "SVG");
-        OpenHABWidget.parseJson(mSut3, null, createJSONObject(3), "SVG");
+    public void parse_createsWidget() throws Exception {
+        Widget.parseXml(mSutXml, null, createXmlNode());
+        Widget.parseJson(mSut1, null, createJSONObject(1), "PNG");
+        Widget.parseJson(mSut2, null, createJSONObject(2), "SVG");
+        Widget.parseJson(mSut3, null, createJSONObject(3), "SVG");
     }
 
     @Test
@@ -115,11 +115,11 @@ public class OpenHABWidgetTest {
 
     @Test
     public void testGetType() {
-        assertEquals(OpenHABWidget.Type.Group, mSut1.get(0).type());
-        assertEquals(OpenHABWidget.Type.Group, mSut2.get(0).type());
-        assertEquals(OpenHABWidget.Type.Frame, mSut3.get(0).type());
-        assertEquals(OpenHABWidget.Type.Switch, mSut3.get(2).type());
-        assertEquals(OpenHABWidget.Type.Group, mSut3.get(3).type());
+        assertEquals(Widget.Type.Group, mSut1.get(0).type());
+        assertEquals(Widget.Type.Group, mSut2.get(0).type());
+        assertEquals(Widget.Type.Frame, mSut3.get(0).type());
+        assertEquals(Widget.Type.Switch, mSut3.get(2).type());
+        assertEquals(Widget.Type.Group, mSut3.get(3).type());
     }
 
     @Test

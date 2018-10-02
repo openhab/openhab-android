@@ -12,10 +12,10 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import static org.openhab.habdroid.ui.OpenHABPreferencesActivity.AbstractSettingsFragment.isWeakPassword;
-import static org.openhab.habdroid.ui.OpenHABPreferencesActivity.MainSettingsFragment.beautifyUrl;
+import static org.openhab.habdroid.ui.PreferencesActivity.AbstractSettingsFragment.isWeakPassword;
+import static org.openhab.habdroid.ui.PreferencesActivity.MainSettingsFragment.beautifyUrl;
 
-public class OpenHABPreferencesActivityTest {
+public class PreferencesActivityTest {
     @Test
     public void testIsWeakPassword() {
         assertTrue(isWeakPassword(""));

@@ -19,7 +19,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 @AutoValue
-public abstract class OpenHABSitemap implements Parcelable {
+public abstract class Sitemap implements Parcelable {
 	public abstract String name();
     public abstract String label();
 	public abstract String link();
@@ -37,10 +37,10 @@ public abstract class OpenHABSitemap implements Parcelable {
         public abstract Builder iconPath(String iconPath);
         public abstract Builder homepageLink(String homepageLink);
 
-        public abstract OpenHABSitemap build();
+        public abstract Sitemap build();
     }
 
-    public static OpenHABSitemap fromXml(Node startNode) {
+    public static Sitemap fromXml(Node startNode) {
         String label = null, name = null, icon = null, link = null, homepageLink = null;
 
         if (startNode.hasChildNodes()) {
@@ -68,7 +68,7 @@ public abstract class OpenHABSitemap implements Parcelable {
             }
         }
 
-        return new AutoValue_OpenHABSitemap.Builder()
+        return new AutoValue_Sitemap.Builder()
                 .name(name)
                 .label(label != null ? label : name)
                 .link(link)
@@ -78,13 +78,13 @@ public abstract class OpenHABSitemap implements Parcelable {
                 .build();
     }
 
-    public static OpenHABSitemap fromJson(JSONObject jsonObject) {
+    public static Sitemap fromJson(JSONObject jsonObject) {
         String name = jsonObject.optString("name", null);
         String label = jsonObject.optString("label", null);
         String icon = jsonObject.optString("icon", null);
         JSONObject homepageObject = jsonObject.optJSONObject("homepage");
 
-        return new AutoValue_OpenHABSitemap.Builder()
+        return new AutoValue_Sitemap.Builder()
                 .name(name)
                 .label(label != null ? label : name)
                 .icon(icon)

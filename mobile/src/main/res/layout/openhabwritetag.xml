@@ -5,7 +5,7 @@
               android:layout_height="match_parent"
               android:layout_gravity="center"
               android:orientation="vertical"
-              tools:context="org.openhab.habdroid.ui.OpenHABWriteTagActivity">
+              tools:context="org.openhab.habdroid.ui.WriteTagActivity">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/openhab_toolbar"

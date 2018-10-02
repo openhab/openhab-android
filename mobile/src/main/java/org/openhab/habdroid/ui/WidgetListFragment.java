@@ -24,10 +24,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import org.openhab.habdroid.R;
-import org.openhab.habdroid.model.OpenHABItem;
-import org.openhab.habdroid.model.OpenHABLabeledValue;
-import org.openhab.habdroid.model.OpenHABLinkedPage;
-import org.openhab.habdroid.model.OpenHABWidget;
+import org.openhab.habdroid.model.Item;
+import org.openhab.habdroid.model.LabeledValue;
+import org.openhab.habdroid.model.LinkedPage;
+import org.openhab.habdroid.model.Widget;
 import org.openhab.habdroid.util.CacheManager;
 import org.openhab.habdroid.util.Util;
 
@@ -40,18 +40,18 @@ import java.util.Locale;
  * widgets from sitemap page with further navigation through sitemap and everything else!
  */
 
-public class OpenHABWidgetListFragment extends Fragment
-        implements OpenHABWidgetAdapter.ItemClickListener {
-    private static final String TAG = OpenHABWidgetListFragment.class.getSimpleName();
+public class WidgetListFragment extends Fragment
+        implements WidgetAdapter.ItemClickListener {
+    private static final String TAG = WidgetListFragment.class.getSimpleName();
 
     @VisibleForTesting
     public RecyclerView mRecyclerView;
     private LinearLayoutManager mLayoutManager;
-    private OpenHABWidgetAdapter mAdapter;
+    private WidgetAdapter mAdapter;
     // Url of current sitemap page displayed
     private String mPageUrl;
     // parent activity
-    private OpenHABMainActivity mActivity;
+    private MainActivity mActivity;
     private boolean mIsVisible = false;
     private String mTitle;
     private SwipeRefreshLayout mRefreshLayout;
@@ -79,15 +79,15 @@ public class OpenHABWidgetListFragment extends Fragment
         super.onActivityCreated(savedInstanceState);
         Log.d(TAG, "onActivityCreated()");
         Log.d(TAG, "isAdded = " + isAdded());
-        mActivity = (OpenHABMainActivity) getActivity();
+        mActivity = (MainActivity) getActivity();
 
-        mAdapter = new OpenHABWidgetAdapter(mActivity, mActivity.getConnection(), this);
+        mAdapter = new WidgetAdapter(mActivity, mActivity.getConnection(), this);
 
         mLayoutManager = new LinearLayoutManager(mActivity);
         mLayoutManager.setRecycleChildrenOnDetach(true);
 
         mRecyclerView.setRecycledViewPool(mActivity.getViewPool());
-        mRecyclerView.addItemDecoration(new OpenHABWidgetAdapter.WidgetItemDecoration(mActivity));
+        mRecyclerView.addItemDecoration(new WidgetAdapter.WidgetItemDecoration(mActivity));
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
     }
@@ -99,15 +99,15 @@ public class OpenHABWidgetListFragment extends Fragment
     }
 
     @Override
-    public void onItemClicked(OpenHABWidget openHABWidget) {
-        OpenHABLinkedPage linkedPage = openHABWidget.linkedPage();
+    public void onItemClicked(Widget widget) {
+        LinkedPage linkedPage = widget.linkedPage();
         if (mActivity != null && linkedPage != null) {
-            mActivity.onWidgetSelected(linkedPage, OpenHABWidgetListFragment.this);
+            mActivity.onWidgetSelected(linkedPage, WidgetListFragment.this);
         }
     }
 
     @Override
-    public void onItemLongClicked(final OpenHABWidget widget) {
+    public void onItemLongClicked(final Widget widget) {
         Log.d(TAG, "Widget type = " + widget.type());
 
         ArrayList<String> labels = new ArrayList<>();
@@ -117,21 +117,21 @@ public class OpenHABWidgetListFragment extends Fragment
             // If the widget has mappings, we will populate names and commands with
             // values from those mappings
             if (widget.hasMappingsOrItemOptions()) {
-                for (OpenHABLabeledValue mapping : widget.getMappingsOrItemOptions()) {
+                for (LabeledValue mapping : widget.getMappingsOrItemOptions()) {
                     labels.add(mapping.label());
                     commands.add(mapping.value());
                 }
                 // Else we only can do it for Switch widget with On/Off/Toggle commands
-            } else if (widget.type() == OpenHABWidget.Type.Switch) {
-                OpenHABItem item = widget.item();
-                if (item.isOfTypeOrGroupType(OpenHABItem.Type.Switch)) {
+            } else if (widget.type() == Widget.Type.Switch) {
+                Item item = widget.item();
+                if (item.isOfTypeOrGroupType(Item.Type.Switch)) {
                     labels.add(getString(R.string.nfc_action_on));
                     commands.add("ON");
                     labels.add(getString(R.string.nfc_action_off));
                     commands.add("OFF");
                     labels.add(getString(R.string.nfc_action_toggle));
                     commands.add("TOGGLE");
-                } else if (item.isOfTypeOrGroupType(OpenHABItem.Type.Rollershutter)) {
+                } else if (item.isOfTypeOrGroupType(Item.Type.Rollershutter)) {
                     labels.add(getString(R.string.nfc_action_up));
                     commands.add("UP");
                     labels.add(getString(R.string.nfc_action_down));
@@ -139,7 +139,7 @@ public class OpenHABWidgetListFragment extends Fragment
                     labels.add(getString(R.string.nfc_action_toggle));
                     commands.add("TOGGLE");
                 }
-            } else if (widget.type() == OpenHABWidget.Type.Colorpicker) {
+            } else if (widget.type() == Widget.Type.Colorpicker) {
                 labels.add(getString(R.string.nfc_action_on));
                 commands.add("ON");
                 labels.add(getString(R.string.nfc_action_off));
@@ -156,7 +156,7 @@ public class OpenHABWidgetListFragment extends Fragment
         new AlertDialog.Builder(getActivity())
                 .setTitle(R.string.nfc_dialog_title)
                 .setItems(labelArray, (dialog, which) -> {
-                    Intent writeTagIntent = new Intent(getActivity(), OpenHABWriteTagActivity.class);
+                    Intent writeTagIntent = new Intent(getActivity(), WriteTagActivity.class);
                     writeTagIntent.putExtra("sitemapPage", mPageUrl);
 
                     if (which < labelArray.length - 1) {
@@ -221,9 +221,9 @@ public class OpenHABWidgetListFragment extends Fragment
         Log.d(TAG, String.format("isVisibleToUser(%B)", isVisibleToUser));
     }
 
-    public static OpenHABWidgetListFragment withPage(String pageUrl, String pageTitle) {
+    public static WidgetListFragment withPage(String pageUrl, String pageTitle) {
         Log.d(TAG, "withPage(" + pageUrl + ")");
-        OpenHABWidgetListFragment fragment = new OpenHABWidgetListFragment();
+        WidgetListFragment fragment = new WidgetListFragment();
         Bundle args = new Bundle();
         args.putString("displayPageUrl", pageUrl);
         args.putString("title", pageTitle);
@@ -238,7 +238,7 @@ public class OpenHABWidgetListFragment extends Fragment
         }
         if (highlightedPageLink != null) {
             for (int i = 0; i < mAdapter.getItemCount(); i++) {
-                OpenHABLinkedPage page = mAdapter.getItem(i).linkedPage();
+                LinkedPage page = mAdapter.getItem(i).linkedPage();
                 if (page != null && highlightedPageLink.equals(page.link())) {
                     if (mAdapter.setSelectedPosition(i)) {
                         mLayoutManager.scrollToPosition(i);
@@ -251,7 +251,7 @@ public class OpenHABWidgetListFragment extends Fragment
         mAdapter.setSelectedPosition(-1);
     }
 
-    public void update(String pageTitle, List<OpenHABWidget> widgets) {
+    public void update(String pageTitle, List<Widget> widgets) {
         mTitle = pageTitle;
 
         if (mAdapter != null) {
@@ -264,7 +264,7 @@ public class OpenHABWidgetListFragment extends Fragment
         }
     }
 
-    public void updateWidget(OpenHABWidget widget) {
+    public void updateWidget(Widget widget) {
         if (mAdapter != null) {
             mAdapter.updateWidget(widget);
         }
@@ -285,8 +285,8 @@ public class OpenHABWidgetListFragment extends Fragment
         final int firstVisibleItemPosition = mLayoutManager.findFirstVisibleItemPosition();
         final int lastVisibleItemPosition = mLayoutManager.findLastVisibleItemPosition();
         for (int i = firstVisibleItemPosition; i <= lastVisibleItemPosition; ++i) {
-            OpenHABWidgetAdapter.ViewHolder holder =
-                    (OpenHABWidgetAdapter.ViewHolder) mRecyclerView.findViewHolderForAdapterPosition(i);
+            WidgetAdapter.ViewHolder holder =
+                    (WidgetAdapter.ViewHolder) mRecyclerView.findViewHolderForAdapterPosition(i);
             if (holder != null) {
                 holder.stop();
             }

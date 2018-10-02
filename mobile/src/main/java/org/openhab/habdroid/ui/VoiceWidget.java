@@ -18,7 +18,7 @@ import android.speech.RecognizerIntent;
 import android.widget.RemoteViews;
 
 import org.openhab.habdroid.R;
-import org.openhab.habdroid.core.OpenHABVoiceService;
+import org.openhab.habdroid.core.VoiceService;
 
 /**
  * Implementation of App Widget functionality.
@@ -47,7 +47,7 @@ public class VoiceWidget extends AppWidgetProvider {
         // Construct the RemoteViews object
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.voice_widget);
 
-        Intent callbackIntent = new Intent(context, OpenHABVoiceService.class);
+        Intent callbackIntent = new Intent(context, VoiceService.class);
         PendingIntent callbackPendingIntent = PendingIntent.getService(context,
                 9, callbackIntent, 0);
 
@@ -62,7 +62,7 @@ public class VoiceWidget extends AppWidgetProvider {
         PendingIntent speechPendingIntent = PendingIntent.getActivity(context, 6, speechIntent, 0);
         views.setOnClickPendingIntent(R.id.btn_mic, speechPendingIntent);
 
-        Intent mainIntent = new Intent(context, OpenHABMainActivity.class);
+        Intent mainIntent = new Intent(context, MainActivity.class);
         PendingIntent mainPendingIntent = PendingIntent.getActivity(context, 8, mainIntent, 0);
         views.setOnClickPendingIntent(R.id.btn_open_main, mainPendingIntent);
 

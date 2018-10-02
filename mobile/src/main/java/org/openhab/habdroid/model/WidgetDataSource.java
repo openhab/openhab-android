@@ -26,17 +26,17 @@ import java.util.List;
  * It uses a sitemap page XML document to create a list of widgets
  */
 
-public class OpenHABWidgetDataSource {
-    private static final String TAG = OpenHABWidgetDataSource.class.getSimpleName();
+public class WidgetDataSource {
+    private static final String TAG = WidgetDataSource.class.getSimpleName();
 
     private final String mIconFormat;
-    private final List<OpenHABWidget> mAllWidgets = new ArrayList<>();
+    private final List<Widget> mAllWidgets = new ArrayList<>();
     private String mTitle;
     private String mId;
     private String mIcon;
     private String mLink;
 
-    public OpenHABWidgetDataSource(String iconFormat) {
+    public WidgetDataSource(String iconFormat) {
         mIconFormat = iconFormat;
     }
 
@@ -49,7 +49,7 @@ public class OpenHABWidgetDataSource {
             for (int i = 0; i < childNodes.getLength(); i++) {
                 Node childNode = childNodes.item(i);
                 switch (childNode.getNodeName()) {
-                    case "widget": OpenHABWidget.parseXml(mAllWidgets, null, childNode); break;
+                    case "widget": Widget.parseXml(mAllWidgets, null, childNode); break;
                     case "title": mTitle = childNode.getTextContent(); break;
                     case "id": mId = childNode.getTextContent(); break;
                     case "icon": mIcon = childNode.getTextContent(); break;
@@ -67,7 +67,7 @@ public class OpenHABWidgetDataSource {
             JSONArray jsonWidgetArray = jsonObject.getJSONArray("widgets");
             for (int i = 0; i < jsonWidgetArray.length(); i++) {
                 JSONObject widgetJson = jsonWidgetArray.getJSONObject(i);
-                OpenHABWidget.parseJson(mAllWidgets, null, widgetJson, mIconFormat);
+                Widget.parseJson(mAllWidgets, null, widgetJson, mIconFormat);
             }
             mTitle = jsonObject.optString("title", null);
             mId = jsonObject.optString("id", null);
@@ -78,15 +78,15 @@ public class OpenHABWidgetDataSource {
         }
     }
 
-    public ArrayList<OpenHABWidget> getWidgets() {
-        ArrayList<OpenHABWidget> result = new ArrayList<>();
+    public ArrayList<Widget> getWidgets() {
+        ArrayList<Widget> result = new ArrayList<>();
         HashSet<String> firstLevelWidgetIds = new HashSet<>();
-        for (OpenHABWidget widget : mAllWidgets) {
+        for (Widget widget : mAllWidgets) {
             if (widget.parentId() == null) {
                 firstLevelWidgetIds.add(widget.id());
             }
         }
-        for (OpenHABWidget widget : mAllWidgets) {
+        for (Widget widget : mAllWidgets) {
             String parentId = widget.parentId();
             if (parentId == null || firstLevelWidgetIds.contains(parentId)) {
                 result.add(widget);

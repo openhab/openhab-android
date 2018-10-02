@@ -49,13 +49,13 @@ import static org.openhab.habdroid.util.Util.getHostFromUrl;
 /**
  * This is a class to provide preferences activity for application.
  */
-public class OpenHABPreferencesActivity extends AppCompatActivity {
+public class PreferencesActivity extends AppCompatActivity {
     public static final String RESULT_EXTRA_THEME_CHANGED = "theme_changed";
     public static final String RESULT_EXTRA_SITEMAP_CLEARED = "sitemap_cleared";
     public static final String START_EXTRA_SERVER_PROPERTIES = "server_properties";
     private static final String STATE_KEY_RESULT = "result";
 
-    private static final String TAG = OpenHABPreferencesActivity.class.getSimpleName();
+    private static final String TAG = PreferencesActivity.class.getSimpleName();
     private Intent mResultIntent;
 
     @Override
@@ -139,8 +139,8 @@ public class OpenHABPreferencesActivity extends AppCompatActivity {
 
         protected abstract @StringRes int getTitleResId();
 
-        protected OpenHABPreferencesActivity getParentActivity() {
-            return (OpenHABPreferencesActivity) getActivity();
+        protected PreferencesActivity getParentActivity() {
+            return (PreferencesActivity) getActivity();
         }
 
         protected String getPreferenceString(Preference preference, String defValue) {

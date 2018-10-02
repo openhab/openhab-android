@@ -63,7 +63,7 @@ import android.widget.Toast;
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.core.CloudMessagingHelper;
 import org.openhab.habdroid.core.OnUpdateBroadcastReceiver;
-import org.openhab.habdroid.core.OpenHABVoiceService;
+import org.openhab.habdroid.core.VoiceService;
 import org.openhab.habdroid.core.connection.CloudConnection;
 import org.openhab.habdroid.core.connection.Connection;
 import org.openhab.habdroid.core.connection.ConnectionFactory;
@@ -71,8 +71,8 @@ import org.openhab.habdroid.core.connection.DemoConnection;
 import org.openhab.habdroid.core.connection.exception.ConnectionException;
 import org.openhab.habdroid.core.connection.exception.NetworkNotSupportedException;
 import org.openhab.habdroid.core.connection.exception.NoUrlInformationException;
-import org.openhab.habdroid.model.OpenHABLinkedPage;
-import org.openhab.habdroid.model.OpenHABSitemap;
+import org.openhab.habdroid.model.LinkedPage;
+import org.openhab.habdroid.model.Sitemap;
 import org.openhab.habdroid.model.ServerProperties;
 import org.openhab.habdroid.ui.activity.ContentController;
 import org.openhab.habdroid.util.AsyncServiceResolver;
@@ -103,13 +103,13 @@ import okhttp3.Request;
 import static org.openhab.habdroid.util.Util.exceptionHasCause;
 import static org.openhab.habdroid.util.Util.getHostFromUrl;
 
-public class OpenHABMainActivity extends AppCompatActivity implements
+public class MainActivity extends AppCompatActivity implements
         AsyncServiceResolver.Listener, ConnectionFactory.UpdateListener {
     public static final String ACTION_NOTIFICATION_SELECTED =
             "org.openhab.habdroid.action.NOTIFICATION_SELECTED";
     public static final String EXTRA_PERSISTED_NOTIFICATION_ID = "persistedNotificationId";
 
-    private static final String TAG = OpenHABMainActivity.class.getSimpleName();
+    private static final String TAG = MainActivity.class.getSimpleName();
 
     // Activities request codes
     private static final int INTRO_REQUEST_CODE = 1001;
@@ -133,7 +133,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
 
     private Uri mPendingNfcData;
     private String mPendingOpenedNotificationId;
-    private OpenHABSitemap mSelectedSitemap;
+    private Sitemap mSelectedSitemap;
     private ContentController mController;
     private ServerProperties mServerProperties;
     private ServerProperties.UpdateHandle mPropsUpdateHandle;
@@ -182,7 +182,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         String controllerClassName = getResources().getString(R.string.controller_class);
         try {
             Class<?> controllerClass = Class.forName(controllerClassName);
-            Constructor<?> constructor = controllerClass.getConstructor(OpenHABMainActivity.class);
+            Constructor<?> constructor = controllerClass.getConstructor(MainActivity.class);
             mController = (ContentController) constructor.newInstance(this);
         } catch (Exception e) {
             Log.wtf(TAG, "Could not instantiate activity controller class '"
@@ -245,7 +245,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         //  If the activity has never started before...
         if (isFirstStart) {
             //  Launch app intro
-            final Intent i = new Intent(OpenHABMainActivity.this, IntroActivity.class);
+            final Intent i = new Intent(MainActivity.this, IntroActivity.class);
             startActivityForResult(i, INTRO_REQUEST_CODE);
 
             prefsEditor.putBoolean("firstStart", false);
@@ -288,7 +288,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
                 mController.indicateServerCommunicationFailure(
                         getString(R.string.error_empty_sitemap_list));
             } else {
-                OpenHABSitemap sitemap = selectConfiguredSitemapFromList();
+                Sitemap sitemap = selectConfiguredSitemapFromList();
                 if (sitemap != null) {
                     openSitemap(sitemap);
                 } else {
@@ -305,11 +305,11 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         Log.d(TAG, "Service resolved: "
                 + serviceInfo.getHostAddresses()[0]
                 + " port:" + serviceInfo.getPort());
-        String openHABUrl = "https://" + serviceInfo.getHostAddresses()[0] + ":" +
+        String serverUrl = "https://" + serviceInfo.getHostAddresses()[0] + ":" +
                 String.valueOf(serviceInfo.getPort()) + "/";
 
         PreferenceManager.getDefaultSharedPreferences(this).edit()
-                .putString(Constants.PREFERENCE_LOCAL_URL, openHABUrl).apply();
+                .putString(Constants.PREFERENCE_LOCAL_URL, serverUrl).apply();
         // We'll get a connection update later
         mServiceResolver = null;
     }
@@ -523,7 +523,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
                 if (mServerProperties != null && mPropsUpdateHandle == null) {
                     mPropsUpdateHandle = ServerProperties.updateSitemaps(mServerProperties, mConnection,
                             props -> { mServerProperties = props; updateSitemapDrawerItems(); },
-                            OpenHABMainActivity.this::handlePropertyFetchFailure);
+                            MainActivity.this::handlePropertyFetchFailure);
                 }
             }
         });
@@ -550,9 +550,9 @@ public class OpenHABMainActivity extends AppCompatActivity implements
                     openNotifications(null);
                     return true;
                 case R.id.settings:
-                    Intent settingsIntent = new Intent(OpenHABMainActivity.this,
-                            OpenHABPreferencesActivity.class);
-                    settingsIntent.putExtra(OpenHABPreferencesActivity.START_EXTRA_SERVER_PROPERTIES,
+                    Intent settingsIntent = new Intent(MainActivity.this,
+                            PreferencesActivity.class);
+                    settingsIntent.putExtra(PreferencesActivity.START_EXTRA_SERVER_PROPERTIES,
                             mServerProperties);
                     startActivityForResult(settingsIntent, SETTINGS_REQUEST_CODE);
                     return true;
@@ -561,7 +561,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
                     return true;
             }
             if (item.getGroupId() == GROUP_ID_SITEMAPS) {
-                OpenHABSitemap sitemap = mServerProperties.sitemaps().get(item.getItemId());
+                Sitemap sitemap = mServerProperties.sitemaps().get(item.getItemId());
                 openSitemap(sitemap);
                 return true;
             }
@@ -581,7 +581,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         } else {
             final String defaultSitemapName =
                     mPrefs.getString(Constants.PREFERENCE_SITEMAP_NAME, "");
-            final List<OpenHABSitemap> sitemaps = mServerProperties.sitemaps();
+            final List<Sitemap> sitemaps = mServerProperties.sitemaps();
             Util.sortSitemapList(sitemaps, defaultSitemapName);
 
             if (sitemaps.isEmpty()) {
@@ -592,7 +592,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
                 menu.clear();
 
                 for (int i = 0; i < sitemaps.size(); i++) {
-                    OpenHABSitemap sitemap = sitemaps.get(i);
+                    Sitemap sitemap = sitemaps.get(i);
                     MenuItem item = menu.add(GROUP_ID_SITEMAPS, i, i, sitemap.label());
                     loadSitemapIcon(sitemap, item);
                 }
@@ -600,7 +600,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         }
     }
 
-    private void loadSitemapIcon(final OpenHABSitemap sitemap, final MenuItem item) {
+    private void loadSitemapIcon(final Sitemap sitemap, final MenuItem item) {
         final String url = sitemap.icon() != null ? Uri.encode(sitemap.iconPath(), "/?=") : null;
         Drawable defaultIcon = ContextCompat.getDrawable(this, R.drawable.ic_openhab_appicon_24dp);
         item.setIcon(applyDrawerIconTint(defaultIcon));
@@ -674,12 +674,12 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         Util.overridePendingTransition(this, false);
     }
 
-    private OpenHABSitemap selectConfiguredSitemapFromList() {
+    private Sitemap selectConfiguredSitemapFromList() {
         SharedPreferences settings =
                 PreferenceManager.getDefaultSharedPreferences(this);
         String configuredSitemap = settings.getString(Constants.PREFERENCE_SITEMAP_NAME, "");
-        List<OpenHABSitemap> sitemaps = mServerProperties.sitemaps();
-        final OpenHABSitemap result;
+        List<Sitemap> sitemaps = mServerProperties.sitemaps();
+        final Sitemap result;
 
         if (sitemaps.size() == 1) {
             // We only have one sitemap, use it
@@ -721,7 +721,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
             return;
         }
 
-        List<OpenHABSitemap> sitemaps = mServerProperties.sitemaps();
+        List<Sitemap> sitemaps = mServerProperties.sitemaps();
         final String[] sitemapLabels = new String[sitemaps.size()];
         for (int i = 0; i < sitemaps.size(); i++) {
             sitemapLabels[i] = sitemaps.get(i).label();
@@ -729,9 +729,9 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         mSitemapSelectionDialog = new AlertDialog.Builder(this)
                 .setTitle(R.string.mainmenu_openhab_selectsitemap)
                 .setItems(sitemapLabels, (dialog, which) -> {
-                    OpenHABSitemap sitemap = sitemaps.get(which);
+                    Sitemap sitemap = sitemaps.get(which);
                     Log.d(TAG, "Selected sitemap " + sitemap);
-                    PreferenceManager.getDefaultSharedPreferences(OpenHABMainActivity.this)
+                    PreferenceManager.getDefaultSharedPreferences(MainActivity.this)
                             .edit()
                             .putString(Constants.PREFERENCE_SITEMAP_NAME, sitemap.name())
                             .putString(Constants.PREFERENCE_SITEMAP_LABEL, sitemap.label())
@@ -746,7 +746,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         mDrawerToggle.setDrawerIndicatorEnabled(false);
     }
 
-    private void openSitemap(OpenHABSitemap sitemap) {
+    private void openSitemap(Sitemap sitemap) {
         Log.i(TAG, "Opening sitemap " + sitemap + ", currently selected " + mSelectedSitemap);
         if (mSelectedSitemap != null && mSelectedSitemap.equals(sitemap)) {
             return;
@@ -807,15 +807,15 @@ public class OpenHABMainActivity extends AppCompatActivity implements
                 if (data == null) {
                     break;
                 }
-                if (data.getBooleanExtra(OpenHABPreferencesActivity.RESULT_EXTRA_SITEMAP_CLEARED, false)) {
-                    OpenHABSitemap sitemap = selectConfiguredSitemapFromList();
+                if (data.getBooleanExtra(PreferencesActivity.RESULT_EXTRA_SITEMAP_CLEARED, false)) {
+                    Sitemap sitemap = selectConfiguredSitemapFromList();
                     if (sitemap != null) {
                         openSitemap(sitemap);
                     } else {
                         showSitemapSelectionDialog();
                     }
                 }
-                if (data.getBooleanExtra(OpenHABPreferencesActivity.RESULT_EXTRA_THEME_CHANGED, false)) {
+                if (data.getBooleanExtra(PreferencesActivity.RESULT_EXTRA_THEME_CHANGED, false)) {
                     recreate();
                 }
                 break;
@@ -854,7 +854,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         openNotificationsPageIfNeeded();
     }
 
-    public void onWidgetSelected(OpenHABLinkedPage linkedPage, OpenHABWidgetListFragment source) {
+    public void onWidgetSelected(LinkedPage linkedPage, WidgetListFragment source) {
         Log.d(TAG, "Got widget link = " + linkedPage.link());
         mController.openPage(linkedPage, source);
     }
@@ -886,7 +886,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
     }
 
     private void launchVoiceRecognition() {
-        Intent callbackIntent = new Intent(this, OpenHABVoiceService.class);
+        Intent callbackIntent = new Intent(this, VoiceService.class);
         PendingIntent openhabPendingIntent = PendingIntent.getService(this, 0, callbackIntent, 0);
 
         Intent speechIntent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
@@ -982,7 +982,7 @@ public class OpenHABMainActivity extends AppCompatActivity implements
         }
 
         SharedPreferences settings =
-                PreferenceManager.getDefaultSharedPreferences(OpenHABMainActivity.this);
+                PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
         if (settings.getBoolean(Constants.PREFERENCE_DEBUG_MESSAGES, false)) {
             SpannableStringBuilder builder = new SpannableStringBuilder(message);
             int detailsStart = builder.length();

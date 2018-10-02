@@ -32,7 +32,7 @@ import com.google.android.gms.gcm.GcmListenerService;
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.core.connection.Connection;
 import org.openhab.habdroid.core.connection.ConnectionFactory;
-import org.openhab.habdroid.ui.OpenHABMainActivity;
+import org.openhab.habdroid.ui.MainActivity;
 import org.openhab.habdroid.util.Constants;
 import org.openhab.habdroid.util.SyncHttpClient;
 
@@ -107,11 +107,11 @@ public class GcmMessageListenerService extends GcmListenerService {
     }
 
     private PendingIntent makeNotificationClickIntent(String persistedId, int notificationId) {
-        Intent contentIntent = new Intent(this, OpenHABMainActivity.class)
-                .setAction(OpenHABMainActivity.ACTION_NOTIFICATION_SELECTED)
+        Intent contentIntent = new Intent(this, MainActivity.class)
+                .setAction(MainActivity.ACTION_NOTIFICATION_SELECTED)
                 .setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP)
                 .putExtra(EXTRA_NOTIFICATION_ID, notificationId)
-                .putExtra(OpenHABMainActivity.EXTRA_PERSISTED_NOTIFICATION_ID, persistedId);
+                .putExtra(MainActivity.EXTRA_PERSISTED_NOTIFICATION_ID, persistedId);
         return PendingIntent.getActivity(this, notificationId,
                 contentIntent, PendingIntent.FLAG_UPDATE_CURRENT);
     }

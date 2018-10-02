@@ -30,7 +30,7 @@ import org.json.JSONObject;
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.core.connection.Connection;
 import org.openhab.habdroid.core.connection.ConnectionFactory;
-import org.openhab.habdroid.model.OpenHABNotification;
+import org.openhab.habdroid.model.CloudNotification;
 import org.openhab.habdroid.ui.widget.DividerItemDecoration;
 import org.openhab.habdroid.util.AsyncHttpClient;
 import org.openhab.habdroid.util.Util;
@@ -42,18 +42,18 @@ import okhttp3.Call;
 import okhttp3.Headers;
 import okhttp3.Request;
 
-public class OpenHABNotificationFragment extends Fragment implements
+public class CloudNotificationListFragment extends Fragment implements
         View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
 
-    private static final String TAG = OpenHABNotificationFragment.class.getSimpleName();
+    private static final String TAG = CloudNotificationListFragment.class.getSimpleName();
 
     private static final int PAGE_SIZE = 20;
 
-    private OpenHABMainActivity mActivity;
+    private MainActivity mActivity;
     // keeps track of current request to cancel it in onPause
     private Call mRequestHandle;
 
-    private OpenHABNotificationAdapter mNotificationAdapter;
+    private CloudNotificationAdapter mNotificationAdapter;
     private String mInitiallyHighlightedId;
 
     private RecyclerView mRecyclerView;
@@ -65,8 +65,8 @@ public class OpenHABNotificationFragment extends Fragment implements
     private View mRetryButton;
     private int mLoadOffset;
 
-    public static OpenHABNotificationFragment newInstance(@Nullable String highlightedId) {
-        OpenHABNotificationFragment f = new OpenHABNotificationFragment();
+    public static CloudNotificationListFragment newInstance(@Nullable String highlightedId) {
+        CloudNotificationListFragment f = new CloudNotificationListFragment();
         Bundle args = new Bundle();
         args.putString("highlightedId", highlightedId);
         f.setArguments(args);
@@ -77,7 +77,7 @@ public class OpenHABNotificationFragment extends Fragment implements
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public OpenHABNotificationFragment() {
+    public CloudNotificationListFragment() {
     }
 
     @Override
@@ -102,8 +102,8 @@ public class OpenHABNotificationFragment extends Fragment implements
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mActivity = (OpenHABMainActivity) getActivity();
-        mNotificationAdapter = new OpenHABNotificationAdapter(mActivity,
+        mActivity = (MainActivity) getActivity();
+        mNotificationAdapter = new CloudNotificationAdapter(mActivity,
                 () -> loadNotifications(false));
         mLayoutManager = new LinearLayoutManager(mActivity);
 
@@ -172,11 +172,11 @@ public class OpenHABNotificationFragment extends Fragment implements
             @Override
             public void onSuccess(String responseBody, Headers headers) {
                 try {
-                    ArrayList<OpenHABNotification> items = new ArrayList<>();
+                    ArrayList<CloudNotification> items = new ArrayList<>();
                     JSONArray jsonArray = new JSONArray(responseBody);
                     for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject sitemapJson = jsonArray.getJSONObject(i);
-                        items.add(OpenHABNotification.fromJson(sitemapJson));
+                        items.add(CloudNotification.fromJson(sitemapJson));
                     }
                     Log.d(TAG, "Notifications request success, got " + items.size() + " items");
                     mLoadOffset += items.size();

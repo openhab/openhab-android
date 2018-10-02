@@ -9,7 +9,7 @@ import org.junit.Test;
 import static junit.framework.Assert.assertEquals;
 
 import org.openhab.habdroid.R;
-import org.openhab.habdroid.ui.OpenHABWidgetAdapter.ColorMapper;
+import org.openhab.habdroid.ui.WidgetAdapter.ColorMapper;
 
 public class WidgetAdapterTest {
     private Context mContext = InstrumentationRegistry.getTargetContext();

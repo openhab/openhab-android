@@ -48,8 +48,8 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-public class OpenHABWriteTagActivity extends AppCompatActivity {
-    private static final String TAG = OpenHABWriteTagActivity.class.getSimpleName();
+public class WriteTagActivity extends AppCompatActivity {
+    private static final String TAG = WriteTagActivity.class.getSimpleName();
 
     private NfcAdapter mNfcAdapter;
     private String mSitemapPage;
