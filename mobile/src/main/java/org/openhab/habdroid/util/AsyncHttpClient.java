@@ -22,10 +22,6 @@ import android.support.annotation.NonNull;
 import com.caverock.androidsvg.SVG;
 import com.caverock.androidsvg.SVGParseException;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Map;
-
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Headers;
@@ -35,21 +31,26 @@ import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Map;
+
 public class AsyncHttpClient extends HttpClient {
     public interface ResponseHandler<T> {
-        T convertBodyInBackground(ResponseBody body) throws IOException; // called in background thread
+        // called in background thread
+        T convertBodyInBackground(ResponseBody body) throws IOException;
         void onFailure(Request request, int statusCode, Throwable error);
         void onSuccess(T body, Headers headers);
     }
 
-    public static abstract class StringResponseHandler implements ResponseHandler<String> {
+    public abstract static class StringResponseHandler implements ResponseHandler<String> {
         @Override
         public String convertBodyInBackground(ResponseBody body) throws IOException {
             return body.string();
         }
     }
 
-    public static abstract class BitmapResponseHandler implements ResponseHandler<Bitmap> {
+    public abstract static class BitmapResponseHandler implements ResponseHandler<Bitmap> {
         private final int mDefaultSize;
 
         public BitmapResponseHandler(int defaultSizePx) {
@@ -59,11 +60,11 @@ public class AsyncHttpClient extends HttpClient {
         @Override
         public Bitmap convertBodyInBackground(ResponseBody body) throws IOException {
             MediaType contentType = body.contentType();
-            boolean isSVG = contentType != null
+            boolean isSvg = contentType != null
                     && contentType.type().equals("image")
                     && contentType.subtype().contains("svg");
             InputStream is = body.byteStream();
-            if (isSVG) {
+            if (isSvg) {
                 try {
                     return getBitmapFromSvgInputstream(is);
                 } catch (SVGParseException e) {
@@ -109,7 +110,8 @@ public class AsyncHttpClient extends HttpClient {
                 CachingMode.AVOID_CACHE, responseHandler);
     }
 
-    public <T> Call get(String url, Map<String, String> headers, ResponseHandler<T> responseHandler) {
+    public <T> Call get(String url, Map<String, String> headers,
+            ResponseHandler<T> responseHandler) {
         return method(url, "GET", headers, null, null, DEFAULT_TIMEOUT_MS,
                 CachingMode.AVOID_CACHE, responseHandler);
     }
@@ -125,7 +127,8 @@ public class AsyncHttpClient extends HttpClient {
         return method(url, "GET", null, null, null, timeoutMillis, caching, responseHandler);
     }
 
-    public Call post(String url, String requestBody, String mediaType, StringResponseHandler responseHandler) {
+    public Call post(String url, String requestBody, String mediaType,
+            StringResponseHandler responseHandler) {
         return method(url, "POST", null, requestBody,
                 mediaType, DEFAULT_TIMEOUT_MS, CachingMode.AVOID_CACHE, responseHandler);
     }
@@ -133,7 +136,8 @@ public class AsyncHttpClient extends HttpClient {
     private <T> Call method(String url, String method, Map<String, String> headers,
             String requestBody, String mediaType, long timeoutMillis, CachingMode caching,
             final ResponseHandler<T> responseHandler) {
-        Call call = prepareCall(url, method, headers, requestBody, mediaType, timeoutMillis, caching);
+        Call call = prepareCall(url, method, headers,
+                requestBody, mediaType, timeoutMillis, caching);
         call.enqueue(new Callback() {
             @Override
             public void onFailure(@NonNull final Call call, final IOException e) {

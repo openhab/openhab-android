@@ -23,7 +23,7 @@ public abstract class LabeledValue implements Parcelable {
     }
 
     @AutoValue.Builder
-    public static abstract class Builder {
+    public abstract static class Builder {
         public abstract Builder value(String value);
         public abstract Builder label(String label);
 

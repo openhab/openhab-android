@@ -53,6 +53,8 @@ import com.larswerkman.holocolorpicker.ColorPicker;
 import com.larswerkman.holocolorpicker.SaturationBar;
 import com.larswerkman.holocolorpicker.ValueBar;
 
+import okhttp3.HttpUrl;
+
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.core.connection.Connection;
 import org.openhab.habdroid.model.Item;
@@ -73,8 +75,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Random;
-
-import okhttp3.HttpUrl;
 
 /**
  * This class provides openHAB widgets adapter for list view.
@@ -116,7 +116,7 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
     private ColorMapper mColorMapper;
 
     public WidgetAdapter(Context context, Connection connection,
-                         ItemClickListener itemClickListener) {
+            ItemClickListener itemClickListener) {
         super();
 
         mInflater = LayoutInflater.from(context);
@@ -206,7 +206,8 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
                 holder = new SetpointViewHolder(mInflater, parent, mConnection, mColorMapper);
                 break;
             case TYPE_CHART:
-                holder = new ChartViewHolder(mInflater, parent, mChartTheme, mConnection, mColorMapper);
+                holder = new ChartViewHolder(mInflater, parent,
+                        mChartTheme, mConnection, mColorMapper);
                 break;
             case TYPE_VIDEO:
                 holder = new VideoViewHolder(mInflater, parent, mConnection, mColorMapper);
@@ -221,7 +222,8 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
                 holder = new MjpegVideoViewHolder(mInflater, parent, mConnection, mColorMapper);
                 break;
             case TYPE_LOCATION:
-                holder = MapViewHelper.createViewHolder(mInflater, parent, mConnection, mColorMapper);
+                holder = MapViewHelper.createViewHolder(mInflater, parent,
+                        mConnection, mColorMapper);
                 break;
             default:
                 throw new IllegalArgumentException("View type " + viewType + " is not known");
@@ -394,7 +396,7 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
         }
     }
 
-    public static abstract class LabeledItemBaseViewHolder extends ViewHolder {
+    public abstract static class LabeledItemBaseViewHolder extends ViewHolder {
         protected final TextView mLabelView;
         protected final TextView mValueView;
         protected final WidgetImageView mIconView;
@@ -600,7 +602,8 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
             mImageView.setMaxHeight(maxHeight);
 
             if (state != null && state.matches("data:image/.*;base64,.*")) {
-                byte[] data = Base64.decode(state.substring(state.indexOf(",") + 1), Base64.DEFAULT);
+                final String dataString = state.substring(state.indexOf(",") + 1);
+                byte[] data = Base64.decode(dataString, Base64.DEFAULT);
                 Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
                 mImageView.setImageBitmap(bitmap);
                 mRefreshRate = 0;
@@ -690,7 +693,8 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
 
         SectionSwitchViewHolder(LayoutInflater inflater, ViewGroup parent,
                 Connection conn, ColorMapper colorMapper) {
-            super(inflater, parent, R.layout.openhabwidgetlist_sectionswitchitem, conn, colorMapper);
+            super(inflater, parent,
+                    R.layout.openhabwidgetlist_sectionswitchitem, conn, colorMapper);
             mInflater = inflater;
             mRadioGroup = itemView.findViewById(R.id.switchgroup);
         }
@@ -726,7 +730,8 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
 
         @Override
         public void onClick(View view) {
-            Util.sendItemCommand(mConnection.getAsyncHttpClient(), mBoundItem, (String) view.getTag());
+            final String cmd = (String) view.getTag();
+            Util.sendItemCommand(mConnection.getAsyncHttpClient(), mBoundItem, cmd);
         }
     }
 
@@ -736,7 +741,8 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
 
         RollerShutterViewHolder(LayoutInflater inflater, ViewGroup parent,
                 Connection conn, ColorMapper colorMapper) {
-            super(inflater, parent, R.layout.openhabwidgetlist_rollershutteritem, conn, colorMapper);
+            super(inflater, parent,
+                    R.layout.openhabwidgetlist_rollershutteritem, conn, colorMapper);
             initButton(R.id.up_button, "UP");
             initButton(R.id.down_button, "DOWN");
             initButton(R.id.stop_button, "STOP");
@@ -757,7 +763,8 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
         @Override
         public boolean onTouch(View v, MotionEvent motionEvent) {
             if (motionEvent.getActionMasked() == MotionEvent.ACTION_UP) {
-                Util.sendItemCommand(mConnection.getAsyncHttpClient(), mBoundItem, (String) v.getTag());
+                final String cmd = (String) v.getTag();
+                Util.sendItemCommand(mConnection.getAsyncHttpClient(), mBoundItem, cmd);
             }
             return false;
         }
@@ -788,10 +795,11 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
         public void onClick(final View view) {
             float minValue = mBoundWidget.minValue();
             float maxValue = mBoundWidget.maxValue();
-            //This prevents an exception below. But could lead to user confusion if this case is ever encountered.
+            //This prevents an exception below, but could lead to
+            // user confusion if this case is ever encountered.
             float stepSize = minValue == maxValue ? 1 : mBoundWidget.step();
-
-            final String[] stepValues = new String[((int) (Math.abs(maxValue - minValue) / stepSize)) + 1];
+            final int stepCount = ((int) (Math.abs(maxValue - minValue) / stepSize)) + 1;
+            final String[] stepValues = new String[stepCount];
             for (int i = 0; i < stepValues.length; i++) {
                 //Check if step size is a whole integer.
                 if (stepSize == Math.ceil(stepSize)) {
@@ -814,8 +822,11 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
             int stepIndex = Arrays.binarySearch(stepValues, stateString,
                     (lhs, rhs) -> Float.valueOf(lhs).compareTo(Float.valueOf(rhs)));
             if (stepIndex < 0) {
-                stepIndex = (-(stepIndex + 1)); // Use the returned insertion point if value is not found and select the closest value.
-                stepIndex = Math.min(stepIndex, stepValues.length - 1);  //handle case where insertion would be larger than the array
+                // Use the returned insertion point if value is not
+                // found and select the closest value.
+                stepIndex = -(stepIndex + 1);
+                // Handle case where insertion would be larger than the array
+                stepIndex = Math.min(stepIndex, stepValues.length - 1);
             }
             numberPicker.setValue(stepIndex);
 
@@ -846,13 +857,14 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
             mImageView = itemView.findViewById(R.id.chart);
             mParentView = parent;
 
-            WindowManager wm = (WindowManager) itemView.getContext().getSystemService(Context.WINDOW_SERVICE);
+            final Context context = itemView.getContext();
+            WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
             DisplayMetrics metrics = new DisplayMetrics();
             wm.getDefaultDisplay().getMetrics(metrics);
 
             mDensity = metrics.densityDpi;
             mChartTheme = theme;
-            mPrefs = PreferenceManager.getDefaultSharedPreferences(itemView.getContext());
+            mPrefs = PreferenceManager.getDefaultSharedPreferences(context);
         }
 
         @Override
@@ -1016,7 +1028,8 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
         public boolean onTouch(View v, MotionEvent motionEvent) {
             if (motionEvent.getActionMasked() == MotionEvent.ACTION_UP) {
                 if (v.getTag() instanceof String) {
-                    Util.sendItemCommand(mConnection.getAsyncHttpClient(), mBoundItem, (String) v.getTag());
+                    final String cmd = (String) v.getTag();
+                    Util.sendItemCommand(mConnection.getAsyncHttpClient(), mBoundItem, cmd);
                 } else {
                     showColorPickerDialog();
                 }
@@ -1052,7 +1065,7 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
             colorPicker.setOnColorChangedListener(this);
             colorPicker.setShowOldCenterColor(false);
 
-            float[] initialColor = mBoundItem.stateAsHSV();
+            float[] initialColor = mBoundItem.stateAsHsv();
             if (initialColor != null) {
                 colorPicker.setColor(Color.HSVToColor(initialColor));
             }

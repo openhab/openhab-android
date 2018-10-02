@@ -30,7 +30,7 @@
         </service>
 
         <service
-            android:name="org.openhab.habdroid.core.GcmInstanceIDListenerService"
+            android:name="org.openhab.habdroid.core.GcmInstanceIdListenerService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.android.gms.iid.InstanceID" />

@@ -41,6 +41,7 @@ public interface Connection {
      * @return The username used for this connection.
      */
     @Nullable String getUsername();
+
     @Nullable String getPassword();
 
     /**

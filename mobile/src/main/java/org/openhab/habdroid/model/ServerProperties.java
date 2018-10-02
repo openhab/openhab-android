@@ -5,6 +5,10 @@ import android.util.Log;
 
 import com.google.auto.value.AutoValue;
 
+import okhttp3.Call;
+import okhttp3.Headers;
+import okhttp3.Request;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -23,10 +27,6 @@ import java.util.List;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-
-import okhttp3.Call;
-import okhttp3.Headers;
-import okhttp3.Request;
 
 @AutoValue
 public abstract class ServerProperties implements Parcelable {
@@ -52,6 +52,7 @@ public abstract class ServerProperties implements Parcelable {
     public interface UpdateSuccessCallback {
         void handleServerPropertyUpdate(ServerProperties props);
     }
+
     public interface UpdateFailureCallback {
         void handleUpdateFailure(Request request, int statusCode, Throwable error);
     }
@@ -70,11 +71,13 @@ public abstract class ServerProperties implements Parcelable {
     abstract Builder toBuilder();
 
     @AutoValue.Builder
-    static abstract class Builder {
+    abstract static class Builder {
         abstract Builder flags(int flags);
+
         abstract Builder sitemaps(List<Sitemap> sitemaps);
 
         abstract ServerProperties build();
+
         abstract int flags();
     }
 

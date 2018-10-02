@@ -11,6 +11,12 @@ import android.util.Log;
 
 import com.here.oksse.ServerSentEvent;
 
+import okhttp3.Call;
+import okhttp3.Headers;
+import okhttp3.HttpUrl;
+import okhttp3.Request;
+import okhttp3.Response;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.openhab.habdroid.core.connection.Connection;
@@ -34,12 +40,6 @@ import java.util.Map;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-
-import okhttp3.Call;
-import okhttp3.Headers;
-import okhttp3.HttpUrl;
-import okhttp3.Request;
-import okhttp3.Response;
 
 /**
  * Fragment that manages connections for active instances of
@@ -416,6 +416,7 @@ public class PageConnectionHolderFragment extends Fragment {
             interface FailureCallback {
                 void handleFailure();
             }
+
             interface UpdateCallback {
                 void handleUpdateEvent(String message);
             }
@@ -516,7 +517,8 @@ public class PageConnectionHolderFragment extends Fragment {
             }
 
             @Override
-            public boolean onRetryError(ServerSentEvent sse, Throwable throwable, Response response) {
+            public boolean onRetryError(ServerSentEvent sse,
+                    Throwable throwable, Response response) {
                 // Stop retrying after maximum amount of subsequent retries is reached
                 return ++mRetries < MAX_RETRIES;
             }

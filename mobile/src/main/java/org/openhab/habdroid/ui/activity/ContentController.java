@@ -41,11 +41,11 @@ import org.openhab.habdroid.R;
 import org.openhab.habdroid.core.connection.Connection;
 import org.openhab.habdroid.core.connection.ConnectionFactory;
 import org.openhab.habdroid.model.LinkedPage;
+import org.openhab.habdroid.model.ServerProperties;
 import org.openhab.habdroid.model.Sitemap;
 import org.openhab.habdroid.model.Widget;
-import org.openhab.habdroid.model.ServerProperties;
-import org.openhab.habdroid.ui.MainActivity;
 import org.openhab.habdroid.ui.CloudNotificationListFragment;
+import org.openhab.habdroid.ui.MainActivity;
 import org.openhab.habdroid.ui.PreferencesActivity;
 import org.openhab.habdroid.ui.WidgetListFragment;
 
@@ -240,7 +240,8 @@ public abstract class ContentController implements PageConnectionHolderFragment.
     public void indicateMissingConfiguration(boolean resolveAttempted) {
         Log.d(TAG, "Indicate missing configuration (resolveAttempted " + resolveAttempted + ")");
         resetState();
-        mNoConnectionFragment = MissingConfigurationFragment.newInstance(mActivity, resolveAttempted);
+        mNoConnectionFragment =
+                MissingConfigurationFragment.newInstance(mActivity, resolveAttempted);
         updateFragmentState(FragmentUpdateReason.PAGE_UPDATE);
         mActivity.updateTitle();
     }
@@ -585,9 +586,10 @@ public abstract class ContentController implements PageConnectionHolderFragment.
 
     public static class MissingConfigurationFragment extends StatusFragment {
         public static MissingConfigurationFragment newInstance(Context context,
-                                                               boolean resolveAttempted) {
+                boolean resolveAttempted) {
             MissingConfigurationFragment f = new MissingConfigurationFragment();
-            @StringRes int textResId = resolveAttempted ? R.string.configuration_missing : R.string.no_remote_server;
+            @StringRes int textResId =
+                    resolveAttempted ? R.string.configuration_missing : R.string.no_remote_server;
             f.setArguments(buildArgs(context.getString(textResId),
                     R.drawable.ic_openhab_appicon_24dp, /* FIXME? */
                     R.string.go_to_settings_button, false));
@@ -615,8 +617,8 @@ public abstract class ContentController implements PageConnectionHolderFragment.
         }
 
         @Override
-        public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
+        public View onCreateView(@NonNull LayoutInflater inflater,
+                ViewGroup container, Bundle savedInstanceState) {
             Bundle arguments = getArguments();
 
             View view = inflater.inflate(R.layout.fragment_status, container, false);

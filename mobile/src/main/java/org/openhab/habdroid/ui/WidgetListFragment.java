@@ -171,8 +171,8 @@ public class WidgetListFragment extends Fragment
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater,
+            ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         Log.i(TAG, "onCreateView");
         Log.d(TAG, "isAdded = " + isAdded());
@@ -205,7 +205,7 @@ public class WidgetListFragment extends Fragment
     }
 
     @Override
-    public void onPause () {
+    public void onPause() {
         super.onPause();
         Log.d(TAG, "onPause() " + mPageUrl);
         Log.d(TAG, "isAdded = " + isAdded());
@@ -215,7 +215,7 @@ public class WidgetListFragment extends Fragment
     }
 
     @Override
-    public void setUserVisibleHint (boolean isVisibleToUser) {
+    public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         mIsVisible = isVisibleToUser;
         Log.d(TAG, String.format("isVisibleToUser(%B)", isVisibleToUser));

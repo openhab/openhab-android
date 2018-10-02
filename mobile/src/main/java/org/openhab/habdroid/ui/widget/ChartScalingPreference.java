@@ -31,7 +31,8 @@ public class ChartScalingPreference extends Preference implements SeekBar.OnSeek
     }
 
     @TargetApi(21)
-    public ChartScalingPreference(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public ChartScalingPreference(Context context, AttributeSet attrs,
+            int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         init();
     }

@@ -51,10 +51,12 @@ public class SegmentedControlButton extends AppCompatRadioButton {
         setButtonDrawable(null);
 
         if (attrs != null) {
-            TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.SegmentedControlButton);
+            TypedArray a = context.obtainStyledAttributes(attrs,
+                    R.styleable.SegmentedControlButton);
 
             int lineColor = a.getColor(R.styleable.SegmentedControlButton_lineColor, 0);
-            mLineHeight = a.getDimensionPixelSize(R.styleable.SegmentedControlButton_lineHeight, 0);
+            mLineHeight = a.getDimensionPixelSize(
+                    R.styleable.SegmentedControlButton_lineHeight, 0);
             mTextDistanceFromLine = a.getDimensionPixelSize(
                     R.styleable.SegmentedControlButton_textDistanceFromLine, 0);
 
@@ -67,9 +69,11 @@ public class SegmentedControlButton extends AppCompatRadioButton {
             mLinePaint.setColor(lineColor);
             mLinePaint.setStyle(Style.FILL);
 
-            int bgColorResId = a.getResourceId(R.styleable.SegmentedControlButton_backgroundColor, 0);
+            int bgColorResId = a.getResourceId(
+                    R.styleable.SegmentedControlButton_backgroundColor, 0);
             if (bgColorResId != 0) {
-                mBackgroundColorList = AppCompatResources.getColorStateList(getContext(), bgColorResId);
+                mBackgroundColorList =
+                        AppCompatResources.getColorStateList(getContext(), bgColorResId);
                 mBackgroundPaint = new Paint();
             }
 
@@ -81,7 +85,8 @@ public class SegmentedControlButton extends AppCompatRadioButton {
     protected void drawableStateChanged() {
         super.drawableStateChanged();
         if (mBackgroundColorList != null) {
-            mBackgroundPaint.setColor(mBackgroundColorList.getColorForState(getDrawableState(), 0));
+            mBackgroundPaint.setColor(
+                    mBackgroundColorList.getColorForState(getDrawableState(), 0));
         }
     }
 

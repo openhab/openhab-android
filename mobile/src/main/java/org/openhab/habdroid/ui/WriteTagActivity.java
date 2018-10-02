@@ -88,11 +88,11 @@ public class WriteTagActivity extends AppCompatActivity {
 
     private Fragment getFragment() {
         if (mNfcAdapter == null) {
-            return new NFCUnsupportedFragment();
+            return new NfcUnsupportedFragment();
         } else if (!mNfcAdapter.isEnabled()) {
-            return new NFCDisabledFragment();
+            return new NfcDisabledFragment();
         } else {
-            return new NFCWriteTagFragment();
+            return new NfcWriteTagFragment();
         }
     }
 
@@ -146,12 +146,12 @@ public class WriteTagActivity extends AppCompatActivity {
         TextView writeTagMessage = findViewById(R.id.write_tag_message);
 
         try {
-            URI sitemapURI = new URI(mSitemapPage);
-            if (!sitemapURI.getPath().startsWith("/rest/sitemaps")) {
+            URI sitemapUri = new URI(mSitemapPage);
+            if (!sitemapUri.getPath().startsWith("/rest/sitemaps")) {
                 throw new URISyntaxException(mSitemapPage, "Expected a sitemap URL");
             }
             StringBuilder uriToWrite = new StringBuilder("openhab://sitemaps");
-            uriToWrite.append(sitemapURI.getPath().substring(14));
+            uriToWrite.append(sitemapUri.getPath().substring(14));
             if (!TextUtils.isEmpty(mItem) && !TextUtils.isEmpty(mCommand)) {
                 uriToWrite.append("?item=").append(mItem).append("&command=").append(mCommand);
             }
@@ -219,18 +219,18 @@ public class WriteTagActivity extends AppCompatActivity {
         new Handler().postDelayed(this::finish, 2000);
     }
 
-    public static abstract class AbstractNFCFragment extends Fragment {
+    public abstract static class AbstractNfcFragment extends Fragment {
         @Override
-        public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
-                                 @Nullable Bundle savedInstanceState) {
+        public View onCreateView(@NonNull LayoutInflater inflater,
+                @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
             final View view = inflater.inflate(R.layout.fragment_writenfc, container, false);
             final ImageView watermark = view.findViewById(R.id.nfc_watermark);
 
-            Drawable ic_nfc = getResources().getDrawable(R.drawable.ic_nfc_black_180dp);
-            ic_nfc.setColorFilter(
+            Drawable nfcIcon = getResources().getDrawable(R.drawable.ic_nfc_black_180dp);
+            nfcIcon.setColorFilter(
                     ContextCompat.getColor(getActivity(), R.color.empty_list_text_color),
                     PorterDuff.Mode.SRC_IN);
-            watermark.setImageDrawable(ic_nfc);
+            watermark.setImageDrawable(nfcIcon);
 
             return view;
         }
@@ -240,10 +240,10 @@ public class WriteTagActivity extends AppCompatActivity {
         }
     }
 
-    public static class NFCUnsupportedFragment extends AbstractNFCFragment {
+    public static class NfcUnsupportedFragment extends AbstractNfcFragment {
         @Override
-        public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
-                @Nullable Bundle savedInstanceState) {
+        public View onCreateView(LayoutInflater inflater,
+                @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
             View view = super.onCreateView(inflater, container, savedInstanceState);
 
             getMessageTextView(view).setText(R.string.info_write_tag_unsupported);
@@ -251,10 +251,10 @@ public class WriteTagActivity extends AppCompatActivity {
         }
     }
 
-    public static class NFCDisabledFragment extends AbstractNFCFragment {
+    public static class NfcDisabledFragment extends AbstractNfcFragment {
         @Override
-        public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
-                @Nullable Bundle savedInstanceState) {
+        public View onCreateView(LayoutInflater inflater,
+                @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
             View view = super.onCreateView(inflater, container, savedInstanceState);
 
             getMessageTextView(view).setText(R.string.info_write_tag_disabled);
@@ -273,10 +273,10 @@ public class WriteTagActivity extends AppCompatActivity {
         }
     }
 
-    public static class NFCWriteTagFragment extends AbstractNFCFragment {
+    public static class NfcWriteTagFragment extends AbstractNfcFragment {
         @Override
-        public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
-                @Nullable Bundle savedInstanceState) {
+        public View onCreateView(LayoutInflater inflater,
+                @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
             View view = super.onCreateView(inflater, container, savedInstanceState);
 
             view.findViewById(R.id.nfc_wait_progress).setVisibility(View.VISIBLE);

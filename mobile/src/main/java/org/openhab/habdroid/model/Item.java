@@ -64,7 +64,7 @@ public abstract class Item implements Parcelable {
     public abstract float stateAsFloat();
     @SuppressWarnings("mutable")
     @Nullable
-    public abstract float[] stateAsHSV();
+    public abstract float[] stateAsHsv();
     @Nullable
     public abstract Integer stateAsBrightness();
 
@@ -88,7 +88,7 @@ public abstract class Item implements Parcelable {
             String state = state();
             return stateAsBoolean(parseAsBoolean(state))
                     .stateAsFloat(parseAsFloat(state))
-                    .stateAsHSV(parseAsHSV(state))
+                    .stateAsHsv(parseAsHsv(state))
                     .stateAsBrightness(parseAsBrightness(state))
                     .autoBuild();
         }
@@ -96,7 +96,7 @@ public abstract class Item implements Parcelable {
         abstract String state();
         abstract Builder stateAsBoolean(boolean state);
         abstract Builder stateAsFloat(float state);
-        abstract Builder stateAsHSV(float[] hsv);
+        abstract Builder stateAsHsv(float[] hsv);
         abstract Builder stateAsBrightness(@Nullable Integer brightness);
         abstract Item autoBuild();
 
@@ -139,7 +139,7 @@ public abstract class Item implements Parcelable {
             }
         }
 
-        private static float[] parseAsHSV(String state) {
+        private static float[] parseAsHsv(String state) {
             if (state != null) {
                 String[] stateSplit = state.split(",");
                 if (stateSplit.length == 3) { // We need exactly 3 numbers to operate this
@@ -171,7 +171,8 @@ public abstract class Item implements Parcelable {
             return null;
         }
 
-        private final static Pattern HSB_PATTERN = Pattern.compile("^([0-9]*\\.?[0-9]+),([0-9]*\\.?[0-9]+),([0-9]*\\.?[0-9]+)$");
+        private static final Pattern HSB_PATTERN =
+                Pattern.compile("^([0-9]*\\.?[0-9]+),([0-9]*\\.?[0-9]+),([0-9]*\\.?[0-9]+)$");
     }
 
     private static Type parseType(String type) {
@@ -205,6 +206,7 @@ public abstract class Item implements Parcelable {
                     case "name": name = childNode.getTextContent(); break;
                     case "state": state = childNode.getTextContent(); break;
                     case "link": link = childNode.getTextContent(); break;
+                    default: break;
                 }
             }
         }
@@ -221,8 +223,7 @@ public abstract class Item implements Parcelable {
                 .build();
     }
 
-    public static Item updateFromEvent(Item item, JSONObject jsonObject)
-            throws JSONException {
+    public static Item updateFromEvent(Item item, JSONObject jsonObject) throws JSONException {
         if (jsonObject == null) {
             return item;
         }
@@ -249,7 +250,8 @@ public abstract class Item implements Parcelable {
         }
 
         JSONObject stateDescription = jsonObject.optJSONObject("stateDescription");
-        boolean readOnly = stateDescription != null && stateDescription.optBoolean("readOnly", false);
+        boolean readOnly = stateDescription != null
+                && stateDescription.optBoolean("readOnly", false);
 
         List<LabeledValue> options = null;
         if (stateDescription != null && stateDescription.has("options")) {

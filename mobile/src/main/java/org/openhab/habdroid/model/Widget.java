@@ -196,8 +196,14 @@ public abstract class Widget implements Parcelable {
                         for (int k = 0; k < mappingChildNodes.getLength(); k++) {
                             Node mappingNode = mappingChildNodes.item(k);
                             switch (mappingNode.getNodeName()) {
-                                case "command": mappingCommand = mappingNode.getTextContent(); break;
-                                case "label": mappingLabel = mappingNode.getTextContent(); break;
+                                case "command":
+                                    mappingCommand = mappingNode.getTextContent();
+                                    break;
+                                case "label":
+                                    mappingLabel = mappingNode.getTextContent();
+                                    break;
+                                default:
+                                    break;
                             }
                         }
                         LabeledValue mapping = LabeledValue.newBuilder()
@@ -205,6 +211,8 @@ public abstract class Widget implements Parcelable {
                                 .label(mappingLabel)
                                 .build();
                         mappings.add(mapping);
+                        break;
+                    default:
                         break;
                 }
             }
@@ -241,7 +249,7 @@ public abstract class Widget implements Parcelable {
     }
 
     public static void parseJson(List<Widget> allWidgets, Widget parent,
-                                 JSONObject widgetJson, String iconFormat) throws JSONException {
+            JSONObject widgetJson, String iconFormat) throws JSONException {
         List<LabeledValue> mappings = new ArrayList<>();
         if (widgetJson.has("mappings")) {
             JSONArray mappingsJsonArray = widgetJson.getJSONArray("mappings");
@@ -295,7 +303,7 @@ public abstract class Widget implements Parcelable {
     }
 
     public static Widget updateFromEvent(Widget source, JSONObject eventPayload,
-                                         String iconFormat) throws JSONException {
+            String iconFormat) throws JSONException {
         Item item = Item.updateFromEvent(
                 source.item(), eventPayload.getJSONObject("item"));
         String iconPath = determineOH2IconPath(item, source.type(),
@@ -308,7 +316,7 @@ public abstract class Widget implements Parcelable {
     }
 
     private static String determineOH2IconPath(Item item, Type type, String icon,
-                                               String iconFormat, boolean hasMappings) {
+            String iconFormat, boolean hasMappings) {
         String itemState = item != null ? item.state() : null;
         if (itemState != null) {
             if (item.isOfTypeOrGroupType(Item.Type.Color)) {
@@ -322,8 +330,8 @@ public abstract class Widget implements Parcelable {
                     } catch (Exception e) {
                         itemState = "OFF";
                     }
-                } else if (item.stateAsHSV() != null) {
-                    int color = Color.HSVToColor(item.stateAsHSV());
+                } else if (item.stateAsHsv() != null) {
+                    int color = Color.HSVToColor(item.stateAsHsv());
                     itemState = String.format(Locale.US, "#%02x%02x%02x",
                             Color.red(color), Color.green(color), Color.blue(color));
                 }

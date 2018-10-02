@@ -59,6 +59,7 @@ public abstract class LinkedPage implements Parcelable {
                     case "title": title = childNode.getTextContent(); break;
                     case "icon": icon = childNode.getTextContent(); break;
                     case "link": link = childNode.getTextContent(); break;
+                    default: break;
                 }
             }
         }

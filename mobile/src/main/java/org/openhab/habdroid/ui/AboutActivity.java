@@ -45,7 +45,7 @@ import java.util.Locale;
 import static org.openhab.habdroid.util.Util.obfuscateString;
 
 public class AboutActivity extends AppCompatActivity implements
-        FragmentManager.OnBackStackChangedListener{
+        FragmentManager.OnBackStackChangedListener  {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         Util.setActivityTheme(this);
@@ -101,8 +101,8 @@ public class AboutActivity extends AppCompatActivity implements
     }
 
     public static class AboutMainFragment extends MaterialAboutFragment {
-        private final static String TAG = AboutMainFragment.class.getSimpleName();
-        private final static String URL_TO_GITHUB = "https://github.com/openhab/openhab-android";
+        private static final String TAG = AboutMainFragment.class.getSimpleName();
+        private static final String URL_TO_GITHUB = "https://github.com/openhab/openhab-android";
         private ServerProperties mServerProperties;
         private Connection mConnection;
 
@@ -113,7 +113,9 @@ public class AboutActivity extends AppCompatActivity implements
             mServerProperties = getArguments().getParcelable("serverProperties");
             try {
                 mConnection = ConnectionFactory.getUsableConnection();
-            } catch (ConnectionException ignored) {}
+            } catch (ConnectionException ignored) {
+                // ignored
+            }
             return super.onCreateView(inflater, container, savedInstanceState);
         }
 
@@ -138,23 +140,23 @@ public class AboutActivity extends AppCompatActivity implements
             appCard.addItem(new MaterialAboutActionItem.Builder()
                     .text(R.string.about_changelog)
                     .icon(R.drawable.ic_track_changes_grey_24dp)
-                    .setOnClickAction(MaterialAboutItemOnClickRedirect(URL_TO_GITHUB + "/releases"))
+                    .setOnClickAction(clickRedirect(URL_TO_GITHUB + "/releases"))
                     .build());
             appCard.addItem(new MaterialAboutActionItem.Builder()
                     .text(R.string.about_source_code)
                     .icon(R.drawable.ic_github_grey_24dp)
-                    .setOnClickAction(MaterialAboutItemOnClickRedirect(URL_TO_GITHUB))
+                    .setOnClickAction(clickRedirect(URL_TO_GITHUB))
                     .build());
             appCard.addItem(new MaterialAboutActionItem.Builder()
                     .text(R.string.about_issues)
                     .icon(R.drawable.ic_bug_report_grey_24dp)
-                    .setOnClickAction(MaterialAboutItemOnClickRedirect(URL_TO_GITHUB + "/issues"))
+                    .setOnClickAction(clickRedirect(URL_TO_GITHUB + "/issues"))
                     .build());
             appCard.addItem(new MaterialAboutActionItem.Builder()
                     .text(R.string.about_license_title)
                     .subText(R.string.about_license)
                     .icon(R.drawable.ic_account_balance_grey_24dp)
-                    .setOnClickAction(MaterialAboutItemOnClickRedirect(URL_TO_GITHUB + "/blob/master/LICENSE"))
+                    .setOnClickAction(clickRedirect(URL_TO_GITHUB + "/blob/master/LICENSE"))
                     .build());
             appCard.addItem(new MaterialAboutActionItem.Builder()
                     .text(R.string.title_activity_libraries)
@@ -178,7 +180,8 @@ public class AboutActivity extends AppCompatActivity implements
             appCard.addItem(new MaterialAboutActionItem.Builder()
                     .text(R.string.about_privacy_policy)
                     .icon(R.drawable.ic_security_grey_24dp)
-                    .setOnClickAction(MaterialAboutItemOnClickRedirect("https://www.openhabfoundation.org/privacy.html"))
+                    .setOnClickAction(
+                            clickRedirect("https://www.openhabfoundation.org/privacy.html"))
                     .build());
 
             MaterialAboutCard.Builder ohServerCard = new MaterialAboutCard.Builder();
@@ -232,22 +235,22 @@ public class AboutActivity extends AppCompatActivity implements
             ohCommunityCard.addItem(new MaterialAboutActionItem.Builder()
                     .text(R.string.about_docs)
                     .icon(R.drawable.ic_collections_bookmark_grey_24dp)
-                    .setOnClickAction(MaterialAboutItemOnClickRedirect("https://www.openhab.org/docs/"))
+                    .setOnClickAction(clickRedirect("https://www.openhab.org/docs/"))
                     .build());
             ohCommunityCard.addItem(new MaterialAboutActionItem.Builder()
                     .text(R.string.about_community_forum)
                     .icon(R.drawable.ic_forum_grey_24dp)
-                    .setOnClickAction(MaterialAboutItemOnClickRedirect("https://community.openhab.org/"))
+                    .setOnClickAction(clickRedirect("https://community.openhab.org/"))
                     .build());
             ohCommunityCard.addItem(new MaterialAboutActionItem.Builder()
                     .text(R.string.about_translation)
                     .icon(R.drawable.ic_language_grey_24dp)
-                    .setOnClickAction(MaterialAboutItemOnClickRedirect("https://crowdin.com/profile/openhab-bot"))
+                    .setOnClickAction(clickRedirect("https://crowdin.com/profile/openhab-bot"))
                     .build());
             ohCommunityCard.addItem(new MaterialAboutActionItem.Builder()
                     .text(R.string.about_foundation)
                     .icon(R.drawable.ic_people_grey_24dp)
-                    .setOnClickAction(MaterialAboutItemOnClickRedirect("https://www.openhabfoundation.org/"))
+                    .setOnClickAction(clickRedirect("https://www.openhabfoundation.org/"))
                     .build());
 
             return new MaterialAboutList.Builder()
@@ -259,10 +262,10 @@ public class AboutActivity extends AppCompatActivity implements
 
         @Override
         protected int getTheme() {
-            return Util.getActivityThemeID(getActivity());
+            return Util.getActivityThemeId(getActivity());
         }
 
-        private MaterialAboutItemOnClickAction MaterialAboutItemOnClickRedirect(final String url) {
+        private MaterialAboutItemOnClickAction clickRedirect(final String url) {
             return () -> {
                 Uri uri = Uri.parse(url);
                 Intent intent = new Intent(Intent.ACTION_VIEW, uri);

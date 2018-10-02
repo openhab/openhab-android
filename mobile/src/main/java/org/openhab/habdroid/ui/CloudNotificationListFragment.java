@@ -24,6 +24,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import okhttp3.Call;
+import okhttp3.Headers;
+import okhttp3.Request;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -37,10 +41,6 @@ import org.openhab.habdroid.util.Util;
 
 import java.util.ArrayList;
 import java.util.Locale;
-
-import okhttp3.Call;
-import okhttp3.Headers;
-import okhttp3.Request;
 
 public class CloudNotificationListFragment extends Fragment implements
         View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
@@ -82,7 +82,7 @@ public class CloudNotificationListFragment extends Fragment implements
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+            Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         Log.i(TAG, "onCreateView");
         View view = inflater.inflate(R.layout.openhabnotificationlist_fragment, container, false);
@@ -168,7 +168,8 @@ public class CloudNotificationListFragment extends Fragment implements
         // we skip that additional effort.
         final String url = String.format(Locale.US, "api/v1/notifications?limit=%d&skip=%d",
                 PAGE_SIZE, mLoadOffset);
-        mRequestHandle = conn.getAsyncHttpClient().get(url, new AsyncHttpClient.StringResponseHandler() {
+        final AsyncHttpClient client = conn.getAsyncHttpClient();
+        mRequestHandle = client.get(url, new AsyncHttpClient.StringResponseHandler() {
             @Override
             public void onSuccess(String responseBody, Headers headers) {
                 try {

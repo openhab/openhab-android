@@ -21,7 +21,7 @@ public class DividerItemDecoration extends RecyclerView.ItemDecoration {
 
     @Override
     public void getItemOffsets(Rect outRect, View view,
-                               RecyclerView parent, RecyclerView.State state) {
+            RecyclerView parent, RecyclerView.State state) {
         super.getItemOffsets(outRect, view, parent, state);
         if (mDivider != null && !suppressDividerForChild(view, parent)) {
             outRect.bottom = mDivider.getIntrinsicHeight();

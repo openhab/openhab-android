@@ -17,19 +17,19 @@ import org.openhab.habdroid.R;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public class URLInputPreference extends EditTextPreference implements TextWatcher {
+public class UrlInputPreference extends EditTextPreference implements TextWatcher {
     private EditText mEditor;
     private boolean mUrlIsValid;
 
-    public URLInputPreference(Context context) {
+    public UrlInputPreference(Context context) {
         super(context);
     }
 
-    public URLInputPreference(Context context, AttributeSet attrs) {
+    public UrlInputPreference(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public URLInputPreference(Context context, AttributeSet attrs, int defStyleAttr) {
+    public UrlInputPreference(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
@@ -71,7 +71,8 @@ public class URLInputPreference extends EditTextPreference implements TextWatche
                 }
             }
         }
-        mEditor.setError(mUrlIsValid ? null : mEditor.getResources().getString(R.string.error_invalid_url));
+        mEditor.setError(mUrlIsValid
+                ? null : mEditor.getResources().getString(R.string.error_invalid_url));
         updateOkButtonState();
     }
 

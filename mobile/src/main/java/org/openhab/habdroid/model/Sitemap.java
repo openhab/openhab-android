@@ -20,16 +20,16 @@ import org.w3c.dom.NodeList;
 
 @AutoValue
 public abstract class Sitemap implements Parcelable {
-	public abstract String name();
+    public abstract String name();
     public abstract String label();
-	public abstract String link();
-	@Nullable
+    public abstract String link();
+    @Nullable
     public abstract String icon();
     public abstract String iconPath();
-	public abstract String homepageLink();
+    public abstract String homepageLink();
 
-	@AutoValue.Builder
-	static abstract class Builder {
+    @AutoValue.Builder
+    abstract static class Builder {
         public abstract Builder name(String name);
         public abstract Builder label(String label);
         public abstract Builder link(String link);
@@ -64,6 +64,8 @@ public abstract class Sitemap implements Parcelable {
                             }
                         }
                         break;
+                    default:
+                        break;
                 }
             }
         }
@@ -83,6 +85,8 @@ public abstract class Sitemap implements Parcelable {
         String label = jsonObject.optString("label", null);
         String icon = jsonObject.optString("icon", null);
         JSONObject homepageObject = jsonObject.optJSONObject("homepage");
+        String homepageLink = homepageObject != null
+                ? homepageObject.optString("link", null) : null;
 
         return new AutoValue_Sitemap.Builder()
                 .name(name)
@@ -90,7 +94,7 @@ public abstract class Sitemap implements Parcelable {
                 .icon(icon)
                 .iconPath(String.format("icon/%s", icon))
                 .link(jsonObject.optString("link", null))
-                .homepageLink(homepageObject != null ? homepageObject.optString("link", null) : null)
+                .homepageLink(homepageLink)
                 .build();
     }
 }

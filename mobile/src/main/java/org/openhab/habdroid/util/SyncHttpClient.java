@@ -9,14 +9,14 @@
 
 package org.openhab.habdroid.util;
 
-import java.io.IOException;
-import java.util.Map;
-
 import okhttp3.Call;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
+
+import java.io.IOException;
+import java.util.Map;
 
 public class SyncHttpClient extends HttpClient {
     public static class HttpResult {
@@ -50,6 +50,7 @@ public class SyncHttpClient extends HttpClient {
         public boolean isSuccessful() {
             return error == null;
         }
+
         public void close() {
             if (response != null) {
                 response.close();
@@ -59,6 +60,7 @@ public class SyncHttpClient extends HttpClient {
         public HttpTextResult asText() {
             return new HttpTextResult(this);
         }
+
         public HttpStatusResult asStatus() {
             return new HttpStatusResult(this);
         }

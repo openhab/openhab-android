@@ -11,17 +11,22 @@ package org.openhab.habdroid.util;
 
 import android.app.Activity;
 import android.app.ActivityManager;
-import android.content.res.Resources;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.preference.PreferenceManager;
+import android.support.annotation.AnimRes;
 import android.support.annotation.AttrRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.StyleRes;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.util.TypedValue;
+
+import okhttp3.Headers;
+import okhttp3.Request;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -38,24 +43,16 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import okhttp3.Headers;
-import okhttp3.Request;
-
-import android.os.Build.VERSION;
-import android.os.Build.VERSION_CODES;
-
 public class Util {
-    private final static String TAG = Util.class.getSimpleName();
+    private static final String TAG = Util.class.getSimpleName();
 
     public static void overridePendingTransition(Activity activity, boolean reverse) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(activity);
         if (!prefs.getString(Constants.PREFERENCE_ANIMATION, "android").equals("android")) {
             if (prefs.getString(Constants.PREFERENCE_ANIMATION, "android").equals("ios")) {
-                if (reverse) {
-                    activity.overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
-                } else {
-                    activity.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-                }
+                @AnimRes int enterAnim = reverse ? R.anim.slide_in_left : R.anim.slide_in_right;
+                @AnimRes int exitAnim = reverse ? R.anim.slide_out_right : R.anim.slide_out_left;
+                activity.overridePendingTransition(enterAnim, exitAnim);
             } else {
                 activity.overridePendingTransition(0, 0);
             }
@@ -69,8 +66,9 @@ public class Util {
             normalizedUrl = url.toString();
             normalizedUrl = normalizedUrl.replace("\n", "");
             normalizedUrl = normalizedUrl.replace(" ", "");
-            if (!normalizedUrl.endsWith("/"))
+            if (!normalizedUrl.endsWith("/")) {
                 normalizedUrl = normalizedUrl + "/";
+            }
         } catch (MalformedURLException e) {
             Log.e(TAG, "normalizeUrl: invalid URL");
         }
@@ -124,16 +122,18 @@ public class Util {
 
     public static boolean sitemapExists(List<Sitemap> sitemapList, String sitemapName) {
         for (int i = 0; i < sitemapList.size(); i++) {
-            if (sitemapList.get(i).name().equals(sitemapName))
+            if (sitemapList.get(i).name().equals(sitemapName)) {
                 return true;
+            }
         }
         return false;
     }
 
     public static Sitemap getSitemapByName(List<Sitemap> sitemapList, String sitemapName) {
         for (int i = 0; i < sitemapList.size(); i++) {
-            if (sitemapList.get(i).name().equals(sitemapName))
+            if (sitemapList.get(i).name().equals(sitemapName)) {
                 return sitemapList.get(i);
+            }
         }
         return null;
     }
@@ -143,9 +143,9 @@ public class Util {
     }
 
     public static void setActivityTheme(@NonNull final Activity activity, String theme) {
-        activity.setTheme(getActivityThemeID(activity, theme));
+        activity.setTheme(getActivityThemeId(activity, theme));
 
-        if (VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             TypedValue typedValue = new TypedValue();
             activity.getTheme().resolveAttribute(R.attr.colorPrimary, typedValue, true);
             activity.setTaskDescription(new ActivityManager.TaskDescription(
@@ -155,11 +155,11 @@ public class Util {
         }
     }
 
-    public static @StyleRes int getActivityThemeID(@NonNull final Activity activity) {
-        return getActivityThemeID(activity, null);
+    public static @StyleRes int getActivityThemeId(@NonNull final Activity activity) {
+        return getActivityThemeId(activity, null);
     }
 
-    public static @StyleRes int getActivityThemeID(@NonNull final Activity activity, String theme) {
+    public static @StyleRes int getActivityThemeId(@NonNull final Activity activity, String theme) {
         if (theme == null) {
             theme = PreferenceManager.getDefaultSharedPreferences(activity).getString(
                     Constants.PREFERENCE_THEME, activity.getString(R.string.theme_value_light));
@@ -202,7 +202,8 @@ public class Util {
         if (itemUrl == null || command == null) {
             return;
         }
-        client.post(itemUrl, command, "text/plain;charset=UTF-8", new AsyncHttpClient.StringResponseHandler() {
+        client.post(itemUrl, command, "text/plain;charset=UTF-8",
+                new AsyncHttpClient.StringResponseHandler() {
             @Override
             public void onFailure(Request request, int statusCode, Throwable error) {
                 Log.e(TAG, "Got command error " + error.getMessage());
@@ -232,8 +233,8 @@ public class Util {
      */
     public static String obfuscateString(String string, int clearTextCharCount) {
         clearTextCharCount = Math.min(string.length(), clearTextCharCount);
-        return string.substring(0, clearTextCharCount) +
-                string.substring(clearTextCharCount).replaceAll(".", "*");
+        return string.substring(0, clearTextCharCount)
+                + string.substring(clearTextCharCount).replaceAll(".", "*");
     }
 
     /**

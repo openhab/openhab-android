@@ -42,8 +42,9 @@ public class WidgetDataSource {
 
     public void setSourceNode(Node rootNode) {
         Log.i(TAG, "Loading new data");
-        if (rootNode == null)
+        if (rootNode == null) {
             return;
+        }
         if (rootNode.hasChildNodes()) {
             NodeList childNodes = rootNode.getChildNodes();
             for (int i = 0; i < childNodes.getLength(); i++) {
@@ -54,6 +55,7 @@ public class WidgetDataSource {
                     case "id": mId = childNode.getTextContent(); break;
                     case "icon": mIcon = childNode.getTextContent(); break;
                     case "link": mLink = childNode.getTextContent(); break;
+                    default: break;
                 }
             }
         }
@@ -61,8 +63,9 @@ public class WidgetDataSource {
 
     public void setSourceJson(JSONObject jsonObject) {
         Log.d(TAG, jsonObject.toString());
-        if (!jsonObject.has("widgets"))
+        if (!jsonObject.has("widgets")) {
             return;
+        }
         try {
             JSONArray jsonWidgetArray = jsonObject.getJSONArray("widgets");
             for (int i = 0; i < jsonWidgetArray.length(); i++) {

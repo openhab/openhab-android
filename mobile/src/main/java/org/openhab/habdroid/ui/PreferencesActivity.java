@@ -98,8 +98,9 @@ public class PreferencesActivity extends AppCompatActivity {
                     NavUtils.navigateUpFromSameTask(this);
                 }
                 return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -122,7 +123,7 @@ public class PreferencesActivity extends AppCompatActivity {
     }
 
     @VisibleForTesting
-    public static abstract class AbstractSettingsFragment extends PreferenceFragment {
+    public abstract static class AbstractSettingsFragment extends PreferenceFragment {
         @Override
         public void onCreate(@Nullable Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
@@ -164,8 +165,10 @@ public class PreferencesActivity extends AppCompatActivity {
         }
 
         protected boolean isConnectionSecure(String url, String user, String password) {
-            return isConnectionHttps(url) &&
-                    (hasConnectionBasicAuthentication(user, password) || hasClientCertificate());
+            if (!isConnectionHttps(url)) {
+                return false;
+            }
+            return hasConnectionBasicAuthentication(user, password) || hasClientCertificate();
         }
 
 
@@ -222,23 +225,23 @@ public class PreferencesActivity extends AppCompatActivity {
         protected void updateAndInitPreferences() {
             addPreferencesFromResource(R.xml.preferences);
 
-            final Preference subScreenLocalConn = findPreference(Constants.SUBSCREEN_LOCAL_CONNECTION);
-            final Preference subScreenRemoteConn = findPreference(Constants.SUBSCREEN_REMOTE_CONNECTION);
-            final Preference themePreference = findPreference(Constants.PREFERENCE_THEME);
-            final Preference clearCachePreference = findPreference(Constants.PREFERENCE_CLEAR_CACHE);
-            final Preference clearDefaultSitemapPreference =
+            final Preference localConnPref = findPreference(Constants.SUBSCREEN_LOCAL_CONNECTION);
+            final Preference remoteConnPref = findPreference(Constants.SUBSCREEN_REMOTE_CONNECTION);
+            final Preference themePref = findPreference(Constants.PREFERENCE_THEME);
+            final Preference clearCachePref = findPreference(Constants.PREFERENCE_CLEAR_CACHE);
+            final Preference clearDefaultSitemapPref =
                     findPreference(Constants.PREFERENCE_CLEAR_DEFAULT_SITEMAP);
-            final Preference ringtonePreference = findPreference(Constants.PREFERENCE_TONE);
-            final Preference vibrationPreference =
+            final Preference ringtonePref = findPreference(Constants.PREFERENCE_TONE);
+            final Preference vibrationPref =
                     findPreference(Constants.PREFERENCE_NOTIFICATION_VIBRATION);
+            final SharedPreferences prefs = getPreferenceScreen().getSharedPreferences();
 
-            SharedPreferences prefs = getPreferenceScreen().getSharedPreferences();
             String currentDefaultSitemap = prefs.getString(Constants.PREFERENCE_SITEMAP_NAME, "");
             String currentDefaultSitemapLabel = prefs.getString(Constants.PREFERENCE_SITEMAP_LABEL, "");
             if (currentDefaultSitemap.isEmpty()) {
-                onNoDefaultSitemap(clearDefaultSitemapPreference);
+                onNoDefaultSitemap(clearDefaultSitemapPref);
             } else {
-                clearDefaultSitemapPreference.setSummary(getString(
+                clearDefaultSitemapPref.setSummary(getString(
                         R.string.settings_current_default_sitemap, currentDefaultSitemapLabel));
             }
 
@@ -248,27 +251,27 @@ public class PreferencesActivity extends AppCompatActivity {
             updateConnectionSummary(Constants.SUBSCREEN_REMOTE_CONNECTION,
                     Constants.PREFERENCE_REMOTE_URL, Constants.PREFERENCE_REMOTE_USERNAME,
                     Constants.PREFERENCE_REMOTE_PASSWORD);
-            updateRingtonePreferenceSummary(ringtonePreference, ringtonePreference
-                    .getSharedPreferences().getString(Constants.PREFERENCE_TONE, ""));
-            updateVibrationPreferenceIcon(vibrationPreference, vibrationPreference
-                    .getSharedPreferences().getString(Constants.PREFERENCE_NOTIFICATION_VIBRATION, ""));
+            updateRingtonePreferenceSummary(ringtonePref,
+                    prefs.getString(Constants.PREFERENCE_TONE, ""));
+            updateVibrationPreferenceIcon(vibrationPref,
+                    prefs.getString(Constants.PREFERENCE_NOTIFICATION_VIBRATION, ""));
 
-            subScreenLocalConn.setOnPreferenceClickListener(preference -> {
+            localConnPref.setOnPreferenceClickListener(preference -> {
                 getParentActivity().openSubScreen(new LocalConnectionSettingsFragment());
                 return false;
             });
 
-            subScreenRemoteConn.setOnPreferenceClickListener(preference -> {
+            remoteConnPref.setOnPreferenceClickListener(preference -> {
                 getParentActivity().openSubScreen(new RemoteConnectionSettingsFragment());
                 return false;
             });
 
-            themePreference.setOnPreferenceChangeListener((preference, newValue) -> {
+            themePref.setOnPreferenceChangeListener((preference, newValue) -> {
                 getParentActivity().handleThemeChange();
                 return true;
             });
 
-            clearCachePreference.setOnPreferenceClickListener(preference -> {
+            clearCachePref.setOnPreferenceClickListener(preference -> {
                 // Get launch intent for application
                 Intent restartIntent = getActivity().getPackageManager()
                         .getLaunchIntentForPackage(getActivity().getBaseContext().getPackageName());
@@ -282,7 +285,7 @@ public class PreferencesActivity extends AppCompatActivity {
                 return true;
             });
 
-            clearDefaultSitemapPreference.setOnPreferenceClickListener(preference -> {
+            clearDefaultSitemapPref.setOnPreferenceClickListener(preference -> {
                 SharedPreferences.Editor edit = preference.getSharedPreferences().edit();
                 edit.putString(Constants.PREFERENCE_SITEMAP_NAME, "");
                 edit.putString(Constants.PREFERENCE_SITEMAP_LABEL, "");
@@ -293,12 +296,12 @@ public class PreferencesActivity extends AppCompatActivity {
                 return true;
             });
 
-            ringtonePreference.setOnPreferenceChangeListener((pref, newValue) -> {
+            ringtonePref.setOnPreferenceChangeListener((pref, newValue) -> {
                 updateRingtonePreferenceSummary(pref, newValue);
                 return true;
             });
 
-            vibrationPreference.setOnPreferenceChangeListener((pref, newValue) -> {
+            vibrationPref.setOnPreferenceChangeListener((pref, newValue) -> {
                 updateVibrationPreferenceIcon(pref, newValue);
                 return true;
             });
@@ -313,18 +316,20 @@ public class PreferencesActivity extends AppCompatActivity {
 
             if (!CloudMessagingHelper.isSupported()) {
                 Log.d(TAG, "Removing full-only prefs");
-                getParent(ringtonePreference).removePreference(ringtonePreference);
-                getParent(vibrationPreference).removePreference(vibrationPreference);
+                getParent(ringtonePref).removePreference(ringtonePref);
+                getParent(vibrationPref).removePreference(vibrationPref);
             }
 
-            ServerProperties props =
+            final ServerProperties props =
                     getActivity().getIntent().getParcelableExtra(START_EXTRA_SERVER_PROPERTIES);
-            if (props != null && (props.flags() & ServerProperties.SERVER_FLAG_ICON_FORMAT_SUPPORT) == 0) {
+            final int flags = props != null ? props.flags() : 0;
+
+            if ((flags & ServerProperties.SERVER_FLAG_ICON_FORMAT_SUPPORT) == 0) {
                 Preference iconFormatPreference =
                         ps.findPreference(Constants.PREFERENCE_ICON_FORMAT);
                 getParent(iconFormatPreference).removePreference(iconFormatPreference);
             }
-            if (props != null && (props.flags() & ServerProperties.SERVER_FLAG_CHART_SCALING_SUPPORT) == 0) {
+            if ((flags & ServerProperties.SERVER_FLAG_CHART_SCALING_SUPPORT) == 0) {
                 Preference chartScalingPreference =
                         ps.findPreference(Constants.PREFERENCE_CHART_SCALING);
                 getParent(chartScalingPreference).removePreference(chartScalingPreference);
@@ -384,7 +389,7 @@ public class PreferencesActivity extends AppCompatActivity {
         }
 
         private void updateConnectionSummary(String subscreenPrefKey, String urlPrefKey,
-                                             String userPrefKey, String passwordPrefKey) {
+                String userPrefKey, String passwordPrefKey) {
             Preference pref = findPreference(subscreenPrefKey);
             String url = getPreferenceString(urlPrefKey, "");
             final String summary;
@@ -406,7 +411,7 @@ public class PreferencesActivity extends AppCompatActivity {
         }
     }
 
-    private static abstract class ConnectionSettingsFragment extends AbstractSettingsFragment {
+    private abstract static class ConnectionSettingsFragment extends AbstractSettingsFragment {
         private Preference mUrlPreference;
         private Preference mUserNamePreference;
         private Preference mPasswordPreference;
@@ -414,21 +419,22 @@ public class PreferencesActivity extends AppCompatActivity {
         private interface IconColorGenerator {
             Integer getIconColor();
         }
+
         private interface PrefSummaryGenerator {
             CharSequence getSummary(String value);
         }
 
         protected void initPreferences(String urlPrefKey, String userNamePrefKey,
                 String passwordPrefKey, @StringRes int urlSummaryFormatResId) {
-            mUrlPreference = initEditorPreference(urlPrefKey, R.drawable.ic_earth_grey_24dp, value -> {
+            mUrlPreference = initEditor(urlPrefKey, R.drawable.ic_earth_grey_24dp, value -> {
                 if (TextUtils.isEmpty(value)) {
                     return getString(R.string.info_not_set);
                 }
                 return getString(urlSummaryFormatResId, value);
             });
-            mUserNamePreference = initEditorPreference(userNamePrefKey, R.drawable.ic_person_grey_24dp,
+            mUserNamePreference = initEditor(userNamePrefKey, R.drawable.ic_person_grey_24dp,
                     value -> TextUtils.isEmpty(value) ? getString(R.string.info_not_set) : value);
-            mPasswordPreference = initEditorPreference(passwordPrefKey,
+            mPasswordPreference = initEditor(passwordPrefKey,
                     R.drawable.ic_security_grey_24dp, value -> {
                         @StringRes int resId = TextUtils.isEmpty(value) ? R.string.info_not_set
                                 : isWeakPassword(value) ? R.string.settings_openhab_password_summary_weak
@@ -441,7 +447,7 @@ public class PreferencesActivity extends AppCompatActivity {
                     getPreferenceString(passwordPrefKey, ""));
         }
 
-        private Preference initEditorPreference(String key, @DrawableRes int iconResId,
+        private Preference initEditor(String key, @DrawableRes int iconResId,
                 PrefSummaryGenerator summaryGenerator) {
             Preference preference = getPreferenceScreen().findPreference(key);
             preference.setIcon(DrawableCompat.wrap(
@@ -470,7 +476,8 @@ public class PreferencesActivity extends AppCompatActivity {
             });
             updateIconColor(mUserNamePreference, () -> {
                 if (!TextUtils.isEmpty(url)) {
-                    return TextUtils.isEmpty(userName) ? R.color.pref_icon_red : R.color.pref_icon_green;
+                    return TextUtils.isEmpty(userName)
+                            ? R.color.pref_icon_red : R.color.pref_icon_green;
                 }
                 return null;
             });

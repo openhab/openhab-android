@@ -103,6 +103,8 @@ public class GcmMessageListenerService extends GcmListenerService {
                     }
                 }
                 break;
+            default:
+                break;
         }
     }
 
@@ -117,7 +119,7 @@ public class GcmMessageListenerService extends GcmListenerService {
     }
 
     private Notification makeNotification(String msg, String channelId, String icon,
-                long timestamp, String persistedId, int notificationId) {
+            long timestamp, String persistedId, int notificationId) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         String toneSetting = prefs.getString(Constants.PREFERENCE_TONE, "");
         Bitmap iconBitmap = null;
@@ -149,7 +151,8 @@ public class GcmMessageListenerService extends GcmListenerService {
                 .setSound(Uri.parse(toneSetting))
                 .setContentText(msg)
                 .setContentIntent(contentIntent)
-                .setDeleteIntent(GcmRegistrationService.createHideNotificationIntent(this, notificationId))
+                .setDeleteIntent(GcmRegistrationService.createHideNotificationIntent(this,
+                        notificationId))
                 .setVisibility(NotificationCompat.VISIBILITY_PRIVATE)
                 .setPublicVersion(publicVersion)
                 .build();
@@ -172,7 +175,8 @@ public class GcmMessageListenerService extends GcmListenerService {
                 .setContentText(text)
                 .setPublicVersion(publicVersion)
                 .setContentIntent(clickIntent)
-                .setDeleteIntent(GcmRegistrationService.createHideNotificationIntent(this, SUMMARY_NOTIFICATION_ID))
+                .setDeleteIntent(GcmRegistrationService.createHideNotificationIntent(this,
+                        SUMMARY_NOTIFICATION_ID))
                 .build();
     }
 
@@ -182,9 +186,11 @@ public class GcmMessageListenerService extends GcmListenerService {
         String vibration = prefs.getString(Constants.PREFERENCE_NOTIFICATION_VIBRATION, "");
         if (getString(R.string.settings_notification_vibration_value_short).equals(vibration)) {
             vibrationPattern = new long[] {0, 500, 500};
-        } else if (getString(R.string.settings_notification_vibration_value_long).equals(vibration)) {
+        } else if (getString(R.string.settings_notification_vibration_value_long)
+                .equals(vibration)) {
             vibrationPattern = new long[] {0, 1000, 1000};
-        } else if (getString(R.string.settings_notification_vibration_value_twice).equals(vibration)) {
+        } else if (getString(R.string.settings_notification_vibration_value_twice)
+                .equals(vibration)) {
             vibrationPattern = new long[] {0, 1000, 1000, 1000, 1000};
         } else {
             vibrationPattern = new long[] {0};

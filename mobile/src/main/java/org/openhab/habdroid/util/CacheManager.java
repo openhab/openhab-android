@@ -13,11 +13,11 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.LruCache;
 
-import java.io.File;
-import java.io.IOException;
-
 import okhttp3.Cache;
 import okhttp3.HttpUrl;
+
+import java.io.File;
+import java.io.IOException;
 
 public class CacheManager {
     private static CacheManager sInstance;
@@ -60,6 +60,7 @@ public class CacheManager {
         try {
             mHttpCache.evictAll();
         } catch (IOException ignored) {
+            // ignored
         }
     }
 

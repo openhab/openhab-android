@@ -3,14 +3,14 @@ package org.openhab.habdroid.core.connection;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
+import okhttp3.OkHttpClient;
+
 import org.openhab.habdroid.util.AsyncHttpClient;
 import org.openhab.habdroid.util.SyncHttpClient;
 
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.URL;
-
-import okhttp3.OkHttpClient;
 
 public abstract class AbstractConnection implements Connection {
     private static final String TAG = AbstractConnection.class.getSimpleName();
@@ -45,8 +45,8 @@ public abstract class AbstractConnection implements Connection {
     }
 
     private boolean hasUsernameAndPassword() {
-        return getUsername() != null && !getUsername().isEmpty() && getPassword() != null &&
-                !getPassword().isEmpty();
+        return getUsername() != null && !getUsername().isEmpty()
+                && getPassword() != null && !getPassword().isEmpty();
     }
 
     @Override
@@ -80,10 +80,11 @@ public abstract class AbstractConnection implements Connection {
         try {
             URL url = new URL(mBaseUrl);
             int checkPort = url.getPort();
-            if (url.getProtocol().equals("http") && checkPort == -1)
+            if (url.getProtocol().equals("http") && checkPort == -1) {
                 checkPort = 80;
-            if (url.getProtocol().equals("https") && checkPort == -1)
+            } else if (url.getProtocol().equals("https") && checkPort == -1) {
                 checkPort = 443;
+            }
             Socket s = new Socket();
             s.connect(new InetSocketAddress(url.getHost(), checkPort), 1000);
             Log.d(TAG, "Socket connected");

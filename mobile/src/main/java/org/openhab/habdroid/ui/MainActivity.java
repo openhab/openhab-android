@@ -20,6 +20,7 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
@@ -32,6 +33,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
+import android.support.annotation.ColorInt;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.design.widget.NavigationView;
@@ -60,6 +62,10 @@ import android.view.WindowManager;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import es.dmoral.toasty.Toasty;
+import okhttp3.Headers;
+import okhttp3.Request;
+
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.core.CloudMessagingHelper;
 import org.openhab.habdroid.core.OnUpdateBroadcastReceiver;
@@ -72,12 +78,12 @@ import org.openhab.habdroid.core.connection.exception.ConnectionException;
 import org.openhab.habdroid.core.connection.exception.NetworkNotSupportedException;
 import org.openhab.habdroid.core.connection.exception.NoUrlInformationException;
 import org.openhab.habdroid.model.LinkedPage;
-import org.openhab.habdroid.model.Sitemap;
 import org.openhab.habdroid.model.ServerProperties;
+import org.openhab.habdroid.model.Sitemap;
 import org.openhab.habdroid.ui.activity.ContentController;
+import org.openhab.habdroid.util.AsyncHttpClient;
 import org.openhab.habdroid.util.AsyncServiceResolver;
 import org.openhab.habdroid.util.Constants;
-import org.openhab.habdroid.util.AsyncHttpClient;
 import org.openhab.habdroid.util.Util;
 
 import java.lang.reflect.Constructor;
@@ -95,10 +101,6 @@ import java.util.Locale;
 import javax.jmdns.ServiceInfo;
 import javax.net.ssl.SSLException;
 import javax.net.ssl.SSLPeerUnverifiedException;
-
-import es.dmoral.toasty.Toasty;
-import okhttp3.Headers;
-import okhttp3.Request;
 
 import static org.openhab.habdroid.util.Util.exceptionHasCause;
 import static org.openhab.habdroid.util.Util.getHostFromUrl;
@@ -259,8 +261,8 @@ public class MainActivity extends AppCompatActivity implements
             showSnackbar(R.string.info_demo_mode_short);
         } else {
             boolean hasLocalAndRemote =
-                    ConnectionFactory.getConnection(Connection.TYPE_LOCAL) != null &&
-                    ConnectionFactory.getConnection(Connection.TYPE_REMOTE) != null;
+                    ConnectionFactory.getConnection(Connection.TYPE_LOCAL) != null
+                    && ConnectionFactory.getConnection(Connection.TYPE_REMOTE) != null;
             int type = mConnection.getConnectionType();
             if (hasLocalAndRemote && type == Connection.TYPE_LOCAL) {
                 showSnackbar(R.string.info_conn_url);
@@ -305,8 +307,8 @@ public class MainActivity extends AppCompatActivity implements
         Log.d(TAG, "Service resolved: "
                 + serviceInfo.getHostAddresses()[0]
                 + " port:" + serviceInfo.getPort());
-        String serverUrl = "https://" + serviceInfo.getHostAddresses()[0] + ":" +
-                String.valueOf(serviceInfo.getPort()) + "/";
+        String serverUrl = "https://" + serviceInfo.getHostAddresses()[0] + ":"
+                + String.valueOf(serviceInfo.getPort()) + "/";
 
         PreferenceManager.getDefaultSharedPreferences(this).edit()
                 .putString(Constants.PREFERENCE_LOCAL_URL, serverUrl).apply();
@@ -333,6 +335,8 @@ public class MainActivity extends AppCompatActivity implements
             case ACTION_NOTIFICATION_SELECTED:
                 CloudMessagingHelper.onNotificationSelected(this, intent);
                 onNotificationSelected(intent);
+                break;
+            default:
                 break;
         }
     }
@@ -433,8 +437,10 @@ public class MainActivity extends AppCompatActivity implements
             } else if (failureReason != null) {
                 final String message;
                 if (failureReason instanceof NetworkNotSupportedException) {
-                    NetworkInfo info = ((NetworkNotSupportedException) failureReason).getNetworkInfo();
-                    message = getString(R.string.error_network_type_unsupported, info.getTypeName());
+                    NetworkInfo info =
+                            ((NetworkNotSupportedException) failureReason).getNetworkInfo();
+                    message = getString(R.string.error_network_type_unsupported,
+                            info.getTypeName());
                 } else {
                     message = getString(R.string.error_network_not_available);
                 }
@@ -508,7 +514,8 @@ public class MainActivity extends AppCompatActivity implements
         // ProgressBar layout params inside the toolbar have to be done programmatically
         // because it doesn't work through layout file :-(
         mProgressBar = toolbar.findViewById(R.id.toolbar_progress_bar);
-        mProgressBar.setLayoutParams(new Toolbar.LayoutParams(Gravity.END | Gravity.CENTER_VERTICAL));
+        mProgressBar.setLayoutParams(
+                new Toolbar.LayoutParams(Gravity.END | Gravity.CENTER_VERTICAL));
         setProgressIndicatorVisible(false);
     }
 
@@ -521,7 +528,8 @@ public class MainActivity extends AppCompatActivity implements
             @Override
             public void onDrawerOpened(View drawerView) {
                 if (mServerProperties != null && mPropsUpdateHandle == null) {
-                    mPropsUpdateHandle = ServerProperties.updateSitemaps(mServerProperties, mConnection,
+                    mPropsUpdateHandle = ServerProperties.updateSitemaps(mServerProperties,
+                            mConnection,
                             props -> { mServerProperties = props; updateSitemapDrawerItems(); },
                             MainActivity.this::handlePropertyFetchFailure);
                 }
@@ -559,6 +567,8 @@ public class MainActivity extends AppCompatActivity implements
                 case R.id.about:
                     openAbout();
                     return true;
+                default:
+                    break;
             }
             if (item.getGroupId() == GROUP_ID_SITEMAPS) {
                 Sitemap sitemap = mServerProperties.sitemaps().get(item.getItemId());
@@ -571,7 +581,8 @@ public class MainActivity extends AppCompatActivity implements
 
     private void updateNotificationDrawerItem() {
         MenuItem notificationsItem = mDrawerMenu.findItem(R.id.notifications);
-        notificationsItem.setVisible(ConnectionFactory.getConnection(Connection.TYPE_CLOUD) != null);
+        notificationsItem.setVisible(
+                ConnectionFactory.getConnection(Connection.TYPE_CLOUD) != null);
     }
 
     private void updateSitemapDrawerItems() {
@@ -632,8 +643,8 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     private void openNotificationsPageIfNeeded() {
-        if (mPendingOpenedNotificationId != null && mStarted &&
-                ConnectionFactory.getConnection(Connection.TYPE_CLOUD) != null) {
+        if (mPendingOpenedNotificationId != null && mStarted
+                && ConnectionFactory.getConnection(Connection.TYPE_CLOUD) != null) {
             openNotifications(mPendingOpenedNotificationId);
             mPendingOpenedNotificationId = null;
         }
@@ -767,10 +778,10 @@ public class MainActivity extends AppCompatActivity implements
     public boolean onPrepareOptionsMenu(Menu menu) {
         Log.d(TAG, "onPrepareOptionsMenu()");
         MenuItem voiceRecognitionItem = menu.findItem(R.id.mainmenu_voice_recognition);
+        @ColorInt int iconColor = ContextCompat.getColor(this, R.color.light);
         voiceRecognitionItem.setVisible(
                 mConnection != null && SpeechRecognizer.isRecognitionAvailable(this));
-        voiceRecognitionItem.getIcon()
-                .setColorFilter(ContextCompat.getColor(this, R.color.light), PorterDuff.Mode.SRC_IN);
+        voiceRecognitionItem.getIcon().setColorFilter(iconColor, PorterDuff.Mode.SRC_IN);
 
         return true;
     }
@@ -801,7 +812,8 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Log.d(TAG, String.format("onActivityResult() requestCode = %d, resultCode = %d", requestCode, resultCode));
+        Log.d(TAG, String.format("onActivityResult() requestCode = %d, resultCode = %d",
+                requestCode, resultCode));
         switch (requestCode) {
             case SETTINGS_REQUEST_CODE:
                 if (data == null) {
@@ -870,7 +882,8 @@ public class MainActivity extends AppCompatActivity implements
         Log.d(TAG, "onBackPressed()");
         if (mController.canGoBack()) {
             mController.goBack();
-        } else if (!isFullscreenEnabled()) { //in fullscreen don't continue back which would exit the app
+        } else if (!isFullscreenEnabled()) {
+            //in fullscreen don't continue back which would exit the app
             super.onBackPressed();
         }
     }
@@ -892,7 +905,8 @@ public class MainActivity extends AppCompatActivity implements
         Intent speechIntent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         // Display an hint to the user about what he should say.
         speechIntent.putExtra(RecognizerIntent.EXTRA_PROMPT, getString(R.string.info_voice_input));
-        speechIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        speechIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+                RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
         speechIntent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 1);
         speechIntent.putExtra(RecognizerIntent.EXTRA_RESULTS_PENDINGINTENT, openhabPendingIntent);
 
@@ -942,16 +956,18 @@ public class MainActivity extends AppCompatActivity implements
         Log.e(TAG, "Error: " + error.toString());
         Log.e(TAG, "HTTP status code: " + statusCode);
         CharSequence message;
-        if (statusCode >= 400){
+        if (statusCode >= 400) {
             if (error.getMessage().equals("openHAB is offline")) {
                 message = getString(R.string.error_openhab_offline);
             } else {
-                int resourceID;
+                int resourceId;
                 try {
-                    resourceID = getResources().getIdentifier("error_http_code_" + statusCode, "string", getPackageName());
-                    message = getString(resourceID);
-                } catch (android.content.res.Resources.NotFoundException e) {
-                    message = String.format(getString(R.string.error_http_connection_failed), statusCode);
+                    resourceId = getResources().getIdentifier(
+                            "error_http_code_" + statusCode,
+                            "string", getPackageName());
+                    message = getString(resourceId);
+                } catch (Resources.NotFoundException e) {
+                    message = getString(R.string.error_http_connection_failed, statusCode);
                 }
             }
         } else if (error instanceof UnknownHostException) {
@@ -994,7 +1010,8 @@ public class MainActivity extends AppCompatActivity implements
                 String base64Credentials = authHeader.substring("Basic".length()).trim();
                 String credentials = new String(Base64.decode(base64Credentials, Base64.DEFAULT),
                         Charset.forName("UTF-8"));
-                builder.append("\nUsername: ").append(credentials.substring(0, credentials.indexOf(":")));
+                builder.append("\nUsername: ")
+                        .append(credentials.substring(0, credentials.indexOf(":")));
             }
 
             builder.append("\nException stack:\n");

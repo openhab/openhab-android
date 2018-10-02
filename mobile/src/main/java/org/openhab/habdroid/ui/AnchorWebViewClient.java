@@ -11,9 +11,9 @@
 package org.openhab.habdroid.ui;
 
 import android.util.Log;
+import android.webkit.HttpAuthHandler;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.webkit.HttpAuthHandler;
 
 class AnchorWebViewClient extends WebViewClient {
     private static final String TAG = AnchorWebViewClient.class.getSimpleName();
@@ -28,9 +28,9 @@ class AnchorWebViewClient extends WebViewClient {
         int pos = url.lastIndexOf("#") + 1;
         if (pos != 0 && pos < url.length()) {
             mAnchor = url.substring(pos);
-            Log.d(TAG, "Found anchor " + mAnchor + " from url "+ url);
+            Log.d(TAG, "Found anchor " + mAnchor + " from url " + url);
         } else {
-            Log.d(TAG, "Did not find anchor from url "+ url);
+            Log.d(TAG, "Did not find anchor from url " + url);
         }
     }
 

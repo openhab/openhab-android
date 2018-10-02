@@ -26,7 +26,7 @@ import java.util.Locale;
 
 public class MapViewHelper {
     public static WidgetAdapter.ViewHolder createViewHolder(LayoutInflater inflater,
-                                                            ViewGroup parent, Connection connection, WidgetAdapter.ColorMapper colorMapper) {
+            ViewGroup parent, Connection connection, WidgetAdapter.ColorMapper colorMapper) {
         MapsInitializer.initialize(inflater.getContext());
         return new GoogleMapsViewHolder(inflater, parent, connection, colorMapper);
     }

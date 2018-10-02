@@ -42,8 +42,8 @@ public class VoiceWidget extends AppWidgetProvider {
         // Enter relevant functionality for when the last widget is disabled
     }
 
-    private void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
-                                 int appWidgetId) {
+    private void updateAppWidget(Context context,
+            AppWidgetManager appWidgetManager, int appWidgetId) {
         // Construct the RemoteViews object
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.voice_widget);
 
@@ -53,8 +53,10 @@ public class VoiceWidget extends AppWidgetProvider {
 
         Intent speechIntent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         // Display an hint to the user about what he should say.
-        speechIntent.putExtra(RecognizerIntent.EXTRA_PROMPT, context.getString(R.string.info_voice_input));
-        speechIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        speechIntent.putExtra(RecognizerIntent.EXTRA_PROMPT,
+                context.getString(R.string.info_voice_input));
+        speechIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+                RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
         speechIntent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 1);
         speechIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         speechIntent.putExtra(RecognizerIntent.EXTRA_RESULTS_PENDINGINTENT, callbackPendingIntent);

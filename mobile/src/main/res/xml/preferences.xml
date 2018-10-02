@@ -20,7 +20,7 @@
             android:title="@string/settings_openhab_alt_connection"
             android:dependency="default_openhab_demomode"
             android:icon="@drawable/ic_tree_grey_24dp" />
-        <org.openhab.habdroid.ui.widget.SSLClientCertificatePreference
+        <org.openhab.habdroid.ui.widget.SslClientCertificatePreference
             android:defaultValue="@string/settings_openhab_none"
             android:key="default_openhab_sslclientcert"
             android:summary="@string/settings_openhab_none"
