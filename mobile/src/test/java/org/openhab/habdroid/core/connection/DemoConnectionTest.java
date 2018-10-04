@@ -1,9 +1,9 @@
 package org.openhab.habdroid.core.connection;
 
+import okhttp3.OkHttpClient;
+
 import org.junit.Before;
 import org.junit.Test;
-
-import okhttp3.OkHttpClient;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNull;

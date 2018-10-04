@@ -10,6 +10,9 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 
+import okhttp3.mockwebserver.MockResponse;
+import okhttp3.mockwebserver.MockWebServer;
+
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -23,9 +26,6 @@ import org.openhab.habdroid.util.Constants;
 
 import java.io.File;
 import java.io.IOException;
-
-import okhttp3.mockwebserver.MockResponse;
-import okhttp3.mockwebserver.MockWebServer;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
@@ -81,8 +81,8 @@ public class ConnectionFactoryTest {
         ConnectionFactory.sInstance.updateConnections();
         Connection conn = ConnectionFactory.getConnection(Connection.TYPE_REMOTE);
 
-        assertNotNull("Requesting a remote connection when a remote url is set, " +
-                " should return a connection.", conn);
+        assertNotNull("Requesting a remote connection when a remote url is set, "
+                + " should return a connection.", conn);
         assertEquals("The connection type of a remote connection should be TYPE_REMOTE.",
                 Connection.TYPE_REMOTE, conn.getConnectionType());
     }
@@ -94,8 +94,8 @@ public class ConnectionFactoryTest {
         ConnectionFactory.sInstance.updateConnections();
         Connection conn = ConnectionFactory.getConnection(Connection.TYPE_REMOTE);
 
-        assertNull("Requesting a remote connection when a remote url isn't set, should not " +
-                "return a connection.", conn);
+        assertNull("Requesting a remote connection when a remote url isn't set, "
+                + "should not return a connection.", conn);
     }
 
     @Test
@@ -105,8 +105,8 @@ public class ConnectionFactoryTest {
         ConnectionFactory.sInstance.updateConnections();
         Connection conn = ConnectionFactory.getConnection(Connection.TYPE_LOCAL);
 
-        assertNotNull("Requesting a local connection when local url is set, should " +
-                "return a connection.", conn);
+        assertNotNull("Requesting a local connection when local url is set, "
+                + "should return a connection.", conn);
         assertEquals("The connection type of a local connection should be LOGLEVEL_LOCAL.",
                 Connection.TYPE_LOCAL, conn.getConnectionType());
     }
@@ -118,8 +118,8 @@ public class ConnectionFactoryTest {
         ConnectionFactory.sInstance.updateConnections();
         Connection conn = ConnectionFactory.getConnection(Connection.TYPE_LOCAL);
 
-        assertNull("Requesting a remote connection when a local url isn't set, should not " +
-                "return a connection.", conn);
+        assertNull("Requesting a remote connection when a local url isn't set, "
+                + "should not return a connection.", conn);
     }
 
     @Test
@@ -241,7 +241,10 @@ public class ConnectionFactoryTest {
         when(h.obtainMessage(anyInt()))
                 .thenAnswer(invocation -> makeMockedMessage(h, invocation.getArgument(0), null));
         when(h.obtainMessage(anyInt(), any()))
-                .thenAnswer(invocation -> makeMockedMessage(h, invocation.getArgument(0), invocation.getArgument(1)));
+                .thenAnswer(invocation -> {
+                    return makeMockedMessage(h, invocation.getArgument(0),
+                            invocation.getArgument(1));
+                });
         return h;
     }
 

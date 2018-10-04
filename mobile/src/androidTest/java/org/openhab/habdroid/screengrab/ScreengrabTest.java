@@ -17,7 +17,7 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.Espresso.pressBack;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static tools.fastlane.screengrab.Screengrab.*;
+import static tools.fastlane.screengrab.Screengrab.screenshot;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)

@@ -12,8 +12,8 @@ import org.openhab.habdroid.ui.MainActivity;
 
 public abstract class ProgressbarAwareTest {
     @Rule
-    public IntentsTestRule<MainActivity> mActivityTestRule = new IntentsTestRule<>
-            (MainActivity.class,  true, false);
+    public IntentsTestRule<MainActivity> mActivityTestRule =
+            new IntentsTestRule<>(MainActivity.class,  true, false);
 
     private IdlingResource mProgressbarIdlingResource;
     private IdlingResource mFragmentIdlingResource;
@@ -30,9 +30,10 @@ public abstract class ProgressbarAwareTest {
 
     protected IdlingResource getProgressbarIdlingResource() {
         if (mProgressbarIdlingResource == null) {
-            View progressBar = mActivityTestRule.getActivity().findViewById(R.id.toolbar_progress_bar);
-            mProgressbarIdlingResource = new ProgressbarIdlingResource("Progressbar " +
-                    "IdleResource", progressBar);
+            final View progressBar =
+                    mActivityTestRule.getActivity().findViewById(R.id.toolbar_progress_bar);
+            mProgressbarIdlingResource =
+                    new ProgressbarIdlingResource("Progressbar IdleResource", progressBar);
         }
         return mProgressbarIdlingResource;
     }

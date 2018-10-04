@@ -22,8 +22,9 @@ public class ProgressbarIdlingResource implements IdlingResource {
     @Override
     public boolean isIdleNow() {
         boolean idle = mProgressBar.getVisibility() == View.INVISIBLE;
-        if (idle && mCallback != null)
+        if (idle && mCallback != null) {
             mCallback.onTransitionToIdle();
+        }
 
         return idle;
     }

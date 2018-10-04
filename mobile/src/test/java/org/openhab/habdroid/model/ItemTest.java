@@ -6,7 +6,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ItemTest {
@@ -47,13 +49,13 @@ public class ItemTest {
     }
 
     @Test
-    public void getStateAsBoolean_stateHSBBrightnessZero_returnFalse() throws Exception {
+    public void getStateAsBoolean_stateHsbBrightnessZero_returnFalse() throws Exception {
         Item sut = Item.fromJson(itemJsonForState("10,10,0"));
         assertFalse(sut.stateAsBoolean());
     }
 
     @Test
-    public void getStateAsBoolean_stateHSBBrightnessPositive_returnTrue() throws Exception {
+    public void getStateAsBoolean_stateHsbBrightnessPositive_returnTrue() throws Exception {
         Item sut = Item.fromJson(itemJsonForState("10,10,50"));
         assertTrue(sut.stateAsBoolean());
     }
