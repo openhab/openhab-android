@@ -63,16 +63,29 @@
   <string name="info_conn_url">Σύνδεση στην τοπική διεύθυνση</string>
   <string name="info_conn_rem_url">Σύνδεση στην απομακρυσμένη διεύθυνση</string>
   <!-- Error messages -->
+  <string name="error_empty_sitemap_list">Το openHAB επέστρεψε μια άδεια λίστα Sitemap</string>
   <string name="error_network_not_available">Το δίκτυο δεν είναι διαθέσιμο</string>
+  <string name="error_http_connection_failed">Η σύνδεση απέτυχε. Λήψη μη αναμενόμενης απάντησης κατά την προσπάθεια σύνδεσης με το διακομιστή openHAB (κωδικός απόκρισης HTTP: %d).</string>
   <string name="error_invalid_url">Παρακαλώ εισάγετε ενα σωστό URL της μορφής \'πρωτόκολλο://διακομιστής:πόρτα/\'</string>
   <string name="error_connection_failed">Η σύνδεση στον διακομιστή απέτυχε</string>
   <string name="error_unable_to_resolve_hostname">Αδυναμία ανεύρεσης ονόματος διακομιστή</string>
   <string name="error_connection_sslhandshake_failed">Η διαδικασία SSL Handshake απέτυχε</string>
+  <string name="error_certificate_not_trusted">Το πιστοποιητικό SSL δεν είναι έμπιστο. Παρακαλώ λάβετε καινούριο πιστοποιητικό ή αποδεχτείτε το πιστοποιητικό κατά την την διαδικασία εγκαθίδρυσης SSL.</string>
+  <string name="error_certificate_expired">Το πιστοποιητικό SSL έχει λήξει. Παρακαλώ λάβετε καινούριο πιστοποιητικό ή αποδεχτείτε το πιστοποιητικό κατά την διαδικασία εγκαθίδρυσης SSL.</string>
+  <string name="error_certificate_not_valid_yet">Το πιστοποιητικό SSL δεν είναι έγκυρο ακόμα. Παρακαλώ λάβετε καινούριο πιστοποιητικό ή αποδεχτείτε το πιστοποιητικό κατά την διαδικασία εγκαθίδρυσης SSL. Επίσης, ελέγξτε ότι το ρολόι στην συσκευή σας είναι ρυθμισμένο σωστά.</string>
+  <string name="error_certificate_revoked">Το πιστοποιητικό SSL έχει ανακληθεί. Παρακαλώ λάβετε καινούριο πιστοποιητικό ή αποδεχτείτε το πιστοποιητικό κατά την διαδικασία εγκαθίδρυσης SSL.</string>
   <string name="error_certificate_wrong_host">Το πιστοποιητικό SSL δεν είναι έγκυρο για %s</string>
+  <string name="error_http_code_401">Η πιστοποίηση του χρήστη απέτυχε. Παρακαλώ ελέγξτε το όνομα χρήστη και κωδικό, αντίστοιχα και το SSL πιστοποιητικό πελάτη (κωδικός απόκρισης HTTP 401).</string>
+  <string name="error_http_code_403">Η πιστοποίηση του χρήστη απέτυχε. Παρακαλώ ελέγξτε το όνομα χρήστη και κωδικό, αντίστοιχα και το SSL πιστοποιητικό πελάτη (κωδικός απόκρισης HTTP 403).</string>
+  <string name="error_http_code_407">Η πιστοποίηση του χρήστη απέτυχε. Παρακαλώ ελέγξτε το όνομα χρήστη και κωδικό, αντίστοιχα και το SSL πιστοποιητικό πελάτη (κωδικός απόκρισης HTTP 407).</string>
+  <string name="error_http_code_414">Το URL είναι πολύ μακρύ. Παρακαλώ χρησιμοποιήστε το IP ή ένα πιο μικρό URL (κωδικός απόκρισης HTTP 414).</string>
+  <string name="error_http_code_426">Απαιτείται χρήση HTTPS. Παρακαλώ αλλάξτε το URL (κωδικός απόκρισης HTTP 426).</string>
   <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
+  <string name="error_http_code_495">Η πιστοποίηση του χρήστη απέτυχε. Παρακαλώ ελέγξτε το SSL πιστοποιητικό πελάτη (κωδικός απόκρισης HTTP 495).</string>
   <string name="error_http_code_496">Απαιτείται SSL πιστοποιητικό πελάτη (κωδικός απόκρισης HTTP 496)</string>
   <string name="error_http_code_502">Ο reverse proxy σας έλαβε λάθος απάντηση από το openHAB (κωδικός απόκρισης HTTP 502)</string>
   <string name="error_http_code_503">Το openHAB είναι προσωρινά μη διαθέσιμο (κωδικός απόκρισης HTTP 503)</string>
+  <string name="error_http_code_504">Τέλος χρόνου Πύλης (Gateway). Φαίνεται ότι ο reverse proxy είναι σε λειτουργία αλλά δε μπορούσε να λάβει απάντηση από το openHAB (κωδικός απόκρισης HTTP 504).</string>
   <string name="error_http_code_507">Tο openHAB δεν έχει αρκετό ελεύθερο χώρο (κωδικός απόκρισης HTTP 507)</string>
   <string name="error_http_code_511">Απαιτείται πιστοποίηση δικτύου (κωδικός απόκρισης HTTP 511)</string>
   <string name="error_about_no_conn">Σφάλμα κατά τη λήψη των πληροφοριών διακομιστή openHAB</string>
