@@ -1,20 +1,13 @@
 <p align="center">
-  <a href="https://travis-ci.org/openhab/openhab-android">
-    <img src="https://travis-ci.org/openhab/openhab-android.svg?branch=master">
-  </a>
-  <a href="https://crowdin.com/project/openhab-android">
-    <img src="https://d322cqt584bo4o.cloudfront.net/openhab-android/localized.svg">
-  </a>
-    <a href="https://codecov.io/gh/openhab/openhab-android/branch/master">
-    <img src="https://codecov.io/gh/openhab/openhab-android/branch/master/graph/badge.svg">
-  </a>
-  <a href="https://www.bountysource.com/teams/openhab/issues?tracker_ids=968858">
-    <img src="https://www.bountysource.com/badge/tracker?tracker_id=968858">
-  </a>
-  <br>
-  <img alt="Logo" src="fastlane/metadata/android/en-US/images/icon.png" width="100">
-  <br>
-  <b>openHAB client for Android</b>
+    <a href="https://travis-ci.org/openhab/openhab-android"><img src="https://travis-ci.org/openhab/openhab-android.svg?branch=master"></a>
+    <a href="https://crowdin.com/project/openhab-android"><img src="https://d322cqt584bo4o.cloudfront.net/openhab-android/localized.svg"></a>
+    <a href="https://codecov.io/gh/openhab/openhab-android/branch/master"><img src="https://codecov.io/gh/openhab/openhab-android/branch/master/graph/badge.svg"></a>
+    <a href="https://lgtm.com/projects/g/openhab/openhab.android/alerts/"><img alt="Total alerts" src="https://img.shields.io/lgtm/alerts/g/openhab/openhab.android.svg?logo=lgtm&logoWidth=18"/></a>
+    <a href="https://www.bountysource.com/teams/openhab/issues?tracker_ids=968858"><img src="https://www.bountysource.com/badge/tracker?tracker_id=968858"></a>
+    <br>
+    <img alt="Logo" src="fastlane/metadata/android/en-US/images/icon.png" width="100">
+    <br>
+    <b>openHAB client for Android</b>
 </p>
 
 ## Introduction
