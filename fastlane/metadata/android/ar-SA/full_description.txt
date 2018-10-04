@@ -40,4 +40,4 @@ openHAB مبادرة المصدر المفتوح مدعومة بقوة من مج
 The app is flagged with the "NonFreeAsset" flag, because the openHAB icon is not under a free license.
 
 
-Privacy policy: https://www.openhabfoundation.org/privacy
+Privacy policy: https://www.openhabfoundation.org/privacy.html
