@@ -29,7 +29,7 @@ import javax.jmdns.ServiceInfo;
 import javax.jmdns.ServiceListener;
 
 public class AsyncServiceResolver extends Thread implements ServiceListener {
-    private final static String TAG = AsyncServiceResolver.class.getSimpleName();
+    private static final String TAG = AsyncServiceResolver.class.getSimpleName();
 
     public interface Listener {
         void onServiceResolved(ServiceInfo serviceInfo);
@@ -45,7 +45,7 @@ public class AsyncServiceResolver extends Thread implements ServiceListener {
     private Listener mListener;
     private Handler mHandler;
 
-    private final static int DEFAULT_DISCOVERY_TIMEOUT = 3000;
+    private static final int DEFAULT_DISCOVERY_TIMEOUT = 3000;
 
     public AsyncServiceResolver(Context context, Listener listener, String serviceType) {
         super();
@@ -85,12 +85,14 @@ public class AsyncServiceResolver extends Thread implements ServiceListener {
                 mHandler.post(() -> mListener.onServiceResolveFailed());
                 shutdown();
             }
-        } catch (InterruptedException ignored) {}
+        } catch (InterruptedException ignored) {
+            // ignored
+        }
     }
 
     @Override
     public void serviceAdded(ServiceEvent event) {
-       Log.d(TAG, "Service added " + event.getName());
+        Log.d(TAG, "Service added " + event.getName());
         mJmdns.requestServiceInfo(event.getType(), event.getName(), 1);
     }
 
@@ -120,14 +122,16 @@ public class AsyncServiceResolver extends Thread implements ServiceListener {
 
     private InetAddress getLocalIpv4Address() {
         try {
-            for (Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces(); en.hasMoreElements();) {
+            for (Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces();
+                    en.hasMoreElements();) {
                 NetworkInterface intf = en.nextElement();
-                for (Enumeration<InetAddress> enumIpAddr = intf.getInetAddresses(); enumIpAddr.hasMoreElements();) {
+                for (Enumeration<InetAddress> enumIpAddr = intf.getInetAddresses();
+                        enumIpAddr.hasMoreElements();) {
                     InetAddress inetAddress = enumIpAddr.nextElement();
                     Log.i(TAG, "IP: " + inetAddress.getHostAddress().toString());
                     Log.i(TAG, "Is IPV4 = " + (inetAddress instanceof Inet4Address));
                     if (!inetAddress.isLoopbackAddress() && (inetAddress instanceof Inet4Address)) {
-                        Log.i(TAG, "Selected " + inetAddress.getHostAddress().toString());
+                        Log.i(TAG, "Selected " + inetAddress.getHostAddress());
                         return inetAddress;
                     }
                 }

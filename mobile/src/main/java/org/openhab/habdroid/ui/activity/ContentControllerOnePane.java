@@ -14,12 +14,12 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.ViewStub;
 
 import org.openhab.habdroid.R;
-import org.openhab.habdroid.ui.OpenHABMainActivity;
-import org.openhab.habdroid.ui.OpenHABWidgetListFragment;
+import org.openhab.habdroid.ui.MainActivity;
+import org.openhab.habdroid.ui.WidgetListFragment;
 
 @SuppressWarnings("unused") // instantiated via reflection
 public class ContentControllerOnePane extends ContentController {
-    public ContentControllerOnePane(OpenHABMainActivity activity) {
+    public ContentControllerOnePane(MainActivity activity) {
         super(activity);
     }
 
@@ -45,7 +45,7 @@ public class ContentControllerOnePane extends ContentController {
     }
 
     @Override
-    protected OpenHABWidgetListFragment getFragmentForTitle() {
+    protected WidgetListFragment getFragmentForTitle() {
         return mPageStack.empty() ? mSitemapFragment : mPageStack.peek().second;
     }
 

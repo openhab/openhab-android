@@ -11,7 +11,6 @@ package org.openhab.habdroid.ui;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
@@ -25,6 +24,7 @@ import android.os.Message;
 import android.preference.PreferenceManager;
 import android.support.annotation.IdRes;
 import android.support.annotation.LayoutRes;
+import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
@@ -40,7 +40,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.webkit.WebView;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -54,11 +53,13 @@ import com.larswerkman.holocolorpicker.ColorPicker;
 import com.larswerkman.holocolorpicker.SaturationBar;
 import com.larswerkman.holocolorpicker.ValueBar;
 
+import okhttp3.HttpUrl;
+
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.core.connection.Connection;
-import org.openhab.habdroid.model.OpenHABItem;
-import org.openhab.habdroid.model.OpenHABLabeledValue;
-import org.openhab.habdroid.model.OpenHABWidget;
+import org.openhab.habdroid.model.Item;
+import org.openhab.habdroid.model.LabeledValue;
+import org.openhab.habdroid.model.Widget;
 import org.openhab.habdroid.ui.widget.DividerItemDecoration;
 import org.openhab.habdroid.ui.widget.ExtendedSpinner;
 import org.openhab.habdroid.ui.widget.SegmentedControlButton;
@@ -69,26 +70,23 @@ import org.openhab.habdroid.util.Util;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Random;
 
-import okhttp3.HttpUrl;
-
 /**
  * This class provides openHAB widgets adapter for list view.
  */
 
-public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdapter.ViewHolder>
+public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder>
         implements View.OnClickListener, View.OnLongClickListener {
-    private static final String TAG = "OpenHABWidgetAdapter";
+    private static final String TAG = "WidgetAdapter";
 
     public interface ItemClickListener {
-        void onItemClicked(OpenHABWidget item);
-        void onItemLongClicked(OpenHABWidget item);
+        void onItemClicked(Widget item);
+        void onItemLongClicked(Widget item);
     }
 
     private static final int TYPE_GENERICITEM = 0;
@@ -109,7 +107,7 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
     private static final int TYPE_VIDEO_MJPEG = 15;
     private static final int TYPE_LOCATION = 16;
 
-    private final ArrayList<OpenHABWidget> mItems = new ArrayList<>();
+    private final ArrayList<Widget> mItems = new ArrayList<>();
     private final LayoutInflater mInflater;
     private ItemClickListener mItemClickListener;
     private CharSequence mChartTheme;
@@ -117,7 +115,7 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
     private Connection mConnection;
     private ColorMapper mColorMapper;
 
-    public OpenHABWidgetAdapter(Context context, Connection connection,
+    public WidgetAdapter(Context context, Connection connection,
             ItemClickListener itemClickListener) {
         super();
 
@@ -131,7 +129,7 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         mChartTheme = tv.string;
     }
 
-    public void update(List<OpenHABWidget> widgets, boolean forceFullUpdate) {
+    public void update(List<Widget> widgets, boolean forceFullUpdate) {
         boolean compatibleUpdate = true;
 
         if (widgets.size() != mItems.size() || forceFullUpdate) {
@@ -159,7 +157,7 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         }
     }
 
-    public void updateWidget(OpenHABWidget widget) {
+    public void updateWidget(Widget widget) {
         for (int i = 0; i < mItems.size(); i++) {
             if (mItems.get(i).id().equals(widget.id())) {
                 mItems.set(i, widget);
@@ -169,6 +167,7 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         }
     }
 
+    @NonNull
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         final ViewHolder holder;
@@ -207,7 +206,8 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
                 holder = new SetpointViewHolder(mInflater, parent, mConnection, mColorMapper);
                 break;
             case TYPE_CHART:
-                holder = new ChartViewHolder(mInflater, parent, mChartTheme, mConnection, mColorMapper);
+                holder = new ChartViewHolder(mInflater, parent,
+                        mChartTheme, mConnection, mColorMapper);
                 break;
             case TYPE_VIDEO:
                 holder = new VideoViewHolder(mInflater, parent, mConnection, mColorMapper);
@@ -222,7 +222,8 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
                 holder = new MjpegVideoViewHolder(mInflater, parent, mConnection, mColorMapper);
                 break;
             case TYPE_LOCATION:
-                holder = MapViewHelper.createViewHolder(mInflater, parent, mConnection, mColorMapper);
+                holder = MapViewHelper.createViewHolder(mInflater, parent,
+                        mConnection, mColorMapper);
                 break;
             default:
                 throw new IllegalArgumentException("View type " + viewType + " is not known");
@@ -263,7 +264,7 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         return mItems.size();
     }
 
-    public OpenHABWidget getItem(int position) {
+    public Widget getItem(int position) {
         return mItems.get(position);
     }
 
@@ -272,7 +273,7 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         return getItemViewType(mItems.get(position));
     }
 
-    private int getItemViewType(OpenHABWidget widget) {
+    private int getItemViewType(Widget widget) {
         switch (widget.type()) {
             case Frame:
                 return TYPE_FRAME;
@@ -282,8 +283,8 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
                 if (widget.hasMappings()) {
                     return TYPE_SECTIONSWITCH;
                 } else {
-                    OpenHABItem item = widget.item();
-                    if (item != null && item.isOfTypeOrGroupType(OpenHABItem.Type.Rollershutter)) {
+                    Item item = widget.item();
+                    if (item != null && item.isOfTypeOrGroupType(Item.Type.Rollershutter)) {
                         return TYPE_ROLLERSHUTTER;
                     }
                     return TYPE_SWITCH;
@@ -360,7 +361,7 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
             mColorMapper = colorMapper;
         }
 
-        public abstract void bind(OpenHABWidget widget);
+        public abstract void bind(Widget widget);
         public void start() {}
         public void stop() {}
 
@@ -378,7 +379,7 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
             }
         }
 
-        protected void updateIcon(WidgetImageView iconView, OpenHABWidget widget) {
+        protected void updateIcon(WidgetImageView iconView, Widget widget) {
             if (widget.icon() == null) {
                 iconView.setImageDrawable(null);
                 return;
@@ -395,7 +396,7 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         }
     }
 
-    public static abstract class LabeledItemBaseViewHolder extends ViewHolder {
+    public abstract static class LabeledItemBaseViewHolder extends ViewHolder {
         protected final TextView mLabelView;
         protected final TextView mValueView;
         protected final WidgetImageView mIconView;
@@ -409,7 +410,7 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         }
 
         @Override
-        public void bind(OpenHABWidget widget) {
+        public void bind(Widget widget) {
             String[] splitString = widget.label().split("\\[|\\]");
             mLabelView.setText(splitString.length > 0 ? splitString[0] : null);
             updateTextViewColor(mLabelView, widget.labelColor());
@@ -434,7 +435,7 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         }
 
         @Override
-        public void bind(OpenHABWidget widget) {
+        public void bind(Widget widget) {
             mLabelView.setText(widget.label());
             updateTextViewColor(mLabelView, widget.labelColor());
             updateIcon(mIconView, widget);
@@ -456,7 +457,7 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         }
 
         @Override
-        public void bind(OpenHABWidget widget) {
+        public void bind(Widget widget) {
             mLabelView.setText(widget.label());
             updateTextViewColor(mLabelView, widget.valueColor());
             // hide empty frames
@@ -479,7 +480,7 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         }
 
         @Override
-        public void bind(OpenHABWidget widget) {
+        public void bind(Widget widget) {
             super.bind(widget);
             mRightArrow.setVisibility(widget.linkedPage() != null ? View.VISIBLE : View.GONE);
         }
@@ -488,7 +489,7 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
     public static class SwitchViewHolder extends LabeledItemBaseViewHolder
             implements View.OnTouchListener {
         private final SwitchCompat mSwitch;
-        private OpenHABItem mBoundItem;
+        private Item mBoundItem;
 
         SwitchViewHolder(LayoutInflater inflater, ViewGroup parent,
                 Connection conn, ColorMapper colorMapper) {
@@ -498,7 +499,7 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         }
 
         @Override
-        public void bind(OpenHABWidget widget) {
+        public void bind(Widget widget) {
             super.bind(widget);
             mBoundItem = widget.item();
             mSwitch.setChecked(mBoundItem != null && mBoundItem.stateAsBoolean());
@@ -524,7 +525,7 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         }
 
         @Override
-        public void bind(OpenHABWidget widget) {
+        public void bind(Widget widget) {
             super.bind(widget);
             mRightArrow.setVisibility(widget.linkedPage() != null ? View.VISIBLE : View.GONE);
         }
@@ -533,7 +534,7 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
     public static class SliderViewHolder extends LabeledItemBaseViewHolder
             implements SeekBar.OnSeekBarChangeListener {
         private final SeekBar mSeekBar;
-        private OpenHABItem mBoundItem;
+        private Item mBoundItem;
 
         SliderViewHolder(LayoutInflater inflater, ViewGroup parent,
                 Connection conn, ColorMapper colorMapper) {
@@ -543,12 +544,12 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         }
 
         @Override
-        public void bind(OpenHABWidget widget) {
+        public void bind(Widget widget) {
             super.bind(widget);
             mBoundItem = widget.item();
             if (mBoundItem != null) {
                 int progress;
-                if (mBoundItem.isOfTypeOrGroupType(OpenHABItem.Type.Color)) {
+                if (mBoundItem.isOfTypeOrGroupType(Item.Type.Color)) {
                     Integer brightness = mBoundItem.stateAsBrightness();
                     progress = brightness != null ? brightness : 0;
                 } else {
@@ -590,8 +591,8 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         }
 
         @Override
-        public void bind(OpenHABWidget widget) {
-            OpenHABItem item = widget.item();
+        public void bind(Widget widget) {
+            Item item = widget.item();
             final String state = item != null ? item.state() : null;
 
             // Make sure images fit into the content frame by scaling
@@ -601,7 +602,8 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
             mImageView.setMaxHeight(maxHeight);
 
             if (state != null && state.matches("data:image/.*;base64,.*")) {
-                byte[] data = Base64.decode(state.substring(state.indexOf(",") + 1), Base64.DEFAULT);
+                final String dataString = state.substring(state.indexOf(",") + 1);
+                byte[] data = Base64.decode(dataString, Base64.DEFAULT);
                 Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
                 mImageView.setImageBitmap(bitmap);
                 mRefreshRate = 0;
@@ -629,8 +631,8 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
     public static class SelectionViewHolder extends LabeledItemBaseViewHolder
             implements ExtendedSpinner.OnSelectionUpdatedListener {
         private final ExtendedSpinner mSpinner;
-        private OpenHABItem mBoundItem;
-        private List<OpenHABLabeledValue> mBoundMappings;
+        private Item mBoundItem;
+        private List<LabeledValue> mBoundMappings;
 
         SelectionViewHolder(LayoutInflater inflater, ViewGroup parent,
                 Connection conn, ColorMapper colorMapper) {
@@ -640,7 +642,7 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         }
 
         @Override
-        public void bind(OpenHABWidget widget) {
+        public void bind(Widget widget) {
             super.bind(widget);
 
             mBoundItem = widget.item();
@@ -650,7 +652,7 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
             ArrayList<String> spinnerArray = new ArrayList<>();
             String state = mBoundItem != null ? mBoundItem.state() : null;
 
-            for (OpenHABLabeledValue mapping : mBoundMappings) {
+            for (LabeledValue mapping : mBoundMappings) {
                 String command = mapping.value();
                 spinnerArray.add(mapping.label());
                 if (command != null && command.equals(state)) {
@@ -662,7 +664,7 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
                 spinnerSelectedIndex = spinnerArray.size() - 1;
             }
 
-            ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(itemView.getContext(),
+            ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(itemView.getContext(),
                     android.R.layout.simple_spinner_item, spinnerArray);
             spinnerAdapter.setDropDownViewResource(android.R.layout.select_dialog_singlechoice);
 
@@ -677,7 +679,7 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
             if (position >= mBoundMappings.size()) {
                 return;
             }
-            OpenHABLabeledValue item = mBoundMappings.get(position);
+            LabeledValue item = mBoundMappings.get(position);
             Log.d(TAG, "Spinner onItemSelected found match with " + item.value());
             Util.sendItemCommand(mConnection.getAsyncHttpClient(), mBoundItem, item.value());
         }
@@ -687,21 +689,22 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
             implements View.OnClickListener {
         private final LayoutInflater mInflater;
         private final RadioGroup mRadioGroup;
-        private OpenHABItem mBoundItem;
+        private Item mBoundItem;
 
         SectionSwitchViewHolder(LayoutInflater inflater, ViewGroup parent,
                 Connection conn, ColorMapper colorMapper) {
-            super(inflater, parent, R.layout.openhabwidgetlist_sectionswitchitem, conn, colorMapper);
+            super(inflater, parent,
+                    R.layout.openhabwidgetlist_sectionswitchitem, conn, colorMapper);
             mInflater = inflater;
             mRadioGroup = itemView.findViewById(R.id.switchgroup);
         }
 
         @Override
-        public void bind(OpenHABWidget widget) {
+        public void bind(Widget widget) {
             super.bind(widget);
             mBoundItem = widget.item();
 
-            List<OpenHABLabeledValue> mappings = widget.mappings();
+            List<LabeledValue> mappings = widget.mappings();
             // inflate missing views
             for (int i = mRadioGroup.getChildCount(); i < mappings.size(); i++) {
                 View view = mInflater.inflate(R.layout.openhabwidgetlist_sectionswitchitem_button,
@@ -727,17 +730,19 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
 
         @Override
         public void onClick(View view) {
-            Util.sendItemCommand(mConnection.getAsyncHttpClient(), mBoundItem, (String) view.getTag());
+            final String cmd = (String) view.getTag();
+            Util.sendItemCommand(mConnection.getAsyncHttpClient(), mBoundItem, cmd);
         }
     }
 
     public static class RollerShutterViewHolder extends LabeledItemBaseViewHolder
             implements View.OnTouchListener {
-        private OpenHABItem mBoundItem;
+        private Item mBoundItem;
 
         RollerShutterViewHolder(LayoutInflater inflater, ViewGroup parent,
                 Connection conn, ColorMapper colorMapper) {
-            super(inflater, parent, R.layout.openhabwidgetlist_rollershutteritem, conn, colorMapper);
+            super(inflater, parent,
+                    R.layout.openhabwidgetlist_rollershutteritem, conn, colorMapper);
             initButton(R.id.up_button, "UP");
             initButton(R.id.down_button, "DOWN");
             initButton(R.id.stop_button, "STOP");
@@ -750,7 +755,7 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         }
 
         @Override
-        public void bind(OpenHABWidget widget) {
+        public void bind(Widget widget) {
             super.bind(widget);
             mBoundItem = widget.item();
         }
@@ -758,7 +763,8 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         @Override
         public boolean onTouch(View v, MotionEvent motionEvent) {
             if (motionEvent.getActionMasked() == MotionEvent.ACTION_UP) {
-                Util.sendItemCommand(mConnection.getAsyncHttpClient(), mBoundItem, (String) v.getTag());
+                final String cmd = (String) v.getTag();
+                Util.sendItemCommand(mConnection.getAsyncHttpClient(), mBoundItem, cmd);
             }
             return false;
         }
@@ -767,7 +773,7 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
     public static class SetpointViewHolder extends LabeledItemBaseViewHolder
             implements View.OnClickListener {
         private final LayoutInflater mInflater;
-        private OpenHABWidget mBoundWidget;
+        private Widget mBoundWidget;
 
         SetpointViewHolder(LayoutInflater inflater, ViewGroup parent,
                 Connection conn, ColorMapper colorMapper) {
@@ -780,7 +786,7 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         }
 
         @Override
-        public void bind(OpenHABWidget widget) {
+        public void bind(Widget widget) {
             super.bind(widget);
             mBoundWidget = widget;
         }
@@ -789,14 +795,15 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         public void onClick(final View view) {
             float minValue = mBoundWidget.minValue();
             float maxValue = mBoundWidget.maxValue();
-            //This prevents an exception below. But could lead to user confusion if this case is ever encountered.
+            // This prevents an exception below, but could lead to
+            // user confusion if this case is ever encountered.
             float stepSize = minValue == maxValue ? 1 : mBoundWidget.step();
-
-            final String[] stepValues = new String[((int) (Math.abs(maxValue - minValue) / stepSize)) + 1];
+            final int stepCount = ((int) (Math.abs(maxValue - minValue) / stepSize)) + 1;
+            final String[] stepValues = new String[stepCount];
             for (int i = 0; i < stepValues.length; i++) {
-                //Check if step size is a whole integer.
+                // Check if step size is a whole integer.
                 if (stepSize == Math.ceil(stepSize)) {
-                    //Cast to int to prevent .0 being added to all values in picker
+                    // Cast to int to prevent .0 being added to all values in picker
                     stepValues[i] = String.valueOf((int) (minValue + (i * stepSize)));
                 } else {
                     stepValues[i] = String.valueOf(minValue + (i * stepSize));
@@ -812,27 +819,23 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
 
             // Find the closest value in the calculated step value
             String stateString = Float.toString(mBoundWidget.item().stateAsFloat());
-            int stepIndex = Arrays.binarySearch(stepValues, stateString, new Comparator<CharSequence>() {
-                @Override
-                public int compare(CharSequence t1, CharSequence t2) {
-                    return Float.valueOf(t1.toString()).compareTo(Float.valueOf(t2.toString()));
-                }
-            });
+            int stepIndex = Arrays.binarySearch(stepValues, stateString,
+                    (lhs, rhs) -> Float.valueOf(lhs).compareTo(Float.valueOf(rhs)));
             if (stepIndex < 0) {
-                stepIndex = (-(stepIndex + 1)); // Use the returned insertion point if value is not found and select the closest value.
-                stepIndex = Math.min(stepIndex, stepValues.length - 1);  //handle case where insertion would be larger than the array
+                // Use the returned insertion point if value is not
+                // found and select the closest value.
+                stepIndex = -(stepIndex + 1);
+                // Handle case where insertion would be larger than the array
+                stepIndex = Math.min(stepIndex, stepValues.length - 1);
             }
             numberPicker.setValue(stepIndex);
 
             new AlertDialog.Builder(view.getContext())
                     .setTitle(mLabelView.getText())
                     .setView(dialogView)
-                    .setPositiveButton(R.string.set, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int id) {
-                            Util.sendItemCommand(mConnection.getAsyncHttpClient(), mBoundWidget.item(),
-                                    stepValues[numberPicker.getValue()]);
-                        }
+                    .setPositiveButton(R.string.set, (dialog, which) -> {
+                        Util.sendItemCommand(mConnection.getAsyncHttpClient(), mBoundWidget.item(),
+                                stepValues[numberPicker.getValue()]);
                     })
                     .setNegativeButton(R.string.cancel, null)
                     .show();
@@ -854,25 +857,26 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
             mImageView = itemView.findViewById(R.id.chart);
             mParentView = parent;
 
-            WindowManager wm = (WindowManager) itemView.getContext().getSystemService(Context.WINDOW_SERVICE);
+            final Context context = itemView.getContext();
+            WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
             DisplayMetrics metrics = new DisplayMetrics();
             wm.getDefaultDisplay().getMetrics(metrics);
 
             mDensity = metrics.densityDpi;
             mChartTheme = theme;
-            mPrefs = PreferenceManager.getDefaultSharedPreferences(itemView.getContext());
+            mPrefs = PreferenceManager.getDefaultSharedPreferences(context);
         }
 
         @Override
-        public void bind(OpenHABWidget widget) {
-            OpenHABItem item = widget.item();
+        public void bind(Widget widget) {
+            Item item = widget.item();
 
             if (item != null) {
                 float scalingFactor = mPrefs.getFloat(Constants.PREFERENCE_CHART_SCALING, 1.0f);
                 float actualDensity = (float) mDensity / scalingFactor;
 
                 StringBuilder chartUrl = new StringBuilder("chart?")
-                        .append(item.type() == OpenHABItem.Type.Group ? "groups=" : "items=")
+                        .append(item.type() == Item.Type.Group ? "groups=" : "items=")
                         .append(item.name())
                         .append("&period=").append(widget.period())
                         .append("&random=").append(mRandom.nextInt())
@@ -929,14 +933,14 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         }
 
         @Override
-        public void bind(OpenHABWidget widget) {
+        public void bind(Widget widget) {
             // FIXME: check for URL changes here
             if (!mVideoView.isPlaying()) {
                 final String videoUrl;
-                OpenHABItem videoItem = widget.item();
+                Item videoItem = widget.item();
                 if ("hls".equalsIgnoreCase(widget.encoding())
                         && videoItem != null
-                        && videoItem.type() == OpenHABItem.Type.StringItem
+                        && videoItem.type() == Item.Type.StringItem
                         && videoItem.state() != null) {
                     videoUrl = videoItem.state();
                 } else {
@@ -973,7 +977,7 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
 
         @SuppressLint("SetJavaScriptEnabled")
         @Override
-        public void bind(OpenHABWidget widget) {
+        public void bind(Widget widget) {
             mWebView.loadUrl("about:blank");
             ViewGroup.LayoutParams lp = mWebView.getLayoutParams();
             int desiredHeightPixels = widget.height() > 0
@@ -995,7 +999,7 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
 
     public static class ColorViewHolder extends LabeledItemBaseViewHolder implements
             View.OnTouchListener, Handler.Callback, ColorPicker.OnColorChangedListener {
-        private OpenHABItem mBoundItem;
+        private Item mBoundItem;
         private final LayoutInflater mInflater;
         private final Handler mHandler = new Handler(this);
 
@@ -1015,7 +1019,7 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         }
 
         @Override
-        public void bind(OpenHABWidget widget) {
+        public void bind(Widget widget) {
             super.bind(widget);
             mBoundItem = widget.item();
         }
@@ -1024,7 +1028,8 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         public boolean onTouch(View v, MotionEvent motionEvent) {
             if (motionEvent.getActionMasked() == MotionEvent.ACTION_UP) {
                 if (v.getTag() instanceof String) {
-                    Util.sendItemCommand(mConnection.getAsyncHttpClient(), mBoundItem, (String) v.getTag());
+                    final String cmd = (String) v.getTag();
+                    Util.sendItemCommand(mConnection.getAsyncHttpClient(), mBoundItem, cmd);
                 } else {
                     showColorPickerDialog();
                 }
@@ -1060,7 +1065,7 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
             colorPicker.setOnColorChangedListener(this);
             colorPicker.setShowOldCenterColor(false);
 
-            float[] initialColor = mBoundItem.stateAsHSV();
+            float[] initialColor = mBoundItem.stateAsHsv();
             if (initialColor != null) {
                 colorPicker.setColor(Color.HSVToColor(initialColor));
             }
@@ -1083,7 +1088,7 @@ public class OpenHABWidgetAdapter extends RecyclerView.Adapter<OpenHABWidgetAdap
         }
 
         @Override
-        public void bind(OpenHABWidget widget) {
+        public void bind(Widget widget) {
             mStreamer = new MjpegStreamer(mImageView, mConnection, widget.url());
         }
 

@@ -21,6 +21,11 @@ import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
 import android.util.Log;
 
+import okhttp3.Call;
+import okhttp3.Headers;
+import okhttp3.HttpUrl;
+import okhttp3.Request;
+
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.core.connection.Connection;
 import org.openhab.habdroid.util.AsyncHttpClient;
@@ -28,11 +33,6 @@ import org.openhab.habdroid.util.CacheManager;
 import org.openhab.habdroid.util.HttpClient;
 
 import java.lang.ref.WeakReference;
-
-import okhttp3.Call;
-import okhttp3.Headers;
-import okhttp3.HttpUrl;
-import okhttp3.Request;
 
 public class WidgetImageView extends AppCompatImageView {
     public static final String TAG = WidgetImageView.class.getSimpleName();
@@ -88,7 +88,8 @@ public class WidgetImageView extends AppCompatImageView {
             a.recycle();
         }
 
-        mDefaultSvgSize = context.getResources().getDimensionPixelSize(R.dimen.svg_image_default_size);
+        mDefaultSvgSize =
+                context.getResources().getDimensionPixelSize(R.dimen.svg_image_default_size);
         mRefreshHandler = new RefreshHandler(this);
     }
 
@@ -177,11 +178,9 @@ public class WidgetImageView extends AppCompatImageView {
 
         if (isEmpty && mEmptyHeightToWidthRatio > 0) {
             int specWidth = MeasureSpec.getSize(widthMeasureSpec);
-            switch (MeasureSpec.getMode(widthMeasureSpec)) {
-                case MeasureSpec.AT_MOST:
-                case MeasureSpec.EXACTLY:
-                    setMeasuredDimension(specWidth, (int) (mEmptyHeightToWidthRatio * specWidth));
-                    break;
+            int specMode = MeasureSpec.getMode(widthMeasureSpec);
+            if (specMode == MeasureSpec.AT_MOST || specMode == MeasureSpec.EXACTLY) {
+                setMeasuredDimension(specWidth, (int) (mEmptyHeightToWidthRatio * specWidth));
             }
         }
     }

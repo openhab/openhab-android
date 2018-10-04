@@ -12,7 +12,6 @@ package org.openhab.habdroid.model;
 import android.graphics.Color;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
-import android.util.Log;
 
 import com.google.auto.value.AutoValue;
 
@@ -31,7 +30,7 @@ import java.util.Locale;
  */
 
 @AutoValue
-public abstract class OpenHABWidget implements Parcelable {
+public abstract class Widget implements Parcelable {
     public enum Type {
         Chart,
         Colorpicker,
@@ -62,10 +61,10 @@ public abstract class OpenHABWidget implements Parcelable {
     @Nullable
     public abstract String url();
     @Nullable
-    public abstract OpenHABItem item();
+    public abstract Item item();
     @Nullable
-    public abstract OpenHABLinkedPage linkedPage();
-    public abstract List<OpenHABLabeledValue> mappings();
+    public abstract LinkedPage linkedPage();
+    public abstract List<LabeledValue> mappings();
     @Nullable
     public abstract String encoding();
     @Nullable
@@ -92,9 +91,9 @@ public abstract class OpenHABWidget implements Parcelable {
         return !getMappingsOrItemOptions().isEmpty();
     }
 
-    public List<OpenHABLabeledValue> getMappingsOrItemOptions() {
-        List<OpenHABLabeledValue> mappings = mappings();
-        List<OpenHABLabeledValue> options = item() != null ? item().options() : null;
+    public List<LabeledValue> getMappingsOrItemOptions() {
+        List<LabeledValue> mappings = mappings();
+        List<LabeledValue> options = item() != null ? item().options() : null;
         return mappings.isEmpty() && options != null ? options : mappings;
     }
 
@@ -109,9 +108,9 @@ public abstract class OpenHABWidget implements Parcelable {
         public abstract Builder iconPath(String iconPath);
         public abstract Builder type(Type type);
         public abstract Builder url(@Nullable String url);
-        public abstract Builder item(@Nullable OpenHABItem item);
-        public abstract Builder linkedPage(@Nullable OpenHABLinkedPage linkedPage);
-        public abstract Builder mappings(List<OpenHABLabeledValue> mappings);
+        public abstract Builder item(@Nullable Item item);
+        public abstract Builder linkedPage(@Nullable LinkedPage linkedPage);
+        public abstract Builder mappings(List<LabeledValue> mappings);
         public abstract Builder encoding(@Nullable String encoding);
         public abstract Builder iconColor(@Nullable String iconColor);
         public abstract Builder labelColor(@Nullable String labelColor);
@@ -125,7 +124,7 @@ public abstract class OpenHABWidget implements Parcelable {
         public abstract Builder legend(@Nullable Boolean legend);
         public abstract Builder height(int height);
 
-        public OpenHABWidget build() {
+        public Widget build() {
             // A 'none' icon equals no icon at all
             if ("none".equals(icon())) {
                 icon(null);
@@ -151,19 +150,19 @@ public abstract class OpenHABWidget implements Parcelable {
         abstract float minValue();
         abstract float maxValue();
         abstract float step();
-        abstract OpenHABWidget autoBuild();
+        abstract Widget autoBuild();
     }
 
-    public static void parseXml(List<OpenHABWidget> allWidgets, OpenHABWidget parent, Node startNode) {
-        OpenHABItem item = null;
-        OpenHABLinkedPage linkedPage = null;
+    public static void parseXml(List<Widget> allWidgets, Widget parent, Node startNode) {
+        Item item = null;
+        LinkedPage linkedPage = null;
         String id = null, label = null, icon = null, url = null;
         String period = "", service = "", encoding = null;
         String iconColor = null, labelColor = null, valueColor = null;
         Type type = Type.Unknown;
         float minValue = 0f, maxValue = 100f, step = 1f;
         int refresh = 0, height = 0;
-        List<OpenHABLabeledValue> mappings = new ArrayList<>();
+        List<LabeledValue> mappings = new ArrayList<>();
         List<Node> childWidgetNodes = new ArrayList<>();
 
         if (startNode.hasChildNodes()) {
@@ -171,8 +170,8 @@ public abstract class OpenHABWidget implements Parcelable {
             for (int i = 0; i < childNodes.getLength(); i++) {
                 Node childNode = childNodes.item(i);
                 switch (childNode.getNodeName()) {
-                    case "item": item = OpenHABItem.fromXml(childNode); break;
-                    case "linkedPage": linkedPage = OpenHABLinkedPage.fromXml(childNode); break;
+                    case "item": item = Item.fromXml(childNode); break;
+                    case "linkedPage": linkedPage = LinkedPage.fromXml(childNode); break;
                     case "widget": childWidgetNodes.add(childNode); break;
                     case "type": type = parseType(childNode.getTextContent()); break;
                     case "widgetId": id = childNode.getTextContent(); break;
@@ -197,21 +196,29 @@ public abstract class OpenHABWidget implements Parcelable {
                         for (int k = 0; k < mappingChildNodes.getLength(); k++) {
                             Node mappingNode = mappingChildNodes.item(k);
                             switch (mappingNode.getNodeName()) {
-                                case "command": mappingCommand = mappingNode.getTextContent(); break;
-                                case "label": mappingLabel = mappingNode.getTextContent(); break;
+                                case "command":
+                                    mappingCommand = mappingNode.getTextContent();
+                                    break;
+                                case "label":
+                                    mappingLabel = mappingNode.getTextContent();
+                                    break;
+                                default:
+                                    break;
                             }
                         }
-                        OpenHABLabeledValue mapping = OpenHABLabeledValue.newBuilder()
+                        LabeledValue mapping = LabeledValue.newBuilder()
                                 .value(mappingCommand)
                                 .label(mappingLabel)
                                 .build();
                         mappings.add(mapping);
                         break;
+                    default:
+                        break;
                 }
             }
         }
 
-        OpenHABWidget widget = new AutoValue_OpenHABWidget.Builder()
+        Widget widget = new AutoValue_Widget.Builder()
                 .id(id)
                 .parentId(parent != null ? parent.id() : null)
                 .type(type)
@@ -241,14 +248,14 @@ public abstract class OpenHABWidget implements Parcelable {
         }
     }
 
-    public static void parseJson(List<OpenHABWidget> allWidgets, OpenHABWidget parent,
+    public static void parseJson(List<Widget> allWidgets, Widget parent,
             JSONObject widgetJson, String iconFormat) throws JSONException {
-        List<OpenHABLabeledValue> mappings = new ArrayList<>();
+        List<LabeledValue> mappings = new ArrayList<>();
         if (widgetJson.has("mappings")) {
             JSONArray mappingsJsonArray = widgetJson.getJSONArray("mappings");
             for (int i = 0; i < mappingsJsonArray.length(); i++) {
                 JSONObject mappingObject = mappingsJsonArray.getJSONObject(i);
-                OpenHABLabeledValue mapping = OpenHABLabeledValue.newBuilder()
+                LabeledValue mapping = LabeledValue.newBuilder()
                         .value(mappingObject.getString("command"))
                         .label(mappingObject.getString("label"))
                         .build();
@@ -256,15 +263,15 @@ public abstract class OpenHABWidget implements Parcelable {
             }
         }
 
-        OpenHABItem item = OpenHABItem.fromJson(widgetJson.optJSONObject("item"));
+        Item item = Item.fromJson(widgetJson.optJSONObject("item"));
         Type type = parseType(widgetJson.getString("type"));
         String icon = widgetJson.optString("icon", null);
 
-        OpenHABWidget widget = new AutoValue_OpenHABWidget.Builder()
+        Widget widget = new AutoValue_Widget.Builder()
                 .id(widgetJson.getString("widgetId"))
                 .parentId(parent != null ? parent.id() : null)
                 .item(item)
-                .linkedPage(OpenHABLinkedPage.fromJson(widgetJson.optJSONObject("linkedPage")))
+                .linkedPage(LinkedPage.fromJson(widgetJson.optJSONObject("linkedPage")))
                 .mappings(mappings)
                 .type(type)
                 .label(widgetJson.optString("label", null))
@@ -295,9 +302,9 @@ public abstract class OpenHABWidget implements Parcelable {
         }
     }
 
-    public static OpenHABWidget updateFromEvent(OpenHABWidget source, JSONObject eventPayload,
+    public static Widget updateFromEvent(Widget source, JSONObject eventPayload,
             String iconFormat) throws JSONException {
-        OpenHABItem item = OpenHABItem.updateFromEvent(
+        Item item = Item.updateFromEvent(
                 source.item(), eventPayload.getJSONObject("item"));
         String iconPath = determineOH2IconPath(item, source.type(),
                 source.icon(), iconFormat, !source.mappings().isEmpty());
@@ -308,11 +315,11 @@ public abstract class OpenHABWidget implements Parcelable {
                 .build();
     }
 
-    private static String determineOH2IconPath(OpenHABItem item, Type type, String icon,
+    private static String determineOH2IconPath(Item item, Type type, String icon,
             String iconFormat, boolean hasMappings) {
         String itemState = item != null ? item.state() : null;
         if (itemState != null) {
-            if (item.isOfTypeOrGroupType(OpenHABItem.Type.Color)) {
+            if (item.isOfTypeOrGroupType(Item.Type.Color)) {
                 // For items that control a color item fetch the correct icon
                 if (type == Type.Slider || (type == Type.Switch && !hasMappings)) {
                     try {
@@ -323,13 +330,13 @@ public abstract class OpenHABWidget implements Parcelable {
                     } catch (Exception e) {
                         itemState = "OFF";
                     }
-                } else if (item.stateAsHSV() != null) {
-                    int color = Color.HSVToColor(item.stateAsHSV());
+                } else if (item.stateAsHsv() != null) {
+                    int color = Color.HSVToColor(item.stateAsHsv());
                     itemState = String.format(Locale.US, "#%02x%02x%02x",
                             Color.red(color), Color.green(color), Color.blue(color));
                 }
             } else if (type == Type.Switch && !hasMappings
-                    && !item.isOfTypeOrGroupType(OpenHABItem.Type.Rollershutter)) {
+                    && !item.isOfTypeOrGroupType(Item.Type.Rollershutter)) {
                 // For switch items without mappings (just ON and OFF) that control a dimmer item
                 // and which are not ON or OFF already, set the state to "OFF" instead of 0
                 // or to "ON" to fetch the correct icon

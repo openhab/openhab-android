@@ -11,7 +11,7 @@ package org.openhab.habdroid.core;
 
 import com.google.android.gms.iid.InstanceIDListenerService;
 
-public class GcmInstanceIDListenerService extends InstanceIDListenerService {
+public class GcmInstanceIdListenerService extends InstanceIDListenerService {
     @Override
     public void onTokenRefresh() {
         GcmRegistrationService.scheduleRegistration(this);

@@ -19,6 +19,8 @@ import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.widget.Toast;
 
+import es.dmoral.toasty.Toasty;
+
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.core.connection.Connection;
 import org.openhab.habdroid.core.connection.ConnectionFactory;
@@ -29,17 +31,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
-import es.dmoral.toasty.Toasty;
-
 /**
  * This service handles voice commands and sends them to openHAB.
  */
-public class OpenHABVoiceService extends IntentService {
-    private static final String TAG = OpenHABVoiceService.class.getSimpleName();
+public class VoiceService extends IntentService {
+    private static final String TAG = VoiceService.class.getSimpleName();
     private Handler mHandler = new Handler(Looper.getMainLooper());
 
-    public OpenHABVoiceService() {
-        super("OpenHABVoiceService");
+    public VoiceService() {
+        super("VoiceService");
     }
 
     @Override

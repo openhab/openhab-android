@@ -7,11 +7,6 @@
  *   http://www.eclipse.org/legal/epl-v10.html
  */
 
-/**
- * Created by belovictor on 03/04/15.
- * This class represents a my.openHAB notification
- */
-
 package org.openhab.habdroid.model;
 
 import android.support.annotation.Nullable;
@@ -26,7 +21,7 @@ import java.text.SimpleDateFormat;
 import java.util.TimeZone;
 
 @AutoValue
-public abstract class OpenHABNotification {
+public abstract class CloudNotification {
     public abstract String id();
     public abstract String message();
     public abstract long createdTimestamp();
@@ -43,10 +38,10 @@ public abstract class OpenHABNotification {
         abstract Builder icon(@Nullable String icon);
         abstract Builder severity(@Nullable String severity);
 
-        abstract OpenHABNotification build();
+        abstract CloudNotification build();
     }
 
-    public static OpenHABNotification fromJson(JSONObject jsonObject) throws JSONException {
+    public static CloudNotification fromJson(JSONObject jsonObject) throws JSONException {
         long created = 0;
         if (jsonObject.has("created")) {
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.S'Z'");
@@ -58,7 +53,7 @@ public abstract class OpenHABNotification {
             }
         }
 
-        return new AutoValue_OpenHABNotification.Builder()
+        return new AutoValue_CloudNotification.Builder()
                 .id(jsonObject.getString("_id"))
                 .icon(jsonObject.optString("icon", null))
                 .severity(jsonObject.optString("severity", null))

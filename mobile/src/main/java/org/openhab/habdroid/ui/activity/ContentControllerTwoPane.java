@@ -17,15 +17,15 @@ import android.view.View;
 import android.view.ViewStub;
 
 import org.openhab.habdroid.R;
-import org.openhab.habdroid.model.OpenHABLinkedPage;
-import org.openhab.habdroid.ui.OpenHABMainActivity;
-import org.openhab.habdroid.ui.OpenHABWidgetListFragment;
+import org.openhab.habdroid.model.LinkedPage;
+import org.openhab.habdroid.ui.MainActivity;
+import org.openhab.habdroid.ui.WidgetListFragment;
 
 @SuppressWarnings("unused") // instantiated via reflection
 public class ContentControllerTwoPane extends ContentController {
     private View mRightContentView;
 
-    public ContentControllerTwoPane(OpenHABMainActivity activity) {
+    public ContentControllerTwoPane(MainActivity activity) {
         super(activity);
     }
 
@@ -39,8 +39,8 @@ public class ContentControllerTwoPane extends ContentController {
     @Override
     protected void executeStateUpdate(FragmentUpdateReason reason, boolean allowStateLoss) {
         Fragment leftFragment = getOverridingFragment();
-        final OpenHABWidgetListFragment rightFragment;
-        final Pair<OpenHABLinkedPage, OpenHABWidgetListFragment> rightPair;
+        final WidgetListFragment rightFragment;
+        final Pair<LinkedPage, WidgetListFragment> rightPair;
 
         if (leftFragment != null) {
             rightFragment = null;
@@ -82,8 +82,8 @@ public class ContentControllerTwoPane extends ContentController {
         if (leftFragment != null) {
             ft.setCustomAnimations(determineEnterAnim(reason), determineExitAnim(reason));
             ft.replace(R.id.content_left, leftFragment);
-            if (leftFragment instanceof OpenHABWidgetListFragment) {
-                OpenHABWidgetListFragment llf = (OpenHABWidgetListFragment) leftFragment;
+            if (leftFragment instanceof WidgetListFragment) {
+                WidgetListFragment llf = (WidgetListFragment) leftFragment;
                 llf.setHighlightedPageLink(rightPair != null ? rightPair.first.link() : null);
             }
         }
@@ -102,7 +102,7 @@ public class ContentControllerTwoPane extends ContentController {
     }
 
     @Override
-    public void openPage(OpenHABLinkedPage page, OpenHABWidgetListFragment source) {
+    public void openPage(LinkedPage page, WidgetListFragment source) {
         Fragment currentLeftFragment = mFm.findFragmentById(R.id.content_left);
         if (source == currentLeftFragment && !mPageStack.empty()) {
             mPageStack.pop();
@@ -111,7 +111,7 @@ public class ContentControllerTwoPane extends ContentController {
     }
 
     @Override
-    protected OpenHABWidgetListFragment getFragmentForTitle() {
+    protected WidgetListFragment getFragmentForTitle() {
         return mPageStack.size() > 1
                 ? mPageStack.get(mPageStack.size() - 2).second
                 : mSitemapFragment;

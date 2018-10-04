@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
                   android:title="@string/settings_openhab_connection">
-    <org.openhab.habdroid.ui.widget.URLInputPreference
+    <org.openhab.habdroid.ui.widget.UrlInputPreference
         android:defaultValue="@string/empty_string"
         android:inputType="textNoSuggestions"
         android:key="default_openhab_url"

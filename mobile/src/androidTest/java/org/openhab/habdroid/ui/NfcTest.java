@@ -1,6 +1,7 @@
 package org.openhab.habdroid.ui;
 
 import android.content.Context;
+import android.support.annotation.StringRes;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.espresso.contrib.RecyclerViewActions;
@@ -8,7 +9,6 @@ import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.LargeTest;
 
 import org.hamcrest.core.IsInstanceOf;
-import org.junit.ClassRule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openhab.habdroid.R;
@@ -28,7 +28,7 @@ import static org.hamcrest.Matchers.allOf;
 @RunWith(AndroidJUnit4.class)
 public class NfcTest extends TestWithoutIntro {
     @Test
-    public void nfcTest() throws InterruptedException {
+    public void nfcTest() {
         ViewInteraction recyclerView = onView(withId(R.id.recyclerview));
         Context context = InstrumentationRegistry.getTargetContext();
 
@@ -43,21 +43,21 @@ public class NfcTest extends TestWithoutIntro {
                 withText(context.getString(R.string.nfc_dialog_title))));
         title.check(matches(withText(context.getString(R.string.nfc_dialog_title))));
 
-        ViewInteraction onButton = onView(withText(context.getString(R.string.nfc_action_on)));
-        onButton.check(matches(withText(context.getString(R.string.nfc_action_on))));
+        checkViewWithText(context, R.string.nfc_action_off);
+        checkViewWithText(context, R.string.nfc_action_toggle);
+        checkViewWithText(context, R.string.nfc_action_to_sitemap_page);
 
-        ViewInteraction offButton = onView(withText(context.getString(R.string.nfc_action_off)));
-        offButton.check(matches(withText(context.getString(R.string.nfc_action_off))));
-
-        ViewInteraction toggleButton = onView(withText(context.getString(R.string.nfc_action_toggle)));
-        toggleButton.check(matches(withText(context.getString(R.string.nfc_action_toggle))));
-
-        ViewInteraction sitemapButton = onView(withText(context.getString(R.string.nfc_action_to_sitemap_page)));
-        sitemapButton.check(matches(withText(context.getString(R.string.nfc_action_to_sitemap_page))));
-
+        ViewInteraction onButton = checkViewWithText(context, R.string.nfc_action_on);
         onButton.perform(click());
 
         ViewInteraction imageView = onView(withId(R.id.nfc_watermark));
         imageView.check(matches(isDisplayed()));
+    }
+
+    private ViewInteraction checkViewWithText(Context context, @StringRes int stringResId) {
+        String title = context.getString(stringResId);
+        ViewInteraction view = onView(withText(title));
+        view.check(matches(withText(title)));
+        return view;
     }
 }

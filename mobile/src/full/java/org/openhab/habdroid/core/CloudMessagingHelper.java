@@ -30,7 +30,8 @@ public class CloudMessagingHelper {
     }
 
     public static void onNotificationSelected(Context context, Intent intent) {
-        int notificationId = intent.getIntExtra(GcmMessageListenerService.EXTRA_NOTIFICATION_ID, -1);
+        int notificationId = intent.getIntExtra(
+                GcmMessageListenerService.EXTRA_NOTIFICATION_ID, -1);
         if (notificationId >= 0) {
             GcmRegistrationService.scheduleHideNotification(context, notificationId);
         }

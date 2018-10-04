@@ -1,5 +1,6 @@
 package org.openhab.habdroid.ui;
 
+import android.content.Context;
 import android.speech.SpeechRecognizer;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.ViewInteraction;
@@ -20,21 +21,23 @@ import static org.hamcrest.CoreMatchers.allOf;
 import static org.junit.Assume.assumeTrue;
 
 public class VoiceRecognitionTest extends TestWithoutIntro {
-
     @Rule
-    public ActivityTestRule<OpenHABMainActivity> mActivityTestRule = new ActivityTestRule<>
-            (OpenHABMainActivity.class, true, false);
+    public ActivityTestRule<MainActivity> mActivityTestRule =
+            new ActivityTestRule<>(MainActivity.class, true, false);
 
     @Before
     public void checkVoiceRecognitionAvailableOnDevice() {
+        final Context context = InstrumentationRegistry.getTargetContext();
         assumeTrue("Voice recognition not available, skipping tests for it.",
-                SpeechRecognizer.isRecognitionAvailable(InstrumentationRegistry.getTargetContext()));
+                SpeechRecognizer.isRecognitionAvailable(context));
     }
 
     @Test
-    public void checkVoiceAvailbility () {
-        ViewInteraction voice = onView(
-                allOf(withId(R.id.mainmenu_voice_recognition), withContentDescription("Voice recognition"), isDisplayed()));
+    public void checkVoiceAvailbility() {
+        ViewInteraction voice = onView(allOf(
+                withId(R.id.mainmenu_voice_recognition),
+                withContentDescription("Voice recognition"),
+                isDisplayed()));
         voice.check(matches(isDisplayed()));
     }
 

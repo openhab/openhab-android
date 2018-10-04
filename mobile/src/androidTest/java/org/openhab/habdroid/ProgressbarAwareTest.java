@@ -3,23 +3,17 @@ package org.openhab.habdroid;
 import android.support.test.espresso.IdlingRegistry;
 import android.support.test.espresso.IdlingResource;
 import android.support.test.espresso.intent.rule.IntentsTestRule;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.view.View;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
-import org.openhab.habdroid.ui.OpenHABMainActivity;
-import org.openhab.habdroid.ui.OpenHABWidgetListFragment;
-import org.openhab.habdroid.ui.activity.ContentController;
-import org.openhab.habdroid.ui.activity.PageConnectionHolderFragment;
+import org.openhab.habdroid.ui.MainActivity;
 
 public abstract class ProgressbarAwareTest {
-
     @Rule
-    public IntentsTestRule<OpenHABMainActivity> mActivityTestRule = new IntentsTestRule<>
-            (OpenHABMainActivity.class,  true, false);
+    public IntentsTestRule<MainActivity> mActivityTestRule =
+            new IntentsTestRule<>(MainActivity.class,  true, false);
 
     private IdlingResource mProgressbarIdlingResource;
     private IdlingResource mFragmentIdlingResource;
@@ -36,9 +30,10 @@ public abstract class ProgressbarAwareTest {
 
     protected IdlingResource getProgressbarIdlingResource() {
         if (mProgressbarIdlingResource == null) {
-            View progressBar = mActivityTestRule.getActivity().findViewById(R.id.toolbar_progress_bar);
-            mProgressbarIdlingResource = new OpenHABProgressbarIdlingResource("Progressbar " +
-                    "IdleResource", progressBar);
+            final View progressBar =
+                    mActivityTestRule.getActivity().findViewById(R.id.toolbar_progress_bar);
+            mProgressbarIdlingResource =
+                    new ProgressbarIdlingResource("Progressbar IdleResource", progressBar);
         }
         return mProgressbarIdlingResource;
     }

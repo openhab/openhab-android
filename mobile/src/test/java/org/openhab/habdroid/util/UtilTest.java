@@ -2,8 +2,9 @@ package org.openhab.habdroid.util;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 import org.junit.Test;
-import org.openhab.habdroid.model.OpenHABSitemap;
+import org.openhab.habdroid.model.Sitemap;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -24,12 +25,7 @@ import static org.junit.Assert.assertEquals;
 
 public class UtilTest {
     @Test
-    public void overridePendingTransition() throws Exception {
-
-    }
-
-    @Test
-    public void normalizeUrl() throws Exception {
+    public void normalizeUrl() {
         assertEquals("http://localhost/", Util.normalizeUrl("http://localhost/"));
         assertEquals("http://localhost/", Util.normalizeUrl("http://localhost"));
         assertEquals("http://127.0.0.1/", Util.normalizeUrl("http://127.0.0.1/"));
@@ -46,7 +42,7 @@ public class UtilTest {
 
     @Test
     public void parseOH1SitemapList() throws Exception {
-        List<OpenHABSitemap> sitemapList = Util.parseSitemapList(getSitemapOH1Document());
+        List<Sitemap> sitemapList = Util.parseSitemapList(getSitemapOH1Document());
         assertFalse(sitemapList.isEmpty());
 
         assertEquals("i AM DEfault", sitemapList.get(0).label());
@@ -63,7 +59,7 @@ public class UtilTest {
 
     @Test
     public void parseOH2SitemapListWithId1() throws Exception {
-        List<OpenHABSitemap> sitemapList = Util.parseSitemapList(createJsonArray(1));
+        List<Sitemap> sitemapList = Util.parseSitemapList(createJsonArray(1));
         assertFalse(sitemapList.isEmpty());
 
         assertEquals("Main Menu", sitemapList.get(0).label());
@@ -72,7 +68,7 @@ public class UtilTest {
 
     @Test
     public void parseOH2SitemapListWithId2() throws Exception {
-        List<OpenHABSitemap> sitemapList  = Util.parseSitemapList(createJsonArray(2));
+        List<Sitemap> sitemapList  = Util.parseSitemapList(createJsonArray(2));
         assertFalse(sitemapList.isEmpty());
 
         assertEquals("Main Menu", sitemapList.get(0).label());
@@ -83,7 +79,7 @@ public class UtilTest {
 
     @Test
     public void parseOH2SitemapListWithId3() throws Exception {
-        List<OpenHABSitemap> sitemapList = Util.parseSitemapList(createJsonArray(3));
+        List<Sitemap> sitemapList = Util.parseSitemapList(createJsonArray(3));
         assertFalse(sitemapList.isEmpty());
 
         assertEquals("Home", sitemapList.get(0).label());
@@ -91,8 +87,9 @@ public class UtilTest {
     }
 
     @Test
-    public void testSortSitemapList() throws IOException, SAXException, ParserConfigurationException {
-        List<OpenHABSitemap> sitemapList = Util.parseSitemapList(getSitemapOH1Document());
+    public void testSortSitemapList()
+            throws IOException, SAXException, ParserConfigurationException {
+        List<Sitemap> sitemapList = Util.parseSitemapList(getSitemapOH1Document());
 
         Util.sortSitemapList(sitemapList, "");
         // Should be sorted
@@ -117,16 +114,52 @@ public class UtilTest {
         assertEquals("Scenes", sitemapList.get(7).label());
     }
 
-    private Document getSitemapOH1Document() throws ParserConfigurationException, IOException, SAXException {
-        String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>" +
-                "<sitemaps><sitemap><name>default</name><label>i AM DEfault</label><link>http://myopenhab/rest/sitemaps/default</link><homepage><link>http://myopenhab/rest/sitemaps/default/default</link><leaf>false</leaf></homepage></sitemap>" +
-                "<sitemap><name>heating</name><label>Heating</label><link>http://myopenhab/rest/sitemaps/heating</link><homepage><link>http://myopenhab/rest/sitemaps/heating/heating</link><leaf>false</leaf></homepage></sitemap>" +
-                "<sitemap><name>lighting</name><label>Lighting</label><link>http://myopenhab/rest/sitemaps/lighting</link><homepage><link>http://myopenhab/rest/sitemaps/lighting/lighting</link><leaf>false</leaf></homepage></sitemap>" +
-                "<sitemap><name>heatpump</name><label>Heatpump</label><link>http://myopenhab/rest/sitemaps/heatpump</link><homepage><link>http://myopenhab/rest/sitemaps/heatpump/heatpump</link><leaf>false</leaf></homepage></sitemap>" +
-                "<sitemap><name>schedule</name><label>Schedule</label><link>http://myopenhab/rest/sitemaps/schedule</link><homepage><link>http://myopenhab/rest/sitemaps/schedule/schedule</link><leaf>false</leaf></homepage></sitemap>" +
-                "<sitemap><name>outside</name><link>http://myopenhab/rest/sitemaps/outside</link><homepage><link>http://myopenhab/rest/sitemaps/outside/outside</link><leaf>false</leaf></homepage></sitemap>" +
-                "<sitemap><name>garden</name><label>Garden</label><link>http://myopenhab/rest/sitemaps/garden</link><homepage><link>http://myopenhab/rest/sitemaps/garden/garden</link><leaf>false</leaf></homepage></sitemap>" +
-                "<sitemap><name>scenes</name><label>Scenes</label><link>http://myopenhab/rest/sitemaps/scenes</link><homepage><link>http://myopenhab/rest/sitemaps/scenes/scenes</link><leaf>false</leaf></homepage></sitemap></sitemaps>";
+    private Document getSitemapOH1Document()
+            throws ParserConfigurationException, IOException, SAXException {
+        String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>"
+                + "<sitemaps>"
+
+                + "<sitemap><name>default</name><label>i AM DEfault</label>"
+                + "<link>http://myopenhab/rest/sitemaps/default</link>"
+                + "<homepage><link>http://myopenhab/rest/sitemaps/default/default</link>"
+                + "<leaf>false</leaf></homepage></sitemap>"
+
+                + "<sitemap><name>heating</name><label>Heating</label>"
+                + "<link>http://myopenhab/rest/sitemaps/heating</link>"
+                + "<homepage><link>http://myopenhab/rest/sitemaps/heating/heating</link>"
+                + "<leaf>false</leaf></homepage></sitemap>"
+
+                + "<sitemap><name>lighting</name><label>Lighting</label>"
+                + "<link>http://myopenhab/rest/sitemaps/lighting</link>"
+                + "<homepage><link>http://myopenhab/rest/sitemaps/lighting/lighting</link>"
+                + "<leaf>false</leaf></homepage></sitemap>"
+
+                + "<sitemap><name>heatpump</name><label>Heatpump</label>"
+                + "<link>http://myopenhab/rest/sitemaps/heatpump</link>"
+                + "<homepage><link>http://myopenhab/rest/sitemaps/heatpump/heatpump</link>"
+                + "<leaf>false</leaf></homepage></sitemap>"
+
+                + "<sitemap><name>schedule</name><label>Schedule</label>"
+                + "<link>http://myopenhab/rest/sitemaps/schedule</link>"
+                + "<homepage><link>http://myopenhab/rest/sitemaps/schedule/schedule</link>"
+                + "<leaf>false</leaf></homepage></sitemap>"
+
+                + "<sitemap><name>outside</name><link>http://myopenhab/rest/sitemaps/outside</link>"
+                + "<homepage><link>http://myopenhab/rest/sitemaps/outside/outside</link>"
+                + "<leaf>false</leaf></homepage></sitemap>"
+
+                + "<sitemap><name>garden</name><label>Garden</label>"
+                + "<link>http://myopenhab/rest/sitemaps/garden</link>"
+                + "<homepage><link>http://myopenhab/rest/sitemaps/garden/garden</link>"
+                + "<leaf>false</leaf></homepage></sitemap>"
+
+                + "<sitemap><name>scenes</name><label>Scenes</label>"
+                + "<link>http://myopenhab/rest/sitemaps/scenes</link>"
+                + "<homepage><link>http://myopenhab/rest/sitemaps/scenes/scenes</link>"
+                + "<leaf>false</leaf></homepage></sitemap>"
+
+                + "</sitemaps>";
+
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = dbf.newDocumentBuilder();
         return builder.parse(new InputSource(new StringReader(xml)));
@@ -137,13 +170,21 @@ public class UtilTest {
     public void sitemapExists() throws Exception {
         assertTrue(Util.sitemapExists(sitemapList(), "garden"));
         assertFalse(Util.sitemapExists(sitemapList(), "monkies"));
-        assertTrue("Sitemap \"demo\" is a \"normal\" one and exists",Util.sitemapExists(Util.parseSitemapList(createJsonArray(1)), "demo"));
-        assertFalse("Sitemap \"_default\" exists on the server, but isn't the only one => don't display it in the app.", Util.sitemapExists(Util.parseSitemapList(createJsonArray(1)), "_default"));
-        assertFalse("Sitemap \"_default\" exists on the server, but isn't the only one => don't display it in the app.", Util.sitemapExists(Util.parseSitemapList(createJsonArray(2)), "_default"));
-        assertTrue("Sitemap \"_default\" exists on the server and is the only one => display it in the app.", Util.sitemapExists(Util.parseSitemapList(createJsonArray(3)), "_default"));
+        assertTrue("Sitemap \"demo\" is a \"normal\" one and exists",
+                Util.sitemapExists(Util.parseSitemapList(createJsonArray(1)), "demo"));
+        assertFalse("Sitemap \"_default\" exists on the server, "
+                + "but isn't the only one => don't display it in the app.",
+                Util.sitemapExists(Util.parseSitemapList(createJsonArray(1)), "_default"));
+        assertFalse("Sitemap \"_default\" exists on the server, "
+                + "but isn't the only one => don't display it in the app.",
+                Util.sitemapExists(Util.parseSitemapList(createJsonArray(2)), "_default"));
+        assertTrue("Sitemap \"_default\" exists on the server "
+                + "and is the only one => display it in the app.",
+                Util.sitemapExists(Util.parseSitemapList(createJsonArray(3)), "_default"));
     }
 
-    private List<OpenHABSitemap> sitemapList() throws IOException, SAXException, ParserConfigurationException {
+    private List<Sitemap> sitemapList()
+            throws IOException, SAXException, ParserConfigurationException {
         return Util.parseSitemapList(getSitemapOH1Document());
     }
 
@@ -162,25 +203,44 @@ public class UtilTest {
      * @throws JSONException
      */
     private JSONArray createJsonArray(int id) throws JSONException {
-        String jsonString;
+        JSONArray result = new JSONArray();
         switch (id) {
             case 1:
-                jsonString = "[{\"name\":\"demo\",\"label\":\"Main Menu\",\"link\":\"http://demo.openhab.org:8080/rest/sitemaps/demo\",\"homepage\":{\"link\":\"http://demo.openhab.org:8080/rest/sitemaps/demo/demo\",\"leaf\":false,\"timeout\":false,\"widgets\":[]}}," +
-                        "{\"name\":\"_default\",\"label\":\"Home\",\"link\":\"http://demo.openhab.org:8080/rest/sitemaps/_default\",\"homepage\":{\"link\":\"http://demo.openhab.org:8080/rest/sitemaps/_default/_default\",\"leaf\":false,\"timeout\":false,\"widgets\":[]}}]";
+                result.put(createTestJsonObject("demo", "Main Menu"));
+                result.put(createTestJsonObject("_default", "Home"));
                 break;
             case 2:
-                jsonString = "[{\"name\":\"demo\",\"label\":\"Main Menu\",\"link\":\"http://demo.openhab.org:8080/rest/sitemaps/demo\",\"homepage\":{\"link\":\"http://demo.openhab.org:8080/rest/sitemaps/demo/demo\",\"leaf\":false,\"timeout\":false,\"widgets\":[]}}," +
-                        "{\"name\":\"home\",\"label\":\"HOME\",\"link\":\"http://demo.openhab.org:8080/rest/sitemaps/home\",\"homepage\":{\"link\":\"http://demo.openhab.org:8080/rest/sitemaps/home/home\",\"leaf\":false,\"timeout\":false,\"widgets\":[]}}," +
-                        "{\"name\":\"test\",\"link\":\"http://demo.openhab.org:8080/rest/sitemaps/test\",\"homepage\":{\"link\":\"http://demo.openhab.org:8080/rest/sitemaps/test/test\",\"leaf\":false,\"timeout\":false,\"widgets\":[]}}," +
-                        "{\"name\":\"_default\",\"label\":\"Home\",\"link\":\"http://demo.openhab.org:8080/rest/sitemaps/_default\",\"homepage\":{\"link\":\"http://demo.openhab.org:8080/rest/sitemaps/_default/_default\",\"leaf\":false,\"timeout\":false,\"widgets\":[]}}]";
+                result.put(createTestJsonObject("demo", "Main Menu"));
+                result.put(createTestJsonObject("home", "HOME"));
+                result.put(createTestJsonObject("test", null));
+                result.put(createTestJsonObject("_default", "Home"));
                 break;
             case 3:
-                jsonString = "[{\"name\":\"_default\",\"label\":\"Home\",\"link\":\"http://demo.openhab.org:8080/rest/sitemaps/_default\",\"homepage\":{\"link\":\"http://demo.openhab.org:8080/rest/sitemaps/_default/_default\",\"leaf\":false,\"timeout\":false,\"widgets\":[]}}]";
+                result.put(createTestJsonObject("_default", "Home"));
                 break;
-                default:
-                    throw new IllegalArgumentException("Wrong id");
+            default:
+                throw new IllegalArgumentException("Wrong id");
         }
-        return new JSONArray(jsonString);
+        return result;
+    }
+
+    private JSONObject createTestJsonObject(String name, String label) throws JSONException {
+        JSONObject result = new JSONObject();
+        result.put("name", name);
+        if (label != null) {
+            result.put("label", label);
+        }
+        result.put("link", "http://demo.openhab.org:8080/rest/sitemaps/" + name);
+
+        JSONObject homepage = new JSONObject();
+        homepage.put("link", "http://demo.openhab.org:8080/rest/sitemaps/" + name + "/" + name);
+        homepage.put("leaf", false);
+        homepage.put("timeout", false);
+        homepage.put("widgets", new JSONArray());
+
+        result.put("homepage", homepage);
+
+        return result;
     }
 
     @Test
@@ -188,9 +248,11 @@ public class UtilTest {
         Exception cause = new CertPathValidatorException();
         Exception e = new SSLException(cause);
 
-        assertTrue("The exception is caused by CertPathValidatorException, so testexceptionHasCause() should return true",
+        assertTrue("The exception is caused by CertPathValidatorException, "
+                + "so testexceptionHasCause() should return true",
                 Util.exceptionHasCause(e, CertPathValidatorException.class));
-        assertFalse("The exception is not caused by ArrayIndexOutOfBoundsException, so testexceptionHasCause() should return false",
+        assertFalse("The exception is not caused by ArrayIndexOutOfBoundsException, "
+                + "so testexceptionHasCause() should return false",
                 Util.exceptionHasCause(e, ArrayIndexOutOfBoundsException.class));
     }
 
@@ -198,7 +260,8 @@ public class UtilTest {
     public void testObfuscateString() {
         assertEquals("abc***", Util.obfuscateString("abcdef"));
         assertEquals("abc", Util.obfuscateString("abc"));
-        assertEquals("The function should not throw an exception, when string length is shorter than clearTextCharCount",
+        assertEquals("The function should not throw an exception, "
+                + "when string length is shorter than clearTextCharCount",
                 "a", Util.obfuscateString("a", 10));
         assertEquals("a**", Util.obfuscateString("abc", 1));
         assertEquals("***", Util.obfuscateString("abc", 0));

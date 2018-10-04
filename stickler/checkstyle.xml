@@ -121,7 +121,7 @@
              value="Type name ''{0}'' must match pattern ''{1}''."/>
         </module>
         <module name="MemberName">
-            <property name="format" value="^[a-z][a-z0-9][a-zA-Z0-9]*$"/>
+            <property name="format" value="^[a-z][a-zA-Z0-9]*$"/>
             <message key="name.invalidPattern"
              value="Member name ''{0}'' must match pattern ''{1}''."/>
         </module>
@@ -171,8 +171,9 @@
             <property name="basicOffset" value="4"/>
             <property name="braceAdjustment" value="0"/>
             <property name="caseIndent" value="4"/>
-            <property name="throwsIndent" value="4"/>
-            <property name="lineWrappingIndentation" value="4"/>
+            <property name="throwsIndent" value="8"/>
+            <property name="lineWrappingIndentation" value="8"/>
+            <property name="forceStrictCondition" value="true"/>
             <property name="arrayInitIndent" value="2"/>
         </module>
         <module name="AbbreviationAsWordInName">
@@ -184,7 +185,8 @@
         <module name="CustomImportOrder">
             <property name="sortImportsInGroupAlphabetically" value="true"/>
             <property name="separateLineBetweenGroups" value="true"/>
-            <property name="customImportOrderRules" value="STATIC###THIRD_PARTY_PACKAGE"/>
+            <property name="specialImportsRegExp" value="^android \."/>
+            <property name="customImportOrderRules" value="SPECIAL_IMPORTS###THIRD_PARTY_PACKAGE###STANDARD_JAVA_PACKAGE###STATIC"/>
         </module>
         <module name="MethodParamPad"/>
         <module name="NoWhitespaceBefore">

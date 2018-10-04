@@ -1,5 +1,7 @@
 package org.openhab.habdroid.util;
 
+import okhttp3.OkHttpClient;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -7,8 +9,6 @@ import org.powermock.core.classloader.annotations.PowerMockIgnore;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import java.net.UnknownHostException;
-
-import okhttp3.OkHttpClient;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -24,7 +24,7 @@ public class SyncHttpClientTest {
     }
 
     /**
-     * Unit test against Issue #315 "Crash when connection could not be established"
+     * Unit test against Issue #315 "Crash when connection could not be established".
      */
     @Test
     public void testMethodErrorResponse() {

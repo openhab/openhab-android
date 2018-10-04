@@ -11,6 +11,7 @@ package org.openhab.habdroid.ui;
 
 import android.content.Context;
 import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -23,14 +24,14 @@ import android.widget.TextView;
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.core.connection.Connection;
 import org.openhab.habdroid.core.connection.ConnectionFactory;
-import org.openhab.habdroid.model.OpenHABNotification;
+import org.openhab.habdroid.model.CloudNotification;
 import org.openhab.habdroid.ui.widget.WidgetImageView;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class OpenHABNotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class CloudNotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public interface LoadMoreListener {
         void loadMoreItems();
     }
@@ -38,23 +39,21 @@ public class OpenHABNotificationAdapter extends RecyclerView.Adapter<RecyclerVie
     private static final int VIEW_TYPE_NOTIFICATION = 0;
     private static final int VIEW_TYPE_LOADING = 1;
 
-    private final ArrayList<OpenHABNotification> mItems = new ArrayList<>();
+    private final ArrayList<CloudNotification> mItems = new ArrayList<>();
     private final LayoutInflater mInflater;
-    private final Context mContext;
     private final LoadMoreListener mLoadMoreListener;
     private boolean mHasMoreItems;
     private boolean mWaitingForMoreData;
     private int mHighlightedPosition = -1;
 
-    public OpenHABNotificationAdapter(Context context, LoadMoreListener loadMoreListener) {
+    public CloudNotificationAdapter(Context context, LoadMoreListener loadMoreListener) {
         super();
-        mContext = context;
         mInflater = LayoutInflater.from(context);
         mLoadMoreListener = loadMoreListener;
         mHasMoreItems = false;
     }
 
-    public void addLoadedItems(List<OpenHABNotification> items, boolean hasMoreItems) {
+    public void addLoadedItems(List<CloudNotification> items, boolean hasMoreItems) {
         mItems.addAll(items);
         mHasMoreItems = hasMoreItems;
         mWaitingForMoreData = false;
@@ -92,6 +91,7 @@ public class OpenHABNotificationAdapter extends RecyclerView.Adapter<RecyclerVie
         return position == mItems.size() ? VIEW_TYPE_LOADING : VIEW_TYPE_NOTIFICATION;
     }
 
+    @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == VIEW_TYPE_LOADING) {
@@ -144,7 +144,7 @@ public class OpenHABNotificationAdapter extends RecyclerView.Adapter<RecyclerVie
             mIconView = itemView.findViewById(R.id.notificationImage);
         }
 
-        public void bind(OpenHABNotification notification) {
+        public void bind(CloudNotification notification) {
             mCreatedView.setText(DateUtils.getRelativeDateTimeString(mCreatedView.getContext(),
                     notification.createdTimestamp(),
                     DateUtils.MINUTE_IN_MILLIS, DateUtils.WEEK_IN_MILLIS, 0));

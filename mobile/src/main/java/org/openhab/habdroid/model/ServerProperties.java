@@ -5,6 +5,10 @@ import android.util.Log;
 
 import com.google.auto.value.AutoValue;
 
+import okhttp3.Call;
+import okhttp3.Headers;
+import okhttp3.Request;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -23,10 +27,6 @@ import java.util.List;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-
-import okhttp3.Call;
-import okhttp3.Headers;
-import okhttp3.Request;
 
 @AutoValue
 public abstract class ServerProperties implements Parcelable {
@@ -52,12 +52,13 @@ public abstract class ServerProperties implements Parcelable {
     public interface UpdateSuccessCallback {
         void handleServerPropertyUpdate(ServerProperties props);
     }
+
     public interface UpdateFailureCallback {
         void handleUpdateFailure(Request request, int statusCode, Throwable error);
     }
 
     public abstract int flags();
-    public abstract List<OpenHABSitemap> sitemaps();
+    public abstract List<Sitemap> sitemaps();
 
     public boolean hasJsonApi() {
         return (flags() & SERVER_FLAG_JSON_REST_API) != 0;
@@ -70,11 +71,13 @@ public abstract class ServerProperties implements Parcelable {
     abstract Builder toBuilder();
 
     @AutoValue.Builder
-    static abstract class Builder {
+    abstract static class Builder {
         abstract Builder flags(int flags);
-        abstract Builder sitemaps(List<OpenHABSitemap> sitemaps);
+
+        abstract Builder sitemaps(List<Sitemap> sitemaps);
 
         abstract ServerProperties build();
+
         abstract int flags();
     }
 
@@ -144,7 +147,7 @@ public abstract class ServerProperties implements Parcelable {
             @Override
             public void onSuccess(String response, Headers headers) {
                 // OH1 returns XML, later versions return JSON
-                List<OpenHABSitemap> result = (handle.builder.flags() & SERVER_FLAG_JSON_REST_API) != 0
+                List<Sitemap> result = (handle.builder.flags() & SERVER_FLAG_JSON_REST_API) != 0
                         ? loadSitemapsFromJson(response)
                         : loadSitemapsFromXml(response);
                 Log.d(TAG, "Server returned sitemaps: " + result);
@@ -154,7 +157,7 @@ public abstract class ServerProperties implements Parcelable {
         });
     }
 
-    private static List<OpenHABSitemap> loadSitemapsFromXml(String response) {
+    private static List<Sitemap> loadSitemapsFromXml(String response) {
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         try {
             DocumentBuilder builder = dbf.newDocumentBuilder();
@@ -166,7 +169,7 @@ public abstract class ServerProperties implements Parcelable {
         }
     }
 
-    private static List<OpenHABSitemap> loadSitemapsFromJson(String response) {
+    private static List<Sitemap> loadSitemapsFromJson(String response) {
         try {
             JSONArray jsonArray = new JSONArray(response);
             return Util.parseSitemapList(jsonArray);

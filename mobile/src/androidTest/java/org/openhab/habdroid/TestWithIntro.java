@@ -6,7 +6,6 @@ import android.support.test.InstrumentationRegistry;
 import org.openhab.habdroid.util.Constants;
 
 public abstract class TestWithIntro extends ProgressbarAwareTest {
-
     @Override
     public void setup() {
         PreferenceManager

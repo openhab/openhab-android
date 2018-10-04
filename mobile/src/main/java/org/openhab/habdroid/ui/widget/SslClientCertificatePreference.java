@@ -8,7 +8,6 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.preference.Preference;
-import android.preference.PreferenceManager;
 import android.security.KeyChain;
 import android.security.KeyChainException;
 import android.security.keystore.KeyProperties;
@@ -22,23 +21,24 @@ import org.openhab.habdroid.R;
 
 import java.security.cert.X509Certificate;
 
-public class SSLClientCertificatePreference extends Preference {
+public class SslClientCertificatePreference extends Preference {
     private Activity mActivity;
     private String mCurrentAlias;
     private ImageView mHelpIcon;
 
-    public SSLClientCertificatePreference(Context context, AttributeSet attrs) {
+    public SslClientCertificatePreference(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(context);
     }
 
-    public SSLClientCertificatePreference(Context context, AttributeSet attrs, int defStyleAttr) {
+    public SslClientCertificatePreference(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context);
     }
 
     @TargetApi(21)
-    public SSLClientCertificatePreference(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public SslClientCertificatePreference(Context context, AttributeSet attrs,
+            int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         init(context);
     }
@@ -56,7 +56,8 @@ public class SSLClientCertificatePreference extends Preference {
         mHelpIcon = view.findViewById(R.id.help_icon);
 
         final Context context = getContext();
-        Uri howToUri = Uri.parse(context.getString(R.string.settings_openhab_sslclientcert_howto_url));
+        final Uri howToUri = Uri.parse(
+                context.getString(R.string.settings_openhab_sslclientcert_howto_url));
         final Intent intent = new Intent(Intent.ACTION_VIEW, howToUri);
 
         if (intent.resolveActivity(context.getPackageManager()) != null) {

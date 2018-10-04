@@ -30,7 +30,7 @@ import java.util.regex.Pattern;
  */
 
 @AutoValue
-public abstract class OpenHABItem implements Parcelable {
+public abstract class Item implements Parcelable {
     public enum Type {
         None,
         Color,
@@ -55,16 +55,16 @@ public abstract class OpenHABItem implements Parcelable {
     @Nullable
     public abstract String link();
     public abstract boolean readOnly();
-    public abstract List<OpenHABItem> members();
+    public abstract List<Item> members();
     @Nullable
-    public abstract List<OpenHABLabeledValue> options();
+    public abstract List<LabeledValue> options();
     @Nullable
     public abstract String state();
     public abstract boolean stateAsBoolean();
     public abstract float stateAsFloat();
     @SuppressWarnings("mutable")
     @Nullable
-    public abstract float[] stateAsHSV();
+    public abstract float[] stateAsHsv();
     @Nullable
     public abstract Integer stateAsBrightness();
 
@@ -81,14 +81,14 @@ public abstract class OpenHABItem implements Parcelable {
         public abstract Builder state(@Nullable String state);
         public abstract Builder link(@Nullable String link);
         public abstract Builder readOnly(boolean readOnly);
-        public abstract Builder members(List<OpenHABItem> members);
-        public abstract Builder options(@Nullable List<OpenHABLabeledValue> options);
+        public abstract Builder members(List<Item> members);
+        public abstract Builder options(@Nullable List<LabeledValue> options);
 
-        public OpenHABItem build() {
+        public Item build() {
             String state = state();
             return stateAsBoolean(parseAsBoolean(state))
                     .stateAsFloat(parseAsFloat(state))
-                    .stateAsHSV(parseAsHSV(state))
+                    .stateAsHsv(parseAsHsv(state))
                     .stateAsBrightness(parseAsBrightness(state))
                     .autoBuild();
         }
@@ -96,9 +96,9 @@ public abstract class OpenHABItem implements Parcelable {
         abstract String state();
         abstract Builder stateAsBoolean(boolean state);
         abstract Builder stateAsFloat(float state);
-        abstract Builder stateAsHSV(float[] hsv);
+        abstract Builder stateAsHsv(float[] hsv);
         abstract Builder stateAsBrightness(@Nullable Integer brightness);
-        abstract OpenHABItem autoBuild();
+        abstract Item autoBuild();
 
         private static boolean parseAsBoolean(String state) {
             // For uninitialized/null state return false
@@ -139,7 +139,7 @@ public abstract class OpenHABItem implements Parcelable {
             }
         }
 
-        private static float[] parseAsHSV(String state) {
+        private static float[] parseAsHsv(String state) {
             if (state != null) {
                 String[] stateSplit = state.split(",");
                 if (stateSplit.length == 3) { // We need exactly 3 numbers to operate this
@@ -171,7 +171,8 @@ public abstract class OpenHABItem implements Parcelable {
             return null;
         }
 
-        private final static Pattern HSB_PATTERN = Pattern.compile("^([0-9]*\\.?[0-9]+),([0-9]*\\.?[0-9]+),([0-9]*\\.?[0-9]+)$");
+        private static final Pattern HSB_PATTERN =
+                Pattern.compile("^([0-9]*\\.?[0-9]+),([0-9]*\\.?[0-9]+),([0-9]*\\.?[0-9]+)$");
     }
 
     private static Type parseType(String type) {
@@ -192,7 +193,7 @@ public abstract class OpenHABItem implements Parcelable {
         }
     }
 
-    public static OpenHABItem fromXml(Node startNode) {
+    public static Item fromXml(Node startNode) {
         String name = null, state = null, link = null;
         Type type = Type.None, groupType = Type.None;
         if (startNode.hasChildNodes()) {
@@ -205,24 +206,24 @@ public abstract class OpenHABItem implements Parcelable {
                     case "name": name = childNode.getTextContent(); break;
                     case "state": state = childNode.getTextContent(); break;
                     case "link": link = childNode.getTextContent(); break;
+                    default: break;
                 }
             }
         }
 
-        return new AutoValue_OpenHABItem.Builder()
+        return new AutoValue_Item.Builder()
                 .type(type)
                 .groupType(groupType)
                 .name(name)
                 .label(name)
                 .state("Unitialized".equals(state) ? null : state)
-                .members(new ArrayList<OpenHABItem>())
+                .members(new ArrayList<>())
                 .link(link)
                 .readOnly(false)
                 .build();
     }
 
-    public static OpenHABItem updateFromEvent(OpenHABItem item, JSONObject jsonObject)
-            throws JSONException {
+    public static Item updateFromEvent(Item item, JSONObject jsonObject) throws JSONException {
         if (jsonObject == null) {
             return item;
         }
@@ -234,14 +235,14 @@ public abstract class OpenHABItem implements Parcelable {
         return builder.build();
     }
 
-    public static OpenHABItem fromJson(JSONObject jsonObject) throws JSONException {
+    public static Item fromJson(JSONObject jsonObject) throws JSONException {
         if (jsonObject == null) {
             return null;
         }
         return parseFromJson(jsonObject).build();
     }
 
-    private static OpenHABItem.Builder parseFromJson(JSONObject jsonObject) throws JSONException {
+    private static Item.Builder parseFromJson(JSONObject jsonObject) throws JSONException {
         String name = jsonObject.getString("name");
         String state = jsonObject.optString("state", "");
         if ("NULL".equals(state) || "UNDEF".equals(state) || "undefined".equalsIgnoreCase(state)) {
@@ -250,23 +251,22 @@ public abstract class OpenHABItem implements Parcelable {
 
         JSONObject stateDescription = jsonObject.optJSONObject("stateDescription");
         boolean readOnly = stateDescription != null
-                ? stateDescription.optBoolean("readOnly", false)
-                : false;
+                && stateDescription.optBoolean("readOnly", false);
 
-        List<OpenHABLabeledValue> options = null;
+        List<LabeledValue> options = null;
         if (stateDescription != null && stateDescription.has("options")) {
             JSONArray optionsJson = stateDescription.getJSONArray("options");
             options = new ArrayList<>();
             for (int i = 0; i < optionsJson.length(); i++) {
                 JSONObject optionJson = optionsJson.getJSONObject(i);
-                options.add(OpenHABLabeledValue.newBuilder()
+                options.add(LabeledValue.newBuilder()
                         .value(optionJson.getString("value"))
                         .label(optionJson.getString("label"))
                         .build());
             }
         }
 
-        List<OpenHABItem> members = new ArrayList<>();
+        List<Item> members = new ArrayList<>();
         JSONArray membersJson = jsonObject.optJSONArray("members");
         if (membersJson != null) {
             for (int i = 0; i < membersJson.length(); i++) {
@@ -274,7 +274,7 @@ public abstract class OpenHABItem implements Parcelable {
             }
         }
 
-        return new AutoValue_OpenHABItem.Builder()
+        return new AutoValue_Item.Builder()
                 .type(parseType(jsonObject.getString("type")))
                 .groupType(parseType(jsonObject.optString("groupType")))
                 .name(name)

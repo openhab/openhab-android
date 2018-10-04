@@ -95,7 +95,7 @@ public class MemorizingTrustManager implements X509TrustManager {
     Activity foregroundAct;
     NotificationManager notificationManager;
     private static int decisionId = 0;
-    private static SparseArray<MTMDecision> openDecisions = new SparseArray<MTMDecision>();
+    private static SparseArray<MTMDecision> openDecisions = new SparseArray<>();
 
     Handler masterHandler;
     private File keyStoreFile;
