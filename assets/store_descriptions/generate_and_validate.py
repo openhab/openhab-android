@@ -21,7 +21,7 @@ def getString(key):
         string = root.findall(key)[0].text
         if emptyStringPattern.match(string):
             string = getEnglishString(key)
-    except:
+    except TypeError:
         string = getEnglishString(key)
     return(string)
 
