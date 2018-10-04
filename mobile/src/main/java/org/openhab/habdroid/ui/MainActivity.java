@@ -789,18 +789,18 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         Log.d(TAG, "onOptionsItemSelected()");
-        //clicking the back navigation arrow
+        // Handle back navigation arrow
         if (item.getItemId() == android.R.id.home && mController.canGoBack()) {
             mController.goBack();
             return true;
         }
 
-        //clicking the hamburger menu
+        // Handle hamburger menu
         if (mDrawerToggle.onOptionsItemSelected(item)) {
             return true;
         }
 
-        //menu items
+        // Handle menu items
         switch (item.getItemId()) {
             case R.id.mainmenu_voice_recognition:
                 launchVoiceRecognition();
@@ -883,7 +883,8 @@ public class MainActivity extends AppCompatActivity implements
         if (mController.canGoBack()) {
             mController.goBack();
         } else if (!isFullscreenEnabled()) {
-            //in fullscreen don't continue back which would exit the app
+            // Only handle back action in non-fullscreen mode, as we don't want to exit
+            // the app via back button in fullscreen mode
             super.onBackPressed();
         }
     }

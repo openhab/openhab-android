@@ -795,15 +795,15 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
         public void onClick(final View view) {
             float minValue = mBoundWidget.minValue();
             float maxValue = mBoundWidget.maxValue();
-            //This prevents an exception below, but could lead to
+            // This prevents an exception below, but could lead to
             // user confusion if this case is ever encountered.
             float stepSize = minValue == maxValue ? 1 : mBoundWidget.step();
             final int stepCount = ((int) (Math.abs(maxValue - minValue) / stepSize)) + 1;
             final String[] stepValues = new String[stepCount];
             for (int i = 0; i < stepValues.length; i++) {
-                //Check if step size is a whole integer.
+                // Check if step size is a whole integer.
                 if (stepSize == Math.ceil(stepSize)) {
-                    //Cast to int to prevent .0 being added to all values in picker
+                    // Cast to int to prevent .0 being added to all values in picker
                     stepValues[i] = String.valueOf((int) (minValue + (i * stepSize)));
                 } else {
                     stepValues[i] = String.valueOf(minValue + (i * stepSize));
