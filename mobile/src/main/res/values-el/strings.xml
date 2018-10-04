@@ -32,8 +32,19 @@
   <string name="settings_openhab_icon_format">Μορφή εικονιδίου</string>
   <string name="settings_openhab_icon_format_png">Bitmap</string>
   <string name="settings_openhab_icon_format_svg">Διάνυσμα</string>
+  <string name="settings_chart_scaling_value_xs">Πολύ μικρό</string>
+  <string name="settings_chart_scaling_value_s">Μικρό</string>
+  <string name="settings_chart_scaling_value_m">Προεπιλογή</string>
+  <string name="settings_chart_scaling_value_l">Μεγάλο</string>
+  <string name="settings_ringtone">Ήχος κλήσης ειδοποίησης</string>
+  <string name="settings_ringtone_none">Κανένα</string>
   <string name="settings_openhab_alt_connection">Απομακρυσμένo</string>
   <string name="settings_openhab_connection">Τοπικό</string>
+  <string name="settings_notification_vibration">Δόνηση ειδοποιήσεων</string>
+  <string name="settings_notification_vibration_off">Σβηστό</string>
+  <string name="settings_notification_vibration_short">Σύντομη</string>
+  <string name="settings_notification_vibration_long">Παρατεταμένη</string>
+  <string name="settings_notification_vibration_twice">Δύο φορές</string>
   <!-- App messages strings -->
   <string name="info_voice_input">openHAB, στις προσταγές σας!</string>
   <string name="info_voice_recognized_text">Αναγνωρισμένη εντολή: %1$s</string>
@@ -73,6 +84,7 @@
   <string name="mtm_decision_once">Μία φορά</string>
   <string name="mtm_decision_abort">Διακοπή</string>
   <string name="mtm_notification">Επιβεβαίωση πιστοποιητικού</string>
+  <string name="settings_openhab_none">Κανένα</string>
   <!-- Themes -->
   <string name="theme_name_light">Ανοιχτόχρωμο</string>
   <string name="theme_name_dark">Σκοτεινό</string>
