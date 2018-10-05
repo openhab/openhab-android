@@ -13,7 +13,7 @@
     <security>• Ασφάλεια: ZoneMinder, DSC,...</security>
     <open_protocols>• Ανοικτά πρωτόκολλα: TCP/UDP HTTP, MQTT, σειριακό,...</open_protocols>
     <special_useCases>• Ειδικές περιπτώσεις χρήσης: Minecraft, αυτοκίνητο Tesla, μετεωρολογικές υπηρεσίες,...</special_useCases>
-    <empty_point>•...</empty_point>
+    <empty_point>• ...</empty_point>
 
     <oss_community>Κοινότητα Ανοικτού Λογισμικού</oss_community>
     <forum>Η πρωτοβουλία ανοιχτού κώδικα του openHAB υποστηρίζει σθεναρά τη ζωντανή του κοινότητα. Το φόρουμ με πάνω από 13.000 εγγεγραμμένους χρήστες είναι ένα μέρος για να βρείτε καθοδήγηση, βοήθεια και έμπνευση. Γίνεται μέλη του φόρουμ της κοινότητας του openHAB στον σύνδεσμο https://community.openhab.org</forum>
