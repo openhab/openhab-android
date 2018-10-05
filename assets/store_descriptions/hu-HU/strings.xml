@@ -28,7 +28,7 @@ Több mint 200 külön kiegészítő támogatja a márkákat, eszközöket, tech
     <short_description>Szabadgondolkozású technológia, nyílt forráskódú otthonautomatizálás</short_description>
     <fdroid>A F-Droidra készült példány tartalmaz map nézetet is, GCM és hibajelentés el lett belőle távolítva és nem képes push értesítések fogadására az openHAB felhőről.</fdroid>
     <fdroid_beta><![CDATA[A béta változatot a <a href="https://f-droid.org/packages/org.openhab.habdroid/">stabil verzió</a> mellé is telepítheted.]]></fdroid_beta>
-    <fdroid_privacy_policy>Adatvédelem: https://www.openhabfoundation.org/privacy</fdroid_privacy_policy>
+    <fdroid_privacy_policy/>
     <fdroid_anti_features>Anti funkciók</fdroid_anti_features>
     <fdroid_anti_features_text>Az alkalmazás meg van jelölve a "NonFreeAsset" zászlóval, mert az openHAB ikon nincs szabad licensz alatt.</fdroid_anti_features_text>
     <beta>Próbáld ki az új funkciókat és adj korai visszajelzést!</beta>
