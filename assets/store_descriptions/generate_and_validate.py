@@ -27,8 +27,9 @@ def getString(key):
 
 playDevSiteDescription = "Play Store developer site description:\n"
 
-stringsFiles = glob.glob('assets/store_descriptions/*/strings.xml')
-for file in stringsFiles:
+print("Checking app store strings...")
+appStoreStringsFiles = glob.glob('assets/store_descriptions/*/strings.xml')
+for file in appStoreStringsFiles:
     tree = ET.parse(file)
     root = tree.getroot()
     lang = file[26:-12]
@@ -69,15 +70,35 @@ for file in stringsFiles:
         fullDescription += getString('fdroid_anti_features_text') + "\n\n\n"
         fullDescription += getString('fdroid_privacy_policy')
 
+    # Validate full description
+    if getString('empty_point') != "• ..." and getString('empty_point') != "... •":
+        print("'empty_point' of " + lang + " is incorrect")
+        exitCode += 1
+
+    openhabOccurences = [m.start() for m in re.finditer("openhab", fullDescription, re.I)]
+    for i in openhabOccurences:
+        openhabString = fullDescription[i:i+7]
+        if openhabString != "openhab" and openhabString != "openHAB": # "openhab" is used in links
+            print("Incorrect spelling of openHAB in " + lang)
+            exitCode += 1
+
+    if "http://" in fullDescription:
+        print("HTTP link found in " + lang)
+        exitCode += 1
+
+    if '<a href="https://f-droid.org/packages/org.openhab.habdroid/">' not in getString('fdroid_beta') or "</a>" not in getString('fdroid_beta'):
+        print("Missing tags in 'fdroid_beta' of " + lang)
+        exitCode += 1
+
     if len(fullDescription) > 4000:
         print("Full description of " + lang + " is too long: " + str(len(fullDescription)) + " > 4000 chars")
         exitCode += 1
 
+    # Validate short description
     shortDescription = getString('short_description')
     if len(shortDescription) > 80:
         print("Short description of " + lang + " is too long: " + str(len(shortDescription)) + " > 80 chars")
         exitCode += 1
-
 
     newpath = r'fastlane/metadata/android/' + lang + '/'
     if not os.path.exists(newpath):
@@ -98,4 +119,20 @@ for file in stringsFiles:
             exitCode += 1
 
 print("\n\n" + playDevSiteDescription)
+
+
+print("\n\nChecking app strings...")
+appStringsFiles = glob.glob('mobile/src/main/res/values-*/strings.xml')
+for file in appStringsFiles:
+    lang = file[27:-12]
+    print("Processing " + lang)
+    strings = open(file, "r").read()
+
+    openhabOccurences = [m.start() for m in re.finditer("openhab", strings, re.I)]
+    for i in openhabOccurences:
+        openhabString = strings[i:i+7]
+        if openhabString != "openhab" and openhabString != "openHAB": # "openhab" is used in links
+            print("Incorrect spelling of openHAB in " + lang)
+            exitCode += 1
+
 exit(exitCode)
