@@ -16,7 +16,7 @@
   <string name="settings_display_title">Näyttö</string>
   <string name="settings_misc_title">Sekalaiset</string>
   <string name="settings_openhab_url">Paikallisen palvelimen URL osoite</string>
-  <string name="settings_openhab_url_summary">OpenHAB palvelimen URL osoite (isäntänimi tai IP osoite). Jos määritetty, automaattinen etsintä poistetaan käytöstä. Nykyinen asetus: %s</string>
+  <string name="settings_openhab_url_summary">openHAB palvelimen URL osoite (isäntänimi tai IP osoite). Jos määritetty, automaattinen etsintä poistetaan käytöstä. Nykyinen asetus: %s</string>
   <string name="settings_openhab_alturl">Etäpalvelimen URL osoite</string>
   <string name="settings_openhab_alturl_summary">openHAB palvelimen URL osoite jota käytetään jos paikallinen osoite ei ole käytettävissä. Nykyinen asetus: %s</string>
   <string name="settings_openhab_username">Käyttäjänimi</string>
