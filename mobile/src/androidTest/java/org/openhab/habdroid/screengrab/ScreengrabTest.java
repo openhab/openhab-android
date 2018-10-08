@@ -2,8 +2,8 @@ package org.openhab.habdroid.screengrab;
 
 import androidx.test.espresso.ViewInteraction;
 import androidx.test.espresso.contrib.RecyclerViewActions;
+import androidx.test.filters.LargeTest;
 import androidx.test.runner.AndroidJUnit4;
-import android.test.suitebuilder.annotation.LargeTest;
 
 import org.junit.ClassRule;
 import org.junit.Test;

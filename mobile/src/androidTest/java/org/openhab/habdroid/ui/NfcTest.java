@@ -5,8 +5,8 @@ import androidx.annotation.StringRes;
 import androidx.test.InstrumentationRegistry;
 import androidx.test.espresso.ViewInteraction;
 import androidx.test.espresso.contrib.RecyclerViewActions;
+import androidx.test.filters.LargeTest;
 import androidx.test.runner.AndroidJUnit4;
-import android.test.suitebuilder.annotation.LargeTest;
 
 import org.hamcrest.core.IsInstanceOf;
 import org.junit.Test;
