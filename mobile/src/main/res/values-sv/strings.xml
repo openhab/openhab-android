@@ -84,9 +84,9 @@
   <string name="error_http_code_495">Autentiseringen misslyckades. Vänligen kontrollera SSH-klientcertifikatet (HTTP-svarskod 495).</string>
   <string name="error_http_code_496">SSL-klientcertifikat krävs (HTTP-svarskod 496)</string>
   <string name="error_http_code_502">Din omvända proxy fick ett ogiltigt svar från openHAB-servern (HTTP-svarskod 502)</string>
-  <string name="error_http_code_503">OpenHAB-servern är tillfälligt otillgänglig (HTTP-svarskod 503)</string>
+  <string name="error_http_code_503">openHAB-servern är tillfälligt otillgänglig (HTTP-svarskod 503)</string>
   <string name="error_http_code_504">Gateway time-out. Det verkar som att din omvända proxy är uppe, men den får inget svar ifrån openHAB-servern (HTTP-svarskod 504).</string>
-  <string name="error_http_code_507">OpenHAB-servern har inte tillräckligt ledigt diskutrymme (HTTP-svarskod 507)</string>
+  <string name="error_http_code_507">openHAB-servern har inte tillräckligt ledigt diskutrymme (HTTP-svarskod 507)</string>
   <string name="error_http_code_511">Nätverksautentisering krävs (HTTP-svarskod 511)</string>
   <string name="error_about_no_conn">Fel vid hämtning av information ifrån openHAB-servern</string>
   <string name="error_openhab_offline">Molninstansen är igång, men din openHAB-server är offline</string>
@@ -163,7 +163,7 @@
   <string name="close">Stäng</string>
   <string name="try_again_button">Försök igen</string>
   <string name="go_to_settings_button">Gå till inställningar</string>
-  <string name="configuration_missing">OpenHAB-servern inte kunde upptäckas automatiskt. Konfigurera IP-adress eller värdnamn i serverinställningarna.</string>
+  <string name="configuration_missing">openHAB-servern inte kunde upptäckas automatiskt. Konfigurera IP-adress eller värdnamn i serverinställningarna.</string>
   <string name="no_remote_server">Lokala nätverket är inte tillgängligt och du inte har konfigurerat en fjärrserver</string>
   <string name="resolving_openhab">Försöker hitta openHAB-server\u2026</string>
   <!-- Content description for images -->

@@ -13,7 +13,7 @@
     <security>• 安全：ZoneMinder、DSC···</security>
     <open_protocols>• 开源协议：HTTP、TCP/UDP、MQTT、串口···</open_protocols>
     <special_useCases>• 特殊用例：我的世界、特斯拉汽车、天气服务···</special_useCases>
-    <empty_point>• ···</empty_point>
+    <empty_point/>
 
     <oss_community>开源社区</oss_community>
     <forum>openHAB 的开源鼎力支持了其充满活力的社区。 社区共有超过 13000 位注册用户，是您寻求帮助与灵感的好地方。 在 https://community.openhab.org 处加入 openHAB 社区论坛</forum>

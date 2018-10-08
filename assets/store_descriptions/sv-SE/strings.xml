@@ -13,7 +13,7 @@
     <security>• Säkerhet: ZoneMinder, DSC,...</security>
     <open_protocols>• Öppna protokoll: HTTP, TCP/UDP, MQTT, seriell,...</open_protocols>
     <special_useCases>• Särskilda tillämpningar: Minecraft, Tesla, vädertjänster,...</special_useCases>
-    <empty_point>•...</empty_point>
+    <empty_point>• ...</empty_point>
 
     <oss_community>Öppen källkods-gemenskapen</oss_community>
     <forum>Öppen källkods-initiativet openHAB är stark förespråkare för sitt levande community. Forumet med över 13 000 registrerade användare är ett ställe att hitta vägledning, hjälp och inspiration. Gå med i openHAB-forumet över på https://community.openhab.org</forum>
@@ -27,7 +27,7 @@
     <short_description>Hemautomatisering med öppen källkod oberoende av tillverkare eller teknologi</short_description>
     <fdroid>Versionerna på F-Droid har stöd för kartvisning, GCM och kraschrapportering och kan inte ta emot pushnotifieringar ifrån openHAB Cloud.</fdroid>
     <fdroid_beta><![CDATA[Beta-versionen kan installeras parallellt med den <a href="https://f-droid.org/packages/org.openhab.habdroid/">stabila versionen</a>.]]></fdroid_beta>
-    <fdroid_privacy_policy/>
+    <fdroid_privacy_policy>Integritetspolicy: https://www.openhabfoundation.org/privacy.html</fdroid_privacy_policy>
     <fdroid_anti_features>Anti-Features</fdroid_anti_features>
     <fdroid_anti_features_text>Appen är markerad som "NonFreeAsset" eftersom ikonen för openHAB inte omfattas av någon fri licens.</fdroid_anti_features_text>
     <beta>Testa nya funktioner och ge tidig feedback!</beta>

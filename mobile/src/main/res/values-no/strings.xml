@@ -84,12 +84,12 @@
   <string name="error_http_code_495">Godkjenning mislyktes. Kontroller det angitte SSL-klientsertifikatet (HTTP responskode 495).</string>
   <string name="error_http_code_496">SSL klient sertifikat er påkrevd (HTTP respons kode 496)</string>
   <string name="error_http_code_502">Din omvendte proxy fikk et ugyldig svar fra openHAB-serveren (HTTP-respons kode 502)</string>
-  <string name="error_http_code_503">OpenHAB-serveren er midlertidig utilgjengelig (HTTP-respons kode 503)</string>
+  <string name="error_http_code_503">openHAB-serveren er midlertidig utilgjengelig (HTTP-respons kode 503)</string>
   <string name="error_http_code_504">Gateway tidsavbrudd. Det virker som din omvendte proxy er oppe, men den får ikke svar fra openHAB-serveren (HTTP-respons kode 504).</string>
-  <string name="error_http_code_507">OpenHAB-serveren har ikke nok ledig minne (HTTP-responskode 507)</string>
+  <string name="error_http_code_507">openHAB-serveren har ikke nok ledig minne (HTTP-responskode 507)</string>
   <string name="error_http_code_511">Nettverksautentisering påkrevd (HTTP-responskode 511)</string>
   <string name="error_about_no_conn">Feil ved henting av informasjon fra openHAB-serveren</string>
-  <string name="error_openhab_offline">OpenHAB serveren er frakoblet mens cloud-instansen kjører</string>
+  <string name="error_openhab_offline">openHAB serveren er frakoblet mens cloud-instansen kjører</string>
   <string name="error_no_app_store_found">Ingen app lager funnet for å installere stemme gjenkjenneren app</string>
   <string name="title_activity_openhabwritetag">Skriv NFC tag</string>
   <string name="title_activity_libraries">Brukte biblioteker</string>
@@ -164,7 +164,7 @@
   <string name="close">Lukk</string>
   <string name="try_again_button">Prøv igjen</string>
   <string name="go_to_settings_button">Gå til innstillinger</string>
-  <string name="configuration_missing">OpenHAB-serveren kunne ikke oppdages automatisk. Konfigurer IP-addresse eller vertnavn i serverinnstillingene.</string>
+  <string name="configuration_missing">openHAB-serveren kunne ikke oppdages automatisk. Konfigurer IP-addresse eller vertnavn i serverinnstillingene.</string>
   <string name="no_remote_server">Lokalt nettverk er ikke tilgjengelig og du har ikke konfigurert en ekstern server</string>
   <string name="resolving_openhab">Forsøker å finne openHAB-server instans\u2026</string>
   <!-- Content description for images -->
