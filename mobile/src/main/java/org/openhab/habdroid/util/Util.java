@@ -17,11 +17,11 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.preference.PreferenceManager;
-import android.support.annotation.AnimRes;
-import android.support.annotation.AttrRes;
-import android.support.annotation.NonNull;
-import android.support.annotation.StyleRes;
-import android.support.v4.widget.SwipeRefreshLayout;
+import androidx.annotation.AnimRes;
+import androidx.annotation.AttrRes;
+import androidx.annotation.NonNull;
+import androidx.annotation.StyleRes;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.util.TypedValue;
 
@@ -238,7 +238,7 @@ public class Util {
     }
 
     /**
-     * Sets {@link android.support.v4.widget.SwipeRefreshLayout} color scheme from
+     * Sets {@link SwipeRefreshLayout} color scheme from
      * a list of attributes pointing to color resources
      *
      * @param colorAttrIds color attributes to create color scheme from

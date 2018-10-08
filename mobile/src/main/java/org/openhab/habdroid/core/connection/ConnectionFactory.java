@@ -15,8 +15,8 @@ import android.os.Message;
 import android.preference.PreferenceManager;
 import android.security.KeyChain;
 import android.security.KeyChainException;
-import android.support.annotation.VisibleForTesting;
-import android.support.v4.util.Pair;
+import androidx.annotation.VisibleForTesting;
+import androidx.core.util.Pair;
 import android.util.Log;
 
 import de.duenndns.ssl.MemorizingTrustManager;

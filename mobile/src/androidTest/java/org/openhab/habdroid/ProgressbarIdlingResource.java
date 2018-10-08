@@ -1,7 +1,7 @@
 package org.openhab.habdroid;
 
-import android.support.annotation.NonNull;
-import android.support.test.espresso.IdlingResource;
+import androidx.annotation.NonNull;
+import androidx.test.espresso.IdlingResource;
 import android.view.View;
 
 public class ProgressbarIdlingResource implements IdlingResource {

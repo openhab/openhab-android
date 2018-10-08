@@ -9,7 +9,7 @@
 
 package org.openhab.habdroid.util;
 
-import android.support.annotation.VisibleForTesting;
+import androidx.annotation.VisibleForTesting;
 
 import com.here.oksse.OkSse;
 

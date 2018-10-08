@@ -11,7 +11,7 @@ package org.openhab.habdroid.core;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.StringRes;
+import androidx.annotation.StringRes;
 
 import org.openhab.habdroid.core.connection.CloudConnection;
 

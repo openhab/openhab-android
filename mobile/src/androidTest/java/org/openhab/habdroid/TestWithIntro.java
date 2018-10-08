@@ -1,7 +1,7 @@
 package org.openhab.habdroid;
 
 import android.preference.PreferenceManager;
-import android.support.test.InstrumentationRegistry;
+import androidx.test.InstrumentationRegistry;
 
 import org.openhab.habdroid.util.Constants;
 

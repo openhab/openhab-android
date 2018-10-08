@@ -1,9 +1,9 @@
 package org.openhab.habdroid;
 
-import android.support.annotation.NonNull;
-import android.support.test.espresso.IdlingResource;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
+import androidx.annotation.NonNull;
+import androidx.test.espresso.IdlingResource;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import org.openhab.habdroid.ui.WidgetListFragment;
 import org.openhab.habdroid.ui.activity.ContentController;
