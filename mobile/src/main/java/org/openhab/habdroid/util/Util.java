@@ -17,16 +17,8 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.preference.PreferenceManager;
-import androidx.annotation.AnimRes;
-import androidx.annotation.AttrRes;
-import androidx.annotation.NonNull;
-import androidx.annotation.StyleRes;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.util.TypedValue;
-
-import okhttp3.Headers;
-import okhttp3.Request;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -42,6 +34,14 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import androidx.annotation.AnimRes;
+import androidx.annotation.AttrRes;
+import androidx.annotation.NonNull;
+import androidx.annotation.StyleRes;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import okhttp3.Headers;
+import okhttp3.Request;
 
 public class Util {
     private static final String TAG = Util.class.getSimpleName();

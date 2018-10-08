@@ -5,10 +5,6 @@ import android.util.Log;
 
 import com.google.auto.value.AutoValue;
 
-import okhttp3.Call;
-import okhttp3.Headers;
-import okhttp3.Request;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -27,6 +23,10 @@ import java.util.List;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+
+import okhttp3.Call;
+import okhttp3.Headers;
+import okhttp3.Request;
 
 @AutoValue
 public abstract class ServerProperties implements Parcelable {

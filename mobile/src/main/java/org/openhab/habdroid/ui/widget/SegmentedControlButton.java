@@ -22,11 +22,12 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Paint.Style;
 import android.graphics.drawable.Drawable;
-import androidx.appcompat.content.res.AppCompatResources;
-import androidx.appcompat.widget.AppCompatRadioButton;
 import android.util.AttributeSet;
 
 import org.openhab.habdroid.R;
+
+import androidx.appcompat.content.res.AppCompatResources;
+import androidx.appcompat.widget.AppCompatRadioButton;
 
 /** @author benjamin ferrari */
 public class SegmentedControlButton extends AppCompatRadioButton {

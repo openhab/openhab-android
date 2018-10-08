@@ -12,13 +12,14 @@ package org.openhab.habdroid.util;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Handler;
-import androidx.annotation.NonNull;
 import android.util.Log;
 import android.widget.ImageView;
 
 import org.openhab.habdroid.core.connection.Connection;
 
 import java.io.IOException;
+
+import androidx.annotation.NonNull;
 
 public class MjpegStreamer {
     private static final String TAG = MjpegStreamer.class.getSimpleName();

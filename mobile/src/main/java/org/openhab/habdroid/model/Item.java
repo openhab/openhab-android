@@ -10,7 +10,6 @@
 package org.openhab.habdroid.model;
 
 import android.os.Parcelable;
-import androidx.annotation.Nullable;
 
 import com.google.auto.value.AutoValue;
 
@@ -24,6 +23,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import androidx.annotation.Nullable;
 
 /**
  * This is a class to hold basic information about openHAB Item.

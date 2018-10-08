@@ -1,9 +1,9 @@
 package org.openhab.habdroid.core.connection;
 
-import androidx.annotation.Nullable;
-
 import org.openhab.habdroid.util.AsyncHttpClient;
 import org.openhab.habdroid.util.SyncHttpClient;
+
+import androidx.annotation.Nullable;
 
 public interface Connection {
     /**
@@ -14,7 +14,7 @@ public interface Connection {
     int TYPE_LOCAL = 0;
     /**
      * Representsa connection to an openHAB instance, which may or may not be available from the
-     * public internet. This is most likely the instance configured in the "remote" settings of
+     * public internet. This is most likely the instance maconfigured in the "remote" settings of
      * the device. The connection may or may not be available in the network the device is
      * currently connected to.
      */

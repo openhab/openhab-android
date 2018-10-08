@@ -1,7 +1,6 @@
 package org.openhab.habdroid.core.connection;
 
 import androidx.annotation.NonNull;
-
 import okhttp3.OkHttpClient;
 
 public class DefaultConnection extends AbstractConnection {

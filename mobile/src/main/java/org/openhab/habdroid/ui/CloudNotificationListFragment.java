@@ -10,12 +10,6 @@
 package org.openhab.habdroid.ui;
 
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -23,10 +17,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import okhttp3.Call;
-import okhttp3.Headers;
-import okhttp3.Request;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -41,6 +31,16 @@ import org.openhab.habdroid.util.Util;
 
 import java.util.ArrayList;
 import java.util.Locale;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import okhttp3.Call;
+import okhttp3.Headers;
+import okhttp3.Request;
 
 public class CloudNotificationListFragment extends Fragment implements
         View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {

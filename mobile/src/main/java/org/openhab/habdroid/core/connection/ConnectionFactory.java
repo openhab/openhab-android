@@ -15,13 +15,7 @@ import android.os.Message;
 import android.preference.PreferenceManager;
 import android.security.KeyChain;
 import android.security.KeyChainException;
-import androidx.annotation.VisibleForTesting;
-import androidx.core.util.Pair;
 import android.util.Log;
-
-import de.duenndns.ssl.MemorizingTrustManager;
-import okhttp3.OkHttpClient;
-import okhttp3.internal.tls.OkHostnameVerifier;
 
 import org.openhab.habdroid.core.CloudMessagingHelper;
 import org.openhab.habdroid.core.connection.exception.ConnectionException;
@@ -44,6 +38,12 @@ import javax.net.ssl.KeyManager;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509KeyManager;
+
+import androidx.annotation.VisibleForTesting;
+import androidx.core.util.Pair;
+import de.duenndns.ssl.MemorizingTrustManager;
+import okhttp3.OkHttpClient;
+import okhttp3.internal.tls.OkHostnameVerifier;
 
 /**
  * A factory class, which is the main entry point to get a Connection to a specific openHAB

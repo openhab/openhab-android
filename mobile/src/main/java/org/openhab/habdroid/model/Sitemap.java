@@ -10,13 +10,14 @@
 package org.openhab.habdroid.model;
 
 import android.os.Parcelable;
-import androidx.annotation.Nullable;
 
 import com.google.auto.value.AutoValue;
 
 import org.json.JSONObject;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+
+import androidx.annotation.Nullable;
 
 @AutoValue
 public abstract class Sitemap implements Parcelable {

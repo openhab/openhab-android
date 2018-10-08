@@ -13,11 +13,11 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.LruCache;
 
-import okhttp3.Cache;
-import okhttp3.HttpUrl;
-
 import java.io.File;
 import java.io.IOException;
+
+import okhttp3.Cache;
+import okhttp3.HttpUrl;
 
 public class CacheManager {
     private static CacheManager sInstance;

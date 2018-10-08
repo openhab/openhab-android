@@ -1,8 +1,9 @@
 package org.openhab.habdroid.ui.widget;
 
 import android.content.Context;
-import androidx.appcompat.widget.AppCompatSpinner;
 import android.util.AttributeSet;
+
+import androidx.appcompat.widget.AppCompatSpinner;
 
 /*
  * An extended version of the Spinner class, which allows getting

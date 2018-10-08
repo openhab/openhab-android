@@ -9,8 +9,6 @@
 
 package org.openhab.habdroid.model;
 
-import androidx.annotation.Nullable;
-
 import com.google.auto.value.AutoValue;
 
 import org.json.JSONException;
@@ -19,6 +17,8 @@ import org.json.JSONObject;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.TimeZone;
+
+import androidx.annotation.Nullable;
 
 @AutoValue
 public abstract class CloudNotification {

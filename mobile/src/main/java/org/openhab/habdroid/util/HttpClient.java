@@ -9,10 +9,12 @@
 
 package org.openhab.habdroid.util;
 
-import androidx.annotation.VisibleForTesting;
-
 import com.here.oksse.OkSse;
 
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
+
+import androidx.annotation.VisibleForTesting;
 import okhttp3.CacheControl;
 import okhttp3.Call;
 import okhttp3.Credentials;
@@ -21,9 +23,6 @@ import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
-
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 public abstract class HttpClient {
     public enum CachingMode {
