@@ -21,8 +21,8 @@
   <string name="settings_openhab_alturl_summary">Adressen til openHAB dashbord som blir brukt når den lokale adressen ikke er tilgjengelig. Nåværende innstilling: %s</string>
   <string name="settings_openhab_username">Brukernavn</string>
   <string name="settings_openhab_password">Passord</string>
-  <string name="settings_openhab_password_summary_weak">Svakt passord satt</string>
-  <string name="settings_openhab_password_summary_strong">Sterkt passord satt</string>
+  <string name="settings_openhab_password_summary_weak">Svakt passord valgt</string>
+  <string name="settings_openhab_password_summary_strong">Sterkt passord valgt</string>
   <string name="settings_openhab_sslclientcert">SSL klientsertifikat</string>
   <string name="settings_openhab_sslclientcert_howto_summary">Trykk her for å få hint og forklaring på hvordan å sette opp SSL klientsertifikat autentisering</string>
   <string name="settings_openhab_screentimeroff">Deaktiver skjermsparer</string>
