@@ -42,11 +42,6 @@ jobs:
         - desc="Build & test"
       if: tag != "-fdroid$"
     - stage: test
-      script: bash travis/coverage.sh
-      env:
-        - desc="Codecov"
-      if: branch != l10n-crowdin AND tag != "-fdroid$"
-    - stage: test
       script: bash travis/uploads.sh
       env:
         - desc="Uploads to GitHub"

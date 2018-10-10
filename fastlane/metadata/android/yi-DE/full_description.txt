@@ -39,4 +39,4 @@ The openHAB Foundation e.V. is a nonprofit organization with the mission to educ
 The app is flagged with the "NonFreeAsset" flag, because the openHAB icon is not under a free license.
 
 
-Privacy policy: https://www.openhabfoundation.org/privacy
+Privacy policy: https://www.openhabfoundation.org/privacy.html

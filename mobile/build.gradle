@@ -33,8 +33,8 @@ android {
         applicationId "org.openhab.habdroid"
         minSdkVersion 14
         targetSdkVersion 27
-        versionCode 84
-        versionName "2.3.2-beta"
+        versionCode 85
+        versionName "2.3.3-beta"
         multiDexEnabled true
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
     }
@@ -134,7 +134,7 @@ dependencies {
     annotationProcessor 'com.google.auto.value:auto-value:1.6.2'
     annotationProcessor 'com.ryanharter.auto.value:auto-value-parcel:0.2.6'
 
-    testImplementation 'org.mockito:mockito-core:2.22.0'
+    testImplementation 'org.mockito:mockito-core:2.23.0'
     testImplementation 'junit:junit:4.12'
     testImplementation 'org.json:json:20180813'
     testImplementation 'com.squareup.okhttp3:mockwebserver:3.11.0'

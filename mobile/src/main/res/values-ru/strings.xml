@@ -89,7 +89,8 @@
   <string name="error_http_code_507">Серверу openHAB недостаточно свободного места (код ответа HTTP 507)</string>
   <string name="error_http_code_511">Требуется сетевая аутентификация (код ответа HTTP 511)</string>
   <string name="error_about_no_conn">Ошибка при получении данных с сервера openHAB</string>
-  <string name="error_openhab_offline">Ваш сервер OpenHAB не доступен, но его экземпляр в облаке работает</string>
+  <string name="error_openhab_offline">Ваш сервер openHAB не доступен, но его экземпляр в облаке работает</string>
+  <string name="error_no_app_store_found">Не найден магазин приложений для установки системы распознавания голоса</string>
   <string name="title_activity_openhabwritetag">Запись NFC tag</string>
   <string name="title_activity_libraries">Используемые библиотеки</string>
   <string name="info_write_tag">Прикоснитесь к тегу и удерживайте его, пока не появится сообщение подтверждения</string>

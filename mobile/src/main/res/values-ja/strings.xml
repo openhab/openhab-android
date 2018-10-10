@@ -113,7 +113,7 @@
   <string name="about_server">openHAB サーバー</string>
   <string name="about_translation">openHAB の翻訳にご協力ください</string>
   <string name="about_privacy_policy">プライバシーポリシー</string>
-  <string name="error_couldnt_determine_openhab_url">OpenHAB URL を特定できませんでした</string>
+  <string name="error_couldnt_determine_openhab_url">openHAB URL を特定できませんでした</string>
   <string name="unknown">不明</string>
   <string name="error_network_type_unsupported">ネットワークの形式 (%s) はサポートされていません</string>
   <string name="set">設定</string>

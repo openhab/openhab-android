@@ -21,13 +21,13 @@
     <report_issues>Případné nalezené chyby či problémy nahlaste prosím, ve fóru nebo v https://github.com/openhab/openhab-android/issues</report_issues>
     <translation>Pokud chcete aplikaci přeložit do vašeho jazyka připojte se k nám na https://crowdin.com/project/openhab-android</translation>
     <foundation>openHAB Foundation</foundation>
-    <about_foundation>OpenHAB Foundation e.V. je nezisková organizace s posláním vzdělávat veřejnost o možnostech a výhodách svobodných a otevřených chytrých řešeních pro domácí automatizaci. Další informace o poslání a službách nadace naleznete na https://www.openhabfoundation.org</about_foundation>
+    <about_foundation>openHAB Foundation e.V. je nezisková organizace s posláním vzdělávat veřejnost o možnostech a výhodách svobodných a otevřených chytrých řešeních pro domácí automatizaci. Další informace o poslání a službách nadace naleznete na https://www.openhabfoundation.org</about_foundation>
     <important_note>Důležitá poznámka</important_note>
     <oh_server>Pro správné fungování aplikace budete potřebovat openHAB server</oh_server>
     <short_description>Domácí automatizace pro IoT různých výrobců a technologií</short_description>
     <fdroid>F-Droid podporuje zobrazení mapy, GCM a notifikace byly odebrány a tedy nelze přijímat push notifikace z openHAB cloudu.</fdroid>
     <fdroid_beta><![CDATA[Můžete nainstalovat beta verzi vedle <a href="https://f-droid.org/packages/org.openhab.habdroid/">stabilní verze</a>.]]></fdroid_beta>
-    <fdroid_privacy_policy>Ochrana osobních údajů: https://www.openhabfoundation.org/privacy</fdroid_privacy_policy>
+    <fdroid_privacy_policy>Ochrana osobních údajů: https://www.openhabfoundation.org/privacy.html</fdroid_privacy_policy>
     <fdroid_anti_features>Potenciálně nechtěné vlastnosti</fdroid_anti_features>
     <fdroid_anti_features_text>Aplikace je označena příznakem "NonFreeAsset", protože openHAB ikona není k dispozici pod svobodnou licencí.</fdroid_anti_features_text>
     <beta>Vyzkoušejte nové funkce a dejte nám zpětnou vazbu!</beta>

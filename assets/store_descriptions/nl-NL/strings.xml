@@ -13,7 +13,7 @@
     <security>• Beveiliging: ZoneMinder, DSC,...</security>
     <open_protocols>• Open protocollen: HTTP, TCP/UDP, MQTT, serieel, ...</open_protocols>
     <special_useCases>• Speciale toepassingen: Minecraft, Tesla auto, weerdiensten,...</special_useCases>
-    <empty_point>•...</empty_point>
+    <empty_point>• ...</empty_point>
 
     <oss_community>Open Source Community</oss_community>
     <forum>Het openHAB open source initiatief steunt haar levendige community. Het forum met meer dan 13.000 geregistreerde gebruikers is een plek om hulp, begeleiding en inspiratie te vinden. Neem deel aan het openHAB community forum op https://community.openhab.org</forum>
@@ -27,7 +27,7 @@
     <short_description>Leverancier en technologie onafhankelijke open source domotica software</short_description>
     <fdroid>Bij de F-Droid versie is kaartweergave ondersteuning, GCM en crash rapportage verwijderd en de app zal geen push-meldingen kunnen ontvangen van de openHAB Cloud.</fdroid>
     <fdroid_beta><![CDATA[U kunt de beta-versie installeer samen met de <a href="https://f-droid.org/packages/org.openhab.habdroid/">stabiele versie</a>.]]></fdroid_beta>
-    <fdroid_privacy_policy>Privacybeleid: https://www.openhabfoundation.org/privacy</fdroid_privacy_policy>
+    <fdroid_privacy_policy>Privacybeleid: https://www.openhabfoundation.org/privacy.html</fdroid_privacy_policy>
     <fdroid_anti_features>Anti Features</fdroid_anti_features>
     <fdroid_anti_features_text>De app is gemarkeerd als "NonFreeAsset", omdat het openHAB pictogram niet onder een vrije licentie beschikbaar is.</fdroid_anti_features_text>
     <beta>Probeer nieuwe functies uit en geef alvast feedback!</beta>

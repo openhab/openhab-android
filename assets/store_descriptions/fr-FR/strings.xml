@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <strings>
-    <intro/>
+    <intro>openHAB - "empowering the smart home" - une solution très simple de domotique libre pour votre maison connectée</intro>
     <whatis>openHAB est une plateforme de domotique open source basée sur Java qui intègre et combine une vaste gamme de produits et technologies pour la maison connectée dans une seule et même solution.</whatis>
     <rules>S'appuyant sur une couche d'abstraction unifiée, tous les dispositifs connectés sont exposés au moteur de règles d'automatisation centralisé et à différentes interfaces utilisateur.</rules>
     <supported>Produits pris en charge</supported>
@@ -27,7 +27,7 @@
     <short_description/>
     <fdroid>Les versions publiées via F-Droid n'incluent pas le système GCM et les rapports de plantage, et elles ne seront pas en mesure de recevoir les notifications push depuis l’openHAB Cloud.</fdroid>
     <fdroid_beta><![CDATA[Vous pouvez installer la version bêta en parallèle de la <a href="https://f-droid.org/packages/org.openhab.habdroid/">version stable</a>.]]></fdroid_beta>
-    <fdroid_privacy_policy>Politique de confidentialité : https://www.openhabfoundation.org/privacy</fdroid_privacy_policy>
+    <fdroid_privacy_policy/>
     <fdroid_anti_features>Fonctionnalités à usage réservé</fdroid_anti_features>
     <fdroid_anti_features_text>L'application est marquée comme "NonFreeAsset" car l'icône de openHAB n'est pas sous licence libre.</fdroid_anti_features_text>
     <beta>Essayer les nouvelles fonctionnalités et donner un premier retour d'expérience !</beta>

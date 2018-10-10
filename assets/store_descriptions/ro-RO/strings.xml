@@ -27,7 +27,7 @@
     <short_description>Automatizare de locuințe open source, independentă de producători și tehnologii</short_description>
     <fdroid>Build-urile F-Droid au suport pentru vizualizarea hărților. Au eliminat GCM, raportarea erorilor și nu vor putea primi notificări de la openHAB Cloud.</fdroid>
     <fdroid_beta><![CDATA[Se poate instala versiunea beta alături de <a href="https://f-droid.org/packages/org.openhab.habdroid/">stable version</a>.]]></fdroid_beta>
-    <fdroid_privacy_policy>Politica de confidențialitate: https://www.openhabfoundation.org/privacy</fdroid_privacy_policy>
+    <fdroid_privacy_policy>Politica de confidențialitate: https://www.openhabfoundation.org/privacy.html</fdroid_privacy_policy>
     <fdroid_anti_features>Anti Features</fdroid_anti_features>
     <fdroid_anti_features_text>Aplicația este marcată ca "NonFreeAsset", deoarece pictograma openHAB nu are o licență liberă.</fdroid_anti_features_text>
     <beta>Încercați funcții noi și lăsați primele impresii!</beta>

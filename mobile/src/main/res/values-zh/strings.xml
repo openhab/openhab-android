@@ -16,7 +16,7 @@
   <string name="settings_display_title">显示</string>
   <string name="settings_misc_title">其他</string>
   <string name="settings_openhab_url">本地服务器 URL</string>
-  <string name="settings_openhab_url_summary">OpenHAB 仪表板的 URL (基于主机名或 IP)。如果已配置, 自动发现将被禁用。当前设置: %s</string>
+  <string name="settings_openhab_url_summary">openHAB 仪表板的 URL (基于主机名或 IP)。如果已配置, 自动发现将被禁用。当前设置: %s</string>
   <string name="settings_openhab_alturl">远程服务器 URL</string>
   <string name="settings_openhab_alturl_summary">本地地址时所使用的 openHAB 仪表板 URL。当前设置为: %s</string>
   <string name="settings_openhab_username">用户名</string>
@@ -26,7 +26,7 @@
   <string name="settings_openhab_sslclientcert">SSL 客户端证书</string>
   <string name="settings_openhab_sslclientcert_howto_summary">点击此处获取设置 SSL 客户端证书认证的信息</string>
   <string name="settings_openhab_screentimeroff">禁用显示计时器</string>
-  <string name="settings_openhab_screentimeroff_summary">在 OpenHAB 运行时禁用显示屏关闭定时器</string>
+  <string name="settings_openhab_screentimeroff_summary">在 openHAB 运行时禁用显示屏关闭定时器</string>
   <string name="settings_openhab_demomode">演示模式</string>
   <string name="settings_openhab_demomode_summary">以演示模式运行</string>
   <string name="settings_openhab_theme">主题</string>
