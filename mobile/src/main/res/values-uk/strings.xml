@@ -105,7 +105,10 @@
   <string name="info_openhab_push_notification_label">Стан Push-сповіщення</string>
   <string name="action_settings">Налаштування</string>
   <string name="nfc_dialog_title">Запишіть дію NFC мітки для цього елемента</string>
+  <string name="info_not_set">Не вказано</string>
   <!-- Notification list strings -->
+  <string name="notification_list_empty">Поки що немає відправлених сповіщень</string>
+  <string name="notification_list_error">Сталася помилка під час завантаження сповіщень</string>
   <string name="list_loading_message">Завантаження\u2026</string>
   <!-- Strings for MemorizingTrustManager activity -->
   <string name="mtm_accept_cert">Прийняти невідомий сертифікат?</string>
