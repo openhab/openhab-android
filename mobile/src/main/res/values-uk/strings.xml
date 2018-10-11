@@ -9,6 +9,7 @@
   <!-- Main menu items -->
   <string name="mainmenu_openhab_sitemaps">Сторінки інтерфейсу</string>
   <string name="mainmenu_openhab_preferences">Налаштування</string>
+  <string name="mainmenu_openhab_selectsitemap">Оберіть сторінку інтерфейсу за замовчанням</string>
   <string name="mainmenu_openhab_clearcache">Очистити кеш зображень</string>
   <!-- App settings strings -->
   <string name="settings_connection_title">З\'єднання</string>
@@ -34,9 +35,11 @@
   <string name="settings_openhab_icon_format">Формат іконок</string>
   <string name="settings_openhab_icon_format_png">Растрові</string>
   <string name="settings_openhab_icon_format_svg">Векторні</string>
+  <string name="settings_chart_scaling">Масштабування діаграми</string>
   <string name="settings_chart_scaling_summary">Примітка: Масштабування зменшує шрифти та товщини ліній, тобто більше місця для графіку, але читабельність шрифтів може постраждати.</string>
   <string name="settings_chart_scaling_value_xs">Дуже маленький</string>
   <string name="settings_chart_scaling_value_s">Малий</string>
+  <string name="settings_chart_scaling_value_m">За замовчуванням</string>
   <string name="settings_chart_scaling_value_l">Великий</string>
   <string name="settings_ringtone">Звук сповіщення</string>
   <string name="settings_ringtone_none">Жодного</string>
@@ -56,8 +59,51 @@
   <string name="title_voice_widget">Голосові команди openHAB</string>
   <string name="info_voice_input">openHAB, очікує на команду!</string>
   <string name="info_voice_recognized_text">Отримано команду: %1$s</string>
+  <string name="info_demo_mode_short">Працює в демо-режимі</string>
+  <string name="info_conn_url">Підключення до локального URL</string>
+  <string name="info_conn_rem_url">Підключення до віддаленого URL</string>
   <!-- Error messages -->
+  <string name="error_empty_sitemap_list">openHAB повернув порожній список сторінок інтерфейсу</string>
+  <string name="error_network_not_available">Мережа недоступна</string>
+  <string name="error_http_connection_failed">Помилка підключення. Отримана неочікувана відповідь від openHAB. Переконайтесь у правильності роботи сервера openHAB (код відповіді HTTP: %d).</string>
+  <string name="error_invalid_url">Будь ласка, введіть правильне посилання URL у форматі \'http(s)://хост(:порт)/\'</string>
+  <string name="error_connection_failed">Підключення до хоста не вдалося</string>
+  <string name="error_unable_to_resolve_hostname">Не вдалося знайти доменне ім\'я</string>
+  <string name="error_connection_sslhandshake_failed">Помилка SSL з\'єднання</string>
+  <string name="error_certificate_not_trusted">Не довірений сертифікат SSL. Будь ласка, імпортуйте кореневий сертифікат або прийміть його під час SSL підключення.</string>
+  <string name="error_certificate_expired">Минув термін дії сертифікату SSL. Будь ласка, отримайте новий сертифікат або прийміть його під час SSL підключення.</string>
+  <string name="error_certificate_not_valid_yet">SSL сертифікат ще не дійсний. Будь ласка, отримаєте правильний сертифікат або прийміть його під час SSL підключення. Також перевірте, чи правильно встановлено годинник на вашому пристрої.</string>
+  <string name="error_certificate_revoked">Сертифікат SSL відкликано. Будь ласка, отримайте новий сертифікат або прийміть його під час SSL підключення.</string>
+  <string name="error_certificate_wrong_host">Сертифікат SSL не дійсний для %s</string>
+  <string name="error_http_code_401">Помилка аутентифікації користувача. Будь ласка, перевірте налаштований логін і пароль відповідно до сертифікату клієнта SSL (код відповіді HTTP 401).</string>
+  <string name="error_http_code_403">Помилка аутентифікації користувача. Будь ласка, перевірте налаштований логін і пароль відповідно до сертифікату клієнта SSL (код відповіді HTTP 403).</string>
+  <string name="error_http_code_407">Помилка аутентифікації користувача. Будь ласка, перевірте налаштований логін і пароль відповідно до сертифікату клієнта SSL (код відповіді HTTP 407).</string>
+  <string name="error_http_code_414">URL-адреса openHAB надто довга. Будь ласка, використовуйте IP-адресу або коротшу URL-адресу (код відповіді HTTP 414).</string>
+  <string name="error_http_code_426">Вимагається HTTPS. Змініть URL-адресу openHAB (код відповіді HTTP 426).</string>
   <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
+  <string name="error_http_code_495">Не вдалося виконати автентифікацію. Будь ласка, перевірте наданий SSL сертифікат клієнта (код відповіді HTTP 495).</string>
+  <string name="error_http_code_496">Необхідний SSL сертифікат клієнта (код відповіді HTTP 496)</string>
+  <string name="error_http_code_502">Ваш проксі отримав неприпустиму відповідь від сервера openHAB (код відповіді HTTP 502)</string>
+  <string name="error_http_code_503">Сервер openHAB тимчасово недоступний (код відповіді HTTP 503)</string>
+  <string name="error_http_code_504">Тайм-аут шлюзу. Здається, що ваш проксі-сервер працює, але не міг отримати відповідь від сервера openHAB (код відповіді HTTP 504).</string>
+  <string name="error_http_code_507">На сервері openHAB не достатньо вільного місця (код відповіді HTTP 507)</string>
+  <string name="error_http_code_511">Необхідна аутентифікації мережі (код відповіді HTTP 511)</string>
+  <string name="error_about_no_conn">Помилка під час отримання інформації з сервера openHAB</string>
+  <string name="error_openhab_offline">Сервер OpenHAB недоступний, але його хмарний екземпляр працює</string>
+  <string name="error_no_app_store_found">Не знайдено магазин застосунків для встановлення програми розпізнавання голосу</string>
+  <string name="title_activity_openhabwritetag">Запис NFC мітки</string>
+  <string name="title_activity_libraries">Використані бібліотеки</string>
+  <string name="info_write_tag">Доторкніться до NFС мітки і притримайте доки не з’явиться підтвердження</string>
+  <string name="info_write_tag_progress">Записування мітки</string>
+  <string name="info_write_tag_finished">Записування успішно завершено</string>
+  <string name="info_write_failed">Помилка запису мітки</string>
+  <string name="info_write_tag_unsupported">Цей пристрій не підтримує NFC</string>
+  <string name="info_write_tag_disabled">NFC вимкнено. Будь ласка, увімкніть його у налаштуваннях пристрою.</string>
+  <string name="info_openhab_apiversion_label">версія openHAB Rest API</string>
+  <string name="info_openhab_uuid_label">openHAB UUID</string>
+  <string name="info_openhab_secret_label">ключ openHAB</string>
+  <string name="info_openhab_push_notification_label">Стан Push-сповіщення</string>
+  <string name="action_settings">Налаштування</string>
   <!-- Notification list strings -->
   <string name="list_loading_message">Завантаження\u2026</string>
   <!-- Strings for MemorizingTrustManager activity -->
@@ -95,8 +141,51 @@
   <!-- About -->
   <string name="about_title">Про програму</string>
   <string name="about_license_title">Ліцензія</string>
+  <string name="about_changelog">Список змін</string>
+  <string name="about_source_code">Початковий код</string>
+  <string name="about_issues">Повідомити про проблему</string>
+  <string name="about_docs">Документація</string>
+  <string name="about_community_forum">Форум спільноти</string>
+  <string name="about_foundation">openHAB Foundation</string>
+  <string name="about_community">Спільнота openHAB</string>
+  <string name="about_server">Сервер openHAB</string>
+  <string name="about_translation">Допоможіть нам перекласти openHAB</string>
+  <string name="about_privacy_policy">Політика конфіденційності</string>
+  <string name="settings_debug_messages_title">Показати інформацію, щодо виправлення неполадок</string>
+  <string name="error_couldnt_determine_openhab_url">Не вдалося визначити адресу openHAB</string>
+  <string name="unknown">Невідомо</string>
+  <string name="error_network_type_unsupported">Тип мережі (%s) не підтримується</string>
+  <string name="set">Встановити</string>
+  <string name="cancel">Відмінити</string>
+  <string name="close">Закрити</string>
+  <string name="try_again_button">Спробуйте ще раз</string>
+  <string name="go_to_settings_button">Перейти до налаштувань</string>
+  <string name="configuration_missing">Не вдалося знайти сервер OpenHAB автоматично. Будь ласка, налаштуйте його IP адресу або назву віддаленого хоста в налаштуваннях сервера.</string>
+  <string name="no_remote_server">Локальна мережа недоступна і не налаштований віддалений сервер</string>
+  <string name="resolving_openhab">Шукаю сервер openHAB\u2026</string>
   <!-- Content description for images -->
+  <string name="content_description_open_roller_shutter">Відкрити ролети</string>
+  <string name="content_description_stop_roller_shutter">Зупинити ролети</string>
+  <string name="content_description_close_roller_shutter">Закрити ролети</string>
+  <string name="content_description_open_color_wheel">Відкрити колесо вибору кольору</string>
+  <string name="content_description_color_up">Натискайте або утримуйте щоб збільшити яскравість</string>
+  <string name="content_description_color_down">Натискайте або утримуйте щоб зменшити яскравість</string>
+  <string name="content_description_open_number_picker">Введення числа</string>
+  <string name="content_description_video">Відео</string>
+  <string name="content_description_open_openhab">Відкрити openHAB</string>
+  <string name="swipe_to_refresh_description">Додаток періодично оновлюється автоматично, зазвичай не потрібно робити це вручну</string>
+  <string name="swipe_to_refresh_dismiss">Зрозуміло!</string>
   <!-- Intro strings -->
+  <string name="app_intro">Вступ</string>
+  <string name="intro_welcome">Ласкаво просимо до openHAB</string>
+  <string name="intro_whatis">Універсальна система автоматизації з відкритим початковим кодом для твого будинку</string>
+  <string name="intro_themes">Теми</string>
+  <string name="intro_themes_description">Виберіть між декількома темами</string>
+  <string name="intro_voice_description">Керуйте будинком за допомогою голосу</string>
+  <string name="intro_nfc">NFC</string>
+  <string name="intro_nfc_description">Елемент керування можна прив\'язати до NFC мітки довгим натисненням на цей елемент</string>
   <!-- Intro "SKIP" button -->
+  <string name="app_intro_skip_button">ПРОПУСТИТИ</string>
   <!-- Intro "DONE" button -->
+  <string name="app_intro_done_button">ВИКОНАНО</string>
 </resources>
