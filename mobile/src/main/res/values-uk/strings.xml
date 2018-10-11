@@ -104,6 +104,7 @@
   <string name="info_openhab_secret_label">ключ openHAB</string>
   <string name="info_openhab_push_notification_label">Стан Push-сповіщення</string>
   <string name="action_settings">Налаштування</string>
+  <string name="nfc_dialog_title">Запишіть дію NFC мітки для цього елемента</string>
   <!-- Notification list strings -->
   <string name="list_loading_message">Завантаження\u2026</string>
   <!-- Strings for MemorizingTrustManager activity -->
