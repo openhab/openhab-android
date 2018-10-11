@@ -14,11 +14,14 @@
   <string name="settings_connection_title">З\'єднання</string>
   <string name="settings_display_title">Вигляд</string>
   <string name="settings_misc_title">Різне</string>
+  <string name="settings_openhab_url">URL-адреса локального сервера</string>
   <string name="settings_openhab_url_summary">URL-адреса інформаційної панелі openHAB (на основі імені вузла або IP-адреси). Якщо налаштовано, автоматичне виявлення вимкнено. Поточне налаштування: %s</string>
   <string name="settings_openhab_alturl">URL-адреса віддаленого сервера</string>
   <string name="settings_openhab_alturl_summary">URL-адреса інформаційної панелі openHAB яка використовується, коли локальна адреса недоступна. Поточний параметр: %s</string>
   <string name="settings_openhab_username">Ім\'я користувача</string>
   <string name="settings_openhab_password">Пароль</string>
+  <string name="settings_openhab_password_summary_weak">Слабкий пароль</string>
+  <string name="settings_openhab_password_summary_strong">Надійний пароль</string>
   <string name="settings_openhab_sslclientcert">SSL сертифікат клієнта</string>
   <string name="settings_openhab_sslclientcert_howto_summary">Натисніть тут, щоб отримати підказки та пояснення, щодо налаштування SSL сертифікату автентифікації клієнта</string>
   <string name="settings_openhab_screentimeroff">Вимкнути таймер дисплею</string>
@@ -31,6 +34,15 @@
   <string name="settings_openhab_icon_format">Формат іконок</string>
   <string name="settings_openhab_icon_format_png">Растрові</string>
   <string name="settings_openhab_icon_format_svg">Векторні</string>
+  <string name="settings_chart_scaling_summary">Примітка: Масштабування зменшує шрифти та товщини ліній, тобто більше місця для графіку, але читабельність шрифтів може постраждати.</string>
+  <string name="settings_chart_scaling_value_xs">Дуже маленький</string>
+  <string name="settings_chart_scaling_value_s">Малий</string>
+  <string name="settings_chart_scaling_value_l">Великий</string>
+  <string name="settings_ringtone">Звук сповіщення</string>
+  <string name="settings_ringtone_none">Жодного</string>
+  <string name="settings_clear_default_sitemap">Очистити сторінку інтерфейсу за замовчуванням</string>
+  <string name="settings_no_default_sitemap">Не обрано сторінку інтерфейсу за умовчанням</string>
+  <string name="settings_current_default_sitemap">Типова поточна сторінка за замовчуванням: %1$s</string>
   <!-- App messages strings -->
   <!-- Error messages -->
   <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
