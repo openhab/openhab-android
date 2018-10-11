@@ -43,6 +43,7 @@
   <string name="settings_clear_default_sitemap">Очистити сторінку інтерфейсу за замовчуванням</string>
   <string name="settings_no_default_sitemap">Не обрано сторінку інтерфейсу за умовчанням</string>
   <string name="settings_current_default_sitemap">Типова поточна сторінка за замовчуванням: %1$s</string>
+  <string name="settings_openhab_alt_connection">Віддалений сервер</string>
   <!-- App messages strings -->
   <!-- Error messages -->
   <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
