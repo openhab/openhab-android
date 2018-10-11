@@ -49,7 +49,7 @@
   <string name="settings_openhab_alt_connection">Віддалений сервер</string>
   <string name="settings_openhab_connection">Локальний сервер</string>
   <string name="settings_notification_vibration">Сповіщення вібрацією</string>
-  <string name="settings_notification_vibration_off">Вимк</string>
+  <string name="settings_notification_vibration_off">Вимкнено</string>
   <string name="settings_notification_vibration_short">Коротко</string>
   <string name="settings_notification_vibration_long">Довго</string>
   <string name="settings_notification_vibration_twice">Двічі</string>
@@ -89,7 +89,7 @@
   <string name="error_http_code_507">На сервері openHAB не достатньо вільного місця (код відповіді HTTP 507)</string>
   <string name="error_http_code_511">Необхідна аутентифікації мережі (код відповіді HTTP 511)</string>
   <string name="error_about_no_conn">Помилка під час отримання інформації з сервера openHAB</string>
-  <string name="error_openhab_offline">Сервер OpenHAB недоступний, але його хмарний екземпляр працює</string>
+  <string name="error_openhab_offline">Сервер openHAB недоступний, але його хмарний екземпляр працює</string>
   <string name="error_no_app_store_found">Не знайдено магазин застосунків для встановлення програми розпізнавання голосу</string>
   <string name="title_activity_openhabwritetag">Запис NFC мітки</string>
   <string name="title_activity_libraries">Використані бібліотеки</string>
@@ -164,7 +164,7 @@
   <string name="close">Закрити</string>
   <string name="try_again_button">Спробуйте ще раз</string>
   <string name="go_to_settings_button">Перейти до налаштувань</string>
-  <string name="configuration_missing">Не вдалося знайти сервер OpenHAB автоматично. Будь ласка, налаштуйте його IP адресу або назву віддаленого хоста в налаштуваннях сервера.</string>
+  <string name="configuration_missing">Не вдалося знайти сервер openHAB автоматично. Будь ласка, налаштуйте його IP адресу або назву віддаленого хоста в налаштуваннях сервера.</string>
   <string name="no_remote_server">Локальна мережа недоступна і не налаштований віддалений сервер</string>
   <string name="resolving_openhab">Шукаю сервер openHAB\u2026</string>
   <!-- Content description for images -->
