@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <strings>
-    <intro/>
-    <whatis/>
-    <rules/>
-    <supported/>
-    <bindings>  </bindings>
+    <intro>openHAB - "Empowering the Smart Home" - відкрите ПЗ для автоматизації "розумного будинку", яке не залежить від виробників і технологій</intro>
+    <whatis>openHAB - платформа домашньої автоматизації з відкритим початковим кодом, створена на базі Java і об'єднуюча велику кількість систем "розумного будинку" в монолітне рішення.</whatis>
+    <rules>Поверх програмних шарів, усі під'єднані пристрої доступні для глобальних правил автоматизації і різноманітних користувацьких інтерфейсів.</rules>
+    <supported>Підтримувані продукти</supported>
+    <bindings>Більше 200 додатків які забезпечують підтримку пристроїв, технологій і протоколів передачі даних від різних виробників. На приклад: Z-Wave, Philips Hue, Amazon Echo, Chromecast, Sonos, Zigbee, Google Assistant. Відкрийте для себе усі доступні доповнення, підтримувані пристрої та/або функції на: https://www.openhab.org/addons/</bindings>
 
-    <home_automation_solutions/>
-    <lighting/>
-    <heating/>
-    <home_entertainment/>
-    <security/>
-    <open_protocols/>
-    <special_useCases/>
-    <empty_point/>
+    <home_automation_solutions>• Рішення для домашньої автоматизації: Z-Wave, EnOcean, Netatmo, Homematic, Insteon, ...</home_automation_solutions>
+    <lighting>• Освітлення: Philips Hue, Ikea Trådfri, LIFX, Lutron, Milight,...</lighting>
+    <heating>• Опалення: Max!, Nest, Vitotronic, Heatmiser, ...</heating>
+    <home_entertainment>• Розважальні мультимедійні системи: Samsung TV, LG TV, Sonos, Pioner AVR, Squeezebox, Kodi, Plex, ...</home_entertainment>
+    <security>• Безпека: ZoneMinder, DSC, ...</security>
+    <open_protocols>• Відкриті протоколи: HTTP, TCP/UDP, MQTT, Serial, ...</open_protocols>
+    <special_useCases>• Додаткові варіанти застосування: Minecraft, Tesla Car, Weather Services, ...</special_useCases>
+    <empty_point>• ...</empty_point>
 
-    <oss_community/>
-    <forum>  </forum>
+    <oss_community>Open Source спільнота</oss_community>
+    <forum>Ініціатори openHAB open source максимально підтримують свою спільноту.  </forum>
 
     <report_issues/>
     <translation/>
