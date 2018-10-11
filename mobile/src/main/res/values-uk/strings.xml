@@ -20,7 +20,17 @@
   <string name="settings_openhab_username">Ім\'я користувача</string>
   <string name="settings_openhab_password">Пароль</string>
   <string name="settings_openhab_sslclientcert">SSL сертифікат клієнта</string>
+  <string name="settings_openhab_sslclientcert_howto_summary">Натисніть тут, щоб отримати підказки та пояснення, щодо налаштування SSL сертифікату автентифікації клієнта</string>
+  <string name="settings_openhab_screentimeroff">Вимкнути таймер дисплею</string>
+  <string name="settings_openhab_screentimeroff_summary">Вимкнути таймер вимикання дисплея, коли працює openHAB</string>
+  <string name="settings_openhab_demomode">Демонстраційний режим</string>
+  <string name="settings_openhab_demomode_summary">Запустити в демонстраційному режимі</string>
   <string name="settings_openhab_theme">Тема</string>
+  <string name="settings_openhab_fullscreen">Повноекранний режим</string>
+  <string name="settings_openhab_fullscreen_summary">Відображення в повноекранному режимі</string>
+  <string name="settings_openhab_icon_format">Формат іконок</string>
+  <string name="settings_openhab_icon_format_png">Растрові</string>
+  <string name="settings_openhab_icon_format_svg">Векторні</string>
   <!-- App messages strings -->
   <!-- Error messages -->
   <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
