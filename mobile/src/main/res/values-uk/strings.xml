@@ -4,11 +4,22 @@
   <!-- Attention translators! Do NOT submit localized strings through GitHub Pull Request. -->
   <!-- See: https://github.com/openhab/openhab-android/blob/master/README.md#localization -->
   <!-- General app strings -->
+  <string name="app_preferences_name">Налаштування</string>
+  <string name="app_notifications">Сповіщення</string>
   <!-- Main menu items -->
+  <string name="mainmenu_openhab_sitemaps">Сторінки інтерфейсу</string>
+  <string name="mainmenu_openhab_preferences">Налаштування</string>
   <string name="mainmenu_openhab_clearcache">Очистити кеш зображень</string>
   <!-- App settings strings -->
   <string name="settings_connection_title">З\'єднання</string>
   <string name="settings_display_title">Вигляд</string>
+  <string name="settings_misc_title">Різне</string>
+  <string name="settings_openhab_url_summary">URL-адреса інформаційної панелі openHAB (на основі імені вузла або IP-адреси). Якщо налаштовано, автоматичне виявлення вимкнено. Поточне налаштування: %s</string>
+  <string name="settings_openhab_alturl">URL-адреса віддаленого сервера</string>
+  <string name="settings_openhab_alturl_summary">URL-адреса інформаційної панелі openHAB яка використовується, коли локальна адреса недоступна. Поточний параметр: %s</string>
+  <string name="settings_openhab_username">Ім\'я користувача</string>
+  <string name="settings_openhab_password">Пароль</string>
+  <string name="settings_openhab_sslclientcert">SSL сертифікат клієнта</string>
   <string name="settings_openhab_theme">Тема</string>
   <!-- App messages strings -->
   <!-- Error messages -->
