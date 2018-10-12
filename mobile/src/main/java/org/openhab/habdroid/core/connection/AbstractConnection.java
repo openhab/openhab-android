@@ -95,14 +95,4 @@ public abstract class AbstractConnection implements Connection {
             return false;
         }
     }
-
-    @Override
-    public int hashCode() {
-        int result = 17;
-        result = 31 * result + mConnectionType;
-        result = 31 * result + mBaseUrl.hashCode();
-        result = 31 * result + (mUserName != null ? mUserName.hashCode() : 0);
-        result = 31 * result + (mPassword != null ? mPassword.hashCode() : 0);
-        return result;
-    }
 }
