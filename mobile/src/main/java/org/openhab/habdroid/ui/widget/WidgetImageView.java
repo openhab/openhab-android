@@ -223,7 +223,7 @@ public class WidgetImageView extends AppCompatImageView {
     }
 
     private void doRefresh() {
-        mLastRefreshTimestamp = SystemClock.uptimeMillis();
+        mLastRefreshTimestamp = SystemClock.elapsedRealtime();
         if (mLastRequest != null) {
             mLastRequest.execute(true);
         }
@@ -231,7 +231,8 @@ public class WidgetImageView extends AppCompatImageView {
 
     private void scheduleNextRefresh() {
         if (mRefreshInterval != 0) {
-            mRefreshHandler.sendEmptyMessageAtTime(0, mLastRefreshTimestamp + mRefreshInterval);
+            mRefreshHandler.sendEmptyMessageDelayed(0, mLastRefreshTimestamp + mRefreshInterval -
+                    SystemClock.elapsedRealtime());
         }
     }
 
