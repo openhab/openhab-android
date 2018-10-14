@@ -1,16 +1,15 @@
 package org.openhab.habdroid.core.connection;
 
 import android.util.Log;
+import androidx.annotation.NonNull;
 
+import okhttp3.OkHttpClient;
 import org.openhab.habdroid.util.AsyncHttpClient;
 import org.openhab.habdroid.util.SyncHttpClient;
 
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.URL;
-
-import androidx.annotation.NonNull;
-import okhttp3.OkHttpClient;
 
 public abstract class AbstractConnection implements Connection {
     private static final String TAG = AbstractConnection.class.getSimpleName();

@@ -10,13 +10,12 @@
 package org.openhab.habdroid.ui.activity;
 
 import android.view.ViewStub;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.ui.MainActivity;
 import org.openhab.habdroid.ui.WidgetListFragment;
-
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
 @SuppressWarnings("unused") // instantiated via reflection
 public class ContentControllerOnePane extends ContentController {

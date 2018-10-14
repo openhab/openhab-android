@@ -1,8 +1,8 @@
 package org.openhab.habdroid.core;
 
-import org.openhab.habdroid.core.connection.ConnectionFactory;
-
 import androidx.multidex.MultiDexApplication;
+
+import org.openhab.habdroid.core.connection.ConnectionFactory;
 
 public class HabDroidApplication extends MultiDexApplication {
     @Override

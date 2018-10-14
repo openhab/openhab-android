@@ -25,16 +25,6 @@ import android.preference.PreferenceScreen;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
-
-import org.openhab.habdroid.R;
-import org.openhab.habdroid.core.CloudMessagingHelper;
-import org.openhab.habdroid.model.ServerProperties;
-import org.openhab.habdroid.util.CacheManager;
-import org.openhab.habdroid.util.Constants;
-import org.openhab.habdroid.util.Util;
-
-import java.util.BitSet;
-
 import androidx.annotation.DrawableRes;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
@@ -44,6 +34,15 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.NavUtils;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
+
+import org.openhab.habdroid.R;
+import org.openhab.habdroid.core.CloudMessagingHelper;
+import org.openhab.habdroid.model.ServerProperties;
+import org.openhab.habdroid.util.CacheManager;
+import org.openhab.habdroid.util.Constants;
+import org.openhab.habdroid.util.Util;
+
+import java.util.BitSet;
 
 import static org.openhab.habdroid.util.Util.getHostFromUrl;
 

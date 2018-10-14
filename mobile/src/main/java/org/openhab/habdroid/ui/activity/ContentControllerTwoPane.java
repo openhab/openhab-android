@@ -13,14 +13,13 @@ import android.os.Bundle;
 import android.util.Pair;
 import android.view.View;
 import android.view.ViewStub;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.model.LinkedPage;
 import org.openhab.habdroid.ui.MainActivity;
 import org.openhab.habdroid.ui.WidgetListFragment;
-
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
 @SuppressWarnings("unused") // instantiated via reflection
 public class ContentControllerTwoPane extends ContentController {

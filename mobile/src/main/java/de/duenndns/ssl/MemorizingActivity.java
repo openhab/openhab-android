@@ -34,14 +34,13 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.ContextThemeWrapper;
+import androidx.appcompat.app.AlertDialog;
 
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.util.Util;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import androidx.appcompat.app.AlertDialog;
 
 public class MemorizingActivity extends Activity
 		implements OnClickListener,OnCancelListener {

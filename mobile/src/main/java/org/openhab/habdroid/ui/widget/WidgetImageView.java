@@ -18,7 +18,13 @@ import android.os.Message;
 import android.os.SystemClock;
 import android.util.AttributeSet;
 import android.util.Log;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatImageView;
 
+import okhttp3.Call;
+import okhttp3.Headers;
+import okhttp3.HttpUrl;
+import okhttp3.Request;
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.core.connection.Connection;
 import org.openhab.habdroid.util.AsyncHttpClient;
@@ -26,13 +32,6 @@ import org.openhab.habdroid.util.CacheManager;
 import org.openhab.habdroid.util.HttpClient;
 
 import java.lang.ref.WeakReference;
-
-import androidx.annotation.Nullable;
-import androidx.appcompat.widget.AppCompatImageView;
-import okhttp3.Call;
-import okhttp3.Headers;
-import okhttp3.HttpUrl;
-import okhttp3.Request;
 
 public class WidgetImageView extends AppCompatImageView {
     public static final String TAG = WidgetImageView.class.getSimpleName();

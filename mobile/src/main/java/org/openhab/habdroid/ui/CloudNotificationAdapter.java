@@ -17,6 +17,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import androidx.annotation.NonNull;
+import androidx.core.graphics.drawable.DrawableCompat;
+import androidx.recyclerview.widget.RecyclerView;
 
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.core.connection.Connection;
@@ -27,10 +30,6 @@ import org.openhab.habdroid.ui.widget.WidgetImageView;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-
-import androidx.annotation.NonNull;
-import androidx.core.graphics.drawable.DrawableCompat;
-import androidx.recyclerview.widget.RecyclerView;
 
 public class CloudNotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public interface LoadMoreListener {

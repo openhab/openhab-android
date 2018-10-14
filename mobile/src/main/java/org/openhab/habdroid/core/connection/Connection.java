@@ -1,9 +1,9 @@
 package org.openhab.habdroid.core.connection;
 
+import androidx.annotation.Nullable;
+
 import org.openhab.habdroid.util.AsyncHttpClient;
 import org.openhab.habdroid.util.SyncHttpClient;
-
-import androidx.annotation.Nullable;
 
 public interface Connection {
     /**

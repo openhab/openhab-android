@@ -17,15 +17,10 @@ import android.graphics.PorterDuff;
 import android.graphics.RectF;
 import android.os.Handler;
 import android.os.Looper;
+import androidx.annotation.NonNull;
 
 import com.caverock.androidsvg.SVG;
 import com.caverock.androidsvg.SVGParseException;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Map;
-
-import androidx.annotation.NonNull;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Headers;
@@ -34,6 +29,10 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Map;
 
 public class AsyncHttpClient extends HttpClient {
     public interface ResponseHandler<T> {

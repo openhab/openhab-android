@@ -1,18 +1,16 @@
 package org.openhab.habdroid.ui;
 
 import android.os.Bundle;
-
-import com.github.paolorotolo.appintro.AppIntro;
-import com.github.paolorotolo.appintro.AppIntroFragment;
-
-import org.openhab.habdroid.R;
-
 import androidx.annotation.ColorInt;
 import androidx.annotation.DrawableRes;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+
+import com.github.paolorotolo.appintro.AppIntro;
+import com.github.paolorotolo.appintro.AppIntroFragment;
+import org.openhab.habdroid.R;
 
 public class IntroActivity extends AppIntro {
     @Override

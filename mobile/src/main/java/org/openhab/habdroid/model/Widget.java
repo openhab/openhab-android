@@ -11,9 +11,9 @@ package org.openhab.habdroid.model;
 
 import android.graphics.Color;
 import android.os.Parcelable;
+import androidx.annotation.Nullable;
 
 import com.google.auto.value.AutoValue;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -23,8 +23,6 @@ import org.w3c.dom.NodeList;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-
-import androidx.annotation.Nullable;
 
 /**
  * This is a class to hold basic information about openHAB widget.

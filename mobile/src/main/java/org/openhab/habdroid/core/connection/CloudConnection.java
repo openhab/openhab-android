@@ -1,12 +1,11 @@
 package org.openhab.habdroid.core.connection;
 
 import android.util.Log;
+import androidx.annotation.NonNull;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.openhab.habdroid.util.SyncHttpClient;
-
-import androidx.annotation.NonNull;
 
 public class CloudConnection extends DefaultConnection {
     private static final String TAG = CloudConnection.class.getSimpleName();
