@@ -185,7 +185,7 @@
         <module name="CustomImportOrder">
             <property name="sortImportsInGroupAlphabetically" value="true"/>
             <property name="separateLineBetweenGroups" value="true"/>
-            <property name="specialImportsRegExp" value="^android \."/>
+            <property name="specialImportsRegExp" value="^(android|androidx)\."/>
             <property name="customImportOrderRules" value="SPECIAL_IMPORTS###THIRD_PARTY_PACKAGE###STANDARD_JAVA_PACKAGE###STATIC"/>
         </module>
         <module name="MethodParamPad"/>
