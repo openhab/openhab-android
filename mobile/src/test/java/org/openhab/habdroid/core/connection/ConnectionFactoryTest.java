@@ -12,7 +12,6 @@ import android.os.Message;
 
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
-
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;

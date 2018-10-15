@@ -1,10 +1,9 @@
 package org.openhab.habdroid.core.connection;
 
-import android.support.annotation.NonNull;
 import android.util.Log;
+import androidx.annotation.NonNull;
 
 import okhttp3.OkHttpClient;
-
 import org.openhab.habdroid.util.AsyncHttpClient;
 import org.openhab.habdroid.util.SyncHttpClient;
 

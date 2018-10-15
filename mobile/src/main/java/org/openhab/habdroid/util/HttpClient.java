@@ -9,10 +9,9 @@
 
 package org.openhab.habdroid.util;
 
-import android.support.annotation.VisibleForTesting;
+import androidx.annotation.VisibleForTesting;
 
 import com.here.oksse.OkSse;
-
 import okhttp3.CacheControl;
 import okhttp3.Call;
 import okhttp3.Credentials;

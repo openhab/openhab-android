@@ -1,9 +1,9 @@
 package org.openhab.habdroid;
 
-import android.support.test.espresso.IdlingRegistry;
-import android.support.test.espresso.IdlingResource;
-import android.support.test.espresso.intent.rule.IntentsTestRule;
 import android.view.View;
+import androidx.test.espresso.IdlingRegistry;
+import androidx.test.espresso.IdlingResource;
+import androidx.test.espresso.intent.rule.IntentsTestRule;
 
 import org.junit.After;
 import org.junit.Before;

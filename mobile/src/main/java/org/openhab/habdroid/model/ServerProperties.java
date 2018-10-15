@@ -4,11 +4,9 @@ import android.os.Parcelable;
 import android.util.Log;
 
 import com.google.auto.value.AutoValue;
-
 import okhttp3.Call;
 import okhttp3.Headers;
 import okhttp3.Request;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;

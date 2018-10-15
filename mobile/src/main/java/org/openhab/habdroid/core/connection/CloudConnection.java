@@ -1,7 +1,7 @@
 package org.openhab.habdroid.core.connection;
 
-import android.support.annotation.NonNull;
 import android.util.Log;
+import androidx.annotation.NonNull;
 
 import org.json.JSONException;
 import org.json.JSONObject;

@@ -15,14 +15,13 @@ import android.os.Message;
 import android.preference.PreferenceManager;
 import android.security.KeyChain;
 import android.security.KeyChainException;
-import android.support.annotation.VisibleForTesting;
-import android.support.v4.util.Pair;
 import android.util.Log;
+import androidx.annotation.VisibleForTesting;
+import androidx.core.util.Pair;
 
 import de.duenndns.ssl.MemorizingTrustManager;
 import okhttp3.OkHttpClient;
 import okhttp3.internal.tls.OkHostnameVerifier;
-
 import org.openhab.habdroid.core.CloudMessagingHelper;
 import org.openhab.habdroid.core.connection.exception.ConnectionException;
 import org.openhab.habdroid.core.connection.exception.NetworkNotAvailableException;

@@ -14,13 +14,12 @@ import android.content.Intent;
 import android.os.Handler;
 import android.os.Looper;
 import android.speech.RecognizerIntent;
-import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.widget.Toast;
+import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 
 import es.dmoral.toasty.Toasty;
-
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.core.connection.Connection;
 import org.openhab.habdroid.core.connection.ConnectionFactory;

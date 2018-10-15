@@ -1,6 +1,6 @@
 package org.openhab.habdroid.core.connection;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import okhttp3.OkHttpClient;
 

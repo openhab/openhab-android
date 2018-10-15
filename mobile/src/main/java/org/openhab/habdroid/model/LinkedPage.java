@@ -12,7 +12,6 @@ package org.openhab.habdroid.model;
 import android.os.Parcelable;
 
 import com.google.auto.value.AutoValue;
-
 import org.json.JSONObject;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;

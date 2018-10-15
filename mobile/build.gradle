@@ -25,8 +25,8 @@ if(!isFoss) {
 apply plugin: 'witness'
 
 android {
-    buildToolsVersion '27.0.3'
-    compileSdkVersion 27
+    buildToolsVersion '28.0.3'
+    compileSdkVersion 28
     useLibrary 'org.apache.http.legacy'
 
     defaultConfig {
@@ -36,7 +36,7 @@ android {
         versionCode 85
         versionName "2.3.3-beta"
         multiDexEnabled true
-        testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
+        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
     }
     buildTypes {
         def IS_DEVELOPER = "IS_DEVELOPER"
@@ -99,11 +99,11 @@ repositories {
 }
 
 dependencies {
-    implementation "com.android.support:appcompat-v7:27.1.1"
-    implementation "com.android.support:support-v4:27.1.1"
-    implementation "com.android.support:recyclerview-v7:27.1.1"
-    implementation "com.android.support:design:27.1.1"
-    implementation 'com.android.support:multidex:1.0.3'
+    implementation "androidx.appcompat:appcompat:1.0.0"
+    implementation "androidx.legacy:legacy-support-v4:1.0.0"
+    implementation "androidx.recyclerview:recyclerview:1.0.0"
+    implementation "com.google.android.material:material:1.0.0"
+    implementation 'androidx.multidex:multidex:2.0.0'
     implementation 'org.jmdns:jmdns:3.5.4'
     implementation 'com.squareup.okhttp3:okhttp:3.11.0'
     implementation 'com.github.heremaps:oksse:0.9.0'
@@ -145,13 +145,13 @@ dependencies {
     testImplementation 'org.powermock:powermock-module-junit4:1.7.4'
 
     // Espresso UI tests
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2', {
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0-beta01', {
         exclude group: 'com.android.support', module: 'support-annotations'
     }
-    androidTestImplementation 'com.android.support.test:runner:1.0.2'
-    androidTestImplementation 'com.android.support.test:rules:1.0.2'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-intents:3.0.2'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-contrib:3.0.2', {
+    androidTestImplementation 'androidx.test:runner:1.1.0-beta01'
+    androidTestImplementation 'androidx.test:rules:1.1.0-beta01'
+    androidTestImplementation 'androidx.test.espresso:espresso-intents:3.1.0-beta01'
+    androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.1.0-beta01', {
         exclude group: 'com.android.support', module: 'support-annotations'
     }
 

@@ -1,6 +1,6 @@
 package org.openhab.habdroid.core;
 
-import android.support.multidex.MultiDexApplication;
+import androidx.multidex.MultiDexApplication;
 
 import org.openhab.habdroid.core.connection.ConnectionFactory;
 
