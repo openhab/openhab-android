@@ -10,7 +10,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.TestWithoutIntro;
-
 import tools.fastlane.screengrab.locale.LocaleTestRule;
 
 import static androidx.test.espresso.Espresso.onView;

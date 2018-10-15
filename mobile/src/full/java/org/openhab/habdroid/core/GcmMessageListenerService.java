@@ -23,12 +23,11 @@ import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.service.notification.StatusBarNotification;
+import android.text.TextUtils;
 import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
-import android.text.TextUtils;
 
 import com.google.android.gms.gcm.GcmListenerService;
-
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.core.connection.Connection;
 import org.openhab.habdroid.core.connection.ConnectionFactory;

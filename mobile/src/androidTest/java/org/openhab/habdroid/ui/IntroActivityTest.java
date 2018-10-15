@@ -18,7 +18,6 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withParent;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
-
 import static org.openhab.habdroid.TestUtils.childAtPosition;
 
 @LargeTest

@@ -1,16 +1,15 @@
 package org.openhab.habdroid.ui;
 
+import android.view.View;
 import androidx.annotation.IdRes;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.test.espresso.DataInteraction;
 import androidx.test.espresso.UiController;
 import androidx.test.espresso.ViewAction;
 import androidx.test.espresso.ViewInteraction;
-import androidx.test.espresso.contrib.RecyclerViewActions;
 import androidx.test.espresso.matcher.BoundedMatcher;
 import androidx.test.filters.LargeTest;
 import androidx.test.runner.AndroidJUnit4;
-import androidx.recyclerview.widget.RecyclerView;
-import android.view.View;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;

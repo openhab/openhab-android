@@ -1,8 +1,8 @@
 package org.openhab.habdroid.ui;
 
 import android.content.Context;
-import androidx.test.InstrumentationRegistry;
 import androidx.appcompat.view.ContextThemeWrapper;
+import androidx.test.InstrumentationRegistry;
 
 import org.junit.Test;
 import org.openhab.habdroid.R;
