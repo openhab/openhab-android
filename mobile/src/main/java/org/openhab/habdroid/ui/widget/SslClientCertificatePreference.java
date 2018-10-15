@@ -16,7 +16,9 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
+import es.dmoral.toasty.Toasty;
 import org.openhab.habdroid.R;
 
 import java.security.cert.X509Certificate;
@@ -62,6 +64,15 @@ public class SslClientCertificatePreference extends Preference {
 
         if (intent.resolveActivity(context.getPackageManager()) != null) {
             mHelpIcon.setOnClickListener(v -> context.startActivity(intent));
+            mHelpIcon.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    Toasty.info(context, context.getString(R.string
+                                    .settings_openhab_sslclientcert_howto_summary),
+                            Toast.LENGTH_SHORT).show();
+                    return true;
+                }
+            });
             updateHelpIconAlpha();
         } else {
             mHelpIcon.setVisibility(View.GONE);
