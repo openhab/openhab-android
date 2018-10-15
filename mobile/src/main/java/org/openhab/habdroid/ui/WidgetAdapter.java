@@ -427,7 +427,7 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
 
         GenericViewHolder(LayoutInflater inflater, ViewGroup parent,
                 Connection conn, ColorMapper colorMapper) {
-            super(inflater, parent, R.layout.openhabwidgetlist_genericitem, conn, colorMapper);
+            super(inflater, parent, R.layout.widgetlist_genericitem, conn, colorMapper);
             mLabelView = itemView.findViewById(R.id.widgetlabel);
             mIconView = itemView.findViewById(R.id.widgeticon);
         }
@@ -447,7 +447,7 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
 
         FrameViewHolder(LayoutInflater inflater, ViewGroup parent,
                 Connection conn, ColorMapper colorMapper) {
-            super(inflater, parent, R.layout.openhabwidgetlist_frameitem, conn, colorMapper);
+            super(inflater, parent, R.layout.widgetlist_frameitem, conn, colorMapper);
             mLabelView = itemView.findViewById(R.id.widgetlabel);
             mDivider = itemView.findViewById(R.id.divider);
             mSpacer = itemView.findViewById(R.id.spacer);
@@ -473,7 +473,7 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
 
         GroupViewHolder(LayoutInflater inflater, ViewGroup parent,
                 Connection conn, ColorMapper colorMapper) {
-            super(inflater, parent, R.layout.openhabwidgetlist_groupitem, conn, colorMapper);
+            super(inflater, parent, R.layout.widgetlist_groupitem, conn, colorMapper);
             mRightArrow = itemView.findViewById(R.id.right_arrow);
         }
 
@@ -491,7 +491,7 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
 
         SwitchViewHolder(LayoutInflater inflater, ViewGroup parent,
                 Connection conn, ColorMapper colorMapper) {
-            super(inflater, parent, R.layout.openhabwidgetlist_switchitem, conn, colorMapper);
+            super(inflater, parent, R.layout.widgetlist_switchitem, conn, colorMapper);
             mSwitch = itemView.findViewById(R.id.toggle);
             mSwitch.setOnTouchListener(this);
         }
@@ -518,7 +518,7 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
 
         TextViewHolder(LayoutInflater inflater, ViewGroup parent,
                 Connection conn, ColorMapper colorMapper) {
-            super(inflater, parent, R.layout.openhabwidgetlist_textitem, conn, colorMapper);
+            super(inflater, parent, R.layout.widgetlist_textitem, conn, colorMapper);
             mRightArrow = itemView.findViewById(R.id.right_arrow);
         }
 
@@ -536,7 +536,7 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
 
         SliderViewHolder(LayoutInflater inflater, ViewGroup parent,
                 Connection conn, ColorMapper colorMapper) {
-            super(inflater, parent, R.layout.openhabwidgetlist_slideritem, conn, colorMapper);
+            super(inflater, parent, R.layout.widgetlist_slideritem, conn, colorMapper);
             mSeekBar = itemView.findViewById(R.id.seekbar);
             mSeekBar.setOnSeekBarChangeListener(this);
         }
@@ -583,7 +583,7 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
 
         ImageViewHolder(LayoutInflater inflater, ViewGroup parent,
                 Connection conn, ColorMapper colorMapper) {
-            super(inflater, parent, R.layout.openhabwidgetlist_imageitem, conn, colorMapper);
+            super(inflater, parent, R.layout.widgetlist_imageitem, conn, colorMapper);
             mImageView = itemView.findViewById(R.id.image);
             mParentView = parent;
         }
@@ -634,7 +634,7 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
 
         SelectionViewHolder(LayoutInflater inflater, ViewGroup parent,
                 Connection conn, ColorMapper colorMapper) {
-            super(inflater, parent, R.layout.openhabwidgetlist_selectionitem, conn, colorMapper);
+            super(inflater, parent, R.layout.widgetlist_selectionitem, conn, colorMapper);
             mSpinner = itemView.findViewById(R.id.spinner);
             mSpinner.setOnSelectionUpdatedListener(this);
         }
@@ -692,7 +692,7 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
         SectionSwitchViewHolder(LayoutInflater inflater, ViewGroup parent,
                 Connection conn, ColorMapper colorMapper) {
             super(inflater, parent,
-                    R.layout.openhabwidgetlist_sectionswitchitem, conn, colorMapper);
+                    R.layout.widgetlist_sectionswitchitem, conn, colorMapper);
             mInflater = inflater;
             mRadioGroup = itemView.findViewById(R.id.switchgroup);
         }
@@ -705,7 +705,7 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
             List<LabeledValue> mappings = widget.mappings();
             // inflate missing views
             for (int i = mRadioGroup.getChildCount(); i < mappings.size(); i++) {
-                View view = mInflater.inflate(R.layout.openhabwidgetlist_sectionswitchitem_button,
+                View view = mInflater.inflate(R.layout.widgetlist_sectionswitchitem_button,
                         mRadioGroup, false);
                 view.setOnClickListener(this);
                 mRadioGroup.addView(view);
@@ -740,7 +740,7 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
         RollerShutterViewHolder(LayoutInflater inflater, ViewGroup parent,
                 Connection conn, ColorMapper colorMapper) {
             super(inflater, parent,
-                    R.layout.openhabwidgetlist_rollershutteritem, conn, colorMapper);
+                    R.layout.widgetlist_rollershutteritem, conn, colorMapper);
             initButton(R.id.up_button, "UP");
             initButton(R.id.down_button, "DOWN");
             initButton(R.id.stop_button, "STOP");
@@ -775,7 +775,7 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
 
         SetpointViewHolder(LayoutInflater inflater, ViewGroup parent,
                 Connection conn, ColorMapper colorMapper) {
-            super(inflater, parent, R.layout.openhabwidgetlist_setpointitem, conn, colorMapper);
+            super(inflater, parent, R.layout.widgetlist_setpointitem, conn, colorMapper);
             mValueView.setOnClickListener(this);
             mInflater = inflater;
 
@@ -808,7 +808,7 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
                 }
             }
 
-            final View dialogView = mInflater.inflate(R.layout.openhab_dialog_numberpicker, null);
+            final View dialogView = mInflater.inflate(R.layout.dialog_numberpicker, null);
             final NumberPicker numberPicker = dialogView.findViewById(R.id.numberpicker);
 
             numberPicker.setMinValue(0);
@@ -851,7 +851,7 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
 
         ChartViewHolder(LayoutInflater inflater, ViewGroup parent, CharSequence theme,
                 Connection conn, ColorMapper colorMapper) {
-            super(inflater, parent, R.layout.openhabwidgetlist_chartitem, conn, colorMapper);
+            super(inflater, parent, R.layout.widgetlist_chartitem, conn, colorMapper);
             mImageView = itemView.findViewById(R.id.chart);
             mParentView = parent;
 
@@ -926,7 +926,7 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
 
         VideoViewHolder(LayoutInflater inflater, ViewGroup parent,
                 Connection conn, ColorMapper colorMapper) {
-            super(inflater, parent, R.layout.openhabwidgetlist_videoitem, conn, colorMapper);
+            super(inflater, parent, R.layout.widgetlist_videoitem, conn, colorMapper);
             mVideoView = itemView.findViewById(R.id.video);
         }
 
@@ -966,7 +966,7 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
 
         WebViewHolder(LayoutInflater inflater, ViewGroup parent,
                 Connection conn, ColorMapper colorMapper) {
-            super(inflater, parent, R.layout.openhabwidgetlist_webitem, conn, colorMapper);
+            super(inflater, parent, R.layout.widgetlist_webitem, conn, colorMapper);
             mWebView = itemView.findViewById(R.id.webview);
 
             final Resources res = itemView.getContext().getResources();
@@ -1003,7 +1003,7 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
 
         ColorViewHolder(LayoutInflater inflater, ViewGroup parent,
                 Connection conn, ColorMapper colorMapper) {
-            super(inflater, parent, R.layout.openhabwidgetlist_coloritem, conn, colorMapper);
+            super(inflater, parent, R.layout.widgetlist_coloritem, conn, colorMapper);
             mInflater = inflater;
             initButton(R.id.up_button, "ON");
             initButton(R.id.down_button, "OFF");
@@ -1081,7 +1081,7 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
 
         MjpegVideoViewHolder(LayoutInflater inflater, ViewGroup parent,
                 Connection conn, ColorMapper colorMapper) {
-            super(inflater, parent, R.layout.openhabwidgetlist_videomjpegitem, conn, colorMapper);
+            super(inflater, parent, R.layout.widgetlist_videomjpegitem, conn, colorMapper);
             mImageView = itemView.findViewById(R.id.mjpegimage);
         }
 

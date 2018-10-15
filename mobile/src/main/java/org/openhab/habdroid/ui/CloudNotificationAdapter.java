@@ -137,7 +137,7 @@ public class CloudNotificationAdapter extends RecyclerView.Adapter<RecyclerView.
         final TextView mSeverityView;
 
         public NotificationViewHolder(LayoutInflater inflater, ViewGroup parent) {
-            super(inflater.inflate(R.layout.openhabnotificationlist_item, parent, false));
+            super(inflater.inflate(R.layout.notificationlist_item, parent, false));
             mCreatedView = itemView.findViewById(R.id.notificationCreated);
             mMessageView = itemView.findViewById(R.id.notificationMessage);
             mSeverityView = itemView.findViewById(R.id.notificationSeverity);
@@ -166,7 +166,7 @@ public class CloudNotificationAdapter extends RecyclerView.Adapter<RecyclerView.
 
     public static class LoadingIndicatorViewHolder extends RecyclerView.ViewHolder {
         public LoadingIndicatorViewHolder(LayoutInflater inflater, ViewGroup parent) {
-            super(inflater.inflate(R.layout.list_loading_item, parent, false));
+            super(inflater.inflate(R.layout.notificationlist_loading_item, parent, false));
         }
     }
 }

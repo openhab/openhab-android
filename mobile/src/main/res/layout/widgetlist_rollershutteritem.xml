@@ -5,24 +5,24 @@
     android:background="?android:activatedBackgroundIndicator"
     android:descendantFocusability="blocksDescendants">
 
-    <include layout="@layout/openhabwidgetlist_icontext" />
+    <include layout="@layout/widgetlist_iconsmallvaluetext" />
 
     <ImageButton
         style="@style/ActionButton"
         android:id="@+id/up_button"
-        android:contentDescription="@string/content_description_color_up"
+        android:contentDescription="@string/content_description_open_roller_shutter"
         android:src="?themedArrowUpIcon" />
 
     <ImageButton
         style="@style/ActionButton"
-        android:id="@+id/select_color_button"
-        android:contentDescription="@string/content_description_open_color_wheel"
-        android:src="?themedColorIcon" />
+        android:id="@+id/stop_button"
+        android:contentDescription="@string/content_description_stop_roller_shutter"
+        android:src="?themedClearIcon" />
 
     <ImageButton
         style="@style/ActionButton"
         android:id="@+id/down_button"
-        android:contentDescription="@string/content_description_color_down"
+        android:contentDescription="@string/content_description_close_roller_shutter"
         android:src="?themedArrowDownIcon" />
 
 </LinearLayout>

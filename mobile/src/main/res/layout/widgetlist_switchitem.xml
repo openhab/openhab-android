@@ -2,21 +2,20 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="?android:activatedBackgroundIndicator"
-    android:descendantFocusability="blocksDescendants">
+    android:background="?android:activatedBackgroundIndicator">
 
-    <include layout="@layout/openhabwidgetlist_icontext" />
+    <include layout="@layout/widgetlist_iconsmallvaluetext" />
 
-    <org.openhab.habdroid.ui.widget.ExtendedSpinner
-        android:id="@+id/spinner"
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/toggle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:layout_marginBottom="8dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginRight="4dp"
         android:layout_marginTop="8dp"
         android:focusable="false"
-        android:focusableInTouchMode="false"
-        android:spinnerMode="dialog"
-        android:gravity="end" />
+        android:focusableInTouchMode="false" />
 
 </LinearLayout>

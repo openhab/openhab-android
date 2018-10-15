@@ -45,7 +45,7 @@ public class VoiceWidget extends AppWidgetProvider {
     private void updateAppWidget(Context context,
             AppWidgetManager appWidgetManager, int appWidgetId) {
         // Construct the RemoteViews object
-        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.voice_widget);
+        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_voice);
 
         Intent callbackIntent = new Intent(context, VoiceService.class);
         PendingIntent callbackPendingIntent = PendingIntent.getService(context,

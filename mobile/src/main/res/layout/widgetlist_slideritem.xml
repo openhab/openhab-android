@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:background="?android:activatedBackgroundIndicator">
 
-    <include layout="@layout/openhabwidgetlist_iconsmallvaluetext" />
+    <include layout="@layout/widgetlist_iconsmallvaluetext" />
 
     <SeekBar
         android:id="@+id/seekbar"

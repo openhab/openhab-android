@@ -4,18 +4,17 @@
     android:layout_height="wrap_content"
     android:background="?android:activatedBackgroundIndicator">
 
-    <include layout="@layout/openhabwidgetlist_iconsmallvaluetext" />
+    <include layout="@layout/widgetlist_iconsmallvaluetext" />
 
-    <androidx.appcompat.widget.SwitchCompat
-        android:id="@+id/toggle"
+    <RadioGroup
+        android:id="@+id/switchgroup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="4dp"
-        android:layout_marginRight="4dp"
-        android:layout_marginTop="8dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
         android:focusable="false"
-        android:focusableInTouchMode="false" />
+        android:focusableInTouchMode="false"
+        android:orientation="horizontal" />
 
 </LinearLayout>

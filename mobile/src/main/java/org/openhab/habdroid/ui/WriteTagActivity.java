@@ -60,7 +60,7 @@ public class WriteTagActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         Util.setActivityTheme(this);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.openhabwritetag);
+        setContentView(R.layout.activity_writetag);
 
         Toolbar toolbar = findViewById(R.id.openhab_toolbar);
         setSupportActionBar(toolbar);

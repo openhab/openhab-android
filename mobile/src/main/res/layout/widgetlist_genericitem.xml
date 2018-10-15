@@ -9,6 +9,6 @@
     android:paddingEnd="@dimen/widgetlist_item_right_margin">
 
     <include
-        layout="@layout/openhabwidgetlist_icontext" />
+        layout="@layout/widgetlist_icontext" />
 
 </LinearLayout>
