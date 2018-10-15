@@ -109,7 +109,7 @@ dependencies {
     implementation 'com.github.heremaps:oksse:0.9.0'
     implementation 'com.larswerkman:HoloColorPicker:1.5'
     implementation 'com.github.BigBadaboom:androidsvg:3511e136498da94018ef9fa438895984ea9b99db'
-    implementation 'com.github.apl-devs:appintro:v4.2.3'
+    implementation 'com.github.apl-devs:appintro:v5.0.0'
     // Google Maps
     fullImplementation 'com.google.android.gms:play-services-maps:12.0.1'
     // GCM
