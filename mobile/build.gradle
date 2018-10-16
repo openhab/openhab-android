@@ -150,7 +150,7 @@ dependencies {
     }
     androidTestImplementation 'androidx.test:runner:1.1.0-beta01'
     androidTestImplementation 'androidx.test:rules:1.1.0-beta01'
-    androidTestImplementation 'androidx.test.espresso:espresso-intents:3.1.0-beta01'
+    androidTestImplementation 'androidx.test.espresso:espresso-intents:3.1.0-beta02'
     androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.1.0-beta01', {
         exclude group: 'com.android.support', module: 'support-annotations'
     }
