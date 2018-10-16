@@ -20,6 +20,8 @@ def checkStrings(flavor):
             if openhabString != "openhab" and openhabString != "openHAB": # "openhab" is used in links
                 print("Incorrect spelling of openHAB")
                 errorCount += 1
+    if len(appStringsFiles) == 0:
+        print("No files to validate")
     print("\n\n")
     return errorCount
 
