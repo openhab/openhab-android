@@ -176,7 +176,7 @@ public class WidgetListFragment extends Fragment
         // Inflate the layout for this fragment
         Log.i(TAG, "onCreateView");
         Log.d(TAG, "isAdded = " + isAdded());
-        return inflater.inflate(R.layout.widgetlist_fragment, container, false);
+        return inflater.inflate(R.layout.fragment_widgetlist, container, false);
     }
 
     @Override
