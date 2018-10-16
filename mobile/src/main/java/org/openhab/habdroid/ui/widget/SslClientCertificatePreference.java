@@ -16,6 +16,7 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import androidx.appcompat.widget.TooltipCompat;
 
 import org.openhab.habdroid.R;
 
@@ -62,6 +63,8 @@ public class SslClientCertificatePreference extends Preference {
 
         if (intent.resolveActivity(context.getPackageManager()) != null) {
             mHelpIcon.setOnClickListener(v -> context.startActivity(intent));
+            TooltipCompat.setTooltipText(mHelpIcon,
+                    context.getString(R.string.settings_openhab_sslclientcert_howto_summary));
             updateHelpIconAlpha();
         } else {
             mHelpIcon.setVisibility(View.GONE);
