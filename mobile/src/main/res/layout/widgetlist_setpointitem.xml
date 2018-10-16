@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:background="@drawable/list_selector">
 
-    <include layout="@layout/openhabwidgetlist_iconvaluetext" />
+    <include layout="@layout/widgetlist_iconvaluetext" />
 
     <ImageView
         android:id="@+id/down_arrow"

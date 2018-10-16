@@ -84,7 +84,7 @@ public class CloudNotificationListFragment extends Fragment implements
             Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         Log.i(TAG, "onCreateView");
-        View view = inflater.inflate(R.layout.openhabnotificationlist_fragment, container, false);
+        View view = inflater.inflate(R.layout.fragment_notificationlist, container, false);
         mSwipeLayout = view.findViewById(R.id.swipe_container);
         mSwipeLayout.setOnRefreshListener(this);
         Util.applySwipeLayoutColors(mSwipeLayout, R.attr.colorPrimary, R.attr.colorAccent);

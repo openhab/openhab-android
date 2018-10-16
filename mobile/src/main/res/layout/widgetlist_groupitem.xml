@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+    android:id="@+id/relativeLayout"
+    android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/list_selector">
 
-    <include layout="@layout/openhabwidgetlist_iconvaluetext" />
+    <include layout="@layout/widgetlist_iconvaluetext" />
 
     <ImageView
         android:id="@+id/right_arrow"
