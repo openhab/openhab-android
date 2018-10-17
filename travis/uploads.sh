@@ -17,7 +17,20 @@ else
     python3 assets/store_descriptions/generate_and_validate.py fdroid
 fi
 
-curl https://api.github.com/repos/openhab/openhab-android/releases | jq -r '.[0].body' > fastlane/metadata/android/en-US/changelogs/${currentVersionCode}.txt
+set +e
+retryCount=0
+until curl https://api.github.com/repos/openhab/openhab-android/releases | jq -r '.[0].body' > fastlane/metadata/android/en-US/changelogs/${currentVersionCode}.txt
+do
+    let retryCount++
+    if [ "$retryCount" -gt 20 ]
+    then
+        exit 1
+    fi
+    echo "Download failed. Retry"
+    sleep 5
+done
+
+set -e
 
 git config --local user.name "openhab-bot"
 git config --local user.email "bot@openhab.org"
