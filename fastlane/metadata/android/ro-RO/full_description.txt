@@ -39,4 +39,4 @@ Fundația openHAB e.V. este o organizație nonprofit cu misiunea de a educa publ
 Aplicația este marcată ca "NonFreeAsset", deoarece pictograma openHAB nu are o licență liberă.
 
 
-Politica de confidențialitate: https://www.openhabfoundation.org/privacy
+Politica de confidențialitate: https://www.openhabfoundation.org/privacy.html

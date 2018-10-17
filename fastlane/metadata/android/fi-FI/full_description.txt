@@ -26,17 +26,17 @@ Yli 200 yksilöllistä lisäosaa antaa tuen erilaisille tuotteille, laitteille, 
 
 <b>Avoimen lähdekoodin yhteisö</b>
 
-OpenHAB avoimen lähdekoodin aloite tukee voimakkaasti sen elävää yhteisöä. Yli 13 000 rekisteröityneen käyttäjän foorumi on paikka löytää ohjausta, apua ja inspiraatiota. Liittyi openHAB yhteisön foorumille osoitteessa https://community.openhab.org
+openHAB avoimen lähdekoodin aloite tukee voimakkaasti sen elävää yhteisöä. Yli 13 000 rekisteröityneen käyttäjän foorumi on paikka löytää ohjausta, apua ja inspiraatiota. Liittyi openHAB yhteisön foorumille osoitteessa https://community.openhab.org
 Löytäessäsi ongelman ilmoita siitä foorumilla tai osoitteessa https://github.com/openhab/openhab-android/issues
 Jos haluat kääntää tämän sovelluksen omalle kielellesi niin liity mukaan osoitteessa https://crowdin.com/project/openhab-android
 
 <b>openHAB Säätiö</b>
 
-OpenHAB Säätiö e.V. on yleishyödyllinen järjestö, jonka tehtävänä on kertoa yleisölle ilmaisten ja vapaiden älykotiratkaisuiden mahdollisuuksista ja eduista. Lisätietoja järjestön tehtävästä ja palveluista löydät osoitteesta https://www.openhabfoundation.org
+openHAB Säätiö e.V. on yleishyödyllinen järjestö, jonka tehtävänä on kertoa yleisölle ilmaisten ja vapaiden älykotiratkaisuiden mahdollisuuksista ja eduista. Lisätietoja järjestön tehtävästä ja palveluista löydät osoitteesta https://www.openhabfoundation.org
 
 <b>Anti-ominaisuudet</b>
 
-Sovellus on merkitty lipulla ”NonFreeAsset”, koska OpenHAB kuvaketta ei ole vapaalla lisenssillä.
+Sovellus on merkitty lipulla ”NonFreeAsset”, koska openHAB kuvaketta ei ole vapaalla lisenssillä.
 
 
-Tietosuojakäytäntö: https://www.openhabfoundation.org/privacy
+Tietosuojakäytäntö: https://www.openhabfoundation.org/privacy.html

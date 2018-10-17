@@ -40,4 +40,4 @@ A openHAB Alapítvány e.V. egy nonprofit szervezet, azzal a küldetéssel, hogy
 Az alkalmazás meg van jelölve a "NonFreeAsset" zászlóval, mert az openHAB ikon nincs szabad licensz alatt.
 
 
-Adatvédelem: https://www.openhabfoundation.org/privacy
+Privacy policy: https://www.openhabfoundation.org/privacy.html

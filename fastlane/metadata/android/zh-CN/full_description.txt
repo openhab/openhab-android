@@ -22,7 +22,7 @@ openHAB 是一款基于 Java 的开源家居自动化平台，整合了大量不
 • 安全：ZoneMinder、DSC···
 • 开源协议：HTTP、TCP/UDP、MQTT、串口···
 • 特殊用例：我的世界、特斯拉汽车、天气服务···
-• ···
+• ...
 
 <b>开源社区</b>
 
@@ -39,4 +39,4 @@ openHAB 基金会是一个致力于向公共提出开源智能家居解决方案
 此应用程序被标记为 “非免费资源”，因为 openHAB 并未通过自由许可授权。
 
 
-隐私政策：https://www.openhabfoundation.org/privacy
+隐私政策：https://www.openhabfoundation.org/privacy.html

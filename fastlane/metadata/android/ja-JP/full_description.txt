@@ -39,4 +39,4 @@ openHAB 財団は、フリーでオープンなスマートホームソリュー
 openHAB アイコンは自由ライセンスではないので、アプリは"非自由資産"にマークされています。
 
 
-プライバシー ポリシー: https://www.openhabfoundation.org/privacy
+Privacy policy: https://www.openhabfoundation.org/privacy.html

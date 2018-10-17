@@ -22,21 +22,21 @@ Over 200 tillegg gir support for varemerker, enheter, teknikk og kommunikasjonsp
 • Sikkerhet: ZoneMinder, DSC,...
 • Åpne protokoller: HTTP, TCP/UDP, MQTT, seriell,...
 • Spesielle useCases: Minecraft, Tesla bil, værmeldingstjenester,...
-•...
+• ...
 
 <b>Åpen kildekode Community</b>
 
-OpenHAB åpen kildekode initiativ støtter sterkt stt levende Community. Forumet med over 13 000 registrerte brukere er et sted å finne veiledning, hjelp og inspirasjon. Bli med gruppeforumet openHAB over på https://community.openhab.org
+openHAB åpen kildekode initiativ støtter sterkt stt levende Community. Forumet med over 13 000 registrerte brukere er et sted å finne veiledning, hjelp og inspirasjon. Bli med gruppeforumet openHAB over på https://community.openhab.org
 Når du finner et problem kan du rapportere det i forumet eller på https://github.com/openhab/openhab-android/issues
 Hvis du vil oversette app til ditt språk bli med oss på https://crowdin.com/project/openhab-android
 
 <b>openHAB Foundation</b>
 
-OpenHAB Foundation e.V. er en ideell organisasjon med oppgave å opplyse offentligheten om mulighetene og fordelene av fri og åpen smarte-hjem løsninger. Lær om oppdraget og tjenestene til stiftelsen under https://www.openhabfoundation.org
+openHAB Foundation e.V. er en ideell organisasjon med oppgave å opplyse offentligheten om mulighetene og fordelene av fri og åpen smarte-hjem løsninger. Lær om oppdraget og tjenestene til stiftelsen under https://www.openhabfoundation.org
 
 <b>Anti funksjoner</b>
 
 Programmet er flagget med flagget "NonFreeAsset" fordi ikonet openHAB ikke er under en fri lisens.
 
 
-Personvern: https://www.openhabfoundation.org/privacy
+Personvern: https://www.openhabfoundation.org/privacy.html

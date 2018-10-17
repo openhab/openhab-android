@@ -1,4 +1,4 @@
-openHAB - "empowering the smart home" - vendor and technology agnostic open source home automation
+openHAB - "empowering the smart home" - une solution très simple de domotique libre pour votre maison connectée
 
 Les versions publiées via F-Droid n'incluent pas le système GCM et les rapports de plantage, et elles ne seront pas en mesure de recevoir les notifications push depuis l’openHAB Cloud.
 Essayer les nouvelles fonctionnalités et donner un premier retour d'expérience !
@@ -39,4 +39,4 @@ La fondation openHAB est une organisation à but non lucratif qui a pour mission
 L'application est marquée comme "NonFreeAsset" car l'icône de openHAB n'est pas sous licence libre.
 
 
-Politique de confidentialité : https://www.openhabfoundation.org/privacy
+Privacy policy: https://www.openhabfoundation.org/privacy.html

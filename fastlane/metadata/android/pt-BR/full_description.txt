@@ -39,4 +39,4 @@ A Fundação openHAB e.V. é uma organização sem fins lucrativos com a missão
 O aplicativo é sinalizado com o sinalizador "NonFreeAsset", porque o ícone do openHAB não está sob uma licença gratuita.
 
 
-Política de privacidade: https://www.openhabfoundation.org/privacy
+Política de privacidade: https://www.openhabfoundation.org/privacy.html

@@ -22,7 +22,7 @@ Ovanpå det enhetliga abstraktionslagret är alla anslutna enheter tillgängliga
 • Säkerhet: ZoneMinder, DSC,...
 • Öppna protokoll: HTTP, TCP/UDP, MQTT, seriell,...
 • Särskilda tillämpningar: Minecraft, Tesla, vädertjänster,...
-•...
+• ...
 
 <b>Öppen källkods-gemenskapen</b>
 
@@ -32,11 +32,11 @@ Om du vill översätta appen till ditt språk gå med oss på https://crowdin.co
 
 <b>openHAB Foundation</b>
 
-OpenHAB Foundation är en icke vinstdrivande organisation som har som mål att utbilda allmänheten kring möjligheterna och fördelarna med friga och öppna hemautomatiseringslösningar. Lär dig mer om uppdraget och tjänsterna på https://www.openhabfoundation.org
+openHAB Foundation är en icke vinstdrivande organisation som har som mål att utbilda allmänheten kring möjligheterna och fördelarna med friga och öppna hemautomatiseringslösningar. Lär dig mer om uppdraget och tjänsterna på https://www.openhabfoundation.org
 
 <b>Anti-Features</b>
 
 Appen är markerad som "NonFreeAsset" eftersom ikonen för openHAB inte omfattas av någon fri licens.
 
 
-Integritetspolicy: https://www.openhabfoundation.org/privacy
+Integritetspolicy: https://www.openhabfoundation.org/privacy.html
