@@ -165,6 +165,7 @@
   <string name="try_again_button">もう一度やり直す</string>
   <string name="go_to_settings_button">設定に移動</string>
   <string name="configuration_missing">openHAB サーバーを自動で検出できませんでした。サーバー設定で、IP アドレスまたはホスト名を設定してください。</string>
+  <string name="no_remote_server">ローカルネットワークが利用できません。リモートサーバーが設定されていません</string>
   <string name="resolving_openhab">openHAB サーバーインスタンスの探索中\u2026</string>
   <!-- Content description for images -->
   <string name="content_description_open_roller_shutter">ロール シャッターを開く</string>
@@ -176,6 +177,7 @@
   <string name="content_description_open_number_picker">数字選択を開く</string>
   <string name="content_description_video">ビデオ</string>
   <string name="content_description_open_openhab">openHAB を開く</string>
+  <string name="swipe_to_refresh_description">アプリも自動的に更新されます、通常、手動で行う必要はありません</string>
   <string name="swipe_to_refresh_dismiss">了解!</string>
   <!-- Intro strings -->
   <string name="app_intro">はじめに</string>
@@ -183,6 +185,9 @@
   <string name="intro_whatis">ホーム用、ベンダーや技術に依存しないオープンソースのオートメーションソフトウェア</string>
   <string name="intro_themes">テーマ</string>
   <string name="intro_themes_description">いくつかのテーマから選択してください</string>
+  <string name="intro_voice_description">音声でホームをコントロール</string>
+  <string name="intro_nfc">NFC</string>
+  <string name="intro_nfc_description">アイテムを長押しすると、アイテムのコントロールを NFC タグに接続できます</string>
   <!-- Intro "SKIP" button -->
   <string name="app_intro_skip_button">スキップ</string>
   <!-- Intro "DONE" button -->
