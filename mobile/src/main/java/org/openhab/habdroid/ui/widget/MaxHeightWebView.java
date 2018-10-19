@@ -13,7 +13,7 @@ import android.util.AttributeSet;
 import android.webkit.WebView;
 
 public class MaxHeightWebView extends WebView {
-    final static int NO_MAX_HEIGHT = -1;
+    static final int NO_MAX_HEIGHT = -1;
     int mMaxHeight = NO_MAX_HEIGHT;
 
     public MaxHeightWebView(Context context) {
@@ -28,7 +28,8 @@ public class MaxHeightWebView extends WebView {
         super(context, attrs, defStyleAttr);
     }
 
-    public MaxHeightWebView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public MaxHeightWebView(Context context, AttributeSet attrs, int defStyleAttr,
+                            int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
     }
 
@@ -37,6 +38,8 @@ public class MaxHeightWebView extends WebView {
     }
 
     /**
+     * Make sure the webview isn't higher than mMaxHeight
+     *
      * @author https://stackoverflow.com/a/29178364
      */
     @Override
@@ -47,13 +50,16 @@ public class MaxHeightWebView extends WebView {
 
             switch (heightMode) {
                 case MeasureSpec.AT_MOST:
-                    heightMeasureSpec = MeasureSpec.makeMeasureSpec(Math.min(heightSize, mMaxHeight), MeasureSpec.AT_MOST);
+                    heightMeasureSpec = MeasureSpec.makeMeasureSpec(
+                            Math.min(heightSize, mMaxHeight), MeasureSpec.AT_MOST);
                     break;
                 case MeasureSpec.UNSPECIFIED:
-                    heightMeasureSpec = MeasureSpec.makeMeasureSpec(mMaxHeight, MeasureSpec.AT_MOST);
+                    heightMeasureSpec = MeasureSpec.makeMeasureSpec(
+                            mMaxHeight, MeasureSpec.AT_MOST);
                     break;
                 case MeasureSpec.EXACTLY:
-                    heightMeasureSpec = MeasureSpec.makeMeasureSpec(Math.min(heightSize, mMaxHeight), MeasureSpec.EXACTLY);
+                    heightMeasureSpec = MeasureSpec.makeMeasureSpec(
+                            Math.min(heightSize, mMaxHeight), MeasureSpec.EXACTLY);
                     break;
             }
         }
