@@ -38,7 +38,7 @@ public class MaxHeightWebView extends WebView {
     }
 
     /**
-     * Make sure the webview isn't higher than mMaxHeight
+     * Make sure the webview isn't higher than mMaxHeight.
      *
      * @author https://stackoverflow.com/a/29178364
      */
