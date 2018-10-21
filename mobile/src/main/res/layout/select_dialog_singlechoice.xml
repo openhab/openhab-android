@@ -28,4 +28,5 @@
                  android:paddingEnd="7dp"
                  android:drawableLeft="?android:attr/listChoiceIndicatorSingle"
                  android:drawableStart="?android:attr/listChoiceIndicatorSingle"
+                 android:drawablePadding="12dp"
                  android:ellipsize="marquee" />
