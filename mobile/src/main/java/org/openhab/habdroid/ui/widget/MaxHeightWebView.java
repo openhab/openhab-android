@@ -48,19 +48,12 @@ public class MaxHeightWebView extends WebView {
             int heightSize = MeasureSpec.getSize(heightMeasureSpec);
             int heightMode = MeasureSpec.getMode(heightMeasureSpec);
 
-            switch (heightMode) {
-                case MeasureSpec.AT_MOST:
-                    heightMeasureSpec = MeasureSpec.makeMeasureSpec(
-                            Math.min(heightSize, mMaxHeight), MeasureSpec.AT_MOST);
-                    break;
-                case MeasureSpec.UNSPECIFIED:
-                    heightMeasureSpec = MeasureSpec.makeMeasureSpec(
-                            mMaxHeight, MeasureSpec.AT_MOST);
-                    break;
-                case MeasureSpec.EXACTLY:
-                    heightMeasureSpec = MeasureSpec.makeMeasureSpec(
-                            Math.min(heightSize, mMaxHeight), MeasureSpec.EXACTLY);
-                    break;
+            if (heightMode == MeasureSpec.UNSPECIFIED) {
+                heightMeasureSpec = MeasureSpec.makeMeasureSpec(
+                        mMaxHeight, MeasureSpec.AT_MOST);
+            } else {
+                heightMeasureSpec = MeasureSpec.makeMeasureSpec(Math.min(heightSize, mMaxHeight),
+                        heightMode);
             }
         }
 
