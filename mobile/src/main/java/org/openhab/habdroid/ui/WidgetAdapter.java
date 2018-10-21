@@ -965,7 +965,7 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
         private final int mRowHeightPixels;
 
         WebViewHolder(LayoutInflater inflater, ViewGroup parent, Connection conn,
-               ColorMapper colorMapper) {
+                ColorMapper colorMapper) {
             super(inflater, parent, R.layout.widgetlist_webitem, conn, colorMapper);
             mWebView = itemView.findViewById(R.id.webview);
 
