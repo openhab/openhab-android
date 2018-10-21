@@ -120,19 +120,4 @@ for file in appStoreStringsFiles:
 
 print("\n\n" + playDevSiteDescription)
 
-
-print("\n\nChecking app strings...")
-appStringsFiles = glob.glob('mobile/src/main/res/values-*/strings.xml')
-for file in appStringsFiles:
-    lang = file[27:-12]
-    print("Processing " + lang)
-    strings = open(file, "r").read()
-
-    openhabOccurences = [m.start() for m in re.finditer("openhab", strings, re.I)]
-    for i in openhabOccurences:
-        openhabString = strings[i:i+7]
-        if openhabString != "openhab" and openhabString != "openHAB": # "openhab" is used in links
-            print("Incorrect spelling of openHAB in " + lang)
-            exitCode += 1
-
 exit(exitCode)
