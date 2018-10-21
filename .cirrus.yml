@@ -9,7 +9,4 @@ task:
     play-beta-script: python3 assets/store_descriptions/generate_and_validate.py playBeta
     fdroid-stable-script: python3 assets/store_descriptions/generate_and_validate.py fdroid
     fdroid-beta-script: python3 assets/store_descriptions/generate_and_validate.py fdroidBeta
-
-task:
-    name: Validate app strings
-    script: python3 travis/validate-app-strings.py
+    app-string-script: python3 travis/validate-app-strings.py
