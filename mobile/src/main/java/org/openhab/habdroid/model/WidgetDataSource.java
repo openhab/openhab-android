@@ -72,8 +72,8 @@ public class WidgetDataSource {
                 JSONObject widgetJson = jsonWidgetArray.getJSONObject(i);
                 Widget.parseJson(mAllWidgets, null, widgetJson, mIconFormat);
             }
-            mTitle = jsonObject.optString("title", null);
             mId = jsonObject.optString("id", null);
+            mTitle = jsonObject.optString("title", mId);
             mIcon = jsonObject.optString("icon", null);
             mLink = jsonObject.optString("link", null);
         } catch (JSONException e) {
