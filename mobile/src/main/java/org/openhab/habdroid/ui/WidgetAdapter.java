@@ -664,7 +664,7 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
 
             ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(itemView.getContext(),
                     android.R.layout.simple_spinner_item, spinnerArray);
-            spinnerAdapter.setDropDownViewResource(android.R.layout.select_dialog_singlechoice);
+            spinnerAdapter.setDropDownViewResource(R.layout.select_dialog_singlechoice);
 
             mSpinner.setPrompt(mLabelView.getText());
             mSpinner.setAdapter(spinnerAdapter);
