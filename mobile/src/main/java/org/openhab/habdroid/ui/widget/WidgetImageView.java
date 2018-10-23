@@ -231,8 +231,8 @@ public class WidgetImageView extends AppCompatImageView {
 
     private void scheduleNextRefresh() {
         if (mRefreshInterval != 0) {
-            mRefreshHandler.sendEmptyMessageDelayed(0, mLastRefreshTimestamp + mRefreshInterval -
-                    SystemClock.elapsedRealtime());
+            mRefreshHandler.sendEmptyMessageDelayed(0, mLastRefreshTimestamp + mRefreshInterval
+                    - SystemClock.elapsedRealtime());
         }
     }
 
