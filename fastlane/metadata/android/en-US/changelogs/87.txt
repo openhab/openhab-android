@@ -1,0 +1,6 @@
+## Changed
+* Decrease font size in selection widget dialog (#1057)
+* Treat "height" parameter in webview as max height (#1056)
+
+## Fixed
+* Show sitemap name in action bar if label is not set (#1050) 
