@@ -109,7 +109,7 @@ dependencies {
     implementation 'com.github.heremaps:oksse:0.9.0'
     implementation 'com.larswerkman:HoloColorPicker:1.5'
     implementation 'com.github.BigBadaboom:androidsvg:3511e136498da94018ef9fa438895984ea9b99db'
-    implementation ('com.github.paolorotolo:appintro:v5.0.1') {
+    implementation ('com.github.paolorotolo:appintro:v5.1.0') {
         transitive false
         exclude group: 'com.intellij', module: 'annotations'
     }
