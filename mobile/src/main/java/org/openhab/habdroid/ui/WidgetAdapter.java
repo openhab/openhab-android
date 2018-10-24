@@ -883,7 +883,7 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
                         .append("&period=").append(widget.period())
                         .append("&random=").append(mRandom.nextInt())
                         .append("&dpi=").append(requestHighResChart ? (int) actualDensity :
-                                (int) actualDensity / 2);
+                        (int) actualDensity / 2);
                 if (!TextUtils.isEmpty(widget.service())) {
                     chartUrl.append("&service=").append(widget.service());
                 }
