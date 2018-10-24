@@ -74,6 +74,8 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Random;
 
+import static org.openhab.habdroid.util.Constants.PREFERENCE_CHART_HQ;
+
 /**
  * This class provides openHAB widgets adapter for list view.
  */
@@ -870,7 +872,9 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
             Item item = widget.item();
 
             if (item != null) {
-                float scalingFactor = mPrefs.getFloat(Constants.PREFERENCE_CHART_SCALING, 1.0f);
+                float scalingFactor = mPrefs.getFloat(Constants.PREFERENCE_CHART_SCALING,
+                        1.0f);
+                boolean requestHighResChart = mPrefs.getBoolean(PREFERENCE_CHART_HQ, true);
                 float actualDensity = (float) mDensity / scalingFactor;
 
                 StringBuilder chartUrl = new StringBuilder("chart?")
@@ -878,7 +882,8 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
                         .append(item.name())
                         .append("&period=").append(widget.period())
                         .append("&random=").append(mRandom.nextInt())
-                        .append("&dpi=").append((int) actualDensity);
+                        .append("&dpi=").append(requestHighResChart ? (int) actualDensity :
+                                (int) actualDensity / 2);
                 if (!TextUtils.isEmpty(widget.service())) {
                     chartUrl.append("&service=").append(widget.service());
                 }
@@ -891,8 +896,10 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
 
                 int parentWidth = mParentView.getWidth();
                 if (parentWidth > 0) {
-                    chartUrl.append("&w=").append(parentWidth);
-                    chartUrl.append("&h=").append(parentWidth / 2);
+                    chartUrl.append("&w=").append(requestHighResChart ? parentWidth :
+                            parentWidth / 2);
+                    chartUrl.append("&h=").append(requestHighResChart ? parentWidth / 2 :
+                            parentWidth / 4);
                 }
 
                 Log.d(TAG, "Chart url = " + chartUrl);

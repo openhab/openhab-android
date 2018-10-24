@@ -48,6 +48,8 @@
     <string name="settings_chart_scaling_value_s">Small</string>
     <string name="settings_chart_scaling_value_m">Default</string>
     <string name="settings_chart_scaling_value_l">Large</string>
+    <string name="settings_openhab_chart_hq">High resolution charts</string>
+    <string name="settings_openhab_chart_hq_summary">Generating charts can be taxing to the server. If you experience slow chart loading times and your server isn\'t powerful, disable this option to improve loading times.</string>
     <string name="settings_ringtone">Notification ringtone</string>
     <string name="settings_ringtone_none">None</string>
     <string name="settings_clear_default_sitemap">Clear default Sitemap</string>
