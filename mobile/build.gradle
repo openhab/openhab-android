@@ -18,7 +18,6 @@ buildscript {
 }
 
 apply plugin: 'com.android.application'
-apply plugin: 'jacoco-android'
 if(!isFoss) {
     apply plugin: 'io.fabric'
 }
