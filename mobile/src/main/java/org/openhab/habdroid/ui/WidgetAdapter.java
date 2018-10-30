@@ -11,6 +11,7 @@ package org.openhab.habdroid.ui;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
@@ -22,6 +23,7 @@ import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.util.Base64;
 import android.util.DisplayMetrics;
@@ -33,6 +35,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.NumberPicker;
@@ -513,19 +516,61 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
         }
     }
 
-    public static class TextViewHolder extends LabeledItemBaseViewHolder {
+    public static class TextViewHolder extends LabeledItemBaseViewHolder
+            implements View.OnTouchListener {
         private final ImageView mRightArrow;
+        private Item mBoundItem;
+        private Context mContext;
 
         TextViewHolder(LayoutInflater inflater, ViewGroup parent,
                 Connection conn, ColorMapper colorMapper) {
             super(inflater, parent, R.layout.widgetlist_textitem, conn, colorMapper);
             mRightArrow = itemView.findViewById(R.id.right_arrow);
+            mContext = parent.getContext();
+            final TextView mValue = itemView.findViewById(R.id.widgetvalue);
+            final TextView mLabel = itemView.findViewById(R.id.widgetlabel);
+            mValue.setOnTouchListener(this);
+            mLabel.setOnTouchListener(this);
         }
 
         @Override
         public void bind(Widget widget) {
             super.bind(widget);
+            mBoundItem = widget.item();
             mRightArrow.setVisibility(widget.linkedPage() != null ? View.VISIBLE : View.GONE);
+        }
+
+        @Override
+        public boolean onTouch(View view, MotionEvent motionEvent) {
+            if (mBoundItem != null && motionEvent.getActionMasked() == MotionEvent.ACTION_DOWN) {
+                final EditText input = new EditText(mContext);
+                input.setInputType(InputType.TYPE_CLASS_TEXT
+                        | InputType.TYPE_TEXT_VARIATION_LONG_MESSAGE
+                        | InputType.TYPE_TEXT_FLAG_MULTI_LINE);
+                if (mBoundItem.state() != null) {
+                    input.setText(mBoundItem.state());
+                    input.selectAll();
+                }
+                new AlertDialog.Builder(mContext)
+                        .setTitle(mBoundItem.label())
+                        .setView(input)
+                        .setPositiveButton("Send", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                final String text = input.getText().toString();
+                                Util.sendItemCommand(mConnection.getAsyncHttpClient(), mBoundItem,
+                                        text);
+                            }
+                        })
+                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        })
+                        .show();
+            }
+            return false;
         }
     }
 
