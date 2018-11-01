@@ -1,0 +1,3 @@
+## Fixed
+* Fix slow chart loading issue (#1061)
+* Start image refresh after phone comes back from sleep (#1073)
