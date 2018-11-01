@@ -56,6 +56,12 @@
             android:key="chartScalingFactor"
             android:defaultValue="1.5"
             android:icon="@drawable/ic_forum_grey_24dp" />
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="default_openhab_chart_hq"
+            android:summary="@string/settings_openhab_chart_hq_summary"
+            android:title="@string/settings_openhab_chart_hq"
+            android:icon="@drawable/ic_high_quality_grey_24dp" />
         <Preference
             android:clickable="true"
             android:key="default_openhab_cleacache"
