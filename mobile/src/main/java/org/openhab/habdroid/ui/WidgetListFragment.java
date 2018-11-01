@@ -185,7 +185,7 @@ public class WidgetListFragment extends Fragment
         Log.d(TAG, "isAdded = " + isAdded());
         super.onViewCreated(view, savedInstanceState);
         mRecyclerView = view.findViewById(R.id.recyclerview);
-        mRefreshLayout = getView().findViewById(R.id.swiperefresh);
+        mRefreshLayout = view.findViewById(R.id.swiperefresh);
 
         Util.applySwipeLayoutColors(mRefreshLayout, R.attr.colorPrimary, R.attr.colorAccent);
         mRefreshLayout.setOnRefreshListener(() -> {
@@ -199,18 +199,20 @@ public class WidgetListFragment extends Fragment
 
     @Override
     public void onStart() {
-        Log.d(TAG, "onStart");
+        Log.d(TAG, "onStart()");
         super.onStart();
         mActivity.triggerPageUpdate(mPageUrl, false);
+        if (mAdapter != null) {
+            startOrStopVisibleViewHolders(true);
+        }
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        Log.d(TAG, "onPause() " + mPageUrl);
-        Log.d(TAG, "isAdded = " + isAdded());
+        Log.d(TAG, "onPause() " + mPageUrl + ", isAdded: " + isAdded());
         if (mAdapter != null) {
-            stopVisibleViewHolders();
+            startOrStopVisibleViewHolders(false);
         }
     }
 
@@ -281,14 +283,18 @@ public class WidgetListFragment extends Fragment
         return getArguments().getString("title");
     }
 
-    private void stopVisibleViewHolders() {
+    private void startOrStopVisibleViewHolders(boolean start) {
         final int firstVisibleItemPosition = mLayoutManager.findFirstVisibleItemPosition();
         final int lastVisibleItemPosition = mLayoutManager.findLastVisibleItemPosition();
         for (int i = firstVisibleItemPosition; i <= lastVisibleItemPosition; ++i) {
             WidgetAdapter.ViewHolder holder =
                     (WidgetAdapter.ViewHolder) mRecyclerView.findViewHolderForAdapterPosition(i);
             if (holder != null) {
-                holder.stop();
+                if (start) {
+                    holder.start();
+                } else {
+                    holder.stop();
+                }
             }
         }
     }
