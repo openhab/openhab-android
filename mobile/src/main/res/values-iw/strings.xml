@@ -41,6 +41,8 @@
     <string name="settings_chart_scaling_value_s">קטן</string>
     <string name="settings_chart_scaling_value_m">ברירת מחדל</string>
     <string name="settings_chart_scaling_value_l">גדול</string>
+    <string name="settings_openhab_chart_hq">תרשימים ברמת הפרדה גבוהה</string>
+    <string name="settings_openhab_chart_hq_summary">יצירת תרשימים יכולה להעמיס על השרת. אם זמן טעינת התרשים איטי והשרת שלך לא חזק, ביטול אפשרות זו משפר את זמני הטעינה.</string>
     <string name="settings_ringtone">צליל התראה</string>
     <string name="settings_ringtone_none">ללא</string>
     <string name="settings_clear_default_sitemap">נקה את הגדרת ברירת מחדל של תצורת המערכת</string>
