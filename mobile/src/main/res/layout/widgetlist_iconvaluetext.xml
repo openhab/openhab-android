@@ -11,6 +11,7 @@
         android:layout_gravity="center_vertical"
         android:paddingLeft="8dp"
         android:paddingRight="8dp"
+        android:textDirection="anyRtl"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
 </merge>

@@ -27,6 +27,7 @@
 
     <TextView
         android:id="@+id/widgetlabel"
+        android:textDirection="locale"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingLeft="8dp"
