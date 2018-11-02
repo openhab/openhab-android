@@ -41,6 +41,8 @@
     <string name="settings_chart_scaling_value_s">Pieni</string>
     <string name="settings_chart_scaling_value_m">Oletus</string>
     <string name="settings_chart_scaling_value_l">Suuri</string>
+    <string name="settings_openhab_chart_hq">Korkean resoluution kuvaajat</string>
+    <string name="settings_openhab_chart_hq_summary">Kuvaajien generointi voi olla raskasta palvelimelle. Jos havaitset hitautta kuvaajien latauksessa ja palvelimesi on tehoton, aseta tämä pois päältä parantaaksesi latausaikoja.</string>
     <string name="settings_ringtone">Ilmoituksen merkkiääni</string>
     <string name="settings_ringtone_none">Ei mikään</string>
     <string name="settings_clear_default_sitemap">Poista oletussivukartta</string>
