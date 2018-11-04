@@ -818,7 +818,8 @@ public class MainActivity extends AppCompatActivity implements
                 if (data == null) {
                     break;
                 }
-                if (data.getBooleanExtra(PreferencesActivity.RESULT_EXTRA_SITEMAP_CLEARED, false)) {
+                if (data.getBooleanExtra(PreferencesActivity.RESULT_EXTRA_SITEMAP_CLEARED, false)
+                        && getConnection() != null) {
                     Sitemap sitemap = selectConfiguredSitemapFromList();
                     if (sitemap != null) {
                         openSitemap(sitemap);
