@@ -1,0 +1,2 @@
+## Fixed
+* Fix crash when resetting default sitemap and no connection is available (#1078)
