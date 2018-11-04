@@ -793,6 +793,10 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
 
         @Override
         public void onClick(final View view) {
+            if (mBoundWidget.item() == null) {
+                Log.e(TAG, "mBoundWidget.item() is null");
+                return;
+            }
             float minValue = mBoundWidget.minValue();
             float maxValue = mBoundWidget.maxValue();
             // This prevents an exception below, but could lead to
