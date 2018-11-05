@@ -41,6 +41,8 @@
     <string name="settings_chart_scaling_value_s">Klein</string>
     <string name="settings_chart_scaling_value_m">Standard</string>
     <string name="settings_chart_scaling_value_l">Groß</string>
+    <string name="settings_openhab_chart_hq">Hochauflösende Diagramme</string>
+    <string name="settings_openhab_chart_hq_summary">Diagramme zu erstellen kann anstrengend für den Server sein. Falls Sie merken, dass die Diagramme lange laden und Ihr Server nicht leistungsfähig ist, können Sie diese Option deaktivieren, um die Ladezeiten zu verkürzen.</string>
     <string name="settings_ringtone">Benachrichtigungston</string>
     <string name="settings_ringtone_none">Keiner</string>
     <string name="settings_clear_default_sitemap">Standard-Sitemap zurücksetzen</string>
