@@ -42,6 +42,7 @@
     <string name="settings_chart_scaling_value_m">По умолчанию</string>
     <string name="settings_chart_scaling_value_l">Большой</string>
     <string name="settings_openhab_chart_hq">Графики в высоком разрешении</string>
+    <string name="settings_openhab_chart_hq_summary">Создание графиков может выполняться сервером. Если ваш сервер не достаточно мощный и вы испытываете проблемы со скоростью их загрузки, отключите этот параметр.</string>
     <string name="settings_ringtone">Звук уведомления</string>
     <string name="settings_ringtone_none">Без рингтона</string>
     <string name="settings_clear_default_sitemap">Очистить sitemap по умолчанию</string>
