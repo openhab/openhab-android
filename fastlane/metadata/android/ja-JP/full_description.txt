@@ -1,8 +1,6 @@
 openHAB - "スマートホームに力を与える" - ベンダーや技術に依存しないオープンソースのホームオートメーション
 
 F-Droid のビルドは、マップビューのサポート、GCM、クラッシュレポートが削除されていて openHAB クラウドからプッシュ通知を受信することはできません。
-新しい機能をお試しの上、フィードバックしてください!
-You can install the beta version alongside the <a href="https://f-droid.org/packages/org.openhab.habdroid/">stable version</a>.
 
 <b>重要な注意事項</b>
 
@@ -13,7 +11,7 @@ openHAB は、Java ベースのオープンソース ホームオートメーシ
 
 <b>サポートされている製品</b>
 
-200 以上の特定のアドオンは、ブランド、デバイス ・技術・通信プロトコルをサポートします。 例えば、Z-Wave、Philips Hue、アマゾンエコー、Chromecast、Sonos です。 
+200 以上の特定のアドオンは、ブランド、デバイス ・技術・通信プロトコルをサポートします。 例えば、Z-Wave、Philips Hue、アマゾンエコー、Chromecast、Sonos です。 利用可能なアドオンやサポートされているデバイス、および機能は: https://www.openhab.org/addons/
 
 • ホームオートメーション ソリューション: Z-Wave、EnOcean、Netatmo、Homematic、Insteon ...
 • 照明: Philips Hue、Ikea Trådfri、LIFX、lutron社、Milight ...
@@ -39,4 +37,4 @@ openHAB 財団は、フリーでオープンなスマートホームソリュー
 openHAB アイコンは自由ライセンスではないので、アプリは"非自由資産"にマークされています。
 
 
-Privacy policy: https://www.openhabfoundation.org/privacy.html
+プライバシー ポリシー: https://www.openhabfoundation.org/privacy.html

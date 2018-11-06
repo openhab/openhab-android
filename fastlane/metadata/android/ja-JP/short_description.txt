@@ -1,1 +1,1 @@
-Vendor and technology agnostic open source home automation
+ベンダーや技術に依存しないオープンソースのホーム・オートメーション

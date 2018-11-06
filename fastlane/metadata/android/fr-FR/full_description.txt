@@ -1,8 +1,6 @@
 openHAB - "empowering the smart home" - une solution très simple de domotique libre pour votre maison connectée
 
 Les versions publiées via F-Droid n'incluent pas le système GCM et les rapports de plantage, et elles ne seront pas en mesure de recevoir les notifications push depuis l’openHAB Cloud.
-Essayer les nouvelles fonctionnalités et donner un premier retour d'expérience !
-Vous pouvez installer la version bêta en parallèle de la <a href="https://f-droid.org/packages/org.openhab.habdroid/">version stable</a>.
 
 <b>Remarque importante</b>
 

@@ -1,0 +1,9 @@
+## Fixed
+* Slow chart loading issue (#1061)
+* Start image refresh after phone comes back from sleep (#1073)
+
+## Changed
+* Treat "height" parameter in webview as max height (#1056)
+
+## Added
+* Add support for Server Sent Events (SSE) (#847)

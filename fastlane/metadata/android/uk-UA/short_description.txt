@@ -1,1 +1,1 @@
-Vendor and technology agnostic open source home automation
+Відкрите ПЗ для домашньої автоматизації, неупереджене до виробників і технологій
