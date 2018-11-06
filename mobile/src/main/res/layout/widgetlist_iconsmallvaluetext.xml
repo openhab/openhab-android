@@ -11,6 +11,7 @@
         android:layout_gravity="center_vertical"
         android:paddingLeft="4dp"
         android:paddingRight="4dp"
+        android:textDirection="locale"
         android:textAppearance="?android:attr/textAppearanceSmall" />
 
 </merge>
