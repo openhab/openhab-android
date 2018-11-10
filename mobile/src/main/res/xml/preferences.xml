@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory android:title="@string/settings_connection_title">
-        <CheckBoxPreference
+        <SwitchPreference
             android:defaultValue="false"
             android:disableDependentsState="true"
             android:key="default_openhab_demomode"
@@ -56,7 +56,7 @@
             android:key="chartScalingFactor"
             android:defaultValue="1.5"
             android:icon="@drawable/ic_forum_grey_24dp" />
-        <CheckBoxPreference
+        <SwitchPreference
             android:defaultValue="true"
             android:key="default_openhab_chart_hq"
             android:summary="@string/settings_openhab_chart_hq_summary"
@@ -67,13 +67,13 @@
             android:key="default_openhab_cleacache"
             android:title="@string/mainmenu_openhab_clearcache"
             android:icon="@drawable/ic_clear_all_grey_24dp" />
-        <CheckBoxPreference
+        <SwitchPreference
             android:defaultValue="false"
             android:key="default_openhab_screentimeroff"
             android:summary="@string/settings_openhab_screentimeroff_summary"
             android:title="@string/settings_openhab_screentimeroff"
             android:icon="@drawable/ic_local_cafe_grey_24dp" />
-        <CheckBoxPreference
+        <SwitchPreference
             android:defaultValue="false"
             android:key="default_openhab_fullscreen"
             android:summary="@string/settings_openhab_fullscreen_summary"
@@ -96,7 +96,7 @@
             android:entries="@array/notificationVibration"
             android:entryValues="@array/notificationVibrationValues"
             android:icon="@drawable/ic_vibration_grey_24dp" />
-        <CheckBoxPreference
+        <SwitchPreference
             android:defaultValue="false"
             android:key="default_openhab_debug_messages"
             android:title="@string/settings_debug_messages_title"
