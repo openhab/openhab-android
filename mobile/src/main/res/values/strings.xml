@@ -33,7 +33,7 @@
     <string name="settings_openhab_screentimeroff">Disable display timer</string>
     <string name="settings_openhab_screentimeroff_summary">Disable display switch off timer when openHAB is running</string>
     <string name="settings_openhab_demomode">Demo mode</string>
-    <string name="settings_openhab_demomode_summary">Run in demo mode</string>
+    <string name="settings_openhab_demomode_summary">If you don\'t have an openHAB server, enable demo mode to get an imagination of what openHAB is capable</string>
     <string name="settings_openhab_theme">Theme</string>
     <string name="settings_openhab_fullscreen">Fullscreen</string>
     <string name="settings_openhab_fullscreen_summary">Display in fullscreen mode</string>
