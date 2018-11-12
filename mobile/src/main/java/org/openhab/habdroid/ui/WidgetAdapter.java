@@ -32,6 +32,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.webkit.WebView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -59,7 +60,6 @@ import org.openhab.habdroid.model.LabeledValue;
 import org.openhab.habdroid.model.Widget;
 import org.openhab.habdroid.ui.widget.DividerItemDecoration;
 import org.openhab.habdroid.ui.widget.ExtendedSpinner;
-import org.openhab.habdroid.ui.widget.MaxHeightWebView;
 import org.openhab.habdroid.ui.widget.SegmentedControlButton;
 import org.openhab.habdroid.ui.widget.WidgetImageView;
 import org.openhab.habdroid.util.Constants;
@@ -972,11 +972,11 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
     }
 
     public static class WebViewHolder extends ViewHolder {
-        private final MaxHeightWebView mWebView;
+        private final WebView mWebView;
         private final int mRowHeightPixels;
 
-        WebViewHolder(LayoutInflater inflater, ViewGroup parent, Connection conn,
-                ColorMapper colorMapper) {
+        WebViewHolder(LayoutInflater inflater, ViewGroup parent,
+                Connection conn, ColorMapper colorMapper) {
             super(inflater, parent, R.layout.widgetlist_webitem, conn, colorMapper);
             mWebView = itemView.findViewById(R.id.webview);
 
@@ -989,11 +989,12 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
         public void bind(Widget widget) {
             mWebView.loadUrl("about:blank");
             ViewGroup.LayoutParams lp = mWebView.getLayoutParams();
-            if (lp.height != ViewGroup.LayoutParams.WRAP_CONTENT) {
-                lp.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+            int desiredHeightPixels = widget.height() > 0
+                    ? widget.height() * mRowHeightPixels : ViewGroup.LayoutParams.WRAP_CONTENT;
+            if (lp.height != desiredHeightPixels) {
+                lp.height = desiredHeightPixels;
                 mWebView.setLayoutParams(lp);
             }
-            mWebView.setMaxHeight(widget.height() * mRowHeightPixels);
 
             HttpUrl url = mConnection.getAsyncHttpClient().buildUrl(widget.url());
 
