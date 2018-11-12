@@ -41,6 +41,7 @@
     <string name="settings_chart_scaling_value_s">Малий</string>
     <string name="settings_chart_scaling_value_m">За замовчуванням</string>
     <string name="settings_chart_scaling_value_l">Великий</string>
+    <string name="settings_openhab_chart_hq">Графіки високої роздільної здатності</string>
     <string name="settings_ringtone">Звук сповіщення</string>
     <string name="settings_ringtone_none">Жодного</string>
     <string name="settings_clear_default_sitemap">Очистити сторінку інтерфейсу за замовчуванням</string>
