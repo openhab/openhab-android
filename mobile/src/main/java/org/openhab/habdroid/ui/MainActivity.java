@@ -297,6 +297,10 @@ public class MainActivity extends AppCompatActivity implements
                 }
             }
         };
+        if (getConnection() == null) {
+            mController.indicateNoNetwork(getString(R.string.error_network_not_available));
+            return;
+        }
         mPropsUpdateHandle = ServerProperties.fetch(mConnection,
                 successCb, this::handlePropertyFetchFailure);
     }
