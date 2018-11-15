@@ -41,6 +41,8 @@
     <string name="settings_chart_scaling_value_s">小</string>
     <string name="settings_chart_scaling_value_m">デフォルト</string>
     <string name="settings_chart_scaling_value_l">大</string>
+    <string name="settings_openhab_chart_hq">高解像度グラフ</string>
+    <string name="settings_openhab_chart_hq_summary">グラフの生成をサーバーに負担させることができます。グラフの読み込みに時間がかかって、お使いのサーバーが強力ではない場合は、このオプションを無効にすると読み込み時間が改善します。</string>
     <string name="settings_ringtone">通知の着信音</string>
     <string name="settings_ringtone_none">なし</string>
     <string name="settings_clear_default_sitemap">デフォルトのサイトマップをクリア</string>
