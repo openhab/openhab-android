@@ -1,0 +1,4 @@
+## Fixed
+* Fix crash when receiving notification on RTL device (#1085)
+* Fix crash when resetting default sitemap and no connection is available. 2nd try (#1092)
+

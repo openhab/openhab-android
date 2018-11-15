@@ -39,4 +39,4 @@ La fondation openHAB est une organisation à but non lucratif qui a pour mission
 L'application est marquée comme "NonFreeAsset" car l'icône de openHAB n'est pas sous licence libre.
 
 
-Privacy policy: https://www.openhabfoundation.org/privacy.html
+Politique de Confidentialité : https://www.openhabfoundation.org/privacy.html
