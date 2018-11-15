@@ -819,7 +819,7 @@ public class MainActivity extends AppCompatActivity implements
                     break;
                 }
                 if (data.getBooleanExtra(PreferencesActivity.RESULT_EXTRA_SITEMAP_CLEARED, false)
-                        && getConnection() != null) {
+                        && getConnection() != null && mServerProperties != null) {
                     Sitemap sitemap = selectConfiguredSitemapFromList();
                     if (sitemap != null) {
                         openSitemap(sitemap);
