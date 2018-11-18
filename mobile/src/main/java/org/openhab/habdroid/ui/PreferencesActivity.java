@@ -314,7 +314,8 @@ public class PreferencesActivity extends AppCompatActivity {
                 getParent(fullscreenPreference).removePreference(fullscreenPreference);
             }
 
-            if (!CloudMessagingHelper.isSupported() || Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            if (!CloudMessagingHelper.isSupported()
+                    || Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 Log.d(TAG, "Removing notification prefs");
                 getParent(ringtonePref).removePreference(ringtonePref);
                 getParent(vibrationPref).removePreference(vibrationPref);
