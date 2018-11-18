@@ -73,6 +73,7 @@ public class GcmMessageListenerService extends GcmListenerService {
                     NotificationChannel channel = new NotificationChannel(
                             channelId, name, NotificationManager.IMPORTANCE_DEFAULT);
                     channel.setShowBadge(true);
+                    channel.enableVibration(true);
                     nm.createNotificationChannel(channel);
                 }
 
