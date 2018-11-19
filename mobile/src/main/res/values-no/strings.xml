@@ -41,6 +41,8 @@
     <string name="settings_chart_scaling_value_s">Liten</string>
     <string name="settings_chart_scaling_value_m">Standard</string>
     <string name="settings_chart_scaling_value_l">Stor</string>
+    <string name="settings_openhab_chart_hq">Høy-oppløste diagrammer</string>
+    <string name="settings_openhab_chart_hq_summary">Generering av diagrammer kan være tungt for serveren. Hvis du opplever treg diagram-innlasting og serveren ikke er kraftig, kan du deaktivere dette alternativet for å forbedre lastingen.</string>
     <string name="settings_ringtone">Meldingstone</string>
     <string name="settings_ringtone_none">Ingen</string>
     <string name="settings_clear_default_sitemap">Tøm standard lokasjonskart</string>
