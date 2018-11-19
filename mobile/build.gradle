@@ -104,7 +104,7 @@ dependencies {
     implementation "com.google.android.material:material:1.0.0"
     implementation 'androidx.multidex:multidex:2.0.0'
     implementation 'org.jmdns:jmdns:3.5.4'
-    implementation 'com.squareup.okhttp3:okhttp:3.11.0'
+    implementation 'com.squareup.okhttp3:okhttp:3.12.0'
     implementation 'com.github.heremaps:oksse:0.9.0'
     implementation 'com.larswerkman:HoloColorPicker:1.5'
     implementation 'com.github.BigBadaboom:androidsvg:3511e136498da94018ef9fa438895984ea9b99db'
