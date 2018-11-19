@@ -1,0 +1,2 @@
+## Fixed
+* Hide notification settings when running Oreo or higher (#1101)
