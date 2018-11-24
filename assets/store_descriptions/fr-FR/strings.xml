@@ -24,7 +24,7 @@
     <about_foundation>La fondation openHAB est une organisation à but non lucratif qui a pour mission d'informer le public sur les possibilités et les bénéfices des solutions domotiques libres et open source. Découvrez les missions et les services de la fondation sur https://www.openhabfoundation.org</about_foundation>
     <important_note>Remarque importante</important_note>
     <oh_server>Un serveur openHAB est nécessaire pour fonctionner avec cette app</oh_server>
-    <short_description>Solution de domotique open source et agnostique vis à vis des fabricants et des technologies</short_description>
+    <short_description/>
     <fdroid>Les versions publiées via F-Droid n'incluent pas le système GCM et les rapports de plantage, et elles ne seront pas en mesure de recevoir les notifications push depuis l’openHAB Cloud.</fdroid>
     <fdroid_beta><![CDATA[Vous pouvez installer la version bêta en parallèle de la <a href="https://f-droid.org/packages/org.openhab.habdroid/">version stable</a>.]]></fdroid_beta>
     <fdroid_privacy_policy>Politique de Confidentialité : https://www.openhabfoundation.org/privacy.html</fdroid_privacy_policy>
