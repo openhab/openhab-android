@@ -1,8 +1,6 @@
 openHAB - "empowering the smart home" - automatizare de locuințe open source, independent de producatori și tehnologii
 
 Build-urile F-Droid au suport pentru vizualizarea hărților. Au eliminat GCM, raportarea erorilor și nu vor putea primi notificări de la openHAB Cloud.
-Încercați funcții noi și lăsați primele impresii!
-Se poate instala versiunea beta alături de <a href="https://f-droid.org/packages/org.openhab.habdroid/">stable version</a>.
 
 <b>Notă importantă</b>
 
