@@ -28,7 +28,6 @@
     <string name="settings_openhab_screentimeroff">Отключить таймер дисплея</string>
     <string name="settings_openhab_screentimeroff_summary">Дисплей всегда включен при запущенном openHAB</string>
     <string name="settings_openhab_demomode">Демо режим</string>
-    <string name="settings_openhab_demomode_summary">Запуск демо режима</string>
     <string name="settings_openhab_theme">Тема</string>
     <string name="settings_openhab_fullscreen">Во весь экран</string>
     <string name="settings_openhab_fullscreen_summary">Показать во весь экран</string>
