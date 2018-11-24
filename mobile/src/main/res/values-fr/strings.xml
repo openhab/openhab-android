@@ -28,7 +28,6 @@
     <string name="settings_openhab_screentimeroff">Désactiver l\'extinction d\'écran</string>
     <string name="settings_openhab_screentimeroff_summary">Désactiver l\'extinction d\'écran lorsque l\'app openHAB fonctionne</string>
     <string name="settings_openhab_demomode">Mode démo</string>
-    <string name="settings_openhab_demomode_summary">Lancer l\'app openHAB en mode démo</string>
     <string name="settings_openhab_theme">Thème</string>
     <string name="settings_openhab_fullscreen">Plein écran</string>
     <string name="settings_openhab_fullscreen_summary">Afficher l\'app openHAB en mode plein écran</string>
