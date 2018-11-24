@@ -28,7 +28,6 @@
     <string name="settings_openhab_screentimeroff">Disattivare la visualizzazione del timer</string>
     <string name="settings_openhab_screentimeroff_summary">Non mostrare timer di spegnimento quando openHAB e\' in esecuzione</string>
     <string name="settings_openhab_demomode">Modalità demo</string>
-    <string name="settings_openhab_demomode_summary">Esecuzione in modalità demo</string>
     <string name="settings_openhab_theme">Tema</string>
     <string name="settings_openhab_fullscreen">Schermo intero</string>
     <string name="settings_openhab_fullscreen_summary">Visualizza a schermo intero</string>
