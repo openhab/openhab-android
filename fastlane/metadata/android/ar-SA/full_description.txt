@@ -1,6 +1,8 @@
 openHAB - "empowering the smart home" - بغض النظر عن المزودين والتكنلوجيا ، أتمتة البيوت المفتوح المصدر
 
 إصدارات F-Droid تدعم عرض الخريطة، تراسل سحابة جوجل GCM بينما حذفت تقارير الإنهيار ومن غير الممكن إستقبال الإشعارات من سحابة openHAB.
+Try out new features and give early feedback!
+You can install the beta version alongside the <a href="https://f-droid.org/packages/org.openhab.habdroid/">stable version</a>.
 
 <b>ملاحظة هامة</b>
 

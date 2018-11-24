@@ -1,0 +1,7 @@
+## Fixed
+* Don't use notification grouping on Android M (API 23) (#1108)
+* Fix NegativeArraySizeException in MjpegInputStream (#1080)
+
+## Changed
+* Use switches instead of checkboxes in settings (#1089)
+* Bump dependencies
