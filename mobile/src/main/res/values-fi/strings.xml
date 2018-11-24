@@ -28,7 +28,6 @@
     <string name="settings_openhab_screentimeroff">Poista näytön sammutuksen ajastin</string>
     <string name="settings_openhab_screentimeroff_summary">Näytön sammutuksen ajastin pois päältä openHABin ollessa käynnissä</string>
     <string name="settings_openhab_demomode">Esittelytila</string>
-    <string name="settings_openhab_demomode_summary">Käytä esittelytilassa</string>
     <string name="settings_openhab_theme">Teema</string>
     <string name="settings_openhab_fullscreen">Kokonäyttö</string>
     <string name="settings_openhab_fullscreen_summary">Näytä koko näytöllä</string>
