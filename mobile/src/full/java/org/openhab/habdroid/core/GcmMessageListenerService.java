@@ -44,6 +44,11 @@ public class GcmMessageListenerService extends GcmListenerService {
     private static final String CHANNEL_ID_FORMAT_SEVERITY = "severity-%s";
     private static final int SUMMARY_NOTIFICATION_ID = 0;
 
+    // Notification grouping is only available on N or higher, as mentioned in
+    // https://developer.android.com/guide/topics/ui/notifiers/notifications#bundle
+    private static final boolean HAS_GROUPING_SUPPORT =
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.N;
+
     @Override
     public void onMessageReceived(String from, Bundle data) {
         NotificationManager nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
@@ -81,7 +86,7 @@ public class GcmMessageListenerService extends GcmListenerService {
                         icon, timestamp, persistedId, notificationId);
                 nm.notify(notificationId, n);
 
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if (HAS_GROUPING_SUPPORT) {
                     int count = getGcmNotificationCount(nm.getActiveNotifications());
                     nm.notify(SUMMARY_NOTIFICATION_ID, makeSummaryNotification(count, timestamp));
                 }
@@ -89,7 +94,7 @@ public class GcmMessageListenerService extends GcmListenerService {
             }
             case "hideNotification":
                 nm.cancel(notificationId);
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if (HAS_GROUPING_SUPPORT) {
                     StatusBarNotification[] active = nm.getActiveNotifications();
                     if (notificationId != SUMMARY_NOTIFICATION_ID
                             && getGcmNotificationCount(active) == 0) {
@@ -158,7 +163,7 @@ public class GcmMessageListenerService extends GcmListenerService {
                 .build();
     }
 
-    @TargetApi(23)
+    @TargetApi(24)
     private Notification makeSummaryNotification(int subNotificationCount, long timestamp) {
         CharSequence text = getResources().getQuantityString(R.plurals.summary_notification_text,
                 subNotificationCount, subNotificationCount);
