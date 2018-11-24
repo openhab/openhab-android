@@ -25,7 +25,6 @@
     <string name="settings_openhab_screentimeroff">Wyłącz wyświetlanie zegara</string>
     <string name="settings_openhab_screentimeroff_summary">Wyłącz wyświetlanie wyłącznik zegara, kiedy openHAB jest włączony</string>
     <string name="settings_openhab_demomode">Wersja demonstracyjna</string>
-    <string name="settings_openhab_demomode_summary">Uruchom w trybie demonstracyjnym</string>
     <string name="settings_openhab_theme">Motyw</string>
     <string name="settings_openhab_fullscreen">Pełny ekran</string>
     <string name="settings_openhab_fullscreen_summary">Wyświetl w trybie pełnego ekranu</string>
