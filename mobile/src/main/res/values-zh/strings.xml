@@ -28,7 +28,6 @@
     <string name="settings_openhab_screentimeroff">禁用显示计时器</string>
     <string name="settings_openhab_screentimeroff_summary">在 openHAB 运行时禁用显示屏关闭定时器</string>
     <string name="settings_openhab_demomode">演示模式</string>
-    <string name="settings_openhab_demomode_summary">以演示模式运行</string>
     <string name="settings_openhab_theme">主题</string>
     <string name="settings_openhab_fullscreen">全屏</string>
     <string name="settings_openhab_fullscreen_summary">以全屏模式显示</string>
