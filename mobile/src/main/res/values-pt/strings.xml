@@ -22,7 +22,6 @@
     <string name="settings_openhab_screentimeroff">Desativar a exibição do temporizador</string>
     <string name="settings_openhab_screentimeroff_summary">Desativar exibição do interruptor de temporização quando openHAB está a ser executado</string>
     <string name="settings_openhab_demomode">Modo de demonstração</string>
-    <string name="settings_openhab_demomode_summary">Executar em modo de demonstração</string>
     <string name="settings_openhab_theme">Tema</string>
     <string name="settings_openhab_fullscreen">Ecrã inteiro</string>
     <string name="settings_openhab_fullscreen_summary">Exibir no modo de ecrã inteiro</string>
