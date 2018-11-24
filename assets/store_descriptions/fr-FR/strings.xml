@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <strings>
-    <intro>openHAB - "empowering the smart home" - une solution très simple de domotique libre pour votre maison connectée</intro>
+    <intro>openHAB - "empowering the smart home" - une solution de domotique libre et indépendante de tout fournisseur pour votre maison connectée</intro>
     <whatis>openHAB est une plateforme de domotique open source basée sur Java qui intègre et combine une vaste gamme de produits et technologies pour la maison connectée dans une seule et même solution.</whatis>
     <rules>S'appuyant sur une couche d'abstraction unifiée, tous les dispositifs connectés sont exposés au moteur de règles d'automatisation centralisé et à différentes interfaces utilisateur.</rules>
     <supported>Produits pris en charge</supported>

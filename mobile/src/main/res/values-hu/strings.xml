@@ -41,6 +41,8 @@
     <string name="settings_chart_scaling_value_s">Kicsi</string>
     <string name="settings_chart_scaling_value_m">Alapértelmezett</string>
     <string name="settings_chart_scaling_value_l">Nagy</string>
+    <string name="settings_openhab_chart_hq">Magas felbontású grafikonok</string>
+    <string name="settings_openhab_chart_hq_summary">Grafikonok generálása leterhelheti a szervert. Ha úgy érzékeli hogy lassan töltődnek, és a szervere nem túl erős, ennek a beállítás tiltásával javíthat a töltési sebességen.</string>
     <string name="settings_ringtone">Értesítési csengőhang</string>
     <string name="settings_ringtone_none">Nincs</string>
     <string name="settings_clear_default_sitemap">Alapértelmezett felületet eltávolítása</string>

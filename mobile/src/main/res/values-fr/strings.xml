@@ -41,6 +41,8 @@
     <string name="settings_chart_scaling_value_s">Petit</string>
     <string name="settings_chart_scaling_value_m">Défaut</string>
     <string name="settings_chart_scaling_value_l">Grande</string>
+    <string name="settings_openhab_chart_hq">Graphiques haute résolution</string>
+    <string name="settings_openhab_chart_hq_summary">Générer des graphiques peut être compliqué en terme de puissance pour le serveur. Si le chargement des graphiques est lent et/ou que votre serveur n’est pas assez puissant, désactivez cette option pour améliorer les temps de chargement.</string>
     <string name="settings_ringtone">Sonnerie de notification</string>
     <string name="settings_ringtone_none">Aucun</string>
     <string name="settings_clear_default_sitemap">Sélectionner la Sitemap par défaut</string>
@@ -90,6 +92,7 @@
     <string name="error_http_code_511">L’authentification réseau est obligatoire (code de réponse HTTP 511)</string>
     <string name="error_about_no_conn">Erreur lors de la lecture d’informations sur le serveur openHAB</string>
     <string name="error_openhab_offline">Votre serveur openHAB est déconnecté alors que l\'instance dans le cloud est en cours d\'exécution</string>
+    <string name="error_no_app_store_found">Aucun magasin d\'application n\'a été trouvé pour installer l\'appli d\'identification vocale</string>
     <string name="title_activity_openhabwritetag">Écrire un tag NFC</string>
     <string name="title_activity_libraries">Librairies utilisées</string>
     <string name="info_write_tag">Approchez votre téléphone et gardez le proche du tag NFC jusqu\'à ce que le message de confirmation apparaisse</string>
