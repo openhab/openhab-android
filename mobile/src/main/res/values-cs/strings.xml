@@ -28,7 +28,6 @@
     <string name="settings_openhab_screentimeroff">Nezhasínat displej</string>
     <string name="settings_openhab_screentimeroff_summary">Zabránit systému zhasnout automaticky displej pokud je aplikace openHAB spuštěna</string>
     <string name="settings_openhab_demomode">Ukázkový režim</string>
-    <string name="settings_openhab_demomode_summary">Spustit v ukázkovém režimu</string>
     <string name="settings_openhab_theme">Motivy vzhledu</string>
     <string name="settings_openhab_fullscreen">Na celou obrazovku</string>
     <string name="settings_openhab_fullscreen_summary">Zobrazit v režimu celé obrazovky</string>
