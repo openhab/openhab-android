@@ -18,7 +18,6 @@
     <string name="settings_openhab_screentimeroff">Deshabilitar apagado de pantalla</string>
     <string name="settings_openhab_screentimeroff_summary">Deshabilita el temporizador que apaga la pantalla mientras se está ejecutando</string>
     <string name="settings_openhab_demomode">Modo demo</string>
-    <string name="settings_openhab_demomode_summary">Ejecutar openHAB App modo demo</string>
     <string name="settings_openhab_fullscreen_summary">Mostrar a pantalla completa</string>
     <string name="settings_openhab_icon_format">Formato de los iconos</string>
     <!-- App messages strings -->
