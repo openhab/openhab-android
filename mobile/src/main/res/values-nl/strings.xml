@@ -28,7 +28,6 @@
     <string name="settings_openhab_screentimeroff">Uitschakelen weergave timer</string>
     <string name="settings_openhab_screentimeroff_summary">Zet het uitschakelen van het scherm uit als de openHAB App actief is</string>
     <string name="settings_openhab_demomode">Demonstratiemodus</string>
-    <string name="settings_openhab_demomode_summary">Gebruik de openHAB App in demo modus</string>
     <string name="settings_openhab_theme">Thema</string>
     <string name="settings_openhab_fullscreen">Volledig scherm</string>
     <string name="settings_openhab_fullscreen_summary">Gebruik volledige scherm</string>
