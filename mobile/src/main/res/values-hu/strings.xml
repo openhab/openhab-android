@@ -28,6 +28,7 @@
     <string name="settings_openhab_screentimeroff">Időzített kijelző tiltása</string>
     <string name="settings_openhab_screentimeroff_summary">Ha openHAB fut. Tiltsa le a kijelzővel kapcsolatos időzítőket</string>
     <string name="settings_openhab_demomode">Bemutató mód</string>
+    <string name="settings_openhab_demomode_summary">Ha nincs openHAB szervere, engedélyezze a demo módot, hogy láthassa mire képes az openHAB.</string>
     <string name="settings_openhab_theme">Sablonok</string>
     <string name="settings_openhab_fullscreen">Teljes képernyő</string>
     <string name="settings_openhab_fullscreen_summary">Megjelenítése teljes képernyős módban</string>
