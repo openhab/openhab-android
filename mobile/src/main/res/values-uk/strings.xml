@@ -28,7 +28,7 @@
     <string name="settings_openhab_screentimeroff">Вимкнути таймер дисплею</string>
     <string name="settings_openhab_screentimeroff_summary">Вимкнути таймер вимикання дисплея, коли працює openHAB</string>
     <string name="settings_openhab_demomode">Демонстраційний режим</string>
-    <string name="settings_openhab_demomode_summary">Запустити в демонстраційному режимі</string>
+    <string name="settings_openhab_demomode_summary">Якщо ви не маєте сервера openHAB, увімкніть демонстраційний режим, щоб мати уяву на що openHAB здатний.</string>
     <string name="settings_openhab_theme">Тема</string>
     <string name="settings_openhab_fullscreen">Повноекранний режим</string>
     <string name="settings_openhab_fullscreen_summary">Відображення в повноекранному режимі</string>

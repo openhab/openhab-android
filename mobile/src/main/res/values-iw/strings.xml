@@ -28,7 +28,7 @@
     <string name="settings_openhab_screentimeroff">ביטול כיבוי מסך אוטומטי</string>
     <string name="settings_openhab_screentimeroff_summary">בטל את קוצב הזמן לכיבוי המסך כאשר אפליקצית openHAB פועלת</string>
     <string name="settings_openhab_demomode">מצב הדגמה</string>
-    <string name="settings_openhab_demomode_summary">הפעל במצב הדגמה</string>
+    <string name="settings_openhab_demomode_summary">אם אין לך שרת openHAB, הפעל במצב הדגמה כדי לראות את היכולות של openHAB.</string>
     <string name="settings_openhab_theme">ערכת עיצוב</string>
     <string name="settings_openhab_fullscreen">מסך מלא</string>
     <string name="settings_openhab_fullscreen_summary">הצג במסך מלא</string>

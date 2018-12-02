@@ -28,7 +28,6 @@
     <string name="settings_openhab_screentimeroff">Dezactiveaza afisarea cronometrului</string>
     <string name="settings_openhab_screentimeroff_summary">Dezactiveaza afisarea comutatorului de oprire a cronometrului atunci cand openHAB este pornit</string>
     <string name="settings_openhab_demomode">Modul demonstrativ</string>
-    <string name="settings_openhab_demomode_summary">Ruleaza in modul demonstrativ</string>
     <string name="settings_openhab_theme">Tema</string>
     <string name="settings_openhab_fullscreen">Ecran complet</string>
     <string name="settings_openhab_fullscreen_summary">Afișează în modul ecran complet</string>

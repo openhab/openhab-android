@@ -28,7 +28,6 @@
     <string name="settings_openhab_screentimeroff">Deaktiver skjermsparer</string>
     <string name="settings_openhab_screentimeroff_summary">Deaktiver skjermsparer når openHAB kjører</string>
     <string name="settings_openhab_demomode">Demomodus</string>
-    <string name="settings_openhab_demomode_summary">Kjør i demomodus</string>
     <string name="settings_openhab_theme">Tema</string>
     <string name="settings_openhab_fullscreen">Fullskjerm</string>
     <string name="settings_openhab_fullscreen_summary">Visning i fullskjerm modus</string>

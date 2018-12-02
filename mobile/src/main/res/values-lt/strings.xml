@@ -22,7 +22,6 @@
     <string name="settings_openhab_screentimeroff">Neleisti išjungti ekrano</string>
     <string name="settings_openhab_screentimeroff_summary">Neleisti išjungti ekrano, kol paleista openHAB programėlė</string>
     <string name="settings_openhab_demomode">Demonstracinis režimas</string>
-    <string name="settings_openhab_demomode_summary">Naudoti openHAB programėlę demonstraciniu režimu</string>
     <string name="settings_openhab_theme">openHAB tema</string>
     <string name="settings_openhab_fullscreen">Pilnas ekranas</string>
     <string name="settings_openhab_fullscreen_summary">Rodyti pilno ekrano režimu</string>

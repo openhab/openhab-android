@@ -22,7 +22,6 @@
     <string name="settings_openhab_screentimeroff">Nonaktifkan pewaktu tampilan</string>
     <string name="settings_openhab_screentimeroff_summary">Nonaktifkan tampilan matikan timer saat openHAB sedang berlari</string>
     <string name="settings_openhab_demomode">Mode demo</string>
-    <string name="settings_openhab_demomode_summary">Jalankan dalam mode demo</string>
     <string name="settings_openhab_theme">Tema</string>
     <string name="settings_openhab_fullscreen">Layar penuh</string>
     <string name="settings_openhab_fullscreen_summary">Tampilan dalam mode layar penuh</string>

@@ -28,7 +28,7 @@
     <string name="settings_openhab_screentimeroff">Disattivare la visualizzazione del timer</string>
     <string name="settings_openhab_screentimeroff_summary">Non mostrare timer di spegnimento quando openHAB e\' in esecuzione</string>
     <string name="settings_openhab_demomode">Modalità demo</string>
-    <string name="settings_openhab_demomode_summary">Esecuzione in modalità demo</string>
+    <string name="settings_openhab_demomode_summary">Se non hai un openHAB server, attiva la modalità demo e potrai immaginare ciò che openHAB è in grado di fare.</string>
     <string name="settings_openhab_theme">Tema</string>
     <string name="settings_openhab_fullscreen">Schermo intero</string>
     <string name="settings_openhab_fullscreen_summary">Visualizza a schermo intero</string>
@@ -41,6 +41,8 @@
     <string name="settings_chart_scaling_value_s">Piccolo</string>
     <string name="settings_chart_scaling_value_m">Predefinito</string>
     <string name="settings_chart_scaling_value_l">Grande</string>
+    <string name="settings_openhab_chart_hq">Grafici in alta risoluzione</string>
+    <string name="settings_openhab_chart_hq_summary">La generazione dei grafici può essere pesante per il server. Se noti una lentezza nel caricamento dei grafici e il server non è potente, disabilita la funzione per migliorare il tempo di caricamento.</string>
     <string name="settings_ringtone">Suono di Notifica</string>
     <string name="settings_ringtone_none">Nessuno</string>
     <string name="settings_clear_default_sitemap">Cancella Sitemap predefinito</string>

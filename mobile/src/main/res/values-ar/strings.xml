@@ -25,7 +25,6 @@
     <string name="settings_openhab_screentimeroff">تعطيل عرض المؤقت</string>
     <string name="settings_openhab_screentimeroff_summary">تعطيل عرض إيقاف المؤقت عند تشغيل openHAB</string>
     <string name="settings_openhab_demomode">الوضع التجريبي</string>
-    <string name="settings_openhab_demomode_summary">تشغيل في الوضع التجريبي</string>
     <string name="settings_openhab_theme">السمة</string>
     <string name="settings_openhab_fullscreen">ملء الشاشة</string>
     <string name="settings_openhab_fullscreen_summary">عرض في وضع ملء الشاشة</string>
