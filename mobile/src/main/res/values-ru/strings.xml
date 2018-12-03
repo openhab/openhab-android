@@ -18,7 +18,7 @@
     <string name="settings_openhab_url">URL адрес локального openHAB</string>
     <string name="settings_openhab_url_summary">URL-адрес панели openHAB. Если указано имя хоста или IP-адрес, то автообнаружение будет отключено. Текущие настройки: %s</string>
     <string name="settings_openhab_alturl">URL-адрес удаленного openHAB</string>
-    <string name="settings_openhab_alturl_summary">URL-адрес панели openHAB, используется, когда локальный адрес недоступен. Текущие настройки: %s</string>
+    <string name="settings_openhab_alturl_summary">URL-адрес панели openHAB используется, когда локальный адрес недоступен. Текущие настройки: %s</string>
     <string name="settings_openhab_username">Пользователь</string>
     <string name="settings_openhab_password">Пароль</string>
     <string name="settings_openhab_password_summary_weak">Слабый пароль</string>
@@ -28,12 +28,12 @@
     <string name="settings_openhab_screentimeroff">Отключить таймер дисплея</string>
     <string name="settings_openhab_screentimeroff_summary">Дисплей всегда включен при запущенном openHAB</string>
     <string name="settings_openhab_demomode">Демо режим</string>
-    <string name="settings_openhab_demomode_summary">Если у вас нет сервера openHAB - включите режим Demo, чтобы понять на что способен openHAB.</string>
+    <string name="settings_openhab_demomode_summary">Если у вас нет сервера openHAB - включите режим Демо, чтобы понять на что способен openHAB.</string>
     <string name="settings_openhab_theme">Тема</string>
     <string name="settings_openhab_fullscreen">Во весь экран</string>
     <string name="settings_openhab_fullscreen_summary">Показать во весь экран</string>
     <string name="settings_openhab_icon_format">Формат иконок</string>
-    <string name="settings_openhab_icon_format_png">Bitmap</string>
+    <string name="settings_openhab_icon_format_png">Точечный рисунок</string>
     <string name="settings_openhab_icon_format_svg">Vector</string>
     <string name="settings_chart_scaling">Масштаб графика</string>
     <string name="settings_chart_scaling_summary">Примечание. Уменьшение масштаба сокращает размер шрифтов и толщину линий, поэтому для графика остается больше места, но может пострадать читаемость шрифтов.</string>
