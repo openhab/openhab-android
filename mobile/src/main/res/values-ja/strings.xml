@@ -28,6 +28,7 @@
     <string name="settings_openhab_screentimeroff">ディスプレイタイマーを無効にする</string>
     <string name="settings_openhab_screentimeroff_summary">openHAB が実行中のとき、ディスプレイがオフにならないようにします</string>
     <string name="settings_openhab_demomode">デモモード</string>
+    <string name="settings_openhab_demomode_summary">openHAB サーバーをお持ちでない場合は、デモモードを有効にすると、openHAB どのようなことができるか想像できます。</string>
     <string name="settings_openhab_theme">テーマ</string>
     <string name="settings_openhab_fullscreen">フルスクリーン</string>
     <string name="settings_openhab_fullscreen_summary">全画面モードで表示します</string>
