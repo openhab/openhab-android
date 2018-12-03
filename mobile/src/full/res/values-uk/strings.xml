@@ -10,8 +10,8 @@
     <string name="notification_channel_severity_value">Строго \'%1$s\'</string>
     <plurals name="summary_notification_text">
         <item quantity="one">%d сповіщення</item>
-        <item quantity="few">%d сповіщень</item>
+        <item quantity="few">%d сповіщення</item>
         <item quantity="many">%d сповіщень</item>
-        <item quantity="other">%d сповіщень</item>
+        <item quantity="other">%d сповіщення</item>
     </plurals>
 </resources>
