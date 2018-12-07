@@ -26,7 +26,8 @@
         android:resizeableActivity="true"
         android:supportsPictureInPicture="false"
         android:supportsRtl="true"
-        android:theme="@style/HABDroid.Light">
+        android:theme="@style/HABDroid.Light"
+        android:networkSecurityConfig="@xml/network_security_config">
         <activity
             android:name=".ui.PreferencesActivity"
             android:label="@string/app_preferences_name">
