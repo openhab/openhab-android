@@ -38,6 +38,8 @@ public class Constants {
     public static final String PREFERENCE_CHART_HQ            = "default_openhab_chart_hq";
     public static final String PREFERENCE_ICON_FORMAT         = "iconFormatType";
 
+    public static final String PREV_SERVER_FLAGS              = "prevServerFlags";
+
     public static final String SUBSCREEN_LOCAL_CONNECTION     = "default_openhab_local_connection";
     public static final String SUBSCREEN_REMOTE_CONNECTION    = "default_openhab_remote_connection";
 }

@@ -101,6 +101,7 @@ import javax.jmdns.ServiceInfo;
 import javax.net.ssl.SSLException;
 import javax.net.ssl.SSLPeerUnverifiedException;
 
+import static org.openhab.habdroid.util.Constants.PREV_SERVER_FLAGS;
 import static org.openhab.habdroid.util.Util.exceptionHasCause;
 import static org.openhab.habdroid.util.Util.getHostFromUrl;
 
@@ -296,6 +297,12 @@ public class MainActivity extends AppCompatActivity implements
                     showSitemapSelectionDialog();
                 }
             }
+            if (!(getConnection() instanceof DemoConnection)) {
+                PreferenceManager.getDefaultSharedPreferences(this)
+                        .edit()
+                        .putInt(PREV_SERVER_FLAGS, props.flags())
+                        .apply();
+            }
         };
         mPropsUpdateHandle = ServerProperties.fetch(mConnection,
                 successCb, this::handlePropertyFetchFailure);
@@ -309,8 +316,10 @@ public class MainActivity extends AppCompatActivity implements
         String serverUrl = "https://" + serviceInfo.getHostAddresses()[0] + ":"
                 + String.valueOf(serviceInfo.getPort()) + "/";
 
-        PreferenceManager.getDefaultSharedPreferences(this).edit()
-                .putString(Constants.PREFERENCE_LOCAL_URL, serverUrl).apply();
+        PreferenceManager.getDefaultSharedPreferences(this)
+                .edit()
+                .putString(Constants.PREFERENCE_LOCAL_URL, serverUrl)
+                .apply();
         // We'll get a connection update later
         mServiceResolver = null;
     }
