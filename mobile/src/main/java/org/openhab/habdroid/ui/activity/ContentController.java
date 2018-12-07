@@ -717,7 +717,7 @@ public abstract class ContentController implements PageConnectionHolderFragment.
 
                 @Override
                 public void onReceivedError(WebView view, WebResourceRequest request,
-                        WebResourceError error){
+                        WebResourceError error) {
                     updateViewVisibility(true, false, getView());
                 }
 
