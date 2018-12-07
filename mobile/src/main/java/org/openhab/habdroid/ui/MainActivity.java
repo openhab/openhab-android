@@ -298,8 +298,10 @@ public class MainActivity extends AppCompatActivity implements
                 }
             }
             if (!(getConnection() instanceof DemoConnection)) {
-                PreferenceManager.getDefaultSharedPreferences(this).edit()
-                        .putInt(PREV_SERVER_FLAGS, props.flags()).apply();
+                PreferenceManager.getDefaultSharedPreferences(this)
+                        .edit()
+                        .putInt(PREV_SERVER_FLAGS, props.flags())
+                        .apply();
             }
         };
         mPropsUpdateHandle = ServerProperties.fetch(mConnection,
@@ -314,8 +316,10 @@ public class MainActivity extends AppCompatActivity implements
         String serverUrl = "https://" + serviceInfo.getHostAddresses()[0] + ":"
                 + String.valueOf(serviceInfo.getPort()) + "/";
 
-        PreferenceManager.getDefaultSharedPreferences(this).edit()
-                .putString(Constants.PREFERENCE_LOCAL_URL, serverUrl).apply();
+        PreferenceManager.getDefaultSharedPreferences(this)
+                .edit()
+                .putString(Constants.PREFERENCE_LOCAL_URL, serverUrl)
+                .apply();
         // We'll get a connection update later
         mServiceResolver = null;
     }
