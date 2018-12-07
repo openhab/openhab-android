@@ -44,6 +44,7 @@ import org.openhab.habdroid.util.Util;
 
 import java.util.BitSet;
 
+import static org.openhab.habdroid.util.Constants.PREV_SERVER_FLAGS;
 import static org.openhab.habdroid.util.Util.getHostFromUrl;
 
 /**
@@ -323,7 +324,8 @@ public class PreferencesActivity extends AppCompatActivity {
 
             final ServerProperties props =
                     getActivity().getIntent().getParcelableExtra(START_EXTRA_SERVER_PROPERTIES);
-            final int flags = props != null ? props.flags() : 0;
+            final int flags = props != null ? props.flags() :
+                    getPreferenceScreen().getSharedPreferences().getInt(PREV_SERVER_FLAGS, 0);
 
             if ((flags & ServerProperties.SERVER_FLAG_ICON_FORMAT_SUPPORT) == 0) {
                 Preference iconFormatPreference =

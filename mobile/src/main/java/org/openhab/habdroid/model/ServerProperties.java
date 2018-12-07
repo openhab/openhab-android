@@ -1,6 +1,8 @@
 package org.openhab.habdroid.model;
 
+import android.content.Context;
 import android.os.Parcelable;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.google.auto.value.AutoValue;
@@ -11,6 +13,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.openhab.habdroid.core.connection.Connection;
+import org.openhab.habdroid.core.connection.DemoConnection;
 import org.openhab.habdroid.util.AsyncHttpClient;
 import org.openhab.habdroid.util.Util;
 import org.w3c.dom.Document;
@@ -25,6 +28,8 @@ import java.util.List;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+
+import static org.openhab.habdroid.util.Constants.PREV_SERVER_FLAGS;
 
 @AutoValue
 public abstract class ServerProperties implements Parcelable {
@@ -88,15 +93,16 @@ public abstract class ServerProperties implements Parcelable {
     }
 
     public static UpdateHandle fetch(Connection connection,
-            UpdateSuccessCallback successCb, UpdateFailureCallback failureCb) {
+            UpdateSuccessCallback successCb, UpdateFailureCallback failureCb, Context context) {
         final UpdateHandle handle = new UpdateHandle();
         handle.builder = new AutoValue_ServerProperties.Builder();
-        fetchFlags(connection.getAsyncHttpClient(), handle, successCb, failureCb);
+        fetchFlags(connection, handle, successCb, failureCb, context);
         return handle;
     }
 
-    private static void fetchFlags(AsyncHttpClient client, UpdateHandle handle,
-            UpdateSuccessCallback successCb, UpdateFailureCallback failureCb) {
+    private static void fetchFlags(Connection connection, UpdateHandle handle,
+            UpdateSuccessCallback successCb, UpdateFailureCallback failureCb, Context context) {
+        AsyncHttpClient client = connection.getAsyncHttpClient();
         handle.call = client.get("rest", new AsyncHttpClient.StringResponseHandler() {
             @Override
             public void onFailure(Request request, int statusCode, Throwable error) {
@@ -121,11 +127,19 @@ public abstract class ServerProperties implements Parcelable {
                     }
                     handle.builder.flags(flags);
                     fetchSitemaps(client, handle, successCb, failureCb);
+                    if (!(connection instanceof DemoConnection)) {
+                        PreferenceManager.getDefaultSharedPreferences(context).edit()
+                                .putInt(PREV_SERVER_FLAGS, flags).apply();
+                    }
                 } catch (JSONException e) {
                     if (response.startsWith("<?xml")) {
                         // We're talking to an OH1 instance
                         handle.builder.flags(0);
                         fetchSitemaps(client, handle, successCb, failureCb);
+                        if (!(connection instanceof DemoConnection)) {
+                            PreferenceManager.getDefaultSharedPreferences(context).edit()
+                                    .putInt(PREV_SERVER_FLAGS, 0).apply();
+                        }
                     } else {
                         failureCb.handleUpdateFailure(handle.call.request(), 200, e);
                     }

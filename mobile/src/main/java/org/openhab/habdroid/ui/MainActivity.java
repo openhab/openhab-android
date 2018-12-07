@@ -298,7 +298,7 @@ public class MainActivity extends AppCompatActivity implements
             }
         };
         mPropsUpdateHandle = ServerProperties.fetch(mConnection,
-                successCb, this::handlePropertyFetchFailure);
+                successCb, this::handlePropertyFetchFailure, this);
     }
 
     @Override
