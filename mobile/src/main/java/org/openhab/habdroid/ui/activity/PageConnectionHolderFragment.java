@@ -380,12 +380,23 @@ public class PageConnectionHolderFragment extends Fragment {
             }
         }
 
-        boolean handleUpdateEvent(String payload) {
+        void handleUpdateEvent(String payload) {
             if (mLastWidgetList == null) {
-                return false;
+                return;
             }
             try {
                 JSONObject object = new JSONObject(payload);
+
+                String eventType = object.optString("TYPE");
+                if ("SITEMAP_CHANGED".equals(eventType)) {
+                    cancel();
+                    load();
+                    return;
+                } else if ("ALIVE".equals(eventType)) {
+                    // We ignore 'server alive' events
+                    return;
+                }
+
                 String widgetId = object.getString("widgetId");
                 for (int i = 0; i < mLastWidgetList.size(); i++) {
                     Widget widget = mLastWidgetList.get(i);
@@ -394,13 +405,12 @@ public class PageConnectionHolderFragment extends Fragment {
                                 object, mCallback.getIconFormat());
                         mLastWidgetList.set(i, updatedWidget);
                         mCallback.onWidgetUpdated(mUrl, updatedWidget);
-                        return true;
+                        return;
                     }
                 }
             } catch (JSONException e) {
                 Log.w(TAG, "Could not parse SSE event ('" + payload + "')", e);
             }
-            return false;
         }
 
         void handleSseSubscriptionFailure() {
