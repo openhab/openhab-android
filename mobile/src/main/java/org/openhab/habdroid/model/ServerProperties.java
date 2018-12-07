@@ -34,6 +34,7 @@ public abstract class ServerProperties implements Parcelable {
     public static final int SERVER_FLAG_SSE_SUPPORT           = 1 << 1;
     public static final int SERVER_FLAG_ICON_FORMAT_SUPPORT   = 1 << 2;
     public static final int SERVER_FLAG_CHART_SCALING_SUPPORT = 1 << 3;
+    public static final int SERVER_FLAG_HABPANEL_INSTALLED    = 1 << 4;
 
     public static class UpdateHandle {
         public void cancel() {
@@ -64,6 +65,10 @@ public abstract class ServerProperties implements Parcelable {
 
     public boolean hasSseSupport() {
         return (flags() & SERVER_FLAG_SSE_SUPPORT) != 0;
+    }
+
+    public boolean hasHabpanelInstalled() {
+        return (flags() & SERVER_FLAG_HABPANEL_INSTALLED) != 0;
     }
 
     abstract Builder toBuilder();
@@ -119,6 +124,15 @@ public abstract class ServerProperties implements Parcelable {
                     } catch (NumberFormatException nfe) {
                         // ignored: older versions without SSE support didn't return a number
                     }
+
+                    JSONArray jsonArray = result.getJSONArray("links");
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        JSONObject extensionJson = jsonArray.getJSONObject(i);
+                        if (extensionJson.getString("type").equals("habpanel")) {
+                            flags |= SERVER_FLAG_HABPANEL_INSTALLED;
+                        }
+                    }
+
                     handle.builder.flags(flags);
                     fetchSitemaps(client, handle, successCb, failureCb);
                 } catch (JSONException e) {

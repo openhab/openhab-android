@@ -7,11 +7,13 @@
     <string name="openhab_service_type" translatable="false">_openhab-server-ssl._tcp.local.</string>
     <string name="app_preferences_name">Settings</string>
     <string name="app_notifications">Notifications</string>
-    <string name="empty_string" translatable="false"></string>
+    <string name="empty_string" translatable="false" />
 
     <!-- Main menu items -->
     <string name="mainmenu_openhab_sitemaps">Sitemaps</string>
     <string name="mainmenu_openhab_preferences">Settings</string>
+    <string name="mainmenu_openhab_habpanel">HABPanel</string>
+    <string name="habpanel_error">An error occurred while loading HABPanel</string>
     <string name="mainmenu_openhab_selectsitemap">Select default Sitemap</string>
     <string name="mainmenu_openhab_clearcache">Clear images cache</string>
 

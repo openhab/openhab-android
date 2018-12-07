@@ -24,6 +24,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewStub;
+import android.webkit.WebResourceError;
+import android.webkit.WebResourceRequest;
+import android.webkit.WebResourceResponse;
+import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -38,14 +42,18 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import okhttp3.HttpUrl;
 
 import org.openhab.habdroid.R;
+import org.openhab.habdroid.core.connection.CloudConnection;
 import org.openhab.habdroid.core.connection.Connection;
 import org.openhab.habdroid.core.connection.ConnectionFactory;
+import org.openhab.habdroid.core.connection.exception.ConnectionException;
 import org.openhab.habdroid.model.LinkedPage;
 import org.openhab.habdroid.model.ServerProperties;
 import org.openhab.habdroid.model.Sitemap;
 import org.openhab.habdroid.model.Widget;
+import org.openhab.habdroid.ui.AnchorWebViewClient;
 import org.openhab.habdroid.ui.CloudNotificationListFragment;
 import org.openhab.habdroid.ui.MainActivity;
 import org.openhab.habdroid.ui.PreferencesActivity;
@@ -222,6 +230,10 @@ public abstract class ContentController implements PageConnectionHolderFragment.
         }
     }
 
+    public void showHabpanel() {
+        showTemporaryPage(HabpanelFragment.newInstance());
+    }
+
     /**
      * Indicate to the user that no network connectivity is present.
      *
@@ -357,6 +369,8 @@ public abstract class ContentController implements PageConnectionHolderFragment.
                 return mActivity.getString(R.string.app_notifications);
             } else if (mTemporaryPage instanceof WidgetListFragment) {
                 return ((WidgetListFragment) mTemporaryPage).getTitle();
+            } else if (mTemporaryPage instanceof HabpanelFragment) {
+                return mActivity.getString(R.string.mainmenu_openhab_habpanel);
             }
             return null;
         } else {
@@ -651,6 +665,89 @@ public abstract class ContentController implements PageConnectionHolderFragment.
                 // If Wifi is disabled, secondary button suggests enabling Wifi
                 ((MainActivity) getActivity()).enableWifiAndIndicateStartup();
             }
+        }
+    }
+
+    public static class HabpanelFragment extends Fragment implements
+            ConnectionFactory.UpdateListener {
+        Connection mConnection;
+        public static HabpanelFragment newInstance() {
+            return new HabpanelFragment();
+        }
+
+        @Override
+        public View onCreateView(@NonNull LayoutInflater inflater,
+                                 ViewGroup container, Bundle savedInstanceState) {
+            View view = inflater.inflate(R.layout.fragment_habpanel, container, false);
+
+            TextView retryButton = view.findViewById(R.id.retry_button);
+            retryButton.setOnClickListener(v -> loadHabpanel(view));
+            loadHabpanel(view);
+
+            return view;
+        }
+
+        private void loadHabpanel(View view) {
+            updateViewVisibility(false, true, view);
+            try {
+                mConnection = ConnectionFactory.getUsableConnection();
+            } catch (ConnectionException e) {
+                updateViewVisibility(true, false, view);
+                return;
+            }
+
+            if (mConnection == null) {
+                updateViewVisibility(true, false, view);
+                return;
+            } else {
+                updateViewVisibility(false, true, view);
+            }
+
+            HttpUrl url = mConnection.getAsyncHttpClient().buildUrl("/habpanel/index.html");
+
+            WebView webView = view.findViewById(R.id.webview);
+
+            webView.setWebViewClient(new AnchorWebViewClient(url.toString(),
+                    mConnection.getUsername(), mConnection.getPassword()) {
+                @Override
+                public void onPageFinished(WebView view, String url) {
+                    updateViewVisibility(false, false, getView());
+                }
+
+                @Override
+                public void onReceivedError(WebView view, WebResourceRequest request,
+                                            WebResourceError error){
+                    updateViewVisibility(true, false, getView());
+                }
+
+                @Override
+                public void onReceivedHttpError(WebView view, WebResourceRequest request,
+                                                WebResourceResponse errorResponse) {
+                    updateViewVisibility(true, false, getView());
+                }
+            });
+            webView.getSettings().setDomStorageEnabled(true);
+            webView.getSettings().setJavaScriptEnabled(true);
+            webView.loadUrl(url.toString());
+        }
+
+        private void updateViewVisibility(boolean error, boolean loading, @NonNull View view) {
+            if (view == null) {
+                return;
+            }
+            view.findViewById(R.id.webview).setVisibility(error ? View.GONE : View.VISIBLE);
+            view.findViewById(android.R.id.empty).setVisibility(error ? View.VISIBLE : View.GONE);
+            view.findViewById(R.id.progress).setVisibility(loading ? View.VISIBLE : View.GONE);
+        }
+
+        @Override
+        public void onAvailableConnectionChanged() {
+            loadHabpanel(getView());
+        }
+
+        @Override
+        public void onCloudConnectionChanged(CloudConnection connection) {
+            loadHabpanel(getView());
         }
     }
 
