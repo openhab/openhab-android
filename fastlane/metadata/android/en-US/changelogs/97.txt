@@ -1,0 +1,7 @@
+## Fixed
+* Fix back arrow behavior in about (#1122)
+* Fix SSE sitemap event handling. (#1109)
+* Show correct settings when offline (#1123)
+
+## Changed
+* Bump dependencies
