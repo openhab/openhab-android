@@ -42,8 +42,8 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import okhttp3.HttpUrl;
 
+import okhttp3.HttpUrl;
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.core.connection.CloudConnection;
 import org.openhab.habdroid.core.connection.Connection;
@@ -671,13 +671,14 @@ public abstract class ContentController implements PageConnectionHolderFragment.
     public static class HabpanelFragment extends Fragment implements
             ConnectionFactory.UpdateListener {
         Connection mConnection;
+
         public static HabpanelFragment newInstance() {
             return new HabpanelFragment();
         }
 
         @Override
         public View onCreateView(@NonNull LayoutInflater inflater,
-                                 ViewGroup container, Bundle savedInstanceState) {
+                ViewGroup container, Bundle savedInstanceState) {
             View view = inflater.inflate(R.layout.fragment_habpanel, container, false);
 
             TextView retryButton = view.findViewById(R.id.retry_button);
@@ -716,13 +717,13 @@ public abstract class ContentController implements PageConnectionHolderFragment.
 
                 @Override
                 public void onReceivedError(WebView view, WebResourceRequest request,
-                                            WebResourceError error){
+                        WebResourceError error){
                     updateViewVisibility(true, false, getView());
                 }
 
                 @Override
                 public void onReceivedHttpError(WebView view, WebResourceRequest request,
-                                                WebResourceResponse errorResponse) {
+                        WebResourceResponse errorResponse) {
                     updateViewVisibility(true, false, getView());
                 }
             });

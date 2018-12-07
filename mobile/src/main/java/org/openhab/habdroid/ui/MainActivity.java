@@ -558,7 +558,10 @@ public class MainActivity extends AppCompatActivity implements
                 if (mServerProperties != null && mPropsUpdateHandle == null) {
                     mPropsUpdateHandle = ServerProperties.updateSitemaps(mServerProperties,
                             mConnection,
-                            props -> { mServerProperties = props; updateSitemapAndHabpanelDrawerItems(); },
+                            props -> {
+                                mServerProperties = props;
+                                updateSitemapAndHabpanelDrawerItems();
+                            },
                             MainActivity.this::handlePropertyFetchFailure);
                 }
             }
