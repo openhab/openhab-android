@@ -101,6 +101,7 @@ import javax.jmdns.ServiceInfo;
 import javax.net.ssl.SSLException;
 import javax.net.ssl.SSLPeerUnverifiedException;
 
+import static org.openhab.habdroid.util.Constants.PREV_SERVER_FLAGS;
 import static org.openhab.habdroid.util.Util.exceptionHasCause;
 import static org.openhab.habdroid.util.Util.getHostFromUrl;
 
@@ -296,9 +297,13 @@ public class MainActivity extends AppCompatActivity implements
                     showSitemapSelectionDialog();
                 }
             }
+            if (!(getConnection() instanceof DemoConnection)) {
+                PreferenceManager.getDefaultSharedPreferences(this).edit()
+                        .putInt(PREV_SERVER_FLAGS, props.flags()).apply();
+            }
         };
         mPropsUpdateHandle = ServerProperties.fetch(mConnection,
-                successCb, this::handlePropertyFetchFailure, this);
+                successCb, this::handlePropertyFetchFailure);
     }
 
     @Override
