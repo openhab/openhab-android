@@ -927,7 +927,7 @@ public class MainActivity extends AppCompatActivity implements
                 startActivity(new Intent(Intent.ACTION_VIEW,
                         Uri.parse("market://details?id=com.google.android.googlequicksearchbox")));
             } catch (ActivityNotFoundException appStoreNotFoundException) {
-                Toasty.error(this, getString(R.string.error_no_app_store_found),
+                Toasty.error(this, R.string.error_no_app_store_found,
                         Toast.LENGTH_LONG, true).show();
             }
         }
