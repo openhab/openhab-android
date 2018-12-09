@@ -18,4 +18,4 @@ bash travis/bump-versioncode.sh
 for i in {1..5}; do bash travis/start-emulator.sh phone && break || sleep 15; done
 
 ./gradlew :mobile:assemble{Foss,Full}${releaseFlavorCapital}{Debug,Release} :mobile:test{Foss,Full}${releaseFlavorCapital}ReleaseUnitTest
-for i in {1..2}; do ./gradlew :mobile:connected{Foss,Full}${releaseFlavorCapital}DebugAndroidTest && break || sleep 15; done
+for i in {1..3}; do ./gradlew :mobile:connected{Foss,Full}${releaseFlavorCapital}DebugAndroidTest && break || sleep 15; done
