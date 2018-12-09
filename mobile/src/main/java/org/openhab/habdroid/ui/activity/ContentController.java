@@ -223,7 +223,7 @@ public abstract class ContentController implements PageConnectionHolderFragment.
     }
 
     /**
-     * Indicate to the user that no network connectivity is present
+     * Indicate to the user that no network connectivity is present.
      *
      * @param message Error message to show
      */
@@ -236,7 +236,7 @@ public abstract class ContentController implements PageConnectionHolderFragment.
     }
 
     /**
-     * Indicate to the user that no network connectivity is present and Wi-Fi is disabled
+     * Indicate to the user that no network connectivity is present and Wi-Fi is disabled.
      *
      * @param message Error message to show
      */
@@ -727,7 +727,7 @@ public abstract class ContentController implements PageConnectionHolderFragment.
         }
 
         /**
-         * Set description text or hide TextView
+         * Set description text or hide TextView.
          *
          * @return true if button is shown, false if not.
          */
@@ -744,7 +744,7 @@ public abstract class ContentController implements PageConnectionHolderFragment.
         }
 
         /**
-         * Set button text and tag or hide button
+         * Set button text and tag or hide button.
          *
          * @return true if button is shown, false if not.
          */
