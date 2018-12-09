@@ -226,24 +226,16 @@ public abstract class ContentController implements PageConnectionHolderFragment.
      * Indicate to the user that no network connectivity is present.
      *
      * @param message Error message to show
+     * @param shouldSuggestEnablingWifi
      */
-    public void indicateNoNetwork(CharSequence message) {
+    public void indicateNoNetwork(CharSequence message, boolean shouldSuggestEnablingWifi) {
         Log.d(TAG, "Indicate no network (message " + message + ")");
         resetState();
-        mNoConnectionFragment = NoNetworkFragment.newInstance(message);
-        updateFragmentState(FragmentUpdateReason.PAGE_UPDATE);
-        mActivity.updateTitle();
-    }
-
-    /**
-     * Indicate to the user that no network connectivity is present and Wi-Fi is disabled.
-     *
-     * @param message Error message to show
-     */
-    public void indicateEnableWifiNetwork(CharSequence message) {
-        Log.d(TAG, "Indicate enable wifi (message " + message + ")");
-        resetState();
-        mNoConnectionFragment = EnableWifiNetworkFragment.newInstance(message);
+        if (shouldSuggestEnablingWifi) {
+            mNoConnectionFragment = EnableWifiNetworkFragment.newInstance(message);
+        } else {
+            mNoConnectionFragment = NoNetworkFragment.newInstance(message);
+        }
         updateFragmentState(FragmentUpdateReason.PAGE_UPDATE);
         mActivity.updateTitle();
     }
@@ -669,11 +661,8 @@ public abstract class ContentController implements PageConnectionHolderFragment.
 
             View view = inflater.inflate(R.layout.fragment_status, container, false);
 
-            boolean needsOr = false;
-            if (setDescription(arguments, view, R.id.description1, KEY_MESSAGE_1)
-                    & setDescription(arguments, view, R.id.description2, KEY_MESSAGE_2)) {
-                needsOr = true;
-            }
+            boolean needsOr = setDescription(arguments, view, R.id.description1, KEY_MESSAGE_1)
+                    && setDescription(arguments, view, R.id.description2, KEY_MESSAGE_2);
 
             view.findViewById(R.id.progress).setVisibility(
                     arguments.getBoolean(KEY_PROGRESS) ? View.VISIBLE : View.GONE);
@@ -690,11 +679,9 @@ public abstract class ContentController implements PageConnectionHolderFragment.
                 watermark.setVisibility(View.GONE);
             }
 
-            if (initButton(arguments, view, R.id.button1, KEY_BUTTON_1_TEXT, KEY_BUTTON_1_TAG)
-                    & initButton(arguments, view, R.id.button2, KEY_BUTTON_2_TEXT,
-                    KEY_BUTTON_2_TAG)) {
-                needsOr = true;
-            }
+            needsOr = initButton(arguments, view, R.id.button1, KEY_BUTTON_1_TEXT, KEY_BUTTON_1_TAG)
+                    && initButton(arguments, view, R.id.button2, KEY_BUTTON_2_TEXT,
+                    KEY_BUTTON_2_TAG);
 
             TextView or = view.findViewById(R.id.or);
             or.setVisibility(needsOr ? View.VISIBLE : View.GONE);

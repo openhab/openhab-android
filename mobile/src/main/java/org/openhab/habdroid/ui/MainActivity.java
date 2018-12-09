@@ -445,18 +445,19 @@ public class MainActivity extends AppCompatActivity implements
                     mController.indicateMissingConfiguration(false);
                 }
             } else if (failureReason != null) {
+                WifiManager wifiManager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
                 if (failureReason instanceof NetworkNotSupportedException) {
                     NetworkInfo info =
                             ((NetworkNotSupportedException) failureReason).getNetworkInfo();
                     mController.indicateNoNetwork(
-                            getString(R.string.error_network_type_unsupported, info.getTypeName()));
+                            getString(R.string.error_network_type_unsupported, info.getTypeName()), false);
                 } else if (failureReason instanceof NetworkNotAvailableException
-                        && !((WifiManager) getSystemService(Context.WIFI_SERVICE))
-                        .isWifiEnabled()) {
-                    mController.indicateEnableWifiNetwork(
-                            getString(R.string.error_wifi_not_available));
+                        && !wifiManager.isWifiEnabled()) {
+                    mController.indicateNoNetwork(
+                            getString(R.string.error_wifi_not_available), true);
                 } else {
-                    mController.indicateNoNetwork(getString(R.string.error_network_not_available));
+                    mController.indicateNoNetwork(getString(R.string.error_network_not_available),
+                            false);
                 }
             } else {
                 mController.updateConnection(null, null);
