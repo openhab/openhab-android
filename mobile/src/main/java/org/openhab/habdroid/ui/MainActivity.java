@@ -27,6 +27,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.net.wifi.WifiManager;
 import android.nfc.NfcAdapter;
 import android.os.Build;
 import android.os.Bundle;
@@ -74,6 +75,7 @@ import org.openhab.habdroid.core.connection.Connection;
 import org.openhab.habdroid.core.connection.ConnectionFactory;
 import org.openhab.habdroid.core.connection.DemoConnection;
 import org.openhab.habdroid.core.connection.exception.ConnectionException;
+import org.openhab.habdroid.core.connection.exception.NetworkNotAvailableException;
 import org.openhab.habdroid.core.connection.exception.NetworkNotSupportedException;
 import org.openhab.habdroid.core.connection.exception.NoUrlInformationException;
 import org.openhab.habdroid.model.LinkedPage;
@@ -443,16 +445,18 @@ public class MainActivity extends AppCompatActivity implements
                     mController.indicateMissingConfiguration(false);
                 }
             } else if (failureReason != null) {
-                final String message;
                 if (failureReason instanceof NetworkNotSupportedException) {
                     NetworkInfo info =
                             ((NetworkNotSupportedException) failureReason).getNetworkInfo();
-                    message = getString(R.string.error_network_type_unsupported,
-                            info.getTypeName());
+                    mController.indicateNoNetwork(
+                            getString(R.string.error_network_type_unsupported, info.getTypeName()));
+                } else if (failureReason instanceof NetworkNotAvailableException
+                        && !((WifiManager) getSystemService(Context.WIFI_SERVICE)).isWifiEnabled()) {
+                    mController.indicateEnableWifiNetwork(
+                            getString(R.string.error_wifi_not_available));
                 } else {
-                    message = getString(R.string.error_network_not_available);
+                    mController.indicateNoNetwork(getString(R.string.error_network_not_available));
                 }
-                mController.indicateNoNetwork(message);
             } else {
                 mController.updateConnection(null, null);
             }

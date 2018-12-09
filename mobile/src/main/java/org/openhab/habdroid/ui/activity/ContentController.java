@@ -14,6 +14,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
@@ -28,6 +29,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.AnimRes;
 import androidx.annotation.DrawableRes;
+import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
@@ -48,6 +50,7 @@ import org.openhab.habdroid.ui.CloudNotificationListFragment;
 import org.openhab.habdroid.ui.MainActivity;
 import org.openhab.habdroid.ui.PreferencesActivity;
 import org.openhab.habdroid.ui.WidgetListFragment;
+import org.openhab.habdroid.util.Constants;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -232,16 +235,26 @@ public abstract class ContentController implements PageConnectionHolderFragment.
         mActivity.updateTitle();
     }
 
+    public void indicateEnableWifiNetwork(CharSequence message) {
+        Log.d(TAG, "Indicate enable wifi (message " + message + ")");
+        resetState();
+        mNoConnectionFragment = EnableWifiNetworkFragment.newInstance(message);
+        updateFragmentState(FragmentUpdateReason.PAGE_UPDATE);
+        mActivity.updateTitle();
+    }
+
     /**
      * Indicate to the user that server configuration is missing.
      *
      * @param resolveAttempted Indicate if discovery was attempted, but not successful
      */
     public void indicateMissingConfiguration(boolean resolveAttempted) {
-        Log.d(TAG, "Indicate missing configuration (resolveAttempted " + resolveAttempted + ")");
+        Log.d(TAG, "Indicate missing configuration (resolveAttempted "
+                + resolveAttempted + ")");
         resetState();
-        mNoConnectionFragment =
-                MissingConfigurationFragment.newInstance(mActivity, resolveAttempted);
+        WifiManager wifiManager = (WifiManager) mActivity.getSystemService(Context.WIFI_SERVICE);
+        mNoConnectionFragment = MissingConfigurationFragment
+                .newInstance(mActivity, resolveAttempted, wifiManager.isWifiEnabled());
         updateFragmentState(FragmentUpdateReason.PAGE_UPDATE);
         mActivity.updateTitle();
     }
@@ -543,99 +556,125 @@ public abstract class ContentController implements PageConnectionHolderFragment.
     public static class CommunicationFailureFragment extends StatusFragment {
         public static CommunicationFailureFragment newInstance(CharSequence message) {
             CommunicationFailureFragment f = new CommunicationFailureFragment();
-            f.setArguments(buildArgs(message, R.drawable.ic_openhab_appicon_24dp /* FIXME */,
-                    R.string.try_again_button, false));
+            f.setArguments(buildArgs(message, R.string.try_again_button,
+                    BUTTON_TAG_RETRY_SERVER_PROP_FETCH, R.drawable.ic_openhab_appicon_24dp /* FIXME */,
+                    false));
             return f;
-        }
-
-        @Override
-        public void onClick(View view) {
-            ((MainActivity) getActivity()).retryServerPropertyQuery();
         }
     }
 
     public static class ProgressFragment extends StatusFragment {
         public static ProgressFragment newInstance(CharSequence message, boolean showImage) {
             ProgressFragment f = new ProgressFragment();
-            f.setArguments(buildArgs(message,
-                    showImage ? R.drawable.ic_openhab_appicon_24dp : 0,
-                    0, true));
+            f.setArguments(buildArgs(message, 0, BUTTON_TAG_NONE,
+                    showImage ? R.drawable.ic_openhab_appicon_24dp : 0, true));
             return f;
-        }
-
-        @Override
-        public void onClick(View view) {
-            // no-op, we don't show the button
         }
     }
 
     public static class NoNetworkFragment extends StatusFragment {
         public static NoNetworkFragment newInstance(CharSequence message) {
             NoNetworkFragment f = new NoNetworkFragment();
-            f.setArguments(buildArgs(message, R.drawable.ic_signal_cellular_off_black_24dp,
-                    R.string.try_again_button, false));
+            f.setArguments(buildArgs(message, R.string.try_again_button, BUTTON_TAG_RETRY_NETWORK,
+                    R.drawable.ic_signal_cellular_off_black_24dp, false));
             return f;
         }
+    }
 
-        @Override
-        public void onClick(View view) {
-            ConnectionFactory.restartNetworkCheck();
-            getActivity().recreate();
+    public static class EnableWifiNetworkFragment extends StatusFragment {
+        public static EnableWifiNetworkFragment newInstance(CharSequence message) {
+            EnableWifiNetworkFragment f = new EnableWifiNetworkFragment();
+            f.setArguments(buildArgs(message, R.string.enable_wifi_button, BUTTON_TAG_ENABLE_WIFI,
+                    R.drawable.ic_signal_wifi_off_black_24dp, false));
+            return f;
         }
     }
 
     public static class MissingConfigurationFragment extends StatusFragment {
         public static MissingConfigurationFragment newInstance(Context context,
-                boolean resolveAttempted) {
+                boolean resolveAttempted, boolean hasWifiEnabled) {
             MissingConfigurationFragment f = new MissingConfigurationFragment();
-            @StringRes int textResId =
-                    resolveAttempted ? R.string.configuration_missing : R.string.no_remote_server;
-            f.setArguments(buildArgs(context.getString(textResId),
-                    R.drawable.ic_openhab_appicon_24dp, /* FIXME? */
-                    R.string.go_to_settings_button, false));
+            if (resolveAttempted) {
+                f.setArguments(buildArgs(context.getString(R.string.configuration_missing),
+                        R.string.go_to_settings_button,
+                        BUTTON_TAG_OPEN_SETTINGS,
+                        context.getString(R.string.settings_openhab_demomode_summary),
+                        R.string.enable_demo_mode_button,
+                        BUTTON_TAG_ENABLE_DEMO_MODE,
+                        R.drawable.ic_openhab_appicon_24dp /* FIXME */, false));
+            } else if (hasWifiEnabled) {
+                f.setArguments(buildArgs(context.getString(R.string.no_remote_server),
+                        R.string.go_to_settings_button,
+                        BUTTON_TAG_OPEN_SETTINGS,
+                        R.drawable.ic_signal_cellular_off_black_24dp, false));
+            } else {
+                f.setArguments(buildArgs(context.getString(R.string.no_remote_server),
+                        R.string.go_to_settings_button,
+                        BUTTON_TAG_OPEN_SETTINGS,
+                        null,
+                        R.string.enable_wifi_button,
+                        BUTTON_TAG_ENABLE_WIFI,
+                        R.drawable.ic_signal_wifi_off_black_24dp, false));
+            }
             return f;
-        }
-
-        @Override
-        public void onClick(View view) {
-            Intent preferencesIntent = new Intent(getActivity(), PreferencesActivity.class);
-            TaskStackBuilder.create(getActivity())
-                    .addNextIntentWithParentStack(preferencesIntent)
-                    .startActivities();
         }
     }
 
     private abstract static class StatusFragment extends Fragment implements View.OnClickListener {
-        protected static Bundle buildArgs(CharSequence message, @DrawableRes int drawableResId,
-                @StringRes int buttonTextResId, boolean showProgress) {
+        protected final static String KEY_MESSAGE_1 = "message1";
+        protected final static String KEY_MESSAGE_2 = "message2";
+        protected final static String KEY_DRAWABLE = "drawable";
+        protected final static String KEY_BUTTON_1_TEXT = "button1text";
+        protected final static String KEY_BUTTON_1_TAG = "button1tag";
+        protected final static String KEY_BUTTON_2_TEXT = "button2text";
+        protected final static String KEY_BUTTON_2_TAG = "button2tag";
+        protected final static String KEY_PROGRESS = "progress";
+        protected final static int BUTTON_TAG_NONE = 0;
+        protected final static int BUTTON_TAG_OPEN_SETTINGS = 1;
+        protected final static int BUTTON_TAG_ENABLE_WIFI = 2;
+        protected final static int BUTTON_TAG_ENABLE_DEMO_MODE = 3;
+        protected final static int BUTTON_TAG_RETRY_NETWORK = 4;
+        protected final static int BUTTON_TAG_RETRY_SERVER_PROP_FETCH = 5;
+
+        protected static Bundle buildArgs(CharSequence message, @StringRes int buttonTextResId,
+                int buttonTag, @DrawableRes int drawableResId, boolean showProgress) {
+            return buildArgs(message, buttonTextResId, buttonTag, null,
+                    0, 0, drawableResId, showProgress);
+        }
+
+        protected static Bundle buildArgs(CharSequence message1, @StringRes int button1TextResId,
+                int button1Tag, CharSequence message2, @StringRes int button2TextResId,
+                int button2Tag, @DrawableRes int drawableResId, boolean showProgress) {
             Bundle args = new Bundle();
-            args.putCharSequence("message", message);
-            args.putInt("drawable", drawableResId);
-            args.putInt("buttontext", buttonTextResId);
-            args.putBoolean("progress", showProgress);
+            args.putCharSequence(KEY_MESSAGE_1, message1);
+            args.putCharSequence(KEY_MESSAGE_2, message2);
+            args.putInt(KEY_DRAWABLE, drawableResId);
+            args.putInt(KEY_BUTTON_1_TEXT, button1TextResId);
+            args.putInt(KEY_BUTTON_2_TEXT, button2TextResId);
+            args.putInt(KEY_BUTTON_1_TAG, button1Tag);
+            args.putInt(KEY_BUTTON_2_TAG, button2Tag);
+            args.putBoolean(KEY_PROGRESS, showProgress);
             return args;
         }
 
         @Override
-        public View onCreateView(@NonNull LayoutInflater inflater,
-                ViewGroup container, Bundle savedInstanceState) {
+        public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
+                Bundle savedInstanceState) {
             Bundle arguments = getArguments();
 
             View view = inflater.inflate(R.layout.fragment_status, container, false);
 
-            TextView descriptionText = view.findViewById(R.id.description);
-            CharSequence message = arguments.getCharSequence("message");
-            if (!TextUtils.isEmpty(message)) {
-                descriptionText.setText(message);
-            } else {
-                descriptionText.setVisibility(View.GONE);
+            boolean needsOr = false;
+            if (setDescription(arguments, view, R.id.description1, KEY_MESSAGE_1)
+                    & setDescription(arguments, view, R.id.description2, KEY_MESSAGE_2)) {
+                needsOr = true;
             }
 
             view.findViewById(R.id.progress).setVisibility(
-                    arguments.getBoolean("progress") ? View.VISIBLE : View.GONE);
+                    arguments.getBoolean(KEY_PROGRESS) ? View.VISIBLE : View.GONE);
 
             final ImageView watermark = view.findViewById(R.id.image);
-            @DrawableRes int drawableResId = arguments.getInt("drawable");
+            @DrawableRes int drawableResId = arguments.getInt(KEY_DRAWABLE);
             if (drawableResId != 0) {
                 Drawable drawable = ContextCompat.getDrawable(getActivity(), drawableResId);
                 drawable.setColorFilter(
@@ -646,16 +685,73 @@ public abstract class ContentController implements PageConnectionHolderFragment.
                 watermark.setVisibility(View.GONE);
             }
 
-            final Button button = view.findViewById(R.id.button);
-            int buttonTextResId = arguments.getInt("buttontext");
-            if (buttonTextResId != 0) {
-                button.setText(buttonTextResId);
-                button.setOnClickListener(this);
-            } else {
-                button.setVisibility(View.GONE);
+            if (initButton(arguments, view, R.id.button1, KEY_BUTTON_1_TEXT, KEY_BUTTON_1_TAG)
+                    & initButton(arguments, view, R.id.button2, KEY_BUTTON_2_TEXT,
+                    KEY_BUTTON_2_TAG)) {
+                needsOr = true;
             }
 
+            TextView or = view.findViewById(R.id.or);
+            or.setVisibility(needsOr ? View.VISIBLE : View.GONE);
+
             return view;
+        }
+
+        @Override
+        public void onClick(View view) {
+            if (view.getTag().equals(BUTTON_TAG_OPEN_SETTINGS)) {
+                Intent preferencesIntent = new Intent(getActivity(), PreferencesActivity.class);
+                TaskStackBuilder.create(getActivity())
+                        .addNextIntentWithParentStack(preferencesIntent)
+                        .startActivities();
+            } else if (view.getTag().equals(BUTTON_TAG_ENABLE_DEMO_MODE)) {
+                PreferenceManager.getDefaultSharedPreferences(getContext())
+                        .edit()
+                        .putBoolean(Constants.PREFERENCE_DEMOMODE, true)
+                        .apply();
+            } else if (view.getTag().equals(BUTTON_TAG_ENABLE_WIFI)) {
+                WifiManager wifiManager =
+                        (WifiManager) getContext().getSystemService(Context.WIFI_SERVICE);
+                wifiManager.setWifiEnabled(true);
+            } else if (view.getTag().equals(BUTTON_TAG_RETRY_NETWORK)) {
+                ConnectionFactory.restartNetworkCheck();
+                getActivity().recreate();
+            } else if (view.getTag().equals(BUTTON_TAG_RETRY_SERVER_PROP_FETCH)) {
+                ((MainActivity) getActivity()).retryServerPropertyQuery();
+            }
+        }
+
+        /**
+         * @return true if button is shown, false if not.
+         */
+        private boolean setDescription(Bundle arguments, View view, @LayoutRes int id, String key) {
+            TextView descriptionText = view.findViewById(id);
+            CharSequence message = arguments.getCharSequence(key);
+            if (!TextUtils.isEmpty(message)) {
+                descriptionText.setText(message);
+                return true;
+            } else {
+                descriptionText.setVisibility(View.GONE);
+                return false;
+            }
+        }
+
+        /**
+         * @return true if button is shown, false if not.
+         */
+        private boolean initButton(Bundle arguments, View view, @LayoutRes int buttonId,
+                String titleKey, String tagRes) {
+            final Button button = view.findViewById(buttonId);
+            int buttonTextResId = arguments.getInt(titleKey);
+            if (buttonTextResId != 0) {
+                button.setText(buttonTextResId);
+                button.setTag(arguments.getInt(tagRes));
+                button.setOnClickListener(this);
+                return true;
+            } else {
+                button.setVisibility(View.GONE);
+                return false;
+            }
         }
     }
 }
