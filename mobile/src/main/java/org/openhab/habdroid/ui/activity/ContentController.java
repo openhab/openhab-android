@@ -557,7 +557,7 @@ public abstract class ContentController implements PageConnectionHolderFragment.
         public static CommunicationFailureFragment newInstance(CharSequence message) {
             CommunicationFailureFragment f = new CommunicationFailureFragment();
             f.setArguments(buildArgs(message, R.string.try_again_button,
-                    BUTTON_TAG_RETRY_SERVER_PROP_FETCH, R.drawable.ic_openhab_appicon_24dp /* FIXME */,
+                    BUTTON_TAG_RETRY_SERVER_PROP_FETCH, R.drawable.ic_openhab_appicon_340dp /* FIXME */,
                     false));
             return f;
         }
@@ -567,7 +567,7 @@ public abstract class ContentController implements PageConnectionHolderFragment.
         public static ProgressFragment newInstance(CharSequence message, boolean showImage) {
             ProgressFragment f = new ProgressFragment();
             f.setArguments(buildArgs(message, 0, BUTTON_TAG_NONE,
-                    showImage ? R.drawable.ic_openhab_appicon_24dp : 0, true));
+                    showImage ? R.drawable.ic_openhab_appicon_340dp : 0, true));
             return f;
         }
     }
@@ -601,7 +601,7 @@ public abstract class ContentController implements PageConnectionHolderFragment.
                         context.getString(R.string.settings_openhab_demomode_summary),
                         R.string.enable_demo_mode_button,
                         BUTTON_TAG_ENABLE_DEMO_MODE,
-                        R.drawable.ic_openhab_appicon_24dp /* FIXME */, false));
+                        R.drawable.ic_openhab_appicon_340dp /* FIXME */, false));
             } else if (hasWifiEnabled) {
                 f.setArguments(buildArgs(context.getString(R.string.no_remote_server),
                         R.string.go_to_settings_button,
