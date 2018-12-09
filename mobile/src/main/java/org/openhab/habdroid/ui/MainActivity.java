@@ -451,7 +451,8 @@ public class MainActivity extends AppCompatActivity implements
                     mController.indicateNoNetwork(
                             getString(R.string.error_network_type_unsupported, info.getTypeName()));
                 } else if (failureReason instanceof NetworkNotAvailableException
-                        && !((WifiManager) getSystemService(Context.WIFI_SERVICE)).isWifiEnabled()) {
+                        && !((WifiManager) getSystemService(Context.WIFI_SERVICE))
+                        .isWifiEnabled()) {
                     mController.indicateEnableWifiNetwork(
                             getString(R.string.error_wifi_not_available));
                 } else {

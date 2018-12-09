@@ -235,6 +235,11 @@ public abstract class ContentController implements PageConnectionHolderFragment.
         mActivity.updateTitle();
     }
 
+    /**
+     * Indicate to the user that no network connectivity is present and Wi-Fi is disabled
+     *
+     * @param message Error message to show
+     */
     public void indicateEnableWifiNetwork(CharSequence message) {
         Log.d(TAG, "Indicate enable wifi (message " + message + ")");
         resetState();
@@ -621,20 +626,20 @@ public abstract class ContentController implements PageConnectionHolderFragment.
     }
 
     private abstract static class StatusFragment extends Fragment implements View.OnClickListener {
-        protected final static String KEY_MESSAGE_1 = "message1";
-        protected final static String KEY_MESSAGE_2 = "message2";
-        protected final static String KEY_DRAWABLE = "drawable";
-        protected final static String KEY_BUTTON_1_TEXT = "button1text";
-        protected final static String KEY_BUTTON_1_TAG = "button1tag";
-        protected final static String KEY_BUTTON_2_TEXT = "button2text";
-        protected final static String KEY_BUTTON_2_TAG = "button2tag";
-        protected final static String KEY_PROGRESS = "progress";
-        protected final static int BUTTON_TAG_NONE = 0;
-        protected final static int BUTTON_TAG_OPEN_SETTINGS = 1;
-        protected final static int BUTTON_TAG_ENABLE_WIFI = 2;
-        protected final static int BUTTON_TAG_ENABLE_DEMO_MODE = 3;
-        protected final static int BUTTON_TAG_RETRY_NETWORK = 4;
-        protected final static int BUTTON_TAG_RETRY_SERVER_PROP_FETCH = 5;
+        protected static final String KEY_MESSAGE_1 = "message1";
+        protected static final String KEY_MESSAGE_2 = "message2";
+        protected static final String KEY_DRAWABLE = "drawable";
+        protected static final String KEY_BUTTON_1_TEXT = "button1text";
+        protected static final String KEY_BUTTON_1_TAG = "button1tag";
+        protected static final String KEY_BUTTON_2_TEXT = "button2text";
+        protected static final String KEY_BUTTON_2_TAG = "button2tag";
+        protected static final String KEY_PROGRESS = "progress";
+        protected static final int BUTTON_TAG_NONE = 0;
+        protected static final int BUTTON_TAG_OPEN_SETTINGS = 1;
+        protected static final int BUTTON_TAG_ENABLE_WIFI = 2;
+        protected static final int BUTTON_TAG_ENABLE_DEMO_MODE = 3;
+        protected static final int BUTTON_TAG_RETRY_NETWORK = 4;
+        protected static final int BUTTON_TAG_RETRY_SERVER_PROP_FETCH = 5;
 
         protected static Bundle buildArgs(CharSequence message, @StringRes int buttonTextResId,
                 int buttonTag, @DrawableRes int drawableResId, boolean showProgress) {
@@ -722,6 +727,8 @@ public abstract class ContentController implements PageConnectionHolderFragment.
         }
 
         /**
+         * Set description text or hide TextView
+         *
          * @return true if button is shown, false if not.
          */
         private boolean setDescription(Bundle arguments, View view, @LayoutRes int id, String key) {
@@ -737,6 +744,8 @@ public abstract class ContentController implements PageConnectionHolderFragment.
         }
 
         /**
+         * Set button text and tag or hide button
+         *
          * @return true if button is shown, false if not.
          */
         private boolean initButton(Bundle arguments, View view, @LayoutRes int buttonId,
