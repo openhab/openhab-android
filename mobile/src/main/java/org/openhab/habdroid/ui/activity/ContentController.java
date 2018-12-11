@@ -249,7 +249,8 @@ public abstract class ContentController implements PageConnectionHolderFragment.
         Log.d(TAG, "Indicate missing configuration (resolveAttempted "
                 + resolveAttempted + ")");
         resetState();
-        WifiManager wifiManager = (WifiManager) mActivity.getSystemService(Context.WIFI_SERVICE);
+        WifiManager wifiManager = (WifiManager)
+                mActivity.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         mNoConnectionFragment = MissingConfigurationFragment
                 .newInstance(mActivity, resolveAttempted, wifiManager.isWifiEnabled());
         updateFragmentState(FragmentUpdateReason.PAGE_UPDATE);
@@ -692,8 +693,10 @@ public abstract class ContentController implements PageConnectionHolderFragment.
                         .putBoolean(Constants.PREFERENCE_DEMOMODE, true)
                         .apply();
             } else if (view.getTag().equals(BUTTON_TAG_ENABLE_WIFI)) {
-                WifiManager wifiManager = (WifiManager) getContext().getSystemService(Context.WIFI_SERVICE);
+                WifiManager wifiManager = (WifiManager)
+                        getContext().getApplicationContext().getSystemService(Context.WIFI_SERVICE);
                 wifiManager.setWifiEnabled(true);
+                // todo make progress indicator visible
             } else if (view.getTag().equals(BUTTON_TAG_RETRY_NETWORK)) {
                 ConnectionFactory.restartNetworkCheck();
                 getActivity().recreate();

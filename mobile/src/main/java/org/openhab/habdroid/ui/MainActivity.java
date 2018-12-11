@@ -445,7 +445,8 @@ public class MainActivity extends AppCompatActivity implements
                     mController.indicateMissingConfiguration(false);
                 }
             } else if (failureReason != null) {
-                WifiManager wifiManager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
+                WifiManager wifiManager = (WifiManager)
+                        getApplicationContext().getSystemService(Context.WIFI_SERVICE);
                 if (failureReason instanceof NetworkNotSupportedException) {
                     NetworkInfo info =
                             ((NetworkNotSupportedException) failureReason).getNetworkInfo();
