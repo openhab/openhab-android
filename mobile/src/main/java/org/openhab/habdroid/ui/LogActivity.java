@@ -95,6 +95,7 @@ public class LogActivity extends AppCompatActivity {
                 return true;
             case android.R.id.home:
                 finish();
+                // fallthrough
             default:
                 return super.onOptionsItemSelected(item);
         }
