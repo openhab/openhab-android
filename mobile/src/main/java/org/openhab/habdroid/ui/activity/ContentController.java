@@ -90,7 +90,7 @@ public abstract class ContentController implements PageConnectionHolderFragment.
             mConnectionFragment = new PageConnectionHolderFragment();
             mFm.beginTransaction().add(mConnectionFragment, "connections").commit();
         }
-        mDefaultProgressFragment = ProgressFragment.newInstance(null, false);
+        mDefaultProgressFragment = ProgressFragment.newInstance(null, 0);
         mConnectionFragment.setCallback(this);
     }
 
@@ -287,11 +287,11 @@ public abstract class ContentController implements PageConnectionHolderFragment.
      * @param connection New connection to use; might be null if none is currently available
      * @param progressMessage Message to show to the user if no connection is available
      */
-    public void updateConnection(Connection connection, CharSequence progressMessage) {
+    public void updateConnection(Connection connection, CharSequence progressMessage,
+                                 @DrawableRes int icon) {
         Log.d(TAG, "Update to connection " + connection + " (message " + progressMessage + ")");
         if (connection == null) {
-            mNoConnectionFragment = ProgressFragment.newInstance(progressMessage,
-                    progressMessage != null);
+            mNoConnectionFragment = ProgressFragment.newInstance(progressMessage, icon);
         } else {
             mNoConnectionFragment = null;
         }
@@ -562,10 +562,9 @@ public abstract class ContentController implements PageConnectionHolderFragment.
     }
 
     public static class ProgressFragment extends StatusFragment {
-        public static ProgressFragment newInstance(CharSequence message, boolean showImage) {
+        public static ProgressFragment newInstance(CharSequence message, @DrawableRes int image) {
             ProgressFragment f = new ProgressFragment();
-            f.setArguments(buildArgs(message, 0, BUTTON_TAG_NONE,
-                    showImage ? R.drawable.ic_openhab_appicon_340dp : 0, true));
+            f.setArguments(buildArgs(message, 0, BUTTON_TAG_NONE, image,true));
             return f;
         }
     }
@@ -696,7 +695,9 @@ public abstract class ContentController implements PageConnectionHolderFragment.
                 WifiManager wifiManager = (WifiManager)
                         getContext().getApplicationContext().getSystemService(Context.WIFI_SERVICE);
                 wifiManager.setWifiEnabled(true);
-                // todo make progress indicator visible
+                ((MainActivity) getActivity()).mController.updateConnection(null,
+                        getContext().getString(R.string.waiting_for_wifi),
+                        R.drawable.ic_signal_wifi_0_bar_black_24dp);
             } else if (view.getTag().equals(BUTTON_TAG_RETRY_NETWORK)) {
                 ConnectionFactory.restartNetworkCheck();
                 getActivity().recreate();

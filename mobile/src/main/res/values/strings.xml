@@ -202,6 +202,7 @@
     <string name="configuration_missing">We didn\'t find an openHAB server in your network. If you already have a server, please configure its IP address or host name in the server settings. If you don\'t yet have a server, you can enable demo mode to see what openHAB is capable of.</string>
     <string name="no_remote_server">Connection to local server failed and you haven\'t configured a remote server</string>
     <string name="resolving_openhab">Trying to discover openHAB server instance\u2026</string>
+    <string name="waiting_for_wifi">Waiting for Wi-Fi to establish connection\u2026</string>
 
     <!-- Content description for images -->
     <string name="content_description_open_roller_shutter">Open roller shutter</string>

@@ -138,7 +138,7 @@ public class MainActivity extends AppCompatActivity implements
     private Uri mPendingNfcData;
     private String mPendingOpenedNotificationId;
     private Sitemap mSelectedSitemap;
-    private ContentController mController;
+    public ContentController mController;
     private ServerProperties mServerProperties;
     private ServerProperties.UpdateHandle mPropsUpdateHandle;
     private boolean mStarted;
@@ -427,7 +427,7 @@ public class MainActivity extends AppCompatActivity implements
 
         if (newConnection != null) {
             handleConnectionChange();
-            mController.updateConnection(newConnection, null);
+            mController.updateConnection(newConnection, null, 0);
         } else {
             if (failureReason instanceof NoUrlInformationException) {
                 NoUrlInformationException nuie = (NoUrlInformationException) failureReason;
@@ -439,7 +439,9 @@ public class MainActivity extends AppCompatActivity implements
                         mServiceResolver = new AsyncServiceResolver(this, this,
                                 getString(R.string.openhab_service_type));
                         mServiceResolver.start();
-                        mController.updateConnection(null, getString(R.string.resolving_openhab));
+                        mController.updateConnection(null,
+                                getString(R.string.resolving_openhab),
+                                R.drawable.ic_openhab_appicon_340dp /*FIXME?*/);
                     }
                 } else {
                     mController.indicateMissingConfiguration(false);
@@ -462,7 +464,7 @@ public class MainActivity extends AppCompatActivity implements
                             false);
                 }
             } else {
-                mController.updateConnection(null, null);
+                mController.updateConnection(null, null, 0);
             }
         }
         mViewPool.clear();
