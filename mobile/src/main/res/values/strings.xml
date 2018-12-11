@@ -200,6 +200,10 @@
     <string name="no_remote_server">Local network is unavailable and you haven\'t configured a remote server</string>
     <string name="resolving_openhab">Trying to discover openHAB server instance\u2026</string>
 
+    <!-- Log -->
+    <string name="mainmenu_openhab_log">Log</string>
+    <string name="delete_log">Delete log</string>
+
     <!-- Content description for images -->
     <string name="content_description_open_roller_shutter">Open roller shutter</string>
     <string name="content_description_stop_roller_shutter">Stop roller shutter</string>
