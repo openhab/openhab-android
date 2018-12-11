@@ -288,7 +288,7 @@ public abstract class ContentController implements PageConnectionHolderFragment.
      * @param progressMessage Message to show to the user if no connection is available
      */
     public void updateConnection(Connection connection, CharSequence progressMessage,
-                                 @DrawableRes int icon) {
+            @DrawableRes int icon) {
         Log.d(TAG, "Update to connection " + connection + " (message " + progressMessage + ")");
         if (connection == null) {
             mNoConnectionFragment = ProgressFragment.newInstance(progressMessage, icon);
