@@ -29,7 +29,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.AnimRes;
 import androidx.annotation.DrawableRes;
-import androidx.annotation.LayoutRes;
+import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
@@ -595,7 +595,6 @@ public abstract class ContentController implements PageConnectionHolderFragment.
                 f.setArguments(buildArgs(context.getString(R.string.configuration_missing),
                         R.string.go_to_settings_button,
                         BUTTON_TAG_OPEN_SETTINGS,
-                        context.getString(R.string.settings_openhab_demomode_summary),
                         R.string.enable_demo_mode_button,
                         BUTTON_TAG_ENABLE_DEMO_MODE,
                         R.drawable.ic_openhab_appicon_340dp /* FIXME */, false));
@@ -608,7 +607,6 @@ public abstract class ContentController implements PageConnectionHolderFragment.
                 f.setArguments(buildArgs(context.getString(R.string.no_remote_server),
                         R.string.go_to_settings_button,
                         BUTTON_TAG_OPEN_SETTINGS,
-                        null,
                         R.string.enable_wifi_button,
                         BUTTON_TAG_ENABLE_WIFI,
                         R.drawable.ic_signal_wifi_off_black_24dp, false));
@@ -618,8 +616,7 @@ public abstract class ContentController implements PageConnectionHolderFragment.
     }
 
     private abstract static class StatusFragment extends Fragment implements View.OnClickListener {
-        protected static final String KEY_MESSAGE_1 = "message1";
-        protected static final String KEY_MESSAGE_2 = "message2";
+        protected static final String KEY_MESSAGE = "message";
         protected static final String KEY_DRAWABLE = "drawable";
         protected static final String KEY_BUTTON_1_TEXT = "button1text";
         protected static final String KEY_BUTTON_1_TAG = "button1tag";
@@ -635,16 +632,15 @@ public abstract class ContentController implements PageConnectionHolderFragment.
 
         protected static Bundle buildArgs(CharSequence message, @StringRes int buttonTextResId,
                 int buttonTag, @DrawableRes int drawableResId, boolean showProgress) {
-            return buildArgs(message, buttonTextResId, buttonTag, null,
-                    0, 0, drawableResId, showProgress);
+            return buildArgs(message, buttonTextResId, buttonTag, 0,
+                    0, drawableResId, showProgress);
         }
 
-        protected static Bundle buildArgs(CharSequence message1, @StringRes int button1TextResId,
-                int button1Tag, CharSequence message2, @StringRes int button2TextResId,
+        protected static Bundle buildArgs(CharSequence message, @StringRes int button1TextResId,
+                int button1Tag, @StringRes int button2TextResId,
                 int button2Tag, @DrawableRes int drawableResId, boolean showProgress) {
             Bundle args = new Bundle();
-            args.putCharSequence(KEY_MESSAGE_1, message1);
-            args.putCharSequence(KEY_MESSAGE_2, message2);
+            args.putCharSequence(KEY_MESSAGE, message);
             args.putInt(KEY_DRAWABLE, drawableResId);
             args.putInt(KEY_BUTTON_1_TEXT, button1TextResId);
             args.putInt(KEY_BUTTON_2_TEXT, button2TextResId);
@@ -660,9 +656,7 @@ public abstract class ContentController implements PageConnectionHolderFragment.
             Bundle arguments = getArguments();
 
             View view = inflater.inflate(R.layout.fragment_status, container, false);
-
-            boolean needsOr = setDescription(arguments, view, R.id.description1, KEY_MESSAGE_1)
-                    && setDescription(arguments, view, R.id.description2, KEY_MESSAGE_2);
+            setDescription(arguments, view, R.id.description, KEY_MESSAGE);
 
             view.findViewById(R.id.progress).setVisibility(
                     arguments.getBoolean(KEY_PROGRESS) ? View.VISIBLE : View.GONE);
@@ -679,12 +673,8 @@ public abstract class ContentController implements PageConnectionHolderFragment.
                 watermark.setVisibility(View.GONE);
             }
 
-            needsOr = initButton(arguments, view, R.id.button1, KEY_BUTTON_1_TEXT, KEY_BUTTON_1_TAG)
-                    && initButton(arguments, view, R.id.button2, KEY_BUTTON_2_TEXT,
-                    KEY_BUTTON_2_TAG);
-
-            TextView or = view.findViewById(R.id.or);
-            or.setVisibility(needsOr ? View.VISIBLE : View.GONE);
+            initButton(arguments, view, R.id.button1, KEY_BUTTON_1_TEXT, KEY_BUTTON_1_TAG);
+            initButton(arguments, view, R.id.button2, KEY_BUTTON_2_TEXT, KEY_BUTTON_2_TAG);
 
             return view;
         }
@@ -702,8 +692,7 @@ public abstract class ContentController implements PageConnectionHolderFragment.
                         .putBoolean(Constants.PREFERENCE_DEMOMODE, true)
                         .apply();
             } else if (view.getTag().equals(BUTTON_TAG_ENABLE_WIFI)) {
-                WifiManager wifiManager =
-                        (WifiManager) getContext().getSystemService(Context.WIFI_SERVICE);
+                WifiManager wifiManager = (WifiManager) getContext().getSystemService(Context.WIFI_SERVICE);
                 wifiManager.setWifiEnabled(true);
             } else if (view.getTag().equals(BUTTON_TAG_RETRY_NETWORK)) {
                 ConnectionFactory.restartNetworkCheck();
@@ -718,7 +707,7 @@ public abstract class ContentController implements PageConnectionHolderFragment.
          *
          * @return true if button is shown, false if not.
          */
-        private boolean setDescription(Bundle arguments, View view, @LayoutRes int id, String key) {
+        private boolean setDescription(Bundle arguments, View view, @IdRes int id, String key) {
             TextView descriptionText = view.findViewById(id);
             CharSequence message = arguments.getCharSequence(key);
             if (!TextUtils.isEmpty(message)) {
@@ -735,7 +724,7 @@ public abstract class ContentController implements PageConnectionHolderFragment.
          *
          * @return true if button is shown, false if not.
          */
-        private boolean initButton(Bundle arguments, View view, @LayoutRes int buttonId,
+        private boolean initButton(Bundle arguments, View view, @IdRes int buttonId,
                 String titleKey, String tagRes) {
             final Button button = view.findViewById(buttonId);
             int buttonTextResId = arguments.getInt(titleKey);

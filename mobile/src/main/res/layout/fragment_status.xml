@@ -22,7 +22,7 @@
             tools:ignore="contentDescription"/>
 
         <TextView
-            android:id="@+id/description1"
+            android:id="@+id/description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -50,28 +50,6 @@
             android:focusable="true"
             android:gravity="center"
             tools:text="Some action" />
-
-        <TextView
-            android:id="@+id/or"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:padding="8dp"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="@color/empty_list_text_color"
-            android:text="@string/or" />
-
-        <TextView
-            android:id="@+id/description2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:padding="16dp"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@color/empty_list_text_color"
-            tools:text="Some status message" />
 
         <Button
             android:id="@+id/button2"
