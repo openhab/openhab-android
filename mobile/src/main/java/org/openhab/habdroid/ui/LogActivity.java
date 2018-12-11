@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
@@ -29,6 +30,10 @@ import static org.openhab.habdroid.util.Util.getHostFromUrl;
 public class LogActivity extends AppCompatActivity {
     private static final String TAG = LogActivity.class.getSimpleName();
 
+    private ProgressBar mProgressBar;
+    private TextView mLogTextView;
+    private FloatingActionButton mFab;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Util.setActivityTheme(this);
@@ -40,26 +45,36 @@ public class LogActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        FloatingActionButton fab = findViewById(R.id.shareFab);
-        TextView logView = findViewById(R.id.log);
-        fab.setOnClickListener(v -> {
+        mFab = findViewById(R.id.shareFab);
+        mLogTextView = findViewById(R.id.log);
+        mProgressBar = findViewById(R.id.progressBar);
+
+        mFab.setOnClickListener(v -> {
             Intent sendIntent = new Intent();
             sendIntent.setAction(Intent.ACTION_SEND);
-            sendIntent.putExtra(Intent.EXTRA_TEXT, logView.getText());
+            sendIntent.putExtra(Intent.EXTRA_TEXT, mLogTextView.getText());
             sendIntent.setType("text/plain");
             startActivity(sendIntent);
         });
+
+        setUiLoading(true);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        setProgressIndicatorVisible(true);
+        setUiLoading(true);
         new GetLogFromAdbTask().execute(false);
     }
 
-    private void setProgressIndicatorVisible(boolean visible) {
-        findViewById(R.id.progressBar).setVisibility(visible ? View.VISIBLE : View.GONE);
+    private void setUiLoading(boolean isLoading) {
+        mProgressBar.setVisibility(isLoading ? View.VISIBLE : View.GONE);
+        mLogTextView.setVisibility(isLoading ? View.GONE : View.VISIBLE);
+        if (isLoading) {
+            mFab.hide();
+        } else {
+            mFab.show();
+        }
     }
 
     @Override
@@ -75,7 +90,7 @@ public class LogActivity extends AppCompatActivity {
         Log.d(TAG, "onOptionsItemSelected()");
         switch (item.getItemId()) {
             case R.id.delete_log:
-                setProgressIndicatorVisible(true);
+                setUiLoading(true);
                 new GetLogFromAdbTask().execute(true);
                 return true;
             case android.R.id.home:
@@ -128,7 +143,7 @@ public class LogActivity extends AppCompatActivity {
             TextView logView = findViewById(R.id.log);
             logView.setText(log);
 
-            setProgressIndicatorVisible(false);
+            setUiLoading(false);
 
             ScrollView scrollView = findViewById(R.id.scrollview);
             scrollView.post(() -> scrollView.fullScroll(View.FOCUS_DOWN));
