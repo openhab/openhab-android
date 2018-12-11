@@ -101,7 +101,6 @@ import javax.jmdns.ServiceInfo;
 import javax.net.ssl.SSLException;
 import javax.net.ssl.SSLPeerUnverifiedException;
 
-import static org.openhab.habdroid.util.Constants.PREFERENCE_DEBUG_MESSAGES;
 import static org.openhab.habdroid.util.Constants.PREV_SERVER_FLAGS;
 import static org.openhab.habdroid.util.Util.exceptionHasCause;
 import static org.openhab.habdroid.util.Util.getHostFromUrl;
@@ -119,7 +118,6 @@ public class MainActivity extends AppCompatActivity implements
     private static final int SETTINGS_REQUEST_CODE = 1002;
     private static final int WRITE_NFC_TAG_REQUEST_CODE = 1003;
     private static final int INFO_REQUEST_CODE = 1004;
-    private static final int LOG_REQUEST_CODE = 1005;
     // Drawer item codes
     private static final int GROUP_ID_SITEMAPS = 1;
 
@@ -383,7 +381,6 @@ public class MainActivity extends AppCompatActivity implements
             nfcAdapter.enableForegroundDispatch(this, pi, null, null);
         }
 
-        updateLogDrawerItem();
         updateTitle();
         checkFullscreen();
     }
@@ -578,9 +575,6 @@ public class MainActivity extends AppCompatActivity implements
                 case R.id.about:
                     openAbout();
                     return true;
-                case R.id.log:
-                    openLog();
-                    return true;
                 default:
                     break;
             }
@@ -597,11 +591,6 @@ public class MainActivity extends AppCompatActivity implements
         MenuItem notificationsItem = mDrawerMenu.findItem(R.id.notifications);
         notificationsItem.setVisible(
                 ConnectionFactory.getConnection(Connection.TYPE_CLOUD) != null);
-    }
-
-    private void updateLogDrawerItem() {
-        MenuItem logItem = mDrawerMenu.findItem(R.id.log);
-        logItem.setVisible(mPrefs.getBoolean(PREFERENCE_DEBUG_MESSAGES, false));
     }
 
     private void updateSitemapDrawerItems() {
@@ -701,13 +690,6 @@ public class MainActivity extends AppCompatActivity implements
         aboutIntent.putExtra("serverProperties", mServerProperties);
 
         startActivityForResult(aboutIntent, INFO_REQUEST_CODE);
-        Util.overridePendingTransition(this, false);
-    }
-
-    private void openLog() {
-        Intent logIntent = new Intent(this, LogActivity.class);
-
-        startActivityForResult(logIntent, LOG_REQUEST_CODE);
         Util.overridePendingTransition(this, false);
     }
 

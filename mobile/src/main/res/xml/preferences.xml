@@ -101,5 +101,10 @@
             android:key="default_openhab_debug_messages"
             android:title="@string/settings_debug_messages_title"
             android:icon="@drawable/ic_bug_report_grey_24dp" />
+        <Preference
+            android:clickable="true"
+            android:key="default_openhab_log"
+            android:title="@string/view_log"
+            android:icon="@drawable/ic_subject_grey_24dp" />
     </PreferenceCategory>
 </PreferenceScreen>

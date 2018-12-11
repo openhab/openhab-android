@@ -43,7 +43,7 @@
             android:name=".ui.AboutActivity"
             android:label="@string/about_title" />
         <activity android:name=".ui.LogActivity"
-            android:label="@string/mainmenu_openhab_log" />
+            android:label="@string/log" />
         <activity
             android:name=".ui.MainActivity"
             android:label="@string/app_name"

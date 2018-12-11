@@ -201,7 +201,8 @@
     <string name="resolving_openhab">Trying to discover openHAB server instance\u2026</string>
 
     <!-- Log -->
-    <string name="mainmenu_openhab_log">Log</string>
+    <string name="log">Log</string>
+    <string name="view_log">View log</string>
     <string name="delete_log">Delete log</string>
 
     <!-- Content description for images -->

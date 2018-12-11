@@ -14,10 +14,6 @@
         android:icon="@drawable/ic_settings_black_24dp"
         android:title="@string/mainmenu_openhab_preferences" />
     <item
-        android:id="@+id/log"
-        android:icon="@drawable/ic_bug_report_grey_24dp"
-        android:title="@string/mainmenu_openhab_log" />
-    <item
         android:id="@+id/about"
         android:icon="@drawable/ic_info_outline"
         android:title="@string/about_title" />

@@ -235,6 +235,7 @@ public class PreferencesActivity extends AppCompatActivity {
             final Preference ringtonePref = findPreference(Constants.PREFERENCE_TONE);
             final Preference vibrationPref =
                     findPreference(Constants.PREFERENCE_NOTIFICATION_VIBRATION);
+            final Preference viewLogPref = findPreference(Constants.PREFERENCE_LOG);
             final SharedPreferences prefs = getPreferenceScreen().getSharedPreferences();
 
             String currentDefaultSitemap = prefs.getString(Constants.PREFERENCE_SITEMAP_NAME, "");
@@ -304,6 +305,12 @@ public class PreferencesActivity extends AppCompatActivity {
 
             vibrationPref.setOnPreferenceChangeListener((pref, newValue) -> {
                 updateVibrationPreferenceIcon(pref, newValue);
+                return true;
+            });
+
+            viewLogPref.setOnPreferenceClickListener(preference -> {
+                Intent logIntent = new Intent(preference.getContext(), LogActivity.class);
+                startActivity(logIntent);
                 return true;
             });
 
