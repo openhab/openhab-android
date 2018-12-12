@@ -138,6 +138,22 @@
     <string name="info_not_set">Not set</string>
     <string name="empty_page">This page doesn\'t contain any widgets that are set to be visible</string>
 
+    <!-- Background tasks -->
+    <string name="alarm_clock">Alarm clock</string>
+    <string name="settings_alarm_clock">Send alarm clock to openHAB</string>
+    <string name="settings_alarm_clock_summary">Sends alarm clock time to a configured item</string>
+    <string name="settings_alarm_clock_item">Item</string>
+    <string name="waiting_for_network_to_send_alarm_clock">Waiting for network to send alarm clock</string>
+    <string name="notification_channel_background">Background</string>
+    <string name="notification_channel_background_description">Used to display pending background tasks</string>
+    <string name="notification_channel_background_error">Error in background tasks</string>
+    <string name="notification_channel_background_error_description">Used to notify about errors in background tasks</string>
+    <string name="error_sending_alarm_clock">Error sending alarm clock. Got HTTP error %d</string>
+    <string name="error_sending_alarm_clock_retry">Error sending alarm clock, but it\'ll be retried later</string>
+    <string name="error_sending_alarm_clock_item_empty">You\'ve entered an invalid Item name</string>
+    <string name="error_sending_alarm_clock_no_connection">Error getting connection</string>
+    <string name="error_sending_alarm_clock_action_retry">Retry</string>
+
     <!-- Notification list strings -->
     <string name="notification_list_empty">No notifications were sent so far</string>
     <string name="notification_list_error">An error occurred while loading notifications</string>
@@ -251,4 +267,5 @@
     <string name="app_intro_skip_button">SKIP</string>
     <!-- Intro "DONE" button -->
     <string name="app_intro_done_button">DONE</string>
+
 </resources>

@@ -80,6 +80,21 @@
             android:title="@string/settings_openhab_fullscreen"
             android:icon="@drawable/ic_fullscreen_grey_24dp" />
     </PreferenceCategory>
+    <PreferenceCategory android:title="@string/alarm_clock"
+        android:key="alarmClock">
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="alarmClockEnabled"
+            android:summary="@string/settings_alarm_clock_summary"
+            android:title="@string/settings_alarm_clock"
+            android:icon="@drawable/ic_alarm_grey_24dp" />
+        <EditTextPreference
+            android:defaultValue="@string/empty_string"
+            android:dependency="alarmClockEnabled"
+            android:key="alarmClockItem"
+            android:title="@string/settings_alarm_clock_item"
+            android:icon="@drawable/ic_alarm_grey_24dp" />
+    </PreferenceCategory>
     <PreferenceCategory android:title="@string/settings_misc_title">
         <RingtonePreference
             android:key="default_openhab_alertringtone"

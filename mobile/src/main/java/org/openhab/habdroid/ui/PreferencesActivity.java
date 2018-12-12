@@ -154,6 +154,22 @@ public class PreferencesActivity extends AppCompatActivity {
             return getPreferenceScreen().getSharedPreferences().getString(prefKey, defValue);
         }
 
+        protected int getPreferenceInt(Preference preference, int defValue) {
+            return getPreferenceInt(preference.getKey(), defValue);
+        }
+
+        protected int getPreferenceInt(String prefKey, int defValue) {
+            return getPreferenceScreen().getSharedPreferences().getInt(prefKey, defValue);
+        }
+
+        protected boolean getPreferenceBool(Preference preference, boolean defValue) {
+            return getPreferenceBool(preference.getKey(), defValue);
+        }
+
+        protected boolean getPreferenceBool(String prefKey, boolean defValue) {
+            return getPreferenceScreen().getSharedPreferences().getBoolean(prefKey, defValue);
+        }
+
         protected boolean isConnectionHttps(String url) {
             return url.startsWith("https://");
         }
@@ -234,6 +250,9 @@ public class PreferencesActivity extends AppCompatActivity {
             final Preference clearDefaultSitemapPref =
                     findPreference(Constants.PREFERENCE_CLEAR_DEFAULT_SITEMAP);
             final Preference ringtonePref = findPreference(Constants.PREFERENCE_TONE);
+            final Preference alarmClockPrefCat = findPreference(Constants.PREFERENCE_ALARM_CLOCK);
+            final Preference alarmClockEnabledPref = findPreference(Constants.PREFERENCE_ALARM_CLOCK_ENABLED);
+            final Preference alarmClockItemPref = findPreference(Constants.PREFERENCE_ALARM_CLOCK_ITEM);
             final Preference vibrationPref =
                     findPreference(Constants.PREFERENCE_NOTIFICATION_VIBRATION);
             final Preference ringtoneVibrationPref =
@@ -349,6 +368,23 @@ public class PreferencesActivity extends AppCompatActivity {
                 getParent(ringtoneVibrationPref).removePreference(ringtoneVibrationPref);
             }
 
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+                Log.d(TAG, "Removing alarm clock prefs");
+                getPreferenceScreen().removePreference(alarmClockPrefCat);
+            } else {
+                updateAlarmClockEnabledPreferenceIcon(alarmClockEnabledPref, getPreferenceBool(alarmClockEnabledPref, false));
+                alarmClockEnabledPref.setOnPreferenceChangeListener((preference, newValue) -> {
+                    updateAlarmClockEnabledPreferenceIcon(preference, newValue);
+                    return true;
+                });
+
+                setEditorSummary(alarmClockItemPref, getPreferenceString(alarmClockItemPref, ""));
+                alarmClockItemPref.setOnPreferenceChangeListener((preference, newValue) -> {
+                    setEditorSummary(preference, newValue);
+                    return true;
+                });
+            }
+
             final ServerProperties props =
                     getActivity().getIntent().getParcelableExtra(START_EXTRA_SERVER_PROPERTIES);
             final int flags = props != null ? props.flags() :
@@ -416,6 +452,17 @@ public class PreferencesActivity extends AppCompatActivity {
                     getString(R.string.settings_notification_vibration_value_off));
             pref.setIcon(noVibration
                     ? R.drawable.ic_smartphone_grey_24dp : R.drawable.ic_vibration_grey_24dp);
+        }
+
+        private void updateAlarmClockEnabledPreferenceIcon(Preference pref, Object newValue) {
+            boolean enabled = (boolean) newValue;
+            pref.setIcon(enabled ? R.drawable.ic_alarm_grey_24dp : R.drawable.ic_alarm_off_grey_24dp);
+        }
+
+        private void setEditorSummary(Preference pref, Object newValue) {
+            String itemName = (String) newValue;
+            boolean isSet = !TextUtils.isEmpty(itemName);
+            pref.setSummary(isSet ? itemName : getString(R.string.info_not_set));
         }
 
         private void updateConnectionSummary(String subscreenPrefKey, String urlPrefKey,
