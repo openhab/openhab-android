@@ -25,7 +25,7 @@ import static org.openhab.habdroid.background.BackgroundUtils.makeBackgroundNoti
 import static org.openhab.habdroid.util.Constants.PREFERENCE_ALARM_CLOCK_ENABLED;
 
 public class AlarmChangedReceiver extends BroadcastReceiver {
-    private final static String TAG = AlarmChangedReceiver.class.getSimpleName();
+    private static final String TAG = AlarmChangedReceiver.class.getSimpleName();
 
     @Override
     public void onReceive(Context context, Intent intent) {
