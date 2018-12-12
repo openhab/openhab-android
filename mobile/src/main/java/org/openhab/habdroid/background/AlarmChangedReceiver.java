@@ -21,7 +21,7 @@ import static org.openhab.habdroid.background.BackgroundUtils.NOTIFICATION_TAG_B
 import static org.openhab.habdroid.background.BackgroundUtils.NOTIFICATION_TAG_BACKGROUND_ERROR;
 import static org.openhab.habdroid.background.BackgroundUtils.WORKER_TAG_SEND_ALARM_CLOCK;
 import static org.openhab.habdroid.background.BackgroundUtils.createNotificationChannel;
-import static org.openhab.habdroid.background.BackgroundUtils.makeBackgroundNotificationBuilder;
+import static org.openhab.habdroid.background.BackgroundUtils.makeBackgroundNotification;
 import static org.openhab.habdroid.util.Constants.PREFERENCE_ALARM_CLOCK_ENABLED;
 
 public class AlarmChangedReceiver extends BroadcastReceiver {
@@ -43,14 +43,14 @@ public class AlarmChangedReceiver extends BroadcastReceiver {
 
     public static void startAlarmChangedWorker(Context context) {
         Log.d(TAG, "startAlarmChangedWorker()");
-        Constraints constraints = new Constraints.Builder()
+        final Constraints constraints = new Constraints.Builder()
                 .setRequiredNetworkType(NetworkType.CONNECTED)
                 .build();
-        OneTimeWorkRequest sendAlarmClockWorker =
+        final OneTimeWorkRequest sendAlarmClockWorker =
                 new OneTimeWorkRequest.Builder(AlarmChangedWorker.class)
-                        .setConstraints(constraints)
-                        .addTag(WORKER_TAG_SEND_ALARM_CLOCK)
-                        .build();
+                .setConstraints(constraints)
+                .addTag(WORKER_TAG_SEND_ALARM_CLOCK)
+                .build();
 
         WorkManager workManager = WorkManager.getInstance();
         NotificationManager nm =
@@ -64,7 +64,7 @@ public class AlarmChangedReceiver extends BroadcastReceiver {
         workManager.enqueue(sendAlarmClockWorker);
 
         createNotificationChannel(context);
-        Notification notification = makeBackgroundNotificationBuilder(context,
+        Notification notification = makeBackgroundNotification(context,
                 R.string.waiting_for_network_to_send_alarm_clock, R.drawable.ic_alarm_grey_24dp,
                 false, null);
         nm.notify(NOTIFICATION_TAG_BACKGROUND, NOTIFICATION_ID_SEND_ALARM_CLOCK, notification);

@@ -28,7 +28,6 @@ import org.openhab.habdroid.R;
 import org.openhab.habdroid.ui.MainActivity;
 
 import static org.openhab.habdroid.background.BackgroundTaskRetryBroadcastReceiver.OH_EXTRA_NOTIFICATION_ID;
-import static org.openhab.habdroid.background.BackgroundTaskRetryBroadcastReceiver.OH_EXTRA_NOTIFICATION_TAG;
 
 public class BackgroundUtils {
     private static final String TAG = BackgroundUtils.class.getSimpleName();
@@ -39,6 +38,10 @@ public class BackgroundUtils {
     public static final String CHANNEL_ID_BACKGROUND_ERROR = "backgroundError";
     public static final int NOTIFICATION_ID_SEND_ALARM_CLOCK = 1;
 
+    /**
+     * Creates notification channels for background tasks.
+     * @param context
+     */
     public static void createNotificationChannel(Context context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationManager notificationManager =
@@ -65,15 +68,26 @@ public class BackgroundUtils {
         }
     }
 
-    public static Notification makeBackgroundNotificationBuilder(Context context,
-        @StringRes int msgId, @DrawableRes int iconId, boolean isError,
-        NotificationCompat.Action action) {
-        return makeBackgroundNotificationBuilder(context, context.getString(msgId), iconId, isError,
+    public static Notification makeBackgroundNotification(Context context,
+            @StringRes int msgId, @DrawableRes int iconId, boolean isError,
+            NotificationCompat.Action action) {
+        return makeBackgroundNotification(context, context.getString(msgId), iconId, isError,
                 action);
     }
 
-    public static Notification makeBackgroundNotificationBuilder(Context context, String msg,
-        @DrawableRes int iconId, boolean isError, NotificationCompat.Action action) {
+    /**
+     * Makes notification for background tasks. Sets notification channel, importance and more
+     * depending on the parameters.
+     *
+     * @param context
+     * @param msg Message to show.
+     * @param iconId Icon to show.
+     * @param isError true if it's an error.
+     * @param action Action to show as a button, e.g. "Retry"
+     * @return
+     */
+    public static Notification makeBackgroundNotification(Context context, String msg,
+            @DrawableRes int iconId, boolean isError, NotificationCompat.Action action) {
         Intent notificationIntent = new Intent(context, MainActivity.class);
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
                 | Intent.FLAG_ACTIVITY_SINGLE_TOP);
@@ -110,11 +124,15 @@ public class BackgroundUtils {
         return nb.build();
     }
 
-    public static NotificationCompat.Action getRetryAction(Context context, int notificationId,
-            String notificationTag) {
+    /**
+     * Makes a "Retry" action.
+     * @param context
+     * @param notificationId Id of the current notification
+     * @return
+     */
+    public static NotificationCompat.Action makeRetryAction(Context context, int notificationId) {
         Intent retryIntent = new Intent(context, BackgroundTaskRetryBroadcastReceiver.class);
         retryIntent.putExtra(OH_EXTRA_NOTIFICATION_ID, notificationId);
-        retryIntent.putExtra(OH_EXTRA_NOTIFICATION_TAG, notificationTag);
         PendingIntent retryPendingIntent =
                 PendingIntent.getBroadcast(context, 0, retryIntent, 0);
         return new NotificationCompat.Action(

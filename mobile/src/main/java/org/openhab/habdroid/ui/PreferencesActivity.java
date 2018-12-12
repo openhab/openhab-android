@@ -250,9 +250,12 @@ public class PreferencesActivity extends AppCompatActivity {
             final Preference clearDefaultSitemapPref =
                     findPreference(Constants.PREFERENCE_CLEAR_DEFAULT_SITEMAP);
             final Preference ringtonePref = findPreference(Constants.PREFERENCE_TONE);
-            final Preference alarmClockPrefCat = findPreference(Constants.PREFERENCE_ALARM_CLOCK);
-            final Preference alarmClockEnabledPref = findPreference(Constants.PREFERENCE_ALARM_CLOCK_ENABLED);
-            final Preference alarmClockItemPref = findPreference(Constants.PREFERENCE_ALARM_CLOCK_ITEM);
+            final Preference alarmClockPrefCat =
+                    findPreference(Constants.PREFERENCE_ALARM_CLOCK);
+            final Preference alarmClockEnabledPref =
+                    findPreference(Constants.PREFERENCE_ALARM_CLOCK_ENABLED);
+            final Preference alarmClockItemPref =
+                    findPreference(Constants.PREFERENCE_ALARM_CLOCK_ITEM);
             final Preference vibrationPref =
                     findPreference(Constants.PREFERENCE_NOTIFICATION_VIBRATION);
             final Preference ringtoneVibrationPref =
@@ -372,13 +375,15 @@ public class PreferencesActivity extends AppCompatActivity {
                 Log.d(TAG, "Removing alarm clock prefs");
                 getPreferenceScreen().removePreference(alarmClockPrefCat);
             } else {
-                updateAlarmClockEnabledPreferenceIcon(alarmClockEnabledPref, getPreferenceBool(alarmClockEnabledPref, false));
+                updateAlarmClockEnabledPreferenceIcon(alarmClockEnabledPref,
+                        getPreferenceBool(alarmClockEnabledPref, false));
                 alarmClockEnabledPref.setOnPreferenceChangeListener((preference, newValue) -> {
                     updateAlarmClockEnabledPreferenceIcon(preference, newValue);
                     return true;
                 });
 
-                setEditorSummary(alarmClockItemPref, getPreferenceString(alarmClockItemPref, ""));
+                setEditorSummary(alarmClockItemPref, getPreferenceString(alarmClockItemPref,
+                        ""));
                 alarmClockItemPref.setOnPreferenceChangeListener((preference, newValue) -> {
                     setEditorSummary(preference, newValue);
                     return true;

@@ -28,7 +28,6 @@ import static android.content.Context.NOTIFICATION_SERVICE;
 import static org.openhab.habdroid.background.BackgroundUtils.NOTIFICATION_ID_SEND_ALARM_CLOCK;
 import static org.openhab.habdroid.background.BackgroundUtils.NOTIFICATION_TAG_BACKGROUND;
 import static org.openhab.habdroid.background.BackgroundUtils.NOTIFICATION_TAG_BACKGROUND_ERROR;
-import static org.openhab.habdroid.background.BackgroundUtils.makeBackgroundNotificationBuilder;
 import static org.openhab.habdroid.util.Constants.PREFERENCE_ALARM_CLOCK_ITEM;
 
 public class AlarmChangedWorker extends Worker {
@@ -101,11 +100,16 @@ public class AlarmChangedWorker extends Worker {
         }
     }
 
+    /**
+     * Retry worker or fail if max retry is exceeded.
+     * @param error To show if worker failed
+     * @return Result
+     */
     @CheckResult
     private Result retryOrFail(String error, Context context, NotificationManager nm) {
         if (getRunAttemptCount() > MAX_RETRY) {
             Log.e(TAG, "Don't retry again");
-            Notification notification = makeBackgroundNotificationBuilder(context,
+            Notification notification = BackgroundUtils.makeBackgroundNotification(context,
                     error,
                     R.drawable.ic_alarm_grey_24dp, true,
                     getAlarmClockRetryAction(context));
@@ -115,7 +119,7 @@ public class AlarmChangedWorker extends Worker {
             return Result.failure();
         }
         Log.d(TAG, "Retry");
-        Notification notification = makeBackgroundNotificationBuilder(context,
+        Notification notification = BackgroundUtils.makeBackgroundNotification(context,
                 context.getString(R.string.error_sending_alarm_clock_retry),
                 R.drawable.ic_alarm_grey_24dp, false,
                 getAlarmClockRetryAction(context));
@@ -125,7 +129,6 @@ public class AlarmChangedWorker extends Worker {
     }
 
     private NotificationCompat.Action getAlarmClockRetryAction(Context context) {
-        return BackgroundUtils.getRetryAction(context, NOTIFICATION_ID_SEND_ALARM_CLOCK,
-                NOTIFICATION_TAG_BACKGROUND_ERROR);
+        return BackgroundUtils.makeRetryAction(context, NOTIFICATION_ID_SEND_ALARM_CLOCK);
     }
 }
