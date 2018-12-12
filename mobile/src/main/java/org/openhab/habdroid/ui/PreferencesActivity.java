@@ -431,7 +431,7 @@ public class PreferencesActivity extends AppCompatActivity {
                 String passwordPrefKey, @StringRes int urlSummaryFormatResId) {
             mUrlPreference = initEditor(urlPrefKey, R.drawable.ic_earth_grey_24dp, value -> {
                 if (TextUtils.isEmpty(value)) {
-                    return getString(R.string.info_not_set);
+                    value = getString(R.string.info_not_set);
                 }
                 return getString(urlSummaryFormatResId, value);
             });
