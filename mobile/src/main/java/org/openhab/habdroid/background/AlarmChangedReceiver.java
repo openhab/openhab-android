@@ -20,7 +20,7 @@ import static org.openhab.habdroid.background.BackgroundUtils.NOTIFICATION_ID_SE
 import static org.openhab.habdroid.background.BackgroundUtils.NOTIFICATION_TAG_BACKGROUND;
 import static org.openhab.habdroid.background.BackgroundUtils.NOTIFICATION_TAG_BACKGROUND_ERROR;
 import static org.openhab.habdroid.background.BackgroundUtils.WORKER_TAG_SEND_ALARM_CLOCK;
-import static org.openhab.habdroid.background.BackgroundUtils.createNotificationChannel;
+import static org.openhab.habdroid.background.BackgroundUtils.createNotificationChannels;
 import static org.openhab.habdroid.background.BackgroundUtils.makeBackgroundNotification;
 import static org.openhab.habdroid.util.Constants.PREFERENCE_ALARM_CLOCK_ENABLED;
 
@@ -63,7 +63,7 @@ public class AlarmChangedReceiver extends BroadcastReceiver {
         Log.d(TAG, "Schedule worker");
         workManager.enqueue(sendAlarmClockWorker);
 
-        createNotificationChannel(context);
+        createNotificationChannels(context);
         Notification notification = makeBackgroundNotification(context,
                 R.string.waiting_for_network_to_send_alarm_clock, R.drawable.ic_alarm_grey_24dp,
                 false, null);
