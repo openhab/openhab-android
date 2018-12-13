@@ -700,15 +700,15 @@ public abstract class ContentController implements PageConnectionHolderFragment.
             if (mConnection == null) {
                 updateViewVisibility(true, false, view);
                 return;
-            } else {
-                updateViewVisibility(false, true, view);
             }
+            updateViewVisibility(false, true, view);
 
-            HttpUrl url = mConnection.getAsyncHttpClient().buildUrl("/habpanel/index.html");
+            String url = mConnection.getAsyncHttpClient().buildUrl("/habpanel/index.html")
+                    .toString();
 
             WebView webView = view.findViewById(R.id.webview);
 
-            webView.setWebViewClient(new AnchorWebViewClient(url.toString(),
+            webView.setWebViewClient(new AnchorWebViewClient(url,
                     mConnection.getUsername(), mConnection.getPassword()) {
                 @Override
                 public void onPageFinished(WebView view, String url) {
@@ -729,7 +729,7 @@ public abstract class ContentController implements PageConnectionHolderFragment.
             });
             webView.getSettings().setDomStorageEnabled(true);
             webView.getSettings().setJavaScriptEnabled(true);
-            webView.loadUrl(url.toString());
+            webView.loadUrl(url);
         }
 
         private void updateViewVisibility(boolean error, boolean loading, @NonNull View view) {
@@ -748,7 +748,7 @@ public abstract class ContentController implements PageConnectionHolderFragment.
 
         @Override
         public void onCloudConnectionChanged(CloudConnection connection) {
-            loadHabpanel(getView());
+            // no-op
         }
     }
 

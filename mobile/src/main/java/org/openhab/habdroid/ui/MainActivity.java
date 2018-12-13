@@ -530,7 +530,7 @@ public class MainActivity extends AppCompatActivity implements
         mController.triggerPageUpdate(pageUrl, forceReload);
     }
 
-    public void setupToolbar() {
+    private void setupToolbar() {
         Toolbar toolbar = findViewById(R.id.openhab_toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
