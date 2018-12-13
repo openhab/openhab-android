@@ -69,18 +69,14 @@ public class AlarmChangedWorker extends Worker {
 
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         String nextAlarm;
-        if (alarmManager.getNextAlarmClock() == null) {
+        AlarmManager.AlarmClockInfo alarmClockInfo = alarmManager.getNextAlarmClock();
+        if (alarmClockInfo == null) {
             nextAlarm = "0";
         } else {
-            nextAlarm = String.valueOf(alarmManager.getNextAlarmClock().getTriggerTime());
+            nextAlarm = String.valueOf(alarmClockInfo.getTriggerTime());
         }
         String item = PreferenceManager.getDefaultSharedPreferences(context)
                 .getString(PREFERENCE_ALARM_CLOCK_ITEM, "");
-        if (TextUtils.isEmpty(item.trim())) {
-            return retryOrFail(
-                    context.getString(R.string.error_sending_alarm_clock_item_empty),
-                    context, nm);
-        }
 
         String url = String.format(Locale.US, "rest/items/%s", item);
         SyncHttpClient.HttpResult result = connection.getSyncHttpClient()

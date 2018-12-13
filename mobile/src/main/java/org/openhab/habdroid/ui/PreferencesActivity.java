@@ -10,6 +10,7 @@
 package org.openhab.habdroid.ui;
 
 import android.app.FragmentManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
@@ -21,6 +22,7 @@ import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceGroup;
+import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
 import android.provider.Settings;
 import android.text.TextUtils;
@@ -37,6 +39,7 @@ import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
 
 import org.openhab.habdroid.R;
+import org.openhab.habdroid.background.AlarmChangedReceiver;
 import org.openhab.habdroid.core.CloudMessagingHelper;
 import org.openhab.habdroid.model.ServerProperties;
 import org.openhab.habdroid.util.CacheManager;
@@ -45,6 +48,8 @@ import org.openhab.habdroid.util.Util;
 
 import java.util.BitSet;
 
+import static org.openhab.habdroid.util.Constants.PREFERENCE_ALARM_CLOCK_ENABLED;
+import static org.openhab.habdroid.util.Constants.PREFERENCE_ALARM_CLOCK_ITEM;
 import static org.openhab.habdroid.util.Constants.PREV_SERVER_FLAGS;
 import static org.openhab.habdroid.util.Util.getHostFromUrl;
 
@@ -379,13 +384,22 @@ public class PreferencesActivity extends AppCompatActivity {
                         getPreferenceBool(alarmClockEnabledPref, false));
                 alarmClockEnabledPref.setOnPreferenceChangeListener((preference, newValue) -> {
                     updateAlarmClockEnabledPreferenceIcon(preference, newValue);
+                    if ((Boolean) newValue
+                            && !TextUtils.isEmpty(getPreferenceString(PREFERENCE_ALARM_CLOCK_ITEM, ""))) {
+                        AlarmChangedReceiver.startAlarmChangedWorker(getActivity());
+                    }
                     return true;
                 });
 
-                setEditorSummary(alarmClockItemPref, getPreferenceString(alarmClockItemPref,
-                        ""));
+                setEditorSummary(alarmClockItemPref,
+                        getPreferenceString(alarmClockItemPref,""));
                 alarmClockItemPref.setOnPreferenceChangeListener((preference, newValue) -> {
                     setEditorSummary(preference, newValue);
+                    if (getPreferenceBool(PREFERENCE_ALARM_CLOCK_ENABLED, false)
+                            && !TextUtils.isEmpty((String) newValue)) {
+                        AlarmChangedReceiver.startAlarmChangedWorker(getActivity(),
+                                (String) newValue);
+                    }
                     return true;
                 });
             }
@@ -461,7 +475,8 @@ public class PreferencesActivity extends AppCompatActivity {
 
         private void updateAlarmClockEnabledPreferenceIcon(Preference pref, Object newValue) {
             boolean enabled = (boolean) newValue;
-            pref.setIcon(enabled ? R.drawable.ic_alarm_grey_24dp : R.drawable.ic_alarm_off_grey_24dp);
+            pref.setIcon(enabled ? R.drawable.ic_alarm_grey_24dp
+                    : R.drawable.ic_alarm_off_grey_24dp);
         }
 
         private void setEditorSummary(Preference pref, Object newValue) {

@@ -8,8 +8,8 @@ import android.util.Log;
 import static org.openhab.habdroid.background.BackgroundUtils.NOTIFICATION_ID_SEND_ALARM_CLOCK;
 
 public class BackgroundTaskRetryBroadcastReceiver extends BroadcastReceiver {
-    private final static String TAG = BackgroundTaskRetryBroadcastReceiver.class.getSimpleName();
-    public final static String OH_EXTRA_NOTIFICATION_ID = "org.openhab.habdroid.notification_id";
+    private static final String TAG = BackgroundTaskRetryBroadcastReceiver.class.getSimpleName();
+    public static final String OH_EXTRA_NOTIFICATION_ID = "org.openhab.habdroid.notification_id";
 
     @Override
     public void onReceive(Context context, Intent intent) {
