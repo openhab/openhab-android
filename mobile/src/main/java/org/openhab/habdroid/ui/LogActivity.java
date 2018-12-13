@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -33,6 +34,8 @@ public class LogActivity extends AppCompatActivity {
     private ProgressBar mProgressBar;
     private TextView mLogTextView;
     private FloatingActionButton mFab;
+    private ScrollView mScrollView;
+    private LinearLayout mEmptyView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +51,8 @@ public class LogActivity extends AppCompatActivity {
         mFab = findViewById(R.id.shareFab);
         mLogTextView = findViewById(R.id.log);
         mProgressBar = findViewById(R.id.progressBar);
+        mScrollView = findViewById(R.id.scrollview);
+        mEmptyView = findViewById(android.R.id.empty);
 
         mFab.setOnClickListener(v -> {
             Intent sendIntent = new Intent();
@@ -57,20 +62,21 @@ public class LogActivity extends AppCompatActivity {
             startActivity(sendIntent);
         });
 
-        setUiLoading(true);
+        setUiState(true, false);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        setUiLoading(true);
+        setUiState(true, false);
         new GetLogFromAdbTask().execute(false);
     }
 
-    private void setUiLoading(boolean isLoading) {
-        mProgressBar.setVisibility(isLoading ? View.VISIBLE : View.GONE);
-        mLogTextView.setVisibility(isLoading ? View.GONE : View.VISIBLE);
-        if (isLoading) {
+    private void setUiState(boolean isLoading, boolean isEmpty) {
+        mProgressBar.setVisibility(isLoading && !isEmpty ? View.VISIBLE : View.GONE);
+        mLogTextView.setVisibility(isLoading && !isEmpty ? View.GONE : View.VISIBLE);
+        mEmptyView.setVisibility(isEmpty ? View.VISIBLE : View.GONE);
+        if (isLoading || isEmpty) {
             mFab.hide();
         } else {
             mFab.show();
@@ -90,7 +96,7 @@ public class LogActivity extends AppCompatActivity {
         Log.d(TAG, "onOptionsItemSelected()");
         switch (item.getItemId()) {
             case R.id.delete_log:
-                setUiLoading(true);
+                setUiState(true, false);
                 new GetLogFromAdbTask().execute(true);
                 return true;
             case android.R.id.home:
@@ -103,15 +109,16 @@ public class LogActivity extends AppCompatActivity {
 
     private class GetLogFromAdbTask extends AsyncTask<Boolean, Void, String> {
         @Override
-        protected String doInBackground(Boolean... clearBeforeRead) {
+        protected String doInBackground(Boolean... clear) {
             StringBuilder logBuilder = new StringBuilder();
             String separator = System.getProperty("line.separator");
             try {
-                if (clearBeforeRead[0]) {
+                if (clear[0]) {
                     Log.d(TAG, "Clear log");
                     Runtime.getRuntime().exec("logcat -b all -c");
+                    return "";
                 }
-                Process process = Runtime.getRuntime().exec("logcat -d");
+                Process process = Runtime.getRuntime().exec("logcat -b all -v threadtime -d");
                 BufferedReader bufferedReader = new BufferedReader(
                         new InputStreamReader(process.getInputStream()));
 
@@ -141,13 +148,9 @@ public class LogActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(String log) {
-            TextView logView = findViewById(R.id.log);
-            logView.setText(log);
-
-            setUiLoading(false);
-
-            ScrollView scrollView = findViewById(R.id.scrollview);
-            scrollView.post(() -> scrollView.fullScroll(View.FOCUS_DOWN));
+            mLogTextView.setText(log);
+            setUiState(false, TextUtils.isEmpty(log));
+            mScrollView.post(() -> mScrollView.fullScroll(View.FOCUS_DOWN));
         }
     }
 }
