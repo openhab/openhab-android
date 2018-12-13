@@ -226,4 +226,5 @@
     <string name="app_intro_skip_button">SKIP</string>
     <!-- Intro "DONE" button -->
     <string name="app_intro_done_button">DONE</string>
+    <string name="empty_page">This page contains widgets, that aren\'t visible due to their visibility configuration</string>
 </resources>

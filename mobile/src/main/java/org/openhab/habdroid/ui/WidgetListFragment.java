@@ -81,7 +81,8 @@ public class WidgetListFragment extends Fragment
         Log.d(TAG, "isAdded = " + isAdded());
         mActivity = (MainActivity) getActivity();
 
-        mAdapter = new WidgetAdapter(mActivity, mActivity.getConnection(), this);
+        mAdapter = new WidgetAdapter(mActivity, mActivity.getConnection(), this,
+                mRecyclerView, getView().findViewById(android.R.id.empty));
 
         mLayoutManager = new LinearLayoutManager(mActivity);
         mLayoutManager.setRecycleChildrenOnDetach(true);
@@ -174,14 +175,14 @@ public class WidgetListFragment extends Fragment
     public View onCreateView(LayoutInflater inflater,
             ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        Log.i(TAG, "onCreateView");
+        Log.d(TAG, "onCreateView()");
         Log.d(TAG, "isAdded = " + isAdded());
         return inflater.inflate(R.layout.fragment_widgetlist, container, false);
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
-        Log.d(TAG, "onViewCreated");
+        Log.d(TAG, "onViewCreated()");
         Log.d(TAG, "isAdded = " + isAdded());
         super.onViewCreated(view, savedInstanceState);
         mRecyclerView = view.findViewById(R.id.recyclerview);
