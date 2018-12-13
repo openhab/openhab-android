@@ -656,7 +656,14 @@ public abstract class ContentController implements PageConnectionHolderFragment.
             Bundle arguments = getArguments();
 
             View view = inflater.inflate(R.layout.fragment_status, container, false);
-            setDescription(arguments, view, R.id.description, KEY_MESSAGE);
+
+            TextView descriptionText = view.findViewById(R.id.description);
+            CharSequence message = arguments.getCharSequence(KEY_MESSAGE);
+            if (!TextUtils.isEmpty(message)) {
+                descriptionText.setText(message);
+            } else {
+                descriptionText.setVisibility(View.GONE);
+            }
 
             view.findViewById(R.id.progress).setVisibility(
                     arguments.getBoolean(KEY_PROGRESS) ? View.VISIBLE : View.GONE);
@@ -703,23 +710,6 @@ public abstract class ContentController implements PageConnectionHolderFragment.
                 getActivity().recreate();
             } else if (view.getTag().equals(BUTTON_TAG_RETRY_SERVER_PROP_FETCH)) {
                 ((MainActivity) getActivity()).retryServerPropertyQuery();
-            }
-        }
-
-        /**
-         * Set description text or hide TextView.
-         *
-         * @return true if button is shown, false if not.
-         */
-        private boolean setDescription(Bundle arguments, View view, @IdRes int id, String key) {
-            TextView descriptionText = view.findViewById(id);
-            CharSequence message = arguments.getCharSequence(key);
-            if (!TextUtils.isEmpty(message)) {
-                descriptionText.setText(message);
-                return true;
-            } else {
-                descriptionText.setVisibility(View.GONE);
-                return false;
             }
         }
 
