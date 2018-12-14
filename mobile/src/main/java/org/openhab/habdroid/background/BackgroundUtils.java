@@ -137,7 +137,7 @@ public class BackgroundUtils {
                 PendingIntent.getBroadcast(context, 0, retryIntent, 0);
         return new NotificationCompat.Action(
                 R.drawable.ic_refresh_grey_24dp,
-                context.getString(R.string.error_sending_alarm_clock_action_retry),
+                context.getString(R.string.retry),
                 retryPendingIntent);
     }
 
