@@ -51,7 +51,13 @@ public abstract class Item implements Parcelable {
 
         @Override
         public String toString() {
-            return String.valueOf(mValue) + (mUnit != null ? " " + mUnit : "");
+            // Skip decimals if value is integer
+            final String valueString = mValue == (int) mValue
+                    ? String.valueOf((int) mValue) : String.valueOf(mValue);
+            if (mUnit == null) {
+                return valueString;
+            }
+            return valueString + " " + mUnit;
         }
 
         @Override

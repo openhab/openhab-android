@@ -799,20 +799,25 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
                 Log.e(TAG, "mBoundWidget.item() is null");
                 return;
             }
+            Item.NumberState state = mBoundWidget.item().stateAsNumber();
             float minValue = mBoundWidget.minValue();
             float maxValue = mBoundWidget.maxValue();
             // This prevents an exception below, but could lead to
             // user confusion if this case is ever encountered.
             float stepSize = minValue == maxValue ? 1 : mBoundWidget.step();
             final int stepCount = ((int) (Math.abs(maxValue - minValue) / stepSize)) + 1;
-            final String[] stepValues = new String[stepCount];
+            final Item.NumberState[] stepValues = new Item.NumberState[stepCount];
+            final String[] stepValueLabels = new String[stepCount];
+            int closestIndex = 0;
+            float closestDelta = Float.MAX_VALUE;
+
             for (int i = 0; i < stepValues.length; i++) {
-                // Check if step size is a whole integer.
-                if (stepSize == Math.ceil(stepSize)) {
-                    // Cast to int to prevent .0 being added to all values in picker
-                    stepValues[i] = String.valueOf((int) (minValue + (i * stepSize)));
-                } else {
-                    stepValues[i] = String.valueOf(minValue + (i * stepSize));
+                float stepValue = minValue + i * stepSize;
+                stepValues[i] = Item.NumberState.withValue(state, stepValue);
+                stepValueLabels[i] = stepValues[i].toString();
+                if (state != null && Math.abs(state.mValue - stepValue) < closestDelta) {
+                    closestIndex = i;
+                    closestDelta = Math.abs(state.mValue - stepValue);
                 }
             }
 
@@ -821,31 +826,16 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
 
             numberPicker.setMinValue(0);
             numberPicker.setMaxValue(stepValues.length - 1);
-            numberPicker.setDisplayedValues(stepValues);
-
-            // Find the closest value in the calculated step value
-            Item.NumberState state = mBoundWidget.item().stateAsNumber();
-            if (state != null) {
-                String stateString = Float.toString(state.mValue);
-                int stepIndex = Arrays.binarySearch(stepValues, stateString,
-                        (lhs, rhs) -> Float.valueOf(lhs).compareTo(Float.valueOf(rhs)));
-                if (stepIndex < 0) {
-                    // Use the returned insertion point if value is not
-                    // found and select the closest value.
-                    stepIndex = -(stepIndex + 1);
-                    // Handle case where insertion would be larger than the array
-                    stepIndex = Math.min(stepIndex, stepValues.length - 1);
-                }
-                numberPicker.setValue(stepIndex);
-            }
+            numberPicker.setDisplayedValues(stepValueLabels);
+            numberPicker.setValue(closestIndex);
 
             new AlertDialog.Builder(view.getContext())
                     .setTitle(mLabelView.getText())
                     .setView(dialogView)
                     .setPositiveButton(R.string.set, (dialog, which) -> {
-                        String unit = state != null ? " " + state.mUnit : "";
-                        Util.sendItemCommand(mConnection.getAsyncHttpClient(), mBoundWidget.item(),
-                                stepValues[numberPicker.getValue()] + unit);
+                        Util.sendItemCommand(mConnection.getAsyncHttpClient(),
+                                mBoundWidget.item(),
+                                stepValues[numberPicker.getValue()].toString());
                     })
                     .setNegativeButton(R.string.cancel, null)
                     .show();
