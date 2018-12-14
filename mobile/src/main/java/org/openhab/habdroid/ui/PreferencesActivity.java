@@ -384,17 +384,19 @@ public class PreferencesActivity extends AppCompatActivity {
                     updateAlarmClockEnabledPreferenceIcon(preference, newValue);
                     BackgroundTasksBroadcastReceiver.startAlarmChangedWorker(getActivity(),
                             getPreferenceString(PREFERENCE_ALARM_CLOCK_ITEM, ""),
-                            (Boolean) newValue);
+                            (Boolean) newValue,
+                            false);
                     return true;
                 });
 
-                setEditorSummary(alarmClockItemPref,
+                setAlarmClockItemEditorSummary(alarmClockItemPref,
                         getPreferenceString(alarmClockItemPref,""));
                 alarmClockItemPref.setOnPreferenceChangeListener((preference, newValue) -> {
-                    setEditorSummary(preference, newValue);
+                    setAlarmClockItemEditorSummary(preference, newValue);
                     BackgroundTasksBroadcastReceiver.startAlarmChangedWorker(getActivity(),
                             (String) newValue,
-                            getPreferenceBool(PREFERENCE_ALARM_CLOCK_ENABLED, false));
+                            getPreferenceBool(PREFERENCE_ALARM_CLOCK_ENABLED, false),
+                            false);
                     return true;
                 });
             }
@@ -474,10 +476,10 @@ public class PreferencesActivity extends AppCompatActivity {
                     : R.drawable.ic_alarm_off_grey_24dp);
         }
 
-        private void setEditorSummary(Preference pref, Object newValue) {
+        private void setAlarmClockItemEditorSummary(Preference pref, Object newValue) {
             String itemName = (String) newValue;
-            boolean isSet = !TextUtils.isEmpty(itemName);
-            pref.setSummary(isSet ? itemName : getString(R.string.info_not_set));
+            pref.setSummary(TextUtils.isEmpty(itemName)
+                    ? getString(R.string.error_sending_alarm_clock_item_empty_summary) : itemName);
         }
 
         private void updateConnectionSummary(String subscreenPrefKey, String urlPrefKey,

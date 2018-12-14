@@ -151,6 +151,7 @@
     <string name="error_sending_alarm_clock">Error sending alarm clock. Got HTTP error %d</string>
     <string name="error_sending_alarm_clock_retry">Error sending alarm clock, but it\'ll be retried later</string>
     <string name="error_sending_alarm_clock_item_empty">You\'ve entered an invalid Item name</string>
+    <string name="error_sending_alarm_clock_item_empty_summary">As long as you don\'t set an Item here, the alarm clock won\'t be send to the server</string>
     <string name="error_sending_alarm_clock_no_connection">Error getting connection</string>
     <string name="error_sending_alarm_clock_action_retry">Retry</string>
 

@@ -47,10 +47,11 @@ public class BackgroundTasksBroadcastReceiver extends BroadcastReceiver {
     public static void startAlarmChangedWorker(Context context) {
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         startAlarmChangedWorker(context, prefs.getString(PREFERENCE_ALARM_CLOCK_ITEM, ""),
-                prefs.getBoolean(PREFERENCE_ALARM_CLOCK_ENABLED, false));
+                prefs.getBoolean(PREFERENCE_ALARM_CLOCK_ENABLED, false), true);
     }
 
-    public static void startAlarmChangedWorker(Context context, String itemName, boolean enabled) {
+    public static void startAlarmChangedWorker(Context context, String itemName, boolean enabled,
+            boolean showItemEmptyNotification) {
         Log.d(TAG, "startAlarmChangedWorker()");
         if (!enabled) {
             Log.d(TAG, "Feature is disabled");
@@ -75,12 +76,14 @@ public class BackgroundTasksBroadcastReceiver extends BroadcastReceiver {
 
         if (TextUtils.isEmpty(itemName.trim())) {
             Log.d(TAG, "Empty item name");
-            Notification notification = BackgroundUtils.makeBackgroundNotification(context,
-                    R.string.error_sending_alarm_clock_item_empty,
-                    R.drawable.ic_alarm_grey_24dp, true, null);
             nm.cancel(NOTIFICATION_TAG_BACKGROUND, NOTIFICATION_ID_SEND_ALARM_CLOCK);
-            nm.notify(NOTIFICATION_TAG_BACKGROUND_ERROR, NOTIFICATION_ID_SEND_ALARM_CLOCK,
-                    notification);
+            if (showItemEmptyNotification) {
+                Notification notification = BackgroundUtils.makeBackgroundNotification(context,
+                        R.string.error_sending_alarm_clock_item_empty,
+                        R.drawable.ic_alarm_grey_24dp, true, null);
+                nm.notify(NOTIFICATION_TAG_BACKGROUND_ERROR, NOTIFICATION_ID_SEND_ALARM_CLOCK,
+                        notification);
+            }
             return;
         }
 
