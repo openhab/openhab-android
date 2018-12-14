@@ -569,7 +569,7 @@ public abstract class ContentController implements PageConnectionHolderFragment.
     public static class ProgressFragment extends StatusFragment {
         public static ProgressFragment newInstance(CharSequence message, @DrawableRes int image) {
             ProgressFragment f = new ProgressFragment();
-            f.setArguments(buildArgs(message, 0, image,true));
+            f.setArguments(buildArgs(message, 0, image, true));
             return f;
         }
 
@@ -626,8 +626,8 @@ public abstract class ContentController implements PageConnectionHolderFragment.
                         R.string.go_to_settings_button, R.string.enable_wifi_button,
                         R.drawable.ic_signal_wifi_off_black_24dp, false);
             }
-            args.putBoolean("resolveAttempted", resolveAttempted);
-            args.putBoolean("wifiEnabled", hasWifiEnabled);
+            args.putBoolean(KEY_RESOLVE_ATTEMPTED, resolveAttempted);
+            args.putBoolean(KEY_WIFI_ENABLED, hasWifiEnabled);
             f.setArguments(args);
 
             return f;
@@ -641,13 +641,13 @@ public abstract class ContentController implements PageConnectionHolderFragment.
                 TaskStackBuilder.create(getActivity())
                         .addNextIntentWithParentStack(preferencesIntent)
                         .startActivities();
-            } else if (getArguments().getBoolean("resolveAttempted")) {
+            } else if (getArguments().getBoolean(KEY_RESOLVE_ATTEMPTED)) {
                 // If we attempted resolving, secondary button enables demo mode
                 PreferenceManager.getDefaultSharedPreferences(getContext())
                         .edit()
                         .putBoolean(Constants.PREFERENCE_DEMOMODE, true)
                         .apply();
-            } else if (!getArguments().getBoolean("wifiEnabled")) {
+            } else if (!getArguments().getBoolean(KEY_WIFI_ENABLED)) {
                 // If Wifi is disabled, secondary button suggests enabling Wifi
                 ((MainActivity) getActivity()).enableWifiAndIndicateStartup();
             }
@@ -660,6 +660,8 @@ public abstract class ContentController implements PageConnectionHolderFragment.
         protected static final String KEY_BUTTON_1_TEXT = "button1text";
         protected static final String KEY_BUTTON_2_TEXT = "button2text";
         protected static final String KEY_PROGRESS = "progress";
+        protected static final String KEY_RESOLVE_ATTEMPTED = "resolveAttempted";
+        protected static final String KEY_WIFI_ENABLED = "wifiEnabled";
 
         protected static Bundle buildArgs(CharSequence message, @StringRes int buttonTextResId,
                 @DrawableRes int drawableResId, boolean showProgress) {
