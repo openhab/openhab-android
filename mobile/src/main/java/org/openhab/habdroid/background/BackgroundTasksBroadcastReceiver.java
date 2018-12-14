@@ -26,29 +26,36 @@ import static org.openhab.habdroid.background.BackgroundUtils.WORKER_TAG_SEND_AL
 import static org.openhab.habdroid.util.Constants.PREFERENCE_ALARM_CLOCK_ENABLED;
 import static org.openhab.habdroid.util.Constants.PREFERENCE_ALARM_CLOCK_ITEM;
 
-public class AlarmChangedReceiver extends BroadcastReceiver {
-    private static final String TAG = AlarmChangedReceiver.class.getSimpleName();
+public class BackgroundTasksBroadcastReceiver extends BroadcastReceiver {
+    private static final String TAG = BackgroundTasksBroadcastReceiver.class.getSimpleName();
 
     @Override
     public void onReceive(Context context, Intent intent) {
         Log.d(TAG, "onReceive() with intent " + intent.getAction());
 
-        if (AlarmManager.ACTION_NEXT_ALARM_CLOCK_CHANGED.equals(intent.getAction())
-                && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-            if (prefs.getBoolean(PREFERENCE_ALARM_CLOCK_ENABLED, false)) {
+        if (AlarmManager.ACTION_NEXT_ALARM_CLOCK_CHANGED.equals(intent.getAction())) {
+            Log.d(TAG, "Alarm clock changed");
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 startAlarmChangedWorker(context);
             }
+        } else if (Intent.ACTION_LOCALE_CHANGED.equals(intent.getAction())) {
+            Log.d(TAG, "Locale changed, recreate notification channels");
+            BackgroundUtils.createNotificationChannels(context);
         }
     }
 
     public static void startAlarmChangedWorker(Context context) {
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-        startAlarmChangedWorker(context, prefs.getString(PREFERENCE_ALARM_CLOCK_ITEM, ""));
+        startAlarmChangedWorker(context, prefs.getString(PREFERENCE_ALARM_CLOCK_ITEM, ""),
+                prefs.getBoolean(PREFERENCE_ALARM_CLOCK_ENABLED, false));
     }
 
-    public static void startAlarmChangedWorker(Context context, String itemName) {
+    public static void startAlarmChangedWorker(Context context, String itemName, boolean enabled) {
         Log.d(TAG, "startAlarmChangedWorker()");
+        if (!enabled) {
+            Log.d(TAG, "Feature is disabled");
+            return;
+        }
         final Constraints constraints = new Constraints.Builder()
                 .setRequiredNetworkType(NetworkType.CONNECTED)
                 .build();

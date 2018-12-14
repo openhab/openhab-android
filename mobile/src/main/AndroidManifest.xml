@@ -124,19 +124,17 @@
         </receiver>
 
         <receiver
-            android:name=".background.AlarmChangedReceiver"
+            android:name=".background.BackgroundTasksBroadcastReceiver"
             android:enabled="true"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.app.action.NEXT_ALARM_CLOCK_CHANGED" />
             </intent-filter>
-        </receiver>
-        <receiver android:name=".background.BackgroundTaskRetryBroadcastReceiver" />
-        <receiver android:name=".core.LocaleChangedReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.LOCALE_CHANGED"/>
             </intent-filter>
         </receiver>
+        <receiver android:name=".background.BackgroundTaskRetryBroadcastReceiver" />
     </application>
 
 </manifest>

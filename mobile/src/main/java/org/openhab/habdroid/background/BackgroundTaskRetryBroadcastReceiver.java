@@ -18,7 +18,7 @@ public class BackgroundTaskRetryBroadcastReceiver extends BroadcastReceiver {
         switch (id) {
             case NOTIFICATION_ID_SEND_ALARM_CLOCK:
                 Log.d(TAG, "Got retry intent for alarm clock");
-                AlarmChangedReceiver.startAlarmChangedWorker(context);
+                BackgroundTasksBroadcastReceiver.startAlarmChangedWorker(context);
                 break;
             default:
                 Log.e(TAG, "Got intent without valid id: " + id);
