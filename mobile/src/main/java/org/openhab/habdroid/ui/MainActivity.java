@@ -138,7 +138,7 @@ public class MainActivity extends AppCompatActivity implements
     private Uri mPendingNfcData;
     private String mPendingOpenedNotificationId;
     private Sitemap mSelectedSitemap;
-    public ContentController mController;
+    private ContentController mController;
     private ServerProperties mServerProperties;
     private ServerProperties.UpdateHandle mPropsUpdateHandle;
     private boolean mStarted;
@@ -273,6 +273,14 @@ public class MainActivity extends AppCompatActivity implements
             }
         }
         queryServerProperties();
+    }
+
+    public void enableWifiAndIndicateStartup() {
+        WifiManager wifiManager =
+                (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+        wifiManager.setWifiEnabled(true);
+        mController.updateConnection(null, getString(R.string.waiting_for_wifi),
+                R.drawable.ic_signal_wifi_0_bar_black_24dp);
     }
 
     public void retryServerPropertyQuery() {
