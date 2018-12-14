@@ -45,7 +45,7 @@ public class BackgroundUtils {
             String name = context.getString(R.string.notification_channel_background);
             String description =
                     context.getString(R.string.notification_channel_background_description);
-            int importance = NotificationManager.IMPORTANCE_LOW;
+            int importance = NotificationManager.IMPORTANCE_MIN;
             NotificationChannel channel =
                     new NotificationChannel(CHANNEL_ID_BACKGROUND, name, importance);
             channel.setDescription(description);
@@ -100,9 +100,8 @@ public class BackgroundUtils {
                 .setCategory(isError ? NotificationCompat.CATEGORY_ERROR
                         : NotificationCompat.CATEGORY_PROGRESS)
                 .setOngoing(!isError)
-                .setGroup(isError ? CHANNEL_ID_BACKGROUND_ERROR : CHANNEL_ID_BACKGROUND)
                 .setPriority(isError ? NotificationCompat.PRIORITY_DEFAULT
-                        : NotificationCompat.PRIORITY_LOW);
+                        : NotificationCompat.PRIORITY_MIN);
 
         if (isError) {
             nb.setLights(ContextCompat.getColor(context, R.color.openhab_orange),
