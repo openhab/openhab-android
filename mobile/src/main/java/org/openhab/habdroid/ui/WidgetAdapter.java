@@ -115,7 +115,6 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
     private Connection mConnection;
     private ColorMapper mColorMapper;
 
-
     public WidgetAdapter(Context context, Connection connection,
             ItemClickListener itemClickListener) {
         super();
