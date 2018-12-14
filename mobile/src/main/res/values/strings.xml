@@ -203,7 +203,7 @@
     <!-- Log -->
     <string name="log">Log</string>
     <string name="view_log">View log</string>
-    <string name="delete_log">Delete log</string>
+    <string name="clear_log">Clear log</string>
     <string name="empty_log">Log is empty</string>
 
     <!-- Content description for images -->
