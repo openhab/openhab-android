@@ -36,7 +36,6 @@ import android.webkit.WebView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.RadioGroup;
 import android.widget.SeekBar;
@@ -115,12 +114,10 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
     private int mSelectedPosition = -1;
     private Connection mConnection;
     private ColorMapper mColorMapper;
-    private RecyclerView mRecyclerView;
-    private LinearLayout mEmptyPageView;
+
 
     public WidgetAdapter(Context context, Connection connection,
-            ItemClickListener itemClickListener, RecyclerView recyclerView,
-            LinearLayout emptyPageView) {
+            ItemClickListener itemClickListener) {
         super();
 
         mInflater = LayoutInflater.from(context);
@@ -131,17 +128,10 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
         TypedValue tv = new TypedValue();
         context.getTheme().resolveAttribute(R.attr.chartTheme, tv, true);
         mChartTheme = tv.string;
-
-        mRecyclerView = recyclerView;
-        mEmptyPageView = emptyPageView;
     }
 
     public void update(List<Widget> widgets, boolean forceFullUpdate) {
         boolean compatibleUpdate = true;
-        boolean emptyPage = widgets.size() == 0;
-
-        mRecyclerView.setVisibility(emptyPage ? View.GONE : View.VISIBLE);
-        mEmptyPageView.setVisibility(emptyPage ? View.VISIBLE : View.GONE);
 
         if (widgets.size() != mItems.size() || forceFullUpdate) {
             compatibleUpdate = false;
