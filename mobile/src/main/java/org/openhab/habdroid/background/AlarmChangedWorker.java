@@ -59,8 +59,7 @@ public class AlarmChangedWorker extends Worker {
         }
 
         if (connection == null) {
-            Log.e(TAG, "Got no connection "
-                    + (failureReason != null ? failureReason.getMessage() : null));
+            Log.e(TAG, "Got no connection " + failureReason);
             return retryOrFail(
                     context.getString(R.string.error_sending_alarm_clock_no_connection),
                     context, nm);
