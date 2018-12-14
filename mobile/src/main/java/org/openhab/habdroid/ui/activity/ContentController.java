@@ -15,6 +15,7 @@ import android.content.SharedPreferences;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.net.wifi.WifiManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
@@ -26,7 +27,6 @@ import android.view.ViewGroup;
 import android.view.ViewStub;
 import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
-import android.webkit.WebResourceResponse;
 import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -36,6 +36,7 @@ import androidx.annotation.DrawableRes;
 import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.annotation.StringRes;
 import androidx.core.app.TaskStackBuilder;
 import androidx.core.content.ContextCompat;
@@ -43,7 +44,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import okhttp3.HttpUrl;
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.core.connection.CloudConnection;
 import org.openhab.habdroid.core.connection.Connection;
@@ -689,7 +689,6 @@ public abstract class ContentController implements PageConnectionHolderFragment.
         }
 
         private void loadHabpanel(View view) {
-            updateViewVisibility(false, true, view);
             try {
                 mConnection = ConnectionFactory.getUsableConnection();
             } catch (ConnectionException e) {
@@ -715,15 +714,21 @@ public abstract class ContentController implements PageConnectionHolderFragment.
                     updateViewVisibility(false, false, getView());
                 }
 
+                @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
                 @Override
                 public void onReceivedError(WebView view, WebResourceRequest request,
                         WebResourceError error) {
-                    updateViewVisibility(true, false, getView());
+                    String url = request.getUrl().toString();
+                    Log.e(TAG, "onReceivedError() on URL: " + url);
+                    if (url.endsWith("/rest/events")) {
+                        updateViewVisibility(true, false, getView());
+                    }
                 }
 
                 @Override
-                public void onReceivedHttpError(WebView view, WebResourceRequest request,
-                        WebResourceResponse errorResponse) {
+                public void onReceivedError(WebView view, int errorCode, String description,
+                        String failingUrl) {
+                    Log.e(TAG, "onReceivedError() (old) on URL: " + failingUrl);
                     updateViewVisibility(true, false, getView());
                 }
             });
