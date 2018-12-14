@@ -80,7 +80,7 @@ public class BackgroundTasksBroadcastReceiver extends BroadcastReceiver {
             if (showItemEmptyNotification) {
                 Notification notification = BackgroundUtils.makeBackgroundNotification(context,
                         R.string.error_sending_alarm_clock_item_empty,
-                        R.drawable.ic_alarm_grey_24dp, true, null);
+                        true, null);
                 nm.notify(NOTIFICATION_TAG_BACKGROUND_ERROR, NOTIFICATION_ID_SEND_ALARM_CLOCK,
                         notification);
             }
@@ -94,7 +94,7 @@ public class BackgroundTasksBroadcastReceiver extends BroadcastReceiver {
 
         BackgroundUtils.createNotificationChannels(context);
         Notification notification = BackgroundUtils.makeBackgroundNotification(context,
-                R.string.waiting_for_network_to_send_alarm_clock, R.drawable.ic_alarm_grey_24dp,
+                R.string.waiting_for_network_to_send_alarm_clock,
                 false, null);
         nm.notify(NOTIFICATION_TAG_BACKGROUND, NOTIFICATION_ID_SEND_ALARM_CLOCK, notification);
     }

@@ -6,7 +6,6 @@ import android.app.NotificationManager;
 import android.content.Context;
 import android.os.Build;
 import android.preference.PreferenceManager;
-import android.text.TextUtils;
 import android.util.Log;
 import androidx.annotation.CheckResult;
 import androidx.annotation.NonNull;
@@ -107,7 +106,7 @@ public class AlarmChangedWorker extends Worker {
             Log.e(TAG, "Don't retry again");
             Notification notification = BackgroundUtils.makeBackgroundNotification(context,
                     error,
-                    R.drawable.ic_alarm_grey_24dp, true,
+                    true,
                     getAlarmClockRetryAction(context));
             nm.cancel(NOTIFICATION_TAG_BACKGROUND, NOTIFICATION_ID_SEND_ALARM_CLOCK);
             nm.notify(NOTIFICATION_TAG_BACKGROUND_ERROR, NOTIFICATION_ID_SEND_ALARM_CLOCK,
@@ -117,7 +116,7 @@ public class AlarmChangedWorker extends Worker {
         Log.d(TAG, "Retry");
         Notification notification = BackgroundUtils.makeBackgroundNotification(context,
                 context.getString(R.string.error_sending_alarm_clock_retry),
-                R.drawable.ic_alarm_grey_24dp, false,
+                false,
                 getAlarmClockRetryAction(context));
         nm.notify(NOTIFICATION_TAG_BACKGROUND, NOTIFICATION_ID_SEND_ALARM_CLOCK,
                 notification);

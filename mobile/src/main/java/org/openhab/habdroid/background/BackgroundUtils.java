@@ -14,12 +14,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Build;
-import androidx.annotation.DrawableRes;
 import androidx.annotation.StringRes;
 import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
@@ -68,10 +63,9 @@ public class BackgroundUtils {
         }
     }
 
-    public static Notification makeBackgroundNotification(Context context,
-            @StringRes int msgId, @DrawableRes int iconId, boolean isError,
-            NotificationCompat.Action action) {
-        return makeBackgroundNotification(context, context.getString(msgId), iconId, isError,
+    public static Notification makeBackgroundNotification(Context context, @StringRes int msgId,
+            boolean isError, NotificationCompat.Action action) {
+        return makeBackgroundNotification(context, context.getString(msgId), isError,
                 action);
     }
 
@@ -81,13 +75,12 @@ public class BackgroundUtils {
      *
      * @param context
      * @param msg Message to show.
-     * @param iconId Icon to show.
      * @param isError true if it's an error.
      * @param action Action to show as a button, e.g. "Retry"
      * @return
      */
     public static Notification makeBackgroundNotification(Context context, String msg,
-            @DrawableRes int iconId, boolean isError, NotificationCompat.Action action) {
+            boolean isError, NotificationCompat.Action action) {
         Intent notificationIntent = new Intent(context, MainActivity.class);
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
                 | Intent.FLAG_ACTIVITY_SINGLE_TOP);
@@ -96,7 +89,6 @@ public class BackgroundUtils {
 
         NotificationCompat.Builder nb = new NotificationCompat.Builder(context,
                 isError ? CHANNEL_ID_BACKGROUND_ERROR : CHANNEL_ID_BACKGROUND)
-                .setLargeIcon(drawableToBitmap(context.getResources().getDrawable(iconId)))
                 .setSmallIcon(R.drawable.ic_openhab_appicon_white_24dp)
                 .setContentTitle(context.getString(R.string.app_name))
                 .setWhen(System.currentTimeMillis())
@@ -139,31 +131,5 @@ public class BackgroundUtils {
                 R.drawable.ic_refresh_grey_24dp,
                 context.getString(R.string.retry),
                 retryPendingIntent);
-    }
-
-    /**
-     * @author https://stackoverflow.com/a/10600736
-     */
-    private static Bitmap drawableToBitmap(Drawable drawable) {
-        if (drawable instanceof BitmapDrawable) {
-            BitmapDrawable bitmapDrawable = (BitmapDrawable) drawable;
-            if (bitmapDrawable.getBitmap() != null) {
-                return bitmapDrawable.getBitmap();
-            }
-        }
-
-        Bitmap bitmap;
-        if (drawable.getIntrinsicWidth() <= 0 || drawable.getIntrinsicHeight() <= 0) {
-            // Single color bitmap will be created of 1x1 pixel
-            bitmap = Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888);
-        } else {
-            bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(),
-                    drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
-        }
-
-        Canvas canvas = new Canvas(bitmap);
-        drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
-        drawable.draw(canvas);
-        return bitmap;
     }
 }
