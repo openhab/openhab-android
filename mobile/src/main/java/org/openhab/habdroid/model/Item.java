@@ -9,7 +9,9 @@
 
 package org.openhab.habdroid.model;
 
+import android.os.Parcel;
 import android.os.Parcelable;
+
 import androidx.annotation.Nullable;
 
 import com.google.auto.value.AutoValue;
@@ -21,6 +23,7 @@ import org.w3c.dom.NodeList;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -30,6 +33,51 @@ import java.util.regex.Pattern;
 
 @AutoValue
 public abstract class Item implements Parcelable {
+    public static class NumberState implements Parcelable {
+        public final float mValue;
+        public final String mUnit;
+
+        public NumberState(float value) {
+            this(value, null);
+        }
+        public NumberState(float value, String unit) {
+            mValue = value;
+            mUnit = unit;
+        }
+
+        public static NumberState withValue(NumberState state, float value) {
+            return new NumberState(value, state != null ? state.mUnit : null);
+        }
+
+        @Override
+        public String toString() {
+            return String.valueOf(mValue) + (mUnit != null ? " " + mUnit : "");
+        }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel parcel, int flags) {
+            parcel.writeFloat(mValue);
+            parcel.writeString(mUnit);
+        }
+
+        public static final Parcelable.Creator<NumberState> CREATOR =
+                new Parcelable.Creator<NumberState>() {
+            @Override
+            public NumberState createFromParcel(Parcel in) {
+                return new NumberState(in.readFloat(), in.readString());
+            }
+            @Override
+            public NumberState[] newArray(int size) {
+                return new NumberState[size];
+            }
+        };
+    }
+
     public enum Type {
         None,
         Color,
@@ -60,7 +108,8 @@ public abstract class Item implements Parcelable {
     @Nullable
     public abstract String state();
     public abstract boolean stateAsBoolean();
-    public abstract float stateAsFloat();
+    @Nullable
+    public abstract NumberState stateAsNumber();
     @SuppressWarnings("mutable")
     @Nullable
     public abstract float[] stateAsHsv();
@@ -86,7 +135,7 @@ public abstract class Item implements Parcelable {
         public Item build() {
             String state = state();
             return stateAsBoolean(parseAsBoolean(state))
-                    .stateAsFloat(parseAsFloat(state))
+                    .stateAsNumber(parseAsNumber(state))
                     .stateAsHsv(parseAsHsv(state))
                     .stateAsBrightness(parseAsBrightness(state))
                     .autoBuild();
@@ -94,8 +143,8 @@ public abstract class Item implements Parcelable {
 
         abstract String state();
         abstract Builder stateAsBoolean(boolean state);
-        abstract Builder stateAsFloat(float state);
-        abstract Builder stateAsHsv(float[] hsv);
+        abstract Builder stateAsNumber(@Nullable NumberState state);
+        abstract Builder stateAsHsv(@Nullable float[] hsv);
         abstract Builder stateAsBrightness(@Nullable Integer brightness);
         abstract Item autoBuild();
 
@@ -121,19 +170,21 @@ public abstract class Item implements Parcelable {
             }
         }
 
-        private static float parseAsFloat(String state) {
-            // For uninitialized/null state return zero
+        private static NumberState parseAsNumber(String state) {
             if (state == null) {
-                return 0f;
+                return null;
             } else if ("ON".equals(state)) {
-                return 100f;
+                return new NumberState(100);
             } else if ("OFF".equals(state)) {
-                return 0f;
+                return new NumberState(0);
             } else {
+                int spacePos = state.indexOf(' ');
+                String number = spacePos >= 0 ? state.substring(0, spacePos) : state;
+                String unit = spacePos >= 0 ? state.substring(spacePos + 1) : null;
                 try {
-                    return Float.parseFloat(state);
+                    return new NumberState(Float.parseFloat(number), unit);
                 } catch (NumberFormatException e) {
-                    return 0f;
+                    return null;
                 }
             }
         }

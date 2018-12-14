@@ -553,7 +553,8 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
                     Integer brightness = mBoundItem.stateAsBrightness();
                     progress = brightness != null ? brightness : 0;
                 } else {
-                    progress = (int) mBoundItem.stateAsFloat();
+                    Item.NumberState state = mBoundItem.stateAsNumber();
+                    progress = state != null ? (int) state.mValue : 0;
                 }
                 mSeekBar.setProgress(progress);
             } else {
@@ -573,8 +574,9 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
         @Override
         public void onStopTrackingTouch(SeekBar seekBar) {
             Log.d(TAG, "onStopTrackingTouch position = " + seekBar.getProgress());
-            Util.sendItemCommand(mConnection.getAsyncHttpClient(), mBoundItem,
-                    String.valueOf(seekBar.getProgress()));
+            Item.NumberState state = Item.NumberState.withValue(mBoundItem.stateAsNumber(),
+                    seekBar.getProgress());
+            Util.sendItemCommand(mConnection.getAsyncHttpClient(), mBoundItem, state.toString());
         }
     }
 
@@ -822,24 +824,28 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
             numberPicker.setDisplayedValues(stepValues);
 
             // Find the closest value in the calculated step value
-            String stateString = Float.toString(mBoundWidget.item().stateAsFloat());
-            int stepIndex = Arrays.binarySearch(stepValues, stateString,
-                    (lhs, rhs) -> Float.valueOf(lhs).compareTo(Float.valueOf(rhs)));
-            if (stepIndex < 0) {
-                // Use the returned insertion point if value is not
-                // found and select the closest value.
-                stepIndex = -(stepIndex + 1);
-                // Handle case where insertion would be larger than the array
-                stepIndex = Math.min(stepIndex, stepValues.length - 1);
+            Item.NumberState state = mBoundWidget.item().stateAsNumber();
+            if (state != null) {
+                String stateString = Float.toString(state.mValue);
+                int stepIndex = Arrays.binarySearch(stepValues, stateString,
+                        (lhs, rhs) -> Float.valueOf(lhs).compareTo(Float.valueOf(rhs)));
+                if (stepIndex < 0) {
+                    // Use the returned insertion point if value is not
+                    // found and select the closest value.
+                    stepIndex = -(stepIndex + 1);
+                    // Handle case where insertion would be larger than the array
+                    stepIndex = Math.min(stepIndex, stepValues.length - 1);
+                }
+                numberPicker.setValue(stepIndex);
             }
-            numberPicker.setValue(stepIndex);
 
             new AlertDialog.Builder(view.getContext())
                     .setTitle(mLabelView.getText())
                     .setView(dialogView)
                     .setPositiveButton(R.string.set, (dialog, which) -> {
+                        String unit = state != null ? " " + state.mUnit : "";
                         Util.sendItemCommand(mConnection.getAsyncHttpClient(), mBoundWidget.item(),
-                                stepValues[numberPicker.getValue()]);
+                                stepValues[numberPicker.getValue()] + unit);
                     })
                     .setNegativeButton(R.string.cancel, null)
                     .show();
