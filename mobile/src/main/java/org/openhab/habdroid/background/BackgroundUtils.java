@@ -75,8 +75,11 @@ public class BackgroundUtils {
      *
      * @param context
      * @param msg Message to show.
-     * @param isError true if it's an error.
-     * @param action Action to show as a button, e.g. "Retry"
+     * @param isError Setting isError to true creates a notification with a higher priority,
+     *                posts it on the error channel, enables light. Setting it to false makes the
+     *                notification ongoing.
+     * @param action Action to show as a button, e.g. "Retry".
+     *               Also see {@link #makeRetryAction(Context, int)}
      * @return
      */
     public static Notification makeBackgroundNotification(Context context, String msg,
