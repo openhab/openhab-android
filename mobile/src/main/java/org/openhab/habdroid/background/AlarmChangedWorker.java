@@ -1,16 +1,13 @@
 package org.openhab.habdroid.background;
 
 import android.app.AlarmManager;
-import android.app.Notification;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.os.Build;
 import android.preference.PreferenceManager;
 import android.util.Log;
-import androidx.annotation.CheckResult;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
-import androidx.core.app.NotificationCompat;
 import androidx.work.Result;
 import androidx.work.Worker;
 import androidx.work.WorkerParameters;
@@ -26,12 +23,10 @@ import java.util.Locale;
 import static android.content.Context.NOTIFICATION_SERVICE;
 import static org.openhab.habdroid.background.BackgroundUtils.NOTIFICATION_ID_SEND_ALARM_CLOCK;
 import static org.openhab.habdroid.background.BackgroundUtils.NOTIFICATION_TAG_BACKGROUND;
-import static org.openhab.habdroid.background.BackgroundUtils.NOTIFICATION_TAG_BACKGROUND_ERROR;
 import static org.openhab.habdroid.util.Constants.PREFERENCE_ALARM_CLOCK_ITEM;
 
 public class AlarmChangedWorker extends Worker {
     private static final String TAG = AlarmChangedWorker.class.getSimpleName();
-    private static final int MAX_RETRY = 3;
 
     public AlarmChangedWorker(
             @NonNull Context context,
@@ -60,8 +55,12 @@ public class AlarmChangedWorker extends Worker {
 
         if (connection == null) {
             Log.e(TAG, "Got no connection " + failureReason);
-            return retryOrFail(
+            return BackgroundUtils.retryOrFail(
                     context.getString(R.string.error_sending_alarm_clock_no_connection),
+                    context.getString(R.string.error_sending_alarm_clock_retry),
+                    getRunAttemptCount(),
+                    BackgroundUtils.makeRetryAction(context, NOTIFICATION_ID_SEND_ALARM_CLOCK),
+                    NOTIFICATION_ID_SEND_ALARM_CLOCK,
                     context, nm);
         }
 
@@ -88,41 +87,13 @@ public class AlarmChangedWorker extends Worker {
             Log.e(TAG, "Error sending alarm clock. Got HTTP error "
                     + result.statusCode, result.error);
 
-            return retryOrFail(
+            return BackgroundUtils.retryOrFail(
                     context.getString(R.string.error_sending_alarm_clock, result.statusCode),
+                    context.getString(R.string.error_sending_alarm_clock_retry),
+                    getRunAttemptCount(),
+                    BackgroundUtils.makeRetryAction(context, NOTIFICATION_ID_SEND_ALARM_CLOCK),
+                    NOTIFICATION_ID_SEND_ALARM_CLOCK,
                     context, nm);
         }
-    }
-
-    /**
-     * Retry worker or fail if max retry is exceeded.
-     * @param error To show if worker failed
-     * @return Result
-     */
-    @CheckResult
-    private Result retryOrFail(String error, Context context, NotificationManager nm) {
-        if (getRunAttemptCount() > MAX_RETRY) {
-            Log.e(TAG, "Don't retry again");
-            Notification notification = BackgroundUtils.makeBackgroundNotification(context,
-                    error,
-                    true,
-                    getAlarmClockRetryAction(context));
-            nm.cancel(NOTIFICATION_TAG_BACKGROUND, NOTIFICATION_ID_SEND_ALARM_CLOCK);
-            nm.notify(NOTIFICATION_TAG_BACKGROUND_ERROR, NOTIFICATION_ID_SEND_ALARM_CLOCK,
-                    notification);
-            return Result.failure();
-        }
-        Log.d(TAG, "Retry");
-        Notification notification = BackgroundUtils.makeBackgroundNotification(context,
-                context.getString(R.string.error_sending_alarm_clock_retry),
-                false,
-                getAlarmClockRetryAction(context));
-        nm.notify(NOTIFICATION_TAG_BACKGROUND, NOTIFICATION_ID_SEND_ALARM_CLOCK,
-                notification);
-        return Result.retry();
-    }
-
-    private NotificationCompat.Action getAlarmClockRetryAction(Context context) {
-        return BackgroundUtils.makeRetryAction(context, NOTIFICATION_ID_SEND_ALARM_CLOCK);
     }
 }

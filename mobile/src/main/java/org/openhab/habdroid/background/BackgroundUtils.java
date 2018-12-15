@@ -15,9 +15,14 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
+import android.util.Log;
+import androidx.annotation.CheckResult;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
+import androidx.work.Result;
 
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.ui.MainActivity;
@@ -26,6 +31,7 @@ import static org.openhab.habdroid.background.BackgroundTaskRetryBroadcastReceiv
 
 public class BackgroundUtils {
     private static final String TAG = BackgroundUtils.class.getSimpleName();
+    private static final int MAX_RETRY = 3;
     public static final String WORKER_TAG_SEND_ALARM_CLOCK = "sendAlarmClock";
     public static final String NOTIFICATION_TAG_BACKGROUND = "background";
     public static final String NOTIFICATION_TAG_BACKGROUND_ERROR = "backgroundError";
@@ -133,5 +139,45 @@ public class BackgroundUtils {
                 R.drawable.ic_refresh_grey_24dp,
                 context.getString(R.string.retry),
                 retryPendingIntent);
+    }
+
+    /**
+     * Retry worker or fail if max retry is exceeded. Also shows a notification and returns correct
+     * {@link Result}.
+     * @param errorMessage Message shown in a notification if worker failed.
+     * @param retryMessage Message shown in a notification if worker is going to retry.
+     *                     If it's null, no notification will be shown.
+     * @param runAttemptCount Current attempt count.
+     * @param action Action added to the notification.
+     * @param notificationId Notification ID
+     * @param context
+     * @param nm NotificationManager instance
+     * @return Worker result.
+     */
+    @CheckResult
+    public static Result retryOrFail(@NonNull String errorMessage, @Nullable String retryMessage,
+            int runAttemptCount, @Nullable NotificationCompat.Action action, int notificationId,
+            @NonNull Context context, @NonNull NotificationManager nm) {
+        if (runAttemptCount > MAX_RETRY) {
+            Log.e(TAG, "Don't retry again. Error: " + errorMessage);
+            Notification notification = makeBackgroundNotification(context,
+                    errorMessage,
+                    true,
+                    action);
+            nm.cancel(NOTIFICATION_TAG_BACKGROUND, notificationId);
+            nm.notify(NOTIFICATION_TAG_BACKGROUND_ERROR, notificationId,
+                    notification);
+            return Result.failure();
+        }
+        Log.d(TAG, "Retry: " +  retryMessage);
+        if (retryMessage != null) {
+            Notification notification = makeBackgroundNotification(context,
+                    retryMessage,
+                    false,
+                    action);
+            nm.notify(NOTIFICATION_TAG_BACKGROUND, notificationId,
+                    notification);
+        }
+        return Result.retry();
     }
 }
