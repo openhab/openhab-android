@@ -165,6 +165,7 @@
     <string name="configuration_missing">openHAB-servern inte kunde upptäckas automatiskt. Konfigurera IP-adress eller värdnamn i serverinställningarna.</string>
     <string name="no_remote_server">Lokala nätverket är inte tillgängligt och du inte har konfigurerat en fjärrserver</string>
     <string name="resolving_openhab">Försöker hitta openHAB-server\u2026</string>
+    <!-- Log -->
     <!-- Content description for images -->
     <string name="content_description_open_roller_shutter">Öppna jalusi</string>
     <string name="content_description_stop_roller_shutter">Stoppa jalusi</string>
