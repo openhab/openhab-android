@@ -169,6 +169,7 @@
     <string name="configuration_missing">Il tuo server openHAB non puo\' essere individuato automaticamente. Per favore configura il suo indirizzo IP o il nome host nelle impostazioni server.</string>
     <string name="no_remote_server">Rete locale non è disponibile e non è stato configurato un server remoto</string>
     <string name="resolving_openhab">Individuando l\'istanza openHAB\u2026</string>
+    <!-- Log -->
     <!-- Content description for images -->
     <string name="content_description_open_roller_shutter">Apertura tapparella</string>
     <string name="content_description_stop_roller_shutter">Ferma tapparella</string>
