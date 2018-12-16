@@ -169,6 +169,7 @@
     <string name="configuration_missing">Az openHAB szervert nem tudta automatikusan felderíteni. Állítsd be manuálisan az IP címet vagy host nevet a szerver beállításokban.</string>
     <string name="no_remote_server">Helyi hálózat nem érhető el, és a távoli kiszolgáló nincs konfigurálva</string>
     <string name="resolving_openhab">Megpróbálja felderíteni az openHAB szerver példányt\u2026</string>
+    <!-- Log -->
     <!-- Content description for images -->
     <string name="content_description_open_roller_shutter">Redőny nyitása</string>
     <string name="content_description_stop_roller_shutter">Redőny megállítása</string>
