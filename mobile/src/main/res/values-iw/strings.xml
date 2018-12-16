@@ -169,6 +169,7 @@
     <string name="configuration_missing">השרת של openHAB לא ניתן לגילוי באופן אוטומטי. נא להגדיר את כתובת ה IP של השרת או את שמו בתפריט הגדרות שרת.</string>
     <string name="no_remote_server">הרשת המקומית אינה זמינה ולא הוגדר שרת מרוחק</string>
     <string name="resolving_openhab">מנסה לאתר שרת openHAB</string>
+    <!-- Log -->
     <!-- Content description for images -->
     <string name="content_description_open_roller_shutter">פתח תריס גלילה</string>
     <string name="content_description_stop_roller_shutter">עצור תריס גלילה</string>
