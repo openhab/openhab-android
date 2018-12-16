@@ -88,7 +88,7 @@
             android:summary="@string/settings_alarm_clock_summary"
             android:title="@string/settings_alarm_clock"
             android:icon="@drawable/ic_alarm_grey_24dp" />
-        <EditTextPreference
+        <org.openhab.habdroid.ui.widget.AlarmClockPreference
             android:defaultValue="@string/empty_string"
             android:dependency="alarmClockEnabled"
             android:key="alarmClockItem"

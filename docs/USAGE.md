@@ -26,7 +26,8 @@ The app follows the basic principles of the other openHAB UIs, like Basic UI, an
 * Receive notifications through an openHAB Cloud connection, [read more](https://www.openhab.org/docs/configuration/actions.html#cloud-notification-actions)
 * Change items via NFC tags
 * Send voice commands to openHAB
-* Supports wall mounted tablets
+* [Send alarm clock time to openHAB](#alarm-clock)
+* [Supports wall mounted tablets](#permanent-deployment)
 
 <div class="row">
   <div class="col s12 m6"><img src="images/main-menu.png" alt="Demo Overview"></div>
@@ -54,6 +55,35 @@ There are a number of strategies available to provide [secure remote access]({{b
 ## Permanent Deployment
 
 If you want to use openHAB Android on a wall mounted tablet, go to settings and select `Disable display timer` and `Fullscreen`.
+
+## Alarm Clock
+
+The openHAB app will send the next wake-up time from your alarm clock app to the server. Please configure an Item name in the settings.
+
+Example item definition:
+```
+Number AndroidAlarm
+
+```
+
+Example rule:
+```
+rule "Alarm Trigger"
+when
+    Time cron "*/10 * * * * ?"
+then
+    if (AndroidAlarm.state as Number == 0) {
+        // Alarm is turned off
+        return
+    }
+    val diff = AndroidAlarm.state as Number - now().millis
+    if (diff <= 15000) {
+        // Turn on stuff
+    }
+
+end
+
+```
 
 ## Help and Technical Details
 

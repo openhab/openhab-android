@@ -142,6 +142,8 @@
     <string name="alarm_clock">Alarm clock</string>
     <string name="settings_alarm_clock">Send alarm clock to openHAB</string>
     <string name="settings_alarm_clock_summary">Sends alarm clock time to a configured item</string>
+    <string name="settings_alarm_clock_howto_summary">Tap here to get some hints and explanations on how to set up SSL client certificate authentication</string>
+    <string name="settings_alarm_clock_howto_url" translatable="false">https://www.openhab.org/docs/apps/android.html#alarm-clock</string>
     <string name="settings_alarm_clock_item">Item</string>
     <string name="waiting_for_network_to_send_alarm_clock">Waiting for network to send alarm clock</string>
     <string name="notification_channel_background">Background</string>

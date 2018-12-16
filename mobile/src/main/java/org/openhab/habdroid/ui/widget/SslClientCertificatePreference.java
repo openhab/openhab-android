@@ -47,7 +47,7 @@ public class SslClientCertificatePreference extends Preference {
     private void init(Context context) {
         assert context instanceof Activity;
         mActivity = (Activity) context;
-        setWidgetLayoutResource(R.layout.ssl_client_cert_pref);
+        setWidgetLayoutResource(R.layout.help_icon_pref);
     }
 
     @Override
@@ -63,6 +63,8 @@ public class SslClientCertificatePreference extends Preference {
 
         if (intent.resolveActivity(context.getPackageManager()) != null) {
             mHelpIcon.setOnClickListener(v -> context.startActivity(intent));
+            mHelpIcon.setContentDescription(
+                    context.getString(R.string.settings_openhab_sslclientcert_howto_summary));
             TooltipCompat.setTooltipText(mHelpIcon,
                     context.getString(R.string.settings_openhab_sslclientcert_howto_summary));
             updateHelpIconAlpha();
