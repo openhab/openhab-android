@@ -166,6 +166,7 @@
     <string name="configuration_missing">Δεν ήταν δυνατό να γίνει αυτόματη εύρεση του διακομιστή openHAB. Παρακαλώ ρυθμίστε την IP διεύθυνση ή το όνομα υπολογιστή στις ρυθμίσεις διακομιστή.</string>
     <string name="no_remote_server">Το τοπικό δίκτυο δεν είναι διαθέσιμο και δεν έχετε διαμορφώσει έναν απομακρυσμένο διακομιστή</string>
     <string name="resolving_openhab">Προσπάθεια εύρεσης του διακομιστή openHAB</string>
+    <!-- Log -->
     <!-- Content description for images -->
     <string name="content_description_open_roller_shutter">Άνοιγμα ρολών</string>
     <string name="content_description_stop_roller_shutter">Σταμάτημα ρολών</string>
