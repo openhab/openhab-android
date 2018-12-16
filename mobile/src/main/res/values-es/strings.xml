@@ -62,6 +62,7 @@
     <string name="error_network_type_unsupported">El tipo de red (%s) no está soportado</string>
     <string name="set">Establecer</string>
     <string name="cancel">Cancelar</string>
+    <!-- Log -->
     <!-- Content description for images -->
     <!-- Intro strings -->
     <string name="intro_welcome">Bienvenido a openHAB</string>
