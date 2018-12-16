@@ -17,7 +17,7 @@ buildscript {
 }
 
 apply plugin: 'com.android.application'
-if(!isFoss) {
+if (!isFoss) {
     apply plugin: 'io.fabric'
 }
 
@@ -56,7 +56,7 @@ android {
     productFlavors {
         full {
             dimension "license"
-            manifestPlaceholders = [ maps_api_key : project.findProperty("mapsApiKey") ?: "" ]
+            manifestPlaceholders = [maps_api_key: project.findProperty("mapsApiKey") ?: ""]
         }
         foss {
             dimension "license"
@@ -96,17 +96,18 @@ repositories {
 }
 
 dependencies {
-    implementation "androidx.appcompat:appcompat:1.0.2"
-    implementation "androidx.legacy:legacy-support-v4:1.0.0"
-    implementation "androidx.recyclerview:recyclerview:1.0.0"
-    implementation "com.google.android.material:material:1.0.0"
+    implementation 'androidx.appcompat:appcompat:1.0.2'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'androidx.recyclerview:recyclerview:1.0.0'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.2'
+    implementation 'com.google.android.material:material:1.0.0'
     implementation 'androidx.multidex:multidex:2.0.0'
     implementation 'org.jmdns:jmdns:3.5.5'
     implementation 'com.squareup.okhttp3:okhttp:3.12.0'
     implementation 'com.github.heremaps:oksse:0.9.0'
     implementation 'com.larswerkman:HoloColorPicker:1.5'
     implementation 'com.github.BigBadaboom:androidsvg:3511e136498da94018ef9fa438895984ea9b99db'
-    implementation ('com.github.paolorotolo:appintro:v5.1.0') {
+    implementation('com.github.paolorotolo:appintro:v5.1.0') {
         transitive false
         exclude group: 'com.intellij', module: 'annotations'
     }
@@ -158,6 +159,6 @@ dependencies {
     androidTestImplementation 'tools.fastlane:screengrab:1.1.0'
 }
 
-if(!isFoss) {
+if (!isFoss) {
     apply plugin: 'com.google.gms.google-services'
 }
