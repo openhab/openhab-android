@@ -166,6 +166,7 @@
     <string name="configuration_missing">您的 openHAB 服务器无法被自动发现。请在服务器设置中配置其 IP 地址或主机名。</string>
     <string name="no_remote_server">本地网络不可用且您尚未配置远程服务器</string>
     <string name="resolving_openhab">正在寻找 openHAB 服务器\u2026</string>
+    <!-- Log -->
     <!-- Content description for images -->
     <string name="content_description_open_roller_shutter">打开卷帘</string>
     <string name="content_description_stop_roller_shutter">停止卷帘</string>
