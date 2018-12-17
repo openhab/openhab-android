@@ -170,6 +170,10 @@
     <string name="no_remote_server">Rete locale non è disponibile e non è stato configurato un server remoto</string>
     <string name="resolving_openhab">Individuando l\'istanza openHAB\u2026</string>
     <!-- Log -->
+    <string name="log">Log</string>
+    <string name="view_log">Mostra log</string>
+    <string name="clear_log">Pulisci log</string>
+    <string name="empty_log">Log è vuoto</string>
     <!-- Content description for images -->
     <string name="content_description_open_roller_shutter">Apertura tapparella</string>
     <string name="content_description_stop_roller_shutter">Ferma tapparella</string>
