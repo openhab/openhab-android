@@ -121,6 +121,7 @@
     <string name="action_settings">Settings</string>
     <string name="nfc_dialog_title">Write NFC tag action for this element</string>
     <string name="info_not_set">Not set</string>
+    <string name="empty_page">This page doesn\'t contain any widgets that are set to be visible</string>
 
     <!-- Notification list strings -->
     <string name="notification_list_empty">No notifications were sent so far</string>
