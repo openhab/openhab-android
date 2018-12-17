@@ -20,6 +20,19 @@
     <string name="settings_openhab_username">Потребителско име</string>
     <string name="settings_openhab_password">Парола</string>
     <string name="settings_openhab_sslclientcert">SSL сертификат на клиент</string>
+    <string name="settings_openhab_screentimeroff">Изключване на дисплей таймер</string>
+    <string name="settings_openhab_screentimeroff_summary">Изключва таймера за гасене на дисплея, когато openHAB се изпълнява</string>
+    <string name="settings_openhab_demomode">Демонстрационен режим</string>
+    <string name="settings_openhab_theme">Тема</string>
+    <string name="settings_openhab_fullscreen">Пълен екран</string>
+    <string name="settings_openhab_fullscreen_summary">Показване в режим на цял екран</string>
+    <string name="settings_openhab_icon_format">Формат на иконите</string>
+    <string name="settings_openhab_icon_format_png">Растерна графика</string>
+    <string name="settings_openhab_icon_format_svg">Вектор</string>
+    <string name="settings_chart_scaling">Мащабиране на диаграмата</string>
+    <string name="settings_chart_scaling_summary">Забележка: Малките мащаби свиват шрифтовете и ширината на линиите, така че има повече пространство за графиката, но четливостта на шрифта може да пострада.</string>
+    <string name="settings_chart_scaling_value_xs">Много малък</string>
+    <string name="settings_chart_scaling_value_s">Малък</string>
     <string name="settings_chart_scaling_value_m">По подразбиране</string>
     <string name="settings_chart_scaling_value_l">Голям</string>
     <string name="settings_ringtone">Уведомителна мелодия</string>
@@ -83,10 +96,42 @@
     <string name="notification_list_error">Възникна грешка при зареждането на известията</string>
     <string name="list_loading_message">Зарежда се\u2026</string>
     <!-- Strings for MemorizingTrustManager activity -->
+    <string name="mtm_accept_cert">Приемане на непознат сертификат?</string>
+    <string name="mtm_trust_anchor">Сертификатът на сървъра не е подписан от известен сертифициращ орган</string>
+    <string name="mtm_cert_expired">Сертификатът на сървъра е с изтекъл срок</string>
+    <string name="mtm_accept_servername">Приемете несъответствие в името на сървъра?</string>
+    <string name="mtm_hostname_mismatch">Сървърът не можа да се удостовери като \&quot;%s\&quot;. Сертификатът е валиден само за:</string>
+    <string name="mtm_connect_anyway">Все пак искате ли да продължите?</string>
+    <string name="mtm_cert_details">Данни за сертификата:</string>
+    <string name="mtm_decision_always">Приемам</string>
+    <string name="mtm_decision_once">Един път</string>
+    <string name="mtm_decision_abort">Прекъсване</string>
+    <string name="mtm_notification">Проверка на сертификата</string>
+    <string name="settings_openhab_none">Няма</string>
     <!-- Themes -->
+    <string name="theme_name_light">Светло</string>
+    <string name="theme_name_dark">Тъмно</string>
+    <string name="theme_name_black">Черно/AMOLED</string>
     <!-- NFC -->
+    <string name="nfc_action_on">Включено</string>
+    <string name="nfc_action_up">Нагоре</string>
+    <string name="nfc_action_off">Изключено</string>
+    <string name="nfc_action_down">Надолу</string>
+    <string name="nfc_action_toggle">Превключи</string>
+    <string name="nfc_activate">Активиране</string>
+    <string name="nfc_action_current_color">Текущ цвят</string>
+    <string name="nfc_action_to_sitemap_page">Отидете на сйтмап страницата</string>
     <!-- Drawer -->
+    <string name="mainmenu_openhab_voice_recognition">Разпознаване на глас</string>
     <!-- About -->
+    <string name="about_title">Относно</string>
+    <string name="about_license_title">Лиценз</string>
+    <string name="about_changelog">Списък на промените</string>
+    <string name="about_source_code">Изходен код</string>
+    <string name="about_issues">Съобщи за проблем</string>
+    <string name="about_docs">Документация</string>
+    <string name="about_community_forum">Форум на Общността</string>
+    <string name="about_foundation">openHAB фондация</string>
     <string name="about_community">openHAB Общност</string>
     <string name="about_server">openHAB сървър</string>
     <string name="about_translation">Помогнете ни в превеждането на openHAB</string>
