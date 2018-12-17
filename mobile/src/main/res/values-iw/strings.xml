@@ -170,6 +170,10 @@
     <string name="no_remote_server">הרשת המקומית אינה זמינה ולא הוגדר שרת מרוחק</string>
     <string name="resolving_openhab">מנסה לאתר שרת openHAB</string>
     <!-- Log -->
+    <string name="log">יומן רישום</string>
+    <string name="view_log">הצג יומן רישום</string>
+    <string name="clear_log">מחיקת יומן הרישום</string>
+    <string name="empty_log">יומן הרישום ריק</string>
     <!-- Content description for images -->
     <string name="content_description_open_roller_shutter">פתח תריס גלילה</string>
     <string name="content_description_stop_roller_shutter">עצור תריס גלילה</string>
