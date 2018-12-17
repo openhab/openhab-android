@@ -170,6 +170,10 @@
     <string name="no_remote_server">Локальная сеть недоступна и не настроен удаленный сервер</string>
     <string name="resolving_openhab">Пытаюсь обнаружить сервер openHAB\u2026</string>
     <!-- Log -->
+    <string name="log">Журнал</string>
+    <string name="view_log">Просмотр журнала</string>
+    <string name="clear_log">Очистить журнал</string>
+    <string name="empty_log">Журнал пуст</string>
     <!-- Content description for images -->
     <string name="content_description_open_roller_shutter">Открыть рольставни</string>
     <string name="content_description_stop_roller_shutter">Остановить рольставни</string>
