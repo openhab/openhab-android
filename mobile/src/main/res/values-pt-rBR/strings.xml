@@ -28,6 +28,7 @@
     <string name="settings_openhab_screentimeroff">Desativar a exibição do timer</string>
     <string name="settings_openhab_screentimeroff_summary">Desativa a exibição de interruptor de temporização quando openHAB está sendo executado</string>
     <string name="settings_openhab_demomode">Modo de demonstração</string>
+    <string name="settings_openhab_demomode_summary">Se você não tiver um servidor openHAB, ative o modo de demonstração para obter uma imaginação de que openHAB é capaz de fazer.</string>
     <string name="settings_openhab_theme">Tema</string>
     <string name="settings_openhab_fullscreen">Tela cheia</string>
     <string name="settings_openhab_fullscreen_summary">Exibir no modo de tela cheia</string>
@@ -40,6 +41,8 @@
     <string name="settings_chart_scaling_value_s">Pequeno</string>
     <string name="settings_chart_scaling_value_m">Padrão</string>
     <string name="settings_chart_scaling_value_l">Grande</string>
+    <string name="settings_openhab_chart_hq">Gráficos de alta resolução</string>
+    <string name="settings_openhab_chart_hq_summary">Gerar gráficos pode pesar servidor. Se você se deparar com carregamento lento do gráfico e seu servidor não é poderoso, desabilite essa opção para melhorar o tempo de carregamento.</string>
     <string name="settings_ringtone">Toque de notificação</string>
     <string name="settings_ringtone_none">Nenhum</string>
     <string name="settings_clear_default_sitemap">Limpar o sitemap padrão</string>
@@ -105,6 +108,7 @@
     <string name="action_settings">Configurações</string>
     <string name="nfc_dialog_title">Definir a ação da tag NFC para este elemento</string>
     <string name="info_not_set">Não definido</string>
+    <string name="empty_page">Esta página não contém qualquer widgets que estão definidos para ser visível</string>
     <!-- Notification list strings -->
     <string name="notification_list_empty">Nenhuma notificação foi enviada até agora</string>
     <string name="notification_list_error">Um erro ocorreu enquanto carregava as notificações</string>
@@ -167,6 +171,10 @@
     <string name="no_remote_server">Rede local não está disponível e você não tem um servidor remoto configurado</string>
     <string name="resolving_openhab">Tentando descobrir uma instância do servidor openHAB\u2026</string>
     <!-- Log -->
+    <string name="log">Log</string>
+    <string name="view_log">Ver Log</string>
+    <string name="clear_log">Limpar Log</string>
+    <string name="empty_log">Log está vazio</string>
     <!-- Content description for images -->
     <string name="content_description_open_roller_shutter">Abrir cortina</string>
     <string name="content_description_stop_roller_shutter">Parar cortina</string>
