@@ -108,6 +108,7 @@
     <string name="action_settings">Настройки</string>
     <string name="nfc_dialog_title">Выберите действие тега NFC</string>
     <string name="info_not_set">Не задано</string>
+    <string name="empty_page">Эта страница не содержит виджетов, которые можно сделать видимыми</string>
     <!-- Notification list strings -->
     <string name="notification_list_empty">Нет недавно отправленных уведомлений</string>
     <string name="notification_list_error">Ошибка при загрузке уведомлений</string>
