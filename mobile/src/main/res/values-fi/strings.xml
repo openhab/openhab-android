@@ -108,6 +108,7 @@
     <string name="action_settings">Asetukset</string>
     <string name="nfc_dialog_title">Kirjoita NFC tagin toiminto tälle elementille</string>
     <string name="info_not_set">Ei määritetty</string>
+    <string name="empty_page">Tämä sivu ei sisällä widgettejä, jotka on määritetty näkymään</string>
     <!-- Notification list strings -->
     <string name="notification_list_empty">Ilmoituksia ei toistaiseksi lähetetty</string>
     <string name="notification_list_error">Virhe ladattaessa ilmoituksia</string>
@@ -170,6 +171,10 @@
     <string name="no_remote_server">Paikallinen verkko ei ole käytettävissä etkä ole asettanut etäpalvelinta</string>
     <string name="resolving_openhab">Etsitään openHAB palvelinta\u2026</string>
     <!-- Log -->
+    <string name="log">Loki</string>
+    <string name="view_log">Näytä loki</string>
+    <string name="clear_log">Tyhjennä loki</string>
+    <string name="empty_log">Loki on tyhjä</string>
     <!-- Content description for images -->
     <string name="content_description_open_roller_shutter">Avaa rullaverho</string>
     <string name="content_description_stop_roller_shutter">Pysäytä rullaverho</string>
