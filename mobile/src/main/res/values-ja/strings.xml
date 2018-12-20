@@ -108,6 +108,7 @@
     <string name="action_settings">設定</string>
     <string name="nfc_dialog_title">この要素の NFC タグアクションを作成</string>
     <string name="info_not_set">未設定</string>
+    <string name="empty_page">このページには表示するように設定されたウィジェットがありません</string>
     <!-- Notification list strings -->
     <string name="notification_list_empty">まだ通知は送信されていません</string>
     <string name="notification_list_error">通知を読み込み中にエラーが発生しました</string>
@@ -170,6 +171,10 @@
     <string name="no_remote_server">ローカルネットワークが利用できません。リモートサーバーが設定されていません</string>
     <string name="resolving_openhab">openHAB サーバーインスタンスの探索中\u2026</string>
     <!-- Log -->
+    <string name="log">ログ</string>
+    <string name="view_log">ログの表示</string>
+    <string name="clear_log">ログの消去</string>
+    <string name="empty_log">ログはありません</string>
     <!-- Content description for images -->
     <string name="content_description_open_roller_shutter">ロール シャッターを開く</string>
     <string name="content_description_stop_roller_shutter">ロール シャッターを停止</string>
