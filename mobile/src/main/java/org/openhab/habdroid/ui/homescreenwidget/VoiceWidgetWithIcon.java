@@ -10,6 +10,8 @@ import org.openhab.habdroid.R;
 import org.openhab.habdroid.ui.MainActivity;
 
 public class VoiceWidgetWithIcon extends VoiceWidget {
+    private static final String TAG = VoiceWidgetWithIcon.class.getSimpleName();
+
     @Override
     void setupOpenhabIcon(Context context, RemoteViews views) {
         Intent mainIntent = new Intent(context, MainActivity.class);

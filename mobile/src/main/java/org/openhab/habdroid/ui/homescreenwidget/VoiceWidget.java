@@ -28,7 +28,7 @@ import org.openhab.habdroid.core.VoiceService;
  * Implementation of App Widget functionality.
  */
 public class VoiceWidget extends AppWidgetProvider {
-    private final static String TAG = VoiceWidget.class.getSimpleName();
+    private static final String TAG = VoiceWidget.class.getSimpleName();
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
@@ -38,7 +38,8 @@ public class VoiceWidget extends AppWidgetProvider {
         }
     }
 
-    private void updateAppWidget(Context context, AppWidgetManager appWidgetManager, int appWidgetId) {
+    private void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
+            int appWidgetId) {
         // Construct the RemoteViews object
         RemoteViews views = new RemoteViews(context.getPackageName(), getLayoutRes());
 
@@ -46,7 +47,7 @@ public class VoiceWidget extends AppWidgetProvider {
         if (SpeechRecognizer.isRecognitionAvailable(context)) {
             Log.d(TAG, "Voice recognizer available, build speech intent");
             Intent callbackIntent = new Intent(context, VoiceService.class);
-            PendingIntent callbackPendingIntent = PendingIntent.getService(context,
+            final PendingIntent callbackPendingIntent = PendingIntent.getService(context,
                     9, callbackIntent, 0);
 
             intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
@@ -72,11 +73,11 @@ public class VoiceWidget extends AppWidgetProvider {
         appWidgetManager.updateAppWidget(appWidgetId, views);
     }
 
-     void setupOpenhabIcon(Context context, RemoteViews views) {
+    void setupOpenhabIcon(Context context, RemoteViews views) {
         // This widget has no openHAB icon displayed.
-     }
+    }
 
-     @LayoutRes int getLayoutRes() {
+    @LayoutRes int getLayoutRes() {
         return R.layout.widget_voice;
-     }
+    }
 }
