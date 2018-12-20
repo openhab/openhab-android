@@ -94,7 +94,7 @@
             android:exported="false" />
 
         <receiver
-            android:name=".ui.VoiceWidget"
+            android:name=".ui.homescreenwidget.VoiceWidget"
             android:label="@string/title_voice_widget">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -103,6 +103,17 @@
             <meta-data
                 android:name="android.appwidget.provider"
                 android:resource="@xml/voice_widget_info" />
+        </receiver>
+        <receiver
+                android:name=".ui.homescreenwidget.VoiceWidgetWithIcon"
+                android:label="@string/title_voice_widget_icon">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                    android:name="android.appwidget.provider"
+                    android:resource="@xml/voice_widget_with_icon_info" />
         </receiver>
         <receiver android:name=".core.OnUpdateBroadcastReceiver">
             <intent-filter>

@@ -70,7 +70,8 @@
     <string name="settings_insecure_connection_summary">Insecurely connected to %s</string>
 
     <!-- App messages strings -->
-    <string name="title_voice_widget">openHAB voice commands</string>
+    <string name="title_voice_widget">Voice commands</string>
+    <string name="title_voice_widget_icon">Voice commands and app shortcut</string>
     <string name="info_voice_input">openHAB, at your command!</string>
     <string name="info_voice_recognized_text">Recognized command: %1$s</string>
     <string name="info_demo_mode_short">Running in demo mode</string>
