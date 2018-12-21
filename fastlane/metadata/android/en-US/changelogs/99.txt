@@ -1,0 +1,5 @@
+## Added
+* Show hint if a page doesn't contain visible elements (#1145)
+
+## Changed
+* Bump dependencies
