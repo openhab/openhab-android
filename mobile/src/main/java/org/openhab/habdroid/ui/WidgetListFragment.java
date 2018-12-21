@@ -147,7 +147,7 @@ public class WidgetListFragment extends Fragment
                 labels.add(getString(R.string.nfc_action_toggle));
                 commands.add("TOGGLE");
                 labels.add(getString(R.string.nfc_action_current_color));
-                commands.add(widget.item().state());
+                commands.add(widget.state().asString());
             }
         }
         labels.add(getString(R.string.nfc_action_to_sitemap_page));

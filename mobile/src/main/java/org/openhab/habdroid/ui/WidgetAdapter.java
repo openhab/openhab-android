@@ -57,6 +57,7 @@ import org.openhab.habdroid.R;
 import org.openhab.habdroid.core.connection.Connection;
 import org.openhab.habdroid.model.Item;
 import org.openhab.habdroid.model.LabeledValue;
+import org.openhab.habdroid.model.ParsedState;
 import org.openhab.habdroid.model.Widget;
 import org.openhab.habdroid.ui.widget.DividerItemDecoration;
 import org.openhab.habdroid.ui.widget.ExtendedSpinner;
@@ -502,7 +503,7 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
         public void bind(Widget widget) {
             super.bind(widget);
             mBoundItem = widget.item();
-            mSwitch.setChecked(mBoundItem != null && mBoundItem.stateAsBoolean());
+            mSwitch.setChecked(mBoundItem != null && mBoundItem.state().asBoolean());
         }
 
         @Override
@@ -550,10 +551,10 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
             if (mBoundItem != null) {
                 int progress;
                 if (mBoundItem.isOfTypeOrGroupType(Item.Type.Color)) {
-                    Integer brightness = mBoundItem.stateAsBrightness();
+                    Integer brightness = mBoundItem.state().asBrightness();
                     progress = brightness != null ? brightness : 0;
                 } else {
-                    Item.NumberState state = mBoundItem.stateAsNumber();
+                    ParsedState.NumberState state = mBoundItem.state().asNumber();
                     progress = state != null ? (int) state.mValue : 0;
                 }
                 mSeekBar.setProgress(progress);
@@ -574,9 +575,10 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
         @Override
         public void onStopTrackingTouch(SeekBar seekBar) {
             Log.d(TAG, "onStopTrackingTouch position = " + seekBar.getProgress());
-            Item.NumberState state = Item.NumberState.withValue(mBoundItem.stateAsNumber(),
-                    seekBar.getProgress());
-            Util.sendItemCommand(mConnection.getAsyncHttpClient(), mBoundItem, state.toString());
+            ParsedState.NumberState state = ParsedState.NumberState.withValue(
+                    mBoundItem.state().asNumber(), seekBar.getProgress());
+            Util.sendItemCommand(mConnection.getAsyncHttpClient(),
+                    mBoundItem, state.toString(Locale.US));
         }
     }
 
@@ -594,8 +596,8 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
 
         @Override
         public void bind(Widget widget) {
-            Item item = widget.item();
-            final String state = item != null ? item.state() : null;
+            ParsedState state = widget.state();
+            final String value = state != null ? state.asString() : null;
 
             // Make sure images fit into the content frame by scaling
             // them at max 90% of the available height
@@ -603,8 +605,8 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
                     ? Math.round(0.9f * mParentView.getHeight()) : Integer.MAX_VALUE;
             mImageView.setMaxHeight(maxHeight);
 
-            if (state != null && state.matches("data:image/.*;base64,.*")) {
-                final String dataString = state.substring(state.indexOf(",") + 1);
+            if (value != null && value.matches("data:image/.*;base64,.*")) {
+                final String dataString = value.substring(value.indexOf(",") + 1);
                 byte[] data = Base64.decode(dataString, Base64.DEFAULT);
                 Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
                 mImageView.setImageBitmap(bitmap);
@@ -652,7 +654,7 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
 
             int spinnerSelectedIndex = -1;
             ArrayList<String> spinnerArray = new ArrayList<>();
-            String state = mBoundItem != null ? mBoundItem.state() : null;
+            String state = mBoundItem != null ? mBoundItem.state().asString() : null;
 
             for (LabeledValue mapping : mBoundMappings) {
                 String command = mapping.value();
@@ -799,21 +801,21 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
                 Log.e(TAG, "mBoundWidget.item() is null");
                 return;
             }
-            Item.NumberState state = mBoundWidget.item().stateAsNumber();
+            ParsedState.NumberState state = mBoundWidget.state().asNumber();
             float minValue = mBoundWidget.minValue();
             float maxValue = mBoundWidget.maxValue();
             // This prevents an exception below, but could lead to
             // user confusion if this case is ever encountered.
             float stepSize = minValue == maxValue ? 1 : mBoundWidget.step();
             final int stepCount = ((int) (Math.abs(maxValue - minValue) / stepSize)) + 1;
-            final Item.NumberState[] stepValues = new Item.NumberState[stepCount];
+            final ParsedState.NumberState[] stepValues = new ParsedState.NumberState[stepCount];
             final String[] stepValueLabels = new String[stepCount];
             int closestIndex = 0;
             float closestDelta = Float.MAX_VALUE;
 
             for (int i = 0; i < stepValues.length; i++) {
                 float stepValue = minValue + i * stepSize;
-                stepValues[i] = Item.NumberState.withValue(state, stepValue);
+                stepValues[i] = ParsedState.NumberState.withValue(state, stepValue);
                 stepValueLabels[i] = stepValues[i].toString();
                 if (state != null && Math.abs(state.mValue - stepValue) < closestDelta) {
                     closestIndex = i;
@@ -835,7 +837,7 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
                     .setPositiveButton(R.string.set, (dialog, which) -> {
                         Util.sendItemCommand(mConnection.getAsyncHttpClient(),
                                 mBoundWidget.item(),
-                                stepValues[numberPicker.getValue()].toString());
+                                stepValues[numberPicker.getValue()].toString(Locale.US));
                     })
                     .setNegativeButton(R.string.cancel, null)
                     .show();
@@ -947,7 +949,7 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
                         && videoItem != null
                         && videoItem.type() == Item.Type.StringItem
                         && videoItem.state() != null) {
-                    videoUrl = videoItem.state();
+                    videoUrl = videoItem.state().asString();
                 } else {
                     videoUrl = widget.url();
                 }
@@ -1070,7 +1072,7 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
             colorPicker.setOnColorChangedListener(this);
             colorPicker.setShowOldCenterColor(false);
 
-            float[] initialColor = mBoundItem.stateAsHsv();
+            float[] initialColor = mBoundItem.state().asHsv();
             if (initialColor != null) {
                 colorPicker.setColor(Color.HSVToColor(initialColor));
             }

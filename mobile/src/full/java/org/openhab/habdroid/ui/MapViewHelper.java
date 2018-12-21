@@ -147,7 +147,7 @@ public class MapViewHelper {
             if (!mBoundItem.members().isEmpty()) {
                 ArrayList<LatLng> positions = new ArrayList<>();
                 for (Item item : mBoundItem.members()) {
-                    LatLng position = parseLocation(item.state());
+                    LatLng position = parseLocation(item.state().asString());
                     if (position != null) {
                         setMarker(map, position, item, item.label(), canDragMarker);
                         positions.add(position);
@@ -165,7 +165,7 @@ public class MapViewHelper {
                     }
                 }
             } else {
-                LatLng position = parseLocation(mBoundItem.state());
+                LatLng position = parseLocation(mBoundItem.state().asString());
                 if (position != null) {
                     setMarker(map, position, mBoundItem, mLabelView.getText(), canDragMarker);
                     map.moveCamera(CameraUpdateFactory.newLatLngZoom(position, zoomLevel));

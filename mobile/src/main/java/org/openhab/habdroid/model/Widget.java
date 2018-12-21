@@ -56,6 +56,8 @@ public abstract class Widget implements Parcelable {
     @Nullable
     public abstract String icon();
     public abstract String iconPath();
+    @Nullable
+    public abstract ParsedState state();
     public abstract Type type();
     @Nullable
     public abstract String url();
@@ -106,6 +108,7 @@ public abstract class Widget implements Parcelable {
         public abstract Builder icon(@Nullable String icon);
         public abstract Builder iconPath(String iconPath);
         public abstract Builder type(Type type);
+        public abstract Builder state(@Nullable ParsedState state);
         public abstract Builder url(@Nullable String url);
         public abstract Builder item(@Nullable Item item);
         public abstract Builder linkedPage(@Nullable LinkedPage linkedPage);
@@ -140,9 +143,14 @@ public abstract class Widget implements Parcelable {
             maxValue(Math.max(minValue(), maxValue()));
             step(Math.abs(step()));
 
+            if (state() == null && item() != null) {
+                state(item().state());
+            }
             return autoBuild();
         }
 
+        abstract Item item();
+        abstract ParsedState state();
         abstract String icon();
         abstract int refresh();
         abstract String period();
@@ -221,6 +229,7 @@ public abstract class Widget implements Parcelable {
                 .id(id)
                 .parentId(parent != null ? parent.id() : null)
                 .type(type)
+                .state(item.state())
                 .label(label)
                 .icon(icon)
                 .iconPath(String.format("images/%s.png", icon))
@@ -273,6 +282,7 @@ public abstract class Widget implements Parcelable {
                 .linkedPage(LinkedPage.fromJson(widgetJson.optJSONObject("linkedPage")))
                 .mappings(mappings)
                 .type(type)
+                .state(determineWidgetState(widgetJson.optString("state", null), item))
                 .label(widgetJson.optString("label", null))
                 .icon(icon)
                 .iconPath(determineOH2IconPath(item, type, icon, iconFormat, !mappings.isEmpty()))
@@ -305,33 +315,47 @@ public abstract class Widget implements Parcelable {
             String iconFormat) throws JSONException {
         Item item = Item.updateFromEvent(
                 source.item(), eventPayload.getJSONObject("item"));
+
         String iconPath = determineOH2IconPath(item, source.type(),
                 source.icon(), iconFormat, !source.mappings().isEmpty());
         return source.toBuilder()
                 .label(eventPayload.optString("label", source.label()))
+                .state(determineWidgetState(eventPayload.optString("state", null), item))
                 .item(item)
                 .iconPath(iconPath)
                 .build();
     }
 
+    private static ParsedState determineWidgetState(String state, Item item) {
+        ParsedState itemState = item != null ? item.state() : null;
+        ParsedState.NumberState numberState = itemState != null ? itemState.asNumber() : null;
+        String numberPattern = numberState != null ? numberState.mFormat : null;
+        ParsedState parsedState = ParsedState.from(state, numberPattern);
+        if (parsedState != null) {
+            return parsedState;
+        }
+        return itemState;
+    }
+
     private static String determineOH2IconPath(Item item, Type type, String icon,
             String iconFormat, boolean hasMappings) {
-        String itemState = item != null ? item.state() : null;
+        final ParsedState itemState = item != null ? item.state() : null;
+        String iconState = "";
         if (itemState != null) {
             if (item.isOfTypeOrGroupType(Item.Type.Color)) {
                 // For items that control a color item fetch the correct icon
                 if (type == Type.Slider || (type == Type.Switch && !hasMappings)) {
                     try {
-                        itemState = String.valueOf(item.stateAsBrightness());
+                        iconState = String.valueOf(itemState.asBrightness());
                         if (type == Type.Switch) {
-                            itemState = itemState.equals("0") ? "OFF" : "ON";
+                            iconState = iconState.equals("0") ? "OFF" : "ON";
                         }
                     } catch (Exception e) {
-                        itemState = "OFF";
+                        iconState = "OFF";
                     }
-                } else if (item.stateAsHsv() != null) {
-                    int color = Color.HSVToColor(item.stateAsHsv());
-                    itemState = String.format(Locale.US, "#%02x%02x%02x",
+                } else if (itemState.asHsv() != null) {
+                    int color = Color.HSVToColor(itemState.asHsv());
+                    iconState = String.format(Locale.US, "#%02x%02x%02x",
                             Color.red(color), Color.green(color), Color.blue(color));
                 }
             } else if (type == Type.Switch && !hasMappings
@@ -339,11 +363,12 @@ public abstract class Widget implements Parcelable {
                 // For switch items without mappings (just ON and OFF) that control a dimmer item
                 // and which are not ON or OFF already, set the state to "OFF" instead of 0
                 // or to "ON" to fetch the correct icon
-                itemState = itemState.equals("0") || itemState.equals("OFF") ? "OFF" : "ON";
+                iconState = itemState.asString().equals("0") || itemState.asString().equals("OFF")
+                        ? "OFF" : "ON";
             }
         }
 
-        return String.format("icon/%s?state=%s&format=%s", icon, itemState, iconFormat);
+        return String.format("icon/%s?state=%s&format=%s", icon, iconState, iconFormat);
     }
 
     private static Type parseType(String type) {
