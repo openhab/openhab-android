@@ -9,8 +9,10 @@
     <!-- Main menu items -->
     <string name="mainmenu_openhab_sitemaps">Sitemaps</string>
     <string name="mainmenu_openhab_preferences">Configuración</string>
+    <string name="mainmenu_openhab_selectsitemap">Seleccionar el Sitemap por defecto</string>
     <string name="mainmenu_openhab_clearcache">Borrar la caché de imágenes</string>
     <!-- App settings strings -->
+    <string name="settings_connection_title">Conexión</string>
     <string name="settings_openhab_username">Nombre de usuario</string>
     <string name="settings_openhab_password">Contraseña</string>
     <string name="settings_openhab_sslclientcert">Certificado de cliente SSL</string>
