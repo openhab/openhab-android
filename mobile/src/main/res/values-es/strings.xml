@@ -37,11 +37,13 @@
     <string name="settings_chart_scaling_summary">Nota: Una escala más pequeña reduce las fuentes y el ancho de línea, por lo que hay más espacio para el gráfico, pero la legibilidad de la fuente puede verse afectada.</string>
     <string name="settings_chart_scaling_value_xs">Muy pequeño</string>
     <string name="settings_chart_scaling_value_s">Pequeño</string>
+    <string name="settings_chart_scaling_value_m">Predeterminado</string>
     <string name="settings_chart_scaling_value_l">Grande</string>
     <string name="settings_openhab_chart_hq">Gráficos en alta resolución</string>
     <string name="settings_openhab_chart_hq_summary">La generación de gráficos puede generar gran carga para el servidor. Si experimenta tiempos de carga de gráficos lentos y su servidor no es potente, desactive esta opción para mejorar los tiempos de carga.</string>
     <string name="settings_ringtone">Tono de notificación</string>
     <string name="settings_ringtone_none">Ninguno</string>
+    <string name="settings_clear_default_sitemap">Quitar el Sitemap por defecto</string>
     <string name="settings_current_default_sitemap">Sitemap predeterminado actual: %1$s</string>
     <string name="settings_openhab_alt_connection">Remota</string>
     <string name="settings_openhab_connection">Local</string>
@@ -71,8 +73,11 @@
     <string name="error_certificate_not_valid_yet">El certificado SSL todavía no es válido. Por favor, obtenga un certificado correcto o deshabilite la validación del certificado durante la negociación SSL. Verifique también si la hora de su dispositivo es correcta.</string>
     <string name="error_certificate_revoked">El certificado SSL ha sido revocado. Por favor, obtenga un certificado nuevo o deshabilite la validación del certificado durante la negociación SSL.</string>
     <string name="error_certificate_wrong_host">El certificado no es válido para %s</string>
+    <string name="error_http_code_401">Autenticación fallida. Por favor, verifique el nombre de usuario y la contraseña configurados, además del certificado de cliente SSL (código de respuesta HTTP 401).</string>
     <string name="error_http_code_403">Autenticación fallida. Por favor, verifique el nombre de usuario y la contraseña configurados, además del certificado de cliente SSL (código de respuesta HTTP 403).</string>
     <string name="error_http_code_407">Autenticación fallida. Por favor, verifique el nombre de usuario y la contraseña configurados, además del certificado de cliente SSL (código de respuesta HTTP 407).</string>
+    <string name="error_http_code_414">La URL es demasiado larga. Por favor, utilice la dirección IP o una URL más corta (código de respuesta HTTP 414).</string>
+    <string name="error_http_code_426">Se requiere HTTPS. Por favor cambie la URL (código de respuesta HTTP 426).</string>
     <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
     <string name="error_http_code_496">SSL client certificate is required (Código de respuesta HTTP 496)</string>
     <string name="error_http_code_511">Se requiere autenticación de red (Código de respuesta HTTP 511)</string>
