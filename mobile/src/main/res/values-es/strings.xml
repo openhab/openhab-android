@@ -28,18 +28,51 @@
     <string name="settings_openhab_demomode">Modo demo</string>
     <string name="settings_openhab_demomode_summary">Si no dispone de un servidor de openHAB, habilite el modo demo para ver todo lo que puede hacer openHAB</string>
     <string name="settings_openhab_theme">Tema</string>
+    <string name="settings_openhab_fullscreen">Pantalla completa</string>
     <string name="settings_openhab_fullscreen_summary">Mostrar a pantalla completa</string>
     <string name="settings_openhab_icon_format">Formato de los iconos</string>
+    <string name="settings_openhab_icon_format_png">Bitmap</string>
+    <string name="settings_openhab_icon_format_svg">Vector</string>
+    <string name="settings_chart_scaling">Escala gráfica</string>
+    <string name="settings_chart_scaling_summary">Nota: Una escala más pequeña reduce las fuentes y el ancho de línea, por lo que hay más espacio para el gráfico, pero la legibilidad de la fuente puede verse afectada.</string>
+    <string name="settings_chart_scaling_value_xs">Muy pequeño</string>
+    <string name="settings_chart_scaling_value_s">Pequeño</string>
+    <string name="settings_chart_scaling_value_l">Grande</string>
+    <string name="settings_openhab_chart_hq">Gráficos en alta resolución</string>
+    <string name="settings_openhab_chart_hq_summary">La generación de gráficos puede generar gran carga para el servidor. Si experimenta tiempos de carga de gráficos lentos y su servidor no es potente, desactive esta opción para mejorar los tiempos de carga.</string>
+    <string name="settings_ringtone">Tono de notificación</string>
+    <string name="settings_ringtone_none">Ninguno</string>
+    <string name="settings_current_default_sitemap">Sitemap predeterminado actual: %1$s</string>
+    <string name="settings_openhab_alt_connection">Remota</string>
+    <string name="settings_openhab_connection">Local</string>
+    <string name="settings_notification_vibration">Notificaciones mediante vibración</string>
+    <string name="settings_notification_vibration_off">Apagado</string>
+    <string name="settings_notification_vibration_short">Corta</string>
+    <string name="settings_notification_vibration_long">Larga</string>
+    <string name="settings_notification_vibration_twice">Dos veces</string>
+    <string name="settings_connection_summary">Conectado a %s</string>
+    <string name="settings_insecure_connection_summary">Conectado a %s de forma no segura</string>
     <!-- App messages strings -->
+    <string name="title_voice_widget">comandos de voz openHAB</string>
     <string name="info_voice_input">openHAB, ¡a tus órdenes!</string>
     <string name="info_voice_recognized_text">Comando reconocido: %1$s</string>
     <string name="info_demo_mode_short">Ejecutando en modo demo</string>
     <string name="info_conn_url">Conectando a la URL local</string>
     <string name="info_conn_rem_url">Conectando a la URL remota</string>
     <!-- Error messages -->
+    <string name="error_empty_sitemap_list">openHAB devolvió una lista de Sitemaps vacía</string>
     <string name="error_network_not_available">La conexión de red no está disponible</string>
+    <string name="error_http_connection_failed">Conexión sin éxito. Se ha recibido una respuesta inesperada al intentar conectar con el servidor openHAB configurado (código de respuesta HTTP recibido: %d).</string>
+    <string name="error_invalid_url">Por favor, introducir una URL válida con formato \'http(s)://host(:puerto)/\'</string>
     <string name="error_connection_failed">Ha fallado la conexión con el host</string>
     <string name="error_unable_to_resolve_hostname">No se puede resolver el nombre de host</string>
+    <string name="error_certificate_not_trusted">El certificado SSL no es de confianza. Por favor, importa el certificado raíz o deshabilita la validación del certificado durante la negociación SSL.</string>
+    <string name="error_certificate_expired">El certificado SSL ha caducado. Por favor, obtén un nuevo certificado o acepta el certificado durante la negociación SSL.</string>
+    <string name="error_certificate_not_valid_yet">El certificado SSL todavía no es válido. Por favor, obtenga un certificado correcto o deshabilite la validación del certificado durante la negociación SSL. Verifique también si la hora de su dispositivo es correcta.</string>
+    <string name="error_certificate_revoked">El certificado SSL ha sido revocado. Por favor, obtenga un certificado nuevo o deshabilite la validación del certificado durante la negociación SSL.</string>
+    <string name="error_certificate_wrong_host">El certificado no es válido para %s</string>
+    <string name="error_http_code_403">Autenticación fallida. Por favor, verifique el nombre de usuario y la contraseña configurados, además del certificado de cliente SSL (código de respuesta HTTP 403).</string>
+    <string name="error_http_code_407">Autenticación fallida. Por favor, verifique el nombre de usuario y la contraseña configurados, además del certificado de cliente SSL (código de respuesta HTTP 407).</string>
     <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
     <string name="error_http_code_496">SSL client certificate is required (Código de respuesta HTTP 496)</string>
     <string name="error_http_code_511">Se requiere autenticación de red (Código de respuesta HTTP 511)</string>
@@ -67,13 +100,29 @@
     <!-- About -->
     <string name="about_title">Acerca de</string>
     <string name="about_license_title">Licencia</string>
+    <string name="about_issues">Reportar un problema</string>
+    <string name="about_docs">Documentación</string>
+    <string name="about_community_forum">Foro de la comunidad</string>
+    <string name="about_translation">Ayúdanos a traducir openHAB</string>
+    <string name="about_privacy_policy">Política de Privacidad</string>
+    <string name="settings_debug_messages_title">Mostrar información para solución de problemas</string>
     <string name="error_couldnt_determine_openhab_url">No se pudo determinar la URL de openHAB</string>
     <string name="unknown">Desconocido</string>
     <string name="error_network_type_unsupported">El tipo de red (%s) no está soportado</string>
     <string name="set">Establecer</string>
     <string name="cancel">Cancelar</string>
+    <string name="close">Cerrar</string>
+    <string name="try_again_button">Vuelve a intentarlo</string>
+    <string name="go_to_settings_button">Ir a la configuración</string>
+    <string name="configuration_missing">Tu servidor openHAB no ha podido ser descubierto automáticamente. Por favor configura su dirección IP o nombre en la configuración del servidor.</string>
+    <string name="no_remote_server">La red local no está disponible y no se ha configurado ningún servidor remoto</string>
+    <string name="resolving_openhab">Intentando descubrir la instancia del servidor openHAB\u2026</string>
     <!-- Log -->
+    <string name="log">Log</string>
+    <string name="clear_log">Borrar Registro</string>
+    <string name="empty_log">El registro esta vacío</string>
     <!-- Content description for images -->
+    <string name="content_description_open_roller_shutter">Abrir la persiana enrollable</string>
     <!-- Intro strings -->
     <string name="intro_welcome">Bienvenido a openHAB</string>
     <string name="intro_whatis">Software de automatización de código abierto para tu hogar sin importar vendedores ni tecnologías</string>
