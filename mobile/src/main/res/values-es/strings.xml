@@ -13,13 +13,21 @@
     <string name="mainmenu_openhab_clearcache">Borrar la caché de imágenes</string>
     <!-- App settings strings -->
     <string name="settings_connection_title">Conexión</string>
+    <string name="settings_openhab_url">Dirección URL del servidor local</string>
+    <string name="settings_openhab_url_summary">La dirección URL de la consola de openHAB (basada en el nombre de host o IP). Si está configurada, se desactiva la detección automática. Valor actual: %s</string>
+    <string name="settings_openhab_alturl">Dirección URL del servidor remoto</string>
+    <string name="settings_openhab_alturl_summary">La dirección URL de la consola de openHAB cuando la dirección local no está disponible. Valor actual: %s</string>
     <string name="settings_openhab_username">Nombre de usuario</string>
     <string name="settings_openhab_password">Contraseña</string>
+    <string name="settings_openhab_password_summary_weak">Contraseña poco segura</string>
+    <string name="settings_openhab_password_summary_strong">Contraseña segura</string>
     <string name="settings_openhab_sslclientcert">Certificado de cliente SSL</string>
     <string name="settings_openhab_sslclientcert_howto_summary">Clic aquí para obtener sugerencias y explicaciones sobre cómo configurar la autenticación del certificado de cliente SSL</string>
     <string name="settings_openhab_screentimeroff">Deshabilitar apagado de pantalla</string>
     <string name="settings_openhab_screentimeroff_summary">Deshabilita el temporizador que apaga la pantalla mientras se está ejecutando</string>
     <string name="settings_openhab_demomode">Modo demo</string>
+    <string name="settings_openhab_demomode_summary">Si no dispone de un servidor de openHAB, habilite el modo demo para ver todo lo que puede hacer openHAB</string>
+    <string name="settings_openhab_theme">Tema</string>
     <string name="settings_openhab_fullscreen_summary">Mostrar a pantalla completa</string>
     <string name="settings_openhab_icon_format">Formato de los iconos</string>
     <!-- App messages strings -->
