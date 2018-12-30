@@ -112,16 +112,22 @@ public class LogActivity extends AppCompatActivity {
         protected String doInBackground(Boolean... clear) {
             StringBuilder logBuilder = new StringBuilder();
             String separator = System.getProperty("line.separator");
+            Process process = null;
             try {
                 if (clear[0]) {
                     Log.d(TAG, "Clear log");
                     Runtime.getRuntime().exec("logcat -b all -c");
                     return "";
                 }
-                Process process = Runtime.getRuntime().exec("logcat -b all -v threadtime -d");
-                BufferedReader bufferedReader = new BufferedReader(
-                        new InputStreamReader(process.getInputStream()));
-
+                process = Runtime.getRuntime().exec("logcat -b all -v threadtime -d");
+            } catch (Exception e) {
+                Log.e(TAG, "Error reading process", e);
+            }
+            if (process == null) {
+                return "";
+            }
+            try (InputStreamReader reader = new InputStreamReader(process.getInputStream());
+                    BufferedReader bufferedReader = new BufferedReader(reader)) {
                 String line;
                 while ((line = bufferedReader.readLine()) != null) {
                     logBuilder.append(line);
@@ -130,6 +136,7 @@ public class LogActivity extends AppCompatActivity {
             } catch (Exception e) {
                 Log.e(TAG, "Error reading log", e);
             }
+
             String log = logBuilder.toString();
             SharedPreferences sharedPreferences =
                     PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
