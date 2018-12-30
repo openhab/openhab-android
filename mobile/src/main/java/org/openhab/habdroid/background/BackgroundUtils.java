@@ -14,7 +14,10 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Build;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import androidx.annotation.CheckResult;
 import androidx.annotation.NonNull;
@@ -26,6 +29,8 @@ import androidx.work.Result;
 
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.ui.MainActivity;
+import org.openhab.habdroid.util.Constants;
+import org.openhab.habdroid.util.Util;
 
 import static org.openhab.habdroid.background.BackgroundTaskRetryBroadcastReceiver.OH_EXTRA_NOTIFICATION_ID;
 
@@ -113,8 +118,11 @@ public class BackgroundUtils {
                         : NotificationCompat.PRIORITY_MIN);
 
         if (isError) {
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
             nb.setLights(ContextCompat.getColor(context, R.color.openhab_orange),
-                    3000, 3000);
+                    3000, 3000)
+                    .setSound(Uri.parse(prefs.getString(Constants.PREFERENCE_TONE, "")))
+                    .setVibrate(Util.getVibrationPattern(context));
         }
 
         if (action != null) {

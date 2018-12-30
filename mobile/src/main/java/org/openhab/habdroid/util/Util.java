@@ -11,6 +11,7 @@ package org.openhab.habdroid.util;
 
 import android.app.Activity;
 import android.app.ActivityManager;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.BitmapFactory;
@@ -300,6 +301,21 @@ public class Util {
         } else {
             webView.setHttpAuthUsernamePassword(Util.getHostFromUrl(url), "",
                     connection.getUsername(), connection.getPassword());
+        }
+    }
+
+    public static long[] getVibrationPattern(Context context) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        String vibration =
+                prefs.getString(Constants.PREFERENCE_NOTIFICATION_VIBRATION, "");
+        if (context.getString(R.string.settings_notification_vibration_value_short).equals(vibration)) {
+            return new long[] {0, 500, 500};
+        } else if (context.getString(R.string.settings_notification_vibration_value_long).equals(vibration)) {
+            return new long[] {0, 1000, 1000};
+        } else if (context.getString(R.string.settings_notification_vibration_value_twice).equals(vibration)) {
+            return new long[] {0, 1000, 1000, 1000, 1000};
+        } else {
+            return new long[] {0};
         }
     }
 }
