@@ -109,6 +109,7 @@
     <string name="action_settings">Налаштування</string>
     <string name="nfc_dialog_title">Запишіть дію NFC мітки для цього елемента</string>
     <string name="info_not_set">Не вказано</string>
+    <string name="empty_page">На цій сторінці немає віджетів, які можна зробити видимими</string>
     <!-- Notification list strings -->
     <string name="notification_list_empty">Поки що немає відправлених сповіщень</string>
     <string name="notification_list_error">Сталася помилка під час завантаження сповіщень</string>
@@ -169,8 +170,15 @@
     <string name="enable_wifi_button">Увымкнути Wi-Fi</string>
     <string name="go_to_settings_button">Перейти до налаштувань</string>
     <string name="enable_demo_mode_button">Увімкнути Демо-режим</string>
+    <string name="configuration_missing">Ми не знайшли сервер openHAB у вашій мережі. Якщо він у вас є, будь ласка вкажіть його адресу або ім’я у налаштуваннях. Якщо у вас ще немає працюючого сервера, ви можете увімкнути демонстраційний режим, щоб побачити на що здатний openHAB.</string>
+    <string name="no_remote_server">Під’єднання до локального сервера не вдалось, а віддалений не налаштовано</string>
     <string name="resolving_openhab">Шукаю сервер openHAB\u2026</string>
+    <string name="waiting_for_wifi">Очікування встановлення з’єднання через Wi-Fi\u2026</string>
     <!-- Log -->
+    <string name="log">Журнал</string>
+    <string name="view_log">Переглянути журнал</string>
+    <string name="clear_log">Очистити журнал</string>
+    <string name="empty_log">Журнал порожній</string>
     <!-- Content description for images -->
     <string name="content_description_open_roller_shutter">Відкрити ролети</string>
     <string name="content_description_stop_roller_shutter">Зупинити ролети</string>
