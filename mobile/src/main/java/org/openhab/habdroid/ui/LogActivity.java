@@ -19,13 +19,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.util.Constants;
 import org.openhab.habdroid.util.Util;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 
 import static org.openhab.habdroid.util.Util.getHostFromUrl;
@@ -125,18 +123,20 @@ public class LogActivity extends AppCompatActivity {
             } catch (Exception e) {
                 Log.e(TAG, "Error reading process", e);
             }
-            if (process != null) {
-                try (InputStreamReader reader = new InputStreamReader(process.getInputStream());
-                        BufferedReader bufferedReader = new BufferedReader(reader)) {
-                    String line;
-                    while ((line = bufferedReader.readLine()) != null) {
-                        logBuilder.append(line);
-                        logBuilder.append(separator);
-                    }
-                } catch (Exception e) {
-                    Log.e(TAG, "Error reading log", e);
-                }
+            if (process == null) {
+                return "";
             }
+            try (InputStreamReader reader = new InputStreamReader(process.getInputStream());
+                    BufferedReader bufferedReader = new BufferedReader(reader)) {
+                String line;
+                while ((line = bufferedReader.readLine()) != null) {
+                    logBuilder.append(line);
+                    logBuilder.append(separator);
+                }
+            } catch (Exception e) {
+                Log.e(TAG, "Error reading log", e);
+            }
+
             String log = logBuilder.toString();
             SharedPreferences sharedPreferences =
                     PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
