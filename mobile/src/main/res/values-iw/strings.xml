@@ -166,8 +166,6 @@
     <string name="close">סגור</string>
     <string name="try_again_button">נסה שוב</string>
     <string name="go_to_settings_button">עבור להגדרות</string>
-    <string name="configuration_missing">השרת של openHAB לא ניתן לגילוי באופן אוטומטי. נא להגדיר את כתובת ה IP של השרת או את שמו בתפריט הגדרות שרת.</string>
-    <string name="no_remote_server">הרשת המקומית אינה זמינה ולא הוגדר שרת מרוחק</string>
     <string name="resolving_openhab">מנסה לאתר שרת openHAB</string>
     <!-- Log -->
     <string name="log">יומן רישום</string>
