@@ -15,7 +15,18 @@ then
 fi
 
 bash travis/bump-versioncode.sh
-for i in {1..5}; do bash travis/start-emulator.sh phone && break || sleep 15; done
+bash travis/start-emulator.sh phone
 
 ./gradlew :mobile:assemble{Foss,Full}${releaseFlavorCapital}{Debug,Release} :mobile:test{Foss,Full}${releaseFlavorCapital}ReleaseUnitTest
-for i in {1..3}; do ./gradlew :mobile:connected{Foss,Full}${releaseFlavorCapital}DebugAndroidTest && break || sleep 15; done
+retryCount=0
+while true
+do
+    ./gradlew :mobile:connected{Foss,Full}${releaseFlavorCapital}DebugAndroidTest && break
+    echo "Build failed. Retry..."
+    ((retryCount+=1))
+    if [ "$retryCount" -gt 3 ]
+    then
+        echo "Max. retry count reached. Exiting..."
+        exit 1
+    fi
+done
