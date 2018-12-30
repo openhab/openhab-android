@@ -166,8 +166,6 @@
     <string name="close">Bezár</string>
     <string name="try_again_button">Próbáld újra</string>
     <string name="go_to_settings_button">Beállítások megnyitása</string>
-    <string name="configuration_missing">Az openHAB szervert nem tudta automatikusan felderíteni. Állítsd be manuálisan az IP címet vagy host nevet a szerver beállításokban.</string>
-    <string name="no_remote_server">Helyi hálózat nem érhető el, és a távoli kiszolgáló nincs konfigurálva</string>
     <string name="resolving_openhab">Megpróbálja felderíteni az openHAB szerver példányt\u2026</string>
     <!-- Log -->
     <!-- Content description for images -->
