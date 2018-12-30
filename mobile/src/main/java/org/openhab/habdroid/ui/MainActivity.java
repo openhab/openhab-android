@@ -27,6 +27,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.net.wifi.WifiManager;
 import android.nfc.NfcAdapter;
 import android.os.Build;
 import android.os.Bundle;
@@ -74,6 +75,7 @@ import org.openhab.habdroid.core.connection.Connection;
 import org.openhab.habdroid.core.connection.ConnectionFactory;
 import org.openhab.habdroid.core.connection.DemoConnection;
 import org.openhab.habdroid.core.connection.exception.ConnectionException;
+import org.openhab.habdroid.core.connection.exception.NetworkNotAvailableException;
 import org.openhab.habdroid.core.connection.exception.NetworkNotSupportedException;
 import org.openhab.habdroid.core.connection.exception.NoUrlInformationException;
 import org.openhab.habdroid.model.LinkedPage;
@@ -273,6 +275,14 @@ public class MainActivity extends AppCompatActivity implements
         queryServerProperties();
     }
 
+    public void enableWifiAndIndicateStartup() {
+        WifiManager wifiManager =
+                (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+        wifiManager.setWifiEnabled(true);
+        mController.updateConnection(null, getString(R.string.waiting_for_wifi),
+                R.drawable.ic_signal_wifi_0_bar_black_24dp);
+    }
+
     public void retryServerPropertyQuery() {
         mController.clearServerCommunicationFailure();
         queryServerProperties();
@@ -425,7 +435,7 @@ public class MainActivity extends AppCompatActivity implements
 
         if (newConnection != null) {
             handleConnectionChange();
-            mController.updateConnection(newConnection, null);
+            mController.updateConnection(newConnection, null, 0);
         } else {
             if (failureReason instanceof NoUrlInformationException) {
                 NoUrlInformationException nuie = (NoUrlInformationException) failureReason;
@@ -437,24 +447,32 @@ public class MainActivity extends AppCompatActivity implements
                         mServiceResolver = new AsyncServiceResolver(this, this,
                                 getString(R.string.openhab_service_type));
                         mServiceResolver.start();
-                        mController.updateConnection(null, getString(R.string.resolving_openhab));
+                        mController.updateConnection(null,
+                                getString(R.string.resolving_openhab),
+                                R.drawable.ic_openhab_appicon_340dp /*FIXME?*/);
                     }
                 } else {
                     mController.indicateMissingConfiguration(false);
                 }
             } else if (failureReason != null) {
-                final String message;
+                WifiManager wifiManager = (WifiManager)
+                        getApplicationContext().getSystemService(Context.WIFI_SERVICE);
                 if (failureReason instanceof NetworkNotSupportedException) {
                     NetworkInfo info =
                             ((NetworkNotSupportedException) failureReason).getNetworkInfo();
-                    message = getString(R.string.error_network_type_unsupported,
-                            info.getTypeName());
+                    mController.indicateNoNetwork(
+                            getString(R.string.error_network_type_unsupported, info.getTypeName()),
+                            false);
+                } else if (failureReason instanceof NetworkNotAvailableException
+                        && !wifiManager.isWifiEnabled()) {
+                    mController.indicateNoNetwork(
+                            getString(R.string.error_wifi_not_available), true);
                 } else {
-                    message = getString(R.string.error_network_not_available);
+                    mController.indicateNoNetwork(getString(R.string.error_network_not_available),
+                            false);
                 }
-                mController.indicateNoNetwork(message);
             } else {
-                mController.updateConnection(null, null);
+                mController.updateConnection(null, null, 0);
             }
         }
         mViewPool.clear();
