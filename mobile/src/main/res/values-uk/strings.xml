@@ -67,6 +67,7 @@
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB повернув порожній список сторінок інтерфейсу</string>
     <string name="error_network_not_available">Мережа недоступна</string>
+    <string name="error_wifi_not_available">Wi-Fi вимкнено</string>
     <string name="error_http_connection_failed">Помилка підключення. Отримана неочікувана відповідь від openHAB. Переконайтесь у правильності роботи сервера openHAB (код відповіді HTTP: %d).</string>
     <string name="error_invalid_url">Будь ласка, введіть правильне посилання URL у форматі \'http(s)://хост(:порт)/\'</string>
     <string name="error_connection_failed">Підключення до хоста не вдалося</string>
@@ -165,7 +166,9 @@
     <string name="cancel">Відмінити</string>
     <string name="close">Закрити</string>
     <string name="try_again_button">Спробуйте ще раз</string>
+    <string name="enable_wifi_button">Увымкнути Wi-Fi</string>
     <string name="go_to_settings_button">Перейти до налаштувань</string>
+    <string name="enable_demo_mode_button">Увімкнути Демо-режим</string>
     <string name="resolving_openhab">Шукаю сервер openHAB\u2026</string>
     <!-- Log -->
     <!-- Content description for images -->
