@@ -125,12 +125,16 @@ public abstract class ServerProperties implements Parcelable {
                         // ignored: older versions without SSE support didn't return a number
                     }
 
-                    JSONArray jsonArray = result.getJSONArray("links");
-                    for (int i = 0; i < jsonArray.length(); i++) {
-                        JSONObject extensionJson = jsonArray.getJSONObject(i);
-                        if (extensionJson.getString("type").equals("habpanel")) {
-                            flags |= SERVER_FLAG_HABPANEL_INSTALLED;
+                    try {
+                        JSONArray jsonArray = result.getJSONArray("links");
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            JSONObject extensionJson = jsonArray.getJSONObject(i);
+                            if (extensionJson.getString("type").equals("habpanel")) {
+                                flags |= SERVER_FLAG_HABPANEL_INSTALLED;
+                            }
                         }
+                    } catch (JSONException e) {
+                        Log.e(TAG, "Failed checking for installed extensions", e);
                     }
 
                     handle.builder.flags(flags);
