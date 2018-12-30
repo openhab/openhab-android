@@ -165,8 +165,6 @@
     <string name="close">Schließen</string>
     <string name="try_again_button">Erneut versuchen</string>
     <string name="go_to_settings_button">Einstellungen öffnen</string>
-    <string name="configuration_missing">Ihr openHAB-Server konnte nicht automatisch ermittelt werden. Konfigurieren Sie in den Servereinstellungen die IP-Adresse oder den Host-Namen.</string>
-    <string name="no_remote_server">Lokales Netzwerk ist nicht verfügbar und Sie haben keinen Server für den Fernzugriff konfiguriert</string>
     <string name="resolving_openhab">Versuche openHAB-Server-Instanz zu finden\u2026</string>
     <!-- Log -->
     <string name="log">Protokoll</string>
