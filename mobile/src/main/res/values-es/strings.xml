@@ -119,8 +119,6 @@
     <string name="close">Cerrar</string>
     <string name="try_again_button">Vuelve a intentarlo</string>
     <string name="go_to_settings_button">Ir a la configuración</string>
-    <string name="configuration_missing">Tu servidor openHAB no ha podido ser descubierto automáticamente. Por favor configura su dirección IP o nombre en la configuración del servidor.</string>
-    <string name="no_remote_server">La red local no está disponible y no se ha configurado ningún servidor remoto</string>
     <string name="resolving_openhab">Intentando descubrir la instancia del servidor openHAB\u2026</string>
     <!-- Log -->
     <string name="log">Log</string>
