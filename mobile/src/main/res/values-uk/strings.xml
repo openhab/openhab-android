@@ -166,8 +166,6 @@
     <string name="close">Закрити</string>
     <string name="try_again_button">Спробуйте ще раз</string>
     <string name="go_to_settings_button">Перейти до налаштувань</string>
-    <string name="configuration_missing">Не вдалося знайти сервер openHAB автоматично. Будь ласка, налаштуйте його IP адресу або назву віддаленого хоста в налаштуваннях сервера.</string>
-    <string name="no_remote_server">Локальна мережа недоступна і не налаштований віддалений сервер</string>
     <string name="resolving_openhab">Шукаю сервер openHAB\u2026</string>
     <!-- Log -->
     <!-- Content description for images -->
