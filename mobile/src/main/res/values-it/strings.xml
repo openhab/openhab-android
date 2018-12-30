@@ -166,8 +166,6 @@
     <string name="close">Chiudi</string>
     <string name="try_again_button">Riprova</string>
     <string name="go_to_settings_button">Vai alle impostazioni</string>
-    <string name="configuration_missing">Il tuo server openHAB non puo\' essere individuato automaticamente. Per favore configura il suo indirizzo IP o il nome host nelle impostazioni server.</string>
-    <string name="no_remote_server">Rete locale non è disponibile e non è stato configurato un server remoto</string>
     <string name="resolving_openhab">Individuando l\'istanza openHAB\u2026</string>
     <!-- Log -->
     <string name="log">Log</string>
