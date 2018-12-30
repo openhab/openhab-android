@@ -167,8 +167,6 @@
     <string name="close">Sulje</string>
     <string name="try_again_button">Yritä uudelleen</string>
     <string name="go_to_settings_button">Mene asetuksiin</string>
-    <string name="configuration_missing">Sinun openHAB palvelinta ei löydetty automaattisesti. Ole hyvä ja ja aseta sen IP osoite tai isäntänimi palvelinasetuksiin.</string>
-    <string name="no_remote_server">Paikallinen verkko ei ole käytettävissä etkä ole asettanut etäpalvelinta</string>
     <string name="resolving_openhab">Etsitään openHAB palvelinta\u2026</string>
     <!-- Log -->
     <string name="log">Loki</string>
