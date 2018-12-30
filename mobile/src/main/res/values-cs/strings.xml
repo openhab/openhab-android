@@ -167,8 +167,6 @@
     <string name="close">Zavřít</string>
     <string name="try_again_button">Zkusit znovu</string>
     <string name="go_to_settings_button">Přejít do nastavení</string>
-    <string name="configuration_missing">Nepodařilo se automaticky nalézt openHAB server. V nastavení serveru nakonfigurujte jeho IP adresu nebo název hostitele.</string>
-    <string name="no_remote_server">Připojení k místní síti je nedostupné a vzdálený server nemáte nastavený</string>
     <string name="resolving_openhab">Hledám openHAB server\u2026</string>
     <!-- Log -->
     <string name="log">Log</string>
