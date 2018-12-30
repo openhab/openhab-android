@@ -167,8 +167,6 @@
     <string name="close">閉じる</string>
     <string name="try_again_button">もう一度やり直す</string>
     <string name="go_to_settings_button">設定に移動</string>
-    <string name="configuration_missing">openHAB サーバーを自動で検出できませんでした。サーバー設定で、IP アドレスまたはホスト名を設定してください。</string>
-    <string name="no_remote_server">ローカルネットワークが利用できません。リモートサーバーが設定されていません</string>
     <string name="resolving_openhab">openHAB サーバーインスタンスの探索中\u2026</string>
     <!-- Log -->
     <string name="log">ログ</string>
