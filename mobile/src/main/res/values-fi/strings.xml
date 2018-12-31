@@ -67,6 +67,7 @@
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB palautti tyhjän sivukarttojen luettelon</string>
     <string name="error_network_not_available">Verkko ei ole käytettävissä</string>
+    <string name="error_wifi_not_available">Wi-Fi on pois päältä</string>
     <string name="error_http_connection_failed">Yhteys epäonnistui. Odottamaton vastaus yhdistettäessä asetettuun openHAB palvelimeen (HTTP vastaus: %d).</string>
     <string name="error_invalid_url">Kirjoita kelvollinen URL osoite \'http(s)://isäntä(:portti)/\' muodossa</string>
     <string name="error_connection_failed">Yhteys palvelimeen epäonnistui</string>
@@ -166,8 +167,13 @@
     <string name="cancel">Peruuta</string>
     <string name="close">Sulje</string>
     <string name="try_again_button">Yritä uudelleen</string>
+    <string name="enable_wifi_button">Käynnistä Wi-Fi</string>
     <string name="go_to_settings_button">Mene asetuksiin</string>
+    <string name="enable_demo_mode_button">Käynnistä esittelytila</string>
+    <string name="configuration_missing">Emme löydä openHAB-palvelinta verkosta. Jos sinulla on jo palvelin, määritä sen IP-osoite tai isäntänimi asetuksiin. Jos sinulla ei vielä ole palvelinta, ota käyttöön esittelytila nähdäksesi mihin openHAB pystyy.</string>
+    <string name="no_remote_server">Yhteys paikalliseen palvelimeen epäonnistui etkä ole määrittänyt etäpalvelinta</string>
     <string name="resolving_openhab">Etsitään openHAB palvelinta\u2026</string>
+    <string name="waiting_for_wifi">Odotetaan Wi-Fi yhteyttä\u2026</string>
     <!-- Log -->
     <string name="log">Loki</string>
     <string name="view_log">Näytä loki</string>
