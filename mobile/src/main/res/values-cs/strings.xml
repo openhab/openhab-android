@@ -67,6 +67,7 @@
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB vrátil prázdný seznam Sitemap</string>
     <string name="error_network_not_available">Síť není k dispozici</string>
+    <string name="error_wifi_not_available">Wi-Fi je vypnuta</string>
     <string name="error_http_connection_failed">Připojení se nezdařilo. Byla přijata neočekávaná odpověď při pokusu o připojení k serveru openHAB (HTTP kód odpovědi: %d).</string>
     <string name="error_invalid_url">Zadejte platnou adresu URL ve formátu \'http(s)://host(:port) /\'</string>
     <string name="error_connection_failed">Připojení k serveru se nezdařilo</string>
@@ -166,8 +167,13 @@
     <string name="cancel">Zrušit</string>
     <string name="close">Zavřít</string>
     <string name="try_again_button">Zkusit znovu</string>
+    <string name="enable_wifi_button">Zapnout Wi-Fi</string>
     <string name="go_to_settings_button">Přejít do nastavení</string>
+    <string name="enable_demo_mode_button">Spustit v ukázkovém režimu</string>
+    <string name="configuration_missing">Ve vaší síti jsme nenašli openHAB server. Pokud již máte server, nakonfigurujte jeho IP adresu nebo název hostitele v nastavení serveru. Pokud ještě server nemáte, můžete spustit ukázkový režim, abyste viděl, jaké jsou možosti openHAB.</string>
+    <string name="no_remote_server">Připojení k místnímu serveru selhalo a vzdálený server není nakonfigurovaný</string>
     <string name="resolving_openhab">Hledám openHAB server\u2026</string>
+    <string name="waiting_for_wifi">Čekám než Wi-Fi naváže spojení\u2026</string>
     <!-- Log -->
     <string name="log">Log</string>
     <string name="view_log">Zobrazit log</string>
