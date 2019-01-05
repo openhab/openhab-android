@@ -38,7 +38,9 @@ public abstract class ParsedState implements Parcelable {
             return toString(Locale.getDefault());
         }
 
-        /** Like {@link #toString() toString}, but using a specific locale for formatting */
+        /**
+         * Like {@link #toString() toString}, but using a specific locale for formatting.
+         */
         public String toString(Locale locale) {
             if (mFormat != null) {
                 final String actualFormat = mUnit != null
