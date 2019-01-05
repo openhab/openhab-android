@@ -55,7 +55,6 @@
     <string name="settings_connection_summary">Συνδεδεμένο σε %s</string>
     <string name="settings_insecure_connection_summary">Μη ασφαλής σύνδεση σε %s</string>
     <!-- App messages strings -->
-    <string name="title_voice_widget">Φωνητικές εντολές openHAB</string>
     <string name="info_voice_input">openHAB, στις προσταγές σας!</string>
     <string name="info_voice_recognized_text">Αναγνωρισμένη εντολή: %1$s</string>
     <string name="info_demo_mode_short">Εκτέλεση σε κατάσταση παρουσίασης (demo)</string>
