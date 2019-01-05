@@ -58,7 +58,6 @@
     <string name="settings_connection_summary">З\'єднано з %s</string>
     <string name="settings_insecure_connection_summary">Під\'єднано до %s без перевірки безпеки</string>
     <!-- App messages strings -->
-    <string name="title_voice_widget">Голосові команди openHAB</string>
     <string name="info_voice_input">openHAB, очікує на команду!</string>
     <string name="info_voice_recognized_text">Отримано команду: %1$s</string>
     <string name="info_demo_mode_short">Працює в демо-режимі</string>
