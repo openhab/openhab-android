@@ -8,6 +8,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -15,49 +16,50 @@ public class ItemTest {
     @Test
     public void getStateAsBoolean_stateOff_returnFalse() throws Exception {
         Item sut = Item.fromJson(itemJsonForState("OFF"));
-        assertFalse(sut.stateAsBoolean());
+        assertNotNull(sut.state());
+        assertFalse(sut.state().asBoolean());
     }
 
     @Test
          public void getStateAsBoolean_stateON_returnTrue() throws Exception {
         Item sut = Item.fromJson(itemJsonForState("ON"));
-        assertTrue(sut.stateAsBoolean());
-    }
-
-    @Test
-    public void getStateAsBoolean_stateNull_returnFalse() throws Exception {
-        Item sut = Item.fromJson(itemJsonForState(null));
-        assertFalse(sut.stateAsBoolean());
+        assertNotNull(sut.state());
+        assertTrue(sut.state().asBoolean());
     }
 
     @Test
     public void getStateAsBoolean_stateNegativeInteger_returnFalse() throws Exception {
         Item sut = Item.fromJson(itemJsonForState("-42"));
-        assertFalse(sut.stateAsBoolean());
+        assertNotNull(sut.state());
+        assertFalse(sut.state().asBoolean());
     }
 
     @Test
     public void getStateAsBoolean_statePositiveInteger_returnTrue() throws Exception {
         Item sut = Item.fromJson(itemJsonForState("42"));
-        assertTrue(sut.stateAsBoolean());
+        assertNotNull(sut.state());
+        assertTrue(sut.state().asBoolean());
     }
 
     @Test
     public void getStateAsBoolean_stateIsZero_returnFalse() throws Exception {
         Item sut = Item.fromJson(itemJsonForState("0"));
-        assertFalse(sut.stateAsBoolean());
+        assertNotNull(sut.state());
+        assertFalse(sut.state().asBoolean());
     }
 
     @Test
     public void getStateAsBoolean_stateHsbBrightnessZero_returnFalse() throws Exception {
         Item sut = Item.fromJson(itemJsonForState("10,10,0"));
-        assertFalse(sut.stateAsBoolean());
+        assertNotNull(sut.state());
+        assertFalse(sut.state().asBoolean());
     }
 
     @Test
     public void getStateAsBoolean_stateHsbBrightnessPositive_returnTrue() throws Exception {
         Item sut = Item.fromJson(itemJsonForState("10,10,50"));
-        assertTrue(sut.stateAsBoolean());
+        assertNotNull(sut.state());
+        assertTrue(sut.state().asBoolean());
     }
 
     private JSONObject itemJsonForState(String state) throws JSONException {
