@@ -1,0 +1,6 @@
+## Added
+* Add voice widget w/o app launch shortcut (#1152)
+
+## Changed
+* Enhance status fragments (#1131)
+* Bump dependencies
