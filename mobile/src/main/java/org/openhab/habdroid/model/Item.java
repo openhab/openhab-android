@@ -113,12 +113,16 @@ public abstract class Item implements Parcelable {
             }
         }
 
+        if ("Uninitialized".equals(state) || "Undefined".equals(state)) {
+            state = null;
+        }
+
         return new AutoValue_Item.Builder()
                 .type(type)
                 .groupType(groupType)
                 .name(name)
                 .label(name)
-                .state("Unitialized".equals(state) ? null : ParsedState.from(state, null))
+                .state(ParsedState.from(state, null))
                 .members(new ArrayList<>())
                 .link(link)
                 .readOnly(false)
