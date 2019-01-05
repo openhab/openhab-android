@@ -111,10 +111,6 @@ public abstract class ParsedState implements Parcelable {
     public abstract Integer asBrightness();
 
     private static boolean parseAsBoolean(String state) {
-        // For uninitialized/null state return false
-        if (state == null) {
-            return false;
-        }
         // If state is ON for switches return True
         if (state.equals("ON")) {
             return true;
@@ -133,9 +129,7 @@ public abstract class ParsedState implements Parcelable {
     }
 
     private static NumberState parseAsNumber(String state, String format) {
-        if (state == null) {
-            return null;
-        } else if ("ON".equals(state)) {
+        if ("ON".equals(state)) {
             return new NumberState(100);
         } else if ("OFF".equals(state)) {
             return new NumberState(0);
@@ -152,32 +146,28 @@ public abstract class ParsedState implements Parcelable {
     }
 
     private static float[] parseAsHsv(String state) {
-        if (state != null) {
-            String[] stateSplit = state.split(",");
-            if (stateSplit.length == 3) { // We need exactly 3 numbers to operate this
-                try {
-                    return new float[]{
-                            Float.parseFloat(stateSplit[0]),
-                            Float.parseFloat(stateSplit[1]) / 100,
-                            Float.parseFloat(stateSplit[2]) / 100
-                    };
-                } catch (NumberFormatException e) {
-                    // fall through to returning null
-                }
+        String[] stateSplit = state.split(",");
+        if (stateSplit.length == 3) { // We need exactly 3 numbers to operate this
+            try {
+                return new float[]{
+                        Float.parseFloat(stateSplit[0]),
+                        Float.parseFloat(stateSplit[1]) / 100,
+                        Float.parseFloat(stateSplit[2]) / 100
+                };
+            } catch (NumberFormatException e) {
+                // fall through
             }
         }
         return null;
     }
 
     public static Integer parseAsBrightness(String state) {
-        if (state != null) {
-            Matcher hsbMatcher = HSB_PATTERN.matcher(state);
-            if (hsbMatcher.find()) {
-                try {
-                    return Float.valueOf(hsbMatcher.group(3)).intValue();
-                } catch (NumberFormatException e) {
-                    // fall through
-                }
+        Matcher hsbMatcher = HSB_PATTERN.matcher(state);
+        if (hsbMatcher.find()) {
+            try {
+                return Float.valueOf(hsbMatcher.group(3)).intValue();
+            } catch (NumberFormatException e) {
+                // fall through
             }
         }
         return null;
