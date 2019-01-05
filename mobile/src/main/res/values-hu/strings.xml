@@ -58,7 +58,6 @@
     <string name="settings_connection_summary">Csatlakoztatva a %s</string>
     <string name="settings_insecure_connection_summary">Nembiztonságosan csatakoztatva a %s</string>
     <!-- App messages strings -->
-    <string name="title_voice_widget">openHAB hangvezérlésére szolgáló parancsok</string>
     <string name="info_voice_input">openHAB, szolgálatodra!</string>
     <string name="info_voice_recognized_text">Felismert parancs: %1$s</string>
     <string name="info_demo_mode_short">Demo módban fut</string>
