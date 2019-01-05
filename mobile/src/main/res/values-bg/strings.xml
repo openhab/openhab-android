@@ -47,7 +47,6 @@
     <string name="settings_connection_summary">Свързан към %s</string>
     <string name="settings_insecure_connection_summary">Несигурно свързан към %s</string>
     <!-- App messages strings -->
-    <string name="title_voice_widget">openHAB гласови команди</string>
     <string name="info_voice_input">openHAB на ваше командване!</string>
     <string name="info_voice_recognized_text">Разпозната команда: %1$s</string>
     <string name="info_demo_mode_short">Работи в демо режим</string>
