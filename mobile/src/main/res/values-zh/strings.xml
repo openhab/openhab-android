@@ -55,7 +55,6 @@
     <string name="settings_connection_summary">已连接至 %s</string>
     <string name="settings_insecure_connection_summary">已通过不安全的方式连接至 %s</string>
     <!-- App messages strings -->
-    <string name="title_voice_widget">openHAB 语音命令</string>
     <string name="info_voice_input">openHAB，说出您的命令！</string>
     <string name="info_voice_recognized_text">已识别命令: %1$s</string>
     <string name="info_demo_mode_short">正以演示模式运行</string>
