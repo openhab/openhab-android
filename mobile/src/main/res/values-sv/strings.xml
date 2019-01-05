@@ -55,7 +55,6 @@
     <string name="settings_connection_summary">Ansluten till %s</string>
     <string name="settings_insecure_connection_summary">Osäkert ansluten till %s</string>
     <!-- App messages strings -->
-    <string name="title_voice_widget">openHAB röstkommandon</string>
     <string name="info_voice_input">openHAB, på ditt kommando!</string>
     <string name="info_voice_recognized_text">Igenkänt kommando: %1$s</string>
     <string name="info_demo_mode_short">Kör i demoläge</string>
