@@ -143,14 +143,9 @@ public abstract class Widget implements Parcelable {
             maxValue(Math.max(minValue(), maxValue()));
             step(Math.abs(step()));
 
-            if (state() == null && item() != null) {
-                state(item().state());
-            }
             return autoBuild();
         }
 
-        abstract Item item();
-        abstract ParsedState state();
         abstract String icon();
         abstract int refresh();
         abstract String period();

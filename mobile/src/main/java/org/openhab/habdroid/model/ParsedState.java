@@ -21,6 +21,7 @@ public abstract class ParsedState implements Parcelable {
         public NumberState(float value) {
             this(value, null, null);
         }
+
         private NumberState(float value, String unit, String format) {
             mValue = value;
             mUnit = unit;
@@ -37,6 +38,7 @@ public abstract class ParsedState implements Parcelable {
             return toString(Locale.getDefault());
         }
 
+        /** Like {@link #toString() toString}, but using a specific locale for formatting */
         public String toString(Locale locale) {
             if (mFormat != null) {
                 final String actualFormat = mUnit != null
@@ -87,6 +89,13 @@ public abstract class ParsedState implements Parcelable {
         abstract ParsedState build();
     }
 
+    /**
+     * Parses a state string into the parsed representation.
+     *
+     * @param state State string to parse
+     * @param numberPattern Format to use when parsing the input as number
+     * @return null if state string is null, parsed representation otherwise
+     */
     public static ParsedState from(String state, String numberPattern) {
         if (state == null) {
             return null;
@@ -161,7 +170,7 @@ public abstract class ParsedState implements Parcelable {
         return null;
     }
 
-    public static Integer parseAsBrightness(String state) {
+    private static Integer parseAsBrightness(String state) {
         Matcher hsbMatcher = HSB_PATTERN.matcher(state);
         if (hsbMatcher.find()) {
             try {
