@@ -55,7 +55,6 @@
     <string name="settings_connection_summary">Conectat la %s</string>
     <string name="settings_insecure_connection_summary">Conexiune nesigura la %s</string>
     <!-- App messages strings -->
-    <string name="title_voice_widget">Comenzi vocale openHAB</string>
     <string name="info_voice_input">openHAB, la comanda ta!</string>
     <string name="info_voice_recognized_text">Comandă recunoscută: %1$s</string>
     <string name="info_demo_mode_short">Rulează în modul demonstrativ</string>
