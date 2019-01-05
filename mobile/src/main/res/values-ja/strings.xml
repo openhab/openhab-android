@@ -58,7 +58,6 @@
     <string name="settings_connection_summary">%s に接続しました</string>
     <string name="settings_insecure_connection_summary">%s に安全ではない接続をしました</string>
     <!-- App messages strings -->
-    <string name="title_voice_widget">openHAB 音声コマンド</string>
     <string name="info_voice_input">openHAB, お話ください!</string>
     <string name="info_voice_recognized_text">認識したコマンド: %1$s</string>
     <string name="info_demo_mode_short">デモ モードで実行しています</string>
