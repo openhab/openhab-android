@@ -58,7 +58,6 @@
     <string name="settings_connection_summary">Připojen k %s</string>
     <string name="settings_insecure_connection_summary">Připojen k %s nezabezpečenou komunikací</string>
     <!-- App messages strings -->
-    <string name="title_voice_widget">openHAB hlasové příkazy</string>
     <string name="info_voice_input">openHAB, k Vašim službám!</string>
     <string name="info_voice_recognized_text">Rozpoznán příkaz: %1$s</string>
     <string name="info_demo_mode_short">Spuštěno v ukázkovém režimu</string>
