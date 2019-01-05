@@ -58,7 +58,6 @@
     <string name="settings_connection_summary">Connesso a %s</string>
     <string name="settings_insecure_connection_summary">Connesso in modo non sicuro a %s</string>
     <!-- App messages strings -->
-    <string name="title_voice_widget">comandi vocali openHAB</string>
     <string name="info_voice_input">openHAB, ai tuoi comandi!</string>
     <string name="info_voice_recognized_text">Comando riconosciuto: %1$s</string>
     <string name="info_demo_mode_short">Esecuzione in modalità demo</string>
