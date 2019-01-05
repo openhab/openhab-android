@@ -340,7 +340,7 @@ public abstract class Widget implements Parcelable {
     private static String determineOH2IconPath(Item item, Type type, String icon,
             String iconFormat, boolean hasMappings) {
         final ParsedState itemState = item != null ? item.state() : null;
-        String iconState = "";
+        String iconState = itemState != null ? itemState.asString() : "";
         if (itemState != null) {
             if (item.isOfTypeOrGroupType(Item.Type.Color)) {
                 // For items that control a color item fetch the correct icon
