@@ -229,7 +229,7 @@ public abstract class Widget implements Parcelable {
                 .id(id)
                 .parentId(parent != null ? parent.id() : null)
                 .type(type)
-                .state(item.state())
+                .state(item != null ? item.state() : null)
                 .label(label)
                 .icon(icon)
                 .iconPath(String.format("images/%s.png", icon))
