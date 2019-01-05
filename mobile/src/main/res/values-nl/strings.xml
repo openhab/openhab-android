@@ -55,7 +55,6 @@
     <string name="settings_connection_summary">Verbonden met %s</string>
     <string name="settings_insecure_connection_summary">Onveilig verbonden met %s</string>
     <!-- App messages strings -->
-    <string name="title_voice_widget">openHAB stem commando\'s</string>
     <string name="info_voice_input">openHAB, tot uw dienst!</string>
     <string name="info_voice_recognized_text">Herkend commando: %1$s</string>
     <string name="info_demo_mode_short">Uitgevoerd in de demomodus</string>
