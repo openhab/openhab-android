@@ -1,0 +1,8 @@
+## Fixed
+* Show URL settings hint when URL is not set (#1138)
+
+## Added
+* Add activity to view and share adb log (#1135)
+
+## Changed
+* Bump dependencies

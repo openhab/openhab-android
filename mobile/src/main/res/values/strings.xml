@@ -80,6 +80,7 @@
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB returned empty Sitemap list</string>
     <string name="error_network_not_available">Network is not available</string>
+    <string name="error_wifi_not_available">Wi-Fi is turned off</string>
     <string name="error_http_connection_failed">Connection unsuccessful. An unexpected response was received while trying to connect to the configured openHAB server (Received HTTP response code: %d).</string>
     <string name="error_invalid_url">Please enter a valid URL in a \'http(s)://host(:port)/\' form</string>
     <string name="error_connection_failed">Connection to host failed</string>
@@ -121,6 +122,7 @@
     <string name="action_settings">Settings</string>
     <string name="nfc_dialog_title">Write NFC tag action for this element</string>
     <string name="info_not_set">Not set</string>
+    <string name="empty_page">This page doesn\'t contain any widgets that are set to be visible</string>
 
     <!-- Notification list strings -->
     <string name="notification_list_empty">No notifications were sent so far</string>
@@ -195,10 +197,19 @@
     <string name="cancel">Cancel</string>
     <string name="close">Close</string>
     <string name="try_again_button">Try again</string>
+    <string name="enable_wifi_button">Turn on Wi-Fi</string>
     <string name="go_to_settings_button">Go to settings</string>
-    <string name="configuration_missing">Your openHAB server couldn\'t be discovered automatically. Please configure its IP address or host name in the server settings.</string>
-    <string name="no_remote_server">Local network is unavailable and you haven\'t configured a remote server</string>
+    <string name="enable_demo_mode_button">Turn on demo mode</string>
+    <string name="configuration_missing">We didn\'t find an openHAB server in your network. If you already have a server, please configure its IP address or host name in the server settings. If you don\'t yet have a server, you can enable demo mode to see what openHAB is capable of.</string>
+    <string name="no_remote_server">Connection to local server failed and you haven\'t configured a remote server</string>
     <string name="resolving_openhab">Trying to discover openHAB server instance\u2026</string>
+    <string name="waiting_for_wifi">Waiting for Wi-Fi to establish connection\u2026</string>
+
+    <!-- Log -->
+    <string name="log">Log</string>
+    <string name="view_log">View log</string>
+    <string name="clear_log">Clear log</string>
+    <string name="empty_log">Log is empty</string>
 
     <!-- Content description for images -->
     <string name="content_description_open_roller_shutter">Open roller shutter</string>

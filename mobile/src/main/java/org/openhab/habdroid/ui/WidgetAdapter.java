@@ -83,7 +83,7 @@ import static org.openhab.habdroid.util.Constants.PREFERENCE_CHART_HQ;
 
 public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder>
         implements View.OnClickListener, View.OnLongClickListener {
-    private static final String TAG = "WidgetAdapter";
+    private static final String TAG = WidgetAdapter.class.getSimpleName();
 
     public interface ItemClickListener {
         void onItemClicked(Widget item);

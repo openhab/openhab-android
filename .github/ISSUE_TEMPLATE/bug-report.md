@@ -1,6 +1,6 @@
 ---
 name: Bug report
-about: 'Create a report to help us improve '
+about: 'Create a report to help us improve the openHAB client for Android'
 
 ---
 
@@ -46,7 +46,7 @@ Describe us what should happen
 ### Logs
 #### App log
 ```
-Insert your log here
+Open the app, go to `Settings` => `View log` and insert the log here.
 ```
 
 #### openHAB Server log

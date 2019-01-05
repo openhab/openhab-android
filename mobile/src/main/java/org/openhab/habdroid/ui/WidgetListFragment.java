@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import androidx.annotation.NonNull;
 import androidx.annotation.VisibleForTesting;
 import androidx.fragment.app.Fragment;
@@ -46,6 +47,7 @@ public class WidgetListFragment extends Fragment
 
     @VisibleForTesting
     public RecyclerView mRecyclerView;
+    private LinearLayout mEmptyPageView;
     private LinearLayoutManager mLayoutManager;
     private WidgetAdapter mAdapter;
     // Url of current sitemap page displayed
@@ -174,17 +176,18 @@ public class WidgetListFragment extends Fragment
     public View onCreateView(LayoutInflater inflater,
             ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        Log.i(TAG, "onCreateView");
+        Log.d(TAG, "onCreateView()");
         Log.d(TAG, "isAdded = " + isAdded());
         return inflater.inflate(R.layout.fragment_widgetlist, container, false);
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
-        Log.d(TAG, "onViewCreated");
+        Log.d(TAG, "onViewCreated()");
         Log.d(TAG, "isAdded = " + isAdded());
         super.onViewCreated(view, savedInstanceState);
         mRecyclerView = view.findViewById(R.id.recyclerview);
+        mEmptyPageView = view.findViewById(android.R.id.empty);
         mRefreshLayout = view.findViewById(R.id.swiperefresh);
 
         Util.applySwipeLayoutColors(mRefreshLayout, R.attr.colorPrimary, R.attr.colorAccent);
@@ -258,6 +261,9 @@ public class WidgetListFragment extends Fragment
 
         if (mAdapter != null) {
             mAdapter.update(widgets, mRefreshLayout.isRefreshing());
+            boolean emptyPage = widgets.size() == 0;
+            mRecyclerView.setVisibility(emptyPage ? View.GONE : View.VISIBLE);
+            mEmptyPageView.setVisibility(emptyPage ? View.VISIBLE : View.GONE);
             setHighlightedPageLink(mHighlightedPageLink);
             mRefreshLayout.setRefreshing(false);
         }

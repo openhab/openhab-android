@@ -2,8 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.openhab.habdroid"
     android:installLocation="internalOnly">
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_MULTICAST_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.NFC" />
@@ -17,46 +19,55 @@
         android:required="false" />
 
     <application
+        android:name=".core.HabDroidApplication"
         android:allowBackup="false"
         android:icon="@mipmap/icon"
         android:label="@string/app_name"
         android:resizeableActivity="true"
         android:supportsPictureInPicture="false"
-        android:theme="@style/HABDroid.Light"
         android:supportsRtl="true"
-        android:name=".core.HabDroidApplication">
+        android:theme="@style/HABDroid.Light">
         <activity
-            android:name="org.openhab.habdroid.ui.PreferencesActivity"
+            android:name=".ui.PreferencesActivity"
             android:label="@string/app_preferences_name">
             <intent-filter>
                 <action android:name="android.intent.action.APPLICATION_PREFERENCES" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
+
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="org.openhab.habdroid.ui.MainActivity" />
         </activity>
         <activity
-            android:name="org.openhab.habdroid.ui.AboutActivity"
-            android:label="@string/about_title"/>
+            android:name=".ui.AboutActivity"
+            android:label="@string/about_title" />
+        <activity android:name=".ui.LogActivity"
+            android:label="@string/log" />
         <activity
-            android:name="org.openhab.habdroid.ui.MainActivity"
+            android:name=".ui.MainActivity"
             android:label="@string/app_name"
             android:launchMode="singleTop">
+
             <!-- for Nougat -->
             <layout
-                android:defaultHeight="500dp"
                 android:defaultWidth="600dp"
+                android:defaultHeight="500dp"
                 android:gravity="top|end"
-                android:minHeight="80dp"
-                android:minWidth="80dp" />
+                android:minWidth="80dp"
+                android:minHeight="80dp" />
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.nfc.action.NDEF_DISCOVERED" />
+
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <data android:scheme="openhab" />
             </intent-filter>
             <intent-filter>
@@ -69,13 +80,16 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="org.openhab.habdroid.ui.WriteTagActivity"
+            android:name=".ui.WriteTagActivity"
             android:label="@string/title_activity_openhabwritetag" />
-        <activity android:name="org.openhab.habdroid.ui.IntroActivity"
-            android:label="@string/app_intro"/>
-        <activity android:name="de.duenndns.ssl.MemorizingActivity"
-            android:theme="@style/Theme.AppCompat.Translucent"
-            android:excludeFromRecents="true" />
+        <activity
+            android:name=".ui.IntroActivity"
+            android:label="@string/app_intro" />
+        <activity
+            android:name="de.duenndns.ssl.MemorizingActivity"
+            android:excludeFromRecents="true"
+            android:theme="@style/Theme.AppCompat.Translucent" />
+
         <service
             android:name=".core.VoiceService"
             android:exported="false" />
@@ -86,6 +100,7 @@
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
+
             <meta-data
                 android:name="android.appwidget.provider"
                 android:resource="@xml/voice_widget_info" />
@@ -96,4 +111,5 @@
             </intent-filter>
         </receiver>
     </application>
+
 </manifest>

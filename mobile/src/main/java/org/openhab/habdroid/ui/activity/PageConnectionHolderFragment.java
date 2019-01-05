@@ -389,11 +389,13 @@ public class PageConnectionHolderFragment extends Fragment {
 
                 String eventType = object.optString("TYPE");
                 if ("SITEMAP_CHANGED".equals(eventType)) {
+                    Log.d(TAG, "Got SITEMAP_CHANGED event, reload sitemap");
                     cancel();
                     load();
                     return;
                 } else if ("ALIVE".equals(eventType)) {
                     // We ignore 'server alive' events
+                    Log.d(TAG, "Got ALIVE event");
                     return;
                 }
 
