@@ -58,6 +58,8 @@
     <string name="settings_connection_summary">Yhdistetty kohteeseen %s</string>
     <string name="settings_insecure_connection_summary">Turvattomasti yhdistetty kohteeseen %s</string>
     <!-- App messages strings -->
+    <string name="title_voice_widget">Äänikomennot</string>
+    <string name="title_voice_widget_icon">Äänikomennot ja sovelluksen pikakuvake</string>
     <string name="info_voice_input">openHAB, komennossasi!</string>
     <string name="info_voice_recognized_text">Tunnistettu komento: %1$s</string>
     <string name="info_demo_mode_short">Sovellus esittelytilassa</string>
