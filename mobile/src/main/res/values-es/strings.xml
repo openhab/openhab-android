@@ -81,8 +81,16 @@
     <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
     <string name="error_http_code_495">Autenticación fallida. Por favor, compruebe el certificado de cliente SSL proporcionado (código de respuesta HTTP 495).</string>
     <string name="error_http_code_496">SSL client certificate is required (Código de respuesta HTTP 496)</string>
+    <string name="error_http_code_502">Tu proxy inverso obtuvo una respuesta inválida del servidor openHAB (código de respuesta HTTP 502)</string>
+    <string name="error_http_code_503">El servidor openHAB no está disponible temporalmente (código de respuesta HTTP 503)</string>
+    <string name="error_http_code_504">Agotado el tiempo de espera de la puerta de enlace. Parece que su proxy inverso se está ejecutando, pero no pudo obtener una respuesta del servidor openHAB (código de respuesta HTTP 504).</string>
+    <string name="error_http_code_507">El servidor openHAB no tiene suficiente espacio libre (código de respuesta HTTP 507)</string>
     <string name="error_http_code_511">Se requiere autenticación de red (Código de respuesta HTTP 511)</string>
+    <string name="error_about_no_conn">Error al obtener información del servidor openHAB</string>
+    <string name="error_openhab_offline">Su servidor openHAB está fuera de línea mientras se ejecuta la instancia de la nube</string>
+    <string name="error_no_app_store_found">No se encontró ninguna tienda de aplicaciones para instalar aplicación de reconocimiento de voz</string>
     <string name="title_activity_openhabwritetag">Escribir etiqueta NFC</string>
+    <string name="title_activity_libraries">Librerías usadas</string>
     <string name="info_write_tag">Aproximar el teléfono y mantener presionada la etiqueta hasta que aparezca un mensaje de confirmación</string>
     <string name="info_write_tag_progress">Escribiendo la etiqueta</string>
     <string name="info_write_tag_finished">Finalizado correctamente</string>
@@ -94,14 +102,41 @@
     <string name="info_openhab_secret_label">Clave secreta de openHAB</string>
     <string name="info_openhab_push_notification_label">Estado de notificaciones Push</string>
     <string name="action_settings">Configuración</string>
+    <string name="nfc_dialog_title">Acción a grabar en la etiqueta NFC para este elemento</string>
     <string name="info_not_set">Sin establecer</string>
+    <string name="empty_page">Esta pagina no contiene ningún widget que pueda ser visible</string>
     <!-- Notification list strings -->
+    <string name="notification_list_empty">No se enviaron notificaciones hasta el momento</string>
+    <string name="notification_list_error">Ocurrió un error al cargar las notificaciones</string>
+    <string name="list_loading_message">Cargando\u2026</string>
     <!-- Strings for MemorizingTrustManager activity -->
+    <string name="mtm_accept_cert">¿Aceptar certificado desconocido?</string>
+    <string name="mtm_trust_anchor">El certificado del servidor no está firmado por una autoridad certificadora conocida</string>
+    <string name="mtm_cert_expired">El certificado del servidor ha caducado</string>
+    <string name="mtm_accept_servername">¿Aceptar el nombre de servidor, que no coincide?</string>
+    <string name="mtm_hostname_mismatch">El servidor no pudo autenticarse como \&quot;%s\&quot;. El certificado es válido sólo para:</string>
+    <string name="mtm_connect_anyway">¿Desea conectarse de todos modos?</string>
+    <string name="mtm_cert_details">Detalles del certificado:</string>
+    <string name="mtm_decision_always">Aceptar</string>
     <string name="mtm_decision_once">Una vez</string>
     <string name="mtm_decision_abort">Cancelar</string>
     <string name="mtm_notification">Validación del certificado</string>
+    <string name="settings_openhab_none">Ninguno</string>
     <!-- Themes -->
+    <string name="theme_name_light">Claro</string>
+    <string name="theme_name_dark">Oscuro</string>
+    <string name="theme_name_black">Negro/AMOLED</string>
+    <string name="theme_name_basic_ui">Basic UI</string>
+    <string name="theme_name_basic_ui_dark">Basic UI oscura</string>
     <!-- NFC -->
+    <string name="nfc_action_on">Activado</string>
+    <string name="nfc_action_up">Arriba</string>
+    <string name="nfc_action_off">Desactivado</string>
+    <string name="nfc_action_down">Abajo</string>
+    <string name="nfc_action_toggle">Cambiar</string>
+    <string name="nfc_activate">Activar</string>
+    <string name="nfc_action_current_color">Color actual</string>
+    <string name="nfc_action_to_sitemap_page">Navegar a la página del Sitemap</string>
     <!-- Drawer -->
     <string name="drawer_open">Sitemap drawer abierto</string>
     <string name="drawer_close">Sitemap drawer cerrado</string>
@@ -109,9 +144,12 @@
     <!-- About -->
     <string name="about_title">Acerca de</string>
     <string name="about_license_title">Licencia</string>
+    <string name="about_changelog">Historial de cambios</string>
+    <string name="about_source_code">Código fuente</string>
     <string name="about_issues">Reportar un problema</string>
     <string name="about_docs">Documentación</string>
     <string name="about_community_forum">Foro de la comunidad</string>
+    <string name="about_foundation">fundación openHAB</string>
     <string name="about_community">comunidad openHAB</string>
     <string name="about_server">servidor openHAB</string>
     <string name="about_translation">Ayúdanos a traducir openHAB</string>
@@ -133,11 +171,27 @@
     <string name="empty_log">El registro esta vacío</string>
     <!-- Content description for images -->
     <string name="content_description_open_roller_shutter">Abrir la persiana enrollable</string>
+    <string name="content_description_stop_roller_shutter">Parar la persiana enrollable</string>
+    <string name="content_description_close_roller_shutter">Cerrar la persiana enrollable</string>
+    <string name="content_description_open_color_wheel">Abrir la rueda de color</string>
+    <string name="content_description_color_up">Encender, o mantener para aumentar el brillo</string>
+    <string name="content_description_color_down">Apagar, o mantener para disminuir el brillo</string>
+    <string name="content_description_open_number_picker">Abrir el selector de número</string>
+    <string name="content_description_video">Video</string>
+    <string name="content_description_open_openhab">Abrir openHAB</string>
+    <string name="swipe_to_refresh_description">La aplicación se refresca automáticamente, normalmente no necesitas hacerlo manualmente</string>
+    <string name="swipe_to_refresh_dismiss">¡Lo tengo!</string>
     <!-- Intro strings -->
+    <string name="app_intro">Introducción</string>
     <string name="intro_welcome">Bienvenido a openHAB</string>
     <string name="intro_whatis">Software de automatización de código abierto para tu hogar sin importar vendedores ni tecnologías</string>
     <string name="intro_themes">Temas</string>
     <string name="intro_themes_description">Elegir entre varios temas</string>
+    <string name="intro_voice_description">Controla tu hogar con tu voz</string>
+    <string name="intro_nfc">NFC</string>
+    <string name="intro_nfc_description">El control de un ítem puede asociarse a etiquetas NFC, haciendo una pulsación larga sobre dicho ítem</string>
     <!-- Intro "SKIP" button -->
+    <string name="app_intro_skip_button">OMITIR</string>
     <!-- Intro "DONE" button -->
+    <string name="app_intro_done_button">HECHO</string>
 </resources>
