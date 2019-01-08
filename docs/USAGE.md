@@ -58,11 +58,11 @@ If you want to use openHAB Android on a wall mounted tablet, go to settings and 
 
 ## Alarm Clock
 
-The openHAB app will send the next wake-up time from your alarm clock app to the server. The time is sent as a number containing the number of milliseconds since the epoch. Please configure an Item name in the settings.
+The openHAB app will send the next wake-up time from your alarm clock app to the server. The time is sent as a number containing the number of milliseconds since the epoch. The Item name's default is `AndroidAlarmClock`, but you can change it in the settings.
 
 Example item definition:
 ```
-Number AndroidAlarm
+Number AndroidAlarmClock
 
 ```
 
@@ -72,11 +72,11 @@ rule "Alarm Trigger"
 when
     Time cron "*/10 * * * * ?"
 then
-    if (AndroidAlarm.state as Number == 0) {
+    if (AndroidAlarmClock.state as Number == 0) {
         // Alarm is turned off
-        return
+        return;
     }
-    val diff = AndroidAlarm.state as Number - now().millis
+    val diff = AndroidAlarmClock.state as Number - now().millis
     if (diff <= 15000) {
         // Turn on stuff, e.g. radio or light
         Light.sendCommand(ON)
