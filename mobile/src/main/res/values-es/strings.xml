@@ -13,6 +13,8 @@
     <string name="mainmenu_openhab_clearcache">Borrar la caché de imágenes</string>
     <!-- App settings strings -->
     <string name="settings_connection_title">Conexión</string>
+    <string name="settings_display_title">Pantalla</string>
+    <string name="settings_misc_title">Varios</string>
     <string name="settings_openhab_url">Dirección URL del servidor local</string>
     <string name="settings_openhab_url_summary">La dirección URL de la consola de openHAB (basada en el nombre de host o IP). Si está configurada, se desactiva la detección automática. Valor actual: %s</string>
     <string name="settings_openhab_alturl">Dirección URL del servidor remoto</string>
@@ -56,6 +58,8 @@
     <string name="settings_connection_summary">Conectado a %s</string>
     <string name="settings_insecure_connection_summary">Conectado a %s de forma no segura</string>
     <!-- App messages strings -->
+    <string name="title_voice_widget">Comandos de voz</string>
+    <string name="title_voice_widget_icon">Comandos de voz y acceso directo a la aplicación</string>
     <string name="info_voice_input">openHAB, ¡a tus órdenes!</string>
     <string name="info_voice_recognized_text">Comando reconocido: %1$s</string>
     <string name="info_demo_mode_short">Ejecutando en modo demo</string>
@@ -64,10 +68,12 @@
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB devolvió una lista de Sitemaps vacía</string>
     <string name="error_network_not_available">La conexión de red no está disponible</string>
+    <string name="error_wifi_not_available">Wi-Fi está desactivada</string>
     <string name="error_http_connection_failed">Conexión sin éxito. Se ha recibido una respuesta inesperada al intentar conectar con el servidor openHAB configurado (código de respuesta HTTP recibido: %d).</string>
     <string name="error_invalid_url">Por favor, introducir una URL válida con formato \'http(s)://host(:puerto)/\'</string>
     <string name="error_connection_failed">Ha fallado la conexión con el host</string>
     <string name="error_unable_to_resolve_hostname">No se puede resolver el nombre de host</string>
+    <string name="error_connection_sslhandshake_failed">Falló el inicio del protocolo SSL (handshake)</string>
     <string name="error_certificate_not_trusted">El certificado SSL no es de confianza. Por favor, importa el certificado raíz o deshabilita la validación del certificado durante la negociación SSL.</string>
     <string name="error_certificate_expired">El certificado SSL ha caducado. Por favor, obtén un nuevo certificado o acepta el certificado durante la negociación SSL.</string>
     <string name="error_certificate_not_valid_yet">El certificado SSL todavía no es válido. Por favor, obtenga un certificado correcto o deshabilite la validación del certificado durante la negociación SSL. Verifique también si la hora de su dispositivo es correcta.</string>
@@ -162,8 +168,13 @@
     <string name="cancel">Cancelar</string>
     <string name="close">Cerrar</string>
     <string name="try_again_button">Vuelve a intentarlo</string>
+    <string name="enable_wifi_button">Activar Wi-Fi</string>
     <string name="go_to_settings_button">Ir a la configuración</string>
+    <string name="enable_demo_mode_button">Ejecutar openHAB App en modo demo</string>
+    <string name="configuration_missing">No hemos encontrado un servidor openHAB en su red. Si dispone de un servidor, por favor especifique el nombre de host o dirección IP en la configuración. Si todavía no dispone de servidor, puede habilitar el modo demo para ver lo que openHAB es capaz de ofrecer.</string>
+    <string name="no_remote_server">No se pudo conectar con el servidor local y no se ha configurado un servidor remoto</string>
     <string name="resolving_openhab">Intentando descubrir la instancia del servidor openHAB\u2026</string>
+    <string name="waiting_for_wifi">A la espera de Wi-Fi para establecer una conexión</string>
     <!-- Log -->
     <string name="log">Log</string>
     <string name="view_log">Ver log</string>
