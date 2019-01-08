@@ -58,7 +58,7 @@ If you want to use openHAB Android on a wall mounted tablet, go to settings and 
 
 ## Alarm Clock
 
-The openHAB app will send the next wake-up time from your alarm clock app to the server. Please configure an Item name in the settings.
+The openHAB app will send the next wake-up time from your alarm clock app to the server. The time is sent as a number containing the number of milliseconds since the epoch. Please configure an Item name in the settings.
 
 Example item definition:
 ```
@@ -78,7 +78,8 @@ then
     }
     val diff = AndroidAlarm.state as Number - now().millis
     if (diff <= 15000) {
-        // Turn on stuff
+        // Turn on stuff, e.g. radio or light
+        Light.sendCommand(ON)
     }
 
 end
