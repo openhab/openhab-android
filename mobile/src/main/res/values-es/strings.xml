@@ -44,6 +44,7 @@
     <string name="settings_ringtone">Tono de notificación</string>
     <string name="settings_ringtone_none">Ninguno</string>
     <string name="settings_clear_default_sitemap">Quitar el Sitemap por defecto</string>
+    <string name="settings_no_default_sitemap">No se ha seleccionado ningún Sitemap por defecto</string>
     <string name="settings_current_default_sitemap">Sitemap predeterminado actual: %1$s</string>
     <string name="settings_openhab_alt_connection">Remota</string>
     <string name="settings_openhab_connection">Local</string>
@@ -78,6 +79,7 @@
     <string name="error_http_code_414">La URL es demasiado larga. Por favor, utilice la dirección IP o una URL más corta (código de respuesta HTTP 414).</string>
     <string name="error_http_code_426">Se requiere HTTPS. Por favor cambie la URL (código de respuesta HTTP 426).</string>
     <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
+    <string name="error_http_code_495">Autenticación fallida. Por favor, compruebe el certificado de cliente SSL proporcionado (código de respuesta HTTP 495).</string>
     <string name="error_http_code_496">SSL client certificate is required (Código de respuesta HTTP 496)</string>
     <string name="error_http_code_511">Se requiere autenticación de red (Código de respuesta HTTP 511)</string>
     <string name="title_activity_openhabwritetag">Escribir etiqueta NFC</string>
@@ -88,6 +90,9 @@
     <string name="info_write_tag_unsupported">Este dispositivo no soporta NFC</string>
     <string name="info_write_tag_disabled">NFC está deshabilitado. Por favor, activar en el menú de configuración del dispositivo.</string>
     <string name="info_openhab_apiversion_label">Versión Rest API openHAB</string>
+    <string name="info_openhab_uuid_label">openHAB UUID</string>
+    <string name="info_openhab_secret_label">Clave secreta de openHAB</string>
+    <string name="info_openhab_push_notification_label">Estado de notificaciones Push</string>
     <string name="action_settings">Configuración</string>
     <string name="info_not_set">Sin establecer</string>
     <!-- Notification list strings -->
@@ -107,6 +112,8 @@
     <string name="about_issues">Reportar un problema</string>
     <string name="about_docs">Documentación</string>
     <string name="about_community_forum">Foro de la comunidad</string>
+    <string name="about_community">comunidad openHAB</string>
+    <string name="about_server">servidor openHAB</string>
     <string name="about_translation">Ayúdanos a traducir openHAB</string>
     <string name="about_privacy_policy">Política de Privacidad</string>
     <string name="settings_debug_messages_title">Mostrar información para solución de problemas</string>
@@ -121,6 +128,7 @@
     <string name="resolving_openhab">Intentando descubrir la instancia del servidor openHAB\u2026</string>
     <!-- Log -->
     <string name="log">Log</string>
+    <string name="view_log">Ver log</string>
     <string name="clear_log">Borrar Registro</string>
     <string name="empty_log">El registro esta vacío</string>
     <!-- Content description for images -->
