@@ -56,17 +56,17 @@ public class BackgroundUtils {
             String name = context.getString(R.string.notification_channel_background);
             String description =
                     context.getString(R.string.notification_channel_background_description);
-            int importance = NotificationManager.IMPORTANCE_MIN;
             NotificationChannel channel =
-                    new NotificationChannel(CHANNEL_ID_BACKGROUND, name, importance);
+                    new NotificationChannel(CHANNEL_ID_BACKGROUND, name,
+                            NotificationManager.IMPORTANCE_MIN);
             channel.setDescription(description);
             notificationManager.createNotificationChannel(channel);
 
             name = context.getString(R.string.notification_channel_background_error);
             description =
                     context.getString(R.string.notification_channel_background_error_description);
-            importance = NotificationManager.IMPORTANCE_DEFAULT;
-            channel = new NotificationChannel(CHANNEL_ID_BACKGROUND_ERROR, name, importance);
+            channel = new NotificationChannel(CHANNEL_ID_BACKGROUND_ERROR, name,
+                    NotificationManager.IMPORTANCE_DEFAULT);
             channel.setDescription(description);
             channel.setLightColor(ContextCompat.getColor(context, R.color.openhab_orange));
             channel.enableLights(true);
