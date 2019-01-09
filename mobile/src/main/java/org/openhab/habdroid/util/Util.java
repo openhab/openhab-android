@@ -32,6 +32,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.model.Item;
+import org.openhab.habdroid.model.ParsedState;
 import org.openhab.habdroid.model.Sitemap;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
@@ -41,6 +42,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 
 public class Util {
     private static final String TAG = Util.class.getSimpleName();
@@ -188,6 +190,20 @@ public class Util {
             error = error.getCause();
         }
         return false;
+    }
+
+    public static void sendItemCommand(AsyncHttpClient client, Item item,
+            ParsedState.NumberState state) {
+        if (item == null || state == null) {
+            return;
+        }
+        if (item.isOfTypeOrGroupType(Item.Type.Number)) {
+            // For number items, include unit (if present) in command
+            sendItemCommand(client, item, state.toString(Locale.US));
+        } else {
+            // For all other items, send the plain value
+            sendItemCommand(client, item, state.mValue.toString());
+        }
     }
 
     public static void sendItemCommand(AsyncHttpClient client, Item item, String command) {

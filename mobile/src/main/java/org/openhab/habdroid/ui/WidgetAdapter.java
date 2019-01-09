@@ -577,8 +577,7 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
             Log.d(TAG, "onStopTrackingTouch position = " + seekBar.getProgress());
             ParsedState.NumberState state = ParsedState.NumberState.withValue(
                     mBoundItem.state().asNumber(), seekBar.getProgress());
-            Util.sendItemCommand(mConnection.getAsyncHttpClient(),
-                    mBoundItem, state.toString(Locale.US));
+            Util.sendItemCommand(mConnection.getAsyncHttpClient(), mBoundItem, state);
         }
     }
 
@@ -837,8 +836,7 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
                     .setView(dialogView)
                     .setPositiveButton(R.string.set, (dialog, which) -> {
                         Util.sendItemCommand(mConnection.getAsyncHttpClient(),
-                                mBoundWidget.item(),
-                                stepValues[numberPicker.getValue()].toString(Locale.US));
+                                mBoundWidget.item(), stepValues[numberPicker.getValue()]);
                     })
                     .setNegativeButton(R.string.cancel, null)
                     .show();
