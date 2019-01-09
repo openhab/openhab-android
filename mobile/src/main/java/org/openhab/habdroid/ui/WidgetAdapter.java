@@ -503,7 +503,8 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
         public void bind(Widget widget) {
             super.bind(widget);
             mBoundItem = widget.item();
-            mSwitch.setChecked(mBoundItem != null && mBoundItem.state().asBoolean());
+            ParsedState state = mBoundItem != null ? mBoundItem.state() : null;
+            mSwitch.setChecked(state != null && state.asBoolean());
         }
 
         @Override
@@ -556,22 +557,23 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
             mSeekBar.setProgress(0);
 
             Item item = widget.item();
-            if (item == null) {
+            ParsedState state = item != null ? item.state() : null;
+            if (item == null || state == null) {
                 return;
             }
 
             if (item.isOfTypeOrGroupType(Item.Type.Color)) {
-                Integer brightness = item.state().asBrightness();
+                Integer brightness = state.asBrightness();
                 if (brightness != null) {
                     mSeekBar.setMax(100);
                     mSeekBar.setProgress(brightness);
                 }
             } else {
-                ParsedState.NumberState state = item.state().asNumber();
+                ParsedState.NumberState number = state.asNumber();
                 if (state != null) {
-                    float progress = (state.mValue.floatValue() - widget.minValue()) / widget.step();
+                    float progress = (number.mValue.floatValue() - widget.minValue()) / widget.step();
                     mSeekBar.setProgress(Math.round(progress));
-                    mIsInteger = state.mValue instanceof Integer;
+                    mIsInteger = number.mValue instanceof Integer;
                 }
             }
         }
@@ -594,7 +596,8 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
                 return;
             }
             float newValue = mBoundWidget.minValue() + (mBoundWidget.step() * progress);
-            final ParsedState.NumberState previousState = item.state().asNumber();
+            final ParsedState.NumberState previousState =
+                    item.state() != null ? item.state().asNumber() : null;
             final ParsedState.NumberState state;
             if (mIsInteger) {
                 state = ParsedState.NumberState.withValue(previousState, Math.round(newValue));
@@ -677,12 +680,13 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
 
             int spinnerSelectedIndex = -1;
             ArrayList<String> spinnerArray = new ArrayList<>();
-            String state = mBoundItem != null ? mBoundItem.state().asString() : null;
+            ParsedState state = mBoundItem != null ? mBoundItem.state() : null;
+            String stateString = state != null ? state.asString() : null;
 
             for (LabeledValue mapping : mBoundMappings) {
                 String command = mapping.value();
                 spinnerArray.add(mapping.label());
-                if (command != null && command.equals(state)) {
+                if (command != null && command.equals(stateString)) {
                     spinnerSelectedIndex = spinnerArray.size() - 1;
                 }
             }
