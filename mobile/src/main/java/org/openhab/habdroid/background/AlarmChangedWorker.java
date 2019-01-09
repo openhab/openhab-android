@@ -41,6 +41,8 @@ public class AlarmChangedWorker extends Worker {
         NotificationManager nm =
                 (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
 
+        ConnectionFactory.waitForInitialization();
+
         Connection connection;
         ConnectionException failureReason;
         try {
