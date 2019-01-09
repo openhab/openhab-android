@@ -59,13 +59,16 @@ public abstract class ParsedState implements Parcelable {
                     // -> ignore and fall back to our own formatting
                 }
             }
-            // Skip decimals if value is integer
-            final String valueString = mValue.floatValue() == mValue.intValue()
-                    ? String.valueOf(mValue.intValue()) : String.valueOf(mValue.floatValue());
             if (mUnit == null) {
-                return valueString;
+                return formatValue();
             }
-            return valueString + " " + mUnit;
+            return formatValue() + " " + mUnit;
+        }
+
+        public String formatValue() {
+            // Skip decimals if value is integer
+            return mValue.floatValue() == mValue.intValue()
+                    ? String.valueOf(mValue.intValue()) : String.valueOf(mValue.floatValue());
         }
 
         @Override

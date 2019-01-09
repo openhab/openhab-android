@@ -535,7 +535,8 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
     public static class SliderViewHolder extends LabeledItemBaseViewHolder
             implements SeekBar.OnSeekBarChangeListener {
         private final SeekBar mSeekBar;
-        private Item mBoundItem;
+        private Widget mBoundWidget;
+        private boolean mIsInteger;
 
         SliderViewHolder(LayoutInflater inflater, ViewGroup parent,
                 Connection conn, ColorMapper colorMapper) {
@@ -547,19 +548,31 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
         @Override
         public void bind(Widget widget) {
             super.bind(widget);
-            mBoundItem = widget.item();
-            if (mBoundItem != null) {
-                int progress;
-                if (mBoundItem.isOfTypeOrGroupType(Item.Type.Color)) {
-                    Integer brightness = mBoundItem.state().asBrightness();
-                    progress = brightness != null ? brightness : 0;
-                } else {
-                    ParsedState.NumberState state = mBoundItem.state().asNumber();
-                    progress = state != null ? state.mValue.intValue() : 0;
+            mBoundWidget = widget;
+            mIsInteger = true;
+
+            float stepCount = (widget.maxValue() - widget.minValue()) / widget.step();
+            mSeekBar.setMax((int) Math.ceil(stepCount));
+            mSeekBar.setProgress(0);
+
+            Item item = widget.item();
+            if (item == null) {
+                return;
+            }
+
+            if (item.isOfTypeOrGroupType(Item.Type.Color)) {
+                Integer brightness = item.state().asBrightness();
+                if (brightness != null) {
+                    mSeekBar.setMax(100);
+                    mSeekBar.setProgress(brightness);
                 }
-                mSeekBar.setProgress(progress);
             } else {
-                mSeekBar.setProgress(0);
+                ParsedState.NumberState state = item.state().asNumber();
+                if (state != null) {
+                    float progress = (state.mValue.floatValue() - widget.minValue()) / widget.step();
+                    mSeekBar.setProgress(Math.round(progress));
+                    mIsInteger = state.mValue instanceof Integer;
+                }
             }
         }
 
@@ -574,10 +587,21 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
 
         @Override
         public void onStopTrackingTouch(SeekBar seekBar) {
-            Log.d(TAG, "onStopTrackingTouch position = " + seekBar.getProgress());
-            ParsedState.NumberState state = ParsedState.NumberState.withValue(
-                    mBoundItem.state().asNumber(), seekBar.getProgress());
-            Util.sendItemCommand(mConnection.getAsyncHttpClient(), mBoundItem, state);
+            int progress = seekBar.getProgress();
+            Log.d(TAG, "onStopTrackingTouch position = " + progress);
+            Item item = mBoundWidget.item();
+            if (item == null) {
+                return;
+            }
+            float newValue = mBoundWidget.minValue() + (mBoundWidget.step() * progress);
+            final ParsedState.NumberState previousState = item.state().asNumber();
+            final ParsedState.NumberState state;
+            if (mIsInteger) {
+                state = ParsedState.NumberState.withValue(previousState, Math.round(newValue));
+            } else {
+                state = ParsedState.NumberState.withValue(previousState, newValue);
+            }
+            Util.sendItemCommand(mConnection.getAsyncHttpClient(), item, state);
         }
     }
 

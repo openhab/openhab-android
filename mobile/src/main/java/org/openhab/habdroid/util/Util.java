@@ -202,7 +202,7 @@ public class Util {
             sendItemCommand(client, item, state.toString(Locale.US));
         } else {
             // For all other items, send the plain value
-            sendItemCommand(client, item, state.mValue.toString());
+            sendItemCommand(client, item, state.formatValue());
         }
     }
 
