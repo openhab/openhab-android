@@ -221,12 +221,13 @@ public class Util {
                 new AsyncHttpClient.StringResponseHandler() {
             @Override
             public void onFailure(Request request, int statusCode, Throwable error) {
-                Log.e(TAG, "Got command error " + error.getMessage());
+                Log.e(TAG, "Sending command '" + command + "' to " + itemUrl +
+                        " failed: status " + statusCode, error);
             }
 
             @Override
             public void onSuccess(String response, Headers headers) {
-                Log.d(TAG, "Command was sent successfully");
+                Log.d(TAG, "Command '" + command + "' was sent successfully to " + itemUrl);
             }
         });
     }
