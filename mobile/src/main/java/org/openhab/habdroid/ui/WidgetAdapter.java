@@ -555,7 +555,7 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
                     progress = brightness != null ? brightness : 0;
                 } else {
                     ParsedState.NumberState state = mBoundItem.state().asNumber();
-                    progress = state != null ? (int) state.mValue : 0;
+                    progress = state != null ? state.mValue.intValue() : 0;
                 }
                 mSeekBar.setProgress(progress);
             } else {
@@ -812,14 +812,15 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
             final String[] stepValueLabels = new String[stepCount];
             int closestIndex = 0;
             float closestDelta = Float.MAX_VALUE;
+            final Float stateValue = state != null ? state.mValue.floatValue() : null;
 
             for (int i = 0; i < stepValues.length; i++) {
                 float stepValue = minValue + i * stepSize;
                 stepValues[i] = ParsedState.NumberState.withValue(state, stepValue);
                 stepValueLabels[i] = stepValues[i].toString();
-                if (state != null && Math.abs(state.mValue - stepValue) < closestDelta) {
+                if (stateValue != null && Math.abs(stateValue - stepValue) < closestDelta) {
                     closestIndex = i;
-                    closestDelta = Math.abs(state.mValue - stepValue);
+                    closestDelta = Math.abs(stateValue - stepValue);
                 }
             }
 

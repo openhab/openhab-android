@@ -5,30 +5,37 @@ import android.os.Parcelable;
 
 import com.google.auto.value.AutoValue;
 
+import java.util.IllegalFormatConversionException;
 import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 @AutoValue
 public abstract class ParsedState implements Parcelable {
     public static class NumberState implements Parcelable {
-        public final float mValue;
+        public final Number mValue;
         public final String mUnit;
         public final String mFormat;
 
-        public NumberState(float value) {
-            this(value, null, null);
+        public NumberState(int value) {
+            this(new Integer(value), null, null);
         }
 
-        private NumberState(float value, String unit, String format) {
+        public NumberState(float value) {
+            this(new Float(value), null, null);
+        }
+
+        private NumberState(@NonNull Number value, String unit, String format) {
+            assert value instanceof Float || value instanceof Integer;
             mValue = value;
             mUnit = unit;
             mFormat = format;
         }
 
-        public static NumberState withValue(NumberState state, float value) {
+        public static NumberState withValue(NumberState state, @NonNull Number value) {
             return new NumberState(value, state != null ? state.mUnit : null,
                     state != null ? state.mFormat : null);
         }
@@ -45,11 +52,16 @@ public abstract class ParsedState implements Parcelable {
             if (mFormat != null) {
                 final String actualFormat = mUnit != null
                         ? mFormat.replace("%unit%", mUnit) : mFormat;
-                return String.format(locale, actualFormat, mValue);
+                try {
+                    return String.format(locale, actualFormat, mValue);
+                } catch (IllegalFormatConversionException e) {
+                    // State format pattern doesn't match the actual data type
+                    // -> ignore and fall back to our own formatting
+                }
             }
             // Skip decimals if value is integer
-            final String valueString = mValue == (int) mValue
-                    ? String.valueOf((int) mValue) : String.valueOf(mValue);
+            final String valueString = mValue.floatValue() == mValue.intValue()
+                    ? String.valueOf(mValue.intValue()) : String.valueOf(mValue.floatValue());
             if (mUnit == null) {
                 return valueString;
             }
@@ -63,7 +75,13 @@ public abstract class ParsedState implements Parcelable {
 
         @Override
         public void writeToParcel(Parcel parcel, int flags) {
-            parcel.writeFloat(mValue);
+            if (mValue instanceof Float) {
+                parcel.writeInt(1);
+                parcel.writeFloat(mValue.floatValue());
+            } else {
+                parcel.writeInt(0);
+                parcel.writeInt(mValue.intValue());
+            }
             parcel.writeString(mUnit);
             parcel.writeString(mFormat);
         }
@@ -72,7 +90,11 @@ public abstract class ParsedState implements Parcelable {
                 new Parcelable.Creator<NumberState>() {
                     @Override
                     public NumberState createFromParcel(Parcel in) {
-                        return new NumberState(in.readFloat(), in.readString(), in.readString());
+                        if (in.readInt() != 0) {
+                            return new NumberState(in.readInt(), in.readString(), in.readString());
+                        } else {
+                            return new NumberState(in.readFloat(), in.readString(), in.readString());
+                        }
                     }
                     @Override
                     public NumberState[] newArray(int size) {
