@@ -38,7 +38,6 @@ import androidx.core.graphics.drawable.DrawableCompat;
 
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.background.BackgroundTasksBroadcastReceiver;
-import org.openhab.habdroid.core.CloudMessagingHelper;
 import org.openhab.habdroid.model.ServerProperties;
 import org.openhab.habdroid.util.CacheManager;
 import org.openhab.habdroid.util.Constants;
@@ -358,19 +357,12 @@ public class PreferencesActivity extends AppCompatActivity {
                 getParent(fullscreenPreference).removePreference(fullscreenPreference);
             }
 
-            if (CloudMessagingHelper.isSupported()) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    Log.d(TAG, "Removing notification prefs for < 25");
-                    getParent(ringtonePref).removePreference(ringtonePref);
-                    getParent(vibrationPref).removePreference(vibrationPref);
-                } else {
-                    Log.d(TAG, "Removing notification prefs for >= 25");
-                    getParent(ringtoneVibrationPref).removePreference(ringtoneVibrationPref);
-                }
-            } else {
-                Log.d(TAG, "Removing all notification prefs");
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                Log.d(TAG, "Removing notification prefs for < 25");
                 getParent(ringtonePref).removePreference(ringtonePref);
                 getParent(vibrationPref).removePreference(vibrationPref);
+            } else {
+                Log.d(TAG, "Removing notification prefs for >= 25");
                 getParent(ringtoneVibrationPref).removePreference(ringtoneVibrationPref);
             }
 
