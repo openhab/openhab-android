@@ -36,7 +36,9 @@ The app follows the basic principles of the other openHAB UIs, like Basic UI, an
 
 ## Getting Started
 
-On first start the app tries to discover your openHAB server. This will only work on local networks and when the server does not enforce either authentication or HTTPS. If it fails, you can click on `Go to settings` and manually enter the server settings.
+On first start the app tries to discover your openHAB server.
+This will only work on local networks and when the server does not enforce either authentication or HTTPS.
+If it fails, you can click on `Go to settings` and manually enter the server settings.
 
 The URL field(s) might look like one of the following examples:
 
@@ -58,7 +60,9 @@ If you want to use openHAB Android on a wall mounted tablet, go to settings and 
 
 ## Alarm Clock
 
-The openHAB app will send the next wake-up time from your alarm clock app to the server. The time is sent as a number containing the number of milliseconds since the epoch. The Item name's default is `AndroidAlarmClock`, but you can change it in the settings.
+The openHAB app will send the next wake-up time from your alarm clock app to the server.
+The time is sent as a number containing the number of milliseconds since the epoch.
+The Item name's default is `AndroidAlarmClock`, but you can change it in the settings.
 
 Example item definition:
 ```
@@ -70,7 +74,7 @@ Example rule:
 ```
 rule "Alarm Trigger"
 when
-    Time cron "*/10 * * * * ?"
+    Time cron "*/10 * * * * ?" // Every 10 seconds
 then
     if (AndroidAlarmClock.state as Number == 0) {
         // Alarm is turned off
@@ -79,6 +83,7 @@ then
     val diff = AndroidAlarmClock.state as Number - now().millis
     if (diff <= 15000) {
         // Turn on stuff, e.g. radio or light
+        logInfo('androidAlarmLogger', 'Turn on light')
         Light.sendCommand(ON)
     }
 
