@@ -692,15 +692,15 @@ public abstract class ContentController implements PageConnectionHolderFragment.
             try {
                 mConnection = ConnectionFactory.getUsableConnection();
             } catch (ConnectionException e) {
-                updateViewVisibility(true, false, view);
+                updateViewVisibility(true, false);
                 return;
             }
 
             if (mConnection == null) {
-                updateViewVisibility(true, false, view);
+                updateViewVisibility(true, false);
                 return;
             }
-            updateViewVisibility(false, true, view);
+            updateViewVisibility(false, true);
 
             String url = mConnection.getAsyncHttpClient().buildUrl("/habpanel/index.html")
                     .toString();
@@ -711,7 +711,7 @@ public abstract class ContentController implements PageConnectionHolderFragment.
                     mConnection.getUsername(), mConnection.getPassword()) {
                 @Override
                 public void onPageFinished(WebView view, String url) {
-                    updateViewVisibility(false, false, getView());
+                    updateViewVisibility(false, false);
                 }
 
                 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -721,7 +721,7 @@ public abstract class ContentController implements PageConnectionHolderFragment.
                     String url = request.getUrl().toString();
                     Log.e(TAG, "onReceivedError() on URL: " + url);
                     if (url.endsWith("/rest/events")) {
-                        updateViewVisibility(true, false, getView());
+                        updateViewVisibility(true, false);
                     }
                 }
 
@@ -729,7 +729,7 @@ public abstract class ContentController implements PageConnectionHolderFragment.
                 public void onReceivedError(WebView view, int errorCode, String description,
                         String failingUrl) {
                     Log.e(TAG, "onReceivedError() (old) on URL: " + failingUrl);
-                    updateViewVisibility(true, false, getView());
+                    updateViewVisibility(true, false);
                 }
             });
             webView.getSettings().setDomStorageEnabled(true);
@@ -737,7 +737,8 @@ public abstract class ContentController implements PageConnectionHolderFragment.
             webView.loadUrl(url);
         }
 
-        private void updateViewVisibility(boolean error, boolean loading, @NonNull View view) {
+        private void updateViewVisibility(boolean error, boolean loading) {
+            View view = getView();
             if (view == null) {
                 return;
             }
