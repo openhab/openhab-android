@@ -22,7 +22,6 @@ import android.util.Log;
 import androidx.annotation.CheckResult;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.StringRes;
 import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
 import androidx.work.Result;
@@ -74,12 +73,6 @@ public class BackgroundUtils {
         }
     }
 
-    public static Notification makeBackgroundNotification(Context context, @StringRes int msgId,
-            boolean isError, NotificationCompat.Action action) {
-        return makeBackgroundNotification(context, context.getString(msgId), isError,
-                action);
-    }
-
     /**
      * Makes notification for background tasks. Sets notification channel, importance and more
      * depending on the parameters.
@@ -94,7 +87,8 @@ public class BackgroundUtils {
      * @return
      */
     public static Notification makeBackgroundNotification(Context context, String msg,
-            boolean isError, NotificationCompat.Action action) {
+            boolean isOngoing, boolean hasSound, boolean hasHighImportance,
+            NotificationCompat.Action action) {
         Intent notificationIntent = new Intent(context, MainActivity.class);
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
                 | Intent.FLAG_ACTIVITY_SINGLE_TOP);
@@ -102,7 +96,7 @@ public class BackgroundUtils {
                 notificationIntent, 0);
 
         NotificationCompat.Builder nb = new NotificationCompat.Builder(context,
-                isError ? CHANNEL_ID_BACKGROUND_ERROR : CHANNEL_ID_BACKGROUND)
+                hasHighImportance ? CHANNEL_ID_BACKGROUND_ERROR : CHANNEL_ID_BACKGROUND)
                 .setSmallIcon(R.drawable.ic_openhab_appicon_white_24dp)
                 .setContentTitle(context.getString(R.string.app_name))
                 .setWhen(System.currentTimeMillis())
@@ -111,13 +105,13 @@ public class BackgroundUtils {
                 .setAutoCancel(true)
                 .setContentIntent(intent)
                 .setColor(ContextCompat.getColor(context, R.color.openhab_orange))
-                .setCategory(isError ? NotificationCompat.CATEGORY_ERROR
+                .setCategory(hasHighImportance ? NotificationCompat.CATEGORY_ERROR
                         : NotificationCompat.CATEGORY_PROGRESS)
-                .setOngoing(!isError)
-                .setPriority(isError ? NotificationCompat.PRIORITY_DEFAULT
+                .setOngoing(!isOngoing)
+                .setPriority(hasHighImportance ? NotificationCompat.PRIORITY_DEFAULT
                         : NotificationCompat.PRIORITY_MIN);
 
-        if (isError) {
+        if (hasSound) {
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
             nb.setLights(ContextCompat.getColor(context, R.color.openhab_orange),
                     3000, 3000)
@@ -170,6 +164,8 @@ public class BackgroundUtils {
             Log.e(TAG, "Don't retry again. Error: " + errorMessage);
             Notification notification = makeBackgroundNotification(context,
                     errorMessage,
+                    false,
+                    false,
                     true,
                     action);
             nm.cancel(NOTIFICATION_TAG_BACKGROUND, notificationId);
@@ -181,6 +177,8 @@ public class BackgroundUtils {
         if (retryMessage != null) {
             Notification notification = makeBackgroundNotification(context,
                     retryMessage,
+                    true,
+                    false,
                     false,
                     action);
             nm.notify(NOTIFICATION_TAG_BACKGROUND, notificationId,

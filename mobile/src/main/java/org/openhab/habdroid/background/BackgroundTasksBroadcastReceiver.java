@@ -79,7 +79,9 @@ public class BackgroundTasksBroadcastReceiver extends BroadcastReceiver {
             nm.cancel(NOTIFICATION_TAG_BACKGROUND, NOTIFICATION_ID_SEND_ALARM_CLOCK);
             if (showItemEmptyNotification) {
                 Notification notification = BackgroundUtils.makeBackgroundNotification(context,
-                        R.string.error_sending_alarm_clock_item_empty,
+                        context.getString(R.string.error_sending_alarm_clock_item_empty),
+                        false,
+                        true,
                         true, null);
                 nm.notify(NOTIFICATION_TAG_BACKGROUND_ERROR, NOTIFICATION_ID_SEND_ALARM_CLOCK,
                         notification);
@@ -94,7 +96,9 @@ public class BackgroundTasksBroadcastReceiver extends BroadcastReceiver {
 
         BackgroundUtils.createNotificationChannels(context);
         Notification notification = BackgroundUtils.makeBackgroundNotification(context,
-                R.string.waiting_for_network_to_send_alarm_clock,
+                context.getString(R.string.waiting_for_network_to_send_alarm_clock),
+                true,
+                false,
                 false, null);
         nm.notify(NOTIFICATION_TAG_BACKGROUND, NOTIFICATION_ID_SEND_ALARM_CLOCK, notification);
     }
