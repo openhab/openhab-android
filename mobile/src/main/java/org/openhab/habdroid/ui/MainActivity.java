@@ -52,6 +52,7 @@ import android.widget.Toast;
 import androidx.annotation.ColorInt;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -294,7 +295,7 @@ public class MainActivity extends AppCompatActivity implements
         }
         ServerProperties.UpdateSuccessCallback successCb = props -> {
             mServerProperties = props;
-            updateSitemapDrawerItems();
+            updateSitemapAndHabpanelDrawerItems();
             if (props.sitemaps().isEmpty()) {
                 Log.e(TAG, "openHAB returned empty sitemap list");
                 mController.indicateServerCommunicationFailure(
@@ -476,7 +477,7 @@ public class MainActivity extends AppCompatActivity implements
             }
         }
         mViewPool.clear();
-        updateSitemapDrawerItems();
+        updateSitemapAndHabpanelDrawerItems();
         invalidateOptionsMenu();
         updateTitle();
     }
@@ -532,9 +533,10 @@ public class MainActivity extends AppCompatActivity implements
     private void setupToolbar() {
         Toolbar toolbar = findViewById(R.id.openhab_toolbar);
         setSupportActionBar(toolbar);
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setHomeButtonEnabled(true);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setHomeButtonEnabled(true);
         }
 
         // ProgressBar layout params inside the toolbar have to be done programmatically
@@ -556,7 +558,10 @@ public class MainActivity extends AppCompatActivity implements
                 if (mServerProperties != null && mPropsUpdateHandle == null) {
                     mPropsUpdateHandle = ServerProperties.updateSitemaps(mServerProperties,
                             mConnection,
-                            props -> { mServerProperties = props; updateSitemapDrawerItems(); },
+                            props -> {
+                                mServerProperties = props;
+                                updateSitemapAndHabpanelDrawerItems();
+                            },
                             MainActivity.this::handlePropertyFetchFailure);
                 }
             }
@@ -582,6 +587,9 @@ public class MainActivity extends AppCompatActivity implements
             switch (item.getItemId()) {
                 case R.id.notifications:
                     openNotifications(null);
+                    return true;
+                case R.id.habpanel:
+                    openHabpanel();
                     return true;
                 case R.id.settings:
                     Intent settingsIntent = new Intent(MainActivity.this,
@@ -611,11 +619,14 @@ public class MainActivity extends AppCompatActivity implements
                 ConnectionFactory.getConnection(Connection.TYPE_CLOUD) != null);
     }
 
-    private void updateSitemapDrawerItems() {
+    private void updateSitemapAndHabpanelDrawerItems() {
         MenuItem sitemapItem = mDrawerMenu.findItem(R.id.sitemaps);
+        MenuItem habpanelItem = mDrawerMenu.findItem(R.id.habpanel);
         if (mServerProperties == null) {
             sitemapItem.setVisible(false);
+            habpanelItem.setVisible(false);
         } else {
+            habpanelItem.setVisible(mServerProperties.hasHabpanelInstalled());
             final String defaultSitemapName =
                     mPrefs.getString(Constants.PREFERENCE_SITEMAP_NAME, "");
             final List<Sitemap> sitemaps = mServerProperties.sitemaps();
@@ -780,6 +791,11 @@ public class MainActivity extends AppCompatActivity implements
 
     private void openNotifications(@Nullable String highlightedId) {
         mController.openNotifications(highlightedId);
+        mDrawerToggle.setDrawerIndicatorEnabled(false);
+    }
+
+    private void openHabpanel() {
+        mController.showHabpanel();
         mDrawerToggle.setDrawerIndicatorEnabled(false);
     }
 
