@@ -84,6 +84,7 @@
     <string name="error_network_type_unsupported">Tinklo tipas (%s) nepalaikomas</string>
     <string name="set">Nustatyti</string>
     <string name="cancel">Atšaukti</string>
+    <!-- Log -->
     <!-- Content description for images -->
     <!-- Intro strings -->
     <string name="app_intro">Intro</string>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <strings>
     <intro/>
-    <whatis/>
+    <whatis>openHAB és una plataforma feta en Java per a l'automatització de la llar basada en codi obert, que integra i combina una gran varietat de sistemes i tecnologies per a la llar intel·ligent en una solució única.</whatis>
     <rules/>
     <supported/>
     <bindings>  </bindings>

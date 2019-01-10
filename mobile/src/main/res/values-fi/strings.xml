@@ -58,7 +58,8 @@
     <string name="settings_connection_summary">Yhdistetty kohteeseen %s</string>
     <string name="settings_insecure_connection_summary">Turvattomasti yhdistetty kohteeseen %s</string>
     <!-- App messages strings -->
-    <string name="title_voice_widget">openHAB äänikomennot</string>
+    <string name="title_voice_widget">Äänikomennot</string>
+    <string name="title_voice_widget_icon">Äänikomennot ja sovelluksen pikakuvake</string>
     <string name="info_voice_input">openHAB, komennossasi!</string>
     <string name="info_voice_recognized_text">Tunnistettu komento: %1$s</string>
     <string name="info_demo_mode_short">Sovellus esittelytilassa</string>
@@ -67,6 +68,7 @@
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB palautti tyhjän sivukarttojen luettelon</string>
     <string name="error_network_not_available">Verkko ei ole käytettävissä</string>
+    <string name="error_wifi_not_available">Wi-Fi on pois päältä</string>
     <string name="error_http_connection_failed">Yhteys epäonnistui. Odottamaton vastaus yhdistettäessä asetettuun openHAB palvelimeen (HTTP vastaus: %d).</string>
     <string name="error_invalid_url">Kirjoita kelvollinen URL osoite \'http(s)://isäntä(:portti)/\' muodossa</string>
     <string name="error_connection_failed">Yhteys palvelimeen epäonnistui</string>
@@ -108,6 +110,7 @@
     <string name="action_settings">Asetukset</string>
     <string name="nfc_dialog_title">Kirjoita NFC tagin toiminto tälle elementille</string>
     <string name="info_not_set">Ei määritetty</string>
+    <string name="empty_page">Tämä sivu ei sisällä widgettejä, jotka on määritetty näkymään</string>
     <!-- Notification list strings -->
     <string name="notification_list_empty">Ilmoituksia ei toistaiseksi lähetetty</string>
     <string name="notification_list_error">Virhe ladattaessa ilmoituksia</string>
@@ -165,10 +168,18 @@
     <string name="cancel">Peruuta</string>
     <string name="close">Sulje</string>
     <string name="try_again_button">Yritä uudelleen</string>
+    <string name="enable_wifi_button">Käynnistä Wi-Fi</string>
     <string name="go_to_settings_button">Mene asetuksiin</string>
-    <string name="configuration_missing">Sinun openHAB palvelinta ei löydetty automaattisesti. Ole hyvä ja ja aseta sen IP osoite tai isäntänimi palvelinasetuksiin.</string>
-    <string name="no_remote_server">Paikallinen verkko ei ole käytettävissä etkä ole asettanut etäpalvelinta</string>
+    <string name="enable_demo_mode_button">Käynnistä esittelytila</string>
+    <string name="configuration_missing">Emme löydä openHAB-palvelinta verkosta. Jos sinulla on jo palvelin, määritä sen IP-osoite tai isäntänimi asetuksiin. Jos sinulla ei vielä ole palvelinta, ota käyttöön esittelytila nähdäksesi mihin openHAB pystyy.</string>
+    <string name="no_remote_server">Yhteys paikalliseen palvelimeen epäonnistui etkä ole määrittänyt etäpalvelinta</string>
     <string name="resolving_openhab">Etsitään openHAB palvelinta\u2026</string>
+    <string name="waiting_for_wifi">Odotetaan Wi-Fi yhteyttä\u2026</string>
+    <!-- Log -->
+    <string name="log">Loki</string>
+    <string name="view_log">Näytä loki</string>
+    <string name="clear_log">Tyhjennä loki</string>
+    <string name="empty_log">Loki on tyhjä</string>
     <!-- Content description for images -->
     <string name="content_description_open_roller_shutter">Avaa rullaverho</string>
     <string name="content_description_stop_roller_shutter">Pysäytä rullaverho</string>

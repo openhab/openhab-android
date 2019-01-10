@@ -58,7 +58,8 @@
     <string name="settings_connection_summary">Csatlakoztatva a %s</string>
     <string name="settings_insecure_connection_summary">Nembiztonságosan csatakoztatva a %s</string>
     <!-- App messages strings -->
-    <string name="title_voice_widget">openHAB hangvezérlésére szolgáló parancsok</string>
+    <string name="title_voice_widget">Hangutasítások</string>
+    <string name="title_voice_widget_icon">Hangutasítások és alkalmazás parancsikon</string>
     <string name="info_voice_input">openHAB, szolgálatodra!</string>
     <string name="info_voice_recognized_text">Felismert parancs: %1$s</string>
     <string name="info_demo_mode_short">Demo módban fut</string>
@@ -67,6 +68,7 @@
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB üres felületet adott vissza</string>
     <string name="error_network_not_available">Hálózat nem elérhető</string>
+    <string name="error_wifi_not_available">Wi-Fi ki van kapcsolva</string>
     <string name="error_http_connection_failed">Kapcsolódás sikertelen. Egy nem várt válasz érkezett, míg kapcsolódni próbált az openHAB kiszolgálóhoz (HTTP válasz-kód: %d).</string>
     <string name="error_invalid_url">Adjon meg egy érvényes URL-cím \' http(s)://kiszolgáló(:port)/\' formában</string>
     <string name="error_connection_failed">Sikertelen kapcsolódás</string>
@@ -165,10 +167,16 @@
     <string name="cancel">Mégse</string>
     <string name="close">Bezár</string>
     <string name="try_again_button">Próbáld újra</string>
+    <string name="enable_wifi_button">Kapcsolja be a Wi-Fi-t</string>
     <string name="go_to_settings_button">Beállítások megnyitása</string>
-    <string name="configuration_missing">Az openHAB szervert nem tudta automatikusan felderíteni. Állítsd be manuálisan az IP címet vagy host nevet a szerver beállításokban.</string>
-    <string name="no_remote_server">Helyi hálózat nem érhető el, és a távoli kiszolgáló nincs konfigurálva</string>
+    <string name="enable_demo_mode_button">A demo üzemmód bekapcsolása</string>
     <string name="resolving_openhab">Megpróbálja felderíteni az openHAB szerver példányt\u2026</string>
+    <string name="waiting_for_wifi">Várakozás a Wi-Fi kapcsolat\u2026 létrehozására</string>
+    <!-- Log -->
+    <string name="log">Napló</string>
+    <string name="view_log">Napló megtekintése</string>
+    <string name="clear_log">Napló törlése</string>
+    <string name="empty_log">A Napló üres</string>
     <!-- Content description for images -->
     <string name="content_description_open_roller_shutter">Redőny nyitása</string>
     <string name="content_description_stop_roller_shutter">Redőny megállítása</string>

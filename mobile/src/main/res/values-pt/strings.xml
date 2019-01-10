@@ -85,6 +85,7 @@
     <string name="error_network_type_unsupported">Tipo de rede (%s) não suportado</string>
     <string name="set">Conjunto</string>
     <string name="cancel">Cancelar</string>
+    <!-- Log -->
     <!-- Content description for images -->
     <!-- Intro strings -->
     <string name="app_intro">Introdução</string>

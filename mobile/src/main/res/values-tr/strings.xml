@@ -84,6 +84,7 @@
     <string name="error_network_type_unsupported">(%s) Network tipi desteklenmiyor</string>
     <string name="set">Ayarla</string>
     <string name="cancel">İptal Et</string>
+    <!-- Log -->
     <!-- Content description for images -->
     <!-- Intro strings -->
     <string name="app_intro">Giriş</string>

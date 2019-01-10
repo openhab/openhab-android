@@ -4,7 +4,7 @@
     <whatis>openHAB e' una piattaforma open-source basata su java, che integra e combina una vasta gamma di diversi smart home systems e tecnologie in un'unica soluzione.</whatis>
     <rules>Usando un livello unificato di astrazione, tutti i dispositivi collegati sono disponibili per le regole di automazione e per diverse interfacce utente.</rules>
     <supported>Prodotti supportati</supported>
-    <bindings>Oltre 200 componenti aggiuntivi forniscono il supporto per marche, dispositivi, tecnologie e protocolli di comunicazione. Esempi sono Z-Wave, Philips Hue, Amazon Eco, Chromecast e Sonos. Scopri tutti i componenti aggiuntivi disponibili, dispositivi supportati e funzionalita' a: https://www.openhab.org/addons/</bindings>
+    <bindings>Oltre 200 componenti aggiuntivi forniscono il supporto per marche, dispositivi, tecnologie e protocolli di comunicazione. Esempi sono Z-Wave, Philips Hue, Amazon Echo, Chromecast e Sonos. Scopri tutti i componenti aggiuntivi disponibili, dispositivi supportati e funzionalita' a: https://www.openhab.org/addons/</bindings>
 
     <home_automation_solutions>• Soluzioni di domotica: Z-Wave, EnOcean, Netatmo, Homematic, Insteon,...</home_automation_solutions>
     <lighting>• Illuminazione: Philips Hue, Ikea Trådfri, LIFX, Lutron, Milight,...</lighting>

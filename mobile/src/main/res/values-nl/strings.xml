@@ -55,7 +55,6 @@
     <string name="settings_connection_summary">Verbonden met %s</string>
     <string name="settings_insecure_connection_summary">Onveilig verbonden met %s</string>
     <!-- App messages strings -->
-    <string name="title_voice_widget">openHAB stem commando\'s</string>
     <string name="info_voice_input">openHAB, tot uw dienst!</string>
     <string name="info_voice_recognized_text">Herkend commando: %1$s</string>
     <string name="info_demo_mode_short">Uitgevoerd in de demomodus</string>
@@ -162,9 +161,8 @@
     <string name="close">Sluiten</string>
     <string name="try_again_button">Opnieuw proberen</string>
     <string name="go_to_settings_button">Ga naar instellingen</string>
-    <string name="configuration_missing">Uw openHAB server kon niet automatisch worden gevonden. Gelieve het IP-adres of de hostnaam in de serverinstellingen te configureren.</string>
-    <string name="no_remote_server">Lokale netwerk is niet beschikbaar en uw externe server is nog niet geconfigureerd</string>
     <string name="resolving_openhab">Proberen om openHAB server automatisch te vinden\u2026</string>
+    <!-- Log -->
     <!-- Content description for images -->
     <string name="content_description_open_roller_shutter">Open rolluik</string>
     <string name="content_description_stop_roller_shutter">Stop rolluik</string>

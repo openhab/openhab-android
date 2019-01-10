@@ -55,7 +55,6 @@
     <string name="settings_connection_summary">Συνδεδεμένο σε %s</string>
     <string name="settings_insecure_connection_summary">Μη ασφαλής σύνδεση σε %s</string>
     <!-- App messages strings -->
-    <string name="title_voice_widget">Φωνητικές εντολές openHAB</string>
     <string name="info_voice_input">openHAB, στις προσταγές σας!</string>
     <string name="info_voice_recognized_text">Αναγνωρισμένη εντολή: %1$s</string>
     <string name="info_demo_mode_short">Εκτέλεση σε κατάσταση παρουσίασης (demo)</string>
@@ -163,9 +162,8 @@
     <string name="close">Κλείσιμο</string>
     <string name="try_again_button">Προσπαθήστε ξανά</string>
     <string name="go_to_settings_button">Μετάβαση στις ρυθμίσεις</string>
-    <string name="configuration_missing">Δεν ήταν δυνατό να γίνει αυτόματη εύρεση του διακομιστή openHAB. Παρακαλώ ρυθμίστε την IP διεύθυνση ή το όνομα υπολογιστή στις ρυθμίσεις διακομιστή.</string>
-    <string name="no_remote_server">Το τοπικό δίκτυο δεν είναι διαθέσιμο και δεν έχετε διαμορφώσει έναν απομακρυσμένο διακομιστή</string>
     <string name="resolving_openhab">Προσπάθεια εύρεσης του διακομιστή openHAB</string>
+    <!-- Log -->
     <!-- Content description for images -->
     <string name="content_description_open_roller_shutter">Άνοιγμα ρολών</string>
     <string name="content_description_stop_roller_shutter">Σταμάτημα ρολών</string>

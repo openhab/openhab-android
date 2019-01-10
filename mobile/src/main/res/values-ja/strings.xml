@@ -28,6 +28,7 @@
     <string name="settings_openhab_screentimeroff">ディスプレイタイマーを無効にする</string>
     <string name="settings_openhab_screentimeroff_summary">openHAB が実行中のとき、ディスプレイがオフにならないようにします</string>
     <string name="settings_openhab_demomode">デモモード</string>
+    <string name="settings_openhab_demomode_summary">openHAB サーバーをお持ちでない場合は、デモモードを有効にすると、openHAB どのようなことができるか想像できます。</string>
     <string name="settings_openhab_theme">テーマ</string>
     <string name="settings_openhab_fullscreen">フルスクリーン</string>
     <string name="settings_openhab_fullscreen_summary">全画面モードで表示します</string>
@@ -57,7 +58,6 @@
     <string name="settings_connection_summary">%s に接続しました</string>
     <string name="settings_insecure_connection_summary">%s に安全ではない接続をしました</string>
     <!-- App messages strings -->
-    <string name="title_voice_widget">openHAB 音声コマンド</string>
     <string name="info_voice_input">openHAB, お話ください!</string>
     <string name="info_voice_recognized_text">認識したコマンド: %1$s</string>
     <string name="info_demo_mode_short">デモ モードで実行しています</string>
@@ -107,6 +107,7 @@
     <string name="action_settings">設定</string>
     <string name="nfc_dialog_title">この要素の NFC タグアクションを作成</string>
     <string name="info_not_set">未設定</string>
+    <string name="empty_page">このページには表示するように設定されたウィジェットがありません</string>
     <!-- Notification list strings -->
     <string name="notification_list_empty">まだ通知は送信されていません</string>
     <string name="notification_list_error">通知を読み込み中にエラーが発生しました</string>
@@ -165,9 +166,12 @@
     <string name="close">閉じる</string>
     <string name="try_again_button">もう一度やり直す</string>
     <string name="go_to_settings_button">設定に移動</string>
-    <string name="configuration_missing">openHAB サーバーを自動で検出できませんでした。サーバー設定で、IP アドレスまたはホスト名を設定してください。</string>
-    <string name="no_remote_server">ローカルネットワークが利用できません。リモートサーバーが設定されていません</string>
     <string name="resolving_openhab">openHAB サーバーインスタンスの探索中\u2026</string>
+    <!-- Log -->
+    <string name="log">ログ</string>
+    <string name="view_log">ログの表示</string>
+    <string name="clear_log">ログの消去</string>
+    <string name="empty_log">ログはありません</string>
     <!-- Content description for images -->
     <string name="content_description_open_roller_shutter">ロール シャッターを開く</string>
     <string name="content_description_stop_roller_shutter">ロール シャッターを停止</string>

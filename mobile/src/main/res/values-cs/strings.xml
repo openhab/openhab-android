@@ -28,6 +28,7 @@
     <string name="settings_openhab_screentimeroff">Nezhasínat displej</string>
     <string name="settings_openhab_screentimeroff_summary">Zabránit systému zhasnout automaticky displej pokud je aplikace openHAB spuštěna</string>
     <string name="settings_openhab_demomode">Ukázkový režim</string>
+    <string name="settings_openhab_demomode_summary">Pokud nemáte openHAB server, povolte režim demo abyste získali představu o možnostech openHAB.</string>
     <string name="settings_openhab_theme">Motivy vzhledu</string>
     <string name="settings_openhab_fullscreen">Na celou obrazovku</string>
     <string name="settings_openhab_fullscreen_summary">Zobrazit v režimu celé obrazovky</string>
@@ -40,6 +41,8 @@
     <string name="settings_chart_scaling_value_s">Malé</string>
     <string name="settings_chart_scaling_value_m">Výchozí</string>
     <string name="settings_chart_scaling_value_l">Velké</string>
+    <string name="settings_openhab_chart_hq">Grafy ve vysokém rozlišením</string>
+    <string name="settings_openhab_chart_hq_summary">Generování grafů může být náročné na server. Pokud dochází k pomalému načítání grafů a váš server je slabší, zakažte tuto možnost aby se zlepšila doba načítání.</string>
     <string name="settings_ringtone">Tón oznámení</string>
     <string name="settings_ringtone_none">Žádné</string>
     <string name="settings_clear_default_sitemap">Vymazat výchozí Sitemap</string>
@@ -55,7 +58,6 @@
     <string name="settings_connection_summary">Připojen k %s</string>
     <string name="settings_insecure_connection_summary">Připojen k %s nezabezpečenou komunikací</string>
     <!-- App messages strings -->
-    <string name="title_voice_widget">openHAB hlasové příkazy</string>
     <string name="info_voice_input">openHAB, k Vašim službám!</string>
     <string name="info_voice_recognized_text">Rozpoznán příkaz: %1$s</string>
     <string name="info_demo_mode_short">Spuštěno v ukázkovém režimu</string>
@@ -64,6 +66,7 @@
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB vrátil prázdný seznam Sitemap</string>
     <string name="error_network_not_available">Síť není k dispozici</string>
+    <string name="error_wifi_not_available">Wi-Fi je vypnuta</string>
     <string name="error_http_connection_failed">Připojení se nezdařilo. Byla přijata neočekávaná odpověď při pokusu o připojení k serveru openHAB (HTTP kód odpovědi: %d).</string>
     <string name="error_invalid_url">Zadejte platnou adresu URL ve formátu \'http(s)://host(:port) /\'</string>
     <string name="error_connection_failed">Připojení k serveru se nezdařilo</string>
@@ -105,6 +108,7 @@
     <string name="action_settings">Nastavení</string>
     <string name="nfc_dialog_title">Zapsat akci do NFC tagu</string>
     <string name="info_not_set">Není nastaveno</string>
+    <string name="empty_page">Tato stránka neobsahuje žádné widgety, které jsou nastaveny na viditelné</string>
     <!-- Notification list strings -->
     <string name="notification_list_empty">Zatím nebylo zaslané žádné oznámení</string>
     <string name="notification_list_error">Při načítání oznámení došlo k chybě</string>
@@ -162,10 +166,18 @@
     <string name="cancel">Zrušit</string>
     <string name="close">Zavřít</string>
     <string name="try_again_button">Zkusit znovu</string>
+    <string name="enable_wifi_button">Zapnout Wi-Fi</string>
     <string name="go_to_settings_button">Přejít do nastavení</string>
-    <string name="configuration_missing">Nepodařilo se automaticky nalézt openHAB server. V nastavení serveru nakonfigurujte jeho IP adresu nebo název hostitele.</string>
-    <string name="no_remote_server">Připojení k místní síti je nedostupné a vzdálený server nemáte nastavený</string>
+    <string name="enable_demo_mode_button">Spustit v ukázkovém režimu</string>
+    <string name="configuration_missing">Ve vaší síti jsme nenašli openHAB server. Pokud již máte server, nakonfigurujte jeho IP adresu nebo název hostitele v nastavení serveru. Pokud ještě server nemáte, můžete spustit ukázkový režim, abyste viděl, jaké jsou možosti openHAB.</string>
+    <string name="no_remote_server">Připojení k místnímu serveru selhalo a vzdálený server není nakonfigurovaný</string>
     <string name="resolving_openhab">Hledám openHAB server\u2026</string>
+    <string name="waiting_for_wifi">Čekám než Wi-Fi naváže spojení\u2026</string>
+    <!-- Log -->
+    <string name="log">Log</string>
+    <string name="view_log">Zobrazit log</string>
+    <string name="clear_log">Vymazat log</string>
+    <string name="empty_log">Log je prázný</string>
     <!-- Content description for images -->
     <string name="content_description_open_roller_shutter">Otevřít ovládání rolet</string>
     <string name="content_description_stop_roller_shutter">Zastavit roletu</string>

@@ -55,7 +55,6 @@
     <string name="settings_connection_summary">Conectat la %s</string>
     <string name="settings_insecure_connection_summary">Conexiune nesigura la %s</string>
     <!-- App messages strings -->
-    <string name="title_voice_widget">Comenzi vocale openHAB</string>
     <string name="info_voice_input">openHAB, la comanda ta!</string>
     <string name="info_voice_recognized_text">Comandă recunoscută: %1$s</string>
     <string name="info_demo_mode_short">Rulează în modul demonstrativ</string>
@@ -163,9 +162,8 @@
     <string name="close">Închide</string>
     <string name="try_again_button">Încearcă din nou</string>
     <string name="go_to_settings_button">Mergi la setări</string>
-    <string name="configuration_missing">Serverul dumneavoastră openHAB nu a putut fi găsit automat. Vă rugăm configurați adresa IP sau numele în setările serverului.</string>
-    <string name="no_remote_server">Rețeaua locală nu este disponibilă și nu ați configurat un server distant</string>
     <string name="resolving_openhab">Se încearcă găsirea unui server openHAB\u2026</string>
+    <!-- Log -->
     <!-- Content description for images -->
     <string name="content_description_open_roller_shutter">Deschide oblonul</string>
     <string name="content_description_stop_roller_shutter">Oprește oblonul</string>

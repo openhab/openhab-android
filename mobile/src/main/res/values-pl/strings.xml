@@ -107,6 +107,7 @@
     <string name="cancel">Anuluj</string>
     <string name="try_again_button">Spróbuj ponownie</string>
     <string name="go_to_settings_button">Przejdź do ustawień</string>
+    <!-- Log -->
     <!-- Content description for images -->
     <string name="content_description_open_roller_shutter">Otwórz roletę</string>
     <string name="content_description_stop_roller_shutter">Zatrzymaj roletę</string>

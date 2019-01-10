@@ -58,7 +58,8 @@
     <string name="settings_connection_summary">מחובר ל- %s</string>
     <string name="settings_insecure_connection_summary">חיבור לא מאובטח ל- %s</string>
     <!-- App messages strings -->
-    <string name="title_voice_widget">פקודות קוליות של openHAB</string>
+    <string name="title_voice_widget">פקודות קוליות</string>
+    <string name="title_voice_widget_icon">פקודות קוליות וקיצורי דרך ליישום</string>
     <string name="info_voice_input">openHAB, לפקודתך!</string>
     <string name="info_voice_recognized_text">הפקודה שזוהתה היא : %1$s</string>
     <string name="info_demo_mode_short">פועל במצב הדגמה</string>
@@ -67,6 +68,7 @@
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB החזיר רשימה ריקה של תצורות מערכת</string>
     <string name="error_network_not_available">הרשת לא זמינה</string>
+    <string name="error_wifi_not_available">אינטרנט אלחוטי כבוי</string>
     <string name="error_http_connection_failed">ההתחברות נכשלה. תגובה בלתי צפויה התקבלה בעת ניסיון להתחבר אל שרת openHAB המוגדר (קוד תגובה HTTP שהתקבל: %d).</string>
     <string name="error_invalid_url">אנא הזן כתובת שרת חוקית בתבנית \'/http(s)://host(:port)\'</string>
     <string name="error_connection_failed">החיבור למחשב המארח נכשל</string>
@@ -108,6 +110,7 @@
     <string name="action_settings">הגדרות</string>
     <string name="nfc_dialog_title">כתוב על תגית NFC את הפעולה עבור רכיב זה</string>
     <string name="info_not_set">לא מוגדר</string>
+    <string name="empty_page">דף זה אינו מכיל יישומונים המוגדרים כגלויים</string>
     <!-- Notification list strings -->
     <string name="notification_list_empty">לא נשלחו התראות</string>
     <string name="notification_list_error">אירעה שגיאה במהלך טעינת התראות</string>
@@ -165,10 +168,18 @@
     <string name="cancel">ביטול</string>
     <string name="close">סגור</string>
     <string name="try_again_button">נסה שוב</string>
+    <string name="enable_wifi_button">הפעל אינטרנט אלחוטי</string>
     <string name="go_to_settings_button">עבור להגדרות</string>
-    <string name="configuration_missing">השרת של openHAB לא ניתן לגילוי באופן אוטומטי. נא להגדיר את כתובת ה IP של השרת או את שמו בתפריט הגדרות שרת.</string>
-    <string name="no_remote_server">הרשת המקומית אינה זמינה ולא הוגדר שרת מרוחק</string>
+    <string name="enable_demo_mode_button">הפעל במצב הדגמה</string>
+    <string name="configuration_missing">לא נמצא שרת openHAB ברשת שלך. אם יש לך שרת, יש להגדיר את שמו או את כתובת ה-IP שלו בהגדרות שרת. אם עדיין אין לך שרת, באפשרותך לאפשר את מצב ההדגמה ולראות את יכולות openHAB.</string>
+    <string name="no_remote_server">החיבור אל השרת המקומי נכשל ולא הוגדר שרת מרוחק</string>
     <string name="resolving_openhab">מנסה לאתר שרת openHAB</string>
+    <string name="waiting_for_wifi">ממתין להתחברות האינטרנט האלחוטי \u2026</string>
+    <!-- Log -->
+    <string name="log">יומן רישום</string>
+    <string name="view_log">הצג יומן רישום</string>
+    <string name="clear_log">מחיקת יומן הרישום</string>
+    <string name="empty_log">יומן הרישום ריק</string>
     <!-- Content description for images -->
     <string name="content_description_open_roller_shutter">פתח תריס גלילה</string>
     <string name="content_description_stop_roller_shutter">עצור תריס גלילה</string>
