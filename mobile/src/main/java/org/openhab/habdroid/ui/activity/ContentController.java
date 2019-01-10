@@ -679,16 +679,21 @@ public abstract class ContentController implements PageConnectionHolderFragment.
         @Override
         public View onCreateView(@NonNull LayoutInflater inflater,
                 ViewGroup container, Bundle savedInstanceState) {
-            View view = inflater.inflate(R.layout.fragment_habpanel, container, false);
-
-            TextView retryButton = view.findViewById(R.id.retry_button);
-            retryButton.setOnClickListener(v -> loadHabpanel(view));
-            loadHabpanel(view);
-
-            return view;
+            return inflater.inflate(R.layout.fragment_habpanel, container, false);
         }
 
-        private void loadHabpanel(View view) {
+        @Override
+        public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+            TextView retryButton = view.findViewById(R.id.retry_button);
+            retryButton.setOnClickListener(v -> loadHabpanel());
+            loadHabpanel();
+        }
+
+        private void loadHabpanel() {
+            View view = getView();
+            if (view == null) {
+                return;
+            }
             try {
                 mConnection = ConnectionFactory.getUsableConnection();
             } catch (ConnectionException e) {
@@ -728,7 +733,7 @@ public abstract class ContentController implements PageConnectionHolderFragment.
                 @Override
                 public void onReceivedError(WebView view, int errorCode, String description,
                         String failingUrl) {
-                    Log.e(TAG, "onReceivedError() (old) on URL: " + failingUrl);
+                    Log.e(TAG, "onReceivedError() (deprecated) on URL: " + failingUrl);
                     updateViewVisibility(true, false);
                 }
             });
@@ -749,7 +754,7 @@ public abstract class ContentController implements PageConnectionHolderFragment.
 
         @Override
         public void onAvailableConnectionChanged() {
-            loadHabpanel(getView());
+            loadHabpanel();
         }
 
         @Override
