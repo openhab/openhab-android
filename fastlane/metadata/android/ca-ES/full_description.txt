@@ -8,7 +8,7 @@ You can install the beta version alongside the <a href="https://f-droid.org/pack
 
 You need an openHAB server for this app
 
-openHAB is a Java-based open-source home automation platform that integrates and combines a vast range of different smart home systems and technologies into one single solution.
+openHAB és una plataforma feta en Java per a l'automatització de la llar basada en codi obert, que integra i combina una gran varietat de sistemes i tecnologies per a la llar intel·ligent en una solució única.
 On top of the unified abstraction layer all connected devices are available for the overarching automation rule engines and different user interfaces.
 
 <b>Supported Products</b>
