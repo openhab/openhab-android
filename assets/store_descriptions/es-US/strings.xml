@@ -13,7 +13,7 @@
     <security>• Seguridad: ZoneMinder, DSC,...</security>
     <open_protocols>• Protocolos abiertos: HTTP, TCP/UDP, MQTT, puerto serie,...</open_protocols>
     <special_useCases>• Usos especiales: Minecraft, Tesla coche, servicios,...</special_useCases>
-    <empty_point>•...</empty_point>
+    <empty_point>• ...</empty_point>
 
     <oss_community>Comunidad de código abierto</oss_community>
     <forum>La iniciativa de código abierto openHAB apoya con fuerza a su vibrante comunidad. El foro con más de 13.000 usuarios registrados es un lugar donde puede encontrar orientación, ayuda e inspiración. Únase al foro de la comunidad de openHAB en https://community.openhab.org</forum>
