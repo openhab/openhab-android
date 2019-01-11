@@ -1166,11 +1166,12 @@ public class MainActivity extends AppCompatActivity implements
 
     private void manageVoiceRecognitionShortcut(boolean visible) {
         manageShortcut(visible, "voice_recognition", ACTION_VOICE_RECOGNITION_SELECTED,
-                R.string.mainmenu_openhab_voice_recognition, R.mipmap.ic_shortcut_voice_recognition);
+                R.string.mainmenu_openhab_voice_recognition,
+                R.mipmap.ic_shortcut_voice_recognition);
     }
 
     private void manageShortcut(boolean visible, String id, String action,
-                                @StringRes int shortLabel, @DrawableRes int icon) {
+            @StringRes int shortLabel, @DrawableRes int icon) {
         if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.N_MR1) {
             return;
         }
