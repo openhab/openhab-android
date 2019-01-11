@@ -213,7 +213,7 @@ public class FcmMessageListenerService extends FirebaseMessagingService {
                 .setCategory(NotificationCompat.CATEGORY_EVENT)
                 .setAutoCancel(true)
                 .setLights(ContextCompat.getColor(this, R.color.openhab_orange), 3000, 3000)
-                .setVibrate(Util.getVibrationPattern(getApplicationContext()))
+                .setVibrate(Util.getNotificationVibrationPattern(getApplicationContext()))
                 .setGroup("gcm");
     }
 
