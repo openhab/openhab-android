@@ -9,6 +9,8 @@
     <!-- Main menu items -->
     <string name="mainmenu_openhab_sitemaps">Sivukartat</string>
     <string name="mainmenu_openhab_preferences">Asetukset</string>
+    <string name="mainmenu_openhab_habpanel">HABPanel</string>
+    <string name="habpanel_error">Virhe ladattaessa HABPanel:ia</string>
     <string name="mainmenu_openhab_selectsitemap">Valitse oletussivukartta</string>
     <string name="mainmenu_openhab_clearcache">Tyhjennä kuvien välimuisti</string>
     <!-- App settings strings -->
