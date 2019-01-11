@@ -16,7 +16,8 @@ import org.openhab.habdroid.R;
 public class AlarmClockPreference extends EditTextPreference {
     private ImageView mHelpIcon;
 
-    public AlarmClockPreference(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public AlarmClockPreference(Context context, AttributeSet attrs, int defStyleAttr,
+            int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         setWidgetLayoutResource(R.layout.help_icon_pref);
     }

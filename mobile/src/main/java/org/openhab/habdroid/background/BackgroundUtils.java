@@ -79,15 +79,17 @@ public class BackgroundUtils {
      *
      * @param context
      * @param msg Message to show.
-     * @param isError Setting isError to true creates a notification with a higher priority,
-     *                posts it on the error channel, enables light. Setting it to false makes the
-     *                notification ongoing.
+     * @param isOngoing Whether the notification is ongoing.
+     * @param hasSound Whether the notification should make a sound, vibrate and enable lights.
+     *                 Sound and vibration can be disabled by the user in the app settings.
+     * @param isError Setting isError to true creates a notification with a higher priority and
+     *                posts it on the error channel.
      * @param action Action to show as a button, e.g. "Retry".
      *               Also see {@link #makeRetryAction(Context, int)}
      * @return
      */
     public static Notification makeBackgroundNotification(Context context, String msg,
-            boolean isOngoing, boolean hasSound, boolean hasHighImportance,
+            boolean isOngoing, boolean hasSound, boolean isError,
             NotificationCompat.Action action) {
         Intent notificationIntent = new Intent(context, MainActivity.class);
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
@@ -96,7 +98,7 @@ public class BackgroundUtils {
                 notificationIntent, 0);
 
         NotificationCompat.Builder nb = new NotificationCompat.Builder(context,
-                hasHighImportance ? CHANNEL_ID_BACKGROUND_ERROR : CHANNEL_ID_BACKGROUND)
+                isError ? CHANNEL_ID_BACKGROUND_ERROR : CHANNEL_ID_BACKGROUND)
                 .setSmallIcon(R.drawable.ic_openhab_appicon_white_24dp)
                 .setContentTitle(context.getString(R.string.app_name))
                 .setWhen(System.currentTimeMillis())
@@ -105,10 +107,10 @@ public class BackgroundUtils {
                 .setAutoCancel(true)
                 .setContentIntent(intent)
                 .setColor(ContextCompat.getColor(context, R.color.openhab_orange))
-                .setCategory(hasHighImportance ? NotificationCompat.CATEGORY_ERROR
+                .setCategory(isError ? NotificationCompat.CATEGORY_ERROR
                         : NotificationCompat.CATEGORY_PROGRESS)
                 .setOngoing(!isOngoing)
-                .setPriority(hasHighImportance ? NotificationCompat.PRIORITY_DEFAULT
+                .setPriority(isError ? NotificationCompat.PRIORITY_DEFAULT
                         : NotificationCompat.PRIORITY_MIN);
 
         if (hasSound) {
@@ -116,7 +118,7 @@ public class BackgroundUtils {
             nb.setLights(ContextCompat.getColor(context, R.color.openhab_orange),
                     3000, 3000)
                     .setSound(Uri.parse(prefs.getString(Constants.PREFERENCE_TONE, "")))
-                    .setVibrate(Util.getVibrationPattern(context));
+                    .setVibrate(Util.getNotificationVibrationPattern(context));
         }
 
         if (action != null) {

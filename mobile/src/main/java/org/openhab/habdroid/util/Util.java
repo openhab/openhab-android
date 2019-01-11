@@ -277,6 +277,7 @@ public class Util {
         swipeLayout.setColorSchemeColors(colors);
     }
 
+<<<<<<< HEAD
     public static boolean isFlavorStable() {
         return BuildConfig.FLAVOR.toLowerCase().contains("stable");
     }
@@ -304,7 +305,14 @@ public class Util {
         }
     }
 
-    public static long[] getVibrationPattern(Context context) {
+    /**
+     * Returns vibration pattern for notifications that can be passed to
+     * {@link NotificationCompat.Builder#setVibrate()}.
+     *
+     * @param context
+     * @return Vibration pattern
+     */
+    public static long[] getNotificationVibrationPattern(Context context) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         String vibration =
                 prefs.getString(Constants.PREFERENCE_NOTIFICATION_VIBRATION, "");
