@@ -18,6 +18,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.pm.ShortcutInfo;
+import android.content.pm.ShortcutManager;
 import android.content.res.ColorStateList;
 import android.content.res.Configuration;
 import android.content.res.Resources;
@@ -25,6 +27,7 @@ import android.graphics.Bitmap;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.Icon;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.net.wifi.WifiManager;
@@ -50,6 +53,7 @@ import android.view.WindowManager;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 import androidx.annotation.ColorInt;
+import androidx.annotation.DrawableRes;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.appcompat.app.ActionBar;
@@ -97,6 +101,7 @@ import java.security.cert.CertPathValidatorException;
 import java.security.cert.CertificateExpiredException;
 import java.security.cert.CertificateNotYetValidException;
 import java.security.cert.CertificateRevokedException;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
@@ -112,6 +117,10 @@ public class MainActivity extends AppCompatActivity implements
         AsyncServiceResolver.Listener, ConnectionFactory.UpdateListener {
     public static final String ACTION_NOTIFICATION_SELECTED =
             "org.openhab.habdroid.action.NOTIFICATION_SELECTED";
+    public static final String ACTION_HABPANEL_SELECTED =
+            "org.openhab.habdroid.action.HABPANEL_SELECTED";
+    public static final String ACTION_VOICE_RECOGNITION_SELECTED =
+            "org.openhab.habdroid.action.VOICE_SELECTED";
     public static final String EXTRA_PERSISTED_NOTIFICATION_ID = "persistedNotificationId";
 
     private static final String TAG = MainActivity.class.getSimpleName();
@@ -138,11 +147,13 @@ public class MainActivity extends AppCompatActivity implements
 
     private Uri mPendingNfcData;
     private String mPendingOpenedNotificationId;
+    private boolean mShouldStartHabpanel;
     private Sitemap mSelectedSitemap;
     private ContentController mController;
     private ServerProperties mServerProperties;
     private ServerProperties.UpdateHandle mPropsUpdateHandle;
     private boolean mStarted;
+    private ShortcutManager mShortcutManager;
 
     /**
      * Daydreaming gets us into a funk when in fullscreen, this allows us to
@@ -257,6 +268,10 @@ public class MainActivity extends AppCompatActivity implements
         }
         OnUpdateBroadcastReceiver.updateComparableVersion(prefsEditor);
         prefsEditor.apply();
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
+            mShortcutManager = getSystemService(ShortcutManager.class);
+        }
     }
 
     private void handleConnectionChange() {
@@ -314,6 +329,7 @@ public class MainActivity extends AppCompatActivity implements
                         .putInt(PREV_SERVER_FLAGS, props.flags())
                         .apply();
             }
+            openHabpanelIfNeeded();
         };
         mPropsUpdateHandle = ServerProperties.fetch(mConnection,
                 successCb, this::handlePropertyFetchFailure);
@@ -354,6 +370,13 @@ public class MainActivity extends AppCompatActivity implements
             case ACTION_NOTIFICATION_SELECTED:
                 CloudMessagingHelper.onNotificationSelected(this, intent);
                 onNotificationSelected(intent);
+                break;
+            case ACTION_HABPANEL_SELECTED:
+                mShouldStartHabpanel = true;
+                openHabpanelIfNeeded();
+                break;
+            case ACTION_VOICE_RECOGNITION_SELECTED:
+                launchVoiceRecognition();
                 break;
             default:
                 break;
@@ -433,6 +456,7 @@ public class MainActivity extends AppCompatActivity implements
 
         // Handle pending NFC tag if initial connection determination finished
         openPendingNfcPageIfNeeded();
+        openHabpanelIfNeeded();
 
         if (newConnection != null) {
             handleConnectionChange();
@@ -506,6 +530,7 @@ public class MainActivity extends AppCompatActivity implements
         }
         openPendingNfcPageIfNeeded();
         openNotificationsPageIfNeeded();
+        openHabpanelIfNeeded();
     }
 
     @Override
@@ -615,8 +640,9 @@ public class MainActivity extends AppCompatActivity implements
 
     private void updateNotificationDrawerItem() {
         MenuItem notificationsItem = mDrawerMenu.findItem(R.id.notifications);
-        notificationsItem.setVisible(
-                ConnectionFactory.getConnection(Connection.TYPE_CLOUD) != null);
+        boolean visible = ConnectionFactory.getConnection(Connection.TYPE_CLOUD) != null;
+        notificationsItem.setVisible(visible);
+        manageNotificationShortcut(visible);
     }
 
     private void updateSitemapAndHabpanelDrawerItems() {
@@ -627,6 +653,7 @@ public class MainActivity extends AppCompatActivity implements
             habpanelItem.setVisible(false);
         } else {
             habpanelItem.setVisible(mServerProperties.hasHabpanelInstalled());
+            manageHabpanelShortcut(mServerProperties.hasHabpanelInstalled());
             final String defaultSitemapName =
                     mPrefs.getString(Constants.PREFERENCE_SITEMAP_NAME, "");
             final List<Sitemap> sitemaps = mServerProperties.sitemaps();
@@ -684,6 +711,14 @@ public class MainActivity extends AppCompatActivity implements
                 && ConnectionFactory.getConnection(Connection.TYPE_CLOUD) != null) {
             openNotifications(mPendingOpenedNotificationId);
             mPendingOpenedNotificationId = null;
+        }
+    }
+
+    private void openHabpanelIfNeeded() {
+        if (mStarted && mShouldStartHabpanel && mServerProperties != null
+                && mServerProperties.hasHabpanelInstalled()) {
+            openHabpanel();
+            mShouldStartHabpanel = false;
         }
     }
 
@@ -821,8 +856,9 @@ public class MainActivity extends AppCompatActivity implements
         Log.d(TAG, "onPrepareOptionsMenu()");
         MenuItem voiceRecognitionItem = menu.findItem(R.id.mainmenu_voice_recognition);
         @ColorInt int iconColor = ContextCompat.getColor(this, R.color.light);
-        voiceRecognitionItem.setVisible(
-                mConnection != null && SpeechRecognizer.isRecognitionAvailable(this));
+        boolean visible = mConnection != null && SpeechRecognizer.isRecognitionAvailable(this);
+        voiceRecognitionItem.setVisible(visible);
+        manageVoiceRecognitionShortcut(visible);
         voiceRecognitionItem.getIcon().setColorFilter(iconColor, PorterDuff.Mode.SRC_IN);
 
         return true;
@@ -841,6 +877,7 @@ public class MainActivity extends AppCompatActivity implements
         if (mDrawerToggle.onOptionsItemSelected(item)) {
             return true;
         }
+
 
         // Handle menu items
         switch (item.getItemId()) {
@@ -1115,5 +1152,39 @@ public class MainActivity extends AppCompatActivity implements
             return false;
         }
         return mPrefs.getBoolean(Constants.PREFERENCE_FULLSCREEN, false);
+    }
+
+    private void manageHabpanelShortcut(boolean visible) {
+        manageShortcut(visible, "habpanel", ACTION_HABPANEL_SELECTED,
+                R.string.mainmenu_openhab_habpanel, R.mipmap.ic_shortcut_habpanel);
+    }
+
+    private void manageNotificationShortcut(boolean visible) {
+        manageShortcut(visible, "notification", ACTION_NOTIFICATION_SELECTED,
+                R.string.app_notifications, R.mipmap.ic_shortcut_notifications);
+    }
+
+    private void manageVoiceRecognitionShortcut(boolean visible) {
+        manageShortcut(visible, "voice_recognition", ACTION_VOICE_RECOGNITION_SELECTED,
+                R.string.mainmenu_openhab_voice_recognition, R.mipmap.ic_shortcut_voice_recognition);
+    }
+
+    private void manageShortcut(boolean visible, String id, String action,
+                                @StringRes int shortLabel, @DrawableRes int icon) {
+        if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.N_MR1) {
+            return;
+        }
+        if (visible) {
+            Intent intent = new Intent(this, MainActivity.class);
+            intent.setAction(action);
+            ShortcutInfo shortcut = new ShortcutInfo.Builder(this, id)
+                    .setShortLabel(getString(shortLabel))
+                    .setIcon(Icon.createWithResource(this, icon))
+                    .setIntent(intent)
+                    .build();
+            mShortcutManager.addDynamicShortcuts(Collections.singletonList(shortcut));
+        } else {
+            mShortcutManager.removeDynamicShortcuts(Collections.singletonList(id));
+        }
     }
 }
