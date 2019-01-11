@@ -44,6 +44,8 @@ import org.openhab.habdroid.util.Util;
 
 import java.util.BitSet;
 
+import static android.provider.Settings.ACTION_APP_NOTIFICATION_SETTINGS;
+import static android.provider.Settings.EXTRA_APP_PACKAGE;
 import static org.openhab.habdroid.util.Constants.PREV_SERVER_FLAGS;
 import static org.openhab.habdroid.util.Util.getHostFromUrl;
 
@@ -235,6 +237,8 @@ public class PreferencesActivity extends AppCompatActivity {
             final Preference ringtonePref = findPreference(Constants.PREFERENCE_TONE);
             final Preference vibrationPref =
                     findPreference(Constants.PREFERENCE_NOTIFICATION_VIBRATION);
+            final Preference ringtoneVibrationPref =
+                    findPreference(Constants.PREFERENCE_NOTIFICATION_TONE_VIBRATION);
             final Preference viewLogPref = findPreference(Constants.PREFERENCE_LOG);
             final SharedPreferences prefs = getPreferenceScreen().getSharedPreferences();
 
@@ -308,6 +312,14 @@ public class PreferencesActivity extends AppCompatActivity {
                 return true;
             });
 
+            ringtoneVibrationPref.setOnPreferenceClickListener(preference -> {
+                Intent i = new Intent(android.provider.Settings.ACTION_SETTINGS);
+                i.setAction(ACTION_APP_NOTIFICATION_SETTINGS);
+                i.putExtra(EXTRA_APP_PACKAGE, getContext().getApplicationInfo().packageName);
+                startActivity(i);
+                return true;
+            });
+
             viewLogPref.setOnPreferenceClickListener(preference -> {
                 Intent logIntent = new Intent(preference.getContext(), LogActivity.class);
                 startActivity(logIntent);
@@ -327,6 +339,9 @@ public class PreferencesActivity extends AppCompatActivity {
                 Log.d(TAG, "Removing notification prefs");
                 getParent(ringtonePref).removePreference(ringtonePref);
                 getParent(vibrationPref).removePreference(vibrationPref);
+            } else {
+                Log.d(TAG, "Removing notification prefs for Oreo and above");
+                getParent(ringtoneVibrationPref).removePreference(ringtoneVibrationPref);
             }
 
             final ServerProperties props =
