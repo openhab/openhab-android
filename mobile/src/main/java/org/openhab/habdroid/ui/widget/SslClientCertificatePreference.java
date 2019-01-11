@@ -3,8 +3,6 @@ package org.openhab.habdroid.ui.widget;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.preference.Preference;
@@ -16,7 +14,6 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import androidx.appcompat.widget.TooltipCompat;
 
 import org.openhab.habdroid.R;
 
@@ -55,22 +52,9 @@ public class SslClientCertificatePreference extends Preference {
         View view = super.onCreateView(parent);
 
         mHelpIcon = view.findViewById(R.id.help_icon);
-
-        final Context context = getContext();
-        final Uri howToUri = Uri.parse(
-                context.getString(R.string.settings_openhab_sslclientcert_howto_url));
-        final Intent intent = new Intent(Intent.ACTION_VIEW, howToUri);
-
-        if (intent.resolveActivity(context.getPackageManager()) != null) {
-            mHelpIcon.setOnClickListener(v -> context.startActivity(intent));
-            mHelpIcon.setContentDescription(
-                    context.getString(R.string.settings_openhab_sslclientcert_howto_summary));
-            TooltipCompat.setTooltipText(mHelpIcon,
-                    context.getString(R.string.settings_openhab_sslclientcert_howto_summary));
-            updateHelpIconAlpha();
-        } else {
-            mHelpIcon.setVisibility(View.GONE);
-        }
+        HelpIconShowingPrefernceUtil.setupHelpIcon(getContext(), mHelpIcon, isEnabled(),
+                R.string.settings_openhab_sslclientcert_howto_url,
+                R.string.settings_openhab_sslclientcert_howto_summary);
 
         return view;
     }
@@ -93,13 +77,7 @@ public class SslClientCertificatePreference extends Preference {
     @Override
     public void onDependencyChanged(Preference dependency, boolean disableDependent) {
         super.onDependencyChanged(dependency, disableDependent);
-        updateHelpIconAlpha();
-    }
-
-    private void updateHelpIconAlpha() {
-        if (mHelpIcon != null) {
-            mHelpIcon.setAlpha(isEnabled() ? 1.0f : 0.5f);
-        }
+        HelpIconShowingPrefernceUtil.updateHelpIconAlpha(mHelpIcon, isEnabled());
     }
 
     private void handleAliasChosen(String alias) {

@@ -1,15 +1,11 @@
 package org.openhab.habdroid.ui.widget;
 
 import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
 import android.preference.EditTextPreference;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-
-import androidx.appcompat.widget.TooltipCompat;
 
 import org.openhab.habdroid.R;
 
@@ -42,29 +38,10 @@ public class AlarmClockPreference extends EditTextPreference {
         View view = super.onCreateView(parent);
 
         mHelpIcon = view.findViewById(R.id.help_icon);
-
-        final Context context = getContext();
-        final Uri howToUri = Uri.parse(
-                context.getString(R.string.settings_alarm_clock_howto_url));
-        final Intent intent = new Intent(Intent.ACTION_VIEW, howToUri);
-
-        if (intent.resolveActivity(context.getPackageManager()) != null) {
-            mHelpIcon.setOnClickListener(v -> context.startActivity(intent));
-            mHelpIcon.setContentDescription(
-                    context.getString(R.string.settings_alarm_clock_howto_summary));
-            TooltipCompat.setTooltipText(mHelpIcon,
-                    context.getString(R.string.settings_alarm_clock_howto_summary));
-            updateHelpIconAlpha();
-        } else {
-            mHelpIcon.setVisibility(View.GONE);
-        }
+        HelpIconShowingPrefernceUtil.setupHelpIcon(getContext(), mHelpIcon, isEnabled(),
+                R.string.settings_alarm_clock_howto_url,
+                R.string.settings_alarm_clock_howto_summary);
 
         return view;
-    }
-
-    private void updateHelpIconAlpha() {
-        if (mHelpIcon != null) {
-            mHelpIcon.setAlpha(isEnabled() ? 1.0f : 0.5f);
-        }
     }
 }
