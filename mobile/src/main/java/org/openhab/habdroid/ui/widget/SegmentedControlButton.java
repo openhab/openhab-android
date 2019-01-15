@@ -22,7 +22,9 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Paint.Style;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.util.AttributeSet;
+import androidx.annotation.ColorInt;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.appcompat.widget.AppCompatRadioButton;
 
@@ -54,11 +56,15 @@ public class SegmentedControlButton extends AppCompatRadioButton {
             TypedArray a = context.obtainStyledAttributes(attrs,
                     R.styleable.SegmentedControlButton);
 
-            int lineColor = a.getColor(R.styleable.SegmentedControlButton_lineColor, 0);
+            @ColorInt int lineColor = a.getColor(R.styleable.SegmentedControlButton_lineColor, 0);
             mLineHeight = a.getDimensionPixelSize(
                     R.styleable.SegmentedControlButton_lineHeight, 0);
             mTextDistanceFromLine = a.getDimensionPixelSize(
                     R.styleable.SegmentedControlButton_textDistanceFromLine, 0);
+
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+                setHeight((int) ((mLineHeight + mTextDistanceFromLine + (int) getTextSize()) * 1.3));
+            }
 
             mTextPaint = new Paint();
             mTextPaint.setAntiAlias(true);
