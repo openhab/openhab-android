@@ -46,7 +46,7 @@
         <item name="frameWidgetDividerBackground">@drawable/material_divider_dark</item>
         <item name="imageLoadingIndicator">@drawable/ic_image_loading_white</item>
 
-        <item name="android:itemTextAppearance">@style/whiteText</item>
+        <item name="android:itemTextAppearance">@style/WhiteText</item>
         <item name="android:itemBackground">#303030</item>
 
         <item name="about_libraries_window_background">
