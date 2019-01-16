@@ -51,7 +51,6 @@ public class SegmentedControlButton extends AppCompatRadioButton {
             TypedArray a = context.obtainStyledAttributes(attrs,
                     R.styleable.SegmentedControlButton);
 
-            int lineColor = a.getColor(R.styleable.SegmentedControlButton_underlineColor, 0);
             mLineHeight = a.getDimensionPixelSize(
                     R.styleable.SegmentedControlButton_underlineHeight, 0);
             mTextDistanceFromLine = a.getDimensionPixelSize(
@@ -62,6 +61,7 @@ public class SegmentedControlButton extends AppCompatRadioButton {
             mTextPaint.setTextSize(getTextSize());
             mTextPaint.setTextAlign(Paint.Align.CENTER);
 
+            int lineColor = a.getColor(R.styleable.SegmentedControlButton_underlineColor, 0);
             mLinePaint = new Paint();
             mLinePaint.setColor(lineColor);
             mLinePaint.setStyle(Style.FILL);
@@ -99,9 +99,6 @@ public class SegmentedControlButton extends AppCompatRadioButton {
 
     @Override
     public void onDraw(Canvas canvas) {
-        String text = getText().toString();
-        int textHeightPos = getHeight() - getCompoundPaddingBottom();
-
         if (mBackgroundPaint != null) {
             canvas.drawRect(0, 0, getWidth(), getHeight(), mBackgroundPaint);
         }
@@ -111,6 +108,9 @@ public class SegmentedControlButton extends AppCompatRadioButton {
             background.setBounds(0, 0, getWidth(), getHeight());
             background.draw(canvas);
         }
+
+        String text = getText().toString();
+        int textHeightPos = getHeight() - getCompoundPaddingBottom();
 
         mTextPaint.setColor(getCurrentTextColor());
         canvas.drawText(text, getWidth() / 2, textHeightPos, mTextPaint);
