@@ -20,8 +20,8 @@
         <item name="android:textSize">14dp</item>
         <item name="android:stretchColumns">0</item>
         <item name="android:padding">8dip</item>
-        <item name="lineHeight">2dp</item>
-        <item name="lineColor">?attr/colorAccent</item>
+        <item name="underlineHeight">2dp</item>
+        <item name="underlineColor">?attr/colorAccent</item>
         <item name="textDistanceFromLine">12dp</item>
         <!-- Our background uses theme attributes which doesn't work when inflated as
              a drawable on API < 21. This is why we use that custom attribute which has

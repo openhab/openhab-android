@@ -54,9 +54,9 @@ public class SegmentedControlButton extends AppCompatRadioButton {
             TypedArray a = context.obtainStyledAttributes(attrs,
                     R.styleable.SegmentedControlButton);
 
-            int lineColor = a.getColor(R.styleable.SegmentedControlButton_lineColor, 0);
+            int lineColor = a.getColor(R.styleable.SegmentedControlButton_underlineColor, 0);
             mLineHeight = a.getDimensionPixelSize(
-                    R.styleable.SegmentedControlButton_lineHeight, 0);
+                    R.styleable.SegmentedControlButton_underlineHeight, 0);
             mTextDistanceFromLine = a.getDimensionPixelSize(
                     R.styleable.SegmentedControlButton_textDistanceFromLine, 0);
 
