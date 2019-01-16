@@ -31,9 +31,6 @@ import org.openhab.habdroid.R;
 /** @author benjamin ferrari */
 public class SegmentedControlButton extends AppCompatRadioButton {
     private int mLineHeight;
-
-    private float mX;
-
     private int mTextDistanceFromLine;
 
     private Paint mTextPaint;
@@ -96,10 +93,14 @@ public class SegmentedControlButton extends AppCompatRadioButton {
     }
 
     @Override
+    public int getCompoundPaddingBottom() {
+        return Math.max(super.getCompoundPaddingBottom(), mLineHeight + mTextDistanceFromLine);
+    }
+
+    @Override
     public void onDraw(Canvas canvas) {
         String text = getText().toString();
-        int textHeightPos = getHeight() - mLineHeight - mTextDistanceFromLine;
-        float x = mX;
+        int textHeightPos = getHeight() - getCompoundPaddingBottom();
 
         if (mBackgroundPaint != null) {
             canvas.drawRect(0, 0, getWidth(), getHeight(), mBackgroundPaint);
@@ -112,16 +113,10 @@ public class SegmentedControlButton extends AppCompatRadioButton {
         }
 
         mTextPaint.setColor(getCurrentTextColor());
-        canvas.drawText(text, x, textHeightPos, mTextPaint);
+        canvas.drawText(text, getWidth() / 2, textHeightPos, mTextPaint);
 
         if (mLineHeight > 0) {
             canvas.drawRect(0, getHeight() - mLineHeight, getWidth(), getHeight(), mLinePaint);
         }
-    }
-
-    @Override
-    protected void onSizeChanged(int w, int h, int ow, int oh) {
-        super.onSizeChanged(w, h, ow, oh);
-        mX = w * 0.5f; // remember the center of the screen
     }
 }
