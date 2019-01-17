@@ -85,6 +85,11 @@ public abstract class Item implements Parcelable {
         if (type.endsWith("Item")) {
             type = type.substring(0, type.length() - 4);
         }
+        // types can have subtypes (e.g. 'Number:Temperature'); split off those
+        int colonPos = type.indexOf(':');
+        if (colonPos > 0) {
+            type = type.substring(0, colonPos);
+        }
         if ("String".equals(type)) {
             return Type.StringItem;
         }
