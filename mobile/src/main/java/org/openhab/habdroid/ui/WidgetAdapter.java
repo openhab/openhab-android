@@ -823,8 +823,8 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
 
         @Override
         public void onClick(final View view) {
-            if (mBoundWidget.item() == null) {
-                Log.e(TAG, "mBoundWidget.item() is null");
+            if (mBoundWidget.state() == null) {
+                Log.e(TAG, "mBoundWidget.state() is null");
                 return;
             }
             ParsedState.NumberState state = mBoundWidget.state().asNumber();
