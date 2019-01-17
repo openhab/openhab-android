@@ -13,9 +13,9 @@
     </declare-styleable>
 
     <declare-styleable name="SegmentedControlButton">
-        <attr name="lineColor" format="color" />
+        <attr name="underlineColor" format="color" />
         <attr name="textDistanceFromLine" format="dimension" />
-        <attr name="lineHeight" format="dimension" />
+        <attr name="underlineHeight" format="dimension" />
         <attr name="backgroundColor" format="color" />
     </declare-styleable>
 
