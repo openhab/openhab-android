@@ -7,6 +7,7 @@ import com.google.auto.value.AutoValue;
 
 import java.util.IllegalFormatConversionException;
 import java.util.Locale;
+import java.util.UnknownFormatConversionException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -50,11 +51,10 @@ public abstract class ParsedState implements Parcelable {
          */
         public String toString(Locale locale) {
             if (mFormat != null) {
-                final String actualFormat = mUnit != null
-                        ? mFormat.replace("%unit%", mUnit) : mFormat;
+                final String actualFormat = mFormat.replace("%unit%", mUnit != null ? mUnit : "");
                 try {
                     return String.format(locale, actualFormat, mValue);
-                } catch (IllegalFormatConversionException e) {
+                } catch (UnknownFormatConversionException | IllegalFormatConversionException e) {
                     // State format pattern doesn't match the actual data type
                     // -> ignore and fall back to our own formatting
                 }
