@@ -16,6 +16,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.text.TextUtils;
 import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.core.app.JobIntentService;
@@ -105,7 +106,7 @@ public class GcmRegistrationService extends JobIntentService {
         InstanceID instanceId = InstanceID.getInstance(this);
         String token = instanceId.getToken(connection.getMessagingSenderId(),
                 GoogleCloudMessaging.INSTANCE_ID_SCOPE, null);
-        String deviceModel = URLEncoder.encode(Build.MODEL, "UTF-8");
+        String deviceModel = URLEncoder.encode(getDeviceName(), "UTF-8");
         String deviceId =
                 Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
 
@@ -122,6 +123,34 @@ public class GcmRegistrationService extends JobIntentService {
             Log.e(TAG, "GCM reg id error: " + result.error);
         }
         CloudMessagingHelper.sRegistrationFailureReason = result.error;
+    }
+
+    /**
+     * @author https://stackoverflow.com/a/12707479
+     */
+    private String getDeviceName() {
+        String manufacturer = Build.MANUFACTURER;
+        String model = Build.MODEL;
+        if (model.toLowerCase().startsWith(manufacturer.toLowerCase())) {
+            return capitalize(model);
+        } else {
+            return capitalize(manufacturer) + " " + model;
+        }
+    }
+
+    /**
+     * @author https://stackoverflow.com/a/12707479
+     */
+    private String capitalize(String s) {
+        if (TextUtils.isEmpty(s)) {
+            return "";
+        }
+        char first = s.charAt(0);
+        if (Character.isUpperCase(first)) {
+            return s;
+        } else {
+            return Character.toUpperCase(first) + s.substring(1);
+        }
     }
 
     private void sendHideNotificationRequest(int notificationId, String senderId)
