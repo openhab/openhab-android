@@ -99,7 +99,7 @@ public class BasicWidgetTest extends TestWithoutIntro {
                 .perform(scrollToPosition(10))
                 .check(matches(atPositionOnView(10, isDisplayed(), R.id.stop_button)));
 
-        if (BuildConfig.FLAVOR.equals("full")) {
+        if (BuildConfig.FLAVOR.toLowerCase().contains("full")) {
             // check whether map view is displayed
             recyclerView
                     .perform(scrollToPosition(13))

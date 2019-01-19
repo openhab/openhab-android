@@ -23,6 +23,7 @@ import androidx.core.app.JobIntentService;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.android.gms.iid.InstanceID;
+import org.openhab.habdroid.BuildConfig;
 import org.openhab.habdroid.core.connection.CloudConnection;
 import org.openhab.habdroid.core.connection.Connection;
 import org.openhab.habdroid.core.connection.ConnectionFactory;
@@ -106,13 +107,15 @@ public class GcmRegistrationService extends JobIntentService {
         InstanceID instanceId = InstanceID.getInstance(this);
         String token = instanceId.getToken(connection.getMessagingSenderId(),
                 GoogleCloudMessaging.INSTANCE_ID_SCOPE, null);
-        String deviceModel = URLEncoder.encode(getDeviceName(), "UTF-8");
-        String deviceId =
-                Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
+        String deviceName = getDeviceName()
+                + (BuildConfig.FLAVOR.toLowerCase().contains("beta") ? " (Beta)" : "");
+        deviceName = URLEncoder.encode(deviceName, "UTF-8");
+        String deviceId = Settings.Secure.getString(getContentResolver(),
+                Settings.Secure.ANDROID_ID) + BuildConfig.FLAVOR;
 
         String regUrl = String.format(Locale.US,
                 "addAndroidRegistration?deviceId=%s&deviceModel=%s&regId=%s",
-                deviceId, deviceModel, token);
+                deviceId, deviceName, token);
 
         Log.d(TAG, "Register device at openHAB-cloud with URL: " + regUrl);
         SyncHttpClient.HttpStatusResult result =
