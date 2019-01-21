@@ -119,7 +119,7 @@ dependencies {
     // About screen
     implementation 'com.github.daniel-stoneuk:material-about-library:2.4.2'
     // Used libraries
-    implementation('com.mikepenz:aboutlibraries:6.2.0@aar') {
+    implementation('com.mikepenz:aboutlibraries:6.2.1@aar') {
         transitive = true
     }
     implementation 'com.github.GrenderG:Toasty:1.3.1'
