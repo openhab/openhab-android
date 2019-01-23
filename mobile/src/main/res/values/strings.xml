@@ -152,8 +152,7 @@
     <string name="notification_channel_background_error_description">Used to notify about errors in background tasks</string>
     <string name="error_sending_alarm_clock">Error sending alarm clock. Got HTTP error %d</string>
     <string name="error_sending_alarm_clock_retry">Error sending alarm clock, but it\'ll be retried later</string>
-    <string name="error_sending_alarm_clock_item_empty">You\'ve entered an invalid Item name</string>
-    <string name="error_sending_alarm_clock_item_empty_summary">As long as you don\'t set an Item here, the alarm clock won\'t be sent to the server</string>
+    <string name="error_sending_alarm_clock_item_empty">Please enter a valid Item name</string>
     <string name="error_sending_alarm_clock_no_connection">There was no connection available for sending the alarm clock time</string>
     <string name="retry">Retry</string>
 

@@ -55,9 +55,8 @@ public class BackgroundUtils {
             String name = context.getString(R.string.notification_channel_background);
             String description =
                     context.getString(R.string.notification_channel_background_description);
-            NotificationChannel channel =
-                    new NotificationChannel(CHANNEL_ID_BACKGROUND, name,
-                            NotificationManager.IMPORTANCE_MIN);
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID_BACKGROUND, name,
+                    NotificationManager.IMPORTANCE_MIN);
             channel.setDescription(description);
             notificationManager.createNotificationChannel(channel);
 
@@ -115,8 +114,7 @@ public class BackgroundUtils {
 
         if (hasSound) {
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-            nb.setLights(ContextCompat.getColor(context, R.color.openhab_orange),
-                    3000, 3000)
+            nb.setLights(ContextCompat.getColor(context, R.color.openhab_orange), 3000, 3000)
                     .setSound(Uri.parse(prefs.getString(Constants.PREFERENCE_TONE, "")))
                     .setVibrate(Util.getNotificationVibrationPattern(context));
         }

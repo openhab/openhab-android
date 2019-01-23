@@ -376,8 +376,7 @@ public class PreferencesActivity extends AppCompatActivity {
                     updateAlarmClockEnabledPreferenceIcon(preference, newValue);
                     BackgroundTasksBroadcastReceiver.startAlarmChangedWorker(getActivity(),
                             getPreferenceString(PREFERENCE_ALARM_CLOCK_ITEM, ""),
-                            (Boolean) newValue,
-                            false);
+                            (Boolean) newValue);
                     return true;
                 });
 
@@ -387,8 +386,7 @@ public class PreferencesActivity extends AppCompatActivity {
                     setAlarmClockItemEditorSummary(preference, newValue);
                     BackgroundTasksBroadcastReceiver.startAlarmChangedWorker(getActivity(),
                             (String) newValue,
-                            getPreferenceBool(PREFERENCE_ALARM_CLOCK_ENABLED, false),
-                            false);
+                            getPreferenceBool(PREFERENCE_ALARM_CLOCK_ENABLED, false));
                     return true;
                 });
             }
@@ -469,9 +467,7 @@ public class PreferencesActivity extends AppCompatActivity {
         }
 
         private void setAlarmClockItemEditorSummary(Preference pref, Object newValue) {
-            String itemName = (String) newValue;
-            pref.setSummary(TextUtils.isEmpty(itemName)
-                    ? getString(R.string.error_sending_alarm_clock_item_empty_summary) : itemName);
+            pref.setSummary((String) newValue);
         }
 
         private void updateConnectionSummary(String subscreenPrefKey, String urlPrefKey,
