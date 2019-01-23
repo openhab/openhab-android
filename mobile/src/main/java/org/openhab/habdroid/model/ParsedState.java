@@ -93,11 +93,8 @@ public abstract class ParsedState implements Parcelable {
                 new Parcelable.Creator<NumberState>() {
                     @Override
                     public NumberState createFromParcel(Parcel in) {
-                        if (in.readInt() != 0) {
-                            return new NumberState(in.readInt(), in.readString(), in.readString());
-                        } else {
-                            return new NumberState(in.readFloat(), in.readString(), in.readString());
-                        }
+                        Number value = in.readInt() != 0 ? in.readFloat() : in.readInt();
+                        return new NumberState(value, in.readString(), in.readString());
                     }
                     @Override
                     public NumberState[] newArray(int size) {
