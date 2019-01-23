@@ -570,7 +570,8 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
             } else {
                 ParsedState.NumberState number = state.asNumber();
                 if (state != null) {
-                    float progress = (number.mValue.floatValue() - widget.minValue()) / widget.step();
+                    float progress =
+                            (number.mValue.floatValue() - widget.minValue()) / widget.step();
                     mSeekBar.setProgress(Math.round(progress));
                     mIsInteger = number.mValue instanceof Integer;
                 }

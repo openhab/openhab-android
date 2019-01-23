@@ -221,8 +221,8 @@ public class Util {
                 new AsyncHttpClient.StringResponseHandler() {
             @Override
             public void onFailure(Request request, int statusCode, Throwable error) {
-                Log.e(TAG, "Sending command '" + command + "' to " + itemUrl +
-                        " failed: status " + statusCode, error);
+                Log.e(TAG, "Sending command '" + command
+                        + "' to " + itemUrl + " failed: status " + statusCode, error);
             }
 
             @Override

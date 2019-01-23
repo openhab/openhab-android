@@ -2,6 +2,8 @@ package org.openhab.habdroid.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.google.auto.value.AutoValue;
 
@@ -10,9 +12,6 @@ import java.util.Locale;
 import java.util.UnknownFormatConversionException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
 @AutoValue
 public abstract class ParsedState implements Parcelable {
