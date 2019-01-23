@@ -10,7 +10,7 @@ import androidx.appcompat.widget.TooltipCompat;
 
 public class HelpIconShowingPreferenceUtil {
     public static void setupHelpIcon(Context context, ImageView helpIcon, boolean isEnabled,
-                                     @StringRes int url, @StringRes int contentDescription) {
+            @StringRes int url, @StringRes int contentDescription) {
         final Uri howToUri = Uri.parse(context.getString(url));
         final Intent intent = new Intent(Intent.ACTION_VIEW, howToUri);
 

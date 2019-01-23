@@ -79,7 +79,8 @@ public class AlarmClockPreference extends EditTextPreference implements TextWatc
         if (TextUtils.isEmpty(value.trim()) || value.contains(" ") || value.contains("\n")) {
             valid = false;
         }
-        mEditor.setError(valid ? null : getContext().getString(R.string.error_sending_alarm_clock_item_empty));
+        mEditor.setError(valid ? null
+                : getContext().getString(R.string.error_sending_alarm_clock_item_empty));
         updateOkButtonState(valid);
     }
 
