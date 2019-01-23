@@ -410,6 +410,13 @@ public class PageConnectionHolderFragment extends Fragment {
                         return;
                     }
                 }
+
+                // We didn't find the widget, so the widget in question probably
+                // just became visible. Reload the page in that case.
+                if (object.optBoolean("visibility")) {
+                    cancel();
+                    load();
+                }
             } catch (JSONException e) {
                 Log.w(TAG, "Could not parse SSE event ('" + payload + "')", e);
             }
