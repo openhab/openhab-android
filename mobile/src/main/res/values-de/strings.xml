@@ -28,6 +28,7 @@
     <string name="settings_openhab_screentimeroff">Ruhezustand deaktivieren</string>
     <string name="settings_openhab_screentimeroff_summary">Schaltet das automatische Aktivieren des Ruhezustands nach Inaktivität ab, wenn die openHAB-App läuft</string>
     <string name="settings_openhab_demomode">Demomodus</string>
+    <string name="settings_openhab_demomode_summary">Wenn Sie keinen openHAB-Server besitzen, aktivieren Sie den Demomodus um eine Vorstellung davon zu bekommen was openHAB kann.</string>
     <string name="settings_openhab_theme">Design</string>
     <string name="settings_openhab_fullscreen">Vollbild</string>
     <string name="settings_openhab_fullscreen_summary">Geräte-Statusleiste während der Verwendung der App ausblenden</string>
@@ -57,7 +58,8 @@
     <string name="settings_connection_summary">Verbunden mit %s</string>
     <string name="settings_insecure_connection_summary">Unsicher verbunden mit %s</string>
     <!-- App messages strings -->
-    <string name="title_voice_widget">openHAB-Sprachbefehle</string>
+    <string name="title_voice_widget">Sprachbefehle</string>
+    <string name="title_voice_widget_icon">Sprachbefehle und Startbildschirm-Verknüpfung</string>
     <string name="info_voice_input">openHAB, zu Ihren Diensten!</string>
     <string name="info_voice_recognized_text">Erkannter Befehl: %1$s</string>
     <string name="info_demo_mode_short">Läuft im Demomodus</string>
@@ -66,6 +68,7 @@
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB lieferte eine leere Sitemap-Liste</string>
     <string name="error_network_not_available">Netzwerk nicht verfügbar</string>
+    <string name="error_wifi_not_available">WLAN ist ausgeschaltet</string>
     <string name="error_http_connection_failed">Verbindung fehlgeschlagen. Es wurde eine unerwartete Antwort während des Verbindungsversuches mit dem konfigurierten openHAB-Server empfangen. (HTTP Statuscode: %d).</string>
     <string name="error_invalid_url">Bitte geben Sie eine gültige URL im Format \'http(s)://Adresse(:Port)/\' an</string>
     <string name="error_connection_failed">Verbindung fehlgeschlagen</string>
@@ -107,6 +110,7 @@
     <string name="action_settings">Einstellungen</string>
     <string name="nfc_dialog_title">Schreibe eine Aktion für dieses Element in einen NFC Tag</string>
     <string name="info_not_set">Nicht gesetzt</string>
+    <string name="empty_page">Diese Seite beinhaltet keine sichtbaren Widgets</string>
     <!-- Notification list strings -->
     <string name="notification_list_empty">Keine Benachrichtigungen bisher versendet</string>
     <string name="notification_list_error">Beim Laden der Benachrichtigungen ist ein Fehler aufgetreten</string>
@@ -164,10 +168,18 @@
     <string name="cancel">Abbrechen</string>
     <string name="close">Schließen</string>
     <string name="try_again_button">Erneut versuchen</string>
+    <string name="enable_wifi_button">WLAN aktivieren</string>
     <string name="go_to_settings_button">Einstellungen öffnen</string>
-    <string name="configuration_missing">Ihr openHAB-Server konnte nicht automatisch ermittelt werden. Konfigurieren Sie in den Servereinstellungen die IP-Adresse oder den Host-Namen.</string>
-    <string name="no_remote_server">Lokales Netzwerk ist nicht verfügbar und Sie haben keinen Server für den Fernzugriff konfiguriert</string>
+    <string name="enable_demo_mode_button">Demomodus aktivieren</string>
+    <string name="configuration_missing">Wir konnten keinen openHAB-Server in Ihrem Netzwerk finden. Wenn sie bereits einen Server zur Verfügung haben, konfigurieren Sie ihn in den Einstellungen. Wenn sie keinen openHAB-Server besitzen, aktivieren Sie den Demomodus um eine Vorstellung davon zu bekommen was openHAB kann.</string>
+    <string name="no_remote_server">Verbindung zu lokalem Server fehlgeschlagen und Sie haben keinen Server für den Fernzugriff konfiguriert</string>
     <string name="resolving_openhab">Versuche openHAB-Server-Instanz zu finden\u2026</string>
+    <string name="waiting_for_wifi">Warte auf WLAN-Verbindung\u2026</string>
+    <!-- Log -->
+    <string name="log">Protokoll</string>
+    <string name="view_log">Protokoll anzeigen</string>
+    <string name="clear_log">Protokoll löschen</string>
+    <string name="empty_log">Protokoll ist leer</string>
     <!-- Content description for images -->
     <string name="content_description_open_roller_shutter">Rollladen öffnen</string>
     <string name="content_description_stop_roller_shutter">Rollladenbewegung stoppen</string>

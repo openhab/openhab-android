@@ -7,6 +7,8 @@ files:
         he: iw
         id: in
         yi: ji
+        zh-CN: zh-rCN
+        es-US: es-rUS
   - source: /assets/store_descriptions/en-US/strings.xml
     translation: /assets/store_descriptions/%locale%/%original_file_name%
   - source: /mobile/src/beta/res/values/strings.xml
@@ -17,6 +19,8 @@ files:
         id: in
         yi: ji
         he: iw
+        zh-CN: zh-rCN
+        es-US: es-rUS
   - source: /mobile/src/foss/res/values/strings.xml
     translation: /mobile/src/foss/res/values-%two_letters_code%/%original_file_name%
     languages_mapping:
@@ -25,6 +29,8 @@ files:
         he: iw
         id: in
         yi: ji
+        zh-CN: zh-rCN
+        es-US: es-rUS
   - source: /mobile/src/full/res/values/strings.xml
     translation: /mobile/src/full/res/values-%two_letters_code%/%original_file_name%
     languages_mapping:
@@ -33,3 +39,5 @@ files:
         he: iw
         id: in
         yi: ji
+        zh-CN: zh-rCN
+        es-US: es-rUS

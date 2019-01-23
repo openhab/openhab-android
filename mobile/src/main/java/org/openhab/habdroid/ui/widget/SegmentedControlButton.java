@@ -23,6 +23,9 @@ import android.graphics.Paint;
 import android.graphics.Paint.Style;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
+
+import androidx.annotation.ColorInt;
+import androidx.annotation.IdRes;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.appcompat.widget.AppCompatRadioButton;
 
@@ -31,9 +34,6 @@ import org.openhab.habdroid.R;
 /** @author benjamin ferrari */
 public class SegmentedControlButton extends AppCompatRadioButton {
     private int mLineHeight;
-
-    private float mX;
-
     private int mTextDistanceFromLine;
 
     private Paint mTextPaint;
@@ -54,9 +54,8 @@ public class SegmentedControlButton extends AppCompatRadioButton {
             TypedArray a = context.obtainStyledAttributes(attrs,
                     R.styleable.SegmentedControlButton);
 
-            int lineColor = a.getColor(R.styleable.SegmentedControlButton_lineColor, 0);
             mLineHeight = a.getDimensionPixelSize(
-                    R.styleable.SegmentedControlButton_lineHeight, 0);
+                    R.styleable.SegmentedControlButton_underlineHeight, 0);
             mTextDistanceFromLine = a.getDimensionPixelSize(
                     R.styleable.SegmentedControlButton_textDistanceFromLine, 0);
 
@@ -65,11 +64,13 @@ public class SegmentedControlButton extends AppCompatRadioButton {
             mTextPaint.setTextSize(getTextSize());
             mTextPaint.setTextAlign(Paint.Align.CENTER);
 
+            @ColorInt int lineColor =
+                    a.getColor(R.styleable.SegmentedControlButton_underlineColor, 0);
             mLinePaint = new Paint();
             mLinePaint.setColor(lineColor);
             mLinePaint.setStyle(Style.FILL);
 
-            int bgColorResId = a.getResourceId(
+            @IdRes int bgColorResId = a.getResourceId(
                     R.styleable.SegmentedControlButton_backgroundColor, 0);
             if (bgColorResId != 0) {
                 mBackgroundColorList =
@@ -96,11 +97,12 @@ public class SegmentedControlButton extends AppCompatRadioButton {
     }
 
     @Override
-    public void onDraw(Canvas canvas) {
-        String text = getText().toString();
-        int textHeightPos = getHeight() - mLineHeight - mTextDistanceFromLine;
-        float x = mX;
+    public int getCompoundPaddingBottom() {
+        return Math.max(super.getCompoundPaddingBottom(), mLineHeight + mTextDistanceFromLine);
+    }
 
+    @Override
+    public void onDraw(Canvas canvas) {
         if (mBackgroundPaint != null) {
             canvas.drawRect(0, 0, getWidth(), getHeight(), mBackgroundPaint);
         }
@@ -111,17 +113,14 @@ public class SegmentedControlButton extends AppCompatRadioButton {
             background.draw(canvas);
         }
 
+        String text = getText().toString();
+        int textHeightPos = getHeight() - getCompoundPaddingBottom();
+
         mTextPaint.setColor(getCurrentTextColor());
-        canvas.drawText(text, x, textHeightPos, mTextPaint);
+        canvas.drawText(text, getWidth() / 2, textHeightPos, mTextPaint);
 
         if (mLineHeight > 0) {
             canvas.drawRect(0, getHeight() - mLineHeight, getWidth(), getHeight(), mLinePaint);
         }
-    }
-
-    @Override
-    protected void onSizeChanged(int w, int h, int ow, int oh) {
-        super.onSizeChanged(w, h, ow, oh);
-        mX = w * 0.5f; // remember the center of the screen
     }
 }

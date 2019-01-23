@@ -1,7 +1,7 @@
 openHAB - "empowering the smart home" - vendor and technology agnostic open source home automation
 
 The builds on F-Droid have map view support, GCM and crash reporting removed and will not be able to receive push notifications from openHAB Cloud.
-Try out new features and give early feedback!
+Опитайте нови функции и дайте ранна обратна връзка!
 You can install the beta version alongside the <a href="https://f-droid.org/packages/org.openhab.habdroid/">stable version</a>.
 
 <b>Important note</b>
@@ -27,14 +27,14 @@ Over 200 specific add-ons provide support for brands, devices, technologies and 
 <b>Open Source Community</b>
 
 The openHAB open source initiative strongly supports its vibrant community. The forum with over 13,000 registered users is a place to find guidance, help and inspiration. Join the openHAB community forum over at https://community.openhab.org
-When you find an issue please report it in the forum or at https://github.com/openhab/openhab-android/issues
+Когато намерите проблем съобщете за това във форума или в https://github.com/openhab/openhab-android/issues
 If you want to translate the app into your language join us at https://crowdin.com/project/openhab-android
 
 <b>openHAB Foundation</b>
 
 The openHAB Foundation e.V. is a nonprofit organization with the mission to educate the public about the possibilities and benefits of free and open smart home solutions. Learn about the mission and the services of the foundation under https://www.openhabfoundation.org
 
-<b>Anti Features</b>
+<b>Анти-функции</b>
 
 The app is flagged with the "NonFreeAsset" flag, because the openHAB icon is not under a free license.
 

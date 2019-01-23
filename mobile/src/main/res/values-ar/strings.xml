@@ -111,6 +111,7 @@
     <string name="try_again_button">أعد المحاولة</string>
     <string name="go_to_settings_button">اذهب إلى الإعدادات</string>
     <string name="resolving_openhab">يحاول إكتشاف نموذج خادم openHAB \u2026</string>
+    <!-- Log -->
     <!-- Content description for images -->
     <string name="content_description_open_roller_shutter">إفتح الإسطوانة</string>
     <string name="content_description_stop_roller_shutter">أوقف الإسطوانة</string>

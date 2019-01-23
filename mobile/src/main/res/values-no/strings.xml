@@ -57,7 +57,6 @@
     <string name="settings_connection_summary">Koblet til %s</string>
     <string name="settings_insecure_connection_summary">Usikkert koblet til %s</string>
     <!-- App messages strings -->
-    <string name="title_voice_widget">openHAB talekommandoer</string>
     <string name="info_voice_input">openHAB, under din kommando!</string>
     <string name="info_voice_recognized_text">Gjenkjent kommando: %1$s</string>
     <string name="info_demo_mode_short">Kjører i demomodus</string>
@@ -165,9 +164,8 @@
     <string name="close">Lukk</string>
     <string name="try_again_button">Prøv igjen</string>
     <string name="go_to_settings_button">Gå til innstillinger</string>
-    <string name="configuration_missing">openHAB-serveren kunne ikke oppdages automatisk. Konfigurer IP-addresse eller vertnavn i serverinnstillingene.</string>
-    <string name="no_remote_server">Lokalt nettverk er ikke tilgjengelig og du har ikke konfigurert en ekstern server</string>
     <string name="resolving_openhab">Forsøker å finne openHAB-server instans\u2026</string>
+    <!-- Log -->
     <!-- Content description for images -->
     <string name="content_description_open_roller_shutter">Åpne rullegardiner</string>
     <string name="content_description_stop_roller_shutter">Stopp rullegardiner</string>

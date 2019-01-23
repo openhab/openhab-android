@@ -1,0 +1,2 @@
+## Fixed
+*  Fix segmented control button (#1175)

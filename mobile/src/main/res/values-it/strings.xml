@@ -58,7 +58,8 @@
     <string name="settings_connection_summary">Connesso a %s</string>
     <string name="settings_insecure_connection_summary">Connesso in modo non sicuro a %s</string>
     <!-- App messages strings -->
-    <string name="title_voice_widget">comandi vocali openHAB</string>
+    <string name="title_voice_widget">Comandi vocali</string>
+    <string name="title_voice_widget_icon">Comandi vocali e collegamento app</string>
     <string name="info_voice_input">openHAB, ai tuoi comandi!</string>
     <string name="info_voice_recognized_text">Comando riconosciuto: %1$s</string>
     <string name="info_demo_mode_short">Esecuzione in modalità demo</string>
@@ -67,6 +68,7 @@
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB ha la lista di Sitemap vuota</string>
     <string name="error_network_not_available">Rete non disponibile</string>
+    <string name="error_wifi_not_available">Il Wi-Fi è spento</string>
     <string name="error_http_connection_failed">Connessione non riuscita. È stata ricevuta una risposta imprevista durante il tentativo di connessione al server openHAB configurato (codice di risposta HTTP ricevuto: %d).</string>
     <string name="error_invalid_url">Inserisci un URL valido nella forma \'http(s)://host(:port)/\'</string>
     <string name="error_connection_failed">Connessione al dispositivo non riuscita</string>
@@ -108,6 +110,7 @@
     <string name="action_settings">Impostazioni</string>
     <string name="nfc_dialog_title">Salvare le azioni sul tag NFC per questo elemento</string>
     <string name="info_not_set">Non impostato</string>
+    <string name="empty_page">Questa pagina non contiene tutti i widget impostati per essere visibili</string>
     <!-- Notification list strings -->
     <string name="notification_list_empty">Nessuna notifica spedita finora</string>
     <string name="notification_list_error">È successo un errore durante il caricamento delle notifiche</string>
@@ -165,10 +168,18 @@
     <string name="cancel">Annulla</string>
     <string name="close">Chiudi</string>
     <string name="try_again_button">Riprova</string>
+    <string name="enable_wifi_button">Accendi Wi-Fi</string>
     <string name="go_to_settings_button">Vai alle impostazioni</string>
-    <string name="configuration_missing">Il tuo server openHAB non puo\' essere individuato automaticamente. Per favore configura il suo indirizzo IP o il nome host nelle impostazioni server.</string>
-    <string name="no_remote_server">Rete locale non è disponibile e non è stato configurato un server remoto</string>
+    <string name="enable_demo_mode_button">Attiva modalità demo</string>
+    <string name="configuration_missing">Non troviamo on server openHAB nella tua rete. Se hai già un server, per favore configura il suo indirizzo IP o il nome host nella configurazione. Se non hai un server, puoi abilitare la modalità demo per vedere cosa può fare openHAB.</string>
+    <string name="no_remote_server">Connessione al server locale fallita e non hai configurato un server remoto</string>
     <string name="resolving_openhab">Individuando l\'istanza openHAB\u2026</string>
+    <string name="waiting_for_wifi">In attesa del WI-FI per stabilire la connessione\u2026</string>
+    <!-- Log -->
+    <string name="log">Log</string>
+    <string name="view_log">Mostra log</string>
+    <string name="clear_log">Pulisci log</string>
+    <string name="empty_log">Log è vuoto</string>
     <!-- Content description for images -->
     <string name="content_description_open_roller_shutter">Apertura tapparella</string>
     <string name="content_description_stop_roller_shutter">Ferma tapparella</string>

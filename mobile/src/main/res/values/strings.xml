@@ -7,11 +7,13 @@
     <string name="openhab_service_type" translatable="false">_openhab-server-ssl._tcp.local.</string>
     <string name="app_preferences_name">Settings</string>
     <string name="app_notifications">Notifications</string>
-    <string name="empty_string" translatable="false"></string>
+    <string name="empty_string" translatable="false" />
 
     <!-- Main menu items -->
     <string name="mainmenu_openhab_sitemaps">Sitemaps</string>
     <string name="mainmenu_openhab_preferences">Settings</string>
+    <string name="mainmenu_openhab_habpanel">HABPanel</string>
+    <string name="habpanel_error">An error occurred while loading HABPanel</string>
     <string name="mainmenu_openhab_selectsitemap">Select default Sitemap</string>
     <string name="mainmenu_openhab_clearcache">Clear images cache</string>
 
@@ -70,7 +72,8 @@
     <string name="settings_insecure_connection_summary">Insecurely connected to %s</string>
 
     <!-- App messages strings -->
-    <string name="title_voice_widget">openHAB voice commands</string>
+    <string name="title_voice_widget">Voice commands</string>
+    <string name="title_voice_widget_icon">Voice commands and app shortcut</string>
     <string name="info_voice_input">openHAB, at your command!</string>
     <string name="info_voice_recognized_text">Recognized command: %1$s</string>
     <string name="info_demo_mode_short">Running in demo mode</string>

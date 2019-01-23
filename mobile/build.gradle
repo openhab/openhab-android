@@ -30,8 +30,8 @@ android {
         applicationId "org.openhab.habdroid"
         minSdkVersion 14
         targetSdkVersion 27
-        versionCode 99
-        versionName "2.5.4-beta"
+        versionCode 102
+        versionName "2.5.7-beta"
         multiDexEnabled true
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
     }
@@ -119,13 +119,13 @@ dependencies {
     // About screen
     implementation 'com.github.daniel-stoneuk:material-about-library:2.4.2'
     // Used libraries
-    implementation('com.mikepenz:aboutlibraries:6.0.8@aar') {
+    implementation('com.mikepenz:aboutlibraries:6.2.1@aar') {
         transitive = true
     }
-    implementation 'com.github.GrenderG:Toasty:1.3.1'
+    implementation 'com.github.GrenderG:Toasty:1.4.0'
 
     // Crash reporting
-    fullImplementation('com.crashlytics.sdk.android:crashlytics:2.7.1@aar') {
+    fullImplementation('com.crashlytics.sdk.android:crashlytics:2.9.8@aar') {
         transitive = true
     }
 
@@ -141,9 +141,9 @@ dependencies {
     testImplementation 'com.squareup.okhttp3:mockwebserver:3.12.1'
 
     // PowerMock
-    testImplementation 'org.powermock:powermock-core:1.7.4'
-    testImplementation 'org.powermock:powermock-api-mockito2:1.7.4'
-    testImplementation 'org.powermock:powermock-module-junit4:1.7.4'
+    testImplementation 'org.powermock:powermock-core:2.0.0'
+    testImplementation 'org.powermock:powermock-api-mockito2:2.0.0'
+    testImplementation 'org.powermock:powermock-module-junit4:2.0.0'
 
     // Espresso UI tests
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1', {

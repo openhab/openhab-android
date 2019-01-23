@@ -58,7 +58,6 @@
     <string name="settings_connection_summary">З\'єднано з %s</string>
     <string name="settings_insecure_connection_summary">Під\'єднано до %s без перевірки безпеки</string>
     <!-- App messages strings -->
-    <string name="title_voice_widget">Голосові команди openHAB</string>
     <string name="info_voice_input">openHAB, очікує на команду!</string>
     <string name="info_voice_recognized_text">Отримано команду: %1$s</string>
     <string name="info_demo_mode_short">Працює в демо-режимі</string>
@@ -67,6 +66,7 @@
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB повернув порожній список сторінок інтерфейсу</string>
     <string name="error_network_not_available">Мережа недоступна</string>
+    <string name="error_wifi_not_available">Wi-Fi вимкнено</string>
     <string name="error_http_connection_failed">Помилка підключення. Отримана неочікувана відповідь від openHAB. Переконайтесь у правильності роботи сервера openHAB (код відповіді HTTP: %d).</string>
     <string name="error_invalid_url">Будь ласка, введіть правильне посилання URL у форматі \'http(s)://хост(:порт)/\'</string>
     <string name="error_connection_failed">Підключення до хоста не вдалося</string>
@@ -108,6 +108,7 @@
     <string name="action_settings">Налаштування</string>
     <string name="nfc_dialog_title">Запишіть дію NFC мітки для цього елемента</string>
     <string name="info_not_set">Не вказано</string>
+    <string name="empty_page">На цій сторінці немає віджетів, які можна зробити видимими</string>
     <!-- Notification list strings -->
     <string name="notification_list_empty">Поки що немає відправлених сповіщень</string>
     <string name="notification_list_error">Сталася помилка під час завантаження сповіщень</string>
@@ -165,10 +166,18 @@
     <string name="cancel">Відмінити</string>
     <string name="close">Закрити</string>
     <string name="try_again_button">Спробуйте ще раз</string>
+    <string name="enable_wifi_button">Увымкнути Wi-Fi</string>
     <string name="go_to_settings_button">Перейти до налаштувань</string>
-    <string name="configuration_missing">Не вдалося знайти сервер openHAB автоматично. Будь ласка, налаштуйте його IP адресу або назву віддаленого хоста в налаштуваннях сервера.</string>
-    <string name="no_remote_server">Локальна мережа недоступна і не налаштований віддалений сервер</string>
+    <string name="enable_demo_mode_button">Увімкнути Демо-режим</string>
+    <string name="configuration_missing">Ми не знайшли сервер openHAB у вашій мережі. Якщо він у вас є, будь ласка вкажіть його адресу або ім’я у налаштуваннях. Якщо у вас ще немає працюючого сервера, ви можете увімкнути демонстраційний режим, щоб побачити на що здатний openHAB.</string>
+    <string name="no_remote_server">Під’єднання до локального сервера не вдалось, а віддалений не налаштовано</string>
     <string name="resolving_openhab">Шукаю сервер openHAB\u2026</string>
+    <string name="waiting_for_wifi">Очікування встановлення з’єднання через Wi-Fi\u2026</string>
+    <!-- Log -->
+    <string name="log">Журнал</string>
+    <string name="view_log">Переглянути журнал</string>
+    <string name="clear_log">Очистити журнал</string>
+    <string name="empty_log">Журнал порожній</string>
     <!-- Content description for images -->
     <string name="content_description_open_roller_shutter">Відкрити ролети</string>
     <string name="content_description_stop_roller_shutter">Зупинити ролети</string>

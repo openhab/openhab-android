@@ -1,4 +1,4 @@
-openHAB - "empowering the smart home" - بغض النظر عن المزودين والتكنلوجيا ، أتمتة البيوت المفتوح المصدر
+openHAB - "empowering the smart home" - نظام التحكم المنزلي المفتوح المصدر والغير مرتبط بتقنية أو مصنع محدد
 
 إصدارات F-Droid تدعم عرض الخريطة، تراسل سحابة جوجل GCM بينما حذفت تقارير الإنهيار ومن غير الممكن إستقبال الإشعارات من سحابة openHAB.
 Try out new features and give early feedback!

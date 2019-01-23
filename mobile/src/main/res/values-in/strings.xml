@@ -84,6 +84,7 @@
     <string name="error_network_type_unsupported">Tipe jaringan (%s) tidak didukung</string>
     <string name="set">Atur</string>
     <string name="cancel">Batalkan</string>
+    <!-- Log -->
     <!-- Content description for images -->
     <!-- Intro strings -->
     <string name="app_intro">Intro</string>

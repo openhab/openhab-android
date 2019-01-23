@@ -15,7 +15,7 @@ import android.webkit.HttpAuthHandler;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-class AnchorWebViewClient extends WebViewClient {
+public class AnchorWebViewClient extends WebViewClient {
     private static final String TAG = AnchorWebViewClient.class.getSimpleName();
 
     private String mAnchor;
