@@ -1,0 +1,3 @@
+## Fixed
+* Fix Units-of-Measurement (UoM) handling (#1146)
+* Reload widgets when encountering events for unknown ones. (#1181)
