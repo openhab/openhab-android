@@ -15,7 +15,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import androidx.annotation.RequiresApi;
-import androidx.annotation.StringRes;
 
 import org.openhab.habdroid.R;
 
@@ -49,7 +48,7 @@ public class AlarmClockPreference extends EditTextPreference implements TextWatc
         View view = super.onCreateView(parent);
 
         ImageView helpIcon = view.findViewById(R.id.help_icon);
-        HelpIconShowingPrefernceUtil.setupHelpIcon(getContext(), helpIcon, isEnabled(),
+        HelpIconShowingPreferenceUtil.setupHelpIcon(getContext(), helpIcon, isEnabled(),
                 R.string.settings_alarm_clock_howto_url,
                 R.string.settings_alarm_clock_howto_summary);
 

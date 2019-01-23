@@ -8,7 +8,7 @@ import android.widget.ImageView;
 import androidx.annotation.StringRes;
 import androidx.appcompat.widget.TooltipCompat;
 
-public class HelpIconShowingPrefernceUtil {
+public class HelpIconShowingPreferenceUtil {
     public static void setupHelpIcon(Context context, ImageView helpIcon, boolean isEnabled,
                                      @StringRes int url, @StringRes int contentDescription) {
         final Uri howToUri = Uri.parse(context.getString(url));

@@ -52,7 +52,7 @@ public class SslClientCertificatePreference extends Preference {
         View view = super.onCreateView(parent);
 
         mHelpIcon = view.findViewById(R.id.help_icon);
-        HelpIconShowingPrefernceUtil.setupHelpIcon(getContext(), mHelpIcon, isEnabled(),
+        HelpIconShowingPreferenceUtil.setupHelpIcon(getContext(), mHelpIcon, isEnabled(),
                 R.string.settings_openhab_sslclientcert_howto_url,
                 R.string.settings_openhab_sslclientcert_howto_summary);
 
@@ -77,7 +77,7 @@ public class SslClientCertificatePreference extends Preference {
     @Override
     public void onDependencyChanged(Preference dependency, boolean disableDependent) {
         super.onDependencyChanged(dependency, disableDependent);
-        HelpIconShowingPrefernceUtil.updateHelpIconAlpha(mHelpIcon, isEnabled());
+        HelpIconShowingPreferenceUtil.updateHelpIconAlpha(mHelpIcon, isEnabled());
     }
 
     private void handleAliasChosen(String alias) {
