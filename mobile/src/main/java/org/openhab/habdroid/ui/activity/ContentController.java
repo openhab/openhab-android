@@ -397,6 +397,13 @@ public abstract class ContentController implements PageConnectionHolderFragment.
      * @return true if back key was consumed, false otherwise
      */
     public boolean goBack() {
+        if (mTemporaryPage instanceof FullScreenWebviewFragment) {
+            WebView webView = ((FullScreenWebviewFragment) mTemporaryPage).mWebview;
+            if (webView.canGoBack()) {
+                webView.goBack();
+                return true;
+            }
+        }
         if (mTemporaryPage != null) {
             mTemporaryPage = null;
             mActivity.updateTitle();
@@ -672,19 +679,26 @@ public abstract class ContentController implements PageConnectionHolderFragment.
 
     public static class FullScreenWebviewFragment extends Fragment implements
             ConnectionFactory.UpdateListener {
-        private static final String KEY_URL = "url";
+        private static final String KEY_CURRENT_URL = "url";
+        private static final String KEY_ERROR = "error";
+        private static final String KEY_URL_LOAD = "url_load";
+        private static final String KEY_URL_ERROR = "url_error";
+
+        @StringRes int mErrorMessage;
+        String mUrltoLoad;
+        String mUrlForError;
         Connection mConnection;
         WebView mWebview;
-        static @StringRes int mErrorMessage;
-        static String mUrltoLoad;
-        static String mUrlForError;
 
         public static FullScreenWebviewFragment newInstance(@StringRes int errorMessage,
                 String urltoLoad, String urlForError) {
-            mErrorMessage = errorMessage;
-            mUrltoLoad = urltoLoad;
-            mUrlForError = urlForError;
-            return new FullScreenWebviewFragment();
+            FullScreenWebviewFragment f = new FullScreenWebviewFragment();
+            Bundle args = new Bundle();
+            args.putInt(KEY_ERROR, errorMessage);
+            args.putString(KEY_URL_LOAD, urltoLoad);
+            args.putString(KEY_URL_ERROR, urlForError);
+            f.setArguments(args);
+            return f;
         }
 
         @Override
@@ -695,12 +709,18 @@ public abstract class ContentController implements PageConnectionHolderFragment.
 
         @Override
         public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+            Bundle args = getArguments();
+            if (args != null) {
+                mErrorMessage = args.getInt(KEY_ERROR);
+                mUrltoLoad = args.getString(KEY_URL_LOAD);
+                mUrlForError = args.getString(KEY_URL_ERROR);
+            }
             TextView retryButton = view.findViewById(R.id.retry_button);
             retryButton.setOnClickListener(v -> loadWebsite());
             TextView error = view.findViewById(R.id.empty_message);
             error.setText(getString(mErrorMessage));
             if (savedInstanceState != null) {
-                loadWebsite(savedInstanceState.getString(KEY_URL, ""));
+                loadWebsite(savedInstanceState.getString(KEY_CURRENT_URL, ""));
             } else {
                 loadWebsite();
             }
@@ -708,7 +728,7 @@ public abstract class ContentController implements PageConnectionHolderFragment.
 
         @Override
         public void onSaveInstanceState(@NonNull Bundle outState) {
-            outState.putString(KEY_URL, mWebview.getUrl());
+            outState.putString(KEY_CURRENT_URL, mWebview.getUrl());
         }
 
         private void loadWebsite() {
@@ -733,8 +753,7 @@ public abstract class ContentController implements PageConnectionHolderFragment.
             }
             updateViewVisibility(false, true);
 
-            String url = mConnection.getAsyncHttpClient().buildUrl(urlToLoad)
-                    .toString();
+            String url = mConnection.getAsyncHttpClient().buildUrl(urlToLoad).toString();
 
             mWebview = view.findViewById(R.id.webview);
 
