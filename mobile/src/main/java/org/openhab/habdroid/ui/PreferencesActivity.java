@@ -25,6 +25,7 @@ import android.preference.PreferenceScreen;
 import android.provider.Settings;
 import android.text.TextUtils;
 import android.util.Log;
+import android.util.Pair;
 import android.view.MenuItem;
 import androidx.annotation.DrawableRes;
 import androidx.annotation.Nullable;
@@ -39,14 +40,13 @@ import androidx.core.graphics.drawable.DrawableCompat;
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.background.BackgroundTasksBroadcastReceiver;
 import org.openhab.habdroid.model.ServerProperties;
+import org.openhab.habdroid.ui.widget.ItemUpdatingPreference;
 import org.openhab.habdroid.util.CacheManager;
 import org.openhab.habdroid.util.Constants;
 import org.openhab.habdroid.util.Util;
 
 import java.util.BitSet;
 
-import static org.openhab.habdroid.util.Constants.PREFERENCE_ALARM_CLOCK_ENABLED;
-import static org.openhab.habdroid.util.Constants.PREFERENCE_ALARM_CLOCK_ITEM;
 import static org.openhab.habdroid.util.Constants.PREV_SERVER_FLAGS;
 import static org.openhab.habdroid.util.Util.getHostFromUrl;
 
@@ -253,11 +253,9 @@ public class PreferencesActivity extends AppCompatActivity {
                     findPreference(Constants.PREFERENCE_CLEAR_DEFAULT_SITEMAP);
             final Preference ringtonePref = findPreference(Constants.PREFERENCE_TONE);
             final Preference alarmClockPrefCat =
+                    findPreference("alarmClockCategory");
+            final Preference alarmClockPref =
                     findPreference(Constants.PREFERENCE_ALARM_CLOCK);
-            final Preference alarmClockEnabledPref =
-                    findPreference(Constants.PREFERENCE_ALARM_CLOCK_ENABLED);
-            final Preference alarmClockItemPref =
-                    findPreference(Constants.PREFERENCE_ALARM_CLOCK_ITEM);
             final Preference vibrationPref =
                     findPreference(Constants.PREFERENCE_NOTIFICATION_VIBRATION);
             final Preference ringtoneVibrationPref =
@@ -370,23 +368,12 @@ public class PreferencesActivity extends AppCompatActivity {
                 Log.d(TAG, "Removing alarm clock prefs");
                 getPreferenceScreen().removePreference(alarmClockPrefCat);
             } else {
-                updateAlarmClockEnabledPreferenceIcon(alarmClockEnabledPref,
-                        getPreferenceBool(alarmClockEnabledPref, false));
-                alarmClockEnabledPref.setOnPreferenceChangeListener((preference, newValue) -> {
-                    updateAlarmClockEnabledPreferenceIcon(preference, newValue);
-                    BackgroundTasksBroadcastReceiver.startAlarmChangedWorker(getActivity(),
-                            getPreferenceString(PREFERENCE_ALARM_CLOCK_ITEM, ""),
-                            (Boolean) newValue);
-                    return true;
-                });
-
-                setAlarmClockItemEditorSummary(alarmClockItemPref,
-                        getPreferenceString(alarmClockItemPref,""));
-                alarmClockItemPref.setOnPreferenceChangeListener((preference, newValue) -> {
-                    setAlarmClockItemEditorSummary(preference, newValue);
-                    BackgroundTasksBroadcastReceiver.startAlarmChangedWorker(getActivity(),
-                            (String) newValue,
-                            getPreferenceBool(PREFERENCE_ALARM_CLOCK_ENABLED, false));
+                updateAlarmClockPreferenceIcon(alarmClockPref,
+                        ItemUpdatingPreference.parseValue(getPreferenceString(alarmClockPref, null)));
+                alarmClockPref.setOnPreferenceChangeListener((preference, newValue) -> {
+                    updateAlarmClockPreferenceIcon(preference, newValue);
+                    Pair<Boolean, String> value = (Pair<Boolean, String>) newValue;
+                    BackgroundTasksBroadcastReceiver.startAlarmChangedWorker(getActivity(), value);
                     return true;
                 });
             }
@@ -460,14 +447,11 @@ public class PreferencesActivity extends AppCompatActivity {
                     ? R.drawable.ic_smartphone_grey_24dp : R.drawable.ic_vibration_grey_24dp);
         }
 
-        private void updateAlarmClockEnabledPreferenceIcon(Preference pref, Object newValue) {
-            boolean enabled = (boolean) newValue;
-            pref.setIcon(enabled ? R.drawable.ic_alarm_grey_24dp
+        private void updateAlarmClockPreferenceIcon(Preference pref, Object newValue) {
+            Pair<Boolean, String> value = (Pair<Boolean, String>) newValue;
+            pref.setIcon(value != null && value.first
+                    ? R.drawable.ic_alarm_grey_24dp
                     : R.drawable.ic_alarm_off_grey_24dp);
-        }
-
-        private void setAlarmClockItemEditorSummary(Preference pref, Object newValue) {
-            pref.setSummary((String) newValue);
         }
 
         private void updateConnectionSummary(String subscreenPrefKey, String urlPrefKey,

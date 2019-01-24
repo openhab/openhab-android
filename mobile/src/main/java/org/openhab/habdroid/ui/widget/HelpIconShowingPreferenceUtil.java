@@ -5,20 +5,18 @@ import android.content.Intent;
 import android.net.Uri;
 import android.view.View;
 import android.widget.ImageView;
-import androidx.annotation.StringRes;
 import androidx.appcompat.widget.TooltipCompat;
 
 public class HelpIconShowingPreferenceUtil {
-    public static void setupHelpIcon(Context context, ImageView helpIcon, boolean isEnabled,
-            @StringRes int url, @StringRes int contentDescription) {
-        final Uri howToUri = Uri.parse(context.getString(url));
+    public static void setupHelpIcon(Context context, ImageView helpIcon,
+            String url, String contentDescription) {
+        final Uri howToUri = Uri.parse(url);
         final Intent intent = new Intent(Intent.ACTION_VIEW, howToUri);
 
         if (intent.resolveActivity(context.getPackageManager()) != null) {
             helpIcon.setOnClickListener(v -> context.startActivity(intent));
-            helpIcon.setContentDescription(context.getString(contentDescription));
-            TooltipCompat.setTooltipText(helpIcon, context.getString(contentDescription));
-            updateHelpIconAlpha(helpIcon, isEnabled);
+            helpIcon.setContentDescription(contentDescription);
+            TooltipCompat.setTooltipText(helpIcon, contentDescription);
         } else {
             helpIcon.setVisibility(View.GONE);
         }

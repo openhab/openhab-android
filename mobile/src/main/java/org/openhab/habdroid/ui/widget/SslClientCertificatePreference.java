@@ -52,9 +52,10 @@ public class SslClientCertificatePreference extends Preference {
         View view = super.onCreateView(parent);
 
         mHelpIcon = view.findViewById(R.id.help_icon);
-        HelpIconShowingPreferenceUtil.setupHelpIcon(getContext(), mHelpIcon, isEnabled(),
-                R.string.settings_openhab_sslclientcert_howto_url,
-                R.string.settings_openhab_sslclientcert_howto_summary);
+        HelpIconShowingPreferenceUtil.setupHelpIcon(getContext(), mHelpIcon,
+                getContext().getString(R.string.settings_openhab_sslclientcert_howto_url),
+                getContext().getString(R.string.settings_openhab_sslclientcert_howto_summary));
+        HelpIconShowingPreferenceUtil.updateHelpIconAlpha(mHelpIcon, isEnabled());
 
         return view;
     }

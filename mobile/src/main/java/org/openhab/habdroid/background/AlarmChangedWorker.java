@@ -4,7 +4,6 @@ import android.app.AlarmManager;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.os.Build;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -23,10 +22,11 @@ import java.util.Locale;
 import static android.content.Context.NOTIFICATION_SERVICE;
 import static org.openhab.habdroid.background.BackgroundUtils.NOTIFICATION_ID_SEND_ALARM_CLOCK;
 import static org.openhab.habdroid.background.BackgroundUtils.NOTIFICATION_TAG_BACKGROUND;
-import static org.openhab.habdroid.util.Constants.PREFERENCE_ALARM_CLOCK_ITEM;
 
 public class AlarmChangedWorker extends Worker {
     private static final String TAG = AlarmChangedWorker.class.getSimpleName();
+
+    public static final String DATA_ITEM = "item";
 
     public AlarmChangedWorker(
             @NonNull Context context,
@@ -74,9 +74,8 @@ public class AlarmChangedWorker extends Worker {
         } else {
             nextAlarm = String.valueOf(alarmClockInfo.getTriggerTime());
         }
-        String item = PreferenceManager.getDefaultSharedPreferences(context)
-                .getString(PREFERENCE_ALARM_CLOCK_ITEM, "");
 
+        String item = getInputData().getString(DATA_ITEM);
         String url = String.format(Locale.US, "rest/items/%s", item);
         SyncHttpClient.HttpResult result = connection.getSyncHttpClient()
                 .post(url, nextAlarm, "text/plain;charset=UTF-8");

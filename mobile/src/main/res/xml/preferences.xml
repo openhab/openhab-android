@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <PreferenceCategory android:title="@string/settings_connection_title">
         <SwitchPreference
             android:defaultValue="false"
@@ -81,18 +82,15 @@
             android:icon="@drawable/ic_fullscreen_grey_24dp" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/alarm_clock"
-        android:key="alarmClock">
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="alarmClockEnabled"
-            android:summary="@string/settings_alarm_clock_summary"
+        android:key="alarmClockCategory">
+        <org.openhab.habdroid.ui.widget.ItemUpdatingPreference
+            android:defaultValue="false|AndroidAlarmClock"
+            android:key="alarmClock"
+            app:helpHint="@string/settings_alarm_clock_howto_summary"
+            app:helpUrl="@string/settings_alarm_clock_howto_url"
+            app:summaryEnabled="@string/settings_alarm_clock_summary_on"
+            app:summaryDisabled="@string/settings_alarm_clock_summary_off"
             android:title="@string/settings_alarm_clock"
-            android:icon="@drawable/ic_alarm_grey_24dp" />
-        <org.openhab.habdroid.ui.widget.AlarmClockPreference
-            android:defaultValue="AndroidAlarmClock"
-            android:dependency="alarmClockEnabled"
-            android:key="alarmClockItem"
-            android:title="@string/settings_alarm_clock_item"
             android:icon="@drawable/ic_alarm_grey_24dp" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/settings_misc_title">

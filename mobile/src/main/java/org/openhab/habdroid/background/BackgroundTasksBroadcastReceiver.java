@@ -9,22 +9,24 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.preference.PreferenceManager;
-import android.text.TextUtils;
 import android.util.Log;
+import android.util.Pair;
+
 import androidx.work.Constraints;
+import androidx.work.Data;
 import androidx.work.NetworkType;
 import androidx.work.OneTimeWorkRequest;
 import androidx.work.WorkManager;
 
 import org.openhab.habdroid.R;
+import org.openhab.habdroid.ui.widget.ItemUpdatingPreference;
 
 import static android.content.Context.NOTIFICATION_SERVICE;
 import static org.openhab.habdroid.background.BackgroundUtils.NOTIFICATION_ID_SEND_ALARM_CLOCK;
 import static org.openhab.habdroid.background.BackgroundUtils.NOTIFICATION_TAG_BACKGROUND;
 import static org.openhab.habdroid.background.BackgroundUtils.NOTIFICATION_TAG_BACKGROUND_ERROR;
 import static org.openhab.habdroid.background.BackgroundUtils.WORKER_TAG_SEND_ALARM_CLOCK;
-import static org.openhab.habdroid.util.Constants.PREFERENCE_ALARM_CLOCK_ENABLED;
-import static org.openhab.habdroid.util.Constants.PREFERENCE_ALARM_CLOCK_ITEM;
+import static org.openhab.habdroid.util.Constants.PREFERENCE_ALARM_CLOCK;
 
 public class BackgroundTasksBroadcastReceiver extends BroadcastReceiver {
     private static final String TAG = BackgroundTasksBroadcastReceiver.class.getSimpleName();
@@ -45,30 +47,34 @@ public class BackgroundTasksBroadcastReceiver extends BroadcastReceiver {
     }
 
     public static void startAlarmChangedWorker(Context context) {
-        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-        startAlarmChangedWorker(context, prefs.getString(PREFERENCE_ALARM_CLOCK_ITEM, ""),
-                prefs.getBoolean(PREFERENCE_ALARM_CLOCK_ENABLED, false));
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        Pair<Boolean, String> setting =
+                ItemUpdatingPreference.parseValue(prefs.getString(PREFERENCE_ALARM_CLOCK, null));
+        startAlarmChangedWorker(context, setting);
     }
 
-    public static void startAlarmChangedWorker(Context context, String itemName, boolean enabled) {
+    public static void startAlarmChangedWorker(Context context, Pair<Boolean, String> settings) {
         Log.d(TAG, "startAlarmChangedWorker()");
-        if (!enabled) {
-            Log.d(TAG, "Feature is disabled");
+        if (settings == null || !settings.first) {
             return;
         }
+
         final Constraints constraints = new Constraints.Builder()
                 .setRequiredNetworkType(NetworkType.CONNECTED)
+                .build();
+        final Data data = new Data.Builder()
+                .putString(AlarmChangedWorker.DATA_ITEM, settings.second)
                 .build();
         final OneTimeWorkRequest sendAlarmClockWorker =
                 new OneTimeWorkRequest.Builder(AlarmChangedWorker.class)
                 .setConstraints(constraints)
                 .addTag(WORKER_TAG_SEND_ALARM_CLOCK)
+                .setInputData(data)
                 .build();
 
         final WorkManager workManager = WorkManager.getInstance();
         final NotificationManager nm =
                 (NotificationManager)context.getSystemService(NOTIFICATION_SERVICE);
-        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
 
         Log.d(TAG, "Cancel previous worker");
         workManager.cancelAllWorkByTag(WORKER_TAG_SEND_ALARM_CLOCK);
