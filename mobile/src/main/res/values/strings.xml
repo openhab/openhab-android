@@ -68,7 +68,7 @@
     <string name="settings_notification_vibration_value_short" translatable="false">short</string>
     <string name="settings_notification_vibration_value_long" translatable="false">long</string>
     <string name="settings_notification_vibration_value_twice" translatable="false">twice</string>
-    <string name="settings_notification_ringtone_vibration">Notification ringtone &amp; vibration</string>
+    <string name="settings_notification_ringtone_vibration">Notification settings</string>
     <string name="settings_connection_summary">Connected to %s</string>
     <string name="settings_insecure_connection_summary">Insecurely connected to %s</string>
     <string name="beta">Beta</string>

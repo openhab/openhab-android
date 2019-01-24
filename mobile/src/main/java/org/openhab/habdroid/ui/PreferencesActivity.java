@@ -22,6 +22,7 @@ import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceGroup;
 import android.preference.PreferenceScreen;
+import android.provider.Settings;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
@@ -44,8 +45,6 @@ import org.openhab.habdroid.util.Util;
 
 import java.util.BitSet;
 
-import static android.provider.Settings.ACTION_APP_NOTIFICATION_SETTINGS;
-import static android.provider.Settings.EXTRA_APP_PACKAGE;
 import static org.openhab.habdroid.util.Constants.PREV_SERVER_FLAGS;
 import static org.openhab.habdroid.util.Util.getHostFromUrl;
 
@@ -314,8 +313,8 @@ public class PreferencesActivity extends AppCompatActivity {
 
             ringtoneVibrationPref.setOnPreferenceClickListener(preference -> {
                 Intent i = new Intent(android.provider.Settings.ACTION_SETTINGS);
-                i.setAction(ACTION_APP_NOTIFICATION_SETTINGS);
-                i.putExtra(EXTRA_APP_PACKAGE, getContext().getApplicationInfo().packageName);
+                i.setAction(Settings.ACTION_APP_NOTIFICATION_SETTINGS);
+                i.putExtra(Settings.EXTRA_APP_PACKAGE, getContext().getApplicationInfo().packageName);
                 startActivity(i);
                 return true;
             });
