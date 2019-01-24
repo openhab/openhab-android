@@ -12,6 +12,7 @@ package org.openhab.habdroid.ui.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.net.wifi.WifiManager;
@@ -231,7 +232,8 @@ public abstract class ContentController implements PageConnectionHolderFragment.
     }
 
     public void showHabpanel() {
-        showTemporaryPage(HabpanelFragment.newInstance());
+        showTemporaryPage(FullScreenWebviewFragment.newInstance(R.string.habpanel_error,
+                "/habpanel/index.html", "/rest/events"));
     }
 
     /**
@@ -369,7 +371,7 @@ public abstract class ContentController implements PageConnectionHolderFragment.
                 return mActivity.getString(R.string.app_notifications);
             } else if (mTemporaryPage instanceof WidgetListFragment) {
                 return ((WidgetListFragment) mTemporaryPage).getTitle();
-            } else if (mTemporaryPage instanceof HabpanelFragment) {
+            } else if (mTemporaryPage instanceof FullScreenWebviewFragment) {
                 return mActivity.getString(R.string.mainmenu_openhab_habpanel);
             }
             return null;
@@ -395,6 +397,13 @@ public abstract class ContentController implements PageConnectionHolderFragment.
      * @return true if back key was consumed, false otherwise
      */
     public boolean goBack() {
+        if (mTemporaryPage instanceof FullScreenWebviewFragment) {
+            WebView webView = ((FullScreenWebviewFragment) mTemporaryPage).mWebview;
+            if (webView.canGoBack()) {
+                webView.goBack();
+                return true;
+            }
+        }
         if (mTemporaryPage != null) {
             mTemporaryPage = null;
             mActivity.updateTitle();
@@ -668,28 +677,65 @@ public abstract class ContentController implements PageConnectionHolderFragment.
         }
     }
 
-    public static class HabpanelFragment extends Fragment implements
+    public static class FullScreenWebviewFragment extends Fragment implements
             ConnectionFactory.UpdateListener {
-        Connection mConnection;
+        private static final String KEY_CURRENT_URL = "url";
+        private static final String KEY_ERROR = "error";
+        private static final String KEY_URL_LOAD = "url_load";
+        private static final String KEY_URL_ERROR = "url_error";
 
-        public static HabpanelFragment newInstance() {
-            return new HabpanelFragment();
+        @StringRes int mErrorMessage;
+        String mUrltoLoad;
+        String mUrlForError;
+        Connection mConnection;
+        WebView mWebview;
+
+        public static FullScreenWebviewFragment newInstance(@StringRes int errorMessage,
+                String urltoLoad, String urlForError) {
+            FullScreenWebviewFragment f = new FullScreenWebviewFragment();
+            Bundle args = new Bundle();
+            args.putInt(KEY_ERROR, errorMessage);
+            args.putString(KEY_URL_LOAD, urltoLoad);
+            args.putString(KEY_URL_ERROR, urlForError);
+            f.setArguments(args);
+            return f;
         }
 
         @Override
         public View onCreateView(@NonNull LayoutInflater inflater,
                 ViewGroup container, Bundle savedInstanceState) {
-            return inflater.inflate(R.layout.fragment_habpanel, container, false);
+            return inflater.inflate(R.layout.fragment_fullscreenwebview, container, false);
         }
 
         @Override
         public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+            Bundle args = getArguments();
+            if (args != null) {
+                mErrorMessage = args.getInt(KEY_ERROR);
+                mUrltoLoad = args.getString(KEY_URL_LOAD);
+                mUrlForError = args.getString(KEY_URL_ERROR);
+            }
             TextView retryButton = view.findViewById(R.id.retry_button);
-            retryButton.setOnClickListener(v -> loadHabpanel());
-            loadHabpanel();
+            retryButton.setOnClickListener(v -> loadWebsite());
+            TextView error = view.findViewById(R.id.empty_message);
+            error.setText(getString(mErrorMessage));
+            if (savedInstanceState != null) {
+                loadWebsite(savedInstanceState.getString(KEY_CURRENT_URL, ""));
+            } else {
+                loadWebsite();
+            }
         }
 
-        private void loadHabpanel() {
+        @Override
+        public void onSaveInstanceState(@NonNull Bundle outState) {
+            outState.putString(KEY_CURRENT_URL, mWebview.getUrl());
+        }
+
+        private void loadWebsite() {
+            loadWebsite(mUrltoLoad);
+        }
+
+        private void loadWebsite(String urlToLoad) {
             View view = getView();
             if (view == null) {
                 return;
@@ -707,12 +753,11 @@ public abstract class ContentController implements PageConnectionHolderFragment.
             }
             updateViewVisibility(false, true);
 
-            String url = mConnection.getAsyncHttpClient().buildUrl("/habpanel/index.html")
-                    .toString();
+            String url = mConnection.getAsyncHttpClient().buildUrl(urlToLoad).toString();
 
-            WebView webView = view.findViewById(R.id.webview);
+            mWebview = view.findViewById(R.id.webview);
 
-            webView.setWebViewClient(new AnchorWebViewClient(url,
+            mWebview.setWebViewClient(new AnchorWebViewClient(url,
                     mConnection.getUsername(), mConnection.getPassword()) {
                 @Override
                 public void onPageFinished(WebView view, String url) {
@@ -725,7 +770,7 @@ public abstract class ContentController implements PageConnectionHolderFragment.
                         WebResourceError error) {
                     String url = request.getUrl().toString();
                     Log.e(TAG, "onReceivedError() on URL: " + url);
-                    if (url.endsWith("/rest/events")) {
+                    if (url.endsWith(mUrlForError)) {
                         updateViewVisibility(true, false);
                     }
                 }
@@ -737,9 +782,10 @@ public abstract class ContentController implements PageConnectionHolderFragment.
                     updateViewVisibility(true, false);
                 }
             });
-            webView.getSettings().setDomStorageEnabled(true);
-            webView.getSettings().setJavaScriptEnabled(true);
-            webView.loadUrl(url);
+            mWebview.getSettings().setDomStorageEnabled(true);
+            mWebview.getSettings().setJavaScriptEnabled(true);
+            mWebview.loadUrl(url);
+            mWebview.setBackgroundColor(Color.TRANSPARENT);
         }
 
         private void updateViewVisibility(boolean error, boolean loading) {
@@ -754,7 +800,7 @@ public abstract class ContentController implements PageConnectionHolderFragment.
 
         @Override
         public void onAvailableConnectionChanged() {
-            loadHabpanel();
+            loadWebsite();
         }
 
         @Override
