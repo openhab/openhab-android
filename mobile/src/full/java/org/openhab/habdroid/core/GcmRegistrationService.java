@@ -108,7 +108,7 @@ public class GcmRegistrationService extends JobIntentService {
         String token = instanceId.getToken(connection.getMessagingSenderId(),
                 GoogleCloudMessaging.INSTANCE_ID_SCOPE, null);
         String deviceName = getDeviceName()
-                + (Util.isFlavorBeta() ? " (" + getString(R.string.beta)+ ")" : "");
+                + (Util.isFlavorBeta() ? " (" + getString(R.string.beta) + ")" : "");
         String deviceId = Settings.Secure.getString(getContentResolver(),
                 Settings.Secure.ANDROID_ID) + (Util.isFlavorBeta() ? "-beta" : "");
 
