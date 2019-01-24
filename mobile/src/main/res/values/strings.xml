@@ -70,6 +70,7 @@
     <string name="settings_notification_vibration_value_twice" translatable="false">twice</string>
     <string name="settings_connection_summary">Connected to %s</string>
     <string name="settings_insecure_connection_summary">Insecurely connected to %s</string>
+    <string name="beta">Beta</string>
 
     <!-- App messages strings -->
     <string name="title_voice_widget">Voice commands</string>

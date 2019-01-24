@@ -18,6 +18,7 @@ import org.junit.runner.RunWith;
 import org.openhab.habdroid.BuildConfig;
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.TestWithoutIntro;
+import org.openhab.habdroid.util.Util;
 
 import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
@@ -99,7 +100,7 @@ public class BasicWidgetTest extends TestWithoutIntro {
                 .perform(scrollToPosition(10))
                 .check(matches(atPositionOnView(10, isDisplayed(), R.id.stop_button)));
 
-        if (BuildConfig.FLAVOR.toLowerCase().contains("full")) {
+        if (Util.isFlavorFull()) {
             // check whether map view is displayed
             recyclerView
                     .perform(scrollToPosition(13))
