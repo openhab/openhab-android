@@ -9,6 +9,8 @@
     <!-- Main menu items -->
     <string name="mainmenu_openhab_sitemaps">Sitemaps</string>
     <string name="mainmenu_openhab_preferences">Nastavení</string>
+    <string name="mainmenu_openhab_habpanel">HABPanel</string>
+    <string name="habpanel_error">Při načítání HABPanel došlo k chybě</string>
     <string name="mainmenu_openhab_selectsitemap">Vyberte výchozí Sitemap</string>
     <string name="mainmenu_openhab_clearcache">Vyčistit vyrovnávací paměť obrázků</string>
     <!-- App settings strings -->
@@ -58,6 +60,8 @@
     <string name="settings_connection_summary">Připojen k %s</string>
     <string name="settings_insecure_connection_summary">Připojen k %s nezabezpečenou komunikací</string>
     <!-- App messages strings -->
+    <string name="title_voice_widget">Hlasové příkazy</string>
+    <string name="title_voice_widget_icon">Hlasové příkazy a zástupce aplikace</string>
     <string name="info_voice_input">openHAB, k Vašim službám!</string>
     <string name="info_voice_recognized_text">Rozpoznán příkaz: %1$s</string>
     <string name="info_demo_mode_short">Spuštěno v ukázkovém režimu</string>
