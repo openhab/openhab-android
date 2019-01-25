@@ -79,6 +79,9 @@
     <string name="info_demo_mode_short">Running in demo mode</string>
     <string name="info_conn_url">Connecting to local URL</string>
     <string name="info_conn_rem_url">Connecting to remote URL</string>
+    <string name="app_shortcut_diabled_habpanel">Your server doesn\'t have HABPanel installed</string>
+    <string name="app_shortcut_diabled_notifications">Your remote server isn\'t available</string>
+    <string name="app_shortcut_diabled_voice_recognition">Your device doesn\'t have a speech-to-text app installed</string>
 
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB returned empty Sitemap list</string>

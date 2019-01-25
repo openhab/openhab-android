@@ -376,7 +376,9 @@ public class MainActivity extends AppCompatActivity implements
                 openHabpanelIfNeeded();
                 break;
             case ACTION_VOICE_RECOGNITION_SELECTED:
-                launchVoiceRecognition();
+                if (mServerProperties != null) {
+                    launchVoiceRecognition();
+                }
                 break;
             default:
                 break;
@@ -640,9 +642,11 @@ public class MainActivity extends AppCompatActivity implements
 
     private void updateNotificationDrawerItem() {
         MenuItem notificationsItem = mDrawerMenu.findItem(R.id.notifications);
-        boolean visible = ConnectionFactory.getConnection(Connection.TYPE_CLOUD) != null;
-        notificationsItem.setVisible(visible);
-        manageNotificationShortcut(visible);
+        boolean hasCloudConnection = ConnectionFactory.getConnection(Connection.TYPE_CLOUD) != null;
+        notificationsItem.setVisible(hasCloudConnection);
+        if (hasCloudConnection) {
+            manageNotificationShortcut(true);
+        }
     }
 
     private void updateSitemapAndHabpanelDrawerItems() {
@@ -856,11 +860,10 @@ public class MainActivity extends AppCompatActivity implements
         Log.d(TAG, "onPrepareOptionsMenu()");
         MenuItem voiceRecognitionItem = menu.findItem(R.id.mainmenu_voice_recognition);
         @ColorInt int iconColor = ContextCompat.getColor(this, R.color.light);
-        boolean visible = mConnection != null && SpeechRecognizer.isRecognitionAvailable(this);
-        voiceRecognitionItem.setVisible(visible);
-        manageVoiceRecognitionShortcut(visible);
+        voiceRecognitionItem.setVisible(mConnection != null
+                && SpeechRecognizer.isRecognitionAvailable(this));
+        manageVoiceRecognitionShortcut(SpeechRecognizer.isRecognitionAvailable(this));
         voiceRecognitionItem.getIcon().setColorFilter(iconColor, PorterDuff.Mode.SRC_IN);
-
         return true;
     }
 
@@ -877,7 +880,6 @@ public class MainActivity extends AppCompatActivity implements
         if (mDrawerToggle.onOptionsItemSelected(item)) {
             return true;
         }
-
 
         // Handle menu items
         switch (item.getItemId()) {
@@ -1156,23 +1158,26 @@ public class MainActivity extends AppCompatActivity implements
 
     private void manageHabpanelShortcut(boolean visible) {
         manageShortcut(visible, "habpanel", ACTION_HABPANEL_SELECTED,
-                R.string.mainmenu_openhab_habpanel, R.mipmap.ic_shortcut_habpanel);
+                R.string.mainmenu_openhab_habpanel, R.mipmap.ic_shortcut_habpanel,
+                R.string.app_shortcut_diabled_habpanel);
     }
 
     private void manageNotificationShortcut(boolean visible) {
         manageShortcut(visible, "notification", ACTION_NOTIFICATION_SELECTED,
-                R.string.app_notifications, R.mipmap.ic_shortcut_notifications);
+                R.string.app_notifications, R.mipmap.ic_shortcut_notifications,
+                R.string.app_shortcut_diabled_notifications);;
     }
 
     private void manageVoiceRecognitionShortcut(boolean visible) {
         manageShortcut(visible, "voice_recognition", ACTION_VOICE_RECOGNITION_SELECTED,
                 R.string.mainmenu_openhab_voice_recognition,
-                R.mipmap.ic_shortcut_voice_recognition);
+                R.mipmap.ic_shortcut_voice_recognition,
+                R.string.app_shortcut_diabled_voice_recognition);
     }
 
     private void manageShortcut(boolean visible, String id, String action,
-            @StringRes int shortLabel, @DrawableRes int icon) {
-        if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.N_MR1) {
+            @StringRes int shortLabel, @DrawableRes int icon, @StringRes int disableMessage) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N_MR1) {
             return;
         }
         if (visible) {
@@ -1185,7 +1190,8 @@ public class MainActivity extends AppCompatActivity implements
                     .build();
             mShortcutManager.addDynamicShortcuts(Collections.singletonList(shortcut));
         } else {
-            mShortcutManager.removeDynamicShortcuts(Collections.singletonList(id));
+            mShortcutManager.disableShortcuts(Collections.singletonList(id),
+                    getString(disableMessage));
         }
     }
 }
