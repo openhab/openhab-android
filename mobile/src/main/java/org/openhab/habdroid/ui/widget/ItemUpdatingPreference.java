@@ -18,12 +18,10 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.google.android.material.textfield.TextInputLayout;
-
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.widget.SwitchCompat;
 
+import com.google.android.material.textfield.TextInputLayout;
 import org.openhab.habdroid.R;
 
 public class ItemUpdatingPreference extends DialogPreference implements

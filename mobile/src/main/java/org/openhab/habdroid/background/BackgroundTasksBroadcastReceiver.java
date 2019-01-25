@@ -11,7 +11,6 @@ import android.os.Build;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.util.Pair;
-
 import androidx.work.Constraints;
 import androidx.work.Data;
 import androidx.work.NetworkType;
