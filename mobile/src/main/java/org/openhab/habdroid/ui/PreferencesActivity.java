@@ -314,7 +314,7 @@ public class PreferencesActivity extends AppCompatActivity {
             ringtoneVibrationPref.setOnPreferenceClickListener(preference -> {
                 Intent i = new Intent(android.provider.Settings.ACTION_SETTINGS);
                 i.setAction(Settings.ACTION_APP_NOTIFICATION_SETTINGS);
-                i.putExtra(Settings.EXTRA_APP_PACKAGE, getContext().getApplicationInfo().packageName);
+                i.putExtra(Settings.EXTRA_APP_PACKAGE, getContext().getPackageName());
                 startActivity(i);
                 return true;
             });
