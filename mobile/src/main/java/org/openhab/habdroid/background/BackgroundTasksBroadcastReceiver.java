@@ -19,14 +19,9 @@ import androidx.work.WorkManager;
 
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.ui.widget.ItemUpdatingPreference;
+import org.openhab.habdroid.util.Constants;
 
-import static android.content.Context.NOTIFICATION_SERVICE;
-import static org.openhab.habdroid.background.BackgroundUtils.NOTIFICATION_ID_SEND_ALARM_CLOCK;
-import static org.openhab.habdroid.background.BackgroundUtils.NOTIFICATION_TAG_BACKGROUND;
-import static org.openhab.habdroid.background.BackgroundUtils.NOTIFICATION_TAG_BACKGROUND_ERROR;
-import static org.openhab.habdroid.background.BackgroundUtils.WORKER_TAG_SEND_ALARM_CLOCK;
 import static org.openhab.habdroid.util.Constants.PREFERENCE_ALARM_CLOCK;
-import static org.openhab.habdroid.util.Constants.PREFERENCE_SEND_DEVICE_INFO_PREFIX;
 
 public class BackgroundTasksBroadcastReceiver extends BroadcastReceiver {
     private static final String TAG = BackgroundTasksBroadcastReceiver.class.getSimpleName();
@@ -37,9 +32,7 @@ public class BackgroundTasksBroadcastReceiver extends BroadcastReceiver {
 
         if (AlarmManager.ACTION_NEXT_ALARM_CLOCK_CHANGED.equals(intent.getAction())) {
             Log.d(TAG, "Alarm clock changed");
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                startAlarmChangedWorker(context);
-            }
+            startAlarmChangedWorker(context);
         } else if (Intent.ACTION_LOCALE_CHANGED.equals(intent.getAction())) {
             Log.d(TAG, "Locale changed, recreate notification channels");
             BackgroundUtils.createNotificationChannels(context);
@@ -50,39 +43,50 @@ public class BackgroundTasksBroadcastReceiver extends BroadcastReceiver {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         Pair<Boolean, String> setting =
                 ItemUpdatingPreference.parseValue(prefs.getString(PREFERENCE_ALARM_CLOCK, null));
-        String prefix = prefs.getString(PREFERENCE_SEND_DEVICE_INFO_PREFIX, "");
+        String prefix = prefs.getString(Constants.PREFERENCE_SEND_DEVICE_INFO_PREFIX, "");
         startAlarmChangedWorker(context, prefix, setting);
     }
 
     public static void startAlarmChangedWorker(Context context, String prefix,
                 Pair<Boolean, String> settings) {
         Log.d(TAG, "startAlarmChangedWorker()");
-        if (settings == null || !settings.first) {
+        if (settings == null || !settings.first
+                || Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             return;
+        }
+
+        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        String nextAlarm;
+        AlarmManager.AlarmClockInfo alarmClockInfo = alarmManager.getNextAlarmClock();
+        if (alarmClockInfo == null) {
+            nextAlarm = "0";
+        } else {
+            nextAlarm = String.valueOf(alarmClockInfo.getTriggerTime());
         }
 
         final Constraints constraints = new Constraints.Builder()
                 .setRequiredNetworkType(NetworkType.CONNECTED)
                 .build();
-        String itemName = prefix + settings.second;
-        final Data data = new Data.Builder()
-                .putString(AlarmChangedWorker.DATA_ITEM, itemName)
-                .build();
-        Log.d(TAG, "Item: " + itemName);
+        final Data data = ItemUpdateWorker.buildData(prefix + settings.second, nextAlarm,
+                BackgroundUtils.NOTIFICATION_ID_SEND_ALARM_CLOCK,
+                R.string.error_sending_alarm_clock_retry,
+                R.string.error_sending_alarm_clock_no_connection,
+                R.string.error_sending_alarm_clock);
         final OneTimeWorkRequest sendAlarmClockWorker =
-                new OneTimeWorkRequest.Builder(AlarmChangedWorker.class)
+                new OneTimeWorkRequest.Builder(ItemUpdateWorker.class)
                 .setConstraints(constraints)
-                .addTag(WORKER_TAG_SEND_ALARM_CLOCK)
+                .addTag(BackgroundUtils.WORKER_TAG_SEND_ALARM_CLOCK)
                 .setInputData(data)
                 .build();
 
         final WorkManager workManager = WorkManager.getInstance();
         final NotificationManager nm =
-                (NotificationManager)context.getSystemService(NOTIFICATION_SERVICE);
+                (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
 
         Log.d(TAG, "Cancel previous worker");
-        workManager.cancelAllWorkByTag(WORKER_TAG_SEND_ALARM_CLOCK);
-        nm.cancel(NOTIFICATION_TAG_BACKGROUND_ERROR, NOTIFICATION_ID_SEND_ALARM_CLOCK);
+        workManager.cancelAllWorkByTag(BackgroundUtils.WORKER_TAG_SEND_ALARM_CLOCK);
+        nm.cancel(BackgroundUtils.NOTIFICATION_TAG_BACKGROUND_ERROR,
+                BackgroundUtils.NOTIFICATION_ID_SEND_ALARM_CLOCK);
 
         Log.d(TAG, "Schedule worker");
         workManager.enqueue(sendAlarmClockWorker);
@@ -93,8 +97,7 @@ public class BackgroundTasksBroadcastReceiver extends BroadcastReceiver {
                 true,
                 false,
                 false, null);
-        nm.notify(NOTIFICATION_TAG_BACKGROUND, NOTIFICATION_ID_SEND_ALARM_CLOCK, notification);
+        nm.notify(BackgroundUtils.NOTIFICATION_TAG_BACKGROUND,
+                BackgroundUtils.NOTIFICATION_ID_SEND_ALARM_CLOCK, notification);
     }
-
-
 }

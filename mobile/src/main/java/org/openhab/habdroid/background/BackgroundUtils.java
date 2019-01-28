@@ -18,24 +18,15 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Build;
 import android.preference.PreferenceManager;
-import android.util.Log;
-import androidx.annotation.CheckResult;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
-import androidx.work.Result;
 
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.ui.MainActivity;
 import org.openhab.habdroid.util.Constants;
 import org.openhab.habdroid.util.Util;
 
-import static org.openhab.habdroid.background.BackgroundTaskRetryBroadcastReceiver.OH_EXTRA_NOTIFICATION_ID;
-
 public class BackgroundUtils {
-    private static final String TAG = BackgroundUtils.class.getSimpleName();
-    private static final int MAX_RETRY = 3;
     public static final String WORKER_TAG_SEND_ALARM_CLOCK = "sendAlarmClock";
     public static final String NOTIFICATION_TAG_BACKGROUND = "background";
     public static final String NOTIFICATION_TAG_BACKGROUND_ERROR = "backgroundError";
@@ -84,7 +75,6 @@ public class BackgroundUtils {
      * @param isError Setting isError to true creates a notification with a higher priority and
      *                posts it on the error channel.
      * @param action Action to show as a button, e.g. "Retry".
-     *               Also see {@link #makeRetryAction(Context, int)}
      * @return
      */
     public static Notification makeBackgroundNotification(Context context, String msg,
@@ -124,66 +114,5 @@ public class BackgroundUtils {
         }
 
         return nb.build();
-    }
-
-    /**
-     * Makes a "Retry" action.
-     * @param context
-     * @param notificationId Id of the current notification
-     * @return
-     */
-    public static NotificationCompat.Action makeRetryAction(Context context, int notificationId) {
-        Intent retryIntent = new Intent(context, BackgroundTaskRetryBroadcastReceiver.class);
-        retryIntent.putExtra(OH_EXTRA_NOTIFICATION_ID, notificationId);
-        PendingIntent retryPendingIntent =
-                PendingIntent.getBroadcast(context, 0, retryIntent, 0);
-        return new NotificationCompat.Action(
-                R.drawable.ic_refresh_grey_24dp,
-                context.getString(R.string.retry),
-                retryPendingIntent);
-    }
-
-    /**
-     * Retry worker or fail if max retry is exceeded. Also shows a notification and returns correct
-     * {@link Result}.
-     * @param errorMessage Message shown in a notification if worker failed.
-     * @param retryMessage Message shown in a notification if worker is going to retry.
-     *                     If it's null, no notification will be shown.
-     * @param runAttemptCount Current attempt count.
-     * @param action Action added to the notification.
-     * @param notificationId Notification ID
-     * @param context
-     * @param nm NotificationManager instance
-     * @return Worker result.
-     */
-    @CheckResult
-    public static Result retryOrFail(@NonNull String errorMessage, @Nullable String retryMessage,
-            int runAttemptCount, @Nullable NotificationCompat.Action action, int notificationId,
-            @NonNull Context context, @NonNull NotificationManager nm) {
-        if (runAttemptCount > MAX_RETRY) {
-            Log.e(TAG, "Don't retry again. Error: " + errorMessage);
-            Notification notification = makeBackgroundNotification(context,
-                    errorMessage,
-                    false,
-                    false,
-                    true,
-                    action);
-            nm.cancel(NOTIFICATION_TAG_BACKGROUND, notificationId);
-            nm.notify(NOTIFICATION_TAG_BACKGROUND_ERROR, notificationId,
-                    notification);
-            return Result.failure();
-        }
-        Log.d(TAG, "Retry: " +  retryMessage);
-        if (retryMessage != null) {
-            Notification notification = makeBackgroundNotification(context,
-                    retryMessage,
-                    true,
-                    false,
-                    false,
-                    action);
-            nm.notify(NOTIFICATION_TAG_BACKGROUND, notificationId,
-                    notification);
-        }
-        return Result.retry();
     }
 }
