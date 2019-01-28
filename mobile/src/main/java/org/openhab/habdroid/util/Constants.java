@@ -41,6 +41,8 @@ public class Constants {
     public static final String PREFERENCE_CHART_HQ            = "default_openhab_chart_hq";
     public static final String PREFERENCE_ICON_FORMAT         = "iconFormatType";
     public static final String PREFERENCE_ALARM_CLOCK         = "alarmClock";
+    public static final String PREFERENCE_SEND_DEVICE_INFO_PREFIX = "sendDeviceInfoPrefix";
+    public static final String PREFERENCE_SEND_DEVICE_INFO_CAT = "sendDeviceInfoCat";
 
     public static final String PREV_SERVER_FLAGS              = "prevServerFlags";
 

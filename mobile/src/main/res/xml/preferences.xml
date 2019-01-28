@@ -81,15 +81,20 @@
             android:title="@string/settings_openhab_fullscreen"
             android:icon="@drawable/ic_fullscreen_grey_24dp" />
     </PreferenceCategory>
-    <PreferenceCategory android:title="@string/alarm_clock"
-        android:key="alarmClockCategory">
+    <PreferenceCategory android:title="@string/send_device_info_to_server"
+        android:key="sendDeviceInfoCat">
+        <EditTextPreference
+            android:defaultValue="@string/empty_string"
+            android:inputType="textNoSuggestions"
+            android:key="sendDeviceInfoPrefix"
+            android:title="@string/send_device_info_item_prefix"
+            android:summary="@string/send_device_info_item_prefix_summary"
+            android:icon="@drawable/ic_none" />
         <org.openhab.habdroid.ui.widget.ItemUpdatingPreference
             android:defaultValue="false|AndroidAlarmClock"
             android:key="alarmClock"
             app:helpHint="@string/settings_alarm_clock_howto_summary"
             app:helpUrl="@string/settings_alarm_clock_howto_url"
-            app:summaryEnabled="@string/settings_alarm_clock_summary_on"
-            app:summaryDisabled="@string/settings_alarm_clock_summary_off"
             android:title="@string/settings_alarm_clock"
             android:icon="@drawable/ic_alarm_grey_24dp" />
     </PreferenceCategory>

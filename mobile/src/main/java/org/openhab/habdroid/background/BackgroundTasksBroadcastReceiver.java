@@ -26,6 +26,7 @@ import static org.openhab.habdroid.background.BackgroundUtils.NOTIFICATION_TAG_B
 import static org.openhab.habdroid.background.BackgroundUtils.NOTIFICATION_TAG_BACKGROUND_ERROR;
 import static org.openhab.habdroid.background.BackgroundUtils.WORKER_TAG_SEND_ALARM_CLOCK;
 import static org.openhab.habdroid.util.Constants.PREFERENCE_ALARM_CLOCK;
+import static org.openhab.habdroid.util.Constants.PREFERENCE_SEND_DEVICE_INFO_PREFIX;
 
 public class BackgroundTasksBroadcastReceiver extends BroadcastReceiver {
     private static final String TAG = BackgroundTasksBroadcastReceiver.class.getSimpleName();
@@ -49,10 +50,12 @@ public class BackgroundTasksBroadcastReceiver extends BroadcastReceiver {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         Pair<Boolean, String> setting =
                 ItemUpdatingPreference.parseValue(prefs.getString(PREFERENCE_ALARM_CLOCK, null));
-        startAlarmChangedWorker(context, setting);
+        String prefix = prefs.getString(PREFERENCE_SEND_DEVICE_INFO_PREFIX, "");
+        startAlarmChangedWorker(context, prefix, setting);
     }
 
-    public static void startAlarmChangedWorker(Context context, Pair<Boolean, String> settings) {
+    public static void startAlarmChangedWorker(Context context, String prefix,
+                Pair<Boolean, String> settings) {
         Log.d(TAG, "startAlarmChangedWorker()");
         if (settings == null || !settings.first) {
             return;
@@ -61,9 +64,11 @@ public class BackgroundTasksBroadcastReceiver extends BroadcastReceiver {
         final Constraints constraints = new Constraints.Builder()
                 .setRequiredNetworkType(NetworkType.CONNECTED)
                 .build();
+        String itemName = prefix + settings.second;
         final Data data = new Data.Builder()
-                .putString(AlarmChangedWorker.DATA_ITEM, settings.second)
+                .putString(AlarmChangedWorker.DATA_ITEM, itemName)
                 .build();
+        Log.d(TAG, "Item: " + itemName);
         final OneTimeWorkRequest sendAlarmClockWorker =
                 new OneTimeWorkRequest.Builder(AlarmChangedWorker.class)
                 .setConstraints(constraints)
