@@ -86,8 +86,11 @@ public class SegmentedControlButton extends AppCompatRadioButton {
     protected void drawableStateChanged() {
         super.drawableStateChanged();
         if (mBackgroundColorList != null) {
-            mBackgroundPaint.setColor(
-                    mBackgroundColorList.getColorForState(getDrawableState(), 0));
+            @ColorInt int newColor = mBackgroundColorList.getColorForState(getDrawableState(), 0);
+            if (newColor != mBackgroundPaint.getColor()) {
+                mBackgroundPaint.setColor(newColor);
+                invalidate();
+            }
         }
     }
 
