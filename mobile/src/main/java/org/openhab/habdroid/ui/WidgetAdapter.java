@@ -744,13 +744,14 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
                 mRadioGroup.addView(view);
             }
             // bind views
+            final String state = mBoundItem != null && mBoundItem.state() != null
+                    ? mBoundItem.state().asString() : null;
             for (int i = 0; i < mappings.size(); i++) {
                 SegmentedControlButton button = (SegmentedControlButton) mRadioGroup.getChildAt(i);
                 String command = mappings.get(i).value();
                 button.setText(mappings.get(i).label());
                 button.setTag(command);
-                button.setChecked(mBoundItem != null && command != null
-                        && command.equals(mBoundItem.state()));
+                button.setChecked(state != null && TextUtils.equals(state, command));
                 button.setVisibility(View.VISIBLE);
             }
             // hide spare views
