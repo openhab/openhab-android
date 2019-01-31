@@ -89,7 +89,7 @@
             android:key="sendDeviceInfoPrefix"
             android:title="@string/send_device_info_item_prefix"
             android:summary="@string/send_device_info_item_prefix_summary"
-            android:icon="@drawable/ic_none" />
+            android:icon="@drawable/ic_text_fields_gray_24dp" />
         <org.openhab.habdroid.ui.widget.ItemUpdatingPreference
             android:defaultValue="false|AndroidAlarmClock"
             android:key="alarmClock"
