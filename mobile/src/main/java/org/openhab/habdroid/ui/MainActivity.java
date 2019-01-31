@@ -88,6 +88,8 @@ import org.openhab.habdroid.util.AsyncServiceResolver;
 import org.openhab.habdroid.util.Constants;
 import org.openhab.habdroid.util.Util;
 
+import java.io.EOFException;
+import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.net.ConnectException;
 import java.net.SocketTimeoutException;
@@ -997,7 +999,7 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     private void handlePropertyFetchFailure(Request request, int statusCode, Throwable error) {
-        Log.e(TAG, "Error: " + error.toString());
+        Log.e(TAG, "Error: " + error.toString(), error);
         Log.e(TAG, "HTTP status code: " + statusCode);
         CharSequence message;
         if (statusCode >= 400) {
@@ -1036,6 +1038,8 @@ public class MainActivity extends AppCompatActivity implements
             }
         } else if (error instanceof ConnectException || error instanceof SocketTimeoutException) {
             message = getString(R.string.error_connection_failed);
+        } else if (error instanceof IOException && exceptionHasCause(error, EOFException.class)) {
+            message = getString(R.string.error_http_to_https_port);
         } else {
             Log.e(TAG, "REST call to " + request.url() + " failed", error);
             message = error.getMessage();
