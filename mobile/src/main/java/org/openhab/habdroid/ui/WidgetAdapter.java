@@ -386,7 +386,11 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
             }
             // This is needed to escape possible spaces and everything according to rfc2396
             String iconUrl = Uri.encode(widget.iconPath(), "/?=&");
-            iconView.setImageUrl(mConnection, iconUrl);
+            iconView.setImageUrl(
+                    Util.convertDpToPixel(
+                            iconView.getResources().getDimension(R.dimen.notificationlist_icon_size),
+                            iconView.getContext()),
+                    mConnection, iconUrl);
             Integer iconColor = mColorMapper.mapColor(widget.iconColor());
             if (iconColor != null) {
                 iconView.setColorFilter(iconColor);
@@ -638,7 +642,7 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
                 mImageView.setImageBitmap(bitmap);
                 mRefreshRate = 0;
             } else {
-                mImageView.setImageUrl(mConnection, widget.url());
+                mImageView.setImageUrl(mParentView.getWidth(), mConnection, widget.url());
                 mRefreshRate = widget.refresh();
             }
         }
@@ -934,7 +938,7 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
 
                 Log.d(TAG, "Chart url = " + chartUrl);
 
-                mImageView.setImageUrl(mConnection, chartUrl.toString(), true);
+                mImageView.setImageUrl(parentWidth, mConnection, chartUrl.toString(), true);
                 mRefreshRate = widget.refresh();
             } else {
                 Log.e(TAG, "Chart item is null");

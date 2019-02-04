@@ -11,12 +11,14 @@ package org.openhab.habdroid.util;
 
 import android.app.Activity;
 import android.app.ActivityManager;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.preference.PreferenceManager;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
 import androidx.annotation.AnimRes;
@@ -270,5 +272,31 @@ public class Util {
             colors[i] = typedValue.data;
         }
         swipeLayout.setColorSchemeColors(colors);
+    }
+
+    /**
+     * This method converts dp unit to equivalent pixels, depending on device density.
+     *
+     * @param dp A value in dp (density independent pixels) unit. Which we need to convert into pixels
+     * @param context Context to get resources and device specific display metrics
+     * @return A float value to represent px equivalent to dp depending on device density
+     * @author https://stackoverflow.com/a/9563438
+     */
+    public static int convertDpToPixel(float dp, Context context){
+        return Math.round(dp * ((float) context.getResources().getDisplayMetrics().densityDpi
+                / DisplayMetrics.DENSITY_DEFAULT));
+    }
+
+    /**
+     * This method converts device specific pixels to density independent pixels.
+     *
+     * @param px A value in px (pixels) unit. Which we need to convert into db
+     * @param context Context to get resources and device specific display metrics
+     * @return A float value to represent dp equivalent to px value
+     * @author https://stackoverflow.com/a/9563438
+     */
+    public static int convertPixelsToDp(float px, Context context){
+        return Math.round(px / ((float) context.getResources().getDisplayMetrics().densityDpi
+                / DisplayMetrics.DENSITY_DEFAULT));
     }
 }

@@ -26,6 +26,7 @@ import org.openhab.habdroid.core.connection.Connection;
 import org.openhab.habdroid.core.connection.ConnectionFactory;
 import org.openhab.habdroid.model.CloudNotification;
 import org.openhab.habdroid.ui.widget.WidgetImageView;
+import org.openhab.habdroid.util.Util;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -154,7 +155,11 @@ public class CloudNotificationAdapter extends RecyclerView.Adapter<RecyclerView.
                 Connection conn = ConnectionFactory.getConnection(Connection.TYPE_CLOUD);
                 String iconUrl = String.format(Locale.US, "images/%s.png",
                         Uri.encode(notification.icon()));
-                mIconView.setImageUrl(conn, iconUrl, 2000);
+                mIconView.setImageUrl(
+                        Util.convertDpToPixel(
+                                mIconView.getResources().getDimension(R.dimen.notificationlist_icon_size),
+                                mIconView.getContext()),
+                        conn, iconUrl, 2000);
             } else {
                 mIconView.setImageResource(R.drawable.ic_openhab_appicon_24dp);
             }

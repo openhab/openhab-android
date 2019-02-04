@@ -11,8 +11,8 @@
 
     <org.openhab.habdroid.ui.widget.WidgetImageView
         android:id="@+id/notificationImage"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="@dimen/notificationlist_icon_size"
+        android:layout_height="@dimen/notificationlist_icon_size"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:layout_gravity="center_vertical"
