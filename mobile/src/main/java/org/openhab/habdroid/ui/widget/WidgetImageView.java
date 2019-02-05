@@ -91,19 +91,19 @@ public class WidgetImageView extends AppCompatImageView {
         mRefreshHandler = new RefreshHandler(this);
     }
 
-    public void setImageUrl(Integer size, Connection connection, String url) {
-        setImageUrl(size, connection, url, false);
+    public void setImageUrl(Connection connection, String url, Integer size) {
+        setImageUrl(connection, url, size, false);
     }
 
-    public void setImageUrl(Integer size, Connection connection, String url, long timeoutMillis) {
-        setImageUrl(size, connection, url, timeoutMillis, false);
+    public void setImageUrl(Connection connection, String url, Integer size, long timeoutMillis) {
+        setImageUrl(connection, url, size, timeoutMillis, false);
     }
 
-    public void setImageUrl(Integer size, Connection connection, String url, boolean forceLoad) {
-        setImageUrl(size, connection, url, AsyncHttpClient.DEFAULT_TIMEOUT_MS, forceLoad);
+    public void setImageUrl(Connection connection, String url, Integer size, boolean forceLoad) {
+        setImageUrl(connection, url, size, AsyncHttpClient.DEFAULT_TIMEOUT_MS, forceLoad);
     }
 
-    public void setImageUrl(Integer size, Connection connection, String url,
+    public void setImageUrl(Connection connection, String url, Integer size,
             long timeoutMillis, boolean forceLoad) {
         AsyncHttpClient client = connection.getAsyncHttpClient();
         HttpUrl actualUrl = client.buildUrl(url);
