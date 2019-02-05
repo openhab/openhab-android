@@ -165,3 +165,27 @@ general guidelines for the community as a whole:
   respond to an email you are potentially sending to a large number of
   people.  Please consider this before you update.  Also remember that
   nobody likes spam.
+
+## FAQ
+
+**Is it fine to go with kotlin for my contribution?**
+
+**Is there an architectural design for the presentation layer?**
+
+**Is there an architectural design for the data layer?**
+
+**Where does the sitemap rendering happen?**
+
+**How is navigation managed?**
+
+**Do we use fragments in our activities? If yes, are they necessary?**
+
+**Should my code be tested? If yes to which degree?**
+
+**Is there a way I can test all the features against a test server or something similar?**
+
+**Do we have guidelines for code style?**
+
+**How does the CD/CI pipeline work?**
+
+**Do I have to include Java doc/ KDoc?**
