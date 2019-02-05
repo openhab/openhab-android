@@ -386,10 +386,8 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
             }
             // This is needed to escape possible spaces and everything according to rfc2396
             String iconUrl = Uri.encode(widget.iconPath(), "/?=&");
-            iconView.setImageUrl(
-                    Util.convertDpToPixel(
-                            iconView.getResources().getDimension(R.dimen.notificationlist_icon_size),
-                            iconView.getContext()),
+            iconView.setImageUrl(iconView.getResources()
+                            .getDimensionPixelSize(R.dimen.notificationlist_icon_size),
                     mConnection, iconUrl);
             Integer iconColor = mColorMapper.mapColor(widget.iconColor());
             if (iconColor != null) {
