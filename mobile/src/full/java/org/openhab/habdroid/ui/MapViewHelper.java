@@ -165,11 +165,15 @@ public class MapViewHelper {
                     }
                 }
             } else {
-                LatLng position = parseLocation(mBoundItem.state().asString());
-                if (position != null) {
-                    setMarker(map, position, mBoundItem, mLabelView.getText(), canDragMarker);
-                    map.moveCamera(CameraUpdateFactory.newLatLngZoom(position, zoomLevel));
+                if (mBoundItem.state() == null) {
+                    return;
                 }
+                LatLng position = parseLocation(mBoundItem.state().asString());
+                if (position == null) {
+                    return;
+                }
+                setMarker(map, position, mBoundItem, mLabelView.getText(), canDragMarker);
+                map.moveCamera(CameraUpdateFactory.newLatLngZoom(position, zoomLevel));
             }
         }
 
