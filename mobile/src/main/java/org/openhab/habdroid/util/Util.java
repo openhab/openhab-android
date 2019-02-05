@@ -30,6 +30,7 @@ import okhttp3.Request;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.openhab.habdroid.BuildConfig;
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.model.Item;
 import org.openhab.habdroid.model.ParsedState;
@@ -270,5 +271,21 @@ public class Util {
             colors[i] = typedValue.data;
         }
         swipeLayout.setColorSchemeColors(colors);
+    }
+
+    public static boolean isFlavorStable() {
+        return BuildConfig.FLAVOR.toLowerCase().contains("stable");
+    }
+
+    public static boolean isFlavorBeta() {
+        return !isFlavorStable();
+    }
+
+    public static boolean isFlavorFull() {
+        return BuildConfig.FLAVOR.toLowerCase().contains("full");
+    }
+
+    public static boolean isFlavorFoss() {
+        return !isFlavorFull();
     }
 }
