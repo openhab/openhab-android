@@ -122,9 +122,10 @@ public class LogActivity extends AppCompatActivity {
                 process = Runtime.getRuntime().exec("logcat -b all -v threadtime -d");
             } catch (Exception e) {
                 Log.e(TAG, "Error reading process", e);
+                return Log.getStackTraceString(e);
             }
             if (process == null) {
-                return "";
+                return "Process is null";
             }
             try (InputStreamReader reader = new InputStreamReader(process.getInputStream());
                     BufferedReader bufferedReader = new BufferedReader(reader)) {
@@ -135,6 +136,7 @@ public class LogActivity extends AppCompatActivity {
                 }
             } catch (Exception e) {
                 Log.e(TAG, "Error reading log", e);
+                return Log.getStackTraceString(e);
             }
 
             String log = logBuilder.toString();
