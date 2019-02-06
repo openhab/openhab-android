@@ -9,6 +9,8 @@
     <!-- Main menu items -->
     <string name="mainmenu_openhab_sitemaps">תצורות מערכת</string>
     <string name="mainmenu_openhab_preferences">הגדרות</string>
+    <string name="mainmenu_openhab_habpanel">HABPanel</string>
+    <string name="habpanel_error">אירעה שגיאה בעת טעינת HABPanel</string>
     <string name="mainmenu_openhab_selectsitemap">בחר את ברירת המחדל של תצורת המערכת</string>
     <string name="mainmenu_openhab_clearcache">נקה מטמון תמונות</string>
     <!-- App settings strings -->
@@ -57,6 +59,7 @@
     <string name="settings_notification_vibration_twice">כפול</string>
     <string name="settings_connection_summary">מחובר ל- %s</string>
     <string name="settings_insecure_connection_summary">חיבור לא מאובטח ל- %s</string>
+    <string name="beta">בטא</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">פקודות קוליות</string>
     <string name="title_voice_widget_icon">פקודות קוליות וקיצורי דרך ליישום</string>
