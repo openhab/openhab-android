@@ -35,14 +35,17 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.text.SpannableStringBuilder;
 import android.text.style.RelativeSizeSpan;
 import android.util.SparseArray;
 
 import org.openhab.habdroid.R;
+import org.openhab.habdroid.util.Constants;
 
 import java.io.File;
 import java.io.IOException;
@@ -53,6 +56,7 @@ import java.security.KeyStore;
 import java.security.KeyStoreException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.security.PublicKey;
 import java.security.cert.CertPathValidatorException;
 import java.security.cert.Certificate;
 import java.security.cert.CertificateException;
@@ -751,6 +755,17 @@ public class MemorizingTrustManager implements X509TrustManager {
         public boolean verify(String hostname, SSLSession session) {
             LOGGER.log(Level.FINE, "hostname verifier for " + hostname + ", trying default verifier first");
             // if the default verifier accepts the hostname, we are done
+            String publicKey;
+            try {
+                publicKey = session.getPeerCertificates()[0].getPublicKey().toString();
+            } catch (Exception e) {
+                LOGGER.log(Level.FINE, "Error getting public key", e);
+                publicKey = "";
+            }
+            SharedPreferences sharedPreferences =
+                    PreferenceManager.getDefaultSharedPreferences(master);
+            sharedPreferences.edit().putString(Constants.SSL_CERT_PUBLIC_KEY, publicKey).apply();
+
             if (defaultVerifier.verify(hostname, session)) {
                 LOGGER.log(Level.FINE, "default verifier accepted " + hostname);
                 return true;

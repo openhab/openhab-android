@@ -1026,7 +1026,7 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
             HttpUrl url = mConnection.getAsyncHttpClient().buildUrl(widget.url());
 
             mWebView.setWebViewClient(new AnchorWebViewClient(url.toString(),
-                    mConnection.getUsername(), mConnection.getPassword()));
+                    mConnection.getUsername(), mConnection.getPassword(), mWebView.getContext()));
             mWebView.getSettings().setDomStorageEnabled(true);
             mWebView.getSettings().setJavaScriptEnabled(true);
             mWebView.loadUrl(url.toString());

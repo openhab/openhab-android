@@ -100,6 +100,7 @@
     <string name="error_certificate_revoked">SSL certificate has been revoked. Please get a new certificate or accept the certificate during SSL handshake.</string>
     <string name="error_certificate_wrong_host">SSL certificate is not valid for %s</string>
     <string name="error_http_to_https_port">Unexpected end of stream. Are you trying to connect to an HTTPS port via HTTP?</string>
+    <string name="webview_ssl">Currently this app doesn\'t support self-signed SSL certificates for Webview widgets</string>
     <string name="error_http_code_401">Authentication failed. Please check the configured username and password respectively the provided SSL client certificate (HTTP response code 401).</string>
     <string name="error_http_code_403">Authentication failed. Please check the configured username and password respectively the provided SSL client certificate (HTTP response code 403).</string>
     <string name="error_http_code_407">Authentication failed. Please check the configured username and password respectively the provided SSL client certificate (HTTP response code 407).</string>
