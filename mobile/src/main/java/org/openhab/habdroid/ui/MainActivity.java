@@ -147,7 +147,8 @@ public class MainActivity extends AppCompatActivity implements
 
     private Uri mPendingNfcData;
     private String mPendingOpenedNotificationId;
-    private boolean mShouldStartHabpanel;
+    private boolean mShouldOpenHabpanel;
+    private boolean mShouldLaunchVoiceRecognition;
     private Sitemap mSelectedSitemap;
     private ContentController mController;
     private ServerProperties mServerProperties;
@@ -330,6 +331,7 @@ public class MainActivity extends AppCompatActivity implements
                         .apply();
             }
             openHabpanelIfNeeded();
+            launchVoiceRecognitionIfNeeded();
         };
         mPropsUpdateHandle = ServerProperties.fetch(mConnection,
                 successCb, this::handlePropertyFetchFailure);
@@ -372,13 +374,12 @@ public class MainActivity extends AppCompatActivity implements
                 onNotificationSelected(intent);
                 break;
             case ACTION_HABPANEL_SELECTED:
-                mShouldStartHabpanel = true;
+                mShouldOpenHabpanel = true;
                 openHabpanelIfNeeded();
                 break;
             case ACTION_VOICE_RECOGNITION_SELECTED:
-                if (mServerProperties != null) {
-                    launchVoiceRecognition();
-                }
+                mShouldLaunchVoiceRecognition = true;
+                launchVoiceRecognitionIfNeeded();
                 break;
             default:
                 break;
@@ -459,6 +460,7 @@ public class MainActivity extends AppCompatActivity implements
         // Handle pending NFC tag if initial connection determination finished
         openPendingNfcPageIfNeeded();
         openHabpanelIfNeeded();
+        launchVoiceRecognitionIfNeeded();
 
         if (newConnection != null) {
             handleConnectionChange();
@@ -533,6 +535,7 @@ public class MainActivity extends AppCompatActivity implements
         openPendingNfcPageIfNeeded();
         openNotificationsPageIfNeeded();
         openHabpanelIfNeeded();
+        launchVoiceRecognitionIfNeeded();
     }
 
     @Override
@@ -719,10 +722,17 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     private void openHabpanelIfNeeded() {
-        if (mStarted && mShouldStartHabpanel && mServerProperties != null
+        if (mStarted && mShouldOpenHabpanel && mServerProperties != null
                 && mServerProperties.hasHabpanelInstalled()) {
             openHabpanel();
-            mShouldStartHabpanel = false;
+            mShouldOpenHabpanel = false;
+        }
+    }
+
+    private void launchVoiceRecognitionIfNeeded() {
+        if (mStarted && mShouldLaunchVoiceRecognition && mServerProperties != null) {
+            launchVoiceRecognition();
+            mShouldLaunchVoiceRecognition = false;
         }
     }
 
