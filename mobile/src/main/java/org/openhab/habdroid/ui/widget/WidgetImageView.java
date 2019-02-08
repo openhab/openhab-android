@@ -87,24 +87,23 @@ public class WidgetImageView extends AppCompatImageView {
             a.recycle();
         }
 
-        mDefaultSvgSize =
-                context.getResources().getDimensionPixelSize(R.dimen.svg_image_default_size);
+        mDefaultSvgSize = context.getResources().getDimensionPixelSize(R.dimen.svg_image_default_size);
         mRefreshHandler = new RefreshHandler(this);
     }
 
-    public void setImageUrl(Connection connection, String url) {
-        setImageUrl(connection, url, false);
+    public void setImageUrl(Connection connection, String url, Integer size) {
+        setImageUrl(connection, url, size, false);
     }
 
-    public void setImageUrl(Connection connection, String url, long timeoutMillis) {
-        setImageUrl(connection, url, timeoutMillis, false);
+    public void setImageUrl(Connection connection, String url, Integer size, long timeoutMillis) {
+        setImageUrl(connection, url, size, timeoutMillis, false);
     }
 
-    public void setImageUrl(Connection connection, String url, boolean forceLoad) {
-        setImageUrl(connection, url, AsyncHttpClient.DEFAULT_TIMEOUT_MS, forceLoad);
+    public void setImageUrl(Connection connection, String url, Integer size, boolean forceLoad) {
+        setImageUrl(connection, url, size, AsyncHttpClient.DEFAULT_TIMEOUT_MS, forceLoad);
     }
 
-    public void setImageUrl(Connection connection, String url,
+    public void setImageUrl(Connection connection, String url, Integer size,
             long timeoutMillis, boolean forceLoad) {
         AsyncHttpClient client = connection.getAsyncHttpClient();
         HttpUrl actualUrl = client.buildUrl(url);
@@ -124,7 +123,11 @@ public class WidgetImageView extends AppCompatImageView {
 
         Bitmap cached = CacheManager.getInstance(getContext()).getCachedBitmap(actualUrl);
 
-        mLastRequest = new HttpImageRequest(client, actualUrl, timeoutMillis);
+        if (size == null) {
+            size = mDefaultSvgSize;
+        }
+
+        mLastRequest = new HttpImageRequest(size, client, actualUrl, timeoutMillis);
 
         if (cached != null) {
             setBitmapInternal(cached);
@@ -269,8 +272,8 @@ public class WidgetImageView extends AppCompatImageView {
         private final long mTimeoutMillis;
         private Call mCall;
 
-        public HttpImageRequest(AsyncHttpClient client, HttpUrl url, long timeoutMillis) {
-            super(mDefaultSvgSize);
+        public HttpImageRequest(int size, AsyncHttpClient client, HttpUrl url, long timeoutMillis) {
+            super(size);
             mClient = client;
             mUrl = url;
             mTimeoutMillis = timeoutMillis;

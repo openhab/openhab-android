@@ -9,14 +9,13 @@
 
 package org.openhab.habdroid.util;
 
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.graphics.RectF;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.DisplayMetrics;
 import androidx.annotation.NonNull;
 
 import com.caverock.androidsvg.SVG;
@@ -50,10 +49,10 @@ public class AsyncHttpClient extends HttpClient {
     }
 
     public abstract static class BitmapResponseHandler implements ResponseHandler<Bitmap> {
-        private final int mDefaultSize;
+        private final int mSize;
 
-        public BitmapResponseHandler(int defaultSizePx) {
-            mDefaultSize = defaultSizePx;
+        public BitmapResponseHandler(int sizePx) {
+            mSize = sizePx;
         }
 
         @Override
@@ -65,7 +64,7 @@ public class AsyncHttpClient extends HttpClient {
             InputStream is = body.byteStream();
             if (isSvg) {
                 try {
-                    return getBitmapFromSvgInputstream(is);
+                    return getBitmapFromSvgInputstream(Resources.getSystem(), is, mSize);
                 } catch (SVGParseException e) {
                     throw new IOException("SVG decoding failed", e);
                 }
@@ -78,19 +77,52 @@ public class AsyncHttpClient extends HttpClient {
             }
         }
 
-        private Bitmap getBitmapFromSvgInputstream(InputStream is) throws SVGParseException {
+        private static Bitmap getBitmapFromSvgInputstream(Resources res, InputStream is, int size)
+                throws SVGParseException {
             SVG svg = SVG.getFromInputStream(is);
-            RectF viewBox = svg.getDocumentViewBox();
-            double width = viewBox != null ? viewBox.width() : mDefaultSize;
-            double height = viewBox != null ? viewBox.height() : mDefaultSize;
-
+            svg.setRenderDPI(DisplayMetrics.DENSITY_DEFAULT);
+            Float density = res.getDisplayMetrics().density;
             svg.setDocumentHeight("100%");
             svg.setDocumentWidth("100%");
+            int docWidth = (int) (svg.getDocumentWidth() * density);
+            int docHeight = (int) (svg.getDocumentHeight() * density);
+            if (docWidth < 0 || docHeight < 0) {
+                float aspectRatio = svg.getDocumentAspectRatio();
+                if (aspectRatio > 0) {
+                    float heightForAspect = (float) size / aspectRatio;
+                    float widthForAspect = (float) size * aspectRatio;
+                    if (widthForAspect < heightForAspect) {
+                        docWidth = Math.round(widthForAspect);
+                        docHeight = size;
+                    } else {
+                        docWidth = size;
+                        docHeight = Math.round(heightForAspect);
+                    }
+                } else {
+                    docWidth = size;
+                    docHeight = size;
+                }
 
-            Bitmap bitmap = Bitmap.createBitmap(
-                    (int) Math.ceil(width), (int) Math.ceil(height), Bitmap.Config.ARGB_8888);
+                // we didn't take density into account anymore when calculating docWidth
+                // and docHeight, so don't scale with it and just let the renderer
+                // figure out the scaling
+                density = null;
+            }
+
+            if (docWidth != size || docHeight != size) {
+                Float scaleWidth = (float) size / docWidth;
+                Float scaleHeigth = (float) size / docHeight;
+                density = (scaleWidth + scaleHeigth) / 2;
+
+                docWidth = size;
+                docHeight = size;
+            }
+
+            Bitmap bitmap = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888);
             Canvas canvas = new Canvas(bitmap);
-            canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
+            if (density != null) {
+                canvas.scale(density, density);
+            }
             svg.renderToCanvas(canvas);
             return bitmap;
         }
