@@ -19,4 +19,6 @@
     <color name="pref_icon_green">#388E3C</color>
     <color name="pref_icon_orange">#F57C00</color>
     <color name="pref_icon_grey">#757575</color>
+
+    <color name="ic_launcher_background">#FFFFFF</color>
 </resources>
