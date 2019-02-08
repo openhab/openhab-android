@@ -155,7 +155,7 @@ public class CloudNotificationAdapter extends RecyclerView.Adapter<RecyclerView.
                 String iconUrl = String.format(Locale.US, "images/%s.png",
                         Uri.encode(notification.icon()));
                 mIconView.setImageUrl(conn, iconUrl, mIconView.getResources()
-                                .getDimensionPixelSize(R.dimen.notificationlist_icon_size), 2000);
+                        .getDimensionPixelSize(R.dimen.notificationlist_icon_size), 2000);
             } else {
                 mIconView.setImageResource(R.drawable.ic_openhab_appicon_24dp);
             }
