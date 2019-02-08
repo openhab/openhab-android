@@ -1,0 +1,5 @@
+## Fixed
+* Scale SVG correctly (#1194)
+
+## Added
+* Add app shortcuts (#1166)
