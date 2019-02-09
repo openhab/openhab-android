@@ -68,6 +68,9 @@
     <string name="info_demo_mode_short">Demo módban fut</string>
     <string name="info_conn_url">Kapcsolódás a helyi URL-hez</string>
     <string name="info_conn_rem_url">Kapcsolódás a távoli URL-hez</string>
+    <string name="app_shortcut_diabled_habpanel">A szerveren nincs telepítve HABPanel</string>
+    <string name="app_shortcut_diabled_notifications">A távoli szerver nem érhető el</string>
+    <string name="app_shortcut_diabled_voice_recognition">Ez az eszköz nem rendelkezik speech-to-text alkalmazással</string>
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB üres felületet adott vissza</string>
     <string name="error_network_not_available">Hálózat nem elérhető</string>
