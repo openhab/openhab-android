@@ -68,6 +68,9 @@
     <string name="info_demo_mode_short">Läuft im Demomodus</string>
     <string name="info_conn_url">Verbinde mit lokaler URL</string>
     <string name="info_conn_rem_url">Verbinde mit Remote-URL</string>
+    <string name="app_shortcut_diabled_habpanel">Ihr Server hat kein HABPanel installiert</string>
+    <string name="app_shortcut_diabled_notifications">Ihr Server für den Fernzugriff ist nicht verfügbar</string>
+    <string name="app_shortcut_diabled_voice_recognition">Ihr Gerät hat keine Sprache-zu-Text-App installiert</string>
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB lieferte eine leere Sitemap-Liste</string>
     <string name="error_network_not_available">Netzwerk nicht verfügbar</string>
