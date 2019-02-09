@@ -59,6 +59,7 @@
     <string name="settings_notification_vibration_twice">Due volte</string>
     <string name="settings_connection_summary">Connesso a %s</string>
     <string name="settings_insecure_connection_summary">Connesso in modo non sicuro a %s</string>
+    <string name="beta">Beta</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Comandi vocali</string>
     <string name="title_voice_widget_icon">Comandi vocali e collegamento app</string>
@@ -67,6 +68,9 @@
     <string name="info_demo_mode_short">Esecuzione in modalità demo</string>
     <string name="info_conn_url">Connessione a URL locale</string>
     <string name="info_conn_rem_url">Connessione a URL remoto</string>
+    <string name="app_shortcut_diabled_habpanel">Il tuo server non ha HABPanel installato</string>
+    <string name="app_shortcut_diabled_notifications">Server remoto non è disponibile</string>
+    <string name="app_shortcut_diabled_voice_recognition">Il dispositivo non ha un\'app di speech-to-text installata</string>
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB ha la lista di Sitemap vuota</string>
     <string name="error_network_not_available">Rete non disponibile</string>
