@@ -17,6 +17,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.core.connection.Connection;
 import org.openhab.habdroid.model.Item;
+import org.openhab.habdroid.model.ParsedState;
 import org.openhab.habdroid.model.Widget;
 import org.openhab.habdroid.util.Util;
 
@@ -147,7 +148,7 @@ public class MapViewHelper {
             if (!mBoundItem.members().isEmpty()) {
                 ArrayList<LatLng> positions = new ArrayList<>();
                 for (Item item : mBoundItem.members()) {
-                    LatLng position = parseLocation(item.state().asString());
+                    LatLng position = parseLocation(item.state());
                     if (position != null) {
                         setMarker(map, position, item, item.label(), canDragMarker);
                         positions.add(position);
@@ -165,7 +166,7 @@ public class MapViewHelper {
                     }
                 }
             } else {
-                LatLng position = parseLocation(mBoundItem.state().asString());
+                LatLng position = parseLocation(mBoundItem.state());
                 if (position != null) {
                     setMarker(map, position, mBoundItem, mLabelView.getText(), canDragMarker);
                     map.moveCamera(CameraUpdateFactory.newLatLngZoom(position, zoomLevel));
@@ -182,8 +183,9 @@ public class MapViewHelper {
             map.addMarker(marker).setTag(item);
         }
 
-        private static LatLng parseLocation(String state) {
-            String[] splitState = state != null ? state.split(",") : null;
+        private static LatLng parseLocation(ParsedState state) {
+            String location = state != null ? state.asString() : null;
+            String[] splitState = location != null ? location.split(",") : null;
             if (splitState != null && splitState.length == 2) {
                 try {
                     return new LatLng(Float.valueOf(splitState[0]), Float.valueOf(splitState[1]));
