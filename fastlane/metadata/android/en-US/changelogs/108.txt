@@ -1,0 +1,2 @@
+## Fixed
+* Fix crash with MapView if item has no state (#1195)
