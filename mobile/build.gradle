@@ -125,7 +125,7 @@ dependencies {
     implementation 'com.github.GrenderG:Toasty:1.4.0'
 
     // Crash reporting
-    fullImplementation('com.crashlytics.sdk.android:crashlytics:2.9.8@aar') {
+    fullImplementation('com.crashlytics.sdk.android:crashlytics:2.9.9@aar') {
         transitive = true
     }
 
