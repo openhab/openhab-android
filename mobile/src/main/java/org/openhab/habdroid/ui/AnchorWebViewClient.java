@@ -10,12 +10,9 @@
 
 package org.openhab.habdroid.ui;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.net.http.SslCertificate;
 import android.net.http.SslError;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.util.Base64;
 import android.util.Log;
 import android.webkit.HttpAuthHandler;
@@ -23,8 +20,8 @@ import android.webkit.SslErrorHandler;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import de.duenndns.ssl.MemorizingTrustManager;
 import org.openhab.habdroid.R;
-import org.openhab.habdroid.util.Constants;
 
 import java.io.ByteArrayInputStream;
 import java.security.cert.Certificate;
@@ -37,9 +34,8 @@ public class AnchorWebViewClient extends WebViewClient {
     private String mAnchor;
     private String mUserName;
     private String mPassword;
-    private SharedPreferences mSharedPreferences;
 
-    public AnchorWebViewClient(String url, String username, String password, Context context) {
+    public AnchorWebViewClient(String url, String username, String password) {
         mUserName = username;
         mPassword = password;
         int pos = url.lastIndexOf("#") + 1;
@@ -49,7 +45,6 @@ public class AnchorWebViewClient extends WebViewClient {
         } else {
             Log.d(TAG, "Did not find anchor from url " + url);
         }
-        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
     }
 
     @Override
@@ -67,10 +62,10 @@ public class AnchorWebViewClient extends WebViewClient {
     }
 
     public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
-        String publicKey = mSharedPreferences.getString(Constants.SSL_CERT_PUBLIC_KEY, "");
         SslCertificate sslCertificate = error.getCertificate();
         Certificate cert = getX509Certificate(sslCertificate);
-        if (cert != null && cert.getPublicKey().toString().equals(publicKey)) {
+        MemorizingTrustManager mtm = new MemorizingTrustManager(view.getContext());
+        if (cert != null && mtm.isCertKnown(cert)) {
             Log.d(TAG, "Invalid certificate, but the same one as the main connection");
             handler.proceed();
         } else {
