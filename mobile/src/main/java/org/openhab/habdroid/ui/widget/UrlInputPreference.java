@@ -12,6 +12,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import androidx.annotation.StringRes;
+
 import org.openhab.habdroid.R;
 
 import java.net.MalformedURLException;
@@ -56,23 +58,35 @@ public class UrlInputPreference extends EditTextPreference implements TextWatche
 
     @Override
     public void afterTextChanged(Editable editable) {
+        boolean portSeemsInvalid = false;
         if (TextUtils.isEmpty(editable)) {
             mUrlIsValid = true;
         } else {
-            String url = editable.toString();
-            if (url.contains("\n") || url.contains(" ")) {
+            String value = editable.toString();
+            if (value.contains("\n") || value.contains(" ")) {
                 mUrlIsValid = false;
             } else {
                 try {
-                    new URL(url);
+                    URL url = new URL(value);
                     mUrlIsValid = true;
+                    if (url.getProtocol().equals("http")) {
+                        portSeemsInvalid = url.getPort() == 443 || url.getPort() == 8443;
+                    }
+                    if (url.getProtocol().equals("https")) {
+                        portSeemsInvalid = url.getPort() == 80 || url.getPort() == 8080;
+                    }
                 } catch (MalformedURLException e) {
                     mUrlIsValid = false;
                 }
             }
         }
-        mEditor.setError(mUrlIsValid
-                ? null : mEditor.getResources().getString(R.string.error_invalid_url));
+        @StringRes int error = 0;
+        if (!mUrlIsValid) {
+            error = R.string.error_invalid_url;
+        } else if (portSeemsInvalid) {
+            error = R.string.error_port_seems_invalid;
+        }
+        mEditor.setError(error == 0 ? null : mEditor.getResources().getString(error));
         updateOkButtonState();
     }
 
