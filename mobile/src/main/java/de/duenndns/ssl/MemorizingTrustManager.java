@@ -390,7 +390,7 @@ public class MemorizingTrustManager implements X509TrustManager {
     }
 
     // if the certificate is stored in the app key store, it is considered "known"
-    private boolean isCertKnown(X509Certificate cert) {
+    public boolean isCertKnown(Certificate cert) {
         try {
             return appKeyStore.getCertificateAlias(cert) != null;
         } catch (KeyStoreException e) {
