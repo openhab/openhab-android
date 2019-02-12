@@ -419,7 +419,7 @@ public class MemorizingTrustManager implements X509TrustManager {
     public void checkCertTrusted(X509Certificate[] chain, String authType, boolean isServer)
             throws CertificateException
     {
-        LOGGER.log(Level.FINE, "checkCertTrusted(" + Arrays.toString(chain) + ", " + authType + ", " + isServer + ")");
+        LOGGER.log(Level.FINE, "checkCertTrusted(" + chain.length + " certs, " + authType + ", " + isServer + ")");
         try {
             LOGGER.log(Level.FINE, "checkCertTrusted: trying appTrustManager");
             if (isServer)
