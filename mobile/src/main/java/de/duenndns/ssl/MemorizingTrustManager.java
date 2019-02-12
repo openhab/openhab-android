@@ -60,6 +60,7 @@ import java.security.cert.CertificateExpiredException;
 import java.security.cert.CertificateParsingException;
 import java.security.cert.X509Certificate;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Enumeration;
 import java.util.List;
@@ -418,7 +419,7 @@ public class MemorizingTrustManager implements X509TrustManager {
     public void checkCertTrusted(X509Certificate[] chain, String authType, boolean isServer)
             throws CertificateException
     {
-        LOGGER.log(Level.FINE, "checkCertTrusted(" + chain + ", " + authType + ", " + isServer + ")");
+        LOGGER.log(Level.FINE, "checkCertTrusted(" + chain.length + " certs, " + authType + ", " + isServer + ")");
         try {
             LOGGER.log(Level.FINE, "checkCertTrusted: trying appTrustManager");
             if (isServer)
