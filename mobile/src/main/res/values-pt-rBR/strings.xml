@@ -9,6 +9,8 @@
     <!-- Main menu items -->
     <string name="mainmenu_openhab_sitemaps">Sitemaps</string>
     <string name="mainmenu_openhab_preferences">Configurações</string>
+    <string name="mainmenu_openhab_habpanel">HABPanel</string>
+    <string name="habpanel_error">Ocorreu um erro ao carregar o HABPanel</string>
     <string name="mainmenu_openhab_selectsitemap">Selecione o sitemap padrão</string>
     <string name="mainmenu_openhab_clearcache">Limpar cache das imagens</string>
     <!-- App settings strings -->
@@ -57,25 +59,36 @@
     <string name="settings_notification_vibration_twice">Dupla</string>
     <string name="settings_connection_summary">Conectado a %s</string>
     <string name="settings_insecure_connection_summary">Conectado de forma insegura a %s</string>
+    <string name="beta">Beta</string>
     <!-- App messages strings -->
+    <string name="title_voice_widget">Comandos de Voz</string>
+    <string name="title_voice_widget_icon">Comandos de voz e atalho de app</string>
     <string name="info_voice_input">openHAB, às suas ordens!</string>
     <string name="info_voice_recognized_text">Comando reconhecido: %1$s</string>
     <string name="info_demo_mode_short">Executando em modo de demonstração</string>
     <string name="info_conn_url">Conectando a URL local</string>
     <string name="info_conn_rem_url">Conectando a URL local</string>
+    <string name="app_shortcut_diabled_habpanel">Seu servidor não tem o HABPanel instalado</string>
+    <string name="app_shortcut_diabled_notifications">Seu servidor remoto não está disponível</string>
+    <string name="app_shortcut_diabled_voice_recognition">Seu dispositivo não tem um aplicativo de fala para texto instalado</string>
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB retornou uma lista de Sitemap vazia</string>
     <string name="error_network_not_available">Rede não está disponivel</string>
+    <string name="error_wifi_not_available">Wi-Fi está desligado</string>
     <string name="error_http_connection_failed">Conexão sem sucesso. Foi recebida uma resposta inesperada ao conectar com servidor openHAB configurado (código de resposta HTTP recebido: %d).</string>
     <string name="error_invalid_url">Por favor insira uma URL válida num padrão \'http(s)://endereço(:porta)/\'</string>
+    <string name="error_port_seems_invalid">A porta que você digitou parece inválida para o protocolo selecionado</string>
     <string name="error_connection_failed">Conexão ao host falhou</string>
     <string name="error_unable_to_resolve_hostname">Não foi possível resolver o hostname</string>
     <string name="error_connection_sslhandshake_failed">Handshake SSL falhou</string>
     <string name="error_certificate_not_trusted">Certificado SSL não é confiável. Por favor, importe o certificado raiz ou desabilite a validação de certificados durante o handshake SSL.</string>
     <string name="error_certificate_expired">Certificado SLL expirou. Por favor, obtenha um novo certificado ou desabilite a validação de certificado durante o handshake SSL.</string>
     <string name="error_certificate_not_valid_yet">Certificado SSL não é válido ainda. Por favor, obtenha um certificado correto ou desabilite a validação de certificados durante o handshake SSL. Verifique também se o relógio no seu telefone está configurado corretamente.</string>
+    <string name="error_certificate_invalid_date">O certificado SSL tem uma data inválida. Por favor, obtenha um certificado correto e verifique se o relógio no seu dispositivo está definido corretamente.</string>
     <string name="error_certificate_revoked">Certificado SLL foi revogado. Por favor, obtenha um novo certificado ou aceite o certificado durante o handshake SSL.</string>
     <string name="error_certificate_wrong_host">Certificado SSL não é válido para %s</string>
+    <string name="error_http_to_https_port">Final inesperado do fluxo. Você está tentando se conectar a uma porta HTTPS através de HTTP?</string>
+    <string name="webview_ssl">Atualmente, este app não suporta SSL certificados auto-assinados para widgets Webview</string>
     <string name="error_http_code_401">Falha de autenticação. Por favor, verifique o usuário e senha configurada e o certificado SSL do cliente fornecido (código de resposta HTTP 401).</string>
     <string name="error_http_code_403">Falha de autenticação. Por favor, verifique o usuário e senha configurada e o certificado SSL do cliente fornecido (código de resposta HTTP 403).</string>
     <string name="error_http_code_407">Falha de autenticação. Por favor, verifique o usuário e senha configurada e o certificado SSL do cliente fornecido (código de resposta HTTP 407).</string>
@@ -165,8 +178,13 @@
     <string name="cancel">Cancelar</string>
     <string name="close">Fechar</string>
     <string name="try_again_button">Tente novamente</string>
+    <string name="enable_wifi_button">Ative o Wi-Fi</string>
     <string name="go_to_settings_button">Ir para Configurações</string>
+    <string name="enable_demo_mode_button">Ativar modo demonstração</string>
+    <string name="configuration_missing">Não encontramos um servidor openHAB na sua rede. Se você já tem um servidor, por favor configure seu endereço IP ou nome de host nas configurações do servidor. Se você ainda não tem um servidor, você pode habilitar o modo demo para ver o que o openHAB é capaz.</string>
+    <string name="no_remote_server">Conexão para o servidor local falhou e você não tem configurado um servidor remoto</string>
     <string name="resolving_openhab">Tentando descobrir uma instância do servidor openHAB\u2026</string>
+    <string name="waiting_for_wifi">Aguardando Wi-Fi para estabelecer a conexão\u2026</string>
     <!-- Log -->
     <string name="log">Log</string>
     <string name="view_log">Ver Log</string>
