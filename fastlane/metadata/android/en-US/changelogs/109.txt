@@ -1,0 +1,6 @@
+## Fixed
+* Fix webviews to openHAB server with untrusted certificate (#1191)
+* Fix crash on startup on Android Kitkat (#1206)
+
+## Added
+* Show hints if using wrong protocol to wrong ports (#1189)
