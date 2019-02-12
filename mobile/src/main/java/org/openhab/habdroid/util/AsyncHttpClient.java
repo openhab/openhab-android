@@ -110,8 +110,8 @@ public class AsyncHttpClient extends HttpClient {
             }
 
             if (docWidth != size || docHeight != size) {
-                Float scaleWidth = (float) size / docWidth;
-                Float scaleHeigth = (float) size / docHeight;
+                float scaleWidth = (float) size / docWidth;
+                float scaleHeigth = (float) size / docHeight;
                 density = (scaleWidth + scaleHeigth) / 2;
 
                 docWidth = size;
