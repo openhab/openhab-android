@@ -65,6 +65,7 @@ public class AnchorWebViewClient extends WebViewClient {
         }
     }
 
+    @Override
     public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
         Context context = view.getContext();
         SslCertificate sslCertificate = error.getCertificate();
