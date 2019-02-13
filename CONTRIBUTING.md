@@ -211,12 +211,17 @@ following the procedure in https://www.openhab.org/docs/developer/development/id
 
 Yes, Google Java Style Guide: https://google.github.io/styleguide/javaguide.html
 
-**How does the CD/CI pipeline work?**
+**How does the CD/CI pipeline work?** 
 
-After a PR is created, Travis CI builds the app and runs the full testsuite. Must pass to get merged.
-Cirrus CI validates the strings (e.g. correct spelling of "openHAB"). Must pass to get merged.
-Stickler CI runs Checkstyle. Sometime the checkstyle issue are false positives, so this doesn't need to pass to get merged.
-DCO checks if the commits are signed. Must pass to get merged, except for very small changes.
+<br>
+
+Service | Shown as | Task | Desired result | How to fix
+:----|:----|:----|:----|:----
+Travis CI | continuous-integration/travis-ci/(pr,push) | Runs full build and test suite | Must pass | Look at the build output and try to run the test locally. If the tests are failing even if you haven't changed the particular code, please poke @openhab/android-maintainers and ask them to rerun the job.
+Stickler CI | stickler-ci | Runs checkstyle to ensure the Google Java Style Guide is followed | Should pass, but sometimes it reports false-positives | Look at the comments https://github.com/openhab/openhab-android/pull/{pr-number}/files
+Cirrus CI | Validate strings | Checks for common mistakes in strings.xml, e.g. wrong spelling of "openHAB" | Must pass | Look at the checks output and fix the issues.
+Developer Certificate of Origin | DCO | Checks if commits are signed-of-by | Must pass | `git commit -s --amed` and `git push -f`
+WIP | WIP | Checks if the PR name contains "WIP" (Work in progress) | Must pass | Remove "WIP" from the PR title when you're done.
 
 **Do I have to include Java Doc?**
 
