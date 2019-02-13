@@ -168,24 +168,57 @@ general guidelines for the community as a whole:
 
 ## FAQ
 
-**Is it fine to go with kotlin for my contribution?**
+**Is it fine to go with Kotlin for my contribution?**
+
+We don't use Kotlin. This is due to the fact, that our main product is written in pure java.
+Even tough the Android community is adapting Kotlin well, most guys from the Java community
+have never seen Kotlin code before.
 
 **Is there an architectural design for the presentation layer?**
 
+There is no MVVM/MVP or MVC in place, because the app is not too complex and it would
+not really benefit from something like that right now.
+
 **Is there an architectural design for the data layer?**
+
+The data layer is separated to it's own package.
 
 **Where does the sitemap rendering happen?**
 
+WidgetListFragment + (especially) WidgetAdapter
+
 **How is navigation managed?**
+
+ContentController manages how fragments are displayed, and MainActivity commands it what fragments to display.
+Navigation is too dynamic in our app (determined by sitemap) for the navigation architecture component to be useful.
 
 **Do we use fragments in our activities? If yes, are they necessary?**
 
+The answer to the first question is 'it depends'.
+They should be used whenever it makes sense to use them.
+
 **Should my code be tested? If yes to which degree?**
+
+Ideally yes, to whatever extent is doable and meaningful. It's not a requirement though.
 
 **Is there a way I can test all the features against a test server or something similar?**
 
+Either test against the demo server, or setup an own server.
+For the latter case, it's probably useful to do a checkout of the server side code an run that,
+following the procedure in https://www.openhab.org/docs/developer/development/ide.html
+
 **Do we have guidelines for code style?**
+
+Yes, Google Java Style Guide: https://google.github.io/styleguide/javaguide.html
 
 **How does the CD/CI pipeline work?**
 
-**Do I have to include Java doc/ KDoc?**
+After a PR is created, Travis CI builds the app and runs the full testsuite. Must pass to get merged.
+Cirrus CI validates the strings (e.g. correct spelling of "openHAB"). Must pass to get merged.
+Stickler CI runs Checkstyle. Sometime the checkstyle issue are false positives, so this doesn't need to pass to get merged.
+DCO checks if the commits are signed. Must pass to get merged, except for very small changes.
+
+**Do I have to include Java Doc?**
+
+It's always nice to see documentation, but as long as your code is clean,
+it is not all that important.
