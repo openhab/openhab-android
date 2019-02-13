@@ -68,18 +68,23 @@
     <string name="info_demo_mode_short">פועל במצב הדגמה</string>
     <string name="info_conn_url">מתחבר לכתובת מקומית</string>
     <string name="info_conn_rem_url">מתחבר לכתובת מרוחקת</string>
+    <string name="app_shortcut_diabled_habpanel">HABPanel אינו מותקן בשרת</string>
+    <string name="app_shortcut_diabled_notifications">השרת המרוחק אינו זמין</string>
+    <string name="app_shortcut_diabled_voice_recognition">היישום דיבור-לטקסט אינו מותקן במכשיר שלך</string>
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB החזיר רשימה ריקה של תצורות מערכת</string>
     <string name="error_network_not_available">הרשת לא זמינה</string>
     <string name="error_wifi_not_available">אינטרנט אלחוטי כבוי</string>
     <string name="error_http_connection_failed">ההתחברות נכשלה. תגובה בלתי צפויה התקבלה בעת ניסיון להתחבר אל שרת openHAB המוגדר (קוד תגובה HTTP שהתקבל: %d).</string>
     <string name="error_invalid_url">אנא הזן כתובת שרת חוקית בתבנית \'/http(s)://host(:port)\'</string>
+    <string name="error_port_seems_invalid">הפִּתְחָה שהוזנה לא תקינה עבור הפרוטוקול הנבחר</string>
     <string name="error_connection_failed">החיבור למחשב המארח נכשל</string>
     <string name="error_unable_to_resolve_hostname">אין אפשרות לאתר את שם המחשב המארח</string>
     <string name="error_connection_sslhandshake_failed">חיבור SSL נכשל</string>
     <string name="error_certificate_not_trusted">תעודת SSL אינה אמינה. בבקשה ייבא את התעודה הראשית או קבל את התעודה במהלך חיבור SSL.</string>
     <string name="error_certificate_expired">פג תוקפה של תעודת SSL. נא לייבא תעודה חדשה או קבל את התעודה במהלך חיבור SSL.</string>
     <string name="error_certificate_not_valid_yet">תעודת SSL עוד לא בתוקף. יש צורך בקבלת תעודה בתוקף או לקבל את אימות התעודה בזמן תהליך SSL. כמו כן יש לבדוק אם השעון במכשיר מכוון כראוי.</string>
+    <string name="error_certificate_invalid_date">תאריך לא חוקי באישור ה-SSL. נא להגדיר אישור נכון ולבדוק שהשעון במכשיר שלך מוגדר כראוי.</string>
     <string name="error_certificate_revoked">תעודת SSL נשללה. נא לייבא תעודה חדשה או קבל את התעודה במהלך חיבור SSL.</string>
     <string name="error_certificate_wrong_host">תעודת SSL אינה חוקית עבור %s</string>
     <string name="error_http_code_401">האימות נכשל. נא בדוק את שם המשתמש והסיסמה שהוגדרו בהתאמה עם תעודת ה-SSL (קוד תגובה HTTP 401).</string>
