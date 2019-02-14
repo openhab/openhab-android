@@ -84,6 +84,7 @@
     <string name="error_certificate_not_trusted">El certificado SSL no es de confianza. Por favor, importa el certificado raíz o deshabilita la validación del certificado durante la negociación SSL.</string>
     <string name="error_certificate_expired">El certificado SSL ha caducado. Por favor, obtén un nuevo certificado o acepta el certificado durante la negociación SSL.</string>
     <string name="error_certificate_not_valid_yet">El certificado SSL todavía no es válido. Por favor, obtenga un certificado correcto o deshabilite la validación del certificado durante la negociación SSL. Verifique también si la hora de su dispositivo es correcta.</string>
+    <string name="error_certificate_invalid_date">El certificado SSL tiene una fecha inválida. Por favor, obtenga un certificado correcto y compruebe si el reloj en su dispositivo está configurado correctamente.</string>
     <string name="error_certificate_revoked">El certificado SSL ha sido revocado. Por favor, obtenga un certificado nuevo o deshabilite la validación del certificado durante la negociación SSL.</string>
     <string name="error_certificate_wrong_host">El certificado no es válido para %s</string>
     <string name="error_http_to_https_port">Final inesperado de secuencia. ¿Está Ud. tratando de conectar a un puerto HTTPS por HTTP?</string>
