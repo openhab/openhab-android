@@ -333,13 +333,19 @@ public class PreferencesActivity extends AppCompatActivity {
                 getParent(fullscreenPreference).removePreference(fullscreenPreference);
             }
 
-            if (!CloudMessagingHelper.isSupported()
-                    || Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                Log.d(TAG, "Removing notification prefs");
+            if (CloudMessagingHelper.isSupported()) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    Log.d(TAG, "Removing notification prefs for < 25");
+                    getParent(ringtonePref).removePreference(ringtonePref);
+                    getParent(vibrationPref).removePreference(vibrationPref);
+                } else {
+                    Log.d(TAG, "Removing notification prefs for >= 25");
+                    getParent(ringtoneVibrationPref).removePreference(ringtoneVibrationPref);
+                }
+            } else {
+                Log.d(TAG, "Removing all notification prefs");
                 getParent(ringtonePref).removePreference(ringtonePref);
                 getParent(vibrationPref).removePreference(vibrationPref);
-            } else {
-                Log.d(TAG, "Removing notification prefs for Oreo and above");
                 getParent(ringtoneVibrationPref).removePreference(ringtoneVibrationPref);
             }
 
