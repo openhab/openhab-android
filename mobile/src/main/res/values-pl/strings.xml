@@ -67,16 +67,25 @@
     <string name="nfc_dialog_title">Napisz akcję tagu NFC dla tego elementu</string>
     <string name="info_not_set">Nie ustawiono</string>
     <!-- Notification list strings -->
+    <string name="notification_list_empty">Jeszcze nie wysłano żadnych powiadomień</string>
+    <string name="notification_list_error">Wystąpił błąd podczas ładowania powiadomień</string>
+    <string name="list_loading_message">Wczytywanie\u2026</string>
     <!-- Strings for MemorizingTrustManager activity -->
+    <string name="mtm_accept_cert">Zaakceptować nieznany certyfikat?</string>
+    <string name="mtm_cert_expired">Ważność certyfikatu serwera wygasła</string>
+    <string name="mtm_accept_servername">Zaakceptować niepasującą nazwę serwera?</string>
+    <string name="mtm_hostname_mismatch">Serwer nie mógł uwierzytelnić się jako \&quot;%s\&quot;. Certyfikat jest ważny tylko dla:</string>
+    <string name="mtm_connect_anyway">Czy połączyć mimo to?</string>
+    <string name="mtm_cert_details">Szczegóły certyfikatu:</string>
+    <string name="mtm_decision_always">Akceptuj</string>
     <string name="mtm_decision_once">Jednorazowo</string>
     <string name="mtm_decision_abort">Anuluj</string>
     <string name="mtm_notification">Weryfikacja certyfikatu</string>
+    <string name="settings_openhab_none">Brak</string>
     <!-- Themes -->
     <string name="theme_name_light">Jasny</string>
     <string name="theme_name_dark">Ciemny</string>
     <string name="theme_name_black">Czarny/AMOLED</string>
-    <string name="theme_name_basic_ui">Podstawowy interfejs użytkownika</string>
-    <string name="theme_name_basic_ui_dark">Podstawowy interfejs użytkownika ciemny</string>
     <!-- NFC -->
     <string name="nfc_action_on">Włączony</string>
     <string name="nfc_action_up">W górę</string>
@@ -85,6 +94,7 @@
     <string name="nfc_action_toggle">Przełącz</string>
     <string name="nfc_activate">Aktywuj</string>
     <string name="nfc_action_current_color">Bieżący kolor</string>
+    <string name="nfc_action_to_sitemap_page">Przejdź do mapy witryn</string>
     <!-- Drawer -->
     <string name="drawer_open">Szuflada map witryn otwarta</string>
     <string name="drawer_close">Szuflada map witryn zamknięta</string>
@@ -93,6 +103,7 @@
     <string name="about_title">O</string>
     <string name="about_license_title">Licencja</string>
     <string name="about_changelog">Lista zmian</string>
+    <string name="about_source_code">Kod źródłowy</string>
     <string name="about_issues">Zgłoś problem</string>
     <string name="about_docs">Dokumentacja</string>
     <string name="about_community_forum">Forum społeczności</string>
@@ -100,14 +111,26 @@
     <string name="about_community">Społeczność openHAB</string>
     <string name="about_server">Serwer openHAB</string>
     <string name="about_translation">Pomóż nam tłumaczyć openHAB</string>
+    <string name="about_privacy_policy">Polityka prywatności</string>
+    <string name="settings_debug_messages_title">Wyświetl informacje pomagające rozwiązać problemy</string>
     <string name="error_couldnt_determine_openhab_url">Nie można określić adresu URL openHAB</string>
     <string name="unknown">Nieznane</string>
     <string name="error_network_type_unsupported">Typ sieci (%s) nie jest wspierany</string>
     <string name="set">Wybierz</string>
     <string name="cancel">Anuluj</string>
+    <string name="close">Zamknij</string>
     <string name="try_again_button">Spróbuj ponownie</string>
+    <string name="enable_wifi_button">Włącz Wi-Fi</string>
     <string name="go_to_settings_button">Przejdź do ustawień</string>
+    <string name="enable_demo_mode_button">Uruchom tryb demonstracyjny</string>
+    <string name="configuration_missing">Nie znaleziono serwera openHAB w twojej sieci. Jeżeli już masz serwer, skonfiguruj jego adres IP i nazwę hosta w ustawieniach serwera. Jeżeli jeszcze nie masz serwera openHAB, możesz włączyć tryb demonstracyjny by zobaczyć co potrafi openHAB.</string>
+    <string name="no_remote_server">Nie udało się połączyć z serwerem i nie skonfigurowano serwera zdalnego</string>
+    <string name="waiting_for_wifi">Czekam aż Wi-Fi nawiąże połączenie\2026</string>
     <!-- Log -->
+    <string name="log">Log</string>
+    <string name="view_log">Wyświetl logi</string>
+    <string name="clear_log">Wyczyść log</string>
+    <string name="empty_log">Log jest pusty</string>
     <!-- Content description for images -->
     <string name="content_description_open_roller_shutter">Otwórz roletę</string>
     <string name="content_description_stop_roller_shutter">Zatrzymaj roletę</string>
@@ -118,6 +141,7 @@
     <string name="content_description_open_number_picker">Otwórz klawiaturę numeryczną</string>
     <string name="content_description_video">Wideo</string>
     <string name="content_description_open_openhab">Otwórz openHAB</string>
+    <string name="swipe_to_refresh_description">Aplikacja odświeża się automatycznie, nie musisz robić tego ręcznie</string>
     <string name="swipe_to_refresh_dismiss">Rozumiem!</string>
     <!-- Intro strings -->
     <string name="app_intro">Wprowadzenie</string>
@@ -125,6 +149,9 @@
     <string name="intro_whatis">Otwarte oprogramowanie do automatyzacji Twojego domu</string>
     <string name="intro_themes">Motywy</string>
     <string name="intro_themes_description">Wybierz spośród wielu motywów</string>
+    <string name="intro_voice_description">Kontroluj swój domu za pomocą głosu</string>
+    <string name="intro_nfc">NFC</string>
+    <string name="intro_nfc_description">Item może być powiązana z tagiem NFC poprzez długie przyciśnięcie Item</string>
     <!-- Intro "SKIP" button -->
     <string name="app_intro_skip_button">POMIŃ</string>
     <!-- Intro "DONE" button -->
