@@ -70,6 +70,7 @@
     <string name="info_conn_rem_url">Łączenie ze zdalnym adresem URL</string>
     <string name="app_shortcut_diabled_habpanel">Na twoim serwerze nie ma zainstalowanego HABPanel</string>
     <string name="app_shortcut_diabled_notifications">Twój serwer zdalny jest niedostępny</string>
+    <string name="app_shortcut_diabled_voice_recognition">Twoje urządzenie nie ma zainstalowanej aplikacji rozpoznawania mowy</string>
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB zwrócił pustą listę Sitemap</string>
     <string name="error_network_not_available">Sieć jest niedostępna</string>
@@ -87,6 +88,8 @@
     <string name="error_certificate_revoked">Certyfikat SSL został unieważniony. Proszę uzyskaj nowy certyfikat lub wyłącz sprawdzanie poprawności certyfikatu podczas SSL handshake.</string>
     <string name="error_certificate_wrong_host">Certyfikat SSL dla %s jest nieprawidłowy</string>
     <string name="error_http_to_https_port">Nieoczekiwany koniec strumienia. Czy próbujesz podłączyć do portu HTTPS za pośrednictwem protokołu HTTP?</string>
+    <string name="error_http_code_401">Autoryzacja nie powiodła się. Proszę sprawdź nazwę użytkownika i hasło dla dostarczonego certyfikatu klienta SSL (kod odpowiedzi HTTP 401).</string>
+    <string name="error_http_code_403">Autoryzacja nie powiodła się. Proszę sprawdź nazwę użytkownika i hasło dla dostarczonego certyfikatu klienta SSL (kod odpowiedzi HTTP 403).</string>
     <string name="error_http_code_407">Autoryzacja użytkownika nie powiodła się. Sprawdź nazwę użytkownika, hasło i certyfikat klienta SSL (kod odpowiedzi HTTP 407).</string>
     <string name="error_http_code_414">Adres URL jest zbyt długi. Użyj adresu IP lub któtszego URL\'a (kod odpowiedzi HTTP 414).</string>
     <string name="error_http_code_426">HTTPS jest wymagany. Zmień adres URL openHAB (kod odpowiedzi HTTP 426).</string>
