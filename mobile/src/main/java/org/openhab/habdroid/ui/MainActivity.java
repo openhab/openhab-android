@@ -687,21 +687,22 @@ public class MainActivity extends AppCompatActivity implements
         Drawable defaultIcon = ContextCompat.getDrawable(this, R.drawable.ic_openhab_appicon_24dp);
         item.setIcon(applyDrawerIconTint(defaultIcon));
 
-        if (url != null) {
-            mConnection.getAsyncHttpClient().get(url,
-                    new AsyncHttpClient.BitmapResponseHandler(defaultIcon.getIntrinsicWidth()) {
-                @Override
-                public void onFailure(Request request, int statusCode, Throwable error) {
-                    Log.w(TAG, "Could not fetch icon for sitemap " + sitemap.name());
-                }
-                @Override
-                public void onSuccess(Bitmap bitmap, Headers headers) {
-                    if (bitmap != null) {
-                        item.setIcon(new BitmapDrawable(bitmap));
-                    }
-                }
-            });
+        if (url == null || mConnection == null) {
+            return;
         }
+        mConnection.getAsyncHttpClient().get(url,
+                new AsyncHttpClient.BitmapResponseHandler(defaultIcon.getIntrinsicWidth()) {
+            @Override
+            public void onFailure(Request request, int statusCode, Throwable error) {
+                Log.w(TAG, "Could not fetch icon for sitemap " + sitemap.name());
+            }
+            @Override
+            public void onSuccess(Bitmap bitmap, Headers headers) {
+                if (bitmap != null) {
+                    item.setIcon(new BitmapDrawable(bitmap));
+                }
+            }
+        });
     }
 
     private Drawable applyDrawerIconTint(Drawable icon) {
