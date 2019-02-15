@@ -47,29 +47,62 @@
     <string name="settings_openhab_chart_hq_summary">Generowanie wykresów możne spowolnić serwer. Jeśli wykresy ładują się wolno a twój serwer nie jest wystarczająco szybki wyłącz tę opcję, aby poprawić czas ładowania.</string>
     <string name="settings_ringtone">Dzwonek powiadomienia</string>
     <string name="settings_ringtone_none">Żaden</string>
+    <string name="settings_clear_default_sitemap">Wyczyść domyślną Sitemap</string>
+    <string name="settings_no_default_sitemap">Nie wybrano domyślnej Sitemap</string>
+    <string name="settings_current_default_sitemap">Bieżąca domyślna Sitemap: %1$s</string>
     <string name="settings_openhab_alt_connection">Ustawienia serwera zdalnego</string>
     <string name="settings_openhab_connection">Ustawienia serwera lokalnego</string>
+    <string name="settings_notification_vibration">Wibracja powiadomienia</string>
+    <string name="settings_notification_vibration_off">Wyłączone</string>
+    <string name="settings_notification_vibration_short">Krótkie</string>
+    <string name="settings_notification_vibration_long">Długie</string>
+    <string name="settings_notification_vibration_twice">Podwójne</string>
+    <string name="settings_connection_summary">Połączono z %s</string>
+    <string name="settings_insecure_connection_summary">Połączono z %s niebezpiecznym połączeniem</string>
+    <string name="beta">Beta</string>
     <!-- App messages strings -->
+    <string name="title_voice_widget">Polecenia głosowe</string>
+    <string name="title_voice_widget_icon">Polecenia głosowe i skrót do aplikacji</string>
     <string name="info_voice_input">openHAB, na twoje wezwanie!</string>
     <string name="info_voice_recognized_text">Rozpoznana komenda: %1$s</string>
     <string name="info_demo_mode_short">Uruchomiono w trybie demonstracyjnym</string>
     <string name="info_conn_url">Łączenie z lokalnym URL</string>
     <string name="info_conn_rem_url">Łączenie ze zdalnym adresem URL</string>
+    <string name="app_shortcut_diabled_habpanel">Na twoim serwerze nie ma zainstalowanego HABPanel</string>
+    <string name="app_shortcut_diabled_notifications">Twój serwer zdalny jest niedostępny</string>
     <!-- Error messages -->
+    <string name="error_empty_sitemap_list">openHAB zwrócił pustą listę Sitemap</string>
     <string name="error_network_not_available">Sieć jest niedostępna</string>
+    <string name="error_wifi_not_available">Wi-Fi jest wyłączone</string>
+    <string name="error_http_connection_failed">Połączenie nie powiodło się. Otrzymano nieoczekiwaną odpowiedź podczas próby połączenia z skonfigurowanym serwerem openHAB (kod odpowiedzi HTTP otrzymane: %d).</string>
     <string name="error_invalid_url">Proszę wprowadź poprawny adres URL w formie \'protokół://host:port/\'</string>
+    <string name="error_port_seems_invalid">Port który wybrałeś jest niepoprawny dla wybranego protokołu</string>
     <string name="error_connection_failed">Połączenie z hostem nie powiodło się</string>
     <string name="error_unable_to_resolve_hostname">Nie można określić nazwy hosta</string>
     <string name="error_connection_sslhandshake_failed">Uzgadnianie SSL nie powiodło się - może potrzebujesz właściwego certyfikatu klienta</string>
+    <string name="error_certificate_not_trusted">Certyfikat SSL nie jest zaufany. Proszę zaimportuj certyfikat root lub wyłącz sprawdzanie poprawności certyfikatu podczas SSL handshake.</string>
+    <string name="error_certificate_expired">Certyfikat SSL stracił ważność. Proszę uzyskaj nowy certyfikat lub wyłącz sprawdzanie poprawności certyfikatu podczas SSL handshake.</string>
+    <string name="error_certificate_not_valid_yet">Certyfikat SSL nie jest jeszcze ważny. Proszę uzyskać poprawny certyfikat lub zaakceptować certyfikat podczas SSL handshake. Sprawdzić też, czy zegar na urządzeniu jest poprawnie ustawiona.</string>
+    <string name="error_certificate_invalid_date">Certyfikat SSL ma niepoprawną datę. Proszę uzyskaj poprawny certyfikat i sprawdź czy zegar na twoim urządzeniu jest ustawiony poprawnie.</string>
+    <string name="error_certificate_revoked">Certyfikat SSL został unieważniony. Proszę uzyskaj nowy certyfikat lub wyłącz sprawdzanie poprawności certyfikatu podczas SSL handshake.</string>
     <string name="error_certificate_wrong_host">Certyfikat SSL dla %s jest nieprawidłowy</string>
+    <string name="error_http_to_https_port">Nieoczekiwany koniec strumienia. Czy próbujesz podłączyć do portu HTTPS za pośrednictwem protokołu HTTP?</string>
+    <string name="error_http_code_407">Autoryzacja użytkownika nie powiodła się. Sprawdź nazwę użytkownika, hasło i certyfikat klienta SSL (kod odpowiedzi HTTP 407).</string>
+    <string name="error_http_code_414">Adres URL jest zbyt długi. Użyj adresu IP lub któtszego URL\'a (kod odpowiedzi HTTP 414).</string>
+    <string name="error_http_code_426">HTTPS jest wymagany. Zmień adres URL openHAB (kod odpowiedzi HTTP 426).</string>
     <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
+    <string name="error_http_code_495">Autoryzacja nie powiodła się. Sprawdź certyfikat SSL klienta (kod odpowiedzi HTTP 495).</string>
     <string name="error_http_code_496">Certyfikat klienta SSL jest wymagany (kod odpowiedzi HTTP 496)</string>
     <string name="error_http_code_502">Twój odwrócony serwer proxy otrzymał nieprawidłową odpowiedź od openHAB (kod odpowiedzi HTTP 502)</string>
     <string name="error_http_code_503">openHAB jest tymczasowo niedostępny (kod odpowiedzi HTTP 503)</string>
+    <string name="error_http_code_504">Przekroczenie czasu oczekiwania. Wygląda na to, że twój serwer zwrotny proxy jest włączony, ale nie otrzymał odpowiedzi od openHAB (Kod HTTP - 504).</string>
     <string name="error_http_code_507">openHAB nie ma wystarczająco wolnego miejsca (Kod HTTP - 507)</string>
     <string name="error_http_code_511">Autoryzacja sieci jest wymagana (Kod HTTP - 511)</string>
     <string name="error_about_no_conn">Wystąpił błąd podczas pobierania informacji o serwerze openHAB</string>
+    <string name="error_openhab_offline">Twój serwer openHAB nie jest podłączony, ale instancja cloud pracuje prawidłowo</string>
+    <string name="error_no_app_store_found">Nie znaleziono app store do instalacji aplikacji rozpoznawania głosu</string>
     <string name="title_activity_openhabwritetag">Napisz tag NFC</string>
+    <string name="title_activity_libraries">Użyte biblioteki</string>
     <string name="info_write_tag">Kliknij na tag i przytrzymaj dopóki wiadomość informacyjna się nie pokaże</string>
     <string name="info_write_tag_progress">Pisanie tagu</string>
     <string name="info_write_tag_finished">Zakończono pomyślnie</string>
@@ -79,15 +112,18 @@
     <string name="info_openhab_apiversion_label">wersja Rest API openHAB</string>
     <string name="info_openhab_uuid_label">openHAB UUID</string>
     <string name="info_openhab_secret_label">sekret openHAB</string>
+    <string name="info_openhab_push_notification_label">Stan powiadomień push</string>
     <string name="action_settings">Ustawienia</string>
     <string name="nfc_dialog_title">Napisz akcję tagu NFC dla tego elementu</string>
     <string name="info_not_set">Nie ustawiono</string>
+    <string name="empty_page">Ta strona nie zawiera żadnych widżetów ustawionych jako widoczne</string>
     <!-- Notification list strings -->
     <string name="notification_list_empty">Jeszcze nie wysłano żadnych powiadomień</string>
     <string name="notification_list_error">Wystąpił błąd podczas ładowania powiadomień</string>
     <string name="list_loading_message">Wczytywanie\u2026</string>
     <!-- Strings for MemorizingTrustManager activity -->
     <string name="mtm_accept_cert">Zaakceptować nieznany certyfikat?</string>
+    <string name="mtm_trust_anchor">Certyfikat serwera nie jest podpisany przez znane centrum certyfikacji</string>
     <string name="mtm_cert_expired">Ważność certyfikatu serwera wygasła</string>
     <string name="mtm_accept_servername">Zaakceptować niepasującą nazwę serwera?</string>
     <string name="mtm_hostname_mismatch">Serwer nie mógł uwierzytelnić się jako \&quot;%s\&quot;. Certyfikat jest ważny tylko dla:</string>
@@ -143,6 +179,7 @@
     <string name="enable_demo_mode_button">Uruchom tryb demonstracyjny</string>
     <string name="configuration_missing">Nie znaleziono serwera openHAB w twojej sieci. Jeżeli już masz serwer, skonfiguruj jego adres IP i nazwę hosta w ustawieniach serwera. Jeżeli jeszcze nie masz serwera openHAB, możesz włączyć tryb demonstracyjny by zobaczyć co potrafi openHAB.</string>
     <string name="no_remote_server">Nie udało się połączyć z serwerem i nie skonfigurowano serwera zdalnego</string>
+    <string name="resolving_openhab">Próbując znaleźć serwer openHAB\u2026</string>
     <string name="waiting_for_wifi">Czekam aż Wi-Fi nawiąże połączenie\2026</string>
     <!-- Log -->
     <string name="log">Log</string>
