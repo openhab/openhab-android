@@ -9,6 +9,8 @@
     <!-- Main menu items -->
     <string name="mainmenu_openhab_sitemaps">Сторінки інтерфейсу</string>
     <string name="mainmenu_openhab_preferences">Налаштування</string>
+    <string name="mainmenu_openhab_habpanel">HABPanel</string>
+    <string name="habpanel_error">Сталася помилка під час завантаження HABPanel</string>
     <string name="mainmenu_openhab_selectsitemap">Оберіть сторінку інтерфейсу за замовчанням</string>
     <string name="mainmenu_openhab_clearcache">Очистити кеш зображень</string>
     <!-- App settings strings -->
@@ -58,6 +60,8 @@
     <string name="settings_connection_summary">З\'єднано з %s</string>
     <string name="settings_insecure_connection_summary">Під\'єднано до %s без перевірки безпеки</string>
     <!-- App messages strings -->
+    <string name="title_voice_widget">Голосові команди</string>
+    <string name="title_voice_widget_icon">Голосові команди та ярлик застосунку</string>
     <string name="info_voice_input">openHAB, очікує на команду!</string>
     <string name="info_voice_recognized_text">Отримано команду: %1$s</string>
     <string name="info_demo_mode_short">Працює в демо-режимі</string>

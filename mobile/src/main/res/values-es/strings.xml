@@ -9,6 +9,8 @@
     <!-- Main menu items -->
     <string name="mainmenu_openhab_sitemaps">Sitemaps</string>
     <string name="mainmenu_openhab_preferences">Configuración</string>
+    <string name="mainmenu_openhab_habpanel">HABPanel</string>
+    <string name="habpanel_error">Error al cargar HABPanel</string>
     <string name="mainmenu_openhab_selectsitemap">Seleccionar el Sitemap por defecto</string>
     <string name="mainmenu_openhab_clearcache">Borrar la caché de imágenes</string>
     <!-- App settings strings -->
@@ -57,6 +59,7 @@
     <string name="settings_notification_vibration_twice">Dos veces</string>
     <string name="settings_connection_summary">Conectado a %s</string>
     <string name="settings_insecure_connection_summary">Conectado a %s de forma no segura</string>
+    <string name="beta">Beta</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Comandos de voz</string>
     <string name="title_voice_widget_icon">Comandos de voz y acceso directo a la aplicación</string>
@@ -65,20 +68,27 @@
     <string name="info_demo_mode_short">Ejecutando en modo demo</string>
     <string name="info_conn_url">Conectando a la URL local</string>
     <string name="info_conn_rem_url">Conectando a la URL remota</string>
+    <string name="app_shortcut_diabled_habpanel">El servidor no tiene instalado HABPanel</string>
+    <string name="app_shortcut_diabled_notifications">El servidor remoto no está disponible</string>
+    <string name="app_shortcut_diabled_voice_recognition">Su dispositivo no tiene una aplicación de voz a texto instalada</string>
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB devolvió una lista de Sitemaps vacía</string>
     <string name="error_network_not_available">La conexión de red no está disponible</string>
     <string name="error_wifi_not_available">Wi-Fi está desactivada</string>
     <string name="error_http_connection_failed">Conexión sin éxito. Se ha recibido una respuesta inesperada al intentar conectar con el servidor openHAB configurado (código de respuesta HTTP recibido: %d).</string>
     <string name="error_invalid_url">Por favor, introducir una URL válida con formato \'http(s)://host(:puerto)/\'</string>
+    <string name="error_port_seems_invalid">El puerto introducido no es válido para el protocolo seleccionado</string>
     <string name="error_connection_failed">Ha fallado la conexión con el host</string>
     <string name="error_unable_to_resolve_hostname">No se puede resolver el nombre de host</string>
     <string name="error_connection_sslhandshake_failed">Falló el inicio del protocolo SSL (handshake)</string>
     <string name="error_certificate_not_trusted">El certificado SSL no es de confianza. Por favor, importa el certificado raíz o deshabilita la validación del certificado durante la negociación SSL.</string>
     <string name="error_certificate_expired">El certificado SSL ha caducado. Por favor, obtén un nuevo certificado o acepta el certificado durante la negociación SSL.</string>
     <string name="error_certificate_not_valid_yet">El certificado SSL todavía no es válido. Por favor, obtenga un certificado correcto o deshabilite la validación del certificado durante la negociación SSL. Verifique también si la hora de su dispositivo es correcta.</string>
+    <string name="error_certificate_invalid_date">El certificado SSL tiene una fecha inválida. Por favor, obtenga un certificado correcto y compruebe si el reloj en su dispositivo está configurado correctamente.</string>
     <string name="error_certificate_revoked">El certificado SSL ha sido revocado. Por favor, obtenga un certificado nuevo o deshabilite la validación del certificado durante la negociación SSL.</string>
     <string name="error_certificate_wrong_host">El certificado no es válido para %s</string>
+    <string name="error_http_to_https_port">Final inesperado de secuencia. ¿Está Ud. tratando de conectar a un puerto HTTPS por HTTP?</string>
+    <string name="webview_ssl">Esta aplicación no soporta actualmente certificados SSL auto-firmados para widgets de Webview</string>
     <string name="error_http_code_401">Autenticación fallida. Por favor, verifique el nombre de usuario y la contraseña configurados, además del certificado de cliente SSL (código de respuesta HTTP 401).</string>
     <string name="error_http_code_403">Autenticación fallida. Por favor, verifique el nombre de usuario y la contraseña configurados, además del certificado de cliente SSL (código de respuesta HTTP 403).</string>
     <string name="error_http_code_407">Autenticación fallida. Por favor, verifique el nombre de usuario y la contraseña configurados, además del certificado de cliente SSL (código de respuesta HTTP 407).</string>

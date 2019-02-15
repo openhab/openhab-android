@@ -9,6 +9,8 @@
     <!-- Main menu items -->
     <string name="mainmenu_openhab_sitemaps">Felületek</string>
     <string name="mainmenu_openhab_preferences">Beállítások</string>
+    <string name="mainmenu_openhab_habpanel">HABPanel</string>
+    <string name="habpanel_error">Hiba történt a HABPanel betöltése során</string>
     <string name="mainmenu_openhab_selectsitemap">Válassza ki az alapértelmezett felületet</string>
     <string name="mainmenu_openhab_clearcache">Gyorsítótári képek törlése</string>
     <!-- App settings strings -->
@@ -57,6 +59,7 @@
     <string name="settings_notification_vibration_twice">Kétszer</string>
     <string name="settings_connection_summary">Csatlakoztatva a %s</string>
     <string name="settings_insecure_connection_summary">Nembiztonságosan csatakoztatva a %s</string>
+    <string name="beta">Béta</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Hangutasítások</string>
     <string name="title_voice_widget_icon">Hangutasítások és alkalmazás parancsikon</string>
@@ -65,6 +68,9 @@
     <string name="info_demo_mode_short">Demo módban fut</string>
     <string name="info_conn_url">Kapcsolódás a helyi URL-hez</string>
     <string name="info_conn_rem_url">Kapcsolódás a távoli URL-hez</string>
+    <string name="app_shortcut_diabled_habpanel">A szerveren nincs telepítve HABPanel</string>
+    <string name="app_shortcut_diabled_notifications">A távoli szerver nem érhető el</string>
+    <string name="app_shortcut_diabled_voice_recognition">Ez az eszköz nem rendelkezik speech-to-text alkalmazással</string>
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB üres felületet adott vissza</string>
     <string name="error_network_not_available">Hálózat nem elérhető</string>
@@ -110,6 +116,7 @@
     <string name="action_settings">Beállítások</string>
     <string name="nfc_dialog_title">NFC címke írása ehhez az elemhez</string>
     <string name="info_not_set">Nincs beállítva</string>
+    <string name="empty_page">Ez az oldal nem tartalmaz olyan widget-et amely megjeleníthető</string>
     <!-- Notification list strings -->
     <string name="notification_list_empty">Nincs régóta elküldött értesítés</string>
     <string name="notification_list_error">Értesítések betöltése közben hiba történt</string>
@@ -170,6 +177,8 @@
     <string name="enable_wifi_button">Kapcsolja be a Wi-Fi-t</string>
     <string name="go_to_settings_button">Beállítások megnyitása</string>
     <string name="enable_demo_mode_button">A demo üzemmód bekapcsolása</string>
+    <string name="configuration_missing">Nem találtunk openHAB kiszolgálót a hálózaton. Ha már van egy szervere, a szerver beállításait konfigurálja az IP-cím vagy állomásnév nevével. Ha még nem rendelkezik szerverrel, engedélyezheti a demo-t, hogy láthassa mire képes az openHAB.</string>
+    <string name="no_remote_server">Kapcsolódás a helyi szerverhez nem sikerült, és a távoli kiszolgáló nem konfigurált</string>
     <string name="resolving_openhab">Megpróbálja felderíteni az openHAB szerver példányt\u2026</string>
     <string name="waiting_for_wifi">Várakozás a Wi-Fi kapcsolat\u2026 létrehozására</string>
     <!-- Log -->

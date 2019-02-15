@@ -9,6 +9,8 @@
     <!-- Main menu items -->
     <string name="mainmenu_openhab_sitemaps">Sivukartat</string>
     <string name="mainmenu_openhab_preferences">Asetukset</string>
+    <string name="mainmenu_openhab_habpanel">HABPanel</string>
+    <string name="habpanel_error">Virhe ladattaessa HABPanel:ia</string>
     <string name="mainmenu_openhab_selectsitemap">Valitse oletussivukartta</string>
     <string name="mainmenu_openhab_clearcache">Tyhjennä kuvien välimuisti</string>
     <!-- App settings strings -->
@@ -57,6 +59,7 @@
     <string name="settings_notification_vibration_twice">Kaksi kertaa</string>
     <string name="settings_connection_summary">Yhdistetty kohteeseen %s</string>
     <string name="settings_insecure_connection_summary">Turvattomasti yhdistetty kohteeseen %s</string>
+    <string name="beta">Beta</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Äänikomennot</string>
     <string name="title_voice_widget_icon">Äänikomennot ja sovelluksen pikakuvake</string>
@@ -65,6 +68,9 @@
     <string name="info_demo_mode_short">Sovellus esittelytilassa</string>
     <string name="info_conn_url">Yhdistetään paikalliskäytön URL osoitteeseen</string>
     <string name="info_conn_rem_url">Yhdistetään etäkäytön URL osoitteeseen</string>
+    <string name="app_shortcut_diabled_habpanel">Palvelimellasi ei ole HABPanel asennettuna</string>
+    <string name="app_shortcut_diabled_notifications">Etäpalvelintasi ei tavoiteta</string>
+    <string name="app_shortcut_diabled_voice_recognition">Laitteellasi ei ole \"puheesta tekstiksi\"-sovellusta asennettuna</string>
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB palautti tyhjän sivukarttojen luettelon</string>
     <string name="error_network_not_available">Verkko ei ole käytettävissä</string>
