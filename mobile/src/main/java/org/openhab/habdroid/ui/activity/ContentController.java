@@ -26,6 +26,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewStub;
+import android.webkit.WebChromeClient;
 import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
@@ -720,7 +721,7 @@ public abstract class ContentController implements PageConnectionHolderFragment.
             TextView error = view.findViewById(R.id.empty_message);
             error.setText(getString(mErrorMessage));
             if (savedInstanceState != null) {
-                loadWebsite(savedInstanceState.getString(KEY_CURRENT_URL, ""));
+                loadWebsite(savedInstanceState.getString(KEY_CURRENT_URL, mUrltoLoad));
             } else {
                 loadWebsite();
             }
@@ -728,7 +729,9 @@ public abstract class ContentController implements PageConnectionHolderFragment.
 
         @Override
         public void onSaveInstanceState(@NonNull Bundle outState) {
-            outState.putString(KEY_CURRENT_URL, mWebview.getUrl());
+            if (mWebview != null) {
+                outState.putString(KEY_CURRENT_URL, mWebview.getUrl());
+            }
         }
 
         private void loadWebsite() {
@@ -782,6 +785,7 @@ public abstract class ContentController implements PageConnectionHolderFragment.
                     updateViewVisibility(true, false);
                 }
             });
+            mWebview.setWebChromeClient(new WebChromeClient());
             mWebview.getSettings().setDomStorageEnabled(true);
             mWebview.getSettings().setJavaScriptEnabled(true);
             mWebview.loadUrl(url);
