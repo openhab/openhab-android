@@ -1,0 +1,5 @@
+## Fixed
+* Fix selection of HABPanel panel (#1214)
+
+## Added
+* Show shortcut to notification settings for Oreo and above (#1167) 
