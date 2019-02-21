@@ -306,7 +306,7 @@ public class Util {
 
     /**
      * Returns vibration pattern for notifications that can be passed to
-     * {@link NotificationCompat.Builder#setVibrate()}.
+     * {@link androidx.core.app.NotificationCompat.Builder#setVibrate(long[] pattern}.
      *
      * @param context
      * @return Vibration pattern
