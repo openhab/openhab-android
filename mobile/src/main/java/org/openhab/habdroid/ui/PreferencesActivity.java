@@ -22,6 +22,7 @@ import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceGroup;
 import android.preference.PreferenceScreen;
+import android.provider.Settings;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
@@ -235,6 +236,8 @@ public class PreferencesActivity extends AppCompatActivity {
             final Preference ringtonePref = findPreference(Constants.PREFERENCE_TONE);
             final Preference vibrationPref =
                     findPreference(Constants.PREFERENCE_NOTIFICATION_VIBRATION);
+            final Preference ringtoneVibrationPref =
+                    findPreference(Constants.PREFERENCE_NOTIFICATION_TONE_VIBRATION);
             final Preference viewLogPref = findPreference(Constants.PREFERENCE_LOG);
             final SharedPreferences prefs = getPreferenceScreen().getSharedPreferences();
 
@@ -308,6 +311,14 @@ public class PreferencesActivity extends AppCompatActivity {
                 return true;
             });
 
+            ringtoneVibrationPref.setOnPreferenceClickListener(preference -> {
+                Intent i = new Intent(android.provider.Settings.ACTION_SETTINGS);
+                i.setAction(Settings.ACTION_APP_NOTIFICATION_SETTINGS);
+                i.putExtra(Settings.EXTRA_APP_PACKAGE, getContext().getPackageName());
+                startActivity(i);
+                return true;
+            });
+
             viewLogPref.setOnPreferenceClickListener(preference -> {
                 Intent logIntent = new Intent(preference.getContext(), LogActivity.class);
                 startActivity(logIntent);
@@ -322,11 +333,20 @@ public class PreferencesActivity extends AppCompatActivity {
                 getParent(fullscreenPreference).removePreference(fullscreenPreference);
             }
 
-            if (!CloudMessagingHelper.isSupported()
-                    || Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                Log.d(TAG, "Removing notification prefs");
+            if (CloudMessagingHelper.isSupported()) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    Log.d(TAG, "Removing notification prefs for < 25");
+                    getParent(ringtonePref).removePreference(ringtonePref);
+                    getParent(vibrationPref).removePreference(vibrationPref);
+                } else {
+                    Log.d(TAG, "Removing notification prefs for >= 25");
+                    getParent(ringtoneVibrationPref).removePreference(ringtoneVibrationPref);
+                }
+            } else {
+                Log.d(TAG, "Removing all notification prefs");
                 getParent(ringtonePref).removePreference(ringtonePref);
                 getParent(vibrationPref).removePreference(vibrationPref);
+                getParent(ringtoneVibrationPref).removePreference(ringtoneVibrationPref);
             }
 
             final ServerProperties props =
