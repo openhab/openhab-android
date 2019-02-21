@@ -277,7 +277,6 @@ public class Util {
         swipeLayout.setColorSchemeColors(colors);
     }
 
-<<<<<<< HEAD
     public static boolean isFlavorStable() {
         return BuildConfig.FLAVOR.toLowerCase().contains("stable");
     }
