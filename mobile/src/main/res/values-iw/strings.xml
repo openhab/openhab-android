@@ -88,6 +88,7 @@
     <string name="error_certificate_revoked">תעודת SSL נשללה. נא לייבא תעודה חדשה או קבל את התעודה במהלך חיבור SSL.</string>
     <string name="error_certificate_wrong_host">תעודת SSL אינה חוקית עבור %s</string>
     <string name="error_http_to_https_port">החיבור הסתיים באופן בלתי-צפוי. האם אתה מנסה להתחבר לפִּתְחָה HTTPS דרך HTTP?</string>
+    <string name="webview_ssl">כרגע יישום זה אינו תומך בחתימת SSL עצמית עבור יישומוני Web</string>
     <string name="error_http_code_401">האימות נכשל. נא בדוק את שם המשתמש והסיסמה שהוגדרו בהתאמה עם תעודת ה-SSL (קוד תגובה HTTP 401).</string>
     <string name="error_http_code_403">האימות נכשל. נא בדוק את שם המשתמש והסיסמה שהוגדרו בהתאמה עם תעודת ה-SSL (קוד תגובה HTTP 403).</string>
     <string name="error_http_code_407">האימות נכשל. נא בדוק את שם המשתמש והסיסמה שהוגדרו בהתאמה עם תעודת ה-SSL (קוד תגובה HTTP 407).</string>
