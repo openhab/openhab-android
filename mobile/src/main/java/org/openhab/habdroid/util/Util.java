@@ -156,7 +156,7 @@ public class Util {
             activity.getTheme().resolveAttribute(R.attr.colorPrimary, typedValue, true);
             activity.setTaskDescription(new ActivityManager.TaskDescription(
                     activity.getString(R.string.app_name),
-                    BitmapFactory.decodeResource(activity.getResources(), R.mipmap.icon_round),
+                    BitmapFactory.decodeResource(activity.getResources(), R.mipmap.icon),
                     typedValue.data));
         }
     }

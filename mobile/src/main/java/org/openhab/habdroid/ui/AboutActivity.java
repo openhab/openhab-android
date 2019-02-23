@@ -153,7 +153,7 @@ public class AboutActivity extends AppCompatActivity implements
                     .build());
             appCard.addItem(new MaterialAboutActionItem.Builder()
                     .text(R.string.about_issues)
-                    .icon(R.drawable.ic_bug_report_grey_24dp)
+                    .icon(R.drawable.ic_bug_outline_grey_24dp)
                     .setOnClickAction(clickRedirect(URL_TO_GITHUB + "/issues"))
                     .build());
             appCard.addItem(new MaterialAboutActionItem.Builder()
@@ -164,7 +164,7 @@ public class AboutActivity extends AppCompatActivity implements
                     .build());
             appCard.addItem(new MaterialAboutActionItem.Builder()
                     .text(R.string.title_activity_libraries)
-                    .icon(R.drawable.ic_developer_mode_grey_24dp)
+                    .icon(R.drawable.ic_code_braces_grey_24dp)
                     .setOnClickAction(() -> {
                         Fragment f = new LibsBuilder()
                                 .withFields(R.string.class.getFields())
@@ -193,7 +193,7 @@ public class AboutActivity extends AppCompatActivity implements
             if (mConnection == null || mServerProperties == null) {
                 ohServerCard.addItem(new MaterialAboutActionItem.Builder()
                         .text(R.string.error_about_no_conn)
-                        .icon(R.drawable.ic_info_outline)
+                        .icon(R.drawable.ic_info_outline_grey_24dp)
                         .build());
             } else {
                 String apiVersion = getApiVersion();
@@ -203,7 +203,7 @@ public class AboutActivity extends AppCompatActivity implements
                 ohServerCard.addItem(new MaterialAboutActionItem.Builder()
                         .text(R.string.info_openhab_apiversion_label)
                         .subText(apiVersion)
-                        .icon(R.drawable.ic_info_outline)
+                        .icon(R.drawable.ic_info_outline_grey_24dp)
                         .build());
 
                 String uuid = getServerUuid();
@@ -213,7 +213,7 @@ public class AboutActivity extends AppCompatActivity implements
                 ohServerCard.addItem(new MaterialAboutActionItem.Builder()
                         .text(R.string.info_openhab_uuid_label)
                         .subText(uuid)
-                        .icon(R.drawable.ic_info_outline)
+                        .icon(R.drawable.ic_info_outline_grey_24dp)
                         .build());
 
                 if (!useJsonApi()) {
@@ -222,7 +222,7 @@ public class AboutActivity extends AppCompatActivity implements
                         ohServerCard.addItem(new MaterialAboutActionItem.Builder()
                                 .text(R.string.info_openhab_secret_label)
                                 .subText(secret)
-                                .icon(R.drawable.ic_info_outline)
+                                .icon(R.drawable.ic_info_outline_grey_24dp)
                                 .build());
                     }
                 }
@@ -231,29 +231,29 @@ public class AboutActivity extends AppCompatActivity implements
             ohServerCard.addItem(new MaterialAboutActionItem.Builder()
                     .text(R.string.info_openhab_push_notification_label)
                     .subText(CloudMessagingHelper.getPushNotificationStatusResId())
-                    .icon(R.drawable.ic_info_outline)
+                    .icon(CloudMessagingHelper.getPushNotificationIconResId())
                     .build());
 
             MaterialAboutCard.Builder ohCommunityCard = new MaterialAboutCard.Builder();
             ohCommunityCard.title(R.string.about_community);
             ohCommunityCard.addItem(new MaterialAboutActionItem.Builder()
                     .text(R.string.about_docs)
-                    .icon(R.drawable.ic_collections_bookmark_grey_24dp)
+                    .icon(R.drawable.ic_file_document_box_multiple_outline_grey_24dp)
                     .setOnClickAction(clickRedirect("https://www.openhab.org/docs/"))
                     .build());
             ohCommunityCard.addItem(new MaterialAboutActionItem.Builder()
                     .text(R.string.about_community_forum)
-                    .icon(R.drawable.ic_forum_grey_24dp)
+                    .icon(R.drawable.ic_forum_outline_grey_24dp)
                     .setOnClickAction(clickRedirect("https://community.openhab.org/"))
                     .build());
             ohCommunityCard.addItem(new MaterialAboutActionItem.Builder()
                     .text(R.string.about_translation)
-                    .icon(R.drawable.ic_language_grey_24dp)
+                    .icon(R.drawable.ic_translate_grey_24dp)
                     .setOnClickAction(clickRedirect("https://crowdin.com/profile/openhab-bot"))
                     .build());
             ohCommunityCard.addItem(new MaterialAboutActionItem.Builder()
                     .text(R.string.about_foundation)
-                    .icon(R.drawable.ic_people_grey_24dp)
+                    .icon(R.drawable.ic_people_outline_grey_24dp)
                     .setOnClickAction(clickRedirect("https://www.openhabfoundation.org/"))
                     .build());
 

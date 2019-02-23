@@ -630,7 +630,7 @@ public abstract class ContentController implements PageConnectionHolderFragment.
         public static EnableWifiNetworkFragment newInstance(CharSequence message) {
             EnableWifiNetworkFragment f = new EnableWifiNetworkFragment();
             f.setArguments(buildArgs(message, R.string.enable_wifi_button,
-                    R.drawable.ic_signal_wifi_off_black_24dp, false));
+                    R.drawable.ic_wifi_strength_off_outline_black_24dp, false));
             return f;
         }
 
@@ -656,7 +656,7 @@ public abstract class ContentController implements PageConnectionHolderFragment.
             } else {
                 args = buildArgs(context.getString(R.string.no_remote_server),
                         R.string.go_to_settings_button, R.string.enable_wifi_button,
-                        R.drawable.ic_signal_wifi_off_black_24dp, false);
+                        R.drawable.ic_wifi_strength_off_outline_black_24dp, false);
             }
             args.putBoolean(KEY_RESOLVE_ATTEMPTED, resolveAttempted);
             args.putBoolean(KEY_WIFI_ENABLED, hasWifiEnabled);

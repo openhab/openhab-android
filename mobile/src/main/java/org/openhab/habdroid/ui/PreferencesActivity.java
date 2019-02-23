@@ -447,10 +447,10 @@ public class PreferencesActivity extends AppCompatActivity {
         private void updateRingtonePreferenceSummary(Preference pref, Object newValue) {
             String value = (String) newValue;
             if (TextUtils.isEmpty(value)) {
-                pref.setIcon(R.drawable.ic_notifications_off_grey_24dp);
+                pref.setIcon(R.drawable.ic_bell_off_outline_grey_24dp);
                 pref.setSummary(R.string.settings_ringtone_none);
             } else {
-                pref.setIcon(R.drawable.ic_notifications_active_grey_24dp);
+                pref.setIcon(R.drawable.ic_bell_ring_outline_grey_24dp);
                 Ringtone ringtone = RingtoneManager.getRingtone(getActivity(), Uri.parse(value));
                 if (ringtone != null) {
                     pref.setSummary(ringtone.getTitle(getActivity()));
@@ -462,7 +462,7 @@ public class PreferencesActivity extends AppCompatActivity {
             boolean noVibration = newValue.equals(
                     getString(R.string.settings_notification_vibration_value_off));
             pref.setIcon(noVibration
-                    ? R.drawable.ic_smartphone_grey_24dp : R.drawable.ic_vibration_grey_24dp);
+                    ? R.drawable.ic_vibrate_off_grey_24dp : R.drawable.ic_vibration_grey_24dp);
         }
 
         private void updateAlarmClockPreferenceSummary(Preference pref, String prefix, Pair item) {
@@ -524,10 +524,10 @@ public class PreferencesActivity extends AppCompatActivity {
                 }
                 return getString(urlSummaryFormatResId, value);
             });
-            mUserNamePreference = initEditor(userNamePrefKey, R.drawable.ic_person_grey_24dp,
+            mUserNamePreference = initEditor(userNamePrefKey, R.drawable.ic_person_outline_grey_24dp,
                     value -> TextUtils.isEmpty(value) ? getString(R.string.info_not_set) : value);
             mPasswordPreference = initEditor(passwordPrefKey,
-                    R.drawable.ic_security_grey_24dp, value -> {
+                    R.drawable.ic_shield_key_outline_grey_24dp, value -> {
                         @StringRes int resId = TextUtils.isEmpty(value) ? R.string.info_not_set
                                 : isWeakPassword(value) ? R.string.settings_openhab_password_summary_weak
                                 : R.string.settings_openhab_password_summary_strong;

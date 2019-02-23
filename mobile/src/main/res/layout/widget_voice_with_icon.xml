@@ -12,7 +12,7 @@
         android:layout_width="fill_parent"
         android:layout_height="0dp"
         android:layout_weight="70"
-        android:src="@drawable/ic_mic_white_120dp"
+        android:src="@drawable/ic_microphone_outline_white_120dp"
         android:contentDescription="@string/info_voice_input" />
 
     <FrameLayout
