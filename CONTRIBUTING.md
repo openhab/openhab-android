@@ -173,7 +173,7 @@ general guidelines for the community as a whole:
 We don't use Kotlin. This is due to the fact, that our server components
 are written in pure Java. Even tough the Android community is adapting
 Kotlin well, most guys from the Java community are not used to writing
-Kotlin code before.
+Kotlin code.
 
 **Is there an architectural design for the presentation layer?**
 
@@ -197,8 +197,9 @@ be useful.
 
 **Do we use fragments in our activities? If yes, are they necessary?**
 
-The answer to the first question is 'it depends'.
-They should be used whenever it makes sense to use them.
+The answer to the first question is 'it depends'. They should be used
+whenever it makes sense to use them. E.g. for very simple activities
+like the LogActivity, we don't use fragments, otherwise we do.
 
 **Should my code be tested? If yes to which degree?**
 
