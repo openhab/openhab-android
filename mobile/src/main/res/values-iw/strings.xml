@@ -57,6 +57,7 @@
     <string name="settings_notification_vibration_short">קצר</string>
     <string name="settings_notification_vibration_long">ארוך</string>
     <string name="settings_notification_vibration_twice">כפול</string>
+    <string name="settings_notification_ringtone_vibration">הגדרות התראה</string>
     <string name="settings_connection_summary">מחובר ל- %s</string>
     <string name="settings_insecure_connection_summary">חיבור לא מאובטח ל- %s</string>
     <string name="beta">בטא</string>
