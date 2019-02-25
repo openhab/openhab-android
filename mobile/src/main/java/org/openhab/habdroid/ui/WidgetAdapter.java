@@ -1101,8 +1101,9 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
             colorPicker.setOnColorChangedListener(this);
             colorPicker.setShowOldCenterColor(false);
 
-            if (mBoundItem.state() != null && mBoundItem.state().asHsv() != null) {
-                colorPicker.setColor(Color.HSVToColor(mBoundItem.state().asHsv()));
+            float[] initialColor = mBoundItem.state() != null ? mBoundItem.state().asHsv() : null;
+            if (initialColor != null) {
+                colorPicker.setColor(Color.HSVToColor(initialColor));
             }
 
             new AlertDialog.Builder(contentView.getContext())
