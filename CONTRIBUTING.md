@@ -165,3 +165,71 @@ general guidelines for the community as a whole:
   respond to an email you are potentially sending to a large number of
   people.  Please consider this before you update.  Also remember that
   nobody likes spam.
+
+## FAQ
+
+**Is it fine to go with Kotlin for my contribution?**
+
+We don't use Kotlin. This is due to the fact, that our server components
+are written in pure Java. Even tough the Android community is adapting
+Kotlin well, most guys from the Java community are not used to writing
+Kotlin code.
+
+**Is there an architectural design for the presentation layer?**
+
+There is no MVVM/MVP or MVC in place, because the app is not too complex
+and it would not really benefit from something like that right now.
+
+**Is there an architectural design for the data layer?**
+
+The data layer is separated to it's own package.
+
+**Where does the Sitemap rendering happen?**
+
+WidgetListFragment + (especially) WidgetAdapter
+
+**How is navigation managed?**
+
+ContentController manages how fragments are displayed, and MainActivity 
+commands it what fragments to display. Navigation is too dynamic in our
+app (determined by Sitemap) for the navigation architecture component to
+be useful.
+
+**Do we use fragments in our activities? If yes, are they necessary?**
+
+The answer to the first question is 'it depends'. They should be used
+whenever it makes sense to use them. E.g. for very simple activities
+like the LogActivity, we don't use fragments, otherwise we do.
+
+**Should my code be tested? If yes to which degree?**
+
+Ideally yes, to whatever extent is doable and meaningful. It's not a requirement though.
+
+**Is there a way I can test all the features against a test server or something similar?**
+
+Either test against the [demo server](https://demo.openhab.org), or
+setup an own server. For the latter case, it's probably useful to do a
+checkout of the server side code an run that, following the procedure in
+https://www.openhab.org/docs/developer/development/ide.html
+
+**Do we have guidelines for code style?**
+
+Yes, Google Java Style Guide:
+https://google.github.io/styleguide/javaguide.html 
+
+In addition: Please omit "openHAB" or "My" from class names.
+
+**How does the CI/CD pipeline work?** 
+
+Service | Shown as | Task | Desired result | How to fix
+:----|:----|:----|:----|:----
+Travis CI | continuous-integration/travis-ci/(pr,push) | Runs full build and test suite | Must pass | Look at the build output and try to run the test locally. If the tests are failing even if you haven't changed the particular code, please poke @openhab/android-maintainers and ask them to rerun the job.
+Stickler CI | stickler-ci | Runs checkstyle to ensure the Google Java Style Guide is followed | Should pass, but sometimes it reports false-positives | Look at the comments https://github.com/openhab/openhab-android/pull/{pr-number}/files
+Cirrus CI | Validate strings | Checks for common mistakes in strings.xml, e.g. wrong spelling of "openHAB" | Must pass | Look at the checks output and fix the issues.
+Developer Certificate of Origin | DCO | Checks if commits are signed-of-by | Must pass | `git commit -s --amed` and `git push -f`
+WIP | WIP | Checks if the PR name contains "WIP" (Work in progress) | Must pass | Remove "WIP" from the PR title when you're done.
+
+**Do I have to include Java Doc?**
+
+It's always nice to see documentation, but as long as your code is
+clean, it is not all that important.
