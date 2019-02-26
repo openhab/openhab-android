@@ -124,7 +124,7 @@
         </receiver>
 
         <receiver
-            android:name=".background.BackgroundTasksBroadcastReceiver"
+            android:name=".background.BackgroundTasksManager"
             android:enabled="true"
             android:exported="true">
             <intent-filter>
@@ -134,7 +134,6 @@
                 <action android:name="android.intent.action.LOCALE_CHANGED"/>
             </intent-filter>
         </receiver>
-        <receiver android:name=".background.BackgroundTaskRetryBroadcastReceiver" />
     </application>
 
 </manifest>

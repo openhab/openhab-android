@@ -2,6 +2,7 @@ package org.openhab.habdroid.core;
 
 import androidx.multidex.MultiDexApplication;
 
+import org.openhab.habdroid.background.BackgroundTasksManager;
 import org.openhab.habdroid.core.connection.ConnectionFactory;
 
 public class OpenHabApplication extends MultiDexApplication {
@@ -9,6 +10,7 @@ public class OpenHabApplication extends MultiDexApplication {
     public void onCreate() {
         super.onCreate();
         ConnectionFactory.initialize(this);
+        BackgroundTasksManager.addWorkListener(this);
     }
 
     @Override

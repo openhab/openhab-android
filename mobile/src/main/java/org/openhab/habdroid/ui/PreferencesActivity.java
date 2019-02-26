@@ -10,6 +10,7 @@
 package org.openhab.habdroid.ui;
 
 import android.app.FragmentManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
@@ -18,6 +19,7 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceGroup;
@@ -38,7 +40,7 @@ import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
 
 import org.openhab.habdroid.R;
-import org.openhab.habdroid.background.BackgroundTasksBroadcastReceiver;
+import org.openhab.habdroid.background.BackgroundTasksManager;
 import org.openhab.habdroid.model.ServerProperties;
 import org.openhab.habdroid.ui.widget.ItemUpdatingPreference;
 import org.openhab.habdroid.util.CacheManager;
@@ -225,6 +227,8 @@ public class PreferencesActivity extends AppCompatActivity {
     }
 
     public static class MainSettingsFragment extends AbstractSettingsFragment {
+        private Handler mHandler = new Handler();
+
         @Override
         public void onStart() {
             super.onStart();
@@ -337,7 +341,7 @@ public class PreferencesActivity extends AppCompatActivity {
             ringtoneVibrationPref.setOnPreferenceClickListener(preference -> {
                 Intent i = new Intent(android.provider.Settings.ACTION_SETTINGS);
                 i.setAction(Settings.ACTION_APP_NOTIFICATION_SETTINGS);
-                i.putExtra(Settings.EXTRA_APP_PACKAGE, getContext().getPackageName());
+                i.putExtra(Settings.EXTRA_APP_PACKAGE, getActivity().getPackageName());
                 startActivity(i);
                 return true;
             });
@@ -381,8 +385,7 @@ public class PreferencesActivity extends AppCompatActivity {
                     updateAlarmClockPreferenceIcon(preference, newValue);
                     Pair<Boolean, String> value = (Pair<Boolean, String>) newValue;
                     updateAlarmClockPreferenceSummary(preference, prefix, value);
-                    BackgroundTasksBroadcastReceiver.startAlarmChangedWorker(getActivity(), prefix,
-                            value);
+                    scheduleWorker(preference.getKey());
                     return true;
                 });
             }
@@ -391,8 +394,7 @@ public class PreferencesActivity extends AppCompatActivity {
                 Pair<Boolean, String> item =
                         ItemUpdatingPreference.parseValue(getPreferenceString(alarmClockPref, null));
                 updateAlarmClockPreferenceSummary(alarmClockPref, (String) newValue, item);
-                BackgroundTasksBroadcastReceiver.startAlarmChangedWorker(getActivity(),
-                        (String) newValue, item);
+                scheduleWorker(Constants.PREFERENCE_ALARM_CLOCK);
                 return true;
             });
 
@@ -496,6 +498,13 @@ public class PreferencesActivity extends AppCompatActivity {
                         beautifyUrl(getHostFromUrl(url)));
             }
             pref.setSummary(summary);
+        }
+
+        private void scheduleWorker(String key) {
+            final Context context = getActivity();
+            mHandler.post(() -> {
+                BackgroundTasksManager.scheduleWorker(context, key);
+            });
         }
 
         public static @Nullable String beautifyUrl(@Nullable String url) {
