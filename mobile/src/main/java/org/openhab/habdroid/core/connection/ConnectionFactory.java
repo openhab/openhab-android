@@ -150,6 +150,7 @@ public final class ConnectionFactory extends BroadcastReceiver implements
      * It MUST NOT be called from the main thread.
      */
     public static void waitForInitialization() {
+        sInstance.triggerConnectionUpdateIfNeededAndPending();
         synchronized (sInstance.mInitializationLock) {
             while (!sInstance.mAvailableInitialized || !sInstance.mCloudInitialized) {
                 try {
@@ -170,10 +171,8 @@ public final class ConnectionFactory extends BroadcastReceiver implements
             if (l instanceof Activity) {
                 mTrustManager.bindDisplayActivity((Activity) l);
             }
-            if (mNeedsUpdate) {
-                triggerConnectionUpdateIfNeeded();
-                mNeedsUpdate = false;
-            } else if (mLocalConnection != null && mListeners.size() == 1) {
+            if (!triggerConnectionUpdateIfNeededAndPending()
+                    && mLocalConnection != null && mListeners.size() == 1) {
                 // When coming back from background, re-do connectivity check for
                 // local connections, as the reachability of the local server might have
                 // changed since we went to background
@@ -221,10 +220,7 @@ public final class ConnectionFactory extends BroadcastReceiver implements
      * network connectivity, the respective exception is thrown.
      */
     public static Connection getUsableConnection() throws ConnectionException {
-        if (sInstance.mNeedsUpdate) {
-            restartNetworkCheck();
-            sInstance.mNeedsUpdate = false;
-        }
+        sInstance.triggerConnectionUpdateIfNeededAndPending();
         if (sInstance.mConnectionFailureReason != null) {
             throw sInstance.mConnectionFailureReason;
         }
@@ -265,7 +261,10 @@ public final class ConnectionFactory extends BroadcastReceiver implements
             // listener registration.
             mAvailableConnection = null;
             mConnectionFailureReason = null;
-            mNeedsUpdate = true;
+            synchronized (mInitializationLock) {
+                mAvailableInitialized = false;
+                mNeedsUpdate = true;
+            }
         } else {
             triggerConnectionUpdateIfNeeded();
         }
@@ -455,6 +454,17 @@ public final class ConnectionFactory extends BroadcastReceiver implements
             mCloudInitialized = true;
             mInitializationLock.notifyAll();
         }
+    }
+
+    private boolean triggerConnectionUpdateIfNeededAndPending() {
+        synchronized (mInitializationLock) {
+            if (!mNeedsUpdate) {
+                return false;
+            }
+            mNeedsUpdate = false;
+            triggerConnectionUpdateIfNeeded();
+        }
+        return true;
     }
 
     private void triggerConnectionUpdateIfNeeded() {
