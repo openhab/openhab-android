@@ -30,7 +30,7 @@
     <string name="settings_openhab_screentimeroff">Ruhezustand deaktivieren</string>
     <string name="settings_openhab_screentimeroff_summary">Schaltet das automatische Aktivieren des Ruhezustands nach Inaktivität ab, wenn die openHAB-App läuft</string>
     <string name="settings_openhab_demomode">Demomodus</string>
-    <string name="settings_openhab_demomode_summary">Wenn Sie keinen openHAB-Server besitzen, aktivieren Sie den Demomodus um eine Vorstellung davon zu bekommen was openHAB kann.</string>
+    <string name="settings_openhab_demomode_summary">Aktivieren Sie den Demomodus, um auch ohne eigenen Server eine Vorstellung davon zu bekommen, wozu openHAB in der Lage ist.</string>
     <string name="settings_openhab_theme">Design</string>
     <string name="settings_openhab_fullscreen">Vollbild</string>
     <string name="settings_openhab_fullscreen_summary">Geräte-Statusleiste während der Verwendung der App ausblenden</string>
@@ -182,7 +182,7 @@
     <string name="enable_wifi_button">WLAN aktivieren</string>
     <string name="go_to_settings_button">Einstellungen öffnen</string>
     <string name="enable_demo_mode_button">Demomodus aktivieren</string>
-    <string name="configuration_missing">Wir konnten keinen openHAB-Server in Ihrem Netzwerk finden. Wenn sie bereits einen Server zur Verfügung haben, konfigurieren Sie ihn in den Einstellungen. Wenn sie keinen openHAB-Server besitzen, aktivieren Sie den Demomodus um eine Vorstellung davon zu bekommen was openHAB kann.</string>
+    <string name="configuration_missing">Wir konnten keinen openHAB-Server in Ihrem Netzwerk finden. Wenn sie bereits einen Server zur Verfügung haben, konfigurieren Sie ihn in den Einstellungen. Anderenfalls können Sie den Demomodus aktivieren, um eine Vorstellung davon zu bekommen, wozu openHAB in der Lage ist.</string>
     <string name="no_remote_server">Verbindung zu lokalem Server fehlgeschlagen und Sie haben keinen Server für den Fernzugriff konfiguriert</string>
     <string name="resolving_openhab">Versuche openHAB-Server-Instanz zu finden\u2026</string>
     <string name="waiting_for_wifi">Warte auf WLAN-Verbindung\u2026</string>
