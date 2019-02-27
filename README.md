@@ -50,7 +50,7 @@ If you want to contribute to Android application we are here to help you to set 
 - Download and install [Android Studio](https://developer.android.com/sdk/installing/studio.html) Android -> SDK Manager
 - Check out the latest code from Github via Android Studio
 - Install SDKs and Gradle if you get asked
-- Click on "Build Variants" on the left side and change the build variant of the module "mobile" to fullStableDebug
+- Click on "Build Variants" on the left side and change the build variant of the module "mobile" to "fullStableDebug".
 
 You are ready to contribute!
 
