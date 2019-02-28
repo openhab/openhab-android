@@ -85,8 +85,11 @@
     <string name="error_certificate_not_trusted">Le certificat SSL n\'est pas un certificat de confiance. Veuillez importer le certificat racine ou désactiver la validation du certificat.</string>
     <string name="error_certificate_expired">Le certificat SSL a expiré. Veuillez obtenir un nouveau certificat ou désactiver la validation du certificat.</string>
     <string name="error_certificate_not_valid_yet">Le certificat SSL n\'est pas encore valide. Veuillez obtenir un certificat valide ou désactiver la validation du certificat. Vérifiez également que votre appareil est à l\'heure.</string>
+    <string name="error_certificate_invalid_date">Le certificat SSL a une date invalide. Veuillez obtenir un certificat correct et vérifiez si l\'horloge de votre appareil est correctement définie.</string>
     <string name="error_certificate_revoked">Le certificat SSL a été révoqué. Veuillez obtenir un nouveau certificat ou désactiver la validation du certificat.</string>
     <string name="error_certificate_wrong_host">Le certificat SSL n\'est pas valide pour %s</string>
+    <string name="error_http_to_https_port">Fin de flux inattendue. Essayez-vous de vous connecter à un port HTTPS via HTTP ?</string>
+    <string name="webview_ssl">Actuellement cette application ne supporte pas les certificats SSL auto-signés pour les widgets Webview</string>
     <string name="error_http_code_401">L’authentification a échoué. Veuillez vérifier le nom d’utilisateur et mot de passe configurés, respectivement le certificat client SSL fourni (code de réponse HTTP 401).</string>
     <string name="error_http_code_403">L’authentification a échoué. Veuillez vérifier le nom d’utilisateur et mot de passe configurés, respectivement le certificat client SSL fourni (code de réponse HTTP 403).</string>
     <string name="error_http_code_407">L’authentification a échoué. Veuillez vérifier le nom d’utilisateur et mot de passe configurés, respectivement le certificat client SSL fourni (code de réponse HTTP 407).</string>
