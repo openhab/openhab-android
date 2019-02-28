@@ -30,6 +30,7 @@
     <string name="settings_openhab_screentimeroff">Désactiver l\'extinction d\'écran</string>
     <string name="settings_openhab_screentimeroff_summary">Désactiver l\'extinction d\'écran lorsque l\'app openHAB fonctionne</string>
     <string name="settings_openhab_demomode">Mode démo</string>
+    <string name="settings_openhab_demomode_summary">Si vous n’avez pas de serveur openHAB, activez le mode démo pour avoir un aperçu de ce dont openHAB est capable.</string>
     <string name="settings_openhab_theme">Thème</string>
     <string name="settings_openhab_fullscreen">Plein écran</string>
     <string name="settings_openhab_fullscreen_summary">Afficher l\'app openHAB en mode plein écran</string>
@@ -56,19 +57,28 @@
     <string name="settings_notification_vibration_short">Courte</string>
     <string name="settings_notification_vibration_long">Longue</string>
     <string name="settings_notification_vibration_twice">Deux fois</string>
+    <string name="settings_notification_ringtone_vibration">Préférences de notification</string>
     <string name="settings_connection_summary">Connecté à %s</string>
     <string name="settings_insecure_connection_summary">Connexion non sécurisée à %s</string>
+    <string name="beta">Bêta</string>
     <!-- App messages strings -->
+    <string name="title_voice_widget">Commandes vocales</string>
+    <string name="title_voice_widget_icon">Commandes vocales et raccourci</string>
     <string name="info_voice_input">openHAB, à vos ordres!</string>
     <string name="info_voice_recognized_text">Commande identifiée: %1$s</string>
     <string name="info_demo_mode_short">Exécution en mode démo</string>
     <string name="info_conn_url">Connexion à l\'adresse locale</string>
     <string name="info_conn_rem_url">Connexion à l\'adresse distante</string>
+    <string name="app_shortcut_diabled_habpanel">Votre serveur n\'a pas HABPanel d\'installé</string>
+    <string name="app_shortcut_diabled_notifications">Votre serveur distant n\'est pas disponible</string>
+    <string name="app_shortcut_diabled_voice_recognition">Votre appareil n\'a pas de synthèse vocale d\'installée</string>
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB a renvoyé une liste vide de sitemaps</string>
     <string name="error_network_not_available">Aucune connexion réseau disponible</string>
+    <string name="error_wifi_not_available">Le Wi-Fi est désactivé</string>
     <string name="error_http_connection_failed">Connexion échouée. Une réponse inattendue a été reçue en essayant de se connecter au serveur openHAB configuré (code de réponse HTTP reçu : %d).</string>
     <string name="error_invalid_url">Entrez une URL valide au format \'http(s)://hote(:port)/\'</string>
+    <string name="error_port_seems_invalid">Le port que vous avez entré semble invalide pour le protocole sélectionné</string>
     <string name="error_connection_failed">Connexion au domaine échouée</string>
     <string name="error_unable_to_resolve_hostname">Impossible de résoudre le nom d\'hôte</string>
     <string name="error_connection_sslhandshake_failed">Echec de la négotiation SSL</string>
