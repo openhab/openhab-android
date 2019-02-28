@@ -9,11 +9,11 @@
 
 package org.openhab.habdroid.core;
 
-import com.google.android.gms.iid.InstanceIDListenerService;
+import com.google.firebase.iid.FirebaseInstanceIdService;
 
-public class GcmInstanceIdListenerService extends InstanceIDListenerService {
+public class FcmInstanceIdListenerService extends FirebaseInstanceIdService {
     @Override
     public void onTokenRefresh() {
-        GcmRegistrationService.scheduleRegistration(this);
+        FcmRegistrationService.scheduleRegistration(this);
     }
 }

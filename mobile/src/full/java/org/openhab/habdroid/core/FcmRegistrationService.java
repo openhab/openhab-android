@@ -14,15 +14,17 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
-import android.os.Bundle;
 import android.provider.Settings;
 import android.text.TextUtils;
 import android.util.Log;
+
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.firebase.messaging.RemoteMessage;
+
 import androidx.annotation.NonNull;
 import androidx.core.app.JobIntentService;
 
-import com.google.android.gms.gcm.GoogleCloudMessaging;
-import com.google.android.gms.iid.InstanceID;
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.core.connection.CloudConnection;
 import org.openhab.habdroid.core.connection.Connection;
@@ -34,8 +36,8 @@ import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.Locale;
 
-public class GcmRegistrationService extends JobIntentService {
-    private static final String TAG = GcmRegistrationService.class.getSimpleName();
+public class FcmRegistrationService extends JobIntentService {
+    private static final String TAG = FcmRegistrationService.class.getSimpleName();
 
     private static final int JOB_ID = 1000;
 
@@ -45,13 +47,13 @@ public class GcmRegistrationService extends JobIntentService {
     private static final String EXTRA_NOTIFICATION_ID = "notificationId";
 
     static void scheduleRegistration(Context context) {
-        Intent intent = new Intent(context, GcmRegistrationService.class)
-                .setAction(GcmRegistrationService.ACTION_REGISTER);
-        JobIntentService.enqueueWork(context, GcmRegistrationService.class, JOB_ID, intent);
+        Intent intent = new Intent(context, FcmRegistrationService.class)
+                .setAction(FcmRegistrationService.ACTION_REGISTER);
+        JobIntentService.enqueueWork(context, FcmRegistrationService.class, JOB_ID, intent);
     }
 
     static void scheduleHideNotification(Context context, int notificationId) {
-        JobIntentService.enqueueWork(context, GcmRegistrationService.class, JOB_ID,
+        JobIntentService.enqueueWork(context, FcmRegistrationService.class, JOB_ID,
                 makeHideNotificationIntent(context, notificationId));
     }
 
@@ -61,9 +63,9 @@ public class GcmRegistrationService extends JobIntentService {
     }
 
     private static Intent makeHideNotificationIntent(Context context, int notificationId) {
-        return new Intent(context, GcmRegistrationService.class)
-                .setAction(GcmRegistrationService.ACTION_HIDE_NOTIFICATION)
-                .putExtra(GcmRegistrationService.EXTRA_NOTIFICATION_ID, notificationId);
+        return new Intent(context, FcmRegistrationService.class)
+                .setAction(FcmRegistrationService.ACTION_HIDE_NOTIFICATION)
+                .putExtra(FcmRegistrationService.EXTRA_NOTIFICATION_ID, notificationId);
     }
 
     @Override
@@ -82,7 +84,7 @@ public class GcmRegistrationService extends JobIntentService {
         switch (action) {
             case ACTION_REGISTER:
                 try {
-                    registerGcm(connection);
+                    registerFcm(connection);
                 } catch (IOException e) {
                     CloudMessagingHelper.sRegistrationFailureReason = e;
                     Log.e(TAG, "GCM registration failed", e);
@@ -92,11 +94,7 @@ public class GcmRegistrationService extends JobIntentService {
             case ACTION_HIDE_NOTIFICATION:
                 int id = intent.getIntExtra(EXTRA_NOTIFICATION_ID, -1);
                 if (id >= 0) {
-                    try {
-                        sendHideNotificationRequest(id, connection.getMessagingSenderId());
-                    } catch (IOException e) {
-                        Log.e(TAG, "Failed sending notification hide message", e);
-                    }
+                    sendHideNotificationRequest(id, connection.getMessagingSenderId());
                 }
                 break;
             default:
@@ -104,10 +102,9 @@ public class GcmRegistrationService extends JobIntentService {
         }
     }
 
-    private void registerGcm(CloudConnection connection) throws IOException {
-        InstanceID instanceId = InstanceID.getInstance(this);
-        String token = instanceId.getToken(connection.getMessagingSenderId(),
-                GoogleCloudMessaging.INSTANCE_ID_SCOPE, null);
+    private void registerFcm(CloudConnection connection) throws IOException {
+        String token = FirebaseInstanceId.getInstance().getToken(connection.getMessagingSenderId(),
+                FirebaseMessaging.INSTANCE_ID_SCOPE);
         String deviceName = getDeviceName()
                 + (Util.isFlavorBeta() ? " (" + getString(R.string.beta) + ")" : "");
         String deviceId = Settings.Secure.getString(getContentResolver(),
@@ -156,20 +153,20 @@ public class GcmRegistrationService extends JobIntentService {
         }
     }
 
-    private void sendHideNotificationRequest(int notificationId, String senderId)
-            throws IOException {
-        GoogleCloudMessaging gcm = GoogleCloudMessaging.getInstance(this);
-        Bundle sendBundle = new Bundle();
-        sendBundle.putString("type", "hideNotification");
-        sendBundle.putString("notificationId", String.valueOf(notificationId));
-        gcm.send(senderId + "@gcm.googleapis.com", "1", sendBundle);
+    private void sendHideNotificationRequest(int notificationId, String senderId) {
+        FirebaseMessaging fcm = FirebaseMessaging.getInstance();
+        RemoteMessage message = new RemoteMessage.Builder(senderId + "@gcm.googleapis.com")
+                .addData("type", "hideNotification")
+                .addData("notificationId", String.valueOf(notificationId))
+                .build();
+        fcm.send(message);
     }
 
     public static class ProxyReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
             Intent actual = intent.getParcelableExtra("intent");
-            JobIntentService.enqueueWork(context, GcmRegistrationService.class, JOB_ID, actual);
+            JobIntentService.enqueueWork(context, FcmRegistrationService.class, JOB_ID, actual);
         }
 
         private static PendingIntent wrap(Context context, Intent intent, int id) {

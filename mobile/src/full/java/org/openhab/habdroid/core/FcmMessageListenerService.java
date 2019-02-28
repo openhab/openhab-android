@@ -20,14 +20,16 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.service.notification.StatusBarNotification;
 import android.text.TextUtils;
+
+import com.google.firebase.messaging.FirebaseMessagingService;
+import com.google.firebase.messaging.RemoteMessage;
+
 import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
 
-import com.google.android.gms.gcm.GcmListenerService;
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.core.connection.Connection;
 import org.openhab.habdroid.core.connection.ConnectionFactory;
@@ -36,8 +38,9 @@ import org.openhab.habdroid.util.Constants;
 import org.openhab.habdroid.util.SyncHttpClient;
 
 import java.util.Locale;
+import java.util.Map;
 
-public class GcmMessageListenerService extends GcmListenerService {
+public class FcmMessageListenerService extends FirebaseMessagingService {
     static final String EXTRA_NOTIFICATION_ID = "notificationId";
 
     private static final String CHANNEL_ID_DEFAULT = "default";
@@ -50,23 +53,30 @@ public class GcmMessageListenerService extends GcmListenerService {
             Build.VERSION.SDK_INT >= Build.VERSION_CODES.N;
 
     @Override
-    public void onMessageReceived(String from, Bundle data) {
+    public void onMessageReceived(RemoteMessage message) {
         NotificationManager nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        String messageType = data.getString("type", "");
-        String notificationIdString = data.getString(EXTRA_NOTIFICATION_ID);
+        Map<String, String> data = message.getData();
+        String messageType = data.get("type");
+        if (messageType == null) {
+            return;
+        }
+
+        String notificationIdString = data.get(EXTRA_NOTIFICATION_ID);
         int notificationId = notificationIdString != null
                 ? Integer.parseInt(notificationIdString) : 1;
 
         switch (messageType) {
             case "notification": {
-                String message = data.getString("message");
-                String severity = data.getString("severity");
-                String icon = data.getString("icon");
-                String persistedId = data.getString("persistedId");
+                String messageText = data.get("message");
+                String severity = data.get("severity");
+                String icon = data.get("icon");
+                String persistedId = data.get("persistedId");
                 // Older versions of openhab-cloud didn't send the notification generation
                 // timestamp, so use the (undocumented) google.sent_time as a time reference
                 // in that case. If that also isn't present, don't show time at all.
-                long timestamp = data.getLong("timestamp", data.getLong("google.sent_time", 0));
+                String timestampString = data.containsKey("timestamp")
+                        ? data.get("timestamp") : data.get("google.sent_time");
+                long timestamp = timestampString != null ? Long.valueOf(timestampString) : 0;
 
                 final String channelId = TextUtils.isEmpty(severity)
                         ? CHANNEL_ID_DEFAULT
@@ -82,7 +92,7 @@ public class GcmMessageListenerService extends GcmListenerService {
                     nm.createNotificationChannel(channel);
                 }
 
-                Notification n = makeNotification(message, channelId,
+                Notification n = makeNotification(messageText, channelId,
                         icon, timestamp, persistedId, notificationId);
                 nm.notify(notificationId, n);
 
@@ -156,7 +166,7 @@ public class GcmMessageListenerService extends GcmListenerService {
                 .setSound(Uri.parse(toneSetting))
                 .setContentText(msg)
                 .setContentIntent(contentIntent)
-                .setDeleteIntent(GcmRegistrationService.createHideNotificationIntent(this,
+                .setDeleteIntent(FcmRegistrationService.createHideNotificationIntent(this,
                         notificationId))
                 .setVisibility(NotificationCompat.VISIBILITY_PRIVATE)
                 .setPublicVersion(publicVersion)
@@ -180,7 +190,7 @@ public class GcmMessageListenerService extends GcmListenerService {
                 .setContentText(text)
                 .setPublicVersion(publicVersion)
                 .setContentIntent(clickIntent)
-                .setDeleteIntent(GcmRegistrationService.createHideNotificationIntent(this,
+                .setDeleteIntent(FcmRegistrationService.createHideNotificationIntent(this,
                         SUMMARY_NOTIFICATION_ID))
                 .build();
     }
