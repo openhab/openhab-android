@@ -121,6 +121,7 @@
     <string name="action_settings">Paramétrage</string>
     <string name="nfc_dialog_title">Sélectionner une action pour le tag NFC</string>
     <string name="info_not_set">Non paramétré</string>
+    <string name="empty_page">Cette page ne contient aucun widget qui soit défini pour être visible</string>
     <!-- Notification list strings -->
     <string name="notification_list_empty">Aucune notification n\'a été envoyée jusqu\'à maintenant</string>
     <string name="notification_list_error">Une erreur s’est produite lors de la récupération des notifications</string>
@@ -178,9 +179,18 @@
     <string name="cancel">Annuler</string>
     <string name="close">Fermer</string>
     <string name="try_again_button">Réessayer</string>
+    <string name="enable_wifi_button">Activer le Wi-Fi</string>
     <string name="go_to_settings_button">Ouvrir les paramètres</string>
+    <string name="enable_demo_mode_button">Activer le mode démo</string>
+    <string name="configuration_missing">Nous n\'avons pas trouvé de serveur openHAB sur votre réseau. Si vous avez déjà un serveur, configurez son nom d’hôte ou adresse IP dans les paramètres du serveur. Si vous n’avez pas encore de serveur, vous pouvez activer le mode démo pour voir ce dont openHAB est capable.</string>
+    <string name="no_remote_server">La connexion au serveur local a échoué et vous n’avez pas configuré de serveur distant</string>
     <string name="resolving_openhab">Tentative de découverte automatique du serveur openHAB\u2026</string>
+    <string name="waiting_for_wifi">En attente de la connexion par Wi-Fi\u2026</string>
     <!-- Log -->
+    <string name="log">Journal</string>
+    <string name="view_log">Afficher le journal</string>
+    <string name="clear_log">Effacer le journal</string>
+    <string name="empty_log">Le journal est vide</string>
     <!-- Content description for images -->
     <string name="content_description_open_roller_shutter">Ouvrir le volet</string>
     <string name="content_description_stop_roller_shutter">Stopper le volet</string>
