@@ -57,6 +57,7 @@
     <string name="settings_notification_vibration_short">Breve</string>
     <string name="settings_notification_vibration_long">Lungo</string>
     <string name="settings_notification_vibration_twice">Due volte</string>
+    <string name="settings_notification_ringtone_vibration">Impostazioni avvisi</string>
     <string name="settings_connection_summary">Connesso a %s</string>
     <string name="settings_insecure_connection_summary">Connesso in modo non sicuro a %s</string>
     <string name="beta">Beta</string>
@@ -87,6 +88,8 @@
     <string name="error_certificate_invalid_date">Il certificato SSL ha una data non valida. Si prega di ottenere un certificato corretto e verificare se l\'orologio sul dispositivo è impostato correttamente.</string>
     <string name="error_certificate_revoked">Il certificato SSL e\' stato revocato. Importa un nuovo certificato o accetta il certificato durante l\'handshake SSL.</string>
     <string name="error_certificate_wrong_host">Il certificato SSL non e\' valido per %s</string>
+    <string name="error_http_to_https_port">Fine imprevista dello stream. Stai cercando di connetterti ad una porta HTTPS tramite HTTP?</string>
+    <string name="webview_ssl">Attualmente questa app non supporta certificati SSL autofirmati per i widget Webview</string>
     <string name="error_http_code_401">Autenticazione non riuscita. Controlla l\'utente e password configurati nel certificato SSL (codice risposta HTTP 401).</string>
     <string name="error_http_code_403">Autenticazione non riuscita. Controlla l\'utente e password configurati nel certificato SSL (codice risposta HTTP 403).</string>
     <string name="error_http_code_407">Autenticazione non riuscita. Controlla l\'utente e password configurati nel certificato SSL (codice risposta HTTP 407).</string>
