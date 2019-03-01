@@ -10,7 +10,13 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Build;
 import android.preference.PreferenceManager;
-import android.util.Log;
+import androidx.annotation.StringRes;
+import androidx.core.app.NotificationCompat;
+import androidx.core.content.ContextCompat;
+import androidx.core.util.Pair;
+import androidx.lifecycle.Observer;
+import androidx.work.Data;
+import androidx.work.WorkInfo;
 
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.ui.MainActivity;
@@ -22,14 +28,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import androidx.annotation.StringRes;
-import androidx.core.app.NotificationCompat;
-import androidx.core.content.ContextCompat;
-import androidx.core.util.Pair;
-import androidx.lifecycle.Observer;
-import androidx.work.Data;
-import androidx.work.WorkInfo;
 
 class NotificationUpdateObserver implements Observer<List<WorkInfo>> {
     private static final int NOTIFICATION_ID_BACKGROUND_WORK = 1000;
@@ -166,6 +164,7 @@ class NotificationUpdateObserver implements Observer<List<WorkInfo>> {
         channel = new NotificationChannel(CHANNEL_ID_BACKGROUND_ERROR, name,
                 NotificationManager.IMPORTANCE_DEFAULT);
         channel.setDescription(description);
+        channel.enableVibration(true);
         channel.setLightColor(ContextCompat.getColor(context, R.color.openhab_orange));
         channel.enableLights(true);
         nm.createNotificationChannel(channel);
