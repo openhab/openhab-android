@@ -7,8 +7,10 @@ import okhttp3.OkHttpClient;
 import org.openhab.habdroid.util.AsyncHttpClient;
 import org.openhab.habdroid.util.SyncHttpClient;
 
+import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.net.SocketTimeoutException;
 import java.net.URL;
 
 public abstract class AbstractConnection implements Connection {
@@ -84,14 +86,38 @@ public abstract class AbstractConnection implements Connection {
             } else if (url.getProtocol().equals("https") && checkPort == -1) {
                 checkPort = 443;
             }
-            Socket s = new Socket();
-            s.connect(new InetSocketAddress(url.getHost(), checkPort), 1000);
+            Socket s = createConnectedSocket(new InetSocketAddress(url.getHost(), checkPort));
+            if (s == null) {
+                return false;
+            }
             Log.d(TAG, "Socket connected");
             s.close();
             return true;
         } catch (Exception e) {
-            Log.e(TAG, e.getMessage());
+            Log.d(TAG, e.getMessage());
             return false;
         }
+    }
+
+    private Socket createConnectedSocket(InetSocketAddress socketAddress) {
+        Socket s = new Socket();
+        for (int retries = 0; retries < 10; retries++) {
+            try {
+                s.connect(socketAddress, 1000);
+            } catch (SocketTimeoutException e) {
+                Log.d(TAG, "Socket timeout at the " + retries + ". try.", e);
+                return null;
+            } catch (IOException e) {
+                Log.d(TAG, "Socket connection failed at the " + retries + ". try.", e);
+                try {
+                    Thread.sleep(200);
+                } catch (InterruptedException ignored) {
+                    // ignored
+                }
+                continue;
+            }
+            return s;
+        }
+        return null;
     }
 }
