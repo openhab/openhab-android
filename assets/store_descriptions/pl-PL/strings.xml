@@ -1,35 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <strings>
-    <intro/>
-    <whatis/>
-    <rules/>
-    <supported/>
-    <bindings>  </bindings>
+    <intro>openHAB - "empowering the smart home" - niezależne i otwarte oprogramowanie dla automatyki domowej</intro>
+    <whatis>openHAB jest otwartą platformą dla automatyki domowej opartą na Javie, która integruje szeroki zakres różnych systemów i technologi "smart home" w jedno rozwiązanie.</whatis>
+    <rules>Na górnej ujednoliconej warstwie abstrakcji wszystkie połączone urządzenia są dostępne dla silnika reguł a także różnych interfejsów użytkownika.</rules>
+    <supported>Wspierane Produkty</supported>
+    <bindings>Ponad 200 dodatków wspierających marki, urządzenia, technologie i protokoły komunikacji. Jednymi z przykładów są Z-Wave, Philips Hue, Amazon Echo, Chromecast and Sonos. Odkryj wszystkie dostępne dodatki i obsługiwane urządzenia i/lub funkcje na: https://www.openhab.org/addons/</bindings>
 
-    <home_automation_solutions/>
-    <lighting/>
-    <heating/>
-    <home_entertainment/>
-    <security/>
-    <open_protocols/>
-    <special_useCases/>
-    <empty_point/>
+    <home_automation_solutions>• Rozwiązania automatyki domowej: Z-Wave, EnOcean, Netatmo, Homematic, Insteon, ...</home_automation_solutions>
+    <lighting>• Oświetlenie: Philips Hue, Ikea Trådfri, LIFX, Lutron, Milight,...</lighting>
+    <heating>• Ogrzewanie: Max!, Nest, Vitotronic, Heatmiser,...</heating>
+    <home_entertainment>• Kina domowego: Samsung TV, LG TV, Sonos, pionier AVR, ściskać, Kodi, Plex,...</home_entertainment>
+    <security>• Bezpieczeństwo: ZoneMinder, DSC,...</security>
+    <open_protocols>• Otwarte protokoły: HTTP, TCP/UDP, MQTT, Serial,...</open_protocols>
+    <special_useCases>Specjalne zastosowania: Minecraft, Samochody Tesla, Prognoza Pogody, ...</special_useCases>
+    <empty_point>• ...</empty_point>
 
-    <oss_community/>
-    <forum>  </forum>
+    <oss_community>Społeczność Open Source</oss_community>
+    <forum>Inicjatywa open source openHAB mocno wspiera swoją żywą społeczność. Forum z ponad 13 000 zarejestrowanymi użytkownikami to miejsce, gdzie możesz
+znaleźć wskazówki, pomoc i inspirację. Dołącz do forum społeczności openHAB na https://community.openhab.org</forum>
 
-    <report_issues/>
-    <translation/>
-    <foundation/>
-    <about_foundation> </about_foundation>
-    <important_note/>
-    <oh_server/>
+    <report_issues>Po znalezieniu problemu złoś go na forum lub na https://github.com/openhab/openhab-android/issues</report_issues>
+    <translation>Jeśli chcesz przetłumaczyć tę aplikację na swój język dołącz do nas na https://crowdin.com/project/openhab-android</translation>
+    <foundation>Fundacja openHAB</foundation>
+    <about_foundation>Fundacja openHAB jest organizacją non-profit z misją informowania o możliwościach i korzyściach z używania wolnych i otwartych rozwiązań dla inteligentnego domu. Dowiedz się więcej o misji i usługach fundacji na https://www.openhabfoundation.org</about_foundation>
+    <important_note>Istotne kwestie</important_note>
+    <oh_server>Potrzebujesz serwera openHAB dla tej aplikacji</oh_server>
     <short_description/>
     <fdroid/>
     <fdroid_beta><![CDATA[]]></fdroid_beta>
-    <fdroid_privacy_policy/>
-    <fdroid_anti_features/>
+    <fdroid_privacy_policy>Polityka prywatności: https://www.openhabfoundation.org/privacy.html</fdroid_privacy_policy>
+    <fdroid_anti_features>Anty Funkcje</fdroid_anti_features>
     <fdroid_anti_features_text/>
-    <beta/>
+    <beta>Wypróbuj nowe funkcje i dziel się uwagami!</beta>
     <play_beta/>
 </strings>
