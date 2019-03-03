@@ -170,13 +170,14 @@ public class GcmMessageListenerService extends GcmListenerService {
         PendingIntent clickIntent =
                 makeNotificationClickIntent(null, SUMMARY_NOTIFICATION_ID);
         Notification publicVersion = makeNotificationBuilder(CHANNEL_ID_DEFAULT, timestamp)
-                .setGroupSummary(true)
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                 .setContentText(text)
                 .setContentIntent(clickIntent)
                 .build();
         return makeNotificationBuilder(CHANNEL_ID_DEFAULT, timestamp)
+                .setGroupAlertBehavior(NotificationCompat.GROUP_ALERT_CHILDREN)
                 .setGroupSummary(true)
+                .setGroup("gcm")
                 .setContentText(text)
                 .setPublicVersion(publicVersion)
                 .setContentIntent(clickIntent)
