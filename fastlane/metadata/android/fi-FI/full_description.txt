@@ -1,8 +1,6 @@
 openHAB - "empowering the smart home" - Teknologia- ja valmistajariippumatonta, avoimen lähdekoodin kotiautomaatiota
 
 F-Droid sovelluskaupasta ladatuissa koontiversioissa on tuki karttanäytölle, mutta GCM ja kaatumisilmoitukset ovat pois käytöstä eikä ilmoitukset openHAB pilvestä ole käytettävissä.
-Kokeilla uusia ominaisuuksia ja anna pian palautetta!
-Voit asentaa beta version <a href="https://f-droid.org/packages/org.openhab.habdroid/">vakaan version</a> rinnalle.
 
 <b>Tärkeä huomautus</b>
 

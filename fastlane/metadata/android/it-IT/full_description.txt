@@ -1,8 +1,6 @@
 openHAB - "empowering the smart home" - open source home automation indipendente da tecnologia e produttore
 
 Il compilato su F-Droid ha il supporto per map-view, GCM e crash reporting rimosso e non sara' in grado di ricevere notifiche da openHAB cloud.
-Prova le nuove funzioni e dai un feedback quanto prima!
-È possibile installare la versione beta insieme alla <a href="https://f-droid.org/packages/org.openhab.habdroid/">versione stabile</a>.
 
 <b>Nota importante</b>
 
