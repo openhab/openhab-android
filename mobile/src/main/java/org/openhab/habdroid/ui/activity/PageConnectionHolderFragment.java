@@ -552,8 +552,9 @@ public class PageConnectionHolderFragment extends Fragment {
             @Override
             public boolean onRetryError(ServerSentEvent sse,
                     Throwable throwable, Response response) {
+                int statusCode = response != null ? response.code() : 0;
                 Log.w(TAG, "SSE stream failed for page " + mPageId
-                        + " with status " + response.code() + " (retry " + mRetries + ")");
+                        + " with status " + statusCode + " (retry " + mRetries + ")");
                 // Stop retrying after maximum amount of subsequent retries is reached
                 return ++mRetries < MAX_RETRIES;
             }
