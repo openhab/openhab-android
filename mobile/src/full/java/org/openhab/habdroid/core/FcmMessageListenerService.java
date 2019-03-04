@@ -53,6 +53,12 @@ public class FcmMessageListenerService extends FirebaseMessagingService {
             Build.VERSION.SDK_INT >= Build.VERSION_CODES.N;
 
     @Override
+    public void onNewToken(String token) {
+        super.onNewToken(token);
+        FcmRegistrationService.scheduleRegistration(this);
+    }
+
+    @Override
     public void onMessageReceived(RemoteMessage message) {
         NotificationManager nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         Map<String, String> data = message.getData();
