@@ -112,7 +112,7 @@ dependencies {
         exclude group: 'com.intellij', module: 'annotations'
     }
     // Google Maps
-    fullImplementation 'com.google.android.gms:play-services-maps:12.0.1'
+    fullImplementation 'com.google.android.gms:play-services-maps:16.1.0'
 
     // About screen
     implementation 'com.github.daniel-stoneuk:material-about-library:2.4.2'
