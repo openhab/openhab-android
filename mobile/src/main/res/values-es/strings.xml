@@ -57,6 +57,7 @@
     <string name="settings_notification_vibration_short">Corta</string>
     <string name="settings_notification_vibration_long">Larga</string>
     <string name="settings_notification_vibration_twice">Dos veces</string>
+    <string name="settings_notification_ringtone_vibration">Configuración de las notificaciones</string>
     <string name="settings_connection_summary">Conectado a %s</string>
     <string name="settings_insecure_connection_summary">Conectado a %s de forma no segura</string>
     <string name="beta">Beta</string>

@@ -57,8 +57,10 @@
     <string name="settings_notification_vibration_short">Коротко</string>
     <string name="settings_notification_vibration_long">Довго</string>
     <string name="settings_notification_vibration_twice">Двічі</string>
+    <string name="settings_notification_ringtone_vibration">Параметри сповіщень</string>
     <string name="settings_connection_summary">З\'єднано з %s</string>
     <string name="settings_insecure_connection_summary">Під\'єднано до %s без перевірки безпеки</string>
+    <string name="beta">Бета</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Голосові команди</string>
     <string name="title_voice_widget_icon">Голосові команди та ярлик застосунку</string>
@@ -67,20 +69,27 @@
     <string name="info_demo_mode_short">Працює в демо-режимі</string>
     <string name="info_conn_url">Підключення до локального URL</string>
     <string name="info_conn_rem_url">Підключення до віддаленого URL</string>
+    <string name="app_shortcut_diabled_habpanel">Ваш сервер не має встановленої HABPanel</string>
+    <string name="app_shortcut_diabled_notifications">Ваш віддалений сервер недоступний</string>
+    <string name="app_shortcut_diabled_voice_recognition">Ваш пристрій не має встановленого застосунку для голосового набору тексту</string>
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB повернув порожній список сторінок інтерфейсу</string>
     <string name="error_network_not_available">Мережа недоступна</string>
     <string name="error_wifi_not_available">Wi-Fi вимкнено</string>
     <string name="error_http_connection_failed">Помилка підключення. Отримана неочікувана відповідь від openHAB. Переконайтесь у правильності роботи сервера openHAB (код відповіді HTTP: %d).</string>
     <string name="error_invalid_url">Будь ласка, введіть правильне посилання URL у форматі \'http(s)://хост(:порт)/\'</string>
+    <string name="error_port_seems_invalid">Введений порт здається непридатний для вибраного протоколу</string>
     <string name="error_connection_failed">Підключення до хоста не вдалося</string>
     <string name="error_unable_to_resolve_hostname">Не вдалося знайти доменне ім\'я</string>
     <string name="error_connection_sslhandshake_failed">Помилка SSL з\'єднання</string>
     <string name="error_certificate_not_trusted">Не довірений сертифікат SSL. Будь ласка, імпортуйте кореневий сертифікат або прийміть його під час SSL підключення.</string>
     <string name="error_certificate_expired">Минув термін дії сертифікату SSL. Будь ласка, отримайте новий сертифікат або прийміть його під час SSL підключення.</string>
     <string name="error_certificate_not_valid_yet">SSL сертифікат ще не дійсний. Будь ласка, отримаєте правильний сертифікат або прийміть його під час SSL підключення. Також перевірте, чи правильно встановлено годинник на вашому пристрої.</string>
+    <string name="error_certificate_invalid_date">SSL сертифікат містить неприпустиму дату. Будь ласка, отримаєте правильний сертифікат і перевірте чи правильний час встановлений на пристрої.</string>
     <string name="error_certificate_revoked">Сертифікат SSL відкликано. Будь ласка, отримайте новий сертифікат або прийміть його під час SSL підключення.</string>
     <string name="error_certificate_wrong_host">Сертифікат SSL не дійсний для %s</string>
+    <string name="error_http_to_https_port">Неочікуване завершення потоку. Ви намагаєтесь під\'єднатися до HTTPS порту через HTTP?</string>
+    <string name="webview_ssl">Наразі цей застосунок не підтримує SSL сертифікати з власним підписом для віджетів</string>
     <string name="error_http_code_401">Помилка аутентифікації користувача. Будь ласка, перевірте налаштований логін і пароль відповідно до сертифікату клієнта SSL (код відповіді HTTP 401).</string>
     <string name="error_http_code_403">Помилка аутентифікації користувача. Будь ласка, перевірте налаштований логін і пароль відповідно до сертифікату клієнта SSL (код відповіді HTTP 403).</string>
     <string name="error_http_code_407">Помилка аутентифікації користувача. Будь ласка, перевірте налаштований логін і пароль відповідно до сертифікату клієнта SSL (код відповіді HTTP 407).</string>

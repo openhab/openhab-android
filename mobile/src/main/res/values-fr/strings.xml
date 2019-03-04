@@ -9,6 +9,8 @@
     <!-- Main menu items -->
     <string name="mainmenu_openhab_sitemaps">Sitemaps</string>
     <string name="mainmenu_openhab_preferences">Préférences</string>
+    <string name="mainmenu_openhab_habpanel">HABPanel</string>
+    <string name="habpanel_error">Une erreur s’est produite lors du chargement de HABPanel</string>
     <string name="mainmenu_openhab_selectsitemap">Sélectionner la Sitemap par défaut</string>
     <string name="mainmenu_openhab_clearcache">Effacer le cache image</string>
     <!-- App settings strings -->
@@ -28,6 +30,7 @@
     <string name="settings_openhab_screentimeroff">Désactiver l\'extinction d\'écran</string>
     <string name="settings_openhab_screentimeroff_summary">Désactiver l\'extinction d\'écran lorsque l\'app openHAB fonctionne</string>
     <string name="settings_openhab_demomode">Mode démo</string>
+    <string name="settings_openhab_demomode_summary">Si vous n’avez pas de serveur openHAB, activez le mode démo pour avoir un aperçu de ce dont openHAB est capable.</string>
     <string name="settings_openhab_theme">Thème</string>
     <string name="settings_openhab_fullscreen">Plein écran</string>
     <string name="settings_openhab_fullscreen_summary">Afficher l\'app openHAB en mode plein écran</string>
@@ -54,27 +57,39 @@
     <string name="settings_notification_vibration_short">Courte</string>
     <string name="settings_notification_vibration_long">Longue</string>
     <string name="settings_notification_vibration_twice">Deux fois</string>
+    <string name="settings_notification_ringtone_vibration">Préférences de notification</string>
     <string name="settings_connection_summary">Connecté à %s</string>
     <string name="settings_insecure_connection_summary">Connexion non sécurisée à %s</string>
+    <string name="beta">Bêta</string>
     <!-- App messages strings -->
+    <string name="title_voice_widget">Commandes vocales</string>
+    <string name="title_voice_widget_icon">Commandes vocales et raccourci</string>
     <string name="info_voice_input">openHAB, à vos ordres!</string>
     <string name="info_voice_recognized_text">Commande identifiée: %1$s</string>
     <string name="info_demo_mode_short">Exécution en mode démo</string>
     <string name="info_conn_url">Connexion à l\'adresse locale</string>
     <string name="info_conn_rem_url">Connexion à l\'adresse distante</string>
+    <string name="app_shortcut_diabled_habpanel">Votre serveur n\'a pas HABPanel d\'installé</string>
+    <string name="app_shortcut_diabled_notifications">Votre serveur distant n\'est pas disponible</string>
+    <string name="app_shortcut_diabled_voice_recognition">Votre appareil n\'a pas de synthèse vocale d\'installée</string>
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB a renvoyé une liste vide de sitemaps</string>
     <string name="error_network_not_available">Aucune connexion réseau disponible</string>
+    <string name="error_wifi_not_available">Le Wi-Fi est désactivé</string>
     <string name="error_http_connection_failed">Connexion échouée. Une réponse inattendue a été reçue en essayant de se connecter au serveur openHAB configuré (code de réponse HTTP reçu : %d).</string>
     <string name="error_invalid_url">Entrez une URL valide au format \'http(s)://hote(:port)/\'</string>
+    <string name="error_port_seems_invalid">Le port que vous avez entré semble invalide pour le protocole sélectionné</string>
     <string name="error_connection_failed">Connexion au domaine échouée</string>
     <string name="error_unable_to_resolve_hostname">Impossible de résoudre le nom d\'hôte</string>
     <string name="error_connection_sslhandshake_failed">Echec de la négotiation SSL</string>
     <string name="error_certificate_not_trusted">Le certificat SSL n\'est pas un certificat de confiance. Veuillez importer le certificat racine ou désactiver la validation du certificat.</string>
     <string name="error_certificate_expired">Le certificat SSL a expiré. Veuillez obtenir un nouveau certificat ou désactiver la validation du certificat.</string>
     <string name="error_certificate_not_valid_yet">Le certificat SSL n\'est pas encore valide. Veuillez obtenir un certificat valide ou désactiver la validation du certificat. Vérifiez également que votre appareil est à l\'heure.</string>
+    <string name="error_certificate_invalid_date">Le certificat SSL a une date invalide. Veuillez obtenir un certificat correct et vérifiez si l\'horloge de votre appareil est correctement définie.</string>
     <string name="error_certificate_revoked">Le certificat SSL a été révoqué. Veuillez obtenir un nouveau certificat ou désactiver la validation du certificat.</string>
     <string name="error_certificate_wrong_host">Le certificat SSL n\'est pas valide pour %s</string>
+    <string name="error_http_to_https_port">Fin de flux inattendue. Essayez-vous de vous connecter à un port HTTPS via HTTP ?</string>
+    <string name="webview_ssl">Actuellement cette application ne supporte pas les certificats SSL auto-signés pour les widgets Webview</string>
     <string name="error_http_code_401">L’authentification a échoué. Veuillez vérifier le nom d’utilisateur et mot de passe configurés, respectivement le certificat client SSL fourni (code de réponse HTTP 401).</string>
     <string name="error_http_code_403">L’authentification a échoué. Veuillez vérifier le nom d’utilisateur et mot de passe configurés, respectivement le certificat client SSL fourni (code de réponse HTTP 403).</string>
     <string name="error_http_code_407">L’authentification a échoué. Veuillez vérifier le nom d’utilisateur et mot de passe configurés, respectivement le certificat client SSL fourni (code de réponse HTTP 407).</string>
@@ -106,6 +121,7 @@
     <string name="action_settings">Paramétrage</string>
     <string name="nfc_dialog_title">Sélectionner une action pour le tag NFC</string>
     <string name="info_not_set">Non paramétré</string>
+    <string name="empty_page">Cette page ne contient aucun widget qui soit défini pour être visible</string>
     <!-- Notification list strings -->
     <string name="notification_list_empty">Aucune notification n\'a été envoyée jusqu\'à maintenant</string>
     <string name="notification_list_error">Une erreur s’est produite lors de la récupération des notifications</string>
@@ -163,9 +179,18 @@
     <string name="cancel">Annuler</string>
     <string name="close">Fermer</string>
     <string name="try_again_button">Réessayer</string>
+    <string name="enable_wifi_button">Activer le Wi-Fi</string>
     <string name="go_to_settings_button">Ouvrir les paramètres</string>
+    <string name="enable_demo_mode_button">Activer le mode démo</string>
+    <string name="configuration_missing">Nous n\'avons pas trouvé de serveur openHAB sur votre réseau. Si vous avez déjà un serveur, configurez son nom d’hôte ou adresse IP dans les paramètres du serveur. Si vous n’avez pas encore de serveur, vous pouvez activer le mode démo pour voir ce dont openHAB est capable.</string>
+    <string name="no_remote_server">La connexion au serveur local a échoué et vous n’avez pas configuré de serveur distant</string>
     <string name="resolving_openhab">Tentative de découverte automatique du serveur openHAB\u2026</string>
+    <string name="waiting_for_wifi">En attente de la connexion par Wi-Fi\u2026</string>
     <!-- Log -->
+    <string name="log">Journal</string>
+    <string name="view_log">Afficher le journal</string>
+    <string name="clear_log">Effacer le journal</string>
+    <string name="empty_log">Le journal est vide</string>
     <!-- Content description for images -->
     <string name="content_description_open_roller_shutter">Ouvrir le volet</string>
     <string name="content_description_stop_roller_shutter">Stopper le volet</string>

@@ -11,6 +11,7 @@
     <string name="mainmenu_openhab_preferences">Configurações</string>
     <string name="mainmenu_openhab_clearcache">Limpar cache das imagens</string>
     <!-- App settings strings -->
+    <string name="settings_misc_title">Diversos</string>
     <string name="settings_openhab_url">URL do servidor local</string>
     <string name="settings_openhab_url_summary">A URL do painel openHAB (baseado no nome do host ou IP). Se configurado, está desativada a detecção automática. Configuração atual %s</string>
     <string name="settings_openhab_alturl">URL do servidor remoto</string>
@@ -28,6 +29,7 @@
     <string name="settings_openhab_icon_format">Formato de icone</string>
     <string name="settings_openhab_icon_format_png">Bitmap</string>
     <string name="settings_openhab_icon_format_svg">Vetor</string>
+    <string name="settings_openhab_alt_connection">Remoto</string>
     <!-- App messages strings -->
     <string name="info_voice_input">openhab, às suas ordens!</string>
     <string name="info_voice_recognized_text">Comando reconhecido: %1$s</string>
@@ -36,10 +38,15 @@
     <string name="info_conn_rem_url">Conectando a URL local</string>
     <!-- Error messages -->
     <string name="error_network_not_available">Rede não está disponivel</string>
+    <string name="error_invalid_url">Por favor introduza um URL válido num padrão \'http(s)://endereço(:porto)/\'</string>
     <string name="error_connection_failed">Conexão ao host falhado</string>
     <string name="error_unable_to_resolve_hostname">Não foi possível resolver nome de anfitrião</string>
+    <string name="error_certificate_wrong_host">Certificado SSL não é válido para %s</string>
     <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
     <string name="error_http_code_496">Certificado de cliente SSL é necessário (HTTP código de resposta 496)</string>
+    <string name="error_http_code_502">O seu reverse proxy tem uma resposta inválida de openHAB (HTTP código de resposta 502)</string>
+    <string name="error_http_code_503">O Servidor openHAB está temporariamente indisponível (HTTP código de resposta 503)</string>
+    <string name="error_http_code_507">O servidor openHAB não tem espaço livre suficiente (HTTP código de resposta 507)</string>
     <string name="error_http_code_511">Autenticação de rede é necessária (HTTP código de resposta 511)</string>
     <string name="title_activity_openhabwritetag">Escrever na etiqueta NFC</string>
     <string name="info_write_tag">Toque na etiqueta e mantenha-la perto até aparecer a mensagem de confirmação</string>
@@ -87,6 +94,16 @@
     <string name="cancel">Cancelar</string>
     <!-- Log -->
     <!-- Content description for images -->
+    <string name="content_description_open_roller_shutter">Abrir estore</string>
+    <string name="content_description_stop_roller_shutter">Parar estore</string>
+    <string name="content_description_close_roller_shutter">Fechar estore</string>
+    <string name="content_description_open_color_wheel">Abrir cores</string>
+    <string name="content_description_color_up">Ligar ou mantenha para aumentar o brilho</string>
+    <string name="content_description_color_down">Desligar ou mantenha para diminuir o brilho</string>
+    <string name="content_description_open_number_picker">Abrir selecção de valor</string>
+    <string name="content_description_video">Vídeo</string>
+    <string name="content_description_open_openhab">Abrir openHAB</string>
+    <string name="swipe_to_refresh_dismiss">Percebi!</string>
     <!-- Intro strings -->
     <string name="app_intro">Introdução</string>
     <string name="intro_welcome">Bem-vindo ao openHAB</string>
