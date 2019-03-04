@@ -57,8 +57,10 @@
     <string name="settings_notification_vibration_short">Krátce</string>
     <string name="settings_notification_vibration_long">Dlouze</string>
     <string name="settings_notification_vibration_twice">Dvakrát</string>
+    <string name="settings_notification_ringtone_vibration">Nastavení oznámení</string>
     <string name="settings_connection_summary">Připojen k %s</string>
     <string name="settings_insecure_connection_summary">Připojen k %s nezabezpečenou komunikací</string>
+    <string name="beta">Zkušební verze</string>
     <!-- App messages strings -->
     <string name="title_voice_widget">Hlasové příkazy</string>
     <string name="title_voice_widget_icon">Hlasové příkazy a zástupce aplikace</string>
@@ -67,20 +69,27 @@
     <string name="info_demo_mode_short">Spuštěno v ukázkovém režimu</string>
     <string name="info_conn_url">Připojuji se k lokální URL</string>
     <string name="info_conn_rem_url">Připojuji se ke vzdálené URL</string>
+    <string name="app_shortcut_diabled_habpanel">Na Vašem serveru není nainstalován HABPanel</string>
+    <string name="app_shortcut_diabled_notifications">Vzdálený server není dostupný</string>
+    <string name="app_shortcut_diabled_voice_recognition">Na Vašem zařízení nemáte nainstalovanou aplikaci k převodu řeči na text</string>
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB vrátil prázdný seznam Sitemap</string>
     <string name="error_network_not_available">Síť není k dispozici</string>
     <string name="error_wifi_not_available">Wi-Fi je vypnuta</string>
     <string name="error_http_connection_failed">Připojení se nezdařilo. Byla přijata neočekávaná odpověď při pokusu o připojení k serveru openHAB (HTTP kód odpovědi: %d).</string>
     <string name="error_invalid_url">Zadejte platnou adresu URL ve formátu \'http(s)://host(:port) /\'</string>
+    <string name="error_port_seems_invalid">Port, který jste zadali, se zdá být neplatný pro vybraný protokol</string>
     <string name="error_connection_failed">Připojení k serveru se nezdařilo</string>
     <string name="error_unable_to_resolve_hostname">Nelze zjistit název hostitele</string>
     <string name="error_connection_sslhandshake_failed">Ověření SSL metodou handshake se nezdařilo</string>
     <string name="error_certificate_not_trusted">SSL certifikát není důvěryhodný. Importujte kořenový certifikát nebo akceptujte certifikát během SSL handshake.</string>
     <string name="error_certificate_expired">Vypršela platnost certifikátu SSL. Získejte nový certifikát nebo akceptujte ověření certifikátu během SSL handshake.</string>
     <string name="error_certificate_not_valid_yet">SSL certifikát ještě není platný. Získejte správný certifikát nebo akceptujte ověření certifikátu během ověření SSL metodou handshake. Také zkontrolujte, jestli je správně nastaven čas na vašem zařízení.</string>
+    <string name="error_certificate_invalid_date">SSL certifikát vypršel. Vyžádejte si platný certifikát a zkontrolujte, jestli máte na zařízení správně nastavený čas.</string>
     <string name="error_certificate_revoked">Certifikát SSL byl odvolán. Získejte nový certifikát nebo akceptujte ověření certifikátu během SSL handshake.</string>
     <string name="error_certificate_wrong_host">Certifikát SSL není platný pro %s</string>
+    <string name="error_http_to_https_port">Neočekávaný konec datového proudu. Snažíte se připojit k HTTPS portu pomocí HTTP?</string>
+    <string name="webview_ssl">V současné době tato aplikace nepodporuje vlastnoručně podepsané SSL certifikáty pro Webview widgety</string>
     <string name="error_http_code_401">Ověření se nezdařilo. Zkontrolujte uživatelské jméno a heslo, případně klientský certifikát SSL (kód odpovědi HTTP 401).</string>
     <string name="error_http_code_403">Ověření se nezdařilo. Zkontrolujte uživatelské jméno a heslo, případně klientský certifikát SSL (kód odpovědi HTTP 403).</string>
     <string name="error_http_code_407">Ověření se nezdařilo. Zkontrolujte uživatelské jméno a heslo, případně klientský certifikát SSL (kód odpovědi HTTP 407).</string>
