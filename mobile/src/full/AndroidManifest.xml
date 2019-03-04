@@ -29,6 +29,10 @@
             android:permission="android.permission.BIND_JOB_SERVICE" />
 
         <meta-data
+            android:name="firebase_analytics_collection_deactivated"
+            android:value="true" />
+
+        <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
