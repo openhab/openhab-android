@@ -1,6 +1,8 @@
 openHAB - "potenciando el hogar inteligente" - automatización del hogar en código abierto independiente del proveedor y la tecnología
 
 Las versiones basadas en F-Droid no tienen soporte para vista de mapa, GCM o informes de errores, y no podrán recibir notificaciones push de openHAB Cloud.
+¡Pruebe las nuevas características y repórtenos su experiencia!
+Puede instalar la versión beta junto a la <a href="https://f-droid.org/packages/org.openhab.habdroid/">versión estable</a>.
 
 <b>Nota importante</b>
 
