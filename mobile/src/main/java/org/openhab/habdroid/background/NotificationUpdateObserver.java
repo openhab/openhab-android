@@ -111,6 +111,8 @@ class NotificationUpdateObserver implements Observer<List<WorkInfo>> {
                 final String value = data.getString(ItemUpdateWorker.OUTPUT_DATA_VALUE);
                 final boolean hadConnection =
                         data.getBoolean(ItemUpdateWorker.OUTPUT_DATA_HAS_CONNECTION, false);
+                final boolean isDemo =
+                        data.getBoolean(ItemUpdateWorker.OUTPUT_DATA_IS_DEMO, false);
                 final int httpStatus =
                         data.getInt(ItemUpdateWorker.OUTPUT_DATA_HTTP_STATUS, 0);
 
@@ -118,6 +120,8 @@ class NotificationUpdateObserver implements Observer<List<WorkInfo>> {
                 if (hadConnection) {
                     errors.add(mContext.getString(
                             R.string.item_update_http_error, itemName, httpStatus));
+                } else if (isDemo) {
+                    errors.add(mContext.getString(R.string.item_update_connection_is_demo));
                 } else {
                     errors.add(mContext.getString(
                             R.string.item_update_connection_error, itemName));
