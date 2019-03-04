@@ -22,6 +22,8 @@ import androidx.core.util.Pair;
 import de.duenndns.ssl.MemorizingTrustManager;
 import okhttp3.OkHttpClient;
 import okhttp3.internal.tls.OkHostnameVerifier;
+import okhttp3.logging.HttpLoggingInterceptor;
+
 import org.openhab.habdroid.core.CloudMessagingHelper;
 import org.openhab.habdroid.core.connection.exception.ConnectionException;
 import org.openhab.habdroid.core.connection.exception.NetworkNotAvailableException;
@@ -78,6 +80,7 @@ public final class ConnectionFactory extends BroadcastReceiver implements
     private final Context mContext;
     private final SharedPreferences mPrefs;
     private final MemorizingTrustManager mTrustManager;
+    private HttpLoggingInterceptor mHttpLogger;
     private OkHttpClient mHttpClient;
     private String mLastClientCertAlias;
 
@@ -107,9 +110,13 @@ public final class ConnectionFactory extends BroadcastReceiver implements
         mPrefs = prefs;
         prefs.registerOnSharedPreferenceChangeListener(this);
 
+        mHttpLogger = new HttpLoggingInterceptor();
+        updateHttpLoggerSettings();
+
         mTrustManager = new MemorizingTrustManager(context);
         mHttpClient = new OkHttpClient.Builder()
                 .cache(CacheManager.getInstance(context).getHttpCache())
+                .addInterceptor(mHttpLogger)
                 .hostnameVerifier(mTrustManager.wrapHostnameVerifier(OkHostnameVerifier.INSTANCE))
                 .build();
         updateHttpClientForClientCert(true);
@@ -197,6 +204,9 @@ public final class ConnectionFactory extends BroadcastReceiver implements
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        if (Constants.PREFERENCE_DEBUG_MESSAGES.equals(key)) {
+            updateHttpLoggerSettings();
+        }
         if (CLIENT_CERT_UPDATE_TRIGGERING_KEYS.contains(key)) {
             updateHttpClientForClientCert(false);
         }
@@ -388,6 +398,15 @@ public final class ConnectionFactory extends BroadcastReceiver implements
             mCloudConnection = null;
             mConnectionFailureReason = null;
             triggerConnectionUpdateIfNeeded();
+        }
+    }
+
+    private void updateHttpLoggerSettings() {
+        if (mPrefs.getBoolean(Constants.PREFERENCE_DEBUG_MESSAGES, false)) {
+            mHttpLogger.redactHeader("Authorization");
+            mHttpLogger.setLevel(HttpLoggingInterceptor.Level.HEADERS);
+        } else {
+            mHttpLogger.setLevel(HttpLoggingInterceptor.Level.NONE);
         }
     }
 
