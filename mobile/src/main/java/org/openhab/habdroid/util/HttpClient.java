@@ -49,6 +49,15 @@ public abstract class HttpClient {
         return new OkSse(mClient);
     }
 
+    public Request.Builder makeAuthenticatedRequestBuilder() {
+        Request.Builder builder = new Request.Builder()
+                .addHeader("User-Agent", "openHAB client for Android");
+        if (mAuthHeader != null) {
+            builder.addHeader("Authorization", mAuthHeader);
+        }
+        return builder;
+    }
+
     public HttpUrl buildUrl(String url) {
         HttpUrl absoluteUrl = HttpUrl.parse(url);
         if (absoluteUrl == null && mBaseUrl != null) {
@@ -66,12 +75,8 @@ public abstract class HttpClient {
     protected Call prepareCall(String url, String method, Map<String, String> additionalHeaders,
             String requestBody, String mediaType,
             long timeoutMillis, CachingMode caching) {
-        Request.Builder requestBuilder = new Request.Builder();
-        requestBuilder.url(buildUrl(url));
-        requestBuilder.addHeader("User-Agent", "openHAB client for Android");
-        if (mAuthHeader != null) {
-            requestBuilder.addHeader("Authorization", mAuthHeader);
-        }
+        Request.Builder requestBuilder = makeAuthenticatedRequestBuilder()
+                .url(buildUrl(url));
         if (additionalHeaders != null) {
             for (Map.Entry<String, String> entry : additionalHeaders.entrySet()) {
                 requestBuilder.addHeader(entry.getKey(), entry.getValue());
