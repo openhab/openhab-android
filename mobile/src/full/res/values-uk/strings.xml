@@ -5,6 +5,7 @@
     <string name="info_openhab_gcm_unsupported">Недоступно, віддалений сервер не є екземпляром openHAB cloud</string>
     <string name="info_openhab_gcm_in_progress">Пристрій реєструється</string>
     <string name="info_openhab_gcm_failed">Помилка реєстрації пристрою</string>
+    <string name="info_openhab_gcm_connected">Пристрій успішно зареєстровано в Firebase Cloud Messaging</string>
     <string name="notification_channel_default">За замовчуванням</string>
     <string name="notification_channel_severity_value">Строго \'%1$s\'</string>
     <plurals name="summary_notification_text">
