@@ -112,9 +112,7 @@ dependencies {
         exclude group: 'com.intellij', module: 'annotations'
     }
     // Google Maps
-    fullImplementation 'com.google.android.gms:play-services-maps:12.0.1'
-    // GCM
-    fullImplementation 'com.google.android.gms:play-services-gcm:12.0.1'
+    fullImplementation 'com.google.android.gms:play-services-maps:16.1.0'
 
     // About screen
     implementation 'com.github.daniel-stoneuk:material-about-library:2.4.2'
@@ -129,7 +127,10 @@ dependencies {
         transitive = true
     }
 
-    fullImplementation 'com.google.firebase:firebase-core:12.0.1'
+    fullImplementation ('com.google.firebase:firebase-messaging:17.3.4') {
+        exclude group: 'com.google.firebase', module: 'firebase-analytics'
+        exclude group: 'com.google.firebase', module: 'firebase-measurement-connector'
+    }
 
     implementation 'com.google.auto.value:auto-value-annotations:1.6.3'
     annotationProcessor 'com.google.auto.value:auto-value:1.6.2'
