@@ -57,6 +57,7 @@
     <string name="settings_notification_vibration_short">Rövid</string>
     <string name="settings_notification_vibration_long">Hosszú</string>
     <string name="settings_notification_vibration_twice">Kétszer</string>
+    <string name="settings_notification_ringtone_vibration">Értesítési beállítások</string>
     <string name="settings_connection_summary">Csatlakoztatva a %s</string>
     <string name="settings_insecure_connection_summary">Nembiztonságosan csatakoztatva a %s</string>
     <string name="beta">Béta</string>
