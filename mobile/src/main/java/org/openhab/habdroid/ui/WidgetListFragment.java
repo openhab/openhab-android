@@ -61,8 +61,6 @@ public class WidgetListFragment extends Fragment
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        Log.d(TAG, "onCreate()");
-        Log.d(TAG, "isAdded = " + isAdded());
         super.onCreate(savedInstanceState);
 
         Bundle args = getArguments();
@@ -79,8 +77,7 @@ public class WidgetListFragment extends Fragment
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        Log.d(TAG, "onActivityCreated()");
-        Log.d(TAG, "isAdded = " + isAdded());
+        Log.d(TAG, "onActivityCreated() " + mPageUrl);
         mActivity = (MainActivity) getActivity();
 
         mAdapter = new WidgetAdapter(mActivity, mActivity.getConnection(), this);
@@ -110,8 +107,6 @@ public class WidgetListFragment extends Fragment
 
     @Override
     public void onItemLongClicked(final Widget widget) {
-        Log.d(TAG, "Widget type = " + widget.type());
-
         ArrayList<String> labels = new ArrayList<>();
         ArrayList<String> commands = new ArrayList<>();
 
@@ -176,15 +171,12 @@ public class WidgetListFragment extends Fragment
     public View onCreateView(LayoutInflater inflater,
             ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        Log.d(TAG, "onCreateView()");
-        Log.d(TAG, "isAdded = " + isAdded());
         return inflater.inflate(R.layout.fragment_widgetlist, container, false);
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
-        Log.d(TAG, "onViewCreated()");
-        Log.d(TAG, "isAdded = " + isAdded());
+        Log.d(TAG, "onViewCreated() " + mPageUrl);
         super.onViewCreated(view, savedInstanceState);
         mRecyclerView = view.findViewById(R.id.recyclerview);
         mEmptyPageView = view.findViewById(android.R.id.empty);
@@ -202,7 +194,7 @@ public class WidgetListFragment extends Fragment
 
     @Override
     public void onStart() {
-        Log.d(TAG, "onStart()");
+        Log.d(TAG, "onStart() " + mPageUrl);
         super.onStart();
         mActivity.triggerPageUpdate(mPageUrl, false);
         if (mAdapter != null) {
@@ -213,7 +205,7 @@ public class WidgetListFragment extends Fragment
     @Override
     public void onPause() {
         super.onPause();
-        Log.d(TAG, "onPause() " + mPageUrl + ", isAdded: " + isAdded());
+        Log.d(TAG, "onPause() " + mPageUrl);
         if (mAdapter != null) {
             startOrStopVisibleViewHolders(false);
         }
@@ -223,11 +215,9 @@ public class WidgetListFragment extends Fragment
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         mIsVisible = isVisibleToUser;
-        Log.d(TAG, String.format("isVisibleToUser(%B)", isVisibleToUser));
     }
 
     public static WidgetListFragment withPage(String pageUrl, String pageTitle) {
-        Log.d(TAG, "withPage(" + pageUrl + ")");
         WidgetListFragment fragment = new WidgetListFragment();
         Bundle args = new Bundle();
         args.putString("displayPageUrl", pageUrl);

@@ -41,7 +41,6 @@ public class WidgetDataSource {
     }
 
     public void setSourceNode(Node rootNode) {
-        Log.i(TAG, "Loading new data");
         if (rootNode == null) {
             return;
         }
@@ -62,7 +61,6 @@ public class WidgetDataSource {
     }
 
     public void setSourceJson(JSONObject jsonObject) {
-        Log.d(TAG, jsonObject.toString());
         if (!jsonObject.has("widgets")) {
             return;
         }

@@ -295,7 +295,7 @@ public class WidgetImageView extends AppCompatImageView {
         }
 
         public void execute(boolean avoidCache) {
-            Log.i(TAG, "Refreshing image at " + mUrl);
+            Log.i(TAG, "Refreshing image at " + mUrl + ", avoidCache " + avoidCache);
             HttpClient.CachingMode cachingMode = avoidCache
                     ? HttpClient.CachingMode.AVOID_CACHE
                     : HttpClient.CachingMode.FORCE_CACHE_IF_POSSIBLE;

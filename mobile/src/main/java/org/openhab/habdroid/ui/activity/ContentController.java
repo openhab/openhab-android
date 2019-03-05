@@ -441,6 +441,12 @@ public abstract class ContentController implements PageConnectionHolderFragment.
     }
 
     @Override
+    public boolean isDetailedLoggingEnabled() {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(mActivity);
+        return prefs.getBoolean(Constants.PREFERENCE_DEBUG_MESSAGES, false);
+    }
+
+    @Override
     public void onPageUpdated(String pageUrl, String pageTitle, List<Widget> widgets) {
         Log.d(TAG, "Got update for URL " + pageUrl + ", pending " + mPendingDataLoadUrls);
         for (WidgetListFragment f : collectWidgetFragments()) {
