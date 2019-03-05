@@ -25,7 +25,7 @@
     <important_note>Viktig merknad</important_note>
     <oh_server>Du trenger en openHAB server for denne appen</oh_server>
     <short_description>Leverandør og teknologi uavhengig åpen kildekode for hjemme-automasjon</short_description>
-    <fdroid>Builds på F-Droid har kartvisning-støtte, GCM og krasj-rapportering fjernet og vil ikke kunne motta push varsler fra openHAB Cloud.</fdroid>
+    <fdroid/>
     <fdroid_beta><![CDATA[Du kan installere betaversjonen sammen med den <a href="https://f-droid.org/packages/org.openhab.habdroid/">stabile versjonen</a>.]]></fdroid_beta>
     <fdroid_privacy_policy>Personvern: https://www.openhabfoundation.org/privacy.html</fdroid_privacy_policy>
     <fdroid_anti_features>Anti funksjoner</fdroid_anti_features>
