@@ -7,4 +7,8 @@
     <string name="info_openhab_gcm_failed">Registrazione dispositivo fallita</string>
     <string name="notification_channel_default">Predefinito</string>
     <string name="notification_channel_severity_value">Gravità \'%1$s\'</string>
+    <plurals name="summary_notification_text">
+        <item quantity="one">%d nuova notifica</item>
+        <item quantity="other">%d nuove notifiche</item>
+    </plurals>
 </resources>
