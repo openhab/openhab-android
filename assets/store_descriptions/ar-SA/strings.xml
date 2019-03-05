@@ -26,7 +26,7 @@ https://docs.openhab.org/addons/bindings.html. </bindings>
     <important_note>ملاحظة هامة</important_note>
     <oh_server>أنت بحاجة إلى خادم openHAB لهذا التطبيق</oh_server>
     <short_description/>
-    <fdroid>إصدارات F-Droid تدعم عرض الخريطة، تراسل سحابة جوجل GCM بينما حذفت تقارير الإنهيار ومن غير الممكن إستقبال الإشعارات من سحابة openHAB.</fdroid>
+    <fdroid/>
     <fdroid_beta><![CDATA[]]></fdroid_beta>
     <fdroid_privacy_policy/>
     <fdroid_anti_features/>
