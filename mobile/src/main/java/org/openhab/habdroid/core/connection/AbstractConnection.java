@@ -104,19 +104,19 @@ public abstract class AbstractConnection implements Connection {
         for (int retries = 0; retries < 10; retries++) {
             try {
                 s.connect(socketAddress, 1000);
+                Log.d(TAG, "Socket connected (attempt  " + retries + ")");
+                return s;
             } catch (SocketTimeoutException e) {
-                Log.d(TAG, "Socket timeout at the " + retries + ". try.", e);
+                Log.d(TAG, "Socket timeout after " + retries + " retries");
                 return null;
             } catch (IOException e) {
-                Log.d(TAG, "Socket connection failed at the " + retries + ". try.", e);
+                Log.d(TAG, "Socket creation failed (attempt  " + retries + ")");
                 try {
                     Thread.sleep(200);
                 } catch (InterruptedException ignored) {
                     // ignored
                 }
-                continue;
             }
-            return s;
         }
         return null;
     }
