@@ -5,7 +5,6 @@
     <string name="info_openhab_gcm_unsupported">Utilgjengelig, ekstern server er ikke en openHAB cloud instans</string>
     <string name="info_openhab_gcm_in_progress">Enhetsregistrering er igang</string>
     <string name="info_openhab_gcm_failed">Enhetsregistrering feilet</string>
-    <string name="info_openhab_gcm_connected">Enhetsregistrering med Google Cloud Messaging vellykket</string>
     <string name="notification_channel_default">Standard</string>
     <string name="notification_channel_severity_value">Alvorlighetsgrad \'%1$s\'</string>
     <plurals name="summary_notification_text">
