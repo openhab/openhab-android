@@ -77,7 +77,7 @@ public class WidgetListFragment extends Fragment
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        Log.d(TAG, "onActivityCreated()" + mPageUrl);
+        Log.d(TAG, "onActivityCreated() " + mPageUrl);
         mActivity = (MainActivity) getActivity();
 
         mAdapter = new WidgetAdapter(mActivity, mActivity.getConnection(), this);
@@ -176,7 +176,7 @@ public class WidgetListFragment extends Fragment
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
-        Log.d(TAG, "onViewCreated()" + mPageUrl);
+        Log.d(TAG, "onViewCreated() " + mPageUrl);
         super.onViewCreated(view, savedInstanceState);
         mRecyclerView = view.findViewById(R.id.recyclerview);
         mEmptyPageView = view.findViewById(android.R.id.empty);
@@ -194,7 +194,7 @@ public class WidgetListFragment extends Fragment
 
     @Override
     public void onStart() {
-        Log.d(TAG, "onStart()" + mPageUrl);
+        Log.d(TAG, "onStart() " + mPageUrl);
         super.onStart();
         mActivity.triggerPageUpdate(mPageUrl, false);
         if (mAdapter != null) {
