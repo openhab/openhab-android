@@ -25,7 +25,7 @@
     <important_note>Важлива примітка</important_note>
     <oh_server>Для цього додатку вам необхідний сервер openHAB</oh_server>
     <short_description>Відкрите ПЗ для домашньої автоматизації, неупереджене до виробників і технологій</short_description>
-    <fdroid>Версія для F-Droid підтримує перегляд карт. GCM і звіти про падіння видалені. Додаток не зможе отримувати сповіщення від openHAB Cloud.</fdroid>
+    <fdroid/>
     <fdroid_beta><![CDATA[Ви можете встановити бета версію разом зі <a href="https://f-droid.org/packages/org.openhab.habdroid/">стабільною версією</a>.]]></fdroid_beta>
     <fdroid_privacy_policy>Політика конфіденційності: https://www.openhabfoundation.org/privacy.html</fdroid_privacy_policy>
     <fdroid_anti_features>Застереження</fdroid_anti_features>
