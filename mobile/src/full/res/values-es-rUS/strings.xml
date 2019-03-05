@@ -5,7 +5,6 @@
     <string name="info_openhab_gcm_unsupported">No disponible, el servidor remoto no es una instancia de openHAB cloud</string>
     <string name="info_openhab_gcm_in_progress">El registro del dispositivo está en progreso</string>
     <string name="info_openhab_gcm_failed">Falló el registro del dispositivo</string>
-    <string name="info_openhab_gcm_connected">Dispositivo registrado con éxito con Google Cloud Messaging</string>
     <string name="notification_channel_default">Predeterminado</string>
     <string name="notification_channel_severity_value">Gravedad \'%1$s\'</string>
     <plurals name="summary_notification_text">
