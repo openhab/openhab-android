@@ -4,7 +4,7 @@
     <string name="info_openhab_gcm_unsupported">Unavailable, remote server isn\'t an openHAB cloud instance</string>
     <string name="info_openhab_gcm_in_progress">Device registration is in progress</string>
     <string name="info_openhab_gcm_failed">Device registration failed</string>
-    <string name="info_openhab_gcm_connected">Device successfully registered with Google Cloud Messaging</string>
+    <string name="info_openhab_gcm_connected">Device successfully registered with Firebase Cloud Messaging</string>
     <string name="notification_channel_default">Default</string>
     <string name="notification_channel_severity_value">Severity \'%1$s\'</string>
 
