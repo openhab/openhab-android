@@ -489,14 +489,11 @@ public class PageConnectionHolderFragment extends Fragment {
                                     .addQueryParameter("sitemap", mSitemap)
                                     .addQueryParameter("pageid", mPageId)
                                     .build();
-                            Request.Builder requestBuilder = new Request.Builder()
-                                    .addHeader("User-Agent", "openHAB client for Android")
-                                    .url(u);
-                            if (mClient.mAuthHeader != null) {
-                                requestBuilder.addHeader("Authorization", mClient.mAuthHeader);
-                            }
+                            Request request = mClient.makeAuthenticatedRequestBuilder()
+                                    .url(u)
+                                    .build();
                             mEventStream = mClient.makeSseClient()
-                                    .newServerSentEvent(requestBuilder.build(), EventHelper.this);
+                                    .newServerSentEvent(request, EventHelper.this);
                         } catch (JSONException e) {
                             Log.w(TAG, "Failed parsing SSE subscription", e);
                             mFailureCb.handleFailure();
