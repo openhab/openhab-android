@@ -404,6 +404,7 @@ public final class ConnectionFactory extends BroadcastReceiver implements
     private void updateHttpLoggerSettings() {
         if (mPrefs.getBoolean(Constants.PREFERENCE_DEBUG_MESSAGES, false)) {
             mHttpLogger.redactHeader("Authorization");
+            mHttpLogger.redactHeader("set-cookie");
             mHttpLogger.setLevel(HttpLoggingInterceptor.Level.HEADERS);
         } else {
             mHttpLogger.setLevel(HttpLoggingInterceptor.Level.NONE);
