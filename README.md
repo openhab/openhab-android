@@ -58,7 +58,7 @@ Before producing any amount of code please have a look at [contribution guidelin
 
 ## Build flavors
 
-An optional build flavor "foss" is available for distribution through F-Droid. This build has map view, GCM and crash reporting removed and will not be able to receive push notifications from openHAB Cloud.
+An optional build flavor "foss" is available for distribution through F-Droid. This build has map view, FCM and crash reporting removed and will not be able to receive push notifications from openHAB Cloud.
 
 For using map view support in the "full" build flavor, you need to visit the [Maps API page](https://developers.google.com/maps/android) and generate an API key via the 'Get a key' button at the top. Then add a line in the following format to the 'gradle.properties' file (either in the same directory as this readme file, or in $HOME/.gradle): `mapsApiKey=<key>`, replacing `<key>` with the API key you just obtained.
 
