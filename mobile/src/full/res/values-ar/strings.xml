@@ -3,5 +3,4 @@
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="info_openhab_gcm_in_progress">جاري تسجيل الجهاز</string>
     <string name="info_openhab_gcm_failed">فشل تسجيل الجهاز</string>
-    <string name="info_openhab_gcm_connected">تم تسجيل الجهاز بنجاح مع Google Cloud Messaging</string>
 </resources>
