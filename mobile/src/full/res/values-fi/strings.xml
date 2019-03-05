@@ -5,7 +5,6 @@
     <string name="info_openhab_gcm_unsupported">Ei saatavilla, etäpalvelin ei vastaa openHAB pilveä</string>
     <string name="info_openhab_gcm_in_progress">Laitteen rekisteröinti on käynnissä</string>
     <string name="info_openhab_gcm_failed">Laitteen rekisteröinti epäonnistui</string>
-    <string name="info_openhab_gcm_connected">Laite rekisteröity onnistuneesti Google Cloud Viestintään (GCM)</string>
     <string name="notification_channel_default">Oletus</string>
     <string name="notification_channel_severity_value">Vakavuus \'%1$s\'</string>
     <plurals name="summary_notification_text">
