@@ -469,7 +469,7 @@ public class MainActivity extends AppCompatActivity implements
             if (failureReason instanceof NoUrlInformationException) {
                 NoUrlInformationException nuie = (NoUrlInformationException) failureReason;
                 // Attempt resolving only if we're connected locally and
-                // no local connection is configured yes
+                // no local connection is configured yet
                 if (nuie.wouldHaveUsedLocalConnection()
                         && ConnectionFactory.getConnection(Connection.TYPE_LOCAL) == null) {
                     if (mServiceResolver == null) {

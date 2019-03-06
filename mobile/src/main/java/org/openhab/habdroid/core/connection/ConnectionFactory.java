@@ -356,7 +356,7 @@ public final class ConnectionFactory extends BroadcastReceiver implements
 
         // Else if we are on Wifi, Ethernet, WIMAX or VPN network
         if (LOCAL_CONNECTION_TYPES.contains(info.getType())) {
-            // If local URL is configured and rechable
+            // If local URL is configured and reachable
             if (local != null && local.checkReachabilityInBackground()) {
                 Log.d(TAG, "Connecting to local URL");
 
