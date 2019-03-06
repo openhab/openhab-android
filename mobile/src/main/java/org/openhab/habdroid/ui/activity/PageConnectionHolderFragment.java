@@ -546,9 +546,10 @@ public class PageConnectionHolderFragment extends Fragment {
             @Override
             public void onClosed(ServerSentEvent sse) {
                 // We're only interested in permanent failure here, not in callbacks we caused
-                // ourselves by calling close(), so check the retry count if it actually is
-                // exceeded.
-                if (mRetries >= MAX_RETRIES) {
+                // ourselves by calling close(), so check for both
+                // - the reporter matching our expectations (mismatch means shutdown was called)
+                // - retry count exhaustion
+                if (mRetries >= MAX_RETRIES && sse == mEventStream) {
                     mFailureCb.handleFailure();
                 }
             }
