@@ -128,7 +128,7 @@ dependencies {
         transitive = true
     }
 
-    fullImplementation ('com.google.firebase:firebase-messaging:17.3.4') {
+    fullImplementation ('com.google.firebase:firebase-messaging:17.4.0') {
         exclude group: 'com.google.firebase', module: 'firebase-analytics'
         exclude group: 'com.google.firebase', module: 'firebase-measurement-connector'
     }
