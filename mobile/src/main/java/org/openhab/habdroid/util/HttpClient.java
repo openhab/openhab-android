@@ -12,6 +12,8 @@ package org.openhab.habdroid.util;
 import androidx.annotation.VisibleForTesting;
 
 import com.here.oksse.OkSse;
+import com.here.oksse.ServerSentEvent;
+
 import okhttp3.CacheControl;
 import okhttp3.Call;
 import okhttp3.Credentials;
@@ -45,17 +47,11 @@ public abstract class HttpClient {
         mClient = client;
     }
 
-    public OkSse makeSseClient() {
-        return new OkSse(mClient);
-    }
-
-    public Request.Builder makeAuthenticatedRequestBuilder() {
-        Request.Builder builder = new Request.Builder()
-                .addHeader("User-Agent", "openHAB client for Android");
-        if (mAuthHeader != null) {
-            builder.addHeader("Authorization", mAuthHeader);
-        }
-        return builder;
+    public ServerSentEvent makeSse(HttpUrl url, ServerSentEvent.Listener listener) {
+        Request request = makeAuthenticatedRequestBuilder()
+                .url(url)
+                .build();
+        return new OkSse(mClient).newServerSentEvent(request, listener);
     }
 
     public HttpUrl buildUrl(String url) {
@@ -102,5 +98,14 @@ public abstract class HttpClient {
                 ? mClient.newBuilder().readTimeout(timeoutMillis, TimeUnit.MILLISECONDS).build()
                 : mClient;
         return client.newCall(request);
+    }
+
+    private Request.Builder makeAuthenticatedRequestBuilder() {
+        Request.Builder builder = new Request.Builder()
+                .addHeader("User-Agent", "openHAB client for Android");
+        if (mAuthHeader != null) {
+            builder.addHeader("Authorization", mAuthHeader);
+        }
+        return builder;
     }
 }
