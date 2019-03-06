@@ -505,11 +505,7 @@ public class PageConnectionHolderFragment extends Fragment {
                                     .addQueryParameter("sitemap", mSitemap)
                                     .addQueryParameter("pageid", mPageId)
                                     .build();
-                            Request request = mClient.makeAuthenticatedRequestBuilder()
-                                    .url(u)
-                                    .build();
-                            mEventStream = mClient.makeSseClient()
-                                    .newServerSentEvent(request, EventHelper.this);
+                            mEventStream = mClient.makeSse(u, EventHelper.this);
                         } catch (JSONException e) {
                             Log.w(TAG, "Failed parsing SSE subscription", e);
                             mFailureCb.handleFailure();
