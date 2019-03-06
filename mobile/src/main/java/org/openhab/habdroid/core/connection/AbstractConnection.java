@@ -90,7 +90,6 @@ public abstract class AbstractConnection implements Connection {
             if (s == null) {
                 return false;
             }
-            Log.d(TAG, "Socket connected");
             s.close();
             return true;
         } catch (Exception e) {
