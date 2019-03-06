@@ -7,9 +7,8 @@ import androidx.annotation.Nullable;
 
 import com.google.auto.value.AutoValue;
 
-import java.util.IllegalFormatConversionException;
+import java.util.IllegalFormatException;
 import java.util.Locale;
-import java.util.UnknownFormatConversionException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -53,7 +52,7 @@ public abstract class ParsedState implements Parcelable {
                 final String actualFormat = mFormat.replace("%unit%", mUnit != null ? mUnit : "");
                 try {
                     return String.format(locale, actualFormat, mValue);
-                } catch (UnknownFormatConversionException | IllegalFormatConversionException e) {
+                } catch (IllegalFormatException e) {
                     // State format pattern doesn't match the actual data type
                     // -> ignore and fall back to our own formatting
                 }

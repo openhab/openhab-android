@@ -72,6 +72,13 @@ public class PageConnectionHolderFragment extends Fragment {
         String getIconFormat();
 
         /**
+         * Ask parent whether logging should include detailed output
+         *
+         * @return true if logging should be detailed
+         */
+        boolean isDetailedLoggingEnabled();
+
+        /**
          * Let parent know about an update to the widget list for a given URL.
          *
          * @param pageUrl   URL of the updated page
@@ -222,6 +229,8 @@ public class PageConnectionHolderFragment extends Fragment {
                 if (segments.size() > 2) {
                     String sitemap = segments.get(segments.size() - 2);
                     String pageId = segments.get(segments.size() - 1);
+                    Log.d(TAG, "Creating new SSE helper for sitemap " + sitemap
+                            + ", page " + pageId);
                     mEventHelper = new EventHelper(mHttpClient, sitemap, pageId,
                             this::handleUpdateEvent, this::handleSseSubscriptionFailure);
                 }
@@ -262,7 +271,7 @@ public class PageConnectionHolderFragment extends Fragment {
                 return;
             }
 
-            Log.d(TAG, "Loading data for " + mUrl);
+            Log.d(TAG, "Loading data for " + mUrl + ", long polling " + mLongPolling);
             Map<String, String> headers = new HashMap<>();
             if (!mCallback.serverReturnsJson()) {
                 headers.put("Accept", "application/xml");
@@ -331,7 +340,13 @@ public class PageConnectionHolderFragment extends Fragment {
                     widgetList.add(w);
                 }
 
-                Log.d(TAG, "Updated page data for URL " + mUrl + ": widget list " + widgetList);
+                if (mCallback.isDetailedLoggingEnabled()) {
+                    Log.d(TAG, "Updated page data for URL " + mUrl
+                            + ": widget list " + widgetList);
+                } else {
+                    Log.d(TAG, "Updated page data for URL " + mUrl
+                            + " (" + widgetList.size() + " widgets)");
+                }
                 mLastPageTitle = dataSource.getTitle();
                 mLastWidgetList = widgetList;
                 mCallback.onPageUpdated(mUrl, mLastPageTitle, mLastWidgetList);
@@ -423,6 +438,7 @@ public class PageConnectionHolderFragment extends Fragment {
         }
 
         void handleSseSubscriptionFailure() {
+            Log.w(TAG, "SSE processing failed for " + mUrl + ", using long polling");
             mEventHelper = null;
             if (mLongPolling) {
                 load();
@@ -489,14 +505,11 @@ public class PageConnectionHolderFragment extends Fragment {
                                     .addQueryParameter("sitemap", mSitemap)
                                     .addQueryParameter("pageid", mPageId)
                                     .build();
-                            Request.Builder requestBuilder = new Request.Builder()
-                                    .addHeader("User-Agent", "openHAB client for Android")
-                                    .url(u);
-                            if (mClient.mAuthHeader != null) {
-                                requestBuilder.addHeader("Authorization", mClient.mAuthHeader);
-                            }
+                            Request request = mClient.makeAuthenticatedRequestBuilder()
+                                    .url(u)
+                                    .build();
                             mEventStream = mClient.makeSseClient()
-                                    .newServerSentEvent(requestBuilder.build(), EventHelper.this);
+                                    .newServerSentEvent(request, EventHelper.this);
                         } catch (JSONException e) {
                             Log.w(TAG, "Failed parsing SSE subscription", e);
                             mFailureCb.handleFailure();
@@ -539,6 +552,9 @@ public class PageConnectionHolderFragment extends Fragment {
             @Override
             public boolean onRetryError(ServerSentEvent sse,
                     Throwable throwable, Response response) {
+                int statusCode = response != null ? response.code() : 0;
+                Log.w(TAG, "SSE stream failed for page " + mPageId
+                        + " with status " + statusCode + " (retry " + mRetries + ")");
                 // Stop retrying after maximum amount of subsequent retries is reached
                 return ++mRetries < MAX_RETRIES;
             }

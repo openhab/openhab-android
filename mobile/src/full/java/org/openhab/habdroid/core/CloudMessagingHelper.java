@@ -25,15 +25,15 @@ public class CloudMessagingHelper {
     public static void onConnectionUpdated(Context context, CloudConnection connection) {
         sRegistrationDone = false;
         if (connection != null) {
-            GcmRegistrationService.scheduleRegistration(context);
+            FcmRegistrationService.scheduleRegistration(context);
         }
     }
 
     public static void onNotificationSelected(Context context, Intent intent) {
         int notificationId = intent.getIntExtra(
-                GcmMessageListenerService.EXTRA_NOTIFICATION_ID, -1);
+                FcmMessageListenerService.EXTRA_NOTIFICATION_ID, -1);
         if (notificationId >= 0) {
-            GcmRegistrationService.scheduleHideNotification(context, notificationId);
+            FcmRegistrationService.scheduleHideNotification(context, notificationId);
         }
     }
 
