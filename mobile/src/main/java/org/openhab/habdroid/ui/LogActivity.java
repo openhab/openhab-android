@@ -26,8 +26,6 @@ import org.openhab.habdroid.util.Util;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
-import static org.openhab.habdroid.util.Util.getHostFromUrl;
-
 public class LogActivity extends AppCompatActivity {
     private static final String TAG = LogActivity.class.getSimpleName();
 
@@ -146,11 +144,11 @@ public class LogActivity extends AppCompatActivity {
                     sharedPreferences.getString(Constants.PREFERENCE_LOCAL_URL, "");
             String remoteUrl =
                     sharedPreferences.getString(Constants.PREFERENCE_REMOTE_URL, "");
-            if (!TextUtils.isEmpty(localUrl)) {
-                log = log.replaceAll(getHostFromUrl(localUrl), "<openhab-local-address>");
+            if (!TextUtils.isEmpty(localUrl) && Util.getHostFromUrl(localUrl) != null) {
+                log = log.replaceAll(Util.getHostFromUrl(localUrl), "<openhab-local-address>");
             }
-            if (!TextUtils.isEmpty(remoteUrl)) {
-                log = log.replaceAll(getHostFromUrl(remoteUrl), "<openhab-remote-address>");
+            if (!TextUtils.isEmpty(remoteUrl) && Util.getHostFromUrl(remoteUrl) != null) {
+                log = log.replaceAll(Util.getHostFromUrl(remoteUrl), "<openhab-remote-address>");
             }
             return log;
         }
