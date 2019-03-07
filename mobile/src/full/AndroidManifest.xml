@@ -18,13 +18,6 @@
         </service>
 
         <service
-            android:name="org.openhab.habdroid.core.FcmInstanceIdListenerService">
-            <intent-filter>
-                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
-            </intent-filter>
-        </service>
-
-        <service
             android:name="org.openhab.habdroid.core.FcmRegistrationService"
             android:permission="android.permission.BIND_JOB_SERVICE" />
 
