@@ -30,6 +30,7 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
+import android.webkit.WebViewDatabase;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -61,6 +62,7 @@ import org.openhab.habdroid.ui.MainActivity;
 import org.openhab.habdroid.ui.PreferencesActivity;
 import org.openhab.habdroid.ui.WidgetListFragment;
 import org.openhab.habdroid.util.Constants;
+import org.openhab.habdroid.util.Util;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -791,6 +793,14 @@ public abstract class ContentController implements PageConnectionHolderFragment.
                     updateViewVisibility(true, false);
                 }
             });
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                WebViewDatabase webViewDatabase = WebViewDatabase.getInstance(getContext());
+                webViewDatabase.setHttpAuthUsernamePassword(Util.getHostFromUrl(url), "",
+                        mConnection.getUsername(), mConnection.getPassword());
+            } else {
+                mWebview.setHttpAuthUsernamePassword(Util.getHostFromUrl(url), "",
+                        mConnection.getUsername(), mConnection.getPassword());
+            }
             mWebview.setWebChromeClient(new WebChromeClient());
             mWebview.getSettings().setDomStorageEnabled(true);
             mWebview.getSettings().setJavaScriptEnabled(true);
