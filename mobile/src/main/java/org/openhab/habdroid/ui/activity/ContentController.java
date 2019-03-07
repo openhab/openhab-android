@@ -404,6 +404,8 @@ public abstract class ContentController implements PageConnectionHolderFragment.
             if (webView.canGoBack()) {
                 webView.goBack();
                 return true;
+            } else {
+                webView.loadUrl("about:blank");
             }
         }
         if (mTemporaryPage != null) {
