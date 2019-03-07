@@ -19,6 +19,8 @@ import android.os.Build;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.util.TypedValue;
+import android.webkit.WebView;
+import android.webkit.WebViewDatabase;
 import androidx.annotation.AnimRes;
 import androidx.annotation.AttrRes;
 import androidx.annotation.NonNull;
@@ -32,6 +34,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.openhab.habdroid.BuildConfig;
 import org.openhab.habdroid.R;
+import org.openhab.habdroid.core.connection.Connection;
 import org.openhab.habdroid.model.Item;
 import org.openhab.habdroid.model.ParsedState;
 import org.openhab.habdroid.model.Sitemap;
@@ -287,5 +290,16 @@ public class Util {
 
     public static boolean isFlavorFoss() {
         return !isFlavorFull();
+    }
+
+    public static void applyAuthentication(WebView webView, Connection connection, String url) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            WebViewDatabase webViewDatabase = WebViewDatabase.getInstance(webView.getContext());
+            webViewDatabase.setHttpAuthUsernamePassword(Util.getHostFromUrl(url), "",
+                    connection.getUsername(), connection.getPassword());
+        } else {
+            webView.setHttpAuthUsernamePassword(Util.getHostFromUrl(url), "",
+                    connection.getUsername(), connection.getPassword());
+        }
     }
 }

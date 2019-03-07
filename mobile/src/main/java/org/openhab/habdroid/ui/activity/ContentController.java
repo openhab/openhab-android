@@ -30,7 +30,6 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
-import android.webkit.WebViewDatabase;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -401,7 +400,7 @@ public abstract class ContentController implements PageConnectionHolderFragment.
      */
     public boolean goBack() {
         if (mTemporaryPage instanceof FullScreenWebviewFragment) {
-            WebView webView = ((FullScreenWebviewFragment) mTemporaryPage).mWebview;
+            WebView webView = ((FullScreenWebviewFragment) mTemporaryPage).mWebView;
             if (webView.canGoBack()) {
                 webView.goBack();
                 return true;
@@ -697,7 +696,7 @@ public abstract class ContentController implements PageConnectionHolderFragment.
         String mUrltoLoad;
         String mUrlForError;
         Connection mConnection;
-        WebView mWebview;
+        WebView mWebView;
 
         public static FullScreenWebviewFragment newInstance(@StringRes int errorMessage,
                 String urltoLoad, String urlForError) {
@@ -737,8 +736,8 @@ public abstract class ContentController implements PageConnectionHolderFragment.
 
         @Override
         public void onSaveInstanceState(@NonNull Bundle outState) {
-            if (mWebview != null) {
-                outState.putString(KEY_CURRENT_URL, mWebview.getUrl());
+            if (mWebView != null) {
+                outState.putString(KEY_CURRENT_URL, mWebView.getUrl());
             }
         }
 
@@ -766,9 +765,9 @@ public abstract class ContentController implements PageConnectionHolderFragment.
 
             String url = mConnection.getAsyncHttpClient().buildUrl(urlToLoad).toString();
 
-            mWebview = view.findViewById(R.id.webview);
+            mWebView = view.findViewById(R.id.webview);
 
-            mWebview.setWebViewClient(new AnchorWebViewClient(url,
+            mWebView.setWebViewClient(new AnchorWebViewClient(url,
                     mConnection.getUsername(), mConnection.getPassword()) {
                 @Override
                 public void onPageFinished(WebView view, String url) {
@@ -793,19 +792,12 @@ public abstract class ContentController implements PageConnectionHolderFragment.
                     updateViewVisibility(true, false);
                 }
             });
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                WebViewDatabase webViewDatabase = WebViewDatabase.getInstance(getContext());
-                webViewDatabase.setHttpAuthUsernamePassword(Util.getHostFromUrl(url), "",
-                        mConnection.getUsername(), mConnection.getPassword());
-            } else {
-                mWebview.setHttpAuthUsernamePassword(Util.getHostFromUrl(url), "",
-                        mConnection.getUsername(), mConnection.getPassword());
-            }
-            mWebview.setWebChromeClient(new WebChromeClient());
-            mWebview.getSettings().setDomStorageEnabled(true);
-            mWebview.getSettings().setJavaScriptEnabled(true);
-            mWebview.loadUrl(url);
-            mWebview.setBackgroundColor(Color.TRANSPARENT);
+            Util.applyAuthentication(mWebView, mConnection, url);
+            mWebView.setWebChromeClient(new WebChromeClient());
+            mWebView.getSettings().setDomStorageEnabled(true);
+            mWebView.getSettings().setJavaScriptEnabled(true);
+            mWebView.loadUrl(url);
+            mWebView.setBackgroundColor(Color.TRANSPARENT);
         }
 
         private void updateViewVisibility(boolean error, boolean loading) {
