@@ -103,6 +103,7 @@ public class WebViewFragment extends Fragment implements ConnectionFactory.Updat
         super.onResume();
         if (mWebView != null) {
             mWebView.onResume();
+            mWebView.resumeTimers();
         }
     }
 
@@ -111,6 +112,7 @@ public class WebViewFragment extends Fragment implements ConnectionFactory.Updat
         super.onPause();
         if (mWebView != null) {
             mWebView.onPause();
+            mWebView.pauseTimers();
         }
     }
 
