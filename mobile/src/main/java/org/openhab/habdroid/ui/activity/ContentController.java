@@ -401,7 +401,7 @@ public abstract class ContentController implements PageConnectionHolderFragment.
     public boolean goBack() {
         if (mTemporaryPage instanceof FullScreenWebviewFragment) {
             WebView webView = ((FullScreenWebviewFragment) mTemporaryPage).mWebView;
-            if (webView.canGoBack()) {
+            if (webView != null && webView.canGoBack()) {
                 webView.goBack();
                 return true;
             }
