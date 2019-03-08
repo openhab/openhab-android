@@ -19,6 +19,7 @@ import org.openhab.habdroid.core.connection.Connection;
 import org.openhab.habdroid.core.connection.ConnectionFactory;
 import org.openhab.habdroid.core.connection.exception.ConnectionException;
 import org.openhab.habdroid.ui.AnchorWebViewClient;
+import org.openhab.habdroid.util.Util;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -171,6 +172,7 @@ public class WebViewFragment extends Fragment implements ConnectionFactory.Updat
                 updateViewVisibility(true, false);
             }
         });
+        Util.applyAuthentication(mWebview, mConnection, url);
         mWebview.setWebChromeClient(new WebChromeClient());
         mWebview.getSettings().setDomStorageEnabled(true);
         mWebview.getSettings().setJavaScriptEnabled(true);
