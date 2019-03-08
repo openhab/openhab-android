@@ -19,6 +19,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
@@ -33,6 +34,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.webkit.WebView;
+import android.webkit.WebViewDatabase;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -1023,13 +1025,13 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
                 mWebView.setLayoutParams(lp);
             }
 
-            HttpUrl url = mConnection.getAsyncHttpClient().buildUrl(widget.url());
-
-            mWebView.setWebViewClient(new AnchorWebViewClient(url.toString(),
+            String url = mConnection.getAsyncHttpClient().buildUrl(widget.url()).toString();
+            Util.applyAuthentication(mWebView, mConnection, url);
+            mWebView.setWebViewClient(new AnchorWebViewClient(url,
                     mConnection.getUsername(), mConnection.getPassword()));
             mWebView.getSettings().setDomStorageEnabled(true);
             mWebView.getSettings().setJavaScriptEnabled(true);
-            mWebView.loadUrl(url.toString());
+            mWebView.loadUrl(url);
         }
     }
 
