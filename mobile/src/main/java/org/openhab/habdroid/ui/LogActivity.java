@@ -26,8 +26,6 @@ import org.openhab.habdroid.util.Util;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
-import static org.openhab.habdroid.util.Util.getHostFromUrl;
-
 public class LogActivity extends AppCompatActivity {
     private static final String TAG = LogActivity.class.getSimpleName();
 
@@ -142,16 +140,12 @@ public class LogActivity extends AppCompatActivity {
             String log = logBuilder.toString();
             SharedPreferences sharedPreferences =
                     PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-            String localUrl =
-                    sharedPreferences.getString(Constants.PREFERENCE_LOCAL_URL, "");
-            String remoteUrl =
-                    sharedPreferences.getString(Constants.PREFERENCE_REMOTE_URL, "");
-            if (!TextUtils.isEmpty(localUrl)) {
-                log = log.replaceAll(getHostFromUrl(localUrl), "<openhab-local-address>");
-            }
-            if (!TextUtils.isEmpty(remoteUrl)) {
-                log = log.replaceAll(getHostFromUrl(remoteUrl), "<openhab-remote-address>");
-            }
+            log = redactHost(log,
+                    sharedPreferences.getString(Constants.PREFERENCE_LOCAL_URL, ""),
+                    "<openhab-local-address>");
+            log = redactHost(log,
+                    sharedPreferences.getString(Constants.PREFERENCE_REMOTE_URL, ""),
+                    "<openhab-remote-address>");
             return log;
         }
 
@@ -161,5 +155,15 @@ public class LogActivity extends AppCompatActivity {
             setUiState(false, TextUtils.isEmpty(log));
             mScrollView.post(() -> mScrollView.fullScroll(View.FOCUS_DOWN));
         }
+    }
+
+    private String redactHost(String text, String url, String replacement) {
+        if (!TextUtils.isEmpty(url)) {
+            String host = Util.getHostFromUrl(url);
+            if (host != null) {
+                return text.replaceAll(host, replacement);
+            }
+        }
+        return text;
     }
 }
