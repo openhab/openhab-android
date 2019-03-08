@@ -87,7 +87,7 @@ public class FcmRegistrationService extends JobIntentService {
                     registerFcm(connection);
                 } catch (IOException e) {
                     CloudMessagingHelper.sRegistrationFailureReason = e;
-                    Log.e(TAG, "GCM registration failed", e);
+                    Log.e(TAG, "FCM registration failed", e);
                 }
                 CloudMessagingHelper.sRegistrationDone = true;
                 break;
@@ -118,9 +118,9 @@ public class FcmRegistrationService extends JobIntentService {
         SyncHttpClient.HttpStatusResult result =
                 connection.getSyncHttpClient().get(regUrl).asStatus();
         if (result.isSuccessful()) {
-            Log.d(TAG, "GCM reg id success");
+            Log.d(TAG, "FCM reg id success");
         } else {
-            Log.e(TAG, "GCM reg id error: " + result.error);
+            Log.e(TAG, "FCM reg id error: " + result.error);
         }
         CloudMessagingHelper.sRegistrationFailureReason = result.error;
     }
