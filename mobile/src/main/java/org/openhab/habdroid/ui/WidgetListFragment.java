@@ -246,9 +246,14 @@ public class WidgetListFragment extends Fragment
         mAdapter.setSelectedPosition(-1);
     }
 
-    public void update(String pageTitle, List<Widget> widgets) {
-        mTitle = pageTitle;
+    public void updateTitle(String pageTitle) {
+        mTitle = pageTitle.replaceAll("[\\[\\]]", "");
+        if (mActivity != null && mIsVisible) {
+            mActivity.updateTitle();
+        }
+    }
 
+    public void updateWidgets(List<Widget> widgets) {
         if (mAdapter != null) {
             mAdapter.update(widgets, mRefreshLayout.isRefreshing());
             boolean emptyPage = widgets.size() == 0;
@@ -256,9 +261,6 @@ public class WidgetListFragment extends Fragment
             mEmptyPageView.setVisibility(emptyPage ? View.VISIBLE : View.GONE);
             setHighlightedPageLink(mHighlightedPageLink);
             mRefreshLayout.setRefreshing(false);
-        }
-        if (mActivity != null && mIsVisible) {
-            mActivity.updateTitle();
         }
     }
 

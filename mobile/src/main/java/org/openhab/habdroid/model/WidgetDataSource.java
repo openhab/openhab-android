@@ -97,11 +97,7 @@ public class WidgetDataSource {
     }
 
     public String getTitle() {
-        if (mTitle != null) {
-            String[] splitString = mTitle.split("\\[|\\]");
-            return splitString.length > 0 ? splitString[0] : mTitle;
-        }
-        return "";
+        return mTitle != null ? mTitle : "";
     }
 
     public String getId() {
