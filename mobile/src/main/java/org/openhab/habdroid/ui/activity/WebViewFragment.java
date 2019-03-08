@@ -39,7 +39,7 @@ public class WebViewFragment extends Fragment implements ConnectionFactory.Updat
     private String mUrltoLoad;
     private String mUrlForError;
     private Connection mConnection;
-    private WebView mWebview;
+    private WebView mWebView;
 
     public static WebViewFragment newInstance(@StringRes int pageTitle,
             @StringRes int errorMessage, String urltoLoad, String urlForError) {
@@ -58,8 +58,8 @@ public class WebViewFragment extends Fragment implements ConnectionFactory.Updat
     }
 
     public boolean goBack() {
-        if (mWebview != null && mWebview.canGoBack()) {
-            mWebview.goBack();
+        if (mWebView != null && mWebView.canGoBack()) {
+            mWebView.goBack();
             return true;
         }
         return false;
@@ -92,32 +92,32 @@ public class WebViewFragment extends Fragment implements ConnectionFactory.Updat
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        if (mWebview != null) {
-            mWebview.destroy();
-            mWebview = null;
+        if (mWebView != null) {
+            mWebView.destroy();
+            mWebView = null;
         }
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        if (mWebview != null) {
-            mWebview.onResume();
+        if (mWebView != null) {
+            mWebView.onResume();
         }
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        if (mWebview != null) {
-            mWebview.onPause();
+        if (mWebView != null) {
+            mWebView.onPause();
         }
     }
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
-        if (mWebview != null) {
-            outState.putString(KEY_CURRENT_URL, mWebview.getUrl());
+        if (mWebView != null) {
+            outState.putString(KEY_CURRENT_URL, mWebView.getUrl());
         }
     }
 
@@ -145,9 +145,9 @@ public class WebViewFragment extends Fragment implements ConnectionFactory.Updat
 
         String url = mConnection.getAsyncHttpClient().buildUrl(urlToLoad).toString();
 
-        mWebview = view.findViewById(R.id.webview);
+        mWebView = view.findViewById(R.id.webview);
 
-        mWebview.setWebViewClient(new AnchorWebViewClient(url,
+        mWebView.setWebViewClient(new AnchorWebViewClient(url,
                 mConnection.getUsername(), mConnection.getPassword()) {
             @Override
             public void onPageFinished(WebView view, String url) {
@@ -172,12 +172,12 @@ public class WebViewFragment extends Fragment implements ConnectionFactory.Updat
                 updateViewVisibility(true, false);
             }
         });
-        Util.applyAuthentication(mWebview, mConnection, url);
-        mWebview.setWebChromeClient(new WebChromeClient());
-        mWebview.getSettings().setDomStorageEnabled(true);
-        mWebview.getSettings().setJavaScriptEnabled(true);
-        mWebview.loadUrl(url);
-        mWebview.setBackgroundColor(Color.TRANSPARENT);
+        Util.applyAuthentication(mWebView, mConnection, url);
+        mWebView.setWebChromeClient(new WebChromeClient());
+        mWebView.getSettings().setDomStorageEnabled(true);
+        mWebView.getSettings().setJavaScriptEnabled(true);
+        mWebView.loadUrl(url);
+        mWebView.setBackgroundColor(Color.TRANSPARENT);
     }
 
     private void updateViewVisibility(boolean error, boolean loading) {
