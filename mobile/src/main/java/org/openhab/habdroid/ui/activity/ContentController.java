@@ -735,6 +735,31 @@ public abstract class ContentController implements PageConnectionHolderFragment.
         }
 
         @Override
+        public void onDestroyView() {
+            super.onDestroyView();
+            if (mWebview != null) {
+                mWebview.destroy();
+                mWebview = null;
+            }
+        }
+
+        @Override
+        public void onResume() {
+            super.onResume();
+            if (mWebview != null) {
+                mWebview.onResume();
+            }
+        }
+
+        @Override
+        public void onPause() {
+            super.onPause();
+            if (mWebview != null) {
+                mWebview.onPause();
+            }
+        }
+
+        @Override
         public void onSaveInstanceState(@NonNull Bundle outState) {
             if (mWebView != null) {
                 outState.putString(KEY_CURRENT_URL, mWebView.getUrl());
