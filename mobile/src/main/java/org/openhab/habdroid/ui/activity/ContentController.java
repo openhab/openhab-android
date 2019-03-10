@@ -12,11 +12,9 @@ package org.openhab.habdroid.ui.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.net.wifi.WifiManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
@@ -26,10 +24,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewStub;
-import android.webkit.WebChromeClient;
-import android.webkit.WebResourceError;
-import android.webkit.WebResourceRequest;
-import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -38,7 +32,6 @@ import androidx.annotation.DrawableRes;
 import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.annotation.StringRes;
 import androidx.core.app.TaskStackBuilder;
 import androidx.core.content.ContextCompat;
@@ -47,15 +40,12 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import org.openhab.habdroid.R;
-import org.openhab.habdroid.core.connection.CloudConnection;
 import org.openhab.habdroid.core.connection.Connection;
 import org.openhab.habdroid.core.connection.ConnectionFactory;
-import org.openhab.habdroid.core.connection.exception.ConnectionException;
 import org.openhab.habdroid.model.LinkedPage;
 import org.openhab.habdroid.model.ServerProperties;
 import org.openhab.habdroid.model.Sitemap;
 import org.openhab.habdroid.model.Widget;
-import org.openhab.habdroid.ui.AnchorWebViewClient;
 import org.openhab.habdroid.ui.CloudNotificationListFragment;
 import org.openhab.habdroid.ui.MainActivity;
 import org.openhab.habdroid.ui.PreferencesActivity;
@@ -234,7 +224,8 @@ public abstract class ContentController implements PageConnectionHolderFragment.
     }
 
     public void showHabpanel() {
-        showTemporaryPage(FullScreenWebviewFragment.newInstance(R.string.habpanel_error,
+        showTemporaryPage(WebViewFragment.newInstance(R.string.mainmenu_openhab_habpanel,
+                R.string.habpanel_error,
                 "/habpanel/index.html", "/rest/events"));
     }
 
@@ -373,8 +364,8 @@ public abstract class ContentController implements PageConnectionHolderFragment.
                 return mActivity.getString(R.string.app_notifications);
             } else if (mTemporaryPage instanceof WidgetListFragment) {
                 return ((WidgetListFragment) mTemporaryPage).getTitle();
-            } else if (mTemporaryPage instanceof FullScreenWebviewFragment) {
-                return mActivity.getString(R.string.mainmenu_openhab_habpanel);
+            } else if (mTemporaryPage instanceof WebViewFragment) {
+                return mActivity.getString(((WebViewFragment) mTemporaryPage).getTitleResId());
             }
             return null;
         } else {
@@ -399,10 +390,9 @@ public abstract class ContentController implements PageConnectionHolderFragment.
      * @return true if back key was consumed, false otherwise
      */
     public boolean goBack() {
-        if (mTemporaryPage instanceof FullScreenWebviewFragment) {
-            WebView webView = ((FullScreenWebviewFragment) mTemporaryPage).mWebView;
-            if (webView.canGoBack()) {
-                webView.goBack();
+        if (mTemporaryPage instanceof WebViewFragment) {
+            WebViewFragment wvf = (WebViewFragment) mTemporaryPage;
+            if (wvf.goBack()) {
                 return true;
             }
         }
@@ -682,142 +672,6 @@ public abstract class ContentController implements PageConnectionHolderFragment.
                 // If Wifi is disabled, secondary button suggests enabling Wifi
                 ((MainActivity) getActivity()).enableWifiAndIndicateStartup();
             }
-        }
-    }
-
-    public static class FullScreenWebviewFragment extends Fragment implements
-            ConnectionFactory.UpdateListener {
-        private static final String KEY_CURRENT_URL = "url";
-        private static final String KEY_ERROR = "error";
-        private static final String KEY_URL_LOAD = "url_load";
-        private static final String KEY_URL_ERROR = "url_error";
-
-        @StringRes int mErrorMessage;
-        String mUrltoLoad;
-        String mUrlForError;
-        Connection mConnection;
-        WebView mWebView;
-
-        public static FullScreenWebviewFragment newInstance(@StringRes int errorMessage,
-                String urltoLoad, String urlForError) {
-            FullScreenWebviewFragment f = new FullScreenWebviewFragment();
-            Bundle args = new Bundle();
-            args.putInt(KEY_ERROR, errorMessage);
-            args.putString(KEY_URL_LOAD, urltoLoad);
-            args.putString(KEY_URL_ERROR, urlForError);
-            f.setArguments(args);
-            return f;
-        }
-
-        @Override
-        public View onCreateView(@NonNull LayoutInflater inflater,
-                ViewGroup container, Bundle savedInstanceState) {
-            return inflater.inflate(R.layout.fragment_fullscreenwebview, container, false);
-        }
-
-        @Override
-        public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-            Bundle args = getArguments();
-            if (args != null) {
-                mErrorMessage = args.getInt(KEY_ERROR);
-                mUrltoLoad = args.getString(KEY_URL_LOAD);
-                mUrlForError = args.getString(KEY_URL_ERROR);
-            }
-            TextView retryButton = view.findViewById(R.id.retry_button);
-            retryButton.setOnClickListener(v -> loadWebsite());
-            TextView error = view.findViewById(R.id.empty_message);
-            error.setText(getString(mErrorMessage));
-            if (savedInstanceState != null) {
-                loadWebsite(savedInstanceState.getString(KEY_CURRENT_URL, mUrltoLoad));
-            } else {
-                loadWebsite();
-            }
-        }
-
-        @Override
-        public void onSaveInstanceState(@NonNull Bundle outState) {
-            if (mWebView != null) {
-                outState.putString(KEY_CURRENT_URL, mWebView.getUrl());
-            }
-        }
-
-        private void loadWebsite() {
-            loadWebsite(mUrltoLoad);
-        }
-
-        private void loadWebsite(String urlToLoad) {
-            View view = getView();
-            if (view == null) {
-                return;
-            }
-            try {
-                mConnection = ConnectionFactory.getUsableConnection();
-            } catch (ConnectionException e) {
-                updateViewVisibility(true, false);
-                return;
-            }
-
-            if (mConnection == null) {
-                updateViewVisibility(true, false);
-                return;
-            }
-            updateViewVisibility(false, true);
-
-            String url = mConnection.getAsyncHttpClient().buildUrl(urlToLoad).toString();
-
-            mWebView = view.findViewById(R.id.webview);
-
-            mWebView.setWebViewClient(new AnchorWebViewClient(url,
-                    mConnection.getUsername(), mConnection.getPassword()) {
-                @Override
-                public void onPageFinished(WebView view, String url) {
-                    updateViewVisibility(false, false);
-                }
-
-                @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-                @Override
-                public void onReceivedError(WebView view, WebResourceRequest request,
-                        WebResourceError error) {
-                    String url = request.getUrl().toString();
-                    Log.e(TAG, "onReceivedError() on URL: " + url);
-                    if (url.endsWith(mUrlForError)) {
-                        updateViewVisibility(true, false);
-                    }
-                }
-
-                @Override
-                public void onReceivedError(WebView view, int errorCode, String description,
-                        String failingUrl) {
-                    Log.e(TAG, "onReceivedError() (deprecated) on URL: " + failingUrl);
-                    updateViewVisibility(true, false);
-                }
-            });
-            Util.applyAuthentication(mWebView, mConnection, url);
-            mWebView.setWebChromeClient(new WebChromeClient());
-            mWebView.getSettings().setDomStorageEnabled(true);
-            mWebView.getSettings().setJavaScriptEnabled(true);
-            mWebView.loadUrl(url);
-            mWebView.setBackgroundColor(Color.TRANSPARENT);
-        }
-
-        private void updateViewVisibility(boolean error, boolean loading) {
-            View view = getView();
-            if (view == null) {
-                return;
-            }
-            view.findViewById(R.id.webview).setVisibility(error ? View.GONE : View.VISIBLE);
-            view.findViewById(android.R.id.empty).setVisibility(error ? View.VISIBLE : View.GONE);
-            view.findViewById(R.id.progress).setVisibility(loading ? View.VISIBLE : View.GONE);
-        }
-
-        @Override
-        public void onAvailableConnectionChanged() {
-            loadWebsite();
-        }
-
-        @Override
-        public void onCloudConnectionChanged(CloudConnection connection) {
-            // no-op
         }
     }
 
