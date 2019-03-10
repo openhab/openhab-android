@@ -12,6 +12,11 @@ import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.widget.TextView;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
+import androidx.annotation.StringRes;
+import androidx.fragment.app.Fragment;
 
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.core.connection.CloudConnection;
@@ -20,12 +25,6 @@ import org.openhab.habdroid.core.connection.ConnectionFactory;
 import org.openhab.habdroid.core.connection.exception.ConnectionException;
 import org.openhab.habdroid.ui.AnchorWebViewClient;
 import org.openhab.habdroid.util.Util;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
-import androidx.annotation.StringRes;
-import androidx.fragment.app.Fragment;
 
 public class WebViewFragment extends Fragment implements ConnectionFactory.UpdateListener {
     private static final String TAG = WebViewFragment.class.getSimpleName();
