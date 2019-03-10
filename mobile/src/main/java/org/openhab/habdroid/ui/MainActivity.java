@@ -277,7 +277,7 @@ public class MainActivity extends AppCompatActivity implements
 
     private void handleConnectionChange() {
         if (mConnection instanceof DemoConnection) {
-            showSnackbar(R.string.info_demo_mode_short);
+            showDemoModeHintSnackbar();
         } else {
             boolean hasLocalAndRemote =
                     ConnectionFactory.getConnection(Connection.TYPE_LOCAL) != null
@@ -1028,6 +1028,18 @@ public class MainActivity extends AppCompatActivity implements
         mLastSnackbar.setAction(R.string.swipe_to_refresh_dismiss, v -> {
             prefs.edit()
                     .putBoolean(Constants.PREFERENCE_SWIPE_REFRESH_EXPLAINED, true)
+                    .apply();
+        });
+        mLastSnackbar.show();
+    }
+
+    public void showDemoModeHintSnackbar() {
+        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        mLastSnackbar = Snackbar.make(findViewById(android.R.id.content),
+                R.string.info_demo_mode_short, Snackbar.LENGTH_LONG);
+        mLastSnackbar.setAction(R.string.turn_off, v -> {
+            prefs.edit()
+                    .putBoolean(Constants.PREFERENCE_DEMOMODE, false)
                     .apply();
         });
         mLastSnackbar.show();
