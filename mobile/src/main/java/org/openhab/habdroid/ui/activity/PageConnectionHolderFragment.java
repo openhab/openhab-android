@@ -94,6 +94,14 @@ public class PageConnectionHolderFragment extends Fragment {
          * @param widget   Updated widget
          */
         void onWidgetUpdated(String pageUrl, Widget widget);
+
+        /**
+         * Let parent know about an update to the page title
+         *
+         * @param pageUrl  URL of the page the updated title belongs to
+         * @param title    Updated title
+         */
+        void onPageTitleUpdated(String pageUrl, String title);
     }
 
     private Map<String, ConnectionHandler> mConnections = new HashMap<>();
@@ -395,7 +403,7 @@ public class PageConnectionHolderFragment extends Fragment {
             }
         }
 
-        void handleUpdateEvent(String payload) {
+        void handleUpdateEvent(String pageId, String payload) {
             if (mLastWidgetList == null) {
                 return;
             }
@@ -415,6 +423,10 @@ public class PageConnectionHolderFragment extends Fragment {
                 }
 
                 String widgetId = object.getString("widgetId");
+                if (TextUtils.equals(widgetId, pageId)) {
+                    mCallback.onPageTitleUpdated(mUrl, object.getString("label"));
+                    return;
+                }
                 for (int i = 0; i < mLastWidgetList.size(); i++) {
                     Widget widget = mLastWidgetList.get(i);
                     if (widgetId.equals(widget.id())) {
@@ -451,7 +463,7 @@ public class PageConnectionHolderFragment extends Fragment {
             }
 
             interface UpdateCallback {
-                void handleUpdateEvent(String message);
+                void handleUpdateEvent(String pageId, String message);
             }
 
             private static final int MAX_RETRIES = 10;
@@ -533,7 +545,7 @@ public class PageConnectionHolderFragment extends Fragment {
 
             @Override
             public void onMessage(ServerSentEvent sse, String id, String event, String message) {
-                mHandler.post(() -> mUpdateCb.handleUpdateEvent(message));
+                mHandler.post(() -> mUpdateCb.handleUpdateEvent(mPageId, message));
             }
 
             @Override

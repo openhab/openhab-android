@@ -54,7 +54,6 @@ public class WidgetListFragment extends Fragment
     private String mPageUrl;
     // parent activity
     private MainActivity mActivity;
-    private boolean mIsVisible = false;
     private String mTitle;
     private SwipeRefreshLayout mRefreshLayout;
     private String mHighlightedPageLink;
@@ -211,12 +210,6 @@ public class WidgetListFragment extends Fragment
         }
     }
 
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        mIsVisible = isVisibleToUser;
-    }
-
     public static WidgetListFragment withPage(String pageUrl, String pageTitle) {
         WidgetListFragment fragment = new WidgetListFragment();
         Bundle args = new Bundle();
@@ -246,9 +239,14 @@ public class WidgetListFragment extends Fragment
         mAdapter.setSelectedPosition(-1);
     }
 
-    public void update(String pageTitle, List<Widget> widgets) {
-        mTitle = pageTitle;
+    public void updateTitle(String pageTitle) {
+        mTitle = pageTitle.replaceAll("[\\[\\]]", "");
+        if (mActivity != null) {
+            mActivity.updateTitle();
+        }
+    }
 
+    public void updateWidgets(List<Widget> widgets) {
         if (mAdapter != null) {
             mAdapter.update(widgets, mRefreshLayout.isRefreshing());
             boolean emptyPage = widgets.size() == 0;
@@ -256,9 +254,6 @@ public class WidgetListFragment extends Fragment
             mEmptyPageView.setVisibility(emptyPage ? View.VISIBLE : View.GONE);
             setHighlightedPageLink(mHighlightedPageLink);
             mRefreshLayout.setRefreshing(false);
-        }
-        if (mActivity != null && mIsVisible) {
-            mActivity.updateTitle();
         }
     }
 

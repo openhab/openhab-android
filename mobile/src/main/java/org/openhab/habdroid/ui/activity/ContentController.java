@@ -442,7 +442,8 @@ public abstract class ContentController implements PageConnectionHolderFragment.
         Log.d(TAG, "Got update for URL " + pageUrl + ", pending " + mPendingDataLoadUrls);
         for (WidgetListFragment f : collectWidgetFragments()) {
             if (pageUrl.equals(f.getDisplayPageUrl())) {
-                f.update(pageTitle, widgets);
+                f.updateTitle(pageTitle);
+                f.updateWidgets(widgets);
                 break;
             }
         }
@@ -459,6 +460,16 @@ public abstract class ContentController implements PageConnectionHolderFragment.
         for (WidgetListFragment f : collectWidgetFragments()) {
             if (pageUrl.equals(f.getDisplayPageUrl())) {
                 f.updateWidget(widget);
+                break;
+            }
+        }
+    }
+
+    @Override
+    public void onPageTitleUpdated(String pageUrl, String title) {
+        for (WidgetListFragment f : collectWidgetFragments()) {
+            if (pageUrl.equals(f.getDisplayPageUrl())) {
+                f.updateTitle(title);
                 break;
             }
         }
