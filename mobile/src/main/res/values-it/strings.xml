@@ -68,6 +68,7 @@
     <string name="info_voice_recognized_text">Comando riconosciuto: %1$s</string>
     <string name="info_demo_mode_short">Esecuzione in modalità demo</string>
     <!-- Please try to keep the string as short as possible -->
+    <string name="turn_off">Spegnere</string>
     <string name="info_conn_url">Connessione a URL locale</string>
     <string name="info_conn_rem_url">Connessione a URL remoto</string>
     <string name="app_shortcut_diabled_habpanel">Il tuo server non ha HABPanel installato</string>
