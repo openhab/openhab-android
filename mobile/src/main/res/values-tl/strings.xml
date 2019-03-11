@@ -19,6 +19,7 @@
     <string name="settings_openhab_alturl">URL ng Malayuang server</string>
     <string name="settings_openhab_username">Pangalan ng gumagamit</string>
     <!-- App messages strings -->
+    <!-- Please try to keep the string as short as possible -->
     <!-- Error messages -->
     <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
     <!-- Notification list strings -->
