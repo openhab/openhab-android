@@ -51,7 +51,11 @@ public abstract class HttpClient {
         Request request = makeAuthenticatedRequestBuilder()
                 .url(url)
                 .build();
-        return new OkSse(mClient).newServerSentEvent(request, listener);
+        OkHttpClient client = mClient.newBuilder()
+                .readTimeout(0, TimeUnit.SECONDS)
+                .retryOnConnectionFailure(true)
+                .build();
+        return new OkSse(client).newServerSentEvent(request, listener);
     }
 
     public HttpUrl buildUrl(String url) {
