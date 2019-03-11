@@ -66,6 +66,10 @@ public class BackgroundTasksManager extends BroadcastReceiver {
 
     public static void scheduleWorker(Context context, String key) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        if (Constants.PREFERENCE_DEMOMODE.equals(key)) {
+            WorkManager.getInstance().cancelAllWorkByTag(WORKER_TAG_ITEM_UPLOADS);
+            return;
+        }
         Pair<Boolean, String> setting =
                 ItemUpdatingPreference.parseValue(prefs.getString(key, null));
         if (setting == null || !setting.first) {

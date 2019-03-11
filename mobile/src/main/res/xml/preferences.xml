@@ -89,6 +89,7 @@
             android:key="sendDeviceInfoPrefix"
             android:title="@string/send_device_info_item_prefix"
             android:summary="@string/send_device_info_item_prefix_summary"
+            android:dependency="default_openhab_demomode"
             android:icon="@drawable/ic_text_fields_gray_24dp" />
         <org.openhab.habdroid.ui.widget.ItemUpdatingPreference
             android:defaultValue="false|AlarmClock"
@@ -96,6 +97,7 @@
             app:helpHint="@string/settings_alarm_clock_howto_summary"
             app:helpUrl="@string/settings_alarm_clock_howto_url"
             android:title="@string/settings_alarm_clock"
+            android:dependency="default_openhab_demomode"
             android:icon="@drawable/ic_alarm_grey_24dp" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/settings_misc_title">

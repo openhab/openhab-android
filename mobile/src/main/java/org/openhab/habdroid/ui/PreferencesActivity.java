@@ -249,6 +249,7 @@ public class PreferencesActivity extends AppCompatActivity {
         protected void updateAndInitPreferences() {
             addPreferencesFromResource(R.xml.preferences);
 
+            final Preference demoModePref = findPreference(Constants.PREFERENCE_DEMOMODE);
             final Preference localConnPref = findPreference(Constants.SUBSCREEN_LOCAL_CONNECTION);
             final Preference remoteConnPref = findPreference(Constants.SUBSCREEN_REMOTE_CONNECTION);
             final Preference themePref = findPreference(Constants.PREFERENCE_THEME);
@@ -287,6 +288,13 @@ public class PreferencesActivity extends AppCompatActivity {
                     prefs.getString(Constants.PREFERENCE_TONE, ""));
             updateVibrationPreferenceIcon(vibrationPref,
                     prefs.getString(Constants.PREFERENCE_NOTIFICATION_VIBRATION, ""));
+
+            demoModePref.setOnPreferenceChangeListener((preference, newValue) -> {
+                if ((boolean) newValue) {
+                    scheduleWorker(preference.getKey());
+                }
+                return true;
+            });
 
             localConnPref.setOnPreferenceClickListener(preference -> {
                 getParentActivity().openSubScreen(new LocalConnectionSettingsFragment());
