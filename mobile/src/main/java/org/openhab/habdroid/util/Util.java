@@ -201,7 +201,7 @@ public class Util {
         if (item == null || state == null) {
             return;
         }
-        if (item.isOfTypeOrGroupType(Item.Type.Number)) {
+        if (item.isOfTypeOrGroupType(Item.Type.NumberWithDimension)) {
             // For number items, include unit (if present) in command
             sendItemCommand(client, item, state.toString(Locale.US));
         } else {

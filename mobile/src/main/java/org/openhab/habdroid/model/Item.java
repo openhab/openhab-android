@@ -39,6 +39,7 @@ public abstract class Item implements Parcelable {
         Image,
         Location,
         Number,
+        NumberWithDimension,
         Player,
         Rollershutter,
         StringItem,
@@ -92,6 +93,9 @@ public abstract class Item implements Parcelable {
         }
         if ("String".equals(type)) {
             return Type.StringItem;
+        }
+        if ("Number".equals(type) && colonPos > 0) {
+            return Type.NumberWithDimension;
         }
         try {
             return Type.valueOf(type);
