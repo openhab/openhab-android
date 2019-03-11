@@ -61,6 +61,7 @@
     <string name="info_voice_input">openHAB, お話ください!</string>
     <string name="info_voice_recognized_text">認識したコマンド: %1$s</string>
     <string name="info_demo_mode_short">デモ モードで実行しています</string>
+    <!-- Please try to keep the string as short as possible -->
     <string name="info_conn_url">設定した URL に接続しています</string>
     <string name="info_conn_rem_url">リモート URL に接続しています</string>
     <!-- Error messages -->
