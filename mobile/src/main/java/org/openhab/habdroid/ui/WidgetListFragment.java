@@ -54,7 +54,6 @@ public class WidgetListFragment extends Fragment
     private String mPageUrl;
     // parent activity
     private MainActivity mActivity;
-    private boolean mIsVisible = false;
     private String mTitle;
     private SwipeRefreshLayout mRefreshLayout;
     private String mHighlightedPageLink;
@@ -211,12 +210,6 @@ public class WidgetListFragment extends Fragment
         }
     }
 
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        mIsVisible = isVisibleToUser;
-    }
-
     public static WidgetListFragment withPage(String pageUrl, String pageTitle) {
         WidgetListFragment fragment = new WidgetListFragment();
         Bundle args = new Bundle();
@@ -248,7 +241,7 @@ public class WidgetListFragment extends Fragment
 
     public void updateTitle(String pageTitle) {
         mTitle = pageTitle.replaceAll("[\\[\\]]", "");
-        if (mActivity != null && mIsVisible) {
+        if (mActivity != null) {
             mActivity.updateTitle();
         }
     }
