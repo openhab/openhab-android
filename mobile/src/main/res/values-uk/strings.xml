@@ -67,6 +67,7 @@
     <string name="info_voice_input">openHAB, очікує на команду!</string>
     <string name="info_voice_recognized_text">Отримано команду: %1$s</string>
     <string name="info_demo_mode_short">Працює в демо-режимі</string>
+    <!-- Please try to keep the string as short as possible -->
     <string name="info_conn_url">Підключення до локального URL</string>
     <string name="info_conn_rem_url">Підключення до віддаленого URL</string>
     <string name="app_shortcut_diabled_habpanel">Ваш сервер не має встановленої HABPanel</string>
