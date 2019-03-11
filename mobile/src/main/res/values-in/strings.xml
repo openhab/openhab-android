@@ -32,6 +32,7 @@
     <string name="info_voice_input">openHAB, atas perintahmu!</string>
     <string name="info_voice_recognized_text">Perintah yang Diakui: %1$s</string>
     <string name="info_demo_mode_short">Berjalan dalam mode demo</string>
+    <!-- Please try to keep the string as short as possible -->
     <string name="info_conn_url">Menghubungkan ke URL lokal</string>
     <string name="info_conn_rem_url">Menghubungkan ke URL jauh</string>
     <!-- Error messages -->
