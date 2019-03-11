@@ -30,8 +30,8 @@ android {
         applicationId "org.openhab.habdroid"
         minSdkVersion 14
         targetSdkVersion 27
-        versionCode 119
-        versionName "2.6.5-beta"
+        versionCode 120
+        versionName "2.6.6-beta"
         multiDexEnabled true
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
     }

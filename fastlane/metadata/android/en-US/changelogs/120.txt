@@ -1,0 +1,3 @@
+## Fixed
+* Improve WebView fragment (#1257)
+* Only send unit in Setpoint/Slider updates if needed. (#1250) 
