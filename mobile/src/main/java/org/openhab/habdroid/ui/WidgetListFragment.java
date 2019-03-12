@@ -29,6 +29,7 @@ import org.openhab.habdroid.model.Item;
 import org.openhab.habdroid.model.LabeledValue;
 import org.openhab.habdroid.model.LinkedPage;
 import org.openhab.habdroid.model.Widget;
+import org.openhab.habdroid.ui.widget.RecyclerViewSwipeRefreshLayout;
 import org.openhab.habdroid.util.CacheManager;
 import org.openhab.habdroid.util.Util;
 
@@ -55,7 +56,7 @@ public class WidgetListFragment extends Fragment
     // parent activity
     private MainActivity mActivity;
     private String mTitle;
-    private SwipeRefreshLayout mRefreshLayout;
+    private RecyclerViewSwipeRefreshLayout mRefreshLayout;
     private String mHighlightedPageLink;
 
     @Override
@@ -182,6 +183,7 @@ public class WidgetListFragment extends Fragment
         mRefreshLayout = view.findViewById(R.id.swiperefresh);
 
         Util.applySwipeLayoutColors(mRefreshLayout, R.attr.colorPrimary, R.attr.colorAccent);
+        mRefreshLayout.setRecyclerView(mRecyclerView);
         mRefreshLayout.setOnRefreshListener(() -> {
             mActivity.showRefreshHintSnackbarIfNeeded();
             CacheManager.getInstance(getActivity()).clearCache();
