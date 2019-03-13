@@ -27,10 +27,10 @@ https://docs.openhab.org/addons/bindings.html. </bindings>
     <oh_server>أنت بحاجة إلى خادم openHAB لهذا التطبيق</oh_server>
     <short_description/>
     <fdroid/>
-    <fdroid_beta><![CDATA[]]></fdroid_beta>
-    <fdroid_privacy_policy/>
-    <fdroid_anti_features/>
-    <fdroid_anti_features_text/>
-    <beta/>
-    <play_beta/>
+    <fdroid_beta><![CDATA[يمكنك تثبيت الإصدار التجريبي مع <a href="https://f-droid.org/packages/org.openhab.habdroid/">الإصدار المستقر</a>.]]></fdroid_beta>
+    <fdroid_privacy_policy>سياسة الخصوصية: https://www.openhabfoundation.org/privacy.html</fdroid_privacy_policy>
+    <fdroid_anti_features>ميزات غير مقبولة</fdroid_anti_features>
+    <fdroid_anti_features_text>هذا التطبيق معنون بعلامة "شيء غير مجاني"، لأن رمز أوبينهاب لا يحمل رخصة حرة.</fdroid_anti_features_text>
+    <beta>جرب الميزات الجديدة واعطنا ملاحظاتك!</beta>
+    <play_beta>يمكنك تثبيت الإصدار التجريبي بجانب الإصدار المستقر.</play_beta>
 </strings>
