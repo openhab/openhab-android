@@ -74,6 +74,12 @@
     <string name="beta">Beta</string>
     <string name="settings_enhanced_security">Enhanced security</string>
     <string name="settings_prevent_screenshots">Prevent screenshots</string>
+    <string name="settings_panic">Panic button app</string>
+    <string name="settings_panic_install">Install Ripple, a panic button app</string>
+    <string name="settings_allow_panic_close">Close openHAB</string>
+    <string name="settings_allow_panic_close_summary">Allow other apps to close openHAB</string>
+    <string name="settings_allow_panic_delete_cred">Delete login data</string>
+    <string name="settings_allow_panic_delete_cred_summary">Allow other apps to delete your saved login data</string>
 
     <!-- App messages strings -->
     <string name="title_voice_widget">Voice commands</string>
@@ -123,6 +129,7 @@
     <string name="error_about_no_conn">Error while fetching openHAB server information</string>
     <string name="error_openhab_offline">Your openHAB server is offline while the cloud instance is running</string>
     <string name="error_no_app_store_found">No app store found to install voice recognizer app</string>
+    <string name="error_no_app_store_found_ripple">No app store found to install Ripple</string>
     <string name="title_activity_openhabwritetag">Write NFC tag</string>
     <string name="title_activity_libraries">Used libraries</string>
     <string name="info_write_tag">Touch the tag and keep it close until the confirmation message appear</string>

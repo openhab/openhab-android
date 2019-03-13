@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="org.openhab.habdroid"
+          xmlns:tools="http://schemas.android.com/tools" package="org.openhab.habdroid"
     android:installLocation="internalOnly">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -36,6 +36,13 @@
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
+            <intent-filter>
+                <action android:name="info.guardianproject.panic.action.CONNECT"/>
+                <action android:name="info.guardianproject.panic.action.DISCONNECT"/>
+
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+
 
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -132,6 +139,17 @@
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.LOCALE_CHANGED"/>
+            </intent-filter>
+        </receiver>
+
+        <activity android:name=".core.panic.ExitActivity"
+                  android:theme="@android:style/Theme.NoDisplay" />
+        <receiver android:name=".core.panic.PanicResponderListener"
+                  android:exported="true"
+                  android:enabled="true"
+                  tools:ignore="ExportedReceiver">
+            <intent-filter>
+                <action android:name="info.guardianproject.panic.action.TRIGGER"/>
             </intent-filter>
         </receiver>
     </application>
