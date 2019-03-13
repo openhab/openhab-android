@@ -72,6 +72,8 @@
     <string name="settings_connection_summary">Connected to %s</string>
     <string name="settings_insecure_connection_summary">Insecurely connected to %s</string>
     <string name="beta">Beta</string>
+    <string name="settings_enhanced_security">Enhanced security</string>
+    <string name="settings_prevent_screenshots">Prevent screenshots</string>
 
     <!-- App messages strings -->
     <string name="title_voice_widget">Voice commands</string>

@@ -101,6 +101,11 @@
             android:icon="@drawable/ic_alarm_grey_24dp" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/settings_misc_title">
+        <Preference
+            android:key="default_openhab_enhanced_security"
+            android:persistent="false"
+            android:title="@string/settings_enhanced_security"
+            android:icon="@drawable/ic_security_grey_24dp" />
         <RingtonePreference
             android:key="default_openhab_alertringtone"
             android:persistent="true"

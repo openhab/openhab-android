@@ -923,6 +923,12 @@ public class MainActivity extends AppCompatActivity implements
                 if (data.getBooleanExtra(PreferencesActivity.RESULT_EXTRA_THEME_CHANGED, false)) {
                     recreate();
                 }
+
+                if (data.getBooleanExtra(
+                        PreferencesActivity.RESULT_EXTRA_PREVENT_SCREENSHOTS_CHANGED,
+                        false)) {
+                    Util.setScreenshotPrevention(this);
+                }
                 break;
             case INTRO_REQUEST_CODE:
                 break;

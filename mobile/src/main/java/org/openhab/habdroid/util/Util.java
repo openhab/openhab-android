@@ -20,6 +20,7 @@ import android.os.Build;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.WindowManager;
 import android.webkit.WebView;
 import android.webkit.WebViewDatabase;
 import androidx.annotation.AnimRes;
@@ -144,6 +145,22 @@ public class Util {
         return null;
     }
 
+    public static void setScreenshotPrevention(@NonNull Activity activity) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(activity);
+
+        setScreenshotPrevention(activity,
+                prefs.getBoolean(Constants.PREFERENCE_PREVENT_SCREENSHOTS, false));
+    }
+
+    public static void setScreenshotPrevention(@NonNull Activity activity, boolean isEnabled) {
+        if(isEnabled) {
+            activity.getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE,
+                    WindowManager.LayoutParams.FLAG_SECURE);
+        } else {
+            activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_SECURE);
+        }
+    }
+
     public static void setActivityTheme(@NonNull final Activity activity) {
         setActivityTheme(activity, null);
     }
@@ -159,6 +176,8 @@ public class Util {
                     BitmapFactory.decodeResource(activity.getResources(), R.mipmap.icon),
                     typedValue.data));
         }
+
+        setScreenshotPrevention(activity);
     }
 
     public static @StyleRes int getActivityThemeId(@NonNull final Activity activity) {

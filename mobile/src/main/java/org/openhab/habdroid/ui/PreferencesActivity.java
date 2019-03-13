@@ -57,6 +57,8 @@ import static org.openhab.habdroid.util.Util.getHostFromUrl;
 public class PreferencesActivity extends AppCompatActivity {
     public static final String RESULT_EXTRA_THEME_CHANGED = "theme_changed";
     public static final String RESULT_EXTRA_SITEMAP_CLEARED = "sitemap_cleared";
+    public static final String RESULT_EXTRA_PREVENT_SCREENSHOTS_CHANGED =
+            "prevent_screenshots_cleared";
     public static final String START_EXTRA_SERVER_PROPERTIES = "server_properties";
     private static final String STATE_KEY_RESULT = "result";
 
@@ -251,6 +253,8 @@ public class PreferencesActivity extends AppCompatActivity {
             final Preference demoModePref = findPreference(Constants.PREFERENCE_DEMOMODE);
             final Preference localConnPref = findPreference(Constants.SUBSCREEN_LOCAL_CONNECTION);
             final Preference remoteConnPref = findPreference(Constants.SUBSCREEN_REMOTE_CONNECTION);
+            final Preference enhancedSecurityPref =
+                    findPreference(Constants.SUBSCREEN_ENHANCED_SECURITY);
             final Preference themePref = findPreference(Constants.PREFERENCE_THEME);
             final Preference clearCachePref = findPreference(Constants.PREFERENCE_CLEAR_CACHE);
             final Preference clearDefaultSitemapPref =
@@ -295,6 +299,11 @@ public class PreferencesActivity extends AppCompatActivity {
 
             remoteConnPref.setOnPreferenceClickListener(preference -> {
                 getParentActivity().openSubScreen(new RemoteConnectionSettingsFragment());
+                return false;
+            });
+
+            enhancedSecurityPref.setOnPreferenceClickListener(preference -> {
+                getParentActivity().openSubScreen(new EnhancedSecuritySettingsFragment());
                 return false;
             });
 
@@ -623,6 +632,28 @@ public class PreferencesActivity extends AppCompatActivity {
             addPreferencesFromResource(R.xml.remote_connection_preferences);
             initPreferences(Constants.PREFERENCE_REMOTE_URL, Constants.PREFERENCE_REMOTE_USERNAME,
                     Constants.PREFERENCE_REMOTE_PASSWORD, R.string.settings_openhab_alturl_summary);
+        }
+    }
+
+    public static class EnhancedSecuritySettingsFragment extends AbstractSettingsFragment {
+        @Override
+        protected int getTitleResId() {
+            return R.string.settings_enhanced_security;
+        }
+
+        @Override
+        protected void updateAndInitPreferences() {
+            addPreferencesFromResource(R.xml.enhanced_security_preferences);
+
+            Preference preventScreenshotPrev =
+                    findPreference(Constants.PREFERENCE_PREVENT_SCREENSHOTS);
+
+            preventScreenshotPrev.setOnPreferenceChangeListener((preference, newValue) -> {
+                Util.setScreenshotPrevention(getActivity(), (boolean) newValue);
+                getParentActivity().mResultIntent.putExtra(RESULT_EXTRA_PREVENT_SCREENSHOTS_CHANGED,
+                        true);
+                return true;
+            });
         }
     }
 }

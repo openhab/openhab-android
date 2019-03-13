@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+                  android:title="@string/settings_enhanced_security">
+    <SwitchPreference
+            android:defaultValue="false"
+            android:key="preventScreenshot"
+            android:title="@string/settings_prevent_screenshots"
+            android:icon="@drawable/ic_fullscreen_grey_24dp" />
+</PreferenceScreen>
