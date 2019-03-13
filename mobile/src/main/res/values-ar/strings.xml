@@ -9,6 +9,7 @@
     <!-- Main menu items -->
     <string name="mainmenu_openhab_sitemaps">Sitemaps</string>
     <string name="mainmenu_openhab_preferences">إعدادات</string>
+    <string name="habpanel_error">حدث خطأ أثناء تحميل HABPanel</string>
     <string name="mainmenu_openhab_clearcache">إزالة الصور المؤقته</string>
     <!-- App settings strings -->
     <string name="settings_connection_title">اتصال</string>
@@ -31,6 +32,10 @@
     <string name="settings_openhab_icon_format">تنسيق الرمز</string>
     <string name="settings_openhab_icon_format_png">صورة نقطية</string>
     <string name="settings_openhab_icon_format_svg">صورة خطية</string>
+    <string name="settings_chart_scaling_summary">ملاحظة: الحجم الأصغر يؤدي إلى تقليص حجم الحروف وعرض الخطوط، فهناك مساحة كبيرة للرسم البياني، لكن الأحرف قد تصبح غير مقروءة.</string>
+    <string name="settings_chart_scaling_value_xs">صغير حدا</string>
+    <string name="settings_chart_scaling_value_s">صغير</string>
+    <string name="settings_chart_scaling_value_m">افتراضي</string>
     <string name="settings_ringtone">نغمة الإشعار</string>
     <string name="settings_openhab_alt_connection">بعيد</string>
     <string name="settings_openhab_connection">محلي</string>
