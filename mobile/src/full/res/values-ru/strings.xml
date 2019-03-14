@@ -5,7 +5,6 @@
     <string name="info_openhab_gcm_unsupported">Недоступно. Удаленный сервер openHAB не подключен к облаку</string>
     <string name="info_openhab_gcm_in_progress">Устройство регестрируется...</string>
     <string name="info_openhab_gcm_failed">Ошибка регистрации устройства</string>
-    <string name="info_openhab_gcm_connected">Устройство успешно зарегистрировано в Google Cloud Messaging</string>
     <string name="notification_channel_default">По умолчанию</string>
     <string name="notification_channel_severity_value">Строго \'%1$s\'</string>
     <plurals name="summary_notification_text">

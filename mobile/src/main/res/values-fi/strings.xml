@@ -66,6 +66,7 @@
     <string name="info_voice_input">openHAB, komennossasi!</string>
     <string name="info_voice_recognized_text">Tunnistettu komento: %1$s</string>
     <string name="info_demo_mode_short">Sovellus esittelytilassa</string>
+    <!-- Please try to keep the string as short as possible -->
     <string name="info_conn_url">Yhdistetään paikalliskäytön URL osoitteeseen</string>
     <string name="info_conn_rem_url">Yhdistetään etäkäytön URL osoitteeseen</string>
     <string name="app_shortcut_diabled_habpanel">Palvelimellasi ei ole HABPanel asennettuna</string>

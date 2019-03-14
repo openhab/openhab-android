@@ -25,7 +25,7 @@
     <important_note>Важное примечание</important_note>
     <oh_server>Для этого приложения необходим сервер openHAB</oh_server>
     <short_description>Поставщик технологий с открытым исходным кодом для автоматизации "умного дома"</short_description>
-    <fdroid>Версия для F-Droid поддерживает просмотр карт. GCM и отчёты о сбоях удалены. Приложение не будет получать уведомления от openHAB Cloud.</fdroid>
+    <fdroid/>
     <fdroid_beta><![CDATA[Вы можете установить бета версию параллельно со <a href="https://f-droid.org/packages/org.openhab.habdroid/">стабильной версией</a>.]]></fdroid_beta>
     <fdroid_privacy_policy>Политика конфиденциальности: https://www.openhabfoundation.org/privacy.html</fdroid_privacy_policy>
     <fdroid_anti_features>AntiFeatures</fdroid_anti_features>

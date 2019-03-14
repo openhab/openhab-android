@@ -5,7 +5,6 @@
     <string name="info_openhab_gcm_unsupported">Niedostępny, zdalny serwer nie jest serwerem openHAB cloud</string>
     <string name="info_openhab_gcm_in_progress">W trakcie rejestracji urządzenia</string>
     <string name="info_openhab_gcm_failed">Rejestracja urządzenia nie powiodła się</string>
-    <string name="info_openhab_gcm_connected">Pomyślnie zarejestrowano urządzenie z Google Cloud Messaging</string>
     <string name="notification_channel_default">Domyślne</string>
     <string name="notification_channel_severity_value">Surowość %1$s</string>
     <plurals name="summary_notification_text">

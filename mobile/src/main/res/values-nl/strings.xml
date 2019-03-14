@@ -58,6 +58,7 @@
     <string name="info_voice_input">openHAB, tot uw dienst!</string>
     <string name="info_voice_recognized_text">Herkend commando: %1$s</string>
     <string name="info_demo_mode_short">Uitgevoerd in de demomodus</string>
+    <!-- Please try to keep the string as short as possible -->
     <string name="info_conn_url">Verbinden met ingestelde URL</string>
     <string name="info_conn_rem_url">Verbinden naar externe URL</string>
     <!-- Error messages -->

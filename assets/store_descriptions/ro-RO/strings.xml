@@ -25,7 +25,7 @@
     <important_note>Notă importantă</important_note>
     <oh_server>Ai nevoie de un server openHAB pentru această aplicație</oh_server>
     <short_description>Automatizare de locuințe open source, independentă de producători și tehnologii</short_description>
-    <fdroid>Build-urile F-Droid au suport pentru vizualizarea hărților. Au eliminat GCM, raportarea erorilor și nu vor putea primi notificări de la openHAB Cloud.</fdroid>
+    <fdroid/>
     <fdroid_beta><![CDATA[Se poate instala versiunea beta alături de <a href="https://f-droid.org/packages/org.openhab.habdroid/">stable version</a>.]]></fdroid_beta>
     <fdroid_privacy_policy>Politica de confidențialitate: https://www.openhabfoundation.org/privacy.html</fdroid_privacy_policy>
     <fdroid_anti_features>Anti Features</fdroid_anti_features>

@@ -58,6 +58,7 @@
     <string name="info_voice_input">openHAB，说出您的命令！</string>
     <string name="info_voice_recognized_text">已识别命令: %1$s</string>
     <string name="info_demo_mode_short">正以演示模式运行</string>
+    <!-- Please try to keep the string as short as possible -->
     <string name="info_conn_url">正在连接到本地 URL</string>
     <string name="info_conn_rem_url">正在连接到远程 URL</string>
     <!-- Error messages -->

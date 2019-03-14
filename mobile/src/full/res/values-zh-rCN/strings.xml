@@ -5,7 +5,6 @@
     <string name="info_openhab_gcm_unsupported">不可用，远程服务器非 openHAB 云端实例</string>
     <string name="info_openhab_gcm_in_progress">设备注册正在进行</string>
     <string name="info_openhab_gcm_failed">设备注册失败</string>
-    <string name="info_openhab_gcm_connected">设备已成功注册 Google 云消息</string>
     <string name="notification_channel_default">默认</string>
     <string name="notification_channel_severity_value">严重性 \'%1$s\'</string>
     <plurals name="summary_notification_text">
