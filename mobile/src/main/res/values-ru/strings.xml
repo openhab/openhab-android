@@ -62,6 +62,7 @@
     <string name="info_voice_recognized_text">Принятая команда: %1$s</string>
     <string name="info_demo_mode_short">Запущен демо режим</string>
     <!-- Please try to keep the string as short as possible -->
+    <string name="turn_off">Выключить</string>
     <string name="info_conn_url">Подключение к локальному URL</string>
     <string name="info_conn_rem_url">Подключение к удаленному URL</string>
     <!-- Error messages -->
