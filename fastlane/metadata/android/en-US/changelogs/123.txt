@@ -1,0 +1,5 @@
+• Add app shortcuts
+• Add ability to view HABPanel
+• Fix issues with units, visibility and webview widgets
+
+(like 2.6.0, but with some bug fixes)
