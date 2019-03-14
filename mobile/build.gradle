@@ -124,7 +124,7 @@ dependencies {
     implementation('com.mikepenz:aboutlibraries:6.2.3@aar') {
         transitive = true
     }
-    implementation 'com.github.GrenderG:Toasty:1.4.0'
+    implementation 'com.github.GrenderG:Toasty:1.4.1'
 
     // Crash reporting
     fullImplementation('com.crashlytics.sdk.android:crashlytics:2.9.9@aar') {
