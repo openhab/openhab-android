@@ -290,9 +290,7 @@ public class PreferencesActivity extends AppCompatActivity {
                     prefs.getString(Constants.PREFERENCE_NOTIFICATION_VIBRATION, ""));
 
             demoModePref.setOnPreferenceChangeListener((preference, newValue) -> {
-                if ((boolean) newValue) {
-                    scheduleWorker(preference.getKey());
-                }
+                scheduleWorker(Constants.PREFERENCE_ALARM_CLOCK);
                 return true;
             });
 

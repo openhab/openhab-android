@@ -159,7 +159,6 @@
         <item quantity="other">%d Items could not be updated</item>
     </plurals>
     <string name="item_update_http_error">Item \'%1$s\' update failed (HTTP error %2$d)</string>
-    <string name="item_update_connection_is_demo">Item updates aren\'t sent while running in demo mode</string>
     <string name="item_update_connection_error">Item \'%1$s\' update failed (No connection)</string>
     <string name="error_sending_alarm_clock_item_empty">Please enter a valid Item name</string>
     <string name="retry">Retry</string>
