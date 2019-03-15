@@ -9,6 +9,7 @@
     <!-- Main menu items -->
     <string name="mainmenu_openhab_sitemaps">Site Haritası</string>
     <string name="mainmenu_openhab_preferences">Ayarlar</string>
+    <string name="habpanel_error">HABPanel yüklenirken bir hata oluştu</string>
     <string name="mainmenu_openhab_clearcache">Resim önbelleğini temizle</string>
     <!-- App settings strings -->
     <string name="settings_openhab_url">Yerel sunucu URL\'si</string>
@@ -17,6 +18,8 @@
     <string name="settings_openhab_alturl_summary">Yerel adres kullanılabilir durumda değilken kullanılan openHAB panel URL\'si. Geçerli ayar: %s</string>
     <string name="settings_openhab_username">Kullanıcı Adı</string>
     <string name="settings_openhab_password">Şifre</string>
+    <string name="settings_openhab_password_summary_weak">Zayıf şifre ayarlandı</string>
+    <string name="settings_openhab_password_summary_strong">Güçlü şifre ayarlandı</string>
     <string name="settings_openhab_sslclientcert">SSL müşteri sertifikası</string>
     <string name="settings_openhab_sslclientcert_howto_summary">SSL müşteri sertifikası yetkilendirilmesi kurulu hakkında ipuçları ve açıklamalar için buraya tıklayınız</string>
     <string name="settings_openhab_screentimeroff">Ekran Zamanlayıcısını devre dışı bırak</string>
