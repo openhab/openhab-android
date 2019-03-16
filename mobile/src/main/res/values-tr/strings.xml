@@ -44,13 +44,17 @@
     <string name="info_conn_rem_url">Uzak URL\'ye Bağlanıyor</string>
     <string name="app_shortcut_diabled_voice_recognition">Aygıtınızda yüklü bir konuşmadan metne uygulaması yok</string>
     <!-- Error messages -->
+    <string name="error_empty_sitemap_list">openHAB boş Sitemap listesine döndü</string>
     <string name="error_network_not_available">Network müsait değil</string>
     <string name="error_http_connection_failed">Bağlantı başarısız. Yapılandırılmış openHAB sunucusuna bağlanmaya çalışırken beklenmeyen bir yanıt alındı ​​(Alınan HTTP yanıt kodu: %d).</string>
     <string name="error_invalid_url">Lütfen \'http(s)://host:(port)/\' formunda geçerli bir URL giriniz</string>
     <string name="error_port_seems_invalid">Girdiğiniz port numarası seçili protokol için yanlış görünüyor</string>
     <string name="error_connection_failed">Ana cihaza bağlantı başarısız oldu</string>
     <string name="error_unable_to_resolve_hostname">Ana cihaz adı çözülemiyor</string>
+    <string name="error_connection_sslhandshake_failed">SSL Handshake başarısız oldu Muhtemelen geçerli bir müşteri sertifikasına ihtiyacınız vardır</string>
     <string name="error_certificate_not_trusted">SSL sertifikasına güvenilmiyor. Lütfen kök sertifikayı içe aktarın ya da SSL sertifika doğrulamasını etkisiz hale getirin.</string>
+    <string name="error_certificate_invalid_date">SSL sertifikasının tarihi geçersiz. Lütfen doğru bir sertifika alın ve aygıtınızın saatinin doğru şekilde ayarlanmış olduğundan emin olun.</string>
+    <string name="error_certificate_revoked">SSL sertifikasının süresi doldu. Lütfen yeni bir sertifika edinin ya da SSL handshake esnasında sunulan sertifika\' yı kabul edin.</string>
     <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
     <string name="error_http_code_496">SSL müşteri sertifikası gereklidir (HTTP yanıt kodu 496)</string>
     <string name="error_http_code_511">Network kimlik doğrulaması gereklidir (HTTP yanıt kodu 511)</string>
