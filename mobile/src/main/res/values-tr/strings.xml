@@ -34,6 +34,7 @@
     <string name="settings_no_default_sitemap">Herhangi bir varsayılan Sitemap seçilmedi</string>
     <string name="settings_openhab_alt_connection">Uzak</string>
     <string name="settings_openhab_connection">Yerel</string>
+    <string name="settings_connection_summary">%s Bağlanıldı</string>
     <string name="settings_insecure_connection_summary">Güvenli bir şekilde %s\' e bağlandı</string>
     <!-- App messages strings -->
     <string name="info_voice_input">openHAB Emrinizdedir!</string>
@@ -73,6 +74,7 @@
     <string name="info_not_set">Ayarlı değil</string>
     <!-- Notification list strings -->
     <!-- Strings for MemorizingTrustManager activity -->
+    <string name="mtm_connect_anyway">Yine de bağlanmak istiyor musunuz?</string>
     <string name="mtm_decision_once">Bir kez</string>
     <string name="mtm_decision_abort">Çık</string>
     <string name="mtm_notification">Sertifika doğrulama</string>
