@@ -40,7 +40,6 @@ import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
 
 import org.openhab.habdroid.R;
-import org.openhab.habdroid.background.BackgroundTasksManager;
 import org.openhab.habdroid.model.ServerProperties;
 import org.openhab.habdroid.ui.widget.ItemUpdatingPreference;
 import org.openhab.habdroid.util.CacheManager;
@@ -289,11 +288,6 @@ public class PreferencesActivity extends AppCompatActivity {
             updateVibrationPreferenceIcon(vibrationPref,
                     prefs.getString(Constants.PREFERENCE_NOTIFICATION_VIBRATION, ""));
 
-            demoModePref.setOnPreferenceChangeListener((preference, newValue) -> {
-                scheduleWorker(Constants.PREFERENCE_ALARM_CLOCK);
-                return true;
-            });
-
             localConnPref.setOnPreferenceClickListener(preference -> {
                 getParentActivity().openSubScreen(new LocalConnectionSettingsFragment());
                 return false;
@@ -391,7 +385,6 @@ public class PreferencesActivity extends AppCompatActivity {
                     updateAlarmClockPreferenceIcon(preference, newValue);
                     Pair<Boolean, String> value = (Pair<Boolean, String>) newValue;
                     updateAlarmClockPreferenceSummary(preference, prefix, value);
-                    scheduleWorker(preference.getKey());
                     return true;
                 });
             }
@@ -400,7 +393,6 @@ public class PreferencesActivity extends AppCompatActivity {
                 Pair<Boolean, String> item =
                         ItemUpdatingPreference.parseValue(getPreferenceString(alarmClockPref, null));
                 updateAlarmClockPreferenceSummary(alarmClockPref, (String) newValue, item);
-                scheduleWorker(Constants.PREFERENCE_ALARM_CLOCK);
                 return true;
             });
 
@@ -504,13 +496,6 @@ public class PreferencesActivity extends AppCompatActivity {
                         beautifyUrl(getHostFromUrl(url)));
             }
             pref.setSummary(summary);
-        }
-
-        private void scheduleWorker(String key) {
-            final Context context = getActivity();
-            mHandler.post(() -> {
-                BackgroundTasksManager.scheduleWorker(context, key);
-            });
         }
 
         public static @Nullable String beautifyUrl(@Nullable String url) {

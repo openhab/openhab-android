@@ -10,7 +10,7 @@ public class OpenHabApplication extends MultiDexApplication {
     public void onCreate() {
         super.onCreate();
         ConnectionFactory.initialize(this);
-        BackgroundTasksManager.addWorkListener(this);
+        BackgroundTasksManager.initialize(this);
     }
 
     @Override

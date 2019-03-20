@@ -22,6 +22,7 @@ import androidx.work.WorkManager;
 import org.openhab.habdroid.ui.widget.ItemUpdatingPreference;
 import org.openhab.habdroid.util.Constants;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -34,16 +35,28 @@ public class BackgroundTasksManager extends BroadcastReceiver {
 
     private static final String WORKER_TAG_ITEM_UPLOADS = "itemUploads";
 
+    static final List<String> KNOWN_KEYS = Arrays.asList(
+        Constants.PREFERENCE_ALARM_CLOCK
+    );
+
     private interface ValueGetter {
         String getValue(Context context);
     }
     private static final HashMap<String, ValueGetter> VALUE_GETTER_MAP = new HashMap<>();
 
-    public static void addWorkListener(Context context) {
+    // need to keep a ref for this to avoid it being GC'ed
+    // (SharedPreferences only keeps a WeakReference)
+    private static PrefsListener sPrefsListener;
+
+    public static void initialize(Context context) {
         final WorkManager workManager = WorkManager.getInstance();
         LiveData<List<WorkInfo>> infoLiveData =
                 workManager.getWorkInfosByTagLiveData(WORKER_TAG_ITEM_UPLOADS);
         infoLiveData.observeForever(new NotificationUpdateObserver(context));
+
+        sPrefsListener = new PrefsListener(context);
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        prefs.registerOnSharedPreferenceChangeListener(sPrefsListener);
     }
 
     @Override
@@ -64,14 +77,16 @@ public class BackgroundTasksManager extends BroadcastReceiver {
         }
     }
 
-    public static void scheduleWorker(Context context, String key) {
+    private static void scheduleWorker(Context context, String key) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        final Pair<Boolean, String> setting;
+
         if (prefs.getBoolean(Constants.PREFERENCE_DEMOMODE, false)) {
-            WorkManager.getInstance().cancelAllWorkByTag(WORKER_TAG_ITEM_UPLOADS);
-            return;
+            setting = null; // Don't attempt any uploads in demo mode
+        } else {
+            setting = ItemUpdatingPreference.parseValue(prefs.getString(key, null));
         }
-        Pair<Boolean, String> setting =
-                ItemUpdatingPreference.parseValue(prefs.getString(key, null));
+
         if (setting == null || !setting.first) {
             WorkManager.getInstance().cancelAllWorkByTag(key);
             return;
@@ -138,6 +153,35 @@ public class BackgroundTasksManager extends BroadcastReceiver {
                 return new RetryInfo[size];
             }
         };
+    }
+
+    private static class PrefsListener
+            implements SharedPreferences.OnSharedPreferenceChangeListener {
+        private final Context mContext;
+
+        private PrefsListener(Context context) {
+            mContext = context.getApplicationContext();
+        }
+
+        @Override
+        public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
+            if (Constants.PREFERENCE_DEMOMODE.equals(key)) {
+                if (prefs.getBoolean(key, false)) {
+                    // demo mode was enabled -> cancel all uploads and clear DB
+                    // to clear out notifications
+                    final WorkManager wm = WorkManager.getInstance();
+                    wm.cancelAllWorkByTag(WORKER_TAG_ITEM_UPLOADS);
+                    wm.pruneWork();
+                } else {
+                    // demo mode was disabled -> reschedule uploads
+                    for (String knownKey : KNOWN_KEYS) {
+                        scheduleWorker(mContext, knownKey);
+                    }
+                }
+            } else if (KNOWN_KEYS.contains(key)) {
+                scheduleWorker(mContext, key);
+            }
+        }
     }
 
     static {

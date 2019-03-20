@@ -36,10 +36,6 @@ class NotificationUpdateObserver implements Observer<List<WorkInfo>> {
 
     private final Context mContext;
 
-    private static final List<String> KNOWN_TAGS = Arrays.asList(
-        Constants.PREFERENCE_ALARM_CLOCK
-    );
-
     NotificationUpdateObserver(Context context) {
         mContext = context.getApplicationContext();
     }
@@ -49,7 +45,7 @@ class NotificationUpdateObserver implements Observer<List<WorkInfo>> {
         HashMap<String, WorkInfo> latestInfoByTag = new HashMap<>();
         for (WorkInfo info : workInfos) {
             for (String tag : info.getTags()) {
-                if (KNOWN_TAGS.contains(tag)) {
+                if (BackgroundTasksManager.KNOWN_KEYS.contains(tag)) {
                     WorkInfo.State state = info.getState();
                     if (state == WorkInfo.State.ENQUEUED || state == WorkInfo.State.RUNNING) {
                         // Always treat a running job as the 'current' one
