@@ -9,7 +9,9 @@
     <!-- Main menu items -->
     <string name="mainmenu_openhab_sitemaps">Sitemaps</string>
     <string name="mainmenu_openhab_preferences">إعدادات</string>
+    <string name="mainmenu_openhab_habpanel">HABPanel</string>
     <string name="habpanel_error">حدث خطأ أثناء تحميل HABPanel</string>
+    <string name="mainmenu_openhab_selectsitemap">حدد Sitemap الافتراضي</string>
     <string name="mainmenu_openhab_clearcache">إزالة الصور المؤقته</string>
     <!-- App settings strings -->
     <string name="settings_connection_title">اتصال</string>
@@ -21,11 +23,14 @@
     <string name="settings_openhab_alturl_summary">عنوان لوحة مراقة أوبنهاب يسخدم حين تعذر العنوان المحلي. الضبط الحالي: %s</string>
     <string name="settings_openhab_username">اسم المستخدم</string>
     <string name="settings_openhab_password">كلمة المرور</string>
+    <string name="settings_openhab_password_summary_weak">رمز المرور ضعيف</string>
+    <string name="settings_openhab_password_summary_strong">تعيين رمز مرور قوي</string>
     <string name="settings_openhab_sslclientcert">شهادة SSL العميل</string>
     <string name="settings_openhab_sslclientcert_howto_summary">اضغط هنا للحصول على بعض التلميحات والتوضيحات حول كيفية إعداد مصادقة شهادة عميل SSL</string>
     <string name="settings_openhab_screentimeroff">تعطيل عرض المؤقت</string>
     <string name="settings_openhab_screentimeroff_summary">تعطيل عرض إيقاف المؤقت عند تشغيل openHAB</string>
     <string name="settings_openhab_demomode">الوضع التجريبي</string>
+    <string name="settings_openhab_demomode_summary">إذا لم يكن لديك ملقم openHAB، فعل وضع العرض التجريبي لتصور أمكانيات وقدرات openHAB.</string>
     <string name="settings_openhab_theme">السمة</string>
     <string name="settings_openhab_fullscreen">ملء الشاشة</string>
     <string name="settings_openhab_fullscreen_summary">عرض في وضع ملء الشاشة</string>
@@ -60,7 +65,9 @@
     <string name="error_http_code_507">خادم openHAB لا يمتلك مساحة خالية كافية (رمز استجابة HTTP 507)</string>
     <string name="error_http_code_511">يتطلب مصادقة الشبكة (رمز استجابة HTTP 511)</string>
     <string name="error_about_no_conn">حدث خطأ أثناء جلب معلومات خادم openHAB</string>
+    <string name="error_no_app_store_found">لم يتم العثور على متجر تطبيقات لتثبيت تطبيق أداة التعرف على الصوت</string>
     <string name="title_activity_openhabwritetag">أكتب وسم NFC</string>
+    <string name="title_activity_libraries">المكتبات المستخدمة</string>
     <string name="info_write_tag">إلمس العلامة واجعله قريبا حتى تظهر رسالة التأكيد</string>
     <string name="info_write_tag_progress">كتابة الوسم</string>
     <string name="info_write_tag_finished">أنهاء بنجاح</string>
@@ -75,6 +82,8 @@
     <string name="nfc_dialog_title">أكتب وسم فعل NFC لهذا العنصر</string>
     <string name="info_not_set">لم يُعين</string>
     <!-- Notification list strings -->
+    <string name="notification_list_empty">لم يتم إرسال أي إشعارات حتى الآن</string>
+    <string name="notification_list_error">حدث خطأ أثناء تحميل الإشعارات</string>
     <!-- Strings for MemorizingTrustManager activity -->
     <string name="mtm_decision_once">مرة</string>
     <string name="mtm_decision_abort">انهاء</string>
