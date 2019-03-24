@@ -107,6 +107,7 @@
     <string name="action_settings">Innstillinger</string>
     <string name="nfc_dialog_title">Skriv NFC handlinger for dette elementet</string>
     <string name="info_not_set">Ikke angitt</string>
+    <!-- Background tasks -->
     <!-- Notification list strings -->
     <string name="notification_list_empty">Ingen meldinger ble sendt så langt</string>
     <string name="notification_list_error">Det oppstod en feil under lasting av meldinger</string>
