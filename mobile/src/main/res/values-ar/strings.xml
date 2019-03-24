@@ -37,15 +37,29 @@
     <string name="settings_openhab_icon_format">تنسيق الرمز</string>
     <string name="settings_openhab_icon_format_png">صورة نقطية</string>
     <string name="settings_openhab_icon_format_svg">صورة خطية</string>
+    <string name="settings_chart_scaling">توسيع المخطط</string>
     <string name="settings_chart_scaling_summary">ملاحظة: الحجم الأصغر يؤدي إلى تقليص حجم الحروف وعرض الخطوط، فهناك مساحة كبيرة للرسم البياني، لكن الأحرف قد تصبح غير مقروءة.</string>
     <string name="settings_chart_scaling_value_xs">صغير حدا</string>
     <string name="settings_chart_scaling_value_s">صغير</string>
     <string name="settings_chart_scaling_value_m">افتراضي</string>
+    <string name="settings_chart_scaling_value_l">كبير</string>
+    <string name="settings_openhab_chart_hq">رسوم بيانية عالية الدقة</string>
+    <string name="settings_openhab_chart_hq_summary">تكوين النماذج قد يؤثر على الخادم. إذا واجهت بطئا في تحميل النماذج عدة مرات وخادمك ليس قويا، عطل هذه الخاصية لتحسين مدة التحميل.</string>
     <string name="settings_ringtone">نغمة الإشعار</string>
+    <string name="settings_ringtone_none">لا يوجد</string>
+    <string name="settings_clear_default_sitemap">تصفية Sitemap الإفتراضية</string>
     <string name="settings_openhab_alt_connection">بعيد</string>
     <string name="settings_openhab_connection">محلي</string>
+    <string name="settings_notification_vibration_off">إغلاق</string>
+    <string name="settings_notification_vibration_short">قصير</string>
+    <string name="settings_notification_vibration_long">طويل</string>
+    <string name="settings_notification_vibration_twice">مرتين</string>
+    <string name="settings_notification_ringtone_vibration">إعدادات الإشعارات</string>
+    <string name="settings_connection_summary">متصل بـ %s</string>
+    <string name="settings_insecure_connection_summary">أتصال غير آمن بـ %s</string>
     <string name="beta">إصدار تجريبي</string>
     <!-- App messages strings -->
+    <string name="title_voice_widget">الأوامر الصوتية</string>
     <string name="title_voice_widget_icon">الأوامر الصوتية واختصار التطبيق</string>
     <string name="info_voice_input">openHAB، تحت أمرك!</string>
     <string name="info_voice_recognized_text">أمر مُعرف: %1$s</string>
@@ -54,8 +68,11 @@
     <string name="turn_off">إيقاف</string>
     <string name="info_conn_url">الاتصال بالعنوان المحلي</string>
     <string name="info_conn_rem_url">الاتصال بالعنوان البعيد</string>
+    <string name="app_shortcut_diabled_notifications">الملقم البعيد غير متوفر</string>
     <!-- Error messages -->
+    <string name="error_empty_sitemap_list">openHAB يُرجع قائمة sitemap خالية</string>
     <string name="error_network_not_available">شبكة غير متاحة</string>
+    <string name="error_wifi_not_available">تم ايقاف الواي فاي</string>
     <string name="error_invalid_url">الرجاء إدخال محدد موقع معلومات صالح في \'http(s)://host(:port)/\' النموذج</string>
     <string name="error_connection_failed">فشل الإتصال بالمضيف</string>
     <string name="error_unable_to_resolve_hostname">غير قادر على معالجة المضيف</string>
