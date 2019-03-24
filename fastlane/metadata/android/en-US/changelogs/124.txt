@@ -1,0 +1,5 @@
+## Added
+* Send alarm clock to openHAB (#1137)
+
+## Fixed
+* Prevent swipe-to-refresh if swipe isn't started at top of page. (#1260)

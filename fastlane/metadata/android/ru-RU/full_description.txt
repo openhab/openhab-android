@@ -1,6 +1,8 @@
 openHAB - "Empowering the Smart Home" - открытое ПО для автоматизации "умного дома", не зависящее от производителей и технологий
 
 The builds on F-Droid have map view support, FCM and crash reporting removed and will not be able to receive push notifications from openHAB Cloud.
+Попробуйте новые функции и оставьте о них отзыв!
+Вы можете установить бета версию параллельно со <a href="https://f-droid.org/packages/org.openhab.habdroid/">стабильной версией</a>.
 
 <b>Важное примечание</b>
 
