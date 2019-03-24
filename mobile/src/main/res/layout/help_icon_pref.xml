@@ -5,5 +5,4 @@
     android:layout_height="48dp"
     android:src="@drawable/ic_help_circle_outline"
     android:background="?attr/selectableItemBackgroundBorderless"
-    android:contentDescription="@string/settings_openhab_sslclientcert_howto_summary"
     android:scaleType="center" />

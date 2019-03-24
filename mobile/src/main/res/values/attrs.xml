@@ -19,6 +19,13 @@
         <attr name="backgroundColor" format="color" />
     </declare-styleable>
 
+    <declare-styleable name="ItemUpdatingPreference">
+        <attr name="summaryEnabled" format="string" />
+        <attr name="summaryDisabled" format="string" />
+        <attr name="helpHint" format="string" />
+        <attr name="helpUrl" format="string" />
+    </declare-styleable>
+
     <declare-styleable name="customAttrs">
         <attr name="themedArrowDownIcon" format="reference" />
         <attr name="themedArrowUpIcon" format="reference" />

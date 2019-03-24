@@ -138,6 +138,31 @@
     <string name="info_not_set">Not set</string>
     <string name="empty_page">This page doesn\'t contain any widgets that are set to be visible</string>
 
+    <!-- Background tasks -->
+    <string name="send_device_info_to_server">Send device information to server</string>
+    <string name="send_device_info_item_prefix">Item name prefix</string>
+    <string name="send_device_info_item_prefix_summary">The Item names of the following features have this prefix</string>
+    <string name="settings_alarm_clock">Send alarm clock to openHAB</string>
+    <string name="settings_alarm_clock_summary_on">Sends alarm clock time to item \'%1$s\'</string>
+    <string name="settings_alarm_clock_summary_off">Don\'t send alarm clock time to server</string>
+    <string name="settings_alarm_clock_howto_summary">Tap here to get hints on how to set up this feature server-side</string>
+    <string name="settings_alarm_clock_howto_url" translatable="false">https://www.openhab.org/docs/apps/android.html#alarm-clock</string>
+    <string name="settings_item_pref_item_name">Item name</string>
+    <string name="waiting_for_item_upload">Waiting for network to send Item updates</string>
+    <string name="item_upload_in_progress">Items are currently being updated</string>
+    <string name="notification_channel_background">Background</string>
+    <string name="notification_channel_background_description">Used to display pending background tasks</string>
+    <string name="notification_channel_background_error">Error in background tasks</string>
+    <string name="notification_channel_background_error_description">Used to notify about errors in background tasks</string>
+    <plurals name="item_update_error_title">
+        <item quantity="one">%d Item could not be updated</item>
+        <item quantity="other">%d Items could not be updated</item>
+    </plurals>
+    <string name="item_update_http_error">Item \'%1$s\' update failed (HTTP error %2$d)</string>
+    <string name="item_update_connection_error">Item \'%1$s\' update failed (No connection)</string>
+    <string name="error_sending_alarm_clock_item_empty">Please enter a valid Item name</string>
+    <string name="retry">Retry</string>
+
     <!-- Notification list strings -->
     <string name="notification_list_empty">No notifications were sent so far</string>
     <string name="notification_list_error">An error occurred while loading notifications</string>

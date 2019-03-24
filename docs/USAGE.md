@@ -26,7 +26,8 @@ The app follows the basic principles of the other openHAB UIs, like Basic UI, an
 * Receive notifications through an openHAB Cloud connection, [read more](https://www.openhab.org/docs/configuration/actions.html#cloud-notification-actions)
 * Change items via NFC tags
 * Send voice commands to openHAB
-* Supports wall mounted tablets
+* [Send alarm clock time to openHAB](#alarm-clock)
+* [Supports wall mounted tablets](#permanent-deployment)
 
 <div class="row">
   <div class="col s12 m6"><img src="images/main-menu.png" alt="Demo Overview"></div>
@@ -35,7 +36,9 @@ The app follows the basic principles of the other openHAB UIs, like Basic UI, an
 
 ## Getting Started
 
-On first start the app tries to discover your openHAB server. This will only work on local networks and when the server does not enforce either authentication or HTTPS. If it fails, you can click on `Go to settings` and manually enter the server settings.
+On first start the app tries to discover your openHAB server.
+This will only work on local networks and when the server does not enforce either authentication or HTTPS.
+If it fails, you can click on `Go to settings` and manually enter the server settings.
 
 The URL field(s) might look like one of the following examples:
 
@@ -54,6 +57,39 @@ There are a number of strategies available to provide [secure remote access]({{b
 ## Permanent Deployment
 
 If you want to use openHAB Android on a wall mounted tablet, go to settings and select `Disable display timer` and `Fullscreen`.
+
+## Alarm Clock
+
+The openHAB app will send the next wake-up time from your alarm clock app to the server.
+The time is sent as a number containing the number of milliseconds since the epoch.
+The Item name's default is `AlarmClock`, but you can change it in the settings.
+
+Example item definition:
+```
+Number AlarmClock
+
+```
+
+Example rule:
+```
+rule "Alarm Trigger"
+when
+    Time cron "*/10 * * * * ?" // Every 10 seconds
+then
+    if (AlarmClock.state as Number == 0) {
+        // Alarm is turned off
+        return;
+    }
+    val diff = AlarmClock.state as Number - now().millis
+    if (diff <= 15000) {
+        // Turn on stuff, e.g. radio or light
+        logInfo('AlarmLogger', 'Turn on light')
+        Light.sendCommand(ON)
+    }
+
+end
+
+```
 
 ## Help and Technical Details
 
