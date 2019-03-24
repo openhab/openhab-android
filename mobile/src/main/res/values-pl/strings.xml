@@ -159,7 +159,7 @@
     <string name="drawer_close">Szuflada map witryn zamknięta</string>
     <string name="mainmenu_openhab_voice_recognition">Rozpoznawanie głosu</string>
     <!-- About -->
-    <string name="about_title">O</string>
+    <string name="about_title">O programie</string>
     <string name="about_license_title">Licencja</string>
     <string name="about_changelog">Lista zmian</string>
     <string name="about_source_code">Kod źródłowy</string>
