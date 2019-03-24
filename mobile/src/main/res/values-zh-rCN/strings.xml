@@ -105,6 +105,7 @@
     <string name="action_settings">设置</string>
     <string name="nfc_dialog_title">为此元素写入 NFC 标签行为</string>
     <string name="info_not_set">未设置</string>
+    <!-- Background tasks -->
     <!-- Notification list strings -->
     <string name="notification_list_empty">尚未发送通知</string>
     <string name="notification_list_error">加载通知时出错</string>
