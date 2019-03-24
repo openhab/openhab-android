@@ -109,6 +109,7 @@
     <string name="nfc_dialog_title">この要素の NFC タグアクションを作成</string>
     <string name="info_not_set">未設定</string>
     <string name="empty_page">このページには表示するように設定されたウィジェットがありません</string>
+    <!-- Background tasks -->
     <!-- Notification list strings -->
     <string name="notification_list_empty">まだ通知は送信されていません</string>
     <string name="notification_list_error">通知を読み込み中にエラーが発生しました</string>
