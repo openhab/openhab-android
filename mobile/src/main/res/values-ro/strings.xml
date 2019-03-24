@@ -105,6 +105,7 @@
     <string name="action_settings">Setări</string>
     <string name="nfc_dialog_title">Scrie o actiune in tag-ul NFC pentru acest element</string>
     <string name="info_not_set">Nu este setat</string>
+    <!-- Background tasks -->
     <!-- Notification list strings -->
     <string name="notification_list_empty">Nicio notificare nu a fost trimisă până acum</string>
     <string name="notification_list_error">A apărut o eroare în timpul încărcării notificărilor</string>
