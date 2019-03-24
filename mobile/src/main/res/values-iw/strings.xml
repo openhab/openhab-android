@@ -123,6 +123,7 @@
     <string name="nfc_dialog_title">כתוב על תגית NFC את הפעולה עבור רכיב זה</string>
     <string name="info_not_set">לא מוגדר</string>
     <string name="empty_page">דף זה אינו מכיל יישומונים המוגדרים כגלויים</string>
+    <!-- Background tasks -->
     <!-- Notification list strings -->
     <string name="notification_list_empty">לא נשלחו התראות</string>
     <string name="notification_list_error">אירעה שגיאה במהלך טעינת התראות</string>
