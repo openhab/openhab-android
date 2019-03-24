@@ -104,6 +104,7 @@
     <string name="action_settings">Instellingen</string>
     <string name="nfc_dialog_title">Selecteer een actie voor de NFC-tag</string>
     <string name="info_not_set">Niet ingesteld</string>
+    <!-- Background tasks -->
     <!-- Notification list strings -->
     <string name="notification_list_empty">Tot nu toe zijn er geen notificaties verzonden</string>
     <string name="notification_list_error">Er is een fout opgetreden tijdens het laden van notificaties</string>
