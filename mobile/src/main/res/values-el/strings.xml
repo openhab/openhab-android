@@ -105,6 +105,7 @@
     <string name="action_settings">Ρυθμίσεις</string>
     <string name="nfc_dialog_title">Παρακαλώ επιλέξτε ενέργεια για την ετικέτα NFC</string>
     <string name="info_not_set">Δεν έχει ρυθμιστεί</string>
+    <!-- Background tasks -->
     <!-- Notification list strings -->
     <string name="notification_list_empty">Καμία ειδοποίηση δεν έχει σταλεί ως τώρα</string>
     <string name="notification_list_error">Παρουσιάστηκε σφάλμα κατά την φόρτωση των ειδοποιήσεων</string>
