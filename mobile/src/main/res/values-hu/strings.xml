@@ -124,6 +124,7 @@
     <string name="nfc_dialog_title">NFC címke írása ehhez az elemhez</string>
     <string name="info_not_set">Nincs beállítva</string>
     <string name="empty_page">Ez az oldal nem tartalmaz olyan widget-et amely megjeleníthető</string>
+    <!-- Background tasks -->
     <!-- Notification list strings -->
     <string name="notification_list_empty">Nincs régóta elküldött értesítés</string>
     <string name="notification_list_error">Értesítések betöltése közben hiba történt</string>
