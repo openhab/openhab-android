@@ -102,6 +102,7 @@
     <string name="action_settings">إعدادات</string>
     <string name="nfc_dialog_title">أكتب وسم فعل NFC لهذا العنصر</string>
     <string name="info_not_set">لم يُعين</string>
+    <!-- Background tasks -->
     <!-- Notification list strings -->
     <string name="notification_list_empty">لم يتم إرسال أي إشعارات حتى الآن</string>
     <string name="notification_list_error">حدث خطأ أثناء تحميل الإشعارات</string>
