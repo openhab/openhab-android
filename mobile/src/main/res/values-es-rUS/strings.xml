@@ -68,6 +68,7 @@
     <string name="info_voice_recognized_text">Comando reconocido: %1$s</string>
     <string name="info_demo_mode_short">Ejecutando en modo demo</string>
     <!-- Please try to keep the string as short as possible -->
+    <string name="turn_off">Desactivar</string>
     <string name="info_conn_url">Conectando a la URL local</string>
     <string name="info_conn_rem_url">Conectando a la URL remota</string>
     <string name="app_shortcut_diabled_habpanel">El servidor no tiene instalado HABPanel</string>
@@ -123,6 +124,7 @@
     <string name="nfc_dialog_title">Acción a grabar en la etiqueta NFC para este elemento</string>
     <string name="info_not_set">Sin establecer</string>
     <string name="empty_page">Esta pagina no contiene ningún widget que pueda ser visible</string>
+    <!-- Background tasks -->
     <!-- Notification list strings -->
     <string name="notification_list_empty">No se enviaron notificaciones hasta el momento</string>
     <string name="notification_list_error">Ocurrió un error al cargar las notificaciones</string>
