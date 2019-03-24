@@ -118,6 +118,7 @@
     <string name="nfc_dialog_title">Kirjoita NFC tagin toiminto tälle elementille</string>
     <string name="info_not_set">Ei määritetty</string>
     <string name="empty_page">Tämä sivu ei sisällä widgettejä, jotka on määritetty näkymään</string>
+    <!-- Background tasks -->
     <!-- Notification list strings -->
     <string name="notification_list_empty">Ilmoituksia ei toistaiseksi lähetetty</string>
     <string name="notification_list_error">Virhe ladattaessa ilmoituksia</string>
