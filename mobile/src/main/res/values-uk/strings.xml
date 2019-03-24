@@ -125,6 +125,8 @@
     <string name="info_not_set">Не вказано</string>
     <string name="empty_page">На цій сторінці немає віджетів, які можна зробити видимими</string>
     <!-- Background tasks -->
+    <string name="send_device_info_to_server">Відправити інформацію про пристрій на сервер</string>
+    <string name="send_device_info_item_prefix">Префікс імені об\'єкта</string>
     <!-- Notification list strings -->
     <string name="notification_list_empty">Поки що немає відправлених сповіщень</string>
     <string name="notification_list_error">Сталася помилка під час завантаження сповіщень</string>
