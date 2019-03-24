@@ -90,7 +90,7 @@
             android:title="@string/send_device_info_item_prefix"
             android:summary="@string/send_device_info_item_prefix_summary"
             android:dependency="default_openhab_demomode"
-            android:icon="@drawable/ic_text_fields_gray_24dp" />
+            android:icon="@drawable/ic_none" />
         <org.openhab.habdroid.ui.widget.ItemUpdatingPreference
             android:defaultValue="false|AlarmClock"
             android:key="alarmClock"
