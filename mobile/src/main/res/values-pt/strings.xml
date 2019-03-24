@@ -62,6 +62,7 @@
     <string name="action_settings">Definições</string>
     <string name="nfc_dialog_title">Escrever a ação de marca NFC para este elemento</string>
     <string name="info_not_set">Não definido</string>
+    <!-- Background tasks -->
     <!-- Notification list strings -->
     <!-- Strings for MemorizingTrustManager activity -->
     <string name="mtm_decision_once">Uma só vez</string>
