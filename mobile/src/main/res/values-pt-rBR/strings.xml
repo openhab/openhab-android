@@ -124,6 +124,7 @@
     <string name="nfc_dialog_title">Definir a ação da tag NFC para este elemento</string>
     <string name="info_not_set">Não definido</string>
     <string name="empty_page">Esta página não contém qualquer widgets que estão definidos para ser visível</string>
+    <!-- Background tasks -->
     <!-- Notification list strings -->
     <string name="notification_list_empty">Nenhuma notificação foi enviada até agora</string>
     <string name="notification_list_error">Um erro ocorreu enquanto carregava as notificações</string>
