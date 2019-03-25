@@ -8,7 +8,7 @@
 
     <SeekBar
         android:id="@+id/seekbar"
-        android:layout_width="130dp"
+        android:layout_width="@dimen/widgetlist_slider_width"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:max="100" />

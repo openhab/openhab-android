@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="widgetlist_slider_width">250dp</dimen>
+</resources>
