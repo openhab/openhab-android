@@ -125,6 +125,24 @@
     <string name="info_not_set">Sin establecer</string>
     <string name="empty_page">Esta pagina no contiene ningún widget que pueda ser visible</string>
     <!-- Background tasks -->
+    <string name="send_device_info_to_server">Enviar información del dispositivo al servidor</string>
+    <string name="send_device_info_item_prefix">Prefijo del nombre del ítem</string>
+    <string name="send_device_info_item_prefix_summary">Los nombres de los ítems de las siguientes características tienen este prefijo</string>
+    <string name="settings_alarm_clock">Enviar alarma a openHAB</string>
+    <string name="settings_alarm_clock_summary_on">Envía la hora de la alarma al elemento \'%1$s\'</string>
+    <string name="settings_alarm_clock_summary_off">No enviar la hora de la alarma al servidor</string>
+    <string name="settings_alarm_clock_howto_summary">Pulse aquí para ver sugerencias sobre cómo configurar esta función del servidor</string>
+    <string name="settings_item_pref_item_name">Nombre del ítem</string>
+    <string name="waiting_for_item_upload">Esperando a que la red envíe actualizaciones de los ítem</string>
+    <string name="item_upload_in_progress">Los ítems están siendo actualizados ahora mismo</string>
+    <string name="notification_channel_background">Segundo plano</string>
+    <string name="notification_channel_background_description">Se utiliza para mostrar las tareas en segundo plano pendientes</string>
+    <string name="notification_channel_background_error">Error en tareas en segundo plano</string>
+    <string name="notification_channel_background_error_description">Utilizado para notificar errores en las tareas en segundo plano</string>
+    <string name="item_update_http_error">Error de actualización del ítem \'%1$s\' (HTTP error %2$d)</string>
+    <string name="item_update_connection_error">Fallo en la actualización del ítem \'%1$s\' (sin conexión)</string>
+    <string name="error_sending_alarm_clock_item_empty">Por favor, introduzca un nombre de ítem válido</string>
+    <string name="retry">Reintentar</string>
     <!-- Notification list strings -->
     <string name="notification_list_empty">No se enviaron notificaciones hasta el momento</string>
     <string name="notification_list_error">Ocurrió un error al cargar las notificaciones</string>
