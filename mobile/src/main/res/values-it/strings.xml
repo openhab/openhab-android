@@ -125,6 +125,28 @@
     <string name="info_not_set">Non impostato</string>
     <string name="empty_page">Questa pagina non contiene tutti i widget impostati per essere visibili</string>
     <!-- Background tasks -->
+    <string name="send_device_info_to_server">Invia informazioni del dispositivo al server</string>
+    <string name="send_device_info_item_prefix">Prefisso nome Item</string>
+    <string name="send_device_info_item_prefix_summary">I nomi degli Item delle seguenti funzionalità hanno questo prefisso</string>
+    <string name="settings_alarm_clock">Invia allarme sveglia a openHAB</string>
+    <string name="settings_alarm_clock_summary_on">Invia ora dell’allarme sveglia all’Item ‘%1$s’</string>
+    <string name="settings_alarm_clock_summary_off">Non inviare l’ora della sveglia al server</string>
+    <string name="settings_alarm_clock_howto_summary">Tocca qui per avere suggerimenti su come configurare questa funzionalità sul server</string>
+    <string name="settings_item_pref_item_name">Nome Item</string>
+    <string name="waiting_for_item_upload">In attesa della rete per inviare aggiornamenti degli Item</string>
+    <string name="item_upload_in_progress">Item in corso di aggiornamento</string>
+    <string name="notification_channel_background">Background</string>
+    <string name="notification_channel_background_description">Usato per mostrare task sospesi in background</string>
+    <string name="notification_channel_background_error">Errore nei task in background</string>
+    <string name="notification_channel_background_error_description">Usato per mostrare errori nei task in background</string>
+    <plurals name="item_update_error_title">
+        <item quantity="one">L’item %d non può essere aggiornato</item>
+        <item quantity="other">Gli item %d non possono essere aggiornati</item>
+    </plurals>
+    <string name="item_update_http_error">L’aggiornamento dell’item \'%1$s\' è fallito (Errore HTTP %2$d)</string>
+    <string name="item_update_connection_error">L’aggiornamento dell’item \'%1$s\' è fallito (Manca connessione)</string>
+    <string name="error_sending_alarm_clock_item_empty">Inserire un nome valido per l’item</string>
+    <string name="retry">Riprova</string>
     <!-- Notification list strings -->
     <string name="notification_list_empty">Nessuna notifica spedita finora</string>
     <string name="notification_list_error">È successo un errore durante il caricamento delle notifiche</string>
