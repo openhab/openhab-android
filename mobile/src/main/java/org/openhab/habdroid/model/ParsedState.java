@@ -34,9 +34,25 @@ public abstract class ParsedState implements Parcelable {
             mFormat = format;
         }
 
-        public static NumberState withValue(NumberState state, @NonNull Number value) {
-            return new NumberState(value, state != null ? state.mUnit : null,
-                    state != null ? state.mFormat : null);
+        /**
+         * Returns a new NumberState instance, basing its contents on the passed-in previous state.
+         * In particular, unit, format and number type (float/integer) will be taken from the
+         * previous state. If previous state is integer, the new value will be rounded accordingly.
+         * @param state Previous state to base on
+         * @param value New numeric value
+         * @return new NumberState instance
+         */
+        public static NumberState withValue(NumberState state, float value) {
+            if (state == null) {
+                return new NumberState(value);
+            }
+            // Cast is important here to suppress automatic type conversion
+            // (https://docs.oracle.com/javase/specs/jls/se8/html/jls-15.html#jls-15.25)
+            @SuppressWarnings("RedundantCast")
+            final Number number = state.mValue instanceof Integer
+                    ? (Number) new Integer(Math.round(value))
+                    : (Number) new Float(value);
+            return new NumberState(number, state.mUnit, state.mFormat);
         }
 
         @Override
@@ -64,9 +80,7 @@ public abstract class ParsedState implements Parcelable {
         }
 
         public String formatValue() {
-            // Skip decimals if value is integer
-            return mValue.floatValue() == mValue.intValue()
-                    ? String.valueOf(mValue.intValue()) : String.valueOf(mValue.floatValue());
+            return mValue.toString();
         }
 
         @Override
@@ -169,7 +183,13 @@ public abstract class ParsedState implements Parcelable {
             String number = spacePos >= 0 ? state.substring(0, spacePos) : state;
             String unit = spacePos >= 0 ? state.substring(spacePos + 1) : null;
             try {
-                return new NumberState(Float.parseFloat(number), unit, format);
+                // Cast is important here to suppress automatic type conversion
+                // (https://docs.oracle.com/javase/specs/jls/se8/html/jls-15.html#jls-15.25)
+                @SuppressWarnings("RedundantCast")
+                final Number parsedNumber = number.indexOf('.') >= 0
+                        ? (Number) new Float(Float.parseFloat(number))
+                        : (Number) new Integer(Integer.parseInt(number));
+                return new NumberState(parsedNumber, unit, format);
             } catch (NumberFormatException e) {
                 return null;
             }
