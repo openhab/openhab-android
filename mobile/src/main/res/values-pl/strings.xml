@@ -124,6 +124,7 @@
     <string name="info_not_set">Nie ustawiono</string>
     <string name="empty_page">Ta strona nie zawiera żadnych widżetów ustawionych jako widoczne</string>
     <!-- Background tasks -->
+    <string name="retry">Ponów</string>
     <!-- Notification list strings -->
     <string name="notification_list_empty">Jeszcze nie wysłano żadnych powiadomień</string>
     <string name="notification_list_error">Wystąpił błąd podczas ładowania powiadomień</string>
