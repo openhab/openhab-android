@@ -539,7 +539,6 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
             implements SeekBar.OnSeekBarChangeListener {
         private final SeekBar mSeekBar;
         private Widget mBoundWidget;
-        private boolean mIsInteger;
 
         SliderViewHolder(LayoutInflater inflater, ViewGroup parent,
                 Connection conn, ColorMapper colorMapper) {
@@ -552,7 +551,6 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
         public void bind(Widget widget) {
             super.bind(widget);
             mBoundWidget = widget;
-            mIsInteger = true;
 
             float stepCount = (widget.maxValue() - widget.minValue()) / widget.step();
             mSeekBar.setMax((int) Math.ceil(stepCount));
@@ -576,7 +574,6 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
                     float progress =
                             (number.mValue.floatValue() - widget.minValue()) / widget.step();
                     mSeekBar.setProgress(Math.round(progress));
-                    mIsInteger = number.mValue instanceof Integer;
                 }
             }
         }
@@ -601,13 +598,8 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
             float newValue = mBoundWidget.minValue() + (mBoundWidget.step() * progress);
             final ParsedState.NumberState previousState =
                     item.state() != null ? item.state().asNumber() : null;
-            final ParsedState.NumberState state;
-            if (mIsInteger) {
-                state = ParsedState.NumberState.withValue(previousState, Math.round(newValue));
-            } else {
-                state = ParsedState.NumberState.withValue(previousState, newValue);
-            }
-            Util.sendItemCommand(mConnection.getAsyncHttpClient(), item, state);
+            Util.sendItemCommand(mConnection.getAsyncHttpClient(), item,
+                    ParsedState.NumberState.withValue(previousState, newValue));
         }
     }
 
