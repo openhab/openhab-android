@@ -271,7 +271,7 @@ public class Util {
         int[] colors = new int[colorAttrIds.length];
 
         for (int i = 0; i < colorAttrIds.length; i++) {
-            theme.resolveAttribute(R.attr.colorPrimary, typedValue, true);
+            theme.resolveAttribute(colorAttrIds[i], typedValue, true);
             colors[i] = typedValue.data;
         }
         swipeLayout.setColorSchemeColors(colors);
