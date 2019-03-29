@@ -144,6 +144,9 @@ public class MapViewHelper {
         }
 
         private void applyPositionAndLabel(GoogleMap map, float zoomLevel, boolean allowDrag) {
+            if (mBoundItem == null) {
+                return;
+            }
             boolean canDragMarker = allowDrag && !mBoundItem.readOnly();
             if (!mBoundItem.members().isEmpty()) {
                 ArrayList<LatLng> positions = new ArrayList<>();
