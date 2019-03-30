@@ -80,6 +80,8 @@
     <string name="settings_allow_panic_close_summary">Allow other apps to close openHAB</string>
     <string name="settings_allow_panic_delete_cred">Delete login data</string>
     <string name="settings_allow_panic_delete_cred_summary">Allow other apps to delete your saved login data</string>
+    <string name="settings_clear_cred_url_changed">Clear password if URL changes</string>
+    <string name="settings_clear_cred_url_changed_disable">Disabling this setting will clear saved login data from openHAB</string>
 
     <!-- App messages strings -->
     <string name="title_voice_widget">Voice commands</string>

@@ -6,6 +6,12 @@
             android:key="preventScreenshot"
             android:title="@string/settings_prevent_screenshots"
             android:icon="@drawable/ic_fullscreen_grey_24dp" />
+    <SwitchPreference
+            android:defaultValue="false"
+            android:key="deleteCredWhenUrlChanged"
+            android:title="@string/settings_clear_cred_url_changed"
+            android:summary="@string/settings_clear_cred_url_changed_disable"
+            android:icon="@drawable/ic_fullscreen_grey_24dp" />
     <PreferenceCategory android:title="@string/settings_panic">
         <Preference
                 android:key="panicInstall"
