@@ -22,7 +22,6 @@ import androidx.annotation.VisibleForTesting;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.model.Item;
@@ -143,8 +142,10 @@ public class WidgetListFragment extends Fragment
                 commands.add("OFF");
                 labels.add(getString(R.string.nfc_action_toggle));
                 commands.add("TOGGLE");
-                labels.add(getString(R.string.nfc_action_current_color));
-                commands.add(widget.state().asString());
+                if (widget.state() != null) {
+                    labels.add(getString(R.string.nfc_action_current_color));
+                    commands.add(widget.state().asString());
+                }
             }
         }
         labels.add(getString(R.string.nfc_action_to_sitemap_page));
