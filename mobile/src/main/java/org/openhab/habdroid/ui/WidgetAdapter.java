@@ -19,7 +19,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
@@ -34,7 +33,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.webkit.WebView;
-import android.webkit.WebViewDatabase;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -54,7 +52,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.larswerkman.holocolorpicker.ColorPicker;
 import com.larswerkman.holocolorpicker.SaturationBar;
 import com.larswerkman.holocolorpicker.ValueBar;
-import okhttp3.HttpUrl;
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.core.connection.Connection;
 import org.openhab.habdroid.model.Item;
@@ -808,8 +805,15 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
             mValueView.setOnClickListener(this);
             mInflater = inflater;
 
-            ImageView dropdownArrow = itemView.findViewById(R.id.down_arrow);
-            dropdownArrow.setOnClickListener(this);
+            // Dialog
+            itemView.findViewById(R.id.widgeticon).setOnClickListener(this);
+            itemView.findViewById(R.id.widgetlabel).setOnClickListener(this);
+            itemView.findViewById(R.id.widgetvalue).setOnClickListener(this);
+            itemView.findViewById(R.id.setpoint_background).setOnClickListener(this);
+            itemView.findViewById(R.id.down_arrow).setOnClickListener(this);
+            // Up/Down buttons
+            itemView.findViewById(R.id.up_button).setOnClickListener(this);
+            itemView.findViewById(R.id.down_button).setOnClickListener(this);
         }
 
         @Override
@@ -821,7 +825,17 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
         @Override
         public void onClick(final View view) {
             if (mBoundWidget.state() == null) {
-                Log.e(TAG, "mBoundWidget.state() is null");
+                Log.d(TAG, "mBoundWidget.state() is null");
+                return;
+            }
+            if (view.getId() == R.id.up_button || view.getId() == R.id.down_button) {
+                float oldValue = mBoundWidget.item().state().asNumber().mValue.floatValue();
+                float newValue = view.getId() == R.id.up_button ? oldValue + mBoundWidget.step()
+                        : oldValue - mBoundWidget.step();
+                if (newValue >= mBoundWidget.minValue() && newValue <= mBoundWidget.maxValue()) {
+                    Util.sendItemCommand(mConnection.getAsyncHttpClient(), mBoundWidget.item(),
+                            String.valueOf(newValue));
+                }
                 return;
             }
             ParsedState.NumberState state = mBoundWidget.state().asNumber();
