@@ -844,8 +844,8 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
                 float newValue = view.getId() == R.id.up_button
                         ? stateValue + stepSize : stateValue - stepSize;
                 if (newValue >= minValue && newValue <= maxValue) {
-                    Util.sendItemCommand(mConnection.getAsyncHttpClient(),
-                            mBoundWidget.item(), String.valueOf(newValue));
+                    Util.sendItemCommand(mConnection.getAsyncHttpClient(), mBoundWidget.item(),
+                            ParsedState.NumberState.withValue(state, newValue));
                 }
             } else {
                 final int stepCount = ((int) (Math.abs(maxValue - minValue) / stepSize)) + 1;
