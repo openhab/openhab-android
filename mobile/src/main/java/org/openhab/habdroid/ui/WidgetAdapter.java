@@ -335,7 +335,9 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
         ViewHolder holder = (ViewHolder) view.getTag();
         int position = holder.getAdapterPosition();
         if (position != RecyclerView.NO_POSITION) {
-            mItemClickListener.onItemClicked(mItems.get(position));
+            if (!holder.handleRowClick()) {
+                mItemClickListener.onItemClicked(mItems.get(position));
+            }
         }
     }
 
@@ -393,6 +395,10 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
             } else {
                 iconView.clearColorFilter();
             }
+        }
+
+        protected boolean handleRowClick() {
+            return false;
         }
     }
 
@@ -806,10 +812,6 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
             mInflater = inflater;
 
             // Dialog
-            itemView.findViewById(R.id.widgeticon).setOnClickListener(this);
-            itemView.findViewById(R.id.widgetlabel).setOnClickListener(this);
-            itemView.findViewById(R.id.widgetvalue).setOnClickListener(this);
-            itemView.findViewById(R.id.setpoint_background).setOnClickListener(this);
             itemView.findViewById(R.id.down_arrow).setOnClickListener(this);
             // Up/Down buttons
             itemView.findViewById(R.id.up_button).setOnClickListener(this);
@@ -820,6 +822,12 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
         public void bind(Widget widget) {
             super.bind(widget);
             mBoundWidget = widget;
+        }
+
+        @Override
+        protected boolean handleRowClick() {
+            onClick(itemView);
+            return true;
         }
 
         @Override
