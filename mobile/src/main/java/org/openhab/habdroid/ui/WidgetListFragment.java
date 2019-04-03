@@ -97,11 +97,13 @@ public class WidgetListFragment extends Fragment
     }
 
     @Override
-    public void onItemClicked(Widget widget) {
+    public boolean onItemClicked(Widget widget) {
         LinkedPage linkedPage = widget.linkedPage();
         if (mActivity != null && linkedPage != null) {
             mActivity.onWidgetSelected(linkedPage, WidgetListFragment.this);
+            return true;
         }
+        return false;
     }
 
     @Override

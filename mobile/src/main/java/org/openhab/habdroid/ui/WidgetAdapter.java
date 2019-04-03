@@ -84,7 +84,7 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
     private static final String TAG = WidgetAdapter.class.getSimpleName();
 
     public interface ItemClickListener {
-        void onItemClicked(Widget item);
+        boolean onItemClicked(Widget item); // returns whether click was handled
         void onItemLongClicked(Widget item);
     }
 
@@ -335,8 +335,8 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
         ViewHolder holder = (ViewHolder) view.getTag();
         int position = holder.getAdapterPosition();
         if (position != RecyclerView.NO_POSITION) {
-            if (!holder.handleRowClick()) {
-                mItemClickListener.onItemClicked(mItems.get(position));
+            if (!mItemClickListener.onItemClicked(mItems.get(position))) {
+                holder.handleRowClick();
             }
         }
     }
@@ -397,9 +397,7 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
             }
         }
 
-        protected boolean handleRowClick() {
-            return false;
-        }
+        protected void handleRowClick() {}
     }
 
     public abstract static class LabeledItemBaseViewHolder extends ViewHolder {
@@ -825,9 +823,8 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
         }
 
         @Override
-        protected boolean handleRowClick() {
+        protected void handleRowClick() {
             onClick(itemView);
-            return true;
         }
 
         @Override
