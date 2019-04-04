@@ -149,7 +149,7 @@ public class WidgetListFragment extends Fragment
                 }
             } else if (widget.type() == Widget.Type.Setpoint
                     || widget.type() == Widget.Type.Slider) {
-                if (widget.state() != null) {
+                if (widget.state() != null && widget.state().asNumber() != null) {
                     ParsedState.NumberState state = widget.state().asNumber();
 
                     String currentState = state.toString(Locale.getDefault());
@@ -157,14 +157,14 @@ public class WidgetListFragment extends Fragment
                     commands.add(currentState);
 
                     String minValue = ParsedState.NumberState.withValue(state, widget.minValue())
-                            .toString(Locale.getDefault());
+                            .toString();
                     if (!currentState.equals(minValue)) {
                         labels.add(minValue);
                         commands.add(minValue);
                     }
 
                     String maxValue = ParsedState.NumberState.withValue(state, widget.maxValue())
-                            .toString(Locale.getDefault());
+                            .toString();
                     if (!currentState.equals(maxValue)) {
                         labels.add(maxValue);
                         commands.add(maxValue);
