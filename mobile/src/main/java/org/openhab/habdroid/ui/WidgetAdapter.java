@@ -19,7 +19,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
@@ -34,7 +33,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.webkit.WebView;
-import android.webkit.WebViewDatabase;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -54,7 +52,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.larswerkman.holocolorpicker.ColorPicker;
 import com.larswerkman.holocolorpicker.SaturationBar;
 import com.larswerkman.holocolorpicker.ValueBar;
-import okhttp3.HttpUrl;
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.core.connection.Connection;
 import org.openhab.habdroid.model.Item;
@@ -87,7 +84,7 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
     private static final String TAG = WidgetAdapter.class.getSimpleName();
 
     public interface ItemClickListener {
-        void onItemClicked(Widget item);
+        boolean onItemClicked(Widget item); // returns whether click was handled
         void onItemLongClicked(Widget item);
     }
 
@@ -338,7 +335,9 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
         ViewHolder holder = (ViewHolder) view.getTag();
         int position = holder.getAdapterPosition();
         if (position != RecyclerView.NO_POSITION) {
-            mItemClickListener.onItemClicked(mItems.get(position));
+            if (!mItemClickListener.onItemClicked(mItems.get(position))) {
+                holder.handleRowClick();
+            }
         }
     }
 
@@ -397,6 +396,8 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
                 iconView.clearColorFilter();
             }
         }
+
+        protected void handleRowClick() {}
     }
 
     public abstract static class LabeledItemBaseViewHolder extends ViewHolder {
@@ -808,8 +809,11 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
             mValueView.setOnClickListener(this);
             mInflater = inflater;
 
-            ImageView dropdownArrow = itemView.findViewById(R.id.down_arrow);
-            dropdownArrow.setOnClickListener(this);
+            // Dialog
+            itemView.findViewById(R.id.down_arrow).setOnClickListener(this);
+            // Up/Down buttons
+            itemView.findViewById(R.id.up_button).setOnClickListener(this);
+            itemView.findViewById(R.id.down_button).setOnClickListener(this);
         }
 
         @Override
@@ -819,51 +823,70 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
         }
 
         @Override
+        protected void handleRowClick() {
+            onClick(itemView);
+        }
+
+        @Override
         public void onClick(final View view) {
             if (mBoundWidget.state() == null) {
-                Log.e(TAG, "mBoundWidget.state() is null");
+                Log.d(TAG, "mBoundWidget.state() is null");
                 return;
             }
+
             ParsedState.NumberState state = mBoundWidget.state().asNumber();
             float minValue = mBoundWidget.minValue();
             float maxValue = mBoundWidget.maxValue();
             // This prevents an exception below, but could lead to
             // user confusion if this case is ever encountered.
             float stepSize = minValue == maxValue ? 1 : mBoundWidget.step();
-            final int stepCount = ((int) (Math.abs(maxValue - minValue) / stepSize)) + 1;
-            final ParsedState.NumberState[] stepValues = new ParsedState.NumberState[stepCount];
-            final String[] stepValueLabels = new String[stepCount];
-            int closestIndex = 0;
-            float closestDelta = Float.MAX_VALUE;
             final Float stateValue = state != null ? state.mValue.floatValue() : null;
 
-            for (int i = 0; i < stepValues.length; i++) {
-                float stepValue = minValue + i * stepSize;
-                stepValues[i] = ParsedState.NumberState.withValue(state, stepValue);
-                stepValueLabels[i] = stepValues[i].toString();
-                if (stateValue != null && Math.abs(stateValue - stepValue) < closestDelta) {
-                    closestIndex = i;
-                    closestDelta = Math.abs(stateValue - stepValue);
+            if (view.getId() == R.id.up_button || view.getId() == R.id.down_button) {
+                if (stateValue == null) {
+                    return;
                 }
+                float newValue = view.getId() == R.id.up_button
+                        ? stateValue + stepSize : stateValue - stepSize;
+                if (newValue >= minValue && newValue <= maxValue) {
+                    Util.sendItemCommand(mConnection.getAsyncHttpClient(), mBoundWidget.item(),
+                            ParsedState.NumberState.withValue(state, newValue));
+                }
+            } else {
+                final int stepCount = ((int) (Math.abs(maxValue - minValue) / stepSize)) + 1;
+                final ParsedState.NumberState[] stepValues = new ParsedState.NumberState[stepCount];
+                final String[] stepValueLabels = new String[stepCount];
+                int closestIndex = 0;
+                float closestDelta = Float.MAX_VALUE;
+
+                for (int i = 0; i < stepValues.length; i++) {
+                    float stepValue = minValue + i * stepSize;
+                    stepValues[i] = ParsedState.NumberState.withValue(state, stepValue);
+                    stepValueLabels[i] = stepValues[i].toString();
+                    if (stateValue != null && Math.abs(stateValue - stepValue) < closestDelta) {
+                        closestIndex = i;
+                        closestDelta = Math.abs(stateValue - stepValue);
+                    }
+                }
+
+                final View dialogView = mInflater.inflate(R.layout.dialog_numberpicker, null);
+                final NumberPicker numberPicker = dialogView.findViewById(R.id.numberpicker);
+
+                numberPicker.setMinValue(0);
+                numberPicker.setMaxValue(stepValues.length - 1);
+                numberPicker.setDisplayedValues(stepValueLabels);
+                numberPicker.setValue(closestIndex);
+
+                new AlertDialog.Builder(view.getContext())
+                        .setTitle(mLabelView.getText())
+                        .setView(dialogView)
+                        .setPositiveButton(R.string.set, (dialog, which) -> {
+                            Util.sendItemCommand(mConnection.getAsyncHttpClient(),
+                                    mBoundWidget.item(), stepValues[numberPicker.getValue()]);
+                        })
+                        .setNegativeButton(R.string.cancel, null)
+                        .show();
             }
-
-            final View dialogView = mInflater.inflate(R.layout.dialog_numberpicker, null);
-            final NumberPicker numberPicker = dialogView.findViewById(R.id.numberpicker);
-
-            numberPicker.setMinValue(0);
-            numberPicker.setMaxValue(stepValues.length - 1);
-            numberPicker.setDisplayedValues(stepValueLabels);
-            numberPicker.setValue(closestIndex);
-
-            new AlertDialog.Builder(view.getContext())
-                    .setTitle(mLabelView.getText())
-                    .setView(dialogView)
-                    .setPositiveButton(R.string.set, (dialog, which) -> {
-                        Util.sendItemCommand(mConnection.getAsyncHttpClient(),
-                                mBoundWidget.item(), stepValues[numberPicker.getValue()]);
-                    })
-                    .setNegativeButton(R.string.cancel, null)
-                    .show();
         }
     }
 
