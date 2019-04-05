@@ -222,6 +222,8 @@
     <string name="content_description_open_number_picker">Abrir el selector de número</string>
     <string name="content_description_video">Video</string>
     <string name="content_description_open_openhab">Abrir openHAB</string>
+    <string name="content_description_increase_item_value">Aumentar el valor del ítem</string>
+    <string name="content_description_decrease_item_value">Disminuir el valor del ítem</string>
     <string name="swipe_to_refresh_description">La aplicación se refresca automáticamente, normalmente no necesitas hacerlo manualmente</string>
     <string name="swipe_to_refresh_dismiss">¡Lo tengo!</string>
     <!-- Intro strings -->
