@@ -51,7 +51,6 @@ import org.openhab.habdroid.ui.MainActivity;
 import org.openhab.habdroid.ui.PreferencesActivity;
 import org.openhab.habdroid.ui.WidgetListFragment;
 import org.openhab.habdroid.util.Constants;
-import org.openhab.habdroid.util.Util;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -277,10 +276,24 @@ public abstract class ContentController implements PageConnectionHolderFragment.
     }
 
     /**
+     * Indicate to the user that the screen lock passcode was wrong
+     *
+     * @param message Error message to show
+     */
+    public void indicateScreenLockFailure() {
+        Log.d(TAG, "Indicate screen lock failure");
+        mNoConnectionFragment = ScreenlockFailureFragment.newInstance(
+                mActivity.getString(R.string.screenlock_wrong_password));
+        updateFragmentState(FragmentUpdateReason.PAGE_UPDATE);
+        mActivity.updateTitle();
+    }
+
+    /**
      * Clear the error previously set by {@link #indicateServerCommunicationFailure}
      */
     public void clearServerCommunicationFailure() {
-        if (mNoConnectionFragment instanceof CommunicationFailureFragment) {
+        if (mNoConnectionFragment instanceof CommunicationFailureFragment
+                || mNoConnectionFragment instanceof ScreenlockFailureFragment) {
             mNoConnectionFragment = null;
             updateFragmentState(FragmentUpdateReason.PAGE_UPDATE);
             mActivity.updateTitle();
@@ -595,6 +608,21 @@ public abstract class ContentController implements PageConnectionHolderFragment.
         @Override
         public void onClick(View view) {
             ((MainActivity) getActivity()).retryServerPropertyQuery();
+        }
+    }
+
+    public static class ScreenlockFailureFragment extends StatusFragment {
+        public static ScreenlockFailureFragment newInstance(CharSequence message) {
+            ScreenlockFailureFragment f = new ScreenlockFailureFragment();
+            f.setArguments(buildArgs(message, R.string.try_again_button,
+                    R.drawable.ic_lock_outline_grey_24dp,
+                    false));
+            return f;
+        }
+
+        @Override
+        public void onClick(View view) {
+            ((MainActivity) getActivity()).promptForDevicePassword();
         }
     }
 

@@ -11,6 +11,7 @@ package org.openhab.habdroid.ui;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.KeyguardManager;
 import android.app.PendingIntent;
 import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
@@ -130,6 +131,7 @@ public class MainActivity extends AppCompatActivity implements
     private static final int SETTINGS_REQUEST_CODE = 1002;
     private static final int WRITE_NFC_TAG_REQUEST_CODE = 1003;
     private static final int INFO_REQUEST_CODE = 1004;
+    private static final int SCREEN_LOCK_REQUEST_CODE = 1005;
     // Drawer item codes
     private static final int GROUP_ID_SITEMAPS = 1;
 
@@ -154,6 +156,7 @@ public class MainActivity extends AppCompatActivity implements
     private ServerProperties mServerProperties;
     private ServerProperties.UpdateHandle mPropsUpdateHandle;
     private boolean mStarted;
+    private boolean mUnlocked;
     private ShortcutManager mShortcutManager;
 
     /**
@@ -186,6 +189,10 @@ public class MainActivity extends AppCompatActivity implements
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
 
         mPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+
+        if (mPrefs.getBoolean(Constants.PREFERENCE_SCREENLOCK, false)) {
+            promptForDevicePassword();
+        }
 
         // Disable screen timeout if set in preferences
         if (mPrefs.getBoolean(Constants.PREFERENCE_SCREENTIMEROFF, false)) {
@@ -881,6 +888,11 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         Log.d(TAG, "onOptionsItemSelected()");
+
+        if (!mUnlocked) {
+            return true;
+        }
+
         // Handle back navigation arrow
         if (item.getItemId() == android.R.id.home && mController.canGoBack()) {
             mController.goBack();
@@ -934,6 +946,9 @@ public class MainActivity extends AppCompatActivity implements
                 break;
             case WRITE_NFC_TAG_REQUEST_CODE:
                 Log.d(TAG, "Got back from Write NFC tag");
+                break;
+            case SCREEN_LOCK_REQUEST_CODE:
+                changeLockedState(resultCode != RESULT_OK);
                 break;
             default:
         }
@@ -1186,6 +1201,23 @@ public class MainActivity extends AppCompatActivity implements
             return false;
         }
         return mPrefs.getBoolean(Constants.PREFERENCE_FULLSCREEN, false);
+    }
+
+    public void promptForDevicePassword() {
+        KeyguardManager km = (KeyguardManager) this.getSystemService(Context.KEYGUARD_SERVICE);
+        Intent intent = km.createConfirmDeviceCredentialIntent(getString(R.string.app_name), "");
+        startActivityForResult(intent, SCREEN_LOCK_REQUEST_CODE);
+    }
+
+    private void changeLockedState(boolean locked) {
+        mUnlocked = !locked;
+        mDrawerLayout.setDrawerLockMode(locked ? DrawerLayout.LOCK_MODE_LOCKED_CLOSED
+                : DrawerLayout.LOCK_MODE_UNLOCKED);
+        if (locked) {
+            mController.indicateScreenLockFailure();
+        } else {
+            retryServerPropertyQuery();
+        }
     }
 
     private void manageHabpanelShortcut(boolean visible) {

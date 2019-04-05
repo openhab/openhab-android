@@ -73,6 +73,8 @@
     <string name="settings_insecure_connection_summary">Insecurely connected to %s</string>
     <string name="beta">Beta</string>
     <string name="settings_enhanced_security">Enhanced security</string>
+    <string name="settings_screenlock">Screen lock</string>
+    <string name="settings_screenlock_summary">Lock openHAB access with Android screen lock or fingerprint</string>
     <string name="settings_prevent_screenshots">Prevent screenshots</string>
     <string name="settings_panic">Panic button app</string>
     <string name="settings_panic_install">Install Ripple, a panic button app</string>
@@ -254,6 +256,7 @@
     <string name="no_remote_server">Connection to local server failed and you haven\'t configured a remote server</string>
     <string name="resolving_openhab">Trying to discover openHAB server instance\u2026</string>
     <string name="waiting_for_wifi">Waiting for Wi-Fi to establish connection\u2026</string>
+    <string name="screenlock_wrong_password">Wrong password entered</string>
 
     <!-- Log -->
     <string name="log">Log</string>
