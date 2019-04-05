@@ -152,7 +152,7 @@ public class WidgetListFragment extends Fragment
                 if (widget.state() != null && widget.state().asNumber() != null) {
                     ParsedState.NumberState state = widget.state().asNumber();
 
-                    String currentState = state.toString(Locale.getDefault());
+                    String currentState = state.toString();
                     labels.add(currentState);
                     commands.add(currentState);
 
