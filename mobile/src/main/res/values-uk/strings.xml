@@ -127,6 +127,16 @@
     <!-- Background tasks -->
     <string name="send_device_info_to_server">Відправити інформацію про пристрій на сервер</string>
     <string name="send_device_info_item_prefix">Префікс імені об\'єкта</string>
+    <string name="send_device_info_item_prefix_summary">Назви об\'єктів наступних функцій мають такий префікс</string>
+    <string name="settings_alarm_clock">Відправити будильник на openHAB</string>
+    <string name="settings_alarm_clock_summary_on">Надсилати час будильника об\'єкту \'%1$s \'</string>
+    <string name="settings_alarm_clock_summary_off">Не надсилати часу будильника до сервера</string>
+    <string name="settings_alarm_clock_howto_summary">Натисніть тут, щоб отримати підказки про те, як налаштувати цю функцію на стороні сервера</string>
+    <string name="settings_item_pref_item_name">Назва об\'єкту</string>
+    <string name="item_update_http_error">Об\'єкт \'%1$s\' оновлення не вдалося (HTTP error %2$d)</string>
+    <string name="item_update_connection_error">Об\'єкт \'%1$s\' оновлення не вдалося (немає підключення)</string>
+    <string name="error_sending_alarm_clock_item_empty">Будь ласка, введіть припустиме ім\'я об\'єкта</string>
+    <string name="retry">Повторити</string>
     <!-- Notification list strings -->
     <string name="notification_list_empty">Поки що немає відправлених сповіщень</string>
     <string name="notification_list_error">Сталася помилка під час завантаження сповіщень</string>
@@ -206,6 +216,8 @@
     <string name="content_description_open_number_picker">Введення числа</string>
     <string name="content_description_video">Відео</string>
     <string name="content_description_open_openhab">Відкрити openHAB</string>
+    <string name="content_description_increase_item_value">Збільшення значення об\'єкта</string>
+    <string name="content_description_decrease_item_value">Зменшення значення об\'єкта</string>
     <string name="swipe_to_refresh_description">Додаток періодично оновлюється автоматично, зазвичай не потрібно робити це вручну</string>
     <string name="swipe_to_refresh_dismiss">Зрозуміло!</string>
     <!-- Intro strings -->
