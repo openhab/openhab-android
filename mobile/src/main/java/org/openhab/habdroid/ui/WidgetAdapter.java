@@ -590,8 +590,13 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
 
         @Override
         protected void handleRowClick() {
-            setSeekBarProgress(mSeekBar.getProgress() == mBoundWidget.minValue()
-                    ? mBoundWidget.maxValue() : mBoundWidget.minValue());
+            if (mBoundWidget.switchSupport()) {
+                Util.sendItemCommand(mConnection.getAsyncHttpClient(), mBoundWidget.item(),
+                        mSeekBar.getProgress() == mBoundWidget.minValue() ? "ON" : "OFF");
+            } else {
+                setSeekBarProgress(mSeekBar.getProgress() == mBoundWidget.minValue()
+                        ? mBoundWidget.maxValue() : mBoundWidget.minValue());
+            }
         }
 
         @Override
