@@ -133,6 +133,12 @@
     <string name="settings_alarm_clock_summary_off">Не надсилати часу будильника до сервера</string>
     <string name="settings_alarm_clock_howto_summary">Натисніть тут, щоб отримати підказки про те, як налаштувати цю функцію на стороні сервера</string>
     <string name="settings_item_pref_item_name">Назва об\'єкту</string>
+    <string name="waiting_for_item_upload">Очікування мережі для надсилання оновлень об\'єкта</string>
+    <string name="item_upload_in_progress">Об\'єкти зараз оновлюються</string>
+    <string name="notification_channel_background">Фонові процеси</string>
+    <string name="notification_channel_background_description">Використовується для відображення очікуючих фонових процесів</string>
+    <string name="notification_channel_background_error">Помилка у фонових процесах</string>
+    <string name="notification_channel_background_error_description">Використовуються для сповіщення про помилки у фонових завданнях</string>
     <string name="item_update_http_error">Об\'єкт \'%1$s\' оновлення не вдалося (HTTP error %2$d)</string>
     <string name="item_update_connection_error">Об\'єкт \'%1$s\' оновлення не вдалося (немає підключення)</string>
     <string name="error_sending_alarm_clock_item_empty">Будь ласка, введіть припустиме ім\'я об\'єкта</string>
