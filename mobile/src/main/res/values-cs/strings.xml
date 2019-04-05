@@ -133,6 +133,16 @@
     <string name="settings_alarm_clock_summary_off">Neodesílat čas budíku na server</string>
     <string name="settings_alarm_clock_howto_summary">Klikněte sem pro nápovědu jak nastavit tuto vlastnost na straně serveru</string>
     <string name="settings_item_pref_item_name">Jméno Item</string>
+    <string name="waiting_for_item_upload">Čekám na síť abych mohl odeslat aktualizaci Item</string>
+    <string name="item_upload_in_progress">Items se právě aktualizují</string>
+    <string name="notification_channel_background">Pozadí</string>
+    <string name="notification_channel_background_description">Slouží k zobrazení úkolů čekajících na pozadí</string>
+    <string name="notification_channel_background_error">Chyba v úkolech na pozadí</string>
+    <string name="notification_channel_background_error_description">Slouží k upozornění na chyby úkolů na pozadí</string>
+    <string name="item_update_http_error">Chyba aktualizace Item \'%1$s\' (HTTP chyba %2$d)</string>
+    <string name="item_update_connection_error">Chyba aktualizace Item \'%1$s\' (Žádné připojení)</string>
+    <string name="error_sending_alarm_clock_item_empty">Vyplňte prosím platný název Item</string>
+    <string name="retry">Opakovat</string>
     <!-- Notification list strings -->
     <string name="notification_list_empty">Zatím nebylo zaslané žádné oznámení</string>
     <string name="notification_list_error">Při načítání oznámení došlo k chybě</string>
@@ -212,6 +222,8 @@
     <string name="content_description_open_number_picker">Otevřít výběr čísla</string>
     <string name="content_description_video">Video</string>
     <string name="content_description_open_openhab">Spustit openHAB</string>
+    <string name="content_description_increase_item_value">Zvýšit hodnotu Item</string>
+    <string name="content_description_decrease_item_value">Snížit hodnotu Item</string>
     <string name="swipe_to_refresh_description">Aplikace se aktualizuje automaticky, obvykle není třeba to dělat ručně</string>
     <string name="swipe_to_refresh_dismiss">Rozumím!</string>
     <!-- Intro strings -->
