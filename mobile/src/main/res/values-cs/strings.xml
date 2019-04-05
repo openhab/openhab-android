@@ -126,6 +126,13 @@
     <string name="empty_page">Tato stránka neobsahuje žádné widgety, které jsou nastaveny na viditelné</string>
     <!-- Background tasks -->
     <string name="send_device_info_to_server">Odeslat informace o zařízení na server</string>
+    <string name="send_device_info_item_prefix">Prefix názvu Item</string>
+    <string name="send_device_info_item_prefix_summary">Názvy Item s těmito vlastnostmi mají tento prefix</string>
+    <string name="settings_alarm_clock">Odeslat budík do openHAB</string>
+    <string name="settings_alarm_clock_summary_on">Odeslat čas budíku do Item \'%1$s\'</string>
+    <string name="settings_alarm_clock_summary_off">Neodesílat čas budíku na server</string>
+    <string name="settings_alarm_clock_howto_summary">Klikněte sem pro nápovědu jak nastavit tuto vlastnost na straně serveru</string>
+    <string name="settings_item_pref_item_name">Jméno Item</string>
     <!-- Notification list strings -->
     <string name="notification_list_empty">Zatím nebylo zaslané žádné oznámení</string>
     <string name="notification_list_error">Při načítání oznámení došlo k chybě</string>
