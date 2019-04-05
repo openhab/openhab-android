@@ -590,7 +590,7 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
 
         @Override
         protected void handleRowClick() {
-            if (mBoundWidget.switchSupport()) {
+            if (mBoundWidget.switchSupport() && mBoundWidget.item() != null) {
                 Util.sendItemCommand(mConnection.getAsyncHttpClient(), mBoundWidget.item(),
                         mSeekBar.getProgress() == mBoundWidget.minValue() ? "ON" : "OFF");
             } else {
