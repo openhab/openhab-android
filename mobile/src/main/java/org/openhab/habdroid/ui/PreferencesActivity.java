@@ -703,7 +703,7 @@ public class PreferencesActivity extends AppCompatActivity {
             clearPasswordUrlChangedPref.setOnPreferenceChangeListener((preference, newValue) -> {
                 if (!(boolean) newValue) {
                     new AlertDialog.Builder(getActivity())
-                            .setTitle(R.string.settings_clear_cred_url_changed_disable)
+                            .setMessage(R.string.settings_clear_cred_url_changed_disable)
                             .setPositiveButton(android.R.string.ok, (dialog, which) -> {
                                 getPreferenceScreen().getSharedPreferences().edit()
                                         .putBoolean(preference.getKey(), false)

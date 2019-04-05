@@ -283,7 +283,7 @@ public abstract class ContentController implements PageConnectionHolderFragment.
     public void indicateScreenLockFailure() {
         Log.d(TAG, "Indicate screen lock failure");
         mNoConnectionFragment = ScreenlockFailureFragment.newInstance(
-                mActivity.getString(R.string.screenlock_wrong_password));
+                mActivity.getString(R.string.settings_screenlock_wrong_password));
         updateFragmentState(FragmentUpdateReason.PAGE_UPDATE);
         mActivity.updateTitle();
     }
@@ -614,7 +614,7 @@ public abstract class ContentController implements PageConnectionHolderFragment.
     public static class ScreenlockFailureFragment extends StatusFragment {
         public static ScreenlockFailureFragment newInstance(CharSequence message) {
             ScreenlockFailureFragment f = new ScreenlockFailureFragment();
-            f.setArguments(buildArgs(message, R.string.try_again_button,
+            f.setArguments(buildArgs(message, R.string.settings_screenlock_unlock,
                     R.drawable.ic_lock_outline_grey_24dp,
                     false));
             return f;
