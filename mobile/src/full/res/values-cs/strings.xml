@@ -5,6 +5,7 @@
     <string name="info_openhab_gcm_unsupported">Nedostupné, vzdálený server není openHAB cloud</string>
     <string name="info_openhab_gcm_in_progress">Probíhá registrace zařízení</string>
     <string name="info_openhab_gcm_failed">Registrace zařízení se nezdařila</string>
+    <string name="info_openhab_gcm_connected">Zařízení bylo úspěšně zaregistrováno u Firebase Cloud Messaging</string>
     <string name="notification_channel_default">Výchozí</string>
     <string name="notification_channel_severity_value">Priorita \"%1$s\"</string>
     <plurals name="summary_notification_text">
