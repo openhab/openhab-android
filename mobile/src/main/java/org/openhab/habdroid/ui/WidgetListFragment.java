@@ -27,6 +27,7 @@ import org.openhab.habdroid.R;
 import org.openhab.habdroid.model.Item;
 import org.openhab.habdroid.model.LabeledValue;
 import org.openhab.habdroid.model.LinkedPage;
+import org.openhab.habdroid.model.ParsedState;
 import org.openhab.habdroid.model.Widget;
 import org.openhab.habdroid.ui.widget.RecyclerViewSwipeRefreshLayout;
 import org.openhab.habdroid.util.CacheManager;
@@ -147,6 +148,29 @@ public class WidgetListFragment extends Fragment
                 if (widget.state() != null) {
                     labels.add(getString(R.string.nfc_action_current_color));
                     commands.add(widget.state().asString());
+                }
+            } else if (widget.type() == Widget.Type.Setpoint
+                    || widget.type() == Widget.Type.Slider) {
+                if (widget.state() != null && widget.state().asNumber() != null) {
+                    ParsedState.NumberState state = widget.state().asNumber();
+
+                    String currentState = state.toString();
+                    labels.add(currentState);
+                    commands.add(currentState);
+
+                    String minValue = ParsedState.NumberState.withValue(state, widget.minValue())
+                            .toString();
+                    if (!currentState.equals(minValue)) {
+                        labels.add(minValue);
+                        commands.add(minValue);
+                    }
+
+                    String maxValue = ParsedState.NumberState.withValue(state, widget.maxValue())
+                            .toString();
+                    if (!currentState.equals(maxValue)) {
+                        labels.add(maxValue);
+                        commands.add(maxValue);
+                    }
                 }
             }
         }
