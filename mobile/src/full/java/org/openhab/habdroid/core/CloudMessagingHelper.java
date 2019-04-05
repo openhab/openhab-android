@@ -11,6 +11,7 @@ package org.openhab.habdroid.core;
 
 import android.content.Context;
 import android.content.Intent;
+import androidx.annotation.DrawableRes;
 import androidx.annotation.StringRes;
 
 import org.openhab.habdroid.R;
@@ -52,6 +53,20 @@ public class CloudMessagingHelper {
             return R.string.info_openhab_gcm_failed;
         } else {
             return R.string.info_openhab_gcm_connected;
+        }
+    }
+
+    public static @DrawableRes int getPushNotificationIconResId() {
+        CloudConnection cloudConnection = (CloudConnection)
+                ConnectionFactory.getConnection(Connection.TYPE_CLOUD);
+        if (cloudConnection == null) {
+            return R.drawable.ic_bell_off_outline_grey_24dp;
+        } else if (!sRegistrationDone) {
+            return R.drawable.ic_bell_outline_grey_24dp;
+        } else if (sRegistrationFailureReason != null) {
+            return R.drawable.ic_bell_off_outline_grey_24dp;
+        } else {
+            return R.drawable.ic_bell_ring_outline_grey_24dp;
         }
     }
 

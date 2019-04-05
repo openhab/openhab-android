@@ -34,6 +34,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -206,6 +207,8 @@ public class WriteTagActivity extends AppCompatActivity {
                 writeTagMessage.setText(R.string.info_write_failed);
             }
         }
+        ImageView watermark = findViewById(R.id.nfc_watermark);
+        watermark.setImageDrawable(getDrawable(R.drawable.ic_nfc_black_180dp));
     }
 
     @Override
@@ -225,7 +228,7 @@ public class WriteTagActivity extends AppCompatActivity {
             final View view = inflater.inflate(R.layout.fragment_writenfc, container, false);
             final ImageView watermark = view.findViewById(R.id.nfc_watermark);
 
-            Drawable nfcIcon = getResources().getDrawable(R.drawable.ic_nfc_black_180dp);
+            Drawable nfcIcon = getResources().getDrawable(getWatermarkIcon());
             nfcIcon.setColorFilter(
                     ContextCompat.getColor(getActivity(), R.color.empty_list_text_color),
                     PorterDuff.Mode.SRC_IN);
@@ -237,6 +240,8 @@ public class WriteTagActivity extends AppCompatActivity {
         protected TextView getMessageTextView(View view) {
             return view.findViewById(R.id.write_tag_message);
         }
+
+        protected abstract @DrawableRes int getWatermarkIcon();
     }
 
     public static class NfcUnsupportedFragment extends AbstractNfcFragment {
@@ -247,6 +252,11 @@ public class WriteTagActivity extends AppCompatActivity {
 
             getMessageTextView(view).setText(R.string.info_write_tag_unsupported);
             return view;
+        }
+
+        @Override
+        protected @DrawableRes int getWatermarkIcon() {
+            return R.drawable.ic_nfc_off_black_180dp;
         }
     }
 
@@ -270,6 +280,11 @@ public class WriteTagActivity extends AppCompatActivity {
 
             return view;
         }
+
+        @Override
+        protected @DrawableRes int getWatermarkIcon() {
+            return R.drawable.ic_nfc_off_black_180dp;
+        }
     }
 
     public static class NfcWriteTagFragment extends AbstractNfcFragment {
@@ -281,6 +296,11 @@ public class WriteTagActivity extends AppCompatActivity {
             view.findViewById(R.id.nfc_wait_progress).setVisibility(View.VISIBLE);
 
             return view;
+        }
+
+        @Override
+        protected @DrawableRes int getWatermarkIcon() {
+            return R.drawable.ic_nfc_search_black_180dp;
         }
     }
 }

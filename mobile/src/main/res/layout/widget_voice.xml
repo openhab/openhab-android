@@ -23,7 +23,7 @@
             android:layout_margin="16dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@drawable/ic_mic_white_120dp"
+            android:src="@drawable/ic_microphone_outline_white_120dp"
             android:contentDescription="@string/info_voice_input"
             android:scaleType="fitCenter"/>
 

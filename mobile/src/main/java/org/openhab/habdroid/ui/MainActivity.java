@@ -297,7 +297,7 @@ public class MainActivity extends AppCompatActivity implements
                 (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         wifiManager.setWifiEnabled(true);
         mController.updateConnection(null, getString(R.string.waiting_for_wifi),
-                R.drawable.ic_signal_wifi_0_bar_black_24dp);
+                R.drawable.ic_wifi_strength_outline_black_24dp);
     }
 
     public void retryServerPropertyQuery() {

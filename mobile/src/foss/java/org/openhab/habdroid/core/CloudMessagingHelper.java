@@ -11,6 +11,7 @@ package org.openhab.habdroid.core;
 
 import android.content.Context;
 import android.content.Intent;
+import androidx.annotation.DrawableRes;
 import androidx.annotation.StringRes;
 
 import org.openhab.habdroid.R;
@@ -25,6 +26,10 @@ public class CloudMessagingHelper {
 
     public static @StringRes int getPushNotificationStatusResId() {
         return R.string.info_openhab_notification_status_unavailable;
+    }
+
+    public static @DrawableRes int getPushNotificationIconResId() {
+        return R.drawable.ic_bell_off_outline_grey_24dp;
     }
 
     public static boolean isSupported() {
