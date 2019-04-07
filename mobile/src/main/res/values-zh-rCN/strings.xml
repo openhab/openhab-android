@@ -9,6 +9,8 @@
     <!-- Main menu items -->
     <string name="mainmenu_openhab_sitemaps">系统布局</string>
     <string name="mainmenu_openhab_preferences">设置</string>
+    <string name="mainmenu_openhab_habpanel">HAB 面板</string>
+    <string name="habpanel_error">载入 HAB 面板时出错</string>
     <string name="mainmenu_openhab_selectsitemap">选择默认系统布局</string>
     <string name="mainmenu_openhab_clearcache">清除图像缓存</string>
     <!-- App settings strings -->
@@ -28,6 +30,7 @@
     <string name="settings_openhab_screentimeroff">禁用显示计时器</string>
     <string name="settings_openhab_screentimeroff_summary">在 openHAB 运行时禁用显示屏关闭定时器</string>
     <string name="settings_openhab_demomode">演示模式</string>
+    <string name="settings_openhab_demomode_summary">若您没有 openHAB 服务器，请启用演示模式来一览 openHAB 的功能。</string>
     <string name="settings_openhab_theme">主题</string>
     <string name="settings_openhab_fullscreen">全屏</string>
     <string name="settings_openhab_fullscreen_summary">以全屏模式显示</string>
@@ -40,6 +43,8 @@
     <string name="settings_chart_scaling_value_s">小</string>
     <string name="settings_chart_scaling_value_m">默认</string>
     <string name="settings_chart_scaling_value_l">大</string>
+    <string name="settings_openhab_chart_hq">高清图表</string>
+    <string name="settings_openhab_chart_hq_summary">生成图表可能会对服务器造成压力。若您的图表载入时间过长或服务器性能不强，请禁用此选项以加速载入。</string>
     <string name="settings_ringtone">通知铃声</string>
     <string name="settings_ringtone_none">无</string>
     <string name="settings_clear_default_sitemap">清除默认站点地图</string>
@@ -52,28 +57,41 @@
     <string name="settings_notification_vibration_short">短</string>
     <string name="settings_notification_vibration_long">长</string>
     <string name="settings_notification_vibration_twice">两次</string>
+    <string name="settings_notification_ringtone_vibration">通知设置</string>
     <string name="settings_connection_summary">已连接至 %s</string>
     <string name="settings_insecure_connection_summary">已通过不安全的方式连接至 %s</string>
+    <string name="beta">测试版</string>
     <!-- App messages strings -->
+    <string name="title_voice_widget">语音命令</string>
+    <string name="title_voice_widget_icon">语音命令和应用程序快捷方式</string>
     <string name="info_voice_input">openHAB，说出您的命令！</string>
     <string name="info_voice_recognized_text">已识别命令: %1$s</string>
     <string name="info_demo_mode_short">正以演示模式运行</string>
     <!-- Please try to keep the string as short as possible -->
+    <string name="turn_off">关闭</string>
     <string name="info_conn_url">正在连接到本地 URL</string>
     <string name="info_conn_rem_url">正在连接到远程 URL</string>
+    <string name="app_shortcut_diabled_habpanel">您的服务器未安装 HAB 面板</string>
+    <string name="app_shortcut_diabled_notifications">您的远程服务器不可用</string>
+    <string name="app_shortcut_diabled_voice_recognition">您的设备未安装语音转文字应用程序</string>
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB 返回了空系统布局列表</string>
     <string name="error_network_not_available">网络不可用</string>
+    <string name="error_wifi_not_available">Wi-Fi 被关闭</string>
     <string name="error_http_connection_failed">连接失败。在尝试连接至已配置的 openHAB 服务器时收到意外响应 (HTTP 代码为：%d)</string>
     <string name="error_invalid_url">请以 \'http(s)://主机(:端口)/\' 格式输入有效网址</string>
+    <string name="error_port_seems_invalid">您输入的端口不适用所选协议</string>
     <string name="error_connection_failed">连接至主机失败</string>
     <string name="error_unable_to_resolve_hostname">无法解析主机名</string>
     <string name="error_connection_sslhandshake_failed">SSL 握手失败</string>
     <string name="error_certificate_not_trusted">SSL 证书不受信任。请导入根证书或在 SSL 握手时接受证书。</string>
     <string name="error_certificate_expired">SSL 证书已过期。请获取新证书或在 SSL 握手时接受证书。</string>
     <string name="error_certificate_not_valid_yet">SSL 证书尚未生效。请获取正确的证书或在 SSL 握手时接受证书。另外请检查您设备上的时间是否被正确设置。</string>
+    <string name="error_certificate_invalid_date">SSL 证书日期无效。请获得正确的证书并检查您设备上的时间是否正确。</string>
     <string name="error_certificate_revoked">SSL 证书已被撤销。请获取新证书或在 SSL 握手时接受证书。</string>
     <string name="error_certificate_wrong_host">%s 的 SSL 证书无效</string>
+    <string name="error_http_to_https_port">数据流意外终止。您是否正尝试通过 HTTP 连接 HTTPS 端口？</string>
+    <string name="webview_ssl">此应用程序当前不支持对 Webview 小挂件使用自签名 SSL 证书。</string>
     <string name="error_http_code_401">认证失败。请检查配置的用户名及密码及提供的 SSL 客户端证书 (HTTP 代码 401)</string>
     <string name="error_http_code_403">认证失败。请检查配置的用户名及密码及提供的 SSL 客户端证书 (HTTP 代码 403)</string>
     <string name="error_http_code_407">认证失败。请检查配置的用户名及密码及提供的 SSL 客户端证书 (HTTP 代码 407)</string>
@@ -105,7 +123,29 @@
     <string name="action_settings">设置</string>
     <string name="nfc_dialog_title">为此元素写入 NFC 标签行为</string>
     <string name="info_not_set">未设置</string>
+    <string name="empty_page">此页不含有可见的小挂件</string>
     <!-- Background tasks -->
+    <string name="send_device_info_to_server">发送设备信息至服务器</string>
+    <string name="send_device_info_item_prefix">项目名前缀</string>
+    <string name="send_device_info_item_prefix_summary">下列功能的项目名含此前缀</string>
+    <string name="settings_alarm_clock">发送闹钟至 openHAB</string>
+    <string name="settings_alarm_clock_summary_on">发送闹钟至项 \"%1$s\"</string>
+    <string name="settings_alarm_clock_summary_off">请勿发送闹钟时间至服务器</string>
+    <string name="settings_alarm_clock_howto_summary">轻触此处以获取如何在服务器端设置此功能的提示</string>
+    <string name="settings_item_pref_item_name">项目名</string>
+    <string name="waiting_for_item_upload">等待网络以发送项目更新</string>
+    <string name="item_upload_in_progress">项目正被更新</string>
+    <string name="notification_channel_background">后台</string>
+    <string name="notification_channel_background_description">用于显示待处理的后台任务</string>
+    <string name="notification_channel_background_error">后台任务错误</string>
+    <string name="notification_channel_background_error_description">用于提示后台任务中的错误</string>
+    <plurals name="item_update_error_title">
+        <item quantity="other">无法更新 %d 个项目</item>
+    </plurals>
+    <string name="item_update_http_error">项目 \"%1$s\" 更新失败（HTTP 错误 %2$d）</string>
+    <string name="item_update_connection_error">项目 \'%1$s\'\' 更新失败（无连接）</string>
+    <string name="error_sending_alarm_clock_item_empty">请输入有效的项目名称</string>
+    <string name="retry">重试</string>
     <!-- Notification list strings -->
     <string name="notification_list_empty">尚未发送通知</string>
     <string name="notification_list_error">加载通知时出错</string>
@@ -163,9 +203,18 @@
     <string name="cancel">取消</string>
     <string name="close">关闭</string>
     <string name="try_again_button">重试</string>
+    <string name="enable_wifi_button">打开 Wi-Fi</string>
     <string name="go_to_settings_button">转到设置</string>
+    <string name="enable_demo_mode_button">打开演示模式</string>
+    <string name="configuration_missing">我们未在您的网络上找到 openHAB 服务器。若您确认有服务器存在，请在服务器设置中配置其 IP 地址或主机名。若您没有服务器，则您可启用演示模式一览 openHAB 的功能。</string>
+    <string name="no_remote_server">连接至本地服务器失败且未配置远程服务器</string>
     <string name="resolving_openhab">正在寻找 openHAB 服务器\u2026</string>
+    <string name="waiting_for_wifi">等待 Wi-Fi 建立连接\u2026</string>
     <!-- Log -->
+    <string name="log">日志</string>
+    <string name="view_log">查看日志</string>
+    <string name="clear_log">清除日志</string>
+    <string name="empty_log">日志空空如也</string>
     <!-- Content description for images -->
     <string name="content_description_open_roller_shutter">打开卷帘</string>
     <string name="content_description_stop_roller_shutter">停止卷帘</string>
@@ -176,6 +225,8 @@
     <string name="content_description_open_number_picker">打开数字选取器</string>
     <string name="content_description_video">视频</string>
     <string name="content_description_open_openhab">打开 openHAB</string>
+    <string name="content_description_increase_item_value">增加项目权重</string>
+    <string name="content_description_decrease_item_value">减少项目权重</string>
     <string name="swipe_to_refresh_description">此应用程序将自动刷新，您通常无需手动操作</string>
     <string name="swipe_to_refresh_dismiss">知道了！</string>
     <!-- Intro strings -->
