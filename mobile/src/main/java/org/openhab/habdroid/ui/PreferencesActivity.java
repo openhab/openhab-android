@@ -10,7 +10,6 @@
 package org.openhab.habdroid.ui;
 
 import android.app.FragmentManager;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
@@ -94,6 +93,9 @@ public class PreferencesActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        if (isFinishing() || isDestroyed()) {
+            return true;
+        }
         switch (item.getItemId()) {
             case android.R.id.home:
                 FragmentManager fm = getFragmentManager();
