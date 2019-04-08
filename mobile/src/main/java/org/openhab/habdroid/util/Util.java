@@ -42,12 +42,24 @@ import org.openhab.habdroid.model.Sitemap;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 
+import java.io.EOFException;
+import java.io.IOException;
+import java.net.ConnectException;
 import java.net.MalformedURLException;
+import java.net.SocketTimeoutException;
 import java.net.URL;
+import java.net.UnknownHostException;
+import java.security.cert.CertPathValidatorException;
+import java.security.cert.CertificateExpiredException;
+import java.security.cert.CertificateNotYetValidException;
+import java.security.cert.CertificateRevokedException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
+
+import javax.net.ssl.SSLException;
+import javax.net.ssl.SSLPeerUnverifiedException;
 
 public class Util {
     private static final String TAG = Util.class.getSimpleName();
@@ -323,6 +335,54 @@ public class Util {
             return new long[] {0, 1000, 1000, 1000, 1000};
         } else {
             return new long[] {0};
+        }
+    }
+
+    public static CharSequence getHumanReadableErrorMessage(Context context, String url,
+                                                            int statusCode, Throwable error) {
+        CharSequence message;
+        if (statusCode >= 400) {
+            if (error.getMessage().equals("openHAB is offline")) {
+                return context.getString(R.string.error_openhab_offline);
+            } else {
+                int resourceId;
+                try {
+                    resourceId = context.getResources().getIdentifier(
+                            "error_http_code_" + statusCode,
+                            "string", context.getPackageName());
+                    return context.getString(resourceId);
+                } catch (Resources.NotFoundException e) {
+                    return context.getString(R.string.error_http_connection_failed, statusCode);
+                }
+            }
+        } else if (error instanceof UnknownHostException) {
+            Log.e(TAG, "Unable to resolve hostname");
+            return context.getString(R.string.error_unable_to_resolve_hostname);
+        } else if (error instanceof SSLException) {
+            // if ssl exception, check for some common problems
+            if (Util.exceptionHasCause(error, CertPathValidatorException.class)) {
+                return context.getString(R.string.error_certificate_not_trusted);
+            } else if (Util.exceptionHasCause(error, CertificateExpiredException.class)) {
+                return context.getString(R.string.error_certificate_expired);
+            } else if (Util.exceptionHasCause(error, CertificateNotYetValidException.class)) {
+                return context.getString(R.string.error_certificate_not_valid_yet);
+            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N
+                    && Util.exceptionHasCause(error, CertificateRevokedException.class)) {
+                return context.getString(R.string.error_certificate_revoked);
+            } else if (Util.exceptionHasCause(error, SSLPeerUnverifiedException.class)) {
+                return String.format(context.getString(R.string.error_certificate_wrong_host),
+                        Util.getHostFromUrl(url));
+            } else {
+                return context.getString(R.string.error_connection_sslhandshake_failed);
+            }
+        } else if (error instanceof ConnectException || error instanceof SocketTimeoutException) {
+            return context.getString(R.string.error_connection_failed);
+        } else if (error instanceof IOException
+                && Util.exceptionHasCause(error, EOFException.class)) {
+            return context.getString(R.string.error_http_to_https_port);
+        } else {
+            Log.e(TAG, "REST call to " + url + " failed", error);
+            return error.getMessage();
         }
     }
 }

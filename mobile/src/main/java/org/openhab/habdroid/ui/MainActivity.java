@@ -22,7 +22,6 @@ import android.content.pm.ShortcutInfo;
 import android.content.pm.ShortcutManager;
 import android.content.res.ColorStateList;
 import android.content.res.Configuration;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
@@ -92,24 +91,13 @@ import org.openhab.habdroid.util.AsyncServiceResolver;
 import org.openhab.habdroid.util.Constants;
 import org.openhab.habdroid.util.Util;
 
-import java.io.EOFException;
-import java.io.IOException;
 import java.lang.reflect.Constructor;
-import java.net.ConnectException;
-import java.net.SocketTimeoutException;
-import java.net.UnknownHostException;
 import java.nio.charset.Charset;
-import java.security.cert.CertPathValidatorException;
-import java.security.cert.CertificateExpiredException;
-import java.security.cert.CertificateNotYetValidException;
-import java.security.cert.CertificateRevokedException;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
 import javax.jmdns.ServiceInfo;
-import javax.net.ssl.SSLException;
-import javax.net.ssl.SSLPeerUnverifiedException;
 
 import static org.openhab.habdroid.util.Constants.PREV_SERVER_FLAGS;
 
@@ -1061,51 +1049,8 @@ public class MainActivity extends AppCompatActivity implements
     private void handlePropertyFetchFailure(Request request, int statusCode, Throwable error) {
         Log.e(TAG, "Error: " + error.toString(), error);
         Log.e(TAG, "HTTP status code: " + statusCode);
-        CharSequence message;
-        if (statusCode >= 400) {
-            if (error.getMessage().equals("openHAB is offline")) {
-                message = getString(R.string.error_openhab_offline);
-            } else {
-                int resourceId;
-                try {
-                    resourceId = getResources().getIdentifier(
-                            "error_http_code_" + statusCode,
-                            "string", getPackageName());
-                    message = getString(resourceId);
-                } catch (Resources.NotFoundException e) {
-                    message = getString(R.string.error_http_connection_failed, statusCode);
-                }
-            }
-        } else if (error instanceof UnknownHostException) {
-            Log.e(TAG, "Unable to resolve hostname");
-            message = getString(R.string.error_unable_to_resolve_hostname);
-        } else if (error instanceof SSLException) {
-            // if ssl exception, check for some common problems
-            if (Util.exceptionHasCause(error, CertPathValidatorException.class)) {
-                message = getString(R.string.error_certificate_not_trusted);
-            } else if (Util.exceptionHasCause(error, CertificateExpiredException.class)) {
-                message = getString(R.string.error_certificate_expired);
-            } else if (Util.exceptionHasCause(error, CertificateNotYetValidException.class)) {
-                message = getString(R.string.error_certificate_not_valid_yet);
-            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N
-                    && Util.exceptionHasCause(error, CertificateRevokedException.class)) {
-                message = getString(R.string.error_certificate_revoked);
-            } else if (Util.exceptionHasCause(error, SSLPeerUnverifiedException.class)) {
-                message = String.format(getString(R.string.error_certificate_wrong_host),
-                        Util.getHostFromUrl(request.url().toString()));
-            } else {
-                message = getString(R.string.error_connection_sslhandshake_failed);
-            }
-        } else if (error instanceof ConnectException || error instanceof SocketTimeoutException) {
-            message = getString(R.string.error_connection_failed);
-        } else if (error instanceof IOException
-                && Util.exceptionHasCause(error, EOFException.class)) {
-            message = getString(R.string.error_http_to_https_port);
-        } else {
-            Log.e(TAG, "REST call to " + request.url() + " failed", error);
-            message = error.getMessage();
-        }
-
+        CharSequence message = Util.getHumanReadableErrorMessage(this,
+                request.url().toString(), statusCode, error);
         SharedPreferences settings =
                 PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
         if (settings.getBoolean(Constants.PREFERENCE_DEBUG_MESSAGES, false)) {

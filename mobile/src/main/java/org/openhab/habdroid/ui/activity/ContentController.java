@@ -475,6 +475,17 @@ public abstract class ContentController implements PageConnectionHolderFragment.
         }
     }
 
+    @Override
+    public void onLoadFailure(String url, int statusCode, Throwable e) {
+        String errorMessage = Util.getHumanReadableErrorMessage(mActivity, url, statusCode, e)
+                .toString();
+
+        mNoConnectionFragment = CommunicationFailureFragment.newInstance(
+                mActivity.getString(R.string.error_sitemap_generic_load_error, errorMessage));
+        updateFragmentState(FragmentUpdateReason.PAGE_UPDATE);
+        mActivity.updateTitle();
+    }
+
     protected abstract void executeStateUpdate(FragmentUpdateReason reason, boolean allowStateLoss);
     protected abstract WidgetListFragment getFragmentForTitle();
 

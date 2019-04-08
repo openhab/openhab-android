@@ -102,6 +102,11 @@ public class PageConnectionHolderFragment extends Fragment {
          * @param title    Updated title
          */
         void onPageTitleUpdated(String pageUrl, String title);
+
+        /**
+         * Let parent know about a failure during the load of data.
+         */
+        void onLoadFailure(String url, int statusCode, Throwable error);
     }
 
     private Map<String, ConnectionHandler> mConnections = new HashMap<>();
@@ -310,7 +315,7 @@ public class PageConnectionHolderFragment extends Fragment {
             Log.d(TAG, "Data load for " + mUrl + " failed", error);
             mAtmosphereTrackingId = null;
             mLongPolling = false;
-            load();
+            mCallback.onLoadFailure(request.url().toString(), statusCode, error);
         }
 
         @Override
