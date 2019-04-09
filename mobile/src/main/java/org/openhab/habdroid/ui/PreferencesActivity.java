@@ -58,6 +58,7 @@ import static org.openhab.habdroid.util.Constants.PREFERENCE_DELETE_CRED_URL_CHA
 import static org.openhab.habdroid.util.Constants.PREFERENCE_LOCAL_PASSWORD;
 import static org.openhab.habdroid.util.Constants.PREFERENCE_PREVENT_SCREENSHOTS;
 import static org.openhab.habdroid.util.Constants.PREFERENCE_REMOTE_PASSWORD;
+import static org.openhab.habdroid.util.Constants.PREFERENCE_SCREENLOCK;
 import static org.openhab.habdroid.util.Constants.PREV_SERVER_FLAGS;
 import static org.openhab.habdroid.util.Util.getHostFromUrl;
 
@@ -690,8 +691,13 @@ public class PreferencesActivity extends AppCompatActivity {
         protected void updateAndInitPreferences() {
             addPreferencesFromResource(R.xml.enhanced_security_preferences);
 
+            Preference screenLockPref = findPreference(PREFERENCE_SCREENLOCK);
             Preference preventScreenshotPref = findPreference(PREFERENCE_PREVENT_SCREENSHOTS);
             Preference clearPasswordUrlChangedPref = findPreference(PREFERENCE_DELETE_CRED_URL_CHANGED);
+
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+                getParent(screenLockPref).removePreference(screenLockPref);
+            }
 
             preventScreenshotPref.setOnPreferenceChangeListener((preference, newValue) -> {
                 Util.setScreenshotPrevention(getActivity(), (boolean) newValue);

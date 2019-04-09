@@ -1204,6 +1204,9 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     public void promptForDevicePassword() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            return;
+        }
         KeyguardManager km = (KeyguardManager) this.getSystemService(Context.KEYGUARD_SERVICE);
         Intent intent = km.createConfirmDeviceCredentialIntent(getString(R.string.app_name), "");
         startActivityForResult(intent, SCREEN_LOCK_REQUEST_CODE);
