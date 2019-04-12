@@ -5,13 +5,14 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
+import android.nfc.NfcAdapter;
 import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.util.Pair;
-
 import androidx.lifecycle.LiveData;
 import androidx.work.Constraints;
 import androidx.work.NetworkType;
@@ -19,6 +20,7 @@ import androidx.work.OneTimeWorkRequest;
 import androidx.work.WorkInfo;
 import androidx.work.WorkManager;
 
+import org.openhab.habdroid.ui.WriteTagActivity;
 import org.openhab.habdroid.ui.widget.ItemUpdatingPreference;
 import org.openhab.habdroid.util.Constants;
 
@@ -99,6 +101,16 @@ public class BackgroundTasksManager extends BroadcastReceiver {
 
         String prefix = prefs.getString(Constants.PREFERENCE_SEND_DEVICE_INFO_PREFIX, "");
         enqueueItemUpload(key, prefix + setting.second, getter.getValue(context));
+    }
+
+    public static void enqueueNfcItemUpload(Intent intent) {
+        if (Intent.ACTION_VIEW.equals(intent.getAction())
+                || NfcAdapter.ACTION_NDEF_DISCOVERED.equals(intent.getAction())) {
+            Uri nfcData = intent.getData();
+            String itemName = nfcData.getQueryParameter(WriteTagActivity.QUERY_PARAMETER_ITEM_NAME);
+            enqueueItemUpload("nfc-" + itemName, itemName,
+                    nfcData.getQueryParameter(WriteTagActivity.QUERY_PARAMETER_STATE));
+        }
     }
 
     private static void enqueueItemUpload(String tag, String itemName, String value) {

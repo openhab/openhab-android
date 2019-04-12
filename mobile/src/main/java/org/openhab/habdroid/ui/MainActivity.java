@@ -71,6 +71,7 @@ import com.google.android.material.snackbar.Snackbar;
 import okhttp3.Headers;
 import okhttp3.Request;
 import org.openhab.habdroid.R;
+import org.openhab.habdroid.background.BackgroundTasksManager;
 import org.openhab.habdroid.core.CloudMessagingHelper;
 import org.openhab.habdroid.core.OnUpdateBroadcastReceiver;
 import org.openhab.habdroid.core.VoiceService;
@@ -135,7 +136,7 @@ public class MainActivity extends AbstractBaseActivity implements
     private Snackbar mLastSnackbar;
     private Connection mConnection;
 
-    private Uri mPendingNfcData;
+    private Intent mPendingNfcIntent;
     private String mPendingOpenedNotificationId;
     private boolean mShouldOpenHabpanel;
     private boolean mShouldLaunchVoiceRecognition;
@@ -366,7 +367,7 @@ public class MainActivity extends AbstractBaseActivity implements
         switch (action) {
             case NfcAdapter.ACTION_NDEF_DISCOVERED:
             case Intent.ACTION_VIEW:
-                mPendingNfcData = intent.getData();
+                mPendingNfcIntent = intent;
                 openPendingNfcPageIfNeeded();
                 break;
             case ACTION_NOTIFICATION_SELECTED:
@@ -737,30 +738,40 @@ public class MainActivity extends AbstractBaseActivity implements
     }
 
     private void openPendingNfcPageIfNeeded() {
-        if (mPendingNfcData == null || mConnection == null || !mStarted) {
+        if (mPendingNfcIntent == null || mPendingNfcIntent.getData() == null
+                || mConnection == null || !mStarted) {
             return;
         }
 
-        Log.d(TAG, "NFC Scheme = " + mPendingNfcData.getScheme());
-        Log.d(TAG, "NFC Host = " + mPendingNfcData.getHost());
-        Log.d(TAG, "NFC Path = " + mPendingNfcData.getPath());
-        String nfcItem = mPendingNfcData.getQueryParameter("item");
-        String nfcCommand = mPendingNfcData.getQueryParameter("command");
+        Uri pendingNfcData = mPendingNfcIntent.getData();
 
-        // If there is no item parameter it means tag contains only sitemap page url
-        if (TextUtils.isEmpty(nfcItem)) {
-            Log.d(TAG, "This is a sitemap tag without parameters");
-            // Form the new sitemap page url
-            String newPageUrl = String.format(Locale.US,
-                    "rest/sitemaps%s", mPendingNfcData.getPath());
-            mController.openPage(newPageUrl);
-        } else {
-            Log.d(TAG, "Target item = " + nfcItem);
-            String url = String.format(Locale.US, "rest/items/%s", nfcItem);
-            Util.sendItemCommand(mConnection.getAsyncHttpClient(), url, nfcCommand);
-            finish();
+        Log.d(TAG, "NFC Scheme = " + pendingNfcData.getScheme());
+        Log.d(TAG, "NFC Host = " + pendingNfcData.getHost());
+        Log.d(TAG, "NFC Path = " + pendingNfcData.getPath());
+
+        if ("openhabitem".equals(pendingNfcData.getScheme())) {
+            BackgroundTasksManager.enqueueNfcItemUpload(mPendingNfcIntent);
+        } else if ("openhab".equals(pendingNfcData.getScheme())) {
+            String nfcSitemap = pendingNfcData.getPath();
+            String nfcItem = pendingNfcData.getQueryParameter("item");
+            String nfcState = pendingNfcData.getQueryParameter("command");
+
+            if (TextUtils.isEmpty(nfcItem)) {
+                Log.d(TAG, "This is a sitemap tag without parameters");
+                // Form the new sitemap page url
+                String newPageUrl = String.format(Locale.US, "rest/sitemaps%s", nfcSitemap);
+                mController.openPage(newPageUrl);
+            } else {
+                Log.d(TAG, "This is an old tag for item updates (" + nfcItem + ")");
+                String url = String.format(Locale.US, "rest/items/%s", nfcItem);
+                Util.sendItemCommand(mConnection.getAsyncHttpClient(), url, nfcState);
+                new AlertDialog.Builder(this)
+                        .setMessage(getString(R.string.info_write_tag_again, nfcItem, nfcState))
+                        .setPositiveButton(android.R.string.ok, (dialog, which) -> finish())
+                        .show();
+            }
         }
-        mPendingNfcData = null;
+        mPendingNfcIntent = null;
     }
 
     private void openAbout() {

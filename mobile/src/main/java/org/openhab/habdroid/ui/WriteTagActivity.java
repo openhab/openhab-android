@@ -49,6 +49,8 @@ import java.net.URISyntaxException;
 
 public class WriteTagActivity extends AbstractBaseActivity {
     private static final String TAG = WriteTagActivity.class.getSimpleName();
+    public static final String QUERY_PARAMETER_ITEM_NAME = "i";
+    public static final String QUERY_PARAMETER_STATE = "s";
 
     private NfcAdapter mNfcAdapter;
     private String mSitemapPage;
@@ -144,16 +146,18 @@ public class WriteTagActivity extends AbstractBaseActivity {
 
         try {
             URI sitemapUri = new URI(mSitemapPage);
-            if (!sitemapUri.getPath().startsWith("/rest/sitemaps")) {
-                throw new URISyntaxException(mSitemapPage, "Expected a sitemap URL");
-            }
-            StringBuilder uriToWrite = new StringBuilder("openhab://sitemaps");
-            uriToWrite.append(sitemapUri.getPath().substring(14));
+            String uriToWrite;
             if (!TextUtils.isEmpty(mItem) && !TextUtils.isEmpty(mCommand)) {
-                uriToWrite.append("?item=").append(mItem).append("&command=").append(mCommand);
+                uriToWrite = "openhabitem://?" + QUERY_PARAMETER_ITEM_NAME + "=" + mItem
+                        + "&" + QUERY_PARAMETER_STATE + "=" + mCommand;
+            } else if (!sitemapUri.getPath().startsWith("/rest/sitemaps")) {
+                throw new URISyntaxException(mSitemapPage, "Expected a sitemap URL");
+            } else {
+                uriToWrite = "openhab://" + sitemapUri.getPath().substring(14);
             }
+
             writeTagMessage.setText(R.string.info_write_tag_progress);
-            writeTag(tagFromIntent, uriToWrite.toString());
+            writeTag(tagFromIntent, uriToWrite);
         } catch (URISyntaxException e) {
             Log.e(TAG, e.getMessage());
             writeTagMessage.setText(R.string.info_write_failed);
