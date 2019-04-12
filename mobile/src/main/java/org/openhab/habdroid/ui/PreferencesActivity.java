@@ -11,11 +11,8 @@ package org.openhab.habdroid.ui;
 
 import android.app.AlertDialog;
 import android.app.FragmentManager;
-import android.content.ActivityNotFoundException;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
@@ -33,7 +30,6 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.util.Pair;
 import android.view.MenuItem;
-import android.widget.Toast;
 import androidx.annotation.DrawableRes;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
@@ -44,7 +40,6 @@ import androidx.core.app.NavUtils;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
 
-import es.dmoral.toasty.Toasty;
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.model.ServerProperties;
 import org.openhab.habdroid.ui.widget.ItemUpdatingPreference;
@@ -97,13 +92,6 @@ public class PreferencesActivity extends AppCompatActivity {
             mResultIntent = savedInstanceState.getParcelable(STATE_KEY_RESULT);
         }
         setResult(RESULT_OK, mResultIntent);
-        processIntent(getIntent());
-    }
-
-    @Override
-    protected void onNewIntent(Intent intent) {
-        Log.d(TAG, "onNewIntent()");
-        processIntent(intent);
     }
 
     @Override
@@ -132,19 +120,6 @@ public class PreferencesActivity extends AppCompatActivity {
     public void finish() {
         super.finish();
         Util.overridePendingTransition(this, true);
-    }
-
-    private void processIntent(Intent intent) {
-        Log.d(TAG, "Got intent: " + intent);
-        String action = intent.getAction() != null ? intent.getAction() : "";
-        switch (action) {
-            case "info.guardianproject.panic.action.CONNECT":
-            case "info.guardianproject.panic.action.DISCONNECT":
-                openSubScreen(new EnhancedSecuritySettingsFragment());
-                break;
-            default:
-                break;
-        }
     }
 
     public void handleThemeChange() {
@@ -674,17 +649,9 @@ public class PreferencesActivity extends AppCompatActivity {
     }
 
     public static class EnhancedSecuritySettingsFragment extends AbstractSettingsFragment {
-        private final static String RIPPLE_PACKAGE_ID = "info.guardianproject.ripple";
-
         @Override
         protected int getTitleResId() {
             return R.string.settings_enhanced_security;
-        }
-
-        @Override
-        public void onResume() {
-            super.onResume();
-            updateRippleInstallPref();
         }
 
         @Override
@@ -724,38 +691,6 @@ public class PreferencesActivity extends AppCompatActivity {
                 }
                 return true;
             });
-        }
-
-        private void updateRippleInstallPref() {
-            Preference panicButtonInstallPref = findPreference(Constants.PREFERENCE_PANIC_INSTALL);
-            if (panicButtonInstallPref == null) {
-                return;
-            }
-
-            if(isAppInstalled(getActivity(), RIPPLE_PACKAGE_ID)) {
-                getParent(panicButtonInstallPref).removePreference(panicButtonInstallPref);
-            } else {
-                panicButtonInstallPref.setOnPreferenceClickListener(preference -> {
-                    try {
-                        startActivity(new Intent(Intent.ACTION_VIEW,
-                                Uri.parse("market://details?id=" + RIPPLE_PACKAGE_ID)));
-                    } catch (ActivityNotFoundException e) {
-                        Toasty.error(getActivity(), R.string.error_no_app_store_found,
-                                Toast.LENGTH_LONG, true).show();
-                    }
-                    return true;
-                });
-            }
-        }
-
-        private static boolean isAppInstalled(Context context, String packageName) {
-            try {
-                context.getPackageManager().getApplicationInfo(packageName, 0);
-                return true;
-            }
-            catch (PackageManager.NameNotFoundException e) {
-                return false;
-            }
         }
     }
 }

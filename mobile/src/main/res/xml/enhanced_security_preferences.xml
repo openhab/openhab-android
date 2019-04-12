@@ -18,23 +18,4 @@
             android:title="@string/settings_clear_cred_url_changed"
             android:summary="@string/settings_clear_cred_url_changed_disable"
             android:icon="@drawable/ic_none" />
-    <PreferenceCategory android:title="@string/settings_panic">
-        <Preference
-                android:key="panicInstall"
-                android:persistent="false"
-                android:title="@string/settings_panic_install"
-                android:icon="@drawable/ic_none" />
-        <SwitchPreference
-                android:defaultValue="false"
-                android:key="panicClose"
-                android:title="@string/settings_allow_panic_close"
-                android:summary="@string/settings_allow_panic_close_summary"
-                android:icon="@drawable/ic_none" />
-        <SwitchPreference
-                android:defaultValue="false"
-                android:key="panicDeleteCred"
-                android:title="@string/settings_allow_panic_delete_cred"
-                android:summary="@string/settings_allow_panic_delete_cred_summary"
-                android:icon="@drawable/ic_none" />
-    </PreferenceCategory>
 </PreferenceScreen>

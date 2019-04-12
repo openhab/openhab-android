@@ -45,9 +45,6 @@ public class Constants {
     public static final String PREFERENCE_SEND_DEVICE_INFO_CAT = "sendDeviceInfoCat";
     public static final String PREFERENCE_SCREENLOCK           = "screenlock";
     public static final String PREFERENCE_PREVENT_SCREENSHOTS = "preventScreenshot";
-    public static final String PREFERENCE_PANIC_INSTALL       = "panicInstall";
-    public static final String PREFERENCE_PANIC_CLOSE         = "panicClose";
-    public static final String PREFERENCE_PANIC_DELETE_CRED   = "panicDeleteCred";
     public static final String PREFERENCE_DELETE_CRED_URL_CHANGED   = "deleteCredWhenUrlChanged";
 
     public static final String PREV_SERVER_FLAGS              = "prevServerFlags";
