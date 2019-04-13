@@ -44,7 +44,8 @@ class NotificationUpdateObserver implements Observer<List<WorkInfo>> {
         HashMap<String, WorkInfo> latestInfoByTag = new HashMap<>();
         for (WorkInfo info : workInfos) {
             for (String tag : info.getTags()) {
-                if (BackgroundTasksManager.KNOWN_KEYS.contains(tag)) {
+                if (BackgroundTasksManager.KNOWN_KEYS.contains(tag)
+                        || tag.startsWith(BackgroundTasksManager.WORKER_TAG_PREFIX_NFC)) {
                     WorkInfo.State state = info.getState();
                     if (state == WorkInfo.State.ENQUEUED || state == WorkInfo.State.RUNNING) {
                         // Always treat a running job as the 'current' one

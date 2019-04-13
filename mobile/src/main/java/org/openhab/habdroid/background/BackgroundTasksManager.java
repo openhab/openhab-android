@@ -36,6 +36,7 @@ public class BackgroundTasksManager extends BroadcastReceiver {
     static final String EXTRA_RETRY_INFOS = "retryInfos";
 
     private static final String WORKER_TAG_ITEM_UPLOADS = "itemUploads";
+    public static final String WORKER_TAG_PREFIX_NFC = "nfc-";
 
     static final List<String> KNOWN_KEYS = Arrays.asList(
         Constants.PREFERENCE_ALARM_CLOCK
@@ -108,7 +109,7 @@ public class BackgroundTasksManager extends BroadcastReceiver {
                 || NfcAdapter.ACTION_NDEF_DISCOVERED.equals(intent.getAction())) {
             Uri nfcData = intent.getData();
             String itemName = nfcData.getQueryParameter(WriteTagActivity.QUERY_PARAMETER_ITEM_NAME);
-            enqueueItemUpload("nfc-" + itemName, itemName,
+            enqueueItemUpload(WORKER_TAG_PREFIX_NFC + itemName, itemName,
                     nfcData.getQueryParameter(WriteTagActivity.QUERY_PARAMETER_STATE));
         }
     }
