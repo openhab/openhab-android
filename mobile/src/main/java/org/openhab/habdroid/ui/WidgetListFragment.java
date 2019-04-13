@@ -184,9 +184,14 @@ public class WidgetListFragment extends Fragment
                     writeTagIntent.putExtra("sitemapPage", mPageUrl);
 
                     if (which < labelArray.length - 1) {
-                        writeTagIntent.putExtra("item", widget.item().name());
-                        writeTagIntent.putExtra("itemType", widget.item().type());
-                        writeTagIntent.putExtra("command", commands.get(which));
+                        writeTagIntent.putExtra(WriteTagActivity.QUERY_PARAMETER_ITEM_NAME,
+                                widget.item().name());
+                        writeTagIntent.putExtra(WriteTagActivity.QUERY_PARAMETER_STATE,
+                                commands.get(which));
+                        writeTagIntent.putExtra(WriteTagActivity.QUERY_PARAMETER_MAPPED_STATE,
+                                labels.get(which));
+                        writeTagIntent.putExtra(WriteTagActivity.QUERY_PARAMETER_ITEM_LABEL,
+                                widget.item().label());
                     }
                     startActivityForResult(writeTagIntent, 0);
                 })

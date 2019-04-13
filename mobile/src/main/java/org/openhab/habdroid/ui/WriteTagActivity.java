@@ -46,16 +46,21 @@ import org.openhab.habdroid.R;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Locale;
 
 public class WriteTagActivity extends AbstractBaseActivity {
     private static final String TAG = WriteTagActivity.class.getSimpleName();
     public static final String QUERY_PARAMETER_ITEM_NAME = "i";
     public static final String QUERY_PARAMETER_STATE = "s";
+    public static final String QUERY_PARAMETER_MAPPED_STATE = "m";
+    public static final String QUERY_PARAMETER_ITEM_LABEL = "l";
 
     private NfcAdapter mNfcAdapter;
     private String mSitemapPage;
     private String mItem;
-    private String mCommand;
+    private String mState;
+    private String mMappedState;
+    private String mLabel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,11 +84,13 @@ public class WriteTagActivity extends AbstractBaseActivity {
         setResult(RESULT_OK);
 
         mSitemapPage = getIntent().getStringExtra("sitemapPage");
-        Log.d(TAG, "Got sitemapPage = " + mSitemapPage);
-        mItem = getIntent().getStringExtra("item");
-        Log.d(TAG, "Got item = " + mItem);
-        mCommand = getIntent().getStringExtra("command");
-        Log.d(TAG, "Got command = " + mCommand);
+        mItem = getIntent().getStringExtra(QUERY_PARAMETER_ITEM_NAME);
+        mState = getIntent().getStringExtra(QUERY_PARAMETER_STATE);
+        mMappedState = getIntent().getStringExtra(QUERY_PARAMETER_MAPPED_STATE);
+        mLabel = getIntent().getStringExtra(QUERY_PARAMETER_ITEM_LABEL);
+        Log.d(TAG, String.format(Locale.US,
+                "Got sitemap '%s', item '%s', state '%s', mapped state '%s', label '%s'",
+                mSitemapPage, mItem, mState, mMappedState, mLabel));
     }
 
     private Fragment getFragment() {
@@ -146,37 +153,58 @@ public class WriteTagActivity extends AbstractBaseActivity {
 
         try {
             URI sitemapUri = new URI(mSitemapPage);
-            String uriToWrite;
-            if (!TextUtils.isEmpty(mItem) && !TextUtils.isEmpty(mCommand)) {
-                uriToWrite = "openhabitem://?" + QUERY_PARAMETER_ITEM_NAME + "=" + mItem
-                        + "&" + QUERY_PARAMETER_STATE + "=" + mCommand;
+            String longUriToWrite;
+            String shortUriToWrite = "";
+            if (!TextUtils.isEmpty(mItem) && !TextUtils.isEmpty(mState)) {
+                longUriToWrite = "openhabitem://?" + QUERY_PARAMETER_ITEM_NAME + "=" + mItem
+                        + "&" + QUERY_PARAMETER_STATE + "=" + mState
+                        + "&" + QUERY_PARAMETER_MAPPED_STATE + "=" + mMappedState
+                        + "&" + QUERY_PARAMETER_ITEM_LABEL + "=" + mLabel;
+                shortUriToWrite = "openhabitem://?" + QUERY_PARAMETER_ITEM_NAME + "=" + mItem
+                        + "&" + QUERY_PARAMETER_STATE + "=" + mState;
             } else if (!sitemapUri.getPath().startsWith("/rest/sitemaps")) {
                 throw new URISyntaxException(mSitemapPage, "Expected a sitemap URL");
             } else {
-                uriToWrite = "openhab://" + sitemapUri.getPath().substring(14);
+                longUriToWrite = "openhab://" + sitemapUri.getPath().substring(14);
             }
 
             writeTagMessage.setText(R.string.info_write_tag_progress);
-            writeTag(tagFromIntent, uriToWrite);
+            writeTag(tagFromIntent, longUriToWrite, shortUriToWrite);
         } catch (URISyntaxException e) {
             Log.e(TAG, e.getMessage());
             writeTagMessage.setText(R.string.info_write_failed);
         }
     }
 
-    private void writeTag(Tag tag, String uri) {
-        Log.d(TAG, "Creating tag object for URI " + uri);
+    private NdefMessage getNdefMessage(String uri) {
+        if (TextUtils.isEmpty(uri)) {
+            return null;
+        }
+        NdefRecord[] longNdefRecords = new NdefRecord[] { NdefRecord.createUri(uri) };
+        return new NdefMessage(longNdefRecords);
+    }
+
+    private void writeTag(Tag tag, String longUri, String shortUri) {
+        Log.d(TAG, "Creating tag object for URI " + longUri);
         TextView writeTagMessage = findViewById(R.id.write_tag_message);
 
-        NdefRecord[] ndefRecords = new NdefRecord[] { NdefRecord.createUri(uri) };
-        NdefMessage message = new NdefMessage(ndefRecords);
+        NdefMessage longMessage = getNdefMessage(longUri);
+        NdefMessage shortMessage = getNdefMessage(shortUri);
+
         NdefFormatable ndefFormatable = NdefFormatable.get(tag);
 
         if (ndefFormatable != null) {
             Log.d(TAG, "Tag is uninitialized, formating");
             try {
                 ndefFormatable.connect();
-                ndefFormatable.format(message);
+                try {
+                    ndefFormatable.format(longMessage);
+                } catch (IOException e) {
+                    if (shortMessage != null) {
+                        Log.d(TAG, "Try with short uri");
+                        ndefFormatable.format(shortMessage);
+                    }
+                }
                 ndefFormatable.close();
                 writeTagMessage.setText(R.string.info_write_tag_finished);
                 autoCloseActivity();
@@ -193,14 +221,21 @@ public class WriteTagActivity extends AbstractBaseActivity {
                     ndef.connect();
                     Log.d(TAG, "Writing");
                     if (ndef.isWritable()) {
-                        ndef.writeNdefMessage(message);
+                        try {
+                            ndef.writeNdefMessage(longMessage);
+                        } catch (IOException e) {
+                            if (shortMessage != null) {
+                                Log.d(TAG, "Try with short uri");
+                                ndef.writeNdefMessage(shortMessage);
+                            }
+                        }
                     }
                     Log.d(TAG, "Closing");
                     ndef.close();
                     writeTagMessage.setText(R.string.info_write_tag_finished);
                     autoCloseActivity();
                 } catch (IOException | FormatException e) {
-                    Log.e(TAG, "Writing to formatted tag failed: " + e);
+                    Log.e(TAG, "Writing to formatted tag failed", e);
                     writeTagMessage.setText(R.string.info_write_failed);
                 }
             } else {
