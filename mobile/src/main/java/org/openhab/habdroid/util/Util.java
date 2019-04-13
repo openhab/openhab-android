@@ -22,7 +22,6 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.webkit.WebView;
 import android.webkit.WebViewDatabase;
-import androidx.annotation.AnimRes;
 import androidx.annotation.AttrRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.StyleRes;
@@ -51,19 +50,6 @@ import java.util.Locale;
 
 public class Util {
     private static final String TAG = Util.class.getSimpleName();
-
-    public static void overridePendingTransition(Activity activity, boolean reverse) {
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(activity);
-        if (!prefs.getString(Constants.PREFERENCE_ANIMATION, "android").equals("android")) {
-            if (prefs.getString(Constants.PREFERENCE_ANIMATION, "android").equals("ios")) {
-                @AnimRes int enterAnim = reverse ? R.anim.slide_in_left : R.anim.slide_in_right;
-                @AnimRes int exitAnim = reverse ? R.anim.slide_out_right : R.anim.slide_out_left;
-                activity.overridePendingTransition(enterAnim, exitAnim);
-            } else {
-                activity.overridePendingTransition(0, 0);
-            }
-        }
-    }
 
     public static String normalizeUrl(String sourceUrl) {
         String normalizedUrl = "";

@@ -189,7 +189,6 @@ public class WidgetListFragment extends Fragment
                         writeTagIntent.putExtra("command", commands.get(which));
                     }
                     startActivityForResult(writeTagIntent, 0);
-                    Util.overridePendingTransition(getActivity(), false);
                 })
                 .show();
     }
