@@ -125,6 +125,11 @@
     <string name="info_not_set">Não definido</string>
     <string name="empty_page">Esta página não contém qualquer widgets que estão definidos para ser visível</string>
     <!-- Background tasks -->
+    <string name="send_device_info_to_server">Enviar informações do dispositivo para o servidor</string>
+    <string name="send_device_info_item_prefix">Prefixo do nome do Item</string>
+    <string name="send_device_info_item_prefix_summary">Os nomes de Item dos seguintes recursos tem este prefixo</string>
+    <string name="settings_alarm_clock">Enviar alarme despertador para openHAB</string>
+    <string name="settings_alarm_clock_summary_on">Envia a hora do alarme para item \'%1$s \'</string>
     <!-- Notification list strings -->
     <string name="notification_list_empty">Nenhuma notificação foi enviada até agora</string>
     <string name="notification_list_error">Um erro ocorreu enquanto carregava as notificações</string>
