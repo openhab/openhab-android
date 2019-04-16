@@ -130,6 +130,23 @@
     <string name="send_device_info_item_prefix_summary">Os nomes de Item dos seguintes recursos tem este prefixo</string>
     <string name="settings_alarm_clock">Enviar alarme despertador para openHAB</string>
     <string name="settings_alarm_clock_summary_on">Envia a hora do alarme para item \'%1$s \'</string>
+    <string name="settings_alarm_clock_summary_off">Não enviar a hora do alarme para servidor</string>
+    <string name="settings_alarm_clock_howto_summary">Toque aqui para obter dicas sobre como configurar esse recurso do servidor</string>
+    <string name="settings_item_pref_item_name">Nome do item</string>
+    <string name="waiting_for_item_upload">Aguardando a rede enviar atualizações de Item</string>
+    <string name="item_upload_in_progress">Itens estão sendo atualizados</string>
+    <string name="notification_channel_background">Fundo</string>
+    <string name="notification_channel_background_description">Usado para exibir as tarefas pendentes em segundo plano</string>
+    <string name="notification_channel_background_error">Erro nas tarefas de segundo plano</string>
+    <string name="notification_channel_background_error_description">Usado para notificar sobre erros de tarefas em segundo plano</string>
+    <plurals name="item_update_error_title">
+        <item quantity="one">%d Item não pôde ser atualizado</item>
+        <item quantity="other">%d Items não puderam ser atualizados</item>
+    </plurals>
+    <string name="item_update_http_error">Falha de atualização do Item \'%1$s\' (erro HTTP %2$d)</string>
+    <string name="item_update_connection_error">Falha na atualização do Item \'%1$s\' (Sem conexão)</string>
+    <string name="error_sending_alarm_clock_item_empty">Por favor, insira um nome de Item válido</string>
+    <string name="retry">Tente novamente</string>
     <!-- Notification list strings -->
     <string name="notification_list_empty">Nenhuma notificação foi enviada até agora</string>
     <string name="notification_list_error">Um erro ocorreu enquanto carregava as notificações</string>
@@ -209,6 +226,8 @@
     <string name="content_description_open_number_picker">Abrir selecção de valor</string>
     <string name="content_description_video">Vídeo</string>
     <string name="content_description_open_openhab">Abrir openHAB</string>
+    <string name="content_description_increase_item_value">Aumentar o valor do item</string>
+    <string name="content_description_decrease_item_value">Diminuir o valor do item</string>
     <string name="swipe_to_refresh_description">A aplicação também atualiza automaticamente, normalmente não necessita fazer manualmente</string>
     <string name="swipe_to_refresh_dismiss">Entendido!</string>
     <!-- Intro strings -->
