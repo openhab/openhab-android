@@ -22,6 +22,7 @@ import android.nfc.NfcManager;
 import android.nfc.Tag;
 import android.nfc.tech.Ndef;
 import android.nfc.tech.NdefFormatable;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -33,6 +34,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
@@ -145,35 +147,118 @@ public class WriteTagActivity extends AbstractBaseActivity {
             return;
         }
 
-        Tag tagFromIntent = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
-        Log.d(TAG, "NFC TAG = " + tagFromIntent.toString());
-        Log.d(TAG, "Writing page " + mSitemapPage + " to tag");
+        new AsyncTask<Void, Integer, Boolean>() {
+            @Override
+            protected Boolean doInBackground(Void... voids) {
+                Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
+                Log.d(TAG, "NFC TAG = " + tag.toString());
+                Log.d(TAG, "Writing page " + mSitemapPage + " to tag");
 
-        TextView writeTagMessage = findViewById(R.id.write_tag_message);
+                publishProgress(R.string.info_write_tag_progress);
 
-        try {
-            URI sitemapUri = new URI(mSitemapPage);
-            String longUriToWrite;
-            String shortUriToWrite = "";
-            if (!TextUtils.isEmpty(mItem) && !TextUtils.isEmpty(mState)) {
-                longUriToWrite = "openhabitem://?" + QUERY_PARAMETER_ITEM_NAME + "=" + mItem
-                        + "&" + QUERY_PARAMETER_STATE + "=" + mState
-                        + "&" + QUERY_PARAMETER_MAPPED_STATE + "=" + mMappedState
-                        + "&" + QUERY_PARAMETER_ITEM_LABEL + "=" + mLabel;
-                shortUriToWrite = "openhabitem://?" + QUERY_PARAMETER_ITEM_NAME + "=" + mItem
-                        + "&" + QUERY_PARAMETER_STATE + "=" + mState;
-            } else if (!sitemapUri.getPath().startsWith("/rest/sitemaps")) {
-                throw new URISyntaxException(mSitemapPage, "Expected a sitemap URL");
-            } else {
-                longUriToWrite = "openhab://" + sitemapUri.getPath().substring(14);
+                URI sitemapUri;
+                String longUri = "";
+                String shortUri = "";
+
+                try {
+                    sitemapUri = new URI(mSitemapPage);
+                    if (!TextUtils.isEmpty(mItem) && !TextUtils.isEmpty(mState)) {
+                        longUri = "openhabitem://?" + QUERY_PARAMETER_ITEM_NAME + "=" + mItem
+                                + "&" + QUERY_PARAMETER_STATE + "=" + mState
+                                + "&" + QUERY_PARAMETER_MAPPED_STATE + "=" + mMappedState
+                                + "&" + QUERY_PARAMETER_ITEM_LABEL + "=" + mLabel;
+                        shortUri = "openhabitem://?" + QUERY_PARAMETER_ITEM_NAME + "=" + mItem
+                                + "&" + QUERY_PARAMETER_STATE + "=" + mState;
+                    } else if (!sitemapUri.getPath().startsWith("/rest/sitemaps")) {
+                        throw new URISyntaxException(mSitemapPage, "Expected a sitemap URL");
+                    } else {
+                        longUri = "openhab://" + sitemapUri.getPath().substring(14);
+                    }
+                } catch (URISyntaxException e) {
+                    Log.e(TAG, e.getMessage());
+                    return false;
+                }
+
+                Log.d(TAG, "Creating tag object for URI " + longUri);
+
+                NdefMessage longMessage = getNdefMessage(longUri);
+                NdefMessage shortMessage = getNdefMessage(shortUri);
+
+                NdefFormatable ndefFormatable = NdefFormatable.get(tag);
+
+                if (ndefFormatable != null) {
+                    Log.d(TAG, "Tag is uninitialized, formating");
+                    try {
+                        ndefFormatable.connect();
+                        try {
+                            ndefFormatable.format(longMessage);
+                        } catch (IOException e) {
+                            if (shortMessage != null) {
+                                Log.d(TAG, "Try with short uri");
+                                ndefFormatable.format(shortMessage);
+                            }
+                        }
+                        ndefFormatable.close();
+                        return true;
+                    } catch (IOException | FormatException e) {
+                        Log.e(TAG, "Writing to unformatted tag failed: " + e);
+                    }
+                } else {
+                    Log.d(TAG, "Tag is initialized, writing");
+                    Ndef ndef = Ndef.get(tag);
+                    if (ndef != null) {
+                        try {
+                            Log.d(TAG, "Connecting");
+                            ndef.connect();
+                            Log.d(TAG, "Writing");
+                            if (ndef.isWritable()) {
+                                try {
+                                    ndef.writeNdefMessage(longMessage);
+                                } catch (IOException e) {
+                                    if (shortMessage != null) {
+                                        Log.d(TAG, "Try with short uri");
+                                        ndef.writeNdefMessage(shortMessage);
+                                    }
+                                }
+                            }
+                            Log.d(TAG, "Closing");
+                            ndef.close();
+                            return true;
+                        } catch (IOException | FormatException e) {
+                            Log.e(TAG, "Writing to formatted tag failed", e);
+                        }
+                    } else {
+                        Log.e(TAG, "Ndef == null");
+                    }
+                }
+
+                return false;
             }
 
-            writeTagMessage.setText(R.string.info_write_tag_progress);
-            writeTag(tagFromIntent, longUriToWrite, shortUriToWrite);
-        } catch (URISyntaxException e) {
-            Log.e(TAG, e.getMessage());
-            writeTagMessage.setText(R.string.info_write_failed);
-        }
+            @Override
+            protected void onPostExecute(Boolean success) {
+                TextView writeTagMessage = findViewById(R.id.write_tag_message);
+
+                if (success) {
+                    ProgressBar progressBar = findViewById(R.id.nfc_wait_progress);
+                    progressBar.setVisibility(View.INVISIBLE);
+
+                    ImageView watermark = findViewById(R.id.nfc_watermark);
+                    watermark.setImageDrawable(getDrawable(R.drawable.ic_nfc_black_180dp));
+
+                    writeTagMessage.setText(R.string.info_write_tag_finished);
+                    autoCloseActivity();
+                } else {
+                    writeTagMessage.setText(R.string.info_write_failed);
+                }
+            }
+
+            @Override
+            protected void onProgressUpdate(Integer... values) {
+                TextView writeTagMessage = findViewById(R.id.write_tag_message);
+                writeTagMessage.setText(values[0]);
+            }
+        }.execute();
     }
 
     private NdefMessage getNdefMessage(String uri) {
@@ -182,69 +267,6 @@ public class WriteTagActivity extends AbstractBaseActivity {
         }
         NdefRecord[] longNdefRecords = new NdefRecord[] { NdefRecord.createUri(uri) };
         return new NdefMessage(longNdefRecords);
-    }
-
-    private void writeTag(Tag tag, String longUri, String shortUri) {
-        Log.d(TAG, "Creating tag object for URI " + longUri);
-        TextView writeTagMessage = findViewById(R.id.write_tag_message);
-
-        NdefMessage longMessage = getNdefMessage(longUri);
-        NdefMessage shortMessage = getNdefMessage(shortUri);
-
-        NdefFormatable ndefFormatable = NdefFormatable.get(tag);
-
-        if (ndefFormatable != null) {
-            Log.d(TAG, "Tag is uninitialized, formating");
-            try {
-                ndefFormatable.connect();
-                try {
-                    ndefFormatable.format(longMessage);
-                } catch (IOException e) {
-                    if (shortMessage != null) {
-                        Log.d(TAG, "Try with short uri");
-                        ndefFormatable.format(shortMessage);
-                    }
-                }
-                ndefFormatable.close();
-                writeTagMessage.setText(R.string.info_write_tag_finished);
-                autoCloseActivity();
-            } catch (IOException | FormatException e) {
-                Log.e(TAG, "Writing to unformatted tag failed: " + e);
-                writeTagMessage.setText(R.string.info_write_failed);
-            }
-        } else {
-            Log.d(TAG, "Tag is initialized, writing");
-            Ndef ndef = Ndef.get(tag);
-            if (ndef != null) {
-                try {
-                    Log.d(TAG, "Connecting");
-                    ndef.connect();
-                    Log.d(TAG, "Writing");
-                    if (ndef.isWritable()) {
-                        try {
-                            ndef.writeNdefMessage(longMessage);
-                        } catch (IOException e) {
-                            if (shortMessage != null) {
-                                Log.d(TAG, "Try with short uri");
-                                ndef.writeNdefMessage(shortMessage);
-                            }
-                        }
-                    }
-                    Log.d(TAG, "Closing");
-                    ndef.close();
-                    writeTagMessage.setText(R.string.info_write_tag_finished);
-                    autoCloseActivity();
-                } catch (IOException | FormatException e) {
-                    Log.e(TAG, "Writing to formatted tag failed", e);
-                    writeTagMessage.setText(R.string.info_write_failed);
-                }
-            } else {
-                Log.e(TAG, "Ndef == null");
-                writeTagMessage.setText(R.string.info_write_failed);
-            }
-        }
-        ImageView watermark = findViewById(R.id.nfc_watermark);
-        watermark.setImageDrawable(getDrawable(R.drawable.ic_nfc_black_180dp));
     }
 
     private void autoCloseActivity() {
