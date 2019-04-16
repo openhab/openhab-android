@@ -247,7 +247,7 @@ public class WriteTagActivity extends AbstractBaseActivity {
                     watermark.setImageDrawable(getDrawable(R.drawable.ic_nfc_black_180dp));
 
                     writeTagMessage.setText(R.string.info_write_tag_finished);
-                    autoCloseActivity();
+                    new Handler().postDelayed(WriteTagActivity.this::finish, 2000);
                 } else {
                     writeTagMessage.setText(R.string.info_write_failed);
                 }
@@ -267,10 +267,6 @@ public class WriteTagActivity extends AbstractBaseActivity {
         }
         NdefRecord[] longNdefRecords = new NdefRecord[] { NdefRecord.createUri(uri) };
         return new NdefMessage(longNdefRecords);
-    }
-
-    private void autoCloseActivity() {
-        new Handler().postDelayed(this::finish, 2000);
     }
 
     public abstract static class AbstractNfcFragment extends Fragment {
