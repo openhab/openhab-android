@@ -10,7 +10,6 @@
 package org.openhab.habdroid.ui;
 
 import android.app.FragmentManager;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
@@ -106,12 +105,6 @@ public class PreferencesActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
-
-    @Override
-    public void finish() {
-        super.finish();
-        Util.overridePendingTransition(this, true);
     }
 
     public void handleThemeChange() {
