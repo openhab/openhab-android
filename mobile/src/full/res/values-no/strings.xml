@@ -8,7 +8,7 @@
     <string name="notification_channel_default">Standard</string>
     <string name="notification_channel_severity_value">Alvorlighetsgrad \'%1$s\'</string>
     <plurals name="summary_notification_text">
-        <item quantity="one">%d ny melding</item>
+        <item quantity="one">%d nytt varsel</item>
         <item quantity="other">%d nye varsler</item>
     </plurals>
 </resources>
