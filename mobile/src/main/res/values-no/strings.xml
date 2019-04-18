@@ -14,7 +14,7 @@
     <string name="mainmenu_openhab_selectsitemap">Velg standard lokasjonskart</string>
     <string name="mainmenu_openhab_clearcache">Tøm bildebuffer</string>
     <!-- App settings strings -->
-    <string name="settings_connection_title">Kobling</string>
+    <string name="settings_connection_title">Tilkobling</string>
     <string name="settings_display_title">Skjerm</string>
     <string name="settings_misc_title">Diverse</string>
     <string name="settings_openhab_url">Lokal server adresse</string>
