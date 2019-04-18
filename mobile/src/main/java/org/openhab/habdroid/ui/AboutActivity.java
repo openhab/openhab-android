@@ -88,12 +88,6 @@ public class AboutActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void finish() {
-        super.finish();
-        Util.overridePendingTransition(this, true);
-    }
-
-    @Override
     public void onBackStackChanged() {
         updateTitle();
     }

@@ -757,7 +757,6 @@ public class MainActivity extends AppCompatActivity implements
         aboutIntent.putExtra("serverProperties", mServerProperties);
 
         startActivityForResult(aboutIntent, INFO_REQUEST_CODE);
-        Util.overridePendingTransition(this, false);
     }
 
     private Sitemap selectConfiguredSitemapFromList() {

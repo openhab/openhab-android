@@ -211,12 +211,6 @@ public class WriteTagActivity extends AppCompatActivity {
         watermark.setImageDrawable(getDrawable(R.drawable.ic_nfc_black_180dp));
     }
 
-    @Override
-    public void finish() {
-        super.finish();
-        Util.overridePendingTransition(this, true);
-    }
-
     private void autoCloseActivity() {
         new Handler().postDelayed(this::finish, 2000);
     }

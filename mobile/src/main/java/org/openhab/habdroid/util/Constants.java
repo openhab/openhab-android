@@ -20,7 +20,6 @@ public class Constants {
     public static final String PREFERENCE_REMOTE_URL            = "default_openhab_alturl";
     public static final String PREFERENCE_LOCAL_URL             = "default_openhab_url";
     public static final String PREFERENCE_THEME                 = "default_openhab_theme";
-    public static final String PREFERENCE_ANIMATION             = "default_openhab_animation";
     public static final String PREFERENCE_DEMOMODE              = "default_openhab_demomode";
     public static final String PREFERENCE_FULLSCREEN            = "default_openhab_fullscreen";
     public static final String PREFERENCE_TONE                  = "default_openhab_alertringtone";
