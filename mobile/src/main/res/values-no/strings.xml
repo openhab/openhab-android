@@ -9,6 +9,8 @@
     <!-- Main menu items -->
     <string name="mainmenu_openhab_sitemaps">Lokasjonskart</string>
     <string name="mainmenu_openhab_preferences">Innstillinger</string>
+    <string name="mainmenu_openhab_habpanel">HABPanel</string>
+    <string name="habpanel_error">Det oppstod en feil under innlasting av HABPanel</string>
     <string name="mainmenu_openhab_selectsitemap">Velg standard lokasjonskart</string>
     <string name="mainmenu_openhab_clearcache">Tøm bildebuffer</string>
     <!-- App settings strings -->
@@ -28,6 +30,7 @@
     <string name="settings_openhab_screentimeroff">Deaktiver skjermsparer</string>
     <string name="settings_openhab_screentimeroff_summary">Deaktiver skjermsparer når openHAB kjører</string>
     <string name="settings_openhab_demomode">Demomodus</string>
+    <string name="settings_openhab_demomode_summary">Hvis du ikke har en openHAB server, aktiver demomodus for å få en oversikt over hva openHAB er i stand til.</string>
     <string name="settings_openhab_theme">Tema</string>
     <string name="settings_openhab_fullscreen">Fullskjerm</string>
     <string name="settings_openhab_fullscreen_summary">Visning i fullskjerm modus</string>
@@ -54,9 +57,13 @@
     <string name="settings_notification_vibration_short">Kort</string>
     <string name="settings_notification_vibration_long">Lang</string>
     <string name="settings_notification_vibration_twice">Dobbel</string>
+    <string name="settings_notification_ringtone_vibration">Varslingsinnstillinger</string>
     <string name="settings_connection_summary">Koblet til %s</string>
     <string name="settings_insecure_connection_summary">Usikkert koblet til %s</string>
+    <string name="beta">Beta</string>
     <!-- App messages strings -->
+    <string name="title_voice_widget">Talekommandoer</string>
+    <string name="title_voice_widget_icon">Talekommandoer og app snarvei</string>
     <string name="info_voice_input">openHAB, under din kommando!</string>
     <string name="info_voice_recognized_text">Gjenkjent kommando: %1$s</string>
     <string name="info_demo_mode_short">Kjører i demomodus</string>
