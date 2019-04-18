@@ -89,6 +89,7 @@
 
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB returned empty Sitemap list</string>
+    <string name="error_sitemap_generic_load_error">The Sitemap could not be loaded. The following error occurred: %1$s</string>
     <string name="error_network_not_available">Network is not available</string>
     <string name="error_wifi_not_available">Wi-Fi is turned off</string>
     <string name="error_http_connection_failed">Connection unsuccessful. An unexpected response was received while trying to connect to the configured openHAB server (Received HTTP response code: %d).</string>
