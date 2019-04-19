@@ -76,6 +76,7 @@
     <string name="app_shortcut_diabled_voice_recognition">您的设备未安装语音转文字应用程序</string>
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB 返回了空系统布局列表</string>
+    <string name="error_sitemap_generic_load_error">无法载入站点地图。发生错误：%1$s</string>
     <string name="error_network_not_available">网络不可用</string>
     <string name="error_wifi_not_available">Wi-Fi 被关闭</string>
     <string name="error_http_connection_failed">连接失败。在尝试连接至已配置的 openHAB 服务器时收到意外响应 (HTTP 代码为：%d)</string>
@@ -108,6 +109,7 @@
     <string name="error_about_no_conn">获取 openHAB 服务器信息时出错</string>
     <string name="error_openhab_offline">您的 openHAB 服务器将在云端实例运行时离线</string>
     <string name="error_no_app_store_found">未找到可安装语音识别程序的应用商店</string>
+    <string name="error_no_browser_found">无法找到用以打开网页的浏览器</string>
     <string name="title_activity_openhabwritetag">写入 NFC 标签</string>
     <string name="title_activity_libraries">使用的库</string>
     <string name="info_write_tag">触摸标签并保持贴近直到出现确认信息为止</string>
