@@ -9,6 +9,8 @@
     <!-- Main menu items -->
     <string name="mainmenu_openhab_sitemaps">Sitemaps</string>
     <string name="mainmenu_openhab_preferences">Instellingen</string>
+    <string name="mainmenu_openhab_habpanel">HABPanel</string>
+    <string name="habpanel_error">Er is een fout opgetreden tijdens het laden van HABPanel</string>
     <string name="mainmenu_openhab_selectsitemap">Selecteer standaard Sitemap</string>
     <string name="mainmenu_openhab_clearcache">Verwijder afbeeldingscache</string>
     <!-- App settings strings -->
@@ -40,6 +42,8 @@
     <string name="settings_chart_scaling_value_s">Klein</string>
     <string name="settings_chart_scaling_value_m">Standaard</string>
     <string name="settings_chart_scaling_value_l">Groot</string>
+    <string name="settings_openhab_chart_hq">Hoge resolutie grafieken</string>
+    <string name="settings_openhab_chart_hq_summary">Het genereren van grafieken kan belastend zijn voor de server. Zet deze optie uit als grafieken langzaam laden en je server niet krachtig is.</string>
     <string name="settings_ringtone">Notficatiegeluid</string>
     <string name="settings_ringtone_none">Geen</string>
     <string name="settings_clear_default_sitemap">Verwijder standaard Sitemap</string>
@@ -165,6 +169,7 @@
     <string name="go_to_settings_button">Ga naar instellingen</string>
     <string name="resolving_openhab">Proberen om openHAB server automatisch te vinden\u2026</string>
     <!-- Log -->
+    <string name="view_log">Bekijk log</string>
     <!-- Content description for images -->
     <string name="content_description_open_roller_shutter">Open rolluik</string>
     <string name="content_description_stop_roller_shutter">Stop rolluik</string>
