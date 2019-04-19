@@ -56,6 +56,7 @@
     <string name="settings_notification_vibration_short">Kort</string>
     <string name="settings_notification_vibration_long">Lang</string>
     <string name="settings_notification_vibration_twice">Twee keer</string>
+    <string name="settings_notification_ringtone_vibration">Notificatieinstellingen</string>
     <string name="settings_connection_summary">Verbonden met %s</string>
     <string name="settings_insecure_connection_summary">Onveilig verbonden met %s</string>
     <string name="beta">Beta</string>
@@ -133,6 +134,10 @@
     <string name="waiting_for_item_upload">Wachten op netwerk om Items up te daten</string>
     <string name="notification_channel_background">Achtergrond</string>
     <string name="notification_channel_background_error">Fout in achtergrondtaken</string>
+    <plurals name="item_update_error_title">
+        <item quantity="one">%d Item kon niet worden bijgewerkt</item>
+        <item quantity="other">%d Items konden niet worden bijgewerkt</item>
+    </plurals>
     <string name="item_update_http_error">Updaten van Item \'%1$s\' mislukt (HTTP fout %2$d)</string>
     <string name="item_update_connection_error">Updaten van Item \'%1$s\' mislukt (geen verbinding)</string>
     <string name="error_sending_alarm_clock_item_empty">Voer een geldige Itemnaam in</string>
@@ -196,6 +201,7 @@
     <string name="try_again_button">Opnieuw proberen</string>
     <string name="enable_wifi_button">Wi-Fi inschakelen</string>
     <string name="go_to_settings_button">Ga naar instellingen</string>
+    <string name="enable_demo_mode_button">Demo modus inschakelen</string>
     <string name="no_remote_server">Verbinding met lokale server mislukt en geen externe server geconfigureerd</string>
     <string name="resolving_openhab">Proberen om openHAB server automatisch te vinden\u2026</string>
     <string name="waiting_for_wifi">Wachten op Wi-Fi om verbinding te maken\u2026</string>
@@ -203,6 +209,7 @@
     <string name="log">Logboek</string>
     <string name="view_log">Bekijk log</string>
     <string name="clear_log">Logboek leegmaken</string>
+    <string name="empty_log">Logboek is leeg</string>
     <!-- Content description for images -->
     <string name="content_description_open_roller_shutter">Open rolluik</string>
     <string name="content_description_stop_roller_shutter">Stop rolluik</string>
@@ -213,6 +220,8 @@
     <string name="content_description_open_number_picker">Open nummer kiezer</string>
     <string name="content_description_video">Video</string>
     <string name="content_description_open_openhab">Open openHAB</string>
+    <string name="content_description_increase_item_value">Verhoog de waarde</string>
+    <string name="content_description_decrease_item_value">Verlaag de waarde</string>
     <string name="swipe_to_refresh_description">De app wordt ook automatisch vernieuwd, het is meestal niet nodig om dit handmatig te doen</string>
     <string name="swipe_to_refresh_dismiss">Begrepen!</string>
     <!-- Intro strings -->
