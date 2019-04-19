@@ -58,26 +58,39 @@
     <string name="settings_notification_vibration_twice">Twee keer</string>
     <string name="settings_connection_summary">Verbonden met %s</string>
     <string name="settings_insecure_connection_summary">Onveilig verbonden met %s</string>
+    <string name="beta">Beta</string>
     <!-- App messages strings -->
+    <string name="title_voice_widget">Spraakcommando\'s</string>
+    <string name="title_voice_widget_icon">Spraakcommando\'s en app snelkoppeling</string>
     <string name="info_voice_input">openHAB, tot uw dienst!</string>
     <string name="info_voice_recognized_text">Herkend commando: %1$s</string>
     <string name="info_demo_mode_short">Uitgevoerd in de demomodus</string>
     <!-- Please try to keep the string as short as possible -->
+    <string name="turn_off">Uitzetten</string>
     <string name="info_conn_url">Verbinden met ingestelde URL</string>
     <string name="info_conn_rem_url">Verbinden naar externe URL</string>
+    <string name="app_shortcut_diabled_habpanel">Op uw server is HABPanel niet geïnstalleerd</string>
+    <string name="app_shortcut_diabled_notifications">Uw externe server is niet beschikbaar</string>
+    <string name="app_shortcut_diabled_voice_recognition">Uw apparaat heeft geen spraak-naar-tekst app geïnstalleerd</string>
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB heeft een lege Sitemap geladen</string>
+    <string name="error_sitemap_generic_load_error">De Sitemap kon niet worden geladen. De volgende fout is opgetreden: %1$s</string>
     <string name="error_network_not_available">Netwerk is niet beschikbaar</string>
+    <string name="error_wifi_not_available">Wi-Fi is uitgeschakeld</string>
     <string name="error_http_connection_failed">Verbinding mislukt. Een onverwachte reactie werd ontvangen tijdens het verbinden met de openHAB server (Ontvangen HTTP response code: %d).</string>
     <string name="error_invalid_url">Voer een geldige URL in, formaat \'http(s)://host(:port)/\'</string>
+    <string name="error_port_seems_invalid">De ingevoerde poort lijkt ongeldig voor het geselecteerde protocol</string>
     <string name="error_connection_failed">Verbinding met host mislukt</string>
     <string name="error_unable_to_resolve_hostname">Hostnaam niet gevonden</string>
     <string name="error_connection_sslhandshake_failed">SSL-handshake mislukt</string>
     <string name="error_certificate_not_trusted">SSL certificaat is niet vertrouwd. Importeer alstublieft het root certificate of accepteer het certificaat tijdens de SSL handshake.</string>
     <string name="error_certificate_expired">Het SSL certificaat is verlopen. Vernieuw alstublieft het certificaat of accepteer het certificaat tijdens de SSL handshake.</string>
     <string name="error_certificate_not_valid_yet">Het SSL certificaat is nog niet geldig. Voeg een correct certificaat toe of accepteer het certificaat tijdens de SSL handshake. Controleer ook of de klok op uw apparaat correct is ingesteld.</string>
+    <string name="error_certificate_invalid_date">SSL-certificaat heeft een ongeldige datum. Stel een correct certificaat in en controleer of de klok op uw apparaat correct is ingesteld.</string>
     <string name="error_certificate_revoked">Het SSL certificaat is ingetrokken. Vernieuw alstublieft het certificaat of accepteer het certificaat tijdens de SSL handshake.</string>
     <string name="error_certificate_wrong_host">SSL-certificaat is niet geldig voor %s</string>
+    <string name="error_http_to_https_port">Onverwachte beëindiging van een stream. Probeert u verbinding te maken met een HTTPS poort via HTTP?</string>
+    <string name="webview_ssl">Momenteel ondersteunt deze app geen zelf ondertekende SSL-certificaten voor Webview widgets</string>
     <string name="error_http_code_401">Verificatie is mislukt. Controleer alstublieft de geconfigureerde gebruikersnaam en wachtwoord (HTTP response code 401).</string>
     <string name="error_http_code_403">Verificatie is mislukt. Controleer alstublieft de geconfigureerde gebruikersnaam en wachtwoord (HTTP response code 403).</string>
     <string name="error_http_code_407">Verificatie is mislukt. Controleer alstublieft de geconfigureerde gebruikersnaam en wachtwoord (HTTP response code 407).</string>
@@ -93,6 +106,8 @@
     <string name="error_http_code_511">Netwerkverificatie is vereist (HTTP responscode 511)</string>
     <string name="error_about_no_conn">Fout bij het ophalen van openHAB serverinformatie</string>
     <string name="error_openhab_offline">Uw openHAB server is offline terwijl de cloud instance actief is</string>
+    <string name="error_no_app_store_found">Geen app store gevonden om een app voor spraakherkenning te installeren</string>
+    <string name="error_no_browser_found">Geen browser gevonden om website te openen</string>
     <string name="title_activity_openhabwritetag">Schrijf NFC-tag</string>
     <string name="title_activity_libraries">Gebruikte bibliotheken</string>
     <string name="info_write_tag">Raak de tag aan en houd het dichtbij tot een bevestiging verschijnt</string>
@@ -109,6 +124,19 @@
     <string name="nfc_dialog_title">Selecteer een actie voor de NFC-tag</string>
     <string name="info_not_set">Niet ingesteld</string>
     <!-- Background tasks -->
+    <string name="send_device_info_to_server">Apparaatinformatie naar server verzenden</string>
+    <string name="send_device_info_item_prefix">Voorvoegsel Itemnaam</string>
+    <string name="send_device_info_item_prefix_summary">De Item namen van de volgende functies hebben dit voorvoegsel</string>
+    <string name="settings_alarm_clock">Wekker verzenden naar openHAB</string>
+    <string name="settings_alarm_clock_summary_on">Stuurt wekkertijd naar item \'%1$s \'</string>
+    <string name="settings_item_pref_item_name">Itemnaam</string>
+    <string name="waiting_for_item_upload">Wachten op netwerk om Items up te daten</string>
+    <string name="notification_channel_background">Achtergrond</string>
+    <string name="notification_channel_background_error">Fout in achtergrondtaken</string>
+    <string name="item_update_http_error">Updaten van Item \'%1$s\' mislukt (HTTP fout %2$d)</string>
+    <string name="item_update_connection_error">Updaten van Item \'%1$s\' mislukt (geen verbinding)</string>
+    <string name="error_sending_alarm_clock_item_empty">Voer een geldige Itemnaam in</string>
+    <string name="retry">Opnieuw</string>
     <!-- Notification list strings -->
     <string name="notification_list_empty">Tot nu toe zijn er geen notificaties verzonden</string>
     <string name="notification_list_error">Er is een fout opgetreden tijdens het laden van notificaties</string>
@@ -166,10 +194,15 @@
     <string name="cancel">Annuleer</string>
     <string name="close">Sluiten</string>
     <string name="try_again_button">Opnieuw proberen</string>
+    <string name="enable_wifi_button">Wi-Fi inschakelen</string>
     <string name="go_to_settings_button">Ga naar instellingen</string>
+    <string name="no_remote_server">Verbinding met lokale server mislukt en geen externe server geconfigureerd</string>
     <string name="resolving_openhab">Proberen om openHAB server automatisch te vinden\u2026</string>
+    <string name="waiting_for_wifi">Wachten op Wi-Fi om verbinding te maken\u2026</string>
     <!-- Log -->
+    <string name="log">Logboek</string>
     <string name="view_log">Bekijk log</string>
+    <string name="clear_log">Logboek leegmaken</string>
     <!-- Content description for images -->
     <string name="content_description_open_roller_shutter">Open rolluik</string>
     <string name="content_description_stop_roller_shutter">Stop rolluik</string>
