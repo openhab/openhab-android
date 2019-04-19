@@ -108,6 +108,7 @@
     <string name="error_about_no_conn">Hiba történt az openHAB szerver adatok lekérése közben</string>
     <string name="error_openhab_offline">A openHAB kiszolgálója offline állapotban van, de a felhő szolgáltatás fut</string>
     <string name="error_no_app_store_found">Nem található Alkalmazásbolt a hangfelismerő alkalmazás telepítéséhez</string>
+    <string name="error_no_browser_found">Nem található böngésző a weboldal megjelenítéséhez</string>
     <string name="title_activity_openhabwritetag">NFC-címke írása</string>
     <string name="title_activity_libraries">Használt könyvtárak</string>
     <string name="info_write_tag">Érintse meg a címkét, és tartsa közel, amíg meg nem jelenik a visszaigazoló üzenet</string>
@@ -125,6 +126,17 @@
     <string name="info_not_set">Nincs beállítva</string>
     <string name="empty_page">Ez az oldal nem tartalmaz olyan widget-et amely megjeleníthető</string>
     <!-- Background tasks -->
+    <string name="send_device_info_to_server">Eszközadatok küldése a kiszolgálónak</string>
+    <string name="send_device_info_item_prefix">Elem név előtagja</string>
+    <string name="settings_alarm_clock">Ébresztőóra küldése a openHAB-nak</string>
+    <string name="settings_item_pref_item_name">Elem neve</string>
+    <string name="notification_channel_background">Háttér</string>
+    <plurals name="item_update_error_title">
+        <item quantity="one">%d Eleme nem volt frissíthető</item>
+        <item quantity="other">%d az Elemek nem frissíthetőek</item>
+    </plurals>
+    <string name="error_sending_alarm_clock_item_empty">Kérlek add meg az Elem helyes nevét</string>
+    <string name="retry">Újra</string>
     <!-- Notification list strings -->
     <string name="notification_list_empty">Nincs régóta elküldött értesítés</string>
     <string name="notification_list_error">Értesítések betöltése közben hiba történt</string>
@@ -204,6 +216,8 @@
     <string name="content_description_open_number_picker">Szám megadása</string>
     <string name="content_description_video">Video</string>
     <string name="content_description_open_openhab">openHAB megnyitása</string>
+    <string name="content_description_increase_item_value">Érték növelése</string>
+    <string name="content_description_decrease_item_value">Érték csökkentése</string>
     <string name="swipe_to_refresh_description">Az alkalmazás frissül automatikusan, általában nem kell saját kezűleg ezt megtenni</string>
     <string name="swipe_to_refresh_dismiss">Értettem!</string>
     <!-- Intro strings -->
