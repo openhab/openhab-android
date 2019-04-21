@@ -111,6 +111,8 @@ public class WriteTagActivity extends AppCompatActivity {
         Log.d(TAG, "onResume()");
         super.onResume();
 
+        Util.checkFullscreen(this);
+
         if (mNfcAdapter != null) {
             Intent intent = new Intent(this, getClass())
                     .addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);

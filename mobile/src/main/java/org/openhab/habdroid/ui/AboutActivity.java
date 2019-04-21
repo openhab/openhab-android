@@ -74,6 +74,12 @@ public class AboutActivity extends AppCompatActivity implements
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        Util.checkFullscreen(this);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
             FragmentManager fragmentManager = getSupportFragmentManager();

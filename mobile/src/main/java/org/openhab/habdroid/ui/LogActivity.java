@@ -66,6 +66,7 @@ public class LogActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        Util.checkFullscreen(this);
         setUiState(true, false);
         new GetLogFromAdbTask().execute(false);
     }

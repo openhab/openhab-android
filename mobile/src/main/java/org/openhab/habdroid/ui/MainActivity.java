@@ -153,7 +153,7 @@ public class MainActivity extends AppCompatActivity implements
         @Override
         public void onReceive(Context context, Intent intent) {
             Log.i("INTENTFILTER", "Recieved intent: " + intent.toString());
-            checkFullscreen();
+            Util.checkFullscreen(getParent());
         }
     };
 
@@ -236,11 +236,10 @@ public class MainActivity extends AppCompatActivity implements
 
         processIntent(getIntent());
 
-        if (isFullscreenEnabled()) {
+        if (Util.isFullscreenEnabled(this)) {
             IntentFilter filter = new IntentFilter(Intent.ACTION_DREAMING_STARTED);
             filter.addAction(Intent.ACTION_DREAMING_STOPPED);
             registerReceiver(mDreamReceiver, filter);
-            checkFullscreen();
         }
 
         //  Create a new boolean and preference and set it to true
@@ -407,7 +406,7 @@ public class MainActivity extends AppCompatActivity implements
         }
 
         updateTitle();
-        checkFullscreen();
+        Util.checkFullscreen(this);
     }
 
     @Override
@@ -962,7 +961,7 @@ public class MainActivity extends AppCompatActivity implements
         Log.d(TAG, "onBackPressed()");
         if (mController.canGoBack()) {
             mController.goBack();
-        } else if (!isFullscreenEnabled()) {
+        } else if (!Util.isFullscreenEnabled(this)) {
             // Only handle back action in non-fullscreen mode, as we don't want to exit
             // the app via back button in fullscreen mode
             super.onBackPressed();
@@ -1100,31 +1099,7 @@ public class MainActivity extends AppCompatActivity implements
         return mConnection;
     }
 
-    /**
-     * If fullscreen is enabled and we are on at least android 4.4 set
-     * the system visibility to fullscreen + immersive + noNav
-     *
-     * @author Dan Cunningham
-     */
-    protected void checkFullscreen() {
-        if (isFullscreenEnabled()) {
-            int uiOptions = getWindow().getDecorView().getSystemUiVisibility()
-                    | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                    | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-                    | View.SYSTEM_UI_FLAG_FULLSCREEN;
-            getWindow().getDecorView().setSystemUiVisibility(uiOptions);
-        }
-    }
 
-    /**
-     * If we are 4.4 we can use fullscreen mode and Daydream features
-     */
-    protected boolean isFullscreenEnabled() {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
-            return false;
-        }
-        return mPrefs.getBoolean(Constants.PREFERENCE_FULLSCREEN, false);
-    }
 
     private void manageHabpanelShortcut(boolean visible) {
         manageShortcut(visible, "habpanel", ACTION_HABPANEL_SELECTED,

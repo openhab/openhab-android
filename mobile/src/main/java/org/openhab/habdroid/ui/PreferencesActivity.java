@@ -86,6 +86,12 @@ public class PreferencesActivity extends AppCompatActivity {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        Util.checkFullscreen(this);
+    }
+
+    @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putParcelable(STATE_KEY_RESULT, mResultIntent);
@@ -249,6 +255,7 @@ public class PreferencesActivity extends AppCompatActivity {
             final Preference clearDefaultSitemapPref =
                     findPreference(Constants.PREFERENCE_CLEAR_DEFAULT_SITEMAP);
             final Preference ringtonePref = findPreference(Constants.PREFERENCE_TONE);
+            final Preference fullscreenPreference = findPreference(Constants.PREFERENCE_FULLSCREEN);
             final Preference sendDeviceInfoPrefixPref =
                     findPreference(Constants.PREFERENCE_SEND_DEVICE_INFO_PREFIX);
             final Preference alarmClockPrefCat =
@@ -349,8 +356,12 @@ public class PreferencesActivity extends AppCompatActivity {
 
             if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT) {
                 Log.d(TAG, "Removing fullscreen pref as device isn't running Kitkat or higher");
-                Preference fullscreenPreference = ps.findPreference(Constants.PREFERENCE_FULLSCREEN);
                 getParent(fullscreenPreference).removePreference(fullscreenPreference);
+            } else {
+                fullscreenPreference.setOnPreferenceChangeListener((preference, newValue) -> {
+                    Util.checkFullscreen(getActivity(), (boolean) newValue);
+                    return true;
+                });
             }
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {

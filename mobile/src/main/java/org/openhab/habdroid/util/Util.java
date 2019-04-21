@@ -20,6 +20,7 @@ import android.os.Build;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewDatabase;
 import androidx.annotation.AttrRes;
@@ -148,6 +149,7 @@ public class Util {
 
     public static void setActivityTheme(@NonNull final Activity activity, String theme) {
         activity.setTheme(getActivityThemeId(activity, theme));
+        checkFullscreen(activity);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             TypedValue typedValue = new TypedValue();
@@ -183,6 +185,43 @@ public class Util {
         }
 
         return R.style.HABDroid_Light;
+    }
+
+    /**
+     * If fullscreen is enabled and we are on at least android 4.4 set
+     * the system visibility to fullscreen + immersive + noNav
+     *
+     * @author Dan Cunningham
+     */
+    public static void checkFullscreen(Activity activity) {
+        checkFullscreen(activity, isFullscreenEnabled(activity));
+    }
+
+    public static void checkFullscreen(Activity activity, boolean isEnabled) {
+        int uiOptions = activity.getWindow().getDecorView().getSystemUiVisibility();
+        if (isEnabled) {
+            uiOptions = uiOptions
+                    | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                    | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+                    | View.SYSTEM_UI_FLAG_FULLSCREEN;
+        } else {
+            uiOptions = uiOptions
+                    & View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                    & View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+                    & View.SYSTEM_UI_FLAG_FULLSCREEN;
+        }
+        activity.getWindow().getDecorView().setSystemUiVisibility(uiOptions);
+    }
+
+    /**
+     * If we are 4.4 we can use fullscreen mode and Daydream features
+     */
+    public static boolean isFullscreenEnabled(Context context) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
+            return false;
+        }
+        return PreferenceManager.getDefaultSharedPreferences(context)
+                .getBoolean(Constants.PREFERENCE_FULLSCREEN, false);
     }
 
     public static boolean exceptionHasCause(Throwable error, Class<? extends Throwable> cause) {
