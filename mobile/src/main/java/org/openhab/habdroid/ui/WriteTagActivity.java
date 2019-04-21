@@ -14,6 +14,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.nfc.FormatException;
 import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
@@ -167,16 +168,26 @@ public class WriteTagActivity extends AbstractBaseActivity {
                 try {
                     sitemapUri = new URI(mSitemapPage);
                     if (!TextUtils.isEmpty(mItem) && !TextUtils.isEmpty(mState)) {
-                        longUri = "openhabitem://?" + QUERY_PARAMETER_ITEM_NAME + "=" + mItem
-                                + "&" + QUERY_PARAMETER_STATE + "=" + mState
-                                + "&" + QUERY_PARAMETER_MAPPED_STATE + "=" + mMappedState
-                                + "&" + QUERY_PARAMETER_ITEM_LABEL + "=" + mLabel;
-                        shortUri = "openhabitem://?" + QUERY_PARAMETER_ITEM_NAME + "=" + mItem
-                                + "&" + QUERY_PARAMETER_STATE + "=" + mState;
+                        Uri.Builder uriBuilder = new Uri.Builder()
+                                .scheme("openhabitem")
+                                .authority("")
+                                .appendQueryParameter(QUERY_PARAMETER_ITEM_NAME, mItem)
+                                .appendQueryParameter(QUERY_PARAMETER_STATE, mState);
+
+                        shortUri = uriBuilder.toString();
+
+                        longUri = uriBuilder
+                                .appendQueryParameter(QUERY_PARAMETER_MAPPED_STATE, mMappedState)
+                                .appendQueryParameter(QUERY_PARAMETER_ITEM_LABEL, mLabel)
+                                .toString();
                     } else if (!sitemapUri.getPath().startsWith("/rest/sitemaps")) {
                         throw new URISyntaxException(mSitemapPage, "Expected a sitemap URL");
                     } else {
-                        longUri = "openhab://" + sitemapUri.getPath().substring(14);
+                        longUri = new Uri.Builder()
+                                .scheme("openhab")
+                                .authority("")
+                                .appendPath(sitemapUri.getPath().substring(15))
+                                .toString();
                     }
                 } catch (URISyntaxException e) {
                     Log.e(TAG, e.getMessage());
