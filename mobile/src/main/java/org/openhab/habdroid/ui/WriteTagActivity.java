@@ -149,12 +149,16 @@ public class WriteTagActivity extends AbstractBaseActivity {
 
         new AsyncTask<Void, Integer, Boolean>() {
             @Override
+            protected void onPreExecute() {
+                TextView writeTagMessage = findViewById(R.id.write_tag_message);
+                writeTagMessage.setText(R.string.info_write_tag_progress);
+            }
+
+            @Override
             protected Boolean doInBackground(Void... voids) {
                 Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
                 Log.d(TAG, "NFC TAG = " + tag.toString());
                 Log.d(TAG, "Writing page " + mSitemapPage + " to tag");
-
-                publishProgress(R.string.info_write_tag_progress);
 
                 URI sitemapUri;
                 String longUri = "";
@@ -251,12 +255,6 @@ public class WriteTagActivity extends AbstractBaseActivity {
                 } else {
                     writeTagMessage.setText(R.string.info_write_failed);
                 }
-            }
-
-            @Override
-            protected void onProgressUpdate(Integer... values) {
-                TextView writeTagMessage = findViewById(R.id.write_tag_message);
-                writeTagMessage.setText(values[0]);
             }
         }.execute();
     }
