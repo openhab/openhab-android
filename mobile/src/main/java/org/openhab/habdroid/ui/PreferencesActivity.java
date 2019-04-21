@@ -18,7 +18,6 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceGroup;
@@ -219,8 +218,6 @@ public class PreferencesActivity extends AppCompatActivity {
     }
 
     public static class MainSettingsFragment extends AbstractSettingsFragment {
-        private Handler mHandler = new Handler();
-
         @Override
         public void onStart() {
             super.onStart();
