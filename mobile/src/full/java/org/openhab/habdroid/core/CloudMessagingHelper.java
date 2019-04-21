@@ -21,7 +21,6 @@ import org.openhab.habdroid.core.connection.Connection;
 import org.openhab.habdroid.core.connection.ConnectionFactory;
 
 public class CloudMessagingHelper {
-    private static final String TAG = CloudMessagingHelper.class.getSimpleName();
     static boolean sRegistrationDone;
     static Throwable sRegistrationFailureReason;
 
@@ -40,7 +39,7 @@ public class CloudMessagingHelper {
         }
     }
 
-    public static String getPushNotificationStatusResId(Context context) {
+    public static String getPushNotificationStatus(Context context) {
         CloudConnection cloudConnection = (CloudConnection)
                 ConnectionFactory.getConnection(Connection.TYPE_CLOUD);
         if (cloudConnection == null) {

@@ -23,7 +23,7 @@ public class CloudMessagingHelper {
     public static void onNotificationSelected(Context context, Intent intent) {
     }
 
-    public static String getPushNotificationStatusResId(Context context) {
+    public static String getPushNotificationStatus(Context context) {
         return context.getString(R.string.info_openhab_notification_status_unavailable);
     }
 
