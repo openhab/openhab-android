@@ -27,6 +27,8 @@ import com.danielstone.materialaboutlibrary.model.MaterialAboutCard;
 import com.danielstone.materialaboutlibrary.model.MaterialAboutList;
 import com.mikepenz.aboutlibraries.LibsBuilder;
 import es.dmoral.toasty.Toasty;
+import okhttp3.Headers;
+import okhttp3.Request;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.openhab.habdroid.BuildConfig;
@@ -36,7 +38,7 @@ import org.openhab.habdroid.core.connection.Connection;
 import org.openhab.habdroid.core.connection.ConnectionFactory;
 import org.openhab.habdroid.core.connection.exception.ConnectionException;
 import org.openhab.habdroid.model.ServerProperties;
-import org.openhab.habdroid.util.SyncHttpClient;
+import org.openhab.habdroid.util.AsyncHttpClient;
 import org.openhab.habdroid.util.Util;
 
 import java.text.DateFormat;
@@ -193,35 +195,96 @@ public class AboutActivity extends AppCompatActivity implements
                         .icon(R.drawable.ic_info_outline_grey_24dp)
                         .build());
             } else {
-                String apiVersion = getApiVersion();
-                if (TextUtils.isEmpty(apiVersion)) {
-                    apiVersion = context.getString(R.string.unknown);
-                }
-                ohServerCard.addItem(new MaterialAboutActionItem.Builder()
-                        .text(R.string.info_openhab_apiversion_label)
-                        .subText(apiVersion)
-                        .icon(R.drawable.ic_info_outline_grey_24dp)
-                        .build());
+                AsyncHttpClient httpClient = mConnection.getAsyncHttpClient();
 
-                String uuid = getServerUuid();
-                if (TextUtils.isEmpty(uuid)) {
-                    uuid = context.getString(R.string.unknown);
-                }
-                ohServerCard.addItem(new MaterialAboutActionItem.Builder()
-                        .text(R.string.info_openhab_uuid_label)
-                        .subText(uuid)
+                MaterialAboutActionItem apiVersionItem = new MaterialAboutActionItem.Builder()
+                        .text(R.string.info_openhab_apiversion_label)
+                        .subText(R.string.fetching)
                         .icon(R.drawable.ic_info_outline_grey_24dp)
-                        .build());
+                        .build();
+                ohServerCard.addItem(apiVersionItem);
+                String versionUrl = useJsonApi() ? "rest" : "static/version";
+                httpClient.get(versionUrl, new AsyncHttpClient.StringResponseHandler() {
+                    @Override
+                    public void onFailure(Request request, int statusCode, Throwable error) {
+                        Log.e(TAG, "Could not rest API version " + error);
+                        apiVersionItem.setSubText(getString(R.string.error_about_no_conn));
+                        refreshMaterialAboutList();
+                    }
+
+                    @Override
+                    public void onSuccess(String body, Headers headers) {
+                        String version = "";
+                        if (!useJsonApi()) {
+                            version = body;
+                        } else {
+                            try {
+                                JSONObject pageJson = new JSONObject(body);
+                                version = pageJson.getString("version");
+                            } catch (JSONException e) {
+                                Log.e(TAG, "Problem fetching version string", e);
+                            }
+                        }
+
+                        if (TextUtils.isEmpty(version)) {
+                            version = getString(R.string.unknown);
+                        }
+
+                        Log.d(TAG, "Got api version " + version);
+                        apiVersionItem.setSubText(version);
+                        refreshMaterialAboutList();
+                    }
+                });
+
+                MaterialAboutActionItem uuidItem = new MaterialAboutActionItem.Builder()
+                        .text(R.string.info_openhab_uuid_label)
+                        .subText(R.string.fetching)
+                        .icon(R.drawable.ic_info_outline_grey_24dp)
+                        .build();
+                ohServerCard.addItem(uuidItem);
+                String uuidUrl = useJsonApi() ? "rest/uuid" : "static/uuid";
+                httpClient.get(uuidUrl, new AsyncHttpClient.StringResponseHandler() {
+                    @Override
+                    public void onFailure(Request request, int statusCode, Throwable error) {
+                        Log.e(TAG, "Could not fetch uuid " + error);
+                        uuidItem.setSubText(getString(R.string.error_about_no_conn));
+                        refreshMaterialAboutList();
+                    }
+
+                    @Override
+                    public void onSuccess(String body, Headers headers) {
+                        Log.d(TAG, "Got uuid " + obfuscateString(body));
+                        uuidItem.setSubText(TextUtils.isEmpty(body)
+                                ? getString(R.string.unknown)
+                                : body);
+                        refreshMaterialAboutList();
+                    }
+                });
 
                 if (!useJsonApi()) {
-                    String secret = getServerSecret();
-                    if (!TextUtils.isEmpty(secret)) {
-                        ohServerCard.addItem(new MaterialAboutActionItem.Builder()
-                                .text(R.string.info_openhab_secret_label)
-                                .subText(secret)
-                                .icon(R.drawable.ic_info_outline_grey_24dp)
-                                .build());
-                    }
+                    MaterialAboutActionItem secretItem = new MaterialAboutActionItem.Builder()
+                            .text(R.string.info_openhab_secret_label)
+                            .subText(R.string.fetching)
+                            .icon(R.drawable.ic_info_outline_grey_24dp)
+                            .build();
+                    ohServerCard.addItem(secretItem);
+                    httpClient.get("static/secret", new AsyncHttpClient.StringResponseHandler() {
+                        @Override
+                        public void onFailure(Request request, int statusCode, Throwable error) {
+                            Log.e(TAG, "Could not fetch server secret " + error);
+                            secretItem.setSubText(getString(R.string.error_about_no_conn));
+                            refreshMaterialAboutList();
+                        }
+
+                        @Override
+                        public void onSuccess(String body, Headers headers) {
+                            Log.d(TAG, "Got secret " + obfuscateString(body));
+                            secretItem.setSubText(TextUtils.isEmpty(body)
+                                    ? getString(R.string.unknown)
+                                    : body);
+                            refreshMaterialAboutList();
+                        }
+                    });
                 }
             }
 
@@ -279,55 +342,8 @@ public class AboutActivity extends AppCompatActivity implements
             };
         }
 
-        private String getServerSecret() {
-            SyncHttpClient.HttpTextResult result =
-                    mConnection.getSyncHttpClient().get("static/secret").asText();
-            if (result.isSuccessful()) {
-                Log.d(TAG, "Got secret " + obfuscateString(result.response));
-                return result.response;
-            } else {
-                Log.e(TAG, "Could not fetch server secret " + result.error);
-                return null;
-            }
-        }
-
         private boolean useJsonApi() {
             return mServerProperties != null && mServerProperties.hasJsonApi();
-        }
-
-        private String getServerUuid() {
-            final String uuidUrl = useJsonApi() ? "rest/uuid" : "static/uuid";
-            SyncHttpClient.HttpTextResult result =
-                    mConnection.getSyncHttpClient().get(uuidUrl).asText();
-            if (result.isSuccessful()) {
-                Log.d(TAG, "Got uuid " + obfuscateString(result.response));
-                return result.response;
-            } else {
-                Log.e(TAG, "Could not fetch server uuid " + result.error);
-                return null;
-            }
-        }
-
-        private String getApiVersion() {
-            String versionUrl = useJsonApi() ? "rest" : "static/version";
-            Log.d(TAG, "url = " + versionUrl);
-            SyncHttpClient.HttpTextResult result =
-                    mConnection.getSyncHttpClient().get(versionUrl).asText();
-            if (!result.isSuccessful()) {
-                Log.e(TAG, "Could not fetch rest API version " + result.error);
-            } else {
-                if (!useJsonApi()) {
-                    return result.response;
-                } else {
-                    try {
-                        JSONObject pageJson = new JSONObject(result.response);
-                        return pageJson.getString("version");
-                    } catch (JSONException e) {
-                        Log.e(TAG, "Problem fetching version string", e);
-                    }
-                }
-            }
-            return null;
         }
     }
 }
