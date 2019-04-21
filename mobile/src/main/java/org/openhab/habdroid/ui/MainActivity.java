@@ -1099,8 +1099,6 @@ public class MainActivity extends AppCompatActivity implements
         return mConnection;
     }
 
-
-
     private void manageHabpanelShortcut(boolean visible) {
         manageShortcut(visible, "habpanel", ACTION_HABPANEL_SELECTED,
                 R.string.mainmenu_openhab_habpanel, R.mipmap.ic_shortcut_habpanel,
