@@ -592,15 +592,13 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
         protected void handleRowClick() {
             if (mBoundWidget.switchSupport() && mBoundWidget.item() != null) {
                 Util.sendItemCommand(mConnection.getAsyncHttpClient(), mBoundWidget.item(),
-                        mSeekBar.getProgress() == mBoundWidget.minValue() ? "ON" : "OFF");
-            } else {
-                setSeekBarProgress(mSeekBar.getProgress() == mBoundWidget.minValue()
-                        ? mBoundWidget.maxValue() : mBoundWidget.minValue());
+                        mSeekBar.getProgress() == 0 ? "ON" : "OFF");
             }
         }
 
         @Override
         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+            // no-op
         }
 
         @Override
@@ -612,15 +610,11 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
         public void onStopTrackingTouch(SeekBar seekBar) {
             int progress = seekBar.getProgress();
             Log.d(TAG, "onStopTrackingTouch position = " + progress);
-            setSeekBarProgress(mBoundWidget.step() * progress);
-        }
-
-        private void setSeekBarProgress(float progress) {
             Item item = mBoundWidget.item();
             if (item == null) {
                 return;
             }
-            float newValue = mBoundWidget.minValue() + progress;
+            float newValue = mBoundWidget.minValue() + mBoundWidget.step() * progress;
             final ParsedState.NumberState previousState =
                     item.state() != null ? item.state().asNumber() : null;
             Util.sendItemCommand(mConnection.getAsyncHttpClient(), item,
