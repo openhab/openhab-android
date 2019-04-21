@@ -227,7 +227,7 @@ public class AboutActivity extends AppCompatActivity implements
 
             ohServerCard.addItem(new MaterialAboutActionItem.Builder()
                     .text(R.string.info_openhab_push_notification_label)
-                    .subText(CloudMessagingHelper.getPushNotificationStatusResId())
+                    .subText(CloudMessagingHelper.getPushNotificationStatusResId(context))
                     .icon(CloudMessagingHelper.getPushNotificationIconResId())
                     .build());
 

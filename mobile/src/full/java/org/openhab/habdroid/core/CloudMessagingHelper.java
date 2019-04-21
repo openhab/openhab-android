@@ -12,14 +12,16 @@ package org.openhab.habdroid.core;
 import android.content.Context;
 import android.content.Intent;
 import androidx.annotation.DrawableRes;
-import androidx.annotation.StringRes;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.core.connection.CloudConnection;
 import org.openhab.habdroid.core.connection.Connection;
 import org.openhab.habdroid.core.connection.ConnectionFactory;
 
 public class CloudMessagingHelper {
+    private static final String TAG = CloudMessagingHelper.class.getSimpleName();
     static boolean sRegistrationDone;
     static Throwable sRegistrationFailureReason;
 
@@ -38,21 +40,27 @@ public class CloudMessagingHelper {
         }
     }
 
-    public static @StringRes int getPushNotificationStatusResId() {
+    public static String getPushNotificationStatusResId(Context context) {
         CloudConnection cloudConnection = (CloudConnection)
                 ConnectionFactory.getConnection(Connection.TYPE_CLOUD);
         if (cloudConnection == null) {
             if (ConnectionFactory.getConnection(Connection.TYPE_REMOTE) == null) {
-                return R.string.info_openhab_gcm_no_remote;
+                return context.getString(R.string.info_openhab_gcm_no_remote);
             } else {
-                return R.string.info_openhab_gcm_unsupported;
+                return context.getString(R.string.info_openhab_gcm_unsupported);
             }
         } else if (!sRegistrationDone) {
-            return R.string.info_openhab_gcm_in_progress;
+            return context.getString(R.string.info_openhab_gcm_in_progress);
         } else if (sRegistrationFailureReason != null) {
-            return R.string.info_openhab_gcm_failed;
+            GoogleApiAvailability gaa = GoogleApiAvailability.getInstance();
+            int errorCode = gaa.isGooglePlayServicesAvailable(context);
+            if (errorCode != ConnectionResult.SUCCESS) {
+                return context.getString(R.string.info_openhab_gcm_failed_with_reason,
+                        gaa.getErrorString(errorCode));
+            }
+            return context.getString(R.string.info_openhab_gcm_failed);
         } else {
-            return R.string.info_openhab_gcm_connected;
+            return context.getString(R.string.info_openhab_gcm_connected);
         }
     }
 

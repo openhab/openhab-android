@@ -12,7 +12,6 @@ package org.openhab.habdroid.core;
 import android.content.Context;
 import android.content.Intent;
 import androidx.annotation.DrawableRes;
-import androidx.annotation.StringRes;
 
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.core.connection.CloudConnection;
@@ -24,8 +23,8 @@ public class CloudMessagingHelper {
     public static void onNotificationSelected(Context context, Intent intent) {
     }
 
-    public static @StringRes int getPushNotificationStatusResId() {
-        return R.string.info_openhab_notification_status_unavailable;
+    public static String getPushNotificationStatusResId(Context context) {
+        return context.getString(R.string.info_openhab_notification_status_unavailable);
     }
 
     public static @DrawableRes int getPushNotificationIconResId() {
