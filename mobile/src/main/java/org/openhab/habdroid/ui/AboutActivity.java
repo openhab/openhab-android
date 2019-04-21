@@ -50,7 +50,7 @@ public class AboutActivity extends AppCompatActivity implements
         FragmentManager.OnBackStackChangedListener  {
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        Util.setActivityTheme(this);
+        Util.initActivity(this);
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_about);

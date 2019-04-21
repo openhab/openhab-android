@@ -181,7 +181,7 @@ public class MainActivity extends AppCompatActivity implements
         }
 
         // Set the theme to one from preferences
-        Util.setActivityTheme(this);
+        Util.initActivity(this);
         super.onCreate(savedInstanceState);
 
         String controllerClassName = getResources().getString(R.string.controller_class);

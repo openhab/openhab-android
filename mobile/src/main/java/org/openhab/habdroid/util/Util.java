@@ -143,11 +143,11 @@ public class Util {
         return null;
     }
 
-    public static void setActivityTheme(@NonNull final Activity activity) {
-        setActivityTheme(activity, null);
+    public static void initActivity(@NonNull final Activity activity) {
+        initActivity(activity, null);
     }
 
-    public static void setActivityTheme(@NonNull final Activity activity, String theme) {
+    public static void initActivity(@NonNull final Activity activity, String theme) {
         activity.setTheme(getActivityThemeId(activity, theme));
         checkFullscreen(activity);
 

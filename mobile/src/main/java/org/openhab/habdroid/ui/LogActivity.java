@@ -37,7 +37,7 @@ public class LogActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Util.setActivityTheme(this);
+        Util.initActivity(this);
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_log);
