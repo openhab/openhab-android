@@ -18,7 +18,7 @@
             android:adjustViewBounds="true"
             android:gravity="center"
             android:scaleType="fitXY"
-            android:src="@drawable/ic_signal_cellular_off_black_24dp"
+            android:src="@drawable/ic_network_strength_off_outline_black_24dp"
             tools:ignore="contentDescription"/>
 
         <TextView

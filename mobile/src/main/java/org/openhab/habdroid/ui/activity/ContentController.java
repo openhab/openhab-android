@@ -626,7 +626,7 @@ public abstract class ContentController implements PageConnectionHolderFragment.
         public static NoNetworkFragment newInstance(CharSequence message) {
             NoNetworkFragment f = new NoNetworkFragment();
             f.setArguments(buildArgs(message, R.string.try_again_button,
-                    R.drawable.ic_signal_cellular_off_black_24dp, false));
+                    R.drawable.ic_network_strength_off_outline_black_24dp, false));
             return f;
         }
 
@@ -662,8 +662,8 @@ public abstract class ContentController implements PageConnectionHolderFragment.
                         R.drawable.ic_openhab_appicon_340dp /* FIXME */, false);
             } else if (hasWifiEnabled) {
                 args = buildArgs(context.getString(R.string.no_remote_server),
-                        R.string.go_to_settings_button,
-                        R.drawable.ic_signal_cellular_off_black_24dp, false);
+                        R.string.go_to_settings_button, R.string.try_again_button,
+                        R.drawable.ic_network_strength_off_outline_black_24dp, false);
             } else {
                 args = buildArgs(context.getString(R.string.no_remote_server),
                         R.string.go_to_settings_button, R.string.enable_wifi_button,
@@ -690,7 +690,11 @@ public abstract class ContentController implements PageConnectionHolderFragment.
                         .edit()
                         .putBoolean(Constants.PREFERENCE_DEMOMODE, true)
                         .apply();
-            } else if (!getArguments().getBoolean(KEY_WIFI_ENABLED)) {
+            } else if (getArguments().getBoolean(KEY_WIFI_ENABLED)) {
+                // If Wifi is enabled, secondary button suggests retrying
+                ConnectionFactory.restartNetworkCheck();
+                getActivity().recreate();
+            } else {
                 // If Wifi is disabled, secondary button suggests enabling Wifi
                 ((MainActivity) getActivity()).enableWifiAndIndicateStartup();
             }
