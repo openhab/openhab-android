@@ -93,6 +93,9 @@ public class PreferencesActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        if (isFinishing() || isDestroyed()) {
+            return true;
+        }
         switch (item.getItemId()) {
             case android.R.id.home:
                 FragmentManager fm = getFragmentManager();
