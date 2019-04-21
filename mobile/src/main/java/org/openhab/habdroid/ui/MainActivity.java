@@ -136,7 +136,7 @@ public class MainActivity extends AbstractBaseActivity implements
     private Snackbar mLastSnackbar;
     private Connection mConnection;
 
-    private Intent mPendingNfcIntent;
+    private Uri mPendingNfcData;
     private String mPendingOpenedNotificationId;
     private boolean mShouldOpenHabpanel;
     private boolean mShouldLaunchVoiceRecognition;
@@ -367,7 +367,7 @@ public class MainActivity extends AbstractBaseActivity implements
         switch (action) {
             case NfcAdapter.ACTION_NDEF_DISCOVERED:
             case Intent.ACTION_VIEW:
-                mPendingNfcIntent = intent;
+                mPendingNfcData = intent.getData();
                 openPendingNfcPageIfNeeded();
                 break;
             case ACTION_NOTIFICATION_SELECTED:
@@ -738,23 +738,20 @@ public class MainActivity extends AbstractBaseActivity implements
     }
 
     private void openPendingNfcPageIfNeeded() {
-        if (mPendingNfcIntent == null || mPendingNfcIntent.getData() == null
-                || mConnection == null || !mStarted) {
+        if (mPendingNfcData == null || mConnection == null || !mStarted) {
             return;
         }
 
-        Uri pendingNfcData = mPendingNfcIntent.getData();
+        Log.d(TAG, "NFC Scheme = " + mPendingNfcData.getScheme());
+        Log.d(TAG, "NFC Host = " + mPendingNfcData.getHost());
+        Log.d(TAG, "NFC Path = " + mPendingNfcData.getPath());
 
-        Log.d(TAG, "NFC Scheme = " + pendingNfcData.getScheme());
-        Log.d(TAG, "NFC Host = " + pendingNfcData.getHost());
-        Log.d(TAG, "NFC Path = " + pendingNfcData.getPath());
-
-        if ("openhabitem".equals(pendingNfcData.getScheme())) {
-            BackgroundTasksManager.enqueueNfcItemUpload(mPendingNfcIntent);
-        } else if ("openhab".equals(pendingNfcData.getScheme())) {
-            String nfcSitemap = pendingNfcData.getPath();
-            String nfcItem = pendingNfcData.getQueryParameter("item");
-            String nfcState = pendingNfcData.getQueryParameter("command");
+        if ("openhabitem".equals(mPendingNfcData.getScheme())) {
+            BackgroundTasksManager.enqueueNfcItemUpload(mPendingNfcData);
+        } else if ("openhab".equals(mPendingNfcData.getScheme())) {
+            String nfcSitemap = mPendingNfcData.getPath();
+            String nfcItem = mPendingNfcData.getQueryParameter("item");
+            String nfcState = mPendingNfcData.getQueryParameter("command");
 
             if (TextUtils.isEmpty(nfcItem)) {
                 Log.d(TAG, "This is a sitemap tag without parameters");
@@ -771,7 +768,7 @@ public class MainActivity extends AbstractBaseActivity implements
                         .show();
             }
         }
-        mPendingNfcIntent = null;
+        mPendingNfcData = null;
     }
 
     private void openAbout() {

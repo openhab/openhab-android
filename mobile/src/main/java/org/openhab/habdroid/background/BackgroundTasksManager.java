@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
-import android.nfc.NfcAdapter;
 import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -104,14 +103,10 @@ public class BackgroundTasksManager extends BroadcastReceiver {
         enqueueItemUpload(key, prefix + setting.second, getter.getValue(context));
     }
 
-    public static void enqueueNfcItemUpload(Intent intent) {
-        if (Intent.ACTION_VIEW.equals(intent.getAction())
-                || NfcAdapter.ACTION_NDEF_DISCOVERED.equals(intent.getAction())) {
-            Uri nfcData = intent.getData();
-            String itemName = nfcData.getQueryParameter(WriteTagActivity.QUERY_PARAMETER_ITEM_NAME);
-            enqueueItemUpload(WORKER_TAG_PREFIX_NFC + itemName, itemName,
-                    nfcData.getQueryParameter(WriteTagActivity.QUERY_PARAMETER_STATE));
-        }
+    public static void enqueueNfcItemUpload(Uri nfcData) {
+        String itemName = nfcData.getQueryParameter(WriteTagActivity.QUERY_PARAMETER_ITEM_NAME);
+        enqueueItemUpload(WORKER_TAG_PREFIX_NFC + itemName, itemName,
+                nfcData.getQueryParameter(WriteTagActivity.QUERY_PARAMETER_STATE));
     }
 
     private static void enqueueItemUpload(String tag, String itemName, String value) {
