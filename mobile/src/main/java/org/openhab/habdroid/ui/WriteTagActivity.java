@@ -202,10 +202,15 @@ public class WriteTagActivity extends AbstractBaseActivity {
                                 ndefFormatable.format(shortMessage);
                             }
                         }
-                        ndefFormatable.close();
                         return true;
                     } catch (IOException | FormatException e) {
                         Log.e(TAG, "Writing to unformatted tag failed: " + e);
+                    } finally {
+                        try {
+                            ndefFormatable.close();
+                        } catch (IOException e) {
+                            Log.e(TAG, "Closing ndefFormatable failed", e);
+                        }
                     }
                 } else {
                     Log.d(TAG, "Tag is initialized, writing");
@@ -225,11 +230,15 @@ public class WriteTagActivity extends AbstractBaseActivity {
                                     }
                                 }
                             }
-                            Log.d(TAG, "Closing");
-                            ndef.close();
                             return true;
                         } catch (IOException | FormatException e) {
                             Log.e(TAG, "Writing to formatted tag failed", e);
+                        } finally {
+                            try {
+                                ndef.close();
+                            } catch (IOException e) {
+                                Log.e(TAG, "Closing ndef failed", e);
+                            }
                         }
                     } else {
                         Log.e(TAG, "Ndef == null");
