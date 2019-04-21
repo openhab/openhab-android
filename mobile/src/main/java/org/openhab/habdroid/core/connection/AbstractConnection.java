@@ -100,14 +100,14 @@ public abstract class AbstractConnection implements Connection {
 
     private Socket createConnectedSocket(InetSocketAddress socketAddress) {
         Socket s = new Socket();
-        for (int retries = 0; retries < 10; retries++) {
+        for (int retries = 0; retries < 20; retries++) {
             try {
                 s.connect(socketAddress, 1000);
                 Log.d(TAG, "Socket connected (attempt  " + retries + ")");
                 return s;
             } catch (SocketTimeoutException e) {
                 Log.d(TAG, "Socket timeout after " + retries + " retries");
-                return null;
+                retries += 5;
             } catch (IOException e) {
                 Log.d(TAG, "Socket creation failed (attempt  " + retries + ")");
                 try {
