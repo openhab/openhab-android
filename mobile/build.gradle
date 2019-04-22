@@ -143,7 +143,7 @@ dependencies {
 
     // PowerMock
     testImplementation 'org.powermock:powermock-core:2.0.2'
-    testImplementation 'org.powermock:powermock-api-mockito2:2.0.0'
+    testImplementation 'org.powermock:powermock-api-mockito2:2.0.2'
     testImplementation 'org.powermock:powermock-module-junit4:2.0.2'
 
     // Espresso UI tests
