@@ -76,6 +76,7 @@
     <string name="app_shortcut_diabled_voice_recognition">Seu dispositivo não tem um aplicativo de fala para texto instalado</string>
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB retornou uma lista de Sitemap vazia</string>
+    <string name="error_sitemap_generic_load_error">O Sitemap não pôde ser carregado. Ocorreu o seguinte erro: %1$s</string>
     <string name="error_network_not_available">Rede não está disponivel</string>
     <string name="error_wifi_not_available">Wi-Fi está desligado</string>
     <string name="error_http_connection_failed">Conexão sem sucesso. Foi recebida uma resposta inesperada ao conectar com servidor openHAB configurado (código de resposta HTTP recebido: %d).</string>
@@ -108,6 +109,7 @@
     <string name="error_about_no_conn">Erro ao buscar informações do servidor openHAB</string>
     <string name="error_openhab_offline">Seu servidor openHAB está offline enquanto está executando a instância de nuvem</string>
     <string name="error_no_app_store_found">Não foi encontrada a loja de aplicativos para instalar o app de reconhecimento de fala</string>
+    <string name="error_no_browser_found">Não foi encontrado um navegador para abrir o site</string>
     <string name="title_activity_openhabwritetag">Escrever na tag NFC</string>
     <string name="title_activity_libraries">Bibliotecas usadas</string>
     <string name="info_write_tag">Toque na tag e a mantenha perto até aparecer a mensagem de confirmação</string>
