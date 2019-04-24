@@ -1,0 +1,7 @@
+## Added
+* Add failure reason to FCM status (#1316)
+* Add retry button to MissingConfigurationFragment (#1311)
+* Create "row click" shortcuts for a few widgets (#1285)
+
+## Changed
+* Bump dependencies
