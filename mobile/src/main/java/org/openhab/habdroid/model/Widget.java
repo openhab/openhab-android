@@ -82,6 +82,7 @@ public abstract class Widget implements Parcelable {
     public abstract String service();
     @Nullable
     public abstract Boolean legend();
+    public abstract boolean switchSupport();
     public abstract int height();
 
     public boolean hasMappings() {
@@ -124,6 +125,7 @@ public abstract class Widget implements Parcelable {
         public abstract Builder period(String period);
         public abstract Builder service(String service);
         public abstract Builder legend(@Nullable Boolean legend);
+        public abstract Builder switchSupport(boolean switchSupport);
         public abstract Builder height(int height);
 
         public Widget build() {
@@ -161,6 +163,7 @@ public abstract class Widget implements Parcelable {
         String id = null, label = null, icon = null, url = null;
         String period = "", service = "", encoding = null;
         String iconColor = null, labelColor = null, valueColor = null;
+        boolean switchSupport = false;
         Type type = Type.Unknown;
         float minValue = 0f, maxValue = 100f, step = 1f;
         int refresh = 0, height = 0;
@@ -191,6 +194,8 @@ public abstract class Widget implements Parcelable {
                     case "valuecolor": valueColor = childNode.getTextContent(); break;
                     case "labelcolor": labelColor = childNode.getTextContent(); break;
                     case "encoding": encoding = childNode.getTextContent(); break;
+                    case "switchSupport":
+                        switchSupport = Boolean.valueOf(childNode.getTextContent()); break;
                     case "mapping":
                         NodeList mappingChildNodes = childNode.getChildNodes();
                         String mappingCommand = "";
@@ -243,6 +248,7 @@ public abstract class Widget implements Parcelable {
                 .valueColor(valueColor)
                 .encoding(encoding)
                 .mappings(mappings)
+                .switchSupport(switchSupport)
                 .build();
         allWidgets.add(widget);
 
@@ -289,6 +295,8 @@ public abstract class Widget implements Parcelable {
                 .period(widgetJson.optString("period", "D"))
                 .service(widgetJson.optString("service", ""))
                 .legend(widgetJson.has("legend") ? widgetJson.getBoolean("legend") : null)
+                .switchSupport(widgetJson.has("switchSupport")
+                        ? widgetJson.getBoolean("switchSupport") : false)
                 .height(widgetJson.optInt("height"))
                 .iconColor(widgetJson.optString("iconcolor", null))
                 .labelColor(widgetJson.optString("labelcolor", null))

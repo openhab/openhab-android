@@ -511,12 +511,21 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
         }
 
         @Override
+        protected void handleRowClick() {
+            toggleSwitch();
+        }
+
+        @Override
         public boolean onTouch(View v, MotionEvent motionEvent) {
             if (motionEvent.getActionMasked() == MotionEvent.ACTION_UP) {
-                Util.sendItemCommand(mConnection.getAsyncHttpClient(), mBoundItem,
-                        mSwitch.isChecked() ? "OFF" : "ON");
+                toggleSwitch();
             }
             return false;
+        }
+
+        private void toggleSwitch() {
+            Util.sendItemCommand(mConnection.getAsyncHttpClient(), mBoundItem,
+                    mSwitch.isChecked() ? "OFF" : "ON");
         }
     }
 
@@ -580,7 +589,16 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
         }
 
         @Override
+        protected void handleRowClick() {
+            if (mBoundWidget.switchSupport()) {
+                Util.sendItemCommand(mConnection.getAsyncHttpClient(), mBoundWidget.item(),
+                        mSeekBar.getProgress() == 0 ? "ON" : "OFF");
+            }
+        }
+
+        @Override
         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+            // no-op
         }
 
         @Override
@@ -596,7 +614,7 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
             if (item == null) {
                 return;
             }
-            float newValue = mBoundWidget.minValue() + (mBoundWidget.step() * progress);
+            float newValue = mBoundWidget.minValue() + mBoundWidget.step() * progress;
             final ParsedState.NumberState previousState =
                     item.state() != null ? item.state().asNumber() : null;
             Util.sendItemCommand(mConnection.getAsyncHttpClient(), item,
@@ -698,6 +716,11 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
             mSpinner.setPrompt(mLabelView.getText());
             mSpinner.setAdapter(spinnerAdapter);
             mSpinner.setSelectionWithoutUpdateCallback(spinnerSelectedIndex);
+        }
+
+        @Override
+        protected void handleRowClick() {
+            mSpinner.performClick();
         }
 
         @Override
@@ -1075,6 +1098,11 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
         public void bind(Widget widget) {
             super.bind(widget);
             mBoundItem = widget.item();
+        }
+
+        @Override
+        protected void handleRowClick() {
+            showColorPickerDialog();
         }
 
         @Override
