@@ -14,10 +14,12 @@ import android.app.Dialog;
 import android.app.PendingIntent;
 import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.content.pm.ShortcutInfo;
 import android.content.pm.ShortcutManager;
 import android.content.res.ColorStateList;
@@ -50,7 +52,6 @@ import android.view.View;
 import android.view.ViewStub;
 import android.view.WindowManager;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 import androidx.annotation.ColorInt;
 import androidx.annotation.DrawableRes;
 import androidx.annotation.Nullable;
@@ -67,9 +68,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
-import es.dmoral.toasty.Toasty;
 import okhttp3.Headers;
 import okhttp3.Request;
+import org.openhab.habdroid.BuildConfig;
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.core.CloudMessagingHelper;
 import org.openhab.habdroid.core.OnUpdateBroadcastReceiver;
@@ -86,6 +87,8 @@ import org.openhab.habdroid.model.LinkedPage;
 import org.openhab.habdroid.model.ServerProperties;
 import org.openhab.habdroid.model.Sitemap;
 import org.openhab.habdroid.ui.activity.ContentController;
+import org.openhab.habdroid.ui.homescreenwidget.VoiceWidget;
+import org.openhab.habdroid.ui.homescreenwidget.VoiceWidgetWithIcon;
 import org.openhab.habdroid.util.AsyncHttpClient;
 import org.openhab.habdroid.util.AsyncServiceResolver;
 import org.openhab.habdroid.util.Constants;
@@ -858,11 +861,26 @@ public class MainActivity extends AppCompatActivity implements
         Log.d(TAG, "onPrepareOptionsMenu()");
         MenuItem voiceRecognitionItem = menu.findItem(R.id.mainmenu_voice_recognition);
         @ColorInt int iconColor = ContextCompat.getColor(this, R.color.light);
-        voiceRecognitionItem.setVisible(mConnection != null
-                && SpeechRecognizer.isRecognitionAvailable(this));
-        manageVoiceRecognitionShortcut(SpeechRecognizer.isRecognitionAvailable(this));
+        voiceRecognitionItem.setVisible(mConnection != null);
         voiceRecognitionItem.getIcon().setColorFilter(iconColor, PorterDuff.Mode.SRC_IN);
+
+        boolean isSpeechRecognizerAvailable = SpeechRecognizer.isRecognitionAvailable(this);
+        manageVoiceRecognitionShortcut(isSpeechRecognizerAvailable);
+        setVoiceWidgetComponentEnabledSetting(VoiceWidget.class.getCanonicalName(),
+                isSpeechRecognizerAvailable);
+        setVoiceWidgetComponentEnabledSetting(VoiceWidgetWithIcon.class.getCanonicalName(),
+                isSpeechRecognizerAvailable);
         return true;
+    }
+
+    private void setVoiceWidgetComponentEnabledSetting(String className,
+            boolean isSpeechRecognizerAvailable) {
+        ComponentName voiceWidget = new ComponentName(BuildConfig.APPLICATION_ID, className);
+        PackageManager pm  = getApplicationContext().getPackageManager();
+        pm.setComponentEnabledSetting(voiceWidget,
+                isSpeechRecognizerAvailable ? PackageManager.COMPONENT_ENABLED_STATE_ENABLED
+                        : PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
+                PackageManager.DONT_KILL_APP);
     }
 
     @Override
@@ -994,13 +1012,24 @@ public class MainActivity extends AppCompatActivity implements
         try {
             startActivity(speechIntent);
         } catch (ActivityNotFoundException speechRecognizerNotFoundException) {
-            try {
-                startActivity(new Intent(Intent.ACTION_VIEW,
-                        Uri.parse("market://details?id=com.google.android.googlequicksearchbox")));
-            } catch (ActivityNotFoundException appStoreNotFoundException) {
-                Toasty.error(this, R.string.error_no_app_store_found,
-                        Toast.LENGTH_LONG, true).show();
-            }
+                mLastSnackbar = Snackbar.make(findViewById(android.R.id.content),
+                        R.string.error_no_speech_to_text_app_found, Snackbar.LENGTH_LONG);
+                mLastSnackbar.setAction(R.string.install, v -> {
+                    try {
+                        startActivity(new Intent(Intent.ACTION_VIEW,
+                                Uri.parse("market://details?id=com.google.android.googlequicksearchbox")));
+                    } catch (ActivityNotFoundException appStoreNotFoundException) {
+                        try {
+                            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(
+                                    "http://play.google.com/store/apps/details?id=com.google.android.googlequicksearchbox")));
+                        } catch (ActivityNotFoundException browserNotFoundException) {
+                            mLastSnackbar = Snackbar.make(findViewById(android.R.id.content),
+                                    R.string.error_no_browser_found, Snackbar.LENGTH_LONG);
+                            mLastSnackbar.show();
+                        }
+                    }
+                });
+                mLastSnackbar.show();
         }
     }
 
