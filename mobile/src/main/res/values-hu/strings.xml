@@ -130,7 +130,10 @@
     <string name="send_device_info_item_prefix">Elem név előtagja</string>
     <string name="settings_alarm_clock">Ébresztőóra küldése a openHAB-nak</string>
     <string name="settings_item_pref_item_name">Elem neve</string>
+    <string name="waiting_for_item_upload">Várakozás a hálózatra, hogy elküldhesse az Elem frissítését</string>
+    <string name="item_upload_in_progress">Az Elemek jelenleg frissülnek</string>
     <string name="notification_channel_background">Háttér</string>
+    <string name="notification_channel_background_error">Hiba a háttérben futó folyamatokban</string>
     <plurals name="item_update_error_title">
         <item quantity="one">%d Eleme nem volt frissíthető</item>
         <item quantity="other">%d az Elemek nem frissíthetőek</item>
