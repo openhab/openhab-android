@@ -100,12 +100,20 @@
             android:dependency="default_openhab_demomode"
             android:icon="@drawable/ic_alarm_grey_24dp" />
     </PreferenceCategory>
-    <PreferenceCategory android:title="@string/settings_misc_title">
-        <Preference
-            android:key="default_openhab_enhanced_security"
-            android:persistent="false"
-            android:title="@string/settings_enhanced_security"
+    <PreferenceCategory android:title="@string/settings_security">
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="screenlock"
+            android:title="@string/settings_screenlock"
+            android:summary="@string/settings_screenlock_summary"
+            android:icon="@drawable/ic_lock_outline_grey_24dp" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="preventScreenshot"
+            android:title="@string/settings_prevent_screenshots"
             android:icon="@drawable/ic_none" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/settings_misc_title">
         <RingtonePreference
             android:key="default_openhab_alertringtone"
             android:persistent="true"

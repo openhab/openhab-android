@@ -49,7 +49,6 @@ import org.openhab.habdroid.util.Util;
 
 import java.util.BitSet;
 
-import static org.openhab.habdroid.util.Constants.PREFERENCE_DELETE_CRED_URL_CHANGED;
 import static org.openhab.habdroid.util.Constants.PREFERENCE_LOCAL_PASSWORD;
 import static org.openhab.habdroid.util.Constants.PREFERENCE_PREVENT_SCREENSHOTS;
 import static org.openhab.habdroid.util.Constants.PREFERENCE_REMOTE_PASSWORD;
@@ -285,8 +284,6 @@ public class PreferencesActivity extends AppCompatActivity {
             final Preference demoModePref = findPreference(Constants.PREFERENCE_DEMOMODE);
             final Preference localConnPref = findPreference(Constants.SUBSCREEN_LOCAL_CONNECTION);
             final Preference remoteConnPref = findPreference(Constants.SUBSCREEN_REMOTE_CONNECTION);
-            final Preference enhancedSecurityPref =
-                    findPreference(Constants.SUBSCREEN_ENHANCED_SECURITY);
             final Preference themePref = findPreference(Constants.PREFERENCE_THEME);
             final Preference clearCachePref = findPreference(Constants.PREFERENCE_CLEAR_CACHE);
             final Preference clearDefaultSitemapPref =
@@ -302,6 +299,8 @@ public class PreferencesActivity extends AppCompatActivity {
             final Preference ringtoneVibrationPref =
                     findPreference(Constants.PREFERENCE_NOTIFICATION_TONE_VIBRATION);
             final Preference viewLogPref = findPreference(Constants.PREFERENCE_LOG);
+            final Preference screenLockPref = findPreference(PREFERENCE_SCREENLOCK);
+            final Preference preventScreenshotPref = findPreference(PREFERENCE_PREVENT_SCREENSHOTS);
             final SharedPreferences prefs = getPreferenceScreen().getSharedPreferences();
 
             String currentDefaultSitemap = prefs.getString(Constants.PREFERENCE_SITEMAP_NAME, "");
@@ -331,11 +330,6 @@ public class PreferencesActivity extends AppCompatActivity {
 
             remoteConnPref.setOnPreferenceClickListener(preference -> {
                 getParentActivity().openSubScreen(new RemoteConnectionSettingsFragment());
-                return false;
-            });
-
-            enhancedSecurityPref.setOnPreferenceClickListener(preference -> {
-                getParentActivity().openSubScreen(new EnhancedSecuritySettingsFragment());
                 return false;
             });
 
@@ -434,6 +428,17 @@ public class PreferencesActivity extends AppCompatActivity {
                 Pair<Boolean, String> item =
                         ItemUpdatingPreference.parseValue(getPreferenceString(alarmClockPref, null));
                 updateAlarmClockPreferenceSummary(alarmClockPref, (String) newValue, item);
+                return true;
+            });
+
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+                getParent(screenLockPref).removePreference(screenLockPref);
+            }
+
+            preventScreenshotPref.setOnPreferenceChangeListener((preference, newValue) -> {
+                Util.setScreenshotPrevention(getActivity(), (boolean) newValue);
+                getParentActivity().mResultIntent.putExtra(RESULT_EXTRA_PREVENT_SCREENSHOTS_CHANGED,
+                        true);
                 return true;
             });
 
@@ -560,13 +565,6 @@ public class PreferencesActivity extends AppCompatActivity {
             preference.setIcon(DrawableCompat.wrap(
                     ContextCompat.getDrawable(getActivity(), iconResId)));
             preference.setOnPreferenceChangeListener((pref, newValue) -> {
-                if (pref.equals(mUrlPreference)
-                        && getPreferenceBool(PREFERENCE_DELETE_CRED_URL_CHANGED, false)) {
-                    Log.d(TAG, "Clear password");
-                    getPreferenceScreen().getSharedPreferences().edit()
-                            .putString(mPasswordPreference.getKey(), "").apply();
-                }
-
                 updateIconColors(getActualValue(pref, newValue, mUrlPreference),
                         getActualValue(pref, newValue, mUserNamePreference),
                         getActualValue(pref, newValue, mPasswordPreference));
@@ -645,52 +643,6 @@ public class PreferencesActivity extends AppCompatActivity {
             addPreferencesFromResource(R.xml.remote_connection_preferences);
             initPreferences(Constants.PREFERENCE_REMOTE_URL, Constants.PREFERENCE_REMOTE_USERNAME,
                     PREFERENCE_REMOTE_PASSWORD, R.string.settings_openhab_alturl_summary);
-        }
-    }
-
-    public static class EnhancedSecuritySettingsFragment extends AbstractSettingsFragment {
-        @Override
-        protected int getTitleResId() {
-            return R.string.settings_enhanced_security;
-        }
-
-        @Override
-        protected void updateAndInitPreferences() {
-            addPreferencesFromResource(R.xml.enhanced_security_preferences);
-
-            Preference screenLockPref = findPreference(PREFERENCE_SCREENLOCK);
-            Preference preventScreenshotPref = findPreference(PREFERENCE_PREVENT_SCREENSHOTS);
-            Preference clearPasswordUrlChangedPref = findPreference(PREFERENCE_DELETE_CRED_URL_CHANGED);
-
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-                getParent(screenLockPref).removePreference(screenLockPref);
-            }
-
-            preventScreenshotPref.setOnPreferenceChangeListener((preference, newValue) -> {
-                Util.setScreenshotPrevention(getActivity(), (boolean) newValue);
-                getParentActivity().mResultIntent.putExtra(RESULT_EXTRA_PREVENT_SCREENSHOTS_CHANGED,
-                        true);
-                return true;
-            });
-
-            clearPasswordUrlChangedPref.setOnPreferenceChangeListener((preference, newValue) -> {
-                if (!(boolean) newValue) {
-                    new AlertDialog.Builder(getActivity())
-                            .setMessage(R.string.settings_clear_cred_url_changed_disable)
-                            .setPositiveButton(android.R.string.ok, (dialog, which) -> {
-                                getPreferenceScreen().getSharedPreferences().edit()
-                                        .putBoolean(preference.getKey(), false)
-                                        .putString(PREFERENCE_LOCAL_PASSWORD, "")
-                                        .putString(PREFERENCE_REMOTE_PASSWORD, "")
-                                        .apply();
-                                ((SwitchPreference) preference).setChecked(false);
-                            })
-                            .setNegativeButton(android.R.string.cancel, null)
-                            .show();
-                    return false;
-                }
-                return true;
-            });
         }
     }
 }

@@ -72,14 +72,13 @@
     <string name="settings_connection_summary">Connected to %s</string>
     <string name="settings_insecure_connection_summary">Insecurely connected to %s</string>
     <string name="beta">Beta</string>
-    <string name="settings_enhanced_security">Enhanced security</string>
+    <string name="settings_security">Security</string>
     <string name="settings_screenlock">Screen lock</string>
     <string name="settings_screenlock_summary">Lock openHAB access with Android screen lock or fingerprint. Voice widgets can always be used.</string>
+    <string name="error_no_pin_set">No Android screen lock or fingerprint is set</string>
     <string name="settings_screenlock_wrong_password">openHAB is locked</string>
     <string name="settings_screenlock_unlock">Unlock</string>
     <string name="settings_prevent_screenshots">Prevent screenshots</string>
-    <string name="settings_clear_cred_url_changed">Clear password if URL changes</string>
-    <string name="settings_clear_cred_url_changed_disable">Disabling this setting will clear saved login data from openHAB</string>
 
     <!-- App messages strings -->
     <string name="title_voice_widget">Voice commands</string>

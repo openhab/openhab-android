@@ -19,6 +19,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.content.pm.ShortcutInfo;
 import android.content.pm.ShortcutManager;
 import android.content.res.ColorStateList;
@@ -192,6 +193,8 @@ public class MainActivity extends AppCompatActivity implements
 
         if (mPrefs.getBoolean(Constants.PREFERENCE_SCREENLOCK, false)) {
             promptForDevicePassword();
+        } else {
+            mUnlocked = true;
         }
 
         // Disable screen timeout if set in preferences
@@ -1208,8 +1211,14 @@ public class MainActivity extends AppCompatActivity implements
             return;
         }
         KeyguardManager km = (KeyguardManager) this.getSystemService(Context.KEYGUARD_SERVICE);
-        Intent intent = km.createConfirmDeviceCredentialIntent(getString(R.string.app_name), "");
-        startActivityForResult(intent, SCREEN_LOCK_REQUEST_CODE);
+        if ((Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && km.isDeviceSecure())
+                || (Build.VERSION.SDK_INT < Build.VERSION_CODES.M && km.isKeyguardSecure())) {
+            Intent intent = km.createConfirmDeviceCredentialIntent(getString(R.string.app_name), "");
+            startActivityForResult(intent, SCREEN_LOCK_REQUEST_CODE);
+        } else {
+            showSnackbar(R.string.error_no_pin_set); // TODO
+            mUnlocked = true;
+        }
     }
 
     private void changeLockedState(boolean locked) {
@@ -1219,7 +1228,9 @@ public class MainActivity extends AppCompatActivity implements
         if (locked) {
             mController.indicateScreenLockFailure();
         } else {
-            retryServerPropertyQuery();
+            if (mConnection != null) {
+                retryServerPropertyQuery();
+            }
         }
     }
 

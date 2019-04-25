@@ -45,11 +45,9 @@ public class Constants {
     public static final String PREFERENCE_SEND_DEVICE_INFO_CAT = "sendDeviceInfoCat";
     public static final String PREFERENCE_SCREENLOCK           = "screenlock";
     public static final String PREFERENCE_PREVENT_SCREENSHOTS = "preventScreenshot";
-    public static final String PREFERENCE_DELETE_CRED_URL_CHANGED   = "deleteCredWhenUrlChanged";
 
     public static final String PREV_SERVER_FLAGS              = "prevServerFlags";
 
     public static final String SUBSCREEN_LOCAL_CONNECTION     = "default_openhab_local_connection";
     public static final String SUBSCREEN_REMOTE_CONNECTION    = "default_openhab_remote_connection";
-    public static final String SUBSCREEN_ENHANCED_SECURITY    = "default_openhab_enhanced_security";
 }
