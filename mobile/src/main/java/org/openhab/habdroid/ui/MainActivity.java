@@ -33,6 +33,7 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.net.wifi.WifiManager;
 import android.nfc.NfcAdapter;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -264,6 +265,19 @@ public class MainActivity extends AppCompatActivity implements
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
             mShortcutManager = getSystemService(ShortcutManager.class);
         }
+
+        final boolean isSpeechRecognizerAvailable = SpeechRecognizer.isRecognitionAvailable(this);
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... voids) {
+                manageVoiceRecognitionShortcut(isSpeechRecognizerAvailable);
+                setVoiceWidgetComponentEnabledSetting(VoiceWidget.class,
+                        isSpeechRecognizerAvailable);
+                setVoiceWidgetComponentEnabledSetting(VoiceWidgetWithIcon.class,
+                        isSpeechRecognizerAvailable);
+                return null;
+            }
+        }.execute();
     }
 
     private void handleConnectionChange() {
@@ -863,24 +877,7 @@ public class MainActivity extends AppCompatActivity implements
         @ColorInt int iconColor = ContextCompat.getColor(this, R.color.light);
         voiceRecognitionItem.setVisible(mConnection != null);
         voiceRecognitionItem.getIcon().setColorFilter(iconColor, PorterDuff.Mode.SRC_IN);
-
-        boolean isSpeechRecognizerAvailable = SpeechRecognizer.isRecognitionAvailable(this);
-        manageVoiceRecognitionShortcut(isSpeechRecognizerAvailable);
-        setVoiceWidgetComponentEnabledSetting(VoiceWidget.class.getCanonicalName(),
-                isSpeechRecognizerAvailable);
-        setVoiceWidgetComponentEnabledSetting(VoiceWidgetWithIcon.class.getCanonicalName(),
-                isSpeechRecognizerAvailable);
         return true;
-    }
-
-    private void setVoiceWidgetComponentEnabledSetting(String className,
-            boolean isSpeechRecognizerAvailable) {
-        ComponentName voiceWidget = new ComponentName(BuildConfig.APPLICATION_ID, className);
-        PackageManager pm  = getApplicationContext().getPackageManager();
-        pm.setComponentEnabledSetting(voiceWidget,
-                isSpeechRecognizerAvailable ? PackageManager.COMPONENT_ENABLED_STATE_ENABLED
-                        : PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
-                PackageManager.DONT_KILL_APP);
     }
 
     @Override
@@ -1012,24 +1009,19 @@ public class MainActivity extends AppCompatActivity implements
         try {
             startActivity(speechIntent);
         } catch (ActivityNotFoundException speechRecognizerNotFoundException) {
-                mLastSnackbar = Snackbar.make(findViewById(android.R.id.content),
-                        R.string.error_no_speech_to_text_app_found, Snackbar.LENGTH_LONG);
-                mLastSnackbar.setAction(R.string.install, v -> {
+            showSnackbar(R.string.error_no_speech_to_text_app_found, R.string.install, v -> {
+                try {
+                    startActivity(new Intent(Intent.ACTION_VIEW,
+                            Uri.parse("market://details?id=com.google.android.googlequicksearchbox")));
+                } catch (ActivityNotFoundException appStoreNotFoundException) {
                     try {
-                        startActivity(new Intent(Intent.ACTION_VIEW,
-                                Uri.parse("market://details?id=com.google.android.googlequicksearchbox")));
-                    } catch (ActivityNotFoundException appStoreNotFoundException) {
-                        try {
-                            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(
-                                    "http://play.google.com/store/apps/details?id=com.google.android.googlequicksearchbox")));
-                        } catch (ActivityNotFoundException browserNotFoundException) {
-                            mLastSnackbar = Snackbar.make(findViewById(android.R.id.content),
-                                    R.string.error_no_browser_found, Snackbar.LENGTH_LONG);
-                            mLastSnackbar.show();
-                        }
+                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(
+                                "http://play.google.com/store/apps/details?id=com.google.android.googlequicksearchbox")));
+                    } catch (ActivityNotFoundException browserNotFoundException) {
+                        showSnackbar(R.string.error_no_browser_found);
                     }
-                });
-                mLastSnackbar.show();
+                }
+            });
         }
     }
 
@@ -1039,31 +1031,34 @@ public class MainActivity extends AppCompatActivity implements
             return;
         }
 
-        mLastSnackbar = Snackbar.make(findViewById(android.R.id.content),
-                R.string.swipe_to_refresh_description, Snackbar.LENGTH_LONG);
-        mLastSnackbar.setAction(R.string.swipe_to_refresh_dismiss, v -> {
+        showSnackbar(R.string.swipe_to_refresh_description, R.string.swipe_to_refresh_dismiss, v -> {
             prefs.edit()
-                    .putBoolean(Constants.PREFERENCE_SWIPE_REFRESH_EXPLAINED, true)
-                    .apply();
+                .putBoolean(Constants.PREFERENCE_SWIPE_REFRESH_EXPLAINED, true)
+                .apply();
         });
-        mLastSnackbar.show();
     }
 
     public void showDemoModeHintSnackbar() {
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        mLastSnackbar = Snackbar.make(findViewById(android.R.id.content),
-                R.string.info_demo_mode_short, Snackbar.LENGTH_LONG);
-        mLastSnackbar.setAction(R.string.turn_off, v -> {
+        showSnackbar(R.string.info_demo_mode_short, R.string.turn_off, v -> {
             prefs.edit()
-                    .putBoolean(Constants.PREFERENCE_DEMOMODE, false)
-                    .apply();
+                .putBoolean(Constants.PREFERENCE_DEMOMODE, false)
+                .apply();
         });
-        mLastSnackbar.show();
     }
 
     private void showSnackbar(@StringRes int messageResId) {
-        mLastSnackbar = Snackbar.make(findViewById(android.R.id.content),
-                messageResId, Snackbar.LENGTH_LONG);
+        showSnackbar(messageResId, 0, null);
+    }
+
+    private void showSnackbar(@StringRes int messageResId, @StringRes int actionResId,
+                              View.OnClickListener onClickListener) {
+        hideSnackbar();
+        mLastSnackbar = Snackbar.make(findViewById(android.R.id.content), messageResId,
+                Snackbar.LENGTH_LONG);
+        if (actionResId != 0 && onClickListener != null) {
+            mLastSnackbar.setAction(actionResId, onClickListener);
+        }
         mLastSnackbar.show();
     }
 
@@ -1192,5 +1187,15 @@ public class MainActivity extends AppCompatActivity implements
             mShortcutManager.disableShortcuts(Collections.singletonList(id),
                     getString(disableMessage));
         }
+    }
+
+    private void setVoiceWidgetComponentEnabledSetting(Class<?> component,
+                                                       boolean isSpeechRecognizerAvailable) {
+        ComponentName voiceWidget = new ComponentName(BuildConfig.APPLICATION_ID,
+                component.getCanonicalName());
+        PackageManager pm = getApplicationContext().getPackageManager();
+        int newState = isSpeechRecognizerAvailable ? PackageManager.COMPONENT_ENABLED_STATE_ENABLED
+                : PackageManager.COMPONENT_ENABLED_STATE_DISABLED;
+        pm.setComponentEnabledSetting(voiceWidget, newState, PackageManager.DONT_KILL_APP);
     }
 }
