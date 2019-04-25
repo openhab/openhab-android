@@ -199,7 +199,7 @@ public class AboutActivity extends AppCompatActivity implements
 
                 MaterialAboutActionItem apiVersionItem = new MaterialAboutActionItem.Builder()
                         .text(R.string.info_openhab_apiversion_label)
-                        .subText(R.string.fetching)
+                        .subText(R.string.loading)
                         .icon(R.drawable.ic_info_outline_grey_24dp)
                         .build();
                 ohServerCard.addItem(apiVersionItem);
@@ -238,7 +238,7 @@ public class AboutActivity extends AppCompatActivity implements
 
                 MaterialAboutActionItem uuidItem = new MaterialAboutActionItem.Builder()
                         .text(R.string.info_openhab_uuid_label)
-                        .subText(R.string.fetching)
+                        .subText(R.string.loading)
                         .icon(R.drawable.ic_info_outline_grey_24dp)
                         .build();
                 ohServerCard.addItem(uuidItem);
@@ -264,7 +264,7 @@ public class AboutActivity extends AppCompatActivity implements
                 if (!useJsonApi()) {
                     MaterialAboutActionItem secretItem = new MaterialAboutActionItem.Builder()
                             .text(R.string.info_openhab_secret_label)
-                            .subText(R.string.fetching)
+                            .subText(R.string.loading)
                             .icon(R.drawable.ic_info_outline_grey_24dp)
                             .build();
                     ohServerCard.addItem(secretItem);
