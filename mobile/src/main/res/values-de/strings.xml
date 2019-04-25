@@ -76,6 +76,7 @@
     <string name="app_shortcut_diabled_voice_recognition">Ihr Gerät hat keine Sprache-zu-Text-App installiert</string>
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB lieferte eine leere Sitemap-Liste</string>
+    <string name="error_sitemap_generic_load_error">Die Sitemap konnte nicht geladen werden. Der folgende Fehler ist aufgetreten: %1$s</string>
     <string name="error_network_not_available">Netzwerk nicht verfügbar</string>
     <string name="error_wifi_not_available">WLAN ist ausgeschaltet</string>
     <string name="error_http_connection_failed">Verbindung fehlgeschlagen. Es wurde eine unerwartete Antwort während des Verbindungsversuches mit dem konfigurierten openHAB-Server empfangen. (HTTP-Statuscode: %d).</string>
@@ -108,6 +109,7 @@
     <string name="error_about_no_conn">Fehler beim Abrufen der openHAB-Server-Informationen</string>
     <string name="error_openhab_offline">Die openHAB-Cloud-Instanz funktioniert, aber Ihr openHAB-Server ist offline</string>
     <string name="error_no_app_store_found">Kein App-Store gefunden, um eine Spracherkennungsapp zu installieren</string>
+    <string name="error_no_browser_found">Es wurde kein Browser gefunden, um die Website zu öffnen</string>
     <string name="title_activity_openhabwritetag">NFC-Tag beschreiben</string>
     <string name="title_activity_libraries">Verwendete Bibliotheken</string>
     <string name="info_write_tag">Berühren Sie den NFC-Tag und warten Sie auf die Bestätigungsmitteilung</string>
@@ -125,6 +127,23 @@
     <string name="info_not_set">Nicht gesetzt</string>
     <string name="empty_page">Diese Seite beinhaltet keine sichtbaren Widgets</string>
     <!-- Background tasks -->
+    <string name="send_device_info_item_prefix">Präfix des Item-Namens</string>
+    <string name="settings_alarm_clock">Weckzeit an openHAB senden</string>
+    <string name="settings_alarm_clock_summary_off">Weckzeit wird nicht an den Server gesendet</string>
+    <string name="settings_item_pref_item_name">Item-Name</string>
+    <string name="item_upload_in_progress">Items werden gerade aktualisiert</string>
+    <string name="notification_channel_background">Hintergrund</string>
+    <string name="notification_channel_background_description">Wird verwendet, um ausstehende Hintergrundaufgaben anzuzeigen</string>
+    <string name="notification_channel_background_error">Fehler bei Hintergrundaufgaben</string>
+    <string name="notification_channel_background_error_description">Wird verwendet, um Fehler bei Hintergrundaufgaben anzuzeigen</string>
+    <plurals name="item_update_error_title">
+        <item quantity="one">%d Item konnte nicht aktualisiert werden</item>
+        <item quantity="other">%d Items konnten nicht aktualisiert werden</item>
+    </plurals>
+    <string name="item_update_http_error">Update von Item \'%1$s\' fehlgeschlagen (HTTP-Fehler %2$d)</string>
+    <string name="item_update_connection_error">Update von Item \'%1$s\' fehlgeschlagen (Keine Verbindung)</string>
+    <string name="error_sending_alarm_clock_item_empty">Bitte geben Sie einen gültigen Item-Namen an</string>
+    <string name="retry">Erneut versuchen</string>
     <!-- Notification list strings -->
     <string name="notification_list_empty">Keine Benachrichtigungen bisher versendet</string>
     <string name="notification_list_error">Beim Laden der Benachrichtigungen ist ein Fehler aufgetreten</string>
