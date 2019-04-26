@@ -171,6 +171,13 @@ public class WidgetListFragment extends Fragment
                         labels.add(maxValue);
                         commands.add(maxValue);
                     }
+
+                    if (widget.switchSupport()) {
+                        labels.add(getString(R.string.nfc_action_on));
+                        commands.add("ON");
+                        labels.add(getString(R.string.nfc_action_off));
+                        commands.add("OFF");
+                    }
                 }
             }
         }
