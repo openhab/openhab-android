@@ -169,7 +169,7 @@ public class WriteTagActivity extends AbstractBaseActivity {
                     sitemapUri = new URI(mSitemapPage);
                     if (!TextUtils.isEmpty(mItem) && !TextUtils.isEmpty(mState)) {
                         Uri.Builder uriBuilder = new Uri.Builder()
-                                .scheme("openhabitem")
+                                .scheme("openhab")
                                 .authority("")
                                 .appendQueryParameter(QUERY_PARAMETER_ITEM_NAME, mItem)
                                 .appendQueryParameter(QUERY_PARAMETER_STATE, mState);
