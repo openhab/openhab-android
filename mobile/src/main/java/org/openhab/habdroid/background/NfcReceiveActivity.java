@@ -9,7 +9,6 @@ import android.os.Bundle;
 import org.openhab.habdroid.model.NfcTag;
 import org.openhab.habdroid.ui.MainActivity;
 
-
 public class NfcReceiveActivity extends Activity {
 
     @Override
@@ -24,7 +23,7 @@ public class NfcReceiveActivity extends Activity {
         if (Intent.ACTION_VIEW.equals(intent.getAction())
                 || NfcAdapter.ACTION_NDEF_DISCOVERED.equals(intent.getAction())) {
             NfcTag tag = NfcTag.fromTagData(intent.getData());
-            if(tag.mustOpenSitemap()) {
+            if (tag.mustOpenSitemap()) {
                 Intent startMainIntent = new Intent(this, MainActivity.class);
                 startMainIntent.setAction(MainActivity.ACTION_SITEMAP_SELECTED);
                 startMainIntent.putExtra(MainActivity.EXTRA_SITEMAP_URL, tag.sitemap());
