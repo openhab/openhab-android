@@ -371,7 +371,7 @@ public class MainActivity extends AbstractBaseActivity implements
             case Intent.ACTION_VIEW:
                 NfcTag tag = NfcTag.fromTagData(intent.getData());
 
-                if(tag.mustOpenSitemap()) {
+                if (tag.mustOpenSitemap()) {
                     mPendingOpenSitemapUrl = tag.sitemap();
                     openPendingSitemapIfNeeded();
                 }
