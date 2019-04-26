@@ -276,9 +276,7 @@ public abstract class ContentController implements PageConnectionHolderFragment.
     }
 
     /**
-     * Indicate to the user that the screen lock passcode was wrong
-     *
-     * @param message Error message to show
+     * Indicate to the user that the screen lock passcode was wrong.
      */
     public void indicateScreenLockFailure() {
         Log.d(TAG, "Indicate screen lock failure");

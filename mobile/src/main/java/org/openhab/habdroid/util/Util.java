@@ -153,7 +153,7 @@ public class Util {
     }
 
     public static void setScreenshotPrevention(@NonNull Activity activity, boolean isEnabled) {
-        if(isEnabled) {
+        if (isEnabled) {
             activity.getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE,
                     WindowManager.LayoutParams.FLAG_SECURE);
         } else {

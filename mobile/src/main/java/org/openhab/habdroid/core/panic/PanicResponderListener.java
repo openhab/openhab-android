@@ -15,7 +15,7 @@ import org.openhab.habdroid.util.Constants;
  * in "panic responder" apps.
  */
 public class PanicResponderListener extends BroadcastReceiver {
-    private final static String TAG = PanicResponderListener.class.getSimpleName();
+    private static final String TAG = PanicResponderListener.class.getSimpleName();
 
     @Override
     public void onReceive(Context context, Intent intent) {
