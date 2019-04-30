@@ -11,7 +11,6 @@ import androidx.fragment.app.Fragment;
 import com.github.paolorotolo.appintro.AppIntro;
 import com.github.paolorotolo.appintro.AppIntroFragment;
 import org.openhab.habdroid.R;
-import org.openhab.habdroid.util.Util;
 
 public class IntroActivity extends AppIntro {
     @Override
@@ -35,12 +34,6 @@ public class IntroActivity extends AppIntro {
         // Change bar color
         setBarColor(ContextCompat.getColor(this, R.color.openhab_orange));
         setSeparatorColor(ContextCompat.getColor(this, R.color.openhab_orange_dark));
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        Util.checkFullscreen(this);
     }
 
     /**

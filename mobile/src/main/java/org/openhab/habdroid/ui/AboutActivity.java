@@ -14,7 +14,6 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -36,6 +35,7 @@ import org.openhab.habdroid.core.connection.Connection;
 import org.openhab.habdroid.core.connection.ConnectionFactory;
 import org.openhab.habdroid.core.connection.exception.ConnectionException;
 import org.openhab.habdroid.model.ServerProperties;
+import org.openhab.habdroid.util.BaseActivity;
 import org.openhab.habdroid.util.SyncHttpClient;
 import org.openhab.habdroid.util.Util;
 
@@ -46,11 +46,10 @@ import java.util.Locale;
 
 import static org.openhab.habdroid.util.Util.obfuscateString;
 
-public class AboutActivity extends AppCompatActivity implements
+public class AboutActivity extends BaseActivity implements
         FragmentManager.OnBackStackChangedListener  {
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        Util.initActivity(this);
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_about);
@@ -71,12 +70,6 @@ public class AboutActivity extends AppCompatActivity implements
 
         updateTitle();
         setResult(RESULT_OK);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        Util.checkFullscreen(this);
     }
 
     @Override

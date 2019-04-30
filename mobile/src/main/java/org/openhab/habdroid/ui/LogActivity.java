@@ -15,18 +15,18 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import org.openhab.habdroid.R;
+import org.openhab.habdroid.util.BaseActivity;
 import org.openhab.habdroid.util.Constants;
 import org.openhab.habdroid.util.Util;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
-public class LogActivity extends AppCompatActivity {
+public class LogActivity extends BaseActivity {
     private static final String TAG = LogActivity.class.getSimpleName();
 
     private ProgressBar mProgressBar;
@@ -37,7 +37,6 @@ public class LogActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Util.initActivity(this);
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_log);
@@ -66,7 +65,6 @@ public class LogActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        Util.checkFullscreen(this);
         setUiState(true, false);
         new GetLogFromAdbTask().execute(false);
     }

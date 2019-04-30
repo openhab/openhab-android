@@ -32,7 +32,6 @@ import androidx.annotation.DrawableRes;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.annotation.VisibleForTesting;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.NavUtils;
 import androidx.core.content.ContextCompat;
@@ -41,6 +40,7 @@ import androidx.core.graphics.drawable.DrawableCompat;
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.model.ServerProperties;
 import org.openhab.habdroid.ui.widget.ItemUpdatingPreference;
+import org.openhab.habdroid.util.BaseActivity;
 import org.openhab.habdroid.util.CacheManager;
 import org.openhab.habdroid.util.Constants;
 import org.openhab.habdroid.util.Util;
@@ -53,7 +53,7 @@ import static org.openhab.habdroid.util.Util.getHostFromUrl;
 /**
  * This is a class to provide preferences activity for application.
  */
-public class PreferencesActivity extends AppCompatActivity {
+public class PreferencesActivity extends BaseActivity {
     public static final String RESULT_EXTRA_THEME_CHANGED = "theme_changed";
     public static final String RESULT_EXTRA_SITEMAP_CLEARED = "sitemap_cleared";
     public static final String START_EXTRA_SERVER_PROPERTIES = "server_properties";
@@ -64,7 +64,6 @@ public class PreferencesActivity extends AppCompatActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        Util.initActivity(this);
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_prefs);
@@ -83,12 +82,6 @@ public class PreferencesActivity extends AppCompatActivity {
             mResultIntent = savedInstanceState.getParcelable(STATE_KEY_RESULT);
         }
         setResult(RESULT_OK, mResultIntent);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        Util.checkFullscreen(this);
     }
 
     @Override

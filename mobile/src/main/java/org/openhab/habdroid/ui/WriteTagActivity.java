@@ -37,19 +37,19 @@ import android.widget.TextView;
 import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import org.openhab.habdroid.R;
+import org.openhab.habdroid.util.BaseActivity;
 import org.openhab.habdroid.util.Util;
 
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-public class WriteTagActivity extends AppCompatActivity {
+public class WriteTagActivity extends BaseActivity {
     private static final String TAG = WriteTagActivity.class.getSimpleName();
 
     private NfcAdapter mNfcAdapter;
@@ -59,7 +59,6 @@ public class WriteTagActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Util.initActivity(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_writetag);
 
@@ -110,8 +109,6 @@ public class WriteTagActivity extends AppCompatActivity {
     public void onResume() {
         Log.d(TAG, "onResume()");
         super.onResume();
-
-        Util.checkFullscreen(this);
 
         if (mNfcAdapter != null) {
             Intent intent = new Intent(this, getClass())

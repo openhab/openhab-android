@@ -10,11 +10,9 @@
 package org.openhab.habdroid.util;
 
 import android.app.Activity;
-import android.app.ActivityManager;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.preference.PreferenceManager;
@@ -143,24 +141,6 @@ public class Util {
         return null;
     }
 
-    public static void initActivity(@NonNull final Activity activity) {
-        initActivity(activity, null);
-    }
-
-    public static void initActivity(@NonNull final Activity activity, String theme) {
-        activity.setTheme(getActivityThemeId(activity, theme));
-        checkFullscreen(activity);
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            TypedValue typedValue = new TypedValue();
-            activity.getTheme().resolveAttribute(R.attr.colorPrimary, typedValue, true);
-            activity.setTaskDescription(new ActivityManager.TaskDescription(
-                    activity.getString(R.string.app_name),
-                    BitmapFactory.decodeResource(activity.getResources(), R.mipmap.icon),
-                    typedValue.data));
-        }
-    }
-
     public static @StyleRes int getActivityThemeId(@NonNull final Activity activity) {
         return getActivityThemeId(activity, null);
     }
@@ -187,36 +167,25 @@ public class Util {
         return R.style.HABDroid_Light;
     }
 
-    /**
-     * If fullscreen is enabled and we are on at least android 4.4 set
-     * the system visibility to fullscreen + immersive + noNav
-     *
-     * @author Dan Cunningham
-     */
     public static void checkFullscreen(Activity activity) {
         checkFullscreen(activity, isFullscreenEnabled(activity));
     }
 
     public static void checkFullscreen(Activity activity, boolean isEnabled) {
         int uiOptions = activity.getWindow().getDecorView().getSystemUiVisibility();
+        final int flags = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+                | View.SYSTEM_UI_FLAG_FULLSCREEN;
         if (isEnabled) {
-            uiOptions = uiOptions
-                    | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                    | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-                    | View.SYSTEM_UI_FLAG_FULLSCREEN;
+            uiOptions |= flags;
         } else {
-            uiOptions = uiOptions
-                    & View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                    & View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-                    & View.SYSTEM_UI_FLAG_FULLSCREEN;
+            uiOptions &= ~flags;
         }
         activity.getWindow().getDecorView().setSystemUiVisibility(uiOptions);
     }
 
-    /**
-     * If we are 4.4 we can use fullscreen mode and Daydream features
-     */
     public static boolean isFullscreenEnabled(Context context) {
+        // If we are 4.4 we can use fullscreen mode and Daydream features
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
             return false;
         }

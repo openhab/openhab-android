@@ -57,7 +57,6 @@ import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
@@ -88,6 +87,7 @@ import org.openhab.habdroid.model.Sitemap;
 import org.openhab.habdroid.ui.activity.ContentController;
 import org.openhab.habdroid.util.AsyncHttpClient;
 import org.openhab.habdroid.util.AsyncServiceResolver;
+import org.openhab.habdroid.util.BaseActivity;
 import org.openhab.habdroid.util.Constants;
 import org.openhab.habdroid.util.Util;
 
@@ -101,7 +101,7 @@ import javax.jmdns.ServiceInfo;
 
 import static org.openhab.habdroid.util.Constants.PREV_SERVER_FLAGS;
 
-public class MainActivity extends AppCompatActivity implements
+public class MainActivity extends BaseActivity implements
         AsyncServiceResolver.Listener, ConnectionFactory.UpdateListener {
     public static final String ACTION_NOTIFICATION_SELECTED =
             "org.openhab.habdroid.action.NOTIFICATION_SELECTED";
@@ -180,8 +180,6 @@ public class MainActivity extends AppCompatActivity implements
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         }
 
-        // Set the theme to one from preferences
-        Util.initActivity(this);
         super.onCreate(savedInstanceState);
 
         String controllerClassName = getResources().getString(R.string.controller_class);
@@ -393,7 +391,7 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onResume() {
+    protected void onResume() {
         Log.d(TAG, "onResume()");
         super.onResume();
 
@@ -406,7 +404,6 @@ public class MainActivity extends AppCompatActivity implements
         }
 
         updateTitle();
-        Util.checkFullscreen(this);
     }
 
     @Override
