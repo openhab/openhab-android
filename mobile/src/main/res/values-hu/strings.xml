@@ -73,7 +73,6 @@
     <string name="info_conn_rem_url">Kapcsolódás a távoli URL-hez</string>
     <string name="app_shortcut_diabled_habpanel">A szerveren nincs telepítve HABPanel</string>
     <string name="app_shortcut_diabled_notifications">A távoli szerver nem érhető el</string>
-    <string name="app_shortcut_diabled_voice_recognition">Ez az eszköz nem rendelkezik speech-to-text alkalmazással</string>
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB üres felületet adott vissza</string>
     <string name="error_network_not_available">Hálózat nem elérhető</string>
@@ -107,8 +106,6 @@
     <string name="error_http_code_511">Hálózati hitelesítésre van szükség (HTTP válasz-kód 511)</string>
     <string name="error_about_no_conn">Hiba történt az openHAB szerver adatok lekérése közben</string>
     <string name="error_openhab_offline">A openHAB kiszolgálója offline állapotban van, de a felhő szolgáltatás fut</string>
-    <string name="error_no_app_store_found">Nem található Alkalmazásbolt a hangfelismerő alkalmazás telepítéséhez</string>
-    <string name="error_no_browser_found">Nem található böngésző a weboldal megjelenítéséhez</string>
     <string name="title_activity_openhabwritetag">NFC-címke írása</string>
     <string name="title_activity_libraries">Használt könyvtárak</string>
     <string name="info_write_tag">Érintse meg a címkét, és tartsa közel, amíg meg nem jelenik a visszaigazoló üzenet</string>
