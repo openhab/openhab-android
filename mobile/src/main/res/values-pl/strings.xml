@@ -73,7 +73,6 @@
     <string name="info_conn_rem_url">Łączenie ze zdalnym adresem URL</string>
     <string name="app_shortcut_diabled_habpanel">Na twoim serwerze nie ma zainstalowanego HABPanel</string>
     <string name="app_shortcut_diabled_notifications">Twój serwer zdalny jest niedostępny</string>
-    <string name="app_shortcut_diabled_voice_recognition">Twoje urządzenie nie ma zainstalowanej aplikacji rozpoznawania mowy</string>
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB zwrócił pustą listę Sitemap</string>
     <string name="error_network_not_available">Sieć jest niedostępna</string>
@@ -106,7 +105,6 @@
     <string name="error_http_code_511">Autoryzacja sieci jest wymagana (Kod HTTP - 511)</string>
     <string name="error_about_no_conn">Wystąpił błąd podczas pobierania informacji o serwerze openHAB</string>
     <string name="error_openhab_offline">Twój serwer openHAB nie jest podłączony, ale instancja cloud pracuje prawidłowo</string>
-    <string name="error_no_app_store_found">Nie znaleziono app store do instalacji aplikacji rozpoznawania głosu</string>
     <string name="title_activity_openhabwritetag">Napisz tag NFC</string>
     <string name="title_activity_libraries">Użyte biblioteki</string>
     <string name="info_write_tag">Kliknij na tag i przytrzymaj dopóki wiadomość informacyjna się nie pokaże</string>
