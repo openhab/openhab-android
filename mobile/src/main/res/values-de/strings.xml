@@ -73,7 +73,6 @@
     <string name="info_conn_rem_url">Verbinde mit Remote-URL</string>
     <string name="app_shortcut_diabled_habpanel">Ihr Server hat kein HABPanel installiert</string>
     <string name="app_shortcut_diabled_notifications">Ihr Server für den Fernzugriff ist nicht verfügbar</string>
-    <string name="app_shortcut_diabled_voice_recognition">Ihr Gerät hat keine Sprache-zu-Text-App installiert</string>
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB lieferte eine leere Sitemap-Liste</string>
     <string name="error_sitemap_generic_load_error">Die Sitemap konnte nicht geladen werden. Der folgende Fehler ist aufgetreten: %1$s</string>
@@ -108,8 +107,6 @@
     <string name="error_http_code_511">Netzwerkauthentifizierung wird gefordert (HTTP-Statuscode 511)</string>
     <string name="error_about_no_conn">Fehler beim Abrufen der openHAB-Server-Informationen</string>
     <string name="error_openhab_offline">Die openHAB-Cloud-Instanz funktioniert, aber Ihr openHAB-Server ist offline</string>
-    <string name="error_no_app_store_found">Kein App-Store gefunden, um eine Spracherkennungsapp zu installieren</string>
-    <string name="error_no_browser_found">Es wurde kein Browser gefunden, um die Website zu öffnen</string>
     <string name="title_activity_openhabwritetag">NFC-Tag beschreiben</string>
     <string name="title_activity_libraries">Verwendete Bibliotheken</string>
     <string name="info_write_tag">Berühren Sie den NFC-Tag und warten Sie auf die Bestätigungsmitteilung</string>
