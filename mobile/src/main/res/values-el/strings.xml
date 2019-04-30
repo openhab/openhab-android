@@ -89,7 +89,6 @@
     <string name="error_http_code_511">Απαιτείται πιστοποίηση δικτύου (κωδικός απόκρισης HTTP 511)</string>
     <string name="error_about_no_conn">Σφάλμα κατά τη λήψη των πληροφοριών διακομιστή openHAB</string>
     <string name="error_openhab_offline">Ο openHAB διακομιστής σας βρίσκεται εκτός σύνδεσης ενώ εκτελείται η παρουσία στο cloud</string>
-    <string name="error_no_app_store_found">Δεν βρέθηκε app store για την εγκατάσταση εφαρμογής αναγνώρισης φωνής</string>
     <string name="title_activity_openhabwritetag">Εγγραφή ετικέτας NFC</string>
     <string name="title_activity_libraries">Χρησιμοποιημένες βιβλιοθήκες</string>
     <string name="info_write_tag">Αγγίξτε την ετικέτα NFC και κρατήστε την κοντά μέχρι να εμφανιστεί το μήνυμα επιβεβαίωσης</string>
