@@ -86,7 +86,6 @@
     <string name="error_http_code_507">خادم openHAB لا يمتلك مساحة خالية كافية (رمز استجابة HTTP 507)</string>
     <string name="error_http_code_511">يتطلب مصادقة الشبكة (رمز استجابة HTTP 511)</string>
     <string name="error_about_no_conn">حدث خطأ أثناء جلب معلومات خادم openHAB</string>
-    <string name="error_no_app_store_found">لم يتم العثور على متجر تطبيقات لتثبيت تطبيق أداة التعرف على الصوت</string>
     <string name="title_activity_openhabwritetag">أكتب وسم NFC</string>
     <string name="title_activity_libraries">المكتبات المستخدمة</string>
     <string name="info_write_tag">إلمس العلامة واجعله قريبا حتى تظهر رسالة التأكيد</string>
