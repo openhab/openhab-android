@@ -71,7 +71,6 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 import okhttp3.Headers;
 import okhttp3.Request;
-import org.openhab.habdroid.BuildConfig;
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.core.CloudMessagingHelper;
 import org.openhab.habdroid.core.OnUpdateBroadcastReceiver;
@@ -1011,8 +1010,8 @@ public class MainActivity extends AppCompatActivity implements
         } catch (ActivityNotFoundException speechRecognizerNotFoundException) {
             showSnackbar(R.string.error_no_speech_to_text_app_found, R.string.install, v -> {
                 try {
-                    startActivity(new Intent(Intent.ACTION_VIEW,
-                            Uri.parse("market://details?id=com.google.android.googlequicksearchbox")));
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(
+                            "market://details?id=com.google.android.googlequicksearchbox")));
                 } catch (ActivityNotFoundException appStoreNotFoundException) {
                     try {
                         startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(
@@ -1031,10 +1030,11 @@ public class MainActivity extends AppCompatActivity implements
             return;
         }
 
-        showSnackbar(R.string.swipe_to_refresh_description, R.string.swipe_to_refresh_dismiss, v -> {
+        showSnackbar(R.string.swipe_to_refresh_description, R.string.swipe_to_refresh_dismiss,
+                v -> {
             prefs.edit()
-                .putBoolean(Constants.PREFERENCE_SWIPE_REFRESH_EXPLAINED, true)
-                .apply();
+                    .putBoolean(Constants.PREFERENCE_SWIPE_REFRESH_EXPLAINED, true)
+                    .apply();
         });
     }
 
@@ -1042,8 +1042,8 @@ public class MainActivity extends AppCompatActivity implements
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         showSnackbar(R.string.info_demo_mode_short, R.string.turn_off, v -> {
             prefs.edit()
-                .putBoolean(Constants.PREFERENCE_DEMOMODE, false)
-                .apply();
+                    .putBoolean(Constants.PREFERENCE_DEMOMODE, false)
+                    .apply();
         });
     }
 
@@ -1052,7 +1052,7 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     private void showSnackbar(@StringRes int messageResId, @StringRes int actionResId,
-                              View.OnClickListener onClickListener) {
+            View.OnClickListener onClickListener) {
         hideSnackbar();
         mLastSnackbar = Snackbar.make(findViewById(android.R.id.content), messageResId,
                 Snackbar.LENGTH_LONG);
@@ -1190,10 +1190,9 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     private void setVoiceWidgetComponentEnabledSetting(Class<?> component,
-                                                       boolean isSpeechRecognizerAvailable) {
-        ComponentName voiceWidget = new ComponentName(BuildConfig.APPLICATION_ID,
-                component.getCanonicalName());
-        PackageManager pm = getApplicationContext().getPackageManager();
+            boolean isSpeechRecognizerAvailable) {
+        ComponentName voiceWidget = new ComponentName(this, component);
+        PackageManager pm = getPackageManager();
         int newState = isSpeechRecognizerAvailable ? PackageManager.COMPONENT_ENABLED_STATE_ENABLED
                 : PackageManager.COMPONENT_ENABLED_STATE_DISABLED;
         pm.setComponentEnabledSetting(voiceWidget, newState, PackageManager.DONT_KILL_APP);
