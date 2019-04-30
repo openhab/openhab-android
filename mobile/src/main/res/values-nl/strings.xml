@@ -72,7 +72,6 @@
     <string name="info_conn_rem_url">Verbinden naar externe URL</string>
     <string name="app_shortcut_diabled_habpanel">Op uw server is HABPanel niet geïnstalleerd</string>
     <string name="app_shortcut_diabled_notifications">Uw externe server is niet beschikbaar</string>
-    <string name="app_shortcut_diabled_voice_recognition">Uw apparaat heeft geen spraak-naar-tekst app geïnstalleerd</string>
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB heeft een lege Sitemap geladen</string>
     <string name="error_sitemap_generic_load_error">De Sitemap kon niet worden geladen. De volgende fout is opgetreden: %1$s</string>
@@ -107,8 +106,6 @@
     <string name="error_http_code_511">Netwerkverificatie is vereist (HTTP responscode 511)</string>
     <string name="error_about_no_conn">Fout bij het ophalen van openHAB serverinformatie</string>
     <string name="error_openhab_offline">Uw openHAB server is offline terwijl de cloud instance actief is</string>
-    <string name="error_no_app_store_found">Geen app store gevonden om een app voor spraakherkenning te installeren</string>
-    <string name="error_no_browser_found">Geen browser gevonden om website te openen</string>
     <string name="title_activity_openhabwritetag">Schrijf NFC-tag</string>
     <string name="title_activity_libraries">Gebruikte bibliotheken</string>
     <string name="info_write_tag">Raak de tag aan en houd het dichtbij tot een bevestiging verschijnt</string>
