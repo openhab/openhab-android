@@ -23,7 +23,7 @@ This app is a native client for openHAB which allows easy access to your sitemap
 * Receive notifications from openHAB Cloud
 * Change items via NFC tags
 * Send voice commands to openHAB
-* Discover devices and add them as items
+* Send alarm clock time to openHAB
 * Supports wall mounted tablets
 
 <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/main-menu.png" width="200px"> <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/widget-overview.png" width="200px"> <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/chart.png" width="200px">
