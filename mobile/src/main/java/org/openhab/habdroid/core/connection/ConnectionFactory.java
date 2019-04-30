@@ -121,6 +121,10 @@ public final class ConnectionFactory extends BroadcastReceiver implements
                 .build();
         updateHttpClientForClientCert(true);
 
+        // Relax per-host connection limit, as the default limit (max 5 connections per host) is
+        // too low considering SSE connections count against that limit.
+        mHttpClient.dispatcher().setMaxRequestsPerHost(mHttpClient.dispatcher().getMaxRequests());
+
         IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
         // Make sure to ignore the initial sticky broadcast, as we're only interested in changes
         mIgnoreNextConnectivityChange = context.registerReceiver(null, filter) != null;
