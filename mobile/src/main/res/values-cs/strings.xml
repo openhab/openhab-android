@@ -73,7 +73,6 @@
     <string name="info_conn_rem_url">Připojuji se ke vzdálené URL</string>
     <string name="app_shortcut_diabled_habpanel">Na Vašem serveru není nainstalován HABPanel</string>
     <string name="app_shortcut_diabled_notifications">Vzdálený server není dostupný</string>
-    <string name="app_shortcut_diabled_voice_recognition">Na Vašem zařízení nemáte nainstalovanou aplikaci k převodu řeči na text</string>
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB vrátil prázdný seznam Sitemap</string>
     <string name="error_network_not_available">Síť není k dispozici</string>
@@ -107,7 +106,6 @@
     <string name="error_http_code_511">Vyžaduje se síťové ověření (kód odpovědi HTTP 511)</string>
     <string name="error_about_no_conn">Chyba při získávání informací ze serveru openHAB</string>
     <string name="error_openhab_offline">Váš openHAB server je offline, zatímco cloud funguje</string>
-    <string name="error_no_app_store_found">Nenalezen obchod s aplikacemi, kde by bylo možné nainstalovat aplikaci pro rozpoznávání hlasu</string>
     <string name="title_activity_openhabwritetag">Zapsat do NFC tagu</string>
     <string name="title_activity_libraries">Použité knihovny</string>
     <string name="info_write_tag">Dotkněte se tagu a počkejte na potvrzovací zprávu</string>
