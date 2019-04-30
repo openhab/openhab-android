@@ -89,7 +89,6 @@
     <string name="error_http_code_511">Autentificarea în rețea este necesară (cod răspuns HTTP 511)</string>
     <string name="error_about_no_conn">Eroare la obținerea informațiilor despre serverul openHAB</string>
     <string name="error_openhab_offline">Serverul dumneavoastră openHAB este offline în timp ce instanța cloud este pornită</string>
-    <string name="error_no_app_store_found">Nu a fost găsit nici un magazin de aplicații pentru instalarea aplicației de recunoaştere vocală</string>
     <string name="title_activity_openhabwritetag">Scrie NFC-tag</string>
     <string name="title_activity_libraries">Librării utilizate</string>
     <string name="info_write_tag">Atingeţi eticheta şi păstraţi tag-ul NFC aproape, până când apare mesajul de confirmare</string>
