@@ -73,7 +73,6 @@
     <string name="info_conn_rem_url">Підключення до віддаленого URL</string>
     <string name="app_shortcut_diabled_habpanel">Ваш сервер не має встановленої HABPanel</string>
     <string name="app_shortcut_diabled_notifications">Ваш віддалений сервер недоступний</string>
-    <string name="app_shortcut_diabled_voice_recognition">Ваш пристрій не має встановленого застосунку для голосового набору тексту</string>
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB повернув порожній список сторінок інтерфейсу</string>
     <string name="error_sitemap_generic_load_error">Неможливо завантажити Sitemap. Сталася помилка: %1$s</string>
@@ -108,8 +107,6 @@
     <string name="error_http_code_511">Необхідна аутентифікації мережі (код відповіді HTTP 511)</string>
     <string name="error_about_no_conn">Помилка під час отримання інформації з сервера openHAB</string>
     <string name="error_openhab_offline">Сервер openHAB недоступний, але його хмарний екземпляр працює</string>
-    <string name="error_no_app_store_found">Не знайдено магазин застосунків для встановлення програми розпізнавання голосу</string>
-    <string name="error_no_browser_found">Не знайдено браузер для відкриття сайту</string>
     <string name="title_activity_openhabwritetag">Запис NFC мітки</string>
     <string name="title_activity_libraries">Використані бібліотеки</string>
     <string name="info_write_tag">Доторкніться до NFС мітки і притримайте доки не з’явиться підтвердження</string>
