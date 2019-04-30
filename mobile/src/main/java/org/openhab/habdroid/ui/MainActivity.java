@@ -14,10 +14,12 @@ import android.app.Dialog;
 import android.app.PendingIntent;
 import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.content.pm.ShortcutInfo;
 import android.content.pm.ShortcutManager;
 import android.content.res.ColorStateList;
@@ -31,6 +33,7 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.net.wifi.WifiManager;
 import android.nfc.NfcAdapter;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -50,7 +53,6 @@ import android.view.View;
 import android.view.ViewStub;
 import android.view.WindowManager;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 import androidx.annotation.ColorInt;
 import androidx.annotation.DrawableRes;
 import androidx.annotation.Nullable;
@@ -67,7 +69,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
-import es.dmoral.toasty.Toasty;
 import okhttp3.Headers;
 import okhttp3.Request;
 import org.openhab.habdroid.R;
@@ -86,6 +87,8 @@ import org.openhab.habdroid.model.LinkedPage;
 import org.openhab.habdroid.model.ServerProperties;
 import org.openhab.habdroid.model.Sitemap;
 import org.openhab.habdroid.ui.activity.ContentController;
+import org.openhab.habdroid.ui.homescreenwidget.VoiceWidget;
+import org.openhab.habdroid.ui.homescreenwidget.VoiceWidgetWithIcon;
 import org.openhab.habdroid.util.AsyncHttpClient;
 import org.openhab.habdroid.util.AsyncServiceResolver;
 import org.openhab.habdroid.util.Constants;
@@ -261,6 +264,19 @@ public class MainActivity extends AppCompatActivity implements
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
             mShortcutManager = getSystemService(ShortcutManager.class);
         }
+
+        final boolean isSpeechRecognizerAvailable = SpeechRecognizer.isRecognitionAvailable(this);
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... voids) {
+                manageVoiceRecognitionShortcut(isSpeechRecognizerAvailable);
+                setVoiceWidgetComponentEnabledSetting(VoiceWidget.class,
+                        isSpeechRecognizerAvailable);
+                setVoiceWidgetComponentEnabledSetting(VoiceWidgetWithIcon.class,
+                        isSpeechRecognizerAvailable);
+                return null;
+            }
+        }.execute();
     }
 
     private void handleConnectionChange() {
@@ -858,9 +874,7 @@ public class MainActivity extends AppCompatActivity implements
         Log.d(TAG, "onPrepareOptionsMenu()");
         MenuItem voiceRecognitionItem = menu.findItem(R.id.mainmenu_voice_recognition);
         @ColorInt int iconColor = ContextCompat.getColor(this, R.color.light);
-        voiceRecognitionItem.setVisible(mConnection != null
-                && SpeechRecognizer.isRecognitionAvailable(this));
-        manageVoiceRecognitionShortcut(SpeechRecognizer.isRecognitionAvailable(this));
+        voiceRecognitionItem.setVisible(mConnection != null);
         voiceRecognitionItem.getIcon().setColorFilter(iconColor, PorterDuff.Mode.SRC_IN);
         return true;
     }
@@ -994,13 +1008,19 @@ public class MainActivity extends AppCompatActivity implements
         try {
             startActivity(speechIntent);
         } catch (ActivityNotFoundException speechRecognizerNotFoundException) {
-            try {
-                startActivity(new Intent(Intent.ACTION_VIEW,
-                        Uri.parse("market://details?id=com.google.android.googlequicksearchbox")));
-            } catch (ActivityNotFoundException appStoreNotFoundException) {
-                Toasty.error(this, R.string.error_no_app_store_found,
-                        Toast.LENGTH_LONG, true).show();
-            }
+            showSnackbar(R.string.error_no_speech_to_text_app_found, R.string.install, v -> {
+                try {
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(
+                            "market://details?id=com.google.android.googlequicksearchbox")));
+                } catch (ActivityNotFoundException appStoreNotFoundException) {
+                    try {
+                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(
+                                "http://play.google.com/store/apps/details?id=com.google.android.googlequicksearchbox")));
+                    } catch (ActivityNotFoundException browserNotFoundException) {
+                        showSnackbar(R.string.error_no_browser_found);
+                    }
+                }
+            });
         }
     }
 
@@ -1010,31 +1030,35 @@ public class MainActivity extends AppCompatActivity implements
             return;
         }
 
-        mLastSnackbar = Snackbar.make(findViewById(android.R.id.content),
-                R.string.swipe_to_refresh_description, Snackbar.LENGTH_LONG);
-        mLastSnackbar.setAction(R.string.swipe_to_refresh_dismiss, v -> {
+        showSnackbar(R.string.swipe_to_refresh_description, R.string.swipe_to_refresh_dismiss,
+                v -> {
             prefs.edit()
                     .putBoolean(Constants.PREFERENCE_SWIPE_REFRESH_EXPLAINED, true)
                     .apply();
         });
-        mLastSnackbar.show();
     }
 
     public void showDemoModeHintSnackbar() {
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        mLastSnackbar = Snackbar.make(findViewById(android.R.id.content),
-                R.string.info_demo_mode_short, Snackbar.LENGTH_LONG);
-        mLastSnackbar.setAction(R.string.turn_off, v -> {
+        showSnackbar(R.string.info_demo_mode_short, R.string.turn_off, v -> {
             prefs.edit()
                     .putBoolean(Constants.PREFERENCE_DEMOMODE, false)
                     .apply();
         });
-        mLastSnackbar.show();
     }
 
     private void showSnackbar(@StringRes int messageResId) {
-        mLastSnackbar = Snackbar.make(findViewById(android.R.id.content),
-                messageResId, Snackbar.LENGTH_LONG);
+        showSnackbar(messageResId, 0, null);
+    }
+
+    private void showSnackbar(@StringRes int messageResId, @StringRes int actionResId,
+            View.OnClickListener onClickListener) {
+        hideSnackbar();
+        mLastSnackbar = Snackbar.make(findViewById(android.R.id.content), messageResId,
+                Snackbar.LENGTH_LONG);
+        if (actionResId != 0 && onClickListener != null) {
+            mLastSnackbar.setAction(actionResId, onClickListener);
+        }
         mLastSnackbar.show();
     }
 
@@ -1163,5 +1187,14 @@ public class MainActivity extends AppCompatActivity implements
             mShortcutManager.disableShortcuts(Collections.singletonList(id),
                     getString(disableMessage));
         }
+    }
+
+    private void setVoiceWidgetComponentEnabledSetting(Class<?> component,
+            boolean isSpeechRecognizerAvailable) {
+        ComponentName voiceWidget = new ComponentName(this, component);
+        PackageManager pm = getPackageManager();
+        int newState = isSpeechRecognizerAvailable ? PackageManager.COMPONENT_ENABLED_STATE_ENABLED
+                : PackageManager.COMPONENT_ENABLED_STATE_DISABLED;
+        pm.setComponentEnabledSetting(voiceWidget, newState, PackageManager.DONT_KILL_APP);
     }
 }
