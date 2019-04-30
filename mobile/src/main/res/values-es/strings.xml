@@ -73,7 +73,6 @@
     <string name="info_conn_rem_url">Conectando a la URL remota</string>
     <string name="app_shortcut_diabled_habpanel">El servidor no tiene instalado HABPanel</string>
     <string name="app_shortcut_diabled_notifications">El servidor remoto no está disponible</string>
-    <string name="app_shortcut_diabled_voice_recognition">Su dispositivo no tiene una aplicación de voz a texto instalada</string>
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB devolvió una lista de Sitemaps vacía</string>
     <string name="error_sitemap_generic_load_error">No se pudo cargar el Sitemap. Ocurrió el siguiente error: %1$s</string>
@@ -108,8 +107,6 @@
     <string name="error_http_code_511">Se requiere autenticación de red (Código de respuesta HTTP 511)</string>
     <string name="error_about_no_conn">Error al obtener información del servidor openHAB</string>
     <string name="error_openhab_offline">Su servidor openHAB está fuera de línea mientras se ejecuta la instancia de la nube</string>
-    <string name="error_no_app_store_found">No se encontró ninguna tienda de aplicaciones para instalar aplicación de reconocimiento de voz</string>
-    <string name="error_no_browser_found">No se encontró ningún navegador para abrir el sitio web</string>
     <string name="title_activity_openhabwritetag">Escribir etiqueta NFC</string>
     <string name="title_activity_libraries">Librerías usadas</string>
     <string name="info_write_tag">Aproximar el teléfono y mantener presionada la etiqueta hasta que aparezca un mensaje de confirmación</string>
