@@ -104,6 +104,7 @@
     <string name="action_settings">Inställningar</string>
     <string name="nfc_dialog_title">Skriv NFS-tagg för detta element</string>
     <string name="info_not_set">Ej angivet</string>
+    <!-- Background tasks -->
     <!-- Notification list strings -->
     <string name="notification_list_empty">Inga aviseringar har hittills skickats</string>
     <string name="notification_list_error">Ett fel uppstod när aviseringar laddades</string>

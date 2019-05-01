@@ -9,6 +9,7 @@
     <!-- Main menu items -->
     <string name="mainmenu_openhab_sitemaps">Site Haritası</string>
     <string name="mainmenu_openhab_preferences">Ayarlar</string>
+    <string name="habpanel_error">HABPanel yüklenirken bir hata oluştu</string>
     <string name="mainmenu_openhab_clearcache">Resim önbelleğini temizle</string>
     <!-- App settings strings -->
     <string name="settings_openhab_url">Yerel sunucu URL\'si</string>
@@ -17,6 +18,8 @@
     <string name="settings_openhab_alturl_summary">Yerel adres kullanılabilir durumda değilken kullanılan openHAB panel URL\'si. Geçerli ayar: %s</string>
     <string name="settings_openhab_username">Kullanıcı Adı</string>
     <string name="settings_openhab_password">Şifre</string>
+    <string name="settings_openhab_password_summary_weak">Zayıf şifre ayarlandı</string>
+    <string name="settings_openhab_password_summary_strong">Güçlü şifre ayarlandı</string>
     <string name="settings_openhab_sslclientcert">SSL müşteri sertifikası</string>
     <string name="settings_openhab_sslclientcert_howto_summary">SSL müşteri sertifikası yetkilendirilmesi kurulu hakkında ipuçları ve açıklamalar için buraya tıklayınız</string>
     <string name="settings_openhab_screentimeroff">Ekran Zamanlayıcısını devre dışı bırak</string>
@@ -28,6 +31,11 @@
     <string name="settings_openhab_icon_format">Simge formatı</string>
     <string name="settings_openhab_icon_format_png">Bitmap</string>
     <string name="settings_openhab_icon_format_svg">Vektör</string>
+    <string name="settings_no_default_sitemap">Herhangi bir varsayılan Sitemap seçilmedi</string>
+    <string name="settings_openhab_alt_connection">Uzak</string>
+    <string name="settings_openhab_connection">Yerel</string>
+    <string name="settings_connection_summary">%s Bağlanıldı</string>
+    <string name="settings_insecure_connection_summary">Güvenli bir şekilde %s\' e bağlandı</string>
     <!-- App messages strings -->
     <string name="info_voice_input">openHAB Emrinizdedir!</string>
     <string name="info_voice_recognized_text">Tanımlanmış Emir: %1$s</string>
@@ -36,9 +44,17 @@
     <string name="info_conn_url">Yerel Sunucuya Bağlanıyor</string>
     <string name="info_conn_rem_url">Uzak URL\'ye Bağlanıyor</string>
     <!-- Error messages -->
+    <string name="error_empty_sitemap_list">openHAB boş Sitemap listesine döndü</string>
     <string name="error_network_not_available">Network müsait değil</string>
+    <string name="error_http_connection_failed">Bağlantı başarısız. Yapılandırılmış openHAB sunucusuna bağlanmaya çalışırken beklenmeyen bir yanıt alındı ​​(Alınan HTTP yanıt kodu: %d).</string>
+    <string name="error_invalid_url">Lütfen \'http(s)://host:(port)/\' formunda geçerli bir URL giriniz</string>
+    <string name="error_port_seems_invalid">Girdiğiniz port numarası seçili protokol için yanlış görünüyor</string>
     <string name="error_connection_failed">Ana cihaza bağlantı başarısız oldu</string>
     <string name="error_unable_to_resolve_hostname">Ana cihaz adı çözülemiyor</string>
+    <string name="error_connection_sslhandshake_failed">SSL Handshake başarısız oldu Muhtemelen geçerli bir müşteri sertifikasına ihtiyacınız vardır</string>
+    <string name="error_certificate_not_trusted">SSL sertifikasına güvenilmiyor. Lütfen kök sertifikayı içe aktarın ya da SSL sertifika doğrulamasını etkisiz hale getirin.</string>
+    <string name="error_certificate_invalid_date">SSL sertifikasının tarihi geçersiz. Lütfen doğru bir sertifika alın ve aygıtınızın saatinin doğru şekilde ayarlanmış olduğundan emin olun.</string>
+    <string name="error_certificate_revoked">SSL sertifikasının süresi doldu. Lütfen yeni bir sertifika edinin ya da SSL handshake esnasında sunulan sertifika\' yı kabul edin.</string>
     <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
     <string name="error_http_code_496">SSL müşteri sertifikası gereklidir (HTTP yanıt kodu 496)</string>
     <string name="error_http_code_511">Network kimlik doğrulaması gereklidir (HTTP yanıt kodu 511)</string>
@@ -55,8 +71,10 @@
     <string name="action_settings">Ayarlar</string>
     <string name="nfc_dialog_title">Bu element için NFC eylem etiketi yazınız</string>
     <string name="info_not_set">Ayarlı değil</string>
+    <!-- Background tasks -->
     <!-- Notification list strings -->
     <!-- Strings for MemorizingTrustManager activity -->
+    <string name="mtm_connect_anyway">Yine de bağlanmak istiyor musunuz?</string>
     <string name="mtm_decision_once">Bir kez</string>
     <string name="mtm_decision_abort">Çık</string>
     <string name="mtm_notification">Sertifika doğrulama</string>

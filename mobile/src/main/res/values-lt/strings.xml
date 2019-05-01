@@ -55,6 +55,7 @@
     <string name="action_settings">Nustatymai</string>
     <string name="nfc_dialog_title">Prašome pasirinkti NFC žymos veiksmą</string>
     <string name="info_not_set">Nenustatyta</string>
+    <!-- Background tasks -->
     <!-- Notification list strings -->
     <!-- Strings for MemorizingTrustManager activity -->
     <string name="mtm_decision_once">Vieną kartą</string>

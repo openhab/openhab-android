@@ -92,6 +92,7 @@
     <string name="action_settings">Настройки</string>
     <string name="nfc_dialog_title">Запиши NFC етикет за действие на този елемент</string>
     <string name="info_not_set">Не е зададено</string>
+    <!-- Background tasks -->
     <!-- Notification list strings -->
     <string name="notification_list_error">Възникна грешка при зареждането на известията</string>
     <string name="list_loading_message">Зарежда се\u2026</string>

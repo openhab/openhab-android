@@ -55,6 +55,7 @@
     <string name="action_settings">Pengaturan</string>
     <string name="nfc_dialog_title">Tuliskan tag NFC untuk elemen ini</string>
     <string name="info_not_set">Tidak diatur</string>
+    <!-- Background tasks -->
     <!-- Notification list strings -->
     <!-- Strings for MemorizingTrustManager activity -->
     <string name="mtm_decision_once">Sekali</string>

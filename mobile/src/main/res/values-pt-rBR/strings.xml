@@ -73,9 +73,9 @@
     <string name="info_conn_rem_url">Conectando a URL local</string>
     <string name="app_shortcut_diabled_habpanel">Seu servidor não tem o HABPanel instalado</string>
     <string name="app_shortcut_diabled_notifications">Seu servidor remoto não está disponível</string>
-    <string name="app_shortcut_diabled_voice_recognition">Seu dispositivo não tem um aplicativo de fala para texto instalado</string>
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB retornou uma lista de Sitemap vazia</string>
+    <string name="error_sitemap_generic_load_error">O Sitemap não pôde ser carregado. Ocorreu o seguinte erro: %1$s</string>
     <string name="error_network_not_available">Rede não está disponivel</string>
     <string name="error_wifi_not_available">Wi-Fi está desligado</string>
     <string name="error_http_connection_failed">Conexão sem sucesso. Foi recebida uma resposta inesperada ao conectar com servidor openHAB configurado (código de resposta HTTP recebido: %d).</string>
@@ -107,7 +107,6 @@
     <string name="error_http_code_511">Autenticação de rede é necessária (HTTP código de resposta 511)</string>
     <string name="error_about_no_conn">Erro ao buscar informações do servidor openHAB</string>
     <string name="error_openhab_offline">Seu servidor openHAB está offline enquanto está executando a instância de nuvem</string>
-    <string name="error_no_app_store_found">Não foi encontrada a loja de aplicativos para instalar o app de reconhecimento de fala</string>
     <string name="title_activity_openhabwritetag">Escrever na tag NFC</string>
     <string name="title_activity_libraries">Bibliotecas usadas</string>
     <string name="info_write_tag">Toque na tag e a mantenha perto até aparecer a mensagem de confirmação</string>
@@ -124,6 +123,29 @@
     <string name="nfc_dialog_title">Definir a ação da tag NFC para este elemento</string>
     <string name="info_not_set">Não definido</string>
     <string name="empty_page">Esta página não contém qualquer widgets que estão definidos para ser visível</string>
+    <!-- Background tasks -->
+    <string name="send_device_info_to_server">Enviar informações do dispositivo para o servidor</string>
+    <string name="send_device_info_item_prefix">Prefixo do nome do Item</string>
+    <string name="send_device_info_item_prefix_summary">Os nomes de Item dos seguintes recursos tem este prefixo</string>
+    <string name="settings_alarm_clock">Enviar alarme despertador para openHAB</string>
+    <string name="settings_alarm_clock_summary_on">Envia a hora do alarme para item \'%1$s \'</string>
+    <string name="settings_alarm_clock_summary_off">Não enviar a hora do alarme para servidor</string>
+    <string name="settings_alarm_clock_howto_summary">Toque aqui para obter dicas sobre como configurar esse recurso do servidor</string>
+    <string name="settings_item_pref_item_name">Nome do item</string>
+    <string name="waiting_for_item_upload">Aguardando a rede enviar atualizações de Item</string>
+    <string name="item_upload_in_progress">Itens estão sendo atualizados</string>
+    <string name="notification_channel_background">Fundo</string>
+    <string name="notification_channel_background_description">Usado para exibir as tarefas pendentes em segundo plano</string>
+    <string name="notification_channel_background_error">Erro nas tarefas de segundo plano</string>
+    <string name="notification_channel_background_error_description">Usado para notificar sobre erros de tarefas em segundo plano</string>
+    <plurals name="item_update_error_title">
+        <item quantity="one">%d Item não pôde ser atualizado</item>
+        <item quantity="other">%d Items não puderam ser atualizados</item>
+    </plurals>
+    <string name="item_update_http_error">Falha de atualização do Item \'%1$s\' (erro HTTP %2$d)</string>
+    <string name="item_update_connection_error">Falha na atualização do Item \'%1$s\' (Sem conexão)</string>
+    <string name="error_sending_alarm_clock_item_empty">Por favor, insira um nome de Item válido</string>
+    <string name="retry">Tente novamente</string>
     <!-- Notification list strings -->
     <string name="notification_list_empty">Nenhuma notificação foi enviada até agora</string>
     <string name="notification_list_error">Um erro ocorreu enquanto carregava as notificações</string>
@@ -203,6 +225,8 @@
     <string name="content_description_open_number_picker">Abrir selecção de valor</string>
     <string name="content_description_video">Vídeo</string>
     <string name="content_description_open_openhab">Abrir openHAB</string>
+    <string name="content_description_increase_item_value">Aumentar o valor do item</string>
+    <string name="content_description_decrease_item_value">Diminuir o valor do item</string>
     <string name="swipe_to_refresh_description">A aplicação também atualiza automaticamente, normalmente não necessita fazer manualmente</string>
     <string name="swipe_to_refresh_dismiss">Entendido!</string>
     <!-- Intro strings -->

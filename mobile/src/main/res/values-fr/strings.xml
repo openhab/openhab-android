@@ -72,7 +72,6 @@
     <string name="info_conn_rem_url">Connexion à l\'adresse distante</string>
     <string name="app_shortcut_diabled_habpanel">Votre serveur n\'a pas HABPanel d\'installé</string>
     <string name="app_shortcut_diabled_notifications">Votre serveur distant n\'est pas disponible</string>
-    <string name="app_shortcut_diabled_voice_recognition">Votre appareil n\'a pas de synthèse vocale d\'installée</string>
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB a renvoyé une liste vide de sitemaps</string>
     <string name="error_network_not_available">Aucune connexion réseau disponible</string>
@@ -106,7 +105,6 @@
     <string name="error_http_code_511">L’authentification réseau est obligatoire (code de réponse HTTP 511)</string>
     <string name="error_about_no_conn">Erreur lors de la lecture d’informations sur le serveur openHAB</string>
     <string name="error_openhab_offline">Votre serveur openHAB est déconnecté alors que l\'instance dans le cloud est en cours d\'exécution</string>
-    <string name="error_no_app_store_found">Aucun magasin d\'application n\'a été trouvé pour installer l\'appli d\'identification vocale</string>
     <string name="title_activity_openhabwritetag">Écrire un tag NFC</string>
     <string name="title_activity_libraries">Librairies utilisées</string>
     <string name="info_write_tag">Approchez votre téléphone et gardez le proche du tag NFC jusqu\'à ce que le message de confirmation apparaisse</string>
@@ -123,6 +121,7 @@
     <string name="nfc_dialog_title">Sélectionner une action pour le tag NFC</string>
     <string name="info_not_set">Non paramétré</string>
     <string name="empty_page">Cette page ne contient aucun widget qui soit défini pour être visible</string>
+    <!-- Background tasks -->
     <!-- Notification list strings -->
     <string name="notification_list_empty">Aucune notification n\'a été envoyée jusqu\'à maintenant</string>
     <string name="notification_list_error">Une erreur s’est produite lors de la récupération des notifications</string>

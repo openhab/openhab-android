@@ -93,7 +93,6 @@
     <string name="error_http_code_511">Требуется сетевая аутентификация (код ответа HTTP 511)</string>
     <string name="error_about_no_conn">Ошибка при получении данных с сервера openHAB</string>
     <string name="error_openhab_offline">Ваш сервер openHAB не доступен, но его экземпляр в облаке работает</string>
-    <string name="error_no_app_store_found">Не найден магазин приложений для установки системы распознавания голоса</string>
     <string name="title_activity_openhabwritetag">Запись NFC tag</string>
     <string name="title_activity_libraries">Используемые библиотеки</string>
     <string name="info_write_tag">Прикоснитесь к тегу и удерживайте его, пока не появится сообщение подтверждения</string>
@@ -110,6 +109,7 @@
     <string name="nfc_dialog_title">Выберите действие тега NFC</string>
     <string name="info_not_set">Не задано</string>
     <string name="empty_page">Эта страница не содержит виджетов, которые можно сделать видимыми</string>
+    <!-- Background tasks -->
     <!-- Notification list strings -->
     <string name="notification_list_empty">Нет недавно отправленных уведомлений</string>
     <string name="notification_list_error">Ошибка при загрузке уведомлений</string>

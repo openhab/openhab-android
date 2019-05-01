@@ -9,10 +9,12 @@
     <!-- Main menu items -->
     <string name="mainmenu_openhab_sitemaps">Lokasjonskart</string>
     <string name="mainmenu_openhab_preferences">Innstillinger</string>
+    <string name="mainmenu_openhab_habpanel">HABPanel</string>
+    <string name="habpanel_error">Det oppstod en feil under innlasting av HABPanel</string>
     <string name="mainmenu_openhab_selectsitemap">Velg standard lokasjonskart</string>
     <string name="mainmenu_openhab_clearcache">Tøm bildebuffer</string>
     <!-- App settings strings -->
-    <string name="settings_connection_title">Kobling</string>
+    <string name="settings_connection_title">Tilkobling</string>
     <string name="settings_display_title">Skjerm</string>
     <string name="settings_misc_title">Diverse</string>
     <string name="settings_openhab_url">Lokal server adresse</string>
@@ -28,6 +30,7 @@
     <string name="settings_openhab_screentimeroff">Deaktiver skjermsparer</string>
     <string name="settings_openhab_screentimeroff_summary">Deaktiver skjermsparer når openHAB kjører</string>
     <string name="settings_openhab_demomode">Demomodus</string>
+    <string name="settings_openhab_demomode_summary">Hvis du ikke har en openHAB server, aktiver demomodus for å få en oversikt over hva openHAB er i stand til.</string>
     <string name="settings_openhab_theme">Tema</string>
     <string name="settings_openhab_fullscreen">Fullskjerm</string>
     <string name="settings_openhab_fullscreen_summary">Visning i fullskjerm modus</string>
@@ -54,9 +57,13 @@
     <string name="settings_notification_vibration_short">Kort</string>
     <string name="settings_notification_vibration_long">Lang</string>
     <string name="settings_notification_vibration_twice">Dobbel</string>
+    <string name="settings_notification_ringtone_vibration">Varslingsinnstillinger</string>
     <string name="settings_connection_summary">Koblet til %s</string>
     <string name="settings_insecure_connection_summary">Usikkert koblet til %s</string>
+    <string name="beta">Beta</string>
     <!-- App messages strings -->
+    <string name="title_voice_widget">Talekommandoer</string>
+    <string name="title_voice_widget_icon">Talekommandoer og app snarvei</string>
     <string name="info_voice_input">openHAB, under din kommando!</string>
     <string name="info_voice_recognized_text">Gjenkjent kommando: %1$s</string>
     <string name="info_demo_mode_short">Kjører i demomodus</string>
@@ -91,7 +98,6 @@
     <string name="error_http_code_511">Nettverksautentisering påkrevd (HTTP-responskode 511)</string>
     <string name="error_about_no_conn">Feil ved henting av informasjon fra openHAB-serveren</string>
     <string name="error_openhab_offline">openHAB serveren er frakoblet mens cloud-instansen kjører</string>
-    <string name="error_no_app_store_found">Ingen app lager funnet for å installere stemme gjenkjenneren app</string>
     <string name="title_activity_openhabwritetag">Skriv NFC tag</string>
     <string name="title_activity_libraries">Brukte biblioteker</string>
     <string name="info_write_tag">Berør tagen og hold den nær til bekreftelsesmeldingen vises</string>
@@ -107,6 +113,7 @@
     <string name="action_settings">Innstillinger</string>
     <string name="nfc_dialog_title">Skriv NFC handlinger for dette elementet</string>
     <string name="info_not_set">Ikke angitt</string>
+    <!-- Background tasks -->
     <!-- Notification list strings -->
     <string name="notification_list_empty">Ingen meldinger ble sendt så langt</string>
     <string name="notification_list_error">Det oppstod en feil under lasting av meldinger</string>

@@ -68,11 +68,11 @@
     <string name="info_voice_recognized_text">Rozpoznán příkaz: %1$s</string>
     <string name="info_demo_mode_short">Spuštěno v ukázkovém režimu</string>
     <!-- Please try to keep the string as short as possible -->
+    <string name="turn_off">Vypnout</string>
     <string name="info_conn_url">Připojuji se k lokální URL</string>
     <string name="info_conn_rem_url">Připojuji se ke vzdálené URL</string>
     <string name="app_shortcut_diabled_habpanel">Na Vašem serveru není nainstalován HABPanel</string>
     <string name="app_shortcut_diabled_notifications">Vzdálený server není dostupný</string>
-    <string name="app_shortcut_diabled_voice_recognition">Na Vašem zařízení nemáte nainstalovanou aplikaci k převodu řeči na text</string>
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB vrátil prázdný seznam Sitemap</string>
     <string name="error_network_not_available">Síť není k dispozici</string>
@@ -106,7 +106,6 @@
     <string name="error_http_code_511">Vyžaduje se síťové ověření (kód odpovědi HTTP 511)</string>
     <string name="error_about_no_conn">Chyba při získávání informací ze serveru openHAB</string>
     <string name="error_openhab_offline">Váš openHAB server je offline, zatímco cloud funguje</string>
-    <string name="error_no_app_store_found">Nenalezen obchod s aplikacemi, kde by bylo možné nainstalovat aplikaci pro rozpoznávání hlasu</string>
     <string name="title_activity_openhabwritetag">Zapsat do NFC tagu</string>
     <string name="title_activity_libraries">Použité knihovny</string>
     <string name="info_write_tag">Dotkněte se tagu a počkejte na potvrzovací zprávu</string>
@@ -123,6 +122,25 @@
     <string name="nfc_dialog_title">Zapsat akci do NFC tagu</string>
     <string name="info_not_set">Není nastaveno</string>
     <string name="empty_page">Tato stránka neobsahuje žádné widgety, které jsou nastaveny na viditelné</string>
+    <!-- Background tasks -->
+    <string name="send_device_info_to_server">Odeslat informace o zařízení na server</string>
+    <string name="send_device_info_item_prefix">Prefix názvu Item</string>
+    <string name="send_device_info_item_prefix_summary">Názvy Item s těmito vlastnostmi mají tento prefix</string>
+    <string name="settings_alarm_clock">Odeslat budík do openHAB</string>
+    <string name="settings_alarm_clock_summary_on">Odeslat čas budíku do Item \'%1$s\'</string>
+    <string name="settings_alarm_clock_summary_off">Neodesílat čas budíku na server</string>
+    <string name="settings_alarm_clock_howto_summary">Klikněte sem pro nápovědu jak nastavit tuto vlastnost na straně serveru</string>
+    <string name="settings_item_pref_item_name">Jméno Item</string>
+    <string name="waiting_for_item_upload">Čekám na síť abych mohl odeslat aktualizaci Item</string>
+    <string name="item_upload_in_progress">Items se právě aktualizují</string>
+    <string name="notification_channel_background">Pozadí</string>
+    <string name="notification_channel_background_description">Slouží k zobrazení úkolů čekajících na pozadí</string>
+    <string name="notification_channel_background_error">Chyba v úkolech na pozadí</string>
+    <string name="notification_channel_background_error_description">Slouží k upozornění na chyby úkolů na pozadí</string>
+    <string name="item_update_http_error">Chyba aktualizace Item \'%1$s\' (HTTP chyba %2$d)</string>
+    <string name="item_update_connection_error">Chyba aktualizace Item \'%1$s\' (Žádné připojení)</string>
+    <string name="error_sending_alarm_clock_item_empty">Vyplňte prosím platný název Item</string>
+    <string name="retry">Opakovat</string>
     <!-- Notification list strings -->
     <string name="notification_list_empty">Zatím nebylo zaslané žádné oznámení</string>
     <string name="notification_list_error">Při načítání oznámení došlo k chybě</string>
@@ -202,6 +220,8 @@
     <string name="content_description_open_number_picker">Otevřít výběr čísla</string>
     <string name="content_description_video">Video</string>
     <string name="content_description_open_openhab">Spustit openHAB</string>
+    <string name="content_description_increase_item_value">Zvýšit hodnotu Item</string>
+    <string name="content_description_decrease_item_value">Snížit hodnotu Item</string>
     <string name="swipe_to_refresh_description">Aplikace se aktualizuje automaticky, obvykle není třeba to dělat ručně</string>
     <string name="swipe_to_refresh_dismiss">Rozumím!</string>
     <!-- Intro strings -->
