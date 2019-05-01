@@ -1,0 +1,6 @@
+## Fixed
+* Commands get executed only on refresh (#1330)
+* After installing voice recognition app, widgets still don't work (#1324)
+
+## Changed
+* Updated translations
