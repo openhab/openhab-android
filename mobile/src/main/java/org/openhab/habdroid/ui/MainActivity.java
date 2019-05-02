@@ -40,6 +40,7 @@ import android.preference.PreferenceManager;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
 import android.text.SpannableStringBuilder;
+import android.text.TextUtils;
 import android.text.style.RelativeSizeSpan;
 import android.util.Base64;
 import android.util.Log;
@@ -70,6 +71,7 @@ import com.google.android.material.snackbar.Snackbar;
 import okhttp3.Headers;
 import okhttp3.Request;
 import org.openhab.habdroid.R;
+import org.openhab.habdroid.background.BackgroundTasksManager;
 import org.openhab.habdroid.core.CloudMessagingHelper;
 import org.openhab.habdroid.core.OnUpdateBroadcastReceiver;
 import org.openhab.habdroid.core.VoiceService;
@@ -370,8 +372,9 @@ public class MainActivity extends AbstractBaseActivity implements
             case NfcAdapter.ACTION_NDEF_DISCOVERED:
             case Intent.ACTION_VIEW:
                 NfcTag tag = NfcTag.fromTagData(intent.getData());
+                BackgroundTasksManager.enqueueNfcUpdateIfNeeded(tag);
 
-                if (tag.mustOpenSitemap()) {
+                if (tag != null && !TextUtils.isEmpty(tag.sitemap())) {
                     mPendingOpenSitemapUrl = tag.sitemap();
                     openPendingSitemapIfNeeded();
                 }

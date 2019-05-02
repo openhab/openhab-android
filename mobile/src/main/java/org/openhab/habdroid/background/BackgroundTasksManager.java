@@ -11,6 +11,7 @@ import android.os.Parcelable;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.util.Pair;
+import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
 import androidx.work.Constraints;
 import androidx.work.NetworkType;
@@ -18,6 +19,7 @@ import androidx.work.OneTimeWorkRequest;
 import androidx.work.WorkInfo;
 import androidx.work.WorkManager;
 
+import org.openhab.habdroid.model.NfcTag;
 import org.openhab.habdroid.ui.widget.ItemUpdatingPreference;
 import org.openhab.habdroid.util.Constants;
 
@@ -101,7 +103,7 @@ public class BackgroundTasksManager extends BroadcastReceiver {
         enqueueItemUpload(key, prefix + setting.second, getter.getValue(context));
     }
 
-    public static void enqueueItemUpload(String tag, String itemName, String value) {
+    private static void enqueueItemUpload(String tag, String itemName, String value) {
         final Constraints constraints = new Constraints.Builder()
                 .setRequiredNetworkType(NetworkType.CONNECTED)
                 .build();
@@ -117,6 +119,12 @@ public class BackgroundTasksManager extends BroadcastReceiver {
         Log.d(TAG, "Scheduling work for tag " + tag);
         workManager.cancelAllWorkByTag(tag);
         workManager.enqueue(workRequest);
+    }
+
+    public static void enqueueNfcUpdateIfNeeded(@Nullable NfcTag tag) {
+        if (tag != null && tag.sitemap() == null) {
+            enqueueItemUpload(WORKER_TAG_PREFIX_NFC + tag.item(), tag.item(), tag.state());
+        }
     }
 
     static class RetryInfo implements Parcelable {

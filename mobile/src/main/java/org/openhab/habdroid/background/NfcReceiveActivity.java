@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.nfc.NfcAdapter;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.TextUtils;
 
 import org.openhab.habdroid.model.NfcTag;
 import org.openhab.habdroid.ui.MainActivity;
@@ -17,13 +18,15 @@ public class NfcReceiveActivity extends Activity {
 
         Intent intent = getIntent();
         if (intent == null || intent.getData() == null) {
+            finish();
             return;
         }
 
         if (Intent.ACTION_VIEW.equals(intent.getAction())
                 || NfcAdapter.ACTION_NDEF_DISCOVERED.equals(intent.getAction())) {
             NfcTag tag = NfcTag.fromTagData(intent.getData());
-            if (tag.mustOpenSitemap()) {
+            BackgroundTasksManager.enqueueNfcUpdateIfNeeded(tag);
+            if (tag != null && !TextUtils.isEmpty(tag.sitemap())) {
                 Intent startMainIntent = new Intent(this, MainActivity.class);
                 startMainIntent.setAction(MainActivity.ACTION_SITEMAP_SELECTED);
                 startMainIntent.putExtra(MainActivity.EXTRA_SITEMAP_URL, tag.sitemap());
