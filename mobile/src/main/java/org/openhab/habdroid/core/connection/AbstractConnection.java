@@ -100,7 +100,7 @@ public abstract class AbstractConnection implements Connection {
 
     private Socket createConnectedSocket(InetSocketAddress socketAddress) {
         Socket s = new Socket();
-        for (int retries = 0; retries < 20; retries++) {
+        for (int retries = 0; retries < 10; retries++) {
             try {
                 s.connect(socketAddress, 1000);
                 Log.d(TAG, "Socket connected (attempt  " + retries + ")");
