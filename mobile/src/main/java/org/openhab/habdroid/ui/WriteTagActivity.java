@@ -186,7 +186,7 @@ public class WriteTagActivity extends AbstractBaseActivity {
                         longUri = new Uri.Builder()
                                 .scheme("openhab")
                                 .authority("")
-                                .appendPath(sitemapUri.getPath().substring(15))
+                                .appendEncodedPath(sitemapUri.getPath().substring(15))
                                 .toString();
                     }
                 } catch (URISyntaxException e) {

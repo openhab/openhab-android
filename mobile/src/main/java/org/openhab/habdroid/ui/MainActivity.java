@@ -751,13 +751,10 @@ public class MainActivity extends AbstractBaseActivity implements
     }
 
     private void openPendingSitemapIfNeeded() {
-        if (mPendingOpenSitemapUrl == null || mConnection == null || !mStarted) {
-            return;
+        if (mStarted && mPendingOpenSitemapUrl != null && mServerProperties != null) {
+            buildUrlAndOpenSitemap(mPendingOpenSitemapUrl);
+            mPendingOpenSitemapUrl = null;
         }
-
-        buildUrlAndOpenSitemap(mPendingOpenSitemapUrl);
-
-        mPendingOpenSitemapUrl = null;
     }
 
     private void openAbout() {
