@@ -35,7 +35,7 @@ public class BackgroundTasksManager extends BroadcastReceiver {
     static final String EXTRA_RETRY_INFOS = "retryInfos";
 
     private static final String WORKER_TAG_ITEM_UPLOADS = "itemUploads";
-    public static final String WORKER_TAG_PREFIX_NFC = "nfc-";
+    static final String WORKER_TAG_PREFIX_NFC = "nfc-";
 
     static final List<String> KNOWN_KEYS = Arrays.asList(
         Constants.PREFERENCE_ALARM_CLOCK
