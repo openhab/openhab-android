@@ -19,14 +19,13 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import org.openhab.habdroid.R;
-import org.openhab.habdroid.util.BaseActivity;
 import org.openhab.habdroid.util.Constants;
 import org.openhab.habdroid.util.Util;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
-public class LogActivity extends BaseActivity {
+public class LogActivity extends AbstractBaseActivity {
     private static final String TAG = LogActivity.class.getSimpleName();
 
     private ProgressBar mProgressBar;

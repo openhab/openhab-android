@@ -40,10 +40,8 @@ import androidx.core.graphics.drawable.DrawableCompat;
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.model.ServerProperties;
 import org.openhab.habdroid.ui.widget.ItemUpdatingPreference;
-import org.openhab.habdroid.util.BaseActivity;
 import org.openhab.habdroid.util.CacheManager;
 import org.openhab.habdroid.util.Constants;
-import org.openhab.habdroid.util.Util;
 
 import java.util.BitSet;
 
@@ -53,7 +51,7 @@ import static org.openhab.habdroid.util.Util.getHostFromUrl;
 /**
  * This is a class to provide preferences activity for application.
  */
-public class PreferencesActivity extends BaseActivity {
+public class PreferencesActivity extends AbstractBaseActivity {
     public static final String RESULT_EXTRA_THEME_CHANGED = "theme_changed";
     public static final String RESULT_EXTRA_SITEMAP_CLEARED = "sitemap_cleared";
     public static final String START_EXTRA_SERVER_PROPERTIES = "server_properties";
@@ -352,7 +350,7 @@ public class PreferencesActivity extends BaseActivity {
                 getParent(fullscreenPreference).removePreference(fullscreenPreference);
             } else {
                 fullscreenPreference.setOnPreferenceChangeListener((preference, newValue) -> {
-                    Util.checkFullscreen(getActivity(), (boolean) newValue);
+                    ((AbstractBaseActivity) getActivity()).checkFullscreen((boolean) newValue);
                     return true;
                 });
             }

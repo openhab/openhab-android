@@ -42,14 +42,12 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import org.openhab.habdroid.R;
-import org.openhab.habdroid.util.BaseActivity;
-import org.openhab.habdroid.util.Util;
 
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-public class WriteTagActivity extends BaseActivity {
+public class WriteTagActivity extends AbstractBaseActivity {
     private static final String TAG = WriteTagActivity.class.getSimpleName();
 
     private NfcAdapter mNfcAdapter;

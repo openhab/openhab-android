@@ -18,7 +18,6 @@ import android.os.Build;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.util.TypedValue;
-import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewDatabase;
 import androidx.annotation.AttrRes;
@@ -165,32 +164,6 @@ public class Util {
         }
 
         return R.style.HABDroid_Light;
-    }
-
-    public static void checkFullscreen(Activity activity) {
-        checkFullscreen(activity, isFullscreenEnabled(activity));
-    }
-
-    public static void checkFullscreen(Activity activity, boolean isEnabled) {
-        int uiOptions = activity.getWindow().getDecorView().getSystemUiVisibility();
-        final int flags = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-                | View.SYSTEM_UI_FLAG_FULLSCREEN;
-        if (isEnabled) {
-            uiOptions |= flags;
-        } else {
-            uiOptions &= ~flags;
-        }
-        activity.getWindow().getDecorView().setSystemUiVisibility(uiOptions);
-    }
-
-    public static boolean isFullscreenEnabled(Context context) {
-        // If we are 4.4 we can use fullscreen mode and Daydream features
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
-            return false;
-        }
-        return PreferenceManager.getDefaultSharedPreferences(context)
-                .getBoolean(Constants.PREFERENCE_FULLSCREEN, false);
     }
 
     public static boolean exceptionHasCause(Throwable error, Class<? extends Throwable> cause) {

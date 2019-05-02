@@ -35,7 +35,6 @@ import org.openhab.habdroid.core.connection.Connection;
 import org.openhab.habdroid.core.connection.ConnectionFactory;
 import org.openhab.habdroid.core.connection.exception.ConnectionException;
 import org.openhab.habdroid.model.ServerProperties;
-import org.openhab.habdroid.util.BaseActivity;
 import org.openhab.habdroid.util.SyncHttpClient;
 import org.openhab.habdroid.util.Util;
 
@@ -46,7 +45,7 @@ import java.util.Locale;
 
 import static org.openhab.habdroid.util.Util.obfuscateString;
 
-public class AboutActivity extends BaseActivity implements
+public class AboutActivity extends AbstractBaseActivity implements
         FragmentManager.OnBackStackChangedListener  {
     @Override
     public void onCreate(Bundle savedInstanceState) {

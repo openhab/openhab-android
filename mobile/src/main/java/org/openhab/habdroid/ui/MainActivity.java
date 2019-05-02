@@ -87,7 +87,6 @@ import org.openhab.habdroid.model.Sitemap;
 import org.openhab.habdroid.ui.activity.ContentController;
 import org.openhab.habdroid.util.AsyncHttpClient;
 import org.openhab.habdroid.util.AsyncServiceResolver;
-import org.openhab.habdroid.util.BaseActivity;
 import org.openhab.habdroid.util.Constants;
 import org.openhab.habdroid.util.Util;
 
@@ -101,7 +100,7 @@ import javax.jmdns.ServiceInfo;
 
 import static org.openhab.habdroid.util.Constants.PREV_SERVER_FLAGS;
 
-public class MainActivity extends BaseActivity implements
+public class MainActivity extends AbstractBaseActivity implements
         AsyncServiceResolver.Listener, ConnectionFactory.UpdateListener {
     public static final String ACTION_NOTIFICATION_SELECTED =
             "org.openhab.habdroid.action.NOTIFICATION_SELECTED";
@@ -153,7 +152,7 @@ public class MainActivity extends BaseActivity implements
         @Override
         public void onReceive(Context context, Intent intent) {
             Log.i("INTENTFILTER", "Recieved intent: " + intent.toString());
-            Util.checkFullscreen(getParent());
+            checkFullscreen();
         }
     };
 
@@ -234,7 +233,7 @@ public class MainActivity extends BaseActivity implements
 
         processIntent(getIntent());
 
-        if (Util.isFullscreenEnabled(this)) {
+        if (isFullscreenEnabled()) {
             IntentFilter filter = new IntentFilter(Intent.ACTION_DREAMING_STARTED);
             filter.addAction(Intent.ACTION_DREAMING_STOPPED);
             registerReceiver(mDreamReceiver, filter);
@@ -958,7 +957,7 @@ public class MainActivity extends BaseActivity implements
         Log.d(TAG, "onBackPressed()");
         if (mController.canGoBack()) {
             mController.goBack();
-        } else if (!Util.isFullscreenEnabled(this)) {
+        } else if (!isFullscreenEnabled()) {
             // Only handle back action in non-fullscreen mode, as we don't want to exit
             // the app via back button in fullscreen mode
             super.onBackPressed();
