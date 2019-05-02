@@ -142,6 +142,12 @@
     <string name="notification_channel_background_description">Використовується для відображення очікуючих фонових процесів</string>
     <string name="notification_channel_background_error">Помилка у фонових процесах</string>
     <string name="notification_channel_background_error_description">Використовуються для сповіщення про помилки у фонових завданнях</string>
+    <plurals name="item_update_error_title">
+        <item quantity="one">Неможливо оновити %d об\'єкт</item>
+        <item quantity="few">Неможливо оновити %d об\'єкти</item>
+        <item quantity="many">Неможливо оновити %d об\'єктів</item>
+        <item quantity="other">Неможливо оновити %d об\'єктів</item>
+    </plurals>
     <string name="item_update_http_error">Об\'єкт \'%1$s\' оновлення не вдалося (HTTP error %2$d)</string>
     <string name="item_update_connection_error">Об\'єкт \'%1$s\' оновлення не вдалося (немає підключення)</string>
     <string name="error_sending_alarm_clock_item_empty">Будь ласка, введіть припустиме ім\'я об\'єкта</string>
