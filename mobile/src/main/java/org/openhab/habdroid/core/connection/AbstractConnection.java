@@ -107,7 +107,7 @@ public abstract class AbstractConnection implements Connection {
                 return s;
             } catch (SocketTimeoutException e) {
                 Log.d(TAG, "Socket timeout after " + retries + " retries");
-                return null;
+                retries += 5;
             } catch (IOException e) {
                 Log.d(TAG, "Socket creation failed (attempt  " + retries + ")");
                 try {
