@@ -92,8 +92,7 @@ public class PreferencesActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (isFinishing()
-                || (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1 && isDestroyed())) {
+        if (isFinishing()) {
             return true;
         }
         switch (item.getItemId()) {
