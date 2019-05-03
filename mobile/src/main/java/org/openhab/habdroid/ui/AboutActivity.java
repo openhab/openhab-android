@@ -14,7 +14,6 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -46,11 +45,10 @@ import java.util.Locale;
 
 import static org.openhab.habdroid.util.Util.obfuscateString;
 
-public class AboutActivity extends AppCompatActivity implements
+public class AboutActivity extends AbstractBaseActivity implements
         FragmentManager.OnBackStackChangedListener  {
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        Util.setActivityTheme(this);
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_about);

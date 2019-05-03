@@ -10,11 +10,9 @@
 package org.openhab.habdroid.util;
 
 import android.app.Activity;
-import android.app.ActivityManager;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.preference.PreferenceManager;
@@ -140,23 +138,6 @@ public class Util {
             }
         }
         return null;
-    }
-
-    public static void setActivityTheme(@NonNull final Activity activity) {
-        setActivityTheme(activity, null);
-    }
-
-    public static void setActivityTheme(@NonNull final Activity activity, String theme) {
-        activity.setTheme(getActivityThemeId(activity, theme));
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            TypedValue typedValue = new TypedValue();
-            activity.getTheme().resolveAttribute(R.attr.colorPrimary, typedValue, true);
-            activity.setTaskDescription(new ActivityManager.TaskDescription(
-                    activity.getString(R.string.app_name),
-                    BitmapFactory.decodeResource(activity.getResources(), R.mipmap.icon),
-                    typedValue.data));
-        }
     }
 
     public static @StyleRes int getActivityThemeId(@NonNull final Activity activity) {

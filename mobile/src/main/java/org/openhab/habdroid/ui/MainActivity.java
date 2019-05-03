@@ -59,7 +59,6 @@ import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
@@ -104,7 +103,7 @@ import javax.jmdns.ServiceInfo;
 
 import static org.openhab.habdroid.util.Constants.PREV_SERVER_FLAGS;
 
-public class MainActivity extends AppCompatActivity implements
+public class MainActivity extends AbstractBaseActivity implements
         AsyncServiceResolver.Listener, ConnectionFactory.UpdateListener {
     public static final String ACTION_NOTIFICATION_SELECTED =
             "org.openhab.habdroid.action.NOTIFICATION_SELECTED";
@@ -183,8 +182,6 @@ public class MainActivity extends AppCompatActivity implements
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         }
 
-        // Set the theme to one from preferences
-        Util.setActivityTheme(this);
         super.onCreate(savedInstanceState);
 
         String controllerClassName = getResources().getString(R.string.controller_class);
@@ -243,7 +240,6 @@ public class MainActivity extends AppCompatActivity implements
             IntentFilter filter = new IntentFilter(Intent.ACTION_DREAMING_STARTED);
             filter.addAction(Intent.ACTION_DREAMING_STOPPED);
             registerReceiver(mDreamReceiver, filter);
-            checkFullscreen();
         }
 
         //  Create a new boolean and preference and set it to true
@@ -410,7 +406,7 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onResume() {
+    protected void onResume() {
         Log.d(TAG, "onResume()");
         super.onResume();
 
@@ -423,7 +419,6 @@ public class MainActivity extends AppCompatActivity implements
         }
 
         updateTitle();
-        checkFullscreen();
     }
 
     @Override
@@ -1122,32 +1117,6 @@ public class MainActivity extends AppCompatActivity implements
 
     public Connection getConnection() {
         return mConnection;
-    }
-
-    /**
-     * If fullscreen is enabled and we are on at least android 4.4 set
-     * the system visibility to fullscreen + immersive + noNav
-     *
-     * @author Dan Cunningham
-     */
-    protected void checkFullscreen() {
-        if (isFullscreenEnabled()) {
-            int uiOptions = getWindow().getDecorView().getSystemUiVisibility()
-                    | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                    | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-                    | View.SYSTEM_UI_FLAG_FULLSCREEN;
-            getWindow().getDecorView().setSystemUiVisibility(uiOptions);
-        }
-    }
-
-    /**
-     * If we are 4.4 we can use fullscreen mode and Daydream features
-     */
-    protected boolean isFullscreenEnabled() {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
-            return false;
-        }
-        return mPrefs.getBoolean(Constants.PREFERENCE_FULLSCREEN, false);
     }
 
     private void manageHabpanelShortcut(boolean visible) {

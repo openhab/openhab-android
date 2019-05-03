@@ -31,7 +31,6 @@ import androidx.annotation.DrawableRes;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.annotation.VisibleForTesting;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.NavUtils;
 import androidx.core.content.ContextCompat;
@@ -42,7 +41,6 @@ import org.openhab.habdroid.model.ServerProperties;
 import org.openhab.habdroid.ui.widget.ItemUpdatingPreference;
 import org.openhab.habdroid.util.CacheManager;
 import org.openhab.habdroid.util.Constants;
-import org.openhab.habdroid.util.Util;
 
 import java.util.BitSet;
 
@@ -52,7 +50,7 @@ import static org.openhab.habdroid.util.Util.getHostFromUrl;
 /**
  * This is a class to provide preferences activity for application.
  */
-public class PreferencesActivity extends AppCompatActivity {
+public class PreferencesActivity extends AbstractBaseActivity {
     public static final String RESULT_EXTRA_THEME_CHANGED = "theme_changed";
     public static final String RESULT_EXTRA_SITEMAP_CLEARED = "sitemap_cleared";
     public static final String START_EXTRA_SERVER_PROPERTIES = "server_properties";
@@ -63,7 +61,6 @@ public class PreferencesActivity extends AppCompatActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        Util.setActivityTheme(this);
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_prefs);
@@ -249,6 +246,7 @@ public class PreferencesActivity extends AppCompatActivity {
             final Preference clearDefaultSitemapPref =
                     findPreference(Constants.PREFERENCE_CLEAR_DEFAULT_SITEMAP);
             final Preference ringtonePref = findPreference(Constants.PREFERENCE_TONE);
+            final Preference fullscreenPreference = findPreference(Constants.PREFERENCE_FULLSCREEN);
             final Preference sendDeviceInfoPrefixPref =
                     findPreference(Constants.PREFERENCE_SEND_DEVICE_INFO_PREFIX);
             final Preference alarmClockPrefCat =
@@ -349,8 +347,12 @@ public class PreferencesActivity extends AppCompatActivity {
 
             if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT) {
                 Log.d(TAG, "Removing fullscreen pref as device isn't running Kitkat or higher");
-                Preference fullscreenPreference = ps.findPreference(Constants.PREFERENCE_FULLSCREEN);
                 getParent(fullscreenPreference).removePreference(fullscreenPreference);
+            } else {
+                fullscreenPreference.setOnPreferenceChangeListener((preference, newValue) -> {
+                    ((AbstractBaseActivity) getActivity()).checkFullscreen((boolean) newValue);
+                    return true;
+                });
             }
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
