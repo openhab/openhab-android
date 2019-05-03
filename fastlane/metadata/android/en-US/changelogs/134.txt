@@ -1,0 +1,3 @@
+## Fixed
+* Improve connection check reachability (#1318)
+* Full screen mode is exited when opening settings/about (#1312)
