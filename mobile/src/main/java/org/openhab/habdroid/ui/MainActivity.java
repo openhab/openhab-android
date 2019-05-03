@@ -603,6 +603,7 @@ public class MainActivity extends AbstractBaseActivity implements
                             mConnection,
                             props -> {
                                 mServerProperties = props;
+                                openPendingSitemapIfNeeded();
                                 updateSitemapAndHabpanelDrawerItems();
                             },
                             MainActivity.this::handlePropertyFetchFailure);
