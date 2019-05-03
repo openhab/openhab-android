@@ -30,8 +30,7 @@ The app follows the basic principles of the other openHAB UIs, like Basic UI, an
 * [Supports wall mounted tablets](#permanent-deployment)
 
 <div class="row">
-  <div class="col s12 m6"><img src="images/main-menu.png" alt="Demo Overview"></div>
-  <div class="col s12 m6"><img src="images/widget-overview.png" alt="Demo Widget Overview"></div>
+  <img src="images/main-menu.png" alt="Demo Overview" width=200px> <img src="images/widget-overview.png" alt="Widget Overview" width=200px> <img src="images/maps.png" alt="Google Maps Widget" width=200px>
 </div>
 
 ## Getting Started
