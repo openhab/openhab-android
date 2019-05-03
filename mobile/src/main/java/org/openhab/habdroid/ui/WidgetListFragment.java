@@ -27,7 +27,6 @@ import org.openhab.habdroid.R;
 import org.openhab.habdroid.model.Item;
 import org.openhab.habdroid.model.LabeledValue;
 import org.openhab.habdroid.model.LinkedPage;
-import org.openhab.habdroid.model.NfcTag;
 import org.openhab.habdroid.model.ParsedState;
 import org.openhab.habdroid.model.Widget;
 import org.openhab.habdroid.ui.widget.RecyclerViewSwipeRefreshLayout;
@@ -182,28 +181,29 @@ public class WidgetListFragment extends Fragment
                 }
             }
         }
-        labels.add(getString(R.string.nfc_action_to_sitemap_page));
 
-        final String[] labelArray = labels.toArray(new String[0]);
-        new AlertDialog.Builder(getActivity())
-                .setTitle(R.string.nfc_dialog_title)
-                .setItems(labelArray, (dialog, which) -> {
-                    Intent writeTagIntent = new Intent(getActivity(), WriteTagActivity.class);
-                    writeTagIntent.putExtra(WriteTagActivity.EXTRA_SITEMAP_PAGE, mPageUrl);
+        if (widget.linkedPage() != null) {
+            labels.add(getString(R.string.nfc_action_to_sitemap_page));
+        }
 
-                    if (which < labelArray.length - 1) {
-                        writeTagIntent.putExtra(NfcTag.QUERY_PARAMETER_ITEM_NAME,
-                                widget.item().name());
-                        writeTagIntent.putExtra(NfcTag.QUERY_PARAMETER_STATE,
-                                commands.get(which));
-                        writeTagIntent.putExtra(NfcTag.QUERY_PARAMETER_MAPPED_STATE,
-                                labels.get(which));
-                        writeTagIntent.putExtra(NfcTag.QUERY_PARAMETER_ITEM_LABEL,
-                                widget.item().label());
-                    }
-                    startActivityForResult(writeTagIntent, 0);
-                })
-                .show();
+        if (!labels.isEmpty()) {
+            final String[] labelArray = labels.toArray(new String[0]);
+            new AlertDialog.Builder(getActivity())
+                    .setTitle(R.string.nfc_dialog_title)
+                    .setItems(labelArray, (dialog, which) -> {
+                        final Intent writeTagIntent;
+                        if (which < commands.size()) {
+                            writeTagIntent = WriteTagActivity.createItemUpdateIntent(getActivity(),
+                                    mPageUrl, widget.item().name(), commands.get(which),
+                                    labels.get(which), widget.item().label());
+                        } else {
+                            writeTagIntent = WriteTagActivity.createSitemapNavigationIntent(
+                                    getActivity(), widget.linkedPage().link());
+                        }
+                        startActivityForResult(writeTagIntent, 0);
+                    })
+                    .show();
+        }
     }
 
     @Override

@@ -48,21 +48,51 @@ import org.openhab.habdroid.R;
 import org.openhab.habdroid.model.NfcTag;
 
 import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.Locale;
 
 public class WriteTagActivity extends AbstractBaseActivity {
     private static final String TAG = WriteTagActivity.class.getSimpleName();
-
-    public static final String EXTRA_SITEMAP_PAGE = "sitemapPage";
+    private static final String EXTRA_LONG_URI = "longUri";
+    private static final String EXTRA_SHORT_URI = "shortUri";
 
     private NfcAdapter mNfcAdapter;
-    private String mSitemapPage;
-    private String mItem;
-    private String mState;
-    private String mMappedState;
-    private String mLabel;
+    private Uri mLongUri;
+    private Uri mShortUri;
+
+    public static Intent createItemUpdateIntent(Context context, String parentSitemapUrl,
+            String itemName, String state, String mappedState, String label) {
+        if (TextUtils.isEmpty(itemName) || TextUtils.isEmpty(state)) {
+            throw new IllegalArgumentException();
+        }
+        Uri.Builder uriBuilder = new Uri.Builder()
+                .scheme("openhab")
+                .authority("")
+                .appendQueryParameter(NfcTag.QUERY_PARAMETER_ITEM_NAME, itemName)
+                .appendQueryParameter(NfcTag.QUERY_PARAMETER_STATE, state);
+
+        Uri shortUri = uriBuilder.build();
+        Uri longUri = uriBuilder
+                .appendQueryParameter(NfcTag.QUERY_PARAMETER_MAPPED_STATE, mappedState)
+                .appendQueryParameter(NfcTag.QUERY_PARAMETER_ITEM_LABEL, label)
+                .build();
+
+        return new Intent(context, WriteTagActivity.class)
+                .putExtra(EXTRA_SHORT_URI, shortUri)
+                .putExtra(EXTRA_LONG_URI, longUri);
+    }
+
+    public static Intent createSitemapNavigationIntent(Context context, String sitemapUrl) {
+        Uri sitemapUri = Uri.parse(sitemapUrl);
+        if (!sitemapUri.getPath().startsWith("/rest/sitemaps")) {
+            throw new IllegalArgumentException("Expected a sitemap URL");
+        }
+        Uri longUri = new Uri.Builder()
+                .scheme("openhab")
+                .authority("")
+                .appendEncodedPath(sitemapUri.getPath().substring(15))
+                .build();
+        return new Intent(context, WriteTagActivity.class)
+                .putExtra(EXTRA_LONG_URI, longUri);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,14 +115,9 @@ public class WriteTagActivity extends AbstractBaseActivity {
 
         setResult(RESULT_OK);
 
-        mSitemapPage = getIntent().getStringExtra(EXTRA_SITEMAP_PAGE);
-        mItem = getIntent().getStringExtra(NfcTag.QUERY_PARAMETER_ITEM_NAME);
-        mState = getIntent().getStringExtra(NfcTag.QUERY_PARAMETER_STATE);
-        mMappedState = getIntent().getStringExtra(NfcTag.QUERY_PARAMETER_MAPPED_STATE);
-        mLabel = getIntent().getStringExtra(NfcTag.QUERY_PARAMETER_ITEM_LABEL);
-        Log.d(TAG, String.format(Locale.US,
-                "Got sitemap '%s', item '%s', state '%s', mapped state '%s', label '%s'",
-                mSitemapPage, mItem, mState, mMappedState, mLabel));
+        mLongUri = getIntent().getParcelableExtra(EXTRA_LONG_URI);
+        mShortUri = getIntent().getParcelableExtra(EXTRA_SHORT_URI);
+        Log.d(TAG, "Got URL " + mLongUri + " (short URI " + mShortUri + ")");
     }
 
     private Fragment getFragment() {
@@ -143,10 +168,6 @@ public class WriteTagActivity extends AbstractBaseActivity {
 
     @Override
     public void onNewIntent(Intent intent) {
-        if (mSitemapPage == null) {
-            return;
-        }
-
         new AsyncTask<Void, Integer, Boolean>() {
             @Override
             protected void onPreExecute() {
@@ -158,45 +179,10 @@ public class WriteTagActivity extends AbstractBaseActivity {
             protected Boolean doInBackground(Void... voids) {
                 Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
                 Log.d(TAG, "NFC TAG = " + tag.toString());
-                Log.d(TAG, "Writing page " + mSitemapPage + " to tag");
+                Log.d(TAG, "Writing URL " + mLongUri + " to tag");
 
-                URI sitemapUri;
-                String longUri = "";
-                String shortUri = "";
-
-                try {
-                    sitemapUri = new URI(mSitemapPage);
-                    if (!TextUtils.isEmpty(mItem) && !TextUtils.isEmpty(mState)) {
-                        Uri.Builder uriBuilder = new Uri.Builder()
-                                .scheme(NfcTag.SCHEME)
-                                .authority("")
-                                .appendQueryParameter(NfcTag.QUERY_PARAMETER_ITEM_NAME, mItem)
-                                .appendQueryParameter(NfcTag.QUERY_PARAMETER_STATE, mState);
-
-                        shortUri = uriBuilder.toString();
-
-                        longUri = uriBuilder
-                                .appendQueryParameter(NfcTag.QUERY_PARAMETER_MAPPED_STATE, mMappedState)
-                                .appendQueryParameter(NfcTag.QUERY_PARAMETER_ITEM_LABEL, mLabel)
-                                .toString();
-                    } else if (!sitemapUri.getPath().startsWith("/rest/sitemaps")) {
-                        throw new URISyntaxException(mSitemapPage, "Expected a sitemap URL");
-                    } else {
-                        longUri = new Uri.Builder()
-                                .scheme(NfcTag.SCHEME)
-                                .authority("")
-                                .appendEncodedPath(sitemapUri.getPath().substring(15))
-                                .toString();
-                    }
-                } catch (URISyntaxException e) {
-                    Log.e(TAG, e.getMessage());
-                    return false;
-                }
-
-                Log.d(TAG, "Creating tag object for URI " + longUri);
-
-                NdefMessage longMessage = getNdefMessage(longUri);
-                NdefMessage shortMessage = getNdefMessage(shortUri);
+                NdefMessage longMessage = getNdefMessage(mLongUri);
+                NdefMessage shortMessage = getNdefMessage(mShortUri);
 
                 NdefFormatable ndefFormatable = NdefFormatable.get(tag);
 
@@ -278,8 +264,8 @@ public class WriteTagActivity extends AbstractBaseActivity {
         }.execute();
     }
 
-    private NdefMessage getNdefMessage(String uri) {
-        if (TextUtils.isEmpty(uri)) {
+    private NdefMessage getNdefMessage(Uri uri) {
+        if (uri == null) {
             return null;
         }
         NdefRecord[] longNdefRecords = new NdefRecord[] { NdefRecord.createUri(uri) };
