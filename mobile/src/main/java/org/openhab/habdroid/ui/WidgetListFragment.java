@@ -27,6 +27,7 @@ import org.openhab.habdroid.R;
 import org.openhab.habdroid.model.Item;
 import org.openhab.habdroid.model.LabeledValue;
 import org.openhab.habdroid.model.LinkedPage;
+import org.openhab.habdroid.model.NfcTag;
 import org.openhab.habdroid.model.ParsedState;
 import org.openhab.habdroid.model.Widget;
 import org.openhab.habdroid.ui.widget.RecyclerViewSwipeRefreshLayout;
@@ -188,16 +189,16 @@ public class WidgetListFragment extends Fragment
                 .setTitle(R.string.nfc_dialog_title)
                 .setItems(labelArray, (dialog, which) -> {
                     Intent writeTagIntent = new Intent(getActivity(), WriteTagActivity.class);
-                    writeTagIntent.putExtra("sitemapPage", mPageUrl);
+                    writeTagIntent.putExtra(WriteTagActivity.EXTRA_SITEMAP_PAGE, mPageUrl);
 
                     if (which < labelArray.length - 1) {
-                        writeTagIntent.putExtra(WriteTagActivity.QUERY_PARAMETER_ITEM_NAME,
+                        writeTagIntent.putExtra(NfcTag.QUERY_PARAMETER_ITEM_NAME,
                                 widget.item().name());
-                        writeTagIntent.putExtra(WriteTagActivity.QUERY_PARAMETER_STATE,
+                        writeTagIntent.putExtra(NfcTag.QUERY_PARAMETER_STATE,
                                 commands.get(which));
-                        writeTagIntent.putExtra(WriteTagActivity.QUERY_PARAMETER_MAPPED_STATE,
+                        writeTagIntent.putExtra(NfcTag.QUERY_PARAMETER_MAPPED_STATE,
                                 labels.get(which));
-                        writeTagIntent.putExtra(WriteTagActivity.QUERY_PARAMETER_ITEM_LABEL,
+                        writeTagIntent.putExtra(NfcTag.QUERY_PARAMETER_ITEM_LABEL,
                                 widget.item().label());
                     }
                     startActivityForResult(writeTagIntent, 0);

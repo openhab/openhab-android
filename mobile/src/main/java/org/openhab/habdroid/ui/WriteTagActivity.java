@@ -45,6 +45,7 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import org.openhab.habdroid.R;
+import org.openhab.habdroid.model.NfcTag;
 
 import java.io.IOException;
 import java.net.URI;
@@ -53,10 +54,8 @@ import java.util.Locale;
 
 public class WriteTagActivity extends AbstractBaseActivity {
     private static final String TAG = WriteTagActivity.class.getSimpleName();
-    public static final String QUERY_PARAMETER_ITEM_NAME = "i";
-    public static final String QUERY_PARAMETER_STATE = "s";
-    public static final String QUERY_PARAMETER_MAPPED_STATE = "m";
-    public static final String QUERY_PARAMETER_ITEM_LABEL = "l";
+
+    public static final String EXTRA_SITEMAP_PAGE = "sitemapPage";
 
     private NfcAdapter mNfcAdapter;
     private String mSitemapPage;
@@ -86,11 +85,11 @@ public class WriteTagActivity extends AbstractBaseActivity {
 
         setResult(RESULT_OK);
 
-        mSitemapPage = getIntent().getStringExtra("sitemapPage");
-        mItem = getIntent().getStringExtra(QUERY_PARAMETER_ITEM_NAME);
-        mState = getIntent().getStringExtra(QUERY_PARAMETER_STATE);
-        mMappedState = getIntent().getStringExtra(QUERY_PARAMETER_MAPPED_STATE);
-        mLabel = getIntent().getStringExtra(QUERY_PARAMETER_ITEM_LABEL);
+        mSitemapPage = getIntent().getStringExtra(EXTRA_SITEMAP_PAGE);
+        mItem = getIntent().getStringExtra(NfcTag.QUERY_PARAMETER_ITEM_NAME);
+        mState = getIntent().getStringExtra(NfcTag.QUERY_PARAMETER_STATE);
+        mMappedState = getIntent().getStringExtra(NfcTag.QUERY_PARAMETER_MAPPED_STATE);
+        mLabel = getIntent().getStringExtra(NfcTag.QUERY_PARAMETER_ITEM_LABEL);
         Log.d(TAG, String.format(Locale.US,
                 "Got sitemap '%s', item '%s', state '%s', mapped state '%s', label '%s'",
                 mSitemapPage, mItem, mState, mMappedState, mLabel));
@@ -169,22 +168,22 @@ public class WriteTagActivity extends AbstractBaseActivity {
                     sitemapUri = new URI(mSitemapPage);
                     if (!TextUtils.isEmpty(mItem) && !TextUtils.isEmpty(mState)) {
                         Uri.Builder uriBuilder = new Uri.Builder()
-                                .scheme("openhab")
+                                .scheme(NfcTag.SCHEME)
                                 .authority("")
-                                .appendQueryParameter(QUERY_PARAMETER_ITEM_NAME, mItem)
-                                .appendQueryParameter(QUERY_PARAMETER_STATE, mState);
+                                .appendQueryParameter(NfcTag.QUERY_PARAMETER_ITEM_NAME, mItem)
+                                .appendQueryParameter(NfcTag.QUERY_PARAMETER_STATE, mState);
 
                         shortUri = uriBuilder.toString();
 
                         longUri = uriBuilder
-                                .appendQueryParameter(QUERY_PARAMETER_MAPPED_STATE, mMappedState)
-                                .appendQueryParameter(QUERY_PARAMETER_ITEM_LABEL, mLabel)
+                                .appendQueryParameter(NfcTag.QUERY_PARAMETER_MAPPED_STATE, mMappedState)
+                                .appendQueryParameter(NfcTag.QUERY_PARAMETER_ITEM_LABEL, mLabel)
                                 .toString();
                     } else if (!sitemapUri.getPath().startsWith("/rest/sitemaps")) {
                         throw new URISyntaxException(mSitemapPage, "Expected a sitemap URL");
                     } else {
                         longUri = new Uri.Builder()
-                                .scheme("openhab")
+                                .scheme(NfcTag.SCHEME)
                                 .authority("")
                                 .appendEncodedPath(sitemapUri.getPath().substring(15))
                                 .toString();
@@ -268,7 +267,7 @@ public class WriteTagActivity extends AbstractBaseActivity {
                     progressBar.setVisibility(View.INVISIBLE);
 
                     ImageView watermark = findViewById(R.id.nfc_watermark);
-                    watermark.setImageDrawable(getDrawable(R.drawable.ic_nfc_black_180dp));
+                    watermark.setImageDrawable(ContextCompat.getDrawable(getBaseContext(), R.drawable.ic_nfc_black_180dp));
 
                     writeTagMessage.setText(R.string.info_write_tag_finished);
                     new Handler().postDelayed(WriteTagActivity.this::finish, 2000);
@@ -294,7 +293,7 @@ public class WriteTagActivity extends AbstractBaseActivity {
             final View view = inflater.inflate(R.layout.fragment_writenfc, container, false);
             final ImageView watermark = view.findViewById(R.id.nfc_watermark);
 
-            Drawable nfcIcon = getResources().getDrawable(getWatermarkIcon());
+            Drawable nfcIcon = ContextCompat.getDrawable(getContext(), getWatermarkIcon());
             nfcIcon.setColorFilter(
                     ContextCompat.getColor(getActivity(), R.color.empty_list_text_color),
                     PorterDuff.Mode.SRC_IN);
