@@ -288,4 +288,12 @@
     <string name="app_intro_skip_button">SKIP</string>
     <!-- Intro "DONE" button -->
     <string name="app_intro_done_button">DONE</string>
+
+    <!-- Item picker -->
+    <string name="item_picker_list_empty">No Items found</string>
+    <string name="item_picker_list_error">An error occurred while loading Items</string>
+    <string name="item_picker_custom">Custom</string>
+    <string name="item_picker_dialog_title">Select state</string>
+    <string name="item_picker">openHAB Items</string>
+    <string name="item_picker_blurb">Set \"%s\" to \"%s\"</string>
 </resources>

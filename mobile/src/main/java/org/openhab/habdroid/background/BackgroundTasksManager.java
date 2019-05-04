@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.preference.PreferenceManager;
@@ -25,6 +26,10 @@ import org.openhab.habdroid.model.NfcTag;
 import org.openhab.habdroid.ui.widget.ItemUpdatingPreference;
 import org.openhab.habdroid.util.Constants;
 import org.openhab.habdroid.util.Util;
+import org.openhab.habdroid.ui.ItemPickerActivity;
+import org.openhab.habdroid.ui.widget.ItemUpdatingPreference;
+import org.openhab.habdroid.util.Constants;
+import org.openhab.habdroid.util.TaskerIntent;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -39,6 +44,7 @@ public class BackgroundTasksManager extends BroadcastReceiver {
 
     private static final String WORKER_TAG_ITEM_UPLOADS = "itemUploads";
     static final String WORKER_TAG_PREFIX_NFC = "nfc-";
+    private static final String WORKER_TAG_PREFIX_TASKER = "tasker-";
 
     static final List<String> KNOWN_KEYS = Arrays.asList(
         Constants.PREFERENCE_ALARM_CLOCK
@@ -66,19 +72,32 @@ public class BackgroundTasksManager extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
+        String action = intent.getAction();
         Log.d(TAG, "onReceive() with intent " + intent.getAction());
 
-        if (AlarmManager.ACTION_NEXT_ALARM_CLOCK_CHANGED.equals(intent.getAction())) {
+        if (AlarmManager.ACTION_NEXT_ALARM_CLOCK_CHANGED.equals(action)) {
             Log.d(TAG, "Alarm clock changed");
             scheduleWorker(context, Constants.PREFERENCE_ALARM_CLOCK);
-        } else if (Intent.ACTION_LOCALE_CHANGED.equals(intent.getAction())) {
+        } else if (Intent.ACTION_LOCALE_CHANGED.equals(action)) {
             Log.d(TAG, "Locale changed, recreate notification channels");
             NotificationUpdateObserver.createNotificationChannels(context);
-        } else if (ACTION_RETRY_UPLOAD.equals(intent.getAction())) {
+        } else if (ACTION_RETRY_UPLOAD.equals(action)) {
             List<RetryInfo> retryInfos = intent.getParcelableArrayListExtra(EXTRA_RETRY_INFOS);
             for (RetryInfo info : retryInfos) {
                 enqueueItemUpload(info.mTag, info.mItemName, info.mValue);
             }
+        } else if (TaskerIntent.ACTION_QUERY_CONDITION.equals(action)
+                || TaskerIntent.ACTION_FIRE_SETTING.equals(action)) {
+            Bundle bundle = intent.getBundleExtra(TaskerIntent.EXTRA_BUNDLE);
+            if (bundle == null) {
+                return;
+            }
+            String itemName = bundle.getString(ItemPickerActivity.EXTRA_ITEM_NAME);
+            String state = bundle.getString(ItemPickerActivity.EXTRA_ITEM_STATE);
+            if (TextUtils.isEmpty(itemName) || TextUtils.isEmpty(state)) {
+                return;
+            }
+            enqueueItemUpload(WORKER_TAG_PREFIX_TASKER + itemName, itemName, state);
         }
     }
 

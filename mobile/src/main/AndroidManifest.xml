@@ -77,6 +77,13 @@
             android:name="de.duenndns.ssl.MemorizingActivity"
             android:excludeFromRecents="true"
             android:theme="@style/Theme.AppCompat.Translucent" />
+        <activity android:name=".ui.ItemPickerActivity"
+            android:label="@string/item_picker" >
+            <intent-filter>
+                <action android:name="com.twofortyfouram.locale.intent.action.EDIT_CONDITION" />
+                <action android:name="com.twofortyfouram.locale.intent.action.EDIT_SETTING" />
+            </intent-filter>
+        </activity>
 
         <service
             android:name=".core.VoiceService"
@@ -118,6 +125,10 @@
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.LOCALE_CHANGED" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.twofortyfouram.locale.intent.action.QUERY_CONDITION" />
+                <action android:name="com.twofortyfouram.locale.intent.action.FIRE_SETTING" />
             </intent-filter>
         </receiver>
 
