@@ -137,7 +137,10 @@ public class ItemPickerActivity extends AbstractBaseActivity
                     JSONArray jsonArray = new JSONArray(responseBody);
                     for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject itemJson = jsonArray.getJSONObject(i);
-                        items.add(Item.fromJson(itemJson));
+                        Item item = Item.fromJson(itemJson);
+                        if (!item.readOnly()) {
+                            items.add(item);
+                        }
                     }
                     Log.d(TAG, "Item request success, got " + items.size() + " items");
                     mItemPickerAdapter.addLoadedItems(items);
