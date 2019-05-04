@@ -27,7 +27,7 @@ import java.util.List;
 import java.util.Locale;
 
 public class ItemPickerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
-        implements View.OnClickListener{
+        implements View.OnClickListener {
     public interface ItemClickListener {
         void onItemClicked(Item item);
     }
@@ -40,7 +40,8 @@ public class ItemPickerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     public ItemPickerAdapter(Context context, ItemClickListener itemClickListener) {
         super();
-        mIconFormat = PreferenceManager.getDefaultSharedPreferences(context).getString(Constants.PREFERENCE_ICON_FORMAT, "");
+        mIconFormat = PreferenceManager.getDefaultSharedPreferences(context)
+                .getString(Constants.PREFERENCE_ICON_FORMAT, "");
         mInflater = LayoutInflater.from(context);
         mItemClickListener = itemClickListener;
     }

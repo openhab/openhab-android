@@ -112,9 +112,8 @@ public class TaskerIntent {
      * <p>The {@code Intent} MUST contain a
      * {@link #EXTRA_BUNDLE} that was previously set by the {@code Activity}
      * result of {@link #ACTION_EDIT_SETTING}.</p>
-     * <p>
-     * There MUST be only one {@code BroadcastReceiver} per APK that implements
-     * an Intent-filter for this action.
+     * <p>There MUST be only one {@code BroadcastReceiver} per APK that implements
+     * an Intent-filter for this action.</p>
      *
      * @see TaskerIntent#EXTRA_BUNDLE
      */
@@ -189,6 +188,7 @@ public class TaskerIntent {
     /**
      * <p>
      * Type: {@code Bundle}.
+     * </p>
      * <p>
      * Maps to a {@code Bundle} that contains all of a plug-in's extras to later be used when
      * querying or firing the plug-in.
@@ -233,11 +233,11 @@ public class TaskerIntent {
      * @see TaskerIntent#ACTION_REQUEST_QUERY
      */
     @NonNull
-    public static final String EXTRA_STRING_ACTIVITY_CLASS_NAME = "com.twofortyfouram.locale.intent.extra.ACTIVITY";
+    public static final String EXTRA_STRING_ACTIVITY_CLASS_NAME =
+            "com.twofortyfouram.locale.intent.extra.ACTIVITY";
     //$NON-NLS-1$
 
     /**
-     *
      * Ordered broadcast result code indicating that a plug-in condition's state
      * is satisfied (true).
      *
