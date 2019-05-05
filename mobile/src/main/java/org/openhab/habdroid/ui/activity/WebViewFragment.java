@@ -7,7 +7,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebChromeClient;
 import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
@@ -173,10 +172,7 @@ public class WebViewFragment extends Fragment implements ConnectionFactory.Updat
                 updateViewVisibility(true, false);
             }
         });
-        Util.applyAuthentication(mWebView, mConnection, url);
-        mWebView.setWebChromeClient(new WebChromeClient());
-        mWebView.getSettings().setDomStorageEnabled(true);
-        mWebView.getSettings().setJavaScriptEnabled(true);
+        Util.initWebView(mWebView, mConnection, url);
         mWebView.loadUrl(url);
         mWebView.setBackgroundColor(Color.TRANSPARENT);
     }

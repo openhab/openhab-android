@@ -10,21 +10,27 @@
 package org.openhab.habdroid.util;
 
 import android.app.Activity;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
+import android.os.Message;
 import android.preference.PreferenceManager;
+import android.text.TextUtils;
 import android.util.Log;
 import android.util.TypedValue;
+import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewDatabase;
 import android.widget.Toast;
 import androidx.annotation.AttrRes;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.StyleRes;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
@@ -276,7 +282,7 @@ public class Util {
         return !isFlavorFull();
     }
 
-    public static void applyAuthentication(WebView webView, Connection connection, String url) {
+    public static void initWebView(WebView webView, Connection connection, String url) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             WebViewDatabase webViewDatabase = WebViewDatabase.getInstance(webView.getContext());
             webViewDatabase.setHttpAuthUsernamePassword(Util.getHostFromUrl(url), "",
@@ -284,6 +290,34 @@ public class Util {
         } else {
             webView.setHttpAuthUsernamePassword(Util.getHostFromUrl(url), "",
                     connection.getUsername(), connection.getPassword());
+        }
+
+        webView.getSettings().setDomStorageEnabled(true);
+        webView.getSettings().setJavaScriptEnabled(true);
+        webView.getSettings().setSupportMultipleWindows(true);
+
+        webView.setWebChromeClient(new WebChromeClient() {
+            @Override
+            public boolean onCreateWindow(WebView view, boolean dialog, boolean userGesture,
+                    Message resultMsg) {
+                Message href = view.getHandler().obtainMessage();
+                view.requestFocusNodeHref(href);
+                String url = href.getData().getString("url");
+                openInBrowser(url, view.getContext());
+                return false;
+            }
+        });
+    }
+
+    public static void openInBrowser(@Nullable String url, Context context) {
+        if (!TextUtils.isEmpty(url)) {
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+            try {
+                context.startActivity(intent);
+            } catch (ActivityNotFoundException e) {
+                Toasty.error(context, R.string.error_no_browser_found,
+                        Toast.LENGTH_LONG, true).show();
+            }
         }
     }
 
