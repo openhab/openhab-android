@@ -26,7 +26,7 @@ This app is a native client for openHAB which allows easy access to your sitemap
 * Send alarm clock time to openHAB
 * Supports wall mounted tablets
 
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/main-menu.png" width="200px"> <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/widget-overview.png" width="200px"> <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/chart.png" width="200px">
+<img src="docs/images/main-menu.png" alt="Demo Overview" width=200px> <img src="docs/images/widget-overview.png" alt="Widget Overview" width=200px> <img src="docs/images/maps.png" alt="Google Maps Widget" width=200px>
 
 ## Beta builds
 
