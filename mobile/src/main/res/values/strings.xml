@@ -230,6 +230,7 @@
     <string name="about_server">openHAB server</string>
     <string name="about_translation">Help us translating openHAB</string>
     <string name="about_privacy_policy">Privacy policy</string>
+    <string name="loading">Loading\u2026</string>
 
     <string name="settings_debug_messages_title">Show information for troubleshooting</string>
     <string name="error_couldnt_determine_openhab_url">Couldn\'t determine openHAB URL</string>
