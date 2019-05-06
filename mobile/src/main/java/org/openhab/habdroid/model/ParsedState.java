@@ -1,5 +1,6 @@
 package org.openhab.habdroid.model;
 
+import android.location.Location;
 import android.os.Parcel;
 import android.os.Parcelable;
 import androidx.annotation.NonNull;
@@ -122,6 +123,7 @@ public abstract class ParsedState implements Parcelable {
         abstract Builder asNumber(@Nullable NumberState number);
         abstract Builder asHsv(@Nullable float[] hsv);
         abstract Builder asBrightness(@Nullable Integer brightness);
+        abstract Builder asLocation(@Nullable Location location);
         abstract ParsedState build();
     }
 
@@ -142,6 +144,7 @@ public abstract class ParsedState implements Parcelable {
                 .asNumber(parseAsNumber(state, numberPattern))
                 .asHsv(parseAsHsv(state))
                 .asBrightness(parseAsBrightness(state))
+                .asLocation(parseAsLocation(state))
                 .build();
     }
 
@@ -154,6 +157,8 @@ public abstract class ParsedState implements Parcelable {
     public abstract float[] asHsv();
     @Nullable
     public abstract Integer asBrightness();
+    @Nullable
+    public abstract Location asLocation();
 
     private static boolean parseAsBoolean(String state) {
         // If state is ON for switches return True
@@ -207,6 +212,21 @@ public abstract class ParsedState implements Parcelable {
                 };
             } catch (NumberFormatException e) {
                 // fall through
+            }
+        }
+        return null;
+    }
+
+    private static Location parseAsLocation(String state) {
+        String[] splitState = state.split(",");
+        if (splitState.length == 2) {
+            try {
+                Location l = new Location((String) null);
+                l.setLatitude(Float.valueOf(splitState[0]));
+                l.setLongitude(Float.valueOf(splitState[1]));
+                return l;
+            } catch (NumberFormatException e) {
+                // ignored
             }
         }
         return null;
