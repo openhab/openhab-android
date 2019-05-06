@@ -199,6 +199,7 @@
     <string name="about_server">server openHAB</string>
     <string name="about_translation">Aiutaci a tradurre openHAB</string>
     <string name="about_privacy_policy">Informativa sulla privacy</string>
+    <string name="loading">Caricando\u2026</string>
     <string name="settings_debug_messages_title">Mostra informazioni per la risoluzione dei problemi</string>
     <string name="error_couldnt_determine_openhab_url">Non trovo openHAB URL</string>
     <string name="unknown">Sconosciuto</string>
