@@ -89,7 +89,7 @@ public class PreferencesActivity extends AbstractBaseActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (isFinishing() || isDestroyed()) {
+        if (isFinishing()) {
             return true;
         }
         switch (item.getItemId()) {
