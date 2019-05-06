@@ -3,6 +3,7 @@ package org.openhab.habdroid.model;
 import android.location.Location;
 import android.os.Parcel;
 import android.os.Parcelable;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
@@ -219,12 +220,19 @@ public abstract class ParsedState implements Parcelable {
 
     private static Location parseAsLocation(String state) {
         String[] splitState = state.split(",");
-        if (splitState.length == 2) {
+        // Valid states are either "latitude,longitude" or "latitude,longitude,elevation",
+        // (we ignore elevation in the latter case)
+        if (splitState.length == 2 || splitState.length == 3) {
             try {
-                Location l = new Location((String) null);
+                Location l = new Location("openhab");
                 l.setLatitude(Float.valueOf(splitState[0]));
                 l.setLongitude(Float.valueOf(splitState[1]));
-                return l;
+                l.setTime(System.currentTimeMillis());
+                // Do our best to avoid parsing e.g. HSV values into location by
+                // sanity checking the values
+                if (Math.abs(l.getLatitude()) <= 90 && Math.abs(l.getLongitude()) <= 90) {
+                    return l;
+                }
             } catch (NumberFormatException e) {
                 // ignored
             }
