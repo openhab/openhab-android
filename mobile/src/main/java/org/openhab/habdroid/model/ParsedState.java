@@ -221,13 +221,15 @@ public abstract class ParsedState implements Parcelable {
     private static Location parseAsLocation(String state) {
         String[] splitState = state.split(",");
         // Valid states are either "latitude,longitude" or "latitude,longitude,elevation",
-        // (we ignore elevation in the latter case)
         if (splitState.length == 2 || splitState.length == 3) {
             try {
                 Location l = new Location("openhab");
-                l.setLatitude(Float.valueOf(splitState[0]));
-                l.setLongitude(Float.valueOf(splitState[1]));
+                l.setLatitude(Double.valueOf(splitState[0]));
+                l.setLongitude(Double.valueOf(splitState[1]));
                 l.setTime(System.currentTimeMillis());
+                if (splitState.length == 3) {
+                    l.setAltitude(Double.valueOf(splitState[2]));
+                }
                 // Do our best to avoid parsing e.g. HSV values into location by
                 // sanity checking the values
                 if (Math.abs(l.getLatitude()) <= 90 && Math.abs(l.getLongitude()) <= 90) {
