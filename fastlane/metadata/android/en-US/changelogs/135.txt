@@ -1,0 +1,3 @@
+## Fixed
+* Fix PreferencesActivity crash on API < 17 (#1325)
+* Fetch about screen information async (#1317)
