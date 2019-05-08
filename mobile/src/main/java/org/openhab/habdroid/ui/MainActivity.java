@@ -337,6 +337,7 @@ public class MainActivity extends AbstractBaseActivity implements
             }
             openHabpanelIfNeeded();
             launchVoiceRecognitionIfNeeded();
+            openPendingSitemapIfNeeded();
         };
         mPropsUpdateHandle = ServerProperties.fetch(mConnection,
                 successCb, this::handlePropertyFetchFailure);
