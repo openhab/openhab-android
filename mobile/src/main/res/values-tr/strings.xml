@@ -9,9 +9,13 @@
     <!-- Main menu items -->
     <string name="mainmenu_openhab_sitemaps">Site Haritası</string>
     <string name="mainmenu_openhab_preferences">Ayarlar</string>
+    <string name="mainmenu_openhab_habpanel">HABPanel</string>
     <string name="habpanel_error">HABPanel yüklenirken bir hata oluştu</string>
     <string name="mainmenu_openhab_clearcache">Resim önbelleğini temizle</string>
     <!-- App settings strings -->
+    <string name="settings_connection_title">Bağlantı</string>
+    <string name="settings_display_title">Görüntüle</string>
+    <string name="settings_misc_title">Çeşitli</string>
     <string name="settings_openhab_url">Yerel sunucu URL\'si</string>
     <string name="settings_openhab_url_summary">openHAB panel URL\'si (Ana bilgisayar adına ya da IP\'ye göre). Eğer yapılandırılmışsa, otomatik keşfetme devredışı bırakılır. Geçerli ayar: %s</string>
     <string name="settings_openhab_alturl">Uzak sunucu URL\'si</string>
@@ -31,18 +35,41 @@
     <string name="settings_openhab_icon_format">Simge formatı</string>
     <string name="settings_openhab_icon_format_png">Bitmap</string>
     <string name="settings_openhab_icon_format_svg">Vektör</string>
+    <string name="settings_chart_scaling">Grafik ölçekleme</string>
+    <string name="settings_chart_scaling_value_xs">Çok küçük</string>
+    <string name="settings_chart_scaling_value_s">Küçük</string>
+    <string name="settings_chart_scaling_value_m">Varsayılan</string>
+    <string name="settings_chart_scaling_value_l">Büyük</string>
+    <string name="settings_openhab_chart_hq">Yüksek çözünürlüklü grafikler</string>
+    <string name="settings_openhab_chart_hq_summary">Oluşturulan grafikler sunucuya ek yük getirebilir. Yavaş grafik yükleme süreleri yaşıyorsanız ve sunucunuz güçlü değilse, yükleme sürelerini iyileştirmek için bu seçeneği devre dışı bırakın.</string>
+    <string name="settings_ringtone">Bildirim zil sesi</string>
+    <string name="settings_ringtone_none">Hiçbiri</string>
+    <string name="settings_clear_default_sitemap">Varsayılan Sitemap\'ı temizle</string>
     <string name="settings_no_default_sitemap">Herhangi bir varsayılan Sitemap seçilmedi</string>
+    <string name="settings_current_default_sitemap">Geçerli varsayılan Sitemap: %1$s</string>
     <string name="settings_openhab_alt_connection">Uzak</string>
     <string name="settings_openhab_connection">Yerel</string>
+    <string name="settings_notification_vibration">Bildirim titreşimi</string>
+    <string name="settings_notification_vibration_off">Kapalı</string>
+    <string name="settings_notification_vibration_short">Kısa</string>
+    <string name="settings_notification_vibration_long">Uzun</string>
+    <string name="settings_notification_vibration_twice">Iki kez</string>
+    <string name="settings_notification_ringtone_vibration">Bildirim ayarları</string>
     <string name="settings_connection_summary">%s Bağlanıldı</string>
     <string name="settings_insecure_connection_summary">Güvenli bir şekilde %s\' e bağlandı</string>
+    <string name="beta">Beta</string>
     <!-- App messages strings -->
+    <string name="title_voice_widget">Sesli komutlar</string>
+    <string name="title_voice_widget_icon">Sesli komutlar ve uygulama kısayolu</string>
     <string name="info_voice_input">openHAB Emrinizdedir!</string>
     <string name="info_voice_recognized_text">Tanımlanmış Emir: %1$s</string>
     <string name="info_demo_mode_short">Demo modunda çalışıyor</string>
     <!-- Please try to keep the string as short as possible -->
+    <string name="turn_off">Kapat</string>
     <string name="info_conn_url">Yerel Sunucuya Bağlanıyor</string>
     <string name="info_conn_rem_url">Uzak URL\'ye Bağlanıyor</string>
+    <string name="app_shortcut_diabled_habpanel">Sunucunuzda yüklü HABPanel yok</string>
+    <string name="app_shortcut_diabled_notifications">Uzak sunucu kullanılamıyor</string>
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB boş Sitemap listesine döndü</string>
     <string name="error_network_not_available">Network müsait değil</string>
