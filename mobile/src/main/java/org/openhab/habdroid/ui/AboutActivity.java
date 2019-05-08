@@ -197,7 +197,7 @@ public class AboutActivity extends AbstractBaseActivity implements
 
                 MaterialAboutActionItem apiVersionItem = new MaterialAboutActionItem.Builder()
                         .text(R.string.info_openhab_apiversion_label)
-                        .subText(R.string.loading)
+                        .subText(R.string.list_loading_message)
                         .icon(R.drawable.ic_info_outline_grey_24dp)
                         .build();
                 ohServerCard.addItem(apiVersionItem);
@@ -236,7 +236,7 @@ public class AboutActivity extends AbstractBaseActivity implements
 
                 MaterialAboutActionItem uuidItem = new MaterialAboutActionItem.Builder()
                         .text(R.string.info_openhab_uuid_label)
-                        .subText(R.string.loading)
+                        .subText(R.string.list_loading_message)
                         .icon(R.drawable.ic_info_outline_grey_24dp)
                         .build();
                 ohServerCard.addItem(uuidItem);
@@ -262,7 +262,7 @@ public class AboutActivity extends AbstractBaseActivity implements
                 if (!useJsonApi()) {
                     MaterialAboutActionItem secretItem = new MaterialAboutActionItem.Builder()
                             .text(R.string.info_openhab_secret_label)
-                            .subText(R.string.loading)
+                            .subText(R.string.list_loading_message)
                             .icon(R.drawable.ic_info_outline_grey_24dp)
                             .build();
                     ohServerCard.addItem(secretItem);
