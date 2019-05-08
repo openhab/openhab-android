@@ -29,6 +29,7 @@
     <string name="settings_openhab_screentimeroff">Ekran Zamanlayıcısını devre dışı bırak</string>
     <string name="settings_openhab_screentimeroff_summary">openHAB çalışırken ekran kapatma zamanlayıcısını devre dışı bırakınız</string>
     <string name="settings_openhab_demomode">Deneme Modu</string>
+    <string name="settings_openhab_demomode_summary">openHAB sunucunuz yoksa, openHAB\'ın ne yapabileceğini hayal etmek için demo modunu etkinleştirin.</string>
     <string name="settings_openhab_theme">Tema</string>
     <string name="settings_openhab_fullscreen">Tam Ekran</string>
     <string name="settings_openhab_fullscreen_summary">Tam ekran modunda görüntüle</string>
@@ -36,6 +37,7 @@
     <string name="settings_openhab_icon_format_png">Bitmap</string>
     <string name="settings_openhab_icon_format_svg">Vektör</string>
     <string name="settings_chart_scaling">Grafik ölçekleme</string>
+    <string name="settings_chart_scaling_summary">Not: Daha küçük ölçeklendirme yazı tiplerini ve çizgi genişliklerini küçültür, böylece grafik için daha fazla alan vardır, ancak yazı okunabilirliği sorun yaşatabilir.</string>
     <string name="settings_chart_scaling_value_xs">Çok küçük</string>
     <string name="settings_chart_scaling_value_s">Küçük</string>
     <string name="settings_chart_scaling_value_m">Varsayılan</string>
@@ -72,7 +74,9 @@
     <string name="app_shortcut_diabled_notifications">Uzak sunucu kullanılamıyor</string>
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB boş Sitemap listesine döndü</string>
+    <string name="error_sitemap_generic_load_error">Sitemap yüklenmemiş olabilir. Şu hata oluştu: %1$s</string>
     <string name="error_network_not_available">Network müsait değil</string>
+    <string name="error_wifi_not_available">Wi-Fi kapatıldı</string>
     <string name="error_http_connection_failed">Bağlantı başarısız. Yapılandırılmış openHAB sunucusuna bağlanmaya çalışırken beklenmeyen bir yanıt alındı ​​(Alınan HTTP yanıt kodu: %d).</string>
     <string name="error_invalid_url">Lütfen \'http(s)://host:(port)/\' formunda geçerli bir URL giriniz</string>
     <string name="error_port_seems_invalid">Girdiğiniz port numarası seçili protokol için yanlış görünüyor</string>
@@ -80,12 +84,30 @@
     <string name="error_unable_to_resolve_hostname">Ana cihaz adı çözülemiyor</string>
     <string name="error_connection_sslhandshake_failed">SSL Handshake başarısız oldu Muhtemelen geçerli bir müşteri sertifikasına ihtiyacınız vardır</string>
     <string name="error_certificate_not_trusted">SSL sertifikasına güvenilmiyor. Lütfen kök sertifikayı içe aktarın ya da SSL sertifika doğrulamasını etkisiz hale getirin.</string>
+    <string name="error_certificate_expired">SSL sertifikasının süresi doldu. Lütfen yeni bir sertifika edinin ya da SSL handshake esnasında sertifika doğrulamasını etkisiz hale getirin.</string>
+    <string name="error_certificate_not_valid_yet">SSL sertifikası henüz geçerli değil. Lütfen geçerli bir sertifika edinin ya da SSL handshake esnasında sertifika doğrulamasını etkisiz hale getirin. Ayrıca cihazınızdaki saat ayarının doğruluğunu kontrol ediniz.</string>
     <string name="error_certificate_invalid_date">SSL sertifikasının tarihi geçersiz. Lütfen doğru bir sertifika alın ve aygıtınızın saatinin doğru şekilde ayarlanmış olduğundan emin olun.</string>
     <string name="error_certificate_revoked">SSL sertifikasının süresi doldu. Lütfen yeni bir sertifika edinin ya da SSL handshake esnasında sunulan sertifika\' yı kabul edin.</string>
+    <string name="error_certificate_wrong_host">SSL sertifikası %s için geçerli değildir</string>
+    <string name="error_http_to_https_port">Beklenmeyen akış sonu. Bir HTTPS bağlantı noktasına HTTP üzerinden bağlanmaya mı çalışıyorsunuz?</string>
+    <string name="webview_ssl">Şu anda bu uygulama için Webview widget otomatik olarak imzalanan SSL sertifikalarını desteklemiyor</string>
+    <string name="error_http_code_401">Kullanıcı kimlik doğrulaması başarısız oldu. Lütfen kullanıcı adını, şifreyi ve SSL müşteri sertifikasını kontrol ediniz (HTTP yanıt kodu 401).</string>
+    <string name="error_http_code_403">Kullanıcı kimlik doğrulaması başarısız oldu. Lütfen kullanıcı adınızı, şifrenizi ve SSL müşteri sertifikanızı gözden geçirin (HTTP yanıt kodu 403).</string>
+    <string name="error_http_code_407">Kullanıcı kimlik doğrulaması başarısız oldu. Lütfen kullanıcı adınızı, şifrenizi ve SSL müşteri sertifikanızı gözden geçirin (HTTP yanıt kodu 407).</string>
+    <string name="error_http_code_414">URL çok uzun. Lütfen IP adresi veya daha kısa URL (HTTP yanıt kodu 414) kullanın.</string>
+    <string name="error_http_code_426">HTTPS gereklidir. Lütfen openHAB URL\'sini değiştirin (HTTP yanıt kodu 426).</string>
     <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
+    <string name="error_http_code_495">Kullanıcı kimlik doğrulaması başarısız oldu. Lütfen SSL müşteri sertifikanızı gözden geçirin (HTTP yanıt kodu 495).</string>
     <string name="error_http_code_496">SSL müşteri sertifikası gereklidir (HTTP yanıt kodu 496)</string>
+    <string name="error_http_code_502">Ters proxy\'iniz openHAB\'tan geçersiz bir yanıt aldı (HTTP yanıt kodu 502)</string>
+    <string name="error_http_code_503">openHAB geçici olarak kullanım dışı (HTTP yanıt kodu 503)</string>
+    <string name="error_http_code_504">Gateway zaman aşımı. Görünüşe göre sizin ters proxy\'iniz çalışıyor, fakat openHAB\'dan bir cevap alamıyor (HTTP yanıt kodu 504).</string>
+    <string name="error_http_code_507">openHAB yeteri kadar boş alana sahip değil (HTTP yanıt kodu 507)</string>
     <string name="error_http_code_511">Network kimlik doğrulaması gereklidir (HTTP yanıt kodu 511)</string>
+    <string name="error_about_no_conn">openHAB\'tan sunucu bilgileri alınırken bir hata oluştu</string>
+    <string name="error_openhab_offline">Bulut örneğinin çalıştığı sırada, openHAB sunucu çevrimdışı</string>
     <string name="title_activity_openhabwritetag">NFC etiketini yazınız</string>
+    <string name="title_activity_libraries">Kullanılan kütüphaneler</string>
     <string name="info_write_tag">Doğrulama mesajı gözükene kadar etikete dokunun ve kapalı halde tutunuz</string>
     <string name="info_write_tag_progress">Etkiket yazılıyor</string>
     <string name="info_write_tag_finished">Başarılı bir şekilde bitirildi</string>
@@ -95,10 +117,15 @@
     <string name="info_openhab_apiversion_label">openHAB Rest API versiyon</string>
     <string name="info_openhab_uuid_label">openHAB UUID</string>
     <string name="info_openhab_secret_label">openHAB Parola</string>
+    <string name="info_openhab_push_notification_label">Push bildirimleri</string>
     <string name="action_settings">Ayarlar</string>
     <string name="nfc_dialog_title">Bu element için NFC eylem etiketi yazınız</string>
     <string name="info_not_set">Ayarlı değil</string>
+    <string name="empty_page">Bu sayfa görüntülenecek herhangi bir widget içermiyor</string>
     <!-- Background tasks -->
+    <string name="send_device_info_to_server">Sunucu bilgilerini sunucuya gönder</string>
+    <string name="send_device_info_item_prefix">Öğe adı ön eki</string>
+    <string name="send_device_info_item_prefix_summary">Aşağıdaki özelliklerin öğe adları bu ön eke sahiptir</string>
     <!-- Notification list strings -->
     <!-- Strings for MemorizingTrustManager activity -->
     <string name="mtm_connect_anyway">Yine de bağlanmak istiyor musunuz?</string>
