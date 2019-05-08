@@ -1,35 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <strings>
-    <intro/>
-    <whatis/>
-    <rules/>
-    <supported/>
-    <bindings>  </bindings>
+    <intro>openHAB - "empowering the smart home" - Birbirinden farklı sistemleri destekleyen ve sağlayan açık kaynak kodlu akıllı ev otomasyonu</intro>
+    <whatis>openHAB, çok çeşitli akıllı ev sistemleri ve teknolojilerini tek bir çözümde entegre eden, Java tabanlı bir açık kaynaklı ev otomasyon platformudur.</whatis>
+    <rules>Birleşik soyutlama katmanının üstünde, tüm bağlı cihazlar genel otomasyon kural motorları ve farklı kullanıcı arayüzleri için kullanılabilir.</rules>
+    <supported>Desteklenen Ürünler</supported>
+    <bindings>200'den fazla özel eklenti, markalar, cihazlar, teknolojiler ve iletişim protokolleri için destek sağlar. Örnekler Z-Wave, Philips Hue, Amazon Echo, Chromecast ve Sonos'tur. Mevcut tüm eklentileri ve desteklenen cihazları ve / veya işlevleri şu adreste keşfedin: https://www.openhab.org/addons/</bindings>
 
-    <home_automation_solutions/>
-    <lighting/>
-    <heating/>
-    <home_entertainment/>
-    <security/>
-    <open_protocols/>
-    <special_useCases/>
-    <empty_point/>
+    <home_automation_solutions>Ev Otomasyonu Çözümleri: Z-Wave, EnOcean, Netatmo, Homematic, Insteon, ...</home_automation_solutions>
+    <lighting>• Aydınlatma: Philips Hue, IKEA Trådfri, LIFX, Lutron, Milight,...</lighting>
+    <heating>• Isıtma: Max!, Nest, Vitotronic, Heatmiser,...</heating>
+    <home_entertainment>• Ev Eğlence: Samsung TV, LG TV, Sonos, Pioneer AVR, Squeezebox, Kodi, Plex,...</home_entertainment>
+    <security>• Güvenlik: ZoneMinder, DSC,...</security>
+    <open_protocols>• Açık protokoller: HTTP, TCP/UDP, MQTT, Serial,...</open_protocols>
+    <special_useCases>• Özel Kullanım Örnekleri: Minecraft, Tesla Car, Hava Durumu hizmetleri,...</special_useCases>
+    <empty_point>• ...</empty_point>
 
-    <oss_community/>
-    <forum>  </forum>
+    <oss_community>Açık Kaynak Topluluğu</oss_community>
+    <forum>OpenHAB açık kaynak girişimi, canlı topluluğunu güçlü bir şekilde destekliyor. Forum 13,000 kayıtlı kullanıcı ile rehberlik, yardım ve ilham bulmak için bir yerdir. openHAB topluluk forumu' na katıl: https://community.openhab.org</forum>
 
-    <report_issues/>
-    <translation/>
-    <foundation/>
-    <about_foundation> </about_foundation>
-    <important_note/>
-    <oh_server/>
-    <short_description/>
+    <report_issues>Bir sorun bulduğunuzda lütfen bunu forumda veya https://github.com/openhab/openhab-android/issues adresinde bildirin</report_issues>
+    <translation>Uygulamayı kendi dilinize çevirmek isterseniz https://crowdin.com/project/openhab-android adresinden bize katılın</translation>
+    <foundation>openHAB Vakfı</foundation>
+    <about_foundation>openHAB Vakfı e.V. kamuoyunu serbest ve açık akıllı ev çözümlerinin olanakları ve faydaları hakkında eğitmek misyonu ile kar amacı gütmeyen bir organizasyondur. </about_foundation>
+    <important_note>Önemli not</important_note>
+    <oh_server>Bu uygulama için openHAB sunucusuna ihtiyacınız var</oh_server>
+    <short_description>Satıcı ve teknoloji agnostik açık kaynaklı ev otomasyonu</short_description>
     <fdroid/>
-    <fdroid_beta><![CDATA[]]></fdroid_beta>
-    <fdroid_privacy_policy/>
-    <fdroid_anti_features/>
-    <fdroid_anti_features_text/>
-    <beta/>
-    <play_beta/>
+    <fdroid_beta><![CDATA[Beta sürümünü <a href="https://f-droid.org/packages/org.openhab.habdroid/">kararlı sürüm</a> ile birlikte kurabilirsiniz.]]></fdroid_beta>
+    <fdroid_privacy_policy>Gizlilik Politikası: https://www.openhabfoundation.org/privacy.html</fdroid_privacy_policy>
+    <fdroid_anti_features>Anti Özellikleri</fdroid_anti_features>
+    <fdroid_anti_features_text>openHAB simgesi ücretsiz bir lisans altında olmadığı için uygulama "NonFreeAsset" bayrağıyla işaretlenmiştir.</fdroid_anti_features_text>
+    <beta>Yeni özellikleri deneyin ve erken geri bildirimde bulunun!</beta>
+    <play_beta>Beta sürümünü, kararlı sürümün yanında da yükleyebilirsiniz.</play_beta>
 </strings>
