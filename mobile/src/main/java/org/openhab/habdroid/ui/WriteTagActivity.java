@@ -58,13 +58,13 @@ public class WriteTagActivity extends AbstractBaseActivity {
     private Uri mLongUri;
     private Uri mShortUri;
 
-    public static Intent createItemUpdateIntent(Context context, String parentSitemapUrl,
-            String itemName, String state, String mappedState, String label) {
+    public static Intent createItemUpdateIntent(Context context, String itemName, String state,
+            String mappedState, String label) {
         if (TextUtils.isEmpty(itemName) || TextUtils.isEmpty(state)) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("Item name or state is empty");
         }
         Uri.Builder uriBuilder = new Uri.Builder()
-                .scheme("openhab")
+                .scheme(NfcTag.SCHEME)
                 .authority("")
                 .appendQueryParameter(NfcTag.QUERY_PARAMETER_ITEM_NAME, itemName)
                 .appendQueryParameter(NfcTag.QUERY_PARAMETER_STATE, state);
@@ -86,7 +86,7 @@ public class WriteTagActivity extends AbstractBaseActivity {
             throw new IllegalArgumentException("Expected a sitemap URL");
         }
         Uri longUri = new Uri.Builder()
-                .scheme("openhab")
+                .scheme(NfcTag.SCHEME)
                 .authority("")
                 .appendEncodedPath(sitemapUri.getPath().substring(15))
                 .build();

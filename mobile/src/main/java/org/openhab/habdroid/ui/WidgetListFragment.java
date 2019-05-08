@@ -194,7 +194,7 @@ public class WidgetListFragment extends Fragment
                         final Intent writeTagIntent;
                         if (which < commands.size()) {
                             writeTagIntent = WriteTagActivity.createItemUpdateIntent(getActivity(),
-                                    mPageUrl, widget.item().name(), commands.get(which),
+                                    widget.item().name(), commands.get(which),
                                     labels.get(which), widget.item().label());
                         } else {
                             writeTagIntent = WriteTagActivity.createSitemapNavigationIntent(
