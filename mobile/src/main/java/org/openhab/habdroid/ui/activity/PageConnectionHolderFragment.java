@@ -353,12 +353,12 @@ public class PageConnectionHolderFragment extends Fragment {
                     widgetList.add(w);
                 }
 
+                Log.d(TAG, "Updated page data for URL " + mUrl
+                        + " (" + widgetList.size() + " widgets)");
                 if (mCallback.isDetailedLoggingEnabled()) {
-                    Log.d(TAG, "Updated page data for URL " + mUrl
-                            + ": widget list " + widgetList);
-                } else {
-                    Log.d(TAG, "Updated page data for URL " + mUrl
-                            + " (" + widgetList.size() + " widgets)");
+                    for (int i = 0; i < widgetList.size(); i++) {
+                        Log.d(TAG, "Widget " + (i + 1) + ": " + widgetList.get(i));
+                    }
                 }
                 mLastPageTitle = dataSource.getTitle();
                 mLastWidgetList = widgetList;

@@ -2,6 +2,7 @@ package org.openhab.habdroid.ui;
 
 import android.app.AlertDialog;
 import android.content.res.Resources;
+import android.location.Location;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -151,7 +152,7 @@ public class MapViewHelper {
             if (!mBoundItem.members().isEmpty()) {
                 ArrayList<LatLng> positions = new ArrayList<>();
                 for (Item item : mBoundItem.members()) {
-                    LatLng position = parseLocation(item.state());
+                    LatLng position = toLatLng(item.state());
                     if (position != null) {
                         setMarker(map, position, item, item.label(), canDragMarker);
                         positions.add(position);
@@ -169,7 +170,7 @@ public class MapViewHelper {
                     }
                 }
             } else {
-                LatLng position = parseLocation(mBoundItem.state());
+                LatLng position = toLatLng(mBoundItem.state());
                 if (position != null) {
                     setMarker(map, position, mBoundItem, mLabelView.getText(), canDragMarker);
                     map.moveCamera(CameraUpdateFactory.newLatLngZoom(position, zoomLevel));
@@ -186,17 +187,11 @@ public class MapViewHelper {
             map.addMarker(marker).setTag(item);
         }
 
-        private static LatLng parseLocation(ParsedState state) {
-            String location = state != null ? state.asString() : null;
-            String[] splitState = location != null ? location.split(",") : null;
-            if (splitState != null && splitState.length == 2) {
-                try {
-                    return new LatLng(Float.valueOf(splitState[0]), Float.valueOf(splitState[1]));
-                } catch (NumberFormatException e) {
-                    // ignored
-                }
-            }
-            return null;
+        private static LatLng toLatLng(ParsedState state) {
+            Location location = state != null ? state.asLocation() : null;
+            return location != null
+                    ? new LatLng(location.getLatitude(), location.getLongitude())
+                    : null;
         }
     }
 }
