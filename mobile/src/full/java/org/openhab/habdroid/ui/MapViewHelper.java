@@ -189,7 +189,7 @@ public class MapViewHelper {
 
         private static LatLng toLatLng(ParsedState state) {
             Location location = state != null ? state.asLocation() : null;
-            return state != null
+            return location != null
                     ? new LatLng(location.getLatitude(), location.getLongitude())
                     : null;
         }
