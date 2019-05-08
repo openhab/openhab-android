@@ -253,7 +253,8 @@ public class WriteTagActivity extends AbstractBaseActivity {
                     progressBar.setVisibility(View.INVISIBLE);
 
                     ImageView watermark = findViewById(R.id.nfc_watermark);
-                    watermark.setImageDrawable(ContextCompat.getDrawable(getBaseContext(), R.drawable.ic_nfc_black_180dp));
+                    watermark.setImageDrawable(ContextCompat.getDrawable(getBaseContext(),
+                            R.drawable.ic_nfc_black_180dp));
 
                     writeTagMessage.setText(R.string.info_write_tag_finished);
                     new Handler().postDelayed(WriteTagActivity.this::finish, 2000);
