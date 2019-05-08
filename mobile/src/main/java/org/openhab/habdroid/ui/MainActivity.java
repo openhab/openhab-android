@@ -373,7 +373,7 @@ public class MainActivity extends AbstractBaseActivity implements
             case NfcAdapter.ACTION_NDEF_DISCOVERED:
             case Intent.ACTION_VIEW:
                 NfcTag tag = NfcTag.fromTagData(intent.getData());
-                BackgroundTasksManager.enqueueNfcUpdateIfNeeded(tag);
+                BackgroundTasksManager.enqueueNfcUpdateIfNeeded(this, tag);
 
                 if (tag != null && !TextUtils.isEmpty(tag.sitemap())) {
                     mPendingOpenSitemapUrl = tag.sitemap();

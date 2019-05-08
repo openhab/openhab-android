@@ -9,6 +9,7 @@ import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.preference.PreferenceManager;
+import android.text.TextUtils;
 import android.util.Log;
 import android.util.Pair;
 import androidx.annotation.Nullable;
@@ -19,9 +20,11 @@ import androidx.work.OneTimeWorkRequest;
 import androidx.work.WorkInfo;
 import androidx.work.WorkManager;
 
+import org.openhab.habdroid.R;
 import org.openhab.habdroid.model.NfcTag;
 import org.openhab.habdroid.ui.widget.ItemUpdatingPreference;
 import org.openhab.habdroid.util.Constants;
+import org.openhab.habdroid.util.Util;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -121,8 +124,15 @@ public class BackgroundTasksManager extends BroadcastReceiver {
         workManager.enqueue(workRequest);
     }
 
-    public static void enqueueNfcUpdateIfNeeded(@Nullable NfcTag tag) {
+    public static void enqueueNfcUpdateIfNeeded(Context context, @Nullable NfcTag tag) {
         if (tag != null && tag.sitemap() == null) {
+            String message;
+            if (TextUtils.isEmpty(tag.label())) {
+                message = context.getString(R.string.nfc_tag_recognized_item, tag.item());
+            } else {
+                message = context.getString(R.string.nfc_tag_recognized_label, tag.label());
+            }
+            Util.showToast(context, message);
             enqueueItemUpload(WORKER_TAG_PREFIX_NFC + tag.item(), tag.item(), tag.state());
         }
     }

@@ -25,7 +25,7 @@ public class NfcReceiveActivity extends Activity {
         if (Intent.ACTION_VIEW.equals(intent.getAction())
                 || NfcAdapter.ACTION_NDEF_DISCOVERED.equals(intent.getAction())) {
             NfcTag tag = NfcTag.fromTagData(intent.getData());
-            BackgroundTasksManager.enqueueNfcUpdateIfNeeded(tag);
+            BackgroundTasksManager.enqueueNfcUpdateIfNeeded(this, tag);
             if (tag != null && !TextUtils.isEmpty(tag.sitemap())) {
                 Intent startMainIntent = new Intent(this, MainActivity.class);
                 startMainIntent.setAction(MainActivity.ACTION_SITEMAP_SELECTED);

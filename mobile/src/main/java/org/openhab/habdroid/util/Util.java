@@ -15,16 +15,20 @@ import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Handler;
+import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.util.TypedValue;
 import android.webkit.WebView;
 import android.webkit.WebViewDatabase;
+import android.widget.Toast;
 import androidx.annotation.AttrRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.StyleRes;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import es.dmoral.toasty.Toasty;
 import okhttp3.Headers;
 import okhttp3.Request;
 import org.json.JSONArray;
@@ -351,5 +355,14 @@ public class Util {
             Log.e(TAG, "REST call to " + url + " failed", error);
             return error.getMessage();
         }
+    }
+
+    /**
+     * Shows an orange Toast with the openHAB icon. Can be called from the background.
+     */
+    public static void showToast(Context context, CharSequence message) {
+        new Handler(Looper.getMainLooper()).post(() -> Toasty.custom(context, message,
+                R.drawable.ic_openhab_appicon_24dp, R.color.openhab_orange, Toast.LENGTH_SHORT,
+                true, true).show());
     }
 }
