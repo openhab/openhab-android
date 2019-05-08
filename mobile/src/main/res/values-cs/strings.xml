@@ -195,7 +195,6 @@
     <string name="about_server">openHAB server</string>
     <string name="about_translation">Pomozte nám přeložit openHAB</string>
     <string name="about_privacy_policy">Ochrana osobních údajů</string>
-    <string name="loading">Načítá se\u2026</string>
     <string name="settings_debug_messages_title">Zobrazit informace pro řešení potíží</string>
     <string name="error_couldnt_determine_openhab_url">Nemohu najít URL adresu openHAB</string>
     <string name="unknown">Neznámý</string>
