@@ -70,9 +70,9 @@ public class FcmRegistrationService extends JobIntentService {
 
     @Override
     protected void onHandleWork(@NonNull Intent intent) {
-        ConnectionFactory.waitForInitialization();
+        ConnectionFactory.Companion.waitForInitialization();
         CloudConnection connection =
-                (CloudConnection) ConnectionFactory.getConnection(Connection.TYPE_CLOUD);
+                (CloudConnection) ConnectionFactory.Companion.getConnection(Connection.Companion.getTYPE_CLOUD());
         if (connection == null) {
             return;
         }

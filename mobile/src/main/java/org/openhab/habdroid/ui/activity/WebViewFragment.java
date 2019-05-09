@@ -131,7 +131,7 @@ public class WebViewFragment extends Fragment implements ConnectionFactory.Updat
             return;
         }
         try {
-            mConnection = ConnectionFactory.getUsableConnection();
+            mConnection = ConnectionFactory.Companion.getUsableConnection();
         } catch (ConnectionException e) {
             updateViewVisibility(true, false);
             return;

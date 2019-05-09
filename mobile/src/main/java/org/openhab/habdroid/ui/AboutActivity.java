@@ -108,7 +108,7 @@ public class AboutActivity extends AbstractBaseActivity implements
                 @Nullable Bundle savedInstanceState) {
             mServerProperties = getArguments().getParcelable("serverProperties");
             try {
-                mConnection = ConnectionFactory.getUsableConnection();
+                mConnection = ConnectionFactory.Companion.getUsableConnection();
             } catch (ConnectionException ignored) {
                 // ignored
             }

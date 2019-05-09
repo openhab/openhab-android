@@ -643,7 +643,7 @@ public abstract class ContentController implements PageConnectionHolderFragment.
 
         @Override
         public void onClick(View view) {
-            ConnectionFactory.restartNetworkCheck();
+            ConnectionFactory.Companion.restartNetworkCheck();
             getActivity().recreate();
         }
     }
@@ -703,7 +703,7 @@ public abstract class ContentController implements PageConnectionHolderFragment.
                         .apply();
             } else if (getArguments().getBoolean(KEY_WIFI_ENABLED)) {
                 // If Wifi is enabled, secondary button suggests retrying
-                ConnectionFactory.restartNetworkCheck();
+                ConnectionFactory.Companion.restartNetworkCheck();
                 getActivity().recreate();
             } else {
                 // If Wifi is disabled, secondary button suggests enabling Wifi

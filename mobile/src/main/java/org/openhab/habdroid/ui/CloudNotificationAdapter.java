@@ -151,7 +151,7 @@ public class CloudNotificationAdapter extends RecyclerView.Adapter<RecyclerView.
             mMessageView.setText(notification.message());
 
             if (notification.icon() != null) {
-                Connection conn = ConnectionFactory.getConnection(Connection.TYPE_CLOUD);
+                Connection conn = ConnectionFactory.Companion.getConnection(Connection.Companion.getTYPE_CLOUD());
                 String iconUrl = String.format(Locale.US, "images/%s.png",
                         Uri.encode(notification.icon()));
                 mIconView.setImageUrl(conn, iconUrl, mIconView.getResources()

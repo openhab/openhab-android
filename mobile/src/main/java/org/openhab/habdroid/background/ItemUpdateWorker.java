@@ -42,14 +42,14 @@ public class ItemUpdateWorker extends Worker {
 
     @Override
     public Result doWork() {
-        ConnectionFactory.waitForInitialization();
+        ConnectionFactory.Companion.waitForInitialization();
 
         final Data data = getInputData();
         Connection connection;
 
         try {
             Log.d(TAG, "Trying to get connection");
-            connection = ConnectionFactory.getUsableConnection();
+            connection = ConnectionFactory.Companion.getUsableConnection();
         } catch (ConnectionException e) {
             Log.e(TAG, "Got no connection " + e);
             return getRunAttemptCount() <= MAX_RETRIES

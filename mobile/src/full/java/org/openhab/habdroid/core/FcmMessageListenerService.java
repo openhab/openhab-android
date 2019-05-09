@@ -147,7 +147,7 @@ public class FcmMessageListenerService extends FirebaseMessagingService {
         Bitmap iconBitmap = null;
 
         if (icon != null) {
-            Connection connection = ConnectionFactory.getConnection(Connection.TYPE_CLOUD);
+            Connection connection = ConnectionFactory.Companion.getConnection(Connection.Companion.getTYPE_CLOUD());
             if (connection != null) {
                 final String url = String.format(Locale.US, "images/%s.png", icon);
                 SyncHttpClient.HttpResult result = connection.getSyncHttpClient().get(url, 1000);

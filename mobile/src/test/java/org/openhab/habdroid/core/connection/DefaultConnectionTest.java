@@ -25,27 +25,27 @@ public class DefaultConnectionTest {
     @Before
     public void setup() {
         mClient = new OkHttpClient.Builder().build();
-        mTestConnection = new DefaultConnection(mClient, Connection.TYPE_LOCAL,
+        mTestConnection = new DefaultConnection(mClient, Connection.Companion.getTYPE_LOCAL(),
                 TEST_BASE_URL, null, null);
-        mTestConnectionRemote = new DefaultConnection(mClient, Connection.TYPE_REMOTE,
+        mTestConnectionRemote = new DefaultConnection(mClient, Connection.Companion.getTYPE_REMOTE(),
                 null, null, null);
         mTestConnectionCloud = new DefaultConnection(mClient,
-                Connection.TYPE_CLOUD, null, null, null);
+                Connection.Companion.getTYPE_CLOUD(), null, null, null);
     }
 
     @Test
     public void testGetConnectionTypeSetRemote() {
-        assertEquals(Connection.TYPE_REMOTE, mTestConnectionRemote.getConnectionType());
+        assertEquals(Connection.Companion.getTYPE_REMOTE(), mTestConnectionRemote.getConnectionType());
     }
 
     @Test
     public void testGetConnectionTypeSetLocal() {
-        assertEquals(Connection.TYPE_LOCAL, mTestConnection.getConnectionType());
+        assertEquals(Connection.Companion.getTYPE_LOCAL(), mTestConnection.getConnectionType());
     }
 
     @Test
     public void testGetConnectionTypeSetCloud() {
-        assertEquals(Connection.TYPE_CLOUD, mTestConnectionCloud.getConnectionType());
+        assertEquals(Connection.Companion.getTYPE_CLOUD(), mTestConnectionCloud.getConnectionType());
     }
 
     @Test
@@ -60,14 +60,14 @@ public class DefaultConnectionTest {
 
     @Test
     public void testGetUsernameSet() {
-        Connection connection = new DefaultConnection(mClient, Connection.TYPE_LOCAL,
+        Connection connection = new DefaultConnection(mClient, Connection.Companion.getTYPE_LOCAL(),
                 TEST_BASE_URL, "Test-User", null);
         assertEquals("Test-User", connection.getUsername());
     }
 
     @Test
     public void testGetPasswordSet() {
-        Connection connection = new DefaultConnection(mClient, Connection.TYPE_LOCAL,
+        Connection connection = new DefaultConnection(mClient, Connection.Companion.getTYPE_LOCAL(),
                 TEST_BASE_URL, null, "Test-Password");
         assertEquals("Test-Password", connection.getPassword());
     }
@@ -104,7 +104,7 @@ public class DefaultConnectionTest {
 
     @Test
     public void testAsyncHasUsernamePassword() {
-        Connection connection = new DefaultConnection(mClient, Connection.TYPE_LOCAL,
+        Connection connection = new DefaultConnection(mClient, Connection.Companion.getTYPE_LOCAL(),
                 TEST_BASE_URL, "Test-User", "Test-Password");
         HttpClient httpClient = connection.getAsyncHttpClient();
 
@@ -114,7 +114,7 @@ public class DefaultConnectionTest {
 
     @Test
     public void testSyncHasUsernamePassword() {
-        Connection connection = new DefaultConnection(mClient, Connection.TYPE_LOCAL,
+        Connection connection = new DefaultConnection(mClient, Connection.Companion.getTYPE_LOCAL(),
                 TEST_BASE_URL, "Test-User", "Test-Password");
         HttpClient httpClient = connection.getSyncHttpClient();
 

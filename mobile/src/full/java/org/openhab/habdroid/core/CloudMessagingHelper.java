@@ -41,9 +41,9 @@ public class CloudMessagingHelper {
 
     public static String getPushNotificationStatus(Context context) {
         CloudConnection cloudConnection = (CloudConnection)
-                ConnectionFactory.getConnection(Connection.TYPE_CLOUD);
+                ConnectionFactory.Companion.getConnection(Connection.Companion.getTYPE_CLOUD());
         if (cloudConnection == null) {
-            if (ConnectionFactory.getConnection(Connection.TYPE_REMOTE) == null) {
+            if (ConnectionFactory.Companion.getConnection(Connection.Companion.getTYPE_REMOTE()) == null) {
                 return context.getString(R.string.info_openhab_gcm_no_remote);
             } else {
                 return context.getString(R.string.info_openhab_gcm_unsupported);
@@ -65,7 +65,7 @@ public class CloudMessagingHelper {
 
     public static @DrawableRes int getPushNotificationIconResId() {
         CloudConnection cloudConnection = (CloudConnection)
-                ConnectionFactory.getConnection(Connection.TYPE_CLOUD);
+                ConnectionFactory.Companion.getConnection(Connection.Companion.getTYPE_CLOUD());
         if (cloudConnection == null) {
             return R.drawable.ic_bell_off_outline_grey_24dp;
         } else if (!sRegistrationDone) {

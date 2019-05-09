@@ -45,11 +45,11 @@ public class VoiceService extends IntentService {
             return;
         }
 
-        ConnectionFactory.waitForInitialization();
+        ConnectionFactory.Companion.waitForInitialization();
         Connection connection = null;
 
         try {
-            connection = ConnectionFactory.getUsableConnection();
+            connection = ConnectionFactory.Companion.getUsableConnection();
         } catch (ConnectionException e) {
             Log.w(TAG, "Couldn't determine openHAB URL", e);
         }

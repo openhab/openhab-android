@@ -18,7 +18,7 @@ public class DemoConnectionTest {
 
     @Test
     public void testGetConnectionType() {
-        assertEquals(Connection.TYPE_REMOTE, mTestConnection.getConnectionType());
+        assertEquals(Connection.Companion.getTYPE_REMOTE(), mTestConnection.getConnectionType());
     }
 
     @Test

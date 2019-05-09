@@ -217,7 +217,7 @@ public class MainActivity extends AbstractBaseActivity implements
             int lastConnectionHash = savedInstanceState.getInt("connectionHash");
             if (lastConnectionHash != -1) {
                 try {
-                    Connection c = ConnectionFactory.getUsableConnection();
+                    Connection c = ConnectionFactory.Companion.getUsableConnection();
                     if (c != null && c.hashCode() == lastConnectionHash) {
                         mConnection = c;
                     }
@@ -285,12 +285,12 @@ public class MainActivity extends AbstractBaseActivity implements
             showDemoModeHintSnackbar();
         } else {
             boolean hasLocalAndRemote =
-                    ConnectionFactory.getConnection(Connection.TYPE_LOCAL) != null
-                    && ConnectionFactory.getConnection(Connection.TYPE_REMOTE) != null;
+                    ConnectionFactory.Companion.getConnection(Connection.Companion.getTYPE_LOCAL()) != null
+                    && ConnectionFactory.Companion.getConnection(Connection.Companion.getTYPE_REMOTE()) != null;
             int type = mConnection.getConnectionType();
-            if (hasLocalAndRemote && type == Connection.TYPE_LOCAL) {
+            if (hasLocalAndRemote && type == Connection.Companion.getTYPE_LOCAL()) {
                 showSnackbar(R.string.info_conn_url);
-            } else if (hasLocalAndRemote && type == Connection.TYPE_REMOTE) {
+            } else if (hasLocalAndRemote && type == Connection.Companion.getTYPE_REMOTE()) {
                 showSnackbar(R.string.info_conn_rem_url);
             }
         }
@@ -453,7 +453,7 @@ public class MainActivity extends AbstractBaseActivity implements
         ConnectionException failureReason;
 
         try {
-            newConnection = ConnectionFactory.getUsableConnection();
+            newConnection = ConnectionFactory.Companion.getUsableConnection();
             failureReason = null;
         } catch (ConnectionException e) {
             newConnection = null;
@@ -485,7 +485,7 @@ public class MainActivity extends AbstractBaseActivity implements
                 // Attempt resolving only if we're connected locally and
                 // no local connection is configured yet
                 if (nuie.wouldHaveUsedLocalConnection()
-                        && ConnectionFactory.getConnection(Connection.TYPE_LOCAL) == null) {
+                        && ConnectionFactory.Companion.getConnection(Connection.Companion.getTYPE_LOCAL()) == null) {
                     if (mServiceResolver == null) {
                         mServiceResolver = new AsyncServiceResolver(this, this,
                                 getString(R.string.openhab_service_type));
@@ -537,7 +537,7 @@ public class MainActivity extends AbstractBaseActivity implements
         super.onStart();
         mStarted = true;
 
-        ConnectionFactory.addListener(this);
+        ConnectionFactory.Companion.addListener(this);
 
         onAvailableConnectionChanged();
         updateNotificationDrawerItem();
@@ -557,7 +557,7 @@ public class MainActivity extends AbstractBaseActivity implements
         Log.d(TAG, "onStop()");
         mStarted = false;
         super.onStop();
-        ConnectionFactory.removeListener(this);
+        ConnectionFactory.Companion.removeListener(this);
         if (mServiceResolver != null && mServiceResolver.isAlive()) {
             mServiceResolver.interrupt();
             mServiceResolver = null;
@@ -660,7 +660,7 @@ public class MainActivity extends AbstractBaseActivity implements
 
     private void updateNotificationDrawerItem() {
         MenuItem notificationsItem = mDrawerMenu.findItem(R.id.notifications);
-        boolean hasCloudConnection = ConnectionFactory.getConnection(Connection.TYPE_CLOUD) != null;
+        boolean hasCloudConnection = ConnectionFactory.Companion.getConnection(Connection.Companion.getTYPE_CLOUD()) != null;
         notificationsItem.setVisible(hasCloudConnection);
         if (hasCloudConnection) {
             manageNotificationShortcut(true);
@@ -731,7 +731,7 @@ public class MainActivity extends AbstractBaseActivity implements
 
     private void openNotificationsPageIfNeeded() {
         if (mPendingOpenedNotificationId != null && mStarted
-                && ConnectionFactory.getConnection(Connection.TYPE_CLOUD) != null) {
+                && ConnectionFactory.Companion.getConnection(Connection.Companion.getTYPE_CLOUD()) != null) {
             openNotifications(mPendingOpenedNotificationId);
             mPendingOpenedNotificationId = null;
         }

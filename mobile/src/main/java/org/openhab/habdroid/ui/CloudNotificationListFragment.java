@@ -150,7 +150,7 @@ public class CloudNotificationListFragment extends Fragment implements
     }
 
     private void loadNotifications(boolean clearExisting) {
-        Connection conn = ConnectionFactory.getConnection(Connection.TYPE_CLOUD);
+        Connection conn = ConnectionFactory.Companion.getConnection(Connection.Companion.getTYPE_CLOUD());
         if (conn == null) {
             updateViewVisibility(false, true);
             return;

@@ -9,13 +9,13 @@ public class OpenHabApplication extends MultiDexApplication {
     @Override
     public void onCreate() {
         super.onCreate();
-        ConnectionFactory.initialize(this);
+        ConnectionFactory.Companion.initialize(this);
         BackgroundTasksManager.initialize(this);
     }
 
     @Override
     public void onTerminate() {
         super.onTerminate();
-        ConnectionFactory.shutdown();
+        ConnectionFactory.Companion.shutdown();
     }
 }

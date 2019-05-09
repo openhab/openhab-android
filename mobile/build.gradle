@@ -17,6 +17,8 @@ buildscript {
 }
 
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-android'
 if (!isFoss) {
     apply plugin: 'io.fabric'
 }
@@ -157,6 +159,9 @@ dependencies {
     }
 
     androidTestImplementation 'tools.fastlane:screengrab:1.1.0'
+    compile "androidx.core:core-ktx:+"
+    compile "androidx.lifecycle:lifecycle-viewmodel-ktx:2.0.0"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
 
 if (!isFoss) {

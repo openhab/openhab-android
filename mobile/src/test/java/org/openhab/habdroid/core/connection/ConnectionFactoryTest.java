@@ -66,7 +66,7 @@ public class ConnectionFactoryTest {
         ConnectionFactory.initialize(mMockContext, mMockPrefs);
 
         ConnectionFactory.sInstance.mMainHandler = makeMockedHandler();
-        ConnectionFactory.sInstance.mUpdateHandler = makeMockedHandler();
+        ConnectionFactory.sInstance.setMUpdateHandler(makeMockedHandler());
     }
 
     @Test
@@ -77,21 +77,21 @@ public class ConnectionFactoryTest {
 
         when(mMockPrefs.getString(eq(Constants.PREFERENCE_REMOTE_URL), anyString()))
                 .thenReturn(server.url("/").toString());
-        ConnectionFactory.sInstance.updateConnections();
-        Connection conn = ConnectionFactory.getConnection(Connection.TYPE_REMOTE);
+        ConnectionFactory.Companion.getSInstance().updateConnections();
+        Connection conn = ConnectionFactory.Companion.getConnection(Connection.Companion.getTYPE_REMOTE());
 
         assertNotNull("Requesting a remote connection when a remote url is set, "
                 + " should return a connection.", conn);
         assertEquals("The connection type of a remote connection should be TYPE_REMOTE.",
-                Connection.TYPE_REMOTE, conn.getConnectionType());
+                Connection.Companion.getTYPE_REMOTE(), conn.getConnectionType());
     }
 
     @Test
     public void testGetConnectionRemoteWithoutUrl() {
         when(mMockPrefs.getString(eq(Constants.PREFERENCE_REMOTE_URL), anyString()))
                 .thenReturn("");
-        ConnectionFactory.sInstance.updateConnections();
-        Connection conn = ConnectionFactory.getConnection(Connection.TYPE_REMOTE);
+        ConnectionFactory.Companion.getSInstance().updateConnections();
+        Connection conn = ConnectionFactory.Companion.getConnection(Connection.Companion.getTYPE_REMOTE());
 
         assertNull("Requesting a remote connection when a remote url isn't set, "
                 + "should not return a connection.", conn);
@@ -101,21 +101,21 @@ public class ConnectionFactoryTest {
     public void testGetConnectionLocalWithUrl() {
         when(mMockPrefs.getString(eq(Constants.PREFERENCE_LOCAL_URL), anyString()))
                 .thenReturn("https://openhab.local:8080");
-        ConnectionFactory.sInstance.updateConnections();
-        Connection conn = ConnectionFactory.getConnection(Connection.TYPE_LOCAL);
+        ConnectionFactory.Companion.getSInstance().updateConnections();
+        Connection conn = ConnectionFactory.Companion.getConnection(Connection.Companion.getTYPE_LOCAL());
 
         assertNotNull("Requesting a local connection when local url is set, "
                 + "should return a connection.", conn);
         assertEquals("The connection type of a local connection should be LOGLEVEL_LOCAL.",
-                Connection.TYPE_LOCAL, conn.getConnectionType());
+                Connection.Companion.getTYPE_LOCAL(), conn.getConnectionType());
     }
 
     @Test
     public void testGetConnectionLocalWithoutUrl() {
         when(mMockPrefs.getString(eq(Constants.PREFERENCE_LOCAL_URL), anyString()))
                 .thenReturn("");
-        ConnectionFactory.sInstance.updateConnections();
-        Connection conn = ConnectionFactory.getConnection(Connection.TYPE_LOCAL);
+        ConnectionFactory.Companion.getSInstance().updateConnections();
+        Connection conn = ConnectionFactory.Companion.getConnection(Connection.Companion.getTYPE_LOCAL());
 
         assertNull("Requesting a remote connection when a local url isn't set, "
                 + "should not return a connection.", conn);
@@ -130,14 +130,14 @@ public class ConnectionFactoryTest {
         when(mMockPrefs.getString(eq(Constants.PREFERENCE_REMOTE_URL), anyString()))
                 .thenReturn(server.url("/").toString());
 
-        ConnectionFactory.sInstance.updateConnections();
-        Connection conn = ConnectionFactory.getConnection(Connection.TYPE_CLOUD);
+        ConnectionFactory.Companion.getSInstance().updateConnections();
+        Connection conn = ConnectionFactory.Companion.getConnection(Connection.Companion.getTYPE_CLOUD());
 
         assertNotNull("Requesting a cloud connection when a remote url is set, "
                 + "should return a connection.", conn);
         assertEquals(CloudConnection.class, conn.getClass());
         assertEquals("The connection type of a cloud connection should be TYPE_CLOUD.",
-                Connection.TYPE_CLOUD, conn.getConnectionType());
+                Connection.Companion.getTYPE_CLOUD(), conn.getConnectionType());
         assertEquals("The sender ID of the cloud connection should be '12345'",
                 "12345", ((CloudConnection) conn).getMessagingSenderId());
 
@@ -148,14 +148,14 @@ public class ConnectionFactoryTest {
     public void testGetAnyConnectionNoNetwork() throws ConnectionException {
         triggerNetworkUpdate(null);
 
-        ConnectionFactory.getUsableConnection();
+        ConnectionFactory.Companion.getUsableConnection();
     }
 
     @Test(expected = NetworkNotSupportedException.class)
     public void testGetAnyConnectionUnsupportedNetwork() throws ConnectionException {
         triggerNetworkUpdate(ConnectivityManager.TYPE_BLUETOOTH);
 
-        ConnectionFactory.getUsableConnection();
+        ConnectionFactory.Companion.getUsableConnection();
     }
 
     @Test
@@ -166,15 +166,15 @@ public class ConnectionFactoryTest {
 
         when(mMockPrefs.getString(eq(Constants.PREFERENCE_REMOTE_URL), anyString()))
                 .thenReturn(server.url("/").toString());
-        ConnectionFactory.sInstance.updateConnections();
+        ConnectionFactory.Companion.getSInstance().updateConnections();
         triggerNetworkUpdate(ConnectivityManager.TYPE_WIFI);
 
-        Connection conn = ConnectionFactory.getUsableConnection();
+        Connection conn = ConnectionFactory.Companion.getUsableConnection();
 
         assertNotNull("Requesting any connection in WIFI when only a remote url is set, "
                 + "should return a connection.", conn);
         assertEquals("The connection type of the connection should be TYPE_REMOTE.",
-                Connection.TYPE_REMOTE, conn.getConnectionType());
+                Connection.Companion.getTYPE_REMOTE(), conn.getConnectionType());
 
         server.shutdown();
     }
@@ -189,15 +189,15 @@ public class ConnectionFactoryTest {
                 .thenReturn(server.url("/").toString());
         when(mMockPrefs.getString(eq(Constants.PREFERENCE_LOCAL_URL), anyString()))
                 .thenReturn("https://myopenhab.org:443");
-        ConnectionFactory.sInstance.updateConnections();
+        ConnectionFactory.Companion.getSInstance().updateConnections();
         triggerNetworkUpdate(ConnectivityManager.TYPE_WIFI);
 
-        Connection conn = ConnectionFactory.getUsableConnection();
+        Connection conn = ConnectionFactory.Companion.getUsableConnection();
 
         assertNotNull("Requesting any connection in WIFI when a local url is set, "
                 + "should return a connection.", conn);
         assertEquals("The connection type of the connection should be TYPE_LOCAL.",
-                Connection.TYPE_LOCAL, conn.getConnectionType());
+                Connection.Companion.getTYPE_LOCAL(), conn.getConnectionType());
 
         server.shutdown();
     }
@@ -207,7 +207,7 @@ public class ConnectionFactoryTest {
         when(mMockPrefs.getString(anyString(), anyString())).thenReturn(null);
         triggerNetworkUpdate(ConnectivityManager.TYPE_WIFI);
 
-        ConnectionFactory.getUsableConnection();
+        ConnectionFactory.Companion.getUsableConnection();
     }
 
     private void triggerNetworkUpdate(int type) {
@@ -220,7 +220,7 @@ public class ConnectionFactoryTest {
     private void triggerNetworkUpdate(NetworkInfo info) {
         when(mMockConnectivityService.getActiveNetworkInfo()).thenReturn(info);
 
-        ConnectionFactory.sInstance.onReceive(mMockContext,
+        ConnectionFactory.Companion.getSInstance().onReceive(mMockContext,
                 new Intent(ConnectivityManager.CONNECTIVITY_ACTION));
     }
 
@@ -229,12 +229,12 @@ public class ConnectionFactoryTest {
         when(h.sendEmptyMessage(anyInt())).thenAnswer(invocation -> {
             Message msg = new Message();
             msg.what = invocation.getArgument(0);
-            ConnectionFactory.sInstance.handleMessage(msg);
+            ConnectionFactory.Companion.getSInstance().handleMessage(msg);
             return Boolean.TRUE;
         });
         when(h.sendMessage(any(Message.class))).thenAnswer(invocation -> {
             Message msg = invocation.getArgument(0);
-            ConnectionFactory.sInstance.handleMessage(msg);
+            ConnectionFactory.Companion.getSInstance().handleMessage(msg);
             return Boolean.TRUE;
         });
         when(h.obtainMessage(anyInt()))
