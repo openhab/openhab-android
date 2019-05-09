@@ -64,15 +64,15 @@ public class WriteTagActivity extends AbstractBaseActivity {
             throw new IllegalArgumentException("Item name or state is empty");
         }
         Uri.Builder uriBuilder = new Uri.Builder()
-                .scheme(NfcTag.SCHEME)
+                .scheme(NfcTag.Companion.getSCHEME())
                 .authority("")
-                .appendQueryParameter(NfcTag.QUERY_PARAMETER_ITEM_NAME, itemName)
-                .appendQueryParameter(NfcTag.QUERY_PARAMETER_STATE, state);
+                .appendQueryParameter(NfcTag.Companion.getQUERY_PARAMETER_ITEM_NAME(), itemName)
+                .appendQueryParameter(NfcTag.Companion.getQUERY_PARAMETER_STATE(), state);
 
         Uri shortUri = uriBuilder.build();
         Uri longUri = uriBuilder
-                .appendQueryParameter(NfcTag.QUERY_PARAMETER_MAPPED_STATE, mappedState)
-                .appendQueryParameter(NfcTag.QUERY_PARAMETER_ITEM_LABEL, label)
+                .appendQueryParameter(NfcTag.Companion.getQUERY_PARAMETER_MAPPED_STATE(), mappedState)
+                .appendQueryParameter(NfcTag.Companion.getQUERY_PARAMETER_ITEM_LABEL(), label)
                 .build();
 
         return new Intent(context, WriteTagActivity.class)
@@ -86,7 +86,7 @@ public class WriteTagActivity extends AbstractBaseActivity {
             throw new IllegalArgumentException("Expected a sitemap URL");
         }
         Uri longUri = new Uri.Builder()
-                .scheme(NfcTag.SCHEME)
+                .scheme(NfcTag.Companion.getSCHEME())
                 .authority("")
                 .appendEncodedPath(sitemapUri.getPath().substring(15))
                 .build();

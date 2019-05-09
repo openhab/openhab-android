@@ -31,10 +31,10 @@ public class WidgetTest {
     @Test
     @Before
     public void parse_createsWidget() throws Exception {
-        Widget.parseXml(mSutXml, null, createXmlNode());
-        Widget.parseJson(mSut1, null, createJsonObject(1), "PNG");
-        Widget.parseJson(mSut2, null, createJsonObject(2), "SVG");
-        Widget.parseJson(mSut3, null, createJsonObject(3), "SVG");
+        Widget.Companion.parseXml(mSutXml, null, createXmlNode());
+        Widget.Companion.parseJson(mSut1, null, createJsonObject(1), "PNG");
+        Widget.Companion.parseJson(mSut2, null, createJsonObject(2), "SVG");
+        Widget.Companion.parseJson(mSut3, null, createJsonObject(3), "SVG");
     }
 
     @Test

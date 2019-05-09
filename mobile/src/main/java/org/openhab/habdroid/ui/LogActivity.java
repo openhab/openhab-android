@@ -139,10 +139,10 @@ public class LogActivity extends AbstractBaseActivity {
             SharedPreferences sharedPreferences =
                     PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
             log = redactHost(log,
-                    sharedPreferences.getString(Constants.PREFERENCE_LOCAL_URL, ""),
+                    sharedPreferences.getString(Constants.INSTANCE.getPREFERENCE_LOCAL_URL(), ""),
                     "<openhab-local-address>");
             log = redactHost(log,
-                    sharedPreferences.getString(Constants.PREFERENCE_REMOTE_URL, ""),
+                    sharedPreferences.getString(Constants.INSTANCE.getPREFERENCE_REMOTE_URL(), ""),
                     "<openhab-remote-address>");
             return log;
         }
@@ -157,7 +157,7 @@ public class LogActivity extends AbstractBaseActivity {
 
     private String redactHost(String text, String url, String replacement) {
         if (!TextUtils.isEmpty(url)) {
-            String host = Util.getHostFromUrl(url);
+            String host = Util.INSTANCE.getHostFromUrl(url);
             if (host != null) {
                 return text.replaceAll(host, replacement);
             }

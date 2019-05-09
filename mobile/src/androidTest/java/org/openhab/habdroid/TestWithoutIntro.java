@@ -15,14 +15,14 @@ public abstract class TestWithoutIntro extends ProgressbarAwareTest {
                 .getDefaultSharedPreferences(InstrumentationRegistry.getTargetContext())
                 .edit();
 
-        edit.putString(Constants.PREFERENCE_SITEMAP_NAME, "");
+        edit.putString(Constants.INSTANCE.getPREFERENCE_SITEMAP_NAME(), "");
         if (preselectSitemap()) {
-            edit.putString(Constants.PREFERENCE_SITEMAP_NAME, "demo");
-            edit.putString(Constants.PREFERENCE_SITEMAP_LABEL, "Main Menu");
+            edit.putString(Constants.INSTANCE.getPREFERENCE_SITEMAP_NAME(), "demo");
+            edit.putString(Constants.INSTANCE.getPREFERENCE_SITEMAP_LABEL(), "Main Menu");
         }
 
-        edit.putBoolean(Constants.PREFERENCE_DEMOMODE, true);
-        edit.putBoolean(Constants.PREFERENCE_FIRST_START, false).commit();
+        edit.putBoolean(Constants.INSTANCE.getPREFERENCE_DEMOMODE(), true);
+        edit.putBoolean(Constants.INSTANCE.getPREFERENCE_FIRST_START(), false).commit();
 
         super.setup();
         setupRegisterIdlingResources();

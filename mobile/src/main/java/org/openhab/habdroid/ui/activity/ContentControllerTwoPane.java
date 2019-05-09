@@ -84,7 +84,7 @@ public class ContentControllerTwoPane extends ContentController {
             ft.replace(R.id.content_left, leftFragment);
             if (leftFragment instanceof WidgetListFragment) {
                 WidgetListFragment llf = (WidgetListFragment) leftFragment;
-                llf.setHighlightedPageLink(rightPair != null ? rightPair.first.link() : null);
+                llf.setHighlightedPageLink(rightPair != null ? rightPair.first.getLink() : null);
             }
         }
         if (rightFragment != null) {

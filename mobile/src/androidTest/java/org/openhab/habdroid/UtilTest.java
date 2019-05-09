@@ -17,12 +17,12 @@ public class UtilTest {
 
     @Test
     public void testGetHostFromUrl() {
-        assertEquals("1.2.3.4", Util.getHostFromUrl("http://1.2.3.4/"));
-        assertEquals("1.2.3.4", Util.getHostFromUrl("http://1.2.3.4:4345"));
-        assertEquals("1.2.3.4", Util.getHostFromUrl("http://1.2.3.4:342/path/"));
-        assertEquals("1.2.3.4", Util.getHostFromUrl("http://1.2.3.4/path"));
-        assertEquals("1.2.3.4", Util.getHostFromUrl("https://1.2.3.4/"));
-        assertEquals("openhab.org", Util.getHostFromUrl("https://openhab.org/"));
-        assertEquals("demo.openhab.org", Util.getHostFromUrl("https://demo.openhab.org/"));
+        assertEquals("1.2.3.4", Util.INSTANCE.getHostFromUrl("http://1.2.3.4/"));
+        assertEquals("1.2.3.4", Util.INSTANCE.getHostFromUrl("http://1.2.3.4:4345"));
+        assertEquals("1.2.3.4", Util.INSTANCE.getHostFromUrl("http://1.2.3.4:342/path/"));
+        assertEquals("1.2.3.4", Util.INSTANCE.getHostFromUrl("http://1.2.3.4/path"));
+        assertEquals("1.2.3.4", Util.INSTANCE.getHostFromUrl("https://1.2.3.4/"));
+        assertEquals("openhab.org", Util.INSTANCE.getHostFromUrl("https://openhab.org/"));
+        assertEquals("demo.openhab.org", Util.INSTANCE.getHostFromUrl("https://demo.openhab.org/"));
     }
 }

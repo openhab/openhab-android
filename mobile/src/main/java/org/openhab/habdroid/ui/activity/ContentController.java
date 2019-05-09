@@ -106,7 +106,7 @@ public abstract class ContentController implements PageConnectionHolderFragment.
         for (Pair<LinkedPage, WidgetListFragment> item : mPageStack) {
             pages.add(item.first);
             if (item.second.isAdded()) {
-                mFm.putFragment(state, "pageFragment-" + item.first.link(), item.second);
+                mFm.putFragment(state, "pageFragment-" + item.first.getLink(), item.second);
             }
         }
         state.putParcelable("controllerSitemap", mCurrentSitemap);
@@ -149,7 +149,7 @@ public abstract class ContentController implements PageConnectionHolderFragment.
         mPageStack.clear();
         for (LinkedPage page : oldStack) {
             WidgetListFragment f = (WidgetListFragment)
-                    mFm.getFragment(state, "pageFragment-" + page.link());
+                    mFm.getFragment(state, "pageFragment-" + page.getLink());
             mPageStack.add(Pair.create(page, f != null ? f : makePageFragment(page)));
         }
         mTemporaryPage = mFm.getFragment(state, "temporaryPage");
@@ -203,7 +203,7 @@ public abstract class ContentController implements PageConnectionHolderFragment.
     public final void openPage(String url) {
         int toPop = -1;
         for (int i = 0; i < mPageStack.size(); i++) {
-            if (mPageStack.get(i).first.link().equals(url)) {
+            if (mPageStack.get(i).first.getLink().equals(url)) {
                 // page is already present
                 toPop = mPageStack.size() - i - 1;
                 break;
@@ -437,7 +437,7 @@ public abstract class ContentController implements PageConnectionHolderFragment.
     @Override
     public boolean isDetailedLoggingEnabled() {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(mActivity);
-        return prefs.getBoolean(Constants.PREFERENCE_DEBUG_MESSAGES, false);
+        return prefs.getBoolean(Constants.INSTANCE.getPREFERENCE_DEBUG_MESSAGES(), false);
     }
 
     @Override
@@ -488,7 +488,7 @@ public abstract class ContentController implements PageConnectionHolderFragment.
 
     @Override
     public void onLoadFailure(String url, int statusCode, Throwable e) {
-        String errorMessage = Util.getHumanReadableErrorMessage(mActivity, url, statusCode, e)
+        String errorMessage = Util.INSTANCE.getHumanReadableErrorMessage(mActivity, url, statusCode, e)
                 .toString();
 
         mNoConnectionFragment = CommunicationFailureFragment.newInstance(
@@ -565,11 +565,11 @@ public abstract class ContentController implements PageConnectionHolderFragment.
     }
 
     private WidgetListFragment makeSitemapFragment(Sitemap sitemap) {
-        return WidgetListFragment.withPage(sitemap.homepageLink(), sitemap.label());
+        return WidgetListFragment.withPage(sitemap.getHomepageLink(), sitemap.getLabel());
     }
 
     private WidgetListFragment makePageFragment(LinkedPage page) {
-        return WidgetListFragment.withPage(page.link(), page.title());
+        return WidgetListFragment.withPage(page.getLink(), page.getTitle());
     }
 
     protected enum FragmentUpdateReason {
@@ -699,7 +699,7 @@ public abstract class ContentController implements PageConnectionHolderFragment.
                 // If we attempted resolving, secondary button enables demo mode
                 PreferenceManager.getDefaultSharedPreferences(getContext())
                         .edit()
-                        .putBoolean(Constants.PREFERENCE_DEMOMODE, true)
+                        .putBoolean(Constants.INSTANCE.getPREFERENCE_DEMOMODE(), true)
                         .apply();
             } else if (getArguments().getBoolean(KEY_WIFI_ENABLED)) {
                 // If Wifi is enabled, secondary button suggests retrying

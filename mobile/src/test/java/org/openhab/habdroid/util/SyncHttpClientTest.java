@@ -33,7 +33,7 @@ public class SyncHttpClientTest {
         String host = "just.a.local.url.local";
         SyncHttpClient.HttpStatusResult resp = httpClient.get("https://" + host).asStatus();
 
-        assertEquals(500, resp.statusCode);
-        assertTrue(resp.error instanceof UnknownHostException);
+        assertEquals(500, resp.getStatusCode());
+        assertTrue(resp.getError() instanceof UnknownHostException);
     }
 }

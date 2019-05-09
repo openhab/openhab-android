@@ -24,12 +24,12 @@ public class NfcReceiveActivity extends Activity {
 
         if (Intent.ACTION_VIEW.equals(intent.getAction())
                 || NfcAdapter.ACTION_NDEF_DISCOVERED.equals(intent.getAction())) {
-            NfcTag tag = NfcTag.fromTagData(intent.getData());
-            BackgroundTasksManager.enqueueNfcUpdateIfNeeded(this, tag);
-            if (tag != null && !TextUtils.isEmpty(tag.sitemap())) {
+            NfcTag tag = NfcTag.Companion.fromTagData(intent.getData());
+            BackgroundTasksManager.Companion.enqueueNfcUpdateIfNeeded(this, tag);
+            if (tag != null && !TextUtils.isEmpty(tag.getSitemap())) {
                 Intent startMainIntent = new Intent(this, MainActivity.class);
                 startMainIntent.setAction(MainActivity.ACTION_SITEMAP_SELECTED);
-                startMainIntent.putExtra(MainActivity.EXTRA_SITEMAP_URL, tag.sitemap());
+                startMainIntent.putExtra(MainActivity.EXTRA_SITEMAP_URL, tag.getSitemap());
                 startActivity(startMainIntent);
             }
         }

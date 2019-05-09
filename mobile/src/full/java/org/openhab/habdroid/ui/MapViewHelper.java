@@ -66,14 +66,14 @@ public class MapViewHelper {
             super.bind(widget);
 
             ViewGroup.LayoutParams lp = mMapView.getLayoutParams();
-            int rows = widget.height() > 0 ? widget.height() : 5;
+            int rows = widget.getHeight() > 0 ? widget.getHeight() : 5;
             int desiredHeightPixels = rows * mRowHeightPixels;
             if (lp.height != desiredHeightPixels) {
                 lp.height = desiredHeightPixels;
                 mMapView.setLayoutParams(lp);
             }
 
-            mBoundItem = widget.item();
+            mBoundItem = widget.getItem();
             if (mMap != null) {
                 mMap.clear();
                 applyPositionAndLabel(mMap, 15.0f, false);
@@ -115,7 +115,7 @@ public class MapViewHelper {
             String newState = String.format(Locale.US, "%f,%f",
                     marker.getPosition().latitude, marker.getPosition().longitude);
             Item item = (Item) marker.getTag();
-            Util.sendItemCommand(mConnection.getAsyncHttpClient(), item, newState);
+            Util.INSTANCE.sendItemCommand(mConnection.getAsyncHttpClient(), item, newState);
         }
 
         private void openPopup() {
@@ -148,13 +148,13 @@ public class MapViewHelper {
             if (mBoundItem == null) {
                 return;
             }
-            boolean canDragMarker = allowDrag && !mBoundItem.readOnly();
-            if (!mBoundItem.members().isEmpty()) {
+            boolean canDragMarker = allowDrag && !mBoundItem.getReadOnly();
+            if (!mBoundItem.getMembers().isEmpty()) {
                 ArrayList<LatLng> positions = new ArrayList<>();
-                for (Item item : mBoundItem.members()) {
-                    LatLng position = toLatLng(item.state());
+                for (Item item : mBoundItem.getMembers()) {
+                    LatLng position = toLatLng(item.getState());
                     if (position != null) {
-                        setMarker(map, position, item, item.label(), canDragMarker);
+                        setMarker(map, position, item, item.getLabel(), canDragMarker);
                         positions.add(position);
                     }
                 }
@@ -170,7 +170,7 @@ public class MapViewHelper {
                     }
                 }
             } else {
-                LatLng position = toLatLng(mBoundItem.state());
+                LatLng position = toLatLng(mBoundItem.getState());
                 if (position != null) {
                     setMarker(map, position, mBoundItem, mLabelView.getText(), canDragMarker);
                     map.moveCamera(CameraUpdateFactory.newLatLngZoom(position, zoomLevel));
@@ -188,7 +188,7 @@ public class MapViewHelper {
         }
 
         private static LatLng toLatLng(ParsedState state) {
-            Location location = state != null ? state.asLocation() : null;
+            Location location = state != null ? state.getAsLocation() : null;
             return location != null
                     ? new LatLng(location.getLatitude(), location.getLongitude())
                     : null;

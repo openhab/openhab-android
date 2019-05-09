@@ -22,14 +22,14 @@ public class SitemapTest {
                 + "\"homepage\":{\"link\":\"http://demo.openhab.org:8080/rest/sitemaps/demo/demo\","
                 + "\"leaf\":false,\"timeout\":false,\"widgets\":[]}}";
         JSONObject jsonObject = new JSONObject(jsonString);
-        mDemoSitemapWithLabel = Sitemap.fromJson(jsonObject);
+        mDemoSitemapWithLabel = Sitemap.Companion.fromJson(jsonObject);
 
         jsonString = "{\"name\":\"home\",\"icon\":\"home\","
                 + "\"link\":\"http://demo.openhab.org:8080/rest/sitemaps/home\","
                 + "\"homepage\":{\"link\":\"http://demo.openhab.org:8080/rest/sitemaps/home/home\","
                 + "\"leaf\":true,\"timeout\":false,\"widgets\":[]}}";
         jsonObject = new JSONObject(jsonString);
-        mHomeSitemapWithoutLabel = Sitemap.fromJson(jsonObject);
+        mHomeSitemapWithoutLabel = Sitemap.Companion.fromJson(jsonObject);
     }
 
     @Test

@@ -54,7 +54,7 @@ public class MemorizingActivity extends Activity
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		mThemedContext = new ContextThemeWrapper(this, Util.getActivityThemeId(this));
+		mThemedContext = new ContextThemeWrapper(this, Util.INSTANCE.getActivityThemeId(this));
 
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 			TypedValue typedValue = new TypedValue();

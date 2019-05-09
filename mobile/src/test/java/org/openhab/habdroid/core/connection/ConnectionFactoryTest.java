@@ -75,7 +75,7 @@ public class ConnectionFactoryTest {
         server.enqueue(new MockResponse().setResponseCode(404));
         server.start();
 
-        when(mMockPrefs.getString(eq(Constants.PREFERENCE_REMOTE_URL), anyString()))
+        when(mMockPrefs.getString(eq(Constants.INSTANCE.getPREFERENCE_REMOTE_URL()), anyString()))
                 .thenReturn(server.url("/").toString());
         ConnectionFactory.Companion.getSInstance().updateConnections();
         Connection conn = ConnectionFactory.Companion.getConnection(Connection.Companion.getTYPE_REMOTE());
@@ -88,7 +88,7 @@ public class ConnectionFactoryTest {
 
     @Test
     public void testGetConnectionRemoteWithoutUrl() {
-        when(mMockPrefs.getString(eq(Constants.PREFERENCE_REMOTE_URL), anyString()))
+        when(mMockPrefs.getString(eq(Constants.INSTANCE.getPREFERENCE_REMOTE_URL()), anyString()))
                 .thenReturn("");
         ConnectionFactory.Companion.getSInstance().updateConnections();
         Connection conn = ConnectionFactory.Companion.getConnection(Connection.Companion.getTYPE_REMOTE());
@@ -99,7 +99,7 @@ public class ConnectionFactoryTest {
 
     @Test
     public void testGetConnectionLocalWithUrl() {
-        when(mMockPrefs.getString(eq(Constants.PREFERENCE_LOCAL_URL), anyString()))
+        when(mMockPrefs.getString(eq(Constants.INSTANCE.getPREFERENCE_LOCAL_URL()), anyString()))
                 .thenReturn("https://openhab.local:8080");
         ConnectionFactory.Companion.getSInstance().updateConnections();
         Connection conn = ConnectionFactory.Companion.getConnection(Connection.Companion.getTYPE_LOCAL());
@@ -112,7 +112,7 @@ public class ConnectionFactoryTest {
 
     @Test
     public void testGetConnectionLocalWithoutUrl() {
-        when(mMockPrefs.getString(eq(Constants.PREFERENCE_LOCAL_URL), anyString()))
+        when(mMockPrefs.getString(eq(Constants.INSTANCE.getPREFERENCE_LOCAL_URL()), anyString()))
                 .thenReturn("");
         ConnectionFactory.Companion.getSInstance().updateConnections();
         Connection conn = ConnectionFactory.Companion.getConnection(Connection.Companion.getTYPE_LOCAL());
@@ -127,7 +127,7 @@ public class ConnectionFactoryTest {
         server.enqueue(new MockResponse().setBody("{'gcm': { 'senderId': '12345'} }"));
         server.start();
 
-        when(mMockPrefs.getString(eq(Constants.PREFERENCE_REMOTE_URL), anyString()))
+        when(mMockPrefs.getString(eq(Constants.INSTANCE.getPREFERENCE_REMOTE_URL()), anyString()))
                 .thenReturn(server.url("/").toString());
 
         ConnectionFactory.Companion.getSInstance().updateConnections();
@@ -164,7 +164,7 @@ public class ConnectionFactoryTest {
         server.enqueue(new MockResponse().setResponseCode(404));
         server.start();
 
-        when(mMockPrefs.getString(eq(Constants.PREFERENCE_REMOTE_URL), anyString()))
+        when(mMockPrefs.getString(eq(Constants.INSTANCE.getPREFERENCE_REMOTE_URL()), anyString()))
                 .thenReturn(server.url("/").toString());
         ConnectionFactory.Companion.getSInstance().updateConnections();
         triggerNetworkUpdate(ConnectivityManager.TYPE_WIFI);
@@ -185,9 +185,9 @@ public class ConnectionFactoryTest {
         server.enqueue(new MockResponse().setResponseCode(404));
         server.start();
 
-        when(mMockPrefs.getString(eq(Constants.PREFERENCE_REMOTE_URL), anyString()))
+        when(mMockPrefs.getString(eq(Constants.INSTANCE.getPREFERENCE_REMOTE_URL()), anyString()))
                 .thenReturn(server.url("/").toString());
-        when(mMockPrefs.getString(eq(Constants.PREFERENCE_LOCAL_URL), anyString()))
+        when(mMockPrefs.getString(eq(Constants.INSTANCE.getPREFERENCE_LOCAL_URL()), anyString()))
                 .thenReturn("https://myopenhab.org:443");
         ConnectionFactory.Companion.getSInstance().updateConnections();
         triggerNetworkUpdate(ConnectivityManager.TYPE_WIFI);

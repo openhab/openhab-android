@@ -41,11 +41,9 @@ import org.openhab.habdroid.model.ServerProperties;
 import org.openhab.habdroid.ui.widget.ItemUpdatingPreference;
 import org.openhab.habdroid.util.CacheManager;
 import org.openhab.habdroid.util.Constants;
+import org.openhab.habdroid.util.Util;
 
 import java.util.BitSet;
-
-import static org.openhab.habdroid.util.Constants.PREV_SERVER_FLAGS;
-import static org.openhab.habdroid.util.Util.getHostFromUrl;
 
 /**
  * This is a class to provide preferences activity for application.
@@ -174,7 +172,7 @@ public class PreferencesActivity extends AbstractBaseActivity {
         }
 
         protected boolean hasClientCertificate() {
-            return !TextUtils.isEmpty(getPreferenceString(Constants.PREFERENCE_SSLCLIENTCERT, ""));
+            return !TextUtils.isEmpty(getPreferenceString(Constants.INSTANCE.getPREFERENCE_SSLCLIENTCERT(), ""));
         }
 
         protected boolean isConnectionSecure(String url, String user, String password) {
@@ -221,12 +219,12 @@ public class PreferencesActivity extends AbstractBaseActivity {
         @Override
         public void onStart() {
             super.onStart();
-            updateConnectionSummary(Constants.SUBSCREEN_LOCAL_CONNECTION,
-                    Constants.PREFERENCE_LOCAL_URL, Constants.PREFERENCE_LOCAL_USERNAME,
-                    Constants.PREFERENCE_LOCAL_PASSWORD);
-            updateConnectionSummary(Constants.SUBSCREEN_REMOTE_CONNECTION,
-                    Constants.PREFERENCE_REMOTE_URL, Constants.PREFERENCE_REMOTE_USERNAME,
-                    Constants.PREFERENCE_REMOTE_PASSWORD);
+            updateConnectionSummary(Constants.INSTANCE.getSUBSCREEN_LOCAL_CONNECTION(),
+                    Constants.INSTANCE.getPREFERENCE_LOCAL_URL(), Constants.INSTANCE.getPREFERENCE_LOCAL_USERNAME(),
+                    Constants.INSTANCE.getPREFERENCE_LOCAL_PASSWORD());
+            updateConnectionSummary(Constants.INSTANCE.getSUBSCREEN_REMOTE_CONNECTION(),
+                    Constants.INSTANCE.getPREFERENCE_REMOTE_URL(), Constants.INSTANCE.getPREFERENCE_REMOTE_USERNAME(),
+                    Constants.INSTANCE.getPREFERENCE_REMOTE_PASSWORD());
         }
 
         @Override
@@ -238,29 +236,29 @@ public class PreferencesActivity extends AbstractBaseActivity {
         protected void updateAndInitPreferences() {
             addPreferencesFromResource(R.xml.preferences);
 
-            final Preference demoModePref = findPreference(Constants.PREFERENCE_DEMOMODE);
-            final Preference localConnPref = findPreference(Constants.SUBSCREEN_LOCAL_CONNECTION);
-            final Preference remoteConnPref = findPreference(Constants.SUBSCREEN_REMOTE_CONNECTION);
-            final Preference themePref = findPreference(Constants.PREFERENCE_THEME);
-            final Preference clearCachePref = findPreference(Constants.PREFERENCE_CLEAR_CACHE);
+            final Preference demoModePref = findPreference(Constants.INSTANCE.getPREFERENCE_DEMOMODE());
+            final Preference localConnPref = findPreference(Constants.INSTANCE.getSUBSCREEN_LOCAL_CONNECTION());
+            final Preference remoteConnPref = findPreference(Constants.INSTANCE.getSUBSCREEN_REMOTE_CONNECTION());
+            final Preference themePref = findPreference(Constants.INSTANCE.getPREFERENCE_THEME());
+            final Preference clearCachePref = findPreference(Constants.INSTANCE.getPREFERENCE_CLEAR_CACHE());
             final Preference clearDefaultSitemapPref =
-                    findPreference(Constants.PREFERENCE_CLEAR_DEFAULT_SITEMAP);
-            final Preference ringtonePref = findPreference(Constants.PREFERENCE_TONE);
-            final Preference fullscreenPreference = findPreference(Constants.PREFERENCE_FULLSCREEN);
+                    findPreference(Constants.INSTANCE.getPREFERENCE_CLEAR_DEFAULT_SITEMAP());
+            final Preference ringtonePref = findPreference(Constants.INSTANCE.getPREFERENCE_TONE());
+            final Preference fullscreenPreference = findPreference(Constants.INSTANCE.getPREFERENCE_FULLSCREEN());
             final Preference sendDeviceInfoPrefixPref =
-                    findPreference(Constants.PREFERENCE_SEND_DEVICE_INFO_PREFIX);
+                    findPreference(Constants.INSTANCE.getPREFERENCE_SEND_DEVICE_INFO_PREFIX());
             final Preference alarmClockPrefCat =
-                    findPreference(Constants.PREFERENCE_SEND_DEVICE_INFO_CAT);
-            final Preference alarmClockPref = findPreference(Constants.PREFERENCE_ALARM_CLOCK);
+                    findPreference(Constants.INSTANCE.getPREFERENCE_SEND_DEVICE_INFO_CAT());
+            final Preference alarmClockPref = findPreference(Constants.INSTANCE.getPREFERENCE_ALARM_CLOCK());
             final Preference vibrationPref =
-                    findPreference(Constants.PREFERENCE_NOTIFICATION_VIBRATION);
+                    findPreference(Constants.INSTANCE.getPREFERENCE_NOTIFICATION_VIBRATION());
             final Preference ringtoneVibrationPref =
-                    findPreference(Constants.PREFERENCE_NOTIFICATION_TONE_VIBRATION);
-            final Preference viewLogPref = findPreference(Constants.PREFERENCE_LOG);
+                    findPreference(Constants.INSTANCE.getPREFERENCE_NOTIFICATION_TONE_VIBRATION());
+            final Preference viewLogPref = findPreference(Constants.INSTANCE.getPREFERENCE_LOG());
             final SharedPreferences prefs = getPreferenceScreen().getSharedPreferences();
 
-            String currentDefaultSitemap = prefs.getString(Constants.PREFERENCE_SITEMAP_NAME, "");
-            String currentDefaultSitemapLabel = prefs.getString(Constants.PREFERENCE_SITEMAP_LABEL, "");
+            String currentDefaultSitemap = prefs.getString(Constants.INSTANCE.getPREFERENCE_SITEMAP_NAME(), "");
+            String currentDefaultSitemapLabel = prefs.getString(Constants.INSTANCE.getPREFERENCE_SITEMAP_LABEL(), "");
             if (currentDefaultSitemap.isEmpty()) {
                 onNoDefaultSitemap(clearDefaultSitemapPref);
             } else {
@@ -268,16 +266,16 @@ public class PreferencesActivity extends AbstractBaseActivity {
                         R.string.settings_current_default_sitemap, currentDefaultSitemapLabel));
             }
 
-            updateConnectionSummary(Constants.SUBSCREEN_LOCAL_CONNECTION,
-                    Constants.PREFERENCE_LOCAL_URL, Constants.PREFERENCE_LOCAL_USERNAME,
-                    Constants.PREFERENCE_LOCAL_PASSWORD);
-            updateConnectionSummary(Constants.SUBSCREEN_REMOTE_CONNECTION,
-                    Constants.PREFERENCE_REMOTE_URL, Constants.PREFERENCE_REMOTE_USERNAME,
-                    Constants.PREFERENCE_REMOTE_PASSWORD);
+            updateConnectionSummary(Constants.INSTANCE.getSUBSCREEN_LOCAL_CONNECTION(),
+                    Constants.INSTANCE.getPREFERENCE_LOCAL_URL(), Constants.INSTANCE.getPREFERENCE_LOCAL_USERNAME(),
+                    Constants.INSTANCE.getPREFERENCE_LOCAL_PASSWORD());
+            updateConnectionSummary(Constants.INSTANCE.getSUBSCREEN_REMOTE_CONNECTION(),
+                    Constants.INSTANCE.getPREFERENCE_REMOTE_URL(), Constants.INSTANCE.getPREFERENCE_REMOTE_USERNAME(),
+                    Constants.INSTANCE.getPREFERENCE_REMOTE_PASSWORD());
             updateRingtonePreferenceSummary(ringtonePref,
-                    prefs.getString(Constants.PREFERENCE_TONE, ""));
+                    prefs.getString(Constants.INSTANCE.getPREFERENCE_TONE(), ""));
             updateVibrationPreferenceIcon(vibrationPref,
-                    prefs.getString(Constants.PREFERENCE_NOTIFICATION_VIBRATION, ""));
+                    prefs.getString(Constants.INSTANCE.getPREFERENCE_NOTIFICATION_VIBRATION(), ""));
 
             localConnPref.setOnPreferenceClickListener(preference -> {
                 getParentActivity().openSubScreen(new LocalConnectionSettingsFragment());
@@ -301,7 +299,7 @@ public class PreferencesActivity extends AbstractBaseActivity {
                 restartIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 // Finish current activity
                 getActivity().finish();
-                CacheManager.getInstance(getActivity()).clearCache();
+                CacheManager.Companion.getInstance(getActivity()).clearCache();
                 // Start launch activity
                 startActivity(restartIntent);
                 // Start launch activity
@@ -310,8 +308,8 @@ public class PreferencesActivity extends AbstractBaseActivity {
 
             clearDefaultSitemapPref.setOnPreferenceClickListener(preference -> {
                 SharedPreferences.Editor edit = preference.getSharedPreferences().edit();
-                edit.putString(Constants.PREFERENCE_SITEMAP_NAME, "");
-                edit.putString(Constants.PREFERENCE_SITEMAP_LABEL, "");
+                edit.putString(Constants.INSTANCE.getPREFERENCE_SITEMAP_NAME(), "");
+                edit.putString(Constants.INSTANCE.getPREFERENCE_SITEMAP_LABEL(), "");
                 edit.apply();
 
                 onNoDefaultSitemap(preference);
@@ -393,17 +391,17 @@ public class PreferencesActivity extends AbstractBaseActivity {
 
             final ServerProperties props =
                     getActivity().getIntent().getParcelableExtra(START_EXTRA_SERVER_PROPERTIES);
-            final int flags = props != null ? props.flags() :
-                    getPreferenceScreen().getSharedPreferences().getInt(PREV_SERVER_FLAGS, 0);
+            final int flags = props != null ? props.getFlags() :
+                    getPreferenceScreen().getSharedPreferences().getInt(Constants.INSTANCE.getPREV_SERVER_FLAGS(), 0);
 
-            if ((flags & ServerProperties.SERVER_FLAG_ICON_FORMAT_SUPPORT) == 0) {
+            if ((flags & ServerProperties.Companion.getSERVER_FLAG_ICON_FORMAT_SUPPORT()) == 0) {
                 Preference iconFormatPreference =
-                        ps.findPreference(Constants.PREFERENCE_ICON_FORMAT);
+                        ps.findPreference(Constants.INSTANCE.getPREFERENCE_ICON_FORMAT());
                 getParent(iconFormatPreference).removePreference(iconFormatPreference);
             }
-            if ((flags & ServerProperties.SERVER_FLAG_CHART_SCALING_SUPPORT) == 0) {
+            if ((flags & ServerProperties.Companion.getSERVER_FLAG_CHART_SCALING_SUPPORT()) == 0) {
                 Preference chartScalingPreference =
-                        ps.findPreference(Constants.PREFERENCE_CHART_SCALING);
+                        ps.findPreference(Constants.INSTANCE.getPREFERENCE_CHART_SCALING());
                 getParent(chartScalingPreference).removePreference(chartScalingPreference);
             }
         }
@@ -485,10 +483,10 @@ public class PreferencesActivity extends AbstractBaseActivity {
             } else if (isConnectionSecure(url, getPreferenceString(userPrefKey, ""),
                     getPreferenceString(passwordPrefKey, ""))) {
                 summary = getString(R.string.settings_connection_summary,
-                        beautifyUrl(getHostFromUrl(url)));
+                        beautifyUrl(Util.INSTANCE.getHostFromUrl(url)));
             } else {
                 summary = getString(R.string.settings_insecure_connection_summary,
-                        beautifyUrl(getHostFromUrl(url)));
+                        beautifyUrl(Util.INSTANCE.getHostFromUrl(url)));
             }
             pref.setSummary(summary);
         }
@@ -602,8 +600,8 @@ public class PreferencesActivity extends AbstractBaseActivity {
         @Override
         protected void updateAndInitPreferences() {
             addPreferencesFromResource(R.xml.local_connection_preferences);
-            initPreferences(Constants.PREFERENCE_LOCAL_URL, Constants.PREFERENCE_LOCAL_USERNAME,
-                    Constants.PREFERENCE_LOCAL_PASSWORD, R.string.settings_openhab_url_summary);
+            initPreferences(Constants.INSTANCE.getPREFERENCE_LOCAL_URL(), Constants.INSTANCE.getPREFERENCE_LOCAL_USERNAME(),
+                    Constants.INSTANCE.getPREFERENCE_LOCAL_PASSWORD(), R.string.settings_openhab_url_summary);
         }
     }
 
@@ -616,8 +614,8 @@ public class PreferencesActivity extends AbstractBaseActivity {
         @Override
         protected void updateAndInitPreferences() {
             addPreferencesFromResource(R.xml.remote_connection_preferences);
-            initPreferences(Constants.PREFERENCE_REMOTE_URL, Constants.PREFERENCE_REMOTE_USERNAME,
-                    Constants.PREFERENCE_REMOTE_PASSWORD, R.string.settings_openhab_alturl_summary);
+            initPreferences(Constants.INSTANCE.getPREFERENCE_REMOTE_URL(), Constants.INSTANCE.getPREFERENCE_REMOTE_USERNAME(),
+                    Constants.INSTANCE.getPREFERENCE_REMOTE_PASSWORD(), R.string.settings_openhab_alturl_summary);
         }
     }
 }

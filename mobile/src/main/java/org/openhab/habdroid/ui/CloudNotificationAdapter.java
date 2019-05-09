@@ -69,7 +69,7 @@ public class CloudNotificationAdapter extends RecyclerView.Adapter<RecyclerView.
 
     public int findPositionForId(String id) {
         for (int i = 0; i < mItems.size(); i++) {
-            if (TextUtils.equals(mItems.get(i).id(), id)) {
+            if (TextUtils.equals(mItems.get(i).getId(), id)) {
                 return i;
             }
         }
@@ -146,22 +146,22 @@ public class CloudNotificationAdapter extends RecyclerView.Adapter<RecyclerView.
 
         public void bind(CloudNotification notification) {
             mCreatedView.setText(DateUtils.getRelativeDateTimeString(mCreatedView.getContext(),
-                    notification.createdTimestamp(),
+                    notification.getCreatedTimestamp(),
                     DateUtils.MINUTE_IN_MILLIS, DateUtils.WEEK_IN_MILLIS, 0));
-            mMessageView.setText(notification.message());
+            mMessageView.setText(notification.getMessage());
 
-            if (notification.icon() != null) {
+            if (notification.getIcon() != null) {
                 Connection conn = ConnectionFactory.Companion.getConnection(Connection.Companion.getTYPE_CLOUD());
                 String iconUrl = String.format(Locale.US, "images/%s.png",
-                        Uri.encode(notification.icon()));
+                        Uri.encode(notification.getIcon()));
                 mIconView.setImageUrl(conn, iconUrl, mIconView.getResources()
                         .getDimensionPixelSize(R.dimen.notificationlist_icon_size), 2000);
             } else {
                 mIconView.setImageResource(R.drawable.ic_openhab_appicon_24dp);
             }
-            mSeverityView.setText(notification.severity());
+            mSeverityView.setText(notification.getSeverity());
             mSeverityView.setVisibility(
-                    TextUtils.isEmpty(notification.severity()) ? View.GONE : View.VISIBLE);
+                    TextUtils.isEmpty(notification.getSeverity()) ? View.GONE : View.VISIBLE);
         }
     }
 

@@ -347,7 +347,7 @@ public class PageConnectionHolderFragment extends Fragment {
                 List<Widget> widgetList = new ArrayList<>();
                 for (Widget w : dataSource.getWidgets()) {
                     // Remove frame widgets with no label text
-                    if (w.type() == Widget.Type.Frame && TextUtils.isEmpty(w.label())) {
+                    if (w.getType() == Widget.Type.Frame && TextUtils.isEmpty(w.getLabel())) {
                         continue;
                     }
                     widgetList.add(w);
@@ -434,8 +434,8 @@ public class PageConnectionHolderFragment extends Fragment {
                 }
                 for (int i = 0; i < mLastWidgetList.size(); i++) {
                     Widget widget = mLastWidgetList.get(i);
-                    if (widgetId.equals(widget.id())) {
-                        Widget updatedWidget = Widget.updateFromEvent(widget,
+                    if (widgetId.equals(widget.getId())) {
+                        Widget updatedWidget = Widget.Companion.updateFromEvent(widget,
                                 object, mCallback.getIconFormat());
                         mLastWidgetList.set(i, updatedWidget);
                         mCallback.onWidgetUpdated(mUrl, updatedWidget);

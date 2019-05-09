@@ -87,7 +87,7 @@ public class CloudNotificationListFragment extends Fragment implements
         View view = inflater.inflate(R.layout.fragment_notificationlist, container, false);
         mSwipeLayout = view.findViewById(R.id.swipe_container);
         mSwipeLayout.setOnRefreshListener(this);
-        Util.applySwipeLayoutColors(mSwipeLayout, R.attr.colorPrimary, R.attr.colorAccent);
+        Util.INSTANCE.applySwipeLayoutColors(mSwipeLayout, R.attr.colorPrimary, R.attr.colorAccent);
 
         mRecyclerView = view.findViewById(android.R.id.list);
         mEmptyView = view.findViewById(android.R.id.empty);
@@ -176,7 +176,7 @@ public class CloudNotificationListFragment extends Fragment implements
                     JSONArray jsonArray = new JSONArray(responseBody);
                     for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject sitemapJson = jsonArray.getJSONObject(i);
-                        items.add(CloudNotification.fromJson(sitemapJson));
+                        items.add(CloudNotification.Companion.fromJson(sitemapJson));
                     }
                     Log.d(TAG, "Notifications request success, got " + items.size() + " items");
                     mLoadOffset += items.size();

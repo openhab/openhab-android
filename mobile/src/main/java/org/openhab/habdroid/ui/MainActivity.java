@@ -103,8 +103,6 @@ import java.util.Locale;
 
 import javax.jmdns.ServiceInfo;
 
-import static org.openhab.habdroid.util.Constants.PREV_SERVER_FLAGS;
-
 public class MainActivity extends AbstractBaseActivity implements
         AsyncServiceResolver.Listener, ConnectionFactory.UpdateListener {
     public static final String ACTION_NOTIFICATION_SELECTED =
@@ -147,7 +145,7 @@ public class MainActivity extends AbstractBaseActivity implements
     private Sitemap mSelectedSitemap;
     private ContentController mController;
     private ServerProperties mServerProperties;
-    private ServerProperties.UpdateHandle mPropsUpdateHandle;
+    private ServerProperties.Companion.UpdateHandle mPropsUpdateHandle;
     private boolean mStarted;
     private ShortcutManager mShortcutManager;
 
@@ -183,7 +181,7 @@ public class MainActivity extends AbstractBaseActivity implements
         mPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 
         // Disable screen timeout if set in preferences
-        if (mPrefs.getBoolean(Constants.PREFERENCE_SCREENTIMEROFF, false)) {
+        if (mPrefs.getBoolean(Constants.INSTANCE.getPREFERENCE_SCREENTIMEROFF(), false)) {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         }
 
@@ -259,7 +257,7 @@ public class MainActivity extends AbstractBaseActivity implements
 
             prefsEditor.putBoolean("firstStart", false);
         }
-        OnUpdateBroadcastReceiver.updateComparableVersion(prefsEditor);
+        OnUpdateBroadcastReceiver.Companion.updateComparableVersion(prefsEditor);
         prefsEditor.apply();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
@@ -314,10 +312,10 @@ public class MainActivity extends AbstractBaseActivity implements
         if (mPropsUpdateHandle != null) {
             mPropsUpdateHandle.cancel();
         }
-        ServerProperties.UpdateSuccessCallback successCb = props -> {
+        ServerProperties.Companion.UpdateSuccessCallback successCb = props -> {
             mServerProperties = props;
             updateSitemapAndHabpanelDrawerItems();
-            if (props.sitemaps().isEmpty()) {
+            if (props.getSitemaps().isEmpty()) {
                 Log.e(TAG, "openHAB returned empty sitemap list");
                 mController.indicateServerCommunicationFailure(
                         getString(R.string.error_empty_sitemap_list));
@@ -332,14 +330,14 @@ public class MainActivity extends AbstractBaseActivity implements
             if (!(getConnection() instanceof DemoConnection)) {
                 PreferenceManager.getDefaultSharedPreferences(this)
                         .edit()
-                        .putInt(PREV_SERVER_FLAGS, props.flags())
+                        .putInt(Constants.INSTANCE.getPREV_SERVER_FLAGS(), props.getFlags())
                         .apply();
             }
             openHabpanelIfNeeded();
             launchVoiceRecognitionIfNeeded();
             openPendingSitemapIfNeeded();
         };
-        mPropsUpdateHandle = ServerProperties.fetch(mConnection,
+        mPropsUpdateHandle = ServerProperties.Companion.fetch(mConnection,
                 successCb, this::handlePropertyFetchFailure);
     }
 
@@ -353,7 +351,7 @@ public class MainActivity extends AbstractBaseActivity implements
 
         PreferenceManager.getDefaultSharedPreferences(this)
                 .edit()
-                .putString(Constants.PREFERENCE_LOCAL_URL, serverUrl)
+                .putString(Constants.INSTANCE.getPREFERENCE_LOCAL_URL(), serverUrl)
                 .apply();
         // We'll get a connection update later
         mServiceResolver = null;
@@ -372,11 +370,11 @@ public class MainActivity extends AbstractBaseActivity implements
         switch (action) {
             case NfcAdapter.ACTION_NDEF_DISCOVERED:
             case Intent.ACTION_VIEW:
-                NfcTag tag = NfcTag.fromTagData(intent.getData());
-                BackgroundTasksManager.enqueueNfcUpdateIfNeeded(this, tag);
+                NfcTag tag = NfcTag.Companion.fromTagData(intent.getData());
+                BackgroundTasksManager.Companion.enqueueNfcUpdateIfNeeded(this, tag);
 
-                if (tag != null && !TextUtils.isEmpty(tag.sitemap())) {
-                    mPendingOpenSitemapUrl = tag.sitemap();
+                if (tag != null && !TextUtils.isEmpty(tag.getSitemap())) {
+                    mPendingOpenSitemapUrl = tag.getSitemap();
                     openPendingSitemapIfNeeded();
                 }
 
@@ -600,7 +598,7 @@ public class MainActivity extends AbstractBaseActivity implements
             @Override
             public void onDrawerOpened(View drawerView) {
                 if (mServerProperties != null && mPropsUpdateHandle == null) {
-                    mPropsUpdateHandle = ServerProperties.updateSitemaps(mServerProperties,
+                    mPropsUpdateHandle = ServerProperties.Companion.updateSitemaps(mServerProperties,
                             mConnection,
                             props -> {
                                 mServerProperties = props;
@@ -650,7 +648,7 @@ public class MainActivity extends AbstractBaseActivity implements
                     break;
             }
             if (item.getGroupId() == GROUP_ID_SITEMAPS) {
-                Sitemap sitemap = mServerProperties.sitemaps().get(item.getItemId());
+                Sitemap sitemap = mServerProperties.getSitemaps().get(item.getItemId());
                 openSitemap(sitemap);
                 return true;
             }
@@ -677,9 +675,9 @@ public class MainActivity extends AbstractBaseActivity implements
             habpanelItem.setVisible(mServerProperties.hasHabpanelInstalled());
             manageHabpanelShortcut(mServerProperties.hasHabpanelInstalled());
             final String defaultSitemapName =
-                    mPrefs.getString(Constants.PREFERENCE_SITEMAP_NAME, "");
-            final List<Sitemap> sitemaps = mServerProperties.sitemaps();
-            Util.sortSitemapList(sitemaps, defaultSitemapName);
+                    mPrefs.getString(Constants.INSTANCE.getPREFERENCE_SITEMAP_NAME(), "");
+            final List<Sitemap> sitemaps = mServerProperties.getSitemaps();
+            Util.INSTANCE.sortSitemapList(sitemaps, defaultSitemapName);
 
             if (sitemaps.isEmpty()) {
                 sitemapItem.setVisible(false);
@@ -690,7 +688,7 @@ public class MainActivity extends AbstractBaseActivity implements
 
                 for (int i = 0; i < sitemaps.size(); i++) {
                     Sitemap sitemap = sitemaps.get(i);
-                    MenuItem item = menu.add(GROUP_ID_SITEMAPS, i, i, sitemap.label());
+                    MenuItem item = menu.add(GROUP_ID_SITEMAPS, i, i, sitemap.getLabel());
                     loadSitemapIcon(sitemap, item);
                 }
             }
@@ -698,7 +696,7 @@ public class MainActivity extends AbstractBaseActivity implements
     }
 
     private void loadSitemapIcon(final Sitemap sitemap, final MenuItem item) {
-        final String url = sitemap.icon() != null ? Uri.encode(sitemap.iconPath(), "/?=") : null;
+        final String url = sitemap.getIcon() != null ? Uri.encode(sitemap.getIconPath(), "/?=") : null;
         Drawable defaultIcon = ContextCompat.getDrawable(this, R.drawable.ic_openhab_appicon_24dp);
         item.setIcon(applyDrawerIconTint(defaultIcon));
 
@@ -709,7 +707,7 @@ public class MainActivity extends AbstractBaseActivity implements
                 new AsyncHttpClient.BitmapResponseHandler(defaultIcon.getIntrinsicWidth()) {
             @Override
             public void onFailure(Request request, int statusCode, Throwable error) {
-                Log.w(TAG, "Could not fetch icon for sitemap " + sitemap.name());
+                Log.w(TAG, "Could not fetch icon for sitemap " + sitemap.getName());
             }
             @Override
             public void onSuccess(Bitmap bitmap, Headers headers) {
@@ -769,8 +767,8 @@ public class MainActivity extends AbstractBaseActivity implements
     private Sitemap selectConfiguredSitemapFromList() {
         SharedPreferences settings =
                 PreferenceManager.getDefaultSharedPreferences(this);
-        String configuredSitemap = settings.getString(Constants.PREFERENCE_SITEMAP_NAME, "");
-        List<Sitemap> sitemaps = mServerProperties.sitemaps();
+        String configuredSitemap = settings.getString(Constants.INSTANCE.getPREFERENCE_SITEMAP_NAME(), "");
+        List<Sitemap> sitemaps = mServerProperties.getSitemaps();
         final Sitemap result;
 
         if (sitemaps.size() == 1) {
@@ -778,7 +776,7 @@ public class MainActivity extends AbstractBaseActivity implements
             result = sitemaps.get(0);
         } else if (!configuredSitemap.isEmpty()) {
             // Select configured sitemap if still present, nothing otherwise
-            result = Util.getSitemapByName(sitemaps, configuredSitemap);
+            result = Util.INSTANCE.getSitemapByName(sitemaps, configuredSitemap);
         } else {
             // Nothing configured -> can't auto-select anything
             result = null;
@@ -790,14 +788,14 @@ public class MainActivity extends AbstractBaseActivity implements
         if (!hasResult && hasConfigured) {
             // clear old configuration
             settings.edit()
-                    .remove(Constants.PREFERENCE_SITEMAP_LABEL)
-                    .remove(Constants.PREFERENCE_SITEMAP_NAME)
+                    .remove(Constants.INSTANCE.getPREFERENCE_SITEMAP_LABEL())
+                    .remove(Constants.INSTANCE.getPREFERENCE_SITEMAP_NAME())
                     .apply();
-        } else if (hasResult && (!hasConfigured || !configuredSitemap.equals(result.name()))) {
+        } else if (hasResult && (!hasConfigured || !configuredSitemap.equals(result.getName()))) {
             // update result
             settings.edit()
-                    .putString(Constants.PREFERENCE_SITEMAP_NAME, result.name())
-                    .putString(Constants.PREFERENCE_SITEMAP_LABEL, result.label())
+                    .putString(Constants.INSTANCE.getPREFERENCE_SITEMAP_NAME(), result.getName())
+                    .putString(Constants.INSTANCE.getPREFERENCE_SITEMAP_LABEL(), result.getLabel())
                     .apply();
         }
 
@@ -813,10 +811,10 @@ public class MainActivity extends AbstractBaseActivity implements
             return;
         }
 
-        List<Sitemap> sitemaps = mServerProperties.sitemaps();
+        List<Sitemap> sitemaps = mServerProperties.getSitemaps();
         final String[] sitemapLabels = new String[sitemaps.size()];
         for (int i = 0; i < sitemaps.size(); i++) {
-            sitemapLabels[i] = sitemaps.get(i).label();
+            sitemapLabels[i] = sitemaps.get(i).getLabel();
         }
         mSitemapSelectionDialog = new AlertDialog.Builder(this)
                 .setTitle(R.string.mainmenu_openhab_selectsitemap)
@@ -825,8 +823,8 @@ public class MainActivity extends AbstractBaseActivity implements
                     Log.d(TAG, "Selected sitemap " + sitemap);
                     PreferenceManager.getDefaultSharedPreferences(MainActivity.this)
                             .edit()
-                            .putString(Constants.PREFERENCE_SITEMAP_NAME, sitemap.name())
-                            .putString(Constants.PREFERENCE_SITEMAP_LABEL, sitemap.label())
+                            .putString(Constants.INSTANCE.getPREFERENCE_SITEMAP_NAME(), sitemap.getName())
+                            .putString(Constants.INSTANCE.getPREFERENCE_SITEMAP_LABEL(), sitemap.getLabel())
                             .apply();
                     openSitemap(sitemap);
                 })
@@ -957,7 +955,7 @@ public class MainActivity extends AbstractBaseActivity implements
     }
 
     public void onWidgetSelected(LinkedPage linkedPage, WidgetListFragment source) {
-        Log.d(TAG, "Got widget link = " + linkedPage.link());
+        Log.d(TAG, "Got widget link = " + linkedPage.getLink());
         mController.openPage(linkedPage, source);
     }
 
@@ -1017,14 +1015,14 @@ public class MainActivity extends AbstractBaseActivity implements
 
     public void showRefreshHintSnackbarIfNeeded() {
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        if (prefs.getBoolean(Constants.PREFERENCE_SWIPE_REFRESH_EXPLAINED, false)) {
+        if (prefs.getBoolean(Constants.INSTANCE.getPREFERENCE_SWIPE_REFRESH_EXPLAINED(), false)) {
             return;
         }
 
         showSnackbar(R.string.swipe_to_refresh_description, R.string.swipe_to_refresh_dismiss,
                 v -> {
             prefs.edit()
-                    .putBoolean(Constants.PREFERENCE_SWIPE_REFRESH_EXPLAINED, true)
+                    .putBoolean(Constants.INSTANCE.getPREFERENCE_SWIPE_REFRESH_EXPLAINED(), true)
                     .apply();
         });
     }
@@ -1033,7 +1031,7 @@ public class MainActivity extends AbstractBaseActivity implements
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         showSnackbar(R.string.info_demo_mode_short, R.string.turn_off, v -> {
             prefs.edit()
-                    .putBoolean(Constants.PREFERENCE_DEMOMODE, false)
+                    .putBoolean(Constants.INSTANCE.getPREFERENCE_DEMOMODE(), false)
                     .apply();
         });
     }
@@ -1063,11 +1061,11 @@ public class MainActivity extends AbstractBaseActivity implements
     private void handlePropertyFetchFailure(Request request, int statusCode, Throwable error) {
         Log.e(TAG, "Error: " + error.toString(), error);
         Log.e(TAG, "HTTP status code: " + statusCode);
-        CharSequence message = Util.getHumanReadableErrorMessage(this,
+        CharSequence message = Util.INSTANCE.getHumanReadableErrorMessage(this,
                 request.url().toString(), statusCode, error);
         SharedPreferences settings =
                 PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
-        if (settings.getBoolean(Constants.PREFERENCE_DEBUG_MESSAGES, false)) {
+        if (settings.getBoolean(Constants.INSTANCE.getPREFERENCE_DEBUG_MESSAGES(), false)) {
             SpannableStringBuilder builder = new SpannableStringBuilder(message);
             int detailsStart = builder.length();
 

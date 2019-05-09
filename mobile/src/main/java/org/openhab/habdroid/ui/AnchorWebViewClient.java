@@ -41,7 +41,7 @@ public class AnchorWebViewClient extends WebViewClient {
     public AnchorWebViewClient(String url, String username, String password) {
         mUserName = username;
         mPassword = password;
-        mHost = Util.getHostFromUrl(url);
+        mHost = Util.INSTANCE.getHostFromUrl(url);
         int pos = url.lastIndexOf("#") + 1;
         if (pos != 0 && pos < url.length()) {
             mAnchor = url.substring(pos);

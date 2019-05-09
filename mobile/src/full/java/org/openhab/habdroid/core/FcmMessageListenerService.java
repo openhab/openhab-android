@@ -143,7 +143,7 @@ public class FcmMessageListenerService extends FirebaseMessagingService {
     private Notification makeNotification(String msg, String channelId, String icon,
             long timestamp, String persistedId, int notificationId) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        String toneSetting = prefs.getString(Constants.PREFERENCE_TONE, "");
+        String toneSetting = prefs.getString(Constants.INSTANCE.getPREFERENCE_TONE(), "");
         Bitmap iconBitmap = null;
 
         if (icon != null) {
@@ -151,8 +151,8 @@ public class FcmMessageListenerService extends FirebaseMessagingService {
             if (connection != null) {
                 final String url = String.format(Locale.US, "images/%s.png", icon);
                 SyncHttpClient.HttpResult result = connection.getSyncHttpClient().get(url, 1000);
-                if (result.response != null) {
-                    iconBitmap = BitmapFactory.decodeStream(result.response.byteStream());
+                if (result.getResponse() != null) {
+                    iconBitmap = BitmapFactory.decodeStream(result.getResponse().byteStream());
                 }
             }
         }
@@ -213,7 +213,7 @@ public class FcmMessageListenerService extends FirebaseMessagingService {
                 .setCategory(NotificationCompat.CATEGORY_EVENT)
                 .setAutoCancel(true)
                 .setLights(ContextCompat.getColor(this, R.color.openhab_orange), 3000, 3000)
-                .setVibrate(Util.getNotificationVibrationPattern(getApplicationContext()))
+                .setVibrate(Util.INSTANCE.getNotificationVibrationPattern(getApplicationContext()))
                 .setGroup("gcm");
     }
 

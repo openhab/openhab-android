@@ -26,23 +26,23 @@ import static org.junit.Assert.assertEquals;
 public class UtilTest {
     @Test
     public void normalizeUrl() {
-        assertEquals("http://localhost/", Util.normalizeUrl("http://localhost/"));
-        assertEquals("http://localhost/", Util.normalizeUrl("http://localhost"));
-        assertEquals("http://127.0.0.1/", Util.normalizeUrl("http://127.0.0.1/"));
-        assertEquals("http://127.0.0.1/", Util.normalizeUrl("http://127.0.0.1"));
+        assertEquals("http://localhost/", Util.INSTANCE.normalizeUrl("http://localhost/"));
+        assertEquals("http://localhost/", Util.INSTANCE.normalizeUrl("http://localhost"));
+        assertEquals("http://127.0.0.1/", Util.INSTANCE.normalizeUrl("http://127.0.0.1/"));
+        assertEquals("http://127.0.0.1/", Util.INSTANCE.normalizeUrl("http://127.0.0.1"));
 
-        assertEquals("https://127.0.0.1/", Util.normalizeUrl("https://127.0.0.1/"));
-        assertEquals("https://127.0.0.1/", Util.normalizeUrl("https://127.0.0.1"));
+        assertEquals("https://127.0.0.1/", Util.INSTANCE.normalizeUrl("https://127.0.0.1/"));
+        assertEquals("https://127.0.0.1/", Util.INSTANCE.normalizeUrl("https://127.0.0.1"));
 
-        assertEquals("https://127.0.0.1/abc/", Util.normalizeUrl("https://127.0.0.1/abc/"));
-        assertEquals("https://127.0.0.1/abc/", Util.normalizeUrl("https://127.0.0.1/abc"));
+        assertEquals("https://127.0.0.1/abc/", Util.INSTANCE.normalizeUrl("https://127.0.0.1/abc/"));
+        assertEquals("https://127.0.0.1/abc/", Util.INSTANCE.normalizeUrl("https://127.0.0.1/abc"));
 
-        assertEquals("https://127.0.0.1:81/abc/", Util.normalizeUrl("https://127.0.0.1:81/abc"));
+        assertEquals("https://127.0.0.1:81/abc/", Util.INSTANCE.normalizeUrl("https://127.0.0.1:81/abc"));
     }
 
     @Test
     public void parseOH1SitemapList() throws Exception {
-        List<Sitemap> sitemapList = Util.parseSitemapList(getSitemapOH1Document());
+        List<Sitemap> sitemapList = Util.INSTANCE.parseSitemapList(getSitemapOH1Document());
         assertFalse(sitemapList.isEmpty());
 
         assertEquals("i AM DEfault", sitemapList.get(0).label());
@@ -59,7 +59,7 @@ public class UtilTest {
 
     @Test
     public void parseOH2SitemapListWithId1() throws Exception {
-        List<Sitemap> sitemapList = Util.parseSitemapList(createJsonArray(1));
+        List<Sitemap> sitemapList = Util.INSTANCE.parseSitemapList(createJsonArray(1));
         assertFalse(sitemapList.isEmpty());
 
         assertEquals("Main Menu", sitemapList.get(0).label());
@@ -68,7 +68,7 @@ public class UtilTest {
 
     @Test
     public void parseOH2SitemapListWithId2() throws Exception {
-        List<Sitemap> sitemapList  = Util.parseSitemapList(createJsonArray(2));
+        List<Sitemap> sitemapList  = Util.INSTANCE.parseSitemapList(createJsonArray(2));
         assertFalse(sitemapList.isEmpty());
 
         assertEquals("Main Menu", sitemapList.get(0).label());
@@ -79,7 +79,7 @@ public class UtilTest {
 
     @Test
     public void parseOH2SitemapListWithId3() throws Exception {
-        List<Sitemap> sitemapList = Util.parseSitemapList(createJsonArray(3));
+        List<Sitemap> sitemapList = Util.INSTANCE.parseSitemapList(createJsonArray(3));
         assertFalse(sitemapList.isEmpty());
 
         assertEquals("Home", sitemapList.get(0).label());
@@ -89,9 +89,9 @@ public class UtilTest {
     @Test
     public void testSortSitemapList()
             throws IOException, SAXException, ParserConfigurationException {
-        List<Sitemap> sitemapList = Util.parseSitemapList(getSitemapOH1Document());
+        List<Sitemap> sitemapList = Util.INSTANCE.parseSitemapList(getSitemapOH1Document());
 
-        Util.sortSitemapList(sitemapList, "");
+        Util.INSTANCE.sortSitemapList(sitemapList, "");
         // Should be sorted
         assertEquals("Garden", sitemapList.get(0).label());
         assertEquals("Heating", sitemapList.get(1).label());
@@ -102,7 +102,7 @@ public class UtilTest {
         assertEquals("Scenes", sitemapList.get(6).label());
         assertEquals("Schedule", sitemapList.get(7).label());
 
-        Util.sortSitemapList(sitemapList, "schedule");
+        Util.INSTANCE.sortSitemapList(sitemapList, "schedule");
         // Should be sorted, but "Schedule" should be the first one
         assertEquals("Schedule", sitemapList.get(0).label());
         assertEquals("Garden", sitemapList.get(1).label());
@@ -168,30 +168,30 @@ public class UtilTest {
 
     @Test
     public void sitemapExists() throws Exception {
-        assertTrue(Util.sitemapExists(sitemapList(), "garden"));
-        assertFalse(Util.sitemapExists(sitemapList(), "monkies"));
+        assertTrue(Util.INSTANCE.sitemapExists(sitemapList(), "garden"));
+        assertFalse(Util.INSTANCE.sitemapExists(sitemapList(), "monkies"));
         assertTrue("Sitemap \"demo\" is a \"normal\" one and exists",
-                Util.sitemapExists(Util.parseSitemapList(createJsonArray(1)), "demo"));
+                Util.INSTANCE.sitemapExists(Util.INSTANCE.parseSitemapList(createJsonArray(1)), "demo"));
         assertFalse("Sitemap \"_default\" exists on the server, "
                 + "but isn't the only one => don't display it in the app.",
-                Util.sitemapExists(Util.parseSitemapList(createJsonArray(1)), "_default"));
+                Util.INSTANCE.sitemapExists(Util.INSTANCE.parseSitemapList(createJsonArray(1)), "_default"));
         assertFalse("Sitemap \"_default\" exists on the server, "
                 + "but isn't the only one => don't display it in the app.",
-                Util.sitemapExists(Util.parseSitemapList(createJsonArray(2)), "_default"));
+                Util.INSTANCE.sitemapExists(Util.INSTANCE.parseSitemapList(createJsonArray(2)), "_default"));
         assertTrue("Sitemap \"_default\" exists on the server "
                 + "and is the only one => display it in the app.",
-                Util.sitemapExists(Util.parseSitemapList(createJsonArray(3)), "_default"));
+                Util.INSTANCE.sitemapExists(Util.INSTANCE.parseSitemapList(createJsonArray(3)), "_default"));
     }
 
     private List<Sitemap> sitemapList()
             throws IOException, SAXException, ParserConfigurationException {
-        return Util.parseSitemapList(getSitemapOH1Document());
+        return Util.INSTANCE.parseSitemapList(getSitemapOH1Document());
     }
 
     @Test
     public void getSitemapByName() throws Exception {
-        assertEquals("i AM DEfault", Util.getSitemapByName(sitemapList(), "default").label());
-        assertEquals("outside", Util.getSitemapByName(sitemapList(), "outside").label());
+        assertEquals("i AM DEfault", Util.INSTANCE.getSitemapByName(sitemapList(), "default").label());
+        assertEquals("outside", Util.INSTANCE.getSitemapByName(sitemapList(), "outside").label());
     }
 
     /**
@@ -250,10 +250,10 @@ public class UtilTest {
 
         assertTrue("The exception is caused by CertPathValidatorException, "
                 + "so testexceptionHasCause() should return true",
-                Util.exceptionHasCause(e, CertPathValidatorException.class));
+                Util.INSTANCE.exceptionHasCause(e, CertPathValidatorException.class));
         assertFalse("The exception is not caused by ArrayIndexOutOfBoundsException, "
                 + "so testexceptionHasCause() should return false",
-                Util.exceptionHasCause(e, ArrayIndexOutOfBoundsException.class));
+                Util.INSTANCE.exceptionHasCause(e, ArrayIndexOutOfBoundsException.class));
     }
 
     @Test
@@ -262,8 +262,8 @@ public class UtilTest {
         assertEquals("abc", Util.obfuscateString("abc"));
         assertEquals("The function should not throw an exception, "
                 + "when string length is shorter than clearTextCharCount",
-                "a", Util.obfuscateString("a", 10));
-        assertEquals("a**", Util.obfuscateString("abc", 1));
-        assertEquals("***", Util.obfuscateString("abc", 0));
+                "a", Util.INSTANCE.obfuscateString("a", 10));
+        assertEquals("a**", Util.INSTANCE.obfuscateString("abc", 1));
+        assertEquals("***", Util.INSTANCE.obfuscateString("abc", 0));
     }
 }

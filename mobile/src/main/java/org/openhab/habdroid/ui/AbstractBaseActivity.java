@@ -20,7 +20,7 @@ public abstract class AbstractBaseActivity extends AppCompatActivity {
     @Override
     @CallSuper
     protected void onCreate(Bundle savedInstanceState) {
-        setTheme(Util.getActivityThemeId(this));
+        setTheme(Util.INSTANCE.getActivityThemeId(this));
         checkFullscreen();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -64,6 +64,6 @@ public abstract class AbstractBaseActivity extends AppCompatActivity {
             return false;
         }
         return PreferenceManager.getDefaultSharedPreferences(this)
-                .getBoolean(Constants.PREFERENCE_FULLSCREEN, false);
+                .getBoolean(Constants.INSTANCE.getPREFERENCE_FULLSCREEN(), false);
     }
 }

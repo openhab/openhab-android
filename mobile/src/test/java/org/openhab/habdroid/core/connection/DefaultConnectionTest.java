@@ -93,13 +93,13 @@ public class DefaultConnectionTest {
     @Test
     public void testAsyncHasNoUsernamePassword() {
         HttpClient httpClient = mTestConnection.getAsyncHttpClient();
-        assertNull(httpClient.mAuthHeader);
+        assertNull(httpClient.getMAuthHeader());
     }
 
     @Test
     public void testSyncHasNoUsernamePassword() {
         HttpClient httpClient = mTestConnection.getSyncHttpClient();
-        assertNull(httpClient.mAuthHeader);
+        assertNull(httpClient.getMAuthHeader());
     }
 
     @Test
@@ -109,7 +109,7 @@ public class DefaultConnectionTest {
         HttpClient httpClient = connection.getAsyncHttpClient();
 
         assertEquals(Credentials.basic("Test-User", "Test-Password"),
-                httpClient.mAuthHeader);
+                httpClient.getMAuthHeader());
     }
 
     @Test
@@ -119,18 +119,18 @@ public class DefaultConnectionTest {
         HttpClient httpClient = connection.getSyncHttpClient();
 
         assertEquals(Credentials.basic("Test-User", "Test-Password"),
-                httpClient.mAuthHeader);
+                httpClient.getMAuthHeader());
     }
 
     @Test
     public void testSyncResolveRelativeUrl() {
         SyncHttpClient.HttpResult result = mTestConnection.getSyncHttpClient().get("rest/test");
         assertFalse("The request should never succeed in tests", result.isSuccessful());
-        assertEquals(TEST_BASE_URL + "/rest/test", result.request.url().toString());
+        assertEquals(TEST_BASE_URL + "/rest/test", result.getRequest().url().toString());
         result.close();
 
         result = mTestConnection.getSyncHttpClient().get("/rest/test");
-        assertEquals(TEST_BASE_URL + "/rest/test", result.request.url().toString());
+        assertEquals(TEST_BASE_URL + "/rest/test", result.getRequest().url().toString());
         result.close();
     }
 
@@ -139,7 +139,7 @@ public class DefaultConnectionTest {
         SyncHttpClient.HttpResult result =
                 mTestConnection.getSyncHttpClient().get("http://mylocalmachine.local/rest/test");
         assertFalse("The request should never succeed in tests", result.isSuccessful());
-        assertEquals("http://mylocalmachine.local/rest/test", result.request.url().toString());
+        assertEquals("http://mylocalmachine.local/rest/test", result.getRequest().url().toString());
         result.close();
     }
 }

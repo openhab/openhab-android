@@ -100,7 +100,7 @@ public class WidgetImageView extends AppCompatImageView {
     }
 
     public void setImageUrl(Connection connection, String url, Integer size, boolean forceLoad) {
-        setImageUrl(connection, url, size, AsyncHttpClient.DEFAULT_TIMEOUT_MS, forceLoad);
+        setImageUrl(connection, url, size, AsyncHttpClient.Companion.getDEFAULT_TIMEOUT_MS(), forceLoad);
     }
 
     public void setImageUrl(Connection connection, String url, Integer size,
@@ -121,7 +121,7 @@ public class WidgetImageView extends AppCompatImageView {
             return;
         }
 
-        Bitmap cached = CacheManager.getInstance(getContext()).getCachedBitmap(actualUrl);
+        Bitmap cached = CacheManager.Companion.getInstance(getContext()).getCachedBitmap(actualUrl);
 
         if (size == null) {
             size = mDefaultSvgSize;
@@ -289,7 +289,7 @@ public class WidgetImageView extends AppCompatImageView {
         @Override
         public void onSuccess(Bitmap body, Headers headers) {
             setBitmapInternal(body);
-            CacheManager.getInstance(getContext()).cacheBitmap(mUrl, body);
+            CacheManager.Companion.getInstance(getContext()).cacheBitmap(mUrl, body);
             scheduleNextRefresh();
             mCall = null;
         }

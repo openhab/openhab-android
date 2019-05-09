@@ -106,9 +106,9 @@ public class FcmRegistrationService extends JobIntentService {
         String token = FirebaseInstanceId.getInstance().getToken(connection.getMessagingSenderId(),
                 FirebaseMessaging.INSTANCE_ID_SCOPE);
         String deviceName = getDeviceName()
-                + (Util.isFlavorBeta() ? " (" + getString(R.string.beta) + ")" : "");
+                + (Util.INSTANCE.isFlavorBeta() ? " (" + getString(R.string.beta) + ")" : "");
         String deviceId = Settings.Secure.getString(getContentResolver(),
-                Settings.Secure.ANDROID_ID) + (Util.isFlavorBeta() ? "-beta" : "");
+                Settings.Secure.ANDROID_ID) + (Util.INSTANCE.isFlavorBeta() ? "-beta" : "");
 
         String regUrl = String.format(Locale.US,
                 "addAndroidRegistration?deviceId=%s&deviceModel=%s&regId=%s",
@@ -120,9 +120,9 @@ public class FcmRegistrationService extends JobIntentService {
         if (result.isSuccessful()) {
             Log.d(TAG, "FCM reg id success");
         } else {
-            Log.e(TAG, "FCM reg id error: " + result.error);
+            Log.e(TAG, "FCM reg id error: " + result.getError());
         }
-        CloudMessagingHelper.sRegistrationFailureReason = result.error;
+        CloudMessagingHelper.sRegistrationFailureReason = result.getError();
     }
 
     /**

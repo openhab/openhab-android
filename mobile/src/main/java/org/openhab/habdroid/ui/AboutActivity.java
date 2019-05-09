@@ -40,8 +40,6 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
-import static org.openhab.habdroid.util.Util.obfuscateString;
-
 public class AboutActivity extends AbstractBaseActivity implements
         FragmentManager.OnBackStackChangedListener  {
     @Override
@@ -246,7 +244,7 @@ public class AboutActivity extends AbstractBaseActivity implements
 
                     @Override
                     public void onSuccess(String body, Headers headers) {
-                        Log.d(TAG, "Got uuid " + obfuscateString(body));
+                        Log.d(TAG, "Got uuid " + Util.INSTANCE.obfuscateString(body));
                         uuidItem.setSubText(TextUtils.isEmpty(body)
                                 ? getString(R.string.unknown)
                                 : body);
@@ -271,7 +269,7 @@ public class AboutActivity extends AbstractBaseActivity implements
 
                         @Override
                         public void onSuccess(String body, Headers headers) {
-                            Log.d(TAG, "Got secret " + obfuscateString(body));
+                            Log.d(TAG, "Got secret " + Util.INSTANCE.obfuscateString(body));
                             secretItem.setSubText(TextUtils.isEmpty(body)
                                     ? getString(R.string.unknown)
                                     : body);
@@ -319,7 +317,7 @@ public class AboutActivity extends AbstractBaseActivity implements
 
         @Override
         protected int getTheme() {
-            return Util.getActivityThemeId(getActivity());
+            return Util.INSTANCE.getActivityThemeId(getActivity());
         }
 
         private MaterialAboutItemOnClickAction clickRedirect(final String url) {

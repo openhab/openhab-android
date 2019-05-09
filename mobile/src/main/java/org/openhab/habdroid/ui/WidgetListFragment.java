@@ -99,7 +99,7 @@ public class WidgetListFragment extends Fragment
 
     @Override
     public boolean onItemClicked(Widget widget) {
-        LinkedPage linkedPage = widget.linkedPage();
+        LinkedPage linkedPage = widget.getLinkedPage();
         if (mActivity != null && linkedPage != null) {
             mActivity.onWidgetSelected(linkedPage, WidgetListFragment.this);
             return true;
@@ -112,17 +112,17 @@ public class WidgetListFragment extends Fragment
         ArrayList<String> labels = new ArrayList<>();
         ArrayList<String> commands = new ArrayList<>();
 
-        if (widget.item() != null) {
+        if (widget.getItem() != null) {
             // If the widget has mappings, we will populate names and commands with
             // values from those mappings
             if (widget.hasMappingsOrItemOptions()) {
                 for (LabeledValue mapping : widget.getMappingsOrItemOptions()) {
-                    labels.add(mapping.label());
-                    commands.add(mapping.value());
+                    labels.add(mapping.getLabel());
+                    commands.add(mapping.getValue());
                 }
                 // Else we only can do it for Switch widget with On/Off/Toggle commands
-            } else if (widget.type() == Widget.Type.Switch) {
-                Item item = widget.item();
+            } else if (widget.getType() == Widget.Type.Switch) {
+                Item item = widget.getItem();
                 if (item.isOfTypeOrGroupType(Item.Type.Switch)) {
                     labels.add(getString(R.string.nfc_action_on));
                     commands.add("ON");
@@ -138,41 +138,41 @@ public class WidgetListFragment extends Fragment
                     labels.add(getString(R.string.nfc_action_toggle));
                     commands.add("TOGGLE");
                 }
-            } else if (widget.type() == Widget.Type.Colorpicker) {
+            } else if (widget.getType() == Widget.Type.Colorpicker) {
                 labels.add(getString(R.string.nfc_action_on));
                 commands.add("ON");
                 labels.add(getString(R.string.nfc_action_off));
                 commands.add("OFF");
                 labels.add(getString(R.string.nfc_action_toggle));
                 commands.add("TOGGLE");
-                if (widget.state() != null) {
+                if (widget.getState() != null) {
                     labels.add(getString(R.string.nfc_action_current_color));
-                    commands.add(widget.state().asString());
+                    commands.add(widget.getState().getAsString());
                 }
-            } else if (widget.type() == Widget.Type.Setpoint
-                    || widget.type() == Widget.Type.Slider) {
-                if (widget.state() != null && widget.state().asNumber() != null) {
-                    ParsedState.NumberState state = widget.state().asNumber();
+            } else if (widget.getType() == Widget.Type.Setpoint
+                    || widget.getType() == Widget.Type.Slider) {
+                if (widget.getState() != null && widget.getState().getAsNumber() != null) {
+                    ParsedState.NumberState state = widget.getState().getAsNumber();
 
                     String currentState = state.toString();
                     labels.add(currentState);
                     commands.add(currentState);
 
-                    String minValue = ParsedState.NumberState.withValue(state, widget.minValue())
+                    String minValue = ParsedState.NumberState.Companion.withValue(state, widget.getMinValue())
                             .toString();
                     if (!currentState.equals(minValue)) {
                         labels.add(minValue);
                         commands.add(minValue);
                     }
 
-                    String maxValue = ParsedState.NumberState.withValue(state, widget.maxValue())
+                    String maxValue = ParsedState.NumberState.Companion.withValue(state, widget.getMaxValue())
                             .toString();
                     if (!currentState.equals(maxValue)) {
                         labels.add(maxValue);
                         commands.add(maxValue);
                     }
 
-                    if (widget.switchSupport()) {
+                    if (widget.getSwitchSupport()) {
                         labels.add(getString(R.string.nfc_action_on));
                         commands.add("ON");
                         labels.add(getString(R.string.nfc_action_off));
@@ -182,7 +182,7 @@ public class WidgetListFragment extends Fragment
             }
         }
 
-        if (widget.linkedPage() != null) {
+        if (widget.getLinkedPage() != null) {
             labels.add(getString(R.string.nfc_action_to_sitemap_page));
         }
 
@@ -194,11 +194,11 @@ public class WidgetListFragment extends Fragment
                         final Intent writeTagIntent;
                         if (which < commands.size()) {
                             writeTagIntent = WriteTagActivity.createItemUpdateIntent(getActivity(),
-                                    widget.item().name(), commands.get(which),
-                                    labels.get(which), widget.item().label());
+                                    widget.getItem().getName(), commands.get(which),
+                                    labels.get(which), widget.getItem().getLabel());
                         } else {
                             writeTagIntent = WriteTagActivity.createSitemapNavigationIntent(
-                                    getActivity(), widget.linkedPage().link());
+                                    getActivity(), widget.getLinkedPage().getLink());
                         }
                         startActivityForResult(writeTagIntent, 0);
                     })
@@ -221,11 +221,11 @@ public class WidgetListFragment extends Fragment
         mEmptyPageView = view.findViewById(android.R.id.empty);
         mRefreshLayout = view.findViewById(R.id.swiperefresh);
 
-        Util.applySwipeLayoutColors(mRefreshLayout, R.attr.colorPrimary, R.attr.colorAccent);
+        Util.INSTANCE.applySwipeLayoutColors(mRefreshLayout, R.attr.colorPrimary, R.attr.colorAccent);
         mRefreshLayout.setRecyclerView(mRecyclerView);
         mRefreshLayout.setOnRefreshListener(() -> {
             mActivity.showRefreshHintSnackbarIfNeeded();
-            CacheManager.getInstance(getActivity()).clearCache();
+            CacheManager.Companion.getInstance(getActivity()).clearCache();
             if (mPageUrl != null) {
                 mActivity.triggerPageUpdate(mPageUrl, true);
             }
@@ -267,8 +267,8 @@ public class WidgetListFragment extends Fragment
         }
         if (highlightedPageLink != null) {
             for (int i = 0; i < mAdapter.getItemCount(); i++) {
-                LinkedPage page = mAdapter.getItem(i).linkedPage();
-                if (page != null && highlightedPageLink.equals(page.link())) {
+                LinkedPage page = mAdapter.getItem(i).getLinkedPage();
+                if (page != null && highlightedPageLink.equals(page.getLink())) {
                     if (mAdapter.setSelectedPosition(i)) {
                         mLayoutManager.scrollToPosition(i);
                     }

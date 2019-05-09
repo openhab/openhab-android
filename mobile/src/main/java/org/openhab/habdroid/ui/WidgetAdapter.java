@@ -73,8 +73,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Random;
 
-import static org.openhab.habdroid.util.Constants.PREFERENCE_CHART_HQ;
-
 /**
  * This class provides openHAB widgets adapter for list view.
  */
@@ -158,7 +156,7 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
 
     public void updateWidget(Widget widget) {
         for (int i = 0; i < mItems.size(); i++) {
-            if (mItems.get(i).id().equals(widget.id())) {
+            if (mItems.get(i).getId().equals(widget.getId())) {
                 mItems.set(i, widget);
                 notifyItemChanged(i);
                 break;
@@ -273,7 +271,7 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
     }
 
     private int getItemViewType(Widget widget) {
-        switch (widget.type()) {
+        switch (widget.getType()) {
             case Frame:
                 return TYPE_FRAME;
             case Group:
@@ -282,7 +280,7 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
                 if (widget.hasMappings()) {
                     return TYPE_SECTIONSWITCH;
                 } else {
-                    Item item = widget.item();
+                    Item item = widget.getItem();
                     if (item != null && item.isOfTypeOrGroupType(Item.Type.Rollershutter)) {
                         return TYPE_ROLLERSHUTTER;
                     }
@@ -301,7 +299,7 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
             case Chart:
                 return TYPE_CHART;
             case Video:
-                if ("mjpeg".equalsIgnoreCase(widget.encoding())) {
+                if ("mjpeg".equalsIgnoreCase(widget.getEncoding())) {
                     return TYPE_VIDEO_MJPEG;
                 }
                 return TYPE_VIDEO;
@@ -381,15 +379,15 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
         }
 
         protected void updateIcon(WidgetImageView iconView, Widget widget) {
-            if (widget.icon() == null) {
+            if (widget.getIcon() == null) {
                 iconView.setImageDrawable(null);
                 return;
             }
             // This is needed to escape possible spaces and everything according to rfc2396
-            String iconUrl = Uri.encode(widget.iconPath(), "/?=&");
+            String iconUrl = Uri.encode(widget.getIconPath(), "/?=&");
             iconView.setImageUrl(mConnection, iconUrl, iconView.getResources()
                     .getDimensionPixelSize(R.dimen.notificationlist_icon_size));
-            Integer iconColor = mColorMapper.mapColor(widget.iconColor());
+            Integer iconColor = mColorMapper.mapColor(widget.getIconColor());
             if (iconColor != null) {
                 iconView.setColorFilter(iconColor);
             } else {
@@ -415,13 +413,13 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
 
         @Override
         public void bind(Widget widget) {
-            String[] splitString = widget.label().split("\\[|\\]");
+            String[] splitString = widget.getLabel().split("\\[|\\]");
             mLabelView.setText(splitString.length > 0 ? splitString[0] : null);
-            updateTextViewColor(mLabelView, widget.labelColor());
+            updateTextViewColor(mLabelView, widget.getLabelColor());
             if (mValueView != null) {
                 mValueView.setText(splitString.length > 1 ? splitString[1] : null);
                 mValueView.setVisibility(splitString.length > 1 ? View.VISIBLE : View.GONE);
-                updateTextViewColor(mValueView, widget.valueColor());
+                updateTextViewColor(mValueView, widget.getValueColor());
             }
             updateIcon(mIconView, widget);
         }
@@ -440,8 +438,8 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
 
         @Override
         public void bind(Widget widget) {
-            mLabelView.setText(widget.label());
-            updateTextViewColor(mLabelView, widget.labelColor());
+            mLabelView.setText(widget.getLabel());
+            updateTextViewColor(mLabelView, widget.getLabelColor());
             updateIcon(mIconView, widget);
         }
     }
@@ -462,10 +460,10 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
 
         @Override
         public void bind(Widget widget) {
-            mLabelView.setText(widget.label());
-            updateTextViewColor(mLabelView, widget.valueColor());
+            mLabelView.setText(widget.getLabel());
+            updateTextViewColor(mLabelView, widget.getValueColor());
             // hide empty frames
-            itemView.setVisibility(widget.label().isEmpty() ? View.GONE : View.VISIBLE);
+            itemView.setVisibility(widget.getLabel().isEmpty() ? View.GONE : View.VISIBLE);
         }
 
         public void setShownAsFirst(boolean shownAsFirst) {
@@ -486,7 +484,7 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
         @Override
         public void bind(Widget widget) {
             super.bind(widget);
-            mRightArrow.setVisibility(widget.linkedPage() != null ? View.VISIBLE : View.GONE);
+            mRightArrow.setVisibility(widget.getLinkedPage() != null ? View.VISIBLE : View.GONE);
         }
     }
 
@@ -505,9 +503,9 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
         @Override
         public void bind(Widget widget) {
             super.bind(widget);
-            mBoundItem = widget.item();
-            ParsedState state = mBoundItem != null ? mBoundItem.state() : null;
-            mSwitch.setChecked(state != null && state.asBoolean());
+            mBoundItem = widget.getItem();
+            ParsedState state = mBoundItem != null ? mBoundItem.getState() : null;
+            mSwitch.setChecked(state != null && state.getAsBoolean());
         }
 
         @Override
@@ -524,7 +522,7 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
         }
 
         private void toggleSwitch() {
-            Util.sendItemCommand(mConnection.getAsyncHttpClient(), mBoundItem,
+            Util.INSTANCE.sendItemCommand(mConnection.getAsyncHttpClient(), mBoundItem,
                     mSwitch.isChecked() ? "OFF" : "ON");
         }
     }
@@ -541,7 +539,7 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
         @Override
         public void bind(Widget widget) {
             super.bind(widget);
-            mRightArrow.setVisibility(widget.linkedPage() != null ? View.VISIBLE : View.GONE);
+            mRightArrow.setVisibility(widget.getLinkedPage() != null ? View.VISIBLE : View.GONE);
         }
     }
 
@@ -562,27 +560,27 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
             super.bind(widget);
             mBoundWidget = widget;
 
-            float stepCount = (widget.maxValue() - widget.minValue()) / widget.step();
+            float stepCount = (widget.getMaxValue() - widget.getMinValue()) / widget.getStep();
             mSeekBar.setMax((int) Math.ceil(stepCount));
             mSeekBar.setProgress(0);
 
-            Item item = widget.item();
-            ParsedState state = item != null ? item.state() : null;
+            Item item = widget.getItem();
+            ParsedState state = item != null ? item.getState() : null;
             if (item == null || state == null) {
                 return;
             }
 
             if (item.isOfTypeOrGroupType(Item.Type.Color)) {
-                Integer brightness = state.asBrightness();
+                Integer brightness = state.getAsBrightness();
                 if (brightness != null) {
                     mSeekBar.setMax(100);
                     mSeekBar.setProgress(brightness);
                 }
             } else {
-                ParsedState.NumberState number = state.asNumber();
+                ParsedState.NumberState number = state.getAsNumber();
                 if (number != null) {
                     float progress =
-                            (number.mValue.floatValue() - widget.minValue()) / widget.step();
+                            (number.getValue().floatValue() - widget.getMinValue()) / widget.getStep();
                     mSeekBar.setProgress(Math.round(progress));
                 }
             }
@@ -590,9 +588,9 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
 
         @Override
         protected void handleRowClick() {
-            if (mBoundWidget.switchSupport()) {
-                Util.sendItemCommand(mConnection.getAsyncHttpClient(), mBoundWidget.item(),
-                        mSeekBar.getProgress() == 0 ? "ON" : "OFF");
+            if (mBoundWidget.getSwitchSupport()) {
+                Util.INSTANCE.sendItemCommand(mConnection.getAsyncHttpClient(),
+                        mBoundWidget.getItem(), mSeekBar.getProgress() == 0 ? "ON" : "OFF");
             }
         }
 
@@ -610,15 +608,15 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
         public void onStopTrackingTouch(SeekBar seekBar) {
             int progress = seekBar.getProgress();
             Log.d(TAG, "onStopTrackingTouch position = " + progress);
-            Item item = mBoundWidget.item();
+            Item item = mBoundWidget.getItem();
             if (item == null) {
                 return;
             }
-            float newValue = mBoundWidget.minValue() + mBoundWidget.step() * progress;
+            float newValue = mBoundWidget.getMinValue() + mBoundWidget.getStep() * progress;
             final ParsedState.NumberState previousState =
-                    item.state() != null ? item.state().asNumber() : null;
-            Util.sendItemCommand(mConnection.getAsyncHttpClient(), item,
-                    ParsedState.NumberState.withValue(previousState, newValue));
+                    item.getState() != null ? item.getState().getAsNumber() : null;
+            Util.INSTANCE.sendItemCommand(mConnection.getAsyncHttpClient(), item,
+                    ParsedState.NumberState.Companion.withValue(previousState, newValue));
         }
     }
 
@@ -636,8 +634,8 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
 
         @Override
         public void bind(Widget widget) {
-            ParsedState state = widget.state();
-            final String value = state != null ? state.asString() : null;
+            ParsedState state = widget.getState();
+            final String value = state != null ? state.getAsString() : null;
 
             // Make sure images fit into the content frame by scaling
             // them at max 90% of the available height
@@ -652,8 +650,8 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
                 mImageView.setImageBitmap(bitmap);
                 mRefreshRate = 0;
             } else {
-                mImageView.setImageUrl(mConnection, widget.url(), mParentView.getWidth());
-                mRefreshRate = widget.refresh();
+                mImageView.setImageUrl(mConnection, widget.getUrl(), mParentView.getWidth());
+                mRefreshRate = widget.getRefresh();
             }
         }
 
@@ -689,17 +687,17 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
         public void bind(Widget widget) {
             super.bind(widget);
 
-            mBoundItem = widget.item();
+            mBoundItem = widget.getItem();
             mBoundMappings = widget.getMappingsOrItemOptions();
 
             int spinnerSelectedIndex = -1;
             ArrayList<String> spinnerArray = new ArrayList<>();
-            ParsedState state = mBoundItem != null ? mBoundItem.state() : null;
-            String stateString = state != null ? state.asString() : null;
+            ParsedState state = mBoundItem != null ? mBoundItem.getState() : null;
+            String stateString = state != null ? state.getAsString() : null;
 
             for (LabeledValue mapping : mBoundMappings) {
-                String command = mapping.value();
-                spinnerArray.add(mapping.label());
+                String command = mapping.getValue();
+                spinnerArray.add(mapping.getLabel());
                 if (command != null && command.equals(stateString)) {
                     spinnerSelectedIndex = spinnerArray.size() - 1;
                 }
@@ -730,8 +728,8 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
                 return;
             }
             LabeledValue item = mBoundMappings.get(position);
-            Log.d(TAG, "Spinner onItemSelected found match with " + item.value());
-            Util.sendItemCommand(mConnection.getAsyncHttpClient(), mBoundItem, item.value());
+            Log.d(TAG, "Spinner onItemSelected found match with " + item.getValue());
+            Util.INSTANCE.sendItemCommand(mConnection.getAsyncHttpClient(), mBoundItem, item.getValue());
         }
     }
 
@@ -752,9 +750,9 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
         @Override
         public void bind(Widget widget) {
             super.bind(widget);
-            mBoundItem = widget.item();
+            mBoundItem = widget.getItem();
 
-            List<LabeledValue> mappings = widget.mappings();
+            List<LabeledValue> mappings = widget.getMappings();
             // inflate missing views
             for (int i = mRadioGroup.getChildCount(); i < mappings.size(); i++) {
                 View view = mInflater.inflate(R.layout.widgetlist_sectionswitchitem_button,
@@ -763,12 +761,12 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
                 mRadioGroup.addView(view);
             }
             // bind views
-            final String state = mBoundItem != null && mBoundItem.state() != null
-                    ? mBoundItem.state().asString() : null;
+            final String state = mBoundItem != null && mBoundItem.getState() != null
+                    ? mBoundItem.getState().getAsString() : null;
             for (int i = 0; i < mappings.size(); i++) {
                 SegmentedControlButton button = (SegmentedControlButton) mRadioGroup.getChildAt(i);
-                String command = mappings.get(i).value();
-                button.setText(mappings.get(i).label());
+                String command = mappings.get(i).getValue();
+                button.setText(mappings.get(i).getLabel());
                 button.setTag(command);
                 button.setChecked(state != null && TextUtils.equals(state, command));
                 button.setVisibility(View.VISIBLE);
@@ -785,11 +783,11 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
             if (visibleChildCount == 1) {
                 onClick(mRadioGroup.getChildAt(0));
             } else if (visibleChildCount == 2) {
-                ParsedState parsedState = mBoundItem.state();
+                ParsedState parsedState = mBoundItem.getState();
                 if (parsedState == null) {
                     return;
                 }
-                String state = parsedState.asString();
+                String state = parsedState.getAsString();
                 if (state.equals(mRadioGroup.getChildAt(0).getTag().toString())) {
                     onClick(mRadioGroup.getChildAt(1));
                 } else if (state.equals(mRadioGroup.getChildAt(1).getTag().toString())) {
@@ -811,7 +809,7 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
         @Override
         public void onClick(View view) {
             final String cmd = (String) view.getTag();
-            Util.sendItemCommand(mConnection.getAsyncHttpClient(), mBoundItem, cmd);
+            Util.INSTANCE.sendItemCommand(mConnection.getAsyncHttpClient(), mBoundItem, cmd);
         }
     }
 
@@ -837,14 +835,14 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
         @Override
         public void bind(Widget widget) {
             super.bind(widget);
-            mBoundItem = widget.item();
+            mBoundItem = widget.getItem();
         }
 
         @Override
         public boolean onTouch(View v, MotionEvent motionEvent) {
             if (motionEvent.getActionMasked() == MotionEvent.ACTION_UP) {
                 final String cmd = (String) v.getTag();
-                Util.sendItemCommand(mConnection.getAsyncHttpClient(), mBoundItem, cmd);
+                Util.INSTANCE.sendItemCommand(mConnection.getAsyncHttpClient(), mBoundItem, cmd);
             }
             return false;
         }
@@ -881,18 +879,18 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
 
         @Override
         public void onClick(final View view) {
-            if (mBoundWidget.state() == null) {
+            if (mBoundWidget.getState() == null) {
                 Log.d(TAG, "mBoundWidget.state() is null");
                 return;
             }
 
-            ParsedState.NumberState state = mBoundWidget.state().asNumber();
-            float minValue = mBoundWidget.minValue();
-            float maxValue = mBoundWidget.maxValue();
+            ParsedState.NumberState state = mBoundWidget.getState().getAsNumber();
+            float minValue = mBoundWidget.getMinValue();
+            float maxValue = mBoundWidget.getMaxValue();
             // This prevents an exception below, but could lead to
             // user confusion if this case is ever encountered.
-            float stepSize = minValue == maxValue ? 1 : mBoundWidget.step();
-            final Float stateValue = state != null ? state.mValue.floatValue() : null;
+            float stepSize = minValue == maxValue ? 1 : mBoundWidget.getStep();
+            final Float stateValue = state != null ? state.getValue().floatValue() : null;
 
             if (view.getId() == R.id.up_button || view.getId() == R.id.down_button) {
                 if (stateValue == null) {
@@ -901,8 +899,8 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
                 float newValue = view.getId() == R.id.up_button
                         ? stateValue + stepSize : stateValue - stepSize;
                 if (newValue >= minValue && newValue <= maxValue) {
-                    Util.sendItemCommand(mConnection.getAsyncHttpClient(), mBoundWidget.item(),
-                            ParsedState.NumberState.withValue(state, newValue));
+                    Util.INSTANCE.sendItemCommand(mConnection.getAsyncHttpClient(), mBoundWidget.getItem(),
+                            ParsedState.NumberState.Companion.withValue(state, newValue));
                 }
             } else {
                 final int stepCount = ((int) (Math.abs(maxValue - minValue) / stepSize)) + 1;
@@ -913,7 +911,7 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
 
                 for (int i = 0; i < stepValues.length; i++) {
                     float stepValue = minValue + i * stepSize;
-                    stepValues[i] = ParsedState.NumberState.withValue(state, stepValue);
+                    stepValues[i] = ParsedState.NumberState.Companion.withValue(state, stepValue);
                     stepValueLabels[i] = stepValues[i].toString();
                     if (stateValue != null && Math.abs(stateValue - stepValue) < closestDelta) {
                         closestIndex = i;
@@ -933,8 +931,8 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
                         .setTitle(mLabelView.getText())
                         .setView(dialogView)
                         .setPositiveButton(R.string.set, (dialog, which) -> {
-                            Util.sendItemCommand(mConnection.getAsyncHttpClient(),
-                                    mBoundWidget.item(), stepValues[numberPicker.getValue()]);
+                            Util.INSTANCE.sendItemCommand(mConnection.getAsyncHttpClient(),
+                                    mBoundWidget.getItem(), stepValues[numberPicker.getValue()]);
                         })
                         .setNegativeButton(R.string.cancel, null)
                         .show();
@@ -969,29 +967,29 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
 
         @Override
         public void bind(Widget widget) {
-            Item item = widget.item();
+            Item item = widget.getItem();
 
             if (item != null) {
-                float scalingFactor = mPrefs.getFloat(Constants.PREFERENCE_CHART_SCALING,
+                float scalingFactor = mPrefs.getFloat(Constants.INSTANCE.getPREFERENCE_CHART_SCALING(),
                         1.0f);
-                boolean requestHighResChart = mPrefs.getBoolean(PREFERENCE_CHART_HQ, true);
+                boolean requestHighResChart = mPrefs.getBoolean(Constants.INSTANCE.getPREFERENCE_CHART_HQ(), true);
                 float actualDensity = (float) mDensity / scalingFactor;
 
                 StringBuilder chartUrl = new StringBuilder("chart?")
-                        .append(item.type() == Item.Type.Group ? "groups=" : "items=")
-                        .append(item.name())
-                        .append("&period=").append(widget.period())
+                        .append(item.getType() == Item.Type.Group ? "groups=" : "items=")
+                        .append(item.getName())
+                        .append("&period=").append(widget.getPeriod())
                         .append("&random=").append(mRandom.nextInt())
                         .append("&dpi=").append(requestHighResChart ? (int) actualDensity :
                         (int) actualDensity / 2);
-                if (!TextUtils.isEmpty(widget.service())) {
-                    chartUrl.append("&service=").append(widget.service());
+                if (!TextUtils.isEmpty(widget.getService())) {
+                    chartUrl.append("&service=").append(widget.getService());
                 }
                 if (mChartTheme != null) {
                     chartUrl.append("&theme=").append(mChartTheme);
                 }
-                if (widget.legend() != null) {
-                    chartUrl.append("&legend=").append(widget.legend());
+                if (widget.getLegend() != null) {
+                    chartUrl.append("&legend=").append(widget.getLegend());
                 }
 
                 int parentWidth = mParentView.getWidth();
@@ -1005,7 +1003,7 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
                 Log.d(TAG, "Chart url = " + chartUrl);
 
                 mImageView.setImageUrl(mConnection, chartUrl.toString(), parentWidth, true);
-                mRefreshRate = widget.refresh();
+                mRefreshRate = widget.getRefresh();
             } else {
                 Log.e(TAG, "Chart item is null");
                 mImageView.setImageDrawable(null);
@@ -1042,14 +1040,14 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
             // FIXME: check for URL changes here
             if (!mVideoView.isPlaying()) {
                 final String videoUrl;
-                Item videoItem = widget.item();
-                if ("hls".equalsIgnoreCase(widget.encoding())
+                Item videoItem = widget.getItem();
+                if ("hls".equalsIgnoreCase(widget.getEncoding())
                         && videoItem != null
-                        && videoItem.type() == Item.Type.StringItem
-                        && videoItem.state() != null) {
-                    videoUrl = videoItem.state().asString();
+                        && videoItem.getType() == Item.Type.StringItem
+                        && videoItem.getState() != null) {
+                    videoUrl = videoItem.getState().getAsString();
                 } else {
-                    videoUrl = widget.url();
+                    videoUrl = widget.getUrl();
                 }
                 Log.d(TAG, "Opening video at " + videoUrl);
                 mVideoView.setVideoURI(Uri.parse(videoUrl));
@@ -1085,8 +1083,8 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
         public void bind(Widget widget) {
             mWebView.loadUrl("about:blank");
             ViewGroup.LayoutParams lp = mWebView.getLayoutParams();
-            int desiredHeightPixels = widget.height() > 0
-                    ? widget.height() * mRowHeightPixels : ViewGroup.LayoutParams.WRAP_CONTENT;
+            int desiredHeightPixels = widget.getHeight() > 0
+                    ? widget.getHeight() * mRowHeightPixels : ViewGroup.LayoutParams.WRAP_CONTENT;
             if (lp.height != desiredHeightPixels) {
                 lp.height = desiredHeightPixels;
                 mWebView.setLayoutParams(lp);
@@ -1124,7 +1122,7 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
         @Override
         public void bind(Widget widget) {
             super.bind(widget);
-            mBoundItem = widget.item();
+            mBoundItem = widget.getItem();
         }
 
         @Override
@@ -1137,7 +1135,7 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
             if (motionEvent.getActionMasked() == MotionEvent.ACTION_UP) {
                 if (v.getTag() instanceof String) {
                     final String cmd = (String) v.getTag();
-                    Util.sendItemCommand(mConnection.getAsyncHttpClient(), mBoundItem, cmd);
+                    Util.INSTANCE.sendItemCommand(mConnection.getAsyncHttpClient(), mBoundItem, cmd);
                 } else {
                     showColorPickerDialog();
                 }
@@ -1152,7 +1150,7 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
             Log.d(TAG, "New color HSV = " + hsv[0] + ", " + hsv[1] + ", " + hsv[2]);
             final String newColorValue = String.format(Locale.US, "%f,%f,%f",
                     hsv[0], hsv[1] * 100, hsv[2] * 100);
-            Util.sendItemCommand(mConnection.getAsyncHttpClient(), mBoundItem, newColorValue);
+            Util.INSTANCE.sendItemCommand(mConnection.getAsyncHttpClient(), mBoundItem, newColorValue);
             return true;
         }
 
@@ -1173,8 +1171,8 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
             colorPicker.setOnColorChangedListener(this);
             colorPicker.setShowOldCenterColor(false);
 
-            float[] initialColor = mBoundItem != null && mBoundItem.state() != null
-                    ? mBoundItem.state().asHsv() : null;
+            float[] initialColor = mBoundItem != null && mBoundItem.getState() != null
+                    ? mBoundItem.getState().getAsHsv() : null;
             if (initialColor != null) {
                 colorPicker.setColor(Color.HSVToColor(initialColor));
             }
@@ -1198,7 +1196,7 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
 
         @Override
         public void bind(Widget widget) {
-            mStreamer = new MjpegStreamer(mImageView, mConnection, widget.url());
+            mStreamer = new MjpegStreamer(mImageView, mConnection, widget.getUrl());
         }
 
         @Override
