@@ -4,7 +4,6 @@ import android.content.Context;
 import androidx.annotation.StringRes;
 import androidx.test.InstrumentationRegistry;
 import androidx.test.espresso.ViewInteraction;
-import androidx.test.espresso.contrib.RecyclerViewActions;
 import androidx.test.filters.LargeTest;
 import androidx.test.runner.AndroidJUnit4;
 
@@ -15,6 +14,7 @@ import org.openhab.habdroid.R;
 import org.openhab.habdroid.TestWithoutIntro;
 
 import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.Espresso.pressBack;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.longClick;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
@@ -32,7 +32,9 @@ public class NfcTest extends TestWithoutIntro {
         ViewInteraction recyclerView = onView(withId(R.id.recyclerview));
         Context context = InstrumentationRegistry.getTargetContext();
 
-        recyclerView.perform(RecyclerViewActions.actionOnItemAtPosition(10, click()));
+        recyclerView.perform(actionOnItemAtPosition(10, longClick()));
+        checkViewWithText(context, R.string.nfc_action_to_sitemap_page);
+        pressBack();
 
         recyclerView.perform(actionOnItemAtPosition(10, click()));
 
@@ -45,7 +47,6 @@ public class NfcTest extends TestWithoutIntro {
 
         checkViewWithText(context, R.string.nfc_action_off);
         checkViewWithText(context, R.string.nfc_action_toggle);
-        checkViewWithText(context, R.string.nfc_action_to_sitemap_page);
 
         ViewInteraction onButton = checkViewWithText(context, R.string.nfc_action_on);
         onButton.perform(click());
