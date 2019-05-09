@@ -25,7 +25,6 @@ import android.preference.PreferenceScreen;
 import android.provider.Settings;
 import android.text.TextUtils;
 import android.util.Log;
-import android.util.Pair;
 import android.view.MenuItem;
 import androidx.annotation.DrawableRes;
 import androidx.annotation.Nullable;
@@ -44,6 +43,8 @@ import org.openhab.habdroid.util.Constants;
 import org.openhab.habdroid.util.Util;
 
 import java.util.BitSet;
+
+import kotlin.Pair;
 
 /**
  * This is a class to provide preferences activity for application.
@@ -367,11 +368,11 @@ public class PreferencesActivity extends AbstractBaseActivity {
                 getPreferenceScreen().removePreference(alarmClockPref);
             } else {
                 updateAlarmClockPreferenceIcon(alarmClockPref,
-                        ItemUpdatingPreference.parseValue(
+                        ItemUpdatingPreference.Companion.parseValue(
                                 getPreferenceString(alarmClockPref, null)));
                 updateAlarmClockPreferenceSummary(alarmClockPref,
                         getPreferenceString(sendDeviceInfoPrefixPref, ""),
-                        ItemUpdatingPreference.parseValue(
+                        ItemUpdatingPreference.Companion.parseValue(
                                 getPreferenceString(alarmClockPref, null)));
                 alarmClockPref.setOnPreferenceChangeListener((preference, newValue) -> {
                     String prefix = getPreferenceString(sendDeviceInfoPrefixPref, "");
@@ -384,7 +385,7 @@ public class PreferencesActivity extends AbstractBaseActivity {
 
             sendDeviceInfoPrefixPref.setOnPreferenceChangeListener((preference, newValue) -> {
                 Pair<Boolean, String> item =
-                        ItemUpdatingPreference.parseValue(getPreferenceString(alarmClockPref, null));
+                        ItemUpdatingPreference.Companion.parseValue(getPreferenceString(alarmClockPref, null));
                 updateAlarmClockPreferenceSummary(alarmClockPref, (String) newValue, item);
                 return true;
             });
@@ -460,15 +461,15 @@ public class PreferencesActivity extends AbstractBaseActivity {
 
         private void updateAlarmClockPreferenceSummary(Preference pref, String prefix, Pair item) {
             Pair<Boolean, String> value = (Pair<Boolean, String>) item;
-            pref.setSummary(value != null && value.first
+            pref.setSummary(value != null && value.getFirst()
                     ? getString(R.string.settings_alarm_clock_summary_on,
-                    (prefix + value.second))
+                    (prefix + value.getSecond()))
                     : getString(R.string.settings_alarm_clock_summary_off));
         }
 
         private void updateAlarmClockPreferenceIcon(Preference pref, Object newValue) {
             Pair<Boolean, String> value = (Pair<Boolean, String>) newValue;
-            pref.setIcon(value != null && value.first
+            pref.setIcon(value != null && value.getFirst()
                     ? R.drawable.ic_alarm_grey_24dp
                     : R.drawable.ic_alarm_off_grey_24dp);
         }

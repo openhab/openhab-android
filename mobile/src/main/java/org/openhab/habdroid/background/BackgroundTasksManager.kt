@@ -6,17 +6,13 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Build
-import android.os.Parcel
 import android.os.Parcelable
 import android.preference.PreferenceManager
 import android.util.Log
-import android.util.Pair
 
-import androidx.lifecycle.LiveData
 import androidx.work.Constraints
 import androidx.work.NetworkType
 import androidx.work.OneTimeWorkRequest
-import androidx.work.WorkInfo
 import androidx.work.WorkManager
 import kotlinx.android.parcel.Parcelize
 import org.openhab.habdroid.R
