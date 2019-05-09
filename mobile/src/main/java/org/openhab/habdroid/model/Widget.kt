@@ -21,7 +21,7 @@ import java.util.ArrayList
 import java.util.Locale
 
 @Parcelize
-data class Widget(val id: String, val parentId: String?, val label: String?,
+data class Widget(val id: String, val parentId: String?, val label: String,
                   val icon: String?, val iconPath: String?, val state: ParsedState?,
                   val type: Type, val url: String?, val item: Item?,
                   val linkedPage: LinkedPage?, val mappings: List<LabeledValue>,
@@ -135,7 +135,7 @@ data class Widget(val id: String, val parentId: String?, val label: String?,
                 return
             }
 
-            val widget = build(id, parent?.id, label, icon, String.format("images/%s.png", icon),
+            val widget = build(id, parent?.id, label ?: "", icon, String.format("images/%s.png", icon),
                     item?.state, type, url, item, linkedPage, mappings, encoding, iconColor,
                     labelColor, valueColor, refresh, minValue, maxValue, step, period,
                     service, null, switchSupport, height)
@@ -165,7 +165,7 @@ data class Widget(val id: String, val parentId: String?, val label: String?,
             val icon = widgetJson.optString("icon", null)
 
             val widget = build(widgetJson.getString("widgetId"), parent?.id,
-                    widgetJson.optString("label", null),
+                    widgetJson.optString("label", ""),
                     icon, determineOH2IconPath(item, type, icon, iconFormat, !mappings.isEmpty()),
                     determineWidgetState(widgetJson.optString("state", null), item),
                     type,
@@ -213,7 +213,7 @@ data class Widget(val id: String, val parentId: String?, val label: String?,
                     source.switchSupport, source.height)
         }
 
-        private fun build(id: String, parentId: String?, label: String?, icon: String?,
+        private fun build(id: String, parentId: String?, label: String, icon: String?,
                           iconPath: String?, state: ParsedState?, type: Type, url: String?,
                           item: Item?, linkedPage: LinkedPage?, mappings: List<LabeledValue>,
                           encoding: String?, iconColor: String?, labelColor: String?,

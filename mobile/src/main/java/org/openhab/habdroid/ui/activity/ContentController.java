@@ -219,7 +219,7 @@ public abstract class ContentController implements PageConnectionHolderFragment.
             mActivity.updateTitle();
         } else {
             // we didn't find it
-            mTemporaryPage = WidgetListFragment.withPage(url, null);
+            mTemporaryPage = WidgetListFragment.Companion.withPage(url, null);
             // no fragment update yet; fragment state will be updated when data arrives
             handleNewWidgetFragment((WidgetListFragment) mTemporaryPage);
             mActivity.setProgressIndicatorVisible(true);
@@ -317,7 +317,7 @@ public abstract class ContentController implements PageConnectionHolderFragment.
      * @param highlightedId ID of notification to be highlighted initially
      */
     public final void openNotifications(@Nullable String highlightedId) {
-        showTemporaryPage(CloudNotificationListFragment.newInstance(highlightedId));
+        showTemporaryPage(CloudNotificationListFragment.Companion.newInstance(highlightedId));
     }
 
     /**
@@ -565,11 +565,11 @@ public abstract class ContentController implements PageConnectionHolderFragment.
     }
 
     private WidgetListFragment makeSitemapFragment(Sitemap sitemap) {
-        return WidgetListFragment.withPage(sitemap.getHomepageLink(), sitemap.getLabel());
+        return WidgetListFragment.Companion.withPage(sitemap.getHomepageLink(), sitemap.getLabel());
     }
 
     private WidgetListFragment makePageFragment(LinkedPage page) {
-        return WidgetListFragment.withPage(page.getLink(), page.getTitle());
+        return WidgetListFragment.Companion.withPage(page.getLink(), page.getTitle());
     }
 
     protected enum FragmentUpdateReason {

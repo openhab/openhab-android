@@ -43,7 +43,7 @@ public class FragmentStatusIdlingResource implements IdlingResource {
                 return true;
             }
             if (f instanceof WidgetListFragment) {
-                if (((WidgetListFragment) f).mRecyclerView.hasPendingAdapterUpdates()) {
+                if (((WidgetListFragment) f).getMRecyclerView().hasPendingAdapterUpdates()) {
                     return true;
                 }
             }
