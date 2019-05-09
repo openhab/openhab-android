@@ -281,8 +281,8 @@ public class AboutActivity extends AbstractBaseActivity implements
 
             ohServerCard.addItem(new MaterialAboutActionItem.Builder()
                     .text(R.string.info_openhab_push_notification_label)
-                    .subText(CloudMessagingHelper.getPushNotificationStatus(context))
-                    .icon(CloudMessagingHelper.getPushNotificationIconResId())
+                    .subText(CloudMessagingHelper.INSTANCE.getPushNotificationStatus(context))
+                    .icon(CloudMessagingHelper.INSTANCE.getPushNotificationIconResId())
                     .build());
 
             MaterialAboutCard.Builder ohCommunityCard = new MaterialAboutCard.Builder();

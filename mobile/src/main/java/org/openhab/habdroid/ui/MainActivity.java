@@ -380,7 +380,7 @@ public class MainActivity extends AbstractBaseActivity implements
 
                 break;
             case ACTION_NOTIFICATION_SELECTED:
-                CloudMessagingHelper.onNotificationSelected(this, intent);
+                CloudMessagingHelper.INSTANCE.onNotificationSelected(this, intent);
                 onNotificationSelected(intent);
                 break;
             case ACTION_HABPANEL_SELECTED:
