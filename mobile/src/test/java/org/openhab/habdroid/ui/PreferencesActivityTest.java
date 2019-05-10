@@ -18,23 +18,23 @@ import static org.openhab.habdroid.ui.PreferencesActivity.MainSettingsFragment.b
 public class PreferencesActivityTest {
     @Test
     public void testIsWeakPassword() {
-        assertTrue(isWeakPassword(""));
-        assertTrue(isWeakPassword("abc"));
-        assertTrue(isWeakPassword("abcd1234"));
-        assertTrue(isWeakPassword("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"));
-        assertTrue(!isWeakPassword("AbcD1234"));
-        assertTrue(!isWeakPassword("4BCd+-efgh"));
-        assertTrue(!isWeakPassword("Mb2.r5oHf-0t"));
-        assertTrue(!isWeakPassword("abcdefg1+"));
+        assertTrue(Companion.isWeakPassword(""));
+        assertTrue(Companion.isWeakPassword("abc"));
+        assertTrue(Companion.isWeakPassword("abcd1234"));
+        assertTrue(Companion.isWeakPassword("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"));
+        assertTrue(!Companion.isWeakPassword("AbcD1234"));
+        assertTrue(!Companion.isWeakPassword("4BCd+-efgh"));
+        assertTrue(!Companion.isWeakPassword("Mb2.r5oHf-0t"));
+        assertTrue(!Companion.isWeakPassword("abcdefg1+"));
     }
 
     @Test
     public void testBeautifyUrl() {
-        assertEquals("abc", beautifyUrl("abc"));
-        assertEquals("", beautifyUrl(""));
-        assertEquals("myopenHAB", beautifyUrl("myopenhab.org"));
-        assertEquals("myopenHAB", beautifyUrl("home.myopenhab.org"));
-        assertEquals("myopenhab.WRONG_TLD", beautifyUrl("myopenhab.WRONG_TLD"));
-        assertEquals(null, beautifyUrl(null));
+        assertEquals("abc", Companion.beautifyUrl("abc"));
+        assertEquals("", Companion.beautifyUrl(""));
+        assertEquals("myopenHAB", Companion.beautifyUrl("myopenhab.org"));
+        assertEquals("myopenHAB", Companion.beautifyUrl("home.myopenhab.org"));
+        assertEquals("myopenhab.WRONG_TLD", Companion.beautifyUrl("myopenhab.WRONG_TLD"));
+        assertEquals(null, Companion.beautifyUrl(null));
     }
 }

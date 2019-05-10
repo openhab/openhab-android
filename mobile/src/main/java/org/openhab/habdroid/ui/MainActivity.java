@@ -637,7 +637,7 @@ public class MainActivity extends AbstractBaseActivity implements
                 case R.id.settings:
                     Intent settingsIntent = new Intent(MainActivity.this,
                             PreferencesActivity.class);
-                    settingsIntent.putExtra(PreferencesActivity.START_EXTRA_SERVER_PROPERTIES,
+                    settingsIntent.putExtra(PreferencesActivity.Companion.getSTART_EXTRA_SERVER_PROPERTIES(),
                             mServerProperties);
                     startActivityForResult(settingsIntent, SETTINGS_REQUEST_CODE);
                     return true;
@@ -906,7 +906,7 @@ public class MainActivity extends AbstractBaseActivity implements
                 if (data == null) {
                     break;
                 }
-                if (data.getBooleanExtra(PreferencesActivity.RESULT_EXTRA_SITEMAP_CLEARED, false)
+                if (data.getBooleanExtra(PreferencesActivity.Companion.getRESULT_EXTRA_SITEMAP_CLEARED(), false)
                         && getConnection() != null && mServerProperties != null) {
                     Sitemap sitemap = selectConfiguredSitemapFromList();
                     if (sitemap != null) {
@@ -915,7 +915,7 @@ public class MainActivity extends AbstractBaseActivity implements
                         showSitemapSelectionDialog();
                     }
                 }
-                if (data.getBooleanExtra(PreferencesActivity.RESULT_EXTRA_THEME_CHANGED, false)) {
+                if (data.getBooleanExtra(PreferencesActivity.Companion.getRESULT_EXTRA_THEME_CHANGED(), false)) {
                     recreate();
                 }
                 break;

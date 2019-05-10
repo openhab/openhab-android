@@ -182,10 +182,12 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener {
                         val item = if (which < commands.size) widget.item else null
                         val link = if (which == commands.size) widget.linkedPage?.link else null
                         val writeTagIntent = if (item != null)
-                            WriteTagActivity.createItemUpdateIntent(activity,
-                                    item.name, commands[which], labels[which], item.label)
+                            WriteTagActivity.createItemUpdateIntent(activity!!,
+                                    item.name, commands[which], labels[which], item.label ?: "")
+                        else if (link != null)
+                            WriteTagActivity.createSitemapNavigationIntent(activity!!, link)
                         else
-                            WriteTagActivity.createSitemapNavigationIntent(activity, link)
+                            null
                         startActivityForResult(writeTagIntent, 0);
                     }
                     .show()
