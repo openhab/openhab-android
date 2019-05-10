@@ -45,14 +45,6 @@ data class ServerProperties(val flags: Int, val sitemaps: List<Sitemap>) : Parce
         val SERVER_FLAG_CHART_SCALING_SUPPORT = 1 shl 3
         val SERVER_FLAG_HABPANEL_INSTALLED = 1 shl 4
 
-        interface UpdateSuccessCallback {
-            fun handleServerPropertyUpdate(props: ServerProperties)
-        }
-
-        interface UpdateFailureCallback {
-            fun handleUpdateFailure(request: Request, statusCode: Int, error: Throwable?)
-        }
-
         class UpdateHandle {
             internal var call: Call? = null
             internal var flags: Int = 0
@@ -66,7 +58,8 @@ data class ServerProperties(val flags: Int, val sitemaps: List<Sitemap>) : Parce
         }
 
         fun updateSitemaps(props: ServerProperties, connection: Connection,
-                           successCb: UpdateSuccessCallback, failureCb: UpdateFailureCallback): UpdateHandle {
+                           successCb: (ServerProperties) -> Unit,
+                           failureCb: (Request, Int, Throwable) -> Unit): UpdateHandle {
             val handle = UpdateHandle()
             handle.flags = props.flags
             fetchSitemaps(connection.asyncHttpClient, handle, successCb, failureCb)
@@ -74,17 +67,19 @@ data class ServerProperties(val flags: Int, val sitemaps: List<Sitemap>) : Parce
         }
 
         fun fetch(connection: Connection,
-                  successCb: UpdateSuccessCallback, failureCb: UpdateFailureCallback): UpdateHandle {
+                  successCb: (ServerProperties) -> Unit,
+                  failureCb: (Request, Int, Throwable) -> Unit): UpdateHandle {
             val handle = UpdateHandle()
             fetchFlags(connection.asyncHttpClient, handle, successCb, failureCb)
             return handle
         }
 
         private fun fetchFlags(client: AsyncHttpClient, handle: UpdateHandle,
-                               successCb: UpdateSuccessCallback, failureCb: UpdateFailureCallback) {
+                               successCb: (ServerProperties) -> Unit,
+                               failureCb: (Request, Int, Throwable) -> Unit) {
             handle.call = client["rest", object : AsyncHttpClient.StringResponseHandler() {
-                override fun onFailure(request: Request, statusCode: Int, error: Throwable?) {
-                    failureCb.handleUpdateFailure(request, statusCode, error)
+                override fun onFailure(request: Request, statusCode: Int, error: Throwable) {
+                    failureCb(request, statusCode, error)
                 }
 
                 override fun onSuccess(response: String, headers: Headers) {
@@ -124,7 +119,7 @@ data class ServerProperties(val flags: Int, val sitemaps: List<Sitemap>) : Parce
                             handle.flags = 0
                             fetchSitemaps(client, handle, successCb, failureCb)
                         } else {
-                            failureCb.handleUpdateFailure(handle.call!!.request(), 200, e)
+                            failureCb(handle.call!!.request(), 200, e)
                         }
                     }
 
@@ -133,10 +128,11 @@ data class ServerProperties(val flags: Int, val sitemaps: List<Sitemap>) : Parce
         }
 
         private fun fetchSitemaps(client: AsyncHttpClient, handle: UpdateHandle,
-                                  successCb: UpdateSuccessCallback, failureCb: UpdateFailureCallback) {
+                                  successCb: (ServerProperties) -> Unit,
+                                  failureCb: (Request, Int, Throwable) -> Unit) {
             handle.call = client["rest/sitemaps", object : AsyncHttpClient.StringResponseHandler() {
-                override fun onFailure(request: Request, statusCode: Int, error: Throwable?) {
-                    failureCb.handleUpdateFailure(request, statusCode, error)
+                override fun onFailure(request: Request, statusCode: Int, error: Throwable) {
+                    failureCb(request, statusCode, error)
                 }
 
                 override fun onSuccess(response: String, headers: Headers) {
@@ -148,7 +144,7 @@ data class ServerProperties(val flags: Int, val sitemaps: List<Sitemap>) : Parce
                     }
 
                     Log.d(TAG, "Server returned sitemaps: " + handle.sitemaps)
-                    successCb.handleServerPropertyUpdate(ServerProperties(handle.flags, handle.sitemaps))
+                    successCb(ServerProperties(handle.flags, handle.sitemaps))
                 }
             }]
         }

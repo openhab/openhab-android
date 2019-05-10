@@ -1,0 +1,771 @@
+/*
+ * Copyright (c) 2018, openHAB.org and others.
+ *
+ *   All rights reserved. This program and the accompanying materials
+ *   are made available under the terms of the Eclipse Public License v1.0
+ *   which accompanies this distribution, and is available at
+ *   http://www.eclipse.org/legal/epl-v10.html
+ */
+
+package org.openhab.habdroid.ui.activity
+
+import android.content.Context
+import android.content.Intent
+import android.graphics.PorterDuff
+import android.net.wifi.WifiManager
+import android.os.Bundle
+import android.preference.PreferenceManager
+import android.text.TextUtils
+import android.util.Log
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.view.ViewStub
+import android.widget.Button
+import android.widget.ImageView
+import android.widget.TextView
+import androidx.annotation.AnimRes
+import androidx.annotation.DrawableRes
+import androidx.annotation.IdRes
+import androidx.annotation.StringRes
+import androidx.core.app.TaskStackBuilder
+import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
+
+import org.openhab.habdroid.R
+import org.openhab.habdroid.core.connection.Connection
+import org.openhab.habdroid.core.connection.ConnectionFactory
+import org.openhab.habdroid.model.LinkedPage
+import org.openhab.habdroid.model.ServerProperties
+import org.openhab.habdroid.model.Sitemap
+import org.openhab.habdroid.model.Widget
+import org.openhab.habdroid.ui.CloudNotificationListFragment
+import org.openhab.habdroid.ui.MainActivity
+import org.openhab.habdroid.ui.PreferencesActivity
+import org.openhab.habdroid.ui.WidgetListFragment
+import org.openhab.habdroid.util.Constants
+import org.openhab.habdroid.util.Util
+
+import java.util.ArrayList
+import java.util.HashSet
+import java.util.Stack
+
+/**
+ * Controller class for the content area of [MainActivity]
+ *
+ * It manages the stack of widget lists shown, and shows error UI if needed.
+ * The layout of the content area is up to the respective subclasses.
+ */
+abstract class ContentController protected constructor(private val activity: MainActivity) :
+        PageConnectionHolderFragment.ParentCallback {
+    protected val fm: FragmentManager
+
+    protected var noConnectionFragment: Fragment? = null
+    protected var defaultProgressFragment: Fragment
+    private val connectionFragment: PageConnectionHolderFragment
+    private var temporaryPage: Fragment? = null
+
+    protected var currentSitemap: Sitemap? = null
+    protected var sitemapFragment: WidgetListFragment? = null
+    protected val pageStack = Stack<Pair<LinkedPage, WidgetListFragment>>()
+    private val pendingDataLoadUrls = HashSet<String>()
+
+    override val iconFormat: String
+        get() = PreferenceManager.getDefaultSharedPreferences(activity).getString("iconFormatType", "PNG")
+    override val isDetailedLoggingEnabled: Boolean
+        get() = PreferenceManager.getDefaultSharedPreferences(activity).getBoolean(Constants.PREFERENCE_DEBUG_MESSAGES, false)
+
+    /**
+     * Get title describing current UI state
+     *
+     * @return Title to show in action bar, or null if none can be determined
+     */
+    val currentTitle: CharSequence?
+        get() {
+            if (noConnectionFragment != null) {
+                return null
+            } else if (temporaryPage is CloudNotificationListFragment) {
+                return activity.getString(R.string.app_notifications)
+            } else if (temporaryPage is WidgetListFragment) {
+                return (temporaryPage as WidgetListFragment).title
+            } else if (temporaryPage is WebViewFragment) {
+                return activity.getString((temporaryPage as WebViewFragment).titleResId)
+            } else if (temporaryPage != null) {
+                return null
+            } else {
+                return fragmentForTitle?.title
+            }
+        }
+    protected abstract val fragmentForTitle: WidgetListFragment?
+
+    protected val overridingFragment: Fragment?
+        get() {
+            if (temporaryPage != null) {
+                return temporaryPage
+            } else if (noConnectionFragment != null) {
+                return noConnectionFragment
+            } else {
+                return null
+            }
+        }
+
+    init {
+        fm = activity.supportFragmentManager
+
+        var connectionFragment = fm.findFragmentByTag("connections") as PageConnectionHolderFragment?
+        if (connectionFragment == null) {
+            connectionFragment = PageConnectionHolderFragment()
+            fm.beginTransaction().add(connectionFragment, "connections").commit()
+        }
+        this.connectionFragment = connectionFragment
+
+        defaultProgressFragment = ProgressFragment.newInstance(null, 0)
+        connectionFragment.setCallback(this)
+    }
+
+    /**
+     * Saves the controller's instance state
+     * To be called from the onSaveInstanceState callback of the activity
+     *
+     * @param state Bundle to save state into
+     */
+    fun onSaveInstanceState(state: Bundle) {
+        val pages = ArrayList<LinkedPage>()
+        for ((page, fragment) in pageStack) {
+            pages.add(page)
+            if (fragment.isAdded) {
+                fm.putFragment(state, "pageFragment-" + page.link, fragment)
+            }
+        }
+        state.putParcelable("controllerSitemap", currentSitemap)
+        if (sitemapFragment != null && sitemapFragment!!.isAdded) {
+            fm.putFragment(state, "sitemapFragment", sitemapFragment!!)
+        }
+        if (defaultProgressFragment.isAdded) {
+            fm.putFragment(state, "progressFragment", defaultProgressFragment)
+        }
+        state.putParcelableArrayList("controllerPages", pages)
+        if (temporaryPage != null) {
+            fm.putFragment(state, "temporaryPage", temporaryPage!!)
+        }
+        if (noConnectionFragment != null && noConnectionFragment!!.isAdded) {
+            fm.putFragment(state, "errorFragment", noConnectionFragment!!)
+        }
+    }
+
+    /**
+     * Restore instance state previously saved by onSaveInstanceState
+     * To be called from the onRestoreInstanceState or onCreate callbacks of the activity
+     *
+     * @param state Bundle including previously saved state
+     */
+    open fun onRestoreInstanceState(state: Bundle) {
+        currentSitemap = state.getParcelable("controllerSitemap")
+        if (currentSitemap != null) {
+            sitemapFragment = fm.getFragment(state, "sitemapFragment") as WidgetListFragment?
+            if (sitemapFragment == null) {
+                sitemapFragment = makeSitemapFragment(currentSitemap!!)
+            }
+        }
+        val progressFragment = fm.getFragment(state, "progressFragment")
+        if (progressFragment != null) {
+            defaultProgressFragment = progressFragment
+        }
+
+        val oldStack = state.getParcelableArrayList<LinkedPage>("controllerPages")
+        pageStack.clear()
+        for (page in oldStack) {
+            val f = fm.getFragment(state, "pageFragment-" + page.link!!) as WidgetListFragment?
+            pageStack.add(Pair(page, f ?: makePageFragment(page)))
+        }
+        temporaryPage = fm.getFragment(state, "temporaryPage")
+        noConnectionFragment = fm.getFragment(state, "errorFragment")
+    }
+
+    /**
+     * Show contents of a sitemap
+     * Sets up UI to show the sitemap's contents
+     *
+     * @param sitemap Sitemap to show
+     */
+    fun openSitemap(sitemap: Sitemap) {
+        Log.d(TAG, "Opening sitemap $sitemap")
+        currentSitemap = sitemap
+        // First clear the old fragment stack to show the progress spinner...
+        pageStack.clear()
+        sitemapFragment = null
+        updateFragmentState(FragmentUpdateReason.PAGE_UPDATE)
+        // ...then create the new sitemap fragment and trigger data loading.
+        val newFragment = makeSitemapFragment(sitemap)
+        sitemapFragment = newFragment
+        handleNewWidgetFragment(newFragment)
+    }
+
+    /**
+     * Follow a link in a sitemap page
+     * Sets up UI to show the contents of the given page
+     *
+     * @param page Page link to follow
+     * @param source Fragment this action was triggered from
+     */
+    open fun openPage(page: LinkedPage, source: WidgetListFragment) {
+        Log.d(TAG, "Opening page $page")
+        val f = makePageFragment(page)
+        while (!pageStack.isEmpty() && pageStack.peek().second !== source) {
+            pageStack.pop()
+        }
+        pageStack.push(Pair(page, f))
+        handleNewWidgetFragment(f)
+        activity.setProgressIndicatorVisible(true)
+    }
+
+    /**
+     * Follow a sitemap page link via URL
+     * If a page with the given URL is already present in the back stack,
+     * that page is brought to the front; otherwise a temporary page with showing
+     * the contents of the linked page is opened.
+     *
+     * @param url URL to follow
+     */
+    fun openPage(url: String) {
+        var toPop = -1
+        for (i in pageStack.indices) {
+            if (pageStack[i].first.link == url) {
+                // page is already present
+                toPop = pageStack.size - i - 1
+                break
+            }
+        }
+        Log.d(TAG, "Opening page $url (pop count $toPop)")
+        if (toPop >= 0) {
+            while (toPop-- > 0) {
+                pageStack.pop()
+            }
+            updateFragmentState(FragmentUpdateReason.PAGE_UPDATE)
+            updateConnectionState()
+            activity.updateTitle()
+        } else {
+            // we didn't find it
+            temporaryPage = WidgetListFragment.withPage(url, null!!)
+            // no fragment update yet; fragment state will be updated when data arrives
+            handleNewWidgetFragment(temporaryPage as WidgetListFragment)
+            activity.setProgressIndicatorVisible(true)
+        }
+    }
+
+    fun showHabpanel() {
+        showTemporaryPage(WebViewFragment.newInstance(R.string.mainmenu_openhab_habpanel,
+                R.string.habpanel_error,
+                "/habpanel/index.html", "/rest/events"))
+    }
+
+    /**
+     * Indicate to the user that no network connectivity is present.
+     *
+     * @param message Error message to show
+     * @param shouldSuggestEnablingWifi
+     */
+    fun indicateNoNetwork(message: CharSequence, shouldSuggestEnablingWifi: Boolean) {
+        Log.d(TAG, "Indicate no network (message $message)")
+        resetState()
+        if (shouldSuggestEnablingWifi) {
+            noConnectionFragment = EnableWifiNetworkFragment.newInstance(message)
+        } else {
+            noConnectionFragment = NoNetworkFragment.newInstance(message)
+        }
+        updateFragmentState(FragmentUpdateReason.PAGE_UPDATE)
+        activity.updateTitle()
+    }
+
+    /**
+     * Indicate to the user that server configuration is missing.
+     *
+     * @param resolveAttempted Indicate if discovery was attempted, but not successful
+     */
+    fun indicateMissingConfiguration(resolveAttempted: Boolean) {
+        Log.d(TAG, "Indicate missing configuration (resolveAttempted "
+                + resolveAttempted + ")")
+        resetState()
+        val wifiManager = activity.applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
+        noConnectionFragment = MissingConfigurationFragment
+                .newInstance(activity, resolveAttempted, wifiManager.isWifiEnabled)
+        updateFragmentState(FragmentUpdateReason.PAGE_UPDATE)
+        activity.updateTitle()
+    }
+
+    /**
+     * Indicate to the user that there was a failure in talking to the server
+     *
+     * @param message Error message to show
+     */
+    fun indicateServerCommunicationFailure(message: CharSequence) {
+        Log.d(TAG, "Indicate server failure (message $message)")
+        noConnectionFragment = CommunicationFailureFragment.newInstance(message)
+        updateFragmentState(FragmentUpdateReason.PAGE_UPDATE)
+        activity.updateTitle()
+    }
+
+    /**
+     * Clear the error previously set by [.indicateServerCommunicationFailure]
+     */
+    fun clearServerCommunicationFailure() {
+        if (noConnectionFragment is CommunicationFailureFragment) {
+            noConnectionFragment = null
+            updateFragmentState(FragmentUpdateReason.PAGE_UPDATE)
+            activity.updateTitle()
+        }
+    }
+
+    /**
+     * Update the used connection.
+     * To be called when the available connection changes.
+     *
+     * @param connection New connection to use; might be null if none is currently available
+     * @param progressMessage Message to show to the user if no connection is available
+     */
+    fun updateConnection(connection: Connection?, progressMessage: CharSequence?,
+                         @DrawableRes icon: Int) {
+        Log.d(TAG, "Update to connection $connection (message $progressMessage)")
+        if (connection == null) {
+            noConnectionFragment = ProgressFragment.newInstance(progressMessage, icon)
+        } else {
+            noConnectionFragment = null
+        }
+        resetState()
+        updateFragmentState(FragmentUpdateReason.PAGE_UPDATE)
+        // Make sure dropped fragments are destroyed immediately to get their views recycled
+        fm.executePendingTransactions()
+    }
+
+    /**
+     * Open a temporary page showing the notification list
+     *
+     * @param highlightedId ID of notification to be highlighted initially
+     */
+    fun openNotifications(highlightedId: String?) {
+        showTemporaryPage(CloudNotificationListFragment.newInstance(highlightedId))
+    }
+
+    /**
+     * Recreate all UI state
+     * To be called from the activity's onCreate callback if the used controller changes
+     */
+    fun recreateFragmentState() {
+        val ft = fm.beginTransaction()
+        for (f in fm.fragments) {
+            if (!f.retainInstance) {
+                ft.remove(f)
+            }
+        }
+        ft.commitNow()
+
+        updateFragmentState(FragmentUpdateReason.PAGE_UPDATE)
+    }
+
+    /**
+     * Inflate controller views
+     * To be called after activity content view inflation
+     *
+     * @param stub View stub to inflate controller views into
+     */
+    abstract fun inflateViews(stub: ViewStub)
+
+    /**
+     * Ask the connection controller to deliver content updates for a given page
+     *
+     * @param pageUrl URL of the content page
+     * @param forceReload Whether to discard previously cached state
+     */
+    fun triggerPageUpdate(pageUrl: String, forceReload: Boolean) {
+        connectionFragment.triggerUpdate(pageUrl, forceReload)
+    }
+
+    /**
+     * Checks whether the controller currently can consume the back key
+     *
+     * @return true if back key can be consumed, false otherwise
+     */
+    fun canGoBack(): Boolean {
+        return temporaryPage != null || !pageStack.empty()
+    }
+
+    /**
+     * Consumes the back key
+     * To be called from activity onBackKeyPressed callback
+     *
+     * @return true if back key was consumed, false otherwise
+     */
+    fun goBack(): Boolean {
+        if (temporaryPage is WebViewFragment) {
+            if ((temporaryPage as WebViewFragment).goBack()) {
+                return true
+            }
+        }
+        if (temporaryPage != null) {
+            temporaryPage = null
+            activity.updateTitle()
+            updateFragmentState(FragmentUpdateReason.PAGE_UPDATE)
+            updateConnectionState()
+            return true
+        }
+        if (!pageStack.empty()) {
+            pageStack.pop()
+            activity.updateTitle()
+            updateFragmentState(FragmentUpdateReason.BACK_NAVIGATION)
+            updateConnectionState()
+            return true
+        }
+        return false
+    }
+
+    override fun serverReturnsJson(): Boolean {
+        val props = activity.serverProperties
+        return props != null && props.hasJsonApi()
+    }
+
+    override fun serverSupportsSse(): Boolean {
+        val props = activity.serverProperties
+        return props != null && props.hasSseSupport()
+    }
+
+    override fun onPageUpdated(pageUrl: String, pageTitle: String?, widgets: List<Widget>) {
+        Log.d(TAG, "Got update for URL $pageUrl, pending $pendingDataLoadUrls")
+        val fragment = findWidgetFragmentForUrl(pageUrl)
+        if (fragment != null) {
+            fragment.updateTitle(pageTitle ?: "")
+            fragment.updateWidgets(widgets)
+        }
+        if (pendingDataLoadUrls.remove(pageUrl) && pendingDataLoadUrls.isEmpty()) {
+            activity.setProgressIndicatorVisible(false)
+            activity.updateTitle()
+            if (fragment != null && fragment == temporaryPage) {
+                updateFragmentState(FragmentUpdateReason.TEMPORARY_PAGE);
+            } else if (pageStack.isEmpty()) {
+                updateFragmentState(FragmentUpdateReason.PAGE_UPDATE);
+            } else {
+                updateFragmentState(FragmentUpdateReason.PAGE_ENTER);
+            }
+        }
+    }
+
+    override fun onWidgetUpdated(pageUrl: String, widget: Widget) {
+        findWidgetFragmentForUrl(pageUrl)?.updateWidget(widget)
+    }
+
+    override fun onPageTitleUpdated(pageUrl: String, title: String) {
+        findWidgetFragmentForUrl(pageUrl)?.updateTitle(title)
+    }
+
+    override fun onLoadFailure(url: String, statusCode: Int, error: Throwable) {
+        val errorMessage = Util.getHumanReadableErrorMessage(activity, url, statusCode, error)
+                .toString()
+
+        noConnectionFragment = CommunicationFailureFragment.newInstance(
+                activity.getString(R.string.error_sitemap_generic_load_error, errorMessage))
+        updateFragmentState(FragmentUpdateReason.PAGE_UPDATE)
+        activity.updateTitle()
+    }
+
+    internal abstract fun executeStateUpdate(reason: FragmentUpdateReason, allowStateLoss: Boolean)
+
+    internal fun updateFragmentState(reason: FragmentUpdateReason) {
+        // Allow state loss if activity is still started, as we'll get
+        // another onSaveInstanceState() callback on activity stop
+        executeStateUpdate(reason, activity.isStarted)
+    }
+
+    private fun handleNewWidgetFragment(f: WidgetListFragment) {
+        pendingDataLoadUrls.add(f.displayPageUrl)
+        // no fragment update yet; fragment state will be updated when data arrives
+        updateConnectionState()
+    }
+
+    private fun showTemporaryPage(page: Fragment) {
+        temporaryPage = page
+        updateFragmentState(FragmentUpdateReason.TEMPORARY_PAGE)
+        updateConnectionState()
+        activity.updateTitle()
+    }
+
+    protected fun updateConnectionState() {
+        val pageUrls = ArrayList<String>()
+        for (f in collectWidgetFragments()) {
+            pageUrls.add(f.displayPageUrl)
+        }
+        val pendingIter = pendingDataLoadUrls.iterator()
+        while (pendingIter.hasNext()) {
+            if (!pageUrls.contains(pendingIter.next())) {
+                pendingIter.remove()
+            }
+        }
+        connectionFragment.updateActiveConnections(pageUrls, activity.connection)
+    }
+
+    private fun resetState() {
+        currentSitemap = null
+        sitemapFragment = null
+        pageStack.clear()
+        updateConnectionState()
+    }
+
+    private fun findWidgetFragmentForUrl(url: String): WidgetListFragment? {
+        return collectWidgetFragments().firstOrNull{ f -> f.displayPageUrl == url }
+    }
+
+    private fun collectWidgetFragments(): List<WidgetListFragment> {
+        val result = ArrayList<WidgetListFragment>()
+        if (sitemapFragment != null) {
+            result.add(sitemapFragment!!)
+        }
+        for ((_, fragment) in pageStack) {
+            result.add(fragment)
+        }
+        if (temporaryPage is WidgetListFragment) {
+            result.add(temporaryPage as WidgetListFragment)
+        }
+        return result
+    }
+
+    private fun makeSitemapFragment(sitemap: Sitemap): WidgetListFragment {
+        return WidgetListFragment.withPage(sitemap.homepageLink!!, sitemap.label)
+    }
+
+    private fun makePageFragment(page: LinkedPage): WidgetListFragment {
+        return WidgetListFragment.withPage(page.link!!, page.title!!)
+    }
+
+    internal enum class FragmentUpdateReason {
+        PAGE_ENTER,
+        BACK_NAVIGATION,
+        TEMPORARY_PAGE,
+        PAGE_UPDATE
+    }
+
+    internal class CommunicationFailureFragment : StatusFragment() {
+        override fun onClick(view: View) {
+            (activity as MainActivity).retryServerPropertyQuery()
+        }
+
+        companion object {
+            fun newInstance(message: CharSequence): CommunicationFailureFragment {
+                val f = CommunicationFailureFragment()
+                f.arguments = ContentController.StatusFragment.buildArgs(message, R.string.try_again_button,
+                        R.drawable.ic_openhab_appicon_340dp /* FIXME */,
+                        false)
+                return f
+            }
+        }
+    }
+
+    internal class ProgressFragment : StatusFragment() {
+        override fun onClick(view: View) {
+            // No-op, we don't show the button
+        }
+
+        companion object {
+            fun newInstance(message: CharSequence?, @DrawableRes image: Int): ProgressFragment {
+                val f = ProgressFragment()
+                f.arguments = ContentController.StatusFragment.buildArgs(message, 0, image, true)
+                return f
+            }
+        }
+    }
+
+    internal class NoNetworkFragment : StatusFragment() {
+        override fun onClick(view: View) {
+            ConnectionFactory.restartNetworkCheck()
+            activity!!.recreate()
+        }
+
+        companion object {
+            fun newInstance(message: CharSequence): NoNetworkFragment {
+                val f = NoNetworkFragment()
+                f.arguments = ContentController.StatusFragment.buildArgs(message, R.string.try_again_button,
+                        R.drawable.ic_network_strength_off_outline_black_24dp, false)
+                return f
+            }
+        }
+    }
+
+    internal class EnableWifiNetworkFragment : StatusFragment() {
+        override fun onClick(view: View) {
+            (activity as MainActivity).enableWifiAndIndicateStartup()
+        }
+
+        companion object {
+            fun newInstance(message: CharSequence): EnableWifiNetworkFragment {
+                val f = EnableWifiNetworkFragment()
+                f.arguments = ContentController.StatusFragment.buildArgs(message, R.string.enable_wifi_button,
+                        R.drawable.ic_wifi_strength_off_outline_black_24dp, false)
+                return f
+            }
+        }
+    }
+
+    internal class MissingConfigurationFragment : StatusFragment() {
+        override fun onClick(view: View) {
+            if (view.id == R.id.button1) {
+                // Primary button always goes to settings
+                val preferencesIntent = Intent(activity, PreferencesActivity::class.java)
+                TaskStackBuilder.create(activity!!)
+                        .addNextIntentWithParentStack(preferencesIntent)
+                        .startActivities()
+            } else if (arguments!!.getBoolean(ContentController.StatusFragment.KEY_RESOLVE_ATTEMPTED)) {
+                // If we attempted resolving, secondary button enables demo mode
+                PreferenceManager.getDefaultSharedPreferences(context)
+                        .edit()
+                        .putBoolean(Constants.PREFERENCE_DEMOMODE, true)
+                        .apply()
+            } else if (arguments!!.getBoolean(ContentController.StatusFragment.KEY_WIFI_ENABLED)) {
+                // If Wifi is enabled, secondary button suggests retrying
+                ConnectionFactory.restartNetworkCheck()
+                activity!!.recreate()
+            } else {
+                // If Wifi is disabled, secondary button suggests enabling Wifi
+                (activity as MainActivity).enableWifiAndIndicateStartup()
+            }
+        }
+
+        companion object {
+            fun newInstance(context: Context,
+                            resolveAttempted: Boolean, hasWifiEnabled: Boolean): MissingConfigurationFragment {
+                val f = MissingConfigurationFragment()
+                val args: Bundle
+                if (resolveAttempted) {
+                    args = ContentController.StatusFragment.buildArgs(context.getString(R.string.configuration_missing),
+                            R.string.go_to_settings_button, R.string.enable_demo_mode_button,
+                            R.drawable.ic_openhab_appicon_340dp /* FIXME */, false)
+                } else if (hasWifiEnabled) {
+                    args = ContentController.StatusFragment.buildArgs(context.getString(R.string.no_remote_server),
+                            R.string.go_to_settings_button, R.string.try_again_button,
+                            R.drawable.ic_network_strength_off_outline_black_24dp, false)
+                } else {
+                    args = ContentController.StatusFragment.buildArgs(context.getString(R.string.no_remote_server),
+                            R.string.go_to_settings_button, R.string.enable_wifi_button,
+                            R.drawable.ic_wifi_strength_off_outline_black_24dp, false)
+                }
+                args.putBoolean(ContentController.StatusFragment.KEY_RESOLVE_ATTEMPTED, resolveAttempted)
+                args.putBoolean(ContentController.StatusFragment.KEY_WIFI_ENABLED, hasWifiEnabled)
+                f.arguments = args
+
+                return f
+            }
+        }
+    }
+
+    internal abstract class StatusFragment : Fragment(), View.OnClickListener {
+        override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+                                  savedInstanceState: Bundle?): View? {
+            val arguments = arguments!!
+            val view = inflater.inflate(R.layout.fragment_status, container, false)
+
+            val descriptionText = view.findViewById<TextView>(R.id.description)
+            val message = arguments.getCharSequence(KEY_MESSAGE)
+            if (!TextUtils.isEmpty(message)) {
+                descriptionText.text = message
+            } else {
+                descriptionText.visibility = View.GONE
+            }
+
+            view.findViewById<View>(R.id.progress).visibility = if (arguments.getBoolean(KEY_PROGRESS)) View.VISIBLE else View.GONE
+
+            val watermark = view.findViewById<ImageView>(R.id.image)
+            @DrawableRes val drawableResId = arguments.getInt(KEY_DRAWABLE)
+            if (drawableResId != 0) {
+                val drawable = ContextCompat.getDrawable(activity!!, drawableResId)
+                drawable?.setColorFilter(
+                        ContextCompat.getColor(activity!!, R.color.empty_list_text_color),
+                        PorterDuff.Mode.SRC_IN)
+                watermark.setImageDrawable(drawable)
+            } else {
+                watermark.visibility = View.GONE
+            }
+
+            initButton(arguments, view, R.id.button1, KEY_BUTTON_1_TEXT)
+            initButton(arguments, view, R.id.button2, KEY_BUTTON_2_TEXT)
+
+            return view
+        }
+
+        /**
+         * Set button text and tag or hide button.
+         *
+         * @return true if button is shown, false if not.
+         */
+        private fun initButton(arguments: Bundle, view: View, @IdRes buttonId: Int,
+                               titleKey: String): Boolean {
+            val button = view.findViewById<Button>(buttonId)
+            val buttonTextResId = arguments.getInt(titleKey)
+            if (buttonTextResId != 0) {
+                button.setText(buttonTextResId)
+                button.setOnClickListener(this)
+                return true
+            } else {
+                button.visibility = View.GONE
+                return false
+            }
+        }
+
+        companion object {
+            internal val KEY_MESSAGE = "message"
+            internal val KEY_DRAWABLE = "drawable"
+            internal val KEY_BUTTON_1_TEXT = "button1text"
+            internal val KEY_BUTTON_2_TEXT = "button2text"
+            internal val KEY_PROGRESS = "progress"
+            internal val KEY_RESOLVE_ATTEMPTED = "resolveAttempted"
+            internal val KEY_WIFI_ENABLED = "wifiEnabled"
+
+            internal fun buildArgs(message: CharSequence?, @StringRes buttonTextResId: Int,
+                                    @DrawableRes drawableResId: Int, showProgress: Boolean): Bundle {
+                return buildArgs(message, buttonTextResId,
+                        0, drawableResId, showProgress)
+            }
+
+            internal fun buildArgs(message: CharSequence?,
+                                    @StringRes button1TextResId: Int, @StringRes button2TextResId: Int,
+                                    @DrawableRes drawableResId: Int, showProgress: Boolean): Bundle {
+                val args = Bundle()
+                args.putCharSequence(KEY_MESSAGE, message)
+                args.putInt(KEY_DRAWABLE, drawableResId)
+                args.putInt(KEY_BUTTON_1_TEXT, button1TextResId)
+                args.putInt(KEY_BUTTON_2_TEXT, button2TextResId)
+                args.putBoolean(KEY_PROGRESS, showProgress)
+                return args
+            }
+        }
+    }
+
+    companion object {
+        private val TAG = ContentController::class.java.simpleName
+
+        @AnimRes
+        internal fun determineEnterAnim(reason: FragmentUpdateReason): Int {
+            when (reason) {
+                ContentController.FragmentUpdateReason.PAGE_ENTER -> return R.anim.slide_in_right
+                ContentController.FragmentUpdateReason.TEMPORARY_PAGE -> return R.anim.slide_in_bottom
+                ContentController.FragmentUpdateReason.BACK_NAVIGATION -> return R.anim.slide_in_left
+                else -> return 0
+            }
+        }
+
+        @AnimRes
+        internal fun determineExitAnim(reason: FragmentUpdateReason): Int {
+            when (reason) {
+                ContentController.FragmentUpdateReason.PAGE_ENTER -> return R.anim.slide_out_left
+                ContentController.FragmentUpdateReason.TEMPORARY_PAGE -> return R.anim.slide_out_bottom
+                ContentController.FragmentUpdateReason.BACK_NAVIGATION -> return R.anim.slide_out_right
+                else -> return 0
+            }
+        }
+
+        internal fun determineTransition(reason: FragmentUpdateReason): Int {
+            when (reason) {
+                ContentController.FragmentUpdateReason.PAGE_ENTER -> return FragmentTransaction.TRANSIT_FRAGMENT_OPEN
+                ContentController.FragmentUpdateReason.BACK_NAVIGATION -> return FragmentTransaction.TRANSIT_FRAGMENT_CLOSE
+                else -> return FragmentTransaction.TRANSIT_FRAGMENT_FADE
+            }
+        }
+    }
+}

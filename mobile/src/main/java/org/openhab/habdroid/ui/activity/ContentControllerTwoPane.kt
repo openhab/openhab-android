@@ -1,0 +1,110 @@
+/*
+ * Copyright (c) 2018, openHAB.org and others.
+ *
+ *   All rights reserved. This program and the accompanying materials
+ *   are made available under the terms of the Eclipse Public License v1.0
+ *   which accompanies this distribution, and is available at
+ *   http://www.eclipse.org/legal/epl-v10.html
+ */
+
+package org.openhab.habdroid.ui.activity
+
+import android.os.Bundle
+import android.view.View
+import android.view.ViewStub
+
+import org.openhab.habdroid.R
+import org.openhab.habdroid.model.LinkedPage
+import org.openhab.habdroid.ui.MainActivity
+import org.openhab.habdroid.ui.WidgetListFragment
+
+// instantiated via reflection
+class ContentControllerTwoPane(activity: MainActivity) : ContentController(activity) {
+    private lateinit var rightContentView: View
+
+    override val fragmentForTitle: WidgetListFragment?
+        get() = if (pageStack.size > 1) pageStack.get(pageStack.size - 2).second else sitemapFragment
+
+    override fun onRestoreInstanceState(state: Bundle) {
+        super.onRestoreInstanceState(state)
+        val rightPaneVisible = fm.findFragmentById(R.id.content_right) != null
+        rightContentView.visibility = if (rightPaneVisible) View.VISIBLE else View.GONE
+    }
+
+    override fun executeStateUpdate(reason: ContentController.FragmentUpdateReason, allowStateLoss: Boolean) {
+        var leftFragment = overridingFragment
+        val rightFragment: WidgetListFragment?
+        val rightPair: Pair<LinkedPage, WidgetListFragment>?
+
+        if (leftFragment != null) {
+            rightFragment = null
+            rightPair = null
+        } else if (sitemapFragment != null) {
+            rightPair = if (pageStack.empty()) null else pageStack.peek()
+            leftFragment = fragmentForTitle
+            rightFragment = rightPair?.second
+        } else {
+            leftFragment = defaultProgressFragment
+            rightFragment = null
+            rightPair = null
+        }
+
+        val currentLeftFragment = fm.findFragmentById(R.id.content_left)
+        val currentRightFragment = fm.findFragmentById(R.id.content_right)
+
+        val removeTransaction = fm.beginTransaction()
+        var needRemove = false
+        if (currentLeftFragment != null && currentLeftFragment !== leftFragment) {
+            removeTransaction.remove(currentLeftFragment)
+            needRemove = true
+        }
+        if (currentRightFragment != null && currentRightFragment !== rightFragment) {
+            removeTransaction.remove(currentRightFragment)
+            needRemove = true
+        }
+        if (needRemove) {
+            if (allowStateLoss) {
+                removeTransaction.commitNowAllowingStateLoss()
+            } else {
+                removeTransaction.commitNow()
+            }
+        }
+
+        val ft = fm.beginTransaction()
+        ft.setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right)
+        if (leftFragment != null) {
+            ft.setCustomAnimations(ContentController.determineEnterAnim(reason), ContentController.determineExitAnim(reason))
+            ft.replace(R.id.content_left, leftFragment)
+            if (leftFragment is WidgetListFragment) {
+                leftFragment.setHighlightedPageLink(rightPair?.first?.link)
+            }
+        }
+        if (rightFragment != null) {
+            ft.setCustomAnimations(0, 0)
+            ft.replace(R.id.content_right, rightFragment)
+            rightFragment.setHighlightedPageLink(null)
+        }
+        if (allowStateLoss) {
+            ft.commitAllowingStateLoss()
+        } else {
+            ft.commit()
+        }
+
+        rightContentView.visibility = if (rightFragment != null) View.VISIBLE else View.GONE
+    }
+
+    override fun openPage(page: LinkedPage, source: WidgetListFragment) {
+        val currentLeftFragment = fm.findFragmentById(R.id.content_left)
+        if (source === currentLeftFragment && !pageStack.empty()) {
+            pageStack.pop()
+        }
+        super.openPage(page, source)
+    }
+
+    override fun inflateViews(stub: ViewStub) {
+        stub.layoutResource = R.layout.content_twopane
+        val view = stub.inflate()
+        rightContentView = view.findViewById(R.id.content_right)
+        rightContentView.visibility = View.GONE
+    }
+}

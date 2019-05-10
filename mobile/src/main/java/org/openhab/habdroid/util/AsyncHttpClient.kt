@@ -41,7 +41,7 @@ class AsyncHttpClient(client: OkHttpClient, baseUrl: String?, username: String?,
         @Throws(IOException::class)
         fun convertBodyInBackground(body: ResponseBody): T
 
-        fun onFailure(request: Request, statusCode: Int, error: Throwable?)
+        fun onFailure(request: Request, statusCode: Int, error: Throwable)
         fun onSuccess(body: T, headers: Headers)
     }
 

@@ -159,7 +159,7 @@ class CloudNotificationListFragment : Fragment(), View.OnClickListener, SwipeRef
 
             }
 
-            override fun onFailure(request: Request, statusCode: Int, error: Throwable?) {
+            override fun onFailure(request: Request, statusCode: Int, error: Throwable) {
                 updateViewVisibility(false, true)
                 Log.e(TAG, "Notifications request failure", error)
             }

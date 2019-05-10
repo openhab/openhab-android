@@ -185,7 +185,7 @@ class AboutActivity : AbstractBaseActivity(), FragmentManager.OnBackStackChanged
                 ohServerCard.addItem(apiVersionItem)
                 val versionUrl = if (useJsonApi()) "rest" else "static/version"
                 httpClient.get(versionUrl, object : AsyncHttpClient.StringResponseHandler() {
-                    override fun onFailure(request: Request, statusCode: Int, error: Throwable?) {
+                    override fun onFailure(request: Request, statusCode: Int, error: Throwable) {
                         Log.e(TAG, "Could not rest API version $error")
                         apiVersionItem.setSubText(getString(R.string.error_about_no_conn))
                         refreshMaterialAboutList()
@@ -222,7 +222,7 @@ class AboutActivity : AbstractBaseActivity(), FragmentManager.OnBackStackChanged
                 ohServerCard.addItem(uuidItem);
                 val uuidUrl = if (useJsonApi()) "rest/uuid" else "static/uuid"
                 httpClient.get(uuidUrl, object : AsyncHttpClient.StringResponseHandler() {
-                    override fun onFailure(request: Request, statusCode: Int, error: Throwable?) {
+                    override fun onFailure(request: Request, statusCode: Int, error: Throwable) {
                         Log.e(TAG, "Could not fetch uuid $error")
                         uuidItem.setSubText(getString(R.string.error_about_no_conn))
                         refreshMaterialAboutList()
@@ -243,7 +243,7 @@ class AboutActivity : AbstractBaseActivity(), FragmentManager.OnBackStackChanged
                             .build();
                     ohServerCard.addItem(secretItem);
                     httpClient.get("static/secret", object : AsyncHttpClient.StringResponseHandler() {
-                        override fun onFailure(request: Request, statusCode: Int, error: Throwable?) {
+                        override fun onFailure(request: Request, statusCode: Int, error: Throwable) {
                             Log.e(TAG, "Could not fetch server secret $error")
                             secretItem.setSubText(getString(R.string.error_about_no_conn))
                             refreshMaterialAboutList()

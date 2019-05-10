@@ -126,9 +126,9 @@ object Util {
         return sitemapList
     }
 
-    fun sortSitemapList(sitemapList: MutableList<Sitemap>, defaultSitemapName: String) {
+    fun sortedSitemapList(sitemapList: List<Sitemap>, defaultSitemapName: String): List<Sitemap> {
         // Sort by sitename label, the default sitemap should be the first one
-        sitemapList.sortWith(object: Comparator<Sitemap> {
+        return sitemapList.sortedWith(object: Comparator<Sitemap> {
             override fun compare(lhs: Sitemap, rhs: Sitemap): Int = when {
                 lhs.name == defaultSitemapName -> -1
                 rhs.name == defaultSitemapName -> 1
@@ -201,7 +201,7 @@ object Util {
         }
         client.post(itemUrl, command, "text/plain;charset=UTF-8",
                 object : AsyncHttpClient.StringResponseHandler() {
-                    override fun onFailure(request: Request, statusCode: Int, error: Throwable?) {
+                    override fun onFailure(request: Request, statusCode: Int, error: Throwable) {
                         Log.e(TAG, "Sending command $command to $itemUrl failed: status $statusCode", error);
                     }
 

@@ -247,7 +247,7 @@ class WidgetImageView @JvmOverloads constructor(context: Context, attrs: Attribu
             AsyncHttpClient.BitmapResponseHandler(size) {
         private var call: Call? = null
 
-        override fun onFailure(request: Request, statusCode: Int, error: Throwable?) {
+        override fun onFailure(request: Request, statusCode: Int, error: Throwable) {
             removeProgressDrawable()
             applyFallbackDrawable()
             call = null

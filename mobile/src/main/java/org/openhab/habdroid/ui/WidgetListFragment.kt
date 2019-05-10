@@ -78,7 +78,7 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener {
         Log.d(TAG, "onActivityCreated() " + pageUrl)
         mainActivity = activity as MainActivity
 
-        adapter = WidgetAdapter(mainActivity, mainActivity.connection, this)
+        adapter = WidgetAdapter(mainActivity, mainActivity.connection!!, this)
 
         layoutManager = LinearLayoutManager(mainActivity)
         layoutManager.recycleChildrenOnDetach = true
