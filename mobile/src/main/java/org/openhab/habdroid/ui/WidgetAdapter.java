@@ -780,6 +780,31 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
         }
 
         @Override
+        protected void handleRowClick() {
+            int visibleChildCount = getVisibleViewCount();
+            if (visibleChildCount == 1) {
+                onClick(mRadioGroup.getChildAt(0));
+            } else if (visibleChildCount == 2) {
+                String state = mBoundItem.state().asString();
+                if (state.equals(mRadioGroup.getChildAt(0).getTag().toString())) {
+                    onClick(mRadioGroup.getChildAt(1));
+                } else if (state.equals(mRadioGroup.getChildAt(1).getTag().toString())) {
+                    onClick(mRadioGroup.getChildAt(0));
+                }
+            }
+        }
+
+        private int getVisibleViewCount() {
+            int count = 0;
+            for (int i = 0; i < mRadioGroup.getChildCount(); i++) {
+                if (mRadioGroup.getChildAt(i).getVisibility() == View.VISIBLE) {
+                    count++;
+                }
+            }
+            return count;
+        }
+
+        @Override
         public void onClick(View view) {
             final String cmd = (String) view.getTag();
             Util.sendItemCommand(mConnection.getAsyncHttpClient(), mBoundItem, cmd);
