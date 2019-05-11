@@ -72,7 +72,7 @@ public class Util {
                 normalizedUrl = normalizedUrl + "/";
             }
         } catch (MalformedURLException e) {
-            Log.e(TAG, "normalizeUrl: invalid URL");
+            Log.d(TAG, "normalizeUrl(): Invalid URL '" + sourceUrl + "'");
         }
         return normalizedUrl;
     }
