@@ -171,26 +171,39 @@ public class WidgetListFragment extends Fragment
                         labels.add(maxValue);
                         commands.add(maxValue);
                     }
+
+                    if (widget.switchSupport()) {
+                        labels.add(getString(R.string.nfc_action_on));
+                        commands.add("ON");
+                        labels.add(getString(R.string.nfc_action_off));
+                        commands.add("OFF");
+                    }
                 }
             }
         }
-        labels.add(getString(R.string.nfc_action_to_sitemap_page));
 
-        final String[] labelArray = labels.toArray(new String[0]);
-        new AlertDialog.Builder(getActivity())
-                .setTitle(R.string.nfc_dialog_title)
-                .setItems(labelArray, (dialog, which) -> {
-                    Intent writeTagIntent = new Intent(getActivity(), WriteTagActivity.class);
-                    writeTagIntent.putExtra("sitemapPage", mPageUrl);
+        if (widget.linkedPage() != null) {
+            labels.add(getString(R.string.nfc_action_to_sitemap_page));
+        }
 
-                    if (which < labelArray.length - 1) {
-                        writeTagIntent.putExtra("item", widget.item().name());
-                        writeTagIntent.putExtra("itemType", widget.item().type());
-                        writeTagIntent.putExtra("command", commands.get(which));
-                    }
-                    startActivityForResult(writeTagIntent, 0);
-                })
-                .show();
+        if (!labels.isEmpty()) {
+            final String[] labelArray = labels.toArray(new String[0]);
+            new AlertDialog.Builder(getActivity())
+                    .setTitle(R.string.nfc_dialog_title)
+                    .setItems(labelArray, (dialog, which) -> {
+                        final Intent writeTagIntent;
+                        if (which < commands.size()) {
+                            writeTagIntent = WriteTagActivity.createItemUpdateIntent(getActivity(),
+                                    widget.item().name(), commands.get(which),
+                                    labels.get(which), widget.item().label());
+                        } else {
+                            writeTagIntent = WriteTagActivity.createSitemapNavigationIntent(
+                                    getActivity(), widget.linkedPage().link());
+                        }
+                        startActivityForResult(writeTagIntent, 0);
+                    })
+                    .show();
+        }
     }
 
     @Override

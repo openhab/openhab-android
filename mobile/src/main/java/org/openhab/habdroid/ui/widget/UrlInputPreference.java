@@ -11,7 +11,6 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-
 import androidx.annotation.StringRes;
 
 import org.openhab.habdroid.R;

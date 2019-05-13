@@ -15,16 +15,14 @@ import android.os.Handler;
 import android.os.Looper;
 import android.speech.RecognizerIntent;
 import android.util.Log;
-import android.widget.Toast;
 import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
 
-import es.dmoral.toasty.Toasty;
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.core.connection.Connection;
 import org.openhab.habdroid.core.connection.ConnectionFactory;
 import org.openhab.habdroid.core.connection.exception.ConnectionException;
 import org.openhab.habdroid.util.SyncHttpClient;
+import org.openhab.habdroid.util.Util;
 
 import java.util.HashMap;
 import java.util.List;
@@ -35,7 +33,6 @@ import java.util.Locale;
  */
 public class VoiceService extends IntentService {
     private static final String TAG = VoiceService.class.getSimpleName();
-    private Handler mHandler = new Handler(Looper.getMainLooper());
 
     public VoiceService() {
         super("VoiceService");
@@ -60,7 +57,7 @@ public class VoiceService extends IntentService {
         if (connection != null) {
             sendVoiceCommand(connection.getSyncHttpClient(), voiceCommand);
         } else {
-            showToast(getString(R.string.error_couldnt_determine_openhab_url));
+            Util.showToast(this, getString(R.string.error_couldnt_determine_openhab_url));
         }
     }
 
@@ -71,7 +68,7 @@ public class VoiceService extends IntentService {
             voiceCommand = textMatchList.get(0);
         }
         Log.i(TAG, "Recognized text: " + voiceCommand);
-        showToast(getString(R.string.info_voice_recognized_text, voiceCommand));
+        Util.showToast(this, getString(R.string.info_voice_recognized_text, voiceCommand));
         return voiceCommand;
     }
 
@@ -90,11 +87,5 @@ public class VoiceService extends IntentService {
         } else {
             Log.e(TAG, "Sending voice command failed", result.error);
         }
-    }
-
-    private void showToast(CharSequence text) {
-        mHandler.post(() -> Toasty.custom(this, text, R.drawable.ic_openhab_appicon_24dp,
-                ContextCompat.getColor(this, R.color.openhab_orange), Toast.LENGTH_SHORT,
-                true, true).show());
     }
 }

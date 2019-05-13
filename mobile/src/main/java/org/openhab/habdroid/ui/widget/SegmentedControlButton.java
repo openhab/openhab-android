@@ -23,7 +23,6 @@ import android.graphics.Paint;
 import android.graphics.Paint.Style;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
-
 import androidx.annotation.ColorInt;
 import androidx.annotation.IdRes;
 import androidx.appcompat.content.res.AppCompatResources;

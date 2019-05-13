@@ -13,7 +13,6 @@ import androidx.annotation.VisibleForTesting;
 
 import com.here.oksse.OkSse;
 import com.here.oksse.ServerSentEvent;
-
 import okhttp3.CacheControl;
 import okhttp3.Call;
 import okhttp3.Credentials;

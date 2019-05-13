@@ -71,6 +71,7 @@ import com.google.android.material.snackbar.Snackbar;
 import okhttp3.Headers;
 import okhttp3.Request;
 import org.openhab.habdroid.R;
+import org.openhab.habdroid.background.BackgroundTasksManager;
 import org.openhab.habdroid.core.CloudMessagingHelper;
 import org.openhab.habdroid.core.OnUpdateBroadcastReceiver;
 import org.openhab.habdroid.core.VoiceService;
@@ -83,6 +84,7 @@ import org.openhab.habdroid.core.connection.exception.NetworkNotAvailableExcepti
 import org.openhab.habdroid.core.connection.exception.NetworkNotSupportedException;
 import org.openhab.habdroid.core.connection.exception.NoUrlInformationException;
 import org.openhab.habdroid.model.LinkedPage;
+import org.openhab.habdroid.model.NfcTag;
 import org.openhab.habdroid.model.ServerProperties;
 import org.openhab.habdroid.model.Sitemap;
 import org.openhab.habdroid.ui.activity.ContentController;
@@ -111,6 +113,9 @@ public class MainActivity extends AbstractBaseActivity implements
             "org.openhab.habdroid.action.HABPANEL_SELECTED";
     public static final String ACTION_VOICE_RECOGNITION_SELECTED =
             "org.openhab.habdroid.action.VOICE_SELECTED";
+    public static final String ACTION_SITEMAP_SELECTED =
+            "org.openhab.habdroid.action.SITEMAP_SELECTED";
+    public static final String EXTRA_SITEMAP_URL = "sitemapUrl";
     public static final String EXTRA_PERSISTED_NOTIFICATION_ID = "persistedNotificationId";
 
     private static final String TAG = MainActivity.class.getSimpleName();
@@ -135,7 +140,7 @@ public class MainActivity extends AbstractBaseActivity implements
     private Snackbar mLastSnackbar;
     private Connection mConnection;
 
-    private Uri mPendingNfcData;
+    private String mPendingOpenSitemapUrl;
     private String mPendingOpenedNotificationId;
     private boolean mShouldOpenHabpanel;
     private boolean mShouldLaunchVoiceRecognition;
@@ -332,6 +337,7 @@ public class MainActivity extends AbstractBaseActivity implements
             }
             openHabpanelIfNeeded();
             launchVoiceRecognitionIfNeeded();
+            openPendingSitemapIfNeeded();
         };
         mPropsUpdateHandle = ServerProperties.fetch(mConnection,
                 successCb, this::handlePropertyFetchFailure);
@@ -366,8 +372,14 @@ public class MainActivity extends AbstractBaseActivity implements
         switch (action) {
             case NfcAdapter.ACTION_NDEF_DISCOVERED:
             case Intent.ACTION_VIEW:
-                mPendingNfcData = intent.getData();
-                openPendingNfcPageIfNeeded();
+                NfcTag tag = NfcTag.fromTagData(intent.getData());
+                BackgroundTasksManager.enqueueNfcUpdateIfNeeded(this, tag);
+
+                if (tag != null && !TextUtils.isEmpty(tag.sitemap())) {
+                    mPendingOpenSitemapUrl = tag.sitemap();
+                    openPendingSitemapIfNeeded();
+                }
+
                 break;
             case ACTION_NOTIFICATION_SELECTED:
                 CloudMessagingHelper.onNotificationSelected(this, intent);
@@ -381,6 +393,9 @@ public class MainActivity extends AbstractBaseActivity implements
                 mShouldLaunchVoiceRecognition = true;
                 launchVoiceRecognitionIfNeeded();
                 break;
+            case ACTION_SITEMAP_SELECTED:
+                mPendingOpenSitemapUrl = intent.getStringExtra(EXTRA_SITEMAP_URL);
+                openPendingSitemapIfNeeded();
             default:
                 break;
         }
@@ -457,7 +472,7 @@ public class MainActivity extends AbstractBaseActivity implements
         mSelectedSitemap = null;
 
         // Handle pending NFC tag if initial connection determination finished
-        openPendingNfcPageIfNeeded();
+        openPendingSitemapIfNeeded();
         openHabpanelIfNeeded();
         launchVoiceRecognitionIfNeeded();
 
@@ -531,7 +546,7 @@ public class MainActivity extends AbstractBaseActivity implements
             mController.clearServerCommunicationFailure();
             queryServerProperties();
         }
-        openPendingNfcPageIfNeeded();
+        openPendingSitemapIfNeeded();
         openNotificationsPageIfNeeded();
         openHabpanelIfNeeded();
         launchVoiceRecognitionIfNeeded();
@@ -589,6 +604,7 @@ public class MainActivity extends AbstractBaseActivity implements
                             mConnection,
                             props -> {
                                 mServerProperties = props;
+                                openPendingSitemapIfNeeded();
                                 updateSitemapAndHabpanelDrawerItems();
                             },
                             MainActivity.this::handlePropertyFetchFailure);
@@ -736,31 +752,11 @@ public class MainActivity extends AbstractBaseActivity implements
         }
     }
 
-    private void openPendingNfcPageIfNeeded() {
-        if (mPendingNfcData == null || mConnection == null || !mStarted) {
-            return;
+    private void openPendingSitemapIfNeeded() {
+        if (mStarted && mPendingOpenSitemapUrl != null && mServerProperties != null) {
+            buildUrlAndOpenSitemap(mPendingOpenSitemapUrl);
+            mPendingOpenSitemapUrl = null;
         }
-
-        Log.d(TAG, "NFC Scheme = " + mPendingNfcData.getScheme());
-        Log.d(TAG, "NFC Host = " + mPendingNfcData.getHost());
-        Log.d(TAG, "NFC Path = " + mPendingNfcData.getPath());
-        String nfcItem = mPendingNfcData.getQueryParameter("item");
-        String nfcCommand = mPendingNfcData.getQueryParameter("command");
-
-        // If there is no item parameter it means tag contains only sitemap page url
-        if (TextUtils.isEmpty(nfcItem)) {
-            Log.d(TAG, "This is a sitemap tag without parameters");
-            // Form the new sitemap page url
-            String newPageUrl = String.format(Locale.US,
-                    "rest/sitemaps%s", mPendingNfcData.getPath());
-            mController.openPage(newPageUrl);
-        } else {
-            Log.d(TAG, "Target item = " + nfcItem);
-            String url = String.format(Locale.US, "rest/items/%s", nfcItem);
-            Util.sendItemCommand(mConnection.getAsyncHttpClient(), url, nfcCommand);
-            finish();
-        }
-        mPendingNfcData = null;
     }
 
     private void openAbout() {
@@ -854,6 +850,11 @@ public class MainActivity extends AbstractBaseActivity implements
         }
         mSelectedSitemap = sitemap;
         mController.openSitemap(sitemap);
+    }
+
+    private void buildUrlAndOpenSitemap(String partUrl) {
+        String newPageUrl = String.format(Locale.US, "rest/sitemaps%s", partUrl);
+        mController.openPage(newPageUrl);
     }
 
     @Override

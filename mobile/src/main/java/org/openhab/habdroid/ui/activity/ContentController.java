@@ -219,7 +219,10 @@ public abstract class ContentController implements PageConnectionHolderFragment.
             mActivity.updateTitle();
         } else {
             // we didn't find it
-            showTemporaryPage(WidgetListFragment.withPage(url, null));
+            mTemporaryPage = WidgetListFragment.withPage(url, null);
+            // no fragment update yet; fragment state will be updated when data arrives
+            handleNewWidgetFragment((WidgetListFragment) mTemporaryPage);
+            mActivity.setProgressIndicatorVisible(true);
         }
     }
 
@@ -440,18 +443,26 @@ public abstract class ContentController implements PageConnectionHolderFragment.
     @Override
     public void onPageUpdated(String pageUrl, String pageTitle, List<Widget> widgets) {
         Log.d(TAG, "Got update for URL " + pageUrl + ", pending " + mPendingDataLoadUrls);
+        WidgetListFragment fragmentForUrl = null;
         for (WidgetListFragment f : collectWidgetFragments()) {
             if (pageUrl.equals(f.getDisplayPageUrl())) {
                 f.updateTitle(pageTitle);
                 f.updateWidgets(widgets);
+                fragmentForUrl = f;
                 break;
             }
         }
         if (mPendingDataLoadUrls.remove(pageUrl) && mPendingDataLoadUrls.isEmpty()) {
             mActivity.setProgressIndicatorVisible(false);
             mActivity.updateTitle();
-            updateFragmentState(mPageStack.isEmpty()
-                    ? FragmentUpdateReason.PAGE_UPDATE : FragmentUpdateReason.PAGE_ENTER);
+
+            if (fragmentForUrl != null && fragmentForUrl == mTemporaryPage) {
+                updateFragmentState(FragmentUpdateReason.TEMPORARY_PAGE);
+            } else if (mPageStack.isEmpty()) {
+                updateFragmentState(FragmentUpdateReason.PAGE_UPDATE);
+            } else {
+                updateFragmentState(FragmentUpdateReason.PAGE_ENTER);
+            }
         }
     }
 
