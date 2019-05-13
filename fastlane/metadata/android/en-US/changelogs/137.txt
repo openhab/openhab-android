@@ -1,0 +1,6 @@
+## Fixed
+* Implement row click action for section switch (#1331)
+* Crash when using voice recognition (#1302)
+
+## Changed
+* Improve NFC item updates (#1302)
