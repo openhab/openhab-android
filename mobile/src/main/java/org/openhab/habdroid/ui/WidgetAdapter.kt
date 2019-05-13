@@ -199,7 +199,7 @@ class WidgetAdapter(context: Context, private val connection: Connection,
             Widget.Type.Setpoint -> return TYPE_SETPOINT
             Widget.Type.Chart -> return TYPE_CHART
             Widget.Type.Video -> {
-                return if ("mjpeg".equals(widget.encoding!!, ignoreCase = true)) {
+                return if ("mjpeg".equals(widget.encoding, ignoreCase = true)) {
                     TYPE_VIDEO_MJPEG
                 } else TYPE_VIDEO
             }
@@ -923,12 +923,15 @@ class WidgetAdapter(context: Context, private val connection: Connection,
             }
 
             // hide dividers before and after frame widgets
-            if (parent.adapter!!.getItemViewType(position) == TYPE_FRAME) {
-                return true
-            }
-            if (position < parent.adapter!!.itemCount - 1) {
-                if (parent.adapter!!.getItemViewType(position + 1) == TYPE_FRAME) {
+            val adapter = parent.adapter
+            if (adapter != null) {
+                if (adapter.getItemViewType(position) == TYPE_FRAME) {
                     return true
+                }
+                if (position < adapter.itemCount - 1) {
+                    if (adapter.getItemViewType(position + 1) == TYPE_FRAME) {
+                        return true
+                    }
                 }
             }
 

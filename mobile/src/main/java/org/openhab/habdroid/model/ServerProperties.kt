@@ -75,7 +75,7 @@ data class ServerProperties(val flags: Int, val sitemaps: List<Sitemap>) : Parce
         private fun fetchFlags(client: AsyncHttpClient, handle: UpdateHandle,
                                successCb: (ServerProperties) -> Unit,
                                failureCb: (Request, Int, Throwable) -> Unit) {
-            handle.call = client["rest", object : AsyncHttpClient.StringResponseHandler() {
+            handle.call = client.get("rest", object : AsyncHttpClient.StringResponseHandler() {
                 override fun onFailure(request: Request, statusCode: Int, error: Throwable) {
                     failureCb(request, statusCode, error)
                 }
@@ -122,13 +122,13 @@ data class ServerProperties(val flags: Int, val sitemaps: List<Sitemap>) : Parce
                     }
 
                 }
-            }]
+            })
         }
 
         private fun fetchSitemaps(client: AsyncHttpClient, handle: UpdateHandle,
                                   successCb: (ServerProperties) -> Unit,
                                   failureCb: (Request, Int, Throwable) -> Unit) {
-            handle.call = client["rest/sitemaps", object : AsyncHttpClient.StringResponseHandler() {
+            handle.call = client.get("rest/sitemaps", object : AsyncHttpClient.StringResponseHandler() {
                 override fun onFailure(request: Request, statusCode: Int, error: Throwable) {
                     failureCb(request, statusCode, error)
                 }
@@ -144,7 +144,7 @@ data class ServerProperties(val flags: Int, val sitemaps: List<Sitemap>) : Parce
                     Log.d(TAG, "Server returned sitemaps: " + handle.sitemaps)
                     successCb(ServerProperties(handle.flags, handle.sitemaps))
                 }
-            }]
+            })
         }
 
         private fun loadSitemapsFromXml(response: String): List<Sitemap> {

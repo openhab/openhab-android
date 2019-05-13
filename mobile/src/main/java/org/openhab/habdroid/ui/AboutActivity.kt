@@ -91,7 +91,7 @@ class AboutActivity : AbstractBaseActivity(), FragmentManager.OnBackStackChanged
 
         override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                                   savedInstanceState: Bundle?): View? {
-            serverProperties = arguments!!.getParcelable("serverProperties")
+            serverProperties = arguments?.getParcelable("serverProperties")
             try {
                 connection = ConnectionFactory.usableConnection
             } catch (ignored: ConnectionException) {

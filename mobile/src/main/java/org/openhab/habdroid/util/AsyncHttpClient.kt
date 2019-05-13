@@ -83,8 +83,8 @@ class AsyncHttpClient(client: OkHttpClient, baseUrl: String?, username: String?,
             var density: Float? = res.displayMetrics.density
             svg.setDocumentHeight("100%")
             svg.setDocumentWidth("100%")
-            var docWidth = (svg.documentWidth * density!!).toInt()
-            var docHeight = (svg.documentHeight * density).toInt()
+            var docWidth = (svg.documentWidth * res.displayMetrics.density).toInt()
+            var docHeight = (svg.documentHeight * res.displayMetrics.density).toInt()
 
             if (docWidth < 0 || docHeight < 0) {
                 val aspectRatio = svg.documentAspectRatio

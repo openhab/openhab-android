@@ -142,7 +142,7 @@ abstract class ContentController protected constructor(private val activity: Mai
             }
         }
         state.putParcelable("controllerSitemap", currentSitemap)
-        if (sitemapFragment != null && sitemapFragment!!.isAdded) {
+        if (sitemapFragment?.isAdded ?: false) {
             fm.putFragment(state, "sitemapFragment", sitemapFragment!!)
         }
         if (defaultProgressFragment.isAdded) {
@@ -152,7 +152,7 @@ abstract class ContentController protected constructor(private val activity: Mai
         if (temporaryPage != null) {
             fm.putFragment(state, "temporaryPage", temporaryPage!!)
         }
-        if (noConnectionFragment != null && noConnectionFragment!!.isAdded) {
+        if (noConnectionFragment?.isAdded ?: false) {
             fm.putFragment(state, "errorFragment", noConnectionFragment!!)
         }
     }
@@ -519,11 +519,11 @@ abstract class ContentController protected constructor(private val activity: Mai
     }
 
     private fun makeSitemapFragment(sitemap: Sitemap): WidgetListFragment {
-        return WidgetListFragment.withPage(sitemap.homepageLink!!, sitemap.label)
+        return WidgetListFragment.withPage(sitemap.homepageLink, sitemap.label)
     }
 
     private fun makePageFragment(page: LinkedPage): WidgetListFragment {
-        return WidgetListFragment.withPage(page.link!!, page.title!!)
+        return WidgetListFragment.withPage(page.link, page.title)
     }
 
     internal enum class FragmentUpdateReason {
@@ -566,7 +566,7 @@ abstract class ContentController protected constructor(private val activity: Mai
     internal class NoNetworkFragment : StatusFragment() {
         override fun onClick(view: View) {
             ConnectionFactory.restartNetworkCheck()
-            activity!!.recreate()
+            activity?.recreate()
         }
 
         companion object {
@@ -599,22 +599,22 @@ abstract class ContentController protected constructor(private val activity: Mai
             if (view.id == R.id.button1) {
                 // Primary button always goes to settings
                 val preferencesIntent = Intent(activity, PreferencesActivity::class.java)
-                TaskStackBuilder.create(activity!!)
+                TaskStackBuilder.create(view.context)
                         .addNextIntentWithParentStack(preferencesIntent)
                         .startActivities()
-            } else if (arguments!!.getBoolean(ContentController.StatusFragment.KEY_RESOLVE_ATTEMPTED)) {
+            } else if (arguments?.getBoolean(ContentController.StatusFragment.KEY_RESOLVE_ATTEMPTED) ?: false) {
                 // If we attempted resolving, secondary button enables demo mode
                 PreferenceManager.getDefaultSharedPreferences(context)
                         .edit()
                         .putBoolean(Constants.PREFERENCE_DEMOMODE, true)
                         .apply()
-            } else if (arguments!!.getBoolean(ContentController.StatusFragment.KEY_WIFI_ENABLED)) {
+            } else if (arguments?.getBoolean(ContentController.StatusFragment.KEY_WIFI_ENABLED) ?: false) {
                 // If Wifi is enabled, secondary button suggests retrying
                 ConnectionFactory.restartNetworkCheck()
-                activity!!.recreate()
+                activity?.recreate()
             } else {
                 // If Wifi is disabled, secondary button suggests enabling Wifi
-                (activity as MainActivity).enableWifiAndIndicateStartup()
+                (activity as MainActivity?)?.enableWifiAndIndicateStartup()
             }
         }
 

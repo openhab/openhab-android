@@ -37,7 +37,7 @@ class MjpegStreamer(view: ImageView, connection: Connection, private val url: St
 
     fun start() {
         downloadImageTask = DownloadImageTask()
-        downloadImageTask!!.execute()
+        downloadImageTask?.execute()
     }
 
     fun stop() {

@@ -233,8 +233,11 @@ class PageConnectionHolderFragment : Fragment() {
             if (forceReload) {
                 longPolling = false
                 load()
-            } else if (lastWidgetList != null) {
-                callback.onPageUpdated(url, lastPageTitle, lastWidgetList!!)
+            } else {
+                val lastWidgets = lastWidgetList
+                if (lastWidgets != null) {
+                    callback.onPageUpdated(url, lastPageTitle, lastWidgets)
+                }
             }
         }
 
@@ -443,12 +446,14 @@ class PageConnectionHolderFragment : Fragment() {
                                 throw JSONException("Unexpected status $status")
                             }
                             val headerObject = result.getJSONObject("context").getJSONObject("headers")
-                            val url = headerObject.getJSONArray("Location").getString(0)
-                            val u = HttpUrl.parse(url)!!.newBuilder()
-                                    .addQueryParameter("sitemap", sitemap)
-                                    .addQueryParameter("pageid", pageId)
-                                    .build()
-                            eventStream = client.makeSse(u, this@EventHelper)
+                            val url = HttpUrl.parse(headerObject.getJSONArray("Location").getString(0))
+                            if (url != null) {
+                                val u = url.newBuilder()
+                                        .addQueryParameter("sitemap", sitemap)
+                                        .addQueryParameter("pageid", pageId)
+                                        .build()
+                                eventStream = client.makeSse(u, this@EventHelper)
+                            }
                         } catch (e: JSONException) {
                             Log.w(TAG, "Failed parsing SSE subscription", e)
                             failureCb()

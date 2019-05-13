@@ -309,9 +309,9 @@ class MainActivity : AbstractBaseActivity(), AsyncServiceResolver.Listener, Conn
                 successCb, this::handlePropertyFetchFailure)
     }
 
-    override fun onServiceResolved(serviceInfo: ServiceInfo?) {
+    override fun onServiceResolved(serviceInfo: ServiceInfo) {
         Log.d(TAG, "Service resolved: "
-                + serviceInfo!!.hostAddresses[0]
+                + serviceInfo.hostAddresses[0]
                 + " port:" + serviceInfo.port)
         val serverUrl = ("https://" + serviceInfo.hostAddresses[0] + ":"
                 + serviceInfo.port.toString() + "/")
@@ -682,9 +682,10 @@ class MainActivity : AbstractBaseActivity(), AsyncServiceResolver.Listener, Conn
     }
 
     private fun openPendingSitemapIfNeeded() {
-        if (isStarted && pendingOpenSitemapUrl != null && serverProperties != null) {
-            buildUrlAndOpenSitemap(pendingOpenSitemapUrl!!)
-            pendingOpenSitemapUrl = null;
+        val url = pendingOpenSitemapUrl
+        if (isStarted && url != null && serverProperties != null) {
+            buildUrlAndOpenSitemap(url)
+            pendingOpenSitemapUrl = null
         }
     }
 
@@ -866,7 +867,7 @@ class MainActivity : AbstractBaseActivity(), AsyncServiceResolver.Listener, Conn
     }
 
     fun onWidgetSelected(linkedPage: LinkedPage, source: WidgetListFragment) {
-        Log.d(TAG, "Got widget link = " + linkedPage.link!!)
+        Log.d(TAG, "Got widget link = " + linkedPage.link)
         controller.openPage(linkedPage, source)
     }
 
@@ -980,12 +981,12 @@ class MainActivity : AbstractBaseActivity(), AsyncServiceResolver.Listener, Conn
             builder.append("\nException stack:\n")
 
             val exceptionStart = builder.length
-            var origError: Throwable
+            var origError: Throwable?
             var cause: Throwable? = error
             do {
-                builder.append(cause!!.toString()).append('\n')
+                builder.append(cause?.toString()).append('\n')
                 origError = cause
-                cause = origError.cause
+                cause = origError?.cause
             } while (cause != null && origError !== cause)
 
             builder.setSpan(RelativeSizeSpan(0.8f), detailsStart, exceptionStart,

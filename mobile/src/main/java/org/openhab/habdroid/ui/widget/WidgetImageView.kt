@@ -107,8 +107,7 @@ class WidgetImageView @JvmOverloads constructor(context: Context, attrs: Attribu
         }
 
         val cached = CacheManager.getInstance(context).getCachedBitmap(actualUrl)
-
-        lastRequest = HttpImageRequest(actualSize, client, actualUrl, timeoutMillis)
+        val request = HttpImageRequest(actualSize, client, actualUrl, timeoutMillis)
 
         if (cached != null) {
             setBitmapInternal(cached)
@@ -117,8 +116,9 @@ class WidgetImageView @JvmOverloads constructor(context: Context, attrs: Attribu
         }
 
         if (cached == null || forceLoad) {
-            lastRequest!!.execute(forceLoad)
+            request.execute(forceLoad)
         }
+        lastRequest = request
     }
 
     override fun setImageResource(resId: Int) {

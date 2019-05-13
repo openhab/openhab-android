@@ -63,7 +63,7 @@ class AsyncServiceResolver(context: Context, private val listener: Listener, pri
         }
 
     interface Listener {
-        fun onServiceResolved(serviceInfo: ServiceInfo?)
+        fun onServiceResolved(serviceInfo: ServiceInfo)
         fun onServiceResolveFailed()
     }
 
@@ -89,7 +89,7 @@ class AsyncServiceResolver(context: Context, private val listener: Listener, pri
                discover openHAB on ipv4 address. This should be fixed to fully
                support ipv6 in future. */
             jmdns = JmDNS.create(localIpv4Address)
-            jmdns!!.addServiceListener(serviceType, this)
+            jmdns?.addServiceListener(serviceType, this)
         } catch (e: IOException) {
             Log.e(TAG, e.message)
         }
@@ -109,14 +109,17 @@ class AsyncServiceResolver(context: Context, private val listener: Listener, pri
 
     override fun serviceAdded(event: ServiceEvent) {
         Log.d(TAG, "Service added " + event.name)
-        jmdns!!.requestServiceInfo(event.type, event.name, 1)
+        jmdns?.requestServiceInfo(event.type, event.name, 1)
     }
 
     override fun serviceRemoved(event: ServiceEvent) {}
 
     override fun serviceResolved(event: ServiceEvent) {
-        resolvedServiceInfo = event.info
-        handler.post { listener.onServiceResolved(resolvedServiceInfo) }
+        val info = event.info
+        resolvedServiceInfo = info
+        if (info != null) {
+            handler.post { listener.onServiceResolved(info) }
+        }
         shutdown()
         interrupt()
     }

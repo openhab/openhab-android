@@ -17,7 +17,7 @@ import org.w3c.dom.Node
 
 @Parcelize
 data class Sitemap(val name: String, val label: String, val link: String?,
-                   val icon: String?, val iconPath: String, val homepageLink: String?): Parcelable {
+                   val icon: String?, val iconPath: String, val homepageLink: String): Parcelable {
     companion object {
         fun fromXml(startNode: Node): Sitemap? {
             var label: String? = null
@@ -51,7 +51,7 @@ data class Sitemap(val name: String, val label: String, val link: String?,
                 }
             }
 
-            if (name == null) {
+            if (name == null || homepageLink == null) {
                 return null
             }
             return Sitemap(name, label ?: name, link, icon,
@@ -66,7 +66,7 @@ data class Sitemap(val name: String, val label: String, val link: String?,
             val homepageObject = jsonObject.optJSONObject("homepage")
             val homepageLink = homepageObject?.optString("link", null)
 
-            if (name == null) {
+            if (name == null || homepageLink == null) {
                 return null
             }
 

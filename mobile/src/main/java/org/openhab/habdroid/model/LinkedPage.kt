@@ -20,9 +20,9 @@ import org.w3c.dom.Node
  */
 
 @Parcelize
-data class LinkedPage(val id: String?, val title: String?, val icon: String?, val link: String?) : Parcelable {
+data class LinkedPage(val id: String?, val title: String?, val icon: String?, val link: String) : Parcelable {
     companion object {
-        fun fromXml(startNode: Node): LinkedPage {
+        fun fromXml(startNode: Node): LinkedPage? {
             var id: String? = null
             var title: String? = null
             var icon: String? = null
@@ -55,7 +55,10 @@ data class LinkedPage(val id: String?, val title: String?, val icon: String?, va
                     jsonObject.optString("link", null))
         }
 
-        private fun build(id: String?, title: String?, icon: String?, link: String?): LinkedPage {
+        private fun build(id: String?, title: String?, icon: String?, link: String?): LinkedPage? {
+            if (link == null) {
+                return null
+            }
             val actualTitle = if (title != null && title.indexOf('[') > 0)
                     title.substring(0, title.indexOf('[')) else title
             return LinkedPage(id, actualTitle, icon, link)

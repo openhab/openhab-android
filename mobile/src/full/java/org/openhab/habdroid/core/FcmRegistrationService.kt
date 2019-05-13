@@ -94,7 +94,7 @@ class FcmRegistrationService : JobIntentService() {
         if (result.isSuccessful) {
             Log.d(TAG, "FCM reg id success")
         } else {
-            Log.e(TAG, "FCM reg id error: " + result.error!!)
+            Log.e(TAG, "FCM reg id error: " + result.error)
         }
         CloudMessagingHelper.registrationFailureReason = result.error
     }
