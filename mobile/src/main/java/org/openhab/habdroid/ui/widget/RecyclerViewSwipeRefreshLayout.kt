@@ -11,20 +11,18 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 
 class RecyclerViewSwipeRefreshLayout(context: Context, attrs: AttributeSet) : SwipeRefreshLayout(context, attrs) {
-    private val touchSlop: Int
+    private val touchSlop: Int = ViewConfiguration.get(context).scaledTouchSlop
     private var downX: Float = 0F
     private var downY: Float = 0F
     private var childScrollableOnDown: Boolean = false
     private val parentOffsetInWindow = IntArray(2)
-    private val nestedScrollingChildHelper: NestedScrollingChildHelper
+    private val nestedScrollingChildHelper = NestedScrollingChildHelper(this)
     private var horizontalSwipe: Boolean = false
     private var isOrWasUpSwipe: Boolean = false
     var recyclerView: RecyclerView? = null
 
 
     init {
-        touchSlop = ViewConfiguration.get(context).scaledTouchSlop
-        nestedScrollingChildHelper = NestedScrollingChildHelper(this)
         isNestedScrollingEnabled = true
     }
 
@@ -67,8 +65,12 @@ class RecyclerViewSwipeRefreshLayout(context: Context, attrs: AttributeSet) : Sw
         return super.onInterceptTouchEvent(event)
     }
 
+    // This method is called from the super constructor, where the helper isn't initialized yet
+    @Suppress("SENSELESS_COMPARISON")
     override fun setNestedScrollingEnabled(enabled: Boolean) {
-        nestedScrollingChildHelper.isNestedScrollingEnabled = enabled
+        if (nestedScrollingChildHelper != null) {
+            nestedScrollingChildHelper.isNestedScrollingEnabled = enabled
+        }
     }
 
     override fun isNestedScrollingEnabled(): Boolean {

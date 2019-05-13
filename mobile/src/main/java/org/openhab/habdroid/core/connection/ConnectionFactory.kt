@@ -200,7 +200,7 @@ class ConnectionFactory internal constructor(private val context: Context, priva
                 return true
             }
             MSG_CLOUD_DONE -> { // main thread
-                handleCloudCheckDone(msg.obj as CloudConnection)
+                handleCloudCheckDone(msg.obj as CloudConnection?)
                 return true
             }
             else -> return false

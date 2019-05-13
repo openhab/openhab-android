@@ -67,7 +67,7 @@ abstract class HttpClient protected constructor(private val client: OkHttpClient
     }
 
     protected fun prepareCall(url: String, method: String, additionalHeaders: Map<String, String>?,
-                              requestBody: String?, mediaType: String,
+                              requestBody: String?, mediaType: String?,
                               timeoutMillis: Long, caching: CachingMode): Call {
         val requestBuilder = makeAuthenticatedRequestBuilder()
                 .url(buildUrl(url))
@@ -77,7 +77,8 @@ abstract class HttpClient protected constructor(private val client: OkHttpClient
             }
         }
         if (requestBody != null) {
-            requestBuilder.method(method, RequestBody.create(MediaType.parse(mediaType), requestBody))
+            val actualMediaType = if (mediaType != null) MediaType.parse(mediaType) else null
+            requestBuilder.method(method, RequestBody.create(actualMediaType, requestBody))
         }
         when (caching) {
             HttpClient.CachingMode.AVOID_CACHE -> requestBuilder.cacheControl(CacheControl.FORCE_NETWORK)

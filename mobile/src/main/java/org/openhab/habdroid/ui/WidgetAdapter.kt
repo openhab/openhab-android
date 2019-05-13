@@ -601,7 +601,7 @@ class WidgetAdapter(context: Context, private val connection: Connection,
             val buttonCommandMap = mapOf(R.id.up_button to "UP",
                     R.id.down_button to "DOWN", R.id.stop_button to "STOP")
             for ((id, command) in buttonCommandMap) {
-                val button = itemView.findViewById<Button>(id)
+                val button = itemView.findViewById<View>(id)
                 button.setOnTouchListener(this)
                 button.tag = command
             }
@@ -672,7 +672,7 @@ class WidgetAdapter(context: Context, private val connection: Connection,
             AlertDialog.Builder(itemView.context)
                     .setTitle(labelView.text)
                     .setView(dialogView)
-                    .setPositiveButton(R.string.set) { dialog, _ ->
+                    .setPositiveButton(R.string.set) { _, _ ->
                         Util.sendItemCommand(connection.asyncHttpClient,
                                 widget.item, stepValues[picker.value])
                     }
@@ -830,7 +830,7 @@ class WidgetAdapter(context: Context, private val connection: Connection,
             val buttonCommandMap = mapOf(R.id.up_button to "ON",
                     R.id.down_button to "OFF", R.id.select_color_button to null)
             for ((id, command) in buttonCommandMap) {
-                val button = itemView.findViewById<Button>(id)
+                val button = itemView.findViewById<View>(id)
                 button.setOnTouchListener(this)
                 button.tag = command
             }

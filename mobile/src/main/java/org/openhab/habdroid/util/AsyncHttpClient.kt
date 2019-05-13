@@ -159,7 +159,7 @@ class AsyncHttpClient(client: OkHttpClient, baseUrl: String?, username: String?,
     private fun <T> method(url: String, method: String, headers: Map<String, String>?,
                            requestBody: String?, mediaType: String?, timeoutMillis: Long,
                            caching: HttpClient.CachingMode, responseHandler: ResponseHandler<T>): Call {
-        val call = prepareCall(url, method, headers, requestBody, mediaType!!, timeoutMillis, caching)
+        val call = prepareCall(url, method, headers, requestBody, mediaType, timeoutMillis, caching)
         call.enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
                 handler.post {

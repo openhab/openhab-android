@@ -34,8 +34,7 @@ import org.openhab.habdroid.R
 
 /** @author benjamin ferrari
  */
-class SegmentedControlButton constructor(context: Context, attrs: AttributeSet?, defStyle: Int = 0) :
-        AppCompatRadioButton(context, attrs, defStyle) {
+class SegmentedControlButton : AppCompatRadioButton {
     private val underlineHeight: Int
     private val textDistanceFromLine: Int
 
@@ -45,7 +44,9 @@ class SegmentedControlButton constructor(context: Context, attrs: AttributeSet?,
     private val backgroundColorList: ColorStateList?
     private val backgroundPaint: Paint?
 
-    init {
+    constructor(context: Context, attrs: AttributeSet) : this(context, attrs, 0) {}
+
+    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
         buttonDrawable = null
 
         val a = if (attrs != null) context.obtainStyledAttributes(attrs, R.styleable.SegmentedControlButton) else null

@@ -237,7 +237,7 @@ data class Widget(val id: String, val parentId: String?, val label: String,
         }
 
 
-        private fun determineWidgetState(state: String, item: Item?): ParsedState? {
+        private fun determineWidgetState(state: String?, item: Item?): ParsedState? {
             return ParsedState.from(state, item?.state?.asNumber?.format) ?: item?.state
         }
 

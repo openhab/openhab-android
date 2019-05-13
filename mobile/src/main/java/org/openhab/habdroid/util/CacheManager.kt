@@ -38,7 +38,7 @@ class CacheManager private constructor(appContext: Context) {
         }
     }
 
-    fun getCachedBitmap(url: HttpUrl): Bitmap {
+    fun getCachedBitmap(url: HttpUrl): Bitmap? {
         return bitmapCache.get(url)
     }
 
@@ -57,13 +57,13 @@ class CacheManager private constructor(appContext: Context) {
     }
 
     companion object {
-        private lateinit var instance: CacheManager
+        private var instance: CacheManager? = null
 
         fun getInstance(context: Context): CacheManager {
             if (instance == null) {
                 instance = CacheManager(context.applicationContext)
             }
-            return instance
+            return instance!!
         }
     }
 }

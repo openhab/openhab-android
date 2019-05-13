@@ -448,7 +448,7 @@ class PreferencesActivity : AbstractBaseActivity() {
                                             userPrefKey: String, passwordPrefKey: String) {
             val pref = findPreference(subscreenPrefKey)
             val url = getPreferenceString(urlPrefKey, "") as String
-            val host = url.toUri().host.replace("myopenhab.org", "myopenHAB")
+            val host = url.toUri().host?.replace("myopenhab.org", "myopenHAB") ?: ""
             val summary: String
             if (host.isEmpty()) {
                 summary = getString(R.string.info_not_set)

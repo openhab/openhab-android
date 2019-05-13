@@ -43,7 +43,7 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener {
     private lateinit var refreshLayout: RecyclerViewSwipeRefreshLayout
     private lateinit var emptyPageView: View
     private lateinit var layoutManager: LinearLayoutManager
-    private lateinit var adapter: WidgetAdapter
+    private var adapter: WidgetAdapter? = null
     // parent activity
     private var titleOverride: String? = null
     private var highlightedPageLink: String? = null
@@ -220,9 +220,7 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener {
 
     fun setHighlightedPageLink(highlightedPageLink: String?) {
         this.highlightedPageLink = highlightedPageLink
-        if (adapter == null) {
-            return
-        }
+        val adapter = adapter ?: return
 
         val position = if (highlightedPageLink != null) {
             adapter.itemList.indexOfFirst { w -> w.linkedPage != null && w.linkedPage.link == highlightedPageLink }
@@ -241,9 +239,7 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener {
     }
 
     fun updateWidgets(widgets: List<Widget>) {
-        if (adapter == null) {
-            return
-        }
+        val adapter = adapter ?: return
         adapter.update(widgets, refreshLayout.isRefreshing)
         recyclerView.isVisible = !widgets.isEmpty()
         emptyPageView.isVisible = widgets.isEmpty()
