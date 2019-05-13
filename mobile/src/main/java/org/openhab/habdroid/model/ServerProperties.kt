@@ -50,10 +50,8 @@ data class ServerProperties(val flags: Int, val sitemaps: List<Sitemap>) : Parce
             internal var flags: Int = 0
             internal var sitemaps: List<Sitemap> = emptyList()
             fun cancel() {
-                if (call != null) {
-                    call!!.cancel()
-                    call = null
-                }
+                call?.cancel()
+                call = null
             }
         }
 
@@ -91,7 +89,7 @@ data class ServerProperties(val flags: Int, val sitemaps: List<Sitemap>) : Parce
                                 or SERVER_FLAG_CHART_SCALING_SUPPORT)
                         try {
                             val versionString = result.getString("version")
-                            val versionNumber = Integer.parseInt(versionString)
+                            Integer.parseInt(versionString)
                             // all versions that return a number here have full SSE support
                             flags = flags or SERVER_FLAG_SSE_SUPPORT
                         } catch (nfe: NumberFormatException) {

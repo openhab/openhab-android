@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.FragmentManager
 
 import com.danielstone.materialaboutlibrary.MaterialAboutFragment
@@ -43,8 +42,7 @@ class AboutActivity : AbstractBaseActivity(), FragmentManager.OnBackStackChanged
         setContentView(R.layout.activity_about)
         supportFragmentManager.addOnBackStackChangedListener(this)
 
-        val toolbar = findViewById<Toolbar>(R.id.openhab_toolbar)
-        setSupportActionBar(toolbar)
+        setSupportActionBar(findViewById(R.id.openhab_toolbar))
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         if (savedInstanceState == null) {

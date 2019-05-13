@@ -6,12 +6,12 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import android.os.Build
 import android.preference.PreferenceManager
 import androidx.annotation.StringRes
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
+import androidx.core.net.toUri
 import androidx.lifecycle.Observer
 import androidx.work.WorkInfo
 
@@ -74,6 +74,7 @@ internal class NotificationUpdateObserver(context: Context) : Observer<List<Work
                 WorkInfo.State.ENQUEUED -> hasEnqueuedWork = true
                 WorkInfo.State.RUNNING -> hasRunningWork = true
                 WorkInfo.State.FAILED -> failedInfos.add(Pair(tag, info))
+                else -> {}
             }
         }
 
@@ -173,7 +174,7 @@ internal class NotificationUpdateObserver(context: Context) : Observer<List<Work
                     .setCategory(NotificationCompat.CATEGORY_ERROR)
                     .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                     .setLights(ContextCompat.getColor(context, R.color.openhab_orange), 3000, 3000)
-                    .setSound(Uri.parse(prefs.getString(Constants.PREFERENCE_TONE, "")))
+                    .setSound(prefs.getString(Constants.PREFERENCE_TONE, "")?.toUri())
                     .setVibrate(Util.getNotificationVibrationPattern(context))
 
             if (errors.size > 1) {

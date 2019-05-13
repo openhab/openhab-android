@@ -350,7 +350,7 @@ class ConnectionFactory internal constructor(private val context: Context, priva
 
     private fun makeConnection(type: Int, urlKey: String,
                                userNameKey: String, passwordKey: String): AbstractConnection? {
-        val url = Util.normalizeUrl(prefs.getString(urlKey, ""))
+        val url = Util.normalizeUrl(prefs.getString(urlKey, "") as String)
         if (url.isEmpty()) {
             return null
         }

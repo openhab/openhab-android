@@ -65,7 +65,7 @@ class SegmentedControlButton constructor(context: Context, attrs: AttributeSet?,
 
         @IdRes val bgColorResId = a?.getResourceId(
                 R.styleable.SegmentedControlButton_backgroundColor, 0) ?: 0
-        if (bgColorResId != null) {
+        if (bgColorResId != 0) {
             backgroundColorList = AppCompatResources.getColorStateList(getContext(), bgColorResId)
             backgroundPaint = Paint()
         } else {

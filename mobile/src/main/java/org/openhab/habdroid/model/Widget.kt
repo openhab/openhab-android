@@ -33,7 +33,7 @@ data class Widget(val id: String, val parentId: String?, val label: String,
 
     val mappingsOrItemOptions: List<LabeledValue>
         get() {
-            return if (mappings.isEmpty() && item?.options != null) item?.options else mappings
+            return if (mappings.isEmpty() && item?.options != null) item.options else mappings
         }
 
     fun hasMappings(): Boolean {
@@ -225,7 +225,7 @@ data class Widget(val id: String, val parentId: String?, val label: String,
             // Consider a minimal refresh rate of 100 ms, but 0 is special and means 'no refresh'
             val actualRefresh = if (refresh > 0 && refresh < 100) 100 else refresh
             // Default period to 'D'
-            val actualPeriod = if (period == null || period.isEmpty()) "D" else period
+            val actualPeriod = if (period.isEmpty()) "D" else period
             // Sanitize minValue, maxValue and step: min <= max, step >= 0
             val actualMaxValue = Math.max(minValue, maxValue)
             val actualStep = Math.abs(step)

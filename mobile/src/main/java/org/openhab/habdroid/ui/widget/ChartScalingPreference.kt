@@ -2,7 +2,6 @@ package org.openhab.habdroid.ui.widget
 
 import android.annotation.TargetApi
 import android.content.Context
-import android.content.res.Resources
 import android.content.res.TypedArray
 import android.preference.Preference
 import android.util.AttributeSet
@@ -15,7 +14,7 @@ import org.openhab.habdroid.R
 
 class ChartScalingPreference : Preference, SeekBar.OnSeekBarChangeListener {
     private lateinit var entries: Array<String>
-    private lateinit var values: FloatArray
+    private lateinit var values: Array<Float>
     private lateinit var seekBar: SeekBar
     private lateinit var label: TextView
     private var value: Float = 0F
@@ -35,21 +34,16 @@ class ChartScalingPreference : Preference, SeekBar.OnSeekBarChangeListener {
     }
 
     override fun onCreateView(parent: ViewGroup): View {
-        val v = super.onCreateView(parent)
-        seekBar = v.findViewById(R.id.seekbar)
+        val view = super.onCreateView(parent)
+        seekBar = view.findViewById(R.id.seekbar)
         seekBar.setOnSeekBarChangeListener(this)
         seekBar.max = values.size - 1
-        for (i in values.indices) {
-            if (values[i] == value) {
-                seekBar.progress = i
-                break
-            }
-        }
+        seekBar.progress = Math.max(0, values.indexOfFirst { v -> v == value })
 
-        label = v.findViewById(R.id.label)
+        label = view.findViewById(R.id.label)
         updateLabel()
 
-        return v
+        return view
     }
 
     private fun init() {
@@ -58,10 +52,7 @@ class ChartScalingPreference : Preference, SeekBar.OnSeekBarChangeListener {
         val res = context.resources
         entries = res.getStringArray(R.array.chartScalingEntries)
         val intValues = res.getIntArray(R.array.chartScalingValues)
-        values = FloatArray(intValues.size)
-        for (i in intValues.indices) {
-            values[i] = intValues[i].toFloat() / 100f
-        }
+        values = intValues.map { v -> v.toFloat() / 100F }.toTypedArray()
     }
 
     override fun onGetDefaultValue(a: TypedArray, index: Int): Any {

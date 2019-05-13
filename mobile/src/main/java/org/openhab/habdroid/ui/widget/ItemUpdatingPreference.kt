@@ -7,21 +7,18 @@ import android.os.Build
 import android.os.Bundle
 import android.preference.DialogPreference
 import android.text.Editable
-import android.text.TextUtils
 import android.text.TextWatcher
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.Button
-import android.widget.CompoundButton
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.TextView
+import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.SwitchCompat
 
 import com.google.android.material.textfield.TextInputLayout
 import org.openhab.habdroid.R
+import org.openhab.habdroid.ui.setupHelpIcon
+import org.openhab.habdroid.ui.updateHelpIconAlpha
 
 class ItemUpdatingPreference : DialogPreference, TextWatcher, CompoundButton.OnCheckedChangeListener {
     private var howtoHint: String? = null
@@ -34,7 +31,7 @@ class ItemUpdatingPreference : DialogPreference, TextWatcher, CompoundButton.OnC
     private lateinit var switch: SwitchCompat
     private lateinit var editorWrapper: TextInputLayout
     private lateinit var editor: EditText
-    private lateinit var okButton: Button
+    private var okButton: Button? = null
 
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs) {
         if (attrs != null) {
@@ -110,8 +107,7 @@ class ItemUpdatingPreference : DialogPreference, TextWatcher, CompoundButton.OnC
         }
 
         helpIcon = v.findViewById(R.id.help_icon)
-        HelpIconShowingPreferenceUtil.setupHelpIcon(context,
-                helpIcon, howtoUrl?: "", howtoHint ?: "")
+        helpIcon.setupHelpIcon(howtoUrl?: "", howtoHint ?: "")
 
         onCheckedChanged(switch, switch.isChecked)
 
@@ -145,7 +141,7 @@ class ItemUpdatingPreference : DialogPreference, TextWatcher, CompoundButton.OnC
 
     override fun onCheckedChanged(button: CompoundButton, checked: Boolean) {
         editorWrapper.isEnabled = checked
-        HelpIconShowingPreferenceUtil.updateHelpIconAlpha(helpIcon, checked)
+        helpIcon.updateHelpIconAlpha(checked)
         updateOkButtonState()
     }
 
@@ -159,8 +155,7 @@ class ItemUpdatingPreference : DialogPreference, TextWatcher, CompoundButton.OnC
 
     override fun afterTextChanged(s: Editable) {
         val value = s.toString()
-        val valid = true
-        if (TextUtils.isEmpty(value.trim { it <= ' ' }) || value.contains(" ") || value.contains("\n")) {
+        if (value.trim().isEmpty() || value.contains(" ") || value.contains("\n")) {
             editor.error = context.getString(R.string.error_sending_alarm_clock_item_empty)
         } else {
             editor.error = null
@@ -169,16 +164,11 @@ class ItemUpdatingPreference : DialogPreference, TextWatcher, CompoundButton.OnC
     }
 
     private fun updateOkButtonState() {
-        if (editor != null && okButton != null) {
-            okButton.isEnabled = !editor.isEnabled || editor.error == null
-        }
+        okButton?.isEnabled = !editor.isEnabled || editor.error == null
     }
 
     private fun updateSummary() {
-        val value = value
-        if (value == null) {
-            return
-        }
+        val value = value ?: return
         val summary = if (value.first) summaryOn else summaryOff
         if (summary != null) {
             setSummary(String.format(summary, value.second))
@@ -187,11 +177,8 @@ class ItemUpdatingPreference : DialogPreference, TextWatcher, CompoundButton.OnC
 
     companion object {
         fun parseValue(value: String?): Pair<Boolean, String>? {
-            if (value == null) {
-                return null
-            }
-            val pos = value.indexOf('|')
-            if (pos < 0) {
+            val pos = value?.indexOf('|')
+            if (pos == null || pos < 0) {
                 return null
             }
             return Pair(value.substring(0, pos).toBoolean(), value.substring(pos + 1))

@@ -29,7 +29,6 @@ import android.graphics.PorterDuff
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.Icon
-import android.net.NetworkInfo
 import android.net.Uri
 import android.net.wifi.WifiManager
 import android.nfc.NfcAdapter
@@ -46,26 +45,25 @@ import android.util.Base64
 import android.util.Log
 import android.view.Gravity
 import android.view.Menu
-import android.view.MenuInflater
 import android.view.MenuItem
-import android.view.SubMenu
 import android.view.View
-import android.view.ViewStub
 import android.view.WindowManager
 import android.widget.ProgressBar
 import androidx.annotation.ColorInt
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
-import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
+import androidx.core.net.toUri
 import androidx.core.view.GravityCompat
+import androidx.core.view.forEach
+import androidx.core.view.isInvisible
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.RecyclerView
-
 import com.google.android.material.navigation.NavigationView
+
 import com.google.android.material.snackbar.Snackbar
 import okhttp3.Headers
 import okhttp3.Request
@@ -94,9 +92,7 @@ import org.openhab.habdroid.util.AsyncServiceResolver
 import org.openhab.habdroid.util.Constants
 import org.openhab.habdroid.util.Util
 
-import java.lang.reflect.Constructor
 import java.nio.charset.Charset
-import java.util.Collections
 import java.util.Locale
 
 import javax.jmdns.ServiceInfo
@@ -177,8 +173,7 @@ class MainActivity : AbstractBaseActivity(), AsyncServiceResolver.Listener, Conn
 
         setContentView(R.layout.activity_main)
         // inflate the controller dependent content view
-        val contentStub = findViewById<ViewStub>(R.id.content_stub)
-        controller.inflateViews(contentStub)
+        controller.inflateViews(findViewById(R.id.content_stub))
 
         setupToolbar()
         setupDrawer()
@@ -562,10 +557,7 @@ class MainActivity : AbstractBaseActivity(), AsyncServiceResolver.Listener, Conn
         // instead of letting NavigationView do it.
         drawerIconTintList = drawerView.itemIconTintList
         drawerView.itemIconTintList = null
-        for (i in 0 until drawerMenu.size()) {
-            val item = drawerMenu.getItem(i)
-            item.icon = applyDrawerIconTint(item.icon)
-        }
+        drawerMenu.forEach { item -> item.icon = applyDrawerIconTint(item.icon) }
 
         drawerView.setNavigationItemSelectedListener { item ->
             drawerLayout.closeDrawers()
@@ -620,7 +612,7 @@ class MainActivity : AbstractBaseActivity(), AsyncServiceResolver.Listener, Conn
         } else {
             habpanelItem.isVisible = props.hasHabpanelInstalled()
             manageHabpanelShortcut(props.hasHabpanelInstalled())
-            val defaultSitemapName = prefs.getString(Constants.PREFERENCE_SITEMAP_NAME, "")
+            val defaultSitemapName = prefs.getString(Constants.PREFERENCE_SITEMAP_NAME, "") as String
             val sitemaps = Util.sortedSitemapList(props.sitemaps, defaultSitemapName)
 
             if (sitemaps.isEmpty()) {
@@ -630,9 +622,8 @@ class MainActivity : AbstractBaseActivity(), AsyncServiceResolver.Listener, Conn
                 val menu = sitemapItem.subMenu
                 menu.clear()
 
-                for (i in sitemaps.indices) {
-                    val sitemap = sitemaps[i]
-                    val item = menu.add(GROUP_ID_SITEMAPS, i, i, sitemap.label)
+                sitemaps.forEachIndexed { index, sitemap ->
+                    val item = menu.add(GROUP_ID_SITEMAPS, index, index, sitemap.label)
                     loadSitemapIcon(sitemap, item)
                 }
             }
@@ -652,8 +643,8 @@ class MainActivity : AbstractBaseActivity(), AsyncServiceResolver.Listener, Conn
                 Log.w(TAG, "Could not fetch icon for sitemap " + sitemap.name)
             }
 
-            override fun onSuccess(bitmap: Bitmap, headers: Headers) {
-                item.icon = BitmapDrawable(bitmap)
+            override fun onSuccess(response: Bitmap, headers: Headers) {
+                item.icon = BitmapDrawable(resources, response)
             }
         }]
     }
@@ -706,7 +697,7 @@ class MainActivity : AbstractBaseActivity(), AsyncServiceResolver.Listener, Conn
 
     private fun selectConfiguredSitemapFromList(): Sitemap? {
         val settings = PreferenceManager.getDefaultSharedPreferences(this)
-        val configuredSitemap = settings.getString(Constants.PREFERENCE_SITEMAP_NAME, "")
+        val configuredSitemap = settings.getString(Constants.PREFERENCE_SITEMAP_NAME, "") as String
         val sitemaps = serverProperties!!.sitemaps
         val result: Sitemap?
 
@@ -749,13 +740,10 @@ class MainActivity : AbstractBaseActivity(), AsyncServiceResolver.Listener, Conn
         }
 
         val sitemaps = serverProperties!!.sitemaps
-        val sitemapLabels = arrayOfNulls<String>(sitemaps.size)
-        for (i in sitemaps.indices) {
-            sitemapLabels[i] = sitemaps[i].label
-        }
+        val sitemapLabels = sitemaps.map { s -> s.label }.toTypedArray()
         sitemapSelectionDialog = AlertDialog.Builder(this)
                 .setTitle(R.string.mainmenu_openhab_selectsitemap)
-                .setItems(sitemapLabels) { dialog, which ->
+                .setItems(sitemapLabels) { _, which ->
                     val sitemap = sitemaps[which]
                     Log.d(TAG, "Selected sitemap $sitemap")
                     PreferenceManager.getDefaultSharedPreferences(this@MainActivity)
@@ -900,7 +888,7 @@ class MainActivity : AbstractBaseActivity(), AsyncServiceResolver.Listener, Conn
     }
 
     fun setProgressIndicatorVisible(visible: Boolean) {
-        progressBar?.visibility = if (visible) View.VISIBLE else View.INVISIBLE
+        progressBar.isInvisible = !visible
     }
 
     private fun launchVoiceRecognition() {
@@ -920,8 +908,8 @@ class MainActivity : AbstractBaseActivity(), AsyncServiceResolver.Listener, Conn
         } catch (speechRecognizerNotFoundException: ActivityNotFoundException) {
             showSnackbar(R.string.error_no_speech_to_text_app_found, R.string.install, {
                 try {
-                    startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(
-                            "market://details?id=com.google.android.googlequicksearchbox")))
+                    startActivity(Intent(Intent.ACTION_VIEW,
+                            "market://details?id=com.google.android.googlequicksearchbox".toUri()))
                 } catch (appStoreNotFoundException: ActivityNotFoundException) {
                     Util.openInBrowser(this, "http://play.google.com/store/apps/details?id=com.google.android.googlequicksearchbox")
                 }
@@ -958,11 +946,7 @@ class MainActivity : AbstractBaseActivity(), AsyncServiceResolver.Listener, Conn
         lastSnackbar = Snackbar.make(findViewById(android.R.id.content), messageResId,
                 Snackbar.LENGTH_LONG)
         if (actionResId != 0 && onClickListener != null) {
-            lastSnackbar!!.setAction(actionResId, object: View.OnClickListener {
-                override fun onClick(v: View) {
-                    onClickListener()
-                }
-            })
+            lastSnackbar!!.setAction(actionResId, { onClickListener() })
         }
         lastSnackbar!!.show()
     }

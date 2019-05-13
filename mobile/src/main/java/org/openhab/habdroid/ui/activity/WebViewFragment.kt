@@ -13,6 +13,8 @@ import android.webkit.WebView
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.annotation.StringRes
+import androidx.core.os.bundleOf
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 
 import org.openhab.habdroid.R
@@ -21,20 +23,20 @@ import org.openhab.habdroid.core.connection.Connection
 import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.core.connection.exception.ConnectionException
 import org.openhab.habdroid.ui.AnchorWebViewClient
-import org.openhab.habdroid.util.Util
+import org.openhab.habdroid.ui.setUpForConnection
 
 class WebViewFragment : Fragment(), ConnectionFactory.UpdateListener {
+    private var webView: WebView? = null
     private lateinit var urltoLoad: String
     private lateinit var urlForError: String
     private var connection: Connection? = null
-    private var webView: WebView? = null
 
     val titleResId: Int
         @StringRes get() = arguments!!.getInt(KEY_PAGE_TITLE)
 
     fun goBack(): Boolean {
         if (webView?.canGoBack() ?: false) {
-            webView!!.goBack()
+            webView?.goBack()
             return true
         }
         return false
@@ -47,8 +49,8 @@ class WebViewFragment : Fragment(), ConnectionFactory.UpdateListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val args = arguments!!
-        urltoLoad = args.getString(KEY_URL_LOAD)
-        urlForError = args.getString(KEY_URL_ERROR)
+        urltoLoad = args.getString(KEY_URL_LOAD) as String
+        urlForError = args.getString(KEY_URL_ERROR) as String
 
         val retryButton = view.findViewById<TextView>(R.id.retry_button)
         retryButton.setOnClickListener { v -> loadWebsite() }
@@ -88,7 +90,6 @@ class WebViewFragment : Fragment(), ConnectionFactory.UpdateListener {
     }
 
     private fun loadWebsite(urlToLoad: String = urltoLoad) {
-        val view = view ?: return
         try {
             connection = ConnectionFactory.usableConnection
         } catch (e: ConnectionException) {
@@ -103,10 +104,10 @@ class WebViewFragment : Fragment(), ConnectionFactory.UpdateListener {
         }
         updateViewVisibility(false, true)
 
+        val webView = webView ?: return
         val url = conn.asyncHttpClient.buildUrl(urlToLoad).toString()
-        val webView: WebView = view.findViewById(R.id.webview)
 
-        webView!!.webViewClient = object : AnchorWebViewClient(url, conn.username, conn.password) {
+        webView.webViewClient = object : AnchorWebViewClient(url, conn.username, conn.password) {
             override fun onPageFinished(view: WebView, url: String) {
                 updateViewVisibility(false, false)
             }
@@ -114,9 +115,9 @@ class WebViewFragment : Fragment(), ConnectionFactory.UpdateListener {
             @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             override fun onReceivedError(view: WebView, request: WebResourceRequest,
                                          error: WebResourceError) {
-                val url = request.url.toString()
-                Log.e(TAG, "onReceivedError() on URL: $url")
-                if (url.endsWith(urlForError)) {
+                val errorUrl = request.url.toString()
+                Log.e(TAG, "onReceivedError() on URL: $errorUrl")
+                if (errorUrl.endsWith(urlForError)) {
                     updateViewVisibility(true, false)
                 }
             }
@@ -127,17 +128,15 @@ class WebViewFragment : Fragment(), ConnectionFactory.UpdateListener {
                 updateViewVisibility(true, false)
             }
         }
-        Util.initWebView(webView, conn, url)
+        webView.setUpForConnection(conn, url)
         webView.loadUrl(url)
         webView.setBackgroundColor(Color.TRANSPARENT)
-        this.webView = webView
     }
 
     private fun updateViewVisibility(error: Boolean, loading: Boolean) {
-        val view = view ?: return
-        view.findViewById<View>(R.id.webview).visibility = if (error) View.GONE else View.VISIBLE
-        view.findViewById<View>(android.R.id.empty).visibility = if (error) View.VISIBLE else View.GONE
-        view.findViewById<View>(R.id.progress).visibility = if (loading) View.VISIBLE else View.GONE
+        webView?.isVisible = !error
+        view?.findViewById<View>(android.R.id.empty)?.isVisible = error
+        view?.findViewById<View>(R.id.progress)?.isVisible = loading
     }
 
     override fun onAvailableConnectionChanged() {
@@ -160,12 +159,11 @@ class WebViewFragment : Fragment(), ConnectionFactory.UpdateListener {
         fun newInstance(@StringRes pageTitle: Int,
                         @StringRes errorMessage: Int, urltoLoad: String, urlForError: String): WebViewFragment {
             val f = WebViewFragment()
-            val args = Bundle()
-            args.putInt(KEY_PAGE_TITLE, pageTitle)
-            args.putInt(KEY_ERROR, errorMessage)
-            args.putString(KEY_URL_LOAD, urltoLoad)
-            args.putString(KEY_URL_ERROR, urlForError)
-            f.arguments = args
+            f.arguments = bundleOf(
+                    KEY_PAGE_TITLE to pageTitle,
+                    KEY_ERROR to errorMessage,
+                    KEY_URL_LOAD to urltoLoad,
+                    KEY_URL_ERROR to urlForError)
             return f
         }
     }

@@ -1,23 +1,22 @@
 package org.openhab.habdroid.ui
 
 import android.content.Intent
-import android.content.SharedPreferences
 import android.os.AsyncTask
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.text.TextUtils
 import android.util.Log
 import android.view.Menu
-import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.ScrollView
 import android.widget.TextView
-import androidx.appcompat.widget.Toolbar
-
+import androidx.core.net.toUri
+import androidx.core.view.isVisible
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+
 import org.openhab.habdroid.R
 import org.openhab.habdroid.util.Constants
 import org.openhab.habdroid.util.Util
@@ -37,8 +36,7 @@ class LogActivity : AbstractBaseActivity() {
 
         setContentView(R.layout.activity_log)
 
-        val toolbar = findViewById<Toolbar>(R.id.openhab_toolbar)
-        setSupportActionBar(toolbar)
+        setSupportActionBar(findViewById(R.id.openhab_toolbar))
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         fab = findViewById(R.id.shareFab)
@@ -65,9 +63,9 @@ class LogActivity : AbstractBaseActivity() {
     }
 
     private fun setUiState(isLoading: Boolean, isEmpty: Boolean) {
-        progressBar.visibility = if (isLoading && !isEmpty) View.VISIBLE else View.GONE
-        logTextView.visibility = if (isLoading && !isEmpty) View.GONE else View.VISIBLE
-        emptyView.visibility = if (isEmpty) View.VISIBLE else View.GONE
+        progressBar.isVisible = isLoading && !isEmpty
+        logTextView.isVisible = isLoading && !isEmpty
+        emptyView.isVisible = isEmpty
         if (isLoading || isEmpty) {
             fab.hide()
         } else {
@@ -101,7 +99,7 @@ class LogActivity : AbstractBaseActivity() {
         override fun doInBackground(vararg clear: Boolean?): String {
             val logBuilder = StringBuilder()
             val separator = System.getProperty("line.separator")
-            var process: Process? = null
+            var process: Process?
             try {
                 if (clear[0] ?: false) {
                     Log.d(TAG, "Clear log")
@@ -150,11 +148,9 @@ class LogActivity : AbstractBaseActivity() {
     }
 
     private fun redactHost(text: String, url: String?, replacement: String): String {
-        if (!TextUtils.isEmpty(url)) {
-            val host = Util.getHostFromUrl(url!!)
-            if (host != null) {
-                return text.replace(host.toRegex(), replacement)
-            }
+        val host = url?.toUri()?.host
+        if (host != null && !host.isEmpty()) {
+            return text.replace(host, replacement)
         }
         return text
     }

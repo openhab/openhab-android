@@ -11,13 +11,12 @@ package org.openhab.habdroid.ui
 
 import android.content.Context
 import android.net.Uri
-import android.text.TextUtils
 import android.text.format.DateUtils
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.graphics.drawable.DrawableCompat
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 
 import org.openhab.habdroid.R
@@ -56,12 +55,7 @@ class CloudNotificationAdapter(context: Context, private val loadMoreListener: (
     }
 
     fun findPositionForId(id: String): Int {
-        for (i in items.indices) {
-            if (id == items[i].id) {
-                return i
-            }
-        }
-        return -1
+        return items.indexOfFirst { item -> item.id == id }
     }
 
     fun highlightItem(position: Int) {
@@ -90,7 +84,7 @@ class CloudNotificationAdapter(context: Context, private val loadMoreListener: (
             holder.bind(items[position])
         } else {
             // loading indicator
-            holder.itemView.visibility = if (hasMoreItems) View.VISIBLE else View.GONE
+            holder.itemView.isVisible = hasMoreItems
             if (hasMoreItems && !waitingForMoreData) {
                 loadMoreListener()
                 waitingForMoreData = true
@@ -114,20 +108,14 @@ class CloudNotificationAdapter(context: Context, private val loadMoreListener: (
 
     class NotificationViewHolder(inflater: LayoutInflater, parent: ViewGroup) :
             RecyclerView.ViewHolder(inflater.inflate(R.layout.notificationlist_item, parent, false)) {
-        internal val createdView: TextView
-        internal val messageView: TextView
-        internal val iconView: WidgetImageView
-        internal val severityView: TextView
+        internal val createdView: TextView = itemView.findViewById(R.id.notificationCreated)
+        internal val messageView: TextView = itemView.findViewById(R.id.notificationMessage)
+        internal val iconView: WidgetImageView = itemView.findViewById(R.id.notificationImage)
+        internal val severityView: TextView = itemView.findViewById(R.id.notificationSeverity)
 
-        init {
-            createdView = itemView.findViewById(R.id.notificationCreated)
-            messageView = itemView.findViewById(R.id.notificationMessage)
-            severityView = itemView.findViewById(R.id.notificationSeverity)
-            iconView = itemView.findViewById(R.id.notificationImage)
-        }
 
         fun bind(notification: CloudNotification) {
-            createdView.text = DateUtils.getRelativeDateTimeString(createdView.context,
+            createdView.text = DateUtils.getRelativeDateTimeString(itemView.context,
                     notification.createdTimestamp,
                     DateUtils.MINUTE_IN_MILLIS, DateUtils.WEEK_IN_MILLIS, 0)
             messageView.text = notification.message
@@ -136,13 +124,13 @@ class CloudNotificationAdapter(context: Context, private val loadMoreListener: (
             if (notification.icon != null && conn != null) {
                 val iconUrl = String.format(Locale.US, "images/%s.png",
                         Uri.encode(notification.icon))
-                iconView.setImageUrl(conn, iconUrl, iconView.resources
+                iconView.setImageUrl(conn, iconUrl, itemView.resources
                         .getDimensionPixelSize(R.dimen.notificationlist_icon_size), 2000)
             } else {
                 iconView.setImageResource(R.drawable.ic_openhab_appicon_24dp)
             }
             severityView.text = notification.severity
-            severityView.visibility = if (TextUtils.isEmpty(notification.severity)) View.GONE else View.VISIBLE
+            severityView.isVisible = notification.severity?.isEmpty() ?: false
         }
     }
 

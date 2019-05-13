@@ -10,13 +10,14 @@ import android.security.KeyChain
 import android.security.KeyChainAliasCallback
 import android.security.KeyChainException
 import android.security.keystore.KeyProperties
-import android.text.TextUtils
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 
 import org.openhab.habdroid.R
+import org.openhab.habdroid.ui.setupHelpIcon
+import org.openhab.habdroid.ui.updateHelpIconAlpha
 
 import java.security.cert.X509Certificate
 
@@ -49,10 +50,9 @@ class SslClientCertificatePreference : Preference {
         val view = super.onCreateView(parent)
 
         helpIcon = view.findViewById(R.id.help_icon)
-        HelpIconShowingPreferenceUtil.setupHelpIcon(context, helpIcon!!,
-                context.getString(R.string.settings_openhab_sslclientcert_howto_url),
+        helpIcon?.setupHelpIcon(context.getString(R.string.settings_openhab_sslclientcert_howto_url),
                 context.getString(R.string.settings_openhab_sslclientcert_howto_summary))
-        HelpIconShowingPreferenceUtil.updateHelpIconAlpha(helpIcon, isEnabled)
+        helpIcon?.updateHelpIconAlpha(isEnabled)
 
         return view
     }
@@ -73,7 +73,7 @@ class SslClientCertificatePreference : Preference {
 
     override fun onDependencyChanged(dependency: Preference, disableDependent: Boolean) {
         super.onDependencyChanged(dependency, disableDependent)
-        HelpIconShowingPreferenceUtil.updateHelpIconAlpha(helpIcon, isEnabled)
+        helpIcon?.updateHelpIconAlpha(isEnabled)
     }
 
     private fun handleAliasChosen(alias: String) {
@@ -83,7 +83,7 @@ class SslClientCertificatePreference : Preference {
     }
 
     private fun setValue(value: String) {
-        val changed = !TextUtils.equals(currentAlias, value)
+        val changed = value != currentAlias
         if (changed || currentAlias == null) {
             currentAlias = value
             persistString(value)
@@ -114,11 +114,8 @@ class SslClientCertificatePreference : Preference {
             }
 
             override fun onPostExecute(cert: X509Certificate?) {
-                if (cert != null) {
-                    summary = cert.subjectDN.toString()
-                } else {
-                    summary = context.getString(R.string.settings_openhab_none)
-                }
+                summary = cert?.subjectDN?.toString()
+                        ?: context.getString(R.string.settings_openhab_none)
             }
         }.execute()
     }

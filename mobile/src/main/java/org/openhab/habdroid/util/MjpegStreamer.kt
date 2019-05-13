@@ -41,10 +41,8 @@ class MjpegStreamer(view: ImageView, connection: Connection, private val url: St
     }
 
     fun stop() {
-        if (downloadImageTask != null) {
-            downloadImageTask!!.cancel(true)
-            downloadImageTask = null
-        }
+        downloadImageTask?.cancel(true)
+        downloadImageTask = null
     }
 
     @Throws(IOException::class)

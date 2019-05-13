@@ -17,6 +17,7 @@ import android.webkit.HttpAuthHandler
 import android.webkit.SslErrorHandler
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import androidx.core.net.toUri
 
 import de.duenndns.ssl.MemorizingTrustManager
 import org.openhab.habdroid.R
@@ -32,7 +33,7 @@ open class AnchorWebViewClient(url: String, private val userName: String?, priva
     private val host: String?
 
     init {
-        host = Util.getHostFromUrl(url)
+        host = url.toUri().host
         val pos = url.lastIndexOf("#") + 1
         if (pos != 0 && pos < url.length - 1) {
             anchor = url.substring(pos)

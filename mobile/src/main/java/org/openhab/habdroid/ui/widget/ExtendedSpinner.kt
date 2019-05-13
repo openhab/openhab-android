@@ -26,8 +26,6 @@ class ExtendedSpinner : AppCompatSpinner {
 
     override fun setSelection(position: Int) {
         super.setSelection(position)
-        if (onSelectionUpdatedListener != null) {
-            onSelectionUpdatedListener!!.onSelectionUpdated(position)
-        }
+        onSelectionUpdatedListener?.onSelectionUpdated(position)
     }
 }

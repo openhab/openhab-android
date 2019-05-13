@@ -6,6 +6,7 @@ import android.graphics.Canvas
 import android.graphics.Rect
 import android.graphics.drawable.Drawable
 import android.view.View
+import androidx.core.view.forEach
 import androidx.recyclerview.widget.RecyclerView
 
 open class DividerItemDecoration(context: Context) : RecyclerView.ItemDecoration() {
@@ -33,21 +34,16 @@ open class DividerItemDecoration(context: Context) : RecyclerView.ItemDecoration
         val left = parent.paddingLeft
         val right = parent.width - parent.paddingRight
 
-        val childCount = parent.childCount
-        for (i in 0 until childCount) {
-            val child = parent.getChildAt(i)
+        parent.forEach { child ->
+            if (!suppressDividerForChild(child, parent)) {
+                val params = child.layoutParams as RecyclerView.LayoutParams
 
-            if (suppressDividerForChild(child, parent)) {
-                continue
+                val top = child.bottom + params.bottomMargin
+                val bottom = top + divider.intrinsicHeight
+
+                divider.setBounds(left, top, right, bottom)
+                divider.draw(c)
             }
-
-            val params = child.layoutParams as RecyclerView.LayoutParams
-
-            val top = child.bottom + params.bottomMargin
-            val bottom = top + divider.intrinsicHeight
-
-            divider.setBounds(left, top, right, bottom)
-            divider.draw(c)
         }
     }
 

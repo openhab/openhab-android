@@ -1,11 +1,11 @@
 package org.openhab.habdroid.ui.activity
 
-import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.text.TextUtils
 import android.util.Log
+import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 
 import com.here.oksse.ServerSentEvent
@@ -17,6 +17,7 @@ import okhttp3.Response
 import org.json.JSONException
 import org.json.JSONObject
 import org.openhab.habdroid.core.connection.Connection
+import org.openhab.habdroid.model.ServerProperties
 import org.openhab.habdroid.model.Widget
 import org.openhab.habdroid.model.WidgetDataSource
 import org.openhab.habdroid.ui.WidgetListFragment
@@ -64,18 +65,11 @@ class PageConnectionHolderFragment : Fragment() {
         val isDetailedLoggingEnabled: Boolean
 
         /**
-         * Ask parent whether server returns JSON or XML
+         * Ask parent for properties of connected server
          *
-         * @return true if server returns JSON, false if it returns XML
+         * @return server properties
          */
-        fun serverReturnsJson(): Boolean
-
-        /**
-         * Ask parent whether server has support for Server Sent Events
-         *
-         * @return true if server supports SSE, false otherwise
-         */
-        fun serverSupportsSse(): Boolean
+        val serverProperties: ServerProperties?
 
         /**
          * Let parent know about an update to the widget list for a given URL.
@@ -207,9 +201,8 @@ class PageConnectionHolderFragment : Fragment() {
 
         init {
             httpClient = connection.asyncHttpClient
-            if (callback.serverSupportsSse()) {
-                val uri = Uri.parse(url)
-                val segments = uri.pathSegments
+            if (callback.serverProperties?.hasSseSupport() ?: false) {
+                val segments = url.toUri().pathSegments
                 if (segments.size > 2) {
                     val sitemap = segments[segments.size - 2]
                     val pageId = segments[segments.size - 1]
@@ -253,7 +246,7 @@ class PageConnectionHolderFragment : Fragment() {
 
             Log.d(TAG, "Loading data for $url, long polling $longPolling")
             val headers = HashMap<String, String>()
-            if (!callback.serverReturnsJson()) {
+            if (!(callback.serverProperties?.hasJsonApi() ?: false)) {
                 headers["Accept"] = "application/xml"
             }
 
@@ -296,7 +289,7 @@ class PageConnectionHolderFragment : Fragment() {
             }
 
             val dataSource = WidgetDataSource(callback.iconFormat)
-            val hasUpdate = if (callback.serverReturnsJson())
+            val hasUpdate = if (callback.serverProperties?.hasJsonApi() ?: false)
                     parseResponseJson(dataSource, response) else parseResponseXml(dataSource, response)
 
             if (hasUpdate) {
@@ -391,21 +384,18 @@ class PageConnectionHolderFragment : Fragment() {
                     callback.onPageTitleUpdated(url, jsonObject.getString("label"))
                     return
                 }
-                for (i in widgetList.indices) {
-                    val widget = widgetList[i]
-                    if (widgetId == widget.id) {
-                        val updatedWidget = Widget.updateFromEvent(widget, jsonObject, callback.iconFormat)
-                        widgetList[i] = updatedWidget
-                        callback.onWidgetUpdated(url, updatedWidget)
-                        return
+                val pos = widgetList.indexOfFirst {  w -> w.id == widgetId }
+                if (pos >= 0) {
+                    val updatedWidget = Widget.updateFromEvent(widgetList[pos], jsonObject, callback.iconFormat)
+                    widgetList[pos] = updatedWidget
+                    callback.onWidgetUpdated(url, updatedWidget)
+                } else  {
+                    // We didn't find the widget, so the widget in question probably
+                    // just became visible. Reload the page in that case.
+                    if (jsonObject.optBoolean("visibility")) {
+                        cancel()
+                        load()
                     }
-                }
-
-                // We didn't find the widget, so the widget in question probably
-                // just became visible. Reload the page in that case.
-                if (jsonObject.optBoolean("visibility")) {
-                    cancel()
-                    load()
                 }
             } catch (e: JSONException) {
                 Log.w(TAG, "Could not parse SSE event ('$payload')", e)
@@ -445,9 +435,9 @@ class PageConnectionHolderFragment : Fragment() {
                         failureCb()
                     }
 
-                    override fun onSuccess(body: String, headers: Headers) {
+                    override fun onSuccess(response: String, headers: Headers) {
                         try {
-                            val result = JSONObject(body)
+                            val result = JSONObject(response)
                             val status = result.getString("status")
                             if (status != "CREATED") {
                                 throw JSONException("Unexpected status $status")

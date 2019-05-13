@@ -42,7 +42,7 @@ class AsyncHttpClient(client: OkHttpClient, baseUrl: String?, username: String?,
         fun convertBodyInBackground(body: ResponseBody): T
 
         fun onFailure(request: Request, statusCode: Int, error: Throwable)
-        fun onSuccess(body: T, headers: Headers)
+        fun onSuccess(response: T, headers: Headers)
     }
 
     abstract class StringResponseHandler : ResponseHandler<String> {

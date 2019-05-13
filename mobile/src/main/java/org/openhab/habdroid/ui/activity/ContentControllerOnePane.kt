@@ -22,7 +22,7 @@ class ContentControllerOnePane(activity: MainActivity) : ContentController(activ
     override val fragmentForTitle: WidgetListFragment?
         get() = if (pageStack.empty()) sitemapFragment else pageStack.peek().second
 
-    override fun executeStateUpdate(reason: ContentController.FragmentUpdateReason, allowStateLoss: Boolean) {
+    override fun executeStateUpdate(reason: FragmentUpdateReason, allowStateLoss: Boolean) {
         val currentFragment = fm.findFragmentById(R.id.content)
         var fragment = overridingFragment
         if (fragment == null && !pageStack.isEmpty()) {
@@ -33,7 +33,7 @@ class ContentControllerOnePane(activity: MainActivity) : ContentController(activ
         }
 
         val ft = fm.beginTransaction()
-                .setCustomAnimations(ContentController.determineEnterAnim(reason), ContentController.determineExitAnim(reason))
+                .setCustomAnimations(determineEnterAnim(reason), determineExitAnim(reason))
                 .replace(R.id.content, fragment ?: defaultProgressFragment)
         if (allowStateLoss) {
             ft.commitAllowingStateLoss()

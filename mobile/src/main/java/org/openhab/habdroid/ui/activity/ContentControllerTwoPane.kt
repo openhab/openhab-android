@@ -12,6 +12,7 @@ package org.openhab.habdroid.ui.activity
 import android.os.Bundle
 import android.view.View
 import android.view.ViewStub
+import androidx.core.view.isVisible
 
 import org.openhab.habdroid.R
 import org.openhab.habdroid.model.LinkedPage
@@ -27,11 +28,10 @@ class ContentControllerTwoPane(activity: MainActivity) : ContentController(activ
 
     override fun onRestoreInstanceState(state: Bundle) {
         super.onRestoreInstanceState(state)
-        val rightPaneVisible = fm.findFragmentById(R.id.content_right) != null
-        rightContentView.visibility = if (rightPaneVisible) View.VISIBLE else View.GONE
+        rightContentView.isVisible = fm.findFragmentById(R.id.content_right) != null
     }
 
-    override fun executeStateUpdate(reason: ContentController.FragmentUpdateReason, allowStateLoss: Boolean) {
+    override fun executeStateUpdate(reason: FragmentUpdateReason, allowStateLoss: Boolean) {
         var leftFragment = overridingFragment
         val rightFragment: WidgetListFragment?
         val rightPair: Pair<LinkedPage, WidgetListFragment>?
@@ -73,7 +73,7 @@ class ContentControllerTwoPane(activity: MainActivity) : ContentController(activ
         val ft = fm.beginTransaction()
         ft.setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right)
         if (leftFragment != null) {
-            ft.setCustomAnimations(ContentController.determineEnterAnim(reason), ContentController.determineExitAnim(reason))
+            ft.setCustomAnimations(determineEnterAnim(reason), determineExitAnim(reason))
             ft.replace(R.id.content_left, leftFragment)
             if (leftFragment is WidgetListFragment) {
                 leftFragment.setHighlightedPageLink(rightPair?.first?.link)
@@ -90,7 +90,7 @@ class ContentControllerTwoPane(activity: MainActivity) : ContentController(activ
             ft.commit()
         }
 
-        rightContentView.visibility = if (rightFragment != null) View.VISIBLE else View.GONE
+        rightContentView.isVisible = rightFragment != null
     }
 
     override fun openPage(page: LinkedPage, source: WidgetListFragment) {
@@ -105,6 +105,6 @@ class ContentControllerTwoPane(activity: MainActivity) : ContentController(activ
         stub.layoutResource = R.layout.content_twopane
         val view = stub.inflate()
         rightContentView = view.findViewById(R.id.content_right)
-        rightContentView.visibility = View.GONE
+        rightContentView.isVisible = false
     }
 }

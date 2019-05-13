@@ -16,21 +16,19 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import androidx.annotation.VisibleForTesting
+import androidx.core.os.bundleOf
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 import org.openhab.habdroid.R
 import org.openhab.habdroid.model.Item
-import org.openhab.habdroid.model.LabeledValue
-import org.openhab.habdroid.model.LinkedPage
 import org.openhab.habdroid.model.ParsedState
 import org.openhab.habdroid.model.Widget
 import org.openhab.habdroid.ui.widget.RecyclerViewSwipeRefreshLayout
 import org.openhab.habdroid.util.CacheManager
-import org.openhab.habdroid.util.Util
 
 import java.util.ArrayList
 import java.util.Locale
@@ -42,51 +40,27 @@ import java.util.Locale
 
 class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener {
     @VisibleForTesting lateinit var recyclerView: RecyclerView
-    private lateinit var emptyPageView: LinearLayout
+    private lateinit var refreshLayout: RecyclerViewSwipeRefreshLayout
+    private lateinit var emptyPageView: View
     private lateinit var layoutManager: LinearLayoutManager
     private lateinit var adapter: WidgetAdapter
-    // Url of current sitemap page displayed
-    private lateinit var pageUrl: String
     // parent activity
-    private lateinit var mainActivity: MainActivity
     private var titleOverride: String? = null
-    private lateinit var refreshLayout: RecyclerViewSwipeRefreshLayout
     private var highlightedPageLink: String? = null
 
     val displayPageUrl: String
-        get() = arguments!!.getString("displayPageUrl")
+        get() = arguments?.getString("displayPageUrl") ?: ""
 
-    val title: String
-        get() = if (titleOverride != null) titleOverride!! else arguments!!.getString("title")
+    val title: String?
+        get() = titleOverride ?: arguments?.getString("title")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val args = arguments
         if (titleOverride == null) {
-            if (savedInstanceState != null) {
-                titleOverride = savedInstanceState.getString("title")
-            } else {
-                titleOverride = args!!.getString("title")
-            }
+            titleOverride = savedInstanceState?.getString("title")
+                    ?: arguments?.getString("title")
         }
-        pageUrl = args!!.getString("displayPageUrl")
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        Log.d(TAG, "onActivityCreated() " + pageUrl)
-        mainActivity = activity as MainActivity
-
-        adapter = WidgetAdapter(mainActivity, mainActivity.connection!!, this)
-
-        layoutManager = LinearLayoutManager(mainActivity)
-        layoutManager.recycleChildrenOnDetach = true
-
-        recyclerView.setRecycledViewPool(mainActivity.viewPool)
-        recyclerView.addItemDecoration(WidgetAdapter.WidgetItemDecoration(mainActivity))
-        recyclerView.layoutManager = layoutManager
-        recyclerView.adapter = adapter
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -94,15 +68,17 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener {
         outState.putString("title", titleOverride)
     }
 
-    override fun onItemClicked(widget: Widget): Boolean {
-        if (widget.linkedPage != null) {
-            mainActivity.onWidgetSelected(widget.linkedPage, this@WidgetListFragment)
+    override fun onItemClicked(item: Widget): Boolean {
+        if (item.linkedPage != null) {
+            val activity = activity as MainActivity?
+            activity?.onWidgetSelected(item.linkedPage, this@WidgetListFragment)
             return true
         }
         return false
     }
 
-    override fun onItemLongClicked(widget: Widget) {
+    override fun onItemLongClicked(item: Widget) {
+        val widget = item
         val labels = ArrayList<String>()
         val commands = ArrayList<String>()
 
@@ -144,7 +120,7 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener {
                     commands.add(widget.state.asString)
                 }
             } else if (widget.type === Widget.Type.Setpoint || widget.type === Widget.Type.Slider) {
-                val state = widget?.state?.asNumber
+                val state = widget.state?.asNumber
                 if (state != null) {
                     val currentState = state.toString()
                     labels.add(currentState)
@@ -201,31 +177,44 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        Log.d(TAG, "onViewCreated() " + pageUrl)
+        Log.d(TAG, "onViewCreated() " + displayPageUrl)
         super.onViewCreated(view, savedInstanceState)
-        recyclerView = view.findViewById(R.id.recyclerview)
-        emptyPageView = view.findViewById(android.R.id.empty)
-        refreshLayout = view.findViewById(R.id.swiperefresh)
 
-        Util.applySwipeLayoutColors(refreshLayout, R.attr.colorPrimary, R.attr.colorAccent)
+        val activity = activity as MainActivity
+        adapter = WidgetAdapter(activity, activity.connection!!, this)
+
+        layoutManager = LinearLayoutManager(activity)
+        layoutManager.recycleChildrenOnDetach = true
+
+        recyclerView = view.findViewById(R.id.recyclerview)
+        recyclerView.setRecycledViewPool(activity.viewPool)
+        recyclerView.addItemDecoration(WidgetAdapter.WidgetItemDecoration(view.context))
+        recyclerView.layoutManager = layoutManager
+        recyclerView.adapter = adapter
+
+        refreshLayout = view.findViewById(R.id.swiperefresh)
+        refreshLayout.applyColors(R.attr.colorPrimary, R.attr.colorAccent)
         refreshLayout.recyclerView = recyclerView
         refreshLayout.setOnRefreshListener {
-            mainActivity.showRefreshHintSnackbarIfNeeded()
-            CacheManager.getInstance(activity!!).clearCache()
-            mainActivity.triggerPageUpdate(pageUrl, true)
+            activity.showRefreshHintSnackbarIfNeeded()
+            CacheManager.getInstance(activity).clearCache()
+            activity.triggerPageUpdate(displayPageUrl, true)
         }
+
+        emptyPageView = view.findViewById(android.R.id.empty)
     }
 
     override fun onStart() {
-        Log.d(TAG, "onStart() " + pageUrl)
+        Log.d(TAG, "onStart() " + displayPageUrl)
         super.onStart()
-        mainActivity.triggerPageUpdate(pageUrl, false)
+        val activity = activity as MainActivity
+        activity.triggerPageUpdate(displayPageUrl, false)
         startOrStopVisibleViewHolders(true)
     }
 
     override fun onPause() {
         super.onPause()
-        Log.d(TAG, "onPause() " + pageUrl)
+        Log.d(TAG, "onPause() " + displayPageUrl)
         startOrStopVisibleViewHolders(false)
     }
 
@@ -234,26 +223,21 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener {
         if (adapter == null) {
             return
         }
-        if (highlightedPageLink != null) {
-            for (i in 0 until adapter.itemCount) {
-                val page = adapter.getItem(i).linkedPage
-                if (page != null && highlightedPageLink == page.link) {
-                    if (adapter.setSelectedPosition(i)) {
-                        layoutManager.scrollToPosition(i)
-                    }
-                    return
-                }
-            }
+
+        val position = if (highlightedPageLink != null) {
+            adapter.itemList.indexOfFirst { w -> w.linkedPage != null && w.linkedPage.link == highlightedPageLink }
+        } else {
+            -1
         }
-        // We didn't find a matching page link, so unselect everything
-        adapter.setSelectedPosition(-1)
+        if (adapter.setSelectedPosition(position) && position >= 0) {
+            layoutManager.scrollToPosition(position)
+        }
     }
 
     fun updateTitle(pageTitle: String) {
         titleOverride = pageTitle.replace("[\\[\\]]".toRegex(), "")
-        if (mainActivity != null) {
-            mainActivity.updateTitle()
-        }
+        val activity = activity as MainActivity?
+        activity?.updateTitle()
     }
 
     fun updateWidgets(widgets: List<Widget>) {
@@ -261,17 +245,14 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener {
             return
         }
         adapter.update(widgets, refreshLayout.isRefreshing)
-        val emptyPage = widgets.size == 0
-        recyclerView.visibility = if (emptyPage) View.GONE else View.VISIBLE
-        emptyPageView.visibility = if (emptyPage) View.VISIBLE else View.GONE
+        recyclerView.isVisible = !widgets.isEmpty()
+        emptyPageView.isVisible = widgets.isEmpty()
         setHighlightedPageLink(highlightedPageLink)
         refreshLayout.isRefreshing = false
     }
 
     fun updateWidget(widget: Widget) {
-        if (adapter != null) {
-            adapter.updateWidget(widget)
-        }
+        adapter?.updateWidget(widget)
     }
 
     private fun startOrStopVisibleViewHolders(start: Boolean) {
@@ -279,30 +260,28 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener {
         val lastVisibleItemPosition = layoutManager.findLastVisibleItemPosition()
         for (i in firstVisibleItemPosition..lastVisibleItemPosition) {
             val holder = recyclerView.findViewHolderForAdapterPosition(i) as WidgetAdapter.ViewHolder?
-            if (holder != null) {
-                if (start) {
-                    holder.start()
-                } else {
-                    holder.stop()
-                }
+            if (start) {
+                holder?.start()
+            } else {
+                holder?.stop()
             }
         }
     }
 
     override fun toString(): String {
         return String.format(Locale.US, "%s [url=%s, title=%s]",
-                super.toString(), pageUrl, title)
+                super.toString(), displayPageUrl, title)
     }
 
     companion object {
         private val TAG = WidgetListFragment::class.java.simpleName
 
-        fun withPage(pageUrl: String, pageTitle: String): WidgetListFragment {
+        fun withPage(pageUrl: String, pageTitle: String?): WidgetListFragment {
             val fragment = WidgetListFragment()
-            val args = Bundle()
-            args.putString("displayPageUrl", pageUrl)
-            args.putString("title", pageTitle)
-            fragment.arguments = args
+            fragment.arguments = bundleOf(
+                    "displayPageUrl" to pageUrl,
+                    "title" to pageTitle
+            )
             return fragment
         }
     }

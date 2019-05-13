@@ -9,15 +9,15 @@
 
 package org.openhab.habdroid.ui
 
-import android.content.Context
 import android.os.Bundle
-import android.text.TextUtils
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.os.bundleOf
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -28,14 +28,12 @@ import okhttp3.Headers
 import okhttp3.Request
 import org.json.JSONArray
 import org.json.JSONException
-import org.json.JSONObject
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.Connection
 import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.model.CloudNotification
 import org.openhab.habdroid.ui.widget.DividerItemDecoration
 import org.openhab.habdroid.util.AsyncHttpClient
-import org.openhab.habdroid.util.Util
 
 import java.util.ArrayList
 import java.util.Locale
@@ -45,18 +43,17 @@ import java.util.Locale
  * fragment (e.g. upon screen orientation changes).
  */
 class CloudNotificationListFragment : Fragment(), View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
-    // keeps track of current request to cancel it in onPause
-    private var requestHandle: Call? = null
-
-    private lateinit var notificationAdapter: CloudNotificationAdapter
-
     private lateinit var recyclerView: RecyclerView
-    private lateinit var layoutManager: LinearLayoutManager
     private lateinit var swipeLayout: SwipeRefreshLayout
+    private lateinit var retryButton: View
     private lateinit var emptyView: View
     private lateinit var emptyWatermark: ImageView
     private lateinit var emptyMessage: TextView
-    private lateinit var retryButton: View
+
+    // keeps track of current request to cancel it in onPause
+    private var requestHandle: Call? = null
+    private lateinit var adapter: CloudNotificationAdapter
+    private lateinit var layoutManager: LinearLayoutManager
     private var loadOffset: Int = 0
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -64,29 +61,27 @@ class CloudNotificationListFragment : Fragment(), View.OnClickListener, SwipeRef
         // Inflate the layout for this fragment
         Log.i(TAG, "onCreateView")
         val view = inflater.inflate(R.layout.fragment_notificationlist, container, false)
-        swipeLayout = view.findViewById(R.id.swipe_container)
-        swipeLayout.setOnRefreshListener(this)
-        Util.applySwipeLayoutColors(swipeLayout, R.attr.colorPrimary, R.attr.colorAccent)
 
         recyclerView = view.findViewById(android.R.id.list)
-        emptyView = view.findViewById(android.R.id.empty)
-        emptyMessage = view.findViewById(R.id.empty_message)
-        emptyWatermark = view.findViewById(R.id.watermark)
+
+        swipeLayout = view.findViewById(R.id.swipe_container)
+        swipeLayout.setOnRefreshListener(this)
+        swipeLayout.applyColors(R.attr.colorPrimary, R.attr.colorAccent)
+
         retryButton = view.findViewById(R.id.retry_button)
         retryButton.setOnClickListener(this)
+
         return view
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        var context = activity as Context
-        notificationAdapter = CloudNotificationAdapter(context, { loadNotifications(false) })
-        layoutManager = LinearLayoutManager(activity)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        adapter = CloudNotificationAdapter(view.context, { loadNotifications(false) })
+        layoutManager = LinearLayoutManager(view.context)
 
         recyclerView.layoutManager = layoutManager
-        recyclerView.addItemDecoration(DividerItemDecoration(context))
-        recyclerView.adapter = notificationAdapter
-        Log.d(TAG, "onActivityCreated()")
+        recyclerView.addItemDecoration(DividerItemDecoration(view.context))
+        recyclerView.adapter = adapter
     }
 
     override fun onResume() {
@@ -99,9 +94,7 @@ class CloudNotificationListFragment : Fragment(), View.OnClickListener, SwipeRef
         super.onPause()
         Log.d(TAG, "onPause()")
         // Cancel request for notifications if there was any
-        if (requestHandle != null) {
-            requestHandle!!.cancel()
-        }
+        requestHandle?.cancel()
     }
 
     override fun onRefresh() {
@@ -127,7 +120,7 @@ class CloudNotificationListFragment : Fragment(), View.OnClickListener, SwipeRef
             return
         }
         if (clearExisting) {
-            notificationAdapter.clear()
+            adapter.clear()
             loadOffset = 0
             updateViewVisibility(true, false)
         }
@@ -139,17 +132,17 @@ class CloudNotificationListFragment : Fragment(), View.OnClickListener, SwipeRef
         val url = String.format(Locale.US, "api/v1/notifications?limit=%d&skip=%d",
                 PAGE_SIZE, loadOffset)
         requestHandle = conn.asyncHttpClient.get(url, object : AsyncHttpClient.StringResponseHandler() {
-            override fun onSuccess(responseBody: String, headers: Headers) {
+            override fun onSuccess(response: String, headers: Headers) {
                 try {
                     val items = ArrayList<CloudNotification>()
-                    val jsonArray = JSONArray(responseBody)
+                    val jsonArray = JSONArray(response)
                     for (i in 0 until jsonArray.length()) {
                         val sitemapJson = jsonArray.getJSONObject(i)
                         items.add(CloudNotification.fromJson(sitemapJson))
                     }
                     Log.d(TAG, "Notifications request success, got " + items.size + " items")
                     loadOffset += items.size
-                    notificationAdapter.addLoadedItems(items, items.size == PAGE_SIZE)
+                    adapter.addLoadedItems(items, items.size == PAGE_SIZE)
                     handleInitialHighlight()
                     updateViewVisibility(false, false)
                 } catch (e: JSONException) {
@@ -167,32 +160,27 @@ class CloudNotificationListFragment : Fragment(), View.OnClickListener, SwipeRef
     }
 
     private fun handleInitialHighlight() {
-        val args = arguments
-        val highlightedId = args!!.getString("highlightedId")
-        if (TextUtils.isEmpty(highlightedId)) {
-            return
-        }
-
-        val position = notificationAdapter.findPositionForId(highlightedId!!)
+        val highlightedId = arguments?.getString("highlightedId") ?: return
+        val position = adapter.findPositionForId(highlightedId)
         if (position >= 0) {
             layoutManager.scrollToPositionWithOffset(position, 0)
-            recyclerView.postDelayed({ notificationAdapter.highlightItem(position) }, 600)
+            recyclerView.postDelayed({ adapter.highlightItem(position) }, 600)
         }
 
         // highlight only once
-        args.remove("highlightedId")
+        arguments?.remove("highlightedId")
     }
 
     private fun updateViewVisibility(loading: Boolean, loadError: Boolean) {
-        val showEmpty = !loading && (notificationAdapter.itemCount == 0 || loadError)
-        recyclerView.visibility = if (showEmpty) View.GONE else View.VISIBLE
-        emptyView.visibility = if (showEmpty) View.VISIBLE else View.GONE
+        val showEmpty = !loading && (adapter.itemCount == 0 || loadError)
+        recyclerView.isVisible = !showEmpty
+        emptyView.isVisible = showEmpty
         swipeLayout.isRefreshing = loading
         emptyMessage.setText(
                 if (loadError) R.string.notification_list_error else R.string.notification_list_empty)
         emptyWatermark.setImageResource(
                 if (loadError) R.drawable.ic_connection_error else R.drawable.ic_no_notifications)
-        retryButton.visibility = if (loadError) View.VISIBLE else View.GONE
+        retryButton.isVisible = loadError
     }
 
     companion object {
@@ -202,9 +190,7 @@ class CloudNotificationListFragment : Fragment(), View.OnClickListener, SwipeRef
 
         fun newInstance(highlightedId: String?): CloudNotificationListFragment {
             val f = CloudNotificationListFragment()
-            val args = Bundle()
-            args.putString("highlightedId", highlightedId)
-            f.arguments = args
+            f.arguments = bundleOf("highlightedId" to highlightedId)
             return f
         }
     }

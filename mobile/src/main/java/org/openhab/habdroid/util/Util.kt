@@ -27,6 +27,7 @@ import android.webkit.WebView
 import android.webkit.WebViewDatabase
 import androidx.annotation.AttrRes
 import androidx.annotation.StyleRes
+import androidx.core.net.toUri
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import es.dmoral.toasty.Toasty
 
@@ -91,10 +92,6 @@ object Util {
         return normalizedUrl
     }
 
-    fun getHostFromUrl(url: String): String? {
-        return Uri.parse(url).host
-    }
-
     fun parseSitemapList(document: Document): List<Sitemap> {
         val sitemapList = ArrayList<Sitemap>()
         val sitemapNodes = document.getElementsByTagName("sitemap")
@@ -148,13 +145,13 @@ object Util {
     @StyleRes
     @JvmOverloads
     fun getActivityThemeId(activity: Activity, theme: String? = null): Int {
-        var theme = theme
-        if (theme == null) {
-            theme = PreferenceManager.getDefaultSharedPreferences(activity).getString(
-                    Constants.PREFERENCE_THEME, activity.getString(R.string.theme_value_light))
+        var actualTheme = theme
+        if (actualTheme == null) {
+            actualTheme= PreferenceManager.getDefaultSharedPreferences(activity)
+                    .getString(Constants.PREFERENCE_THEME, activity.getString(R.string.theme_value_light))
         }
 
-        when (theme) {
+        when (actualTheme) {
             activity.getString(R.string.theme_value_dark) -> return R.style.HABDroid_Dark
             activity.getString(R.string.theme_value_black) -> return R.style.HABDroid_Black
             activity.getString(R.string.theme_value_basic_ui) -> return R.style.HABDroid_Basic_ui
@@ -223,51 +220,6 @@ object Util {
         return string.substring(0, clearTextCharCount) + string.substring(clearTextCharCount).replace(".".toRegex(), "*")
     }
 
-    /**
-     * Sets [SwipeRefreshLayout] color scheme from
-     * a list of attributes pointing to color resources
-     *
-     * @param colorAttrIds color attributes to create color scheme from
-     */
-    fun applySwipeLayoutColors(swipeLayout: SwipeRefreshLayout,
-                               @AttrRes vararg colorAttrIds: Int) {
-        val typedValue = TypedValue()
-        val theme = swipeLayout.context.theme
-        val colors = IntArray(colorAttrIds.size)
-
-        for (i in colorAttrIds.indices) {
-            theme.resolveAttribute(colorAttrIds[i], typedValue, true)
-            colors[i] = typedValue.data
-        }
-        swipeLayout.setColorSchemeColors(*colors)
-    }
-
-    fun initWebView(webView: WebView, connection: Connection, url: String) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val webViewDatabase = WebViewDatabase.getInstance(webView.context)
-            webViewDatabase.setHttpAuthUsernamePassword(Util.getHostFromUrl(url), "",
-                    connection.username, connection.password)
-        } else {
-            webView.setHttpAuthUsernamePassword(Util.getHostFromUrl(url), "",
-                    connection.username, connection.password)
-        }
-
-        webView.getSettings().setDomStorageEnabled(true)
-        webView.getSettings().setJavaScriptEnabled(true)
-        webView.getSettings().setSupportMultipleWindows(true)
-
-        webView.setWebChromeClient(object : WebChromeClient() {
-            override fun onCreateWindow(view: WebView, dialog: Boolean,
-                                        userGesture: Boolean, resultMsg: Message): Boolean {
-                val href = view.getHandler().obtainMessage()
-                view.requestFocusNodeHref(href)
-                val url = href.getData().getString("url");
-                openInBrowser(view.getContext(), url)
-                return false
-            }
-        })
-    }
-
     fun openInBrowser(context: Context, url: String?) {
         if (url.isNullOrEmpty()) {
             Log.e(TAG, "Got empty url")
@@ -331,7 +283,7 @@ object Util {
                 context.getString(R.string.error_certificate_revoked)
             } else if (Util.exceptionHasCause(error, SSLPeerUnverifiedException::class.java)) {
                 String.format(context.getString(R.string.error_certificate_wrong_host),
-                        Util.getHostFromUrl(url))
+                        url.toUri().host)
             } else {
                 context.getString(R.string.error_connection_sslhandshake_failed)
             }

@@ -9,19 +9,13 @@
 
 package org.openhab.habdroid.ui
 
-import android.app.FragmentManager
 import android.content.Intent
-import android.content.SharedPreferences
-import android.graphics.drawable.Drawable
-import android.media.Ringtone
 import android.media.RingtoneManager
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.preference.Preference
 import android.preference.PreferenceFragment
 import android.preference.PreferenceGroup
-import android.preference.PreferenceScreen
 import android.provider.Settings
 import android.text.TextUtils
 import android.util.Log
@@ -29,10 +23,10 @@ import android.view.MenuItem
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.annotation.VisibleForTesting
-import androidx.appcompat.widget.Toolbar
 import androidx.core.app.NavUtils
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
+import androidx.core.net.toUri
 
 import org.openhab.habdroid.R
 import org.openhab.habdroid.model.ServerProperties
@@ -54,8 +48,7 @@ class PreferencesActivity : AbstractBaseActivity() {
 
         setContentView(R.layout.activity_prefs)
 
-        val toolbar = findViewById<Toolbar>(R.id.openhab_toolbar)
-        setSupportActionBar(toolbar)
+        setSupportActionBar(findViewById(R.id.openhab_toolbar))
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         if (savedInstanceState == null) {
@@ -65,7 +58,7 @@ class PreferencesActivity : AbstractBaseActivity() {
                     .add(R.id.prefs_container, MainSettingsFragment())
                     .commit()
         } else {
-            resultIntent = savedInstanceState.getParcelable(STATE_KEY_RESULT)
+            resultIntent = savedInstanceState.getParcelable(STATE_KEY_RESULT)!!
         }
         setResult(RESULT_OK, resultIntent)
     }
@@ -238,8 +231,8 @@ class PreferencesActivity : AbstractBaseActivity() {
             val viewLogPref = findPreference(Constants.PREFERENCE_LOG)
             val prefs = preferenceScreen.sharedPreferences
 
-            val currentDefaultSitemap = prefs.getString(Constants.PREFERENCE_SITEMAP_NAME, "")
-            val currentDefaultSitemapLabel = prefs.getString(Constants.PREFERENCE_SITEMAP_LABEL, "")
+            val currentDefaultSitemap = prefs.getString(Constants.PREFERENCE_SITEMAP_NAME, "") as String
+            val currentDefaultSitemapLabel = prefs.getString(Constants.PREFERENCE_SITEMAP_LABEL, "") as String
             if (currentDefaultSitemap.isEmpty()) {
                 onNoDefaultSitemap(clearDefaultSitemapPref)
             } else {
@@ -258,26 +251,26 @@ class PreferencesActivity : AbstractBaseActivity() {
             updateVibrationPreferenceIcon(vibrationPref,
                     prefs.getString(Constants.PREFERENCE_NOTIFICATION_VIBRATION, "")!!)
 
-            localConnPref.setOnPreferenceClickListener { preference ->
+            localConnPref.setOnPreferenceClickListener {
                 parentActivity.openSubScreen(LocalConnectionSettingsFragment())
                 false
             }
 
-            remoteConnPref.setOnPreferenceClickListener { preference ->
+            remoteConnPref.setOnPreferenceClickListener {
                 parentActivity.openSubScreen(RemoteConnectionSettingsFragment())
                 false
             }
 
-            themePref.setOnPreferenceChangeListener { preference, newValue ->
+            themePref.setOnPreferenceChangeListener { preference, _ ->
                 parentActivity.handleThemeChange()
                 true
             }
 
-            clearCachePref.setOnPreferenceClickListener { preference ->
+            clearCachePref.setOnPreferenceClickListener {
                 // Get launch intent for application
                 val restartIntent = activity.packageManager
                         .getLaunchIntentForPackage(activity.baseContext.packageName)
-                restartIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                restartIntent?.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                 // Finish current activity
                 activity.finish()
                 CacheManager.getInstance(activity).clearCache()
@@ -299,12 +292,12 @@ class PreferencesActivity : AbstractBaseActivity() {
             }
 
             ringtonePref.setOnPreferenceChangeListener { pref, newValue ->
-                updateRingtonePreferenceSummary(pref, newValue)
+                updateRingtonePreferenceSummary(pref, newValue as String?)
                 true
             }
 
             vibrationPref.setOnPreferenceChangeListener { pref, newValue ->
-                updateVibrationPreferenceIcon(pref, newValue)
+                updateVibrationPreferenceIcon(pref, newValue as String?)
                 true
             }
 
@@ -328,7 +321,7 @@ class PreferencesActivity : AbstractBaseActivity() {
                 Log.d(TAG, "Removing fullscreen pref as device isn't running Kitkat or higher")
                 getParent(fullscreenPreference)!!.removePreference(fullscreenPreference)
             } else {
-                fullscreenPreference.setOnPreferenceChangeListener { preference, newValue ->
+                fullscreenPreference.setOnPreferenceChangeListener { _, newValue ->
                     (activity as AbstractBaseActivity).checkFullscreen(newValue as Boolean)
                     true
                 }
@@ -363,7 +356,7 @@ class PreferencesActivity : AbstractBaseActivity() {
                 }
             }
 
-            sendDeviceInfoPrefixPref.setOnPreferenceChangeListener { preference, newValue ->
+            sendDeviceInfoPrefixPref.setOnPreferenceChangeListener { _, newValue ->
                 val item = ItemUpdatingPreference.parseValue(getPreferenceString(alarmClockPref, null))
                 updateAlarmClockPreferenceSummary(alarmClockPref, newValue as String, item)
                 true
@@ -413,21 +406,20 @@ class PreferencesActivity : AbstractBaseActivity() {
             pref.setSummary(R.string.settings_no_default_sitemap)
         }
 
-        private fun updateRingtonePreferenceSummary(pref: Preference, newValue: Any?) {
-            val value = newValue as String?
-            if (TextUtils.isEmpty(value)) {
+        private fun updateRingtonePreferenceSummary(pref: Preference, newValue: String?) {
+            if (newValue == null || newValue.isEmpty()) {
                 pref.setIcon(R.drawable.ic_bell_off_outline_grey_24dp)
                 pref.setSummary(R.string.settings_ringtone_none)
             } else {
                 pref.setIcon(R.drawable.ic_bell_ring_outline_grey_24dp)
-                val ringtone = RingtoneManager.getRingtone(activity, Uri.parse(value))
+                val ringtone = RingtoneManager.getRingtone(activity, newValue.toUri())
                 if (ringtone != null) {
                     pref.summary = ringtone.getTitle(activity)
                 }
             }
         }
 
-        private fun updateVibrationPreferenceIcon(pref: Preference, newValue: Any) {
+        private fun updateVibrationPreferenceIcon(pref: Preference, newValue: String?) {
             val noVibration = newValue == getString(R.string.settings_notification_vibration_value_off)
             pref.setIcon(if (noVibration)
                 R.drawable.ic_vibrate_off_grey_24dp
@@ -455,26 +447,18 @@ class PreferencesActivity : AbstractBaseActivity() {
         private fun updateConnectionSummary(subscreenPrefKey: String, urlPrefKey: String,
                                             userPrefKey: String, passwordPrefKey: String) {
             val pref = findPreference(subscreenPrefKey)
-            val url = getPreferenceString(urlPrefKey, "")
+            val url = getPreferenceString(urlPrefKey, "") as String
+            val host = url.toUri().host.replace("myopenhab.org", "myopenHAB")
             val summary: String
-            if (TextUtils.isEmpty(url)) {
+            if (host.isEmpty()) {
                 summary = getString(R.string.info_not_set)
             } else if (isConnectionSecure(url, getPreferenceString(userPrefKey, ""),
                             getPreferenceString(passwordPrefKey, ""))) {
-                summary = getString(R.string.settings_connection_summary,
-                        beautifyUrl(Util.getHostFromUrl(url!!)))
+                summary = getString(R.string.settings_connection_summary, host)
             } else {
-                summary = getString(R.string.settings_insecure_connection_summary,
-                        beautifyUrl(Util.getHostFromUrl(url!!)))
+                summary = getString(R.string.settings_insecure_connection_summary, host)
             }
             pref.summary = summary
-        }
-
-        companion object {
-
-            fun beautifyUrl(url: String?): String? {
-                return if (url != null && url.contains("myopenhab.org")) "myopenHAB" else url
-            }
         }
     }
 

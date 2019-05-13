@@ -1,7 +1,7 @@
 package org.openhab.habdroid.ui
 
 import android.app.AlertDialog
-import android.content.res.Resources
+import android.location.Location
 import android.view.LayoutInflater
 import android.view.ViewGroup
 
@@ -9,7 +9,6 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.MapsInitializer
-import com.google.android.gms.maps.UiSettings
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.Marker
@@ -33,52 +32,41 @@ object MapViewHelper {
     }
 
     private class GoogleMapsViewHolder(inflater: LayoutInflater, parent: ViewGroup,
-                                       connection: Connection, colorMapper: WidgetAdapter.ColorMapper) :
+                                       private val connection: Connection,
+                                       colorMapper: WidgetAdapter.ColorMapper) :
             WidgetAdapter.LabeledItemBaseViewHolder(inflater, parent, R.layout.openhabwidgetlist_mapitem, connection, colorMapper),
             GoogleMap.OnMarkerDragListener {
         private val mapView: MapView
-        private val rowHeightPixels: Int
         private var map: GoogleMap? = null
         private var boundItem: Item? = null
         private var started: Boolean = false
 
         init {
             mapView = itemView.findViewById(R.id.mapview)
-
             mapView.onCreate(null)
             mapView.getMapAsync { map ->
                 this.map = map
                 val settings = map.uiSettings
                 settings.setAllGesturesEnabled(false)
                 settings.isMapToolbarEnabled = false
-                map.setOnMarkerClickListener { marker ->
+                map.setOnMarkerClickListener {
                     openPopup()
                     true
                 }
-                map.setOnMapClickListener { position -> openPopup() }
-                applyPositionAndLabel(map, 15.0f, false)
+                map.setOnMapClickListener { openPopup() }
+                map.applyPositionAndLabel(boundItem, labelView.text, 15.0f, false)
             }
 
-            rowHeightPixels = itemView.resources.getDimensionPixelSize(R.dimen.row_height)
         }
 
         override fun bind(widget: Widget) {
             super.bind(widget)
 
-            val lp = mapView.layoutParams
-            val rows = if (widget.height > 0) widget.height else 5
-            val desiredHeightPixels = rows * rowHeightPixels
-            if (lp.height != desiredHeightPixels) {
-                lp.height = desiredHeightPixels
-                mapView.layoutParams = lp
-            }
+            mapView.adjustForWidgetHeight(widget, 5)
 
             boundItem = widget.item
-            val map = map;
-            if (map != null) {
-                map.clear()
-                applyPositionAndLabel(map, 15.0f, false)
-            }
+            map?.clear()
+            map?.applyPositionAndLabel(boundItem, labelView.text, 15.0f, false)
         }
 
         override fun start() {
@@ -123,7 +111,7 @@ object MapViewHelper {
                     .setNegativeButton(R.string.close, null)
                     .create()
 
-            dialog.setOnDismissListener { dialogInterface ->
+            dialog.setOnDismissListener {
                 mapView.onPause()
                 mapView.onStop()
                 mapView.onDestroy()
@@ -135,60 +123,53 @@ object MapViewHelper {
             mapView.onResume()
             mapView.getMapAsync { map ->
                 map.setOnMarkerDragListener(this@GoogleMapsViewHolder)
-                applyPositionAndLabel(map, 16.0f, true)
+                map.applyPositionAndLabel(boundItem, labelView.text, 16.0f, true)
             }
-        }
-
-        private fun applyPositionAndLabel(map: GoogleMap, zoomLevel: Float, allowDrag: Boolean) {
-            val item = boundItem
-            if (item == null) {
-                return
-            }
-            val canDragMarker = allowDrag && !item.readOnly
-            if (!item.members.isEmpty()) {
-                val positions = ArrayList<LatLng>()
-                for (member in item.members) {
-                    val position = toLatLng(member.state)
-                    if (position != null) {
-                        setMarker(map, position, member, member.label, canDragMarker)
-                        positions.add(position)
-                    }
-                }
-                if (!positions.isEmpty()) {
-                    val boundsBuilder = LatLngBounds.Builder()
-                    for (position in positions) {
-                        boundsBuilder.include(position)
-                    }
-                    map.moveCamera(CameraUpdateFactory.newLatLngBounds(boundsBuilder.build(), 0))
-                    val zoom = map.cameraPosition.zoom
-                    if (zoom > zoomLevel) {
-                        map.moveCamera(CameraUpdateFactory.zoomTo(zoomLevel))
-                    }
-                }
-            } else {
-                val position = toLatLng(item.state)
-                if (position != null) {
-                    setMarker(map, position, item, labelView.text, canDragMarker)
-                    map.moveCamera(CameraUpdateFactory.newLatLngZoom(position, zoomLevel))
-                }
-            }
-        }
-
-        private fun setMarker(map: GoogleMap, position: LatLng, item: Item,
-                              label: CharSequence?, canDrag: Boolean) {
-            val marker = MarkerOptions()
-                    .draggable(canDrag)
-                    .position(position)
-                    .title(label?.toString())
-            map.addMarker(marker).tag = item
-        }
-
-        private fun toLatLng(state: ParsedState?): LatLng? {
-            val location = state?.asLocation
-            if (location == null) {
-                return null
-            }
-            return LatLng(location.latitude, location.longitude)
         }
     }
+}
+
+fun GoogleMap.applyPositionAndLabel(item: Item?, itemLabel: CharSequence, zoomLevel: Float, allowDrag: Boolean) {
+    if (item == null) {
+        return
+    }
+    val canDragMarker = allowDrag && !item.readOnly
+    if (!item.members.isEmpty()) {
+        val positions = ArrayList<LatLng>()
+        for (member in item.members) {
+            val position = member.state?.asLocation?.toLatLng()
+            if (position != null) {
+                setMarker(position, member, member.label, canDragMarker)
+                positions.add(position)
+            }
+        }
+        if (!positions.isEmpty()) {
+            val boundsBuilder = LatLngBounds.Builder()
+            for (position in positions) {
+                boundsBuilder.include(position)
+            }
+            moveCamera(CameraUpdateFactory.newLatLngBounds(boundsBuilder.build(), 0))
+            if (cameraPosition.zoom > zoomLevel) {
+                moveCamera(CameraUpdateFactory.zoomTo(zoomLevel))
+            }
+        }
+    } else {
+        val position = item.state?.asLocation?.toLatLng()
+        if (position != null) {
+            setMarker(position, item, itemLabel, canDragMarker)
+            moveCamera(CameraUpdateFactory.newLatLngZoom(position, zoomLevel))
+        }
+    }
+}
+
+fun GoogleMap.setMarker(position: LatLng, item: Item, label: CharSequence?, canDrag: Boolean) {
+    val marker = MarkerOptions()
+            .draggable(canDrag)
+            .position(position)
+            .title(label?.toString())
+    addMarker(marker).tag = item
+}
+
+fun Location.toLatLng(): LatLng {
+    return LatLng(latitude, longitude)
 }

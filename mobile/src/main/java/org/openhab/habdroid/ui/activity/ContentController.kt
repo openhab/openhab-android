@@ -26,10 +26,11 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.AnimRes
 import androidx.annotation.DrawableRes
-import androidx.annotation.IdRes
 import androidx.annotation.StringRes
 import androidx.core.app.TaskStackBuilder
 import androidx.core.content.ContextCompat
+import androidx.core.os.bundleOf
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
@@ -73,10 +74,11 @@ abstract class ContentController protected constructor(private val activity: Mai
     private val pendingDataLoadUrls = HashSet<String>()
 
     override val iconFormat: String
-        get() = PreferenceManager.getDefaultSharedPreferences(activity).getString("iconFormatType", "PNG")
+        get() = PreferenceManager.getDefaultSharedPreferences(activity).getString("iconFormatType", "PNG") as String
     override val isDetailedLoggingEnabled: Boolean
         get() = PreferenceManager.getDefaultSharedPreferences(activity).getBoolean(Constants.PREFERENCE_DEBUG_MESSAGES, false)
-
+    override val serverProperties: ServerProperties?
+        get() = activity.serverProperties
     /**
      * Get title describing current UI state
      *
@@ -174,10 +176,10 @@ abstract class ContentController protected constructor(private val activity: Mai
             defaultProgressFragment = progressFragment
         }
 
-        val oldStack = state.getParcelableArrayList<LinkedPage>("controllerPages")
+        val oldStack = state.getParcelableArrayList<LinkedPage>("controllerPages")!!
         pageStack.clear()
         for (page in oldStack) {
-            val f = fm.getFragment(state, "pageFragment-" + page.link!!) as WidgetListFragment?
+            val f = fm.getFragment(state, "pageFragment-" + page.link) as WidgetListFragment?
             pageStack.add(Pair(page, f ?: makePageFragment(page)))
         }
         temporaryPage = fm.getFragment(state, "temporaryPage")
@@ -248,7 +250,7 @@ abstract class ContentController protected constructor(private val activity: Mai
             activity.updateTitle()
         } else {
             // we didn't find it
-            temporaryPage = WidgetListFragment.withPage(url, null!!)
+            temporaryPage = WidgetListFragment.withPage(url, null)
             // no fragment update yet; fragment state will be updated when data arrives
             handleNewWidgetFragment(temporaryPage as WidgetListFragment)
             activity.setProgressIndicatorVisible(true)
@@ -420,23 +422,11 @@ abstract class ContentController protected constructor(private val activity: Mai
         return false
     }
 
-    override fun serverReturnsJson(): Boolean {
-        val props = activity.serverProperties
-        return props != null && props.hasJsonApi()
-    }
-
-    override fun serverSupportsSse(): Boolean {
-        val props = activity.serverProperties
-        return props != null && props.hasSseSupport()
-    }
-
     override fun onPageUpdated(pageUrl: String, pageTitle: String?, widgets: List<Widget>) {
         Log.d(TAG, "Got update for URL $pageUrl, pending $pendingDataLoadUrls")
         val fragment = findWidgetFragmentForUrl(pageUrl)
-        if (fragment != null) {
-            fragment.updateTitle(pageTitle ?: "")
-            fragment.updateWidgets(widgets)
-        }
+        fragment?.updateTitle(pageTitle ?: "")
+        fragment?.updateWidgets(widgets)
         if (pendingDataLoadUrls.remove(pageUrl) && pendingDataLoadUrls.isEmpty()) {
             activity.setProgressIndicatorVisible(false)
             activity.updateTitle()
@@ -666,10 +656,10 @@ abstract class ContentController protected constructor(private val activity: Mai
             if (!TextUtils.isEmpty(message)) {
                 descriptionText.text = message
             } else {
-                descriptionText.visibility = View.GONE
+                descriptionText.isVisible = false
             }
 
-            view.findViewById<View>(R.id.progress).visibility = if (arguments.getBoolean(KEY_PROGRESS)) View.VISIBLE else View.GONE
+            view.findViewById<View>(R.id.progress).isVisible = arguments.getBoolean(KEY_PROGRESS)
 
             val watermark = view.findViewById<ImageView>(R.id.image)
             @DrawableRes val drawableResId = arguments.getInt(KEY_DRAWABLE)
@@ -680,32 +670,21 @@ abstract class ContentController protected constructor(private val activity: Mai
                         PorterDuff.Mode.SRC_IN)
                 watermark.setImageDrawable(drawable)
             } else {
-                watermark.visibility = View.GONE
+                watermark.isVisible = false
             }
 
-            initButton(arguments, view, R.id.button1, KEY_BUTTON_1_TEXT)
-            initButton(arguments, view, R.id.button2, KEY_BUTTON_2_TEXT)
+            for ((id, key) in mapOf(R.id.button1 to KEY_BUTTON_1_TEXT, R.id.button2 to KEY_BUTTON_2_TEXT)) {
+                val button = view.findViewById<Button>(id)
+                val buttonTextResId = arguments.getInt(key)
+                if (buttonTextResId != 0) {
+                    button.setText(buttonTextResId)
+                    button.setOnClickListener(this)
+                } else {
+                    button.isVisible = false
+                }
+            }
 
             return view
-        }
-
-        /**
-         * Set button text and tag or hide button.
-         *
-         * @return true if button is shown, false if not.
-         */
-        private fun initButton(arguments: Bundle, view: View, @IdRes buttonId: Int,
-                               titleKey: String): Boolean {
-            val button = view.findViewById<Button>(buttonId)
-            val buttonTextResId = arguments.getInt(titleKey)
-            if (buttonTextResId != 0) {
-                button.setText(buttonTextResId)
-                button.setOnClickListener(this)
-                return true
-            } else {
-                button.visibility = View.GONE
-                return false
-            }
         }
 
         companion object {
@@ -726,13 +705,13 @@ abstract class ContentController protected constructor(private val activity: Mai
             internal fun buildArgs(message: CharSequence?,
                                     @StringRes button1TextResId: Int, @StringRes button2TextResId: Int,
                                     @DrawableRes drawableResId: Int, showProgress: Boolean): Bundle {
-                val args = Bundle()
-                args.putCharSequence(KEY_MESSAGE, message)
-                args.putInt(KEY_DRAWABLE, drawableResId)
-                args.putInt(KEY_BUTTON_1_TEXT, button1TextResId)
-                args.putInt(KEY_BUTTON_2_TEXT, button2TextResId)
-                args.putBoolean(KEY_PROGRESS, showProgress)
-                return args
+                return bundleOf(
+                        KEY_MESSAGE to message,
+                        KEY_DRAWABLE to drawableResId,
+                        KEY_BUTTON_1_TEXT to button1TextResId,
+                        KEY_BUTTON_2_TEXT to button2TextResId,
+                        KEY_PROGRESS to showProgress
+                )
             }
         }
     }

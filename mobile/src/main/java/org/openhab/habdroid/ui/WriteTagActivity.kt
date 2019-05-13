@@ -36,10 +36,10 @@ import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.annotation.DrawableRes
-import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.core.view.isInvisible
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 
 import org.openhab.habdroid.R
@@ -65,9 +65,8 @@ class WriteTagActivity : AbstractBaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_writetag)
 
-        val toolbar = findViewById<Toolbar>(R.id.openhab_toolbar)
-        setSupportActionBar(toolbar)
-        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+        setSupportActionBar(findViewById(R.id.openhab_toolbar))
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         val manager = getSystemService(Context.NFC_SERVICE) as NfcManager
         nfcAdapter = manager.defaultAdapter
@@ -231,17 +230,13 @@ class WriteTagActivity : AbstractBaseActivity() {
             val view = inflater.inflate(R.layout.fragment_writenfc, container, false)
             val watermark = view.findViewById<ImageView>(R.id.nfc_watermark)
 
-            val nfcIcon = ContextCompat.getDrawable(activity!!, watermarkIcon)
+            val nfcIcon = ContextCompat.getDrawable(view.context, watermarkIcon)
             nfcIcon?.setColorFilter(
-                    ContextCompat.getColor(activity!!, R.color.empty_list_text_color),
+                    ContextCompat.getColor(view.context, R.color.empty_list_text_color),
                     PorterDuff.Mode.SRC_IN)
             watermark.setImageDrawable(nfcIcon)
 
             return view
-        }
-
-        protected fun getMessageTextView(view: View?): TextView {
-            return view!!.findViewById(R.id.write_tag_message)
         }
     }
 
@@ -253,14 +248,13 @@ class WriteTagActivity : AbstractBaseActivity() {
         override fun onCreateView(inflater: LayoutInflater,
                                   container: ViewGroup?, savedInstanceState: Bundle?): View? {
             val view = super.onCreateView(inflater, container, savedInstanceState)
-
-            getMessageTextView(view).setText(R.string.info_write_tag_unsupported)
+            val message = view?.findViewById<TextView>(R.id.write_tag_message)
+            message?.setText(R.string.info_write_tag_unsupported)
             return view
         }
     }
 
     class NfcDisabledFragment : AbstractNfcFragment() {
-
         override val watermarkIcon: Int
             @DrawableRes
             get() = R.drawable.ic_nfc_off_black_180dp
@@ -268,12 +262,12 @@ class WriteTagActivity : AbstractBaseActivity() {
         override fun onCreateView(inflater: LayoutInflater,
                                   container: ViewGroup?, savedInstanceState: Bundle?): View? {
             val view = super.onCreateView(inflater, container, savedInstanceState)
+            val message = view?.findViewById<TextView>(R.id.write_tag_message)
+            message?.setText(R.string.info_write_tag_disabled)
 
-            getMessageTextView(view).setText(R.string.info_write_tag_disabled)
-
-            val nfcActivate = view!!.findViewById<TextView>(R.id.nfc_activate)
-            nfcActivate.visibility = View.VISIBLE
-            nfcActivate.setOnClickListener { v ->
+            val nfcActivate = view?.findViewById<TextView>(R.id.nfc_activate)
+            nfcActivate?.isVisible = true
+            nfcActivate?.setOnClickListener { v ->
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                     startActivity(Intent(Settings.ACTION_NFC_SETTINGS))
                 } else {
@@ -286,7 +280,6 @@ class WriteTagActivity : AbstractBaseActivity() {
     }
 
     class NfcWriteTagFragment : AbstractNfcFragment() {
-
         override val watermarkIcon: Int
             @DrawableRes
             get() = R.drawable.ic_nfc_search_black_180dp
@@ -294,9 +287,7 @@ class WriteTagActivity : AbstractBaseActivity() {
         override fun onCreateView(inflater: LayoutInflater,
                                   container: ViewGroup?, savedInstanceState: Bundle?): View? {
             val view = super.onCreateView(inflater, container, savedInstanceState)
-
-            view!!.findViewById<View>(R.id.nfc_wait_progress).visibility = View.VISIBLE
-
+            view?.findViewById<View>(R.id.nfc_wait_progress)?.isVisible = true
             return view
         }
     }

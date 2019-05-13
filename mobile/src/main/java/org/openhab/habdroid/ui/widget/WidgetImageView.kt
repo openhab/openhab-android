@@ -10,7 +10,6 @@
 package org.openhab.habdroid.ui.widget
 
 import android.content.Context
-import android.content.res.TypedArray
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.os.Handler
@@ -41,7 +40,7 @@ class WidgetImageView @JvmOverloads constructor(context: Context, attrs: Attribu
     private val fallback: Drawable?
     private val progressDrawable: Drawable?
 
-    private var originalScaleType: ImageView.ScaleType? = null
+    private var originalScaleType: ScaleType? = null
     private var originalAdjustViewBounds: Boolean = false
     private val emptyHeightToWidthRatio: Float
     private var internalLoad: Boolean = false
@@ -94,7 +93,7 @@ class WidgetImageView @JvmOverloads constructor(context: Context, attrs: Attribu
         val client = connection.asyncHttpClient
         val actualUrl = client.buildUrl(url)
 
-        if (lastRequest != null && lastRequest!!.isActiveForUrl(actualUrl)) {
+        if (lastRequest?.isActiveForUrl(actualUrl) ?: false) {
             // We're already in the process of loading this image, thus there's nothing to do
             return
         }
@@ -203,9 +202,7 @@ class WidgetImageView @JvmOverloads constructor(context: Context, attrs: Attribu
 
     private fun doRefresh() {
         lastRefreshTimestamp = SystemClock.uptimeMillis()
-        if (lastRequest != null) {
-            lastRequest!!.execute(true)
-        }
+        lastRequest?.execute(true)
     }
 
     private fun scheduleNextRefresh() {
@@ -216,9 +213,7 @@ class WidgetImageView @JvmOverloads constructor(context: Context, attrs: Attribu
 
     private fun cancelCurrentLoad() {
         refreshHandler.removeMessages(0)
-        if (lastRequest != null) {
-            lastRequest!!.cancel()
-        }
+        lastRequest?.cancel()
     }
 
     private fun applyFallbackDrawable() {
@@ -270,9 +265,7 @@ class WidgetImageView @JvmOverloads constructor(context: Context, attrs: Attribu
         }
 
         fun cancel() {
-            if (call != null) {
-                call!!.cancel()
-            }
+            call?.cancel()
         }
 
         fun hasCompleted(): Boolean {
@@ -280,7 +273,8 @@ class WidgetImageView @JvmOverloads constructor(context: Context, attrs: Attribu
         }
 
         fun isActiveForUrl(url: HttpUrl): Boolean {
-            return call != null && call!!.request().url() == url && !call!!.isCanceled
+            val c = call
+            return c != null && c.request().url() == url && !c.isCanceled
         }
     }
 

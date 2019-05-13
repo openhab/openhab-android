@@ -5,11 +5,9 @@ import android.content.Context
 import android.os.Bundle
 import android.preference.EditTextPreference
 import android.text.Editable
-import android.text.TextUtils
 import android.text.TextWatcher
 import android.util.AttributeSet
 import android.view.View
-import android.widget.Button
 import android.widget.EditText
 
 import androidx.annotation.StringRes
@@ -46,7 +44,7 @@ class UrlInputPreference : EditTextPreference, TextWatcher {
 
     override fun afterTextChanged(editable: Editable) {
         var portSeemsInvalid = false
-        if (TextUtils.isEmpty(editable)) {
+        if (editable.isEmpty()) {
             urlIsValid = true
         } else {
             val value = editable.toString()
@@ -79,12 +77,9 @@ class UrlInputPreference : EditTextPreference, TextWatcher {
     }
 
     private fun updateOkButtonState() {
+        val dialog = this.dialog
         if (dialog is AlertDialog) {
-            val dialog = dialog as AlertDialog
-            val okButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE)
-            if (okButton != null) {
-                okButton.isEnabled = urlIsValid
-            }
+            dialog.getButton(AlertDialog.BUTTON_POSITIVE)?.isEnabled = urlIsValid
         }
     }
 }
