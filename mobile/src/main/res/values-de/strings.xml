@@ -125,6 +125,8 @@
     <string name="info_openhab_push_notification_label">Push-Benachrichtigungsstatus</string>
     <string name="action_settings">Einstellungen</string>
     <string name="nfc_dialog_title">Schreibe eine Aktion für dieses Element in einen NFC Tag</string>
+    <string name="nfc_tag_recognized_label">NFC-Tag für \"%s\" erkannt</string>
+    <string name="nfc_tag_recognized_item">NFC-Tag für Item \"%s\" erkannt</string>
     <string name="info_not_set">Nicht gesetzt</string>
     <string name="empty_page">Diese Seite beinhaltet keine sichtbaren Widgets</string>
     <!-- Background tasks -->
