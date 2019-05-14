@@ -85,7 +85,7 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
 
     public interface ItemClickListener {
         boolean onItemClicked(Widget item); // returns whether click was handled
-        void onItemLongClicked(Widget item);
+        boolean onItemLongClicked(Widget item);
     }
 
     private static final int TYPE_GENERICITEM = 0;
@@ -346,7 +346,7 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
         ViewHolder holder = (ViewHolder) view.getTag();
         int position = holder.getAdapterPosition();
         if (position != RecyclerView.NO_POSITION) {
-            mItemClickListener.onItemLongClicked(mItems.get(position));
+            return mItemClickListener.onItemLongClicked(mItems.get(position));
         }
         return false;
     }

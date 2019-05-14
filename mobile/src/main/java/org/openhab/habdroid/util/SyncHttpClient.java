@@ -9,6 +9,8 @@
 
 package org.openhab.habdroid.util;
 
+import android.graphics.Bitmap;
+
 import okhttp3.Call;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -61,6 +63,10 @@ public class SyncHttpClient extends HttpClient {
             return new HttpTextResult(this);
         }
 
+        public HttpBitmapResult asBitmap(int sizeInPixel) {
+            return new HttpBitmapResult(this, sizeInPixel);
+        }
+
         public HttpStatusResult asStatus() {
             return new HttpStatusResult(this);
         }
@@ -109,6 +115,33 @@ public class SyncHttpClient extends HttpClient {
 
         public boolean isSuccessful() {
             return error == null;
+        }
+    }
+
+    public static class HttpBitmapResult {
+        public final Request request;
+        public final Bitmap response;
+        public final Throwable error;
+        public final int statusCode;
+
+        HttpBitmapResult(HttpResult result, int size) {
+            this.request = result.request;
+            this.statusCode = result.statusCode;
+            if (result.response == null) {
+                this.response = null;
+                this.error = result.error;
+            } else {
+                Bitmap response = null;
+                Throwable error = result.error;
+                try {
+                    response = getBitmapFromSvgInputstream(result.response, size);
+                } catch (IOException e) {
+                    error = e;
+                }
+                this.response = response;
+                this.error = error;
+            }
+            result.close();
         }
     }
 

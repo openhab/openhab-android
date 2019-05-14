@@ -9,28 +9,20 @@
 
 package org.openhab.habdroid.util;
 
-import android.content.res.Resources;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.DisplayMetrics;
 import androidx.annotation.NonNull;
 
-import com.caverock.androidsvg.SVG;
-import com.caverock.androidsvg.SVGParseException;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Headers;
-import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Map;
 
 public class AsyncHttpClient extends HttpClient {
@@ -57,74 +49,7 @@ public class AsyncHttpClient extends HttpClient {
 
         @Override
         public Bitmap convertBodyInBackground(ResponseBody body) throws IOException {
-            MediaType contentType = body.contentType();
-            boolean isSvg = contentType != null
-                    && contentType.type().equals("image")
-                    && contentType.subtype().contains("svg");
-            InputStream is = body.byteStream();
-            if (isSvg) {
-                try {
-                    return getBitmapFromSvgInputstream(Resources.getSystem(), is, mSize);
-                } catch (SVGParseException e) {
-                    throw new IOException("SVG decoding failed", e);
-                }
-            } else {
-                Bitmap bitmap = BitmapFactory.decodeStream(is);
-                if (bitmap != null) {
-                    return bitmap;
-                }
-                throw new IOException("Bitmap decoding failed");
-            }
-        }
-
-        private static Bitmap getBitmapFromSvgInputstream(Resources res, InputStream is, int size)
-                throws SVGParseException {
-            SVG svg = SVG.getFromInputStream(is);
-            svg.setRenderDPI(DisplayMetrics.DENSITY_DEFAULT);
-            Float density = res.getDisplayMetrics().density;
-            svg.setDocumentHeight("100%");
-            svg.setDocumentWidth("100%");
-            int docWidth = (int) (svg.getDocumentWidth() * density);
-            int docHeight = (int) (svg.getDocumentHeight() * density);
-            if (docWidth < 0 || docHeight < 0) {
-                float aspectRatio = svg.getDocumentAspectRatio();
-                if (aspectRatio > 0) {
-                    float heightForAspect = (float) size / aspectRatio;
-                    float widthForAspect = (float) size * aspectRatio;
-                    if (widthForAspect < heightForAspect) {
-                        docWidth = Math.round(widthForAspect);
-                        docHeight = size;
-                    } else {
-                        docWidth = size;
-                        docHeight = Math.round(heightForAspect);
-                    }
-                } else {
-                    docWidth = size;
-                    docHeight = size;
-                }
-
-                // we didn't take density into account anymore when calculating docWidth
-                // and docHeight, so don't scale with it and just let the renderer
-                // figure out the scaling
-                density = null;
-            }
-
-            if (docWidth != size || docHeight != size) {
-                float scaleWidth = (float) size / docWidth;
-                float scaleHeigth = (float) size / docHeight;
-                density = (scaleWidth + scaleHeigth) / 2;
-
-                docWidth = size;
-                docHeight = size;
-            }
-
-            Bitmap bitmap = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888);
-            Canvas canvas = new Canvas(bitmap);
-            if (density != null) {
-                canvas.scale(density, density);
-            }
-            svg.renderToCanvas(canvas);
-            return bitmap;
+            return getBitmapFromSvgInputstream(body, mSize);
         }
     }
 

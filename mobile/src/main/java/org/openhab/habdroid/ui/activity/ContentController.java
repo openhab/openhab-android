@@ -431,7 +431,7 @@ public abstract class ContentController implements PageConnectionHolderFragment.
     @Override
     public String getIconFormat() {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(mActivity);
-        return prefs.getString("iconFormatType","PNG");
+        return prefs.getString(Constants.PREFERENCE_ICON_FORMAT, "PNG");
     }
 
     @Override

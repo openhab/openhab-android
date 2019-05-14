@@ -9,9 +9,20 @@
 
 package org.openhab.habdroid.ui;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.drawable.AdaptiveIconDrawable;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.text.TextUtils;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,11 +30,18 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import androidx.annotation.NonNull;
 import androidx.annotation.VisibleForTesting;
+import androidx.core.content.pm.ShortcutInfoCompat;
+import androidx.core.content.pm.ShortcutManagerCompat;
+import androidx.core.graphics.drawable.IconCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import es.dmoral.toasty.Toasty;
 import org.openhab.habdroid.R;
+import org.openhab.habdroid.core.connection.Connection;
+import org.openhab.habdroid.core.connection.ConnectionFactory;
+import org.openhab.habdroid.core.connection.exception.ConnectionException;
 import org.openhab.habdroid.model.Item;
 import org.openhab.habdroid.model.LabeledValue;
 import org.openhab.habdroid.model.LinkedPage;
@@ -31,6 +49,7 @@ import org.openhab.habdroid.model.ParsedState;
 import org.openhab.habdroid.model.Widget;
 import org.openhab.habdroid.ui.widget.RecyclerViewSwipeRefreshLayout;
 import org.openhab.habdroid.util.CacheManager;
+import org.openhab.habdroid.util.Constants;
 import org.openhab.habdroid.util.Util;
 
 import java.util.ArrayList;
@@ -108,7 +127,7 @@ public class WidgetListFragment extends Fragment
     }
 
     @Override
-    public void onItemLongClicked(final Widget widget) {
+    public boolean onItemLongClicked(final Widget widget) {
         ArrayList<String> labels = new ArrayList<>();
         ArrayList<String> commands = new ArrayList<>();
 
@@ -184,6 +203,7 @@ public class WidgetListFragment extends Fragment
 
         if (widget.linkedPage() != null) {
             labels.add(getString(R.string.nfc_action_to_sitemap_page));
+            labels.add(getString(R.string.home_shortcut_pin_to_home));
         }
 
         if (!labels.isEmpty()) {
@@ -191,19 +211,22 @@ public class WidgetListFragment extends Fragment
             new AlertDialog.Builder(getActivity())
                     .setTitle(R.string.nfc_dialog_title)
                     .setItems(labelArray, (dialog, which) -> {
-                        final Intent writeTagIntent;
                         if (which < commands.size()) {
-                            writeTagIntent = WriteTagActivity.createItemUpdateIntent(getActivity(),
-                                    widget.item().name(), commands.get(which),
-                                    labels.get(which), widget.item().label());
+                            startActivityForResult(WriteTagActivity.createItemUpdateIntent(
+                                    getActivity(), widget.item().name(), commands.get(which),
+                                    labels.get(which), widget.item().label()), 0);
+                        } else if (which == commands.size()){
+                            startActivityForResult(WriteTagActivity.createSitemapNavigationIntent(
+                                    getActivity(), widget.linkedPage().link()), 0);
                         } else {
-                            writeTagIntent = WriteTagActivity.createSitemapNavigationIntent(
-                                    getActivity(), widget.linkedPage().link());
+                            createShortcut(widget.linkedPage());
                         }
-                        startActivityForResult(writeTagIntent, 0);
                     })
                     .show();
+
+            return true;
         }
+        return false;
     }
 
     @Override
@@ -249,6 +272,114 @@ public class WidgetListFragment extends Fragment
         if (mAdapter != null) {
             startOrStopVisibleViewHolders(false);
         }
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    private void createShortcut(LinkedPage linkedPage) {
+        String iconFormat = PreferenceManager.getDefaultSharedPreferences(getContext())
+                .getString(Constants.PREFERENCE_ICON_FORMAT, "png");
+        new AsyncTask<Void, Void, IconCompat>() {
+
+            @Override
+            protected IconCompat doInBackground(Void... voids) {
+                Context context = getContext();
+                String url = null;
+                if (!TextUtils.isEmpty(linkedPage.iconPath())) {
+                    url = new Uri.Builder()
+                            .appendEncodedPath(linkedPage.iconPath())
+                            .appendQueryParameter("format", iconFormat)
+                            .toString();
+                }
+                IconCompat icon = null;
+                Connection connection = null;
+                try {
+                    connection = ConnectionFactory.getUsableConnection();
+                } catch (ConnectionException e) {
+                    // ignored
+                }
+
+                if (context == null || connection == null) {
+                    return null;
+                }
+
+                if (url != null) {
+                    /** Icon size is defined in {@link AdaptiveIconDrawable}. **/
+                    int foregroundSize = (int) convertDpToPixel(46, context);
+                    Bitmap bitmap = connection.getSyncHttpClient().get(url)
+                            .asBitmap(foregroundSize).response;
+                    if (bitmap != null) {
+                        bitmap = addBackgroundAndBorder(bitmap,
+                                (int) convertDpToPixel(31, context));
+                        icon = IconCompat.createWithAdaptiveBitmap(bitmap);
+                    }
+                }
+
+                if (icon == null) {
+                    // Fall back to openHAB icon
+                    icon = IconCompat.createWithResource(context, R.mipmap.icon);
+                }
+
+                return icon;
+            }
+
+            @Override
+            protected void onPostExecute(IconCompat icon) {
+                Context context = getContext();
+                if (icon == null || context == null) {
+                    return;
+                }
+
+                String name = linkedPage.title();
+
+                Uri sitemapUri = Uri.parse(linkedPage.link());
+                if (sitemapUri == null) {
+                    return;
+                }
+                String shortSitemapUri = sitemapUri.getPath().substring(14);
+
+                Intent startIntent = new Intent(context, MainActivity.class);
+                startIntent.setAction(MainActivity.ACTION_SITEMAP_SELECTED);
+                startIntent.putExtra(MainActivity.EXTRA_SITEMAP_URL, shortSitemapUri);
+                startActivity(startIntent);
+
+                ShortcutInfoCompat shortcutInfo = new ShortcutInfoCompat.Builder(context,
+                        shortSitemapUri + '-' + System.currentTimeMillis())
+                        .setShortLabel(name)
+                        .setIcon(icon)
+                        .setIntent(startIntent)
+                        .build();
+
+                if (ShortcutManagerCompat.requestPinShortcut(context, shortcutInfo, null)) {
+                    Toasty.success(context,R.string.home_shortcut_success_pinning).show();
+                } else {
+                    Toasty.error(context,R.string.home_shortcut_error_pinning).show();
+                }
+            }
+        }.execute();
+    }
+
+    /**
+     * @author https://stackoverflow.com/a/15525394
+     */
+    private Bitmap addBackgroundAndBorder(Bitmap bitmap, int borderSize) {
+        Bitmap bitmapWithBackground = Bitmap.createBitmap(bitmap.getWidth() + borderSize * 2,
+                bitmap.getHeight() + borderSize * 2, bitmap.getConfig());
+        Canvas canvas = new Canvas(bitmapWithBackground);
+        canvas.drawColor(Color.WHITE);
+        canvas.drawBitmap(bitmap, borderSize, borderSize, null);
+        return bitmapWithBackground;
+    }
+
+    /**
+     * This method converts dp unit to equivalent pixels, depending on device density.
+     *
+     * @param dp A value in dp (density independent pixels) unit. Which we need to convert into pixels
+     * @param context Context to get resources and device specific display metrics
+     * @return A float value to represent px equivalent to dp depending on device density
+     */
+    public static float convertDpToPixel(float dp, Context context){
+        return dp * ((float) context.getResources().getDisplayMetrics().densityDpi
+                / DisplayMetrics.DENSITY_DEFAULT);
     }
 
     public static WidgetListFragment withPage(String pageUrl, String pageTitle) {
