@@ -92,15 +92,14 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener {
                 }
                 // Else we only can do it for Switch widget with On/Off/Toggle commands
             } else if (widget.type === Widget.Type.Switch) {
-                val item = widget.item
-                if (item.isOfTypeOrGroupType(Item.Type.Switch)) {
+                if (widget.item.isOfTypeOrGroupType(Item.Type.Switch)) {
                     labels.add(getString(R.string.nfc_action_on))
                     commands.add("ON")
                     labels.add(getString(R.string.nfc_action_off))
                     commands.add("OFF")
                     labels.add(getString(R.string.nfc_action_toggle))
                     commands.add("TOGGLE")
-                } else if (item.isOfTypeOrGroupType(Item.Type.Rollershutter)) {
+                } else if (widget.item.isOfTypeOrGroupType(Item.Type.Rollershutter)) {
                     labels.add(getString(R.string.nfc_action_up))
                     commands.add("UP")
                     labels.add(getString(R.string.nfc_action_down))
@@ -155,16 +154,16 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener {
             AlertDialog.Builder(activity)
                     .setTitle(R.string.nfc_dialog_title)
                     .setItems(labels.toTypedArray()) { dialog, which ->
-                        val item = if (which < commands.size) widget.item else null
-                        val link = if (which == commands.size) widget.linkedPage?.link else null
-                        val writeTagIntent = if (item != null)
-                            WriteTagActivity.createItemUpdateIntent(activity!!,
-                                    item.name, commands[which], labels[which], item.label ?: "")
-                        else if (link != null)
-                            WriteTagActivity.createSitemapNavigationIntent(activity!!, link)
-                        else
-                            null
-                        startActivityForResult(writeTagIntent, 0);
+                        val itemToHandle = if (which < commands.size) widget.item else null
+                        val linkToHandle = if (which == commands.size) widget.linkedPage?.link else null
+                        if (itemToHandle != null) {
+                            startActivity(WriteTagActivity.createItemUpdateIntent(activity!!,
+                                    itemToHandle.name, commands[which],
+                                    labels[which], itemToHandle.label ?: ""))
+                        } else if (linkToHandle != null) {
+                            startActivity(WriteTagActivity.createSitemapNavigationIntent(
+                                    activity!!, linkToHandle))
+                        }
                     }
                     .show()
         }

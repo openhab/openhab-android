@@ -44,8 +44,8 @@ data class Item(val name: String, val label: String?, val type: Type, val groupT
     }
 
     companion object {
-        private fun parseType(type: String?): Type {
-            var type: String = type ?: return Type.None
+        private fun parseType(typeString: String?): Type {
+            var type: String = typeString ?: return Type.None
             // Earlier OH2 versions returned e.g. 'Switch' as 'SwitchItem'
             if (type.endsWith("Item")) {
                 type = type.substring(0, type.length - 4)

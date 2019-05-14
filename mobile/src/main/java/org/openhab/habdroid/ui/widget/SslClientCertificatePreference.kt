@@ -67,7 +67,7 @@ class SslClientCertificatePreference : Preference {
             arrayOf(KeyProperties.KEY_ALGORITHM_RSA, KeyProperties.KEY_ALGORITHM_EC)
         else
             arrayOf("RSA", "DSA")
-        KeyChain.choosePrivateKeyAlias(activity, KeyChainAliasCallback { this.handleAliasChosen(it) },
+        KeyChain.choosePrivateKeyAlias(activity, KeyChainAliasCallback { handleAliasChosen(it) },
                 keyTypes, null, null, -1, null)
     }
 
@@ -76,13 +76,13 @@ class SslClientCertificatePreference : Preference {
         helpIcon?.updateHelpIconAlpha(isEnabled)
     }
 
-    private fun handleAliasChosen(alias: String) {
+    private fun handleAliasChosen(alias: String?) {
         if (callChangeListener(alias)) {
             setValue(alias)
         }
     }
 
-    private fun setValue(value: String) {
+    private fun setValue(value: String?) {
         val changed = value != currentAlias
         if (changed || currentAlias == null) {
             currentAlias = value

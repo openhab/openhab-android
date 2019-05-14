@@ -120,7 +120,7 @@ class WriteTagActivity : AbstractBaseActivity() {
     }
 
     public override fun onNewIntent(intent: Intent) {
-        object : AsyncTask<Void, Integer, Boolean>() {
+        object : AsyncTask<Void, Int, Boolean>() {
             override fun onPreExecute() {
                 val writeTagMessage = findViewById<TextView>(R.id.write_tag_message)
                 writeTagMessage.setText(R.string.info_write_tag_progress);
@@ -267,7 +267,7 @@ class WriteTagActivity : AbstractBaseActivity() {
 
             val nfcActivate = view?.findViewById<TextView>(R.id.nfc_activate)
             nfcActivate?.isVisible = true
-            nfcActivate?.setOnClickListener { v ->
+            nfcActivate?.setOnClickListener {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                     startActivity(Intent(Settings.ACTION_NFC_SETTINGS))
                 } else {
@@ -322,13 +322,14 @@ class WriteTagActivity : AbstractBaseActivity() {
 
         fun createSitemapNavigationIntent(context: Context, sitemapUrl: String): Intent {
             val sitemapUri = sitemapUrl.toUri()
-            if (!sitemapUri.path.startsWith("/rest/sitemaps")) {
+            val path = sitemapUri.path ?: ""
+            if (!path.startsWith("/rest/sitemaps")) {
                 throw IllegalArgumentException("Expected a sitemap URL")
             }
             val longUri = Uri.Builder()
                 .scheme(NfcTag.SCHEME)
                 .authority("")
-                .appendEncodedPath(sitemapUri.path.substring(15))
+                .appendEncodedPath(path.substring(15))
                 .build()
             return Intent(context, WriteTagActivity::class.java)
                     .putExtra(EXTRA_LONG_URI, longUri)

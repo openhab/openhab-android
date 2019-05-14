@@ -113,9 +113,6 @@ class AsyncHttpClient(client: OkHttpClient, baseUrl: String?, username: String?,
                 val scaleWidth = size.toFloat() / docWidth
                 val scaleHeigth = size.toFloat() / docHeight
                 density = (scaleWidth + scaleHeigth) / 2
-
-                docWidth = size
-                docHeight = size
             }
 
             val bitmap = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888)
@@ -192,6 +189,8 @@ class AsyncHttpClient(client: OkHttpClient, baseUrl: String?, username: String?,
                         if (error != null) {
                             responseHandler.onFailure(call.request(), code, error)
                         } else {
+                            // cast is safe (convertBodyInBackground always returns T, if it failed error is != null)
+                            @Suppress("UNCHECKED_CAST")
                             responseHandler.onSuccess(converted as T, headers)
                         }
                     }

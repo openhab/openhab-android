@@ -23,7 +23,6 @@ class ContentControllerOnePane(activity: MainActivity) : ContentController(activ
         get() = if (pageStack.empty()) sitemapFragment else pageStack.peek().second
 
     override fun executeStateUpdate(reason: FragmentUpdateReason, allowStateLoss: Boolean) {
-        val currentFragment = fm.findFragmentById(R.id.content)
         var fragment = overridingFragment
         if (fragment == null && !pageStack.isEmpty()) {
             fragment = pageStack.peek().second

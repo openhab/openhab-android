@@ -18,6 +18,7 @@ import com.danielstone.materialaboutlibrary.model.MaterialAboutList
 import com.mikepenz.aboutlibraries.LibsBuilder
 import okhttp3.Headers
 import okhttp3.Request
+import okhttp3.Response
 import org.json.JSONException
 import org.json.JSONObject
 import org.openhab.habdroid.BuildConfig
@@ -189,13 +190,13 @@ class AboutActivity : AbstractBaseActivity(), FragmentManager.OnBackStackChanged
                         refreshMaterialAboutList()
                     }
 
-                    override fun onSuccess(body: String, headers: Headers) {
+                    override fun onSuccess(response: String, headers: Headers) {
                         var version = ""
                         if (!useJsonApi()) {
-                            version = body
+                            version = response
                         } else {
                             try {
-                                val pageJson = JSONObject(body)
+                                val pageJson = JSONObject(response)
                                 version = pageJson.getString("version")
                             } catch (e: JSONException) {
                                 Log.e(TAG, "Problem fetching version string", e)
@@ -226,9 +227,9 @@ class AboutActivity : AbstractBaseActivity(), FragmentManager.OnBackStackChanged
                         refreshMaterialAboutList()
                     }
 
-                    override fun onSuccess(body: String, headers: Headers) {
-                        Log.d(TAG, "Got uuid " + Util.obfuscateString(body))
-                        uuidItem.setSubText(if (body.isEmpty()) getString(R.string.unknown) else body)
+                    override fun onSuccess(response: String, headers: Headers) {
+                        Log.d(TAG, "Got uuid " + Util.obfuscateString(response))
+                        uuidItem.setSubText(if (response.isEmpty()) getString(R.string.unknown) else response)
                         refreshMaterialAboutList()
                      }
                 })

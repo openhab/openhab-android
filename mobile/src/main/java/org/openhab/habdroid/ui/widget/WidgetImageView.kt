@@ -100,12 +100,6 @@ class WidgetImageView @JvmOverloads constructor(context: Context, attrs: Attribu
 
         cancelCurrentLoad()
 
-        if (actualUrl == null) {
-            applyFallbackDrawable()
-            lastRequest = null
-            return
-        }
-
         val cached = CacheManager.getInstance(context).getCachedBitmap(actualUrl)
         val request = HttpImageRequest(actualSize, client, actualUrl, timeoutMillis)
 
@@ -248,9 +242,9 @@ class WidgetImageView @JvmOverloads constructor(context: Context, attrs: Attribu
             call = null
         }
 
-        override fun onSuccess(body: Bitmap, headers: Headers) {
-            setBitmapInternal(body)
-            CacheManager.getInstance(context).cacheBitmap(url, body)
+        override fun onSuccess(response: Bitmap, headers: Headers) {
+            setBitmapInternal(response)
+            CacheManager.getInstance(context).cacheBitmap(url, response)
             scheduleNextRefresh()
             call = null
         }

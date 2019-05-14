@@ -261,7 +261,7 @@ class PreferencesActivity : AbstractBaseActivity() {
                 false
             }
 
-            themePref.setOnPreferenceChangeListener { preference, _ ->
+            themePref.setOnPreferenceChangeListener { _, _ ->
                 parentActivity.handleThemeChange()
                 true
             }
