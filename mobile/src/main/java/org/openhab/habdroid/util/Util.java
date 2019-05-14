@@ -27,7 +27,6 @@ import android.util.TypedValue;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewDatabase;
-import android.widget.Toast;
 import androidx.annotation.AttrRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -303,21 +302,22 @@ public class Util {
                 Message href = view.getHandler().obtainMessage();
                 view.requestFocusNodeHref(href);
                 String url = href.getData().getString("url");
-                openInBrowser(url, view.getContext());
+                openInBrowser(view.getContext(), url);
                 return false;
             }
         });
     }
 
-    public static void openInBrowser(@Nullable String url, Context context) {
-        if (!TextUtils.isEmpty(url)) {
-            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-            try {
-                context.startActivity(intent);
-            } catch (ActivityNotFoundException e) {
-                Toasty.error(context, R.string.error_no_browser_found,
-                        Toast.LENGTH_LONG, true).show();
-            }
+    public static void openInBrowser(Context context, @Nullable String url) {
+        if (TextUtils.isEmpty(url)) {
+            Log.e(TAG, "Got empty url");
+            return;
+        }
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+        try {
+            context.startActivity(intent);
+        } catch (ActivityNotFoundException e) {
+            Toasty.error(context, R.string.error_no_browser_found, Toasty.LENGTH_LONG).show();
         }
     }
 

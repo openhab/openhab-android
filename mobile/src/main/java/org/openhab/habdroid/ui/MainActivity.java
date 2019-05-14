@@ -1009,12 +1009,7 @@ public class MainActivity extends AbstractBaseActivity implements
                     startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(
                             "market://details?id=com.google.android.googlequicksearchbox")));
                 } catch (ActivityNotFoundException appStoreNotFoundException) {
-                    try {
-                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(
-                                "http://play.google.com/store/apps/details?id=com.google.android.googlequicksearchbox")));
-                    } catch (ActivityNotFoundException browserNotFoundException) {
-                        showSnackbar(R.string.error_no_browser_found);
-                    }
+                    Util.openInBrowser(this, "http://play.google.com/store/apps/details?id=com.google.android.googlequicksearchbox");
                 }
             });
         }

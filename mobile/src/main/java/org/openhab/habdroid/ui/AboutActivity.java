@@ -1,8 +1,6 @@
 package org.openhab.habdroid.ui;
 
 import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -326,7 +324,7 @@ public class AboutActivity extends AbstractBaseActivity implements
 
         private MaterialAboutItemOnClickAction clickRedirect(final String url) {
             return () -> {
-                Util.openInBrowser(url, getContext());
+                Util.openInBrowser(getContext(), url);
             };
         }
 
