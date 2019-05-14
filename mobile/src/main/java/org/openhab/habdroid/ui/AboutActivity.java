@@ -1,9 +1,6 @@
 package org.openhab.habdroid.ui;
 
-import android.content.ActivityNotFoundException;
 import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -11,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.appcompat.widget.Toolbar;
@@ -25,7 +21,6 @@ import com.danielstone.materialaboutlibrary.items.MaterialAboutTitleItem;
 import com.danielstone.materialaboutlibrary.model.MaterialAboutCard;
 import com.danielstone.materialaboutlibrary.model.MaterialAboutList;
 import com.mikepenz.aboutlibraries.LibsBuilder;
-import es.dmoral.toasty.Toasty;
 import okhttp3.Headers;
 import okhttp3.Request;
 import org.json.JSONException;
@@ -329,14 +324,7 @@ public class AboutActivity extends AbstractBaseActivity implements
 
         private MaterialAboutItemOnClickAction clickRedirect(final String url) {
             return () -> {
-                Uri uri = Uri.parse(url);
-                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                try {
-                    startActivity(intent);
-                } catch (ActivityNotFoundException e) {
-                    Toasty.error(getContext(), R.string.error_no_browser_found,
-                            Toast.LENGTH_LONG, true).show();
-                }
+                Util.openInBrowser(getContext(), url);
             };
         }
 
