@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.AsyncTask
 import android.os.Bundle
 import android.preference.PreferenceManager
-import android.text.TextUtils
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
@@ -19,7 +18,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 import org.openhab.habdroid.R
 import org.openhab.habdroid.util.Constants
-import org.openhab.habdroid.util.Util
 
 import java.io.BufferedReader
 import java.io.InputStreamReader
@@ -142,17 +140,14 @@ class LogActivity : AbstractBaseActivity() {
 
         override fun onPostExecute(log: String) {
             logTextView.text = log
-            setUiState(false, TextUtils.isEmpty(log))
+            setUiState(false, log.isEmpty())
             scrollView.post { scrollView.fullScroll(View.FOCUS_DOWN) }
         }
     }
 
     private fun redactHost(text: String, url: String?, replacement: String): String {
         val host = url?.toUri()?.host
-        if (host != null && !host.isEmpty()) {
-            return text.replace(host, replacement)
-        }
-        return text
+        return if (!host.isNullOrEmpty()) text.replace(host, replacement) else text
     }
 
     companion object {

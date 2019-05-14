@@ -56,16 +56,12 @@ class VoiceService : IntentService("VoiceService") {
     }
 
     private fun extractVoiceCommand(data: Intent?): String {
-        var voiceCommand = ""
-        if (data != null) {
-            val textMatchList = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
-            if (!textMatchList.isEmpty()) {
-                voiceCommand = textMatchList[0]
-            }
+        var voiceCommand = data?.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)?.elementAtOrNull(0)
+        if (voiceCommand != null) {
             Log.i(TAG, "Recognized text: $voiceCommand")
             Util.showToast(this, getString(R.string.info_voice_recognized_text, voiceCommand))
         }
-        return voiceCommand
+        return voiceCommand.orEmpty()
     }
 
     private fun sendVoiceCommand(client: SyncHttpClient, command: String) {

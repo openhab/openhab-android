@@ -39,7 +39,6 @@ import android.preference.PreferenceManager
 import android.speech.RecognizerIntent
 import android.speech.SpeechRecognizer
 import android.text.SpannableStringBuilder
-import android.text.TextUtils
 import android.text.style.RelativeSizeSpan
 import android.util.Base64
 import android.util.Log
@@ -335,8 +334,8 @@ class MainActivity : AbstractBaseActivity(), AsyncServiceResolver.Listener, Conn
                 val tag = intent.data?.toTagData()
                 BackgroundTasksManager.enqueueNfcUpdateIfNeeded(this, tag)
 
-                if (tag != null && tag.sitemap != null && !tag.sitemap.isEmpty()) {
-                    pendingOpenSitemapUrl = tag.sitemap;
+                if (!tag?.sitemap.isNullOrEmpty()) {
+                    pendingOpenSitemapUrl = tag?.sitemap;
                     openPendingSitemapIfNeeded()
                 }
             }

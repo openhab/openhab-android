@@ -21,7 +21,6 @@ import android.net.Uri
 import android.os.Build
 import android.preference.PreferenceManager
 import android.service.notification.StatusBarNotification
-import android.text.TextUtils
 
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
@@ -65,11 +64,11 @@ class FcmMessageListenerService : FirebaseMessagingService() {
                 val timestampString = if (data.containsKey("timestamp"))
                     data["timestamp"] else data["google.sent_time"]
                 val timestamp = timestampString?.toLong() ?: 0
-                val channelId = if (TextUtils.isEmpty(severity))
+                val channelId = if (severity.isNullOrEmpty())
                     CHANNEL_ID_DEFAULT else String.format(Locale.US, CHANNEL_ID_FORMAT_SEVERITY, severity)
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    val name = if (TextUtils.isEmpty(severity))
+                    val name = if (severity.isNullOrEmpty())
                         getString(R.string.notification_channel_default)
                     else
                         getString(R.string.notification_channel_severity_value, severity)

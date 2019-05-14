@@ -15,7 +15,6 @@ import android.graphics.PorterDuff
 import android.net.wifi.WifiManager
 import android.os.Bundle
 import android.preference.PreferenceManager
-import android.text.TextUtils
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -652,12 +651,8 @@ abstract class ContentController protected constructor(private val activity: Mai
             val view = inflater.inflate(R.layout.fragment_status, container, false)
 
             val descriptionText = view.findViewById<TextView>(R.id.description)
-            val message = arguments.getCharSequence(KEY_MESSAGE)
-            if (!TextUtils.isEmpty(message)) {
-                descriptionText.text = message
-            } else {
-                descriptionText.isVisible = false
-            }
+            descriptionText.text = arguments.getCharSequence(KEY_MESSAGE)
+            descriptionText.isVisible = !descriptionText.text.isNullOrEmpty()
 
             view.findViewById<View>(R.id.progress).isVisible = arguments.getBoolean(KEY_PROGRESS)
 

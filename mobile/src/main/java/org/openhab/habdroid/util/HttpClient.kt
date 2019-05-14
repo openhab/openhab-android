@@ -36,11 +36,8 @@ abstract class HttpClient protected constructor(private val client: OkHttpClient
 
     init {
         this.baseUrl = if (baseUrl != null) HttpUrl.parse(baseUrl) else null
-        if (username != null && !username.isEmpty() && password != null && !password.isEmpty()) {
-            authHeader = Credentials.basic(username, password)
-        } else {
-            authHeader = null
-        }
+        authHeader = if (!username.isNullOrEmpty() && !password.isNullOrEmpty())
+                Credentials.basic(username, password) else null
     }
 
     fun makeSse(url: HttpUrl, listener: ServerSentEvent.Listener): ServerSentEvent {

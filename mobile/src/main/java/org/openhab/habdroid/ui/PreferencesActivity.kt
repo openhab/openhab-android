@@ -17,7 +17,6 @@ import android.preference.Preference
 import android.preference.PreferenceFragment
 import android.preference.PreferenceGroup
 import android.provider.Settings
-import android.text.TextUtils
 import android.util.Log
 import android.view.MenuItem
 import androidx.annotation.DrawableRes
@@ -33,7 +32,6 @@ import org.openhab.habdroid.model.ServerProperties
 import org.openhab.habdroid.ui.widget.ItemUpdatingPreference
 import org.openhab.habdroid.util.CacheManager
 import org.openhab.habdroid.util.Constants
-import org.openhab.habdroid.util.Util
 
 import java.util.BitSet
 
@@ -151,11 +149,11 @@ class PreferencesActivity : AbstractBaseActivity() {
         }
 
         protected fun hasConnectionBasicAuthentication(user: String?, password: String?): Boolean {
-            return !TextUtils.isEmpty(user) && !TextUtils.isEmpty(password)
+            return !user.isNullOrEmpty() && !password.isNullOrEmpty()
         }
 
         protected fun hasClientCertificate(): Boolean {
-            return !TextUtils.isEmpty(getPreferenceString(Constants.PREFERENCE_SSLCLIENTCERT, ""))
+            return !getPreferenceString(Constants.PREFERENCE_SSLCLIENTCERT, "").isNullOrEmpty()
         }
 
         protected fun isConnectionSecure(url: String?, user: String?, password: String?): Boolean {
@@ -407,7 +405,7 @@ class PreferencesActivity : AbstractBaseActivity() {
         }
 
         private fun updateRingtonePreferenceSummary(pref: Preference, newValue: String?) {
-            if (newValue == null || newValue.isEmpty()) {
+            if (newValue.isNullOrEmpty()) {
                 pref.setIcon(R.drawable.ic_bell_off_outline_grey_24dp)
                 pref.setSummary(R.string.settings_ringtone_none)
             } else {
@@ -470,13 +468,13 @@ class PreferencesActivity : AbstractBaseActivity() {
         protected fun initPreferences(urlPrefKey: String, userNamePrefKey: String,
                                       passwordPrefKey: String, @StringRes urlSummaryFormatResId: Int) {
             urlPreference = initEditor(urlPrefKey, R.drawable.ic_earth_grey_24dp, { value ->
-                val actualValue = if (value != null && !value.isEmpty()) value else getString(R.string.info_not_set)
+                val actualValue = if (!value.isNullOrEmpty()) value else getString(R.string.info_not_set)
                 getString(urlSummaryFormatResId, actualValue)
             })
             userNamePreference = initEditor(userNamePrefKey, R.drawable.ic_person_outline_grey_24dp,
-                    { value -> if (value != null && !value.isEmpty()) value else getString(R.string.info_not_set) })
+                    { value -> if (!value.isNullOrEmpty()) value else getString(R.string.info_not_set) })
             passwordPreference = initEditor(passwordPrefKey, R.drawable.ic_shield_key_outline_grey_24dp, { value ->
-                @StringRes val resId = if (TextUtils.isEmpty(value))
+                @StringRes val resId = if (value.isNullOrEmpty())
                     R.string.info_not_set
                 else if (PreferencesActivity.AbstractSettingsFragment.isWeakPassword(value))
                     R.string.settings_openhab_password_summary_weak
@@ -515,23 +513,23 @@ class PreferencesActivity : AbstractBaseActivity() {
             updateIconColor(urlPreference, {
                 if (isConnectionHttps(url))
                     R.color.pref_icon_green
-                else if (!TextUtils.isEmpty(url))
+                else if (!url.isNullOrEmpty())
                     R.color.pref_icon_red
                 else
                 null
             })
             updateIconColor(userNamePreference, {
-                if (TextUtils.isEmpty(url))
+                if (url.isNullOrEmpty())
                     null
-                else if (TextUtils.isEmpty(userName))
+                else if (userName.isNullOrEmpty())
                     R.color.pref_icon_red
                 else
                     R.color.pref_icon_green
             })
             updateIconColor(passwordPreference, {
-                if (TextUtils.isEmpty(url))
+                if (url.isNullOrEmpty())
                     null
-                else if (TextUtils.isEmpty(password))
+                else if (password.isNullOrEmpty())
                     R.color.pref_icon_red
                 else if (PreferencesActivity.AbstractSettingsFragment.isWeakPassword(password))
                     R.color.pref_icon_orange

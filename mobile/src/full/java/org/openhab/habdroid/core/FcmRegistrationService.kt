@@ -15,7 +15,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.provider.Settings
-import android.text.TextUtils
 import android.util.Log
 
 import com.google.firebase.iid.FirebaseInstanceId
@@ -27,7 +26,6 @@ import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.CloudConnection
 import org.openhab.habdroid.core.connection.Connection
 import org.openhab.habdroid.core.connection.ConnectionFactory
-import org.openhab.habdroid.util.SyncHttpClient
 import org.openhab.habdroid.util.Util
 
 import java.io.IOException
@@ -103,10 +101,7 @@ class FcmRegistrationService : JobIntentService() {
      * @author https://stackoverflow.com/a/12707479
      */
     private fun capitalize(s: String): String {
-        if (TextUtils.isEmpty(s)) {
-            return ""
-        }
-        val first = s[0]
+        val first = s.elementAtOrNull(0) ?: return ""
         return if (Character.isUpperCase(first)) {
             s
         } else {

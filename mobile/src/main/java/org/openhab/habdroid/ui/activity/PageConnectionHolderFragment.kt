@@ -3,7 +3,6 @@ package org.openhab.habdroid.ui.activity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.text.TextUtils
 import android.util.Log
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
@@ -22,18 +21,14 @@ import org.openhab.habdroid.model.Widget
 import org.openhab.habdroid.model.WidgetDataSource
 import org.openhab.habdroid.ui.WidgetListFragment
 import org.openhab.habdroid.util.AsyncHttpClient
-import org.w3c.dom.Document
-import org.w3c.dom.Node
 import org.xml.sax.InputSource
 import org.xml.sax.SAXException
 
 import java.io.IOException
 import java.io.StringReader
-import java.util.ArrayList
 import java.util.HashMap
 import java.util.Locale
 
-import javax.xml.parsers.DocumentBuilder
 import javax.xml.parsers.DocumentBuilderFactory
 import javax.xml.parsers.ParserConfigurationException
 
@@ -383,7 +378,7 @@ class PageConnectionHolderFragment : Fragment() {
                 }
 
                 val widgetId = jsonObject.getString("widgetId")
-                if (TextUtils.equals(widgetId, pageId)) {
+                if (widgetId == pageId) {
                     callback.onPageTitleUpdated(url, jsonObject.getString("label"))
                     return
                 }

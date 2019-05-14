@@ -117,7 +117,7 @@ data class ParsedState internal constructor(val asString: String, val asBoolean:
          * Like [toString][.toString], but using a specific locale for formatting.
          */
         fun toString(locale: Locale): String {
-            if (format != null && !format.isEmpty()) {
+            if (!format.isNullOrEmpty()) {
                 val actualFormat = format.replace("%unit%", unit ?: "")
                 try {
                     return String.format(locale, actualFormat, value)
