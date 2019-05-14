@@ -24,7 +24,7 @@ object CloudMessagingHelper {
     val isSupported: Boolean
         get() = false
 
-    fun onConnectionUpdated(context: Context, connection: CloudConnection) {}
+    fun onConnectionUpdated(context: Context, connection: CloudConnection?) {}
 
     fun onNotificationSelected(context: Context, intent: Intent) {}
 

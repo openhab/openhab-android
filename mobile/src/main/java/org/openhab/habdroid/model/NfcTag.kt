@@ -1,9 +1,6 @@
 package org.openhab.habdroid.model
 
 import android.net.Uri
-import android.text.TextUtils
-
-import com.google.auto.value.AutoValue
 
 data class NfcTag(val sitemap: String?, val item: String?, val label: String?,
                   val state: String?, val mappedState: String?) {
