@@ -32,6 +32,7 @@ import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.Connection
 import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.model.CloudNotification
+import org.openhab.habdroid.model.toCloudNotification
 import org.openhab.habdroid.ui.widget.DividerItemDecoration
 import org.openhab.habdroid.util.AsyncHttpClient
 
@@ -137,8 +138,7 @@ class CloudNotificationListFragment : Fragment(), View.OnClickListener, SwipeRef
                     val items = ArrayList<CloudNotification>()
                     val jsonArray = JSONArray(response)
                     for (i in 0 until jsonArray.length()) {
-                        val sitemapJson = jsonArray.getJSONObject(i)
-                        items.add(CloudNotification.fromJson(sitemapJson))
+                        items.add(jsonArray.getJSONObject(i).toCloudNotification())
                     }
                     Log.d(TAG, "Notifications request success, got " + items.size + " items")
                     loadOffset += items.size

@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.text.TextUtils
 
 import org.openhab.habdroid.model.NfcTag
+import org.openhab.habdroid.model.toTagData
 import org.openhab.habdroid.ui.MainActivity
 
 class NfcReceiveActivity : Activity() {
@@ -20,7 +21,7 @@ class NfcReceiveActivity : Activity() {
         }
 
         if (intent.action == Intent.ACTION_VIEW || intent.action == NfcAdapter.ACTION_NDEF_DISCOVERED) {
-            val tag = NfcTag.fromTagData(intent.data)
+            val tag = intent.data?.toTagData()
             BackgroundTasksManager.enqueueNfcUpdateIfNeeded(this, tag)
             if (tag != null && tag.sitemap != null && !tag.sitemap.isEmpty()) {
                 val startMainIntent = Intent(this, MainActivity::class.java).apply {

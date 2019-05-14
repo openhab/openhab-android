@@ -14,4 +14,4 @@ import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class LabeledValue(val value: String, val label: String) : Parcelable
+data class LabeledValue internal constructor(val value: String, val label: String) : Parcelable

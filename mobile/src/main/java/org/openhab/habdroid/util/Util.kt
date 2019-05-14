@@ -41,6 +41,7 @@ import org.openhab.habdroid.core.connection.Connection
 import org.openhab.habdroid.model.Item
 import org.openhab.habdroid.model.ParsedState
 import org.openhab.habdroid.model.Sitemap
+import org.openhab.habdroid.model.toSitemap
 import org.w3c.dom.Document
 
 import java.io.EOFException
@@ -97,7 +98,7 @@ object Util {
         val sitemapNodes = document.getElementsByTagName("sitemap")
         if (sitemapNodes.length > 0) {
             for (i in 0 until sitemapNodes.length) {
-                val sitemap = Sitemap.fromXml(sitemapNodes.item(i))
+                val sitemap = sitemapNodes.item(i).toSitemap()
                 if (sitemap != null) {
                     sitemapList.add(sitemap)
                 }
@@ -110,8 +111,7 @@ object Util {
         val sitemapList = ArrayList<Sitemap>()
         for (i in 0 until jsonArray.length()) {
             try {
-                val sitemapJson = jsonArray.getJSONObject(i)
-                val sitemap = Sitemap.fromJson(sitemapJson)
+                val sitemap = jsonArray.getJSONObject(i).toSitemap()
                 if (sitemap != null && (sitemap.name != "_default" || jsonArray.length() == 1)) {
                     sitemapList.add(sitemap)
                 }

@@ -10,26 +10,11 @@ import java.util.Locale
 import java.util.regex.Pattern
 
 @Parcelize
-data class ParsedState(val asString: String, val asBoolean: Boolean,
+data class ParsedState internal constructor(val asString: String, val asBoolean: Boolean,
                        val asNumber: NumberState?, val asHsv: FloatArray?,
                        val asBrightness: Int?, val asLocation: Location?) : Parcelable {
     companion object {
-        /**
-         * Parses a state string into the parsed representation.
-         *
-         * @param state State string to parse
-         * @param numberPattern Format to use when parsing the input as number
-         * @return null if state string is null, parsed representation otherwise
-         */
-        fun from(state: String?, numberPattern: String?): ParsedState? {
-            if (state == null) {
-                return null
-            }
-            return ParsedState(state, parseAsBoolean(state), parseAsNumber(state, numberPattern),
-                    parseAsHsv(state), parseAsBrightness(state), parseAsLocation(state))
-        }
-
-        private fun parseAsBoolean(state: String): Boolean {
+        internal fun parseAsBoolean(state: String): Boolean {
             // If state is ON for switches return True
             if (state == "ON") {
                 return true
@@ -47,7 +32,7 @@ data class ParsedState(val asString: String, val asBoolean: Boolean,
             }
         }
 
-        private fun parseAsNumber(state: String, format: String?): NumberState? {
+        internal fun parseAsNumber(state: String, format: String?): NumberState? {
             return when (state) {
                 "ON" -> NumberState(100)
                 "OFF" -> NumberState(0)
@@ -66,7 +51,7 @@ data class ParsedState(val asString: String, val asBoolean: Boolean,
             }
         }
 
-        private fun parseAsHsv(state: String): FloatArray? {
+        internal fun parseAsHsv(state: String): FloatArray? {
             val stateSplit = state.split(",")
             if (stateSplit.size == 3) { // We need exactly 3 numbers to operate this
                 try {
@@ -79,7 +64,7 @@ data class ParsedState(val asString: String, val asBoolean: Boolean,
             return null
         }
 
-        private fun parseAsLocation(state: String): Location? {
+        internal fun parseAsLocation(state: String): Location? {
             val splitState = state.split(",")
             // Valid states are either "latitude,longitude" or "latitude,longitude,elevation",
             if (splitState.size == 2 || splitState.size == 3) {
@@ -103,7 +88,7 @@ data class ParsedState(val asString: String, val asBoolean: Boolean,
             return null;
         }
 
-        private fun parseAsBrightness(state: String): Int? {
+        internal fun parseAsBrightness(state: String): Int? {
             val hsbMatcher = HSB_PATTERN.matcher(state)
             if (hsbMatcher.find()) {
                 try {
@@ -117,7 +102,6 @@ data class ParsedState(val asString: String, val asBoolean: Boolean,
         }
 
         private val HSB_PATTERN = Pattern.compile("^([0-9]*\\.?[0-9]+),([0-9]*\\.?[0-9]+),([0-9]*\\.?[0-9]+)$")
-
     }
 
     @Parcelize
@@ -172,3 +156,21 @@ data class ParsedState(val asString: String, val asBoolean: Boolean,
         }
     }
 }
+
+/**
+ * Parses a state string into the parsed representation.
+ *
+ * @param state State string to parse
+ * @param numberPattern Format to use when parsing the input as number
+ * @return null if state string is null, parsed representation otherwise
+ */
+fun String?.toParsedState(numberPattern: String? = null): ParsedState? {
+    if (this == null) {
+        return null
+    }
+    return ParsedState(this, ParsedState.parseAsBoolean(this),
+            ParsedState.parseAsNumber(this, numberPattern),
+            ParsedState.parseAsHsv(this), ParsedState.parseAsBrightness(this),
+            ParsedState.parseAsLocation(this))
+}
+

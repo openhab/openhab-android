@@ -80,10 +80,7 @@ import org.openhab.habdroid.core.connection.exception.ConnectionException
 import org.openhab.habdroid.core.connection.exception.NetworkNotAvailableException
 import org.openhab.habdroid.core.connection.exception.NetworkNotSupportedException
 import org.openhab.habdroid.core.connection.exception.NoUrlInformationException
-import org.openhab.habdroid.model.LinkedPage
-import org.openhab.habdroid.model.NfcTag
-import org.openhab.habdroid.model.ServerProperties
-import org.openhab.habdroid.model.Sitemap
+import org.openhab.habdroid.model.*
 import org.openhab.habdroid.ui.activity.ContentController
 import org.openhab.habdroid.ui.homescreenwidget.VoiceWidget
 import org.openhab.habdroid.ui.homescreenwidget.VoiceWidgetWithIcon
@@ -335,7 +332,7 @@ class MainActivity : AbstractBaseActivity(), AsyncServiceResolver.Listener, Conn
         val action = if (intent.action != null) intent.action else ""
         when (action) {
             NfcAdapter.ACTION_NDEF_DISCOVERED, Intent.ACTION_VIEW -> {
-                val tag = NfcTag.fromTagData(intent.getData())
+                val tag = intent.data?.toTagData()
                 BackgroundTasksManager.enqueueNfcUpdateIfNeeded(this, tag)
 
                 if (tag != null && tag.sitemap != null && !tag.sitemap.isEmpty()) {

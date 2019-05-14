@@ -19,29 +19,23 @@ import java.text.SimpleDateFormat
 import java.util.TimeZone
 
 @Parcelize
-data class CloudNotification(val id: String, val message: String, val createdTimestamp: Long,
-                             val icon: String?, val severity: String?): Parcelable {
-    companion object {
-        @Throws(JSONException::class)
-        fun fromJson(jsonObject: JSONObject): CloudNotification {
-            var created: Long = 0
-            if (jsonObject.has("created")) {
-                val format = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.S'Z'")
-                format.timeZone = TimeZone.getTimeZone("UTC")
-                try {
-                    created = format.parse(jsonObject.getString("created")).time
-                } catch (e: ParseException) {
-                    // keep created at 0
-                }
+data class CloudNotification internal constructor(val id: String, val message: String, val createdTimestamp: Long,
+                                                  val icon: String?, val severity: String?): Parcelable {}
 
-            }
-
-            return CloudNotification(jsonObject.getString("_id"),
-                    jsonObject.getString("message"),
-                    created,
-                    jsonObject.optString("icon", null),
-                    jsonObject.optString("severity", null));
+@Throws(JSONException::class)
+fun JSONObject.toCloudNotification(): CloudNotification {
+    var created: Long = 0
+    if (has("created")) {
+        val format = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.S'Z'")
+        format.timeZone = TimeZone.getTimeZone("UTC")
+        try {
+            created = format.parse(getString("created")).time
+        } catch (e: ParseException) {
+            // keep created at 0
         }
     }
+
+    return CloudNotification(getString("_id"), getString("message"),
+                    created, optString("icon", null), optString("severity", null))
 }
 

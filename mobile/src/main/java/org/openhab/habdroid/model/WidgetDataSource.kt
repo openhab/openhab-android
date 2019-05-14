@@ -63,13 +63,12 @@ class WidgetDataSource(private val iconFormat: String) {
             for (i in 0 until childNodes.length) {
                 val childNode = childNodes.item(i)
                 when (childNode.nodeName) {
-                    "widget" -> Widget.parseXml(allWidgets, null, childNode)
+                    "widget" -> allWidgets.addAll(childNode.collectWidgets(null))
                     "title" -> title = childNode.textContent ?: ""
                     "id" -> id = childNode.textContent
                     "icon" -> icon = childNode.textContent
                     "link" -> link = childNode.textContent
-                    else -> {
-                    }
+                    else -> { }
                 }
             }
         }
@@ -83,7 +82,7 @@ class WidgetDataSource(private val iconFormat: String) {
             val jsonWidgetArray = jsonObject.getJSONArray("widgets")
             for (i in 0 until jsonWidgetArray.length()) {
                 val widgetJson = jsonWidgetArray.getJSONObject(i)
-                Widget.parseJson(allWidgets, null, widgetJson, iconFormat)
+                allWidgets.addAll(widgetJson.collectWidgets(null, iconFormat))
             }
             id = jsonObject.optString("id", null)
             title = jsonObject.optString("title", id ?: "")

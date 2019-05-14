@@ -189,7 +189,7 @@ class ConnectionFactory internal constructor(private val context: Context, priva
             }
             MSG_UPDATE_CLOUD -> { // update thread
                 val remote = msg.obj as AbstractConnection
-                val cloudConnection = CloudConnection.fromConnection(remote)
+                val cloudConnection = remote.toCloudConnection()
                 mainHandler.obtainMessage(MSG_CLOUD_DONE, cloudConnection).sendToTarget()
                 return true
             }

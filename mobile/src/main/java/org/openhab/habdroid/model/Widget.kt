@@ -63,140 +63,6 @@ data class Widget(val id: String, val parentId: String?, val label: String,
     }
 
     companion object {
-        fun parseXml(allWidgets: MutableList<Widget>, parent: Widget?, startNode: Node) {
-            var item: Item? = null
-            var linkedPage: LinkedPage? = null
-            var id: String? = null
-            var label: String? = null
-            var icon: String? = null
-            var url: String? = null
-            var period = ""
-            var service = ""
-            var encoding: String? = null
-            var iconColor: String? = null
-            var labelColor: String? = null
-            var valueColor: String? = null
-            var switchSupport = false
-            var type = Type.Unknown
-            var minValue = 0f
-            var maxValue = 100f
-            var step = 1f
-            var refresh = 0
-            var height = 0
-            val mappings = ArrayList<LabeledValue>()
-            val childWidgetNodes = ArrayList<Node>()
-
-            if (startNode.hasChildNodes()) {
-                val childNodes = startNode.childNodes
-                for (i in 0 until childNodes.length) {
-                    val childNode = childNodes.item(i)
-                    when (childNode.nodeName) {
-                        "item" -> item = Item.fromXml(childNode)
-                        "linkedPage" -> linkedPage = LinkedPage.fromXml(childNode)
-                        "widget" -> childWidgetNodes.add(childNode)
-                        "type" -> type = parseType(childNode.textContent)
-                        "widgetId" -> id = childNode.textContent
-                        "label" -> label = childNode.textContent
-                        "icon" -> icon = childNode.textContent
-                        "url" -> url = childNode.textContent
-                        "minValue" -> minValue = java.lang.Float.valueOf(childNode.textContent)
-                        "maxValue" -> maxValue = java.lang.Float.valueOf(childNode.textContent)
-                        "step" -> step = java.lang.Float.valueOf(childNode.textContent)
-                        "refresh" -> refresh = Integer.valueOf(childNode.textContent)
-                        "period" -> period = childNode.textContent
-                        "service" -> service = childNode.textContent
-                        "height" -> height = Integer.valueOf(childNode.textContent)
-                        "iconcolor" -> iconColor = childNode.textContent
-                        "valuecolor" -> valueColor = childNode.textContent
-                        "labelcolor" -> labelColor = childNode.textContent
-                        "encoding" -> encoding = childNode.textContent
-                        "switchSupport" -> switchSupport = java.lang.Boolean.valueOf(childNode.textContent)
-                        "mapping" -> {
-                            val mappingChildNodes = childNode.childNodes
-                            var mappingCommand = ""
-                            var mappingLabel = ""
-                            for (k in 0 until mappingChildNodes.length) {
-                                val mappingNode = mappingChildNodes.item(k)
-                                when (mappingNode.nodeName) {
-                                    "command" -> mappingCommand = mappingNode.textContent
-                                    "label" -> mappingLabel = mappingNode.textContent
-                                    else -> {
-                                    }
-                                }
-                            }
-                            mappings.add(LabeledValue(mappingCommand, mappingLabel))
-                        }
-                        else -> { }
-                    }
-                }
-            }
-
-            if (id == null) {
-                return
-            }
-
-            val widget = build(id, parent?.id, label ?: "", icon, String.format("images/%s.png", icon),
-                    item?.state, type, url, item, linkedPage, mappings, encoding, iconColor,
-                    labelColor, valueColor, refresh, minValue, maxValue, step, period,
-                    service, null, switchSupport, height)
-            allWidgets.add(widget)
-
-            for (childNode in childWidgetNodes) {
-                parseXml(allWidgets, widget, childNode)
-            }
-        }
-
-        @Throws(JSONException::class)
-        fun parseJson(allWidgets: MutableList<Widget>, parent: Widget?,
-                      widgetJson: JSONObject, iconFormat: String) {
-            val mappings = ArrayList<LabeledValue>()
-            if (widgetJson.has("mappings")) {
-                val mappingsJsonArray = widgetJson.getJSONArray("mappings")
-                for (i in 0 until mappingsJsonArray.length()) {
-                    val mappingObject = mappingsJsonArray.getJSONObject(i)
-                    mappings.add(LabeledValue(
-                            mappingObject.getString("command"),
-                            mappingObject.getString("label")))
-                }
-            }
-
-            val item = Item.fromJson(widgetJson.optJSONObject("item"))
-            val type = parseType(widgetJson.getString("type"))
-            val icon = widgetJson.optString("icon", null)
-
-            val widget = build(widgetJson.getString("widgetId"), parent?.id,
-                    widgetJson.optString("label", ""),
-                    icon, determineOH2IconPath(item, type, icon, iconFormat, !mappings.isEmpty()),
-                    determineWidgetState(widgetJson.optString("state", null), item),
-                    type,
-                    widgetJson.optString("url", null),
-                    item,
-                    LinkedPage.fromJson(widgetJson.optJSONObject("linkedPage")),
-                    mappings,
-                    widgetJson.optString("encoding", null),
-                    widgetJson.optString("iconcolor", null),
-                    widgetJson.optString("labelcolor", null),
-                    widgetJson.optString("valuecolor", null),
-                    widgetJson.optInt("refresh"),
-                    widgetJson.optDouble("minValue", 0.0).toFloat(),
-                    widgetJson.optDouble("maxValue", 100.0).toFloat(),
-                    widgetJson.optDouble("step", 1.0).toFloat(),
-                    widgetJson.optString("period", "D"),
-                    widgetJson.optString("service", ""),
-                    if (widgetJson.has("legend")) widgetJson.getBoolean("legend") else null,
-                    if (widgetJson.has("switchSupport")) widgetJson.getBoolean("switchSupport") else false,
-                    widgetJson.optInt("height"))
-
-            allWidgets.add(widget)
-
-            val childWidgetJson = widgetJson.optJSONArray("widgets")
-            if (childWidgetJson != null) {
-                for (i in 0 until childWidgetJson.length()) {
-                    parseJson(allWidgets, widget, childWidgetJson.getJSONObject(i), iconFormat)
-                }
-            }
-        }
-
         @Throws(JSONException::class)
         fun updateFromEvent(source: Widget, eventPayload: JSONObject, iconFormat: String): Widget {
             val item = Item.updateFromEvent(source.item, eventPayload.getJSONObject("item"))
@@ -213,7 +79,7 @@ data class Widget(val id: String, val parentId: String?, val label: String,
                     source.switchSupport, source.height)
         }
 
-        private fun build(id: String, parentId: String?, label: String, icon: String?,
+        internal fun build(id: String, parentId: String?, label: String, icon: String?,
                           iconPath: String?, state: ParsedState?, type: Type, url: String?,
                           item: Item?, linkedPage: LinkedPage?, mappings: List<LabeledValue>,
                           encoding: String?, iconColor: String?, labelColor: String?,
@@ -237,11 +103,11 @@ data class Widget(val id: String, val parentId: String?, val label: String,
         }
 
 
-        private fun determineWidgetState(state: String?, item: Item?): ParsedState? {
-            return ParsedState.from(state, item?.state?.asNumber?.format) ?: item?.state
+        internal fun determineWidgetState(state: String?, item: Item?): ParsedState? {
+            return state.toParsedState(item?.state?.asNumber?.format) ?: item?.state
         }
 
-        private fun determineOH2IconPath(item: Item?, type: Type, icon: String?,
+        internal fun determineOH2IconPath(item: Item?, type: Type, icon: String?,
                                          iconFormat: String, hasMappings: Boolean): String {
             val itemState = item?.state
             var iconState = itemState?.asString ?: ""
@@ -274,17 +140,147 @@ data class Widget(val id: String, val parentId: String?, val label: String,
 
             return String.format("icon/%s?state=%s&format=%s", icon, iconState, iconFormat)
         }
+    }
+}
 
-        private fun parseType(type: String?): Type {
-            if (type != null) {
-                try {
-                    return Type.valueOf(type)
-                } catch (e: IllegalArgumentException) {
-                    // fall through
+fun String?.toWidgetType(): Widget.Type {
+    if (this != null) {
+        try {
+            return Widget.Type.valueOf(this)
+        } catch (e: IllegalArgumentException) {
+            // fall through
+        }
+
+    }
+    return Widget.Type.Unknown
+
+}
+
+fun Node.collectWidgets(parent: Widget?): List<Widget> {
+    var item: Item? = null
+    var linkedPage: LinkedPage? = null
+    var id: String? = null
+    var label: String? = null
+    var icon: String? = null
+    var url: String? = null
+    var period = ""
+    var service = ""
+    var encoding: String? = null
+    var iconColor: String? = null
+    var labelColor: String? = null
+    var valueColor: String? = null
+    var switchSupport = false
+    var type = Widget.Type.Unknown
+    var minValue = 0f
+    var maxValue = 100f
+    var step = 1f
+    var refresh = 0
+    var height = 0
+    val mappings = ArrayList<LabeledValue>()
+    val childWidgetNodes = ArrayList<Node>()
+
+    if (hasChildNodes()) {
+        for (i in 0 until childNodes.length) {
+            with (childNodes.item(i)) {
+                when (nodeName) {
+                    "item" -> item = toItem()
+                    "linkedPage" -> linkedPage = toLinkedPage()
+                    "widget" -> childWidgetNodes.add(this)
+                    "type" -> type = textContent.toWidgetType()
+                    "widgetId" -> id = textContent
+                    "label" -> label = textContent
+                    "icon" -> icon = textContent
+                    "url" -> url = textContent
+                    "minValue" -> minValue = textContent.toFloat()
+                    "maxValue" -> maxValue = textContent.toFloat()
+                    "step" -> step = textContent.toFloat()
+                    "refresh" -> refresh = textContent.toInt()
+                    "period" -> period = textContent
+                    "service" -> service = textContent
+                    "height" -> height = textContent.toInt()
+                    "iconcolor" -> iconColor = textContent
+                    "valuecolor" -> valueColor = textContent
+                    "labelcolor" -> labelColor = textContent
+                    "encoding" -> encoding = textContent
+                    "switchSupport" -> switchSupport = textContent.toBoolean()
+                    "mapping" -> {
+                        val mappingChildNodes = childNodes
+                        var mappingCommand = ""
+                        var mappingLabel = ""
+                        for (k in 0 until mappingChildNodes.length) {
+                            with (mappingChildNodes.item(k)) {
+                                when (nodeName) {
+                                    "command" -> mappingCommand = textContent
+                                    "label" -> mappingLabel = textContent
+                                }
+                            }
+                        }
+                        mappings.add(LabeledValue(mappingCommand, mappingLabel))
+                    }
+                    else -> {}
                 }
-
             }
-            return Type.Unknown
         }
     }
+
+    val finalId = id ?: return emptyList()
+    val widget = Widget.build(finalId, parent?.id, label ?: "",
+            icon, String.format("images/%s.png", icon),
+            item?.state, type, url, item, linkedPage, mappings, encoding, iconColor,
+            labelColor, valueColor, refresh, minValue, maxValue, step, period,
+            service, null, switchSupport, height)
+    val childWidgets = childWidgetNodes.map { node -> node.collectWidgets(widget) }.flatten()
+
+    return listOf(widget) + childWidgets
+}
+
+
+@Throws(JSONException::class)
+fun JSONObject.collectWidgets(parent: Widget?, iconFormat: String): List<Widget> {
+    val mappings = ArrayList<LabeledValue>()
+    if (has("mappings")) {
+        val mappingsJsonArray = getJSONArray("mappings")
+        for (i in 0 until mappingsJsonArray.length()) {
+            val mappingObject = mappingsJsonArray.getJSONObject(i)
+            mappings.add(LabeledValue(
+                    mappingObject.getString("command"),
+                    mappingObject.getString("label")))
+        }
+    }
+
+    val item = optJSONObject("item")?.toItem()
+    val type = getString("type").toWidgetType()
+    val icon = optString("icon", null)
+
+    val widget = Widget.build(getString("widgetId"), parent?.id,
+            optString("label", ""),
+            icon, Widget.determineOH2IconPath(item, type, icon, iconFormat, !mappings.isEmpty()),
+            Widget.determineWidgetState(optString("state", null), item),
+            type,
+            optString("url", null),
+            item,
+            optJSONObject("linkedPage").toLinkedPage(),
+            mappings,
+            optString("encoding", null),
+            optString("iconcolor", null),
+            optString("labelcolor", null),
+            optString("valuecolor", null),
+            optInt("refresh"),
+            optDouble("minValue", 0.0).toFloat(),
+            optDouble("maxValue", 100.0).toFloat(),
+            optDouble("step", 1.0).toFloat(),
+            optString("period", "D"),
+            optString("service", ""),
+            if (has("legend")) getBoolean("legend") else null,
+            if (has("switchSupport")) getBoolean("switchSupport") else false,
+            optInt("height"))
+
+    val result = arrayListOf(widget)
+    val childWidgetJson = optJSONArray("widgets")
+    if (childWidgetJson != null) {
+        for (i in 0 until childWidgetJson.length()) {
+            result.addAll(childWidgetJson.getJSONObject(i).collectWidgets(widget, iconFormat))
+        }
+    }
+    return result
 }

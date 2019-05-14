@@ -15,25 +15,25 @@ data class NfcTag(val sitemap: String?, val item: String?, val label: String?,
         val DEPRECATED_QUERY_PARAMETER_STATE = "command"
         val QUERY_PARAMETER_MAPPED_STATE = "m"
         val QUERY_PARAMETER_ITEM_LABEL = "l"
-
-        fun fromTagData(uri: Uri?): NfcTag? {
-            if (uri == null || SCHEME != uri.scheme) {
-                return null
-            }
-            val sitemap = uri.path
-            val item = if (TextUtils.isEmpty(uri.getQueryParameter(DEPRECATED_QUERY_PARAMETER_ITEM_NAME)))
-                uri.getQueryParameter(QUERY_PARAMETER_ITEM_NAME)
-            else
-                uri.getQueryParameter(DEPRECATED_QUERY_PARAMETER_ITEM_NAME)
-            val label = uri.getQueryParameter(QUERY_PARAMETER_ITEM_LABEL)
-            val state = if (TextUtils.isEmpty(uri.getQueryParameter(DEPRECATED_QUERY_PARAMETER_STATE)))
-                uri.getQueryParameter(QUERY_PARAMETER_STATE)
-            else
-                uri.getQueryParameter(DEPRECATED_QUERY_PARAMETER_STATE)
-            val mappedState = uri.getQueryParameter(QUERY_PARAMETER_MAPPED_STATE)
-
-            val actualSitemap = if (!TextUtils.isEmpty(sitemap) && TextUtils.isEmpty(item)) sitemap else null
-            return NfcTag(actualSitemap, item, label, state, mappedState)
-        }
     }
+}
+
+fun Uri.toTagData(): NfcTag? {
+    if (scheme != NfcTag.SCHEME) {
+        return null
+    }
+    val item = if (queryParameterNames.contains(NfcTag.DEPRECATED_QUERY_PARAMETER_ITEM_NAME))
+        getQueryParameter(NfcTag.DEPRECATED_QUERY_PARAMETER_ITEM_NAME)
+    else
+        getQueryParameter(NfcTag.QUERY_PARAMETER_ITEM_NAME)
+    val label = getQueryParameter(NfcTag.QUERY_PARAMETER_ITEM_LABEL)
+    val state = if (queryParameterNames.contains(NfcTag.DEPRECATED_QUERY_PARAMETER_STATE))
+        getQueryParameter(NfcTag.DEPRECATED_QUERY_PARAMETER_STATE)
+    else
+        getQueryParameter(NfcTag.QUERY_PARAMETER_STATE)
+    val mappedState = getQueryParameter(NfcTag.QUERY_PARAMETER_MAPPED_STATE)
+    val sitemapPath = path
+    val sitemap = if (sitemapPath?.isEmpty() ?: true) null else sitemapPath
+
+    return NfcTag(sitemap, item, label, state, mappedState)
 }
