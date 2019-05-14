@@ -215,7 +215,7 @@ public class WidgetListFragment extends Fragment
                             startActivityForResult(WriteTagActivity.createItemUpdateIntent(
                                     getActivity(), widget.item().name(), commands.get(which),
                                     labels.get(which), widget.item().label()), 0);
-                        } else if (which == commands.size()){
+                        } else if (which == commands.size()) {
                             startActivityForResult(WriteTagActivity.createSitemapNavigationIntent(
                                     getActivity(), widget.linkedPage().link()), 0);
                         } else {
@@ -329,8 +329,6 @@ public class WidgetListFragment extends Fragment
                     return;
                 }
 
-                String name = linkedPage.title();
-
                 Uri sitemapUri = Uri.parse(linkedPage.link());
                 if (sitemapUri == null) {
                     return;
@@ -341,6 +339,11 @@ public class WidgetListFragment extends Fragment
                 startIntent.setAction(MainActivity.ACTION_SITEMAP_SELECTED);
                 startIntent.putExtra(MainActivity.EXTRA_SITEMAP_URL, shortSitemapUri);
                 startActivity(startIntent);
+
+                String name = linkedPage.title();
+                if (TextUtils.isEmpty(name)) {
+                    name = getString(R.string.app_name);
+                }
 
                 ShortcutInfoCompat shortcutInfo = new ShortcutInfoCompat.Builder(context,
                         shortSitemapUri + '-' + System.currentTimeMillis())
@@ -373,11 +376,12 @@ public class WidgetListFragment extends Fragment
     /**
      * This method converts dp unit to equivalent pixels, depending on device density.
      *
-     * @param dp A value in dp (density independent pixels) unit. Which we need to convert into pixels
+     * @param dp A value in dp (density independent pixels) unit. Which we need to convert into
+     *          pixels
      * @param context Context to get resources and device specific display metrics
      * @return A float value to represent px equivalent to dp depending on device density
      */
-    public static float convertDpToPixel(float dp, Context context){
+    public static float convertDpToPixel(float dp, Context context) {
         return dp * ((float) context.getResources().getDisplayMetrics().densityDpi
                 / DisplayMetrics.DENSITY_DEFAULT);
     }
