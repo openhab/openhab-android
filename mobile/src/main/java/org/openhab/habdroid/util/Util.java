@@ -396,7 +396,7 @@ public class Util {
      */
     public static void showToast(Context context, CharSequence message) {
         new Handler(Looper.getMainLooper()).post(() -> Toasty.custom(context, message,
-                R.drawable.ic_openhab_appicon_24dp, R.color.openhab_orange, Toast.LENGTH_SHORT,
+                R.drawable.ic_openhab_appicon_24dp, R.color.openhab_orange, Toasty.LENGTH_SHORT,
                 true, true).show());
     }
 }
