@@ -470,7 +470,7 @@ class PageConnectionHolderFragment : Fragment() {
                 retries = 0
             }
 
-            override fun onMessage(sse: ServerSentEvent, id: String, event: String, message: String) {
+            override fun onMessage(sse: ServerSentEvent, id: String?, event: String?, message: String) {
                 handler.post { updateCb(pageId, message) }
             }
 

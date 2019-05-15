@@ -11,6 +11,7 @@ package org.openhab.habdroid.ui
 
 import android.content.Intent
 import android.media.RingtoneManager
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.preference.Preference
@@ -445,18 +446,24 @@ class PreferencesActivity : AbstractBaseActivity() {
         private fun updateConnectionSummary(subscreenPrefKey: String, urlPrefKey: String,
                                             userPrefKey: String, passwordPrefKey: String) {
             val pref = findPreference(subscreenPrefKey)
-            val url = getPreferenceString(urlPrefKey, "") as String
-            val host = url.toUri().host?.replace("myopenhab.org", "myopenHAB") ?: ""
+            val url = beautifyUrl(getPreferenceString(urlPrefKey, ""))
             val summary: String
-            if (host.isEmpty()) {
+            if (url.isEmpty()) {
                 summary = getString(R.string.info_not_set)
             } else if (isConnectionSecure(url, getPreferenceString(userPrefKey, ""),
                             getPreferenceString(passwordPrefKey, ""))) {
-                summary = getString(R.string.settings_connection_summary, host)
+                summary = getString(R.string.settings_connection_summary, url)
             } else {
-                summary = getString(R.string.settings_insecure_connection_summary, host)
+                summary = getString(R.string.settings_insecure_connection_summary, url)
             }
             pref.summary = summary
+        }
+
+        companion object {
+            @VisibleForTesting fun beautifyUrl(url: String?): String {
+                val host = url?.toUri()?.host.orEmpty()
+                return if (host != null && host.contains("myopenhab.org")) "myopenHAB" else url.orEmpty()
+            }
         }
     }
 

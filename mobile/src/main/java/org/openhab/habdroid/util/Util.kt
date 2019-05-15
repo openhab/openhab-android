@@ -62,10 +62,10 @@ object Util {
     val isFlavorFoss: Boolean
         get() = !isFlavorFull
 
-    fun normalizeUrl(sourceUrl: String): String {
+    fun normalizeUrl(sourceUrl: String?): String {
         var normalizedUrl = ""
         try {
-            val url = URL(sourceUrl)
+            val url = URL(sourceUrl.orEmpty())
             normalizedUrl = url.toString()
             normalizedUrl = normalizedUrl.replace("\n", "")
             normalizedUrl = normalizedUrl.replace(" ", "")
