@@ -117,7 +117,7 @@ class PageConnectionHolderFragment : Fragment() {
         // If the activity is only changing configuration (e.g. orientation or locale)
         // we know it'll be immediately recreated, thus there's no point in shutting down
         // the connections in that case
-        if (!(activity?.isChangingConfigurations ?: false)) {
+        if (activity?.isChangingConfigurations != true) {
             connections.values.forEach { handler -> handler.cancel() }
             started = false
         }
@@ -196,7 +196,7 @@ class PageConnectionHolderFragment : Fragment() {
 
         init {
             httpClient = connection.asyncHttpClient
-            if (callback.serverProperties?.hasSseSupport() ?: false) {
+            if (callback.serverProperties?.hasSseSupport() == true) {
                 val segments = url.toUri().pathSegments
                 if (segments.size > 2) {
                     val sitemap = segments[segments.size - 2]
@@ -244,7 +244,7 @@ class PageConnectionHolderFragment : Fragment() {
 
             Log.d(TAG, "Loading data for $url, long polling $longPolling")
             val headers = HashMap<String, String>()
-            if (!(callback.serverProperties?.hasJsonApi() ?: false)) {
+            if (callback.serverProperties?.hasJsonApi() == false) {
                 headers["Accept"] = "application/xml"
             }
 
@@ -287,12 +287,12 @@ class PageConnectionHolderFragment : Fragment() {
             }
 
             val dataSource = WidgetDataSource(callback.iconFormat)
-            val hasUpdate = if (callback.serverProperties?.hasJsonApi() ?: false)
+            val hasUpdate = if (callback.serverProperties?.hasJsonApi() == true)
                     parseResponseJson(dataSource, response) else parseResponseXml(dataSource, response)
 
             if (hasUpdate) {
                 // Remove frame widgets with no label text
-                val widgetList = dataSource.widgets.filter { w -> w.type !== Widget.Type.Frame || !w.label.isEmpty() }
+                val widgetList = dataSource.widgets.filterNot { w -> w.type == Widget.Type.Frame && w.label.isEmpty() }
                 Log.d(TAG, "Updated page data for URL $url (" + widgetList.size + " widgets)")
                 if (callback.isDetailedLoggingEnabled) {
                     widgetList.forEachIndexed { index, widget ->
@@ -358,10 +358,7 @@ class PageConnectionHolderFragment : Fragment() {
         }
 
         internal fun handleUpdateEvent(pageId: String, payload: String) {
-            val widgetList = lastWidgetList
-            if (widgetList == null) {
-                return
-            }
+            val widgetList = lastWidgetList ?: return
             try {
                 val jsonObject = JSONObject(payload)
 

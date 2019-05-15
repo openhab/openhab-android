@@ -25,19 +25,14 @@ import okhttp3.RequestBody
 import java.util.concurrent.TimeUnit
 
 abstract class HttpClient protected constructor(private val client: OkHttpClient, baseUrl: String?, username: String?, password: String?) {
-    private val baseUrl: HttpUrl?
-    @VisibleForTesting val authHeader: String?
+    private val baseUrl: HttpUrl? = if (baseUrl != null) HttpUrl.parse(baseUrl) else null
+    @VisibleForTesting val authHeader: String? = if (!username.isNullOrEmpty() && !password.isNullOrEmpty())
+            Credentials.basic(username, password) else null
 
     enum class CachingMode {
         DEFAULT,
         AVOID_CACHE,
         FORCE_CACHE_IF_POSSIBLE
-    }
-
-    init {
-        this.baseUrl = if (baseUrl != null) HttpUrl.parse(baseUrl) else null
-        authHeader = if (!username.isNullOrEmpty() && !password.isNullOrEmpty())
-                Credentials.basic(username, password) else null
     }
 
     fun makeSse(url: HttpUrl, listener: ServerSentEvent.Listener): ServerSentEvent {

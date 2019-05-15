@@ -14,7 +14,7 @@ import androidx.core.net.toUri
 import androidx.core.view.isVisible
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import org.openhab.habdroid.core.connection.Connection
-import org.openhab.habdroid.util.Util
+import org.openhab.habdroid.util.openInBrowser
 
 /**
  * Sets [SwipeRefreshLayout] color scheme from
@@ -52,8 +52,7 @@ fun WebView.setUpForConnection(connection: Connection, url: String) {
                                     userGesture: Boolean, resultMsg: Message): Boolean {
             val href = view.getHandler().obtainMessage()
             view.requestFocusNodeHref(href)
-            val url = href.getData().getString("url");
-            Util.openInBrowser(view.context, url)
+            href.getData().getString("url")?.toUri().openInBrowser(view.context)
             return false
         }
     })

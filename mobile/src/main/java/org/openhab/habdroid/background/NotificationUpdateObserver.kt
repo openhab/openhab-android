@@ -24,11 +24,7 @@ import java.util.ArrayList
 import java.util.HashMap
 
 internal class NotificationUpdateObserver(context: Context) : Observer<List<WorkInfo>> {
-    private val context: Context
-
-    init {
-        this.context = context.applicationContext
-    }
+    private val context: Context = context.applicationContext
 
     override fun onChanged(workInfos: List<WorkInfo>) {
         // Find latest state for each tag
@@ -45,14 +41,14 @@ internal class NotificationUpdateObserver(context: Context) : Observer<List<Work
                         // Succeeded and failed tasks have their timestamp in output data, so
                         // we can use that one to determine the newest one
                         val existing = latestInfoByTag[tag]
-                        val existingState = existing?.state
-                        if (existingState == null) {
-                            latestInfoByTag[tag] = info
-                        } else if (existingState == WorkInfo.State.SUCCEEDED || existingState == WorkInfo.State.FAILED) {
-                            val ts = info.outputData.getLong(ItemUpdateWorker.OUTPUT_DATA_TIMESTAMP, 0)
-                            val existingTs = existing.outputData.getLong(ItemUpdateWorker.OUTPUT_DATA_TIMESTAMP, 0)
-                            if (ts > existingTs) {
-                                latestInfoByTag[tag] = info
+                        when (existing?.state) {
+                            null -> latestInfoByTag[tag] = info
+                            WorkInfo.State.SUCCEEDED, WorkInfo.State.FAILED -> {
+                                val ts = info.outputData.getLong(ItemUpdateWorker.OUTPUT_DATA_TIMESTAMP, 0)
+                                val existingTs = existing.outputData.getLong(ItemUpdateWorker.OUTPUT_DATA_TIMESTAMP, 0)
+                                if (ts > existingTs) {
+                                    latestInfoByTag[tag] = info
+                                }
                             }
                         }
                     }
@@ -80,7 +76,7 @@ internal class NotificationUpdateObserver(context: Context) : Observer<List<Work
 
         val nm = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
-        if (!failedInfos.isEmpty()) {
+        if (failedInfos.isNotEmpty()) {
             // show error notification
             val errors = ArrayList<CharSequence>()
             val retryInfos = ArrayList<BackgroundTasksManager.RetryInfo>()
@@ -94,13 +90,11 @@ internal class NotificationUpdateObserver(context: Context) : Observer<List<Work
                 if (itemName != null && value != null) {
                     retryInfos.add(BackgroundTasksManager.RetryInfo(tag, itemName, value))
                 }
-                if (hadConnection) {
-                    errors.add(context.getString(
-                            R.string.item_update_http_error, itemName, httpStatus))
+                errors.add(if (hadConnection) {
+                    context.getString(R.string.item_update_http_error, itemName, httpStatus)
                 } else {
-                    errors.add(context.getString(
-                            R.string.item_update_connection_error, itemName))
-                }
+                    context.getString(R.string.item_update_connection_error, itemName)
+                })
             }
             val n = createErrorNotification(context, errors, retryInfos)
             createNotificationChannels(context)
@@ -134,22 +128,22 @@ internal class NotificationUpdateObserver(context: Context) : Observer<List<Work
 
             val nm = context.getSystemService(NotificationManager::class.java)
 
-            var name = context.getString(R.string.notification_channel_background)
-            var description = context.getString(R.string.notification_channel_background_description)
-            var channel = NotificationChannel(CHANNEL_ID_BACKGROUND, name,
-                    NotificationManager.IMPORTANCE_MIN)
-            channel.description = description
-            nm.createNotificationChannel(channel)
+            val bgChannel = NotificationChannel(CHANNEL_ID_BACKGROUND,
+                    context.getString(R.string.notification_channel_background),
+                    NotificationManager.IMPORTANCE_MIN).apply {
+                description = context.getString(R.string.notification_channel_background_description)
+            }
+            nm.createNotificationChannel(bgChannel)
 
-            name = context.getString(R.string.notification_channel_background_error)
-            description = context.getString(R.string.notification_channel_background_error_description)
-            channel = NotificationChannel(CHANNEL_ID_BACKGROUND_ERROR, name,
-                    NotificationManager.IMPORTANCE_DEFAULT)
-            channel.description = description
-            channel.enableVibration(true)
-            channel.lightColor = ContextCompat.getColor(context, R.color.openhab_orange)
-            channel.enableLights(true)
-            nm.createNotificationChannel(channel)
+            val errorChannel = NotificationChannel(CHANNEL_ID_BACKGROUND_ERROR,
+                    context.getString(R.string.notification_channel_background_error),
+                    NotificationManager.IMPORTANCE_DEFAULT).apply {
+                description = context.getString(R.string.notification_channel_background_error_description)
+                enableVibration(true)
+                lightColor = ContextCompat.getColor(context, R.color.openhab_orange)
+                enableLights(true)
+            }
+            nm.createNotificationChannel(errorChannel)
         }
 
         private fun createProgressNotification(context: Context,
@@ -189,7 +183,7 @@ internal class NotificationUpdateObserver(context: Context) : Observer<List<Work
                         .setBigContentTitle(text))
             }
 
-            if (!retryInfos.isEmpty()) {
+            if (retryInfos.isNotEmpty()) {
                 val retryIntent = Intent(context, BackgroundTasksManager::class.java)
                         .setAction(BackgroundTasksManager.ACTION_RETRY_UPLOAD)
                         .putExtra(BackgroundTasksManager.EXTRA_RETRY_INFOS, retryInfos)

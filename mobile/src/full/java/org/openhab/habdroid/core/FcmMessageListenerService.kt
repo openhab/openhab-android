@@ -45,10 +45,7 @@ class FcmMessageListenerService : FirebaseMessagingService() {
 
     override fun onMessageReceived(message: RemoteMessage?) {
         val nm = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
-        val data = message?.data
-        if (data == null) {
-            return
-        }
+        val data = message?.data ?: return
         val messageType = data["type"] ?: return
         val notificationId = data[EXTRA_NOTIFICATION_ID]?.toInt() ?: 1
 
@@ -194,7 +191,7 @@ class FcmMessageListenerService : FirebaseMessagingService() {
 
     @TargetApi(23)
     private fun getGcmNotificationCount(active: Array<StatusBarNotification>): Int {
-        return active.count { n -> n.id != 0 && (n.groupKey?.endsWith("gcm") ?: false) }
+        return active.count { n -> n.id != 0 && (n.groupKey?.endsWith("gcm") == true) }
     }
 
     companion object {

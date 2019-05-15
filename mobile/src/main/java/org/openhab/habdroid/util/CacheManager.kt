@@ -20,11 +20,10 @@ import java.io.File
 import java.io.IOException
 
 class CacheManager private constructor(appContext: Context) {
-    val httpCache: Cache
+    val httpCache: Cache = Cache(File(appContext.cacheDir, "http"), (2 * 1024 * 1024).toLong())
     private val bitmapCache: LruCache<HttpUrl, Bitmap>
 
     init {
-        httpCache = Cache(File(appContext.cacheDir, "http"), (2 * 1024 * 1024).toLong())
 
         // Get max available VM memory, exceeding this amount will throw an
         // OutOfMemory exception. Stored in kilobytes as LruCache takes an

@@ -64,11 +64,10 @@ class MjpegInputStream(stream: InputStream) : DataInputStream(BufferedInputStrea
         val header = ByteArray(headerLen)
         readFully(header)
 
-        var contentLength: Int
-        try {
-            contentLength = parseContentLength(header)
+        val contentLength = try {
+            parseContentLength(header)
         } catch (nfe: NumberFormatException) {
-            contentLength = getEndOfSeqeunce(this, EOF_MARKER)
+            getEndOfSeqeunce(this, EOF_MARKER)
         }
 
         reset()

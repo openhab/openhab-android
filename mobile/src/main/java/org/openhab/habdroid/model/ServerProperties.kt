@@ -98,7 +98,7 @@ data class ServerProperties(val flags: Int, val sitemaps: List<Sitemap>) : Parce
                         } else {
                             for (i in 0 until linksJsonArray.length()) {
                                 val extensionJson = linksJsonArray.getJSONObject(i)
-                                if ("habpanel" == extensionJson.getString("type")) {
+                                if (extensionJson.getString("type") == "habpanel") {
                                     flags = flags or SERVER_FLAG_HABPANEL_INSTALLED
                                     break
                                 }
@@ -131,11 +131,8 @@ data class ServerProperties(val flags: Int, val sitemaps: List<Sitemap>) : Parce
 
                 override fun onSuccess(response: String, headers: Headers) {
                     // OH1 returns XML, later versions return JSON
-                    if (handle.flags and SERVER_FLAG_JSON_REST_API != 0) {
-                        handle.sitemaps = loadSitemapsFromJson(response)
-                    } else {
-                        handle.sitemaps = loadSitemapsFromXml(response)
-                    }
+                    handle.sitemaps = if (handle.flags and SERVER_FLAG_JSON_REST_API != 0)
+                        loadSitemapsFromJson(response) else loadSitemapsFromXml(response)
 
                     Log.d(TAG, "Server returned sitemaps: " + handle.sitemaps)
                     successCb(ServerProperties(handle.flags, handle.sitemaps))
@@ -160,12 +157,12 @@ data class ServerProperties(val flags: Int, val sitemaps: List<Sitemap>) : Parce
         }
 
         private fun loadSitemapsFromJson(response: String): List<Sitemap> {
-            try {
+            return try {
                 val jsonArray = JSONArray(response)
-                return jsonArray.toSitemapList()
+                jsonArray.toSitemapList()
             } catch (e: JSONException) {
                 Log.e(TAG, "Failed parsing sitemap JSON", e)
-                return emptyList()
+                emptyList()
             }
         }
     }

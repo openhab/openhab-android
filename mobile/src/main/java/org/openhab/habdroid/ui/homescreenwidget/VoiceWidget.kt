@@ -46,15 +46,14 @@ open class VoiceWidget : AppWidgetProvider() {
         val callbackPendingIntent = PendingIntent.getService(context,
                 9, callbackIntent, 0)
 
-        val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
-        // Display an hint to the user about what he should say.
-        intent.putExtra(RecognizerIntent.EXTRA_PROMPT,
-                context.getString(R.string.info_voice_input))
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
-                RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
-        intent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 1)
-        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-        intent.putExtra(RecognizerIntent.EXTRA_RESULTS_PENDINGINTENT, callbackPendingIntent)
+        val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
+            // Display an hint to the user about what he should say.
+            putExtra(RecognizerIntent.EXTRA_PROMPT, context.getString(R.string.info_voice_input))
+            putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
+            putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 1)
+            putExtra(RecognizerIntent.EXTRA_RESULTS_PENDINGINTENT, callbackPendingIntent)
+            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        }
 
         val pendingIntent = PendingIntent.getActivity(context, 6, intent, 0)
         views.setOnClickPendingIntent(R.id.outer_layout, pendingIntent)

@@ -33,7 +33,7 @@ class AsyncServiceResolver(context: Context, private val listener: Listener, pri
     // mDNS service
     private var jmdns: JmDNS? = null
     private var resolvedServiceInfo: ServiceInfo? = null
-    private val handler: Handler
+    private val handler: Handler = Handler(Looper.getMainLooper())
 
     private val localIpv4Address: InetAddress?
         get() {
@@ -65,7 +65,6 @@ class AsyncServiceResolver(context: Context, private val listener: Listener, pri
     }
 
     init {
-        handler = Handler(Looper.getMainLooper())
 
         val wifiManager = context.getSystemService(Context.WIFI_SERVICE) as WifiManager
         multicastLock = wifiManager.createMulticastLock("HABDroidMulticastLock")

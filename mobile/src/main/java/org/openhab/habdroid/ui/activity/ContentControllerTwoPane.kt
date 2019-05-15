@@ -24,7 +24,7 @@ class ContentControllerTwoPane(activity: MainActivity) : ContentController(activ
     private lateinit var rightContentView: View
 
     override val fragmentForTitle: WidgetListFragment?
-        get() = if (pageStack.size > 1) pageStack.get(pageStack.size - 2).second else sitemapFragment
+        get() = if (pageStack.size > 1) pageStack[pageStack.size - 2].second else sitemapFragment
 
     override fun onRestoreInstanceState(state: Bundle) {
         super.onRestoreInstanceState(state)
@@ -36,17 +36,21 @@ class ContentControllerTwoPane(activity: MainActivity) : ContentController(activ
         val rightFragment: WidgetListFragment?
         val rightPair: Pair<LinkedPage, WidgetListFragment>?
 
-        if (leftFragment != null) {
-            rightFragment = null
-            rightPair = null
-        } else if (sitemapFragment != null) {
-            rightPair = if (pageStack.empty()) null else pageStack.peek()
-            leftFragment = fragmentForTitle
-            rightFragment = rightPair?.second
-        } else {
-            leftFragment = defaultProgressFragment
-            rightFragment = null
-            rightPair = null
+        when {
+            leftFragment != null -> {
+                rightFragment = null
+                rightPair = null
+            }
+            sitemapFragment != null -> {
+                rightPair = if (pageStack.empty()) null else pageStack.peek()
+                leftFragment = fragmentForTitle
+                rightFragment = rightPair?.second
+            }
+            else -> {
+                leftFragment = defaultProgressFragment
+                rightFragment = null
+                rightPair = null
+            }
         }
 
         val currentLeftFragment = fm.findFragmentById(R.id.content_left)

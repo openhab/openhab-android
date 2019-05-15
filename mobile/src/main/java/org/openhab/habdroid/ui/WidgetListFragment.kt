@@ -146,7 +146,7 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener {
             labels.add(getString(R.string.nfc_action_to_sitemap_page))
         }
 
-        if (!labels.isEmpty()) {
+        if (labels.isNotEmpty()) {
             AlertDialog.Builder(activity)
                     .setTitle(R.string.nfc_dialog_title)
                     .setItems(labels.toTypedArray()) { dialog, which ->
@@ -172,7 +172,7 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        Log.d(TAG, "onViewCreated() " + displayPageUrl)
+        Log.d(TAG, "onViewCreated() $displayPageUrl")
         super.onViewCreated(view, savedInstanceState)
 
         val activity = activity as MainActivity
@@ -200,7 +200,7 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener {
     }
 
     override fun onStart() {
-        Log.d(TAG, "onStart() " + displayPageUrl)
+        Log.d(TAG, "onStart() $displayPageUrl")
         super.onStart()
         val activity = activity as MainActivity
         activity.triggerPageUpdate(displayPageUrl, false)
@@ -209,7 +209,7 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener {
 
     override fun onPause() {
         super.onPause()
-        Log.d(TAG, "onPause() " + displayPageUrl)
+        Log.d(TAG, "onPause() $displayPageUrl")
         startOrStopVisibleViewHolders(false)
     }
 
@@ -236,7 +236,7 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener {
     fun updateWidgets(widgets: List<Widget>) {
         val adapter = adapter ?: return
         adapter.update(widgets, refreshLayout.isRefreshing)
-        recyclerView.isVisible = !widgets.isEmpty()
+        recyclerView.isVisible = widgets.isNotEmpty()
         emptyPageView.isVisible = widgets.isEmpty()
         setHighlightedPageLink(highlightedPageLink)
         refreshLayout.isRefreshing = false

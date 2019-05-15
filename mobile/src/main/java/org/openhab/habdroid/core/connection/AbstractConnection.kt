@@ -46,11 +46,10 @@ abstract class AbstractConnection : Connection {
         Log.d(TAG, "Checking reachability of $baseUrl")
         try {
             val url = URL(baseUrl)
-            var checkPort = url.port
-            if (url.protocol == "http" && checkPort == -1) {
-                checkPort = 80
-            } else if (url.protocol == "https" && checkPort == -1) {
-                checkPort = 443
+            var checkPort = when {
+                url.protocol == "http" && url.port == -1 -> 80
+                url.protocol == "http" && url.port == -1 -> 443
+                else -> url.port
             }
             val s = createConnectedSocket(InetSocketAddress(url.host, checkPort)) ?: return false
             s.close()

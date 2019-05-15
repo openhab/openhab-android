@@ -35,6 +35,7 @@ import org.openhab.habdroid.model.CloudNotification
 import org.openhab.habdroid.model.toCloudNotification
 import org.openhab.habdroid.ui.widget.DividerItemDecoration
 import org.openhab.habdroid.util.AsyncHttpClient
+import org.openhab.habdroid.util.map
 
 import java.util.ArrayList
 import java.util.Locale
@@ -77,7 +78,7 @@ class CloudNotificationListFragment : Fragment(), View.OnClickListener, SwipeRef
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        adapter = CloudNotificationAdapter(view.context, { loadNotifications(false) })
+        adapter = CloudNotificationAdapter(view.context) { loadNotifications(false) }
         layoutManager = LinearLayoutManager(view.context)
 
         recyclerView.layoutManager = layoutManager
@@ -117,13 +118,13 @@ class CloudNotificationListFragment : Fragment(), View.OnClickListener, SwipeRef
     private fun loadNotifications(clearExisting: Boolean) {
         val conn = ConnectionFactory.getConnection(Connection.TYPE_CLOUD)
         if (conn == null) {
-            updateViewVisibility(false, true)
+            updateViewVisibility(loading = false, loadError = true)
             return
         }
         if (clearExisting) {
             adapter.clear()
             loadOffset = 0
-            updateViewVisibility(true, false)
+            updateViewVisibility(loading = true, loadError = false)
         }
 
         // If we're passed an ID to be highlighted initially, we'd theoretically need to load all
@@ -135,25 +136,21 @@ class CloudNotificationListFragment : Fragment(), View.OnClickListener, SwipeRef
         requestHandle = conn.asyncHttpClient.get(url, object : AsyncHttpClient.StringResponseHandler() {
             override fun onSuccess(response: String, headers: Headers) {
                 try {
-                    val items = ArrayList<CloudNotification>()
-                    val jsonArray = JSONArray(response)
-                    for (i in 0 until jsonArray.length()) {
-                        items.add(jsonArray.getJSONObject(i).toCloudNotification())
-                    }
+                    val items = JSONArray(response).map { obj -> obj.toCloudNotification() }
                     Log.d(TAG, "Notifications request success, got " + items.size + " items")
                     loadOffset += items.size
                     adapter.addLoadedItems(items, items.size == PAGE_SIZE)
                     handleInitialHighlight()
-                    updateViewVisibility(false, false)
+                    updateViewVisibility(loading = false, loadError = false)
                 } catch (e: JSONException) {
                     Log.d(TAG, "Notification response could not be parsed", e)
-                    updateViewVisibility(false, true)
+                    updateViewVisibility(loading = false, loadError = true)
                 }
 
             }
 
             override fun onFailure(request: Request, statusCode: Int, error: Throwable) {
-                updateViewVisibility(false, true)
+                updateViewVisibility(loading = false, loadError = true)
                 Log.e(TAG, "Notifications request failure", error)
             }
         })

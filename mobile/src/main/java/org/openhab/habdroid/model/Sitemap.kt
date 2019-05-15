@@ -16,6 +16,7 @@ import kotlinx.android.parcel.Parcelize
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
+import org.openhab.habdroid.util.forEach
 import org.w3c.dom.Document
 import org.w3c.dom.Node
 
@@ -31,25 +32,16 @@ fun Node.toSitemap(): Sitemap? {
     var link: String? = null
     var homepageLink: String? = null
 
-    if (hasChildNodes()) {
-        for (i in 0 until childNodes.length) {
-            with (childNodes.item(i)) {
-                when (nodeName) {
-                    "name" -> name = textContent
-                    "label" -> label = textContent
-                    "link" -> link = textContent
-                    "icon" -> icon = textContent
-                    "homepage" -> if (hasChildNodes()) {
-                        val homepageNodes = childNodes
-                        for (j in 0 until homepageNodes.length) {
-                            val homepageChildNode = homepageNodes.item(j)
-                            if (homepageChildNode.nodeName == "link") {
-                                homepageLink = homepageChildNode.textContent
-                                break
-                            }
-                        }
-                    }
-                }
+    childNodes.forEach { node ->
+        when (node.nodeName) {
+            "name" -> name = node.textContent
+            "label" -> label = node.textContent
+            "link" -> link = node.textContent
+            "icon" -> icon = node.textContent
+            "homepage" -> node.childNodes.forEach { pageNode ->
+                if (pageNode.nodeName == "link") {
+                    homepageLink = pageNode.textContent
+               }
             }
         }
     }
@@ -73,34 +65,30 @@ fun JSONObject.toSitemap(): Sitemap? {
 
 fun Document.toSitemapList(): List<Sitemap> {
     val sitemapNodes = getElementsByTagName("sitemap")
-    return (0..sitemapNodes.length - 1)
-            .map { index -> sitemapNodes.item(index).toSitemap() }
-            .filterNotNull()
+    return (0 until sitemapNodes.length).mapNotNull { index -> sitemapNodes.item(index).toSitemap() }
 }
 
 fun JSONArray.toSitemapList(): List<Sitemap> {
-    return (0..length() - 1)
-            .map { index ->
-                var result: Sitemap? = null
-                try {
-                    val sitemap = getJSONObject(index).toSitemap()
-                    if (sitemap != null && (sitemap.name != "_default" || length() == 1)) {
-                        result = sitemap
-                    }
-                } catch (e: JSONException) {
-                    Log.d(Sitemap::class.java.simpleName, "Error while parsing sitemap", e)
-                }
-                result
+    return (0 until length()).mapNotNull { index ->
+        var result: Sitemap? = null
+        try {
+            val sitemap = getJSONObject(index).toSitemap()
+            if (sitemap != null && (sitemap.name != "_default" || length() == 1)) {
+                result = sitemap
             }
-            .filterNotNull()
+        } catch (e: JSONException) {
+            Log.d(Sitemap::class.java.simpleName, "Error while parsing sitemap", e)
+        }
+        result
+    }
 }
 
 fun List<Sitemap>.sortedWithDefaultName(defaultSitemapName: String): List<Sitemap> {
     // Sort by sitename label, the default sitemap should be the first one
-    return sortedWith(object: Comparator<Sitemap> {
-        override fun compare(lhs: Sitemap, rhs: Sitemap): Int = when {
-            lhs.name == defaultSitemapName -> -1
-            rhs.name == defaultSitemapName -> 1
+    return sortedWith(Comparator { lhs, rhs ->
+        when (defaultSitemapName) {
+            lhs.name -> -1
+            rhs.name -> 1
             else -> lhs.label.compareTo(rhs.label, true)
         }
     })

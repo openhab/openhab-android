@@ -14,9 +14,9 @@ import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 import org.json.JSONException
 import org.json.JSONObject
+import org.openhab.habdroid.util.forEach
+import org.openhab.habdroid.util.map
 import org.w3c.dom.Node
-
-import java.util.ArrayList
 
 @Parcelize
 data class Item internal constructor(val name: String, val label: String?, val type: Type,
@@ -66,17 +66,13 @@ fun Node.toItem(): Item? {
     var link: String? = null
     var type = Item.Type.None
     var groupType = Item.Type.None
-    if (hasChildNodes()) {
-        for (i in 0 until childNodes.length) {
-            with (childNodes.item(i)) {
-                when (nodeName) {
-                    "type" -> type = textContent.toItemType()
-                    "groupType" -> groupType = textContent.toItemType()
-                    "name" -> name = textContent
-                    "state" -> state = textContent
-                    "link" -> link = textContent
-                }
-            }
+    childNodes.forEach { node ->
+        when (node.nodeName) {
+            "type" -> type = node.textContent.toItemType()
+            "groupType" -> groupType = node.textContent.toItemType()
+            "name" -> name = node.textContent
+            "state" -> state = node.textContent
+            "link" -> link = node.textContent
         }
     }
 
@@ -100,23 +96,16 @@ fun JSONObject.toItem(): Item {
     val stateDescription = optJSONObject("stateDescription")
     val readOnly = stateDescription != null && stateDescription.optBoolean("readOnly", false)
 
-    var options: MutableList<LabeledValue>? = null
-    if (stateDescription != null && stateDescription.has("options")) {
-        val optionsJson = stateDescription.getJSONArray("options")
-        options = ArrayList()
-        for (i in 0 until optionsJson.length()) {
-            val optionJson = optionsJson.getJSONObject(i)
-            options.add(LabeledValue(optionJson.getString("value"),
-                    optionJson.getString("label")))
-        }
+    var options = if (stateDescription?.has("options") == true) {
+        stateDescription.getJSONArray("options").map { obj -> obj.toLabeledValue("value", "label") }
+    } else {
+        null
     }
 
-    val members = ArrayList<Item>()
-    val membersJson = optJSONArray("members")
-    if (membersJson != null) {
-        for (i in 0 until membersJson.length()) {
-            members.add(membersJson.getJSONObject(i).toItem())
-        }
+    val members = if (has("members")) {
+        getJSONArray("members").map { obj -> obj.toItem() }
+    } else {
+        emptyList()
     }
 
     val numberPattern = stateDescription?.optString("pattern")
@@ -150,9 +139,9 @@ fun String?.toItemType(): Item.Type {
     if (type == "Number" && colonPos > 0) {
         return Item.Type.NumberWithDimension
     }
-    try {
-        return Item.Type.valueOf(type)
+    return try {
+        Item.Type.valueOf(type)
     } catch (e: IllegalArgumentException) {
-        return Item.Type.None
+        Item.Type.None
     }
 }

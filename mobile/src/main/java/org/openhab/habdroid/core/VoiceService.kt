@@ -14,7 +14,6 @@ import android.content.Intent
 import android.speech.RecognizerIntent
 import android.util.Log
 import org.openhab.habdroid.R
-import org.openhab.habdroid.core.connection.Connection
 import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.core.connection.exception.ConnectionException
 import org.openhab.habdroid.util.SyncHttpClient
@@ -26,42 +25,26 @@ import java.util.*
  */
 class VoiceService : IntentService("VoiceService") {
     override fun onHandleIntent(intent: Intent?) {
-        val voiceCommand = extractVoiceCommand(intent)
-        if (voiceCommand.isEmpty()) {
-            return
-        }
+        val voiceCommand = intent?.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)?.elementAtOrNull(0)
+                ?: return
+
+        Log.i(TAG, "Recognized text: $voiceCommand")
+        Util.showToast(this, getString(R.string.info_voice_recognized_text, voiceCommand))
 
         ConnectionFactory.waitForInitialization()
-        var connection: Connection? = null
 
         try {
-            connection = ConnectionFactory.usableConnection
+            sendVoiceCommand(ConnectionFactory.usableConnection!!.syncHttpClient, voiceCommand)
         } catch (e: ConnectionException) {
             Log.w(TAG, "Couldn't determine openHAB URL", e)
-        }
-
-        if (connection != null) {
-            sendVoiceCommand(connection.syncHttpClient, voiceCommand)
-        } else {
             Util.showToast(this, getString(R.string.error_couldnt_determine_openhab_url))
         }
     }
 
-    private fun extractVoiceCommand(data: Intent?): String {
-        var voiceCommand = data?.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)?.elementAtOrNull(0)
-        if (voiceCommand != null) {
-            Log.i(TAG, "Recognized text: $voiceCommand")
-            Util.showToast(this, getString(R.string.info_voice_recognized_text, voiceCommand))
-        }
-        return voiceCommand.orEmpty()
-    }
-
     private fun sendVoiceCommand(client: SyncHttpClient, command: String) {
-        val headers = HashMap<String, String>()
-        headers["Accept-Language"] = Locale.getDefault().language
+        val headers = mapOf("Accept-Language" to Locale.getDefault().language)
+        var result = client.post("rest/voice/interpreters", command, "text/plain", headers).asStatus()
 
-        var result: SyncHttpClient.HttpStatusResult = client.post("rest/voice/interpreters",
-                command, "text/plain", headers).asStatus()
         if (result.statusCode == 404) {
             Log.d(TAG, "Voice interpreter endpoint returned 404, falling back to item")
             result = client.post("rest/items/VoiceCommand", command, "text/plain").asStatus()

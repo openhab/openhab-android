@@ -54,8 +54,10 @@ import androidx.annotation.StringRes
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
+import androidx.core.content.edit
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.net.toUri
+import androidx.core.text.inSpans
 import androidx.core.view.GravityCompat
 import androidx.core.view.forEach
 import androidx.core.view.isInvisible
@@ -83,10 +85,7 @@ import org.openhab.habdroid.model.*
 import org.openhab.habdroid.ui.activity.ContentController
 import org.openhab.habdroid.ui.homescreenwidget.VoiceWidget
 import org.openhab.habdroid.ui.homescreenwidget.VoiceWidgetWithIcon
-import org.openhab.habdroid.util.AsyncHttpClient
-import org.openhab.habdroid.util.AsyncServiceResolver
-import org.openhab.habdroid.util.Constants
-import org.openhab.habdroid.util.Util
+import org.openhab.habdroid.util.*
 
 import java.nio.charset.Charset
 import java.util.Locale
@@ -292,10 +291,9 @@ class MainActivity : AbstractBaseActivity(), AsyncServiceResolver.Listener, Conn
                 }
             }
             if (connection !is DemoConnection) {
-                PreferenceManager.getDefaultSharedPreferences(this)
-                        .edit()
-                        .putInt(Constants.PREV_SERVER_FLAGS, props.flags)
-                        .apply()
+                PreferenceManager.getDefaultSharedPreferences(this).edit {
+                    putInt(Constants.PREV_SERVER_FLAGS, props.flags)
+                }
             }
             openHabpanelIfNeeded()
             launchVoiceRecognitionIfNeeded()
@@ -306,16 +304,14 @@ class MainActivity : AbstractBaseActivity(), AsyncServiceResolver.Listener, Conn
     }
 
     override fun onServiceResolved(serviceInfo: ServiceInfo) {
-        Log.d(TAG, "Service resolved: "
-                + serviceInfo.hostAddresses[0]
-                + " port:" + serviceInfo.port)
-        val serverUrl = ("https://" + serviceInfo.hostAddresses[0] + ":"
-                + serviceInfo.port.toString() + "/")
+        val address = serviceInfo.hostAddresses[0]
+        val port = serviceInfo.port.toString()
+        Log.d(TAG, "Service resolved: $address port: $port")
 
-        PreferenceManager.getDefaultSharedPreferences(this)
-                .edit()
-                .putString(Constants.PREFERENCE_LOCAL_URL, serverUrl)
-                .apply()
+        PreferenceManager.getDefaultSharedPreferences(this).edit {
+            putString(Constants.PREFERENCE_LOCAL_URL, "https://$address:$port")
+        }
+
         // We'll get a connection update later
         serviceResolver = null
     }
@@ -328,8 +324,7 @@ class MainActivity : AbstractBaseActivity(), AsyncServiceResolver.Listener, Conn
 
     private fun processIntent(intent: Intent) {
         Log.d(TAG, "Got intent: $intent")
-        val action = if (intent.action != null) intent.action else ""
-        when (action) {
+        when (intent.action) {
             NfcAdapter.ACTION_NDEF_DISCOVERED, Intent.ACTION_VIEW -> {
                 val tag = intent.data?.toTagData()
                 BackgroundTasksManager.enqueueNfcUpdateIfNeeded(this, tag)
@@ -422,11 +417,13 @@ class MainActivity : AbstractBaseActivity(), AsyncServiceResolver.Listener, Conn
         openHabpanelIfNeeded()
         launchVoiceRecognitionIfNeeded()
 
-        if (newConnection != null) {
-            handleConnectionChange()
-            controller.updateConnection(newConnection, null, 0)
-        } else {
-            if (failureReason is NoUrlInformationException) {
+        val wifiManager = applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
+        when {
+            newConnection != null -> {
+                handleConnectionChange()
+                controller.updateConnection(newConnection, null, 0)
+            }
+            failureReason is NoUrlInformationException -> {
                 // Attempt resolving only if we're connected locally and
                 // no local connection is configured yet
                 if (failureReason.wouldHaveUsedLocalConnection() && ConnectionFactory.getConnection(Connection.TYPE_LOCAL) == null) {
@@ -441,24 +438,25 @@ class MainActivity : AbstractBaseActivity(), AsyncServiceResolver.Listener, Conn
                 } else {
                     controller.indicateMissingConfiguration(false)
                 }
-            } else if (failureReason != null) {
-                val wifiManager = applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
-                if (failureReason is NetworkNotSupportedException) {
-                    val info = failureReason.networkInfo
-                    controller.indicateNoNetwork(
-                            getString(R.string.error_network_type_unsupported, info.typeName),
-                            false)
-                } else if (failureReason is NetworkNotAvailableException && !wifiManager.isWifiEnabled) {
-                    controller.indicateNoNetwork(
-                            getString(R.string.error_wifi_not_available), true)
-                } else {
-                    controller.indicateNoNetwork(getString(R.string.error_network_not_available),
-                            false)
-                }
-            } else {
+            }
+            failureReason is NetworkNotSupportedException -> {
+                val info = failureReason.networkInfo
+                controller.indicateNoNetwork(
+                        getString(R.string.error_network_type_unsupported, info.typeName), false)
+            }
+            failureReason is NetworkNotAvailableException && !wifiManager.isWifiEnabled -> {
+                controller.indicateNoNetwork(
+                        getString(R.string.error_wifi_not_available), true)
+            }
+            failureReason != null -> {
+                controller.indicateNoNetwork(getString(R.string.error_network_not_available),
+                        false)
+            }
+            else -> {
                 controller.updateConnection(null, null, 0)
             }
         }
+
         viewPool.clear()
         updateSitemapAndHabpanelDrawerItems()
         invalidateOptionsMenu()
@@ -496,11 +494,11 @@ class MainActivity : AbstractBaseActivity(), AsyncServiceResolver.Listener, Conn
         isStarted = false
         super.onStop()
         ConnectionFactory.removeListener(this)
-        if (serviceResolver?.isAlive ?: false) {
+        if (serviceResolver?.isAlive == true) {
             serviceResolver?.interrupt()
         }
         serviceResolver = null
-        if (sitemapSelectionDialog?.isShowing ?: false) {
+        if (sitemapSelectionDialog?.isShowing == true) {
             sitemapSelectionDialog?.dismiss()
         }
         propsUpdateHandle?.cancel()
@@ -696,32 +694,26 @@ class MainActivity : AbstractBaseActivity(), AsyncServiceResolver.Listener, Conn
         val settings = PreferenceManager.getDefaultSharedPreferences(this)
         val configuredSitemap = settings.getString(Constants.PREFERENCE_SITEMAP_NAME, "") as String
         val sitemaps = serverProperties!!.sitemaps
-        val result: Sitemap?
-
-        if (sitemaps.size == 1) {
+        val result = when {
             // We only have one sitemap, use it
-            result = sitemaps[0]
-        } else if (!configuredSitemap.isEmpty()) {
+            sitemaps.size == 1 -> sitemaps[0]
             // Select configured sitemap if still present, nothing otherwise
-            result = sitemaps.firstOrNull { sitemap -> sitemap.name == configuredSitemap }
-        } else {
+            configuredSitemap.isNotEmpty() -> sitemaps.firstOrNull { sitemap -> sitemap.name == configuredSitemap }
             // Nothing configured -> can't auto-select anything
-            result = null
+            else -> null
         }
 
         Log.d(TAG, "Configured sitemap is '$configuredSitemap', selected $result")
-        if (result == null && !configuredSitemap.isEmpty()) {
-            // clear old configuration
-            settings.edit()
-                    .remove(Constants.PREFERENCE_SITEMAP_LABEL)
-                    .remove(Constants.PREFERENCE_SITEMAP_NAME)
-                    .apply()
-        } else if (result != null && (configuredSitemap.isEmpty() || configuredSitemap != result.name)) {
-            // update result
-            settings.edit()
-                    .putString(Constants.PREFERENCE_SITEMAP_NAME, result.name)
-                    .putString(Constants.PREFERENCE_SITEMAP_LABEL, result.label)
-                    .apply()
+        settings.edit {
+            if (result == null && configuredSitemap.isNotEmpty()) {
+                // clear old configuration
+                remove(Constants.PREFERENCE_SITEMAP_LABEL)
+                remove(Constants.PREFERENCE_SITEMAP_NAME)
+            } else if (result != null && (configuredSitemap.isEmpty() || configuredSitemap != result.name)) {
+                // update result
+                putString(Constants.PREFERENCE_SITEMAP_NAME, result.name)
+                putString(Constants.PREFERENCE_SITEMAP_LABEL, result.label)
+            }
         }
 
         return result
@@ -729,7 +721,7 @@ class MainActivity : AbstractBaseActivity(), AsyncServiceResolver.Listener, Conn
 
     private fun showSitemapSelectionDialog() {
         Log.d(TAG, "Opening sitemap selection dialog")
-        if (sitemapSelectionDialog?.isShowing ?: false) {
+        if (sitemapSelectionDialog?.isShowing == true) {
             sitemapSelectionDialog?.dismiss()
         }
         if (isFinishing) {
@@ -743,11 +735,10 @@ class MainActivity : AbstractBaseActivity(), AsyncServiceResolver.Listener, Conn
                 .setItems(sitemapLabels) { _, which ->
                     val sitemap = sitemaps[which]
                     Log.d(TAG, "Selected sitemap $sitemap")
-                    PreferenceManager.getDefaultSharedPreferences(this@MainActivity)
-                            .edit()
-                            .putString(Constants.PREFERENCE_SITEMAP_NAME, sitemap.name)
-                            .putString(Constants.PREFERENCE_SITEMAP_LABEL, sitemap.label)
-                            .apply()
+                    PreferenceManager.getDefaultSharedPreferences(this@MainActivity).edit {
+                        putString(Constants.PREFERENCE_SITEMAP_NAME, sitemap.name)
+                        putString(Constants.PREFERENCE_SITEMAP_LABEL, sitemap.label)
+                    }
                     openSitemap(sitemap)
                 }
                 .show()
@@ -807,12 +798,12 @@ class MainActivity : AbstractBaseActivity(), AsyncServiceResolver.Listener, Conn
         }
 
         // Handle menu items
-        when (item.itemId) {
+        return when (item.itemId) {
             R.id.mainmenu_voice_recognition -> {
                 launchVoiceRecognition()
-                return true
+                true
             }
-            else -> return super.onOptionsItemSelected(item)
+            else -> super.onOptionsItemSelected(item)
         }
     }
 
@@ -844,13 +835,14 @@ class MainActivity : AbstractBaseActivity(), AsyncServiceResolver.Listener, Conn
     public override fun onSaveInstanceState(savedInstanceState: Bundle) {
         Log.d(TAG, "onSaveInstanceState()")
         isStarted = false
-        savedInstanceState.putParcelable("serverProperties", serverProperties)
-        savedInstanceState.putParcelable("sitemap", selectedSitemap)
-        savedInstanceState.putBoolean("isSitemapSelectionDialogShown",
-                sitemapSelectionDialog?.isShowing ?: false)
-        savedInstanceState.putString("controller", controller.javaClass.canonicalName)
-        savedInstanceState.putInt("connectionHash", connection?.hashCode() ?: -1)
-        controller.onSaveInstanceState(savedInstanceState)
+        with (savedInstanceState) {
+            putParcelable("serverProperties", serverProperties)
+            putParcelable("sitemap", selectedSitemap)
+            putBoolean("isSitemapSelectionDialogShown", sitemapSelectionDialog?.isShowing == true)
+            putString("controller", controller.javaClass.canonicalName)
+            putInt("connectionHash", connection?.hashCode() ?: -1)
+            controller.onSaveInstanceState(this)
+        }
         super.onSaveInstanceState(savedInstanceState)
     }
 
@@ -892,25 +884,27 @@ class MainActivity : AbstractBaseActivity(), AsyncServiceResolver.Listener, Conn
         val callbackIntent = Intent(this, VoiceService::class.java)
         val openhabPendingIntent = PendingIntent.getService(this, 0, callbackIntent, 0)
 
-        val speechIntent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
-        // Display an hint to the user about what he should say.
-        speechIntent.putExtra(RecognizerIntent.EXTRA_PROMPT, getString(R.string.info_voice_input))
-        speechIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
-                RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
-        speechIntent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 1)
-        speechIntent.putExtra(RecognizerIntent.EXTRA_RESULTS_PENDINGINTENT, openhabPendingIntent)
+        val speechIntent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
+            // Display an hint to the user about what he should say.
+            putExtra(RecognizerIntent.EXTRA_PROMPT, getString(R.string.info_voice_input))
+            putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
+            putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 1)
+            putExtra(RecognizerIntent.EXTRA_RESULTS_PENDINGINTENT, openhabPendingIntent)
+        }
 
         try {
             startActivity(speechIntent)
         } catch (speechRecognizerNotFoundException: ActivityNotFoundException) {
-            showSnackbar(R.string.error_no_speech_to_text_app_found, R.string.install, {
+            showSnackbar(R.string.error_no_speech_to_text_app_found, R.string.install) {
                 try {
                     startActivity(Intent(Intent.ACTION_VIEW,
                             "market://details?id=com.google.android.googlequicksearchbox".toUri()))
                 } catch (appStoreNotFoundException: ActivityNotFoundException) {
-                    Util.openInBrowser(this, "http://play.google.com/store/apps/details?id=com.google.android.googlequicksearchbox")
+                    "http://play.google.com/store/apps/details?id=com.google.android.googlequicksearchbox"
+                            .toUri()
+                            .openInBrowser(this)
                 }
-            })
+            }
         }
 
     }
@@ -921,31 +915,31 @@ class MainActivity : AbstractBaseActivity(), AsyncServiceResolver.Listener, Conn
             return
         }
 
-        showSnackbar(R.string.swipe_to_refresh_description, R.string.swipe_to_refresh_dismiss, {
-            prefs.edit()
-                    .putBoolean(Constants.PREFERENCE_SWIPE_REFRESH_EXPLAINED, true)
-                    .apply()
-        })
+        showSnackbar(R.string.swipe_to_refresh_description, R.string.swipe_to_refresh_dismiss) {
+            prefs.edit {
+                putBoolean(Constants.PREFERENCE_SWIPE_REFRESH_EXPLAINED, true)
+            }
+        }
     }
 
-    fun showDemoModeHintSnackbar() {
+    private fun showDemoModeHintSnackbar() {
         val prefs = PreferenceManager.getDefaultSharedPreferences(this)
-        showSnackbar(R.string.info_demo_mode_short, R.string.turn_off, {
-            prefs.edit()
-                    .putBoolean(Constants.PREFERENCE_DEMOMODE, false)
-                    .apply()
-        })
+        showSnackbar(R.string.info_demo_mode_short, R.string.turn_off) {
+            prefs.edit {
+                putBoolean(Constants.PREFERENCE_DEMOMODE, false)
+            }
+        }
     }
 
     private fun showSnackbar(@StringRes messageResId: Int, @StringRes actionResId: Int = 0,
                              onClickListener: (() -> Unit)? = null) {
         hideSnackbar()
-        lastSnackbar = Snackbar.make(findViewById(android.R.id.content), messageResId,
-                Snackbar.LENGTH_LONG)
+        val snackbar = Snackbar.make(findViewById(android.R.id.content), messageResId, Snackbar.LENGTH_LONG)
         if (actionResId != 0 && onClickListener != null) {
-            lastSnackbar!!.setAction(actionResId, { onClickListener() })
+            snackbar.setAction(actionResId) { onClickListener() }
         }
-        lastSnackbar!!.show()
+        snackbar.show()
+        lastSnackbar = snackbar
     }
 
     private fun hideSnackbar() {
@@ -960,36 +954,32 @@ class MainActivity : AbstractBaseActivity(), AsyncServiceResolver.Listener, Conn
                 request.url().toString(), statusCode, error)
         val prefs = PreferenceManager.getDefaultSharedPreferences(this@MainActivity)
         if (prefs.getBoolean(Constants.PREFERENCE_DEBUG_MESSAGES, false)) {
-            val builder = SpannableStringBuilder(message)
-            val detailsStart = builder.length
+            message = SpannableStringBuilder(message).apply {
+                inSpans(RelativeSizeSpan(0.8f)) {
+                    append("\n\nURL: ").append(request.url().toString())
 
-            builder.append("\n\nURL: ").append(request.url().toString())
+                    val authHeader = request.header("Authorization")
+                    if (authHeader?.startsWith("Basic") == true) {
+                        val base64Credentials = authHeader.substring("Basic".length).trim()
+                        val credentials = String(Base64.decode(base64Credentials, Base64.DEFAULT),
+                                Charset.forName("UTF-8"))
+                        append("\nUsername: ")
+                        append(credentials.substring(0, credentials.indexOf(":")))
+                    }
 
-            val authHeader = request.header("Authorization")
-            if (authHeader != null && authHeader.startsWith("Basic")) {
-                val base64Credentials = authHeader.substring("Basic".length).trim { it <= ' ' }
-                val credentials = String(Base64.decode(base64Credentials, Base64.DEFAULT),
-                        Charset.forName("UTF-8"))
-                builder.append("\nUsername: ")
-                        .append(credentials.substring(0, credentials.indexOf(":")))
+                    append("\nException stack:\n")
+                }
+
+                inSpans(RelativeSizeSpan(0.6f)) {
+                    var origError: Throwable?
+                    var cause: Throwable? = error
+                    do {
+                        append(cause?.toString()).append('\n')
+                        origError = cause
+                        cause = origError?.cause
+                    } while (cause != null && origError !== cause)
+                }
             }
-
-            builder.append("\nException stack:\n")
-
-            val exceptionStart = builder.length
-            var origError: Throwable?
-            var cause: Throwable? = error
-            do {
-                builder.append(cause?.toString()).append('\n')
-                origError = cause
-                cause = origError?.cause
-            } while (cause != null && origError !== cause)
-
-            builder.setSpan(RelativeSizeSpan(0.8f), detailsStart, exceptionStart,
-                    SpannableStringBuilder.SPAN_INCLUSIVE_EXCLUSIVE)
-            builder.setSpan(RelativeSizeSpan(0.6f), exceptionStart, builder.length,
-                    SpannableStringBuilder.SPAN_INCLUSIVE_EXCLUSIVE)
-            message = builder
         }
 
         controller.indicateServerCommunicationFailure(message)
@@ -1022,7 +1012,7 @@ class MainActivity : AbstractBaseActivity(), AsyncServiceResolver.Listener, Conn
         }
         if (visible) {
             val intent = Intent(this, MainActivity::class.java)
-            intent.action = action
+                    .setAction(action)
             val shortcut = ShortcutInfo.Builder(this, id)
                     .setShortLabel(getString(shortLabel))
                     .setIcon(Icon.createWithResource(this, icon))

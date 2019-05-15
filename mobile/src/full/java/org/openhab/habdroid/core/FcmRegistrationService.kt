@@ -51,9 +51,7 @@ class FcmRegistrationService : JobIntentService() {
     override fun onHandleWork(intent: Intent) {
         ConnectionFactory.waitForInitialization()
         val connection = ConnectionFactory.getConnection(Connection.TYPE_CLOUD) as CloudConnection?
-        if (connection == null) {
-            return
-        }
+                ?: return
 
         when (intent.action) {
             ACTION_REGISTER -> {

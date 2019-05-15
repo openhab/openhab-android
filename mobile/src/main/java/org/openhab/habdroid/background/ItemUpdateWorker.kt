@@ -23,10 +23,10 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
             connection = ConnectionFactory.usableConnection as Connection
         } catch (e: ConnectionException) {
             Log.e(TAG, "Got no connection $e")
-            if (runAttemptCount <= MAX_RETRIES) {
-                return Result.retry()
+            return if (runAttemptCount <= MAX_RETRIES) {
+                Result.retry()
             } else {
-                return Result.failure(buildOutputData(false, 0))
+                Result.failure(buildOutputData(false, 0))
             }
         }
 
@@ -36,12 +36,12 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
         val result = connection.syncHttpClient.post(url, value, "text/plain;charset=UTF-8")
         val outputData = buildOutputData(true, result.statusCode)
 
-        if (result.isSuccessful) {
+        return if (result.isSuccessful) {
             Log.d(TAG, "Item '$item' successfully updated to value $value")
-            return Result.success(outputData)
+            Result.success(outputData)
         } else {
             Log.e(TAG, "Error sending alarm clock. Got HTTP error " + result.statusCode, result.error)
-            return Result.failure(outputData)
+            Result.failure(outputData)
         }
     }
 

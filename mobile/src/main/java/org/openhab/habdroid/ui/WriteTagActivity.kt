@@ -53,12 +53,10 @@ class WriteTagActivity : AbstractBaseActivity() {
     private var shortUri: Uri? = null
 
     private val fragment: Fragment
-        get() = if (nfcAdapter == null) {
-            NfcUnsupportedFragment()
-        } else if (!nfcAdapter!!.isEnabled) {
-            NfcDisabledFragment()
-        } else {
-            NfcWriteTagFragment()
+        get() = when {
+            nfcAdapter == null -> NfcUnsupportedFragment()
+            nfcAdapter?.isEnabled == false -> NfcDisabledFragment()
+            else -> NfcWriteTagFragment()
         }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -114,9 +112,7 @@ class WriteTagActivity : AbstractBaseActivity() {
     public override fun onPause() {
         Log.d(TAG, "onPause()")
         super.onPause()
-        if (nfcAdapter != null) {
-            nfcAdapter!!.disableForegroundDispatch(this)
-        }
+        nfcAdapter?.disableForegroundDispatch(this)
     }
 
     public override fun onNewIntent(intent: Intent) {
@@ -128,7 +124,7 @@ class WriteTagActivity : AbstractBaseActivity() {
 
             override fun doInBackground(vararg p0: Void?): Boolean {
                 val tag: Tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG)
-                Log.d(TAG, "NFC TAG = " + tag.toString())
+                Log.d(TAG, "NFC TAG = $tag")
                 Log.d(TAG, "Writing URL $longUri to tag")
 
                 val longMessage = toNdefMessage(longUri)
@@ -167,7 +163,7 @@ class WriteTagActivity : AbstractBaseActivity() {
                             Log.d(TAG, "Connecting")
                             ndef.connect()
                             Log.d(TAG, "Writing")
-                            if (ndef.isWritable()) {
+                            if (ndef.isWritable) {
                                 try {
                                     ndef.writeNdefMessage(longMessage)
                                 } catch (e: IOException) {
@@ -204,7 +200,7 @@ class WriteTagActivity : AbstractBaseActivity() {
                     progressBar.isInvisible = true
 
                     val watermark = findViewById<ImageView>(R.id.nfc_watermark)
-                    watermark.setImageDrawable(ContextCompat.getDrawable(getBaseContext(),
+                    watermark.setImageDrawable(ContextCompat.getDrawable(baseContext,
                             R.drawable.ic_nfc_black_180dp))
                     Handler().postDelayed(this@WriteTagActivity::finish, 2000)
                 } else {
@@ -327,10 +323,10 @@ class WriteTagActivity : AbstractBaseActivity() {
                 throw IllegalArgumentException("Expected a sitemap URL")
             }
             val longUri = Uri.Builder()
-                .scheme(NfcTag.SCHEME)
-                .authority("")
-                .appendEncodedPath(path.substring(15))
-                .build()
+                    .scheme(NfcTag.SCHEME)
+                    .authority("")
+                    .appendEncodedPath(path.substring(15))
+                    .build()
             return Intent(context, WriteTagActivity::class.java)
                     .putExtra(EXTRA_LONG_URI, longUri)
         }

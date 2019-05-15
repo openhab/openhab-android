@@ -15,11 +15,11 @@ abstract class ProgressbarAwareTest {
     @JvmField
     val activityTestRule = IntentsTestRule(MainActivity::class.java, true, false)
 
-    protected val progressbarIdlingResource: IdlingResource by lazy {
+    private val progressbarIdlingResource: IdlingResource by lazy {
         val progressBar = activityTestRule.activity.findViewById<View>(R.id.toolbar_progress_bar)
         ProgressbarIdlingResource("Progressbar IdleResource", progressBar)
     }
-    protected val fragmentIdlingResource: IdlingResource by lazy {
+    private val fragmentIdlingResource: IdlingResource by lazy {
         FragmentStatusIdlingResource("FragmentIdleResource",
                 activityTestRule.activity.supportFragmentManager)
 

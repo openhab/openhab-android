@@ -50,10 +50,10 @@ abstract class AbstractBaseActivity : AppCompatActivity() {
         val flags = (View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                 or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
                 or View.SYSTEM_UI_FLAG_FULLSCREEN)
-        if (isEnabled) {
-            uiOptions = uiOptions or flags
+        uiOptions = if (isEnabled) {
+            uiOptions or flags
         } else {
-            uiOptions = uiOptions and flags.inv()
+            uiOptions and flags.inv()
         }
         window.decorView.systemUiVisibility = uiOptions
     }

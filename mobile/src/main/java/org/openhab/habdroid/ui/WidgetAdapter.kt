@@ -70,10 +70,10 @@ class WidgetAdapter(context: Context, private val connection: Connection,
     private val items = ArrayList<Widget>()
     val itemList: List<Widget> get() = items
 
-    private val inflater: LayoutInflater
+    private val inflater = LayoutInflater.from(context)
     private val chartTheme: CharSequence
     private var selectedPosition = -1
-    private val colorMapper: ColorMapper
+    private val colorMapper = ColorMapper(context)
 
     interface ItemClickListener {
         fun onItemClicked(item: Widget): Boolean  // returns whether click was handled
@@ -81,22 +81,15 @@ class WidgetAdapter(context: Context, private val connection: Connection,
     }
 
     init {
-        inflater = LayoutInflater.from(context)
-        colorMapper = ColorMapper(context)
-
         val tv = TypedValue()
         context.theme.resolveAttribute(R.attr.chartTheme, tv, true)
         chartTheme = tv.string
     }
 
     fun update(widgets: List<Widget>, forceFullUpdate: Boolean) {
-        var compatibleUpdate = true
-
-        if (widgets.size != items.size || forceFullUpdate) {
-            compatibleUpdate = false
-        } else if (widgets.filterIndexed { index, widget ->  getItemViewType(widget) != getItemViewType(items[index]) }.size > 0) {
-            compatibleUpdate = false
-        }
+        val compatibleUpdate = !forceFullUpdate
+                && widgets.size == items.size
+                && widgets.filterIndexed { index, widget -> getItemViewType(widget) != getItemViewType(items[index]) }.isEmpty()
 
         if (compatibleUpdate) {
             widgets.forEachIndexed { index, widget ->
@@ -184,13 +177,11 @@ class WidgetAdapter(context: Context, private val connection: Connection,
         when (widget.type) {
             Widget.Type.Frame -> return TYPE_FRAME
             Widget.Type.Group -> return TYPE_GROUP
-            Widget.Type.Switch -> if (widget.hasMappings()) {
-                return TYPE_SECTIONSWITCH
+            Widget.Type.Switch -> return if (widget.hasMappings()) {
+                TYPE_SECTIONSWITCH
             } else {
-                val item = widget.item
-                return if (item != null && item.isOfTypeOrGroupType(Item.Type.Rollershutter)) {
-                    TYPE_ROLLERSHUTTER
-                } else TYPE_SWITCH
+                if (widget.item?.isOfTypeOrGroupType(Item.Type.Rollershutter) == true)
+                    TYPE_ROLLERSHUTTER else TYPE_SWITCH
             }
             Widget.Type.Text -> return TYPE_TEXT
             Widget.Type.Slider -> return TYPE_SLIDER
@@ -198,11 +189,10 @@ class WidgetAdapter(context: Context, private val connection: Connection,
             Widget.Type.Selection -> return TYPE_SELECTION
             Widget.Type.Setpoint -> return TYPE_SETPOINT
             Widget.Type.Chart -> return TYPE_CHART
-            Widget.Type.Video -> {
-                return if ("mjpeg".equals(widget.encoding, ignoreCase = true)) {
-                    TYPE_VIDEO_MJPEG
-                } else TYPE_VIDEO
-            }
+            Widget.Type.Video -> return if ("mjpeg".equals(widget.encoding, ignoreCase = true))
+                TYPE_VIDEO_MJPEG
+            else
+                TYPE_VIDEO
             Widget.Type.Webview -> return TYPE_WEB
             Widget.Type.Colorpicker -> return TYPE_COLOR
             Widget.Type.Mapview -> return TYPE_LOCATION
@@ -257,15 +247,15 @@ class WidgetAdapter(context: Context, private val connection: Connection,
                                                                   private val colorMapper: ColorMapper) :
             ViewHolder(inflater, parent, layoutResId) {
         protected val labelView: TextView = itemView.findViewById(R.id.widgetlabel)
-        protected val valueView: TextView? = itemView.findViewById(R.id.widgetvalue)
-        protected val iconView: WidgetImageView = itemView.findViewById(R.id.widgeticon)
+        private val valueView: TextView? = itemView.findViewById(R.id.widgetvalue)
+        private val iconView: WidgetImageView = itemView.findViewById(R.id.widgeticon)
 
         override fun bind(widget: Widget) {
             val splitString = widget.label.split("[", "]")
-            labelView.text = if (splitString.size > 0) splitString[0] else null
+            labelView.text = splitString.firstOrNull()
             labelView.applyWidgetColor(widget.labelColor, colorMapper)
             if (valueView != null) {
-                valueView.text = if (splitString.size > 1) splitString[1] else null
+                valueView.text = splitString.elementAtOrNull(1)
                 valueView.isVisible = splitString.size > 1
                 valueView.applyWidgetColor(widget.valueColor, colorMapper)
             }
@@ -302,7 +292,7 @@ class WidgetAdapter(context: Context, private val connection: Connection,
             labelView.text = widget.label
             labelView.applyWidgetColor(widget.valueColor, colorMapper)
             // hide empty frames
-            itemView.isVisible = !widget.label.isEmpty()
+            itemView.isVisible = widget.label.isNotEmpty()
         }
 
         fun setShownAsFirst(shownAsFirst: Boolean) {
@@ -336,7 +326,7 @@ class WidgetAdapter(context: Context, private val connection: Connection,
         override fun bind(widget: Widget) {
             super.bind(widget)
             boundItem = widget.item
-            switch.isChecked = boundItem?.state?.asBoolean ?: false
+            switch.isChecked = boundItem?.state?.asBoolean == true
         }
 
         override fun handleRowClick() {
@@ -351,8 +341,7 @@ class WidgetAdapter(context: Context, private val connection: Connection,
         }
 
         private fun toggleSwitch() {
-            Util.sendItemCommand(connection.asyncHttpClient, boundItem,
-                    if (switch.isChecked) "OFF" else "ON")
+            Util.sendItemCommand(connection.asyncHttpClient, boundItem, if (switch.isChecked) "OFF" else "ON")
         }
     }
 
@@ -388,10 +377,7 @@ class WidgetAdapter(context: Context, private val connection: Connection,
             seekBar.progress = 0
 
             val item = widget.item
-            val state = item?.state
-            if (state == null) {
-                return
-            }
+            val state = item?.state ?: return
 
             if (item.isOfTypeOrGroupType(Item.Type.Color)) {
                 val brightness = state.asBrightness
@@ -409,7 +395,7 @@ class WidgetAdapter(context: Context, private val connection: Connection,
         }
 
         override fun handleRowClick() {
-            if (boundWidget?.switchSupport ?: false) {
+            if (boundWidget?.switchSupport == true) {
                 Util.sendItemCommand(connection.asyncHttpClient, boundWidget?.item,
                         if (seekBar.progress == 0) "ON" else "OFF")
             }
@@ -559,11 +545,12 @@ class WidgetAdapter(context: Context, private val connection: Connection,
             // bind views
             val state = boundItem?.state?.asString
             mappings.forEachIndexed { index, mapping ->
-                val button = radioGroup.getChildAt(index) as SegmentedControlButton
-                button.text = mapping.label
-                button.tag = mapping.value
-                button.isChecked = mapping.value == state
-                button.isVisible = true
+                with (radioGroup.getChildAt(index) as SegmentedControlButton) {
+                    text = mapping.label
+                    tag = mapping.value
+                    isChecked = mapping.value == state
+                    isVisible = true
+                }
             }
             // hide spare views
             for (i in mappings.size until radioGroup.childCount) {
@@ -662,12 +649,12 @@ class WidgetAdapter(context: Context, private val connection: Connection,
             }
 
             val dialogView = inflater.inflate(R.layout.dialog_numberpicker, null)
-            val picker = dialogView.findViewById<NumberPicker>(R.id.numberpicker)
-
-            picker.minValue = 0
-            picker.maxValue = stepValues.size - 1
-            picker.displayedValues = stepValues.map { item -> item.toString() }.toTypedArray()
-            picker.value = closestIndex
+            val picker = dialogView.findViewById<NumberPicker>(R.id.numberpicker).apply {
+                minValue = 0
+                maxValue = stepValues.size - 1
+                displayedValues = stepValues.map { item -> item.toString() }.toTypedArray()
+                value = closestIndex
+            }
 
             AlertDialog.Builder(itemView.context)
                     .setTitle(labelView.text)
@@ -787,7 +774,7 @@ class WidgetAdapter(context: Context, private val connection: Connection,
                         videoUrl = state
                     }
                 }
-                Log.d(TAG, "Opening video at " + videoUrl)
+                Log.d(TAG, "Opening video at $videoUrl")
                 videoView.setVideoURI(videoUrl?.toUri())
             }
         }
@@ -873,12 +860,12 @@ class WidgetAdapter(context: Context, private val connection: Connection,
 
         private fun showColorPickerDialog() {
             val contentView = inflater.inflate(R.layout.color_picker_dialog, null)
-            val picker = contentView.findViewById<ColorPicker>(R.id.picker)
-
-            picker.addSaturationBar(contentView.findViewById(R.id.saturation_bar))
-            picker.addValueBar(contentView.findViewById(R.id.value_bar))
-            picker.onColorChangedListener = this
-            picker.showOldCenterColor = false
+            val picker = contentView.findViewById<ColorPicker>(R.id.picker).apply {
+                addSaturationBar(contentView.findViewById(R.id.saturation_bar))
+                addValueBar(contentView.findViewById(R.id.value_bar))
+                onColorChangedListener = this@ColorViewHolder
+                showOldCenterColor = false
+            }
 
             val initialColor = boundItem?.state?.asHsv
             if (initialColor != null) {
@@ -1000,12 +987,10 @@ class WidgetAdapter(context: Context, private val connection: Connection,
 }
 
 fun View.adjustForWidgetHeight(widget: Widget, fallbackRowCount: Int) {
-    val desiredHeightPixels: Int = if (widget.height > 0) {
-        widget.height * resources.getDimensionPixelSize(R.dimen.row_height)
-    } else if (fallbackRowCount > 0) {
-        fallbackRowCount * resources.getDimensionPixelSize(R.dimen.row_height)
-    } else {
-        ViewGroup.LayoutParams.WRAP_CONTENT
+    val desiredHeightPixels = when {
+        widget.height > 0 -> widget.height * resources.getDimensionPixelSize(R.dimen.row_height)
+        fallbackRowCount > 0 -> fallbackRowCount * resources.getDimensionPixelSize(R.dimen.row_height)
+        else -> ViewGroup.LayoutParams.WRAP_CONTENT
     }
 
     val lp = layoutParams

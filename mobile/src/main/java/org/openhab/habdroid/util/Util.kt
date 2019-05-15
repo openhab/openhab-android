@@ -10,11 +10,8 @@
 package org.openhab.habdroid.util
 
 import android.app.Activity
-import android.content.ActivityNotFoundException
 import android.content.Context
-import android.content.Intent
 import android.content.res.Resources
-import android.net.Uri
 import android.os.Build
 import android.os.Handler
 import android.os.Looper
@@ -34,9 +31,7 @@ import org.openhab.habdroid.model.ParsedState
 import java.io.EOFException
 import java.io.IOException
 import java.net.ConnectException
-import java.net.MalformedURLException
 import java.net.SocketTimeoutException
-import java.net.URL
 import java.net.UnknownHostException
 import java.security.cert.CertPathValidatorException
 import java.security.cert.CertificateExpiredException
@@ -48,9 +43,9 @@ import javax.net.ssl.SSLException
 import javax.net.ssl.SSLPeerUnverifiedException
 
 object Util {
-    private val TAG = Util::class.java.simpleName
+    val TAG = Util::class.java.simpleName
 
-    val isFlavorStable: Boolean
+    private val isFlavorStable: Boolean
         get() = BuildConfig.FLAVOR.toLowerCase().contains("stable")
 
     val isFlavorBeta: Boolean
@@ -62,23 +57,6 @@ object Util {
     val isFlavorFoss: Boolean
         get() = !isFlavorFull
 
-    fun normalizeUrl(sourceUrl: String?): String {
-        var normalizedUrl = ""
-        try {
-            val url = URL(sourceUrl.orEmpty())
-            normalizedUrl = url.toString()
-            normalizedUrl = normalizedUrl.replace("\n", "")
-            normalizedUrl = normalizedUrl.replace(" ", "")
-            if (!normalizedUrl.endsWith("/")) {
-                normalizedUrl = "$normalizedUrl/"
-            }
-        } catch (e: MalformedURLException) {
-            Log.d(TAG, "normalizeUrl(): invalid URL '$sourceUrl'")
-        }
-
-        return normalizedUrl
-    }
-
     @StyleRes
     @JvmOverloads
     fun getActivityThemeId(activity: Activity, theme: String? = null): Int {
@@ -88,24 +66,13 @@ object Util {
                     .getString(Constants.PREFERENCE_THEME, activity.getString(R.string.theme_value_light))
         }
 
-        when (actualTheme) {
-            activity.getString(R.string.theme_value_dark) -> return R.style.HABDroid_Dark
-            activity.getString(R.string.theme_value_black) -> return R.style.HABDroid_Black
-            activity.getString(R.string.theme_value_basic_ui) -> return R.style.HABDroid_Basic_ui
-            activity.getString(R.string.theme_value_basic_ui_dark) -> return R.style.HABDroid_Basic_ui_dark
-            else -> return R.style.HABDroid_Light
+        return when (actualTheme) {
+            activity.getString(R.string.theme_value_dark) -> R.style.HABDroid_Dark
+            activity.getString(R.string.theme_value_black) -> R.style.HABDroid_Black
+            activity.getString(R.string.theme_value_basic_ui) -> R.style.HABDroid_Basic_ui
+            activity.getString(R.string.theme_value_basic_ui_dark) -> R.style.HABDroid_Basic_ui_dark
+            else -> R.style.HABDroid_Light
         }
-    }
-
-    fun exceptionHasCause(error: Throwable?, cause: Class<out Throwable>): Boolean {
-        var actualError = error
-        while (actualError != null) {
-            if (actualError.javaClass == cause) {
-                return true
-            }
-            actualError = actualError.cause
-        }
-        return false
     }
 
     fun sendItemCommand(client: AsyncHttpClient, item: Item?,
@@ -129,7 +96,7 @@ object Util {
         sendItemCommand(client, item.link, command)
     }
 
-    fun sendItemCommand(client: AsyncHttpClient, itemUrl: String?, command: String?) {
+    private fun sendItemCommand(client: AsyncHttpClient, itemUrl: String?, command: String?) {
         if (itemUrl == null || command == null) {
             return
         }
@@ -146,62 +113,32 @@ object Util {
     }
 
     /**
-     * Replaces everything after the first clearTextCharCount chars with asterisks
-     * @param string to obfuscate
-     * @param clearTextCharCount leave the first clearTextCharCount in clear text
-     * @return obfuscated string
-     */
-    @JvmOverloads
-    fun obfuscateString(string: String, clearTextCharCount: Int = 3): String {
-        var clearTextCharCount = Math.min(string.length, clearTextCharCount)
-        return string.substring(0, clearTextCharCount) + string.substring(clearTextCharCount).replace(".".toRegex(), "*")
-    }
-
-    fun openInBrowser(context: Context, url: String?) {
-        if (url.isNullOrEmpty()) {
-            Log.e(TAG, "Got empty url")
-            return
-        }
-        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-        try {
-            context.startActivity(intent);
-        } catch (e: ActivityNotFoundException) {
-            Toasty.error(context, R.string.error_no_browser_found, Toasty.LENGTH_LONG).show()
-        }
-    }
-
-    /**
      * Returns vibration pattern for notifications that can be passed to
      * [}][androidx.core.app.NotificationCompat.Builder.setVibrate]
      */
     fun getNotificationVibrationPattern(context: Context): LongArray {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         val vibration = prefs.getString(Constants.PREFERENCE_NOTIFICATION_VIBRATION, "")
-        return if (context.getString(R.string.settings_notification_vibration_value_short) == vibration) {
-            longArrayOf(0, 500, 500)
-        } else if (context.getString(R.string.settings_notification_vibration_value_long) == vibration) {
-            longArrayOf(0, 1000, 1000)
-        } else if (context.getString(R.string.settings_notification_vibration_value_twice) == vibration) {
-            longArrayOf(0, 1000, 1000, 1000, 1000)
-        } else {
-            longArrayOf(0)
+        return when (vibration) {
+            context.getString(R.string.settings_notification_vibration_value_short) -> longArrayOf(0, 500, 500)
+            context.getString(R.string.settings_notification_vibration_value_long) -> longArrayOf(0, 1000, 1000)
+            context.getString(R.string.settings_notification_vibration_value_twice) -> longArrayOf(0, 1000, 1000, 1000, 1000)
+            else -> longArrayOf(0)
         }
     }
 
     fun getHumanReadableErrorMessage(context: Context, url: String,
                                      statusCode: Int, error: Throwable): CharSequence {
         if (statusCode >= 400) {
-            if (error.message == "openHAB is offline") {
-                return context.getString(R.string.error_openhab_offline)
+            return if (error.message == "openHAB is offline") {
+                context.getString(R.string.error_openhab_offline)
             } else {
-                val resourceId: Int
                 try {
-                    resourceId = context.resources.getIdentifier(
+                    context.getString(context.resources.getIdentifier(
                             "error_http_code_$statusCode",
-                            "string", context.packageName)
-                    return context.getString(resourceId)
+                            "string", context.packageName))
                 } catch (e: Resources.NotFoundException) {
-                    return context.getString(R.string.error_http_connection_failed, statusCode)
+                    context.getString(R.string.error_http_connection_failed, statusCode)
                 }
 
             }
@@ -210,23 +147,22 @@ object Util {
             return context.getString(R.string.error_unable_to_resolve_hostname)
         } else if (error is SSLException) {
             // if ssl exception, check for some common problems
-            return if (exceptionHasCause(error, CertPathValidatorException::class.java)) {
+            return if (error.hasCause(CertPathValidatorException::class.java)) {
                 context.getString(R.string.error_certificate_not_trusted)
-            } else if (exceptionHasCause(error, CertificateExpiredException::class.java)) {
+            } else if (error.hasCause(CertificateExpiredException::class.java)) {
                 context.getString(R.string.error_certificate_expired)
-            } else if (exceptionHasCause(error, CertificateNotYetValidException::class.java)) {
+            } else if (error.hasCause(CertificateNotYetValidException::class.java)) {
                 context.getString(R.string.error_certificate_not_valid_yet)
-            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N && exceptionHasCause(error, CertificateRevokedException::class.java)) {
+            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N && error.hasCause(CertificateRevokedException::class.java)) {
                 context.getString(R.string.error_certificate_revoked)
-            } else if (exceptionHasCause(error, SSLPeerUnverifiedException::class.java)) {
-                String.format(context.getString(R.string.error_certificate_wrong_host),
-                        url.toUri().host)
+            } else if (error.hasCause(SSLPeerUnverifiedException::class.java)) {
+                context.getString(R.string.error_certificate_wrong_host, url.toUri().host)
             } else {
                 context.getString(R.string.error_connection_sslhandshake_failed)
             }
         } else if (error is ConnectException || error is SocketTimeoutException) {
             return context.getString(R.string.error_connection_failed)
-        } else if (error is IOException && exceptionHasCause(error, EOFException::class.java)) {
+        } else if (error is IOException && error.hasCause(EOFException::class.java)) {
             return context.getString(R.string.error_http_to_https_port)
         } else {
             Log.e(TAG, "REST call to $url failed", error)

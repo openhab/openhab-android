@@ -25,12 +25,12 @@ fun AbstractConnection.toCloudConnection(): CloudConnection? {
         return null
     }
 
-    try {
+    return try {
         val json = JSONObject(result.response)
         val senderId = json.getJSONObject("gcm").getString("senderId")
-        return CloudConnection(this, senderId)
+        CloudConnection(this, senderId)
     } catch (e: JSONException) {
         Log.d(TAG, "Unable to parse notification settings JSON", e)
-        return null
+        null
     }
 }

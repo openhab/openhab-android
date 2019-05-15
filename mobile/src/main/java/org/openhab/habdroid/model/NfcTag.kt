@@ -30,7 +30,7 @@ fun Uri.toTagData(): NfcTag? {
         getQueryParameter(NfcTag.QUERY_PARAMETER_STATE)
     val mappedState = getQueryParameter(NfcTag.QUERY_PARAMETER_MAPPED_STATE)
     val sitemapPath = path
-    val sitemap = if (sitemapPath?.isEmpty() ?: true) null else sitemapPath
+    val sitemap = if (sitemapPath?.isNotEmpty() == true) sitemapPath else null
 
     return NfcTag(sitemap, item, label, state, mappedState)
 }

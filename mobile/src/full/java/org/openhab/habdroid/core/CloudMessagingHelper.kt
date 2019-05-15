@@ -27,14 +27,11 @@ object CloudMessagingHelper {
     val pushNotificationIconResId: Int
         @DrawableRes get() {
             val cloudConnection = ConnectionFactory.getConnection(Connection.TYPE_CLOUD) as CloudConnection?
-            return if (cloudConnection == null) {
-                R.drawable.ic_bell_off_outline_grey_24dp
-            } else if (!registrationDone) {
-                R.drawable.ic_bell_outline_grey_24dp
-            } else if (registrationFailureReason != null) {
-                R.drawable.ic_bell_off_outline_grey_24dp
-            } else {
-                R.drawable.ic_bell_ring_outline_grey_24dp
+            return when {
+                cloudConnection == null -> R.drawable.ic_bell_off_outline_grey_24dp
+                !registrationDone -> R.drawable.ic_bell_outline_grey_24dp
+                registrationFailureReason != null -> R.drawable.ic_bell_off_outline_grey_24dp
+                else -> R.drawable.ic_bell_ring_outline_grey_24dp
             }
         }
 
@@ -58,23 +55,26 @@ object CloudMessagingHelper {
 
     fun getPushNotificationStatus(context: Context): String {
         val cloudConnection = ConnectionFactory.getConnection(Connection.TYPE_CLOUD) as CloudConnection?
-        if (cloudConnection == null) {
-            return if (ConnectionFactory.getConnection(Connection.TYPE_REMOTE) == null) {
-                context.getString(R.string.info_openhab_gcm_no_remote)
-            } else {
-                context.getString(R.string.info_openhab_gcm_unsupported)
+        return when {
+            cloudConnection == null -> {
+                if (ConnectionFactory.getConnection(Connection.TYPE_REMOTE) == null) {
+                    context.getString(R.string.info_openhab_gcm_no_remote)
+                } else {
+                    context.getString(R.string.info_openhab_gcm_unsupported)
+                }
             }
-        } else if (!registrationDone) {
-            return context.getString(R.string.info_openhab_gcm_in_progress)
-        } else if (registrationFailureReason != null) {
-            val gaa = GoogleApiAvailability.getInstance()
-            val errorCode = gaa.isGooglePlayServicesAvailable(context)
-            return if (errorCode != ConnectionResult.SUCCESS) {
-                context.getString(R.string.info_openhab_gcm_failed_with_reason,
-                        gaa.getErrorString(errorCode))
-            } else context.getString(R.string.info_openhab_gcm_failed)
-        } else {
-            return context.getString(R.string.info_openhab_gcm_connected)
+            !registrationDone -> context.getString(R.string.info_openhab_gcm_in_progress)
+            registrationFailureReason != null -> {
+                val gaa = GoogleApiAvailability.getInstance()
+                val errorCode = gaa.isGooglePlayServicesAvailable(context)
+                if (errorCode != ConnectionResult.SUCCESS) {
+                    context.getString(R.string.info_openhab_gcm_failed_with_reason,
+                            gaa.getErrorString(errorCode))
+                } else {
+                    context.getString(R.string.info_openhab_gcm_failed)
+                }
+            }
+            else -> context.getString(R.string.info_openhab_gcm_connected)
         }
     }
 }

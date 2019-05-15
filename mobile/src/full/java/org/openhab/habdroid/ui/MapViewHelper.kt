@@ -32,13 +32,12 @@ object MapViewHelper {
                                        colorMapper: WidgetAdapter.ColorMapper) :
             WidgetAdapter.LabeledItemBaseViewHolder(inflater, parent, R.layout.openhabwidgetlist_mapitem, connection, colorMapper),
             GoogleMap.OnMarkerDragListener {
-        private val mapView: MapView
+        private val mapView: MapView = itemView.findViewById(R.id.mapview)
         private var map: GoogleMap? = null
         private var boundItem: Item? = null
         private var started: Boolean = false
 
         init {
-            mapView = itemView.findViewById(R.id.mapview)
             mapView.onCreate(null)
             mapView.getMapAsync { map ->
                 this.map = map
@@ -130,7 +129,7 @@ fun GoogleMap.applyPositionAndLabel(item: Item?, itemLabel: CharSequence, zoomLe
         return
     }
     val canDragMarker = allowDrag && !item.readOnly
-    if (!item.members.isEmpty()) {
+    if (item.members.isNotEmpty()) {
         val positions = ArrayList<LatLng>()
         for (member in item.members) {
             val position = member.state?.asLocation?.toLatLng()
@@ -139,7 +138,7 @@ fun GoogleMap.applyPositionAndLabel(item: Item?, itemLabel: CharSequence, zoomLe
                 positions.add(position)
             }
         }
-        if (!positions.isEmpty()) {
+        if (positions.isNotEmpty()) {
             val boundsBuilder = LatLngBounds.Builder()
             for (position in positions) {
                 boundsBuilder.include(position)

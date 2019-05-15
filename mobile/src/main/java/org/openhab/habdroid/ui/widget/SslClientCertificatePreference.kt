@@ -97,9 +97,7 @@ class SslClientCertificatePreference : Preference {
                 try {
                     if (alias != null) {
                         val certificates = KeyChain.getCertificateChain(context, alias)
-                        if (certificates != null && certificates.size > 0) {
-                            return certificates[0]
-                        }
+                        return certificates.firstOrNull()
                     }
                     return null
                 } catch (e: KeyChainException) {

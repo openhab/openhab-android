@@ -48,11 +48,7 @@ class WidgetImageView @JvmOverloads constructor(context: Context, attrs: Attribu
 
     // Handler classes should be static or leaks might occur.
     private class RefreshHandler internal constructor(view: WidgetImageView) : Handler() {
-        private val viewRef: WeakReference<WidgetImageView>
-
-        init {
-            viewRef = WeakReference(view)
-        }
+        private val viewRef: WeakReference<WidgetImageView> = WeakReference(view)
 
         override fun handleMessage(msg: Message) {
             val imageView = viewRef.get()
@@ -83,13 +79,13 @@ class WidgetImageView @JvmOverloads constructor(context: Context, attrs: Attribu
         setImageUrl(connection, url, size, timeoutMillis, false)
     }
 
-    fun setImageUrl(connection: Connection, url: String, size: Int?,
-                    timeoutMillis: Long, forceLoad: Boolean) {
+    private fun setImageUrl(connection: Connection, url: String, size: Int?,
+                            timeoutMillis: Long, forceLoad: Boolean) {
         val actualSize = size ?: defaultSvgSize
         val client = connection.asyncHttpClient
         val actualUrl = client.buildUrl(url)
 
-        if (lastRequest?.isActiveForUrl(actualUrl) ?: false) {
+        if (lastRequest?.isActiveForUrl(actualUrl) == true) {
             // We're already in the process of loading this image, thus there's nothing to do
             return
         }

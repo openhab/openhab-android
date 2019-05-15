@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.net.toUri
 import androidx.fragment.app.FragmentManager
 
 import com.danielstone.materialaboutlibrary.MaterialAboutFragment
@@ -29,6 +30,8 @@ import org.openhab.habdroid.core.connection.exception.ConnectionException
 import org.openhab.habdroid.model.ServerProperties
 import org.openhab.habdroid.util.AsyncHttpClient
 import org.openhab.habdroid.util.Util
+import org.openhab.habdroid.util.obfuscate
+import org.openhab.habdroid.util.openInBrowser
 
 import java.text.DateFormat
 import java.text.SimpleDateFormat
@@ -185,7 +188,7 @@ class AboutActivity : AbstractBaseActivity(), FragmentManager.OnBackStackChanged
                 httpClient.get(versionUrl, object : AsyncHttpClient.StringResponseHandler() {
                     override fun onFailure(request: Request, statusCode: Int, error: Throwable) {
                         Log.e(TAG, "Could not rest API version $error")
-                        apiVersionItem.setSubText(getString(R.string.error_about_no_conn))
+                        apiVersionItem.subText = getString(R.string.error_about_no_conn)
                         refreshMaterialAboutList()
                     }
 
@@ -207,7 +210,7 @@ class AboutActivity : AbstractBaseActivity(), FragmentManager.OnBackStackChanged
                         }
 
                         Log.d(TAG, "Got api version $version")
-                        apiVersionItem.setSubText(version)
+                        apiVersionItem.subText = version
                         refreshMaterialAboutList()
                     }
                 })
@@ -222,13 +225,13 @@ class AboutActivity : AbstractBaseActivity(), FragmentManager.OnBackStackChanged
                 httpClient.get(uuidUrl, object : AsyncHttpClient.StringResponseHandler() {
                     override fun onFailure(request: Request, statusCode: Int, error: Throwable) {
                         Log.e(TAG, "Could not fetch uuid $error")
-                        uuidItem.setSubText(getString(R.string.error_about_no_conn))
+                        uuidItem.subText = getString(R.string.error_about_no_conn)
                         refreshMaterialAboutList()
                     }
 
                     override fun onSuccess(response: String, headers: Headers) {
-                        Log.d(TAG, "Got uuid " + Util.obfuscateString(response))
-                        uuidItem.setSubText(if (response.isEmpty()) getString(R.string.unknown) else response)
+                        Log.d(TAG, "Got uuid " + response.obfuscate())
+                        uuidItem.subText = if (response.isEmpty()) getString(R.string.unknown) else response
                         refreshMaterialAboutList()
                      }
                 })
@@ -243,13 +246,13 @@ class AboutActivity : AbstractBaseActivity(), FragmentManager.OnBackStackChanged
                     httpClient.get("static/secret", object : AsyncHttpClient.StringResponseHandler() {
                         override fun onFailure(request: Request, statusCode: Int, error: Throwable) {
                             Log.e(TAG, "Could not fetch server secret $error")
-                            secretItem.setSubText(getString(R.string.error_about_no_conn))
+                            secretItem.subText = getString(R.string.error_about_no_conn)
                             refreshMaterialAboutList()
                         }
 
                         override fun onSuccess(body: String, headers: Headers) {
-                            Log.d(TAG, "Got secret " + Util.obfuscateString(body))
-                            secretItem.setSubText(if (body.isEmpty()) getString(R.string.unknown) else body)
+                            Log.d(TAG, "Got secret " + body.obfuscate())
+                            secretItem.subText = if (body.isEmpty()) getString(R.string.unknown) else body
                             refreshMaterialAboutList()
                         }
                     })
@@ -297,7 +300,7 @@ class AboutActivity : AbstractBaseActivity(), FragmentManager.OnBackStackChanged
         }
 
         private fun clickRedirect(url: String): MaterialAboutItemOnClickAction {
-            return MaterialAboutItemOnClickAction { Util.openInBrowser(context!!, url) }
+            return MaterialAboutItemOnClickAction { url.toUri().openInBrowser(context!!) }
         }
 
         private fun useJsonApi(): Boolean {

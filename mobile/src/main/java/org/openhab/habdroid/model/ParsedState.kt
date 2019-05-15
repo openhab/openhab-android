@@ -24,11 +24,11 @@ data class ParsedState internal constructor(val asString: String, val asBoolean:
             if (brightness != null) {
                 return brightness != 0
             }
-            try {
+            return try {
                 val decimalValue = Integer.valueOf(state)
-                return decimalValue > 0
+                decimalValue > 0
             } catch (e: NumberFormatException) {
-                return false
+                false
             }
         }
 
@@ -40,12 +40,12 @@ data class ParsedState internal constructor(val asString: String, val asBoolean:
                     val spacePos = state.indexOf(' ')
                     val number = if (spacePos >= 0) state.substring(0, spacePos) else state
                     val unit = if (spacePos >= 0) state.substring(spacePos + 1) else null
-                    try {
-                        return if (number.indexOf('.') > 0)
+                    return try {
+                        if (number.indexOf('.') > 0)
                             NumberState(number.toFloat(), unit, format)
                         else NumberState(number.toInt(), unit, format)
                     } catch (e: NumberFormatException) {
-                        return null
+                        null
                     }
                 }
             }
@@ -70,11 +70,11 @@ data class ParsedState internal constructor(val asString: String, val asBoolean:
             if (splitState.size == 2 || splitState.size == 3) {
                 try {
                     val l = Location("openhab")
-                    l.setLatitude(splitState[0].toDouble())
-                    l.setLongitude(splitState[1].toDouble())
-                    l.setTime(System.currentTimeMillis())
+                    l.latitude = splitState[0].toDouble()
+                    l.longitude = splitState[1].toDouble()
+                    l.time = System.currentTimeMillis()
                     if (splitState.size == 3) {
-                        l.setAltitude(splitState[2].toDouble())
+                        l.altitude = splitState[2].toDouble()
                     }
                     // Do our best to avoid parsing e.g. HSV values into location by
                     // sanity checking the values
@@ -160,7 +160,6 @@ data class ParsedState internal constructor(val asString: String, val asBoolean:
 /**
  * Parses a state string into the parsed representation.
  *
- * @param state State string to parse
  * @param numberPattern Format to use when parsing the input as number
  * @return null if state string is null, parsed representation otherwise
  */

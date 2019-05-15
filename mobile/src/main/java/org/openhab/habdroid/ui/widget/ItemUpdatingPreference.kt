@@ -74,17 +74,17 @@ class ItemUpdatingPreference : DialogPreference, TextWatcher, CompoundButton.OnC
     }
 
     override fun onSetInitialValue(restorePersistedValue: Boolean, defaultValue: Any) {
-        if (restorePersistedValue) {
-            value = parseValue(getPersistedString(null))
+        value = if (restorePersistedValue) {
+            getPersistedString(null).toItemUpdatePrefValue()
         } else {
-            value = defaultValue as Pair<Boolean, String>
+            defaultValue as Pair<Boolean, String>
             // XXX: persist if not yet present
         }
         updateSummary()
     }
 
     override fun onGetDefaultValue(a: TypedArray, index: Int): Any? {
-        return parseValue(a.getString(index))
+        return a.getString(index).toItemUpdatePrefValue()
     }
 
     override fun onCreateDialogView(): View {
@@ -174,14 +174,13 @@ class ItemUpdatingPreference : DialogPreference, TextWatcher, CompoundButton.OnC
             setSummary(String.format(summary, value.second))
         }
     }
+}
 
-    companion object {
-        fun parseValue(value: String?): Pair<Boolean, String>? {
-            val pos = value?.indexOf('|')
-            if (pos == null || pos < 0) {
-                return null
-            }
-            return Pair(value.substring(0, pos).toBoolean(), value.substring(pos + 1))
-        }
+fun String?.toItemUpdatePrefValue(): Pair<Boolean, String> {
+    val pos = this?.indexOf('|')
+    if (pos == null || pos < 0) {
+        return Pair(false, "")
     }
+    return Pair(this!!.substring(0, pos).toBoolean(), substring(pos + 1))
+
 }

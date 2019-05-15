@@ -62,31 +62,27 @@ class SyncHttpClient(client: OkHttpClient, baseUrl: String?, username: String?, 
     }
 
     class HttpStatusResult internal constructor(result: HttpResult) {
-        val error: Throwable?
-        val statusCode: Int
+        val error: Throwable? = result.error
+        val statusCode: Int = result.statusCode
 
         val isSuccessful: Boolean
             get() = error == null
 
         init {
-            this.error = result.error
-            this.statusCode = result.statusCode
             result.close()
         }
     }
 
     class HttpTextResult internal constructor(result: HttpResult) {
-        val request: Request
+        val request = result.request
+        val statusCode = result.statusCode
         val response: String?
         val error: Throwable?
-        val statusCode: Int
 
         val isSuccessful: Boolean
             get() = error == null
 
         init {
-            this.request = result.request
-            this.statusCode = result.statusCode
             if (result.response == null) {
                 this.response = null
                 this.error = result.error

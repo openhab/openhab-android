@@ -19,6 +19,7 @@ import org.openhab.habdroid.R
 import org.openhab.habdroid.model.NfcTag
 
 import org.openhab.habdroid.ui.widget.ItemUpdatingPreference
+import org.openhab.habdroid.ui.widget.toItemUpdatePrefValue
 import org.openhab.habdroid.util.Constants
 import org.openhab.habdroid.util.Util
 
@@ -51,20 +52,17 @@ class BackgroundTasksManager : BroadcastReceiver() {
     internal data class RetryInfo(val tag: String, val itemName: String, val value: String) : Parcelable
 
     private class PrefsListener constructor(context: Context) : SharedPreferences.OnSharedPreferenceChangeListener {
-        private val context: Context
-
-        init {
-            this.context = context.applicationContext
-        }
+        private val context = context.applicationContext
 
         override fun onSharedPreferenceChanged(prefs: SharedPreferences, key: String) {
             if (Constants.PREFERENCE_DEMOMODE == key) {
                 if (prefs.getBoolean(key, false)) {
                     // demo mode was enabled -> cancel all uploads and clear DB
                     // to clear out notifications
-                    val wm = WorkManager.getInstance()
-                    wm.cancelAllWorkByTag(WORKER_TAG_ITEM_UPLOADS)
-                    wm.pruneWork()
+                    with (WorkManager.getInstance()) {
+                        cancelAllWorkByTag(WORKER_TAG_ITEM_UPLOADS)
+                        pruneWork()
+                    }
                 } else {
                     // demo mode was disabled -> reschedule uploads
                     for (knownKey in KNOWN_KEYS) {
@@ -107,7 +105,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
 
         fun enqueueNfcUpdateIfNeeded(context: Context, tag: NfcTag?) {
             if (tag != null && tag.sitemap == null && tag.item != null && tag.state != null) {
-                val message = if (tag.label?.isEmpty() ?: false)
+                val message = if (tag.label?.isEmpty() == true)
                     context.getString(R.string.nfc_tag_recognized_label, tag.label)
                 else
                     context.getString(R.string.nfc_tag_recognized_item, tag.item)
@@ -118,15 +116,13 @@ class BackgroundTasksManager : BroadcastReceiver() {
 
         private fun scheduleWorker(context: Context, key: String) {
             val prefs = PreferenceManager.getDefaultSharedPreferences(context)
-            val setting: Pair<Boolean, String>?
-
-            if (prefs.getBoolean(Constants.PREFERENCE_DEMOMODE, false)) {
-                setting = null // Don't attempt any uploads in demo mode
+            val setting = if (prefs.getBoolean(Constants.PREFERENCE_DEMOMODE, false)) {
+                Pair(false, "") // Don't attempt any uploads in demo mode
             } else {
-                setting = ItemUpdatingPreference.parseValue(prefs.getString(key, null))
+                prefs.getString(key, null).toItemUpdatePrefValue()
             }
 
-            if (setting == null || !setting.first) {
+            if (!setting.first) {
                 WorkManager.getInstance().cancelAllWorkByTag(key)
                 return
             }

@@ -24,7 +24,7 @@ import org.openhab.habdroid.core.connection.exception.NetworkNotSupportedExcepti
 import org.openhab.habdroid.core.connection.exception.NoUrlInformationException
 import org.openhab.habdroid.util.CacheManager
 import org.openhab.habdroid.util.Constants
-import org.openhab.habdroid.util.Util
+import org.openhab.habdroid.util.toNormalizedUrl
 import java.net.Socket
 import java.security.Principal
 import java.security.PrivateKey
@@ -105,16 +105,15 @@ class ConnectionFactory internal constructor(private val context: Context, priva
     private fun addListenerInternal(l: UpdateListener) {
         if (listeners.add(l)) {
             if (l is Activity) {
-                trustManager.bindDisplayActivity(l as Activity)
+                trustManager.bindDisplayActivity(l)
             }
-            if (!triggerConnectionUpdateIfNeededAndPending()
-                    && localConnection != null && listeners.size == 1) {
+            if (!triggerConnectionUpdateIfNeededAndPending() && localConnection != null && listeners.size == 1) {
                 // When coming back from background, re-do connectivity check for
                 // local connections, as the reachability of the local server might have
                 // changed since we went to background
-                val nuie = if (connectionFailureReason is NoUrlInformationException)
-                    connectionFailureReason as NoUrlInformationException else null
-                val local = availableConnection === localConnection || nuie != null && nuie.wouldHaveUsedLocalConnection()
+                val reason = connectionFailureReason
+                val local = availableConnection === localConnection
+                        || (reason is NoUrlInformationException && reason.wouldHaveUsedLocalConnection())
                 if (local) {
                     triggerConnectionUpdateIfNeeded()
                 }
@@ -135,10 +134,10 @@ class ConnectionFactory internal constructor(private val context: Context, priva
     }
 
     private fun getConnectionInternal(connectionType: Int): Connection? {
-        when (connectionType) {
-            Connection.TYPE_LOCAL -> return localConnection
-            Connection.TYPE_REMOTE -> return remoteConnection
-            Connection.TYPE_CLOUD -> return cloudConnection
+        return when (connectionType) {
+            Connection.TYPE_LOCAL -> localConnection
+            Connection.TYPE_REMOTE -> remoteConnection
+            Connection.TYPE_CLOUD -> cloudConnection
             else -> throw IllegalArgumentException("Invalid Connection type requested.")
         }
     }
@@ -166,15 +165,14 @@ class ConnectionFactory internal constructor(private val context: Context, priva
         when (msg.what) {
             MSG_UPDATE_AVAILABLE -> { // update thread
                 val connections = msg.obj as Pair<Connection, Connection>
-                val result = mainHandler.obtainMessage(MSG_AVAILABLE_DONE)
-                try {
-                    result.obj = determineAvailableConnection(context,
-                            connections.first, connections.second)
-                } catch (e: ConnectionException) {
-                    result.obj = e
+                with (mainHandler.obtainMessage(MSG_AVAILABLE_DONE)) {
+                    obj = try {
+                        determineAvailableConnection(context, connections.first, connections.second)
+                    } catch (e: ConnectionException) {
+                        e
+                    }
+                    sendToTarget()
                 }
-
-                result.sendToTarget()
                 return true
             }
             MSG_UPDATE_CLOUD -> { // update thread
@@ -198,14 +196,16 @@ class ConnectionFactory internal constructor(private val context: Context, priva
     }
 
     private fun updateAvailableConnection(c: Connection?, failureReason: ConnectionException?): Boolean {
-        if (failureReason != null) {
-            connectionFailureReason = failureReason
-            availableConnection = null
-        } else if (c === availableConnection) {
-            return false
-        } else {
-            connectionFailureReason = null
-            availableConnection = c
+        when {
+            failureReason != null -> {
+                connectionFailureReason = failureReason
+                availableConnection = null
+            }
+            c === availableConnection -> return false
+            else -> {
+                connectionFailureReason = null
+                availableConnection = c
+            }
         }
         return true
     }
@@ -237,12 +237,14 @@ class ConnectionFactory internal constructor(private val context: Context, priva
     }
 
     private fun updateHttpLoggerSettings() {
-        if (prefs.getBoolean(Constants.PREFERENCE_DEBUG_MESSAGES, false)) {
-            httpLogger.redactHeader("Authorization")
-            httpLogger.redactHeader("set-cookie")
-            httpLogger.level = HttpLoggingInterceptor.Level.HEADERS
-        } else {
-            httpLogger.level = HttpLoggingInterceptor.Level.NONE
+        with (httpLogger) {
+            if (prefs.getBoolean(Constants.PREFERENCE_DEBUG_MESSAGES, false)) {
+                redactHeader("Authorization")
+                redactHeader("set-cookie")
+                level = HttpLoggingInterceptor.Level.HEADERS
+            } else {
+                level = HttpLoggingInterceptor.Level.NONE
+            }
         }
     }
 
@@ -286,9 +288,7 @@ class ConnectionFactory internal constructor(private val context: Context, priva
                 || available === localConnection
                 || available === remoteConnection) {
             if (updateAvailableConnection(available, failureReason)) {
-                for (l in listeners) {
-                    l.onAvailableConnectionChanged()
-                }
+                listeners.forEach { l -> l.onAvailableConnectionChanged() }
             }
             initializationLock.withLock {
                 availableInitialized = true
@@ -301,9 +301,7 @@ class ConnectionFactory internal constructor(private val context: Context, priva
         if (connection != cloudConnection) {
             cloudConnection = connection
             CloudMessagingHelper.onConnectionUpdated(context, connection)
-            for (l in listeners) {
-                l.onCloudConnectionChanged(connection)
-            }
+            listeners.forEach { l -> l.onCloudConnectionChanged(connection) }
         }
         initializationLock.withLock {
             cloudInitialized = true
@@ -340,7 +338,7 @@ class ConnectionFactory internal constructor(private val context: Context, priva
 
     private fun makeConnection(type: Int, urlKey: String,
                                userNameKey: String, passwordKey: String): AbstractConnection? {
-        val url = Util.normalizeUrl(prefs.getString(urlKey, ""))
+        val url = prefs.getString(urlKey, "").toNormalizedUrl()
         if (url.isEmpty()) {
             return null
         }
@@ -350,14 +348,10 @@ class ConnectionFactory internal constructor(private val context: Context, priva
     }
 
     private class ClientKeyManager(context: Context, private val alias: String?) : X509KeyManager {
-        private val context: Context
-
-        init {
-            this.context = context.applicationContext
-        }
+        private val context: Context = context.applicationContext
 
         override fun chooseClientAlias(keyType: Array<String>, issuers: Array<Principal>, socket: Socket): String? {
-            Log.d(TAG, "chooseClientAlias - alias: " + alias)
+            Log.d(TAG, "chooseClientAlias - alias: $alias")
             return alias
         }
 
@@ -368,14 +362,14 @@ class ConnectionFactory internal constructor(private val context: Context, priva
 
         override fun getCertificateChain(alias: String): Array<X509Certificate>? {
             Log.d(TAG, "getCertificateChain", Throwable())
-            try {
-                return KeyChain.getCertificateChain(context, alias)
+            return try {
+                KeyChain.getCertificateChain(context, alias)
             } catch (e: KeyChainException) {
                 Log.e(TAG, "Failed loading certificate chain", e)
-                return null
+                null
             } catch (e: InterruptedException) {
                 Log.e(TAG, "Failed loading certificate chain", e)
-                return null
+                null
             }
 
         }
@@ -392,14 +386,14 @@ class ConnectionFactory internal constructor(private val context: Context, priva
 
         override fun getPrivateKey(alias: String): PrivateKey? {
             Log.d(TAG, "getPrivateKey", Throwable())
-            try {
-                return KeyChain.getPrivateKey(context, alias)
+            return try {
+                KeyChain.getPrivateKey(context, alias)
             } catch (e: KeyChainException) {
                 Log.e(TAG, "Failed loading private key", e)
-                return null
+                null
             } catch (e: InterruptedException) {
                 Log.e(TAG, "Failed loading private key", e)
-                return null
+                null
             }
 
         }

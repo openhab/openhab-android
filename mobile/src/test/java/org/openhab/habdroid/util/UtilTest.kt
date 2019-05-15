@@ -75,18 +75,18 @@ class UtilTest {
 
     @Test
     fun normalizeUrl() {
-        assertEquals("http://localhost/", Util.normalizeUrl("http://localhost/"))
-        assertEquals("http://localhost/", Util.normalizeUrl("http://localhost"))
-        assertEquals("http://127.0.0.1/", Util.normalizeUrl("http://127.0.0.1/"))
-        assertEquals("http://127.0.0.1/", Util.normalizeUrl("http://127.0.0.1"))
+        assertEquals("http://localhost/", "http://localhost/".toNormalizedUrl())
+        assertEquals("http://localhost/", "http://localhost".toNormalizedUrl())
+        assertEquals("http://127.0.0.1/", "http://127.0.0.1/".toNormalizedUrl())
+        assertEquals("http://127.0.0.1/", "http://127.0.0.1".toNormalizedUrl())
 
-        assertEquals("https://127.0.0.1/", Util.normalizeUrl("https://127.0.0.1/"))
-        assertEquals("https://127.0.0.1/", Util.normalizeUrl("https://127.0.0.1"))
+        assertEquals("https://127.0.0.1/", "https://127.0.0.1/".toNormalizedUrl())
+        assertEquals("https://127.0.0.1/", "https://127.0.0.1".toNormalizedUrl())
 
-        assertEquals("https://127.0.0.1/abc/", Util.normalizeUrl("https://127.0.0.1/abc/"))
-        assertEquals("https://127.0.0.1/abc/", Util.normalizeUrl("https://127.0.0.1/abc"))
+        assertEquals("https://127.0.0.1/abc/", "https://127.0.0.1/abc/".toNormalizedUrl())
+        assertEquals("https://127.0.0.1/abc/", "https://127.0.0.1/abc".toNormalizedUrl())
 
-        assertEquals("https://127.0.0.1:81/abc/", Util.normalizeUrl("https://127.0.0.1:81/abc"))
+        assertEquals("https://127.0.0.1:81/abc/", "https://127.0.0.1:81/abc".toNormalizedUrl())
     }
 
     @Test
@@ -228,18 +228,18 @@ class UtilTest {
         val e = SSLException(cause)
 
         assertTrue("The exception is caused by CertPathValidatorException, " + "so testexceptionHasCause() should return true",
-                Util.exceptionHasCause(e, CertPathValidatorException::class.java))
+                e.hasCause(CertPathValidatorException::class.java))
         assertFalse("The exception is not caused by ArrayIndexOutOfBoundsException, " + "so testexceptionHasCause() should return false",
-                Util.exceptionHasCause(e, ArrayIndexOutOfBoundsException::class.java))
+                e.hasCause(ArrayIndexOutOfBoundsException::class.java))
     }
 
     @Test
     fun testObfuscateString() {
-        assertEquals("abc***", Util.obfuscateString("abcdef"))
-        assertEquals("abc", Util.obfuscateString("abc"))
+        assertEquals("abc***", "abcdef".obfuscate())
+        assertEquals("abc", "abc".obfuscate())
         assertEquals("The function should not throw an exception, " + "when string length is shorter than clearTextCharCount",
-                "a", Util.obfuscateString("a", 10))
-        assertEquals("a**", Util.obfuscateString("abc", 1))
-        assertEquals("***", Util.obfuscateString("abc", 0))
+                "a", "a".obfuscate(10))
+        assertEquals("a**", "abc".obfuscate(1))
+        assertEquals("***", "abc".obfuscate(0))
     }
 }

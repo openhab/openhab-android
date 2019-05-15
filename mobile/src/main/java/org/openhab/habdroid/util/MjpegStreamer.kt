@@ -20,12 +20,11 @@ import org.openhab.habdroid.core.connection.Connection
 import java.io.IOException
 
 class MjpegStreamer(view: ImageView, connection: Connection, private val url: String) {
-    private val httpClient: SyncHttpClient
+    private val httpClient: SyncHttpClient = connection.syncHttpClient
     private val handler: Handler
     private var downloadImageTask: DownloadImageTask? = null
 
     init {
-        httpClient = connection.syncHttpClient
         handler = Handler { msg ->
             if (downloadImageTask != null) {
                 val bmp = msg.obj as Bitmap

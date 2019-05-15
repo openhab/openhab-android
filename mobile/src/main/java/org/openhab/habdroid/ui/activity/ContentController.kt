@@ -60,14 +60,14 @@ import java.util.Stack
  */
 abstract class ContentController protected constructor(private val activity: MainActivity) :
         PageConnectionHolderFragment.ParentCallback {
-    protected val fm: FragmentManager
+    protected val fm: FragmentManager = activity.supportFragmentManager
 
-    protected var noConnectionFragment: Fragment? = null
+    private var noConnectionFragment: Fragment? = null
     protected var defaultProgressFragment: Fragment
     private val connectionFragment: PageConnectionHolderFragment
     private var temporaryPage: Fragment? = null
 
-    protected var currentSitemap: Sitemap? = null
+    private var currentSitemap: Sitemap? = null
     protected var sitemapFragment: WidgetListFragment? = null
     protected val pageStack = Stack<Pair<LinkedPage, WidgetListFragment>>()
     private val pendingDataLoadUrls = HashSet<String>()
@@ -78,43 +78,31 @@ abstract class ContentController protected constructor(private val activity: Mai
         get() = PreferenceManager.getDefaultSharedPreferences(activity).getBoolean(Constants.PREFERENCE_DEBUG_MESSAGES, false)
     override val serverProperties: ServerProperties?
         get() = activity.serverProperties
+
     /**
      * Get title describing current UI state
      *
      * @return Title to show in action bar, or null if none can be determined
      */
     val currentTitle: CharSequence?
-        get() {
-            if (noConnectionFragment != null) {
-                return null
-            } else if (temporaryPage is CloudNotificationListFragment) {
-                return activity.getString(R.string.app_notifications)
-            } else if (temporaryPage is WidgetListFragment) {
-                return (temporaryPage as WidgetListFragment).title
-            } else if (temporaryPage is WebViewFragment) {
-                return activity.getString((temporaryPage as WebViewFragment).titleResId)
-            } else if (temporaryPage != null) {
-                return null
-            } else {
-                return fragmentForTitle?.title
-            }
+        get() = when {
+            noConnectionFragment != null -> null
+            temporaryPage is CloudNotificationListFragment -> activity.getString(R.string.app_notifications)
+            temporaryPage is WidgetListFragment -> (temporaryPage as WidgetListFragment).title
+            temporaryPage is WebViewFragment -> activity.getString((temporaryPage as WebViewFragment).titleResId)
+            temporaryPage != null -> null
+            else -> fragmentForTitle?.title
         }
     protected abstract val fragmentForTitle: WidgetListFragment?
 
     protected val overridingFragment: Fragment?
-        get() {
-            if (temporaryPage != null) {
-                return temporaryPage
-            } else if (noConnectionFragment != null) {
-                return noConnectionFragment
-            } else {
-                return null
-            }
+        get() = when {
+            temporaryPage != null -> temporaryPage
+            noConnectionFragment != null -> noConnectionFragment
+            else -> null
         }
 
     init {
-        fm = activity.supportFragmentManager
-
         var connectionFragment = fm.findFragmentByTag("connections") as PageConnectionHolderFragment?
         if (connectionFragment == null) {
             connectionFragment = PageConnectionHolderFragment()
@@ -141,7 +129,7 @@ abstract class ContentController protected constructor(private val activity: Mai
             }
         }
         state.putParcelable("controllerSitemap", currentSitemap)
-        if (sitemapFragment?.isAdded ?: false) {
+        if (sitemapFragment?.isAdded == true) {
             fm.putFragment(state, "sitemapFragment", sitemapFragment!!)
         }
         if (defaultProgressFragment.isAdded) {
@@ -151,7 +139,7 @@ abstract class ContentController protected constructor(private val activity: Mai
         if (temporaryPage != null) {
             fm.putFragment(state, "temporaryPage", temporaryPage!!)
         }
-        if (noConnectionFragment?.isAdded ?: false) {
+        if (noConnectionFragment?.isAdded == true) {
             fm.putFragment(state, "errorFragment", noConnectionFragment!!)
         }
     }
@@ -271,10 +259,10 @@ abstract class ContentController protected constructor(private val activity: Mai
     fun indicateNoNetwork(message: CharSequence, shouldSuggestEnablingWifi: Boolean) {
         Log.d(TAG, "Indicate no network (message $message)")
         resetState()
-        if (shouldSuggestEnablingWifi) {
-            noConnectionFragment = EnableWifiNetworkFragment.newInstance(message)
+        noConnectionFragment = if (shouldSuggestEnablingWifi) {
+            EnableWifiNetworkFragment.newInstance(message)
         } else {
-            noConnectionFragment = NoNetworkFragment.newInstance(message)
+            NoNetworkFragment.newInstance(message)
         }
         updateFragmentState(FragmentUpdateReason.PAGE_UPDATE)
         activity.updateTitle()
@@ -329,11 +317,8 @@ abstract class ContentController protected constructor(private val activity: Mai
     fun updateConnection(connection: Connection?, progressMessage: CharSequence?,
                          @DrawableRes icon: Int) {
         Log.d(TAG, "Update to connection $connection (message $progressMessage)")
-        if (connection == null) {
-            noConnectionFragment = ProgressFragment.newInstance(progressMessage, icon)
-        } else {
-            noConnectionFragment = null
-        }
+        noConnectionFragment = if (connection == null)
+            ProgressFragment.newInstance(progressMessage, icon) else null
         resetState()
         updateFragmentState(FragmentUpdateReason.PAGE_UPDATE)
         // Make sure dropped fragments are destroyed immediately to get their views recycled
@@ -429,13 +414,11 @@ abstract class ContentController protected constructor(private val activity: Mai
         if (pendingDataLoadUrls.remove(pageUrl) && pendingDataLoadUrls.isEmpty()) {
             activity.setProgressIndicatorVisible(false)
             activity.updateTitle()
-            if (fragment != null && fragment == temporaryPage) {
-                updateFragmentState(FragmentUpdateReason.TEMPORARY_PAGE)
-            } else if (pageStack.isEmpty()) {
-                updateFragmentState(FragmentUpdateReason.PAGE_UPDATE)
-            } else {
-                updateFragmentState(FragmentUpdateReason.PAGE_ENTER)
-            }
+            updateFragmentState(when {
+                fragment != null && fragment == temporaryPage -> FragmentUpdateReason.TEMPORARY_PAGE
+                pageStack.isEmpty() -> FragmentUpdateReason.PAGE_UPDATE
+                else -> FragmentUpdateReason.PAGE_ENTER
+            })
         }
     }
 
@@ -459,7 +442,7 @@ abstract class ContentController protected constructor(private val activity: Mai
 
     internal abstract fun executeStateUpdate(reason: FragmentUpdateReason, allowStateLoss: Boolean)
 
-    internal fun updateFragmentState(reason: FragmentUpdateReason) {
+    private fun updateFragmentState(reason: FragmentUpdateReason) {
         // Allow state loss if activity is still started, as we'll get
         // another onSaveInstanceState() callback on activity stop
         executeStateUpdate(reason, activity.isStarted)
@@ -478,11 +461,8 @@ abstract class ContentController protected constructor(private val activity: Mai
         activity.updateTitle()
     }
 
-    protected fun updateConnectionState() {
-        val pageUrls = ArrayList<String>()
-        for (f in collectWidgetFragments()) {
-            pageUrls.add(f.displayPageUrl)
-        }
+    private fun updateConnectionState() {
+        val pageUrls = collectWidgetFragments().map { f -> f.displayPageUrl }
         val pendingIter = pendingDataLoadUrls.iterator()
         while (pendingIter.hasNext()) {
             if (!pageUrls.contains(pendingIter.next())) {
@@ -595,25 +575,30 @@ abstract class ContentController protected constructor(private val activity: Mai
 
     internal class MissingConfigurationFragment : StatusFragment() {
         override fun onClick(view: View) {
-            if (view.id == R.id.button1) {
-                // Primary button always goes to settings
-                val preferencesIntent = Intent(activity, PreferencesActivity::class.java)
-                TaskStackBuilder.create(view.context)
-                        .addNextIntentWithParentStack(preferencesIntent)
-                        .startActivities()
-            } else if (arguments?.getBoolean(KEY_RESOLVE_ATTEMPTED) ?: false) {
-                // If we attempted resolving, secondary button enables demo mode
-                PreferenceManager.getDefaultSharedPreferences(context)
-                        .edit()
-                        .putBoolean(Constants.PREFERENCE_DEMOMODE, true)
-                        .apply()
-            } else if (arguments?.getBoolean(KEY_WIFI_ENABLED) ?: false) {
-                // If Wifi is enabled, secondary button suggests retrying
-                ConnectionFactory.restartNetworkCheck()
-                activity?.recreate()
-            } else {
-                // If Wifi is disabled, secondary button suggests enabling Wifi
-                (activity as MainActivity?)?.enableWifiAndIndicateStartup()
+            when {
+                view.id == R.id.button1 -> {
+                    // Primary button always goes to settings
+                    val preferencesIntent = Intent(activity, PreferencesActivity::class.java)
+                    TaskStackBuilder.create(view.context)
+                            .addNextIntentWithParentStack(preferencesIntent)
+                            .startActivities()
+                }
+                arguments?.getBoolean(KEY_RESOLVE_ATTEMPTED) == true -> {
+                    // If we attempted resolving, secondary button enables demo mode
+                    PreferenceManager.getDefaultSharedPreferences(context)
+                            .edit()
+                            .putBoolean(Constants.PREFERENCE_DEMOMODE, true)
+                            .apply()
+                }
+                arguments?.getBoolean(KEY_WIFI_ENABLED) == true -> {
+                    // If Wifi is enabled, secondary button suggests retrying
+                    ConnectionFactory.restartNetworkCheck()
+                    activity?.recreate()
+                }
+                else -> {
+                    // If Wifi is disabled, secondary button suggests enabling Wifi
+                    (activity as MainActivity?)?.enableWifiAndIndicateStartup()
+                }
             }
         }
 
@@ -621,17 +606,14 @@ abstract class ContentController protected constructor(private val activity: Mai
             fun newInstance(context: Context,
                             resolveAttempted: Boolean, hasWifiEnabled: Boolean): MissingConfigurationFragment {
                 val f = MissingConfigurationFragment()
-                val args: Bundle
-                if (resolveAttempted) {
-                    args = buildArgs(context.getString(R.string.configuration_missing),
+                val args = when {
+                    resolveAttempted -> buildArgs(context.getString(R.string.configuration_missing),
                             R.string.go_to_settings_button, R.string.enable_demo_mode_button,
                             R.drawable.ic_openhab_appicon_340dp /* FIXME */, false)
-                } else if (hasWifiEnabled) {
-                    args = buildArgs(context.getString(R.string.no_remote_server),
+                    hasWifiEnabled -> buildArgs(context.getString(R.string.no_remote_server),
                             R.string.go_to_settings_button, R.string.try_again_button,
                             R.drawable.ic_network_strength_off_outline_black_24dp, false)
-                } else {
-                    args = buildArgs(context.getString(R.string.no_remote_server),
+                    else -> buildArgs(context.getString(R.string.no_remote_server),
                             R.string.go_to_settings_button, R.string.enable_wifi_button,
                             R.drawable.ic_wifi_strength_off_outline_black_24dp, false)
                 }
@@ -716,29 +698,29 @@ abstract class ContentController protected constructor(private val activity: Mai
 
         @AnimRes
         internal fun determineEnterAnim(reason: FragmentUpdateReason): Int {
-            when (reason) {
-                FragmentUpdateReason.PAGE_ENTER -> return R.anim.slide_in_right
-                FragmentUpdateReason.TEMPORARY_PAGE -> return R.anim.slide_in_bottom
-                FragmentUpdateReason.BACK_NAVIGATION -> return R.anim.slide_in_left
-                else -> return 0
+            return when (reason) {
+                FragmentUpdateReason.PAGE_ENTER -> R.anim.slide_in_right
+                FragmentUpdateReason.TEMPORARY_PAGE -> R.anim.slide_in_bottom
+                FragmentUpdateReason.BACK_NAVIGATION -> R.anim.slide_in_left
+                else -> 0
             }
         }
 
         @AnimRes
         internal fun determineExitAnim(reason: FragmentUpdateReason): Int {
-            when (reason) {
-                FragmentUpdateReason.PAGE_ENTER -> return R.anim.slide_out_left
-                FragmentUpdateReason.TEMPORARY_PAGE -> return R.anim.slide_out_bottom
-                FragmentUpdateReason.BACK_NAVIGATION -> return R.anim.slide_out_right
-                else -> return 0
+            return when (reason) {
+                FragmentUpdateReason.PAGE_ENTER -> R.anim.slide_out_left
+                FragmentUpdateReason.TEMPORARY_PAGE -> R.anim.slide_out_bottom
+                FragmentUpdateReason.BACK_NAVIGATION -> R.anim.slide_out_right
+                else -> 0
             }
         }
 
         internal fun determineTransition(reason: FragmentUpdateReason): Int {
-            when (reason) {
-                FragmentUpdateReason.PAGE_ENTER -> return FragmentTransaction.TRANSIT_FRAGMENT_OPEN
-                FragmentUpdateReason.BACK_NAVIGATION -> return FragmentTransaction.TRANSIT_FRAGMENT_CLOSE
-                else -> return FragmentTransaction.TRANSIT_FRAGMENT_FADE
+            return when (reason) {
+                FragmentUpdateReason.PAGE_ENTER -> FragmentTransaction.TRANSIT_FRAGMENT_OPEN
+                FragmentUpdateReason.BACK_NAVIGATION -> FragmentTransaction.TRANSIT_FRAGMENT_CLOSE
+                else -> FragmentTransaction.TRANSIT_FRAGMENT_FADE
             }
         }
     }

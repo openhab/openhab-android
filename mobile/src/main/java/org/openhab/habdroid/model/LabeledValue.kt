@@ -12,6 +12,13 @@ package org.openhab.habdroid.model
 import android.os.Parcelable
 
 import kotlinx.android.parcel.Parcelize
+import org.json.JSONException
+import org.json.JSONObject
 
 @Parcelize
 data class LabeledValue internal constructor(val value: String, val label: String) : Parcelable
+
+@Throws(JSONException::class)
+fun JSONObject.toLabeledValue(keyName: String, valueName: String): LabeledValue {
+    return LabeledValue(getString(keyName), getString(valueName))
+}

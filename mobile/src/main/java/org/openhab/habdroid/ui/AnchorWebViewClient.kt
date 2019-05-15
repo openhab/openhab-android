@@ -27,10 +27,9 @@ import java.security.cert.CertificateFactory
 
 open class AnchorWebViewClient(url: String, private val userName: String?, private val password: String?) : WebViewClient() {
     private val anchor: String?
-    private val host: String?
+    private val host: String? = url.toUri().host
 
     init {
-        host = url.toUri().host
         val pos = url.lastIndexOf("#") + 1
         if (pos != 0 && pos < url.length - 1) {
             anchor = url.substring(pos)
@@ -64,13 +63,12 @@ open class AnchorWebViewClient(url: String, private val userName: String?, priva
         } else {
             Log.e(TAG, "Invalid certificate")
             handler.cancel()
-            val errorMessage: String
-            when (error.primaryError) {
-                SslError.SSL_NOTYETVALID -> errorMessage = context.getString(R.string.error_certificate_not_valid_yet)
-                SslError.SSL_EXPIRED -> errorMessage = context.getString(R.string.error_certificate_expired)
-                SslError.SSL_IDMISMATCH -> errorMessage = context.getString(R.string.error_certificate_wrong_host, host)
-                SslError.SSL_DATE_INVALID -> errorMessage = context.getString(R.string.error_certificate_invalid_date)
-                else -> errorMessage = context.getString(R.string.webview_ssl)
+            val errorMessage = when (error.primaryError) {
+                SslError.SSL_NOTYETVALID -> context.getString(R.string.error_certificate_not_valid_yet)
+                SslError.SSL_EXPIRED -> context.getString(R.string.error_certificate_expired)
+                SslError.SSL_IDMISMATCH -> context.getString(R.string.error_certificate_wrong_host, host)
+                SslError.SSL_DATE_INVALID -> context.getString(R.string.error_certificate_invalid_date)
+                else -> context.getString(R.string.webview_ssl)
             }
 
             val encodedHtml = Base64.encodeToString(("<html><body><p>" + errorMessage + "</p><p>"

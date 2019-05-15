@@ -35,7 +35,7 @@ class WebViewFragment : Fragment(), ConnectionFactory.UpdateListener {
         @StringRes get() = arguments!!.getInt(KEY_PAGE_TITLE)
 
     fun goBack(): Boolean {
-        if (webView?.canGoBack() ?: false) {
+        if (webView?.canGoBack() == true) {
             webView?.goBack()
             return true
         }
@@ -93,23 +93,23 @@ class WebViewFragment : Fragment(), ConnectionFactory.UpdateListener {
         try {
             connection = ConnectionFactory.usableConnection
         } catch (e: ConnectionException) {
-            updateViewVisibility(true, false)
+            updateViewVisibility(error = true, loading = false)
             return
         }
 
         val conn = connection
         if (conn == null) {
-            updateViewVisibility(true, false)
+            updateViewVisibility(error = true, loading = false)
             return
         }
-        updateViewVisibility(false, true)
+        updateViewVisibility(error = false, loading = true)
 
         val webView = webView ?: return
         val url = conn.asyncHttpClient.buildUrl(urlToLoad).toString()
 
         webView.webViewClient = object : AnchorWebViewClient(url, conn.username, conn.password) {
             override fun onPageFinished(view: WebView, url: String) {
-                updateViewVisibility(false, false)
+                updateViewVisibility(error = false, loading = false)
             }
 
             @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -118,14 +118,14 @@ class WebViewFragment : Fragment(), ConnectionFactory.UpdateListener {
                 val errorUrl = request.url.toString()
                 Log.e(TAG, "onReceivedError() on URL: $errorUrl")
                 if (errorUrl.endsWith(urlForError)) {
-                    updateViewVisibility(true, false)
+                    updateViewVisibility(error = true, loading = false)
                 }
             }
 
             override fun onReceivedError(view: WebView, errorCode: Int, description: String,
                                          failingUrl: String) {
                 Log.e(TAG, "onReceivedError() (deprecated) on URL: $failingUrl")
-                updateViewVisibility(true, false)
+                updateViewVisibility(error = true, loading = false)
             }
         }
         webView.setUpForConnection(conn, url)

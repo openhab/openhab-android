@@ -97,17 +97,13 @@ class SegmentedControlButton : AppCompatRadioButton {
             canvas.drawRect(0f, 0f, width.toFloat(), height.toFloat(), backgroundPaint)
         }
 
-        val background = background
-        if (background != null) {
-            background.setBounds(0, 0, width, height)
-            background.draw(canvas)
-        }
+        background?.setBounds(0, 0, width, height)
+        background?.draw(canvas)
 
-        val text = text.toString()
         val textHeightPos = height - compoundPaddingBottom
 
         textPaint.color = currentTextColor
-        canvas.drawText(text, (width / 2).toFloat(), textHeightPos.toFloat(), textPaint)
+        canvas.drawText(text.toString(), (width / 2).toFloat(), textHeightPos.toFloat(), textPaint)
 
         if (underlineHeight > 0) {
             canvas.drawRect(0f, (height - underlineHeight).toFloat(), width.toFloat(), height.toFloat(), linePaint)

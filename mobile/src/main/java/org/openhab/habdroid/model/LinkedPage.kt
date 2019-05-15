@@ -13,6 +13,7 @@ import android.os.Parcelable
 
 import kotlinx.android.parcel.Parcelize
 import org.json.JSONObject
+import org.openhab.habdroid.util.forEach
 import org.w3c.dom.Node
 
 /**
@@ -39,16 +40,12 @@ fun Node.toLinkedPage(): LinkedPage? {
     var icon: String? = null
     var link: String? = null
 
-    if (hasChildNodes()) {
-        for (i in 0 until childNodes.length) {
-            with (childNodes.item(i)) {
-                when (nodeName) {
-                    "id" -> id = textContent
-                    "title" -> title = textContent
-                    "icon" -> icon = textContent
-                    "link" -> link = textContent
-                }
-            }
+    childNodes.forEach { node ->
+        when (node.nodeName) {
+            "id" -> id = node.textContent
+            "title" -> title = node.textContent
+            "icon" -> icon = node.textContent
+            "link" -> link = node.textContent
         }
     }
 

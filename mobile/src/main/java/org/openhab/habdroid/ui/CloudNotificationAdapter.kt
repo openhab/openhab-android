@@ -30,15 +30,10 @@ import java.util.Locale
 
 class CloudNotificationAdapter(context: Context, private val loadMoreListener: () -> Unit) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private val items = ArrayList<CloudNotification>()
-    private val inflater: LayoutInflater
+    private val inflater = LayoutInflater.from(context)
     private var hasMoreItems: Boolean = false
     private var waitingForMoreData: Boolean = false
     private var highlightedPosition = -1
-
-    init {
-        inflater = LayoutInflater.from(context)
-        hasMoreItems = false
-    }
 
     fun addLoadedItems(items: List<CloudNotification>, hasMoreItems: Boolean) {
         this.items.addAll(items)
@@ -108,10 +103,10 @@ class CloudNotificationAdapter(context: Context, private val loadMoreListener: (
 
     class NotificationViewHolder(inflater: LayoutInflater, parent: ViewGroup) :
             RecyclerView.ViewHolder(inflater.inflate(R.layout.notificationlist_item, parent, false)) {
-        internal val createdView: TextView = itemView.findViewById(R.id.notificationCreated)
-        internal val messageView: TextView = itemView.findViewById(R.id.notificationMessage)
-        internal val iconView: WidgetImageView = itemView.findViewById(R.id.notificationImage)
-        internal val severityView: TextView = itemView.findViewById(R.id.notificationSeverity)
+        private val createdView: TextView = itemView.findViewById(R.id.notificationCreated)
+        private val messageView: TextView = itemView.findViewById(R.id.notificationMessage)
+        private val iconView: WidgetImageView = itemView.findViewById(R.id.notificationImage)
+        private val severityView: TextView = itemView.findViewById(R.id.notificationSeverity)
 
 
         fun bind(notification: CloudNotification) {
@@ -130,7 +125,7 @@ class CloudNotificationAdapter(context: Context, private val loadMoreListener: (
                 iconView.setImageResource(R.drawable.ic_openhab_appicon_24dp)
             }
             severityView.text = notification.severity
-            severityView.isVisible = notification.severity?.isEmpty() ?: false
+            severityView.isVisible = notification.severity.isNullOrEmpty()
         }
     }
 

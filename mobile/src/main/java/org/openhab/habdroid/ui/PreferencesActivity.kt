@@ -10,12 +10,14 @@
 package org.openhab.habdroid.ui
 
 import android.content.Intent
+import android.content.SharedPreferences
 import android.media.RingtoneManager
 import android.os.Build
 import android.os.Bundle
 import android.preference.Preference
 import android.preference.PreferenceFragment
 import android.preference.PreferenceGroup
+import android.preference.PreferenceScreen
 import android.provider.Settings
 import android.util.Log
 import android.view.MenuItem
@@ -24,13 +26,15 @@ import androidx.annotation.StringRes
 import androidx.annotation.VisibleForTesting
 import androidx.core.app.NavUtils
 import androidx.core.content.ContextCompat
+import androidx.core.content.edit
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.net.toUri
 import org.openhab.habdroid.R
 import org.openhab.habdroid.model.ServerProperties
 import org.openhab.habdroid.ui.widget.ItemUpdatingPreference
-import org.openhab.habdroid.util.CacheManager
+import org.openhab.habdroid.ui.widget.toItemUpdatePrefValue
 import org.openhab.habdroid.util.Constants
+import org.openhab.habdroid.util.CacheManager
 import java.util.*
 
 /**
@@ -68,7 +72,7 @@ class PreferencesActivity : AbstractBaseActivity() {
         if (isFinishing) {
             return true
         }
-        when (item.itemId) {
+        return when (item.itemId) {
             android.R.id.home -> {
                 val fm = fragmentManager
                 if (fm.backStackEntryCount > 0) {
@@ -76,9 +80,9 @@ class PreferencesActivity : AbstractBaseActivity() {
                 } else {
                     NavUtils.navigateUpFromSameTask(this)
                 }
-                return true
+                true
             }
-            else -> return super.onOptionsItemSelected(item)
+            else -> super.onOptionsItemSelected(item)
         }
     }
 
@@ -102,6 +106,8 @@ class PreferencesActivity : AbstractBaseActivity() {
 
         protected val parentActivity: PreferencesActivity
             get() = activity as PreferencesActivity
+        protected val prefs: SharedPreferences
+            get() = preferenceScreen.sharedPreferences
 
         override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
@@ -115,43 +121,16 @@ class PreferencesActivity : AbstractBaseActivity() {
 
         protected abstract fun updateAndInitPreferences()
 
-        protected fun getPreferenceString(preference: Preference?, defValue: String?): String? {
-            if (preference == null) {
-                return null
-            }
-            return getPreferenceString(preference.key, defValue)
-        }
-
-        protected fun getPreferenceString(prefKey: String, defValue: String?): String? {
-            return preferenceScreen.sharedPreferences.getString(prefKey, defValue)
-        }
-
-        protected fun getPreferenceInt(preference: Preference, defValue: Int): Int {
-            return getPreferenceInt(preference.key, defValue)
-        }
-
-        protected fun getPreferenceInt(prefKey: String, defValue: Int): Int {
-            return preferenceScreen.sharedPreferences.getInt(prefKey, defValue)
-        }
-
-        protected fun getPreferenceBool(preference: Preference, defValue: Boolean): Boolean {
-            return getPreferenceBool(preference.key, defValue)
-        }
-
-        protected fun getPreferenceBool(prefKey: String, defValue: Boolean): Boolean {
-            return preferenceScreen.sharedPreferences.getBoolean(prefKey, defValue)
-        }
-
         protected fun isConnectionHttps(url: String?): Boolean {
             return url != null && url.startsWith("https://")
         }
 
-        protected fun hasConnectionBasicAuthentication(user: String?, password: String?): Boolean {
+        private fun hasConnectionBasicAuthentication(user: String?, password: String?): Boolean {
             return !user.isNullOrEmpty() && !password.isNullOrEmpty()
         }
 
-        protected fun hasClientCertificate(): Boolean {
-            return !getPreferenceString(Constants.PREFERENCE_SSLCLIENTCERT, "").isNullOrEmpty()
+        private fun hasClientCertificate(): Boolean {
+            return !prefs.getString(Constants.PREFERENCE_SSLCLIENTCERT, "").isNullOrEmpty()
         }
 
         protected fun isConnectionSecure(url: String?, user: String?, password: String?): Boolean {
@@ -177,19 +156,12 @@ class PreferencesActivity : AbstractBaseActivity() {
                     return true
                 }
                 val groups = BitSet()
-                for (i in 0 until password.length) {
-                    val c = password[i]
-                    if (Character.isLetter(c) && Character.isLowerCase(c)) {
-                        groups.set(0)
-                    } else if (Character.isLetter(c) && Character.isUpperCase(c)) {
-                        groups.set(1)
-                    } else if (Character.isDigit(c)) {
-                        groups.set(2)
-                    } else {
-                        groups.set(3)
-                    }
-                }
-
+                password.forEach { c -> groups.set(when {
+                    Character.isLetter(c) && Character.isLowerCase(c) -> 0
+                    Character.isLetter(c) && Character.isUpperCase(c) -> 1
+                    Character.isDigit(c) -> 2
+                    else -> 3
+                })}
                 return groups.cardinality() < 3
             }
         }
@@ -277,10 +249,10 @@ class PreferencesActivity : AbstractBaseActivity() {
             }
 
             clearDefaultSitemapPref.setOnPreferenceClickListener { preference ->
-                val edit = preference.sharedPreferences.edit()
-                edit.putString(Constants.PREFERENCE_SITEMAP_NAME, "")
-                edit.putString(Constants.PREFERENCE_SITEMAP_LABEL, "")
-                edit.apply()
+                preference.sharedPreferences.edit {
+                    putString(Constants.PREFERENCE_SITEMAP_NAME, "")
+                    putString(Constants.PREFERENCE_SITEMAP_LABEL, "")
+                }
 
                 onNoDefaultSitemap(preference)
                 parentActivity.resultIntent.putExtra(RESULT_EXTRA_SITEMAP_CLEARED, true)
@@ -298,9 +270,10 @@ class PreferencesActivity : AbstractBaseActivity() {
             }
 
             ringtoneVibrationPref.setOnPreferenceClickListener { preference ->
-                val i = Intent(Settings.ACTION_SETTINGS)
-                i.action = Settings.ACTION_APP_NOTIFICATION_SETTINGS
-                i.putExtra(Settings.EXTRA_APP_PACKAGE, activity.packageName)
+                val i = Intent(Settings.ACTION_SETTINGS).apply {
+                    action = Settings.ACTION_APP_NOTIFICATION_SETTINGS
+                    putExtra(Settings.EXTRA_APP_PACKAGE, activity.packageName)
+                }
                 startActivity(i)
                 true
             }
@@ -311,11 +284,9 @@ class PreferencesActivity : AbstractBaseActivity() {
                 true
             }
 
-            val ps = preferenceScreen
-
             if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT) {
                 Log.d(TAG, "Removing fullscreen pref as device isn't running Kitkat or higher")
-                getParent(fullscreenPreference)!!.removePreference(fullscreenPreference)
+                preferenceScreen.removePreferenceFromHierarchy(fullscreenPreference)
             } else {
                 fullscreenPreference.setOnPreferenceChangeListener { _, newValue ->
                     (activity as AbstractBaseActivity).checkFullscreen(newValue as Boolean)
@@ -325,11 +296,11 @@ class PreferencesActivity : AbstractBaseActivity() {
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 Log.d(TAG, "Removing notification prefs for < 25")
-                getParent(ringtonePref)!!.removePreference(ringtonePref)
-                getParent(vibrationPref)!!.removePreference(vibrationPref)
+                preferenceScreen.removePreferenceFromHierarchy(ringtonePref)
+                preferenceScreen.removePreferenceFromHierarchy(vibrationPref)
             } else {
                 Log.d(TAG, "Removing notification prefs for >= 25")
-                getParent(ringtoneVibrationPref)!!.removePreference(ringtoneVibrationPref)
+                preferenceScreen.removePreferenceFromHierarchy(ringtoneVibrationPref)
             }
 
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
@@ -337,14 +308,12 @@ class PreferencesActivity : AbstractBaseActivity() {
                 preferenceScreen.removePreference(alarmClockPref)
             } else {
                 updateAlarmClockPreferenceIcon(alarmClockPref,
-                        ItemUpdatingPreference.parseValue(
-                                getPreferenceString(alarmClockPref, null)))
+                        alarmClockPref.getPrefValue().toItemUpdatePrefValue())
                 updateAlarmClockPreferenceSummary(alarmClockPref,
-                        getPreferenceString(sendDeviceInfoPrefixPref, ""),
-                        ItemUpdatingPreference.parseValue(
-                                getPreferenceString(alarmClockPref, null)))
+                        sendDeviceInfoPrefixPref.getPrefValue(),
+                        alarmClockPref.getPrefValue().toItemUpdatePrefValue())
                 alarmClockPref.setOnPreferenceChangeListener { preference, newValue ->
-                    val prefix = getPreferenceString(sendDeviceInfoPrefixPref, "")
+                    val prefix = sendDeviceInfoPrefixPref.getPrefValue()
                     updateAlarmClockPreferenceIcon(preference, newValue)
                     val value = newValue as Pair<Boolean, String>
                     updateAlarmClockPreferenceSummary(preference, prefix, value)
@@ -353,8 +322,8 @@ class PreferencesActivity : AbstractBaseActivity() {
             }
 
             sendDeviceInfoPrefixPref.setOnPreferenceChangeListener { _, newValue ->
-                val item = ItemUpdatingPreference.parseValue(getPreferenceString(alarmClockPref, null))
-                updateAlarmClockPreferenceSummary(alarmClockPref, newValue as String, item)
+                updateAlarmClockPreferenceSummary(alarmClockPref, newValue as String,
+                        alarmClockPref.getPrefValue().toItemUpdatePrefValue())
                 true
             }
 
@@ -362,39 +331,13 @@ class PreferencesActivity : AbstractBaseActivity() {
                     ?: preferenceScreen.sharedPreferences.getInt(Constants.PREV_SERVER_FLAGS, 0)
 
             if (flags and ServerProperties.SERVER_FLAG_ICON_FORMAT_SUPPORT == 0) {
-                val iconFormatPreference = ps.findPreference(Constants.PREFERENCE_ICON_FORMAT)
-                getParent(iconFormatPreference)!!.removePreference(iconFormatPreference)
+                val iconFormatPreference = preferenceScreen.findPreference(Constants.PREFERENCE_ICON_FORMAT)
+                preferenceScreen.removePreferenceFromHierarchy(iconFormatPreference)
             }
             if (flags and ServerProperties.SERVER_FLAG_CHART_SCALING_SUPPORT == 0) {
-                val chartScalingPreference = ps.findPreference(Constants.PREFERENCE_CHART_SCALING)
-                getParent(chartScalingPreference)!!.removePreference(chartScalingPreference)
+                val chartScalingPreference = preferenceScreen.findPreference(Constants.PREFERENCE_CHART_SCALING)
+                preferenceScreen.removePreferenceFromHierarchy(chartScalingPreference)
             }
-        }
-
-        /**
-         * @author https://stackoverflow.com/a/17633389
-         */
-        private fun getParent(preference: Preference): PreferenceGroup? {
-            return getParent(preferenceScreen, preference)
-        }
-
-        /**
-         * @author https://stackoverflow.com/a/17633389
-         */
-        private fun getParent(root: PreferenceGroup, preference: Preference): PreferenceGroup? {
-            for (i in 0 until root.preferenceCount) {
-                val p = root.getPreference(i)
-                if (p === preference) {
-                    return root
-                }
-                if (p is PreferenceGroup) {
-                    val parent = getParent(p, preference)
-                    if (parent != null) {
-                        return parent
-                    }
-                }
-            }
-            return null
         }
 
         private fun onNoDefaultSitemap(pref: Preference) {
@@ -427,7 +370,7 @@ class PreferencesActivity : AbstractBaseActivity() {
             val value = item as Pair<Boolean, String>?
             pref.summary = if (value != null && value.first)
                 getString(R.string.settings_alarm_clock_summary_on,
-                        (prefix ?: "") + value.second)
+                        (prefix.orEmpty()) + value.second)
             else
                 getString(R.string.settings_alarm_clock_summary_off)
         }
@@ -443,15 +386,12 @@ class PreferencesActivity : AbstractBaseActivity() {
         private fun updateConnectionSummary(subscreenPrefKey: String, urlPrefKey: String,
                                             userPrefKey: String, passwordPrefKey: String) {
             val pref = findPreference(subscreenPrefKey)
-            val url = beautifyUrl(getPreferenceString(urlPrefKey, ""))
-            val summary: String
-            if (url.isEmpty()) {
-                summary = getString(R.string.info_not_set)
-            } else if (isConnectionSecure(url, getPreferenceString(userPrefKey, ""),
-                            getPreferenceString(passwordPrefKey, ""))) {
-                summary = getString(R.string.settings_connection_summary, url)
-            } else {
-                summary = getString(R.string.settings_insecure_connection_summary, url)
+            val url = beautifyUrl(prefs.getString(urlPrefKey, ""))
+            val summary = when {
+                url.isEmpty() -> getString(R.string.info_not_set)
+                isConnectionSecure(url, prefs.getString(userPrefKey, ""),
+                        prefs.getString(passwordPrefKey, "")) -> getString(R.string.settings_connection_summary, url)
+                else -> getString(R.string.settings_insecure_connection_summary, url)
             }
             pref.summary = summary
         }
@@ -459,7 +399,7 @@ class PreferencesActivity : AbstractBaseActivity() {
         companion object {
             @VisibleForTesting fun beautifyUrl(url: String?): String {
                 val host = url?.toUri()?.host.orEmpty()
-                return if (host != null && host.contains("myopenhab.org")) "myopenHAB" else url.orEmpty()
+                return if (host.contains("myopenhab.org")) "myopenHAB" else url.orEmpty()
             }
         }
     }
@@ -471,25 +411,24 @@ class PreferencesActivity : AbstractBaseActivity() {
 
         protected fun initPreferences(urlPrefKey: String, userNamePrefKey: String,
                                       passwordPrefKey: String, @StringRes urlSummaryFormatResId: Int) {
-            urlPreference = initEditor(urlPrefKey, R.drawable.ic_earth_grey_24dp, { value ->
+            urlPreference = initEditor(urlPrefKey, R.drawable.ic_earth_grey_24dp) { value ->
                 val actualValue = if (!value.isNullOrEmpty()) value else getString(R.string.info_not_set)
                 getString(urlSummaryFormatResId, actualValue)
-            })
-            userNamePreference = initEditor(userNamePrefKey, R.drawable.ic_person_outline_grey_24dp,
-                    { value -> if (!value.isNullOrEmpty()) value else getString(R.string.info_not_set) })
-            passwordPreference = initEditor(passwordPrefKey, R.drawable.ic_shield_key_outline_grey_24dp, { value ->
-                @StringRes val resId = if (value.isNullOrEmpty())
-                    R.string.info_not_set
-                else if (isWeakPassword(value))
-                    R.string.settings_openhab_password_summary_weak
-                else
-                    R.string.settings_openhab_password_summary_strong
-                getString(resId)
-            })
+            }
+            userNamePreference = initEditor(userNamePrefKey, R.drawable.ic_person_outline_grey_24dp) { value ->
+                if (!value.isNullOrEmpty()) value else getString(R.string.info_not_set)
+            }
+            passwordPreference = initEditor(passwordPrefKey, R.drawable.ic_shield_key_outline_grey_24dp) { value ->
+                getString(when {
+                    value.isNullOrEmpty() -> R.string.info_not_set
+                    isWeakPassword(value) -> R.string.settings_openhab_password_summary_weak
+                    else -> R.string.settings_openhab_password_summary_strong
+                })
+            }
 
-            updateIconColors(getPreferenceString(urlPrefKey, ""),
-                    getPreferenceString(userNamePrefKey, ""),
-                    getPreferenceString(passwordPrefKey, ""))
+            updateIconColors(prefs.getString(urlPrefKey, ""),
+                    prefs.getString(userNamePrefKey, ""),
+                    prefs.getString(passwordPrefKey, ""))
         }
 
 
@@ -505,50 +444,39 @@ class PreferencesActivity : AbstractBaseActivity() {
                 pref.summary = summaryGenerator(newValue as String)
                 true
             }
-            preference.summary = summaryGenerator(getPreferenceString(key, ""))
+            preference.summary = summaryGenerator(prefs.getString(key, ""))
             return preference
         }
 
         private fun getActualValue(pref: Preference, newValue: Any, reference: Preference?): String? {
-            return if (pref === reference) newValue as String else getPreferenceString(reference, "")
+            return if (pref === reference) newValue as String else reference.getPrefValue()
         }
 
         private fun updateIconColors(url: String?, userName: String?, password: String?) {
-            updateIconColor(urlPreference, {
-                if (isConnectionHttps(url))
-                    R.color.pref_icon_green
-                else if (!url.isNullOrEmpty())
-                    R.color.pref_icon_red
-                else
-                null
-            })
-            updateIconColor(userNamePreference, {
-                if (url.isNullOrEmpty())
-                    null
-                else if (userName.isNullOrEmpty())
-                    R.color.pref_icon_red
-                else
-                    R.color.pref_icon_green
-            })
-            updateIconColor(passwordPreference, {
-                if (url.isNullOrEmpty())
-                    null
-                else if (password.isNullOrEmpty())
-                    R.color.pref_icon_red
-                else if (isWeakPassword(password))
-                    R.color.pref_icon_orange
-                else
-                    R.color.pref_icon_green
-            })
+            updateIconColor(urlPreference) { when {
+                isConnectionHttps(url) -> R.color.pref_icon_green
+                !url.isNullOrEmpty() -> R.color.pref_icon_red
+                else -> null
+            }}
+            updateIconColor(userNamePreference) { when {
+                url.isNullOrEmpty() -> null
+                userName.isNullOrEmpty() -> R.color.pref_icon_red
+                else -> R.color.pref_icon_green
+            }}
+            updateIconColor(passwordPreference) { when {
+                url.isNullOrEmpty() -> null
+                password.isNullOrEmpty() -> R.color.pref_icon_red
+                isWeakPassword(password) -> R.color.pref_icon_orange
+                else -> R.color.pref_icon_green
+            }}
         }
 
         private fun updateIconColor(pref: Preference, colorGenerator: () -> Int?) {
-            val icon = pref.icon
             val colorResId = colorGenerator()
             if (colorResId != null) {
-                DrawableCompat.setTint(icon, ContextCompat.getColor(pref.context, colorResId))
+                DrawableCompat.setTint(pref.icon, ContextCompat.getColor(pref.context, colorResId))
             } else {
-                DrawableCompat.setTintList(icon, null)
+                DrawableCompat.setTintList(pref.icon, null)
             }
         }
     }
@@ -585,4 +513,39 @@ class PreferencesActivity : AbstractBaseActivity() {
 
         private val TAG = PreferencesActivity::class.java.simpleName
     }
+}
+
+fun Preference?.getPrefValue(defaultValue: String? = null): String? {
+    if (this == null) {
+        return defaultValue
+    }
+    return this?.sharedPreferences?.getString(key, defaultValue)
+}
+
+fun PreferenceGroup.removePreferenceFromHierarchy(pref: Preference?) {
+    if (pref == null) {
+        return
+    }
+
+    /**
+     * @author https://stackoverflow.com/a/17633389
+     */
+    fun getParent(pref: Preference, root: PreferenceGroup): PreferenceGroup? {
+        for (i in 0 until root.preferenceCount) {
+            val p = root.getPreference(i)
+            if (p === pref) {
+                return root
+            }
+            if (p is PreferenceGroup) {
+                val parent = getParent(pref, p)
+                if (parent != null) {
+                    return parent
+                }
+            }
+        }
+        return null
+    }
+
+    val parent = getParent(pref, this)
+    parent?.removePreference(pref)
 }

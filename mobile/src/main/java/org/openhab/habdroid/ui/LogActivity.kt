@@ -43,20 +43,21 @@ class LogActivity : AbstractBaseActivity() {
         scrollView = findViewById(R.id.scrollview)
         emptyView = findViewById(android.R.id.empty)
 
-        fab.setOnClickListener { v ->
-            val sendIntent = Intent()
-            sendIntent.action = Intent.ACTION_SEND
-            sendIntent.putExtra(Intent.EXTRA_TEXT, logTextView.text)
-            sendIntent.type = "text/plain"
+        fab.setOnClickListener {
+            val sendIntent = Intent().apply {
+                action = Intent.ACTION_SEND
+                type = "text/plain"
+                putExtra(Intent.EXTRA_TEXT, logTextView.text)
+            }
             startActivity(sendIntent)
         }
 
-        setUiState(true, false)
+        setUiState(isLoading = true, isEmpty = false)
     }
 
     override fun onResume() {
         super.onResume()
-        setUiState(true, false)
+        setUiState(isLoading = true, isEmpty = false)
         GetLogFromAdbTask().execute(false)
     }
 
@@ -79,17 +80,17 @@ class LogActivity : AbstractBaseActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         Log.d(TAG, "onOptionsItemSelected()")
-        when (item.itemId) {
+        return when (item.itemId) {
             R.id.delete_log -> {
-                setUiState(true, false)
+                setUiState(isLoading = true, isEmpty = false)
                 GetLogFromAdbTask().execute(true)
-                return true
+                true
             }
             android.R.id.home -> {
                 finish()
-                return super.onOptionsItemSelected(item)
+                super.onOptionsItemSelected(item)
             }
-            else -> return super.onOptionsItemSelected(item)
+            else -> super.onOptionsItemSelected(item)
         }
     }
 
@@ -97,9 +98,9 @@ class LogActivity : AbstractBaseActivity() {
         override fun doInBackground(vararg clear: Boolean?): String {
             val logBuilder = StringBuilder()
             val separator = System.getProperty("line.separator")
-            var process: Process?
+            val process: Process?
             try {
-                if (clear[0] ?: false) {
+                if (clear[0] == true) {
                     Log.d(TAG, "Clear log")
                     Runtime.getRuntime().exec("logcat -b all -c")
                     return ""

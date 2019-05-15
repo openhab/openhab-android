@@ -28,7 +28,7 @@ class RecyclerViewSwipeRefreshLayout(context: Context, attrs: AttributeSet) : Sw
 
     override fun canChildScrollUp(): Boolean {
         val recycler = recyclerView
-        return if (recycler != null) recycler.canScrollVertically(-1) else super.canChildScrollUp()
+        return recycler?.canScrollVertically(-1) ?: super.canChildScrollUp()
     }
 
     override fun onStartNestedScroll(child: View, target: View, nestedScrollAxes: Int): Boolean {

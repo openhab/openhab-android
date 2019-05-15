@@ -54,11 +54,9 @@ class UrlInputPreference : EditTextPreference, TextWatcher {
                 try {
                     val url = URL(value)
                     urlIsValid = true
-                    if (url.protocol == "http") {
-                        portSeemsInvalid = url.port == 443 || url.port == 8443
-                    }
-                    if (url.protocol == "https") {
-                        portSeemsInvalid = url.port == 80 || url.port == 8080
+                    when (url.protocol) {
+                        "http" -> portSeemsInvalid = url.port == 443 || url.port == 8443
+                        "https" -> portSeemsInvalid = url.port == 80 || url.port == 8080
                     }
                 } catch (e: MalformedURLException) {
                     urlIsValid = false
@@ -66,13 +64,12 @@ class UrlInputPreference : EditTextPreference, TextWatcher {
 
             }
         }
-        @StringRes var error = 0
-        if (!urlIsValid) {
-            error = R.string.error_invalid_url
-        } else if (portSeemsInvalid) {
-            error = R.string.error_port_seems_invalid
+        val res = editor.resources
+        editor.error = when {
+            !urlIsValid -> res.getString(R.string.error_invalid_url)
+            portSeemsInvalid -> res.getString(R.string.error_port_seems_invalid)
+            else -> null
         }
-        editor.error = if (error == 0) null else editor.resources.getString(error)
         updateOkButtonState()
     }
 
