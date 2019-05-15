@@ -152,7 +152,7 @@ data class ServerProperties(val flags: Int, val sitemaps: List<Sitemap>) : Parce
             try {
                 val builder = dbf.newDocumentBuilder()
                 val sitemapsXml = builder.parse(InputSource(StringReader(response)))
-                return Util.parseSitemapList(sitemapsXml)
+                return sitemapsXml.toSitemapList()
             } catch (e: ParserConfigurationException) {
                 Log.e(TAG, "Failed parsing sitemap XML", e)
             } catch (e: SAXException) {
@@ -166,7 +166,7 @@ data class ServerProperties(val flags: Int, val sitemaps: List<Sitemap>) : Parce
         private fun loadSitemapsFromJson(response: String): List<Sitemap> {
             try {
                 val jsonArray = JSONArray(response)
-                return Util.parseSitemapList(jsonArray)
+                return jsonArray.toSitemapList()
             } catch (e: JSONException) {
                 Log.e(TAG, "Failed parsing sitemap JSON", e)
                 return emptyList()

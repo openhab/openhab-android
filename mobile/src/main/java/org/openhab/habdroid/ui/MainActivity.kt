@@ -609,7 +609,7 @@ class MainActivity : AbstractBaseActivity(), AsyncServiceResolver.Listener, Conn
             habpanelItem.isVisible = props.hasHabpanelInstalled()
             manageHabpanelShortcut(props.hasHabpanelInstalled())
             val defaultSitemapName = prefs.getString(Constants.PREFERENCE_SITEMAP_NAME, "") as String
-            val sitemaps = Util.sortedSitemapList(props.sitemaps, defaultSitemapName)
+            val sitemaps = props.sitemaps.sortedWithDefaultName(defaultSitemapName)
 
             if (sitemaps.isEmpty()) {
                 sitemapItem.isVisible = false
@@ -703,7 +703,7 @@ class MainActivity : AbstractBaseActivity(), AsyncServiceResolver.Listener, Conn
             result = sitemaps[0]
         } else if (!configuredSitemap.isEmpty()) {
             // Select configured sitemap if still present, nothing otherwise
-            result = Util.getSitemapByName(sitemaps, configuredSitemap)
+            result = sitemaps.firstOrNull { sitemap -> sitemap.name == configuredSitemap }
         } else {
             // Nothing configured -> can't auto-select anything
             result = null

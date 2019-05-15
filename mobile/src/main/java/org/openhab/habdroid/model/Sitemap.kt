@@ -10,9 +10,13 @@
 package org.openhab.habdroid.model
 
 import android.os.Parcelable
+import android.util.Log
 
 import kotlinx.android.parcel.Parcelize
+import org.json.JSONArray
+import org.json.JSONException
 import org.json.JSONObject
+import org.w3c.dom.Document
 import org.w3c.dom.Node
 
 @Parcelize
@@ -65,4 +69,39 @@ fun JSONObject.toSitemap(): Sitemap? {
 
     return Sitemap(name, label ?: name, link, icon,
             String.format("icon/%s", icon), homepageLink)
+}
+
+fun Document.toSitemapList(): List<Sitemap> {
+    val sitemapNodes = getElementsByTagName("sitemap")
+    return (0..sitemapNodes.length - 1)
+            .map { index -> sitemapNodes.item(index).toSitemap() }
+            .filterNotNull()
+}
+
+fun JSONArray.toSitemapList(): List<Sitemap> {
+    return (0..length() - 1)
+            .map { index ->
+                var result: Sitemap? = null
+                try {
+                    val sitemap = getJSONObject(index).toSitemap()
+                    if (sitemap != null && (sitemap.name != "_default" || length() == 1)) {
+                        result = sitemap
+                    }
+                } catch (e: JSONException) {
+                    Log.d(Sitemap::class.java.simpleName, "Error while parsing sitemap", e)
+                }
+                result
+            }
+            .filterNotNull()
+}
+
+fun List<Sitemap>.sortedWithDefaultName(defaultSitemapName: String): List<Sitemap> {
+    // Sort by sitename label, the default sitemap should be the first one
+    return sortedWith(object: Comparator<Sitemap> {
+        override fun compare(lhs: Sitemap, rhs: Sitemap): Int = when {
+            lhs.name == defaultSitemapName -> -1
+            rhs.name == defaultSitemapName -> 1
+            else -> lhs.label.compareTo(rhs.label, true)
+        }
+    })
 }

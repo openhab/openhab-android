@@ -18,31 +18,18 @@ import android.net.Uri
 import android.os.Build
 import android.os.Handler
 import android.os.Looper
-import android.os.Message
 import android.preference.PreferenceManager
 import android.util.Log
-import android.util.TypedValue
-import android.webkit.WebChromeClient
-import android.webkit.WebView
-import android.webkit.WebViewDatabase
-import androidx.annotation.AttrRes
 import androidx.annotation.StyleRes
 import androidx.core.net.toUri
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import es.dmoral.toasty.Toasty
 
 import okhttp3.Headers
 import okhttp3.Request
-import org.json.JSONArray
-import org.json.JSONException
 import org.openhab.habdroid.BuildConfig
 import org.openhab.habdroid.R
-import org.openhab.habdroid.core.connection.Connection
 import org.openhab.habdroid.model.Item
 import org.openhab.habdroid.model.ParsedState
-import org.openhab.habdroid.model.Sitemap
-import org.openhab.habdroid.model.toSitemap
-import org.w3c.dom.Document
 
 import java.io.EOFException
 import java.io.IOException
@@ -55,7 +42,6 @@ import java.security.cert.CertPathValidatorException
 import java.security.cert.CertificateExpiredException
 import java.security.cert.CertificateNotYetValidException
 import java.security.cert.CertificateRevokedException
-import java.util.ArrayList
 import java.util.Locale
 
 import javax.net.ssl.SSLException
@@ -91,55 +77,6 @@ object Util {
         }
 
         return normalizedUrl
-    }
-
-    fun parseSitemapList(document: Document): List<Sitemap> {
-        val sitemapList = ArrayList<Sitemap>()
-        val sitemapNodes = document.getElementsByTagName("sitemap")
-        if (sitemapNodes.length > 0) {
-            for (i in 0 until sitemapNodes.length) {
-                val sitemap = sitemapNodes.item(i).toSitemap()
-                if (sitemap != null) {
-                    sitemapList.add(sitemap)
-                }
-            }
-        }
-        return sitemapList
-    }
-
-    fun parseSitemapList(jsonArray: JSONArray): List<Sitemap> {
-        val sitemapList = ArrayList<Sitemap>()
-        for (i in 0 until jsonArray.length()) {
-            try {
-                val sitemap = jsonArray.getJSONObject(i).toSitemap()
-                if (sitemap != null && (sitemap.name != "_default" || jsonArray.length() == 1)) {
-                    sitemapList.add(sitemap)
-                }
-            } catch (e: JSONException) {
-                Log.d(TAG, "Error while parsing sitemap", e)
-            }
-
-        }
-        return sitemapList
-    }
-
-    fun sortedSitemapList(sitemapList: List<Sitemap>, defaultSitemapName: String): List<Sitemap> {
-        // Sort by sitename label, the default sitemap should be the first one
-        return sitemapList.sortedWith(object: Comparator<Sitemap> {
-            override fun compare(lhs: Sitemap, rhs: Sitemap): Int = when {
-                lhs.name == defaultSitemapName -> -1
-                rhs.name == defaultSitemapName -> 1
-                else -> lhs.label.compareTo(rhs.label, true)
-            }
-        })
-    }
-
-    fun sitemapExists(sitemapList: List<Sitemap>, sitemapName: String): Boolean {
-        return sitemapList.any { sitemap -> sitemap.name == sitemapName }
-    }
-
-    fun getSitemapByName(sitemapList: List<Sitemap>, sitemapName: String): Sitemap? {
-        return sitemapList.firstOrNull{ sitemap -> sitemap.name == sitemapName }
     }
 
     @StyleRes
