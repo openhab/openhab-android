@@ -79,13 +79,13 @@ data class ParsedState internal constructor(val asString: String, val asBoolean:
                     // Do our best to avoid parsing e.g. HSV values into location by
                     // sanity checking the values
                     if (Math.abs(l.latitude) <= 90 && Math.abs(l.longitude) <= 180) {
-                        return l;
+                        return l
                     }
                 } catch (e: NumberFormatException) {
                     // ignored
                 }
             }
-            return null;
+            return null
         }
 
         internal fun parseAsBrightness(state: String): Int? {
@@ -106,8 +106,8 @@ data class ParsedState internal constructor(val asString: String, val asBoolean:
 
     @Parcelize
     class NumberState internal constructor(val value: Number, val unit: String?, val format: String?) : Parcelable {
-        constructor(value: Int) : this(value, null, null) {}
-        constructor(value: Float) : this(value, null, null) {}
+        constructor(value: Int) : this(value, null, null)
+        constructor(value: Float) : this(value, null, null)
 
         override fun toString(): String {
             return toString(Locale.getDefault())

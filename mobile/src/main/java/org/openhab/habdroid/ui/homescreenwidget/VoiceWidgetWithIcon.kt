@@ -20,8 +20,4 @@ class VoiceWidgetWithIcon : VoiceWidget() {
         val mainPendingIntent = PendingIntent.getActivity(context, 8, mainIntent, 0)
         views.setOnClickPendingIntent(R.id.btn_open_main, mainPendingIntent)
     }
-
-    companion object {
-        private val TAG = VoiceWidgetWithIcon::class.java.simpleName
-    }
 }

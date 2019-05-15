@@ -15,14 +15,11 @@ import android.net.wifi.WifiManager.MulticastLock
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
-
 import java.io.IOException
 import java.net.Inet4Address
 import java.net.InetAddress
 import java.net.NetworkInterface
 import java.net.SocketException
-import java.util.Enumeration
-
 import javax.jmdns.JmDNS
 import javax.jmdns.ServiceEvent
 import javax.jmdns.ServiceInfo
@@ -96,7 +93,7 @@ class AsyncServiceResolver(context: Context, private val listener: Listener, pri
 
         try {
             // Sleep for specified timeout
-            Thread.sleep(DEFAULT_DISCOVERY_TIMEOUT.toLong())
+            sleep(DEFAULT_DISCOVERY_TIMEOUT.toLong())
             if (resolvedServiceInfo == null) {
                 handler.post { listener.onServiceResolveFailed() }
                 shutdown()
@@ -126,7 +123,7 @@ class AsyncServiceResolver(context: Context, private val listener: Listener, pri
 
     private fun shutdown() {
         multicastLock.release()
-        val jmdns = this.jmdns;
+        val jmdns = this.jmdns
         if (jmdns != null) {
             jmdns.removeServiceListener(serviceType, this)
             try {

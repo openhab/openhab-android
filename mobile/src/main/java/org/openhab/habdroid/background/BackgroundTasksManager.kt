@@ -111,7 +111,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
                     context.getString(R.string.nfc_tag_recognized_label, tag.label)
                 else
                     context.getString(R.string.nfc_tag_recognized_item, tag.item)
-                Util.showToast(context, message);
+                Util.showToast(context, message)
                 enqueueItemUpload(WORKER_TAG_PREFIX_NFC + tag.item, tag.item, tag.state);
             }
         }

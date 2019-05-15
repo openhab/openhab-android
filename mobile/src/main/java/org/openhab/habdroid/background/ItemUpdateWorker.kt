@@ -3,19 +3,15 @@ package org.openhab.habdroid.background
 import android.content.Context
 import android.util.Log
 import androidx.work.Data
-import androidx.work.ListenableWorker
 import androidx.work.Worker
 import androidx.work.WorkerParameters
-
 import org.openhab.habdroid.core.connection.Connection
 import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.core.connection.exception.ConnectionException
-import org.openhab.habdroid.util.SyncHttpClient
-
-import java.util.Locale
+import java.util.*
 
 class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(context, params) {
-    override fun doWork(): ListenableWorker.Result {
+    override fun doWork(): Result {
         ConnectionFactory.waitForInitialization()
 
         val data = inputData
@@ -28,9 +24,9 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
         } catch (e: ConnectionException) {
             Log.e(TAG, "Got no connection $e")
             if (runAttemptCount <= MAX_RETRIES) {
-                return ListenableWorker.Result.retry()
+                return Result.retry()
             } else {
-                return ListenableWorker.Result.failure(buildOutputData(false, 0))
+                return Result.failure(buildOutputData(false, 0))
             }
         }
 
@@ -42,10 +38,10 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
 
         if (result.isSuccessful) {
             Log.d(TAG, "Item '$item' successfully updated to value $value")
-            return ListenableWorker.Result.success(outputData)
+            return Result.success(outputData)
         } else {
             Log.e(TAG, "Error sending alarm clock. Got HTTP error " + result.statusCode, result.error)
-            return ListenableWorker.Result.failure(outputData)
+            return Result.failure(outputData)
         }
     }
 

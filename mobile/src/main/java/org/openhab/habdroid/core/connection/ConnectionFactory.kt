@@ -1,13 +1,8 @@
 package org.openhab.habdroid.core.connection
 
 import android.app.Activity
-import android.content.BroadcastReceiver
-import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
-import android.content.SharedPreferences
+import android.content.*
 import android.net.ConnectivityManager
-import android.net.NetworkInfo
 import android.os.Handler
 import android.os.HandlerThread
 import android.os.Looper
@@ -18,12 +13,10 @@ import android.security.KeyChainException
 import android.util.Log
 import androidx.annotation.VisibleForTesting
 import androidx.core.util.Pair
-
 import de.duenndns.ssl.MemorizingTrustManager
 import okhttp3.OkHttpClient
 import okhttp3.internal.tls.OkHostnameVerifier
 import okhttp3.logging.HttpLoggingInterceptor
-
 import org.openhab.habdroid.core.CloudMessagingHelper
 import org.openhab.habdroid.core.connection.exception.ConnectionException
 import org.openhab.habdroid.core.connection.exception.NetworkNotAvailableException
@@ -32,15 +25,12 @@ import org.openhab.habdroid.core.connection.exception.NoUrlInformationException
 import org.openhab.habdroid.util.CacheManager
 import org.openhab.habdroid.util.Constants
 import org.openhab.habdroid.util.Util
-
 import java.net.Socket
 import java.security.Principal
 import java.security.PrivateKey
 import java.security.cert.X509Certificate
-import java.util.Arrays
-import java.util.HashSet
+import java.util.*
 import java.util.concurrent.locks.ReentrantLock
-
 import javax.net.ssl.KeyManager
 import javax.net.ssl.SSLContext
 import javax.net.ssl.TrustManager

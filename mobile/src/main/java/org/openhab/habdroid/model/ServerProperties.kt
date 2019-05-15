@@ -2,7 +2,6 @@ package org.openhab.habdroid.model
 
 import android.os.Parcelable
 import android.util.Log
-
 import kotlinx.android.parcel.Parcelize
 import okhttp3.Call
 import okhttp3.Headers
@@ -12,13 +11,10 @@ import org.json.JSONException
 import org.json.JSONObject
 import org.openhab.habdroid.core.connection.Connection
 import org.openhab.habdroid.util.AsyncHttpClient
-import org.openhab.habdroid.util.Util
 import org.xml.sax.InputSource
 import org.xml.sax.SAXException
-
 import java.io.IOException
 import java.io.StringReader
-
 import javax.xml.parsers.DocumentBuilderFactory
 import javax.xml.parsers.ParserConfigurationException
 

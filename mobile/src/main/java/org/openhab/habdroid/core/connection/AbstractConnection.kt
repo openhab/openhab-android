@@ -13,7 +13,6 @@ import java.net.SocketTimeoutException
 import java.net.URL
 
 abstract class AbstractConnection : Connection {
-
     override val connectionType: Int
     override val username: String?
     override val password: String?

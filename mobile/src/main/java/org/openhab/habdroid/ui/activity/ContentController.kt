@@ -430,11 +430,11 @@ abstract class ContentController protected constructor(private val activity: Mai
             activity.setProgressIndicatorVisible(false)
             activity.updateTitle()
             if (fragment != null && fragment == temporaryPage) {
-                updateFragmentState(FragmentUpdateReason.TEMPORARY_PAGE);
+                updateFragmentState(FragmentUpdateReason.TEMPORARY_PAGE)
             } else if (pageStack.isEmpty()) {
-                updateFragmentState(FragmentUpdateReason.PAGE_UPDATE);
+                updateFragmentState(FragmentUpdateReason.PAGE_UPDATE)
             } else {
-                updateFragmentState(FragmentUpdateReason.PAGE_ENTER);
+                updateFragmentState(FragmentUpdateReason.PAGE_ENTER)
             }
         }
     }
@@ -540,7 +540,7 @@ abstract class ContentController protected constructor(private val activity: Mai
         companion object {
             fun newInstance(message: CharSequence): CommunicationFailureFragment {
                 val f = CommunicationFailureFragment()
-                f.arguments = ContentController.StatusFragment.buildArgs(message, R.string.try_again_button,
+                f.arguments = buildArgs(message, R.string.try_again_button,
                         R.drawable.ic_openhab_appicon_340dp /* FIXME */,
                         false)
                 return f
@@ -556,7 +556,7 @@ abstract class ContentController protected constructor(private val activity: Mai
         companion object {
             fun newInstance(message: CharSequence?, @DrawableRes image: Int): ProgressFragment {
                 val f = ProgressFragment()
-                f.arguments = ContentController.StatusFragment.buildArgs(message, 0, image, true)
+                f.arguments = buildArgs(message, 0, image, true)
                 return f
             }
         }
@@ -571,7 +571,7 @@ abstract class ContentController protected constructor(private val activity: Mai
         companion object {
             fun newInstance(message: CharSequence): NoNetworkFragment {
                 val f = NoNetworkFragment()
-                f.arguments = ContentController.StatusFragment.buildArgs(message, R.string.try_again_button,
+                f.arguments = buildArgs(message, R.string.try_again_button,
                         R.drawable.ic_network_strength_off_outline_black_24dp, false)
                 return f
             }
@@ -586,7 +586,7 @@ abstract class ContentController protected constructor(private val activity: Mai
         companion object {
             fun newInstance(message: CharSequence): EnableWifiNetworkFragment {
                 val f = EnableWifiNetworkFragment()
-                f.arguments = ContentController.StatusFragment.buildArgs(message, R.string.enable_wifi_button,
+                f.arguments = buildArgs(message, R.string.enable_wifi_button,
                         R.drawable.ic_wifi_strength_off_outline_black_24dp, false)
                 return f
             }
@@ -601,13 +601,13 @@ abstract class ContentController protected constructor(private val activity: Mai
                 TaskStackBuilder.create(view.context)
                         .addNextIntentWithParentStack(preferencesIntent)
                         .startActivities()
-            } else if (arguments?.getBoolean(ContentController.StatusFragment.KEY_RESOLVE_ATTEMPTED) ?: false) {
+            } else if (arguments?.getBoolean(KEY_RESOLVE_ATTEMPTED) ?: false) {
                 // If we attempted resolving, secondary button enables demo mode
                 PreferenceManager.getDefaultSharedPreferences(context)
                         .edit()
                         .putBoolean(Constants.PREFERENCE_DEMOMODE, true)
                         .apply()
-            } else if (arguments?.getBoolean(ContentController.StatusFragment.KEY_WIFI_ENABLED) ?: false) {
+            } else if (arguments?.getBoolean(KEY_WIFI_ENABLED) ?: false) {
                 // If Wifi is enabled, secondary button suggests retrying
                 ConnectionFactory.restartNetworkCheck()
                 activity?.recreate()
@@ -623,20 +623,20 @@ abstract class ContentController protected constructor(private val activity: Mai
                 val f = MissingConfigurationFragment()
                 val args: Bundle
                 if (resolveAttempted) {
-                    args = ContentController.StatusFragment.buildArgs(context.getString(R.string.configuration_missing),
+                    args = buildArgs(context.getString(R.string.configuration_missing),
                             R.string.go_to_settings_button, R.string.enable_demo_mode_button,
                             R.drawable.ic_openhab_appicon_340dp /* FIXME */, false)
                 } else if (hasWifiEnabled) {
-                    args = ContentController.StatusFragment.buildArgs(context.getString(R.string.no_remote_server),
+                    args = buildArgs(context.getString(R.string.no_remote_server),
                             R.string.go_to_settings_button, R.string.try_again_button,
                             R.drawable.ic_network_strength_off_outline_black_24dp, false)
                 } else {
-                    args = ContentController.StatusFragment.buildArgs(context.getString(R.string.no_remote_server),
+                    args = buildArgs(context.getString(R.string.no_remote_server),
                             R.string.go_to_settings_button, R.string.enable_wifi_button,
                             R.drawable.ic_wifi_strength_off_outline_black_24dp, false)
                 }
-                args.putBoolean(ContentController.StatusFragment.KEY_RESOLVE_ATTEMPTED, resolveAttempted)
-                args.putBoolean(ContentController.StatusFragment.KEY_WIFI_ENABLED, hasWifiEnabled)
+                args.putBoolean(KEY_RESOLVE_ATTEMPTED, resolveAttempted)
+                args.putBoolean(KEY_WIFI_ENABLED, hasWifiEnabled)
                 f.arguments = args
 
                 return f
@@ -717,9 +717,9 @@ abstract class ContentController protected constructor(private val activity: Mai
         @AnimRes
         internal fun determineEnterAnim(reason: FragmentUpdateReason): Int {
             when (reason) {
-                ContentController.FragmentUpdateReason.PAGE_ENTER -> return R.anim.slide_in_right
-                ContentController.FragmentUpdateReason.TEMPORARY_PAGE -> return R.anim.slide_in_bottom
-                ContentController.FragmentUpdateReason.BACK_NAVIGATION -> return R.anim.slide_in_left
+                FragmentUpdateReason.PAGE_ENTER -> return R.anim.slide_in_right
+                FragmentUpdateReason.TEMPORARY_PAGE -> return R.anim.slide_in_bottom
+                FragmentUpdateReason.BACK_NAVIGATION -> return R.anim.slide_in_left
                 else -> return 0
             }
         }
@@ -727,17 +727,17 @@ abstract class ContentController protected constructor(private val activity: Mai
         @AnimRes
         internal fun determineExitAnim(reason: FragmentUpdateReason): Int {
             when (reason) {
-                ContentController.FragmentUpdateReason.PAGE_ENTER -> return R.anim.slide_out_left
-                ContentController.FragmentUpdateReason.TEMPORARY_PAGE -> return R.anim.slide_out_bottom
-                ContentController.FragmentUpdateReason.BACK_NAVIGATION -> return R.anim.slide_out_right
+                FragmentUpdateReason.PAGE_ENTER -> return R.anim.slide_out_left
+                FragmentUpdateReason.TEMPORARY_PAGE -> return R.anim.slide_out_bottom
+                FragmentUpdateReason.BACK_NAVIGATION -> return R.anim.slide_out_right
                 else -> return 0
             }
         }
 
         internal fun determineTransition(reason: FragmentUpdateReason): Int {
             when (reason) {
-                ContentController.FragmentUpdateReason.PAGE_ENTER -> return FragmentTransaction.TRANSIT_FRAGMENT_OPEN
-                ContentController.FragmentUpdateReason.BACK_NAVIGATION -> return FragmentTransaction.TRANSIT_FRAGMENT_CLOSE
+                FragmentUpdateReason.PAGE_ENTER -> return FragmentTransaction.TRANSIT_FRAGMENT_OPEN
+                FragmentUpdateReason.BACK_NAVIGATION -> return FragmentTransaction.TRANSIT_FRAGMENT_CLOSE
                 else -> return FragmentTransaction.TRANSIT_FRAGMENT_FADE
             }
         }

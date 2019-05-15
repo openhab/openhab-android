@@ -4,7 +4,6 @@ import android.app.AlertDialog
 import android.location.Location
 import android.view.LayoutInflater
 import android.view.ViewGroup
-
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
@@ -16,12 +15,9 @@ import com.google.android.gms.maps.model.MarkerOptions
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.Connection
 import org.openhab.habdroid.model.Item
-import org.openhab.habdroid.model.ParsedState
 import org.openhab.habdroid.model.Widget
 import org.openhab.habdroid.util.Util
-
-import java.util.ArrayList
-import java.util.Locale
+import java.util.*
 
 object MapViewHelper {
     fun createViewHolder(inflater: LayoutInflater,

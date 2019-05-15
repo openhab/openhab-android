@@ -1,17 +1,10 @@
 package org.openhab.habdroid.core.connection
 
+import junit.framework.Assert.*
 import okhttp3.Credentials
 import okhttp3.OkHttpClient
 import org.junit.Before
 import org.junit.Test
-import org.openhab.habdroid.util.AsyncHttpClient
-import org.openhab.habdroid.util.HttpClient
-import org.openhab.habdroid.util.SyncHttpClient
-
-import junit.framework.Assert.assertEquals
-import junit.framework.Assert.assertFalse
-import junit.framework.Assert.assertNotNull
-import junit.framework.Assert.assertNull
 
 class DefaultConnectionTest {
     private lateinit var client: OkHttpClient

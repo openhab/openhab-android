@@ -335,7 +335,7 @@ class MainActivity : AbstractBaseActivity(), AsyncServiceResolver.Listener, Conn
                 BackgroundTasksManager.enqueueNfcUpdateIfNeeded(this, tag)
 
                 if (!tag?.sitemap.isNullOrEmpty()) {
-                    pendingOpenSitemapUrl = tag?.sitemap;
+                    pendingOpenSitemapUrl = tag?.sitemap
                     openPendingSitemapIfNeeded()
                 }
             }

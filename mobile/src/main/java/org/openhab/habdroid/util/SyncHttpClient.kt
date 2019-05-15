@@ -12,9 +12,7 @@ package org.openhab.habdroid.util
 import okhttp3.Call
 import okhttp3.OkHttpClient
 import okhttp3.Request
-import okhttp3.Response
 import okhttp3.ResponseBody
-
 import java.io.IOException
 
 class SyncHttpClient(client: OkHttpClient, baseUrl: String?, username: String?, password: String?) :
@@ -109,7 +107,7 @@ class SyncHttpClient(client: OkHttpClient, baseUrl: String?, username: String?, 
     }
 
     operator fun get(url: String): HttpResult {
-        return get(url, -1);
+        return get(url, -1)
     }
 
     operator fun get(url: String, timeoutMillis: Long): HttpResult {
@@ -128,7 +126,7 @@ class SyncHttpClient(client: OkHttpClient, baseUrl: String?, username: String?, 
     protected fun method(url: String, method: String, headers: Map<String, String>?,
                          requestBody: String?, mediaType: String?, timeoutMillis: Long): HttpResult {
         val call = prepareCall(url, method, headers, requestBody,
-                mediaType, timeoutMillis, HttpClient.CachingMode.AVOID_CACHE)
+                mediaType, timeoutMillis, CachingMode.AVOID_CACHE)
         return HttpResult(call)
     }
 }

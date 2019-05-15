@@ -11,7 +11,6 @@ package org.openhab.habdroid.ui
 
 import android.content.Intent
 import android.media.RingtoneManager
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.preference.Preference
@@ -27,14 +26,12 @@ import androidx.core.app.NavUtils
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.net.toUri
-
 import org.openhab.habdroid.R
 import org.openhab.habdroid.model.ServerProperties
 import org.openhab.habdroid.ui.widget.ItemUpdatingPreference
 import org.openhab.habdroid.util.CacheManager
 import org.openhab.habdroid.util.Constants
-
-import java.util.BitSet
+import java.util.*
 
 /**
  * This is a class to provide preferences activity for application.
@@ -301,7 +298,7 @@ class PreferencesActivity : AbstractBaseActivity() {
             }
 
             ringtoneVibrationPref.setOnPreferenceClickListener { preference ->
-                val i = Intent(android.provider.Settings.ACTION_SETTINGS)
+                val i = Intent(Settings.ACTION_SETTINGS)
                 i.action = Settings.ACTION_APP_NOTIFICATION_SETTINGS
                 i.putExtra(Settings.EXTRA_APP_PACKAGE, activity.packageName)
                 startActivity(i)
@@ -483,7 +480,7 @@ class PreferencesActivity : AbstractBaseActivity() {
             passwordPreference = initEditor(passwordPrefKey, R.drawable.ic_shield_key_outline_grey_24dp, { value ->
                 @StringRes val resId = if (value.isNullOrEmpty())
                     R.string.info_not_set
-                else if (PreferencesActivity.AbstractSettingsFragment.isWeakPassword(value))
+                else if (isWeakPassword(value))
                     R.string.settings_openhab_password_summary_weak
                 else
                     R.string.settings_openhab_password_summary_strong
@@ -538,7 +535,7 @@ class PreferencesActivity : AbstractBaseActivity() {
                     null
                 else if (password.isNullOrEmpty())
                     R.color.pref_icon_red
-                else if (PreferencesActivity.AbstractSettingsFragment.isWeakPassword(password))
+                else if (isWeakPassword(password))
                     R.color.pref_icon_orange
                 else
                     R.color.pref_icon_green

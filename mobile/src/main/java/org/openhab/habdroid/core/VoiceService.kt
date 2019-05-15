@@ -11,23 +11,15 @@ package org.openhab.habdroid.core
 
 import android.app.IntentService
 import android.content.Intent
-import android.os.Handler
-import android.os.Looper
 import android.speech.RecognizerIntent
 import android.util.Log
-import android.widget.Toast
-import androidx.core.content.ContextCompat
-
-import es.dmoral.toasty.Toasty
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.Connection
 import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.core.connection.exception.ConnectionException
 import org.openhab.habdroid.util.SyncHttpClient
 import org.openhab.habdroid.util.Util
-
-import java.util.HashMap
-import java.util.Locale
+import java.util.*
 
 /**
  * This service handles voice commands and sends them to openHAB.

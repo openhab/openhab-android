@@ -136,7 +136,7 @@ object Util {
         client.post(itemUrl, command, "text/plain;charset=UTF-8",
                 object : AsyncHttpClient.StringResponseHandler() {
                     override fun onFailure(request: Request, statusCode: Int, error: Throwable) {
-                        Log.e(TAG, "Sending command $command to $itemUrl failed: status $statusCode", error);
+                        Log.e(TAG, "Sending command $command to $itemUrl failed: status $statusCode", error)
                     }
 
                     override fun onSuccess(response: String, headers: Headers) {
@@ -210,15 +210,15 @@ object Util {
             return context.getString(R.string.error_unable_to_resolve_hostname)
         } else if (error is SSLException) {
             // if ssl exception, check for some common problems
-            return if (Util.exceptionHasCause(error, CertPathValidatorException::class.java)) {
+            return if (exceptionHasCause(error, CertPathValidatorException::class.java)) {
                 context.getString(R.string.error_certificate_not_trusted)
-            } else if (Util.exceptionHasCause(error, CertificateExpiredException::class.java)) {
+            } else if (exceptionHasCause(error, CertificateExpiredException::class.java)) {
                 context.getString(R.string.error_certificate_expired)
-            } else if (Util.exceptionHasCause(error, CertificateNotYetValidException::class.java)) {
+            } else if (exceptionHasCause(error, CertificateNotYetValidException::class.java)) {
                 context.getString(R.string.error_certificate_not_valid_yet)
-            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N && Util.exceptionHasCause(error, CertificateRevokedException::class.java)) {
+            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N && exceptionHasCause(error, CertificateRevokedException::class.java)) {
                 context.getString(R.string.error_certificate_revoked)
-            } else if (Util.exceptionHasCause(error, SSLPeerUnverifiedException::class.java)) {
+            } else if (exceptionHasCause(error, SSLPeerUnverifiedException::class.java)) {
                 String.format(context.getString(R.string.error_certificate_wrong_host),
                         url.toUri().host)
             } else {
@@ -226,7 +226,7 @@ object Util {
             }
         } else if (error is ConnectException || error is SocketTimeoutException) {
             return context.getString(R.string.error_connection_failed)
-        } else if (error is IOException && Util.exceptionHasCause(error, EOFException::class.java)) {
+        } else if (error is IOException && exceptionHasCause(error, EOFException::class.java)) {
             return context.getString(R.string.error_http_to_https_port)
         } else {
             Log.e(TAG, "REST call to $url failed", error)

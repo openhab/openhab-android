@@ -81,7 +81,7 @@ class WriteTagActivity : AbstractBaseActivity() {
         setResult(RESULT_OK)
 
         longUri = intent.getParcelableExtra(EXTRA_LONG_URI)
-        shortUri = intent.getParcelableExtra(EXTRA_SHORT_URI);
+        shortUri = intent.getParcelableExtra(EXTRA_SHORT_URI)
         Log.d(TAG, "Got URL $longUri (short URI $shortUri)")
     }
 
@@ -123,7 +123,7 @@ class WriteTagActivity : AbstractBaseActivity() {
         object : AsyncTask<Void, Int, Boolean>() {
             override fun onPreExecute() {
                 val writeTagMessage = findViewById<TextView>(R.id.write_tag_message)
-                writeTagMessage.setText(R.string.info_write_tag_progress);
+                writeTagMessage.setText(R.string.info_write_tag_progress)
             }
 
             override fun doInBackground(vararg p0: Void?): Boolean {
@@ -160,7 +160,7 @@ class WriteTagActivity : AbstractBaseActivity() {
                         }
                     }
                } else {
-                    Log.d(TAG, "Tag is initialized, writing");
+                    Log.d(TAG, "Tag is initialized, writing")
                     val ndef = Ndef.get(tag)
                     if (ndef != null) {
                         try {
@@ -177,15 +177,15 @@ class WriteTagActivity : AbstractBaseActivity() {
                                    }
                                 }
                             }
-                            return true;
-                       } catch (e: IOException) {
+                            return true
+                        } catch (e: IOException) {
                             Log.e(TAG, "Writing to formatted tag failed", e)
                         } catch (e: FormatException) {
                             Log.e(TAG, "Formatting formatted tag failed", e)
                         } finally {
                             try {
-                                ndef.close();
-                           } catch (e: IOException) {
+                                ndef.close()
+                            } catch (e: IOException) {
                                 Log.e(TAG, "Closing ndef failed", e)
                             }
                         }
@@ -200,7 +200,7 @@ class WriteTagActivity : AbstractBaseActivity() {
                 val writeTagMessage = findViewById<TextView>(R.id.write_tag_message)
 
                 if (result != null && result) {
-                    val progressBar = findViewById<ProgressBar>(R.id.nfc_wait_progress);
+                    val progressBar = findViewById<ProgressBar>(R.id.nfc_wait_progress)
                     progressBar.isInvisible = true
 
                     val watermark = findViewById<ImageView>(R.id.nfc_watermark)

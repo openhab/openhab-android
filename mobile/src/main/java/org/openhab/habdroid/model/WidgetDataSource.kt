@@ -10,15 +10,10 @@
 package org.openhab.habdroid.model
 
 import android.util.Log
-
-import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
 import org.w3c.dom.Node
-import org.w3c.dom.NodeList
-
-import java.util.ArrayList
-import java.util.HashSet
+import java.util.*
 
 /**
  * This class provides datasource for openHAB widgets from sitemap page.

@@ -1,23 +1,20 @@
 package org.openhab.habdroid.screengrab
 
 import androidx.recyclerview.widget.RecyclerView
-import androidx.test.espresso.ViewInteraction
+import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.Espresso.pressBack
+import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.contrib.RecyclerViewActions
+import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.filters.LargeTest
 import androidx.test.runner.AndroidJUnit4
-
 import org.junit.ClassRule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.openhab.habdroid.R
 import org.openhab.habdroid.TestWithoutIntro
-import tools.fastlane.screengrab.locale.LocaleTestRule
-
-import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.Espresso.pressBack
-import androidx.test.espresso.action.ViewActions.click
-import androidx.test.espresso.matcher.ViewMatchers.withId
 import tools.fastlane.screengrab.Screengrab.screenshot
+import tools.fastlane.screengrab.locale.LocaleTestRule
 
 @LargeTest
 @RunWith(AndroidJUnit4::class)

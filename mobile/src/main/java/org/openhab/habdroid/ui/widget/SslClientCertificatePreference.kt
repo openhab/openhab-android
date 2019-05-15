@@ -7,18 +7,15 @@ import android.os.AsyncTask
 import android.os.Build
 import android.preference.Preference
 import android.security.KeyChain
-import android.security.KeyChainAliasCallback
 import android.security.KeyChainException
 import android.security.keystore.KeyProperties
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-
 import org.openhab.habdroid.R
 import org.openhab.habdroid.ui.setupHelpIcon
 import org.openhab.habdroid.ui.updateHelpIconAlpha
-
 import java.security.cert.X509Certificate
 
 class SslClientCertificatePreference : Preference {
@@ -67,7 +64,7 @@ class SslClientCertificatePreference : Preference {
             arrayOf(KeyProperties.KEY_ALGORITHM_RSA, KeyProperties.KEY_ALGORITHM_EC)
         else
             arrayOf("RSA", "DSA")
-        KeyChain.choosePrivateKeyAlias(activity, KeyChainAliasCallback { handleAliasChosen(it) },
+        KeyChain.choosePrivateKeyAlias(activity, { handleAliasChosen(it) },
                 keyTypes, null, null, -1, null)
     }
 

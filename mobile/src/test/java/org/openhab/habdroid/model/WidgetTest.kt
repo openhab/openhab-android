@@ -1,24 +1,16 @@
 package org.openhab.habdroid.model
 
+import junit.framework.Assert.*
 import org.json.JSONObject
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.runners.MockitoJUnitRunner
-import org.w3c.dom.Document
 import org.w3c.dom.Node
 import org.xml.sax.InputSource
-
 import java.io.StringReader
 import java.security.InvalidParameterException
-import java.util.ArrayList
-
-import javax.xml.parsers.DocumentBuilder
 import javax.xml.parsers.DocumentBuilderFactory
-
-import junit.framework.Assert.assertEquals
-import junit.framework.Assert.assertNotNull
-import junit.framework.Assert.assertNull
 
 @RunWith(MockitoJUnitRunner::class)
 class WidgetTest {

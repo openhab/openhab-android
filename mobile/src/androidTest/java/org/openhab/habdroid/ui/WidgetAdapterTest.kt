@@ -1,14 +1,11 @@
 package org.openhab.habdroid.ui
 
-import android.content.Context
 import androidx.appcompat.view.ContextThemeWrapper
 import androidx.test.InstrumentationRegistry
-
+import junit.framework.Assert.assertEquals
 import org.junit.Test
 import org.openhab.habdroid.R
 import org.openhab.habdroid.ui.WidgetAdapter.ColorMapper
-
-import junit.framework.Assert.assertEquals
 
 class WidgetAdapterTest {
     private val context = InstrumentationRegistry.getTargetContext()

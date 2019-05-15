@@ -18,11 +18,8 @@ import android.webkit.SslErrorHandler
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.core.net.toUri
-
 import de.duenndns.ssl.MemorizingTrustManager
 import org.openhab.habdroid.R
-import org.openhab.habdroid.util.Util
-
 import java.io.ByteArrayInputStream
 import java.security.cert.Certificate
 import java.security.cert.CertificateException

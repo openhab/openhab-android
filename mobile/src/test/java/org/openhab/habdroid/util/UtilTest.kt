@@ -1,28 +1,23 @@
 package org.openhab.habdroid.util
 
+import junit.framework.Assert.assertFalse
+import junit.framework.Assert.assertTrue
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
+import org.junit.Assert.assertEquals
 import org.junit.Test
-import org.openhab.habdroid.model.Sitemap
+import org.openhab.habdroid.model.sortedWithDefaultName
+import org.openhab.habdroid.model.toSitemapList
 import org.w3c.dom.Document
 import org.xml.sax.InputSource
 import org.xml.sax.SAXException
-
 import java.io.IOException
 import java.io.StringReader
 import java.security.cert.CertPathValidatorException
-
 import javax.net.ssl.SSLException
-import javax.xml.parsers.DocumentBuilder
 import javax.xml.parsers.DocumentBuilderFactory
 import javax.xml.parsers.ParserConfigurationException
-
-import junit.framework.Assert.assertFalse
-import junit.framework.Assert.assertTrue
-import org.junit.Assert.assertEquals
-import org.openhab.habdroid.model.sortedWithDefaultName
-import org.openhab.habdroid.model.toSitemapList
 
 class UtilTest {
 

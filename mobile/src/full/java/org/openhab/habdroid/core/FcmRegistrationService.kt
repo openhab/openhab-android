@@ -121,7 +121,7 @@ class FcmRegistrationService : JobIntentService() {
     class ProxyReceiver : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
             val actual = intent.getParcelableExtra<Intent>("intent")
-            JobIntentService.enqueueWork(context, FcmRegistrationService::class.java, JOB_ID, actual)
+            enqueueWork(context, FcmRegistrationService::class.java, JOB_ID, actual)
         }
 
         companion object {
@@ -145,12 +145,12 @@ class FcmRegistrationService : JobIntentService() {
 
         internal fun scheduleRegistration(context: Context) {
             val intent = Intent(context, FcmRegistrationService::class.java)
-                    .setAction(FcmRegistrationService.ACTION_REGISTER)
-            JobIntentService.enqueueWork(context, FcmRegistrationService::class.java, JOB_ID, intent)
+                    .setAction(ACTION_REGISTER)
+            enqueueWork(context, FcmRegistrationService::class.java, JOB_ID, intent)
         }
 
         internal fun scheduleHideNotification(context: Context, notificationId: Int) {
-            JobIntentService.enqueueWork(context, FcmRegistrationService::class.java, JOB_ID,
+            enqueueWork(context, FcmRegistrationService::class.java, JOB_ID,
                     makeHideNotificationIntent(context, notificationId))
         }
 
@@ -161,8 +161,8 @@ class FcmRegistrationService : JobIntentService() {
 
         private fun makeHideNotificationIntent(context: Context, notificationId: Int): Intent {
             return Intent(context, FcmRegistrationService::class.java)
-                    .setAction(FcmRegistrationService.ACTION_HIDE_NOTIFICATION)
-                    .putExtra(FcmRegistrationService.EXTRA_NOTIFICATION_ID, notificationId)
+                    .setAction(ACTION_HIDE_NOTIFICATION)
+                    .putExtra(EXTRA_NOTIFICATION_ID, notificationId)
         }
     }
 }

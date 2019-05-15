@@ -57,8 +57,4 @@ abstract class AbstractBaseActivity : AppCompatActivity() {
         }
         window.decorView.systemUiVisibility = uiOptions
     }
-
-    companion object {
-        private val TAG = AbstractBaseActivity::class.java.simpleName
-    }
 }

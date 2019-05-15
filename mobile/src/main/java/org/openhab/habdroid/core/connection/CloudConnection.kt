@@ -6,8 +6,7 @@ import org.json.JSONException
 import org.json.JSONObject
 
 class CloudConnection internal constructor(baseConnection: AbstractConnection, val messagingSenderId: String) :
-        DefaultConnection(baseConnection, Connection.TYPE_CLOUD) {
-}
+        DefaultConnection(baseConnection, Connection.TYPE_CLOUD)
 
 /**
  * Creates a [CloudConnection] instance if possible.

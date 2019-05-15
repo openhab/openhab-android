@@ -78,8 +78,8 @@ abstract class HttpClient protected constructor(private val client: OkHttpClient
             requestBuilder.method(method, RequestBody.create(actualMediaType, requestBody))
         }
         when (caching) {
-            HttpClient.CachingMode.AVOID_CACHE -> requestBuilder.cacheControl(CacheControl.FORCE_NETWORK)
-            HttpClient.CachingMode.FORCE_CACHE_IF_POSSIBLE -> {
+            CachingMode.AVOID_CACHE -> requestBuilder.cacheControl(CacheControl.FORCE_NETWORK)
+            CachingMode.FORCE_CACHE_IF_POSSIBLE -> {
                 requestBuilder.cacheControl(CacheControl.Builder()
                         .maxStale(Integer.MAX_VALUE, TimeUnit.SECONDS)
                         .build())

@@ -207,8 +207,8 @@ class AboutActivity : AbstractBaseActivity(), FragmentManager.OnBackStackChanged
                         }
 
                         Log.d(TAG, "Got api version $version")
-                        apiVersionItem.setSubText(version);
-                        refreshMaterialAboutList();
+                        apiVersionItem.setSubText(version)
+                        refreshMaterialAboutList()
                     }
                 })
 
@@ -217,7 +217,7 @@ class AboutActivity : AbstractBaseActivity(), FragmentManager.OnBackStackChanged
                         .subText(R.string.list_loading_message)
                         .icon(R.drawable.ic_info_outline_grey_24dp)
                         .build()
-                ohServerCard.addItem(uuidItem);
+                ohServerCard.addItem(uuidItem)
                 val uuidUrl = if (useJsonApi()) "rest/uuid" else "static/uuid"
                 httpClient.get(uuidUrl, object : AsyncHttpClient.StringResponseHandler() {
                     override fun onFailure(request: Request, statusCode: Int, error: Throwable) {
@@ -238,8 +238,8 @@ class AboutActivity : AbstractBaseActivity(), FragmentManager.OnBackStackChanged
                             .text(R.string.info_openhab_secret_label)
                             .subText(R.string.list_loading_message)
                             .icon(R.drawable.ic_info_outline_grey_24dp)
-                            .build();
-                    ohServerCard.addItem(secretItem);
+                            .build()
+                    ohServerCard.addItem(secretItem)
                     httpClient.get("static/secret", object : AsyncHttpClient.StringResponseHandler() {
                         override fun onFailure(request: Request, statusCode: Int, error: Throwable) {
                             Log.e(TAG, "Could not fetch server secret $error")

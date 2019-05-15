@@ -20,7 +20,7 @@ import java.util.TimeZone
 
 @Parcelize
 data class CloudNotification internal constructor(val id: String, val message: String, val createdTimestamp: Long,
-                                                  val icon: String?, val severity: String?): Parcelable {}
+                                                  val icon: String?, val severity: String?): Parcelable
 
 @Throws(JSONException::class)
 fun JSONObject.toCloudNotification(): CloudNotification {

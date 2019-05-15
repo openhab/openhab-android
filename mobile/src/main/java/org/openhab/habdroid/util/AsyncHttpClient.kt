@@ -16,18 +16,9 @@ import android.graphics.Canvas
 import android.os.Handler
 import android.os.Looper
 import android.util.DisplayMetrics
-
 import com.caverock.androidsvg.SVG
 import com.caverock.androidsvg.SVGParseException
-import okhttp3.Call
-import okhttp3.Callback
-import okhttp3.Headers
-import okhttp3.MediaType
-import okhttp3.OkHttpClient
-import okhttp3.Request
-import okhttp3.Response
-import okhttp3.ResponseBody
-
+import okhttp3.*
 import java.io.IOException
 import java.io.InputStream
 
@@ -127,22 +118,22 @@ class AsyncHttpClient(client: OkHttpClient, baseUrl: String?, username: String?,
 
     operator fun <T> get(url: String, responseHandler: ResponseHandler<T>): Call {
         return method(url, "GET", null, null, null,
-                DEFAULT_TIMEOUT_MS, HttpClient.CachingMode.AVOID_CACHE, responseHandler)
+                DEFAULT_TIMEOUT_MS, CachingMode.AVOID_CACHE, responseHandler)
     }
 
     operator fun <T> get(url: String, headers: Map<String, String>,
                          responseHandler: ResponseHandler<T>): Call {
         return method(url, "GET", headers, null, null,
-                DEFAULT_TIMEOUT_MS, HttpClient.CachingMode.AVOID_CACHE, responseHandler)
+                DEFAULT_TIMEOUT_MS, CachingMode.AVOID_CACHE, responseHandler)
     }
 
     operator fun <T> get(url: String, headers: Map<String, String>,
                          timeoutMillis: Long, responseHandler: ResponseHandler<T>): Call {
         return method(url, "GET", headers, null, null,
-                timeoutMillis, HttpClient.CachingMode.AVOID_CACHE, responseHandler)
+                timeoutMillis, CachingMode.AVOID_CACHE, responseHandler)
     }
 
-    operator fun <T> get(url: String, timeoutMillis: Long, caching: HttpClient.CachingMode,
+    operator fun <T> get(url: String, timeoutMillis: Long, caching: CachingMode,
                          responseHandler: ResponseHandler<T>): Call {
         return method(url, "GET", null, null, null, timeoutMillis, caching, responseHandler)
     }
@@ -150,12 +141,12 @@ class AsyncHttpClient(client: OkHttpClient, baseUrl: String?, username: String?,
     fun post(url: String, requestBody: String, mediaType: String,
              responseHandler: StringResponseHandler): Call {
         return method(url, "POST", null, requestBody,
-                mediaType, DEFAULT_TIMEOUT_MS, HttpClient.CachingMode.AVOID_CACHE, responseHandler)
+                mediaType, DEFAULT_TIMEOUT_MS, CachingMode.AVOID_CACHE, responseHandler)
     }
 
     private fun <T> method(url: String, method: String, headers: Map<String, String>?,
                            requestBody: String?, mediaType: String?, timeoutMillis: Long,
-                           caching: HttpClient.CachingMode, responseHandler: ResponseHandler<T>): Call {
+                           caching: CachingMode, responseHandler: ResponseHandler<T>): Call {
         val call = prepareCall(url, method, headers, requestBody, mediaType, timeoutMillis, caching)
         call.enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {

@@ -17,10 +17,7 @@ import android.os.Message
 import android.os.SystemClock
 import android.util.AttributeSet
 import android.util.Log
-import android.view.View
-import android.widget.ImageView
 import androidx.appcompat.widget.AppCompatImageView
-
 import okhttp3.Call
 import okhttp3.Headers
 import okhttp3.HttpUrl
@@ -30,7 +27,6 @@ import org.openhab.habdroid.core.connection.Connection
 import org.openhab.habdroid.util.AsyncHttpClient
 import org.openhab.habdroid.util.CacheManager
 import org.openhab.habdroid.util.HttpClient
-
 import java.lang.ref.WeakReference
 
 class WidgetImageView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyle: Int = 0) :
@@ -149,9 +145,9 @@ class WidgetImageView @JvmOverloads constructor(context: Context, attrs: Attribu
         val isEmpty = d == null || d === progressDrawable
 
         if (isEmpty && emptyHeightToWidthRatio > 0) {
-            val specWidth = View.MeasureSpec.getSize(widthMeasureSpec)
-            val specMode = View.MeasureSpec.getMode(widthMeasureSpec)
-            if (specMode == View.MeasureSpec.AT_MOST || specMode == View.MeasureSpec.EXACTLY) {
+            val specWidth = MeasureSpec.getSize(widthMeasureSpec)
+            val specMode = MeasureSpec.getMode(widthMeasureSpec)
+            if (specMode == MeasureSpec.AT_MOST || specMode == MeasureSpec.EXACTLY) {
                 setMeasuredDimension(specWidth, (emptyHeightToWidthRatio * specWidth).toInt())
             }
         }
@@ -217,7 +213,7 @@ class WidgetImageView @JvmOverloads constructor(context: Context, attrs: Attribu
     private fun applyProgressDrawable() {
         if (originalScaleType == null) {
             originalScaleType = scaleType
-            super.setScaleType(ImageView.ScaleType.CENTER)
+            super.setScaleType(ScaleType.CENTER)
             super.setAdjustViewBounds(false)
         }
         super.setImageDrawable(progressDrawable)

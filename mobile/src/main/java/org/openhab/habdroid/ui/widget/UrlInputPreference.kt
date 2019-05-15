@@ -21,11 +21,11 @@ class UrlInputPreference : EditTextPreference, TextWatcher {
     private lateinit var editor: EditText
     private var urlIsValid: Boolean = false
 
-    constructor(context: Context) : super(context) {}
+    constructor(context: Context) : super(context)
 
-    constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {}
+    constructor(context: Context, attrs: AttributeSet) : super(context, attrs)
 
-    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {}
+    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
 
     override fun onAddEditTextToDialogView(dialogView: View, editText: EditText) {
         super.onAddEditTextToDialogView(dialogView, editText)

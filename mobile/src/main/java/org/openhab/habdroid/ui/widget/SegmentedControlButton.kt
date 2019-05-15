@@ -17,19 +17,15 @@ package org.openhab.habdroid.ui.widget
 
 import android.content.Context
 import android.content.res.ColorStateList
-import android.content.res.TypedArray
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Paint.Style
-import android.graphics.drawable.Drawable
 import android.util.AttributeSet
-
 import androidx.annotation.ColorInt
 import androidx.annotation.IdRes
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.widget.AppCompatRadioButton
-
 import org.openhab.habdroid.R
 
 /** @author benjamin ferrari
@@ -44,7 +40,7 @@ class SegmentedControlButton : AppCompatRadioButton {
     private val backgroundColorList: ColorStateList?
     private val backgroundPaint: Paint?
 
-    constructor(context: Context, attrs: AttributeSet) : this(context, attrs, 0) {}
+    constructor(context: Context, attrs: AttributeSet) : this(context, attrs, 0)
 
     constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
         buttonDrawable = null
