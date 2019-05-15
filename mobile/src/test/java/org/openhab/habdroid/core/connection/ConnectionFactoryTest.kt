@@ -29,12 +29,14 @@ import java.io.IOException
 import junit.framework.Assert.assertEquals
 import junit.framework.Assert.assertNotNull
 import junit.framework.Assert.assertNull
+import kotlinx.coroutines.*
 import org.mockito.ArgumentMatchers.any
 import org.mockito.ArgumentMatchers.anyInt
 import org.mockito.ArgumentMatchers.anyString
 import org.mockito.ArgumentMatchers.eq
 import org.mockito.Mockito.doAnswer
 import org.mockito.Mockito.`when`
+import kotlin.coroutines.CoroutineContext
 
 class ConnectionFactoryTest {
     @Rule
@@ -66,9 +68,6 @@ class ConnectionFactoryTest {
         mockPrefs = Mockito.mock(SharedPreferences::class.java)
 
         ConnectionFactory.initialize(mockContext, mockPrefs)
-
-        ConnectionFactory.instance.mainHandler = makeMockedHandler()
-        ConnectionFactory.instance.updateHandler = makeMockedHandler()
     }
 
     @Test
@@ -80,44 +79,52 @@ class ConnectionFactoryTest {
 
         `when`(mockPrefs.getString(eq(Constants.PREFERENCE_REMOTE_URL), anyString()))
                 .thenReturn(server.url("/").toString())
-        ConnectionFactory.instance.updateConnections()
-        val conn = ConnectionFactory.getConnection(Connection.TYPE_REMOTE)
+        runBlocking {
+            ConnectionFactory.instance.updateConnections()
+            val conn = ConnectionFactory.getConnection(Connection.TYPE_REMOTE)
 
-        assertNotNull("Requesting a remote connection when a remote url is set, " + " should return a connection.", conn)
-        assertEquals("The connection type of a remote connection should be TYPE_REMOTE.",
-                Connection.TYPE_REMOTE, conn!!.connectionType)
+            assertNotNull("Requesting a remote connection when a remote url is set, " + " should return a connection.", conn)
+            assertEquals("The connection type of a remote connection should be TYPE_REMOTE.",
+                    Connection.TYPE_REMOTE, conn!!.connectionType)
+        }
     }
 
     @Test
     fun testGetConnectionRemoteWithoutUrl() {
         `when`(mockPrefs.getString(eq(Constants.PREFERENCE_REMOTE_URL), anyString()))
                 .thenReturn("")
-        ConnectionFactory.instance.updateConnections()
-        val conn = ConnectionFactory.getConnection(Connection.TYPE_REMOTE)
+        runBlocking {
+            ConnectionFactory.instance.updateConnections()
+            val conn = ConnectionFactory.getConnection(Connection.TYPE_REMOTE)
 
-        assertNull("Requesting a remote connection when a remote url isn't set, " + "should not return a connection.", conn)
+            assertNull("Requesting a remote connection when a remote url isn't set, " + "should not return a connection.", conn)
+        }
     }
 
     @Test
     fun testGetConnectionLocalWithUrl() {
         `when`(mockPrefs.getString(eq(Constants.PREFERENCE_LOCAL_URL), anyString()))
                 .thenReturn("https://openhab.local:8080")
-        ConnectionFactory.instance.updateConnections()
-        val conn = ConnectionFactory.getConnection(Connection.TYPE_LOCAL)
+        runBlocking {
+            ConnectionFactory.instance.updateConnections()
+            val conn = ConnectionFactory.getConnection(Connection.TYPE_LOCAL)
 
-        assertNotNull("Requesting a local connection when local url is set, " + "should return a connection.", conn)
-        assertEquals("The connection type of a local connection should be LOGLEVEL_LOCAL.",
-                Connection.TYPE_LOCAL, conn!!.connectionType)
+            assertNotNull("Requesting a local connection when local url is set, " + "should return a connection.", conn)
+            assertEquals("The connection type of a local connection should be LOGLEVEL_LOCAL.",
+                    Connection.TYPE_LOCAL, conn!!.connectionType)
+        }
     }
 
     @Test
     fun testGetConnectionLocalWithoutUrl() {
         `when`(mockPrefs.getString(eq(Constants.PREFERENCE_LOCAL_URL), anyString()))
                 .thenReturn("")
-        ConnectionFactory.instance.updateConnections()
-        val conn = ConnectionFactory.getConnection(Connection.TYPE_LOCAL)
+        runBlocking {
+            ConnectionFactory.instance.updateConnections()
+            val conn = ConnectionFactory.getConnection(Connection.TYPE_LOCAL)
 
-        assertNull("Requesting a remote connection when a local url isn't set, " + "should not return a connection.", conn)
+            assertNull("Requesting a remote connection when a local url isn't set, " + "should not return a connection.", conn)
+        }
     }
 
     @Test
@@ -129,34 +136,39 @@ class ConnectionFactoryTest {
 
         `when`(mockPrefs.getString(eq(Constants.PREFERENCE_REMOTE_URL), anyString()))
                 .thenReturn(server.url("/").toString())
+        runBlocking {
+            ConnectionFactory.instance.updateConnections()
+            val conn = ConnectionFactory.getConnection(Connection.TYPE_CLOUD)
 
-        ConnectionFactory.instance.updateConnections()
-        val conn = ConnectionFactory.getConnection(Connection.TYPE_CLOUD)
+            assertNotNull("Requesting a cloud connection when a remote url is set, " + "should return a connection.", conn)
+            assertEquals(CloudConnection::class.java, conn!!.javaClass)
+            assertEquals("The connection type of a cloud connection should be TYPE_CLOUD.",
+                    Connection.TYPE_CLOUD, conn.connectionType)
+            assertEquals("The sender ID of the cloud connection should be '12345'",
+                    "12345", (conn as CloudConnection).messagingSenderId)
 
-        assertNotNull("Requesting a cloud connection when a remote url is set, " + "should return a connection.", conn)
-        assertEquals(CloudConnection::class.java, conn!!.javaClass)
-        assertEquals("The connection type of a cloud connection should be TYPE_CLOUD.",
-                Connection.TYPE_CLOUD, conn.connectionType)
-        assertEquals("The sender ID of the cloud connection should be '12345'",
-                "12345", (conn as CloudConnection).messagingSenderId)
-
-        server.shutdown()
+            server.shutdown()
+        }
     }
 
     @Test(expected = NetworkNotAvailableException::class)
     @Throws(ConnectionException::class)
     fun testGetAnyConnectionNoNetwork() {
-        triggerNetworkUpdate(null)
-
-        ConnectionFactory.usableConnection
+        runBlocking {
+            triggerNetworkUpdate(null)
+            ConnectionFactory.instance.updateConnections()
+            ConnectionFactory.usableConnection
+        }
     }
 
     @Test(expected = NetworkNotSupportedException::class)
     @Throws(ConnectionException::class)
     fun testGetAnyConnectionUnsupportedNetwork() {
-        triggerNetworkUpdate(ConnectivityManager.TYPE_BLUETOOTH)
-
-        ConnectionFactory.usableConnection
+        runBlocking {
+            triggerNetworkUpdate(ConnectivityManager.TYPE_BLUETOOTH)
+            ConnectionFactory.instance.updateConnections()
+            ConnectionFactory.usableConnection
+        }
     }
 
     @Test
@@ -168,16 +180,18 @@ class ConnectionFactoryTest {
 
         `when`(mockPrefs.getString(eq(Constants.PREFERENCE_REMOTE_URL), anyString()))
                 .thenReturn(server.url("/").toString())
-        ConnectionFactory.instance.updateConnections()
-        triggerNetworkUpdate(ConnectivityManager.TYPE_WIFI)
+        runBlocking {
+            triggerNetworkUpdate(ConnectivityManager.TYPE_WIFI)
+            ConnectionFactory.instance.updateConnections()
 
-        val conn = ConnectionFactory.usableConnection
+            val conn = ConnectionFactory.usableConnection
 
-        assertNotNull("Requesting any connection in WIFI when only a remote url is set, " + "should return a connection.", conn)
-        assertEquals("The connection type of the connection should be TYPE_REMOTE.",
-                Connection.TYPE_REMOTE, conn!!.connectionType)
+            assertNotNull("Requesting any connection in WIFI when only a remote url is set, " + "should return a connection.", conn)
+            assertEquals("The connection type of the connection should be TYPE_REMOTE.",
+                    Connection.TYPE_REMOTE, conn!!.connectionType)
 
-        server.shutdown()
+            server.shutdown()
+        }
     }
 
     @Test
@@ -191,16 +205,18 @@ class ConnectionFactoryTest {
                 .thenReturn(server.url("/").toString())
         `when`(mockPrefs.getString(eq(Constants.PREFERENCE_LOCAL_URL), anyString()))
                 .thenReturn("https://myopenhab.org:443")
-        ConnectionFactory.instance.updateConnections()
-        triggerNetworkUpdate(ConnectivityManager.TYPE_WIFI)
+        runBlocking {
+            triggerNetworkUpdate(ConnectivityManager.TYPE_WIFI)
+            ConnectionFactory.instance.updateConnections()
 
-        val conn = ConnectionFactory.usableConnection
+            val conn = ConnectionFactory.usableConnection
 
-        assertNotNull("Requesting any connection in WIFI when a local url is set, " + "should return a connection.", conn)
-        assertEquals("The connection type of the connection should be TYPE_LOCAL.",
-                Connection.TYPE_LOCAL, conn!!.connectionType)
+            assertNotNull("Requesting any connection in WIFI when a local url is set, " + "should return a connection.", conn)
+            assertEquals("The connection type of the connection should be TYPE_LOCAL.",
+                    Connection.TYPE_LOCAL, conn!!.connectionType)
 
-        server.shutdown()
+            server.shutdown()
+        }
     }
 
     @Test(expected = NoUrlInformationException::class)
@@ -208,8 +224,10 @@ class ConnectionFactoryTest {
     fun testGetAnyConnectionWifiNoLocalNoRemote() {
         `when`(mockPrefs.getString(anyString(), anyString())).thenReturn(null)
         triggerNetworkUpdate(ConnectivityManager.TYPE_WIFI)
-
-        ConnectionFactory.usableConnection
+        runBlocking {
+            ConnectionFactory.instance.updateConnections()
+            ConnectionFactory.usableConnection
+        }
     }
 
     private fun triggerNetworkUpdate(type: Int) {
@@ -224,36 +242,5 @@ class ConnectionFactoryTest {
 
         ConnectionFactory.instance.onReceive(mockContext,
                 Intent(ConnectivityManager.CONNECTIVITY_ACTION))
-    }
-
-    private fun makeMockedHandler(): Handler {
-        val h = Mockito.mock(Handler::class.java)
-        `when`(h.sendEmptyMessage(anyInt())).thenAnswer { invocation ->
-            val msg = Message()
-            msg.what = invocation.getArgument(0)
-            ConnectionFactory.instance.handleMessage(msg)
-            true
-        }
-        `when`(h.sendMessage(any(Message::class.java))).thenAnswer { invocation ->
-            val msg = invocation.getArgument<Message>(0)
-            ConnectionFactory.instance.handleMessage(msg)
-            true
-        }
-        `when`(h.obtainMessage(anyInt()))
-                .thenAnswer { invocation -> makeMockedMessage(h, invocation.getArgument(0), null) }
-        `when`(h.obtainMessage(anyInt(), any()))
-                .thenAnswer { invocation ->
-                    makeMockedMessage(h, invocation.getArgument(0),
-                            invocation.getArgument<Any>(1))
-                }
-        return h
-    }
-
-    private fun makeMockedMessage(h: Handler, what: Int, obj: Any?): Message {
-        val msg = Mockito.mock(Message::class.java)
-        msg.what = what
-        msg.obj = obj
-        doAnswer { invocationOnMock -> h.sendMessage(msg) }.`when`(msg).sendToTarget()
-        return msg
     }
 }

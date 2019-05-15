@@ -9,39 +9,26 @@
 
 package org.openhab.habdroid.util
 
-import android.graphics.Bitmap
-import android.os.AsyncTask
-import android.os.Handler
 import android.util.Log
 import android.widget.ImageView
+import kotlinx.coroutines.*
 
 import org.openhab.habdroid.core.connection.Connection
 
 import java.io.IOException
 
-class MjpegStreamer(view: ImageView, connection: Connection, private val url: String) {
-    private val httpClient: SyncHttpClient = connection.syncHttpClient
-    private val handler: Handler
-    private var downloadImageTask: DownloadImageTask? = null
-
-    init {
-        handler = Handler { msg ->
-            if (downloadImageTask != null) {
-                val bmp = msg.obj as Bitmap
-                view.setImageBitmap(bmp)
-            }
-            false
-        }
-    }
+class MjpegStreamer(private val view: ImageView, connection: Connection, private val url: String) {
+    private val httpClient = connection.syncHttpClient
+    private var job: Job? = null
 
     fun start() {
-        downloadImageTask = DownloadImageTask()
-        downloadImageTask?.execute()
+        job = Job()
+        doStream(CoroutineScope(Dispatchers.IO + job!!))
     }
 
     fun stop() {
-        downloadImageTask?.cancel(true)
-        downloadImageTask = null
+        job?.cancel()
+        job = null
     }
 
     @Throws(IOException::class)
@@ -54,41 +41,32 @@ class MjpegStreamer(view: ImageView, connection: Connection, private val url: St
         return MjpegInputStream(result.response!!.byteStream())
     }
 
-    private class HttpException(code: Int, cause: Throwable) : IOException("HTTP failure code $code") {
-        init {
-            initCause(cause)
+    private fun doStream(scope: CoroutineScope) = scope.launch {
+        while (isActive) {
+            try {
+                startStream().use { stream ->
+                    while (isActive) {
+                        val bitmap = stream.readMjpegFrame()
+                        if (bitmap != null && isActive) {
+                            withContext(Dispatchers.Main) {
+                                view.setImageBitmap(bitmap)
+                            }
+                        }
+                    }
+                }
+            } catch (e: IOException) {
+                Log.e(TAG, "MJPEG streaming from $url failed", e)
+                if (e is HttpException) {
+                    // no point in continuing if the server returned failure
+                    break
+                }
+            }
         }
     }
 
-    private inner class DownloadImageTask : AsyncTask<Void, Void, Void>() {
-        override fun doInBackground(vararg params: Void): Void? {
-            while (!isCancelled) {
-                try {
-                    doStreamOnce()
-                } catch (e: IOException) {
-                    Log.e(TAG, "MJPEG streaming from $url failed", e)
-                    if (e is HttpException) {
-                        // no point in continuing if the server returned failure
-                        break
-                    }
-                }
-
-            }
-            return null
-        }
-
-        @Throws(IOException::class)
-        private fun doStreamOnce() {
-            startStream().use { stream ->
-                while (!isCancelled) {
-                    val bitmap = stream.readMjpegFrame()
-                    handler.obtainMessage(0, bitmap).sendToTarget()
-                }
-            }
-        }
-
-        override fun onPostExecute(result: Void) {
-            downloadImageTask = null
+    private class HttpException(code: Int, cause: Throwable) : IOException("HTTP failure code $code") {
+        init {
+            initCause(cause)
         }
     }
 

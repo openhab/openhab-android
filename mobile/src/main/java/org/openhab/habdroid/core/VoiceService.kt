@@ -13,6 +13,7 @@ import android.app.IntentService
 import android.content.Intent
 import android.speech.RecognizerIntent
 import android.util.Log
+import kotlinx.coroutines.runBlocking
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.core.connection.exception.ConnectionException
@@ -31,7 +32,9 @@ class VoiceService : IntentService("VoiceService") {
         Log.i(TAG, "Recognized text: $voiceCommand")
         Util.showToast(this, getString(R.string.info_voice_recognized_text, voiceCommand))
 
-        ConnectionFactory.waitForInitialization()
+        runBlocking {
+            ConnectionFactory.waitForInitialization()
+        }
 
         try {
             sendVoiceCommand(ConnectionFactory.usableConnection!!.syncHttpClient, voiceCommand)

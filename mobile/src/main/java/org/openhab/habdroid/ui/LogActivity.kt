@@ -1,7 +1,6 @@
 package org.openhab.habdroid.ui
 
 import android.content.Intent
-import android.os.AsyncTask
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.util.Log
@@ -15,14 +14,20 @@ import android.widget.TextView
 import androidx.core.net.toUri
 import androidx.core.view.isVisible
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import kotlinx.coroutines.*
 
 import org.openhab.habdroid.R
 import org.openhab.habdroid.util.Constants
 
 import java.io.BufferedReader
 import java.io.InputStreamReader
+import kotlin.coroutines.CoroutineContext
 
-class LogActivity : AbstractBaseActivity() {
+class LogActivity : AbstractBaseActivity(), CoroutineScope {
+    private lateinit var job: Job
+    override val coroutineContext: CoroutineContext
+        get() = Dispatchers.Main + job
+
     private lateinit var progressBar: ProgressBar
     private lateinit var logTextView: TextView
     private lateinit var fab: FloatingActionButton
@@ -32,6 +37,7 @@ class LogActivity : AbstractBaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        job = Job()
         setContentView(R.layout.activity_log)
 
         setSupportActionBar(findViewById(R.id.openhab_toolbar))
@@ -55,15 +61,20 @@ class LogActivity : AbstractBaseActivity() {
         setUiState(isLoading = true, isEmpty = false)
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        job.cancel()
+    }
+
     override fun onResume() {
         super.onResume()
         setUiState(isLoading = true, isEmpty = false)
-        GetLogFromAdbTask().execute(false)
+        fetchLog(false)
     }
 
     private fun setUiState(isLoading: Boolean, isEmpty: Boolean) {
-        progressBar.isVisible = isLoading && !isEmpty
-        logTextView.isVisible = isLoading && !isEmpty
+        progressBar.isVisible = isLoading
+        logTextView.isVisible = !isLoading && !isEmpty
         emptyView.isVisible = isEmpty
         if (isLoading || isEmpty) {
             fab.hide()
@@ -83,7 +94,7 @@ class LogActivity : AbstractBaseActivity() {
         return when (item.itemId) {
             R.id.delete_log -> {
                 setUiState(isLoading = true, isEmpty = false)
-                GetLogFromAdbTask().execute(true)
+                fetchLog(true)
                 true
             }
             android.R.id.home -> {
@@ -94,56 +105,51 @@ class LogActivity : AbstractBaseActivity() {
         }
     }
 
-    private inner class GetLogFromAdbTask : AsyncTask<Boolean, Void, String>() {
-        override fun doInBackground(vararg clear: Boolean?): String {
-            val logBuilder = StringBuilder()
-            val separator = System.getProperty("line.separator")
-            val process: Process?
-            try {
-                if (clear[0] == true) {
-                    Log.d(TAG, "Clear log")
-                    Runtime.getRuntime().exec("logcat -b all -c")
-                    return ""
-                }
-                process = Runtime.getRuntime().exec("logcat -b all -v threadtime -d")
-            } catch (e: Exception) {
-                Log.e(TAG, "Error reading process", e)
-                return Log.getStackTraceString(e)
-            }
+    private fun fetchLog(clear: Boolean) = launch {
+        val log = collectLog(clear)
+        logTextView.text = log
+        setUiState(false, log.isEmpty())
+        scrollView.post { scrollView.fullScroll(View.FOCUS_DOWN) }
+    }
 
-            if (process == null) {
-                return "Process is null"
-            }
-            try {
-                InputStreamReader(process.inputStream).use { reader ->
-                    BufferedReader(reader).use { bufferedReader ->
-                        for (line in bufferedReader.readLines()) {
-                            logBuilder.append(line)
-                            logBuilder.append(separator)
-                        }
+    private suspend fun collectLog(clear: Boolean): String = withContext(Dispatchers.Default) {
+        val logBuilder = StringBuilder()
+        val separator = System.getProperty("line.separator")
+        val process = try {
+            val args = if (clear) "-c" else "-b threadtime -d"
+            Runtime.getRuntime().exec("logcat -b all " + args)
+        } catch (e: Exception) {
+            Log.e(TAG, "Error reading process", e)
+            return@withContext Log.getStackTraceString(e)
+        }
+
+        if (clear) {
+            return@withContext ""
+        }
+
+        try {
+            InputStreamReader(process.inputStream).use { reader ->
+                BufferedReader(reader).use { bufferedReader ->
+                    for (line in bufferedReader.readLines()) {
+                        logBuilder.append(line)
+                        logBuilder.append(separator)
                     }
                 }
-            } catch (e: Exception) {
-                Log.e(TAG, "Error reading log", e)
-                return Log.getStackTraceString(e)
             }
-
-            var log = logBuilder.toString()
-            val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(applicationContext)
-            log = redactHost(log,
-                    sharedPreferences.getString(Constants.PREFERENCE_LOCAL_URL, ""),
-                    "<openhab-local-address>")
-            log = redactHost(log,
-                    sharedPreferences.getString(Constants.PREFERENCE_REMOTE_URL, ""),
-                    "<openhab-remote-address>")
-            return log
+        } catch (e: Exception) {
+            Log.e(TAG, "Error reading log", e)
+            return@withContext Log.getStackTraceString(e)
         }
 
-        override fun onPostExecute(log: String) {
-            logTextView.text = log
-            setUiState(false, log.isEmpty())
-            scrollView.post { scrollView.fullScroll(View.FOCUS_DOWN) }
-        }
+        var log = logBuilder.toString()
+        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(applicationContext)
+        log = redactHost(log,
+                sharedPreferences.getString(Constants.PREFERENCE_LOCAL_URL, ""),
+                "<openhab-local-address>")
+        log = redactHost(log,
+                sharedPreferences.getString(Constants.PREFERENCE_REMOTE_URL, ""),
+                "<openhab-remote-address>")
+        log
     }
 
     private fun redactHost(text: String, url: String?, replacement: String): String {

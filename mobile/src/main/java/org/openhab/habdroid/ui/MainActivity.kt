@@ -32,7 +32,6 @@ import android.graphics.drawable.Icon
 import android.net.Uri
 import android.net.wifi.WifiManager
 import android.nfc.NfcAdapter
-import android.os.AsyncTask
 import android.os.Build
 import android.os.Bundle
 import android.preference.PreferenceManager
@@ -66,6 +65,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.navigation.NavigationView
 
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.*
 import okhttp3.Headers
 import okhttp3.Request
 import org.openhab.habdroid.R
@@ -91,10 +91,15 @@ import java.nio.charset.Charset
 import java.util.Locale
 
 import javax.jmdns.ServiceInfo
+import kotlin.coroutines.CoroutineContext
 
-class MainActivity : AbstractBaseActivity(), AsyncServiceResolver.Listener, ConnectionFactory.UpdateListener {
+class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener, CoroutineScope {
+    private val job = Job()
+    override val coroutineContext: CoroutineContext
+        get() = Dispatchers.Main + job
+
     private lateinit var prefs: SharedPreferences
-    private var serviceResolver: AsyncServiceResolver? = null
+    private var serviceResolveJob: Job? = null
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var drawerToggle: ActionBarDrawerToggle
     private lateinit var drawerMenu: Menu
@@ -233,16 +238,11 @@ class MainActivity : AbstractBaseActivity(), AsyncServiceResolver.Listener, Conn
         }
 
         val isSpeechRecognizerAvailable = SpeechRecognizer.isRecognitionAvailable(this)
-        object : AsyncTask<Void, Void, Void>() {
-            override fun doInBackground(vararg voids: Void): Void? {
-                manageVoiceRecognitionShortcut(isSpeechRecognizerAvailable)
-                setVoiceWidgetComponentEnabledSetting(VoiceWidget::class.java,
-                        isSpeechRecognizerAvailable)
-                setVoiceWidgetComponentEnabledSetting(VoiceWidgetWithIcon::class.java,
-                        isSpeechRecognizerAvailable)
-                return null
-            }
-        }.execute()
+        GlobalScope.launch {
+            manageVoiceRecognitionShortcut(isSpeechRecognizerAvailable)
+            setVoiceWidgetComponentEnabledSetting(VoiceWidget::class.java, isSpeechRecognizerAvailable)
+            setVoiceWidgetComponentEnabledSetting(VoiceWidgetWithIcon::class.java, isSpeechRecognizerAvailable)
+        }
     }
 
     private fun handleConnectionChange() {
@@ -303,23 +303,19 @@ class MainActivity : AbstractBaseActivity(), AsyncServiceResolver.Listener, Conn
                 successCb, this::handlePropertyFetchFailure)
     }
 
-    override fun onServiceResolved(serviceInfo: ServiceInfo) {
-        val address = serviceInfo.hostAddresses[0]
-        val port = serviceInfo.port.toString()
-        Log.d(TAG, "Service resolved: $address port: $port")
+    private fun handleServiceResolveResult(info: ServiceInfo?) {
+        if (info != null) {
+            val address = info.hostAddresses[0]
+            val port = info.port.toString()
+            Log.d(TAG, "Service resolved: $address port: $port")
 
-        PreferenceManager.getDefaultSharedPreferences(this).edit {
-            putString(Constants.PREFERENCE_LOCAL_URL, "https://$address:$port")
+            PreferenceManager.getDefaultSharedPreferences(this).edit {
+                putString(Constants.PREFERENCE_LOCAL_URL, "https://$address:$port")
+            }
+        } else {
+            Log.d(TAG, "onServiceResolveFailed()")
+            controller.indicateMissingConfiguration(true)
         }
-
-        // We'll get a connection update later
-        serviceResolver = null
-    }
-
-    override fun onServiceResolveFailed() {
-        Log.d(TAG, "onServiceResolveFailed()")
-        controller.indicateMissingConfiguration(true)
-        serviceResolver = null
     }
 
     private fun processIntent(intent: Intent) {
@@ -427,10 +423,13 @@ class MainActivity : AbstractBaseActivity(), AsyncServiceResolver.Listener, Conn
                 // Attempt resolving only if we're connected locally and
                 // no local connection is configured yet
                 if (failureReason.wouldHaveUsedLocalConnection() && ConnectionFactory.getConnection(Connection.TYPE_LOCAL) == null) {
-                    if (serviceResolver == null) {
-                        serviceResolver = AsyncServiceResolver(this, this,
+                    if (serviceResolveJob == null) {
+                        val resolver = AsyncServiceResolver(this,
                                 getString(R.string.openhab_service_type))
-                        serviceResolver!!.start()
+                        serviceResolveJob = launch {
+                            handleServiceResolveResult(resolver.resolve())
+                            serviceResolveJob = null
+                        }
                         controller.updateConnection(null,
                                 getString(R.string.resolving_openhab),
                                 R.drawable.ic_openhab_appicon_340dp /*FIXME?*/)
@@ -494,10 +493,8 @@ class MainActivity : AbstractBaseActivity(), AsyncServiceResolver.Listener, Conn
         isStarted = false
         super.onStop()
         ConnectionFactory.removeListener(this)
-        if (serviceResolver?.isAlive == true) {
-            serviceResolver?.interrupt()
-        }
-        serviceResolver = null
+        serviceResolveJob?.cancel()
+        serviceResolveJob = null
         if (sitemapSelectionDialog?.isShowing == true) {
             sitemapSelectionDialog?.dismiss()
         }
@@ -1027,12 +1024,11 @@ class MainActivity : AbstractBaseActivity(), AsyncServiceResolver.Listener, Conn
     private fun setVoiceWidgetComponentEnabledSetting(component: Class<*>,
                                                       isSpeechRecognizerAvailable: Boolean) {
         val voiceWidget = ComponentName(this, component)
-        val pm = packageManager
         val newState = if (isSpeechRecognizerAvailable)
             PackageManager.COMPONENT_ENABLED_STATE_ENABLED
         else
             PackageManager.COMPONENT_ENABLED_STATE_DISABLED
-        pm.setComponentEnabledSetting(voiceWidget, newState, PackageManager.DONT_KILL_APP)
+        packageManager.setComponentEnabledSetting(voiceWidget, newState, PackageManager.DONT_KILL_APP)
     }
 
     companion object {

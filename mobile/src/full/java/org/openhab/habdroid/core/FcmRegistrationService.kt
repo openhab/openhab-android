@@ -21,6 +21,7 @@ import com.google.firebase.iid.FirebaseInstanceId
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.messaging.RemoteMessage
 import androidx.core.app.JobIntentService
+import kotlinx.coroutines.runBlocking
 
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.CloudConnection
@@ -49,7 +50,9 @@ class FcmRegistrationService : JobIntentService() {
         }
 
     override fun onHandleWork(intent: Intent) {
-        ConnectionFactory.waitForInitialization()
+        runBlocking {
+            ConnectionFactory.waitForInitialization()
+        }
         val connection = ConnectionFactory.getConnection(Connection.TYPE_CLOUD) as CloudConnection?
                 ?: return
 

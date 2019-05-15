@@ -12,10 +12,9 @@ package org.openhab.habdroid.util
 import android.content.Context
 import android.net.wifi.WifiManager
 import android.net.wifi.WifiManager.MulticastLock
-import android.os.Handler
-import android.os.Looper
 import android.util.Log
-import java.io.IOException
+import kotlinx.coroutines.*
+import kotlinx.coroutines.channels.Channel
 import java.net.Inet4Address
 import java.net.InetAddress
 import java.net.NetworkInterface
@@ -24,16 +23,19 @@ import javax.jmdns.JmDNS
 import javax.jmdns.ServiceEvent
 import javax.jmdns.ServiceInfo
 import javax.jmdns.ServiceListener
+import kotlin.coroutines.CoroutineContext
 
-class AsyncServiceResolver(context: Context, private val listener: Listener, private val serviceType: String) :
-        Thread(), ServiceListener {
+class AsyncServiceResolver(context: Context, private val serviceType: String) :
+        ServiceListener, CoroutineScope {
+    private val job = Job()
+    override val coroutineContext: CoroutineContext
+        get() = Dispatchers.Main + job
 
     // Multicast lock for mDNS
     private val multicastLock: MulticastLock
     // mDNS service
     private var jmdns: JmDNS? = null
-    private var resolvedServiceInfo: ServiceInfo? = null
-    private val handler: Handler = Handler(Looper.getMainLooper())
+    private val serviceInfoChannel = Channel<ServiceInfo>(0)
 
     private val localIpv4Address: InetAddress?
         get() {
@@ -59,19 +61,13 @@ class AsyncServiceResolver(context: Context, private val listener: Listener, pri
             return null
         }
 
-    interface Listener {
-        fun onServiceResolved(serviceInfo: ServiceInfo)
-        fun onServiceResolveFailed()
-    }
-
     init {
-
         val wifiManager = context.getSystemService(Context.WIFI_SERVICE) as WifiManager
         multicastLock = wifiManager.createMulticastLock("HABDroidMulticastLock")
         multicastLock.setReferenceCounted(true)
     }
 
-    override fun run() {
+    suspend fun resolve(): ServiceInfo? {
         try {
             multicastLock.acquire()
         } catch (e: SecurityException) {
@@ -79,28 +75,19 @@ class AsyncServiceResolver(context: Context, private val listener: Listener, pri
         }
 
         Log.i(TAG, "Discovering service $serviceType")
-        try {
-            /* TODO: This is a dirty fix of some crazy ipv6 incompatibility
-               This workaround makes JMDNS work on local ipv4 address an thus
-               discover openHAB on ipv4 address. This should be fixed to fully
-               support ipv6 in future. */
+
+        withContext(Dispatchers.IO) {
             jmdns = JmDNS.create(localIpv4Address)
-            jmdns?.addServiceListener(serviceType, this)
-        } catch (e: IOException) {
-            Log.e(TAG, e.message)
+            jmdns?.addServiceListener(serviceType, this@AsyncServiceResolver)
         }
 
-        try {
-            // Sleep for specified timeout
-            sleep(DEFAULT_DISCOVERY_TIMEOUT.toLong())
-            if (resolvedServiceInfo == null) {
-                handler.post { listener.onServiceResolveFailed() }
-                shutdown()
-            }
-        } catch (ignored: InterruptedException) {
-            // ignored
+        val info = withTimeoutOrNull(DEFAULT_DISCOVERY_TIMEOUT) {
+            serviceInfoChannel.receive()
         }
 
+        multicastLock.release()
+        jmdns?.close()
+        return info
     }
 
     override fun serviceAdded(event: ServiceEvent) {
@@ -111,32 +98,14 @@ class AsyncServiceResolver(context: Context, private val listener: Listener, pri
     override fun serviceRemoved(event: ServiceEvent) {}
 
     override fun serviceResolved(event: ServiceEvent) {
-        val info = event.info
-        resolvedServiceInfo = info
-        if (info != null) {
-            handler.post { listener.onServiceResolved(info) }
-        }
-        shutdown()
-        interrupt()
-    }
-
-    private fun shutdown() {
-        multicastLock.release()
-        val jmdns = this.jmdns
-        if (jmdns != null) {
-            jmdns.removeServiceListener(serviceType, this)
-            try {
-                jmdns.close()
-            } catch (e: IOException) {
-                // ignore
-            }
-            this.jmdns = null
+        launch {
+            serviceInfoChannel.offer(event.info)
         }
     }
 
     companion object {
         private val TAG = AsyncServiceResolver::class.java.simpleName
 
-        private val DEFAULT_DISCOVERY_TIMEOUT = 3000
+        private val DEFAULT_DISCOVERY_TIMEOUT = 3000L
     }
 }

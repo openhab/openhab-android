@@ -3,17 +3,14 @@ package org.openhab.habdroid.core.connection
 import android.app.Activity
 import android.content.*
 import android.net.ConnectivityManager
-import android.os.Handler
-import android.os.HandlerThread
-import android.os.Looper
-import android.os.Message
 import android.preference.PreferenceManager
 import android.security.KeyChain
 import android.security.KeyChainException
 import android.util.Log
 import androidx.annotation.VisibleForTesting
-import androidx.core.util.Pair
 import de.duenndns.ssl.MemorizingTrustManager
+import kotlinx.coroutines.*
+import kotlinx.coroutines.channels.BroadcastChannel
 import okhttp3.OkHttpClient
 import okhttp3.internal.tls.OkHostnameVerifier
 import okhttp3.logging.HttpLoggingInterceptor
@@ -30,12 +27,11 @@ import java.security.Principal
 import java.security.PrivateKey
 import java.security.cert.X509Certificate
 import java.util.*
-import java.util.concurrent.locks.ReentrantLock
 import javax.net.ssl.KeyManager
 import javax.net.ssl.SSLContext
 import javax.net.ssl.TrustManager
 import javax.net.ssl.X509KeyManager
-import kotlin.concurrent.withLock
+import kotlin.coroutines.CoroutineContext
 
 /**
  * A factory class, which is the main entry point to get a Connection to a specific openHAB
@@ -44,7 +40,9 @@ import kotlin.concurrent.withLock
  * (see the constants in [Connection]).
  */
 class ConnectionFactory internal constructor(private val context: Context, private val prefs: SharedPreferences) :
-        BroadcastReceiver(), SharedPreferences.OnSharedPreferenceChangeListener, Handler.Callback {
+        CoroutineScope, BroadcastReceiver(), SharedPreferences.OnSharedPreferenceChangeListener {
+    override val coroutineContext: CoroutineContext
+        get() = Dispatchers.Main
     private val trustManager: MemorizingTrustManager
     private val httpLogger: HttpLoggingInterceptor
     private var httpClient: OkHttpClient
@@ -61,12 +59,7 @@ class ConnectionFactory internal constructor(private val context: Context, priva
     private var ignoreNextConnectivityChange: Boolean = false
     private var availableInitialized: Boolean = false
     private var cloudInitialized: Boolean = false
-    private val initializationLock = ReentrantLock()
-    private val initializationCondition = initializationLock.newCondition()
-
-    private val updateThread: HandlerThread
-    @VisibleForTesting var updateHandler: Handler
-    @VisibleForTesting var mainHandler: Handler
+    private val initDoneChannel = BroadcastChannel<Boolean>(1)
 
     interface UpdateListener {
         fun onAvailableConnectionChanged()
@@ -95,11 +88,6 @@ class ConnectionFactory internal constructor(private val context: Context, priva
         // Make sure to ignore the initial sticky broadcast, as we're only interested in changes
         ignoreNextConnectivityChange = context.registerReceiver(null, filter) != null
         context.registerReceiver(this, filter)
-
-        updateThread = HandlerThread("ConnectionUpdate")
-        updateThread.start()
-        updateHandler = Handler(updateThread.looper, this)
-        mainHandler = Handler(Looper.getMainLooper(), this)
     }
 
     private fun addListenerInternal(l: UpdateListener) {
@@ -114,7 +102,7 @@ class ConnectionFactory internal constructor(private val context: Context, priva
                 val reason = connectionFailureReason
                 val local = availableConnection === localConnection
                         || (reason is NoUrlInformationException && reason.wouldHaveUsedLocalConnection())
-                if (local) {
+                if (local) launch {
                     triggerConnectionUpdateIfNeeded()
                 }
             }
@@ -129,7 +117,9 @@ class ConnectionFactory internal constructor(private val context: Context, priva
             updateHttpClientForClientCert(false)
         }
         if (UPDATE_TRIGGERING_KEYS.contains(key)) {
-            updateConnections()
+            launch {
+                updateConnections()
+            }
         }
     }
 
@@ -152,46 +142,12 @@ class ConnectionFactory internal constructor(private val context: Context, priva
             // listener registration.
             availableConnection = null
             connectionFailureReason = null
-            initializationLock.withLock {
-                availableInitialized = false
-                needsUpdate = true
-            }
+            availableInitialized = false
+            needsUpdate = true
         } else {
-            triggerConnectionUpdateIfNeeded()
-        }
-    }
-
-    override fun handleMessage(msg: Message): Boolean {
-        when (msg.what) {
-            MSG_UPDATE_AVAILABLE -> { // update thread
-                val connections = msg.obj as Pair<Connection, Connection>
-                with (mainHandler.obtainMessage(MSG_AVAILABLE_DONE)) {
-                    obj = try {
-                        determineAvailableConnection(context, connections.first, connections.second)
-                    } catch (e: ConnectionException) {
-                        e
-                    }
-                    sendToTarget()
-                }
-                return true
+            launch {
+                triggerConnectionUpdateIfNeeded()
             }
-            MSG_UPDATE_CLOUD -> { // update thread
-                val remote = msg.obj as AbstractConnection
-                val cloudConnection = remote.toCloudConnection()
-                mainHandler.obtainMessage(MSG_CLOUD_DONE, cloudConnection).sendToTarget()
-                return true
-            }
-            MSG_AVAILABLE_DONE -> { // main thread
-                val available = if (msg.obj is Connection) msg.obj as Connection else null
-                val failureReason = if (msg.obj is ConnectionException) msg.obj as ConnectionException else null
-                handleAvailableCheckDone(available, failureReason)
-                return true
-            }
-            MSG_CLOUD_DONE -> { // main thread
-                handleCloudCheckDone(msg.obj as CloudConnection?)
-                return true
-            }
-            else -> return false
         }
     }
 
@@ -211,7 +167,7 @@ class ConnectionFactory internal constructor(private val context: Context, priva
     }
 
     @VisibleForTesting
-    fun updateConnections() {
+    suspend fun updateConnections() {
         if (prefs.getBoolean(Constants.PREFERENCE_DEMOMODE, false)) {
             remoteConnection = DemoConnection(httpClient)
             localConnection = remoteConnection
@@ -225,10 +181,8 @@ class ConnectionFactory internal constructor(private val context: Context, priva
                     Constants.PREFERENCE_REMOTE_URL,
                     Constants.PREFERENCE_REMOTE_USERNAME, Constants.PREFERENCE_REMOTE_PASSWORD)
 
-            initializationLock.withLock {
-                availableInitialized = false
-                cloudInitialized = false
-            }
+            availableInitialized = false
+            cloudInitialized = false
             availableConnection = null
             cloudConnection = null
             connectionFailureReason = null
@@ -290,10 +244,8 @@ class ConnectionFactory internal constructor(private val context: Context, priva
             if (updateAvailableConnection(available, failureReason)) {
                 listeners.forEach { l -> l.onAvailableConnectionChanged() }
             }
-            initializationLock.withLock {
-                availableInitialized = true
-                initializationCondition.signalAll()
-            }
+            availableInitialized = true
+            initDoneChannel.offer(availableInitialized && cloudInitialized)
         }
     }
 
@@ -303,36 +255,40 @@ class ConnectionFactory internal constructor(private val context: Context, priva
             CloudMessagingHelper.onConnectionUpdated(context, connection)
             listeners.forEach { l -> l.onCloudConnectionChanged(connection) }
         }
-        initializationLock.withLock {
-            cloudInitialized = true
-            initializationCondition.signalAll()
-        }
+        cloudInitialized = true
+        initDoneChannel.offer(availableInitialized && cloudInitialized)
     }
 
     private fun triggerConnectionUpdateIfNeededAndPending(): Boolean {
-        initializationLock.withLock {
-            if (!needsUpdate) {
-                return false
-            }
-            needsUpdate = false
+        if (!needsUpdate) {
+            return false
+        }
+        needsUpdate = false
+        launch {
             triggerConnectionUpdateIfNeeded()
         }
         return true
     }
 
-    private fun triggerConnectionUpdateIfNeeded() {
-        updateHandler.removeMessages(MSG_UPDATE_AVAILABLE)
-        updateHandler.removeMessages(MSG_UPDATE_CLOUD)
-
+    private suspend fun triggerConnectionUpdateIfNeeded() {
         if (localConnection is DemoConnection) {
             return
         }
-        val connections = Pair.create<Connection, Connection>(localConnection, remoteConnection)
-        updateHandler.obtainMessage(MSG_UPDATE_AVAILABLE, connections).sendToTarget()
-        if (remoteConnection != null) {
-            updateHandler.obtainMessage(MSG_UPDATE_CLOUD, remoteConnection).sendToTarget()
-        } else {
-            mainHandler.obtainMessage(MSG_CLOUD_DONE, null).sendToTarget()
+
+        val availableCheck = if (availableInitialized)
+            null else checkAvailableConnection(localConnection, remoteConnection)
+        val cloudCheck = if (cloudInitialized)
+            null else checkCloudConnection(remoteConnection)
+
+        if (availableCheck != null) {
+            try {
+                handleAvailableCheckDone(availableCheck.await(), null)
+            } catch (e: ConnectionException) {
+                handleAvailableCheckDone(null, e)
+            }
+        }
+        if (cloudCheck != null) {
+            handleCloudCheckDone(cloudCheck.await())
         }
     }
 
@@ -345,6 +301,49 @@ class ConnectionFactory internal constructor(private val context: Context, priva
         return DefaultConnection(httpClient, type, url,
                 prefs.getString(userNameKey, null),
                 prefs.getString(passwordKey, null))
+    }
+
+    private fun checkAvailableConnection(local: Connection?, remote: Connection?) = GlobalScope.async(Dispatchers.Default) {
+        val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val info = connectivityManager.activeNetworkInfo
+
+        if (info == null || !info.isConnected) {
+            Log.e(TAG, "Network is not available")
+            throw NetworkNotAvailableException()
+        }
+
+        when {
+            // If we are on a mobile network go directly to remote URL from settings
+            info.type == ConnectivityManager.TYPE_MOBILE -> {
+                if (remote == null) {
+                    throw NoUrlInformationException(false)
+                }
+                remote
+            }
+            // Else if we are on Wifi, Ethernet, WIMAX or VPN network
+            LOCAL_CONNECTION_TYPES.contains(info.type) -> {
+                // If local URL is configured and reachable
+                if (local != null && local.checkReachabilityInBackground()) {
+                    Log.d(TAG, "Connecting to local URL")
+                    local
+                } else if (remote == null) {
+                    throw NoUrlInformationException(true)
+                } else {
+                    // If local URL is not reachable or not configured, use remote URL
+                    Log.d(TAG, "Connecting to remote URL")
+                    remote
+                }
+            }
+            // Else we treat other networks types as unsupported
+            else -> {
+                Log.e(TAG, "Network type (" + info.typeName + ") is unsupported")
+                throw NetworkNotSupportedException(info)
+            }
+        }
+    }
+
+    private fun checkCloudConnection(conn: AbstractConnection?) = GlobalScope.async(Dispatchers.Default) {
+        conn?.toCloudConnection()
     }
 
     private class ClientKeyManager(context: Context, private val alias: String?) : X509KeyManager {
@@ -419,16 +418,13 @@ class ConnectionFactory internal constructor(private val context: Context, priva
                 Constants.PREFERENCE_SSLCLIENTCERT, Constants.PREFERENCE_DEMOMODE
         )
 
-        private val MSG_UPDATE_AVAILABLE = 0
-        private val MSG_UPDATE_CLOUD = 1
-        private val MSG_AVAILABLE_DONE = 2
-        private val MSG_CLOUD_DONE = 3
-
         @VisibleForTesting lateinit var instance: ConnectionFactory
 
         fun initialize(ctx: Context) {
             instance = ConnectionFactory(ctx, PreferenceManager.getDefaultSharedPreferences(ctx))
-            instance.updateConnections()
+            instance.launch {
+                instance.updateConnections()
+            }
         }
 
         @VisibleForTesting
@@ -438,7 +434,6 @@ class ConnectionFactory internal constructor(private val context: Context, priva
 
         fun shutdown() {
             instance.context.unregisterReceiver(instance)
-            instance.updateThread.quit()
         }
 
         /**
@@ -447,16 +442,11 @@ class ConnectionFactory internal constructor(private val context: Context, priva
          * This method blocks until all asynchronous work (that is, determination of
          * available and cloud connection) is ready, so that [.getConnection]
          * and [.getUsableConnection] can safely be used.
-         *
-         * It MUST NOT be called from the main thread.
          */
-        fun waitForInitialization() {
+        suspend fun waitForInitialization() {
             instance.triggerConnectionUpdateIfNeededAndPending()
-            instance.initializationLock.withLock {
-                while (!instance.availableInitialized || !instance.cloudInitialized) {
-                    instance.initializationCondition.await()
-                }
-            }
+            val sub = instance.initDoneChannel.openSubscription()
+            while (!sub.receive()) {}
         }
 
         fun addListener(l: UpdateListener) {
@@ -470,7 +460,9 @@ class ConnectionFactory internal constructor(private val context: Context, priva
         }
 
         fun restartNetworkCheck() {
-            instance.triggerConnectionUpdateIfNeeded()
+            instance.launch {
+                instance.triggerConnectionUpdateIfNeeded()
+            }
         }
 
         /**
@@ -503,48 +495,6 @@ class ConnectionFactory internal constructor(private val context: Context, priva
          */
         fun getConnection(connectionType: Int): Connection? {
             return instance.getConnectionInternal(connectionType)
-        }
-
-        // called in update thread
-        @Throws(ConnectionException::class)
-        private fun determineAvailableConnection(context: Context,
-                                                 local: Connection?, remote: Connection?): Connection {
-            val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-            val info = connectivityManager.activeNetworkInfo
-
-            if (info == null || !info.isConnected) {
-                Log.e(TAG, "Network is not available")
-                throw NetworkNotAvailableException()
-            }
-
-            // If we are on a mobile network go directly to remote URL from settings
-            if (info.type == ConnectivityManager.TYPE_MOBILE) {
-                if (remote == null) {
-                    throw NoUrlInformationException(false)
-                }
-                return remote
-            }
-
-            // Else if we are on Wifi, Ethernet, WIMAX or VPN network
-            if (LOCAL_CONNECTION_TYPES.contains(info.type)) {
-                // If local URL is configured and reachable
-                if (local != null && local.checkReachabilityInBackground()) {
-                    Log.d(TAG, "Connecting to local URL")
-
-                    return local
-                }
-                // If local URL is not reachable or not configured, try with remote URL
-                if (remote != null) {
-                    Log.d(TAG, "Connecting to remote URL")
-                    return remote
-                } else {
-                    throw NoUrlInformationException(true)
-                }
-                // Else we treat other networks types as unsupported
-            } else {
-                Log.e(TAG, "Network type (" + info.typeName + ") is unsupported")
-                throw NetworkNotSupportedException(info)
-            }
         }
     }
 }

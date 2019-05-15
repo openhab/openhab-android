@@ -22,7 +22,6 @@ import android.nfc.NfcManager
 import android.nfc.Tag
 import android.nfc.tech.Ndef
 import android.nfc.tech.NdefFormatable
-import android.os.AsyncTask
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
@@ -41,13 +40,19 @@ import androidx.core.net.toUri
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import kotlinx.coroutines.*
 
 import org.openhab.habdroid.R
 import org.openhab.habdroid.model.NfcTag
 
 import java.io.IOException
+import kotlin.coroutines.CoroutineContext
 
-class WriteTagActivity : AbstractBaseActivity() {
+class WriteTagActivity : AbstractBaseActivity(), CoroutineScope {
+    private lateinit var job: Job
+    override val coroutineContext: CoroutineContext
+        get() = Dispatchers.Main + job
+
     private var nfcAdapter: NfcAdapter? = null
     private var longUri: Uri? = null
     private var shortUri: Uri? = null
@@ -61,6 +66,8 @@ class WriteTagActivity : AbstractBaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        job = Job()
         setContentView(R.layout.activity_writetag)
 
         setSupportActionBar(findViewById(R.id.openhab_toolbar))
@@ -81,6 +88,11 @@ class WriteTagActivity : AbstractBaseActivity() {
         longUri = intent.getParcelableExtra(EXTRA_LONG_URI)
         shortUri = intent.getParcelableExtra(EXTRA_SHORT_URI)
         Log.d(TAG, "Got URL $longUri (short URI $shortUri)")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        job.cancel()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -116,105 +128,100 @@ class WriteTagActivity : AbstractBaseActivity() {
     }
 
     public override fun onNewIntent(intent: Intent) {
-        object : AsyncTask<Void, Int, Boolean>() {
-            override fun onPreExecute() {
-                val writeTagMessage = findViewById<TextView>(R.id.write_tag_message)
-                writeTagMessage.setText(R.string.info_write_tag_progress)
+        launch {
+            val writeTagMessage = findViewById<TextView>(R.id.write_tag_message)
+            writeTagMessage.setText(R.string.info_write_tag_progress)
+
+            val tag: Tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG)
+            if (writeTag(tag)) {
+                val progressBar = findViewById<ProgressBar>(R.id.nfc_wait_progress)
+                progressBar.isInvisible = true
+
+                val watermark = findViewById<ImageView>(R.id.nfc_watermark)
+                watermark.setImageDrawable(ContextCompat.getDrawable(baseContext,
+                        R.drawable.ic_nfc_black_180dp))
+                Handler().postDelayed(this@WriteTagActivity::finish, 2000)
+            } else {
+                writeTagMessage.setText(R.string.info_write_failed)
             }
+        }
+    }
 
-            override fun doInBackground(vararg p0: Void?): Boolean {
-                val tag: Tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG)
-                Log.d(TAG, "NFC TAG = $tag")
-                Log.d(TAG, "Writing URL $longUri to tag")
+    private suspend fun writeTag(tag: Tag): Boolean = withContext(Dispatchers.Default) {
+        Log.d(TAG, "NFC TAG = $tag")
+        Log.d(TAG, "Writing URL $longUri to tag")
 
-                val longMessage = toNdefMessage(longUri)
-                val shortMessage = toNdefMessage(shortUri)
-                val ndefFormatable = NdefFormatable.get(tag)
+        var success = false
+        val longMessage = toNdefMessage(longUri)
+        val shortMessage = toNdefMessage(shortUri)
+        val ndefFormatable = NdefFormatable.get(tag)
 
-                if (ndefFormatable != null) {
-                    Log.d(TAG, "Tag is uninitialized, formating")
-                    try {
-                        ndefFormatable.connect()
+        if (ndefFormatable != null) {
+            Log.d(TAG, "Tag is uninitialized, formating")
+            try {
+                ndefFormatable.connect()
+                try {
+                    ndefFormatable.format(longMessage)
+                } catch (e: IOException) {
+                    if (shortMessage != null) {
+                        Log.d(TAG, "Try with short uri")
+                        ndefFormatable.format(shortMessage)
+                    }
+                }
+                success = true
+            } catch (e: IOException) {
+                Log.e(TAG, "Writing to unformatted tag failed: $e")
+            } catch (e: FormatException) {
+                Log.e(TAG, "Formatting tag failed: $e")
+            } finally {
+                try {
+                    ndefFormatable.close()
+                } catch (e: IOException) {
+                    Log.e(TAG, "Closing ndefFormatable failed", e)
+                }
+            }
+        } else {
+            Log.d(TAG, "Tag is initialized, writing")
+            val ndef = Ndef.get(tag)
+            if (ndef != null) {
+                try {
+                    Log.d(TAG, "Connecting")
+                    ndef.connect()
+                    Log.d(TAG, "Writing")
+                    if (ndef.isWritable) {
                         try {
-                            ndefFormatable.format(longMessage)
+                            ndef.writeNdefMessage(longMessage)
                         } catch (e: IOException) {
                             if (shortMessage != null) {
                                 Log.d(TAG, "Try with short uri")
-                                ndefFormatable.format(shortMessage)
+                                ndef.writeNdefMessage(shortMessage)
                             }
                         }
-                        return true
+                    }
+                    success = true
+                } catch (e: IOException) {
+                    Log.e(TAG, "Writing to formatted tag failed", e)
+                } catch (e: FormatException) {
+                    Log.e(TAG, "Formatting formatted tag failed", e)
+                } finally {
+                    try {
+                        ndef.close()
                     } catch (e: IOException) {
-                        Log.e(TAG, "Writing to unformatted tag failed: $e")
-                    } catch (e: FormatException) {
-                        Log.e(TAG, "Formatting tag failed: $e")
-                    } finally {
-                        try {
-                            ndefFormatable.close()
-                        } catch (e: IOException) {
-                            Log.e(TAG, "Closing ndefFormatable failed", e)
-                        }
-                    }
-               } else {
-                    Log.d(TAG, "Tag is initialized, writing")
-                    val ndef = Ndef.get(tag)
-                    if (ndef != null) {
-                        try {
-                            Log.d(TAG, "Connecting")
-                            ndef.connect()
-                            Log.d(TAG, "Writing")
-                            if (ndef.isWritable) {
-                                try {
-                                    ndef.writeNdefMessage(longMessage)
-                                } catch (e: IOException) {
-                                    if (shortMessage != null) {
-                                        Log.d(TAG, "Try with short uri")
-                                        ndef.writeNdefMessage(shortMessage)
-                                   }
-                                }
-                            }
-                            return true
-                        } catch (e: IOException) {
-                            Log.e(TAG, "Writing to formatted tag failed", e)
-                        } catch (e: FormatException) {
-                            Log.e(TAG, "Formatting formatted tag failed", e)
-                        } finally {
-                            try {
-                                ndef.close()
-                            } catch (e: IOException) {
-                                Log.e(TAG, "Closing ndef failed", e)
-                            }
-                        }
-                    } else {
-                        Log.e(TAG, "Ndef == null")
+                        Log.e(TAG, "Closing ndef failed", e)
                     }
                 }
-                return false
+            } else {
+                Log.e(TAG, "Ndef == null")
             }
+        }
+        success
+    }
 
-            override fun onPostExecute(result: Boolean?) {
-                val writeTagMessage = findViewById<TextView>(R.id.write_tag_message)
-
-                if (result != null && result) {
-                    val progressBar = findViewById<ProgressBar>(R.id.nfc_wait_progress)
-                    progressBar.isInvisible = true
-
-                    val watermark = findViewById<ImageView>(R.id.nfc_watermark)
-                    watermark.setImageDrawable(ContextCompat.getDrawable(baseContext,
-                            R.drawable.ic_nfc_black_180dp))
-                    Handler().postDelayed(this@WriteTagActivity::finish, 2000)
-                } else {
-                    writeTagMessage.setText(R.string.info_write_failed)
-                }
-            }
-
-            private fun toNdefMessage(uri: Uri?): NdefMessage? {
-                if (uri == null) {
-                    return null
-                }
-                return NdefMessage(arrayOf(NdefRecord.createUri(uri)))
-            }
-        }.execute()
+    private fun toNdefMessage(uri: Uri?): NdefMessage? {
+        if (uri == null) {
+            return null
+        }
+        return NdefMessage(arrayOf(NdefRecord.createUri(uri)))
     }
 
     abstract class AbstractNfcFragment : Fragment() {

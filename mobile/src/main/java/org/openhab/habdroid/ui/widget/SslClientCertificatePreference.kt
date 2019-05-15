@@ -3,7 +3,6 @@ package org.openhab.habdroid.ui.widget
 import android.annotation.TargetApi
 import android.app.Activity
 import android.content.Context
-import android.os.AsyncTask
 import android.os.Build
 import android.preference.Preference
 import android.security.KeyChain
@@ -13,12 +12,17 @@ import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import kotlinx.coroutines.*
 import org.openhab.habdroid.R
 import org.openhab.habdroid.ui.setupHelpIcon
 import org.openhab.habdroid.ui.updateHelpIconAlpha
-import java.security.cert.X509Certificate
+import kotlin.coroutines.CoroutineContext
 
-class SslClientCertificatePreference : Preference {
+class SslClientCertificatePreference : Preference, CoroutineScope {
+    private val job = Job()
+    override val coroutineContext: CoroutineContext
+        get() = Dispatchers.Main + job
+
     private lateinit var activity: Activity
     private var currentAlias: String? = null
     private var helpIcon: ImageView? = null
@@ -91,27 +95,21 @@ class SslClientCertificatePreference : Preference {
         }
     }
 
-    private fun updateSummary(alias: String?) {
-        object : AsyncTask<Preference, Void, X509Certificate>() {
-            override fun doInBackground(vararg preferences: Preference): X509Certificate? {
-                try {
-                    if (alias != null) {
-                        val certificates = KeyChain.getCertificateChain(context, alias)
-                        return certificates.firstOrNull()
-                    }
-                    return null
-                } catch (e: KeyChainException) {
-                    return null
-                } catch (e: InterruptedException) {
-                    return null
+    private fun updateSummary(alias: String?) = launch {
+        val cert = withContext(Dispatchers.Default) {
+            try {
+                if (alias != null) {
+                    val certificates = KeyChain.getCertificateChain(context, alias)
+                    certificates.firstOrNull()
+                } else {
+                    null
                 }
-
+            } catch (e: KeyChainException) {
+                null
+            } catch (e: InterruptedException) {
+                null
             }
-
-            override fun onPostExecute(cert: X509Certificate?) {
-                summary = cert?.subjectDN?.toString()
-                        ?: context.getString(R.string.settings_openhab_none)
-            }
-        }.execute()
+        }
+        summary = cert?.subjectDN?.toString() ?: context.getString(R.string.settings_openhab_none)
     }
 }

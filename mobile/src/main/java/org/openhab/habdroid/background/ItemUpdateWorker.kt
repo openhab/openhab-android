@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.work.Data
 import androidx.work.Worker
 import androidx.work.WorkerParameters
+import kotlinx.coroutines.runBlocking
 import org.openhab.habdroid.core.connection.Connection
 import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.core.connection.exception.ConnectionException
@@ -12,7 +13,9 @@ import java.util.*
 
 class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(context, params) {
     override fun doWork(): Result {
-        ConnectionFactory.waitForInitialization()
+        runBlocking {
+            ConnectionFactory.waitForInitialization()
+        }
 
         val data = inputData
         val connection: Connection
