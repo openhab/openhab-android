@@ -15,10 +15,8 @@ import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.openhab.habdroid.BuildConfig;
 import org.openhab.habdroid.R;
 import org.openhab.habdroid.TestWithoutIntro;
-import org.openhab.habdroid.util.Util;
 
 import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
@@ -100,12 +98,10 @@ public class BasicWidgetTest extends TestWithoutIntro {
                 .perform(scrollToPosition(10))
                 .check(matches(atPositionOnView(10, isDisplayed(), R.id.stop_button)));
 
-        if (Util.isFlavorFull()) {
-            // check whether map view is displayed
-            recyclerView
-                    .perform(scrollToPosition(13))
-                    .check(matches(atPositionOnView(13, isDisplayed(), "MapView")));
-        }
+        // check whether map view is displayed
+        recyclerView
+                .perform(scrollToPosition(13))
+                .check(matches(atPositionOnView(13, isDisplayed(), R.id.mapview)));
     }
 
     public interface ChildViewCallback {
