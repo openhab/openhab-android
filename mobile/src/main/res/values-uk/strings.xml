@@ -125,6 +125,8 @@
     <string name="info_openhab_push_notification_label">Стан Push-сповіщення</string>
     <string name="action_settings">Налаштування</string>
     <string name="nfc_dialog_title">Запишіть дію NFC мітки для цього елемента</string>
+    <string name="nfc_tag_recognized_label">NFC-теґ для \"%s\" розпізнано</string>
+    <string name="nfc_tag_recognized_item">NFC-теґ для елемента \"%s\" розпізнано</string>
     <string name="info_not_set">Не вказано</string>
     <string name="empty_page">На цій сторінці немає віджетів, які можна зробити видимими</string>
     <!-- Background tasks -->
