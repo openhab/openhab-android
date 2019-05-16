@@ -304,12 +304,12 @@ public class WidgetListFragment extends Fragment
 
                 if (url != null) {
                     /** Icon size is defined in {@link AdaptiveIconDrawable}. **/
-                    int foregroundSize = (int) convertDpToPixel(46, context);
+                    int foregroundSize = (int) Util.convertDpToPixel(46, context);
                     Bitmap bitmap = connection.getSyncHttpClient().get(url)
                             .asBitmap(foregroundSize).response;
                     if (bitmap != null) {
                         bitmap = addBackgroundAndBorder(bitmap,
-                                (int) convertDpToPixel(31, context));
+                                (int) Util.convertDpToPixel(31, context));
                         icon = IconCompat.createWithAdaptiveBitmap(bitmap);
                     }
                 }
@@ -371,19 +371,6 @@ public class WidgetListFragment extends Fragment
         canvas.drawColor(Color.WHITE);
         canvas.drawBitmap(bitmap, borderSize, borderSize, null);
         return bitmapWithBackground;
-    }
-
-    /**
-     * This method converts dp unit to equivalent pixels, depending on device density.
-     *
-     * @param dp A value in dp (density independent pixels) unit. Which we need to convert into
-     *          pixels
-     * @param context Context to get resources and device specific display metrics
-     * @return A float value to represent px equivalent to dp depending on device density
-     */
-    public static float convertDpToPixel(float dp, Context context) {
-        return dp * ((float) context.getResources().getDisplayMetrics().densityDpi
-                / DisplayMetrics.DENSITY_DEFAULT);
     }
 
     public static WidgetListFragment withPage(String pageUrl, String pageTitle) {
