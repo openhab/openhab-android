@@ -789,7 +789,7 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
                 if (parsedState == null) {
                     return;
                 }
-                String state = parsedState.toString();
+                String state = parsedState.asString();
                 if (state.equals(mRadioGroup.getChildAt(0).getTag().toString())) {
                     onClick(mRadioGroup.getChildAt(1));
                 } else if (state.equals(mRadioGroup.getChildAt(1).getTag().toString())) {
