@@ -232,7 +232,7 @@ public abstract class ParsedState implements Parcelable {
                 }
                 // Do our best to avoid parsing e.g. HSV values into location by
                 // sanity checking the values
-                if (Math.abs(l.getLatitude()) <= 90 && Math.abs(l.getLongitude()) <= 90) {
+                if (Math.abs(l.getLatitude()) <= 90 && Math.abs(l.getLongitude()) <= 180) {
                     return l;
                 }
             } catch (NumberFormatException e) {
