@@ -49,7 +49,7 @@ public class AsyncHttpClient extends HttpClient {
 
         @Override
         public Bitmap convertBodyInBackground(ResponseBody body) throws IOException {
-            return getBitmapFromSvgInputstream(body, mSize);
+            return getBitmapFromResponseBody(body, mSize);
         }
     }
 

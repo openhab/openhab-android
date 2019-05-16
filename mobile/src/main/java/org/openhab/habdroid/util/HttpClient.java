@@ -122,7 +122,7 @@ public abstract class HttpClient {
         return builder;
     }
 
-    protected static Bitmap getBitmapFromSvgInputstream(ResponseBody body, int size)
+    protected static Bitmap getBitmapFromResponseBody(ResponseBody body, int size)
             throws IOException {
         MediaType contentType = body.contentType();
         boolean isSvg = contentType != null

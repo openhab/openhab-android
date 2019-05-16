@@ -63,8 +63,8 @@ public class SyncHttpClient extends HttpClient {
             return new HttpTextResult(this);
         }
 
-        public HttpBitmapResult asBitmap(int sizeInPixel) {
-            return new HttpBitmapResult(this, sizeInPixel);
+        public HttpBitmapResult asBitmap(int sizeInPixels) {
+            return new HttpBitmapResult(this, sizeInPixels);
         }
 
         public HttpStatusResult asStatus() {
@@ -134,7 +134,7 @@ public class SyncHttpClient extends HttpClient {
                 Bitmap response = null;
                 Throwable error = result.error;
                 try {
-                    response = getBitmapFromSvgInputstream(result.response, size);
+                    response = getBitmapFromResponseBody(result.response, size);
                 } catch (IOException e) {
                     error = e;
                 }

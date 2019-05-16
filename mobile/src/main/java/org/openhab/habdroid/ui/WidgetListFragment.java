@@ -330,9 +330,6 @@ public class WidgetListFragment extends Fragment
                 }
 
                 Uri sitemapUri = Uri.parse(linkedPage.link());
-                if (sitemapUri == null) {
-                    return;
-                }
                 String shortSitemapUri = sitemapUri.getPath().substring(14);
 
                 Intent startIntent = new Intent(context, MainActivity.class);
