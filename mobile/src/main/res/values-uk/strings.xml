@@ -73,6 +73,7 @@
     <string name="info_conn_rem_url">Підключення до віддаленого URL</string>
     <string name="app_shortcut_diabled_habpanel">Ваш сервер не має встановленої HABPanel</string>
     <string name="app_shortcut_diabled_notifications">Ваш віддалений сервер недоступний</string>
+    <string name="app_shortcut_diabled_voice_recognition">На вашому пристрої не встановлено застосунок розпізнавання мови</string>
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB повернув порожній список сторінок інтерфейсу</string>
     <string name="error_sitemap_generic_load_error">Неможливо завантажити Sitemap. Сталася помилка: %1$s</string>
@@ -107,6 +108,9 @@
     <string name="error_http_code_511">Необхідна аутентифікації мережі (код відповіді HTTP 511)</string>
     <string name="error_about_no_conn">Помилка під час отримання інформації з сервера openHAB</string>
     <string name="error_openhab_offline">Сервер openHAB недоступний, але його хмарний екземпляр працює</string>
+    <string name="error_no_browser_found">На пристрої не знайдено браузер</string>
+    <string name="error_no_speech_to_text_app_found">Не знайдено застосунок розпізнавання мови</string>
+    <string name="install">Встановити</string>
     <string name="title_activity_openhabwritetag">Запис NFC мітки</string>
     <string name="title_activity_libraries">Використані бібліотеки</string>
     <string name="info_write_tag">Доторкніться до NFС мітки і притримайте доки не з’явиться підтвердження</string>
@@ -121,6 +125,8 @@
     <string name="info_openhab_push_notification_label">Стан Push-сповіщення</string>
     <string name="action_settings">Налаштування</string>
     <string name="nfc_dialog_title">Запишіть дію NFC мітки для цього елемента</string>
+    <string name="nfc_tag_recognized_label">NFC-теґ для \"%s\" розпізнано</string>
+    <string name="nfc_tag_recognized_item">NFC-теґ для елемента \"%s\" розпізнано</string>
     <string name="info_not_set">Не вказано</string>
     <string name="empty_page">На цій сторінці немає віджетів, які можна зробити видимими</string>
     <!-- Background tasks -->
@@ -138,6 +144,12 @@
     <string name="notification_channel_background_description">Використовується для відображення очікуючих фонових процесів</string>
     <string name="notification_channel_background_error">Помилка у фонових процесах</string>
     <string name="notification_channel_background_error_description">Використовуються для сповіщення про помилки у фонових завданнях</string>
+    <plurals name="item_update_error_title">
+        <item quantity="one">Неможливо оновити %d об\'єкт</item>
+        <item quantity="few">Неможливо оновити %d об\'єкти</item>
+        <item quantity="many">Неможливо оновити %d об\'єктів</item>
+        <item quantity="other">Неможливо оновити %d об\'єктів</item>
+    </plurals>
     <string name="item_update_http_error">Об\'єкт \'%1$s\' оновлення не вдалося (HTTP error %2$d)</string>
     <string name="item_update_connection_error">Об\'єкт \'%1$s\' оновлення не вдалося (немає підключення)</string>
     <string name="error_sending_alarm_clock_item_empty">Будь ласка, введіть припустиме ім\'я об\'єкта</string>

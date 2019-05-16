@@ -9,9 +9,14 @@
     <!-- Main menu items -->
     <string name="mainmenu_openhab_sitemaps">Site Haritası</string>
     <string name="mainmenu_openhab_preferences">Ayarlar</string>
+    <string name="mainmenu_openhab_habpanel">HABPanel</string>
     <string name="habpanel_error">HABPanel yüklenirken bir hata oluştu</string>
+    <string name="mainmenu_openhab_selectsitemap">Varsayılan Sitemap \'i seç</string>
     <string name="mainmenu_openhab_clearcache">Resim önbelleğini temizle</string>
     <!-- App settings strings -->
+    <string name="settings_connection_title">Bağlantı</string>
+    <string name="settings_display_title">Görüntüle</string>
+    <string name="settings_misc_title">Çeşitli</string>
     <string name="settings_openhab_url">Yerel sunucu URL\'si</string>
     <string name="settings_openhab_url_summary">openHAB panel URL\'si (Ana bilgisayar adına ya da IP\'ye göre). Eğer yapılandırılmışsa, otomatik keşfetme devredışı bırakılır. Geçerli ayar: %s</string>
     <string name="settings_openhab_alturl">Uzak sunucu URL\'si</string>
@@ -25,27 +30,54 @@
     <string name="settings_openhab_screentimeroff">Ekran Zamanlayıcısını devre dışı bırak</string>
     <string name="settings_openhab_screentimeroff_summary">openHAB çalışırken ekran kapatma zamanlayıcısını devre dışı bırakınız</string>
     <string name="settings_openhab_demomode">Deneme Modu</string>
+    <string name="settings_openhab_demomode_summary">openHAB sunucunuz yoksa, openHAB\'ın ne yapabileceğini hayal etmek için demo modunu etkinleştirin.</string>
     <string name="settings_openhab_theme">Tema</string>
     <string name="settings_openhab_fullscreen">Tam Ekran</string>
     <string name="settings_openhab_fullscreen_summary">Tam ekran modunda görüntüle</string>
     <string name="settings_openhab_icon_format">Simge formatı</string>
     <string name="settings_openhab_icon_format_png">Bitmap</string>
     <string name="settings_openhab_icon_format_svg">Vektör</string>
+    <string name="settings_chart_scaling">Grafik ölçekleme</string>
+    <string name="settings_chart_scaling_summary">Not: Daha küçük ölçeklendirme yazı tiplerini ve çizgi genişliklerini küçültür, böylece grafik için daha fazla alan vardır, ancak yazı okunabilirliği sorun yaşatabilir.</string>
+    <string name="settings_chart_scaling_value_xs">Çok küçük</string>
+    <string name="settings_chart_scaling_value_s">Küçük</string>
+    <string name="settings_chart_scaling_value_m">Varsayılan</string>
+    <string name="settings_chart_scaling_value_l">Büyük</string>
+    <string name="settings_openhab_chart_hq">Yüksek çözünürlüklü grafikler</string>
+    <string name="settings_openhab_chart_hq_summary">Oluşturulan grafikler sunucuya ek yük getirebilir. Yavaş grafik yükleme süreleri yaşıyorsanız ve sunucunuz güçlü değilse, yükleme sürelerini iyileştirmek için bu seçeneği devre dışı bırakın.</string>
+    <string name="settings_ringtone">Bildirim zil sesi</string>
+    <string name="settings_ringtone_none">Hiçbiri</string>
+    <string name="settings_clear_default_sitemap">Varsayılan Sitemap\'ı temizle</string>
     <string name="settings_no_default_sitemap">Herhangi bir varsayılan Sitemap seçilmedi</string>
+    <string name="settings_current_default_sitemap">Geçerli varsayılan Sitemap: %1$s</string>
     <string name="settings_openhab_alt_connection">Uzak</string>
     <string name="settings_openhab_connection">Yerel</string>
+    <string name="settings_notification_vibration">Bildirim titreşimi</string>
+    <string name="settings_notification_vibration_off">Kapalı</string>
+    <string name="settings_notification_vibration_short">Kısa</string>
+    <string name="settings_notification_vibration_long">Uzun</string>
+    <string name="settings_notification_vibration_twice">Iki kez</string>
+    <string name="settings_notification_ringtone_vibration">Bildirim ayarları</string>
     <string name="settings_connection_summary">%s Bağlanıldı</string>
     <string name="settings_insecure_connection_summary">Güvenli bir şekilde %s\' e bağlandı</string>
+    <string name="beta">Beta</string>
     <!-- App messages strings -->
+    <string name="title_voice_widget">Sesli komutlar</string>
+    <string name="title_voice_widget_icon">Sesli komutlar ve uygulama kısayolu</string>
     <string name="info_voice_input">openHAB Emrinizdedir!</string>
     <string name="info_voice_recognized_text">Tanımlanmış Emir: %1$s</string>
     <string name="info_demo_mode_short">Demo modunda çalışıyor</string>
     <!-- Please try to keep the string as short as possible -->
+    <string name="turn_off">Kapat</string>
     <string name="info_conn_url">Yerel Sunucuya Bağlanıyor</string>
     <string name="info_conn_rem_url">Uzak URL\'ye Bağlanıyor</string>
+    <string name="app_shortcut_diabled_habpanel">Sunucunuzda yüklü HABPanel yok</string>
+    <string name="app_shortcut_diabled_notifications">Uzak sunucu kullanılamıyor</string>
     <!-- Error messages -->
     <string name="error_empty_sitemap_list">openHAB boş Sitemap listesine döndü</string>
+    <string name="error_sitemap_generic_load_error">Sitemap yüklenmemiş olabilir. Şu hata oluştu: %1$s</string>
     <string name="error_network_not_available">Network müsait değil</string>
+    <string name="error_wifi_not_available">Wi-Fi kapatıldı</string>
     <string name="error_http_connection_failed">Bağlantı başarısız. Yapılandırılmış openHAB sunucusuna bağlanmaya çalışırken beklenmeyen bir yanıt alındı ​​(Alınan HTTP yanıt kodu: %d).</string>
     <string name="error_invalid_url">Lütfen \'http(s)://host:(port)/\' formunda geçerli bir URL giriniz</string>
     <string name="error_port_seems_invalid">Girdiğiniz port numarası seçili protokol için yanlış görünüyor</string>
@@ -53,12 +85,30 @@
     <string name="error_unable_to_resolve_hostname">Ana cihaz adı çözülemiyor</string>
     <string name="error_connection_sslhandshake_failed">SSL Handshake başarısız oldu Muhtemelen geçerli bir müşteri sertifikasına ihtiyacınız vardır</string>
     <string name="error_certificate_not_trusted">SSL sertifikasına güvenilmiyor. Lütfen kök sertifikayı içe aktarın ya da SSL sertifika doğrulamasını etkisiz hale getirin.</string>
+    <string name="error_certificate_expired">SSL sertifikasının süresi doldu. Lütfen yeni bir sertifika edinin ya da SSL handshake esnasında sertifika doğrulamasını etkisiz hale getirin.</string>
+    <string name="error_certificate_not_valid_yet">SSL sertifikası henüz geçerli değil. Lütfen geçerli bir sertifika edinin ya da SSL handshake esnasında sertifika doğrulamasını etkisiz hale getirin. Ayrıca cihazınızdaki saat ayarının doğruluğunu kontrol ediniz.</string>
     <string name="error_certificate_invalid_date">SSL sertifikasının tarihi geçersiz. Lütfen doğru bir sertifika alın ve aygıtınızın saatinin doğru şekilde ayarlanmış olduğundan emin olun.</string>
     <string name="error_certificate_revoked">SSL sertifikasının süresi doldu. Lütfen yeni bir sertifika edinin ya da SSL handshake esnasında sunulan sertifika\' yı kabul edin.</string>
+    <string name="error_certificate_wrong_host">SSL sertifikası %s için geçerli değildir</string>
+    <string name="error_http_to_https_port">Beklenmeyen akış sonu. Bir HTTPS bağlantı noktasına HTTP üzerinden bağlanmaya mı çalışıyorsunuz?</string>
+    <string name="webview_ssl">Şu anda bu uygulama için Webview widget otomatik olarak imzalanan SSL sertifikalarını desteklemiyor</string>
+    <string name="error_http_code_401">Kullanıcı kimlik doğrulaması başarısız oldu. Lütfen kullanıcı adını, şifreyi ve SSL müşteri sertifikasını kontrol ediniz (HTTP yanıt kodu 401).</string>
+    <string name="error_http_code_403">Kullanıcı kimlik doğrulaması başarısız oldu. Lütfen kullanıcı adınızı, şifrenizi ve SSL müşteri sertifikanızı gözden geçirin (HTTP yanıt kodu 403).</string>
+    <string name="error_http_code_407">Kullanıcı kimlik doğrulaması başarısız oldu. Lütfen kullanıcı adınızı, şifrenizi ve SSL müşteri sertifikanızı gözden geçirin (HTTP yanıt kodu 407).</string>
+    <string name="error_http_code_414">URL çok uzun. Lütfen IP adresi veya daha kısa URL (HTTP yanıt kodu 414) kullanın.</string>
+    <string name="error_http_code_426">HTTPS gereklidir. Lütfen openHAB URL\'sini değiştirin (HTTP yanıt kodu 426).</string>
     <!-- Nginx specific codes, but since it is the recommended reverse proxy, we should check for them: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#nginx -->
+    <string name="error_http_code_495">Kullanıcı kimlik doğrulaması başarısız oldu. Lütfen SSL müşteri sertifikanızı gözden geçirin (HTTP yanıt kodu 495).</string>
     <string name="error_http_code_496">SSL müşteri sertifikası gereklidir (HTTP yanıt kodu 496)</string>
+    <string name="error_http_code_502">Ters proxy\'iniz openHAB\'tan geçersiz bir yanıt aldı (HTTP yanıt kodu 502)</string>
+    <string name="error_http_code_503">openHAB geçici olarak kullanım dışı (HTTP yanıt kodu 503)</string>
+    <string name="error_http_code_504">Gateway zaman aşımı. Görünüşe göre sizin ters proxy\'iniz çalışıyor, fakat openHAB\'dan bir cevap alamıyor (HTTP yanıt kodu 504).</string>
+    <string name="error_http_code_507">openHAB yeteri kadar boş alana sahip değil (HTTP yanıt kodu 507)</string>
     <string name="error_http_code_511">Network kimlik doğrulaması gereklidir (HTTP yanıt kodu 511)</string>
+    <string name="error_about_no_conn">openHAB\'tan sunucu bilgileri alınırken bir hata oluştu</string>
+    <string name="error_openhab_offline">Bulut örneğinin çalıştığı sırada, openHAB sunucu çevrimdışı</string>
     <string name="title_activity_openhabwritetag">NFC etiketini yazınız</string>
+    <string name="title_activity_libraries">Kullanılan kütüphaneler</string>
     <string name="info_write_tag">Doğrulama mesajı gözükene kadar etikete dokunun ve kapalı halde tutunuz</string>
     <string name="info_write_tag_progress">Etkiket yazılıyor</string>
     <string name="info_write_tag_finished">Başarılı bir şekilde bitirildi</string>
@@ -68,10 +118,18 @@
     <string name="info_openhab_apiversion_label">openHAB Rest API versiyon</string>
     <string name="info_openhab_uuid_label">openHAB UUID</string>
     <string name="info_openhab_secret_label">openHAB Parola</string>
+    <string name="info_openhab_push_notification_label">Push bildirimleri</string>
     <string name="action_settings">Ayarlar</string>
     <string name="nfc_dialog_title">Bu element için NFC eylem etiketi yazınız</string>
     <string name="info_not_set">Ayarlı değil</string>
+    <string name="empty_page">Bu sayfa görüntülenecek herhangi bir widget içermiyor</string>
     <!-- Background tasks -->
+    <string name="send_device_info_to_server">Sunucu bilgilerini sunucuya gönder</string>
+    <string name="send_device_info_item_prefix">Öğe adı ön eki</string>
+    <string name="send_device_info_item_prefix_summary">Aşağıdaki özelliklerin öğe adları bu ön eke sahiptir</string>
+    <string name="settings_alarm_clock">Çalar saati openHAB\'a gönder</string>
+    <string name="settings_alarm_clock_summary_on">Çalar saat zamanını \'%1$s \' öğesine gönderir</string>
+    <string name="settings_alarm_clock_summary_off">Çalar saat zamanını sunucuya gönderme</string>
     <!-- Notification list strings -->
     <!-- Strings for MemorizingTrustManager activity -->
     <string name="mtm_connect_anyway">Yine de bağlanmak istiyor musunuz?</string>
@@ -103,14 +161,36 @@
     <string name="error_network_type_unsupported">(%s) Network tipi desteklenmiyor</string>
     <string name="set">Ayarla</string>
     <string name="cancel">İptal Et</string>
+    <string name="no_remote_server">Yerel sunucuya bağlantı başarısız oldu ve yapılandırılmış bir uzak sunucunuz yok</string>
+    <string name="resolving_openhab">openHAB serveri bulma deneniyor\u2026</string>
+    <string name="waiting_for_wifi">Wi-Fi için bağlantısının kurulması bekleniyor\u2026</string>
     <!-- Log -->
+    <string name="log">Günlük kayıtları</string>
+    <string name="view_log">Sistem günlüklerini göster</string>
+    <string name="clear_log">Sistem günlüklerini temizle</string>
+    <string name="empty_log">Günlük kaydı boş</string>
     <!-- Content description for images -->
+    <string name="content_description_open_roller_shutter">Panjurları aç</string>
+    <string name="content_description_stop_roller_shutter">Kepenkleri durdur</string>
+    <string name="content_description_close_roller_shutter">Kepenkleri kapat</string>
+    <string name="content_description_open_color_wheel">Renk Tekerleğini Aç</string>
+    <string name="content_description_color_up">Işığı aç yada ışık şiddetini artırmak için basılı tut</string>
+    <string name="content_description_color_down">Işığı kapat yada yada ışık şiddetini azaltmak için basılı tut</string>
+    <string name="content_description_open_number_picker">Numara Seçiciyi aç</string>
+    <string name="content_description_video">Video</string>
+    <string name="content_description_open_openhab">openHAB\'ı aç</string>
+    <string name="swipe_to_refresh_description">Bu uygulama aynı zamanda kendini otomatik yeniler, tekrar yenilemene gerek yok</string>
+    <string name="swipe_to_refresh_dismiss">Anladım!</string>
     <!-- Intro strings -->
     <string name="app_intro">Giriş</string>
     <string name="intro_welcome">openHAB\'a Hoş geldiniz</string>
     <string name="intro_whatis">Eviniz için sağlayıcı ve yeni teknolojiye geçişlerden etkilenmeyen açık kaynak otomasyon yazılımı</string>
     <string name="intro_themes">Temalar</string>
     <string name="intro_themes_description">Çeşitli temalar arasından seçim yap</string>
+    <string name="intro_voice_description">Evinizi sesinizle kontrol edin</string>
+    <string name="intro_nfc_description">Öğe kontrolü, Öğe\'ye uzun süre basılarak NFC etiketlerine bağlanabilir</string>
     <!-- Intro "SKIP" button -->
+    <string name="app_intro_skip_button">GEÇ</string>
     <!-- Intro "DONE" button -->
+    <string name="app_intro_done_button">TAMAM</string>
 </resources>
