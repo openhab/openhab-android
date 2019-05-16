@@ -10,7 +10,6 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
-
 import androidx.core.content.ContextCompat;
 
 import org.openhab.habdroid.R;
@@ -47,6 +46,7 @@ public class MapViewHelper {
     private static class OsmViewHolder extends WidgetAdapter.LabeledItemBaseViewHolder
             implements Marker.OnMarkerDragListener {
         private final MapView mMapView;
+        private final Handler mHandler;
         private final int mRowHeightPixels;
         private Item mBoundItem;
         private boolean mStarted;
@@ -54,6 +54,7 @@ public class MapViewHelper {
         public OsmViewHolder(LayoutInflater inflater, ViewGroup parent,
                 Connection connection, WidgetAdapter.ColorMapper colorMapper) {
             super(inflater, parent, R.layout.openhabwidgetlist_mapitem, connection, colorMapper);
+            mHandler = new Handler();
             mMapView = itemView.findViewById(R.id.mapview);
             mMapView.setTileSource(TileSourceFactory.MAPNIK);
 
@@ -74,7 +75,7 @@ public class MapViewHelper {
                 }
             }));
 
-            new Handler().post(() -> applyPositionAndLabel(mMapView, 15.0f, false, false));
+            applyPositionAndLabelWhenReady(mMapView, 15.0f, false, false);
 
             final Resources res = itemView.getContext().getResources();
             mRowHeightPixels = res.getDimensionPixelSize(R.dimen.row_height);
@@ -93,7 +94,7 @@ public class MapViewHelper {
             }
 
             mBoundItem = widget.item();
-            new Handler().post(() -> applyPositionAndLabel(mMapView, 15.0f, false, false));
+            applyPositionAndLabelWhenReady(mMapView, 15.0f, false, false);
         }
 
         @Override
@@ -141,9 +142,7 @@ public class MapViewHelper {
                     .setNegativeButton(R.string.close, null)
                     .create();
 
-            dialog.setOnDismissListener(dialogInterface -> {
-                mapView.onPause();
-            });
+            dialog.setOnDismissListener(dialogInterface -> mapView.onPause());
             dialog.setCanceledOnTouchOutside(true);
             dialog.show();
 
@@ -152,7 +151,12 @@ public class MapViewHelper {
             mapView.setVerticalMapRepetitionEnabled(false);
             mapView.getOverlays().add(new CopyrightOverlay(itemView.getContext()));
             mapView.onResume();
-            new Handler().post(() -> applyPositionAndLabel(mapView, 16.0f, true, true));
+            applyPositionAndLabelWhenReady(mapView, 16.0f, true, true);
+        }
+
+        private void applyPositionAndLabelWhenReady(MapView mapView, float zoomLevel,
+                boolean allowDrag, boolean allowScroll) {
+            mHandler.post(() -> applyPositionAndLabel(mapView, zoomLevel, allowDrag, allowScroll));
         }
 
         private void applyPositionAndLabel(MapView mapView, float zoomLevel, boolean allowDrag,
