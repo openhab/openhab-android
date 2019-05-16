@@ -785,7 +785,11 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
             if (visibleChildCount == 1) {
                 onClick(mRadioGroup.getChildAt(0));
             } else if (visibleChildCount == 2) {
-                String state = mBoundItem.state().asString();
+                ParsedState parsedState = mBoundItem.state();
+                if (parsedState == null) {
+                    return;
+                }
+                String state = parsedState.asString();
                 if (state.equals(mRadioGroup.getChildAt(0).getTag().toString())) {
                     onClick(mRadioGroup.getChildAt(1));
                 } else if (state.equals(mRadioGroup.getChildAt(1).getTag().toString())) {
