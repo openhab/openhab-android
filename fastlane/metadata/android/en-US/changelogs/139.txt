@@ -1,0 +1,6 @@
+## Fixed
+* Fix crash in SectionSwitchViewHolder#handleRowClick() (#1361)
+* Fix location parsing sanity check. (#1360)
+
+## Changed
+* Updated translations
