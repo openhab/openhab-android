@@ -13,13 +13,13 @@ import java.net.SocketTimeoutException
 import java.net.URL
 
 abstract class AbstractConnection : Connection {
-    override val connectionType: Int
-    override val username: String?
-    override val password: String?
+    final override val connectionType: Int
+    final override val username: String?
+    final override val password: String?
     private val baseUrl: String
 
-    override val asyncHttpClient: AsyncHttpClient
-    override val syncHttpClient: SyncHttpClient
+    final override val asyncHttpClient: AsyncHttpClient
+    final override val syncHttpClient: SyncHttpClient
 
     internal constructor(httpClient: OkHttpClient, connectionType: Int,
                          baseUrl: String, username: String?, password: String?) {
@@ -46,7 +46,7 @@ abstract class AbstractConnection : Connection {
         Log.d(TAG, "Checking reachability of $baseUrl")
         try {
             val url = URL(baseUrl)
-            var checkPort = when {
+            val checkPort = when {
                 url.protocol == "http" && url.port == -1 -> 80
                 url.protocol == "http" && url.port == -1 -> 443
                 else -> url.port

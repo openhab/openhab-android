@@ -100,7 +100,7 @@ class SslClientCertificatePreference : Preference, CoroutineScope {
             try {
                 if (alias != null) {
                     val certificates = KeyChain.getCertificateChain(context, alias)
-                    certificates.firstOrNull()
+                    certificates?.firstOrNull()
                 } else {
                     null
                 }

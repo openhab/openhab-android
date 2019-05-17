@@ -40,9 +40,9 @@ class SegmentedControlButton : AppCompatRadioButton {
     private val backgroundColorList: ColorStateList?
     private val backgroundPaint: Paint?
 
-    constructor(context: Context, attrs: AttributeSet) : this(context, attrs, 0)
+    constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
 
-    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
+    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
         buttonDrawable = null
 
         val a = if (attrs != null) context.obtainStyledAttributes(attrs, R.styleable.SegmentedControlButton) else null

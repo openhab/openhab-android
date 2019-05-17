@@ -500,7 +500,7 @@ class PageConnectionHolderFragment : Fragment() {
             }
 
             companion object {
-                private val MAX_RETRIES = 10
+                private const val MAX_RETRIES = 10
             }
         }
     }

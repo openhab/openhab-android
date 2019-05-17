@@ -297,8 +297,8 @@ class WriteTagActivity : AbstractBaseActivity(), CoroutineScope {
 
     companion object {
         private val TAG = WriteTagActivity::class.java.simpleName
-        private val EXTRA_LONG_URI = "longUri"
-        private val EXTRA_SHORT_URI = "shortUri"
+        private const val EXTRA_LONG_URI = "longUri"
+        private const val EXTRA_SHORT_URI = "shortUri"
 
         fun createItemUpdateIntent(context: Context, itemName: String, state: String,
                                    mappedState: String, label: String): Intent {

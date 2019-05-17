@@ -16,6 +16,7 @@ import androidx.annotation.DrawableRes
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.CloudConnection
 
+@Suppress("UNUSED_PARAMETER")
 object CloudMessagingHelper {
 
     val pushNotificationIconResId: Int

@@ -43,19 +43,21 @@ fun WebView.setUpForConnection(connection: Connection, url: String) {
                 connection.username, connection.password)
     }
 
-    getSettings().setDomStorageEnabled(true)
-    getSettings().setJavaScriptEnabled(true)
-    getSettings().setSupportMultipleWindows(true)
+    with (settings) {
+        domStorageEnabled = true
+        javaScriptEnabled = true
+        setSupportMultipleWindows(true)
+    }
 
-    setWebChromeClient(object : WebChromeClient() {
+    webChromeClient = object : WebChromeClient() {
         override fun onCreateWindow(view: WebView, dialog: Boolean,
                                     userGesture: Boolean, resultMsg: Message): Boolean {
-            val href = view.getHandler().obtainMessage()
+            val href = view.handler.obtainMessage()
             view.requestFocusNodeHref(href)
-            href.getData().getString("url")?.toUri().openInBrowser(view.context)
+            href.data.getString("url")?.toUri().openInBrowser(view.context)
             return false
         }
-    })
+    }
 }
 
 fun ImageView.setupHelpIcon(url: String, contentDescription: String) {

@@ -5,13 +5,13 @@ import android.net.Uri
 data class NfcTag(val sitemap: String?, val item: String?, val label: String?,
                   val state: String?, val mappedState: String?) {
     companion object {
-        val SCHEME = "openhab"
-        val QUERY_PARAMETER_ITEM_NAME = "i"
-        val DEPRECATED_QUERY_PARAMETER_ITEM_NAME = "item"
-        val QUERY_PARAMETER_STATE = "s"
-        val DEPRECATED_QUERY_PARAMETER_STATE = "command"
-        val QUERY_PARAMETER_MAPPED_STATE = "m"
-        val QUERY_PARAMETER_ITEM_LABEL = "l"
+        const val SCHEME = "openhab"
+        const val QUERY_PARAMETER_ITEM_NAME = "i"
+        const val DEPRECATED_QUERY_PARAMETER_ITEM_NAME = "item"
+        const val QUERY_PARAMETER_STATE = "s"
+        const val DEPRECATED_QUERY_PARAMETER_STATE = "command"
+        const val QUERY_PARAMETER_MAPPED_STATE = "m"
+        const val QUERY_PARAMETER_ITEM_LABEL = "l"
     }
 }
 

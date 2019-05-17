@@ -250,9 +250,9 @@ class AboutActivity : AbstractBaseActivity(), FragmentManager.OnBackStackChanged
                             refreshMaterialAboutList()
                         }
 
-                        override fun onSuccess(body: String, headers: Headers) {
-                            Log.d(TAG, "Got secret " + body.obfuscate())
-                            secretItem.subText = if (body.isEmpty()) getString(R.string.unknown) else body
+                        override fun onSuccess(response: String, headers: Headers) {
+                            Log.d(TAG, "Got secret " + response.obfuscate())
+                            secretItem.subText = if (response.isEmpty()) getString(R.string.unknown) else response
                             refreshMaterialAboutList()
                         }
                     })
@@ -310,7 +310,7 @@ class AboutActivity : AbstractBaseActivity(), FragmentManager.OnBackStackChanged
 
         companion object {
             private val TAG = AboutMainFragment::class.java.simpleName
-            private val URL_TO_GITHUB = "https://github.com/openhab/openhab-android"
+            private const val URL_TO_GITHUB = "https://github.com/openhab/openhab-android"
         }
     }
 }

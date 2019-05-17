@@ -22,7 +22,6 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-
 import okhttp3.Call
 import okhttp3.Headers
 import okhttp3.Request
@@ -31,14 +30,11 @@ import org.json.JSONException
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.Connection
 import org.openhab.habdroid.core.connection.ConnectionFactory
-import org.openhab.habdroid.model.CloudNotification
 import org.openhab.habdroid.model.toCloudNotification
 import org.openhab.habdroid.ui.widget.DividerItemDecoration
 import org.openhab.habdroid.util.AsyncHttpClient
 import org.openhab.habdroid.util.map
-
-import java.util.ArrayList
-import java.util.Locale
+import java.util.*
 
 /**
  * Mandatory empty constructor for the fragment manager to instantiate the
@@ -183,7 +179,7 @@ class CloudNotificationListFragment : Fragment(), View.OnClickListener, SwipeRef
     companion object {
         private val TAG = CloudNotificationListFragment::class.java.simpleName
 
-        private val PAGE_SIZE = 20
+        private const val PAGE_SIZE = 20
 
         fun newInstance(highlightedId: String?): CloudNotificationListFragment {
             val f = CloudNotificationListFragment()

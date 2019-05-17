@@ -60,16 +60,16 @@ class ItemUpdateWorker(context: Context, params: WorkerParameters) : Worker(cont
 
     companion object {
         private val TAG = ItemUpdateWorker::class.java.simpleName
-        private val MAX_RETRIES = 3
+        private const val MAX_RETRIES = 3
 
-        private val INPUT_DATA_ITEM = "item"
-        private val INPUT_DATA_VALUE = "value"
+        private const val INPUT_DATA_ITEM = "item"
+        private const val INPUT_DATA_VALUE = "value"
 
-        val OUTPUT_DATA_HAS_CONNECTION = "hasConnection"
-        val OUTPUT_DATA_HTTP_STATUS = "httpStatus"
-        val OUTPUT_DATA_ITEM = "item"
-        val OUTPUT_DATA_VALUE = "value"
-        val OUTPUT_DATA_TIMESTAMP = "timestamp"
+        const val OUTPUT_DATA_HAS_CONNECTION = "hasConnection"
+        const val OUTPUT_DATA_HTTP_STATUS = "httpStatus"
+        const val OUTPUT_DATA_ITEM = "item"
+        const val OUTPUT_DATA_VALUE = "value"
+        const val OUTPUT_DATA_TIMESTAMP = "timestamp"
 
         fun buildData(item: String, value: String): Data {
             return Data.Builder()

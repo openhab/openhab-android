@@ -106,6 +106,6 @@ class AsyncServiceResolver(context: Context, private val serviceType: String) :
     companion object {
         private val TAG = AsyncServiceResolver::class.java.simpleName
 
-        private val DEFAULT_DISCOVERY_TIMEOUT = 3000L
+        private const val DEFAULT_DISCOVERY_TIMEOUT = 3000L
     }
 }

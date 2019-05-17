@@ -27,7 +27,6 @@ fun Throwable?.hasCause(cause: Class<out Throwable>): Boolean {
 
 /**
  * Replaces everything after the first clearTextCharCount chars with asterisks
- * @param string to obfuscate
  * @param clearTextCharCount leave the first clearTextCharCount in clear text
  * @return obfuscated string
  */
@@ -44,10 +43,10 @@ fun String?.toNormalizedUrl(): String {
                 .toString()
                 .replace("\n", "")
                 .replace(" ", "")
-        return if (url.endsWith("/")) url + "/" else url
+        return if (url.endsWith("/")) "$url/" else url
     } catch (e: MalformedURLException) {
-        return ""
         Log.d(Util.TAG, "normalizeUrl(): invalid URL '$this'")
+        return ""
     }
 }
 
@@ -57,7 +56,7 @@ fun Uri?.openInBrowser(context: Context) {
     }
     val intent = Intent(Intent.ACTION_VIEW, this)
     try {
-        context.startActivity(intent);
+        context.startActivity(intent)
     } catch (e: ActivityNotFoundException) {
         Toasty.error(context, R.string.error_no_browser_found, Toasty.LENGTH_LONG).show()
     }

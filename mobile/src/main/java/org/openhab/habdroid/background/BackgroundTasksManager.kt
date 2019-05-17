@@ -9,7 +9,6 @@ import android.os.Build
 import android.os.Parcelable
 import android.preference.PreferenceManager
 import android.util.Log
-
 import androidx.work.Constraints
 import androidx.work.NetworkType
 import androidx.work.OneTimeWorkRequest
@@ -17,14 +16,10 @@ import androidx.work.WorkManager
 import kotlinx.android.parcel.Parcelize
 import org.openhab.habdroid.R
 import org.openhab.habdroid.model.NfcTag
-
-import org.openhab.habdroid.ui.widget.ItemUpdatingPreference
 import org.openhab.habdroid.ui.widget.toItemUpdatePrefValue
 import org.openhab.habdroid.util.Constants
 import org.openhab.habdroid.util.Util
-
-import java.util.Arrays
-import java.util.HashMap
+import java.util.*
 
 class BackgroundTasksManager : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
@@ -78,11 +73,11 @@ class BackgroundTasksManager : BroadcastReceiver() {
     companion object {
         private val TAG = BackgroundTasksManager::class.java.simpleName
 
-        internal val ACTION_RETRY_UPLOAD = "org.openhab.habdroid.background.action.RETRY_UPLOAD"
-        internal val EXTRA_RETRY_INFOS = "retryInfos"
+        internal const val ACTION_RETRY_UPLOAD = "org.openhab.habdroid.background.action.RETRY_UPLOAD"
+        internal const val EXTRA_RETRY_INFOS = "retryInfos"
 
-        private val WORKER_TAG_ITEM_UPLOADS = "itemUploads"
-        val WORKER_TAG_PREFIX_NFC = "nfc-"
+        private const val WORKER_TAG_ITEM_UPLOADS = "itemUploads"
+        const val WORKER_TAG_PREFIX_NFC = "nfc-"
 
         internal val KNOWN_KEYS = Arrays.asList(
                 Constants.PREFERENCE_ALARM_CLOCK
@@ -110,7 +105,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
                 else
                     context.getString(R.string.nfc_tag_recognized_item, tag.item)
                 Util.showToast(context, message)
-                enqueueItemUpload(WORKER_TAG_PREFIX_NFC + tag.item, tag.item, tag.state);
+                enqueueItemUpload(WORKER_TAG_PREFIX_NFC + tag.item, tag.item, tag.state)
             }
         }
 

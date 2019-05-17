@@ -119,8 +119,8 @@ class SyncHttpClient(client: OkHttpClient, baseUrl: String?, username: String?, 
         return method(url, "POST", headers, requestBody, mediaType, -1)
     }
 
-    protected fun method(url: String, method: String, headers: Map<String, String>?,
-                         requestBody: String?, mediaType: String?, timeoutMillis: Long): HttpResult {
+    private fun method(url: String, method: String, headers: Map<String, String>?,
+                       requestBody: String?, mediaType: String?, timeoutMillis: Long): HttpResult {
         val call = prepareCall(url, method, headers, requestBody,
                 mediaType, timeoutMillis, CachingMode.AVOID_CACHE)
         return HttpResult(call)

@@ -6,37 +6,25 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
-import android.os.Handler
 import android.os.Looper
-import android.os.Message
-
+import junit.framework.Assert.*
+import kotlinx.coroutines.runBlocking
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TemporaryFolder
+import org.mockito.ArgumentMatchers.*
 import org.mockito.Mockito
+import org.mockito.Mockito.`when`
 import org.openhab.habdroid.core.connection.exception.ConnectionException
 import org.openhab.habdroid.core.connection.exception.NetworkNotAvailableException
 import org.openhab.habdroid.core.connection.exception.NetworkNotSupportedException
 import org.openhab.habdroid.core.connection.exception.NoUrlInformationException
 import org.openhab.habdroid.util.Constants
-
 import java.io.File
 import java.io.IOException
-
-import junit.framework.Assert.assertEquals
-import junit.framework.Assert.assertNotNull
-import junit.framework.Assert.assertNull
-import kotlinx.coroutines.*
-import org.mockito.ArgumentMatchers.any
-import org.mockito.ArgumentMatchers.anyInt
-import org.mockito.ArgumentMatchers.anyString
-import org.mockito.ArgumentMatchers.eq
-import org.mockito.Mockito.doAnswer
-import org.mockito.Mockito.`when`
-import kotlin.coroutines.CoroutineContext
 
 class ConnectionFactoryTest {
     @Rule

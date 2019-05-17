@@ -53,7 +53,7 @@ class WebViewFragment : Fragment(), ConnectionFactory.UpdateListener {
         urlForError = args.getString(KEY_URL_ERROR) as String
 
         val retryButton = view.findViewById<TextView>(R.id.retry_button)
-        retryButton.setOnClickListener { v -> loadWebsite() }
+        retryButton.setOnClickListener { loadWebsite() }
         val error = view.findViewById<TextView>(R.id.empty_message)
         error.text = getString(args.getInt(KEY_ERROR))
 
@@ -150,11 +150,11 @@ class WebViewFragment : Fragment(), ConnectionFactory.UpdateListener {
     companion object {
         private val TAG = WebViewFragment::class.java.simpleName
 
-        private val KEY_CURRENT_URL = "url"
-        private val KEY_PAGE_TITLE = "page_title"
-        private val KEY_ERROR = "error"
-        private val KEY_URL_LOAD = "url_load"
-        private val KEY_URL_ERROR = "url_error"
+        private const val KEY_CURRENT_URL = "url"
+        private const val KEY_PAGE_TITLE = "page_title"
+        private const val KEY_ERROR = "error"
+        private const val KEY_URL_LOAD = "url_load"
+        private const val KEY_URL_ERROR = "url_error"
 
         fun newInstance(@StringRes pageTitle: Int,
                         @StringRes errorMessage: Int, urltoLoad: String, urlForError: String): WebViewFragment {

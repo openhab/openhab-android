@@ -17,7 +17,6 @@ import android.os.Bundle
 import android.preference.Preference
 import android.preference.PreferenceFragment
 import android.preference.PreferenceGroup
-import android.preference.PreferenceScreen
 import android.provider.Settings
 import android.util.Log
 import android.view.MenuItem
@@ -31,10 +30,9 @@ import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.net.toUri
 import org.openhab.habdroid.R
 import org.openhab.habdroid.model.ServerProperties
-import org.openhab.habdroid.ui.widget.ItemUpdatingPreference
 import org.openhab.habdroid.ui.widget.toItemUpdatePrefValue
-import org.openhab.habdroid.util.Constants
 import org.openhab.habdroid.util.CacheManager
+import org.openhab.habdroid.util.Constants
 import java.util.*
 
 /**
@@ -506,10 +504,10 @@ class PreferencesActivity : AbstractBaseActivity() {
     }
 
     companion object {
-        val RESULT_EXTRA_THEME_CHANGED = "theme_changed"
-        val RESULT_EXTRA_SITEMAP_CLEARED = "sitemap_cleared"
-        val START_EXTRA_SERVER_PROPERTIES = "server_properties"
-        private val STATE_KEY_RESULT = "result"
+        const val RESULT_EXTRA_THEME_CHANGED = "theme_changed"
+        const val RESULT_EXTRA_SITEMAP_CLEARED = "sitemap_cleared"
+        const val START_EXTRA_SERVER_PROPERTIES = "server_properties"
+        private const val STATE_KEY_RESULT = "result"
 
         private val TAG = PreferencesActivity::class.java.simpleName
     }
@@ -519,7 +517,7 @@ fun Preference?.getPrefValue(defaultValue: String? = null): String? {
     if (this == null) {
         return defaultValue
     }
-    return this?.sharedPreferences?.getString(key, defaultValue)
+    return sharedPreferences?.getString(key, defaultValue)
 }
 
 fun PreferenceGroup.removePreferenceFromHierarchy(pref: Preference?) {

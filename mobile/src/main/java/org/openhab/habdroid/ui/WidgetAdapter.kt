@@ -966,23 +966,23 @@ class WidgetAdapter(context: Context, private val connection: Connection,
     companion object {
         private val TAG = WidgetAdapter::class.java.simpleName
 
-        private val TYPE_GENERICITEM = 0
-        private val TYPE_FRAME = 1
-        private val TYPE_GROUP = 2
-        private val TYPE_SWITCH = 3
-        private val TYPE_TEXT = 4
-        private val TYPE_SLIDER = 5
-        private val TYPE_IMAGE = 6
-        private val TYPE_SELECTION = 7
-        private val TYPE_SECTIONSWITCH = 8
-        private val TYPE_ROLLERSHUTTER = 9
-        private val TYPE_SETPOINT = 10
-        private val TYPE_CHART = 11
-        private val TYPE_VIDEO = 12
-        private val TYPE_WEB = 13
-        private val TYPE_COLOR = 14
-        private val TYPE_VIDEO_MJPEG = 15
-        private val TYPE_LOCATION = 16
+        private const val TYPE_GENERICITEM = 0
+        private const val TYPE_FRAME = 1
+        private const val TYPE_GROUP = 2
+        private const val TYPE_SWITCH = 3
+        private const val TYPE_TEXT = 4
+        private const val TYPE_SLIDER = 5
+        private const val TYPE_IMAGE = 6
+        private const val TYPE_SELECTION = 7
+        private const val TYPE_SECTIONSWITCH = 8
+        private const val TYPE_ROLLERSHUTTER = 9
+        private const val TYPE_SETPOINT = 10
+        private const val TYPE_CHART = 11
+        private const val TYPE_VIDEO = 12
+        private const val TYPE_WEB = 13
+        private const val TYPE_COLOR = 14
+        private const val TYPE_VIDEO_MJPEG = 15
+        private const val TYPE_LOCATION = 16
     }
 }
 

@@ -117,7 +117,7 @@ class LogActivity : AbstractBaseActivity(), CoroutineScope {
         val separator = System.getProperty("line.separator")
         val process = try {
             val args = if (clear) "-c" else "-b threadtime -d"
-            Runtime.getRuntime().exec("logcat -b all " + args)
+            Runtime.getRuntime().exec("logcat -b all $args")
         } catch (e: Exception) {
             Log.e(TAG, "Error reading process", e)
             return@withContext Log.getStackTraceString(e)

@@ -134,6 +134,6 @@ class DefaultConnectionTest {
     }
 
     companion object {
-        private val TEST_BASE_URL = "https://demo.local:8443"
+        private const val TEST_BASE_URL = "https://demo.local:8443"
     }
 }

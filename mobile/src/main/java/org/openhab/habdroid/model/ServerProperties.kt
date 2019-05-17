@@ -35,11 +35,11 @@ data class ServerProperties(val flags: Int, val sitemaps: List<Sitemap>) : Parce
     companion object {
         private val TAG = ServerProperties::class.java.simpleName
 
-        val SERVER_FLAG_JSON_REST_API = 1 shl 0
-        val SERVER_FLAG_SSE_SUPPORT = 1 shl 1
-        val SERVER_FLAG_ICON_FORMAT_SUPPORT = 1 shl 2
-        val SERVER_FLAG_CHART_SCALING_SUPPORT = 1 shl 3
-        val SERVER_FLAG_HABPANEL_INSTALLED = 1 shl 4
+        const val SERVER_FLAG_JSON_REST_API = 1 shl 0
+        const val SERVER_FLAG_SSE_SUPPORT = 1 shl 1
+        const val SERVER_FLAG_ICON_FORMAT_SUPPORT = 1 shl 2
+        const val SERVER_FLAG_CHART_SCALING_SUPPORT = 1 shl 3
+        const val SERVER_FLAG_HABPANEL_INSTALLED = 1 shl 4
 
         class UpdateHandle {
             internal var call: Call? = null

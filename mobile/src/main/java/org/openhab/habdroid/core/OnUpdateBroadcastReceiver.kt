@@ -39,7 +39,7 @@ class OnUpdateBroadcastReceiver : BroadcastReceiver() {
     companion object {
         private val TAG = OnUpdateBroadcastReceiver::class.java.simpleName
 
-        private val UPDATE_LOCAL_CREDENTIALS = 26
+        private const val UPDATE_LOCAL_CREDENTIALS = 26
 
         fun updateComparableVersion(prefsEdit: SharedPreferences.Editor) {
             prefsEdit.putInt(PREFERENCE_COMPAREABLEVERSION, BuildConfig.VERSION_CODE)

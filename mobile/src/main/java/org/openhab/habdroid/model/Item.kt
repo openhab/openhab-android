@@ -96,7 +96,7 @@ fun JSONObject.toItem(): Item {
     val stateDescription = optJSONObject("stateDescription")
     val readOnly = stateDescription != null && stateDescription.optBoolean("readOnly", false)
 
-    var options = if (stateDescription?.has("options") == true) {
+    val options = if (stateDescription?.has("options") == true) {
         stateDescription.getJSONArray("options").map { obj -> obj.toLabeledValue("value", "label") }
     } else {
         null

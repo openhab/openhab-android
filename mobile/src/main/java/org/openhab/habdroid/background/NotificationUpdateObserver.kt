@@ -50,6 +50,7 @@ internal class NotificationUpdateObserver(context: Context) : Observer<List<Work
                                     latestInfoByTag[tag] = info
                                 }
                             }
+                            else -> {}
                         }
                     }
                     // Stop evaluating tags and advance to next info
@@ -113,9 +114,9 @@ internal class NotificationUpdateObserver(context: Context) : Observer<List<Work
     }
 
     companion object {
-        private val NOTIFICATION_ID_BACKGROUND_WORK = 1000
-        private val CHANNEL_ID_BACKGROUND = "background"
-        private val CHANNEL_ID_BACKGROUND_ERROR = "backgroundError"
+        private const val NOTIFICATION_ID_BACKGROUND_WORK = 1000
+        private const val CHANNEL_ID_BACKGROUND = "background"
+        private const val CHANNEL_ID_BACKGROUND_ERROR = "backgroundError"
 
         /**
          * Creates notification channels for background tasks.

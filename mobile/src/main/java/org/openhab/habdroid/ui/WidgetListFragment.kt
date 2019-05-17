@@ -149,7 +149,7 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener {
         if (labels.isNotEmpty()) {
             AlertDialog.Builder(activity)
                     .setTitle(R.string.nfc_dialog_title)
-                    .setItems(labels.toTypedArray()) { dialog, which ->
+                    .setItems(labels.toTypedArray()) { _, which ->
                         val itemToHandle = if (which < commands.size) widget.item else null
                         val linkToHandle = if (which == commands.size) widget.linkedPage?.link else null
                         if (itemToHandle != null) {

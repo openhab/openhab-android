@@ -173,7 +173,7 @@ class AsyncHttpClient(client: OkHttpClient, baseUrl: String?, username: String?,
                 }
                 val message = response.message()
                 val error = if (response.isSuccessful) conversionError else IOException(message)
-                val headers = response.headers()
+                val responseHeaders = response.headers()
 
                 handler.post {
                     if (!call.isCanceled) {
@@ -182,7 +182,7 @@ class AsyncHttpClient(client: OkHttpClient, baseUrl: String?, username: String?,
                         } else {
                             // cast is safe (convertBodyInBackground always returns T, if it failed error is != null)
                             @Suppress("UNCHECKED_CAST")
-                            responseHandler.onSuccess(converted as T, headers)
+                            responseHandler.onSuccess(converted as T, responseHeaders)
                         }
                     }
                 }
@@ -192,6 +192,6 @@ class AsyncHttpClient(client: OkHttpClient, baseUrl: String?, username: String?,
     }
 
     companion object {
-        val DEFAULT_TIMEOUT_MS: Long = 30000
+        const val DEFAULT_TIMEOUT_MS: Long = 30000
     }
 }

@@ -665,13 +665,13 @@ abstract class ContentController protected constructor(private val activity: Mai
         }
 
         companion object {
-            internal val KEY_MESSAGE = "message"
-            internal val KEY_DRAWABLE = "drawable"
-            internal val KEY_BUTTON_1_TEXT = "button1text"
-            internal val KEY_BUTTON_2_TEXT = "button2text"
-            internal val KEY_PROGRESS = "progress"
-            internal val KEY_RESOLVE_ATTEMPTED = "resolveAttempted"
-            internal val KEY_WIFI_ENABLED = "wifiEnabled"
+            internal const val KEY_MESSAGE = "message"
+            internal const val KEY_DRAWABLE = "drawable"
+            internal const val KEY_BUTTON_1_TEXT = "button1text"
+            internal const val KEY_BUTTON_2_TEXT = "button2text"
+            internal const val KEY_PROGRESS = "progress"
+            internal const val KEY_RESOLVE_ATTEMPTED = "resolveAttempted"
+            internal const val KEY_WIFI_ENABLED = "wifiEnabled"
 
             internal fun buildArgs(message: CharSequence?, @StringRes buttonTextResId: Int,
                                     @DrawableRes drawableResId: Int, showProgress: Boolean): Bundle {

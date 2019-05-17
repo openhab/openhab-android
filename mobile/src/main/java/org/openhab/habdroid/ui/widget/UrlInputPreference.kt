@@ -9,11 +9,7 @@ import android.text.TextWatcher
 import android.util.AttributeSet
 import android.view.View
 import android.widget.EditText
-
-import androidx.annotation.StringRes
-
 import org.openhab.habdroid.R
-
 import java.net.MalformedURLException
 import java.net.URL
 

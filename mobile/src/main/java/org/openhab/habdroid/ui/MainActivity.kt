@@ -1032,21 +1032,21 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener, C
     }
 
     companion object {
-        val ACTION_NOTIFICATION_SELECTED = "org.openhab.habdroid.action.NOTIFICATION_SELECTED"
-        val ACTION_HABPANEL_SELECTED = "org.openhab.habdroid.action.HABPANEL_SELECTED"
-        val ACTION_VOICE_RECOGNITION_SELECTED = "org.openhab.habdroid.action.VOICE_SELECTED"
-        val ACTION_SITEMAP_SELECTED = "org.openhab.habdroid.action.SITEMAP_SELECTED"
-        val EXTRA_SITEMAP_URL = "sitemapUrl"
-        val EXTRA_PERSISTED_NOTIFICATION_ID = "persistedNotificationId"
+        const val ACTION_NOTIFICATION_SELECTED = "org.openhab.habdroid.action.NOTIFICATION_SELECTED"
+        const val ACTION_HABPANEL_SELECTED = "org.openhab.habdroid.action.HABPANEL_SELECTED"
+        const val ACTION_VOICE_RECOGNITION_SELECTED = "org.openhab.habdroid.action.VOICE_SELECTED"
+        const val ACTION_SITEMAP_SELECTED = "org.openhab.habdroid.action.SITEMAP_SELECTED"
+        const val EXTRA_SITEMAP_URL = "sitemapUrl"
+        const val EXTRA_PERSISTED_NOTIFICATION_ID = "persistedNotificationId"
 
         private val TAG = MainActivity::class.java.simpleName
 
         // Activities request codes
-        private val INTRO_REQUEST_CODE = 1001
-        private val SETTINGS_REQUEST_CODE = 1002
-        private val WRITE_NFC_TAG_REQUEST_CODE = 1003
-        private val INFO_REQUEST_CODE = 1004
+        private const val INTRO_REQUEST_CODE = 1001
+        private const val SETTINGS_REQUEST_CODE = 1002
+        private const val WRITE_NFC_TAG_REQUEST_CODE = 1003
+        private const val INFO_REQUEST_CODE = 1004
         // Drawer item codes
-        private val GROUP_ID_SITEMAPS = 1
+        private const val GROUP_ID_SITEMAPS = 1
     }
 }

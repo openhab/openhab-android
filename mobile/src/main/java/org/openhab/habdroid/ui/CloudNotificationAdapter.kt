@@ -133,7 +133,7 @@ class CloudNotificationAdapter(context: Context, private val loadMoreListener: (
             RecyclerView.ViewHolder(inflater.inflate(R.layout.notificationlist_loading_item, parent, false))
 
     companion object {
-        private val VIEW_TYPE_NOTIFICATION = 0
-        private val VIEW_TYPE_LOADING = 1
+        private const val VIEW_TYPE_NOTIFICATION = 0
+        private const val VIEW_TYPE_LOADING = 1
     }
 }
