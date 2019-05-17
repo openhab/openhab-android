@@ -125,6 +125,8 @@
     <string name="info_openhab_push_notification_label">Estado de notificaciones Push</string>
     <string name="action_settings">Configuración</string>
     <string name="nfc_dialog_title">Acción a grabar en la etiqueta NFC para este elemento</string>
+    <string name="nfc_tag_recognized_label">Reconocida etiqueta NFC para \"%s\"</string>
+    <string name="nfc_tag_recognized_item">Reconocida etiqueta NFC para el Ítem \"%s\"</string>
     <string name="info_not_set">Sin establecer</string>
     <string name="empty_page">Esta pagina no contiene ningún widget que pueda ser visible</string>
     <!-- Background tasks -->
