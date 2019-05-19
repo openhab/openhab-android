@@ -5,12 +5,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.MenuItemCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -36,7 +39,7 @@ import java.util.ArrayList;
 
 public class ItemPickerActivity extends AbstractBaseActivity
         implements SwipeRefreshLayout.OnRefreshListener, View.OnClickListener,
-        ItemPickerAdapter.ItemClickListener {
+        ItemPickerAdapter.ItemClickListener, SearchView.OnQueryTextListener {
     private static final String TAG = ItemPickerActivity.class.getSimpleName();
 
     public static final String EXTRA_ITEM_NAME = "itemName";
@@ -102,6 +105,17 @@ public class ItemPickerActivity extends AbstractBaseActivity
         if (mRequestHandle != null) {
             mRequestHandle.cancel();
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.item_picker, menu);
+
+        final MenuItem searchItem = menu.findItem(R.id.app_bar_search);
+        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+        searchView.setOnQueryTextListener(this);
+
+        return true;
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -248,5 +262,16 @@ public class ItemPickerActivity extends AbstractBaseActivity
         mEmptyMessage.setText(
                 loadError ? R.string.item_picker_list_error : R.string.item_picker_list_empty);
         mRetryButton.setVisibility(loadError ? View.VISIBLE : View.GONE);
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        mItemPickerAdapter.filter(newText);
+        return true;
     }
 }

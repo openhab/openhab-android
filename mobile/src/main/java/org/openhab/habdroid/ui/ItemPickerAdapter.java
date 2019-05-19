@@ -32,7 +32,8 @@ public class ItemPickerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         void onItemClicked(Item item);
     }
 
-    private final ArrayList<Item> mItems = new ArrayList<>();
+    private ArrayList<Item> mItems = new ArrayList<>();
+    private ArrayList<Item> mAllItems = new ArrayList<>();
     private ItemClickListener mItemClickListener;
     private final LayoutInflater mInflater;
     private int mHighlightedPosition = -1;
@@ -47,8 +48,23 @@ public class ItemPickerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     }
 
     public void addLoadedItems(List<Item> items) {
+        mItems.clear();
         mItems.addAll(items);
         Collections.sort(mItems, new ItemNameComparator());
+        mAllItems = new ArrayList<>(mItems);
+        notifyDataSetChanged();
+    }
+
+    public void filter(String filter) {
+        mItems.clear();
+        String searchTerm = filter.toLowerCase();
+        for (Item item : mAllItems) {
+            if (item.name().toLowerCase().contains(searchTerm)
+                    || item.label().toLowerCase().contains(searchTerm)
+                    || item.type().toString().toLowerCase().contains(searchTerm)) {
+                mItems.add(item);
+            }
+        }
         notifyDataSetChanged();
     }
 
