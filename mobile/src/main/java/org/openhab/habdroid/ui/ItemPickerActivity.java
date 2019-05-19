@@ -8,7 +8,6 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.appcompat.widget.Toolbar;
@@ -29,6 +28,7 @@ import org.openhab.habdroid.core.connection.exception.ConnectionException;
 import org.openhab.habdroid.model.Item;
 import org.openhab.habdroid.ui.widget.DividerItemDecoration;
 import org.openhab.habdroid.util.AsyncHttpClient;
+import org.openhab.habdroid.util.SuggestCommandsFactory;
 import org.openhab.habdroid.util.TaskerIntent;
 import org.openhab.habdroid.util.Util;
 
@@ -176,27 +176,7 @@ public class ItemPickerActivity extends AbstractBaseActivity
         ArrayList<String> labels = new ArrayList<>();
         ArrayList<String> commands = new ArrayList<>();
 
-        if (item.isOfTypeOrGroupType(Item.Type.Switch)) {
-            labels.add(getString(R.string.nfc_action_on));
-            commands.add("ON");
-            labels.add(getString(R.string.nfc_action_off));
-            commands.add("OFF");
-            labels.add(getString(R.string.nfc_action_toggle));
-            commands.add("TOGGLE");
-        } else if (item.isOfTypeOrGroupType(Item.Type.Rollershutter)) {
-            labels.add(getString(R.string.nfc_action_up));
-            commands.add("UP");
-            labels.add(getString(R.string.nfc_action_down));
-            commands.add("DOWN");
-            labels.add(getString(R.string.nfc_action_toggle));
-            commands.add("TOGGLE");
-        } else if (item.isOfTypeOrGroupType(Item.Type.Number)
-                || item.isOfTypeOrGroupType(Item.Type.Dimmer)) {
-            labels.add("0");
-            commands.add("0");
-            labels.add("100");
-            commands.add("100");
-        }
+        new SuggestCommandsFactory(this, commands, labels, true).fill(item);
 
         labels.add(getString(R.string.item_picker_custom));
 
