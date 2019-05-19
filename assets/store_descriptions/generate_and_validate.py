@@ -57,6 +57,7 @@ for file in appStoreStringsFiles:
     fullDescription += getString('home_entertainment') + "\n"
     fullDescription += getString('security') + "\n"
     fullDescription += getString('open_protocols') + "\n"
+    fullDescription += getString('automation_apps') + "\n"
     fullDescription += getString('special_useCases') + "\n\n"
     fullDescription += "<b>" + getString('oss_community') + "</b>\n\n"
     fullDescription += getString('forum') + "\n"
