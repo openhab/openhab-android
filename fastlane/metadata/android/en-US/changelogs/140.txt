@@ -1,0 +1,3 @@
+• Send alarm clock time to openHAB server
+• Add up and down buttons to Setpoint widgets
+• Clicking the widget row now toggles some widgets
