@@ -48,6 +48,7 @@ import org.openhab.habdroid.ui.WidgetListFragment
 import org.openhab.habdroid.util.Constants
 import org.openhab.habdroid.util.Util
 import org.openhab.habdroid.util.getPrefs
+import org.openhab.habdroid.util.isDebugModeEnabled
 
 import java.util.ArrayList
 import java.util.HashSet
@@ -76,7 +77,7 @@ abstract class ContentController protected constructor(private val activity: Mai
     override val iconFormat: String
         get() = activity.getPrefs().getString("iconFormatType", "PNG") as String
     override val isDetailedLoggingEnabled: Boolean
-        get() = activity.getPrefs().getBoolean(Constants.PREFERENCE_DEBUG_MESSAGES, false)
+        get() = activity.getPrefs().isDebugModeEnabled()
     override val serverProperties: ServerProperties?
         get() = activity.serverProperties
 

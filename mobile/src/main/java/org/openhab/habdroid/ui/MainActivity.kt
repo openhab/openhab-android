@@ -154,7 +154,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener, C
         prefs = getPrefs()
 
         // Disable screen timeout if set in preferences
-        if (prefs.getBoolean(Constants.PREFERENCE_SCREENTIMEROFF, false)) {
+        if (prefs.isScreenTimerDisabled()) {
             window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         }
 
@@ -603,8 +603,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener, C
         } else {
             habpanelItem.isVisible = props.hasHabpanelInstalled()
             manageHabpanelShortcut(props.hasHabpanelInstalled())
-            val defaultSitemapName = prefs.getString(Constants.PREFERENCE_SITEMAP_NAME, "") as String
-            val sitemaps = props.sitemaps.sortedWithDefaultName(defaultSitemapName)
+            val sitemaps = props.sitemaps.sortedWithDefaultName(prefs.getDefaultSitemap())
 
             if (sitemaps.isEmpty()) {
                 sitemapItem.isVisible = false
@@ -688,7 +687,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener, C
     }
 
     private fun selectConfiguredSitemapFromList(): Sitemap? {
-        val configuredSitemap = prefs.getString(Constants.PREFERENCE_SITEMAP_NAME, "") as String
+        val configuredSitemap = prefs.getDefaultSitemap()
         val sitemaps = serverProperties!!.sitemaps
         val result = when {
             // We only have one sitemap, use it
@@ -703,12 +702,10 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener, C
         prefs.edit {
             if (result == null && configuredSitemap.isNotEmpty()) {
                 // clear old configuration
-                remove(Constants.PREFERENCE_SITEMAP_LABEL)
-                remove(Constants.PREFERENCE_SITEMAP_NAME)
+                updateDefaultSitemap(null)
             } else if (result != null && (configuredSitemap.isEmpty() || configuredSitemap != result.name)) {
                 // update result
-                putString(Constants.PREFERENCE_SITEMAP_NAME, result.name)
-                putString(Constants.PREFERENCE_SITEMAP_LABEL, result.label)
+                updateDefaultSitemap(result)
             }
         }
 
@@ -732,8 +729,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener, C
                     val sitemap = sitemaps[which]
                     Log.d(TAG, "Selected sitemap $sitemap")
                     prefs.edit {
-                        putString(Constants.PREFERENCE_SITEMAP_NAME, sitemap.name)
-                        putString(Constants.PREFERENCE_SITEMAP_LABEL, sitemap.label)
+                        updateDefaultSitemap(sitemap)
                     }
                     openSitemap(sitemap)
                 }
@@ -846,7 +842,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener, C
         Log.d(TAG, "onNotificationSelected()")
         // mPendingOpenedNotificationId being non-null is used as trigger for
         // opening the notifications page, so use a dummy if it's null
-        pendingOpenedNotificationId = intent.getStringExtra(EXTRA_PERSISTED_NOTIFICATION_ID) ?: ""
+        pendingOpenedNotificationId = intent.getStringExtra(EXTRA_PERSISTED_NOTIFICATION_ID).orEmpty()
         openNotificationsPageIfNeeded()
     }
 
@@ -946,7 +942,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener, C
         Log.e(TAG, "HTTP status code: $statusCode")
         var message = Util.getHumanReadableErrorMessage(this,
                 request.url().toString(), statusCode, error)
-        if (prefs.getBoolean(Constants.PREFERENCE_DEBUG_MESSAGES, false)) {
+        if (prefs.isDebugModeEnabled()) {
             message = SpannableStringBuilder(message).apply {
                 inSpans(RelativeSizeSpan(0.8f)) {
                     append("\n\nURL: ").append(request.url().toString())

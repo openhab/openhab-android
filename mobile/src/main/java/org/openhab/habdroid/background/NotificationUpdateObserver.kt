@@ -10,15 +10,12 @@ import android.os.Build
 import androidx.annotation.StringRes
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
-import androidx.core.net.toUri
 import androidx.lifecycle.Observer
 import androidx.work.WorkInfo
 
 import org.openhab.habdroid.R
 import org.openhab.habdroid.ui.MainActivity
-import org.openhab.habdroid.util.Constants
-import org.openhab.habdroid.util.Util
-import org.openhab.habdroid.util.getPrefs
+import org.openhab.habdroid.util.*
 
 import java.util.ArrayList
 import java.util.HashMap
@@ -162,14 +159,14 @@ internal class NotificationUpdateObserver(context: Context) : Observer<List<Work
                                             retryInfos: ArrayList<BackgroundTasksManager.RetryInfo>): Notification {
             val text = context.resources.getQuantityString(R.plurals.item_update_error_title,
                     errors.size, errors.size)
-
+            val prefs = context.getPrefs()
             val nb = createBaseBuilder(context, CHANNEL_ID_BACKGROUND_ERROR)
                     .setContentText(text)
                     .setCategory(NotificationCompat.CATEGORY_ERROR)
                     .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                     .setLights(ContextCompat.getColor(context, R.color.openhab_orange), 3000, 3000)
-                    .setSound(context.getPrefs().getString(Constants.PREFERENCE_TONE, "")?.toUri())
-                    .setVibrate(Util.getNotificationVibrationPattern(context))
+                    .setSound(prefs.getNotificationTone())
+                    .setVibrate(prefs.getNotificationVibrationPattern(context))
 
             if (errors.size > 1) {
                 val style = NotificationCompat.InboxStyle()

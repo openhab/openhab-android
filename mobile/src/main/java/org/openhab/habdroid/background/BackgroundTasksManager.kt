@@ -16,9 +16,7 @@ import kotlinx.android.parcel.Parcelize
 import org.openhab.habdroid.R
 import org.openhab.habdroid.model.NfcTag
 import org.openhab.habdroid.ui.widget.toItemUpdatePrefValue
-import org.openhab.habdroid.util.Constants
-import org.openhab.habdroid.util.Util
-import org.openhab.habdroid.util.getPrefs
+import org.openhab.habdroid.util.*
 import java.util.*
 
 class BackgroundTasksManager : BroadcastReceiver() {
@@ -110,7 +108,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
 
         private fun scheduleWorker(context: Context, key: String) {
             val prefs = context.getPrefs()
-            val setting = if (prefs.getBoolean(Constants.PREFERENCE_DEMOMODE, false)) {
+            val setting = if (prefs.isDemoModeEnabled()) {
                 Pair(false, "") // Don't attempt any uploads in demo mode
             } else {
                 prefs.getString(key, null).toItemUpdatePrefValue()
@@ -123,7 +121,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
 
             val getter = VALUE_GETTER_MAP[key] ?: return
 
-            val prefix = prefs.getString(Constants.PREFERENCE_SEND_DEVICE_INFO_PREFIX, "") as String
+            val prefix = prefs.getString(Constants.PREFERENCE_SEND_DEVICE_INFO_PREFIX)
             enqueueItemUpload(key, prefix + setting.second, getter(context))
         }
 

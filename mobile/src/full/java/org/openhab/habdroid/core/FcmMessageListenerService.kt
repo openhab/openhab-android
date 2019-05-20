@@ -25,14 +25,13 @@ import com.google.firebase.messaging.RemoteMessage
 
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
-import androidx.core.net.toUri
 
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.Connection
 import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.ui.MainActivity
-import org.openhab.habdroid.util.Constants
-import org.openhab.habdroid.util.Util
+import org.openhab.habdroid.util.getNotificationTone
+import org.openhab.habdroid.util.getNotificationVibrationPattern
 import org.openhab.habdroid.util.getPrefs
 
 import java.util.Locale
@@ -142,7 +141,7 @@ class FcmMessageListenerService : FirebaseMessagingService() {
         return makeNotificationBuilder(channelId, timestamp)
                 .setLargeIcon(iconBitmap)
                 .setStyle(NotificationCompat.BigTextStyle().bigText(msg))
-                .setSound(getPrefs().getString(Constants.PREFERENCE_TONE, "").toUri())
+                .setSound(getPrefs().getNotificationTone())
                 .setContentText(msg)
                 .setContentIntent(contentIntent)
                 .setDeleteIntent(FcmRegistrationService.createHideNotificationIntent(this, notificationId))
@@ -183,7 +182,7 @@ class FcmMessageListenerService : FirebaseMessagingService() {
                 .setCategory(NotificationCompat.CATEGORY_EVENT)
                 .setAutoCancel(true)
                 .setLights(ContextCompat.getColor(this, R.color.openhab_orange), 3000, 3000)
-                .setVibrate(Util.getNotificationVibrationPattern(applicationContext))
+                .setVibrate(getPrefs().getNotificationVibrationPattern(this))
                 .setGroup("gcm")
     }
 

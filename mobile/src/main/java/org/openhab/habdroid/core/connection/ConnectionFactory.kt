@@ -18,10 +18,7 @@ import org.openhab.habdroid.core.connection.exception.ConnectionException
 import org.openhab.habdroid.core.connection.exception.NetworkNotAvailableException
 import org.openhab.habdroid.core.connection.exception.NetworkNotSupportedException
 import org.openhab.habdroid.core.connection.exception.NoUrlInformationException
-import org.openhab.habdroid.util.CacheManager
-import org.openhab.habdroid.util.Constants
-import org.openhab.habdroid.util.getPrefs
-import org.openhab.habdroid.util.toNormalizedUrl
+import org.openhab.habdroid.util.*
 import java.net.Socket
 import java.security.Principal
 import java.security.PrivateKey
@@ -168,7 +165,7 @@ class ConnectionFactory internal constructor(private val context: Context, priva
 
     @VisibleForTesting
     suspend fun updateConnections() {
-        if (prefs.getBoolean(Constants.PREFERENCE_DEMOMODE, false)) {
+        if (prefs.isDemoModeEnabled()) {
             remoteConnection = DemoConnection(httpClient)
             localConnection = remoteConnection
             handleAvailableCheckDone(localConnection, null)
@@ -192,7 +189,7 @@ class ConnectionFactory internal constructor(private val context: Context, priva
 
     private fun updateHttpLoggerSettings() {
         with (httpLogger) {
-            if (prefs.getBoolean(Constants.PREFERENCE_DEBUG_MESSAGES, false)) {
+            if (prefs.isDebugModeEnabled()) {
                 redactHeader("Authorization")
                 redactHeader("set-cookie")
                 level = HttpLoggingInterceptor.Level.HEADERS
@@ -203,8 +200,8 @@ class ConnectionFactory internal constructor(private val context: Context, priva
     }
 
     private fun updateHttpClientForClientCert(forceUpdate: Boolean) {
-        val clientCertAlias = if (prefs.getBoolean(Constants.PREFERENCE_DEMOMODE, false))
-            null else prefs.getString(Constants.PREFERENCE_SSLCLIENTCERT, null)// No client cert in demo mode
+        val clientCertAlias = if (prefs.isDemoModeEnabled()) // No client cert in demo mode
+            null else prefs.getString(Constants.PREFERENCE_SSLCLIENTCERT, null)
         val keyManagers = if (clientCertAlias != null)
             arrayOf<KeyManager>(ClientKeyManager(context, clientCertAlias)) else null
 
@@ -294,7 +291,7 @@ class ConnectionFactory internal constructor(private val context: Context, priva
 
     private fun makeConnection(type: Int, urlKey: String,
                                userNameKey: String, passwordKey: String): AbstractConnection? {
-        val url = prefs.getString(urlKey, "").toNormalizedUrl()
+        val url = prefs.getString(urlKey).toNormalizedUrl()
         if (url.isEmpty()) {
             return null
         }

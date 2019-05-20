@@ -50,10 +50,7 @@ import org.openhab.habdroid.ui.widget.DividerItemDecoration
 import org.openhab.habdroid.ui.widget.ExtendedSpinner
 import org.openhab.habdroid.ui.widget.SegmentedControlButton
 import org.openhab.habdroid.ui.widget.WidgetImageView
-import org.openhab.habdroid.util.Constants
-import org.openhab.habdroid.util.MjpegStreamer
-import org.openhab.habdroid.util.Util
-import org.openhab.habdroid.util.getPrefs
+import org.openhab.habdroid.util.*
 
 import java.util.ArrayList
 import java.util.HashMap
@@ -711,10 +708,8 @@ class WidgetAdapter(context: Context, private val connection: Connection,
                 return
             }
 
-            val scalingFactor = prefs.getFloat(Constants.PREFERENCE_CHART_SCALING, 1.0f)
-            val requestHighResChart = prefs.getBoolean(Constants.PREFERENCE_CHART_HQ, true)
-            val actualDensity = density.toFloat() / scalingFactor
-            val resDivider = if (requestHighResChart) 1 else 2
+            val actualDensity = density.toFloat() / prefs.getChartScalingFactor()
+            val resDivider = if (prefs.shouldRequestHighResChart()) 1 else 2
 
             val chartUrl = StringBuilder("chart?")
                     .append(if (item.type === Item.Type.Group) "groups=" else "items=")

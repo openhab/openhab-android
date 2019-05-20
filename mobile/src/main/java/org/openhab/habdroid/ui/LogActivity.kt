@@ -17,7 +17,9 @@ import kotlinx.coroutines.*
 
 import org.openhab.habdroid.R
 import org.openhab.habdroid.util.Constants
+import org.openhab.habdroid.util.getLocalUrl
 import org.openhab.habdroid.util.getPrefs
+import org.openhab.habdroid.util.getRemoteUrl
 
 import java.io.BufferedReader
 import java.io.InputStreamReader
@@ -142,12 +144,8 @@ class LogActivity : AbstractBaseActivity(), CoroutineScope {
         }
 
         var log = logBuilder.toString()
-        log = redactHost(log,
-                getPrefs().getString(Constants.PREFERENCE_LOCAL_URL, ""),
-                "<openhab-local-address>")
-        log = redactHost(log,
-                getPrefs().getString(Constants.PREFERENCE_REMOTE_URL, ""),
-                "<openhab-remote-address>")
+        log = redactHost(log, getPrefs().getLocalUrl(), "<openhab-local-address>")
+        log = redactHost(log, getPrefs().getRemoteUrl(), "<openhab-remote-address>")
         log
     }
 

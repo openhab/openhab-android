@@ -33,6 +33,8 @@ import org.openhab.habdroid.model.ServerProperties
 import org.openhab.habdroid.ui.widget.toItemUpdatePrefValue
 import org.openhab.habdroid.util.CacheManager
 import org.openhab.habdroid.util.Constants
+import org.openhab.habdroid.util.getString
+import org.openhab.habdroid.util.updateDefaultSitemap
 import java.util.*
 
 /**
@@ -128,7 +130,7 @@ class PreferencesActivity : AbstractBaseActivity() {
         }
 
         private fun hasClientCertificate(): Boolean {
-            return !prefs.getString(Constants.PREFERENCE_SSLCLIENTCERT, "").isNullOrEmpty()
+            return !prefs.getString(Constants.PREFERENCE_SSLCLIENTCERT).isEmpty()
         }
 
         protected fun isConnectionSecure(url: String?, user: String?, password: String?): Boolean {
@@ -197,8 +199,8 @@ class PreferencesActivity : AbstractBaseActivity() {
             val viewLogPref = findPreference(Constants.PREFERENCE_LOG)
             val prefs = preferenceScreen.sharedPreferences
 
-            val currentDefaultSitemap = prefs.getString(Constants.PREFERENCE_SITEMAP_NAME, "") as String
-            val currentDefaultSitemapLabel = prefs.getString(Constants.PREFERENCE_SITEMAP_LABEL, "") as String
+            val currentDefaultSitemap = prefs.getString(Constants.PREFERENCE_SITEMAP_NAME)
+            val currentDefaultSitemapLabel = prefs.getString(Constants.PREFERENCE_SITEMAP_LABEL)
             if (currentDefaultSitemap.isEmpty()) {
                 onNoDefaultSitemap(clearDefaultSitemapPref)
             } else {
@@ -213,9 +215,9 @@ class PreferencesActivity : AbstractBaseActivity() {
                     Constants.PREFERENCE_REMOTE_URL, Constants.PREFERENCE_REMOTE_USERNAME,
                     Constants.PREFERENCE_REMOTE_PASSWORD)
             updateRingtonePreferenceSummary(ringtonePref,
-                    prefs.getString(Constants.PREFERENCE_TONE, ""))
+                    prefs.getString(Constants.PREFERENCE_TONE))
             updateVibrationPreferenceIcon(vibrationPref,
-                    prefs.getString(Constants.PREFERENCE_NOTIFICATION_VIBRATION, "")!!)
+                    prefs.getString(Constants.PREFERENCE_NOTIFICATION_VIBRATION))
 
             localConnPref.setOnPreferenceClickListener {
                 parentActivity.openSubScreen(LocalConnectionSettingsFragment())
@@ -247,11 +249,7 @@ class PreferencesActivity : AbstractBaseActivity() {
             }
 
             clearDefaultSitemapPref.setOnPreferenceClickListener { preference ->
-                preference.sharedPreferences.edit {
-                    putString(Constants.PREFERENCE_SITEMAP_NAME, "")
-                    putString(Constants.PREFERENCE_SITEMAP_LABEL, "")
-                }
-
+                preference.sharedPreferences.edit { updateDefaultSitemap(null) }
                 onNoDefaultSitemap(preference)
                 parentActivity.resultIntent.putExtra(RESULT_EXTRA_SITEMAP_CLEARED, true)
                 true
@@ -384,11 +382,12 @@ class PreferencesActivity : AbstractBaseActivity() {
         private fun updateConnectionSummary(subscreenPrefKey: String, urlPrefKey: String,
                                             userPrefKey: String, passwordPrefKey: String) {
             val pref = findPreference(subscreenPrefKey)
-            val url = beautifyUrl(prefs.getString(urlPrefKey, ""))
+            val url = beautifyUrl(prefs.getString(urlPrefKey))
             val summary = when {
                 url.isEmpty() -> getString(R.string.info_not_set)
-                isConnectionSecure(url, prefs.getString(userPrefKey, ""),
-                        prefs.getString(passwordPrefKey, "")) -> getString(R.string.settings_connection_summary, url)
+                isConnectionSecure(url, prefs.getString(userPrefKey), prefs.getString(passwordPrefKey)) -> {
+                    getString(R.string.settings_connection_summary, url)
+                }
                 else -> getString(R.string.settings_insecure_connection_summary, url)
             }
             pref.summary = summary
@@ -424,9 +423,8 @@ class PreferencesActivity : AbstractBaseActivity() {
                 })
             }
 
-            updateIconColors(prefs.getString(urlPrefKey, ""),
-                    prefs.getString(userNamePrefKey, ""),
-                    prefs.getString(passwordPrefKey, ""))
+            updateIconColors(prefs.getString(urlPrefKey),
+                    prefs.getString(userNamePrefKey), prefs.getString(passwordPrefKey))
         }
 
 
@@ -442,7 +440,7 @@ class PreferencesActivity : AbstractBaseActivity() {
                 pref.summary = summaryGenerator(newValue as String)
                 true
             }
-            preference.summary = summaryGenerator(prefs.getString(key, ""))
+            preference.summary = summaryGenerator(prefs.getString(key))
             return preference
         }
 
