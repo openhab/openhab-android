@@ -325,7 +325,7 @@ class WriteTagActivity : AbstractBaseActivity(), CoroutineScope {
 
         fun createSitemapNavigationIntent(context: Context, sitemapUrl: String): Intent {
             val sitemapUri = sitemapUrl.toUri()
-            val path = sitemapUri.path ?: ""
+            val path = sitemapUri.path.orEmpty()
             if (!path.startsWith("/rest/sitemaps")) {
                 throw IllegalArgumentException("Expected a sitemap URL")
             }

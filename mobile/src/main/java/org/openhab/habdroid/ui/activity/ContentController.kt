@@ -411,7 +411,7 @@ abstract class ContentController protected constructor(private val activity: Mai
     override fun onPageUpdated(pageUrl: String, pageTitle: String?, widgets: List<Widget>) {
         Log.d(TAG, "Got update for URL $pageUrl, pending $pendingDataLoadUrls")
         val fragment = findWidgetFragmentForUrl(pageUrl)
-        fragment?.updateTitle(pageTitle ?: "")
+        fragment?.updateTitle(pageTitle.orEmpty())
         fragment?.updateWidgets(widgets)
         if (pendingDataLoadUrls.remove(pageUrl) && pendingDataLoadUrls.isEmpty()) {
             activity.setProgressIndicatorVisible(false)

@@ -118,7 +118,7 @@ data class ParsedState internal constructor(val asString: String, val asBoolean:
          */
         fun toString(locale: Locale): String {
             if (!format.isNullOrEmpty()) {
-                val actualFormat = format.replace("%unit%", unit ?: "")
+                val actualFormat = format.replace("%unit%", unit.orEmpty())
                 try {
                     return String.format(locale, actualFormat, value)
                 } catch (e: IllegalFormatException) {

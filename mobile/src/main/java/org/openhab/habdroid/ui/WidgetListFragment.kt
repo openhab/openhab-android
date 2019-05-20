@@ -45,7 +45,7 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener {
     private var highlightedPageLink: String? = null
 
     val displayPageUrl: String
-        get() = arguments?.getString("displayPageUrl") ?: ""
+        get() = arguments?.getString("displayPageUrl").orEmpty()
 
     val title: String?
         get() = titleOverride ?: arguments?.getString("title")
@@ -155,7 +155,7 @@ class WidgetListFragment : Fragment(), WidgetAdapter.ItemClickListener {
                         if (itemToHandle != null) {
                             startActivity(WriteTagActivity.createItemUpdateIntent(activity!!,
                                     itemToHandle.name, commands[which],
-                                    labels[which], itemToHandle.label ?: ""))
+                                    labels[which], itemToHandle.label.orEmpty()))
                         } else if (linkToHandle != null) {
                             startActivity(WriteTagActivity.createSitemapNavigationIntent(
                                     activity!!, linkToHandle))

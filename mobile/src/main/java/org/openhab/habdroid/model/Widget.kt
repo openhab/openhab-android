@@ -219,7 +219,7 @@ fun Node.collectWidgets(parent: Widget?): List<Widget> {
     }
 
     val finalId = id ?: return emptyList()
-    val widget = Widget.build(finalId, parent?.id, label ?: "",
+    val widget = Widget.build(finalId, parent?.id, label.orEmpty(),
             icon, String.format("images/%s.png", icon),
             item?.state, type, url, item, linkedPage, mappings, encoding, iconColor,
             labelColor, valueColor, refresh, minValue, maxValue, step, period,

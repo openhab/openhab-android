@@ -80,7 +80,7 @@ class ItemUpdatingPreference constructor(context: Context, attrs: AttributeSet?)
         }
 
         helpIcon = v.findViewById(R.id.help_icon)
-        helpIcon.setupHelpIcon(howtoUrl?: "", howtoHint ?: "")
+        helpIcon.setupHelpIcon(howtoUrl.orEmpty(), howtoHint.orEmpty())
 
         onCheckedChanged(switch, switch.isChecked)
 

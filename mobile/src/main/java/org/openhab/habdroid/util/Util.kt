@@ -149,7 +149,7 @@ object Util {
             return context.getString(R.string.error_http_to_https_port)
         } else {
             Log.e(TAG, "REST call to $url failed", error)
-            return error.message ?: ""
+            return error.message.orEmpty()
         }
     }
 
