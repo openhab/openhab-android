@@ -107,16 +107,14 @@ class ConnectionFactory internal constructor(private val context: Context, priva
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
-        if (Constants.PREFERENCE_DEBUG_MESSAGES == key) {
+        if (key == Constants.PREFERENCE_DEBUG_MESSAGES) {
             updateHttpLoggerSettings()
         }
-        if (CLIENT_CERT_UPDATE_TRIGGERING_KEYS.contains(key)) {
+        if (key in CLIENT_CERT_UPDATE_TRIGGERING_KEYS) {
             updateHttpClientForClientCert(false)
         }
-        if (UPDATE_TRIGGERING_KEYS.contains(key)) {
-            launch {
-                updateConnections()
-            }
+        if (key in UPDATE_TRIGGERING_KEYS) launch {
+            updateConnections()
         }
     }
 
@@ -318,7 +316,7 @@ class ConnectionFactory internal constructor(private val context: Context, priva
                 remote
             }
             // Else if we are on Wifi, Ethernet, WIMAX or VPN network
-            LOCAL_CONNECTION_TYPES.contains(info.type) -> {
+            info.type in LOCAL_CONNECTION_TYPES -> {
                 // If local URL is configured and reachable
                 if (local != null && local.checkReachabilityInBackground()) {
                     Log.d(TAG, "Connecting to local URL")
@@ -401,14 +399,14 @@ class ConnectionFactory internal constructor(private val context: Context, priva
 
     companion object {
         private val TAG = ConnectionFactory::class.java.simpleName
-        private val LOCAL_CONNECTION_TYPES = Arrays.asList(
+        private val LOCAL_CONNECTION_TYPES = listOf(
                 ConnectivityManager.TYPE_ETHERNET, ConnectivityManager.TYPE_WIFI,
                 ConnectivityManager.TYPE_WIMAX, ConnectivityManager.TYPE_VPN
         )
-        private val CLIENT_CERT_UPDATE_TRIGGERING_KEYS = Arrays.asList(
+        private val CLIENT_CERT_UPDATE_TRIGGERING_KEYS = listOf(
                 Constants.PREFERENCE_DEMOMODE, Constants.PREFERENCE_SSLCLIENTCERT
         )
-        private val UPDATE_TRIGGERING_KEYS = Arrays.asList(
+        private val UPDATE_TRIGGERING_KEYS = listOf(
                 Constants.PREFERENCE_LOCAL_URL, Constants.PREFERENCE_REMOTE_URL,
                 Constants.PREFERENCE_LOCAL_USERNAME, Constants.PREFERENCE_LOCAL_PASSWORD,
                 Constants.PREFERENCE_REMOTE_USERNAME, Constants.PREFERENCE_REMOTE_PASSWORD,

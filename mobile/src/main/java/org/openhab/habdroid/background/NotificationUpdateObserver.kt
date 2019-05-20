@@ -28,7 +28,7 @@ internal class NotificationUpdateObserver(context: Context) : Observer<List<Work
         val latestInfoByTag = HashMap<String, WorkInfo>()
         for (info in workInfos) {
             for (tag in info.tags) {
-                if (BackgroundTasksManager.KNOWN_KEYS.contains(tag)
+                if (tag in BackgroundTasksManager.KNOWN_KEYS
                         || tag.startsWith(BackgroundTasksManager.WORKER_TAG_PREFIX_NFC)) {
                     val state = info.state
                     if (state == WorkInfo.State.ENQUEUED || state == WorkInfo.State.RUNNING) {

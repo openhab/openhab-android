@@ -19,12 +19,12 @@ fun Uri.toTagData(): NfcTag? {
     if (scheme != NfcTag.SCHEME) {
         return null
     }
-    val item = if (queryParameterNames.contains(NfcTag.DEPRECATED_QUERY_PARAMETER_ITEM_NAME))
+    val item = if (NfcTag.DEPRECATED_QUERY_PARAMETER_ITEM_NAME in queryParameterNames)
         getQueryParameter(NfcTag.DEPRECATED_QUERY_PARAMETER_ITEM_NAME)
     else
         getQueryParameter(NfcTag.QUERY_PARAMETER_ITEM_NAME)
     val label = getQueryParameter(NfcTag.QUERY_PARAMETER_ITEM_LABEL)
-    val state = if (queryParameterNames.contains(NfcTag.DEPRECATED_QUERY_PARAMETER_STATE))
+    val state = if (NfcTag.DEPRECATED_QUERY_PARAMETER_STATE in queryParameterNames)
         getQueryParameter(NfcTag.DEPRECATED_QUERY_PARAMETER_STATE)
     else
         getQueryParameter(NfcTag.QUERY_PARAMETER_STATE)

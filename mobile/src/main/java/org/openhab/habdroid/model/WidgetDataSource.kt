@@ -38,7 +38,7 @@ class WidgetDataSource(private val iconFormat: String) {
                     .map { w -> w.id }
                     .toSet()
             return allWidgets
-                    .filter { w -> w.parentId == null || firstLevelWidgetIds.contains(w.parentId) }
+                    .filter { w -> w.parentId == null || w.parentId in firstLevelWidgetIds }
         }
 
     fun setSourceNode(rootNode: Node?) {

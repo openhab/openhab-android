@@ -48,22 +48,22 @@ class BackgroundTasksManager : BroadcastReceiver() {
         private val context = context.applicationContext
 
         override fun onSharedPreferenceChanged(prefs: SharedPreferences, key: String) {
-            if (Constants.PREFERENCE_DEMOMODE == key) {
-                if (prefs.getBoolean(key, false)) {
+            when {
+                key == Constants.PREFERENCE_DEMOMODE && prefs.isDemoModeEnabled() -> {
                     // demo mode was enabled -> cancel all uploads and clear DB
                     // to clear out notifications
-                    with (WorkManager.getInstance()) {
+                    with(WorkManager.getInstance()) {
                         cancelAllWorkByTag(WORKER_TAG_ITEM_UPLOADS)
                         pruneWork()
                     }
-                } else {
+                }
+                key == Constants.PREFERENCE_DEMOMODE && !prefs.isDemoModeEnabled() -> {
                     // demo mode was disabled -> reschedule uploads
                     for (knownKey in KNOWN_KEYS) {
                         scheduleWorker(context, knownKey)
                     }
                 }
-            } else if (KNOWN_KEYS.contains(key)) {
-                scheduleWorker(context, key)
+                key in KNOWN_KEYS -> scheduleWorker(context, key)
             }
         }
     }
@@ -77,7 +77,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
         private const val WORKER_TAG_ITEM_UPLOADS = "itemUploads"
         const val WORKER_TAG_PREFIX_NFC = "nfc-"
 
-        internal val KNOWN_KEYS = Arrays.asList(
+        internal val KNOWN_KEYS = listOf(
                 Constants.PREFERENCE_ALARM_CLOCK
         )
         private val VALUE_GETTER_MAP = HashMap<String, (Context) -> String>()

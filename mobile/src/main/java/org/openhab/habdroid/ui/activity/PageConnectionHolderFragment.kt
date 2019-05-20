@@ -151,7 +151,7 @@ class PageConnectionHolderFragment : Fragment() {
             return
         }
 
-        connections.keys.filter { url -> !urls.contains(url) }
+        connections.keys.filterNot { url -> url in urls }
                 .forEach { url -> connections.remove(url)?.cancel() }
         for (url in urls) {
             var handler = connections[url]
