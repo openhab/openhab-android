@@ -41,9 +41,10 @@ object MapViewHelper {
             mapView.onCreate(null)
             mapView.getMapAsync { map ->
                 this.map = map
-                val settings = map.uiSettings
-                settings.setAllGesturesEnabled(false)
-                settings.isMapToolbarEnabled = false
+                with (map.uiSettings) {
+                    setAllGesturesEnabled(false)
+                    isMapToolbarEnabled = false
+                }
                 map.setOnMarkerClickListener {
                     openPopup()
                     true

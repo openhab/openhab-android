@@ -1,16 +1,16 @@
 package org.openhab.habdroid
 
-import android.preference.PreferenceManager
 import androidx.core.content.edit
 import androidx.test.InstrumentationRegistry
 
 import org.junit.Before
 import org.openhab.habdroid.util.Constants
+import org.openhab.habdroid.util.getPrefs
 
 abstract class TestWithoutIntro : ProgressbarAwareTest() {
     @Before
     override fun setup() {
-        PreferenceManager.getDefaultSharedPreferences(InstrumentationRegistry.getTargetContext()).edit {
+        InstrumentationRegistry.getTargetContext().getPrefs().edit {
             putString(Constants.PREFERENCE_SITEMAP_NAME, "")
             if (preselectSitemap()) {
                 putString(Constants.PREFERENCE_SITEMAP_NAME, "demo")

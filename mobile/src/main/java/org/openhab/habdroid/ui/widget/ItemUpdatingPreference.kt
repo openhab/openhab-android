@@ -3,7 +3,6 @@ package org.openhab.habdroid.ui.widget
 import android.app.AlertDialog
 import android.content.Context
 import android.content.res.TypedArray
-import android.os.Build
 import android.os.Bundle
 import android.preference.DialogPreference
 import android.text.Editable
@@ -12,7 +11,6 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.*
-import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.SwitchCompat
 
 import com.google.android.material.textfield.TextInputLayout
@@ -20,11 +18,12 @@ import org.openhab.habdroid.R
 import org.openhab.habdroid.ui.setupHelpIcon
 import org.openhab.habdroid.ui.updateHelpIconAlpha
 
-class ItemUpdatingPreference : DialogPreference, TextWatcher, CompoundButton.OnCheckedChangeListener {
-    private var howtoHint: String? = null
-    private var howtoUrl: String? = null
-    private var summaryOn: String? = null
-    private var summaryOff: String? = null
+class ItemUpdatingPreference constructor(context: Context, attrs: AttributeSet?):
+        DialogPreference(context, attrs), TextWatcher, CompoundButton.OnCheckedChangeListener {
+    private val howtoHint: String?
+    private val howtoUrl: String?
+    private val summaryOn: String?
+    private val summaryOff: String?
     private var value: Pair<Boolean, String>? = null
 
     private lateinit var helpIcon: ImageView
@@ -33,40 +32,14 @@ class ItemUpdatingPreference : DialogPreference, TextWatcher, CompoundButton.OnC
     private lateinit var editor: EditText
     private var okButton: Button? = null
 
-    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs) {
-        if (attrs != null) {
-            val a = context.obtainStyledAttributes(attrs,
-                    R.styleable.ItemUpdatingPreference)
-            initAttributes(a)
-            a.recycle()
+    init {
+        context.obtainStyledAttributes(attrs, R.styleable.ItemUpdatingPreference).apply {
+            howtoHint = getString(R.styleable.ItemUpdatingPreference_helpHint)
+            howtoUrl = getString(R.styleable.ItemUpdatingPreference_helpUrl)
+            summaryOn = getString(R.styleable.ItemUpdatingPreference_summaryEnabled)
+            summaryOff = getString(R.styleable.ItemUpdatingPreference_summaryDisabled)
+            recycle()
         }
-    }
-
-    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
-        if (attrs != null) {
-            val a = context.obtainStyledAttributes(attrs,
-                    R.styleable.ItemUpdatingPreference)
-            initAttributes(a)
-            a.recycle()
-        }
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int,
-                defStyleRes: Int) : super(context, attrs, defStyleAttr, defStyleRes) {
-        if (attrs != null) {
-            val a = context.obtainStyledAttributes(attrs,
-                    R.styleable.ItemUpdatingPreference, defStyleAttr, defStyleRes)
-            initAttributes(a)
-            a.recycle()
-        }
-    }
-
-    private fun initAttributes(attrs: TypedArray) {
-        howtoHint = attrs.getString(R.styleable.ItemUpdatingPreference_helpHint)
-        howtoUrl = attrs.getString(R.styleable.ItemUpdatingPreference_helpUrl)
-        summaryOn = attrs.getString(R.styleable.ItemUpdatingPreference_summaryEnabled)
-        summaryOff = attrs.getString(R.styleable.ItemUpdatingPreference_summaryDisabled)
 
         dialogTitle = null
         setPositiveButtonText(android.R.string.ok)

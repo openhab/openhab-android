@@ -15,7 +15,6 @@ import android.content.res.Resources
 import android.os.Build
 import android.os.Handler
 import android.os.Looper
-import android.preference.PreferenceManager
 import android.util.Log
 import androidx.annotation.StyleRes
 import androidx.core.net.toUri
@@ -62,8 +61,7 @@ object Util {
     fun getActivityThemeId(activity: Activity, theme: String? = null): Int {
         var actualTheme = theme
         if (actualTheme == null) {
-            actualTheme= PreferenceManager.getDefaultSharedPreferences(activity)
-                    .getString(Constants.PREFERENCE_THEME, activity.getString(R.string.theme_value_light))
+            actualTheme = activity.getPrefs().getString(Constants.PREFERENCE_THEME, activity.getString(R.string.theme_value_light))
         }
 
         return when (actualTheme) {
@@ -117,8 +115,7 @@ object Util {
      * [}][androidx.core.app.NotificationCompat.Builder.setVibrate]
      */
     fun getNotificationVibrationPattern(context: Context): LongArray {
-        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
-        return when (prefs.getString(Constants.PREFERENCE_NOTIFICATION_VIBRATION, "")) {
+        return when (context.getPrefs().getString(Constants.PREFERENCE_NOTIFICATION_VIBRATION, "")) {
             context.getString(R.string.settings_notification_vibration_value_short) -> longArrayOf(0, 500, 500)
             context.getString(R.string.settings_notification_vibration_value_long) -> longArrayOf(0, 1000, 1000)
             context.getString(R.string.settings_notification_vibration_value_twice) -> longArrayOf(0, 1000, 1000, 1000, 1000)

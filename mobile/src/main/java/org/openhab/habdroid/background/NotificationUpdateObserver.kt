@@ -7,7 +7,6 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.os.Build
-import android.preference.PreferenceManager
 import androidx.annotation.StringRes
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
@@ -19,6 +18,7 @@ import org.openhab.habdroid.R
 import org.openhab.habdroid.ui.MainActivity
 import org.openhab.habdroid.util.Constants
 import org.openhab.habdroid.util.Util
+import org.openhab.habdroid.util.getPrefs
 
 import java.util.ArrayList
 import java.util.HashMap
@@ -160,7 +160,6 @@ internal class NotificationUpdateObserver(context: Context) : Observer<List<Work
         private fun createErrorNotification(context: Context,
                                             errors: ArrayList<CharSequence>,
                                             retryInfos: ArrayList<BackgroundTasksManager.RetryInfo>): Notification {
-            val prefs = PreferenceManager.getDefaultSharedPreferences(context)
             val text = context.resources.getQuantityString(R.plurals.item_update_error_title,
                     errors.size, errors.size)
 
@@ -169,7 +168,7 @@ internal class NotificationUpdateObserver(context: Context) : Observer<List<Work
                     .setCategory(NotificationCompat.CATEGORY_ERROR)
                     .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                     .setLights(ContextCompat.getColor(context, R.color.openhab_orange), 3000, 3000)
-                    .setSound(prefs.getString(Constants.PREFERENCE_TONE, "")?.toUri())
+                    .setSound(context.getPrefs().getString(Constants.PREFERENCE_TONE, "")?.toUri())
                     .setVibrate(Util.getNotificationVibrationPattern(context))
 
             if (errors.size > 1) {

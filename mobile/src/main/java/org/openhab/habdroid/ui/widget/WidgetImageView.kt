@@ -29,8 +29,7 @@ import org.openhab.habdroid.util.CacheManager
 import org.openhab.habdroid.util.HttpClient
 import java.lang.ref.WeakReference
 
-class WidgetImageView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyle: Int = 0) :
-        AppCompatImageView(context, attrs, defStyle) {
+class WidgetImageView constructor(context: Context, attrs: AttributeSet?) : AppCompatImageView(context, attrs) {
 
     private val defaultSvgSize: Int
     private val fallback: Drawable?
@@ -57,11 +56,12 @@ class WidgetImageView @JvmOverloads constructor(context: Context, attrs: Attribu
     }
 
     init {
-        val a = if (attrs != null) context.obtainStyledAttributes(attrs, R.styleable.WidgetImageView) else null
-        fallback = a?.getDrawable(R.styleable.WidgetImageView_fallback)
-        progressDrawable = a?.getDrawable(R.styleable.WidgetImageView_progressIndicator)
-        emptyHeightToWidthRatio = a?.getFraction(R.styleable.WidgetImageView_emptyHeightToWidthRatio, 1, 1, 0f) ?: 0F
-        a?.recycle()
+        context.obtainStyledAttributes(attrs, R.styleable.WidgetImageView).apply {
+            fallback = getDrawable(R.styleable.WidgetImageView_fallback)
+            progressDrawable = getDrawable(R.styleable.WidgetImageView_progressIndicator)
+            emptyHeightToWidthRatio = getFraction(R.styleable.WidgetImageView_emptyHeightToWidthRatio, 1, 1, 0f) ?: 0F
+            recycle()
+        }
 
         defaultSvgSize = context.resources.getDimensionPixelSize(R.dimen.svg_image_default_size)
         refreshHandler = RefreshHandler(this)

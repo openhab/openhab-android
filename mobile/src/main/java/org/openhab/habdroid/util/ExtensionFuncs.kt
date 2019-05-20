@@ -3,7 +3,9 @@ package org.openhab.habdroid.util
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.net.Uri
+import android.preference.PreferenceManager
 import android.util.Log
 import es.dmoral.toasty.Toasty
 import org.json.JSONArray
@@ -70,4 +72,8 @@ fun JSONArray.forEach(action: (JSONObject) -> Unit) =
 
 inline fun <T> JSONArray.map(transform: (JSONObject) -> T): List<T> {
     return (0 until length()).map { index -> transform(getJSONObject(index)) }
+}
+
+inline fun Context.getPrefs(): SharedPreferences {
+    return PreferenceManager.getDefaultSharedPreferences(this)
 }

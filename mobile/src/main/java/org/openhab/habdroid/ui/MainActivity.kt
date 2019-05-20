@@ -26,7 +26,6 @@ import android.content.res.ColorStateList
 import android.content.res.Configuration
 import android.graphics.Bitmap
 import android.graphics.PorterDuff
-import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.Icon
 import android.net.Uri
@@ -55,6 +54,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.core.content.edit
 import androidx.core.graphics.drawable.DrawableCompat
+import androidx.core.graphics.drawable.toDrawable
 import androidx.core.net.toUri
 import androidx.core.text.inSpans
 import androidx.core.view.GravityCompat
@@ -151,7 +151,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener, C
         // Set default values, false means do it one time during the very first launch
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false)
 
-        prefs = PreferenceManager.getDefaultSharedPreferences(this)
+        prefs = getPrefs()
 
         // Disable screen timeout if set in preferences
         if (prefs.getBoolean(Constants.PREFERENCE_SCREENTIMEROFF, false)) {
@@ -291,7 +291,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener, C
                 }
             }
             if (connection !is DemoConnection) {
-                PreferenceManager.getDefaultSharedPreferences(this).edit {
+                prefs.edit {
                     putInt(Constants.PREV_SERVER_FLAGS, props.flags)
                 }
             }
@@ -309,7 +309,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener, C
             val port = info.port.toString()
             Log.d(TAG, "Service resolved: $address port: $port")
 
-            PreferenceManager.getDefaultSharedPreferences(this).edit {
+            prefs.edit {
                 putString(Constants.PREFERENCE_LOCAL_URL, "https://$address:$port")
             }
         } else {
@@ -635,7 +635,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener, C
             }
 
             override fun onSuccess(response: Bitmap, headers: Headers) {
-                item.icon = BitmapDrawable(resources, response)
+                item.icon = response.toDrawable(resources)
             }
         }]
     }
@@ -688,8 +688,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener, C
     }
 
     private fun selectConfiguredSitemapFromList(): Sitemap? {
-        val settings = PreferenceManager.getDefaultSharedPreferences(this)
-        val configuredSitemap = settings.getString(Constants.PREFERENCE_SITEMAP_NAME, "") as String
+        val configuredSitemap = prefs.getString(Constants.PREFERENCE_SITEMAP_NAME, "") as String
         val sitemaps = serverProperties!!.sitemaps
         val result = when {
             // We only have one sitemap, use it
@@ -701,7 +700,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener, C
         }
 
         Log.d(TAG, "Configured sitemap is '$configuredSitemap', selected $result")
-        settings.edit {
+        prefs.edit {
             if (result == null && configuredSitemap.isNotEmpty()) {
                 // clear old configuration
                 remove(Constants.PREFERENCE_SITEMAP_LABEL)
@@ -732,7 +731,7 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener, C
                 .setItems(sitemapLabels) { _, which ->
                     val sitemap = sitemaps[which]
                     Log.d(TAG, "Selected sitemap $sitemap")
-                    PreferenceManager.getDefaultSharedPreferences(this@MainActivity).edit {
+                    prefs.edit {
                         putString(Constants.PREFERENCE_SITEMAP_NAME, sitemap.name)
                         putString(Constants.PREFERENCE_SITEMAP_LABEL, sitemap.label)
                     }
@@ -907,7 +906,6 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener, C
     }
 
     fun showRefreshHintSnackbarIfNeeded() {
-        val prefs = PreferenceManager.getDefaultSharedPreferences(this)
         if (prefs.getBoolean(Constants.PREFERENCE_SWIPE_REFRESH_EXPLAINED, false)) {
             return
         }
@@ -920,7 +918,6 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener, C
     }
 
     private fun showDemoModeHintSnackbar() {
-        val prefs = PreferenceManager.getDefaultSharedPreferences(this)
         showSnackbar(R.string.info_demo_mode_short, R.string.turn_off) {
             prefs.edit {
                 putBoolean(Constants.PREFERENCE_DEMOMODE, false)
@@ -949,7 +946,6 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener, C
         Log.e(TAG, "HTTP status code: $statusCode")
         var message = Util.getHumanReadableErrorMessage(this,
                 request.url().toString(), statusCode, error)
-        val prefs = PreferenceManager.getDefaultSharedPreferences(this@MainActivity)
         if (prefs.getBoolean(Constants.PREFERENCE_DEBUG_MESSAGES, false)) {
             message = SpannableStringBuilder(message).apply {
                 inSpans(RelativeSizeSpan(0.8f)) {

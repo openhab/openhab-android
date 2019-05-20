@@ -18,7 +18,6 @@ package org.openhab.habdroid.ui.widget
 import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Canvas
-import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Paint.Style
 import android.util.AttributeSet
@@ -30,7 +29,7 @@ import org.openhab.habdroid.R
 
 /** @author benjamin ferrari
  */
-class SegmentedControlButton : AppCompatRadioButton {
+class SegmentedControlButton constructor(context: Context, attrs: AttributeSet?): AppCompatRadioButton(context, attrs) {
     private val underlineHeight: Int
     private val textDistanceFromLine: Int
 
@@ -40,37 +39,33 @@ class SegmentedControlButton : AppCompatRadioButton {
     private val backgroundColorList: ColorStateList?
     private val backgroundPaint: Paint?
 
-    constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
-
-    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
+    init {
         buttonDrawable = null
-
-        val a = if (attrs != null) context.obtainStyledAttributes(attrs, R.styleable.SegmentedControlButton) else null
-
-        underlineHeight = a?.getDimensionPixelSize(R.styleable.SegmentedControlButton_underlineHeight, 0) ?: 0
-        textDistanceFromLine = a?.getDimensionPixelSize(R.styleable.SegmentedControlButton_textDistanceFromLine, 0) ?: 0
 
         textPaint = Paint()
         textPaint.isAntiAlias = true
         textPaint.textSize = textSize
         textPaint.textAlign = Paint.Align.CENTER
 
-        @ColorInt val lineColor = a?.getColor(R.styleable.SegmentedControlButton_underlineColor, 0) ?: Color.TRANSPARENT
         linePaint = Paint()
-        linePaint.color = lineColor
         linePaint.style = Style.FILL
 
-        @IdRes val bgColorResId = a?.getResourceId(
-                R.styleable.SegmentedControlButton_backgroundColor, 0) ?: 0
-        if (bgColorResId != 0) {
-            backgroundColorList = AppCompatResources.getColorStateList(getContext(), bgColorResId)
-            backgroundPaint = Paint()
-        } else {
-            backgroundColorList = null
-            backgroundPaint = null
-        }
+        context.obtainStyledAttributes(attrs, R.styleable.SegmentedControlButton).apply {
+            underlineHeight = getDimensionPixelSize(R.styleable.SegmentedControlButton_underlineHeight, 0)
+            textDistanceFromLine = getDimensionPixelSize(R.styleable.SegmentedControlButton_textDistanceFromLine, 0)
+            linePaint.color = getColor(R.styleable.SegmentedControlButton_underlineColor, 0)
 
-        a?.recycle()
+            @IdRes val bgColorResId = getResourceId(R.styleable.SegmentedControlButton_backgroundColor, 0)
+            if (bgColorResId != 0) {
+                backgroundColorList = AppCompatResources.getColorStateList(getContext(), bgColorResId)
+                backgroundPaint = Paint()
+            } else {
+                backgroundColorList = null
+                backgroundPaint = null
+            }
+
+            recycle()
+        }
     }
 
     override fun drawableStateChanged() {

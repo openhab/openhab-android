@@ -3,7 +3,6 @@ package org.openhab.habdroid.core.connection
 import android.app.Activity
 import android.content.*
 import android.net.ConnectivityManager
-import android.preference.PreferenceManager
 import android.security.KeyChain
 import android.security.KeyChainException
 import android.util.Log
@@ -21,6 +20,7 @@ import org.openhab.habdroid.core.connection.exception.NetworkNotSupportedExcepti
 import org.openhab.habdroid.core.connection.exception.NoUrlInformationException
 import org.openhab.habdroid.util.CacheManager
 import org.openhab.habdroid.util.Constants
+import org.openhab.habdroid.util.getPrefs
 import org.openhab.habdroid.util.toNormalizedUrl
 import java.net.Socket
 import java.security.Principal
@@ -421,7 +421,7 @@ class ConnectionFactory internal constructor(private val context: Context, priva
         @VisibleForTesting lateinit var instance: ConnectionFactory
 
         fun initialize(ctx: Context) {
-            instance = ConnectionFactory(ctx, PreferenceManager.getDefaultSharedPreferences(ctx))
+            instance = ConnectionFactory(ctx, ctx.getPrefs())
             instance.launch {
                 instance.updateConnections()
             }

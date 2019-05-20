@@ -2,7 +2,6 @@ package org.openhab.habdroid.ui
 
 import android.content.Intent
 import android.os.Bundle
-import android.preference.PreferenceManager
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
@@ -18,6 +17,7 @@ import kotlinx.coroutines.*
 
 import org.openhab.habdroid.R
 import org.openhab.habdroid.util.Constants
+import org.openhab.habdroid.util.getPrefs
 
 import java.io.BufferedReader
 import java.io.InputStreamReader
@@ -142,12 +142,11 @@ class LogActivity : AbstractBaseActivity(), CoroutineScope {
         }
 
         var log = logBuilder.toString()
-        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(applicationContext)
         log = redactHost(log,
-                sharedPreferences.getString(Constants.PREFERENCE_LOCAL_URL, ""),
+                getPrefs().getString(Constants.PREFERENCE_LOCAL_URL, ""),
                 "<openhab-local-address>")
         log = redactHost(log,
-                sharedPreferences.getString(Constants.PREFERENCE_REMOTE_URL, ""),
+                getPrefs().getString(Constants.PREFERENCE_REMOTE_URL, ""),
                 "<openhab-remote-address>")
         log
     }

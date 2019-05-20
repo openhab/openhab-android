@@ -14,7 +14,6 @@ import android.content.Intent
 import android.graphics.PorterDuff
 import android.net.wifi.WifiManager
 import android.os.Bundle
-import android.preference.PreferenceManager
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -28,6 +27,7 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.core.app.TaskStackBuilder
 import androidx.core.content.ContextCompat
+import androidx.core.content.edit
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -47,6 +47,7 @@ import org.openhab.habdroid.ui.PreferencesActivity
 import org.openhab.habdroid.ui.WidgetListFragment
 import org.openhab.habdroid.util.Constants
 import org.openhab.habdroid.util.Util
+import org.openhab.habdroid.util.getPrefs
 
 import java.util.ArrayList
 import java.util.HashSet
@@ -73,9 +74,9 @@ abstract class ContentController protected constructor(private val activity: Mai
     private val pendingDataLoadUrls = HashSet<String>()
 
     override val iconFormat: String
-        get() = PreferenceManager.getDefaultSharedPreferences(activity).getString("iconFormatType", "PNG") as String
+        get() = activity.getPrefs().getString("iconFormatType", "PNG") as String
     override val isDetailedLoggingEnabled: Boolean
-        get() = PreferenceManager.getDefaultSharedPreferences(activity).getBoolean(Constants.PREFERENCE_DEBUG_MESSAGES, false)
+        get() = activity.getPrefs().getBoolean(Constants.PREFERENCE_DEBUG_MESSAGES, false)
     override val serverProperties: ServerProperties?
         get() = activity.serverProperties
 
@@ -585,10 +586,11 @@ abstract class ContentController protected constructor(private val activity: Mai
                 }
                 arguments?.getBoolean(KEY_RESOLVE_ATTEMPTED) == true -> {
                     // If we attempted resolving, secondary button enables demo mode
-                    PreferenceManager.getDefaultSharedPreferences(context)
-                            .edit()
-                            .putBoolean(Constants.PREFERENCE_DEMOMODE, true)
-                            .apply()
+                    context?.apply {
+                        getPrefs().edit {
+                            putBoolean(Constants.PREFERENCE_DEMOMODE, true)
+                        }
+                    }
                 }
                 arguments?.getBoolean(KEY_WIFI_ENABLED) == true -> {
                     // If Wifi is enabled, secondary button suggests retrying

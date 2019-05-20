@@ -7,7 +7,6 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Build
 import android.os.Parcelable
-import android.preference.PreferenceManager
 import android.util.Log
 import androidx.work.Constraints
 import androidx.work.NetworkType
@@ -19,6 +18,7 @@ import org.openhab.habdroid.model.NfcTag
 import org.openhab.habdroid.ui.widget.toItemUpdatePrefValue
 import org.openhab.habdroid.util.Constants
 import org.openhab.habdroid.util.Util
+import org.openhab.habdroid.util.getPrefs
 import java.util.*
 
 class BackgroundTasksManager : BroadcastReceiver() {
@@ -94,8 +94,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
             infoLiveData.observeForever(NotificationUpdateObserver(context))
 
             prefsListener = PrefsListener(context)
-            val prefs = PreferenceManager.getDefaultSharedPreferences(context)
-            prefs.registerOnSharedPreferenceChangeListener(prefsListener)
+            context.getPrefs().registerOnSharedPreferenceChangeListener(prefsListener)
         }
 
         fun enqueueNfcUpdateIfNeeded(context: Context, tag: NfcTag?) {
@@ -110,7 +109,7 @@ class BackgroundTasksManager : BroadcastReceiver() {
         }
 
         private fun scheduleWorker(context: Context, key: String) {
-            val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+            val prefs = context.getPrefs()
             val setting = if (prefs.getBoolean(Constants.PREFERENCE_DEMOMODE, false)) {
                 Pair(false, "") // Don't attempt any uploads in demo mode
             } else {

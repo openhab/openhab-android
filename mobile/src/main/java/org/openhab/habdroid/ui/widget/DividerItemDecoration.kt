@@ -12,9 +12,10 @@ open class DividerItemDecoration(context: Context) : RecyclerView.ItemDecoration
     private val divider: Drawable?
 
     init {
-        val a = context.obtainStyledAttributes(null, intArrayOf(android.R.attr.listDivider))
-        divider = a.getDrawable(0)
-        a.recycle()
+        context.obtainStyledAttributes(null, intArrayOf(android.R.attr.listDivider)).apply {
+            divider = getDrawable(0)
+            recycle()
+        }
     }
 
     override fun getItemOffsets(outRect: Rect, view: View,

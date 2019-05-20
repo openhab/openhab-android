@@ -34,7 +34,6 @@ import java.net.URLEncoder
 import java.util.Locale
 
 class FcmRegistrationService : JobIntentService() {
-
     /**
      * @author https://stackoverflow.com/a/12707479
      */
@@ -42,6 +41,16 @@ class FcmRegistrationService : JobIntentService() {
         get() {
             val manufacturer = Build.MANUFACTURER
             val model = Build.MODEL
+
+            fun capitalize(s: String): String {
+                val first = s.elementAtOrNull(0) ?: return ""
+                return if (Character.isUpperCase(first)) {
+                    s
+                } else {
+                    Character.toUpperCase(first) + s.substring(1)
+                }
+            }
+
             return if (model.toLowerCase().startsWith(manufacturer.toLowerCase())) {
                 capitalize(model)
             } else {
@@ -81,33 +90,21 @@ class FcmRegistrationService : JobIntentService() {
         val token = FirebaseInstanceId.getInstance().getToken(connection.messagingSenderId,
                 FirebaseMessaging.INSTANCE_ID_SCOPE)
         val deviceName = deviceName + if (Util.isFlavorBeta) " (" + getString(R.string.beta) + ")" else ""
-        val deviceId = Settings.Secure.getString(contentResolver,
-                Settings.Secure.ANDROID_ID) + if (Util.isFlavorBeta) "-beta" else ""
+        val deviceId = Settings.Secure.getString(contentResolver, Settings.Secure.ANDROID_ID) +
+                if (Util.isFlavorBeta) "-beta" else ""
 
         val regUrl = String.format(Locale.US,
                 "addAndroidRegistration?deviceId=%s&deviceModel=%s&regId=%s",
                 deviceId, URLEncoder.encode(deviceName, "UTF-8"), token)
 
         Log.d(TAG, "Register device at openHAB-cloud with URL: $regUrl")
-        val result = connection.syncHttpClient[regUrl].asStatus()
+        val result = connection.syncHttpClient.get(regUrl).asStatus()
         if (result.isSuccessful) {
             Log.d(TAG, "FCM reg id success")
         } else {
             Log.e(TAG, "FCM reg id error: " + result.error)
         }
         CloudMessagingHelper.registrationFailureReason = result.error
-    }
-
-    /**
-     * @author https://stackoverflow.com/a/12707479
-     */
-    private fun capitalize(s: String): String {
-        val first = s.elementAtOrNull(0) ?: return ""
-        return if (Character.isUpperCase(first)) {
-            s
-        } else {
-            Character.toUpperCase(first) + s.substring(1)
-        }
     }
 
     private fun sendHideNotificationRequest(notificationId: Int, senderId: String) {

@@ -18,7 +18,6 @@ import android.graphics.Color
 import android.net.Uri
 import android.os.Handler
 import android.os.Message
-import android.preference.PreferenceManager
 import android.util.Base64
 import android.util.DisplayMetrics
 import android.util.Log
@@ -54,6 +53,7 @@ import org.openhab.habdroid.ui.widget.WidgetImageView
 import org.openhab.habdroid.util.Constants
 import org.openhab.habdroid.util.MjpegStreamer
 import org.openhab.habdroid.util.Util
+import org.openhab.habdroid.util.getPrefs
 
 import java.util.ArrayList
 import java.util.HashMap
@@ -545,7 +545,7 @@ class WidgetAdapter(context: Context, private val connection: Connection,
             // bind views
             val state = boundItem?.state?.asString
             mappings.forEachIndexed { index, mapping ->
-                with (radioGroup.getChildAt(index) as SegmentedControlButton) {
+                with (radioGroup[index] as SegmentedControlButton) {
                     text = mapping.label
                     tag = mapping.value
                     isChecked = mapping.value == state
@@ -554,7 +554,7 @@ class WidgetAdapter(context: Context, private val connection: Connection,
             }
             // hide spare views
             for (i in mappings.size until radioGroup.childCount) {
-                radioGroup.getChildAt(i).isVisible = false
+                radioGroup[i].isVisible = false
             }
         }
 
@@ -699,7 +699,7 @@ class WidgetAdapter(context: Context, private val connection: Connection,
             wm.defaultDisplay.getMetrics(metrics)
 
             density = metrics.densityDpi
-            prefs = PreferenceManager.getDefaultSharedPreferences(context)
+            prefs = context.getPrefs()
         }
 
         override fun bind(widget: Widget) {

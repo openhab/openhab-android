@@ -17,9 +17,7 @@ import android.app.PendingIntent
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.net.Uri
 import android.os.Build
-import android.preference.PreferenceManager
 import android.service.notification.StatusBarNotification
 
 import com.google.firebase.messaging.FirebaseMessagingService
@@ -27,6 +25,7 @@ import com.google.firebase.messaging.RemoteMessage
 
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
+import androidx.core.net.toUri
 
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.Connection
@@ -34,6 +33,7 @@ import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.ui.MainActivity
 import org.openhab.habdroid.util.Constants
 import org.openhab.habdroid.util.Util
+import org.openhab.habdroid.util.getPrefs
 
 import java.util.Locale
 
@@ -58,9 +58,8 @@ class FcmMessageListenerService : FirebaseMessagingService() {
                 // Older versions of openhab-cloud didn't send the notification generation
                 // timestamp, so use the (undocumented) google.sent_time as a time reference
                 // in that case. If that also isn't present, don't show time at all.
-                val timestampString = if (data.containsKey("timestamp"))
-                    data["timestamp"] else data["google.sent_time"]
-                val timestamp = timestampString?.toLong() ?: 0
+                val timestamp = if (data.containsKey("timestamp"))
+                    (data["timestamp"]?.toLong() ?: 0) else message.sentTime
                 val channelId = if (severity.isNullOrEmpty())
                     CHANNEL_ID_DEFAULT else String.format(Locale.US, CHANNEL_ID_FORMAT_SEVERITY, severity)
 
@@ -70,11 +69,11 @@ class FcmMessageListenerService : FirebaseMessagingService() {
                     else
                         getString(R.string.notification_channel_severity_value, severity)
 
-                    val channel = NotificationChannel(
-                            channelId, name, NotificationManager.IMPORTANCE_DEFAULT)
-                    channel.setShowBadge(true)
-                    channel.enableVibration(true)
-                    nm.createNotificationChannel(channel)
+                    with (NotificationChannel(channelId, name, NotificationManager.IMPORTANCE_DEFAULT)) {
+                        setShowBadge(true)
+                        enableVibration(true)
+                        nm.createNotificationChannel(this)
+                    }
                 }
 
                 val n = makeNotification(messageText, channelId,
@@ -105,19 +104,18 @@ class FcmMessageListenerService : FirebaseMessagingService() {
     }
 
     private fun makeNotificationClickIntent(persistedId: String?, notificationId: Int): PendingIntent {
-        val contentIntent = Intent(this, MainActivity::class.java)
-                .setAction(MainActivity.ACTION_NOTIFICATION_SELECTED)
-                .setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                .putExtra(EXTRA_NOTIFICATION_ID, notificationId)
-                .putExtra(MainActivity.EXTRA_PERSISTED_NOTIFICATION_ID, persistedId)
+        val contentIntent = Intent(this, MainActivity::class.java).apply {
+            action = MainActivity.ACTION_NOTIFICATION_SELECTED
+            flags = Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_CLEAR_TOP
+            putExtra(EXTRA_NOTIFICATION_ID, notificationId)
+            putExtra(MainActivity.EXTRA_PERSISTED_NOTIFICATION_ID, persistedId)
+        }
         return PendingIntent.getActivity(this, notificationId,
                 contentIntent, PendingIntent.FLAG_UPDATE_CURRENT)
     }
 
     private fun makeNotification(msg: String?, channelId: String, icon: String?,
                                  timestamp: Long, persistedId: String?, notificationId: Int): Notification {
-        val prefs = PreferenceManager.getDefaultSharedPreferences(this)
-        val toneSetting = prefs.getString(Constants.PREFERENCE_TONE, "")
         var iconBitmap: Bitmap? = null
 
         if (icon != null) {
@@ -144,7 +142,7 @@ class FcmMessageListenerService : FirebaseMessagingService() {
         return makeNotificationBuilder(channelId, timestamp)
                 .setLargeIcon(iconBitmap)
                 .setStyle(NotificationCompat.BigTextStyle().bigText(msg))
-                .setSound(Uri.parse(toneSetting))
+                .setSound(getPrefs().getString(Constants.PREFERENCE_TONE, "").toUri())
                 .setContentText(msg)
                 .setContentIntent(contentIntent)
                 .setDeleteIntent(FcmRegistrationService.createHideNotificationIntent(this, notificationId))

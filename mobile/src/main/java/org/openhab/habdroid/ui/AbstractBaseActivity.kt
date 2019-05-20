@@ -4,7 +4,6 @@ import android.app.ActivityManager
 import android.graphics.BitmapFactory
 import android.os.Build
 import android.os.Bundle
-import android.preference.PreferenceManager
 import android.util.TypedValue
 import android.view.View
 import androidx.annotation.CallSuper
@@ -13,14 +12,14 @@ import androidx.appcompat.app.AppCompatActivity
 import org.openhab.habdroid.R
 import org.openhab.habdroid.util.Constants
 import org.openhab.habdroid.util.Util
+import org.openhab.habdroid.util.getPrefs
 
 abstract class AbstractBaseActivity : AppCompatActivity() {
     // If we are 4.4 we can use fullscreen mode and Daydream features
     protected val isFullscreenEnabled: Boolean
         get() = if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
             false
-        } else PreferenceManager.getDefaultSharedPreferences(this)
-                .getBoolean(Constants.PREFERENCE_FULLSCREEN, false)
+        } else getPrefs().getBoolean(Constants.PREFERENCE_FULLSCREEN, false)
 
     @CallSuper
     override fun onCreate(savedInstanceState: Bundle?) {
