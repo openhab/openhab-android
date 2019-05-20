@@ -20,12 +20,8 @@ import androidx.annotation.StyleRes
 import androidx.core.net.toUri
 import es.dmoral.toasty.Toasty
 
-import okhttp3.Headers
-import okhttp3.Request
 import org.openhab.habdroid.BuildConfig
 import org.openhab.habdroid.R
-import org.openhab.habdroid.model.Item
-import org.openhab.habdroid.model.ParsedState
 
 import java.io.EOFException
 import java.io.IOException
@@ -36,7 +32,6 @@ import java.security.cert.CertPathValidatorException
 import java.security.cert.CertificateExpiredException
 import java.security.cert.CertificateNotYetValidException
 import java.security.cert.CertificateRevokedException
-import java.util.Locale
 
 import javax.net.ssl.SSLException
 import javax.net.ssl.SSLPeerUnverifiedException
@@ -71,43 +66,6 @@ object Util {
             activity.getString(R.string.theme_value_basic_ui_dark) -> R.style.HABDroid_Basic_ui_dark
             else -> R.style.HABDroid_Light
         }
-    }
-
-    fun sendItemCommand(client: AsyncHttpClient, item: Item?,
-                        state: ParsedState.NumberState?) {
-        if (item == null || state == null) {
-            return
-        }
-        if (item.isOfTypeOrGroupType(Item.Type.NumberWithDimension)) {
-            // For number items, include unit (if present) in command
-            sendItemCommand(client, item, state.toString(Locale.US))
-        } else {
-            // For all other items, send the plain value
-            sendItemCommand(client, item, state.formatValue())
-        }
-    }
-
-    fun sendItemCommand(client: AsyncHttpClient, item: Item?, command: String) {
-        if (item == null) {
-            return
-        }
-        sendItemCommand(client, item.link, command)
-    }
-
-    private fun sendItemCommand(client: AsyncHttpClient, itemUrl: String?, command: String?) {
-        if (itemUrl == null || command == null) {
-            return
-        }
-        client.post(itemUrl, command, "text/plain;charset=UTF-8",
-                object : AsyncHttpClient.StringResponseHandler() {
-                    override fun onFailure(request: Request, statusCode: Int, error: Throwable) {
-                        Log.e(TAG, "Sending command $command to $itemUrl failed: status $statusCode", error)
-                    }
-
-                    override fun onSuccess(response: String, headers: Headers) {
-                        Log.d(TAG, "Command '$command' was sent successfully to $itemUrl")
-                    }
-                })
     }
 
     fun getHumanReadableErrorMessage(context: Context, url: String,

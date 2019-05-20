@@ -16,7 +16,6 @@ import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.Connection
 import org.openhab.habdroid.model.Item
 import org.openhab.habdroid.model.Widget
-import org.openhab.habdroid.util.Util
 import java.util.*
 
 object MapViewHelper {
@@ -94,7 +93,7 @@ object MapViewHelper {
         override fun onMarkerDragEnd(marker: Marker) {
             val newState = String.format(Locale.US, "%f,%f",
                     marker.position.latitude, marker.position.longitude)
-            Util.sendItemCommand(connection.asyncHttpClient, marker.tag as Item?, newState)
+            connection.asyncHttpClient.sendItemCommand(marker.tag as Item?, newState)
         }
 
         private fun openPopup() {
