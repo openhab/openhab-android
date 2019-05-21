@@ -26,13 +26,13 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 
-public class ItemPickerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
+public class ItemPickerAdapter extends RecyclerView.Adapter<ItemPickerAdapter.ItemViewHolder>
         implements View.OnClickListener {
     public interface ItemClickListener {
         void onItemClicked(Item item);
     }
 
-    private ArrayList<Item> mItems = new ArrayList<>();
+    private ArrayList<Item> mFilteredItems = new ArrayList<>();
     private ArrayList<Item> mAllItems = new ArrayList<>();
     private ItemClickListener mItemClickListener;
     private final LayoutInflater mInflater;
@@ -47,22 +47,23 @@ public class ItemPickerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         mItemClickListener = itemClickListener;
     }
 
-    public void addLoadedItems(List<Item> items) {
-        mItems.clear();
-        mItems.addAll(items);
-        Collections.sort(mItems, new ItemNameComparator());
-        mAllItems = new ArrayList<>(mItems);
+    public void setItems(List<Item> items) {
+        mFilteredItems.clear();
+        mFilteredItems.addAll(items);
+        Collections.sort(mFilteredItems, new ItemNameComparator());
+        mAllItems.clear();
+        mAllItems.addAll(mFilteredItems);
         notifyDataSetChanged();
     }
 
     public void filter(String filter) {
-        mItems.clear();
+        mFilteredItems.clear();
         String searchTerm = filter.toLowerCase();
         for (Item item : mAllItems) {
             if (item.name().toLowerCase().contains(searchTerm)
                     || item.label().toLowerCase().contains(searchTerm)
                     || item.type().toString().toLowerCase().contains(searchTerm)) {
-                mItems.add(item);
+                mFilteredItems.add(item);
             }
         }
         notifyDataSetChanged();
@@ -75,13 +76,13 @@ public class ItemPickerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     }
 
     public void clear() {
-        mItems.clear();
+        mFilteredItems.clear();
         notifyDataSetChanged();
     }
 
     public int findPositionForName(String name) {
-        for (int i = 0; i < mItems.size(); i++) {
-            if (TextUtils.equals(mItems.get(i).name(), name)) {
+        for (int i = 0; i < mFilteredItems.size(); i++) {
+            if (TextUtils.equals(mFilteredItems.get(i).name(), name)) {
                 return i;
             }
         }
@@ -95,14 +96,13 @@ public class ItemPickerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new ItemViewHolder(mInflater, parent);
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        ItemViewHolder itemViewHolder = (ItemViewHolder) holder;
-        itemViewHolder.bind(mItems.get(position));
+    public void onBindViewHolder(ItemViewHolder holder, int position) {
+        holder.bind(mFilteredItems.get(position));
         holder.itemView.setOnClickListener(mItemClickListener != null ? this : null);
 
         if (position == mHighlightedPosition) {
@@ -122,7 +122,7 @@ public class ItemPickerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     @Override
     public int getItemCount() {
-        return mItems.size();
+        return mFilteredItems.size();
     }
 
     public static class ItemViewHolder extends RecyclerView.ViewHolder {
@@ -151,9 +151,9 @@ public class ItemPickerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             } catch (ConnectionException e) {
                 connection = null;
             }
-            if (item.icon() != null && connection != null) {
+            if (item.category() != null && connection != null) {
                 String iconUrl = String.format(Locale.US, "images/%s.%s",
-                        Uri.encode(item.icon()),
+                        Uri.encode(item.category()),
                         TextUtils.isEmpty(mIconFormat) ? "png" : mIconFormat);
                 mIconView.setImageUrl(connection, iconUrl, mIconView.getResources()
                         .getDimensionPixelSize(R.dimen.notificationlist_icon_size), 2000);
@@ -168,7 +168,7 @@ public class ItemPickerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         ItemPickerAdapter.ItemViewHolder holder = (ItemPickerAdapter.ItemViewHolder) view.getTag();
         int position = holder.getAdapterPosition();
         if (position != RecyclerView.NO_POSITION) {
-            mItemClickListener.onItemClicked(mItems.get(position));
+            mItemClickListener.onItemClicked(mFilteredItems.get(position));
         }
     }
 }

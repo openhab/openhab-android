@@ -10,19 +10,17 @@ import org.openhab.habdroid.model.LabeledValue;
 import org.openhab.habdroid.model.ParsedState;
 import org.openhab.habdroid.model.Widget;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SuggestCommandsFactory {
-    Context mContext;
-    List<String> mCommands;
-    List<String> mLabels;
-    boolean mShowUndef;
+    private Context mContext;
+    private List<String> mCommands = new ArrayList<>();
+    private List<String> mLabels = new ArrayList<>();
+    private boolean mShowUndef;
 
-    public SuggestCommandsFactory(Context context, List<String> commands, List<String> labels,
-            boolean showUndef) {
+    public SuggestCommandsFactory(Context context, boolean showUndef) {
         mContext = context;
-        mCommands = commands;
-        mLabels = labels;
         mShowUndef = showUndef;
     }
     
@@ -52,6 +50,14 @@ public class SuggestCommandsFactory {
         fill(widget.item());
     }
 
+    public List<String> getCommands() {
+        return mCommands;
+    }
+
+    public List<String> getLabels() {
+        return mLabels;
+    }
+
     public void fill(@Nullable Item item) {
         if (item == null) {
             return;
@@ -73,7 +79,7 @@ public class SuggestCommandsFactory {
         } else if (item.isOfTypeOrGroupType(Item.Type.Number)) {
             // Don't suggest numbers that might be totally out of context if there's already
             // at least one command
-            if (mCommands.size() == 0) {
+            if (mCommands.isEmpty()) {
                 addCommonNumberCommands();
             }
         } else if (item.isOfTypeOrGroupType(Item.Type.NumberWithDimension)) {
@@ -106,11 +112,8 @@ public class SuggestCommandsFactory {
         }
     }
     
-    private void add(String commandAndlabel) {
-        if (!mCommands.contains(commandAndlabel)) {
-            mCommands.add(commandAndlabel);
-            mLabels.add(commandAndlabel);
-        }
+    private void add(String commandAndLabel) {
+        add(commandAndLabel, commandAndLabel);
     }
 
     private void add(String command, @StringRes int label) {

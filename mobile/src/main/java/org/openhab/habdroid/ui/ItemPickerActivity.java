@@ -36,6 +36,7 @@ import org.openhab.habdroid.util.TaskerIntent;
 import org.openhab.habdroid.util.Util;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ItemPickerActivity extends AbstractBaseActivity
         implements SwipeRefreshLayout.OnRefreshListener, View.OnClickListener,
@@ -157,7 +158,7 @@ public class ItemPickerActivity extends AbstractBaseActivity
                         }
                     }
                     Log.d(TAG, "Item request success, got " + items.size() + " items");
-                    mItemPickerAdapter.addLoadedItems(items);
+                    mItemPickerAdapter.setItems(items);
                     handleInitialHighlight();
                     updateViewVisibility(false, false);
                 } catch (JSONException e) {
@@ -187,10 +188,12 @@ public class ItemPickerActivity extends AbstractBaseActivity
             return;
         }
 
-        ArrayList<String> labels = new ArrayList<>();
-        ArrayList<String> commands = new ArrayList<>();
+        SuggestCommandsFactory suggestCommandsFactory =
+                new SuggestCommandsFactory(this, true);
+        suggestCommandsFactory.fill(item);
 
-        new SuggestCommandsFactory(this, commands, labels, true).fill(item);
+        List<String> labels = suggestCommandsFactory.getLabels();
+        List<String> commands = suggestCommandsFactory.getCommands();
 
         labels.add(getString(R.string.item_picker_custom));
 

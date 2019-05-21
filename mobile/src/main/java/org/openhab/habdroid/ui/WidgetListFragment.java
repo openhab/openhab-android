@@ -51,7 +51,6 @@ import org.openhab.habdroid.util.Constants;
 import org.openhab.habdroid.util.SuggestCommandsFactory;
 import org.openhab.habdroid.util.Util;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -127,10 +126,12 @@ public class WidgetListFragment extends Fragment
 
     @Override
     public boolean onItemLongClicked(final Widget widget) {
-        ArrayList<String> labels = new ArrayList<>();
-        ArrayList<String> commands = new ArrayList<>();
+        SuggestCommandsFactory suggestCommandsFactory =
+                new SuggestCommandsFactory(getContext(), false);
+        suggestCommandsFactory.fill(widget);
 
-        new SuggestCommandsFactory(getContext(), commands, labels, false).fill(widget);
+        List<String> labels = suggestCommandsFactory.getLabels();
+        List<String> commands = suggestCommandsFactory.getCommands();
 
         if (widget.linkedPage() != null) {
             labels.add(getString(R.string.nfc_action_to_sitemap_page));
