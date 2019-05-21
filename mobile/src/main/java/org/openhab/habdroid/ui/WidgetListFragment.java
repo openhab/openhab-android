@@ -22,7 +22,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -203,7 +202,9 @@ public class WidgetListFragment extends Fragment
 
         if (widget.linkedPage() != null) {
             labels.add(getString(R.string.nfc_action_to_sitemap_page));
-            labels.add(getString(R.string.home_shortcut_pin_to_home));
+            if (ShortcutManagerCompat.isRequestPinShortcutSupported(getContext())) {
+                labels.add(getString(R.string.home_shortcut_pin_to_home));
+            }
         }
 
         if (!labels.isEmpty()) {
@@ -212,12 +213,12 @@ public class WidgetListFragment extends Fragment
                     .setTitle(R.string.nfc_dialog_title)
                     .setItems(labelArray, (dialog, which) -> {
                         if (which < commands.size()) {
-                            startActivityForResult(WriteTagActivity.createItemUpdateIntent(
+                            startActivity(WriteTagActivity.createItemUpdateIntent(
                                     getActivity(), widget.item().name(), commands.get(which),
-                                    labels.get(which), widget.item().label()), 0);
+                                    labels.get(which), widget.item().label()));
                         } else if (which == commands.size()) {
-                            startActivityForResult(WriteTagActivity.createSitemapNavigationIntent(
-                                    getActivity(), widget.linkedPage().link()), 0);
+                            startActivity(WriteTagActivity.createSitemapNavigationIntent(
+                                    getActivity(), widget.linkedPage().link()));
                         } else {
                             createShortcut(widget.linkedPage());
                         }
@@ -303,7 +304,11 @@ public class WidgetListFragment extends Fragment
                 }
 
                 if (url != null) {
-                    /** Icon size is defined in {@link AdaptiveIconDrawable}. **/
+                    /**
+                     *  Icon size is defined in {@link AdaptiveIconDrawable}. Foreground size of
+                     *  46dp instead of 72dp adds enough border to the icon.
+                     *  46dp foreground + 2 * 31dp border = 108dp
+                     **/
                     int foregroundSize = (int) Util.convertDpToPixel(46, context);
                     Bitmap bitmap = connection.getSyncHttpClient().get(url)
                             .asBitmap(foregroundSize).response;
