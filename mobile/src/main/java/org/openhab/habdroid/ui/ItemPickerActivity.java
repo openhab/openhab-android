@@ -9,7 +9,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
@@ -205,10 +204,6 @@ public class ItemPickerActivity extends AbstractBaseActivity
                         finish(true, item.name(), commands.get(which));
                     } else {
                         final EditText input = new EditText(this);
-                        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-                                LinearLayout.LayoutParams.MATCH_PARENT,
-                                LinearLayout.LayoutParams.MATCH_PARENT);
-                        input.setLayoutParams(lp);
                         new AlertDialog.Builder(this)
                                 .setTitle(getString(R.string.item_picker_custom))
                                 .setView(input)
