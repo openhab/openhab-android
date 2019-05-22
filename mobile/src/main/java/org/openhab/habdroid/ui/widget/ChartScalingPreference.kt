@@ -59,7 +59,7 @@ class ChartScalingPreference : Preference, SeekBar.OnSeekBarChangeListener {
         return a.getFloat(index, 1.0f)
     }
 
-    override fun onSetInitialValue(restorePersistedValue: Boolean, defaultValue: Any) {
+    override fun onSetInitialValue(restorePersistedValue: Boolean, defaultValue: Any?) {
         super.onSetInitialValue(restorePersistedValue, defaultValue)
         val defaultFloat = defaultValue as? Float ?: 1.0f
         value = if (restorePersistedValue) getPersistedFloat(defaultFloat) else defaultFloat
