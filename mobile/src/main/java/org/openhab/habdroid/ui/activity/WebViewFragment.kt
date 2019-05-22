@@ -21,7 +21,6 @@ import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.CloudConnection
 import org.openhab.habdroid.core.connection.Connection
 import org.openhab.habdroid.core.connection.ConnectionFactory
-import org.openhab.habdroid.core.connection.exception.ConnectionException
 import org.openhab.habdroid.ui.AnchorWebViewClient
 import org.openhab.habdroid.ui.setUpForConnection
 
@@ -90,14 +89,7 @@ class WebViewFragment : Fragment(), ConnectionFactory.UpdateListener {
     }
 
     private fun loadWebsite(urlToLoad: String = urltoLoad) {
-        try {
-            connection = ConnectionFactory.usableConnection
-        } catch (e: ConnectionException) {
-            updateViewVisibility(error = true, loading = false)
-            return
-        }
-
-        val conn = connection
+        val conn = ConnectionFactory.usableConnectionOrNull
         if (conn == null) {
             updateViewVisibility(error = true, loading = false)
             return

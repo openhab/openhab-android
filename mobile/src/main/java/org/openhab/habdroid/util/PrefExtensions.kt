@@ -44,7 +44,7 @@ inline fun SharedPreferences.shouldRequestHighResChart(): Boolean {
 }
 
 inline fun SharedPreferences.getString(key: String): String {
-    return getString(key, "") as String
+    return getString(key, "").orEmpty()
 }
 
 /**

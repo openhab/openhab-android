@@ -77,10 +77,7 @@ import org.openhab.habdroid.core.connection.CloudConnection
 import org.openhab.habdroid.core.connection.Connection
 import org.openhab.habdroid.core.connection.ConnectionFactory
 import org.openhab.habdroid.core.connection.DemoConnection
-import org.openhab.habdroid.core.connection.exception.ConnectionException
-import org.openhab.habdroid.core.connection.exception.NetworkNotAvailableException
-import org.openhab.habdroid.core.connection.exception.NetworkNotSupportedException
-import org.openhab.habdroid.core.connection.exception.NoUrlInformationException
+import org.openhab.habdroid.core.connection.exception.*
 import org.openhab.habdroid.model.*
 import org.openhab.habdroid.ui.activity.ContentController
 import org.openhab.habdroid.ui.homescreenwidget.VoiceWidget
@@ -186,15 +183,10 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener, C
             selectedSitemap = savedInstanceState.getParcelable("sitemap")
             val lastConnectionHash = savedInstanceState.getInt("connectionHash")
             if (lastConnectionHash != -1) {
-                try {
-                    val c = ConnectionFactory.usableConnection
-                    if (c != null && c.hashCode() == lastConnectionHash) {
-                        connection = c
-                    }
-                } catch (e: ConnectionException) {
-                    // ignored
+                val c = ConnectionFactory.usableConnectionOrNull
+                if (c != null && c.hashCode() == lastConnectionHash) {
+                    connection = c
                 }
-
             }
 
             controller.onRestoreInstanceState(savedInstanceState)
@@ -447,12 +439,11 @@ class MainActivity : AbstractBaseActivity(), ConnectionFactory.UpdateListener, C
                 controller.indicateNoNetwork(
                         getString(R.string.error_wifi_not_available), true)
             }
-            failureReason != null -> {
-                controller.indicateNoNetwork(getString(R.string.error_network_not_available),
-                        false)
+            failureReason is ConnectionNotInitializedException -> {
+                controller.updateConnection(null, null, 0)
             }
             else -> {
-                controller.updateConnection(null, null, 0)
+                controller.indicateNoNetwork(getString(R.string.error_network_not_available), false)
             }
         }
 

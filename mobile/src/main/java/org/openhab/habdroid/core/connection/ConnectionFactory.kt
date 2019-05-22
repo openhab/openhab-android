@@ -14,10 +14,7 @@ import okhttp3.OkHttpClient
 import okhttp3.internal.tls.OkHostnameVerifier
 import okhttp3.logging.HttpLoggingInterceptor
 import org.openhab.habdroid.core.CloudMessagingHelper
-import org.openhab.habdroid.core.connection.exception.ConnectionException
-import org.openhab.habdroid.core.connection.exception.NetworkNotAvailableException
-import org.openhab.habdroid.core.connection.exception.NetworkNotSupportedException
-import org.openhab.habdroid.core.connection.exception.NoUrlInformationException
+import org.openhab.habdroid.core.connection.exception.*
 import org.openhab.habdroid.util.*
 import java.net.Socket
 import java.security.Principal
@@ -467,11 +464,10 @@ class ConnectionFactory internal constructor(private val context: Context, priva
          * - TYPE_REMOTE
          * - TYPE_CLOUD
          *
-         * May return null if the available connection has not been initially determined yet.
-         * Otherwise a Connection object is returned or, if there's an issue in configuration or
-         * network connectivity, the respective exception is thrown.
+         * If there's an issue in configuration or network connectivity, or the connection
+         * is not yet initialized, the respective exception is thrown.
          */
-        val usableConnection: Connection?
+        val usableConnection: Connection
             @Throws(ConnectionException::class)
             get() {
                 instance.triggerConnectionUpdateIfNeededAndPending()
@@ -479,8 +475,18 @@ class ConnectionFactory internal constructor(private val context: Context, priva
                 if (reason != null) {
                     throw reason
                 }
-                return instance.availableConnection
+                if (!instance.availableInitialized) {
+                    throw ConnectionNotInitializedException()
+                }
+                return instance.availableConnection!!
             }
+
+        /**
+         * Like {@link usableConnection}, but returns null instead of throwing in case
+         * a connection could not be determined
+         */
+        val usableConnectionOrNull: Connection?
+            get() = instance.availableConnection
 
         /**
          * Returns a Connection of the specified type.

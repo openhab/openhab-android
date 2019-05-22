@@ -37,7 +37,7 @@ class VoiceService : IntentService("VoiceService") {
         }
 
         try {
-            sendVoiceCommand(ConnectionFactory.usableConnection!!.syncHttpClient, voiceCommand)
+            sendVoiceCommand(ConnectionFactory.usableConnection.syncHttpClient, voiceCommand)
         } catch (e: ConnectionException) {
             Log.w(TAG, "Couldn't determine openHAB URL", e)
             Util.showToast(this, getString(R.string.error_couldnt_determine_openhab_url))

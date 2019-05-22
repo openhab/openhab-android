@@ -26,7 +26,6 @@ import org.openhab.habdroid.R
 import org.openhab.habdroid.core.CloudMessagingHelper
 import org.openhab.habdroid.core.connection.Connection
 import org.openhab.habdroid.core.connection.ConnectionFactory
-import org.openhab.habdroid.core.connection.exception.ConnectionException
 import org.openhab.habdroid.model.ServerProperties
 import org.openhab.habdroid.util.AsyncHttpClient
 import org.openhab.habdroid.util.Util
@@ -95,12 +94,7 @@ class AboutActivity : AbstractBaseActivity(), FragmentManager.OnBackStackChanged
         override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                                   savedInstanceState: Bundle?): View? {
             serverProperties = arguments?.getParcelable("serverProperties")
-            try {
-                connection = ConnectionFactory.usableConnection
-            } catch (ignored: ConnectionException) {
-                // ignored
-            }
-
+            connection = ConnectionFactory.usableConnectionOrNull
             return super.onCreateView(inflater, container, savedInstanceState)
         }
 
