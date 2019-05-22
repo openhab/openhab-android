@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.net.toUri
 import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.transaction
 
 import com.danielstone.materialaboutlibrary.MaterialAboutFragment
 import com.danielstone.materialaboutlibrary.items.MaterialAboutActionItem
@@ -50,10 +51,9 @@ class AboutActivity : AbstractBaseActivity(), FragmentManager.OnBackStackChanged
         if (savedInstanceState == null) {
             val f = AboutMainFragment()
             f.arguments = intent.extras
-            supportFragmentManager
-                    .beginTransaction()
-                    .add(R.id.about_container, f)
-                    .commit()
+            supportFragmentManager.transaction {
+                add(R.id.about_container, f)
+            }
         }
 
         updateTitle()
@@ -145,14 +145,13 @@ class AboutActivity : AbstractBaseActivity(), FragmentManager.OnBackStackChanged
                                 .withLicenseShown(true)
                                 .withAutoDetect(true)
                                 .supportFragment()
-                        fragmentManager!!
-                                .beginTransaction()
-                                .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left,
-                                        R.anim.slide_in_left, R.anim.slide_out_right)
-                                .replace(R.id.about_container, f)
-                                .setBreadCrumbTitle(R.string.title_activity_libraries)
-                                .addToBackStack(null)
-                                .commit()
+                        fragmentManager?.transaction {
+                            setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left,
+                                    R.anim.slide_in_left, R.anim.slide_out_right)
+                            replace(R.id.about_container, f)
+                            setBreadCrumbTitle(R.string.title_activity_libraries)
+                            addToBackStack(null)
+                        }
                     }
                     .build())
             appCard.addItem(MaterialAboutActionItem.Builder()

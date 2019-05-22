@@ -40,6 +40,7 @@ import androidx.core.net.toUri
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.transaction
 import kotlinx.coroutines.*
 
 import org.openhab.habdroid.R
@@ -77,10 +78,9 @@ class WriteTagActivity : AbstractBaseActivity(), CoroutineScope {
         nfcAdapter = manager.defaultAdapter
 
         if (savedInstanceState == null) {
-            supportFragmentManager
-                    .beginTransaction()
-                    .add(R.id.writenfc_container, fragment)
-                    .commit()
+            supportFragmentManager.transaction {
+                add(R.id.writenfc_container, fragment)
+            }
         }
 
         setResult(RESULT_OK)
@@ -115,10 +115,9 @@ class WriteTagActivity : AbstractBaseActivity(), CoroutineScope {
             adapter.enableForegroundDispatch(this, pendingIntent, null, null)
         }
 
-        supportFragmentManager
-                .beginTransaction()
-                .replace(R.id.writenfc_container, fragment)
-                .commit()
+        supportFragmentManager.transaction {
+            replace(R.id.writenfc_container, fragment)
+        }
     }
 
     public override fun onPause() {

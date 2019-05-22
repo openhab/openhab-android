@@ -33,6 +33,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
+import androidx.fragment.app.transaction
 
 import org.openhab.habdroid.R
 import org.openhab.habdroid.core.connection.Connection
@@ -108,7 +109,9 @@ abstract class ContentController protected constructor(private val activity: Mai
         var connectionFragment = fm.findFragmentByTag("connections") as PageConnectionHolderFragment?
         if (connectionFragment == null) {
             connectionFragment = PageConnectionHolderFragment()
-            fm.beginTransaction().add(connectionFragment, "connections").commit()
+            fm.transaction {
+                add(connectionFragment, "connections")
+            }
         }
         this.connectionFragment = connectionFragment
 
@@ -341,14 +344,11 @@ abstract class ContentController protected constructor(private val activity: Mai
      * To be called from the activity's onCreate callback if the used controller changes
      */
     fun recreateFragmentState() {
-        val ft = fm.beginTransaction()
-        for (f in fm.fragments) {
-            if (!f.retainInstance) {
-                ft.remove(f)
-            }
+        fm.transaction(now = true) {
+            fm.fragments
+                    .filterNot { f -> f.retainInstance }
+                    .forEach { f -> remove(f) }
         }
-        ft.commitNow()
-
         updateFragmentState(FragmentUpdateReason.PAGE_UPDATE)
     }
 

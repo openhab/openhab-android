@@ -13,6 +13,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.ViewStub
 import androidx.core.view.isVisible
+import androidx.fragment.app.transaction
 
 import org.openhab.habdroid.R
 import org.openhab.habdroid.model.LinkedPage
@@ -56,42 +57,29 @@ class ContentControllerTwoPane(activity: MainActivity) : ContentController(activ
         val currentLeftFragment = fm.findFragmentById(R.id.content_left)
         val currentRightFragment = fm.findFragmentById(R.id.content_right)
 
-        val removeTransaction = fm.beginTransaction()
-        var needRemove = false
-        if (currentLeftFragment != null && currentLeftFragment !== leftFragment) {
-            removeTransaction.remove(currentLeftFragment)
-            needRemove = true
-        }
-        if (currentRightFragment != null && currentRightFragment !== rightFragment) {
-            removeTransaction.remove(currentRightFragment)
-            needRemove = true
-        }
-        if (needRemove) {
-            if (allowStateLoss) {
-                removeTransaction.commitNowAllowingStateLoss()
-            } else {
-                removeTransaction.commitNow()
+        fm.transaction(now = true, allowStateLoss = allowStateLoss) {
+            if (currentLeftFragment != null && currentLeftFragment !== leftFragment) {
+                remove(currentLeftFragment)
+            }
+            if (currentRightFragment != null && currentRightFragment !== rightFragment) {
+                remove(currentRightFragment)
             }
         }
 
-        val ft = fm.beginTransaction()
-        ft.setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right)
-        if (leftFragment != null) {
-            ft.setCustomAnimations(determineEnterAnim(reason), determineExitAnim(reason))
-            ft.replace(R.id.content_left, leftFragment)
-            if (leftFragment is WidgetListFragment) {
-                leftFragment.setHighlightedPageLink(rightPair?.first?.link)
+        fm.transaction(allowStateLoss = allowStateLoss) {
+            setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right)
+            if (leftFragment != null) {
+                setCustomAnimations(determineEnterAnim(reason), determineExitAnim(reason))
+                replace(R.id.content_left, leftFragment)
+                if (leftFragment is WidgetListFragment) {
+                    leftFragment.setHighlightedPageLink(rightPair?.first?.link)
+                }
             }
-        }
-        if (rightFragment != null) {
-            ft.setCustomAnimations(0, 0)
-            ft.replace(R.id.content_right, rightFragment)
-            rightFragment.setHighlightedPageLink(null)
-        }
-        if (allowStateLoss) {
-            ft.commitAllowingStateLoss()
-        } else {
-            ft.commit()
+            if (rightFragment != null) {
+                setCustomAnimations(0, 0)
+                replace(R.id.content_right, rightFragment)
+                rightFragment.setHighlightedPageLink(null)
+            }
         }
 
         rightContentView.isVisible = rightFragment != null
