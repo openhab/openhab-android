@@ -9,7 +9,7 @@ import android.util.Log
 import androidx.annotation.VisibleForTesting
 import de.duenndns.ssl.MemorizingTrustManager
 import kotlinx.coroutines.*
-import kotlinx.coroutines.channels.BroadcastChannel
+import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import okhttp3.OkHttpClient
 import okhttp3.internal.tls.OkHostnameVerifier
 import okhttp3.logging.HttpLoggingInterceptor
@@ -51,9 +51,7 @@ class ConnectionFactory internal constructor(private val context: Context, priva
     private val listeners = HashSet<UpdateListener>()
     private var needsUpdate: Boolean = false
     private var ignoreNextConnectivityChange: Boolean = false
-    private var availableInitialized: Boolean = false
-    private var cloudInitialized: Boolean = false
-    private val initDoneChannel = BroadcastChannel<Boolean>(1)
+    private val initStateChannel = ConflatedBroadcastChannel(Pair(false, false))
 
     interface UpdateListener {
         fun onAvailableConnectionChanged()
@@ -134,7 +132,7 @@ class ConnectionFactory internal constructor(private val context: Context, priva
             // listener registration.
             availableConnection = null
             connectionFailureReason = null
-            availableInitialized = false
+            updateInitState(availableDone = false)
             needsUpdate = true
         } else {
             launch {
@@ -173,10 +171,9 @@ class ConnectionFactory internal constructor(private val context: Context, priva
                     Constants.PREFERENCE_REMOTE_URL,
                     Constants.PREFERENCE_REMOTE_USERNAME, Constants.PREFERENCE_REMOTE_PASSWORD)
 
-            availableInitialized = false
-            cloudInitialized = false
             availableConnection = null
             cloudConnection = null
+            updateInitState(availableDone = false, cloudDone = false)
             connectionFailureReason = null
             triggerConnectionUpdateIfNeeded()
         }
@@ -233,22 +230,27 @@ class ConnectionFactory internal constructor(private val context: Context, priva
         if (failureReason != null
                 || available === localConnection
                 || available === remoteConnection) {
+            updateInitState(availableDone = true)
             if (updateAvailableConnection(available, failureReason)) {
                 listeners.forEach { l -> l.onAvailableConnectionChanged() }
             }
-            availableInitialized = true
-            initDoneChannel.offer(availableInitialized && cloudInitialized)
         }
     }
 
     private fun handleCloudCheckDone(connection: CloudConnection?) {
+        updateInitState(cloudDone = true)
         if (connection != cloudConnection) {
             cloudConnection = connection
             CloudMessagingHelper.onConnectionUpdated(context, connection)
             listeners.forEach { l -> l.onCloudConnectionChanged(connection) }
         }
-        cloudInitialized = true
-        initDoneChannel.offer(availableInitialized && cloudInitialized)
+    }
+
+    private fun updateInitState(availableDone: Boolean? = null,
+                                cloudDone: Boolean? = null) {
+        val availableInitialized = availableDone ?: initStateChannel.value.first
+        val cloudInitialized = cloudDone ?: initStateChannel.value.second
+        initStateChannel.offer(Pair(availableInitialized, cloudInitialized))
     }
 
     private fun triggerConnectionUpdateIfNeededAndPending(): Boolean {
@@ -267,6 +269,7 @@ class ConnectionFactory internal constructor(private val context: Context, priva
             return
         }
 
+        val (availableInitialized, cloudInitialized) = initStateChannel.value
         val availableCheck = if (availableInitialized)
             null else checkAvailableConnectionAsync(localConnection, remoteConnection)
         val cloudCheck = if (cloudInitialized)
@@ -437,8 +440,10 @@ class ConnectionFactory internal constructor(private val context: Context, priva
          */
         suspend fun waitForInitialization() {
             instance.triggerConnectionUpdateIfNeededAndPending()
-            val sub = instance.initDoneChannel.openSubscription()
-            while (!sub.receive()) {}
+            val sub = instance.initStateChannel.openSubscription()
+            do {
+                val (availableDone, cloudDone) = sub.receive()
+            } while (!availableDone || !cloudDone)
         }
 
         fun addListener(l: UpdateListener) {
@@ -475,7 +480,7 @@ class ConnectionFactory internal constructor(private val context: Context, priva
                 if (reason != null) {
                     throw reason
                 }
-                if (!instance.availableInitialized) {
+                if (!instance.initStateChannel.value.first) {
                     throw ConnectionNotInitializedException()
                 }
                 return instance.availableConnection!!
