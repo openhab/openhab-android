@@ -6,7 +6,6 @@ import android.content.res.Resources;
 import android.location.Location;
 import android.os.Handler;
 import android.preference.PreferenceManager;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -192,7 +191,7 @@ public class MapViewHelper {
                     Log.d(TAG, String.format("North %f, south %f, west %f, east %f",
                             north, south, west, east));
                     BoundingBox boundingBox = new BoundingBox(north, east, south, west);
-                    int extraPixel = (int) convertDpToPixel(24f, mapView.getContext());
+                    int extraPixel = (int) Util.convertDpToPixel(24f, mapView.getContext());
                     try {
                         mapView.zoomToBoundingBox(boundingBox, false, extraPixel);
                     } catch (Exception e) {
@@ -217,17 +216,6 @@ public class MapViewHelper {
                     }
                 }
             }
-        }
-
-        /**
-         * This method converts dp unit to equivalent pixels, depending on device density.
-         *
-         * @param dp A value in dp (density independent pixels) unit. Which we need to convert into pixels
-         * @param context Context to get resources and device specific display metrics
-         * @return A float value to represent px equivalent to dp depending on device density
-         */
-        private static float convertDpToPixel(float dp, Context context){
-            return dp * ((float) context.getResources().getDisplayMetrics().densityDpi / DisplayMetrics.DENSITY_DEFAULT);
         }
 
         private static void moveCamera(MapView mapView, float zoom, GeoPoint geoPoint) {
