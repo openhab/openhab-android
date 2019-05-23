@@ -215,6 +215,7 @@
     <string name="view_log">Zobrazit log</string>
     <string name="clear_log">Vymazat log</string>
     <string name="empty_log">Log je prázný</string>
+    <!-- Home screen shortcuts -->
     <!-- Content description for images -->
     <string name="content_description_open_roller_shutter">Otevřít ovládání rolet</string>
     <string name="content_description_stop_roller_shutter">Zastavit roletu</string>
