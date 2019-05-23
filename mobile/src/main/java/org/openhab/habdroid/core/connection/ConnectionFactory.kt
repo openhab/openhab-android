@@ -51,6 +51,9 @@ class ConnectionFactory internal constructor(private val context: Context, priva
     private val listeners = HashSet<UpdateListener>()
     private var needsUpdate: Boolean = false
     private var ignoreNextConnectivityChange: Boolean = false
+
+    private var availableCheck: Job? = null
+    private var cloudCheck: Job? = null
     private val initStateChannel = ConflatedBroadcastChannel(Pair(false, false))
 
     interface UpdateListener {
@@ -94,7 +97,7 @@ class ConnectionFactory internal constructor(private val context: Context, priva
                 val reason = connectionFailureReason
                 val local = availableConnection === localConnection
                         || (reason is NoUrlInformationException && reason.wouldHaveUsedLocalConnection())
-                if (local) launch {
+                if (local) {
                     triggerConnectionUpdateIfNeeded()
                 }
             }
@@ -135,9 +138,7 @@ class ConnectionFactory internal constructor(private val context: Context, priva
             updateInitState(availableDone = false)
             needsUpdate = true
         } else {
-            launch {
-                triggerConnectionUpdateIfNeeded()
-            }
+            triggerConnectionUpdateIfNeeded()
         }
     }
 
@@ -157,7 +158,7 @@ class ConnectionFactory internal constructor(private val context: Context, priva
     }
 
     @VisibleForTesting
-    suspend fun updateConnections() {
+    fun updateConnections() {
         if (prefs.isDemoModeEnabled()) {
             remoteConnection = DemoConnection(httpClient)
             localConnection = remoteConnection
@@ -258,32 +259,37 @@ class ConnectionFactory internal constructor(private val context: Context, priva
             return false
         }
         needsUpdate = false
-        launch {
-            triggerConnectionUpdateIfNeeded()
-        }
+        triggerConnectionUpdateIfNeeded()
         return true
     }
 
-    private suspend fun triggerConnectionUpdateIfNeeded() {
+    private fun triggerConnectionUpdateIfNeeded() {
+        availableCheck?.cancel()
+        cloudCheck?.cancel()
+
         if (localConnection is DemoConnection) {
             return
         }
 
         val (availableInitialized, cloudInitialized) = initStateChannel.value
-        val availableCheck = if (availableInitialized)
-            null else checkAvailableConnectionAsync(localConnection, remoteConnection)
-        val cloudCheck = if (cloudInitialized)
-            null else checkCloudConnectionAsync(remoteConnection)
-
-        if (availableCheck != null) {
-            try {
-                handleAvailableCheckDone(availableCheck.await(), null)
-            } catch (e: ConnectionException) {
-                handleAvailableCheckDone(null, e)
+        if (!availableInitialized) {
+            availableCheck = launch {
+                try {
+                    val result = checkAvailableConnectionAsync(localConnection, remoteConnection)
+                    handleAvailableCheckDone(result.await(), null)
+                } catch (e: ConnectionException) {
+                    handleAvailableCheckDone(null, e)
+                }
             }
         }
-        if (cloudCheck != null) {
-            handleCloudCheckDone(cloudCheck.await())
+
+        if (!cloudInitialized) {
+            cloudCheck = launch {
+                val result = GlobalScope.async(Dispatchers.Default) {
+                    remoteConnection?.toCloudConnection()
+                }
+                handleCloudCheckDone(result.await())
+            }
         }
     }
 
@@ -335,10 +341,6 @@ class ConnectionFactory internal constructor(private val context: Context, priva
                 throw NetworkNotSupportedException(info)
             }
         }
-    }
-
-    private fun checkCloudConnectionAsync(conn: AbstractConnection?) = GlobalScope.async(Dispatchers.Default) {
-        conn?.toCloudConnection()
     }
 
     private class ClientKeyManager(context: Context, private val alias: String?) : X509KeyManager {
@@ -457,9 +459,7 @@ class ConnectionFactory internal constructor(private val context: Context, priva
         }
 
         fun restartNetworkCheck() {
-            instance.launch {
-                instance.triggerConnectionUpdateIfNeeded()
-            }
+            instance.triggerConnectionUpdateIfNeeded()
         }
 
         /**

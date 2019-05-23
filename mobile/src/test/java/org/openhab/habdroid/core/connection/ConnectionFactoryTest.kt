@@ -8,9 +8,14 @@ import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import android.os.Looper
 import junit.framework.Assert.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.newSingleThreadContext
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.resetMain
+import kotlinx.coroutines.test.setMain
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
+import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -31,6 +36,7 @@ class ConnectionFactoryTest {
     @JvmField
     val tempFolder = TemporaryFolder()
 
+    private val mainThread = newSingleThreadContext("UI thread")
     private lateinit var mockContext: Context
     private lateinit var mockConnectivityService: ConnectivityManager
     private lateinit var mockPrefs: SharedPreferences
@@ -38,6 +44,7 @@ class ConnectionFactoryTest {
     @Before
     @Throws(IOException::class)
     fun setup() {
+        Dispatchers.setMain(mainThread)
         mockConnectivityService = Mockito.mock(ConnectivityManager::class.java)
 
         val cacheFolder = tempFolder.newFolder("cache")
@@ -58,6 +65,12 @@ class ConnectionFactoryTest {
         ConnectionFactory.initialize(mockContext, mockPrefs)
     }
 
+    @After
+    fun tearDOwn() {
+        Dispatchers.resetMain()
+        mainThread.close()
+    }
+
     @Test
     @Throws(IOException::class)
     fun testGetConnectionRemoteWithUrl() {
@@ -69,6 +82,7 @@ class ConnectionFactoryTest {
                 .thenReturn(server.url("/").toString())
         runBlocking {
             ConnectionFactory.instance.updateConnections()
+            ConnectionFactory.waitForInitialization()
             val conn = ConnectionFactory.getConnection(Connection.TYPE_REMOTE)
 
             assertNotNull("Requesting a remote connection when a remote url is set, " + " should return a connection.", conn)
@@ -83,6 +97,7 @@ class ConnectionFactoryTest {
                 .thenReturn("")
         runBlocking {
             ConnectionFactory.instance.updateConnections()
+            ConnectionFactory.waitForInitialization()
             val conn = ConnectionFactory.getConnection(Connection.TYPE_REMOTE)
 
             assertNull("Requesting a remote connection when a remote url isn't set, " + "should not return a connection.", conn)
@@ -95,6 +110,7 @@ class ConnectionFactoryTest {
                 .thenReturn("https://openhab.local:8080")
         runBlocking {
             ConnectionFactory.instance.updateConnections()
+            ConnectionFactory.waitForInitialization()
             val conn = ConnectionFactory.getConnection(Connection.TYPE_LOCAL)
 
             assertNotNull("Requesting a local connection when local url is set, " + "should return a connection.", conn)
@@ -109,6 +125,7 @@ class ConnectionFactoryTest {
                 .thenReturn("")
         runBlocking {
             ConnectionFactory.instance.updateConnections()
+            ConnectionFactory.waitForInitialization()
             val conn = ConnectionFactory.getConnection(Connection.TYPE_LOCAL)
 
             assertNull("Requesting a remote connection when a local url isn't set, " + "should not return a connection.", conn)
@@ -126,6 +143,7 @@ class ConnectionFactoryTest {
                 .thenReturn(server.url("/").toString())
         runBlocking {
             ConnectionFactory.instance.updateConnections()
+            ConnectionFactory.waitForInitialization()
             val conn = ConnectionFactory.getConnection(Connection.TYPE_CLOUD)
 
             assertNotNull("Requesting a cloud connection when a remote url is set, " + "should return a connection.", conn)
@@ -145,6 +163,7 @@ class ConnectionFactoryTest {
         runBlocking {
             triggerNetworkUpdate(null)
             ConnectionFactory.instance.updateConnections()
+            ConnectionFactory.waitForInitialization()
             ConnectionFactory.usableConnection
         }
     }
@@ -155,6 +174,7 @@ class ConnectionFactoryTest {
         runBlocking {
             triggerNetworkUpdate(ConnectivityManager.TYPE_BLUETOOTH)
             ConnectionFactory.instance.updateConnections()
+            ConnectionFactory.waitForInitialization()
             ConnectionFactory.usableConnection
         }
     }
@@ -171,6 +191,7 @@ class ConnectionFactoryTest {
         runBlocking {
             triggerNetworkUpdate(ConnectivityManager.TYPE_WIFI)
             ConnectionFactory.instance.updateConnections()
+            ConnectionFactory.waitForInitialization()
 
             val conn = ConnectionFactory.usableConnection
 
@@ -196,6 +217,7 @@ class ConnectionFactoryTest {
         runBlocking {
             triggerNetworkUpdate(ConnectivityManager.TYPE_WIFI)
             ConnectionFactory.instance.updateConnections()
+            ConnectionFactory.waitForInitialization()
 
             val conn = ConnectionFactory.usableConnection
 
@@ -214,6 +236,7 @@ class ConnectionFactoryTest {
         triggerNetworkUpdate(ConnectivityManager.TYPE_WIFI)
         runBlocking {
             ConnectionFactory.instance.updateConnections()
+            ConnectionFactory.waitForInitialization()
             ConnectionFactory.usableConnection
         }
     }
