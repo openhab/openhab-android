@@ -191,6 +191,7 @@
     <string name="view_log">Afficher le journal</string>
     <string name="clear_log">Effacer le journal</string>
     <string name="empty_log">Le journal est vide</string>
+    <!-- Home screen shortcuts -->
     <!-- Content description for images -->
     <string name="content_description_open_roller_shutter">Ouvrir le volet</string>
     <string name="content_description_stop_roller_shutter">Stopper le volet</string>
