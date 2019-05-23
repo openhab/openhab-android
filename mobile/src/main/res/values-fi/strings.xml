@@ -186,6 +186,7 @@
     <string name="view_log">Näytä loki</string>
     <string name="clear_log">Tyhjennä loki</string>
     <string name="empty_log">Loki on tyhjä</string>
+    <!-- Home screen shortcuts -->
     <!-- Content description for images -->
     <string name="content_description_open_roller_shutter">Avaa rullaverho</string>
     <string name="content_description_stop_roller_shutter">Pysäytä rullaverho</string>
