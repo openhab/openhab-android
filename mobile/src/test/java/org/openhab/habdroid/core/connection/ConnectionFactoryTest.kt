@@ -6,7 +6,7 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
-import android.os.Looper
+import com.nhaarman.mockitokotlin2.*
 import junit.framework.Assert.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.newSingleThreadContext
@@ -20,9 +20,6 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TemporaryFolder
-import org.mockito.ArgumentMatchers.*
-import org.mockito.Mockito
-import org.mockito.Mockito.`when`
 import org.openhab.habdroid.core.connection.exception.ConnectionException
 import org.openhab.habdroid.core.connection.exception.NetworkNotAvailableException
 import org.openhab.habdroid.core.connection.exception.NetworkNotSupportedException
@@ -45,22 +42,21 @@ class ConnectionFactoryTest {
     @Throws(IOException::class)
     fun setup() {
         Dispatchers.setMain(mainThread)
-        mockConnectivityService = Mockito.mock(ConnectivityManager::class.java)
 
         val cacheFolder = tempFolder.newFolder("cache")
         val appDir = tempFolder.newFolder()
 
-        mockContext = Mockito.mock(Application::class.java)
-        Mockito.`when`(mockContext.applicationContext).thenReturn(mockContext)
-        Mockito.`when`(mockContext.cacheDir).thenReturn(cacheFolder)
-        Mockito.`when`(mockContext.getDir(anyString(), anyInt()))
-                .then { invocation -> File(appDir, invocation.getArgument<Any>(0).toString()) }
-        `when`(mockContext.getString(anyInt())).thenReturn("")
-        `when`(mockContext.getSystemService(eq(Context.CONNECTIVITY_SERVICE)))
-                .thenReturn(mockConnectivityService)
-        `when`(mockContext.mainLooper).thenReturn(Looper.getMainLooper())
-
-        mockPrefs = Mockito.mock(SharedPreferences::class.java)
+        mockConnectivityService = mock()
+        mockPrefs = mock()
+        mockContext = mock<Application> {
+            on { cacheDir } doReturn cacheFolder
+            on { getDir(any(), any()) } doAnswer  { invocation ->
+                File(appDir, invocation.getArgument<Any>(0).toString())
+            }
+            on { getString(any()) } doReturn ""
+            on { getSystemService(eq(Context.CONNECTIVITY_SERVICE)) } doReturn mockConnectivityService
+        }
+        whenever(mockContext.applicationContext) doReturn mockContext
 
         ConnectionFactory.initialize(mockContext, mockPrefs)
     }
@@ -78,8 +74,7 @@ class ConnectionFactoryTest {
         server.enqueue(MockResponse().setResponseCode(404))
         server.start()
 
-        `when`(mockPrefs.getString(eq(Constants.PREFERENCE_REMOTE_URL), anyString()))
-                .thenReturn(server.url("/").toString())
+        whenever(mockPrefs.getString(eq(Constants.PREFERENCE_REMOTE_URL), any())) doReturn server.url("/").toString()
         runBlocking {
             ConnectionFactory.instance.updateConnections()
             ConnectionFactory.waitForInitialization()
@@ -93,8 +88,7 @@ class ConnectionFactoryTest {
 
     @Test
     fun testGetConnectionRemoteWithoutUrl() {
-        `when`(mockPrefs.getString(eq(Constants.PREFERENCE_REMOTE_URL), anyString()))
-                .thenReturn("")
+        whenever(mockPrefs.getString(eq(Constants.PREFERENCE_REMOTE_URL), any())) doReturn ""
         runBlocking {
             ConnectionFactory.instance.updateConnections()
             ConnectionFactory.waitForInitialization()
@@ -106,8 +100,7 @@ class ConnectionFactoryTest {
 
     @Test
     fun testGetConnectionLocalWithUrl() {
-        `when`(mockPrefs.getString(eq(Constants.PREFERENCE_LOCAL_URL), anyString()))
-                .thenReturn("https://openhab.local:8080")
+        whenever(mockPrefs.getString(eq(Constants.PREFERENCE_LOCAL_URL), any())) doReturn "https://openhab.local:8080"
         runBlocking {
             ConnectionFactory.instance.updateConnections()
             ConnectionFactory.waitForInitialization()
@@ -121,8 +114,7 @@ class ConnectionFactoryTest {
 
     @Test
     fun testGetConnectionLocalWithoutUrl() {
-        `when`(mockPrefs.getString(eq(Constants.PREFERENCE_LOCAL_URL), anyString()))
-                .thenReturn("")
+        whenever(mockPrefs.getString(eq(Constants.PREFERENCE_LOCAL_URL), any())) doReturn ""
         runBlocking {
             ConnectionFactory.instance.updateConnections()
             ConnectionFactory.waitForInitialization()
@@ -139,8 +131,7 @@ class ConnectionFactoryTest {
         server.enqueue(MockResponse().setBody("{'gcm': { 'senderId': '12345'} }"))
         server.start()
 
-        `when`(mockPrefs.getString(eq(Constants.PREFERENCE_REMOTE_URL), anyString()))
-                .thenReturn(server.url("/").toString())
+        whenever(mockPrefs.getString(eq(Constants.PREFERENCE_REMOTE_URL), any())) doReturn server.url("/").toString()
         runBlocking {
             ConnectionFactory.instance.updateConnections()
             ConnectionFactory.waitForInitialization()
@@ -186,8 +177,7 @@ class ConnectionFactoryTest {
         server.enqueue(MockResponse().setResponseCode(404))
         server.start()
 
-        `when`(mockPrefs.getString(eq(Constants.PREFERENCE_REMOTE_URL), anyString()))
-                .thenReturn(server.url("/").toString())
+        whenever(mockPrefs.getString(eq(Constants.PREFERENCE_REMOTE_URL), any())) doReturn server.url("/").toString()
         runBlocking {
             triggerNetworkUpdate(ConnectivityManager.TYPE_WIFI)
             ConnectionFactory.instance.updateConnections()
@@ -210,10 +200,8 @@ class ConnectionFactoryTest {
         server.enqueue(MockResponse().setResponseCode(404))
         server.start()
 
-        `when`(mockPrefs.getString(eq(Constants.PREFERENCE_REMOTE_URL), anyString()))
-                .thenReturn(server.url("/").toString())
-        `when`(mockPrefs.getString(eq(Constants.PREFERENCE_LOCAL_URL), anyString()))
-                .thenReturn("https://myopenhab.org:443")
+        whenever(mockPrefs.getString(eq(Constants.PREFERENCE_REMOTE_URL), any())) doReturn server.url("/").toString()
+        whenever(mockPrefs.getString(eq(Constants.PREFERENCE_LOCAL_URL), any())) doReturn "https://myopenhab.org:443"
         runBlocking {
             triggerNetworkUpdate(ConnectivityManager.TYPE_WIFI)
             ConnectionFactory.instance.updateConnections()
@@ -232,7 +220,7 @@ class ConnectionFactoryTest {
     @Test(expected = NoUrlInformationException::class)
     @Throws(ConnectionException::class)
     fun testGetAnyConnectionWifiNoLocalNoRemote() {
-        `when`(mockPrefs.getString(anyString(), anyString())).thenReturn(null)
+        whenever(mockPrefs.getString(any(), any())) doReturn null
         triggerNetworkUpdate(ConnectivityManager.TYPE_WIFI)
         runBlocking {
             ConnectionFactory.instance.updateConnections()
@@ -241,15 +229,16 @@ class ConnectionFactoryTest {
         }
     }
 
-    private fun triggerNetworkUpdate(type: Int) {
-        val mockNetworkInfo = Mockito.mock(NetworkInfo::class.java)
-        `when`(mockNetworkInfo.type).thenReturn(type)
-        `when`(mockNetworkInfo.isConnected).thenReturn(true)
+    private fun triggerNetworkUpdate(intendedType: Int) {
+        val mockNetworkInfo = mock<NetworkInfo> {
+            on { type } doReturn intendedType
+            on { isConnected } doReturn true
+        }
         triggerNetworkUpdate(mockNetworkInfo)
     }
 
     private fun triggerNetworkUpdate(info: NetworkInfo?) {
-        `when`(mockConnectivityService.activeNetworkInfo).thenReturn(info)
+        whenever(mockConnectivityService.activeNetworkInfo) doReturn info
 
         ConnectionFactory.instance.onReceive(mockContext,
                 Intent(ConnectivityManager.CONNECTIVITY_ACTION))

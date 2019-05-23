@@ -20,7 +20,6 @@ import javax.xml.parsers.DocumentBuilderFactory
 import javax.xml.parsers.ParserConfigurationException
 
 class UtilTest {
-
     private val sitemapOH1Document: Document
         @Throws(ParserConfigurationException::class, IOException::class, SAXException::class)
         get() {

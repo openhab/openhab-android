@@ -145,6 +145,7 @@ dependencies {
     }
 
     testImplementation 'org.mockito:mockito-core:2.27.0'
+    testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:2.1.0"
     testImplementation 'junit:junit:4.12'
     testImplementation 'org.json:json:20180813'
     testImplementation 'com.squareup.okhttp3:mockwebserver:3.12.1'

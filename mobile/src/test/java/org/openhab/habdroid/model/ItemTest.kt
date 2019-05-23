@@ -3,15 +3,12 @@ package org.openhab.habdroid.model
 import org.json.JSONException
 import org.json.JSONObject
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.mockito.runners.MockitoJUnitRunner
 
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertTrue
 
-@RunWith(MockitoJUnitRunner::class)
 class ItemTest {
     @Test
     fun getStateAsBoolean_stateOff_returnFalse() {

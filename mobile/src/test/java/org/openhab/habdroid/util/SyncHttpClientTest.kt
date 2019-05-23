@@ -3,17 +3,12 @@ package org.openhab.habdroid.util
 import okhttp3.OkHttpClient
 import org.junit.Before
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.powermock.core.classloader.annotations.PowerMockIgnore
-import org.powermock.modules.junit4.PowerMockRunner
 
 import java.net.UnknownHostException
 
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 
-@RunWith(PowerMockRunner::class)
-@PowerMockIgnore("javax.net.ssl.*")
 class SyncHttpClientTest {
     private lateinit var client: OkHttpClient
 

@@ -4,15 +4,12 @@ import junit.framework.Assert.*
 import org.json.JSONObject
 import org.junit.Before
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.mockito.runners.MockitoJUnitRunner
 import org.w3c.dom.Node
 import org.xml.sax.InputSource
 import java.io.StringReader
 import java.security.InvalidParameterException
 import javax.xml.parsers.DocumentBuilderFactory
 
-@RunWith(MockitoJUnitRunner::class)
 class WidgetTest {
     private lateinit var sutXml: List<Widget>
     private lateinit var sut1: List<Widget>

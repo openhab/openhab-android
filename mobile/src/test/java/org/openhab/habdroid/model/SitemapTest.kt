@@ -4,13 +4,10 @@ import org.json.JSONException
 import org.json.JSONObject
 import org.junit.Before
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.mockito.runners.MockitoJUnitRunner
 
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 
-@RunWith(MockitoJUnitRunner::class)
 class SitemapTest {
     private lateinit var demoSitemapWithLabel: Sitemap
     private lateinit var homeSitemapWithoutLabel: Sitemap
