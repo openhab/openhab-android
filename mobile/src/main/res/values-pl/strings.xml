@@ -192,6 +192,7 @@
     <string name="view_log">Wyświetl logi</string>
     <string name="clear_log">Wyczyść log</string>
     <string name="empty_log">Log jest pusty</string>
+    <!-- Home screen shortcuts -->
     <!-- Content description for images -->
     <string name="content_description_open_roller_shutter">Otwórz roletę</string>
     <string name="content_description_stop_roller_shutter">Zatrzymaj roletę</string>
