@@ -165,6 +165,7 @@
     <string name="go_to_settings_button">Μετάβαση στις ρυθμίσεις</string>
     <string name="resolving_openhab">Προσπάθεια εύρεσης του διακομιστή openHAB</string>
     <!-- Log -->
+    <!-- Home screen shortcuts -->
     <!-- Content description for images -->
     <string name="content_description_open_roller_shutter">Άνοιγμα ρολών</string>
     <string name="content_description_stop_roller_shutter">Σταμάτημα ρολών</string>
