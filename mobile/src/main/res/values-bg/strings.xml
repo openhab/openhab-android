@@ -143,6 +143,7 @@
     <string name="error_network_type_unsupported">Мрежовия тип (%s) не се поддържа</string>
     <string name="set">Задай</string>
     <!-- Log -->
+    <!-- Home screen shortcuts -->
     <!-- Content description for images -->
     <string name="content_description_color_up">Включи или задръж за да увеличиш осветеността</string>
     <string name="content_description_color_down">Изключи или задръж за да намалиш осветеността</string>
