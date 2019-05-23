@@ -173,6 +173,7 @@
     <string name="view_log">ログの表示</string>
     <string name="clear_log">ログの消去</string>
     <string name="empty_log">ログはありません</string>
+    <!-- Home screen shortcuts -->
     <!-- Content description for images -->
     <string name="content_description_open_roller_shutter">ロール シャッターを開く</string>
     <string name="content_description_stop_roller_shutter">ロール シャッターを停止</string>
