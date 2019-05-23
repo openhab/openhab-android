@@ -165,6 +165,7 @@
     <string name="go_to_settings_button">Mergi la setări</string>
     <string name="resolving_openhab">Se încearcă găsirea unui server openHAB\u2026</string>
     <!-- Log -->
+    <!-- Home screen shortcuts -->
     <!-- Content description for images -->
     <string name="content_description_open_roller_shutter">Deschide oblonul</string>
     <string name="content_description_stop_roller_shutter">Oprește oblonul</string>
